@@ -1,0 +1,106 @@
+#############################
+# Postfix Admin Release 1.x #
+#############################
+#
+# 2003 (c) High5!
+# Created by: Mischa Peters <mischa at high5 dot net>
+#
+# Detailed instructions on how to install / upgrade Postfix Admin can be
+# found in UPGRADE.TXT
+#
+# Unpack Postfix Admin in the directory where you want it. For example: /usr/local/www/<site>/postfixadmin
+# There is also an Admin Admin part, change directory to the "admin" directory
+# and change the path to the .htpasswd file in the .htaccess file.
+# 
+# Some other information that you might want to look at is in the config.php
+# file.
+# 
+# In order to be able to read & write from the database I have created a
+# seperate user in MySQL. I do this because Postfix Admin needs to have more
+# rights on the Postfix database. If you are worried abour the password for
+# the database. I have Postfix Admin running as the WebServer owner:group,
+# that way your postfix username and password are somewhat protected against
+# local users.
+#
+# You can use this file to create the tables that are needed to use postfix
+# with mysql. The bottom part is for Postfix Admin.
+#
+# You can do this from the command line with:
+#
+# mysql -u root [-p] < INSTALL.TXT
+
+#
+# Postfix / MySQL
+#
+USE mysql
+INSERT INTO user (Host, User, Password) VALUES ('localhost','postfix',password('postfix'));
+INSERT INTO db (Host, Db, User, Select_priv) VALUES ('localhost','postfix','postfix','Y');
+CREATE DATABASE postfix;
+
+#
+# Table structure for table alias
+#
+USE postfix;
+CREATE TABLE alias (
+  address varchar(255) NOT NULL default '',
+  goto text NOT NULL,
+  domain varchar(255) NOT NULL default '',
+  create_date datetime NOT NULL default '0000-00-00 00:00:00',
+  change_date datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY (address),
+) TYPE=MyISAM COMMENT='Virtual Aliases - mysql_virtual_alias_maps';
+
+#
+# Table structure for table domain
+#
+USE postfix;
+CREATE TABLE domain (
+  domain varchar(255) NOT NULL default '',
+  description varchar(255) NOT NULL default '',
+  create_date datetime NOT NULL default '0000-00-00 00:00:00',
+  change_date datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY (domain),
+) TYPE=MyISAM COMMENT='Virtual Domains - mysql_virtual_domains_maps';
+
+#
+# Table structure for table mailbox
+#
+USE postfix;
+CREATE TABLE mailbox (
+  username varchar(255) NOT NULL default '',
+  password varchar(255) NOT NULL default '',
+  name varchar(255) NOT NULL default '',
+  maildir varchar(255) NOT NULL default '',
+  domain varchar(255) NOT NULL default '',
+  create_date datetime NOT NULL default '0000-00-00 00:00:00',
+  change_date datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY (username),
+) TYPE=MyISAM COMMENT='Virtual Mailboxes - mysql_virtual_mailbox_maps';
+
+#
+#
+#
+
+#
+# Postfix Admin User & Table
+# 
+USE mysql
+INSERT INTO user (Host, User, Password) VALUES ('localhost','postfixadmin',password('postfixadmin'));
+INSERT INTO db (Host, Db, User, Select_priv, Insert_priv, Update_priv, Delete_priv) VALUES ('localhost', 'postfix', 'postfixadmin', 'Y', 'Y', 'Y', 'Y');
+
+#
+# Table structure for table admin
+#
+USE postfix;
+CREATE TABLE admin (
+  username varchar(255) NOT NULL default '',
+  password varchar(255) NOT NULL default '',
+  domain varchar(255) NOT NULL default '',
+  create_date datetime NOT NULL default '0000-00-00 00:00:00',
+  change_date datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY (username),
+) TYPE=MyISAM COMMENT='Virtual Admins - Store Virtual Domain Admins';
