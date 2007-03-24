@@ -1,0 +1,9 @@
+<div class="standout">
+New Features:<br />
+Support for Backup MX. Upgrade of domain table is needed, please read BACKUP_MX.TXT.<br />
+New configuration options (check line 31, 43 & 48 in config.inc.php).<br />
+Also check the motd.txt and motd-users.txt files.<br />
+</div>
+<p>
+To remove this text, delete the motd-admin.txt file.
+</p>

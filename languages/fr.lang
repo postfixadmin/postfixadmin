@@ -1,0 +1,285 @@
+<?php
+//
+// Language file French
+//
+$PALANG['YES'] = 'Oui';
+$PALANG['NO'] = 'Non';
+$PALANG['edit'] = 'Modifier';
+$PALANG['del'] = 'Effacer';
+$PALANG['confirm'] = 'Est-ce que vous voulez effacer cet enregistrement';
+$PALANG['confirm_domain'] = 'Etes-vous sur d\'effacer tous les enregistrements dans le domaine?';
+
+$PALANG['pLogin_welcome'] = 'Entrez votre couriel pour administrer votre domaine.';
+$PALANG['pLogin_username'] = 'Entrer (couriel)';
+$PALANG['pLogin_password'] = 'Mot de passe';
+$PALANG['pLogin_button'] = 'Entrer';
+$PALANG['pLogin_username_incorrect'] = '<div class="standout">Votre couriel est invalide.Assurez-vous d\'avoir le bon couriel</div>';
+$PALANG['pLogin_password_incorrect'] = '<div class="standout">Votre mot de passe est invalide!</div>';
+$PALANG['pLogin_login_users'] = 'Utilisateurs, cliquez ici pour vos options';
+
+$PALANG['pMenu_overview'] = 'Vue d\'ensemble';
+$PALANG['pMenu_create_alias'] = 'Ajouter un aliase';
+$PALANG['pMenu_create_mailbox'] = 'Ajouter un compte couriel';
+$PALANG['pMenu_sendmail'] = 'Envoyer un couriel';
+$PALANG['pMenu_password'] = 'Mot de passe';
+$PALANG['pMenu_viewlog'] = 'Visualiser événement';
+$PALANG['pMenu_logout'] = 'Sortir';
+
+$PALANG['pMain_welcome'] = 'Bienvenue sur Postfix Admin!';
+$PALANG['pMain_overview'] = 'Visualiser les aliases et les comptes couriels.(Modifier/Effacer)';
+$PALANG['pMain_create_alias'] = 'Ajouter un nouveau alias pour votre domaine.';
+$PALANG['pMain_create_mailbox'] = 'Ajouter un nouveau compte couriel pour votre domaine.';
+$PALANG['pMain_sendmail'] = 'Envoyer un couriel à un compte couriel.';
+$PALANG['pMain_password'] = 'Changer votre mot de passe pour le compte administrateur.';
+$PALANG['pMain_viewlog'] = 'Visualiser le fichier d\'événements.';
+$PALANG['pMain_logout'] = 'Sortir du système';
+
+$PALANG['pOverview_button'] = 'Aller';
+$PALANG['pOverview_welcome'] = 'Vue d\'ensemble pour ';
+$PALANG['pOverview_alias_alias_count'] = 'Aliases';
+$PALANG['pOverview_alias_mailbox_count'] = 'Comptes couriels';
+$PALANG['pOverview_alias_address'] = 'De';
+$PALANG['pOverview_alias_goto'] = 'A';
+$PALANG['pOverview_alias_modified'] = 'Dernière Modification';
+$PALANG['pOverview_mailbox_username'] = 'Couriel';
+$PALANG['pOverview_mailbox_name'] = 'Nom';
+$PALANG['pOverview_mailbox_quota'] = 'Limite (MB)';
+$PALANG['pOverview_mailbox_modified'] = 'Dernière Modification';
+$PALANG['pOverview_mailbox_active'] = 'Actif';
+
+$PALANG['pOverview_get_domain'] = 'Domaine';
+$PALANG['pOverview_get_aliases'] = 'Aliases';
+$PALANG['pOverview_get_mailboxes'] = 'Comptes couriels';
+$PALANG['pOverview_get_quota'] = 'Limite compte couriels (MB)';
+$PALANG['pOverview_get_modified'] = 'Dernière Modification';
+
+$PALANG['pDelete_delete_error'] = '<div class="standout">Impossible d\'éffacer cette entrée ';
+$PALANG['pDelete_domain_error'] = '<div class="standout">Ce domaine n\'est pas le votre ';
+
+$PALANG['pCreate_alias_welcome'] = 'Créer un nouveau alias pour votre domaine.';
+$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address_text_error1'] = '<br><div class="standout">Cet ALIAS n\'est pas valide!</div>';
+$PALANG['pCreate_alias_address_text_error2'] = '<br><div class="standout">Ce couriel existe deja, svp choisissez-en un autre!</div>';
+$PALANG['pCreate_alias_address_text_error3'] = '<br><div class="standout">Vous avez atteint votre limite d\'aliases!</div>';
+$PALANG['pCreate_alias_goto'] = 'A';
+$PALANG['pCreate_alias_button'] = 'Ajouter un alias';
+$PALANG['pCreate_alias_goto_text'] = 'Envoyer les couriels A.';
+$PALANG['pCreate_alias_goto_text_error'] = 'Ou les couriels doivent aller.<br /><div class="standout">A est invalide!</div>';
+$PALANG['pCreate_alias_result_error'] = '<div class="standout">Impossible d\'ajouter un alias dans la table!</div>';
+$PALANG['pCreate_alias_result_succes'] = 'L\'alias a été ajouté!';
+$PALANG['pCreate_alias_catchall_text'] = 'Pour ajouter un alias global tout, utilisez "*".<br />Pour un transfert de domaine à domaine, utilisez "*@domain.tld" dans le champs A.';
+
+$PALANG['pEdit_alias_welcome'] = 'Modifier un alias dans votre domaine.<br>Une entrée par ligne.';
+$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['pEdit_alias_address_error'] = '<div class="standout">Impossible de localiser l\'alias!</div>';
+$PALANG['pEdit_alias_goto'] = 'A';
+$PALANG['pEdit_alias_goto_text_error1'] = '<div class="standout">Vous devez entrer quelques choses dans le champs À</div>';
+$PALANG['pEdit_alias_goto_text_error2'] = '<div class="standout">Le couriel que vous avez entré est invalide: ';
+$PALANG['pEdit_alias_domain_error'] = '<div class="standout">Ce domaine n\'est pas le votre: ';
+$PALANG['pEdit_alias_button'] = 'Modifier cet alias';
+$PALANG['pEdit_alias_result_error'] = '<div class="standout">Impossible de modifier cet alias!</div>';
+
+$PALANG['pCreate_mailbox_welcome'] = 'Ajouter un nouveau compte couriel dans votre domaine.';
+$PALANG['pCreate_mailbox_username'] = 'Nom d\'utilisateur';
+$PALANG['pCreate_mailbox_username_text_error1'] = '<br><div class="standout">Le couriel est invalide!</div>';
+$PALANG['pCreate_mailbox_username_text_error2'] = '<br><div class="standout">Ce couriel existe deja, svp entrez un autre couriel!</div>';
+$PALANG['pCreate_mailbox_username_text_error3'] = '<br><div class="standout">Vous avez atteint la limite de compte couriel!</div>';
+$PALANG['pCreate_mailbox_password'] = 'Mot de passe';
+$PALANG['pCreate_mailbox_password2'] = 'Mote de passe(confirmation)';
+$PALANG['pCreate_mailbox_password_text'] = 'Mot de passe pour compte POP3/IMAP';
+$PALANG['pCreate_mailbox_password_text_error'] = 'Mot de passe pour compte POP3/IMAP<br /><div class="standout">Le mot de passe ne correspond pas!<br />ou est vide!</div>';
+$PALANG['pCreate_mailbox_name'] = 'Nom';
+$PALANG['pCreate_mailbox_name_text'] = 'Nom complet';
+$PALANG['pCreate_mailbox_quota'] = 'Limite';
+$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><div class="standout">La limite que vous avez specifie est trop haute!</div>';
+$PALANG['pCreate_mailbox_active'] = 'Actif';
+$PALANG['pCreate_mailbox_mail'] = 'Ajouter un compte couriel';
+$PALANG['pCreate_mailbox_button'] = 'Ajouter un compte couriel';
+$PALANG['pCreate_mailbox_result_error'] = '<div class="standout">Impossible d\'ajouter un compte couriel dans la table!</div>';
+$PALANG['pCreate_mailbox_result_succes'] = 'Le compte couriel a été ajouté!';
+
+$PALANG['pEdit_mailbox_welcome'] = 'Modifier un compte couriel.';
+$PALANG['pEdit_mailbox_username'] = 'Nom d\'utilisateur';
+$PALANG['pEdit_mailbox_username_error'] = '<div class="standout">Impossible de localiser le compte couriel!</div>';
+$PALANG['pEdit_mailbox_password'] = 'Nouveau mot de passe';
+$PALANG['pEdit_mailbox_password2'] = 'Nouveau mot de passe(confirmation)';
+$PALANG['pEdit_mailbox_password_text_error'] = '<div class="standout">Le mot de passe entré ne correspond pas!</div>';
+$PALANG['pEdit_mailbox_name'] = 'Nom';
+$PALANG['pEdit_mailbox_quota'] = 'Limite';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><div class="standout">La limite fournit est trop haute!</div>';
+$PALANG['pEdit_mailbox_domain_error'] = '<div class="standout">Ce domaine n\'est pas le votre: ';
+$PALANG['pEdit_mailbox_button'] = 'Modifier un compte couriel';
+$PALANG['pEdit_mailbox_result_error'] = '<div class="standout">Impossible de changer votre mot de passe!</div>';
+
+$PALANG['pPassword_welcome'] = 'Changer votre mot de passe.';
+$PALANG['pPassword_admin'] = 'Entrer';
+$PALANG['pPassword_admin_text_error'] = '<div class="standout">Les informations entrées ne correspondent pas a un compte couriel!</div>';
+$PALANG['pPassword_password_current'] = 'Mot de passe present';
+$PALANG['pPassword_password_current_text_error'] = '<div class="standout">Vous n\'avez pas fournit de mot de passe present!</div>';
+$PALANG['pPassword_password'] = 'Nouveau mot de passe';
+$PALANG['pPassword_password2'] = 'Nouveau mot de passe(confirmation)';
+$PALANG['pPassword_password_text_error'] = '<div class="standout">Le mot de passe fournit ne correspond pas!<br />Ou est vide!</div>';
+$PALANG['pPassword_button'] = 'Changer mot de passe';
+$PALANG['pPassword_result_error'] = '<div class="standout">Impossible de changer votre mot de passe!</div>';
+$PALANG['pPassword_result_succes'] = 'Votre mot de passe a ete change!';
+
+$PALANG['pViewlog_welcome'] = 'Visualiser les 10 dernières action pour ';
+$PALANG['pViewlog_timestamp'] = 'Date/Heure';
+$PALANG['pViewlog_username'] = 'Administrateur';
+$PALANG['pViewlog_domain'] = 'Domaine';
+$PALANG['pViewlog_action'] = 'Action';
+$PALANG['pViewlog_data'] = 'Information';
+
+$PALANG['pViewlog_button'] = 'Aller';
+$PALANG['pViewlog_result_error'] = '<div class="standout">Impossible de trouver les événements!</div>';
+
+$PALANG['pSendmail_welcome'] = 'Envoyer un couriel.';
+$PALANG['pSendmail_admin'] = 'De';
+$PALANG['pSendmail_to'] = 'A';
+$PALANG['pSendmail_to_text_error'] = '<div class="standout">A est vide ou ce n\'est pas un couriel valide!</div>';
+$PALANG['pSendmail_subject'] = 'Sujet';
+$PALANG['pSendmail_subject_text'] = 'Bienvenue';
+$PALANG['pSendmail_body'] = 'Message';
+$PALANG['pSendmail_body_text'] = <<<EOM
+Bonjour,
+	bienvenue dans votre nouveau compte couriel.
+EOM;
+$PALANG['pSendmail_button'] = 'Envoyer le message';
+$PALANG['pSendmail_result_error'] = '<div class="standout">Erreur lors de l\'envoit du message!</div>';
+$PALANG['pSendmail_result_succes'] = 'Le message a été envoyé!';
+
+$PALANG['pVcp_welcome'] = 'Changer votre mot de passe de votre compte couriel.';
+$PALANG['pVcp_username'] = 'Couriel';
+$PALANG['pVcp_username_text_error'] = '<div class="standout">Le couriel fournit ne correspond pas à un compte couriel!</div>';
+$PALANG['pVcp_password_current'] = 'Mot de passe présent';
+$PALANG['pVcp_password_current_text_error'] = '<div class="standout">Vous n\'avez pas fourni votre mot de passe present!</div>';
+$PALANG['pVcp_password'] = 'Nouveau mot de passe';
+$PALANG['pVcp_password2'] = 'Nouveau mot de passe(confirmation)';
+$PALANG['pVcp_password_text_error'] = '<div class="standout">Le mot de passe entré ne correspond pas<br />Ou est vide</div>';
+$PALANG['pVcp_button'] = 'Modifier mot de passe';
+$PALANG['pVcp_result_error'] = '<div class="standout">Impossible de changer votre mot de passe!</div>';
+$PALANG['pVcp_result_succes'] = 'Votre mot de passe a été changé!';
+
+$PALANG['pAdminMenu_list_admin'] = 'Liste Administrateur';
+$PALANG['pAdminMenu_list_domain'] = 'Liste Domaine';
+$PALANG['pAdminMenu_list_virtual'] = 'Liste Virtuel';
+$PALANG['pAdminMenu_viewlog'] = 'Visualiser événement';
+$PALANG['pAdminMenu_backup'] = 'Sauvegarde';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Administrateurs de domaines';
+$PALANG['pAdminMenu_create_admin'] = 'Nouveau administrateur';
+$PALANG['pAdminMenu_create_domain'] = 'Nouveau domaine';
+$PALANG['pAdminMenu_create_alias'] = 'Ajouter un Alias';
+$PALANG['pAdminMenu_create_mailbox'] = 'Ajouter un compte couriel';
+
+$PALANG['pAdminList_admin_domain'] = 'Domaine';
+$PALANG['pAdminList_admin_username'] = 'Administrateur';
+$PALANG['pAdminList_admin_count'] = 'Domaines';
+$PALANG['pAdminList_admin_modified'] = 'Dernière modification';
+$PALANG['pAdminList_admin_active'] = 'Actif';
+
+$PALANG['pAdminList_domain_domain'] = 'Domaine';
+$PALANG['pAdminList_domain_description'] = 'Description';
+$PALANG['pAdminList_domain_aliases'] = 'Aliases';
+$PALANG['pAdminList_domain_mailboxes'] = 'Comptes couriels';
+$PALANG['pAdminList_domain_maxquota'] = 'Limite maximum (MB)';
+$PALANG['pAdminList_domain_modified'] = 'Dernière modification';
+$PALANG['pAdminList_domain_active'] = 'Actif';
+
+$PALANG['pAdminList_virtual_button'] = 'Aller';
+$PALANG['pAdminList_virtual_welcome'] = 'Vue général pour ';
+$PALANG['pAdminList_virtual_alias_alias_count'] = 'Aliases';
+$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Comptes couriels';
+$PALANG['pAdminList_virtual_alias_address'] = 'De';
+$PALANG['pAdminList_virtual_alias_goto'] = 'A';
+$PALANG['pAdminList_virtual_alias_modified'] = 'Dernière modification';
+$PALANG['pAdminList_virtual_mailbox_username'] = 'Couriel';
+$PALANG['pAdminList_virtual_mailbox_name'] = 'Nom';
+$PALANG['pAdminList_virtual_mailbox_quota'] = 'Limite (MB)';
+$PALANG['pAdminList_virtual_mailbox_modified'] = 'Dernière modification';
+$PALANG['pAdminList_virtual_mailbox_active'] = 'Actif';
+
+$PALANG['pAdminCreate_domain_welcome'] = 'Ajouter un nouveau domaine';
+$PALANG['pAdminCreate_domain_domain'] = 'Domaine';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '<div class="standout">Le domaine existe deja!</div>';
+$PALANG['pAdminCreate_domain_description'] = 'Description';
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliases';
+$PALANG['pAdminCreate_domain_aliases_text'] = '0 = désactiver | -1 = infini';
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Comptes couriels';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '0 = désactiver | -1 = infini';
+$PALANG['pAdminCreate_domain_maxquota'] = 'Limite maximum';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> 0 = désactiver | -1 = infini';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Ajouter les aliases par defaut';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminCreate_domain_button'] = 'Ajouter un domaine';
+$PALANG['pAdminCreate_domain_result_error'] = '<div class="standout">Impossible d\'ajouter le domaine!</div>';
+$PALANG['pAdminCreate_domain_result_succes'] = 'Le domaine a été ajouté!';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'Modifier un domaine';
+$PALANG['pAdminEdit_domain_domain'] = 'Domaine';
+$PALANG['pAdminEdit_domain_description'] = 'Description';
+$PALANG['pAdminEdit_domain_aliases'] = 'Aliases';
+$PALANG['pAdminCEdit_domain_aliases_text'] = '0 = désactiver | -1 = infini';
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Comptes couriels';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '0 = désactiver | -1 = infini';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Limite maximum';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> 0 = désactiver | -1 = infini';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminEdit_domain_active'] = 'Actif';
+$PALANG['pAdminEdit_domain_button'] = 'Modifier un domaine';
+$PALANG['pAdminEdit_domain_result_error'] = '<div class="standout">Impossible de moficier le domain!</div>';
+
+$PALANG['pAdminCreate_admin_welcome'] = 'Ajouter un nouveau administrateur de domaine';
+$PALANG['pAdminCreate_admin_username'] = 'Administrateur';
+$PALANG['pAdminCreate_admin_username_text'] = 'Couriel';
+$PALANG['pAdminCreate_admin_username_text_error1'] = '<div class="standout">Ce n\'est pas un couriel administrateur valide!</div>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = '<div class="standout">Cet administrateur existe déjà ou n\'est pas valide</div>';
+$PALANG['pAdminCreate_admin_password'] = 'Mot de passe';
+$PALANG['pAdminCreate_admin_password2'] = 'Mot de passe (confirmation)';
+$PALANG['pAdminCreate_admin_password_text_error'] = '<div class="standout">Le mot de passe fournit ne correspond pas<br> ou est vide!</div>';
+$PALANG['pAdminCreate_admin_button'] = 'Ajouter un administrateur';
+$PALANG['pAdminCreate_admin_result_error'] = '<div class="standout">Impossible d\'ajouter un administrateur!</div>';
+$PALANG['pAdminCreate_admin_result_succes'] = 'L\'administrateur a été ajouté!';
+$PALANG['pAdminCreate_admin_address'] = 'Domaine';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'Modifier un domaine';
+$PALANG['pAdminEdit_admin_username'] = 'Administrateur';
+$PALANG['pAdminEdit_admin_password'] = 'Mot de passe';
+$PALANG['pAdminEdit_admin_password2'] = 'Mot de passe(confirmation)';
+$PALANG['pAdminEdit_admin_password_text_error'] = '<div class="standout">Le mot de passe fournit ne correspond pas<br /> ou est vide!</div>';
+$PALANG['pAdminEdit_admin_active'] = 'Actif';
+$PALANG['pAdminEdit_admin_button'] = 'Editer un administrater';
+$PALANG['pAdminEdit_admin_result_error'] = '<div class="standout">Impossible de modifier l\'administrateur!</div>';
+$PALANG['pAdminEdit_admin_result_succes'] = 'L\'administrateur a été ajouté!';
+
+$PALANG['pUsersLogin_welcome'] = 'Entrer votre couriel pour modifier votre mot de passe et vos transferts.';
+$PALANG['pUsersLogin_username'] = 'Entrer(couriel)';
+$PALANG['pUsersLogin_password'] = 'Mot de passe';
+$PALANG['pUsersLogin_button'] = 'Entrer';
+$PALANG['pUsersLogin_username_incorrect'] = 'Votre couriel est invalide. Assurez-vous d\'avoir le bon couriel!';
+$PALANG['pUsersLogin_password_incorrect'] = 'Votre mot de passe est invalide!';
+
+$PALANG['pUsersMenu_vacation'] = 'Réponse Automatique';
+$PALANG['pUsersMenu_edit_alias'] = 'Modifier votre transfert';
+$PALANG['pUsersMenu_password'] = 'Modifier votre mot de passe';
+
+$PALANG['pUsersMain_welcome'] = 'Modifier votre compte couriel ici!';
+$PALANG['pUsersMain_vacation'] = 'Configurer votre réponse automatique(auto-reply).';
+$PALANG['pUsersMain_edit_alias'] = 'Modifier vos transferts de couriel.';
+$PALANG['pUsersMain_password'] = 'Changer votre mot de passe.';
+
+$PALANG['pUsersVacation_welcome'] = 'Réponse Automatique.';
+$PALANG['pUsersVacation_welcome_text'] = 'Votre reponse automatique est deja configuree!';
+$PALANG['pUsersVacation_subject'] = 'Sujet';
+$PALANG['pUsersVacation_subject_text'] = 'En dehors du bureau';
+$PALANG['pUsersVacation_body'] = 'Message';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+Je serais absent(e) de <date> jusqu\'au <date>.
+Pour urgence communiquez avec mon collegue <contact person>.
+EOM;
+$PALANG['pUsersVacation_button_away'] = 'Absence';
+$PALANG['pUsersVacation_button_back'] = 'De retour';
+$PALANG['pUsersVacation_result_error'] = '<div class="standout">Impossible de mettre à jour vos configuration pour votre reponse automatique!</div>';
+$PALANG['pUsersVacation_result_succes'] = 'Votre reponse automatique a ete enlevee!';
+?>
