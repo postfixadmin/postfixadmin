@@ -1,0 +1,300 @@
+<?php
+//
+// Language file Finnish
+// by Palo
+//
+
+require ('default.lang');
+
+$PALANG['YES'] = 'Kyllä';
+$PALANG['NO'] = 'Ei';
+$PALANG['edit'] = 'muokkaa';
+$PALANG['del'] = 'poista';
+$PALANG['confirm'] = 'Oletko varma että haluat poistaa tämän?\n';
+$PALANG['confirm_domain'] = 'Oletko varma että haluat poistaa kaikki tietueet tästä domainista? Tätä komentoa ei voi perua!\n';
+$PALANG['check_update'] = 'Check for update';
+
+$PALANG['pLogin_welcome'] = 'Kirjautuminen';
+$PALANG['pLogin_username'] = 'Tunnus';
+$PALANG['pLogin_password'] = 'Salasana';
+$PALANG['pLogin_button'] = 'Kirjaudu';
+$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Tunnus tai salasana väärin!</span>';
+$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Tunnus tai salasana väärin!</span>';
+$PALANG['pLogin_login_users'] = 'Käyttäjien kirjautuminen.';
+
+$PALANG['pMenu_overview'] = 'Yleisnäkymä';
+$PALANG['pMenu_create_alias'] = 'Lisää alias';
+$PALANG['pMenu_create_mailbox'] = 'Lisää postilaatikko';
+$PALANG['pMenu_sendmail'] = 'Lähetä postia';
+$PALANG['pMenu_password'] = 'Salasana';
+$PALANG['pMenu_viewlog'] = 'Näytä loki';
+$PALANG['pMenu_logout'] = 'Kirjaudu ulos';
+
+$PALANG['pMain_welcome'] = 'Tervetuloa sähköpostin hallintaan.';
+$PALANG['pMain_overview'] = 'Listaa aliakset ja postilaatikot. Voit muokata ja poistaa niitä tästä.';
+$PALANG['pMain_create_alias'] = 'Luo uusi alias domainiin.';
+$PALANG['pMain_create_mailbox'] = 'Luo uusi postilaatikko domainiin.';
+$PALANG['pMain_sendmail'] = 'Lähetä sähköpostia juuri luotuun postilaatikkoon.';
+$PALANG['pMain_password'] = 'Vaihda hallintatunnuksen salasanaa.';
+$PALANG['pMain_viewlog'] = 'Näytä lokitiedostot.';
+$PALANG['pMain_logout'] = 'Kirjaudu ulos järjestelmästä';
+
+$PALANG['pOverview_disabled'] = 'Disabled';
+$PALANG['pOverview_unlimited'] = 'Unlimited';
+$PALANG['pOverview_title'] = ':: Defined Domains';
+$PALANG['pOverview_up_arrow'] = 'Go Top';
+$PALANG['pOverview_right_arrow'] = 'Next Page';
+$PALANG['pOverview_left_arrow'] = 'Previous Page';
+$PALANG['pOverview_alias_title'] = ':: Alias';
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_button'] = 'Siirry';
+$PALANG['pOverview_welcome'] = 'Yleisnäkymä ';
+$PALANG['pOverview_alias_alias_count'] = 'Aliakset';
+$PALANG['pOverview_alias_mailbox_count'] = 'Postilaatikot';
+$PALANG['pOverview_alias_address'] = 'Keneltä';
+$PALANG['pOverview_alias_goto'] = 'Kenelle';
+$PALANG['pOverview_alias_modified'] = 'Viimeksi muokattu';
+$PALANG['pOverview_mailbox_username'] = 'Sähköposti';
+$PALANG['pOverview_mailbox_name'] = 'Nimi';
+$PALANG['pOverview_mailbox_quota'] = 'Kiintiö (MB)';
+$PALANG['pOverview_mailbox_modified'] = 'Viimeksi muokattu';
+$PALANG['pOverview_mailbox_active'] = 'Aktiivinen';
+
+$PALANG['pOverview_get_domain'] = 'Domain';
+$PALANG['pOverview_get_aliases'] = 'Aliakset';
+$PALANG['pOverview_get_mailboxes'] = 'Postilaatikot';
+$PALANG['pOverview_get_quota'] = 'Postilaatikon kiintiö (MB)';
+$PALANG['pOverview_get_modified'] = 'Viimeksi muokattu';
+
+$PALANG['pDelete_delete_error'] = '<span class="error_msg">Tietueen poisto ei onnistu ';
+$PALANG['pDelete_domain_error'] = '<span class="error_msg">Tämä ei ole sinun domainisi ';
+
+$PALANG['pCreate_alias_welcome'] = 'Luo uusi alias.';
+$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">Alias ei ole oikean muotoinen!</span>';
+$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Tämä sähköpostiosoite on jo käytössä, ole hyvä ja valitse jokin toinen!</span>';
+$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Aliasten maksimimäärä saavutettu. Et voi lisätä aliaksia enää!</span>';
+$PALANG['pCreate_alias_goto'] = 'Kenelle';
+$PALANG['pCreate_alias_button'] = 'Lisää alias';
+$PALANG['pCreate_alias_goto_text'] = 'Minne posti lähetetään.';
+$PALANG['pCreate_alias_goto_text_error'] = 'Minne sähköposti lähetetään.<br /><span class="error_msg">"Kenelle" osoite ei ole oikean muotoinen!</span>';
+$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Aliaksen lisäys alias tauluun epäonnistui!</span>';
+$PALANG['pCreate_alias_result_succes'] = 'Alias on lisätty!';
+$PALANG['pCreate_alias_catchall_text'] = 'Jos haluat luoda catch-all osoitteen käytä "*" merkkiä aliaksena.<br />Ohjaus domainista domainiin tapahtuu käyttämällä "*@domain.tld" Kenelle: -osoitteena.';
+$PALANG['pEdit_alias_welcome'] = 'Muokkaa aliasta.<br />Yksi kohta per rivi.';
+$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Aliasta ei löydy!</span>';
+$PALANG['pEdit_alias_goto'] = 'Kenelle';
+$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Et kirjoitanut mitään Kenelle: -riville</span>';
+$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Antamasi sähköpostiosoite ei ole oikean muotoinen: ';
+$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Tämä ei ole sinun domainisi: ';
+$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
+$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
+$PALANG['pEdit_alias_button'] = 'Muokkaa aliasta';
+$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Aliasta ei voi muokata!</span>';
+
+$PALANG['pCreate_mailbox_welcome'] = 'Luo uusi paikallinen postilaatikko.';
+$PALANG['pCreate_mailbox_username'] = 'Käyttäjätunnus';
+$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">Sähköpostiosoite ei ole oikean muotoinen!</span>';
+$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">Sähköpostiosoite on jo käytössä, ole hyvä ja valitse jokin toinen!</span>';
+$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">Postilaatikoiden maksimimäärä saavutettu!</span>';
+$PALANG['pCreate_mailbox_password'] = 'Salasana';
+$PALANG['pCreate_mailbox_password2'] = 'Salasana (toistamiseen)';
+$PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP salasana';
+$PALANG['pCreate_mailbox_password_text_error'] = 'POP3/IMAP salasana<br /><span class="error_msg">Antamasi salasanat eivät täsmää!<br />tai ne ovat tyhjät!</span>';
+$PALANG['pCreate_mailbox_name'] = 'Nimi';
+$PALANG['pCreate_mailbox_name_text'] = 'Koko nimi';
+$PALANG['pCreate_mailbox_quota'] = 'Kiintiö';
+$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Antamasi kiintiö on liian korkea!</span>';
+$PALANG['pCreate_mailbox_active'] = 'Aktiivinen';
+$PALANG['pCreate_mailbox_mail'] = 'Luo postilaatikko';
+$PALANG['pCreate_mailbox_button'] = 'Lisää postilaatikko';
+$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Postilaatikon lisääminen ei onnistu!</span>';
+$PALANG['pCreate_mailbox_result_succes'] = 'Postilaatikko on lisätty!';
+
+$PALANG['pEdit_mailbox_welcome'] = 'Muokkaa postilaatikkoa.';
+$PALANG['pEdit_mailbox_username'] = 'Käyttäjätunnus';
+$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">Postilaatikkoa ei löydy!</span>';
+$PALANG['pEdit_mailbox_password'] = 'Uusi salasana';
+$PALANG['pEdit_mailbox_password2'] = 'Uusi salasana (toistamiseen)';
+$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Antamasi salasanat eivät täsmää!</span>';
+$PALANG['pEdit_mailbox_name'] = 'Nimi';
+$PALANG['pEdit_mailbox_quota'] = 'Kiintiö';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Antamasi kiintiö on liian korkea!</span>';
+$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Tämä domaini ei ole sinun: ';
+$PALANG['pEdit_mailbox_button'] = 'Muokkaa postilaatikkoa';
+$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Postilaatikon muokkaus ei onnistunut!</span>';
+
+$PALANG['pPassword_welcome'] = 'Vaihda tunnuksesi salasana.';
+$PALANG['pPassword_admin'] = 'Tunnus';
+$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">Antamaasi tunnusta ei ole olemassa!</span>';
+$PALANG['pPassword_password_current'] = 'Nykyinen salasanasi';
+$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">Et antanut nykyistä salasanaasi!</span>';
+$PALANG['pPassword_password'] = 'Uusi salasana';
+$PALANG['pPassword_password2'] = 'Uusi salasana (toistamiseen)';
+$PALANG['pPassword_password_text_error'] = '<span class="error_msg">Antamasi salasanat eivät täsmää!<br />Tai ovat tyhjiä!</span>';
+$PALANG['pPassword_button'] = 'Vaihda salasana';
+$PALANG['pPassword_result_error'] = '<span class="error_msg">Salasanan vaihto ei onnistunut!</span>';
+$PALANG['pPassword_result_succes'] = 'Salasana vaihdettu!';
+
+$PALANG['pViewlog_welcome'] = 'Näytä viimeiset kymmenen tapahtumaa domainille ';
+$PALANG['pViewlog_timestamp'] = 'Aikaleima';
+$PALANG['pViewlog_username'] = 'Admin';
+$PALANG['pViewlog_domain'] = 'Domain';
+$PALANG['pViewlog_action'] = 'Tapahtuma';
+$PALANG['pViewlog_data'] = 'Tiedot';
+
+$PALANG['pViewlog_button'] = 'Siirry';
+$PALANG['pViewlog_result_error'] = '<span class="error_msg">Lokeja ei löydy!</span>';
+
+$PALANG['pSendmail_welcome'] = 'Lähetä sähköpostia.';
+$PALANG['pSendmail_admin'] = 'Keneltä';
+$PALANG['pSendmail_to'] = 'Kenelle';
+$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">Kenelle on tyhjä tai osoite ei ole toimiva sähköpostiosoite!</span>';
+$PALANG['pSendmail_subject'] = 'Otsikko';
+$PALANG['pSendmail_subject_text'] = 'Tervetuloa';
+$PALANG['pSendmail_body'] = 'Viesti';
+$PALANG['pSendmail_button'] = 'Lähetä viesti';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Postilaatikon luonti ei onnistunut!</span>';
+$PALANG['pSendmail_result_succes'] = 'Postilaatikko on luotu!';
+
+$PALANG['pAdminMenu_list_admin'] = 'Admin Lista';
+$PALANG['pAdminMenu_list_domain'] = 'Domain Lista';
+$PALANG['pAdminMenu_list_virtual'] = 'Virtual Lista';
+$PALANG['pAdminMenu_viewlog'] = 'Näytä loki';
+$PALANG['pAdminMenu_backup'] = 'Varmistus';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Domainin ylläpitäjät';
+$PALANG['pAdminMenu_create_admin'] = 'Uusi ylläpitäjä';
+$PALANG['pAdminMenu_create_domain'] = 'Uusi domain';
+$PALANG['pAdminMenu_create_alias'] = 'Lisää alias';
+$PALANG['pAdminMenu_create_mailbox'] = 'Lisää postilaatikko';
+
+$PALANG['pAdminList_admin_domain'] = 'Domain';
+$PALANG['pAdminList_admin_username'] = 'Admin';
+$PALANG['pAdminList_admin_count'] = 'Domainit';
+$PALANG['pAdminList_admin_modified'] = 'Viimeksi muokattu';
+$PALANG['pAdminList_admin_active'] = 'Aktiivinen';
+
+$PALANG['pAdminList_domain_domain'] = 'Domain';
+$PALANG['pAdminList_domain_description'] = 'Kuvaus';
+$PALANG['pAdminList_domain_aliases'] = 'Aliakset';
+$PALANG['pAdminList_domain_mailboxes'] = 'Postilaatikot';
+$PALANG['pAdminList_domain_maxquota'] = 'Suurin sallittu kiintiö (MB)';
+$PALANG['pAdminList_domain_transport'] = 'Transport';
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_modified'] = 'Viimeksi muokattu';
+$PALANG['pAdminList_domain_active'] = 'Atiivinen';
+
+$PALANG['pAdminList_virtual_button'] = 'Siirry';
+$PALANG['pAdminList_virtual_welcome'] = 'Yleisnäkymä ';
+$PALANG['pAdminList_virtual_alias_alias_count'] = 'Aliakset';
+$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Postilaatikot';
+$PALANG['pAdminList_virtual_alias_address'] = 'Keneltä';
+$PALANG['pAdminList_virtual_alias_goto'] = 'Kenelle';
+$PALANG['pAdminList_virtual_alias_modified'] = 'Viimeksi muokattu';
+$PALANG['pAdminList_virtual_mailbox_username'] = 'Sähköposti';
+$PALANG['pAdminList_virtual_mailbox_name'] = 'Nimi';
+$PALANG['pAdminList_virtual_mailbox_quota'] = 'Kiintiö (MB)';
+$PALANG['pAdminList_virtual_mailbox_modified'] = 'Viimeksi muokattu';
+$PALANG['pAdminList_virtual_mailbox_active'] = 'Atiivinen';
+
+$PALANG['pAdminCreate_domain_welcome'] = 'Lisää uusi domain';
+$PALANG['pAdminCreate_domain_domain'] = 'Domain';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Domain on jo järjestelmässä!</span>';
+$PALANG['pAdminCreate_domain_description'] = 'Kuvaus';
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliakset';
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = ei käytössä | 0 = rajoittamaton';
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postilaatikot';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = ei käytössä | 0 = rajoittamaton';
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max kiintiö';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB <br /> -1 = ei käytössä | 0 = rajoittamaton';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport';
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Lisää oletus aliakset';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminCreate_domain_button'] = 'Lisää domain';
+$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domainin lisäys ei onnistunut!</span>';
+$PALANG['pAdminCreate_domain_result_succes'] = 'Domain on lisätty!';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'Muokkaa domainia';
+$PALANG['pAdminEdit_domain_domain'] = 'Domain';
+$PALANG['pAdminEdit_domain_description'] = 'Kuvaus';
+$PALANG['pAdminEdit_domain_aliases'] = 'Aliakset';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = ei käytössä | 0 = rajoittamaton';
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Postilaatikot';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = ei käytössä | 0 = rajoittamaton';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Max kiintiö';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = ei käytössä | 0 = rajoittamaton';
+$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminEdit_domain_active'] = 'Aktiivinen';
+$PALANG['pAdminEdit_domain_button'] = 'Muokkaa domainia';
+$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Domainin muokkaus ei onnistu!</span>';
+
+$PALANG['pAdminCreate_admin_welcome'] = 'Lisää uusi domainin ylläpitäjä';
+$PALANG['pAdminCreate_admin_username'] = 'Admin';
+$PALANG['pAdminCreate_admin_username_text'] = 'Sähköpostiosoite';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'Sähköpostiosoite<br /><span class="error_msg">Ylläpitäjän sähköpostiosoite ei ole oikeanmuotoinen!</span>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'Sähköpostiosoite<br /><span class="error_msg">Ylläpitäjän sähköpostiosoite on jo olemassa tai se ei ole oikean muotoinen</span>';
+$PALANG['pAdminCreate_admin_password'] = 'Salasana';
+$PALANG['pAdminCreate_admin_password2'] = 'Salasana (toistamiseen)';
+$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Antamasi salasanat eivät täsmää<br />Tai ne ovat tyhjiä!</span>';
+$PALANG['pAdminCreate_admin_button'] = 'Lisää ylläpitäjä';
+$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Ylläpitäjän lisäys ei onnistu!</span>';
+$PALANG['pAdminCreate_admin_result_succes'] = 'Ylläpitäjä on lisätty!';
+$PALANG['pAdminCreate_admin_address'] = 'Domain';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'Muokkaa domainin ylläpitäjää';
+$PALANG['pAdminEdit_admin_username'] = 'Ylläpitäjä';
+$PALANG['pAdminEdit_admin_password'] = 'Salasana';
+$PALANG['pAdminEdit_admin_password2'] = 'Salasana (toistamiseen)';
+$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Antamasi salasanat eivät täsmää!<br />Tai ne ovat tyhjiä!</span>';
+$PALANG['pAdminEdit_admin_active'] = 'Aktiivinen';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_button'] = 'Muokkaa ylläpitäjää';
+$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Ylläpitäjän muokkaaminen ei onnistu!</span>';
+$PALANG['pAdminEdit_admin_result_succes'] = 'Ylläpitäjän muokkaus onnistui!';
+
+$PALANG['pUsersLogin_welcome'] = 'Salasanan vaihto.';
+$PALANG['pUsersLogin_username'] = 'Tunnus';
+$PALANG['pUsersLogin_password'] = 'Salasana';
+$PALANG['pUsersLogin_button'] = 'Kirjaudu';
+$PALANG['pUsersLogin_username_incorrect'] = 'Käyttäjätunnus tai salasana väärin!';
+$PALANG['pUsersLogin_password_incorrect'] = 'Käyttäjätunnus tai salasana väärin!';
+
+$PALANG['pUsersMenu_vacation'] = 'Automaattivastaus';
+$PALANG['pUsersMenu_edit_alias'] = 'Muokkaa uudelleenohjausta';
+$PALANG['pUsersMenu_password'] = 'Vaihda salasana';
+
+$PALANG['pUsersMain_vacation'] = 'Aseta lomavastaaja tai automaattivastaus sähköpostiisi.';
+$PALANG['pUsersMain_edit_alias'] = 'Muuta uudelleenohjauksen osoitetta.';
+$PALANG['pUsersMain_password'] = 'Vaihda nykyinen salasanasi.';
+
+$PALANG['pUsersVacation_welcome'] = 'Automaattivastaus.';
+$PALANG['pUsersVacation_welcome_text'] = 'Sinulla on jo automaattivastaus päällä!';
+$PALANG['pUsersVacation_subject'] = 'Otsikko';
+$PALANG['pUsersVacation_subject_text'] = 'Lomalla';
+$PALANG['pUsersVacation_body'] = 'Viesti';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+Olen lomalla <päiväys> <päiväys> välisen ajan.
+Kiireellisissä asioissa voitte ottaa yhteyttä <sähköpostiosoite>.
+EOM;
+$PALANG['pUsersVacation_button_away'] = 'Lomalle';
+$PALANG['pUsersVacation_button_back'] = 'Takaisin lomalta';
+$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Automaattivastauksen asettaminen epäonnistui!</span>';
+$PALANG['pUsersVacation_result_succes'] = 'Automaattivastaus on poistettu käytöstä!';
+
+$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
+$PALANG['pCreate_dbLog_createalias'] = 'create alias';
+$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+
+$PALANG['pEdit_dbLog_editactive'] = 'change active state';
+$PALANG['pEdit_dbLog_editalias'] = 'edit alias';
+$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
+
+$PALANG['pSearch_welcome'] = 'Searching for: ';
+?>

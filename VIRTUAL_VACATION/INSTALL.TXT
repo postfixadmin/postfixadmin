@@ -1,0 +1,147 @@
+##################################################
+# Virtual Vacation for Postfix Admin Release 2.x #
+##################################################
+#
+# Postfix Admin (Virtual Vacation)
+# by Mischa Peters <mischa at high5 dot net>
+# Copyright (c) 2002 - 2005 High5!
+# Licensed under GPL for more info check GPL-LICENSE.TXT
+#
+# Modified by: Nicholas Paufler <npaufler at incentre dot net> (12/06/2004)
+#
+
+REQUIRED!
+---------
+You need to have the following installed to be able to use Virtual Vacation.
+- Perl5
+- Perl DBI
+- Perl DBD::mysql
+
+About Virtual Vacation
+----------------------
+Virual Vacation is today done with a local shell account that can receive
+email. The email is then handled by a Perl script which sends the Vacation
+message back to the sender.
+
+
+Install Virtual Vacation
+------------------------
+
+
+1. Create a local account
+-------------------------
+Create a dedicated local user account called "vacation". 
+This user handles all potentially dangerous mail content - that is why it
+should be a separate account.
+
+Do not use "nobody", and most certainly do not use "root" or "postfix".  The
+user will never log in, and can be given a "*" password and non-existent
+shell and home directory.
+
+This should look like this:
+
+#/etc/passwd
+vacation:*:65501:65501::0:0:Virtual Vacation:/nonexistent:/sbin/nologin
+
+#/etc/group
+vacation:*:65501:
+
+2. Create a directory
+---------------------
+Create a directory, for example  /var/spool/vacation, that is accessible
+only to the "vacation" user. This is where the vacation script is supposed
+to store its temporary files. 
+
+
+3. Copy the files
+-----------------
+
+Copy the vacation.pl file to the directory you created above:
+
+  $ cp vacation.pl <HOME>/vacation.pl
+  $ chown -R vacation:vacation <HOME>
+
+Which will then look something like:
+
+-rwx------   1 vacation  vacation  3356 Dec 21 00:00 vacation.pl*
+
+4. Setup the transport type
+--------------------
+Define the transport type in the Postfix master file:
+
+#/etc/postfix/master.cf:
+vacation    unix  -       n       n       -       -       pipe
+  flags=Rq user=vacation argv=/var/spool/vacation/vacation.pl -f ${sender} -- ${recipient}
+
+Tell Postfix to use a transport maps file, so add the following to your
+Postfix main.cf:
+
+#/etc/postfix/main.cf:
+transport_maps = hash:/etc/postfix/transport
+
+Then add the transport definition to the newly created transport file.
+Obviously, change yourdomain.com to your own domain. This can be any
+arbitrary domain, and it is easiest if you just choose one that will be used
+for all your domains.
+
+#/etc/postfix/transport
+autoreply.yourdomain.com	vacation:
+
+Execute "postmap /etc/postfix/transport" to build the hashed database.
+
+Execute "postfix reload" to complete the change.
+
+
+5. Create the table
+-------------------
+
+To use Virtual Vacation with Postfix Admin you need to create an extra table
+in the database that is used by Postfix Admin.
+
+USE postfix;
+#
+# Table structure for table vacation
+#
+CREATE TABLE vacation (
+  email varchar(255) NOT NULL default '',
+  subject varchar(255) NOT NULL default '',
+  body text NOT NULL,
+  cache text NOT NULL,
+  domain varchar(255) NOT NULL default '',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY  (email),
+  KEY email (email)
+) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Vacation';
+
+
+What do these files do?
+-----------------------
+When a user enables a vacation message on their account, the alias
+definition is changed so that in addition to delivering to their own
+mailbox, it also delivers to a dummy alias which calls the vacation.pl
+program. In other words, if joeuser@domain.com enables their vacation, the
+entry in the alias database table will deliver mail to
+joeuser@something.com, as well as
+joeuser@something.com@autoreply.yourdomain.com
+
+vacation.pl then checks the database to see wether a user is on holiday and
+what message to send back. Make sure that vacation.pl is able to communicate
+to your databse. In the first couple of lines you have to specify the
+database, username and password for it.
+NOTE: Make sure that the path to perl is correct.
+
+
+I'm in trouble!
+---------------
+When something is not working there are a couple of files that you can have
+a look at. The most important one is your maillog (usually in /var/log/).
+
+Vacation.pl also has some debugging and logging capabilties. Check the top
+of vacation.pl.
+
+
+Done!
+-----
+When this is all in place you need to have a look at the Postfix Admin
+config.inc.php. Here you need to enable Virtual Vacation for the site.

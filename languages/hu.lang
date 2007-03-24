@@ -1,0 +1,303 @@
+<?php
+//
+// Language file Hungarian
+// by Christian Hamar <krics at linuxforum dot hu>
+//
+
+require ('default.lang');
+
+$PALANG['YES'] = 'IGEN';
+$PALANG['NO'] = 'NEM';
+$PALANG['edit'] = 'szerkeszt';
+$PALANG['del'] = 'töröl';
+$PALANG['confirm'] = 'Biztos vagy benne hogy törlöd ezt?\n';
+$PALANG['confirm_domain'] = 'Biztos hogy törölni akarod az összes bejegyzést ez alól a domain alól? Nem lehet visszahozni késõbb!\n';
+$PALANG['check_update'] = 'Check for update';
+
+$PALANG['pLogin_welcome'] = 'Mail admins login here to administrate your domain.';
+$PALANG['pLogin_username'] = 'Login (email)';
+$PALANG['pLogin_password'] = 'Jelszó';
+$PALANG['pLogin_button'] = 'Bejelentkezés';
+$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">A bejelentkezés érvénytelen. Biztos, hogy a saját email címeddel akarsz belépni?!</span>';
+$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Nem jó a jelszó!</span>';
+$PALANG['pLogin_login_users'] = 'A felhasználók kattintsanak ide a felhasználói felülethez.';
+
+$PALANG['pMenu_overview'] = 'Áttekintés';
+$PALANG['pMenu_create_alias'] = 'Alias felvétele';
+$PALANG['pMenu_create_mailbox'] = 'Felhasználó felvétele';
+$PALANG['pMenu_sendmail'] = 'Email küldése';
+$PALANG['pMenu_password'] = 'Jelszó';
+$PALANG['pMenu_viewlog'] = 'Napló megtekintése';
+$PALANG['pMenu_logout'] = 'Kilépés';
+
+$PALANG['pMain_welcome'] = 'Üdvözöllek a Postfix Adminisztrációs rendszerben!';
+$PALANG['pMain_overview'] = 'Listázd az alias-okat és a postafiókokat. Innen tudod õket törölni / módosítani.';
+$PALANG['pMain_create_alias'] = 'Új alias készítése az adott domainhez.';
+$PALANG['pMain_create_mailbox'] = 'Új felhasználó felvétele az adott domainhez.';
+$PALANG['pMain_sendmail'] = 'Küldjön a rendszer emailt minden egyes új felhasználónak.';
+$PALANG['pMain_password'] = 'Admin jelszó megváltoztatása.';
+$PALANG['pMain_viewlog'] = 'Naplófájlok megtekintése.';
+$PALANG['pMain_logout'] = 'Kijelentkezés a rendszerbõl';
+
+$PALANG['pOverview_disabled'] = 'Disabled';
+$PALANG['pOverview_unlimited'] = 'Unlimited';
+$PALANG['pOverview_title'] = ':: Defined Domains';
+$PALANG['pOverview_up_arrow'] = 'Go Top';
+$PALANG['pOverview_right_arrow'] = 'Next Page';
+$PALANG['pOverview_left_arrow'] = 'Previous Page';
+$PALANG['pOverview_alias_title'] = ':: Alias';
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_button'] = 'Gyerünk';
+$PALANG['pOverview_welcome'] = 'Áttekintés: ';
+$PALANG['pOverview_alias_alias_count'] = 'Alias-ok';
+$PALANG['pOverview_alias_mailbox_count'] = 'Postafiókok';
+$PALANG['pOverview_alias_address'] = 'Honnan';
+$PALANG['pOverview_alias_goto'] = 'Hova';
+$PALANG['pOverview_alias_modified'] = 'Utolsó módosítás';
+$PALANG['pOverview_mailbox_username'] = 'Email';
+$PALANG['pOverview_mailbox_name'] = 'Név';
+$PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
+$PALANG['pOverview_mailbox_modified'] = 'Utolsó módosítás';
+$PALANG['pOverview_mailbox_active'] = 'Aktív';
+
+$PALANG['pOverview_get_domain'] = 'Domain';
+$PALANG['pOverview_get_aliases'] = 'Alias-ok';
+$PALANG['pOverview_get_mailboxes'] = 'Postafiókok';
+$PALANG['pOverview_get_quota'] = 'Postafiók Quota (MB)';
+$PALANG['pOverview_get_modified'] = 'Utolsó módosítás';
+
+$PALANG['pDelete_delete_error'] = '<span class="error_msg">Nem sikerült törölni a bejegyzést ';
+$PALANG['pDelete_domain_error'] = '<span class="error_msg">Ehhez a domainhez nincs jogosultságod ';
+
+$PALANG['pCreate_alias_welcome'] = 'Új alias készítése az adott domainhez';
+$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">Az ALIAS érvénytelen!</span>';
+$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Ez az email cím már létezik, kérlek válassz másikat!</span>';
+$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Elérted a maximális alias limitet!</span>';
+$PALANG['pCreate_alias_goto'] = 'Hova';
+$PALANG['pCreate_alias_button'] = 'Alias felvétele';
+$PALANG['pCreate_alias_goto_text'] = 'Ahova a levélnek mennie kell.';
+$PALANG['pCreate_alias_goto_text_error'] = 'Ahova a levélnek mennie kell.<br /><span class="error_msg">Érvénytelen a HOVA mezõ!</span>';
+$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Nemsikerült hozzáadni az aliast az alias táblához!</span>';
+$PALANG['pCreate_alias_result_succes'] = 'Az aliast felvettük az alias táblába!';
+$PALANG['pCreate_alias_catchall_text'] = 'A catch-all (*@valami.hu) beállításához használj "*" -ot az alias mezõnél.<br />A domain-domain közötti átirányításhoz használd a "*@akarmi.hu" címet.';
+
+$PALANG['pEdit_alias_welcome'] = 'Alias szerkesztése a domainhez.<br />Soronként egy.';
+$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Nemsikerült megtalálni az aliast!</span>';
+$PALANG['pEdit_alias_goto'] = 'Hova';
+$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Nem írtál semmit a \'Hova\' mezõbe</span>';
+$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Az email cím amit beírtál érvénytelen: ';
+$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Ehhez a domainhez nincs jogosultságod: ';
+$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
+$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
+$PALANG['pEdit_alias_button'] = 'Alias szerkesztése';
+$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Nemsikerült módosítani az Aliast!</span>';
+
+$PALANG['pCreate_mailbox_welcome'] = 'Új postafiók létrehozása az adott domainhez.';
+$PALANG['pCreate_mailbox_username'] = 'Felhasználónév';
+$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">Érvénytelen EMAIL !</span>';
+$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">Ez az email cím már létezik, kérlek válassz másikat!</span>';
+$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">Elérted a maximális postafiók számot!</span>';
+$PALANG['pCreate_mailbox_password'] = 'Jelszó';
+$PALANG['pCreate_mailbox_password2'] = 'Jelszó (mégegyszer)';
+$PALANG['pCreate_mailbox_password_text'] = 'Jelszó a POP3/IMAP -hoz';
+$PALANG['pCreate_mailbox_password_text_error'] = 'Jelszó a POP3/IMAP -hoz<br /><span class="error_msg">A jelszavak amiket megadtál nem egyeznek!<br />Vagy üresek!</span>';
+$PALANG['pCreate_mailbox_name'] = 'Név';
+$PALANG['pCreate_mailbox_name_text'] = 'Teljes név';
+$PALANG['pCreate_mailbox_quota'] = 'Quota';
+$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Túl magas quota értéket adtál meg!</span>';
+$PALANG['pCreate_mailbox_active'] = 'Aktív';
+$PALANG['pCreate_mailbox_mail'] = 'Postafiók létrehozása';
+$PALANG['pCreate_mailbox_button'] = 'Postafiók létrehozása';
+$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Nemsikerült a postafiókot felvenni a mailbox adatbázis táblába!</span>';
+$PALANG['pCreate_mailbox_result_succes'] = 'A postafiókot sikeresen felvettük a mailbox adatbázis táblába!';
+
+$PALANG['pEdit_mailbox_welcome'] = 'Postafiók szerkesztése az adott domainhez.';
+$PALANG['pEdit_mailbox_username'] = 'Felhasználónév';
+$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">Nem sikerült megtalálni a postafiókot!</span>';
+$PALANG['pEdit_mailbox_password'] = 'Új jelszó';
+$PALANG['pEdit_mailbox_password2'] = 'Új jelszó (mégegyszer)';
+$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">A beírt jelszavak nem egyeznek!</span>';
+$PALANG['pEdit_mailbox_name'] = 'Név';
+$PALANG['pEdit_mailbox_quota'] = 'Quota';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">A megadott quota érték túl magas!</span>';
+$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Ehhez a domainhez nincs jogosultságod: ';
+$PALANG['pEdit_mailbox_button'] = 'Postafiók szerkesztése';
+$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Nemsikerült megváltoztatni a jelszót!</span>';
+
+$PALANG['pPassword_welcome'] = 'Bejelentkezési jelszó megváltoztatása';
+$PALANG['pPassword_admin'] = 'Login';
+$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">A LOGIN amit megadtál egyetlen postafiókkal sem egyezik!</span>';
+$PALANG['pPassword_password_current'] = 'Régi jelszó';
+$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">Nem adtad meg a régi jelszavadat!</span>';
+$PALANG['pPassword_password'] = 'Új jelszó';
+$PALANG['pPassword_password2'] = 'Új jelszó (mégegyszer)';
+$PALANG['pPassword_password_text_error'] = '<span class="error_msg">A jelszavak amiket megadtál nem egyeznek!<br />Vagy üresek!</span>';
+$PALANG['pPassword_button'] = 'Jelszó megváltoztatása';
+$PALANG['pPassword_result_error'] = '<span class="error_msg">Nemsikerült megváltoztatni a jelszavad!</span>';
+$PALANG['pPassword_result_succes'] = 'A jelszavad megváltozott!';
+
+$PALANG['pViewlog_welcome'] = 'Az utolsó 10 esemény megtekintése: ';
+$PALANG['pViewlog_timestamp'] = 'Idõbélyeg';
+$PALANG['pViewlog_username'] = 'Admin';
+$PALANG['pViewlog_domain'] = 'Domain';
+$PALANG['pViewlog_action'] = 'Akció';
+$PALANG['pViewlog_data'] = 'Adat';
+
+$PALANG['pViewlog_button'] = 'Gyerünk';
+$PALANG['pViewlog_result_error'] = '<span class="error_msg">Nemsikerült megtalálni a napló fájlokat!</span>';
+
+$PALANG['pSendmail_welcome'] = 'Email küldése.';
+$PALANG['pSendmail_admin'] = 'Feladó';
+$PALANG['pSendmail_to'] = 'Címzett';
+$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">Ez egy üres, vagy nem megfelelõ email cím!</span>';
+$PALANG['pSendmail_subject'] = 'Tárgy';
+$PALANG['pSendmail_subject_text'] = 'Postafiókja sikeresen elkészült!';
+$PALANG['pSendmail_body'] = 'Üzenet';
+$PALANG['pSendmail_button'] = 'Üzenet küldése';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Postafiók létrehozása sikertelen!</span>';
+$PALANG['pSendmail_result_succes'] = 'A postafiók sikeresen elkészült!';
+
+$PALANG['pAdminMenu_list_admin'] = 'Admin Lista';
+$PALANG['pAdminMenu_list_domain'] = 'Domain Lista';
+$PALANG['pAdminMenu_list_virtual'] = 'Postafiók Lista';
+$PALANG['pAdminMenu_viewlog'] = 'Napló';
+$PALANG['pAdminMenu_backup'] = 'Adatbázis mentés';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Domain Adminok';
+$PALANG['pAdminMenu_create_admin'] = 'Új Admin';
+$PALANG['pAdminMenu_create_domain'] = 'Új Domain';
+$PALANG['pAdminMenu_create_alias'] = 'Új Alias';
+$PALANG['pAdminMenu_create_mailbox'] = 'Új Postafiók';
+
+$PALANG['pAdminList_admin_domain'] = 'Domain';
+$PALANG['pAdminList_admin_username'] = 'Admin';
+$PALANG['pAdminList_admin_count'] = 'Domain-ek';
+$PALANG['pAdminList_admin_modified'] = 'Utolsó módosítás';
+$PALANG['pAdminList_admin_active'] = 'Aktív';
+
+$PALANG['pAdminList_domain_domain'] = 'Domain';
+$PALANG['pAdminList_domain_description'] = 'Leírás';
+$PALANG['pAdminList_domain_aliases'] = 'Alias-ok';
+$PALANG['pAdminList_domain_mailboxes'] = 'Postafiókok';
+$PALANG['pAdminList_domain_maxquota'] = 'Max Quota (MB)';
+$PALANG['pAdminList_domain_transport'] = 'Transport';
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_modified'] = 'Utolsó módosítás';
+$PALANG['pAdminList_domain_active'] = 'Aktív';
+
+$PALANG['pAdminList_virtual_button'] = 'Tovább';
+$PALANG['pAdminList_virtual_welcome'] = 'Áttekintés: ';
+$PALANG['pAdminList_virtual_alias_alias_count'] = 'Alias-ok';
+$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Postafiókok';
+$PALANG['pAdminList_virtual_alias_address'] = 'Honnan';
+$PALANG['pAdminList_virtual_alias_goto'] = 'Hova';
+$PALANG['pAdminList_virtual_alias_modified'] = 'Utolsó módosítás';
+$PALANG['pAdminList_virtual_mailbox_username'] = 'Email';
+$PALANG['pAdminList_virtual_mailbox_name'] = 'Név';
+$PALANG['pAdminList_virtual_mailbox_quota'] = 'Quota (MB)';
+$PALANG['pAdminList_virtual_mailbox_modified'] = 'Utolsó módosítás';
+$PALANG['pAdminList_virtual_mailbox_active'] = 'Aktív';
+
+$PALANG['pAdminCreate_domain_welcome'] = 'Új domain felvétele';
+$PALANG['pAdminCreate_domain_domain'] = 'Domain';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">A domain már létezik!</span>';
+$PALANG['pAdminCreate_domain_description'] = 'Leírás';
+$PALANG['pAdminCreate_domain_aliases'] = 'Alias-ok';
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = kikapcsol | 0 = végtelen';
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postafiókok';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = kikapcsol | 0 = végtelen';
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = kikapcsol | 0 = végtelen';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport';
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Alapértelmezett alias-ok hozzáadása';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminCreate_domain_button'] = 'Domain felvétele';
+$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">A domain felvétele sikertelen!</span>';
+$PALANG['pAdminCreate_domain_result_succes'] = 'A domain-t felvettük az adatbázisba!';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'Domain szerkesztése';
+$PALANG['pAdminEdit_domain_domain'] = 'Domain';
+$PALANG['pAdminEdit_domain_description'] = 'Leírás';
+$PALANG['pAdminEdit_domain_aliases'] = 'Alias-ok';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = kikapcsol | 0 = végtelen';
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Postafiókok';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = kikapcsol | 0 = végtelen';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = kikapcsol | 0 = végtelen';
+$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminEdit_domain_active'] = 'Aktív';
+$PALANG['pAdminEdit_domain_button'] = 'Domain szerkesztése';
+$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">A domain módosítása sikertelen!</span>';
+
+$PALANG['pAdminCreate_admin_welcome'] = 'Új domain admin felvétele';
+$PALANG['pAdminCreate_admin_username'] = 'Admin';
+$PALANG['pAdminCreate_admin_username_text'] = 'Email cím';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'Email cím<br /><span class="error_msg">Az Admin nem valós email cím!</span>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'Email cím<br /><span class="error_msg">Az Admin már létezik, vagy nem valós a cím!</span>';
+$PALANG['pAdminCreate_admin_password'] = 'Jelszó';
+$PALANG['pAdminCreate_admin_password2'] = 'Jelszó (mégegyszer)';
+$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">A beírt jelszavak nem egyeznek!<br />Vagy üresek!</span>';
+$PALANG['pAdminCreate_admin_button'] = 'Admin felvétele';
+$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Nemsikerült az Admint felvenni!</span>';
+$PALANG['pAdminCreate_admin_result_succes'] = 'Az Admin sikeresen bekerült az adatbázisba!';
+$PALANG['pAdminCreate_admin_address'] = 'Domain';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'Domain admin szerkesztése';
+$PALANG['pAdminEdit_admin_username'] = 'Admin';
+$PALANG['pAdminEdit_admin_password'] = 'Jelszó';
+$PALANG['pAdminEdit_admin_password2'] = 'Jelszó (mégegyszer)';
+$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">A beírt jelszavak nem egyeznek!<br />Vagy üresek!</span>';
+$PALANG['pAdminEdit_admin_active'] = 'Aktív';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_button'] = 'Admin szerkesztése';
+$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Nemsikerült módosítani az admint!</span>';
+$PALANG['pAdminEdit_admin_result_succes'] = 'Az Admin módosítása megtörtént!';
+
+$PALANG['pUsersLogin_welcome'] = 'A felhasználók ezen a felületen tudnak bejelentkezni a levelezõ rendszerbe a saját<br>felhasználó nevükkel (azaz email címükkel) és itt tudják megváltoztatni az aliasokat, stb..';
+$PALANG['pUsersLogin_username'] = 'Login (email)';
+$PALANG['pUsersLogin_password'] = 'Jelszó';
+$PALANG['pUsersLogin_button'] = 'Login';
+$PALANG['pUsersLogin_username_incorrect'] = 'Nem megfelelõ a Login (email) cím! Kérlek pontosítsd!';
+$PALANG['pUsersLogin_password_incorrect'] = 'Nem megfelelõ a jelszavad!';
+
+$PALANG['pUsersMenu_vacation'] = 'Automatikus Válasz';
+$PALANG['pUsersMenu_edit_alias'] = 'Átirányítás beállítása';
+$PALANG['pUsersMenu_password'] = 'Jelszó megváltoztatása';
+
+$PALANG['pUsersMain_vacation'] = 'Itt lehet beállítani az automatikus válasz levél szövegét, ha az ember távol van.';
+$PALANG['pUsersMain_edit_alias'] = 'Email átirányítás beállítása.';
+$PALANG['pUsersMain_password'] = 'Jelenlegi jelszó megváltoztatása.';
+
+$PALANG['pUsersVacation_welcome'] = 'Automatikus válasz.';
+$PALANG['pUsersVacation_welcome_text'] = 'Már van be állítva automatikus válasz !';
+$PALANG['pUsersVacation_subject'] = 'Tárgy';
+$PALANG['pUsersVacation_subject_text'] = 'Sajnálom, de jelenleg nem vagyok email közelben!';
+$PALANG['pUsersVacation_body'] = 'Üzenet';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+Üdvözlöm. Sajnálom de jelenleg nem vagyok email közelben.
+Ettõl - Eddig.
+
+Ez egy automatikus üzenet.
+EOM;
+$PALANG['pUsersVacation_button_away'] = 'Automatikus válaszadás bekapcsolása';
+$PALANG['pUsersVacation_button_back'] = 'Automatikus válaszadás kikapcsolása';
+$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nem sikerült megváltoztatni az automatikus válasz konfigurációdat!</span>';
+$PALANG['pUsersVacation_result_succes'] = 'Az automatikus válaszadás sikeresen kikapcsolva!';
+
+$PALANG['pCreate_dbLog_createmailbox'] = 'postafiók létrehozása';
+$PALANG['pCreate_dbLog_createalias'] = 'alias létrehozása';
+$PALANG['pDelete_dbLog_deletealias'] = 'alias törlése';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'postafiók törlése';
+
+$PALANG['pEdit_dbLog_editactive'] = 'aktív státusz megváltoztatása';
+$PALANG['pEdit_dbLog_editalias'] = 'alias szerkesztése';
+$PALANG['pEdit_dbLog_editmailbox'] = 'postafiók szerkesztése';
+
+$PALANG['pSearch_welcome'] = 'Keresendõ kulcsszó: ';
+?>

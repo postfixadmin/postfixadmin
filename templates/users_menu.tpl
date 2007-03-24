@@ -1,0 +1,19 @@
+<div id="menu">
+<ul>
+   <?php if ($CONF['vacation'] == "YES") { ?>
+   <li><a target="_top" href="vacation.php"><?php print $PALANG['pUsersMenu_vacation']; ?></a></li>
+   <?php } ?>
+   <li><a target="_top" href="edit-alias.php"><?php print $PALANG['pUsersMenu_edit_alias']; ?></a></li>
+   <li><a target="_top" href="password.php"><?php print $PALANG['pUsersMenu_password']; ?></a></li>
+   <li><a target="_top" href="logout.php"><?php print $PALANG['pMenu_logout']; ?></a></li>
+</ul>
+</div>
+
+<?php 
+if (file_exists (realpath ("../motd-users.txt"))) 
+{
+   print "<div id=\"motd\">\n";
+   include ("../motd-users.txt");
+   print "</div>";
+}
+?>

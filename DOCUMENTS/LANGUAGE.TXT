@@ -1,0 +1,46 @@
+#
+# Postfix Admin
+# by Mischa Peters <mischa at high5 dot net>
+# Copyright (c) 2002 - 2005 High5!
+# Licensed under GPL for more info check GPL-LICENSE.TXT
+#
+
+READ THIS FIRST!
+----------------
+*** Unlimited and disable value have been changed ***
+If you are using any other language then english, please make sure that:
+       -1 means disable
+        0 means unlimited
+
+
+Additional Language Strings for Postfix Admin 2.1.0
+---------------------------------------------------
+$PALANG['check_update'] = 'Check for update';
+
+$PALANG['pOverview_disabled'] = 'Disabled';
+$PALANG['pOverview_unlimited'] = 'Unlimited';
+$PALANG['pOverview_title'] = ':: Defined Domains';
+$PALANG['pOverview_up_arrow'] = 'Go Top';
+$PALANG['pOverview_right_arrow'] = 'Next Page';
+$PALANG['pOverview_left_arrow'] = 'Previous Page';
+$PALANG['pOverview_alias_title'] = ':: Alias';  
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+
+$PALANG['pAdminList_domain_transport'] = 'Transport';
+
+$PALANG['pAdminCreate_domain_transport'] = 'Transport';
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+
+$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+
+$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';
+$PALANG['pCreate_dbLog_createalias'] = 'create alias';
+$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+
+$PALANG['pEdit_dbLog_editactive'] = 'change active state';
+$PALANG['pEdit_dbLog_editalias'] = 'edit alias';
+$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
+
+$PALANG['pSearch_welcome'] = 'Searching for: ';

@@ -1,0 +1,300 @@
+<?php
+//
+// Language file Euskara
+// by Julen
+//
+
+require ('default.lang');
+
+$PALANG['YES'] = 'BAI';
+$PALANG['NO'] = 'EZ';
+$PALANG['edit'] = 'aldatu';
+$PALANG['del'] = 'ezabatu';
+$PALANG['confirm'] = 'Ziur al zaude ezabatu nahi duzula?\n';
+$PALANG['confirm_domain'] = 'Ziur al zaude domeinu honetako erregistro guztiak ezbatu nahi dituzula? Hau ezin izango da desegin!\n';
+$PALANG['check_update'] = 'Check for update';
+
+$PALANG['pLogin_welcome'] = 'Kudeatzailearen logina domeinuak kudeatzeko.';
+$PALANG['pLogin_username'] = 'Erabiltzailea (e-mail)';
+$PALANG['pLogin_password'] = 'Pasahitza';
+$PALANG['pLogin_button'] = 'Erabiltzailea';
+$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Logina ez da zuzena. Ziurtatu zaitez logina zeure e-mailarekin egin duzula.</span>';
+$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Pasahitz okerra!</span>';
+$PALANG['pLogin_login_users'] = 'Erabiltzaileen gunera joateko logina.';
+$PALANG['pMenu_overview'] = 'Laburpena';
+$PALANG['pMenu_create_alias'] = 'Aliasa gehitu';
+$PALANG['pMenu_create_mailbox'] = 'Postontzia gehitu';
+$PALANG['pMenu_sendmail'] = 'e-maila bidali';
+$PALANG['pMenu_password'] = 'Pasahitza';
+$PALANG['pMenu_viewlog'] = 'Logak ikusi';
+$PALANG['pMenu_logout'] = 'Irten';
+
+$PALANG['pMain_welcome'] = 'Ongietorri Postfix Adminera!';
+$PALANG['pMain_overview'] = 'Alias eta postontzien zerrenda. Hemendik aldatu / ezabatu ditzakezu.';
+$PALANG['pMain_create_alias'] = 'Zure domeinuarentzako alias berri baten sorkuntza.';
+$PALANG['pMain_create_mailbox'] = 'Zure domeinuarentzako postontzi berri baten sorkuntza.';
+$PALANG['pMain_sendmail'] = 'Duela gutxi sorturiko postontziren batera e-mail bat bidali.';
+$PALANG['pMain_password'] = 'Kudeatzaile konturako pasahitza aldatu.';
+$PALANG['pMain_viewlog'] = 'Logak ikusi.';
+$PALANG['pMain_logout'] = 'Irten.';
+
+$PALANG['pOverview_disabled'] = 'Disabled';
+$PALANG['pOverview_unlimited'] = 'Unlimited';
+$PALANG['pOverview_title'] = ':: Defined Domains';
+$PALANG['pOverview_up_arrow'] = 'Go Top';
+$PALANG['pOverview_right_arrow'] = 'Next Page';
+$PALANG['pOverview_left_arrow'] = 'Previous Page';
+$PALANG['pOverview_alias_title'] = ':: Alias';
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_button'] = 'Joan';
+$PALANG['pOverview_welcome'] = 'Laburpena ';
+$PALANG['pOverview_alias_alias_count'] = 'Aliasa';
+$PALANG['pOverview_alias_mailbox_count'] = 'Postontziak';
+$PALANG['pOverview_alias_address'] = 'Igorlea';
+$PALANG['pOverview_alias_goto'] = 'Norakoa';
+$PALANG['pOverview_alias_modified'] = 'Azken aldaketa';
+$PALANG['pOverview_mailbox_username'] = 'E-mail';
+$PALANG['pOverview_mailbox_name'] = 'Izena';
+$PALANG['pOverview_mailbox_quota'] = 'Kuota (MB)';
+$PALANG['pOverview_mailbox_modified'] = 'Azken aldaketa';
+$PALANG['pOverview_mailbox_active'] = 'Aktibatua';
+
+$PALANG['pOverview_get_domain'] = 'Domeinua';
+$PALANG['pOverview_get_aliases'] = 'Aliasa';
+$PALANG['pOverview_get_mailboxes'] = 'Postontziak';
+$PALANG['pOverview_get_quota'] = 'Postontzi kuota (MB)';
+$PALANG['pOverview_get_modified'] = 'Azken aldaketa';
+
+$PALANG['pDelete_delete_error'] = '<span class="error_msg">Ezinezkoa sarrera ezabatzea ';
+$PALANG['pDelete_domain_error'] = '<span class="error_msg">Ez zara domeinu honen jabe';
+$PALANG['pCreate_alias_welcome'] = 'Domeinuarentzat alias berri bat sortu.';
+$PALANG['pCreate_alias_address'] = 'Aliasa';
+$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">ALIASa okerra da!</span>';
+$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Helbide hau existitzen da, ezberdin bat aukera ezazu mesedez!</span>';
+$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Alias sortze mugara heldu zara!</span>';
+$PALANG['pCreate_alias_goto'] = 'Norakoa';
+$PALANG['pCreate_alias_button'] = 'Aliasa gehitu';
+$PALANG['pCreate_alias_goto_text'] = 'Nora bidali behar den e-maila.';
+$PALANG['pCreate_alias_goto_text_error'] = 'Nora bidali behar den e-maila.<br /><span class="error_msg">NORAKO okerra!</span>';
+$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Ezinezkoa aliasa alias taulan sartzea!</span>';
+$PALANG['pCreate_alias_result_succes'] = 'Aliasa alias taulan gehituta!';
+$PALANG['pCreate_alias_catchall_text'] = 'Alias orokor bat sortzeko "*" erabil ezazu alias gisa.<br />Domeinuz domeinurako birbideraketa baterako Norako gisa "*@domain.tld" erabil ezazu.';
+
+$PALANG['pEdit_alias_welcome'] = 'Domeinuarentzat aliasa aldatu.<br />Lerroko sarrera bat.';
+$PALANG['pEdit_alias_address'] = 'Aliasa';
+$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Ezinezkoa aliasa aurkitzea!</span>';
+$PALANG['pEdit_alias_goto'] = 'Norakoa';
+$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Norakoan ez duzu ezer jarri</span>';
+$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Sartutako e-mail helbidea baliiogabekoa da: ';
+$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Ez zara domeinu honen jabe: ';
+$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
+$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
+$PALANG['pEdit_alias_button'] = 'Aliasa aldatu';
+$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Ezinezkoa aliasa aldatzea!</span>';
+
+$PALANG['pCreate_mailbox_welcome'] = 'Postontzi berri bat sortu domeinuarentzat.';
+$PALANG['pCreate_mailbox_username'] = 'Erabiltzailea';
+$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">E-maila baliogabekoa da!</span>';
+$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">E-mail hau existitzen da. Ezberdin bat aukera ezazu, mesedez!</span>';
+$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">Postontzi sorkuntza mugara iritsi zara!</span>';
+$PALANG['pCreate_mailbox_password'] = 'Pasahitza';
+$PALANG['pCreate_mailbox_password2'] = 'Pasahitza (errepikatu)';
+$PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP-entzat pasahitza';
+$PALANG['pCreate_mailbox_password_text_error'] = 'POP3/IMAP-entzat pasahitza<br /><span class="error_msg">Sartutako pasahitzak ez datoz bat<br />edo zuriz daude!</span>';
+$PALANG['pCreate_mailbox_name'] = 'Izena';
+$PALANG['pCreate_mailbox_name_text'] = 'Izen osoa';
+$PALANG['pCreate_mailbox_quota'] = 'Kuota';
+$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Zehazturiko kuota altuegia da!</span>';
+$PALANG['pCreate_mailbox_active'] = 'Aktibatua';
+$PALANG['pCreate_mailbox_mail'] = 'Postontzia sortu';
+$PALANG['pCreate_mailbox_button'] = 'Postontzia gehitu';
+$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Ezinezkoa postontzi taulara postontzia gehitzea!</span>';
+$PALANG['pCreate_mailbox_result_succes'] = 'Postontzia postontzi taulara sartu da!';
+
+$PALANG['pEdit_mailbox_welcome'] = 'Domeinuarentzat postontzi bat aldatu.';
+$PALANG['pEdit_mailbox_username'] = 'Erabiltzailea';
+$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">Ezinezkoa postontzia aurkitzea!</span>';
+$PALANG['pEdit_mailbox_password'] = 'Pasahitz berria';
+$PALANG['pEdit_mailbox_password2'] = 'Pasahitz berria (errepikatu)';
+$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Sartutako pasahitzak ez datoz bat!</span>';
+$PALANG['pEdit_mailbox_name'] = 'Izena';
+$PALANG['pEdit_mailbox_quota'] = 'Kuota';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Zehazturiko kuota altuegia da!</span>';
+$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Ez zara domeinu honen jabe: ';
+$PALANG['pEdit_mailbox_button'] = 'Postontzia aldatu';
+$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Ezinezkoa pasahitza aldatzea!</span>';
+
+$PALANG['pPassword_welcome'] = 'Login pasahitza aldatu.';
+$PALANG['pPassword_admin'] = 'Login';
+$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">Emandako LOGINa ez dator inolako postontziekin bat!</span>';
+$PALANG['pPassword_password_current'] = 'Egungo pasahitza';
+$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">Ez duzu egungo pasahitzik sartu!</span>';
+$PALANG['pPassword_password'] = 'Pasahitz berria';
+$PALANG['pPassword_password2'] = 'Pasahitz berria (errepikatu)';
+$PALANG['pPassword_password_text_error'] = '<span class="error_msg">Sarturiko pasahitzak ez datoz bat<br />edo zuriz daude!</span>';
+$PALANG['pPassword_button'] = 'Pasahitza aldatu';
+$PALANG['pPassword_result_error'] = '<span class="error_msg">Ezinezkoa pasahitza aldatzea!</span>';
+$PALANG['pPassword_result_succes'] = 'Pasahitza aldatuta!';
+
+$PALANG['pViewlog_welcome'] = 'Honen azken 10 ekintzak ikusi ';
+$PALANG['pViewlog_timestamp'] = 'Data/ordua';
+$PALANG['pViewlog_username'] = 'Kudeatzailea';
+$PALANG['pViewlog_domain'] = 'Domeinua';
+$PALANG['pViewlog_action'] = 'Ekintza';
+$PALANG['pViewlog_data'] = 'Datuak';
+
+$PALANG['pViewlog_button'] = 'Joan';
+$PALANG['pViewlog_result_error'] = '<span class="error_msg">Ezinezkoa logak aurkitzea!</span>';
+
+$PALANG['pSendmail_welcome'] = 'e-mail bat bidali.';
+$PALANG['pSendmail_admin'] = 'Igorlea';
+$PALANG['pSendmail_to'] = 'Norakoa';
+$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">Norako helbidea hutsa dago edo okerra da!</span>';
+$PALANG['pSendmail_subject'] = 'Gaia';
+$PALANG['pSendmail_subject_text'] = 'Ongi etorri';
+$PALANG['pSendmail_body'] = 'Gorputza';
+$PALANG['pSendmail_button'] = 'Mezua bidali';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Ezinezkoa postontzia sortzea!</span>';
+$PALANG['pSendmail_result_succes'] = 'Postontzia sortuta!';
+
+$PALANG['pAdminMenu_list_admin'] = 'Kudeatzaile zerrenda';
+$PALANG['pAdminMenu_list_domain'] = 'Domeinu zerrenda';
+$PALANG['pAdminMenu_list_virtual'] = 'Helbide birtualen zerrenda';
+$PALANG['pAdminMenu_viewlog'] = 'Logak ikusi';
+$PALANG['pAdminMenu_backup'] = 'Segurtasun kopia';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Domeinu kudeatzaileak';
+$PALANG['pAdminMenu_create_admin'] = 'Kudeatzaile berria';
+$PALANG['pAdminMenu_create_domain'] = 'Domeinu berria';
+$PALANG['pAdminMenu_create_alias'] = 'Aliasa gehitu';
+$PALANG['pAdminMenu_create_mailbox'] = 'Postontzia gehitu';
+
+$PALANG['pAdminList_admin_domain'] = 'Domeinua';
+$PALANG['pAdminList_admin_username'] = 'Kudeatzailea';
+$PALANG['pAdminList_admin_count'] = 'Domeinuak';
+$PALANG['pAdminList_admin_modified'] = 'Azken aldaketa';
+$PALANG['pAdminList_admin_active'] = 'Aktibatua';
+
+$PALANG['pAdminList_domain_domain'] = 'Domeinua';
+$PALANG['pAdminList_domain_description'] = 'Deskripzioa';
+$PALANG['pAdminList_domain_aliases'] = 'Aliasa';
+$PALANG['pAdminList_domain_mailboxes'] = 'Postontziak';
+$PALANG['pAdminList_domain_maxquota'] = 'Gehienezko kuota (MB)';
+$PALANG['pAdminList_domain_transport'] = 'Transport';
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_modified'] = 'Azken aldaketa';
+$PALANG['pAdminList_domain_active'] = 'Aktibatua';
+
+$PALANG['pAdminList_virtual_button'] = 'Joan';
+$PALANG['pAdminList_virtual_welcome'] = 'Laburpena ';
+$PALANG['pAdminList_virtual_alias_alias_count'] = 'Aliasa';
+$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Postontziak';
+$PALANG['pAdminList_virtual_alias_address'] = 'Igorlea';
+$PALANG['pAdminList_virtual_alias_goto'] = 'Norakoa';
+$PALANG['pAdminList_virtual_alias_modified'] = 'Azken aldaketa';
+$PALANG['pAdminList_virtual_mailbox_username'] = 'E-mail';
+$PALANG['pAdminList_virtual_mailbox_name'] = 'Izena';
+$PALANG['pAdminList_virtual_mailbox_quota'] = 'Kuota (MB)';
+$PALANG['pAdminList_virtual_mailbox_modified'] = 'Azken aldaketa';
+$PALANG['pAdminList_virtual_mailbox_active'] = 'Aktibatua';
+
+$PALANG['pAdminCreate_domain_welcome'] = 'Domeinu berria gehitu';
+$PALANG['pAdminCreate_domain_domain'] = 'Domeinua';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Domeinua existitzen da!</span>';
+$PALANG['pAdminCreate_domain_description'] = 'Deskripzioa';
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliasa';
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = desegokitu | 0 = mugagabea';
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postontziak';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = desegokitu | 0 = mugagabea';
+$PALANG['pAdminCreate_domain_maxquota'] = 'Gehienezko kuota';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = desegokitu | 0 = mugagabea';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport';
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Aurremugatutako aliasa gehitu';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminCreate_domain_button'] = 'Domeinua gehitu';
+$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Ezinezkoa domeinua gehitzea!</span>';
+$PALANG['pAdminCreate_domain_result_succes'] = 'Domeinua gehituta!';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'Domeinu bat aldatu';
+$PALANG['pAdminEdit_domain_domain'] = 'Domeinua';
+$PALANG['pAdminEdit_domain_description'] = 'Deskripzioa';
+$PALANG['pAdminEdit_domain_aliases'] = 'Aliasa';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = desegokitu | 0 = mugagabea';
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Postontziak';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = desegokitu | 0 = mugagabea';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Gehienezko kuota';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = desegokitu | 0 = mugagabea';
+$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminEdit_domain_active'] = 'Aktibatua';
+$PALANG['pAdminEdit_domain_button'] = 'Domeinua aldatu';
+$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Ezinezkoa domeinua aldatzea!</span>';
+
+$PALANG['pAdminCreate_admin_welcome'] = 'Domeinu kudeatzaile berri bat gehitu';
+$PALANG['pAdminCreate_admin_username'] = 'Kudeatzailea';
+$PALANG['pAdminCreate_admin_username_text'] = 'E-mail helbidea';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'E-mail helbidea<br /><span class="error_msg">Kudeatzaile e-mailak ez du balio!</span>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'E-mail<br /><span class="error_msg">Kudeatzailea existitzen da edo ez du balio!</span>';
+
+$PALANG['pAdminCreate_admin_password'] = 'Pasahitza';
+$PALANG['pAdminCreate_admin_password2'] = 'Pasahitza (errepikatu)';
+$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Sartutako pasahitzak ez datoz bat<br />edo zuriz daude!</span>';
+$PALANG['pAdminCreate_admin_button'] = 'Kudeatzailea gehitu';
+$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Ezinezkoa kudeatzailea gehitzea!</span>';
+$PALANG['pAdminCreate_admin_result_succes'] = 'Kudeatzailea gehituta1';
+$PALANG['pAdminCreate_admin_address'] = 'Domeinua';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'Domeinu kudeatzaile bat aldatu';
+$PALANG['pAdminEdit_admin_username'] = 'Kudeatzailea';
+$PALANG['pAdminEdit_admin_password'] = 'Pasahitza';
+$PALANG['pAdminEdit_admin_password2'] = 'Pasahitza (errepikatu)';
+$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Sartutako pasahitzak ez datoz bat<br />edo zuriz daude!</span>';
+$PALANG['pAdminEdit_admin_active'] = 'Aktibatua';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_button'] = 'Kudeatzailea aldatu';
+$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Ezinezkoa kudeatzailea aldatzea!</span>';
+$PALANG['pAdminEdit_admin_result_succes'] = 'Kudeatzailea aldatu da!';
+
+$PALANG['pUsersLogin_welcome'] = 'Erabiltzaileen logina pasahitz eta aliasa aldatzeko.';
+$PALANG['pUsersLogin_username'] = 'Login (e-mail)';
+$PALANG['pUsersLogin_password'] = 'Pasahitza';
+$PALANG['pUsersLogin_button'] = 'Login';
+$PALANG['pUsersLogin_username_incorrect'] = 'Login okerra. Ziurta zaitez posta helbidea login gisa sartu duzula!';
+$PALANG['pUsersLogin_password_incorrect'] = 'Pasahitz okerra!';
+
+$PALANG['pUsersMenu_vacation'] = 'Erantzun automatikoa';
+$PALANG['pUsersMenu_edit_alias'] = 'Berbiderapen helbidea aldatu';
+$PALANG['pUsersMenu_password'] = 'Pasahitza aldatu';
+
+$PALANG['pUsersMain_vacation'] = 'Konfigura ezazu "lanetik kanpo" motako mezu bat edo erantzun automatikoa zure postarentzat.';
+$PALANG['pUsersMain_edit_alias'] = 'Alda ezazu posta helbidea.';
+$PALANG['pUsersMain_password'] = 'Alda ezazu pasahitza.';
+
+$PALANG['pUsersVacation_welcome'] = 'Erantzun automatikoa.';
+$PALANG['pUsersVacation_welcome_text'] = 'Erantzun automatiko bat konfiguratuta duzu!';
+$PALANG['pUsersVacation_subject'] = 'Gaia';
+$PALANG['pUsersVacation_subject_text'] = 'Lanetik kanpo';
+$PALANG['pUsersVacation_body'] = 'Gorputza';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+<date>-tik <date> arte kanpoan egongo naiz.
+Larrialdiko gaientzat, hemen <contact person> kontakta dezakezu nirekin.
+EOM;
+$PALANG['pUsersVacation_button_away'] = 'Aldeginda';
+$PALANG['pUsersVacation_button_back'] = 'Itzulita';
+$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Ezinezkoa zure erantzun atomatikoaren konfigurazioa eguneratzea!</span>';
+$PALANG['pUsersVacation_result_succes'] = 'Zure erantzun automatikoa borratu da!';
+
+$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
+$PALANG['pCreate_dbLog_createalias'] = 'create alias';
+$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+
+$PALANG['pEdit_dbLog_editactive'] = 'change active state';
+$PALANG['pEdit_dbLog_editalias'] = 'edit alias';
+$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
+
+$PALANG['pSearch_welcome'] = 'Searching for: ';
+?>

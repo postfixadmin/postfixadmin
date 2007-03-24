@@ -1,0 +1,308 @@
+<?php
+//
+// Language file Polish
+// by Jarek
+// updated by Piotr Meyer <aniou at smutek dot pl>
+// Encoding iso-8859-2
+//
+
+require ('default.lang');
+
+$PALANG['charset'] = 'iso-8859-2';
+$PALANG['YES'] = 'Tak';
+$PALANG['NO'] = 'Nie';
+$PALANG['edit'] = 'Edytuj';
+$PALANG['del'] = 'Usuñ';
+$PALANG['confirm'] = 'Jeste¶ przekonany, ¿e chcesz usun±æ to?\n';
+$PALANG['confirm_domain'] = 'Czy rzeczywi¶cie chcesz usun±æ wszystkie wpisy dla tej domeny? To jest proces nieodwracalny!\n';
+$PALANG['check_update'] = 'Check for update';
+
+$PALANG['pLogin_welcome'] = 'Sekcja przeznaczona dla administratorów domen.';
+$PALANG['pLogin_username'] = 'Login (email)';
+$PALANG['pLogin_password'] = 'Has³o';
+$PALANG['pLogin_button'] = 'Zaloguj';
+$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Twój login jest niepoprawny!</span>';
+$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Twoje has³o jest niepoprawne!</span>';
+$PALANG['pLogin_login_users'] = 'Sekcja przeznaczona dla u¿ytkowników.';
+
+$PALANG['pMenu_overview'] = 'Dane zbiorcze';
+$PALANG['pMenu_create_alias'] = 'Dadaj alias';
+$PALANG['pMenu_create_mailbox'] = 'Dodaj konto';
+$PALANG['pMenu_sendmail'] = 'Wy¶lij Email';
+$PALANG['pMenu_password'] = 'Has³o';
+$PALANG['pMenu_viewlog'] = 'Logi';
+$PALANG['pMenu_logout'] = 'Wyloguj';
+
+$PALANG['pMain_welcome'] = 'Witamy w Postfix Adminie!';
+$PALANG['pMain_overview'] = 'Lista Twoich aliasów i kont pocztowych. Mo¿esz je tutaj edytowaæ / usuwaæ.';
+$PALANG['pMain_create_alias'] = 'Utwórz nowy alias dla Twojej domeny.';
+$PALANG['pMain_create_mailbox'] = 'Utwórz nowe konto pocztowe dla Twojej domeny.';
+$PALANG['pMain_sendmail'] = 'Wy¶lij wiadomo¶æ do nowo utworzonego konta pocztowego.';
+$PALANG['pMain_password'] = 'Zmieæ has³o swojego konta administracyjnego.';
+$PALANG['pMain_viewlog'] = 'Poka¿ pliki logów.';
+$PALANG['pMain_logout'] = 'Zakoñcz pracê z systemem';
+
+$PALANG['pOverview_disabled'] = 'Disabled';
+$PALANG['pOverview_unlimited'] = 'Unlimited';
+$PALANG['pOverview_title'] = ':: Defined Domains';
+$PALANG['pOverview_up_arrow'] = 'Go Top';
+$PALANG['pOverview_right_arrow'] = 'Next Page';
+$PALANG['pOverview_left_arrow'] = 'Previous Page';
+$PALANG['pOverview_alias_title'] = ':: Alias';
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_button'] = 'Id¼';
+$PALANG['pOverview_welcome'] = 'Dane zbiorcze dla domeny ';
+$PALANG['pOverview_alias_alias_count'] = 'Aliasy';
+$PALANG['pOverview_alias_mailbox_count'] = 'Konta';
+$PALANG['pOverview_alias_address'] = 'Od';
+$PALANG['pOverview_alias_goto'] = 'Do';
+$PALANG['pOverview_alias_modified'] = 'Ostatnio zmodyfikowany';
+$PALANG['pOverview_mailbox_username'] = 'Email';
+$PALANG['pOverview_mailbox_name'] = 'Name';
+$PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
+$PALANG['pOverview_mailbox_modified'] = 'Ostatnio zmodyfikowany';
+$PALANG['pOverview_mailbox_active'] = 'Aktywny';
+$PALANG['pOverview_vacation_edit'] = 'Vacation';
+
+$PALANG['pOverview_get_domain'] = 'Domena';
+$PALANG['pOverview_get_aliases'] = 'Aliasy';
+$PALANG['pOverview_get_mailboxes'] = 'Konta';
+$PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
+$PALANG['pOverview_get_modified'] = 'Ostatnio zmodyfikowany';
+
+$PALANG['pDelete_delete_error'] = '<span class="error_msg">Nie mo¿na usun±æ tego wpisu ';
+$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Nie mo¿na usun±æ konta ';
+$PALANG['pDelete_domain_error'] = '<span class="error_msg">Ta domena nie nale¿y do Ciebie ';
+$PALANG['pDelete_alias_error'] = '<span class="error_msg">Nie mo¿na usun±æ aliasu ';
+
+$PALANG['pCreate_alias_welcome'] = 'Utwórz nowy alias dla Twojej domeny.';
+$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">ALIAS jest niepoprawny!</span>';
+$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Taki adres email juz istnieje, proszê wybraæ inny!</span>';
+$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Twój limit aliasów zosta³ osi±gniety!</span>';
+$PALANG['pCreate_alias_goto'] = 'Do';
+$PALANG['pCreate_alias_button'] = 'Dodaj alias';
+$PALANG['pCreate_alias_goto_text'] = 'Gdzie ten mail powinien byæ wys³any.';
+$PALANG['pCreate_alias_goto_text_error'] = 'Gdzie ten email powinien dotrzeæ.<br /><span class="error_msg">The TO is not valid!</span>';
+$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Nie mo¿na dodaæ aliasu do tabeli aliasów!</span>';
+$PALANG['pCreate_alias_result_succes'] = 'Alias zosta³ dodany do tabeli aliasów!';
+$PALANG['pCreate_alias_catchall_text'] = 'Aby utworzyæ domy¶lne konto dla domeny (catch-all) podaj "*" (gwiazdkê) jako alias.<br />Je¶li chcesz przekazywaæ ca³o¶æ poczty do innej domeny, wpisz jako alias "*@domena.tld".';
+$PALANG['pEdit_alias_welcome'] = 'Edytuj alias dla Twojej domeny.<br />Jeden wpis na liniê.';
+$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Nie mo¿na zokalizowaæ aliasu!</span>';
+$PALANG['pEdit_alias_goto'] = 'Do';
+$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Nie poda³e¶ adresu odbiorcy (pole "To")</span>';
+$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Wpisany adres email jest niepoprawny: ';
+$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Ta domena nie nale¿y do Ciebie: ';
+$PALANG['pEdit_alias_forward_and_store'] = 'Dostarczaj do mojej skrzynki.';
+$PALANG['pEdit_alias_forward_only'] = 'Prze¶lij jedynie na podane adresy.';
+$PALANG['pEdit_alias_button'] = 'Edytuj alias';
+$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Nie mo¿na zmodyfikowaæ aliasu!</span>';
+
+$PALANG['pCreate_mailbox_welcome'] = 'Utwórz lokalne konto pocztowe dla Twojej domeny.';
+$PALANG['pCreate_mailbox_username'] = 'Nazwa u¿ytkownika';
+$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">Adres EMAIL jest niepoprawny!</span>';
+$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">Taki adres email ju¿ istnieje, proszê wybraæ inny!</span>';
+$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">Twój limit kont pocztowych zosta³ osi±gniety!</span>';
+$PALANG['pCreate_mailbox_password'] = 'Has³o';
+$PALANG['pCreate_mailbox_password2'] = 'Has³o (ponownie)';
+$PALANG['pCreate_mailbox_password_text'] = 'Has³o do POP3/IMAP';
+$PALANG['pCreate_mailbox_password_text_error'] = 'Has³o do POP3/IMAP<br /><span class="error_msg">Wpisane has³o nie pasuje!<br />Lub jest puste!</span>';
+$PALANG['pCreate_mailbox_name'] = 'Nazwa';
+$PALANG['pCreate_mailbox_name_text'] = 'Pe³na nazwa';
+$PALANG['pCreate_mailbox_quota'] = 'Udzia³';
+$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Podany udzia³ jest za wysoki!</span>';
+$PALANG['pCreate_mailbox_active'] = 'Aktywny';
+$PALANG['pCreate_mailbox_mail'] = 'Utwórz konto';
+$PALANG['pCreate_mailbox_button'] = 'Dodaj konto';
+$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Nie mo¿na dodaæ konta do tabeli kont!</span>';
+$PALANG['pCreate_mailbox_result_succes'] = 'Konto zosta³o dodane do tabeli kont!';
+
+$PALANG['pEdit_mailbox_welcome'] = 'Edytuj konto w Twojej domenie.';
+$PALANG['pEdit_mailbox_username'] = 'Nazwa u¿ytkownika';
+$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">Nie mo¿na zlokalizowaæ konta!</span>';
+$PALANG['pEdit_mailbox_password'] = 'Nowe has³o';
+$PALANG['pEdit_mailbox_password2'] = 'Nowe has³o (ponownie)';
+$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Wpisane has³o nie pasuje!</span>';
+$PALANG['pEdit_mailbox_name'] = 'Nazwa';
+$PALANG['pEdit_mailbox_name_text'] = 'Pe³na nazwa';
+$PALANG['pEdit_mailbox_quota'] = 'Udzia³';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Podany udzia³ jest za wysoki!</span>';
+$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Ta domena nie nale¿y do Ciebie: ';
+$PALANG['pEdit_mailbox_button'] = 'Edytuj konto';
+$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Nie mo¿na zmieniæ parametrów!</span>';
+
+$PALANG['pPassword_welcome'] = 'Zmieñ Swoje has³o.';
+$PALANG['pPassword_admin'] = 'Login';
+$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">Podany LOGIN nie pasuje!</span>';
+$PALANG['pPassword_password_current'] = 'Aktualne has³o';
+$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">Nieprawid³owe aktualne has³o!</span>';
+$PALANG['pPassword_password'] = 'Nowe has³o';
+$PALANG['pPassword_password2'] = 'Nowe has³o (ponownie)';
+$PALANG['pPassword_password_text_error'] = '<span class="error_msg">Podane has³o nie pasuje!<br />Lub jest puste!</span>';
+$PALANG['pPassword_button'] = 'Zmieñ has³o';
+$PALANG['pPassword_result_error'] = '<span class="error_msg">Nie mo¿na zmieniæ Twojego has³a!</span>';
+$PALANG['pPassword_result_succes'] = 'Twoje has³o zosta³o zmienione!';
+
+$PALANG['pViewlog_welcome'] = 'Poka¿ 10 ostatnich dzia³añ dla ';
+$PALANG['pViewlog_timestamp'] = 'Data';
+$PALANG['pViewlog_username'] = 'Administrator';
+$PALANG['pViewlog_domain'] = 'Domena';
+$PALANG['pViewlog_action'] = 'Dzia³anie';
+$PALANG['pViewlog_data'] = 'Dane';
+
+$PALANG['pViewlog_button'] = 'Id¼';
+$PALANG['pViewlog_result_error'] = '<span class="error_msg">Nie mo¿na odszukaæ logów!</span>';
+
+$PALANG['pSendmail_welcome'] = 'Wy¶lij wiadomo¶æ.';
+$PALANG['pSendmail_admin'] = 'Od';
+$PALANG['pSendmail_to'] = 'Do';
+$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">Podany adres jest niepoprawny, b±d¼ pole "Do" jest puste!</span>';
+$PALANG['pSendmail_subject'] = 'Temat';
+$PALANG['pSendmail_subject_text'] = 'Witamy';
+$PALANG['pSendmail_body'] = 'Tekst';
+$PALANG['pSendmail_button'] = 'Wy¶lij wiadomo¶æ';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Nie mo¿na utworzyæ konta!</span>';
+$PALANG['pSendmail_result_succes'] = 'Konto zosta³o utworzone!';
+
+$PALANG['pAdminMenu_list_admin'] = 'Lista administratorów';
+$PALANG['pAdminMenu_list_domain'] = 'Lista domen';
+$PALANG['pAdminMenu_list_virtual'] = 'Virtual List';
+$PALANG['pAdminMenu_viewlog'] = 'Logi';
+$PALANG['pAdminMenu_backup'] = 'Kopia bezpieczeñstwa';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Administratorzy domeny';
+$PALANG['pAdminMenu_create_admin'] = 'Nowy administrator';
+$PALANG['pAdminMenu_create_domain'] = 'Nowa domena';
+$PALANG['pAdminMenu_create_alias'] = 'Dodaj alias';
+$PALANG['pAdminMenu_create_mailbox'] = 'Dodaj konto';
+
+$PALANG['pAdminList_admin_domain'] = 'Domena';
+$PALANG['pAdminList_admin_username'] = 'Admin';
+$PALANG['pAdminList_admin_count'] = 'Domeny';
+$PALANG['pAdminList_admin_modified'] = 'Ostatnio zmodyfikowane';
+$PALANG['pAdminList_admin_active'] = 'Aktywny';
+
+$PALANG['pAdminList_domain_domain'] = 'Domena';
+$PALANG['pAdminList_domain_description'] = 'Opis';
+$PALANG['pAdminList_domain_aliases'] = 'Aliasy';
+$PALANG['pAdminList_domain_mailboxes'] = 'Konta';
+$PALANG['pAdminList_domain_maxquota'] = 'Max udzia³ (MB)';
+$PALANG['pAdminList_domain_transport'] = 'Transport';
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_modified'] = 'Ostatnio zmodyfikowane';
+$PALANG['pAdminList_domain_active'] = 'Aktywne';
+
+$PALANG['pAdminList_virtual_button'] = 'Id¼';
+$PALANG['pAdminList_virtual_welcome'] = 'Overview for ';
+$PALANG['pAdminList_virtual_alias_alias_count'] = 'Aliasy';
+$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Konta';
+$PALANG['pAdminList_virtual_alias_address'] = 'Od';
+$PALANG['pAdminList_virtual_alias_goto'] = 'Do';
+$PALANG['pAdminList_virtual_alias_modified'] = 'Ostatnio zmodyfikowane';
+$PALANG['pAdminList_virtual_mailbox_username'] = 'Email';
+$PALANG['pAdminList_virtual_mailbox_name'] = 'Nazwa';
+$PALANG['pAdminList_virtual_mailbox_quota'] = 'Udzia³ (MB)';
+$PALANG['pAdminList_virtual_mailbox_modified'] = 'Ostatnio zmodyfikowane';
+$PALANG['pAdminList_virtual_mailbox_active'] = 'Aktywne';
+
+$PALANG['pAdminCreate_domain_welcome'] = 'Dodaj now± domenê';
+$PALANG['pAdminCreate_domain_domain'] = 'Domena';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Podana domena ju¿ istnieje!</span>';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">Podana domena jest nieprawid³owa!</span>';
+$PALANG['pAdminCreate_domain_description'] = 'Opis';
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliasy';
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = wy³±czone | 0 = bez limitów';
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Konta';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = wy³±czone | 0 = bez limitów';
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max udzia³';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = wy³±czone | 0 = bez limitów';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport';
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Dodaj domy¶lne aliasy mailowe';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminCreate_domain_button'] = 'Dodaj domenê';
+$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Nie mo¿na dodaæ domeny!</span>';
+$PALANG['pAdminCreate_domain_result_succes'] = 'Domena zosta³a dodana!';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'Edytuj domenê';
+$PALANG['pAdminEdit_domain_domain'] = 'Domena';
+$PALANG['pAdminEdit_domain_description'] = 'Opis';
+$PALANG['pAdminEdit_domain_aliases'] = 'Aliasy';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = wy³±czone | 0 = bez limitów';
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Konta';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = wy³±czone | 0 = bez limitów';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Max udzia³';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = wy³±czone | 0 = bez limitów';
+$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminEdit_domain_active'] = 'Aktywne';
+$PALANG['pAdminEdit_domain_button'] = 'Edytuj domenê';
+$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Nie mo¿na zmodyfikowaæ domeny!</span>';
+
+$PALANG['pAdminCreate_admin_welcome'] = 'Dodaj konto administratora';
+$PALANG['pAdminCreate_admin_username'] = 'Administrator';
+$PALANG['pAdminCreate_admin_username_text'] = 'Adres email';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'Adres email<br /><span class="error_msg">Administartor nie jest poprawnym adresem email!</span>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'Adres email<br /><span class="error_msg">Administrator ju¿ istnieje lub jest niepoprawny</span>';
+$PALANG['pAdminCreate_admin_password'] = 'Has³o';
+$PALANG['pAdminCreate_admin_password2'] = 'Has³o (ponownie)';
+$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Podane has³o nie pasuje!<br />Lub jest puste!</span>';
+$PALANG['pAdminCreate_admin_button'] = 'Dodaj administratora';
+$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Nie mo¿na dodaæ administratora!</span>';
+$PALANG['pAdminCreate_admin_result_succes'] = 'Administrator zosta³ dodany!';
+$PALANG['pAdminCreate_admin_address'] = 'Domena';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'Edytuj administratora domeny';
+$PALANG['pAdminEdit_admin_username'] = 'Administrator';
+$PALANG['pAdminEdit_admin_password'] = 'Has³o';
+$PALANG['pAdminEdit_admin_password2'] = 'Has³o (ponownie)';
+$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Podane has³o nie pasuje!<br />Lub jest puste!</span>';
+$PALANG['pAdminEdit_admin_active'] = 'Aktywny';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_button'] = 'Edytuj administratora';
+$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Nie mo¿na zmodyfikowaæ administratora!</span>';
+$PALANG['pAdminEdit_admin_result_succes'] = 'Administrator zosta³ zmodyfikowany!';
+
+$PALANG['pUsersLogin_welcome'] = 'Zaloguj siê ¿eby zmieniæ has³o albo dodaæ aliasy.';
+$PALANG['pUsersLogin_username'] = 'U¿ytkownik (email)';
+$PALANG['pUsersLogin_password'] = 'Has³o';
+$PALANG['pUsersLogin_button'] = 'Zaloguj';
+$PALANG['pUsersLogin_username_incorrect'] = 'Podana nazwa u¿ytkownika jest nieprawid³owa! ';
+$PALANG['pUsersLogin_password_incorrect'] = 'Podane has³o jest nieprawid³owe!';
+
+$PALANG['pUsersMenu_vacation'] = 'Auto odpowied¼';
+$PALANG['pUsersMenu_edit_alias'] = 'Zmieñ przekierowania';
+$PALANG['pUsersMenu_password'] = 'Zmieñ has³o';
+
+$PALANG['pUsersMain_vacation'] = 'Ustaw "out of office" wiadomo¶æ lub auto odpowied¼.';
+$PALANG['pUsersMain_edit_alias'] = 'Zmieñ przekierowania wiadomo¶ci.';
+$PALANG['pUsersMain_password'] = 'Zmieñ aktualne has³o.';
+
+$PALANG['pUsersVacation_welcome'] = 'Auto odpowied¼.';
+$PALANG['pUsersVacation_welcome_text'] = 'Masz ju¿ skonfigurowan± auto odpowied¼!';
+$PALANG['pUsersVacation_subject'] = 'Temat';
+$PALANG['pUsersVacation_subject_text'] = 'Poza biurem';
+$PALANG['pUsersVacation_body'] = 'Tekst';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+I will be away from <date> until <date>.
+For urgent matters you can contact <contact person>.
+EOM;
+$PALANG['pUsersVacation_button_away'] = 'Nieobecny/a';
+$PALANG['pUsersVacation_button_back'] = 'Zaraz wracam';
+$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nie mogê zaktualizowaæ ustawieñ Twojej auto odpowiedzi!</span>';
+$PALANG['pUsersVacation_result_succes'] = 'Twoja auto odpowied¼ zosta³a usuniêta!';
+
+$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';
+$PALANG['pCreate_dbLog_createalias'] = 'create alias';
+$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+
+$PALANG['pEdit_dbLog_editactive'] = 'change active state';
+$PALANG['pEdit_dbLog_editalias'] = 'edit alias';
+$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
+
+$PALANG['pSearch_welcome'] = 'Searching for: ';
+?>

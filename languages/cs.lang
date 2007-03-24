@@ -1,0 +1,300 @@
+<?php
+//
+// Language file Czech
+// by Jakub
+//
+
+require ('default.lang');
+
+$PALANG['charset'] = "ISO-8859-2";
+
+$PALANG['YES'] = 'ANO';
+$PALANG['NO'] = 'NE';
+$PALANG['edit'] = 'upravit';
+$PALANG['del'] = 'smazat';
+$PALANG['confirm'] = 'Jste si jistí?\n';
+$PALANG['confirm_domain'] = 'Opravdu chcete smazat v¹echny záznamy v této doménì Tohle nelze vrátit!\n';
+$PALANG['check_update'] = 'Check for update';
+
+$PALANG['pLogin_welcome'] = 'Zde se pøihla¹ují emailoví administrátoøi pro administraci svých domén.';
+$PALANG['pLogin_username'] = 'U¾ivatelské jméno (email)';
+$PALANG['pLogin_password'] = 'Heslo';
+$PALANG['pLogin_button'] = 'Pøihlásit';
+$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Nesprávné u¾ivatelské jmeno. Pøihla¹ujte se svojí emailovou adresou!</span>';
+$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Nesprávné heslo!</span>';
+$PALANG['pLogin_login_users'] = 'Vstup do u¾ivatelské sekce.';
+
+$PALANG['pMenu_overview'] = 'Pøehled';
+$PALANG['pMenu_create_alias'] = 'Pøidat pøesmìrování';
+$PALANG['pMenu_create_mailbox'] = 'Pøidat schránku';
+$PALANG['pMenu_sendmail'] = 'Poslat email';
+$PALANG['pMenu_password'] = 'Zmìnit heslo';
+$PALANG['pMenu_viewlog'] = 'Prohlí¾et záznam';
+$PALANG['pMenu_logout'] = 'Odhlásit.';
+
+$PALANG['pMain_welcome'] = 'Vítejte v Postfix Adminu!';
+$PALANG['pMain_overview'] = 'Výpis pøesmìrování a schránek. Mù¾ete je zde upravovat a mazat.';
+$PALANG['pMain_create_alias'] = 'Vytvoøit pøesmìrování v této doménì.';
+$PALANG['pMain_create_mailbox'] = 'Vytvoøit schránku v této doménì.';
+$PALANG['pMain_sendmail'] = 'Poslat email do jedné z novì vytvoøených schránek.';
+$PALANG['pMain_password'] = 'Zmìnit heslo administrátorského úètu.';
+$PALANG['pMain_viewlog'] = 'Prohlí¾et záznamy zmìn v doménì.';
+$PALANG['pMain_logout'] = 'Odhlásit ze systému.';
+
+$PALANG['pOverview_disabled'] = 'Disabled';
+$PALANG['pOverview_unlimited'] = 'Unlimited';
+$PALANG['pOverview_title'] = ':: Defined Domains';
+$PALANG['pOverview_up_arrow'] = 'Go Top';
+$PALANG['pOverview_right_arrow'] = 'Next Page';
+$PALANG['pOverview_left_arrow'] = 'Previus Page';
+$PALANG['pOverview_alias_title'] = ':: Pøesmìrování';
+$PALANG['pOverview_mailbox_title'] = ':: Schránky';
+$PALANG['pOverview_button'] = 'Pøejít';
+$PALANG['pOverview_welcome'] = 'Pøehled pro doménu ';
+$PALANG['pOverview_alias_alias_count'] = 'Pøesmìrování';
+$PALANG['pOverview_alias_mailbox_count'] = 'Schránek';
+$PALANG['pOverview_alias_address'] = 'Od';
+$PALANG['pOverview_alias_goto'] = 'Pro';
+$PALANG['pOverview_alias_modified'] = 'Naposledy zmìnìno';
+$PALANG['pOverview_mailbox_username'] = 'Email';
+$PALANG['pOverview_mailbox_name'] = 'Jméno';
+$PALANG['pOverview_mailbox_quota'] = 'Místo (MB)';
+$PALANG['pOverview_mailbox_modified'] = 'Naposledy zmìnìno';
+$PALANG['pOverview_mailbox_active'] = 'Aktivní';
+
+$PALANG['pOverview_get_domain'] = 'Doména';
+$PALANG['pOverview_get_aliases'] = 'Pøesmìrování';
+$PALANG['pOverview_get_mailboxes'] = 'Schránky';
+$PALANG['pOverview_get_quota'] = 'Místo pro schránku (MB)';
+$PALANG['pOverview_get_modified'] = 'Naposledy zmìnìno';
+
+$PALANG['pDelete_delete_error'] = '<span class="error_msg">Nelze smazat polo¾ku ';
+$PALANG['pDelete_domain_error'] = '<span class="error_msg">Tato doména není va¹e ';
+
+$PALANG['pCreate_alias_welcome'] = 'Vytvoøit novýé pøesmìrování ve va¹í doménì.';
+$PALANG['pCreate_alias_address'] = 'Pøesmìrování';
+$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">Adresa neni platná!</span>';
+$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Taková emailová adresa ji¾ existuje!</span>';
+$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Dosáhli jste limitu, nemù¾ete vytváøet dal¹í aliasy!</span>';
+$PALANG['pCreate_alias_goto'] = 'Cíl';
+$PALANG['pCreate_alias_button'] = 'Pøidat';
+$PALANG['pCreate_alias_goto_text'] = 'Kam má po¹ta chodit.';
+$PALANG['pCreate_alias_goto_text_error'] = 'Kam má po¹ta chodit.<br /><span class="error_msg">Cíl není platný!</span>';
+$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Nepodaøilo se pøidat pøesmìrování do tabulky aliasù!</span>';
+$PALANG['pCreate_alias_result_succes'] = 'Pøesmìrování bylo uspì¹nì pøidáno do tabulky aliasù!';
+$PALANG['pCreate_alias_catchall_text'] = 'Pro vytvoøení doménového ko¹e pou¾ijte * jako alias.<br />Pro alias doména -> doména pou¾ijte *@domain.tld jako cíl.';
+
+$PALANG['pEdit_alias_welcome'] = 'Upravit pøesmìrování.<br />Jeden záznam na øádku.';
+$PALANG['pEdit_alias_address'] = 'Pøesmìrování';
+$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Nelze najít alias!</span>';
+$PALANG['pEdit_alias_goto'] = 'Cíl';
+$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Nezadali jste cíl</span>';
+$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Emailová adresa kterou jste zadali není platná: ';
+$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Tato doména není va¹e: ';
+$PALANG['pEdit_alias_button'] = 'Upravit';
+$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Nepodaøilo se upravit pøesmìrování!</span>';
+
+$PALANG['pCreate_mailbox_welcome'] = 'Vytvoøit novou lokální schránku v doménì.';
+$PALANG['pCreate_mailbox_username'] = 'U¾ivatelské jméno';
+$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">Adresa neni platná!</span>';
+$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">Taková emailová adresa ji¾&cedil; existuje!</span>';
+$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">Dosáhli jste limitu, nemù&cedil;ete vytváøet dal¹í schránky!</span>';
+$PALANG['pCreate_mailbox_password'] = 'Heslo';
+$PALANG['pCreate_mailbox_password2'] = 'Heslo (znovu)';
+$PALANG['pCreate_mailbox_password_text'] = 'Heslo pro POP3/IMAP/SMTP';
+$PALANG['pCreate_mailbox_password_text_error'] = 'Heslo pro POP3/IMAP/SMTP<br /><span class="error_msg">Zadaná hesla jsou rozdílná nebo prázdná!</span>';
+$PALANG['pCreate_mailbox_name'] = 'Jméno';
+$PALANG['pCreate_mailbox_name_text'] = 'Celé jméno';
+$PALANG['pCreate_mailbox_quota'] = 'Místo';
+$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Zadané místo je pøíli¹ velké!</span>';
+$PALANG['pCreate_mailbox_active'] = 'Aktivní';
+$PALANG['pCreate_mailbox_mail'] = 'Vytvoøit schránku na disku';
+$PALANG['pCreate_mailbox_button'] = 'Pøidat schránku';
+$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Nepodaøilo se pøidat schránku do tabulky schránek!</span>';
+$PALANG['pCreate_mailbox_result_succes'] = 'Schránka byla pøidána do tabulky schránek!';
+
+$PALANG['pEdit_mailbox_welcome'] = 'Upravit lokální chránku v doménì.';
+$PALANG['pEdit_mailbox_username'] = 'U¾ivatelské jméno';
+$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">Nepodaøilo se nalézt schránku!</span>';
+$PALANG['pEdit_mailbox_password'] = 'Nové heslo';
+$PALANG['pEdit_mailbox_password2'] = 'Nové heslo (znovu)';
+$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Zadaná hesla se neshodují!</span>';
+$PALANG['pEdit_mailbox_name'] = 'Jméno';
+$PALANG['pEdit_mailbox_quota'] = 'Místo';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Zadané místo je pøíli¹ velké!</span>';
+$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Tato doména není va¹e: ';
+$PALANG['pEdit_mailbox_button'] = 'Upravit schránku';
+$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Nepodaøilo se upravit schránku!</span>';
+
+$PALANG['pPassword_welcome'] = 'Zmìnit heslo.';
+$PALANG['pPassword_admin'] = 'U¾ivatelské jméno';
+$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">U¾ivatelské jméno se neshoduje s ¾ádnou schránkou!</span>';
+$PALANG['pPassword_password_current'] = 'Souèasné heslo';
+$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">Nezadal(a) jste souèasné heslo!</span>';
+$PALANG['pPassword_password'] = 'Nové heslo';
+$PALANG['pPassword_password2'] = 'Nové heslo (znovu)';
+$PALANG['pPassword_password_text_error'] = '<span class="error_msg">Zadaná hesla jsou rozdílná nebo prázdná!</span>';
+$PALANG['pPassword_button'] = 'Zmìnit heslo';
+$PALANG['pPassword_result_error'] = '<span class="error_msg">Nepodaøilo se zmìnit heslo!</span>';
+$PALANG['pPassword_result_succes'] = 'Heslo bylo zm&#283òno!';
+
+$PALANG['pViewlog_welcome'] = 'Prohlí¾et 10 posledních akcí pro ';
+$PALANG['pViewlog_timestamp'] = '&#268;asová znaèka';
+$PALANG['pViewlog_username'] = 'U¾ivatel';
+$PALANG['pViewlog_domain'] = 'Doména';
+$PALANG['pViewlog_action'] = 'Akce';
+$PALANG['pViewlog_data'] = 'Poznámka';
+
+$PALANG['pViewlog_button'] = 'Jít';
+$PALANG['pViewlog_result_error'] = '<span class="error_msg">Nepodaøilo se najít záznamy!</span>';
+
+$PALANG['pSendmail_welcome'] = 'Poslat email.';
+$PALANG['pSendmail_admin'] = 'Od';
+$PALANG['pSendmail_to'] = 'Cíl';
+$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">Cíl není platná emailová adresa!</span>';
+$PALANG['pSendmail_subject'] = 'Pøedmìt';
+$PALANG['pSendmail_subject_text'] = 'Vítejte';
+$PALANG['pSendmail_body'] = 'Obsah';
+$PALANG['pSendmail_button'] = 'Poslat email';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Nepodaøilo se vytvoøit schránku!</span>';
+$PALANG['pSendmail_result_succes'] = 'Schránka byla vytvoøena!';
+
+$PALANG['pAdminMenu_list_admin'] = 'Seznam administrátorù';
+$PALANG['pAdminMenu_list_domain'] = 'Seznam domén';
+$PALANG['pAdminMenu_list_virtual'] = 'Seznam pøesmìrování';
+$PALANG['pAdminMenu_viewlog'] = 'Prohlí¾et záznamy';
+$PALANG['pAdminMenu_backup'] = 'Zálohovat';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Doménoví administrátoøi';
+$PALANG['pAdminMenu_create_admin'] = 'Nový administrátor';
+$PALANG['pAdminMenu_create_domain'] = 'Nová doména';
+$PALANG['pAdminMenu_create_alias'] = 'Pøidat pøesmìrování';
+$PALANG['pAdminMenu_create_mailbox'] = 'Pøidat schránku';
+
+$PALANG['pAdminList_admin_domain'] = 'Doména';
+$PALANG['pAdminList_admin_username'] = 'Administrátor';
+$PALANG['pAdminList_admin_count'] = 'Domény';
+$PALANG['pAdminList_admin_modified'] = 'Naposledy zmìnìno';
+$PALANG['pAdminList_admin_active'] = 'Aktivní';
+
+$PALANG['pAdminList_domain_domain'] = 'Doména';
+$PALANG['pAdminList_domain_description'] = 'Popis';
+$PALANG['pAdminList_domain_aliases'] = 'Pøesmìrování';
+$PALANG['pAdminList_domain_mailboxes'] = 'Schránek';
+$PALANG['pAdminList_domain_maxquota'] = 'Maximální místo (MB)';
+$PALANG['pAdminList_domain_transport'] = 'Transport';
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_modified'] = 'Naposledy zmìnìno';
+$PALANG['pAdminList_domain_active'] = 'Aktivní';
+
+$PALANG['pAdminList_virtual_button'] = 'Jít';
+$PALANG['pAdminList_virtual_welcome'] = 'Pøehled pro ';
+$PALANG['pAdminList_virtual_alias_alias_count'] = 'Pøesmìrování';
+$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Schránek';
+$PALANG['pAdminList_virtual_alias_address'] = 'Od';
+$PALANG['pAdminList_virtual_alias_goto'] = 'Cíl';
+$PALANG['pAdminList_virtual_alias_modified'] = 'Naposledy zmìnìno';
+$PALANG['pAdminList_virtual_mailbox_username'] = 'Emailová adresa';
+$PALANG['pAdminList_virtual_mailbox_name'] = 'Jméno';
+$PALANG['pAdminList_virtual_mailbox_quota'] = 'Místo (MB)';
+$PALANG['pAdminList_virtual_mailbox_modified'] = 'Naposledy zmìnìno';
+$PALANG['pAdminList_virtual_mailbox_active'] = 'Aktivní';
+
+$PALANG['pAdminCreate_domain_welcome'] = 'Pøidat novou doménu';
+$PALANG['pAdminCreate_domain_domain'] = 'Doména';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Taková doména u¾ existuje!</span>';
+$PALANG['pAdminCreate_domain_description'] = 'Popis';
+$PALANG['pAdminCreate_domain_aliases'] = 'Pøesmìrování';
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = znepøístupnit | 0 = neomezenì';
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Schránek';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = znepøístupnit | 0 = neomezenì';
+$PALANG['pAdminCreate_domain_maxquota'] = 'Maximální místo';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = znepøístupnit | 0 = neomezenì';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport';
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Pridat implicitní pøesmìrování';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server je zálo¾ní MX';
+$PALANG['pAdminCreate_domain_button'] = 'Pøidat doménu';
+$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Nepodaøilo se pøidat doménu!</span>';
+$PALANG['pAdminCreate_domain_result_succes'] = 'Doména byla pøidána!';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'Upravit doménu';
+$PALANG['pAdminEdit_domain_domain'] = 'Doména';
+$PALANG['pAdminEdit_domain_description'] = 'Popis';
+$PALANG['pAdminEdit_domain_aliases'] = 'Pøesmìrování';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = znepøístupnit | 0 = neomezenì';
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Schránek';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = znepøístupnit | 0 = neomezenì';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Maximální místo';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = znepøístupnit | 0 = neomezenì';
+$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server je zálo¾ní MX';
+$PALANG['pAdminEdit_domain_active'] = 'Aktivní';
+$PALANG['pAdminEdit_domain_button'] = 'Upravit doménu';
+$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Nepodaøilo se upravit doménu!</span>';
+
+$PALANG['pAdminCreate_admin_welcome'] = 'Pøidat nového administrátora';
+$PALANG['pAdminCreate_admin_username'] = 'U¾ivatelské jméno';
+$PALANG['pAdminCreate_admin_username_text'] = 'Emailová adresa';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'Emailová adresa<br /><span class="error_msg">Tato adresa není platná!</span>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'Email address<br /><span class="error_msg">Taková adresa u¾ existuje!</span>';
+$PALANG['pAdminCreate_admin_password'] = 'Heslo';
+$PALANG['pAdminCreate_admin_password2'] = 'Heslo (znovu)';
+$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Zadaná hesla jsou rozdílná nebo prázdná!</span>';
+$PALANG['pAdminCreate_admin_button'] = 'Pøidat administrátora';
+$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Nepodaøilo se pøidat administrátora!</span>';
+$PALANG['pAdminCreate_admin_result_succes'] = 'Administrátor byl pøidán!';
+$PALANG['pAdminCreate_admin_address'] = 'Doména';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'Upravit doménového administrátora';
+$PALANG['pAdminEdit_admin_username'] = 'U¾ivatelské jméno';
+$PALANG['pAdminEdit_admin_password'] = 'Heslo';
+$PALANG['pAdminEdit_admin_password2'] = 'Heslo (znovu)';
+$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Zadaná hesla jsou rozdílná nebo prázdná!</span>';
+$PALANG['pAdminEdit_admin_active'] = 'Aktivní';
+$PALANG['pAdminEdit_admin_button'] = 'Upravit administrátora';
+$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Nepodaøilo se upravit administrátora!</span>';
+$PALANG['pAdminEdit_admin_result_succes'] = 'Administrátor byl upraven!';
+
+$PALANG['pUsersLogin_welcome'] = 'Zde se pøihla¹ují u¾ivatelé pro zmìnu hesla nebo pøesmìrování.';
+$PALANG['pUsersLogin_username'] = 'U¾ivatelské jméno (email)';
+$PALANG['pUsersLogin_password'] = 'Heslo';
+$PALANG['pUsersLogin_button'] = 'Pøihlásit';
+$PALANG['pUsersLogin_username_incorrect'] = 'Nesprávné u¾ivatelské jmeno. Pøihla¹ujte se svojí emailovou adresou!';
+$PALANG['pUsersLogin_password_incorrect'] = 'Nesprávné heslo!';
+
+$PALANG['pUsersMenu_vacation'] = 'Automatická odpovìï';
+$PALANG['pUsersMenu_edit_alias'] = 'Pøesmìrování';
+$PALANG['pUsersMenu_password'] = 'Zmìna hesla';
+
+$PALANG['pUsersMain_vacation'] = 'Nastavit ,,jsem pryè`` nebo podobnou automatickou odpovìï.';
+$PALANG['pUsersMain_edit_alias'] = 'Nastavit / zmìnít pøesmìrování';
+$PALANG['pUsersMain_password'] = 'Zmìnit heslo';
+
+$PALANG['pUsersVacation_welcome'] = 'Automatická podpovìï';
+$PALANG['pUsersVacation_welcome_text'] = 'Ji¾ míate nastavenou automatickou odpovìï!';
+$PALANG['pUsersVacation_subject'] = 'Pøedmìt';
+$PALANG['pUsersVacation_subject_text'] = 'Dovolená';
+$PALANG['pUsersVacation_body'] = 'Obsah';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+Jsem na dovolené od <date> od <date>.
+S neodkladnými zprávami kontaktujte <contact person>.
+EOM;
+$PALANG['pUsersVacation_button_away'] = 'Odjet';
+$PALANG['pUsersVacation_button_back'] = 'Vrátit se';
+$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nepodaøilo se upravit nastavení!</span>';
+$PALANG['pUsersVacation_result_succes'] = 'Nastavení bylo upraveno!';
+
+$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
+$PALANG['pCreate_dbLog_createalias'] = 'create alias';
+$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+
+$PALANG['pEdit_dbLog_editactive'] = 'change active state';
+$PALANG['pEdit_dbLog_editalias'] = 'edit alias';
+$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
+
+$PALANG['pSearch_welcome'] = 'Searching for: ';
+?>

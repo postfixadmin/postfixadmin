@@ -1,0 +1,104 @@
+#
+# Postfix Admin
+# by Mischa Peters <mischa at high5 dot net>
+# Copyright (c) 2002 - 2005 High5!
+# Licensed under GPL for more info check GPL-LICENSE.TXT
+#
+
+# mysql -u root [-p] < TABLE_CHANGES.TXT
+
+#
+# Table structure for table domain_admins
+#
+USE postfix;
+CREATE TABLE IF NOT EXISTS domain_admins (
+  username varchar(255) NOT NULL default '',
+  domain varchar(255) NOT NULL default '',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(1) NOT NULL default '1',
+  KEY username (username)
+) TYPE=MyISAM COMMENT='Postfix Admin - Domain Admins';
+
+#
+# Table structure for table log
+#
+CREATE TABLE IF NOT EXISTS log (
+  timestamp datetime NOT NULL default '0000-00-00 00:00:00',
+  username varchar(255) NOT NULL default '',
+  domain varchar(255) NOT NULL default '',
+  action varchar(255) NOT NULL default '',
+  data varchar(255) NOT NULL default '',
+  KEY timestamp (timestamp)
+) TYPE=MyISAM COMMENT='Postfix Admin - Log';
+
+#
+# Table structure for table vacation
+#
+CREATE TABLE IF NOT EXISTS vacation (
+  email varchar(255) NOT NULL default '',
+  subject varchar(255) NOT NULL default '',
+  body text NOT NULL,
+  cache text NOT NULL,
+  domain varchar(255) NOT NULL default '',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (email),
+  KEY email (email)
+) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Vacation';
+
+#
+# Modify table structure for table admin
+#
+ALTER TABLE admin CHANGE create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+ALTER TABLE admin CHANGE change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+ALTER TABLE admin ADD INDEX (username);
+
+#
+# Modify table structure for table alias
+#
+ALTER TABLE alias CHANGE create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+ALTER TABLE alias CHANGE change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+ALTER TABLE alias ADD INDEX (address);
+
+#
+# Modify table structure for table domain
+#
+ALTER TABLE domain CHANGE create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+ALTER TABLE domain CHANGE change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+ALTER TABLE domain ADD aliases INT(10) DEFAULT '-1' NOT NULL AFTER description;
+ALTER TABLE domain ADD mailboxes INT(10) DEFAULT '-1' NOT NULL AFTER aliases;
+ALTER TABLE domain ADD maxquota INT(10) DEFAULT '-1' NOT NULL AFTER mailboxes;
+ALTER TABLE domain ADD transport VARCHAR(255) AFTER maxquota;
+ALTER TABLE domain ADD backupmx TINYINT(1) DEFAULT '0' NOT NULL AFTER transport;
+ALTER TABLE domain ADD INDEX (domain);
+
+#
+# Modify table structure for table mailbox
+#
+ALTER TABLE mailbox CHANGE create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+ALTER TABLE mailbox CHANGE change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+ALTER TABLE mailbox ADD quota INT(10) DEFAULT '-1' NOT NULL AFTER maildir;
+ALTER TABLE mailbox ADD INDEX (username);
+
+#
+# Modify table structure for table vacation
+#
+ALTER TABLE vacation ADD domain VARCHAR(255) DEFAULT '' NOT NULL AFTER cache;
+ALTER TABLE vacation ADD created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL AFTER domain;
+ALTER TABLE vacation ADD active TINYINT(1) DEFAULT '1' NOT NULL AFTER created;
+ALTER TABLE vacation DROP PRIMARY KEY, ADD PRIMARY KEY(email);
+
+#
+# Dumping data for table domain_admins
+#
+INSERT INTO domain_admins (username,domain,created) SELECT admin.username,admin.domain,domain.created FROM admin LEFT JOIN domain ON domain.domain=admin.domain;
+
+#
+# Modify data for table vacation
+#
+UPDATE vacation SET domain=SUBSTRING_INDEX(email, '@', -1) WHERE email=email;
+
+#
+# Modify table structure for table domain
+#
+ALTER TABLE admin DROP domain;

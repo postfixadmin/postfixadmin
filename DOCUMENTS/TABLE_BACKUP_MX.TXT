@@ -1,0 +1,19 @@
+#
+# Postfix Admin
+# by Mischa Peters <mischa at high5 dot net>
+# Copyright (c) 2002 - 2005 High5!
+# Licensed under GPL for more info check GPL-LICENSE.TXT
+#
+
+# mysql -u root [-p] < DOCUMENTS/TABLE_BACKUP_MX.TXT
+
+#
+# Table structure for table domain_admins
+#
+USE postfix;
+
+#
+# Modify table structure for table domain
+#
+ALTER TABLE domain ADD transport VARCHAR(255) AFTER maxquota;
+ALTER TABLE domain ADD backupmx TINYINT(1) DEFAULT '0' NOT NULL AFTER transport;

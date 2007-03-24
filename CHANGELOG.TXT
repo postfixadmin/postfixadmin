@@ -1,0 +1,264 @@
+#
+# Postfix Admin
+# by Mischa Peters <mischa at high5 dot net>
+# Copyright (c) 2002 - 2005 High5!
+# Licensed under GPL for more info check GPL-LICENSE.TXT
+#
+Version 2.1.1 -- TBD
+--------------------
+  - Added: Do not store local copy when forward mail. (Mihau) [24] 
+  - Added: Virtual Vacation for PostgreSQL. (Tarvin)
+  - Added: Virtual Vacation 3.2 (Thanx David)
+  - Added: SUBJECT tag for Virtual Vacation.         
+  - Added: Dovecot setup document for Postfix Admin. (Thanx Massimo)
+  - Added: SquirrelMail plugin to change_password.
+  - Changed: Starting to merge /admin in root. (Mihau)
+  - Changed: Moved some TXT files to DOCUMENTS.   
+  - Changed: Updated tw.lang. (Thanx Bruce)
+  - Fixed: Usage of mysql_real_escape_string(). (Mihau)
+  - Fixed: Calculating of quotas. (Mihau)
+  - Fixed: Password generation when creating a new account. (Mihau)
+  - Fixed: PostgreSQL patches. (Tarvin)
+  - Fixed: Adding of multiple aliases. (Mihau)
+  - Fixed: CSS Menu width. (Mihau)
+  - Fixed: Overview when upgrading from 2.0.4. (Mihau)
+  - Fixed: smtp_mail() to wait for response from server.
+  - Fixed: pacrypt() so system works properly. (Thanx Npaufler)
+  - Fixed: quoting an email address when sending mail in vacation.pl. (Thanx Marc)
+  - Fixed: vacation.pl has a clean exit when it encounters an error. (Thanx Brian)
+  - Fixed: descriptions for quota={-1|0} in admin section (Mihau)
+
+
+Version 2.1.0 -- 2005/01/07
+---------------------------
+  - Added: Traditional Chinese language. (Thanx Bruce)
+  - Added: Traditional Bulgarian language. (Thanx Plamen)
+  - Added: Macedonian language. (Thanx Damjan)
+  - Added: Estonian language. (Thanx Peeter)
+  - Added: Slovenian language. (Thanx Nejc)
+  - Added: Check for update link in footer.
+  - Added: Additional language strings. Check LANGUAGE.TXT
+  - Added: Transport support. (read postfix transport for more information)
+  - Added: Additional language string for transport support.
+  - Added: MySQL 4.1 support.
+  - Added: PostgreSQL support. (Big Thanx WhiteFox!)
+  - Added: Setup Checker script. (Thanx Fenrir)
+  - Added: Database prefix. (Thanx Decramy)
+  - Added: Template tags. (Thanx Nelson)
+  - Added: admin/domain/alias/mailbox in delete dialog box.
+  - Added: $CONF['postfix_admin_url'] variable.
+  - Added: $CONF['postfix_admin_path'] variable.
+  - Added: $CONF['vacation_domain'] variable.
+  - Added: $CONF['welcome_text'] variable.
+  - Added: $CONF['special_alias_control'] variable. (Thanx Mihau)
+  - Added: Virtual Vacation 3.1 (Thanx David)
+  - Added: ADDITIONS directory with third party scripts and plugins.
+  - Added: Search function for aliases and mailboxes.
+  - Changed: Postfix Admin has now it's own license.
+  - Changed: New menu and color scheme. (Thanx Nelson)
+  - Changed: Disable number and unlimited number for aliases/mailboxes/quota.
+  - Changed: Virtual Vacation to have it's own transport. (Big Thanx Npaufler!)
+  - Changed: Removed the welcome text for a new mailbox from the language files.
+  - Changed: backup.php to be a more secure. (Thanx John)
+  - Fixed: Cleaned up stylesheet.
+  - Fixed: Default quota multiplier.
+  - Fixed: All POST/GET strings are escaped.
+  - Fixed: Corrected smtp_mail() to wait for result. (Thanx Patrice)
+  - Fixed: Pagination with alias_control switched on.
+  - Fixed: Swedish language. (Thanx Bjorne)
+  - Fixed: Polish language. (Thanx Piotr)
+  - Fixed: Minor Virtual Vacation bugs. (Thanx David)
+  - Fixed: check_quota().
+  - Fixed: Minor encode_header() issue. (Thanx Matthew)
+  - Fixed: edit-alias.php when running with magic_quotes_gpc = off
+
+
+Version 2.0.5 -- 2004/08/21
+---------------------------
+  - Added: Chinese language. (Thanx Matthew)
+  - Added: Catalan language. (Thanx Jaume)
+  - Added: Czech language. (Thanx Jakub)
+  - Added: Dynamic language detection.
+  - Added: Header in header.tpl to set charset header from language file.
+  - Added: More subroutines and alias checking for Vacation. (Thanx David)
+  - Added: Domain pass-through with certain pages.
+  - Added: Backup MX option for domain.
+  - Added: Log contains IP address of admin.
+  - Added: Pagination for alias/mailbox listing.
+  - Added: 2 additional language strings to support Backup MX.
+  - Added: Support for motd.txt (Domain Admins only).
+  - Added: Support for motd-admin.txt (Site Admins only).
+  - Added: Support for motd-users.txt (Users only).
+  - Added: Optional hostname for vacation.
+  - Added: generate_password() to generating random passwords for mailboxes.
+  - Changed: dk -> da, se -> sv, no-nn -> nn
+  - Changed: All email addresses are now converted to lowercase, strtolower().
+  - Changed: Moved onMouseOver to the CSS stylesheet.
+  - Changed: Moved font color to the CSS styleheet.
+  - Changed: PHP mail() is replaced by an internal function, smtp_mail().
+  - Changed: mysql_fetch_array() replaced with internal function db_array().
+  - Changed: mysql_fetch_assoc() replaced with internal function db_assoc().
+  - Changed: mysql_fetch_row() replaced with internal function db_row().
+  - Changed: Quota multiplier is now a configuration option.
+  - Fixed: Login didn't check for active flag.
+  - Fixed: Minor html table errors.
+  - Fixed: Row count by using COUNT(*).
+  - Fixed: Locked down subdirectories.
+  - Fixed: Create admin properly populates the domain_admins table.
+  - Fixed: Cleaned up stylesheet.css.
+  - Fixed: Delete mailbox properly removes vacation entries.
+
+
+Version 2.0.4  -- 2004/02/26
+----------------------------
+  - Added: Euskara language. (Thanx Julen)
+  - Added: Hungarian language. (Thanx Christian)
+  - Added: Icelandic language. (Thanx Gestur)
+  - Added: Italian language. (Thanx Stucchi)
+  - Added: Norwegian - Nynorsk language. (Thanx Paul)
+  - Added: Polish language. (Thanx Jarek)
+  - Added: Portuguese - Brazil language. (Thanx Roberto)
+  - Added: Rusian language. (Thanx Paul)
+  - Added: Turkish language (Thanx Onuryalazi)
+  - Added: Encode a string according to RFC 1522 for use in headers if it
+    contains 8-bit characters. (Thanx Evgeniy)
+  - Added: One click active change of mailbox/domain/admin. (Thanx Marcin)
+  - Changed: Header in header.tpl to read charset header from language file.
+  - Fixed: Some form values are now parsed through htmlspecialchars().
+    (Thanx Marcin)
+  - Fixed: admin/delete.php ignored $CONF['vacation'].
+  - Fixed: More minor fixes to Virtual Vacation.
+
+
+Version 2.0.3  -- 2004/01/14
+----------------------------
+  - Added: Site Admin email address.
+  - Added: Danish language. (Thanx Lars)
+  - Added: Dutch language. (Thanx Mourik)
+  - Added: Faroese language. (Thanx Danial)
+  - Added: Finnish language. (Thanx Palo)
+  - Added: French language. (Thanx Kuthz)
+  - Added: Swedish language. (Thanx Slite)
+  - Added: Ignoring of MAILER-DAEMON type emails for Vacation.
+  - Fixed: Minor issues regarding mail().
+  - Fixed: Minor issues regarding crypt().
+  - Fixed: Strip issue of email address for Vacation.
+
+
+Version 2.0.2  -- 2004/01/06
+----------------------------
+  - Added: German language. (Thanx Tobias)
+  - Added: Spanish language. (Thanx Alvaro)
+  - Fixed: The body was not included using sendmail.php.
+  - Fixed: Undefined variables.
+  - Fixed: Minor HTML cleanup.
+
+
+Version 2.0.1  -- 2004/01/04
+----------------------------
+  - Fixed: The language variable caused a problem on some systems.
+
+
+Version 2.0.0  -- 2004/01/03
+----------------------------
+  - Added: The ability for one domain admin to maintain multiple domains.
+  - Added: Domain to domain forwarding.
+  - Added: Mailboxes can now be activated or deactivated.
+  - Added: Configurable welcome message for new mailboxes.
+  - Added: Optional sending of welcome message.
+  - Added: Create alias "To" defaults to current domain.
+  - Added: Logging of admin / user actions.
+  - Added: Limit for aliases and/or mailboxes per domain.
+  - Added: Disable aliases and/or mailboxes per domain.
+  - Added: Max quota per mailbox per domain.
+  - Added: Multi-Language support.
+  - Added: Statistics overview for all domains.
+  - Added: User .forwarding for mailbox users.
+  - Added: Logo for Postfix Admin (Thanx Andrew).
+  - Added: Extra MySQL debugging capabilities.
+  - Added: Clear text password support.
+  - Added: PHP crypt() support.
+  - Changed: Separated logic and SQL from content.
+  - Changed: config.inc.php doesn't point to example.com anymore.
+  - Changed: Virtual Vacation no longer requires procmail.
+  - Changed: Complete re-write.
+
+
+Version 1.5.4  -- 2003/06/16
+----------------------------
+  - Added: Option for "Back to".
+  - Added: Option for Vacation module.
+  - Added: Table declaration for the use of Quota in the INSTALL.TXT.
+    This requires an additional local delivery agent.
+    Quotas are not supported by Postfix!
+  - Changed: The word "View" to "List".
+
+
+Version 1.5.3  -- 2003/06/06
+----------------------------
+  - Fixed: Even more minor bugs in regards to declaration of variables.
+    (Thanx Aquilante and Kyle_m)
+
+
+Version 1.5.2  -- 2003/06/05
+----------------------------
+  - Fixed: Minor bugs in regards to declaration of variables.
+
+
+Version 1.5.1  -- 2003/06/04
+----------------------------
+  - Added: Optional mailbox per domain directory structure. (Thanx Jim)
+  - Added: Option to completely control the stored aliases. (Thanx Alex)
+  - Changed: config.inc.php is renamed to config.inc.php.sample. (Thanx Alex)
+  - Fixed: $PHP_SELF in config.inc.php and my_lib.php. (Thanx Jim)
+  
+
+Version 1.5.0  -- 2003/05/28
+----------------------------
+  - Added: Support for "Back to Main Site"
+  - Added: config.inc.php as the main configuration file.
+  - Added: Drop down box for domain selection when adding a new admin.
+  - Added: Resend of test email to newly created mailbox.
+  - Added: Mailbox and Aliases count for domainview.
+  - Added: Change description of domain without deleting the complete
+    domain.
+  - Added: Change name of mailbox user without deleting the mailbox.
+  - Added: Expire headers for unnecessary reloads. (Thanx Alex)
+  - Fixed: Code clean up.
+  - Fixed: Minor bugs and cosmetic fixes.
+  - Fixed: Modified check_string() to check numbers and returns false if not
+    matched. (Thanx btaber)
+  - Fixed: Correct session handling in login.php (Thanx Yen-Wei Liu)
+  - Fixed: Correct deletion of RFC822 email addresses. (Thanx Yen-Wei Liu)
+  - Removed: Completely removed the site_lib.php.
+  - Removed: my_lib.php from the admin directory.
+  - Removed: Symlink to index.php.
+
+
+Version 1.4.0  -- 2003/04/07
+----------------------------
+  - Added: When deleting a domain, all aliases and mailboxes for that domain
+    are also deleted from the database.
+  - Added: Add standard aliases for every domain that is created.
+    These aliases can point to the main "local" administrator.
+    The aliases are configured in the config.php in the admin directory.
+  - Changed: The layout of my_lib.php and site_lib.php have been changed.
+  - Changed: Modifying an alias is now done with TEXTAREA for more
+    flexibility.
+  - Fixed: Minor bugs and cosmetic fixes.
+
+
+Version 1.3.8a -- 2003/03/31
+----------------------------
+  - Fixed: After deletion of a domain it would not return to the correct page.
+
+
+Version 1.3.8  -- 2003/03/25
+----------------------------
+  - Added: Admin password change. No longer needed to delete and re-enter
+    the admin user for a specific domain.
+
+
+Version 1.3.7  -- 2002/12/24
+----------------------------
+  - Initial public release of Postfix Admin.

@@ -1,0 +1,296 @@
+<?php
+//
+// Language file Lithuanian 
+// by Giedrius <giedrius_balbieris at metalot dot com>
+//
+$PALANG['charset'] = 'iso-8859-13';
+$PALANG['YES'] = 'TAIP';
+$PALANG['NO'] = 'NE';
+$PALANG['edit'] = 'keisti';
+$PALANG['del'] = 'ðalinti';
+$PALANG['confirm'] = 'Tikrai norite ðalinti?\n';
+$PALANG['confirm_domain'] = 'Tikrai norite ðalinti visus ðios srities áraðus? Operacija negráþtama!\n';
+$PALANG['check_update'] = 'Patikrinti versijà';
+
+$PALANG['pLogin_welcome'] = 'Paðto srities administratorius.';
+$PALANG['pLogin_username'] = 'Vartotojas (el.paðtas)';
+$PALANG['pLogin_password'] = 'Slaptaþodis';
+$PALANG['pLogin_button'] = 'Prisijungti';
+$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Prisijungti nepavyko. Vartotojo lauke áveskite srities paðto administratoriaus el.paðto adresà!</span>';
+$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Slaptaþodis neteisingas!</span>';
+$PALANG['pLogin_login_users'] = 'Paðto vartotojo nustatymai.';
+
+$PALANG['pMenu_overview'] = 'Perþiûra';
+$PALANG['pMenu_create_alias'] = 'Naujas sinonimas';
+$PALANG['pMenu_create_mailbox'] = 'Nauja paðto dëþutë';
+$PALANG['pMenu_sendmail'] = 'Siøsti laiðkà';
+$PALANG['pMenu_password'] = 'Slaptaþodis';
+$PALANG['pMenu_viewlog'] = 'Þurnalas';
+$PALANG['pMenu_logout'] = 'Atsijungti';
+
+$PALANG['pMain_welcome'] = 'Sveiki prisijungæ prie paðto administratoriaus!';
+$PALANG['pMain_overview'] = 'Peþiûrëti visas paðto dëþutes ir sinonimus. Èionai atliekami pakeitimai, ðalinimas.';
+$PALANG['pMain_create_alias'] = 'Naujas paðto sinonimas.';
+$PALANG['pMain_create_mailbox'] = 'Nauja paðto dëþutë.';
+$PALANG['pMain_sendmail'] = 'Siøsti laiðkà á vienà naujai sukurtà paðto dëþutæ.';
+$PALANG['pMain_password'] = 'Keisti administratoriaus slaptaþodá.';
+$PALANG['pMain_viewlog'] = 'Perþiûrëti ávykiø þurnalus.';
+$PALANG['pMain_logout'] = 'Atsijungti nuo sistemos';
+
+$PALANG['pOverview_disabled'] = 'Iðjungta(s)';
+$PALANG['pOverview_unlimited'] = 'Neribota(s)';
+$PALANG['pOverview_title'] = ':: Nustatytos sritys';
+$PALANG['pOverview_up_arrow'] = 'Eiti á virðø';
+$PALANG['pOverview_right_arrow'] = 'Sekantis puslapis';
+$PALANG['pOverview_left_arrow'] = 'Ankstesnis puslapis';
+$PALANG['pOverview_alias_title'] = ':: Sinonimas';
+$PALANG['pOverview_mailbox_title'] = ':: Paðto dëþutës';
+$PALANG['pOverview_button'] = 'Eiti';
+$PALANG['pOverview_welcome'] = 'Perþiûra ';
+$PALANG['pOverview_alias_alias_count'] = 'sinonimø';
+$PALANG['pOverview_alias_mailbox_count'] = 'paðto dëþuèiø';
+$PALANG['pOverview_alias_address'] = 'Nuo';
+$PALANG['pOverview_alias_goto'] = 'iki';
+$PALANG['pOverview_alias_modified'] = 'Paskutinis keitimas';
+$PALANG['pOverview_mailbox_username'] = 'El.paðtas';
+$PALANG['pOverview_mailbox_name'] = 'Vardas';
+$PALANG['pOverview_mailbox_quota'] = 'Kvota (MB)';
+$PALANG['pOverview_mailbox_modified'] = 'Paskutinis keitimas';
+$PALANG['pOverview_mailbox_active'] = 'Ájungta(s)';
+
+$PALANG['pOverview_get_domain'] = 'Sritis';
+$PALANG['pOverview_get_aliases'] = 'Sinonimai';
+$PALANG['pOverview_get_mailboxes'] = 'Paðto dëþutës';
+$PALANG['pOverview_get_quota'] = 'Paðto dëþutës kvota (MB)';
+$PALANG['pOverview_get_modified'] = 'Paskutinis keitimas';
+
+$PALANG['pDelete_delete_error'] = '<span class="error_msg">Áraðo paðalinti nepavyko ';
+$PALANG['pDelete_domain_error'] = '<span class="error_msg">Ne jûsø sritis ';
+
+$PALANG['pCreate_alias_welcome'] = 'Naujas sinonimas.';
+$PALANG['pCreate_alias_address'] = 'Sinonimas';
+$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">Netinkamas sinonimas!</span>';
+$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Tokia paðto dëþutë jau yra. Pasirinkite kità vardà!</span>';
+$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Iðnaudota visa paðto sinonimø kvota!</span>';
+$PALANG['pCreate_alias_goto'] = 'Persiøsti';
+$PALANG['pCreate_alias_button'] = 'Naujas sinonimas';
+$PALANG['pCreate_alias_goto_text'] = 'Adresas kuriuo persiøsti paðtà.';
+$PALANG['pCreate_alias_goto_text_error'] = 'Adresas kuriuo persiøsti paðtà.<br /><span class="error_msg">Ávestas neteisingai!</span>';
+$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Sinonimo registruoti nepavyko!</span>';
+$PALANG['pCreate_alias_result_succes'] = 'Sinonimas uþregistruotas!';
+$PALANG['pCreate_alias_catchall_text'] = 'Jei norite sukurti sinonimà kuris gautø visas þinutes neegzistuojantiems adresatams, naudokite "*".<br />Jei norite persiøsti á kità paðto dëþutæ kitame serveryje áveskite "*@domain.tld".';
+
+$PALANG['pEdit_alias_welcome'] = 'Keisti srities sinonimà.<br />Eilutëje leidþiamas tik vienas áraðas.';
+$PALANG['pEdit_alias_address'] = 'Sinonimas';
+$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Sinonimas nerastas!</span>';
+$PALANG['pEdit_alias_goto'] = 'Kam';
+$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Neuþpildëte lauko "Kam"</span>';
+$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Ávestas neteisingas paðto adresas: ';
+$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Ði sritis ne jûsø: ';
+$PALANG['pEdit_alias_button'] = 'Keisti sinonimà';
+$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Sinonimo pakeisti nepavyko!</span>';
+
+$PALANG['pCreate_mailbox_welcome'] = 'Nauja paðto dëþutë.';
+$PALANG['pCreate_mailbox_username'] = 'Vartotojas';
+$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">Ðis el.paðto adresas neteisingas!</span>';
+$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">Ðis el.paðto adresas jau yra, pasirinkite kità pavadinimà!</span>';
+$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">Iðnaudota srities paðto dëþuèiø kvota!</span>';
+$PALANG['pCreate_mailbox_password'] = 'Slaptaþodis';
+$PALANG['pCreate_mailbox_password2'] = 'Slaptaþodis (dar kartà)';
+$PALANG['pCreate_mailbox_password_text'] = 'Slaptaþodis jungtis POP3/IMAP';
+$PALANG['pCreate_mailbox_password_text_error'] = 'Slaptaþodis jungtis POP3/IMAP<br /><span class="error_msg">Ávesti slaptaþodþiai nesutampa<br />Arba neávesti!</span>';
+$PALANG['pCreate_mailbox_name'] = 'Vardas';
+$PALANG['pCreate_mailbox_name_text'] = 'Vardas Pavardë';
+$PALANG['pCreate_mailbox_quota'] = 'Kvota';
+$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Ávesta per didelë kvota!</span>';
+$PALANG['pCreate_mailbox_active'] = 'Ájungta(s)';
+$PALANG['pCreate_mailbox_mail'] = 'Nauja paðto dëþutë';
+$PALANG['pCreate_mailbox_button'] = 'Nauja paðto dëþutë';
+$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Paðto dëþutës uþregistruoti nepavyko!</span>';
+$PALANG['pCreate_mailbox_result_succes'] = 'Paðto dëþutë uþregistruota!';
+
+$PALANG['pEdit_mailbox_welcome'] = 'Keisti paðto dëþutæ.';
+$PALANG['pEdit_mailbox_username'] = 'Vartotojas';
+$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">Paðto dëþutë nerasta!</span>';
+$PALANG['pEdit_mailbox_password'] = 'Naujas slaptaþodis';
+$PALANG['pEdit_mailbox_password2'] = 'Naujas slaptaþodis (dar kartà)';
+$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Ávesti slaptaþodþiai nesutampa!</span>';
+$PALANG['pEdit_mailbox_name'] = 'Vardas';
+$PALANG['pEdit_mailbox_quota'] = 'Kvota';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Ávesta per didelë kvota!</span>';
+$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Ne jûsø sritis: ';
+$PALANG['pEdit_mailbox_button'] = 'Keisti paðto dëþutæ';
+$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Paðto dëþutës pakeisti nepavyko!</span>';
+
+$PALANG['pPassword_welcome'] = 'Pakeiskite prisijungimo slaptaþodá.';
+$PALANG['pPassword_admin'] = 'Prisijungti';
+$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">Tokio vartotojo nëra!</span>';
+$PALANG['pPassword_password_current'] = 'Dabartinis slaptaþodis';
+$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">Neávedëte dabartinio slaptaþodþio!</span>';
+$PALANG['pPassword_password'] = 'Naujas slaptaþodis';
+$PALANG['pPassword_password2'] = 'Naujas slaptaþodis (dar kartà)';
+$PALANG['pPassword_password_text_error'] = '<span class="error_msg">Ávesti slaptaþodþiai nesutampa!<br />Arba neávesti!</span>';
+$PALANG['pPassword_button'] = 'Keisti slaptaþodá';
+$PALANG['pPassword_result_error'] = '<span class="error_msg">Slaptaþodþio pakeisti nepavyko!</span>';
+$PALANG['pPassword_result_succes'] = 'Slaptaþodis pakeistas!';
+
+$PALANG['pViewlog_welcome'] = 'Perþiûrëti paskutinius 10 vartotojo veiksmø ';
+$PALANG['pViewlog_timestamp'] = 'Laikas';
+$PALANG['pViewlog_username'] = 'Vartotojas';
+$PALANG['pViewlog_domain'] = 'Sritis';
+$PALANG['pViewlog_action'] = 'Veiksmas';
+$PALANG['pViewlog_data'] = 'Duomenys';
+
+$PALANG['pViewlog_button'] = 'Eiti';
+$PALANG['pViewlog_result_error'] = '<span class="error_msg">Ávykiø þurnalas nerastas!</span>';
+
+$PALANG['pSendmail_welcome'] = 'Siøsti laiðkà';
+$PALANG['pSendmail_admin'] = 'Nuo';
+$PALANG['pSendmail_to'] = 'Kam';
+$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">Adresatas neávestas arba neteisingas paðto adresas!</span>';
+$PALANG['pSendmail_subject'] = 'Tema';
+$PALANG['pSendmail_subject_text'] = 'Sveiki';
+$PALANG['pSendmail_body'] = 'Þinutë';
+$PALANG['pSendmail_button'] = 'Siøsti';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Paðto dëþutës sukurti nepavyko!</span>';
+$PALANG['pSendmail_result_succes'] = 'Paðto dëþutë sukurta!';
+
+$PALANG['pAdminMenu_list_admin'] = 'Administratoriai';
+$PALANG['pAdminMenu_list_domain'] = 'Sritys';
+$PALANG['pAdminMenu_list_virtual'] = 'Sinonimai';
+$PALANG['pAdminMenu_viewlog'] = 'Þurnalas';
+$PALANG['pAdminMenu_backup'] = 'Kopijos';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Srièiø administratoriai';
+$PALANG['pAdminMenu_create_admin'] = 'N.administratorius';
+$PALANG['pAdminMenu_create_domain'] = 'N.sritis';
+$PALANG['pAdminMenu_create_alias'] = 'N.sinonimas';
+$PALANG['pAdminMenu_create_mailbox'] = 'N.paðtas';
+
+$PALANG['pAdminList_admin_domain'] = 'Sritis';
+$PALANG['pAdminList_admin_username'] = 'Administratorius';
+$PALANG['pAdminList_admin_count'] = 'Sritys';
+$PALANG['pAdminList_admin_modified'] = 'Paskutiná kartà keista(s)';
+$PALANG['pAdminList_admin_active'] = 'Ájungta(s)';
+
+$PALANG['pAdminList_domain_domain'] = 'Sritis';
+$PALANG['pAdminList_domain_description'] = 'Apraðymas';
+$PALANG['pAdminList_domain_aliases'] = 'Sinonimai';
+$PALANG['pAdminList_domain_mailboxes'] = 'Paðto dëþutës';
+$PALANG['pAdminList_domain_maxquota'] = 'Kvota (MB)';
+$PALANG['pAdminList_domain_transport'] = 'Srities transportas';
+$PALANG['pAdminList_domain_backupmx'] = 'Atsarginis MX';
+$PALANG['pAdminList_domain_modified'] = 'Paskutiná kartà keista(s)';
+$PALANG['pAdminList_domain_active'] = 'Ájungta';
+
+$PALANG['pAdminList_virtual_button'] = 'Eiti';
+$PALANG['pAdminList_virtual_welcome'] = 'Perþiûrëti ';
+$PALANG['pAdminList_virtual_alias_alias_count'] = 'sinonimus';
+$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'paðto dëþutes';
+$PALANG['pAdminList_virtual_alias_address'] = 'Nuo';
+$PALANG['pAdminList_virtual_alias_goto'] = 'iki';
+$PALANG['pAdminList_virtual_alias_modified'] = 'Paskutiná kartà keista';
+$PALANG['pAdminList_virtual_mailbox_username'] = 'El.paðtas';
+$PALANG['pAdminList_virtual_mailbox_name'] = 'Vardas';
+$PALANG['pAdminList_virtual_mailbox_quota'] = 'Kvota (MB)';
+$PALANG['pAdminList_virtual_mailbox_modified'] = 'Paskutiná kartà keista';
+$PALANG['pAdminList_virtual_mailbox_active'] = 'Ájungta';
+
+$PALANG['pAdminCreate_domain_welcome'] = 'Nauja sritis';
+$PALANG['pAdminCreate_domain_domain'] = 'Sritis';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Tokia sritis jau yra!</span>';
+$PALANG['pAdminCreate_domain_description'] = 'Apraðymas';
+$PALANG['pAdminCreate_domain_aliases'] = 'Sinonimai';
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = iðjungta(s) | 0 = neribota(s)';
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Paðto dëþutës';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = iðjungta(s) | 0 = neribota(s)';
+$PALANG['pAdminCreate_domain_maxquota'] = 'Maksimali kvota';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = iðjungta(s) | 0 = neribota(s)';
+$PALANG['pAdminCreate_domain_transport'] = 'Srities transportas';
+$PALANG['pAdminCreate_domain_transport_text'] = 'Nustatyti transportà';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Registruoti tipinius paðto sinonimus';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Tai atsarginis paðto serveris (MX)';
+$PALANG['pAdminCreate_domain_button'] = 'Registruoti sritá';
+$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Srities uþregistruoti nepavyko!</span>';
+$PALANG['pAdminCreate_domain_result_succes'] = 'Sritis uþregistruota!';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'Keisti sritá';
+$PALANG['pAdminEdit_domain_domain'] = 'Sritis';
+$PALANG['pAdminEdit_domain_description'] = 'Apraðymas';
+$PALANG['pAdminEdit_domain_aliases'] = 'Sinonimai';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 iðjungta(s) | 0 = neribota(s)';
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Paðto dëþutës';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 iðjungta(s) | 0 = neribota(s)';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Maksimali kvota';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = iðjungta(s) | 0 = neribota(s)';
+$PALANG['pAdminEdit_domain_transport'] = 'Srities transportas';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Nustatyti transportà';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Tai atsarginis paðto serveris (MX)';
+$PALANG['pAdminEdit_domain_active'] = 'Ájungtas';
+$PALANG['pAdminEdit_domain_button'] = 'Keisti sritá';
+$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Srities pakeisti nepavyko!</span>';
+
+$PALANG['pAdminCreate_admin_welcome'] = 'Registruoti naujà srities administratoriø';
+$PALANG['pAdminCreate_admin_username'] = 'Administratorius';
+$PALANG['pAdminCreate_admin_username_text'] = 'El.paðto adresas';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'El.paðto adresas<br /><span class="error_msg">Administrotorius - tai ne el.paðto adresas!</span>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'El.paðto adresas<br /><span class="error_msg">Administratorius ðiai srièiai jau yra</span>';
+$PALANG['pAdminCreate_admin_password'] = 'Slaptaþodis';
+$PALANG['pAdminCreate_admin_password2'] = 'Slaptaþodis (dar kartà)';
+$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Ávesti slaptaþodþiai nesutampa!<br />Arba neávesti!</span>';
+$PALANG['pAdminCreate_admin_button'] = 'Registruoti administratoriø';
+$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Administratoriaus uþregistruoti nepavyko!</span>';
+$PALANG['pAdminCreate_admin_result_succes'] = 'Administratorius uþregistruotas!';
+$PALANG['pAdminCreate_admin_address'] = 'Sritis';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'Registruoti srities administratoriø';
+$PALANG['pAdminEdit_admin_username'] = 'Administratorius';
+$PALANG['pAdminEdit_admin_password'] = 'Slaptaþodis';
+$PALANG['pAdminEdit_admin_password2'] = 'Slaptaþodis (dar kartà)';
+$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Ávesti slaptaþodþiai nesutampa!<br />Arba neávesti!</span>';
+$PALANG['pAdminEdit_admin_active'] = 'Ájungta(s)';
+$PALANG['pAdminEdit_admin_button'] = 'Keisti administratoriø';
+$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Administratoriaus keisti nepavyko!</span>';
+$PALANG['pAdminEdit_admin_result_succes'] = 'Administratorius pakeistas!';
+
+$PALANG['pUsersLogin_welcome'] = 'Paðto vartotojai prisijungia ir keièia Mailbox users login to change your password and aliases.';
+$PALANG['pUsersLogin_username'] = 'Vartotojas (el.paðtas)';
+$PALANG['pUsersLogin_password'] = 'Slaptaþodis';
+$PALANG['pUsersLogin_button'] = 'Prisijungti';
+$PALANG['pUsersLogin_username_incorrect'] = 'Prisijungti nepavyko. Ásitikinkite, kad gerai ávedëte savo el.paðto adresà!';
+$PALANG['pUsersLogin_password_incorrect'] = 'Slaptaþodis neteisingas!';
+
+$PALANG['pUsersMenu_vacation'] = 'Automatinis atsakymas';
+$PALANG['pUsersMenu_edit_alias'] = 'Keisti laiðkø peradresacijà';
+$PALANG['pUsersMenu_password'] = 'Keisti slaptaþodá';
+
+$PALANG['pUsersMain_vacation'] = 'Nustatyti "Esu iðvykæs" automatiná atsakymà visiems ateinantiems laiðkams.';
+$PALANG['pUsersMain_edit_alias'] = 'Pakeisti laiðkø peradresavimà.';
+$PALANG['pUsersMain_password'] = 'Pakeisti slaptaþodá.';
+
+$PALANG['pUsersVacation_welcome'] = 'Automatinis atsakymas.';
+$PALANG['pUsersVacation_welcome_text'] = 'Auto atsakiklis jau nustatytas!';
+$PALANG['pUsersVacation_subject'] = 'Tema';
+$PALANG['pUsersVacation_subject_text'] = 'Esu iðvykæs';
+$PALANG['pUsersVacation_body'] = 'Þinutë';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+I will be away from <date> until <date>.
+For urgent matters you can contact <contact person>.
+EOM;
+$PALANG['pUsersVacation_button_away'] = 'Iðvykstu';
+$PALANG['pUsersVacation_button_back'] = 'Gráþtu';
+$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nepavyko nustatyti el.paðto auto atsakovo!</span>';
+$PALANG['pUsersVacation_result_succes'] = 'Auto atsakovas iðjungtas!';
+
+$PALANG['pCreate_dbLog_createmailbox'] = 'paðto dëþutë sukurta';
+$PALANG['pCreate_dbLog_createalias'] = 'sinonimas sukurtas';
+$PALANG['pDelete_dbLog_deletealias'] = 'sinonimas paðalintas';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'paðto dëþutë paðalinta';
+
+$PALANG['pEdit_dbLog_editactive'] = 'pakeista bûsena';
+$PALANG['pEdit_dbLog_editalias'] = 'sinonimas pakeistas';
+$PALANG['pEdit_dbLog_editmailbox'] = 'paðto dëþutë pakeista';
+
+$PALANG['pSearch_welcome'] = 'Ieðkoti: ';
+?>

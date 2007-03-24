@@ -1,0 +1,298 @@
+<?php
+//
+// Language file Traditional Chinese
+// by Bruce Chou <bruce at thumb dot cx>
+//
+
+require ('default.lang');
+
+$PALANG['YES'] = '是';
+$PALANG['NO'] = '否';
+$PALANG['edit'] = '編輯';
+$PALANG['del'] = '刪除';
+$PALANG['confirm'] = '是否確定刪除?\n';
+$PALANG['confirm_domain'] = '您是否確定要刪除該網域中的所有記錄? 刪除後無法恢復! \n';
+$PALANG['check_update'] = 'Check for update';
+
+$PALANG['pLogin_welcome'] = '郵件管理員請從這裏登入以管理您的網域名稱.';
+$PALANG['pLogin_username'] = '帳號 (郵件位址)';
+$PALANG['pLogin_password'] = '密碼';
+$PALANG['pLogin_button'] = '登入';
+$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">登入失敗, 請確認您是使用您的郵件位址登入!</span>';
+$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">密碼錯誤!</span>';
+$PALANG['pLogin_login_users'] = '一般用戶點擊這裏進入一般用戶控制面板.';
+
+$PALANG['pMenu_overview'] = '概覽';
+$PALANG['pMenu_create_alias'] = '新建別名';
+$PALANG['pMenu_create_mailbox'] = '新建信箱';
+$PALANG['pMenu_sendmail'] = '發送郵件';
+$PALANG['pMenu_password'] = '修改密碼';
+$PALANG['pMenu_viewlog'] = '查看日誌';
+$PALANG['pMenu_logout'] = '登出';
+
+$PALANG['pMain_welcome'] = '歡迎來到Postfix Admin! ';
+$PALANG['pMain_overview'] = '顯示您的郵件別名和信箱. 您可以在這兒進行編輯/刪除操作.';
+$PALANG['pMain_create_alias'] = '在您的網域中新建一個別名.';
+$PALANG['pMain_create_mailbox'] = '在您的網域中新建一個信箱.';
+$PALANG['pMain_sendmail'] = '發一封郵件到您新建的一個信箱中.';
+$PALANG['pMain_password'] = '修改您的管理員密碼.';
+$PALANG['pMain_viewlog'] = '查看日誌檔.';
+$PALANG['pMain_logout'] = '登出系統';
+
+$PALANG['pOverview_disabled'] = 'Disabled';
+$PALANG['pOverview_unlimited'] = 'Unlimited';
+$PALANG['pOverview_title'] = ':: Defined Domains';
+$PALANG['pOverview_up_arrow'] = 'Go Top';
+$PALANG['pOverview_right_arrow'] = 'Next Page';
+$PALANG['pOverview_left_arrow'] = 'Previous Page';
+$PALANG['pOverview_alias_title'] = ':: Alias';
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_button'] = '執行';
+$PALANG['pOverview_welcome'] = '瀏覽';
+$PALANG['pOverview_alias_alias_count'] = '別名';
+$PALANG['pOverview_alias_mailbox_count'] = '信箱';
+$PALANG['pOverview_alias_address'] = '傳送到';
+$PALANG['pOverview_alias_goto'] = '轉到';
+$PALANG['pOverview_alias_modified'] = '最後修改日期';
+$PALANG['pOverview_mailbox_username'] = '郵件位址';
+$PALANG['pOverview_mailbox_name'] = '姓名';
+$PALANG['pOverview_mailbox_quota'] = '信箱限制 (MB)';
+$PALANG['pOverview_mailbox_modified'] = '最後修改日期';
+$PALANG['pOverview_mailbox_active'] = '啟用';
+
+$PALANG['pOverview_get_domain'] = '網域';
+$PALANG['pOverview_get_aliases'] = '別名';
+$PALANG['pOverview_get_mailboxes'] = '信箱';
+$PALANG['pOverview_get_quota'] = '信箱限制 (MB)';
+$PALANG['pOverview_get_modified'] = '最後修改日期';
+
+$PALANG['pDelete_delete_error'] = '<span class="error_msg">不能刪除本記錄';
+$PALANG['pDelete_domain_error'] = '<span class="error_msg">您沒有該網域的管理許可權';
+
+$PALANG['pCreate_alias_welcome'] = '在您的網域中新建一個別名.';
+$PALANG['pCreate_alias_address'] = '別名';
+$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">該別名非法! </span>';
+$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">郵件位址已經存在, 請重新選擇!</span>';
+$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">您的別名已經達到上限!</span>';
+$PALANG['pCreate_alias_goto'] = '轉到';
+$PALANG['pCreate_alias_button'] = '新建別名';
+$PALANG['pCreate_alias_goto_text'] = '郵件接收位址.';
+$PALANG['pCreate_alias_goto_text_error'] = '郵件接收位址.<br /><span class="error_msg">接收位址不正確!</span>';
+$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">不能將別名新增到別名清單中!</span>';
+$PALANG['pCreate_alias_result_succes'] = '新增別名成功!';
+$PALANG['pCreate_alias_catchall_text'] = '要將所有的郵件全部轉發請使用"*"作為別名.<br />網域到網域的轉發請使用"*@domain.tld".';
+
+$PALANG['pEdit_alias_welcome'] = '編輯您網域名稱中的別名.<br />每行一條記錄.';
+$PALANG['pEdit_alias_address'] = '別名';
+$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">不能指定別名!</span>';
+$PALANG['pEdit_alias_goto'] = '轉到';
+$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">您沒有填寫收信人</span>';
+$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">郵件位址非法: ';
+$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">您沒有該網域的管理許可權:';
+$PALANG['pEdit_alias_button'] = '編輯別名';
+$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">不能修改該別名!</span>';
+
+$PALANG['pCreate_mailbox_welcome'] = '在您的網域中新建一個郵件信箱.';
+$PALANG['pCreate_mailbox_username'] = '用戶名';
+$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">郵件非法! </span>';
+$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">郵件位址已經存在, 請重新選擇!</span>';
+$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">信箱位址已經達到上限!</span>';
+$PALANG['pCreate_mailbox_password'] = '密碼';
+$PALANG['pCreate_mailbox_password2'] = '密碼 (再次輸入)';
+$PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP 密碼';
+$PALANG['pCreate_mailbox_password_text_error'] = 'POP3/IMAP 密碼<br /><span class="error_msg">您輸入的密碼不相同!<br />或者為空白!</span>';
+$PALANG['pCreate_mailbox_name'] = '名字';
+$PALANG['pCreate_mailbox_name_text'] = '全名';
+$PALANG['pCreate_mailbox_quota'] = '限制';
+$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">您輸入的容量限制超出範圍!</span>';
+$PALANG['pCreate_mailbox_active'] = '啟用';
+$PALANG['pCreate_mailbox_mail'] = '新建信箱';
+$PALANG['pCreate_mailbox_button'] = '增加信箱';
+$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">不能將信箱增加到信箱清單中!</span>';
+$PALANG['pCreate_mailbox_result_succes'] = '增加信箱成功!';
+
+$PALANG['pEdit_mailbox_welcome'] = '編輯您網域中的信箱.';
+$PALANG['pEdit_mailbox_username'] = '用戶名';
+$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">不能指定信箱!</span>';
+$PALANG['pEdit_mailbox_password'] = '新密碼';
+$PALANG['pEdit_mailbox_password2'] = '新密碼 (驗證)';
+$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">您輸入的兩個新密碼不相同!</span>';
+$PALANG['pEdit_mailbox_name'] = '姓名';
+$PALANG['pEdit_mailbox_quota'] = '限制';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">您輸入的容量限制超出範圍!</span>';
+$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">您沒有該網域的管理許可權: ';
+$PALANG['pEdit_mailbox_button'] = '編輯信箱';
+$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">不能編輯該信箱!</span>';
+
+$PALANG['pPassword_welcome'] = '更改您的登入密碼.';
+$PALANG['pPassword_admin'] = '帳號';
+$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">您所提供的登入帳號不正確!</span>';
+$PALANG['pPassword_password_current'] = '當前密碼';
+$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">您沒有填寫當前密碼!</span>';
+$PALANG['pPassword_password'] = '新密碼';
+$PALANG['pPassword_password2'] = '新密碼 (驗證)';
+$PALANG['pPassword_password_text_error'] = '<span class="error_msg">您兩次輸入的新密碼不相同!<br />或者為空白!</span>';
+$PALANG['pPassword_button'] = '更改密碼';
+$PALANG['pPassword_result_error'] = '<span class="error_msg">更改密碼失敗!</span>';
+$PALANG['pPassword_result_succes'] = '更改密碼成功!';
+
+$PALANG['pViewlog_welcome'] = '查看最新的10項操作日誌 網域名稱:';
+$PALANG['pViewlog_timestamp'] = '時間';
+$PALANG['pViewlog_username'] = '管理員';
+$PALANG['pViewlog_domain'] = '網域';
+$PALANG['pViewlog_action'] = '操作';
+$PALANG['pViewlog_data'] = '內容';
+
+$PALANG['pViewlog_button'] = '執行';
+$PALANG['pViewlog_result_error'] = '<span class="error_msg">未找到相關的日誌!</span>';
+
+$PALANG['pSendmail_welcome'] = '發送郵件.';
+$PALANG['pSendmail_admin'] = '發件人';
+$PALANG['pSendmail_to'] = '收件人';
+$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">收件人為空白或者收件人位址不正確!</span>';
+$PALANG['pSendmail_subject'] = '主旨';
+$PALANG['pSendmail_subject_text'] = '歡迎使用我們的郵件系統!';
+$PALANG['pSendmail_body'] = '內容';
+$PALANG['pSendmail_button'] = '發送';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">建立信箱失敗! </span>';
+$PALANG['pSendmail_result_succes'] = '建立信箱成功! ';
+
+$PALANG['pAdminMenu_list_admin'] = '管理員清單';
+$PALANG['pAdminMenu_list_domain'] = '網域名稱清單';
+$PALANG['pAdminMenu_list_virtual'] = '虛擬用戶清單';
+$PALANG['pAdminMenu_viewlog'] = '查看日誌';
+$PALANG['pAdminMenu_backup'] = '備份';
+$PALANG['pAdminMenu_create_domain_admins'] = '網域管理員';
+$PALANG['pAdminMenu_create_admin'] = '新建管理員';
+$PALANG['pAdminMenu_create_domain'] = '新建網域';
+$PALANG['pAdminMenu_create_alias'] = '新建別名';
+$PALANG['pAdminMenu_create_mailbox'] = '新建信箱';
+
+$PALANG['pAdminList_admin_domain'] = '網域';
+$PALANG['pAdminList_admin_username'] = '管理員';
+$PALANG['pAdminList_admin_count'] = '管理網域數量';
+$PALANG['pAdminList_admin_modified'] = '最後修改日期';
+$PALANG['pAdminList_admin_active'] = '啟用';
+
+$PALANG['pAdminList_domain_domain'] = '網域';
+$PALANG['pAdminList_domain_description'] = '描述';
+$PALANG['pAdminList_domain_aliases'] = '別名數量';
+$PALANG['pAdminList_domain_mailboxes'] = '信箱數量';
+$PALANG['pAdminList_domain_maxquota'] = '最大容量限制 (MB)';
+$PALANG['pAdminList_domain_transport'] = 'Transport';
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_modified'] = '最後修改日期';
+$PALANG['pAdminList_domain_active'] = '啟用';
+
+$PALANG['pAdminList_virtual_button'] = '執行';
+$PALANG['pAdminList_virtual_welcome'] = '網域概覽 網域名稱:';
+$PALANG['pAdminList_virtual_alias_alias_count'] = '別名數量';
+$PALANG['pAdminList_virtual_alias_mailbox_count'] = '信箱數量';
+$PALANG['pAdminList_virtual_alias_address'] = '傳送到';
+$PALANG['pAdminList_virtual_alias_goto'] = '轉到';
+$PALANG['pAdminList_virtual_alias_modified'] = '最後修改日期';
+$PALANG['pAdminList_virtual_mailbox_username'] = '信箱';
+$PALANG['pAdminList_virtual_mailbox_name'] = '姓名';
+$PALANG['pAdminList_virtual_mailbox_quota'] = '限制 (MB)';
+$PALANG['pAdminList_virtual_mailbox_modified'] = '最後修改日期';
+$PALANG['pAdminList_virtual_mailbox_active'] = '啟用';
+
+$PALANG['pAdminCreate_domain_welcome'] = '新建網域';
+$PALANG['pAdminCreate_domain_domain'] = '網域名稱';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">該網域已經存在!</span>';
+$PALANG['pAdminCreate_domain_description'] = '描述';
+$PALANG['pAdminCreate_domain_aliases'] = '別名數量';
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = 禁用 | 0 = 無限制';
+$PALANG['pAdminCreate_domain_mailboxes'] = '信箱數量';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = 禁用 | 0 = 無限制';
+$PALANG['pAdminCreate_domain_maxquota'] = '最大容量限制';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = 禁用 | 0 = 無限制';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport';
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_defaultaliases'] = '增加內建別名';
+$PALANG['pAdminCreate_domain_backupmx'] = '郵件主機是 Backup MX';
+$PALANG['pAdminCreate_domain_button'] = '新增';
+$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">新增網域失敗!</span>';
+$PALANG['pAdminCreate_domain_result_succes'] = '新增網域成功!';
+
+$PALANG['pAdminEdit_domain_welcome'] = '修改網域';
+$PALANG['pAdminEdit_domain_domain'] = '網域名稱';
+$PALANG['pAdminEdit_domain_description'] = '描述';
+$PALANG['pAdminEdit_domain_aliases'] = '別名數量';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = 禁止 | 0 = 無限制';
+$PALANG['pAdminEdit_domain_mailboxes'] = '信箱數量';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = 禁止 | 0 = 無限制';
+$PALANG['pAdminEdit_domain_maxquota'] = '最大容量限制';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = 禁止 | 0 = 無限制';
+$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_backupmx'] = '郵件主機是 Backup MX';
+$PALANG['pAdminEdit_domain_active'] = '啟用';
+$PALANG['pAdminEdit_domain_button'] = '修改';
+$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">修改網域失敗!</span>';
+
+$PALANG['pAdminCreate_admin_welcome'] = '新增網域管理員帳號';
+$PALANG['pAdminCreate_admin_username'] = '管理員帳號';
+$PALANG['pAdminCreate_admin_username_text'] = '郵件位址';
+$PALANG['pAdminCreate_admin_username_text_error1'] = '郵件位址<br /><span class="error_msg">管理員帳號不是一個合法的郵件位址!</span>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = '郵件位址<br /><span class="error_msg">管理員帳號已經存在或者管理員帳號非法!</span>';
+$PALANG['pAdminCreate_admin_password'] = '密碼';
+$PALANG['pAdminCreate_admin_password2'] = '密碼 (驗證)';
+$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">新所輸入的兩次新密碼不相同!<br />或者為空白!</span>';
+$PALANG['pAdminCreate_admin_button'] = '新增';
+$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">新增管理員帳號失敗!</span>';
+$PALANG['pAdminCreate_admin_result_succes'] = '新增管理員帳號成功!';
+$PALANG['pAdminCreate_admin_address'] = '網域';
+
+$PALANG['pAdminEdit_admin_welcome'] = '修改網域管理員帳號';
+$PALANG['pAdminEdit_admin_username'] = '管理員帳號';
+$PALANG['pAdminEdit_admin_password'] = '密碼';
+$PALANG['pAdminEdit_admin_password2'] = '密碼 (驗證)';
+$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">您兩次輸入的新密碼不相同!<br />或者為空白!</span>';
+$PALANG['pAdminEdit_admin_active'] = '啟用';
+$PALANG['pAdminEdit_admin_button'] = '修改';
+$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">編輯網域管理員帳號失敗!</span>';
+$PALANG['pAdminEdit_admin_result_succes'] = '編輯網域管理員帳號成功!';
+
+$PALANG['pUsersLogin_welcome'] = '一般用戶從這裏登入管理您的密碼和別名.';
+$PALANG['pUsersLogin_username'] = '帳號 (信箱位址)';
+$PALANG['pUsersLogin_password'] = '密碼';
+$PALANG['pUsersLogin_button'] = '登入';
+$PALANG['pUsersLogin_username_incorrect'] = '登入失敗. 請確認您是使用您的信箱位址登入!';
+$PALANG['pUsersLogin_password_incorrect'] = '登入密碼不正確!';
+
+$PALANG['pUsersMenu_vacation'] = '自動回覆';
+$PALANG['pUsersMenu_edit_alias'] = '修改轉發';
+$PALANG['pUsersMenu_password'] = '修改密碼';
+
+$PALANG['pUsersMain_vacation'] = '設置外出資訊或自動回覆.';
+$PALANG['pUsersMain_edit_alias'] = '修改信箱轉發.';
+$PALANG['pUsersMain_password'] = '修改當前密碼.';
+
+$PALANG['pUsersVacation_welcome'] = '自動回覆.';
+$PALANG['pUsersVacation_welcome_text'] = '您已經設置了自動回覆!';
+$PALANG['pUsersVacation_subject'] = '主旨';
+$PALANG['pUsersVacation_subject_text'] = '我現在無法回信';
+$PALANG['pUsersVacation_body'] = '內容';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+    我在 <date> 到 <date> 這段時間內暫時無法回信.
+如果您有急事請與 <contact person> 聯繫.
+EOM;
+$PALANG['pUsersVacation_button_away'] = '開啟自動回覆';
+$PALANG['pUsersVacation_button_back'] = '關閉自動回覆';
+$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">更新自動回覆失敗!</span>';
+$PALANG['pUsersVacation_result_succes'] = '您的自動回覆已經關閉!';
+
+$PALANG['pCreate_dbLog_createmailbox'] = '新建信箱';     
+$PALANG['pCreate_dbLog_createalias'] = '新建別名';
+$PALANG['pDelete_dbLog_deletealias'] = '刪除別名';
+$PALANG['pDelete_dbLog_deletemailbox'] = '刪除信箱';
+
+$PALANG['pEdit_dbLog_editactive'] = '變更啟動狀態';
+$PALANG['pEdit_dbLog_editalias'] = '編輯別名';
+$PALANG['pEdit_dbLog_editmailbox'] = '編輯信箱';
+
+$PALANG['pSearch_welcome'] = '搜尋: ';
+?>

@@ -1,0 +1,52 @@
+#
+# Dovecot configuration for Postfix Admin
+# Written by: Massimo <AndyCapp> Danieli
+#
+
+1. Dovecot setup
+-----------------
+
+dovecot.conf relevant part for postfixadmin setup
+Please refer to Dovecot documentation for complete information.
+
+default_mail_env = maildir:/usr/local/virtual/%u/
+
+
+# auth_userdb specifies maildir location  and user/group ID to use
+auth_userdb = mysql /etc/dovecot/dovecot-mysql.conf
+
+# auth_passdb specifies user passwords
+auth_passdb = mysql /etc/dovecot/dovecot-mysql.conf
+
+# Valid UID range for users, defaults to 500 and above.
+first_valid_uid = 1001  # Change this to your postifx UID
+
+
+2. Dovecot mysql setup
+----------------------
+
+Below you'll find the relevant part of dovecot-mysql.conf file regarding our setup
+Things you may need to change are db_password, uid and gid
+
+db_host = localhost
+db_port = 3306
+# Default sock for Debian sarge
+db_unix_socket = /var/run/mysqld/mysqld.sock
+db = postfix
+db_user = postfix
+db_passwd = postfix
+db_client_flags = 0
+
+# Default password scheme.
+
+default_pass_scheme = PLAIN-MD5
+
+# Query to retrieve password.
+
+password_query = SELECT password FROM mailbox WHERE username = '%u'
+
+# Query to retrieve user information.
+
+user_query = SELECT maildir, 1001 AS uid, 1001 AS gid FROM mailbox WHERE username = '%u'
+
+NB The GID and UID are for postfix user and group ID, NOT MySQL user and group ID.
