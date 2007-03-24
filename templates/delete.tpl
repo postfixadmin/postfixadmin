@@ -1,0 +1,2 @@
+<center>
+<?php print $tMessage; ?>

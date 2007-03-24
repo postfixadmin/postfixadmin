@@ -1,0 +1,289 @@
+<?php
+//
+// Language file Faroese
+//
+$PALANG['YES'] = 'JA';
+$PALANG['NO'] = 'NEI';
+$PALANG['edit'] = 'broyt';
+$PALANG['del'] = 'strika';
+$PALANG['confirm'] = 'Ert tú vís(ur) í at tú vilt strika hetta?';
+$PALANG['confirm_domain'] = 'Vilt tú veruliga strika allar upplýsingar fyri hetta domain? Her kann ikki vendast aftur!';
+
+$PALANG['pLogin_welcome'] = 'Umsitarar kunnu logga inn her fyri at umsita tykkara domain.';
+$PALANG['pLogin_username'] = 'Login (e-post)';
+$PALANG['pLogin_password'] = 'Loyniorð';
+$PALANG['pLogin_button'] = 'Logga inn';
+$PALANG['pLogin_username_incorrect'] = 'Títt login er skeivt. Minst til at skriva fulla e-post adressu!';
+$PALANG['pLogin_password_incorrect'] = 'Títt loyniorð er skeivt!';
+$PALANG['pLogin_login_users'] = 'Brúkarar kunnu logga inn her.';
+
+$PALANG['pMenu_overview'] = 'Yvirlit';
+$PALANG['pMenu_create_alias'] = 'Stovna Alias';
+$PALANG['pMenu_create_mailbox'] = 'Stovna Postkassa';
+$PALANG['pMenu_sendmail'] = 'Send E-post';
+$PALANG['pMenu_password'] = 'Loyniorð';
+$PALANG['pMenu_viewlog'] = 'Vís Logg';
+$PALANG['pMenu_logout'] = 'Logga út';
+
+$PALANG['pMain_welcome'] = 'Vælkomin til Postfix Admin!';
+$PALANG['pMain_overview'] = 'Vís tíni alias og postkassar. Tú kanst broyta / strika tey her.';
+$PALANG['pMain_create_alias'] = 'Stovna eitt nýtt alias á tínum domaini.';
+$PALANG['pMain_create_mailbox'] = 'Stovna ein nýggjan postkassa á tínum domaini.';
+$PALANG['pMain_sendmail'] = 'Send ein e-post til ein av tínum nýstovnaðu postkassum.';
+$PALANG['pMain_password'] = 'Broyt loyniorðið á tíni umsitara konto.';
+$PALANG['pMain_viewlog'] = 'Vís logg fílurnar.';
+$PALANG['pMain_logout'] = 'Logga út úr skipanini';
+
+$PALANG['pOverview_button'] = 'Vel';
+$PALANG['pOverview_welcome'] = 'Yvirlit yvir ';
+$PALANG['pOverview_alias_alias_count'] = 'Alias';
+$PALANG['pOverview_alias_mailbox_count'] = 'Postkassar';
+$PALANG['pOverview_alias_address'] = 'Frá';
+$PALANG['pOverview_alias_goto'] = 'Til';
+$PALANG['pOverview_alias_modified'] = 'Síðst broytt';
+$PALANG['pOverview_mailbox_username'] = 'E-post';
+$PALANG['pOverview_mailbox_name'] = 'Navn';
+$PALANG['pOverview_mailbox_quota'] = 'Kvota (MB)';
+$PALANG['pOverview_mailbox_modified'] = 'Síðst broytt';
+$PALANG['pOverview_mailbox_active'] = 'Virkin';
+
+$PALANG['pOverview_get_domain'] = 'Domain';
+$PALANG['pOverview_get_aliases'] = 'Alias';
+$PALANG['pOverview_get_mailboxes'] = 'Postkassar';
+$PALANG['pOverview_get_quota'] = 'Postkassa kvota (MB)';
+$PALANG['pOverview_get_modified'] = 'Síðst broytt';
+
+$PALANG['pDelete_delete_error'] = '<font color="red">Fái ikki strika ';
+$PALANG['pDelete_domain_error'] = '<font color="red">Hetta domaini er ikki títt ';
+
+$PALANG['pCreate_alias_welcome'] = 'Stovna eitt nýtt alias á tínum domaini.';
+$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address_text_error1'] = '<br /><font color="red">ALIAS er ikki gyldugt!</font>';
+$PALANG['pCreate_alias_address_text_error2'] = '<br /><font color="red">Hendan e-post adressa finst longu, vinarliga vel eina aðra!</font>';
+$PALANG['pCreate_alias_address_text_error3'] = '<br /><font color="red">Tú hevur nátt tínum marki at stovna alias!</font>';
+$PALANG['pCreate_alias_goto'] = 'Til';
+$PALANG['pCreate_alias_button'] = 'Stovna Alias';
+$PALANG['pCreate_alias_goto_text'] = 'Har posturin skal sendast til.';
+$PALANG['pCreate_alias_goto_text_error'] = 'Har posturin verður sendur til.<br /><font color="red">TIL er ikki gyldugt!</font>';
+$PALANG['pCreate_alias_result_error'] = '<font color="red">Fái ikki stovna alias!</font>';
+$PALANG['pCreate_alias_result_succes'] = 'Alias er stovnað!';
+$PALANG['pCreate_alias_catchall_text'] = 'Fyri at stovna eitt ið fangar alt, brúka eina "*" sum alias.<br />Fyri domain til domain víðarisendan brúka "*@domain.fo" til hetta.';
+
+$PALANG['pEdit_alias_welcome'] = 'Broyt eitt alias á tínum domaini.<br />Eina adressu pr. linju.';
+$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['pEdit_alias_address_error'] = '<font color="red">Finni ikki alias!</font>';
+$PALANG['pEdit_alias_goto'] = 'Til';
+$PALANG['pEdit_alias_goto_text_error1'] = '<font color="red">Tú skrivaði onki í Til teigin</font>';
+$PALANG['pEdit_alias_goto_text_error2'] = '<font color="red">E-post adressan tú skrivaði er ikki gyldug: ';
+$PALANG['pEdit_alias_domain_error'] = '<font color="red">Hetta er ikki títt domain: ';
+$PALANG['pEdit_alias_button'] = 'Broyt Alias';
+$PALANG['pEdit_alias_result_error'] = '<font color="red">Fái ikki broytt alias!</font>';
+
+$PALANG['pCreate_mailbox_welcome'] = 'Stovna ein nýggjan postkassa á tínum domaini.';
+$PALANG['pCreate_mailbox_username'] = 'Brúkaranavn';
+$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><font color="red">E-post adressan er ikki gyldug!</font>';
+$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><font color="red">Hendan e-post adressan finst longu, vinarliga vel eina aðra!</font>';
+$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><font color="red">Tú hevur nýtt tínum marki at stovna postkassar!</font>';
+$PALANG['pCreate_mailbox_password'] = 'Loyniorð';
+$PALANG['pCreate_mailbox_password2'] = 'Loyniorð (umaftur)';
+$PALANG['pCreate_mailbox_password_text'] = 'Loyniorð til POP3/IMAP';
+$PALANG['pCreate_mailbox_password_text_error'] = 'Loyniorð til POP3/IMAP<br /><font color="red">Loyniorðini tú skrivaði samsvara ikki!<br />Or are empty!</font>';
+$PALANG['pCreate_mailbox_name'] = 'Navn';
+$PALANG['pCreate_mailbox_name_text'] = 'Fult navn';
+$PALANG['pCreate_mailbox_quota'] = 'Kvota';
+$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><font color="red">Kvotan tú skrivaði er ov høg!</font>';
+$PALANG['pCreate_mailbox_active'] = 'Virkin';
+$PALANG['pCreate_mailbox_mail'] = 'Stovna postkassa';
+$PALANG['pCreate_mailbox_button'] = 'Stovna postkassa';
+$PALANG['pCreate_mailbox_result_error'] = '<font color="red">Fái ikki stovna postkassa!</font>';
+$PALANG['pCreate_mailbox_result_succes'] = 'Postkassin er stovnaður!';
+
+$PALANG['pEdit_mailbox_welcome'] = 'Broyt postkassa á tínum domaini.';
+$PALANG['pEdit_mailbox_username'] = 'Brúkaranavn';
+$PALANG['pEdit_mailbox_username_error'] = '<font color="red">Finni ikki postkassa!</font>';
+$PALANG['pEdit_mailbox_password'] = 'Nýtt loyniorð';
+$PALANG['pEdit_mailbox_password2'] = 'Nýtt loyniorð (umaftur)';
+$PALANG['pEdit_mailbox_password_text_error'] = '<font color="red">Loyniorðini tú skrivaði samsvara ikki!</font>';
+$PALANG['pEdit_mailbox_name'] = 'Navn';
+$PALANG['pEdit_mailbox_quota'] = 'Kvota';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><font color="red">Kvotan tú skrivaði er ov høg!</font>';
+$PALANG['pEdit_mailbox_domain_error'] = '<font color="red">Hetta er ikki títt domain: ';
+$PALANG['pEdit_mailbox_button'] = 'Broyt postkassa';
+$PALANG['pEdit_mailbox_result_error'] = '<font color="red">Fái ikki broytt loyniorðið!</font>';
+
+$PALANG['pPassword_welcome'] = 'Broyt títt login loyniorð.';
+$PALANG['pPassword_admin'] = 'Logga inn';
+$PALANG['pPassword_admin_text_error'] = '<font color="red">Navnið tú skrivaði samsvarar ikki við nakran postkassa!</font>';
+$PALANG['pPassword_password_current'] = 'Núverandi loyniorð';
+$PALANG['pPassword_password_current_text_error'] = '<font color="red">Tú skrivaði ikki títt núverandi loyniorð!</font>';
+$PALANG['pPassword_password'] = 'Nýtt loyniorð';
+$PALANG['pPassword_password2'] = 'Nýtt loyniorð (umaftur)';
+$PALANG['pPassword_password_text_error'] = '<font color="red">Loyniorðini tú skrivaði samsvara ikki!<br />Ella eru tóm!</font>';
+$PALANG['pPassword_button'] = 'Broyt loyniorð';
+$PALANG['pPassword_result_error'] = '<font color="red">Fái ikki broytt títt loyniorð!</font>';
+$PALANG['pPassword_result_succes'] = 'Títt loyniorð er broytt!';
+
+$PALANG['pViewlog_welcome'] = 'Vís seinastu 10 hendingarnar fyri ';
+$PALANG['pViewlog_timestamp'] = 'Tíðarstempul';
+$PALANG['pViewlog_username'] = 'Umsitari';
+$PALANG['pViewlog_domain'] = 'Domain';
+$PALANG['pViewlog_action'] = 'Hending';
+$PALANG['pViewlog_data'] = 'Dáta';
+
+$PALANG['pViewlog_button'] = 'Vel';
+$PALANG['pViewlog_result_error'] = '<font color="red">Finni ikki loggarnar!</font>';
+
+$PALANG['pSendmail_welcome'] = 'Send ein e-post.';
+$PALANG['pSendmail_admin'] = 'Frá';
+$PALANG['pSendmail_to'] = 'Til';
+$PALANG['pSendmail_to_text_error'] = '<font color="red">Til er tómt ella ikki gyldug e-post adressa!</font>';
+$PALANG['pSendmail_subject'] = 'Evni';
+$PALANG['pSendmail_subject_text'] = 'Vælkomin';
+$PALANG['pSendmail_body'] = 'Boð';
+$PALANG['pSendmail_body_text'] = <<<EOM
+Hey,
+
+Vælkomin til tína nýggju konto.
+EOM;
+$PALANG['pSendmail_button'] = 'Send boð';
+$PALANG['pSendmail_result_error'] = '<font color="red">Fái ikki stovnað postkassa!</font>';
+$PALANG['pSendmail_result_succes'] = 'Postkassin er stovnaður!';
+
+$PALANG['pVcp_welcome'] = 'Broyt títt postkassa loyniorð.';
+$PALANG['pVcp_username'] = 'E-postur';
+$PALANG['pVcp_username_text_error'] = '<font color="red">E-posturin tú skrivaði samsvarar ikki við nakran postkassa!</font>';
+$PALANG['pVcp_password_current'] = 'Núverandi loyniorð';
+$PALANG['pVcp_password_current_text_error'] = '<font color="red">Tú skrivaði ikki títt núverandi loyniorð!</font>';
+$PALANG['pVcp_password'] = 'Nýtt loyniorð';
+$PALANG['pVcp_password2'] = 'Nýtt loyniorð (umaftur)';
+$PALANG['pVcp_password_text_error'] = '<font color="red">Loyniorðini tú skrivaði samsvara ikki!<br />Or are empty!</font>';
+$PALANG['pVcp_button'] = 'Broyt loyniorð';
+$PALANG['pVcp_result_error'] = '<font color="red">Fái ikki broytt títt loyniorð!</font>';
+$PALANG['pVcp_result_succes'] = 'Títt loyniorð er broytt!';
+
+$PALANG['pAdminMenu_list_admin'] = 'Umsitara listi';
+$PALANG['pAdminMenu_list_domain'] = 'Domain listi';
+$PALANG['pAdminMenu_list_virtual'] = 'Virtual listi';
+$PALANG['pAdminMenu_viewlog'] = 'Vís logg';
+$PALANG['pAdminMenu_backup'] = 'Trygdaravrit';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Domain umsitarar';
+$PALANG['pAdminMenu_create_admin'] = 'Nýggjan Umsitara';
+$PALANG['pAdminMenu_create_domain'] = 'Nýtt Domain';
+$PALANG['pAdminMenu_create_alias'] = 'Stovna Alias';
+$PALANG['pAdminMenu_create_mailbox'] = 'Stovna Postkassa';
+
+$PALANG['pAdminList_admin_domain'] = 'Domain';
+$PALANG['pAdminList_admin_username'] = 'Umsitari';
+$PALANG['pAdminList_admin_count'] = 'Domainir';
+$PALANG['pAdminList_admin_modified'] = 'Síst broytt';
+$PALANG['pAdminList_admin_active'] = 'Virkin';
+
+$PALANG['pAdminList_domain_domain'] = 'Domain';
+$PALANG['pAdminList_domain_description'] = 'Frágreiðing';
+$PALANG['pAdminList_domain_aliases'] = 'Alias';
+$PALANG['pAdminList_domain_mailboxes'] = 'Postkassar';
+$PALANG['pAdminList_domain_maxquota'] = 'Hægsta Kvota (MB)';
+$PALANG['pAdminList_domain_modified'] = 'Síðst broytt';
+$PALANG['pAdminList_domain_active'] = 'Virki';
+
+$PALANG['pAdminList_virtual_button'] = 'Vel';
+$PALANG['pAdminList_virtual_welcome'] = 'Yvirlit yvir ';
+$PALANG['pAdminList_virtual_alias_alias_count'] = 'Alias';
+$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Postkassar';
+$PALANG['pAdminList_virtual_alias_address'] = 'Frá';
+$PALANG['pAdminList_virtual_alias_goto'] = 'Til';
+$PALANG['pAdminList_virtual_alias_modified'] = 'Síðst broytt';
+$PALANG['pAdminList_virtual_mailbox_username'] = 'E-post';
+$PALANG['pAdminList_virtual_mailbox_name'] = 'Navn';
+$PALANG['pAdminList_virtual_mailbox_quota'] = 'Kvota (MB)';
+$PALANG['pAdminList_virtual_mailbox_modified'] = 'Síðst broytt';
+$PALANG['pAdminList_virtual_mailbox_active'] = 'Virkin';
+
+$PALANG['pAdminCreate_domain_welcome'] = 'Stova nýtt domain';
+$PALANG['pAdminCreate_domain_domain'] = 'Domain';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '<font color="red">Domain finst longu!</font>';
+$PALANG['pAdminCreate_domain_description'] = 'Frágreiðing';
+$PALANG['pAdminCreate_domain_aliases'] = 'Alias';
+$PALANG['pAdminCreate_domain_aliases_text'] = '0 = óvirkja | -1 = óavmarkað';
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postkassar';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '0 = óvirkja | -1 = óavmarkað';
+$PALANG['pAdminCreate_domain_maxquota'] = 'Hægsta kvota';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> 0 = óvirkja | -1 = óavmarkað';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Stovna sjálvvirkin e-post alias';
+$PALANG['pAdminCreate_domain_button'] = 'Stovna domain';
+$PALANG['pAdminCreate_domain_result_error'] = '<font color="red">Fái ikki stovna domain!</font>';
+$PALANG['pAdminCreate_domain_result_succes'] = 'Domain er stovnað!';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'Broyt domain';
+$PALANG['pAdminEdit_domain_domain'] = 'Domain';
+$PALANG['pAdminEdit_domain_description'] = 'Frágreiðing';
+$PALANG['pAdminEdit_domain_aliases'] = 'Alias';
+$PALANG['pAdminCreate_domain_aliases_text'] = '0 = óvirkja | -1 = óavmarkað';
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Postkassar';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '0 = óvirkja | -1 = óavmarkað';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Hægsta kvota';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> 0 = óvirkja | -1 = óavmarkað';
+$PALANG['pAdminEdit_domain_active'] = 'Virki';
+$PALANG['pAdminEdit_domain_button'] = 'Broyt domain';
+$PALANG['pAdminEdit_domain_result_error'] = '<font color="red">Fái ikki broytt domain!</font>';
+
+$PALANG['pAdminCreate_admin_welcome'] = 'Stovna domain umsitara';
+$PALANG['pAdminCreate_admin_username'] = 'Umsitari';
+$PALANG['pAdminCreate_admin_username_text'] = 'E-post adressa';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'E-post adressa<br /><font color="red">Umsitari er ikki gyldug e-post adressa!</font>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'Email address<br /><font color="red">The admin already exists or is not valid</font>';
+$PALANG['pAdminCreate_admin_password'] = 'Loyniorð';
+$PALANG['pAdminCreate_admin_password2'] = 'Loyniorð (umaftur)';
+$PALANG['pAdminCreate_admin_password_text_error'] = '<font color="red">Loyniorðini tú skrivaði samsvara ikki!<br />Ella eru tóm!</font>';
+$PALANG['pAdminCreate_admin_button'] = 'Stovna umsitara';
+$PALANG['pAdminCreate_admin_result_error'] = '<font color="red">Fái ikki stovna umsitara!</font>';
+$PALANG['pAdminCreate_admin_result_succes'] = 'Umsitari er stovnaður!';
+$PALANG['pAdminCreate_admin_address'] = 'Domain';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'Broyt domain umsitara';
+$PALANG['pAdminEdit_admin_username'] = 'Umsitari';
+$PALANG['pAdminEdit_admin_password'] = 'Loyniorð';
+$PALANG['pAdminEdit_admin_password2'] = 'Loyniorð (umaftur)';
+$PALANG['pAdminEdit_admin_password_text_error'] = '<font color="red">Loyniorðini tú skrivaði samsvara ikki!<br />Ella eru tóm!</font>';
+$PALANG['pAdminEdit_admin_active'] = 'Virkin';
+$PALANG['pAdminEdit_admin_button'] = 'Broyt umsitara';
+$PALANG['pAdminEdit_admin_result_error'] = '<font color="red">Fái ikki broytt umsitara!</font>';
+$PALANG['pAdminEdit_admin_result_succes'] = 'Umsitari er broyttur!';
+
+$PALANG['pUsersLogin_welcome'] = 'Postkassa brúkarar loggi inn fyri at broyta loyniorð, víðarisendan ella frítíðarboð.';
+$PALANG['pUsersLogin_username'] = 'Login (e-post)';
+$PALANG['pUsersLogin_password'] = 'Loyniorð';
+$PALANG['pUsersLogin_button'] = 'Logga inn';
+$PALANG['pUsersLogin_username_incorrect'] = 'Títt login er skeivt. Minst til at logga inn við tíni e-post adressu!';
+$PALANG['pUsersLogin_password_incorrect'] = 'Títt loyniorð er skeivt!';
+
+$PALANG['pUsersMenu_vacation'] = 'Frítíðarboð';
+$PALANG['pUsersMenu_edit_alias'] = 'Broyt víðarisendan';
+$PALANG['pUsersMenu_password'] = 'Broyt loyniorð';
+
+$PALANG['pUsersMain_welcome'] = 'Broyt tínar post-uppsetingar her!';
+$PALANG['pUsersMain_vacation'] = 'Set eini frítíðarboð ella svarboð fyri tín post.';
+$PALANG['pUsersMain_edit_alias'] = 'Send tín post víðari til aðra adressu.';
+$PALANG['pUsersMain_password'] = 'Broyt títt núverandi loyniorð.';
+
+$PALANG['pUsersVacation_welcome'] = 'Sjálvvirkið svar.';
+$PALANG['pUsersVacation_welcome_text'] = 'Tú hevur longu eini frítíðarboð uppsett!';
+$PALANG['pUsersVacation_subject'] = 'Evni';
+$PALANG['pUsersVacation_subject_text'] = 'Out of Office';
+$PALANG['pUsersVacation_body'] = 'Boð';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+I will be away from <dato> until <dato>.
+
+For urgent matters you can contact <firmanavn>.
+
+---
+
+Títt navn
+EOM;
+$PALANG['pUsersVacation_button_away'] = 'Burtur';
+$PALANG['pUsersVacation_button_back'] = 'Heima';
+$PALANG['pUsersVacation_result_error'] = '<font color="red">Fái ikki broytt tínar frítíðarboð uppsetingar!</font>';
+$PALANG['pUsersVacation_result_succes'] = 'Títt frítíðarboð er strikað!';
+?>
