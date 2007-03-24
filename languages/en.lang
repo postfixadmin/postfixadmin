@@ -1,0 +1,284 @@
+<?php
+//
+// Language file English
+//
+$LANG['YES'] = 'YES';
+$LANG['NO'] = 'NO';
+$LANG['edit'] = 'edit';
+$LANG['del'] = 'del';
+$LANG['confirm'] = 'Are you sure you want to delete this?';
+$LANG['confirm_domain'] = 'Do you really want to delete all records for this domain? This can not be undone!';
+
+$LANG['pLogin_welcome'] = 'Mail admins login here to administrate your domain.';
+$LANG['pLogin_username'] = 'Login (email)';
+$LANG['pLogin_password'] = 'Password';
+$LANG['pLogin_button'] = 'Login';
+$LANG['pLogin_username_incorrect'] = 'Your login is not correct. Make sure that you login with your email address!';
+$LANG['pLogin_password_incorrect'] = 'Your password is not correct!';
+$LANG['pLogin_login_users'] = 'Users click here to login to the user section.';
+
+$LANG['pMenu_overview'] = 'Overview';
+$LANG['pMenu_create_alias'] = 'Add Alias';
+$LANG['pMenu_create_mailbox'] = 'Add Mailbox';
+$LANG['pMenu_sendmail'] = 'Send Email';
+$LANG['pMenu_password'] = 'Password';
+$LANG['pMenu_viewlog'] = 'View Log';
+$LANG['pMenu_logout'] = 'Logout';
+
+$LANG['pMain_welcome'] = 'Welcome to Postfix Admin!';
+$LANG['pMain_overview'] = 'List your aliases and mailboxes. You can edit / delete them from here.';
+$LANG['pMain_create_alias'] = 'Create a new alias for your domain.';
+$LANG['pMain_create_mailbox'] = 'Create a new mailbox for your domain.';
+$LANG['pMain_sendmail'] = 'Send an email to one of your newly created mailboxes.';
+$LANG['pMain_password'] = 'Change the password for your admin account.';
+$LANG['pMain_viewlog'] = 'View the log files.';
+$LANG['pMain_logout'] = 'Logout from the system';
+
+$LANG['pOverview_button'] = 'Go';
+$LANG['pOverview_welcome'] = 'Overview for ';
+$LANG['pOverview_alias_alias_count'] = 'Aliases';
+$LANG['pOverview_alias_mailbox_count'] = 'Mailboxes';
+$LANG['pOverview_alias_address'] = 'From';
+$LANG['pOverview_alias_goto'] = 'To';
+$LANG['pOverview_alias_modified'] = 'Last Modified';
+$LANG['pOverview_mailbox_username'] = 'Email';
+$LANG['pOverview_mailbox_name'] = 'Name';
+$LANG['pOverview_mailbox_quota'] = 'Quota (MB)';
+$LANG['pOverview_mailbox_modified'] = 'Last Modified';
+$LANG['pOverview_mailbox_active'] = 'Active';
+
+$LANG['pOverview_get_domain'] = 'Domain';
+$LANG['pOverview_get_aliases'] = 'Aliases';
+$LANG['pOverview_get_mailboxes'] = 'Mailboxes';
+$LANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
+$LANG['pOverview_get_modified'] = 'Last Modified';
+
+$LANG['pDelete_delete_error'] = '<font color="red">Unable to delete the entry ';
+$LANG['pDelete_domain_error'] = '<font color="red">This domain is not yours ';
+
+$LANG['pCreate_alias_welcome'] = 'Create a new alias for your domain.';
+$LANG['pCreate_alias_address'] = 'Alias';
+$LANG['pCreate_alias_address_text_error1'] = '<br /><font color="red">The ALIAS is not valid!</font>';
+$LANG['pCreate_alias_address_text_error2'] = '<br /><font color="red">This email address already exists, please choose a different one!</font>';
+$LANG['pCreate_alias_address_text_error3'] = '<br /><font color="red">You have reached your limit to create aliases!</font>';
+$LANG['pCreate_alias_goto'] = 'To';
+$LANG['pCreate_alias_button'] = 'Add Alias';
+$LANG['pCreate_alias_goto_text'] = 'Where the mail needs to be send to.';
+$LANG['pCreate_alias_goto_text_error'] = 'Where the email needs to go.<br /><font color="red">The TO is not valid!</font>';
+$LANG['pCreate_alias_result_error'] = '<font color="red">Unable to add the alias to the alias table!</font>';
+$LANG['pCreate_alias_result_succes'] = 'The alias has been added to the alias table!';
+$LANG['pCreate_alias_catchall_text'] = 'To create a catch-all use an "*" as alias.<br />For domain to domain forwarding use "*@domain.tld" as to.';
+
+$LANG['pEdit_alias_welcome'] = 'Edit an alias for your domain.<br />One entry per line.';
+$LANG['pEdit_alias_address'] = 'Alias';
+$LANG['pEdit_alias_address_error'] = '<font color="red">Unable to locate alias!</font>';
+$LANG['pEdit_alias_goto'] = 'To';
+$LANG['pEdit_alias_goto_text_error1'] = '<font color="red">You didn\'t enter anything at To</font>';
+$LANG['pEdit_alias_goto_text_error2'] = '<font color="red">The email address that you have entered is not valid: ';
+$LANG['pEdit_alias_domain_error'] = '<font color="red">This domain is not yours: ';
+$LANG['pEdit_alias_button'] = 'Edit Alias';
+$LANG['pEdit_alias_result_error'] = '<font color="red">Unable to modify the alias!</font>';
+
+$LANG['pCreate_mailbox_welcome'] = 'Create a new local mailbox for your domain.';
+$LANG['pCreate_mailbox_username'] = 'Username';
+$LANG['pCreate_mailbox_username_text_error1'] = '<br /><font color="red">The EMAIL is not valid!</font>';
+$LANG['pCreate_mailbox_username_text_error2'] = '<br /><font color="red">This email address already exists, please choose a different one!</font>';
+$LANG['pCreate_mailbox_username_text_error3'] = '<br /><font color="red">You have reached your limit to create mailboxes!</font>';
+$LANG['pCreate_mailbox_password'] = 'Password';
+$LANG['pCreate_mailbox_password2'] = 'Password (again)';
+$LANG['pCreate_mailbox_password_text'] = 'Password for POP3/IMAP';
+$LANG['pCreate_mailbox_password_text_error'] = 'Password for POP3/IMAP<br /><font color="red">The passwords that you supplied don\'t match!<br />Or are empty!</font>';
+$LANG['pCreate_mailbox_name'] = 'Name';
+$LANG['pCreate_mailbox_name_text'] = 'Full name';
+$LANG['pCreate_mailbox_quota'] = 'Quota';
+$LANG['pCreate_mailbox_quota_text'] = 'MB';
+$LANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><font color="red">The quota that you specified is to high!</font>';
+$LANG['pCreate_mailbox_active'] = 'Active';
+$LANG['pCreate_mailbox_mail'] = 'Create mailbox';
+$LANG['pCreate_mailbox_button'] = 'Add Mailbox';
+$LANG['pCreate_mailbox_result_error'] = '<font color="red">Unable to add the mailbox to the mailbox table!</font>';
+$LANG['pCreate_mailbox_result_succes'] = 'The mailbox has been added to the mailbox table!';
+
+$LANG['pEdit_mailbox_welcome'] = 'Edit a mailbox for your domain.';
+$LANG['pEdit_mailbox_username'] = 'Username';
+$LANG['pEdit_mailbox_username_error'] = '<font color="red">Unable to locate mailbox!</font>';
+$LANG['pEdit_mailbox_password'] = 'New Password';
+$LANG['pEdit_mailbox_password2'] = 'New Password (again)';
+$LANG['pEdit_mailbox_password_text_error'] = '<font color="red">The passwords that you supplied don\'t match!</font>';
+$LANG['pEdit_mailbox_name'] = 'Name';
+$LANG['pEdit_mailbox_quota'] = 'Quota';
+$LANG['pEdit_mailbox_quota_text'] = 'MB';
+$LANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><font color="red">The quota that you specified is to high!</font>';
+$LANG['pEdit_mailbox_domain_error'] = '<font color="red">This domain is not yours: ';
+$LANG['pEdit_mailbox_button'] = 'Edit Mailbox';
+$LANG['pEdit_mailbox_result_error'] = '<font color="red">Unable to change the password!</font>';
+
+$LANG['pPassword_welcome'] = 'Change your login password.';
+$LANG['pPassword_admin'] = 'Login';
+$LANG['pPassword_admin_text_error'] = '<font color="red">The LOGIN that you supplied doesn\'t match a mailbox!</font>';
+$LANG['pPassword_password_current'] = 'Current Password';
+$LANG['pPassword_password_current_text_error'] = '<font color="red">You didn\'t supply your current password!</font>';
+$LANG['pPassword_password'] = 'New Password';
+$LANG['pPassword_password2'] = 'New Password (again)';
+$LANG['pPassword_password_text_error'] = '<font color="red">The passwords that you supplied don\'t match!<br />Or are empty!</font>';
+$LANG['pPassword_button'] = 'Change Password';
+$LANG['pPassword_result_error'] = '<font color="red">Unable to change your password!</font>';
+$LANG['pPassword_result_succes'] = 'Your password has been changed!';
+
+$LANG['pViewlog_welcome'] = 'View the last 10 actions for ';
+$LANG['pViewlog_timestamp'] = 'Timestamp';
+$LANG['pViewlog_username'] = 'Admin';
+$LANG['pViewlog_domain'] = 'Domain';
+$LANG['pViewlog_action'] = 'Action';
+$LANG['pViewlog_data'] = 'Data';
+
+$LANG['pViewlog_button'] = 'Go';
+$LANG['pViewlog_result_error'] = '<font color="red">Unable to find the logs!</font>';
+
+$LANG['pSendmail_welcome'] = 'Send an email.';
+$LANG['pSendmail_admin'] = 'From';
+$LANG['pSendmail_to'] = 'To';
+$LANG['pSendmail_to_text_error'] = '<font color="red">To is empty or is not a valid email address!</font>';
+$LANG['pSendmail_subject'] = 'Subject';
+$LANG['pSendmail_subject_text'] = 'Welcome';
+$LANG['pSendmail_body'] = 'Body';
+$LANG['pSendmail_body_text'] = <<<EOM
+Hi,
+
+Welcome to your new account.
+EOM;
+$LANG['pSendmail_button'] = 'Send Message';
+$LANG['pSendmail_result_error'] = '<font color="red">Unable to create mailbox!</font>';
+$LANG['pSendmail_result_succes'] = 'The mailbox has been created!';
+
+$LANG['pVcp_welcome'] = 'Change your mailbox password.';
+$LANG['pVcp_username'] = 'Email';
+$LANG['pVcp_username_text_error'] = '<font color="red">The EMAIL that you supplied doesn\'t match a mailbox!</font>';
+$LANG['pVcp_password_current'] = 'Current Password';
+$LANG['pVcp_password_current_text_error'] = '<font color="red">You didn\'t supply your current password!</font>';
+$LANG['pVcp_password'] = 'New Password';
+$LANG['pVcp_password2'] = 'New Password (again)';
+$LANG['pVcp_password_text_error'] = '<font color="red">The passwords that you supplied don\'t match!<br />Or are empty!</font>';
+$LANG['pVcp_button'] = 'Change Password';
+$LANG['pVcp_result_error'] = '<font color="red">Unable to change your password!</font>';
+$LANG['pVcp_result_succes'] = 'Your password has been changed!';
+
+$LANG['pAdminMenu_list_admin'] = 'Admin List';
+$LANG['pAdminMenu_list_domain'] = 'Domain List';
+$LANG['pAdminMenu_list_virtual'] = 'Virtual List';
+$LANG['pAdminMenu_viewlog'] = 'View Log';
+$LANG['pAdminMenu_backup'] = 'Backup';
+$LANG['pAdminMenu_create_domain_admins'] = 'Domain Admins';
+$LANG['pAdminMenu_create_admin'] = 'New Admin';
+$LANG['pAdminMenu_create_domain'] = 'New Domain';
+$LANG['pAdminMenu_create_alias'] = 'Add Alias';
+$LANG['pAdminMenu_create_mailbox'] = 'Add Mailbox';
+
+$LANG['pAdminList_admin_domain'] = 'Domain';
+$LANG['pAdminList_admin_username'] = 'Admin';
+$LANG['pAdminList_admin_count'] = 'Domains';
+$LANG['pAdminList_admin_modified'] = 'Last Modified';
+$LANG['pAdminList_admin_active'] = 'Active';
+
+$LANG['pAdminList_domain_domain'] = 'Domain';
+$LANG['pAdminList_domain_description'] = 'Description';
+$LANG['pAdminList_domain_aliases'] = 'Aliases';
+$LANG['pAdminList_domain_mailboxes'] = 'Mailboxes';
+$LANG['pAdminList_domain_maxquota'] = 'Max Quota (MB)';
+$LANG['pAdminList_domain_modified'] = 'Last Modified';
+$LANG['pAdminList_domain_active'] = 'Active';
+
+$LANG['pAdminList_virtual_button'] = 'Go';
+$LANG['pAdminList_virtual_welcome'] = 'Overview for ';
+$LANG['pAdminList_virtual_alias_alias_count'] = 'Aliases';
+$LANG['pAdminList_virtual_alias_mailbox_count'] = 'Mailboxes';
+$LANG['pAdminList_virtual_alias_address'] = 'From';
+$LANG['pAdminList_virtual_alias_goto'] = 'To';
+$LANG['pAdminList_virtual_alias_modified'] = 'Last Modified';
+$LANG['pAdminList_virtual_mailbox_username'] = 'Email';
+$LANG['pAdminList_virtual_mailbox_name'] = 'Name';
+$LANG['pAdminList_virtual_mailbox_quota'] = 'Quota (MB)';
+$LANG['pAdminList_virtual_mailbox_modified'] = 'Last Modified';
+$LANG['pAdminList_virtual_mailbox_active'] = 'Active';
+
+$LANG['pAdminCreate_domain_welcome'] = 'Add a new domain';
+$LANG['pAdminCreate_domain_domain'] = 'Domain';
+$LANG['pAdminCreate_domain_domain_text_error'] = '<font color="red">The domain already exists!</font>';
+$LANG['pAdminCreate_domain_description'] = 'Description';
+$LANG['pAdminCreate_domain_aliases'] = 'Aliases';
+$LANG['pAdminCreate_domain_aliases_text'] = '0 = disable | -1 = unlimited';
+$LANG['pAdminCreate_domain_mailboxes'] = 'Mailboxes';
+$LANG['pAdminCreate_domain_mailboxes_text'] = '0 = disable | -1 = unlimited';
+$LANG['pAdminCreate_domain_maxquota'] = 'Max Quota';
+$LANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> 0 = disable | -1 = unlimited';
+$LANG['pAdminCreate_domain_defaultaliases'] = 'Add default mail aliases';
+$LANG['pAdminCreate_domain_button'] = 'Add Domain';
+$LANG['pAdminCreate_domain_result_error'] = '<font color="red">Unable to add domain!</font>';
+$LANG['pAdminCreate_domain_result_succes'] = 'Domain has been added!';
+
+$LANG['pAdminEdit_domain_welcome'] = 'Edit a domain';
+$LANG['pAdminEdit_domain_domain'] = 'Domain';
+$LANG['pAdminEdit_domain_description'] = 'Description';
+$LANG['pAdminEdit_domain_aliases'] = 'Aliases';
+$LANG['pAdminCreate_domain_aliases_text'] = '0 = disable | -1 = unlimited';
+$LANG['pAdminEdit_domain_mailboxes'] = 'Mailboxes';
+$LANG['pAdminCreate_domain_mailboxes_text'] = '0 = disable | -1 = unlimited';
+$LANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
+$LANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> 0 = disable | -1 = unlimited';
+$LANG['pAdminEdit_domain_active'] = 'Active';
+$LANG['pAdminEdit_domain_button'] = 'Edit Domain';
+$LANG['pAdminEdit_domain_result_error'] = '<font color="red">Unable to modify domain!</font>';
+
+$LANG['pAdminCreate_admin_welcome'] = 'Add a new domain admin';
+$LANG['pAdminCreate_admin_username'] = 'Admin';
+$LANG['pAdminCreate_admin_username_text'] = 'Email address';
+$LANG['pAdminCreate_admin_username_text_error1'] = 'Email address<br /><font color="red">Admin is not a valid email address!</font>';
+$LANG['pAdminCreate_admin_username_text_error2'] = 'Email address<br /><font color="red">The admin already exists or is not valid</font>';
+$LANG['pAdminCreate_admin_password'] = 'Password';
+$LANG['pAdminCreate_admin_password2'] = 'Password (again)';
+$LANG['pAdminCreate_admin_password_text_error'] = '<font color="red">The passwords that you supplied don\'t match!<br />Or are empty!</font>';
+$LANG['pAdminCreate_admin_button'] = 'Add Admin';
+$LANG['pAdminCreate_admin_result_error'] = '<font color="red">Unable to add admin!</font>';
+$LANG['pAdminCreate_admin_result_succes'] = 'Admin has been added!';
+$LANG['pAdminCreate_admin_address'] = 'Domain';
+
+$LANG['pAdminEdit_admin_welcome'] = 'Edit a domain admin';
+$LANG['pAdminEdit_admin_username'] = 'Admin';
+$LANG['pAdminEdit_admin_password'] = 'Password';
+$LANG['pAdminEdit_admin_password2'] = 'Password (again)';
+$LANG['pAdminEdit_admin_password_text_error'] = '<font color="red">The passwords that you supplied don\'t match!<br />Or are empty!</font>';
+$LANG['pAdminEdit_admin_active'] = 'Active';
+$LANG['pAdminEdit_admin_button'] = 'Edit Admin';
+$LANG['pAdminEdit_admin_result_error'] = '<font color="red">Unable to modify admin!</font>';
+$LANG['pAdminEdit_admin_result_succes'] = 'Admin has been modified!';
+
+$LANG['pUsersLogin_welcome'] = 'Mailbox users login to change your password and aliases.';
+$LANG['pUsersLogin_username'] = 'Login (email)';
+$LANG['pUsersLogin_password'] = 'Password';
+$LANG['pUsersLogin_button'] = 'Login';
+$LANG['pUsersLogin_username_incorrect'] = 'Your login is not correct. Make sure that you login with your email address!';
+$LANG['pUsersLogin_password_incorrect'] = 'Your password is not correct!';
+
+$LANG['pUsersMenu_vacation'] = 'Auto Response';
+$LANG['pUsersMenu_edit_alias'] = 'Change your forward';
+$LANG['pUsersMenu_password'] = 'Change Password';
+
+$LANG['pUsersMain_welcome'] = 'Change your mailbox settings here!';
+$LANG['pUsersMain_vacation'] = 'Set an "out of office" message or auto responder for your mail.';
+$LANG['pUsersMain_edit_alias'] = 'Change your email forwarding.';
+$LANG['pUsersMain_password'] = 'Change your current password.';
+
+$LANG['pUsersVacation_welcome'] = 'Auto Response.';
+$LANG['pUsersVacation_welcome_text'] = 'You already have an auto response configured!';
+$LANG['pUsersVacation_subject'] = 'Subject';
+$LANG['pUsersVacation_subject_text'] = 'Out of Office';
+$LANG['pUsersVacation_body'] = 'Body';
+$LANG['pUsersVacation_body_text'] = <<<EOM
+I will be away from <date> until <date>.
+For urgent matters you can contact <contact person>.
+EOM;
+$LANG['pUsersVacation_button_away'] = 'Going Away';
+$LANG['pUsersVacation_button_back'] = 'Coming Back';
+$LANG['pUsersVacation_result_error'] = '<font color="red">Unable to update your auto response settings!</font>';
+$LANG['pUsersVacation_result_succes'] = 'Your auto response has been removed!';
+?>
