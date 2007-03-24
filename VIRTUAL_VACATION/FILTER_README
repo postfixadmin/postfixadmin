@@ -1,0 +1,512 @@
+Introduction
+============
+
+This is a very first implementation of Postfix content filtering.
+A Postfix content filter receives unfiltered mail from Postfix and
+does one of the following:
+
+- re-injects the mail back into Postfix, perhaps after changing content
+- rejects the mail (by sending a suitable status code back to
+  Postfix) so that it is returned to sender.
+- sends the mail somewhere else
+
+This document describes two approaches to content filtering: simple
+and advanced. Both filter all the mail by default.
+
+At the end are examples that show how to filter only mail from
+users, about using different filters for different domains that
+you provide MX service for, and about selective filtering on the 
+basis of message envelope and/or header/body patterns.
+
+Simple content filtering example
+================================
+
+The first example is simple to set up.  It uses a shell script that
+receives unfiltered mail from the Postfix pipe delivery agent, and
+that feeds filtered mail back into the Postfix sendmail command.
+
+Only mail arriving via SMTP will be content filtered.
+
+                  ..................................
+                  :            Postfix             :
+Unfiltered mail----->smtpd \                /local---->Filtered mail
+                  :         -cleanup->queue-       :
+               ---->pickup /                \smtp----->Filtered mail
+               ^  :                        |       :
+               |  :                         \pipe-----+
+               |  ..................................  |
+               |                                      |
+               |                                      |
+               +-Postfix sendmail<----filter script<--+
+
+Mail is filtered by a /some/where/filter program. This can be a
+simple shell script like this:
+
+    #!/bin/sh
+
+    # Localize these.
+    INSPECT_DIR=/var/spool/filter
+    SENDMAIL="/usr/sbin/sendmail -i"
+
+    # Exit codes from <sysexits.h>
+    EX_TEMPFAIL=75
+    EX_UNAVAILABLE=69
+
+    # Clean up when done or when aborting.
+    trap "rm -f in.$$" 0 1 2 3 15
+
+    # Start processing.
+    cd $INSPECT_DIR || { echo $INSPECT_DIR does not exist; exit $EX_TEMPFAIL; }
+
+    cat >in.$$ || { echo Cannot save mail to file; exit $EX_TEMPFAIL; }
+
+    # filter <in.$$ || { echo Message content rejected; exit $EX_UNAVAILABLE; }
+
+    $SENDMAIL "$@" <in.$$
+
+    exit $?
+
+The idea is to first capture the message to file and then run the
+content through a third-party content filter program.
+
+- If the mail cannot be captured to file, mail delivery is deferred
+  by terminating with exit status 75 (EX_TEMPFAIL). Postfix will
+  try again after some delay.
+
+- If the content filter program finds a problem, the mail is bounced
+  by terminating with exit status 69 (EX_UNAVAILABLE).  Postfix
+  will return the message to the sender as undeliverable.
+
+- If the content is OK, it is given as input to the Postfix sendmail
+  command, and the exit status of the filter command is whatever
+  exit status the Postfix sendmail command produces. Postfix will
+  deliver the message as usual.
+
+I suggest that you run this script by hand until you are satisfied
+with the results. Run it with a real message (headers+body) as
+input:
+
+    % /some/where/filter -f sender recipient... <message-file
+
+Once you're satisfied with the content filtering script:
+
+1 - Create a dedicated local user account called "filter".  This
+    user handles all potentially dangerous mail content - that is
+    why it should be a separate account. Do not use "nobody", and
+    most certainly do not use "root" or "postfix".  The user will
+    never log in, and can be given a "*" password and non-existent
+    shell and home directory.
+
+2 - Create a directory /var/spool/filter that is accessible only
+    to the "filter" user. This is where the content filtering script
+    is supposed to store its temporary files.
+
+3 - Define the content filter in the Postfix master file:
+
+    /etc/postfix/master.cf:
+      filter    unix  -       n       n       -       -       pipe
+        flags=Rq user=filter argv=/somewhere/filter -f ${sender} -- ${recipient}
+
+To turn on content filtering for mail arriving via SMTP only, append
+"-o content_filter=filter:dummy" to the master.cf entry that defines
+the Postfix SMTP server:
+
+    /etc/postfix/master.cf:
+        smtp      inet     ...stuff...      smtpd
+            -o content_filter=filter:dummy
+
+The content_filter configuration parameter accepts the same syntax
+as the right-hand side in a Postfix transport table.  Execute
+"postfix reload" to complete the change.
+
+To turn off content filtering, edit the master.cf file, remove the
+"-o content_filter=filter:dummy" text from the entry that defines
+the Postfix SMTP server, and execute another "postfix reload".
+
+With the shell script as shown above you will lose a factor of four
+in Postfix performance for transit mail that arrives and leaves
+via SMTP. You will lose another factor in transit performance for
+each additional temporary file that is created and deleted in the
+process of content filtering.  The performance impact is less for
+mail that is submitted or delivered locally, because such deliveries
+are already slower than SMTP transit mail.
+
+Simple content filter limitations
+=================================
+
+The problem with content filters like the one above is that they
+are not very robust. The reason is that the software does not talk
+a well-defined protocol with Postfix. If the filter shell script
+aborts because the shell runs into some memory allocation problem,
+the script will not produce a nice exit status as defined in the
+file /usr/include/sysexits.h.  Instead of going to the deferred
+queue, mail will bounce.  The same lack of robustness can happen
+when the content filtering software itself runs into a resource
+problem.
+
+Advanced content filtering example
+===================================
+
+The second example is more complex, but can give much better
+performance, and is less likely to bounce mail when the machine
+runs into a resource problem.  This approach uses content filtering
+software that can receive and deliver mail via SMTP.
+
+Some Anti-virus software is built to receive and deliver mail via
+SMTP and is ready to use as an advanced Postfix content filter.
+For non-SMTP capable content filtering software, Bennett Todd's
+SMTP proxy implements a nice PERL/SMTP content filtering framework.
+See: http://bent.latency.net/smtpprox/
+
+The example given here filters all mail, including mail that arrives
+via SMTP and mail that is locally submitted via the Postfix sendmail
+command.
+
+You can expect to lose about a factor of two in Postfix performance
+for transit mail that arrives and leaves via SMTP, provided that
+the content filter creates no temporary files. Each temporary file
+created by the content filter adds another factor to the performance
+loss.
+
+We will set up a content filtering program that receives SMTP mail
+via localhost port 10025, and that submits SMTP mail back into
+Postfix via localhost port 10026.
+
+      ..................................
+      :            Postfix             :
+   ----->smtpd \                /local---->
+      :         -cleanup->queue-       :
+   ---->pickup /    ^       |   \smtp----->
+      :             |       v          :
+      :           smtpd    smtp        :
+      :           10026     |          :
+      ......................|...........
+                    ^       |
+                    |       v
+                ....|............
+                :   |     10025 :
+                :   filter      :
+                :               :
+                .................
+
+To enable content filtering in this manner, specify in main.cf a
+new parameter:
+
+    /etc/postfix/main.cf:
+        content_filter = scan:localhost:10025
+
+This causes Postfix to add one extra content filtering record to
+each incoming mail message, with content scan:localhost:10025.
+The content filtering records are added by the smtpd and pickup
+servers.
+
+When a queue file has content filtering information, the queue
+manager will deliver the mail to the specified content filter
+regardless of its final destination.
+
+In this example, "scan" is an instance of the Postfix SMTP client
+with slightly different configuration parameters. This is how
+one would set up the service in the Postfix master.cf file:
+
+    /etc/postfix/master.cf:
+        scan      unix  -       -       n       -       10       smtp
+
+Instead of a limit of 10 concurrent processes, use whatever process
+limit is feasible for your machine.  Content inspection software
+can gobble up a lot of system resources, so you don't want to have
+too much of it running at the same time.
+
+The content filter can be set up with the Postfix spawn service,
+which is the Postfix equivalent of inetd. For example, to instantiate
+up to 10 content filtering processes on demand:
+
+    /etc/postfix/master.cf:
+        localhost:10025     inet  n      n      n      -      10     spawn
+            user=filter argv=/some/where/filter localhost 10026
+
+"filter" is a dedicated local user account.  The user will never
+log in, and can be given a "*" password and non-existent shell and
+home directory.  This user handles all potentially dangerous mail
+content - that is why it should be a separate account.
+
+In the above example, Postfix listens on port localhost:10025.  If
+you want to have your filter listening on port localhost:10025
+instead of Postfix, then you must run your filter as a stand-alone
+program.
+
+Note: the localhost port 10025 SMTP server filter should announce
+itself as "220 localhost...".  Postfix aborts delivery when it
+connects to an SMTP server that uses the same hostname as Postfix
+("host <servername> greeted me with my own hostname"), because that
+normally means you have a mail delivery loop problem.
+
+The example here assumes that the /some/where/filter command is a
+PERL script. PERL has modules that make talking SMTP easy. The
+command-line specifies that mail should be sent back into Postfix
+via localhost port 10026.
+
+The simplest content filter just copies SMTP commands and data
+between its inputs and outputs. If it has a problem, all it has to
+do is to reply to an input of `.' with `550 content rejected', and
+to disconnect without sending `.' on the connection that injects
+mail back into Postfix.
+
+The job of the content filter is to either bounce mail with a
+suitable diagnostic, or to feed the mail back into Postfix through
+a dedicated listener on port localhost 10026:
+
+    /etc/postfix/master.cf:
+        localhost:10026     inet  n      -      n      -      10      smtpd
+            -o content_filter= 
+            -o local_recipient_maps=
+            -o relay_recipient_maps=
+            -o myhostname=localhost.domain.tld
+            -o smtpd_helo_restrictions=
+            -o smtpd_client_restrictions=
+            -o smtpd_sender_restrictions=
+            -o smtpd_recipient_restrictions=permit_mynetworks,reject
+            -o mynetworks=127.0.0.0/8
+
+Warning for Postfix version 2 users: in this SMTP server after the
+content filter, do not override main.cf settings for virtual_alias_maps
+or virtual_alias_domains. That would cause mail to be rejected with
+"User unknown".
+
+This SMTP server has the same process limit as the "filter" master.cf
+entry.
+
+The "-o content_filter=" requests no content filtering for incoming
+mail.
+
+The "-o local_recipient_maps=" and "-o relay_recipient_maps=" avoid
+unnecessary table lookups.
+
+The "-o myhostname=localhost.domain.tld" avoids false alarms ("host
+<servername> greeted me with my own hostname") if your content
+filter is based on a proxy that simply relays SMTP commands.
+
+The "-o smtpd_xxx_restrictions" and "-o mynetworks=127.0.0.0/8"
+turn off UCE controls that would only waste time here.
+
+Squeezing out more performance
+==============================
+
+Many refinements are possible, such as running a specially-configured
+smtp delivery agent for feeding mail into the content filter, and
+turning off address rewriting before content filtering.
+
+As the example below shows, things quickly become very complex,
+because a lot of main.cf like information gets listed in the
+master.cf file. This makes the system hard to understand.
+
+Even worse, details change as Postfix evolves and different
+configuration parameters are implemented by different programs.
+
+If you need to squeeze out more performance, it is probably simpler
+to run multiple Postfix instances, one before and one after the
+content filter. That way, each instance can have simple main.cf
+and master.cf files, each instance can have its own mail queue,
+and the system will be easier to understand.
+
+As before, we will set up a content filtering program that receives
+SMTP mail via localhost port 10025, and that submits SMTP mail back
+into Postfix via localhost port 10026.
+
+      .......................................
+      :                Postfix              :
+   ----->smtpd \                            :
+      :         -pre-cleanup-\       /local---->
+   ---->pickup /              -queue-       :
+      :             -cleanup-/   |   \smtp----->
+      :     bounces/    ^        v          :
+      : and locally     |        v          :
+      :   forwarded   smtpd     scan        :
+      :    messages   10026      |          :
+      ...........................|...........
+                        ^        |
+                        |        v
+                    ....|.............
+                    :   |      10025 :
+                    :   filter       :
+                    :                :
+                    ..................
+
+To enable content filtering in this manner, specify in main.cf a
+new parameter:
+
+/etc/postfix/main.cf:
+    content_filter = scan:localhost:10025
+
+/etc/postfix/master.cf:
+#
+# These are the usual input "smtpd" and local "pickup" servers already
+# present in master.cf. We add an option to select a non-default
+# cleanup service (defined further below).
+#
+smtp      inet  n       -       n       -       -       smtpd
+    -o cleanup_service_name=pre-cleanup
+pickup    fifo  n       -       n       60      1       pickup
+    -o cleanup_service_name=pre-cleanup
+#
+# ------------------------------------------------------------------
+#
+# This is the cleanup daemon that handles messages in front of
+# the content filter. It does header_checks and body_checks (if
+# any), but does no virtual alias or canonical address mapping,
+# so that mail passes through your content filter with the original
+# recipient addresses mostly intact.
+#
+# Virtual alias or canonical address mapping happens in the second
+# cleanup phase after the content filter. This gives the content_filter
+# access to *largely* unmodified addresses for maximum flexibility.
+#
+# Some sites may specifically want to perform canonical or virtual
+# address mapping in front of the content_filter.  In that case you
+# still have to enable address rewriting in the after-filter cleanup
+# instance, in order to correctly process forwarded mail or bounced
+# mail.
+#
+pre-cleanup         unix  n      -      n      -       0      cleanup
+        -o canonical_maps=
+        -o sender_canonical_maps=
+        -o recipient_canonical_maps=
+        -o masquerade_domains=
+        -o virtual_alias_maps=
+#
+# ------------------------------------------------------------------
+#
+# This is the delivery agent that injects mail into the content
+# filter.  It is tuned for low concurrency, because most content
+# filters burn CPU and use lots of memory.  The process limit of 10
+# re-enforces the effect of $default_destination_concurrency_limit.
+# Even without an explicit process limit, the concurrency is bounded
+# because all messages heading into the content filter have the same
+# destination.
+#
+scan                unix  -      -      n      -      10      smtp
+#
+# ------------------------------------------------------------------
+#
+# This is the SMTP listener that receives filtered messages from
+# the content filter. It *MUST* clear the content_filter
+# parameter to avoid loops, and use a different hostname to avoid
+# triggering the Postfix SMTP loop detection code.
+#
+# This "smtpd" uses the normal cleanup service which is also used
+# for bounces and for internally forwarded mail.
+#
+# The parameters from mynetworks onward disable all access
+# control other than insisting on connections from one of the IP
+# addresses of the host. This is typically overkill, but can
+# reduce resource usage, if the default restrictions use lots of
+# tables.
+#
+localhost:10026     inet  n      -      n      -       -      smtpd
+    -o content_filter= 
+    -o myhostname=localhost.domain.tld
+    -o local_recipient_maps=
+    -o relay_recipient_maps=
+    -o mynetworks=127.0.0.0/8
+    -o mynetworks_style=host
+    -o smtpd_restriction_classes=
+    -o smtpd_client_restrictions=
+    -o smtpd_helo_restrictions=
+    -o smtpd_sender_restrictions=
+    -o smtpd_recipient_restrictions=permit_mynetworks,reject
+#
+# Do not override main.cf settings here for virtual_alias_maps or
+# virtual_mailbox_maps. This causes mail to be rejected with "User
+# unknown in virtual (alias|mailbox) recipient table".
+#
+# ------------------------------------------------------------------
+#
+# This is the normal cleanup daemon for use after content filtering.
+# No header or body checks, because those have already been taken
+# care of by the pre-cleanup service before the content filter.
+# 
+# The normal cleanup instance does all the virtual alias and canonical
+# address mapping that was disabled in the pre-cleanup instance before
+# the content filter. This rewriting must be done even when you didn't
+# disable address rewriting in the pre-cleanup instance, in order to
+# correctly process bounces and locally forwarded mail.
+#
+cleanup            unix  n      -      n      -       0      cleanup
+    -o header_checks=
+    -o mime_header_checks=
+    -o nested_header_checks=
+    -o body_checks=
+#
+# ------------------------------------------------------------------
+#
+# The normal "smtp" delivery agent for contrast with "scan".
+#
+smtp                unix  -      -      n      -      -       smtp
+
+The above example causes Postfix to add one content filtering record
+to each incoming mail message, with content scan:localhost:10025.
+You can use the same syntax as in the right-hand side of a Postfix
+transport table.  The content filtering records are added by the
+smtpd and pickup servers.
+
+The "scan" transport is a dedicated instance of the "smtp" delivery
+agent for injecting messages into the SMTP content filter. Using
+a dedicated "smtp" transport allows one to tune it for the specific
+task of delivering mail to a local content filter (low latency,
+low concurrency, throughput dependent on predictably low latency).
+
+See the previous example for setting up the content filter with
+the Postfix spawn service; you can of course use any server that
+can be run stand-alone outside the Postfix environment.
+
+Filtering mail from outside users only
+======================================
+
+The easiest approach is to configure ONE Postfix instance with TWO
+SMTP server addresses in master.cf:
+
+- One SMTP server address for inside users only that never invokes
+  content filtering.
+
+- One SMTP server address for outside users that always invokes
+  content filtering.
+
+/etc/postfix.master.cf:
+    # SMTP service for internal users only, no content filtering.
+    1.2.3.4:smtp        inet  n       -       n       -       -       smtpd
+        -o smtpd_client_restrictions=permit_mynetworks,reject
+    127.0.0.1:smtp      inet  n       -       n       -       -       smtpd
+        -o smtpd_client_restrictions=permit_mynetworks,reject
+
+    # SMTP service for external users, with content filtering.
+    1.2.3.5:smtp        inet  n       -       n       -       -       smtpd
+        -o content_filter=foo:bar
+
+Getting really nasty
+====================
+
+The above filtering configurations are static. Mail that follows
+a given path is either always filtered or it is never filtered. As
+of Postfix 2.0 you can also turn on content filtering on the fly.
+The Postfix UCE features allow you to specify a filtering action
+on the fly:
+
+    FILTER foo:bar
+
+You can do this in smtpd access maps as well as the cleanup server's
+header/body_checks.  This feature must be used with great care:
+you must disable all the UCE features in the after-filter smtpd
+and cleanup daemons or else you will have a content filtering loop.
+
+Limitations:
+
+- There can be only one content filter action per message.
+
+- FILTER actions from smtpd access maps and header/body_checks take
+  precedence over filters specified with the main.cf content_filter 
+  parameter.
+
+- Only the last FILTER action from smtpd access maps or from
+  header/body_checks takes effect.
+
+- The same content filter is applied to all the recipients of a
+  given message.
