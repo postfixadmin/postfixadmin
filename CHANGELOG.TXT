@@ -1,0 +1,35 @@
+#############################
+# Postfix Admin Release 1.x #
+#############################
+#
+# 2003 (c) High5!
+# Created by: Mischa Peters <mischa@high5.net>
+#
+
+Version 1.4.0  -- TBD
+---------------------
+  - Added: When deleting a domain, all aliases and mailboxes for that domain
+    are also deleted from the database.
+  - Added: Add standard aliases for every domain that is created.
+    These aliases can point to the main "local" administrator.
+    The aliases are configured in the config.php in the admin directory.
+  - Change: The layout of my_lib.php and site_lib.php have been changed.
+  - Change: Modifying an alias is now done with TEXTAREA for more
+    flexibility.
+  - Fix: minor bugs and cosmetic fixes.
+
+
+Version 1.3.8a -- 2003/03/31
+----------------------------
+  - Fix: After deletion of a domain it would not return to the correct page.
+
+
+Version 1.3.8  -- 2003/03/25
+----------------------------
+  - Added: Admin password change. No longer needed to delete and re-enter
+    the admin user for a specific domain.
+
+
+Version 1.3.7  -- 2002/12/24
+----------------------------
+  - Initial public release of Postfix Admin.

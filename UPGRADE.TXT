@@ -1,0 +1,90 @@
+#############################
+# Postfix Admin Release 1.x #
+#############################
+#
+# 2003 (c) High5!
+# Created by: Mischa Peters <mischa@high5.net>
+#
+
+Upgrade from 1.3.x
+------------------
+Since some features have been added to this release which are partially
+coming from site_lib.php it's wise to do a complete upgrade and modify your
+settings in the new site_lib.php.
+
+
+1. Backup old installation
+---------------------------
+Make a backup of your current Postfix Admin  directory. If you use "cp", be
+sure to use the "-Rp" options. -R means recursive, and -p will save the
+permissions in the directory.
+
+In this example, we assume that your httpd document directory is 
+/usr/local/postfixadmin, that your Postfix Admin install is located at
+/usr/local/postfixadmin/postfixadmin, and that your new Postfix Admin version is 1.4.0.
+Substitute version numbers and names as required.
+
+  $ cd /usr/local/postfixadmin
+  $ cp -Rp postfixadmin postfixadmin.old
+
+
+2. Unarchive new Postfix Admin
+------------------------------
+Make sure that you are in your /usr/local/postfixadmin/ directory and then unarchive the
+Postfix Admin archive (whatever the filename is):
+
+  $ tar -zxvf postfixadmin-1.4.0.tgz
+
+
+3. Change permissions
+----------------------
+Since the database  password is stored in the site_lib.php it's a good idea
+to have Postfix Admin set to the permission of the webserver. In this
+example, we assume that user "www" and group "www" are the web server as is
+often the case with Apache.
+
+  $ cd /usr/local/postfixadmin/
+  $ chown -R www:www postfixadmin
+
+This is also a good idea for the file permissions.
+
+  $ cd /usr/local/postfixadmin/postfixadmin
+  $ chmod 640 *.php *.css
+  $ cd /usr/local/postfixadmin/postfixadmin/admin
+  $ chmod 640 *.php *.css
+  
+Additionally, if "chown user:group" doesn't work, you can use "chown user"
+and "chgrp group" instead. See the man pages for these commands for more
+information.
+
+
+4. Create the MySQL Tables
+--------------------------
+In INSTALL.TXT you can find the table structure that you need in order to
+configure Postfix Admin and Postfix in general to work with Virtual Domains
+and Users
+
+
+5. Configure
+------------
+Look at the file site_lib.php in the root of Postfix Admin and the
+site_lib.php in the admin directory. Here you can specify the username and
+possword of the Postfix Admin user as well as the database name.
+
+In this file you can also find the text that is displayed as the title,
+header and footer. You can change this as you see fit.
+To change the background and text color please check the stylesheet.css
+
+In config.php in the admin directory you can find an array of default
+aliases that are created when a new domain is created. You can change these
+aliases so that they reflect your setup.
+
+The default password for the admin part of Postfix Admin is admin/admin.
+This is specified in the .htpasswd file in the admin directory.
+Make sure that the location of the .htpasswd file matches your path.
+
+
+6. Done
+-------
+This is all that is needed. Fire up your browser and go to the site that you
+specified to host Postfix Admin.
