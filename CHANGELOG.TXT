@@ -1,0 +1,161 @@
+#############################
+# Postfix Admin Release 2.x #
+#############################
+#
+# 2004 (c) High5!
+# Created by: Mischa Peters <mischa at high5 dot net>
+#
+
+Version 2.0.4  -- 2004/02/26
+----------------------------
+  - Added: Euskara language. (Thanx Julen)
+  - Added: Hungarian language. (Thanx Christian)
+  - Added: Icelandic language. (Thanx Gestur)
+  - Added: Italian language. (Thanx Stucchi)
+  - Added: Norwegian - Nynorsk language. (Thanx Paul)
+  - Added: Polish language. (Thanx Jarek)
+  - Added: Portuguese - Brazil language. (Thanx Roberto)
+  - Added: Rusian language. (Thanx Paul)
+  - Added: Turkish language (Thanx Onuryalazi)
+  - Added: Encode a string according to RFC 1522 for use in headers if it
+    contains 8-bit characters. (Thanx Evgeniy)
+  - Added: One click active change of mailbox/domain/admin. (Thanx Marcin)
+  - Changed: Header in header.tpl to read charset header from language file.
+  - Fixed: Some form values are now parsed through htmlspecialchars().
+    (Thanx Marcin)
+  - Fixed: admin/delete.php ignored $CONF['vacation'].
+  - Fixed: More minor fixes to Virtual Vacation.
+
+
+Version 2.0.3  -- 2004/01/14
+----------------------------
+  - Added: Site Admin email address.
+  - Added: Danish language. (Thanx Lars)
+  - Added: Dutch language. (Thanx Mourik)
+  - Added: Faroese language. (Thanx Danial)
+  - Added: Finnish language. (Thanx Palo)
+  - Added: French language. (Thanx Kuthz)
+  - Added: Swedish language. (Thanx Slite)
+  - Added: Ignoring of MAILER-DAEMON type emails for Vacation.
+  - Fixed: Minor issues regarding mail().
+  - Fixed: Minor issues regarding crypt().
+  - Fixed: Strip issue of email address for Vacation.
+
+
+Version 2.0.2  -- 2004/01/06
+----------------------------
+  - Added: German language. (Thanx Tobias)
+  - Added: Spanish language. (Thanx Alvaro)
+  - Fixed: The body was not included using sendmail.php.
+  - Fixed: Undefined variables.
+  - Fixed: Minor HTML cleanup.
+
+
+Version 2.0.1  -- 2004/01/04
+----------------------------
+  - Fixed: The language variable caused a problem on some systems.
+
+
+Version 2.0.0  -- 2004/01/03
+----------------------------
+  - Added: The ability for one domain admin to maintain multiple domains.
+  - Added: Domain to domain forwarding.
+  - Added: Mailboxes can now be activated or deactivated.
+  - Added: Configurable welcome message for new mailboxes.
+  - Added: Optional sending of welcome message.
+  - Added: Create alias "To" defaults to current domain.
+  - Added: Logging of admin / user actions.
+  - Added: Limit for aliases and/or mailboxes per domain.
+  - Added: Disable aliases and/or mailboxes per domain.
+  - Added: Max quota per mailbox per domain.
+  - Added: Multi-Language support.
+  - Added: Statistics overview for all domains.
+  - Added: User .forwarding for mailbox users.
+  - Added: Logo for Postfix Admin (Thanx Andrew).
+  - Added: Extra MySQL debugging capabilities.
+  - Added: Clear text password support.
+  - Added: PHP crypt() support.
+  - Changed: Separated logic and SQL from content.
+  - Changed: config.inc.php doesn't point to example.com anymore.
+  - Changed: Virtual Vacation no longer requires procmail.
+  - Changed: Complete re-write.
+
+
+Version 1.5.4  -- 2003/06/16
+----------------------------
+  - Added: Option for "Back to".
+  - Added: Option for Vacation module.
+  - Added: Table declaration for the use of Quota in the INSTALL.TXT.
+    This requires an additional local delivery agent.
+    Quotas are not supported by Postfix!
+  - Changed: The word "View" to "List".
+
+
+Version 1.5.3  -- 2003/06/06
+----------------------------
+  - Fixed: Even more minor bugs in regards to declaration of variables.
+    (Thanx Aquilante and Kyle_m)
+
+
+Version 1.5.2  -- 2003/06/05
+----------------------------
+  - Fixed: Minor bugs in regards to declaration of variables.
+
+
+Version 1.5.1  -- 2003/06/04
+----------------------------
+  - Added: Optional mailbox per domain directory structure. (Thanx Jim)
+  - Added: Option to completely control the stored aliases. (Thanx Alex)
+  - Change: config.inc.php is renamed to config.inc.php.sample. (Thanx Alex)
+  - Fixed: $PHP_SELF in config.inc.php and my_lib.php. (Thanx Jim)
+  
+
+Version 1.5.0  -- 2003/05/28
+----------------------------
+  - Added: Support for "Back to Main Site"
+  - Added: config.inc.php as the main configuration file.
+  - Added: Drop down box for domain selection when adding a new admin.
+  - Added: Resend of test email to newly created mailbox.
+  - Added: Mailbox and Aliases count for domainview.
+  - Added: Change description of domain without deleting the complete
+    domain.
+  - Added: Change name of mailbox user without deleting the mailbox.
+  - Added: Expire headers for unnecessary reloads. (Thanx Alex)
+  - Fixed: Code clean up.
+  - Fixed: Minor bugs and cosmetic fixes.
+  - Fixed: Modified check_string() to check numbers and returns false if not
+    matched. (Thanx btaber)
+  - Fixed: Correct session handling in login.php (Thanx Yen-Wei Liu)
+  - Fixed: Correct deletion of RFC822 email addresses. (Thanx Yen-Wei Liu)
+  - Removed: Completely removed the site_lib.php.
+  - Removed: my_lib.php from the admin directory.
+  - Removed: Symlink to index.php.
+
+
+Version 1.4.0  -- 2003/04/07
+----------------------------
+  - Added: When deleting a domain, all aliases and mailboxes for that domain
+    are also deleted from the database.
+  - Added: Add standard aliases for every domain that is created.
+    These aliases can point to the main "local" administrator.
+    The aliases are configured in the config.php in the admin directory.
+  - Change: The layout of my_lib.php and site_lib.php have been changed.
+  - Change: Modifying an alias is now done with TEXTAREA for more
+    flexibility.
+  - Fixed: Minor bugs and cosmetic fixes.
+
+
+Version 1.3.8a -- 2003/03/31
+----------------------------
+  - Fixed: After deletion of a domain it would not return to the correct page.
+
+
+Version 1.3.8  -- 2003/03/25
+----------------------------
+  - Added: Admin password change. No longer needed to delete and re-enter
+    the admin user for a specific domain.
+
+
+Version 1.3.7  -- 2002/12/24
+----------------------------
+  - Initial public release of Postfix Admin.

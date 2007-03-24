@@ -1,0 +1,133 @@
+#############################
+# Postfix Admin Release 2.x #
+#############################
+#
+# 2004 (c) High5!
+# Created by: Mischa Peters <mischa at high5 dot net>
+#
+# This is the complete database structure for Postfix Admin.
+# If you are installing from scratch you can use this file otherwise you
+# need to use the upgrader that comes with Postfix Admin.
+#
+# There are 2 entries for a database user in the file.
+# One you can use for Postfix and one for Postfix Admin.
+#
+# You can create the database from the shell with:
+#
+# mysql -u root [-p] < DATABASE.TXT
+
+#
+# Postfix / MySQL
+#
+USE mysql;
+# Postfix user & password
+INSERT INTO user (Host, User, Password) VALUES ('localhost','postfix',password('postfix'));
+INSERT INTO db (Host, Db, User, Select_priv) VALUES ('localhost','postfix','postfix','Y');
+# Postfix Admin user & password
+INSERT INTO user (Host, User, Password) VALUES ('localhost','postfixadmin',password('postfixadmin'));
+INSERT INTO db (Host, Db, User, Select_priv, Insert_priv, Update_priv, Delete_priv) VALUES ('localhost', 'postfix', 'postfixadmin', 'Y', 'Y', 'Y', 'Y');
+FLUSH PRIVILEGES;
+GRANT USAGE ON postfix.* TO postfix@localhost;
+GRANT SELECT, INSERT, DELETE, UPDATE ON postfix.* TO postfix@localhost;
+GRANT USAGE ON postfix.* TO postfixadmin@localhost;
+GRANT SELECT, INSERT, DELETE, UPDATE ON postfix.* TO postfixadmin@localhost;
+CREATE DATABASE postfix;
+USE postfix;
+
+#
+# Table structure for table admin
+#
+CREATE TABLE admin (
+  username varchar(255) NOT NULL default '',
+  password varchar(255) NOT NULL default '',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  modified datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY  (username),
+  KEY username (username)
+) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Admins';
+
+#
+# Table structure for table alias
+#
+CREATE TABLE alias (
+  address varchar(255) NOT NULL default '',
+  goto text NOT NULL,
+  domain varchar(255) NOT NULL default '',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  modified datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY  (address),
+  KEY address (address)
+) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Aliases';
+
+#
+# Table structure for table domain
+#
+CREATE TABLE domain (
+  domain varchar(255) NOT NULL default '',
+  description varchar(255) NOT NULL default '',
+  aliases int(10) NOT NULL default '-1',
+  mailboxes int(10) NOT NULL default '-1',
+  maxquota int(10) NOT NULL default '-1',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  modified datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY  (domain),
+  KEY domain (domain)
+) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Domains';
+
+#
+# Table structure for table domain_admins
+#
+CREATE TABLE domain_admins (
+  username varchar(255) NOT NULL default '',
+  domain varchar(255) NOT NULL default '',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  KEY username (username)
+) TYPE=MyISAM COMMENT='Postfix Admin - Domain Admins';
+
+#
+# Table structure for table log
+#
+CREATE TABLE log (
+  timestamp datetime NOT NULL default '0000-00-00 00:00:00',
+  username varchar(255) NOT NULL default '',
+  domain varchar(255) NOT NULL default '',
+  action varchar(255) NOT NULL default '',
+  data varchar(255) NOT NULL default '',
+  KEY timestamp (timestamp)
+) TYPE=MyISAM COMMENT='Postfix Admin - Log';
+
+#
+# Table structure for table mailbox
+#
+CREATE TABLE mailbox (
+  username varchar(255) NOT NULL default '',
+  password varchar(255) NOT NULL default '',
+  name varchar(255) NOT NULL default '',
+  maildir varchar(255) NOT NULL default '',
+  quota int(10) NOT NULL default '-1',
+  domain varchar(255) NOT NULL default '',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  modified datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY  (username),
+  KEY username (username)
+) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Mailboxes';
+
+#
+# Table structure for table vacation
+#
+CREATE TABLE vacation (
+  email varchar(255) NOT NULL default '',
+  subject varchar(255) NOT NULL default '',
+  body text NOT NULL,
+  cache text NOT NULL,
+  domain varchar(255) NOT NULL default '',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY  (email),
+  KEY email (email)
+) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Vacation';

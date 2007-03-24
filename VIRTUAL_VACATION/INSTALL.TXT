@@ -1,0 +1,133 @@
+##################################################
+# Virtual Vacation for Postfix Admin Release 2.x #
+##################################################
+#
+# 2003 (c) High5!
+# Created by: Mischa Peters <mischa at high5 dot net>
+#
+
+REQUIRED!
+---------
+You need to have the following installed to be able to use Virtual Vacation.
+- Perl5
+- Perl DBI
+
+
+About Virtual Vacation
+----------------------
+Virual Vacation is today done with a local shell account that can receive
+email. The email is then handled by a Perl script which sends the Vacation
+message back to the sender.
+
+
+Install Virtual Vacation
+------------------------
+
+
+1. Create a local account
+-------------------------
+Create a dedicated local user account called "vacation". 
+This user handles all potentially dangerous mail content - that is why it
+should be a separate account.
+
+Do not use "nobody", and most certainly do not use "root" or "postfix".  The
+user will never log in, and can be given a "*" password and non-existent
+shell and home directory.
+
+This should look like this:
+
+#/etc/passwd
+vacation:*:65501:65501::0:0:Virtual Vacation:/nonexistent:/sbin/nologin
+
+
+2. Create a directory
+---------------------
+Create a directory, for example  /var/spool/vacation, that is accessible
+only to the "vacation" user. This is where the content filtering script is
+supposed to store its temporary files.
+
+
+3. Define the filter
+--------------------
+Define the content filter in the Postfix master file:
+
+#/etc/postfix/master.cf:
+filter    unix  -       n       n       -       -       pipe
+  flags=Rq user=filter argv=/somewhere/filter -f ${sender} -- ${recipient}
+
+To turn on content filtering for mail arriving via SMTP only, append
+"-o content_filter=filter:dummy" to the master.cf entry that defines
+the Postfix SMTP server:
+
+#/etc/postfix/master.cf:
+smtp      inet     ...stuff...      smtpd
+  -o content_filter=filter:dummy
+
+The content_filter configuration parameter accepts the same syntax as the
+right-hand side in a Postfix transport table.
+
+Execute "postfix reload" to complete the change.
+
+For more information on filtering in Postfix read the FILTER_README.
+
+4. Copy the files
+-----------------
+ 
+  $ cp mail-filter <HOME>/mail-filter
+  $ cp vacation.pl <HOME>/vacation.pl
+  $ chown -R vacation:nogroup <HOME>
+
+Which will then look something like:
+
+-rwx------   1 vacation  nogroup   409 Dec 21 00:00 mail-filter*
+-rwx------   1 vacation  nogroup  3356 Dec 21 00:00 vacation.pl*
+
+
+5. Create the table
+-------------------
+
+To use Virtual Vacation with Postfix Admin you need to create an extra table
+in the database that is used by Postfix Admin.
+
+USE postfix;
+#
+# Table structure for table vacation
+#
+CREATE TABLE vacation (
+  email varchar(255) NOT NULL default '',
+  subject varchar(255) NOT NULL default '',
+  body text NOT NULL,
+  cache text NOT NULL,
+  domain varchar(255) NOT NULL default '',
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  active tinyint(4) NOT NULL default '1',
+  PRIMARY KEY  (email),
+  KEY email (email)
+) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Vacation';
+
+
+What do these files do?
+-----------------------
+mail-filter picks up every single email and pushes it towards the
+vacation.pl
+
+vacation.pl then checks the database to see wether a user is on holiday and
+what message to send back. Make sure that vacation.pl is able to communicate
+to your databse. In the first couple of lines you have to specify the
+database, username and password for it.
+NOTE: Make sure that the path to perl is correct.
+
+
+I'm in trouble!
+---------------
+When something is not working there are a couple of files that you can have
+a look at. The most important one is your maillog (usually in /var/log/).
+
+Vacation.pl also has some debugging and logging capabilties. Check the top
+of vacation.pl.
+
+
+Done!
+-----
+When this is all in place you need to have a look at the Postfix Admin
+config.inc.php. Here you need to enable Virtual Vacation for the site.
