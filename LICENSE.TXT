@@ -1,0 +1,118 @@
+Postfix Admin User License Agreement
+Version 1.0
+Copyright (c) 2004 High5!
+
+High5!
+Postfix Admin Software
+End User License Agreement
+
+
+It is highly recommended that you read all sections of this license agreement. It
+contains information on what you can and cannot do with the Software along with
+how our support services operate. Many questions are answered in the body of this
+document, please read it carefully.
+
+
+1. PRICING
+Postfix admin (the software) can be used for free unless it is used in violation with
+the rules mentioned in 3.1 in the End User License Agreement. If you want to use
+the software outside the limitations set by 3.1 a commercial license is required. This
+license can be obtained by contacting the publisher mentioned in point 9 of this
+contract.
+
+
+2. LICENSE
+High5! (the company) grants you a non-exclusive license to use the Software on an
+unlimited installations subject to the provisions in all sections of this Agreement.
+
+The Company, at its discretion, offers a free download of Postfix Admin available on
+its web site. Use of this free download is also provided under the terms of this
+Agreement with the additional notice that no technical support or service for the free
+download will be provided by the Company. Use for sale or re-sale of the Software
+requires purchasing the license.
+
+
+3. SCOPE OF GRANT
+
+3.1 You are allowed to:
+a)	customize the Software's design and operation to suit the internal needs of 
+your web site and/or product
+b)	produce and distribute the Software with additional modification. The
+modifications you personally create are not owned by High5! as long as they
+contain no proprietary coding from High5!
+c)	  create applications which interface with the operation of the Software
+provided said application is an original work.
+
+3.2 You are not allowed to:
+
+a)	permit other individuals to use the Software except under the terms listed
+above
+b)	reverse engineer, disassemble, or create derivative works based on the
+Software for distribution or usage outside your web site and/or product
+excluding those applications described above
+c)	modify and/or remove any copyright notices or labels on the Software on
+each page (unless full license is purchased) and in the header of each script
+source file
+d)	distribute the Software for sale or re-sale (unless full license purchased)
+except under the terms listed above
+e)	distribute individual copies of files (unless full license purchased), libraries, or
+other programming material in the Software package except under the terms
+listed above.
+
+
+4. DISCLAIMER OF WARRANTY
+The Software is provided on an "AS IS" basis, without warranty of any kind, including
+without limitation the warranties of merchantability, fitness for a particular purpose
+and non-infringement. The entire risk as to the quality and performance of the
+Software is borne by you. Should the Software prove defective, you and not High5!
+assume the entire cost of any service and repair. In addition, the security
+mechanisms implemented by High5! Software have inherent limitations, and you
+must determine that the Software sufficiently meets your requirements. This
+disclaimer of warranty constitutes an essential part of the agreement.
+
+
+5. TITLE
+Title, ownership rights, and intellectual property rights in the Software shall remain
+with High5!. The Software is protected by copyright laws and treaties. Title and
+related rights in the content generated through the Software is the property of the
+applicable content owner and may be protected by applicable law. This License gives
+High5! no rights to such content.
+
+
+6. TERMINATION
+This Agreement will terminate automatically upon failure to comply with the
+limitations described herein or on written notice from an authorized representative of
+High5!. On termination, you must destroy all copies of the Software within 48 hours.
+Termination of the license due to noncompliance will not result in any refunds of
+license fees.
+
+
+7. MISCELLANEOUS
+High5! reserves the right to publish a selected list of users of the Software. High5!
+reserves the right to change the terms of this Agreement at any time however those
+changes are not retroactive to past releases. Changes to the Agreement will be
+announced via email using the High5! email notification list. Failure to receive
+notification of a change does not make those changes invalid. A current copy of this
+Agreement will be available upon request.
+
+Technical support will not be provided for third-party modifications to the Software
+including modifications to code, CSS, and Languages to any license holder. If the
+Software is modified using a third-party modification or otherwise, technical support
+may be refused to any license holder. 
+
+
+8. GOVERNING LAW
+This Agreement shall be governed by the Laws of the Netherlands. Any action in
+regard to this Agreement or arising out of its terms and conditions shall be instituted
+and litigated in the court of Amsterdam. Each of the parties consents to jurisdiction
+in such Court and agrees that service of process as provided by the states and rules
+of civil procedures of the Netherlands shall be sufficient.
+
+
+9. MANUFACTURER
+High5!, Rooseveltlaan 80-2, 1078 NM, Amsterdam. For questions, write to the above
+address, email info@postfixadmin.com, or call +31 6 2181 8161.
+
+
+Postfix Admin End User Agreement, version 1.0 revised September 2004
+

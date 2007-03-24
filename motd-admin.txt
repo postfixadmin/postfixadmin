@@ -1,0 +1,23 @@
+<center>
+<table><tr><td>
+<div class="standout">New Features in 2.1.0<br /></div>
+Configuration options (config.inc.php):<br />
+<ul>
+<li>MySQL 4.1 and PostgreSQL support (line: 29)<br />
+<li>Database prefix (line: 34)<br />
+<li>Transport support (line: 96)<br />
+<li>Vacation domain (line: 105)<br />
+<li>Special Alias Control (line: 116)<br />
+<li>For more information read the <a href="../CHANGELOG.TXT">CHANGELOG.TXT</a><br />
+<li>For more information on the new setup for virtual vacation read <a href="../VIRTUAL_VACATION/INSTALL.TXT">INSTALL.TXT</a><br />
+<li>For more information on the new language tags read <a href="../LANGUAGE.TXT">LANGUAGE.TXT</a>
+</ul>
+<h2>*** Unlimited and disable value have been changed ***</h2>
+If you are using any other language then english, please make sure that:
+<ul>
+<li>-1 means disable</li>
+<li>0 means unlimited</li>
+</ul>
+<div class="standout">To remove this text, delete the motd-admin.txt file.</div><br />
+</td></tr></table>
+</center>
