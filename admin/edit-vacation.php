@@ -25,14 +25,14 @@
 // fQuota
 // fActive
 //
-// This is a copy of the superadmin edit-vacation.php with
+//
+// This is a copy of the domain admin edit-vacation.php with
 // template references changed
 //
-
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
+require ("../variables.inc.php");
+require ("../config.inc.php");
+require ("../functions.inc.php");
+include ("../languages/" . check_language () . ".lang");
 
 $SESSID_USERNAME = check_session ();
 (($CONF['vacation'] == 'NO') ? header("Location: " . $CONF['postfix_admin_url'] . "/main.php") && exit : '1');
@@ -73,10 +73,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
    
 
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/edit-vacation.tpl");
-   include ("./templates/footer.tpl");
+   include ("../templates/header.tpl");
+   include ("../templates/admin_menu.tpl");
+   include ("../templates/edit-vacation.tpl");
+   include ("../templates/footer.tpl");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -185,9 +185,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       }
    }
 
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/edit-vacation.tpl");
-   include ("./templates/footer.tpl");
+   include ("../templates/header.tpl");
+   include ("../templates/admin_menu.tpl");
+   include ("../templates/edit-vacation.tpl");
+   include ("../templates/footer.tpl");
 }
 ?>

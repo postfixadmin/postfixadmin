@@ -133,13 +133,12 @@ $CONF['vacation'] = 'NO';
 $CONF['vacation_domain'] = 'autoreply.change-this-to-your.domain.tld';
 
 // Vacation Control
-// If you want to take control of users vacation set this to 'YES'.
-// TODO: AT THIS MOMENT WE WANT TO SEE VACATION STATUS ONLY
+// If you want users to take control of vacation set this to 'YES'.
+// TODO: not implemented
 $CONF['vacation_control'] ='YES';
 
 // Vacation Control for admins
 // Set to 'YES' if your domain admins should be able to edit user vacation.
-// TODO: AT THIS MOMENT WE WANT TO SEE VACATION STATUS ONLY
 $CONF['vacation_control_admin'] = 'YES';
 
 // Alias Control

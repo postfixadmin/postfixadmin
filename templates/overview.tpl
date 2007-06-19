@@ -28,7 +28,7 @@ for ($i = 0; $i < sizeof ($list_domains); $i++)
 <h4><?php print $PALANG['pOverview_welcome'] . $fDomain; ?></h4>
 <p><?php print $PALANG['pOverview_alias_alias_count'] . ": " . $limit['alias_count'] . " / " . $limit['aliases']; ?></p>
 <p><?php print $PALANG['pOverview_alias_mailbox_count'] . ": " . $limit['mailbox_count'] . " / " . $limit['mailboxes']; ?></p>
-<form name="search" method="post" action="search.php">
+search:<form name="search" method="post" action="search.php">
 <input type="textbox" name="search" size="10">
 </form>
 </div>
@@ -72,7 +72,7 @@ if (sizeof ($tAlias) > 0)
          }
          else
          {
-            if (!in_array ($tAlias[$i]['goto'], $CONF['default_aliases']) || !check_alias_owner ($SESSID_USERNAME, $tAlias[$i]['goto']))
+            if ( check_alias_owner ($SESSID_USERNAME, $tAlias[$i]['address']))
             {
                $active = ($tAlias[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
                print "      <td><a href=\"edit-active.php?alias=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\">" . $active . "</a></td>\n";
@@ -81,6 +81,9 @@ if (sizeof ($tAlias) > 0)
             }
             else
             {
+               //this is a special alias, show status only, don't allow changes
+               $active = ($tAlias[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
+               print "      <td>" . $active . "</td>\n";
                print "      <td>&nbsp;</td>\n";
                print "      <td>&nbsp;</td>\n";
             }
@@ -139,7 +142,7 @@ if (sizeof ($tMailbox) > 0)
          print "      <td><a href=\"edit-active.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $active . "</a></td>\n";
          if ($CONF['vacation_control_admin'] == 'YES')
          {
-            $v_active = ($tMailbox[$i]['v_active'] == 1) ? $PALANG['pOverview_vacation_edit'] : '';
+            $v_active = ($tMailbox[$i]['v_active'] == 1) ? $PALANG['pOverview_vacation_edit'] : $PALANG['pOverview_vacation_option'];
             print "      <td><a href=\"edit-vacation.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $v_active . "</a></td>\n";
          }
          if ($CONF['alias_control_admin'] == 'YES')

@@ -29,6 +29,7 @@ $SESSID_USERNAME = check_session ();
 
 $list_domains = list_domains ();
 
+
 $tAlias = array();
 $tMailbox = array();
 
@@ -66,10 +67,24 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       }
    }
 
-   $query = "SELECT * FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $fDisplay, $page_size";
-   if ('pgsql'==$CONF['database_type'])
+   if ($CONF['vacation_control_admin'] == 'YES')
    {
-      $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $page_size OFFSET $fDisplay";
+      $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.domain='$fDomain' ORDER BY $table_mailbox.username LIMIT $fDisplay, $page_size");
+      if ('pgsql'==$CONF['database_type'])
+      {
+         //FIXME: postgres query needs to be rewrited
+         $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $page_size OFFSET $fDisplay";
+      }
+   }
+   else
+   {
+
+      $query = "SELECT * FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $fDisplay, $page_size";
+      if ('pgsql'==$CONF['database_type'])
+      {
+         $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $page_size OFFSET $fDisplay";
+      }
+
    }
    $result = db_query ($query);
    if ($result['rows'] > 0)
@@ -81,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
             $row['created']=gmstrftime('%c %Z',$row['uts_created']);
             $row['modified']=gmstrftime('%c %Z',$row['uts_modified']);
             $row['active']=('t'==$row['active']) ? 1 : 0;
+            $row['v_active']=('t'==$row['v_active']) ? 1 : 0;
          }
          $tMailbox[] = $row;
       }

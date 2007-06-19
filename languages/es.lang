@@ -149,6 +149,9 @@ $PALANG['pViewlog_data'] = 'Datos';
 $PALANG['pViewlog_button'] = 'Ir';
 $PALANG['pViewlog_result_error'] = '<span class="error_msg">¡Imposible encontrar los logs!</span>';
 
+$PALANG['pVacation_result_error'] = '<span class="error_msg">¡Imposible actualizar la configuracióne la respuesta automática!</span>';
+$PALANG['pVacation_result_success'] = 'La respuesta automática ha sido borrada!';
+
 $PALANG['pSendmail_welcome'] = 'Enviar un e-mail.';
 $PALANG['pSendmail_admin'] = 'De';
 $PALANG['pSendmail_to'] = 'Destino';

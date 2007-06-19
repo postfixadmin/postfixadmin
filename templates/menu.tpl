@@ -1,5 +1,6 @@
 <div id="menu">
 <ul>
+   <li><a target="_top" href="main.php"><?php print $PALANG['pMenu_main']; ?></a></li>
    <li><a target="_top" href="overview.php"><?php print $PALANG['pMenu_overview']; ?></a></li>
    <?php $url = "create-alias.php"; if (isset ($_GET['domain'])) $url .= "?domain=" . $_GET['domain']; ?>
    <li><a target="_top" href="<?php print $url; ?>"><?php print $PALANG['pMenu_create_alias']; ?></a></li>

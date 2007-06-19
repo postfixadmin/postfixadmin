@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $tGoto = $row['goto'];
       }
 
-      if ($CONF['database_type']=='pgsql') ? $Active='true' : $Active=1;
+      ($CONF['database_type']=='pgsql') ? $Active='true' : $Active=1;
       $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$USERID_USERNAME','$fSubject','$fBody','$USERID_DOMAIN',NOW(),$Active)");
       if ($result['rows'] != 1)
       {

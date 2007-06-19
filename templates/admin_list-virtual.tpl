@@ -21,7 +21,7 @@ for ($i = 0; $i < sizeof ($list_domains); $i++)
 <h4><?php print $PALANG['pAdminList_virtual_welcome'] . $fDomain; ?></h4>
 <p><?php print $PALANG['pAdminList_virtual_alias_alias_count'] . ": " . $limit['alias_count'] . " / " . $limit['aliases']; ?></p>
 <p><?php print $PALANG['pAdminList_virtual_alias_mailbox_count'] . ": " . $limit['mailbox_count'] . " / " . $limit['mailboxes']; ?></p>
-<form name="search" method="post" action="search.php">
+<form name="search" method="post" action="search.php">search:
 <input type="textbox" name="search" size="10" />
 </form>
 </div>
@@ -123,6 +123,13 @@ if (sizeof ($tMailbox) > 0)
          print "      <td>" . $tMailbox[$i]['modified'] . "</td>\n";
          $active = ($tMailbox[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
          print "      <td><a href=\"edit-active.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $active . "</a></td>\n";
+
+         if ($CONF['vacation_control_admin'] == 'YES')
+         {
+            $v_active = ($tMailbox[$i]['v_active'] == 1) ? $PALANG['pOverview_vacation_edit'] : $PALANG['pOverview_vacation_option'];
+            print "      <td><a href=\"edit-vacation.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" .$v_active . "</a></td>\n";
+         }
+
          if ($CONF['alias_control'] == 'YES')
          {
             print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $PALANG['pOverview_alias_edit'] . "</a></td>\n";

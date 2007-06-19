@@ -6,6 +6,9 @@
 #
 Version 2.1.1 -- TBD
 --------------------
+  - Added: main.php to admin dirctory (GregC)
+  - Added: Item "Main" on admin menu (GregC)
+  - Changed: Edit-vacation now edits for admins/superadmins (GregC)
   - Added: Do not store local copy when forward mail. (Mihau) [24] 
   - Added: Virtual Vacation for PostgreSQL. (Tarvin)
   - Added: Virtual Vacation 3.2 (Thanx David)

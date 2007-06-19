@@ -12,6 +12,7 @@ $PALANG['YES'] = 'YES';
 $PALANG['NO'] = 'NO';
 $PALANG['edit'] = 'edit';
 $PALANG['del'] = 'del';
+$PALANG['exit'] = 'Exit';
 $PALANG['confirm'] = 'Are you sure you want to delete this?\n';
 $PALANG['confirm_domain'] = 'Do you really want to delete all records for this domain? This can not be undone!\n';
 $PALANG['check_update'] = 'Check for update';
@@ -24,6 +25,7 @@ $PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Your login is no
 $PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Your password is not correct!</span>';
 $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.';
 
+$PALANG['pMenu_main'] = 'Main';
 $PALANG['pMenu_overview'] = 'Overview';
 $PALANG['pMenu_create_alias'] = 'Add Alias';
 $PALANG['pMenu_create_mailbox'] = 'Add Mailbox';
@@ -63,7 +65,9 @@ $PALANG['pOverview_mailbox_name'] = 'Name';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pOverview_mailbox_modified'] = 'Last Modified';
 $PALANG['pOverview_mailbox_active'] = 'Active';
-$PALANG['pOverview_vacation_edit'] = 'Vacation';
+$PALANG['pOverview_vacation_edit'] = 'VACATION IS ON';
+$PALANG['pOverview_vacation_option'] = 'Set Vacation';
+
 
 $PALANG['pOverview_get_domain'] = 'Domain';
 $PALANG['pOverview_get_aliases'] = 'Aliases';
@@ -150,6 +154,12 @@ $PALANG['pPassword_password_text_error'] = '<span class="error_msg">The password
 $PALANG['pPassword_button'] = 'Change Password';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Unable to change your password!</span>';
 $PALANG['pPassword_result_succes'] = 'Your password has been changed!';
+
+$PALANG['pEdit_vacation_set'] = 'Change / Set away message';
+$PALANG['pEdit_vacation_remove'] = 'Remove away message';
+
+$PALANG['pVacation_result_error'] = '<span class="error_msg">Unable to update auto response settings!</span>';
+$PALANG['pVacation_result_success'] = 'Auto response has been removed!';
 
 $PALANG['pViewlog_welcome'] = 'View the last 10 actions for ';
 $PALANG['pViewlog_timestamp'] = 'Timestamp';
