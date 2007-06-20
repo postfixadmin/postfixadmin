@@ -16,7 +16,9 @@
 //
 // Form POST \ GET Variables:
 //
-// fSearch
+// search
+// fDomain
+// fGo
 //
 require ("../variables.inc.php");
 require ("../config.inc.php");
@@ -28,6 +30,8 @@ $SESSID_USERNAME = check_session ();
 
 $tAlias = array();
 $tMailbox = array();
+$list_domains = list_domains ();
+
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
@@ -94,6 +98,14 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    if (isset ($_POST['search'])) $fSearch = escape_string ($_POST['search']);
+   if (isset ($_POST['fGo'])) $fGo = escape_string ($_POST['fGo']);
+   if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
+
+   if (empty ($fSearch) && !empty ($fGo))
+   {
+      header("Location: list-virtual.php?domain=" . $fDomain ) && exit;
+   }
+
 
    if ($CONF['alias_control'] == "YES")
    {
@@ -126,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       }
    }
 
-   $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' ORDER BY username";
+   $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
    if ('pgsql'==$CONF['database_type'])
    {
       $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE username LIKE '%$fSearch%' ORDER BY username";

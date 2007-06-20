@@ -24,6 +24,15 @@ require ("./functions.inc.php");
 include ("./languages/" . check_language () . ".lang");
 
 $SESSID_USERNAME = check_session();
+if (!check_admin($SESSID_USERNAME))
+{
+   $list_domains = list_domains_for_admin ($SESSID_USERNAME);
+}
+else
+{
+   $list_domains = list_domains ();
+}
+
 
 $tAlias = array();
 $tMailbox = array();
@@ -48,7 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       {
          if (check_owner ($SESSID_USERNAME, $row['domain']))
          {
-            $tAlias[] = $row;
+            if ('pgsql'==$CONF['database_type'])
+            {
+               $row['modified']=gmstrftime('%c %Z',$row['modified']);
+            }         	
+         	$tAlias[] = $row;
          }
       }
    }
@@ -56,28 +69,25 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if ($CONF['vacation_control_admin'] == 'YES')
    {
       $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.username LIKE '%$fSearch%' ORDER BY $table_mailbox.username");
-      if ('pgsql'==$CONF['database_type'])
-      {
-         // FIXME: postgres query needs to be rewrited
-         $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $limitSql";
-      }
    }
    else
    {
       $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' ORDER BY username";
-      if ('pgsql'==$CONF['database_type'])
-      {
-         $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $limitSql";
-      }
    }
 
+   $result = db_query ($query);
    if ($result['rows'] > 0)
    {
       while ($row = db_array ($result['result']))
       {
          if (check_owner ($SESSID_USERNAME, $row['domain']))
          {
-            $tMailbox[] = $row;
+            if ('pgsql'==$CONF['database_type'])
+            {
+               $row['modified']=gmstrftime('%c %Z',$row['modified']);
+               $row['active']=('t'==$row['active']) ? 1 : 0;
+            }         	
+         	$tMailbox[] = $row;
          }
       }
    }
@@ -91,6 +101,14 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    if (isset ($_POST['search'])) $fSearch = escape_string ($_POST['search']);
+   if (isset ($_POST['fgo'])) $fgo = escape_string ($_POST['fgo']);
+   if (isset ($_POST['domain'])) $fdomain = escape_string ($_POST['domain']);
+
+   if (empty ($fSearch) && !empty ($fgo))
+   {
+      header("Location: overview.php?domain=" . $_POST['domain'] ) && exit;
+   }
+
 
    if ($CONF['alias_control_admin'] == "YES")
    {
@@ -108,6 +126,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          if (check_owner ($SESSID_USERNAME, $row['domain']))
          {
+            if ('pgsql'==$CONF['database_type'])
+            {
+               $row['modified']=gmstrftime('%c %Z',$row['modified']);
+            }
             $tAlias[] = $row;
          }
       }
@@ -115,20 +137,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if ($CONF['vacation_control_admin'] == 'YES')
    {
-      $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.username LIKE '%$fSearch%' ORDER BY $table_mailbox.username");
-      if ('pgsql'==$CONF['database_type'])
-      {
-         // FIXME: postgres query needs to be rewrited
-         $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $limitSql";
-      }
+      $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.username LIKE '%$fSearch%' OR $table_mailbox.name LIKE '%$fSearch%' ORDER BY $table_mailbox.username");
    }
    else
    {
-      $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' ORDER BY username";
-      if ('pgsql'==$CONF['database_type'])
-      {
-         $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $limitSql";
-      }
+      $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
    }
 
    $result = db_query ("$query");
@@ -138,6 +151,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          if (check_owner ($SESSID_USERNAME, $row['domain']))
          {
+            if ('pgsql'==$CONF['database_type'])
+            {
+               $row['modified']=gmstrftime('%c %Z',$row['modified']);
+               $row['active']=('t'==$row['active']) ? 1 : 0;
+            }         	
             $tMailbox[] = $row;
          }
       }

@@ -1,7 +1,23 @@
 <div id="overview">
-<h4><?php print $PALANG['pSearch_welcome'] . $fSearch; ?></h4>
 <form name="search" method="post" action="search.php">
-<input type="textbox" name="search">
+<table width=750><tr>
+<td>
+  <h4><?php print $PALANG['pSearch_welcome'] . $fSearch; ?></h4>
+</td>
+<td>
+    New search:<input type="textbox" name="search">
+</td>
+<td align=right><select class="flat" name="fDomain" >
+<?php
+print "<option value=\"$list_domains[0]\" selected>$list_domains[0]</option>\n";
+for ($i = 1; $i < sizeof ($list_domains); $i++)
+{
+    print "<option value=\"$list_domains[$i]\">$list_domains[$i]</option>\n";
+}
+?>
+</select>
+<input class="button" type="submit" name="fGo" value="Return to <?php print $PALANG['pAdminMenu_list_virtual']; ?>" /></td>
+</tr></table>
 </form>
 </div>
 
@@ -71,7 +87,7 @@ if (sizeof ($tMailbox) > 0)
          print "      <td><a href=\"edit-active.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "\">" . $active . "</a></td>\n";
          if ($CONF['alias_control'] == 'YES')
          {
-            print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $PALANG['pOverview_alias_edit'] . "</a></td>\n";
+            print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "\">" . $PALANG['pOverview_alias_edit'] . "</a></td>\n";
          }
          print "      <td><a href=\"edit-mailbox.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "\">" . $PALANG['edit'] . "</a></td>\n";
          print "      <td><a href=\"delete.php?table=mailbox&delete=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_mailboxes'] . ": ". $tMailbox[$i]['username'] . "')\">" . $PALANG['del'] . "</a></td>\n";

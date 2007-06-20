@@ -1,7 +1,25 @@
 <div id="overview">
-<h4><?php print $PALANG['pSearch_welcome'] . $fSearch; ?></h4>
 <form name="search" method="post" action="search.php">
-<input type="textbox" name="search">
+<table width=750><tr>
+<td>
+   <h4><?php print $PALANG['pSearch_welcome'] . $fSearch; ?></h4>
+</td>
+<td>
+    New search:<input type="textbox" name="search">
+</td>
+
+<td></td>
+<td align=right><select class="flat" name="domain" >
+<?php
+print "<option value=\"$list_domains[0]\" selected>$list_domains[0]</option>\n";
+for ($i = 1; $i < sizeof ($list_domains); $i++)
+{
+    print "<option value=\"$list_domains[$i]\">$list_domains[$i]</option>\n";
+}
+?>
+</select>
+<input class="button" type="submit" name="fgo" value="Return to <?php print $PALANG['pMenu_overview']; ?>" /></td>
+</tr></table>
 </form>
 </div>
 

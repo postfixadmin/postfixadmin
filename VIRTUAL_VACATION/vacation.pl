@@ -26,30 +26,33 @@ use DBI;
 use strict;
 use Sys::Syslog;
 
-# values that will be set in /etc/mail/vacation/vacationrc:
-our $db_type;
-our $db_host;
-our $db_user;
-our $db_pass;
-our $db_name;
-our $sendmail;
-our $logfile;
-our $debugfile;
-our $syslog;
-our $logger;
 
-require "/etc/mail/vacation/vacationrc";
-# example config file:
-# $db_type = 'mysql';
-# $db_host = 'localhost';
-# $db_user = 'postfixadmin';
-# $db_pass = 'postfixadmin';
-# $db_name = 'postfix';
-# $sendmail = "/usr/sbin/sendmail";
-# $logfile = "";    # specify a file name here for example: vacation.log
-# $debugfile = "";  # sepcify a file name here for example: vacation.debug
-# $syslog = 0;   # 1 if log entries should be sent to syslog
-# $logger = "/usr/bin/logger";
+$db_type = 'mysql';
+$db_host = 'localhost';
+$db_user = 'postfixadmin';
+$db_pass = 'postfixadmin';
+$db_name = 'postfix';
+$sendmail = "/usr/sbin/sendmail";
+$logfile = "";    # specify a file name here for example: vacation.log
+$debugfile = "";  # specify a file name here for example: vacation.debug
+$syslog = 0;   # 1 if log entries should be sent to syslog
+$logger = "/usr/bin/logger";
+
+# Alternatively, you can put the variables above in a 
+# config file that is readable by the vacation user.
+# To do so, move them from here to there, declare them
+# with 'our' here and include the file with 'require'
+#our $db_type;
+#our $db_host;
+#our $db_user;
+#our $db_pass;
+#our $db_name;
+#our $sendmail;
+#our $logfile;
+#our $debugfile;
+#our $syslog;
+#our $logger;
+#require "/etc/mail/vacation/vacationrc";
 
 
 my $dbh = DBI->connect("DBI:$db_type:$db_name:$db_host", "$db_user", "$db_pass", { RaiseError => 1 }) or &exit_error($DBI::errstr);
