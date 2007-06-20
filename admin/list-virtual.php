@@ -138,10 +138,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if ($CONF['alias_control'] == "YES")
    {
-      $query = "SELECT address,goto,modified,active FROM alias WHERE domain='$fDomain' ORDER BY address LIMIT $fDisplay, $page_size";
+      $query = "SELECT address,goto,modified,active FROM $table_alias WHERE domain='$fDomain' ORDER BY address LIMIT $fDisplay, $page_size";
       if ('pgsql'==$CONF['database_type'])
       {
-         $query = "SELECT address,goto,extract(epoch from modified) as modified,active FROM alias WHERE domain='$fDomain' ORDER BY alias.address LIMIT $page_size OFFSET $fDisplay";
+         $query = "SELECT address,goto,extract(epoch from modified) as modified,active FROM $table_alias WHERE domain='$fDomain' ORDER BY $table_alias.address LIMIT $page_size OFFSET $fDisplay";
       }
    }
    else

@@ -213,6 +213,11 @@ table {
 	background: #D9FF43; /*#D6FF85;*/ /*#ffdddd;*/
 }
 
+#alias_table tr:hover, #mailbox_table tr:hover, #overview_table tr:hover, #log_table tr:hover, #admin_table tr:hover {
+        background: #D9FF43; /*#D6FF85;*/ /*#ffdddd;*/
+}
+
+
 #alias_table h3, #mailbox_table h3, #overview_table h3, #log_table h3, #admin_table h3 {
 	background: silver;
 	text-align: left;

@@ -144,20 +144,30 @@ function check_email ($email)
 {
    global $CONF;
 
+   $ce_email=$email;
+     
+   //strip the vacation domain out if we are using it
+   if ($CONF['vacation'] == 'YES')
+   { 
+      $vacation_domain = $CONF['vacation_domain'];
+      $ce_email = preg_replace("/@$vacation_domain/", '', $ce_email);
+   }
+
    if (
       isset($CONF['emailcheck_resolve_domain'])
       && 'YES'==$CONF['emailcheck_resolve_domain']
       && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))
    ) {
+
       // Perform non-domain-part sanity checks
-      if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', trim ($email)))
+      if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', trim ($ce_email)))
       {
          return false;
       }
 
       // Determine domain name
       $matches=array();
-      if (!preg_match('|@(.+)$|',$email,$matches))
+      if (!preg_match('|@(.+)$|',$ce_email,$matches))
       {
          return false;
       }
@@ -177,7 +187,7 @@ function check_email ($email)
       return false;
    }
 
-   if (preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,4}$/i', trim ($email)))
+   if (preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,4}$/i', trim ($ce_email)))
    {
       return true;
    }

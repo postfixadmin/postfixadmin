@@ -60,7 +60,11 @@ if (sizeof ($tAlias) > 0)
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
          print "      <td>" . $tAlias[$i]['address'] . "</td>\n";
+         if ($CONF['alias_goto_limit'] > 0) {
          print "      <td>" . ereg_replace (",", "<br>", preg_replace('/^(([^,]+,){'.$CONF['alias_goto_limit'].'})[^,]+,.*/','$1[and '. (substr_count ($tAlias[$i]['goto'], ',') - $CONF['alias_goto_limit'] + 1) .' more...]',$tAlias[$i]['goto'])) . "</td>\n";
+         } else {
+            print "      <td>" . ereg_replace (",", "<br>", $tAlias[$i]['goto']) . "</td>\n";
+         }
          print "      <td>" . $tAlias[$i]['modified'] . "</td>\n";
 
          if ($CONF['special_alias_control'] == 'YES')
@@ -94,6 +98,7 @@ if (sizeof ($tAlias) > 0)
 
    print "</table>\n";
 }
+         print "<p><a href=\"create-alias.php?domain=$fDomain\">" . $PALANG['pMenu_create_alias'] . "</a>\n";
 
 if (sizeof ($tMailbox) > 0)
 {
@@ -156,5 +161,6 @@ if (sizeof ($tMailbox) > 0)
    }
    print "</table>\n";
 }
+         print "<p><a href=\"create-mailbox.php?domain=$fDomain\">" . $PALANG['pMenu_create_mailbox'] . "</a>\n";
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

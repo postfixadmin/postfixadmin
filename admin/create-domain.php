@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
-   !empty ($_POST['fDescription']) ? $fDescription = escape_string ($_POST['fDescription']) : $fDescription = "No Description";
+   !empty ($_POST['fDescription']) ? $fDescription = escape_string ($_POST['fDescription']) : $fDescription = "";
    if (isset ($_POST['fAliases'])) $fAliases = escape_string ($_POST['fAliases']);
    if (isset ($_POST['fMailboxes'])) $fMailboxes = escape_string ($_POST['fMailboxes']);
    !empty ($_POST['fMaxquota']) ? $fMaxquota = escape_string ($_POST['fMaxquota']) : $fMaxquota = "0";

@@ -23,4 +23,10 @@
    </tr>
 </table>
 </form>
+
+<script tyle="text/javascript"><!--
+	document.login.fUsername.focus();
+// -->
+</script>
+
 </div>

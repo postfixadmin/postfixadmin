@@ -82,4 +82,5 @@ if (sizeof ($list_domains) > 0)
 
    print "</table>\n";
 }
+echo "<p><a href='create-domain.php'>{$PALANG['pAdminMenu_create_domain']}</a>";
 ?>

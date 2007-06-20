@@ -26,15 +26,30 @@ use DBI;
 use strict;
 use Sys::Syslog;
 
-my $db_type = 'mysql';
-my $db_host = 'localhost';
-my $db_user = 'postfixadmin';
-my $db_pass = 'postfixadmin';
-my $db_name = 'postfix';
-my $sendmail = "/usr/sbin/sendmail";
-my $logfile = "";    # specify a file name here for example: vacation.log
-my $debugfile = "";  # sepcify a file name here for example: vacation.debug
-my $syslog = 0;   # 1 if log entries should be sent to syslog
+# values that will be set in /etc/mail/vacation/vacationrc:
+our $db_type;
+our $db_host;
+our $db_user;
+our $db_pass;
+our $db_name;
+our $sendmail;
+our $logfile;
+our $debugfile;
+our $syslog;
+our $logger;
+
+require "/etc/mail/vacation/vacationrc";
+# example config file:
+# $db_type = 'mysql';
+# $db_host = 'localhost';
+# $db_user = 'postfixadmin';
+# $db_pass = 'postfixadmin';
+# $db_name = 'postfix';
+# $sendmail = "/usr/sbin/sendmail";
+# $logfile = "";    # specify a file name here for example: vacation.log
+# $debugfile = "";  # sepcify a file name here for example: vacation.debug
+# $syslog = 0;   # 1 if log entries should be sent to syslog
+# $logger = "/usr/bin/logger";
 
 
 my $dbh = DBI->connect("DBI:$db_type:$db_name:$db_host", "$db_user", "$db_pass", { RaiseError => 1 }) or &exit_error($DBI::errstr);
@@ -83,7 +98,7 @@ sub do_log {
    my ($messageid, $to, $from, $subject) = @_;
    my $date;
    if ( $syslog ) {
-       open (SYSLOG, "|/usr/bin/logger -p mail.info -t Vacation") or die ("Unable to open logger"); 
+       open (SYSLOG, "|$logger -p mail.info -t Vacation") or die ("Unable to open logger"); 
        printf SYSLOG "Orig-To: %s From: %s MessageID: %s Subject: %s", $to, $from, $messageid, $subject;
        close (SYSLOG); 
    }

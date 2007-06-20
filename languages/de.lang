@@ -289,14 +289,14 @@ $PALANG['pUsersVacation_button_back'] = 'Ich bin zur&uuml;ck';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Konnte Ihre Automatische Antwort nicht einstellen!</span>';
 $PALANG['pUsersVacation_result_succes'] = 'Ihre Automatische Antwort wurde gel&ouml;scht!';
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
-$PALANG['pCreate_dbLog_createalias'] = 'create alias';
-$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+$PALANG['pCreate_dbLog_createmailbox'] = 'Mailbox hinzufügen';     
+$PALANG['pCreate_dbLog_createalias'] = 'Alias hinzufügen';
+$PALANG['pDelete_dbLog_deletealias'] = 'Alias löschen';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'Mailbox löschen';
 
-$PALANG['pEdit_dbLog_editactive'] = 'change active state';
-$PALANG['pEdit_dbLog_editalias'] = 'edit alias';
-$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
+$PALANG['pEdit_dbLog_editactive'] = 'Aktiv-Status ändern';
+$PALANG['pEdit_dbLog_editalias'] = 'Alias bearbeiten';
+$PALANG['pEdit_dbLog_editmailbox'] = 'Mailbox bearbeiten';
 
-$PALANG['pSearch_welcome'] = 'Searching for: ';
+$PALANG['pSearch_welcome'] = 'Suche nach: ';
 ?>

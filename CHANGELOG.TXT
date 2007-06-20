@@ -6,6 +6,10 @@
 #
 Version 2.1.1 -- TBD
 --------------------
+  - Fixed: function check_email will ignore vacation_domain if vacation==YES (GregC)
+  - Changed: applied patches from Christian Boltz posted at 
+    http://www.cboltz.de/tmp/postfixadmin-3.patch, referenced at
+    https://sourceforge.net/tracker/index.php?func=detail&aid=1696647&group_id=191583&atid=937966 (GregC)
   - Added: main.php to admin dirctory (GregC)
   - Added: Item "Main" on admin menu (GregC)
   - Changed: Edit-vacation now edits for admins/superadmins (GregC)
