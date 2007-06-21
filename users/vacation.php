@@ -89,8 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $tGoto = $row['goto'];
 
          //only one of these will do something, first handles address at beginning and middle, second at end
-         $goto= preg_replace ( "/$fUsername@$vacation_domain,/", '', $tGoto);
-         $goto= preg_replace ( "/,$fUsername@$vacation_domain/", '', $goto);
+         $goto= preg_replace ( "/$USERID_USERNAME@$vacation_domain,/", '', $tGoto);
+         $goto= preg_replace ( "/,$USERID_USERNAME@$vacation_domain/", '', $goto);
 
       }
 
