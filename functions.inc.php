@@ -187,7 +187,7 @@ function check_email ($email)
       return false;
    }
 
-   if (preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,4}$/i', trim ($ce_email)))
+   if (preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', trim ($ce_email)))
    {
       return true;
    }
