@@ -39,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
    if ($CONF['alias_control'] == "YES")
    {
-      $query = "SELECT address,goto,modified,domain FROM alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
+      $query = "SELECT address,goto,modified,domain FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
       if ('pgsql'==$CONF['database_type'])
       {
-         $query = "SELECT address,goto,extract (epoch from modified) as modified,domain FROM alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
+         $query = "SELECT address,goto,extract (epoch from modified) as modified,domain FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
       }
    }
    else
@@ -109,10 +109,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if ($CONF['alias_control'] == "YES")
    {
-      $query = "SELECT address,goto,modified,domain FROM alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
+      $query = "SELECT address,goto,modified,domain FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
       if ('pgsql'==$CONF['database_type'])
       {
-         $query = "SELECT address,goto,extract (epoch from modified) as modified,domain FROM alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
+         $query = "SELECT address,goto,extract (epoch from modified) as modified,domain FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
       }
    }
    else

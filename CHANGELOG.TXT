@@ -6,6 +6,7 @@
 #
 Version 2.1.1 -- TBD
 --------------------
+  - Fixed: 'alias' instead of '$table_alias' being used by some .php files (GregC)
   - Fixed: Overview no longer lists alias entries for mailboxes (GregC)
   - Changed: Added exit buttons to several edit options. (GregC)
   - Fixed: user options are a little more idiot-proof, templates are consistent (GregC)
