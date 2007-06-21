@@ -55,22 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
    if (check_owner ($SESSID_USERNAME, $fDomain))
    {
-      if ($CONF['alias_control_admin'] == "YES")
-      {
-         $query = "SELECT address,goto,modified,active FROM alias WHERE domain='$fDomain' ORDER BY address LIMIT $limitSql";
-         if ('pgsql'==$CONF['database_type'])
-         {
-            $query = "SELECT address,goto,extract(epoch from modified) as modified,active FROM alias WHERE domain='$fDomain' ORDER BY address LIMIT $limitSql";
-         }
-      }
-      else
-      {
          $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.domain='$fDomain' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address LIMIT $limitSql";
          if ('pgsql'==$CONF['database_type'])
          {
             $query = "SELECT address,goto,extract(epoch from modified) as modified,active FROM $table_alias WHERE domain='$fDomain' AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address) ORDER BY address LIMIT $limitSql";
          }
-      }
 
       $result = db_query ($query);
       if ($result['rows'] > 0)

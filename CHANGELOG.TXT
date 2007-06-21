@@ -6,6 +6,9 @@
 #
 Version 2.1.1 -- TBD
 --------------------
+  - Fixed: Overview no longer lists alias entries for mailboxes (GregC)
+  - Changed: Added exit buttons to several edit options. (GregC)
+  - Fixed: user options are a little more idiot-proof, templates are consistent (GregC)
   - Changed: Users can view and edit their vacation config (GregC)
   - Added: Slovakian language posted on SourceForge by eszabo
   - Changed: searches include mailbox.name matches (GregC)

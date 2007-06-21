@@ -25,7 +25,10 @@
       <td>&nbsp;</td>
    </tr>
    <tr>
-      <td colspan="3" class="hlp_center"><input type="submit" name="submit" value="<?php print $PALANG['pPassword_button']; ?>" /></td>
+      <td colspan="3" class="hlp_center">
+        <input class="button" type="submit" name="submit" value="<?php print $PALANG['pPassword_button']; ?>" />
+        <input class="button" type="submit" name="submit" value="<?php print $PALANG['exit']; ?>" action="main.php" >
+      </td>
    </tr>
    <tr>
       <td colspan="3" class="standout"><?php print $tMessage; ?></td>

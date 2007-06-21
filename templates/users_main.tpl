@@ -7,7 +7,7 @@
    <?php if ($CONF['vacation'] == 'YES') { ?>
    <tr>
       <td nowrap><a target="_top" href="vacation.php"><?php print $PALANG['pUsersMenu_vacation']; ?></a></td>
-      <td><?php print $PALANG['pUsersMain_vacation']; ?></td>
+      <td><?php print $tummVacationtext; ?></td>
    </tr>
    <?php } ?>
    <tr>

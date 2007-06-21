@@ -11,7 +11,7 @@
 //
 // Template Variables:
 //
-// -none-
+// tummVacationtext
 //
 // Form POST \ GET Variables:
 //
@@ -22,6 +22,16 @@ require ("../functions.inc.php");
 include ("../languages/" . check_language () . ".lang");
 
 $USERID_USERNAME = check_user_session ();
+$result = db_query("SELECT * FROM $table_vacation WHERE email='$USERID_USERNAME'");
+if ($result['rows'] == 1)
+{
+   $row = db_array($result['result']);
+   $tummVacationtext = $PALANG['pUsersMain_vacationSet'];
+}
+else
+{
+   $tummVacationtext = $PALANG['pUsersMain_vacation'];
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {

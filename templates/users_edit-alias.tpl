@@ -11,7 +11,7 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pEdit_alias_goto'] . ":"; ?></td>
-      <td><textarea class="flat" rows="4" cols="30" name="fGoto">
+      <td><textarea class="flat" rows="4" cols="50" name="fGoto">
 <?php
 $array = preg_split ('/,/', $tGoto);
 
@@ -50,7 +50,10 @@ for ($i = 0 ; $i < sizeof ($array) ; $i++)
       </td>
    </tr>
    <tr>
-      <td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="<?php print $PALANG['pEdit_alias_button']; ?>"></td>
+      <td colspan="3" class="hlp_center">
+         <input class="button" type="submit" name="submit" value="<?php print $PALANG['pEdit_alias_button']; ?>">
+         <input class="button" type="submit" name="submit" value="<?php print $PALANG['exit']; ?>" action="main.php" >
+      </td>
    </tr>
    <tr>
       <td colspan="3" class="standout"><?php print $tMessage; ?></td>
