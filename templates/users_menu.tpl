@@ -1,5 +1,6 @@
 <div id="menu">
 <ul>
+   <li><a target="_top" href="<?php print $CONF['user_footer_link']; ?>"><?php print $PALANG['pMenu_main']; ?></a></li>
    <?php if ($CONF['vacation'] == "YES") { ?>
    <li><a target="_top" href="vacation.php"><?php print $PALANG['pUsersMenu_vacation']; ?></a></li>
    <?php } ?>

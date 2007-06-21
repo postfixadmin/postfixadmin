@@ -19,6 +19,8 @@
 //
 // fSubject
 // fBody
+// fAway
+// fBack
 //
 require ("../variables.inc.php");
 require ("../config.inc.php");
@@ -38,16 +40,19 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    {
       $row = db_array($result['result']);
       $tMessage = $PALANG['pUsersVacation_welcome_text'];
-      $template = "users_vacation-get.tpl";
-   }
-   else
-   {
-      $template = "users_vacation.tpl";
+      $tSubject = $row['subject'];
+      $tBody = $row['body'];
+
    }
    
+   if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
+   if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
+
+   $template = "users_vacation.tpl";
+
    include ("../templates/header.tpl");
    include ("../templates/users_menu.tpl");
-   include ("../templates/$template");
+   include ("../templates/users_vacation.tpl");
    include ("../templates/footer.tpl");
 }
 
@@ -60,7 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fAway'])) $fAway = escape_string ($_POST['fAway']);
    if (isset ($_POST['fBack'])) $fBack = escape_string ($_POST['fBack']);
 
-   if (!empty ($fBack))
+   //set a default, reset fields for coming back selection
+   if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
+   if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
+
+   if (!empty ($fBack) || !empty ($fAway))
    {
       $result = db_query ("DELETE FROM $table_vacation WHERE email='$USERID_USERNAME'");
       if ($result['rows'] != 1)
@@ -79,11 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $row = db_array ($result['result']);
          $tGoto = $row['goto'];
 
-         $array = preg_split ('/,/', $tGoto);
-         {
-            array_pop ($array);
-            $goto = implode (",", $array);
-         }
+         //only one of these will do something, first handles address at beginning and middle, second at end
+         $goto= preg_replace ( "/$fUsername@$vacation_domain,/", '', $tGoto);
+         $goto= preg_replace ( "/,$fUsername@$vacation_domain/", '', $goto);
+
       }
 
       $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$USERID_USERNAME'");

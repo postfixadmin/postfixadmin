@@ -6,6 +6,9 @@
 #
 Version 2.1.1 -- TBD
 --------------------
+  - Changed: Users can view and edit their vacation config (GregC)
+  - Added: Slovakian language posted on SourceForge by eszabo
+  - Changed: searches include mailbox.name matches (GregC)
   - Fixed: function check_email will ignore vacation_domain if vacation==YES (GregC)
   - Changed: applied patches from Christian Boltz posted at 
     http://www.cboltz.de/tmp/postfixadmin-3.patch, referenced at
