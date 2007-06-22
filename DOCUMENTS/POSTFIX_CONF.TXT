@@ -1,0 +1,69 @@
+
+  Postfix configuration for use with PostfixAdmin
+
+-----------------------
+
+  Your installation of Postfix MUST support either MySQL or Postgres
+lookup tables.  You can verify that with 'postconf -m'
+
+Its generally recommended to use proxy as well (which should also appear in
+postconf -m)  Three main.cf variables are involved:
+
+virtual_alias_maps = proxy:mysql:/etc/postfix/sql/mysql_virtual_alias_maps.cf
+virtual_mailbox_domains = proxy:mysql:/etc/postfix/sql/mysql_virtual_domains_maps.cf
+virtual_mailbox_maps = proxy:mysql:/etc/postfix/sql/mysql_virtual_mailbox_maps.cf
+
+Where you chose to store the .cf files doesn't really matter, but they will
+have database passwords stored in plain text so they should be readable only
+by user postfix, or in a directory only accessible to user postfix.
+
+This isn't necessarily all you need to do to Postfix to get up and
+running.  Also, additional changes are needed for the vacation
+autoreply features.
+
+-------------------------
+
+  Contents of the files
+
+These are examples only, you will likely have to and want to make some
+cumtomizations.  You will also want to consider the config.inc.php
+settings for domain_path and domain_in_mailbox.  These examples
+use values of domain_path=YES and domain_in_mailbox=NO
+
+mysql_virtual_alias_maps.cf:
+user = postfix
+password = password
+hosts = localhost
+dbname = postfix
+query           = SELECT goto FROM alias WHERE address='%s' AND active = '1'
+#expansion_limit = 100
+
+
+mysql_virtual_domains_maps.cf:
+user = postfix
+password = password
+hosts = localhost
+dbname = postfix
+query          = SELECT domain FROM domain WHERE domain='%u'
+#query          = SELECT domain FROM domain WHERE domain='%s'
+#optional query to use when relaying for backup MX
+#query           = SELECT domain FROM domain WHERE domain='%s' AND backupmx = '0' AND active = '1'
+#expansion_limit = 100
+
+
+mysql_virtual_mailbox_maps.cf:
+user = postfix
+password = password
+hosts = localhost
+dbname = postfix
+query           = SELECT CONCAT(domain,'/',maildir) FROM mailbox WHERE username='%s' AND active = '1'
+#expansion_limit = 100
+
+-------------------------
+
+  More information - HowTo docs that use PostfixAdmin
+
+http://postfix.wiki.xs4all.nl/index.php?title=Virtual_Users_and_Domains_with_Courier-IMAP_and_MySQL
+http://wiki.dovecot.org/HowTo/DovecotLDAPostfixAdminMySQL
+
+
