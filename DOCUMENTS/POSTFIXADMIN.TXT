@@ -1,0 +1,20 @@
+
+---------------------------------------
+  The different parts of PostfixAdmin
+
+/admin directory scripts are used by superadmins, also known as 'site admins'.
+When you log in as a superadmin you'll be running scripts from /admin that
+won't bother checking to see if you are allowed to admin for a domain.  As
+a superadmin you can add and remove domains, mailboxes, aliases, domain admins,
+and create more superadmins.  A superadmin will be not stopped from doing
+anything, so be careful, you can delete your our login account.
+
+login.php sorts out what type of admin you are and sends you to the right place.
+The scripts in / are used by domain admins and always check to see if you are
+an admin for the domain (or user within a domain) you are attempting to change.
+
+End user scripts only do operations on the currently logged in user. 
+If the end user options provide more than you want your users to have,
+check the user options in config.inc.php, or, even better, edit the
+user templates and remove the options.
+

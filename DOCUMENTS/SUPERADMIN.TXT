@@ -1,0 +1,36 @@
+
+
+------------------------------------
+  Recreating a superadmin account
+
+
+The database scripts DATABASE_MYSQL.TXT and DATABASE_PGSQL.TXT create a super admin
+ of admin@domain.tld, password: admin 
+ 
+With that login you can create new superadmins (and you should delete or change the
+password of  admin@domain.tld). If that user is no longer there or you didn't use
+the .TXT files, you could add another manually from the database. Just use the code
+from one of the .TXT files.  Do this as root on the MySQL machine: 
+ 
+# mysql 
+Welcome to the MySQL monitor. Commands end with ; or \g. 
+Your MySQL connection id is 8186 to server version: 5.0.27 
+ 
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer. 
+ 
+mysql> use postfix 
+Reading table information for completion of table and column names 
+You can turn off this feature to get a quicker startup with -A 
+ 
+Database changed 
+mysql> INSERT INTO domain_admins (username, domain, active) VALUES ('new@domain.tld','ALL','1'); 
+Query OK, 1 row affected (0.00 sec) 
+ 
+mysql> INSERT INTO admin (username, password, active) VALUES ('new@domain.tld','$1$0fec9189$bgI6ncWrldPOsXnkUBIjl1','1'); 
+Query OK, 1 row affected (0.00 sec) 
+ 
+mysql> exit 
+Bye 
+ 
+Then you can log in as new@domain.tld, password: admin 
+ 

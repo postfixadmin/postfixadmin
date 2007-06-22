@@ -56,6 +56,10 @@ Virtual Domains and Users.
 
 In DATABASE_PGSQL.TXT you can find the table structure for PostgreSQL.
 
+Check out the file first to see what you are about to do, then for MySQL do
+something like this:
+
+  mysql -u root < DATABASE_MYSQL.TXT
 
 4. Configure
 ------------
@@ -63,13 +67,13 @@ Check the config.inc.php file. There you can specify settings that are
 relevant to your setup.
 
 Postfix Admin contains 3 views of administration.
-There is the Site Admin view, located at http://domain.tld/postfixadmin/admin/.
+There is the Site Admin (aka superadmin) view, located at http://domain.tld/postfixadmin/admin/.
 There is the Domain Admin view, located at http://domain.tld/postfixadmin/.
 And there is the User Admin View, located at http://domain.tld/postfixadmin/users/.
 
 In order to do the initial configuration you have to go to the Site Admin view.
 
-The default password for the Site Admin view of Postfix Admin is admin/admin.
+The default user/password for the Site Admin view of Postfix Admin is admin@domain.tld/admin
 
 This is specified in the .htpasswd file in the /admin directory. Make sure
 that the location of the .htpasswd file matches your path.
@@ -85,3 +89,7 @@ specified to host Postfix Admin.
 -------------------
 For more information you can go to the Postfix Admin forums.
 http://forums.high5.net/index.php?showforum=22
+
+As of March 2007, PostfixAdmin moved to SourceForge.  For the
+forum posts and source updates, see:
+https://sourceforge.net/projects/postfixadmin
