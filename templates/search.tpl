@@ -5,7 +5,7 @@
    <h4><?php print $PALANG['pSearch_welcome'] . $fSearch; ?></h4>
 </td>
 <td>
-    New search:<input type="textbox" name="search">
+    <?php print $PALANG['pSearch']; ?>:<input type="textbox" name="search">
 </td>
 
 <td></td>

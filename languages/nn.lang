@@ -291,5 +291,6 @@ $PALANG['pEdit_dbLog_editactive'] = 'endre status';
 $PALANG['pEdit_dbLog_editalias'] = 'endre alias';
 $PALANG['pEdit_dbLog_editmailbox'] = 'endre e-postkonto';
 
+$PALANG['pSearch'] = 'søker';
 $PALANG['pSearch_welcome'] = 'Søker etter: ';
 ?>

@@ -293,5 +293,6 @@ $PALANG['pEdit_dbLog_editactive'] = 'promijeni stanje aktivnosti';
 $PALANG['pEdit_dbLog_editalias'] = 'uredi alias';
 $PALANG['pEdit_dbLog_editmailbox'] = 'uredi poštanski oramriæ';
 
+$PALANG['pSearch'] = 'traži';
 $PALANG['pSearch_welcome'] = 'Traži: ';
 ?>

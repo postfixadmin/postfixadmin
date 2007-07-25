@@ -298,5 +298,6 @@ $PALANG['pEdit_dbLog_editactive'] = 'Aktiv-Status ändern';
 $PALANG['pEdit_dbLog_editalias'] = 'Alias bearbeiten';
 $PALANG['pEdit_dbLog_editmailbox'] = 'Mailbox bearbeiten';
 
+$PALANG['pSearch'] = 'suche';
 $PALANG['pSearch_welcome'] = 'Suche nach: ';
 ?>

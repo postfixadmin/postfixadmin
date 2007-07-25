@@ -21,7 +21,7 @@ for ($i = 0; $i < sizeof ($list_domains); $i++)
 <h4><?php print $PALANG['pAdminList_virtual_welcome'] . $fDomain; ?></h4>
 <p><?php print $PALANG['pAdminList_virtual_alias_alias_count'] . ": " . $limit['alias_count'] . " / " . $limit['aliases']; ?></p>
 <p><?php print $PALANG['pAdminList_virtual_alias_mailbox_count'] . ": " . $limit['mailbox_count'] . " / " . $limit['mailboxes']; ?></p>
-<form name="search" method="post" action="search.php">search:
+<form name="search" method="post" action="search.php"><?php print $PALANG['pSearch']; ?>:
 <input type="textbox" name="search" size="10" />
 </form>
 </div>

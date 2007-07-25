@@ -297,5 +297,6 @@ $PALANG['pEdit_dbLog_editactive'] = 'aktiivne staatuse muutmine';
 $PALANG['pEdit_dbLog_editalias'] = 'aliase redigeerimine';
 $PALANG['pEdit_dbLog_editmailbox'] = 'postkasti redigeerimine';
 
+$PALANG['pSearch'] = 'otsi';
 $PALANG['pSearch_welcome'] = 'Otsi: ';
 ?>
