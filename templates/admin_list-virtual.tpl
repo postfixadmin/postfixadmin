@@ -79,6 +79,21 @@ if (sizeof ($tAlias) > 0)
 }
          print "<p><a href=\"create-alias.php?domain=$fDomain\">" . $PALANG['pMenu_create_alias'] . "</a>\n";
 
+print "<div id=\"nav_bar\"><a name=\"MidArrow\" /a>\n";
+if ($tDisplay_back_show == 1)
+{
+   print "<a href=\"list-virtual.php?domain=$fDomain&limit=$tDisplay_back#MidArrow\"><img border=\"0\" src=\"../images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
+}
+if ($tDisplay_up_show == 1)
+{
+   print "<a href=\"list-virtual.php?domain=$fDomain&limit=0#MidArrow\"><img border=\"0\" src=\"../images/arrow-u.png\" title=\"" . $PALANG['pOverview_up_arrow'] . "\" alt=\"" . $PALANG['pOverview_up_arrow'] . "\" /></a>\n";
+}
+if ($tDisplay_next_show == 1)
+{
+   print "<a href=\"list-virtual.php?domain=$fDomain&limit=$tDisplay_next#MidArrow\"><img border=\"0\" src=\"../images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
+}
+print "</div>\n";
+
 if (sizeof ($tMailbox) > 0)
 {
    print "<table id=\"mailbox_table\">\n";
@@ -145,7 +160,22 @@ if (sizeof ($tMailbox) > 0)
       }
    }
    print "</table>\n";
+   print "<div id=\"nav_bar\"><a name=\"LowArrow\" /a>\n";
+   if ($tDisplay_back_show == 1)
+   {
+      print "<a href=\"list-virtual.php?domain=$fDomain&limit=$tDisplay_back#LowArrow\"><img border=\"0\" src=\"../images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
+   }
+   if ($tDisplay_up_show == 1)
+   {
+      print "<a href=\"list-virtual.php?domain=$fDomain&limit=0#LowArrow\"><img border=\"0\" src=\"../images/arrow-u.png\" title=\"" . $PALANG['pOverview_up_arrow'] . "\" alt=\"" . $PALANG['pOverview_up_arrow'] . "\" /></a>\n";
+   }
+   if ($tDisplay_next_show == 1)
+   {
+      print "<a href=\"list-virtual.php?domain=$fDomain&limit=$tDisplay_next#LowArrow\"><img border=\"0\" src=\"../images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
+   }
+   print "</div>\n";
+
+   print "<p><a href=\"create-mailbox.php?domain=$fDomain\">" . $PALANG['pMenu_create_mailbox'] . "</a>\n";
 }
-         print "<p><a href=\"create-mailbox.php?domain=$fDomain\">" . $PALANG['pMenu_create_mailbox'] . "</a>\n";
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
