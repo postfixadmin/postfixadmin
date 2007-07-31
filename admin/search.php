@@ -39,18 +39,18 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
    if ($CONF['alias_control'] == "YES")
    {
-      $query = "SELECT address,goto,modified,domain FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
+      $query = "SELECT address,goto,modified,domain,active FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
       if ('pgsql'==$CONF['database_type'])
       {
-         $query = "SELECT address,goto,extract (epoch from modified) as modified,domain FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
+         $query = "SELECT address,goto,extract (epoch from modified) as modified,domain,active FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
       }
    }
    else
    {
-      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
+      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
       if ('pgsql'==$CONF['database_type'])
       {
-         $query = "SELECT address,goto,extract(epoch from modified) as modified,domain FROM $table_alias WHERE address LIKE '%$fSearch%' AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address) ORDER BY address";
+         $query = "SELECT address,goto,extract(epoch from modified) as modified,domain,active FROM $table_alias WHERE address LIKE '%$fSearch%' AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address) ORDER BY address";
       }
    }
 
@@ -63,15 +63,16 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          if ('pgsql'==$CONF['database_type'])
          {
             $row['modified'] = gmstrftime('%c %Z',$row['modified']);
+            $row['active']=('t'==$row['active']) ? 1 : 0;
          }
          $tAlias[] = $row;
       }
    }
 
-   $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' ORDER BY username";
+   $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
    if ('pgsql'==$CONF['database_type'])
    {
-      $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE username LIKE '%$fSearch%' ORDER BY username";
+      $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
    }
    $result = db_query ($query);
    if ($result['rows'] > 0)
@@ -82,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          {
             $row['created']=gmstrftime('%c %Z',$row['uts_created']);
             $row['modified']=gmstrftime('%c %Z',$row['uts_modified']);
+            $row['active']=('t'==$row['active']) ? 1 : 0;
             unset($row['uts_created']);
             unset($row['uts_modified']);
          }
@@ -109,18 +111,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if ($CONF['alias_control'] == "YES")
    {
-      $query = "SELECT address,goto,modified,domain FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
+      $query = "SELECT address,goto,modified,domain,active FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
       if ('pgsql'==$CONF['database_type'])
       {
-         $query = "SELECT address,goto,extract (epoch from modified) as modified,domain FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
+         $query = "SELECT address,goto,extract (epoch from modified) as modified,domain,active FROM $table_alias WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
       }
    }
    else
    {
-      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
+      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
       if ('pgsql'==$CONF['database_type'])
       {
-         $query = "SELECT $table_alias.address,$table_alias.goto,extract(epoch from $table_alias.modified) as $table_modified,$table_alias.domain FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
+         $query = "SELECT $table_alias.address,$table_alias.goto,extract(epoch from $table_alias.modified) as $table_modified,$table_alias.domain,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
       }
    }
 
@@ -133,6 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          if ('pgsql'==$CONF['database_type'])
          {
             $row['modified'] = gmstrftime('%c %Z',$row['modified']);
+            $row['active']=('t'==$row['active']) ? 1 : 0;
          }
          $tAlias[] = $row;
       }
@@ -141,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
    if ('pgsql'==$CONF['database_type'])
    {
-      $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE username LIKE '%$fSearch%' ORDER BY username";
+      $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
    }
    $result = db_query ("$query");
    if ($result['rows'] > 0)
@@ -152,6 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          {
             $row['created']=gmstrftime('%c %Z',$row['uts_created']);
             $row['modified']=gmstrftime('%c %Z',$row['uts_modified']);
+            $row['active']=('t'==$row['active']) ? 1 : 0;
             unset($row['uts_created']);
             unset($row['uts_modified']);
          }

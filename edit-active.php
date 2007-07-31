@@ -17,6 +17,7 @@
 //
 // fUsername
 // fDomain
+// fReturn
 //
 require ("./variables.inc.php");
 require ("./config.inc.php");
@@ -30,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
    if (isset ($_GET['alias'])) $fAlias = escape_string ($_GET['alias']); else $fAlias = escape_string ($_GET['username']);
    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
+   if (isset ($_GET['return'])) $fReturn = escape_string ($_GET['return']);
    
    if (!check_owner ($SESSID_USERNAME, $fDomain))
    {
@@ -69,7 +71,14 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    
    if ($error != 1)
    {
-      header ("Location: overview.php?domain=$fDomain");
+      if ( $fReturn != "" )
+      {
+        header ("Location: $fReturn");
+      }
+      else
+      {
+        header ("Location: overview.php?domain=$fDomain");
+      }
       exit;
    }
    

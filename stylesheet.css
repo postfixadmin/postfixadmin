@@ -183,7 +183,7 @@ table {
 
 #overview h4, #overview P, #overview FORM, #admin_virtual h4, #admin_virtual P, #admin_virtual FORM {
 	display: inline;
-	padding-right: 20px;
+	padding-right: 10px;
 	line-height: 30px;
 }
 

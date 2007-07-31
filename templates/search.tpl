@@ -34,6 +34,7 @@ if (sizeof ($tAlias) > 0)
    print "      <td>" . $PALANG['pOverview_alias_address'] . "</td>\n";
    print "      <td>" . $PALANG['pOverview_alias_goto'] . "</td>\n";
    print "      <td>" . $PALANG['pOverview_alias_modified'] . "</td>\n";
+   print "      <td>" . $PALANG['pOverview_alias_active'] . "</td>\n";
    print "      <td colspan=\"2\">&nbsp;</td>\n";
    print "   </tr>\n";
 
@@ -47,6 +48,8 @@ if (sizeof ($tAlias) > 0)
          print "      <td>" . $tAlias[$i]['modified'] . "</td>\n";
          if ($CONF['special_alias_control'] == 'YES')
          {
+            $active = ($tAlias[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
+            print "      <td><a href=\"edit-active.php?alias=" . urlencode ($tAlias[$i]['address']) . "&domain=" . $tAlias[$i]['domain'] . "&return=search.php?search=" . urlencode ($fSearch) . "\">" . $active . "</a></td>\n";
             print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tAlias[$i]['address']) . "&domain=" . $tAlias[$i]['domain'] . "\">" . $PALANG['edit'] . "</a></td>\n";
             print "      <td><a href=\"delete.php?delete=" . urlencode ($tAlias[$i]['address']) . "&domain=" . $tAlias[$i]['domain'] . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_aliases'] . ": ". $tAlias[$i]['address'] . "')\">" . $PALANG['del'] . "</a></td>\n";
          }
@@ -54,6 +57,8 @@ if (sizeof ($tAlias) > 0)
          {
             if (check_alias_owner ($SESSID_USERNAME, $tAlias[$i]['address']))
             {
+               $active = ($tAlias[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
+               print "      <td><a href=\"edit-active.php?alias=" . urlencode ($tAlias[$i]['address']) . "&domain=" . $tAlias[$i]['domain'] . "&return=search.php?search=" . urlencode ($fSearch) . "\">" . $active . "</a></td>\n";
                print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tAlias[$i]['address']) . "&domain=" . $tAlias[$i]['domain'] . "\">" . $PALANG['edit'] . "</a></td>\n";
                print "      <td><a href=\"delete.php?delete=" . urlencode ($tAlias[$i]['address']) . "&domain=" . $tAlias[$i]['domain'] . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_aliases'] . ": ". $tAlias[$i]['address'] . "')\">" . $PALANG['del'] . "</a></td>\n";
             }
@@ -99,7 +104,7 @@ if (sizeof ($tMailbox) > 0)
          if ($CONF['quota'] == 'YES') print "      <td>" . divide_quota ($tMailbox[$i]['quota']) . "</td>\n";
          print "      <td>" . $tMailbox[$i]['modified'] . "</td>\n";
          $active = ($tMailbox[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
-         print "      <td><a href=\"edit-active.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "\">" . $active . "</a></td>\n";
+         print "      <td><a href=\"edit-active.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "&return=search.php?search=" . urlencode ($fSearch) . "\">" . $active . "</a></td>\n";
          if ($CONF['vacation_control_admin'] == 'YES')
          {
             $v_active = ($tMailbox[$i]['v_active'] == 1) ? $PALANG['pOverview_vacation_edit'] : '';

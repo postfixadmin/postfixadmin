@@ -43,36 +43,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
    if ($CONF['alias_control_admin'] == "YES")
    {
-      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain FROM $table_alias WHERE $table_alias.address LIKE '%$fSearch%' OR $table_alias.goto LIKE '%$fSearch%' ORDER BY $table_alias.address";
+      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain,$table_alias.active FROM $table_alias WHERE $table_alias.address LIKE '%$fSearch%' OR $table_alias.goto LIKE '%$fSearch%' ORDER BY $table_alias.address";
    }
    else
    {
-      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
-   }
-
-   $result = db_query ($query);
-   if ($result['rows'] > 0)
-   {
-      while ($row = db_array ($result['result']))
-      {
-         if (check_owner ($SESSID_USERNAME, $row['domain']))
-         {
-            if ('pgsql'==$CONF['database_type'])
-            {
-               $row['modified']=gmstrftime('%c %Z',$row['modified']);
-            }         	
-         	$tAlias[] = $row;
-         }
-      }
-   }
-
-   if ($CONF['vacation_control_admin'] == 'YES')
-   {
-      $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.username LIKE '%$fSearch%' ORDER BY $table_mailbox.username");
-   }
-   else
-   {
-      $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' ORDER BY username";
+      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
    }
 
    $result = db_query ($query);
@@ -87,7 +62,33 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
                $row['modified']=gmstrftime('%c %Z',$row['modified']);
                $row['active']=('t'==$row['active']) ? 1 : 0;
             }         	
-         	$tMailbox[] = $row;
+            $tAlias[] = $row;
+         }
+      }
+   }
+
+   if ($CONF['vacation_control_admin'] == 'YES')
+   {
+      $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.username LIKE '%$fSearch%' OR $table_mailbox.name LIKE '%$fSearch%' ORDER BY $table_mailbox.username");
+   }
+   else
+   {
+      $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
+   }
+
+   $result = db_query ($query);
+   if ($result['rows'] > 0)
+   {
+      while ($row = db_array ($result['result']))
+      {
+         if (check_owner ($SESSID_USERNAME, $row['domain']))
+         {
+            if ('pgsql'==$CONF['database_type'])
+            {
+               $row['modified']=gmstrftime('%c %Z',$row['modified']);
+               $row['active']=('t'==$row['active']) ? 1 : 0;
+            }         	
+            $tMailbox[] = $row;
          }
       }
    }
@@ -112,11 +113,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if ($CONF['alias_control_admin'] == "YES")
    {
-      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain FROM $table_alias WHERE $table_alias.address LIKE '%$fSearch%' OR $table_alias.goto LIKE '%$fSearch%' ORDER BY $table_alias.address";
+      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain,$table_alias.active FROM $table_alias WHERE $table_alias.address LIKE '%$fSearch%' OR $table_alias.goto LIKE '%$fSearch%' ORDER BY $table_alias.address";
    }
    else
    {
-      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
+      $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
    }
 
    $result = db_query ($query);
@@ -129,6 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             if ('pgsql'==$CONF['database_type'])
             {
                $row['modified']=gmstrftime('%c %Z',$row['modified']);
+               $row['active']=('t'==$row['active']) ? 1 : 0;
             }
             $tAlias[] = $row;
          }
