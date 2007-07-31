@@ -27,7 +27,22 @@ for ($i = 0; $i < sizeof ($list_domains); $i++)
 </div>
 
 <?php
-print "<div id=\"nav_bar\">\n";
+print "<div id=\"nav_bar\">\n<table width=730><colgroup span=\"1\"> <col width=\"550\"></col></colgroup> <tr><td align=left >";
+if ( $limit['alias_pgindex_count'] ) print "<b>".$PALANG['pOverview_alias_title']."</b>&nbsp&nbsp";
+($tDisplay_back_show == 1) ? $highlight_at = $tDisplay_back / $CONF['page_size'] + 1 : $highlight_at = 0;
+for ($i = 0; $i < $limit['alias_pgindex_count']; $i++)
+{
+   if ( $i == $highlight_at )
+   {
+      print  "<a href=\"list-virtual.php?domain=$fDomain&limit=" . $i * $CONF['page_size'] . "\"><b>" . $limit['alias_pgindex'][$i] . "</b></a>\n";
+   }
+   else
+   {
+      print  "<a href=\"list-virtual.php?domain=$fDomain&limit=" . $i * $CONF['page_size'] . "\">" . $limit['alias_pgindex'][$i] . "</a>\n";
+   }
+}
+print "</td><td valign=middle align=right>";
+
 if ($tDisplay_back_show == 1)
 {
    print "<a href=\"list-virtual.php?domain=$fDomain&limit=$tDisplay_back\"><img border=\"0\" src=\"../images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
@@ -40,7 +55,8 @@ if ($tDisplay_next_show == 1)
 {
    print "<a href=\"list-virtual.php?domain=$fDomain&limit=$tDisplay_next\"><img border=\"0\" src=\"../images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
 }
-print "</div>\n";
+print "</td></tr></table></div>\n";
+
 
 if (sizeof ($tAlias) > 0)
 {
@@ -77,9 +93,25 @@ if (sizeof ($tAlias) > 0)
    }
    print "</table>\n";
 }
-         print "<p><a href=\"create-alias.php?domain=$fDomain\">" . $PALANG['pMenu_create_alias'] . "</a>\n";
+print "<p><a href=\"create-alias.php?domain=$fDomain\">" . $PALANG['pMenu_create_alias'] . "</a>\n";
 
-print "<div id=\"nav_bar\"><a name=\"MidArrow\" /a>\n";
+   print "<div id=\"nav_bar\"><a name=\"MidArrow\" /a>\n<table width=730><colgroup span=\"1\"> <col width=\"550\"></col></colgroup> <tr><td align=left >";
+   if ( $limit['mbox_pgindex_count'] ) print "<b>".$PALANG['pOverview_mailbox_title']."</b>&nbsp&nbsp";
+   ($tDisplay_back_show == 1) ? $highlight_at = $tDisplay_back / $CONF['page_size'] + 1 : $highlight_at = 0;
+   for ($i = 0; $i < $limit['mbox_pgindex_count']; $i++)
+   {
+      if ( $i == $highlight_at )
+      {
+         print  "<a href=\"list-virtual.php?domain=$fDomain&limit=" . $i * $CONF['page_size'] . "#MidArrow\"><b>" . $limit['mbox_pgindex'][$i] . "</b></a>\n";
+      }
+      else
+      {
+         print  "<a href=\"list-virtual.php?domain=$fDomain&limit=" . $i * $CONF['page_size'] . "#MidArrow\">" . $limit['mbox_pgindex'][$i] . "</a>\n";
+      }
+   }
+   print "</td><td valign=middle align=right>";
+
+
 if ($tDisplay_back_show == 1)
 {
    print "<a href=\"list-virtual.php?domain=$fDomain&limit=$tDisplay_back#MidArrow\"><img border=\"0\" src=\"../images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
@@ -92,7 +124,8 @@ if ($tDisplay_next_show == 1)
 {
    print "<a href=\"list-virtual.php?domain=$fDomain&limit=$tDisplay_next#MidArrow\"><img border=\"0\" src=\"../images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
 }
-print "</div>\n";
+print "</td></tr></table></div>\n";
+
 
 if (sizeof ($tMailbox) > 0)
 {
