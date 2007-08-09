@@ -27,16 +27,16 @@ use strict;
 use Sys::Syslog;
 
 
-$db_type = 'mysql';
-$db_host = 'localhost';
-$db_user = 'postfixadmin';
-$db_pass = 'postfixadmin';
-$db_name = 'postfix';
-$sendmail = "/usr/sbin/sendmail";
-$logfile = "";    # specify a file name here for example: vacation.log
-$debugfile = "";  # specify a file name here for example: vacation.debug
-$syslog = 0;   # 1 if log entries should be sent to syslog
-$logger = "/usr/bin/logger";
+my $db_type = 'mysql';
+my $db_host = 'localhost';
+my $db_user = 'postfixadmin';
+my $db_pass = 'postfixadmin';
+my $db_name = 'postfix';
+my $sendmail = "/usr/sbin/sendmail";
+my $logfile = "";    # specify a file name here for example: vacation.log
+my $debugfile = "";  # specify a file name here for example: vacation.debug
+my $syslog = 0;   # 1 if log entries should be sent to syslog
+my $logger = "/usr/bin/logger";
 
 # Alternatively, you can put the variables above in a 
 # config file that is readable by the vacation user.
@@ -209,16 +209,21 @@ sub send_vacation_email {
 
 ########################### main #################################
 
-my ($from, $to, $cc, $subject, $messageid);
+my ($from, $to, $cc, $subject, $messageid, $lastheader);
 
 # Take headers apart
 while (<STDIN>) {
    last if (/^$/);
-   if (/^from:\s+(.*)\n$/i) { $from = $1; }
-   if (/^to:\s+(.*)\n$/i) { $to = $1; }
-   if (/^cc:\s+(.*)\n$/i) { $cc = $1; }
-   if (/^subject:\s+(.*)\n$/i) { $subject = $1; }
-   if (/^message-id:\s+(.*)\n$/i) { $messageid = $1; }
+
+   if (/^\s+(.*)/) {
+     if( $lastheader) { $$lastheader .= " $1"; }
+   } else { undef $lastheader; }
+   if (/^from:\s+(.*)\n$/i) { $from = $1; $lastheader = \$from; }
+   if (/^to:\s+(.*)\n$/i) { $to = $1; $lastheader = \$to; }
+   if (/^cc:\s+(.*)\n$/i) { $cc = $1; $lastheader = \$cc; }
+   if (/^subject:\s+(.*)\n$/i) { $subject = $1; $lastheader = \$subject; }
+   if (/^message-id:\s+(.*)\n$/i) { $messageid = $1; $lastheader = \$messageid; }
+
    if (/^precedence:\s+(bulk|list|junk)/i) { exit (0); }
    if (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { exit (0); }
 }
