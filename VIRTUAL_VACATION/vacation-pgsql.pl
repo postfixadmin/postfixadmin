@@ -29,11 +29,19 @@
 #             Uses the Email::Valid package to avoid sending notices
 #             to obviously invalid addresses.
 #
+# 2007-08-15  David Goodwin <david@palepurple.co.uk>
+#             Use the Perl Mail::Sendmail module for sending mail
+#             Check for headers that start with blank lines (patch from forum)
 #
 # Requirements:
 # You need to have the DBD::Pg perl-module installed.
+# You need to have the Mail::Sendmail module installed. 
+#
 # On Fedora Core Linux, e.g., this entails installing the 
 # libdbi-dbd-pgsql and perl-DBD-Pg-1.22-1 packages.
+#
+# On Debian based systems : 
+#   libmail-sendmail-perl libdbd-pg-perl libemail-valid-perl libmime-perl
 #
 # Note: When you use this module, you may start seeing error messages
 # like "Cannot insert a duplicate key into unique index
@@ -51,6 +59,7 @@ use DBI;
 use MIME::Words qw(:all);
 use Email::Valid;
 use strict;
+use Mail::Sendmail;
 my $db_host;  # leave alone
 
 # ========== begin configuration ==========
@@ -63,11 +72,11 @@ my $db_type = 'Pg';
 # $db_host = 'localhost';   # Uncomment (and adjust, if needed) your DB
                             # host-name here, if you want to connect via
                             # a TCP socket
+
 my $db_user = 'vacation';   # What DB-user to connect as
 my $db_pass = '';           # What password (if any) to connect with
 my $db_name = 'postfix';    # Name of database to use
 
-my $sendmail = "/usr/sbin/sendmail";
 
 my $charset = 'ISO-8859-1'; # Character set of vacation messages.
 
@@ -121,8 +130,8 @@ sub already_notified {
    if (!$stm->execute($to,$from)) {
       my $e=$dbh->errstr;
 
-      # Violation of a primay key constraint may happen here, and that's
-      # fine. All other error conditions are not fine, however.
+# Violation of a primay key constraint may happen here, and that's
+# fine. All other error conditions are not fine, however.
       if (!$e =~ /_pkey/) {
          do_log('',$to,$from,'','',"Unexpected error: '$e' from query '$query'");
       }
@@ -135,13 +144,13 @@ sub do_log {
    my ($messageid, $to, $from, $subject, $logmessage) = @_;
    my $date;
    if ( $syslog ) {
-       open (SYSLOG, "|/usr/bin/logger -p mail.info -t Vacation") or die ("Unable to open logger"); 
-       if ($logmessage) {
+      open (SYSLOG, "|/usr/bin/logger -p mail.info -t Vacation") or die ("Unable to open logger"); 
+      if ($logmessage) {
          printf SYSLOG "Orig-To: %s From: %s MessageID: %s Subject: %s. Log message: $%s", $to, $from, $messageid, $subject, $logmessage;
-       } else {
+      } else {
          printf SYSLOG "Orig-To: %s From: %s MessageID: %s Subject: %s", $to, $from, $messageid, $subject;
-       }
-       close (SYSLOG); 
+      }
+      close (SYSLOG); 
    }
    if ( $logfile ) {
       open (LOG, ">> $logfile") or die ("Unable to open log file");
@@ -156,19 +165,23 @@ sub do_log {
 }
 
 sub do_mail {
+   # from, to, subject, body
    my ($from, $to, $plainsubject, $body) = @_;
    my $subject = encode_mimewords($plainsubject);
 
-   open (MAIL, "| $sendmail -t -f $from") or die ("Unable to open sendmail");
-   print MAIL "From: $from\n";
-   print MAIL "To: $to\n";
-   print MAIL "Subject: $subject\n";
-   print MAIL "MIME-Version: 1.0\n";
-   print MAIL "Content-Type: text/plain; charset=\"$charset\"\n";
-   print MAIL "Precedence: junk\n";
-   print MAIL "X-Loop: Postfix Admin Virtual Vacation\n\n";
-   print MAIL "$body";
-   close (MAIL);
+   my %mail;
+   %mail = (
+      'To' => $to,
+      'From' => $from,
+      'Subject' => $subject,
+      'MIME-Version' => '1.0',
+      'Content-Type' => "text/plain; charset=\"$charset\"",
+      'Precedence' => 'junk',
+      'X-Loop' => 'Postfix Admin Virtual Vacation',
+      'Message' => $body
+   );
+   sendmail(%mail) or do_log($Mail::Sendmail::error);
+   do_debug("Mail::Sendmail said : " . $Mail::Sendmail::log);
 }
 
 sub panic {
@@ -201,7 +214,7 @@ sub find_real_address {
    $stm->execute($email) or panic_execute($query,"email='$email'");
    my $rv = $stm->rows;
 
-   # Recipient has vacation
+# Recipient has vacation
    if ($rv == 1) {
       $realemail = $email;
    } else {
@@ -210,7 +223,7 @@ sub find_real_address {
       $stm->execute($email) or panic_execute($query,"address='$email'");
       $rv = $stm->rows;
 
-      # Recipient is an alias, check if mailbox has vacation
+# Recipient is an alias, check if mailbox has vacation
       if ($rv == 1) { 
          my @row = $stm->fetchrow_array;
          my $alias = $row[0];
@@ -219,26 +232,26 @@ sub find_real_address {
          $stm->execute($alias) or panic_prepare($query,"email='$alias'");
          $rv = $stm->rows;
 
-         # Alias has vacation
+# Alias has vacation
          if ($rv == 1) {
             $realemail = $alias;
          }
 
-      # We still have to look for domain level aliases...
+# We still have to look for domain level aliases...
       } else { 
          my ($user, $domain) = split(/@/, $email);
          $query = qq{SELECT goto FROM alias WHERE address=?};
          $stm = $dbh->prepare($query) or panic_prepare($query);
          $stm->execute("\@$domain") or panic_execute($query,"address='\@$domain'");
          $rv = $stm->rows;
-         
-         # The receipient has a domain level alias
+
+# The receipient has a domain level alias
          if ($rv == 1) { 
             my @row = $stm->fetchrow_array;
             my $wildcard_dest = $row[0];
             my ($wilduser, $wilddomain) = split(/@/, $wildcard_dest);
 
-            # Check domain alias
+# Check domain alias
             if ($wilduser) { 
                ($rv, $realemail) = find_real_address ($wildcard_dest);	
             } else {
@@ -261,7 +274,9 @@ sub send_vacation_email {
       my @row = $stm->fetchrow_array;
       if (already_notified($email, $orig_from)) { return; }
       do_debug ("[SEND RESPONSE] for $orig_messageid:\n", "FROM: $email (orig_to: $orig_to)\n", "TO: $orig_from\n", "SUBJECT: $orig_subject\n", "VACATION SUBJECT: $row[0]\n", "VACATION BODY: $row[1]\n");
-      do_mail ($orig_to, $orig_from, $row[0], $row[1]);
+
+      # do_mail(from, to, subject, body);
+      do_mail ($email, $orig_from, $row[0] . " (Re: $orig_subject)", $row[1]);
       do_log ($orig_messageid, $orig_to, $orig_from, $orig_subject); 
    }
 
@@ -269,18 +284,19 @@ sub send_vacation_email {
 
 ########################### main #################################
 
-my ($from, $to, $cc, $subject, $messageid);
+my ($from, $to, $cc, $subject, $messageid, $lastheader);
 
 $subject='';
 
 # Take headers apart
 while (<STDIN>) {
    last if (/^$/);
-   if (/^from:\s+(.*)\n$/i) { $from = $1; }
-   if (/^to:\s+(.*)\n$/i) { $to = $1; }
-   if (/^cc:\s+(.*)\n$/i) { $cc = $1; }
-   if (/^subject:\s+(.*)\n$/i) { $subject = $1; }
-   if (/^message-id:\s+(.*)\n$/i) { $messageid = $1; }
+   if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; }
+   if (/^from:\s+(.*)\n$/i) { $from = $1; $lastheader = \$from; }
+   if (/^to:\s+(.*)\n$/i) { $to = $1; $lastheader = \$to; }
+   if (/^cc:\s+(.*)\n$/i) { $cc = $1; $lastheader = \$cc; }
+   if (/^subject:\s+(.*)\n$/i) { $subject = $1; $lastheader = \$subject; }
+   if (/^message-id:\s+(.*)\n$/i) { $messageid = $1; $lastheader = \$messageid; } 
    if (/^precedence:\s+(bulk|list|junk)/i) { exit (0); }
    if (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { exit (0); }
 }
@@ -290,7 +306,7 @@ if (!$from || !$to || !$messageid) { exit (0); }
 
 $from = lc ($from);
 
-if (!Email::Valid->address($from,-mxcheck => 1)) { exit(0); }
+if (!Email::Valid->address($from,-mxcheck => 1)) { do_debug("", "", "", "", "", "Invalid from email address: $from; exiting."); exit(0); }
 
 # Check if it's an obvious sender, exit
 if ($from =~ /([\w\-.%]+\@[\w.-]+)/) { $from = $1; }
@@ -307,17 +323,19 @@ my @search_array;
 # Strip email address from headers
 for (@strip_to_array) {
    if ($_ =~ /([\w\-.%]+\@[\w.-]+)/) { 
-	push (@search_array, $1); 
-  	do_debug ("[STRIP RECIPIENTS]: ", $messageid, $1, "-", "-", "-");
+      push (@search_array, $1); 
+      do_debug ("[STRIP RECIPIENTS]: ", $messageid, $1, "-", "-", "-");
    }
 }
 
 # Search for email address which has vacation
 for (@search_array) {
-   my ($rv, $email) = find_real_address ($_);
+   /([\w\-.%]+\@[\w.-]+)/ or next; 
+   my $addr = $1;
+   my ($rv, $email) = find_real_address ($addr);
    if ($rv == 1) {
-         do_debug ("[FOUND VACATION]: ", $messageid, $from, $to, $email, $subject);
-	 send_vacation_email( $email, $subject, $from, $to, $messageid);
+      do_debug ("[FOUND VACATION]: ", $messageid, $from, $to, $email, $subject);
+      send_vacation_email( $email, $subject, $from, $to, $messageid);
    }
 }
 
