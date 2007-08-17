@@ -57,11 +57,14 @@ function check_user_session ()
 //
 function session_fixid ()
 {
-    if (!isset($_SESSION['exist']))
-    {
-	if ( !session_regenerate_id() ) die("Couldn't regenerate your session id.");
-	$_SESSION['exist'] = true;
-    }
+   if (!isset($_SESSION['exist']))
+   {
+      if ( !session_regenerate_id() ) 
+      {
+         die("Couldn't regenerate your session id.");
+      }
+      $_SESSION['exist'] = true;
+   }
 }
 
 
@@ -84,7 +87,7 @@ function check_language ()
          $lang_next = $lang_array[$i];
          $lang_next = strtolower(substr(trim($lang_next), 0, 2));
          if(in_array($lang_next, $supported_languages))
-	 {
+         {
             $lang = $lang_next;
             break;
          }
@@ -145,7 +148,7 @@ function check_email ($email)
    global $CONF;
 
    $ce_email=$email;
-     
+
    //strip the vacation domain out if we are using it
    if ($CONF['vacation'] == 'YES')
    { 
@@ -157,35 +160,35 @@ function check_email ($email)
       isset($CONF['emailcheck_resolve_domain'])
       && 'YES'==$CONF['emailcheck_resolve_domain']
       && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))
-   ) {
+         ) {
 
-      // Perform non-domain-part sanity checks
-      if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', trim ($ce_email)))
-      {
-         return false;
-      }
+            // Perform non-domain-part sanity checks
+            if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', trim ($ce_email)))
+            {
+               return false;
+            }
 
-      // Determine domain name
-      $matches=array();
-      if (!preg_match('|@(.+)$|',$ce_email,$matches))
-      {
-         return false;
-      }
-      $domain=$matches[1];
+            // Determine domain name
+            $matches=array();
+            if (!preg_match('|@(.+)$|',$ce_email,$matches))
+            {
+               return false;
+            }
+            $domain=$matches[1];
 
-      // Look for an AAAA, A, or MX record for the domain
+            // Look for an AAAA, A, or MX record for the domain
 
-      // AAAA (IPv6) is only available in PHP v. >= 5
-      if (version_compare(phpversion(), "5.0.0", ">="))
-      {
-         if (checkdnsrr($domain,'AAAA')) return true;
-      }
+            // AAAA (IPv6) is only available in PHP v. >= 5
+            if (version_compare(phpversion(), "5.0.0", ">="))
+            {
+               if (checkdnsrr($domain,'AAAA')) return true;
+            }
 
-      if (checkdnsrr($domain,'A')) return true;
-      if (checkdnsrr($domain,'MX')) return true;
+            if (checkdnsrr($domain,'A')) return true;
+            if (checkdnsrr($domain,'MX')) return true;
 
-      return false;
-   }
+            return false;
+         }
 
    if (preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', trim ($ce_email)))
    {
@@ -209,7 +212,7 @@ function check_email ($email)
 function escape_string ($string)
 {
    global $CONF;
-	if (get_magic_quotes_gpc ())
+   if (get_magic_quotes_gpc ())
    {
       $string = stripslashes($string);
    }
@@ -217,19 +220,19 @@ function escape_string ($string)
    {
       if ($CONF['database_type'] == "mysql")
       {
-	$link = db_connect();
-	$escaped_string = mysql_real_escape_string($string, $link);
+         $link = db_connect();
+         $escaped_string = mysql_real_escape_string($string, $link);
       }
       if ($CONF['database_type'] == "mysqli")
       {
-	$link = db_connect();
-	$escaped_string = mysqli_real_escape_string($link, $string);
+         $link = db_connect();
+         $escaped_string = mysqli_real_escape_string($link, $string);
       }
       if ($CONF['database_type'] == "pgsql") $escaped_string = pg_escape_string($string);
    }
    else
    {
-     $escaped_string = $string;
+      $escaped_string = $string;
    }
    return $escaped_string;
 }
@@ -262,13 +265,14 @@ function get_domain_properties ($domain)
 
    $list['alias_pgindex']=array ();
    $list['mbox_pgindex']=array ();
-
+   $list['mbox_pgindex_count'] = 0;
    //while loop to figure index names. use page_size and loop of queries
    $i=0;
    $current=0;
    $page_size = $CONF['page_size'];
    $tmpstr="";
    $idxlabel="";
+   $list['alias_pgindex_count'] = 0;
 
    if ( $list['alias_count'] > $page_size )
    {
@@ -330,19 +334,12 @@ function get_domain_properties ($domain)
       $list['mbox_pgindex_count']=$i;
    }
 
-// end mod
+   // end mod
 
    $query="SELECT * FROM $table_domain WHERE domain='$domain'";
    if ('pgsql'==$CONF['database_type'])
    {
-      $query="
-         SELECT
-            *,
-            EXTRACT(epoch FROM created) AS uts_created,
-            EXTRACT(epoch FROM modified) AS uts_modified
-         FROM $table_domain
-         WHERE domain='$domain'
-      ";
+      $query=" SELECT *, EXTRACT(epoch FROM created) AS uts_created, EXTRACT(epoch FROM modified) AS uts_modified FROM $table_domain WHERE domain='$domain' ";
    }
    $result = db_query ($query);
    $row = db_array ($result['result']);
@@ -389,12 +386,12 @@ function get_mailbox_properties ($username)
    {
       $query="
          SELECT
-            *,
-            EXTRACT(epoch FROM created) AS uts_created,
-            EXTRACT(epoch FROM modified) AS uts_modified
+         *,
+         EXTRACT(epoch FROM created) AS uts_created,
+         EXTRACT(epoch FROM modified) AS uts_modified
          FROM $table_mailbox
          WHERE username='$username'
-      ";
+         ";
    }
    $result = db_query ($query);
    $row = db_array ($result['result']);
@@ -761,12 +758,12 @@ function get_admin_properties ($username)
    if ('pgsql'==$CONF['database_type']) {
       $query="
          SELECT
-            *,
-            EXTRACT(epoch FROM created) AS uts_created,
-            EXTRACT (epoch FROM modified) AS uts_modified
-            FROM $table_admin
-            WHERE username='$username'
-      ";
+         *,
+         EXTRACT(epoch FROM created) AS uts_created,
+         EXTRACT (epoch FROM modified) AS uts_modified
+         FROM $table_admin
+         WHERE username='$username'
+         ";
    }
 
    $result = db_query ($query);
@@ -807,12 +804,12 @@ function encode_header ($string, $default_charset)
    {
       switch ($string{$i})
       {
-         case '=':
-         case '<':
-         case '>':
-         case ',':
-         case '?':
-         case '_':
+      case '=':
+      case '<':
+      case '>':
+      case ',':
+      case '?':
+      case '_':
          if ($iEncStart === false)
          {
             $iEncStart = $i;
@@ -832,8 +829,8 @@ function encode_header ($string, $default_charset)
             $ret .= sprintf ("=%02X",ord($string{$i}));
          }
          break;
-         case '(':
-         case ')':
+      case '(':
+      case ')':
          if ($iEncStart !== false)
          {
             $aRet[] = substr ($string,$iOffset,$iEncStart-$iOffset);
@@ -844,7 +841,7 @@ function encode_header ($string, $default_charset)
             $iEncStart = false;
          }
          break;
-         case ' ':
+      case ' ':
          if ($iEncStart !== false)
          {
             $cur_l++;
@@ -863,7 +860,7 @@ function encode_header ($string, $default_charset)
             }
          }
          break;
-         default:
+      default:
          $k = ord ($string{$i});
          if ($k > 126)
          {
@@ -890,9 +887,9 @@ function encode_header ($string, $default_charset)
             }
             $enc_init = true;
             $ret .= sprintf ("=%02X", $k);
-            }
-            else
-            {
+         }
+         else
+         {
             if ($iEncStart !== false)
             {
                $cur_l++;
@@ -904,29 +901,29 @@ function encode_header ($string, $default_charset)
                   $iOffset = $i;
                   $cur_l = 0;
                   $ret = '';
-                  }
-                  else
-                  {
-                     $ret .= $string{$i};
-                  }
+               }
+               else
+               {
+                  $ret .= $string{$i};
                }
             }
-            break;
          }
+         break;
       }
-      if ($enc_init)
+   }
+   if ($enc_init)
+   {
+      if ($iEncStart !== false)
       {
-         if ($iEncStart !== false)
-         {
-            $aRet[] = substr ($string,$iOffset,$iEncStart-$iOffset);
-            $aRet[] = "=?$default_charset?Q?$ret?=";
-         }
-         else
-         {
-            $aRet[] = substr ($string,$iOffset);
-         }
-         $string = implode ('',$aRet);
+         $aRet[] = substr ($string,$iOffset,$iEncStart-$iOffset);
+         $aRet[] = "=?$default_charset?Q?$ret?=";
       }
+      else
+      {
+         $aRet[] = substr ($string,$iOffset);
+      }
+      $string = implode ('',$aRet);
+   }
    return $string;
 }
 
@@ -953,7 +950,7 @@ function generate_password ()
 function pacrypt ($pw, $pw_db="")
 {
    global $CONF;
-	$pw = stripslashes($pw);
+   $pw = stripslashes($pw);
    $password = "";
    $salt = "";
 
@@ -975,13 +972,13 @@ function pacrypt ($pw, $pw_db="")
       else
       {
          if (strlen($pw_db) == 0)
-           {
-               $salt = substr (md5 (mt_rand ()), 0, 2);
-           }
+         {
+            $salt = substr (md5 (mt_rand ()), 0, 2);
+         }
          else
-           {
-               $salt = substr ($pw_db, 0, 2);
-           }
+         {
+            $salt = substr ($pw_db, 0, 2);
+         }
       }
       $password = crypt ($pw, $salt);
    }
@@ -1156,23 +1153,23 @@ function smtp_get_response ($fh)
 {
    $res ='';
    do
-   {
-      $line = fgets($fh, 256);
-      $res .= $line;
-   }
-   while (preg_match("/^\d\d\d\-/", $line));
-   return $res;
+{
+   $line = fgets($fh, 256);
+   $res .= $line;
+}
+while (preg_match("/^\d\d\d\-/", $line));
+return $res;
 }
 
 
 
 $DEBUG_TEXT = "\n
-<p />\n
-Please check the documentation and website for more information.\n
-<p />\n
-<a href=\"http://high5.net/postfixadmin/\">Postfix Admin</a><br />\n
-<a href=\"http://forums.high5.net/index.php?showforum=7\">Knowledge Base</a>\n
-";
+   <p />\n
+   Please check the documentation and website for more information.\n
+   <p />\n
+   <a href=\"http://high5.net/postfixadmin/\">Postfix Admin</a><br />\n
+   <a href=\"http://forums.high5.net/index.php?showforum=7\">Knowledge Base</a>\n
+   ";
 
 
 
@@ -1196,7 +1193,7 @@ function db_connect ()
       else
       {
          print "<p />DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available!<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
-         die;
+         die();
       }
    }
 
@@ -1210,7 +1207,7 @@ function db_connect ()
       else
       {
          print "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available!<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
-         die;
+         die();
       }
    }
 
@@ -1224,7 +1221,7 @@ function db_connect ()
       else
       {
          print "<p />DEBUG INFORMATION:<br />PostgreSQL functions not available!<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
-         die;
+         die();
       }
    }
 
@@ -1239,7 +1236,7 @@ function db_connect ()
       print "<br />\n";
       print "Make sure that you have set the correct database type in the config.inc.php file<br />\n";
       print $DEBUG_TEXT;
-      die;
+      die();
    }
 }
 
@@ -1422,7 +1419,7 @@ function table_by_pos ($pos)
 /*
    Called after a mailbox has been created in the DBMS.
    Returns: boolean.
-*/
+ */
 function mailbox_postcreation($username,$domain,$maildir)
 {
    if (empty($username) || empty($domain) || empty($maildir))
@@ -1457,7 +1454,7 @@ function mailbox_postcreation($username,$domain,$maildir)
 /*
    Called after a mailbox has been deleted in the DBMS.
    Returns: boolean.
-*/
+ */
 function mailbox_postdeletion($username,$domain)
 {
    global $CONF;
@@ -1494,7 +1491,7 @@ function mailbox_postdeletion($username,$domain)
 /*
    Called after a domain has been deleted in the DBMS.
    Returns: boolean.
-*/
+ */
 function domain_postdeletion($domain)
 {
    global $CONF;
@@ -1543,7 +1540,7 @@ function domain_postdeletion($domain)
 
    Doesn't clean up, if only some of the folders could be
    created.
-*/
+ */
 function create_mailbox_subfolders($login,$cleartext_password)
 {
    global $CONF;
@@ -1575,17 +1572,17 @@ function create_mailbox_subfolders($login,$cleartext_password)
    if (
       isset($CONF['create_mailbox_subdirs_hostoptions'])
       && !empty($CONF['create_mailbox_subdirs_hostoptions'])
-   ) {
-      if (!is_array($CONF['create_mailbox_subdirs_hostoptions']))
-      {
-         trigger_error('The $CONF["create_mailbox_subdirs_hostoptions"] parameter must be an array',E_USER_ERROR);
-         return FALSE;
-      }
-      foreach ($CONF['create_mailbox_subdirs_hostoptions'] as $o)
-      {
-         $s_options.='/'.$o;
-      }
-   }
+         ) {
+            if (!is_array($CONF['create_mailbox_subdirs_hostoptions']))
+            {
+               trigger_error('The $CONF["create_mailbox_subdirs_hostoptions"] parameter must be an array',E_USER_ERROR);
+               return FALSE;
+            }
+            foreach ($CONF['create_mailbox_subdirs_hostoptions'] as $o)
+            {
+               $s_options.='/'.$o;
+            }
+         }
 
    if (isset($CONF['create_mailbox_subdirs_hostport']) && !empty($CONF['create_mailbox_subdirs_hostport']))
    {
