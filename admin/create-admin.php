@@ -32,6 +32,7 @@ $SESSID_USERNAME = check_session ();
 (!check_admin($SESSID_USERNAME) ? header("Location: " . $CONF['postfix_admin_url'] . "/main.php") && exit : '1');
 
 $list_domains = list_domains ();
+$tDomains = array();
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
@@ -49,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']);
    if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
    if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
+   $fDomains = array();
    if (!empty ($_POST['fDomains'])) $fDomains = $_POST['fDomains'];
 
    if (!check_email ($fUsername))
