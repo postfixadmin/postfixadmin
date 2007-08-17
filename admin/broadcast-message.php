@@ -5,9 +5,9 @@
 // Copyright (c) 2002 - 2005 High5!
 // Licensed under GPL for more info check GPL-LICENSE.TXT
 //
-// File: list-domain.php
+// File: broadcast-message.php
 //
-// Template File: admin_list-domain.tpl
+// Template File: broadcast-message.tpl
 //
 // Template Variables:
 //
@@ -15,9 +15,11 @@
 //
 // Form POST \ GET Variables:
 //
-// fUsername
+// b_from
+// b_subject
+// b_message
 //
-// 
+//
 require ("../variables.inc.php");
 require ("../config.inc.php");
 require ("../functions.inc.php");
