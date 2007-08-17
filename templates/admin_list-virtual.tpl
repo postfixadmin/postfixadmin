@@ -26,9 +26,11 @@ for ($i = 0; $i < sizeof ($list_domains); $i++)
 </form>
 </div>
 
+<div id="nav_bar">
+   <table width=730><colgroup span="1"><col width="550"></col></colgroup> 
+   <tr><td align=left >
 <?php
-print "<div id=\"nav_bar\">\n<table width=730><colgroup span=\"1\"> <col width=\"550\"></col></colgroup> <tr><td align=left >";
-if ( $limit['alias_pgindex_count'] ) print "<b>".$PALANG['pOverview_alias_title']."</b>&nbsp&nbsp";
+if ($limit['alias_pgindex_count'] ) print "<b>".$PALANG['pOverview_alias_title']."</b>&nbsp&nbsp";
 ($tDisplay_back_show == 1) ? $highlight_at = $tDisplay_back / $CONF['page_size'] + 1 : $highlight_at = 0;
 for ($i = 0; $i < $limit['alias_pgindex_count']; $i++)
 {
