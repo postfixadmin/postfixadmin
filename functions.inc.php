@@ -218,17 +218,27 @@ function escape_string ($string)
    }
    if (!is_numeric($string))
    {
+      $link = db_connect();
       if ($CONF['database_type'] == "mysql")
       {
-         $link = db_connect();
          $escaped_string = mysql_real_escape_string($string, $link);
       }
       if ($CONF['database_type'] == "mysqli")
       {
-         $link = db_connect();
          $escaped_string = mysqli_real_escape_string($link, $string);
       }
-      if ($CONF['database_type'] == "pgsql") $escaped_string = pg_escape_string($string);
+      if ($CONF['database_type'] == "pgsql") 
+      {
+         // php 5.2+ allows for $link to be specified.
+         if (version_compare(phpversion(), "5.2.0", ">="))
+         {
+            $escaped_string = pg_escape_string($link, $string);
+         }
+         else 
+         {
+            $escaped_string = pg_escape_string($string);
+         }
+      }
    }
    else
    {
