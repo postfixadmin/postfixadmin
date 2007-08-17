@@ -605,11 +605,6 @@ function list_domains_for_admin ($username)
       $i = 0;
       while ($row = db_array ($result['result']))
       {
-         if ('pgsql'==$CONF['database_type'])
-         {
-            $row['active'] = ('t'==$row['active'] ? 1 : 0);
-            $row['backupmx'] = ('t'==$row['backupmx'] ? 1 : 0);
-         }
          $list[$i] = $row['domain'];
          $i++;
       }
