@@ -326,4 +326,14 @@ $PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
 
 $PALANG['pSearch'] = 'search';
 $PALANG['pSearch_welcome'] = 'Searching for: ';
+
+$PALANG['pBroadcast_title'] = 'Send broadcast message';
+$PALANG['pBroadcast_from'] = 'From';
+$PALANG['pBroadcast_from_help'] = 'From address should be like e.g. "Systems Team" &lt;suport@my.domain.tld&gt;';
+$PALANG['pBroadcast_subject'] = 'Subject';
+$PALANG['pBroadcast_message'] = 'Message';
+$PALANG['pBroadcast_send'] = 'Send message';
+$PALANG['pBroadcast_success'] = 'Your broadcast message was sent.';
+$PALANG['pAdminMenu_broadcast_message'] = 'BC message';
+$PALANG['pBroadcast_error_empty'] = 'The fields From, Subject and Message should\'t be empty !';
 ?>
