@@ -4,7 +4,6 @@
 // by Mischa <mischa at high5 dot net>
 //
 
-require ('default.lang');
 
 $PALANG['YES'] = 'YES';
 $PALANG['NO'] = 'NO';
