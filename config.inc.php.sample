@@ -17,7 +17,7 @@ if (ereg ("config.inc.php", $_SERVER['PHP_SELF']))
 // Set the location of your Postfix Admin installation here.
 // You must enter complete url (http://domain.tld/) and full path (/var/www/postfixadmin)
 $CONF['postfix_admin_url'] = '';
-$CONF['postfix_admin_path'] = '';
+$CONF['postfix_admin_path'] = dirname(__FILE__);
 
 // Language config
 // Language files are located in './languages'.
