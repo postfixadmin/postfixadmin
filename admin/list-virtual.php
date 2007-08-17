@@ -103,7 +103,10 @@ if ($result['rows'] > 0)
          $row['created']=gmstrftime('%c %Z',$row['uts_created']);
          $row['modified']=gmstrftime('%c %Z',$row['uts_modified']);
          $row['active']=('t'==$row['active']) ? 1 : 0;
-         $row['v_active']=('t'==$row['v_active']) ? 1 : 0;
+         $row['v_active'] = 1; // default to off... 
+         if(isset($row['v_active'])) { /* key may not be present in results due to query from above */
+            $row['v_active']=('t'==$row['v_active']) ? 1 : 0; 
+         }
       }
       $tMailbox[] = $row;
    }
