@@ -88,19 +88,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (physical mail)!</span>";
       if ($CONF['database_type'] == "pgsql") db_query('ROLLBACK');
    }
-
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/message.tpl");
-   include ("./templates/footer.tpl");
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST")
-{
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/message.tpl");
-   include ("./templates/footer.tpl");
-}
+include ("./templates/header.tpl");
+include ("./templates/menu.tpl");
+include ("./templates/message.tpl");
+include ("./templates/footer.tpl");
+
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
