@@ -1,3 +1,9 @@
+<?php
+require(dirname(__FILE__) . '/search.tpl');
+
+/* old code, should be deleted after testing the merge with templates/search.php
+?>
+
 <div id="overview">
 <form name="search" method="post" action="search.php">
 <table width=750><tr>
@@ -99,4 +105,6 @@ if (sizeof ($tMailbox) > 0)
    }
    print "</table>\n";
 }
+
+/* */
 ?>
