@@ -13,6 +13,7 @@
    <li><a target="_top" href="<?php print $url; ?>"><?php print $PALANG['pAdminMenu_create_alias']; ?></a></li>
    <?php $url = "create-mailbox.php"; if (isset ($_GET['domain'])) $url .= "?domain=" . $_GET['domain']; ?>
    <li><a target="_top" href="<?php print $url; ?>"><?php print $PALANG['pAdminMenu_create_mailbox']; ?></a></li>
+   <li><a target="_top" href="broadcast-message.php"><?php print $PALANG['pAdminMenu_broadcast_message']; ?></a></li>
    <li><a target="_top" href="../logout.php"><?php print $PALANG['pMenu_logout']; ?></a></li>
 </ul>
 </div>
