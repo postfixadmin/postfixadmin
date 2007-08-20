@@ -41,24 +41,25 @@ $SESSID_USERNAME = check_session ();
 $tmp = preg_split ('/@/', $SESSID_USERNAME);
 $USERID_DOMAIN = $tmp[1];
 
+if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
+if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
+
+if (check_admin($SESSID_USERNAME))
+{
+   $fCanceltarget= $CONF['postfix_admin_url'] . "/admin/list-virtual.php?domain=$fDomain";
+}
+else
+{
+   if (check_owner ($SESSID_USERNAME, $fDomain))
+   {
+      $fCanceltarget= $CONF['postfix_admin_url'] . "/overview.php?domain=$fDomain";
+   }
+   //unauthorized, exit
+   else { exit; }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-   if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
-   if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
-
-   if (check_admin($SESSID_USERNAME))
-   {
-      $fCanceltarget= $CONF['postfix_admin_url'] . "/admin/list-virtual.php?domain=$fDomain";
-   }
-   else
-   {
-     if (check_owner ($SESSID_USERNAME, $fDomain))
-     {
-        $fCanceltarget= $CONF['postfix_admin_url'] . "/overview.php?domain=$fDomain";
-     }
-     //unauthorized, exit
-     else { exit; }
-   }
 
    $result = db_query("SELECT * FROM $table_vacation WHERE email='$fUsername'");
    if ($result['rows'] == 1)
@@ -88,20 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
    if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
-
-   if (check_admin($SESSID_USERNAME))
-   {
-      $fCanceltarget= $CONF['postfix_admin_url'] . "/admin/list-virtual.php?domain=$fDomain";
-   }
-   else
-   {
-     if (check_owner ($SESSID_USERNAME, $fDomain))
-     {
-        $fCanceltarget= $CONF['postfix_admin_url'] . "/overview.php?domain=$fDomain";
-     }
-     //unauthorized, exit
-     else { exit; }
-   }
 
    $tUseremail = $fUsername;
    if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
@@ -192,4 +179,5 @@ if (check_admin($SESSID_USERNAME)) {
 }
 include ("$incpath/templates/edit-vacation.tpl");
 include ("$incpath/templates/footer.tpl");
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
