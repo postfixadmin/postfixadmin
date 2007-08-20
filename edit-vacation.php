@@ -29,10 +29,12 @@
 // template references changed
 //
 
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
+if (!isset($incpath)) $incpath = '.';
+
+require ("$incpath/variables.inc.php");
+require ("$incpath/config.inc.php");
+require ("$incpath/functions.inc.php");
+include ("$incpath/languages/" . check_language () . ".lang");
 
 $SESSID_USERNAME = check_session ();
 (($CONF['vacation'] == 'NO') ? header("Location: " . $CONF['postfix_admin_url'] . "/main.php") && exit : '1');
@@ -73,10 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
    
 
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/edit-vacation.tpl");
-   include ("./templates/footer.tpl");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -184,10 +182,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          exit;
       }
    }
-
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/edit-vacation.tpl");
-   include ("./templates/footer.tpl");
 }
+
+include ("$incpath/templates/header.tpl");
+if (check_admin($SESSID_USERNAME)) {
+   include ("$incpath/templates/admin_menu.tpl");
+} else {
+   include ("$incpath/templates/menu.tpl");
+}
+include ("$incpath/templates/edit-vacation.tpl");
+include ("$incpath/templates/footer.tpl");
 ?>
