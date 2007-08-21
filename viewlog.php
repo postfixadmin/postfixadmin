@@ -18,10 +18,13 @@
 //
 // fDomain
 //
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
+
+if (!isset($incpath)) $incpath = '.';
+
+require ("$incpath/variables.inc.php");
+require ("$incpath/config.inc.php");
+require ("$incpath/functions.inc.php");
+include ("$incpath/languages/" . check_language () . ".lang");
 
 $SESSID_USERNAME = check_session();
 if (!check_admin($SESSID_USERNAME))
@@ -42,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    die('Unknown request method');
 }
 
-if (!check_owner ($SESSID_USERNAME, $fDomain))
+if (! (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME)) )
 {
    $error = 1;
    $tMessage = $PALANG['pViewlog_result_error'];
@@ -69,10 +72,16 @@ if ($error != 1)
    }
 }
 
-include ("./templates/header.tpl");
-include ("./templates/menu.tpl");
-include ("./templates/viewlog.tpl");
-include ("./templates/footer.tpl");
+include ("$incpath/templates/header.tpl");
+
+if (check_admin($SESSID_USERNAME)) {
+   include ("$incpath/templates/admin_menu.tpl");
+} else {
+   include ("$incpath/templates/menu.tpl");
+}
+
+include ("$incpath/templates/viewlog.tpl");
+include ("$incpath/templates/footer.tpl");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
