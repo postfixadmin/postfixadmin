@@ -22,10 +22,13 @@
 // fGoto
 // fDomain
 //
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
+
+if (!isset($incpath)) $incpath = '.';
+
+require ("$incpath/variables.inc.php");
+require ("$incpath/config.inc.php");
+require ("$incpath/functions.inc.php");
+include ("$incpath/languages/" . check_language () . ".lang");
 
 $SESSID_USERNAME = check_session ();
 if (!check_admin($SESSID_USERNAME))
@@ -37,21 +40,17 @@ else
    $list_domains = list_domains ();
 }
 
+$pCreate_alias_goto_text = $PALANG['pCreate_alias_goto_text'];
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-   $pCreate_alias_goto_text = $PALANG['pCreate_alias_goto_text'];
 
    if (isset ($_GET['domain'])) $tDomain = escape_string ($_GET['domain']);
    
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/create-alias.tpl");
-   include ("./templates/footer.tpl");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-   $pCreate_alias_goto_text = $PALANG['pCreate_alias_goto_text'];
 
    if (isset ($_POST['fAddress']) && isset ($_POST['fDomain'])) $fAddress = escape_string ($_POST['fAddress']) . "@" . escape_string ($_POST['fDomain']);
    $fAddress = strtolower ($fAddress);
@@ -65,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $fGoto = $fGoto . "@" . escape_string ($_POST['fDomain']);
    }
    
-   if (!check_owner ($SESSID_USERNAME, $fDomain))
+   if (! (check_admin($SESSID_USERNAME) || check_owner ($SESSID_USERNAME, $fDomain) ))
    {
       $error = 1;
       $tAddress = escape_string ($_POST['fAddress']);
@@ -146,9 +145,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       }
    }
 
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/create-alias.tpl");
-   include ("./templates/footer.tpl");
 }
+
+include ("$incpath/templates/header.tpl");
+
+if (check_admin($SESSID_USERNAME)) {
+   include ("$incpath/templates/admin_menu.tpl");
+} else {
+   include ("$incpath/templates/menu.tpl");
+}
+
+include ("$incpath/templates/create-alias.tpl");
+include ("$incpath/templates/footer.tpl");
 ?>
