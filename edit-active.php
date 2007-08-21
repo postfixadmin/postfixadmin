@@ -19,12 +19,15 @@
 // fDomain
 // fReturn
 //
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
 
-$SESSID_USERNAME = check_session();
+if (!isset($incpath)) $incpath = '.';
+
+require ("$incpath/variables.inc.php");
+require ("$incpath/config.inc.php");
+require ("$incpath/functions.inc.php");
+include ("$incpath/languages/" . check_language () . ".lang");
+
+$SESSID_USERNAME = check_session ();
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
@@ -32,8 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if (isset ($_GET['alias'])) $fAlias = escape_string ($_GET['alias']); else $fAlias = escape_string ($_GET['username']);
    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
    if (isset ($_GET['return'])) $fReturn = escape_string ($_GET['return']);
-   
-   if (!check_owner ($SESSID_USERNAME, $fDomain))
+
+   if (! (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME) ) )
    {
       $error = 1;
       $tMessage = $PALANG['pEdit_mailbox_domain_error'] . "<b>$fDomain</b>!</font>";
@@ -68,32 +71,36 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          }
       }
    }
-   
+
    if ($error != 1)
    {
       if ( $fReturn != "" )
       {
+### TODO: prevent possible URL injection (return=http://www.irgendwas.de)
+###       http://sourceforge.net/tracker/index.php?func=detail&aid=1770514&group_id=191583&atid=937964
         header ("Location: $fReturn");
       }
       else
       {
-        header ("Location: overview.php?domain=$fDomain");
+         if (check_admin($SESSID_USERNAME)) {
+            header ("Location: list-virtual.php?domain=$fDomain");
+         } else {
+            header ("Location: overview.php?domain=$fDomain");
+         }
       }
       exit;
    }
-   
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/message.tpl");
-   include ("./templates/footer.tpl");
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST")
-{
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/message.tpl");
-   include ("./templates/footer.tpl");
+include ("$incpath/templates/header.tpl");
+
+if (check_admin($SESSID_USERNAME)) {
+   include ("$incpath/templates/admin_menu.tpl");
+} else {
+   include ("$incpath/templates/menu.tpl");
 }
+
+include ("$incpath/templates/message.tpl");
+include ("$incpath/templates/footer.tpl");
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
