@@ -25,19 +25,26 @@
 // fQuota
 // fActive
 //
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
+
+if (!isset($incpath)) $incpath = '.';
+
+require ("$incpath/variables.inc.php");
+require ("$incpath/config.inc.php");
+require ("$incpath/functions.inc.php");
+include ("$incpath/languages/" . check_language () . ".lang");
 
 $SESSID_USERNAME = check_session ();
 
+if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
+$fUsername = strtolower ($fUsername);
+if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
+
+$pEdit_mailbox_name_text = $PALANG['pEdit_mailbox_name_text'];
+$pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text'];
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-   if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
-   if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
-
-   if (check_owner ($SESSID_USERNAME, $fDomain))
+   if (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME))
    {
       $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fUsername' AND domain='$fDomain'");
       if ($result['rows'] == 1)
@@ -46,7 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          $tName = $row['name'];
          $tQuota = divide_quota($row['quota']);
          $tActive = $row['active'];
-         if ('pgsql'==$CONF['database_type']) $tActive = ('t'==$row['active']) ? 1 : 0;
+         if ('pgsql'==$CONF['database_type']) {
+            $tActive = ('t'==$row['active']) ? 1 : 0;
+         }
       }
 
       $result = db_query ("SELECT * FROM $table_domain WHERE domain='$fDomain'");
@@ -60,29 +69,17 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    {
       $tMessage = $PALANG['pEdit_mailbox_login_error'];
    }
-
-   $pEdit_mailbox_name_text = $PALANG['pEdit_mailbox_name_text'];
-   $pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text'];
-
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/edit-mailbox.tpl");
-   include ("./templates/footer.tpl");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-   if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
-   $fUsername = strtolower ($fUsername);
-   if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
-
    if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
    if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
    if (isset ($_POST['fName'])) $fName = escape_string ($_POST['fName']);
-   if (isset ($_POST['fQuota'])) $fQuota = escape_string ($_POST['fQuota']);
+   if (isset ($_POST['fQuota'])) $fQuota = intval ($_POST['fQuota']);
    if (isset ($_POST['fActive'])) $fActive = escape_string ($_POST['fActive']);
 
-   if (!check_owner ($SESSID_USERNAME, $fDomain))
+   if (! (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME)) )
    {
       $error = 1;
       $tName = $fName;
@@ -132,7 +129,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $fActive = 0;
       }
       $sqlActive=$fActive;
-      if ('pgsql'==$CONF['database_type']) $sqlActive=($fActive) ? 'true':'false';
+      if ('pgsql'==$CONF['database_type']) {
+         $sqlActive=($fActive) ? 'true':'false';
+      }
 
       if (empty ($fPassword) and empty ($fPassword2))
       {
@@ -154,15 +153,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          db_log ($SESSID_USERNAME, $fDomain, "edit mailbox", $fUsername);
 
-         header ("Location: overview.php?domain=$fDomain");
+         if (check_admin($SESSID_USERNAME)) {
+            header ("Location: list-virtual.php?domain=$fDomain");
+         } else {
+            header ("Location: overview.php?domain=$fDomain");
+         }
          exit;
       }
    }
-
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/edit-mailbox.tpl");
-   include ("./templates/footer.tpl");
 }
+
+include ("$incpath/templates/header.tpl");
+
+if (check_admin($SESSID_USERNAME)) {
+   include ("$incpath/templates/admin_menu.tpl");
+} else {
+   include ("$incpath/templates/menu.tpl");
+}
+
+include ("$incpath/templates/edit-mailbox.tpl");
+include ("$incpath/templates/footer.tpl");
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
