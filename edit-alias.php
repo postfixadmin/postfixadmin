@@ -20,10 +20,13 @@
 // fDomain
 // fGoto
 //
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
+
+if (!isset($incpath)) $incpath = '.';
+
+require ("$incpath/variables.inc.php");
+require ("$incpath/config.inc.php");
+require ("$incpath/functions.inc.php");
+include ("$incpath/languages/" . check_language () . ".lang");
 
 $SESSID_USERNAME = check_session ();
 
@@ -32,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if (isset ($_GET['address'])) $fAddress = escape_string ($_GET['address']);
    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
 
-   if (check_owner ($SESSID_USERNAME, $fDomain))
+   if (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME))
    {
       $result = db_query ("SELECT * FROM $table_alias WHERE address='$fAddress' AND domain='$fDomain'");
       if ($result['rows'] == 1)
@@ -45,11 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    {
       $tMessage = $PALANG['pEdit_alias_address_error'];
    }
-   
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/edit-alias.tpl");
-   include ("./templates/footer.tpl");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -62,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fGoto'])) $fGoto = escape_string ($_POST['fGoto']);
    $fGoto = strtolower ($fGoto);
 
-   if (!check_owner ($SESSID_USERNAME, $fDomain))
+   if (! (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME)) )
    {
       $error = 1;
       $tGoto = $_POST['fGoto'];
@@ -71,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    elseif (!check_alias_owner ($SESSID_USERNAME, $fAddress))
    {
      $error = 1;
-     $tGoto = $_POST['fGoto'];
+     $tGoto = $fGoto;
      $tMessage = $PALANG['pEdit_alias_result_error'];
    }
    elseif (empty ($fGoto))
@@ -115,15 +113,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       else
       {
          db_log ($SESSID_USERNAME, $fDomain, "edit alias", "$fAddress -> $goto");
-               
-         header ("Location: overview.php?domain=$fDomain");
+
+         if (check_admin($SESSID_USERNAME)) {
+            header ("Location: list-virtual.php?domain=$fDomain");
+         } else {
+            header ("Location: overview.php?domain=$fDomain");
+         }
          exit;
       }
    }
-   
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/edit-alias.tpl");
-   include ("./templates/footer.tpl");
 }
+
+include ("$incpath/templates/header.tpl");
+
+if (check_admin($SESSID_USERNAME)) {
+   include ("$incpath/templates/admin_menu.tpl");
+} else {
+   include ("$incpath/templates/menu.tpl");
+}
+
+include ("$incpath/templates/edit-alias.tpl");
+include ("$incpath/templates/footer.tpl");
 ?>
