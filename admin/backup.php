@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          {
             while ($row = db_array ($result['result']))
             {
-               fwrite ($fh, "$row[1]\n\n");
+               fwrite ($fh, "$row[1];\n\n");
             }
          }
       }   
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
                   $values[] = $val;
                }
 
-               fwrite ($fh, "INSERT INTO ". $tables[$i] . " (". implode (',',$fields) . ") VALUES ('" . implode ('\',\'',$values) . "')\n");
+               fwrite ($fh, "INSERT INTO ". $tables[$i] . " (". implode (',',$fields) . ") VALUES ('" . implode ('\',\'',$values) . "');\n");
                $fields = "";
                $values = "";
             }
