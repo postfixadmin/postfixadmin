@@ -28,10 +28,13 @@
 // fActive
 // fMail
 //
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
+
+if (!isset($incpath)) $incpath = '.';
+
+require ("$incpath/variables.inc.php");
+require ("$incpath/config.inc.php");
+require ("$incpath/functions.inc.php");
+include ("$incpath/languages/" . check_language () . ".lang");
 
 $SESSID_USERNAME = check_session ();
 if (!check_admin($SESSID_USERNAME))
@@ -43,39 +46,40 @@ else
    $list_domains = list_domains ();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
-   $tQuota = $CONF['maxquota'];
-
    $pCreate_mailbox_password_text = $PALANG['pCreate_mailbox_password_text'];
    $pCreate_mailbox_name_text = $PALANG['pCreate_mailbox_name_text'];
    $pCreate_mailbox_quota_text = $PALANG['pCreate_mailbox_quota_text'];
 
-   if (isset ($_GET['domain'])) $tDomain = escape_string ($_GET['domain']);
+if ($_SERVER['REQUEST_METHOD'] == "GET")
+{
+   if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
 
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/create-mailbox.tpl");
-   include ("./templates/footer.tpl");
+   $result = db_query ("SELECT * FROM $table_domain WHERE domain='$fDomain'");
+   if ($result['rows'] == 1)
+   {
+      $row = db_array ($result['result']);
+      $tQuota = $row['maxquota'];
+
+   }
+   
+
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-   $pCreate_mailbox_password_text = $PALANG['pCreate_mailbox_password_text'];
-   $pCreate_mailbox_name_text = $PALANG['pCreate_mailbox_name_text'];
-   $pCreate_mailbox_quota_text = $PALANG['pCreate_mailbox_quota_text'];
-  
-   if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']) . "@" . escape_string ($_POST['fDomain']);
+
+   if (isset ($_POST['fUsername']) && isset ($_POST['fDomain'])) $fUsername = escape_string ($_POST['fUsername']) . "@" . escape_string ($_POST['fDomain']);
    $fUsername = strtolower ($fUsername);
    if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
    if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
-   if (isset ($_POST['fName'])) $fName = escape_string ($_POST['fName']);
+   isset ($_POST['fName']) ? $fName = escape_string ($_POST['fName']) : $fName = "";
    if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
-   if (isset ($_POST['fQuota'])) $fQuota = intval ($_POST['fQuota']);
-   if (isset ($_POST['fActive'])) $fActive = escape_string ($_POST['fActive']);
+   isset ($_POST['fQuota']) ? $fQuota = intval($_POST['fQuota']) : $fQuota = 0;
+   isset ($_POST['fActive']) ? $fActive = escape_string ($_POST['fActive']) : $fActive = "1";
    if (isset ($_POST['fMail'])) $fMail = escape_string ($_POST['fMail']);
 
-   if (!check_owner ($SESSID_USERNAME, $fDomain))
+
+   if ( (!check_owner ($SESSID_USERNAME, $fDomain)) && (!check_admin($SESSID_USERNAME)) )
    {
       $error = 1;
       $tUsername = escape_string ($_POST['fUsername']);
@@ -197,6 +201,64 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $tMessage = $PALANG['pAlias_result_error'] . "<br />($fUsername -> $fUsername)</br />";
       }
 
+/*
+# TODO: The following code segment is from admin/create-mailbox.php. To be compared/merged with the code from /create-mailbox.php.
+        Lines starting with /* were inserted to keep this section in commented mode.
+
+
+      $result = db_query ("INSERT INTO $table_mailbox (username,password,name,maildir,quota,domain,created,modified,active) VALUES ('$fUsername','$password','$fName','$maildir',$quota,'$fDomain',NOW(),NOW(),'$sqlActive')");
+      if ($result['rows'] != 1)
+      {
+         $tDomain = $fDomain;
+         $tMessage .= $PALANG['pCreate_mailbox_result_error'] . "<br />($fUsername)<br />";
+      }
+      else
+      {
+      
+         $error=TRUE; // Being pessimistic
+         if (mailbox_postcreation($fUsername,$fDomain,$maildir))
+         {
+            if ('pgsql'==$CONF['database_type'])
+            {
+               $result=db_query("COMMIT");
+
+               /* should really not be possible: */
+/* 
+               if (!$result) die('COMMIT-query failed.');
+            }
+            $error=FALSE;
+         } else {
+            $tMessage .= $PALANG['pCreate_mailbox_result_error'] . "<br />($fUsername)<br />";
+            if ('pgsql'==$CONF['database_type'])
+            {
+               $result=db_query("ROLLBACK");
+
+               /* should really not be possible: */
+/*
+               if (!$result) die('ROLLBACK-query failed.');
+            } else {
+               /*
+                  When we cannot count on transactions, we need to move forward, despite
+                  the problems.
+               */
+/*
+               $error=FALSE;
+            }
+         }
+
+
+         if (!$error)
+         {
+            db_log ($CONF['admin_email'], $fDomain, "create mailbox", $fUsername);
+ 
+*/
+
+/*
+TODO: this is the start of /create-mailbox code segment that was originally used in /create-mailbox.php instead 
+      of the above from admin/create-mailbox.php.
+      To be compared / merged.
+*/
+
       $result = db_query ("INSERT INTO $table_mailbox (username,password,name,maildir,quota,domain,created,modified,active) VALUES ('$fUsername','$password','$fName','$maildir','$quota','$fDomain',NOW(),NOW(),'$sqlActive')");
       if ($result['rows'] != 1 || !mailbox_postcreation($fUsername,$fDomain,$maildir))
       {
@@ -208,7 +270,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          db_query('COMMIT');
          db_log ($SESSID_USERNAME, $fDomain, "create mailbox", "$fUsername");
-
+/*
+TODO: this is the end of /create-mailbox.php code segment
+*/
          $tDomain = $fDomain;
 
          if (create_mailbox_subfolders($fUsername,$fPassword))
@@ -268,11 +332,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          }
       }
    }
-
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/create-mailbox.tpl");
-   include ("./templates/footer.tpl");
-/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 }
+
+include ("$incpath/templates/header.tpl");
+
+if (check_admin($SESSID_USERNAME)) {
+   include ("$incpath/templates/admin_menu.tpl");
+} else {
+   include ("$incpath/templates/menu.tpl");
+}
+
+include ("$incpath/templates/create-mailbox.tpl");
+include ("$incpath/templates/footer.tpl");
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
