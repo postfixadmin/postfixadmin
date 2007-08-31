@@ -15,6 +15,11 @@ REQUIRED!!
 
 READ THIS FIRST!
 ----------------
+
+Note: !!This document describes upgrading from v1.5x to 2.0.  Only
+items 3 and 5 apply to general PostfixAdmin installs!!  See SVN.TXT
+for how to update versions 2.1.0 and higher.
+
 It's recommened that you install Postfix Admin in a new folder and not
 on-top of the old install!!
 

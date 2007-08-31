@@ -61,6 +61,7 @@ if (sizeof ($tAlias) > 0)
    print "      <td colspan=\"6\"><h3>".$PALANG['pOverview_alias_title']."</h3></td>";
    print "   </tr>";
    print "   <tr class=\"header\">\n";
+   if ($CONF['show_status'] == 'YES') { print "<td></td>\n"; }
    print "      <td>" . $PALANG['pOverview_alias_address'] . "</td>\n";
    print "      <td>" . $PALANG['pOverview_alias_goto'] . "</td>\n";
    print "      <td>" . $PALANG['pOverview_alias_modified'] . "</td>\n";
@@ -73,6 +74,11 @@ if (sizeof ($tAlias) > 0)
       if ((is_array ($tAlias) and sizeof ($tAlias) > 0))
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
+         if ($CONF['show_status'] == 'YES')
+         {
+             print "  <td>" . gen_show_status($tAlias[$i]['address']) . "</td>\n";
+         }
+
          print "      <td>" . $tAlias[$i]['address'] . "</td>\n";
          if ($CONF['alias_goto_limit'] > 0) {
          print "      <td>" . ereg_replace (",", "<br>", preg_replace('/^(([^,]+,){'.$CONF['alias_goto_limit'].'})[^,]+,.*/','$1[and '. (substr_count ($tAlias[$i]['goto'], ',') - $CONF['alias_goto_limit'] + 1) .' more...]',$tAlias[$i]['goto'])) . "</td>\n";
@@ -150,6 +156,7 @@ if (sizeof ($tMailbox) > 0)
    print "      <td colspan=\"7\"><h3>".$PALANG['pOverview_mailbox_title']."</h3></td>";
    print "   </tr>";
    print "   <tr class=\"header\">\n";
+   if ($CONF['show_status'] == 'YES') { print "<td></td>\n"; }
    print "      <td>" . $PALANG['pOverview_mailbox_username'] . "</td>\n";
    print "      <td>" . $PALANG['pOverview_mailbox_name'] . "</td>\n";
    if ($CONF['quota'] == 'YES') print "      <td>" . $PALANG['pOverview_mailbox_quota'] . "</td>\n";
@@ -166,6 +173,11 @@ if (sizeof ($tMailbox) > 0)
       if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
+         if ($CONF['show_status'] == 'YES')
+         {
+             print "  <td>" . gen_show_status($tMailbox[$i]['username']) . "</td>\n";
+         }
+
          print "      <td>" . $tMailbox[$i]['username'] . "</td>\n";
          print "      <td>" . $tMailbox[$i]['name'] . "</td>\n";
          if ($CONF['quota'] == 'YES')
@@ -220,5 +232,31 @@ if (sizeof ($tMailbox) > 0)
 
    print "<p><a href=\"create-mailbox.php?domain=$fDomain\">" . $PALANG['pMenu_create_mailbox'] . "</a>\n";
 }
+
+if ($CONF['show_status'] == 'YES' && $CONF['show_status_key'] == 'YES')
+{
+  print "<br><br>";
+  if  ($CONF['show_undeliverable'] == 'YES')
+  {
+     print "&nbsp;<span style='background-color:" . $CONF['show_undeliverable_color'] .
+                        "'>" . $CONF['show_status_text'] . "</span>=" . $PALANG['pStatus_undeliverable'] . "\n";
+  }
+  if  ($CONF['show_popimap'] == 'YES')
+  {
+     print "&nbsp;<span style='background-color:" . $CONF['show_popimap_color'] .
+                        "'>" . $CONF['show_status_text'] . "</span>=" . $PALANG['pStatus_popimap'] . "\n";
+  }
+  if ( $CONF['show_custom_count'] > 0 )
+  {
+    for ($i = 0; $i < sizeof ($CONF['show_custom_domains']); $i++)
+    {
+        print "&nbsp;<span  style='background-color:" . $CONF['show_custom_colors'][$i] . "'>" .
+            $CONF['show_status_text'] . "</span>=" . $PALANG['pStatus_custom'] .
+            $CONF['show_custom_domains'][$i] . "\n";
+    }
+  }
+
+}
+
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

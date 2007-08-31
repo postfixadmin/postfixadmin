@@ -6,6 +6,8 @@
 #
 Version 2.1.1 -- TBD
 --------------------
+  - Added: Feature to show status of aliases/mailboxes (GregC)
+  - Fixed: Many admin/*.php files merged with /*.php
   - Fixed: 'alias' instead of '$table_alias' being used by some .php files (GregC)
   - Fixed: Overview no longer lists alias entries for mailboxes (GregC)
   - Changed: Added exit buttons to several edit options. (GregC)

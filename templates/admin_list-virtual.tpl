@@ -32,6 +32,7 @@ for ($i = 0; $i < sizeof ($list_domains); $i++)
 <?php
 if ($limit['alias_pgindex_count'] ) print "<b>".$PALANG['pOverview_alias_title']."</b>&nbsp&nbsp";
 ($tDisplay_back_show == 1) ? $highlight_at = $tDisplay_back / $CONF['page_size'] + 1 : $highlight_at = 0;
+$current_limit=$highlight_at * $CONF['page_size'];
 for ($i = 0; $i < $limit['alias_pgindex_count']; $i++)
 {
    if ( $i == $highlight_at )
@@ -67,6 +68,7 @@ if (sizeof ($tAlias) > 0)
    print "      <td colspan=\"6\"><h3>" . $PALANG['pOverview_alias_title'] . "</h3></td>";
    print "   </tr>";
    print "   <tr class=\"header\">\n";
+   if ($CONF['show_status'] == 'YES') { print "<td></td>\n"; }
    print "      <td>" . $PALANG['pAdminList_virtual_alias_address'] . "</td>\n";
    print "      <td>" . $PALANG['pAdminList_virtual_alias_goto'] . "</td>\n";
    print "      <td>" . $PALANG['pAdminList_virtual_alias_modified'] . "</td>\n";
@@ -79,6 +81,11 @@ if (sizeof ($tAlias) > 0)
       if ((is_array ($tAlias) and sizeof ($tAlias) > 0))
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
+         if ($CONF['show_status'] == 'YES')
+         {
+             print "  <td>" . gen_show_status($tAlias[$i]['address']) . "</td>\n";
+         }
+           
          print "      <td>" . $tAlias[$i]['address'] . "</td>\n";
          if ($CONF['alias_goto_limit'] > 0) {
          print "      <td>" . ereg_replace (",", "<br>", preg_replace('/^(([^,]+,){'.$CONF['alias_goto_limit'].'})[^,]+,.*/','$1[and '. (substr_count ($tAlias[$i]['goto'], ',') - $CONF['alias_goto_limit'] + 1) .' more...]',$tAlias[$i]['goto'])) . "</td>\n";
@@ -87,7 +94,7 @@ if (sizeof ($tAlias) > 0)
          }
          print "      <td>" . $tAlias[$i]['modified'] . "</td>\n";
          $active = ($tAlias[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
-         print "      <td><a href=\"edit-active.php?alias=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\">" . $active . "</a></td>\n";
+         print "      <td><a href=\"edit-active.php?alias=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain&return=list-virtual.php?domain=$fDomain" . urlencode ("&limit=" . $current_limit) . "\">" . $active . "</a></td>\n";
          print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\">" . $PALANG['edit'] . "</a></td>\n";
          print "      <td><a href=\"delete.php?table=alias" . "&delete=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_aliases'] . ": ". $tAlias[$i]['address'] . "')\">" . $PALANG['del'] . "</a></td>\n";
          print "   </tr>\n";
@@ -136,6 +143,7 @@ if (sizeof ($tMailbox) > 0)
    print "      <td colspan=\"7\"><h3>" . $PALANG['pOverview_mailbox_title'] . "</h3></td>";
    print "   </tr>";
    print "   <tr class=\"header\">\n";
+   if ($CONF['show_status'] == 'YES') { print "<td></td>\n"; }
    print "      <td>" . $PALANG['pAdminList_virtual_mailbox_username'] . "</td>\n";
    print "      <td>" . $PALANG['pAdminList_virtual_mailbox_name'] . "</td>\n";
    if ($CONF['quota'] == 'YES') print "      <td>" . $PALANG['pAdminList_virtual_mailbox_quota'] . "</td>\n";
@@ -156,6 +164,12 @@ if (sizeof ($tMailbox) > 0)
       if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
+
+         if ($CONF['show_status'] == 'YES')
+         {
+             print "  <td>" . gen_show_status($tMailbox[$i]['username']) . "</td>\n";
+         }
+           
          print "      <td>" . $tMailbox[$i]['username'] . "</td>\n";
          print "      <td>" . $tMailbox[$i]['name'] . "</td>\n";
          if ($CONF['quota'] == 'YES')
@@ -211,6 +225,31 @@ if (sizeof ($tMailbox) > 0)
    print "</div>\n";
 
    print "<p><a href=\"create-mailbox.php?domain=$fDomain\">" . $PALANG['pMenu_create_mailbox'] . "</a>\n";
+}
+
+if ($CONF['show_status'] == 'YES' && $CONF['show_status_key'] == 'YES')
+{
+  print "<br><br>";
+  if  ($CONF['show_undeliverable'] == 'YES')
+  {
+     print "&nbsp;<span style='background-color:" . $CONF['show_undeliverable_color'] .
+                        "'>" . $CONF['show_status_text'] . "</span>=" . $PALANG['pStatus_undeliverable'] . "\n";
+  }
+  if  ($CONF['show_popimap'] == 'YES')
+  {
+     print "&nbsp;<span style='background-color:" . $CONF['show_popimap_color'] .
+                        "'>" . $CONF['show_status_text'] . "</span>=" . $PALANG['pStatus_popimap'] . "\n";
+  }
+  if ( $CONF['show_custom_count'] > 0 )
+  {
+    for ($i = 0; $i < sizeof ($CONF['show_custom_domains']); $i++)
+    {
+        print "&nbsp;<span  style='background-color:" . $CONF['show_custom_colors'][$i] . "'>" .
+            $CONF['show_status_text'] . "</span>=" . $PALANG['pStatus_custom'] . 
+            $CONF['show_custom_domains'][$i] . "\n";
+    }
+  }
+
 }
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

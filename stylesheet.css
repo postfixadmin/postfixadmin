@@ -249,3 +249,10 @@ table {
 	text-decoration: underline;
 	color: #777777;
 }
+
+#hovertext {
+	POSITION: absolute;
+	VISIBILITY: hidden;
+	Z-INDEX: 200;
+}
+

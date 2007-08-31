@@ -85,7 +85,7 @@ $PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Yo
 $PALANG['pCreate_alias_goto'] = 'To';
 $PALANG['pCreate_alias_active'] = 'Active';
 $PALANG['pCreate_alias_button'] = 'Add Alias';
-$PALANG['pCreate_alias_goto_text'] = 'Where the mail needs to be send to.';
+$PALANG['pCreate_alias_goto_text'] = 'Where the mail needs to be sent to.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Where the email needs to go.<br /><span class="error_msg">The TO is not valid!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Unable to add the alias to the alias table!</span>';
 $PALANG['pCreate_alias_result_succes'] = 'The alias has been added to the alias table!';
@@ -326,11 +326,15 @@ $PALANG['pSearch_welcome'] = 'Searching for: ';
 
 $PALANG['pBroadcast_title'] = 'Send broadcast message';
 $PALANG['pBroadcast_from'] = 'From';
-$PALANG['pBroadcast_from_help'] = 'From address should be like e.g. "Systems Team" &lt;suport@my.domain.tld&gt;';
+$PALANG['pBroadcast_from_help'] = 'From address should be like e.g. "Systems Team" &lt;support@my.domain.tld&gt;';
 $PALANG['pBroadcast_subject'] = 'Subject';
 $PALANG['pBroadcast_message'] = 'Message';
 $PALANG['pBroadcast_send'] = 'Send message';
 $PALANG['pBroadcast_success'] = 'Your broadcast message was sent.';
 $PALANG['pAdminMenu_broadcast_message'] = 'BC message';
 $PALANG['pBroadcast_error_empty'] = 'The fields From, Subject and Message should\'t be empty !';
+
+$PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE ';
+$PALANG['pStatus_custom'] = 'Delivers to ';
+$PALANG['pStatus_popimap'] = 'POP/IMAP ';
 ?>

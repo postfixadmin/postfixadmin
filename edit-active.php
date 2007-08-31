@@ -74,11 +74,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
    if ($error != 1)
    {
-      if ( $fReturn != "" )
+      if ( preg_match( "/^list-virtual.php.*/", $fReturn ) || 
+           preg_match( "/^overview.php.*/", $fReturn )  ||
+           preg_match( "/^search.php.*/", $fReturn )    )
       {
-### TODO: prevent possible URL injection (return=http://www.irgendwas.de)
-###       http://sourceforge.net/tracker/index.php?func=detail&aid=1770514&group_id=191583&atid=937964
-        header ("Location: $fReturn");
+         //$fReturn appears OK, jump there
+         header ("Location: $fReturn");
       }
       else
       {

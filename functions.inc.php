@@ -1630,6 +1630,115 @@ function create_mailbox_subfolders($login,$cleartext_password)
 }
 
 
+//
+// gen_show_status
+// Action: Return a string of colored &nbsp;'s that indicate 
+//         the if an alias goto has an error or is sent to
+//         addresses list in show_custom_domains 
+// Call: gen_show_status (string alias_address)
+//
+function gen_show_status ($show_alias)
+{
+   global $CONF, $table_alias;
+   $stat_string = "";
+   
+   $stat_goto = "";
+   $stat_result = db_query ("SELECT goto FROM $table_alias WHERE address='$show_alias'");
+   if ($stat_result['rows'] > 0)
+   {
+      $row = db_row ($stat_result['result']);
+      $stat_goto = $row[0];
+   }
+
+   // UNDELIVERABLE CHECK
+   if ( $CONF['show_undeliverable'] == 'YES' )
+   {
+     $gotos=array();
+     $gotos=explode(',',$stat_goto);
+     $undel_string="";
+
+     //make sure this alias goes somewhere known
+     $stat_ok = 1;
+     while ( ($g=array_pop($gotos)) && $stat_ok )
+     {
+       
+       //$stat_result = db_query ("SELECT address FROM $table_alias WHERE goto='$g' AND address != '$g'");
+       $stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g'");
+       if ($stat_result['rows'] == 0)
+       {
+         $stat_ok = 0;
+       }
+       if ( $stat_ok == 0 )
+       {
+         $stat_domain = substr($g,strpos($g,"@")+1);
+         for ($i=0; $i < sizeof($CONF['show_undeliverable_exceptions']);$i++)
+         {
+           if ( $stat_domain == $CONF['show_undeliverable_exceptions'][$i] )
+           {
+             $stat_ok = 1;
+             break;
+           }
+         }
+       }
+     } // while
+     if ( $stat_ok == 0 )
+     {
+        $stat_string .= "<span style='background-color:" . $CONF['show_undeliverable_color'] .
+                        "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+     }
+     else
+     {
+       $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+     } 
+
+   }
+   else
+   {
+     $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+   } 
+
+   // POP/IMAP CHECK
+   if ( $CONF['show_popimap'] == 'YES' )
+   {
+       //if the address passed in appears in its own goto filed, its POP/IMAP
+       if (preg_match ('/^' . $show_alias . '.*$/', $stat_goto) ||
+           preg_match ('/,' . $show_alias . '.*$/', $stat_goto) )
+       {
+         $stat_string .= "<span  style='background-color:" . $CONF['show_popimap_color'] .
+                         "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+       }
+       else
+       {
+         $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+       } 
+   }
+
+   // CUSTOM DESTINATION CHECK
+   if ( $CONF['show_custom_count'] > 0 )
+   {
+     for ($i = 0; $i < sizeof ($CONF['show_custom_domains']); $i++)
+     {
+       if (preg_match ('/^.*' . $CONF['show_custom_domains'][$i] . '.*$/', $stat_goto))
+       {
+         $stat_string .= "<span  style='background-color:" . $CONF['show_custom_colors'][$i] .
+                         "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+       }
+       else
+       {
+         $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+       } 
+     } 
+   }
+   else
+   {
+     $stat_string .= ";&nbsp;";
+   } 
+
+//   $stat_string .= "<span style='background-color:green'> &nbsp; </span> &nbsp;" .
+//                  "<span style='background-color:blue'> &nbsp; </span> &nbsp;";
+   return $stat_string;
+}
+
 
 $table_admin = table_by_key ('admin');
 $table_alias = table_by_key ('alias');
