@@ -250,9 +250,4 @@ table {
 	color: #777777;
 }
 
-#hovertext {
-	POSITION: absolute;
-	VISIBILITY: hidden;
-	Z-INDEX: 200;
-}
 
