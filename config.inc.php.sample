@@ -201,6 +201,38 @@ EOM;
 // address is legal by performing a name server look-up.
 $CONF['emailcheck_resolve_domain']='YES';
 
+
+// Optional:
+// Analyze alias gotos and display a colored block in the first column
+// indicating if an alias or mailbox appears to deliver to a non-existent
+// account.  Also, display indications, for POP/IMAP mailboxes and
+// for custom destinations (such as mailboxes that forward to a UNIX shell
+// account or mail that is sent to a MS exchange server, or any other
+// domain or subdomain you use)
+// See http://www.w3schools.com/html/html_colornames.asp for a list of
+// color names available on most browsers
+
+//set to YES to enable this feature
+$CONF['show_status']='NO';
+//display a guide to what these colors mean
+$CONF['show_status_key']='NO';
+// 'show_status_text' will be displayed with the background colors
+// associated with each status, you can customize it here
+$CONF['show_status_text']='&nbsp;&nbsp;';
+// show_undeliverable is useful if most accounts are delivered to this
+// postfix system.  If many aliases and mailboxes are forwarded
+// elsewhere, you will probably want to disable this.
+$CONF['show_undeliverable']='NO';
+$CONF['show_undeliverable_color']='tomato';
+$CONF['show_undeliverable_exceptions']=array("unixmail.domain.ext","exchangeserver.domain.ext","gmail.com");
+$CONF['show_popimap']='NO';
+$CONF['show_popimap_color']='darkgrey';
+// set 'show_custom_count' to 0 to disable custom indicators
+$CONF['show_custom_count']=2;
+$CONF['show_custom_domains']=array("subdomain.domain.ext","domain2.ext");
+$CONF['show_custom_colors']=array("lightgreen","lightblue");
+
+
 // Optional:
 // Script to run after creation of mailboxes.
 // Note that this may fail if PHP is run in "safe mode", or if
