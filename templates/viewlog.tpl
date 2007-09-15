@@ -42,7 +42,7 @@ for ($i = 0; $i < sizeof ($list_domains); $i++)
              $data_length = strlen ($log_data);
              if ($data_length > 35) $log_data = substr ($log_data, 0, 35) . " ...";
 
-             print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
+             print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\" onclick=\"alert('" . $PALANG['pViewlog_data'] . " = " . $tLog[$i]['data'] . "')\">\n";
              print "      <td nowrap>" . $tLog[$i]['timestamp'] . "</td>\n";
              print "      <td nowrap>" . $tLog[$i]['username'] . "</td>\n";
              print "      <td nowrap>" . $tLog[$i]['domain'] . "</td>\n";

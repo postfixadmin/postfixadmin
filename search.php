@@ -17,6 +17,8 @@
 // Form POST \ GET Variables:
 //
 // fSearch
+// fGo
+// fDomain
 //
 require ("./variables.inc.php");
 require ("./config.inc.php");
@@ -102,12 +104,19 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    if (isset ($_POST['search'])) $fSearch = escape_string ($_POST['search']);
-   if (isset ($_POST['fgo'])) $fgo = escape_string ($_POST['fgo']);
-   if (isset ($_POST['domain'])) $fdomain = escape_string ($_POST['domain']);
+   if (isset ($_POST['fGo'])) $fGo = escape_string ($_POST['fGo']);
+   if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
 
-   if (empty ($fSearch) && !empty ($fgo))
+   if (empty ($fSearch) && !empty ($fGo))
    {
-      header("Location: overview.php?domain=" . $_POST['domain'] ) && exit;
+      if (check_admin($SESSID_USERNAME))
+      {
+        header("Location: list-virtual.php?domain=" . $fDomain ) && exit;
+      }
+      else
+      {
+        header("Location: overview.php?domain=" . $fDomain ) && exit;
+      }
    }
 
 

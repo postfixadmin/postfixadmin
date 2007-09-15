@@ -1661,8 +1661,6 @@ function gen_show_status ($show_alias)
      $stat_ok = 1;
      while ( ($g=array_pop($gotos)) && $stat_ok )
      {
-       
-       //$stat_result = db_query ("SELECT address FROM $table_alias WHERE goto='$g' AND address != '$g'");
        $stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g'");
        if ($stat_result['rows'] == 0)
        {
@@ -1671,6 +1669,12 @@ function gen_show_status ($show_alias)
        if ( $stat_ok == 0 )
        {
          $stat_domain = substr($g,strpos($g,"@")+1);
+         $stat_vacdomain = substr($stat_domain,strpos($stat_domain,"@")+1);
+         if ( $stat_vacdomain == $CONF['vacation_domain'] )
+         {
+           $stat_ok = 1;
+           break;
+         }
          for ($i=0; $i < sizeof($CONF['show_undeliverable_exceptions']);$i++)
          {
            if ( $stat_domain == $CONF['show_undeliverable_exceptions'][$i] )
@@ -1700,9 +1704,10 @@ function gen_show_status ($show_alias)
    // POP/IMAP CHECK
    if ( $CONF['show_popimap'] == 'YES' )
    {
-       //if the address passed in appears in its own goto filed, its POP/IMAP
-       if (preg_match ('/^' . $show_alias . '.*$/', $stat_goto) ||
-           preg_match ('/,' . $show_alias . '.*$/', $stat_goto) )
+       //if the address passed in appears in its own goto field, its POP/IMAP
+       if (preg_match ('/^' . $show_alias . '$/', $stat_goto) ||
+           preg_match ('/.*,' . $show_alias . ',.*$/', $stat_goto) ||
+           preg_match ('/,' . $show_alias . '$/', $stat_goto) )
        {
          $stat_string .= "<span  style='background-color:" . $CONF['show_popimap_color'] .
                          "'>" . $CONF['show_status_text'] . "</span>&nbsp;";

@@ -11,7 +11,8 @@
 <?php
 if (check_admin($SESSID_USERNAME)) {
    print '<td></td>'; 
-   print '<td align=right><select class="flat" name="domain" >';
+   print '<td align=right><select class="flat" name="fDomain" >';
+
 } else {
    print '<td align=right><select class="flat" name="fDomain" >';
 }
@@ -27,11 +28,11 @@ for ($i = 1; $i < sizeof ($list_domains); $i++)
 if (check_admin($SESSID_USERNAME)) { 
    # TODO: make "Return to" translatable
    ?>
-   <input class="button" type="submit" name="fGo" value="Return to <?php print $PALANG['pAdminMenu_list_virtual']; ?>" /></td>
+   <input class="button" type="submit" name="fGo" value="<?php print $PALANG['pReturn_to'] . ' ' . $PALANG['pAdminMenu_list_virtual']; ?>" /></td>
    <?php 
 } else { 
    ?>
-   <input class="button" type="submit" name="fgo" value="Return to <?php print $PALANG['pMenu_overview']; ?>" /></td>
+   <input class="button" type="submit" name="fGo" value="<?php print $PALANG['pReturn_to'] . ' ' . $PALANG['pMenu_overview']; ?>" /></td>
    <?php
 }
 ?>
@@ -60,7 +61,20 @@ if (sizeof ($tAlias) > 0)
       if ((is_array ($tAlias) and sizeof ($tAlias) > 0))
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
+         //highlight search string
+         if (stristr($tAlias[$i]['address'],$fSearch))
+         {
+           $new_address = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
+               $fSearch . "</span>", $tAlias[$i]['address']);
+           $tAlias[$i]['address'] = $new_address;
+         }
          print "      <td>" . $tAlias[$i]['address'] . "</td>\n";
+         if (stristr($tAlias[$i]['goto'],$fSearch))
+         {
+           $new_goto = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
+               $fSearch . "</span>", $tAlias[$i]['goto']);
+           $tAlias[$i]['goto'] = $new_goto;
+         }
          print "      <td>" . ereg_replace (",", "<br>", $tAlias[$i]['goto']) . "</td>\n";
          print "      <td>" . $tAlias[$i]['modified'] . "</td>\n";
          if ($CONF['special_alias_control'] == 'YES' || check_admin($SESSID_USERNAME))
@@ -124,7 +138,19 @@ if (sizeof ($tMailbox) > 0)
       if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
+         if (stristr($tMailbox[$i]['username'],$fSearch))
+         {
+           $new_name = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
+               $fSearch . "</span>", $tMailbox[$i]['username']);
+           $tMailbox[$i]['username'] = $new_name;
+         }
          print "      <td>" . $tMailbox[$i]['username'] . "</td>\n";
+         if (stristr($tMailbox[$i]['name'],$fSearch))
+         {
+           $new_name = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
+               $fSearch . "</span>", $tMailbox[$i]['name']);
+           $tMailbox[$i]['name'] = $new_name;
+         }
          print "      <td>" . $tMailbox[$i]['name'] . "</td>\n";
          if ($CONF['quota'] == 'YES') print "      <td>" . divide_quota ($tMailbox[$i]['quota']) . "</td>\n";
          print "      <td>" . $tMailbox[$i]['modified'] . "</td>\n";

@@ -53,10 +53,10 @@ if (! (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME)
 
 if ($error != 1)
 {
-   $query = "SELECT timestamp,username,domain,action,substring(data from 1 for 36) as data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT 10";
+   $query = "SELECT timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT 10";
    if ('pgsql'==$CONF['database_type'])
    {
-      $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,substring(data from 1 for 36) as data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT 10";
+      $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT 10";
    }
    $result=db_query($query);
    if ($result['rows'] > 0)
