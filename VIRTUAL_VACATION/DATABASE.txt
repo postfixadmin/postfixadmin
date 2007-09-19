@@ -1,0 +1,72 @@
+PostgreSQL
+==========
+
+Issue the following commands to setup the appropriate table structure.
+
+
+CREATE TABLE vacation (
+    email character varying(255) PRIMARY KEY,
+    subject character varying(255) NOT NULL DEFAULT '',
+    body text NOT NULL DEFAULT '',
+    cache text NOT NULL DEFAULT '',
+    "domain" character varying(255) NOT NULL REFERENCES "domain",
+    created timestamp with time zone DEFAULT now(),
+    active boolean DEFAULT true NOT NULL
+);
+CREATE INDEX vacation_email_active ON vacation(email,active);
+
+CREATE TABLE vacation_notification (
+    on_vacation character varying(255) NOT NULL REFERENCES vacation(email) ON DELETE CASCADE,
+    notified character varying(255) NOT NULL,
+    notified_at timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT vacation_notification_pkey primary key(on_vacation,notified)
+);
+-- Note: It's important the the primary key constraint on vacation_notification
+-- be given a name which includes the '_pkey' substring (default PostgreSQL naming
+-- for primary keys). The vacation-script looks for this substring to
+-- distinguish between an acceptable and non-acceptable error.
+
+
+GRANT
+    SELECT,INSERT,UPDATE,DELETE
+ON
+    admin,
+    alias,
+    domain,
+    domain_admins,
+    log,
+    mailbox,
+    vacation
+TO  postfixadmin;
+
+GRANT SELECT ON alias,domain,mailbox TO postfix;
+
+GRANT SELECT ON vacation TO vacation;
+GRANT SELECT,INSERT,DELETE ON vacation_notification TO vacation;
+
+
+MySQL
+=====
+
+
+CREATE TABLE vacation ( 
+    email varchar(255) NOT NULL default '', 
+    subject varchar(255) NOT NULL default '', 
+    body text NOT NULL, 
+    cache text NOT NULL, 
+    domain varchar(255) NOT NULL default '', 
+    created datetime NOT NULL default '0000-00-00 00:00:00', 
+    active tinyint(4) NOT NULL default '1', 
+    PRIMARY KEY (email), 
+    KEY email (email) 
+) TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation' CHARACTER SET latin1; 
+ 
+# vacation_notification table 
+ 
+CREATE TABLE vacation_notification ( 
+    on_vacation varchar(255) NOT NULL, 
+    notified varchar(255) NOT NULL, 
+    notified_at timestamp NOT NULL default now(), 
+    CONSTRAINT vacation_notification_pkey PRIMARY KEY(on_vacation, notified), 
+    FOREIGN KEY (on_vacation) REFERENCES vacation(email) ON DELETE CASCADE 
+) TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation Notifications' CHARACTER SET latin1; 
