@@ -126,20 +126,6 @@ CREATE TABLE `mailbox` (
   KEY username (`username`)
 ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Mailboxes';
 
-#
-# Table structure for table vacation
-#
-CREATE TABLE `vacation` (
-  `email` varchar(255) NOT NULL default '',
-  `subject` varchar(255) NOT NULL default '',
-  `body` text NOT NULL default '',
-  `cache` text NOT NULL default '',
-  `domain` varchar(255) NOT NULL default '',
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `active` tinyint(1) NOT NULL default '1',
-  PRIMARY KEY  (`email`),
-  KEY email (`email`)
-) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Vacation';
 
 # superadmin user & password (login: admin@domain.tld, password: admin)
 INSERT INTO domain_admins (username, domain, active) VALUES ('admin@domain.tld','ALL','1');
