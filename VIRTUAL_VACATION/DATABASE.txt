@@ -3,6 +3,11 @@ PostgreSQL
 
 Issue the following commands to setup the appropriate table structure.
 
+$ createuser -P vacation
+
+Schema follows :
+
+DROP TABLE vacation,vacation_notification CASCADE;
 
 CREATE TABLE vacation (
     email character varying(255) PRIMARY KEY,
@@ -30,16 +35,8 @@ CREATE TABLE vacation_notification (
 GRANT
     SELECT,INSERT,UPDATE,DELETE
 ON
-    admin,
-    alias,
-    domain,
-    domain_admins,
-    log,
-    mailbox,
     vacation
 TO  postfixadmin;
-
-GRANT SELECT ON alias,domain,mailbox TO postfix;
 
 GRANT SELECT ON vacation TO vacation;
 GRANT SELECT,INSERT,DELETE ON vacation_notification TO vacation;
