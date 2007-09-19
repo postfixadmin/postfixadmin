@@ -34,11 +34,9 @@
 #             Check for headers that start with blank lines (patch from forum)
 #
 # Requirements:
-# You need to have the DBD::Pg perl-module installed.
+# You need to have the DBD::Pg or DBD::MySQL perl-module installed.
 # You need to have the Mail::Sendmail module installed. 
-#
-# On Fedora Core Linux, e.g., this entails installing the 
-# libdbi-dbd-pgsql and perl-DBD-Pg-1.22-1 packages.
+# You need to have the Email::Valid module installed.
 #
 # On Debian based systems : 
 #   libmail-sendmail-perl libdbd-pg-perl libemail-valid-perl libmime-perl
@@ -66,8 +64,9 @@ my $db_host;  # leave alone
 
 # IMPORTANT: If you put passwords into this script, then remember
 # to restrict access to the script, so that only the vacation user
-# kan read it.
+# can read it.
 
+# db_type - either 'Pg' or 'mysql'
 my $db_type = 'Pg';
 # $db_host = 'localhost';   # Uncomment (and adjust, if needed) your DB
                             # host-name here, if you want to connect via
