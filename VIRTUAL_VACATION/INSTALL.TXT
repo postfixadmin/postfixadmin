@@ -13,9 +13,13 @@
 REQUIRED!
 ---------
 You need to have the following installed to be able to use Virtual Vacation.
+
 - Perl5
 - Perl DBI
-- Perl DBD::mysql
+- Either Perl DBD::mysql OR Perl DBD::pgsql - depending on DB backend.
+- Email::Valid
+- Mail::Sendmail
+
 
 About Virtual Vacation
 ----------------------
@@ -26,7 +30,6 @@ message back to the sender.
 
 Install Virtual Vacation
 ------------------------
-
 
 1. Create a local account
 -------------------------
@@ -95,24 +98,18 @@ Execute "postfix reload" to complete the change.
 5. Create the table
 -------------------
 
-To use Virtual Vacation with Postfix Admin you need to create an extra table
-in the database that is used by Postfix Admin.
+See DATABASE.txt in this directory.
 
-USE postfix;
-#
-# Table structure for table vacation
-#
-CREATE TABLE vacation (
-  email varchar(255) NOT NULL default '',
-  subject varchar(255) NOT NULL default '',
-  body text NOT NULL,
-  cache text NOT NULL,
-  domain varchar(255) NOT NULL default '',
-  created datetime NOT NULL default '0000-00-00 00:00:00',
-  active tinyint(4) NOT NULL default '1',
-  PRIMARY KEY  (email),
-  KEY email (email)
-) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Vacation';
+6. Edit filter.pl
+-----------------
+
+The perl filter.pl script needs minor modification to know which database 
+you are using, and also how to connect to the database.
+
+Namely :
+
+Change any variables starting with '$db_' and '$db_type' to either 'mysql' or 'pgsql'.
+
 
 
 What do these files do?
