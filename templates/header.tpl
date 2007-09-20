@@ -9,7 +9,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php print isset ($PALANG['charset']) ? $PALANG['charset'] : 'iso-8859-1' ?>" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
 if (file_exists (realpath ("./stylesheet.css"))) {
 	print "<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheet.css\" />\n";
