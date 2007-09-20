@@ -32,7 +32,7 @@ $PALANG['pMenu_logout'] = 'Logout';
 
 $PALANG['pMain_welcome'] = 'Willkommen zu Postfix Admin!';
 $PALANG['pMain_overview'] = 'Listet Ihre Aliase und Mailboxen auf. Sie k&ouml;nnen sie hier editieren und l&ouml;schen.';
-$PALANG['pMain_create_alias'] = 'Fügt einen neuen Alias f&uuml;r Ihre Domain hinzu.';
+$PALANG['pMain_create_alias'] = 'FÃ¼gt einen neuen Alias f&uuml;r Ihre Domain hinzu.';
 $PALANG['pMain_create_mailbox'] = 'Legt eine neue Mailbox f&uuml;r Ihre Domain an.';
 $PALANG['pMain_sendmail'] = 'Versenden Sie eine Email.';
 $PALANG['pMain_password'] = '&Auml;ndern Sie Ihr Admin-Passwort.';
@@ -280,21 +280,21 @@ $PALANG['pUsersVacation_subject'] = 'Betreff';
 $PALANG['pUsersVacation_subject_text'] = 'Ich bin weg...';
 $PALANG['pUsersVacation_body'] = 'Text';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Ich bin vom <date> bis <date> nicht zu Hause / im Büro.
-In dringenden Fällen setzen Sie sich bitte mit <contact person> in Verbindung.
-Vielen Dank für Ihr Verständniss.
+Ich bin vom <date> bis <date> nicht zu Hause / im BÃ¼ro.
+In dringenden FÃ¤llen setzen Sie sich bitte mit <contact person> in Verbindung.
+Vielen Dank fÃ¼r Ihr VerstÃ¤ndniss.
 EOM;
 $PALANG['pUsersVacation_button_away'] = 'Ich gehe weg';
 $PALANG['pUsersVacation_button_back'] = 'Ich bin zur&uuml;ck';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Konnte Ihre Automatische Antwort nicht einstellen!</span>';
 $PALANG['pUsersVacation_result_succes'] = 'Ihre Automatische Antwort wurde gel&ouml;scht!';
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'Mailbox hinzufügen';     
-$PALANG['pCreate_dbLog_createalias'] = 'Alias hinzufügen';
-$PALANG['pDelete_dbLog_deletealias'] = 'Alias löschen';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'Mailbox löschen';
+$PALANG['pCreate_dbLog_createmailbox'] = 'Mailbox hinzufÃ¼gen';     
+$PALANG['pCreate_dbLog_createalias'] = 'Alias hinzufÃ¼gen';
+$PALANG['pDelete_dbLog_deletealias'] = 'Alias lÃ¶schen';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'Mailbox lÃ¶schen';
 
-$PALANG['pEdit_dbLog_editactive'] = 'Aktiv-Status ändern';
+$PALANG['pEdit_dbLog_editactive'] = 'Aktiv-Status Ã¤ndern';
 $PALANG['pEdit_dbLog_editalias'] = 'Alias bearbeiten';
 $PALANG['pEdit_dbLog_editmailbox'] = 'Mailbox bearbeiten';
 
