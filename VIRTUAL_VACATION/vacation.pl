@@ -33,6 +33,9 @@
 #             Use the Perl Mail::Sendmail module for sending mail
 #             Check for headers that start with blank lines (patch from forum)
 #
+# 2007-08-20  Martin Ambroz <amsys@trustica.cz>
+#             Added initial Unicode support
+#
 # Requirements:
 # You need to have the DBD::Pg or DBD::MySQL perl-module installed.
 # You need to have the Mail::Sendmail module installed. 
@@ -54,11 +57,12 @@
 # http://dag.wieers.com/home-made/apt/packages.php
 #
 use DBI;
-use MIME::Words qw(:all);
+use MIME::Base64;
 use Email::Valid;
 use strict;
 use Mail::Sendmail;
-my $db_host;  # leave alone
+use Encode;
+#my $db_host;  # leave alone
 
 # ========== begin configuration ==========
 
@@ -66,9 +70,13 @@ my $db_host;  # leave alone
 # to restrict access to the script, so that only the vacation user
 # can read it.
 
-# db_type - either 'Pg' or 'mysql'
-my $db_type = 'Pg';
-# $db_host = 'localhost';   # Uncomment (and adjust, if needed) your DB
+# db_type - uncomment one of these
+#my $db_type = 'Pg';
+#my $db_type = 'mysql';
+
+my $db_host;		    # Comment this if you are not connecting via
+                            # local socket
+#my $db_host = 'localhost'; # Uncomment (and adjust, if needed) your DB
                             # host-name here, if you want to connect via
                             # a TCP socket
 
@@ -76,18 +84,16 @@ my $db_user = 'vacation';   # What DB-user to connect as
 my $db_pass = '';           # What password (if any) to connect with
 my $db_name = 'postfix';    # Name of database to use
 
-
-my $charset = 'ISO-8859-1'; # Character set of vacation messages.
-
-#my $logfile = "/tmp/vacation-log";
 my $logfile='';
+#my $logfile = "/var/log/vacation/vacation.log";
 my $syslog = 1;             # 1 if log entries should be sent to syslog
 
-#my $debugfile = "/tmp/vacation-debug"; # Specify a file name here for example: /tmp/vacation.debug
 my $debugfile='';
+#my $debugfile = "/var/log/vacation/vacation.debug"; # Specify a file name here for example: /tmp/vacation.debug
 
 # =========== end configuration ===========
 
+binmode (STDIN,':utf8');
 
 my $dbh;
 if (defined($db_host)) {
@@ -101,6 +107,11 @@ if (!$dbh) {
    exit(0);
 }
 
+# mysql only, needs FIX for ALL databases
+if ($db_type eq "mysql") {
+   $dbh->do("SET CHARACTER SET utf8;");
+}
+
 # used to detect infinite address lookup loops
 my $loopcount=0;
 
@@ -109,6 +120,7 @@ sub do_debug {
    if ( $debugfile ) {
       my $date;
       open (DEBUG, ">> $debugfile") or die ("Unable to open debug file");
+      binmode (DEBUG, ':utf8');
       chop ($date = `date "+%Y/%m/%d %H:%M:%S"`);
       print DEBUG "====== $date ======\n";
       printf DEBUG "%s | %s | %s | %s | %s | %s\n", $in1, $in2, $in3, $in4, $in5, $in6;
@@ -144,6 +156,7 @@ sub do_log {
    my $date;
    if ( $syslog ) {
       open (SYSLOG, "|/usr/bin/logger -p mail.info -t Vacation") or die ("Unable to open logger"); 
+      binmode(SYSLOG, ':utf8');
       if ($logmessage) {
          printf SYSLOG "Orig-To: %s From: %s MessageID: %s Subject: %s. Log message: $%s", $to, $from, $messageid, $subject, $logmessage;
       } else {
@@ -153,6 +166,7 @@ sub do_log {
    }
    if ( $logfile ) {
       open (LOG, ">> $logfile") or die ("Unable to open log file");
+      binmode (LOG, ':utf8');
       chop ($date = `date "+%Y/%m/%d %H:%M:%S"`);
       if ($logmessage) {
          print LOG "$date: To: $to From: $from Subject: $subject MessageID: $messageid. Log message: $logmessage\n";
@@ -165,22 +179,23 @@ sub do_log {
 
 sub do_mail {
    # from, to, subject, body
-   my ($from, $to, $plainsubject, $body) = @_;
-   my $subject = encode_mimewords($plainsubject);
-
+   my ($from, $to, $subject, $orig_subject, $body) = @_;
+   my $vacation_subject = encode('MIME-Q',$subject);
+   my $old_subject = encode('MIME-Q',$orig_subject);
    my %mail;
    %mail = (
       'To' => $to,
       'From' => $from,
-      'Subject' => $subject,
+      'Subject' => "$vacation_subject (Re: $old_subject)",
       'MIME-Version' => '1.0',
-      'Content-Type' => "text/plain; charset=\"$charset\"",
+      'Content-Type' => 'text/plain; charset=UTF-8',
+      'Content-Transfer-Encoding' => 'base64',
       'Precedence' => 'junk',
       'X-Loop' => 'Postfix Admin Virtual Vacation',
-      'Message' => $body
+      'Message' => encode_base64($body)
    );
    sendmail(%mail) or do_log($Mail::Sendmail::error);
-   do_debug("Mail::Sendmail said : " . $Mail::Sendmail::log);
+   do_debug('Mail::Sendmail said :' . $Mail::Sendmail::log,'','','','','');
 }
 
 sub panic {
@@ -266,6 +281,7 @@ sub find_real_address {
 sub send_vacation_email {
    my ($email, $orig_subject, $orig_from, $orig_to, $orig_messageid) = @_;
    my $query = qq{SELECT subject,body FROM vacation WHERE email=?};
+   my $old_subject = decode('MIME-Q',$orig_subject);
    my $stm = $dbh->prepare($query) or panic_prepare($query);
    $stm->execute($email) or panic_execute($query,"email='$email'");
    my $rv = $stm->rows;
@@ -275,7 +291,7 @@ sub send_vacation_email {
       do_debug ("[SEND RESPONSE] for $orig_messageid:\n", "FROM: $email (orig_to: $orig_to)\n", "TO: $orig_from\n", "SUBJECT: $orig_subject\n", "VACATION SUBJECT: $row[0]\n", "VACATION BODY: $row[1]\n");
 
       # do_mail(from, to, subject, body);
-      do_mail ($email, $orig_from, $row[0] . " (Re: $orig_subject)", $row[1]);
+      do_mail ($email, $orig_from, $row[0], $old_subject, $row[1]);
       do_log ($orig_messageid, $orig_to, $orig_from, $orig_subject); 
    }
 

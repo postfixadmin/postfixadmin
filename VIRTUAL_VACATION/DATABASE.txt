@@ -56,7 +56,7 @@ CREATE TABLE vacation (
     active tinyint(4) NOT NULL default '1', 
     PRIMARY KEY (email), 
     KEY email (email) 
-) TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation' CHARACTER SET latin1; 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation' ;
  
 # vacation_notification table 
  
@@ -66,4 +66,4 @@ CREATE TABLE vacation_notification (
     notified_at timestamp NOT NULL default now(), 
     CONSTRAINT vacation_notification_pkey PRIMARY KEY(on_vacation, notified), 
     FOREIGN KEY (on_vacation) REFERENCES vacation(email) ON DELETE CASCADE 
-) TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation Notifications' CHARACTER SET latin1; 
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation Notifications';
