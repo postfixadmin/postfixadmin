@@ -36,13 +36,21 @@
 # 2007-08-20  Martin Ambroz <amsys@trustica.cz>
 #             Added initial Unicode support
 #
+#
 # Requirements:
 # You need to have the DBD::Pg or DBD::MySQL perl-module installed.
 # You need to have the Mail::Sendmail module installed. 
 # You need to have the Email::Valid module installed.
+# You need to have the MIME::Charset module installed.
+# You need to have the MIME::EncWords module installed.
 #
 # On Debian based systems : 
-#   libmail-sendmail-perl libdbd-pg-perl libemail-valid-perl libmime-perl
+#   libmail-sendmail-perl
+#   libdbd-pg-perl
+#   libemail-valid-perl
+#   libmime-perl
+#   libmime-charset-perl (currently in testing, see instructions below)
+#   libmime-encwords-perl (currently in testing, see instructions below)
 #
 # Note: When you use this module, you may start seeing error messages
 # like "Cannot insert a duplicate key into unique index
@@ -56,13 +64,6 @@
 # One such package collection (for Linux) is:
 # http://dag.wieers.com/home-made/apt/packages.php
 #
-use DBI;
-use MIME::Base64;
-use Email::Valid;
-use strict;
-use Mail::Sendmail;
-use Encode;
-#my $db_host;  # leave alone
 
 # ========== begin configuration ==========
 
@@ -71,35 +72,42 @@ use Encode;
 # can read it.
 
 # db_type - uncomment one of these
-#my $db_type = 'Pg';
+my $db_type = 'Pg';
 #my $db_type = 'mysql';
 
-my $db_host;		    # Comment this if you are not connecting via
-                            # local socket
-#my $db_host = 'localhost'; # Uncomment (and adjust, if needed) your DB
-                            # host-name here, if you want to connect via
-                            # a TCP socket
+# leave empty for connection via UNIX socket
+my $db_host = '';
 
-my $db_user = 'vacation';   # What DB-user to connect as
-my $db_pass = '';           # What password (if any) to connect with
-my $db_name = 'postfix';    # Name of database to use
+# connection details
+my $db_username = 'vacation';
+my $db_password = '';
+my $db_name     = 'postfix';
 
+my $syslog = 1;
+
+# path to logfile, when empty logging is supressed
 my $logfile='';
 #my $logfile = "/var/log/vacation/vacation.log";
-my $syslog = 1;             # 1 if log entries should be sent to syslog
-
+# path to file for debugging, debug supressed when empty
 my $debugfile='';
-#my $debugfile = "/var/log/vacation/vacation.debug"; # Specify a file name here for example: /tmp/vacation.debug
+#my $debugfile = "/var/log/vacation/vacation.debug";
 
 # =========== end configuration ===========
+
+use DBI;
+use MIME::Base64;
+use MIME::EncWords qw(:all);
+use Email::Valid;
+use strict;
+use Mail::Sendmail;
 
 binmode (STDIN,':utf8');
 
 my $dbh;
-if (defined($db_host)) {
-   $dbh = DBI->connect("DBI:$db_type:dbname=$db_name;host=$db_host","$db_user", "$db_pass", { RaiseError => 1 });
+if ($db_host) {
+   $dbh = DBI->connect("DBI:$db_type:dbname=$db_name;host=$db_host","$db_username", "$db_password", { RaiseError => 1 });
 } else {
-   $dbh = DBI->connect("DBI:$db_type:dbname=$db_name","$db_user", "$db_pass", { RaiseError => 1 });
+   $dbh = DBI->connect("DBI:$db_type:dbname=$db_name","$db_username", "$db_password", { RaiseError => 1 });
 }
 
 if (!$dbh) {
@@ -179,14 +187,13 @@ sub do_log {
 
 sub do_mail {
    # from, to, subject, body
-   my ($from, $to, $subject, $orig_subject, $body) = @_;
-   my $vacation_subject = encode('MIME-Q',$subject);
-   my $old_subject = encode('MIME-Q',$orig_subject);
+   my ($from, $to, $subject, $body) = @_;
+   my $vacation_subject = encode_mimewords($subject, 'Encoding'=> 'q', 'Charset'=>'utf-8', 'Field'=>'Subject');
    my %mail;
    %mail = (
-      'To' => $to,
+      'Subject' => $vacation_subject,
       'From' => $from,
-      'Subject' => "$vacation_subject (Re: $old_subject)",
+      'To' => $to,
       'MIME-Version' => '1.0',
       'Content-Type' => 'text/plain; charset=UTF-8',
       'Content-Transfer-Encoding' => 'base64',
@@ -279,20 +286,19 @@ sub find_real_address {
 }
 
 sub send_vacation_email {
-   my ($email, $orig_subject, $orig_from, $orig_to, $orig_messageid) = @_;
+   my ($email, $orig_from, $orig_to, $orig_messageid) = @_;
    my $query = qq{SELECT subject,body FROM vacation WHERE email=?};
-   my $old_subject = decode('MIME-Q',$orig_subject);
    my $stm = $dbh->prepare($query) or panic_prepare($query);
    $stm->execute($email) or panic_execute($query,"email='$email'");
    my $rv = $stm->rows;
    if ($rv == 1) {
       my @row = $stm->fetchrow_array;
       if (already_notified($email, $orig_from)) { return; }
-      do_debug ("[SEND RESPONSE] for $orig_messageid:\n", "FROM: $email (orig_to: $orig_to)\n", "TO: $orig_from\n", "SUBJECT: $orig_subject\n", "VACATION SUBJECT: $row[0]\n", "VACATION BODY: $row[1]\n");
+      do_debug ("[SEND RESPONSE] for $orig_messageid:\n", "FROM: $email (orig_to: $orig_to)\n", "TO: $orig_from\n", "VACATION SUBJECT: $row[0]\n", "VACATION BODY: $row[1]\n", '');
 
       # do_mail(from, to, subject, body);
-      do_mail ($email, $orig_from, $row[0], $old_subject, $row[1]);
-      do_log ($orig_messageid, $orig_to, $orig_from, $orig_subject); 
+      do_mail ($email, $orig_from, $row[0], $row[1]);
+      do_log ($orig_messageid, $orig_to, $orig_from, ''); 
    }
 
 }
@@ -310,7 +316,6 @@ while (<STDIN>) {
    if (/^from:\s+(.*)\n$/i) { $from = $1; $lastheader = \$from; }
    if (/^to:\s+(.*)\n$/i) { $to = $1; $lastheader = \$to; }
    if (/^cc:\s+(.*)\n$/i) { $cc = $1; $lastheader = \$cc; }
-   if (/^subject:\s+(.*)\n$/i) { $subject = $1; $lastheader = \$subject; }
    if (/^message-id:\s+(.*)\n$/i) { $messageid = $1; $lastheader = \$messageid; } 
    if (/^precedence:\s+(bulk|list|junk)/i) { exit (0); }
    if (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { exit (0); }
@@ -349,8 +354,8 @@ for (@search_array) {
    my $addr = $1;
    my ($rv, $email) = find_real_address ($addr);
    if ($rv == 1) {
-      do_debug ("[FOUND VACATION]: ", $messageid, $from, $to, $email, $subject);
-      send_vacation_email( $email, $subject, $from, $to, $messageid);
+      do_debug ("[FOUND VACATION]: ", $messageid, $from, $to, $email, '');
+      send_vacation_email( $email, $from, $to, $messageid);
    }
 }
 
