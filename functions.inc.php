@@ -1199,6 +1199,7 @@ function db_connect ()
       {
          $link = @mysql_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or die ("<p />DEBUG INFORMATION:<br />Connect: " .  mysql_error () . "$DEBUG_TEXT");
          @mysql_query("SET CHARACTER SET utf8",$link);
+         @mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'",$link);
          $succes = @mysql_select_db ($CONF['database_name'], $link) or die ("<p />DEBUG INFORMATION:<br />MySQL Select Database: " .  mysql_error () . "$DEBUG_TEXT");
       }
       else
@@ -1214,6 +1215,7 @@ function db_connect ()
       {
          $link = @mysqli_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or die ("<p />DEBUG INFORMATION:<br />Connect: " .  mysqli_connect_error () . "$DEBUG_TEXT");
          @mysqli_query($link,"SET CHARACTER SET utf8");
+         @mysqli_query($link,"SET COLLATION_CONNECTION='utf8_general_ci'");
          $succes = @mysqli_select_db ($link, $CONF['database_name']) or die ("<p />DEBUG INFORMATION:<br />MySQLi Select Database: " .  mysqli_error () . "$DEBUG_TEXT");
       }
       else
