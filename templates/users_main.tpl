@@ -2,7 +2,7 @@
 <table>
    <tr>
       <td>&nbsp;</td>
-      <td><?php print $_SESSION['userid']['username']; ?></td>
+      <td><?php print $_SESSION['sessid']['username']; ?></td>
    </tr>
    <?php if ($CONF['vacation'] == 'YES') { ?>
    <tr>

@@ -9,7 +9,7 @@
 </td>
 
 <?php
-if (check_admin($SESSID_USERNAME)) {
+if (authentication_has_role('global-admin')) {
    print '<td></td>'; 
    print '<td align=right><select class="flat" name="fDomain" >';
 
@@ -25,7 +25,7 @@ for ($i = 1; $i < sizeof ($list_domains); $i++)
 ?>
 </select>
 <?php
-if (check_admin($SESSID_USERNAME)) { 
+if (authentication_has_role('global-admin')) {
    # TODO: make "Return to" translatable
    ?>
    <input class="button" type="submit" name="fGo" value="<?php print $PALANG['pReturn_to'] . ' ' . $PALANG['pAdminMenu_list_virtual']; ?>" /></td>
@@ -77,13 +77,13 @@ if (sizeof ($tAlias) > 0)
          }
          print "      <td>" . ereg_replace (",", "<br>", $tAlias[$i]['goto']) . "</td>\n";
          print "      <td>" . $tAlias[$i]['modified'] . "</td>\n";
-         if ($CONF['special_alias_control'] == 'YES' || check_admin($SESSID_USERNAME))
+         if ($CONF['special_alias_control'] == 'YES' || authentication_has_role('global-admin'))
          {
             $active = ($tAlias[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
             print "      <td><a href=\"edit-active.php?alias=" . urlencode ($tAlias[$i]['address']) . "&domain=" . $tAlias[$i]['domain'] . "&return=search.php?search=" . urlencode ($fSearch) . "\">" . $active . "</a></td>\n";
             print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tAlias[$i]['address']) . "&domain=" . $tAlias[$i]['domain'] . "\">" . $PALANG['edit'] . "</a></td>\n";
             print "      <td><a href=\"delete.php?";
-         if (check_admin($SESSID_USERNAME)) { 
+         if (authentication_has_role('global-admin')) {
             print "table=alias&"; 
          }
          print "delete=" . urlencode ($tAlias[$i]['address']) . "&domain=" . $tAlias[$i]['domain'] . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_aliases'] . ": ". $tAlias[$i]['address'] . "')\">" . $PALANG['del'] . "</a></td>\n";
@@ -127,7 +127,7 @@ if (sizeof ($tMailbox) > 0)
    if ($CONF['vacation_control_admin'] == 'YES') $colspan=$colspan+1;
    if ($CONF['alias_control_admin'] == 'YES') $colspan=$colspan+1;
 
-   if (check_admin($SESSID_USERNAME) && $CONF['alias_control'] == 'YES') {
+   if (authentication_has_role('global-admin') && $CONF['alias_control'] == 'YES') {
       $colspan = 3;
    }
    print "      <td colspan=\"$colspan\">&nbsp;</td>\n";
@@ -158,7 +158,7 @@ if (sizeof ($tMailbox) > 0)
          print "      <td><a href=\"edit-active.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "&return=search.php?search=" . urlencode ($fSearch) . "\">" . $active . "</a></td>\n";
 
 $has_alias_control = 0; # temporary variable to simplify admin vs. superadmin code
-         if (check_admin($SESSID_USERNAME)) {
+         if (authentication_has_role('global-admin')) {
             if ($CONF['alias_control'] == 'YES') $has_alias_control = 1;
          } else {
             if ($CONF['alias_control_admin'] == 'YES') $has_alias_control = 1;
@@ -175,7 +175,7 @@ $has_alias_control = 0; # temporary variable to simplify admin vs. superadmin co
 
          print "      <td><a href=\"edit-mailbox.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "\">" . $PALANG['edit'] . "</a></td>\n";
          print "      <td><a href=\"delete.php?";
-         if (check_admin($SESSID_USERNAME)) { 
+         if (authentication_has_role('global-admin')) {
             print "table=mailbox&"; 
          }
          print "delete=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_mailboxes'] . ": ". $tMailbox[$i]['username'] . "')\">" . $PALANG['del'] . "</a></td>\n";

@@ -22,7 +22,7 @@
       <td colspan="3" class="hlp_center">
           <input class="button" type="submit" name="fAway" value="<?php print $PALANG['pUsersVacation_button_away']; ?>" />
           <input class="button" type="submit" name="fBack" value="<?php print $PALANG['pUsersVacation_button_back']; ?>" />
-          <input class="button" type="submit" name="fCancel" value="<?php print $PALANG['exit']; ?>" action="main.php" />
+          <input class="button" type="submit" name="fCancel" value="<?php print $PALANG['exit']; ?>" />
       </td>
    </tr>
    <tr>

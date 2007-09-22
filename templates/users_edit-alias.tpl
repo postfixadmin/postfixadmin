@@ -27,7 +27,7 @@ else
 for ($i = 0 ; $i < sizeof ($array) ; $i++)
 {
    if (empty ($array[$i])) continue;
-   if ($array[$i] == "$USERID_USERNAME@$vacation_domain")
+   if ($array[$i] == "$vacation_goto")
    {
       $vacation = "YES";
       continue;
@@ -52,7 +52,7 @@ for ($i = 0 ; $i < sizeof ($array) ; $i++)
    <tr>
       <td colspan="3" class="hlp_center">
          <input class="button" type="submit" name="submit" value="<?php print $PALANG['pEdit_alias_button']; ?>">
-         <input class="button" type="submit" name="submit" value="<?php print $PALANG['exit']; ?>" action="main.php" >
+         <input class="button" type="submit" name="fCancel" value="<?php print $PALANG['exit']; ?>" >
       </td>
    </tr>
    <tr>

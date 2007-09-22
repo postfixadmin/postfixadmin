@@ -7,6 +7,9 @@
    <?php $url = "create-mailbox.php"; if (isset ($_GET['domain'])) $url .= "?domain=" . $_GET['domain']; ?>
    <li><a target="_top" href="<?php print $url; ?>"><?php print $PALANG['pMenu_create_mailbox']; ?></a></li>
    <?php if ($CONF['sendmail'] == 'YES') { ?><li><a target="_top" href="sendmail.php"><?php print $PALANG['pMenu_sendmail']; ?></a></li><?php } ?>
+   <?php if ($CONF['vacation'] == "YES") { ?>
+   <li><a target="_top" href="edit-vacation.php"><?php print $PALANG['pUsersMenu_vacation']; ?></a></li>
+   <?php } ?>
    <li><a target="_top" href="password.php"><?php print $PALANG['pMenu_password']; ?></a></li>
    <li><a target="_top" href="viewlog.php"><?php print $PALANG['pMenu_viewlog']; ?></a></li>
    <li><a target="_top" href="logout.php"><?php print $PALANG['pMenu_logout']; ?></a></li>

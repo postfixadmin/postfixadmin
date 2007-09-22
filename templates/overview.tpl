@@ -202,8 +202,20 @@ if (sizeof ($tMailbox) > 0)
          print "      <td><a href=\"edit-active.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $active . "</a></td>\n";
          if ($CONF['vacation_control_admin'] == 'YES')
          {
-            $v_active = ($tMailbox[$i]['v_active'] == 1) ? $PALANG['pOverview_vacation_edit'] : $PALANG['pOverview_vacation_option'];
-            print "      <td><a href=\"edit-vacation.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $v_active . "</a></td>\n";
+            $v_active_int = $tMailbox[$i]['v_active'];
+            if($v_active_int !== -1) {
+               if($v_active_int == 1) {
+                  $v_active = $PALANG['pOverview_vacation_edit'];
+               }
+               else {
+                  $v_active = $PALANG['pOverview_vacation_option'];
+               }
+               print "<td><a href=\"edit-vacation.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $v_active . "</a></td>\n";
+            }
+            else {
+               // can't tell vacation state - broken pgsql query
+               echo "<td> &nbsp; </td>\n";
+            }
          }
          if ($CONF['alias_control_admin'] == 'YES')
          {
