@@ -81,13 +81,13 @@ print "<p />\n";
 //
 if ($f_get_magic_quotes_gpc == 1)
 {
-   if (get_magic_quotes_gpc () == 1)
+   if (get_magic_quotes_gpc () == 0)
    {
-      print "- Magic Quotes: ON<br /><p />\n";
+      print "- Magic Quotes: Disabled - OK<br /><p />\n";
    }
    else
    {
-      print "<li><b>Warning: Magic Quotes: OFF (using internal function!)</b><br /><p />\n";   
+      print "<li><b>Warning: Magic Quotes: ON (internal workaround used)</b><br /><p />\n";   
    }
 }
 else
