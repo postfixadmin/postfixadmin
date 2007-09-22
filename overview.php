@@ -23,19 +23,18 @@
 // fDomain
 // limit
 //
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
 
-$SESSID_USERNAME = check_session();
-if (!check_admin($SESSID_USERNAME))
-{
-   $list_domains = list_domains_for_admin ($SESSID_USERNAME);
-}
-else
-{
+require_once('common.php');
+
+authentication_require_role('admin');
+
+$SESSID_USERNAME = authentication_get_username();
+
+if(authentication_has_role('global-admin')) {
    $list_domains = list_domains ();
+}
+else {
+   $list_domains = list_domains_for_admin ($SESSID_USERNAME);
 }
 
 $tAlias = array();
@@ -103,7 +102,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
                $row['created']=gmstrftime('%c %Z',$row['uts_created']);
                $row['modified']=gmstrftime('%c %Z',$row['uts_modified']);
                $row['active']=('t'==$row['active']) ? 1 : 0;
-               $row['v_active']=('t'==$row['v_active']) ? 1 : 0;
+               if(isset($row['v_active'])) {
+                  $row['v_active']=('t'==$row['v_active']) ? 1 : 0;
+               }
+               else {
+                  $row['v_active'] = -1 ; //unknown; broken query above..
+               }
                unset($row['uts_created']);
                unset($row['uts_modified']);
             }

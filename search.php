@@ -20,19 +20,16 @@
 // fGo
 // fDomain
 //
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
 
-$SESSID_USERNAME = check_session();
-if (!check_admin($SESSID_USERNAME))
-{
-   $list_domains = list_domains_for_admin ($SESSID_USERNAME);
-}
-else
-{
+require_once('common.php');
+
+authentication_require_role('admin');
+$SESSID_USERNAME = authentication_get_username();
+if(authentication_has_role('global-admin')) {
    $list_domains = list_domains ();
+}
+else { 
+   $list_domains = list_domains_for_admin ($SESSID_USERNAME);
 }
 
 
@@ -109,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if (empty ($fSearch) && !empty ($fGo))
    {
-      if (check_admin($SESSID_USERNAME))
+      if (authentication_has_role('global-admin'))
       {
         header("Location: list-virtual.php?domain=" . $fDomain ) && exit;
       }

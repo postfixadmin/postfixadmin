@@ -1,4 +1,6 @@
 <?php
+// XXX TODO - Remove the code duplication between this file (for admins) and users/vacation.php
+//  - too much of the code is identical for there not to be some refactoring possible.
 //
 // Postfix Admin
 // by Mischa Peters <mischa at high5 dot net>
@@ -11,6 +13,7 @@
 //
 // Template Variables:
 //
+// tUseremail
 // tMessage
 // tSubject
 // tBody
@@ -25,38 +28,27 @@
 // fQuota
 // fActive
 //
-// This is a copy of the superadmin edit-vacation.php with
-// template references changed
-//
 
-if (!isset($incpath)) $incpath = '.';
+require_once('common.php');
 
-require ("$incpath/variables.inc.php");
-require ("$incpath/config.inc.php");
-require ("$incpath/functions.inc.php");
-include ("$incpath/languages/" . check_language () . ".lang");
+$SESSID_USERNAME = authentication_get_username();
 
-$SESSID_USERNAME = check_session ();
-(($CONF['vacation'] == 'NO') ? header("Location: " . $CONF['postfix_admin_url'] . "/main.php") && exit : '1');
+if($CONF['vacation'] == 'NO') { 
+   header("Location: " . $CONF['postfix_admin_url'] . "/main.php");
+   exit(0);
+}
+
+$vacation_domain = $CONF['vacation_domain'];
+$vacation_goto = preg_replace('/@/', '#', $SESSID_USERNAME);
+$vacation_goto = $vacation_goto . '@' . $vacation_domain;
+
 $tmp = preg_split ('/@/', $SESSID_USERNAME);
 $USERID_DOMAIN = $tmp[1];
 
 if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
 if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
 
-if (check_admin($SESSID_USERNAME))
-{
-   $fCanceltarget= $CONF['postfix_admin_url'] . "/admin/list-virtual.php?domain=$fDomain";
-}
-else
-{
-   if (check_owner ($SESSID_USERNAME, $fDomain))
-   {
-      $fCanceltarget= $CONF['postfix_admin_url'] . "/overview.php?domain=$fDomain";
-   }
-   //unauthorized, exit
-   else { exit; }
-}
+$fCanceltarget = $CONF['postfix_admin_url'] . '/main.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
@@ -74,72 +66,70 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
    if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
 
-   
-
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-   $vacation_domain = $CONF['vacation_domain'];
 
    if (isset ($_POST['fSubject'])) $fSubject = escape_string ($_POST['fSubject']);
    if (isset ($_POST['fBody'])) $fBody = escape_string ($_POST['fBody']);
    if (isset ($_POST['fChange'])) $fChange = escape_string ($_POST['fChange']);
    if (isset ($_POST['fBack'])) $fBack = escape_string ($_POST['fBack']);
 
-   if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
-   if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
+   if (isset ($_GET['domain'])) {
+      $fDomain = escape_string ($_GET['domain']);
+   }
+   else {
+      $fDomain = $USERID_DOMAIN;
+   }
+   if (isset ($_GET['username'])) {
+      $fUsername = escape_string ($_GET['username']);
+   }
+   else {
+      $fUsername = authentication_get_username();
+   }
 
    $tUseremail = $fUsername;
    if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
    if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
 
-   //if change, remove old one, then set new one
+   //if change, remove old one, then perhaps set new one
    if (!empty ($fBack) || !empty ($fChange))
    {
-     //if we find an existing vacation entry, delete it
-     $result = db_query("SELECT * FROM $table_vacation WHERE email='$fUsername'");
-     if ($result['rows'] == 1)
-     {
-      $result = db_query ("DELETE FROM $table_vacation WHERE email='$fUsername'");
-      if ($result['rows'] != 1)
-      {
-         $error = 1;
-         $tMessage = $PALANG['pVacation_result_error'];
-         $tMessage = "cannot remove $fUsername from $table_vacation";
-      }
-      else
-      {
-         $tMessage = $PALANG['pVacation_result_success'];
-      }
-
-      $result = db_query ("SELECT * FROM $table_alias WHERE address='$fUsername'");
+      //if we find an existing vacation entry, delete it
+      $result = db_query("SELECT * FROM $table_vacation WHERE email='$fUsername'");
       if ($result['rows'] == 1)
       {
-         $row = db_array ($result['result']);
-         $goto = $row['goto'];
-
-         //only one of these will do something, first handles address at beginning and middle, second at end
-         $goto= preg_replace ( "/$fUsername@$vacation_domain,/", '', $goto);
-         $goto= preg_replace ( "/,$fUsername@$vacation_domain/", '', $goto);
-
-         $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$fUsername'");
+         $result = db_query ("DELETE FROM $table_vacation WHERE email='$fUsername'");
          if ($result['rows'] != 1)
          {
             $error = 1;
-            $tMessage = $PALANG['pVacation_result_error'];
          }
-         else
+
+         $result = db_query ("SELECT * FROM $table_alias WHERE address='$fUsername'");
+         if ($result['rows'] == 1)
          {
-            $tMessage = $PALANG['pVacation_result_success'];
+            $row = db_array ($result['result']);
+            $goto = $row['goto'];
+
+            //only one of these will do something, first handles address at beginning and middle, second at end
+            $goto= preg_replace ( "/$vacation_goto,/", '', $goto);
+            $goto= preg_replace ( "/,$vacation_goto/", '', $goto);
+
+            $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$fUsername'");
+            if ($result['rows'] != 1)
+            {
+               $error = 1;
+            }
          }
       }
-     }
    }
+
 
    //Set the vacation data for $fUsername
    if (!empty ($fChange))
    {
+      $goto = '';
       $result = db_query ("SELECT * FROM $table_alias WHERE address='$fUsername'");
       if ($result['rows'] == 1)
       {
@@ -149,30 +139,37 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
       ($CONF['database_type']=='pgsql') ? $Active='true' : $Active=1;
       $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$fUsername','$fSubject','$fBody','$fDomain',NOW(),$Active)");
+
       if ($result['rows'] != 1)
       {
          $error = 1;
-         $tMessage = $PALANG['pVacation_result_error'];
       }
 
-      $goto = $goto . "," . "$fUsername@$vacation_domain";
+      $goto = $goto . "," . $vacation_goto;
 
       $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$fUsername'");
       if ($result['rows'] != 1)
       {
          $error = 1;
-         $tMessage = $PALANG['pVacation_result_error'];
-      }
-      else
-      {
-         header ("Location: $fCanceltarget");
-         exit;
       }
    }
 }
 
+if($error == 0) {
+   if(!empty ($fBack)) {
+      $tMessage = $PALANG['pVacation_result_removed'];
+   }
+   if(!empty($fChange)) {
+      $tMessage= $PALANG['pVacation_result_added'];   
+   }
+}
+else {
+   $tMessage = $PALANG['pVacation_result_error'];
+}
+
+$tUseremail = $SESSID_USERNAME;
 include ("$incpath/templates/header.tpl");
-if (check_admin($SESSID_USERNAME)) {
+if (authentication_has_role('global-admin')) {
    include ("$incpath/templates/admin_menu.tpl");
 } else {
    include ("$incpath/templates/menu.tpl");

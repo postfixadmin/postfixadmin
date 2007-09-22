@@ -17,10 +17,8 @@
 //
 // -none-
 //
-require ("./config.inc.php");
-require ("./functions.inc.php");
 
-$SESSID_USERNAME = check_session ();
+require_once('common.php');
 
 session_unset ();
 session_destroy ();

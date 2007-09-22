@@ -21,21 +21,17 @@
 // fGoto
 //
 
-if (!isset($incpath)) $incpath = '.';
+require_once('common.php');
 
-require ("$incpath/variables.inc.php");
-require ("$incpath/config.inc.php");
-require ("$incpath/functions.inc.php");
-include ("$incpath/languages/" . check_language () . ".lang");
-
-$SESSID_USERNAME = check_session ();
+authentication_require_role('admin');
+$SESSID_USERNAME = authentication_get_username();
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
    if (isset ($_GET['address'])) $fAddress = escape_string ($_GET['address']);
    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
 
-   if (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME))
+   if (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin'))
    {
       $result = db_query ("SELECT * FROM $table_alias WHERE address='$fAddress' AND domain='$fDomain'");
       if ($result['rows'] == 1)
@@ -60,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fGoto'])) $fGoto = escape_string ($_POST['fGoto']);
    $fGoto = strtolower ($fGoto);
 
-   if (! (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME)) )
+   if (! (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin')) )
    {
       $error = 1;
       $tGoto = $_POST['fGoto'];
@@ -114,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          db_log ($SESSID_USERNAME, $fDomain, "edit alias", "$fAddress -> $goto");
 
-         if (check_admin($SESSID_USERNAME)) {
+         if (authentication_has_role('global-admin')) {
             header ("Location: list-virtual.php?domain=$fDomain");
          } else {
             header ("Location: overview.php?domain=$fDomain");
@@ -126,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 include ("$incpath/templates/header.tpl");
 
-if (check_admin($SESSID_USERNAME)) {
+if (authentication_has_role('global-admin')) {
    include ("$incpath/templates/admin_menu.tpl");
 } else {
    include ("$incpath/templates/menu.tpl");

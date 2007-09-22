@@ -17,11 +17,12 @@
 //
 // -none-
 //
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
 
-$SESSID_USERNAME = check_session ();
+require_once('common.php');
+
+$SESSID_USERNAME = authentication_get_username();
+
+authentication_require_role('admin');
 
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {

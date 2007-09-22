@@ -26,14 +26,10 @@
 // fActive
 //
 
-if (!isset($incpath)) $incpath = '.';
+require_once('common.php');
 
-require ("$incpath/variables.inc.php");
-require ("$incpath/config.inc.php");
-require ("$incpath/functions.inc.php");
-include ("$incpath/languages/" . check_language () . ".lang");
-
-$SESSID_USERNAME = check_session ();
+authentication_require_role('admin');
+$SESSID_USERNAME = authentication_get_username();
 
 if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
 $fUsername = strtolower ($fUsername);
@@ -44,7 +40,7 @@ $pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text'];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-   if (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME))
+   if (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin'))
    {
       $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fUsername' AND domain='$fDomain'");
       if ($result['rows'] == 1)
@@ -79,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fQuota'])) $fQuota = intval ($_POST['fQuota']);
    if (isset ($_POST['fActive'])) $fActive = escape_string ($_POST['fActive']);
 
-   if (! (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME)) )
+   if (! (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin')) )
    {
       $error = 1;
       $tName = $fName;
@@ -153,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          db_log ($SESSID_USERNAME, $fDomain, "edit mailbox", $fUsername);
 
-         if (check_admin($SESSID_USERNAME)) {
+         if (authentication_has_role('global-admin')) {
             header ("Location: list-virtual.php?domain=$fDomain");
          } else {
             header ("Location: overview.php?domain=$fDomain");
@@ -165,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 include ("$incpath/templates/header.tpl");
 
-if (check_admin($SESSID_USERNAME)) {
+if (authentication_has_role('global-admin')) {
    include ("$incpath/templates/admin_menu.tpl");
 } else {
    include ("$incpath/templates/menu.tpl");

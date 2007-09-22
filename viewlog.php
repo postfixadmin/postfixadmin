@@ -19,21 +19,16 @@
 // fDomain
 //
 
-if (!isset($incpath)) $incpath = '.';
 
-require ("$incpath/variables.inc.php");
-require ("$incpath/config.inc.php");
-require ("$incpath/functions.inc.php");
-include ("$incpath/languages/" . check_language () . ".lang");
+require_once('common.php');
 
-$SESSID_USERNAME = check_session();
-if (!check_admin($SESSID_USERNAME))
-{
-   $list_domains = list_domains_for_admin ($SESSID_USERNAME);
-}
-else
-{
+authentication_require_role('admin');
+$SESSID_USERNAME = authentication_get_username();
+if(authentication_has_role('global-admin')) {
    $list_domains = list_domains ();
+}
+else {
+   $list_domains = list_domains_for_admin ($SESSID_USERNAME);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
@@ -45,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    die('Unknown request method');
 }
 
-if (! (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME)) )
+if (! (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin')))
 {
    $error = 1;
    $tMessage = $PALANG['pViewlog_result_error'];
@@ -74,7 +69,7 @@ if ($error != 1)
 
 include ("$incpath/templates/header.tpl");
 
-if (check_admin($SESSID_USERNAME)) {
+if (authentication_has_role('global-admin')) {
    include ("$incpath/templates/admin_menu.tpl");
 } else {
    include ("$incpath/templates/menu.tpl");

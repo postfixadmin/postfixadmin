@@ -20,14 +20,10 @@
 // fReturn
 //
 
-if (!isset($incpath)) $incpath = '.';
+require_once('common.php');
 
-require ("$incpath/variables.inc.php");
-require ("$incpath/config.inc.php");
-require ("$incpath/functions.inc.php");
-include ("$incpath/languages/" . check_language () . ".lang");
-
-$SESSID_USERNAME = check_session ();
+authentication_require_role('admin');
+$SESSID_USERNAME = authentication_get_username();
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
@@ -36,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
    if (isset ($_GET['return'])) $fReturn = escape_string ($_GET['return']);
 
-   if (! (check_owner ($SESSID_USERNAME, $fDomain) || check_admin($SESSID_USERNAME) ) )
+   if (! (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin') ) )
    {
       $error = 1;
       $tMessage = $PALANG['pEdit_mailbox_domain_error'] . "<b>$fDomain</b>!</font>";
@@ -83,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       }
       else
       {
-         if (check_admin($SESSID_USERNAME)) {
+         if (authentication_has_role('global-admin')) {
             header ("Location: list-virtual.php?domain=$fDomain");
          } else {
             header ("Location: overview.php?domain=$fDomain");
@@ -95,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
 include ("$incpath/templates/header.tpl");
 
-if (check_admin($SESSID_USERNAME)) {
+if (authentication_has_role('global-admin')) {
    include ("$incpath/templates/admin_menu.tpl");
 } else {
    include ("$incpath/templates/menu.tpl");

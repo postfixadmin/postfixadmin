@@ -23,21 +23,16 @@
 // fDomain
 //
 
-if (!isset($incpath)) $incpath = '.';
+require_once('common.php');
 
-require ("$incpath/variables.inc.php");
-require ("$incpath/config.inc.php");
-require ("$incpath/functions.inc.php");
-include ("$incpath/languages/" . check_language () . ".lang");
-
-$SESSID_USERNAME = check_session ();
-if (!check_admin($SESSID_USERNAME))
-{
-   $list_domains = list_domains_for_admin ($SESSID_USERNAME);
+authentication_require_role('admin');
+$username = authentication_get_username();
+$SESSID_USERNAME = $username;
+if(authentication_has_role('global-admin')) {
+    $list_domains = list_domains ();
 }
-else
-{
-   $list_domains = list_domains ();
+else {
+   $list_domains = list_domains_for_admin ($username);
 }
 
 $pCreate_alias_goto_text = $PALANG['pCreate_alias_goto_text'];
@@ -64,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $fGoto = $fGoto . "@" . escape_string ($_POST['fDomain']);
    }
    
-   if (! (check_admin($SESSID_USERNAME) || check_owner ($SESSID_USERNAME, $fDomain) ))
+   if (! (authentication_has_role('global-admin') || check_owner ($SESSID_USERNAME, $fDomain) ))
    {
       $error = 1;
       $tAddress = escape_string ($_POST['fAddress']);
@@ -149,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 include ("$incpath/templates/header.tpl");
 
-if (check_admin($SESSID_USERNAME)) {
+if (authentication_has_role('global-admin')) {
    include ("$incpath/templates/admin_menu.tpl");
 } else {
    include ("$incpath/templates/menu.tpl");

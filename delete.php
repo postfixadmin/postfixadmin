@@ -18,12 +18,12 @@
 // fDelete
 // fDomain
 //
-require ("./variables.inc.php");
-require ("./config.inc.php");
-require ("./functions.inc.php");
-include ("./languages/" . check_language () . ".lang");
 
-$SESSID_USERNAME = check_session();
+require_once('common.php');
+
+authentication_require_role('admin');
+
+$SESSID_USERNAME = authentication_get_username();
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    else
    {
       if ($CONF['database_type'] == "pgsql") db_query('BEGIN');
+
       $result = db_query ("DELETE FROM $table_alias WHERE address='$fDelete' AND domain='$fDomain'");
       if ($result['rows'] != 1)
       {
