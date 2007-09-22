@@ -15,58 +15,86 @@ if (ereg ("functions.inc.php", $_SERVER['PHP_SELF']))
    exit;
 }
 
-$version = "2.1.1";
+$version = '2.2 SVN';
 
-//
-// check_session
-// Action: Check if a session already exists, if not redirect to login.php
-// Call: check_session ()
-//
-function check_session ()
+/**
+ * check_session
+ *  Action: Check if a session already exists, if not redirect to login.php
+ * Call: check_session ()
+ * @return String username (e.g. foo@example.com)
+ */
+function authentication_get_username()
 {
    global $CONF;
-   session_start ();
-   session_fixid ();
-   if (!session_is_registered ("sessid"))
-   {
+   if (!isset($_SESSION['sessid'])) {
       header ("Location: " . $CONF['postfix_admin_url'] . "/login.php");
-      exit;
+      exit(0);
    }
    $SESSID_USERNAME = $_SESSION['sessid']['username'];
    return $SESSID_USERNAME;
 }
 
-function check_user_session ()
-{
-   global $CONF;
-   session_start ();
-   session_fixid ();
-   if (!session_is_registered ("userid"))
-   {
-      header ("Location: " . $CONF['postfix_admin_url'] . "/login.php");
-      exit;
-   }
-   $USERID_USERNAME = $_SESSION['userid']['username'];
-   return $USERID_USERNAME;
-}
-
-//
-// session_fixid
-// Action: should avoid 'session fixation'
-// Call: session_fixid ()
-//
-function session_fixid ()
-{
-   if (!isset($_SESSION['exist']))
-   {
-      if ( !session_regenerate_id() ) 
-      {
-         die("Couldn't regenerate your session id.");
+/**
+ * Returns the type of user - either 'user' or 'admin' 
+ * Returns false if neither (E.g. if not logged in)
+ * @return String admin or user or (boolean) false.
+ */
+function authentication_get_usertype() {
+   if(isset($_SESSION['sessid'])) {
+      if(isset($_SESSION['sessid']['type'])) {
+         return $_SESSION['sessid']['type'];
       }
-      $_SESSION['exist'] = true;
    }
+   return false;
+}
+/**
+ *
+ * Used to determine whether a user has a particular role.
+ * @param String role-name. (E.g. admin, global-admin or user)
+ * @return boolean True if they have the requested role in their session.
+ * Note, user < admin < global-admin
+ */
+function authentication_has_role($role) {
+   global $CONF;
+   if(isset($_SESSION['sessid'])) {
+      if(isset($_SESSION['sessid']['roles'])) {
+         if(in_array($role, $_SESSION['sessid']['roles'])) {
+            return true;
+         }
+      }
+   }
+   return false;
 }
 
+/**
+ * Used to enforce that $user has a particular role when 
+ * viewing a page.
+ * If they are lacking a role, redirect them to 
+ * $CONF['postfix_admin_url']/login.php
+ *
+ * Note, user < admin < global-admin
+ */
+function authentication_require_role($role) {
+   // redirect to appropriate page?
+   if(authentication_has_role($role)) {
+      return True;
+   }
+   header("Location: " . $CONF['postfix_admin_url'] . "/login.php");
+   exit(0);
+}
+/**
+ * @return boolean TRUE if a admin, FALSE otherwise.
+ */
+function authentication_is_admin() {
+   return authentication_get_usertype() == 'admin';
+}
+
+/**
+ * @return boolean TRUE if a user, FALSE otherwise.
+ */
+function authentication_is_user() {
+   return authentication_get_usertype() == 'user';
+}
 
 
 //
@@ -576,7 +604,7 @@ function check_owner ($username, $domain)
 function check_alias_owner ($username, $alias)
 {
    global $CONF;
-   if (check_admin ($username)) return true;
+   if (authentication_has_role('global-admin')) return true;
    $tmp = preg_split('/\@/', $alias);
    if (($CONF['special_alias_control'] == 'NO') && array_key_exists($tmp[0], $CONF['default_aliases']))
    {
@@ -646,34 +674,11 @@ function list_domains ()
 
 
 
-//
-// check_admin
-// Action: Checks if the admin is super-admin.
-// Call: check_admin (string admin)
-//
-function check_admin ($username)
-{
-   global $table_domain_admins;
-
-   $result = db_query ("SELECT 1 FROM $table_domain_admins WHERE username='$username' AND domain='ALL' AND active='1'");
-   if ($result['rows'] != 1)
-   {
-      return false;
-   }
-   else
-   {
-      return true;
-   }
-}
-
-
 
 //
 // admin_exist
 // Action: Checks if the admin already exists.
 // Call: admin_exist (string admin)
-//
-// was check_admin
 //
 function admin_exist ($username)
 {
@@ -972,7 +977,7 @@ function pacrypt ($pw, $pw_db="")
       $password = md5crypt ($pw, $salt);
    }
 
-   if($CONF['encrypt'] == 'md5') {
+   if ($CONF['encrypt'] == 'md5') {
       $password = md5($pw);
    }
 
@@ -998,8 +1003,6 @@ function pacrypt ($pw, $pw_db="")
    $password = escape_string ($password);
    return $password;
 }
-
-
 
 //
 // md5crypt
@@ -1214,7 +1217,7 @@ function db_connect ()
          $link = @mysqli_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or die ("<p />DEBUG INFORMATION:<br />Connect: " .  mysqli_connect_error () . "$DEBUG_TEXT");
          @mysqli_query($link,"SET CHARACTER SET utf8");
          @mysqli_query($link,"SET COLLATION_CONNECTION='utf8_general_ci'");
-         $succes = @mysqli_select_db ($link, $CONF['database_name']) or die ("<p />DEBUG INFORMATION:<br />MySQLi Select Database: " .  mysqli_error () . "$DEBUG_TEXT");
+         $success = @mysqli_select_db ($link, $CONF['database_name']) or die ("<p />DEBUG INFORMATION:<br />MySQLi Select Database: " .  mysqli_error ($link) . "$DEBUG_TEXT");
       }
       else
       {
@@ -1228,8 +1231,8 @@ function db_connect ()
       if (function_exists ("pg_pconnect"))
       {
          $connect_string = "host=" . $CONF['database_host'] . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
-         $link = @pg_pconnect ($connect_string) or die ("<p />DEBUG INFORMATION:<br />Connect: " .  pg_last_error () . "$DEBUG_TEXT");
-         pg_set_client_encoding($link, UNICODE);
+         $link = @pg_pconnect ($connect_string) or die ("<p />DEBUG INFORMATION:<br />Connect: " .  pg_last_error($link) . "$DEBUG_TEXT");
+         pg_set_client_encoding($link, 'UNICODE');
       }
       else
       {
@@ -1270,14 +1273,8 @@ function db_query ($query)
 
    if (!is_resource($link)) $link = db_connect ();
 
-   if ($CONF['database_type'] == "mysql") 
-   {
-      $result = @mysql_query ($query, $link) or die ("<p />DEBUG INFORMATION:<br />Invalid query: " . mysql_error() . "$DEBUG_TEXT");
-   }
-   if ($CONF['database_type'] == "mysqli") 
-   {
-      $result = @mysqli_query ($link, $query) or die ("<p />DEBUG INFORMATION:<br />Invalid query: " . mysqli_error($link) . "$DEBUG_TEXT");
-   }
+   if ($CONF['database_type'] == "mysql") $result = @mysql_query ($query, $link) or die ("<p />DEBUG INFORMATION:<br />Invalid query: " . mysql_error($link) . "$DEBUG_TEXT");
+   if ($CONF['database_type'] == "mysqli") $result = @mysqli_query ($link, $query) or die ("<p />DEBUG INFORMATION:<br />Invalid query: " . mysqli_error($link) . "$DEBUG_TEXT");
    if ($CONF['database_type'] == "pgsql")
    {
       $result = @pg_query ($link, $query) or die ("<p />DEBUG INFORMATION:<br />Invalid query: " . pg_last_error() . "$DEBUG_TEXT");
