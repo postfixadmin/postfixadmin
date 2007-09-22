@@ -21,7 +21,6 @@
 // fGoto
 //
 
-$incpath = "..";
 require("../edit-alias.php");
 
 ?>

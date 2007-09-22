@@ -23,7 +23,6 @@
 // fDomain
 //
 
-$incpath = '..';
 require ("../create-alias.php");
 
 ?>

@@ -18,5 +18,5 @@
 // -none-
 //
 header ("Location: list-admin.php");
-exit;
+exit(0);
 ?>

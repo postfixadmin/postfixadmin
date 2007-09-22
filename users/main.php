@@ -17,11 +17,11 @@
 //
 // -none-
 //
-require ("../config.inc.php");
-require ("../functions.inc.php");
-include ("../languages/" . check_language () . ".lang");
 
-$USERID_USERNAME = check_user_session ();
+require_once('../common.php');
+authentication_require_role('user');
+$USERID_USERNAME = authentication_get_username();
+
 $result = db_query("SELECT * FROM $table_vacation WHERE email='$USERID_USERNAME'");
 if ($result['rows'] == 1)
 {

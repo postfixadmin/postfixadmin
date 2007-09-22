@@ -29,7 +29,6 @@
 // fMail
 //
 
-$incpath = '..';
 require ("../create-mailbox.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

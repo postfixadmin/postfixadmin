@@ -27,7 +27,6 @@
 //
 //
 
-$incpath = '..';
 require ("../edit-vacation.php");
 
 ?>

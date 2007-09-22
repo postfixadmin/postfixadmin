@@ -19,11 +19,10 @@
 //  fUsername
 //  fPassword
 //
-require ("../variables.inc.php");
-require ("../config.inc.php");
-require ("../functions.inc.php");
-include ("../languages/" . check_language () . ".lang");
- 
+
+require_once("../common.php");
+
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
    include ("../templates/header.tpl");
@@ -68,10 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if ($error != 1)
    {
-      session_start();
-      session_register("userid");
-      $_SESSION['userid']['username'] = $fUsername;
-
+      session_regenerate_id();
+      $_SESSION['sessid'] = array();
+      $_SESSION['sessid']['roles'] = array();
+      $_SESSION['sessid']['roles'][] = 'user';
+      $_SESSION['sessid']['username'] = $fUsername;
       header("Location: main.php");
       exit;
    }

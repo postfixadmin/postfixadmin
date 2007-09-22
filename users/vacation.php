@@ -22,126 +22,140 @@
 // fAway
 // fBack
 //
-require ("../variables.inc.php");
-require ("../config.inc.php");
-require ("../functions.inc.php");
-include ("../languages/" . check_language () . ".lang");
 
-$USERID_USERNAME = check_user_session ();
-(($CONF['vacation'] == 'NO') ? header("Location: " . $CONF['postfix_admin_url'] . "/users/main.php") && exit : '1');
+require_once('../common.php');
+
+authentication_require_role('user');
+$USERID_USERNAME = authentication_get_username();
+
+// is vacation support enabled in $CONF ?
+if($CONF['vacation'] == 'NO') {
+    header("Location: " . $CONF['postfix_admin_url'] . "/users/main.php");
+    exit(0);
+}
+
 $tmp = preg_split ('/@/', $USERID_USERNAME);     
 $USERID_DOMAIN = $tmp[1];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
+    $result = db_query("SELECT * FROM $table_vacation WHERE email='$USERID_USERNAME'");
+    if ($result['rows'] == 1)
+    {
+        $row = db_array($result['result']);
+        $tMessage = $PALANG['pUsersVacation_welcome_text'];
+        $tSubject = $row['subject'];
+        $tBody = $row['body'];
+    }
 
-   $result = db_query("SELECT * FROM $table_vacation WHERE email='$USERID_USERNAME'");
-   if ($result['rows'] == 1)
-   {
-      $row = db_array($result['result']);
-      $tMessage = $PALANG['pUsersVacation_welcome_text'];
-      $tSubject = $row['subject'];
-      $tBody = $row['body'];
+    if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
+    if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
 
-   }
-   
-   if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
-   if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
+    $template = "users_vacation.tpl";
 
-   $template = "users_vacation.tpl";
-
-   include ("../templates/header.tpl");
-   include ("../templates/users_menu.tpl");
-   include ("../templates/users_vacation.tpl");
-   include ("../templates/footer.tpl");
+    include ("../templates/header.tpl");
+    include ("../templates/users_menu.tpl");
+    include ("../templates/users_vacation.tpl");
+    include ("../templates/footer.tpl");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-   $vacation_domain = $CONF['vacation_domain'];
-   
-   if (isset ($_POST['fSubject'])) $fSubject = escape_string ($_POST['fSubject']);
-   if (isset ($_POST['fBody'])) $fBody = escape_string ($_POST['fBody']);
-   if (isset ($_POST['fAway'])) $fAway = escape_string ($_POST['fAway']);
-   if (isset ($_POST['fBack'])) $fBack = escape_string ($_POST['fBack']);
+    if(isset($_POST['fCancel'])) {
+        header("Location: main.php");
+        exit(0);
+    }
 
-   //set a default, reset fields for coming back selection
-   if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
-   if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
+    // We store goto addresses in the form of roger#example.com@autoreply.example.com
+    $vacation_domain = $CONF['vacation_domain'];
+    $vacation_goto = preg_replace('/@/', '#', $USERID_USERNAME);
+    $vacation_goto = "{$vacation_goto}@{$vacation_domain}";
 
-   if (!empty ($fBack) || !empty ($fAway))
-   {
-      $result = db_query ("DELETE FROM $table_vacation WHERE email='$USERID_USERNAME'");
-      if ($result['rows'] != 1)
-      {
-         $error = 1;
-         $tMessage = $PALANG['pUsersVacation_result_error'];
-      }
-      else
-      {
-         $tMessage = $PALANG['pUsersVacation_result_succes'];
-      }
+    if (isset ($_POST['fSubject'])) $fSubject = escape_string ($_POST['fSubject']);
+    if (isset ($_POST['fBody'])) $fBody = escape_string ($_POST['fBody']);
+    if (isset ($_POST['fAway'])) $fAway = escape_string ($_POST['fAway']);
+    if (isset ($_POST['fBack'])) $fBack = escape_string ($_POST['fBack']);
 
-      $result = db_query ("SELECT * FROM $table_alias WHERE address='$USERID_USERNAME'");
-      if ($result['rows'] == 1)
-      {
-         $row = db_array ($result['result']);
-         $tGoto = $row['goto'];
+    //set a default, reset fields for coming back selection
+    if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
+    if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
 
-         //only one of these will do something, first handles address at beginning and middle, second at end
-         $goto= preg_replace ( "/$USERID_USERNAME@$vacation_domain,/", '', $tGoto);
-         $goto= preg_replace ( "/,$USERID_USERNAME@$vacation_domain/", '', $goto);
+    // if they've set themselves away OR back, delete any record of vacation emails etc
+    if (!empty ($fBack) || !empty ($fAway))
+    {
+        $result = db_query ("DELETE FROM $table_vacation WHERE email='$USERID_USERNAME'");
+        if ($result['rows'] != 1)
+        {
+            $error = 1;
+            $tMessage = $PALANG['pUsersVacation_result_error'];
+        }
+        else
+        {
+            $tMessage = $PALANG['pUsersVacation_result_succes'];
+        }
 
-      }
+        $result = db_query ("SELECT * FROM $table_alias WHERE address='$USERID_USERNAME'");
+        if ($result['rows'] == 1)
+        {
+            $row = db_array ($result['result']);
+            $tGoto = $row['goto'];
 
-      $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$USERID_USERNAME'");
-      if ($result['rows'] != 1)
-      {
-         $error = 1;
-         $tMessage = $PALANG['pUsersVacation_result_error'];
-      }
-      else
-      {
-         $tMessage = $PALANG['pUsersVacation_result_succes'];
-      }
+            //only one of these will do something, first handles address at beginning and middle, second at end
+            $goto= preg_replace ( "/$vacation_goto,/", '', $tGoto);
+            $goto= preg_replace ( "/,$vacation_goto/", '', $tGoto);
 
-   }
+        }
 
-   if (!empty ($fAway))
-   {
-      $result = db_query ("SELECT * FROM $table_alias WHERE address='$USERID_USERNAME'");
-      if ($result['rows'] == 1)
-      {
-         $row = db_array ($result['result']);
-         $tGoto = $row['goto'];
-      }
+        $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$USERID_USERNAME'");
+        if ($result['rows'] != 1)
+        {
+            $error = 1;
+            $tMessage = $PALANG['pUsersVacation_result_error'];
+        }
+        else
+        {
+            $tMessage = $PALANG['pUsersVacation_result_succes'];
+        }
 
-      ($CONF['database_type']=='pgsql') ? $Active='true' : $Active=1;
-      $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$USERID_USERNAME','$fSubject','$fBody','$USERID_DOMAIN',NOW(),$Active)");
-      if ($result['rows'] != 1)
-      {
-         $error = 1;
-         $tMessage = $PALANG['pUsersVacation_result_error'];
-      }
+    }
 
-      $goto = $tGoto . "," . "$USERID_USERNAME@$vacation_domain";
-      
-      $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$USERID_USERNAME'");
-      if ($result['rows'] != 1)
-      {
-         $error = 1;
-         $tMessage = $PALANG['pUsersVacation_result_error'];
-      }
-      else
-      {
-         header ("Location: main.php");
-         exit;
-      }
-   }
-   
-   include ("../templates/header.tpl");
-   include ("../templates/users_menu.tpl");
-   include ("../templates/users_vacation.tpl");
-   include ("../templates/footer.tpl");
+    // the user is going away - set the goto alias and vacation table as necessary.
+    if (!empty ($fAway))
+    {
+        // Can we ever have no alias records for a user?
+        $result = db_query ("SELECT * FROM $table_alias WHERE address='$USERID_USERNAME'");
+        if ($result['rows'] == 1)
+        {
+            $row = db_array ($result['result']);
+            $tGoto = $row['goto'];
+        }
+
+        ($CONF['database_type']=='pgsql') ? $Active='true' : $Active=1;
+        $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$USERID_USERNAME','$fSubject','$fBody','$USERID_DOMAIN',NOW(),$Active)");
+        if ($result['rows'] != 1)
+        {
+            $error = 1;
+            $tMessage = $PALANG['pUsersVacation_result_error'];
+        }
+        // add the goto record back in...
+        $goto = $tGoto . "," . $vacation_goto;
+
+        $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$USERID_USERNAME'");
+        if ($result['rows'] != 1)
+        {
+            $error = 1;
+            $tMessage = $PALANG['pUsersVacation_result_error'];
+        }
+        else
+        {
+            header ("Location: main.php");
+            exit;
+        }
+    }
+
+    include ("../templates/header.tpl");
+    include ("../templates/users_menu.tpl");
+    include ("../templates/users_vacation.tpl");
+    include ("../templates/footer.tpl");
 }
 ?>

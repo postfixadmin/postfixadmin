@@ -20,13 +20,10 @@
 // fDomain
 // fDisplay
 //
-require ("../variables.inc.php");
-require ("../config.inc.php");
-require ("../functions.inc.php");
-include ("../languages/" . check_language () . ".lang");
 
-$SESSID_USERNAME = check_session ();
-(!check_admin($SESSID_USERNAME) ? header("Location: " . $CONF['postfix_admin_url'] . "/main.php") && exit : '1');
+require_once('../common.php');
+
+authentication_require_role('global-admin');
 
 $list_domains = list_domains ();
 
@@ -79,7 +76,6 @@ if ($CONF['vacation_control_admin'] == 'YES')
    $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.domain='$fDomain' ORDER BY $table_mailbox.username LIMIT $fDisplay, $page_size");
    if ('pgsql'==$CONF['database_type'])
    {
-      //FIXME: postgres query needs to be rewrited
       $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $page_size OFFSET $fDisplay";
    }
 }

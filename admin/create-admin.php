@@ -23,13 +23,10 @@
 // fPassword2
 // fDomains
 //
-require ("../variables.inc.php");
-require ("../config.inc.php");
-require ("../functions.inc.php");
-include ("../languages/" . check_language () . ".lang");
 
-$SESSID_USERNAME = check_session ();
-(!check_admin($SESSID_USERNAME) ? header("Location: " . $CONF['postfix_admin_url'] . "/main.php") && exit : '1');
+require_once('../common.php');
+
+authentication_require_role('global-admin');
 
 $list_domains = list_domains ();
 $tDomains = array();
