@@ -1263,7 +1263,7 @@ function db_connect ()
  * @return String or int as appropriate.
  */
 function db_get_boolean($bool) {
-   if(!is_boolean($bool)) {
+   if(!is_bool($bool)) {
       die("Invalid usage of 'db_get_boolean($bool)'");
    }
 
@@ -1783,4 +1783,5 @@ $table_domain_admins = table_by_key ('domain_admins');
 $table_log = table_by_key ('log');
 $table_mailbox = table_by_key ('mailbox');
 $table_vacation = table_by_key ('vacation');
+$table_vacation_notification = table_by_key('vacation_notification');
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
