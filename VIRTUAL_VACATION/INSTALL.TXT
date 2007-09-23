@@ -98,7 +98,7 @@ Execute "postfix reload" to complete the change.
 5. Create the table
 -------------------
 
-See DATABASE.txt in this directory.
+See ../DATABASE_*.txt in this directory.
 
 6. Edit filter.pl
 -----------------
