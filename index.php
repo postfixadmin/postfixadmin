@@ -69,7 +69,7 @@ if (!file_exists (realpath ("./setup.php")))
             <li>Use it</li>
         </ol>
         
-        <p>When you have configured Postfixadmin, this page will no longer appear.</p>
+        <p><b>When you have configured Postfixadmin, this page will be replaced with a login page.</b></p>
         <p>You can now run <a href="setup.php">setup</a> to make sure that all the PHP functions are available for Postfix Admin to run.<br />
         <p> If you still encounter any problems, please check the documentation and website for more information.</p>
         <h2>Postfix Admin Web sites</h2>
