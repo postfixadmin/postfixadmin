@@ -1256,7 +1256,32 @@ function db_connect ()
    }
 }
 
+/**
+ * Returns the appropriate boolean value for the database.
+ * Currently only PostgreSQL and MySQL are supported.
+ * @param boolean $bool (REQUIRED)
+ * @return String or int as appropriate.
+ */
+function db_get_boolean($bool) {
+   if(!is_boolean($bool)) {
+      die("Invalid usage of 'db_get_boolean($bool)'");
+   }
 
+   global $CONF;
+   if($CONF['database_type']=='pgsql') {
+      // return either true or false (unquoted strings)
+      if($bool) {
+         return 'true';
+      }  
+      return 'false';
+   }
+   elseif($CONF['database_type'] == 'mysql') {
+      if($bool) {
+         return 1;  
+      } 
+      return 0;
+   }
+}
 
 //
 // db_query
