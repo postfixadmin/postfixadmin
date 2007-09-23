@@ -9,8 +9,8 @@ REQUIRED!!
 ----------
 - You are using Postfix 2.0 or higher.
 - You are using Apache 1.3.27 / Lighttpd 1.3.15 or higher.
-- You are using PHP 4.1 or higher.
-- You are using MySQL 3.23 or higher.
+- You are using PHP 4.1 or higher (5.X recommended)
+- You are using MySQL 3.23 or higher (5.x recommended)
 
 
 READ THIS FIRST!
@@ -18,7 +18,12 @@ READ THIS FIRST!
 When this is an upgrade from Postfix Admin 1.5.4 please read DOCUMENTS/UPGRADE.TXT!!
 
 If you need to setup Postfix to be able to handle Virtual Domains and Virtual
-Users check out http://high5.net/howto/
+Users check out :
+
+  - http://high5.net/howto/ 
+  - http://codepoets.co.uk/docs/postfix_postgresql_postfixadmin_courier_howto (Postfix+PostgreSQL+Courier+Postfixadmin)
+  - http://bliki.rimuhosting.com/space/knowledgebase/linux/mail/postfixadmin+on+debian+sarge (Postfix+MySQL+Postfixadmin+Dovecot)
+  - http://gentoo-wiki.com/HOWTO_Setup_a_Virtual_Postfix/Courier_Mail_System_with_PostfixAdmin (Postfix+MySQL+Postfixadmin+Courier)
 
 
 1. Unarchive new Postfix Admin
@@ -26,25 +31,26 @@ Users check out http://high5.net/howto/
 Make sure that you are in your WWW directory and then unarchive the
 Postfix Admin archive (whatever the filename is):
 
-  $ tar -zxvf postfixadmin-2.0.0.tgz
+  $ tar -zxvf postfixadmin-2.2.0.tgz
 
 
 2. Change permissions
 ----------------------
 Since the database  password is stored in the config.inc.php it's a good idea
-to have change the permissions for Postfix Admin.
+to have change the permissions for Postfix Admin (the following assumes the files
+are owned by the same user as the web server is running as - e.g. www-data).
 
-  $ cd /usr/local/www/postfixadmin
+  $ cd /var/www/postfixadmin
   $ chmod 640 *.php *.css
-  $ cd /usr/local/www/postfixadmin/admin/
+  $ cd /var/www/postfixadmin/admin/
   $ chmod 640 *.php .ht*
-  $ cd /usr/local/www/postfixadmin/images/
+  $ cd /var/www/postfixadmin/images/
   $ chmod 640 *.gif *.png
-  $ cd /usr/local/www/postfixadmin/languages/
+  $ cd /var/www/postfixadmin/languages/
   $ chmod 640 *.lang
-  $ cd /usr/local/www/postfixadmin/templates/
+  $ cd /var/www/postfixadmin/templates/
   $ chmod 640 *.tpl
-  $ cd /usr/local/www/postfixadmin/users/
+  $ cd /var/www/postfixadmin/users/
   $ chmod 640 *.php
   
 
@@ -67,29 +73,22 @@ Check the config.inc.php file. There you can specify settings that are
 relevant to your setup.
 
 Postfix Admin contains 3 views of administration.
-There is the Site Admin (aka superadmin) view, located at http://domain.tld/postfixadmin/admin/.
-There is the Domain Admin view, located at http://domain.tld/postfixadmin/.
-And there is the User Admin View, located at http://domain.tld/postfixadmin/users/.
+
+ - Site Admin (aka superadmin) view, located at http://domain.tld/postfixadmin/admin/.
+ - Domain Admin view, located at http://domain.tld/postfixadmin/.
+ - User Admin View, located at http://domain.tld/postfixadmin/users/.
 
 In order to do the initial configuration you have to go to the Site Admin view.
 
 The default user/password for the Site Admin view of Postfix Admin is admin@domain.tld/admin
-
-This is specified in the .htpasswd file in the /admin directory. Make sure
-that the location of the .htpasswd file matches your path.
-
 
 5. Done
 -------
 This is all that is needed. Fire up your browser and go to the site that you
 specified to host Postfix Admin.
 
-
 6. More information
 -------------------
-For more information you can go to the Postfix Admin forums.
-http://forums.high5.net/index.php?showforum=22
-
 As of March 2007, PostfixAdmin moved to SourceForge.  For the
 forum posts and source updates, see:
 https://sourceforge.net/projects/postfixadmin
