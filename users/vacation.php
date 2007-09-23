@@ -80,10 +80,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
     if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
 
-    // if they've set themselves away OR back, delete any record of vacation emails etc
+    // if they've set themselves away OR back, delete any record of vacation emails.
     if (!empty ($fBack) || !empty ($fAway))
     {
         $result = db_query ("DELETE FROM $table_vacation WHERE email='$USERID_USERNAME'");
+        $result2 = db_query ("DELETE FROM $table_vacation_notification WHERE on_vacation='$USERID_USERNAME'");
         if ($result['rows'] != 1)
         {
             $error = 1;
@@ -94,19 +95,33 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $tMessage = $PALANG['pUsersVacation_result_succes'];
         }
 
+        // We need to see whether there is already an alias record for the user, or not. 
+        // If not, we create one, else update the existing one.
         $result = db_query ("SELECT * FROM $table_alias WHERE address='$USERID_USERNAME'");
         if ($result['rows'] == 1)
         {
             $row = db_array ($result['result']);
             $tGoto = $row['goto'];
 
-            //only one of these will do something, first handles address at beginning and middle, second at end
+            //only one of these will do something, first handles address at beginning and middle, second at end, third if it's the only alias record.
             $goto= preg_replace ( "/$vacation_goto,/", '', $tGoto);
             $goto= preg_replace ( "/,$vacation_goto/", '', $tGoto);
+            $goto= preg_replace ( "/$vacation_goto/", '', $tGoto);
+            $query = "UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$USERID_USERNAME'";
 
+            if($goto == '') {
+                // if there are no other goto records left, remove the alias record for this user.
+                $query = "DELETE FROM $table_alias WHERE address = '$USERID_USERNAME'";
+            }
+            $result = db_query($query);
         }
+        else {
+            $goto = $vacation_goto;
+            $boolean = db_get_boolean(True);
 
-        $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$USERID_USERNAME'");
+            $result = db_query("INSERT into $table_alias (address, goto, domain, created, active) 
+                                VALUES ('$USERID_USERNAME', '', '$USERID_DOMAIN', NOW(), $boolean)");
+        }
         if ($result['rows'] != 1)
         {
             $error = 1;
@@ -129,8 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $row = db_array ($result['result']);
             $tGoto = $row['goto'];
         }
-
-        ($CONF['database_type']=='pgsql') ? $Active='true' : $Active=1;
+        $Active = db_get_boolean(True);
         $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$USERID_USERNAME','$fSubject','$fBody','$USERID_DOMAIN',NOW(),$Active)");
         if ($result['rows'] != 1)
         {
@@ -138,7 +152,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $tMessage = $PALANG['pUsersVacation_result_error'];
         }
         // add the goto record back in...
-        $goto = $tGoto . "," . $vacation_goto;
+        $comma = '';
+        if(strlen($tGoto) > 1) {
+            $comma = ',';
+        }
+        $goto = $tGoto . $comma . $vacation_goto;
 
         $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$USERID_USERNAME'");
         if ($result['rows'] != 1)
