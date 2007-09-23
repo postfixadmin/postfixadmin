@@ -15,6 +15,7 @@
 -- You can create the database from the shell with:
 --      createuser -P postfix
 --      createuser -P postfixadmin
+--      createuser -P vacation
 --      createdb postfix
 --      psql postfix
 --      postfix=# \i postfix.sql
@@ -130,7 +131,44 @@ TO  postfixadmin;
 
 GRANT SELECT ON alias,domain,mailbox TO postfix;
 
+-- Vacation Stuff ... 
 
+DROP TABLE vacation,vacation_notification CASCADE;
+
+CREATE TABLE vacation (
+    email character varying(255) PRIMARY KEY,
+    subject character varying(255) NOT NULL DEFAULT '',
+    body text NOT NULL DEFAULT '',
+    cache text NOT NULL DEFAULT '',
+    "domain" character varying(255) NOT NULL REFERENCES "domain",
+    created timestamp with time zone DEFAULT now(),
+    active boolean DEFAULT true NOT NULL
+);
+CREATE INDEX vacation_email_active ON vacation(email,active);
+
+CREATE TABLE vacation_notification (
+    on_vacation character varying(255) NOT NULL REFERENCES vacation(email) ON DELETE CASCADE,
+    notified character varying(255) NOT NULL,
+    notified_at timestamp with time zone NOT NULL DEFAULT now(),
+    CONSTRAINT vacation_notification_pkey primary key(on_vacation,notified)
+);
+-- Note: It's important that the primary key constraint on vacation_notification
+-- be given a name which includes the '_pkey' substring (default PostgreSQL naming
+-- for primary keys). The vacation-script looks for this substring to
+-- distinguish between an acceptable and non-acceptable error.
+
+
+GRANT
+    SELECT,INSERT,UPDATE,DELETE
+ON
+    vacation
+TO  postfixadmin;
+
+GRANT SELECT ON vacation TO vacation;
+GRANT SELECT,INSERT,DELETE ON vacation_notification TO vacation;
+
+-- 
+--
 -- superadmin user & password (login: admin@domain.tld, password: admin)
 INSERT INTO domain (domain) VALUES ('ALL');
 INSERT INTO domain_admins (username, domain, active) VALUES ('admin@domain.tld','ALL','1');
