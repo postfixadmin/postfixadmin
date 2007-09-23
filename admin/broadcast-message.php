@@ -15,9 +15,9 @@
 //
 // Form POST \ GET Variables:
 //
-// b_from
-// b_subject
-// b_message
+// name
+// subject
+// message
 //
 //
 
@@ -29,43 +29,36 @@ $SESSID_USERNAME = authentication_get_username();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-   $b_from = escape_string ($_POST['from']) ;
-   $b_subject = escape_string ($_POST['subject']) ;
-   $b_message = escape_string ($_POST['message']) ;
-
-   if (strlen($b_subject) == 0 || strlen($b_message) == 0 || strlen($b_from) == 0)
+   if (empty($_POST['subject']) || empty($_POST['message']) || empty($_POST['name']))
    {
       $error = 1;
    }
    else
    {
-      $q = "select username from mailbox union ".
-         "select goto from alias ".
-         "where goto not in (select username from mailbox)" ;
+      $q = 'select username from mailbox union '.
+         'select goto from alias '.
+         'where goto not in (select username from mailbox)';
 
       $result = db_query ($q);
       if ($result['rows'] > 0)
       {
+         $b_name = mb_encode_mimeheader( $_POST['name'], 'UTF-8', 'Q');
+         $b_subject = mb_encode_mimeheader( $_POST['subject'], 'UTF-8', 'Q');
+         $b_message = encode_base64($_POST['message']);
+
          $i = 0;
-         while ($row = db_array ($result['result'])){
-            $fHeaders = "To: " . $fTo . "\n";
-            $fHeaders .= "From: " . $b_from . "\n";
+         while ($row = db_array ($result['result'])) {
             $fTo = $row[0];
-            if (!empty ($PALANG['charset']))
-            {
-               $fHeaders .= "Subject: " . encode_header ($b_subject, $PALANG['charset']) . "\n";
-               $fHeaders .= "MIME-Version: 1.0\n";
-               $fHeaders .= "Content-Type: text/plain; charset=" . $PALANG['charset'] . "\n";
-               $fHeaders .= "Content-Transfer-Encoding: 8bit\n";
-            }
-            else
-            {
-               $fHeaders .= "Subject: " . $b_subject . "\n\n";
-            }
+            $fHeaders  = 'To: ' . $fTo . "\n";
+            $fHeaders .= 'From: ' . $b_name . ' <' . $CONF['admin_email'] . ">\n";
+            $fHeaders .= 'Subject: ' . $b_subject . "\n";
+            $fHeaders .= 'MIME-Version: 1.0' . "\n";
+            $fHeaders .= 'Content-Type: text/plain; charset=UTF-8' . "\n";
+            $fHeaders .= 'Content-Transfer-Encoding: base64' . "\n";
 
             $fHeaders .= $b_message;
 
-            if (!smtp_mail ($fTo, $fFrom, $fHeaders))
+            if (!smtp_mail ($fTo, $CONF['admin_email'], $fHeaders))
             {
                $tMessage .= "<br />" . $PALANG['pSendmail_result_error'] . "<br />";
             }

@@ -3,7 +3,7 @@
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 <?php 
 if(isset($_SESSION['sessid']['username'])) {
-    echo "Logged as " . authentication_get_username();
+    printf($PALANG['pFooter_logged_as'], authentication_get_username());
 }
 ?> 
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;

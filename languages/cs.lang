@@ -17,6 +17,8 @@ $PALANG['confirm'] = 'Jste si jistí?\n';
 $PALANG['confirm_domain'] = 'Opravdu chcete smazat všechny záznamy v této doméně Tohle nelze vrátit!\n';
 $PALANG['check_update'] = 'Zkontrolovat aktualizace';
 
+$PALANG['pFooter_logged_as'] = 'Přihlášen jako %s';
+
 $PALANG['pLogin_welcome'] = 'Zde se přihlašují emailoví administrátoři pro administraci svých domén.';
 $PALANG['pLogin_username'] = 'Uživatelské jméno (email)';
 $PALANG['pLogin_password'] = 'Heslo';
@@ -65,8 +67,8 @@ $PALANG['pOverview_mailbox_name'] = 'Jméno';
 $PALANG['pOverview_mailbox_quota'] = 'Místo (MB)';
 $PALANG['pOverview_mailbox_modified'] = 'Naposledy změněno';
 $PALANG['pOverview_mailbox_active'] = 'Aktivní';
-$PALANG['pOverview_vacation_edit'] = 'NASTAVENO';
-$PALANG['pOverview_vacation_option'] = 'Autoreply Vyp.';
+$PALANG['pOverview_vacation_edit'] = 'ZAPNUTO';
+$PALANG['pOverview_vacation_option'] = 'vypnuto';
 
 $PALANG['pOverview_get_domain'] = 'Doména';
 $PALANG['pOverview_get_aliases'] = 'Přesměrování';
@@ -152,7 +154,7 @@ $PALANG['pPassword_password2'] = 'Nové heslo (znovu)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Zadaná hesla jsou rozdílná nebo prázdná!</span>';
 $PALANG['pPassword_button'] = 'Změnit heslo';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Nepodařilo se změnit heslo!</span>';
-$PALANG['pPassword_result_succes'] = 'Heslo bylo zm&#283ňno!';
+$PALANG['pPassword_result_succes'] = 'Heslo bylo změněno!';
 
 $PALANG['pEdit_vacation_set'] = 'Změnit / Nastavit zprávu o nepřítomnosti';
 $PALANG['pEdit_vacation_remove'] = 'Ostranit zprávu o nepřítomnosti';
@@ -215,6 +217,7 @@ $PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Schránek';
 $PALANG['pAdminList_virtual_alias_address'] = 'Od';
 $PALANG['pAdminList_virtual_alias_goto'] = 'Cíl';
 $PALANG['pAdminList_virtual_alias_modified'] = 'Naposledy Změněno';
+$PALANG['pAdminList_virtual_alias_active'] = 'Aktivní';
 $PALANG['pAdminList_virtual_mailbox_username'] = 'Název';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Celé Jméno';
 $PALANG['pAdminList_virtual_mailbox_quota'] = 'Místo (MB)';
@@ -262,7 +265,7 @@ $PALANG['pAdminCreate_admin_welcome'] = 'Přidat nového doménového administr�
 $PALANG['pAdminCreate_admin_username'] = 'Uživatelské jméno';
 $PALANG['pAdminCreate_admin_username_text'] = 'Emailová adresa';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Emailová adresa<br /><span class="error_msg">Tato adresa není platná!</span>';
-$PALANG['pAdminCreate_admin_username_text_error2'] = 'Email address<br /><span class="error_msg">Taková adresa už existuje!</span>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'Emailová adresa<br /><span class="error_msg">Taková adresa již existuje!</span>';
 $PALANG['pAdminCreate_admin_password'] = 'Heslo';
 $PALANG['pAdminCreate_admin_password2'] = 'Heslo (znovu)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Zadaná hesla jsou rozdílná nebo prázdná!</span>';
@@ -298,8 +301,8 @@ $PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' je NASTAV
 $PALANG['pUsersMain_edit_alias'] = 'Nastavit / změnít přesměrování';
 $PALANG['pUsersMain_password'] = 'Změnit heslo';
 
-$PALANG['pUsersVacation_welcome'] = 'Automatická podpověď';
-$PALANG['pUsersVacation_welcome_text'] = 'Již míate nastavenou automatickou odpověď!';
+$PALANG['pUsersVacation_welcome'] = 'Automatická odpověď';
+$PALANG['pUsersVacation_welcome_text'] = 'Již máte nastavenou automatickou odpověď!';
 $PALANG['pUsersVacation_subject'] = 'Předmět';
 $PALANG['pUsersVacation_subject_text'] = 'Dovolená';
 $PALANG['pUsersVacation_body'] = 'Obsah';
@@ -327,8 +330,8 @@ $PALANG['pSearch_welcome'] = 'Vyhledávání: ';
 $PALANG['pReturn_to'] = 'Odpovědět komu';
 
 $PALANG['pBroadcast_title'] = 'Odeslat zprávu do všech schránek';
-$PALANG['pBroadcast_from'] = 'From';
-$PALANG['pBroadcast_from_help'] = 'Zdrojová adresa (pole Od) by měla vypadat přibližně takto: "Váš Hosting" &lt;support@my.domain.tld&gt;';
+$PALANG['pBroadcast_from'] = 'Od';
+$PALANG['pBroadcast_name'] = 'Vaše jméno';
 $PALANG['pBroadcast_subject'] = 'Předmět';
 $PALANG['pBroadcast_message'] = 'Zpráva';
 $PALANG['pBroadcast_send'] = 'Odeslat zprávu';

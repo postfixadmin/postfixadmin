@@ -14,6 +14,8 @@ $PALANG['confirm'] = 'Are you sure you want to delete this?\n';
 $PALANG['confirm_domain'] = 'Do you really want to delete all records for this domain? This can not be undone!\n';
 $PALANG['check_update'] = 'Check for update';
 
+$PALANG['pFooter_logged_as'] = 'Logged as %s';
+
 $PALANG['pLogin_welcome'] = 'Mail admins login here to administer your domain.';
 $PALANG['pLogin_username'] = 'Login (email)';
 $PALANG['pLogin_password'] = 'Password';
@@ -329,13 +331,13 @@ $PALANG['pReturn_to'] = 'Return to';
 
 $PALANG['pBroadcast_title'] = 'Send broadcast message';
 $PALANG['pBroadcast_from'] = 'From';
-$PALANG['pBroadcast_from_help'] = 'From address should be like e.g. "Systems Team" &lt;support@my.domain.tld&gt;';
+$PALANG['pBroadcast_name'] = 'Your name';
 $PALANG['pBroadcast_subject'] = 'Subject';
 $PALANG['pBroadcast_message'] = 'Message';
 $PALANG['pBroadcast_send'] = 'Send message';
 $PALANG['pBroadcast_success'] = 'Your broadcast message was sent.';
 $PALANG['pAdminMenu_broadcast_message'] = 'BC message';
-$PALANG['pBroadcast_error_empty'] = 'The fields From, Subject and Message should\'t be empty !';
+$PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should\'t be empty !';
 
 $PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE ';
 $PALANG['pStatus_custom'] = 'Delivers to ';

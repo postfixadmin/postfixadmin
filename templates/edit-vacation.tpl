@@ -24,7 +24,7 @@ window.location="<?php print $fCanceltarget; ?>"
    </tr>
    <tr>
       <td><?php print $PALANG['pUsersVacation_body'] . ":"; ?></td>
-      <td><textarea class="flat" rows="10" cols="60" name="fBody" ><?php print htmlentities($tBody,ENT_QUOTES); ?></textarea></td>
+      <td><textarea class="flat" rows="10" cols="60" name="fBody" ><?php print htmlentities($tBody, ENT_QUOTES , 'UTF-8'); ?></textarea></td>
       <td>&nbsp;</td>
    </tr>
    <tr>

@@ -13,7 +13,7 @@
       <td><?php print $PALANG['pUsersVacation_body'] . ":"; ?></td>
       <td>
 <textarea rows="10" cols="80" name="fBody">
-<?php print $tBody; ?>
+<?php print htmlentities($tBody, ENT_QUOTES, 'UTF-8'); ?>
 </textarea>
       </td>
       <td>&nbsp;</td>

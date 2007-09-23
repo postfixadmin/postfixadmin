@@ -6,7 +6,11 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pBroadcast_from'] . ":"; ?></td>
-      <td><input class="flat" size="43" type="text" name="from"/></td>
+      <td><?php print $CONF['admin_email']; ?></td>
+   </tr>
+   <tr>
+      <td><?php print $PALANG['pBroadcast_name'] . ':'; ?></td>
+      <td><input class="flat" size="43" type="text" name="name"/></td>
    </tr>
    <tr>
       <td><?php print $PALANG['pBroadcast_subject'] . ":"; ?></td>
@@ -28,4 +32,3 @@
 </table>
 </form>
 </div>
-<p><?php print $PALANG['pBroadcast_from_help']; ?></p>
