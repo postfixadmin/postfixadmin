@@ -50,7 +50,6 @@ CREATE TABLE `admin` (
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `active` tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (`username`),
-  KEY username (`username`)
 ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Admins';
 
 #
@@ -64,7 +63,6 @@ CREATE TABLE `alias` (
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `active` tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (`address`),
-  KEY address (`address`)
 ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Aliases';
 
 #
@@ -83,7 +81,6 @@ CREATE TABLE `domain` (
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `active` tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (`domain`),
-  KEY domain (`domain`)
 ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Domains';
 
 #
@@ -123,7 +120,6 @@ CREATE TABLE `mailbox` (
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `active` tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (`username`),
-  KEY username (`username`)
 ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Mailboxes';
 
 
