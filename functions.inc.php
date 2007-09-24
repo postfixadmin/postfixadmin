@@ -75,6 +75,7 @@ function authentication_has_role($role) {
  * Note, user < admin < global-admin
  */
 function authentication_require_role($role) {
+   global $CONF;
    // redirect to appropriate page?
    if(authentication_has_role($role)) {
       return True;
@@ -215,6 +216,7 @@ function check_email ($email)
             if (checkdnsrr($domain,'A')) return true;
             if (checkdnsrr($domain,'MX')) return true;
 
+            # TODO: different error message for non-existing domains (instead of "email is invalid")
             return false;
          }
 
