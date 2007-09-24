@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             }
             else
             {
-               $tMessage .= "<br />" . $PALANG['pSendmail_result_succes'] . "<br />";
+               $tMessage .= "<br />" . $PALANG['pSendmail_result_success'] . "<br />";
             }
          }
       }

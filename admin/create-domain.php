@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                $result = db_query ("INSERT INTO $table_alias (address,goto,domain,created,modified) VALUES ('$address','$goto','$fDomain',NOW(),NOW())");
             }
          }
-         $tMessage = $PALANG['pAdminCreate_domain_result_succes'] . "<br />($fDomain)</br />";
+         $tMessage = $PALANG['pAdminCreate_domain_result_success'] . "<br />($fDomain)</br />";
       }
    }
 

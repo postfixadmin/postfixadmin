@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                $result = db_query ("INSERT INTO $table_domain_admins (username,domain,created) VALUES ('$fUsername','$domain',NOW())");
             }
          }
-			$tMessage = $PALANG['pAdminCreate_admin_result_succes'] . "<br />($fUsername";
+			$tMessage = $PALANG['pAdminCreate_admin_result_success'] . "<br />($fUsername";
 			if ($CONF['generate_password'] == "YES")
 			{
 				$tMessage .= " / $fPassword)</br />";
