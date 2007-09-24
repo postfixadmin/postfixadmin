@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          }
          else
          {
-            db_log ($SESSID_USERNAME, $fDomain, "edit active", $fUsername);
+            db_log ($SESSID_USERNAME, $fDomain, 'edit_mailbox_state', $fUsername);
          }
       }
       if ($fAlias != '')
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          }
          else
          {
-            db_log ($SESSID_USERNAME, $fDomain, "edit alias active", $fAlias);
+            db_log ($SESSID_USERNAME, $fDomain, 'edit_alias_state', $fAlias);
          }
       }
    }

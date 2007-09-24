@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
         else
         {
-            db_log ($USERID_USERNAME, $USERID_DOMAIN, "edit alias", "$USERID_USERNAME -> $goto");
+            db_log ($USERID_USERNAME, $USERID_DOMAIN, 'edit_alias', "$USERID_USERNAME -> $goto");
 
             header ("Location: main.php");
             exit;

@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         if ($result['rows'] == 1)
         {
             $tMessage = $PALANG['pPassword_result_success'];
-            db_log ($USERID_USERNAME, $USERID_DOMAIN, "change password", "$USERID_USERNAME");
+            db_log ($USERID_USERNAME, $USERID_DOMAIN, 'edit_password', "$USERID_USERNAME");
         }
         else
         {

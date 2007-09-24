@@ -1402,12 +1402,30 @@ function db_delete ($table,$where,$delete)
 // db_log
 // Action: Logs actions from admin
 // Call: db_log (string username, string domain, string action, string data)
-//
+/*
+
+Possible actions are:
+'create_alias'
+'delete_alias'
+'delete_mailbox'
+'edit_alias'
+'edit_alias_state'
+'edit_mailbox'
+'edit_mailbox_state'
+'edit_password'
+
+*/
 function db_log ($username,$domain,$action,$data)
 {
    global $CONF;
    global $table_log;
    $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
+
+   $action_list = array('create_alias', 'delete_alias', 'edit_alias', 'create_mailbox', 'delete_mailbox', 'edit_alias_state', 'edit_mailbox_state', 'edit_password');
+
+   if(!in_array($action, $action_list)) {
+      die("Invalid log action : $action");   // could do with something better?
+   }
 
    if ($CONF['logging'] == 'YES')
    {

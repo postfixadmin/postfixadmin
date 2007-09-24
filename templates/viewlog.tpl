@@ -19,7 +19,8 @@ for ($i = 0; $i < sizeof ($list_domains); $i++)
 </form>
 </div>
 
-<?php 
+<?php
+
     if (sizeof ($tLog) > 0)
     {
        print "<table id=\"log_table\">\n";
@@ -46,7 +47,7 @@ for ($i = 0; $i < sizeof ($list_domains); $i++)
              print "      <td nowrap>" . $tLog[$i]['timestamp'] . "</td>\n";
              print "      <td nowrap>" . $tLog[$i]['username'] . "</td>\n";
              print "      <td nowrap>" . $tLog[$i]['domain'] . "</td>\n";
-             print "      <td nowrap>" . $tLog[$i]['action'] . "</td>\n";
+             print "      <td nowrap>" . $PALANG['pViewlog_action_'.$tLog[$i]['action'] ] . "</td>\n";
              print "      <td nowrap>" . $log_data . "</td>\n";
              print "   </tr>\n";
           }

@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       else
       {
          $url = "list-virtual.php?domain=$fDomain";
-         db_log ($SESSID_USERNAME , $fDomain, "delete alias", $fDelete);
+         db_log ($SESSID_USERNAME , $fDomain, 'delete_alias', $fDelete);
       }
 
       if (!$error)
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
             {
                $url = "list-virtual.php?domain=$fDomain";
                db_query ("DELETE FROM $table_vacation WHERE email='$fDelete' AND domain='$fDomain'");
-               db_log ($SESSID_USERNAME, $fDomain, "delete mailbox", $fDelete);
+               db_log ($SESSID_USERNAME, $fDomain, 'delete_mailbox', $fDelete);
             }
          }
       }

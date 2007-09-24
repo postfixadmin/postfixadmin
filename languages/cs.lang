@@ -169,6 +169,15 @@ $PALANG['pViewlog_domain'] = 'Doména';
 $PALANG['pViewlog_action'] = 'Akce';
 $PALANG['pViewlog_data'] = 'Poznámka';
 
+$PALANG['pViewlog_action_create_alias'] = 'vytvořeno přesměrování';
+$PALANG['pViewlog_action_delete_alias'] = 'smazáno přesměrování';
+$PALANG['pViewlog_action_delete_mailbox'] = 'smazána schránka';
+$PALANG['pViewlog_action_edit_alias'] = 'úprava přesměrování';
+$PALANG['pViewlog_action_edit_alias_state'] = 'změna stavu přesměrování';
+$PALANG['pViewlog_action_edit_mailbox'] = 'úprava schránky';
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'změna stavu schránky';
+$PALANG['pViewlog_action_edit_password'] = 'změna hesla';
+
 $PALANG['pViewlog_button'] = 'Jít';
 $PALANG['pViewlog_result_error'] = '<span class="error_msg">Nepodařilo se najít záznamy!</span>';
 

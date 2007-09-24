@@ -168,6 +168,15 @@ $PALANG['pViewlog_domain'] = 'Domain';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Data';
 
+$PALANG['pViewlog_action_create_alias'] = 'create alias';
+$PALANG['pViewlog_action_delete_alias'] = 'delete alias';
+$PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox';
+$PALANG['pViewlog_action_edit_alias'] = 'edit alias';
+$PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active';
+$PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox';
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active';
+$PALANG['pViewlog_action_edit_password'] = 'change password';
+
 $PALANG['pViewlog_button'] = 'Go';
 $PALANG['pViewlog_result_error'] = '<span class="error_msg">Unable to find the logs!</span>';
 

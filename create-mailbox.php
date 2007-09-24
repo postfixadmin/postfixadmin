@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
          if (!$error)
          {
-            db_log ($CONF['admin_email'], $fDomain, "create mailbox", $fUsername);
+            db_log ($CONF['admin_email'], $fDomain, 'create_mailbox', $fUsername);
 
  */
 
@@ -260,7 +260,7 @@ TODO: this is the start of /create-mailbox code segment that was originally used
       else
       {
          db_query('COMMIT');
-         db_log ($SESSID_USERNAME, $fDomain, "create mailbox", "$fUsername");
+         db_log ($SESSID_USERNAME, $fDomain, 'create_mailbox', "$fUsername");
 /*
 TODO: this is the end of /create-mailbox.php code segment
  */

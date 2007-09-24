@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       }
       else
       {
-         db_log ($SESSID_USERNAME, $fDomain, "delete alias", $fDelete);
+         db_log ($SESSID_USERNAME, $fDomain, 'delete_alias', $fDelete);
       }
 
       $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          else
          {
             db_query ("DELETE FROM $table_vacation WHERE email='$fDelete' AND domain='$fDomain'");
-            db_log ($SESSID_USERNAME, $fDomain, "delete mailbox", $fDelete);
+            db_log ($SESSID_USERNAME, $fDomain, 'delete_mailbox', $fDelete);
          }
       }
    }
