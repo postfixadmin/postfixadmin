@@ -79,7 +79,7 @@ $PALANG['pCreate_alias_button'] = 'Alias Ekle';
 $PALANG['pCreate_alias_goto_text'] = 'E-postanýn gitmesi gereken yer.';
 $PALANG['pCreate_alias_goto_text_error'] = 'E-postanýn gitmesi gereken bir yer.<br /><span class="error_msg">Kime alaný uygun deðil!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Alias\'ý alias tabþlosuna eklenemedi!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'Alias tabloya eklendi!';
+$PALANG['pCreate_alias_result_success'] = 'Alias tabloya eklendi!';
 $PALANG['pCreate_alias_catchall_text'] = 'Hepsini-yakala yaratmak için alias olarak "*" kullanýn.<br />Domain yönlendirme domaini için kime kýsmýnda "*@domain.tld" kullanýn.';
 
 $PALANG['pEdit_alias_welcome'] = 'domaniniz için bir domain\'i düzenleyin. <br />Satýr baþýna bir giriþ.';
@@ -112,7 +112,7 @@ $PALANG['pCreate_mailbox_active'] = 'Aktif';
 $PALANG['pCreate_mailbox_mail'] = 'Posta kutusu yarat';
 $PALANG['pCreate_mailbox_button'] = 'Posta kutusu ekle';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Posta kutusu posta kutusu tablosuna eklenemiyor!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'Posta kutusu tabloya eklendi!';
+$PALANG['pCreate_mailbox_result_success'] = 'Posta kutusu tabloya eklendi!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Domaninizdeki bir posta kutusunu düzenleyin.';
 $PALANG['pEdit_mailbox_username'] = 'kullanýcý adý';
@@ -138,7 +138,7 @@ $PALANG['pPassword_password2'] = 'Yeni þifre (tekrar)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Verdiðiniz þifreler birbirini tutmuyor!<br />Ya da boþ!</span>';
 $PALANG['pPassword_button'] = 'Þifreyi deðiþtir';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Þifreniz deðiþtirilemedi!</span>';
-$PALANG['pPassword_result_succes'] = 'þifreniz deðiþtirildi!';
+$PALANG['pPassword_result_success'] = 'þifreniz deðiþtirildi!';
 
 $PALANG['pViewlog_welcome'] = 'Son 10 hareket:';
 $PALANG['pViewlog_timestamp'] = 'Timestamp';
@@ -159,7 +159,7 @@ $PALANG['pSendmail_subject_text'] = 'Hoþ geldiniz';
 $PALANG['pSendmail_body'] = 'Metin';
 $PALANG['pSendmail_button'] = 'Mesaj Gönder';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Posta kutusu yaratýlamadý!</span>';
-$PALANG['pSendmail_result_succes'] = 'Posta kutusu yaratýldý!';
+$PALANG['pSendmail_result_success'] = 'Posta kutusu yaratýldý!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Yönetici Listesi';
 $PALANG['pAdminMenu_list_domain'] = 'Domain Listesi';
@@ -217,7 +217,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Öntanýmlý posta aliasý ekle
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Domain ekle';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domain eklenemedi!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Domain eklendi!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Domain eklendi!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain düzenle';
 $PALANG['pAdminEdit_domain_domain'] = 'Domain';
@@ -245,7 +245,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Þifre (tekrar)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Girdiðiniz þifreler uymuyor!<br />Ya da boþ!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Yönetici ekle';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Yönetici eklenemiyor!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'Yönetici eklendi!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Yönetici eklendi!';
 $PALANG['pAdminCreate_admin_address'] = 'Domain';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain yöneticisi düzenle';
@@ -257,7 +257,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Aktif';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = 'Yönetici Ekle';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Yönetici düzenlenemedi!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Yönetici düzenlendi!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Yönetici düzenlendi!';
 
 $PALANG['pUsersLogin_welcome'] = 'Posta kutusu sahipleri, þifre ddeðiþtirmek için giriþ yapýn.';
 $PALANG['pUsersLogin_username'] = 'Giriþ (eposta)';
@@ -286,7 +286,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Dýþarý gidiyorum.';
 $PALANG['pUsersVacation_button_back'] = 'Geri Geliyorum';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">otomatik cevaplama ayarlarýnýzý deðiþtirilemiyor!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Otomatik cevaplamanýz kaldýrýldý!';
+$PALANG['pUsersVacation_result_success'] = 'Otomatik cevaplamanýz kaldýrýldý!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

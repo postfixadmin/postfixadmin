@@ -79,7 +79,7 @@ $PALANG['pCreate_alias_button'] = 'Создать алиас';
 $PALANG['pCreate_alias_goto_text'] = 'Кому должна доставляться почта.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Кому должна идти почта.<br /><span class="error_msg">Неверное поле Куда!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Невозможно добавить алиас в список!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'Алиас был успешно создан!';
+$PALANG['pCreate_alias_result_success'] = 'Алиас был успешно создан!';
 $PALANG['pCreate_alias_catchall_text'] = 'Для создания catch-all почтового ящика используйте "*" в качестве имени алиаса.<br />для внутридоменного перенаправления используйте "*@domain.tld" для поле Кому';
 
 $PALANG['pEdit_alias_welcome'] = 'Редактировать алиас для вашего домена.<br />Одна запись для линии.';
@@ -112,7 +112,7 @@ $PALANG['pCreate_mailbox_active'] = 'активный';
 $PALANG['pCreate_mailbox_mail'] = 'Создать ящик';
 $PALANG['pCreate_mailbox_button'] = 'Создать ящик';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Невозможно добавить ящик в список существующих ящиков!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'Почтовый ящик был успешно создан!';
+$PALANG['pCreate_mailbox_result_success'] = 'Почтовый ящик был успешно создан!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Редактировать ящик для вашего домена.';
 $PALANG['pEdit_mailbox_username'] = 'Имя';
@@ -138,7 +138,7 @@ $PALANG['pPassword_password2'] = 'Новый пароль (еще раз)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Введенные вами пароли не совпадают!<br />или пусты!</span>';
 $PALANG['pPassword_button'] = 'Изменить пароль';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Невозможно изменить ваш пароль!</span>';
-$PALANG['pPassword_result_succes'] = 'Ваш пароль был изменен!';
+$PALANG['pPassword_result_success'] = 'Ваш пароль был изменен!';
 
 $PALANG['pViewlog_welcome'] = 'Просмотреть последних 10 действий для  ';
 $PALANG['pViewlog_timestamp'] = 'Время создания/модификации';
@@ -159,7 +159,7 @@ $PALANG['pSendmail_subject_text'] = 'Добро пожаловать!';
 $PALANG['pSendmail_body'] = 'Текст';
 $PALANG['pSendmail_button'] = 'Послать сообщение';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Невозможно создать почтовый ящик!</span>';
-$PALANG['pSendmail_result_succes'] = 'Почтовый ящик был создан!';
+$PALANG['pSendmail_result_success'] = 'Почтовый ящик был создан!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Список Администраторов';
 $PALANG['pAdminMenu_list_domain'] = 'Список доменов';
@@ -217,7 +217,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Добавить стандар
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Добавить домен';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Невозможно добавить домен!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Домен был добавлен!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Домен был добавлен!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Редактировать домен';
 $PALANG['pAdminEdit_domain_domain'] = 'Домен';
@@ -245,7 +245,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Пароль (еще раз)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Пароли, которые вы ввели не совпадают!<br />либо пустые!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Добавить админа';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">евозможно добавить админа!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'Админ был добавлен!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Админ был добавлен!';
 $PALANG['pAdminCreate_admin_address'] = 'Домен';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Редактировать админа домена';
@@ -257,7 +257,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Активный';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = 'Редактировать админа';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Невозможно изменить админа!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Админ был изменен!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Админ был изменен!';
 
 $PALANG['pUsersLogin_welcome'] = 'Вход пользователей для изменения паролей и алиасов.';
 $PALANG['pUsersLogin_username'] = 'Имя (ящик)';
@@ -286,7 +286,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Ухожу';
 $PALANG['pUsersVacation_button_back'] = 'Возвращаюсь';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Невозможно изменить настройки автоответчика!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Ваш автоответчик был убран!';
+$PALANG['pUsersVacation_result_success'] = 'Ваш автоответчик был убран!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

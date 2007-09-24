@@ -79,7 +79,7 @@ $PALANG['pCreate_alias_button'] = '新建别名';
 $PALANG['pCreate_alias_goto_text'] = '邮件接收地址.';
 $PALANG['pCreate_alias_goto_text_error'] = '邮件接收地址.<br /><span class="error_msg">接收地址不正确!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">不能将别名添加到别名表中!</span>';
-$PALANG['pCreate_alias_result_succes'] = '添加别名成功!';
+$PALANG['pCreate_alias_result_success'] = '添加别名成功!';
 $PALANG['pCreate_alias_catchall_text'] = '要将所有的邮件全部转发请使用"*"作为别名.<br />域到域的转发请使用"*@domain.tld".';
 
 $PALANG['pEdit_alias_welcome'] = '编辑你域名中的别名.<br />每行一条记录.';
@@ -112,7 +112,7 @@ $PALANG['pCreate_mailbox_active'] = '活动';
 $PALANG['pCreate_mailbox_mail'] = '新建邮箱';
 $PALANG['pCreate_mailbox_button'] = '增加邮箱';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">不能将邮箱增加到邮箱表中!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = '增加邮箱成功!';
+$PALANG['pCreate_mailbox_result_success'] = '增加邮箱成功!';
 
 $PALANG['pEdit_mailbox_welcome'] = '编辑你域中的邮箱.';
 $PALANG['pEdit_mailbox_username'] = '用户名';
@@ -138,7 +138,7 @@ $PALANG['pPassword_password2'] = '新密码 (验证)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">你两次输入的新密码不相同!<br />或者为空!</span>';
 $PALANG['pPassword_button'] = '更改密码';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">更改密码失败!</span>';
-$PALANG['pPassword_result_succes'] = '更改密码成功!';
+$PALANG['pPassword_result_success'] = '更改密码成功!';
 
 $PALANG['pViewlog_welcome'] = '查看最新的10项操作日志 域名: ';
 $PALANG['pViewlog_timestamp'] = '时间';
@@ -159,7 +159,7 @@ $PALANG['pSendmail_subject_text'] = '欢迎';
 $PALANG['pSendmail_body'] = '内容';
 $PALANG['pSendmail_button'] = '发送';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">建立邮箱失败!</span>';
-$PALANG['pSendmail_result_succes'] = '建立邮箱成功!';
+$PALANG['pSendmail_result_success'] = '建立邮箱成功!';
 
 $PALANG['pAdminMenu_list_admin'] = '管理员清单';
 $PALANG['pAdminMenu_list_domain'] = '域名清单';
@@ -217,7 +217,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = '增加默认别名';
 $PALANG['pAdminCreate_domain_backupmx'] = '备份邮件服务器';
 $PALANG['pAdminCreate_domain_button'] = '新增';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">新增域失败!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = '新增域成功!';
+$PALANG['pAdminCreate_domain_result_success'] = '新增域成功!';
 
 $PALANG['pAdminEdit_domain_welcome'] = '修改域';
 $PALANG['pAdminEdit_domain_domain'] = '域名';
@@ -245,7 +245,7 @@ $PALANG['pAdminCreate_admin_password2'] = '密码 (验证)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">新所输入的两次新密码不相同!<br />或者为空!</span>';
 $PALANG['pAdminCreate_admin_button'] = '新增';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">新增管理员失败!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = '新增管理员成功!';
+$PALANG['pAdminCreate_admin_result_success'] = '新增管理员成功!';
 $PALANG['pAdminCreate_admin_address'] = '域';
 
 $PALANG['pAdminEdit_admin_welcome'] = '修改域管理员';
@@ -257,7 +257,7 @@ $PALANG['pAdminEdit_admin_active'] = '活动';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = '修改';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">编辑域管理员失败!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = '编辑域管理员成功!';
+$PALANG['pAdminEdit_admin_result_success'] = '编辑域管理员成功!';
 
 $PALANG['pUsersLogin_welcome'] = '邮件用户从这里登录管理你的密码和别名.';
 $PALANG['pUsersLogin_username'] = '帐号 (邮箱地址)';
@@ -286,7 +286,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = '开启自动回复';
 $PALANG['pUsersVacation_button_back'] = '关闭自动回复';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">更新自动回复失败!</span>';
-$PALANG['pUsersVacation_result_succes'] = '你的自动回复已经关闭!';
+$PALANG['pUsersVacation_result_success'] = '你的自动回复已经关闭!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = '新建邮箱';     
 $PALANG['pCreate_dbLog_createalias'] = '新建别名';

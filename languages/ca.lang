@@ -78,7 +78,7 @@ $PALANG['pCreate_alias_button'] = 'Afegir àlies';
 $PALANG['pCreate_alias_goto_text'] = 'A on ha de ser enviat l\'e-mail.';
 $PALANG['pCreate_alias_goto_text_error'] = 'A on ha de ser enviat l\'e-mail.<br /><span class="error_msg">El destí no és vàlid!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">¡No és posible afegir l\'àlies a la taula d\'àlies!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'L\'àlies ha estat creat correctament!';
+$PALANG['pCreate_alias_result_success'] = 'L\'àlies ha estat creat correctament!';
 $PALANG['pCreate_alias_catchall_text'] = 'Per crear un àlies general usi "*" com a àlies.<br />Per una redirecció de domini a domini, usi "*@domain.tld" com a Destí.';
 
 $PALANG['pEdit_alias_welcome'] = 'Editi un àlies pel seu domini.<br />Una entrada per línia.';
@@ -111,7 +111,7 @@ $PALANG['pCreate_mailbox_active'] = 'Actiu';
 $PALANG['pCreate_mailbox_mail'] = 'Crear bústia';
 $PALANG['pCreate_mailbox_button'] = 'Afegir bústia';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Imposible afegir una bústia a la taula de bústies!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'La bústia ha estat afegida a la taula de bústies!';
+$PALANG['pCreate_mailbox_result_success'] = 'La bústia ha estat afegida a la taula de bústies!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Editar una bústia pel seu domini.';
 $PALANG['pEdit_mailbox_username'] = 'Usuari';
@@ -137,7 +137,7 @@ $PALANG['pPassword_password2'] = 'Nova contrasenya (repetiu)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Les contrasenyes introduides no coincideixen<br />o estan en blanc!</span>';
 $PALANG['pPassword_button'] = 'Canviar la contrasenya';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Imposible canviar la contrasenya!</span>';
-$PALANG['pPassword_result_succes'] = 'La seva contrasenya ha estat canviada!';
+$PALANG['pPassword_result_success'] = 'La seva contrasenya ha estat canviada!';
 
 $PALANG['pViewlog_welcome'] = 'Veure les últimes 10 accions per ';
 $PALANG['pViewlog_timestamp'] = 'Data/Hora';
@@ -158,7 +158,7 @@ $PALANG['pSendmail_subject_text'] = 'Benvingut';
 $PALANG['pSendmail_body'] = 'Cos';
 $PALANG['pSendmail_button'] = 'Enviar missatge';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Imposible crear la bústia!</span>';
-$PALANG['pSendmail_result_succes'] = 'La bústia ha estat creada!';
+$PALANG['pSendmail_result_success'] = 'La bústia ha estat creada!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Llistat d\'administradors';
 $PALANG['pAdminMenu_list_domain'] = 'Llistat de dominis';
@@ -216,7 +216,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Afegir àlies per defecte';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Afegir domini';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Imposible afegir el domini!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'El domini ha estat afegit!';
+$PALANG['pAdminCreate_domain_result_success'] = 'El domini ha estat afegit!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Editar un domini';
 $PALANG['pAdminEdit_domain_domain'] = 'Domini';
@@ -245,7 +245,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Contrasenya (repetiu)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Les contrasenyes introduides no coincideixen<br />o estan en blanc!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Afegir administrador';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Imposible afegir l\'administrador!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'L\'administrador ha estat afegit!';
+$PALANG['pAdminCreate_admin_result_success'] = 'L\'administrador ha estat afegit!';
 $PALANG['pAdminCreate_admin_address'] = 'Domini';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Editar un administrador de domini';
@@ -257,7 +257,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Actiu';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = 'Editar administrador';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Imposible modificar l\'administrador!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'L\'administrador ha estat modificat!';
+$PALANG['pAdminEdit_admin_result_success'] = 'L\'administrador ha estat modificat!';
 
 $PALANG['pUsersLogin_welcome'] = 'Login d\'usuaris per canviar la contrasenya i els àlies.';
 $PALANG['pUsersLogin_username'] = 'Login (e-mail)';
@@ -286,7 +286,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Absent';
 $PALANG['pUsersVacation_button_back'] = 'De tornada';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Imposible actualitzar la configuració de la seva resposta automàtica!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'La seva resposta automàtica ha estat esborrada!';
+$PALANG['pUsersVacation_result_success'] = 'La seva resposta automàtica ha estat esborrada!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

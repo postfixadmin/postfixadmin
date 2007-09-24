@@ -80,7 +80,7 @@ $PALANG['pCreate_alias_button'] = 'Dodaj alias';
 $PALANG['pCreate_alias_goto_text'] = 'Kamor želite nasloviti pošto.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Kamor mora sporočilo dejansko prispeti.<br /><span class="error_msg">Vnos "Za" je napačen!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Aliasa ni bilo mogoče dodati!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'Alias je bil uspešno dodan!';
+$PALANG['pCreate_alias_result_success'] = 'Alias je bil uspešno dodan!';
 $PALANG['pCreate_alias_catchall_text'] = 'Če želite ustvariti "vseobsegajoči" alias, uporabite "*" namesto aliasa.<br />Za posredovanje iz domene na domeno, uporabite "*@domena.si" v "Za" polju.';
 
 $PALANG['pEdit_alias_welcome'] = 'Uredi alias za določeno domeno.<br />V posamezni vrstici je lahko samo en naslov.';
@@ -113,7 +113,7 @@ $PALANG['pCreate_mailbox_active'] = 'Aktiven';
 $PALANG['pCreate_mailbox_mail'] = 'Ustvari predal';
 $PALANG['pCreate_mailbox_button'] = 'Dodaj predal';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Predala ni bilo mogoče ustvariti!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'Predal je bil uspešno ustvarjen!';
+$PALANG['pCreate_mailbox_result_success'] = 'Predal je bil uspešno ustvarjen!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Uredi določen predal za izbrano domeno.';
 $PALANG['pEdit_mailbox_username'] = 'Uporabniško ime';
@@ -139,7 +139,7 @@ $PALANG['pPassword_password2'] = 'Novo geslo (ponovitev)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Vnešeni gesli se ne ujemata<br />ali pa sta prazni!</span>';
 $PALANG['pPassword_button'] = 'Spremeni geslo';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Gesla ni bilo mogoče spremeniti!</span>';
-$PALANG['pPassword_result_succes'] = 'Geslo je bilo uspešno spremenjeno!';
+$PALANG['pPassword_result_success'] = 'Geslo je bilo uspešno spremenjeno!';
 
 $PALANG['pViewlog_welcome'] = 'Seznam zadnjih 10 operacij za ';
 $PALANG['pViewlog_timestamp'] = 'Čas';
@@ -160,7 +160,7 @@ $PALANG['pSendmail_subject_text'] = 'Pozdravljeni!';
 $PALANG['pSendmail_body'] = 'Besedilo';
 $PALANG['pSendmail_button'] = 'Pošlji sporočilo';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Predala ni bilo mogoče ustvariti!</span>';
-$PALANG['pSendmail_result_succes'] = 'Predal je bil uspešno ustvarjen!';
+$PALANG['pSendmail_result_success'] = 'Predal je bil uspešno ustvarjen!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Seznam administratorjev';
 $PALANG['pAdminMenu_list_domain'] = 'Seznam domen';
@@ -218,7 +218,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Dodaj privzete aliase';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Poštni strežnik je sekundarni MX';
 $PALANG['pAdminCreate_domain_button'] = 'Dodaj domeno';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domene ni bilo mogoče dodati!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Domena je bila uspešno dodana!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Domena je bila uspešno dodana!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Uredi domeno';
 $PALANG['pAdminEdit_domain_domain'] = 'Domena';
@@ -246,7 +246,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Geslo (ponovitev)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Vnešeni gesli se ne ujemata<br />ali pa sta prazni!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Dodaj administratorja';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Administratorja ni bilo mogoče dodati!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'Admininstrator je bil uspešno dodan';
+$PALANG['pAdminCreate_admin_result_success'] = 'Admininstrator je bil uspešno dodan';
 $PALANG['pAdminCreate_admin_address'] = 'Domena';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Uredi domenskega administratorja';
@@ -258,7 +258,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Aktiven';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = 'Shrani';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Administratorja ni bilo mogoče spremeniti!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Admininstrator je bil uspešno spremenjen!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Admininstrator je bil uspešno spremenjen!';
 
 $PALANG['pUsersLogin_welcome'] = 'Če želite spremeniti gesli ali nastaviti sporočilo o odsotnosti, se prijavite.';
 $PALANG['pUsersLogin_username'] = 'E-poštni naslov';
@@ -287,7 +287,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Vključi odsotnost';
 $PALANG['pUsersVacation_button_back'] = 'Izključi odsotnost';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Vašim nastavitev o odsotnosti ni bilo mogoče posodobiti!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Obvestilo o odsotnosti je izključeno!';
+$PALANG['pUsersVacation_result_success'] = 'Obvestilo o odsotnosti je izključeno!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'ustvari predal';     
 $PALANG['pCreate_dbLog_createalias'] = 'ustvari alias';

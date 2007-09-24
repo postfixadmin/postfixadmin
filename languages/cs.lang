@@ -92,7 +92,7 @@ $PALANG['pCreate_alias_button'] = 'Přidat';
 $PALANG['pCreate_alias_goto_text'] = 'Kam má pošta chodit.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Kam má pošta chodit.<br /><span class="error_msg">Cíl není platný!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Nepodařilo se přidat přesměrování do tabulky aliasů!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'Přesměrování bylo uspěšně přidáno do tabulky aliasů!';
+$PALANG['pCreate_alias_result_success'] = 'Přesměrování bylo uspěšně přidáno do tabulky aliasů!';
 $PALANG['pCreate_alias_catchall_text'] = 'Pro vytvoření doménového koše použijte * jako alias.<br />Pro alias doména -> doména použijte *@domain.tld jako cíl.';
 
 $PALANG['pEdit_alias_welcome'] = 'Upravit přesměrování.<br />Jeden záznam na řádku.';
@@ -126,7 +126,7 @@ $PALANG['pCreate_mailbox_active'] = 'Aktivní';
 $PALANG['pCreate_mailbox_mail'] = 'Vytvořit schránku na disku (odešle uvítací email)';
 $PALANG['pCreate_mailbox_button'] = 'Přidat schránku';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Nepodařilo se přidat schránku do tabulky schránek!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'Schránka byla přidána do tabulky schránek!';
+$PALANG['pCreate_mailbox_result_success'] = 'Schránka byla přidána do tabulky schránek!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Schránka byla přidána do tabulky schránek, ale žádné (nebo pouze některé) ze předdefinovaných podsložek bylo možné vytovořit';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Upravit lokální chránku v doméně.';
@@ -154,7 +154,7 @@ $PALANG['pPassword_password2'] = 'Nové heslo (znovu)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Zadaná hesla jsou rozdílná nebo prázdná!</span>';
 $PALANG['pPassword_button'] = 'Změnit heslo';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Nepodařilo se změnit heslo!</span>';
-$PALANG['pPassword_result_succes'] = 'Heslo bylo změněno!';
+$PALANG['pPassword_result_success'] = 'Heslo bylo změněno!';
 
 $PALANG['pEdit_vacation_set'] = 'Změnit / Nastavit zprávu o nepřítomnosti';
 $PALANG['pEdit_vacation_remove'] = 'Ostranit zprávu o nepřítomnosti';
@@ -181,7 +181,7 @@ $PALANG['pSendmail_subject_text'] = 'Vítejte';
 $PALANG['pSendmail_body'] = 'Obsah';
 $PALANG['pSendmail_button'] = 'Poslat email';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Nepodařilo se vytvořit schránku!</span>';
-$PALANG['pSendmail_result_succes'] = 'Schránka byla vytvořena!';
+$PALANG['pSendmail_result_success'] = 'Schránka byla vytvořena!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Administrátoři';
 $PALANG['pAdminMenu_list_domain'] = 'Domény';
@@ -241,7 +241,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Přidat implicitní přesměrov
 $PALANG['pAdminCreate_domain_backupmx'] = 'Tento server je záložní MX domény';
 $PALANG['pAdminCreate_domain_button'] = 'Přidat doménu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Nepodařilo se přidat doménu!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Doména byla přidána!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Doména byla přidána!';
 
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Nepodařilo se odstranit doménu!</span>';
 
@@ -271,7 +271,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Heslo (znovu)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Zadaná hesla jsou rozdílná nebo prázdná!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Přidat administrátora';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Nepodařilo se přidat administrátora!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'Administrátor byl přidán!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Administrátor byl přidán!';
 $PALANG['pAdminCreate_admin_address'] = 'Doména';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Upravit doménového administrátora';
@@ -283,7 +283,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Administrátorský účet povolen';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Superuživatel';
 $PALANG['pAdminEdit_admin_button'] = 'Upravit Administrátora';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Nepodařilo se upravit administrátora!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Administrátor byl upraven!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Administrátor byl upraven!';
 
 $PALANG['pUsersLogin_welcome'] = 'Zde se přihlašují uživatelé pro změnu hesla, přesměrování nebo automatické odpovědi.';
 $PALANG['pUsersLogin_username'] = 'Uživatelské jméno (email)';
@@ -313,7 +313,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Odjet pryč';
 $PALANG['pUsersVacation_button_back'] = 'Vrátit se';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nepodařilo se upravit nastavení!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Nastavení bylo upraveno!';
+$PALANG['pUsersVacation_result_success'] = 'Nastavení bylo upraveno!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'vytvořil schránku';
 $PALANG['pCreate_dbLog_createalias'] = 'vytvořil alias';

@@ -78,7 +78,7 @@ $PALANG['pCreate_alias_button'] = 'Añadir alias';
 $PALANG['pCreate_alias_goto_text'] = 'A donde debe de ser enviado el e-mail.';
 $PALANG['pCreate_alias_goto_text_error'] = 'A donde debe de ser enviado el e-mail.<br /><span class="error_msg">¡El PARA no es válido!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">¡No es posible añadir el alias a la tabla de alias!</span>';
-$PALANG['pCreate_alias_result_succes'] = '¡El alias ha sido añadido a la tabla de alias!';
+$PALANG['pCreate_alias_result_success'] = '¡El alias ha sido añadido a la tabla de alias!';
 $PALANG['pCreate_alias_catchall_text'] = 'Para crear un alias general use "*" como alias.<br />Para una redirección de dominio a dominio, use "*@domain.tld" como Destino.';
 
 $PALANG['pEdit_alias_welcome'] = 'Edite un alias para su dominio.<br />Una entrada por línea.';
@@ -111,7 +111,7 @@ $PALANG['pCreate_mailbox_active'] = 'Activo';
 $PALANG['pCreate_mailbox_mail'] = 'Crear buzón';
 $PALANG['pCreate_mailbox_button'] = 'Añadir buzón';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">¡Imposible añadir un buzón a la tabla de buzones!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = '¡El buzón ha sido añadido a la tabla de buzones!';
+$PALANG['pCreate_mailbox_result_success'] = '¡El buzón ha sido añadido a la tabla de buzones!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Editar un buzón para su dominio.';
 $PALANG['pEdit_mailbox_username'] = 'Usuario';
@@ -137,7 +137,7 @@ $PALANG['pPassword_password2'] = 'Nueva contraseña (repetir)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">¡Las contraseñas introducidas no coinciden<br />o están en blanco!</span>';
 $PALANG['pPassword_button'] = 'Cambiar contraseña';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">¡Imposible cambiar la contraseña!</span>';
-$PALANG['pPassword_result_succes'] = '¡Su contraseña ha sido cambiada!';
+$PALANG['pPassword_result_success'] = '¡Su contraseña ha sido cambiada!';
 
 $PALANG['pViewlog_welcome'] = 'Ver las últimas 10 acciones para ';
 $PALANG['pViewlog_timestamp'] = 'Fecha/Hora';
@@ -161,7 +161,7 @@ $PALANG['pSendmail_subject_text'] = 'Bienvenido';
 $PALANG['pSendmail_body'] = 'Cuerpo';
 $PALANG['pSendmail_button'] = 'Enviar mensaje';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">¡Imposible crear el buzón!</span>';
-$PALANG['pSendmail_result_succes'] = '¡El buzón ha sido creado!';
+$PALANG['pSendmail_result_success'] = '¡El buzón ha sido creado!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Lista de administradores';
 $PALANG['pAdminMenu_list_domain'] = 'Lista de dominios';
@@ -219,7 +219,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Añadir alias por defecto';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Añadir dominio';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">¡Imposible añadir el dominio!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = '¡El dominio ha sido añadido!';
+$PALANG['pAdminCreate_domain_result_success'] = '¡El dominio ha sido añadido!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Editar un dominio';
 $PALANG['pAdminEdit_domain_domain'] = 'Dominio';
@@ -248,7 +248,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Contraseña (repetir)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">¡Las contraseñas introducidas no coinciden<br />o están en blanco!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Añadir administrador';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">¡Imposible añadir el administrador!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = '¡El administrador ha sido añadido!';
+$PALANG['pAdminCreate_admin_result_success'] = '¡El administrador ha sido añadido!';
 $PALANG['pAdminCreate_admin_address'] = 'Dominio';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Editar un administrador de dominio';
@@ -260,7 +260,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Activo';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = 'Editar administrador';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">¡Imposible modificar el administrador!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = '¡El administrador ha sido modificado!';
+$PALANG['pAdminEdit_admin_result_success'] = '¡El administrador ha sido modificado!';
 
 $PALANG['pUsersLogin_welcome'] = 'Login de usuarios para cambiar la contraseña y alias.';
 $PALANG['pUsersLogin_username'] = 'Login (e-mail)';
@@ -289,7 +289,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Ausente';
 $PALANG['pUsersVacation_button_back'] = 'De vuelta';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">¡Imposible actualizar la configuración de su respuesta automática!</span>';
-$PALANG['pUsersVacation_result_succes'] = '¡Su respuesta automática ha sido borrada!';
+$PALANG['pUsersVacation_result_success'] = '¡Su respuesta automática ha sido borrada!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

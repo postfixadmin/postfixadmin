@@ -90,7 +90,7 @@ $PALANG['pCreate_alias_button'] = 'Add Alias';
 $PALANG['pCreate_alias_goto_text'] = 'Where the mail needs to be sent to.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Where the email needs to go.<br /><span class="error_msg">The TO is not valid!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Unable to add the alias to the alias table!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'The alias has been added to the alias table!';
+$PALANG['pCreate_alias_result_success'] = 'The alias has been added to the alias table!';
 $PALANG['pCreate_alias_catchall_text'] = 'To create a catch-all use an "*" as alias.<br />For domain to domain forwarding use "*@domain.tld" as to.';
 
 $PALANG['pEdit_alias_welcome'] = 'Edit an alias for your domain.<br />One entry per line.';
@@ -124,7 +124,7 @@ $PALANG['pCreate_mailbox_active'] = 'Active';
 $PALANG['pCreate_mailbox_mail'] = 'Send Welcome mail';
 $PALANG['pCreate_mailbox_button'] = 'Add Mailbox';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Unable to add the mailbox to the mailbox table!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'The mailbox has been added to the mailbox table!';
+$PALANG['pCreate_mailbox_result_success'] = 'The mailbox has been added to the mailbox table!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Edit a mailbox for your domain.';
@@ -152,7 +152,7 @@ $PALANG['pPassword_password2'] = 'New Password (again)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">The passwords that you supplied don\'t match!<br />Or are empty!</span>';
 $PALANG['pPassword_button'] = 'Change Password';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Unable to change your password!</span>';
-$PALANG['pPassword_result_succes'] = 'Your password has been changed!';
+$PALANG['pPassword_result_success'] = 'Your password has been changed!';
 
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message';
 $PALANG['pEdit_vacation_remove'] = 'Remove away message';
@@ -180,7 +180,7 @@ $PALANG['pSendmail_subject_text'] = 'Welcome';
 $PALANG['pSendmail_body'] = 'Body';
 $PALANG['pSendmail_button'] = 'Send Message';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Unable to create mailbox!</span>';
-$PALANG['pSendmail_result_succes'] = 'The mailbox has been created!';
+$PALANG['pSendmail_result_success'] = 'The mailbox has been created!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Admin List';
 $PALANG['pAdminMenu_list_domain'] = 'Domain List';
@@ -241,7 +241,7 @@ $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Add Domain';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Unable to add domain!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Domain has been added!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Domain has been added!';
 
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>';
 
@@ -271,7 +271,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Password (again)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">The passwords that you supplied don\'t match!<br />Or are empty!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Add Admin';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Unable to add admin!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'Admin has been added!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Admin has been added!';
 $PALANG['pAdminCreate_admin_address'] = 'Domain';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Edit a domain admin';
@@ -283,7 +283,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Active';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = 'Edit Admin';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Unable to modify admin!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Admin has been modified!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Admin has been modified!';
 
 $PALANG['pUsersLogin_welcome'] = 'Mailbox users login to change your password and aliases.';
 $PALANG['pUsersLogin_username'] = 'Login (email)';
@@ -313,7 +313,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Going Away';
 $PALANG['pUsersVacation_button_back'] = 'Coming Back';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Unable to update your auto response settings!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Your auto response has been removed!';
+$PALANG['pUsersVacation_result_success'] = 'Your auto response has been removed!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

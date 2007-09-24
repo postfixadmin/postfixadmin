@@ -80,7 +80,7 @@ $PALANG['pCreate_alias_button'] = 'Lägg till Alias';
 $PALANG['pCreate_alias_goto_text'] = 'Vart skall mailen skickas.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Vart mailen skall skickas.<br /><span class="error_msg">TILL data är felaktigt!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Kan inte lägga till detta alias i aliastabellen!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'Aliaset har lagts till i aliastabellen!';
+$PALANG['pCreate_alias_result_success'] = 'Aliaset har lagts till i aliastabellen!';
 $PALANG['pCreate_alias_catchall_text'] = 'För att skapa en catch-all ange ett "*" som alias.<br />För domän till domän forwarding använd "*@domän.tld" som till.';
 
 $PALANG['pEdit_alias_welcome'] = 'Editera ett alias för din domän.<br />Ett alias per rad.';
@@ -113,7 +113,7 @@ $PALANG['pCreate_mailbox_active'] = 'Aktiv';
 $PALANG['pCreate_mailbox_mail'] = 'Skapa mailadress';
 $PALANG['pCreate_mailbox_button'] = 'Lägg till mailadress';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Kan ej lägga till mailadress i tabellen för adresser!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'Mailadressen har lagts till!';
+$PALANG['pCreate_mailbox_result_success'] = 'Mailadressen har lagts till!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Editera en mailadress i din domän.';
 $PALANG['pEdit_mailbox_username'] = 'Användarnamn';
@@ -139,7 +139,7 @@ $PALANG['pPassword_password2'] = 'Nytt Lösenord (igen)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Lösenorden du angav var olika!<br />Eller är tomma!</span>';
 $PALANG['pPassword_button'] = 'Ändra Lösenord';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Kan inte ändra ditt lösenord!</span>';
-$PALANG['pPassword_result_succes'] = 'Ditt lösenord har ändrats!';
+$PALANG['pPassword_result_success'] = 'Ditt lösenord har ändrats!';
 
 $PALANG['pViewlog_welcome'] = 'Visa dom senaste 10 åtgärderna för ';
 $PALANG['pViewlog_timestamp'] = 'Tidpunkt';
@@ -160,7 +160,7 @@ $PALANG['pSendmail_subject_text'] = 'Välkommen';
 $PALANG['pSendmail_body'] = 'Meddelande';
 $PALANG['pSendmail_button'] = 'Skicka meddelande';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Kan inte skapa mailadress!</span>';
-$PALANG['pSendmail_result_succes'] = 'Mailadressen har skapats!';
+$PALANG['pSendmail_result_success'] = 'Mailadressen har skapats!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Admin Lista';
 $PALANG['pAdminMenu_list_domain'] = 'Domän Lista';
@@ -218,7 +218,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Skapa standard alias';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Lägg till domän';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Kan inte skapa domänen!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Domänen har skapats!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Domänen har skapats!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Editera en domän';
 $PALANG['pAdminEdit_domain_domain'] = 'Domän';
@@ -246,7 +246,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Lösenord (igen)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Lösenorden du angav är olika!<br />Eller är tomma!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Lägg till Admin';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Kan inte lägga till Admin!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'Admin har lagts till!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Admin har lagts till!';
 $PALANG['pAdminCreate_admin_address'] = 'Domän';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Editera en domänadmin';
@@ -258,7 +258,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Aktiv';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = 'Editera Admin';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Kan inte ändra admin!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Admin har ändrats!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Admin har ändrats!';
 
 $PALANG['pUsersLogin_welcome'] = 'Mailbox användare logga in här för att ändra ert lösenord och alias.';
 $PALANG['pUsersLogin_username'] = 'Login (epostadress)';
@@ -287,7 +287,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Försvinner';
 $PALANG['pUsersVacation_button_back'] = 'Kommer Tillbaka';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Kan inte uppdatera dina autosvar inställningar!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Ditt autosvar har taqits bort!';
+$PALANG['pUsersVacation_result_success'] = 'Ditt autosvar har taqits bort!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

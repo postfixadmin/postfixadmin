@@ -81,7 +81,7 @@ $PALANG['pCreate_alias_button'] = 'Ajouter un alias';
 $PALANG['pCreate_alias_goto_text'] = 'Destinataires des courriels.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Destinataires des courriels.<br /><span class="error_msg">le champ À contient des erreurs!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Impossible d\'ajouter cet alias dans la table !</span>';
-$PALANG['pCreate_alias_result_succes'] = 'L\'alias a été ajouté !';
+$PALANG['pCreate_alias_result_success'] = 'L\'alias a été ajouté !';
 $PALANG['pCreate_alias_catchall_text'] = 'Pour ajouter un alias global, utilisez "*".<br />Pour un transfert de domaine à domaine, utilisez "*@domain.tld" dans le champs A.';
 
 $PALANG['pEdit_alias_welcome'] = 'Modifier un alias dans votre domaine.<br>Une entrée par ligne.';
@@ -114,7 +114,7 @@ $PALANG['pCreate_mailbox_active'] = 'Actif';
 $PALANG['pCreate_mailbox_mail'] = 'Envoyer le message de bienvenue';
 $PALANG['pCreate_mailbox_button'] = 'Ajouter le compte courriel';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Impossible d\'ajouter un compte courriel dans la table!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'Le compte courriel a été ajouté!';
+$PALANG['pCreate_mailbox_result_success'] = 'Le compte courriel a été ajouté!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Le compte courriel a été ajouté à la table, mais un ou plusieurs dossiers prédéfinis n\'ont pu être créés !';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Modifier un compte courriel.';
@@ -141,7 +141,7 @@ $PALANG['pPassword_password2'] = 'Nouveau mot de passe (confirmation)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Le mot de passe fournit ne correspond pas!<br />Ou est vide!</span>';
 $PALANG['pPassword_button'] = 'Changer le mot de passe';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Impossible de changer votre mot de passe!</span>';
-$PALANG['pPassword_result_succes'] = 'Votre mot de passe a été change!';
+$PALANG['pPassword_result_success'] = 'Votre mot de passe a été change!';
 
 $PALANG['pViewlog_welcome'] = 'Visualiser les 10 dernières action pour ';
 $PALANG['pViewlog_timestamp'] = 'Date/Heure';
@@ -162,7 +162,7 @@ $PALANG['pSendmail_subject_text'] = 'Bienvenue';
 $PALANG['pSendmail_body'] = 'Message';
 $PALANG['pSendmail_button'] = 'Envoyer le message';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Erreur lors de l\'envoit du message!</span>';
-$PALANG['pSendmail_result_succes'] = 'Le message a été envoyé!';
+$PALANG['pSendmail_result_success'] = 'Le message a été envoyé!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Liste Administrateurs';
 $PALANG['pAdminMenu_list_domain'] = 'Liste Domaines';
@@ -221,7 +221,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Ajouter les alias par défaut';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Le serveur est un "backup MX"';
 $PALANG['pAdminCreate_domain_button'] = 'Ajouter un domaine';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Impossible d\'ajouter le domaine!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Le domaine a été ajouté!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Le domaine a été ajouté!';
 
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Impossible de supprimer le domain!</span>';
 
@@ -251,7 +251,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Mot de passe (confirmation)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Le mot de passe fournit ne correspond pas<br> ou est vide!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Ajouter un administrateur';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Impossible d\'ajouter un administrateur!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'L\'administrateur a été ajouté!';
+$PALANG['pAdminCreate_admin_result_success'] = 'L\'administrateur a été ajouté!';
 $PALANG['pAdminCreate_admin_address'] = 'Domaine';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Modifier un domaine';
@@ -263,7 +263,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Actif';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administrateur';
 $PALANG['pAdminEdit_admin_button'] = 'Modifier l\administrateur';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Impossible de modifier l\'administrateur !</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'L\'administrateur a été ajouté!';
+$PALANG['pAdminEdit_admin_result_success'] = 'L\'administrateur a été ajouté!';
 
 $PALANG['pUsersLogin_welcome'] = 'Entrer votre adresse courriel pour modifier votre mot de passe et vos transferts.';
 $PALANG['pUsersLogin_username'] = 'Adresse courriel';
@@ -292,7 +292,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Absence';
 $PALANG['pUsersVacation_button_back'] = 'De retour';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Impossible de mettre à jour vos paramètres de reponse automatique!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Votre reponse automatique a été enlevée!';
+$PALANG['pUsersVacation_result_success'] = 'Votre reponse automatique a été enlevée!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'Création de compte';     
 $PALANG['pCreate_dbLog_createalias'] = 'Création d\'alias';

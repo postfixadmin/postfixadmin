@@ -79,7 +79,7 @@ $PALANG['pCreate_alias_button'] = '·s«Ø§O¦W';
 $PALANG['pCreate_alias_goto_text'] = '¶l¥ó±µ¦¬¦ì§}.';
 $PALANG['pCreate_alias_goto_text_error'] = '¶l¥ó±µ¦¬¦ì§}.<br /><span class="error_msg">±µ¦¬¦ì§}¤£¥¿½T!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">¤£¯à±N§O¦W·s¼W¨ì§O¦W²M³æ¤¤!</span>';
-$PALANG['pCreate_alias_result_succes'] = '·s¼W§O¦W¦¨¥\!';
+$PALANG['pCreate_alias_result_success'] = '·s¼W§O¦W¦¨¥\!';
 $PALANG['pCreate_alias_catchall_text'] = '­n±N©Ò¦³ªº¶l¥ó¥þ³¡Âàµo½Ð¨Ï¥Î"*"§@¬°§O¦W.<br />ºô°ì¨ìºô°ìªºÂàµo½Ð¨Ï¥Î"*@domain.tld".';
 
 $PALANG['pEdit_alias_welcome'] = '½s¿è±zºô°ì¦WºÙ¤¤ªº§O¦W.<br />¨C¦æ¤@±ø°O¿ý.';
@@ -110,7 +110,7 @@ $PALANG['pCreate_mailbox_active'] = '±Ò¥Î';
 $PALANG['pCreate_mailbox_mail'] = '·s«Ø«H½c';
 $PALANG['pCreate_mailbox_button'] = '¼W¥[«H½c';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">¤£¯à±N«H½c¼W¥[¨ì«H½c²M³æ¤¤!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = '¼W¥[«H½c¦¨¥\!';
+$PALANG['pCreate_mailbox_result_success'] = '¼W¥[«H½c¦¨¥\!';
 
 $PALANG['pEdit_mailbox_welcome'] = '½s¿è±zºô°ì¤¤ªº«H½c.';
 $PALANG['pEdit_mailbox_username'] = '¥Î¤á¦W';
@@ -136,7 +136,7 @@ $PALANG['pPassword_password2'] = '·s±K½X (ÅçÃÒ)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">±z¨â¦¸¿é¤Jªº·s±K½X¤£¬Û¦P!<br />©ÎªÌ¬°ªÅ¥Õ!</span>';
 $PALANG['pPassword_button'] = '§ó§ï±K½X';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">§ó§ï±K½X¥¢±Ñ!</span>';
-$PALANG['pPassword_result_succes'] = '§ó§ï±K½X¦¨¥\!';
+$PALANG['pPassword_result_success'] = '§ó§ï±K½X¦¨¥\!';
 
 $PALANG['pViewlog_welcome'] = '¬d¬Ý³Ì·sªº10¶µ¾Þ§@¤é»x ºô°ì¦WºÙ:';
 $PALANG['pViewlog_timestamp'] = '®É¶¡';
@@ -157,7 +157,7 @@ $PALANG['pSendmail_subject_text'] = 'Åwªï¨Ï¥Î§Ú­Ìªº¶l¥ó¨t²Î!'
 $PALANG['pSendmail_body'] = '¤º®e';
 $PALANG['pSendmail_button'] = 'µo°e';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">«Ø¥ß«H½c¥¢±Ñ! </span>';
-$PALANG['pSendmail_result_succes'] = '«Ø¥ß«H½c¦¨¥\! ';
+$PALANG['pSendmail_result_success'] = '«Ø¥ß«H½c¦¨¥\! ';
 
 $PALANG['pAdminMenu_list_admin'] = 'ºÞ²z­û²M³æ';
 $PALANG['pAdminMenu_list_domain'] = 'ºô°ì¦WºÙ²M³æ';
@@ -215,7 +215,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = '¼W¥[¤º«Ø§O¦W';
 $PALANG['pAdminCreate_domain_backupmx'] = '¶l¥ó¥D¾÷¬O Backup MX';
 $PALANG['pAdminCreate_domain_button'] = '·s¼W';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">·s¼Wºô°ì¥¢±Ñ!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = '·s¼Wºô°ì¦¨¥\!';
+$PALANG['pAdminCreate_domain_result_success'] = '·s¼Wºô°ì¦¨¥\!';
 
 $PALANG['pAdminEdit_domain_welcome'] = '­×§ïºô°ì';
 $PALANG['pAdminEdit_domain_domain'] = 'ºô°ì¦WºÙ';
@@ -243,7 +243,7 @@ $PALANG['pAdminCreate_admin_password2'] = '±K½X (ÅçÃÒ)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">·s©Ò¿é¤Jªº¨â¦¸·s±K½X¤£¬Û¦P!<br />©ÎªÌ¬°ªÅ¥Õ!</span>';
 $PALANG['pAdminCreate_admin_button'] = '·s¼W';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">·s¼WºÞ²z­û±b¸¹¥¢±Ñ!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = '·s¼WºÞ²z­û±b¸¹¦¨¥\!';
+$PALANG['pAdminCreate_admin_result_success'] = '·s¼WºÞ²z­û±b¸¹¦¨¥\!';
 $PALANG['pAdminCreate_admin_address'] = 'ºô°ì';
 
 $PALANG['pAdminEdit_admin_welcome'] = '­×§ïºô°ìºÞ²z­û±b¸¹';
@@ -254,7 +254,7 @@ $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">±z¨
 $PALANG['pAdminEdit_admin_active'] = '±Ò¥Î';
 $PALANG['pAdminEdit_admin_button'] = '­×§ï';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">½s¿èºô°ìºÞ²z­û±b¸¹¥¢±Ñ!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = '½s¿èºô°ìºÞ²z­û±b¸¹¦¨¥\!';
+$PALANG['pAdminEdit_admin_result_success'] = '½s¿èºô°ìºÞ²z­û±b¸¹¦¨¥\!';
 
 $PALANG['pUsersLogin_welcome'] = '¤@¯ë¥Î¤á±q³oùØµn¤JºÞ²z±zªº±K½X©M§O¦W.';
 $PALANG['pUsersLogin_username'] = '±b¸¹ («H½c¦ì§})';
@@ -283,7 +283,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = '¶}±Ò¦Û°Ê¦^ÂÐ';
 $PALANG['pUsersVacation_button_back'] = 'Ãö³¬¦Û°Ê¦^ÂÐ';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">§ó·s¦Û°Ê¦^ÂÐ¥¢±Ñ!</span>';
-$PALANG['pUsersVacation_result_succes'] = '±zªº¦Û°Ê¦^ÂÐ¤w¸gÃö³¬!';
+$PALANG['pUsersVacation_result_success'] = '±zªº¦Û°Ê¦^ÂÐ¤w¸gÃö³¬!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = '·s«Ø«H½c';     
 $PALANG['pCreate_dbLog_createalias'] = '·s«Ø§O¦W';

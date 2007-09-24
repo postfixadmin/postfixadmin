@@ -79,7 +79,7 @@ $PALANG['pCreate_alias_button'] = 'Stovna Dulnevni';
 $PALANG['pCreate_alias_goto_text'] = 'Har posturin skal sendast til.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Har posturin verður sendur til.<br /><span class="error_msg">TIL er ógyldugt!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Fái ikki stovnað dulnevni!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'Dulnevni er stovnað!';
+$PALANG['pCreate_alias_result_success'] = 'Dulnevni er stovnað!';
 $PALANG['pCreate_alias_catchall_text'] = 'Fyri at stovna eitt ið fangar alt, brúka eina "*" sum dulnevni.<br />Fyri navnaøki til navnaøki víðarisending brúka "*@navnaøki.fo" til hetta.';
 
 $PALANG['pEdit_alias_welcome'] = 'Broyt eitt dulnevni á tínum navnaøki.<br />Eina adressu pr. linju.';
@@ -112,7 +112,7 @@ $PALANG['pCreate_mailbox_active'] = 'Virkin';
 $PALANG['pCreate_mailbox_mail'] = 'Stovna postkassa';
 $PALANG['pCreate_mailbox_button'] = 'Stovna postkassa';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Fái ikki stovnað postkassa!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'Postkassin er stovnaður!';
+$PALANG['pCreate_mailbox_result_success'] = 'Postkassin er stovnaður!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Broyt postkassa á tínum navnaøki.';
 $PALANG['pEdit_mailbox_username'] = 'Brúkaranavn';
@@ -138,7 +138,7 @@ $PALANG['pPassword_password2'] = 'Nýtt loyniorð (umaftur)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Loyniorðini tú skrivaði samsvara ikki!<br />Ella eru tóm!</span>';
 $PALANG['pPassword_button'] = 'Broyt loyniorð';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Fái ikki broytt títt loyniorð!</span>';
-$PALANG['pPassword_result_succes'] = 'Títt loyniorð er broytt!';
+$PALANG['pPassword_result_success'] = 'Títt loyniorð er broytt!';
 
 $PALANG['pViewlog_welcome'] = 'Vís seinastu 10 hendingarnar fyri ';
 $PALANG['pViewlog_timestamp'] = 'Tíðarstempul';
@@ -159,7 +159,7 @@ $PALANG['pSendmail_subject_text'] = 'Vælkomin';
 $PALANG['pSendmail_body'] = 'Boð';
 $PALANG['pSendmail_button'] = 'Send boð';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Fái ikki stovnað postkassa!</span>';
-$PALANG['pSendmail_result_succes'] = 'Postkassin er stovnaður!';
+$PALANG['pSendmail_result_success'] = 'Postkassin er stovnaður!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Umsitara listi';
 $PALANG['pAdminMenu_list_domain'] = 'Navnaøkja listi';
@@ -217,7 +217,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Stovna sjálvvirkin e-post duln
 $PALANG['pAdminCreate_domain_backupmx'] = 'Post servari er "backup MX"';
 $PALANG['pAdminCreate_domain_button'] = 'Stovna navnaøki';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Fái ikki stovnað navnaøki!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Navnaøki er stovnað!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Navnaøki er stovnað!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Broyt navnaøki';
 $PALANG['pAdminEdit_domain_domain'] = 'Navnaøki';
@@ -245,7 +245,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Loyniorð (umaftur)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Loyniorðini tú skrivaði samsvara ikki!<br />Ella eru tóm!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Stovna umsitara';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Fái ikki stovnað umsitara!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'Umsitari er stovnaður!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Umsitari er stovnaður!';
 $PALANG['pAdminCreate_admin_address'] = 'Navnaøki';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Broyt navnaøki umsitara';
@@ -257,7 +257,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Virkin';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = 'Broyt umsitara';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Fái ikki broytt umsitara!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Umsitari er broyttur!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Umsitari er broyttur!';
 
 $PALANG['pUsersLogin_welcome'] = 'Postkassa brúkarar loggi inn fyri at broyta loyniorð, víðarisending ella frítíðarboð.';
 $PALANG['pUsersLogin_username'] = 'Login (e-post)';
@@ -291,7 +291,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Burtur';
 $PALANG['pUsersVacation_button_back'] = 'Heima';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Fái ikki broytt tínar frítíðarboð uppsetingar!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Títt frítíðarboð er strikað!';
+$PALANG['pUsersVacation_result_success'] = 'Títt frítíðarboð er strikað!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

@@ -78,7 +78,7 @@ $PALANG['pCreate_alias_button'] = 'Bæta við alias';
 $PALANG['pCreate_alias_goto_text'] = 'Þangað sem pósturinn á að sendast.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Þangað sem pósturinn þarf að sendast.<br /><span class="error_msg">Til línan er ekki gild!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Get ekki bætt við alias í alias töflu!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'Nýr alias hefur verið bætt við alias töfluna!';
+$PALANG['pCreate_alias_result_success'] = 'Nýr alias hefur verið bætt við alias töfluna!';
 $PALANG['pCreate_alias_catchall_text'] = 'Til að útbúa alias fyrir öll netföng í léninu, þá geturðu útbúið "*" alias.<br />Til að áframsenda með alias á annað lén eða pósthólf, notaðu "*@domain.tld í til.';
 
 $PALANG['pEdit_alias_welcome'] = 'Breyta alias í léninu.<br />Ein færsla í einu.';
@@ -111,7 +111,7 @@ $PALANG['pCreate_mailbox_active'] = 'Virkur';
 $PALANG['pCreate_mailbox_mail'] = 'Stofna pósthólf';
 $PALANG['pCreate_mailbox_button'] = 'bæta við pósthólfi';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Get ekki bætt við pósthólfi í mailbox töfluna!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'Pósthólfinu hefur verið bætt við mailbox töfluna!';
+$PALANG['pCreate_mailbox_result_success'] = 'Pósthólfinu hefur verið bætt við mailbox töfluna!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Breyta pósthólfi i léninu þínu.';
 $PALANG['pEdit_mailbox_username'] = 'Auðkenni';
@@ -137,7 +137,7 @@ $PALANG['pPassword_password2'] = 'Nýtt lykilorð (aftur)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Lykilorðin sem þú gafst upp passa ekki saman!<br />Eða þú gefur upp tómt lykilorð!</span>';
 $PALANG['pPassword_button'] = 'Breyta lykilorði';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Get ekki breytt lykilorði!</span>';
-$PALANG['pPassword_result_succes'] = 'Lykilorðinu hefur verið breytt!';
+$PALANG['pPassword_result_success'] = 'Lykilorðinu hefur verið breytt!';
 
 $PALANG['pViewlog_welcome'] = 'Skoða síðustu 10 aðgerðir fyrir ';
 $PALANG['pViewlog_timestamp'] = 'Tími';
@@ -158,7 +158,7 @@ $PALANG['pSendmail_subject_text'] = 'Velkomin';
 $PALANG['pSendmail_body'] = 'Meginmál';
 $PALANG['pSendmail_button'] = 'Senda skilaboð';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Get ekki búið til nýtt pósthólf!</span>';
-$PALANG['pSendmail_result_succes'] = 'Pósthólfið hefur verið stofnað!';
+$PALANG['pSendmail_result_success'] = 'Pósthólfið hefur verið stofnað!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Kerfisstjóralisti';
 $PALANG['pAdminMenu_list_domain'] = 'Lénalisti';
@@ -216,7 +216,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Setja sjálfgefinn póstalias';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Bæta við léni';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Get ekki bætt við léni!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Lén hefur verið bætt inn!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Lén hefur verið bætt inn!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Breyta léni';
 $PALANG['pAdminEdit_domain_domain'] = 'Lén';
@@ -244,7 +244,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Lykilorð (aftur)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Lykilorðið sem þú gafst upp passar ekki!<br />Eða var tómt!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Bæta við kerfisstjóra';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Get ekki bætt við kerfisstjóra!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'Kerfisstjórinn hefur verið skráður!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Kerfisstjórinn hefur verið skráður!';
 $PALANG['pAdminCreate_admin_address'] = 'Lén';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Breyta kerfisstjóra léns';
@@ -256,7 +256,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Virkt';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = 'Breyta kerfisstjóra';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Get ekki breytt kerfisstjóra!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Kerfisstjórinn hefur verið breyttur!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Kerfisstjórinn hefur verið breyttur!';
 
 $PALANG['pUsersLogin_welcome'] = 'Pósthólf notenda til að tengjast svo hægt er að breyta lykilorði eða alias.';
 $PALANG['pUsersLogin_username'] = 'Innskrá (email)';
@@ -285,7 +285,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Verð í burtu';
 $PALANG['pUsersVacation_button_back'] = 'Kem aftur';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Get ekki uppfært sjálfvirk skilaboð þín!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Sjálfvirk skilaboð þín (svar) hefur verið fjarlægt!';
+$PALANG['pUsersVacation_result_success'] = 'Sjálfvirk skilaboð þín (svar) hefur verið fjarlægt!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

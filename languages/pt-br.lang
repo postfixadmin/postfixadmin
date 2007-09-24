@@ -79,7 +79,7 @@ $PALANG['pCreate_alias_button'] = 'Criar um alias';
 $PALANG['pCreate_alias_goto_text'] = 'Enviar as mensagens para';
 $PALANG['pCreate_alias_goto_text_error'] = 'Os endereços de e-mail.<br /><span class="error_msg">não são válidos!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Impossível adicionar alias à tabela de aliases!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'O alias já foi criado!';
+$PALANG['pCreate_alias_result_success'] = 'O alias já foi criado!';
 $PALANG['pCreate_alias_catchall_text'] = 'Para criar um alias global, utilize "*".<br />Para encaminhar de um domínio a outro, use "@domain.tld" no campo Para';
 
 $PALANG['pEdit_alias_welcome'] = 'Modificar um alias neste domínio.<br>Uma entrada por linha.';
@@ -112,7 +112,7 @@ $PALANG['pCreate_mailbox_active'] = 'Ativo';
 $PALANG['pCreate_mailbox_mail'] = 'Criar e-mail';
 $PALANG['pCreate_mailbox_button'] = 'Adicionar e-mail';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Impossível criar conta de e-mail!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'O e-mail já foi criado!';
+$PALANG['pCreate_mailbox_result_success'] = 'O e-mail já foi criado!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Modificar conta de e-mail.';
 $PALANG['pEdit_mailbox_username'] = 'Usuário';
@@ -138,7 +138,7 @@ $PALANG['pPassword_password2'] = 'Nova senha (confirmação)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">As senhas digitadas não correspondem!<br />Ou são nulas!</span>';
 $PALANG['pPassword_button'] = 'Mudar senha';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Impossível modificar a senha!</span>';
-$PALANG['pPassword_result_succes'] = 'Sua senha foi modificada com sucesso!';
+$PALANG['pPassword_result_success'] = 'Sua senha foi modificada com sucesso!';
 
 $PALANG['pViewlog_welcome'] = 'Ver as 10 últimas ações para ';
 $PALANG['pViewlog_timestamp'] = 'Data/Hora';
@@ -159,7 +159,7 @@ $PALANG['pSendmail_subject_text'] = 'Bem-vindo';
 $PALANG['pSendmail_body'] = 'Mensagem';
 $PALANG['pSendmail_button'] = 'Enviar um e-mail';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Erro no envio da mensagem!</span>';
-$PALANG['pSendmail_result_succes'] = 'A mensagem foi enviada!';
+$PALANG['pSendmail_result_success'] = 'A mensagem foi enviada!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Lista de administradores';
 $PALANG['pAdminMenu_list_domain'] = 'Lista de domínios';
@@ -217,7 +217,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Adicionar aliases (padrão)';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Criar domínio';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Impossível criar domínio!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'O domínio já existe!';
+$PALANG['pAdminCreate_domain_result_success'] = 'O domínio já existe!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Modificar domínio';
 $PALANG['pAdminEdit_domain_domain'] = 'Domínio';
@@ -245,7 +245,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Senha (confirmação)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">A senha digitada não é válida<br> ou é nula!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Criar um administrador';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Impossível criar administrador!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'O administrador já foi criado!';
+$PALANG['pAdminCreate_admin_result_success'] = 'O administrador já foi criado!';
 $PALANG['pAdminCreate_admin_address'] = 'Domínio';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Modificar dmínio';
@@ -257,7 +257,7 @@ $PALANG['pAdminEdit_admin_active'] = 'Ativo';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['pAdminEdit_admin_button'] = 'Modificar administdrador';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Impossível modificar administrador !</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Administrador já foi criado!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Administrador já foi criado!';
 
 $PALANG['pUsersLogin_welcome'] = 'Digite seu e-mail e sua senha para modificar a senha e seus aliases.';
 $PALANG['pUsersLogin_username'] = 'Usuário (e-mail)';
@@ -286,7 +286,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Ausente';
 $PALANG['pUsersVacation_button_back'] = 'Retorno';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Impossível atualizar suas configurações para resposta automática!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Sua resposta automática foi removida!';
+$PALANG['pUsersVacation_result_success'] = 'Sua resposta automática foi removida!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

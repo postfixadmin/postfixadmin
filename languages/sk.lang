@@ -79,7 +79,7 @@ $PALANG['pCreate_alias_button'] = 'Prida&#357;';
 $PALANG['pCreate_alias_goto_text'] = 'Kam m&aacute; po&scaron;ta chodi&#357;.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Kam m&aacute; po&scaron;ta chodit.<br /><span class="error_msg">Cie&#318; nie je platn&yacute;!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Nepodarilo sa prida&#357; alias do tabulky aliasov!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'Alias bol &uacute;spe&scaron;ne pridan&yacute; do tabulky aliasov!';
+$PALANG['pCreate_alias_result_success'] = 'Alias bol &uacute;spe&scaron;ne pridan&yacute; do tabulky aliasov!';
 $PALANG['pCreate_alias_catchall_text'] = 'Pre vytvorenie "v&scaron;etko bracieho" aliasu (dom&eacute;nov&eacute;ho ko&#353;a) pou&#382;ite * ako alias.<br />Pre alias dom&eacute;na-dom&eacute;na pou&#382;ite *@domain.tld ako cie&#318;.';
 
 $PALANG['pEdit_alias_welcome'] = 'Upravi&#357; aliasy.<br />Jeden z&aacute;znam na riadku.';
@@ -110,7 +110,7 @@ $PALANG['pCreate_mailbox_active'] = 'Akt&iacute;vny';
 $PALANG['pCreate_mailbox_mail'] = 'Vytvori&#357; schr&aacute;nku na disku';
 $PALANG['pCreate_mailbox_button'] = 'Prida&#357; schr&aacute;nku';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Nepodarilo sa prida&#357; schr&aacute;nku do tabulky schr&aacute;nok!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'Schr&aacute;nka bola pridan&aacute; do tabulky schr&aacute;nok!';
+$PALANG['pCreate_mailbox_result_success'] = 'Schr&aacute;nka bola pridan&aacute; do tabulky schr&aacute;nok!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Upravi&#357; lok&aacute;lnu chr&aacute;nku v dom&eacute;ne.';
 $PALANG['pEdit_mailbox_username'] = 'U&#382;ivate&#318;sk&eacute; meno';
@@ -136,7 +136,7 @@ $PALANG['pPassword_password2'] = 'Nov&eacute; heslo (znovu)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Zadan&eacute; hesl&aacute; s&uacute; rozdielne alebo pr&aacute;zdne!</span>';
 $PALANG['pPassword_button'] = 'Zeni&#357; heslo';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Nepodarilo sa zmeni&#357; heslo!</span>';
-$PALANG['pPassword_result_succes'] = 'Heslo bolo zmenen&eacute;!';
+$PALANG['pPassword_result_success'] = 'Heslo bolo zmenen&eacute;!';
 
 $PALANG['pViewlog_welcome'] = 'Prehliada&#357; 10 posledn&yacute;ch akci&iacute; pre ';
 $PALANG['pViewlog_timestamp'] = '&#268;asov&aacute; zna&#269;ka';
@@ -157,7 +157,7 @@ $PALANG['pSendmail_subject_text'] = 'V&iacute;tajte';
 $PALANG['pSendmail_body'] = 'Obsah';
 $PALANG['pSendmail_button'] = 'Posla&#357; email';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Nepodarilo sa vytvori&#357; schr&aacute;nku!</span>';
-$PALANG['pSendmail_result_succes'] = 'Schr&aacute;nka bola vytvoren&aacute;!';
+$PALANG['pSendmail_result_success'] = 'Schr&aacute;nka bola vytvoren&aacute;!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Administr&aacute;tory';
 $PALANG['pAdminMenu_list_domain'] = 'Dom&eacute;ny';
@@ -215,7 +215,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Prida&#357; implicitn&eacute;; 
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server je z&aacute;lo&#382;n&yacute; MX';
 $PALANG['pAdminCreate_domain_button'] = 'Prida&#357; dom&eacute;nu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Nepodarilo sa prida&#357; dom&eacute;nu!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Dom&eacute;na bola pridan&aacute;!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Dom&eacute;na bola pridan&aacute;!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Upravi&#357; dom&eacute;nu';
 $PALANG['pAdminEdit_domain_domain'] = 'Dom&eacute;na';
@@ -243,7 +243,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Heslo (znovu)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Zadan&eacute; hesl&aacute; s&uacute; rozdielne alebo pr&aacute;zdne!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Prida&#357; administr&aacute;tora';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Nepodarilo sa prida&#357; administr&aacute;tora!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'Administr&aacute;tor bol pidan&yacute;!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Administr&aacute;tor bol pidan&yacute;!';
 $PALANG['pAdminCreate_admin_address'] = 'Dom&eacute;na';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Upravi&#357; dom&eacute;nov&eacute;ho administr&aacute;tora';
@@ -254,7 +254,7 @@ $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Zadan
 $PALANG['pAdminEdit_admin_active'] = 'Akt&iacute;vny';
 $PALANG['pAdminEdit_admin_button'] = 'Upravi&#357; administr&aacute;tora';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Nepodarilo sa upravi&#357; administr&aacute;tora!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Administr&aacute;tor bol upraven&yacute;!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Administr&aacute;tor bol upraven&yacute;!';
 
 $PALANG['pUsersLogin_welcome'] = 'Tu sa prihlasuj&uacute; u&#382;&iacute;vatelia pre zmenu hesla alebo presmerovanie.';
 $PALANG['pUsersLogin_username'] = 'U&#382;ivate&#318;sk&eacute; meno (email)';
@@ -283,7 +283,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Od&iacute;s&#357;';
 $PALANG['pUsersVacation_button_back'] = 'Vr&aacute;ti&#357; sa';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nepodarilo sa upravi&#357; nastavenie!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Nastavenie bolo upraven&eacute;!';
+$PALANG['pUsersVacation_result_success'] = 'Nastavenie bolo upraven&eacute;!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'vytvori&#357; mailbox';     
 $PALANG['pCreate_dbLog_createalias'] = 'vytvori&#357; alias';

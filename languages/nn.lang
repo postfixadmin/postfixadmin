@@ -79,7 +79,7 @@ $PALANG['pCreate_alias_button'] = 'Legg til Alias';
 $PALANG['pCreate_alias_goto_text'] = 'Hvor skal e-posten videresendes?';
 $PALANG['pCreate_alias_goto_text_error'] = 'Hvor skal eposten videresendes?.<br /><span class="error_msg">Mottakerfeltet er ikke gyldig!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Klarte ikke legge til aliaset!</span>';
-$PALANG['pCreate_alias_result_succes'] = 'Aliaset er lagt til i alias-tabellen!';
+$PALANG['pCreate_alias_result_success'] = 'Aliaset er lagt til i alias-tabellen!';
 $PALANG['pCreate_alias_catchall_text'] = 'For å opprette et alias som "mottar alt" bruk "*" som alias.<br />For domene-til-domene videresending bruk "*@domene.tld" som mottaker.'; 
 $PALANG['pEdit_alias_welcome'] = 'Endre et alias.<br />En mottaker per linje.';
 $PALANG['pEdit_alias_address'] = 'Alias';
@@ -108,7 +108,7 @@ $PALANG['pCreate_mailbox_active'] = 'Aktiv';
 $PALANG['pCreate_mailbox_mail'] = 'Opprett epostkonto';
 $PALANG['pCreate_mailbox_button'] = 'Opprett Alias';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Klarte ikke å legge til e-postkontoen!</span>';
-$PALANG['pCreate_mailbox_result_succes'] = 'E-postkontoen er opprettet!';
+$PALANG['pCreate_mailbox_result_success'] = 'E-postkontoen er opprettet!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Endre en e-postkonto.';
 $PALANG['pEdit_mailbox_username'] = 'Brukernavn';
@@ -134,7 +134,7 @@ $PALANG['pPassword_password2'] = 'Nytt passord (igjen)';
 $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Passordene er ikke like!<br />Eller feltet er tomt!</span>';
 $PALANG['pPassword_button'] = 'Endre Passord';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Klarte ikke å endre passord!</span>';
-$PALANG['pPassword_result_succes'] = 'Passordet ditt er nå endret!';
+$PALANG['pPassword_result_success'] = 'Passordet ditt er nå endret!';
 
 $PALANG['pViewlog_welcome'] = 'Vis de 10 siste handlingene ';
 $PALANG['pViewlog_timestamp'] = 'Klokkeslett';
@@ -155,7 +155,7 @@ $PALANG['pSendmail_subject_text'] = 'Velkommen';
 $PALANG['pSendmail_body'] = 'Melding';
 $PALANG['pSendmail_button'] = 'Send beskjed';
 $PALANG['pSendmail_result_error'] = '<span class="error_msg">Klarte ikke å opprette e-postkontoen!</span>';
-$PALANG['pSendmail_result_succes'] = 'E-postkontoen er opprettet!';
+$PALANG['pSendmail_result_success'] = 'E-postkontoen er opprettet!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Administrator-liste';
 $PALANG['pAdminMenu_list_domain'] = 'Domene-liste';
@@ -213,7 +213,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Legg til standard Alias';
 $PALANG['pAdminCreate_domain_backupmx'] = 'E-postserveren er backup-MX';
 $PALANG['pAdminCreate_domain_button'] = 'Legg til domene';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Klarte ikke å legge til domenet!</span>';
-$PALANG['pAdminCreate_domain_result_succes'] = 'Domenet er lagt til!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Domenet er lagt til!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Endre domenet';
 $PALANG['pAdminEdit_domain_domain'] = 'Domene';
@@ -240,7 +240,7 @@ $PALANG['pAdminCreate_admin_password2'] = 'Passord (igjen)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Passordene er ikke like!<br />Eller feltene er tomme!</span>';
 $PALANG['pAdminCreate_admin_button'] = 'Legg til en administrator';
 $PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Klarte ikke å legge til administratoren!</span>';
-$PALANG['pAdminCreate_admin_result_succes'] = 'Administratoren er lagt til!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Administratoren er lagt til!';
 $PALANG['pAdminCreate_admin_address'] = 'Domene';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Endre domene-administrator';
@@ -251,7 +251,7 @@ $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Passo
 $PALANG['pAdminEdit_admin_active'] = 'Aktiv';
 $PALANG['pAdminEdit_admin_button'] = 'Endre Administrator';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Klarte ikke å endre administratoren!</span>';
-$PALANG['pAdminEdit_admin_result_succes'] = 'Administratoren er endret/oppdatert!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Administratoren er endret/oppdatert!';
 
 $PALANG['pUsersLogin_welcome'] = 'Brukere, logg inn for å endre passord og videresending.';
 $PALANG['pUsersLogin_username'] = 'Brukernavn (e-post adr.)';
@@ -280,7 +280,7 @@ EOM;
 $PALANG['pUsersVacation_button_away'] = 'Ikke tilstede';
 $PALANG['pUsersVacation_button_back'] = 'Straks tilbake';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Klarte ikke å oppdatere dine autosvar-instillinger!</span>';
-$PALANG['pUsersVacation_result_succes'] = 'Ditt autosvar er fjernet';
+$PALANG['pUsersVacation_result_success'] = 'Ditt autosvar er fjernet';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'oppret e-postkonto';     
 $PALANG['pCreate_dbLog_createalias'] = 'opprett alias';
