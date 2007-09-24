@@ -124,14 +124,17 @@ if ($db_type eq "mysql") {
 my $loopcount=0;
 
 sub do_debug {
-   my ($in1, $in2, $in3, $in4, $in5, $in6) = @_;
    if ( $debugfile ) {
       my $date;
       open (DEBUG, ">> $debugfile") or die ("Unable to open debug file");
       binmode (DEBUG, ':utf8');
       chop ($date = `date "+%Y/%m/%d %H:%M:%S"`);
       print DEBUG "====== $date ======\n";
-      printf DEBUG "%s | %s | %s | %s | %s | %s\n", $in1, $in2, $in3, $in4, $in5, $in6;
+      my $i;
+      for ($i=0;$i<$#_;$i++) {
+         print DEBUG $_[$i], ' | ';
+      }
+      print DEBUG $_[($#_)], "\n";
       close (DEBUG);
    }
 }
@@ -202,7 +205,7 @@ sub do_mail {
       'Message' => encode_base64($body)
    );
    sendmail(%mail) or do_log($Mail::Sendmail::error);
-   do_debug('Mail::Sendmail said :' . $Mail::Sendmail::log,'','','','','');
+   do_debug('Mail::Sendmail said :' . $Mail::Sendmail::log);
 }
 
 sub panic {
@@ -294,7 +297,7 @@ sub send_vacation_email {
    if ($rv == 1) {
       my @row = $stm->fetchrow_array;
       if (already_notified($email, $orig_from)) { return; }
-      do_debug ("[SEND RESPONSE] for $orig_messageid:\n", "FROM: $email (orig_to: $orig_to)\n", "TO: $orig_from\n", "VACATION SUBJECT: $row[0]\n", "VACATION BODY: $row[1]\n", '');
+      do_debug ("[SEND RESPONSE] for $orig_messageid:\n", "FROM: $email (orig_to: $orig_to)\n", "TO: $orig_from\n", "VACATION SUBJECT: $row[0]\n", "VACATION BODY: $row[1]\n");
 
       # do_mail(from, to, subject, body);
       do_mail ($email, $orig_from, $row[0], $row[1]);
@@ -326,7 +329,7 @@ if (!$from || !$to || !$messageid) { exit (0); }
 
 $from = lc ($from);
 
-if (!Email::Valid->address($from,-mxcheck => 1)) { do_debug("", "", "", "", "", "Invalid from email address: $from; exiting."); exit(0); }
+if (!Email::Valid->address($from,-mxcheck => 1)) { do_debug("Invalid from email address: $from; exiting."); exit(0); }
 
 # Check if it's an obvious sender, exit
 if ($from =~ /([\w\-.%]+\@[\w.-]+)/) { $from = $1; }
@@ -344,7 +347,7 @@ my @search_array;
 for (@strip_to_array) {
    if ($_ =~ /([\w\-.%]+\@[\w.-]+)/) { 
       push (@search_array, $1); 
-      do_debug ("[STRIP RECIPIENTS]: ", $messageid, $1, "-", "-", "-");
+      do_debug ("[STRIP RECIPIENTS]: ", $messageid, $1);
    }
 }
 
@@ -354,7 +357,7 @@ for (@search_array) {
    my $addr = $1;
    my ($rv, $email) = find_real_address ($addr);
    if ($rv == 1) {
-      do_debug ("[FOUND VACATION]: ", $messageid, $from, $to, $email, '');
+      do_debug ("[FOUND VACATION]: ", $messageid, $from, $to, $email);
       send_vacation_email( $email, $from, $to, $messageid);
    }
 }
