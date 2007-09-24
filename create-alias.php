@@ -109,11 +109,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if ($fActive == "on")
    {
-       $fActive = db_get_boolean(True);
+       $sqlActive = db_get_boolean(True);
    }
    else
    {
-       $fActive = db_get_boolean(False);
+       $sqlActive = db_get_boolean(False);
    }
 
    if ($error != 1)
