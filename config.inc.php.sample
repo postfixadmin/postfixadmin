@@ -43,7 +43,8 @@ $CONF['database_tables'] = array (
    'domain_admins' => 'domain_admins',
    'log' => 'log',
    'mailbox' => 'mailbox',
-   'vacation' => 'vacation'
+   'vacation' => 'vacation',
+   'vacation_notification' => 'vacation_notification',
 );
 
 // Site Admin
