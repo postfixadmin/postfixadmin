@@ -174,16 +174,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
       if ($fActive == "on")
       {
-         $fActive = 1;
+         $sqlActive = db_get_boolean(True);
       }
       else
       {
-         $fActive = 0;
+         $sqlActive = db_get_boolean(False);
       }
-      $sqlActive=$fActive;
       if ('pgsql'==$CONF['database_type'])
       {
-         $sqlActive=($fActive) ? 'true' : 'false';
          db_query('BEGIN');
       }
 
@@ -270,7 +268,7 @@ TODO: this is the end of /create-mailbox.php code segment
 
       if (create_mailbox_subfolders($fUsername,$fPassword))
       {
-         $tMessage = $PALANG['pCreate_mailbox_result_succes'] . "<br />($fUsername";
+         $tMessage = $PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername";
       } else {
          $tMessage = $PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername";
       }
@@ -320,7 +318,7 @@ TODO: this is the end of /create-mailbox.php code segment
          }
          else
          {
-            $tMessage .= "<br />" . $PALANG['pSendmail_result_succes'] . "<br />";
+            $tMessage .= "<br />" . $PALANG['pSendmail_result_success'] . "<br />";
          }
       }
       }
