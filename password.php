@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $result = db_query ("UPDATE $table_admin SET password='$password',modified=NOW() WHERE username='$username'");
         if ($result['rows'] == 1)
         {
-            $tMessage = $PALANG['pPassword_result_succes'];
+            $tMessage = $PALANG['pPassword_result_success'];
         }
         else
         {
