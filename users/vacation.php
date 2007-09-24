@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
         else
         {
-            $tMessage = $PALANG['pUsersVacation_result_succes'];
+            $tMessage = $PALANG['pUsersVacation_result_success'];
         }
 
         // We need to see whether there is already an alias record for the user, or not. 
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
         else
         {
-            $tMessage = $PALANG['pUsersVacation_result_succes'];
+            $tMessage = $PALANG['pUsersVacation_result_success'];
         }
 
     }

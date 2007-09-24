@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $result = db_query ("UPDATE $table_mailbox SET password='$password',modified=NOW() WHERE username='$username'");
         if ($result['rows'] == 1)
         {
-            $tMessage = $PALANG['pPassword_result_succes'];
+            $tMessage = $PALANG['pPassword_result_success'];
             db_log ($USERID_USERNAME, $USERID_DOMAIN, "change password", "$USERID_USERNAME");
         }
         else
