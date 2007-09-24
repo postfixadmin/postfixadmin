@@ -109,16 +109,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if ($fActive == "on")
    {
-      $fActive = 1;
+       $fActive = db_get_boolean(True);
    }
    else
    {
-      $fActive = 0;
-   }
-   $sqlActive=$fActive;
-   if ('pgsql'==$CONF['database_type'])
-   {
-      $sqlActive=($fActive) ? 'true' : 'false';
+       $fActive = db_get_boolean(False);
    }
 
    if ($error != 1)
@@ -136,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          db_log ($SESSID_USERNAME, $fDomain, "create alias", "$fAddress -> $fGoto");
 
          $tDomain = $fDomain;
-         $tMessage = $PALANG['pCreate_alias_result_succes'] . "<br />($fAddress -> $fGoto)<br />\n";
+         $tMessage = $PALANG['pCreate_alias_result_success'] . "<br />($fAddress -> $fGoto)<br />\n";
       }
    }
 
