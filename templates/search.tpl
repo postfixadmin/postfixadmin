@@ -26,7 +26,6 @@ for ($i = 1; $i < sizeof ($list_domains); $i++)
 </select>
 <?php
 if (authentication_has_role('global-admin')) {
-   # TODO: make "Return to" translatable
    ?>
    <input class="button" type="submit" name="fGo" value="<?php print $PALANG['pReturn_to'] . ' ' . $PALANG['pAdminMenu_list_virtual']; ?>" /></td>
    <?php 
