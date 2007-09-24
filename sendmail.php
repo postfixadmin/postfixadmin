@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       }
       else
       {
-         $tMessage .= $PALANG['pSendmail_result_succes'];
+         $tMessage .= $PALANG['pSendmail_result_success'];
       }
    }
 
