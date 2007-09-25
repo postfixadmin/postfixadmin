@@ -74,17 +74,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $fMailboxes = -1;
       $fMaxquota = -1;
       $fBackupmx = 1;
-      $sqlBackupmx = ('pgsql'==$CONF['database_type']) ? 'true' : 1;
+      $sqlBackupmx = db_get_boolean(True);
    }
    else
    {
       $fBackupmx = 0;
-      $sqlBackupmx = ('pgsql'==$CONF['database_type']) ? 'false' : 0;
+      $sqlBackupmx = db_get_boolean(False);
    }
 
-   if ($fActive == "on") { $fActive = 1; }
-   $sqlActive=$fActive;
-   if ('pgsql'==$CONF['database_type']) $sqlActive = $fActive ? 'true':'false';
+   if ($fActive == "on") { 
+      $sqlActive = db_get_boolean(True);
+   }
+   else {
+      $sqlActive = db_get_boolean(False);
+   }
+
  
 	$result = db_query ("UPDATE $table_domain SET description='$fDescription',aliases=$fAliases,mailboxes=$fMailboxes,maxquota=$fMaxquota,transport='$fTransport',backupmx='$sqlBackupmx',active='$sqlActive',modified=NOW() WHERE domain='$domain'");
 	if ($result['rows'] == 1)
