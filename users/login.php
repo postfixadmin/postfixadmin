@@ -35,22 +35,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $fUsername = escape_string ($_POST['fUsername']);
    $fPassword = escape_string ($_POST['fPassword']);
 
-   $query = "SELECT password FROM $table_mailbox WHERE username='$fUsername' AND active='1'";
-   if ('pgsql'==$CONF['database_type'])
-   {
-      $query = "SELECT password FROM $table_mailbox WHERE username='$fUsername' AND active=true";
-   }
+   $active = db_get_boolean(True);
+   $query = "SELECT password FROM $table_mailbox WHERE username='$fUsername' AND active=$active";
+
    $result = db_query ($query);
    if ($result['rows'] == 1)
    {
       $row = db_array ($result['result']);
       $password = pacrypt ($fPassword, $row['password']);
 
-      $query = "SELECT * FROM $table_mailbox WHERE username='$fUsername' AND password='$password' AND active='1'";
-      if ('pgsql'==$CONF['database_type'])
-      {
-         $query = "SELECT * FROM $table_mailbox WHERE username='$fUsername' AND password='$password' AND active=true";
-      }
+      $query = "SELECT * FROM $table_mailbox WHERE username='$fUsername' AND password='$password' AND active=$active";
+
       $result = db_query ($query);
       if ($result['rows'] != 1)
       {
