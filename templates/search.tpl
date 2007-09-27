@@ -61,13 +61,14 @@ if (sizeof ($tAlias) > 0)
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
          //highlight search string
-         if (stristr($tAlias[$i]['address'],$fSearch))
+         $tAlias[$i]['display_address'] = $tAlias[$i]['address'];
+         if (stristr($tAlias[$i]['display_address'],$fSearch))
          {
            $new_address = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
-               $fSearch . "</span>", $tAlias[$i]['address']);
-           $tAlias[$i]['address'] = $new_address;
+               $fSearch . "</span>", $tAlias[$i]['display_address']);
+           $tAlias[$i]['display_address'] = $new_address;
          }
-         print "      <td>" . $tAlias[$i]['address'] . "</td>\n";
+         print "      <td>" . $tAlias[$i]['display_address'] . "</td>\n";
          if (stristr($tAlias[$i]['goto'],$fSearch))
          {
            $new_goto = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
@@ -137,13 +138,14 @@ if (sizeof ($tMailbox) > 0)
       if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
-         if (stristr($tMailbox[$i]['username'],$fSearch))
+         $tMailbox[$i]['display_username'] = $tMailbox[$i]['username'];
+         if (stristr($tMailbox[$i]['display_username'],$fSearch))
          {
            $new_name = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
-               $fSearch . "</span>", $tMailbox[$i]['username']);
-           $tMailbox[$i]['username'] = $new_name;
+               $fSearch . "</span>", $tMailbox[$i]['display_username']);
+           $tMailbox[$i]['display_username'] = $new_name;
          }
-         print "      <td>" . $tMailbox[$i]['username'] . "</td>\n";
+         print "      <td>" . $tMailbox[$i]['display_username'] . "</td>\n";
          if (stristr($tMailbox[$i]['name'],$fSearch))
          {
            $new_name = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
