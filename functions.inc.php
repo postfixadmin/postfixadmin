@@ -1423,7 +1423,7 @@ function db_log ($username,$domain,$action,$data)
    global $table_log;
    $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
 
-   $action_list = array('create_alias', 'delete_alias', 'edit_alias', 'create_mailbox', 'delete_mailbox', 'edit_alias_state', 'edit_mailbox_state', 'edit_password');
+   $action_list = array('create_alias', 'delete_alias', 'edit_alias', 'create_mailbox', 'delete_mailbox', 'edit_mailbox', 'edit_alias_state', 'edit_mailbox_state', 'edit_password');
 
    if(!in_array($action, $action_list)) {
       die("Invalid log action : $action");   // could do with something better?
