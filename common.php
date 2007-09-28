@@ -14,6 +14,8 @@
 // 
 
 $incpath = dirname(__FILE__);
+(ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_runtime', '0') : '1');
+(ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_sybase', '0') : '1');
 
 require_once("$incpath/variables.inc.php");
 if(!is_file("$incpath/config.inc.php")) {
