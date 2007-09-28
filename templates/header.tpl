@@ -38,3 +38,23 @@ if (($CONF['show_header_text'] == "YES") and ($CONF['header_text']))
 }
 ?>
 </div>
+
+<?php
+if(isset($_SESSION['flash'])) {
+    if(isset($_SESSION['flash']['info'])) {
+        echo '<ul class="flash-info">';
+        foreach($_SESSION['flash']['info'] as $msg) {
+            echo "<li>$msg</li>";
+        }
+        echo '</ul>';
+    }
+    if(isset($_SESSION['flash']['error'])) {
+        echo '<ul class="flash-error">';
+        foreach($_SESSION['flash']['error'] as $msg) {
+            echo "<li>$msg</li>";
+        }
+        echo '</ul>';
+    }
+    /* nuke it from orbit. It's the only way to be sure. */
+    $_SESSION['flash'] = array(); 
+}
