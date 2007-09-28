@@ -98,6 +98,39 @@ function authentication_is_user() {
 }
 
 
+/**
+ * Add an error message for display on the next page that is rendered.
+ * @param String message to show. 
+ *
+ * Stores string in session. Flushed through header template.
+ * @see _flash_string()
+ */
+function flash_error($string) {
+   _flash_string('error', $string);
+}
+
+/**
+ * Used to display an info message on successful update.
+ * @param String $string
+ * Stores data in sessio.
+ * @see _flash_string()
+ */
+function flash_info($string) {
+   _flash_string('info', $string);
+}
+/**
+ * 'Private' method used for flash_info() and flash_error().
+ */
+function _flash_string($type, $string) {
+   if(!isset($_SESSION['flash'])) {
+      $_SESSION['flash'] = array();
+   }
+   if(!isset($_SESSION['flash'][$type])) {
+      $_SESSION['flash'][$type] = array();
+   }
+   $_SESSION['flash'][$type][] = $string;
+}
+
 //
 // check_language
 // Action: checks what language the browser uses
@@ -232,16 +265,26 @@ function check_email ($email)
 
 
 
-//
-// escape_string
-// Action: Escape a string
-// Call: escape_string (string string)
-//
-(ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_runtime', '0') : '1');
-(ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_sybase', '0') : '1');
+/**
+ * Clean a string, escaping any meta characters that could be
+ * used to disrupt an SQL string. i.e. "'" => "\'" etc.
+ *
+ * @param String (or Array) 
+ * @return String (or Array) of cleaned data, suitable for use within an SQL
+ *    statement.
+ */
 function escape_string ($string)
 {
    global $CONF;
+   // if the string is actually an array, do a recursive cleaning.
+   // Note, the array keys are not cleaned.
+   if(is_array($string)) {
+      $clean = array();
+      foreach($string as $row) {
+         $clean[] = escape_string($row);  
+      }
+      return $clean;
+   }
    if (get_magic_quotes_gpc ())
    {
       $string = stripslashes($string);
@@ -619,23 +662,38 @@ function check_alias_owner ($username, $alias)
 }
 
 
-
-//
-// list_domains_for_admin
-// Action: Lists all the domains for an admin.
-// Call: list_domains_for_admin (string admin)
-//
+/**
+ * List domains for an admin user. If $username is empty, it returns all
+ * available damains for a user.
+ * Otherwise, it returns only those domains for a particular user.
+ * @param String $username
+ * @return array of domain names.
+ */
 function list_domains_for_admin ($username)
 {
    global $CONF;
    global $table_domain, $table_domain_admins;
    $list = array ();
 
-   $query = "SELECT $table_domain.domain FROM $table_domain LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain WHERE $table_domain_admins.username='$username' AND $table_domain.active='1' AND $table_domain.backupmx='0' ORDER BY $table_domain_admins.domain";
-   if ('pgsql'==$CONF['database_type'])
-   {
-      $query = "SELECT $table_domain.domain FROM $table_domain LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain WHERE $table_domain_admins.username='$username' AND $table_domain.active=true AND $table_domain.backupmx=false ORDER BY $table_domain_admins.domain";
+   $username_sql = '';
+   $active_sql = db_get_boolean(True);
+   $backupmx_sql = db_get_boolean(False);
+   if($username != '') {
+      $query = "SELECT $table_domain.domain, $table_domain_admins.username FROM $table_domain 
+         LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain 
+         WHERE $table_domain_admins.username='$username' 
+         AND $table_domain.active=$active_sql 
+         AND $table_domain.backupmx=$backupmx_sql 
+         ORDER BY $table_domain_admins.domain";
    }
+   else {
+      $query = "SELECT $table_domain.domain FROM $table_domain 
+         LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain 
+         WHERE $table_domain.active=$active_sql 
+         AND $table_domain.backupmx=$backupmx_sql 
+         ORDER BY $table_domain_admins.domain";
+   }
+
    $result = db_query ($query);
    if ($result['rows'] > 0)
    {
@@ -1233,7 +1291,7 @@ function db_connect ()
       if (function_exists ("pg_pconnect"))
       {
          $connect_string = "host=" . $CONF['database_host'] . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
-         $link = @pg_pconnect ($connect_string) or die ("<p />DEBUG INFORMATION:<br />Connect: " .  pg_last_error($link) . "$DEBUG_TEXT");
+         $link = @pg_pconnect ($connect_string) or die ("<p />DEBUG INFORMATION:<br />Connect: failed to connect to database. $DEBUG_TEXT");
          pg_set_client_encoding($link, 'UNICODE');
       }
       else
