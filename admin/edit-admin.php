@@ -11,11 +11,10 @@
 //
 // Template Variables:
 //
-// tDescription
-// tAliases
-// tMailboxes
-// tMaxquota
+// tAllDomains
+// tDomains
 // tActive
+// tSadmin
 //
 // Form POST \ GET Variables:
 //
@@ -30,115 +29,98 @@ require_once('../common.php');
 
 authentication_require_role('global-admin');
 
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
-   if (isset ($_GET['username'])) $username = escape_string ($_GET['username']);
-
-   $list_domains = list_domains ();
-   isset ($_GET['username']) ? $tDomains = list_domains_for_admin ($username) : $tDomains = "";
-
-   $result = db_query ("SELECT * FROM $table_domain_admins WHERE username='$username'");
-   if ($result['rows'] == 1)
-   {
-      $row = db_array ($result['result']);
-      if ($row['domain'] == 'ALL') $tSadmin = '1';
-   }
-
-   $result = db_query ("SELECT * FROM $table_admin WHERE username='$username'");
-   if ($result['rows'] == 1)
-   {
-      $row = db_array ($result['result']);
-      $tActive = $row['active'];
-      if ('pgsql'==$CONF['database_type']) $tActive=('t'==$tActive) ? TRUE:FALSE;
-   }
-
-   include ("../templates/header.tpl");
-   include ("../templates/admin_menu.tpl");
-   include ("../templates/admin_edit-admin.tpl");
-   include ("../templates/footer.tpl");
-}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-   if (isset ($_GET['username'])) $username = escape_string ($_GET['username']);
-   
-   if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
-   if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
+   $fPassword = 'x';
+   $fPassword = 'y';
+   if(isset ($_GET['username'])) $username = escape_string ($_GET['username']);
+
+   if(isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
+   if(isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
 
    $fActive=(isset($_POST['fActive'])) ? escape_string ($_POST['fActive']) : FALSE;
    $fSadmin=(isset($_POST['fSadmin'])) ? escape_string ($_POST['fSadmin']) : FALSE;
 
+   $fDomains = false;
    if (isset ($_POST['fDomains'])) $fDomains = $_POST['fDomains'];
 
-   $list_domains = list_domains ();
-   
-	if ($fPassword != $fPassword2)
-	{
-	   $error = 1;
-      $tActive = $fActive;
-      $tDomains = escape_string ($_POST['fDomains']);
-      $pAdminEdit_admin_password_text = $PALANG['pAdminEdit_admin_password_text_error'];
+   $tAllDomains = list_domains ();
+
+   $result = db_query("SELECT * FROM $table_admin WHERE username = '$username'");
+   if($result['rows'] != 1) {
+      die("Invalid username for admin user");
+   }
+   $admin_details = db_array($result['result']);
+   $originalPassword = $admin_details['password'];
+   // has the password changed?
+   if($fPassword != $originalPassword) { 
+      if(!empty($_POST['fPassword2'])) {
+         if ($fPassword != $fPassword2)
+         {
+            $error = 1;
+            $pAdminEdit_admin_password_text = $PALANG['pAdminEdit_admin_password_text_error'];
+         }
+         else {
+            $fPassword = pacrypt($fPassword);
+         }
+      }
    }
 
+   $tActive = $fActive;
+   $tDomains = escape_string ($_POST['fDomains']);
    if ($error != 1)
    {
-      if ($fActive == "on") $fActive = 1;
-      $sqlActive=$fActive;
-      if ('pgsql'==$CONF['database_type']) $sqlActive=($fActive) ? 'true' : 'false';
+      if ($fActive == "on")  {
+         $sqlActive = db_get_boolean(True);
+      }
+      else {
+         $sqlActive = db_get_boolean(False);
+      }
+
+
+      $result = db_query ("UPDATE $table_admin SET modified=NOW(),active='$sqlActive', password='$fPassword' WHERE username='$username'");
 
       if ($fSadmin == "on") $fSadmin = 'ALL';
 
-      if (empty ($fPassword) and empty ($fPassword2))
-      {
-         $result = db_query ("UPDATE $table_admin SET modified=NOW(),active='$sqlActive' WHERE username='$username'");
-      }
-      else
-      {
-         $password = pacrypt ($fPassword);
-         $result = db_query ("UPDATE $table_admin SET password='$password',modified=NOW(),active='$sqlActive' WHERE username='$username'");
+      // delete everything, and put it back later on..
+      db_query("DELETE FROM $table_domain_admins WHERE username = '$username'");
+      if($fSadmin == 'ALL') {
+         $fDomains = array('ALL');
       }
 
-      if (sizeof ($fDomains) > 0)
+      foreach($fDomains as $domain) 
       {
-         for ($i = 0; $i < sizeof ($fDomains); $i++)
-         {
-            $domain = $fDomains[$i];
-            $result_domains = db_query ("INSERT INTO $table_domain_admins (username,domain,created) VALUES ('$username','$domain',NOW())");
-         }
+         $result = db_query ("INSERT INTO $table_domain_admins (username,domain,created) VALUES ('$username','$domain',NOW())");
       }
+      flash_info($PALANG['pAdminEdit_admin_result_success']);
+   }
+   else {
+      flash_error($PALANG['pAdminEdit_admin_result_error']);
+   }
+   header("Location: list-admin.php");
+}
+else { // GET request.
+   if (isset($_GET['username'])) $username = escape_string ($_GET['username']);
 
-   	if ($result['rows'] == 1)
-   	{
-         if (isset ($fDomains[0]))
-         {
-            $result = db_query ("DELETE FROM $table_domain_admins WHERE username='$username'");
-            if ($fSadmin == 'ALL')
-            {
-               $result = db_query ("INSERT INTO $table_domain_admins (username,domain,created) VALUES ('$username','ALL',NOW())");
-            }
-            else
-            {
-               if ($fDomains[0] != '')
-               for ($i = 0; $i < sizeof ($fDomains); $i++)
-               {
-                  $domain = $fDomains[$i];
-                  $result = db_query ("INSERT INTO $table_domain_admins (username,domain,created) VALUES ('$username','$domain',NOW())");
-               }
-            }
-         }
-         header ("Location: list-admin.php");
-         exit;
-   	}
-   	else
-   	{
-   	   $tMessage = $PALANG['pAdminEdit_admin_result_error'];
-   	}
-	}
-	
+   $tAllDomains = list_domains();
+   $tDomains = list_domains_for_admin ($username);
+
+   $tSadmin = '0';
+   $result = db_query ("SELECT * FROM $table_domain_admins WHERE username='$username'");
+   // could/should be multiple matches to query; 
+   if ($result['rows'] >= 1) {
+      $result = $result['result'];
+      while($row = db_array($result)) {
+          if ($row['domain'] == 'ALL') {
+              $tSadmin = '1';
+              $tDomains = array(); /* empty the list, they're an admin */
+          }
+      }
+   }
+
    include ("../templates/header.tpl");
    include ("../templates/admin_menu.tpl");
    include ("../templates/admin_edit-admin.tpl");
    include ("../templates/footer.tpl");
 }
-/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
-?>
