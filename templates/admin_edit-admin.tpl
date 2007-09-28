@@ -10,7 +10,7 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminEdit_admin_password'] . ":"; ?></td>
-      <td><input class="flat" type="password" name="fPassword" /></td>
+      <td><input class="flat" type="password" name="fPassword" value="<?= $fPassword; ?>"/></td>
       <td><?php print $pAdminEdit_admin_password_text; ?></td>
    </tr>
    <tr>
@@ -32,16 +32,13 @@
       <td colspan=3 align=center>
       <select name="fDomains[]" size="10" multiple="multiple">
       <?php
-      for ($i = 0; $i < sizeof ($list_domains); $i++)
-      {  
-         if (in_array ($list_domains[$i], $tDomains))
-         {
-            print "<option value=\"" . $list_domains[$i] . "\" selected=\"selected\">" . $list_domains[$i] . "</option>\n";
+      foreach($tAllDomains as $domain) {
+         // should escape $domain here to stop xss etc.
+         $selected = '';
+         if (in_array ($domain, $tDomains))  {
+            $selected = "selected='selected'";
          }
-         else
-         {
-            print "<option value=\"" . $list_domains[$i] . "\">" . $list_domains[$i] . "</option>\n";
-         }
+         print "<option value='$domain' $selected>$domain</option>\n";
       }
       ?>
       </select>
