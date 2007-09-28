@@ -663,9 +663,7 @@ function check_alias_owner ($username, $alias)
 
 
 /**
- * List domains for an admin user. If $username is empty, it returns all
- * available damains for a user.
- * Otherwise, it returns only those domains for a particular user.
+ * List domains for an admin user. 
  * @param String $username
  * @return array of domain names.
  */
@@ -674,25 +672,15 @@ function list_domains_for_admin ($username)
    global $CONF;
    global $table_domain, $table_domain_admins;
    $list = array ();
-
-   $username_sql = '';
+   // does $username need escaping here?
    $active_sql = db_get_boolean(True);
    $backupmx_sql = db_get_boolean(False);
-   if($username != '') {
-      $query = "SELECT $table_domain.domain, $table_domain_admins.username FROM $table_domain 
-         LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain 
-         WHERE $table_domain_admins.username='$username' 
-         AND $table_domain.active=$active_sql 
-         AND $table_domain.backupmx=$backupmx_sql 
-         ORDER BY $table_domain_admins.domain";
-   }
-   else {
-      $query = "SELECT $table_domain.domain FROM $table_domain 
-         LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain 
-         WHERE $table_domain.active=$active_sql 
-         AND $table_domain.backupmx=$backupmx_sql 
-         ORDER BY $table_domain_admins.domain";
-   }
+   $query = "SELECT $table_domain.domain, $table_domain_admins.username FROM $table_domain 
+      LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain 
+      WHERE $table_domain_admins.username='$username' 
+      AND $table_domain.active=$active_sql 
+      AND $table_domain.backupmx=$backupmx_sql 
+      ORDER BY $table_domain_admins.domain";
 
    $result = db_query ($query);
    if ($result['rows'] > 0)
@@ -1474,7 +1462,7 @@ Possible actions are:
 'edit_mailbox_state'
 'edit_password'
 
-*/
+ */
 function db_log ($username,$domain,$action,$data)
 {
    global $CONF;
