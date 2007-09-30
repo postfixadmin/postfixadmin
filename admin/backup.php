@@ -1,22 +1,25 @@
 <?php
-// 
-// Postfix Admin 
-// by Mischa Peters <mischa at high5 dot net>
-// Copyright (c) 2002 - 2005 High5!
-// Licensed under GPL for more info check GPL-LICENSE.TXT
-//
-// File: backup.php
-//
-// Template File: -none-
-//
-// Template Variables:
-//
-// -none-
-//
-// Form POST \ GET Variables:
-//
-// -none-
-//
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at : 
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
+ * 
+ * @version $Id$ 
+ * @license GNU GPL v2 or later. 
+ * 
+ * File: backup.php
+ * Used to save all settings - but only works for MySQL databases.
+ * Template File: -none-
+ *
+ * Template Variables: -none-
+ *
+ * Form POST \ GET Variables: -none-
+ */
 
 require_once('../common.php');
 

@@ -1,28 +1,36 @@
 <?php
-//
-// Postfix Admin
-// by Mischa Peters <mischa at high5 dot net>
-// Copyright (c) 2002 - 2005 High5!
-// Licensed under GPL for more info check GPL-LICENSE.TXT
-//
-// File: overview.php
-//
-// Template File: overview.tpl
-//
-// Template Variables:
-//
-// tAlias
-// tDomain
-// tMailbox
-// tDisplay_back
-// tDisplay_next
-//
-// Form POST \ GET Variables:
-//
-// domain
-// fDomain
-// limit
-//
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at : 
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
+ * 
+ * @version $Id$ 
+ * @license GNU GPL v2 or later. 
+ * 
+ * File: overview.php
+ * Shows an overview for admins.
+ *
+ * Template File: overview.tpl
+ *
+ * Template Variables:
+ *
+ * tAlias
+ * tDomain
+ * tMailbox
+ * tDisplay_back
+ * tDisplay_next
+ *
+ * Form POST \ GET Variables:
+ *
+ * domain
+ * fDomain
+ * limit
+ */
 
 require_once('common.php');
 

@@ -1,23 +1,38 @@
 <?php
-// 
-// Postfix Admin 
-// by Mischa Peters <mischa at high5 dot net>
-// Copyright (c) 2002 - 2005 High5!
-// Licensed under GPL for more info check GPL-LICENSE.TXT
-//
-// File: delete.php
-//
-// Template File: message.tpl
-//
-// Template Variables:
-//
-// tMessage
-//
-// Form POST \ GET Variables:
-//
-// fDelete
-// fDomain
-//
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at : 
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
+ * 
+ * @version $Id$ 
+ * @license GNU GPL v2 or later. 
+ * 
+ * File: delete.php
+ * Responsible for allowing for the deletion of domains; note if 
+ * a domain is deleted, all mailboxes and aliases belonging to the 
+ * domain are also removed.
+ *
+ * @version $Id$
+ * @license GNU GPL v2 or later.
+ *
+ * Template Variables:
+ *
+ * Template File: message.tpl
+ *
+ * Template Variables:
+ *
+ * tMessage
+ *
+ * Form POST \ GET Variables:
+ *
+ * fDelete
+ * fDomain
+ */
 
 require_once('common.php');
 

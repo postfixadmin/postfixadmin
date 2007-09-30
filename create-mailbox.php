@@ -1,33 +1,42 @@
 <?php
-// 
-// Postfix Admin 
-// by Mischa Peters <mischa at high5 dot net>
-// Copyright (c) 2002 - 2005 High5!
-// Licensed under GPL for more info check GPL-LICENSE.TXT
-//
-// File: create-mailbox.php
-//
-// Template File: create-mailbox.tpl
-//
-// Template Variables:
-//
-// tMessage
-// tUsername
-// tName
-// tQuota
-// tDomain
-//
-// Form POST \ GET Variables:
-//
-// fUsername
-// fPassword
-// fPassword2
-// fName
-// fQuota
-// fDomain
-// fActive
-// fMail
-//
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at : 
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
+ * 
+ * @version $Id$ 
+ * @license GNU GPL v2 or later. 
+ * 
+ * File: create-mailbox.php
+ * Responsible for allowing for the creation of mail boxes
+ *
+ * @version $Id$
+ * @license GNU GPL v2 or later.
+ *
+ * Template Variables:
+ *
+ * tMessage
+ * tUsername
+ * tName
+ * tQuota
+ * tDomain
+ *
+ * Form POST \ GET Variables:
+ *
+ * fUsername
+ * fPassword
+ * fPassword2
+ * fName
+ * fQuota
+ * fDomain
+ * fActive
+ * fMail
+ */
 
 require_once('common.php');
 

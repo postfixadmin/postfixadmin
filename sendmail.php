@@ -1,27 +1,34 @@
 <?php
-//
-// Postfix Admin
-// by Mischa Peters <mischa at high5 dot net>
-// Copyright (c) 2002 - 2005 High5!
-// Licensed under GPL for more info check GPL-LICENSE.TXT
-//
-// File: sendmail.php
-//
-// Template File: sendmail.tpl
-//
-// Template Variables:
-//
-// tMessage
-// tFrom
-// tSubject
-// tBody
-//
-// Form POST \ GET Variables:
-//
-// fTo
-// fSubject
-// fBody
-//
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at : 
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
+ * 
+ * @version $Id$ 
+ * @license GNU GPL v2 or later. 
+ * 
+ * File: sendmail.php
+ * Used to send an email to a user.
+ * Template File: sendmail.tpl
+ *
+ * Template Variables:
+ *
+ * tMessage
+ * tFrom
+ * tSubject
+ * tBody
+ *
+ * Form POST \ GET Variables:
+ *
+ * fTo
+ * fSubject
+ * fBody
+ */
 
 require_once('common.php');
 

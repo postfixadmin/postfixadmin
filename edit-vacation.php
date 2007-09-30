@@ -1,33 +1,39 @@
 <?php
-// XXX TODO - Remove the code duplication between this file (for admins) and users/vacation.php
-//  - too much of the code is identical for there not to be some refactoring possible.
-//
-// Postfix Admin
-// by Mischa Peters <mischa at high5 dot net>
-// Copyright (c) 2002 - 2007 High5!
-// Licensed under GPL for more info check GPL-LICENSE.TXT
-//
-// File: edit-vacation.php
-//
-// Template File: edit-vacation.tpl
-//
-// Template Variables:
-//
-// tUseremail
-// tMessage
-// tSubject
-// tBody
-//
-// Form POST \ GET Variables:
-//
-// fUsername
-// fDomain
-// fCanceltarget
-// fChange
-// fBack
-// fQuota
-// fActive
-//
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at : 
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
+ * 
+ * @version $Id$ 
+ * @license GNU GPL v2 or later. 
+ * 
+ * File: edit-vacation.php 
+ * Responsible for allowing users to update their vacation status.
+ *
+ * Template File: edit-vacation.tpl
+ *
+ * Template Variables:
+ *
+ * tUseremail
+ * tMessage
+ * tSubject
+ * tBody
+ *
+ * Form POST \ GET Variables:
+ *
+ * fUsername
+ * fDomain
+ * fCanceltarget
+ * fChange
+ * fBack
+ * fQuota
+ * fActive
+ */
 
 require_once('common.php');
 

@@ -1,25 +1,30 @@
 <?php
-// 
-// Postfix Admin 
-// by Mischa Peters <mischa at high5 dot net>
-// Copyright (c) 2002 - 2005 High5!
-// Licensed under GPL for more info check GPL-LICENSE.TXT
-//
-// File: broadcast-message.php
-//
-// Template File: broadcast-message.tpl
-//
-// Template Variables:
-//
-// -none-
-//
-// Form POST \ GET Variables:
-//
-// name
-// subject
-// message
-//
-//
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at : 
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
+ * 
+ * @version $Id$ 
+ * @license GNU GPL v2 or later. 
+ * 
+ * File: broadcast-message.php
+ * Used to send a message to _ALL_ users with mailboxes on this server.
+ *
+ * Template File: broadcast-message.tpl
+ *
+ * Template Variables: -none-
+ *
+ * Form POST \ GET Variables:
+ *
+ * name
+ * subject
+ * message
+ */
 
 require_once('../common.php');
 

@@ -1,12 +1,22 @@
 <?php
-//
-// Postfix Admin
-// by Mischa Peters <mischa at high5 dot net>
-// Copyright (c) 2002 - 2005 High5!
-// Licensed under GPL for more info check GPL-LICENSE.TXT
-//
-// File: variables.inc.php
-//
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at : 
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
+ * 
+ * @version $Id$ 
+ * @license GNU GPL v2 or later. 
+ * 
+ * File: variables.inc.php
+ * Contains varoius pre-defined variables. 
+ *
+ * XXX Probably a hack to save having to declare variables before using them in pages.
+ */
 if (ereg ("variables.inc.php", $_SERVER['PHP_SELF']))
 {
    header ("Location: login.php");

@@ -1,24 +1,31 @@
 <?php
-// 
-// Postfix Admin 
-// by Mischa Peters <mischa at high5 dot net>
-// Copyright (c) 2002 - 2005 High5!
-// Licensed under GPL for more info check GPL-LICENSE.TXT
-//
-// File: login.php
-//
-// Template File: login.tpl
-//
-// Template Variables:
-//
-//  tMessage
-//  tUsername
-//
-// Form POST \ GET Variables:  
-//
-//  fUsername
-//  fPassword
-//
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at : 
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
+ * 
+ * @version $Id$ 
+ * @license GNU GPL v2 or later. 
+ * 
+ * File: login.php
+ * Used to authenticate want-to-be users.
+ * Template File: login.tpl
+ *
+ * Template Variables:
+ *
+ *  tMessage
+ *  tUsername
+ *
+ * Form POST \ GET Variables:  
+ *
+ *  fUsername
+ *  fPassword
+ */
 
 require_once("../common.php");
 
@@ -70,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       header("Location: main.php");
       exit;
    }
-   
+
    include ("../templates/header.tpl");
    include ("../templates/users_login.tpl");
    include ("../templates/footer.tpl");

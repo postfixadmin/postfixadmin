@@ -1,30 +1,37 @@
 <?php
-// 
-// Postfix Admin 
-// by Mischa Peters <mischa at high5 dot net>
-// Copyright (c) 2002 - 2005 High5!
-// Licensed under GPL for more info check GPL-LICENSE.TXT
-//
-// File: edit-domain.php
-//
-// Template File: admin_edit-domain.tpl
-//
-// Template Variables:
-//
-// tDescription
-// tAliases
-// tMailboxes
-// tMaxquota
-// tActive
-//
-// Form POST \ GET Variables:
-//
-// fDescription
-// fAliases
-// fMailboxes
-// fMaxquota
-// fActive
-//
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at : 
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
+ * 
+ * @version $Id$ 
+ * @license GNU GPL v2 or later. 
+ * 
+ * File: edit-domain.php 
+ * Updates the properties of a domain.
+ * Template File: admin_edit-domain.tpl
+ *
+ * Template Variables:
+ *
+ * tDescription
+ * tAliases
+ * tMailboxes
+ * tMaxquota
+ * tActive
+ *
+ * Form POST \ GET Variables:
+ *
+ * fDescription
+ * fAliases
+ * fMailboxes
+ * fMaxquota
+ * fActive
+ */
 
 require_once('../common.php');
 
