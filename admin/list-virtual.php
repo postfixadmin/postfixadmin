@@ -55,7 +55,6 @@ else
 
 if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDomain)) $fDomain = $list_domains[0];
 
-$limit = get_domain_properties ($fDomain);
 
 if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDomain)) $fDomain = $list_domains[1];
 
@@ -116,21 +115,45 @@ if ($result['rows'] > 0)
    }
 }
 
-if (isset ($limit))
-{
-   if ($fDisplay >= $page_size)
-   {
+$tCanAddAlias = false;
+$tCanAddMailbox = false;
+
+$limit = get_domain_properties($fDomain);
+if (isset ($limit)) {
+   if ($fDisplay >= $page_size) {
       $tDisplay_back_show = 1;
       $tDisplay_back = $fDisplay - $page_size;
    }
-   if (($limit['alias_count'] > $page_size) or ($limit['mailbox_count'] > $page_size))
-   {
+   if (($limit['alias_count'] > $page_size) or ($limit['mailbox_count'] > $page_size)) {
       $tDisplay_up_show = 1;
    }      
-   if ((($fDisplay + $page_size) < $limit['alias_count']) or (($fDisplay + $page_size) < $limit['mailbox_count']))
+   if ((($fDisplay + $page_size) < $limit['alias_count']) or 
+      (($fDisplay + $page_size) < $limit['mailbox_count'])) 
    {
       $tDisplay_next_show = 1;
       $tDisplay_next = $fDisplay + $page_size;
+   }
+
+   $active = $limit['active'];
+   if($active == 't' || $active == 1) {
+      $backup_mx = $limit['backupmx'];
+      if($backup_mx == 'f' || $backup_mx == 0) {
+         if($limit['aliases'] == -1) {
+            $tCanAddAlias = true;
+         }
+         elseif($limit['alias_count'] < $limit['aliases']) {
+            $tCanAddAlias = true;
+            echo 'xxx2';
+         }
+         if($limit['mailboxes'] == -1) {
+            $tCanAddMailbox = true;
+            echo 'xxx3';
+         }
+         elseif($limit['mailbox_count'] < $limit['mailboxes']) {
+            $tCanAddMailbox = true;
+            echo 'xxx4';
+         }
+      }
    }
 }
 
