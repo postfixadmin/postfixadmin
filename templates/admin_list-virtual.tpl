@@ -102,7 +102,9 @@ if (sizeof ($tAlias) > 0)
    }
    print "</table>\n";
 }
-print "<p><a href=\"create-alias.php?domain=$fDomain\">" . $PALANG['pMenu_create_alias'] . "</a>\n";
+if($tCanAddAlias) {
+   print "<p><a href=\"create-alias.php?domain=$fDomain\">" . $PALANG['pMenu_create_alias'] . "</a>\n";
+}
 
    print "<div id=\"nav_bar\"><a name=\"MidArrow\" /a>\n<table width=730><colgroup span=\"1\"> <col width=\"550\"></col></colgroup> <tr><td align=left >";
    if ( $limit['mbox_pgindex_count'] ) print "<b>".$PALANG['pOverview_mailbox_title']."</b>&nbsp&nbsp";
@@ -224,6 +226,8 @@ if (sizeof ($tMailbox) > 0)
    }
    print "</div>\n";
 
+}
+if($tCanAddMailbox) {
    print "<p><a href=\"create-mailbox.php?domain=$fDomain\">" . $PALANG['pMenu_create_mailbox'] . "</a>\n";
 }
 
