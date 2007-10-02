@@ -38,6 +38,10 @@ require_once('common.php');
 authentication_require_role('admin');
 $SESSID_USERNAME = authentication_get_username();
 
+$fUsername = 'x';
+$fDomain = 'y';
+$error = 0;
+
 if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
 $fUsername = strtolower ($fUsername);
 if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
@@ -45,32 +49,39 @@ if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
 $pEdit_mailbox_name_text = $PALANG['pEdit_mailbox_name_text'];
 $pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text'];
 
+$result = db_query("SELECT * FROM $table_mailbox WHERE username = '$fUsername' AND domain = '$fDomain'");
+if($result['rows'] != 1) {
+   die("Invalid username chosen; user does not exist in mailbox table");
+}
+
+if (!(check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin')) )
+{
+   $error = 1;
+   $tName = $fName;
+   $tQuota = $fQuota;
+   $tActive = $fActive;
+   $tMessage = $PALANG['pEdit_mailbox_domain_error'] . "$fDomain</font>"; // XXX ergh; why is a closing font tag here?
+}
+
+$user_details = db_array($result['result']);
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-   if (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin'))
+   if (check_owner($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin'))
    {
-      $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fUsername' AND domain='$fDomain'");
-      if ($result['rows'] == 1)
-      {
-         $row = db_array ($result['result']);
-         $tName = $row['name'];
-         $tQuota = divide_quota($row['quota']);
-         $tActive = $row['active'];
-         if ('pgsql'==$CONF['database_type']) {
-            $tActive = ('t'==$row['active']) ? 1 : 0;
-         }
+      $tName = $user_details['name'];
+      $tQuota = divide_quota($user_details['quota']);
+      $tActive = $user_details['active'];
+      if ('pgsql'==$CONF['database_type']) {
+         $tActive = ('t'==$user_details['active']) ? 1 : 0;
       }
 
       $result = db_query ("SELECT * FROM $table_domain WHERE domain='$fDomain'");
       if ($result['rows'] == 1)
       {
-			$row = db_array ($result['result']);
-			$tMaxquota = $row['maxquota'];
+         $row = db_array ($result['result']);
+         $tMaxquota = $row['maxquota'];
       }
-   }
-   else
-   {
-      $tMessage = $PALANG['pEdit_mailbox_login_error'];
    }
 }
 
@@ -82,22 +93,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fQuota'])) $fQuota = intval ($_POST['fQuota']);
    if (isset ($_POST['fActive'])) $fActive = escape_string ($_POST['fActive']);
 
-   if (! (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin')) )
-   {
-      $error = 1;
-      $tName = $fName;
-      $tQuota = $fQuota;
-      $tActive = $fActive;
-      $tMessage = $PALANG['pEdit_mailbox_domain_error'] . "$fDomain</font>";
-   }
 
-   if ($fPassword != $fPassword2)
-   {
-	   $error = 1;
-      $tName = $fName;
-      $tQuota = $fQuota;
-      $tActive = $fActive;
-      $pEdit_mailbox_password_text = $PALANG['pEdit_mailbox_password_text_error'];
+   if($fPassword != $user_details['password']){
+      if($fPassword == $fPassword2) {
+         $fPassword = pacrypt($fPassword);
+      }
+      else {
+         flash_error($PALANG['pEdit_mailbox_password_text_error']);
+         $error = 1;
+      }
    }
 
    if ($CONF['quota'] == "YES")
@@ -111,7 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text_error'];
       }
    }
-
    if ($error != 1)
    {
       if (!empty ($fQuota))
@@ -125,35 +128,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
       if ($fActive == "on")
       {
+         $sqlActive = db_get_boolean(True);
          $fActive = 1;
       }
       else
       {
+         $sqlActive = db_get_boolean(False);
          $fActive = 0;
       }
-      $sqlActive=$fActive;
-      if ('pgsql'==$CONF['database_type']) {
-         $sqlActive=($fActive) ? 'true':'false';
-      }
 
-      if (empty ($fPassword) and empty ($fPassword2))
-      {
-         $result = db_query ("UPDATE $table_mailbox SET name='$fName',quota=$quota,modified=NOW(),active=$sqlActive WHERE username='$fUsername' AND domain='$fDomain'");
-         if ($result['rows'] == 1) $result = db_query ("UPDATE $table_alias SET modified=NOW(),active='$sqlActive' WHERE address='$fUsername' AND domain='$fDomain'");
-      }
-      else
-      {
-         $password = pacrypt ($fPassword);
-         $result = db_query ("UPDATE $table_mailbox SET password='$password',name='$fName',quota=$quota,modified=NOW(),active=$sqlActive WHERE username='$fUsername' AND domain='$fDomain'");
-         if ($result['rows'] == 1) $result = db_query ("UPDATE $table_alias SET modified=NOW(),active='$sqlActive' WHERE address='$fUsername' AND domain='$fDomain'");
-      }
-
-      if ($result['rows'] != 1)
-      {
+      $result = db_query ("UPDATE $table_mailbox SET name='$fName',password='$fPassword',quota=$quota,modified=NOW(),active=$sqlActive WHERE username='$fUsername' AND domain='$fDomain'");
+      if ($result['rows'] != 1) {
          $tMessage = $PALANG['pEdit_mailbox_result_error'];
       }
-      else
-      {
+      else {
          db_log ($SESSID_USERNAME, $fDomain, 'edit_mailbox', $fUsername);
 
          if (authentication_has_role('global-admin')) {
