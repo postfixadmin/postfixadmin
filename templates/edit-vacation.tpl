@@ -7,7 +7,7 @@ window.location="<?php print $fCanceltarget; ?>"
 </script>
 <div id="edit_form">
 
-<form name="edit-vacation" method="post">
+<form name="edit-vacation" method="post" action=''>
 <table>
    <tr>
       <td colspan="3"><h3><?php print $PALANG['pUsersVacation_welcome']; ?></h3></td>
