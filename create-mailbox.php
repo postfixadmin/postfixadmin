@@ -46,7 +46,7 @@ if(authentication_has_role('global-admin')) {
    $list_domains = list_domains ();
 }
 else {
-   $list_domains = list_domains_for_admin ($SESSID_USERNAME);
+   $list_domains = list_domains_for_admin($SESSID_USERNAME);
 }
 
 
@@ -56,14 +56,18 @@ $pCreate_mailbox_quota_text = $PALANG['pCreate_mailbox_quota_text'];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
+   $fDomain = $list_domains[0];
    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
 
+   if(!in_array($fDomain, $list_domains)) {
+      die("Invalid domain name selected, or you tried to select a domain you are not an admin for");
+   }
+   $tDomain = $fDomain;
    $result = db_query ("SELECT * FROM $table_domain WHERE domain='$fDomain'");
    if ($result['rows'] == 1)
    {
       $row = db_array ($result['result']);
       $tQuota = $row['maxquota'];
-
    }
 }
 
