@@ -60,7 +60,7 @@ if (!(check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('globa
    $tName = $fName;
    $tQuota = $fQuota;
    $tActive = $fActive;
-   $tMessage = $PALANG['pEdit_mailbox_domain_error'] . "$fDomain</font>"; // XXX ergh; why is a closing font tag here?
+   $tMessage = $PALANG['pEdit_mailbox_domain_error'] . "$fDomain</span>";
 }
 
 $user_details = db_array($result['result']);
