@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $fGoto = strtolower ($fGoto);
     }
     if(isset($_POST['fActive'])) {
-        $fActive = escape_string ($_POST['fActive'])
+        $fActive = escape_string ($_POST['fActive']);
     }
     else {
         $fActive = "1";
