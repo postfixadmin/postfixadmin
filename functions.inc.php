@@ -1330,7 +1330,7 @@ function db_get_boolean($bool) {
       }  
       return 'false';
    }
-   elseif($CONF['database_type'] == 'mysql') {
+   elseif($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli') {
       if($bool) {
          return 1;  
       } 
