@@ -25,11 +25,9 @@ require_once("../common.php");
 
 authentication_require_role('global-admin');
 
-$list_admins = list_admins ();
-if ((is_array ($list_admins) and sizeof ($list_admins) > 0))
-{
-   for ($i = 0; $i < sizeof ($list_admins); $i++)
-   {
+$list_admins = list_admins();
+if ((is_array ($list_admins) and sizeof ($list_admins) > 0)) {
+   for ($i = 0; $i < sizeof ($list_admins); $i++) {
       $admin_properties[$i] = get_admin_properties ($list_admins[$i]);
    }
 }

@@ -31,12 +31,9 @@ authentication_require_role('global-admin');
 
 $list_admins = list_admins ();
 
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
-   if (isset ($_GET['username']))
-   {
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
+   if (isset ($_GET['username'])) {
       $fUsername = escape_string ($_GET['username']);
-
       $list_domains = list_domains_for_admin ($fUsername);
       if ($list_domains != 0)
       {
