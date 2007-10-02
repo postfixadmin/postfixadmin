@@ -58,7 +58,7 @@ if (sizeof ($tAlias) > 0)
 {
    print "<table id=\"alias_table\">\n";
    print "   <tr>\n";
-   print "      <td colspan=\"6\"><h3>".$PALANG['pOverview_alias_title']."</h3></td>";
+   print "      <td colspan=\"7\"><h3>".$PALANG['pOverview_alias_title']."</h3></td>";
    print "   </tr>";
    print "   <tr class=\"header\">\n";
    if ($CONF['show_status'] == 'YES') { print "<td></td>\n"; }
@@ -151,9 +151,12 @@ if (sizeof ($tAlias) > 0)
 
 if (sizeof ($tMailbox) > 0)
 {
+   $colspan=8;
+   if ($CONF['vacation_control_admin'] == 'YES') $colspan=$colspan+1;
+   if ($CONF['alias_control_admin'] == 'YES') $colspan=$colspan+1;
    print "<table id=\"mailbox_table\">\n";
    print "   <tr>\n";
-   print "      <td colspan=\"7\"><h3>".$PALANG['pOverview_mailbox_title']."</h3></td>";
+   print "      <td colspan=\"$colspan\"><h3>".$PALANG['pOverview_mailbox_title']."</h3></td>";
    print "   </tr>";
    print "   <tr class=\"header\">\n";
    if ($CONF['show_status'] == 'YES') { print "<td></td>\n"; }
@@ -162,9 +165,7 @@ if (sizeof ($tMailbox) > 0)
    if ($CONF['quota'] == 'YES') print "      <td>" . $PALANG['pOverview_mailbox_quota'] . "</td>\n";
    print "      <td>" . $PALANG['pOverview_mailbox_modified'] . "</td>\n";
    print "      <td>" . $PALANG['pOverview_mailbox_active'] . "</td>\n";
-   $colspan=2;
-   if ($CONF['vacation_control_admin'] == 'YES') $colspan=$colspan+1;
-   if ($CONF['alias_control_admin'] == 'YES') $colspan=$colspan+1;
+   $colspan = $colspan - 6;
    print "      <td colspan=\"$colspan\">&nbsp;</td>\n";
    print "   </tr>\n";
 
@@ -241,9 +242,8 @@ if (sizeof ($tMailbox) > 0)
       print "<a href=\"overview.php?domain=$fDomain&limit=$tDisplay_next#LowArrow\"><img border=\"0\" src=\"images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
    }
    print "</div>\n";
-
-   print "<p><a href=\"create-mailbox.php?domain=$fDomain\">" . $PALANG['pMenu_create_mailbox'] . "</a>\n";
 }
+print "<p><a href=\"create-mailbox.php?domain=$fDomain\">" . $PALANG['pMenu_create_mailbox'] . "</a>\n";
 
 if ($CONF['show_status'] == 'YES' && $CONF['show_status_key'] == 'YES')
 {
@@ -267,8 +267,7 @@ if ($CONF['show_status'] == 'YES' && $CONF['show_status_key'] == 'YES')
             $CONF['show_custom_domains'][$i] . "\n";
     }
   }
-
 }
 
-/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3 ft=php */
 ?>
