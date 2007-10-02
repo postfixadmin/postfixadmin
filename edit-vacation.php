@@ -37,22 +37,28 @@
 
 require_once('common.php');
 
-$SESSID_USERNAME = authentication_get_username();
-
 if($CONF['vacation'] == 'NO') { 
    header("Location: " . $CONF['postfix_admin_url'] . "/main.php");
    exit(0);
 }
 
-$vacation_domain = $CONF['vacation_domain'];
-$vacation_goto = preg_replace('/@/', '#', $SESSID_USERNAME);
-$vacation_goto = $vacation_goto . '@' . $vacation_domain;
-
+$SESSID_USERNAME = authentication_get_username();
 $tmp = preg_split ('/@/', $SESSID_USERNAME);
 $USERID_DOMAIN = $tmp[1];
 
-if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
-if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
+// only allow admins to change someone else's 'stuff'
+if(authentication_has_role('admin')) {
+   if (isset($_GET['username'])) $fUsername = escape_string ($_GET['username']);
+   if (isset($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
+}
+else {
+   $fUsername = $SESSID_USERNAME;
+   $fDomain = $USERID_DOMAIN;
+}
+
+$vacation_domain = $CONF['vacation_domain'];
+$vacation_goto = preg_replace('/@/', '#', $fUsername);
+$vacation_goto = $vacation_goto . '@' . $vacation_domain;
 
 $fCanceltarget = $CONF['postfix_admin_url'] . '/main.php';
 
@@ -69,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    }
 
    $tUseremail = $fUsername;
+   $tDomain = $fDomain;
    if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
    if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
 
@@ -82,14 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fChange'])) $fChange = escape_string ($_POST['fChange']);
    if (isset ($_POST['fBack'])) $fBack = escape_string ($_POST['fBack']);
 
-   if (isset ($_GET['domain'])) {
+   if(authentication_has_role('admin') && isset($_GET['domain'])) {
       $fDomain = escape_string ($_GET['domain']);
    }
    else {
       $fDomain = $USERID_DOMAIN;
    }
-   if (isset ($_GET['username'])) {
-      $fUsername = escape_string ($_GET['username']);
+   if(authentication_has_role('admin') && isset ($_GET['username'])) {
+      $fUsername = escape_string($_GET['username']);
    }
    else {
       $fUsername = authentication_get_username();
@@ -117,12 +124,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          {
             $row = db_array ($result['result']);
             $goto = $row['goto'];
-
             //only one of these will do something, first handles address at beginning and middle, second at end
             $goto= preg_replace ( "/$vacation_goto,/", '', $goto);
             $goto= preg_replace ( "/,$vacation_goto/", '', $goto);
-
-            $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$fUsername'");
+            $goto= preg_replace ( "/$vacation_goto/", '', $goto);
+            if($goto == '') {
+               $sql = "DELETE FROM $table_alias WHERE address = '$fUsername'";
+            }
+            else {
+               $sql = "UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$fUsername'";
+            }
+            $result = db_query($sql);
             if ($result['rows'] != 1)
             {
                $error = 1;
@@ -142,18 +154,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $row = db_array ($result['result']);
          $goto = $row['goto'];
       }
-
-      ($CONF['database_type']=='pgsql') ? $Active='true' : $Active=1;
+      $Active = db_get_boolean(True);
       $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$fUsername','$fSubject','$fBody','$fDomain',NOW(),$Active)");
 
       if ($result['rows'] != 1)
       {
          $error = 1;
       }
-
-      $goto = $goto . "," . $vacation_goto;
-
-      $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$fUsername'");
+      if($goto == '') {
+         $goto = $vacation_goto;
+         $sql = "INSERT INTO $table_alias (goto, address, domain, modified) VALUES ('$goto', '$fUsername', '$fDomain', NOW())";
+      }
+      else {
+         $goto = $goto . "," . $vacation_goto;
+         $sql = "UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$fUsername'";
+      }
+      $result = db_query ($sql);
       if ($result['rows'] != 1)
       {
          $error = 1;
@@ -173,7 +189,6 @@ else {
    $tMessage = $PALANG['pVacation_result_error'];
 }
 
-$tUseremail = $SESSID_USERNAME;
 include ("$incpath/templates/header.tpl");
 if (authentication_has_role('global-admin')) {
    include ("$incpath/templates/admin_menu.tpl");
