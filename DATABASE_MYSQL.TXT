@@ -1,8 +1,6 @@
 #
 # Postfix Admin
-# by Mischa Peters <mischa at high5 dot net>
-# Copyright (c) 2002 - 2005 High5!
-# Licensed under GPL for more info check GPL-LICENSE.TXT
+# Licensed under GPL for more info check LICENSE.TXT
 #
 
 # This is the complete MySQL database structure for Postfix Admin.
@@ -25,19 +23,21 @@
 #
 # Postfix / MySQL
 #
+
 USE mysql;
+CREATE DATABASE IF NOT EXISTS postfix;
 # Postfix user & password
-INSERT INTO user (Host, User, Password) VALUES ('localhost','postfix',password('postfix'));
-INSERT INTO db (Host, Db, User, Select_priv) VALUES ('localhost','postfix','postfix','Y');
+#INSERT INTO user (Host, User, Password) VALUES ('localhost','postfix',password('postfix'));
 # Postfix Admin user & password
-INSERT INTO user (Host, User, Password) VALUES ('localhost','postfixadmin',password('postfixadmin'));
-INSERT INTO db (Host, Db, User, Select_priv, Insert_priv, Update_priv, Delete_priv) VALUES ('localhost', 'postfix', 'postfixadmin', 'Y', 'Y', 'Y', 'Y');
+#INSERT INTO user (Host, User, Password) VALUES ('localhost','postfixadmin',password('postfixadmin'));
+# Priviledges
+#INSERT INTO db (Host, Db, User, Select_priv) VALUES ('localhost','postfix','postfix','Y');
+#INSERT INTO db (Host, Db, User, Select_priv, Insert_priv, Update_priv, Delete_priv) VALUES ('localhost', 'postfix', 'postfixadmin', 'Y', 'Y', 'Y', 'Y');
 FLUSH PRIVILEGES;
 GRANT USAGE ON postfix.* TO postfix@localhost;
 GRANT SELECT, INSERT, DELETE, UPDATE ON postfix.* TO postfix@localhost;
 GRANT USAGE ON postfix.* TO postfixadmin@localhost;
 GRANT SELECT, INSERT, DELETE, UPDATE ON postfix.* TO postfixadmin@localhost;
-CREATE DATABASE postfix;
 USE postfix;
 
 #
@@ -49,7 +49,7 @@ CREATE TABLE `admin` (
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `active` tinyint(1) NOT NULL default '1',
-  PRIMARY KEY  (`username`),
+  PRIMARY KEY  (`username`)
 ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Admins';
 
 #
@@ -62,7 +62,7 @@ CREATE TABLE `alias` (
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `active` tinyint(1) NOT NULL default '1',
-  PRIMARY KEY  (`address`),
+  PRIMARY KEY  (`address`)
 ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Aliases';
 
 #
@@ -80,7 +80,7 @@ CREATE TABLE `domain` (
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `active` tinyint(1) NOT NULL default '1',
-  PRIMARY KEY  (`domain`),
+  PRIMARY KEY  (`domain`)
 ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Domains';
 
 #
@@ -119,7 +119,7 @@ CREATE TABLE `mailbox` (
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   `modified` datetime NOT NULL default '0000-00-00 00:00:00',
   `active` tinyint(1) NOT NULL default '1',
-  PRIMARY KEY  (`username`),
+  PRIMARY KEY  (`username`)
 ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Mailboxes';
 
 
