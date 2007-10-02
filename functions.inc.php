@@ -1064,12 +1064,10 @@ function pacrypt ($pw, $pw_db="")
 // Action: Creates MD5 encrypted password
 // Call: md5crypt (string cleartextpassword)
 //
-$MAGIC = "$1$";
-$ITOA64 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 function md5crypt ($pw, $salt="", $magic="")
 {
-   global $MAGIC;
+   $MAGIC = "$1$";
 
    if ($magic == "") $magic = $MAGIC;
    if ($salt == "") $salt = create_salt ();
@@ -1155,7 +1153,7 @@ function hex2bin ($str)
 
 function to64 ($v, $n)
 {
-   global $ITOA64;
+   $ITOA64 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
    $ret = "";
    while (($n - 1) >= 0)
    {
