@@ -138,20 +138,17 @@ if (isset ($limit)) {
    if($active == 't' || $active == 1) {
       $backup_mx = $limit['backupmx'];
       if($backup_mx == 'f' || $backup_mx == 0) {
-         if($limit['aliases'] == -1) {
+         if($limit['aliases'] == 0) {
             $tCanAddAlias = true;
          }
          elseif($limit['alias_count'] < $limit['aliases']) {
             $tCanAddAlias = true;
-            echo 'xxx2';
          }
-         if($limit['mailboxes'] == -1) {
+         if($limit['mailboxes'] == 0) {
             $tCanAddMailbox = true;
-            echo 'xxx3';
          }
          elseif($limit['mailbox_count'] < $limit['mailboxes']) {
             $tCanAddMailbox = true;
-            echo 'xxx4';
          }
       }
    }
