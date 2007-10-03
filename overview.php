@@ -62,6 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
    if (check_owner ($SESSID_USERNAME, $fDomain))
    {
+      $tCanAddAlias = 1;   # TODO: workaround for undefined variable
+      $tCanAddMailbox = 1; # TODO: workaround for undefined variable
+
          $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.domain='$fDomain' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address LIMIT $limitSql";
          if ('pgsql'==$CONF['database_type'])
          {
