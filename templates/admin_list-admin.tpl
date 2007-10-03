@@ -28,5 +28,8 @@ if (sizeof ($list_admins) > 0)
    }
 
    print "</table>\n";
+   print "<p><a href=\"create-admin.php\">" . $PALANG['pAdminMenu_create_admin'] . "</a>\n";
 }
+
+/* vim: set ft=php expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
