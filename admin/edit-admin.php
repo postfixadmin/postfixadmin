@@ -40,12 +40,18 @@ authentication_require_role('global-admin');
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-   $fPassword = 'x';
-   $fPassword = 'y';
+   $fPassword = '';
+   $fPassword2 = '';
    if(isset ($_GET['username'])) $username = escape_string ($_GET['username']);
 
    if(isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
    if(isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
+
+   if ($fPassword != $fPassword2)
+   {
+      $error = 1;
+      $pAdminEdit_admin_password_text = $PALANG['pAdminEdit_admin_password_text_error'];
+   }
 
    $fActive=(isset($_POST['fActive'])) ? escape_string ($_POST['fActive']) : FALSE;
    $fSadmin=(isset($_POST['fSadmin'])) ? escape_string ($_POST['fSadmin']) : FALSE;
@@ -64,19 +70,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    // has the password changed?
    if($fPassword != $originalPassword) { 
       if(!empty($_POST['fPassword2'])) {
-         if ($fPassword != $fPassword2)
-         {
-            $error = 1;
-            $pAdminEdit_admin_password_text = $PALANG['pAdminEdit_admin_password_text_error'];
-         }
-         else {
-            $fPassword = pacrypt($fPassword);
-         }
+         $fPassword = pacrypt($fPassword);
       }
    }
 
    $tActive = $fActive;
-   $tDomains = escape_string ($_POST['fDomains']);
+   $fDomains = array();
+   if (array_key_exists('fDomains', $_POST)) $tDomains = escape_string ($_POST['fDomains']);
    if ($error != 1)
    {
       if ($fActive == "on")  {
@@ -86,8 +86,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $sqlActive = db_get_boolean(False);
       }
 
-
-      $result = db_query ("UPDATE $table_admin SET modified=NOW(),active='$sqlActive', password='$fPassword' WHERE username='$username'");
+      $password_query = '';
+      if ($fPassword != '') { # do not change password to empty one
+         $password_query = ", password='$fPassword'";
+      }
+      $result = db_query ("UPDATE $table_admin SET modified=NOW(),active='$sqlActive' $password_query WHERE username='$username'");
 
       if ($fSadmin == "on") $fSadmin = 'ALL';
 
@@ -110,6 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 else { // GET request.
    if (isset($_GET['username'])) $username = escape_string ($_GET['username']);
+
+   # TODO: read "active" state from database and tick on the checkbox for active admins
 
    $tAllDomains = list_domains();
    $tDomains = list_domains_for_admin ($username);
