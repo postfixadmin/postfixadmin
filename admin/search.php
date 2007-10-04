@@ -30,6 +30,9 @@
 
 require_once('../common.php');
 
+require_once('../search.php');
+
+/*
 authentication_require_role('global-admin');
 
 $tAlias = array();
@@ -97,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
    include ("../templates/header.tpl");
    include ("../templates/admin_menu.tpl");
-   include ("../templates/admin_search.tpl");
+   include ("../templates/search.tpl");
    include ("../templates/footer.tpl");
 }
 
@@ -169,8 +172,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    include ("../templates/header.tpl");
    include ("../templates/admin_menu.tpl");
-   include ("../templates/admin_search.tpl");
+   include ("../templates/search.tpl");
    include ("../templates/footer.tpl");
 }
+*/
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
