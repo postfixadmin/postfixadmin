@@ -22,6 +22,15 @@ if (ereg ("config.inc.php", $_SERVER['PHP_SELF']))
    exit;
 }
 
+/*****************************************************************
+ *  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+ * The following line needs commenting out or removing before the
+ * application will run!
+ * Doing this implies you have changed this file as required.
+ */
+$CONF['configured'] = false;
+
+
 // Postfix Admin Path
 // Set the location of your Postfix Admin installation here.
 // You must enter complete url (http://domain.tld/) and full path (/var/www/postfixadmin)
@@ -46,14 +55,14 @@ $CONF['database_prefix'] = '';
 // Here, if you need, you can customize table names.
 $CONF['database_prefix'] = '';
 $CONF['database_tables'] = array (
-   'admin' => 'admin',
-   'alias' => 'alias',
-   'domain' => 'domain',
-   'domain_admins' => 'domain_admins',
-   'log' => 'log',
-   'mailbox' => 'mailbox',
-   'vacation' => 'vacation',
-   'vacation_notification' => 'vacation_notification',
+    'admin' => 'admin',
+    'alias' => 'alias',
+    'domain' => 'domain',
+    'domain_admins' => 'domain_admins',
+    'log' => 'log',
+    'mailbox' => 'mailbox',
+    'vacation' => 'vacation',
+    'vacation_notification' => 'vacation_notification',
 );
 
 // Site Admin
@@ -74,6 +83,10 @@ $CONF['smtp_port'] = '25';
 // cleartext = clear text passwords (ouch!)
 $CONF['encrypt'] = 'md5crypt';
 
+// Minimum length required for passwords. Postfixadmin will not
+// allow users to set passwords which are shorter than this value.
+$CONF['min_password_length'] = 5;
+
 // Generate Password
 // Generate a random password for a mailbox or admin and display it.
 // If you want to automagically generate paswords set this to 'YES'.
@@ -92,10 +105,10 @@ $CONF['page_size'] = '10';
 // Default Aliases
 // The default aliases that need to be created for all domains.
 $CONF['default_aliases'] = array (
-	'abuse' => 'abuse@change-this-to-your.domain.tld',
-	'hostmaster' => 'hostmaster@change-this-to-your.domain.tld',
-	'postmaster' => 'postmaster@change-this-to-your.domain.tld',
-	'webmaster' => 'webmaster@change-this-to-your.domain.tld'
+    'abuse' => 'abuse@change-this-to-your.domain.tld',
+    'hostmaster' => 'hostmaster@change-this-to-your.domain.tld',
+    'postmaster' => 'postmaster@change-this-to-your.domain.tld',
+    'webmaster' => 'webmaster@change-this-to-your.domain.tld'
 );
 
 // Mailboxes
@@ -125,9 +138,9 @@ $CONF['transport'] = 'NO';
 // Transport options
 // If you want to define additional transport options put them in array below.
 $CONF['transport_options'] = array (
-   'virtual',  // for virtual accounts
-   'local',    // for system accounts
-   'relay'     // for backup mx
+    'virtual',  // for virtual accounts
+    'local',    // for system accounts
+    'relay'     // for backup mx
 );
 // Transport default
 // You should define default transport. It must be in array above.
