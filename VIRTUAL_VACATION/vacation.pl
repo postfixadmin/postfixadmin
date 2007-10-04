@@ -315,13 +315,15 @@ $subject='';
 # Take headers apart
 while (<STDIN>) {
    last if (/^$/);
-   if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; }
-   if (/^from:\s+(.*)\n$/i) { $from = $1; $lastheader = \$from; }
-   if (/^to:\s+(.*)\n$/i) { $to = $1; $lastheader = \$to; }
-   if (/^cc:\s+(.*)\n$/i) { $cc = $1; $lastheader = \$cc; }
-   if (/^message-id:\s+(.*)\n$/i) { $messageid = $1; $lastheader = \$messageid; } 
-   if (/^precedence:\s+(bulk|list|junk)/i) { exit (0); }
-   if (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { exit (0); }
+   if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; }  
+   elsif (/^from:\s+(.*)\n$/i) { $from = $1; $lastheader = \$from; }  
+   elsif (/^to:\s+(.*)\n$/i) { $to = $1; $lastheader = \$to; }  
+   elsif (/^cc:\s+(.*)\n$/i) { $cc = $1; $lastheader = \$cc; }  
+   elsif (/^subject:\s+(.*)\n$/i) { $subject = $1; $lastheader = \$subject; }  
+   elsif (/^message-id:\s+(.*)\n$/i) { $messageid = $1; $lastheader = \$messageid; }  
+   elsif (/^precedence:\s+(bulk|list|junk)/i) { exit (0); }  
+   elsif (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { exit (0); }  
+   else {$lastheader = "" ; }
 }
 
 # If either From: or To: are not set, exit
