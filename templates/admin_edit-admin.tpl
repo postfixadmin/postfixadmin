@@ -10,7 +10,7 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminEdit_admin_password'] . ":"; ?></td>
-      <td><input class="flat" type="password" name="fPassword" value="<?= $fPassword; ?>"/></td>
+      <td><input class="flat" type="password" autocomplete="off" name="fPassword" value="<?php echo $tPassword; ?>"/></td>
       <td><?php print $pAdminEdit_admin_password_text; ?></td>
    </tr>
    <tr>
