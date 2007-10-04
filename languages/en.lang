@@ -352,4 +352,6 @@ $PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should
 $PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE ';
 $PALANG['pStatus_custom'] = 'Delivers to ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
+
+$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters";
 ?>
