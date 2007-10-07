@@ -737,9 +737,7 @@ function list_domains ()
 //
 function admin_exist ($username)
 {
-   global $table_admin;
-
-   $result = db_query ("SELECT 1 FROM $table_admin WHERE username='$username'");
+   $result = db_query ("SELECT 1 FROM " . table_by_key ('admin') . " WHERE username='$username'");
    if ($result['rows'] != 1)
    {
       return false;
@@ -1236,65 +1234,87 @@ $DEBUG_TEXT = "\n
    ";
 
 
-
-//
-// db_connect
-// Action: Makes a connection to the database if it doesn't exist
-// Call: db_connect ()
-//
-function db_connect ()
+/**
+ * db_connect
+ * Action: Makes a connection to the database if it doesn't exist
+ * Call: db_connect ()
+ * Optional parameter: $setup = TRUE, used by setup.php
+ *
+ * Return value:
+ * a) without $setup or $setup == 0
+ *    - $link - the database connection -OR-
+ *    - call die() in case of connection problems
+ * b) with $setup == TRUE
+ *    array($link, $error_text);
+ */
+function db_connect ($setup = 0)
 {
    global $CONF;
    global $DEBUG_TEXT;
+   if ($setup != 0) $DEBUG_TEXT = '';
+   $error_text = '';
+   $link = 0;
 
    if ($CONF['database_type'] == "mysql")
    {
       if (function_exists ("mysql_connect"))
       {
-         $link = @mysql_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or die ("<p />DEBUG INFORMATION:<br />Connect: " .  mysql_error () . "$DEBUG_TEXT");
-         @mysql_query("SET CHARACTER SET utf8",$link);
-         @mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'",$link);
-         $succes = @mysql_select_db ($CONF['database_name'], $link) or die ("<p />DEBUG INFORMATION:<br />MySQL Select Database: " .  mysql_error () . "$DEBUG_TEXT");
+         $link = @mysql_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysql_error () . "$DEBUG_TEXT");
+         if ($link) {
+            @mysql_query("SET CHARACTER SET utf8",$link);
+            @mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'",$link);
+            $succes = @mysql_select_db ($CONF['database_name'], $link) or $error_text .= ("<p />DEBUG INFORMATION:<br />MySQL Select Database: " .  mysql_error () . "$DEBUG_TEXT");
+         }
       }
       else
       {
-         print "<p />DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available!<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
-         die();
+         $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available!<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
       }
    }
-
-   if ($CONF['database_type'] == "mysqli")
+   elseif ($CONF['database_type'] == "mysqli")
    {
       if (function_exists ("mysqli_connect"))
       {
-         $link = @mysqli_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or die ("<p />DEBUG INFORMATION:<br />Connect: " .  mysqli_connect_error () . "$DEBUG_TEXT");
-         @mysqli_query($link,"SET CHARACTER SET utf8");
-         @mysqli_query($link,"SET COLLATION_CONNECTION='utf8_general_ci'");
-         $success = @mysqli_select_db ($link, $CONF['database_name']) or die ("<p />DEBUG INFORMATION:<br />MySQLi Select Database: " .  mysqli_error ($link) . "$DEBUG_TEXT");
+         $link = @mysqli_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysqli_connect_error () . "$DEBUG_TEXT");
+         if ($link) {
+            @mysqli_query($link,"SET CHARACTER SET utf8");
+            @mysqli_query($link,"SET COLLATION_CONNECTION='utf8_general_ci'");
+            $success = @mysqli_select_db ($link, $CONF['database_name']) or $error_text .= ("<p />DEBUG INFORMATION:<br />MySQLi Select Database: " .  mysqli_error ($link) . "$DEBUG_TEXT");
+         }
       }
       else
       {
-         print "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available!<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
-         die();
+         $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available!<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
       }
    }
-
-   if ($CONF['database_type'] == "pgsql")
+   elseif ($CONF['database_type'] == "pgsql")
    {
       if (function_exists ("pg_pconnect"))
       {
          $connect_string = "host=" . $CONF['database_host'] . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
-         $link = @pg_pconnect ($connect_string) or die ("<p />DEBUG INFORMATION:<br />Connect: failed to connect to database. $DEBUG_TEXT");
-         pg_set_client_encoding($link, 'UNICODE');
+         $link = @pg_pconnect ($connect_string) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: failed to connect to database. $DEBUG_TEXT");
+         if ($link) pg_set_client_encoding($link, 'UNICODE');
       }
       else
       {
-         print "<p />DEBUG INFORMATION:<br />PostgreSQL functions not available!<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
-         die();
+         $error_text .= "<p />DEBUG INFORMATION:<br />PostgreSQL functions not available!<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
       }
    }
+   else
+   {
+      $error_text = "<p />DEBUG INFORMATION:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php! $DEBUG_TEXT";
+   }
 
-   if ($link)
+   if ($setup)
+   {
+      return array($link, $error_text);
+   }
+   elseif ($error_text != "")
+   {
+      print $error_text;
+      die();
+   }
+   elseif ($link)
    {
       return $link;
    }
@@ -1844,6 +1864,106 @@ function gen_show_status ($show_alias)
    //   $stat_string .= "<span style='background-color:green'> &nbsp; </span> &nbsp;" .
    //                  "<span style='background-color:blue'> &nbsp; </span> &nbsp;";
    return $stat_string;
+}
+
+/*
+   Called by create-admin.php and setup.php
+
+   Returns:
+   array(
+      'error' => 0,                             # 0 on success, otherwise > 0
+      'tMessage' => '',                         # success / failure message
+      'pAdminCreate_admin_username_text' => '', # help text / error message for username
+      'pAdminCreate_admin_password_text' => ''  # error message for username
+   )
+ */
+
+function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_generate_password=0)
+{
+   global $PALANG;
+   global $CONF;
+   $error = 0;
+   $tMessage = '';
+   $pAdminCreate_admin_username_text = '';
+	$pAdminCreate_admin_password_text = '';
+
+   if (!check_email ($fUsername))
+   {
+      $error = 1;
+      $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text_error1'];
+   }
+
+   if (empty ($fUsername) or admin_exist ($fUsername))
+   {
+      $error = 1;
+      $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text_error2'];
+   }
+      
+   if (empty ($fPassword) or empty ($fPassword2) or ($fPassword != $fPassword2))
+   {
+      if (empty ($fPassword) and empty ($fPassword2) and $CONF['generate_password'] == "YES" && $no_generate_password == 0)
+      {
+			$fPassword = generate_password ();
+      }
+      else
+      {
+			$error = 1;
+			$pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
+			$pAdminCreate_admin_password_text = $PALANG['pAdminCreate_admin_password_text_error'];
+      }
+   }
+
+   if ($error != 1)
+   {
+   	$password = pacrypt($fPassword);
+      $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
+
+      $result = db_query ("INSERT INTO " . table_by_key('admin') . " (username,password,created,modified) VALUES ('$fUsername','$password',NOW(),NOW())");
+      if ($result['rows'] != 1)
+      {
+         $tMessage = $PALANG['pAdminCreate_admin_result_error'] . "<br />($fUsername)<br />";
+      }
+      else
+      {
+         if (!empty ($fDomains[0]))
+         {
+            for ($i = 0; $i < sizeof ($fDomains); $i++)
+            {
+               $domain = $fDomains[$i];
+               $result = db_query ("INSERT INTO " . table_by_key ('domain_admins') . " (username,domain,created) VALUES ('$fUsername','$domain',NOW())");
+            }
+         }
+			$tMessage = $PALANG['pAdminCreate_admin_result_success'] . "<br />($fUsername";
+			if ($CONF['generate_password'] == "YES" && $no_generate_password == 0)
+			{
+				$tMessage .= " / $fPassword)</br />";
+			}
+			else
+			{
+				if ($CONF['show_password'] == "YES" && $no_generate_password == 0)
+				{
+					$tMessage .= " / $fPassword)</br />";
+				}
+				else
+				{
+					$tMessage .= ")</br />";
+				}
+			}
+		}
+	}
+
+   # TODO: should we log creation, editing and deletion of admins?
+   # Note: needs special handling in viewlog, because domain is empty
+   # db_log ($SESSID_USERNAME, '', 'create_admin', "$fUsername");
+
+   return array(
+      $error,
+      $tMessage,
+      $pAdminCreate_admin_username_text,
+   	$pAdminCreate_admin_password_text
+   );
+
+
 }
 
 

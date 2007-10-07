@@ -22,17 +22,19 @@
  *
  * Form POST \ GET Variables: -none-
  */
+
+require_once("languages/en.lang");
+require_once("functions.inc.php");
+
+$CONF['show_header_text'] = 'NO';
+require('templates/header.tpl');
 ?>
-<html>
-<head>
-<title>Postfix Admin Setup Checker</title>
-</head>
-<body>
-<img id="login_header_logo" src="images/postbox.png" />
-<img id="login_header_logo" src="images/postfixadmin2.png" />
-<h2>Postfix Admin Setup Checker 1.0.0</h2>
-Running software:<br />
-<p />
+
+<div class='setup'>
+<h2>Postfix Admin Setup Checker</h2>
+
+<p>Running software:
+<ul>
 <?php
 //
 // Check for availablilty functions
@@ -57,29 +59,28 @@ if ($f_phpversion == 1)
 {
    if (phpversion() < 5) $phpversion = 4;
    if (phpversion() >= 5) $phpversion = 5;
-   print "- PHP version " . phpversion () . "<br />\n";
+   print "<li>PHP version " . phpversion () . "\n";
 }
 else
 {
-   print "<li><b>Unable to check for PHP version. (missing function: phpversion())</b><br />\n";
+   print "<li><b>Unable to check for PHP version. (missing function: phpversion())</b>\n";
 }
-print "<p />\n";
 
 //
 // Check for Apache version
 //
 if ($f_apache_get_version == 1)
 {
-   print "- " . apache_get_version() . "<br /><p />\n";
+   print "<li>" . apache_get_version() . "\n";
 }
 else
 {
-   print "<li><b>Unable to check for Apache version. (missing function: apache_get_version())</b><br />\n";
+   print "<li><b>Unable to check for Apache version. (missing function: apache_get_version())</b>\n";
 }
-print "<p />\n";
 
-print "Checking for dependencies:<br />\n";
-print "<p />\n";
+print "</ul>";
+print "<p>Checking for dependencies:\n";
+print "<ul>\n";
 
 //
 // Check for Magic Quotes
@@ -88,26 +89,27 @@ if ($f_get_magic_quotes_gpc == 1)
 {
    if (get_magic_quotes_gpc () == 0)
    {
-      print "- Magic Quotes: Disabled - OK<br /><p />\n";
+      print "<li>Magic Quotes: Disabled - OK\n";
    }
    else
    {
-      print "<li><b>Warning: Magic Quotes: ON (internal workaround used)</b><br /><p />\n";   
+      print "<li><b>Warning: Magic Quotes: ON (internal workaround used)</b>\n";   
    }
 }
 else
 {
-   print "<li><b>Unable to check for Magic Quotes. (missing function: get_magic_quotes_gpc())</b><br />\n";
+   print "<li><b>Unable to check for Magic Quotes. (missing function: get_magic_quotes_gpc())</b>\n";
 }
-print "<p />\n";
-
 
 //
 // Check for config.inc.php
 //
+$config_loaded = 0;
 if ($file_config == 1)
 {
-   print "- Depends on: presence config.inc.php - OK<br />\n";
+   print "<li>Depends on: presence config.inc.php - OK\n";
+   require_once('config.inc.php');
+   $config_loaded = 1;
 }
 else
 {
@@ -117,7 +119,6 @@ else
    print "<pre>% cp config.inc.php.sample config.inc.php</pre>\n";
    $error =+ 1;
 }
-print "<p />\n";
 
 //
 // Check if there is support for at least 1 database
@@ -150,9 +151,8 @@ if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0
 //
 if ($f_mysql_connect == 1)
 {
-   print "- Depends on: MySQL 3.23, 4.0 - OK<br />\n";
+   print "<li>Depends on: MySQL 3.23, 4.0 - OK\n";
 }
-print "<p />\n";
 
 //
 // MySQL 4.1 functions
@@ -161,26 +161,45 @@ if ($phpversion >= 5)
 {
    if ($f_mysqli_connect == 1)
    {
-      print "- Depends on: MySQL 4.1 - OK (change the database_type in config.inc.php!!)<br />\n";
+      print "<li>Depends on: MySQL 4.1 - OK\n";
+      if ( !($config_loaded && $CONF['database_type'] == 'mysqli') ) {
+          print "(change the database_type to 'mysqli' in config.inc.php!!)\n";
+      }
    }
 }
-print "<p />\n";
 
 //
 // PostgreSQL functions
 //
 if ($f_pg_connect == 1)
 {
-   print "- Depends on: PostgreSQL - OK (change the database_type in config.inc.php!!)<br />\n";
+   print "<li>Depends on: PostgreSQL - OK \n";
+   if ( !($config_loaded && $CONF['database_type'] == 'pgsql') ) {
+      print "(change the database_type to 'pgsql' in config.inc.php!!)\n";
+   }
 }
-print "<p />\n";
+
+//
+// Database connection
+//
+if ($config_loaded) {
+   list ($link, $error_text) = db_connect(TRUE);
+   if ($error_text == "") {
+      print "<li>Testing database connection - OK";
+   } else {
+      print "<li><b>Error: Can't connect to database</b><br />\n";
+      print "Please edit the \$CONF['database_*'] parameters in config.inc.php.\n";
+	  print "$error_text\n";
+	  $error ++;
+   } 
+}
 
 //
 // Session functions
 //
 if ($f_session_start == 1)
 {
-   print "- Depends on: session - OK<br />\n";
+   print "<li>Depends on: session - OK\n";
 }
 else
 {
@@ -192,14 +211,13 @@ else
    print "% portinstall php$phpversion-session</pre>\n";
    $error =+ 1;
 }
-print "<p />\n";
 
 //
 // PCRE functions
 //
 if ($f_preg_match == 1)
 {
-   print "- Depends on: pcre - OK<br />\n";
+   print "<li>Depends on: pcre - OK\n";
 }
 else
 {
@@ -211,15 +229,81 @@ else
    print "% portinstall php$phpversion-pcre</pre>\n";
    $error =+ 1;
 }
-print "<p />\n";
 
-if ($error == 0)
+print "</ul>";
+
+if ($error != 0)
 {
-   print "Everything seems fine... you are ready to rock & roll!</br>\n";
+	print "<p><b>Please fix the errors listed above.</b></p>";
+}
+else
+{
+   print "<p>Everything seems fine... you are ready to rock & roll!</p>\n";
+
+   $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
+   $pAdminCreate_admin_password_text = "";
+   $tUsername = '';
+   $tMessage = '';
+
+
+   if ($_SERVER['REQUEST_METHOD'] == "POST")
+   {
+      if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']);
+      if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
+      if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
+
+      list ($error, $tMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, array('ALL'), TRUE);
+      if ($error != 0) {
+         if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
+      } else {
+         print "<p><b>$tMessage</b></p>";
+		 echo "<p><b>You can now log in to Postfix Admin.</b></p>";
+      }
+   }
+
+   if ($_SERVER['REQUEST_METHOD'] == "GET" || $error != 0)
+   {
+       ?>
+
+<div id="edit_form">
+<form name="create_admin" method="post">
+<table>
+   <tr>
+      <td colspan="3"><h3>Create superadmin account</h3></td>
+   </tr>
+   <tr>
+      <td><?php print $PALANG['pAdminCreate_admin_username'] . ":"; ?></td>
+      <td><input class="flat" type="text" name="fUsername" value="<?php print $tUsername; ?>" /></td>
+      <td><?php print $pAdminCreate_admin_username_text; ?></td>
+   </tr>
+   <tr>
+      <td><?php print $PALANG['pAdminCreate_admin_password'] . ":"; ?></td>
+      <td><input class="flat" type="password" name="fPassword" /></td>
+      <td><?php print $pAdminCreate_admin_password_text; ?></td>
+   </tr>
+   <tr>
+      <td><?php print $PALANG['pAdminCreate_admin_password2'] . ":"; ?></td>
+      <td><input class="flat" type="password" name="fPassword2" /></td>
+      <td>&nbsp;</td>
+   </tr>
+   <tr>
+      <td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="<?php print $PALANG['pAdminCreate_admin_button']; ?>" /></td>
+   </tr>
+   <tr>
+      <td colspan="3" class="standout"><?php print $tMessage; ?></td>
+   </tr>
+</table>
+</form>
+</div>
+
+      <?php
+   }
+
    print "<b>Make sure you delete this setup.php file!</b><br />\n";
    print "Also check the config.inc.php file for any settings that you might need to change!<br />\n";
    print "Click here to go to the <a href=\"admin\">admin section</a> (make sure that your .htaccess is setup properly)\n";
 }
 ?>
+</div>
 </body>
 </html>

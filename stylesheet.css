@@ -21,10 +21,6 @@ a:visited, a:active {
 	color: #888888;
 }
 
-ul {
-	padding-left: 0px;
-}
-
 table {
 	// border-spacing: 0;
 	// padding: 0;
@@ -250,4 +246,13 @@ table {
 	color: #777777;
 }
 
+div.setup {
+	width:700px;
+	margin-left:auto;
+	margin-right:auto;
+	text-align: left;
+}
 
+div.setup li {
+	padding-bottom:1em;
+}
