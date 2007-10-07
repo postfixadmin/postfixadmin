@@ -28,6 +28,7 @@ $PALANG['pMenu_main'] = 'Main';
 $PALANG['pMenu_overview'] = 'Overview';
 $PALANG['pMenu_create_alias'] = 'Add Alias';
 $PALANG['pMenu_create_mailbox'] = 'Add Mailbox';
+$PALANG['pMenu_fetchmail'] = 'Fetch Email';
 $PALANG['pMenu_sendmail'] = 'Send Email';
 $PALANG['pMenu_password'] = 'Password';
 $PALANG['pMenu_viewlog'] = 'View Log';
@@ -354,4 +355,8 @@ $PALANG['pStatus_custom'] = 'Delivers to ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
 $PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters";
+
+$PALANG['pFetchmail_welcome'] = 'Fetch mail for:';
+$PALANG['pFetchmail_new_entry'] = 'New entry';
+
 ?>

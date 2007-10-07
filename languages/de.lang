@@ -25,6 +25,7 @@ $PALANG['pLogin_login_users'] = 'eMail-Benutzer bitte hier einloggen.';
 $PALANG['pMenu_overview'] = '&Uuml;berblick';
 $PALANG['pMenu_create_alias'] = 'Alias hinzuf&uuml;gen';
 $PALANG['pMenu_create_mailbox'] = 'Mailbox hinzuf&uuml;gen';
+$PALANG['pMenu_fetchmail'] = 'E-Mail Abruf bearbeiten';
 $PALANG['pMenu_sendmail'] = 'Email versenden';
 $PALANG['pMenu_password'] = 'Passwort &auml;ndern';
 $PALANG['pMenu_viewlog'] = 'Log ansehen';
@@ -32,7 +33,7 @@ $PALANG['pMenu_logout'] = 'Logout';
 
 $PALANG['pMain_welcome'] = 'Willkommen zu Postfix Admin!';
 $PALANG['pMain_overview'] = 'Listet Ihre Aliase und Mailboxen auf. Sie k&ouml;nnen sie hier editieren und l&ouml;schen.';
-$PALANG['pMain_create_alias'] = 'Fügt einen neuen Alias f&uuml;r Ihre Domain hinzu.';
+$PALANG['pMain_create_alias'] = 'F&uuml;gt einen neuen Alias f&uuml;r Ihre Domain hinzu.';
 $PALANG['pMain_create_mailbox'] = 'Legt eine neue Mailbox f&uuml;r Ihre Domain an.';
 $PALANG['pMain_sendmail'] = 'Versenden Sie eine Email.';
 $PALANG['pMain_password'] = '&Auml;ndern Sie Ihr Admin-Passwort.';
@@ -280,24 +281,28 @@ $PALANG['pUsersVacation_subject'] = 'Betreff';
 $PALANG['pUsersVacation_subject_text'] = 'Ich bin weg...';
 $PALANG['pUsersVacation_body'] = 'Text';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Ich bin vom <date> bis <date> nicht zu Hause / im Büro.
-In dringenden Fällen setzen Sie sich bitte mit <contact person> in Verbindung.
-Vielen Dank für Ihr Verständniss.
+Ich bin vom <date> bis <date> nicht zu Hause / im B&uuml;ro.
+In dringenden F&auml;llen setzen Sie sich bitte mit <contact person> in Verbindung.
+Vielen Dank f&uuml;r Ihr Verst&auml;ndnis.
 EOM;
 $PALANG['pUsersVacation_button_away'] = 'Ich gehe weg';
 $PALANG['pUsersVacation_button_back'] = 'Ich bin zur&uuml;ck';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Konnte Ihre Automatische Antwort nicht einstellen!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Ihre Automatische Antwort wurde gel&ouml;scht!';
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'Mailbox hinzufügen';     
-$PALANG['pCreate_dbLog_createalias'] = 'Alias hinzufügen';
-$PALANG['pDelete_dbLog_deletealias'] = 'Alias löschen';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'Mailbox löschen';
+$PALANG['pCreate_dbLog_createmailbox'] = 'Mailbox hinzuf&uuml;gen';     
+$PALANG['pCreate_dbLog_createalias'] = 'Alias hinzu&uuml;�gen';
+$PALANG['pDelete_dbLog_deletealias'] = 'Alias l&uuml;schen';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'Mailbox l&ouml;schen';
 
-$PALANG['pEdit_dbLog_editactive'] = 'Aktiv-Status ändern';
+$PALANG['pEdit_dbLog_editactive'] = 'Aktiv-Status &auml;ndern';
 $PALANG['pEdit_dbLog_editalias'] = 'Alias bearbeiten';
 $PALANG['pEdit_dbLog_editmailbox'] = 'Mailbox bearbeiten';
 
 $PALANG['pSearch'] = 'suche';
 $PALANG['pSearch_welcome'] = 'Suche nach: ';
+
+$PALANG['pFetchmail_welcome'] = 'E-Mail Abruf f&uuml;r: ';
+$PALANG['pFetchmail_new_entry'] = 'Neuer Eintrag';
+
 ?>
