@@ -287,8 +287,8 @@ function escape_string ($string)
    // Note, the array keys are not cleaned.
    if(is_array($string)) {
       $clean = array();
-      foreach($string as $row) {
-         $clean[] = escape_string($row);  
+      foreach(array_keys($string) as $row) {
+         $clean[$row] = escape_string($string[$row]);  
       }
       return $clean;
    }
