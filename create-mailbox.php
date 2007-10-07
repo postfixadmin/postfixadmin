@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          }
          else
          {
-            $maildir = $fDomain . "/" . escape_string ($_POST['fUsername']) . "/";
+            $maildir = $fDomain . "/" . escape_string (strtolower($_POST['fUsername'])) . "/";
          }
       }
       else
