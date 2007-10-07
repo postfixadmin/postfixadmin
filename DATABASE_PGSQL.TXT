@@ -167,9 +167,3 @@ TO  postfixadmin;
 GRANT SELECT ON vacation TO vacation;
 GRANT SELECT,INSERT,DELETE ON vacation_notification TO vacation;
 
--- 
---
--- superadmin user & password (login: admin@domain.tld, password: admin)
-INSERT INTO domain (domain) VALUES ('ALL');
-INSERT INTO domain_admins (username, domain, active) VALUES ('admin@domain.tld','ALL','1');
-INSERT INTO admin (username, password, active) VALUES ('admin@domain.tld','$1$0fec9189$bgI6ncWrldPOsXnkUBIjl1','1');

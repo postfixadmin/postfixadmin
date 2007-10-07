@@ -150,8 +150,3 @@ CREATE TABLE vacation_notification (
     FOREIGN KEY (on_vacation) REFERENCES vacation(email) ON DELETE CASCADE 
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation Notifications';
 
-#
-#
-# superadmin user & password (login: admin@domain.tld, password: admin)
-INSERT INTO domain_admins (username, domain, active) VALUES ('admin@domain.tld','ALL','1');
-INSERT INTO admin (username, password, active) VALUES ('admin@domain.tld','$1$0fec9189$bgI6ncWrldPOsXnkUBIjl1','1');
