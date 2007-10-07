@@ -26,13 +26,13 @@ if(!is_file("$incpath/config.inc.php")) {
     header("Location: setup.php");    
     exit(0);
 }
+require_once("$incpath/config.inc.php");
 if(isset($CONF['configured'])) {
     if($CONF['configured'] == FALSE) {
         headeR("Location: setup.php");
         exit(0);
     }
 }
-require_once("$incpath/config.inc.php");
 require_once("$incpath/functions.inc.php");
 require_once("$incpath/languages/" . check_language () . ".lang");
 
