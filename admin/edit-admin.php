@@ -71,24 +71,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     // has the password changed?
     $originalPassword = $admin_details['password'];
-    if($fPassword != $originalPassword) {  
-        // if it has, ensure both fields are the same...
-        if ($fPassword == $fPassword2)
-        {
-            if(strlen($fPassword) >= $CONF['min_password_length']) {
-                $fPassword = pacrypt($fPassword);
+    if($fPassword != '') {
+        if($fPassword != $originalPassword) {  
+            // if it has, ensure both fields are the same...
+            if ($fPassword == $fPassword2)
+            {
+                if(strlen($fPassword) >= $CONF['min_password_length']) {
+                    $fPassword = pacrypt($fPassword);
+                }
+                else {
+                    $error = 1;
+                    flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
+                }
             }
             else {
                 $error = 1;
-                flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
+                $pAdminEdit_admin_password_text = $PALANG['pAdminEdit_admin_password_text_error'];
             }
         }
-        else {
-            $error = 1;
-            $pAdminEdit_admin_password_text = $PALANG['pAdminEdit_admin_password_text_error'];
-        }
     }
-
     $fDomains = array();
     if (array_key_exists('fDomains', $_POST)) $fDomains = escape_string ($_POST['fDomains']);
     if ($error != 1)

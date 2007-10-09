@@ -4,27 +4,27 @@
    <tr>
       <td colspan="3"><h3><?php print $PALANG['pAdminEdit_admin_welcome']; ?></h3></td></tr>
    <tr>
-      <td><?php print $PALANG['pAdminEdit_admin_username'] . ":"; ?></td>
+      <td><?php print $PALANG['pAdminEdit_admin_username']; ?>:</td>
       <td><?php print $username; ?></td>
       <td>&nbsp;</td>
    </tr>
    <tr>
-      <td><?php print $PALANG['pAdminEdit_admin_password'] . ":"; ?></td>
-      <td><input class="flat" type="password" autocomplete="off" name="fPassword" value="<?php echo $tPassword; ?>"/></td>
+      <td><?php print $PALANG['pAdminEdit_admin_password']; ?>:</td>
+      <td><input class="flat" type="password" autocomplete="off" name="fPassword" value=""/></td>
       <td><?php print $pAdminEdit_admin_password_text; ?></td>
    </tr>
    <tr>
-      <td><?php print $PALANG['pAdminEdit_admin_password2'] . ":"; ?></td>
-      <td><input class="flat" type="password" name="fPassword2" /></td>
+      <td><?php print $PALANG['pAdminEdit_admin_password2']; ?>:</td>
+      <td><input class="flat" type="password" name="fPassword2" value="" /></td>
       <td>&nbsp;</td>
    </tr>
    <tr>
-      <td><?php print $PALANG['pAdminEdit_admin_active'] . ":"; ?></td>
+      <td><?php print $PALANG['pAdminEdit_admin_active']; ?>:</td>
       <td><input class="flat" type="checkbox" name="fActive" <?php print (!empty ($tActive)) ? 'checked' : ''; ?> /></td>
       <td>&nbsp;</td>
    </tr>
    <tr>
-      <td><?php print $PALANG['pAdminEdit_admin_super_admin'] . ":"; ?></td>
+      <td><?php print $PALANG['pAdminEdit_admin_super_admin']; ?>:</td>
       <td><input class="flat" type="checkbox" name="fSadmin" <?php print (!empty ($tSadmin)) ? 'checked' : ''; ?> /></td>
       <td>&nbsp;</td>
    </tr>
