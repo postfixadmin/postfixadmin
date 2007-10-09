@@ -57,13 +57,14 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
-   !empty ($_POST['fDescription']) ? $fDescription = escape_string ($_POST['fDescription']) : $fDescription = "";
-   if (isset ($_POST['fAliases'])) $fAliases = escape_string ($_POST['fAliases']);
-   if (isset ($_POST['fMailboxes'])) $fMailboxes = escape_string ($_POST['fMailboxes']);
-   !empty ($_POST['fMaxquota']) ? $fMaxquota = escape_string ($_POST['fMaxquota']) : $fMaxquota = "0";
-   !empty ($_POST['fTransport']) ? $fTransport = escape_string ($_POST['fTransport']) : $fTransport = "virtual";
-   if (isset ($_POST['fDefaultaliases'])) $fDefaultaliases = escape_string ($_POST['fDefaultaliases']);
-   isset ($_POST['fBackupmx']) ? $fBackupmx = escape_string ($_POST['fBackupmx']) : $fBackupmx = "0";
+   foreach(array('fDescription' => '', 'fAliases' => '0', 'fMailboxes' => '0', 
+      'fMaxquota' => '0', 'fTransport' => 'virtual', 
+      'fDefaultaliases' => '0', 'fBackupmx' => '0') as $key => $default) {
+      if(isset($_POST[$key]) && !empty($POST[$key])) {
+         $$key = escape_string($_POST[$key]);
+      }
+      $$key = $default;
+   }
 
    if (empty ($fDomain) or domain_exist ($fDomain) or !check_domain ($fDomain))
    {
@@ -99,8 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $fBackupmx = 0;
          $sqlBackupmx = ('pgsql'==$CONF['database_type']) ? 'false' : 0;
       }
-      
-      $result = db_query ("INSERT INTO $table_domain (domain,description,aliases,mailboxes,maxquota,transport,backupmx,created,modified) VALUES ('$fDomain','$fDescription',$fAliases,$fMailboxes,$fMaxquota,'$fTransport',$sqlBackupmx,NOW(),NOW())");
+      $sql_query = "INSERT INTO $table_domain (domain,description,aliases,mailboxes,maxquota,transport,backupmx,created,modified) VALUES ('$fDomain','$fDescription',$fAliases,$fMailboxes,$fMaxquota,'$fTransport',$sqlBackupmx,NOW(),NOW())";
+      $result = db_query($sql_query);
       if ($result['rows'] != 1)
       {
          $tMessage = $PALANG['pAdminCreate_domain_result_error'] . "<br />($fDomain)<br />";
