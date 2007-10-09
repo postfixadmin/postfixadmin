@@ -227,7 +227,6 @@ $PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Mailboxes';
 $PALANG['pAdminList_virtual_alias_address'] = 'From';
 $PALANG['pAdminList_virtual_alias_goto'] = 'To';
 $PALANG['pAdminList_virtual_alias_modified'] = 'Last Modified';
-$PALANG['pAdminList_virtual_alias_active'] = 'Active';
 $PALANG['pAdminList_virtual_mailbox_username'] = 'Email';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Name';
 $PALANG['pAdminList_virtual_mailbox_quota'] = 'Quota (MB)';

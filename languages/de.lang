@@ -10,9 +10,12 @@ $PALANG['YES'] = 'JA';
 $PALANG['NO'] = 'NEIN';
 $PALANG['edit'] = 'editieren';
 $PALANG['del'] = 'l&ouml;schen';
+$PALANG['exit'] = 'Verlassen';
 $PALANG['confirm'] = 'Sind Sie sicher dass Sie das l&ouml;schen wollen?\n';
 $PALANG['confirm_domain'] = 'Wollen Sie wirklich alle Eintr&auml;ge dieser Domain l&ouml;schen? Dies kann NICHT r&uuml;ckg&auml;ngig gemacht werden!\n';
 $PALANG['check_update'] = 'Auf Updates &uuml;berpr&uuml;fen';
+
+$PALANG['pFooter_logged_as'] = 'Angemeldet als %s';
 
 $PALANG['pLogin_welcome'] = 'Mail-Administratoren loggen sich bitte hier ein.';
 $PALANG['pLogin_username'] = 'Login (eMail)';
@@ -22,6 +25,7 @@ $PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Ihr Login-Name i
 $PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Falsches Passwort!</span>';
 $PALANG['pLogin_login_users'] = 'eMail-Benutzer bitte hier einloggen.';
 
+$PALANG['pMenu_main'] = 'Startseite';
 $PALANG['pMenu_overview'] = '&Uuml;berblick';
 $PALANG['pMenu_create_alias'] = 'Alias hinzuf&uuml;gen';
 $PALANG['pMenu_create_mailbox'] = 'Mailbox hinzuf&uuml;gen';
@@ -55,11 +59,15 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Mailboxen';
 $PALANG['pOverview_alias_address'] = 'Von';
 $PALANG['pOverview_alias_goto'] = 'An';
 $PALANG['pOverview_alias_modified'] = 'Zuletzt ver&auml;ndert';
+$PALANG['pOverview_alias_active'] = 'Aktiv';
+$PALANG['pOverview_alias_edit'] = 'Alias';
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['pOverview_mailbox_name'] = 'Name';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pOverview_mailbox_modified'] = 'Zuletzt ver&auml;ndert';
 $PALANG['pOverview_mailbox_active'] = 'Aktiv';
+$PALANG['pOverview_vacation_edit'] = 'AUTOMATISCHE ANTWORT IST AKTIV';
+$PALANG['pOverview_vacation_option'] = 'Automatische Antwort einrichten';
 
 $PALANG['pOverview_get_domain'] = 'Domain';
 $PALANG['pOverview_get_aliases'] = 'Aliases';
@@ -68,7 +76,9 @@ $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Zuletzt ver&auml;ndert';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Eintrag konnte nicht gel&ouml;scht werden ';
+$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Mailbox konnte nicht gel&ouml;scht werden ';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Diese Domain geh&ouml;rt nicht Ihnen ';
+$PALANG['pDelete_alias_error'] = '<span class="error_msg">Alias konnte nicht gel&ouml;scht werden ';
 
 $PALANG['pCreate_alias_welcome'] = 'Neuen Alias f&uuml;r Ihre Domain anlegen';
 $PALANG['pCreate_alias_address'] = 'Alias';
@@ -76,6 +86,7 @@ $PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">Di
 $PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Diese eMail-Adresse existiert bereits. Bitte w&auml;hlen Sie eine andere!</span>';
 $PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Sie haben Ihr Limit f&uuml;r Aliase auf dieser Domain erreicht!</span>';
 $PALANG['pCreate_alias_goto'] = 'An';
+$PALANG['pCreate_alias_active'] = 'Aktiv';
 $PALANG['pCreate_alias_button'] = 'Alias hinzuf&uuml;gen';
 $PALANG['pCreate_alias_goto_text'] = 'Wohin soll die eMail weitergeleitet werden?';
 $PALANG['pCreate_alias_goto_text_error'] = 'Wohin die eMail weitergeleitet werden soll<br /><span class="error_msg">Das An-Feld ist falsch!</span>';
@@ -87,6 +98,7 @@ $PALANG['pEdit_alias_welcome'] = '&Auml;ndern Sie einen Alias f&uuml;r Ihre Doma
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Auffinden des Alias schlug fehl!</span>';
 $PALANG['pEdit_alias_goto'] = 'An';
+$PALANG['pEdit_alias_active'] = 'Aktiv';
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Sie haben im "To"-Feld nichts angegeben!</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Die angegebene eMail-Adresse ist nicht korrekt: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Diese Domain geh&ouml;rt nicht Ihnen: ';
@@ -114,6 +126,7 @@ $PALANG['pCreate_mailbox_mail'] = 'Mailbox anlegen';
 $PALANG['pCreate_mailbox_button'] = 'Mailbox hinzuf&uuml;gen';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Unm&ouml;glich die Mailbox in die Mailbox-Tabelle einzutragen!</span>';
 $PALANG['pCreate_mailbox_result_success'] = 'Die Mailbox wurde in die Mailbox-Tabelle eingetragen!';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Die Mailbox wurde in der Mailbox-Tabelle eingetragen, aber keine (oder nur einige) der vorkonfigurierten Unterordner konnte erstellt werden';
 
 $PALANG['pEdit_mailbox_welcome'] = '&Auml;ndern Sie ihre Mailbox hier.';
 $PALANG['pEdit_mailbox_username'] = 'Benutzername';
@@ -122,6 +135,7 @@ $PALANG['pEdit_mailbox_password'] = 'Neues Passwort';
 $PALANG['pEdit_mailbox_password2'] = 'Neues Passwort (nochmal)';
 $PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Die beiden Passw&ouml;rter sind nicht identisch!</span>';
 $PALANG['pEdit_mailbox_name'] = 'Name';
+$PALANG['pEdit_mailbox_name_text'] = 'Vollst&auml;ndiger Name';
 $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Das angegebene Quota ist zu hoch!</span>';
@@ -141,12 +155,29 @@ $PALANG['pPassword_button'] = 'Passwort &auml;ndern';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Unm&ouml;glich das Passwort zu &auml;ndern!</span>';
 $PALANG['pPassword_result_success'] = 'Ihr Passwort wurde ge&auml;ndert!';
 
+$PALANG['pEdit_vacation_set'] = 'Automatische Antwort &auml;ndern / einrichten';
+$PALANG['pEdit_vacation_remove'] = 'Automatische Antwort abschalten';
+
+$PALANG['pVacation_result_error'] = '<span class="error_msg">&Auml;nderungen der automatischen Antwort konnten nicht gespeichert werden!</span>';
+$PALANG['pVacation_result_removed'] = 'Automatische Antwort wurde abgeschaltet!';
+$PALANG['pVacation_result_added'] = 'Automatische Antwort wurde aktiviert!';
+
 $PALANG['pViewlog_welcome'] = 'Zeigt die letzten 10 Aktionen f&uuml;r ';
 $PALANG['pViewlog_timestamp'] = 'Zeitpunkt';
 $PALANG['pViewlog_username'] = 'Admin';
 $PALANG['pViewlog_domain'] = 'Domain';
 $PALANG['pViewlog_action'] = 'Aktion';
 $PALANG['pViewlog_data'] = 'Daten';
+
+$PALANG['pViewlog_action_create_mailbox'] = 'Mailbox erstellen';
+$PALANG['pViewlog_action_delete_mailbox'] = 'Mailbox l&ouml;schen';
+$PALANG['pViewlog_action_edit_mailbox'] = 'Mailbox bearbeiten';
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'Mailbox Aktiv bearbeiten';
+$PALANG['pViewlog_action_create_alias'] = 'Alias erstellen';
+$PALANG['pViewlog_action_delete_alias'] = 'Alias l&ouml;schen';
+$PALANG['pViewlog_action_edit_alias'] = 'Alias bearbeiten';
+$PALANG['pViewlog_action_edit_alias_state'] = 'Alias Aktiv bearbeiten';
+$PALANG['pViewlog_action_edit_password'] = 'Passwort &auml;ndern';
 
 $PALANG['pViewlog_button'] = 'Los';
 $PALANG['pViewlog_result_error'] = '<span class="error_msg">Kann keine Eintr&auml;ge finden!</span>';
@@ -205,6 +236,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiv';
 $PALANG['pAdminCreate_domain_welcome'] = 'Domain hinzuf&uuml;gen';
 $PALANG['pAdminCreate_domain_domain'] = 'Domain';
 $PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Diese Domain existiert bereits!</span>';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">Diese Domain ist ung&uuml;ltig!</span>';
 $PALANG['pAdminCreate_domain_description'] = 'Beschreibung';
 $PALANG['pAdminCreate_domain_aliases'] = 'Aliase';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = ausschalten | 0 = kein Limit';
@@ -219,6 +251,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Domain hinzuf&uuml;gen';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Konnte Domain nicht anlegen!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain wurde angelegt!';
+
+$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Domain konnte nicht gel&ouml;scht werden!</span>';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain editieren';
 $PALANG['pAdminEdit_domain_domain'] = 'Domain';
@@ -272,6 +306,7 @@ $PALANG['pUsersMenu_edit_alias'] = 'Weiterleitung &auml;ndern';
 $PALANG['pUsersMenu_password'] = 'Passwort &auml;ndern';
 
 $PALANG['pUsersMain_vacation'] = 'Geben Sie eine "Automatische Antwort" ein. Sinnvoll z.B. w&auml;hrend Sie im Urlaub sind';
+$PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' ist aktiv, \'' . $PALANG['pUsersMenu_vacation'] . '\' anklicken zum Bearbeiten oder Abschalten';
 $PALANG['pUsersMain_edit_alias'] = '&Auml;ndern Sie Ihre Weiterleitung.';
 $PALANG['pUsersMain_password'] = '&Auml;ndern Sie Ihr Passwort.';
 
@@ -301,6 +336,24 @@ $PALANG['pEdit_dbLog_editmailbox'] = 'Mailbox bearbeiten';
 
 $PALANG['pSearch'] = 'suche';
 $PALANG['pSearch_welcome'] = 'Suche nach: ';
+
+$PALANG['pReturn_to'] = 'Zur&uuml;ck zu';
+
+$PALANG['pBroadcast_title'] = 'Rundmail senden';
+$PALANG['pBroadcast_from'] = 'Von';
+$PALANG['pBroadcast_name'] = 'Ihr Name';
+$PALANG['pBroadcast_subject'] = 'Betreff';
+$PALANG['pBroadcast_message'] = 'Nachricht';
+$PALANG['pBroadcast_send'] = 'Nachricht senden';
+$PALANG['pBroadcast_success'] = 'Ihre Rundmail wurde gesendet.';
+$PALANG['pAdminMenu_broadcast_message'] = 'Rundmail';
+$PALANG['pBroadcast_error_empty'] = 'Die Felder Name, Betreff und Nachricht dürfen nicht leer sein!';
+
+$PALANG['pStatus_undeliverable'] = 'm&ouml;glicherweise UNZUSTELLBAR ';
+$PALANG['pStatus_custom'] = 'Zustellung an ';
+$PALANG['pStatus_popimap'] = 'POP/IMAP ';
+
+$PALANG['pPasswordTooShort'] = "Das Passwort ist zu kurz - mindestens %s Zeichen ben&ouml;tigt";
 
 $PALANG['pFetchmail_welcome'] = 'E-Mail Abruf f&uuml;r: ';
 $PALANG['pFetchmail_new_entry'] = 'Neuer Eintrag';

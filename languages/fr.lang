@@ -229,7 +229,7 @@ $PALANG['pAdminEdit_domain_welcome'] = 'Modifier un domaine';
 $PALANG['pAdminEdit_domain_domain'] = 'Domaine';
 $PALANG['pAdminEdit_domain_description'] = 'Description';
 $PALANG['pAdminEdit_domain_aliases'] = 'Alias';
-$PALANG['pAdminCEdit_domain_aliases_text'] = '-1 = désactivé | 0 = illimité';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = désactivé | 0 = illimité';
 $PALANG['pAdminEdit_domain_mailboxes'] = 'Comptes courriels';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = désactivé | 0 = illimité';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Limite maximum';

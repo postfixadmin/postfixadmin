@@ -160,7 +160,6 @@ $PALANG['pEdit_vacation_set'] = 'Změnit / Nastavit zprávu o nepřítomnosti';
 $PALANG['pEdit_vacation_remove'] = 'Ostranit zprávu o nepřítomnosti';
 
 $PALANG['pVacation_result_error'] = '<span class="error_msg">Nebylo možné aktualizovat nastavení automatické odpověďi!</span>';
-$PALANG['pVacation_result_success'] = 'Automatická odpověď byla odstraněna!';
 
 $PALANG['pViewlog_welcome'] = 'Prohlížet 10 posledních akcí pro ';
 $PALANG['pViewlog_timestamp'] = 'Časová značka';
@@ -226,7 +225,6 @@ $PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Schránek';
 $PALANG['pAdminList_virtual_alias_address'] = 'Od';
 $PALANG['pAdminList_virtual_alias_goto'] = 'Cíl';
 $PALANG['pAdminList_virtual_alias_modified'] = 'Naposledy Změněno';
-$PALANG['pAdminList_virtual_alias_active'] = 'Aktivní';
 $PALANG['pAdminList_virtual_mailbox_username'] = 'Název';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Celé Jméno';
 $PALANG['pAdminList_virtual_mailbox_quota'] = 'Místo (MB)';
