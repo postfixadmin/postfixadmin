@@ -57,77 +57,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $fDomains = array();
    if (!empty ($_POST['fDomains'])) $fDomains = $_POST['fDomains'];
 
-   if (!check_email ($fUsername))
-   {
-      $error = 1;
+   list ($error, $tMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, $fDomains);
+
+   if ($error != 0) {
       if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
       if (isset ($_POST['fDomains'])) $tDomains = $_POST['fDomains'];
-      $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text_error1'];
    }
-
-   if (empty ($fUsername) or admin_exist ($fUsername))
-   {
-      $error = 1;
-      $tUsername = escape_string ($_POST['fUsername']);
-      if (isset ($_POST['fDomains'])) $tDomains = $_POST['fDomains'];
-      $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text_error2'];
-   }
-      
-   if (empty ($fPassword) or empty ($fPassword2) or ($fPassword != $fPassword2))
-   {
-      if (empty ($fPassword) and empty ($fPassword2) and $CONF['generate_password'] == "YES")
-      {
-			$fPassword = generate_password ();
-      }
-      else
-      {
-			$error = 1;
-			if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
-			if (isset ($_POST['fDomains'])) $tDomains = $_POST['fDomains'];
-			$pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
-			$pAdminCreate_admin_password_text = $PALANG['pAdminCreate_admin_password_text_error'];
-      }
-   }
-
-   if ($error != 1)
-   {
-   	$password = pacrypt($fPassword);
-      $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
-
-
-      $result = db_query ("INSERT INTO $table_admin (username,password,created,modified) VALUES ('$fUsername','$password',NOW(),NOW())");
-      if ($result['rows'] != 1)
-      {
-         $tMessage = $PALANG['pAdminCreate_admin_result_error'] . "<br />($fUsername)<br />";
-      }
-      else
-      {
-         if (!empty ($fDomains[0]))
-         {
-            for ($i = 0; $i < sizeof ($fDomains); $i++)
-            {
-               $domain = $fDomains[$i];
-               $result = db_query ("INSERT INTO $table_domain_admins (username,domain,created) VALUES ('$fUsername','$domain',NOW())");
-            }
-         }
-			$tMessage = $PALANG['pAdminCreate_admin_result_success'] . "<br />($fUsername";
-			if ($CONF['generate_password'] == "YES")
-			{
-				$tMessage .= " / $fPassword)</br />";
-			}
-			else
-			{
-				if ($CONF['show_password'] == "YES")
-				{
-					$tMessage .= " / $fPassword)</br />";
-				}
-				else
-				{
-					$tMessage .= ")</br />";
-				}
-			}
-		}
-	}
 
    include ("../templates/header.tpl");
    include ("../templates/admin_menu.tpl");
