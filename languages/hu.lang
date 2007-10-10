@@ -136,6 +136,7 @@ $PALANG['pEdit_mailbox_password'] = 'Új jelszó';
 $PALANG['pEdit_mailbox_password2'] = 'Új jelszó (mégegyszer)';
 $PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">A beírt jelszavak nem egyeznek!</span>';
 $PALANG['pEdit_mailbox_name'] = 'Név';
+$PALANG['pEdit_mailbox_name_text'] = 'Teljes név';
 $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">A megadott quota érték túl magas!</span>';
