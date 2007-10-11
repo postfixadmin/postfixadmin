@@ -197,6 +197,15 @@ $CONF['sendmail'] = 'YES';
 // If you don't want logging set this to 'NO';
 $CONF['logging'] = 'YES';
 
+// Fetchmail
+// If you don't want fetchmail tab set this to 'NO';
+$CONF['fetchmail'] = 'YES';
+
+// fetchmail_extra_options allows users to specify any fetchmail options and any MDA
+// (it will even accept 'rm -rf /' as MDA!)
+// This should be set to NO, except if you *really* trust *all* your users.
+$CONF['fetchmail_extra_options'] = 'NO';
+
 // Header
 $CONF['show_header_text'] = 'NO';
 $CONF['header_text'] = ':: Postfix Admin ::';
@@ -298,6 +307,15 @@ $CONF['show_custom_colors']=array("lightgreen","lightblue");
 // $CONF['create_mailbox_subdirs_hostoptions']=array('novalidate-cert','norsh');
 // See also the "Optional flags for names" table at
 // http://www.php.net/manual/en/function.imap-open.php
+
+
+// If you want to keep most settings at default values and/or want to ensure 
+// that future updates work without problems, you can use a separate config 
+// file (config.local.php) instead of editing this file and override some
+// settings there.
+if (file_exists (realpath ("./config.local.php"))) {
+   include('config.local.php');
+};
 
 //
 // END OF CONFIG FILE

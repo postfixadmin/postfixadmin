@@ -2,12 +2,41 @@
 <form name="overview" method="post">
 
 <?php 
-	
+
+# fields to display in table view
+$display_fields=array(
+   "id",
+   "mailbox",
+   "src_server",
+   "src_auth",
+   "src_user",
+#   "src_password",
+   "src_folder",
+   "pool_time",
+   "fetchall",
+   "keep",
+   "protocol",
+);
+
+if ($CONF['fetchmail_extra_options'] == 'YES') {
+   array_push(
+      $display_fields,
+      "extra_options",
+      "mda"
+   );
+}
+
+array_push(
+   $display_fields,
+   "date",
+   "returned_text"
+);
+
 	$headers=array();
-	foreach($fm_struct as $row){
-		list($editible,$view,$type,$title,$comment)=$row;
+	foreach($display_fields as $row){
+		list($editible,$view,$type,$title,$comment)=$fm_struct[$row];
 		if ($view){
-			$headers[]=$row;
+			$headers[]=$fm_struct[$row];
 		}
 	}
 
@@ -30,17 +59,19 @@
 		}
 		else{
 			print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
-			foreach($row as $key=>$val){
+			foreach($display_fields as $key){
+
 				list($editible,$view,$type,$title,$comment)=$fm_struct[$key];
+            $val = $row[$key];
 				if ($view){
 					$func="_listview_".$type;
 					print "      <td nowrap>" . (function_exists($func)?$func($val):$val) . "</td>\n";
 				}
+
 			}
 			print "   </tr>\n";
 		}
        }
-
     }
 
 function fetchmail_edit_row($data=array()){
@@ -153,3 +184,4 @@ function _listview_password($val){
 <p />
 </form>
 </div>
+<?php /* vim: set ft=php expandtab softtabstop=3 tabstop=3 shiftwidth=3: */ ?>
