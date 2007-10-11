@@ -38,7 +38,7 @@
 #
 #
 # Requirements:
-# You need to have the DBD::Pg or DBD::MySQL perl-module installed.
+# You need to have the DBD::Pg or DBD::mysql perl-module installed.
 # You need to have the Mail::Sendmail module installed. 
 # You need to have the Email::Valid module installed.
 # You need to have the MIME::Charset module installed.
