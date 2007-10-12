@@ -3,17 +3,18 @@
 // Language file French
 // by Kuthz
 // updated by Olivier ETIENNE
+// updated by Francois Grange
 //
-
-require ('default.lang');
 
 $PALANG['YES'] = 'Oui';
 $PALANG['NO'] = 'Non';
 $PALANG['edit'] = 'Modifier';
 $PALANG['del'] = 'Effacer';
+$PALANG['exit'] = 'Quitter';
 $PALANG['confirm'] = 'Etes vous sur de vouloir supprimer cet enregistrement\n';
 $PALANG['confirm_domain'] = 'Etes-vous sur de vouloir effacer tous les enregistrements dans ce domaine ? Cette opération ne pourra pas être annulée.\n';
 $PALANG['check_update'] = 'Vérifiez les mises à jour';
+$PALANG['pFooter_logged_as'] = 'Bonjour %s';
 
 $PALANG['pLogin_welcome'] = 'Entrez votre adresse courriel pour administrer votre domaine.';
 $PALANG['pLogin_username'] = 'Adresse courriel';
@@ -22,10 +23,12 @@ $PALANG['pLogin_button'] = 'Entrer';
 $PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Votre adresse courriel est invalide. Assurez-vous de saisir correctement l\'adresse courriel.</span>';
 $PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Votre mot de passe est invalide !</span>';
 $PALANG['pLogin_login_users'] = 'Utilisateurs, cliquez ici pour rejoindre votre section.';
+$PALANG['pMenu_main'] = 'Menu principal';
 
 $PALANG['pMenu_overview'] = 'Vue d\'ensemble';
 $PALANG['pMenu_create_alias'] = 'Ajouter un alias';
 $PALANG['pMenu_create_mailbox'] = 'Ajouter un compte courriel';
+$PALANG['pMenu_fetchmail'] = 'Récupérer le courrier';
 $PALANG['pMenu_sendmail'] = 'Envoyer un courriel';
 $PALANG['pMenu_password'] = 'Mot de passe';
 $PALANG['pMenu_viewlog'] = 'Consulter le journal des événements';
@@ -55,11 +58,15 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Comptes courriels';
 $PALANG['pOverview_alias_address'] = 'De';
 $PALANG['pOverview_alias_goto'] = 'A';
 $PALANG['pOverview_alias_modified'] = 'Dernière Modification';
+$PALANG['pOverview_alias_active'] = 'Activé';
+$PALANG['pOverview_alias_edit'] = 'Alias';
 $PALANG['pOverview_mailbox_username'] = 'courriel';
 $PALANG['pOverview_mailbox_name'] = 'Nom';
 $PALANG['pOverview_mailbox_quota'] = 'Limite (MB)';
 $PALANG['pOverview_mailbox_modified'] = 'Dernière Modification';
 $PALANG['pOverview_mailbox_active'] = 'Actif';
+$PALANG['pOverview_vacation_edit'] = 'REPONDEUR ACTIVE';
+$PALANG['pOverview_vacation_option'] = 'Configurer le répondeur';
 
 $PALANG['pOverview_get_domain'] = 'Domaine';
 $PALANG['pOverview_get_aliases'] = 'Alias';
@@ -70,13 +77,14 @@ $PALANG['pOverview_get_modified'] = 'Dernière Modification';
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Impossible d\'effacer cette entrée ';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Impossible d\'effacer ce compte courriel';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Ce domaine n\'est pas le votre ';
-
+$PALANG['pDelete_alias_error'] = '<span class="error_msg">Impossible d\'effacer cet alias ';
 $PALANG['pCreate_alias_welcome'] = 'Créer un nouvel alias pour votre domaine.';
 $PALANG['pCreate_alias_address'] = 'Alias';
 $PALANG['pCreate_alias_address_text_error1'] = '<br><span class="error_msg">Cet ALIAS n\'est pas valide!</span>';
 $PALANG['pCreate_alias_address_text_error2'] = '<br><span class="error_msg">Ce compte courriel existe déjà, choisissez un autre libellé !</span>';
 $PALANG['pCreate_alias_address_text_error3'] = '<br><span class="error_msg">Vous avez atteint votre limite d\'alias créés !</span>';
 $PALANG['pCreate_alias_goto'] = 'À';
+$PALANG['pCreate_alias_active'] = 'Activé';
 $PALANG['pCreate_alias_button'] = 'Ajouter un alias';
 $PALANG['pCreate_alias_goto_text'] = 'Destinataires des courriels.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Destinataires des courriels.<br /><span class="error_msg">le champ À contient des erreurs!</span>';
@@ -88,6 +96,7 @@ $PALANG['pEdit_alias_welcome'] = 'Modifier un alias dans votre domaine.<br>Une e
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Impossible de localiser l\'alias!</span>';
 $PALANG['pEdit_alias_goto'] = 'À';
+$PALANG['pEdit_alias_active'] = 'Activé';
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Vous devez entrer quelques choses dans le champ À</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">L\'adresse courriel que vous avez entré est invalide: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Ce domaine n\'est pas le votre: ';
@@ -124,6 +133,7 @@ $PALANG['pEdit_mailbox_password'] = 'Nouveau mot de passe';
 $PALANG['pEdit_mailbox_password2'] = 'Nouveau mot de passe (confirmation)';
 $PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Le mot de passe entré ne correspond pas!</span>';
 $PALANG['pEdit_mailbox_name'] = 'Nom';
+$PALANG['pEdit_mailbox_name_text'] = 'Nom complet';
 $PALANG['pEdit_mailbox_quota'] = 'Limite';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">La limite fournit est trop haute!</span>';
@@ -142,6 +152,11 @@ $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Le mot de pa
 $PALANG['pPassword_button'] = 'Changer le mot de passe';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Impossible de changer votre mot de passe!</span>';
 $PALANG['pPassword_result_success'] = 'Votre mot de passe a été change!';
+$PALANG['pEdit_vacation_set'] = 'Modifier le message';
+$PALANG['pEdit_vacation_remove'] = 'Effacer le message';
+$PALANG['pVacation_result_error'] = '<span class="error_msg">Impossible de mettre à jour les réglages du répondeur!</span>';
+$PALANG['pVacation_result_removed'] = 'Le répondeur a été désactivé!';
+$PALANG['pVacation_result_added'] = 'Le répondeur a été activé!';
 
 $PALANG['pViewlog_welcome'] = 'Visualiser les 10 dernières action pour ';
 $PALANG['pViewlog_timestamp'] = 'Date/Heure';
@@ -149,6 +164,15 @@ $PALANG['pViewlog_username'] = 'Administrateur';
 $PALANG['pViewlog_domain'] = 'Domaine';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Information';
+$PALANG['pViewlog_action_create_mailbox'] = 'créer un compte courriel';
+$PALANG['pViewlog_action_delete_mailbox'] = 'supprimer un compte courriel';
+$PALANG['pViewlog_action_edit_mailbox'] = 'éditer un compte courriel';
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'activer un compte courriel';
+$PALANG['pViewlog_action_create_alias'] = 'créer un alias';
+$PALANG['pViewlog_action_delete_alias'] = 'supprimer un alias';
+$PALANG['pViewlog_action_edit_alias'] = 'éditer un alias';
+$PALANG['pViewlog_action_edit_alias_state'] = 'activer un alias';
+$PALANG['pViewlog_action_edit_password'] = 'changer le mot de passe';
 
 $PALANG['pViewlog_button'] = 'Aller';
 $PALANG['pViewlog_result_error'] = '<span class="error_msg">Impossible de trouver le journal des événements!</span>';
@@ -218,6 +242,7 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = désactivé | 0 = 
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Definir le transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Ajouter les alias par défaut';
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'Le serveur est un "backup MX"';
 $PALANG['pAdminCreate_domain_button'] = 'Ajouter un domaine';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Impossible d\'ajouter le domaine!</span>';
@@ -277,6 +302,7 @@ $PALANG['pUsersMenu_edit_alias'] = 'Modifier votre transfert';
 $PALANG['pUsersMenu_password'] = 'Modifier votre mot de passe';
 
 $PALANG['pUsersMain_vacation'] = 'Configurer votre répondeur automatique.';
+$PALANG['pUsersMain_vacationSet'] = 'La ' . $PALANG['pUsersMenu_vacation'] . ' est activée, cliquer \'' . $PALANG['pUsersMenu_vacation'] . '\' pour ' . $PALANG['edit'] . '/effacer';
 $PALANG['pUsersMain_edit_alias'] = 'Modifier vos transferts de courriel.';
 $PALANG['pUsersMain_password'] = 'Changer votre mot de passe.';
 
@@ -291,8 +317,8 @@ Pour urgence communiquez avec mon collegue <contact person>.
 EOM;
 $PALANG['pUsersVacation_button_away'] = 'Absence';
 $PALANG['pUsersVacation_button_back'] = 'De retour';
-$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Impossible de mettre à jour vos paramètres de reponse automatique!</span>';
-$PALANG['pUsersVacation_result_success'] = 'Votre reponse automatique a été enlevée!';
+$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Impossible de mettre à jour vos paramètres de réponse automatique!</span>';
+$PALANG['pUsersVacation_result_success'] = 'Votre réponse automatique a été enlevée!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'Création de compte';     
 $PALANG['pCreate_dbLog_createalias'] = 'Création d\'alias';
@@ -303,5 +329,22 @@ $PALANG['pEdit_dbLog_editactive'] = 'Changement du statut d\'activation';
 $PALANG['pEdit_dbLog_editalias'] = 'Modificaton d\'alias';
 $PALANG['pEdit_dbLog_editmailbox'] = 'Modification de compte';
 
+$PALANG['pSearch'] = 'Rechercher';
 $PALANG['pSearch_welcome'] = 'Recherche : ';
+$PALANG['pReturn_to'] = 'Réponse à';
+$PALANG['pBroadcast_title'] = 'Envoyer un message général';
+$PALANG['pBroadcast_from'] = 'De';
+$PALANG['pBroadcast_name'] = 'Votre nom';
+$PALANG['pBroadcast_subject'] = 'Sujet';
+$PALANG['pBroadcast_message'] = 'Message';
+$PALANG['pBroadcast_send'] = 'Envoyer le message';
+$PALANG['pBroadcast_success'] = 'Votre message général a été envoyé.';
+$PALANG['pAdminMenu_broadcast_message'] = 'message général';
+$PALANG['pBroadcast_error_empty'] = 'Les champs Nom, Sujet et Message ne peuvent pas être vides!';
+$PALANG['pStatus_undeliverable'] = 'Non délivrable ';
+$PALANG['pStatus_custom'] = 'Délivré à ';
+$PALANG['pStatus_popimap'] = 'POP/IMAP ';
+$PALANG['pPasswordTooShort'] = "Mot de passe trop court. - %s caractères minimum";
+$PALANG['pFetchmail_welcome'] = 'Récupérer le courrier pour :';
+$PALANG['pFetchmail_new_entry'] = 'Nouvelle entrée';
 ?>
