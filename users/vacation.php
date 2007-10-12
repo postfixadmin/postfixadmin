@@ -113,8 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
             //only one of these will do something, first handles address at beginning and middle, second at end, third if it's the only alias record.
             $goto= preg_replace ( "/$vacation_goto,/", '', $tGoto);
-            $goto= preg_replace ( "/,$vacation_goto/", '', $tGoto);
-            $goto= preg_replace ( "/$vacation_goto/", '', $tGoto);
+            $goto= preg_replace ( "/,$vacation_goto/", '', $goto);
+            $goto= preg_replace ( "/$vacation_goto/", '', $goto);
             $query = "UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$USERID_USERNAME'";
 
             if($goto == '') {
