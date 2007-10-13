@@ -122,6 +122,12 @@ for file in $filelist ; do
 done
 ###############################################################################
 
+# check for duplicated strings
+for file in $filelist ; do
+	sed -n "/PALANG/ s/[  ]*\$PALANG\['// ; s/'.*//p" $file |sort |uniq -c |grep -v " *1 " >&2 && \
+	echo "*** duplicated string in $file, see above for details ***" >&2
+done
+
 test $nocleanup = 0 && for file in $filelist ; do
 	rm -f $file.patch $file.strings $file.diff
 done

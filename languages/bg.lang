@@ -213,8 +213,6 @@ $PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = 'Ïîñëåäíî ìîäèôèöèðàí';
 $PALANG['pAdminList_domain_active'] = 'Àêòèâåí';
-$PALANG['pAdminList_domain_modified'] = 'Last Modified';
-$PALANG['pAdminList_domain_active'] = 'Active';
 
 $PALANG['pAdminList_virtual_button'] = 'Íàïðåä';
 $PALANG['pAdminList_virtual_welcome'] = 'Ïðåãëåä íà ';
