@@ -5,8 +5,6 @@
 // updated by Martin Ambroz (amsys@trustica.cz)
 //
 
-require ('default.lang');
-
 
 $PALANG['YES'] = 'ANO';
 $PALANG['NO'] = 'NE';
@@ -31,6 +29,7 @@ $PALANG['pMenu_main'] = 'Hlavní';
 $PALANG['pMenu_overview'] = 'Přehled';
 $PALANG['pMenu_create_alias'] = 'Přidat přesměrování';
 $PALANG['pMenu_create_mailbox'] = 'Přidat schránku';
+$PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'Poslat email';
 $PALANG['pMenu_password'] = 'Změnit heslo';
 $PALANG['pMenu_viewlog'] = 'Prohlížet záznam';
@@ -160,6 +159,8 @@ $PALANG['pEdit_vacation_set'] = 'Změnit / Nastavit zprávu o nepřítomnosti';
 $PALANG['pEdit_vacation_remove'] = 'Ostranit zprávu o nepřítomnosti';
 
 $PALANG['pVacation_result_error'] = '<span class="error_msg">Nebylo možné aktualizovat nastavení automatické odpověďi!</span>';
+$PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
+$PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Prohlížet 10 posledních akcí pro ';
 $PALANG['pViewlog_timestamp'] = 'Časová značka';
@@ -168,13 +169,14 @@ $PALANG['pViewlog_domain'] = 'Doména';
 $PALANG['pViewlog_action'] = 'Akce';
 $PALANG['pViewlog_data'] = 'Poznámka';
 
-$PALANG['pViewlog_action_create_alias'] = 'vytvořeno přesměrování';
-$PALANG['pViewlog_action_delete_alias'] = 'smazáno přesměrování';
+$PALANG['pViewlog_action_create_mailbox'] = 'create mailbox'; # XXX
 $PALANG['pViewlog_action_delete_mailbox'] = 'smazána schránka';
-$PALANG['pViewlog_action_edit_alias'] = 'úprava přesměrování';
-$PALANG['pViewlog_action_edit_alias_state'] = 'změna stavu přesměrování';
 $PALANG['pViewlog_action_edit_mailbox'] = 'úprava schránky';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'změna stavu schránky';
+$PALANG['pViewlog_action_create_alias'] = 'vytvořeno přesměrování';
+$PALANG['pViewlog_action_delete_alias'] = 'smazáno přesměrování';
+$PALANG['pViewlog_action_edit_alias'] = 'úprava přesměrování';
+$PALANG['pViewlog_action_edit_alias_state'] = 'změna stavu přesměrování';
 $PALANG['pViewlog_action_edit_password'] = 'změna hesla';
 
 $PALANG['pViewlog_button'] = 'Jít';
@@ -245,6 +247,7 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = znepřístupnit | 
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Nastavit transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Přidat implicitní přesměrování';
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'Tento server je záložní MX domény';
 $PALANG['pAdminCreate_domain_button'] = 'Přidat doménu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Nepodařilo se přidat doménu!</span>';
@@ -349,4 +352,9 @@ $PALANG['pBroadcast_error_empty'] = 'Pole Od, Předmět a Zpráva by neměly bý
 $PALANG['pStatus_undeliverable'] = 'možná NEDORUČITELNÉ ';
 $PALANG['pStatus_custom'] = 'Doručeno do ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
+$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters"; # XXX
+$PALANG['pFetchmail_welcome'] = 'Fetch mail for:'; # XXX
+$PALANG['pFetchmail_new_entry'] = 'New entry'; # XXX
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

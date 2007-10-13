@@ -4,15 +4,15 @@
 // by Peeter Partel <peeter at sigma dot ee>
 //
 
-require ('default.lang');
-
 $PALANG['YES'] = 'JAH';
 $PALANG['NO'] = 'EI';
 $PALANG['edit'] = 'Redigeeri';
 $PALANG['del'] = 'Kustuta';
+$PALANG['exit'] = 'Exit'; # XXX
 $PALANG['confirm'] = 'Oled kindel, et soovid seda kustutada?\n';
 $PALANG['confirm_domain'] = 'Oled tõesti kindel, et tahad kustutada kõik kirjed sellele domeenile? Seda tegevust ei saa tagasi võtta!\n';
 $PALANG['check_update'] = 'Check for update';
+$PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'E-posti haldaja, logi siit domeeni administreerimiseks sisse.';
 $PALANG['pLogin_username'] = 'Kasutajanimi (e-posti aadress)';
@@ -22,9 +22,11 @@ $PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Kasutajanimi pol
 $PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Parool pole õige!</span>';
 $PALANG['pLogin_login_users'] = 'Kasutaja, klõpsa siia logimaks sisse kasutaja sektsiooni.';
 
+$PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Ülevaade';
 $PALANG['pMenu_create_alias'] = 'Lisa alias';
 $PALANG['pMenu_create_mailbox'] = 'Lisa postkast';
+$PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'Saada kiri';
 $PALANG['pMenu_password'] = 'Parool';
 $PALANG['pMenu_viewlog'] = 'Vaata logi';
@@ -54,11 +56,15 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Postkaste';
 $PALANG['pOverview_alias_address'] = 'Kellelt';
 $PALANG['pOverview_alias_goto'] = 'Kellele';
 $PALANG['pOverview_alias_modified'] = 'Viimati muudetud';
+$PALANG['pOverview_alias_active'] = 'Active'; # XXX
+$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-posti aadress';
 $PALANG['pOverview_mailbox_name'] = 'Nimi';
 $PALANG['pOverview_mailbox_quota'] = 'Kettaruumi piirang (MB)';
 $PALANG['pOverview_mailbox_modified'] = 'Viimati muudetud';
 $PALANG['pOverview_mailbox_active'] = 'Aktiivne';
+$PALANG['pOverview_vacation_edit'] = 'VACATION IS ON'; # XXX
+$PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 
 $PALANG['pOverview_get_domain'] = 'Domeen';
 $PALANG['pOverview_get_aliases'] = 'Aliased';
@@ -67,7 +73,9 @@ $PALANG['pOverview_get_quota'] = 'Postkasti kettaruumi piirang (MB)';
 $PALANG['pOverview_get_modified'] = 'Viimati muudetud';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Kustutamine ebaõnnestus. Kirje: ';
+$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Puuduvad õigused. Domeen: ';
+$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Loo uus alias domeenis.';
 $PALANG['pCreate_alias_address'] = 'Alias';
@@ -75,6 +83,7 @@ $PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">AL
 $PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">See e-posti aadress eksisteerib juba, palun vali erinev!</span>';
 $PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Oled kasutanud kogu aliaste arvu!</span>';
 $PALANG['pCreate_alias_goto'] = 'Kellele';
+$PALANG['pCreate_alias_active'] = 'Active'; # XXX
 $PALANG['pCreate_alias_button'] = 'Lisa alias';
 $PALANG['pCreate_alias_goto_text'] = 'Kuhu peab kirja saatma.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Kuhu peab kirja saatma.<br /><span class="error_msg">Kellele pole kehtiv!</span>';
@@ -86,9 +95,12 @@ $PALANG['pEdit_alias_welcome'] = 'Muuda aliast.<br />Üks kirje rea kohta.';
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Aliase muutmine ebaõnnestus!</span>';
 $PALANG['pEdit_alias_goto'] = 'Kellele';
+$PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Kellele väli on tühi.</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Sisestatud e/posti aadress pole kehtiv: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Puuduvad õigused. Domeen: ';
+$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
+$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = 'Muuda alias';
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Aliase muutmine ebaõnnestus!</span>';
 
@@ -111,6 +123,7 @@ $PALANG['pCreate_mailbox_mail'] = 'Loo postkast';
 $PALANG['pCreate_mailbox_button'] = 'Lisa postkast';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Postkasti lisamine tabelisse ebaõnnestus!</span>';
 $PALANG['pCreate_mailbox_result_success'] = 'Postkast lisati postkastide tabelisse!';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Muuda postkasti.';
 $PALANG['pEdit_mailbox_username'] = 'Kasutajanimi';
@@ -119,6 +132,7 @@ $PALANG['pEdit_mailbox_password'] = 'Uus parool';
 $PALANG['pEdit_mailbox_password2'] = 'Uus parool (uuesti)';
 $PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Sisestatud paroolid ei kattu!</span>';
 $PALANG['pEdit_mailbox_name'] = 'Nimi';
+$PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX
 $PALANG['pEdit_mailbox_quota'] = 'Kettaruumi piirang';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Sisestatud kettaruumi piirang on liiga kõrge!</span>';
@@ -137,6 +151,11 @@ $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Sisestatud p
 $PALANG['pPassword_button'] = 'Muuda parool';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Parooli muutmine ebaõnnestus!</span>';
 $PALANG['pPassword_result_success'] = 'Parool on muudetud!';
+$PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
+$PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
+$PALANG['pVacation_result_error'] = '<span class="error_msg">Unable to update auto response settings!</span>'; # XXX
+$PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
+$PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Vaata 10 viimast muudatust domeeniga ';
 $PALANG['pViewlog_timestamp'] = 'Ajatempel';
@@ -144,6 +163,15 @@ $PALANG['pViewlog_username'] = 'Haldaja';
 $PALANG['pViewlog_domain'] = 'Domeen';
 $PALANG['pViewlog_action'] = 'Toiming';
 $PALANG['pViewlog_data'] = 'Andmed';
+$PALANG['pViewlog_action_create_mailbox'] = 'create mailbox'; # XXX
+$PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox'; # XXX
+$PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox'; # XXX
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active'; # XXX
+$PALANG['pViewlog_action_create_alias'] = 'create alias'; # XXX
+$PALANG['pViewlog_action_delete_alias'] = 'delete alias'; # XXX
+$PALANG['pViewlog_action_edit_alias'] = 'edit alias'; # XXX
+$PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
+$PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = 'Mine';
 $PALANG['pViewlog_result_error'] = '<span class="error_msg">Logi ei leitud!</span>';
@@ -202,6 +230,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiivne';
 $PALANG['pAdminCreate_domain_welcome'] = 'Lisa uus domeen';
 $PALANG['pAdminCreate_domain_domain'] = 'Domeen';
 $PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Selline domeen on juba olemas!</span>';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">The domain is invalid!</span>'; # XXX
 $PALANG['pAdminCreate_domain_description'] = 'Kirjeldus';
 $PALANG['pAdminCreate_domain_aliases'] = 'Aliasi';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = keelatud | 0 = piiramatult';
@@ -212,10 +241,12 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = keelatud | 0 = pii
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Lisa vaikimisi aliased';
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'E-posti server on varuserver (backup MX)';
 $PALANG['pAdminCreate_domain_button'] = 'Lisa domeen';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domeeni lisamine ebaõnnestus!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domeen on lisatud!';
+$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Redigeeri domeeni';
 $PALANG['pAdminEdit_domain_domain'] = 'Domeen';
@@ -252,6 +283,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Parool';
 $PALANG['pAdminEdit_admin_password2'] = 'Parool (uuesti)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Sisestatud paroolid ei kattu!<br />Või on tühjad!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktiivne';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Muuda haldaja';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Haldaja muutmine ebaõnnestus!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Haldaja on muudetud!';
@@ -268,6 +300,7 @@ $PALANG['pUsersMenu_edit_alias'] = 'Muuda edasisaatmist';
 $PALANG['pUsersMenu_password'] = 'Muuda parool';
 
 $PALANG['pUsersMain_vacation'] = 'Määra "kontorist väljas" teade või automaatne vastaja e-posti aadressile.';
+$PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is ON, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/remove'; # XXX
 $PALANG['pUsersMain_edit_alias'] = 'Muuda e-posti edasisaatmist.';
 $PALANG['pUsersMain_password'] = 'Muuda praegust parooli.';
 
@@ -292,11 +325,30 @@ $PALANG['pCreate_dbLog_createmailbox'] = 'postkasti loomine';
 $PALANG['pCreate_dbLog_createalias'] = 'aliase loomine';
 $PALANG['pDelete_dbLog_deletealias'] = 'aliase ksututamine';
 $PALANG['pDelete_dbLog_deletemailbox'] = 'postkasti kustutamine';
-
 $PALANG['pEdit_dbLog_editactive'] = 'aktiivne staatuse muutmine';
 $PALANG['pEdit_dbLog_editalias'] = 'aliase redigeerimine';
 $PALANG['pEdit_dbLog_editmailbox'] = 'postkasti redigeerimine';
 
 $PALANG['pSearch'] = 'otsi';
 $PALANG['pSearch_welcome'] = 'Otsi: ';
+$PALANG['pReturn_to'] = 'Return to'; # XXX
+
+$PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
+$PALANG['pBroadcast_from'] = 'From'; # XXX
+$PALANG['pBroadcast_name'] = 'Your name'; # XXX
+$PALANG['pBroadcast_subject'] = 'Subject'; # XXX
+$PALANG['pBroadcast_message'] = 'Message'; # XXX
+$PALANG['pBroadcast_send'] = 'Send message'; # XXX
+$PALANG['pBroadcast_success'] = 'Your broadcast message was sent.'; # XXX
+$PALANG['pAdminMenu_broadcast_message'] = 'BC message'; # XXX
+
+$PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should\'t be empty !'; # XXX
+$PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE '; # XXX
+$PALANG['pStatus_custom'] = 'Delivers to '; # XXX
+$PALANG['pStatus_popimap'] = 'POP/IMAP '; # XXX
+$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters"; # XXX
+$PALANG['pFetchmail_welcome'] = 'Fetch mail for:'; # XXX
+$PALANG['pFetchmail_new_entry'] = 'New entry'; # XXX
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

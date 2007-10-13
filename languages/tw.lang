@@ -4,15 +4,15 @@
 // by Bruce Chou <bruce at thumb dot cx>
 //
 
-require ('default.lang');
-
 $PALANG['YES'] = '¬O';
 $PALANG['NO'] = '§_';
 $PALANG['edit'] = '½s¿è';
 $PALANG['del'] = '§R°£';
+$PALANG['exit'] = 'Exit'; # XXX
 $PALANG['confirm'] = '¬O§_½T©w§R°£?\n';
 $PALANG['confirm_domain'] = '±z¬O§_½T©w­n§R°£¸Óºô°ì¤¤ªº©Ò¦³°O¿ý? §R°£«áµLªk«ì´_! \n';
 $PALANG['check_update'] = 'Check for update';
+$PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = '¶l¥óºÞ²z­û½Ð±q³oùØµn¤J¥HºÞ²z±zªººô°ì¦WºÙ.';
 $PALANG['pLogin_username'] = '±b¸¹ (¶l¥ó¦ì§})';
@@ -22,9 +22,11 @@ $PALANG['pLogin_username_incorrect'] = '<span class="error_msg">µn¤J¥¢±Ñ, 
 $PALANG['pLogin_password_incorrect'] = '<span class="error_msg">±K½X¿ù»~!</span>';
 $PALANG['pLogin_login_users'] = '¤@¯ë¥Î¤áÂIÀ»³oùØ¶i¤J¤@¯ë¥Î¤á±±¨î­±ªO.';
 
+$PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = '·§Äý';
 $PALANG['pMenu_create_alias'] = '·s«Ø§O¦W';
 $PALANG['pMenu_create_mailbox'] = '·s«Ø«H½c';
+$PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'µo°e¶l¥ó';
 $PALANG['pMenu_password'] = '­×§ï±K½X';
 $PALANG['pMenu_viewlog'] = '¬d¬Ý¤é»x';
@@ -54,11 +56,15 @@ $PALANG['pOverview_alias_mailbox_count'] = '«H½c';
 $PALANG['pOverview_alias_address'] = '¶Ç°e¨ì';
 $PALANG['pOverview_alias_goto'] = 'Âà¨ì';
 $PALANG['pOverview_alias_modified'] = '³Ì«á­×§ï¤é´Á';
+$PALANG['pOverview_alias_active'] = 'Active'; # XXX
+$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['pOverview_mailbox_username'] = '¶l¥ó¦ì§}';
 $PALANG['pOverview_mailbox_name'] = '©m¦W';
 $PALANG['pOverview_mailbox_quota'] = '«H½c­­¨î (MB)';
 $PALANG['pOverview_mailbox_modified'] = '³Ì«á­×§ï¤é´Á';
 $PALANG['pOverview_mailbox_active'] = '±Ò¥Î';
+$PALANG['pOverview_vacation_edit'] = 'VACATION IS ON'; # XXX
+$PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 
 $PALANG['pOverview_get_domain'] = 'ºô°ì';
 $PALANG['pOverview_get_aliases'] = '§O¦W';
@@ -67,7 +73,9 @@ $PALANG['pOverview_get_quota'] = '«H½c­­¨î (MB)';
 $PALANG['pOverview_get_modified'] = '³Ì«á­×§ï¤é´Á';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">¤£¯à§R°£¥»°O¿ý';
+$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">±z¨S¦³¸Óºô°ìªººÞ²z³\¥iÅv';
+$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
 
 $PALANG['pCreate_alias_welcome'] = '¦b±zªººô°ì¤¤·s«Ø¤@­Ó§O¦W.';
 $PALANG['pCreate_alias_address'] = '§O¦W';
@@ -75,6 +83,7 @@ $PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">¸
 $PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">¶l¥ó¦ì§}¤w¸g¦s¦b, ½Ð­«·s¿ï¾Ü!</span>';
 $PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">±zªº§O¦W¤w¸g¹F¨ì¤W­­!</span>';
 $PALANG['pCreate_alias_goto'] = 'Âà¨ì';
+$PALANG['pCreate_alias_active'] = 'Active'; # XXX
 $PALANG['pCreate_alias_button'] = '·s«Ø§O¦W';
 $PALANG['pCreate_alias_goto_text'] = '¶l¥ó±µ¦¬¦ì§}.';
 $PALANG['pCreate_alias_goto_text_error'] = '¶l¥ó±µ¦¬¦ì§}.<br /><span class="error_msg">±µ¦¬¦ì§}¤£¥¿½T!</span>';
@@ -86,9 +95,12 @@ $PALANG['pEdit_alias_welcome'] = '½s¿è±zºô°ì¦WºÙ¤¤ªº§O¦W.<br />
 $PALANG['pEdit_alias_address'] = '§O¦W';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">¤£¯à«ü©w§O¦W!</span>';
 $PALANG['pEdit_alias_goto'] = 'Âà¨ì';
+$PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">±z¨S¦³¶ñ¼g¦¬«H¤H</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">¶l¥ó¦ì§}«Dªk: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">±z¨S¦³¸Óºô°ìªººÞ²z³\¥iÅv:';
+$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
+$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = '½s¿è§O¦W';
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">¤£¯à­×§ï¸Ó§O¦W!</span>';
 
@@ -111,6 +123,7 @@ $PALANG['pCreate_mailbox_mail'] = '·s«Ø«H½c';
 $PALANG['pCreate_mailbox_button'] = '¼W¥[«H½c';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">¤£¯à±N«H½c¼W¥[¨ì«H½c²M³æ¤¤!</span>';
 $PALANG['pCreate_mailbox_result_success'] = '¼W¥[«H½c¦¨¥\!';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = '½s¿è±zºô°ì¤¤ªº«H½c.';
 $PALANG['pEdit_mailbox_username'] = '¥Î¤á¦W';
@@ -119,6 +132,7 @@ $PALANG['pEdit_mailbox_password'] = '·s±K½X';
 $PALANG['pEdit_mailbox_password2'] = '·s±K½X (ÅçÃÒ)';
 $PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">±z¿é¤Jªº¨â­Ó·s±K½X¤£¬Û¦P!</span>';
 $PALANG['pEdit_mailbox_name'] = '©m¦W';
+$PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX
 $PALANG['pEdit_mailbox_quota'] = '­­¨î';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">±z¿é¤Jªº®e¶q­­¨î¶W¥X½d³ò!</span>';
@@ -137,6 +151,11 @@ $PALANG['pPassword_password_text_error'] = '<span class="error_msg">±z¨â¦¸�
 $PALANG['pPassword_button'] = '§ó§ï±K½X';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">§ó§ï±K½X¥¢±Ñ!</span>';
 $PALANG['pPassword_result_success'] = '§ó§ï±K½X¦¨¥\!';
+$PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
+$PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
+$PALANG['pVacation_result_error'] = '<span class="error_msg">Unable to update auto response settings!</span>'; # XXX
+$PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
+$PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
 
 $PALANG['pViewlog_welcome'] = '¬d¬Ý³Ì·sªº10¶µ¾Þ§@¤é»x ºô°ì¦WºÙ:';
 $PALANG['pViewlog_timestamp'] = '®É¶¡';
@@ -144,6 +163,15 @@ $PALANG['pViewlog_username'] = 'ºÞ²z­û';
 $PALANG['pViewlog_domain'] = 'ºô°ì';
 $PALANG['pViewlog_action'] = '¾Þ§@';
 $PALANG['pViewlog_data'] = '¤º®e';
+$PALANG['pViewlog_action_create_mailbox'] = 'create mailbox'; # XXX
+$PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox'; # XXX
+$PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox'; # XXX
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active'; # XXX
+$PALANG['pViewlog_action_create_alias'] = 'create alias'; # XXX
+$PALANG['pViewlog_action_delete_alias'] = 'delete alias'; # XXX
+$PALANG['pViewlog_action_edit_alias'] = 'edit alias'; # XXX
+$PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
+$PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = '°õ¦æ';
 $PALANG['pViewlog_result_error'] = '<span class="error_msg">¥¼§ä¨ì¬ÛÃöªº¤é»x!</span>';
@@ -202,6 +230,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = '±Ò¥Î';
 $PALANG['pAdminCreate_domain_welcome'] = '·s«Øºô°ì';
 $PALANG['pAdminCreate_domain_domain'] = 'ºô°ì¦WºÙ';
 $PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">¸Óºô°ì¤w¸g¦s¦b!</span>';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">The domain is invalid!</span>'; # XXX
 $PALANG['pAdminCreate_domain_description'] = '´y­z';
 $PALANG['pAdminCreate_domain_aliases'] = '§O¦W¼Æ¶q';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = ¸T¥Î | 0 = µL­­¨î';
@@ -212,10 +241,12 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = ¸T¥Î | 0 = µL�
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = '¼W¥[¤º«Ø§O¦W';
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = '¶l¥ó¥D¾÷¬O Backup MX';
 $PALANG['pAdminCreate_domain_button'] = '·s¼W';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">·s¼Wºô°ì¥¢±Ñ!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = '·s¼Wºô°ì¦¨¥\!';
+$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = '­×§ïºô°ì';
 $PALANG['pAdminEdit_domain_domain'] = 'ºô°ì¦WºÙ';
@@ -252,6 +283,7 @@ $PALANG['pAdminEdit_admin_password'] = '±K½X';
 $PALANG['pAdminEdit_admin_password2'] = '±K½X (ÅçÃÒ)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">±z¨â¦¸¿é¤Jªº·s±K½X¤£¬Û¦P!<br />©ÎªÌ¬°ªÅ¥Õ!</span>';
 $PALANG['pAdminEdit_admin_active'] = '±Ò¥Î';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = '­×§ï';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">½s¿èºô°ìºÞ²z­û±b¸¹¥¢±Ñ!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = '½s¿èºô°ìºÞ²z­û±b¸¹¦¨¥\!';
@@ -268,6 +300,7 @@ $PALANG['pUsersMenu_edit_alias'] = '­×§ïÂàµo';
 $PALANG['pUsersMenu_password'] = '­×§ï±K½X';
 
 $PALANG['pUsersMain_vacation'] = '³]¸m¥~¥X¸ê°T©Î¦Û°Ê¦^ÂÐ.';
+$PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is ON, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/remove'; # XXX
 $PALANG['pUsersMain_edit_alias'] = '­×§ï«H½cÂàµo.';
 $PALANG['pUsersMain_password'] = '­×§ï·í«e±K½X.';
 
@@ -294,5 +327,24 @@ $PALANG['pEdit_dbLog_editactive'] = 'ÅÜ§ó±Ò°Êª¬ºA';
 $PALANG['pEdit_dbLog_editalias'] = '½s¿è§O¦W';
 $PALANG['pEdit_dbLog_editmailbox'] = '½s¿è«H½c';
 
+$PALANG['pSearch'] = 'search'; # XXX
 $PALANG['pSearch_welcome'] = '·j´M: ';
+$PALANG['pReturn_to'] = 'Return to'; # XXX
+$PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
+$PALANG['pBroadcast_from'] = 'From'; # XXX
+$PALANG['pBroadcast_name'] = 'Your name'; # XXX
+$PALANG['pBroadcast_subject'] = 'Subject'; # XXX
+$PALANG['pBroadcast_message'] = 'Message'; # XXX
+$PALANG['pBroadcast_send'] = 'Send message'; # XXX
+$PALANG['pBroadcast_success'] = 'Your broadcast message was sent.'; # XXX
+$PALANG['pAdminMenu_broadcast_message'] = 'BC message'; # XXX
+$PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should\'t be empty !'; # XXX
+$PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE '; # XXX
+$PALANG['pStatus_custom'] = 'Delivers to '; # XXX
+$PALANG['pStatus_popimap'] = 'POP/IMAP '; # XXX
+$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters"; # XXX
+$PALANG['pFetchmail_welcome'] = 'Fetch mail for:'; # XXX
+$PALANG['pFetchmail_new_entry'] = 'New entry'; # XXX
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

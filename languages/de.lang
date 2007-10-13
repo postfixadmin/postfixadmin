@@ -4,8 +4,6 @@
 // by Tobias
 //
 
-require ('default.lang');
-
 $PALANG['YES'] = 'JA';
 $PALANG['NO'] = 'NEIN';
 $PALANG['edit'] = 'editieren';
@@ -247,6 +245,7 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = ausschalten | 0 = 
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Standard-Aliase hinzuf&uuml;gen';
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Domain hinzuf&uuml;gen';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Konnte Domain nicht anlegen!</span>';
@@ -356,6 +355,8 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['pPasswordTooShort'] = "Das Passwort ist zu kurz - mindestens %s Zeichen ben&ouml;tigt";
 
 $PALANG['pFetchmail_welcome'] = 'E-Mail Abruf f&uuml;r: ';
+
 $PALANG['pFetchmail_new_entry'] = 'Neuer Eintrag';
 
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

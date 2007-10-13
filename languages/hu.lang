@@ -4,8 +4,6 @@
 // by Christian Hamar <krics at linuxforum dot hu> and Levente Farkas <lfarkas at lfarkas dot org>
 //
 
-require ('default.lang');
-
 $PALANG['YES'] = 'IGEN';
 $PALANG['NO'] = 'NEM';
 $PALANG['edit'] = 'szerkeszt';
@@ -361,4 +359,6 @@ $PALANG['pPasswordTooShort'] = "A Jelszó túl rövid - legalább %s karakter sz
 $PALANG['pFetchmail_welcome'] = 'Mail lehozása:';
 $PALANG['pFetchmail_new_entry'] = 'Új bejegyzés';
 
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

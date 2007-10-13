@@ -307,7 +307,7 @@ $PALANG['pUsersMenu_edit_alias'] = 'Change your forward';
 $PALANG['pUsersMenu_password'] = 'Change Password';
 
 $PALANG['pUsersMain_vacation'] = 'Set an "out of office" message or auto responder for your mail.';
-$PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is ON, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/remove';
+$PALANG['pUsersMain_vacationSet'] = 'Auto Response is ON, click \'Auto Response\' to edit/remove';
 $PALANG['pUsersMain_edit_alias'] = 'Change your email forwarding.';
 $PALANG['pUsersMain_password'] = 'Change your current password.';
 
@@ -358,4 +358,6 @@ $PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters";
 $PALANG['pFetchmail_welcome'] = 'Fetch mail for:';
 $PALANG['pFetchmail_new_entry'] = 'New entry';
 
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

@@ -4,15 +4,15 @@
 // by Danial
 //
 
-require ('default.lang');
-
 $PALANG['YES'] = 'JA';
 $PALANG['NO'] = 'NEI';
 $PALANG['edit'] = 'broyt';
 $PALANG['del'] = 'strika';
+$PALANG['exit'] = 'Exit'; # XXX
 $PALANG['confirm'] = 'Ert tú vís(ur) í at tú vilt strika hetta?\n';
 $PALANG['confirm_domain'] = 'Vilt tú veruliga strika allar upplýsingar fyri hetta navnaøki? Her kann ikki vendast aftur!\n';
 $PALANG['check_update'] = 'Check for update';
+$PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Umsitarar kunnu logga inn her fyri at umsita tykkara navnaøki.';
 $PALANG['pLogin_username'] = 'Login (e-post)';
@@ -22,9 +22,11 @@ $PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Títt login er s
 $PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Títt loyniorð er skeivt!</span>';
 $PALANG['pLogin_login_users'] = 'Brúkarar kunnu logga inn her.';
 
+$PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Yvirlit';
 $PALANG['pMenu_create_alias'] = 'Stovna Dulnevni';
 $PALANG['pMenu_create_mailbox'] = 'Stovna Postkassa';
+$PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'Send E-post';
 $PALANG['pMenu_password'] = 'Loyniorð';
 $PALANG['pMenu_viewlog'] = 'Vís Logg';
@@ -54,11 +56,15 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Postkassar';
 $PALANG['pOverview_alias_address'] = 'Frá';
 $PALANG['pOverview_alias_goto'] = 'Til';
 $PALANG['pOverview_alias_modified'] = 'Síðst broytt';
+$PALANG['pOverview_alias_active'] = 'Active'; # XXX
+$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-post';
 $PALANG['pOverview_mailbox_name'] = 'Navn';
 $PALANG['pOverview_mailbox_quota'] = 'Kvota (MB)';
 $PALANG['pOverview_mailbox_modified'] = 'Síðst broytt';
 $PALANG['pOverview_mailbox_active'] = 'Virkin';
+$PALANG['pOverview_vacation_edit'] = 'VACATION IS ON'; # XXX
+$PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 
 $PALANG['pOverview_get_domain'] = 'Navnaøki';
 $PALANG['pOverview_get_aliases'] = 'Dulnevni';
@@ -67,7 +73,9 @@ $PALANG['pOverview_get_quota'] = 'Postkassa kvota (MB)';
 $PALANG['pOverview_get_modified'] = 'Síðst broytt';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Fái ikki strikað ';
+$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Hetta er ikki títt navnaøki ';
+$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Stovna eitt nýtt dulnevni á tínum navnaøki.';
 $PALANG['pCreate_alias_address'] = 'Dulnevni';
@@ -75,6 +83,7 @@ $PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">DU
 $PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Hendan e-post adressa finst longu, vinarliga vel eina aðra!</span>';
 $PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Tú hevur nátt tínum marki at stovna dulnevni!</span>';
 $PALANG['pCreate_alias_goto'] = 'Til';
+$PALANG['pCreate_alias_active'] = 'Active'; # XXX
 $PALANG['pCreate_alias_button'] = 'Stovna Dulnevni';
 $PALANG['pCreate_alias_goto_text'] = 'Har posturin skal sendast til.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Har posturin verður sendur til.<br /><span class="error_msg">TIL er ógyldugt!</span>';
@@ -86,6 +95,7 @@ $PALANG['pEdit_alias_welcome'] = 'Broyt eitt dulnevni á tínum navnaøki.<br />
 $PALANG['pEdit_alias_address'] = 'Dulnevni';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Finni ikki dulnevni!</span>';
 $PALANG['pEdit_alias_goto'] = 'Til';
+$PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Tú skrivaði onki í Til teigin</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">E-post adressan tú skrivaði er ógyldug: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Hetta navnaøki er ikki títt: ';
@@ -113,6 +123,7 @@ $PALANG['pCreate_mailbox_mail'] = 'Stovna postkassa';
 $PALANG['pCreate_mailbox_button'] = 'Stovna postkassa';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Fái ikki stovnað postkassa!</span>';
 $PALANG['pCreate_mailbox_result_success'] = 'Postkassin er stovnaður!';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Broyt postkassa á tínum navnaøki.';
 $PALANG['pEdit_mailbox_username'] = 'Brúkaranavn';
@@ -121,6 +132,7 @@ $PALANG['pEdit_mailbox_password'] = 'Nýtt loyniorð';
 $PALANG['pEdit_mailbox_password2'] = 'Nýtt loyniorð (umaftur)';
 $PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Loyniorðini tú skrivaði samsvara ikki!</span>';
 $PALANG['pEdit_mailbox_name'] = 'Navn';
+$PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX
 $PALANG['pEdit_mailbox_quota'] = 'Kvota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Kvotan tú skrivaði er ov høg!</span>';
@@ -139,6 +151,11 @@ $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Loyniorðini
 $PALANG['pPassword_button'] = 'Broyt loyniorð';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Fái ikki broytt títt loyniorð!</span>';
 $PALANG['pPassword_result_success'] = 'Títt loyniorð er broytt!';
+$PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
+$PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
+$PALANG['pVacation_result_error'] = '<span class="error_msg">Unable to update auto response settings!</span>'; # XXX
+$PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
+$PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Vís seinastu 10 hendingarnar fyri ';
 $PALANG['pViewlog_timestamp'] = 'Tíðarstempul';
@@ -146,6 +163,15 @@ $PALANG['pViewlog_username'] = 'Umsitari';
 $PALANG['pViewlog_domain'] = 'Navnaøki';
 $PALANG['pViewlog_action'] = 'Hending';
 $PALANG['pViewlog_data'] = 'Dáta';
+$PALANG['pViewlog_action_create_mailbox'] = 'create mailbox'; # XXX
+$PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox'; # XXX
+$PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox'; # XXX
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active'; # XXX
+$PALANG['pViewlog_action_create_alias'] = 'create alias'; # XXX
+$PALANG['pViewlog_action_delete_alias'] = 'delete alias'; # XXX
+$PALANG['pViewlog_action_edit_alias'] = 'edit alias'; # XXX
+$PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
+$PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = 'Vel';
 $PALANG['pViewlog_result_error'] = '<span class="error_msg">Finni ikki loggarnar!</span>';
@@ -204,6 +230,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Virkin';
 $PALANG['pAdminCreate_domain_welcome'] = 'Stova nýtt navnaøki';
 $PALANG['pAdminCreate_domain_domain'] = 'Navnaøki';
 $PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Navnaøki finst longu!</span>';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">The domain is invalid!</span>'; # XXX
 $PALANG['pAdminCreate_domain_description'] = 'Frágreiðing';
 $PALANG['pAdminCreate_domain_aliases'] = 'Dulnevni';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = óvirkja | 0 = óavmarkað';
@@ -214,10 +241,12 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = óvirkja | 0 = óa
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Stovna sjálvvirkin e-post dulnevni';
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'Post servari er "backup MX"';
 $PALANG['pAdminCreate_domain_button'] = 'Stovna navnaøki';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Fái ikki stovnað navnaøki!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Navnaøki er stovnað!';
+$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Broyt navnaøki';
 $PALANG['pAdminEdit_domain_domain'] = 'Navnaøki';
@@ -271,6 +300,7 @@ $PALANG['pUsersMenu_edit_alias'] = 'Broyt víðarisending';
 $PALANG['pUsersMenu_password'] = 'Broyt loyniorð';
 
 $PALANG['pUsersMain_vacation'] = 'Set eini frítíðarboð ella svarboð fyri tín post.';
+$PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is ON, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/remove'; # XXX
 $PALANG['pUsersMain_edit_alias'] = 'Send tín post víðari til aðra adressu.';
 $PALANG['pUsersMain_password'] = 'Broyt títt núverandi loyniorð.';
 
@@ -302,5 +332,24 @@ $PALANG['pEdit_dbLog_editactive'] = 'change active state';
 $PALANG['pEdit_dbLog_editalias'] = 'edit alias';
 $PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
 
+$PALANG['pSearch'] = 'search'; # XXX
 $PALANG['pSearch_welcome'] = 'Searching for: ';
+$PALANG['pReturn_to'] = 'Return to'; # XXX
+$PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
+$PALANG['pBroadcast_from'] = 'From'; # XXX
+$PALANG['pBroadcast_name'] = 'Your name'; # XXX
+$PALANG['pBroadcast_subject'] = 'Subject'; # XXX
+$PALANG['pBroadcast_message'] = 'Message'; # XXX
+$PALANG['pBroadcast_send'] = 'Send message'; # XXX
+$PALANG['pBroadcast_success'] = 'Your broadcast message was sent.'; # XXX
+$PALANG['pAdminMenu_broadcast_message'] = 'BC message'; # XXX
+$PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should\'t be empty !'; # XXX
+$PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE '; # XXX
+$PALANG['pStatus_custom'] = 'Delivers to '; # XXX
+$PALANG['pStatus_popimap'] = 'POP/IMAP '; # XXX
+$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters"; # XXX
+$PALANG['pFetchmail_welcome'] = 'Fetch mail for:'; # XXX
+$PALANG['pFetchmail_new_entry'] = 'New entry'; # XXX
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

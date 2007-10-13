@@ -4,15 +4,15 @@
 // by Jaume
 //
 
-require ('default.lang');
-
 $PALANG['YES'] = 'SI';
 $PALANG['NO'] = 'NO';
 $PALANG['edit'] = 'editar';
 $PALANG['del'] = 'esborrar';
+$PALANG['exit'] = 'Exit'; # XXX
 $PALANG['confirm'] = '¿Segur que vols esborrar-lo?\n';
 $PALANG['confirm_domain'] = 'Estas segur que vols borrar tots els registres d\'aquest domini? Això no podrà ser desfet!\n';
 $PALANG['check_update'] = 'Check for update';
+$PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Login d\'administrador per l\'administració de dominis.';
 $PALANG['pLogin_username'] = 'Usuari (e-mail)';
@@ -21,9 +21,11 @@ $PALANG['pLogin_button'] = 'Usuari';
 $PALANG['pLogin_username_incorrect'] = '<span class="error_msg">El login no és correcte. Aseguri\'s de que ha fet login amb el seu e-mail.</span>';
 $PALANG['pLogin_password_incorrect'] = '<span class="error_msg">La seva contrasenya no es correcta!</span>';
 $PALANG['pLogin_login_users'] = 'Login per anar a la secció d\'usuaris.';
+$PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Resum';
 $PALANG['pMenu_create_alias'] = 'Afegir àlies';
 $PALANG['pMenu_create_mailbox'] = 'Afegir bústia';
+$PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'Enviar e-mail';
 $PALANG['pMenu_password'] = 'Contrasenya';
 $PALANG['pMenu_viewlog'] = 'Veure Logs';
@@ -53,11 +55,15 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Bústies';
 $PALANG['pOverview_alias_address'] = 'De';
 $PALANG['pOverview_alias_goto'] = 'Destí';
 $PALANG['pOverview_alias_modified'] = 'Última modificació';
+$PALANG['pOverview_alias_active'] = 'Active'; # XXX
+$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-mail';
 $PALANG['pOverview_mailbox_name'] = 'Nom';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pOverview_mailbox_modified'] = 'Última modificació';
 $PALANG['pOverview_mailbox_active'] = 'Actiu';
+$PALANG['pOverview_vacation_edit'] = 'VACATION IS ON'; # XXX
+$PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 
 $PALANG['pOverview_get_domain'] = 'Domini';
 $PALANG['pOverview_get_aliases'] = 'Àlies';
@@ -66,7 +72,9 @@ $PALANG['pOverview_get_quota'] = 'Quota de bústia (MB)';
 $PALANG['pOverview_get_modified'] = 'Última Modificació';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Imposible borrar el registre ';
+$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Aquest domini no et pertany ';
+$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Crear un nou àlies pel domini.';
 $PALANG['pCreate_alias_address'] = 'Àlies';
@@ -74,6 +82,7 @@ $PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">L\
 $PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Aquesta adreça ja existeix, escull una altra de diferent, si us plau!</span>';
 $PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Has arribat al límit de creació d\'àlies!</span>';
 $PALANG['pCreate_alias_goto'] = 'Destí';
+$PALANG['pCreate_alias_active'] = 'Active'; # XXX
 $PALANG['pCreate_alias_button'] = 'Afegir àlies';
 $PALANG['pCreate_alias_goto_text'] = 'A on ha de ser enviat l\'e-mail.';
 $PALANG['pCreate_alias_goto_text_error'] = 'A on ha de ser enviat l\'e-mail.<br /><span class="error_msg">El destí no és vàlid!</span>';
@@ -85,6 +94,7 @@ $PALANG['pEdit_alias_welcome'] = 'Editi un àlies pel seu domini.<br />Una entra
 $PALANG['pEdit_alias_address'] = 'Àlies';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Imposible de localizar l\'àlies!</span>';
 $PALANG['pEdit_alias_goto'] = 'Destí';
+$PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">No has introduït res al destí</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">L\'adreça d\'e-mail introduida no és vàlida: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Aquest domini no et pertany: ';
@@ -112,6 +122,7 @@ $PALANG['pCreate_mailbox_mail'] = 'Crear bústia';
 $PALANG['pCreate_mailbox_button'] = 'Afegir bústia';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Imposible afegir una bústia a la taula de bústies!</span>';
 $PALANG['pCreate_mailbox_result_success'] = 'La bústia ha estat afegida a la taula de bústies!';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Editar una bústia pel seu domini.';
 $PALANG['pEdit_mailbox_username'] = 'Usuari';
@@ -120,6 +131,7 @@ $PALANG['pEdit_mailbox_password'] = 'Nova contrasenya';
 $PALANG['pEdit_mailbox_password2'] = 'Nova contrasenya (repetiu)';
 $PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Les contrasenyes introduides no coincideixen!</span>';
 $PALANG['pEdit_mailbox_name'] = 'Nom';
+$PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX
 $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">La quota especificada és massa alta!</span>';
@@ -138,6 +150,11 @@ $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Les contrase
 $PALANG['pPassword_button'] = 'Canviar la contrasenya';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Imposible canviar la contrasenya!</span>';
 $PALANG['pPassword_result_success'] = 'La seva contrasenya ha estat canviada!';
+$PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
+$PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
+$PALANG['pVacation_result_error'] = '<span class="error_msg">Unable to update auto response settings!</span>'; # XXX
+$PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
+$PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Veure les últimes 10 accions per ';
 $PALANG['pViewlog_timestamp'] = 'Data/Hora';
@@ -145,6 +162,15 @@ $PALANG['pViewlog_username'] = 'Administrador';
 $PALANG['pViewlog_domain'] = 'Domini';
 $PALANG['pViewlog_action'] = 'Acció';
 $PALANG['pViewlog_data'] = 'Dades';
+$PALANG['pViewlog_action_create_mailbox'] = 'create mailbox'; # XXX
+$PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox'; # XXX
+$PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox'; # XXX
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active'; # XXX
+$PALANG['pViewlog_action_create_alias'] = 'create alias'; # XXX
+$PALANG['pViewlog_action_delete_alias'] = 'delete alias'; # XXX
+$PALANG['pViewlog_action_edit_alias'] = 'edit alias'; # XXX
+$PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
+$PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = 'Ves';
 $PALANG['pViewlog_result_error'] = '<span class="error_msg">Imposible trobar els logs!</span>';
@@ -203,6 +229,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Actiu';
 $PALANG['pAdminCreate_domain_welcome'] = 'Afegir nou domini';
 $PALANG['pAdminCreate_domain_domain'] = 'Domini';
 $PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">El domini ja existeix!</span>';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">The domain is invalid!</span>'; # XXX
 $PALANG['pAdminCreate_domain_description'] = 'Descripció';
 $PALANG['pAdminCreate_domain_aliases'] = 'Àlies';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = ilimitat | 0 = deshabilitar';
@@ -213,10 +240,12 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = ilimitat | 0 = des
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Afegir àlies per defecte';
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Afegir domini';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Imposible afegir el domini!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'El domini ha estat afegit!';
+$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Editar un domini';
 $PALANG['pAdminEdit_domain_domain'] = 'Domini';
@@ -271,6 +300,7 @@ $PALANG['pUsersMenu_edit_alias'] = 'Canviar la redirecció';
 $PALANG['pUsersMenu_password'] = 'Canviar la contrasenya';
 
 $PALANG['pUsersMain_vacation'] = 'Configuri un missatge de "Fora de la feina" o una resposta automàtica pel seu correu.';
+$PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is ON, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/remove'; # XXX
 $PALANG['pUsersMain_edit_alias'] = 'Canvïi la seva redirecció de correu.';
 $PALANG['pUsersMain_password'] = 'Canvïi la seva contrasenya.';
 
@@ -297,5 +327,24 @@ $PALANG['pEdit_dbLog_editactive'] = 'change active state';
 $PALANG['pEdit_dbLog_editalias'] = 'edit alias';
 $PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
 
+$PALANG['pSearch'] = 'search'; # XXX
 $PALANG['pSearch_welcome'] = 'Searching for: ';
+$PALANG['pReturn_to'] = 'Return to'; # XXX
+$PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
+$PALANG['pBroadcast_from'] = 'From'; # XXX
+$PALANG['pBroadcast_name'] = 'Your name'; # XXX
+$PALANG['pBroadcast_subject'] = 'Subject'; # XXX
+$PALANG['pBroadcast_message'] = 'Message'; # XXX
+$PALANG['pBroadcast_send'] = 'Send message'; # XXX
+$PALANG['pBroadcast_success'] = 'Your broadcast message was sent.'; # XXX
+$PALANG['pAdminMenu_broadcast_message'] = 'BC message'; # XXX
+$PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should\'t be empty !'; # XXX
+$PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE '; # XXX
+$PALANG['pStatus_custom'] = 'Delivers to '; # XXX
+$PALANG['pStatus_popimap'] = 'POP/IMAP '; # XXX
+$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters"; # XXX
+$PALANG['pFetchmail_welcome'] = 'Fetch mail for:'; # XXX
+$PALANG['pFetchmail_new_entry'] = 'New entry'; # XXX
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
