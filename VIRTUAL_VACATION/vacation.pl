@@ -115,9 +115,13 @@ if (!$dbh) {
    exit(0);
 }
 
-# mysql only, needs FIX for ALL databases
+my $db_true; # MySQL and PgSQL use different values for TRUE
 if ($db_type eq "mysql") {
    $dbh->do("SET CHARACTER SET utf8;");
+   $db_true = '1';
+} else { # Pg
+   # TODO: SET CHARACTER SET is mysql only, needs FIX for ALL databases
+   $db_true = 'True';
 }
 
 # used to detect infinite address lookup loops
@@ -233,7 +237,7 @@ sub find_real_address {
       panic("possible infinite loop in find_real_address for <$email>. Check for alias loop\n");
    }
    my $realemail;
-   my $query = qq{SELECT email FROM vacation WHERE email=? and active=true};
+   my $query = qq{SELECT email FROM vacation WHERE email=? and active=$db_true};
    my $stm = $dbh->prepare($query) or panic_prepare($query);
    $stm->execute($email) or panic_execute($query,"email='$email'");
    my $rv = $stm->rows;
@@ -251,7 +255,7 @@ sub find_real_address {
       if ($rv == 1) { 
          my @row = $stm->fetchrow_array;
          my $alias = $row[0];
-         $query = qq{SELECT email FROM vacation WHERE email=? and active=true};
+         $query = qq{SELECT email FROM vacation WHERE email=? and active=$db_true};
          $stm = $dbh->prepare($query) or panic_prepare($query);
          $stm->execute($alias) or panic_prepare($query,"email='$alias'");
          $rv = $stm->rows;
