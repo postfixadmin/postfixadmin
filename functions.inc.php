@@ -328,6 +328,33 @@ function escape_string ($string)
 }
 
 
+// safeget
+// Action: get value from $_GET[$param], or $default if $_GET[$param] is not set
+// Call: $param = safeget('param')   # replaces $param = $_GET['param']
+//       - or -
+//       $param = safeget('param', 'default')
+function safeget ($param, $default="") {
+	$retval=$default;
+	if (isset($_GET["$param"])) $retval=$_GET["$param"];
+	return $retval;
+}
+
+// safepost
+// same as safeget, but for $_POST
+function safepost ($param, $default="") {
+	$retval=$default;
+	if (isset($_POST["$param"])) $retval=$_POST["$param"];
+	return $retval;
+}
+
+// safeserver
+// same as safeget, but for $_SERVER
+function safeserver ($param, $default="") {
+	$retval=$default;
+	if (isset($_SERVER["$param"])) $retval=$_SERVER["$param"];
+	return $retval;
+}
+
 
 //
 // get_domain_properties
