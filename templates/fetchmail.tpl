@@ -1,39 +1,10 @@
 <?php 
 
-# fields to display in table view
-$display_fields=array(
-   "id",
-   "mailbox",
-   "src_server",
-   "src_auth",
-   "src_user",
-#   "src_password",
-   "src_folder",
-   "pool_time",
-   "fetchall",
-   "keep",
-   "protocol",
-);
-
-if ($CONF['fetchmail_extra_options'] == 'YES') {
-   array_push(
-      $display_fields,
-      "extra_options",
-      "mda"
-   );
-}
-
-array_push(
-   $display_fields,
-   "date",
-   "returned_text"
-);
-
 	$headers=array();
-	foreach($display_fields as $row){
-		list($editible,$view,$type,$title,$comment)=$fm_struct[$row];
+	foreach($fm_struct as $row){
+		list($editible,$view,$type,$title,$comment)=$row;
 		if ($view){
-			$headers[]=$fm_struct[$row];
+			$headers[]=$row;
 		}
 	}
 
@@ -71,10 +42,10 @@ if ($edit) { # edit mode
 #		}
 #		else{
 			print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
-			foreach($display_fields as $key){
+			foreach($row as $key=>$val){
 
-				list($editible,$view,$type,$title,$comment)=$fm_struct[$key];
-            $val = $row[$key];
+				if (!isset($fm_struct[$key])) continue; # TODO: not really nice, but avoids undefined index warnings ;-)
+            list($editible,$view,$type,$title,$comment)=$fm_struct[$key];
 				if ($view){
 					$func="_listview_".$type;
 					print "      <td nowrap>" . (function_exists($func)?$func($val):$val) . "</td>\n";
