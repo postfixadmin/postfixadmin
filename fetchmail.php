@@ -54,20 +54,25 @@ require_once('common.php');
 
 authentication_require_role('admin');
 
+$extra_options = 0;
+if ($CONF['fetchmail_extra_options'] == 'YES') $extra_options = 1;
+
 $fm_struct=array(	//	list($editible,$view,$type,$title,$comment)
-	"id"		=>array(0,1,'id',		'ID','Record ID'),
+   # first column: allow editing?
+   # second column: display field?
+	"id"		=>array(0,0,'id',	'ID','Record ID'),
 	"mailbox"	=>array(1,1,'enum',	'Mailbox','Local mailbox'),
 	"src_server"	=>array(1,1,'text',		'Server','Remote Server'),
 	"src_auth"	=>array(1,1,'enum',	'Auth Type','Mostly password'),
 	"src_user"	=>array(1,1,'text',		'User','Remote User'),
-	"src_password"	=>array(1,1,'password',	'Password','Remote Password'),
+	"src_password"	=>array(1,0,'password',	'Password','Remote Password'),
 	"src_folder"	=>array(1,1,'text',	'Folder','Remote Folder'),
 	"pool_time"		=>array(1,1,'num',	'Poll','Poll Time (min)'),
 	"fetchall"	=>array(1,1,'bool',	'Fetch All','Retrieve  both old (seen) and new messages'),
 	"keep"		=>array(1,1,'bool',	'Keep','Keep retrieved messages on the remote mailserver'),
 	"protocol"	=>array(1,1,'enum',	'Protocol','Protocol to use'),
-	"extra_options"	=>array(1,1,'longtext',	'Extra Options','Extra fetchmail Options'),
-	"mda"		=>array(1,1,'longtext',	'MDA','Mail Delivery Agent'),
+	"extra_options"	=>array($extra_options,$extra_options,'longtext',	'Extra Options','Extra fetchmail Options'),
+	"mda"		=>array($extra_options,$extra_options,'longtext',	'MDA','Mail Delivery Agent'),
 	"date"		=>array(0,1,'text',	'Date','Date of last pooling/configuration change'),
 	"returned_text"	=>array(0,1,'longtext',	'Returned Text','Text message from last pooling'),
 );
@@ -86,10 +91,11 @@ $fm_defaults=array(
 		array('POP3','IMAP','POP2','ETRN','AUTO'),
 );
 
-	 
+
 $list_domains = list_domains_for_admin ($SESSID_USERNAME);
-$user_domains=implode("','",array_values($list_domains));
-$sql="SELECT username FROM mailbox WHERE domain in ('".$user_domains."')";
+$user_domains=implode("','",array_values($list_domains)); # for displaying
+$user_domains_sql=implode("','",escape_string(array_values($list_domains))); # for SQL
+$sql="SELECT username FROM mailbox WHERE domain in ('".$user_domains_sql."')";
 
 $res = db_query ($sql);
 if ($res['rows'] > 0){
@@ -100,14 +106,14 @@ if ($res['rows'] > 0){
 }
 else{
 	$fm_defaults["mailbox"]=array();
-	$fm_defaults["mailbox"][]=$SESSID_USERNAME;
+	$fm_defaults["mailbox"][]=$SESSID_USERNAME; # TODO: Does this really make sense? Or should we display a message "please create a mailbox first!"?
 }
 
-$new=$_REQUEST["new"];
-$edit=(int)$_REQUEST["edit"];
-$delete=$_REQUEST["delete"];
-$save=$_REQUEST["save"];
-$cancel=$_REQUEST["cancel"];
+$new     = (int)  safeget ("new");
+$edit    = (int)  safeget ("edit");
+$delete  =        safepost("delete");
+$save    =        safepost("save");
+$cancel  =        safepost("cancel");
 
 if ($cancel){
 	$edit=0;
@@ -116,11 +122,11 @@ elseif($edit && $save){
 	$_vals=array();
 	foreach($fm_struct as $key=>$row){
 		list($editible,$view,$type,$title,$comment)=$row;
-		if ($editible){
+		if ($editible != 0){
 			$func="_inp_".$type;
-			$val=$_REQUEST[$key];
+			$val=safepost($key);
 			if ($type!="password" || substr($val,0,1)!="*"){
-				$_vals[]=$key."='".mysql_escape_string(
+				$_vals[]=$key."='".escape_string(
 					function_exists($func)
 						?$func($val)
 						:$val)."'";
@@ -132,22 +138,23 @@ elseif($edit && $save){
 }
 elseif($delete){
 	db_query ("delete from fetchmail WHERE id=".$edit);
+	$edit=0;
 }
 elseif ($new){
 	$_keys=array();
 	$_vals=array();
 	foreach($fm_defaults as $key=>$val){
 		$_keys[]=$key;
-		$_vals[]="'".(is_array($val)?$val[0]:mysql_escape_string($val))."'";
+		$_vals[]="'".(is_array($val)?$val[0]:$val)."'";
 	}
-	$sql="INSERT fetchmail (".implode(",",$_keys).") VALUES (".implode(",",$_vals).")";
+	$sql="INSERT fetchmail (".implode(",",escape_string($_keys)).") VALUES (".implode(",",escape_string($_vals)).")";
 	$res= db_query ($sql);
 	$sql="SELECT id FROM fetchmail order by id desc limit 1";
 	$res= db_query ($sql);
 	list($edit)=mysql_fetch_row($res['result']);
 }
 
-$res = db_query ("SELECT ".implode(",",array_keys($fm_struct))." FROM fetchmail order by id desc");
+$res = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM fetchmail order by id desc");
 if ($res['rows'] > 0){
 	while ($row = db_array ($res['result'])){
 		$tFmail[] = $row;
@@ -159,7 +166,7 @@ function _inp_num($val){
 }
 
 function _inp_bool($val){
-	return $val?1:0;
+	return $val?db_get_boolean(true):db_get_boolean(false);
 }
 
 function _inp_password($val){

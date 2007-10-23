@@ -1,6 +1,3 @@
-<div id="overview">
-<form name="overview" method="post">
-
 <?php 
 
 # fields to display in table view
@@ -40,7 +37,21 @@ array_push(
 		}
 	}
 
-	print "<table id=\"log_table\" border=0>\n";
+if ($edit) { # edit mode
+   echo '<div id="edit_form">';
+   echo '<form name="fetchmail" method="post">';
+   if (sizeof ($tFmail) > 0){
+      foreach($tFmail as $row) {
+         if ($edit && $edit==$row["id"]) {
+            print fetchmail_edit_row($row);
+         }
+      }
+   }
+} else { # display mode
+
+   print '<div id="overview">';
+   print '<form name="overview" method="post">';
+   print "<table id=\"log_table\" border=0>\n";
 	print "   <tr>\n";
 	print "      <td colspan=\"".(sizeof($headers)-1)."\"><h3>".$PALANG['pFetchmail_welcome'].$user_domains."</h3></td>\n";
 	print "      <td align=right><a href='?new=1'>&gt;&gt;&nbsp;".$PALANG['pFetchmail_new_entry']."</a></td>\n";
@@ -50,14 +61,15 @@ array_push(
 		list($editible,$view,$type,$title,$comment)=$row;
 		print "      <td>" . $title . "</td>\n";
 	}
+   print "<td>&nbsp;</td>";
 	print "   </tr>\n";
 	
     if (sizeof ($tFmail) > 0){
        foreach($tFmail as $row){
-		if ($edit && $edit==$row["id"]){
-			print "<tr><td colspan=".sizeof($headers).">".fetchmail_edit_row($row)."</td></tr>\n";
-		}
-		else{
+#		if ($edit && $edit==$row["id"]){
+#			print "<tr><td colspan=".sizeof($headers).">".fetchmail_edit_row($row)."</td></tr>\n";
+#		}
+#		else{
 			print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
 			foreach($display_fields as $key){
 
@@ -69,16 +81,19 @@ array_push(
 				}
 
 			}
+         print "<td><a href=\"fetchmail.php?edit=" . $row['id'] . "\">" . $PALANG['edit'] . "</a></td>";
 			print "   </tr>\n";
-		}
+#		}
        }
     }
+} # end display mode
 
 function fetchmail_edit_row($data=array()){
-	global $fm_struct,$fm_defaults;
+	global $fm_struct,$fm_defaults,$PALANG;
 	$id=$data["id"];
 	$_id=$data["id"]*100+1;
-	$ret="<table cellspacing=1 cellpadding=0 border=0 width=100%>";
+	$ret="<table>";
+   $ret .= '<tr><td colspan="3"><h3>' . $PALANG['pMenu_fetchmail'] . '</h3></td></tr>';
 	foreach($fm_struct as $key=>$struct){
 		list($editible,$view,$type,$title,$comment)=$struct;
 		if ($editible){
@@ -93,7 +108,8 @@ function fetchmail_edit_row($data=array()){
 					?$fm_defaults[$key]
 					:''
 				);
-			$ret.=$func($_id++,$key,$fm_defaults[$key],$val);
+			$fm_defaults_key = ""; if (isset($fm_defaults[$key])) $fm_defaults_key = $fm_defaults[$key];
+			$ret.=$func($_id++,$key,$fm_defaults_key,$val);
 			$ret.="</td><td align=left valign=top><i>&nbsp;${comment}</i></td></tr>\n";
 		}
 		elseif($view){
