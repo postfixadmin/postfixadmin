@@ -73,38 +73,39 @@ $cancel  =       safepost("cancel") != "" ? 1:0;
 $display_status = 1;
 if ($new || $edit) $display_status = 0;
 
-$fm_struct=array(	//	list($editible,$view,$type,$title,$comment)
+$fm_struct=array(   //   list($editible,$view,$type,$title,$comment)
    # first column: allow editing?
    # second column: display field?
-	"id"		=>array(0,0,'id',	'ID','Record ID'),
-	"mailbox"	=>array(1,1,'enum',	'Mailbox','Local mailbox'),
-	"src_server"	=>array(1,1,'text',		'Server','Remote Server'),
-	"src_auth"	=>array(1,1,'enum',	'Auth Type','Mostly password'),
-	"src_user"	=>array(1,1,'text',		'User','Remote User'),
-	"src_password"	=>array(1,0,'password',	'Password','Remote Password'),
-	"src_folder"	=>array(1,1,'text',	'Folder','Remote Folder'),
-   "poll_time"      =>array(1,1,'num',   'Poll','Poll Time (min)'),
-	"fetchall"	=>array(1,1,'bool',	'Fetch All','Retrieve  both old (seen) and new messages'),
-	"keep"		=>array(1,1,'bool',	'Keep','Keep retrieved messages on the remote mailserver'),
-	"protocol"	=>array(1,1,'enum',	'Protocol','Protocol to use'),
-	"extra_options"	=>array($extra_options,$extra_options,'longtext',	'Extra Options','Extra fetchmail Options'),
-	"mda"		=>array($extra_options,$extra_options,'longtext',	'MDA','Mail Delivery Agent'),
-   "date"            => array(0,$display_status,'text',     'Date','Date of last polling/configuration change'),
-   "returned_text"   => array(0,$display_status,'longtext', 'Returned Text','Text message from last polling'),
+   # the others:                  type          title       help text (in edit form)
+   "id"              => array(0,0,'id',         'ID',       'Record ID'),
+   "mailbox"         => array(1,1,'enum',       'Mailbox',  'Local mailbox'),
+   "src_server"      => array(1,1,'text',       'Server',   'Remote Server'),
+   "src_auth"        => array(1,1,'enum',       'Auth Type','Mostly password'),
+   "src_user"        => array(1,1,'text',       'User',     'Remote User'),
+   "src_password"    => array(1,0,'password',   'Password', 'Remote Password'),
+   "src_folder"      => array(1,1,'text',       'Folder',   'Remote Folder'),
+   "poll_time"       => array(1,1,'num',        'Poll',     'Poll Time (min)'),
+   "fetchall"        => array(1,1,'bool',       'Fetch All','Retrieve  both old (seen) and new messages'),
+   "keep"            => array(1,1,'bool',       'Keep',     'Keep retrieved messages on the remote mailserver'),
+   "protocol"        => array(1,1,'enum',       'Protocol', 'Protocol to use'),
+   "extra_options"   => array($extra_options,$extra_options,'longtext', 'Extra Options','Extra fetchmail Options'),
+   "mda"             => array($extra_options,$extra_options,'longtext', 'MDA',   'Mail Delivery Agent'),
+   "date"            => array(0,$display_status,            'text',     'Date',  'Date of last polling/configuration change'),
+   "returned_text"   => array(0,$display_status,            'longtext', 'Returned Text','Text message from last polling'),
 );
 
 $SESSID_USERNAME = authentication_get_username();
 if (!$SESSID_USERNAME )
-	exit;
+   exit;
 
 $fm_defaults=array(
-	"id"		=>0,
-	"mailbox"	=> array($SESSID_USERNAME),
+   "id"        =>0,
+   "mailbox"   => array($SESSID_USERNAME),
    "poll_time" => 10,
-	"src_auth"	=>
-		array('password','kerberos_v5','kerberos','kerberos_v4','gssapi','cram-md5','otp','ntlm','msn','ssh','any'),
-	"protocol"	=>
-		array('POP3','IMAP','POP2','ETRN','AUTO'),
+   "src_auth"  =>
+      array('password','kerberos_v5','kerberos','kerberos_v4','gssapi','cram-md5','otp','ntlm','msn','ssh','any'),
+   "protocol"  =>
+      array('POP3','IMAP','POP2','ETRN','AUTO'),
 );
 
 
@@ -115,14 +116,14 @@ $sql="SELECT username FROM mailbox WHERE domain in ('".$user_domains_sql."')"; #
 
 $res = db_query ($sql);
 if ($res['rows'] > 0){
-	$fm_defaults["mailbox"]=array();
-	while ($name = db_array ($res['result'])){
-		$fm_defaults["mailbox"][] = $name["username"];
-	}
+   $fm_defaults["mailbox"]=array();
+   while ($name = db_array ($res['result'])){
+      $fm_defaults["mailbox"][] = $name["username"];
+   }
 }
 else{
-	$fm_defaults["mailbox"]=array();
-	$fm_defaults["mailbox"][]=$SESSID_USERNAME; # TODO: Does this really make sense? Or should we display a message "please create a mailbox first!"?
+   $fm_defaults["mailbox"]=array();
+   $fm_defaults["mailbox"][]=$SESSID_USERNAME; # TODO: Does this really make sense? Or should we display a message "please create a mailbox first!"?
 }
 
 $row_id = 0;
@@ -148,7 +149,7 @@ if ($row_id) {
 
 
 if ($cancel) {
-	$edit=0;
+   $edit=0;
 } elseif ($delete) {
    $result = db_query ("delete from fetchmail WHERE id=".$delete);
    if ($result['rows'] != 1)
@@ -160,16 +161,16 @@ if ($cancel) {
    $delete=0;
 } elseif ( ($edit || $new) && $save) {
    $formvars=array();
-	foreach($fm_struct as $key=>$row){
-		list($editible,$view,$type,$title,$comment)=$row;
-		if ($editible != 0){
-			$func="_inp_".$type;
-			$val=safepost($key);
+   foreach($fm_struct as $key=>$row){
+      list($editible,$view,$type,$title,$comment)=$row;
+      if ($editible != 0){
+         $func="_inp_".$type;
+         $val=safepost($key);
          if ($type!="password" || strlen($val) > 0) { # skip on empty (aka unchanged) password
             $formvars[$key]= escape_string( function_exists($func) ?$func($val) :$val);
          }
-		}
-	}
+      }
+   }
    $formvars['id'] = $edit; # results in 0 on $new
 
    if (!in_array($formvars['mailbox'], $fm_defaults['mailbox'])) {
@@ -234,21 +235,21 @@ if ($edit + $new == 0) { # display list
 }
 
 function _inp_num($val){
-	return (int)($val);
+   return (int)($val);
 }
 
 function _inp_bool($val){
-	return $val?db_get_boolean(true):db_get_boolean(false);
+   return $val?db_get_boolean(true):db_get_boolean(false);
 }
 
 function _inp_password($val){
-	return base64_encode($val);
+   return base64_encode($val);
 }
 
-   include ("./templates/header.tpl");
-   include ("./templates/menu.tpl");
-   include ("./templates/fetchmail.tpl");
-   include ("./templates/footer.tpl");
+include ("./templates/header.tpl");
+include ("./templates/menu.tpl");
+include ("./templates/fetchmail.tpl");
+include ("./templates/footer.tpl");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
