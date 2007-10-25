@@ -205,13 +205,13 @@ function check_domain ($domain)
 }
 
 
-
-//
-// check_email
-// Action: Checks if email is valid and returns TRUE if this is the case.
-// Call: check_email (string email)
-//
-// TODO: make check_email able to handle already added domains
+/**
+ * check_email
+ * Checks if an email is valid - if it is, return true, else false.
+ * @param String $email - a string that may be an email address.
+ * @return boolean true if it's an email address, else false.
+ * TODO: make check_email able to handle already added domains
+ */
 function check_email ($email)
 {
    global $CONF;
@@ -219,10 +219,12 @@ function check_email ($email)
    $ce_email=$email;
 
    //strip the vacation domain out if we are using it
+   //and change from blah#foo.com@autoreply.foo.com to blah@foo.com
    if ($CONF['vacation'] == 'YES')
    { 
       $vacation_domain = $CONF['vacation_domain'];
       $ce_email = preg_replace("/@$vacation_domain/", '', $ce_email);
+      $ce_email = preg_replace("/#/", '@', $ce_email);
    }
 
    if (
@@ -328,30 +330,47 @@ function escape_string ($string)
 }
 
 
-// safeget
-// Action: get value from $_GET[$param], or $default if $_GET[$param] is not set
-// Call: $param = safeget('param')   # replaces $param = $_GET['param']
-//       - or -
-//       $param = safeget('param', 'default')
+/**
+ * safeget
+ * Action: get value from $_GET[$param], or $default if $_GET[$param] is not set
+ * Call: $param = safeget('param')   # replaces $param = $_GET['param']
+ *       - or -
+ *  $param = safeget('param', 'default')
+ *
+ *  @param String parameter name.
+ *  @param String (optional) - default value if key is not set.
+ *  @return String 
+ */
 function safeget ($param, $default="") {
 	$retval=$default;
-	if (isset($_GET["$param"])) $retval=$_GET["$param"];
+	if (isset($_GET[$param])) $retval=$_GET[$param];
 	return $retval;
 }
 
-// safepost
-// same as safeget, but for $_POST
+/**
+ * safepost - similar to safeget()
+ * @see safeget()
+ * @param String parameter name
+ * @param String (optional) default value (defaults to "")
+ * @return String - value in $_POST[$param] or $default
+ * same as safeget, but for $_POST
+ */
 function safepost ($param, $default="") {
 	$retval=$default;
-	if (isset($_POST["$param"])) $retval=$_POST["$param"];
+	if (isset($_POST[$param])) $retval=$_POST[$param];
 	return $retval;
 }
 
-// safeserver
-// same as safeget, but for $_SERVER
+/**
+ * safeserver
+ * @see safeget()
+ * @param String $param 
+ * @param String $default (optional)
+ * @return String value from $_SERVER[$param] or $default
+ */
 function safeserver ($param, $default="") {
 	$retval=$default;
-	if (isset($_SERVER["$param"])) $retval=$_SERVER["$param"];
+	if (isset($_SERVER[$param])) $retval=$_SERVER[$param];
 	return $retval;
 }
 
