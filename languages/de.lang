@@ -74,6 +74,7 @@ $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Zuletzt ver&auml;ndert';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Eintrag konnte nicht gel&ouml;scht werden ';
+$PALANG['pDelete_delete_success'] = '%s gel&ouml;scht.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Mailbox konnte nicht gel&ouml;scht werden ';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Diese Domain geh&ouml;rt nicht Ihnen ';
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Alias konnte nicht gel&ouml;scht werden ';
@@ -355,8 +356,15 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['pPasswordTooShort'] = "Das Passwort ist zu kurz - mindestens %s Zeichen ben&ouml;tigt";
 
 $PALANG['pFetchmail_welcome'] = 'E-Mail Abruf f&uuml;r: ';
-
 $PALANG['pFetchmail_new_entry'] = 'Neuer Eintrag';
+$PALANG['pFetchmail_database_save_error'] = 'Eintrag konnte nicht in der Datenbank gespeichert werden!';
+$PALANG['pFetchmail_database_save_success'] = 'Eintrag wurde in der Datenbank gespeichert';
+$PALANG['pFetchmail_error_invalid_id'] = 'Kein Eintrag mit ID %s gefunden!';
+$PALANG['pFetchmail_invalid_mailbox'] = 'Ung&uuml;ltiges Postfach!';
+$PALANG['pFetchmail_server_missing'] = 'Bitte geben Sie den Namen des Servers ein!';
+$PALANG['pFetchmail_user_missing'] = 'Bitte geben Sie den Benutzernamen ein!';
+$PALANG['pFetchmail_password_missing'] = 'Bitte geben Sie das Passwort ein!';
 
-/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
+$PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
+/* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

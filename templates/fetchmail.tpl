@@ -8,24 +8,17 @@
 		}
 	}
 
-if ($edit) { # edit mode
+if ($edit || $new) { # edit mode
    echo '<div id="edit_form">';
    echo '<form name="fetchmail" method="post">';
-   if (sizeof ($tFmail) > 0){
-      foreach($tFmail as $row) {
-         if ($edit && $edit==$row["id"]) {
-            print fetchmail_edit_row($row);
-         }
-      }
-   }
-} else { # display mode
+   print fetchmail_edit_row($formvars);
 
+} else { # display mode
    print '<div id="overview">';
    print '<form name="overview" method="post">';
    print "<table id=\"log_table\" border=0>\n";
 	print "   <tr>\n";
-	print "      <td colspan=\"".(sizeof($headers)-1)."\"><h3>".$PALANG['pFetchmail_welcome'].$user_domains."</h3></td>\n";
-	print "      <td align=right><a href='?new=1'>&gt;&gt;&nbsp;".$PALANG['pFetchmail_new_entry']."</a></td>\n";
+	print "      <td colspan=\"".(sizeof($headers)+2)."\"><h3>".$PALANG['pFetchmail_welcome'].$user_domains."</h3></td>\n";
 	print "   </tr>\n";
 	print "   <tr class=\"header\">\n";
 	foreach($headers as $row){
@@ -33,14 +26,11 @@ if ($edit) { # edit mode
 		print "      <td>" . $title . "</td>\n";
 	}
    print "<td>&nbsp;</td>";
+   print "<td>&nbsp;</td>";
 	print "   </tr>\n";
 	
     if (sizeof ($tFmail) > 0){
        foreach($tFmail as $row){
-#		if ($edit && $edit==$row["id"]){
-#			print "<tr><td colspan=".sizeof($headers).">".fetchmail_edit_row($row)."</td></tr>\n";
-#		}
-#		else{
 			print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
 			foreach($row as $key=>$val){
 
@@ -53,10 +43,19 @@ if ($edit) { # edit mode
 
 			}
          print "<td><a href=\"fetchmail.php?edit=" . $row['id'] . "\">" . $PALANG['edit'] . "</a></td>";
+         print "      <td><a href=\"fetchmail.php?delete=" . $row['id'] . "\"onclick=\"return confirm ('" 
+            . $PALANG['confirm'] . $PALANG['pMenu_fetchmail'] . ": ". htmlentities($row['src_user']) . " @ " 
+            . htmlentities($row['src_server'])  . "')\">" . $PALANG['del'] . "</a></td>\n";
 			print "   </tr>\n";
-#		}
        }
     }
+   print "</table>";
+   print "<p />\n";
+   print "</form>\n";
+   print "</div>\n";
+
+	print "<p><a href='?new=1'>".$PALANG['pFetchmail_new_entry']."</a></p>\n";
+
 } # end display mode
 
 function fetchmail_edit_row($data=array()){
@@ -65,6 +64,9 @@ function fetchmail_edit_row($data=array()){
 	$_id=$data["id"]*100+1;
 	$ret="<table>";
    $ret .= '<tr><td colspan="3"><h3>' . $PALANG['pMenu_fetchmail'] . '</h3></td></tr>';
+   # TODO: $formvars possibly contains db-specific boolean values
+   # TODO: no problems with MySQL, to be tested with PgSQL
+   # TODO: undefined values may also occour
 	foreach($fm_struct as $key=>$struct){
 		list($editible,$view,$type,$title,$comment)=$struct;
 		if ($editible){
@@ -96,12 +98,16 @@ function fetchmail_edit_row($data=array()){
 			$ret.="</td><td align=left valign=top><i>&nbsp;${comment}</i></td></tr>\n";
 		}
 	}
-	$ret.="<tr><td align=left><input type=submit name=cancel value='Abbrechen'></td><td align=right><input type=submit name=save value='Save'></td><td align=right><input type=submit name=delete value='Delete'>";
+   # TODO: pressing enter in the form "clicks" cancel button instead of submit button
+	$ret.="<tr><td align=left><input type=submit name=cancel value='Abbrechen'></td><td align=right><input type=submit name=save value='Save'></td><td align=right>";
 	if ($id){
 		$ret.="<input type=hidden name=edit value='${id}'>";
 	}
 	$ret.="</td></tr>\n";
 	$ret.="</table>\n";
+   $ret.="<p />\n";
+   $ret.="</form>\n";
+   $ret.="</div>\n";
 	return $ret;
 }
 
@@ -165,10 +171,5 @@ function _listview_password($val){
 	return preg_replace("{.}","*",$val);
 }
 
-
+/* vim: set ft=php expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
-</table>
-<p />
-</form>
-</div>
-<?php /* vim: set ft=php expandtab softtabstop=3 tabstop=3 shiftwidth=3: */ ?>

@@ -76,6 +76,7 @@ $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Last Modified';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Unable to delete the entry ';
+$PALANG['pDelete_delete_success'] = '%s deleted.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox ';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">This domain is not yours ';
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias ';
@@ -357,7 +358,14 @@ $PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters";
 
 $PALANG['pFetchmail_welcome'] = 'Fetch mail for:';
 $PALANG['pFetchmail_new_entry'] = 'New entry';
+$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!';
+$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.';
+$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!';
+$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!';
+$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!';
+$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!';
+$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!';
 
-
-/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
+$PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
+/* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
