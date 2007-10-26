@@ -20,7 +20,7 @@ $dbh = DBI->connect($dsn, $user, $password) || die "cannot connect the database"
 $sql=<<SQL;
 SELECT id,mailbox,src_server,src_auth,src_user,src_password,src_folder,fetchall,keep,protocol,mda,extra_options 
 FROM fetchmail
-WHERE unix_timestamp(now())-unix_timestamp(date) > pool_time*60
+WHERE unix_timestamp(now())-unix_timestamp(date) > poll_time*60
 SQL
 
 my (%config);
