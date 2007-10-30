@@ -75,7 +75,7 @@ if (sizeof ($list_domains) > 0)
          $active = ($domain_properties[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
          print "<td><a href=\"edit-active-domain.php?domain=" . $list_domains[$i] . "\">" . $active . "</a></td>";
          print "<td><a href=\"edit-domain.php?domain=" . $list_domains[$i] . "\">" . $PALANG['edit'] . "</a></td>";
-         print "<td><a href=\"delete.php?table=domain&where=domain&delete=" . $list_domains[$i] . "\" onclick=\"return confirm ('" . $PALANG['confirm_domain'] . $PALANG['pAdminList_admin_domain'] . ": " . $list_domains[$i] . "')\">" . $PALANG['del'] . "</a></td>";
+         print "<td><a href=\"delete.php?table=domain&delete=" . $list_domains[$i] . "\" onclick=\"return confirm ('" . $PALANG['confirm_domain'] . $PALANG['pAdminList_admin_domain'] . ": " . $list_domains[$i] . "')\">" . $PALANG['del'] . "</a></td>";
          print "</tr>\n";
 		}
    }

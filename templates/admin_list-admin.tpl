@@ -22,7 +22,7 @@ if (sizeof ($list_admins) > 0)
          $active = ($admin_properties[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
    		print "      <td><a href=\"edit-active-admin.php?username=" . $list_admins[$i] . "\">" . $active . "</a></td>";
    		print "      <td><a href=\"edit-admin.php?username=" . $list_admins[$i] . "\">" . $PALANG['edit'] . "</a></td>";
-   		print "      <td><a href=\"delete.php?table=admin&where=username&delete=" . $list_admins[$i] . "\" onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pAdminList_admin_username'] . ": " . $list_admins[$i] . "')\">" . $PALANG['del'] . "</a></td>";
+   		print "      <td><a href=\"delete.php?table=admin&delete=" . $list_admins[$i] . "\" onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pAdminList_admin_username'] . ": " . $list_admins[$i] . "')\">" . $PALANG['del'] . "</a></td>";
    		print "   </tr>\n";
 		}
    }

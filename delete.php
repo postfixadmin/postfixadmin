@@ -13,14 +13,9 @@
  * @license GNU GPL v2 or later. 
  * 
  * File: delete.php
- * Responsible for allowing for the deletion of domains; note if 
- * a domain is deleted, all mailboxes and aliases belonging to the 
- * domain are also removed.
- *
- * @version $Id$
- * @license GNU GPL v2 or later.
- *
- * Template Variables:
+ * Used to delete admins, domains, mailboxes and aliases.
+ * Note: if a domain is deleted, all mailboxes and aliases belonging 
+ * to the domain are also removed.
  *
  * Template File: message.tpl
  *
@@ -30,6 +25,7 @@
  *
  * Form POST \ GET Variables:
  *
+ * fTable
  * fDelete
  * fDomain
  */
@@ -39,11 +35,61 @@ require_once('common.php');
 authentication_require_role('admin');
 
 $SESSID_USERNAME = authentication_get_username();
+$error = 0;
 
-if ($_SERVER['REQUEST_METHOD'] == "GET")
+$fTable  = escape_string (safeget('table') ); # see the if blocks below for valid values
+$fDelete = escape_string (safeget('delete'));
+$fDomain = escape_string (safeget('domain'));
+
+$error=0;
+
+if ($fTable == "admin")
 {
-   if (isset ($_GET['delete'])) $fDelete = escape_string ($_GET['delete']);
-   if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
+   authentication_require_role('global-admin');
+   $fWhere = 'username';
+   $result_admin = db_delete ($table_admin,$fWhere,$fDelete);
+   $result_domain_admins = db_delete ($table_domain_admins,$fWhere,$fDelete);
+   
+   if (!($result_admin == 1) and ($result_domain_admins >= 0))
+   {
+      $error = 1;
+      $tMessage = $PALANG['pAdminDelete_admin_error'];
+   }
+   else
+   {
+      $url = "list-admin.php";
+      header ("Location: $url");
+   }
+} # ($fTable == "admin")
+
+elseif ($fTable == "domain")
+{
+   authentication_require_role('global-admin');
+   $fWhere = 'domain';
+   $result_domain_admins = db_delete ($table_domain_admins,$fWhere,$fDelete);
+   $result_alias = db_delete ($table_alias,$fWhere,$fDelete);
+   $result_mailbox = db_delete ($table_mailbox,$fWhere,$fDelete);
+   $result_log = db_delete ($table_log,$fWhere,$fDelete);
+   if ($CONF['vacation'] == "YES")
+   {
+      $result_vacation = db_delete ($table_vacation,$fWhere,$fDelete);
+   }
+   $result_domain = db_delete ($table_domain,$fWhere,$fDelete);
+
+   if (!$result_domain || !domain_postdeletion($fDelete))
+   {
+      $error = 1;
+      $tMessage = $PALANG['pAdminDelete_domain_error'];
+   }
+   else
+   {
+      $url = "list-domain.php";
+      header ("Location: $url");
+   }
+} # ($fTable == "domain")
+
+elseif ($fTable == "alias" or $fTable == "mailbox")
+{
 
    if (!check_owner ($SESSID_USERNAME, $fDomain))
    {
@@ -58,7 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    else
    {
       if ($CONF['database_type'] == "pgsql") db_query('BEGIN');
-
       $result = db_query ("DELETE FROM $table_alias WHERE address='$fDelete' AND domain='$fDomain'");
       if ($result['rows'] != 1)
       {
@@ -70,27 +115,33 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          db_log ($SESSID_USERNAME, $fDomain, 'delete_alias', $fDelete);
       }
 
-      $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
-      if ($result['rows'] == 1)
+      if (!$error)
       {
-         $result = db_query ("DELETE FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
-         $postdel_res = mailbox_postdeletion($fDelete,$fDomain);
-         if ($result['rows'] != 1 || !$postdel_res)
+         $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
+         if ($result['rows'] == 1)
          {
-            $error = 1;
-            $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (";
-            if ($result['rows']!=1)
+            $result = db_query ("DELETE FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
+            $postdel_res=mailbox_postdeletion($fDelete,$fDomain);
+            if ($result['rows'] != 1 || !$postdel_res)
             {
-               $tMessage.='mailbox';
-               if (!$postdel_res) $tMessage.=', ';
+               $error = 1;
+               $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (";
+               if ($result['rows']!=1)
+               {
+                  $tMessage.='mailbox';
+                  if (!$postdel_res) $tMessage.=', ';
+               }
+               if (!$postdel_res)
+               {
+                  $tMessage.='post-deletion';
+               }
+               $tMessage.=')</span>';
             }
-            if (!$postdel_res) $tMessage.='post-deletion';
-            $tMessage.=')</span>';
-         }
-         else
-         {
-            db_query ("DELETE FROM $table_vacation WHERE email='$fDelete' AND domain='$fDomain'");
-            db_log ($SESSID_USERNAME, $fDomain, 'delete_mailbox', $fDelete);
+            else
+            {
+               db_query ("DELETE FROM $table_vacation WHERE email='$fDelete' AND domain='$fDomain'");
+               db_log ($SESSID_USERNAME, $fDomain, 'delete_mailbox', $fDelete);
+            }
          }
       }
    }
@@ -98,18 +149,33 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if ($error != 1)
    {
       if ($CONF['database_type'] == "pgsql") db_query('COMMIT');
-      header ("Location: overview.php?domain=$fDomain");
+      $url = "overview.php";
+      if (authentication_has_role('global-admin')) $url = "list-virtual.php";
+      header ("Location: $url?domain=$fDomain");
       exit;
    } else {
       $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (physical mail)!</span>";
       if ($CONF['database_type'] == "pgsql") db_query('ROLLBACK');
    }
+} # ($fTable == "alias" or $fTable == "mailbox")
+
+else
+{
+   # unknown $fTable value
+   flash_error($PALANG['invalid_parameter']);
 }
 
-include ("./templates/header.tpl");
-include ("./templates/menu.tpl");
-include ("./templates/message.tpl");
-include ("./templates/footer.tpl");
+
+include ("$incpath/templates/header.tpl");
+
+if (authentication_has_role('global-admin')) {
+   include ("$incpath/templates/admin_menu.tpl");
+} else {
+   include ("$incpath/templates/menu.tpl");
+}
+
+include ("$incpath/templates/message.tpl");
+include ("$incpath/templates/footer.tpl");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
