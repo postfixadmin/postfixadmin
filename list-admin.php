@@ -21,7 +21,7 @@
  * Form POST \ GET Variables: -none-
  */
 
-require_once("../common.php");
+require_once("common.php");
 
 authentication_require_role('global-admin');
 
@@ -32,19 +32,9 @@ if ((is_array ($list_admins) and sizeof ($list_admins) > 0)) {
    }
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
-   include ("../templates/header.tpl");
-   include ("../templates/admin_menu.tpl");
-   include ("../templates/admin_list-admin.tpl");
-   include ("../templates/footer.tpl");
-}
+include ("templates/header.tpl");
+include ("templates/menu.tpl");
+include ("templates/admin_list-admin.tpl");
+include ("templates/footer.tpl");
 
-if ($_SERVER['REQUEST_METHOD'] == "POST")
-{
-   include ("../templates/header.tpl");
-   include ("../templates/admin_menu.tpl");
-   include ("../templates/admin_list-admin.tpl");
-   include ("../templates/footer.tpl");
-}
 ?>

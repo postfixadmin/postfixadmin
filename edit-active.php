@@ -97,13 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 }
 
 include ("$incpath/templates/header.tpl");
-
-if (authentication_has_role('global-admin')) {
-   include ("$incpath/templates/admin_menu.tpl");
-} else {
-   include ("$incpath/templates/menu.tpl");
-}
-
+include ("$incpath/templates/menu.tpl");
 include ("$incpath/templates/message.tpl");
 include ("$incpath/templates/footer.tpl");
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

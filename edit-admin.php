@@ -33,7 +33,7 @@
  * fActive
  */
 
-require_once('../common.php');
+require_once('common.php');
 
 authentication_require_role('global-admin');
 
@@ -146,7 +146,7 @@ if ($result['rows'] >= 1) {
     }
 }
 
-include ("../templates/header.tpl");
-include ("../templates/admin_menu.tpl");
-include ("../templates/admin_edit-admin.tpl");
-include ("../templates/footer.tpl");
+include ("templates/header.tpl");
+include ("templates/menu.tpl");
+include ("templates/admin_edit-admin.tpl");
+include ("templates/footer.tpl");

@@ -31,7 +31,7 @@
  * fDomains
  */
 
-require_once('../common.php');
+require_once('common.php');
 
 authentication_require_role('global-admin');
 
@@ -42,11 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
    $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
    $tDomains = array ();
-
-   include ("../templates/header.tpl");
-   include ("../templates/admin_menu.tpl");
-   include ("../templates/admin_create-admin.tpl");
-   include ("../templates/footer.tpl");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -63,11 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
       if (isset ($_POST['fDomains'])) $tDomains = $_POST['fDomains'];
    }
-
-   include ("../templates/header.tpl");
-   include ("../templates/admin_menu.tpl");
-   include ("../templates/admin_create-admin.tpl");
-   include ("../templates/footer.tpl");
 }
+
+include ("templates/header.tpl");
+include ("templates/menu.tpl");
+include ("templates/admin_create-admin.tpl");
+include ("templates/footer.tpl");
+
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

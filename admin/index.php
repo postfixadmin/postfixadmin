@@ -1,4 +1,4 @@
 <?php
-header ("Location: list-admin.php");
+header ("Location: ../login.php");
 exit(0);
 ?>

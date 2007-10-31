@@ -25,7 +25,7 @@
  * fUsername
  */
 
-require_once('../common.php');
+require_once('common.php');
 
 authentication_require_role('global-admin');
 
@@ -52,11 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $domain_properties[$i] = get_domain_properties ($list_domains[$i]);
          }
       }
-
-   include ("../templates/header.tpl");
-   include ("../templates/admin_menu.tpl");
-   include ("../templates/admin_list-domain.tpl");
-   include ("../templates/footer.tpl");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -74,10 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $domain_properties[$i] = get_domain_properties ($list_domains[$i]);
       }
    }
-
-   include ("../templates/header.tpl");
-   include ("../templates/admin_menu.tpl");
-   include ("../templates/admin_list-domain.tpl");
-   include ("../templates/footer.tpl");
 }
+
+include ("templates/header.tpl");
+include ("templates/menu.tpl");
+include ("templates/admin_list-domain.tpl");
+include ("templates/footer.tpl");
 ?>

@@ -140,13 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 
 include ("$incpath/templates/header.tpl");
-
-if (authentication_has_role('global-admin')) {
-   include ("$incpath/templates/admin_menu.tpl");
-} else {
-   include ("$incpath/templates/menu.tpl");
-}
-
+include ("$incpath/templates/menu.tpl");
 include ("$incpath/templates/search.tpl");
 include ("$incpath/templates/footer.tpl");
 

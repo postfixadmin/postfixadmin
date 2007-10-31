@@ -29,7 +29,7 @@
  * fDisplay
  */
 
-require_once('../common.php');
+require_once('common.php');
 
 authentication_require_role('global-admin');
 
@@ -155,10 +155,10 @@ if (isset ($limit)) {
 }
 
 
-include ("../templates/header.tpl");
-include ("../templates/admin_menu.tpl");
-include ("../templates/overview.tpl");
-include ("../templates/footer.tpl");
+include ("templates/header.tpl");
+include ("templates/menu.tpl");
+include ("templates/overview.tpl");
+include ("templates/footer.tpl");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

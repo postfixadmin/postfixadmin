@@ -26,7 +26,7 @@
  * fUsername
  */
 
-require_once('../common.php');
+require_once('common.php');
 
 authentication_require_role('global-admin');
 
@@ -49,20 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       header ("Location: list-admin.php");
       exit;
    }
-   
-   include ("../templates/header.tpl");
-   include ("../templates/admin_menu.tpl");
-   include ("../templates/message.tpl");
-   include ("../templates/footer.tpl");
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST")
-{
-   include ("../templates/header.tpl");
-   include ("../templates/admin_menu.tpl");
-   include ("../templates/message.tpl");
-   include ("../templates/footer.tpl");
-}
+include ("templates/header.tpl");
+include ("templates/menu.tpl");
+include ("templates/message.tpl");
+include ("templates/footer.tpl");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 

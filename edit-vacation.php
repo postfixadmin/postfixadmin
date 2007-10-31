@@ -38,7 +38,7 @@
 require_once('common.php');
 
 if($CONF['vacation'] == 'NO') { 
-   header("Location: " . $CONF['postfix_admin_url'] . "/main.php");
+   header("Location: " . $CONF['postfix_admin_url'] . "/main.php"); # TODO
    exit(0);
 }
 
@@ -60,7 +60,7 @@ $vacation_domain = $CONF['vacation_domain'];
 $vacation_goto = preg_replace('/@/', '#', $fUsername);
 $vacation_goto = $vacation_goto . '@' . $vacation_domain;
 
-$fCanceltarget = $CONF['postfix_admin_url'] . '/main.php';
+$fCanceltarget = $CONF['postfix_admin_url'] . '/main.php'; # TODO
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
@@ -190,11 +190,7 @@ else {
 }
 
 include ("$incpath/templates/header.tpl");
-if (authentication_has_role('global-admin')) {
-   include ("$incpath/templates/admin_menu.tpl");
-} else {
-   include ("$incpath/templates/menu.tpl");
-}
+include ("$incpath/templates/menu.tpl");
 include ("$incpath/templates/edit-vacation.tpl");
 include ("$incpath/templates/footer.tpl");
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

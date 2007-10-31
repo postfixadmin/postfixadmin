@@ -87,8 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         if ($result['rows'] == 1)
         {
             $_SESSION['sessid']['roles'][] = 'global-admin';
-            header("Location: admin/list-admin.php");
-            exit(0);
+#            header("Location: admin/list-admin.php");
+#            exit(0);
         }
         header("Location: main.php");
         exit(0);

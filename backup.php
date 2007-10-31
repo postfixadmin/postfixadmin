@@ -21,7 +21,7 @@
  * Form POST \ GET Variables: -none-
  */
 
-require_once('../common.php');
+require_once('common.php');
 
 authentication_require_role('global-admin');
 
@@ -63,10 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if (!$fh = fopen ($backup, 'w'))
    {
       $tMessage = "<div class=\"error_msg\">Cannot open file ($backup)</div>";
-      include ("../templates/header.tpl");
-      include ("../templates/admin_menu.tpl");
-      include ("../templates/message.tpl");
-      include ("../templates/footer.tpl");
+      include ("templates/header.tpl");
+      include ("templates/menu.tpl");
+      include ("templates/message.tpl");
+      include ("templates/footer.tpl");
    } 
    else
    {
