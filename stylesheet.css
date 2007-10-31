@@ -87,26 +87,64 @@ table {
 	white-space: nowrap;
 }
 
-#menu ul li {
-	display: inline;
+#menu ul {
+	padding: 0;
+	margin: 0;
+	margin-left:auto;
+	margin-right:auto;
+	list-style: none;
+}
+
+#menu li {
+	float: left;
 	background: #efefef;
-	padding: 20px 5px 5px 5px;
 	margin-right: 3px;
 	border-top: 4px solid #aaaaaa;
 }
 
-#menu ul li:hover {
-	background: #BFFF00; /* #F32121; */
-	color: white;
+#menu li:hover {
+	background: #BFFF00;
 }
 
-#menu ul li a {
+#menu li ul {
+	position: absolute;
+	width: auto;
+	left: -999em;
+	border:2px solid white;
+	border-top:none;
+}
+#menu li:hover ul {
+   left: auto;
+}
+
+
+#menu li ul li {
+    float: none;
+	margin-right: 0px;
+	border-top:2px solid white;;
+	text-align:left;
+}
+
+
+
+
+#menu a {
+	display: block;
+	width: auto;
+	padding: 20px 5px 5px 5px;
 	color: #888888;
 }
 
-#menu ul li a:hover {
+#menu a:hover {
 	color: #888888;
 }
+
+
+
+#menu li ul li a {
+	padding: 5px 5px 5px 5px;
+}
+
 
 
 #main_menu, #edit_form {

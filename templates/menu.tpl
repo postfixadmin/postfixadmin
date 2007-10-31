@@ -1,29 +1,84 @@
-<div id="menu">
-<ul>
-   <li><a target="_top" href="main.php"><?php print $PALANG['pMenu_main']; ?></a></li>
-   <li><a target="_top" href="overview.php"><?php print $PALANG['pMenu_overview']; ?></a></li>
-   <?php $url = "create-alias.php"; if (isset ($_GET['domain'])) $url .= "?domain=" . $_GET['domain']; ?>
-   <li><a target="_top" href="<?php print $url; ?>"><?php print $PALANG['pMenu_create_alias']; ?></a></li>
-   <?php $url = "create-mailbox.php"; if (isset ($_GET['domain'])) $url .= "?domain=" . $_GET['domain']; ?>
-   <li><a target="_top" href="<?php print $url; ?>"><?php print $PALANG['pMenu_create_mailbox']; ?></a></li>
-   <?php if ($CONF['fetchmail'] == "YES") { ?>
-      <li><a target="_top" href="fetchmail.php"><?php print $PALANG['pMenu_fetchmail']; ?></a></li>
-   <?php } ?>
-   <?php if ($CONF['sendmail'] == 'YES') { ?><li><a target="_top" href="sendmail.php"><?php print $PALANG['pMenu_sendmail']; ?></a></li><?php } ?>
-   <?php if ($CONF['vacation'] == "YES") { ?>
-   <li><a target="_top" href="edit-vacation.php"><?php print $PALANG['pUsersMenu_vacation']; ?></a></li>
-   <?php } ?>
-   <li><a target="_top" href="password.php"><?php print $PALANG['pMenu_password']; ?></a></li>
-   <li><a target="_top" href="viewlog.php"><?php print $PALANG['pMenu_viewlog']; ?></a></li>
-   <li><a target="_top" href="logout.php"><?php print $PALANG['pMenu_logout']; ?></a></li>
-</ul>
-</div>
-
 <?php
-if (file_exists (realpath ("motd.txt")))
+function _menulink ($href, $title, $submenu = "") {
+   if ($submenu != "") $submenu = "<ul><li><a target='_top' href='$href'>$title</a>$submenu</li></ul>";
+   return "<li><a target='_top' href='$href'>$title</a>$submenu</li>";
+} 
+
+authentication_has_role('global-admin');
+
+echo "<div id='menu'>\n";
+echo "<ul>\n";
+
+$url = "create-mailbox.php"; if (isset ($_GET['domain'])) $url .= "?domain=" . $_GET['domain'];
+$submenu_virtual = _menulink($url, $PALANG['pMenu_create_mailbox']);
+
+$url = "create-alias.php"; if (isset ($_GET['domain'])) $url .= "?domain=" . $_GET['domain'];
+$submenu_virtual .=  _menulink($url, $PALANG['pMenu_create_alias']);
+
+$submenu_admin = _menulink("create-admin.php", $PALANG['pAdminMenu_create_admin']);
+
+$submenu_fetchmail = _menulink("fetchmail.php?new=1", $PALANG['pFetchmail_new_entry']);
+
+
+if (authentication_has_role('global-admin')) {
+   $submenu_domain = _menulink("create-domain.php", $PALANG['pAdminMenu_create_domain']);
+} else {
+   $submenu_domain = "";
+}
+
+if (authentication_has_role('global-admin')) {
+   print _menulink("list-admin.php", $PALANG['pAdminMenu_list_admin'], $submenu_admin);
+   print _menulink("list-domain.php", $PALANG['pAdminMenu_list_domain'], $submenu_domain);
+   print _menulink("list-virtual.php", $PALANG['pAdminMenu_list_virtual'], $submenu_virtual);
+} else {
+   print _menulink("main.php", $PALANG['pMenu_main']);
+   print _menulink("overview.php", $PALANG['pMenu_overview'], $submenu_virtual);
+}
+
+if ($CONF['fetchmail'] == 'YES') {
+   print _menulink("fetchmail.php", $PALANG['pMenu_fetchmail'], $submenu_fetchmail);
+}
+
+if ($CONF['sendmail'] == 'YES') {
+   print _menulink("sendmail.php", $PALANG['pMenu_sendmail']);
+} 
+
+# not really useful in the admin menu
+#if ($CONF['vacation'] == 'YES') {
+#   print _menulink("edit-vacation.php", $PALANG['pUsersMenu_vacation']);
+#}
+
+if (authentication_has_role('global-admin')) {
+   print _menulink("broadcast-message.php", $PALANG['pAdminMenu_broadcast_message']);
+}
+
+print _menulink("password.php", $PALANG['pMenu_password']);
+
+if (authentication_has_role('global-admin') && 'pgsql'!=$CONF['database_type'] && $CONF['backup'] == 'YES') {
+   print _menulink("backup.php", $PALANG['pAdminMenu_backup']);
+}
+
+print _menulink("viewlog.php", $PALANG['pMenu_viewlog']);
+
+print _menulink("logout.php", $PALANG['pMenu_logout']);
+
+echo "</ul>\n";
+echo "</div>\n";
+
+print "<br clear='all' /><br>"; # TODO
+
+if (authentication_has_role('global-admin')) {
+   $motd_file = "motd-admin.txt";
+} else {
+   $motd_file = "motd.txt";
+}
+
+if (file_exists (realpath ($motd_file)))
 {
    print "<div id=\"motd\">\n";
-   include ("motd.txt");
+   include ($motd_file);
    print "</div>";
 }
+
+/* vim: set ft=php expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
