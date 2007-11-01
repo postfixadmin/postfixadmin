@@ -1284,20 +1284,20 @@ $DEBUG_TEXT = "\n
  * db_connect
  * Action: Makes a connection to the database if it doesn't exist
  * Call: db_connect ()
- * Optional parameter: $setup = TRUE, used by setup.php
+ * Optional parameter: $ignore_errors = TRUE, used by setup.php
  *
  * Return value:
- * a) without $setup or $setup == 0
+ * a) without $ignore_errors or $ignore_errors == 0
  *    - $link - the database connection -OR-
  *    - call die() in case of connection problems
- * b) with $setup == TRUE
+ * b) with $ignore_errors == TRUE
  *    array($link, $error_text);
  */
-function db_connect ($setup = 0)
+function db_connect ($ignore_errors = 0)
 {
    global $CONF;
    global $DEBUG_TEXT;
-   if ($setup != 0) $DEBUG_TEXT = '';
+   if ($ignore_errors != 0) $DEBUG_TEXT = '';
    $error_text = '';
    $link = 0;
 
@@ -1351,7 +1351,7 @@ function db_connect ($setup = 0)
       $error_text = "<p />DEBUG INFORMATION:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php! $DEBUG_TEXT";
    }
 
-   if ($setup)
+   if ($ignore_errors)
    {
       return array($link, $error_text);
    }
@@ -1406,43 +1406,53 @@ function db_get_boolean($bool) {
 // db_query
 // Action: Sends a query to the database and returns query result and number of rows
 // Call: db_query (string query)
+// Optional parameter: $ignore_errors = TRUE, used by upgrade.php
 //
-function db_query ($query)
+function db_query ($query, $ignore_errors = 0)
 {
    global $CONF;
    global $DEBUG_TEXT;
    $result = "";
    $number_rows = "";
    static $link;
+   $error_text = "";
+   if ($ignore_errors) $DEBUG_TEXT = "";
 
    if (!is_resource($link)) $link = db_connect ();
 
-   if ($CONF['database_type'] == "mysql") $result = @mysql_query ($query, $link) or die ("<p />DEBUG INFORMATION:<br />Invalid query: " . mysql_error($link) . "$DEBUG_TEXT");
-   if ($CONF['database_type'] == "mysqli") $result = @mysqli_query ($link, $query) or die ("<p />DEBUG INFORMATION:<br />Invalid query: " . mysqli_error($link) . "$DEBUG_TEXT");
+   if ($CONF['database_type'] == "mysql") $result = @mysql_query ($query, $link) 
+      or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query: " . mysql_error($link) . "$DEBUG_TEXT";
+   if ($CONF['database_type'] == "mysqli") $result = @mysqli_query ($link, $query) 
+      or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query: " . mysqli_error($link) . "$DEBUG_TEXT";
    if ($CONF['database_type'] == "pgsql")
    {
-      $result = @pg_query ($link, $query) or die ("<p />DEBUG INFORMATION:<br />Invalid query: " . pg_last_error() . "$DEBUG_TEXT");
+      $result = @pg_query ($link, $query) 
+         or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query: " . pg_last_error() . "$DEBUG_TEXT";
    }
+   if ($error_text != "" && $ignore_errors == 0) die($error_text);
 
-   if (eregi ("^SELECT", $query))
-   {
-      // if $query was a SELECT statement check the number of rows with [database_type]_num_rows ().
-      if ($CONF['database_type'] == "mysql") $number_rows = mysql_num_rows ($result);
-      if ($CONF['database_type'] == "mysqli") $number_rows = mysqli_num_rows ($result);
-      if ($CONF['database_type'] == "pgsql") $number_rows = pg_num_rows ($result);
-   }
-   else
-   {
-      // if $query was something else, UPDATE, DELETE or INSERT check the number of rows with
-      // [database_type]_affected_rows ().
-      if ($CONF['database_type'] == "mysql") $number_rows = mysql_affected_rows ($link);
-      if ($CONF['database_type'] == "mysqli") $number_rows = mysqli_affected_rows ($link);
-      if ($CONF['database_type'] == "pgsql") $number_rows = pg_affected_rows ($result);
+   if ($error_text == "") {
+      if (eregi ("^SELECT", $query))
+      {
+         // if $query was a SELECT statement check the number of rows with [database_type]_num_rows ().
+         if ($CONF['database_type'] == "mysql") $number_rows = mysql_num_rows ($result);
+         if ($CONF['database_type'] == "mysqli") $number_rows = mysqli_num_rows ($result);
+         if ($CONF['database_type'] == "pgsql") $number_rows = pg_num_rows ($result);
+      }
+      else
+      {
+         // if $query was something else, UPDATE, DELETE or INSERT check the number of rows with
+         // [database_type]_affected_rows ().
+         if ($CONF['database_type'] == "mysql") $number_rows = mysql_affected_rows ($link);
+         if ($CONF['database_type'] == "mysqli") $number_rows = mysqli_affected_rows ($link);
+         if ($CONF['database_type'] == "pgsql") $number_rows = pg_affected_rows ($result);
+      }
    }
 
    $return = array (
       "result" => $result,
-      "rows" => $number_rows
+      "rows" => $number_rows,
+      "error" => $error_text
    );
    return $return;
 }
@@ -1516,6 +1526,28 @@ function db_delete ($table,$where,$delete)
 }
 
 
+//
+// db_insert
+// Action: Inserts a row from a specified table
+// Call: db_insert (string table, array values)
+//
+function db_insert ($table, $values)
+{
+   $sql_values = "(" . implode(",",escape_string(array_keys($values))).") VALUES ('".implode("','",escape_string($values))."')";
+   $table = table_by_key ($table);
+
+   $result = db_query ("INSERT INTO $table $sql_values");
+   if ($result['rows'] >= 1)
+   {
+      return $result['rows'];
+   }
+   else
+   {
+      return true;
+   }
+}
+
+
 
 //
 // db_log
@@ -1571,6 +1603,7 @@ function table_by_key ($table_key)
 {
    global $CONF;
    $table = $CONF['database_prefix'].$CONF['database_tables'][$table_key];
+   if (empty($table)) $table = $table_key;
    return $table;
 }
 
