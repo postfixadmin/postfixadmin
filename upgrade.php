@@ -92,7 +92,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
             '{PRIMARY}'         => 'primary key',
             '{UNSIGNED}'        => 'unsigned'  , 
             '{FULLTEXT}'        => 'FULLTEXT', 
-            '{BOOLEAN}'         => '`active` tinyint(1) NOT NULL',
+            '{BOOLEAN}'         => 'tinyint(1) NOT NULL',
             '{UTF_8}'           => '/*!40100 CHARACTER SET utf8 COLLATE utf8_unicode_ci */',
             '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 COLLATE latin1_swedish_ci */',
             '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
@@ -128,7 +128,8 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
     $query = trim(str_replace(array_keys($replace), $replace, $sql));
     $result = db_query($query, $ignore_errors);
     if (safeget('debug') != "") {
-        print $result['error'];
+        print "<p style='color:#999'>$query";
+        print "<div style='color:#f00'>" . $result['error'] . "</div>";
     }
     return $result;
 }
@@ -195,7 +196,7 @@ function upgrade_3() {
         ALTER TABLE $table_vacation ADD COLUMN created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL AFTER domain;
         ALTER TABLE $table_vacation ADD COLUMN active TINYINT(1) DEFAULT '1' NOT NULL AFTER created;
         ALTER TABLE $table_vacation DROP PRIMARY KEY
-        ALTER TABLE $table_vacation ADD COLUMN PRIMARY KEY(email);
+        ALTER TABLE $table_vacation ADD PRIMARY KEY(email)
         UPDATE $table_vacation SET domain=SUBSTRING_INDEX(email, '@', -1) WHERE email=email;
     "));
 
@@ -286,10 +287,10 @@ TABLE vacation
 
 function upgrade_79_mysql() { # MySQL only
     # drop useless indicies (already available as primary key)
-    $result = db_query_parsed(_drop_index('admin', 'username'));
-    $result = db_query_parsed(_drop_index('alias', 'address'));
-    $result = db_query_parsed(_drop_index('domain', 'domain'));
-    $result = db_query_parsed(_drop_index('mailbox', 'username'));
+    $result = db_query_parsed(_drop_index('admin', 'username'), True);
+    $result = db_query_parsed(_drop_index('alias', 'address'), True);
+    $result = db_query_parsed(_drop_index('domain', 'domain'), True);
+    $result = db_query_parsed(_drop_index('mailbox', 'username'), True);
 }
 
 function upgrade_81_mysql() { # MySQL only
@@ -337,9 +338,9 @@ function upgrade_169_mysql() { # MySQL only
 
     $table_domain = table_by_key ('domain');
     $table_mailbox = table_by_key ('mailbox');
-    $result = db_query_parsed("ALTER TABLE $table_domain ALTER COLUMN `quota` bigint(20) NOT NULL default '0'", TRUE);
-    $result = db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN `maxquota` bigint(20) NOT NULL default '0'", TRUE);
-    $result = db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN `quota` bigint(20) NOT NULL default '0'", TRUE);
+    $result = db_query_parsed("ALTER TABLE $table_domain MODIFY COLUMN `quota` bigint(20) NOT NULL default '0'", TRUE);
+    $result = db_query_parsed("ALTER TABLE $table_domain MODIFY COLUMN `maxquota` bigint(20) NOT NULL default '0'", TRUE);
+    $result = db_query_parsed("ALTER TABLE $table_mailbox MODIFY COLUMN `quota` bigint(20) NOT NULL default '0'", TRUE);
 }
 
 
