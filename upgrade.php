@@ -37,7 +37,7 @@ _do_upgrade($version);
 
 function _do_upgrade($current_version) {
     global $CONF;
-    $target_version = preg_replace('/[^0-9]/', '', '$Revision:42$');
+    $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
 
     if ($current_version >= $target_version) {
         # already up to date
