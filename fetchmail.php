@@ -150,6 +150,7 @@ if ($row_id) {
 
 if ($cancel) {
    $edit=0;
+   $new=0;
 } elseif ($delete) {
    $result = db_query ("delete from fetchmail WHERE id=".$delete);
    if ($result['rows'] != 1)
