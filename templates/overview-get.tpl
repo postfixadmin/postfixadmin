@@ -48,7 +48,7 @@ for ($i = 0; $i < sizeof ($list_domains); $i++)
          if ($limit['maxquota'] < 0) $limit['maxquota'] = $PALANG['pOverview_disabled'];
 
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
-         print "      <td><a href=\"overview.php?domain=" . $list_domains[$i] . "\">" . $list_domains[$i] . "</a></td>\n";
+         print "      <td><a href=\"list-virtual.php?domain=" . $list_domains[$i] . "\">" . $list_domains[$i] . "</a></td>\n";
          print "      <td>" . $limit['alias_count'] . " / " . $limit['aliases'] . "</td>\n";
          print "      <td>" . $limit['mailbox_count'] . " / " . $limit['mailboxes'] . "</td>\n";
          if ($CONF['quota'] == 'YES') print "      <td>" . $limit['maxquota'] . "</td>\n";

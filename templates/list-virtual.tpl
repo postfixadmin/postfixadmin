@@ -3,13 +3,7 @@
 <select name="fDomain" onChange="this.form.submit();">
 <?php
 
-if (authentication_has_role('global-admin')) {
-   $file = 'list-virtual.php';
-   $incpath = '..'; # warning: overrides $incpath from common.php - TODO: fix common.php $incpath
-} else {
-   $file = 'overview.php';
-   $incpath = '.';  # warning: overrides $incpath from common.php - TODO: fix common.php $incpath
-}
+$file = 'list-virtual.php';
 
 if ($limit['aliases'] == 0) $limit['aliases'] = $PALANG['pOverview_unlimited'];
 if ($limit['mailboxes'] == 0) $limit['mailboxes'] = $PALANG['pOverview_unlimited'];
@@ -64,15 +58,15 @@ print "</td><td valign=middle align=right>";
 
 if ($tDisplay_back_show == 1)
 {
-   print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_back\"><img border=\"0\" src=\"$incpath/images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
+   print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_back\"><img border=\"0\" src=\"images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
 }
 if ($tDisplay_up_show == 1)
 {
-   print "<a href=\"$file?domain=$fDomain&limit=0\"><img border=\"0\" src=\"$incpath/images/arrow-u.png\" title=\"" . $PALANG['pOverview_up_arrow'] . "\" alt=\"" . $PALANG['pOverview_up_arrow'] . "\" /></a>\n";
+   print "<a href=\"$file?domain=$fDomain&limit=0\"><img border=\"0\" src=\"images/arrow-u.png\" title=\"" . $PALANG['pOverview_up_arrow'] . "\" alt=\"" . $PALANG['pOverview_up_arrow'] . "\" /></a>\n";
 }
 if ($tDisplay_next_show == 1)
 {
-   print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_next\"><img border=\"0\" src=\"$incpath/images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
+   print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_next\"><img border=\"0\" src=\"images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
 }
 print "</td></tr></table></div>\n";
 
@@ -158,7 +152,7 @@ if($tCanAddAlias) {
    print "<p><a href=\"create-alias.php?domain=$fDomain\">" . $PALANG['pMenu_create_alias'] . "</a>\n";
 }
 
-   print "<div id=\"nav_bar\"><a name=\"MidArrow\" /a>\n<table width=730><colgroup span=\"1\"> <col width=\"550\"></col></colgroup> <tr><td align=left >";
+   print "<div id=\"nav_bar\"><a name=\"MidArrow\"></a>\n<table width=730><colgroup span=\"1\"> <col width=\"550\"></col></colgroup> <tr><td align=left >";
    if ( $limit['mbox_pgindex_count'] ) print "<b>".$PALANG['pOverview_mailbox_title']."</b>&nbsp&nbsp";
    ($tDisplay_back_show == 1) ? $highlight_at = $tDisplay_back / $CONF['page_size'] + 1 : $highlight_at = 0;
    for ($i = 0; $i < $limit['mbox_pgindex_count']; $i++)
@@ -176,15 +170,15 @@ if($tCanAddAlias) {
 
 if ($tDisplay_back_show == 1)
 {
-   print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_back#MidArrow\"><img border=\"0\" src=\"$incpath/images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
+   print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_back#MidArrow\"><img border=\"0\" src=\"images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
 }
 if ($tDisplay_up_show == 1)
 {
-   print "<a href=\"$file?domain=$fDomain&limit=0#MidArrow\"><img border=\"0\" src=\"$incpath/images/arrow-u.png\" title=\"" . $PALANG['pOverview_up_arrow'] . "\" alt=\"" . $PALANG['pOverview_up_arrow'] . "\" /></a>\n";
+   print "<a href=\"$file?domain=$fDomain&limit=0#MidArrow\"><img border=\"0\" src=\"images/arrow-u.png\" title=\"" . $PALANG['pOverview_up_arrow'] . "\" alt=\"" . $PALANG['pOverview_up_arrow'] . "\" /></a>\n";
 }
 if ($tDisplay_next_show == 1)
 {
-   print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_next#MidArrow\"><img border=\"0\" src=\"$incpath/images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
+   print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_next#MidArrow\"><img border=\"0\" src=\"images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
 }
 print "</td></tr></table></div>\n";
 
@@ -278,15 +272,15 @@ if (sizeof ($tMailbox) > 0)
    print "<div id=\"nav_bar\"><a name=\"LowArrow\" /a>\n";
    if ($tDisplay_back_show == 1)
    {
-      print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_back#LowArrow\"><img border=\"0\" src=\"$incpath/images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
+      print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_back#LowArrow\"><img border=\"0\" src=\"images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
    }
    if ($tDisplay_up_show == 1)
    {
-      print "<a href=\"$file?domain=$fDomain&limit=0#LowArrow\"><img border=\"0\" src=\"$incpath/images/arrow-u.png\" title=\"" . $PALANG['pOverview_up_arrow'] . "\" alt=\"" . $PALANG['pOverview_up_arrow'] . "\" /></a>\n";
+      print "<a href=\"$file?domain=$fDomain&limit=0#LowArrow\"><img border=\"0\" src=\"images/arrow-u.png\" title=\"" . $PALANG['pOverview_up_arrow'] . "\" alt=\"" . $PALANG['pOverview_up_arrow'] . "\" /></a>\n";
    }
    if ($tDisplay_next_show == 1)
    {
-      print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_next#LowArrow\"><img border=\"0\" src=\"$incpath/images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
+      print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_next#LowArrow\"><img border=\"0\" src=\"images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
    }
    print "</div>\n";
 

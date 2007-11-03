@@ -149,9 +149,7 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
    if ($error != 1)
    {
       if ($CONF['database_type'] == "pgsql") db_query('COMMIT');
-      $url = "overview.php";
-      if (authentication_has_role('global-admin')) $url = "list-virtual.php";
-      header ("Location: $url?domain=$fDomain");
+      header ("Location: list-virtual.php?domain=$fDomain");
       exit;
    } else {
       $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (physical mail)!</span>";

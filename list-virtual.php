@@ -15,7 +15,7 @@
  * File: list-virtual.php
  * List virtual users for a domain.
  *
- * Template File: overview.tpl
+ * Template File: list-virtual.tpl
  *
  * Template Variables:
  *
@@ -31,10 +31,15 @@
 
 require_once('common.php');
 
-authentication_require_role('global-admin');
+authentication_require_role('admin');
 
-$list_domains = list_domains ();
-
+if (authentication_has_role('global-admin')) {
+   $list_domains = list_domains ();
+   $is_superadmin = 1;
+} else {
+   $list_domains = list_domains_for_admin(authentication_get_username());
+   $is_superadmin = 0;
+}
 
 $tAlias = array();
 $tMailbox = array();
@@ -52,11 +57,20 @@ else
    if (isset ($_POST['limit'])) $fDisplay = intval ($_POST['limit']);
 }
 
+if (count($list_domains) == 0) {
+#   die("no domains");
+   header("Location: list-domain.php"); # no domains (for this admin at least) - redirect to domain list
+}
 
 if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDomain)) $fDomain = $list_domains[0];
 
 
-if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDomain)) $fDomain = $list_domains[1];
+if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDomain)) $fDomain = $list_domains[1]; # TODO: should never happen?!? ($fDomain should already be filled by the line above)
+
+if (!check_owner(authentication_get_username(), $fDomain)) {
+#   die($PALANG['invalid_parameter']);
+   header("Location: list-domain.php"); # domain not owned by this admin
+}
 
 $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.domain='$fDomain' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address LIMIT $fDisplay, $page_size";
 if ('pgsql'==$CONF['database_type'])
@@ -83,6 +97,7 @@ if ($CONF['vacation_control_admin'] == 'YES')
    $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.domain='$fDomain' ORDER BY $table_mailbox.username LIMIT $fDisplay, $page_size");
    if ('pgsql'==$CONF['database_type'])
    {
+      //TODO/FIXME: postgres query needs to be rewrited
       $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $page_size OFFSET $fDisplay";
    }
 }
@@ -106,7 +121,7 @@ if ($result['rows'] > 0)
          $row['created']=gmstrftime('%c %Z',$row['uts_created']);
          $row['modified']=gmstrftime('%c %Z',$row['uts_modified']);
          $row['active']=('t'==$row['active']) ? 1 : 0;
-         $row['v_active'] = 1; // default to off... 
+         $row['v_active'] = 1; // default to off... TODO: 1 is NOT off
          if(isset($row['v_active'])) { /* key may not be present in results due to query from above */
             $row['v_active']=('t'==$row['v_active']) ? 1 : 0; 
          }
@@ -157,7 +172,7 @@ if (isset ($limit)) {
 
 include ("templates/header.tpl");
 include ("templates/menu.tpl");
-include ("templates/overview.tpl");
+include ("templates/list-virtual.tpl");
 include ("templates/footer.tpl");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

@@ -59,14 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if (empty ($fSearch) /* && !empty ($fGo) */)
     {
-        if (authentication_has_role('global-admin'))
-        {
-            header("Location: list-virtual.php?domain=" . $fDomain ) && exit;
-        }
-        else
-        {
-            header("Location: overview.php?domain=" . $fDomain ) && exit;
-        }
+        header("Location: list-virtual.php?domain=" . $fDomain ) && exit;
     }
 
     if ($CONF['alias_control_admin'] == "YES")

@@ -78,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if ($error != 1)
    {
       if ( preg_match( "/^list-virtual.php.*/", $fReturn ) || 
-           preg_match( "/^overview.php.*/", $fReturn )  ||
            preg_match( "/^search.php.*/", $fReturn )    )
       {
          //$fReturn appears OK, jump there
@@ -86,11 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       }
       else
       {
-         if (authentication_has_role('global-admin')) {
-            header ("Location: list-virtual.php?domain=$fDomain");
-         } else {
-            header ("Location: overview.php?domain=$fDomain");
-         }
+         header ("Location: list-virtual.php?domain=$fDomain");
       }
       exit;
    }

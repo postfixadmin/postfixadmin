@@ -118,11 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          db_log ($SESSID_USERNAME, $fDomain, 'edit_alias', "$fAddress -> $goto");
 
-         if (authentication_has_role('global-admin')) {
-            header ("Location: list-virtual.php?domain=$fDomain");
-         } else {
-            header ("Location: overview.php?domain=$fDomain");
-         }
+         header ("Location: list-virtual.php?domain=$fDomain");
          exit;
       }
    }

@@ -1,7 +1,7 @@
 <div id="main_menu">
 <table>
    <tr>
-      <td nowrap><a target="_top" href="overview.php"><?php print $PALANG['pMenu_overview']; ?></a></td>
+      <td nowrap><a target="_top" href="list-domain.php"><?php print $PALANG['pMenu_overview']; ?></a></td>
       <td><?php print $PALANG['pMain_overview']; ?></td>
    </tr>
    <tr>

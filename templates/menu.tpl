@@ -26,14 +26,15 @@ if (authentication_has_role('global-admin')) {
    $submenu_domain = "";
 }
 
+
 if (authentication_has_role('global-admin')) {
    print _menulink("list-admin.php", $PALANG['pAdminMenu_list_admin'], $submenu_admin);
-   print _menulink("list-domain.php", $PALANG['pAdminMenu_list_domain'], $submenu_domain);
-   print _menulink("list-virtual.php", $PALANG['pAdminMenu_list_virtual'], $submenu_virtual);
 } else {
    print _menulink("main.php", $PALANG['pMenu_main']);
-   print _menulink("overview.php", $PALANG['pMenu_overview'], $submenu_virtual);
 }
+
+print _menulink("list-domain.php", $PALANG['pAdminMenu_list_domain'], $submenu_domain);
+print _menulink("list-virtual.php", $PALANG['pAdminMenu_list_virtual'], $submenu_virtual);
 
 if ($CONF['fetchmail'] == 'YES') {
    print _menulink("fetchmail.php", $PALANG['pMenu_fetchmail'], $submenu_fetchmail);
