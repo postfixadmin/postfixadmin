@@ -32,3 +32,6 @@ mysql> exit
 Bye 
  
 Then you can log in as new@domain.tld, password: admin 
+
+
+(The domain 'ALL' should already exist in the domain table; if not you'll need to recreate it)
