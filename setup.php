@@ -59,11 +59,11 @@ if ($f_phpversion == 1)
 {
    if (phpversion() < 5) $phpversion = 4;
    if (phpversion() >= 5) $phpversion = 5;
-   print "<li>PHP version " . phpversion () . "\n";
+   print "<li>PHP version " . phpversion () . "</li>\n";
 }
 else
 {
-   print "<li><b>Unable to check for PHP version. (missing function: phpversion())</b>\n";
+   print "<li><b>Unable to check for PHP version. (missing function: phpversion())</b></li>\n";
 }
 
 //
@@ -71,11 +71,11 @@ else
 //
 if ($f_apache_get_version == 1)
 {
-   print "<li>" . apache_get_version() . "\n";
+   print "<li>" . apache_get_version() . "</li>\n";
 }
 else
 {
-   print "<li><b>Unable to check for Apache version. (missing function: apache_get_version())</b>\n";
+   print "<li><b>Unable to check for Apache version. (missing function: apache_get_version())</b></li>\n";
 }
 
 print "</ul>";
@@ -89,16 +89,16 @@ if ($f_get_magic_quotes_gpc == 1)
 {
    if (get_magic_quotes_gpc () == 0)
    {
-      print "<li>Magic Quotes: Disabled - OK\n";
+      print "<li>Magic Quotes: Disabled - OK</li>\n";
    }
    else
    {
-      print "<li><b>Warning: Magic Quotes: ON (internal workaround used)</b>\n";   
+      print "<li><b>Warning: Magic Quotes: ON (internal workaround used)</b></li>\n";   
    }
 }
 else
 {
-   print "<li><b>Unable to check for Magic Quotes. (missing function: get_magic_quotes_gpc())</b>\n";
+   print "<li><b>Unable to check for Magic Quotes. (missing function: get_magic_quotes_gpc())</b></li>\n";
 }
 
 //
@@ -107,16 +107,16 @@ else
 $config_loaded = 0;
 if ($file_config == 1)
 {
-   print "<li>Depends on: presence config.inc.php - OK\n";
+   print "<li>Depends on: presence config.inc.php - OK</li>\n";
    require_once('config.inc.php');
    $config_loaded = 1;
 }
 else
 {
-   print "<li><b>Error: Depends on: presence config.inc.php - NOT FOUND</b><br />\n";
-   print "Create the file.<br />";
+   print "<li><b>Error: Depends on: presence config.inc.php - NOT FOUND</b><br /></li>\n";
+   print "Create the file, and edit as appropriate (e.g. select database type etc)<br />";
    print "For example:<br />\n";
-   print "<pre>% cp config.inc.php.sample config.inc.php</pre>\n";
+   print "<code><pre>cp config.inc.php.sample config.inc.php</pre></code>\n";
    $error =+ 1;
 }
 
@@ -143,7 +143,7 @@ if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0
    print "<pre>% cd /usr/ports/databases/php$phpversion-pgsql/\n";
    print "% make clean install\n";
    print " - or with portupgrade -\n";
-   print "% portinstall php$phpversion-pgsql</pre>\n";
+   print "% portinstall php$phpversion-pgsql</pre></li>\n";
    $error =+ 1;
 }
 //
@@ -151,7 +151,7 @@ if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0
 //
 if ($f_mysql_connect == 1)
 {
-   print "<li>Depends on: MySQL 3.23, 4.0 - OK\n";
+   print "<li>Depends on: MySQL 3.23, 4.0 - OK</li>\n";
 }
 
 //
@@ -165,6 +165,7 @@ if ($phpversion >= 5)
       if ( !($config_loaded && $CONF['database_type'] == 'mysqli') ) {
           print "(change the database_type to 'mysqli' in config.inc.php!!)\n";
       }
+      print "</li>";
    }
 }
 
@@ -177,6 +178,7 @@ if ($f_pg_connect == 1)
    if ( !($config_loaded && $CONF['database_type'] == 'pgsql') ) {
       print "(change the database_type to 'pgsql' in config.inc.php!!)\n";
    }
+   print "</li>";
 }
 
 //
@@ -185,11 +187,11 @@ if ($f_pg_connect == 1)
 if ($config_loaded) {
    list ($link, $error_text) = db_connect(TRUE);
    if ($error_text == "") {
-      print "<li>Testing database connection - OK";
+      print "<li>Testing database connection - OK - {$CONF['database_type']}://{$CONF['database_user']}:xxxxx@{$CONF['database_host']}/{$CONF['database_name']}</li>";
    } else {
       print "<li><b>Error: Can't connect to database</b><br />\n";
       print "Please edit the \$CONF['database_*'] parameters in config.inc.php.\n";
-	  print "$error_text\n";
+	  print "$error_text</li>\n";
 	  $error ++;
    } 
 }
@@ -199,7 +201,7 @@ if ($config_loaded) {
 //
 if ($f_session_start == 1)
 {
-   print "<li>Depends on: session - OK\n";
+   print "<li>Depends on: session - OK</li>\n";
 }
 else
 {
@@ -208,7 +210,7 @@ else
    print "<pre>% cd /usr/ports/www/php$phpversion-session/\n";
    print "% make clean install\n";
    print " - or with portupgrade -\n";
-   print "% portinstall php$phpversion-session</pre>\n";
+   print "% portinstall php$phpversion-session</pre></li>\n";
    $error =+ 1;
 }
 
@@ -217,7 +219,7 @@ else
 //
 if ($f_preg_match == 1)
 {
-   print "<li>Depends on: pcre - OK\n";
+   print "<li>Depends on: pcre - OK</li>\n";
 }
 else
 {
@@ -226,7 +228,7 @@ else
    print "<pre>% cd /usr/ports/devel/php$phpversion-pcre/\n";
    print "% make clean install\n";
    print " - or with portupgrade -\n";
-   print "% portinstall php$phpversion-pcre</pre>\n";
+   print "% portinstall php$phpversion-pcre</pre></li>\n";
    $error =+ 1;
 }
 
@@ -251,6 +253,12 @@ else
       if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']);
       if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
       if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
+
+      // XXX need to ensure domains table includes an 'ALL' entry.
+      $r = db_query("SELECT * FROM domain WHERE domain = 'ALL'");
+      if($r['rows'] == 0) {
+        db_insert('domain', array('domain' => 'ALL')); // all other fields should default through the schema.
+      }
 
       list ($error, $tMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, array('ALL'), TRUE);
       if ($error != 0) {
@@ -301,7 +309,6 @@ else
 
    print "<b>Make sure you delete this setup.php file!</b><br />\n";
    print "Also check the config.inc.php file for any settings that you might need to change!<br />\n";
-   print "Click here to go to the <a href=\"admin\">admin section</a> (make sure that your .htaccess is setup properly)\n";
 }
 ?>
 </div>
