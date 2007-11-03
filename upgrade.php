@@ -333,6 +333,13 @@ diff:
     );
 }
 
+function upgrade_90() {
+    # translatable logging
+    # old format: "create alias"
+    # new format: "create_alias"
+    $result = db_query_parsed("UPDATE " . table_by_key ('log') . " SET action = REPLACE(action,' ','_')", TRUE);
+}
+
 function upgrade_169_mysql() { # MySQL only
     # allow quota > 2 GB
 
