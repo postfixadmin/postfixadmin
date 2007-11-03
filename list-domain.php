@@ -30,23 +30,24 @@ require_once('common.php');
 authentication_require_role('admin');
 
 if (authentication_has_role('global-admin')) {
-	$list_admins = list_admins ();
-	$is_superadmin = 1;
+   $list_admins = list_admins ();
+   $is_superadmin = 1;
+   $fUsername = safepost('fUsername', safeget('username')); # prefer POST over GET variable
+   if ($fUsername != "") $admin_properties = get_admin_properties($fUsername);
 } else {
-	$list_admins = array(authentication_get_username());
-	$is_superadmin = 0;
+   $list_admins = array(authentication_get_username());
+   $is_superadmin = 0;
+   $fUsername = "";
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST" && $is_superadmin && isset ($_POST['fUsername'])) {
-  $fUsername = escape_string ($_POST['fUsername']);
-  $list_domains = list_domains_for_admin ($fUsername);
-} elseif ($_SERVER['REQUEST_METHOD'] == "GET" && $is_superadmin && isset ($_GET['username'])) {
-  $fUsername = escape_string ($_GET['username']);
+if (isset($admin_properties) && $admin_properties['domain_count'] == 'ALL') { # list all domains for superadmins
+   $list_domains = list_domains ();
+} elseif (!empty($fUsername)) {
   $list_domains = list_domains_for_admin ($fUsername);
 } elseif ($is_superadmin) {
    $list_domains = list_domains ();
 } else {
-	$list_domains = list_domains_for_admin(authentication_get_username());
+   $list_domains = list_domains_for_admin(authentication_get_username());
 }
 
    if (!empty ($list_domains))
@@ -62,9 +63,11 @@ include ("templates/header.tpl");
 include ("templates/menu.tpl");
 
 if ($is_superadmin) {
-	include ("templates/admin_list-domain.tpl");
+   include ("templates/admin_list-domain.tpl");
 } else {
-	include ("templates/overview-get.tpl");
+   include ("templates/overview-get.tpl");
 }
 include ("templates/footer.tpl");
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
