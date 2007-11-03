@@ -1526,11 +1526,13 @@ function db_delete ($table,$where,$delete)
 }
 
 
-//
-// db_insert
-// Action: Inserts a row from a specified table
-// Call: db_insert (string table, array values)
-//
+/**
+ * db_insert
+ * Action: Inserts a row from a specified table
+ * Call: db_insert (string table, array values)
+ * @param String $table - table name
+ * @param array - key/value map of data to insert into the table.
+ */
 function db_insert ($table, $values)
 {
    $sql_values = "(" . implode(",",escape_string(array_keys($values))).") VALUES ('".implode("','",escape_string($values))."')";
@@ -1549,22 +1551,19 @@ function db_insert ($table, $values)
 
 
 
-//
-// db_log
-// Action: Logs actions from admin
-// Call: db_log (string username, string domain, string action, string data)
-/*
-
-Possible actions are:
-'create_alias'
-'delete_alias'
-'delete_mailbox'
-'edit_alias'
-'edit_alias_state'
-'edit_mailbox'
-'edit_mailbox_state'
-'edit_password'
-
+/**
+ * db_log
+ * Action: Logs actions from admin
+ * Call: db_log (string username, string domain, string action, string data)
+ * Possible actions are:
+ * 'create_alias'
+ * 'delete_alias'
+ * 'delete_mailbox'
+ * 'edit_alias'
+ * 'edit_alias_state'
+ * 'edit_mailbox'
+ * 'edit_mailbox_state'
+ * 'edit_password'
  */
 function db_log ($username,$domain,$action,$data)
 {
