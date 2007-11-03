@@ -126,7 +126,7 @@ ON
     domain,
     domain_admins,
     log,
-    mailbox,
+    mailbox
 TO  postfixadmin;
 
 GRANT SELECT ON alias,domain,mailbox TO postfix;
