@@ -96,7 +96,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if($fPassword != $user_details['password']){
       if($fPassword == $fPassword2) {
-         $fPassword = pacrypt($fPassword);
+         if ($fPassword != "") {
+            $formvars['password'] = pacrypt($fPassword);
+         }
       }
       else {
          flash_error($PALANG['pEdit_mailbox_password_text_error']);
@@ -137,8 +139,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $fActive = 0;
       }
 
-      $result = db_query ("UPDATE $table_mailbox SET name='$fName',password='$fPassword',quota=$quota,modified=NOW(),active=$sqlActive WHERE username='$fUsername' AND domain='$fDomain'");
-      if ($result['rows'] != 1) {
+      $formvars['name'] = $fName;
+      $formvars['quota'] =$quota;
+      $formvars['active']=$sqlActive;
+
+      $result = db_update ('mailbox', "username='$fUsername' AND domain='$fDomain'", $formvars, array('modified'));
+
+      if ($result != 1) {
          $tMessage = $PALANG['pEdit_mailbox_result_error'];
       }
       else {
