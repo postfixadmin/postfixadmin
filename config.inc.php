@@ -57,6 +57,7 @@ $CONF['database_prefix'] = '';
 $CONF['database_tables'] = array (
     'admin' => 'admin',
     'alias' => 'alias',
+    'config' => 'config',
     'domain' => 'domain',
     'domain_admins' => 'domain_admins',
     'log' => 'log',
@@ -313,11 +314,15 @@ $CONF['show_custom_colors']=array("lightgreen","lightblue");
 // that future updates work without problems, you can use a separate config 
 // file (config.local.php) instead of editing this file and override some
 // settings there.
-if (file_exists (realpath ("./config.local.php"))) {
+if (file_exists (realpath ("./config.local.php"))) { # for /
    include('config.local.php');
+} elseif (file_exists (realpath ("../config.local.php"))) { # for /users/
+   include('../config.local.php');
 };
+
 
 //
 // END OF CONFIG FILE
 //
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
