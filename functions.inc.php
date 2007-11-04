@@ -1537,6 +1537,8 @@ function db_delete ($table,$where,$delete)
  */
 function db_insert ($table, $values, $timestamp = array())
 {
+   $table = table_by_key ($table);
+
    foreach(array_keys($values) as $key) {
       $values[$key] = "'" . escape_string($values[$key]) . "'";
    }
@@ -1547,8 +1549,6 @@ function db_insert ($table, $values, $timestamp = array())
  
    $sql_values = "(" . implode(",",escape_string(array_keys($values))).") VALUES (".implode(",",$values).")";
 
-   $table = table_by_key ($table);
-echo "*** $sql_values ***"; exit;
    $result = db_query ("INSERT INTO $table $sql_values");
    return $result['rows'];
 }
