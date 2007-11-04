@@ -89,23 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 
 
-/*
-
-   */
-    if ($CONF['vacation_control_admin'] == 'YES')
+    if ($CONF['vacation_control_admin'] == 'YES' && $CONF['vacation'] == 'YES')
     {
         $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.username LIKE '%$fSearch%' OR $table_mailbox.name LIKE '%$fSearch%' ORDER BY $table_mailbox.username");
-        # TODO: special query for pgsql needed?
+        echo $query;
     }
     else
     {
         $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
-        /* TODO: special query for pgsql really needed?
-		if ('pgsql'==$CONF['database_type'])
-        {
-            $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
-        } 
-		*/
     }
 
     $result = db_query ($query);
@@ -117,15 +108,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             {
                 if ('pgsql'==$CONF['database_type'])
                 {
-                    $row['created']=gmstrftime('%c %Z',$row['created']);
-                    $row['modified']=gmstrftime('%c %Z',$row['modified']);
-                    # TODO: code from admin/search.php
-                    # $row['created']=gmstrftime('%c %Z',$row['uts_created']);
-                    # $row['modified']=gmstrftime('%c %Z',$row['uts_modified']);
+                    $row['created']=gmstrftime('%c %Z',strtotime($row['created']));
+                    $row['modified']=gmstrftime('%c %Z',strtotime($row['modified']));
                     $row['active']=('t'==$row['active']) ? 1 : 0;
-                    # TODO: code from admin/search.php
-                    # unset($row['uts_created']);
-                    # unset($row['uts_modified']);
 				}         	
                 $tMailbox[] = $row;
             }
