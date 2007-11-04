@@ -675,7 +675,7 @@ function divide_quota ($quota)
 
 //
 // check_owner
-// Action: Checks if the admin is the owner of the domain.
+// Action: Checks if the admin is the owner of the domain (or global-admin)
 // Call: check_owner (string admin, string domain)
 //
 function check_owner ($username, $domain)
@@ -1532,21 +1532,54 @@ function db_delete ($table,$where,$delete)
  * Call: db_insert (string table, array values)
  * @param String $table - table name
  * @param array - key/value map of data to insert into the table.
+ * @param array (optional) - array of fields to set to now()
+ * @return int - number of inserted rows
  */
-function db_insert ($table, $values)
+function db_insert ($table, $values, $timestamp = array())
 {
-   $sql_values = "(" . implode(",",escape_string(array_keys($values))).") VALUES ('".implode("','",escape_string($values))."')";
+   foreach(array_keys($values) as $key) {
+      $values[$key] = "'" . escape_string($values[$key]) . "'";
+   }
+
+   foreach($timestamp as $key) {
+      $values[$key] = "now()";
+   }
+ 
+   $sql_values = "(" . implode(",",escape_string(array_keys($values))).") VALUES (".implode(",",$values).")";
+
+   $table = table_by_key ($table);
+echo "*** $sql_values ***"; exit;
+   $result = db_query ("INSERT INTO $table $sql_values");
+   return $result['rows'];
+}
+
+
+/**
+ * db_update
+ * Action: Updates a specified table
+ * Call: db_update (string table, array values, string where)
+ * @param String $table - table name
+ * @param String - WHERE condition
+ * @param array - key/value map of data to insert into the table.
+ * @param array (optional) - array of fields to set to now()
+ * @return int - number of updated rows
+ */
+function db_update ($table, $where, $values, $timestamp = array())
+{
    $table = table_by_key ($table);
 
-   $result = db_query ("INSERT INTO $table $sql_values");
-   if ($result['rows'] >= 1)
-   {
-      return $result['rows'];
+   foreach(array_keys($values) as $key) {
+      $sql_values[$key] = escape_string($key) . "='" . escape_string($values[$key]) . "'";
    }
-   else
-   {
-      return true;
+
+   foreach($timestamp as $key) {
+      $sql_values[$key] = escape_string($key) . "=now()";
    }
+
+   $sql="UPDATE $table SET ".implode(",",$sql_values)." WHERE $where";
+
+   $result = db_query ($sql);
+   return $result['rows'];
 }
 
 
