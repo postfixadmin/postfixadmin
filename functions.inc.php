@@ -900,7 +900,7 @@ function get_admin_properties ($username)
 // Action: Encode a string according to RFC 1522 for use in headers if it contains 8-bit characters.
 // Call: encode_header (string header, string charset)
 //
-function encode_header ($string, $default_charset)
+function encode_header ($string, $default_charset = "utf-8")
 {
    if (strtolower ($default_charset) == 'iso-8859-1')
    {
@@ -1514,7 +1514,7 @@ function db_assoc ($result)
 //
 function db_delete ($table,$where,$delete)
 {
-   $result = db_query ("DELETE FROM $table WHERE $where='$delete'");
+   $result = db_query ("DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "'");
    if ($result['rows'] >= 1)
    {
       return $result['rows'];

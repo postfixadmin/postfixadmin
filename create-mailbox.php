@@ -210,7 +210,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         Lines starting with /* were inserted to keep this section in commented mode.
 
 
-      $result = db_query ("INSERT INTO $table_mailbox (username,password,name,maildir,quota,domain,created,modified,active) VALUES ('$fUsername','$password','$fName','$maildir',$quota,'$fDomain',NOW(),NOW(),'$sqlActive')");
       if ($result['rows'] != 1)
       {
          $tDomain = $fDomain;
@@ -311,18 +310,11 @@ TODO: this is the end of /create-mailbox.php code segment
          $fHeaders = "To: " . $fTo . "\n";
          $fHeaders .= "From: " . $fFrom . "\n";
 
-         if (!empty ($PALANG['charset']))
-         {
-            $fHeaders .= "Subject: " . encode_header ($PALANG['pSendmail_subject_text'], $PALANG['charset']) . "\n";
-            $fHeaders .= "MIME-Version: 1.0\n";
-            $fHeaders .= "Content-Type: text/plain; charset=" . $PALANG['charset'] . "\n";
-            $fHeaders .= "Content-Transfer-Encoding: 8bit\n";
-         }
-         else
-         {
-            $fHeaders .= "Subject: " . $PALANG['pSendmail_subject_text'] . "\n\n";
-         }
-
+         $fHeaders .= "Subject: " . encode_header ($PALANG['pSendmail_subject_text']) . "\n";
+         $fHeaders .= "MIME-Version: 1.0\n";
+         $fHeaders .= "Content-Type: text/plain; charset=utf-8\n";
+         $fHeaders .= "Content-Transfer-Encoding: 8bit\n";
+         
          $fHeaders .= $CONF['welcome_text'];
 
          if (!smtp_mail ($fTo, $fFrom, $fHeaders))
