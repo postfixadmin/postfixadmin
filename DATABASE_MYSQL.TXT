@@ -126,8 +126,6 @@ CREATE TABLE `mailbox` (
 #
 # Vacation stuff ...
 #
-DROP TABLE IF EXISTS vacation;
-DROP TABLE IF EXISTS vacation_notification;
 CREATE TABLE vacation ( 
     email varchar(255) NOT NULL default '', 
     subject varchar(255) NOT NULL default '', 
