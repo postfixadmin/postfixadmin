@@ -64,9 +64,6 @@ if (count($list_domains) == 0) {
 
 if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDomain)) $fDomain = $list_domains[0];
 
-
-if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDomain)) $fDomain = $list_domains[1]; # TODO: should never happen?!? ($fDomain should already be filled by the line above)
-
 if (!check_owner(authentication_get_username(), $fDomain)) {
 #   die($PALANG['invalid_parameter']);
    header("Location: list-domain.php"); # domain not owned by this admin
