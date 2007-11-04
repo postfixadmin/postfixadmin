@@ -10,6 +10,8 @@
 </ul>
 </div>
 
+<br clear='all' /><br>
+
 <?php 
 if (file_exists (realpath ("../motd-users.txt"))) 
 {
