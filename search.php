@@ -92,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     if ($CONF['vacation_control_admin'] == 'YES' && $CONF['vacation'] == 'YES')
     {
         $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.username LIKE '%$fSearch%' OR $table_mailbox.name LIKE '%$fSearch%' ORDER BY $table_mailbox.username");
-        echo $query;
     }
     else
     {
