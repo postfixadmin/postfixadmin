@@ -236,7 +236,7 @@ if (sizeof ($tMailbox) > 0)
          $active = ($tMailbox[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
          print "      <td><a href=\"edit-active.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $active . "</a></td>\n";
 
-         if ($CONF['vacation_control_admin'] == 'YES')
+         if ($CONF['vacation_control_admin'] == 'YES' && $CONF['vacation'] == 'YES')
          {
             $v_active_int = $tMailbox[$i]['v_active'];
             if($v_active_int !== -1) {
