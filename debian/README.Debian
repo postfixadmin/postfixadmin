@@ -1,0 +1,30 @@
+PostfixAdmin for Debian
+=======================
+
+After installing the package, you should find that :
+
+http://youserver/postfixadmin/setup.php works. This should 
+guide you through the appropriate process.
+
+You will need to create a database (either MySQL or PostgreSQL) 
+and know the username and password for it. The Database does not need
+to be on the same server as the Postfixadmin install.
+
+
+
+Recommended and Suggested Packages
+==================================
+
+ - Postfix
+ - MySQL or PostgreSQL
+ - Courier or Dovecot
+ 
+Where to get help
+=================
+
+The first stop would be the Postfixadmin Website, Forum or IRC channel. 
+
+See :
+ - http://postfixadmin.sf.net
+ - #postfixadmin on irc.freenode.net
+

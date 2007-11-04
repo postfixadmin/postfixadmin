@@ -1,0 +1,57 @@
+#!/usr/bin/make -f
+# debian/rules makefile for squirrelmail
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	dh_install
+	cp *.php debian/postfixadmin/usr/share/postfixadmin
+	mv debian/postfixadmin/usr/share/postfixadmin/config.inc.php debian/postfixadmin/etc/postfixadmin/config.inc.php
+	ln -s /etc/postfixadmin/config.inc.php debian/postfixadmin/usr/share/postfixadmin/config.inc.php
+	cp -a admin debian/postfixadmin/usr/share/postfixadmin
+	cp -a images debian/postfixadmin/usr/share/postfixadmin
+	cp -a languages debian/postfixadmin/usr/share/postfixadmin
+	cp -a templates debian/postfixadmin/usr/share/postfixadmin
+	cp -a users debian/postfixadmin/usr/share/postfixadmin
+	mkdir -p debian/postfixadmin/etc/apache2/conf.d
+	cp debian/apache-conf debian/postfixadmin/etc/apache2/conf.d/postfixadmin
+	find debian/postfixadmin -name .svn | xargs -r rm -r
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installdebconf	
+	dh_installdocs -X.svn
+	dh_installexamples
+	dh_installman
+	dh_installcron
+	dh_link
+	dh_compress
+	dh_fixperms -X/var
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+# Build architecture-dependent files here.
+binary-arch:
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

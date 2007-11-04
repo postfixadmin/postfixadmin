@@ -1,0 +1,6 @@
+# BEGIN FOR POSTFIXADMIN
+
+Alias /postfixadmin /usr/share/postfixadmin
+
+
+# END FOR POSTFIXADMIN

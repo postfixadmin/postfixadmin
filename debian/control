@@ -1,0 +1,25 @@
+Source: postfixadmin
+Section: web
+Priority: optional
+Maintainer: David Goodwin <david@codepoets.co.uk>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: postfixadmin
+Architecture: all
+Depends: apache2 | httpd, libapache2-mod-php4 | libapache-mod-php4 | php4 | php4-cgi | libapache2-mod-php5 | libapache-mod-php5 | php5-cgi | php5, ${misc:Depends}
+Recommends: squirrelmail-locales, ispell | aspell | aspell-bin, perl, postfix, postgresql-server, mysql-server
+Suggests: 
+Description: Virtual mail hosting interface for Postfix
+ Postfixadmin is a web interface to managing virtual users and domains
+ for a Postfix mailserver. The web interface is written in PHP.
+ Postfixadmin allows administrators to delegate handling a domain to domain 
+ administrators. 
+ Postfixadmin allows users to login and change their own settings (e.g. forward,
+ vacation, password etc).
+ Postfixadmin also includes support for virtual vacation support - 
+ this requires Perl and various CPAN modules to be installed. 
+ See vacation.pl for further details.
+ . 
+ Homepage: http://postfixadmin.sf.net/
+
