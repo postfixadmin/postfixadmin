@@ -110,13 +110,14 @@ if ($result['rows'] > 0)
    {
       if ('pgsql'==$CONF['database_type'])
       {
+         //var_dump($row);
          $row['created']=gmstrftime('%c %Z',strtotime($row['created']));
          $row['modified']=gmstrftime('%c %Z',strtotime($row['modified']));
          $row['active']=('t'==$row['active']) ? 1 : 0;
-         $row['v_active'] = 1;  // default to off... TODO: 1 is NOT off
-         if(isset($row['v_active'])) { /* key may not be present in results due to query from above */
-            $row['v_active']=('t'==$row['v_active']) ? 1 : 0; 
+         if($row['v_active'] == NULL) { 
+            $row['v_active'] = 'f';
          }
+         $row['v_active']=('t'==$row['v_active']) ? 1 : 0; 
       }
       $tMailbox[] = $row;
    }
