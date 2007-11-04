@@ -79,7 +79,7 @@ done
 
 for file in $filelist ; do
 	test "$file" = "en.lang" && continue
-	LANG=C diff -U1 $file.strings en.lang.strings > $file.diff && echo "*** $file: no difference ***"
+	LANG=C diff -U2 $file.strings en.lang.strings > $file.diff && echo "*** $file: no difference ***"
 
 	test $notext = 1 && cat $file.diff && continue
 
@@ -118,7 +118,7 @@ for file in $filelist ; do
 	done > $file.patch
 
 	test $patch = 0 && cat $file.patch
-	test $patch = 1 && patch $file < $file.patch
+	test $patch = 1 && patch --fuzz=1 $file < $file.patch
 done
 ###############################################################################
 

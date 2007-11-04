@@ -13,6 +13,7 @@ $PALANG['exit'] = 'Выйти';
 $PALANG['confirm'] = 'Вы уверены, что хотите удалить это?\n';
 $PALANG['confirm_domain'] = 'Вы действительно хотите удалить все настройки для домена? Это действие нельзя будет отменить!\n';
 $PALANG['check_update'] = 'Проверить обновление';
+$PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Вошли как %s';
 
@@ -177,7 +178,7 @@ $PALANG['pViewlog_action_edit_mailbox_state'] = 'изменение активн
 $PALANG['pViewlog_action_create_alias'] = 'создание алиаса';
 $PALANG['pViewlog_action_delete_alias'] = 'удаление алиаса';
 $PALANG['pViewlog_action_edit_alias'] = 'редактирование алиаса';
-$PALANG['pViewlog_action_edit_alias_state'] = 'изменение активности алиаса';
+$PALANG['pViewlog_action_edit_alias_active'] = 'изменение активности алиаса';
 $PALANG['pViewlog_action_edit_password'] = 'изменение пароля';
 
 $PALANG['pViewlog_button'] = 'Выбрать';
@@ -323,13 +324,6 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 EOM;
 $PALANG['pUsersVacation_button_away'] = 'Ухожу';
 $PALANG['pUsersVacation_button_back'] = 'Возвращаюсь';
-$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
-$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
-$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
-$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
-$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
-$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
-$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Невозможно изменить настройки автоответчика!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Ваш автоответчик был убран!';
 
@@ -365,7 +359,13 @@ $PALANG['pPasswordTooShort'] = "Пароль слишком короткий - �
 
 $PALANG['pFetchmail_welcome'] = 'Собирать почту для:';
 $PALANG['pFetchmail_new_entry'] = 'Новая запись';
-
+$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
+$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
+$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
+$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
+$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
+$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
+$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

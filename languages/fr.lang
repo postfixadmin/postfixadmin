@@ -14,6 +14,7 @@ $PALANG['exit'] = 'Quitter';
 $PALANG['confirm'] = 'Etes vous sur de vouloir supprimer cet enregistrement\n';
 $PALANG['confirm_domain'] = 'Etes-vous sur de vouloir effacer tous les enregistrements dans ce domaine ? Cette opération ne pourra pas être annulée.\n';
 $PALANG['check_update'] = 'Vérifiez les mises à jour';
+$PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['pFooter_logged_as'] = 'Bonjour %s';
 
 $PALANG['pLogin_welcome'] = 'Entrez votre adresse courriel pour administrer votre domaine.';
@@ -172,7 +173,7 @@ $PALANG['pViewlog_action_edit_mailbox_state'] = 'activer un compte courriel';
 $PALANG['pViewlog_action_create_alias'] = 'créer un alias';
 $PALANG['pViewlog_action_delete_alias'] = 'supprimer un alias';
 $PALANG['pViewlog_action_edit_alias'] = 'éditer un alias';
-$PALANG['pViewlog_action_edit_alias_state'] = 'activer un alias';
+$PALANG['pViewlog_action_edit_alias_active'] = 'activer un alias';
 $PALANG['pViewlog_action_edit_password'] = 'changer le mot de passe';
 
 $PALANG['pViewlog_button'] = 'Aller';
@@ -322,13 +323,6 @@ $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Impossible de 
 $PALANG['pUsersVacation_result_success'] = 'Votre réponse automatique a été enlevée!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'Création de compte';
-$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
-$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
-$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
-$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
-$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
-$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
-$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'Création d\'alias';
 $PALANG['pDelete_dbLog_deletealias'] = 'Suppression d\'alias';
 $PALANG['pDelete_dbLog_deletemailbox'] = 'Suppression de compte';
@@ -355,6 +349,13 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['pPasswordTooShort'] = "Mot de passe trop court. - %s caractères minimum";
 $PALANG['pFetchmail_welcome'] = 'Récupérer le courrier pour :';
 $PALANG['pFetchmail_new_entry'] = 'Nouvelle entrée';
+$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
+$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
+$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
+$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
+$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
+$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
+$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

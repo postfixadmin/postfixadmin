@@ -12,6 +12,7 @@ $PALANG['exit'] = 'Verlassen';
 $PALANG['confirm'] = 'Sind Sie sicher dass Sie das l&ouml;schen wollen?\n';
 $PALANG['confirm_domain'] = 'Wollen Sie wirklich alle Eintr&auml;ge dieser Domain l&ouml;schen? Dies kann NICHT r&uuml;ckg&auml;ngig gemacht werden!\n';
 $PALANG['check_update'] = 'Auf Updates &uuml;berpr&uuml;fen';
+$PALANG['invalid_parameter'] = 'Ung&uuml;ltiger Parameter!';
 
 $PALANG['pFooter_logged_as'] = 'Angemeldet als %s';
 
@@ -175,7 +176,7 @@ $PALANG['pViewlog_action_edit_mailbox_state'] = 'Mailbox Aktiv bearbeiten';
 $PALANG['pViewlog_action_create_alias'] = 'Alias erstellen';
 $PALANG['pViewlog_action_delete_alias'] = 'Alias l&ouml;schen';
 $PALANG['pViewlog_action_edit_alias'] = 'Alias bearbeiten';
-$PALANG['pViewlog_action_edit_alias_state'] = 'Alias Aktiv bearbeiten';
+$PALANG['pViewlog_action_edit_alias_active'] = 'Alias Aktiv bearbeiten';
 $PALANG['pViewlog_action_edit_password'] = 'Passwort &auml;ndern';
 
 $PALANG['pViewlog_button'] = 'Los';
@@ -347,7 +348,7 @@ $PALANG['pBroadcast_message'] = 'Nachricht';
 $PALANG['pBroadcast_send'] = 'Nachricht senden';
 $PALANG['pBroadcast_success'] = 'Ihre Rundmail wurde gesendet.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Rundmail';
-$PALANG['pBroadcast_error_empty'] = 'Die Felder Name, Betreff und Nachricht dürfen nicht leer sein!';
+$PALANG['pBroadcast_error_empty'] = 'Die Felder Name, Betreff und Nachricht d&uuml;rfen nicht leer sein!';
 
 $PALANG['pStatus_undeliverable'] = 'm&ouml;glicherweise UNZUSTELLBAR ';
 $PALANG['pStatus_custom'] = 'Zustellung an ';

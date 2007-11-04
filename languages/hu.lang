@@ -11,7 +11,8 @@ $PALANG['del'] = 'töröl';
 $PALANG['exit'] = 'Kilép';
 $PALANG['confirm'] = 'Biztos vagy benne hogy törlöd ezt?\n';
 $PALANG['confirm_domain'] = 'Biztos hogy törölni akarod az összes bejegyzést ez alól a domain alól? Nem lehet visszahozni késõbb!\n';
-$PALANG['check_update'] = 'Check for update';
+$PALANG['check_update'] = 'Check for update'; # XXX
+$PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 
 $PALANG['pFooter_logged_as'] = '%s-ként bejelentkezve';
 
@@ -176,7 +177,7 @@ $PALANG['pViewlog_action_edit_mailbox_state'] = 'postafiók aktivitás módosít
 $PALANG['pViewlog_action_create_alias'] = 'alias létrehozása';
 $PALANG['pViewlog_action_delete_alias'] = 'alias törlése';
 $PALANG['pViewlog_action_edit_alias'] = 'alias módosítása';
-$PALANG['pViewlog_action_edit_alias_state'] = 'alias aktivitás módosítása';
+$PALANG['pViewlog_action_edit_alias_active'] = 'alias aktivitás módosítása';
 $PALANG['pViewlog_action_edit_password'] = 'jelszó módosítása';
 
 $PALANG['pViewlog_button'] = 'Gyerünk';
@@ -322,13 +323,6 @@ Ettõl - Eddig.
 
 Ez egy automatikus üzenet.
 EOM;
-$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
-$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
-$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
-$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
-$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
-$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
-$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
 $PALANG['pUsersVacation_button_away'] = 'Automatikus válaszadás bekapcsolása';
 $PALANG['pUsersVacation_button_back'] = 'Automatikus válaszadás kikapcsolása';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nem sikerült megváltoztatni az automatikus válasz konfigurációdat!</span>';
@@ -366,7 +360,13 @@ $PALANG['pPasswordTooShort'] = "A Jelszó túl rövid - legalább %s karakter sz
 
 $PALANG['pFetchmail_welcome'] = 'Mail lehozása:';
 $PALANG['pFetchmail_new_entry'] = 'Új bejegyzés';
-
+$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
+$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
+$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
+$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
+$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
+$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
+$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

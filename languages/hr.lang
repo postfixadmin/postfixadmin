@@ -11,6 +11,7 @@ $PALANG['exit'] = 'Exit'; # XXX
 $PALANG['confirm'] = 'Da li ste sigurni da elite ovo pobrisati?\n';
 $PALANG['confirm_domain'] = 'Da li ste sigurni da elite pobrisati sve zapise za tu domenu? Zapisi ce biti zauvijek pobrisani!\n';
 $PALANG['check_update'] = 'Provjeri da li postoji novija inačica';
+$PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Administratori prijavite se ovdje.';
@@ -170,7 +171,7 @@ $PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active'; # XXX
 $PALANG['pViewlog_action_create_alias'] = 'create alias'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'delete alias'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = 'edit alias'; # XXX
-$PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
+$PALANG['pViewlog_action_edit_alias_active'] = 'edit alias active'; # XXX
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = 'Idi';
@@ -319,13 +320,6 @@ $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nemoguće prom
 $PALANG['pUsersVacation_result_success'] = 'Obvijest o odsutnosti je uklonjena!';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'stvori potanski ormarić';
-$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
-$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
-$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
-$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
-$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
-$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
-$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'stvori alias';
 $PALANG['pDelete_dbLog_deletealias'] = 'pobrii alias';
 $PALANG['pDelete_dbLog_deletemailbox'] = 'pobrii potanski ormarić';
@@ -351,6 +345,13 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP '; # XXX
 $PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters"; # XXX
 $PALANG['pFetchmail_welcome'] = 'Fetch mail for:'; # XXX
 $PALANG['pFetchmail_new_entry'] = 'New entry'; # XXX
+$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
+$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
+$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
+$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
+$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
+$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
+$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
 
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
