@@ -38,7 +38,7 @@
 require_once('common.php');
 
 if($CONF['vacation'] == 'NO') { 
-   header("Location: " . $CONF['postfix_admin_url'] . "/main.php"); # TODO
+   header("Location: " . $CONF['postfix_admin_url'] . "/list-virtual.php");
    exit(0);
 }
 
@@ -60,7 +60,7 @@ $vacation_domain = $CONF['vacation_domain'];
 $vacation_goto = preg_replace('/@/', '#', $fUsername);
 $vacation_goto = $vacation_goto . '@' . $vacation_domain;
 
-$fCanceltarget = $CONF['postfix_admin_url'] . '/main.php'; # TODO
+$fCanceltarget = $CONF['postfix_admin_url'] . "/list-virtual.php?domain=$fDomain";
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
