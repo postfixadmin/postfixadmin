@@ -76,8 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
    $tUseremail = $fUsername;
    $tDomain = $fDomain;
-   if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
-   if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
+   if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
+   if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
 
 }
 
@@ -103,8 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 
    $tUseremail = $fUsername;
-   if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
-   if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
+   if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
+   if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
 
    //if change, remove old one, then perhaps set new one
    if (!empty ($fBack) || !empty ($fChange))
