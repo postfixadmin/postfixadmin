@@ -93,7 +93,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
             '{UNSIGNED}'        => 'unsigned'  , 
             '{FULLTEXT}'        => 'FULLTEXT', 
             '{BOOLEAN}'         => 'tinyint(1) NOT NULL',
-            '{UTF_8}'           => '/*!40100 CHARACTER SET utf8 COLLATE utf8_unicode_ci */',
+            '{UTF-8}'           => '/*!40100 CHARACTER SET utf8 COLLATE utf8_unicode_ci */',
             '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 COLLATE latin1_swedish_ci */',
             '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
             '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
@@ -107,7 +107,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
             '{UNSIGNED}'        => '', 
             '{FULLTEXT}'        => '', 
             '{BOOLEAN}'         => 'BOOLEAN NOT NULL', 
-            '{UTF_8}'           => '', # TODO: UTF_8 is simply ignored.
+            '{UTF-8}'           => '', # TODO: UTF-8 is simply ignored.
             '{LATIN1}'          => '', # TODO: same for latin1
             '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS', # TODO: does this work with PgSQL?
             '{RENAME_COLUMN}'   => 'CHANGE COLUMN', # TODO: probably wrong
