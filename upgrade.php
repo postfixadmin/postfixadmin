@@ -294,31 +294,26 @@ function upgrade_79_mysql() { # MySQL only
 }
 
 function upgrade_81_mysql() { # MySQL only
-/* TODO
+    $table_vacation = table_by_key ('vacation');
+    $table_vacation_notification = table_by_key('vacation_notification');
 
-table vacation -
-- all varchar + text fields changed to utf8
-- active was tinyint (1), now (4)
-- ENGINE changed
-- DEFAULT CHARSET changed
-- COLLATE changed
+    $all_sql = split("\n", trim("
+        ALTER TABLE `$table_vacation` CHANGE `email`    `email`   VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_vacation` CHANGE `subject`  `subject` VARCHAR( 255 ) {UTF-8}  NOT NULL
+        ALTER TABLE `$table_vacation` CHANGE `body`     `body`    TEXT           {UTF-8}  NOT NULL
+        ALTER TABLE `$table_vacation` CHANGE `cache`    `cache`   TEXT           {LATIN1} NOT NULL
+        ALTER TABLE `$table_vacation` CHANGE `domain`   `domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_vacation` CHANGE `active`   `active`  TINYINT( 1 )            NOT NULL DEFAULT '1'
+        ALTER TABLE `$table_vacation` DEFAULT                                    {LATIN1}
+        ALTER TABLE `$table_vacation` ENGINE = INNODB
+    "));
 
-diff:
-   -  `body` text NOT NULL default '',
-   -  `cache` text NOT NULL default '',
-   +    body text NOT NULL,
-   +    cache text NOT NULL,
-   -  `active` tinyint(1) NOT NULL default '1',
-   +    active tinyint(4) NOT NULL default '1',  -> boolean are usually tinyint(1)
-   -) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Vacation';
-   +) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation' ;
-
- 
- 
- */
+    foreach ($all_sql as $sql) {
+        $result = db_query_parsed($sql, TRUE);
+    }
 
     db_query_parsed(
-        "   CREATE TABLE {IF_NOT_EXISTS} vacation_notification (
+        "   CREATE TABLE {IF_NOT_EXISTS} $table_vacation_notification (
                 on_vacation varchar(255) NOT NULL,
                 notified varchar(255) NOT NULL,
                 notified_at timestamp NOT NULL default now(),
@@ -358,11 +353,12 @@ TODO
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 MySQL:
-* vacation: DROP INDEX email
+* vacation: 
+  - DROP INDEX email
+  - 'cache' field might be obsolete with vacation_notification - needs to be checked!
 * vacation_notification:
   - DEFAULT CHARSET and COLLATE should be changed
   - change all varchar fields to latin1 (email addresses don't contain utf8 characters)
-* remove all DROP TABLE statements from DATABASE_*
 
 */
 
