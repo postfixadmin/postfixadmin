@@ -2,5 +2,5 @@ postfixadmin (2.2.0-1rc1) unstable; urgency=low
 
   * Initial Release (via dpkg)
 
- -- David Goodwin <david@codepoets.co.uk>  Sun, 04 Nov 2007 15:36:00 +0000
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Sun, 04 Nov 2007 15:36:00 +0000
 
