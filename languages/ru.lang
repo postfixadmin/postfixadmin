@@ -13,7 +13,7 @@ $PALANG['exit'] = 'Выйти';
 $PALANG['confirm'] = 'Вы уверены, что хотите удалить это?\n';
 $PALANG['confirm_domain'] = 'Вы действительно хотите удалить все настройки для домена? Это действие нельзя будет отменить!\n';
 $PALANG['check_update'] = 'Проверить обновление';
-$PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
+$PALANG['invalid_parameter'] = 'Некорректный параметр!';
 
 $PALANG['pFooter_logged_as'] = 'Вошли как %s';
 
@@ -77,7 +77,7 @@ $PALANG['pOverview_get_quota'] = 'Квота ящика (МБ)';
 $PALANG['pOverview_get_modified'] = 'Последнее изменение';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Невозможно удалить запись ';
-$PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
+$PALANG['pDelete_delete_success'] = '%s удален.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Невозможно удалить ящик ';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Этот домен не принадлежит вам ';
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Невозможно удалить алиас ';
@@ -359,13 +359,13 @@ $PALANG['pPasswordTooShort'] = "Пароль слишком короткий - �
 
 $PALANG['pFetchmail_welcome'] = 'Собирать почту для:';
 $PALANG['pFetchmail_new_entry'] = 'Новая запись';
-$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
-$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
-$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
-$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
-$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
-$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
-$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
+$PALANG['pFetchmail_database_save_error'] = 'Не удалось сохранить эту запись в базе данных!';
+$PALANG['pFetchmail_database_save_success'] = 'Запись сохранена в базе данных.';
+$PALANG['pFetchmail_error_invalid_id'] = 'Не найдена запись с номером %s!';
+$PALANG['pFetchmail_invalid_mailbox'] = 'Некорректный почтовый ящик!';
+$PALANG['pFetchmail_server_missing'] = 'Пожалуйста введите имя удаленного сервера!';
+$PALANG['pFetchmail_user_missing'] = 'Пожалуйста введите имя удаленного пользователя!';
+$PALANG['pFetchmail_password_missing'] = 'Пожалуйста введите пароль удаленного пользователя!';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
