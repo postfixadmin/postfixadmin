@@ -1,4 +1,5 @@
 <?php
+# $Id$
 //
 // Language file Czech
 // by Jakub
@@ -62,6 +63,7 @@ $PALANG['pOverview_alias_goto'] = 'Pro';
 $PALANG['pOverview_alias_modified'] = 'Naposledy změněno';
 $PALANG['pOverview_alias_active'] = 'Aktivní';
 $PALANG['pOverview_alias_edit'] = 'Přesměrování';
+$PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['pOverview_mailbox_name'] = 'Jméno';
 $PALANG['pOverview_mailbox_quota'] = 'Místo (MB)';

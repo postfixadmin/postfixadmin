@@ -1,4 +1,5 @@
 <?php
+# $Id$
 //
 // Language file Russian
 // by Paul; updated by Pavel Usischev
@@ -61,6 +62,7 @@ $PALANG['pOverview_alias_goto'] = 'Кому';
 $PALANG['pOverview_alias_modified'] = 'Последнее изменение';
 $PALANG['pOverview_alias_active'] = 'Активен';
 $PALANG['pOverview_alias_edit'] = 'Алиас';
+$PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'Ящик';
 $PALANG['pOverview_mailbox_name'] = 'Имя';
 $PALANG['pOverview_mailbox_quota'] = 'Квота (МБ)';

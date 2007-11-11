@@ -1,4 +1,5 @@
 <?php
+# $Id$
 //
 // Language file Dutch
 // by Mourik
@@ -59,6 +60,7 @@ $PALANG['pOverview_alias_goto'] = 'Naar';
 $PALANG['pOverview_alias_modified'] = 'Laatst Bewerkt';
 $PALANG['pOverview_alias_active'] = 'Active'; # XXX
 $PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
+$PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-mail';
 $PALANG['pOverview_mailbox_name'] = 'Naam';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';

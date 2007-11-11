@@ -1,4 +1,5 @@
 <?php
+# $Id$
 //
 // Language file Slovenian
 // by Nejc Skoberne <nejc at skoberne dot net>
@@ -60,6 +61,7 @@ $PALANG['pOverview_alias_goto'] = 'Za';
 $PALANG['pOverview_alias_modified'] = 'Zadnjič spremenjeno';
 $PALANG['pOverview_alias_active'] = 'Active'; # XXX
 $PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
+$PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-pošta';
 $PALANG['pOverview_mailbox_name'] = 'Ime';
 $PALANG['pOverview_mailbox_quota'] = 'Kvota (MB)';

@@ -1,4 +1,5 @@
 <?php
+# $Id$
 //
 // Language file German
 // by Tobias
@@ -60,6 +61,7 @@ $PALANG['pOverview_alias_goto'] = 'An';
 $PALANG['pOverview_alias_modified'] = 'Zuletzt ver&auml;ndert';
 $PALANG['pOverview_alias_active'] = 'Aktiv';
 $PALANG['pOverview_alias_edit'] = 'Alias';
+$PALANG['and_x_more'] = '[und %s weitere...]';
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['pOverview_mailbox_name'] = 'Name';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
@@ -247,7 +249,7 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = ausschalten | 0 = 
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Standard-Aliase hinzuf&uuml;gen';
-$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Domain hinzuf&uuml;gen';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Konnte Domain nicht anlegen!</span>';

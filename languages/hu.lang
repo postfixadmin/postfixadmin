@@ -1,4 +1,5 @@
 <?php
+# $Id$
 //
 // Language file Hungarian
 // by Christian Hamar <krics at linuxforum dot hu> and Levente Farkas <lfarkas at lfarkas dot org>
@@ -60,6 +61,7 @@ $PALANG['pOverview_alias_goto'] = 'Hova';
 $PALANG['pOverview_alias_modified'] = 'Utolsó módosítás';
 $PALANG['pOverview_alias_active'] = 'Aktív';
 $PALANG['pOverview_alias_edit'] = 'Alias';
+$PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['pOverview_mailbox_name'] = 'Név';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';

@@ -1,4 +1,5 @@
 <?php
+# $Id$
 //
 // Language file Catalan
 // by Jaume
@@ -58,6 +59,7 @@ $PALANG['pOverview_alias_goto'] = 'Destí';
 $PALANG['pOverview_alias_modified'] = 'Última modificació';
 $PALANG['pOverview_alias_active'] = 'Active'; # XXX
 $PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
+$PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-mail';
 $PALANG['pOverview_mailbox_name'] = 'Nom';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';

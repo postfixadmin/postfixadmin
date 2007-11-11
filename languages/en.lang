@@ -1,4 +1,5 @@
 <?php
+# $Id$
 //
 // Language file English
 // by Mischa <mischa at high5 dot net>
@@ -61,6 +62,7 @@ $PALANG['pOverview_alias_goto'] = 'To';
 $PALANG['pOverview_alias_modified'] = 'Last Modified';
 $PALANG['pOverview_alias_active'] = 'Active';
 $PALANG['pOverview_alias_edit'] = 'Alias';
+$PALANG['and_x_more'] = '[and %s more...]';
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['pOverview_mailbox_name'] = 'Name';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';

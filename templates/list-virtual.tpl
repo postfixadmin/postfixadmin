@@ -97,7 +97,18 @@ if (sizeof ($tAlias) > 0)
 
          print "      <td>" . $tAlias[$i]['address'] . "</td>\n";
          if ($CONF['alias_goto_limit'] > 0) {
-         print "      <td>" . ereg_replace (",", "<br>", preg_replace('/^(([^,]+,){'.$CONF['alias_goto_limit'].'})[^,]+,.*/','$1[and '. (substr_count ($tAlias[$i]['goto'], ',') - $CONF['alias_goto_limit'] + 1) .' more...]',$tAlias[$i]['goto'])) . "</td>\n";
+            print "      <td>" . ereg_replace (
+               ",", 
+               "<br>", 
+                  preg_replace(
+                     '/^(([^,]+,){'.$CONF['alias_goto_limit'].'})[^,]+,.*/',
+                     '$1' . sprintf(
+                        $PALANG['and_x_more'], 
+                        (substr_count ($tAlias[$i]['goto'], ',') - $CONF['alias_goto_limit'] + 1) 
+                     ),
+                     $tAlias[$i]['goto']
+                  )
+               ) . "</td>\n";
          } else {
             print "      <td>" . ereg_replace (",", "<br>", $tAlias[$i]['goto']) . "</td>\n";
          }

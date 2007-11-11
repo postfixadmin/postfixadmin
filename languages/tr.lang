@@ -1,4 +1,5 @@
 <?php
+# $Id$
 //
 // Language file Türkçe
 // by Onuryalazi
@@ -59,6 +60,7 @@ $PALANG['pOverview_alias_goto'] = 'Kime';
 $PALANG['pOverview_alias_modified'] = 'Son Düzenleme';
 $PALANG['pOverview_alias_active'] = 'Active'; # XXX
 $PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
+$PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'Eposta';
 $PALANG['pOverview_mailbox_name'] = 'Ýsim';
 $PALANG['pOverview_mailbox_quota'] = 'kota (MB)';
