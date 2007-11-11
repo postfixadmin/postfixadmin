@@ -6,7 +6,7 @@
 #
 # Added subdir support and pause --- Alan Batie 2007
 # Lists directories to be deleted then pauses for 5 seconds for chance to abort
-# $Id: mbox_remover,v 1.4 2007/07/12 22:11:09 alan Exp alan $
+# $Id$
 #
 # All your maildirs or other directories could be accidentally removed.
 # Use it at own risk. No warranties!
