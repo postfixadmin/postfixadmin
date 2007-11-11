@@ -42,7 +42,7 @@ if($CONF['vacation'] == 'NO') {
     exit(0);
 }
 
-$tmp = preg_split ('/@/', $USERID_USERNAME);     
+$tmp = preg_split ('/@/', $USERID_USERNAME);
 $USERID_DOMAIN = $tmp[1];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
@@ -56,10 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
         $tBody = $row['body'];
     }
 
-    if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
-    if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
+    if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
+    if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
 
-    $template = "users_vacation.tpl";
+	$template = "users_vacation.tpl";
 
     include ("../templates/header.tpl");
     include ("../templates/users_menu.tpl");
@@ -85,8 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     if (isset ($_POST['fBack'])) $fBack = escape_string ($_POST['fBack']);
 
     //set a default, reset fields for coming back selection
-    if ($tSubject == '') { $tSubject = $PALANG['pUsersVacation_subject_text']; }
-    if ($tBody == '') { $tBody = $PALANG['pUsersVacation_body_text']; }
+    if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
+    if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
 
     // if they've set themselves away OR back, delete any record of vacation emails.
     if (!empty ($fBack) || !empty ($fAway))
@@ -184,4 +184,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     include ("../templates/users_vacation.tpl");
     include ("../templates/footer.tpl");
 }
+
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

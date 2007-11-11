@@ -6,7 +6,7 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pUsersVacation_subject'] . ":"; ?></td>
-      <td><input type="text" name="fSubject" value="<?php print $tSubject; ?>" /></td>
+      <td><input type="text" name="fSubject" value="<?php print htmlentities($tSubject, ENT_QUOTES, 'UTF-8'); ?>" /></td>
       <td>&nbsp;</td>
    </tr>
    <tr>
@@ -31,3 +31,4 @@
 </table>
 </form>
 </div>
+<?php /* vim: set ft=php expandtab softtabstop=3 tabstop=3 shiftwidth=3: */ ?>
