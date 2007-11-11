@@ -101,7 +101,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $sqlActive = db_get_boolean(False);
         }
 
-        $result = db_query ("UPDATE $table_admin SET modified=NOW(),active='$sqlActive',password='$fPassword' WHERE username='$username'");
+      $password_query = '';
+      if ($fPassword != '') { # do not change password to empty one
+         $password_query = ", password='$fPassword'";
+      }
+      $result = db_query ("UPDATE $table_admin SET modified=NOW(),active='$sqlActive' $password_query WHERE username='$username'");
 
         if ($fSadmin == "on") $fSadmin = 'ALL';
 
@@ -150,3 +154,6 @@ include ("templates/header.tpl");
 include ("templates/menu.tpl");
 include ("templates/admin_edit-admin.tpl");
 include ("templates/footer.tpl");
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
+?>
