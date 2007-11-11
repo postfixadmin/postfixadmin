@@ -325,7 +325,7 @@ while (<STDIN>) {
    elsif (/^cc:\s+(.*)\n$/i) { $cc = $1; $lastheader = \$cc; }  
    elsif (/^subject:\s+(.*)\n$/i) { $subject = $1; $lastheader = \$subject; }  
    elsif (/^message-id:\s+(.*)\n$/i) { $messageid = $1; $lastheader = \$messageid; }  
-   elsif (/^x-spam-flag:\s+yes$/i) { exit (0); }
+   elsif (/^x-spam-(flag|status):\s+yes/i) { exit (0); }  
    elsif (/^precedence:\s+(bulk|list|junk)/i) { exit (0); }  
    elsif (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { exit (0); }  
    else {$lastheader = "" ; }
