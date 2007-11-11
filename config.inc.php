@@ -158,7 +158,6 @@ $CONF['vacation_domain'] = 'autoreply.change-this-to-your.domain.tld';
 
 // Vacation Control
 // If you want users to take control of vacation set this to 'YES'.
-// TODO: not implemented
 $CONF['vacation_control'] ='YES';
 
 // Vacation Control for admins
