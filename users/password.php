@@ -35,16 +35,13 @@ $USERID_USERNAME = authentication_get_username();
 $tmp = preg_split ('/@/', $USERID_USERNAME);     
 $USERID_DOMAIN = $tmp[1];
 
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
-    include ("../templates/header.tpl");
-    include ("../templates/users_menu.tpl");
-    include ("../templates/users_password.tpl");
-    include ("../templates/footer.tpl");
-}
-
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
+    if(isset($_POST['fCancel'])) {
+        header("Location: main.php");
+        exit(0);
+    }
+
     $fPassword_current = escape_string ($_POST['fPassword_current']);
     $fPassword = escape_string ($_POST['fPassword']);
     $fPassword2 = escape_string ($_POST['fPassword2']);
@@ -82,18 +79,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $result = db_query ("UPDATE $table_mailbox SET password='$password',modified=NOW() WHERE username='$username'");
         if ($result['rows'] == 1)
         {
-            $tMessage = $PALANG['pPassword_result_success'];
+            flash_info($PALANG['pPassword_result_success']);
             db_log ($USERID_USERNAME, $USERID_DOMAIN, 'edit_password', "$USERID_USERNAME");
+            header("Location: main.php");
+            exit(0);
         }
         else
         {
             $tMessage = $PALANG['pPassword_result_error'];
         }
     }
-
-    include ("../templates/header.tpl");
-    include ("../templates/users_menu.tpl");
-    include ("../templates/users_password.tpl");
-    include ("../templates/footer.tpl");
 }
+
+include ("../templates/header.tpl");
+include ("../templates/users_menu.tpl");
+include ("../templates/users_password.tpl");
+include ("../templates/footer.tpl");
+
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

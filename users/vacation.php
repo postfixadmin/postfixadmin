@@ -58,13 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
     if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
     if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
-
-	$template = "users_vacation.tpl";
-
-    include ("../templates/header.tpl");
-    include ("../templates/users_menu.tpl");
-    include ("../templates/users_vacation.tpl");
-    include ("../templates/footer.tpl");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -174,16 +167,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
         else
         {
+            flash_info($PALANG['pVacation_result_added']);
             header ("Location: main.php");
             exit;
         }
     }
 
-    include ("../templates/header.tpl");
-    include ("../templates/users_menu.tpl");
-    include ("../templates/users_vacation.tpl");
-    include ("../templates/footer.tpl");
+    if (!empty ($fBack)) {
+        if ($tMessage == '' || $tMessage = $PALANG['pUsersVacation_result_success']) {
+            flash_info($PALANG['pVacation_result_removed']);
+            header ("Location: main.php");
+            exit;
+        }
+    }
 }
+
+include ("../templates/header.tpl");
+include ("../templates/users_menu.tpl");
+include ("../templates/users_vacation.tpl");
+include ("../templates/footer.tpl");
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

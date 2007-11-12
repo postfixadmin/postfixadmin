@@ -27,7 +27,7 @@
    <tr>
       <td colspan="3" class="hlp_center">
         <input class="button" type="submit" name="submit" value="<?php print $PALANG['pPassword_button']; ?>" />
-        <input class="button" type="submit" name="submit" value="<?php print $PALANG['exit']; ?>" action="main.php" >
+        <input class="button" type="submit" name="fCancel" value="<?php print $PALANG['exit']; ?>" />
       </td>
    </tr>
    <tr>
