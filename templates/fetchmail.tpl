@@ -1,10 +1,12 @@
 <?php 
 
 $headers=array();
-foreach($fm_struct as $row){
-   list($editible,$view,$type,$title,$comment)=$row;
+foreach(array_keys($fm_struct) as $row){
+   list($editible,$view,$type)=$fm_struct[$row];
+   $title = $PALANG['pFetchmail_field_' . $row];
+   $comment = $PALANG['pFetchmail_desc_' . $row];
    if ($view){
-      $headers[]=$row;
+      $headers[]=array($editible, $view, $type, $title, $comment);
    }
 }
 
@@ -35,7 +37,7 @@ if ($edit || $new) { # edit mode
          foreach($row as $key=>$val){
 
             if (!isset($fm_struct[$key])) continue; # TODO: not really nice, but avoids undefined index warnings ;-)
-            list($editible,$view,$type,$title,$comment)=$fm_struct[$key];
+            list($editible,$view,$type)=$fm_struct[$key];
             if ($view){
                $func="_listview_".$type;
                print "      <td nowrap>" . (function_exists($func)?$func($val):$val) . "</td>\n";
@@ -68,7 +70,9 @@ function fetchmail_edit_row($data=array()){
    # TODO: no problems with MySQL, to be tested with PgSQL
    # TODO: undefined values may also occour
    foreach($fm_struct as $key=>$struct){
-      list($editible,$view,$type,$title,$comment)=$struct;
+      list($editible,$view,$type)=$struct;
+      $title = $PALANG['pFetchmail_field_' . $key];
+      $comment = $PALANG['pFetchmail_desc_' . $key];
       if ($editible){
          $ret.="<tr><td align=left valign=top><label for=${_id} style='width:20em;'>${title}:&nbsp;</label></td>";
          $ret.="<td align=left style='padding-left:.25em;padding-right:.25em;background-color:white;'>";
@@ -98,8 +102,10 @@ function fetchmail_edit_row($data=array()){
          $ret.="</td><td align=left valign=top><i>&nbsp;${comment}</i></td></tr>\n";
       }
    }
-   # TODO: pressing enter in the form "clicks" cancel button instead of submit button
-   $ret.="<tr><td align=left><input type=submit name=cancel value='Abbrechen'></td><td align=right><input type=submit name=save value='Save'></td><td align=right>";
+   $ret.="<tr><td align=center colspan=3>
+      <input type=submit name=save value='" . $PALANG['save'] . "'> &nbsp;
+      <input type=submit name=cancel value='" . $PALANG['cancel'] . "'>
+   ";
    if ($id){
       $ret.="<input type=hidden name=edit value='${id}'>";
    }

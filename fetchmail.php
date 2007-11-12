@@ -73,26 +73,29 @@ $cancel  =       safepost("cancel") != "" ? 1:0;
 $display_status = 1;
 if ($new || $edit) $display_status = 0;
 
-$fm_struct=array(   //   list($editible,$view,$type,$title,$comment)
-   # first column: allow editing?
-   # second column: display field?
-   # the others:                  type          title       help text (in edit form)
-   "id"              => array(0,0,'id',         'ID',       'Record ID'),
-   "mailbox"         => array(1,1,'enum',       'Mailbox',  'Local mailbox'),
-   "src_server"      => array(1,1,'text',       'Server',   'Remote Server'),
-   "src_auth"        => array(1,1,'enum',       'Auth Type','Mostly password'),
-   "src_user"        => array(1,1,'text',       'User',     'Remote User'),
-   "src_password"    => array(1,0,'password',   'Password', 'Remote Password'),
-   "src_folder"      => array(1,1,'text',       'Folder',   'Remote Folder'),
-   "poll_time"       => array(1,1,'num',        'Poll',     'Poll Time (min)'),
-   "fetchall"        => array(1,1,'bool',       'Fetch All','Retrieve  both old (seen) and new messages'),
-   "keep"            => array(1,1,'bool',       'Keep',     'Keep retrieved messages on the remote mailserver'),
-   "protocol"        => array(1,1,'enum',       'Protocol', 'Protocol to use'),
-   "extra_options"   => array($extra_options,$extra_options,'longtext', 'Extra Options','Extra fetchmail Options'),
-   "mda"             => array($extra_options,$extra_options,'longtext', 'MDA',   'Mail Delivery Agent'),
-   "date"            => array(0,$display_status,            'text',     'Date',  'Date of last polling/configuration change'),
-   "returned_text"   => array(0,$display_status,            'longtext', 'Returned Text','Text message from last polling'),
+$fm_struct=array(   //   list($editible,$view,$type)
+   # field name               allow editing?    display field?    type
+   "id"              => array(0,                0,                'id'        ),
+   "mailbox"         => array(1,                1,                'enum'      ),
+   "src_server"      => array(1,                1,                'text'      ),
+   "src_auth"        => array(1,                1,                'enum'      ),
+   "src_user"        => array(1,                1,                'text'      ),
+   "src_password"    => array(1,                0,                'password'  ),
+   "src_folder"      => array(1,                1,                'text'      ),
+   "poll_time"       => array(1,                1,                'num'       ),
+   "fetchall"        => array(1,                1,                'bool'      ),
+   "keep"            => array(1,                1,                'bool'      ),
+   "protocol"        => array(1,                1,                'enum'      ),
+   "extra_options"   => array($extra_options,   $extra_options,   'longtext'  ),
+   "mda"             => array($extra_options,   $extra_options,   'longtext'  ),
+   "date"            => array(0,                $display_status,  'text'      ),
+   "returned_text"   => array(0,                $display_status,  'longtext'  ),
 );
+# labels and descriptions are taken from $PALANG['pFetchmail_field_xxx'] and $PALANG['pFetchmail_desc_xxx']
+
+# TODO: After pressing save or cancel in edit form, date and returned text are not displayed in list view.
+# TODO: Reason: $display_status is set before $new and $edit are reset to 0.
+# TODO: Fix: split the "display field?" column into "display in list" and "display in edit mode".
 
 $SESSID_USERNAME = authentication_get_username();
 if (!$SESSID_USERNAME )
@@ -148,22 +151,22 @@ if ($row_id) {
 }
 
 
-if ($cancel) {
+if ($cancel) { # cancel $new or $edit
    $edit=0;
    $new=0;
-} elseif ($delete) {
+} elseif ($delete) { # delete an entry
    $result = db_query ("delete from fetchmail WHERE id=".$delete);
    if ($result['rows'] != 1)
    {
-      flash_error($PALANG['pDelete_delete_error']) . '</span';
+      flash_error($PALANG['pDelete_delete_error']) . '</span>';
    } else {
       flash_info(sprintf($PALANG['pDelete_delete_success'],$account));
    }
    $delete=0;
-} elseif ( ($edit || $new) && $save) {
+} elseif ( ($edit || $new) && $save) { # $edit or $new AND save button pressed
    $formvars=array();
    foreach($fm_struct as $key=>$row){
-      list($editible,$view,$type,$title,$comment)=$row;
+      list($editible,$view,$type)=$row;
       if ($editible != 0){
          $func="_inp_".$type;
          $val=safepost($key);
@@ -213,10 +216,10 @@ if ($cancel) {
       $formvars['src_password'] = ''; # never display password
    }
 
-} elseif ($edit) {
+} elseif ($edit) { # edit entry form
    $formvars = $edit_row;
    $formvars['src_password'] = '';
-} elseif ($new) {
+} elseif ($new) { # create entry form
    foreach (array_keys($fm_struct) as $value) {
       if (isset($fm_defaults[$value])) {
          $formvars[$value] = $fm_defaults[$value];
