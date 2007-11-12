@@ -194,7 +194,7 @@ function check_string ($var)
 // TODO: make check_domain able to handle as example .local domains
 function check_domain ($domain)
 {
-   if (preg_match ('/([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,4}$/i', trim ($domain)))
+   if (preg_match ('/([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', trim ($domain)))
    {
       return true;
    }
