@@ -84,10 +84,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
 
-   if (isset ($_POST['fSubject'])) $fSubject = escape_string ($_POST['fSubject']);
-   if (isset ($_POST['fBody'])) $fBody = escape_string ($_POST['fBody']);
-   if (isset ($_POST['fChange'])) $fChange = escape_string ($_POST['fChange']);
-   if (isset ($_POST['fBack'])) $fBack = escape_string ($_POST['fBack']);
+   $tSubject   =                safepost('fSubject');
+   $fSubject   = escape_string (         $tSubject);
+   $tBody      =                safepost('fBody');
+   $fBody      = escape_string (         $tBody);
+   $fChange    = escape_string (safepost('fChange'));
+   $fBack      = escape_string (safepost('fBack'));
 
    if(authentication_has_role('admin') && isset($_GET['domain'])) {
       $fDomain = escape_string ($_GET['domain']);
