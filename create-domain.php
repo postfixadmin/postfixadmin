@@ -58,7 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if(isset($_POST[$key]) && !empty($POST[$key])) {
          $$key = escape_string($_POST[$key]);
       }
-      $$key = $default;
+      else {
+         $$key = $default;
+      }
    }
 
    if (empty ($fDomain) or domain_exist ($fDomain) or !check_domain ($fDomain))
