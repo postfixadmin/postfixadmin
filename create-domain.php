@@ -52,16 +52,18 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
-   foreach(array('fDescription' => '', 'fAliases' => '0', 'fMailboxes' => '0', 
-      'fMaxquota' => '0', 'fTransport' => 'virtual', 
-      'fDefaultaliases' => '0', 'fBackupmx' => '0') as $key => $default) {
-      if(isset($_POST[$key]) && !empty($POST[$key])) {
+   $form_fields = array('fDescription' => '', 'fAliases' => '0', 'fMailboxes' => '0', 
+      'fMaxquota' => '0', 'fTransport' => 'virtual', 'fDefaultaliases' => '0', 
+      'fBackupmx' => '0');
+   foreach($form_fields  as $key => $default) {
+      if(isset($_POST[$key]) && (!empty($_POST[$key]))) {
          $$key = escape_string($_POST[$key]);
       }
       else {
          $$key = $default;
       }
    }
+
 
    if (empty ($fDomain) or domain_exist ($fDomain) or !check_domain ($fDomain))
    {
@@ -77,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if (domain_exist ($fDomain)) $pAdminCreate_domain_domain_text = $PALANG['pAdminCreate_domain_domain_text_error'];
       if (empty ($fDomain) or !check_domain ($fDomain)) $pAdminCreate_domain_domain_text = $PALANG['pAdminCreate_domain_domain_text_error2'];
    }
-      
+
    if ($error != 1)
    {
       $tAliases = $CONF['aliases'];
