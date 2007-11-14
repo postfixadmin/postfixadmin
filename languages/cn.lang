@@ -105,8 +105,8 @@ $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">你没有填写收信人</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">邮件地址非法: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">你没有该域的管理权限: ';
-$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
-$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
+$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
+$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = '编辑别名';
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">不能修改该别名!</span>';
 
@@ -215,8 +215,8 @@ $PALANG['pAdminList_domain_description'] = '描述';
 $PALANG['pAdminList_domain_aliases'] = '别名数';
 $PALANG['pAdminList_domain_mailboxes'] = '邮箱数';
 $PALANG['pAdminList_domain_maxquota'] = '最大容量限制 (MB)';
-$PALANG['pAdminList_domain_transport'] = 'Transport';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = '最后修改日期';
 $PALANG['pAdminList_domain_active'] = '活动';
 
@@ -245,9 +245,9 @@ $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = 禁用 | 0 = 无限制';
 $PALANG['pAdminCreate_domain_maxquota'] = '最大容量限制';
 $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = 禁用 | 0 = 无限制';
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminCreate_domain_defaultaliases'] = '增加默认别名';
-$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_backupmx'] = '备份邮件服务器';
 $PALANG['pAdminCreate_domain_button'] = '新增';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">新增域失败!</span>';

@@ -289,7 +289,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Ïàðîëà';
 $PALANG['pAdminEdit_admin_password2'] = 'Ïàðîëà (îòíîâî)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Ïàðîëèòå, êîèòî ñòå âúâåëè íå ñúâïàäàò!<br />Èëè ñà ïðàçíè!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Àêòèâåí';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Ðåäàêòèðàé Àäìèí';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Íå ìîãà äà ìîäèôèöèðàì àäìèíà!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Àäìèí-à áåøå ìîäèôèöèðàí!';
@@ -324,17 +324,17 @@ $PALANG['pUsersVacation_button_back'] = 'Âðúùàì ñå îò âàêàíöèÿ
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Íå ìîãà äà îáíîâÿ íàñòðîéêèòå çà âàøèÿò àâòîìàòè÷åí îòãîâîð!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Âàøèÿò àâòîìàòè÷åí îòãîâîð áåøå ïðåìàõíàò!';
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
-$PALANG['pCreate_dbLog_createalias'] = 'create alias';
-$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox'; # XXX
+$PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX
+$PALANG['pDelete_dbLog_deletealias'] = 'delete alias'; # XXX
+$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox'; # XXX
 
-$PALANG['pEdit_dbLog_editactive'] = 'change active state';
-$PALANG['pEdit_dbLog_editalias'] = 'edit alias';
-$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
+$PALANG['pEdit_dbLog_editactive'] = 'change active state'; # XXX
+$PALANG['pEdit_dbLog_editalias'] = 'edit alias'; # XXX
+$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox'; # XXX
 
 $PALANG['pSearch'] = 'search'; # XXX
-$PALANG['pSearch_welcome'] = 'Searching for: ';
+$PALANG['pSearch_welcome'] = 'Searching for: '; # XXX
 $PALANG['pReturn_to'] = 'Return to'; # XXX
 $PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
 $PALANG['pBroadcast_from'] = 'From'; # XXX

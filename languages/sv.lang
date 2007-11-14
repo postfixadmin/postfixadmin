@@ -290,7 +290,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Lösenord';
 $PALANG['pAdminEdit_admin_password2'] = 'Lösenord (igen)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Lösenorden du angav är olika!<br />Eller är tomma!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktiv';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Editera Admin';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Kan inte ändra admin!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin har ändrats!';

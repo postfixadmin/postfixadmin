@@ -314,6 +314,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Auto atsakiklis jau nustatytas!';
 $PALANG['pUsersVacation_subject'] = 'Tema';
 $PALANG['pUsersVacation_subject_text'] = 'Esu išvykęs';
 $PALANG['pUsersVacation_body'] = 'Žinutė';
+### XXX (see below)
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 I will be away from <date> until <date>.
 For urgent matters you can contact <contact person>.

@@ -219,9 +219,9 @@ $PALANG['pAdminList_domain_domain'] = 'Domain';
 $PALANG['pAdminList_domain_description'] = 'Leírás';
 $PALANG['pAdminList_domain_aliases'] = 'Alias-ok';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postafiókok';
-$PALANG['pAdminList_domain_maxquota'] = 'Max Quota (MB)';
-$PALANG['pAdminList_domain_transport'] = 'Transport';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_maxquota'] = 'Max Quota (MB)'; # XXX
+$PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = 'Utolsó módosítás';
 $PALANG['pAdminList_domain_active'] = 'Aktív';
 
@@ -247,7 +247,7 @@ $PALANG['pAdminCreate_domain_aliases'] = 'Alias-ok';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = kikapcsol | 0 = végtelen';
 $PALANG['pAdminCreate_domain_mailboxes'] = 'Postafiókok';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = kikapcsol | 0 = végtelen';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota';
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota'; # XXX
 $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = kikapcsol | 0 = végtelen';
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Transport definiálása';
@@ -267,7 +267,7 @@ $PALANG['pAdminEdit_domain_aliases'] = 'Alias-ok';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = kikapcsol | 0 = végtelen';
 $PALANG['pAdminEdit_domain_mailboxes'] = 'Postafiókok';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = kikapcsol | 0 = végtelen';
-$PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota'; # XXX
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = kikapcsol | 0 = végtelen';
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Transport definiálása';
@@ -295,7 +295,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Jelszó';
 $PALANG['pAdminEdit_admin_password2'] = 'Jelszó (mégegyszer)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">A beírt jelszavak nem egyeznek!<br />Vagy üresek!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktív';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Admin szerkesztése';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Nemsikerült módosítani az admint!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Az Admin módosítása megtörtént!';

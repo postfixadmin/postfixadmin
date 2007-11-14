@@ -3,7 +3,6 @@
 //
 // Language file Slovenian
 // by Nejc Skoberne <nejc at skoberne dot net>
-// Encoding iso-8859-2
 //
 
 $PALANG['YES'] = 'DA';
@@ -46,8 +45,8 @@ $PALANG['pMain_password'] = 'Spremeni geslo za administratorja.';
 $PALANG['pMain_viewlog'] = 'Pregled dnevniških datotek.';
 $PALANG['pMain_logout'] = 'Odjava iz sistema';
 
-$PALANG['pOverview_disabled'] = 'Disabled';
-$PALANG['pOverview_unlimited'] = 'Unlimited';
+$PALANG['pOverview_disabled'] = 'Disabled'; # XXX
+$PALANG['pOverview_unlimited'] = 'Unlimited'; # XXX
 $PALANG['pOverview_title'] = ':: Definirane domene';
 $PALANG['pOverview_up_arrow'] = 'Na vrh';
 $PALANG['pOverview_right_arrow'] = 'Naslednja stran';
@@ -106,8 +105,8 @@ $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">V polje "Za" niste vnesli ničesar!</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">E-poštni naslov, ki ste ga vnesli, ni pravilen: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Izbrana domena ni pod vašim nadzorom: ';
-$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
-$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
+$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
+$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = 'Uredi alias';
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Aliasa ni bilo mogoče spremeniti!</span>';
 
@@ -216,8 +215,8 @@ $PALANG['pAdminList_domain_description'] = 'Opis';
 $PALANG['pAdminList_domain_aliases'] = 'Aliasi';
 $PALANG['pAdminList_domain_mailboxes'] = 'Predali';
 $PALANG['pAdminList_domain_maxquota'] = 'Maksimalna kvota (MB)';
-$PALANG['pAdminList_domain_transport'] = 'Transport';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = 'Zadnjič spremenjeno';
 $PALANG['pAdminList_domain_active'] = 'Aktiven';
 
@@ -248,7 +247,7 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = onemogoči | 0 = n
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Definiraj transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Dodaj privzete aliase';
-$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Poštni strežnik je sekundarni MX';
 $PALANG['pAdminCreate_domain_button'] = 'Dodaj domeno';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domene ni bilo mogoče dodati!</span>';
@@ -265,7 +264,7 @@ $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = onemogoči | 0 = neomejeno';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maksimalna kvota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = onemogoči | 0 = neomejeno';
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Poštni strežnik je sekundarni MX';
 $PALANG['pAdminEdit_domain_active'] = 'Aktiven';
 $PALANG['pAdminEdit_domain_button'] = 'Shrani';
@@ -290,7 +289,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Geslo';
 $PALANG['pAdminEdit_admin_password2'] = 'Geslo (ponovitev)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Vnešeni gesli se ne ujemata<br />ali pa sta prazni!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktiven';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Shrani';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Administratorja ni bilo mogoče spremeniti!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admininstrator je bil uspešno spremenjen!';

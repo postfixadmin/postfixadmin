@@ -14,7 +14,7 @@ $PALANG['cancel'] = 'Cancel'; # XXX
 $PALANG['save'] = 'Save'; # XXX
 $PALANG['confirm'] = 'Você deseja apagar esse registro ?\n';
 $PALANG['confirm_domain'] = 'Você tem certeza que quer apagar todos os registros deste domínio ?\n';
-$PALANG['check_update'] = 'Check for update';
+$PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
@@ -45,14 +45,14 @@ $PALANG['pMain_password'] = 'Mudar a senha da conta Administrador.';
 $PALANG['pMain_viewlog'] = 'Ver o histórico.';
 $PALANG['pMain_logout'] = 'Sair do sistema.';
 
-$PALANG['pOverview_disabled'] = 'Disabled';
-$PALANG['pOverview_unlimited'] = 'Unlimited';
-$PALANG['pOverview_title'] = ':: Defined Domains';
-$PALANG['pOverview_up_arrow'] = 'Go Top';
-$PALANG['pOverview_right_arrow'] = 'Next Page';
-$PALANG['pOverview_left_arrow'] = 'Previous Page';
-$PALANG['pOverview_alias_title'] = ':: Alias';
-$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_disabled'] = 'Disabled'; # XXX
+$PALANG['pOverview_unlimited'] = 'Unlimited'; # XXX
+$PALANG['pOverview_title'] = ':: Defined Domains'; # XXX
+$PALANG['pOverview_up_arrow'] = 'Go Top'; # XXX
+$PALANG['pOverview_right_arrow'] = 'Next Page'; # XXX
+$PALANG['pOverview_left_arrow'] = 'Previous Page'; # XXX
+$PALANG['pOverview_alias_title'] = ':: Alias'; # XXX
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxes'; # XXX
 $PALANG['pOverview_button'] = 'Ir';
 $PALANG['pOverview_welcome'] = 'Visão geral para ';
 $PALANG['pOverview_alias_alias_count'] = 'Aliases';
@@ -105,8 +105,8 @@ $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Você não digitou um destinatário (Para)</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">O e-mail que você digitou não é válido: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Esse domínio não é seu: ';
-$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
-$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
+$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
+$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = 'Modificar o alias';
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Impossível modificar esse alias!</span>';
 
@@ -197,7 +197,7 @@ $PALANG['pAdminMenu_list_admin'] = 'Lista de administradores';
 $PALANG['pAdminMenu_list_domain'] = 'Lista de domínios';
 $PALANG['pAdminMenu_list_virtual'] = 'Lista virtual';
 $PALANG['pAdminMenu_viewlog'] = 'Ver histórico';
-$PALANG['pAdminMenu_backup'] = 'Backup';
+$PALANG['pAdminMenu_backup'] = 'Backup'; # XXX
 $PALANG['pAdminMenu_create_domain_admins'] = 'Administradores de domínios';
 $PALANG['pAdminMenu_create_admin'] = 'Novo administrador';
 $PALANG['pAdminMenu_create_domain'] = 'Novo domínio';
@@ -215,8 +215,8 @@ $PALANG['pAdminList_domain_description'] = 'Descrição';
 $PALANG['pAdminList_domain_aliases'] = 'Alias';
 $PALANG['pAdminList_domain_mailboxes'] = 'Contas de e-mail';
 $PALANG['pAdminList_domain_maxquota'] = 'Limite máximo (MB)';
-$PALANG['pAdminList_domain_transport'] = 'Transport';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = 'Última modificação';
 $PALANG['pAdminList_domain_active'] = 'Ativo';
 
@@ -244,11 +244,11 @@ $PALANG['pAdminCreate_domain_mailboxes'] = 'Contas de e-mail';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = desativar | 0 = ilimitado';
 $PALANG['pAdminCreate_domain_maxquota'] = 'Limite máximo';
 $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = desativar | 0 = ilimitado';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Adicionar aliases (padrão)';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminCreate_domain_button'] = 'Criar domínio';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Impossível criar domínio!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'O domínio já existe!';
@@ -263,9 +263,9 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Contas de e-mail';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = desativar | 0 = ilimitado';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Limite máximo';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = desativar | 0 = ilimitado';
-$PALANG['pAdminEdit_domain_transport'] = 'Transport';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
-$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminEdit_domain_active'] = 'Ativo';
 $PALANG['pAdminEdit_domain_button'] = 'Modificar domínio';
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Impossível modificar domínio!</span>';
@@ -289,7 +289,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Senha';
 $PALANG['pAdminEdit_admin_password2'] = 'Senha (confirmação)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">A senha digitada não é válida<br /> ou é nula!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Ativo';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Modificar administdrador';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Impossível modificar administrador !</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrador já foi criado!';
@@ -324,14 +324,14 @@ $PALANG['pUsersVacation_button_back'] = 'Retorno';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Impossível atualizar suas configurações para resposta automática!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Sua resposta automática foi removida!';
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
-$PALANG['pCreate_dbLog_createalias'] = 'create alias';
-$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox'; # XXX
+$PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX
+$PALANG['pDelete_dbLog_deletealias'] = 'delete alias'; # XXX
+$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox'; # XXX
 
-$PALANG['pEdit_dbLog_editactive'] = 'change active state';
-$PALANG['pEdit_dbLog_editalias'] = 'edit alias';
-$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
+$PALANG['pEdit_dbLog_editactive'] = 'change active state'; # XXX
+$PALANG['pEdit_dbLog_editalias'] = 'edit alias'; # XXX
+$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox'; # XXX
 
 $PALANG['pSearch'] = 'search'; # XXX
 $PALANG['pSearch_welcome'] = 'Searching for: ';

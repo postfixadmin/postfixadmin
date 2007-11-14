@@ -14,7 +14,7 @@ $PALANG['cancel'] = 'Cancel'; # XXX
 $PALANG['save'] = 'Save'; # XXX
 $PALANG['confirm'] = 'Ert tú vís(ur) í at tú vilt strika hetta?\n';
 $PALANG['confirm_domain'] = 'Vilt tú veruliga strika allar upplýsingar fyri hetta navnaøki? Her kann ikki vendast aftur!\n';
-$PALANG['check_update'] = 'Check for update';
+$PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
@@ -45,14 +45,14 @@ $PALANG['pMain_password'] = 'Broyt loyniorðið á tíni umsitara konto.';
 $PALANG['pMain_viewlog'] = 'Vís logg fílurnar.';
 $PALANG['pMain_logout'] = 'Logga út úr skipanini';
 
-$PALANG['pOverview_disabled'] = 'Disabled';
-$PALANG['pOverview_unlimited'] = 'Unlimited';
-$PALANG['pOverview_title'] = ':: Defined Domains';
-$PALANG['pOverview_up_arrow'] = 'Go Top';
-$PALANG['pOverview_right_arrow'] = 'Next Page';
-$PALANG['pOverview_left_arrow'] = 'Previous Page';
-$PALANG['pOverview_alias_title'] = ':: Alias';
-$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_disabled'] = 'Disabled'; # XXX
+$PALANG['pOverview_unlimited'] = 'Unlimited'; # XXX
+$PALANG['pOverview_title'] = ':: Defined Domains'; # XXX
+$PALANG['pOverview_up_arrow'] = 'Go Top'; # XXX
+$PALANG['pOverview_right_arrow'] = 'Next Page'; # XXX
+$PALANG['pOverview_left_arrow'] = 'Previous Page'; # XXX
+$PALANG['pOverview_alias_title'] = ':: Alias'; # XXX
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxes'; # XXX
 $PALANG['pOverview_button'] = 'Vel';
 $PALANG['pOverview_welcome'] = 'Yvirlit yvir ';
 $PALANG['pOverview_alias_alias_count'] = 'Dulnevni';
@@ -105,8 +105,8 @@ $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Tú skrivaði onki í Til teigin</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">E-post adressan tú skrivaði er ógyldug: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Hetta navnaøki er ikki títt: ';
-$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
-$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
+$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
+$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = 'Broyt Dulnevni';
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Fái ikki broytt dulnevni!</span>';
 
@@ -215,8 +215,8 @@ $PALANG['pAdminList_domain_description'] = 'Frágreiðing';
 $PALANG['pAdminList_domain_aliases'] = 'Dulnevni';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postkassar';
 $PALANG['pAdminList_domain_maxquota'] = 'Hægsta Kvota (MB)';
-$PALANG['pAdminList_domain_transport'] = 'Transport';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = 'Síðst broytt';
 $PALANG['pAdminList_domain_active'] = 'Virki';
 
@@ -244,8 +244,8 @@ $PALANG['pAdminCreate_domain_mailboxes'] = 'Postkassar';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = óvirkja | 0 = óavmarkað';
 $PALANG['pAdminCreate_domain_maxquota'] = 'Hægsta kvota';
 $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = óvirkja | 0 = óavmarkað';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Stovna sjálvvirkin e-post dulnevni';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'Post servari er "backup MX"';
@@ -263,8 +263,8 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Postkassar';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = óvirkja | 0 = óavmarkað';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Hægsta kvota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = óvirkja | 0 = óavmarkað';
-$PALANG['pAdminEdit_domain_transport'] = 'Transport';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Post servari er "backup MX"';
 $PALANG['pAdminEdit_domain_active'] = 'Virki';
 $PALANG['pAdminEdit_domain_button'] = 'Broyt navnaøki';
@@ -289,7 +289,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Loyniorð';
 $PALANG['pAdminEdit_admin_password2'] = 'Loyniorð (umaftur)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Loyniorðini tú skrivaði samsvara ikki!<br />Ella eru tóm!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Virkin';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Broyt umsitara';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Fái ikki broytt umsitara!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Umsitari er broyttur!';
@@ -329,17 +329,17 @@ $PALANG['pUsersVacation_button_back'] = 'Heima';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Fái ikki broytt tínar frítíðarboð uppsetingar!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Títt frítíðarboð er strikað!';
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
-$PALANG['pCreate_dbLog_createalias'] = 'create alias';
-$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
+$PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX
+$PALANG['pDelete_dbLog_deletealias'] = 'delete alias'; # XXX
+$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox'; # XXX
 
-$PALANG['pEdit_dbLog_editactive'] = 'change active state';
-$PALANG['pEdit_dbLog_editalias'] = 'edit alias';
-$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
+$PALANG['pEdit_dbLog_editactive'] = 'change active state'; # XXX
+$PALANG['pEdit_dbLog_editalias'] = 'edit alias'; # XXX
+$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox'; # XXX
 
 $PALANG['pSearch'] = 'search'; # XXX
-$PALANG['pSearch_welcome'] = 'Searching for: ';
+$PALANG['pSearch_welcome'] = 'Searching for: '; # XXX
 $PALANG['pReturn_to'] = 'Return to'; # XXX
 $PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
 $PALANG['pBroadcast_from'] = 'From'; # XXX

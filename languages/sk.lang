@@ -2,7 +2,7 @@
 # $Id$
 //
 // Language file Slovak
-// by bajk
+// by bajk (eszabo @sf)
 //
 
 $PALANG['YES'] = '&Aacute;NO';
@@ -48,7 +48,7 @@ $PALANG['pMain_logout'] = 'Odhl&aacute;si&#357; zo syst&eacute;mu.';
 $PALANG['pOverview_disabled'] = 'Vypnut&eacute;';
 $PALANG['pOverview_unlimited'] = 'Neobmedzene';
 $PALANG['pOverview_title'] = ':: Definovan&eacute; dom&eacute;ny';
-$PALANG['pOverview_up_arrow'] = 'Go Top';
+$PALANG['pOverview_up_arrow'] = 'Go Top'; # XXX
 $PALANG['pOverview_right_arrow'] = 'Nasleduj&uacute;ca strana';
 $PALANG['pOverview_left_arrow'] = 'Predch&aacute;dzaj&uacute;ca strana';
 $PALANG['pOverview_alias_title'] = ':: Aliasy';
@@ -215,8 +215,8 @@ $PALANG['pAdminList_domain_description'] = 'Popis';
 $PALANG['pAdminList_domain_aliases'] = 'Aliasov';
 $PALANG['pAdminList_domain_mailboxes'] = 'Schr&aacute;nok';
 $PALANG['pAdminList_domain_maxquota'] = 'Maxim&aacute;lne miesto (MB)';
-$PALANG['pAdminList_domain_transport'] = 'Transport';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = 'Naposledy zmenen&eacute;';
 $PALANG['pAdminList_domain_active'] = 'Akt&iacute;vny';
 
@@ -244,8 +244,8 @@ $PALANG['pAdminCreate_domain_mailboxes'] = 'Schr&aacute;nok';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = znepr&iacute;stupni&#357; | 0 = neobmedzene';
 $PALANG['pAdminCreate_domain_maxquota'] = 'Maxim&aacute;lne miesto';
 $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = znepr&iacute;stupni&#357; | 0 = neobmedzene';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Prida&#357; implicitn&eacute;; aliasy';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server je z&aacute;lo&#382;n&yacute; MX';
@@ -263,8 +263,8 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Schr&aacute;nok';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = znepr&iacute;stupni&#357; | 0 = neobmedzene';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maxim&aacute;lne miesto';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = znepr&iacute;stupni&#357; | 0 = neobmedzene';
-$PALANG['pAdminEdit_domain_transport'] = 'Transport';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server je z&aacute;lo&#382;n&yacute; MX';
 $PALANG['pAdminEdit_domain_active'] = 'Akt&iacute;vny';
 $PALANG['pAdminEdit_domain_button'] = 'Upravi&#357; dom&eacute;nu';
@@ -329,7 +329,7 @@ $PALANG['pCreate_dbLog_createalias'] = 'vytvori&#357; alias';
 $PALANG['pDelete_dbLog_deletealias'] = 'zmaza&#357; alias';
 $PALANG['pDelete_dbLog_deletemailbox'] = 'zmaza&#357; mailbox';
 
-$PALANG['pEdit_dbLog_editactive'] = 'change active state';
+$PALANG['pEdit_dbLog_editactive'] = 'change active state'; # XXX
 $PALANG['pEdit_dbLog_editalias'] = 'upravi&#357; alias';
 $PALANG['pEdit_dbLog_editmailbox'] = 'upravi&#357; mailbox';
 

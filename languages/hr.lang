@@ -214,8 +214,8 @@ $PALANG['pAdminList_domain_description'] = 'Opis';
 $PALANG['pAdminList_domain_aliases'] = 'Aliasi';
 $PALANG['pAdminList_domain_mailboxes'] = 'Potanski ormarići';
 $PALANG['pAdminList_domain_maxquota'] = 'Maksimalna kvota (MB)';
-$PALANG['pAdminList_domain_transport'] = 'Transport';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = 'Zadnja promjena';
 $PALANG['pAdminList_domain_active'] = 'Aktivan';
 

@@ -3,6 +3,7 @@
 //
 // Language file Dutch
 // by Mourik
+// updated by Johan Hedriks (sylhouette @sf)
 //
 
 $PALANG['YES'] = 'Ja';
@@ -248,7 +249,7 @@ $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Definieer transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Gebruik standaard aliassen';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminCreate_domain_button'] = 'Voeg Domein toe';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Mislukt om het domein toe te voegen.</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd!';
@@ -264,8 +265,8 @@ $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = uit | 0 = onbeperkt';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = uit | 0 = onbeperkt';
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
-$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminEdit_domain_active'] = 'Actief';
 $PALANG['pAdminEdit_domain_button'] = 'Bewerk domein';
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Mislukt het domein te bewerken.</span>';
@@ -289,7 +290,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Wachtwoord';
 $PALANG['pAdminEdit_admin_password2'] = 'Wachtwoord (nogmaals)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">De wachtwoorden die u opgaf komen niet overeen.<br />Of zijn leeg.</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Actief';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Bewerk beheerder';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Mislukt om beheerder te bewerken</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Beheerder is bewerkt!';
@@ -324,12 +325,12 @@ $PALANG['pUsersVacation_button_back'] = 'Kom terug';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Mislukt om uw automatisch beantwoorder instellingen te wijzigen.</span>';
 $PALANG['pUsersVacation_result_success'] = 'Uw automatisch beantwoorder is verwijderd.';
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';     
-$PALANG['pCreate_dbLog_createalias'] = 'create alias';
-$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
+$PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX
+$PALANG['pDelete_dbLog_deletealias'] = 'delete alias'; # XXX
+$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox'; # XXX
 
-$PALANG['pEdit_dbLog_editactive'] = 'change active state';
+$PALANG['pEdit_dbLog_editactive'] = 'change active state'; # XXX
 $PALANG['pEdit_dbLog_editalias'] = 'bewerk alias';
 $PALANG['pEdit_dbLog_editmailbox'] = 'bewerk mailbox';
 

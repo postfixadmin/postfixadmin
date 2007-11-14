@@ -253,7 +253,7 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = znepřístupnit | 
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Nastavit transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Přidat implicitní přesměrování';
-$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Tento server je záložní MX domény';
 $PALANG['pAdminCreate_domain_button'] = 'Přidat doménu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Nepodařilo se přidat doménu!</span>';

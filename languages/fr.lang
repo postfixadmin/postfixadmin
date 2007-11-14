@@ -4,7 +4,7 @@
 // Language file French
 // by Kuthz
 // updated by Olivier ETIENNE
-// updated by Francois Grange
+// updated by Francois Grange (rumbaya @sf)
 //
 
 $PALANG['YES'] = 'Oui';
@@ -217,7 +217,7 @@ $PALANG['pAdminList_domain_aliases'] = 'Alias';
 $PALANG['pAdminList_domain_mailboxes'] = 'Comptes courriels';
 $PALANG['pAdminList_domain_maxquota'] = 'Limite maximum (MB)';
 $PALANG['pAdminList_domain_transport'] = 'Transport';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = 'Dernière modification';
 $PALANG['pAdminList_domain_active'] = 'Actif';
 
@@ -238,7 +238,7 @@ $PALANG['pAdminCreate_domain_welcome'] = 'Ajouter un nouveau domaine';
 $PALANG['pAdminCreate_domain_domain'] = 'Domaine';
 $PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Le domaine existe déjà!</span>';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">Le domaine est non valide!</span>';
-$PALANG['pAdminCreate_domain_description'] = 'Description';
+$PALANG['pAdminCreate_domain_description'] = 'Description'; # XXX
 $PALANG['pAdminCreate_domain_aliases'] = 'Alias';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = désactivé | 0 = illimité';
 $PALANG['pAdminCreate_domain_mailboxes'] = 'Comptes courriels';
@@ -248,7 +248,7 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = désactivé | 0 = 
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Definir le transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Ajouter les alias par défaut';
-$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_backupmx'] = 'Le serveur est un "backup MX"';
 $PALANG['pAdminCreate_domain_button'] = 'Ajouter un domaine';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Impossible d\'ajouter le domaine!</span>';
@@ -316,7 +316,7 @@ $PALANG['pUsersVacation_welcome'] = 'Répondeur Automatique.';
 $PALANG['pUsersVacation_welcome_text'] = 'Votre repondeur automatique est déjà configuré!';
 $PALANG['pUsersVacation_subject'] = 'Sujet';
 $PALANG['pUsersVacation_subject_text'] = 'En dehors du bureau';
-$PALANG['pUsersVacation_body'] = 'Message';
+$PALANG['pUsersVacation_body'] = 'Message'; # XXX
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Je serais absent(e) de <date> jusqu\'au <date>.
 Pour urgence communiquez avec mon collegue <contact person>.

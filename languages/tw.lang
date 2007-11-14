@@ -14,7 +14,7 @@ $PALANG['cancel'] = 'Cancel'; # XXX
 $PALANG['save'] = 'Save'; # XXX
 $PALANG['confirm'] = '¬O§_½T©w§R°£?\n';
 $PALANG['confirm_domain'] = '±z¬O§_½T©w­n§R°£¸Óºô°ì¤¤ªº©Ò¦³°O¿ý? §R°£«áµLªk«ì´_! \n';
-$PALANG['check_update'] = 'Check for update';
+$PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
@@ -45,14 +45,14 @@ $PALANG['pMain_password'] = '­×§ï±zªººÞ²z­û±K½X.';
 $PALANG['pMain_viewlog'] = '¬d¬Ý¤é»xÀÉ.';
 $PALANG['pMain_logout'] = 'µn¥X¨t²Î';
 
-$PALANG['pOverview_disabled'] = 'Disabled';
-$PALANG['pOverview_unlimited'] = 'Unlimited';
-$PALANG['pOverview_title'] = ':: Defined Domains';
-$PALANG['pOverview_up_arrow'] = 'Go Top';
-$PALANG['pOverview_right_arrow'] = 'Next Page';
-$PALANG['pOverview_left_arrow'] = 'Previous Page';
-$PALANG['pOverview_alias_title'] = ':: Alias';
-$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_disabled'] = 'Disabled'; # XXX
+$PALANG['pOverview_unlimited'] = 'Unlimited'; # XXX
+$PALANG['pOverview_title'] = ':: Defined Domains'; # XXX
+$PALANG['pOverview_up_arrow'] = 'Go Top'; # XXX
+$PALANG['pOverview_right_arrow'] = 'Next Page'; # XXX
+$PALANG['pOverview_left_arrow'] = 'Previous Page'; # XXX
+$PALANG['pOverview_alias_title'] = ':: Alias'; # XXX
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxes'; # XXX
 $PALANG['pOverview_button'] = '°õ¦æ';
 $PALANG['pOverview_welcome'] = 'ÂsÄý';
 $PALANG['pOverview_alias_alias_count'] = '§O¦W';
@@ -244,8 +244,8 @@ $PALANG['pAdminCreate_domain_mailboxes'] = '«H½c¼Æ¶q';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = ¸T¥Î | 0 = µL­­¨î';
 $PALANG['pAdminCreate_domain_maxquota'] = '³Ì¤j®e¶q­­¨î';
 $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = ¸T¥Î | 0 = µL­­¨î';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminCreate_domain_defaultaliases'] = '¼W¥[¤º«Ø§O¦W';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = '¶l¥ó¥D¾÷¬O Backup MX';
@@ -263,8 +263,8 @@ $PALANG['pAdminEdit_domain_mailboxes'] = '«H½c¼Æ¶q';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = ¸T¤î | 0 = µL­­¨î';
 $PALANG['pAdminEdit_domain_maxquota'] = '³Ì¤j®e¶q­­¨î';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = ¸T¤î | 0 = µL­­¨î';
-$PALANG['pAdminEdit_domain_transport'] = 'Transport';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = '¶l¥ó¥D¾÷¬O Backup MX';
 $PALANG['pAdminEdit_domain_active'] = '±Ò¥Î';
 $PALANG['pAdminEdit_domain_button'] = '­×§ï';

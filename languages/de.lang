@@ -3,6 +3,7 @@
 //
 // Language file German
 // by Tobias
+// currently maintained by Christian Boltz (christian_boltz @sf)
 //
 
 $PALANG['YES'] = 'JA';
@@ -294,7 +295,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Passwort';
 $PALANG['pAdminEdit_admin_password2'] = 'Passwort (nochmal)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Die beiden Passw&ouml;rter sind nicht identisch<br />Oder leer!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktiv';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Admin editieren';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Konnte Admin nicht &auml;ndern</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin ge&auml;ndert!';

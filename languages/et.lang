@@ -14,7 +14,7 @@ $PALANG['cancel'] = 'Cancel'; # XXX
 $PALANG['save'] = 'Save'; # XXX
 $PALANG['confirm'] = 'Oled kindel, et soovid seda kustutada?\n';
 $PALANG['confirm_domain'] = 'Oled tõesti kindel, et tahad kustutada kõik kirjed sellele domeenile? Seda tegevust ei saa tagasi võtta!\n';
-$PALANG['check_update'] = 'Check for update';
+$PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
@@ -244,8 +244,8 @@ $PALANG['pAdminCreate_domain_mailboxes'] = 'Postkaste';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = keelatud | 0 = piiramatult';
 $PALANG['pAdminCreate_domain_maxquota'] = 'Maksimaalne kettaruum';
 $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = keelatud | 0 = piiramatult';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Lisa vaikimisi aliased';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'E-posti server on varuserver (backup MX)';
