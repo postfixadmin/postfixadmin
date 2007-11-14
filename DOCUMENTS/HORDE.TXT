@@ -1,0 +1,50 @@
+Horde integration with Postfixadmin 
+
+This is taken from the following thread :
+
+https://sourceforge.net/forum/forum.php?thread_id=1869141&forum_id=676076
+
+Namely :
+
+"Hi, people, I was wondering if anyone was using PA with Horde3. I want my users to be able to change teir password from inside Horde, so I was wondering if anyone has implemented a custom hook or defined a SQL query to make the password change possible. "
+
+
+Solution :
+
+"Hi, 
+ 
+that works for me without any hook - with the SQL driver. I connect through IP to localhost. You can also try socket connection... 
+ 
+my horde/passwd/config/backends.php looks like: 
+ 
+$backends['sql'] = array ( 
+'name' => 'Mail SQL Server', 
+'preferred' => '', 
+'password policy' => array( 
+'minLength' => 3, 
+'maxLength' => 8, 
+'maxSpace' => 0, 
+'minUpper' => 1, 
+'minLower' => 1, 
+'minNumeric' => 1, 
+'minSymbols' => 1 
+), 
+'driver' => 'sql', 
+'params' => array( 
+'phptype' => 'mysql', 
+'hostspec' => '127.0.0.1', 
+'port' => '3306', 
+'protocol' => 'tcp', 
+'username' => 'postfix', 
+'password' => 'yourpostfixdbpassword', 
+'encryption' => 'crypt-md5', 
+'database' => 'postfix', 
+'table' => 'mailbox', 
+'user_col' => 'username', 
+'pass_col' => 'password', 
+'show_encryption' => false 
+) 
+); "
+
+Thanks to 'Kope' for the solution, and of course Luis HernÃ¡n Otegui (slimshady76) for asking the question.
+
