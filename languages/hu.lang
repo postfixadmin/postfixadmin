@@ -181,7 +181,7 @@ $PALANG['pViewlog_action_edit_mailbox_state'] = 'postafiók aktivitás módosít
 $PALANG['pViewlog_action_create_alias'] = 'alias létrehozása';
 $PALANG['pViewlog_action_delete_alias'] = 'alias törlése';
 $PALANG['pViewlog_action_edit_alias'] = 'alias módosítása';
-$PALANG['pViewlog_action_edit_alias_active'] = 'alias aktivitás módosítása';
+$PALANG['pViewlog_action_edit_alias_state'] = 'alias aktivitás módosítása';
 $PALANG['pViewlog_action_edit_password'] = 'jelszó módosítása';
 
 $PALANG['pViewlog_button'] = 'Gyerünk';

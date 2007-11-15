@@ -183,7 +183,7 @@ $PALANG['pViewlog_action_edit_mailbox_state'] = 'изменение активн
 $PALANG['pViewlog_action_create_alias'] = 'создание алиаса';
 $PALANG['pViewlog_action_delete_alias'] = 'удаление алиаса';
 $PALANG['pViewlog_action_edit_alias'] = 'редактирование алиаса';
-$PALANG['pViewlog_action_edit_alias_active'] = 'изменение активности алиаса';
+$PALANG['pViewlog_action_edit_alias_state'] = 'изменение активности алиаса';
 $PALANG['pViewlog_action_edit_password'] = 'изменение пароля';
 
 $PALANG['pViewlog_button'] = 'Выбрать';

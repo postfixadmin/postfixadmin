@@ -177,7 +177,7 @@ $PALANG['pViewlog_action_edit_mailbox_state'] = 'status actieve mailbox bewerkt'
 $PALANG['pViewlog_action_create_alias'] = 'alias toegevoegd';
 $PALANG['pViewlog_action_delete_alias'] = 'alias verwijdert';
 $PALANG['pViewlog_action_edit_alias'] = 'alias bewerkt';
-$PALANG['pViewlog_action_edit_alias_active'] = 'status actieve alias bewerkt';
+$PALANG['pViewlog_action_edit_alias_state'] = 'status actieve alias bewerkt';
 $PALANG['pViewlog_action_edit_password'] = 'wachtwoord aangepast';
 
 $PALANG['pViewlog_button'] = 'Ga';

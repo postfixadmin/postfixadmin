@@ -182,7 +182,7 @@ $PALANG['pViewlog_action_edit_mailbox_state'] = 'ændre postboks aktiv';
 $PALANG['pViewlog_action_create_alias'] = 'opret alias';
 $PALANG['pViewlog_action_delete_alias'] = 'slet alias';
 $PALANG['pViewlog_action_edit_alias'] = 'rediger alias';
-$PALANG['pViewlog_action_edit_alias_active'] = 'ændre alias aktiv';
+$PALANG['pViewlog_action_edit_alias_state'] = 'ændre alias aktiv';
 $PALANG['pViewlog_action_edit_password'] = 'ændre adgangskode';
 
 $PALANG['pViewlog_button'] = 'Vis';
