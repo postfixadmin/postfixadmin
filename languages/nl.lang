@@ -3,19 +3,19 @@
 //
 // Language file Dutch
 // by Mourik
-// updated by Johan Hedriks (sylhouette @sf)
+// updated by Johan Hendriks (sylhouette @sf)
 //
 
 $PALANG['YES'] = 'Ja';
 $PALANG['NO'] = 'Nee';
-$PALANG['edit'] = 'bewerken';
-$PALANG['del'] = 'verwijder';
-$PALANG['exit'] = 'beeindigen';
-$PALANG['cancel'] = 'Cancel'; # XXX
-$PALANG['save'] = 'Save'; # XXX
+$PALANG['edit'] = 'Bewerken';
+$PALANG['del'] = 'Verwijder';
+$PALANG['exit'] = 'Beëindigen';
+$PALANG['cancel'] = 'Annuleren';
+$PALANG['save'] = 'Opslaan';
 $PALANG['confirm'] = 'Weet u het zeker dat u wilt verwijderen?\n';
 $PALANG['confirm_domain'] = 'Weet u zeker dat u ALLE waardes van het domein wilt verwijderen? Dit kan niet ongedaan worden gemaakt!\n';
-$PALANG['check_update'] = 'Zoeken naar niewe versie';
+$PALANG['check_update'] = 'Zoeken naar nieuwe versie';
 $PALANG['invalid_parameter'] = 'ongeldige parameter!';
 $PALANG['pFooter_logged_as'] = 'aangemeld als %s';
 
@@ -48,7 +48,7 @@ $PALANG['pMain_logout'] = 'Uitloggen';
 
 $PALANG['pOverview_disabled'] = 'Niet Actief';
 $PALANG['pOverview_unlimited'] = 'Ongelimiteerd';
-$PALANG['pOverview_title'] = ':: Gedefineerde domeinen';
+$PALANG['pOverview_title'] = ':: Gedefinieerde domeinen';
 $PALANG['pOverview_up_arrow'] = 'Naar Boven';
 $PALANG['pOverview_right_arrow'] = 'Volgende Pagina';
 $PALANG['pOverview_left_arrow'] = 'Vorige Pagina';
@@ -64,7 +64,7 @@ $PALANG['pOverview_alias_modified'] = 'Laatst Bewerkt';
 $PALANG['pOverview_alias_active'] = 'Actief';
 $PALANG['pOverview_alias_edit'] = 'Alias';
 $PALANG['and_x_more'] = '[en %s meer...]';
-$PALANG['pOverview_mailbox_username'] = 'E-mail';
+$PALANG['pOverview_mailbox_username'] = 'e-mail';
 $PALANG['pOverview_mailbox_name'] = 'Naam';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pOverview_mailbox_modified'] = 'Laatst Bewerkt';
@@ -92,7 +92,7 @@ $PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">U 
 $PALANG['pCreate_alias_goto'] = 'Naar';
 $PALANG['pCreate_alias_active'] = 'Actief';
 $PALANG['pCreate_alias_button'] = 'Voeg alias toe';
-$PALANG['pCreate_alias_goto_text'] = 'Waar de e-mails naar gestuurd worden.';
+$PALANG['pCreate_alias_goto_text'] = 'Waar de e-mails heen gestuurd worden.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Waar de e-mail naar toe moet.<br /><span class="error_msg">De NAAR is niet geldig.</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Mislukt om de alias toe te voegen.</span>';
 $PALANG['pCreate_alias_result_success'] = 'De alias is toegevoegd.';
@@ -158,13 +158,13 @@ $PALANG['pPassword_password_text_error'] = '<span class="error_msg">De wachtwoor
 $PALANG['pPassword_button'] = 'Wijzig wachtwoord';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Mislukt om uw wachtwoord te veranderen.</span>';
 $PALANG['pPassword_result_success'] = 'Uw wachtwoord is veranderd.';
-$PALANG['pEdit_vacation_set'] = 'Verander / Activeer beantwoorder tekst';
-$PALANG['pEdit_vacation_remove'] = 'Verwijder beantwoorder tekst';
-$PALANG['pVacation_result_error'] = '<span class="error_msg">Niet in staat automatisch beantwoorder te wijzigen!</span>';
-$PALANG['pVacation_result_removed'] = 'Automatisch beantwoorder is gedeactiveerd!';
-$PALANG['pVacation_result_added'] = 'Automatisch beatwoorder is geactiveerd!';
+$PALANG['pEdit_vacation_set'] = 'Verander / Activeer beantwoorden tekst';
+$PALANG['pEdit_vacation_remove'] = 'Verwijder beantwoorden tekst';
+$PALANG['pVacation_result_error'] = '<span class="error_msg">Niet in staat automatisch beantwoorden te wijzigen!</span>';
+$PALANG['pVacation_result_removed'] = 'Automatisch beantwoorden is gedeactiveerd!';
+$PALANG['pVacation_result_added'] = 'Automatisch beatwoorden is geactiveerd!';
 
-$PALANG['pViewlog_welcome'] = 'Laat de laaste 10 actie\'s zien van ';
+$PALANG['pViewlog_welcome'] = 'Laat de laatste 10 actie\'s zien van ';
 $PALANG['pViewlog_timestamp'] = 'Tijd';
 $PALANG['pViewlog_username'] = 'Beheerder';
 $PALANG['pViewlog_domain'] = 'Domein';
@@ -217,7 +217,7 @@ $PALANG['pAdminList_domain_aliases'] = 'Aliassen';
 $PALANG['pAdminList_domain_mailboxes'] = 'Mailboxen';
 $PALANG['pAdminList_domain_maxquota'] = 'Quota (MB)';
 $PALANG['pAdminList_domain_transport'] = 'Transport';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_backupmx'] = 'Back-up MX';
 $PALANG['pAdminList_domain_modified'] = 'Laatst bewerkt';
 $PALANG['pAdminList_domain_active'] = 'Actief';
 
@@ -228,7 +228,7 @@ $PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Mailboxen';
 $PALANG['pAdminList_virtual_alias_address'] = 'Van';
 $PALANG['pAdminList_virtual_alias_goto'] = 'Naar';
 $PALANG['pAdminList_virtual_alias_modified'] = 'Laatst bewerkt';
-$PALANG['pAdminList_virtual_mailbox_username'] = 'E-mail';
+$PALANG['pAdminList_virtual_mailbox_username'] = 'e-mail';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Naam';
 $PALANG['pAdminList_virtual_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pAdminList_virtual_mailbox_modified'] = 'Laatst bewerkt';
@@ -249,7 +249,7 @@ $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Definieer transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Gebruik standaard aliassen';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is back-up MX';
 $PALANG['pAdminCreate_domain_button'] = 'Voeg Domein toe';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Mislukt om het domein toe te voegen.</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd!';
@@ -265,8 +265,8 @@ $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = uit | 0 = onbeperkt';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = uit | 0 = onbeperkt';
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
-$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX
+$PALANG['pAdminEdit_domain_transport_text'] = 'Defineer transport';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is back-up MX';
 $PALANG['pAdminEdit_domain_active'] = 'Actief';
 $PALANG['pAdminEdit_domain_button'] = 'Bewerk domein';
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Mislukt het domein te bewerken.</span>';
@@ -274,8 +274,8 @@ $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Mislukt het
 $PALANG['pAdminCreate_admin_welcome'] = 'Voeg een nieuw domein beheerder toe';
 $PALANG['pAdminCreate_admin_username'] = 'Beheerder';
 $PALANG['pAdminCreate_admin_username_text'] = 'E-mail adres';
-$PALANG['pAdminCreate_admin_username_text_error1'] = 'E-mail adres<br /><span class="error_msg">Beheerder is geen geldig e-mail adres!</span>';
-$PALANG['pAdminCreate_admin_username_text_error2'] = 'E-mail adres<br /><span class="error_msg">De beheerder bestaat al of is niet geldig</span>';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'e-mail adres<br /><span class="error_msg">Beheerder is geen geldig e-mail adres!</span>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'e-mail adres<br /><span class="error_msg">De beheerder bestaat al of is niet geldig</span>';
 $PALANG['pAdminCreate_admin_password'] = 'Wachtwoord';
 $PALANG['pAdminCreate_admin_password2'] = 'Wachtwoord (nogmaals)';
 $PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">De wachtwoorden die u opgaf komen niet overeen.<br />Of zijn leeg.</span>';
@@ -290,7 +290,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Wachtwoord';
 $PALANG['pAdminEdit_admin_password2'] = 'Wachtwoord (nogmaals)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">De wachtwoorden die u opgaf komen niet overeen.<br />Of zijn leeg.</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Actief';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super administrator';
 $PALANG['pAdminEdit_admin_button'] = 'Bewerk beheerder';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Mislukt om beheerder te bewerken</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Beheerder is bewerkt!';
@@ -306,13 +306,13 @@ $PALANG['pUsersMenu_vacation'] = 'Automatisch beantwoorden';
 $PALANG['pUsersMenu_edit_alias'] = 'Wijzig uw forward';
 $PALANG['pUsersMenu_password'] = 'Wijzig wachtwoord';
 
-$PALANG['pUsersMain_vacation'] = 'Stel een "out of office" bericht of auto-responder voor uw e-mail in.';
+$PALANG['pUsersMain_vacation'] = 'Stel een "out of office" bericht of automatisch beantwoorden voor uw e-mail in.';
 $PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is actief, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/verweideren';
 $PALANG['pUsersMain_edit_alias'] = 'Wijzig uw e-mail forwarding.';
 $PALANG['pUsersMain_password'] = 'Wijzig uw huidige wachtwoord.';
 
 $PALANG['pUsersVacation_welcome'] = 'Automatisch beantwoorden.';
-$PALANG['pUsersVacation_welcome_text'] = 'U heeft al een auto beantwoorder ingesteld.';
+$PALANG['pUsersVacation_welcome_text'] = 'U heeft uw automatisch beantwoorden ingesteld.';
 $PALANG['pUsersVacation_subject'] = 'Onderwerp';
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office';
 $PALANG['pUsersVacation_body'] = 'Bericht';
@@ -322,15 +322,15 @@ Voor belangrijke punten kunt u contact opnemen met <contact person>.
 EOM;
 $PALANG['pUsersVacation_button_away'] = 'Afwezig';
 $PALANG['pUsersVacation_button_back'] = 'Kom terug';
-$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Mislukt om uw automatisch beantwoorder instellingen te wijzigen.</span>';
-$PALANG['pUsersVacation_result_success'] = 'Uw automatisch beantwoorder is verwijderd.';
+$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Mislukt om uw automatisch beantwoorden instellingen te wijzigen.</span>';
+$PALANG['pUsersVacation_result_success'] = 'Uw automatisch beantwoorden is verwijderd.';
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
-$PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX
-$PALANG['pDelete_dbLog_deletealias'] = 'delete alias'; # XXX
-$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox'; # XXX
+$PALANG['pCreate_dbLog_createmailbox'] = 'mailbox aangemaakt';
+$PALANG['pCreate_dbLog_createalias'] = 'alias aangemaakt';
+$PALANG['pDelete_dbLog_deletealias'] = 'alias verwijdert';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'mailbox verwijdert';
 
-$PALANG['pEdit_dbLog_editactive'] = 'change active state'; # XXX
+$PALANG['pEdit_dbLog_editactive'] = 'status verandert';
 $PALANG['pEdit_dbLog_editalias'] = 'bewerk alias';
 $PALANG['pEdit_dbLog_editmailbox'] = 'bewerk mailbox';
 
@@ -346,7 +346,7 @@ $PALANG['pBroadcast_send'] = 'Verzend bericht';
 $PALANG['pBroadcast_success'] = 'Uw broadcast bericht is verzonden.';
 $PALANG['pAdminMenu_broadcast_message'] = 'BC bericht';
 $PALANG['pBroadcast_error_empty'] = 'De velden Naam, Onderwerp en Bericht mogen niet leeg zijn !';
-$PALANG['pStatus_undeliverable'] = 'Misschien onbezorgbaar ';
+$PALANG['pStatus_undeliverable'] = 'Misschien niet af te leveren ';
 $PALANG['pStatus_custom'] = 'Bezorgen op ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['pPasswordTooShort'] = "Wachtwoord is te kort - moet minimaal %s karakters bevatten";
@@ -358,37 +358,37 @@ $PALANG['pFetchmail_error_invalid_id'] = 'Geen item met ID %s gevonden!';
 $PALANG['pFetchmail_invalid_mailbox'] = 'Ongeldige mailbox!';
 $PALANG['pFetchmail_server_missing'] = 'Naam van server!';
 $PALANG['pFetchmail_user_missing'] = 'Naam van de gebruiker!';
-$PALANG['pFetchmail_password_missing'] = 'Please echtwoord!';
-$PALANG['pFetchmail_field_id']              = 'ID'; # XXX
-$PALANG['pFetchmail_field_mailbox']         = 'Mailbox'; # XXX
-$PALANG['pFetchmail_field_src_server']      = 'Server'; # XXX
-$PALANG['pFetchmail_field_src_auth']        = 'Auth Type'; # XXX
-$PALANG['pFetchmail_field_src_user']        = 'User'; # XXX
-$PALANG['pFetchmail_field_src_password']    = 'Password'; # XXX
-$PALANG['pFetchmail_field_src_folder']      = 'Folder'; # XXX
-$PALANG['pFetchmail_field_poll_time']       = 'Poll'; # XXX
-$PALANG['pFetchmail_field_fetchall']        = 'Fetch All'; # XXX
-$PALANG['pFetchmail_field_keep']            = 'Keep'; # XXX
-$PALANG['pFetchmail_field_protocol']        = 'Protocol'; # XXX
-$PALANG['pFetchmail_field_extra_options']   = 'Extra Options'; # XXX
-$PALANG['pFetchmail_field_mda']             = 'MDA'; # XXX
-$PALANG['pFetchmail_field_date']            = 'Date'; # XXX
-$PALANG['pFetchmail_field_returned_text']   = 'Returned Text'; # XXX
-$PALANG['pFetchmail_desc_id']               = 'Record ID'; # XXX
-$PALANG['pFetchmail_desc_mailbox']          = 'Local mailbox'; # XXX
-$PALANG['pFetchmail_desc_src_server']       = 'Remote Server'; # XXX
-$PALANG['pFetchmail_desc_src_auth']         = 'Mostly \'password\''; # Translators: Please do NOT translate 'password' here # XXX
-$PALANG['pFetchmail_desc_src_user']         = 'Remote User'; # XXX
-$PALANG['pFetchmail_desc_src_password']     = 'Remote Password'; # XXX
-$PALANG['pFetchmail_desc_src_folder']       = 'Remote Folder'; # XXX
-$PALANG['pFetchmail_desc_poll_time']        = 'Poll every ... minutes'; # XXX
-$PALANG['pFetchmail_desc_fetchall']         = 'Retrieve  both old (seen) and new messages'; # XXX
-$PALANG['pFetchmail_desc_keep']             = 'Keep retrieved messages on the remote mailserver'; # XXX
-$PALANG['pFetchmail_desc_protocol']         = 'Protocol to use'; # XXX
-$PALANG['pFetchmail_desc_extra_options']    = 'Extra fetchmail Options'; # XXX
-$PALANG['pFetchmail_desc_mda']              = 'Mail Delivery Agent'; # XXX
-$PALANG['pFetchmail_desc_date']             = 'Date of last polling/configuration change'; # XXX
-$PALANG['pFetchmail_desc_returned_text']    = 'Text message from last polling'; # XXX
+$PALANG['pFetchmail_password_missing'] = 'Wachtwoord!';
+$PALANG['pFetchmail_field_id']              = 'ID';
+$PALANG['pFetchmail_field_mailbox']         = 'Mailbox';
+$PALANG['pFetchmail_field_src_server']      = 'Server';
+$PALANG['pFetchmail_field_src_auth']        = 'Autorisatie Type';
+$PALANG['pFetchmail_field_src_user']        = 'Gebruiker';
+$PALANG['pFetchmail_field_src_password']    = 'Wachtwoord';
+$PALANG['pFetchmail_field_src_folder']      = 'Folder';
+$PALANG['pFetchmail_field_poll_time']       = 'Interval';
+$PALANG['pFetchmail_field_fetchall']        = 'Alle mail ophalen';
+$PALANG['pFetchmail_field_keep']            = 'Mail laten staan';
+$PALANG['pFetchmail_field_protocol']        = 'Protocol';
+$PALANG['pFetchmail_field_extra_options']   = 'Extra Opties';
+$PALANG['pFetchmail_field_mda']             = 'MDA';
+$PALANG['pFetchmail_field_date']            = 'Datum';
+$PALANG['pFetchmail_field_returned_text']   = 'Teruggestuurd bericht';
+$PALANG['pFetchmail_desc_id']               = 'Record ID';
+$PALANG['pFetchmail_desc_mailbox']          = 'Naar welke mailbox sturen we de opgehaalde mail.';
+$PALANG['pFetchmail_desc_src_server']       = 'Andere Server.';
+$PALANG['pFetchmail_desc_src_auth']         = 'In de meeste gevallen \'password\''; # Translators: Please do NOT translate 'password' here 
+$PALANG['pFetchmail_desc_src_user']         = 'Gebruiker op andere server.';
+$PALANG['pFetchmail_desc_src_password']     = 'Wachtwoord op andere server.';
+$PALANG['pFetchmail_desc_src_folder']       = 'Folder op andere server.';
+$PALANG['pFetchmail_desc_poll_time']        = 'Check iedere ... minuten.';
+$PALANG['pFetchmail_desc_fetchall']         = 'Haal zowel oude (gelezen) als nieuwe berichten op.';
+$PALANG['pFetchmail_desc_keep']             = 'Laat opgehaalde berichten op de andere server staan.';
+$PALANG['pFetchmail_desc_protocol']         = 'Het te gebruiken protocol.';
+$PALANG['pFetchmail_desc_extra_options']    = 'Extra fetchmail Opties.';
+$PALANG['pFetchmail_desc_mda']              = 'Mail Delivery Agent.';
+$PALANG['pFetchmail_desc_date']             = 'Datum van de laatste polling/configuratie verandering.';
+$PALANG['pFetchmail_desc_returned_text']    = 'Text bericht van de laatste polling.';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
