@@ -333,6 +333,8 @@ function upgrade_90() {
     # old format: "create alias"
     # new format: "create_alias"
     $result = db_query_parsed("UPDATE " . table_by_key ('log') . " SET action = REPLACE(action,' ','_')", TRUE);
+    # change edit_alias_state to edit_alias_active
+    $result = db_query_parsed("UPDATE " . table_by_key ('log') . " SET action = 'edit_alias_state' WHERE action = 'edit_alias_active'", TRUE);
 }
 
 function upgrade_169_mysql() { # MySQL only
