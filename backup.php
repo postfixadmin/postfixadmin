@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    {
       fwrite ($fh, $header);
       
-      $tables = array('admin','alias','domain','domain_admins','log','mailbox','vacation');
+      $tables = array('admin','alias','config','domain','domain_admins','log','mailbox','vacation');
 
       for ($i = 0 ; $i < sizeof ($tables) ; ++$i)
       {
