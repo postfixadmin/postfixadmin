@@ -30,6 +30,11 @@ require_once('common.php');
 
 authentication_require_role('global-admin');
 
+if ($CONF['sendmail'] != 'YES') {
+   header("Location: " . $CONF['postfix_admin_url'] . "/main.php");
+   exit;
+}
+
 $SESSID_USERNAME = authentication_get_username();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
