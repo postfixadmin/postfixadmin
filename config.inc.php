@@ -80,6 +80,7 @@ $CONF['smtp_port'] = '25';
 // Encrypt
 // In what way do you want the passwords to be crypted?
 // md5crypt = internal postfix admin md5
+// md5 = md5 sum of the password
 // system = whatever you have set as your PHP system default
 // cleartext = clear text passwords (ouch!)
 $CONF['encrypt'] = 'md5crypt';
