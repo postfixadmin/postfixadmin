@@ -352,7 +352,7 @@ $PALANG['pBroadcast_subject'] = 'Subject';
 $PALANG['pBroadcast_message'] = 'Message';
 $PALANG['pBroadcast_send'] = 'Send message';
 $PALANG['pBroadcast_success'] = 'Your broadcast message was sent.';
-$PALANG['pAdminMenu_broadcast_message'] = 'BC message';
+$PALANG['pAdminMenu_broadcast_message'] = 'Broadcast message';
 $PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should\'t be empty !';
 
 $PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE ';

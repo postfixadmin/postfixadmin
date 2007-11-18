@@ -353,7 +353,7 @@ $PALANG['pBroadcast_subject'] = 'Téma';
 $PALANG['pBroadcast_message'] = 'Üzenet';
 $PALANG['pBroadcast_send'] = 'Üzenet küldése';
 $PALANG['pBroadcast_success'] = 'Broadcast üzeneted elküldve.';
-$PALANG['pAdminMenu_broadcast_message'] = 'BC üzenet';
+$PALANG['pAdminMenu_broadcast_message'] = 'Broadcast üzenet'; # XXX partly translated
 $PALANG['pBroadcast_error_empty'] = 'A név, téma és üzenet mezők nem lehetnek üresek !';
 
 $PALANG['pStatus_undeliverable'] = 'lehet hogy nem kézbesíthető ';
