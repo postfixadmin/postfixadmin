@@ -22,10 +22,11 @@ $submenu_fetchmail = _menulink("fetchmail.php?new=1", $PALANG['pFetchmail_new_en
 
 if (authentication_has_role('global-admin')) {
    $submenu_domain = _menulink("create-domain.php", $PALANG['pAdminMenu_create_domain']);
+   $submenu_sendmail = _menulink("broadcast-message.php", $PALANG['pAdminMenu_broadcast_message']);
 } else {
    $submenu_domain = "";
+   $submenu_sendmail = "";
 }
-
 
 if (authentication_has_role('global-admin')) {
    print _menulink("list-admin.php", $PALANG['pAdminMenu_list_admin'], $submenu_admin);
@@ -41,17 +42,13 @@ if ($CONF['fetchmail'] == 'YES') {
 }
 
 if ($CONF['sendmail'] == 'YES') {
-   print _menulink("sendmail.php", $PALANG['pMenu_sendmail']);
+   print _menulink("sendmail.php", $PALANG['pMenu_sendmail'], $submenu_sendmail);
 } 
 
 # not really useful in the admin menu
 #if ($CONF['vacation'] == 'YES') {
 #   print _menulink("edit-vacation.php", $PALANG['pUsersMenu_vacation']);
 #}
-
-if (authentication_has_role('global-admin')) {
-   print _menulink("broadcast-message.php", $PALANG['pAdminMenu_broadcast_message']);
-}
 
 print _menulink("password.php", $PALANG['pMenu_password']);
 
