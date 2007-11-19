@@ -16,17 +16,14 @@ REQUIRED!!
 READ THIS FIRST!
 ----------------
 
-Note: !!This document describes upgrading from v1.5x to 2.0.  Only
-items 3 and 5 apply to general PostfixAdmin installs!!  See SVN.TXT
-for how to update versions 2.1.0 and higher.
+This document describes upgrading from an older PostfixAdmin version
+(>= v1.5x)
 
 It's recommened that you install Postfix Admin in a new folder and not
 on-top of the old install!!
 
-When you are upgrading from Postfix Admin 1.5x (or older), make sure you
-backup your database before you run the DOCUMENTS/TABLE_CHANGES.TXT on your database.
-
-When you are upgrading from Postfix Admin 2.0.x, please read the DOCUMENTS/BACKUP_MX.TXT.
+When upgrading Postfix Admin, make sure you backup your database before
+running upgrade.php.
 
 
 1. Backup the Database
@@ -43,42 +40,48 @@ first. There are a lot of changes in the database structure since Postfix Admin
 Make sure that you are in your WWW directory and then unarchive the
 Postfix Admin archive (whatever the filename is):
 
-  $ tar -zxvf postfixadmin-2.0.0.tgz
+  $ tar -zxvf postfixadmin-2.2.tgz
 
 
 3. Change permissions
 ----------------------
-Since the database  password is stored in the config.inc.php it's a good idea
+Since the database password is stored in the config.inc.php it's a good idea
 to have change the permissions for Postfix Admin.
 
-  $ cd /usr/local/www/postfixadmin-2.0.0
-  $ chmod 640 *.php *.css
-  $ cd /usr/local/www/postfixadmin-2.0.0/admin/
-  $ chmod 640 *.php .ht*
-  $ cd /usr/local/www/postfixadmin-2.0.0/images/
-  $ chmod 640 *.gif *.png
-  $ cd /usr/local/www/postfixadmin-2.0.0/languages/
-  $ chmod 640 *.lang
-  $ cd /usr/local/www/postfixadmin-2.0.0/templates/
-  $ chmod 640 *.tpl
-  $ cd /usr/local/www/postfixadmin-2.0.0/users/
-  $ chmod 640 *.php
-  
+  $ cd /usr/local/www/postfixadmin
+  $ find -type f -print0 | xargs -0 chmod 640
+  $ find -type f -print0 | xargs -0 chown root:www
 
-4. Modify the MySQL Tables
---------------------------
-In TABLE_CHANGES.TXT or TABLE_BACKUP_MX.TXT you can find the table structure that you need in order
-to configure Postfix Admin 2.0.0 and Postfix in general to work with Virtual
-Domains and Users. You can find these in DOCUMENTS/
+(the last command assumes your Apache is running with group "www")
 
 
-5. Configure
+4. Configure
 ------------
 Check the config.inc.php file. There you can specify settings that are
 relevant to your setup.
 
+Comparing config.inc.php with your previous using "diff" might save you some
+time.
 
-6. Done
+
+5. Modify the MySQL Tables
+--------------------------
+Open upgrade.php in your browser to update your database scheme.
+
+If you update from 2.1 or older, also open setup.php to create a superadmin
+account.
+
+Note that admin/ has been merged into the main directory. Login with the
+superadmin account to setup domains and domain admins.
+
+
+6. Delete setup.php
+-------------------
+Delete setup.php - it allown non-authorized users to create a superadmin
+account!
+
+
+7. Done
 -------
 This is all that is needed. Fire up your browser and go to the site that you
 specified to host Postfix Admin.
