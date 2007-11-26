@@ -124,8 +124,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 
-include ("$incpath/templates/header.tpl");
-include ("$incpath/templates/menu.tpl");
-include ("$incpath/templates/edit-alias.tpl");
-include ("$incpath/templates/footer.tpl");
+include ("templates/header.tpl");
+include ("templates/menu.tpl");
+include ("templates/edit-alias.tpl");
+include ("templates/footer.tpl");
 ?>

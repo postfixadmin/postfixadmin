@@ -116,9 +116,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
     }
 
-include ("$incpath/templates/header.tpl");
-include ("$incpath/templates/menu.tpl");
-include ("$incpath/templates/search.tpl");
-include ("$incpath/templates/footer.tpl");
+include ("templates/header.tpl");
+include ("templates/menu.tpl");
+include ("templates/search.tpl");
+include ("templates/footer.tpl");
 
 ?>

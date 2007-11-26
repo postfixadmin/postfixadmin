@@ -191,9 +191,9 @@ else {
    $tMessage = $PALANG['pVacation_result_error'];
 }
 
-include ("$incpath/templates/header.tpl");
-include ("$incpath/templates/menu.tpl");
-include ("$incpath/templates/edit-vacation.tpl");
-include ("$incpath/templates/footer.tpl");
+include ("templates/header.tpl");
+include ("templates/menu.tpl");
+include ("templates/edit-vacation.tpl");
+include ("templates/footer.tpl");
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

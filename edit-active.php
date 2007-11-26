@@ -91,9 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    }
 }
 
-include ("$incpath/templates/header.tpl");
-include ("$incpath/templates/menu.tpl");
-include ("$incpath/templates/message.tpl");
-include ("$incpath/templates/footer.tpl");
+include ("templates/header.tpl");
+include ("templates/menu.tpl");
+include ("templates/message.tpl");
+include ("templates/footer.tpl");
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
