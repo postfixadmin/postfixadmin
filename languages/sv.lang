@@ -41,7 +41,7 @@ $PALANG['pMenu_logout'] = 'Logga ut';
 $PALANG['pMain_welcome'] = 'Välkommen till Postfix Admin!';
 $PALANG['pMain_overview'] = 'Lista dina alias och brevlådan. Du kan ändra / radera dem här.';
 $PALANG['pMain_create_alias'] = 'Skapa nytt alias i din domän.';
-$PALANG['pMain_create_mailbox'] = 'Skapa nytt brevlåda i din domän.';
+$PALANG['pMain_create_mailbox'] = 'Skapa ny brevlåda i din domän.';
 $PALANG['pMain_sendmail'] = 'Skicka ett mail till en av mailadresserna.';
 $PALANG['pMain_password'] = 'Ändra lösenord för adminkontot.';
 $PALANG['pMain_viewlog'] = 'Visa loggfiler.';
@@ -174,12 +174,12 @@ $PALANG['pViewlog_data'] = 'Data';
 $PALANG['pViewlog_action_create_mailbox'] = 'skapa brevlåda';
 $PALANG['pViewlog_action_delete_mailbox'] = 'radera brevlåda';
 $PALANG['pViewlog_action_edit_mailbox'] = 'ändra brevlåda';
-$PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active'; # XXX
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'ändra brevlåde status';
 $PALANG['pViewlog_action_create_alias'] = 'skapa alias';
 $PALANG['pViewlog_action_delete_alias'] = 'radera alias';
 $PALANG['pViewlog_action_edit_alias'] = 'ändra alias';
-$PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
-$PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
+$PALANG['pViewlog_action_edit_alias_state'] = 'ändra alias status';
+$PALANG['pViewlog_action_edit_password'] = 'ändra lösenord';
 
 $PALANG['pViewlog_button'] = 'Kör';
 $PALANG['pViewlog_result_error'] = '<span class="error_msg">Kan inte hitta loggarna!</span>';
@@ -192,8 +192,8 @@ $PALANG['pSendmail_subject'] = 'Ämne';
 $PALANG['pSendmail_subject_text'] = 'Välkommen';
 $PALANG['pSendmail_body'] = 'Meddelande';
 $PALANG['pSendmail_button'] = 'Skicka';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Kan inte skapa mail inkorg!</span>';
-$PALANG['pSendmail_result_success'] = 'Mail inkorg har skapats!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Mailet kunde inte skickas!</span>';
+$PALANG['pSendmail_result_success'] = 'Mailet har skickats!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Administratörer';
 $PALANG['pAdminMenu_list_domain'] = 'Domäner';
@@ -338,14 +338,14 @@ $PALANG['pEdit_dbLog_editmailbox'] = 'ändra brevlåda';
 $PALANG['pSearch'] = 'sök';
 $PALANG['pSearch_welcome'] = 'Söker efter: ';
 $PALANG['pReturn_to'] = 'Återvänd till';
-$PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
+$PALANG['pBroadcast_title'] = 'Grupputskick till alla';
 $PALANG['pBroadcast_from'] = 'Från';
 $PALANG['pBroadcast_name'] = 'Ditt namn';
 $PALANG['pBroadcast_subject'] = 'Ämne';
 $PALANG['pBroadcast_message'] = 'Meddelande';
 $PALANG['pBroadcast_send'] = 'Skicka';
-$PALANG['pBroadcast_success'] = 'Your broadcast message was sent.'; # XXX
-$PALANG['pAdminMenu_broadcast_message'] = 'Broadcast message'; # XXX
+$PALANG['pBroadcast_success'] = 'Ditt grupputskick har sänts.';
+$PALANG['pAdminMenu_broadcast_message'] = 'Grupputskick';
 $PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should\'t be empty !'; # XXX
 $PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE '; # XXX
 $PALANG['pStatus_custom'] = 'Delivers to '; # XXX
