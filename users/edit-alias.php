@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $pEdit_alias_goto = $PALANG['pEdit_alias_goto'];
 
     if (isset ($_POST['fVacation'])) $fVacation = $_POST['fVacation'];   
-    if (isset ($_POST['fGoto'])) $fGoto = escape_string ($_POST['fGoto']);
+    if (isset ($_POST['fGoto'])) $fGoto = escape_string (trim($_POST['fGoto']));
     if (isset ($_POST['fForward_and_store'])) $fForward_and_store = escape_string ($_POST['fForward_and_store']);
 
     $goto = strtolower ($fGoto);
