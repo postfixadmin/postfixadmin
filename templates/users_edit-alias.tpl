@@ -15,14 +15,7 @@
 <?php
 $array = preg_split ('/,/', $tGoto);
 
-if (!in_array($USERID_USERNAME,$array))
-{
-   $just_forward="YES";
-}
-else
-{
-   $just_forward="NO";
-}
+$just_forward="YES"; # unless changed below
 
 for ($i = 0 ; $i < sizeof ($array) ; $i++)
 {
@@ -30,6 +23,10 @@ for ($i = 0 ; $i < sizeof ($array) ; $i++)
    if ($array[$i] == "$vacation_goto")
    {
       $vacation = "YES";
+      continue;
+   }
+   if ($array[$i] == $USERID_USERNAME) {
+      $just_forward="NO";
       continue;
    }
    print "$array[$i]\n";
@@ -61,3 +58,5 @@ for ($i = 0 ; $i < sizeof ($array) ; $i++)
 </table>
 </form>
 </div>
+
+<?php /* vim: set ft=php expandtab softtabstop=3 tabstop=3 shiftwidth=3: */ ?>
