@@ -76,7 +76,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
      $tGoto = $fGoto;
      $tMessage = $PALANG['pEdit_alias_result_error'];
    }
-   elseif (empty ($fGoto))
+
+   $goto = preg_replace ('/\\\r\\\n/', ',', $fGoto);
+   $goto = preg_replace ('/\r\n/', ',', $goto);
+   $goto = preg_replace ('/[\s]+/i', '', $goto);
+   $goto = preg_replace ('/,*$|^,*/', '', $goto);
+   $goto = preg_replace ('/,,*/', ',', $goto);
+
+   if (empty ($goto))
    {
       $error = 1;
       $tGoto = $_POST['fGoto'];
@@ -85,10 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if ($error != 1)
    {
-      $goto = preg_replace ('/\\\r\\\n/', ',', $fGoto);
-      $goto = preg_replace ('/\r\n/', ',', $goto);
-      $goto = preg_replace ('/[\s]+/i', '', $goto);
-      $goto = preg_replace ('/\,*$/', '', $goto);
       $array = preg_split ('/,/', $goto);
    }
    else
@@ -98,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 	for ($i = 0; $i < sizeof ($array); $i++) {
 		if (in_array ("$array[$i]", $CONF['default_aliases'])) continue;
-		if (empty ($array[$i])) continue;
+		if (empty ($array[$i])) continue; # TODO: should never happen - remove after 2.2 release
 		if (!check_email ($array[$i]))
 		{
    		$error = 1;
@@ -128,4 +131,6 @@ include ("templates/header.tpl");
 include ("templates/menu.tpl");
 include ("templates/edit-alias.tpl");
 include ("templates/footer.tpl");
+
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
