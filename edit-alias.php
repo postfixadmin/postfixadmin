@@ -127,6 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 
+$fAddress = htmlentities($fAddress, ENT_QUOTES);
+$fDomain = htmlentities($fDomain, ENT_QUOTES);
 include ("templates/header.php");
 include ("templates/menu.php");
 include ("templates/edit-alias.php");
