@@ -14,7 +14,7 @@
  * 
  * File: create-admin.php
  * Used to create new administrators.
- * Template File: admin_create-admin.tpl
+ * Template File: admin_create-admin.php
  *
  *
  * Template Variables:
@@ -60,10 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/admin_create-admin.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/admin_create-admin.php");
+include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

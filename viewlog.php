@@ -15,7 +15,7 @@
  * File: viewlog.php
  * Shows entries from the log table to users.
  *
- * Template File: viewlog.tpl
+ * Template File: viewlog.php
  *
  * Template Variables:
  *
@@ -74,10 +74,10 @@ if ($error != 1)
    }
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/viewlog.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/viewlog.php");
+include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

@@ -17,7 +17,7 @@
  * Note: if a domain is deleted, all mailboxes and aliases belonging 
  * to the domain are also removed.
  *
- * Template File: message.tpl
+ * Template File: message.php
  *
  * Template Variables:
  *
@@ -164,10 +164,10 @@ else
 }
 
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/message.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/message.php");
+include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

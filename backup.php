@@ -63,10 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if (!$fh = fopen ($backup, 'w'))
    {
       $tMessage = "<div class=\"error_msg\">Cannot open file ($backup)</div>";
-      include ("templates/header.tpl");
-      include ("templates/menu.tpl");
-      include ("templates/message.tpl");
-      include ("templates/footer.tpl");
+      include ("templates/header.php");
+      include ("templates/menu.php");
+      include ("templates/message.php");
+      include ("templates/footer.php");
    } 
    else
    {

@@ -330,10 +330,10 @@ TODO: this is the end of /create-mailbox.php code segment
    }
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/create-mailbox.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/create-mailbox.php");
+include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

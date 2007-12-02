@@ -15,7 +15,7 @@
  * File: edit-alias.php 
  * Used to update an alias.
  *
- * Template File: edit-alias.tpl
+ * Template File: edit-alias.php
  *
  * Template Variables:
  *
@@ -127,10 +127,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/edit-alias.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/edit-alias.php");
+include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

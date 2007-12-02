@@ -14,7 +14,7 @@
  * 
  * File: main.php
  * 'Home page' for logged in users.
- * Template File: main.tpl
+ * Template File: main.php
  *
  * Template Variables:
  *
@@ -40,17 +40,17 @@ else
 
 if ($_SERVER["REQUEST_METHOD"] == "GET")
 {
-   include ("../templates/header.tpl");
-   include ("../templates/users_menu.tpl");
-   include ("../templates/users_main.tpl");
-   include ("../templates/footer.tpl");
+   include ("../templates/header.php");
+   include ("../templates/users_menu.php");
+   include ("../templates/users_main.php");
+   include ("../templates/footer.php");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-   include ("../templates/header.tpl");
-   include ("../templates/users_menu.tpl");
-   include ("../templates/users_main.tpl");
-   include ("../templates/footer.tpl");
+   include ("../templates/header.php");
+   include ("../templates/users_menu.php");
+   include ("../templates/users_main.php");
+   include ("../templates/footer.php");
 }
 ?>

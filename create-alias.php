@@ -11,7 +11,7 @@
  *     http://www.postfixadmin.com or http://postfixadmin.sf.net
  *
  * File: create-alias.php
- * Template File: create-alias.tpl
+ * Template File: create-alias.php
  * Responsible for allowing for the creation of mail aliases.
  *
  * @version $Id$
@@ -152,8 +152,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/create-alias.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/create-alias.php");
+include ("templates/footer.php");
 ?>

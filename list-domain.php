@@ -14,7 +14,7 @@
  * 
  * File: list-domain.php
  * List all domains as a quick overview.
- * Template File: admin_list-domain.tpl
+ * Template File: admin_list-domain.php
  *
  * Template Variables:
  *
@@ -59,15 +59,15 @@ if (isset($admin_properties) && $admin_properties['domain_count'] == 'ALL') { # 
    }
 #}
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
 
 if ($is_superadmin) {
-   include ("templates/admin_list-domain.tpl");
+   include ("templates/admin_list-domain.php");
 } else {
-   include ("templates/overview-get.tpl");
+   include ("templates/overview-get.php");
 }
-include ("templates/footer.tpl");
+include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

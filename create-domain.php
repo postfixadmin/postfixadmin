@@ -14,7 +14,7 @@
  * 
  * File: create-domain.php
  * Allows administrators to create new domains.
- * Template File: admin_create-domain.tpl
+ * Template File: admin_create-domain.php
  *
  * Template Variables:
  *
@@ -120,10 +120,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/admin_create-domain.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/admin_create-domain.php");
+include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

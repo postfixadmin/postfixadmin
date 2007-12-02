@@ -14,7 +14,7 @@
  * 
  * File: password.php
  * Used by users to change their mailbox (and login) password.
- * Template File: users_password.tpl
+ * Template File: users_password.php
  *
  * Template Variables:
  *
@@ -91,10 +91,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
-include ("../templates/header.tpl");
-include ("../templates/users_menu.tpl");
-include ("../templates/users_password.tpl");
-include ("../templates/footer.tpl");
+include ("../templates/header.php");
+include ("../templates/users_menu.php");
+include ("../templates/users_password.php");
+include ("../templates/footer.php");
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

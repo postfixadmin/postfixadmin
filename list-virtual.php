@@ -15,7 +15,7 @@
  * File: list-virtual.php
  * List virtual users for a domain.
  *
- * Template File: list-virtual.tpl
+ * Template File: list-virtual.php
  *
  * Template Variables:
  *
@@ -165,10 +165,10 @@ if (isset ($limit)) {
 }
 
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/list-virtual.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/list-virtual.php");
+include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

@@ -15,7 +15,7 @@
  * File: edit-vacation.php 
  * Responsible for allowing users to update their vacation status.
  *
- * Template File: edit-vacation.tpl
+ * Template File: edit-vacation.php
  *
  * Template Variables:
  *
@@ -191,9 +191,9 @@ else {
    $tMessage = $PALANG['pVacation_result_error'];
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/edit-vacation.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/edit-vacation.php");
+include ("templates/footer.php");
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

@@ -15,7 +15,7 @@
  * File: vacation.php
  * Used by users to set/change their vacation settings.
  *
- * Template File: users_vacation.tpl
+ * Template File: users_vacation.php
  *
  * Template Variables:
  *
@@ -182,10 +182,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
-include ("../templates/header.tpl");
-include ("../templates/users_menu.tpl");
-include ("../templates/users_vacation.tpl");
-include ("../templates/footer.tpl");
+include ("../templates/header.php");
+include ("../templates/users_menu.php");
+include ("../templates/users_vacation.php");
+include ("../templates/footer.php");
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

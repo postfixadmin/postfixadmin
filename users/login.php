@@ -14,7 +14,7 @@
  * 
  * File: login.php
  * Used to authenticate want-to-be users.
- * Template File: login.tpl
+ * Template File: login.php
  *
  * Template Variables:
  *
@@ -32,9 +32,9 @@ require_once("../common.php");
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-   include ("../templates/header.tpl");
-   include ("../templates/users_login.tpl");
-   include ("../templates/footer.tpl");
+   include ("../templates/header.php");
+   include ("../templates/users_login.php");
+   include ("../templates/footer.php");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -78,9 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       exit;
    }
 
-   include ("../templates/header.tpl");
-   include ("../templates/users_login.tpl");
-   include ("../templates/footer.tpl");
+   include ("../templates/header.php");
+   include ("../templates/users_login.php");
+   include ("../templates/footer.php");
 }
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

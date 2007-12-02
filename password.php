@@ -14,7 +14,7 @@
  * 
  * File: password.php
  * Allows admins to change their own password.
- * Template File: password.tpl
+ * Template File: password.php
  *
  * Template Variables:
  *
@@ -35,10 +35,10 @@ $SESSID_USERNAME = authentication_get_username();
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-    include ("./templates/header.tpl");
-    include ("./templates/menu.tpl");
-    include ("./templates/password.tpl");
-    include ("./templates/footer.tpl");
+    include ("./templates/header.php");
+    include ("./templates/menu.php");
+    include ("./templates/password.php");
+    include ("./templates/footer.php");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -88,9 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
     }
 
-    include ("./templates/header.tpl");
-    include ("./templates/menu.tpl");
-    include ("./templates/password.tpl");
-    include ("./templates/footer.tpl");
+    include ("./templates/header.php");
+    include ("./templates/menu.php");
+    include ("./templates/password.php");
+    include ("./templates/footer.php");
 }
 ?>

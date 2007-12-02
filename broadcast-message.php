@@ -15,7 +15,7 @@
  * File: broadcast-message.php
  * Used to send a message to _ALL_ users with mailboxes on this server.
  *
- * Template File: broadcast-message.tpl
+ * Template File: broadcast-message.php
  *
  * Template Variables: -none-
  *
@@ -78,19 +78,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             }
          }
       }
-      include ("templates/header.tpl");
-      include ("templates/menu.tpl");
+      include ("templates/header.php");
+      include ("templates/menu.php");
       echo '<p>'.$PALANG['pBroadcast_success'].'</p>';
-      include ("templates/footer.tpl");
+      include ("templates/footer.php");
    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "GET" || $error == 1)
 {
-   include ("templates/header.tpl");
-   include ("templates/menu.tpl");
-   include ("templates/broadcast-message.tpl");
-   include ("templates/footer.tpl");
+   include ("templates/header.php");
+   include ("templates/menu.php");
+   include ("templates/broadcast-message.php");
+   include ("templates/footer.php");
 }
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

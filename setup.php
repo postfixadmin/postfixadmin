@@ -27,7 +27,7 @@ require_once("languages/en.lang");
 require_once("functions.inc.php");
 
 $CONF['show_header_text'] = 'NO';
-require('templates/header.tpl');
+require('templates/header.php');
 ?>
 
 <div class='setup'>

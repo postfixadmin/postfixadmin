@@ -14,7 +14,7 @@
  * 
  * File: main.php
  * Displays a menu/home page.
- * Template File: main.tpl
+ * Template File: main.php
  *
  * Template Variables: -none-
  *
@@ -27,8 +27,8 @@ $SESSID_USERNAME = authentication_get_username();
 
 authentication_require_role('admin');
 
-include ("./templates/header.tpl");
-include ("./templates/menu.tpl");
-include ("./templates/main.tpl");
-include ("./templates/footer.tpl");
+include ("./templates/header.php");
+include ("./templates/menu.php");
+include ("./templates/main.php");
+include ("./templates/footer.php");
 ?>

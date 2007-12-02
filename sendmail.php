@@ -14,7 +14,7 @@
  * 
  * File: sendmail.php
  * Used to send an email to a user.
- * Template File: sendmail.tpl
+ * Template File: sendmail.php
  *
  * Template Variables:
  *
@@ -74,10 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 
-include ("./templates/header.tpl");
-include ("./templates/menu.tpl");
-include ("./templates/sendmail.tpl");
-include ("./templates/footer.tpl");
+include ("./templates/header.php");
+include ("./templates/menu.php");
+include ("./templates/sendmail.php");
+include ("./templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

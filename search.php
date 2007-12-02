@@ -14,7 +14,7 @@
  * 
  * File: search.php
  * Provides a method for searching for a user/mailbox
- * Template File: search.tpl
+ * Template File: search.php
  *
  * Template Variables:
  *
@@ -116,9 +116,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
     }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/search.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/search.php");
+include ("templates/footer.php");
 
 ?>

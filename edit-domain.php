@@ -14,7 +14,7 @@
  * 
  * File: edit-domain.php 
  * Updates the properties of a domain.
- * Template File: admin_edit-domain.tpl
+ * Template File: admin_edit-domain.php
  *
  * Template Variables:
  *
@@ -104,10 +104,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 	}
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/admin_edit-domain.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/admin_edit-domain.php");
+include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

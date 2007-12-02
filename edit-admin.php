@@ -15,7 +15,7 @@
  * File: edit-admin.php
  * Edits a normal administrator's details.
  *
- * Template File: admin_edit-admin.tpl
+ * Template File: admin_edit-admin.php
  *
  * Template Variables:
  *
@@ -150,10 +150,10 @@ if ($result['rows'] >= 1) {
     }
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/admin_edit-admin.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/admin_edit-admin.php");
+include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

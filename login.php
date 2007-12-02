@@ -14,7 +14,7 @@
  * 
  * File: login.php
  * Authenticates a user, and populates their $_SESSION as appropriate.
- * Template File: login.tpl
+ * Template File: login.php
  *
  * Template Variables:
  *
@@ -43,9 +43,9 @@ if (file_exists (realpath ("./setup.php"))) {
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-    include ("./templates/header.tpl");
-    include ("./templates/login.tpl");
-    include ("./templates/footer.tpl");
+    include ("./templates/header.php");
+    include ("./templates/login.php");
+    include ("./templates/footer.php");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -94,8 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         exit(0);
     }
 
-    include ("./templates/header.tpl");
-    include ("./templates/login.tpl");
-    include ("./templates/footer.tpl");
+    include ("./templates/header.php");
+    include ("./templates/login.php");
+    include ("./templates/footer.php");
 }
 ?>

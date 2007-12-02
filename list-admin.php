@@ -14,7 +14,7 @@
  * 
  * File: list-admin.php
  * Lists all administrators
- * Template File: list-admin.tpl
+ * Template File: list-admin.php
  *
  * Template Variables: -none-
  *
@@ -32,9 +32,9 @@ if ((is_array ($list_admins) and sizeof ($list_admins) > 0)) {
    }
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/admin_list-admin.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/admin_list-admin.php");
+include ("templates/footer.php");
 
 ?>

@@ -14,7 +14,7 @@
  * 
  * File: edit-mailbox.php 
  * Used to update an existing mailboxes settings.
- * Template File: edit-mailbox.tpl
+ * Template File: edit-mailbox.php
  *
  * Template Variables:
  *
@@ -157,9 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 
-include ("templates/header.tpl");
-include ("templates/menu.tpl");
-include ("templates/edit-mailbox.tpl");
-include ("templates/footer.tpl");
+include ("templates/header.php");
+include ("templates/menu.php");
+include ("templates/edit-mailbox.php");
+include ("templates/footer.php");
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

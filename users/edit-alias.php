@@ -15,7 +15,7 @@
  * File: edit-alias.php
  * Users can use this to set forwards etc for their mailbox.
  *
- * Template File: users_edit-alias.tpl
+ * Template File: users_edit-alias.php
  *
  * Template Variables:
  *
@@ -55,10 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
         $tMessage = $PALANG['pEdit_alias_address_error'];
     }
 
-    include ("../templates/header.tpl");
-    include ("../templates/users_menu.tpl");
-    include ("../templates/users_edit-alias.tpl");
-    include ("../templates/footer.tpl");
+    include ("../templates/header.php");
+    include ("../templates/users_menu.php");
+    include ("../templates/users_edit-alias.php");
+    include ("../templates/footer.php");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -130,9 +130,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
     }
 
-    include ("../templates/header.tpl");
-    include ("../templates/users_menu.tpl");
-    include ("../templates/users_edit-alias.tpl");
-    include ("../templates/footer.tpl");
+    include ("../templates/header.php");
+    include ("../templates/users_menu.php");
+    include ("../templates/users_edit-alias.php");
+    include ("../templates/footer.php");
 }
 ?>
