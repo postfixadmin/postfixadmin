@@ -1,3 +1,4 @@
+<?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
 <div id="overview">
 <form name="overview" method="get">
 <select class="flat" name="domain" onChange="this.form.submit();">

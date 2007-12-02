@@ -1,3 +1,4 @@
+<?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
 <?php
 require(dirname(__FILE__) . '/search.tpl');
 

@@ -1,3 +1,4 @@
+<?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
 <div id="edit_form">
 <form name="broadcast-message" method="post">
 <table>

@@ -1,3 +1,4 @@
+<?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
 <div id="menu">
 <ul>
    <li><a target="_top" href="<?php print $CONF['user_footer_link']; ?>"><?php print $PALANG['pMenu_main']; ?></a></li>

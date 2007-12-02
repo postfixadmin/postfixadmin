@@ -1,3 +1,4 @@
+<?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
 <div id="overview">
 <form name="search" method="post" action="search.php">
 <table width=750><tr>

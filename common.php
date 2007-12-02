@@ -16,6 +16,9 @@
  * All pages should include this file - which itself sets up the necessary
  * environment and ensures other functions are loaded.
  */
+
+define('POSTFIXADMIN', 1); # checked in included files
+
 $incpath = dirname(__FILE__);
 (ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_runtime', '0') : '1');
 (ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_sybase', '0') : '1');

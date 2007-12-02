@@ -1,3 +1,4 @@
+<?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
 <?php
 @header ("Expires: Sun, 16 Mar 2003 05:00:00 GMT");
 @header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
