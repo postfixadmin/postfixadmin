@@ -109,6 +109,44 @@ function cleanup() {
 } # end cleanup()
 
 
+statistics() {
+	(
+	cat << 'EOF'
+Postfixadmin - translation statistics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Translating is easy:
+- download your language file from SVN
+  http://postfixadmin.svn.sourceforge.net/viewvc/postfixadmin/trunk/languages/
+- search for lines with '# XXX' comments and
+  - translate the line
+  - remove the '# XXX'
+  Note: The file is utf-8 encoded. You can also use htmlentities.
+- post your translation to the tracker
+  http://sourceforge.net/tracker/?group_id=191583&atid=937966
+
+
+Number of missing translations:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+EOF
+
+	grep -c XXX *.lang |sed 's/:/: /'
+
+	cat << 'EOF'
+
+
+Statistics based on:
+EOF
+
+	LANG=C svn info |grep 'Revision:\|Last Changed Date:'
+	) > postfixadmin-languages.txt
+
+	echo "Translation statistics have been saved as postfixadmin-languages.txt"
+
+} # end statistics()
+
+
 usage() {
 	echo '
     Usage:
@@ -133,6 +171,11 @@ usage() {
     Rename $PALANG['"'"'old_string'"'"'] to $PALANG['"'"'new_string'"'"']
 
 
+'"$0"' --stats
+
+    Print translation statistics to postfixadmin-languages.txt
+
+
 Common parameters:
 
     --patch
@@ -153,6 +196,7 @@ notext=0 # output full lines by default
 patch=0  # do not patch by default
 nocleanup=0 # don't delete tempfiles
 rename=0 # rename a string
+stats=0  # create translation statistics
 rename_old=''
 renane_new=''
 filelist=''
@@ -180,6 +224,9 @@ while [ -n "$1" ] ; do
 			echo "$rename_new" | grep '^[a-z_-]*\.lang$' && rename_new='' # error out on *.lang - probably a filename
 			test -z "$rename_new" && { echo '--rename needs two parameters' >&2 ; exit 1 ; }
 			;;
+		--stats)
+			stats=1
+			;;
 		-*)
 			echo 'unknown option. Try --help ;-)' >&2
 			exit 1
@@ -197,5 +244,7 @@ test $notext = 1 && test $rename = 1 && echo "ERROR: You can't use --notext AND 
 test "$filelist" = "" && filelist="`ls -1 *.lang`"
 
 test "$rename" = 1 && { rename_string ; cleanup ; exit 0 ; }
+
+test "$stats" = 1 && { statistics ; exit 0 ; }
 
 update_string_list ; cleanup # default operation
