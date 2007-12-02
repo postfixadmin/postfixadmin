@@ -33,12 +33,14 @@ $CONF['configured'] = false;
 
 // Postfix Admin Path
 // Set the location of your Postfix Admin installation here.
-// You must enter complete url (http://domain.tld/) and full path (/var/www/postfixadmin)
+// You must enter complete url (http://domain.tld/) 
 $CONF['postfix_admin_url'] = '';
+
+// leave this alone...
 $CONF['postfix_admin_path'] = dirname(__FILE__);
 
 // Language config
-// Language files are located in './languages'.
+// Language files are located in './languages', change as required..
 $CONF['default_language'] = 'en';
 
 // Database Config
@@ -314,15 +316,11 @@ $CONF['show_custom_colors']=array("lightgreen","lightblue");
 // that future updates work without problems, you can use a separate config 
 // file (config.local.php) instead of editing this file and override some
 // settings there.
-if (file_exists (realpath ("./config.local.php"))) { # for /
-   include('config.local.php');
-} elseif (file_exists (realpath ("../config.local.php"))) { # for /users/
-   include('../config.local.php');
-};
-
+if (file_exists(dirname(__FILE__) . '/config.local.php')) { # for /
+    include(dirname(__FILE__) . '/config.local.php');
+}
 
 //
 // END OF CONFIG FILE
 //
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
-?>
