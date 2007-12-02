@@ -164,7 +164,8 @@ if (isset ($limit)) {
    }
 }
 
-
+// this is why we need a proper template layer.
+$fDomain = htmlentities($fDomain, ENT_QUOTES);
 include ("templates/header.php");
 include ("templates/menu.php");
 include ("templates/list-virtual.php");
