@@ -6,7 +6,7 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pCreate_mailbox_username'] . ":"; ?></td>
-      <td><input class="flat" type="text" name="fUsername" value="<?php print $tUsername; ?>" /></td>
+      <td><input class="flat" type="text" name="fUsername" value="<?php print $tUsername; ?>" autocomplete="off"/></td>
       <td>
       <select name="fDomain">
       <?php
