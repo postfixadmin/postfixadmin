@@ -160,6 +160,7 @@ $PALANG['pPassword_password_text_error'] = '<span class="error_msg">The password
 $PALANG['pPassword_button'] = 'Change Password';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Unable to change your password!</span>';
 $PALANG['pPassword_result_success'] = 'Your password has been changed!';
+$PALANG['pPassword_too_short_error'] = "Password must be longer than {$CONF['min_password_length']} characters";
 
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message';
 $PALANG['pEdit_vacation_remove'] = 'Remove away message';
