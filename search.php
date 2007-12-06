@@ -57,68 +57,77 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
 }
 
-    if (empty ($fSearch) /* && !empty ($fGo) */)
-    {
-        header("Location: list-virtual.php?domain=" . $fDomain ) && exit;
-    }
+if (empty ($fSearch) /* && !empty ($fGo) */)
+{
+    header("Location: list-virtual.php?domain=" . $fDomain ) && exit;
+}
 
-    if ($CONF['alias_control_admin'] == "YES")
-    {
-        $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain,$table_alias.active FROM $table_alias WHERE $table_alias.address LIKE '%$fSearch%' OR $table_alias.goto LIKE '%$fSearch%' ORDER BY $table_alias.address";
-    }
-    else
-    {
-        $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.domain,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
-    }
+if ($CONF['alias_control_admin'] == "YES")
+{
+    $query = "SELECT $table_alias.address AS address, $table_alias.goto AS goto, 
+        $table_alias.modified AS modified, $table_alias.domain AS domain, $table_alias.active AS active 
+        FROM $table_alias 
+        WHERE address LIKE '%$fSearch%' OR goto LIKE '%$fSearch%' ORDER BY address";
+}
+else
+{
+    // find all aliases which don't have a matching entry in table_mailbox
+    $query = "SELECT $table_alias.address AS address, $table_alias.goto AS goto,
+        $table_alias.modified AS modified, $table_alias.domain AS domain, $table_alias.active AS active 
+        FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username 
+        WHERE address LIKE '%$fSearch%' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address";
 
-    $result = db_query ($query);
-    if ($result['rows'] > 0)
+}
+
+$result = db_query ($query);
+if ($result['rows'] > 0)
+{
+    while ($row = db_array ($result['result']))
     {
-        while ($row = db_array ($result['result']))
+        if (check_owner ($SESSID_USERNAME, $row['domain']) || authentication_has_role('global-admin'))
         {
-            if (check_owner ($SESSID_USERNAME, $row['domain']) || authentication_has_role('global-admin'))
+            if ('pgsql'==$CONF['database_type'])
             {
-                if ('pgsql'==$CONF['database_type'])
-                {
-                    $row['modified']=gmstrftime('%c %Z',$row['modified']);
-                    $row['active']=('t'==$row['active']) ? 1 : 0;
-                }         	
-                $tAlias[] = $row;
-            }
+                $row['modified']=gmstrftime('%c %Z',$row['modified']);
+                $row['active']=('t'==$row['active']) ? 1 : 0;
+            }         	
+            $tAlias[] = $row;
         }
     }
+}
 
 
-    if ($CONF['vacation_control_admin'] == 'YES' && $CONF['vacation'] == 'YES')
-    {
-        $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.username LIKE '%$fSearch%' OR $table_mailbox.name LIKE '%$fSearch%' ORDER BY $table_mailbox.username");
-    }
-    else
-    {
-        $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
-    }
+if ($CONF['vacation_control_admin'] == 'YES' && $CONF['vacation'] == 'YES')
+{
+    $query = ("SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email WHERE $table_mailbox.username LIKE '%$fSearch%' OR $table_mailbox.name LIKE '%$fSearch%' ORDER BY $table_mailbox.username");
+}
+else
+{
+    $query = "SELECT * FROM $table_mailbox WHERE username LIKE '%$fSearch%' OR name LIKE '%$fSearch%' ORDER BY username";
+}
 
-    $result = db_query ($query);
-    if ($result['rows'] > 0)
+$result = db_query ($query);
+if ($result['rows'] > 0)
+{
+    while ($row = db_array ($result['result']))
     {
-        while ($row = db_array ($result['result']))
+        if (check_owner ($SESSID_USERNAME, $row['domain']) || authentication_has_role('global-admin'))
         {
-            if (check_owner ($SESSID_USERNAME, $row['domain']) || authentication_has_role('global-admin'))
+            if ('pgsql'==$CONF['database_type'])
             {
-                if ('pgsql'==$CONF['database_type'])
-                {
-                    $row['created']=gmstrftime('%c %Z',strtotime($row['created']));
-                    $row['modified']=gmstrftime('%c %Z',strtotime($row['modified']));
-                    $row['active']=('t'==$row['active']) ? 1 : 0;
-				}         	
-                $tMailbox[] = $row;
-            }
+                $row['created']=gmstrftime('%c %Z',strtotime($row['created']));
+                $row['modified']=gmstrftime('%c %Z',strtotime($row['modified']));
+                $row['active']=('t'==$row['active']) ? 1 : 0;
+            }         	
+            $tMailbox[] = $row;
         }
     }
+}
 
 include ("templates/header.php");
 include ("templates/menu.php");
 include ("templates/search.php");
 include ("templates/footer.php");
 
+// vim:ts=4:sw=4:et
 ?>
