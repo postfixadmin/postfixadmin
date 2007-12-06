@@ -95,6 +95,33 @@ function rename_string() {
 } # end rename_string()
 
 
+function addcomment() {
+	for file in $filelist ; do
+		test "$file" = "en.lang" && { echo "*** skipping en.lang ***"; continue ; } >&2
+
+		line="$(grep "PALANG\['$text'\]" "$file")" || {
+			echo "*** $file does not contain \$PALANG['$text'] ***" >&2
+			continue
+		}
+
+		newline="$line # XXX $comment"
+
+		# create patch
+		echo "
+--- $file.old
++++ $file
+@@ -1,1 +1,1 @@
+-$line
++$newline
+		" > "$file.patch"
+
+		test $patch = 0 && cat $file.patch
+		test $patch = 1 && patch $file < $file.patch
+	done
+} # end add_comment
+
+
+
 function cleanup() {
 	# check for duplicated strings
 	for file in $filelist ; do
@@ -171,6 +198,13 @@ usage() {
     Rename $PALANG['"'"'old_string'"'"'] to $PALANG['"'"'new_string'"'"']
 
 
+'"$0"' --addcomment string comment [--patch] [--nocleanup] [foo.lang [bar.lang [...] ] ]
+
+    Add a comment to $PALANG['"'"'string'"'"']
+
+	Useful if a string needs to be translated again.
+
+
 '"$0"' --stats
 
     Print translation statistics to postfixadmin-languages.txt
@@ -197,6 +231,9 @@ patch=0  # do not patch by default
 nocleanup=0 # don't delete tempfiles
 rename=0 # rename a string
 stats=0  # create translation statistics
+addcomment=0 # add translation comment
+text=''
+comment=''
 rename_old=''
 renane_new=''
 filelist=''
@@ -224,6 +261,14 @@ while [ -n "$1" ] ; do
 			echo "$rename_new" | grep '^[a-z_-]*\.lang$' && rename_new='' # error out on *.lang - probably a filename
 			test -z "$rename_new" && { echo '--rename needs two parameters' >&2 ; exit 1 ; }
 			;;
+		--addcomment)
+			addcomment=1
+			shift ; text="$1"
+			shift ; comment="$1"
+			echo "$text" | grep '^[a-z_-]*\.lang$' && comment='' # error out on *.lang - probably a filename
+			echo "$comment" | grep '^[a-z_-]*\.lang$' && comment='' # error out on *.lang - probably a filename
+			test -z "$comment" && { echo '--addcomment needs two parameters' >&2 ; exit 1 ; }
+			;;
 		--stats)
 			stats=1
 			;;
@@ -243,6 +288,7 @@ test $notext = 1 && test $rename = 1 && echo "ERROR: You can't use --notext AND 
 
 test "$filelist" = "" && filelist="`ls -1 *.lang`"
 
+test "$addcomment" = 1 && { addcomment ; cleanup ; exit 0 ; }
 test "$rename" = 1 && { rename_string ; cleanup ; exit 0 ; }
 
 test "$stats" = 1 && { statistics ; exit 0 ; }
