@@ -190,8 +190,8 @@ $PALANG['pSendmail_subject'] = 'Asunto';
 $PALANG['pSendmail_subject_text'] = 'Bienvenido';
 $PALANG['pSendmail_body'] = 'Cuerpo';
 $PALANG['pSendmail_button'] = 'Enviar mensaje';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">¡Imposible crear el buzón!</span>';
-$PALANG['pSendmail_result_success'] = '¡El buzón ha sido creado!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">¡Imposible crear el buzón!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = '¡El buzón ha sido creado!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Lista de administradores';
 $PALANG['pAdminMenu_list_domain'] = 'Lista de dominios';

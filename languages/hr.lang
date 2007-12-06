@@ -189,8 +189,8 @@ $PALANG['pSendmail_subject'] = 'Subjekt';
 $PALANG['pSendmail_subject_text'] = 'Dobrodoli!';
 $PALANG['pSendmail_body'] = 'Tekst';
 $PALANG['pSendmail_button'] = 'Poalji poruku';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Potanski ormarić nije bilo moguče stvoriti!</span>';
-$PALANG['pSendmail_result_success'] = 'Potanski ormarić je uspjeno stvoren!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Potanski ormarić nije bilo moguče stvoriti!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Potanski ormarić je uspjeno stvoren!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Lista administratora';
 $PALANG['pAdminMenu_list_domain'] = 'Lista domena';

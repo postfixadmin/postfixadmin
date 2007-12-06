@@ -190,8 +190,8 @@ $PALANG['pSendmail_subject'] = 'Çàãëàâèå';
 $PALANG['pSendmail_subject_text'] = 'Äîáðå äîøëè';
 $PALANG['pSendmail_body'] = 'Òåêñò';
 $PALANG['pSendmail_button'] = 'Èçïðàòè';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Íå ìîãà äà ñúçäàì ïîùåíñêàòà êóòèÿ!</span>';
-$PALANG['pSendmail_result_success'] = 'Ïîùåíñêàòà êóòèÿ áå ñúçäàäåí óñïåøíî!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Íå ìîãà äà ñúçäàì ïîùåíñêàòà êóòèÿ!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Ïîùåíñêàòà êóòèÿ áå ñúçäàäåí óñïåøíî!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Ñïèñúê ñ àäìèíèòå';
 $PALANG['pAdminMenu_list_domain'] = 'Ñïèñúê ñ äîìåéíèòå';

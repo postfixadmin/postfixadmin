@@ -191,8 +191,8 @@ $PALANG['pSendmail_subject'] = 'Temat';
 $PALANG['pSendmail_subject_text'] = 'Witamy';
 $PALANG['pSendmail_body'] = 'Tekst';
 $PALANG['pSendmail_button'] = 'Wyślij wiadomość';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Nie można utworzyć konta!</span>';
-$PALANG['pSendmail_result_success'] = 'Konto zostało utworzone!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Nie można utworzyć konta!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Konto zostało utworzone!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Lista administratorów';
 $PALANG['pAdminMenu_list_domain'] = 'Lista domen';

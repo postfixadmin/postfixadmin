@@ -190,8 +190,8 @@ $PALANG['pSendmail_subject'] = 'konu';
 $PALANG['pSendmail_subject_text'] = 'Hoþ geldiniz';
 $PALANG['pSendmail_body'] = 'Metin';
 $PALANG['pSendmail_button'] = 'Mesaj Gönder';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Posta kutusu yaratýlamadý!</span>';
-$PALANG['pSendmail_result_success'] = 'Posta kutusu yaratýldý!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Posta kutusu yaratýlamadý!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Posta kutusu yaratýldý!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Yönetici Listesi';
 $PALANG['pAdminMenu_list_domain'] = 'Domain Listesi';

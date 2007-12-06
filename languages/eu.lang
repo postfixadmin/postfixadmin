@@ -188,8 +188,8 @@ $PALANG['pSendmail_subject'] = 'Gaia';
 $PALANG['pSendmail_subject_text'] = 'Ongi etorri';
 $PALANG['pSendmail_body'] = 'Gorputza';
 $PALANG['pSendmail_button'] = 'Mezua bidali';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Ezinezkoa postontzia sortzea!</span>';
-$PALANG['pSendmail_result_success'] = 'Postontzia sortuta!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Ezinezkoa postontzia sortzea!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Postontzia sortuta!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Kudeatzaile zerrenda';
 $PALANG['pAdminMenu_list_domain'] = 'Domeinu zerrenda';

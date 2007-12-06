@@ -196,8 +196,8 @@ $PALANG['pSendmail_subject'] = 'Předmět';
 $PALANG['pSendmail_subject_text'] = 'Vítejte';
 $PALANG['pSendmail_body'] = 'Obsah';
 $PALANG['pSendmail_button'] = 'Poslat email';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Nepodařilo se vytvořit schránku!</span>';
-$PALANG['pSendmail_result_success'] = 'Schránka byla vytvořena!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Nepodařilo se vytvořit schránku!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Schránka byla vytvořena!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Administrátoři';
 $PALANG['pAdminMenu_list_domain'] = 'Domény';

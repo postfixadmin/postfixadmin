@@ -190,8 +190,8 @@ $PALANG['pSendmail_subject'] = 'Тема';
 $PALANG['pSendmail_subject_text'] = 'Добро дојдовте';
 $PALANG['pSendmail_body'] = 'Содржина';
 $PALANG['pSendmail_button'] = 'Прати порака';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Не можам да го креирам сандачето!</span>';
-$PALANG['pSendmail_result_success'] = 'Сандачето е креирано!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Не можам да го креирам сандачето!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Сандачето е креирано!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Листа на администратори';
 $PALANG['pAdminMenu_list_domain'] = 'Листа на домени';

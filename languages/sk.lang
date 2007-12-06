@@ -190,8 +190,8 @@ $PALANG['pSendmail_subject'] = 'Predmet';
 $PALANG['pSendmail_subject_text'] = 'V&iacute;tajte';
 $PALANG['pSendmail_body'] = 'Obsah';
 $PALANG['pSendmail_button'] = 'Posla&#357; email';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Nepodarilo sa vytvori&#357; schr&aacute;nku!</span>';
-$PALANG['pSendmail_result_success'] = 'Schr&aacute;nka bola vytvoren&aacute;!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Nepodarilo sa vytvori&#357; schr&aacute;nku!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Schr&aacute;nka bola vytvoren&aacute;!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Administr&aacute;tory';
 $PALANG['pAdminMenu_list_domain'] = 'Dom&eacute;ny';

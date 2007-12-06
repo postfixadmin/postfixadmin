@@ -192,8 +192,8 @@ $PALANG['pSendmail_subject'] = 'Otsikko';
 $PALANG['pSendmail_subject_text'] = 'Tervetuloa';
 $PALANG['pSendmail_body'] = 'Viesti';
 $PALANG['pSendmail_button'] = 'Lähetä viesti';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Postilaatikon luonti ei onnistunut!</span>';
-$PALANG['pSendmail_result_success'] = 'Postilaatikko on luotu!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Postilaatikon luonti ei onnistunut!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Postilaatikko on luotu!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Admin Lista';
 $PALANG['pAdminMenu_list_domain'] = 'Domain Lista';

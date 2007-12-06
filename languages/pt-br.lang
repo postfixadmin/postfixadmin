@@ -190,8 +190,8 @@ $PALANG['pSendmail_subject'] = 'Assunto';
 $PALANG['pSendmail_subject_text'] = 'Bem-vindo';
 $PALANG['pSendmail_body'] = 'Mensagem';
 $PALANG['pSendmail_button'] = 'Enviar um e-mail';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Erro no envio da mensagem!</span>';
-$PALANG['pSendmail_result_success'] = 'A mensagem foi enviada!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Erro no envio da mensagem!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'A mensagem foi enviada!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Lista de administradores';
 $PALANG['pAdminMenu_list_domain'] = 'Lista de domínios';

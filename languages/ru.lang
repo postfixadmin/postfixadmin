@@ -197,8 +197,8 @@ $PALANG['pSendmail_subject'] = 'Тема';
 $PALANG['pSendmail_subject_text'] = 'Добро пожаловать!';
 $PALANG['pSendmail_body'] = 'Текст';
 $PALANG['pSendmail_button'] = 'Послать сообщение';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Невозможно создать почтовый ящик!</span>';
-$PALANG['pSendmail_result_success'] = 'Почтовый ящик был создан!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Невозможно создать почтовый ящик!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Почтовый ящик был создан!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Список админов';
 $PALANG['pAdminMenu_list_domain'] = 'Список доменов';

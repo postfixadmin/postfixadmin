@@ -190,8 +190,8 @@ $PALANG['pSendmail_subject'] = 'Zadeva';
 $PALANG['pSendmail_subject_text'] = 'Pozdravljeni!';
 $PALANG['pSendmail_body'] = 'Besedilo';
 $PALANG['pSendmail_button'] = 'Pošlji sporočilo';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Predala ni bilo mogoče ustvariti!</span>';
-$PALANG['pSendmail_result_success'] = 'Predal je bil uspešno ustvarjen!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Predala ni bilo mogoče ustvariti!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Predal je bil uspešno ustvarjen!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Seznam administratorjev';
 $PALANG['pAdminMenu_list_domain'] = 'Seznam domen';

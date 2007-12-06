@@ -196,8 +196,8 @@ $PALANG['pSendmail_subject'] = 'Emne';
 $PALANG['pSendmail_subject_text'] = 'Velkommen';
 $PALANG['pSendmail_body'] = 'Meddelelse';
 $PALANG['pSendmail_button'] = 'Send email';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Kan ikke tilføje postboks!</span>';
-$PALANG['pSendmail_result_success'] = 'Postboksen er tilføjet!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Kan ikke tilføje postboks!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Postboksen er tilføjet!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Administratorliste';
 $PALANG['pAdminMenu_list_domain'] = 'Domæneliste';

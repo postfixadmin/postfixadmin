@@ -191,8 +191,8 @@ $PALANG['pSendmail_subject'] = 'Onderwerp';
 $PALANG['pSendmail_subject_text'] = 'Welkom';
 $PALANG['pSendmail_body'] = 'Inhoud';
 $PALANG['pSendmail_button'] = 'Verstuur bericht';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Mislukt om mailbox te maken!</span>';
-$PALANG['pSendmail_result_success'] = 'De mailbox is aangemaakt.';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Mislukt om mailbox te maken!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'De mailbox is aangemaakt.'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Beheerders overzicht';
 $PALANG['pAdminMenu_list_domain'] = 'Domein overzicht';

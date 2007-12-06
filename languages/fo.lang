@@ -190,8 +190,8 @@ $PALANG['pSendmail_subject'] = 'Evni';
 $PALANG['pSendmail_subject_text'] = 'Vælkomin';
 $PALANG['pSendmail_body'] = 'Boð';
 $PALANG['pSendmail_button'] = 'Send boð';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Fái ikki stovnað postkassa!</span>';
-$PALANG['pSendmail_result_success'] = 'Postkassin er stovnaður!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Fái ikki stovnað postkassa!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Postkassin er stovnaður!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Umsitara listi';
 $PALANG['pAdminMenu_list_domain'] = 'Navnaøkja listi';

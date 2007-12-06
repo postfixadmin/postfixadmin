@@ -192,8 +192,8 @@ $PALANG['pSendmail_subject'] = 'Ämne';
 $PALANG['pSendmail_subject_text'] = 'Välkommen';
 $PALANG['pSendmail_body'] = 'Meddelande';
 $PALANG['pSendmail_button'] = 'Skicka';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Mailet kunde inte skickas!</span>';
-$PALANG['pSendmail_result_success'] = 'Mailet har skickats!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Mailet kunde inte skickas!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_success'] = 'Mailet har skickats!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Administratörer';
 $PALANG['pAdminMenu_list_domain'] = 'Domäner';
