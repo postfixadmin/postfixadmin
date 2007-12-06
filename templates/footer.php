@@ -8,7 +8,7 @@ if(isset($_SESSION['sessid']['username'])) {
 }
 ?> 
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-<a target="_blank" href="http://postfixadmin.com/?version=<?php print $version; ?>"><?php print $PALANG['check_update']; ?></a>
+<a target="_blank" href="http://postfixadmin.sf.net/update-check.php?version=<?php print $version; ?>"><?php print $PALANG['check_update']; ?></a>
 <?php
 if (($CONF['show_footer_text'] == "YES") and ($CONF['footer_link']))
 {
