@@ -197,8 +197,8 @@ $PALANG['pSendmail_subject'] = 'Subject';
 $PALANG['pSendmail_subject_text'] = 'Welcome';
 $PALANG['pSendmail_body'] = 'Body';
 $PALANG['pSendmail_button'] = 'Send Message';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Unable to create mailbox!</span>';
-$PALANG['pSendmail_result_success'] = 'The mailbox has been created!';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Unable to send email!</span>';
+$PALANG['pSendmail_result_success'] = 'Email sent!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Admin List';
 $PALANG['pAdminMenu_list_domain'] = 'Domain List';
