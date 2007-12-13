@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          $b_name = mb_encode_mimeheader( $_POST['name'], 'UTF-8', 'Q');
          $b_subject = mb_encode_mimeheader( $_POST['subject'], 'UTF-8', 'Q');
-         $b_message = encode_base64($_POST['message']);
+         $b_message = base64_encode($_POST['message']);
 
          $i = 0;
          while ($row = db_array ($result['result'])) {
