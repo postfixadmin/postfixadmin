@@ -49,6 +49,7 @@ $f_mysqli_connect = function_exists ("mysqli_connect");
 $f_pg_connect = function_exists ("pg_connect");
 $f_session_start = function_exists ("session_start");
 $f_preg_match = function_exists ("preg_match");
+$f_mb_encode_mimeheader = function_exists ("mb_encode_mimeheader");
 
 $file_config = file_exists (realpath ("./config.inc.php"));
 
@@ -77,7 +78,7 @@ if ($f_apache_get_version == 1)
 }
 else
 {
-   print "<li><b>Unable to check for Apache version. (missing function: apache_get_version())</b></li>\n";
+   print "<li><b>Unable to check for Apache version. (missing function: apache_get_version())<br />(Ignore this warning if you use another webserver software.)</b></li>\n";
 }
 
 print "</ul>";
@@ -231,6 +232,20 @@ else
    print "% make clean install\n";
    print " - or with portupgrade -\n";
    print "% portinstall php$phpversion-pcre</pre></li>\n";
+   $error =+ 1;
+}
+
+//
+// Multibyte functions
+//
+if ( $f_mb_encode_mimeheader == 1 )
+{
+   print "<li>Depends on: multibyte string - OK</li>\n";
+}
+else
+{
+   print "<li><b>Error: Depends on: multibyte string - NOT FOUND</b><br />\n";
+   print "To install multibyte string support, install php$phpversion-mbstring</li>\n";
    $error =+ 1;
 }
 
