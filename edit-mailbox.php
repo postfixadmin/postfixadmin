@@ -49,112 +49,110 @@ if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
 $pEdit_mailbox_name_text = $PALANG['pEdit_mailbox_name_text'];
 $pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text'];
 
-$result = db_query("SELECT * FROM $table_mailbox WHERE username = '$fUsername' AND domain = '$fDomain'");
-if($result['rows'] != 1) {
-   die("Invalid username chosen; user does not exist in mailbox table");
-}
 
 if (!(check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin')) )
 {
-   $error = 1;
-   $tName = $fName;
-   $tQuota = $fQuota;
-   $tActive = $fActive;
-   $tMessage = $PALANG['pEdit_mailbox_domain_error'] . "$fDomain</span>";
+    $error = 1;
+    $tName = $fName;
+    $tQuota = $fQuota;
+    $tActive = $fActive;
+    $tMessage = $PALANG['pEdit_mailbox_domain_error'] . "$fDomain</span>";
 }
 
+$result = db_query("SELECT * FROM $table_mailbox WHERE username = '$fUsername' AND domain = '$fDomain'");
+if($result['rows'] != 1) {
+    die("Invalid username chosen; user does not exist in mailbox table");
+}
 $user_details = db_array($result['result']);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-   if (check_owner($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin'))
-   {
-      $tName = $user_details['name'];
-      $tQuota = divide_quota($user_details['quota']);
-      $tActive = $user_details['active'];
-      if ('pgsql'==$CONF['database_type']) {
-         $tActive = ('t'==$user_details['active']) ? 1 : 0;
-      }
+    if (check_owner($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin'))
+    {
+        $tName = $user_details['name'];
+        $tQuota = divide_quota($user_details['quota']);
+        $tActive = $user_details['active'];
+        if ('pgsql'==$CONF['database_type']) {
+            $tActive = ('t'==$user_details['active']) ? 1 : 0;
+        }
 
-      $result = db_query ("SELECT * FROM $table_domain WHERE domain='$fDomain'");
-      if ($result['rows'] == 1)
-      {
-         $row = db_array ($result['result']);
-         $tMaxquota = $row['maxquota'];
-      }
-   }
+        $result = db_query ("SELECT * FROM $table_domain WHERE domain='$fDomain'");
+        if ($result['rows'] == 1)
+        {
+            $row = db_array ($result['result']);
+            $tMaxquota = $row['maxquota'];
+        }
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-   if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
-   if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
-   if (isset ($_POST['fName'])) $fName = escape_string ($_POST['fName']);
-   if (isset ($_POST['fQuota'])) $fQuota = intval ($_POST['fQuota']);
-   if (isset ($_POST['fActive'])) $fActive = escape_string ($_POST['fActive']);
+    if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
+    if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
+    if (isset ($_POST['fName'])) $fName = escape_string ($_POST['fName']);
+    if (isset ($_POST['fQuota'])) $fQuota = intval ($_POST['fQuota']);
+    if (isset ($_POST['fActive'])) $fActive = escape_string ($_POST['fActive']);
 
+    if($fPassword != $user_details['password']){
+        if($fPassword == $fPassword2) {
+            if ($fPassword != "") {
+                $formvars['password'] = pacrypt($fPassword);
+            }
+        }
+        else {
+            flash_error($PALANG['pEdit_mailbox_password_text_error']);
+            $error = 1;
+        }
+    }
 
-   if($fPassword != $user_details['password']){
-      if($fPassword == $fPassword2) {
-         if ($fPassword != "") {
-            $formvars['password'] = pacrypt($fPassword);
-         }
-      }
-      else {
-         flash_error($PALANG['pEdit_mailbox_password_text_error']);
-         $error = 1;
-      }
-   }
+    if ($CONF['quota'] == "YES")
+    {
+        if (!check_quota ($fQuota, $fDomain))
+        {
+            $error = 1;
+            $tName = $fName;
+            $tQuota = $fQuota;
+            $tActive = $fActive;
+            $pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text_error'];
+        }
+    }
+    if ($error != 1)
+    {
+        if (!empty ($fQuota))
+        {
+            $quota = multiply_quota ($fQuota);
+        }
+        else
+        {
+            $quota = 0;
+        }
 
-   if ($CONF['quota'] == "YES")
-   {
-      if (!check_quota ($fQuota, $fDomain))
-      {
-         $error = 1;
-         $tName = $fName;
-         $tQuota = $fQuota;
-         $tActive = $fActive;
-         $pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text_error'];
-      }
-   }
-   if ($error != 1)
-   {
-      if (!empty ($fQuota))
-      {
-         $quota = multiply_quota ($fQuota);
-      }
-      else
-      {
-         $quota = 0;
-      }
+        if ($fActive == "on")
+        {
+            $sqlActive = db_get_boolean(True);
+            $fActive = 1;
+        }
+        else
+        {
+            $sqlActive = db_get_boolean(False);
+            $fActive = 0;
+        }
 
-      if ($fActive == "on")
-      {
-         $sqlActive = db_get_boolean(True);
-         $fActive = 1;
-      }
-      else
-      {
-         $sqlActive = db_get_boolean(False);
-         $fActive = 0;
-      }
+        $formvars['name'] = $fName;
+        $formvars['quota'] =$quota;
+        $formvars['active']=$sqlActive;
 
-      $formvars['name'] = $fName;
-      $formvars['quota'] =$quota;
-      $formvars['active']=$sqlActive;
+        $result = db_update ('mailbox', "username='$fUsername' AND domain='$fDomain'", $formvars, array('modified'));
+        if ($result != 1) {
+            $tMessage = $PALANG['pEdit_mailbox_result_error'];
+        }
+        else {
+            db_log ($SESSID_USERNAME, $fDomain, 'edit_mailbox', $fUsername);
 
-      $result = db_update ('mailbox', "username='$fUsername' AND domain='$fDomain'", $formvars, array('modified'));
-
-      if ($result != 1) {
-         $tMessage = $PALANG['pEdit_mailbox_result_error'];
-      }
-      else {
-         db_log ($SESSID_USERNAME, $fDomain, 'edit_mailbox', $fUsername);
-
-         header ("Location: list-virtual.php?domain=$fDomain");
-         exit;
-      }
-   }
+//            header ("Location: list-virtual.php?domain=$fDomain");
+            exit;
+        }
+    }
 }
 
 include ("templates/header.php");
