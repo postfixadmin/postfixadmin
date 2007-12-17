@@ -46,13 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $fPassword = escape_string ($_POST['fPassword']);
     $fPassword2 = escape_string ($_POST['fPassword2']);
 
+    if(strlen($fPassword) < $CONF['min_password_length']) {
+        $error = 1;
+        flash_error($PALANG['pPassword_password_too_short_error'];
+    }
     $username = $USERID_USERNAME;
 
     $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$username'");
     if ($result['rows'] == 1)
     {
         $row = db_array ($result['result']);
-        $checked_password = pacrypt ($fPassword_current, $row['password']);
+        $checked_password = pacrypt($fPassword_current, $row['password']);
 
         $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$username' AND password='$checked_password'");      
         if ($result['rows'] != 1)
