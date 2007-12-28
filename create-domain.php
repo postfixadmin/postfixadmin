@@ -91,13 +91,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $fAliases = -1;
          $fMailboxes = -1;
          $fMaxquota = -1;
-         $fBackupmx = 1;
-         $sqlBackupmx = ('pgsql'==$CONF['database_type']) ? 'true' : 1;
+         $fBackupmx = db_get_boolean(true);
+         $sqlBackupmx = db_get_boolean(true);
       }
       else
       {
-         $fBackupmx = 0;
-         $sqlBackupmx = ('pgsql'==$CONF['database_type']) ? 'false' : 0;
+         $fBackupmx = db_get_boolean(false);
+         $sqlBackupmx = db_get_boolean(false);
       }
       $sql_query = "INSERT INTO $table_domain (domain,description,aliases,mailboxes,maxquota,transport,backupmx,created,modified) VALUES ('$fDomain','$fDescription',$fAliases,$fMailboxes,$fMaxquota,'$fTransport',$sqlBackupmx,NOW(),NOW())";
       $result = db_query($sql_query);
