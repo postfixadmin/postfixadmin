@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if(strlen($fPassword) < $CONF['min_password_length']) {
         $error = 1;
-        flash_error($PALANG['pPassword_password_too_short_error'];
+        flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
     }
     $username = $USERID_USERNAME;
 

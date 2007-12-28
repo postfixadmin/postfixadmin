@@ -359,7 +359,7 @@ $PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE ';
 $PALANG['pStatus_custom'] = 'Delivers to ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
-$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters";
+$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters"; # usage: flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
 
 $PALANG['pFetchmail_welcome'] = 'Fetch mail for:';
 $PALANG['pFetchmail_new_entry'] = 'New entry';
