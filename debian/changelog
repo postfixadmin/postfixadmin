@@ -1,3 +1,11 @@
+postfixadmin (2.2.0-1rc2) unstable; urgency=low
+
+  * Improved CSS
+  * Improved upgrade procedure (should work for PGSQL) (see upgrade.php)
+  * Various bug fixes
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Sat, 29 Dec 2007 21:14:00 +0000
+
 postfixadmin (2.2.0-1rc1) unstable; urgency=low
 
   * Initial Release (via dpkg)
