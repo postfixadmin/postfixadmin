@@ -4,20 +4,33 @@ require_once('common.php');
 # Note: run with upgrade.php?debug=1 to see all SQL error messages
 
 
-# Not nice, but works:
-# We don't know if the config table exists, so we simply try to create it ;-)
-# Better solution (TODO): query the db to see if the 'config' table exists
 
-$sql = "
-CREATE TABLE {IF_NOT_EXISTS} " . table_by_key ('config') . "(
-    `id` {AUTOINCREMENT} {PRIMARY},
-    `name`  VARCHAR(20) {LATIN1} NOT NULL DEFAULT '',
-    `value` VARCHAR(20) {LATIN1} NOT NULL DEFAULT '',
-    UNIQUE name ( `name` )
-)
-";
 
-db_query_parsed($sql, 0, " ENGINE = MYISAM COMMENT = 'PostfixAdmin settings'");
+if($CONF['database_type'] == 'pgsql') {
+    // check if table already exists, if so, don't recreate it
+    $r = db_query("SELECT relname FROM pg_class WHERE relname = 'config'");
+    if($r['rows'] == 0) {
+        $pgsql = "
+            CREATE TABLE config ( 
+                    id SERIAL,
+                    name VARCHAR(20) NOT NULL UNIQUE,
+                    value VARCHAR(20) NOT NULL,
+                    PRIMARY KEY(id)
+                    )";
+        db_query_parsed($pgsql);
+    }
+}
+else {
+    $mysql = "
+        CREATE TABLE {IF_NOT_EXISTS} " . table_by_key ('config') . "(
+        `id` {AUTOINCREMENT} {PRIMARY},
+        `name`  VARCHAR(20) {LATIN1} NOT NULL DEFAULT '',
+        `value` VARCHAR(20) {LATIN1} NOT NULL DEFAULT '',
+        UNIQUE name ( `name` )
+            )
+            ";
+    db_query_parsed($mysql, 0, " ENGINE = MYISAM COMMENT = 'PostfixAdmin settings'");
+}
 
 $sql = "SELECT * FROM config WHERE name = 'version'";
 
@@ -32,6 +45,7 @@ if($r['rows'] == 1) {
 } else {
     $version = 0;
 }
+
 _do_upgrade($version);
 
 
@@ -40,7 +54,7 @@ function _do_upgrade($current_version) {
     $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
 
     if ($current_version >= $target_version) {
-        # already up to date
+# already up to date
         echo "up to date";
         return true;
     }
@@ -69,15 +83,17 @@ function _do_upgrade($current_version) {
                 echo " &nbsp; done";
             }
         } 
-        # TODO: update version in config table after each change
-        # TODO: this avoids problems in case the script hits the max_execution_time,
-        # TODO: simply rerunning it will continue where it was stopped
+        // Update config table so we don't run the same query twice in the future.
+        $i = (int) $i;
+        $sql = "UPDATE config SET value = $i WHERE name = 'version'";
+        db_query($sql);
     };
 }
 
 /**
  * Replaces database specific parts in a query
  * @param String sql query with placeholders
+ * @param int (optional) whether errors should be ignored (0=false)
  * @param String (optional) MySQL specific code to attach, useful for COMMENT= on CREATE TABLE
  * @return String sql query
  */ 
@@ -88,34 +104,34 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
     if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli' ) {
 
         $replace = array(
-            '{AUTOINCREMENT}'   => 'int(11) not null auto_increment', 
-            '{PRIMARY}'         => 'primary key',
-            '{UNSIGNED}'        => 'unsigned'  , 
-            '{FULLTEXT}'        => 'FULLTEXT', 
-            '{BOOLEAN}'         => 'tinyint(1) NOT NULL',
-            '{UTF-8}'           => '/*!40100 CHARACTER SET utf8 COLLATE utf8_unicode_ci */',
-            '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 COLLATE latin1_swedish_ci */',
-            '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
-            '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
-        );
+                '{AUTOINCREMENT}'   => 'int(11) not null auto_increment', 
+                '{PRIMARY}'         => 'primary key',
+                '{UNSIGNED}'        => 'unsigned'  , 
+                '{FULLTEXT}'        => 'FULLTEXT', 
+                '{BOOLEAN}'         => 'tinyint(1) NOT NULL',
+                '{UTF-8}'           => '/*!40100 CHARACTER SET utf8 COLLATE utf8_unicode_ci */',
+                '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 COLLATE latin1_swedish_ci */',
+                '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
+                '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
+                );
         $sql = "$sql $attach_mysql";
 
     } elseif($CONF['database_type'] == 'pgsql') {
         $replace = array(
-            '{AUTOINCREMENT}'   => 'SERIAL', 
-            '{PRIMARY}'         => 'primary key', 
-            '{UNSIGNED}'        => '', 
-            '{FULLTEXT}'        => '', 
-            '{BOOLEAN}'         => 'BOOLEAN NOT NULL', 
-            '{UTF-8}'           => '', # TODO: UTF-8 is simply ignored.
-            '{LATIN1}'          => '', # TODO: same for latin1 
-            '{IF_NOT_EXISTS}'   => '', # TODO: does this work with PgSQL? NO
-            '{RENAME_COLUMN}'   => 'ALTER COLUMN', # PgSQL : ALTER TABLE x RENAME x TO y
-            'int(1)'            => 'int',
-            'int(10)'           => 'int', 
-            'int(11)'           => 'int', 
-            'int(4)'            => 'int', 
-         );
+                '{AUTOINCREMENT}'   => 'SERIAL', 
+                '{PRIMARY}'         => 'primary key', 
+                '{UNSIGNED}'        => '', 
+                '{FULLTEXT}'        => '', 
+                '{BOOLEAN}'         => 'BOOLEAN NOT NULL', 
+                '{UTF-8}'           => '', # TODO: UTF-8 is simply ignored.
+                '{LATIN1}'          => '', # TODO: same for latin1 
+                '{IF_NOT_EXISTS}'   => '', # TODO: does this work with PgSQL? NO
+                '{RENAME_COLUMN}'   => 'ALTER COLUMN', # PgSQL : ALTER TABLE x RENAME x TO y
+                'int(1)'            => 'int',
+                'int(10)'           => 'int', 
+                'int(11)'           => 'int', 
+                'int(4)'            => 'int', 
+                );
 
     } else {
         echo "Sorry, unsupported database type " . $conf['database_type'];
@@ -149,20 +165,20 @@ function _drop_index ($table, $index) {
 }
 
 function upgrade_1() {
-    # inserting the version number is a good start ;-)
+# inserting the version number is a good start ;-)
     db_insert(
-        'config', 
-        array(
-            'name' => 'version',
-            'value' => '1',
-        )
-    );
+            'config', 
+            array(
+                'name' => 'version',
+                'value' => '1',
+                )
+            );
     echo "upgrade_1";
 }
 
 function upgrade_2_mysql() {
-    # upgrade pre-2.1 database
-    # from TABLE_BACKUP_MX.TXT
+# upgrade pre-2.1 database
+# from TABLE_BACKUP_MX.TXT
     $table_domain = table_by_key ('domain');
     $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;", TRUE);
     // don't think PGSQL supports 'AFTER transport'
@@ -173,12 +189,11 @@ function upgrade_2_pgsql() {
     $table_domain = table_by_key ('domain');
     $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255)", TRUE);
     $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx BOOLEAN DEFAULT false", TRUE);
-
 }
 
 function upgrade_3_mysql() {
-    # upgrade pre-2.1 database
-    # from TABLE_CHANGES.TXT
+# upgrade pre-2.1 database
+# from TABLE_CHANGES.TXT
     $table_admin = table_by_key ('admin');
     $table_alias = table_by_key ('alias');
     $table_domain = table_by_key ('domain');
@@ -188,41 +203,41 @@ function upgrade_3_mysql() {
     // these will not work on PostgreSQL; syntax is :
     // ALTER TABLE foo RENAME f1 TO f2 
     $all_sql = split("\n", trim("
-        ALTER TABLE $table_admin {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-        ALTER TABLE $table_admin {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-        ALTER TABLE $table_alias {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-        ALTER TABLE $table_alias {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-        ALTER TABLE $table_domain {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-        ALTER TABLE $table_domain {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-        ALTER TABLE $table_domain ADD COLUMN aliases INT(10) DEFAULT '-1' NOT NULL AFTER description;
-        ALTER TABLE $table_domain ADD COLUMN mailboxes INT(10) DEFAULT '-1' NOT NULL AFTER aliases;
-        ALTER TABLE $table_domain ADD COLUMN maxquota INT(10) DEFAULT '-1' NOT NULL AFTER mailboxes;
-        ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;
-        ALTER TABLE $table_domain ADD COLUMN backupmx TINYINT(1) DEFAULT '0' NOT NULL AFTER transport;
-        ALTER TABLE $table_mailbox {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-        ALTER TABLE $table_mailbox {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-        ALTER TABLE $table_mailbox ADD COLUMN quota INT(10) DEFAULT '-1' NOT NULL AFTER maildir;
-        ALTER TABLE $table_vacation ADD COLUMN domain VARCHAR(255) DEFAULT '' NOT NULL AFTER cache;
-        ALTER TABLE $table_vacation ADD COLUMN created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL AFTER domain;
-        ALTER TABLE $table_vacation ADD COLUMN active TINYINT(1) DEFAULT '1' NOT NULL AFTER created;
-        ALTER TABLE $table_vacation DROP PRIMARY KEY
-        ALTER TABLE $table_vacation ADD PRIMARY KEY(email)
-        UPDATE $table_vacation SET domain=SUBSTRING_INDEX(email, '@', -1) WHERE email=email;
-    "));
+                ALTER TABLE $table_admin {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+                ALTER TABLE $table_admin {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+                ALTER TABLE $table_alias {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+                ALTER TABLE $table_alias {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+                ALTER TABLE $table_domain {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+                ALTER TABLE $table_domain {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+                ALTER TABLE $table_domain ADD COLUMN aliases INT(10) DEFAULT '-1' NOT NULL AFTER description;
+                ALTER TABLE $table_domain ADD COLUMN mailboxes INT(10) DEFAULT '-1' NOT NULL AFTER aliases;
+                ALTER TABLE $table_domain ADD COLUMN maxquota INT(10) DEFAULT '-1' NOT NULL AFTER mailboxes;
+                ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;
+                ALTER TABLE $table_domain ADD COLUMN backupmx TINYINT(1) DEFAULT '0' NOT NULL AFTER transport;
+                ALTER TABLE $table_mailbox {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+                ALTER TABLE $table_mailbox {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
+                ALTER TABLE $table_mailbox ADD COLUMN quota INT(10) DEFAULT '-1' NOT NULL AFTER maildir;
+                ALTER TABLE $table_vacation ADD COLUMN domain VARCHAR(255) DEFAULT '' NOT NULL AFTER cache;
+                ALTER TABLE $table_vacation ADD COLUMN created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL AFTER domain;
+                ALTER TABLE $table_vacation ADD COLUMN active TINYINT(1) DEFAULT '1' NOT NULL AFTER created;
+                ALTER TABLE $table_vacation DROP PRIMARY KEY
+                ALTER TABLE $table_vacation ADD PRIMARY KEY(email)
+                UPDATE $table_vacation SET domain=SUBSTRING_INDEX(email, '@', -1) WHERE email=email;
+                "));
 
-    foreach ($all_sql as $sql) {
-        $result = db_query_parsed($sql, TRUE);
-    }
+                foreach ($all_sql as $sql) {
+                    $result = db_query_parsed($sql, TRUE);
+                }
 }
 
 function upgrade_4_mysql() { # MySQL only
-    # changes between 2.1 and moving to sourceforge
+# changes between 2.1 and moving to sourceforge
     $table_domain = table_by_key ('domain');
     $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN quota int(10) NOT NULL default '0' AFTER maxquota", TRUE);
 }
 
 function upgrade_4_pgsql() { # PgSQL only
-    # changes between 2.1 and moving to sourceforge
+# changes between 2.1 and moving to sourceforge
     $table_domain = table_by_key('domain');
     $table_admin = table_by_key('admin');
     $table_alias = table_by_key('alias');
@@ -247,98 +262,98 @@ function upgrade_4_pgsql() { # PgSQL only
 
     $result = db_query_parsed("BEGIN;
             ALTER TABLE $table_log RENAME COLUMN data TO data_old;
-            ALTER TABLE $table_log ADD COLUMN data TYPE text NOT NULL default '';
+            ALTER TABLE $table_log ADD COLUMN data text NOT NULL default '';
             UPDATE $table_log SET data = CAST(data_old AS text);
             ALTER TABLE $table_log DROP COLUMN data_old;
             COMMIT;");
 
-    $result = db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN username DROP DEFAULT");
-    $result = db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN domain DROP DEFAULT");
+            $result = db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN username DROP DEFAULT");
+            $result = db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN domain DROP DEFAULT");
 
-    $result = db_query_parsed("BEGIN;
-            ALTER TABLE $table_mailbox RENAME COLUMN domain TO domain_old;
-            ALTER TABLE $table_mailbox ADD COLUMN domain TYPE varchar(255) REFERENCES domain (domain);
-            UPDATE $table_mailbox SET domain = domain_old;
-            ALTER TABLE $table_mailbox DROP COLUMN domain_old;
-            CREATE INDEX mailbox_username_active ON mailbox(username,active);
-            COMMIT;");
+            $result = db_query_parsed("BEGIN;
+                    ALTER TABLE $table_mailbox RENAME COLUMN domain TO domain_old;
+                    ALTER TABLE $table_mailbox ADD COLUMN domain TYPE varchar(255) REFERENCES domain (domain);
+                    UPDATE $table_mailbox SET domain = domain_old;
+                    ALTER TABLE $table_mailbox DROP COLUMN domain_old;
+                    CREATE INDEX mailbox_username_active ON mailbox(username,active);
+                    COMMIT;");
 
 
-    $result = db_query_parsed("ALTER TABLE $table_vacation ALTER COLUMN body SET DEFAULT = ''");
-    $result = db_query_parsed("ALTER TABLE $table_vacation DROP COLUMN cache");
+                    $result = db_query_parsed("ALTER TABLE $table_vacation ALTER COLUMN body SET DEFAULT ''");
+                    $result = db_query_parsed("ALTER TABLE $table_vacation DROP COLUMN cache");
 
-    $result = db_query_parsed("ALTER TABLE $table_vacation RENAME COLUMN domain to domain_old");
-    $result = db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN domain TYPE character varying(255) REFERENCES domain ");
-    $result = db_query_parsed("UPDATE $table_vacation SET domain = domain_old");
-    $result = db_query_parsed("ALTER TABLE $table_vacation DROP COLUMN domain_old");        
+                    $result = db_query_parsed("ALTER TABLE $table_vacation RENAME COLUMN domain to domain_old");
+                    $result = db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN domain TYPE character varying(255) REFERENCES domain ");
+                    $result = db_query_parsed("UPDATE $table_vacation SET domain = domain_old");
+                    $result = db_query_parsed("ALTER TABLE $table_vacation DROP COLUMN domain_old");        
 
-    $result = db_query_parsed("CREATE INDEX vacation_email_active ON vacation(email,active)");
+                    $result = db_query_parsed("CREATE INDEX vacation_email_active ON vacation(email,active)");
 
-    $result = db_query_parsed("
-CREATE TABLE vacation_notification (
-    on_vacation character varying(255) NOT NULL REFERENCES vacation(email) ON DELETE CASCADE,
-    notified character varying(255) NOT NULL,
-    notified_at timestamp with time zone NOT NULL DEFAULT now(),
-    CONSTRAINT vacation_notification_pkey primary key(on_vacation,notified)
-);");
+                    $result = db_query_parsed("
+                            CREATE TABLE vacation_notification (
+                                on_vacation character varying(255) NOT NULL REFERENCES vacation(email) ON DELETE CASCADE,
+                                notified character varying(255) NOT NULL,
+                                notified_at timestamp with time zone NOT NULL DEFAULT now(),
+                                CONSTRAINT vacation_notification_pkey primary key(on_vacation,notified)
+                                );");
 
 
 }
 
-function upgrade_79_mysql() { # MySQL only
-    # drop useless indicies (already available as primary key)
-    $result = db_query_parsed(_drop_index('admin', 'username'), True);
-    $result = db_query_parsed(_drop_index('alias', 'address'), True);
-    $result = db_query_parsed(_drop_index('domain', 'domain'), True);
-    $result = db_query_parsed(_drop_index('mailbox', 'username'), True);
-}
+    function upgrade_79_mysql() { # MySQL only
+# drop useless indicies (already available as primary key)
+        $result = db_query_parsed(_drop_index('admin', 'username'), True);
+        $result = db_query_parsed(_drop_index('alias', 'address'), True);
+        $result = db_query_parsed(_drop_index('domain', 'domain'), True);
+        $result = db_query_parsed(_drop_index('mailbox', 'username'), True);
+    }
 
 function upgrade_81_mysql() { # MySQL only
     $table_vacation = table_by_key ('vacation');
     $table_vacation_notification = table_by_key('vacation_notification');
 
     $all_sql = split("\n", trim("
-        ALTER TABLE `$table_vacation` CHANGE `email`    `email`   VARCHAR( 255 ) {LATIN1} NOT NULL
-        ALTER TABLE `$table_vacation` CHANGE `subject`  `subject` VARCHAR( 255 ) {UTF-8}  NOT NULL
-        ALTER TABLE `$table_vacation` CHANGE `body`     `body`    TEXT           {UTF-8}  NOT NULL
-        ALTER TABLE `$table_vacation` CHANGE `cache`    `cache`   TEXT           {LATIN1} NOT NULL
-        ALTER TABLE `$table_vacation` CHANGE `domain`   `domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
-        ALTER TABLE `$table_vacation` CHANGE `active`   `active`  TINYINT( 1 )            NOT NULL DEFAULT '1'
-        ALTER TABLE `$table_vacation` DEFAULT                                    {LATIN1}
-        ALTER TABLE `$table_vacation` ENGINE = INNODB
-    "));
+                ALTER TABLE `$table_vacation` CHANGE `email`    `email`   VARCHAR( 255 ) {LATIN1} NOT NULL
+                ALTER TABLE `$table_vacation` CHANGE `subject`  `subject` VARCHAR( 255 ) {UTF-8}  NOT NULL
+                ALTER TABLE `$table_vacation` CHANGE `body`     `body`    TEXT           {UTF-8}  NOT NULL
+                ALTER TABLE `$table_vacation` CHANGE `cache`    `cache`   TEXT           {LATIN1} NOT NULL
+                ALTER TABLE `$table_vacation` CHANGE `domain`   `domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
+                ALTER TABLE `$table_vacation` CHANGE `active`   `active`  TINYINT( 1 )            NOT NULL DEFAULT '1'
+                ALTER TABLE `$table_vacation` DEFAULT                                    {LATIN1}
+                ALTER TABLE `$table_vacation` ENGINE = INNODB
+                "));
 
     foreach ($all_sql as $sql) {
         $result = db_query_parsed($sql, TRUE);
     }
 
     db_query_parsed(
-        "   CREATE TABLE {IF_NOT_EXISTS} $table_vacation_notification (
-                on_vacation varchar(255) NOT NULL,
-                notified varchar(255) NOT NULL,
-                notified_at timestamp NOT NULL default now(),
-                CONSTRAINT vacation_notification_pkey PRIMARY KEY(on_vacation, notified),
-                FOREIGN KEY (on_vacation) REFERENCES vacation(email) ON DELETE CASCADE
-            )
-        ", 
-        TRUE, 
-        "   ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci TYPE=InnoDB 
+            "   CREATE TABLE {IF_NOT_EXISTS} $table_vacation_notification (
+        on_vacation varchar(255) NOT NULL,
+                    notified varchar(255) NOT NULL,
+                    notified_at timestamp NOT NULL default now(),
+                    CONSTRAINT vacation_notification_pkey PRIMARY KEY(on_vacation, notified),
+                    FOREIGN KEY (on_vacation) REFERENCES vacation(email) ON DELETE CASCADE
+                        )
+            ", 
+            TRUE, 
+            "   ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci TYPE=InnoDB 
             COMMENT='Postfix Admin - Virtual Vacation Notifications'
-        "
-    );
+            "
+            );
 }
 
 function upgrade_90() {
-    # translatable logging
-    # old format: "create alias"
-    # new format: "create_alias"
+# translatable logging
+# old format: "create alias"
+# new format: "create_alias"
     $result = db_query_parsed("UPDATE " . table_by_key ('log') . " SET action = REPLACE(action,' ','_')", TRUE);
-    # change edit_alias_state to edit_alias_active
+# change edit_alias_state to edit_alias_active
     $result = db_query_parsed("UPDATE " . table_by_key ('log') . " SET action = 'edit_alias_state' WHERE action = 'edit_alias_active'", TRUE);
 }
 
 function upgrade_169_mysql() { # MySQL only
-    # allow quota > 2 GB
+# allow quota > 2 GB
 
     $table_domain = table_by_key ('domain');
     $table_mailbox = table_by_key ('mailbox');
@@ -349,20 +364,19 @@ function upgrade_169_mysql() { # MySQL only
 
 
 /*
-TODO
+   TODO
 
    Database changes that should be done:
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 MySQL:
-* vacation: 
-  - DROP INDEX email
-  - 'cache' field might be obsolete with vacation_notification - needs to be checked!
-* vacation_notification:
-  - DEFAULT CHARSET and COLLATE should be changed
-  - change all varchar fields to latin1 (email addresses don't contain utf8 characters)
+ * vacation: 
+ - DROP INDEX email
+ - 'cache' field might be obsolete with vacation_notification - needs to be checked!
+ * vacation_notification:
+ - DEFAULT CHARSET and COLLATE should be changed
+ - change all varchar fields to latin1 (email addresses don't contain utf8 characters)
 
-*/
+ */
 
 
-/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
