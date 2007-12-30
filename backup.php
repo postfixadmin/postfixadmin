@@ -72,7 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    {
       fwrite ($fh, $header);
       
-      $tables = array('admin','alias','config','domain','domain_admins','log','mailbox','vacation');
+      $tables = array('admin','alias','config','domain','domain_admins','log','mailbox','vacation','vacation_notification');
+      # TODO: also backup fetchmail table
 
       for ($i = 0 ; $i < sizeof ($tables) ; ++$i)
       {
@@ -115,4 +116,5 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    unlink ("$backup");
    fpassthru ($download_backup);
 }
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
