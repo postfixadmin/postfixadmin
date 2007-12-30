@@ -142,7 +142,7 @@ function _flash_string($type, $string) {
 // check_language
 // Action: checks what language the browser uses
 // Call: check_language
-// Parameter: $use_post - set to 1 if $_POST should NOT be read
+// Parameter: $use_post - set to 0 if $_POST should NOT be read
 //
 function check_language ($use_post = 1)
 {
