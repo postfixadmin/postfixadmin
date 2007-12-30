@@ -79,5 +79,25 @@ if (file_exists (realpath ($motd_file)))
    print "</div>";
 }
 
+
+
+# IE can't handle :hover dropdowns correctly. It needs some JS instead.
+?>
+<script type='text/javascript'>
+sfHover = function() {
+   var sfEls = document.getElementById("menu").getElementsByTagName("LI");
+      for (var i=0; i<sfEls.length; i++) {
+         sfEls[i].onmouseover=function() {
+            this.className+=" sfhover";
+         }
+         sfEls[i].onmouseout=function() {
+            this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
+         }
+   }
+}
+if (window.attachEvent) window.attachEvent("onload", sfHover);
+</script>
+
+<?php
 /* vim: set ft=php expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

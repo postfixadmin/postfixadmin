@@ -102,7 +102,7 @@ table {
 	border-top: 4px solid #aaaaaa;
 }
 
-#menu li:hover {
+#menu li:hover, #menu li.sfhover {
 	background: #BFFF00;
 }
 
@@ -113,7 +113,7 @@ table {
 	border:2px solid white;
 	border-top:none;
 }
-#menu li:hover ul {
+#menu li:hover ul, #menu li.sfhover ul {
    left: auto;
 }
 
