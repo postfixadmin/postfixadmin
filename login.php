@@ -25,6 +25,7 @@
  *
  *  fUsername
  *  fPassword
+ *  lang
  */
 
 require_once('common.php');
@@ -54,6 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $fPassword = '';
     if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']);
     if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
+	$lang = safepost('lang');
+
+   if ( $lang != check_language(0) ) { # only set cookie if language selection was changed
+		setcookie('lang', $lang, time() + 60*60*24*30); # language cookie, lifetime 30 days
+		# (language preference cookie is processed even if username and/or password are invalid)
+	}
 
     $result = db_query ("SELECT password FROM $table_admin WHERE username='$fUsername' AND active='1'");
     if ($result['rows'] == 1)

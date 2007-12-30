@@ -142,19 +142,29 @@ function _flash_string($type, $string) {
 // check_language
 // Action: checks what language the browser uses
 // Call: check_language
+// Parameter: $use_post - set to 1 if $_POST should NOT be read
 //
-function check_language ()
+function check_language ($use_post = 1)
 {
    global $CONF;
    $lang = $CONF['default_language'];
    $supported_languages = array ('bg', 'ca', 'cn', 'cs', 'da', 'de', 'en', 'es', 'et', 'eu', 'fi', 'fo', 'fr', 'hu', 'is', 'it', 'mk', 'nl', 'nn', 'pl', 'pt-br', 'ru', 'sl', 'sv', 'tr', 'tw');
+   # TODO: use global $supported_languages (from languages/languages.php) instead
+
    if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
    {
       $lang_array = preg_split ('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+      if (safecookie('lang')) {
+         array_unshift($lang_array, safecookie('lang')); # prefer language from cookie
+      }
+      if ( $use_post && safepost('lang')) {
+         array_unshift($lang_array, safepost('lang')); # but prefer $_POST['lang'] even more
+      }
+
       for($i = 0; $i < count($lang_array); $i++)
       {
          $lang_next = $lang_array[$i];
-         $lang_next = strtolower(substr(trim($lang_next), 0, 2));
+         $lang_next = strtolower(trim($lang_next));
          if(in_array($lang_next, $supported_languages))
          {
             $lang = $lang_next;
@@ -165,7 +175,30 @@ function check_language ()
    return $lang;
 }
 
+//
+// language_selector
+// Action: returns a language selector dropdown with the browser (or cookie) language preselected
+// Call: language_selector()
+//
+function language_selector()
+{
+   global $supported_languages; # from languages/languages.php
+   
+   $current_lang = check_language();
 
+   $selector = '<select name="lang" xml:lang="en" dir="ltr">';
+
+   foreach($supported_languages as $lang => $lang_name) {
+      if ($lang == $current_lang) {
+         $selected = ' selected="selected"';
+      } else {
+         $selected = '';
+      }
+      $selector .= "<option value='$lang'$selected>$lang_name</option>";
+   }
+   $selector .= "</select>";
+   return $selector;
+}
 
 //
 // check_string
@@ -371,6 +404,19 @@ function safepost ($param, $default="") {
 function safeserver ($param, $default="") {
 	$retval=$default;
 	if (isset($_SERVER[$param])) $retval=$_SERVER[$param];
+	return $retval;
+}
+
+/**
+ * safecookie
+ * @see safeget()
+ * @param String $param 
+ * @param String $default (optional)
+ * @return String value from $_COOKIE[$param] or $default
+ */
+function safecookie ($param, $default="") {
+	$retval=$default;
+	if (isset($_COOKIE[$param])) $retval=$_COOKIE[$param];
 	return $retval;
 }
 

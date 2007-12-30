@@ -39,6 +39,7 @@ if(isset($CONF['configured'])) {
         exit(0);
     }
 }
+require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
 require_once("$incpath/languages/" . check_language () . ".lang");
 
