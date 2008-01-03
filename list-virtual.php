@@ -28,8 +28,8 @@
  * fDomain
  * fDisplay
  */
-
 require_once('common.php');
+
 
 authentication_require_role('admin');
 
@@ -69,6 +69,7 @@ if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDoma
 if (!check_owner(authentication_get_username(), $fDomain)) {
 #   die($PALANG['invalid_parameter']);
    header("Location: list-domain.php"); # domain not owned by this admin
+   exit(0);
 }
 
 $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.domain='$fDomain' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address LIMIT $fDisplay, $page_size";
