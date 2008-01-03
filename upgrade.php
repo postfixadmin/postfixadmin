@@ -38,7 +38,7 @@ function _pgsql_field_exists($table, $field) {
                 AND pg_catalog.pg_table_is_visible(c.oid)
         )
         AND a.attname = '$field' ";
-    echo $sql;
+//    echo $sql;
     $r = db_query($sql);
     $row = db_row($r['result']);
     if($row) {
