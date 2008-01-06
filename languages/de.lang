@@ -54,7 +54,7 @@ $PALANG['pOverview_up_arrow'] = 'Go Top';
 $PALANG['pOverview_right_arrow'] = 'N&auml;chste Seite';
 $PALANG['pOverview_left_arrow'] = 'Vorherige Seite';
 $PALANG['pOverview_alias_title'] = ':: Alias';
-$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxen';
 $PALANG['pOverview_button'] = 'Los';
 $PALANG['pOverview_welcome'] = '&Uuml;berblick &uuml;ber ';
 $PALANG['pOverview_alias_alias_count'] = 'Aliase';
@@ -75,7 +75,7 @@ $PALANG['pOverview_vacation_option'] = 'Automatische Antwort einrichten';
 
 $PALANG['pOverview_get_domain'] = 'Domain';
 $PALANG['pOverview_get_aliases'] = 'Aliases';
-$PALANG['pOverview_get_mailboxes'] = 'Mailboxes';
+$PALANG['pOverview_get_mailboxes'] = 'Mailboxen';
 $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Zuletzt ver&auml;ndert';
 
@@ -245,7 +245,7 @@ $PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">Die
 $PALANG['pAdminCreate_domain_description'] = 'Beschreibung';
 $PALANG['pAdminCreate_domain_aliases'] = 'Aliase';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = ausschalten | 0 = kein Limit';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Mailboxes';
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Mailboxen';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = ausschalten | 0 = kein Limit';
 $PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = ausschalten | 0 = kein Limit';
@@ -265,7 +265,7 @@ $PALANG['pAdminEdit_domain_domain'] = 'Domain';
 $PALANG['pAdminEdit_domain_description'] = 'Beschreibung';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliase';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = ausschalten | 0 = kein Limit';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Mailboxes';
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Mailboxen';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = ausschalten | 0 = kein Limit';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = ausschalten | 0 = kein Limit';
