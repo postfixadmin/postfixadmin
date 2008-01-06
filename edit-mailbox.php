@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $min_length = $CONF['min_password_length'];
 
       if($min_length > 0 && strlen($fPassword) < $min_length) {
-         flash_error($PALANG['pPasswordTooShort']);
+         flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
          $error = 1;
       }
       if($fPassword == $fPassword2) {
