@@ -113,6 +113,16 @@ if ($file_config == 1)
    print "<li>Depends on: presence config.inc.php - OK</li>\n";
    require_once('config.inc.php');
    $config_loaded = 1;
+
+   require('config.inc.php');
+   if(isset($CONF['configured'])) {
+      if($CONF['configured'] == TRUE) {
+	  	 print "<li>Checking \$CONF['configured'] - OK\n";
+	  } else {
+         print "<li><b>Error: \$CONF['configured'] is 'false'.<br>\n";
+		 print "Please edit your config.inc.php settings and then change it.</b>\n";
+	  }
+   }
 }
 else
 {
