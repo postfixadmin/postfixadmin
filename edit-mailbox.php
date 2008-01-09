@@ -96,12 +96,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if($fPassword != $user_details['password']){
       $min_length = $CONF['min_password_length'];
 
-      if($min_length > 0 && strlen($fPassword) < $min_length) {
-         flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
-         $error = 1;
-      }
       if($fPassword == $fPassword2) {
          if ($fPassword != "") {
+            if($min_length > 0 && strlen($fPassword) < $min_length) {
+               flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
+               $error = 1;
+            }
             $formvars['password'] = pacrypt($fPassword);
          }
       }
@@ -157,6 +157,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          header ("Location: list-virtual.php?domain=$fDomain");
          exit(0);
       }
+   } 
+   else 
+   {
+      # error detected. Put the values the user entered in the form again.
+      $tName = $fName;
+      $tQuota = $fQuota;
+      $tActive = $fActive;
    }
 }
 
