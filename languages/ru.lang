@@ -197,8 +197,8 @@ $PALANG['pSendmail_subject'] = 'Тема';
 $PALANG['pSendmail_subject_text'] = 'Добро пожаловать!';
 $PALANG['pSendmail_body'] = 'Текст';
 $PALANG['pSendmail_button'] = 'Послать сообщение';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Невозможно создать почтовый ящик!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
-$PALANG['pSendmail_result_success'] = 'Почтовый ящик был создан!'; # XXX text change - new: Email sent!
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Невозможно отправить сообщение!</span>';
+$PALANG['pSendmail_result_success'] = 'Сообщение отправлено!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Список админов';
 $PALANG['pAdminMenu_list_domain'] = 'Список доменов';
@@ -223,7 +223,7 @@ $PALANG['pAdminList_domain_aliases'] = 'Алиасы';
 $PALANG['pAdminList_domain_mailboxes'] = 'Ящики';
 $PALANG['pAdminList_domain_maxquota'] = 'Квота (МБ)';
 $PALANG['pAdminList_domain_transport'] = 'Транспорт';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_backupmx'] = 'Резервный MX';
 $PALANG['pAdminList_domain_modified'] = 'Последнее изменение';
 $PALANG['pAdminList_domain_active'] = 'Активен';
 
@@ -255,7 +255,7 @@ $PALANG['pAdminCreate_domain_transport'] = 'Транспорт';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Укажите транспорт';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Добавить стандартные алиасы для домена';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Почтовый сервер является backup MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Почтовый сервер является резервным MX';
 $PALANG['pAdminCreate_domain_button'] = 'Добавить домен';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Невозможно добавить домен!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Домен был добавлен!';
@@ -273,7 +273,7 @@ $PALANG['pAdminEdit_domain_maxquota'] = 'Макс. квота';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'МБ<br /> -1 = отключить | 0 = неограниченное';
 $PALANG['pAdminEdit_domain_transport'] = 'Транспорт';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Укажите транспорт';
-$PALANG['pAdminEdit_domain_backupmx'] = 'Почтовый сервер является backup MX';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Почтовый сервер является резервным MX';
 $PALANG['pAdminEdit_domain_active'] = 'Активен';
 $PALANG['pAdminEdit_domain_button'] = 'Редактировать домен';
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Невозможно изменить домен!</span>';
@@ -353,7 +353,7 @@ $PALANG['pBroadcast_subject'] = 'Тема';
 $PALANG['pBroadcast_message'] = 'Сообщение';
 $PALANG['pBroadcast_send'] = 'Отправить сообщение';
 $PALANG['pBroadcast_success'] = 'Ваше широковещательное сообщение было отправлено.';
-$PALANG['pAdminMenu_broadcast_message'] = 'ШВ сообщение';
+$PALANG['pAdminMenu_broadcast_message'] = 'Широковещательное сообщение';
 $PALANG['pBroadcast_error_empty'] = 'Поля Имя, Тема и Сообщение не должны быть пустыми!';
 
 $PALANG['pStatus_undeliverable'] = 'возможно НЕ ДОСТАВЛЕНО ';
