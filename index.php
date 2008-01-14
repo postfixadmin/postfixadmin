@@ -68,7 +68,7 @@ if (!file_exists (realpath ("./setup.php")) || $CONF['configured'] == 'I_know_th
             <li>Read the <a href='INSTALL.TXT'>INSTALL.txt</a> file</li>
             <li>Configure Postfix to use your chosen database - see (for example) the following pages :
             <ul>
-                <li><a href="http://codepoets.co.uk/docs/postfix_postgresql_postfixadmin_courier_howto">Postfix/PostgreSQL/Postfixadmin/Courier</a></li>
+                <li><a href="http://codepoets.co.uk/postfixadmin-postgresql-courier-squirrelmail-debian-etch-howto-tutorial">Postfix/PostgreSQL/Postfixadmin/Courier</a></li>
                 <li><a href="http://bliki.rimuhosting.com/space/knowledgebase/linux/mail/postfixadmin+on+debian+sarge">Postfix/MySQL/Postfixadmin/Dovecot</a></li>
                 <li><a href="http://gentoo-wiki.com/HOWTO_Setup_a_Virtual_Postfix/Courier_Mail_System_with_PostfixAdmin">Postfix/MySQL/Postfixamdin/Courier</a></li>
             </ul>
