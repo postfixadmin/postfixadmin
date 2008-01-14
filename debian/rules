@@ -24,6 +24,7 @@ install: build
 	cp *.php debian/postfixadmin/usr/share/postfixadmin
 	mv debian/postfixadmin/usr/share/postfixadmin/config.inc.php debian/postfixadmin/etc/postfixadmin/config.inc.php
 	ln -s /etc/postfixadmin/config.inc.php debian/postfixadmin/usr/share/postfixadmin/config.inc.php
+	perl -p -i -e "s#$$CONF\['postfix_admin_path'\] = dirname\(__FILE__\)#$$CONF\['postfix_admin_path'\] = '/usr/share/postfixadmin'#" debian/postfixadmin/etc/postfixadmin/config.inc.php
 	cp -a admin debian/postfixadmin/usr/share/postfixadmin
 	cp -a images debian/postfixadmin/usr/share/postfixadmin
 	cp -a languages debian/postfixadmin/usr/share/postfixadmin
