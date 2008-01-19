@@ -84,10 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
 
-   $tSubject   =                safepost('fSubject');
-   $fSubject   = escape_string (         $tSubject);
-   $tBody      =                safepost('fBody');
-   $fBody      = escape_string (         $tBody);
+   $tSubject   = safepost('fSubject');
+   $fSubject   = escape_string ($tSubject);
+   $tBody      = safepost('fBody');
+   $fBody      = escape_string ($tBody);
    $fChange    = escape_string (safepost('fChange'));
    $fBack      = escape_string (safepost('fBack'));
 
@@ -111,15 +111,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    //if change, remove old one, then perhaps set new one
    if (!empty ($fBack) || !empty ($fChange))
    {
-      //if we find an existing vacation entry, delete it
+      //if we find an existing vacation entry, disable it
       $result = db_query("SELECT * FROM $table_vacation WHERE email='$fUsername'");
       if ($result['rows'] == 1)
       {
-         $result = db_query ("DELETE FROM $table_vacation WHERE email='$fUsername'");
-         if ($result['rows'] != 1)
-         {
-            $error = 1;
-         }
+         $db_false = db_get_boolean(false);
+         // retain vacation message if possible - i.e disable vacation away-ness.
+         $result = db_query ("UPDATE $table_vacation SET active = $db_false WHERE email='$fUsername'");
 
          $result = db_query ("SELECT * FROM $table_alias WHERE address='$fUsername'");
          if ($result['rows'] == 1)
@@ -157,7 +155,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $goto = $row['goto'];
       }
       $Active = db_get_boolean(True);
-      $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$fUsername','$fSubject','$fBody','$fDomain',NOW(),$Active)");
+      $notActive = db_get_boolean(False);
+      // I don't think we need to care if the vacation entry is inactive or active.. as long as we don't try and
+      // insert a duplicate
+      $result = db_query("SELECT * FROM $table_vacation WHERE email = '$fUsername'");
+      if($result['rows'] == 1) {
+          $result = db_query("UPDATE $table_vacation SET active = $Active, created = NOW() WHERE email = '$fUsername'");
+      }
+      else {
+          $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$fUsername','$fSubject','$fBody','$fDomain',NOW(),$Active)");
+      }
 
       if ($result['rows'] != 1)
       {

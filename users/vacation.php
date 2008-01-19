@@ -84,17 +84,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     // if they've set themselves away OR back, delete any record of vacation emails.
     if (!empty ($fBack) || !empty ($fAway))
     {
-        $result = db_query ("DELETE FROM $table_vacation WHERE email='$USERID_USERNAME'");
-        $result2 = db_query ("DELETE FROM $table_vacation_notification WHERE on_vacation='$USERID_USERNAME'");
-        if ($result['rows'] != 1)
-        {
-            $error = 1;
-            $tMessage = $PALANG['pUsersVacation_result_error'];
-        }
-        else
-        {
-            $tMessage = $PALANG['pUsersVacation_result_success'];
-        }
+        $notActive = db_get_boolean(False);
+        // this isn't very good, as $result['rows'] would be 0 if the user had not used vacation stuff before.
+        $result = db_query("UPDATE $table_vacation SET active = $notActive WHERE email='$USERID_USERNAME'");
+        $result = db_query("DELETE FROM $table_vacation_notification WHERE on_vacation='$USERID_USERNAME'");
+        $tMessage = $PALANG['pUsersVacation_result_error'];
 
         // We need to see whether there is already an alias record for the user, or not. 
         // If not, we create one, else update the existing one.
@@ -146,7 +140,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $tGoto = $row['goto'];
         }
         $Active = db_get_boolean(True);
-        $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$USERID_USERNAME','$fSubject','$fBody','$USERID_DOMAIN',NOW(),$Active)");
+        $result = db_query("SELECT * FROM $table_vacation WHERE email = '$USERID_USERNAME'");
+        if($result['rows'] == 1) {
+            $result = db_query("UPDATE $table_vacation SET active = $Active, body = '$fBody', subject = '$fSubject', created = NOW() WHERE email = '$USERID_USERNAME'");
+        }
+        else {
+            $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$USERID_USERNAME','$fSubject','$fBody','$USERID_DOMAIN',NOW(),$Active)");
+        }
+
         if ($result['rows'] != 1)
         {
             $error = 1;
