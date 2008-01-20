@@ -27,7 +27,8 @@ require_once('../common.php');
 authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
 
-$result = db_query("SELECT * FROM $table_vacation WHERE email='$USERID_USERNAME'");
+$db_active = db_get_boolean(True);
+$result = db_query("SELECT * FROM $table_vacation WHERE email='$USERID_USERNAME' AND active='$db_active'");
 if ($result['rows'] == 1)
 {
    $row = db_array($result['result']);
