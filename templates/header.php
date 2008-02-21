@@ -12,10 +12,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
-if (file_exists (realpath ("./stylesheet.css"))) {
-	print "<link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheet.css\" />\n";
-} elseif (file_exists (realpath ("../stylesheet.css"))) {
-	print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../stylesheet.css\" />\n";
+if (file_exists (realpath ("../".$CONF['theme_css']))) {
+	print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../".htmlentities($CONF['theme_css'])."\" />\n";
+} else {
+	print "<link rel=\"stylesheet\" type=\"text/css\" href=\"".htmlentities($CONF['theme_css'])."\" />\n";
 }
 ?>
 <title>Postfix Admin - <?php print $_SERVER['HTTP_HOST']; ?></title>
@@ -23,14 +23,11 @@ if (file_exists (realpath ("./stylesheet.css"))) {
 <body>
 <div id="login_header">
 <?php
-if (file_exists (realpath ("./stylesheet.css")))
+if (file_exists (realpath ("../".$CONF['theme_logo'])))
 {
-   print "<img id=\"login_header_logo\" src=\"images/postbox.png\" />\n";
-   print "<img id=\"login_header_logo2\" src=\"images/postfixadmin2.png\" />\n";
-} elseif (file_exists (realpath ("../stylesheet.css")))
-{
-   print "<img id=\"login_header_logo\" src=\"../images/postbox.png\" />\n";
-   print "<img id=\"login_header_logo2\" src=\"../images/postfixadmin2.png\" />\n";
+   print "<img id=\"login_header_logo\" src=\"../".htmlentities($CONF['theme_logo'])."\" />\n";
+} else {
+   print "<img id=\"login_header_logo\" src=\"".htmlentities($CONF['theme_logo'])."\" />\n";
 }
 
 if (($CONF['show_header_text'] == "YES") and ($CONF['header_text']))

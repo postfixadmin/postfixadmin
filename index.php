@@ -35,8 +35,7 @@ if (!file_exists (realpath ("./setup.php")) || $CONF['configured'] == 'I_know_th
         <title>Welcome to Postfix Admin</title>
     </head>
     <body>
-        <img id="login_header_logo" src="images/postbox.png" />
-        <img id="login_header_logo2" src="images/postfixadmin2.png" />
+        <img id="login_header_logo" src="images/logo-default.png" />
         <h1>Welcome to Postfix Admin</h1>
         <h2>What is it?</h2>
         <p>Postfix Admin is a web based interface to configure and manage a Postfix based email server for many users.</p>

@@ -33,10 +33,10 @@ $CONF['configured'] = false;
 
 // Postfix Admin Path
 // Set the location of your Postfix Admin installation here.
-// You must enter complete url (http://domain.tld/) 
+// YOU MUST ENTER THE COMPLETE URL e.g. http://domain.tld/postfixadmin
 $CONF['postfix_admin_url'] = '';
 
-// leave this alone...
+// shouldn't need changing.
 $CONF['postfix_admin_path'] = dirname(__FILE__);
 
 // Language config
@@ -311,6 +311,11 @@ $CONF['show_custom_colors']=array("lightgreen","lightblue");
 // See also the "Optional flags for names" table at
 // http://www.php.net/manual/en/function.imap-open.php
 
+
+// Theme Config
+// Specify your own logo and CSS file
+$CONF['theme_logo'] = 'images/logo-default.png';
+$CONF['theme_css'] = 'css/default.css';
 
 // If you want to keep most settings at default values and/or want to ensure 
 // that future updates work without problems, you can use a separate config 
