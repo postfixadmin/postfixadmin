@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
     if ($result['rows'] == 1)
     {
         $row = db_array($result['result']);
-        $tMessage = $PALANG['pUsersVacation_welcome_text'];
+        if ($row['active'] == db_get_boolean(True)) $tMessage = $PALANG['pUsersVacation_welcome_text'];
         $tSubject = $row['subject'];
         $tBody = $row['body'];
     }
