@@ -1,0 +1,405 @@
+<?php
+# $Id: en.lang 275 2007-12-28 21:42:09Z christian_boltz $
+//
+// Language file Japanese
+// by Daisuke Aoyama <aoyama at peach dot ne dot jp>
+//
+
+
+$PALANG['YES'] = 'はい';
+$PALANG['NO'] = 'いいえ';
+$PALANG['edit'] = '編集';
+$PALANG['del'] = '削除';
+$PALANG['exit'] = '終了';
+$PALANG['cancel'] = 'キャンセル';
+$PALANG['save'] = '保存';
+$PALANG['confirm'] = '本当に削除してもよろしいですか？\n';
+$PALANG['confirm_domain'] = '本当にこのドメインのすべての情報を削除してもよろしいですか？これを元に戻すことはできません。\n';
+$PALANG['check_update'] = '更新の確認';
+$PALANG['invalid_parameter'] = '無効なパラメータです。';
+
+$PALANG['pFooter_logged_as'] = 'ログイン名 %s';
+
+$PALANG['pLogin_welcome'] = 'こちらからドメインの管理ができます。';
+$PALANG['pLogin_username'] = 'ログイン (メールアドレス)';
+$PALANG['pLogin_password'] = 'パスワード';
+$PALANG['pLogin_button'] = 'ログイン';
+$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">ログインが違います。正しいメールアドレスを入力してください。</span>';
+$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">パスワードが違います。</span>';
+$PALANG['pLogin_login_users'] = '一般ユーザのログインはここをクリックしてください。';
+
+$PALANG['pMenu_main'] = 'メイン';
+$PALANG['pMenu_overview'] = '概要';
+$PALANG['pMenu_create_alias'] = '転送先の追加';
+$PALANG['pMenu_create_mailbox'] = 'アドレスの追加';
+$PALANG['pMenu_fetchmail'] = 'メール取得';
+$PALANG['pMenu_sendmail'] = 'メール送信';
+$PALANG['pMenu_password'] = 'パスワード';
+$PALANG['pMenu_viewlog'] = 'ログ表示';
+$PALANG['pMenu_logout'] = 'ログアウト';
+
+$PALANG['pMain_welcome'] = 'Postfix Admin へようこそ！';
+$PALANG['pMain_overview'] = '転送アドレスとメールアドレスの一覧を表示します。ここから編集と削除ができます。';
+$PALANG['pMain_create_alias'] = '新しい転送アドレスを作成します。';
+$PALANG['pMain_create_mailbox'] = '新しいメールアドレスを作成します。';
+$PALANG['pMain_sendmail'] = '新しいメールアドレスにメールを送信します。';
+$PALANG['pMain_password'] = 'パスワードを変更します。';
+$PALANG['pMain_viewlog'] = 'ログファイルを表示します。';
+$PALANG['pMain_logout'] = 'ログアウトします。';
+
+$PALANG['pOverview_disabled'] = '無効';
+$PALANG['pOverview_unlimited'] = '無制限';
+$PALANG['pOverview_title'] = ':: 定義済ドメイン';
+$PALANG['pOverview_up_arrow'] = 'トップ';
+$PALANG['pOverview_right_arrow'] = '次ページ';
+$PALANG['pOverview_left_arrow'] = '前ページ';
+$PALANG['pOverview_alias_title'] = ':: 転送アドレス';
+$PALANG['pOverview_mailbox_title'] = ':: メールアドレス';
+$PALANG['pOverview_button'] = '表示';
+$PALANG['pOverview_welcome'] = '概要 ';
+$PALANG['pOverview_alias_alias_count'] = '転送数';
+$PALANG['pOverview_alias_mailbox_count'] = 'アドレス数';
+$PALANG['pOverview_alias_address'] = '転送元';
+$PALANG['pOverview_alias_goto'] = '転送先';
+$PALANG['pOverview_alias_modified'] = '最終更新日';
+$PALANG['pOverview_alias_active'] = 'アクティブ';
+$PALANG['pOverview_alias_edit'] = '転送';
+$PALANG['and_x_more'] = '[その他 %s 個]';
+$PALANG['pOverview_mailbox_username'] = 'メールアドレス';
+$PALANG['pOverview_mailbox_name'] = '名前';
+$PALANG['pOverview_mailbox_quota'] = '容量制限 (MB)';
+$PALANG['pOverview_mailbox_modified'] = '最終更新日';
+$PALANG['pOverview_mailbox_active'] = 'アクティブ';
+$PALANG['pOverview_vacation_edit'] = '自動応答 利用中';
+$PALANG['pOverview_vacation_option'] = '自動応答';
+
+
+$PALANG['pOverview_get_domain'] = 'ドメイン';
+$PALANG['pOverview_get_aliases'] = '転送';
+$PALANG['pOverview_get_mailboxes'] = 'アドレス';
+$PALANG['pOverview_get_quota'] = '容量制限 (MB)';
+$PALANG['pOverview_get_modified'] = '最終更新日';
+$PALANG['pDelete_delete_error'] = '<span class="error_msg">エントリを削除できません。 ';
+$PALANG['pDelete_delete_success'] = '%s を削除しました。';
+$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">メールアドレスを削除できません。 ';
+$PALANG['pDelete_domain_error'] = '<span class="error_msg">このドメインは管理外です。 ';
+$PALANG['pDelete_alias_error'] = '<span class="error_msg">転送アドレスを削除できません。 ';
+
+$PALANG['pCreate_alias_welcome'] = '新しい転送先の作成';
+$PALANG['pCreate_alias_address'] = '転送元アドレス';
+$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">メールアドレスが無効です。';
+$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">このメールアドレスは既に存在するので、<br />別のアドレスを選択してください。</span>';
+$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">転送アドレスの制限数に達しました。</span>';
+$PALANG['pCreate_alias_goto'] = '転送先アドレス';
+$PALANG['pCreate_alias_active'] = 'アクティブ';
+$PALANG['pCreate_alias_button'] = '転送先追加';
+$PALANG['pCreate_alias_goto_text'] = 'メールを転送するアドレス';
+$PALANG['pCreate_alias_goto_text_error'] = 'メールを転送するアドレス<br /><span class="error_msg">転送先が無効です。</span>';
+$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">転送先を追加できません！</span>';
+$PALANG['pCreate_alias_result_success'] = '転送先を追加しました。';
+$PALANG['pCreate_alias_catchall_text'] = 'すべてのメールを受け取るには、転送元に "*" を使います。<br />別のドメインにすべて転送するには、転送先に "*.domain.tld" を使います。';
+
+$PALANG['pEdit_alias_welcome'] = '転送先アドレスの編集<br />1行に1エントリです。';
+$PALANG['pEdit_alias_address'] = '転送元';
+$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">転送元が見つかりません！</span>';
+$PALANG['pEdit_alias_goto'] = '転送先';
+$PALANG['pEdit_alias_active'] = 'アクティブ';
+$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">転送先が入力されていません。</span>';
+$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">このメールアドレスは無効です: ';
+$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">このドメインは管理外です: ';
+$PALANG['pEdit_alias_forward_and_store'] = 'ローカルのメールボックスに残す';
+$PALANG['pEdit_alias_forward_only'] = '指定された転送アドレスのみ';
+$PALANG['pEdit_alias_button'] = '転送先修正';
+$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">修正できません！</span>';
+
+$PALANG['pCreate_mailbox_welcome'] = '新しいメールアドレスの作成';
+$PALANG['pCreate_mailbox_username'] = 'ユーザ名';
+$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">メールアドレスが無効です。</span>';
+$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">このメールアドレスは既に存在するので、別のアドレスを選択してください。</span>';
+$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">メールアドレスの制限数に達しました。</span>';
+$PALANG['pCreate_mailbox_password'] = 'パスワード';
+$PALANG['pCreate_mailbox_password2'] = 'パスワード (確認)';
+$PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAPのパスワード';
+$PALANG['pCreate_mailbox_password_text_error'] = 'POP3/IMAPのパスワード<br /><span class="error_msg">パスワードが一致しません。<br />または空です。</span>';
+$PALANG['pCreate_mailbox_name'] = '名前';
+$PALANG['pCreate_mailbox_name_text'] = 'フルネーム';
+$PALANG['pCreate_mailbox_quota'] = '容量制限';
+$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">指定された容量制限が大きすぎます。</span>';
+$PALANG['pCreate_mailbox_active'] = 'アクティブ';
+$PALANG['pCreate_mailbox_mail'] = 'ようこそメールの送信';
+$PALANG['pCreate_mailbox_button'] = 'メールアドレス追加';
+$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">メールアドレスを追加できません！</span>';
+$PALANG['pCreate_mailbox_result_success'] = 'メールアドレスを追加しました。';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'メールアドレスを追加しました。しかし、いくつかのサブフォルダの作成に失敗しました。';
+
+$PALANG['pEdit_mailbox_welcome'] = 'メールアドレスの編集';
+$PALANG['pEdit_mailbox_username'] = 'メールアドレス';
+$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">Unable to locate mailbox!</span>';
+$PALANG['pEdit_mailbox_password'] = '新しいパスワード';
+$PALANG['pEdit_mailbox_password2'] = '新しいパスワード (確認)';
+$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">パスワードが一致しません。</span>';
+$PALANG['pEdit_mailbox_name'] = '名前';
+$PALANG['pEdit_mailbox_name_text'] = 'フルネーム';
+$PALANG['pEdit_mailbox_quota'] = '容量制限';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">指定された容量制限が大きすぎます。</span>';
+$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">このドメインは管理外です: ';
+$PALANG['pEdit_mailbox_button'] = 'メールアドレス修正';
+$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">修正できません！</span>';
+
+$PALANG['pPassword_welcome'] = 'パスワードの変更';
+$PALANG['pPassword_admin'] = 'ログイン';
+$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">指定されたログインはメールボックスに一致しません。</span>';
+$PALANG['pPassword_password_current'] = '現在のパスワード';
+$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">現在のパスワードが入力されていません。</span>';
+$PALANG['pPassword_password'] = '新規パスワード';
+$PALANG['pPassword_password2'] = '新規パスワード (確認)';
+$PALANG['pPassword_password_text_error'] = '<span class="error_msg">パスワードが一致しません。<br />または空です。</span>';
+$PALANG['pPassword_button'] = 'パスワード変更';
+$PALANG['pPassword_result_error'] = '<span class="error_msg">パスワードを変更できません！</span>';
+$PALANG['pPassword_result_success'] = 'パスワードを変更しました。';
+
+$PALANG['pEdit_vacation_set'] = 'メッセージ変更／設定';
+$PALANG['pEdit_vacation_remove'] = 'メッセージ解除';
+
+$PALANG['pVacation_result_error'] = '<span class="error_msg">自動応答の設定を更新できませんでした！</span>';
+$PALANG['pVacation_result_removed'] = '自動応答を解除しました。';
+$PALANG['pVacation_result_added'] = '自動応答を設定しました。';
+
+$PALANG['pViewlog_welcome'] = '過去10個のアクション ';
+$PALANG['pViewlog_timestamp'] = 'タイムスタンプ';
+$PALANG['pViewlog_username'] = '管理者';
+$PALANG['pViewlog_domain'] = 'ドメイン';
+$PALANG['pViewlog_action'] = 'アクション';
+$PALANG['pViewlog_data'] = 'データ';
+
+$PALANG['pViewlog_action_create_mailbox'] = 'アドレス作成';
+$PALANG['pViewlog_action_delete_mailbox'] = 'アドレス削除';
+$PALANG['pViewlog_action_edit_mailbox'] = 'アドレス編集';
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'アドレス状態編集';
+$PALANG['pViewlog_action_create_alias'] = '転送先作成';
+$PALANG['pViewlog_action_delete_alias'] = '転送先削除';
+$PALANG['pViewlog_action_edit_alias'] = '転送先編集';
+$PALANG['pViewlog_action_edit_alias_state'] = '転送先状態編集';
+$PALANG['pViewlog_action_edit_password'] = 'パスワード変更';
+ 
+$PALANG['pViewlog_button'] = '表示';
+$PALANG['pViewlog_result_error'] = '<span class="error_msg">ログが見つかりません！</span>';
+
+$PALANG['pSendmail_welcome'] = 'メール送信';
+$PALANG['pSendmail_admin'] = '差出人';
+$PALANG['pSendmail_to'] = '宛先';
+$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">宛先が空欄か無効です。</span>';
+$PALANG['pSendmail_subject'] = '件名';
+$PALANG['pSendmail_subject_text'] = 'ようこそ';
+$PALANG['pSendmail_body'] = '本文';
+$PALANG['pSendmail_button'] = 'メッセージ送信';
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">メールが送信できません！</span>';
+$PALANG['pSendmail_result_success'] = 'メールが送信されました。';
+
+$PALANG['pAdminMenu_list_admin'] = '管理者一覧';
+$PALANG['pAdminMenu_list_domain'] = 'ドメイン一覧';
+$PALANG['pAdminMenu_list_virtual'] = 'アドレス一覧';
+$PALANG['pAdminMenu_viewlog'] = 'ログ表示';
+$PALANG['pAdminMenu_backup'] = 'バックアップ';
+$PALANG['pAdminMenu_create_domain_admins'] = 'ドメイン管理者';
+$PALANG['pAdminMenu_create_admin'] = '新しい管理者';
+$PALANG['pAdminMenu_create_domain'] = '新しいドメイン';
+$PALANG['pAdminMenu_create_alias'] = '転送先の追加';
+$PALANG['pAdminMenu_create_mailbox'] = 'アドレスの追加';
+
+$PALANG['pAdminList_admin_domain'] = 'ドメイン';
+$PALANG['pAdminList_admin_username'] = '管理者';
+$PALANG['pAdminList_admin_count'] = 'ドメイン数';
+$PALANG['pAdminList_admin_modified'] = '最終更新日';
+$PALANG['pAdminList_admin_active'] = 'アクティブ';
+
+$PALANG['pAdminList_domain_domain'] = 'ドメイン';
+$PALANG['pAdminList_domain_description'] = '説明';
+$PALANG['pAdminList_domain_aliases'] = '転送数';
+$PALANG['pAdminList_domain_mailboxes'] = 'アドレス数';
+$PALANG['pAdminList_domain_maxquota'] = '容量制限 (MB)';
+$PALANG['pAdminList_domain_transport'] = '配送方法';
+$PALANG['pAdminList_domain_backupmx'] = 'バックアップ MX';
+$PALANG['pAdminList_domain_modified'] = '最終更新日';
+$PALANG['pAdminList_domain_active'] = 'アクティブ';
+
+$PALANG['pAdminList_virtual_button'] = '表示';
+$PALANG['pAdminList_virtual_welcome'] = '概要 ';
+$PALANG['pAdminList_virtual_alias_alias_count'] = '転送数';
+$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'アドレス数';
+$PALANG['pAdminList_virtual_alias_address'] = '転送元';
+$PALANG['pAdminList_virtual_alias_goto'] = '転送先';
+$PALANG['pAdminList_virtual_alias_modified'] = '最終更新日';
+$PALANG['pAdminList_virtual_mailbox_username'] = 'メールアドレス';
+$PALANG['pAdminList_virtual_mailbox_name'] = '名前';
+$PALANG['pAdminList_virtual_mailbox_quota'] = '容量制限 (MB)';
+$PALANG['pAdminList_virtual_mailbox_modified'] = '最終更新日';
+$PALANG['pAdminList_virtual_mailbox_active'] = 'アクティブ';
+
+$PALANG['pAdminCreate_domain_welcome'] = '新しいドメインの追加';
+$PALANG['pAdminCreate_domain_domain'] = 'ドメイン';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">ドメインが既に存在します。</span>';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">ドメインが無効です。</span>';
+$PALANG['pAdminCreate_domain_description'] = '説明';
+$PALANG['pAdminCreate_domain_aliases'] = '最大転送先数';
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = 無効 | 0 = 無制限';
+$PALANG['pAdminCreate_domain_mailboxes'] = '最大メールアドレス数';
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = 無効 | 0 = 無制限';
+$PALANG['pAdminCreate_domain_maxquota'] = '最大容量制限';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = 無効 | 0 = 無制限';
+$PALANG['pAdminCreate_domain_transport'] = '配送方法';
+$PALANG['pAdminCreate_domain_transport_text'] = '配送方法の定義';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'デフォルト転送先の追加';
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
+$PALANG['pAdminCreate_domain_backupmx'] = 'バックアップ MXサーバ';
+$PALANG['pAdminCreate_domain_button'] = 'ドメイン追加';
+$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">ドメインを追加できません！</span>';
+$PALANG['pAdminCreate_domain_result_success'] = 'ドメインを追加しました。';
+
+$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">ドメインが削除できません！</span>';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'ドメインの修正';
+$PALANG['pAdminEdit_domain_domain'] = 'ドメイン';
+$PALANG['pAdminEdit_domain_description'] = '説明';
+$PALANG['pAdminEdit_domain_aliases'] = '最大転送先数';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = 無効 | 0 = 無制限';
+$PALANG['pAdminEdit_domain_mailboxes'] = '最大メールアドレス';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = 無効 | 0 = 無制限';
+$PALANG['pAdminEdit_domain_maxquota'] = '最大容量制限';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = 無効 | 0 = 無制限';
+$PALANG['pAdminEdit_domain_transport'] = '配送方法';
+$PALANG['pAdminEdit_domain_transport_text'] = '配送方法の定義';
+$PALANG['pAdminEdit_domain_backupmx'] = 'バックアップ MXサーバ';
+$PALANG['pAdminEdit_domain_active'] = 'アクティブ';
+$PALANG['pAdminEdit_domain_button'] = 'ドメイン修正';
+$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">ドメインが修正できません！</span>';
+
+$PALANG['pAdminCreate_admin_welcome'] = '新しいドメイン管理者の追加';
+$PALANG['pAdminCreate_admin_username'] = 'ドメイン管理者';
+$PALANG['pAdminCreate_admin_username_text'] = 'メールアドレス';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'メールアドレス<br /><span class="error_msg">管理者は有効なメールアドレスではありません。</span>';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'メールアドレス<br /><span class="error_msg">管理者は存在するか無効です。</span>';
+$PALANG['pAdminCreate_admin_password'] = 'パスワード';
+$PALANG['pAdminCreate_admin_password2'] = 'パスワード (確認)';
+$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">パスワードが一致しません。<br />または空です。</span>';
+$PALANG['pAdminCreate_admin_button'] = '管理者追加';
+$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">管理者を追加できません！</span>';
+$PALANG['pAdminCreate_admin_result_success'] = '管理者を追加しました。';
+$PALANG['pAdminCreate_admin_address'] = 'ドメイン';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'ドメイン管理者の編集';
+$PALANG['pAdminEdit_admin_username'] = '管理者';
+$PALANG['pAdminEdit_admin_password'] = 'パスワード';
+$PALANG['pAdminEdit_admin_password2'] = 'パスワード (確認)';
+$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">パスワードが一致しません。<br />または空です。</span>';
+$PALANG['pAdminEdit_admin_active'] = 'アクティブ';
+$PALANG['pAdminEdit_admin_super_admin'] = '特権管理者';
+$PALANG['pAdminEdit_admin_button'] = '管理者修正';
+$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">管理者を修正できません！</span>';
+$PALANG['pAdminEdit_admin_result_success'] = '管理者を修正しました。';
+
+$PALANG['pUsersLogin_welcome'] = 'あなたのパスワードと転送先が変更できます。';
+$PALANG['pUsersLogin_username'] = 'ログイン (メールアドレス)';
+$PALANG['pUsersLogin_password'] = 'パスワード';
+$PALANG['pUsersLogin_button'] = 'ログイン';
+$PALANG['pUsersLogin_username_incorrect'] = 'ログインが違います。正しいメールアドレスを入力してください。';
+$PALANG['pUsersLogin_password_incorrect'] = 'パスワードが違います。';
+
+$PALANG['pUsersMenu_vacation'] = '自動応答';
+$PALANG['pUsersMenu_edit_alias'] = '転送先変更';
+$PALANG['pUsersMenu_password'] = 'パスワード変更';
+
+$PALANG['pUsersMain_vacation'] = '不在メッセージまたは自動応答を設定します';
+$PALANG['pUsersMain_vacationSet'] = '自動応答を利用中です。「自動応答」をクリックして編集／解除できます。';
+$PALANG['pUsersMain_edit_alias'] = '転送設定を変更します。';
+$PALANG['pUsersMain_password'] = 'パスワードを変更します。';
+
+$PALANG['pUsersVacation_welcome'] = '自動応答';
+$PALANG['pUsersVacation_welcome_text'] = '既に自動応答を構成してあります。';
+$PALANG['pUsersVacation_subject'] = '件名';
+$PALANG['pUsersVacation_subject_text'] = '不在';
+$PALANG['pUsersVacation_body'] = '本文';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+私は <date> から <date> まで不在です。
+緊急事項は <contact person> まで連絡してください。
+EOM;
+$PALANG['pUsersVacation_button_away'] = '設定';
+$PALANG['pUsersVacation_button_back'] = '解除';
+$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">自動応答の設定を更新できませんでした！</span>';
+$PALANG['pUsersVacation_result_success'] = '自動応答を解除しました。';
+
+$PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';
+$PALANG['pCreate_dbLog_createalias'] = 'create alias';
+$PALANG['pDelete_dbLog_deletealias'] = 'delete alias';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'delete mailbox';
+
+$PALANG['pEdit_dbLog_editactive'] = 'change active state';
+$PALANG['pEdit_dbLog_editalias'] = 'edit alias';
+$PALANG['pEdit_dbLog_editmailbox'] = 'edit mailbox';
+
+$PALANG['pSearch'] = '検索';
+$PALANG['pSearch_welcome'] = '検索文字列: ';
+
+$PALANG['pReturn_to'] = '戻る: ';
+
+$PALANG['pBroadcast_title'] = 'ブロードキャストメッセージの送信';
+$PALANG['pBroadcast_from'] = '差出人';
+$PALANG['pBroadcast_name'] = '名前';
+$PALANG['pBroadcast_subject'] = '件名';
+$PALANG['pBroadcast_message'] = 'メッセージ';
+$PALANG['pBroadcast_send'] = 'メッセージ送信';
+$PALANG['pBroadcast_success'] = 'ブロードキャストメッセージは送信されました。';
+$PALANG['pAdminMenu_broadcast_message'] = 'ブロードキャスト';
+$PALANG['pBroadcast_error_empty'] = '名前、件名、メッセージは入力が必要です。';
+
+$PALANG['pStatus_undeliverable'] = 'おそらく配送不可能 ';
+$PALANG['pStatus_custom'] = '配送先 ';
+$PALANG['pStatus_popimap'] = 'POP/IMAP ';
+
+$PALANG['pPasswordTooShort'] = "パスワードが短すぎます。最低 %s 文字必要です。"; # usage: flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
+
+$PALANG['pFetchmail_welcome'] = 'メール取得:';
+$PALANG['pFetchmail_new_entry'] = '新しいエントリ';
+$PALANG['pFetchmail_database_save_error'] = 'このエントリをデータベースに保存できませんでした。';
+$PALANG['pFetchmail_database_save_success'] = 'エントリをデータベースに保存しました。';
+$PALANG['pFetchmail_error_invalid_id'] = 'ID %s のエントリが見つかりません。';
+$PALANG['pFetchmail_invalid_mailbox'] = 'メールボックスが無効です！';
+$PALANG['pFetchmail_server_missing'] = 'リモートサーバ名を入力してください。';
+$PALANG['pFetchmail_user_missing'] = 'リモートユーザ名を入力してください。';
+$PALANG['pFetchmail_password_missing'] = 'リモートパスワードを入力してください。';
+$PALANG['pFetchmail_field_id']              = 'ID';
+$PALANG['pFetchmail_field_mailbox']         = 'メールボックス';
+$PALANG['pFetchmail_field_src_server']      = 'サーバ';
+$PALANG['pFetchmail_field_src_auth']        = '認証タイプ';
+$PALANG['pFetchmail_field_src_user']        = 'ユーザ';
+$PALANG['pFetchmail_field_src_password']    = 'パスワード';
+$PALANG['pFetchmail_field_src_folder']      = 'フォルダ';
+$PALANG['pFetchmail_field_poll_time']       = '間隔';
+$PALANG['pFetchmail_field_fetchall']        = 'すべて取得';
+$PALANG['pFetchmail_field_keep']            = '残す';
+$PALANG['pFetchmail_field_protocol']        = 'プロトコル';
+$PALANG['pFetchmail_field_extra_options']   = '追加オプション';
+$PALANG['pFetchmail_field_mda']             = 'MDA';
+$PALANG['pFetchmail_field_date']            = '日付';
+$PALANG['pFetchmail_field_returned_text']   = '戻りテキスト';
+$PALANG['pFetchmail_desc_id']               = 'レコード ID';
+$PALANG['pFetchmail_desc_mailbox']          = 'ローカル メールボックス';
+$PALANG['pFetchmail_desc_src_server']       = 'リモート サーバ';
+$PALANG['pFetchmail_desc_src_auth']         = '大抵は \'password\''; # Translators: Please do NOT translate 'password' here
+$PALANG['pFetchmail_desc_src_user']         = 'リモート ユーザ';
+$PALANG['pFetchmail_desc_src_password']     = 'リモート パスワード';
+$PALANG['pFetchmail_desc_src_folder']       = 'リモート フォルダ';
+$PALANG['pFetchmail_desc_poll_time']        = '分単位の確認間隔';
+$PALANG['pFetchmail_desc_fetchall']         = '既読と新着メッセージを取得するか';
+$PALANG['pFetchmail_desc_keep']             = 'リモートサーバに取得済メッセージを残すか';
+$PALANG['pFetchmail_desc_protocol']         = '利用するプロトコル';
+$PALANG['pFetchmail_desc_extra_options']    = '追加の fetchmail オプション';
+$PALANG['pFetchmail_desc_mda']              = 'メール配送エージェント (Mail Delivery Agent)';
+$PALANG['pFetchmail_desc_date']             = '最終取得確認／設定変更日時';
+$PALANG['pFetchmail_desc_returned_text']    = '新着確認の戻りテキストメッセージ';
+
+$PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
+/* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
+?>

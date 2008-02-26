@@ -2,6 +2,8 @@
 <?php
 # List of supported languages
 $supported_languages = array(
+#   Format:
+#   'code'  => 'native language name - language name in english'
     'bg'    => '&#1041;&#1098;&#1083;&#1075;&#1072;&#1088;&#1089;&#1082;&#1080; - Bulgarian',
     'ca'    => 'Catal&agrave; - Catalan',
     'cn'    => '&#20013;&#25991; - Chinese simplified (gb2312)',
@@ -20,6 +22,7 @@ $supported_languages = array(
     'hu'    => 'Magyar - Hungarian',
     'is'    => 'Icelandic',
     'it'    => 'Italiano - Italian',
+    'ja'    => 'Japanese',
     'lt'    => 'Lietuvi&#371; - Lithuanian',
     'mk'    => 'Macedonian - Macedonian',
     'nl'    => 'Nederlands - Dutch',
