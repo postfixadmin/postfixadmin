@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       // insert a duplicate
       $result = db_query("SELECT * FROM $table_vacation WHERE email = '$fUsername'");
       if($result['rows'] == 1) {
-          $result = db_query("UPDATE $table_vacation SET active = $Active, created = NOW() WHERE email = '$fUsername'");
+          $result = db_query("UPDATE $table_vacation SET active = $Active, subject = '$fSubject', body = '$fBody', created = NOW() WHERE email = '$fUsername'");
       }
       else {
           $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$fUsername','$fSubject','$fBody','$fDomain',NOW(),$Active)");
