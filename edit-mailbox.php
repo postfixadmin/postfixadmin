@@ -85,6 +85,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    }
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cancel'])) {
+    header("Location: list-virtual.php?domain=$fDomain");
+    exit(0);
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
