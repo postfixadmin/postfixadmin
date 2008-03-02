@@ -147,9 +147,9 @@ function _flash_string($type, $string) {
 function check_language ($use_post = 1)
 {
    global $CONF;
+   global $supported_languages; # from languages/languages.php
+
    $lang = $CONF['default_language'];
-   $supported_languages = array ('bg', 'ca', 'cn', 'cs', 'da', 'de', 'en', 'es', 'et', 'eu', 'fi', 'fo', 'fr', 'hu', 'is', 'it', 'mk', 'nl', 'nn', 'pl', 'pt-br', 'ru', 'sl', 'sv', 'tr', 'tw');
-   # TODO: use global $supported_languages (from languages/languages.php) instead
 
    if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
    {
@@ -165,7 +165,7 @@ function check_language ($use_post = 1)
       {
          $lang_next = $lang_array[$i];
          $lang_next = strtolower(trim($lang_next));
-         if(in_array($lang_next, $supported_languages))
+         if(array_key_exists($lang_next, $supported_languages))
          {
             $lang = $lang_next;
             break;
