@@ -117,10 +117,15 @@ $CONF['default_aliases'] = array (
 
 // Mailboxes
 // If you want to store the mailboxes per domain set this to 'YES'.
-// Example: /usr/local/virtual/domain.tld/username@domain.tld
+// Examples:
+//   YES: /usr/local/virtual/domain.tld/username@domain.tld
+//   NO:  /usr/local/virtual/username@domain.tld
 $CONF['domain_path'] = 'NO';
 // If you don't want to have the domain in your mailbox set this to 'NO'.
-// Example: /usr/local/virtual/domain.tld/username
+// Examples: 
+//   YES: /usr/local/virtual/domain.tld/username@domain.tld
+//   NO:  /usr/local/virtual/domain.tld/username
+// Note: If $CONF['domain_path'] is set to NO, this setting will be forced to YES.
 $CONF['domain_in_mailbox'] = 'YES';
 
 // Default Domain Values
