@@ -1984,9 +1984,7 @@ function gen_show_status ($show_alias)
    if ( $CONF['show_popimap'] == 'YES' )
    {
       //if the address passed in appears in its own goto field, its POP/IMAP
-      if (preg_match ('/^' . $show_alias . '$/', $stat_goto) ||
-         preg_match ('/' . $show_alias . ',/', $stat_goto) ||
-         preg_match ('/,' . $show_alias . '$/', $stat_goto) )
+      if ( preg_match ('/,' . $show_alias . ',/', ',' . $stat_goto . ',') )
       {
          $stat_string .= "<span  style='background-color:" . $CONF['show_popimap_color'] .
             "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
