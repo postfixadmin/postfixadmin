@@ -1321,8 +1321,8 @@ $DEBUG_TEXT = "\n
    <p />\n
    Please check the documentation and website for more information.\n
    <p />\n
-   <a href=\"http://high5.net/postfixadmin/\">Postfix Admin</a><br />\n
-   <a href=\"http://forums.high5.net/index.php?showforum=7\">Knowledge Base</a>\n
+   <a href=\"http://postfixadmin.sf.net/\">Postfix Admin</a><br />\n
+   <a href='https://sourceforge.net/forum/forum.php?forum_id=676076'>Forums</a>
    ";
 
 
