@@ -5,7 +5,7 @@
 // by Stefan Jakobsson <stefan at katrinet dot se>
 // updated by Bjorne <bjorne at gah dot se>
 // updated by Jan Örnstedt (ornstedt @sf)
-//
+// updated by Bachman Kharazmi bachman@tor.lindesign.se
 
 $PALANG['YES'] = 'JA';
 $PALANG['NO'] = 'NEJ';
@@ -28,11 +28,11 @@ $PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Ditt login är e
 $PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Du angav fel lösenord!</span>';
 $PALANG['pLogin_login_users'] = 'Användare klickar här för att logga in på användardelen.';
 
-$PALANG['pMenu_main'] = 'Main'; # XXX
+$PALANG['pMenu_main'] = 'Huvudmeny';
 $PALANG['pMenu_overview'] = 'Sammanfattning';
 $PALANG['pMenu_create_alias'] = 'Lägg till alias';
 $PALANG['pMenu_create_mailbox'] = 'Lägg till brevlåda';
-$PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
+$PALANG['pMenu_fetchmail'] = 'Hämta mail';
 $PALANG['pMenu_sendmail'] = 'Skicka mail';
 $PALANG['pMenu_password'] = 'Lösenord';
 $PALANG['pMenu_viewlog'] = 'Visa logg';
@@ -49,7 +49,7 @@ $PALANG['pMain_logout'] = 'Logga ut från systemet';
 
 $PALANG['pOverview_disabled'] = 'Avstängd';
 $PALANG['pOverview_unlimited'] = 'Obegränsat';
-$PALANG['pOverview_title'] = ':: Defined Domains'; # XXX
+$PALANG['pOverview_title'] = ':: Deklarerade domäner';
 $PALANG['pOverview_up_arrow'] = 'Tillbaka till början';
 $PALANG['pOverview_right_arrow'] = 'Nästa sida';
 $PALANG['pOverview_left_arrow'] = 'Föregående sida';
@@ -64,26 +64,26 @@ $PALANG['pOverview_alias_goto'] = 'Till';
 $PALANG['pOverview_alias_modified'] = 'Senast Ändrad';
 $PALANG['pOverview_alias_active'] = 'Aktiv';
 $PALANG['pOverview_alias_edit'] = 'Alias';
-$PALANG['and_x_more'] = '[and %s more...]'; # XXX
+$PALANG['and_x_more'] = '[och %s mer...]';
 $PALANG['pOverview_mailbox_username'] = 'Epost';
 $PALANG['pOverview_mailbox_name'] = 'Namn';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pOverview_mailbox_modified'] = 'Senast Ändrad';
 $PALANG['pOverview_mailbox_active'] = 'Aktiv';
-$PALANG['pOverview_vacation_edit'] = 'VACATION IS ON'; # XXX
-$PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
+$PALANG['pOverview_vacation_edit'] = 'LEDIGHET ÄR AKTIVERAT';
+$PALANG['pOverview_vacation_option'] = 'Aktivera ledighet';
 
 $PALANG['pOverview_get_domain'] = 'Domän';
 $PALANG['pOverview_get_aliases'] = 'Alias';
 $PALANG['pOverview_get_mailboxes'] = 'Brevlåda';
-$PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)'; # XXX
+$PALANG['pOverview_get_quota'] = 'Kvot för brevlåda (MB)';
 $PALANG['pOverview_get_modified'] = 'Senast Ändrad';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Kan inte radera data för ';
-$PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
-$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
+$PALANG['pDelete_delete_success'] = '%s borttagen.';
+$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Kunde inte tabort brevlåda ';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Detta är inte din domän ';
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pDelete_alias_error'] = '<span class="error_msg">Kunde inte tabort alias ';
 
 $PALANG['pCreate_alias_welcome'] = 'Skapa nytt alias för din domän.';
 $PALANG['pCreate_alias_address'] = 'Alias';
@@ -107,8 +107,8 @@ $PALANG['pEdit_alias_active'] = 'Aktiv';
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Du angav inget i Till</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Epost adressen du angivit är felaktig: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Detta är inte din domän: ';
-$PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
-$PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
+$PALANG['pEdit_alias_forward_and_store'] = 'Leverera till lokal brevlåda.';
+$PALANG['pEdit_alias_forward_only'] = 'Vidarebefodra till angiven epost endast.';
 $PALANG['pEdit_alias_button'] = 'Ändra alias';
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Kan inte modifiera detta alias!</span>';
 
@@ -131,7 +131,7 @@ $PALANG['pCreate_mailbox_mail'] = 'Skicka välkomstbrev';
 $PALANG['pCreate_mailbox_button'] = 'Lägg till brevlåda';
 $PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Kan ej lägga till brevlådat i tabellen för konton!</span>';
 $PALANG['pCreate_mailbox_result_success'] = 'Mailkontot har lagts till!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Brevlådan har lagts till i tabellen mailbox, men inga (eller få) av de fördefinierade underkatalogerna kunde skapas';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Ändra ett brevlåda i din domän.';
 $PALANG['pEdit_mailbox_username'] = 'Epostadress';
@@ -159,11 +159,11 @@ $PALANG['pPassword_password_text_error'] = '<span class="error_msg">Lösenorden 
 $PALANG['pPassword_button'] = 'Ändra Lösenord';
 $PALANG['pPassword_result_error'] = '<span class="error_msg">Kan inte ändra ditt lösenord!</span>';
 $PALANG['pPassword_result_success'] = 'Ditt lösenord har ändrats!';
-$PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
-$PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
-$PALANG['pVacation_result_error'] = '<span class="error_msg">Unable to update auto response settings!</span>'; # XXX
-$PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
-$PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
+$PALANG['pEdit_vacation_set'] = 'Ändra / Aktivera meddelande för ledighet';
+$PALANG['pEdit_vacation_remove'] = 'Tabort meddelande för ledighet';
+$PALANG['pVacation_result_error'] = '<span class="error_msg">Kunde inte uppdatera autosvar inställningar!</span>';
+$PALANG['pVacation_result_removed'] = 'Autosvar meddelande har tagits bort!';
+$PALANG['pVacation_result_added'] = 'Autosvar meddelande har aktiverats!';
 
 $PALANG['pViewlog_welcome'] = 'Visa dom senaste 10 åtgärderna för ';
 $PALANG['pViewlog_timestamp'] = 'Tidpunkt';
@@ -192,8 +192,8 @@ $PALANG['pSendmail_subject'] = 'Ämne';
 $PALANG['pSendmail_subject_text'] = 'Välkommen';
 $PALANG['pSendmail_body'] = 'Meddelande';
 $PALANG['pSendmail_button'] = 'Skicka';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Mailet kunde inte skickas!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
-$PALANG['pSendmail_result_success'] = 'Mailet har skickats!'; # XXX text change - new: Email sent!
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Mailet kunde inte skickas!</span>';
+$PALANG['pSendmail_result_success'] = 'Mailet har skickats!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Administratörer';
 $PALANG['pAdminMenu_list_domain'] = 'Domäner';
@@ -238,7 +238,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiv';
 $PALANG['pAdminCreate_domain_welcome'] = 'Lägg till ny domän';
 $PALANG['pAdminCreate_domain_domain'] = 'Domän';
 $PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Den domänen finns redan!</span>';
-$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">The domain is invalid!</span>'; # XXX
+$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">Domänen är ogiltig!</span>';
 $PALANG['pAdminCreate_domain_description'] = 'Beskrivning';
 $PALANG['pAdminCreate_domain_aliases'] = 'Alias';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = avaktivera | 0 = obegränsat';
@@ -246,15 +246,15 @@ $PALANG['pAdminCreate_domain_mailboxes'] = 'Brevlåda';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = avaktivera | 0 = obegränsat';
 $PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = avaktivera | 0 = obegränsat';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
+$PALANG['pAdminCreate_domain_transport'] = 'Transport';
+$PALANG['pAdminCreate_domain_transport_text'] = 'Definiera transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Skapa standard alias';
-$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mailserver är backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Lägg till domän';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Kan inte skapa domänen!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domänen har skapats!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Kunde inte tabort domän!</span>';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Ändra en domän';
 $PALANG['pAdminEdit_domain_domain'] = 'Domän';
@@ -265,8 +265,8 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Brevlåda';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = avaktivera | 0 = obegränsat';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = avaktivera | 0 = obegränsat';
-$PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
-$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
+$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Definiera transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminEdit_domain_active'] = 'Aktiv';
 $PALANG['pAdminEdit_domain_button'] = 'Ändra domän';
@@ -291,7 +291,7 @@ $PALANG['pAdminEdit_admin_password'] = 'Lösenord';
 $PALANG['pAdminEdit_admin_password2'] = 'Lösenord (igen)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Lösenorden du angav är olika!<br />Eller är tomma!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktiv';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
+$PALANG['pAdminEdit_admin_super_admin'] = 'Super administratör';
 $PALANG['pAdminEdit_admin_button'] = 'Ändra admin';
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Kan inte ändra admin!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin har ändrats!';
@@ -308,7 +308,7 @@ $PALANG['pUsersMenu_edit_alias'] = 'Ändra din forwardadress';
 $PALANG['pUsersMenu_password'] = 'Ändra Lösenord';
 
 $PALANG['pUsersMain_vacation'] = 'Ställ in ett "out of office" meddelande eller autosvar för din epost.';
-$PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is ON, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/remove'; # XXX
+$PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' är AKTIVERAT, klicka \'' . $PALANG['pUsersMenu_vacation'] . '\' för att ' . $PALANG['edit'] . '/tabort';
 $PALANG['pUsersMain_edit_alias'] = 'Ändra din epost forwardadress.';
 $PALANG['pUsersMain_password'] = 'Ändra ditt nuvarande lösenord.';
 
@@ -346,50 +346,50 @@ $PALANG['pBroadcast_message'] = 'Meddelande';
 $PALANG['pBroadcast_send'] = 'Skicka';
 $PALANG['pBroadcast_success'] = 'Ditt grupputskick har sänts.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Grupputskick';
-$PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should\'t be empty !'; # XXX
-$PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE '; # XXX
-$PALANG['pStatus_custom'] = 'Delivers to '; # XXX
+$PALANG['pBroadcast_error_empty'] = 'Fälten namn, ämne och meddelande skall inte vara tomma!';
+$PALANG['pStatus_undeliverable'] = 'kanske misslyckades leverera ';
+$PALANG['pStatus_custom'] = 'Levereras till ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
-$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters"; # XXX
-$PALANG['pFetchmail_welcome'] = 'Fetch mail for:'; # XXX
-$PALANG['pFetchmail_new_entry'] = 'New entry'; # XXX
-$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
-$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
-$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
-$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
-$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
-$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
-$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
+$PALANG['pPasswordTooShort'] = "För kort lösenord - ett lösenord på %s tecken krävs";
+$PALANG['pFetchmail_welcome'] = 'Hämta mail för:';
+$PALANG['pFetchmail_new_entry'] = 'Ny anteckning';
+$PALANG['pFetchmail_database_save_error'] = 'Misslyckades med att spara anteckningen i databasen!';
+$PALANG['pFetchmail_database_save_success'] = 'Anteckning sparad i databasen.';
+$PALANG['pFetchmail_error_invalid_id'] = 'Ingen anteckning med ID %s hittades!';
+$PALANG['pFetchmail_invalid_mailbox'] = 'Felaktig brevlåda!';
+$PALANG['pFetchmail_server_missing'] = 'Var snäll och fyll i namnet till värddatorn!';
+$PALANG['pFetchmail_user_missing'] = 'Var snäll och fyll i användarnamnet till värddatorn!';
+$PALANG['pFetchmail_password_missing'] = 'Var snäll och fyll i lösenordet till värddatorn!';
 $PALANG['pFetchmail_field_id']              = 'ID';
 $PALANG['pFetchmail_field_mailbox']         = 'Mailkonto';
-$PALANG['pFetchmail_field_src_server']      = 'Server'; # XXX
-$PALANG['pFetchmail_field_src_auth']        = 'Auth Type'; # XXX
-$PALANG['pFetchmail_field_src_user']        = 'User'; # XXX
-$PALANG['pFetchmail_field_src_password']    = 'Password'; # XXX
-$PALANG['pFetchmail_field_src_folder']      = 'Folder'; # XXX
-$PALANG['pFetchmail_field_poll_time']       = 'Poll'; # XXX
-$PALANG['pFetchmail_field_fetchall']        = 'Fetch All'; # XXX
-$PALANG['pFetchmail_field_keep']            = 'Keep'; # XXX
+$PALANG['pFetchmail_field_src_server']      = 'Värddator';
+$PALANG['pFetchmail_field_src_auth']        = 'Autentiseringstyp';
+$PALANG['pFetchmail_field_src_user']        = 'Användarnamn';
+$PALANG['pFetchmail_field_src_password']    = 'Lösenord';
+$PALANG['pFetchmail_field_src_folder']      = 'Katalog';
+$PALANG['pFetchmail_field_poll_time']       = 'Kontrollera';
+$PALANG['pFetchmail_field_fetchall']        = 'Hämta samtliga';
+$PALANG['pFetchmail_field_keep']            = 'Behåll';
 $PALANG['pFetchmail_field_protocol']        = 'Protokoll';
-$PALANG['pFetchmail_field_extra_options']   = 'Extra Options'; # XXX
-$PALANG['pFetchmail_field_mda']             = 'MDA'; # XXX
+$PALANG['pFetchmail_field_extra_options']   = 'Extra inställningsmöjligheter';
+$PALANG['pFetchmail_field_mda']             = 'MDA';
 $PALANG['pFetchmail_field_date']            = 'Datum';
-$PALANG['pFetchmail_field_returned_text']   = 'Returned Text'; # XXX
-$PALANG['pFetchmail_desc_id']               = 'Record ID'; # XXX
-$PALANG['pFetchmail_desc_mailbox']          = 'Local mailbox'; # XXX
-$PALANG['pFetchmail_desc_src_server']       = 'Remote Server'; # XXX
-$PALANG['pFetchmail_desc_src_auth']         = 'Mostly \'password\''; # Translators: Please do NOT translate 'password' here # XXX
-$PALANG['pFetchmail_desc_src_user']         = 'Remote User'; # XXX
-$PALANG['pFetchmail_desc_src_password']     = 'Remote Password'; # XXX
-$PALANG['pFetchmail_desc_src_folder']       = 'Remote Folder'; # XXX
-$PALANG['pFetchmail_desc_poll_time']        = 'Poll every ... minutes'; # XXX
-$PALANG['pFetchmail_desc_fetchall']         = 'Retrieve  both old (seen) and new messages'; # XXX
-$PALANG['pFetchmail_desc_keep']             = 'Keep retrieved messages on the remote mailserver'; # XXX
-$PALANG['pFetchmail_desc_protocol']         = 'Protocol to use'; # XXX
-$PALANG['pFetchmail_desc_extra_options']    = 'Extra fetchmail Options'; # XXX
-$PALANG['pFetchmail_desc_mda']              = 'Mail Delivery Agent'; # XXX
-$PALANG['pFetchmail_desc_date']             = 'Date of last polling/configuration change'; # XXX
-$PALANG['pFetchmail_desc_returned_text']    = 'Text message from last polling'; # XXX
+$PALANG['pFetchmail_field_returned_text']   = 'Retur text';
+$PALANG['pFetchmail_desc_id']               = 'Händelse ID';
+$PALANG['pFetchmail_desc_mailbox']          = 'Lokal brevlåda';
+$PALANG['pFetchmail_desc_src_server']       = 'Värddator';
+$PALANG['pFetchmail_desc_src_auth']         = 'Oftast \'password\'';
+$PALANG['pFetchmail_desc_src_user']         = 'Användarnamn';
+$PALANG['pFetchmail_desc_src_password']     = 'Lösenord';
+$PALANG['pFetchmail_desc_src_folder']       = 'Katalog';
+$PALANG['pFetchmail_desc_poll_time']        = 'Kontrollera varje ... minut';
+$PALANG['pFetchmail_desc_fetchall']         = 'Hämta både gamla lästa (visade) brev och nya';
+$PALANG['pFetchmail_desc_keep']             = 'Behåll hämtade brev på mailservern';
+$PALANG['pFetchmail_desc_protocol']         = 'Använd följande protokoll';
+$PALANG['pFetchmail_desc_extra_options']    = 'Extra fetchmail inställningar';
+$PALANG['pFetchmail_desc_mda']              = 'Mailserveragent (MDA)';
+$PALANG['pFetchmail_desc_date']             = 'Datum för senaste kontroll/konfigurationsändring';
+$PALANG['pFetchmail_desc_returned_text']    = 'Textmeddelande från senaste kontroll';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
