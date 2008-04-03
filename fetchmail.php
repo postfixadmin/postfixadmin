@@ -229,6 +229,7 @@ if ($cancel) { # cancel $new or $edit
    }
 }
 
+$tFmail = array();
 if ($edit + $new == 0) { # display list
    $res = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM fetchmail order by id desc");
    if ($res['rows'] > 0) {
