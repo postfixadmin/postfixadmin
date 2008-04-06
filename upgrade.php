@@ -53,7 +53,7 @@ if($CONF['database_type'] == 'pgsql') {
     $r = db_query("SELECT relname FROM pg_class WHERE relname = 'config'");
     if($r['rows'] == 0) {
         $pgsql = "
-            CREATE TABLE config ( 
+            CREATE TABLE  " . table_by_key ('config') . " ( 
                     id SERIAL,
                     name VARCHAR(20) NOT NULL UNIQUE,
                     value VARCHAR(20) NOT NULL,
@@ -69,8 +69,8 @@ else {
         `name`  VARCHAR(20) {LATIN1} NOT NULL DEFAULT '',
         `value` VARCHAR(20) {LATIN1} NOT NULL DEFAULT '',
         UNIQUE name ( `name` )
-            )
-            ";
+        )
+    ";
     db_query_parsed($mysql, 0, " ENGINE = MYISAM COMMENT = 'PostfixAdmin settings'");
 }
 
@@ -369,6 +369,13 @@ function upgrade_4_pgsql() {
     }
 }
 
+
+# Possible errors that can be ignored:
+# 
+# NO MySQL errors should be ignored below this line!
+
+
+
 /**
  * create tables
  * version: Sourceforge SVN r1 of DATABASE_MYSQL.txt
@@ -387,7 +394,7 @@ function upgrade_5_mysql() {
           `active` tinyint(1) NOT NULL default '1',
           PRIMARY KEY  (`username`),
           KEY username (`username`)
-        ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Admins';
+        ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Admins';
     ");
 
     $result = db_query_parsed("
@@ -400,7 +407,7 @@ function upgrade_5_mysql() {
           `active` tinyint(1) NOT NULL default '1',
           PRIMARY KEY  (`address`),
           KEY address (`address`)
-        ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Aliases';
+        ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Aliases';
     ");
 
     $result = db_query_parsed("
@@ -418,7 +425,7 @@ function upgrade_5_mysql() {
           `active` tinyint(1) NOT NULL default '1',
           PRIMARY KEY  (`domain`),
           KEY domain (`domain`)
-        ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Domains';
+        ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Domains';
     ");
 
     $result = db_query_parsed("
@@ -428,7 +435,7 @@ function upgrade_5_mysql() {
           `created` datetime NOT NULL default '0000-00-00 00:00:00',
           `active` tinyint(1) NOT NULL default '1',
           KEY username (`username`)
-        ) TYPE=MyISAM COMMENT='Postfix Admin - Domain Admins';
+        ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Domain Admins';
     ");
 
     $result = db_query_parsed("
@@ -439,7 +446,7 @@ function upgrade_5_mysql() {
           `action` varchar(255) NOT NULL default '',
           `data` varchar(255) NOT NULL default '',
           KEY timestamp (`timestamp`)
-        ) TYPE=MyISAM COMMENT='Postfix Admin - Log';
+        ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Log';
     ");
 
     $result = db_query_parsed("
@@ -455,7 +462,7 @@ function upgrade_5_mysql() {
           `active` tinyint(1) NOT NULL default '1',
           PRIMARY KEY  (`username`),
           KEY username (`username`)
-        ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Mailboxes';
+        ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Mailboxes';
     ");
 
     $result = db_query_parsed("
@@ -469,10 +476,8 @@ function upgrade_5_mysql() {
           `active` tinyint(1) NOT NULL default '1',
           PRIMARY KEY  (`email`),
           KEY email (`email`)
-        ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Vacation';
+        ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Vacation';
     ");
-    # Possible errors that can be ignored:
-    # - (none)
 }
 
 /**
@@ -498,26 +503,14 @@ function upgrade_81_mysql() { # MySQL only
                 ALTER TABLE `$table_vacation` CHANGE `active`   `active`  TINYINT( 1 )            NOT NULL DEFAULT '1'
                 ALTER TABLE `$table_vacation` DEFAULT                                    {LATIN1}
                 ALTER TABLE `$table_vacation` ENGINE = INNODB
-                "));
+    "));
 
     foreach ($all_sql as $sql) {
         $result = db_query_parsed($sql, TRUE);
     }
 
-    db_query_parsed(
-            "   CREATE TABLE {IF_NOT_EXISTS} $table_vacation_notification (
-        on_vacation varchar(255) NOT NULL,
-                    notified varchar(255) NOT NULL,
-                    notified_at timestamp NOT NULL default now(),
-                    CONSTRAINT vacation_notification_pkey PRIMARY KEY(on_vacation, notified),
-                    FOREIGN KEY (on_vacation) REFERENCES vacation(email) ON DELETE CASCADE
-                        )
-            ", 
-            TRUE, 
-            "   ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci TYPE=InnoDB 
-            COMMENT='Postfix Admin - Virtual Vacation Notifications'
-            "
-            );
+    # creation of vacation_notification table moved to upgrade_318_mysql because
+    # the query in this function was broken (key length vs. utf8 charset)
 }
 
 /**
@@ -542,6 +535,49 @@ function upgrade_169_mysql() {
 }
 
 
+/**
+ * Create / modify vacation_notification table.
+ * Note: This might not work if users used workarounds to create the table before.
+ * In this case, dropping the table is the easiest solution.
+ */
+function upgrade_318_mysql() {
+    $table_vacation_notification = table_by_key('vacation_notification');
+
+    # create table without constraint for now...
+    db_query_parsed( "
+        CREATE TABLE {IF_NOT_EXISTS} $table_vacation_notification (
+            on_vacation varchar(255) NOT NULL,
+            notified varchar(255) NOT NULL,
+            notified_at timestamp NOT NULL default now(),
+              PRIMARY KEY on_vacation (`on_vacation`, `notified`)
+        )
+        ENGINE=InnoDB DEFAULT {LATIN1} TYPE=InnoDB 
+        COMMENT='Postfix Admin - Virtual Vacation Notifications'
+    ");
+
+    # in case someone has manually created the table with utf8 fields before:
+    $all_sql = split("\n", trim("
+        ALTER TABLE `$table_vacation_notification` DROP FOREIGN KEY `vacation_notification_pkey`
+        ALTER TABLE `$table_vacation_notification` CHANGE `on_vacation` `on_vacation` VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_vacation_notification` CHANGE `notified`    `notified`    VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_vacation_notification` DEFAULT                                           {LATIN1}
+    "));
+    # Possible errors that can be ignored:
+    # None.
+    # If something goes wrong, the user should drop the vacation_notification table 
+    # (not a great loss) and re-create it using this function.
+
+    foreach ($all_sql as $sql) {
+        $result = db_query_parsed($sql);
+    }
+
+    # create constraint...
+    $result = db_query_parsed("
+            ALTER TABLE $table_vacation_notification ADD CONSTRAINT `vacation_notification_pkey` 
+            FOREIGN KEY (`on_vacation`) REFERENCES vacation(`email`) ON DELETE CASCADE
+    ");
+}
+
 /*
    TODO
 
@@ -549,15 +585,10 @@ function upgrade_169_mysql() {
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 MySQL:
- * vacation: 
+* vacation: 
  - DROP INDEX email
  - 'cache' field might be obsolete with vacation_notification - needs to be checked!
- * vacation_notification:
- - DEFAULT CHARSET and COLLATE should be changed
- - change all varchar fields to latin1 (email addresses don't contain utf8 characters)
 * charset of equal fields MUST be the same (see bugreport)
-* if necessary, delete the CONSTRAINT before changing field type and create it again
-  http://dev.mysql.com/doc/refman/5.0/en/innodb-foreign-key-constraints.html
  */
 
 
