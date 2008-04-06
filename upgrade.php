@@ -225,6 +225,8 @@ function upgrade_2_mysql() {
     $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;", TRUE);
     // don't think PGSQL supports 'AFTER transport'
     $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx {BOOLEAN} DEFAULT {BOOL_FALSE} AFTER transport;", TRUE);
+    # possible errors that can be ignored:
+    # - Invalid query: Table 'postfix.domain' doesn't exist
 }
 
 function upgrade_2_pgsql() {
@@ -265,17 +267,21 @@ function upgrade_3_mysql() {
                 ALTER TABLE $table_vacation DROP PRIMARY KEY
                 ALTER TABLE $table_vacation ADD PRIMARY KEY(email)
                 UPDATE $table_vacation SET domain=SUBSTRING_INDEX(email, '@', -1) WHERE email=email;
-                "));
+    "));
 
-                foreach ($all_sql as $sql) {
-                    $result = db_query_parsed($sql, TRUE);
-                }
+    foreach ($all_sql as $sql) {
+        $result = db_query_parsed($sql, TRUE);
+    }
+    # Possible errors that can be ignored:
+    # - Invalid query: Table 'postfix.*' doesn't exist
 }
 
 function upgrade_4_mysql() { # MySQL only
 # changes between 2.1 and moving to sourceforge
     $table_domain = table_by_key ('domain');
     $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN quota int(10) NOT NULL default '0' AFTER maxquota", TRUE);
+    # Possible errors that can be ignored:
+    # - Invalid query: Table 'postfix.domain' doesn't exist
 }
 
 /**
@@ -364,6 +370,112 @@ function upgrade_4_pgsql() {
 }
 
 /**
+ * create tables
+ * version: Sourceforge SVN r1 of DATABASE_MYSQL.txt
+ * changes compared to DATABASE_MYSQL.txt:
+ * - removed MySQL user and database creation
+ * - removed creation of default superadmin
+ */
+function upgrade_5_mysql() {
+
+    $result = db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('admin') . "` (
+          `username` varchar(255) NOT NULL default '',
+          `password` varchar(255) NOT NULL default '',
+          `created` datetime NOT NULL default '0000-00-00 00:00:00',
+          `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+          `active` tinyint(1) NOT NULL default '1',
+          PRIMARY KEY  (`username`),
+          KEY username (`username`)
+        ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Admins';
+    ");
+
+    $result = db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('alias') . "` (
+          `address` varchar(255) NOT NULL default '',
+          `goto` text NOT NULL,
+          `domain` varchar(255) NOT NULL default '',
+          `created` datetime NOT NULL default '0000-00-00 00:00:00',
+          `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+          `active` tinyint(1) NOT NULL default '1',
+          PRIMARY KEY  (`address`),
+          KEY address (`address`)
+        ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Aliases';
+    ");
+
+    $result = db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('domain') . "` (
+          `domain` varchar(255) NOT NULL default '',
+          `description` varchar(255) NOT NULL default '',
+          `aliases` int(10) NOT NULL default '0',
+          `mailboxes` int(10) NOT NULL default '0',
+          `maxquota` int(10) NOT NULL default '0',
+          `quota` int(10) NOT NULL default '0',
+          `transport` varchar(255) default NULL,
+          `backupmx` tinyint(1) NOT NULL default '0',
+          `created` datetime NOT NULL default '0000-00-00 00:00:00',
+          `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+          `active` tinyint(1) NOT NULL default '1',
+          PRIMARY KEY  (`domain`),
+          KEY domain (`domain`)
+        ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Domains';
+    ");
+
+    $result = db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('domain_admins') . "` (
+          `username` varchar(255) NOT NULL default '',
+          `domain` varchar(255) NOT NULL default '',
+          `created` datetime NOT NULL default '0000-00-00 00:00:00',
+          `active` tinyint(1) NOT NULL default '1',
+          KEY username (`username`)
+        ) TYPE=MyISAM COMMENT='Postfix Admin - Domain Admins';
+    ");
+
+    $result = db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('log') . "` (
+          `timestamp` datetime NOT NULL default '0000-00-00 00:00:00',
+          `username` varchar(255) NOT NULL default '',
+          `domain` varchar(255) NOT NULL default '',
+          `action` varchar(255) NOT NULL default '',
+          `data` varchar(255) NOT NULL default '',
+          KEY timestamp (`timestamp`)
+        ) TYPE=MyISAM COMMENT='Postfix Admin - Log';
+    ");
+
+    $result = db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('mailbox') . "` (
+          `username` varchar(255) NOT NULL default '',
+          `password` varchar(255) NOT NULL default '',
+          `name` varchar(255) NOT NULL default '',
+          `maildir` varchar(255) NOT NULL default '',
+          `quota` int(10) NOT NULL default '0',
+          `domain` varchar(255) NOT NULL default '',
+          `created` datetime NOT NULL default '0000-00-00 00:00:00',
+          `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+          `active` tinyint(1) NOT NULL default '1',
+          PRIMARY KEY  (`username`),
+          KEY username (`username`)
+        ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Mailboxes';
+    ");
+
+    $result = db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('vacation') . "` (
+          `email` varchar(255) NOT NULL default '',
+          `subject` varchar(255) NOT NULL default '',
+          `body` text NOT NULL default '',
+          `cache` text NOT NULL default '',
+          `domain` varchar(255) NOT NULL default '',
+          `created` datetime NOT NULL default '0000-00-00 00:00:00',
+          `active` tinyint(1) NOT NULL default '1',
+          PRIMARY KEY  (`email`),
+          KEY email (`email`)
+        ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Vacation';
+    ");
+    # Possible errors that can be ignored:
+    # - (none)
+}
+
+/**
  * drop useless indicies (already available as primary key)
  */
 function upgrade_79_mysql() { # MySQL only
@@ -443,7 +555,9 @@ MySQL:
  * vacation_notification:
  - DEFAULT CHARSET and COLLATE should be changed
  - change all varchar fields to latin1 (email addresses don't contain utf8 characters)
-
+* charset of equal fields MUST be the same (see bugreport)
+* if necessary, delete the CONSTRAINT before changing field type and create it again
+  http://dev.mysql.com/doc/refman/5.0/en/innodb-foreign-key-constraints.html
  */
 
 

@@ -2,6 +2,33 @@
 # Postfix Admin
 # Licensed under GPL for more info check LICENSE.TXT
 #
+#
+# To setup the MySQL database, do the following steps:
+# - create a MySQL database 
+#       CREATE DATABASE postfix;
+# - create a MySQL user that has all permissions on this database:
+#       CREATE USER 'postfix'@'localhost' IDENTIFIED BY 'choose_a_password';
+#       GRANT ALL PRIVILEGES ON `postfix` . * TO 'postfix'@'localhost';
+# - edit config.inc.php to suit your needs
+# - run upgrade.php to create the needed tables (yes, the filename is chosen 
+#   badly in this case ;-)
+# - run setup.php
+
+
+
+
+
+/*
+
+ ***********************************************************************
+ * everything below is probably outdated and should no longer be used. *
+ * Therefore it is commented out ;-)                                   *
+ ***********************************************************************
+
+
+
+
+
 
 # This is the complete MySQL database structure for Postfix Admin.
 # If you are installing from scratch you can use this file otherwise you
