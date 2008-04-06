@@ -184,9 +184,11 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
     $replace['{BOOL_FALSE}'] = db_get_boolean(False);
 
     $query = trim(str_replace(array_keys($replace), $replace, $sql));
-    $result = db_query($query, $ignore_errors);
     if (safeget('debug') != "") {
         print "<p style='color:#999'>$query";
+	}
+    $result = db_query($query, $ignore_errors);
+    if (safeget('debug') != "") {
         print "<div style='color:#f00'>" . $result['error'] . "</div>";
     }
     return $result;
@@ -543,13 +545,14 @@ function upgrade_169_mysql() {
 function upgrade_318_mysql() {
     $table_vacation_notification = table_by_key('vacation_notification');
 
-    # create table without constraint for now...
     db_query_parsed( "
         CREATE TABLE {IF_NOT_EXISTS} $table_vacation_notification (
             on_vacation varchar(255) NOT NULL,
             notified varchar(255) NOT NULL,
             notified_at timestamp NOT NULL default now(),
-              PRIMARY KEY on_vacation (`on_vacation`, `notified`)
+              PRIMARY KEY on_vacation (`on_vacation`, `notified`),
+            CONSTRAINT `vacation_notification_pkey` 
+              FOREIGN KEY (`on_vacation`) REFERENCES vacation(`email`) ON DELETE CASCADE
         )
         ENGINE=InnoDB DEFAULT {LATIN1} TYPE=InnoDB 
         COMMENT='Postfix Admin - Virtual Vacation Notifications'
