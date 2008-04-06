@@ -29,6 +29,8 @@ require_once("languages/en.lang");
 require_once("functions.inc.php");
 
 $CONF['show_header_text'] = 'NO';
+$CONF['theme_logo'] = 'images/logo-default.png';
+$CONF['theme_css'] = 'css/default.css';
 require('templates/header.php');
 ?>
 
