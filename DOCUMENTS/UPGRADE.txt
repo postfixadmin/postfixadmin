@@ -10,7 +10,7 @@ REQUIRED!!
 - You are using Postfix 2.0 or higher.
 - You are using Apache 1.3.27 / Lighttpd 1.3.15 or higher.
 - You are using PHP 4.1 or higher.
-- You are using MySQL 3.23 or higher.
+- You are using MySQL 3.23 or higher OR PostgreSQL v7.4+
 
 
 READ THIS FIRST!
@@ -19,8 +19,9 @@ READ THIS FIRST!
 This document describes upgrading from an older PostfixAdmin version
 (>= v1.5x)
 
-It's recommened that you install Postfix Admin in a new folder and not
-on-top of the old install!!
+It's recommend that you install Postfix Admin in a new folder and not
+on-top of the old install!! (At the very least, make sure you have backups of 
+the database and relevant filesystem!)
 
 When upgrading Postfix Admin, make sure you backup your database before
 running upgrade.php.
@@ -33,6 +34,8 @@ first. There are a lot of changes in the database structure since Postfix Admin
 1.5.4.
 
   $ mysqldump -a -u root -p > /tmp/postfixadmin-backup.sql
+or
+  $ pg_dump -ad -u postfix postfix > /tmp/postfixadmin-backup.sql
 
 
 2. Unarchive new Postfix Admin
@@ -64,8 +67,12 @@ Comparing config.inc.php with your previous using "diff" might save you some
 time.
 
 
-5. Modify the MySQL Tables
---------------------------
+5. Perform appropriate database upgrades
+----------------------------------------
+
+Since version 2.2 of Postfixadmin, upgrade.php has existed which should do the below 
+for you automatically.
+
 Open upgrade.php in your browser to update your database scheme.
 
 If you update from 2.1 or older, also open setup.php to create a superadmin

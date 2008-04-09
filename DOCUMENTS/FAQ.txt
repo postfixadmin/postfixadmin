@@ -1,0 +1,10 @@
+Frequently Asked Questions:
+
+
+1) Why isn't PostfixAdmin creating my mailbox?
+
+ - PostfixAdmin is only a web interface for storing configuration settings. 
+   It does not (by default!) have the ability to create mail folders on disk. 
+   In a normal setup, sending the 'Welcome' email accomplishes this task - 
+   as Courier/Cyrus/etc do it (and have permission to do so)
+
