@@ -34,56 +34,87 @@ Postfix Admin archive (whatever the filename is):
   $ tar -zxvf postfixadmin-2.2.0.tgz
 
 
-2. Change permissions
-----------------------
-Since the database  password is stored in the config.inc.php it's a good idea
-to have change the permissions for Postfix Admin (the following assumes the files
-are owned by the same user as the web server is running as - e.g. www-data).
+2. Setup a Database
+-------------------
 
-  $ cd /var/www/postfixadmin
-  $ chmod 640 *.php *.css
-  $ cd /var/www/postfixadmin/admin/
-  $ chmod 640 *.php .ht*
-  $ cd /var/www/postfixadmin/images/
-  $ chmod 640 *.gif *.png
-  $ cd /var/www/postfixadmin/languages/
-  $ chmod 640 *.lang
-  $ cd /var/www/postfixadmin/templates/
-  $ chmod 640 *.tpl
-  $ cd /var/www/postfixadmin/users/
-  $ chmod 640 *.php
-  
+With your chosen/preferred database server (i.e. MySQL or PostgreSQL), 
+you need to create a new database. A good name for this could be :
 
-3. Create the Database Tables
---------------------------
-In DATABASE_MYSQL.TXT you can find the table structure for MySQL that you need 
-in order to configure Postfix Admin and Postfix in general to work with
-Virtual Domains and Users.
+  postfix
 
-In DATABASE_PGSQL.TXT you can find the table structure for PostgreSQL.
+The mechanics of creating the database vary depending on which server 
+you are using. Most users will find using phpMyAdmin or phpPgAdmin the
+easiest route.
 
-Check out the file first to see what you are about to do, then for MySQL do
-something like this:
+If you wish to use the command line, you'll need to do something like :
 
-  mysql -u root < DATABASE_MYSQL.TXT
+For MySQL:
+  CREATE DATABASE postfix;
+  CREATE USER 'postfix'@'localhost' IDENTIFIED BY 'choose_a_password';
+  GRANT ALL PRIVILEGES ON `postfix` . * TO 'postfix'@'localhost';
 
-4. Configure
-------------
-Check the config.inc.php file. There you can specify settings that are
-relevant to your setup.
+For PostgreSQL:
+  CREATE USER postfix WITH PASSWORD 'whatever';
+  CREATE DATABASE postfix OWNER postfix ENCODING 'unicode';
 
-Postfix Admin contains 3 views of administration.
 
- - Site Admin (aka superadmin) view, located at http://domain.tld/postfixadmin/admin/.
- - Domain Admin view, located at http://domain.tld/postfixadmin/.
- - User Admin View, located at http://domain.tld/postfixadmin/users/.
+3. Configure PostfixAdmin so it can find the database
+-----------------------------------------------------
 
-In order to do the initial configuration you have to go to the Site Admin view.
+Edit the config.inc.php file.
 
-The default user/password for the Site Admin view of Postfix Admin is admin@domain.tld/admin
+The most important settings are those for your database server.
 
-5. Done
--------
+You must also change the line that says :
+
+$CONF['configured'] = false;
+
+to
+
+$CONF['configured'] = true;
+
+
+PostfixAdmin does not require write access to any files. You can therefore 
+leave the files owned as root (or a.n.other user); as long as the web server 
+user (e.g. www-data) can read them, it will be fine.
+
+The next 'step', is optional. Only do it, if other non-trusted users have access 
+to your user:
+
+    Depending on your environment, you may want to protect the database username
+    and password stored in config.inc.php - if so, you could move them into the 
+    Apache configuration file (which can be set to be visible only by root) using 
+    something like the following in your VirtualHost definition :
+
+    SetVar DB_USER "postfix"
+    SetVar DB_PASS "opensesame"
+
+    config.inc.php would then be able to access these through :
+
+    $CONF['database_user'] = $_SERVER['DB_USER']
+
+
+4. Check settings, and create Admin user
+----------------------------------------
+
+Hit http://yourserver.tld/postfixadmin/setup.php in a web browser.
+
+You should see a list of 'OK' messages. 
+
+The setup.php script will attempt to create the database structure 
+(or upgrade it if you're coming from a previous version). 
+
+Assuming everything is OK you can create the admin user using the form displayed.
+
+Once you submit the form, all that's left to do is to delete "setup.php"
+
+e.g.
+
+mv setup.php setup.php.disabled
+
+5. Use PostfixAdmin
+-------------------
+
 This is all that is needed. Fire up your browser and go to the site that you
 specified to host Postfix Admin.
 
