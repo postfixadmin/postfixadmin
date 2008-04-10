@@ -1,0 +1,37 @@
+Security and PostfixAdmin
+-------------------------
+
+While the developers of PostfixAdmin believe the software to be 
+secure, there is no guarantee that it will continue to do be so
+in the future - especially as new types of exploit are discovered.
+(After all, this software is without warranty!)
+
+In the event you do discover a vulnerability in this software,
+please report it to the development mailing list, or contact 
+one of the developers directly.
+
+
+
+
+DATABASE USER SECURITY
+----------------------
+
+You may wish to consider the following :
+
+ 1. Postfix only requires READ access to the database tables.
+ 2. The virtual vacation support (if used) only needs to WRITE to 
+    the vacation_notification table (and read alias and vacation).
+ 3. PostfixAdmin itself needs to be able to READ and WRITE to 
+    all the tables.
+
+Using the above, you can improve security by creating separate 
+database user accounts for each of the above roles, and limit 
+the permissions available to them as appropriate.
+
+
+FILE SYSTEM SECURITY
+--------------------
+
+PostfixAdmin does not require write support on the underlying 
+filesystem - aside from PHP creating session files.
+
