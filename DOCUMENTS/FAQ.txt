@@ -8,3 +8,12 @@ Frequently Asked Questions:
    In a normal setup, sending the 'Welcome' email accomplishes this task - 
    as Courier/Cyrus/etc do it (and have permission to do so)
 
+
+2) I've deleted the mailbox from PostfixAdmin, yet it still exists on disk? Why?
+
+ - This is related to #1 above - namely, PostfixAdmin (which is a php web 
+   application) does not have permission to modify the mailbox files on disk.
+   You need to either manually remove the directories 
+   (e.g. rm -Rf /var/spool/mail/vmail/something@example.org) 
+   or install the postfixadmin-mailbox-postdeletion.sh script (See ADDITIONS/)
+   and modify config.inc.php appropriately.
