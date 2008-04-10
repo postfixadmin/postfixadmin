@@ -121,8 +121,8 @@ if ($file_config == 1)
       if($CONF['configured'] == TRUE) {
 	  	 print "<li>Checking \$CONF['configured'] - OK\n";
 	  } else {
-         print "<li><b>Error: \$CONF['configured'] is 'false'.<br>\n";
-		 print "Please edit your config.inc.php settings and then change it.</b>\n";
+         print "<li><b>Warning: \$CONF['configured'] is 'false'.<br>\n";
+		 print "You must edit your config.inc.php and change this to true (this indicates you've created the database and user)</b>\n";
 	  }
    }
 }
@@ -269,7 +269,8 @@ if ($error != 0)
 }
 else
 {
-   print "<p>Everything seems fine... you are ready to rock & roll!</p>\n";
+    print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
+    require_once('upgrade.php');
 
    $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
    $pAdminCreate_admin_password_text = "";
