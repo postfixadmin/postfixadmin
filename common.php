@@ -17,6 +17,9 @@
  * environment and ensures other functions are loaded.
  */
 
+if(!defined('POSTFIXADMIN')) {
+    session_start();
+}
 define('POSTFIXADMIN', 1); # checked in included files
 
 function incorrect_setup() {
@@ -53,6 +56,5 @@ require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
 require_once("$incpath/languages/" . check_language () . ".lang");
 
-session_start();
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
