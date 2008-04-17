@@ -90,6 +90,8 @@ for all your domains.
 #/etc/postfix/transport
 autoreply.yourdomain.com	vacation:
 
+(You may need to create an entry in /etc/hosts for your non-existant domain)
+
 Execute "postmap /etc/postfix/transport" to build the hashed database.
 
 Execute "postfix reload" to complete the change.
@@ -98,7 +100,10 @@ Execute "postfix reload" to complete the change.
 5. Create the table
 -------------------
 
-See ../DATABASE_*.txt in this directory.
+The database table should have already been created for you, by running 
+the 'upgrade.php' script.
+
+If security is an issue for you, read ../DOCUMENTS/Security.txt
 
 6. Edit filter.pl
 -----------------
@@ -120,7 +125,7 @@ mailbox, it also delivers to a dummy alias which calls the vacation.pl
 program. In other words, if joeuser@domain.com enables their vacation, the
 entry in the alias database table will deliver mail to
 joeuser@something.com, as well as
-joeuser@something.com@autoreply.yourdomain.com
+joeuser#something.com@autoreply.yourdomain.com
 
 vacation.pl then checks the database to see wether a user is on holiday and
 what message to send back. Make sure that vacation.pl is able to communicate
