@@ -17,8 +17,6 @@ READ THIS FIRST!
 ----------------
 When this is an upgrade from Postfix Admin 1.5.4 please read UPGRADE.TXT!!
 
-When you are upgrading from 2.0.x please read DOCUMENTS/TABLE_BACKUP_MX.TXT
-
 More information is available on http://high5.net/howto/
 
 
