@@ -21,6 +21,7 @@ install: build
 	dh_clean -k
 	dh_installdirs
 	dh_install
+	cp motd* debian/postfixadmin/usr/share/postfixadmin
 	cp *.php debian/postfixadmin/usr/share/postfixadmin
 	mv debian/postfixadmin/usr/share/postfixadmin/config.inc.php debian/postfixadmin/etc/postfixadmin/config.inc.php
 	ln -s /etc/postfixadmin/config.inc.php debian/postfixadmin/usr/share/postfixadmin/config.inc.php
