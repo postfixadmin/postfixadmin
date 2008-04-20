@@ -1,3 +1,14 @@
+postfixadmin (2.2.0-1rc4) unstable; urgency=low
+
+  * Removal of standalone database schema files (see upgrade.php)
+  * Various bug fixes
+  * Better/Move documentation on installation
+  * setup.php/upgrade.php works for PostgreSQL and MySQL
+  * MySQL Unicode problems fixed
+  * I think this is effectively v2.2.0
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Sun, 20 Apr 2008 20:19:00 +0000
+
 postfixadmin (2.2.0-1rc3) unstable; urgency=low
 
   * Various bug fixes
