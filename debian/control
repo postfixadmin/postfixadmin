@@ -4,6 +4,8 @@ Priority: optional
 Maintainer: David Goodwin <david.goodwin@palepurple.co.uk>
 Build-Depends: debhelper (>= 5)
 Standards-Version: 3.7.2
+XS-Vcs-Svn: https://postfixadmin.svn.sourceforge.net/svnroot/postfixadmin/trunk
+XS-Vcs-Browse: http://postfixadmin.svn.sourceforge.net/viewvc/postfixadmin/trunk/
 
 Package: postfixadmin
 Architecture: all
