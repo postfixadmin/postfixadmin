@@ -670,7 +670,7 @@ function upgrade_318_mysql() {
         CREATE TABLE {IF_NOT_EXISTS} $table_vacation_notification (
             on_vacation varchar(255) NOT NULL,
             notified varchar(255) NOT NULL,
-            notified_at timestamp NOT NULL default now(),
+            notified_at timestamp NOT NULL default CURRENT_TIMESTAMP,
     PRIMARY KEY on_vacation (`on_vacation`, `notified`),
     CONSTRAINT `vacation_notification_pkey` 
     FOREIGN KEY (`on_vacation`) REFERENCES vacation(`email`) ON DELETE CASCADE
