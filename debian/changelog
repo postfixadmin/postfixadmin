@@ -1,3 +1,11 @@
+postfixadmin (2.2.0-1rc5) unstable; urgency=low
+
+  * Fix MySQL installation issues (schema not being created!)
+  * Fix MySQL vacation_notification timestamp issue
+  * SVN revision: 340
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Wed, 23 Apr 2008 16:27:00 +0000
+
 postfixadmin (2.2.0-1rc4) unstable; urgency=low
 
   * Removal of standalone database schema files (see upgrade.php)
