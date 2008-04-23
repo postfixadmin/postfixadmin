@@ -220,6 +220,105 @@ function upgrade_1() {
     echo "upgrade_1";
 }
 
+function upgrade_1_mysql() {
+    // CREATE MYSQL DATABASE TABLES.
+    $admin = table_by_key('admin');
+    $alias = table_by_key('alias');
+    $domain = table_by_key('domain');
+    $domain_admins = table_by_key('domain_admins');
+    $log = table_by_key('log');
+    $mailbox = table_by_key('mailbox');
+    $vacation = table_by_key('vacation');
+
+    $sql = array();
+    $sql[] = "
+    CREATE TABLE {IF_NOT_EXISTS} $admin (
+      `username` varchar(255) NOT NULL default '',
+      `password` varchar(255) NOT NULL default '',
+      `created` datetime NOT NULL default '0000-00-00 00:00:00',
+      `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+      `active` tinyint(1) NOT NULL default '1',
+      PRIMARY KEY  (`username`)
+  ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Admins';";
+
+    $sql[] = "
+    CREATE TABLE {IF_NOT_EXISTS} $alias (
+      `address` varchar(255) NOT NULL default '',
+      `goto` text NOT NULL,
+      `domain` varchar(255) NOT NULL default '',
+      `created` datetime NOT NULL default '0000-00-00 00:00:00',
+      `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+      `active` tinyint(1) NOT NULL default '1',
+      PRIMARY KEY  (`address`)
+    ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Aliases'; ";
+
+    $sql[] = "
+    CREATE TABLE {IF_NOT_EXISTS} $domain (
+      `domain` varchar(255) NOT NULL default '',
+      `description` varchar(255) NOT NULL default '',
+      `aliases` int(10) NOT NULL default '0',
+      `mailboxes` int(10) NOT NULL default '0',
+      `maxquota` bigint(20) NOT NULL default '0',
+      `quota` bigint(20) NOT NULL default '0',
+      `transport` varchar(255) default NULL,
+      `backupmx` tinyint(1) NOT NULL default '0',
+      `created` datetime NOT NULL default '0000-00-00 00:00:00',
+      `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+      `active` tinyint(1) NOT NULL default '1',
+      PRIMARY KEY  (`domain`)
+    ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Domains'; ";
+
+    $sql[] = "
+    CREATE TABLE {IF_NOT_EXISTS} $domain_admins (
+      `username` varchar(255) NOT NULL default '',
+      `domain` varchar(255) NOT NULL default '',
+      `created` datetime NOT NULL default '0000-00-00 00:00:00',
+      `active` tinyint(1) NOT NULL default '1',
+      KEY username (`username`)
+    ) TYPE=MyISAM COMMENT='Postfix Admin - Domain Admins';";
+
+    $sql[] = "
+    CREATE TABLE {IF_NOT_EXISTS} $log (
+      `timestamp` datetime NOT NULL default '0000-00-00 00:00:00',
+      `username` varchar(255) NOT NULL default '',
+      `domain` varchar(255) NOT NULL default '',
+      `action` varchar(255) NOT NULL default '',
+      `data` varchar(255) NOT NULL default '',
+      KEY timestamp (`timestamp`)
+    ) TYPE=MyISAM COMMENT='Postfix Admin - Log';";
+
+    $sql[] = "
+    CREATE TABLE {IF_NOT_EXISTS} $mailbox (
+      `username` varchar(255) NOT NULL default '',
+      `password` varchar(255) NOT NULL default '',
+      `name` varchar(255) NOT NULL default '',
+      `maildir` varchar(255) NOT NULL default '',
+      `quota` bigint(20) NOT NULL default '0',
+      `domain` varchar(255) NOT NULL default '',
+      `created` datetime NOT NULL default '0000-00-00 00:00:00',
+      `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+      `active` tinyint(1) NOT NULL default '1',
+      PRIMARY KEY  (`username`)
+    ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Mailboxes';";
+
+    $sql[] = "
+    CREATE TABLE {IF_NOT_EXISTS} $vacation ( 
+        email varchar(255) NOT NULL default '', 
+        subject varchar(255) NOT NULL default '', 
+        body text NOT NULL, 
+        cache text NOT NULL, 
+        domain varchar(255) NOT NULL default '', 
+        created datetime NOT NULL default '0000-00-00 00:00:00', 
+        active tinyint(4) NOT NULL default '1', 
+        PRIMARY KEY (email), 
+        KEY email (email) 
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation' ;";
+
+    foreach($sql as $query) {
+        db_query_parsed($query);
+    }
+}
+
 function upgrade_2_mysql() {
 # upgrade pre-2.1 database
 # from TABLE_BACKUP_MX.TXT
@@ -671,7 +770,7 @@ function upgrade_318_mysql() {
             on_vacation varchar(255) NOT NULL,
             notified varchar(255) NOT NULL,
             notified_at timestamp NOT NULL default CURRENT_TIMESTAMP,
-    PRIMARY KEY on_vacation (`on_vacation`, `notified`),
+            PRIMARY KEY on_vacation (`on_vacation`, `notified`),
     CONSTRAINT `vacation_notification_pkey` 
     FOREIGN KEY (`on_vacation`) REFERENCES vacation(`email`) ON DELETE CASCADE
 )
@@ -701,18 +800,3 @@ $result = db_query_parsed("
     FOREIGN KEY (`on_vacation`) REFERENCES vacation(`email`) ON DELETE CASCADE
     ");
 }
-
-/*
-   TODO
-
-   Database changes that should be done:
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-MySQL:
-* vacation: 
- - DROP INDEX email
- - 'cache' field might be obsolete with vacation_notification - needs to be checked!
-* charset of equal fields MUST be the same (see bugreport)
- */
-
-
