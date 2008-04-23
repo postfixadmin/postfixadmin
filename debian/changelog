@@ -1,4 +1,4 @@
-postfixadmin (2.2.0-1rc5) unstable; urgency=low
+postfixadmin (2.2.0-rc5) unstable; urgency=low
 
   * Fix MySQL installation issues (schema not being created!)
   * Fix MySQL vacation_notification timestamp issue
