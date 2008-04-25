@@ -800,3 +800,38 @@ $result = db_query_parsed("
     FOREIGN KEY (`on_vacation`) REFERENCES vacation(`email`) ON DELETE CASCADE
     ");
 }
+
+
+/**
+ * Create fetchmail table
+ */
+function upgrade_344_mysql() {
+
+    $table_vacation_notification = table_by_key('vacation_notification');
+
+    db_query_parsed( "
+        create table fetchmail(
+         id int(11) unsigned not null auto_increment,
+         mailbox varchar(255) not null default '',
+         src_server varchar(255) not null default '',
+         src_auth enum('password','kerberos_v5','kerberos','kerberos_v4','gssapi','cram-md5','otp','ntlm','msn','ssh','any'),
+         src_user varchar(255) not null default '',
+         src_password varchar(255) not null default '',
+         src_folder varchar(255) not null default '',
+         poll_time int(11) unsigned not null default 10,
+         fetchall tinyint(1) unsigned not null default 0,
+         keep tinyint(1) unsigned not null default 0,
+         protocol enum('POP3','IMAP','POP2','ETRN','AUTO'),
+         extra_options text,
+         returned_text text,
+         mda varchar(255) not null default '',
+         date timestamp(14),
+         primary key(id)
+        );
+    ");
+}
+
+function upgrade_344_pgsql() {
+	# TODO: create fetchmail table for PgSQL
+}
+
