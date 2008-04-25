@@ -28,9 +28,12 @@ function incorrect_setup() {
     if(!is_file("$incpath/setup.php")) {
         die ("config.inc.php does not exist or is not configured correctly. Please re-install setup.php and create/fix your config.");
     } else {
-        header("Location: setup.php");    
-        exit(0);
-    }
+        # common.php is indirectly included in setup.php (via upgrade.php) - avoid endless redirect loop
+        if (!preg_match('/setup\.php$/', $_SERVER['SCRIPT_NAME'])) { 
+            header("Location: setup.php");
+            exit(0);
+        }
+     }
 }
 
 $incpath = dirname(__FILE__);
