@@ -27,4 +27,6 @@
     `Postfix Admin' (which makes passes at Postfix, PHP and MySQL) written
     by Wietse Venema, PHP Group and MYSQL AB.
 
-    Contributors: Mihau, Tarvin, SteveB, DJTremors, WhiteFox, David Osborn
+    Contributors: Mihau, Tarvin, SteveB, DJTremors, WhiteFox, David Osborn, 
+                  David Goodwin (GingerDog), Christian Boltz (cboltz) and GregC and others.
+   
