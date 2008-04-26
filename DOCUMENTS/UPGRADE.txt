@@ -70,13 +70,12 @@ time.
 5. Perform appropriate database upgrades
 ----------------------------------------
 
-Since version 2.2 of Postfixadmin, upgrade.php has existed which should do the below 
-for you automatically.
+Since version 2.2 of Postfixadmin, setup.php can perform the needed database 
+updates automatically .
 
-Open upgrade.php in your browser to update your database scheme.
+Open setup.php in your browser to update your database scheme.
 
-If you update from 2.1 or older, also open setup.php to create a superadmin
-account.
+If you update from 2.1 or older, also create a superadmin account using setup.php.
 
 Note that admin/ has been merged into the main directory. Login with the
 superadmin account to setup domains and domain admins.
