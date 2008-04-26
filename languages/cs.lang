@@ -1,9 +1,11 @@
 <?php
 # $Id$
 //
-// Language file Czech
+// Czech Language Translation of PostfixAdmin
 // by Jakub
 // updated by Martin Ambroz (amsys@trustica.cz)
+//  * 2007-12-06
+//  * 2008-04-26
 //
 
 
@@ -11,13 +13,13 @@ $PALANG['YES'] = 'ANO';
 $PALANG['NO'] = 'NE';
 $PALANG['edit'] = 'upravit';
 $PALANG['del'] = 'smazat';
-$PALANG['exit'] = 'Zrušit';
-$PALANG['cancel'] = 'Cancel'; # XXX
-$PALANG['save'] = 'Save'; # XXX
+$PALANG['exit'] = 'Odejít';
+$PALANG['cancel'] = 'Zrušit';
+$PALANG['save'] = 'Uložit';
 $PALANG['confirm'] = 'Jste si jistí?\n';
 $PALANG['confirm_domain'] = 'Opravdu chcete smazat všechny záznamy v této doméně Tohle nelze vrátit!\n';
 $PALANG['check_update'] = 'Zkontrolovat aktualizace';
-$PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
+$PALANG['invalid_parameter'] = 'Neplatný parametr!';
 
 $PALANG['pFooter_logged_as'] = 'Přihlášen jako %s';
 
@@ -33,10 +35,10 @@ $PALANG['pMenu_main'] = 'Hlavní';
 $PALANG['pMenu_overview'] = 'Přehled';
 $PALANG['pMenu_create_alias'] = 'Přidat přesměrování';
 $PALANG['pMenu_create_mailbox'] = 'Přidat schránku';
-$PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
+$PALANG['pMenu_fetchmail'] = 'Stahování pošty';
 $PALANG['pMenu_sendmail'] = 'Poslat email';
 $PALANG['pMenu_password'] = 'Změnit heslo';
-$PALANG['pMenu_viewlog'] = 'Prohlížet záznam';
+$PALANG['pMenu_viewlog'] = 'Prohlížet log';
 $PALANG['pMenu_logout'] = 'Odhlásit.';
 
 $PALANG['pMain_welcome'] = 'Vítejte v Postfix Adminu!';
@@ -65,7 +67,7 @@ $PALANG['pOverview_alias_goto'] = 'Pro';
 $PALANG['pOverview_alias_modified'] = 'Naposledy změněno';
 $PALANG['pOverview_alias_active'] = 'Aktivní';
 $PALANG['pOverview_alias_edit'] = 'Přesměrování';
-$PALANG['and_x_more'] = '[and %s more...]'; # XXX
+$PALANG['and_x_more'] = '[a %s dalších...]';
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['pOverview_mailbox_name'] = 'Jméno';
 $PALANG['pOverview_mailbox_quota'] = 'Místo (MB)';
@@ -81,12 +83,12 @@ $PALANG['pOverview_get_quota'] = 'Místo pro schránku (MB)';
 $PALANG['pOverview_get_modified'] = 'Naposledy změněno';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Nelze smazat položku ';
-$PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
+$PALANG['pDelete_delete_success'] = '%s odstraněn.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Nelze odstranit schránku ';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Tato doména není vaše ';
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Nelze odstranit přesměrování ';
 
-$PALANG['pCreate_alias_welcome'] = 'Vytvořit novýé přesměrování ve vaší doméně.';
+$PALANG['pCreate_alias_welcome'] = 'Vytvořit nové přesměrování ve Vaší doméně.';
 $PALANG['pCreate_alias_address'] = 'Přesměrování';
 $PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">Adresa neni platná!</span>';
 $PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Taková emailová adresa již existuje!</span>';
@@ -165,8 +167,8 @@ $PALANG['pEdit_vacation_set'] = 'Změnit / Nastavit zprávu o nepřítomnosti';
 $PALANG['pEdit_vacation_remove'] = 'Ostranit zprávu o nepřítomnosti';
 
 $PALANG['pVacation_result_error'] = '<span class="error_msg">Nebylo možné aktualizovat nastavení automatické odpověďi!</span>';
-$PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
-$PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
+$PALANG['pVacation_result_removed'] = 'Automatická odpověď byla odstraněna!';
+$PALANG['pVacation_result_added'] = 'Automatická odpověd byla zapnuta!';
 
 $PALANG['pViewlog_welcome'] = 'Prohlížet 10 posledních akcí pro ';
 $PALANG['pViewlog_timestamp'] = 'Časová značka';
@@ -175,7 +177,7 @@ $PALANG['pViewlog_domain'] = 'Doména';
 $PALANG['pViewlog_action'] = 'Akce';
 $PALANG['pViewlog_data'] = 'Poznámka';
 
-$PALANG['pViewlog_action_create_mailbox'] = 'create mailbox'; # XXX
+$PALANG['pViewlog_action_create_mailbox'] = 'vytrořena schránka';
 $PALANG['pViewlog_action_delete_mailbox'] = 'smazána schránka';
 $PALANG['pViewlog_action_edit_mailbox'] = 'úprava schránky';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'změna stavu schránky';
@@ -196,14 +198,14 @@ $PALANG['pSendmail_subject'] = 'Předmět';
 $PALANG['pSendmail_subject_text'] = 'Vítejte';
 $PALANG['pSendmail_body'] = 'Obsah';
 $PALANG['pSendmail_button'] = 'Poslat email';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Nepodařilo se vytvořit schránku!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
-$PALANG['pSendmail_result_success'] = 'Schránka byla vytvořena!'; # XXX text change - new: Email sent!
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Nepodařilo se odeslat email!</span>';
+$PALANG['pSendmail_result_success'] = 'Email odeslán!';
 
-$PALANG['pAdminMenu_list_admin'] = 'Administrátoři';
+$PALANG['pAdminMenu_list_admin'] = 'Administrátoři domén';
 $PALANG['pAdminMenu_list_domain'] = 'Domény';
 $PALANG['pAdminMenu_list_virtual'] = 'Schránky';
 $PALANG['pAdminMenu_viewlog'] = 'Prohlížet Log';
-$PALANG['pAdminMenu_backup'] = 'Záloha';
+$PALANG['pAdminMenu_backup'] = 'Vytvořit zálohu';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Administrátoři'; // unused
 $PALANG['pAdminMenu_create_admin'] = 'Nový Administrátor';
 $PALANG['pAdminMenu_create_domain'] = 'Nová Doména';
@@ -352,52 +354,52 @@ $PALANG['pBroadcast_subject'] = 'Předmět';
 $PALANG['pBroadcast_message'] = 'Zpráva';
 $PALANG['pBroadcast_send'] = 'Odeslat zprávu';
 $PALANG['pBroadcast_success'] = 'Zpráva pro všechny schránky byla odeslána.';
-$PALANG['pAdminMenu_broadcast_message'] = 'Zpráva Všem';
+$PALANG['pAdminMenu_broadcast_message'] = 'Poslat email všem';
 $PALANG['pBroadcast_error_empty'] = 'Pole Od, Předmět a Zpráva by neměly být prázdné !';
 
 $PALANG['pStatus_undeliverable'] = 'možná NEDORUČITELNÉ ';
 $PALANG['pStatus_custom'] = 'Doručeno do ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
-$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters"; # XXX
-$PALANG['pFetchmail_welcome'] = 'Fetch mail for:'; # XXX
-$PALANG['pFetchmail_new_entry'] = 'New entry'; # XXX
-$PALANG['pFetchmail_database_save_error'] = 'Could not save this entry in the database!'; # XXX
-$PALANG['pFetchmail_database_save_success'] = 'Entry saved in database.'; # XXX
-$PALANG['pFetchmail_error_invalid_id'] = 'No entry with ID %s found!'; # XXX
-$PALANG['pFetchmail_invalid_mailbox'] = 'Invalid mailbox!'; # XXX
-$PALANG['pFetchmail_server_missing'] = 'Please enter the remote server name!'; # XXX
-$PALANG['pFetchmail_user_missing'] = 'Please enter the remote username!'; # XXX
-$PALANG['pFetchmail_password_missing'] = 'Please enter the remote password!'; # XXX
-$PALANG['pFetchmail_field_id']              = 'ID'; # XXX
-$PALANG['pFetchmail_field_mailbox']         = 'Mailbox'; # XXX
-$PALANG['pFetchmail_field_src_server']      = 'Server'; # XXX
-$PALANG['pFetchmail_field_src_auth']        = 'Auth Type'; # XXX
-$PALANG['pFetchmail_field_src_user']        = 'User'; # XXX
-$PALANG['pFetchmail_field_src_password']    = 'Password'; # XXX
-$PALANG['pFetchmail_field_src_folder']      = 'Folder'; # XXX
-$PALANG['pFetchmail_field_poll_time']       = 'Poll'; # XXX
-$PALANG['pFetchmail_field_fetchall']        = 'Fetch All'; # XXX
-$PALANG['pFetchmail_field_keep']            = 'Keep'; # XXX
-$PALANG['pFetchmail_field_protocol']        = 'Protocol'; # XXX
-$PALANG['pFetchmail_field_extra_options']   = 'Extra Options'; # XXX
-$PALANG['pFetchmail_field_mda']             = 'MDA'; # XXX
-$PALANG['pFetchmail_field_date']            = 'Date'; # XXX
-$PALANG['pFetchmail_field_returned_text']   = 'Returned Text'; # XXX
-$PALANG['pFetchmail_desc_id']               = 'Record ID'; # XXX
-$PALANG['pFetchmail_desc_mailbox']          = 'Local mailbox'; # XXX
-$PALANG['pFetchmail_desc_src_server']       = 'Remote Server'; # XXX
-$PALANG['pFetchmail_desc_src_auth']         = 'Mostly \'password\''; # Translators: Please do NOT translate 'password' here # XXX
-$PALANG['pFetchmail_desc_src_user']         = 'Remote User'; # XXX
-$PALANG['pFetchmail_desc_src_password']     = 'Remote Password'; # XXX
-$PALANG['pFetchmail_desc_src_folder']       = 'Remote Folder'; # XXX
-$PALANG['pFetchmail_desc_poll_time']        = 'Poll every ... minutes'; # XXX
-$PALANG['pFetchmail_desc_fetchall']         = 'Retrieve  both old (seen) and new messages'; # XXX
-$PALANG['pFetchmail_desc_keep']             = 'Keep retrieved messages on the remote mailserver'; # XXX
-$PALANG['pFetchmail_desc_protocol']         = 'Protocol to use'; # XXX
-$PALANG['pFetchmail_desc_extra_options']    = 'Extra fetchmail Options'; # XXX
-$PALANG['pFetchmail_desc_mda']              = 'Mail Delivery Agent'; # XXX
-$PALANG['pFetchmail_desc_date']             = 'Date of last polling/configuration change'; # XXX
-$PALANG['pFetchmail_desc_returned_text']    = 'Text message from last polling'; # XXX
+$PALANG['pPasswordTooShort'] = "Heslo je příliš krátké - je vyžadováno minimálně %s znaků";
+$PALANG['pFetchmail_welcome'] = 'Stahovat poštu pro:';
+$PALANG['pFetchmail_new_entry'] = 'Nová položka';
+$PALANG['pFetchmail_database_save_error'] = 'Tuto položku není možné uložit do databáze!';
+$PALANG['pFetchmail_database_save_success'] = 'Položka byla uložena do databáze.';
+$PALANG['pFetchmail_error_invalid_id'] = 'Položka s ID %s nebyla nalezena!';
+$PALANG['pFetchmail_invalid_mailbox'] = 'Nesprávná schránka!';
+$PALANG['pFetchmail_server_missing'] = 'Prosím zadejte jméno serveru ze kterého stahovat poštu!';
+$PALANG['pFetchmail_user_missing'] = 'Prosím zadejte přihlašovací jméno k serveru!';
+$PALANG['pFetchmail_password_missing'] = 'Prosím zadejte heslo ke vzdálené schránce!';
+$PALANG['pFetchmail_field_id']              = 'ID';
+$PALANG['pFetchmail_field_mailbox']         = 'Schránka';
+$PALANG['pFetchmail_field_src_server']      = 'Server';
+$PALANG['pFetchmail_field_src_auth']        = 'Typ autentizace';
+$PALANG['pFetchmail_field_src_user']        = 'Uživatel';
+$PALANG['pFetchmail_field_src_password']    = 'Heslo';
+$PALANG['pFetchmail_field_src_folder']      = 'Složka';
+$PALANG['pFetchmail_field_poll_time']       = 'Interval';
+$PALANG['pFetchmail_field_fetchall']        = 'Stahovat vše';
+$PALANG['pFetchmail_field_keep']            = 'Nemazat';
+$PALANG['pFetchmail_field_protocol']        = 'Protokol';
+$PALANG['pFetchmail_field_extra_options']   = 'Extra Parametry';
+$PALANG['pFetchmail_field_mda']             = 'MDA';
+$PALANG['pFetchmail_field_date']            = 'Datum';
+$PALANG['pFetchmail_field_returned_text']   = 'Výstupní Text';
+$PALANG['pFetchmail_desc_id']               = 'ID záznamu';
+$PALANG['pFetchmail_desc_mailbox']          = 'Místní schránka';
+$PALANG['pFetchmail_desc_src_server']       = 'Vzdálený Server';
+$PALANG['pFetchmail_desc_src_auth']         = 'Většinou \'password\''; # Translators: Please do NOT translate 'password' here
+$PALANG['pFetchmail_desc_src_user']         = 'Vzdálený Uživatel';
+$PALANG['pFetchmail_desc_src_password']     = 'Heslo Vzdáleného Uživatele';
+$PALANG['pFetchmail_desc_src_folder']       = 'Vzdálená Složka';
+$PALANG['pFetchmail_desc_poll_time']        = 'Stahovat každých ... minut';
+$PALANG['pFetchmail_desc_fetchall']         = 'Získávat všechny staré (přečtené) i nové zprávy';
+$PALANG['pFetchmail_desc_keep']             = 'Ponechávat stažené zprávy na vzdáleném mailserveru';
+$PALANG['pFetchmail_desc_protocol']         = 'Použitý protokol';
+$PALANG['pFetchmail_desc_extra_options']    = 'Extra parametry pro fetchmail';
+$PALANG['pFetchmail_desc_mda']              = 'Program pro doručení pošty do schránky (MDA)';
+$PALANG['pFetchmail_desc_date']             = 'Datum posledního stažení pošty/změny konfigurace';
+$PALANG['pFetchmail_desc_returned_text']    = 'Výstupní textový záznam posledního stahování pošty';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
