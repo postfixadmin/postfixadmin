@@ -153,6 +153,10 @@ if ($cancel) { # cancel $new or $edit
       }
    }
    $formvars['id'] = $edit; # results in 0 on $new
+   if($CONF['database_type'] == 'pgsql' && $new) {
+      // skip - shouldn't need to specify this as it will default to the next available value anyway.
+      unset($formvars['id']);
+   }
 
    if (!in_array($formvars['mailbox'], $fm_defaults['mailbox'])) {
       flash_error($PALANG['pFetchmail_invalid_mailbox']);
@@ -173,8 +177,8 @@ if ($cancel) { # cancel $new or $edit
    }
 
    if ($save) {
-      if ($new) {
-         $sql="INSERT fetchmail (".implode(",",escape_string(array_keys($formvars))).") VALUES ('".implode("','",escape_string($formvars))."')";
+       if ($new) {
+         $sql="INSERT INTO fetchmail (".implode(",",escape_string(array_keys($formvars))).") VALUES ('".implode("','",escape_string($formvars))."')";
       } else { # $edit
          foreach(array_keys($formvars) as $key) {
             $formvars[$key] = escape_string($key) . "='" . escape_string($formvars[$key]) . "'";
@@ -221,7 +225,7 @@ function _inp_num($val){
 }
 
 function _inp_bool($val){
-   return $val?db_get_boolean(true):db_get_boolean(false);
+   return $val ? db_get_boolean(true): db_get_boolean(false);
 }
 
 function _inp_password($val){
