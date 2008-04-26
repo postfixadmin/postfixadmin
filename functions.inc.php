@@ -282,15 +282,15 @@ function check_email ($email)
 
             // Look for an AAAA, A, or MX record for the domain
 
-            // AAAA (IPv6) is only available in PHP v. >= 5
-            if (version_compare(phpversion(), "5.0.0", ">="))
-            {
-               if (checkdnsrr($domain,'AAAA')) return true;
+            if(function_exists('checkdnsrr')) {
+                // AAAA (IPv6) is only available in PHP v. >= 5
+                if (version_compare(phpversion(), "5.0.0", ">="))
+                {
+                   if (checkdnsrr($domain,'AAAA')) return true;
+                }
+                if (checkdnsrr($domain,'A')) return true;
+                if (checkdnsrr($domain,'MX')) return true;
             }
-
-            if (checkdnsrr($domain,'A')) return true;
-            if (checkdnsrr($domain,'MX')) return true;
-
             # TODO: different error message for non-existing domains (instead of "email is invalid")
             return false;
          }
