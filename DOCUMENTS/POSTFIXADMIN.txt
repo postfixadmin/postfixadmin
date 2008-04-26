@@ -1,20 +1,26 @@
-
 ---------------------------------------
   The different parts of PostfixAdmin
 
-/admin directory scripts are used by superadmins, also known as 'site admins'.
-When you log in as a superadmin you'll be running scripts from /admin that
-won't bother checking to see if you are allowed to admin for a domain.  As
-a superadmin you can add and remove domains, mailboxes, aliases, domain admins,
-and create more superadmins.  A superadmin will be not stopped from doing
-anything, so be careful, you can delete your our login account.
 
-login.php sorts out what type of admin you are and sends you to the right place.
-The scripts in / are used by domain admins and always check to see if you are
-an admin for the domain (or user within a domain) you are attempting to change.
+Postfix Admin has a concept of a "global" administrator (think 'root') and 
+domain administrators.  When you install PostfixAdmin, the setup.php file 
+will ask you to create the global administrators account. Using this global
+account, you can (if you so wish) create domain administrators who are 
+limited to making changes within the domains you specify for them.
 
-End user scripts only do operations on the currently logged in user. 
-If the end user options provide more than you want your users to have,
-check the user options in config.inc.php, or, even better, edit the
-user templates and remove the options.
+Historically when you logged in as the 'global' (or superadmin) user, you'd
+access /admin; with version 2.2.0, this 'functionality' was removed (as there
+was excessive code duplication) and everyone uses the same login.php script.
+
+
+Needless to say, as a global administrator, you can do all kinds of bad things -
+like deleting domains and stopping delivery of mail to a particular mailbox. So
+- take care, and if you're unsure take semi-regular backups.
+
+
+If you login, and you are not an administrator (i.e. you are a 'regular' user
+who just has a mailbox on the server), then you will only see functionality to 
+modify your own account - e.g. change password, edit forward records and specify 
+whether you are on vacation (out of office) or not.
+
 
