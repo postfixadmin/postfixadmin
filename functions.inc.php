@@ -22,7 +22,7 @@ if (ereg ("functions.inc.php", $_SERVER['PHP_SELF']))
    exit;
 }
 
-$version = '2.2 SVN';
+$version = '2.2.0';
 
 /**
  * check_session
