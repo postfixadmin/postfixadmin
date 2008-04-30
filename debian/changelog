@@ -1,3 +1,13 @@
+postfixadmin (2.2.0) unstable; urgency=low
+
+  * 2.2.0 Released. 
+  * Fix fetchmail script to work with PostgreSQL
+  * Fix fetchmail table creation in MySQL and PostgreSQL
+  * Documentation fixups 
+  * Subversion revision 356
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Thu, 29 Apr 2008 15:47:00 +0000
+
 postfixadmin (2.2.0-rc5) unstable; urgency=low
 
   * Fix MySQL installation issues (schema not being created!)
