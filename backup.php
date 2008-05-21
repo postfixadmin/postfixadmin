@@ -72,8 +72,18 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    {
       fwrite ($fh, $header);
       
-      $tables = array('admin','alias','config','domain','domain_admins','log','mailbox','vacation','vacation_notification');
-      # TODO: also backup fetchmail table
+      $tables = array(
+         'admin',
+         'alias',
+         'config',
+         'domain',
+         'domain_admins',
+         'fetchmail',
+         'log',
+         'mailbox',
+         'vacation',
+         'vacation_notification'
+      );
 
       for ($i = 0 ; $i < sizeof ($tables) ; ++$i)
       {
