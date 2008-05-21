@@ -29,6 +29,7 @@ $PALANG['pLogin_login_users'] = 'Kasutaja, klõpsa siia logimaks sisse kasutaja 
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Ülevaade';
 $PALANG['pMenu_create_alias'] = 'Lisa alias';
+$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
 $PALANG['pMenu_create_mailbox'] = 'Lisa postkast';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'Saada kiri';
@@ -51,16 +52,21 @@ $PALANG['pOverview_title'] = ':: Valitud domeenid';
 $PALANG['pOverview_up_arrow'] = 'Mine üles';
 $PALANG['pOverview_right_arrow'] = 'Järgmine leht';
 $PALANG['pOverview_left_arrow'] = 'Eelmine leht';
+$PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases'; # XXX
 $PALANG['pOverview_alias_title'] = ':: Alias';
 $PALANG['pOverview_mailbox_title'] = ':: Postkastid';
 $PALANG['pOverview_button'] = 'Mine';
 $PALANG['pOverview_welcome'] = 'Ülevaade domeenist: ';
+$PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
 $PALANG['pOverview_alias_alias_count'] = 'Aliasi';
 $PALANG['pOverview_alias_mailbox_count'] = 'Postkaste';
 $PALANG['pOverview_alias_address'] = 'Kellelt';
 $PALANG['pOverview_alias_goto'] = 'Kellele';
 $PALANG['pOverview_alias_modified'] = 'Viimati muudetud';
+$PALANG['pOverview_alias_domain_modified'] = 'Last Modified'; # XXX
 $PALANG['pOverview_alias_active'] = 'Active'; # XXX
+$PALANG['pOverview_alias_domain_active'] = 'Active'; # XXX
 $PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-posti aadress';
@@ -73,6 +79,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 
 $PALANG['pOverview_get_domain'] = 'Domeen';
 $PALANG['pOverview_get_aliases'] = 'Aliased';
+$PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Postkastid';
 $PALANG['pOverview_get_quota'] = 'Postkasti kettaruumi piirang (MB)';
 $PALANG['pOverview_get_modified'] = 'Viimati muudetud';
@@ -81,7 +88,19 @@ $PALANG['pDelete_delete_error'] = '<span class="error_msg">Kustutamine ebaõnnes
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Puuduvad õigused. Domeen: ';
+$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
+$PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
+$PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
+$PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
+$PALANG['pCreate_alias_domain_active'] = 'Active'; # XXX
+$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
+$PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
+$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
+$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Loo uus alias domeenis.';
 $PALANG['pCreate_alias_address'] = 'Alias';
@@ -105,6 +124,7 @@ $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Kellele väli on tühi.</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Sisestatud e/posti aadress pole kehtiv: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Puuduvad õigused. Domeen: ';
+$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = 'Muuda alias';
@@ -174,9 +194,12 @@ $PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox'; # XXX
 $PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox'; # XXX
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active'; # XXX
 $PALANG['pViewlog_action_create_alias'] = 'create alias'; # XXX
+$PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'delete alias'; # XXX
+$PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = 'edit alias'; # XXX
 $PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active'; # XXX
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = 'Mine';
@@ -253,6 +276,7 @@ $PALANG['pAdminCreate_domain_button'] = 'Lisa domeen';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domeeni lisamine ebaõnnestus!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domeen on lisatud!';
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Redigeeri domeeni';
 $PALANG['pAdminEdit_domain_domain'] = 'Domeen';

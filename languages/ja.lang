@@ -31,6 +31,7 @@ $PALANG['pLogin_login_users'] = '一般ユーザのログインはここをク�
 $PALANG['pMenu_main'] = 'メイン';
 $PALANG['pMenu_overview'] = '概要';
 $PALANG['pMenu_create_alias'] = '転送先の追加';
+$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
 $PALANG['pMenu_create_mailbox'] = 'アドレスの追加';
 $PALANG['pMenu_fetchmail'] = 'メール取得';
 $PALANG['pMenu_sendmail'] = 'メール送信';
@@ -53,16 +54,21 @@ $PALANG['pOverview_title'] = ':: 定義済ドメイン';
 $PALANG['pOverview_up_arrow'] = 'トップ';
 $PALANG['pOverview_right_arrow'] = '次ページ';
 $PALANG['pOverview_left_arrow'] = '前ページ';
+$PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases'; # XXX
 $PALANG['pOverview_alias_title'] = ':: 転送アドレス';
 $PALANG['pOverview_mailbox_title'] = ':: メールアドレス';
 $PALANG['pOverview_button'] = '表示';
 $PALANG['pOverview_welcome'] = '概要 ';
+$PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
 $PALANG['pOverview_alias_alias_count'] = '転送数';
 $PALANG['pOverview_alias_mailbox_count'] = 'アドレス数';
 $PALANG['pOverview_alias_address'] = '転送元';
 $PALANG['pOverview_alias_goto'] = '転送先';
 $PALANG['pOverview_alias_modified'] = '最終更新日';
+$PALANG['pOverview_alias_domain_modified'] = 'Last Modified'; # XXX
 $PALANG['pOverview_alias_active'] = 'アクティブ';
+$PALANG['pOverview_alias_domain_active'] = 'Active'; # XXX
 $PALANG['pOverview_alias_edit'] = '転送';
 $PALANG['and_x_more'] = '[その他 %s 個]';
 $PALANG['pOverview_mailbox_username'] = 'メールアドレス';
@@ -76,6 +82,7 @@ $PALANG['pOverview_vacation_option'] = '自動応答';
 
 $PALANG['pOverview_get_domain'] = 'ドメイン';
 $PALANG['pOverview_get_aliases'] = '転送';
+$PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'アドレス';
 $PALANG['pOverview_get_quota'] = '容量制限 (MB)';
 $PALANG['pOverview_get_modified'] = '最終更新日';
@@ -83,7 +90,19 @@ $PALANG['pDelete_delete_error'] = '<span class="error_msg">エントリを削除
 $PALANG['pDelete_delete_success'] = '%s を削除しました。';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">メールアドレスを削除できません。 ';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">このドメインは管理外です。 ';
+$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">転送アドレスを削除できません。 ';
+$PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
+$PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
+$PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
+$PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
+$PALANG['pCreate_alias_domain_active'] = 'Active'; # XXX
+$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
+$PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
+$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
+$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = '新しい転送先の作成';
 $PALANG['pCreate_alias_address'] = '転送元アドレス';
@@ -107,6 +126,7 @@ $PALANG['pEdit_alias_active'] = 'アクティブ';
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">転送先が入力されていません。</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">このメールアドレスは無効です: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">このドメインは管理外です: ';
+$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'ローカルのメールボックスに残す';
 $PALANG['pEdit_alias_forward_only'] = '指定された転送アドレスのみ';
 $PALANG['pEdit_alias_button'] = '転送先修正';
@@ -179,9 +199,12 @@ $PALANG['pViewlog_action_delete_mailbox'] = 'アドレス削除';
 $PALANG['pViewlog_action_edit_mailbox'] = 'アドレス編集';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'アドレス状態編集';
 $PALANG['pViewlog_action_create_alias'] = '転送先作成';
+$PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = '転送先削除';
+$PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = '転送先編集';
 $PALANG['pViewlog_action_edit_alias_state'] = '転送先状態編集';
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active'; # XXX
 $PALANG['pViewlog_action_edit_password'] = 'パスワード変更';
  
 $PALANG['pViewlog_button'] = '表示';
@@ -259,6 +282,7 @@ $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">ドメイ
 $PALANG['pAdminCreate_domain_result_success'] = 'ドメインを追加しました。';
 
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">ドメインが削除できません！</span>';
+$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'ドメインの修正';
 $PALANG['pAdminEdit_domain_domain'] = 'ドメイン';

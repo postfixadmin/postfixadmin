@@ -29,6 +29,7 @@ $PALANG['pLogin_login_users'] = 'Brukare, trykk her for å gå til bruker-seksjo
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Oversikt';
 $PALANG['pMenu_create_alias'] = 'Legg til Alias';
+$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
 $PALANG['pMenu_create_mailbox'] = 'Legg til e-postkonto';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'Send E-Post';
@@ -51,16 +52,21 @@ $PALANG['pOverview_title'] = ':: Definerte domener';
 $PALANG['pOverview_up_arrow'] = 'Gå til toppen';
 $PALANG['pOverview_right_arrow'] = 'Neste side';
 $PALANG['pOverview_left_arrow'] = 'Forrige side';
+$PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases'; # XXX
 $PALANG['pOverview_alias_title'] = ':: Alias';
 $PALANG['pOverview_mailbox_title'] = ':: Epostkontoer';
 $PALANG['pOverview_button'] = 'Vis';
 $PALANG['pOverview_welcome'] = 'Oversikt for ';
+$PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
 $PALANG['pOverview_alias_alias_count'] = 'Alias';
 $PALANG['pOverview_alias_mailbox_count'] = 'Epostkontoer';
 $PALANG['pOverview_alias_address'] = 'Fra';
 $PALANG['pOverview_alias_goto'] = 'Mottaker';
 $PALANG['pOverview_alias_modified'] = 'Sist endret';
+$PALANG['pOverview_alias_domain_modified'] = 'Last Modified'; # XXX
 $PALANG['pOverview_alias_active'] = 'Active'; # XXX
+$PALANG['pOverview_alias_domain_active'] = 'Active'; # XXX
 $PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-post';
@@ -73,6 +79,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 
 $PALANG['pOverview_get_domain'] = 'Domene';
 $PALANG['pOverview_get_aliases'] = 'Alias';
+$PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Epostkontoer';
 $PALANG['pOverview_get_quota'] = 'Epostkonto Kvote (MB)';
 $PALANG['pOverview_get_modified'] = 'Sist endret';
@@ -81,7 +88,19 @@ $PALANG['pDelete_delete_error'] = '<span class="error_msg">Kan ikke slette';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Dette domenet er ikke ditt';
+$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
+$PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
+$PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
+$PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
+$PALANG['pCreate_alias_domain_active'] = 'Active'; # XXX
+$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
+$PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
+$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
+$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Opprett et nytt alias.';
 $PALANG['pCreate_alias_address'] = 'Alias';
@@ -104,6 +123,7 @@ $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Du skrev ikke noe i mottakerfeltet</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">E-post adressen er ugyldig: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Dette er ikke ditt domene: ';
+$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = 'Endre Alias';
@@ -172,9 +192,12 @@ $PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox'; # XXX
 $PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox'; # XXX
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active'; # XXX
 $PALANG['pViewlog_action_create_alias'] = 'create alias'; # XXX
+$PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'delete alias'; # XXX
+$PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = 'edit alias'; # XXX
 $PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active'; # XXX
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = 'Vis';
@@ -251,6 +274,7 @@ $PALANG['pAdminCreate_domain_button'] = 'Legg til domene';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Klarte ikke å legge til domenet!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domenet er lagt til!';
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Endre domenet';
 $PALANG['pAdminEdit_domain_domain'] = 'Domene';
