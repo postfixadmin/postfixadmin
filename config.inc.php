@@ -59,6 +59,7 @@ $CONF['database_prefix'] = '';
 $CONF['database_tables'] = array (
     'admin' => 'admin',
     'alias' => 'alias',
+    'alias_domain' => 'alias_domain',
     'config' => 'config',
     'domain' => 'domain',
     'domain_admins' => 'domain_admins',

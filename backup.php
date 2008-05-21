@@ -75,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       $tables = array(
          'admin',
          'alias',
+         'alias_domain',
          'config',
          'domain',
          'domain_admins',
