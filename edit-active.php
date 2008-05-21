@@ -34,6 +34,7 @@ $SESSID_USERNAME = authentication_get_username();
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
+   if (isset ($_GET['alias_domain'])) $fAliasDomain = escape_string ($_GET['alias_domain']);
    if (isset ($_GET['username'])) $fUsername = escape_string ($_GET['username']);
    if (isset ($_GET['alias'])) $fAlias = escape_string ($_GET['alias']); else $fAlias = escape_string ($_GET['username']);
    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
@@ -47,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    else
    {
       $setSql=('pgsql'==$CONF['database_type']) ? 'active=NOT active' : 'active=1-active';
+      $setSql.=', modified=NOW()';
       if ($fUsername != '')
       {
          $result = db_query ("UPDATE $table_mailbox SET $setSql WHERE username='$fUsername' AND domain='$fDomain'");
@@ -71,6 +73,19 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          else
          {
             db_log ($SESSID_USERNAME, $fDomain, 'edit_alias_state', $fAlias);
+         }
+      }
+      if ($fAliasDomain != '')
+      {
+         $result = db_query ("UPDATE $table_alias_domain SET $setSql WHERE alias_domain='$fDomain'");
+         if ($result['rows'] != 1)
+         {
+            $error = 1;
+            $tMessage = $PALANG['pEdit_alias_domain_result_error'];
+         }
+         else
+         {
+            db_log ($SESSID_USERNAME, $fDomain, 'edit_alias_domain_state', $fDomain);
          }
       }
    }

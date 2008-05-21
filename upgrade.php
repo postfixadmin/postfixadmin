@@ -534,6 +534,52 @@ function upgrade_4_pgsql() {
         $result = db_query_parsed("CREATE INDEX alias_address_active ON alias(address,active)");
     }
 
+/**
+ * MySQL only alias_domain table
+ */
+function upgrade_300_mysql() { 
+	$table_alias_domain = table_by_key('alias_domain');
+	// i just duplicate stuff from DATABASE_*.TXT over here?
+	if( $CONF['database_type'] == 'pgsql' ) { 
+		// check if table already exists, if so, don't recreate it
+		$sql_table_exists =
+			"SELECT relname ".
+			"  FROM pg_class ".
+			" WHERE relname = '$table_alias_domain'";
+		$res = db_query( $sql_table_exists );
+		if( $res['rows'] == 0 ) {
+			$sql_table_create =
+				"CREATE TABLE $table_alias_domain ( ".
+					" alias_domain character varying(255) NOT NULL REFERENCES domain(domain) ON DELETE CASCADE, ".
+					" target_domain character varying(255) NOT NULL REFERENCES domain(domain) ON DELETE CASCADE, ".
+					" created timestamp with time zone default now(), ".
+					" modified timestamp with time zone default now(), ".
+					" active boolean NOT NULL default true, ".
+					" Constraint \"alias_domain_pkey\" Primary Key (\"alias_domain\") ".
+				")";
+			db_query( $sql_table_create );
+			$sql_table_index =
+				"CREATE INDEX alias_domain_active ON $table_alias_domain(alias_domain,active)";
+			db_query( $sql_table_index );
+			$sql_table_comment =
+				"COMMENT ON TABLE $table_alias_domain IS 'Postfix Admin - Domain Aliases'";
+			db_query( $sql_table_comment );
+		}
+	} else { // database-type mysql assumed
+		$sql_table_create = 
+			"CREATE TABLE IF NOT EXISTS `$table_alias_domain` ( ".
+				" `alias_domain` varchar(255) NOT NULL default '', ".
+				" `target_domain` varchar(255) NOT NULL default '', ".
+				" `created` datetime NOT NULL default '0000-00-00 00:00:00', ".
+				" `modified` datetime NOT NULL default '0000-00-00 00:00:00', ".
+				" `active` tinyint(1) NOT NULL default '1', ".
+				" PRIMARY KEY (`alias_domain`), ".
+				" KEY `active` (`active`), ".
+				" KEY `target_domain` (`target_domain`) ".
+			") TYPE=MyISAM COMMENT='Postfix Admin - Domain Aliases'";
+		db_query( $sql_table_create );
+	}
+}
 
     $result = db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN username DROP DEFAULT");
     $result = db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN domain DROP DEFAULT");
@@ -864,3 +910,46 @@ function upgrade_344_pgsql() {
     }
 }
 
+/** 
+ * Support alias_domain table 
+ */
+function upgrade_362_mysql() {
+    # Table structure for table alias_domain
+    #
+    $table_alias_domain = table_by_key('alias_domain');
+    db_query_parsed("
+        CREATE TABLE IF NOT EXISTS $table_alias_domain (
+            `alias_domain` varchar(255) NOT NULL default '',
+            `target_domain` varchar(255) NOT NULL default '',
+            `created` datetime NOT NULL default '0000-00-00 00:00:00',
+            `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+            `active` tinyint(1) NOT NULL default '1',
+            PRIMARY KEY  (`alias_domain`),
+    KEY `active` (`active`),
+    KEY `target_domain` (`target_domain`)
+) TYPE=MyISAM COMMENT='Postfix Admin - Domain Aliases'");
+
+
+}
+
+/** 
+ * Support alias_domain table 
+ */
+function upgrade_362_pgsql() {
+    # Table structure for table alias_domain
+    $table_alias_domain = table_by_key('alias_domain');
+    $table_domain = table_by_key('domain');
+    if(_pgsql_object_exists($table_alias_domain)) {
+        return;
+    }
+    db_query_parsed(
+        "CREATE TABLE $table_alias_domain (
+            alias_domain character varying(255) NOT NULL REFERENCES $table_domain(domain) ON DELETE CASCADE,
+            target_domain character varying(255) NOT NULL REFERENCES $table_domain(domain) ON DELETE CASCADE,
+            created timestamp with time zone default now(),
+    modified timestamp with time zone default now(),
+    active boolean NOT NULL default true, 
+    PRIMARY KEY(alias_domain))");
+    db_query_parsed("CREATE INDEX alias_domain_active ON $table_alias_domain(alias_domain,active)");
+    db_query_parsed("COMMENT ON TABLE $table_alias_domain IS 'Postfix Admin - Domain Aliases'");
+}

@@ -31,6 +31,7 @@ $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.'
 $PALANG['pMenu_main'] = 'Main';
 $PALANG['pMenu_overview'] = 'Overview';
 $PALANG['pMenu_create_alias'] = 'Add Alias';
+$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain';
 $PALANG['pMenu_create_mailbox'] = 'Add Mailbox';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email';
 $PALANG['pMenu_sendmail'] = 'Send Email';
@@ -53,16 +54,21 @@ $PALANG['pOverview_title'] = ':: Defined Domains';
 $PALANG['pOverview_up_arrow'] = 'Go Top';
 $PALANG['pOverview_right_arrow'] = 'Next Page';
 $PALANG['pOverview_left_arrow'] = 'Previous Page';
-$PALANG['pOverview_alias_title'] = ':: Alias';
+$PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases';
+$PALANG['pOverview_alias_title'] = ':: Aliases';
 $PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
 $PALANG['pOverview_button'] = 'Go';
 $PALANG['pOverview_welcome'] = 'Overview for ';
+$PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains';
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:';
 $PALANG['pOverview_alias_alias_count'] = 'Aliases';
 $PALANG['pOverview_alias_mailbox_count'] = 'Mailboxes';
 $PALANG['pOverview_alias_address'] = 'From';
 $PALANG['pOverview_alias_goto'] = 'To';
 $PALANG['pOverview_alias_modified'] = 'Last Modified';
+$PALANG['pOverview_alias_domain_modified'] = 'Last Modified';
 $PALANG['pOverview_alias_active'] = 'Active';
+$PALANG['pOverview_alias_domain_active'] = 'Active';
 $PALANG['pOverview_alias_edit'] = 'Alias';
 $PALANG['and_x_more'] = '[and %s more...]';
 $PALANG['pOverview_mailbox_username'] = 'Email';
@@ -76,6 +82,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation';
 
 $PALANG['pOverview_get_domain'] = 'Domain';
 $PALANG['pOverview_get_aliases'] = 'Aliases';
+$PALANG['pOverview_get_alias_domains'] = 'Domain Aliases';
 $PALANG['pOverview_get_mailboxes'] = 'Mailboxes';
 $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Last Modified';
@@ -84,7 +91,20 @@ $PALANG['pDelete_delete_error'] = '<span class="error_msg">Unable to delete the 
 $PALANG['pDelete_delete_success'] = '%s deleted.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox ';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">This domain is not yours ';
+$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours ';
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias ';
+
+$PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.';
+$PALANG['pCreate_alias_domain_alias'] = 'Alias Domain';
+$PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.';
+$PALANG['pCreate_alias_domain_target'] = 'Target Domain';
+$PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.';
+$PALANG['pCreate_alias_domain_active'] = 'Active';
+$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain';
+$PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.';
+$PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!';
+$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.';
+$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!';
 
 $PALANG['pCreate_alias_welcome'] = 'Create a new alias for your domain.';
 $PALANG['pCreate_alias_address'] = 'Alias';
@@ -98,7 +118,7 @@ $PALANG['pCreate_alias_goto_text'] = 'Where the mail needs to be sent to.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Where the email needs to go.<br /><span class="error_msg">The TO is not valid!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Unable to add the alias to the alias table!</span>';
 $PALANG['pCreate_alias_result_success'] = 'The alias has been added to the alias table!';
-$PALANG['pCreate_alias_catchall_text'] = 'To create a catch-all use an "*" as alias.<br />For domain to domain forwarding use "*@domain.tld" as to.';
+$PALANG['pCreate_alias_catchall_text'] = 'To create a catch-all use an "*" as alias.'; # XXX don't propagate usage of *@target-domain.com for domain-aliasing any longer
 
 $PALANG['pEdit_alias_welcome'] = 'Edit an alias for your domain.<br />One entry per line.';
 $PALANG['pEdit_alias_address'] = 'Alias';
@@ -108,6 +128,7 @@ $PALANG['pEdit_alias_active'] = 'Active';
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">You didn\'t enter anything at To</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">The email address that you have entered is not valid: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">This domain is not yours: ';
+$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>';
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
 $PALANG['pEdit_alias_button'] = 'Edit Alias';
@@ -180,9 +201,12 @@ $PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox';
 $PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active';
 $PALANG['pViewlog_action_create_alias'] = 'create alias';
+$PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain';
 $PALANG['pViewlog_action_delete_alias'] = 'delete alias';
+$PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain';
 $PALANG['pViewlog_action_edit_alias'] = 'edit alias';
 $PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active';
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password';
  
 $PALANG['pViewlog_button'] = 'Go';
@@ -260,6 +284,7 @@ $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Unable to
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain has been added!';
 
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>';
+$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Edit a domain';
 $PALANG['pAdminEdit_domain_domain'] = 'Domain';

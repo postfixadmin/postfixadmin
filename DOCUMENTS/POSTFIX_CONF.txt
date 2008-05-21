@@ -9,9 +9,14 @@ lookup tables.  You can verify that with 'postconf -m'
 Its generally recommended to use proxy as well (which should also appear in
 postconf -m)  Three main.cf variables are involved:
 
-virtual_alias_maps = proxy:mysql:/etc/postfix/sql/mysql_virtual_alias_maps.cf
 virtual_mailbox_domains = proxy:mysql:/etc/postfix/sql/mysql_virtual_domains_maps.cf
-virtual_mailbox_maps = proxy:mysql:/etc/postfix/sql/mysql_virtual_mailbox_maps.cf
+virtual_alias_maps =
+   proxy:mysql:/etc/postfix/sql/mysql_virtual_alias_maps.cf,
+   proxy:mysql:/etc/postfix/sql/mysql_virtual_alias_domain_maps.cf,
+   proxy:mysql:/etc/postfix/sql/mysql_virtual_alias_domain_catchall_maps.cf
+virtual_mailbox_maps =
+   proxy:mysql:/etc/postfix/sql/mysql_virtual_mailbox_maps.cf,
+   proxy:mysql:/etc/postfix/sql/mysql_virtual_alias_domain_mailbox_maps.cf
 
 Where you chose to store the .cf files doesn't really matter, but they will
 have database passwords stored in plain text so they should be readable only
@@ -35,21 +40,34 @@ user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query           = SELECT goto FROM alias WHERE address='%s' AND active = '1'
+query = SELECT goto FROM alias WHERE address='%s' AND active = '1'
 #expansion_limit = 100
 
+mysql_virtual_alias_domain_maps.cf:
+user = postfix
+password = password
+hosts = localhost
+dbname = postfix
+query = SELECT goto FROM alias,alias_domain WHERE alias_domain.alias_domain = '%d' and alias.address = CONCAT('%u', '@', alias_domain.target_domain) AND alias.active = 1
+
+mysql_virtual_alias_domain_catchall_maps.cf:
+# handles catch-all settings of target-domain
+user = postfix
+password = password
+hosts = localhost
+dbname = postfix
+query  = SELECT goto FROM alias,alias_domain WHERE alias_domain.alias_domain = '%d' and alias.address = CONCAT('@', alias_domain.target_domain) AND alias.active = 1
 
 mysql_virtual_domains_maps.cf:
 user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query          = SELECT domain FROM domain WHERE domain='%u'
+query          = SELECT domain FROM domain WHERE domain='%s' AND active = '1'
 #query          = SELECT domain FROM domain WHERE domain='%s'
 #optional query to use when relaying for backup MX
 #query           = SELECT domain FROM domain WHERE domain='%s' AND backupmx = '0' AND active = '1'
 #expansion_limit = 100
-
 
 mysql_virtual_mailbox_maps.cf:
 user = postfix
@@ -58,6 +76,13 @@ hosts = localhost
 dbname = postfix
 query           = SELECT CONCAT(domain,'/',maildir) FROM mailbox WHERE username='%s' AND active = '1'
 #expansion_limit = 100
+
+mysql_virtual_alias_domain_mailbox_maps.cf:
+user = postfix
+password = password
+hosts = localhost
+dbname = postfix
+query = SELECT CONCAT(domain,'/',maildir) FROM mailbox,alias_domain WHERE alias_domain.alias_domain = '%d' and mailbox.username = CONCAT('%u', '@', alias_domain.target_domain) AND mailbox.active = 1
 
 -------------------------
 

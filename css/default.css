@@ -110,6 +110,7 @@ table {
 	position: absolute;
 	width: auto;
 	left: -999em;
+    background: #FFFFFF;
 	border:2px solid white;
 	border-top:none;
 }
@@ -227,32 +228,32 @@ table {
 	margin: 0 auto;
 }
 
-#alias_table, #mailbox_table, #overview_table, #log_table, #admin_table {
+#alias_domain_table, #alias_table, #mailbox_table, #overview_table, #log_table, #admin_table {
 	width: 750px;
 	margin: 0px auto;
 	border: 1px solid #efefef;
 }
 
-#alias_table .header, #mailbox_table .header, #overview_table .header, #log_table .header, #admin_table .header {
+#alias_domain_table .header, #alias_table .header, #mailbox_table .header, #overview_table .header, #log_table .header, #admin_table .header {
 	line-height: 20px;
 	background: #efefef;
 	color: black;
 }
 
-#alias_table .hilightoff, #mailbox_table .hilightoff, #overview_table .hilightoff, #log_table .hilightoff, #admin_table .hilighoff {
+#alias_domain_table .hilightoff, #alias_table .hilightoff, #mailbox_table .hilightoff, #overview_table .hilightoff, #log_table .hilightoff, #admin_table .hilighoff {
 	background: white;
 }
 
-#alias_table .hilighton, #mailbox_table .hilighton, #overview_table .hilighton, #log_table .hilighton, #admin_table .hilighton {
+#alias_domain_table .hilighton, #alias_table .hilighton, #mailbox_table .hilighton, #overview_table .hilighton, #log_table .hilighton, #admin_table .hilighton {
 	background: #D9FF43; /*#D6FF85;*/ /*#ffdddd;*/
 }
 
-#alias_table tr:hover, #mailbox_table tr:hover, #overview_table tr:hover, #log_table tr:hover, #admin_table tr:hover {
+#alias_domain_table tr:hover, #alias_table tr:hover, #mailbox_table tr:hover, #overview_table tr:hover, #log_table tr:hover, #admin_table tr:hover {
         background: #D9FF43; /*#D6FF85;*/ /*#ffdddd;*/
 }
 
 
-#alias_table h3, #mailbox_table h3, #overview_table h3, #log_table h3, #admin_table h3 {
+#alias_domain_table h3, #alias_table h3, #mailbox_table h3, #overview_table h3, #log_table h3, #admin_table h3 {
 	background: silver;
 	text-align: left;
 	font-size: 12px;

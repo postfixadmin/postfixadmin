@@ -70,6 +70,8 @@ elseif ($fTable == "domain")
    $result_alias = db_delete ($table_alias,$fWhere,$fDelete);
    $result_mailbox = db_delete ($table_mailbox,$fWhere,$fDelete);
    $result_log = db_delete ($table_log,$fWhere,$fDelete);
+   $result_alias_domain = db_delete ($table_alias_domain,'alias_domain',$fDelete);
+   $result_target_domain = db_delete ($table_alias_domain,'target_domain',$fDelete);
    if ($CONF['vacation'] == "YES")
    {
       $result_vacation = db_delete ($table_vacation,$fWhere,$fDelete);
@@ -87,6 +89,28 @@ elseif ($fTable == "domain")
       header ("Location: $url");
    }
 } # ($fTable == "domain")
+
+elseif ($fTable == "alias_domain")
+{
+   if (!check_owner ($SESSID_USERNAME, $fDelete))
+   {
+      $error = 1;
+      $tMessage = $PALANG['pDelete_domain_alias_error'] . "<b>$fDelete</b>!</span>";
+   }
+
+   $result = db_delete ($table_alias_domain,'alias_domain',$fDelete);
+   if (!$result || !alias_domain_postdeletion($fDelete))
+   {
+      $error = 1;
+      $tMessage = $PALANG['pAdminDelete_alias_domain_error'];
+   }
+   else
+   {
+      db_log ($SESSID_USERNAME, $fDelete, 'delete_alias_domain', $fDelete);
+      $url = "list-virtual.php?domain=" . urlencode($_REQUEST['domain']);
+      header ("Location: $url");
+   }
+} # ($fTable == "alias_domain")
 
 elseif ($fTable == "alias" or $fTable == "mailbox")
 {

@@ -1,7 +1,7 @@
 <?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
 <div id="overview">
-<form name="overview" method="post">
-<select name="fDomain" onChange="this.form.submit();">
+<form name="overview" method="get">
+<select name="domain" onChange="this.form.submit();">
 <?php
 
 $file = 'list-virtual.php';
@@ -70,6 +70,57 @@ if ($tDisplay_next_show == 1)
    print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_next\"><img border=\"0\" src=\"images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
 }
 print "</td></tr></table></div>\n";
+
+
+if ((sizeof ($tAliasDomains) > 0) || is_array ($tTargetDomain))
+{
+   print "<table id=\"alias_domain_table\">\n";
+   print "   <tr>\n";
+   print "      <td colspan=\"4\"><h3>" . $PALANG['pOverview_alias_domain_title'] . "</h3></td>";
+   print "   </tr>";
+   if(sizeof ($tAliasDomains) > 0)
+   {
+      print "   <tr class=\"header\">\n";
+      print "      <td>" . sprintf($PALANG['pOverview_alias_domain_aliases'], $fDomain) . "</td>\n";
+      print "      <td>" . $PALANG['pOverview_alias_domain_modified'] . "</td>\n";
+      print "      <td>" . $PALANG['pOverview_alias_domain_active'] . "</td>\n";
+      print "      <td>&nbsp;</td>\n";
+      print "   </tr>\n";
+      for ($i = 0; $i < sizeof ($tAliasDomains); $i++)
+      {
+         print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
+         print "      <td><a href=\"$file?domain=" . urlencode ($tAliasDomains[$i]['alias_domain']) . "&limit=" . $current_limit . "\">" . $tAliasDomains[$i]['alias_domain'] . "</a></td>\n";
+         print "      <td>" . $tAliasDomains[$i]['modified'] . "</td>\n";
+         $active = ($tAliasDomains[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
+         print "      <td><a href=\"edit-active.php?alias_domain=true&domain=" . urlencode ($tAliasDomains[$i]['alias_domain']) . "&return=$file" . urlencode ( "?domain=" . $fDomain . "&limit=" . $current_limit) . "\">" . $active . "</a></td>\n";
+         print "      <td><a href=\"delete.php?table=alias_domain&delete=" . urlencode ($tAliasDomains[$i]['alias_domain']) . "&domain=$fDomain" . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_alias_domains'] . ": ". $tAliasDomains[$i]['alias_domain'] . "')\">" . $PALANG['del'] . "</a></td>\n";
+         print "   </tr>\n";
+      }
+   }
+
+   if(is_array($tTargetDomain))
+   {
+      print "   <tr class=\"header\">\n";
+      print "      <td>" . sprintf($PALANG['pOverview_alias_domain_target'], $fDomain) . "</td>\n";
+      print "      <td>" . $PALANG['pOverview_alias_domain_modified'] . "</td>\n";
+      print "      <td>" . $PALANG['pOverview_alias_domain_active'] . "</td>\n";
+      print "      <td>&nbsp;</td>\n";
+      print "   </tr>\n";
+      print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
+      print "      <td><a href=\"$file?domain=" . urlencode ($tTargetDomain['target_domain']) . "&limit=" . $current_limit . "\">" . $tTargetDomain['target_domain'] . "</a></td>\n";
+      print "      <td>" . $tTargetDomain['modified'] . "</td>\n";
+      $active = ($tTargetDomain['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
+      print "      <td><a href=\"edit-active.php?alias_domain=true&domain=" . urlencode ($fDomain) . "&return=$file" . urlencode ( "?domain=" . $fDomain . "&limit=" . $current_limit) . "\">" . $active . "</a></td>\n";
+      print "      <td><a href=\"delete.php?table=alias_domain&delete=" . urlencode ($fDomain) . "&domain=" . urlencode ($fDomain) . "\" onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_alias_domains'] . ": " . htmlentities ($fDomain) . "')\">" . $PALANG['del'] . "</a></td>\n";
+      print "   </tr>\n";
+
+   }
+   print "</table>\n";
+   if (!is_array($tTargetDomain))
+   {
+      print "<p><a href=\"create-alias-domain.php?target_domain=$fDomain\">" . $PALANG['pMenu_create_alias_domain'] . "</a>\n";
+   }
+}
 
 if (sizeof ($tAlias) > 0)
 {

@@ -1636,10 +1636,14 @@ function db_update ($table, $where, $values, $timestamp = array())
  * Call: db_log (string username, string domain, string action, string data)
  * Possible actions are:
  * 'create_alias'
+ * 'create_alias_domain'
+ * 'create_mailbox'
  * 'delete_alias'
+ * 'delete_alias_domain'
  * 'delete_mailbox'
  * 'edit_alias'
  * 'edit_alias_state'
+ * 'edit_alias_domain_state'
  * 'edit_mailbox'
  * 'edit_mailbox_state'
  * 'edit_password'
@@ -1650,7 +1654,7 @@ function db_log ($username,$domain,$action,$data)
    global $table_log;
    $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
 
-   $action_list = array('create_alias', 'delete_alias', 'edit_alias', 'create_mailbox', 'delete_mailbox', 'edit_mailbox', 'edit_alias_state', 'edit_mailbox_state', 'edit_password');
+   $action_list = array('create_alias', 'create_alias_domain', 'delete_alias', 'delete_alias_domain', 'edit_alias', 'create_mailbox', 'delete_mailbox', 'edit_mailbox', 'edit_alias_state', 'edit_alias_domain_state', 'edit_mailbox_state', 'edit_password');
 
    if(!in_array($action, $action_list)) {
       die("Invalid log action : $action");   // could do with something better?
@@ -1807,6 +1811,42 @@ function domain_postdeletion($domain)
    {
       error_log("Running $command yielded return value=$retval, first line of output=$firstline");
       print '<p>WARNING: Problems running domain postdeletion script!</p>';
+      return FALSE;
+   }
+
+   return TRUE;
+}
+
+/*
+   Called after an alias_domain has been deleted in the DBMS.
+   Returns: boolean.
+ */
+function alias_domain_postdeletion($alias_domain)
+{
+   global $CONF;
+   $confpar='alias_domain_postdeletion_script';
+
+   if (!isset($CONF[$confpar]) || empty($CONF[$confpar]))
+   {
+      return true;
+   }
+
+   if (empty($alias_domain))
+   {
+      print '<p>Warning: empty alias_domain parameter.</p>';
+      return false;
+   }
+
+   $cmdarg1=escapeshellarg($alias_domain);
+   $command=$CONF[$confpar]." $cmdarg1";
+   $retval=0;
+   $output=array();
+   $firstline='';
+   $firstline=exec($command,$output,$retval);
+   if (0!=$retval)
+   {
+      error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+      print '<p>WARNING: Problems running alias_domain postdeletion script!</p>';
       return FALSE;
    }
 
@@ -2124,6 +2164,7 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
 
 $table_admin = table_by_key ('admin');
 $table_alias = table_by_key ('alias');
+$table_alias_domain = table_by_key ('alias_domain');
 $table_domain = table_by_key ('domain');
 $table_domain_admins = table_by_key ('domain_admins');
 $table_log = table_by_key ('log');
