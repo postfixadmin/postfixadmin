@@ -16,6 +16,9 @@ $submenu_virtual = _menulink($url, $PALANG['pMenu_create_mailbox']);
 $url = "create-alias.php"; if (isset ($_GET['domain'])) $url .= "?domain=" . $_GET['domain'];
 $submenu_virtual .=  _menulink($url, $PALANG['pMenu_create_alias']);
 
+$url = "create-alias-domain.php"; if (isset ($_GET['domain'])) $url .= "?target_domain=" . $_GET['domain'];
+$submenu_virtual .=  _menulink($url, $PALANG['pMenu_create_alias_domain']);
+
 $submenu_admin = _menulink("create-admin.php", $PALANG['pAdminMenu_create_admin']);
 
 $submenu_fetchmail = _menulink("fetchmail.php?new=1", $PALANG['pFetchmail_new_entry']);
