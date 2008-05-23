@@ -10,7 +10,7 @@
  * Further details on the project are available at :
  *     http://www.postfixadmin.com or http://postfixadmin.sf.net
  *
- * File: create-alias.php
+ * File: create-alias-domain.php
  * Template File: create-alias-domain.php
  * Responsible for allowing for the creation of alias domains.
  *
