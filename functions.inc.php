@@ -1926,6 +1926,8 @@ function create_mailbox_subfolders($login,$cleartext_password)
 
    $s='{'.$s_host.$s_port.$s_options.'}';
 
+   sleep(1); # give the mail triggering the mailbox creation a chance to do its job
+
    $i=@imap_open($s,$login,$cleartext_password);
    if (FALSE==$i)
    {
