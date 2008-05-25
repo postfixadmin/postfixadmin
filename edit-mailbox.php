@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $formvars['active']=$sqlActive;
 
       $result = db_update ('mailbox', "username='$fUsername' AND domain='$fDomain'", $formvars, array('modified'));
-      if ($result != 1) {
+      if ($result != 1 || !mailbox_postedit($fUsername,$fDomain,$maildir, $quota)) {
          $tMessage = $PALANG['pEdit_mailbox_result_error'];
       }
       else {

@@ -1713,7 +1713,7 @@ function table_by_pos ($pos)
    Called after a mailbox has been created in the DBMS.
    Returns: boolean.
  */
-function mailbox_postcreation($username,$domain,$maildir)
+function mailbox_postcreation($username,$domain,$maildir,$quota)
 {
    if (empty($username) || empty($domain) || empty($maildir))
    {
@@ -1729,7 +1729,9 @@ function mailbox_postcreation($username,$domain,$maildir)
    $cmdarg1=escapeshellarg($username);
    $cmdarg2=escapeshellarg($domain);
    $cmdarg3=escapeshellarg($maildir);
-   $command=$CONF[$confpar]." $cmdarg1 $cmdarg2 $cmdarg3";
+   if ($quota <= 0) $quota = 0;
+   $cmdarg4=escapeshellarg($quota);
+   $command=$CONF[$confpar]." $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
    $retval=0;
    $output=array();
    $firstline='';
@@ -1743,6 +1745,44 @@ function mailbox_postcreation($username,$domain,$maildir)
 
    return TRUE;
 }
+
+/*
+   Called after a mailbox has been altered in the DBMS.
+   Returns: boolean.
+ */
+function mailbox_postedit($username,$domain,$maildir,$quota)
+{
+   if (empty($username) || empty($domain) || empty($maildir))
+   {
+      trigger_error('In '.__FUNCTION__.': empty username, domain and/or maildir parameter',E_USER_ERROR);
+      return FALSE;
+   }
+
+   global $CONF;
+   $confpar='mailbox_postedit_script';
+
+   if (!isset($CONF[$confpar]) || empty($CONF[$confpar])) return TRUE;
+
+   $cmdarg1=escapeshellarg($username);
+   $cmdarg2=escapeshellarg($domain);
+   $cmdarg3=escapeshellarg($maildir);
+   if ($quota <= 0) $quota = 0;
+   $cmdarg4=escapeshellarg($quota);
+   $command=$CONF[$confpar]." $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
+   $retval=0;
+   $output=array();
+   $firstline='';
+   $firstline=exec($command,$output,$retval);
+   if (0!=$retval)
+   {
+      error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+      print '<p>WARNING: Problems running mailbox postedit script!</p>';
+      return FALSE;
+   }
+
+   return TRUE;
+}
+
 
 /*
    Called after a mailbox has been deleted in the DBMS.
