@@ -33,13 +33,10 @@ relay_domains = proxy:mysql:/usr/local/etc/postfix/mysql_relay_domains_maps.cf
 You will need to put this into a text file for postfix to pickup.
 
 user = postfix
-password = postfix
+password = password
 hosts = localhost
 dbname = postfix
-table = domain
-select_field = domain
-where_field = domain
-additional_conditions = and backupmx = '1'
+query = SELECT domain FROM domain WHERE domain = '%s' AND backupmx = '1'
 
 
 3. Restart Postfix
