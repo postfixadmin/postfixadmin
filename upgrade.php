@@ -1,5 +1,7 @@
 <?php
-require_once('common.php');
+if(!defined('POSTFIXADMIN')) {
+	require_once('common.php');
+}
 
 // vim ts=4:sw=4:et
 # Note: run with upgrade.php?debug=1 to see all SQL error messages
