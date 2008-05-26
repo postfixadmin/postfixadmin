@@ -953,3 +953,22 @@ function upgrade_362_pgsql() {
     db_query_parsed("CREATE INDEX alias_domain_active ON $table_alias_domain(alias_domain,active)");
     db_query_parsed("COMMENT ON TABLE $table_alias_domain IS 'Postfix Admin - Domain Aliases'");
 }
+
+/**
+ * Change description fields to UTF-8
+ */
+function upgrade_373_mysql() { # MySQL only
+    $table_domain = table_by_key ('domain');
+    $table_mailbox = table_by_key('mailbox');
+
+    $all_sql = split("\n", trim("
+        ALTER TABLE `$table_domain`  CHANGE `description`  `description` VARCHAR( 255 ) {UTF-8}  NOT NULL
+        ALTER TABLE `$table_mailbox` CHANGE `name`         `name`        VARCHAR( 255 ) {UTF-8}  NOT NULL
+    "));
+
+    foreach ($all_sql as $sql) {
+        $result = db_query_parsed($sql);
+    }
+}
+
+
