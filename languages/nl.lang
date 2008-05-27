@@ -30,7 +30,7 @@ $PALANG['pLogin_login_users'] = 'Gebruikers klik hier om in te loggen.';
 $PALANG['pMenu_main'] = 'Start';
 $PALANG['pMenu_overview'] = 'Overzicht';
 $PALANG['pMenu_create_alias'] = 'Alias toevoegen';
-$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
+$PALANG['pMenu_create_alias_domain'] = 'Domein alias toevoegen';
 $PALANG['pMenu_create_mailbox'] = 'Mailbox toevoegen';
 $PALANG['pMenu_fetchmail'] = 'Externe email ophalen';
 $PALANG['pMenu_sendmail'] = 'Verstuur E-mail';
@@ -53,21 +53,21 @@ $PALANG['pOverview_title'] = ':: Gedefinieerde domeinen';
 $PALANG['pOverview_up_arrow'] = 'Naar Boven';
 $PALANG['pOverview_right_arrow'] = 'Volgende Pagina';
 $PALANG['pOverview_left_arrow'] = 'Vorige Pagina';
-$PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases'; # XXX
+$PALANG['pOverview_alias_domain_title'] = ':: Domein aliasen';
 $PALANG['pOverview_alias_title'] = ':: Alias';
-$PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
+$PALANG['pOverview_mailbox_title'] = ':: Mailboxen';
 $PALANG['pOverview_button'] = 'Ga';
 $PALANG['pOverview_welcome'] = 'Overzicht voor ';
-$PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_aliases'] = 'Alias domeinen';
+$PALANG['pOverview_alias_domain_target'] = '%s is een alias voor domein:';
 $PALANG['pOverview_alias_alias_count'] = 'Aliasen';
 $PALANG['pOverview_alias_mailbox_count'] = 'Mailboxes';
 $PALANG['pOverview_alias_address'] = 'Van';
 $PALANG['pOverview_alias_goto'] = 'Naar';
 $PALANG['pOverview_alias_modified'] = 'Laatst Bewerkt';
-$PALANG['pOverview_alias_domain_modified'] = 'Last Modified'; # XXX
+$PALANG['pOverview_alias_domain_modified'] = 'Laatst Bewerkt';
 $PALANG['pOverview_alias_active'] = 'Actief';
-$PALANG['pOverview_alias_domain_active'] = 'Active'; # XXX
+$PALANG['pOverview_alias_domain_active'] = 'Actief';
 $PALANG['pOverview_alias_edit'] = 'Alias';
 $PALANG['and_x_more'] = '[en %s meer...]';
 $PALANG['pOverview_mailbox_username'] = 'e-mail';
@@ -80,8 +80,8 @@ $PALANG['pOverview_vacation_option'] = 'Activeer automatisch beantwoorden';
 
 $PALANG['pOverview_get_domain'] = 'Domein';
 $PALANG['pOverview_get_aliases'] = 'Aliassen';
-$PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
-$PALANG['pOverview_get_mailboxes'] = 'Mailboxes';
+$PALANG['pOverview_get_alias_domains'] = 'Domein aliasen';
+$PALANG['pOverview_get_mailboxes'] = 'Mailboxen';
 $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Laatst bewerkt';
 
@@ -89,23 +89,23 @@ $PALANG['pDelete_delete_error'] = '<span class="error_msg">Mislukt te verwijdere
 $PALANG['pDelete_delete_success'] = '%s verwijdert.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Niet in staat mailbox te verwijderen ';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Dit is niet uw domein ';
-$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
+$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">Dit is niet uw domein ';
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Niet in staat alias te verwijderen ';
-$PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
-$PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
-$PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
-$PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
-$PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
-$PALANG['pCreate_alias_domain_active'] = 'Active'; # XXX
-$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
-$PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
-$PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
-$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
-$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
+$PALANG['pCreate_alias_domain_welcome'] = 'Spiegel een van uw domeinen naar een ander domein.';
+$PALANG['pCreate_alias_domain_alias'] = 'Alias domein';
+$PALANG['pCreate_alias_domain_alias_text'] = 'Het domein waar mail voor binnen komt.';
+$PALANG['pCreate_alias_domain_target'] = 'Doel domein';
+$PALANG['pCreate_alias_domain_target_text'] = 'Domein waar de mail naar toe moet.';
+$PALANG['pCreate_alias_domain_active'] = 'Actief';
+$PALANG['pCreate_alias_domain_button'] = 'Voeg alias domein toe';
+$PALANG['pCreate_alias_domain_error1'] = 'U heeft niet genoeg rechten om de huidige configuratie te maken.';
+$PALANG['pCreate_alias_domain_error2'] = 'De huidige configuratie is ongeldig, slecteer een andere!';
+$PALANG['pCreate_alias_domain_error3'] = 'Fout bij vullen database.';
+$PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de alias domein tabel!';
 
 $PALANG['pCreate_alias_welcome'] = 'Maak een nieuw alias aan voor uw domein.';
 $PALANG['pCreate_alias_address'] = 'Alias';
-$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">De ALIAS is niet geldig!</span>';
+$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">De Alias is niet geldig!</span>';
 $PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Dit e-mail aders bestaat al, kies aub een andere.</span>';
 $PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">U bezit het maximum aantal aliassen.</span>';
 $PALANG['pCreate_alias_goto'] = 'Naar';
@@ -125,7 +125,7 @@ $PALANG['pEdit_alias_active'] = 'Actief';
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">U heeft geen Naar opgegeven.</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Het e-mail adres wat u opgaf is niet geldig: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Dit domein is niet van u: ';
-$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
+$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Niet in staat de domein alias te bewerken!</span>';
 $PALANG['pEdit_alias_forward_and_store'] = 'Lever af op de lokale mailbox.';
 $PALANG['pEdit_alias_forward_only'] = 'Alleen op opgegeven email adres afleveren.';
 $PALANG['pEdit_alias_button'] = 'Bewerk Alias';
@@ -195,12 +195,12 @@ $PALANG['pViewlog_action_delete_mailbox'] = 'Mailbox verwijdert';
 $PALANG['pViewlog_action_edit_mailbox'] = 'Mailbox bewerkt';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'status actieve mailbox bewerkt';
 $PALANG['pViewlog_action_create_alias'] = 'alias toegevoegd';
-$PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
+$PALANG['pViewlog_action_create_alias_domain'] = 'maak domein alias';
 $PALANG['pViewlog_action_delete_alias'] = 'alias verwijdert';
-$PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
+$PALANG['pViewlog_action_delete_alias_domain'] = 'verwijder alias domein';
 $PALANG['pViewlog_action_edit_alias'] = 'alias bewerkt';
 $PALANG['pViewlog_action_edit_alias_state'] = 'status actieve alias bewerkt';
-$PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active'; # XXX
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'status actieve domein alias bewerkt';
 $PALANG['pViewlog_action_edit_password'] = 'wachtwoord aangepast';
 
 $PALANG['pViewlog_button'] = 'Ga';
@@ -214,8 +214,8 @@ $PALANG['pSendmail_subject'] = 'Onderwerp';
 $PALANG['pSendmail_subject_text'] = 'Welkom';
 $PALANG['pSendmail_body'] = 'Inhoud';
 $PALANG['pSendmail_button'] = 'Verstuur bericht';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Mislukt om mailbox te maken!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
-$PALANG['pSendmail_result_success'] = 'De mailbox is aangemaakt.'; # XXX text change - new: Email sent!
+$PALANG['pSendmail_result_error'] = '<span class="error_msg">Mislukt om mail te versturen!</span>';
+$PALANG['pSendmail_result_success'] = 'E-mail verstuurd!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Beheerders overzicht';
 $PALANG['pAdminMenu_list_domain'] = 'Domein overzicht';
@@ -277,7 +277,7 @@ $PALANG['pAdminCreate_domain_button'] = 'Voeg Domein toe';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Mislukt om het domein toe te voegen.</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd!';
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Niet in staat domein te verwijderen!</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Niet in staat domein alias te verwijderen!</span>';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Bewerk een domein';
 $PALANG['pAdminEdit_domain_domain'] = 'Domein';
@@ -367,8 +367,8 @@ $PALANG['pBroadcast_name'] = 'Uw naam';
 $PALANG['pBroadcast_subject'] = 'Onderwerp';
 $PALANG['pBroadcast_message'] = 'Bericht';
 $PALANG['pBroadcast_send'] = 'Verzend bericht';
-$PALANG['pBroadcast_success'] = 'Uw broadcast bericht is verzonden.';
-$PALANG['pAdminMenu_broadcast_message'] = 'Broadcast bericht'; # XXX partly translated
+$PALANG['pBroadcast_success'] = 'Uw algemene bericht is verzonden.';
+$PALANG['pAdminMenu_broadcast_message'] = 'Algemeen bericht';
 $PALANG['pBroadcast_error_empty'] = 'De velden Naam, Onderwerp en Bericht mogen niet leeg zijn !';
 $PALANG['pStatus_undeliverable'] = 'Misschien niet af te leveren ';
 $PALANG['pStatus_custom'] = 'Bezorgen op ';
