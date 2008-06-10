@@ -52,6 +52,7 @@ $f_pg_connect = function_exists ("pg_connect");
 $f_session_start = function_exists ("session_start");
 $f_preg_match = function_exists ("preg_match");
 $f_mb_encode_mimeheader = function_exists ("mb_encode_mimeheader");
+$f_imap_open = function_exists ("imap_open");
 
 $file_config = file_exists (realpath ("./config.inc.php"));
 
@@ -262,6 +263,27 @@ else
    print "To install multibyte string support, install php$phpversion-mbstring</li>\n";
    $error =+ 1;
 }
+
+
+//
+// Imap functions
+//
+if ( $f_imap_open == 1)
+{
+   print "<li>Depends on: IMAP functions - OK</li>\n";
+}
+else
+{
+   print "<li><b>Warning: Depends on: IMAP functions - NOT FOUND</b><br />\n";
+   print "To install IMAP support, install php$phpversion-imap<br />\n";
+   print "Without IMAP support, you won't be able to create subfolders when creating mailboxes.</li>\n";
+#   $error =+ 1;
+}
+
+
+
+
+
 
 print "</ul>";
 
