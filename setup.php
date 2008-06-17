@@ -80,7 +80,9 @@ if ($f_apache_get_version == 1)
 }
 else
 {
-   print "<li><b>Unable to check for Apache version. (missing function: apache_get_version())<br />(Ignore this warning if you use another webserver software.)</b></li>\n";
+   # not running on Apache.
+   # However postfixadmin _is_ running, so obviously we are on a supported webserver ;-))
+   # No need to confuse the user with a warning.
 }
 
 print "</ul>";

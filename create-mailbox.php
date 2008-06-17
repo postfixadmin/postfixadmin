@@ -278,13 +278,6 @@ TODO: this is the end of /create-mailbox.php code segment
  */
       $tDomain = $fDomain;
 
-      if (create_mailbox_subfolders($fUsername,$fPassword))
-      {
-         $tMessage = $PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername";
-      } else {
-         $tMessage = $PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername";
-      }
-
       if ($CONF['generate_password'] == "YES")
       {
          $tMessage .= " / $fPassword)</br />";
@@ -326,6 +319,14 @@ TODO: this is the end of /create-mailbox.php code segment
             $tMessage .= "<br />" . $PALANG['pSendmail_result_success'] . "<br />";
          }
       }
+
+      if (create_mailbox_subfolders($fUsername,$fPassword))
+      {
+         $tMessage = $PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername";
+      } else {
+         $tMessage = $PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername";
+      }
+
       }
    }
 }
