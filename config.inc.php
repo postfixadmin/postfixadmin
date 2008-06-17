@@ -238,7 +238,7 @@ Hi,
 Welcome to your new account.
 EOM;
 
-// When creating mailboxes, check that the domain-part of the
+// When creating mailboxes or aliases, check that the domain-part of the
 // address is legal by performing a name server look-up.
 $CONF['emailcheck_resolve_domain']='YES';
 
@@ -280,6 +280,13 @@ $CONF['show_custom_colors']=array("lightgreen","lightblue");
 // operating system features (such as SELinux) or limitations
 // prevent the web-server from executing external scripts.
 // $CONF['mailbox_postcreation_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postcreation.sh';
+
+// Optional:
+// Script to run after alteration of mailboxes.
+// Note that this may fail if PHP is run in "safe mode", or if
+// operating system features (such as SELinux) or limitations
+// prevent the web-server from executing external scripts.
+// $CONF['mailbox_postedit_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postedit.sh';
 
 // Optional:
 // Script to run after deletion of mailboxes.

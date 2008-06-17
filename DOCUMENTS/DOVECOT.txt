@@ -38,8 +38,11 @@ db_passwd = postfix
 db_client_flags = 0
 
 # Default password scheme.
-
-default_pass_scheme = PLAIN-MD5
+# depends on your $CONF['encrypt'] setting:
+# md5crypt  -> MD5-CRYPT
+# md5       -> PLAIN-MD5
+# cleartext -> PLAIN
+default_pass_scheme = MD5-CRYPT
 
 # Query to retrieve password.
 

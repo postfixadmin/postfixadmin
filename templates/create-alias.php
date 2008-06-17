@@ -8,7 +8,7 @@
    <tr>
       <td><?php print $PALANG['pCreate_alias_address']; ?></td>
       <td><input class="flat" type="text" name="fAddress" value="<?php print $tAddress; ?>" /></td>
-      <td>
+      <td>@
       <select class="flat" name="fDomain">
       <?php
       for ($i = 0; $i < sizeof ($list_domains); $i++)

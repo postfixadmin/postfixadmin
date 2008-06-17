@@ -263,7 +263,7 @@ TODO: this is the start of /create-mailbox code segment that was originally used
  */
 
       $result = db_query ("INSERT INTO $table_mailbox (username,password,name,maildir,quota,domain,created,modified,active) VALUES ('$fUsername','$password','$fName','$maildir','$quota','$fDomain',NOW(),NOW(),'$sqlActive')");
-      if ($result['rows'] != 1 || !mailbox_postcreation($fUsername,$fDomain,$maildir))
+      if ($result['rows'] != 1 || !mailbox_postcreation($fUsername,$fDomain,$maildir, $quota))
       {
          $tDomain = $fDomain;
          $tMessage .= $PALANG['pCreate_mailbox_result_error'] . "<br />($fUsername)<br />";
