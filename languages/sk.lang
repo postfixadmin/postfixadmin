@@ -29,6 +29,7 @@ $PALANG['pLogin_login_users'] = 'Vstup do u&#382;&iacute;vate&#318;skej sekcie.'
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Preh&#318;ad';
 $PALANG['pMenu_create_alias'] = 'Prida&#357; alias';
+$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
 $PALANG['pMenu_create_mailbox'] = 'Prida&#357; schr&aacute;nku';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'Posla&#357; email';
@@ -51,16 +52,21 @@ $PALANG['pOverview_title'] = ':: Definovan&eacute; dom&eacute;ny';
 $PALANG['pOverview_up_arrow'] = 'Go Top'; # XXX
 $PALANG['pOverview_right_arrow'] = 'Nasleduj&uacute;ca strana';
 $PALANG['pOverview_left_arrow'] = 'Predch&aacute;dzaj&uacute;ca strana';
+$PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases'; # XXX
 $PALANG['pOverview_alias_title'] = ':: Aliasy';
 $PALANG['pOverview_mailbox_title'] = ':: Mailov&eacute; schr&aacute;nky (Mailboxes)';
 $PALANG['pOverview_button'] = 'Prejs&#357;';
 $PALANG['pOverview_welcome'] = 'Preh&#318;ad pre dom&eacute;nu ';
+$PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
 $PALANG['pOverview_alias_alias_count'] = 'Aliasov';
 $PALANG['pOverview_alias_mailbox_count'] = 'Schr&aacute;nok';
 $PALANG['pOverview_alias_address'] = 'Od';
 $PALANG['pOverview_alias_goto'] = 'Pre';
 $PALANG['pOverview_alias_modified'] = 'Naposledy zmenen&eacute;';
+$PALANG['pOverview_alias_domain_modified'] = 'Last Modified'; # XXX
 $PALANG['pOverview_alias_active'] = 'Active'; # XXX
+$PALANG['pOverview_alias_domain_active'] = 'Active'; # XXX
 $PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'Email';
@@ -73,6 +79,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 
 $PALANG['pOverview_get_domain'] = 'Dom&eacute;na';
 $PALANG['pOverview_get_aliases'] = 'Aliasy';
+$PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Schr&aacute;nky';
 $PALANG['pOverview_get_quota'] = 'Miesto pre schr&aacute;nku (MB)';
 $PALANG['pOverview_get_modified'] = 'Naposledy zmenen&eacute;';
@@ -81,7 +88,19 @@ $PALANG['pDelete_delete_error'] = '<span class="error_msg">Nie je mo&#382;n&eacu
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">T&aacuteto dom&eacute;na nie je va&scaron;a ';
+$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
+$PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
+$PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
+$PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
+$PALANG['pCreate_alias_domain_active'] = 'Active'; # XXX
+$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
+$PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
+$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
+$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Vytvori&#357; nov&yacute; alias vo va&scaron;ej dom&eacute;ne.';
 $PALANG['pCreate_alias_address'] = 'Alias';
@@ -105,6 +124,7 @@ $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Nezadali ste cie&#318;</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Emailov&aacute; adresa ktor&uacute; ste zadali nie je platn&aacute;: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">T&aacute;to dom&eacute;na nie je va&scaron;a: ';
+$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = 'Upravit';
@@ -174,9 +194,12 @@ $PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox'; # XXX
 $PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox'; # XXX
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active'; # XXX
 $PALANG['pViewlog_action_create_alias'] = 'create alias'; # XXX
+$PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'delete alias'; # XXX
+$PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = 'edit alias'; # XXX
 $PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active'; # XXX
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = 'Prejs&#357;';
@@ -253,6 +276,7 @@ $PALANG['pAdminCreate_domain_button'] = 'Prida&#357; dom&eacute;nu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Nepodarilo sa prida&#357; dom&eacute;nu!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Dom&eacute;na bola pridan&aacute;!';
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Upravi&#357; dom&eacute;nu';
 $PALANG['pAdminEdit_domain_domain'] = 'Dom&eacute;na';

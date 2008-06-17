@@ -71,6 +71,16 @@ function update_string_list() {
 } # end update_string_list()
 
 
+function forcepatch() {
+	for i in `seq 1 10` ; do 
+		for file in $filelist ; do
+			test "$file" = "en.lang" && { echo "*** skipping en.lang ***"; continue ; } >&2
+			"$0" "$file" | head -n7  | recountdiff | patch "$file"
+		done
+	done
+} # end forcepatch
+
+
 function rename_string() {
 	for file in $filelist ; do
 		line="$(grep "PALANG\['$rename_old'\]" "$file")" || {
@@ -175,7 +185,7 @@ EOF
 
 
 usage() {
-	echo '
+echo '
     Usage:
     ~~~~~~
 
@@ -205,6 +215,16 @@ usage() {
 	Useful if a string needs to be translated again.
 
 
+'"$0"' --forcepatch [foo.lang [bar.lang [...] ] ]
+
+    Similar to --patch, but applies the patch line by line. Useful if --patch
+    fails because of empty lines etc., but much slower.
+
+    --forcepatch patches 10 lines per run. When you only see messages like
+    "patch: **** Only garbage was found in the patch input.", take it as 
+    success message :-)  (no difference remaining)
+
+
 '"$0"' --stats
 
     Print translation statistics to postfixadmin-languages.txt
@@ -228,6 +248,7 @@ Common parameters:
 
 notext=0 # output full lines by default
 patch=0  # do not patch by default
+forcepatch=0  # no forcepatch by default
 nocleanup=0 # don't delete tempfiles
 rename=0 # rename a string
 stats=0  # create translation statistics
@@ -269,6 +290,9 @@ while [ -n "$1" ] ; do
 			echo "$comment" | grep '^[a-z_-]*\.lang$' && comment='' # error out on *.lang - probably a filename
 			test -z "$comment" && { echo '--addcomment needs two parameters' >&2 ; exit 1 ; }
 			;;
+		--forcepatch)
+			forcepatch=1
+			;;
 		--stats)
 			stats=1
 			;;
@@ -290,6 +314,7 @@ test "$filelist" = "" && filelist="`ls -1 *.lang`"
 
 test "$addcomment" = 1 && { addcomment ; cleanup ; exit 0 ; }
 test "$rename" = 1 && { rename_string ; cleanup ; exit 0 ; }
+test "$forcepatch" = 1 && { forcepatch ; cleanup ; exit 0 ; }
 
 test "$stats" = 1 && { statistics ; exit 0 ; }
 

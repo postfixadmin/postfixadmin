@@ -31,6 +31,7 @@ $PALANG['pMenu_main'] = 'Menu principal';
 
 $PALANG['pMenu_overview'] = 'Vue d\'ensemble';
 $PALANG['pMenu_create_alias'] = 'Ajouter un alias';
+$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
 $PALANG['pMenu_create_mailbox'] = 'Ajouter un compte courriel';
 $PALANG['pMenu_fetchmail'] = 'Récupérer le courrier';
 $PALANG['pMenu_sendmail'] = 'Envoyer un courriel';
@@ -53,16 +54,21 @@ $PALANG['pOverview_title'] = ':: Domaines définis';
 $PALANG['pOverview_up_arrow'] = 'Remonter';
 $PALANG['pOverview_right_arrow'] = 'Page suivante';
 $PALANG['pOverview_left_arrow'] = 'Page précédente';
+$PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases'; # XXX
 $PALANG['pOverview_alias_title'] = ':: Alias';
 $PALANG['pOverview_mailbox_title'] = ':: Comptes courriels';
 $PALANG['pOverview_button'] = 'Aller';
 $PALANG['pOverview_welcome'] = 'Vue d\'ensemble pour ';
+$PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
 $PALANG['pOverview_alias_alias_count'] = 'Alias';
 $PALANG['pOverview_alias_mailbox_count'] = 'Comptes courriels';
 $PALANG['pOverview_alias_address'] = 'De';
 $PALANG['pOverview_alias_goto'] = 'A';
 $PALANG['pOverview_alias_modified'] = 'Dernière Modification';
+$PALANG['pOverview_alias_domain_modified'] = 'Last Modified'; # XXX
 $PALANG['pOverview_alias_active'] = 'Activé';
+$PALANG['pOverview_alias_domain_active'] = 'Active'; # XXX
 $PALANG['pOverview_alias_edit'] = 'Alias';
 $PALANG['and_x_more'] = '[et %s en plus...]';
 $PALANG['pOverview_mailbox_username'] = 'courriel';
@@ -75,6 +81,7 @@ $PALANG['pOverview_vacation_option'] = 'Configurer le répondeur';
 
 $PALANG['pOverview_get_domain'] = 'Domaine';
 $PALANG['pOverview_get_aliases'] = 'Alias';
+$PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Comptes courriels';
 $PALANG['pOverview_get_quota'] = 'Limite compte courriels (MB)';
 $PALANG['pOverview_get_modified'] = 'Dernière Modification';
@@ -83,7 +90,19 @@ $PALANG['pDelete_delete_error'] = '<span class="error_msg">Impossible d\'effacer
 $PALANG['pDelete_delete_success'] = '%s supprimé.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Impossible d\'effacer ce compte courriel';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Ce domaine n\'est pas le votre ';
+$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Impossible d\'effacer cet alias ';
+$PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
+$PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
+$PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
+$PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
+$PALANG['pCreate_alias_domain_active'] = 'Active'; # XXX
+$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
+$PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
+$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
+$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 $PALANG['pCreate_alias_welcome'] = 'Créer un nouvel alias pour votre domaine.';
 $PALANG['pCreate_alias_address'] = 'Alias';
 $PALANG['pCreate_alias_address_text_error1'] = '<br><span class="error_msg">Cet ALIAS n\'est pas valide!</span>';
@@ -106,6 +125,7 @@ $PALANG['pEdit_alias_active'] = 'Activé';
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Vous devez entrer quelques choses dans le champ À</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">L\'adresse courriel que vous avez entré est invalide: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Ce domaine n\'est pas le votre: ';
+$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Transferer une copie.';
 $PALANG['pEdit_alias_forward_only'] = 'Transferer les messages sans conserver de copie.';
 $PALANG['pEdit_alias_button'] = 'Modifier cet alias';
@@ -175,9 +195,12 @@ $PALANG['pViewlog_action_delete_mailbox'] = 'supprimer un compte courriel';
 $PALANG['pViewlog_action_edit_mailbox'] = 'éditer un compte courriel';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'activer un compte courriel';
 $PALANG['pViewlog_action_create_alias'] = 'créer un alias';
+$PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'supprimer un alias';
+$PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = 'éditer un alias';
 $PALANG['pViewlog_action_edit_alias_state'] = 'activer un alias';
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active'; # XXX
 $PALANG['pViewlog_action_edit_password'] = 'changer le mot de passe';
 
 $PALANG['pViewlog_button'] = 'Aller';
@@ -255,6 +278,7 @@ $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Impossibl
 $PALANG['pAdminCreate_domain_result_success'] = 'Le domaine a été ajouté!';
 
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Impossible de supprimer le domain!</span>';
+$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Modifier un domaine';
 $PALANG['pAdminEdit_domain_domain'] = 'Domaine';
