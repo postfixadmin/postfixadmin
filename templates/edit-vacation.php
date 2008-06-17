@@ -20,12 +20,12 @@ window.location="<?php print $fCanceltarget; ?>"
    </tr>
    <tr>
       <td><?php print $PALANG['pUsersVacation_subject'] . ":"; ?></td>
-      <td><textarea class="flat" cols="60" name="fSubject" ><?php print htmlentities($tSubject, ENT_QUOTES, 'UTF-8'); ?></textarea></td>
+      <td><textarea class="flat" cols="60" name="fSubject" ><?php print htmlentities(stripslashes($tSubject), ENT_QUOTES, 'UTF-8'); ?></textarea></td>
       <td>&nbsp;</td>
    </tr>
    <tr>
       <td><?php print $PALANG['pUsersVacation_body'] . ":"; ?></td>
-      <td><textarea class="flat" rows="10" cols="60" name="fBody" ><?php print htmlentities($tBody, ENT_QUOTES , 'UTF-8'); ?></textarea></td>
+      <td><textarea class="flat" rows="10" cols="60" name="fBody" ><?php print htmlentities(stripslashes($tBody), ENT_QUOTES , 'UTF-8'); ?></textarea></td>
       <td>&nbsp;</td>
    </tr>
    <tr>

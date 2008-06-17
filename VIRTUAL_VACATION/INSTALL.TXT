@@ -23,7 +23,7 @@ You need to have the following installed to be able to use Virtual Vacation.
 
 About Virtual Vacation
 ----------------------
-Virual Vacation is today done with a local shell account that can receive
+Virtual Vacation is today done with a local shell account that can receive
 email. The email is then handled by a Perl script which sends the Vacation
 message back to the sender.
 
