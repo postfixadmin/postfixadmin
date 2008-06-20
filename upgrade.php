@@ -305,11 +305,11 @@ function upgrade_1_mysql() {
 
     $sql[] = "
     CREATE TABLE {IF_NOT_EXISTS} $vacation ( 
-        email varchar(255) NOT NULL default '', 
-        subject varchar(255) NOT NULL default '', 
+        email varchar(255) NOT NULL , 
+        subject varchar(255) NOT NULL, 
         body text NOT NULL, 
         cache text NOT NULL, 
-        domain varchar(255) NOT NULL default '', 
+        domain varchar(255) NOT NULL , 
         created datetime NOT NULL default '0000-00-00 00:00:00', 
         active tinyint(4) NOT NULL default '1', 
         PRIMARY KEY (email), 
@@ -432,9 +432,9 @@ function upgrade_2_pgsql() {
         db_query_parsed('
             CREATE TABLE ' . table_by_key('vacation') . ' (
                 email character varying(255) PRIMARY KEY,
-                subject character varying(255) NOT NULL DEFAULT \'\',
-                body text NOT NULL DEFAULT \'\',
-                cache text NOT NULL DEFAULT \'\',
+                subject character varying(255) NOT NULL,
+                body text NOT NULL ,
+                cache text NOT NULL ,
                 "domain" character varying(255) NOT NULL REFERENCES "domain",
                 created timestamp with time zone DEFAULT now(),
                 active boolean DEFAULT true NOT NULL
@@ -735,11 +735,11 @@ function upgrade_5_mysql() {
 
     $result = db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('vacation') . "` (
-            `email` varchar(255) NOT NULL default '',
-            `subject` varchar(255) NOT NULL default '',
-            `body` text NOT NULL default '',
-            `cache` text NOT NULL default '',
-            `domain` varchar(255) NOT NULL default '',
+            `email` varchar(255) NOT NULL ,
+            `subject` varchar(255) NOT NULL,
+            `body` text NOT NULL,
+            `cache` text NOT NULL,
+            `domain` varchar(255) NOT NULL,
             `created` datetime NOT NULL default '0000-00-00 00:00:00',
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`email`),
