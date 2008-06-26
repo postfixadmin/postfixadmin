@@ -29,6 +29,7 @@ $PALANG['pLogin_login_users'] = '普通用戶點擊這裡進入用戶控制面�
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = '概覽';
 $PALANG['pMenu_create_alias'] = '新建別名';
+$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
 $PALANG['pMenu_create_mailbox'] = '新建郵箱';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = '發送郵件';
@@ -51,16 +52,21 @@ $PALANG['pOverview_title'] = ':: 網域';
 $PALANG['pOverview_up_arrow'] = '返回頂端';
 $PALANG['pOverview_right_arrow'] = '下一頁';
 $PALANG['pOverview_left_arrow'] = '上一頁';
+$PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases'; # XXX
 $PALANG['pOverview_alias_title'] = ':: 別名';
 $PALANG['pOverview_mailbox_title'] = ':: 郵箱';
 $PALANG['pOverview_button'] = '執行';
 $PALANG['pOverview_welcome'] = '瀏覽 ';
+$PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
 $PALANG['pOverview_alias_alias_count'] = '別名';
 $PALANG['pOverview_alias_mailbox_count'] = '郵箱';
 $PALANG['pOverview_alias_address'] = '前往';
 $PALANG['pOverview_alias_goto'] = '轉到';
 $PALANG['pOverview_alias_modified'] = '最後修改日期';
+$PALANG['pOverview_alias_domain_modified'] = 'Last Modified'; # XXX
 $PALANG['pOverview_alias_active'] = 'Active'; # XXX
+$PALANG['pOverview_alias_domain_active'] = 'Active'; # XXX
 $PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = '郵件地址';
@@ -73,6 +79,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 
 $PALANG['pOverview_get_domain'] = '網域';
 $PALANG['pOverview_get_aliases'] = '別名';
+$PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = '郵箱';
 $PALANG['pOverview_get_quota'] = '郵箱限制 (MB)';
 $PALANG['pOverview_get_modified'] = '最後修改日期';
@@ -81,7 +88,19 @@ $PALANG['pDelete_delete_error'] = '<span class="error_msg">不能刪除本記錄
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">你沒有該網域的管理權限';
+$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
 $PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
+$PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
+$PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
+$PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
+$PALANG['pCreate_alias_domain_active'] = 'Active'; # XXX
+$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
+$PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
+$PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
+$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
+$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = '在你的網域中新建一個別名.';
 $PALANG['pCreate_alias_address'] = '別名';
@@ -105,6 +124,7 @@ $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">你沒有填寫收信人</span>';
 $PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">郵件地址非法: ';
 $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">你沒有該網域的管理權限: ';
+$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = '編輯別名';
@@ -174,9 +194,12 @@ $PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox'; # XXX
 $PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox'; # XXX
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'edit mailbox active'; # XXX
 $PALANG['pViewlog_action_create_alias'] = 'create alias'; # XXX
+$PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'delete alias'; # XXX
+$PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = 'edit alias'; # XXX
 $PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active'; # XXX
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = '執行';
@@ -247,12 +270,13 @@ $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = 禁用 | 0 = 無�
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminCreate_domain_defaultaliases'] = '增加默認別名';
-$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
+$PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = '備份郵件服務器';
 $PALANG['pAdminCreate_domain_button'] = '新增';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">新增網域失敗!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = '新增網域成功!';
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = '修改網域';
 $PALANG['pAdminEdit_domain_domain'] = '網域名';
@@ -392,4 +416,3 @@ $PALANG['pFetchmail_desc_returned_text']    = 'Text message from last polling'; 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
-
