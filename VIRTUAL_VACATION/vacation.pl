@@ -83,6 +83,9 @@ my $db_username = 'vacation';
 my $db_password = '';
 my $db_name     = 'postfix';
 
+# smtp server used to send vacation e-mails
+my $smtp_server = 'localhost';
+
 my $syslog = 1;
 
 # path to logfile, when empty logging is supressed
@@ -198,6 +201,7 @@ sub do_mail {
    my $vacation_subject = encode_mimewords($subject, 'Encoding'=> 'q', 'Charset'=>'utf-8', 'Field'=>'Subject');
    my %mail;
    %mail = (
+      'smtp' => $smtp_server,
       'Subject' => $vacation_subject,
       'From' => $from,
       'To' => $to,
