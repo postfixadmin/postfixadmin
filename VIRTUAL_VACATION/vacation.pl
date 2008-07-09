@@ -36,6 +36,9 @@
 # 2007-08-20  Martin Ambroz <amsys@trustica.cz>
 #             Added initial Unicode support
 #
+# 2008-05-09  Fabio Bonelli <fabiobonelli@libero.it>
+#             Properly handle failed queries to vacation_notification.
+#             Fixed log reporting.
 #
 # Requirements:
 # You need to have the DBD::Pg or DBD::mysql perl-module installed.
@@ -151,7 +154,7 @@ sub already_notified {
    my $query = qq{INSERT into vacation_notification (on_vacation,notified) values (?,?)};
    my $stm = $dbh->prepare($query);
    if (!$stm) {
-      do_log('',$to,$from,'','',"Could not prepare query $query");
+      do_log('',$to,$from,'',"Could not prepare query $query");
       return 1;
    }
    $stm->{'PrintError'} = 0;
@@ -161,8 +164,11 @@ sub already_notified {
 
 # Violation of a primay key constraint may happen here, and that's
 # fine. All other error conditions are not fine, however.
-      if (!$e =~ /_pkey/) {
-         do_log('',$to,$from,'','',"Unexpected error: '$e' from query '$query'");
+      if ($e !~ /_pkey/) {
+         do_log('',$to,$from,'',"Unexpected error: '$e' from query '$query'");
+
+         # Let's play safe and notify anyway
+         return 0;
       }
       return 1;
    }
@@ -176,7 +182,7 @@ sub do_log {
       open (SYSLOG, "|/usr/bin/logger -p mail.info -t Vacation") or die ("Unable to open logger"); 
       binmode(SYSLOG, ':utf8');
       if ($logmessage) {
-         printf SYSLOG "Orig-To: %s From: %s MessageID: %s Subject: %s. Log message: $%s", $to, $from, $messageid, $subject, $logmessage;
+         printf SYSLOG "Orig-To: %s From: %s MessageID: %s Subject: %s. Log message: %s", $to, $from, $messageid, $subject, $logmessage;
       } else {
          printf SYSLOG "Orig-To: %s From: %s MessageID: %s Subject: %s", $to, $from, $messageid, $subject;
       }
@@ -218,19 +224,19 @@ sub do_mail {
 
 sub panic {
    my ($arg) = @_;
-   do_log('','','','','',"$arg");
+   do_log('','','','',"$arg");
    exit(0);
 }
 
 sub panic_prepare {
    my ($arg) = @_;
-   do_log('','','','','',"Could not prepare '$arg'");
+   do_log('','','','',"Could not prepare '$arg'");
    exit(0);
 }
 
 sub panic_execute {
    my ($arg,$param) = @_;
-   do_log('','','','','',"Could not execute '$arg' with parameters $param");
+   do_log('','','','',"Could not execute '$arg' with parameters $param");
    exit(0);
 }
 
@@ -319,6 +325,7 @@ sub send_vacation_email {
 my ($from, $to, $cc, $subject, $messageid, $lastheader);
 
 $subject='';
+$spam = 0;
 
 # Take headers apart
 while (<STDIN>) {
