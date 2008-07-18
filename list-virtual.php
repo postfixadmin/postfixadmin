@@ -82,6 +82,7 @@ if ('pgsql'==$CONF['database_type'])
    $query = "SELECT alias_domain,target_domain,extract(epoch from modified) as modified,active FROM $table_alias_domain WHERE target_domain='$fDomain' ORDER BY alias_domain LIMIT $page_size OFFSET $fDisplay";
 }
 $result = db_query ($query);
+$tAliasDomains = array();
 if ($result['rows'] > 0)
 {
    while ($row = db_array ($result['result']))
@@ -101,6 +102,7 @@ if ('pgsql'==$CONF['database_type'])
    $query = "SELECT alias_domain,target_domain,extract(epoch from modified) as modified,active FROM $table_alias_domain WHERE alias_domain='$fDomain'";
 }
 $result = db_query ($query);
+$tTargetDomain = "";
 if ($result['rows'] > 0)
 {
    if($row = db_array ($result['result']))
