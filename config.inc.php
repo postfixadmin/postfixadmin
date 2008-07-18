@@ -63,6 +63,7 @@ $CONF['database_tables'] = array (
     'config' => 'config',
     'domain' => 'domain',
     'domain_admins' => 'domain_admins',
+    'fetchmail' => 'fetchmail',
     'log' => 'log',
     'mailbox' => 'mailbox',
     'vacation' => 'vacation',
