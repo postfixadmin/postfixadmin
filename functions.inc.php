@@ -1691,24 +1691,6 @@ function table_by_key ($table_key)
 
 
 
-//
-// table_by_pos
-// Action: Return table name for given position
-// Call: table_by_pos (int pos)
-//
-function table_by_pos ($pos)
-{
-   global $CONF;
-   $x=0;
-   foreach($CONF['database_tables'] as $i=>$v)
-   {
-      if($pos==$x++) return table_by_key ($i);
-   }
-   return false;
-}
-
-
-
 /*
    Called after a mailbox has been created in the DBMS.
    Returns: boolean.
