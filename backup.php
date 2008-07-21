@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
       for ($i = 0 ; $i < sizeof ($tables) ; ++$i)
       {
-         $result = db_query ("SHOW CREATE TABLE ".table_by_pos($i));
+         $result = db_query ("SHOW CREATE TABLE " . table_by_key($tables[$i]));
          if ($result['rows'] > 0)
          {
             while ($row = db_array ($result['result']))
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
       for ($i = 0 ; $i < sizeof ($tables) ; ++$i)
       {
-         $result = db_query ("SELECT * FROM ".table_by_pos($i));
+         $result = db_query ("SELECT * FROM " . table_by_key($tables[$i]));
          if ($result['rows'] > 0)
          {
             while ($row = db_assoc ($result['result']))
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          }
       }
    }
-   header ("Content-Type: application/octet-stream");
+   header ("Content-Type: text/plain");
    header ("Content-Disposition: attachment; filename=\"$filename\"");
    header ("Content-Transfer-Encoding: binary");
    header ("Content-Length: " . filesize("$backup"));
