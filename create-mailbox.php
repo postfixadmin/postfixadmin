@@ -9,9 +9,6 @@
  * Further details on the project are available at : 
  *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
  * 
- * @version $Id$ 
- * @license GNU GPL v2 or later. 
- * 
  * File: create-mailbox.php
  * Responsible for allowing for the creation of mail boxes
  *

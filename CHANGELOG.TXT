@@ -1,10 +1,37 @@
+# Postfix Admin 
+# 
+# LICENSE 
+# This source file is subject to the GPL license that is bundled with  
+# this package in the file LICENSE.TXT. 
+# 
+# Further details on the project are available at : 
+#     http://www.postfixadmin.com or http://postfixadmin.sf.net 
 #
-# Postfix Admin
-# by Mischa Peters <mischa at high5 dot net>
-# Copyright (c) 2002 - 2005 High5!
-# Licensed under GPL for more info check GPL-LICENSE.TXT
-#
-#
+# Last update:
+# $Id$
+
+
+Only in SVN trunk
+--------------------
+
+  - added support for domain aliases (from lenix)
+  - updated postfix example configuration for domain aliases and to use the new mysql map format
+  
+
+Version 2.2.1
+--------------------
+
+  - added quota parameter to mailbox_postcreation hook
+  - new hook to update the quota after editing a mailbox ($CONF['mailbox_postedit_script'])
+  - fixed subfolder creation order and timing
+  - allow smtp server to be specified in vacation.pl
+  - fixed MySQL charset issues
+  - several small bugfixes
+  - Norwegian (bokmal) translation added
+  - several translation updates
+  - SVN revision 408
+
+
 Version 2.2.0
 --------------------
 
