@@ -1,6 +1,22 @@
+postfixadmin (2.2.1.1) unstable; urgency=low
+
+  * Subversion revision 412 (from branches/postfixadmin-2.2.1)
+  * THIS IS EFFECTIVELY THE SAME AS 2.2.1 (which should probably be ignored)
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Wed, 23 Jul 2008 12:37:00 +0000
+
 postfixadmin (2.2.1) unstable; urgency=low
 
   * Various bug fixes (MySQL charset issue(s))
+  * Updated translations (pl, bg, ru, nb, tw etc)
+  * added quota parameter to mailbox_postcreation hook
+  * new hook to update the quota after editing a mailbox
+    ($CONF['mailbox_postedit_script'])
+  * fixed subfolder creation order and timing
+  * allow smtp server to be specified in vacation.pl
+  * fixed MySQL charset issues
+  * several small bugfixes
+  * Norwegian (bokmal) translation added
   * Updated translations (pl, bg, ru, nb, tw etc)
   * Subversion revision 408
 

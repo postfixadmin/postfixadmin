@@ -16,10 +16,17 @@ Only in SVN trunk
 
   - added support for domain aliases (from lenix)
   - updated postfix example configuration for domain aliases and to use the new mysql map format
-  
 
-Version 2.2.1
---------------------
+
+Version 2.2.1.1 - 2008/07/23
+----------------------------
+
+  - fixed version number in functions.inc.php ;-)
+  - SVN revision 412
+
+
+Version 2.2.1 - 2008/07/21
+--------------------------
 
   - added quota parameter to mailbox_postcreation hook
   - new hook to update the quota after editing a mailbox ($CONF['mailbox_postedit_script'])
@@ -32,8 +39,8 @@ Version 2.2.1
   - SVN revision 408
 
 
-Version 2.2.0
---------------------
+Version 2.2.0 - 2008/04/29
+--------------------------
 
   <Far more changes than those listed here; thanks to all the community who have provided
    patches and time to help us get here!>
