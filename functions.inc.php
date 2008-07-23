@@ -22,7 +22,7 @@ if (ereg ("functions.inc.php", $_SERVER['PHP_SELF']))
    exit;
 }
 
-$version = '2.2.1';
+$version = '2.2.1.1';
 
 /**
  * check_session
