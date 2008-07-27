@@ -72,7 +72,7 @@ if ($tDisplay_next_show == 1)
 print "</td></tr></table></div>\n";
 
 
-if ((sizeof ($tAliasDomains) > 0) || is_array ($tTargetDomain))
+if (boolconf('alias_domain') && ((sizeof ($tAliasDomains) > 0) || is_array ($tTargetDomain)))
 {
    print "<table id=\"alias_domain_table\">\n";
    print "   <tr>\n";

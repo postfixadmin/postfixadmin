@@ -2189,6 +2189,7 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
 
 /*
    Convert $CONF['whatever'] to boolean
+   (obviously only useful for settings that can be YES or NO)
 
    Returns: TRUE (on YES/yes) or FALSE (on NO/no/not set/unknown value)
  */
@@ -2196,11 +2197,12 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
 function boolconf($setting) {
    global $CONF;
    if (!isset($CONF[$setting])) { # not set
+      # TODO: show/log error message on unknown settings?
       return false;
    } elseif (strtoupper($CONF[$setting]) == 'YES') { # YES
       return true;
    } else { # NO, unknown value
-      # TODO: show error on unknown value?
+      # TODO: show/log error message on unknown value?
       return false;
    }
 }

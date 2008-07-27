@@ -73,49 +73,50 @@ if (!check_owner(authentication_get_username(), $fDomain)) {
 }
 
 
-# Alias-Domains
-#   first try to get a list of other domains pointing
-#   to this currently chosen one (aka. alias domains)
-$query = "SELECT $table_alias_domain.alias_domain,$table_alias_domain.target_domain,$table_alias_domain.modified,$table_alias_domain.active FROM $table_alias_domain WHERE target_domain='$fDomain' ORDER BY $table_alias_domain.alias_domain LIMIT $fDisplay, $page_size";
-if ('pgsql'==$CONF['database_type'])
-{
-   $query = "SELECT alias_domain,target_domain,extract(epoch from modified) as modified,active FROM $table_alias_domain WHERE target_domain='$fDomain' ORDER BY alias_domain LIMIT $page_size OFFSET $fDisplay";
-}
-$result = db_query ($query);
-$tAliasDomains = array();
-if ($result['rows'] > 0)
-{
-   while ($row = db_array ($result['result']))
+if (boolconf('alias_domain')) {
+   # Alias-Domains
+   # first try to get a list of other domains pointing
+   # to this currently chosen one (aka. alias domains)
+   $query = "SELECT $table_alias_domain.alias_domain,$table_alias_domain.target_domain,$table_alias_domain.modified,$table_alias_domain.active FROM $table_alias_domain WHERE target_domain='$fDomain' ORDER BY $table_alias_domain.alias_domain LIMIT $fDisplay, $page_size";
+   if ('pgsql'==$CONF['database_type'])
    {
-      if ('pgsql'==$CONF['database_type'])
-      {
-         $row['modified']=gmstrftime('%c %Z',$row['modified']);
-         $row['active']=('t'==$row['active']) ? 1 : 0;
-      }
-      $tAliasDomains[] = $row;
+      $query = "SELECT alias_domain,target_domain,extract(epoch from modified) as modified,active FROM $table_alias_domain WHERE target_domain='$fDomain' ORDER BY alias_domain LIMIT $page_size OFFSET $fDisplay";
    }
-} 
-# now let's see if the current domain itself is an alias for another domain
-$query = "SELECT $table_alias_domain.alias_domain,$table_alias_domain.target_domain,$table_alias_domain.modified,$table_alias_domain.active FROM $table_alias_domain WHERE alias_domain='$fDomain'";
-if ('pgsql'==$CONF['database_type'])
-{
-   $query = "SELECT alias_domain,target_domain,extract(epoch from modified) as modified,active FROM $table_alias_domain WHERE alias_domain='$fDomain'";
-}
-$result = db_query ($query);
-$tTargetDomain = "";
-if ($result['rows'] > 0)
-{
-   if($row = db_array ($result['result']))
+   $result = db_query ($query);
+   $tAliasDomains = array();
+   if ($result['rows'] > 0)
    {
-      if ('pgsql'==$CONF['database_type'])
+      while ($row = db_array ($result['result']))
       {
-         $row['modified']=gmstrftime('%c %Z',$row['modified']);
-         $row['active']=('t'==$row['active']) ? 1 : 0;
+         if ('pgsql'==$CONF['database_type'])
+         {
+            $row['modified']=gmstrftime('%c %Z',$row['modified']);
+            $row['active']=('t'==$row['active']) ? 1 : 0;
+         }
+         $tAliasDomains[] = $row;
       }
-      $tTargetDomain = $row;
+   } 
+   # now let's see if the current domain itself is an alias for another domain
+   $query = "SELECT $table_alias_domain.alias_domain,$table_alias_domain.target_domain,$table_alias_domain.modified,$table_alias_domain.active FROM $table_alias_domain WHERE alias_domain='$fDomain'";
+   if ('pgsql'==$CONF['database_type'])
+   {
+      $query = "SELECT alias_domain,target_domain,extract(epoch from modified) as modified,active FROM $table_alias_domain WHERE alias_domain='$fDomain'";
+   }
+   $result = db_query ($query);
+   $tTargetDomain = "";
+   if ($result['rows'] > 0)
+   {
+      if($row = db_array ($result['result']))
+      {
+         if ('pgsql'==$CONF['database_type'])
+         {
+            $row['modified']=gmstrftime('%c %Z',$row['modified']);
+            $row['active']=('t'==$row['active']) ? 1 : 0;
+         }
+         $tTargetDomain = $row;
+      }
    }
 }
-
 
 $query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.domain='$fDomain' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address LIMIT $fDisplay, $page_size";
 if ('pgsql'==$CONF['database_type'])

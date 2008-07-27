@@ -32,6 +32,12 @@
 require_once('common.php');
 
 authentication_require_role('admin');
+
+if (!boolconf['alias_domain']) {
+   header("Location: " . $CONF['postfix_admin_url'] . "/main.php");
+   exit;
+}
+
 $username = authentication_get_username();
 $SESSID_USERNAME = $username;
 if(authentication_has_role('global-admin')) {

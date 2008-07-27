@@ -195,6 +195,13 @@ $CONF['special_alias_control'] = 'NO';
 // '0' means no limits.
 $CONF['alias_goto_limit'] = '0';
 
+// Alias Domains
+// Alias domains allow to "mirror" aliases and mailboxes to another domain. This makes 
+// configuration easier, but also requires postfix to do more database queries.
+// Note: If you update from 2.2.x or earlier, you will have to update your postfix config.
+// Set to 'NO' to disable alias domains.
+$CONF['alias_domain'] = 'YES';
+
 // Backup
 // If you don't want backup tab set this to 'NO';
 $CONF['backup'] = 'YES';
