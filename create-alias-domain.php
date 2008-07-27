@@ -33,7 +33,7 @@ require_once('common.php');
 
 authentication_require_role('admin');
 
-if (!boolconf['alias_domain']) {
+if (!boolconf('alias_domain')) {
    header("Location: " . $CONF['postfix_admin_url'] . "/main.php");
    exit;
 }
