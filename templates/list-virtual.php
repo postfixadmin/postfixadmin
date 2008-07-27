@@ -72,7 +72,9 @@ if ($tDisplay_next_show == 1)
 print "</td></tr></table></div>\n";
 
 
-if (boolconf('alias_domain') && ((sizeof ($tAliasDomains) > 0) || is_array ($tTargetDomain)))
+if (boolconf('alias_domain')) {
+# XXX: the following block misses one intention level
+if ((sizeof ($tAliasDomains) > 0) || (is_array ($tTargetDomain) ))
 {
    print "<table id=\"alias_domain_table\">\n";
    print "   <tr>\n";
@@ -116,8 +118,11 @@ if (boolconf('alias_domain') && ((sizeof ($tAliasDomains) > 0) || is_array ($tTa
 
    }
    print "</table>\n";
+}
+# XXX: the above block misses one intention level
    if (!is_array($tTargetDomain))
    {
+      # TODO: don't print create link if no domains are left for aliasing
       print "<p><a href=\"create-alias-domain.php?target_domain=$fDomain\">" . $PALANG['pMenu_create_alias_domain'] . "</a>\n";
    }
 }
@@ -215,6 +220,7 @@ if($tCanAddAlias) {
    print "<p><a href=\"create-alias.php?domain=$fDomain\">" . $PALANG['pMenu_create_alias'] . "</a>\n";
 }
 
+if (sizeof ($tMailbox) > 0) {
    print "<div id=\"nav_bar\"><a name=\"MidArrow\"></a>\n<table width=730><colgroup span=\"1\"> <col width=\"550\"></col></colgroup> <tr><td align=left >";
    if ( $limit['mbox_pgindex_count'] ) print "<b>".$PALANG['pOverview_mailbox_title']."</b>&nbsp&nbsp";
    ($tDisplay_back_show == 1) ? $highlight_at = $tDisplay_back / $CONF['page_size'] + 1 : $highlight_at = 0;
@@ -231,22 +237,20 @@ if($tCanAddAlias) {
    }
    print "</td><td valign=middle align=right>";
 
-if ($tDisplay_back_show == 1)
-{
-   print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_back#MidArrow\"><img border=\"0\" src=\"images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
-}
-if ($tDisplay_up_show == 1)
-{
-   print "<a href=\"$file?domain=$fDomain&limit=0#MidArrow\"><img border=\"0\" src=\"images/arrow-u.png\" title=\"" . $PALANG['pOverview_up_arrow'] . "\" alt=\"" . $PALANG['pOverview_up_arrow'] . "\" /></a>\n";
-}
-if ($tDisplay_next_show == 1)
-{
-   print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_next#MidArrow\"><img border=\"0\" src=\"images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
-}
-print "</td></tr></table></div>\n";
+   if ($tDisplay_back_show == 1)
+   {
+      print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_back#MidArrow\"><img border=\"0\" src=\"images/arrow-l.png\" title=\"" . $PALANG['pOverview_left_arrow'] . "\" alt=\"" . $PALANG['pOverview_left_arrow'] . "\" /></a>\n";
+   }
+   if ($tDisplay_up_show == 1)
+   {
+      print "<a href=\"$file?domain=$fDomain&limit=0#MidArrow\"><img border=\"0\" src=\"images/arrow-u.png\" title=\"" . $PALANG['pOverview_up_arrow'] . "\" alt=\"" . $PALANG['pOverview_up_arrow'] . "\" /></a>\n";
+   }
+   if ($tDisplay_next_show == 1)
+   {
+      print "<a href=\"$file?domain=$fDomain&limit=$tDisplay_next#MidArrow\"><img border=\"0\" src=\"images/arrow-r.png\" title=\"" . $PALANG['pOverview_right_arrow'] . "\" alt=\"" . $PALANG['pOverview_right_arrow'] . "\" /></a>\n";
+   }
+   print "</td></tr></table></div>\n";
 
-if (sizeof ($tMailbox) > 0)
-{
    $colspan=8;
    if ($CONF['vacation_control_admin'] == 'YES') $colspan=$colspan+1;
    if ($CONF['alias_control_admin'] == 'YES') $colspan=$colspan+1;

@@ -104,6 +104,7 @@ $PALANG['pCreate_alias_domain_button'] = 'Создать домен-алиас';
 $PALANG['pCreate_alias_domain_error1'] = 'Вам не разрешено создавать выбранную конфигурацию.';
 $PALANG['pCreate_alias_domain_error2'] = 'Выбранная конфигурация некорректна, пожалуйста, выберите другую!';
 $PALANG['pCreate_alias_domain_error3'] = 'Не удалось добавить запись в базу данных.';
+$PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'Домен-алиас добавлен в таблицу доменов-алиасов!';
 
 $PALANG['pCreate_alias_welcome'] = 'Создание нового алиаса в вашем домене.';

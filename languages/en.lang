@@ -104,6 +104,7 @@ $PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain';
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.';
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!';
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.';
+$PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.';
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!';
 
 $PALANG['pCreate_alias_welcome'] = 'Create a new alias for your domain.';

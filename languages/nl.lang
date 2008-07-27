@@ -101,6 +101,7 @@ $PALANG['pCreate_alias_domain_button'] = 'Voeg alias domein toe';
 $PALANG['pCreate_alias_domain_error1'] = 'U heeft niet genoeg rechten om de huidige configuratie te maken.';
 $PALANG['pCreate_alias_domain_error2'] = 'De huidige configuratie is ongeldig, slecteer een andere!';
 $PALANG['pCreate_alias_domain_error3'] = 'Fout bij vullen database.';
+$PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de alias domein tabel!';
 
 $PALANG['pCreate_alias_welcome'] = 'Maak een nieuw alias aan voor uw domein.';

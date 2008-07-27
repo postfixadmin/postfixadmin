@@ -101,6 +101,7 @@ $PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_error1'] = 'Не ви е позволено да използвате избраната конфигурация.';
 $PALANG['pCreate_alias_domain_error2'] = 'Избраната конфигурация е невалидна. Изберете друга!';
 $PALANG['pCreate_alias_domain_error3'] = 'Възникна грешка при добавяне в базата.';
+$PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Създай нов alias за вашия домейн.';

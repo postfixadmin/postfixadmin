@@ -58,13 +58,31 @@ if ($result['rows'] > 0) {
    }
 }
 
+# filter available alias domains
+$alias_domains = array();
+foreach ($list_domains as $dom) {
+   if (isset($list_aliases[$dom]) || in_array($dom,$list_aliases)) continue;
+   $alias_domains[] = $dom;
+}
+if (count($alias_domains) == 0) {
+   $error = 1;
+   $tMessage = $PALANG['pCreate_alias_domain_error4'];
+}
+
+# filter available target domains
+foreach ($list_domains as $dom) {
+   if (isset($list_aliases[$dom])) continue;
+   $target_domains[] = $dom;
+}
+  
+
 if (isset ($_REQUEST['alias_domain'])) {
    $fAliasDomain = escape_string ($_REQUEST['alias_domain']);
    $fAliasDomain = strtolower ($fAliasDomain);
 }
 if (isset ($_REQUEST['target_domain'])) {
    $fTargetDomain = escape_string ($_REQUEST['target_domain']);
-	$fTargetDomain = strtolower ($fTargetDomain);
+   $fTargetDomain = strtolower ($fTargetDomain);
 }
 if (isset ($_REQUEST['active'])) {
    $fActive = (bool)$_REQUEST['active'];
@@ -103,7 +121,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         else {
             db_log ($SESSID_USERNAME, $fAliasDomain, 'create_alias_domain', "$fAliasDomain -> $fTargetDomain");
 
-            $tMessage = $PALANG['pCreate_alias_domain_success'];
+            flash_info($PALANG['pCreate_alias_domain_success']);
+            # we would have to update the list of domains available for aliasing. Doing a redirect is easier.
+            header("Location: " . $CONF['postfix_admin_url'] . "/create-alias-domain.php");
+            exit;
         }
     }
 
@@ -114,4 +135,5 @@ include ("templates/header.php");
 include ("templates/menu.php");
 include ("templates/create-alias-domain.php");
 include ("templates/footer.php");
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

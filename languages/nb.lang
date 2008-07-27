@@ -102,6 +102,7 @@ $PALANG['pCreate_alias_domain_button'] = 'Legg til aliasdomene';
 $PALANG['pCreate_alias_domain_error1'] = 'Du har ikke tillatelse til å opprette den valgte konfigurasjonen.';
 $PALANG['pCreate_alias_domain_error2'] = 'Den valgte konfigurasjonen er ugyldig, vennligst endre den!';
 $PALANG['pCreate_alias_domain_error3'] = 'Det mislyktes å lagre informasjonen i databasen.';
+$PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'Domenealiaset har blitt lagt inn i tabellen over aliasdomener!';
 
 $PALANG['pCreate_alias_welcome'] = 'Opprett et nytt alias.';
