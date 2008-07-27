@@ -2186,6 +2186,27 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
 }
 
 
+
+/*
+   Convert $CONF['whatever'] to boolean
+
+   Returns: TRUE (on YES/yes) or FALSE (on NO/no/not set/unknown value)
+ */
+
+function boolconf($setting) {
+   global $CONF;
+   if (!isset($CONF[$setting])) { # not set
+      return false;
+   } elseif (strtoupper($CONF[$setting]) == 'YES') { # YES
+      return true;
+   } else { # NO, unknown value
+      # TODO: show error on unknown value?
+      return false;
+   }
+}
+
+
+
 $table_admin = table_by_key ('admin');
 $table_alias = table_by_key ('alias');
 $table_alias_domain = table_by_key ('alias_domain');
