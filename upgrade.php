@@ -211,17 +211,6 @@ function _drop_index ($table, $index) {
     }
 }
 
-function upgrade_1() {
-# inserting the version number is a good start ;-)
-    db_insert(
-            'config', 
-            array(
-                'name' => 'version',
-                'value' => '1',
-                )
-            );
-    echo "upgrade_1";
-}
 
 function upgrade_1_mysql() {
     // CREATE MYSQL DATABASE TABLES.
