@@ -87,6 +87,7 @@ if($r['rows'] == 1) {
     $row = db_array($rs);
     $version = $row['value'];
 } else {
+    db_query_parsed("INSERT INTO config (name, value) VALUES ('version', '0')", 0, '');
     $version = 0;
 }
 
