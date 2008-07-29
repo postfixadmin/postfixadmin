@@ -40,6 +40,9 @@
 #             Properly handle failed queries to vacation_notification.
 #             Fixed log reporting.
 #
+# 2008-07-29  Patch from Luxten to add repeat notification after timeout. See:
+#             https://sourceforge.net/tracker/index.php?func=detail&aid=2031631&group_id=191583&atid=937966
+#             
 # Requirements:
 # You need to have the DBD::Pg or DBD::mysql perl-module installed.
 # You need to have the Mail::Sendmail module installed. 
@@ -97,6 +100,10 @@ my $logfile='';
 # path to file for debugging, debug supressed when empty
 my $debugfile='';
 #my $debugfile = "/var/log/vacation/vacation.debug";
+
+# notification interval, in seconds
+# set to 0 to notify only once
+my $interval = 60*60*24;
 
 # =========== end configuration ===========
 
@@ -170,7 +177,32 @@ sub already_notified {
          # Let's play safe and notify anyway
          return 0;
       }
-      return 1;
+      if ($interval) {
+         $query = qq{SELECT NOW()-notified_at FROM vacation_notification WHERE on_vacation=? AND notified=?};
+         $stm = $dbh->prepare($query) or panic_prepare($query);
+         $stm->execute($to,$from) or panic_execute($query,"on_vacation='$to', notified='$from'");
+         my @row = $stm->fetchrow_array;
+         my $int = $row[0];
+         if ($int > $interval) {
+            do_debug ("[Interval elapsed, sending the message]: ", $from, $to);
+            $query = qq{UPDATE vacation_notification SET notified_at=NOW() WHERE on_vacation=? AND notified=?};
+            $stm = $dbh->prepare($query);
+            if (!$stm) {
+               do_log('',$to,$from,'',"Could not prepare query $query");
+               return 0;
+            }
+            if (!$stm->execute($to,$from)) {
+               $e=$dbh->errstr;
+               do_log('',$to,$from,'',"Unexpected error: '$e' from query '$query'");
+            }
+            return 0;
+         } else {
+            do_debug ("[Interval not elapsed, not sending the message]: ", $from, $to);
+            return 1;
+         }
+      } else {
+         return 1;
+      }
    }
    return 0;
 }
