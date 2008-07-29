@@ -14,8 +14,14 @@
 Only in SVN trunk
 --------------------
 
-  - added support for domain aliases (from lenix)
+  - added support for domain aliases (from lenix) (can be disabled with $CONF['alias_domain'])
+  - add clear error message for non-resolvable domains when creating mailboxes or aliases
+  - check for non-resolvable domains on domain creation
+  - enable re-notification after definable timeout in vacation (patch from Luxten)
   - updated postfix example configuration for domain aliases and to use the new mysql map format
+  - translation updates
+  - several small bugfixes
+  - SVN revision *******************************
 
 
 Version 2.2.1.1 - 2008/07/23
