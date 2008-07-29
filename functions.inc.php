@@ -17,7 +17,7 @@
  */
 
 if (ereg ("functions.inc.php", $_SERVER['PHP_SELF']))
-{
+{  
    header ("Location: login.php");
    exit;
 }
@@ -183,7 +183,7 @@ function check_language ($use_post = 1)
 function language_selector()
 {
    global $supported_languages; # from languages/languages.php
-   
+
    $current_lang = check_language();
 
    $selector = '<select name="lang" xml:lang="en" dir="ltr">';
@@ -260,49 +260,47 @@ function check_email ($email)
       $ce_email = preg_replace("/#/", '@', $ce_email);
    }
 
-   if (
-      isset($CONF['emailcheck_resolve_domain'])
-      && 'YES'==$CONF['emailcheck_resolve_domain']
-      && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))
-         ) {
+   if (isset($CONF['emailcheck_resolve_domain']) && 'YES' == $CONF['emailcheck_resolve_domain'] && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))) 
+   {
 
-            // Perform non-domain-part sanity checks
-            if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', trim ($ce_email)))
-            {
-               return false;
-            }
+      // Perform non-domain-part sanity checks
+      if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', trim ($ce_email)))
+      {
+         return false;
+      }
 
-            // Determine domain name
-            $matches=array();
-            if (!preg_match('|@(.+)$|',$ce_email,$matches))
-            {
-               return false;
-            }
-            $domain=$matches[1];
+      // Determine domain name
+      $matches=array();
+      if (!preg_match('|@(.+)$|',$ce_email,$matches))
+      {
+         return false;
+      }
+      $domain=$matches[1];
 
-            // Look for an AAAA, A, or MX record for the domain
+      // Look for an AAAA, A, or MX record for the domain
 
-            if(function_exists('checkdnsrr')) {
-                // AAAA (IPv6) is only available in PHP v. >= 5
-                if (version_compare(phpversion(), "5.0.0", ">="))
-                {
-                   if (checkdnsrr($domain,'AAAA')) return true;
-                }
-                if (checkdnsrr($domain,'A')) return true;
-                if (checkdnsrr($domain,'MX')) return true;
-            }
-            # TODO: different error message for non-existing domains (instead of "email is invalid")
-            return false;
+      if(function_exists('checkdnsrr')) {
+         // AAAA (IPv6) is only available in PHP v. >= 5
+         if (version_compare(phpversion(), "5.0.0", ">="))
+         {
+            if (checkdnsrr($domain,'AAAA')) return true;
          }
+         if (checkdnsrr($domain,'A')) return true;
+         if (checkdnsrr($domain,'MX')) return true;
+         flash_error("Invalid domain, and/or not discoverable in DNS");
+         return false;
+      }
+      else {
+         flash_error("emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!");
+      }
+   }
 
    if (preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', trim ($ce_email)))
    {
       return true;
    }
-   else
-   {
-      return false;
-   }
+   flash_error("Invalid email address, fails regexp check");
+   return false;
 }
 
 
@@ -375,9 +373,9 @@ function escape_string ($string)
  *  @return String 
  */
 function safeget ($param, $default="") {
-	$retval=$default;
-	if (isset($_GET[$param])) $retval=$_GET[$param];
-	return $retval;
+   $retval=$default;
+   if (isset($_GET[$param])) $retval=$_GET[$param];
+   return $retval;
 }
 
 /**
@@ -389,9 +387,9 @@ function safeget ($param, $default="") {
  * same as safeget, but for $_POST
  */
 function safepost ($param, $default="") {
-	$retval=$default;
-	if (isset($_POST[$param])) $retval=$_POST[$param];
-	return $retval;
+   $retval=$default;
+   if (isset($_POST[$param])) $retval=$_POST[$param];
+   return $retval;
 }
 
 /**
@@ -402,9 +400,9 @@ function safepost ($param, $default="") {
  * @return String value from $_SERVER[$param] or $default
  */
 function safeserver ($param, $default="") {
-	$retval=$default;
-	if (isset($_SERVER[$param])) $retval=$_SERVER[$param];
-	return $retval;
+   $retval=$default;
+   if (isset($_SERVER[$param])) $retval=$_SERVER[$param];
+   return $retval;
 }
 
 /**
@@ -415,9 +413,9 @@ function safeserver ($param, $default="") {
  * @return String value from $_COOKIE[$param] or $default
  */
 function safecookie ($param, $default="") {
-	$retval=$default;
-	if (isset($_COOKIE[$param])) $retval=$_COOKIE[$param];
-	return $retval;
+   $retval=$default;
+   if (isset($_COOKIE[$param])) $retval=$_COOKIE[$param];
+   return $retval;
 }
 
 
@@ -851,7 +849,7 @@ function domain_exist ($domain)
 {
    global $table_domain;
 
-   $result = db_query ("SELECT 1 FROM $table_domain WHERE domain='$domain'");
+   $result = db_query("SELECT 1 FROM $table_domain WHERE domain='$domain'");
    if ($result['rows'] != 1)
    {
       return false;
@@ -1592,7 +1590,7 @@ function db_insert ($table, $values, $timestamp = array())
    foreach($timestamp as $key) {
       $values[$key] = "now()";
    }
- 
+
    $sql_values = "(" . implode(",",escape_string(array_keys($values))).") VALUES (".implode(",",$values).")";
 
    $result = db_query ("INSERT INTO $table $sql_values");
@@ -2104,7 +2102,7 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
    $error = 0;
    $tMessage = '';
    $pAdminCreate_admin_username_text = '';
-	$pAdminCreate_admin_password_text = '';
+   $pAdminCreate_admin_password_text = '';
 
    if (!check_email ($fUsername))
    {
@@ -2117,24 +2115,24 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
       $error = 1;
       $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text_error2'];
    }
-      
+
    if (empty ($fPassword) or empty ($fPassword2) or ($fPassword != $fPassword2))
    {
       if (empty ($fPassword) and empty ($fPassword2) and $CONF['generate_password'] == "YES" && $no_generate_password == 0)
       {
-			$fPassword = generate_password ();
+         $fPassword = generate_password ();
       }
       else
       {
-			$error = 1;
-			$pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
-			$pAdminCreate_admin_password_text = $PALANG['pAdminCreate_admin_password_text_error'];
+         $error = 1;
+         $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
+         $pAdminCreate_admin_password_text = $PALANG['pAdminCreate_admin_password_text_error'];
       }
    }
 
    if ($error != 1)
    {
-   	$password = pacrypt($fPassword);
+      $password = pacrypt($fPassword);
       $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
 
       $result = db_query ("INSERT INTO " . table_by_key('admin') . " (username,password,created,modified) VALUES ('$fUsername','$password',NOW(),NOW())");
@@ -2152,24 +2150,24 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
                $result = db_query ("INSERT INTO " . table_by_key ('domain_admins') . " (username,domain,created) VALUES ('$fUsername','$domain',NOW())");
             }
          }
-			$tMessage = $PALANG['pAdminCreate_admin_result_success'] . "<br />($fUsername";
-			if ($CONF['generate_password'] == "YES" && $no_generate_password == 0)
-			{
-				$tMessage .= " / $fPassword)</br />";
-			}
-			else
-			{
-				if ($CONF['show_password'] == "YES" && $no_generate_password == 0)
-				{
-					$tMessage .= " / $fPassword)</br />";
-				}
-				else
-				{
-					$tMessage .= ")</br />";
-				}
-			}
-		}
-	}
+         $tMessage = $PALANG['pAdminCreate_admin_result_success'] . "<br />($fUsername";
+         if ($CONF['generate_password'] == "YES" && $no_generate_password == 0)
+         {
+            $tMessage .= " / $fPassword)</br />";
+         }
+         else
+         {
+            if ($CONF['show_password'] == "YES" && $no_generate_password == 0)
+            {
+               $tMessage .= " / $fPassword)</br />";
+            }
+            else
+            {
+               $tMessage .= ")</br />";
+            }
+         }
+      }
+   }
 
    # TODO: should we log creation, editing and deletion of admins?
    # Note: needs special handling in viewlog, because domain is empty
@@ -2179,7 +2177,7 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
       $error,
       $tMessage,
       $pAdminCreate_admin_username_text,
-   	$pAdminCreate_admin_password_text
+      $pAdminCreate_admin_password_text
    );
 
 
