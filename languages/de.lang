@@ -385,6 +385,9 @@ $PALANG['pStatus_custom'] = 'Zustellung an ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
 $PALANG['pPasswordTooShort'] = "Das Passwort ist zu kurz - mindestens %s Zeichen ben&ouml;tigt";
+$PALANG['pInvalidDomainRegex'] = "Invalid domain name %s, fails regexp check"; # XXX
+$PALANG['pInvalidDomainDNS'] = "Invalid domain %s, and/or not discoverable in DNS"; # XXX
+$PALANG['pInvalidMailRegex'] = "Invalid email address, fails regexp check"; # XXX
 
 $PALANG['pFetchmail_welcome'] = 'E-Mail Abruf f&uuml;r: ';
 $PALANG['pFetchmail_new_entry'] = 'Neuer Eintrag';

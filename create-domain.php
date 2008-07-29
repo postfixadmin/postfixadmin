@@ -76,8 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if (isset ($_POST['fTransport'])) $tTransport = escape_string ($_POST['fTransport']);
       if (isset ($_POST['fDefaultaliases'])) $tDefaultaliases = escape_string ($_POST['fDefaultaliases']);
       if (isset ($_POST['fBackupmx'])) $tBackupmx = escape_string ($_POST['fBackupmx']);
+      /* if (empty ($fDomain) or !check_domain ($fDomain)) */ $pAdminCreate_domain_domain_text = $PALANG['pAdminCreate_domain_domain_text_error2'];
       if (domain_exist ($fDomain)) $pAdminCreate_domain_domain_text = $PALANG['pAdminCreate_domain_domain_text_error'];
-      if (empty ($fDomain) or !check_domain ($fDomain)) $pAdminCreate_domain_domain_text = $PALANG['pAdminCreate_domain_domain_text_error2'];
    }
 
    if ($error != 1)

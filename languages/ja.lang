@@ -384,6 +384,9 @@ $PALANG['pStatus_custom'] = '配送先 ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
 $PALANG['pPasswordTooShort'] = "パスワードが短すぎます。最低 %s 文字必要です。"; # usage: flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
+$PALANG['pInvalidDomainRegex'] = "Invalid domain name %s, fails regexp check"; # XXX
+$PALANG['pInvalidDomainDNS'] = "Invalid domain %s, and/or not discoverable in DNS"; # XXX
+$PALANG['pInvalidMailRegex'] = "Invalid email address, fails regexp check"; # XXX
 
 $PALANG['pFetchmail_welcome'] = 'メール取得:';
 $PALANG['pFetchmail_new_entry'] = '新しいエントリ';

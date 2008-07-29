@@ -386,6 +386,9 @@ $PALANG['pStatus_custom'] = 'Ide kézbesítődik ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
 $PALANG['pPasswordTooShort'] = "A Jelszó túl rövid - legalább %s karakter szükséges";
+$PALANG['pInvalidDomainRegex'] = "Invalid domain name %s, fails regexp check"; # XXX
+$PALANG['pInvalidDomainDNS'] = "Invalid domain %s, and/or not discoverable in DNS"; # XXX
+$PALANG['pInvalidMailRegex'] = "Invalid email address, fails regexp check"; # XXX
 
 $PALANG['pFetchmail_welcome'] = 'Mail lehozása:';
 $PALANG['pFetchmail_new_entry'] = 'Új bejegyzés';

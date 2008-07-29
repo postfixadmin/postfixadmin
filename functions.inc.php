@@ -227,14 +227,37 @@ function check_string ($var)
 // TODO: make check_domain able to handle as example .local domains
 function check_domain ($domain)
 {
-   if (preg_match ('/([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', trim ($domain)))
+   global $CONF;
+   global $PALANG;
+
+   if (!preg_match ('/([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', trim ($domain)))
    {
-      return true;
-   }
-   else
-   {
+      flash_error(sprintf($PALANG['pInvalidDomainRegex'], htmlentities($domain)));
       return false;
    }
+
+   if (isset($CONF['emailcheck_resolve_domain']) && 'YES' == $CONF['emailcheck_resolve_domain'] && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))) 
+   {
+
+      // Look for an AAAA, A, or MX record for the domain
+
+      if(function_exists('checkdnsrr')) {
+         // AAAA (IPv6) is only available in PHP v. >= 5
+         if (version_compare(phpversion(), "5.0.0", ">="))
+         {
+            if (checkdnsrr($domain,'AAAA')) return true;
+         }
+         if (checkdnsrr($domain,'A')) return true;
+         if (checkdnsrr($domain,'MX')) return true;
+         flash_error(sprintf($PALANG['pInvalidDomainDNS'], htmlentities($domain)));
+         return false;
+      }
+      else {
+         flash_error("emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!");
+      }
+   }
+
+   return true;
 }
 
 
@@ -260,47 +283,24 @@ function check_email ($email)
       $ce_email = preg_replace("/#/", '@', $ce_email);
    }
 
-   if (isset($CONF['emailcheck_resolve_domain']) && 'YES' == $CONF['emailcheck_resolve_domain'] && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))) 
+   // Perform non-domain-part sanity checks
+   if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', trim ($ce_email)))
    {
-
-      // Perform non-domain-part sanity checks
-      if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', trim ($ce_email)))
-      {
-         return false;
-      }
-
-      // Determine domain name
-      $matches=array();
-      if (!preg_match('|@(.+)$|',$ce_email,$matches))
-      {
-         return false;
-      }
-      $domain=$matches[1];
-
-      // Look for an AAAA, A, or MX record for the domain
-
-      if(function_exists('checkdnsrr')) {
-         // AAAA (IPv6) is only available in PHP v. >= 5
-         if (version_compare(phpversion(), "5.0.0", ">="))
-         {
-            if (checkdnsrr($domain,'AAAA')) return true;
-         }
-         if (checkdnsrr($domain,'A')) return true;
-         if (checkdnsrr($domain,'MX')) return true;
-         flash_error("Invalid domain, and/or not discoverable in DNS");
-         return false;
-      }
-      else {
-         flash_error("emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!");
-      }
+      flash_error($PALANG['pInvalidMailRegex']);
+      return false;
    }
 
-   if (preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', trim ($ce_email)))
+   // Determine domain name
+   $matches=array();
+   if (!preg_match('|@(.+)$|',$ce_email,$matches))
    {
-      return true;
+      flash_error($PALANG['pInvalidMailRegex']);
+      return false;
    }
-   flash_error("Invalid email address, fails regexp check");
-   return false;
+   $domain=$matches[1];
+
+   # check domain name
+   return check_domain($domain);
 }
 
 
