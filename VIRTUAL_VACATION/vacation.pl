@@ -164,7 +164,7 @@ sub already_notified {
 
 # Violation of a primay key constraint may happen here, and that's
 # fine. All other error conditions are not fine, however.
-      if ($e !~ /_pkey/) {
+      if ($e !~ /(?:_pkey|^Duplicate entry)/) {
          do_log('',$to,$from,'',"Unexpected error: '$e' from query '$query'");
 
          # Let's play safe and notify anyway
