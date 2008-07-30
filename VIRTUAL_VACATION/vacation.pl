@@ -103,7 +103,10 @@ my $debugfile='';
 
 # notification interval, in seconds
 # set to 0 to notify only once
-my $interval = 60*60*24;
+# e.g. 1 day ...
+#my $interval = 60*60*24;
+# disabled by default
+my $interval = 0;
 
 # =========== end configuration ===========
 
