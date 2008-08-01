@@ -118,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $db_false = db_get_boolean(false);
          // retain vacation message if possible - i.e disable vacation away-ness.
          $result = db_query ("UPDATE $table_vacation SET active = $db_false WHERE email='$fUsername'");
+         $result = db_query("DELETE FROM $table_vacation_notification WHERE on_vacation='$fUsername'");
 
          $result = db_query ("SELECT * FROM $table_alias WHERE address='$fUsername'");
          if ($result['rows'] == 1)
