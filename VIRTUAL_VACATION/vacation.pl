@@ -372,10 +372,9 @@ sub strip_address {
 
 ########################### main #################################
 
-my ($from, $to, $cc, ,$bcc , $subject, $messageid, $lastheader, $sender, $recipient, %opts, $sndrhdr);
+my ($from, $to, $cc, ,$bcc , $subject, $messageid, $lastheader, $sender, $recipient, %opts, $sndrhdr, $spam);
 
 $subject='';
-$spam = 0;
 
 # Take headers apart
 while (<STDIN>) {
