@@ -43,12 +43,20 @@
 # 2008-07-29  Patch from Luxten to add repeat notification after timeout. See:
 #             https://sourceforge.net/tracker/index.php?func=detail&aid=2031631&group_id=191583&atid=937966
 #             
+# 2008-08-01  Luigi Iotti <luigi at iotti dot biz>
+#             Use envelope sender/recipient instead of using
+#             From: and To: header fields;
+#             Support to good vacation behavior as in
+#             http://www.irbs.net/internet/postfix/0707/0954.html
+#             (needs to be tested);
+#
 # Requirements:
 # You need to have the DBD::Pg or DBD::mysql perl-module installed.
 # You need to have the Mail::Sendmail module installed. 
 # You need to have the Email::Valid module installed.
 # You need to have the MIME::Charset module installed.
 # You need to have the MIME::EncWords module installed.
+# You need to have the GetOpt::Std module installed.
 #
 # On Debian based systems : 
 #   libmail-sendmail-perl
@@ -116,6 +124,7 @@ use MIME::EncWords qw(:all);
 use Email::Valid;
 use strict;
 use Mail::Sendmail;
+use Getopt::Std;
 
 binmode (STDIN,':utf8');
 
@@ -131,12 +140,12 @@ if (!$dbh) {
    exit(0);
 }
 
-my $db_true; # MySQL and PgSQL use different values for TRUE
+my $db_true; # MySQL and PgSQL use different values for TRUE, and unicode support...
 if ($db_type eq "mysql") {
    $dbh->do("SET CHARACTER SET utf8;");
    $db_true = '1';
 } else { # Pg
-   # TODO: SET CHARACTER SET is mysql only, needs FIX for ALL databases
+   $dbh->do("SET CLIENT ENCODING 'UTF8'");
    $db_true = 'True';
 }
 
@@ -355,9 +364,15 @@ sub send_vacation_email {
 
 }
 
+sub strip_address {
+	my $arg = shift;
+	$arg =~ /([\w\-.%]+\@[\w.-]+)/;
+	return lc($1);
+}
+
 ########################### main #################################
 
-my ($from, $to, $cc, $subject, $messageid, $lastheader);
+my ($from, $to, $cc, ,$bcc , $subject, $messageid, $lastheader, $sender, $recipient, %opts, $sndrhdr);
 
 $subject='';
 $spam = 0;
@@ -366,53 +381,57 @@ $spam = 0;
 while (<STDIN>) {
    last if (/^$/);
    if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; }  
+   elsif (/^Return-Path:\s+(.*)\n$/i) { $sender = $1; $lastheader = \$sender; }  
+   elsif (/^Delivered-To:\s+(.*)\n$/i) { $recipient = $1; $lastheader = \$recipient; }  
    elsif (/^from:\s+(.*)\n$/i) { $from = $1; $lastheader = \$from; }  
    elsif (/^to:\s+(.*)\n$/i) { $to = $1; $lastheader = \$to; }  
    elsif (/^cc:\s+(.*)\n$/i) { $cc = $1; $lastheader = \$cc; }  
+   elsif (/^bcc:\s+(.*)\n$/i) { $bcc = $1; $lastheader = \$bcc; }  
    elsif (/^subject:\s+(.*)\n$/i) { $subject = $1; $lastheader = \$subject; }  
    elsif (/^message-id:\s+(.*)\n$/i) { $messageid = $1; $lastheader = \$messageid; }  
-   elsif (/^x-spam-(flag|status):\s+yes/i) { exit (0); }  
-   elsif (/^precedence:\s+(bulk|list|junk)/i) { exit (0); }  
-   elsif (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { exit (0); }  
+   elsif (/^x-spam-(flag|status):\s+yes/i) { do_debug("x-spam-$1: yes found"); exit (0); }  
+   elsif (/^precedence:\s+(bulk|list|junk)/i) { do_debug("precedence: $1 found"); exit (0); }  
+   elsif (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { do_debug("x-loop: postfix admin virtual vacation found"); exit (0); }  
+   elsif (/^Auto-Submitted:\s+no/i) { next; }  
+   elsif (/^Auto-Submitted:/i) { do_debug("Auto-Submitted: something found"); exit (0); }
+   elsif (/^List-(Id|Post):/i) { do_debug("List-$1: found"); exit (0); }
+   elsif (/^Sender:\s+(.*)/i) { $sndrhdr = $1; $lastheader = \$sndrhdr; }
    else {$lastheader = "" ; }
 }
 
+getopts('f:', \%opts) or die "Usage: $0 [-f sender] [-- [recipient]]";
+$opts{f} and $sender = $opts{f};
+$recipient = shift || $recipient || $ENV{"USER"} || "";
+
 # If either From: or To: are not set, exit
-if (!$from || !$to || !$messageid) { exit (0); }
+if (!$from || !$to || !$messageid || !$sender || !$recipient) { do_debug("One of from=$from, to=$to, $messageid=$messageid, sender=$sender, recipient=$recipient is empty"); exit (0); }
+if ( $sender =~ /^(mailer-daemon|listserv|majordomo|owner-|request-|bounces-)/i) { do_debug("sender $sender contains $1"); exit (0); }
+if ( $sender =~ /-(owner|request|bounces)\@/i) { do_debug("sender $sender contains $1"); exit (0); }
+my $ss = strip_address($sender);
+my $sr = strip_address($recipient);
+my $ssh = strip_address($sndrhdr);
+if ($ss eq $sr) { do_debug("sender $ss and recipient $sr are the same"); exit(0); }
+my $recipfound = 0;
+for (split(/,\s*/, lc($to)), split(/,\s*/, lc($cc)), split(/,\s*/, lc($bcc))) {
+	my $destinatario = strip_address($_);
+	if ($ssh eq $destinatario) { do_debug("sender header $sender contains recipient $destinatario"); exit(0); }
+	if ($sr eq $destinatario) { $recipfound++; }
+}
+if (!$recipfound) { do_debug("envelope recipient $sr not found in the header recipients"); exit (0); }
 
 $from = lc ($from);
 
 if (!Email::Valid->address($from,-mxcheck => 1)) { do_debug("Invalid from email address: $from; exiting."); exit(0); }
+if (!Email::Valid->address($ss,-mxcheck => 1)) { do_debug("Invalid sender email address: $ss; exiting."); exit(0); }
 
 # Check if it's an obvious sender, exit
 if ($from =~ /([\w\-.%]+\@[\w.-]+)/) { $from = $1; }
-if ($from eq "" || $from =~ /^owner-|-(request|owner)\@|^(mailer-daemon|postmaster)\@/i) { exit (0); }
+if ($from eq "" || $from =~ /^(owner-|-(?:request|owner)\@|^(?:mailer-daemon|postmaster)\@)/i) { do_debug("from $from contains $1"); exit (0); }
 
-# Strip To: and Cc: and push them in array
-my @strip_cc_array; 
-my @strip_to_array = split(/, */, lc ($to) );
-if (defined $cc) { @strip_cc_array = split(/, */, lc ($cc) ); }
-push (@strip_to_array, @strip_cc_array);
-
-my @search_array;
-
-# Strip email address from headers
-for (@strip_to_array) {
-   if ($_ =~ /([\w\-.%]+\@[\w.-]+)/) { 
-      push (@search_array, $1); 
-      do_debug ("[STRIP RECIPIENTS]: ", $messageid, $1);
-   }
-}
-
-# Search for email address which has vacation
-for (@search_array) {
-   /([\w\-.%]+\@[\w.-]+)/ or next; 
-   my $addr = $1;
-   my ($rv, $email) = find_real_address ($addr);
-   if ($rv == 1) {
-      do_debug ("[FOUND VACATION]: ", $messageid, $from, $to, $email);
-      send_vacation_email( $email, $from, $to, $messageid);
-   }
+my ($rv, $email) = find_real_address ($sr);
+if ($rv == 1) {
+   do_debug ("[FOUND VACATION]: ", $messageid, $sender, $recipient, $email);
+   send_vacation_email( $email, $sender, $recipient, $messageid);
 }
 
 0;
