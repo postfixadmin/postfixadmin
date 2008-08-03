@@ -1,9 +1,10 @@
 <?php
 if(!defined('POSTFIXADMIN')) {
-	require_once('common.php');
+    require_once('common.php');
 }
 
-// vim ts=4:sw=4:et
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
+
 # Note: run with upgrade.php?debug=1 to see all SQL error messages
 
 
@@ -76,7 +77,7 @@ else {
     db_query_parsed($mysql, 0, " ENGINE = MYISAM COMMENT = 'PostfixAdmin settings'");
 }
 
-$sql = "SELECT * FROM config WHERE name = 'version'";
+$sql = "SELECT * FROM " . table_by_key ('config') . " WHERE name = 'version'";
 
 // insert into config('version', '01');
 
@@ -87,7 +88,7 @@ if($r['rows'] == 1) {
     $row = db_array($rs);
     $version = $row['value'];
 } else {
-    db_query_parsed("INSERT INTO config (name, value) VALUES ('version', '0')", 0, '');
+    db_query_parsed("INSERT INTO " . table_by_key ('config') . " (name, value) VALUES ('version', '0')", 0, '');
     $version = 0;
 }
 
@@ -189,7 +190,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
     $query = trim(str_replace(array_keys($replace), $replace, $sql));
     if (safeget('debug') != "") {
         print "<p style='color:#999'>$query";
-	}
+    }
     $result = db_query($query, $ignore_errors);
     if (safeget('debug') != "") {
         print "<div style='color:#f00'>" . $result['error'] . "</div>";
@@ -526,53 +527,6 @@ function upgrade_4_pgsql() {
         $result = db_query_parsed("CREATE INDEX alias_address_active ON alias(address,active)");
     }
 
-/**
- * MySQL only alias_domain table
- */
-function upgrade_300_mysql() { 
-	$table_alias_domain = table_by_key('alias_domain');
-	// i just duplicate stuff from DATABASE_*.TXT over here?
-	if( $CONF['database_type'] == 'pgsql' ) { 
-		// check if table already exists, if so, don't recreate it
-		$sql_table_exists =
-			"SELECT relname ".
-			"  FROM pg_class ".
-			" WHERE relname = '$table_alias_domain'";
-		$res = db_query( $sql_table_exists );
-		if( $res['rows'] == 0 ) {
-			$sql_table_create =
-				"CREATE TABLE $table_alias_domain ( ".
-					" alias_domain character varying(255) NOT NULL REFERENCES domain(domain) ON DELETE CASCADE, ".
-					" target_domain character varying(255) NOT NULL REFERENCES domain(domain) ON DELETE CASCADE, ".
-					" created timestamp with time zone default now(), ".
-					" modified timestamp with time zone default now(), ".
-					" active boolean NOT NULL default true, ".
-					" Constraint \"alias_domain_pkey\" Primary Key (\"alias_domain\") ".
-				")";
-			db_query( $sql_table_create );
-			$sql_table_index =
-				"CREATE INDEX alias_domain_active ON $table_alias_domain(alias_domain,active)";
-			db_query( $sql_table_index );
-			$sql_table_comment =
-				"COMMENT ON TABLE $table_alias_domain IS 'Postfix Admin - Domain Aliases'";
-			db_query( $sql_table_comment );
-		}
-	} else { // database-type mysql assumed
-		$sql_table_create = 
-			"CREATE TABLE IF NOT EXISTS `$table_alias_domain` ( ".
-				" `alias_domain` varchar(255) NOT NULL default '', ".
-				" `target_domain` varchar(255) NOT NULL default '', ".
-				" `created` datetime NOT NULL default '0000-00-00 00:00:00', ".
-				" `modified` datetime NOT NULL default '0000-00-00 00:00:00', ".
-				" `active` tinyint(1) NOT NULL default '1', ".
-				" PRIMARY KEY (`alias_domain`), ".
-				" KEY `active` (`active`), ".
-				" KEY `target_domain` (`target_domain`) ".
-			") TYPE=MyISAM COMMENT='Postfix Admin - Domain Aliases'";
-		db_query( $sql_table_create );
-	}
-}
-
     $result = db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN username DROP DEFAULT");
     $result = db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN domain DROP DEFAULT");
 
@@ -903,7 +857,7 @@ function upgrade_344_pgsql() {
 }
 
 /** 
- * Support alias_domain table 
+ * Create alias_domain table - MySQL
  */
 function upgrade_362_mysql() {
     # Table structure for table alias_domain
@@ -917,15 +871,14 @@ function upgrade_362_mysql() {
             `modified` datetime NOT NULL default '0000-00-00 00:00:00',
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`alias_domain`),
-    KEY `active` (`active`),
-    KEY `target_domain` (`target_domain`)
-) TYPE=MyISAM COMMENT='Postfix Admin - Domain Aliases'");
-
-
+            KEY `active` (`active`),
+            KEY `target_domain` (`target_domain`)
+        ) TYPE=MyISAM COMMENT='Postfix Admin - Domain Aliases'
+    ");
 }
 
 /** 
- * Support alias_domain table 
+ * Create alias_domain table - PgSQL
  */
 function upgrade_362_pgsql() {
     # Table structure for table alias_domain
@@ -934,14 +887,15 @@ function upgrade_362_pgsql() {
     if(_pgsql_object_exists($table_alias_domain)) {
         return;
     }
-    db_query_parsed(
-        "CREATE TABLE $table_alias_domain (
+    db_query_parsed("
+        CREATE TABLE $table_alias_domain (
             alias_domain character varying(255) NOT NULL REFERENCES $table_domain(domain) ON DELETE CASCADE,
             target_domain character varying(255) NOT NULL REFERENCES $table_domain(domain) ON DELETE CASCADE,
             created timestamp with time zone default now(),
-    modified timestamp with time zone default now(),
-    active boolean NOT NULL default true, 
-    PRIMARY KEY(alias_domain))");
+            modified timestamp with time zone default now(),
+            active boolean NOT NULL default true, 
+            PRIMARY KEY(alias_domain))");
+#           Constraint \"alias_domain_pkey\" Primary Key (\"alias_domain\")
     db_query_parsed("CREATE INDEX alias_domain_active ON $table_alias_domain(alias_domain,active)");
     db_query_parsed("COMMENT ON TABLE $table_alias_domain IS 'Postfix Admin - Domain Aliases'");
 }
