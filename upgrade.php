@@ -895,7 +895,6 @@ function upgrade_362_pgsql() {
             modified timestamp with time zone default now(),
             active boolean NOT NULL default true, 
             PRIMARY KEY(alias_domain))");
-#           Constraint \"alias_domain_pkey\" Primary Key (\"alias_domain\")
     db_query_parsed("CREATE INDEX alias_domain_active ON $table_alias_domain(alias_domain,active)");
     db_query_parsed("COMMENT ON TABLE $table_alias_domain IS 'Postfix Admin - Domain Aliases'");
 }
