@@ -18,14 +18,14 @@ $dsn = "DBI:mysql:database=$database;host=$hostname";
 $dbh = DBI->connect($dsn, $user, $password) || die "cannot connect the database";
 
 $sql=<<SQL;
-SELECT id,mailbox,src_server,src_auth,src_user,src_password,src_folder,fetchall,keep,protocol,mda,extra_options 
+SELECT id,mailbox,src_server,src_auth,src_user,src_password,src_folder,fetchall,keep,protocol,mda,extra_options,ssl 
 FROM fetchmail
 WHERE unix_timestamp(now())-unix_timestamp(date) > poll_time*60
 SQL
 
 my (%config);
 map{
-	my ($id,$mailbox,$src_server,$src_auth,$src_user,$src_password,$src_folder,$fetchall,$keep,$protocol,$mda,$extra_options)=@$_;
+	my ($id,$mailbox,$src_server,$src_auth,$src_user,$src_password,$src_folder,$fetchall,$keep,$protocol,$mda,$extra_options,$ssl)=@$_;
 	
 	$cmd="user '${src_user}' there with password '".decode_base64($src_password)."'";
 	$cmd.=" folder '${src_folder}'" if ($src_folder);
@@ -36,6 +36,7 @@ map{
 	
 	$cmd.=" keep" if ($keep);
 	$cmd.=" fetchall" if ($fetchall);
+	$cmd.=" ssl" if ($ssl);
 	$cmd.=" ".$extra_options if ($extra_options);
 	
 	$text=<<TXT;

@@ -919,3 +919,17 @@ function upgrade_373_mysql() { # MySQL only
 }
 
 
+/**
+ * add ssl option for fetchmail
+ */
+function upgrade_439_mysql() {
+    $table_fetchmail = table_by_key('fetchmail');
+    db_query_parsed("
+        ALTER TABLE `$table_fetchmail` ADD `ssl` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' AFTER `protocol` ;
+    ");
+}
+function upgrade_439_pgsql() {
+    db_query_parsed("
+        ALTER TABLE $table_fetchmail ADD COLUMN ssl BOOLEAN NOT NULL DEFAULT false;
+    ");
+}

@@ -63,6 +63,7 @@ $fm_struct=array(   //   list($editible,$view,$type)
    "fetchall"        => array(1,                1,                'bool'      ),
    "keep"            => array(1,                1,                'bool'      ),
    "protocol"        => array(1,                1,                'enum'      ),
+   "ssl"             => array(1,                1,                'bool'      ),
    "extra_options"   => array($extra_options,   $extra_options,   'longtext'  ),
    "mda"             => array($extra_options,   $extra_options,   'longtext'  ),
    "date"            => array(0,                $display_status,  'text'      ),
