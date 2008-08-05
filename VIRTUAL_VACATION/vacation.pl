@@ -99,13 +99,14 @@ my $db_type = 'Pg';
 my $db_host = '';
 
 # connection details
-my $db_username = 'dg';
-my $db_password = 'gingerdog';
+my $db_username = 'your_username';
+my $db_password = 'your_password';
 my $db_name     = 'postfix';
 
 # smtp server used to send vacation e-mails
-my $smtp_server = '192.168.1.4';
+my $smtp_server = 'localhost';
 
+# Set to 1 to enable logging to syslog.
 my $syslog = 0;
 
 # path to logfile, when empty logging is supressed
