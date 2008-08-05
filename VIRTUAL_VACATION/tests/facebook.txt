@@ -1,0 +1,55 @@
+Return-Path: <notification+meynbxsa@facebookmail.com>
+X-Original-To: david@example.org
+Delivered-To: david@example.org
+Received: by mail.palepurple.co.uk (Postfix, from userid 1007)
+	id B735A894CF8; Mon,  4 Aug 2008 16:28:13 +0100 (BST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.palepurple.co.uk (Postfix) with ESMTP id 79230894CF9
+	for <david@example.org>; Mon,  4 Aug 2008 16:28:13 +0100 (BST)
+X-Virus-Scanned: by Amavis+SpamAssassin+ClamAV and more at palepurple.co.uk
+X-Spam-Score: -3.565
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.565 tagged_above=-99 required=5 tests=[AWL=0.035,
+	BAYES_00=-2.599, RCVD_IN_DNSWL_LOW=-1, SPF_PASS=-0.001]
+Received: from mail.palepurple.co.uk ([127.0.0.50])
+	by localhost (oak.palepurple.co.uk [127.0.0.50]) (amavisd-new, port 10024)
+	with ESMTP id AajG3+FXGWMd for <david@example.org>;
+	Mon,  4 Aug 2008 16:28:10 +0100 (BST)
+Received: from mx-out.facebook.com (outmail003.ash1.tfbnw.net [69.63.184.103])
+	by mail.palepurple.co.uk (Postfix) with ESMTP id 36DD4894CF8
+	for <david@example.org>; Mon,  4 Aug 2008 16:28:09 +0100 (BST)
+Received: from www.new.facebook.com (intlb01-mip1.sctm.tfbnw.net [10.1.240.6])
+	by mx-out.facebook.com [email023.ash1.facebook.com] (8.13.7/8.13.6) with ESMTP id m74FS8Oa030908
+	for <david@example.org>; Mon, 4 Aug 2008 08:28:09 -0700
+X-Facebook: from zuckmail ([207.118.59.216]) 
+	by www.new.facebook.com with HTTP (ZuckMail);
+Date: Mon, 4 Aug 2008 08:28:08 -0700
+To: David Goodwin <david@example.org>
+From: Facebook <notification+meynbxsa@facebookmail.com>
+Reply-to: noreply <noreply@facebookmail.com>
+Subject: Mark Spencer also commented on Jon Masters's note...
+Message-ID: <dummycontentgoeshere27efe2cde474@www.new.facebook.com>
+X-Priority: 3
+X-Mailer: ZuckMail [version 1.00]
+X-Facebook-Notify: note_reply
+Errors-To: notification+meynbxsa@facebookmail.com
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Length: 374
+Lines: 14
+
+Mark also commented on Jon Masters's note "Visiting the UK"
+
+To read all the comments, follow the link below:
+
+http://www.facebook.com/n/?note.php&note_id=whatever
+
+Thanks,
+The Facebook Team
+
+___
+Want to control which emails you receive from Facebook? Go to:
+http://www.facebook.com/editaccount.php?notifications&md=sheepmightfly
+
+

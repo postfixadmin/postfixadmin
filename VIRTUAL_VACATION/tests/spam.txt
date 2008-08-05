@@ -1,0 +1,105 @@
+Return-Path: <mary@ccr.org>
+X-Original-To: david@codepoets.co.uk
+Delivered-To: david@codepoets.co.uk
+Received: by mail.palepurple.co.uk (Postfix, from userid 1007)
+	id A7BB7894CF8; Tue,  5 Aug 2008 19:32:19 +0100 (BST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.palepurple.co.uk (Postfix) with ESMTP id 673E4894CF9
+	for <david@codepoets.co.uk>; Tue,  5 Aug 2008 19:32:19 +0100 (BST)
+X-Quarantine-ID: <KOCPqIot+eWP>
+X-Virus-Scanned: by Amavis+SpamAssassin+ClamAV and more at palepurple.co.uk
+X-Spam-Flag: YES
+X-Spam-Score: 35.511
+X-Spam-Level: ***********************************
+X-Spam-Status: Yes, score=35.511 tagged_above=-99 required=5
+	tests=[BAYES_99=3.5, DIGEST_MULTIPLE=0.001, FH_HELO_EQ_D_D_D_D=0.001,
+	HELO_DYNAMIC_HCC=4.295, HELO_DYNAMIC_IPADDR2=4.395,
+	HTML_EXTRA_CLOSE=2.809, HTML_MESSAGE=0.001, PYZOR_CHECK=3.7,
+	RAZOR2_CF_RANGE_51_100=0.5, RAZOR2_CF_RANGE_E4_51_100=1.5,
+	RAZOR2_CF_RANGE_E8_51_100=1.5, RAZOR2_CHECK=0.5, RCVD_IN_PBL=0.905,
+	RDNS_DYNAMIC=0.1, TVD_RCVD_IP=1.931, URIBL_AB_SURBL=1.86,
+	URIBL_BLACK=1.955, URIBL_JP_SURBL=1.501, URIBL_OB_SURBL=1.5,
+	URIBL_RHS_DOB=1.083, URIBL_SC_SURBL=0.474, URIBL_WS_SURBL=1.5]
+X-Spam-Report:
+ *  3.5 BAYES_99 BODY: Bayesian spam probability is 99 to 100%
+ *      [score: 0.9982]
+ *  4.3 HELO_DYNAMIC_HCC Relay HELO'd using suspicious hostname (HCC)
+ *  4.4 HELO_DYNAMIC_IPADDR2 Relay HELO'd using suspicious hostname (IP addr
+ *       2)
+ *  0.0 FH_HELO_EQ_D_D_D_D Helo is d-d-d-d
+ *  1.9 TVD_RCVD_IP TVD_RCVD_IP
+ *  0.9 RCVD_IN_PBL RBL: Received via a relay in Spamhaus PBL
+ *      [189.31.157.78 listed in zen.spamhaus.org]
+ *  2.8 HTML_EXTRA_CLOSE BODY: HTML contains far too many close tags
+ *  0.0 HTML_MESSAGE BODY: HTML included in message
+ *  1.5 RAZOR2_CF_RANGE_E8_51_100 Razor2 gives engine 8 confidence level
+ *      above 50%
+ *      [cf: 100]
+ *  1.5 RAZOR2_CF_RANGE_E4_51_100 Razor2 gives engine 4 confidence level
+ *      above 50%
+ *      [cf: 100]
+ *  0.5 RAZOR2_CHECK Listed in Razor2 (http://razor.sf.net/)
+ *  0.5 RAZOR2_CF_RANGE_51_100 Razor2 gives confidence level above 50%
+ *      [cf: 100]
+ *  3.7 PYZOR_CHECK Listed in Pyzor (http://pyzor.sf.net/)
+ *  1.1 URIBL_RHS_DOB Contains an URI of a new domain (Day Old Bread)
+ *      [URIs: heartremember.com]
+ *  2.0 URIBL_BLACK Contains an URL listed in the URIBL blacklist
+ *      [URIs: heartremember.com]
+ *  1.9 URIBL_AB_SURBL Contains an URL listed in the AB SURBL blocklist
+ *      [URIs: heartremember.com]
+ *  1.5 URIBL_WS_SURBL Contains an URL listed in the WS SURBL blocklist
+ *      [URIs: heartremember.com]
+ *  1.5 URIBL_JP_SURBL Contains an URL listed in the JP SURBL blocklist
+ *      [URIs: heartremember.com]
+ *  1.5 URIBL_OB_SURBL Contains an URL listed in the OB SURBL blocklist
+ *      [URIs: heartremember.com]
+ *  0.5 URIBL_SC_SURBL Contains an URL listed in the SC SURBL blocklist
+ *      [URIs: heartremember.com]
+ *  0.0 DIGEST_MULTIPLE Message hits more than one network digest check
+ *  0.1 RDNS_DYNAMIC Delivered to trusted network by host with
+ *      dynamic-looking rDNS
+Received: from mail.palepurple.co.uk ([127.0.0.50])
+	by localhost (oak.palepurple.co.uk [127.0.0.50]) (amavisd-new, port 10024)
+	with ESMTP id KOCPqIot+eWP for <david@codepoets.co.uk>;
+	Tue,  5 Aug 2008 19:32:13 +0100 (BST)
+Received: from 189-31-157-78.gnace704.dsl.brasiltelecom.net.br (189-31-157-78.gnace704.dsl.brasiltelecom.net.br [189.31.157.78])
+	by mail.palepurple.co.uk (Postfix) with ESMTP id 02E02894CF8
+	for <postmaster@codepoets.co.uk>; Tue,  5 Aug 2008 19:32:11 +0100 (BST)
+Date: Tue, 05 Aug 2008 16:44:31 +0000
+Message-ID: <45605.clarke@shan>
+From: "ferd clarke" <mary@ccr.org>
+To: <postmaster@codepoets.co.uk>
+Subject: *** SPAM *** Super eustace proposition
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="=_xjl52j6iKNOFLD"
+Content-Length: 628
+Lines: 26
+
+This is a multi-part message in MIME format.
+
+--=_xjl52j6iKNOFLD
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+ view,  medicine todays best solution check out here
+--=_xjl52j6iKNOFLD
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Diso-8859-1">
+</HEAD>
+<P> view,  medicine todays best solution <A =
+href=3D"http://heartremember.com">check out here</A></P>
+</BODY>
+</HTML>
+--=_xjl52j6iKNOFLD--
+
+
