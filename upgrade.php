@@ -859,7 +859,8 @@ function upgrade_344_pgsql() {
 /** 
  * Create alias_domain table - MySQL
  */
-function upgrade_362_mysql() {
+# function upgrade_362_mysql() { # renamed to _438 to make sure it runs after an upgrade from 2.2.x
+function upgrade_438_mysql() {
     # Table structure for table alias_domain
     #
     $table_alias_domain = table_by_key('alias_domain');
@@ -880,7 +881,8 @@ function upgrade_362_mysql() {
 /** 
  * Create alias_domain table - PgSQL
  */
-function upgrade_362_pgsql() {
+# function upgrade_362_pgsql() { # renamed to _438 to make sure it runs after an upgrade from 2.2.x
+function upgrade_438_pgsql() {
     # Table structure for table alias_domain
     $table_alias_domain = table_by_key('alias_domain');
     $table_domain = table_by_key('domain');
