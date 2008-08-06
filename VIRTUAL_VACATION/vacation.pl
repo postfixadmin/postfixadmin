@@ -167,7 +167,7 @@ else {
         filename => $logfile,
         mode => 'append');
 
-    my $logger = get_logger();
+    $logger = get_logger();
     $appender->layout($log_layout);
     $logger->add_appender($appender);
 
