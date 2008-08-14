@@ -323,7 +323,7 @@ $CONF['show_custom_colors']=array("lightgreen","lightblue");
 // $CONF['create_mailbox_subdirs_host']='localhost';
 //
 // Specify '' for Dovecot and 'INBOX.' for Courier.
-$CONF['create_mailbox_subdirs_prefix']='';
+$CONF['create_mailbox_subdirs_prefix']='INBOX.';
 //
 // Normally, the TCP port number does not have to be specified.
 // $CONF['create_mailbox_subdirs_hostport']=143;
