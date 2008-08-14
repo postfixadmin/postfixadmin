@@ -6,12 +6,13 @@
 
 $file = 'list-virtual.php';
 
-if ($limit['aliases'] == 0) $limit['aliases'] = $PALANG['pOverview_unlimited'];
-if ($limit['mailboxes'] == 0) $limit['mailboxes'] = $PALANG['pOverview_unlimited'];
-if ($limit['maxquota'] == 0) $limit['maxquota'] = $PALANG['pOverview_unlimited'];
-if ($limit['aliases'] < 0) $limit['aliases'] = $PALANG['pOverview_disabled'];
-if ($limit['mailboxes'] < 0) $limit['mailboxes'] = $PALANG['pOverview_disabled'];
-if ($limit['maxquota'] < 0) $limit['maxquota'] = $PALANG['pOverview_disabled'];
+
+if ($limit['aliases'] == 0) $limit['aliases'] = $PALANG['pOverview_disabled'];
+if ($limit['mailboxes'] == 0) $limit['mailboxes'] = $PALANG['pOverview_disabled'];
+if ($limit['maxquota'] == 0) $limit['maxquota'] = $PALANG['pOverview_disabled'];
+if ($limit['aliases'] < 0) $limit['aliases'] = $PALANG['pOverview_unlimited'];
+if ($limit['mailboxes'] < 0) $limit['mailboxes'] = $PALANG['pOverview_unlimited'];
+if ($limit['maxquota'] < 0) $limit['maxquota'] = $PALANG['pOverview_unlimited'];
 
 for ($i = 0; $i < sizeof ($list_domains); $i++)
 {
