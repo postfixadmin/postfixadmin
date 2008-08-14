@@ -1915,6 +1915,7 @@ function create_mailbox_subfolders($login,$cleartext_password)
    }
 
    $s_host=$CONF['create_mailbox_subdirs_host'];
+   $s_prefix=$CONF['create_mailbox_subdirs_prefix'];
    $s_options='';
    $s_port='';
 
@@ -1957,7 +1958,7 @@ function create_mailbox_subfolders($login,$cleartext_password)
 
    foreach($CONF['create_mailbox_subdirs'] as $f)
    {
-      $f='{'.$s_host.'}INBOX.'.$f;
+      $f='{'.$s_host.'}'.$s_prefix.$f;
       $res=imap_createmailbox($i,$f);
       if (!$res) {
          @imap_close($i);
