@@ -323,8 +323,8 @@ if (sizeof ($tMailbox) > 0) {
          }
 
          $edit_aliases=0;
-         if (    authentication_has_role('global-admin')  && $CONF['alias_control_admin'] == 'YES') $edit_aliases = 1;
-         if ( (! authentication_has_role('global-admin')) && $CONF['alias_control'] == 'YES') $edit_aliases = 1;
+         if ( (! authentication_has_role('global-admin')) && $CONF['alias_control_admin'] == 'YES') $edit_aliases = 1;
+         if (    authentication_has_role('global-admin')  && $CONF['alias_control'] == 'YES') $edit_aliases = 1;
 
          if ($edit_aliases == 1)
          {
