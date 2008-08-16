@@ -929,7 +929,6 @@ function upgrade_439_mysql() {
     ");
 }
 function upgrade_439_pgsql() {
-    db_query_parsed("
-        ALTER TABLE $table_fetchmail ADD COLUMN ssl BOOLEAN NOT NULL DEFAULT false;
-    ");
+    $table_fetchmail = table_by_key('fetchmail');
+    db_query_parsed("ALTER TABLE $table_fetchmail ADD COLUMN ssl BOOLEAN NOT NULL DEFAULT false");
 }
