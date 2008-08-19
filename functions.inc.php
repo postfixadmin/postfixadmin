@@ -609,11 +609,11 @@ function check_alias ($domain)
    $limit = get_domain_properties ($domain);
    if ($limit['aliases'] == 0)
    {
-      return true;
+      return false;
    }
    if ($limit['aliases'] < 0)
    {
-      return false;
+      return true;
    }
    if ($limit['alias_count'] >= $limit['aliases'])
    {
@@ -637,11 +637,11 @@ function check_mailbox ($domain)
    $limit = get_domain_properties ($domain);
    if ($limit['mailboxes'] == 0)
    {
-      return true;
+      return false;
    }
    if ($limit['mailboxes'] < 0)
    {
-      return false;
+      return true;
    }
    if ($limit['mailbox_count'] >= $limit['mailboxes'])
    {
