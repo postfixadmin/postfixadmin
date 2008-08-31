@@ -3,7 +3,7 @@ X-Original-To: david@example.org
 Delivered-To: david@example.org
 Received: by mail.palepurple.co.uk (Postfix, from userid 33)
 	id 1942F894CF9; Fri,  1 Aug 2008 11:23:45 +0100 (BST)
-To: <david@example.org>
+To: "" <david@example.org>
 Subject: New Phone call - annotate it!
 X-PHP-Script: admin.palepurple.co.uk/contacts/dispatch.php for 78.105.97.55
 From: "asterisk@example.org" <asterisk@example.org>

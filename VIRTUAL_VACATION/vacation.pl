@@ -99,8 +99,8 @@ my $db_type = 'Pg';
 my $db_host = '';
 
 # connection details
-my $db_username = 'your_username';
-my $db_password = 'your_password';
+my $db_username = 'dg';
+my $db_password = 'gingerdog';
 my $db_name     = 'postfix';
 
 # smtp server used to send vacation e-mails
@@ -139,16 +139,18 @@ use Mail::Sendmail;
 use Getopt::Std;
 use Log::Log4perl qw(get_logger :levels);
 
-my ($from, $to, $cc, ,$bcc , $subject, $messageid, $lastheader, $smtp_sender, $smtp_recipient, %opts, $sndrhdr, $spam, $test_mode, $logger);
+my ($from, $to, $cc, $replyto , $subject, $messageid, $lastheader, $smtp_sender, $smtp_recipient, %opts, $spam, $test_mode, $logger);
 
 $subject='';
 
 # Setup a logger...
 #
-getopts('f:t:', \%opts) or die "Usage: $0 [-t yes] [-f sender] [-- [recipient]]\n    -t for testing only\n";
+getopts('f:t:', \%opts) or die "Usage: $0 [-t yes] -f sender -- recipient\n    -t for testing only\n";
 $opts{f} and $smtp_sender = $opts{f};
 $test_mode = 0;
 $opts{t} and $test_mode = 1;
+$smtp_recipient = shift || $smtp_recipient || $ENV{"USER"} || "";
+
 
 my $log_layout = Log::Log4perl::Layout::PatternLayout->new("%d %p> %F:%L %M - %m%n");
 
@@ -388,15 +390,24 @@ sub send_vacation_email {
     }
 }
 
+# Remove textual stuff from a (list of) email address(es)
+# e.g. convert: "aardvark" <a@b.com>, "Danger Mouse" <c@d.com>, e@f.com to 
+#               a@b.com, c@d.com, e@f.com
 sub strip_address {
     my ($arg) = @_;
     if(!$arg) {
         return '';
     }
-    if($arg =~ /([\w\-.%]+\@[\w.-]+)/) {
-        return lc($1);
+    my @ok;
+    $logger = get_logger();
+    for (split(/,\s*/, lc($arg))) {
+        my $temp = Email::Valid->address($_);
+        if($temp) {
+            push(@ok, $temp);
+        }
     }
-    return '';
+    my $result = join(", ", @ok);
+    return $result;
 }
 
 sub panic_prepare {
@@ -412,34 +423,52 @@ sub panic_execute {
     $logger->error("Could not execute sql statement - '$arg' with parameters '$param'");
     exit(0);
 }
+
+# Make sure the email wasn't sent by someone who could be a mailing list etc; if it was,
+# then we abort after appropriate logging.
+sub check_and_clean_from_address {
+    my ($address) = @_;
+    my $logger = get_logger();
+
+    if($address =~ /^(noreply|postmaster|mailer-daemon|listserv|majordomo|owner-|request-|bounces-)/i || 
+        $address =~ /-(owner|request|bounces)\@/i ) { 
+        $logger->debug("sender $address contains $1 - will not send vacation message"); 
+        exit(0); 
+    }
+    $address = strip_address($address);
+    if($address eq "") {
+        $logger->error("Address $address is not valid; exiting");
+        exit(0);
+    }
+    #$logger->debug("Address cleaned up to $address");
+    return $address;
+}
 ########################### main #################################
 
 # Take headers apart
-#
+$cc = '';
+$replyto = '';
+
 while (<STDIN>) {
     last if (/^$/);
-    if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; }  
-    elsif (/^Return-Path:\s+(.*)\n$/i) { $smtp_sender = $1; $lastheader = \$smtp_sender; }  
-    elsif (/^Delivered-To:\s+(.*)\n$/i) { $smtp_recipient = $1; $lastheader = \$smtp_recipient; }  
-    elsif (/^from:\s+(.*)\n$/i) { $from = $1; $lastheader = \$from; }  
-    elsif (/^to:\s+(.*)\n$/i) { $to = $1; $lastheader = \$to; }  
-    elsif (/^cc:\s+(.*)\n$/i) { $cc = $1; $lastheader = \$cc; }  
-    elsif (/^bcc:\s+(.*)\n$/i) { $bcc = $1; $lastheader = \$bcc; }  
-    elsif (/^subject:\s+(.*)\n$/i) { $subject = $1; $lastheader = \$subject; }  
-    elsif (/^message-id:\s+(.*)\n$/i) { $messageid = $1; $lastheader = \$messageid; }  
+    if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; next; }  
+    elsif (/^from:\s*(.*)\s*\n$/i) { $from = $1; $lastheader = \$from; }  
+    elsif (/^to:\s*(.*)\s*\n$/i) { $to = $1; $lastheader = \$to; }  
+    elsif (/^cc:\s*(.*)\s*\n$/i) { $cc = $1; $lastheader = \$cc; }  
+    elsif (/^Reply-to:\s*(.*)\s*\n$/i) { $replyto = $1; $lastheader = \$replyto; }  
+    elsif (/^subject:\s*(.*)\s*\n$/i) { $subject = $1; $lastheader = \$subject; }  
+    elsif (/^message-id:\s*(.*)\s*\n$/i) { $messageid = $1; $lastheader = \$messageid; }  
     elsif (/^x-spam-(flag|status):\s+yes/i) { $logger->debug("x-spam-$1: yes found; exiting"); exit (0); }  
     elsif (/^x-facebook-notify:/i) { $logger->debug('Mail from facebook, ignoring'); exit(0); }
     elsif (/^precedence:\s+(bulk|list|junk)/i) { $logger->debug("precedence: $1 found; exiting"); exit (0); }  
     elsif (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { $logger->debug("x-loop: postfix admin virtual vacation found; exiting"); exit (0); }  
-    elsif (/^Auto-Submitted:\s+no/i) { next; }  
+    elsif (/^Auto-Submitted:\s*no\s*/i) { next; }  
     elsif (/^Auto-Submitted:/i) { $logger->debug("Auto-Submitted: something found; exiting"); exit (0); }
     elsif (/^List-(Id|Post):/i) { $logger->debug("List-$1: found; exiting"); exit (0); }
-    elsif (/^Sender:\s+(.*)/i) { $sndrhdr = $1; $lastheader = \$sndrhdr; }
     else {$lastheader = "" ; }
 }
 
 
-$smtp_recipient = shift || $smtp_recipient || $ENV{"USER"} || "";
 
 # If either From: or To: are not set, exit
 if(!$from || !$to || !$messageid || !$smtp_sender || !$smtp_recipient) { 
@@ -447,15 +476,16 @@ if(!$from || !$to || !$messageid || !$smtp_sender || !$smtp_recipient) {
     exit(0); 
 }
 
-if($smtp_sender =~ /^(mailer-daemon|listserv|majordomo|owner-|request-|bounces-)/i || 
-    $smtp_sender =~ /-(owner|request|bounces)\@/i ) { 
-    $logger->debug("sender $smtp_sender contains $1 - will not send vacation message"); 
-    exit(0); 
+$to = strip_address($to);
+$from = lc ($from);
+$from = check_and_clean_from_address($from);
+if($replyto ne "") {
+    # if reply-to is invalid, or looks like a mailing list, then we probably don't want to send a reply.
+    $replyto = check_and_clean_from_address($replyto);
 }
+$smtp_sender = check_and_clean_from_address($smtp_sender);
+$smtp_recipient = check_and_clean_from_address($smtp_recipient);
 
-$smtp_sender = strip_address($smtp_sender);
-$smtp_recipient = strip_address($smtp_recipient);
-$sndrhdr = strip_address($sndrhdr);
 
 if ($smtp_sender eq $smtp_recipient) { 
     $logger->debug("smtp sender $smtp_sender and recipient $smtp_recipient are the same; aborting"); 
@@ -463,39 +493,28 @@ if ($smtp_sender eq $smtp_recipient) {
 }
 
 my $recipfound = 0;
-for (split(/,\s*/, lc($to)), split(/,\s*/, lc($cc)), split(/,\s*/, lc($bcc))) {
+for (split(/,\s*/, lc($to)), split(/,\s*/, lc($cc))) {
     my $destinatario = strip_address($_);
-    if ($sndrhdr eq $destinatario) { 
-        $logger->debug("sender header $sndrhdr contains recipient $destinatario (mailing myself?)"); 
+    if ($smtp_sender eq $destinatario) { 
+        $logger->debug("sender header $smtp_sender contains recipient $destinatario (mailing myself?)"); 
         exit(0); 
     }
     if ($smtp_recipient eq $destinatario) { $recipfound++; }
 }
 if (!$recipfound) { 
-    $logger->debug("smtp envelope recipient $smtp_recipient not found in the header recipients (therefore they were bcc'ed, so won't send vacation message)"); 
+    $logger->debug("smtp envelope recipient $smtp_recipient not found in the header recipients ($to & $cc) (therefore they were bcc'ed, so won't send vacation message)"); 
     exit (0); 
 }
 
-$from = lc ($from);
 
-if (!Email::Valid->address($from,-mxcheck => 1)) { $logger->debug("Invalid from email address: $from; exiting."); exit(0); }
-if (!Email::Valid->address($smtp_sender,-mxcheck => 1)) { $logger->debug("Invalid sender email address: $smtp_sender; exiting."); exit(0); }
-
-if ($from =~ /([\w\-.%]+\@[\w.-]+)/) { $from = $1; }
-# Does the $from address look like a mailing list etc?
-if ($from eq "" || 
-    $from =~ /^(owner-|-(?:request|owner)\@|^(?:mailer-daemon|postmaster)\@)/i) { 
-    $logger->debug("from $from contains $1"); exit (0); 
-}
 
 my ($rv, $email) = find_real_address($smtp_recipient);
-$logger->debug("find_email_address gave: rv:$rv, email:$email");
 if ($rv == 1) {
     $logger->debug("Attempting to send vacation response for: $messageid to: $smtp_sender, $smtp_recipient, $email (test_mode = $test_mode)");
     send_vacation_email($email, $smtp_sender, $smtp_recipient, $messageid, $test_mode);
 }
 else {
-    $logger->debug("SMTP recipient $smtp_recipient which resolves to $email does not have an active vacation");
+    $logger->debug("SMTP recipient $smtp_recipient which resolves to $email does not have an active vacation (rv: $rv, email: $email)");
 }
 
 0;
