@@ -86,8 +86,8 @@ to your user:
     Apache configuration file (which can be set to be visible only by root) using 
     something like the following in your VirtualHost definition :
 
-    SetVar DB_USER "postfix"
-    SetVar DB_PASS "opensesame"
+    SetEnv DB_USER "postfix"
+    SetEnv DB_PASS "opensesame"
 
     config.inc.php would then be able to access these through :
 
