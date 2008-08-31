@@ -51,12 +51,13 @@ function _pgsql_field_exists($table, $field) {
 }
 
 
+$table = table_by_key('config');
 if($CONF['database_type'] == 'pgsql') {
     // check if table already exists, if so, don't recreate it
-    $r = db_query("SELECT relname FROM pg_class WHERE relname = 'config'");
+    $r = db_query("SELECT relname FROM pg_class WHERE relname = '$table'");
     if($r['rows'] == 0) {
         $pgsql = "
-            CREATE TABLE  " . table_by_key ('config') . " ( 
+            CREATE TABLE  $table ( 
                     id SERIAL,
                     name VARCHAR(20) NOT NULL UNIQUE,
                     value VARCHAR(20) NOT NULL,
@@ -67,7 +68,7 @@ if($CONF['database_type'] == 'pgsql') {
 }
 else {
     $mysql = "
-        CREATE TABLE {IF_NOT_EXISTS} " . table_by_key ('config') . "(
+        CREATE TABLE {IF_NOT_EXISTS} $table (
         `id` {AUTOINCREMENT} {PRIMARY},
         `name`  VARCHAR(20) {LATIN1} NOT NULL DEFAULT '',
         `value` VARCHAR(20) {LATIN1} NOT NULL DEFAULT '',
@@ -77,7 +78,7 @@ else {
     db_query_parsed($mysql, 0, " ENGINE = MYISAM COMMENT = 'PostfixAdmin settings'");
 }
 
-$sql = "SELECT * FROM " . table_by_key ('config') . " WHERE name = 'version'";
+$sql = "SELECT * FROM $table WHERE name = 'version'";
 
 // insert into config('version', '01');
 
@@ -88,7 +89,7 @@ if($r['rows'] == 1) {
     $row = db_array($rs);
     $version = $row['value'];
 } else {
-    db_query_parsed("INSERT INTO " . table_by_key ('config') . " (name, value) VALUES ('version', '0')", 0, '');
+    db_query_parsed("INSERT INTO $table (name, value) VALUES ('version', '0')", 0, '');
     $version = 0;
 }
 
@@ -105,7 +106,7 @@ function _do_upgrade($current_version) {
         return true;
     }
 
-    echo "<p>Updating database:<p>old version: $current_version; target version: $target_version";
+    echo "<p>Updating database:</p><p>- old version: $current_version; target version: $target_version</p>";
 
     for ($i = $current_version +1; $i <= $target_version; $i++) {
         $function = "upgrade_$i";
@@ -131,7 +132,8 @@ function _do_upgrade($current_version) {
         } 
         // Update config table so we don't run the same query twice in the future.
         $i = (int) $i;
-        $sql = "UPDATE config SET value = $i WHERE name = 'version'";
+        $table = table_by_key('config');
+        $sql = "UPDATE $table SET value = $i WHERE name = 'version'";
         db_query($sql);
     };
 }
