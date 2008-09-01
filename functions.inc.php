@@ -635,13 +635,14 @@ function check_alias ($domain)
 function check_mailbox ($domain)
 {
    $limit = get_domain_properties ($domain);
+   /* -1 = disable, 0 = unlimited */
    if ($limit['mailboxes'] == 0)
    {
-      return false;
+      return true;
    }
    if ($limit['mailboxes'] < 0)
    {
-      return true;
+      return false;
    }
    if ($limit['mailbox_count'] >= $limit['mailboxes'])
    {
