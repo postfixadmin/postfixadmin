@@ -12,13 +12,13 @@
 
 REQUIRED!
 ---------
-You need to have the following installed to be able to use Virtual Vacation.
+There are a bunch of Perl modules which need installing, depending on your 
+distribution these may be available through your package management tool, or
+will need installing through CPAN.
 
-- Perl5
-- Perl DBI
-- Either Perl DBD::mysql OR Perl DBD::pgsql - depending on DB backend.
-- Email::Valid
-- Mail::Sendmail
+A full list of required modules can be found in the source of vacation.pl.
+
+It obviously relies on Perl
 
 
 About Virtual Vacation
@@ -129,7 +129,7 @@ joeuser#something.com@autoreply.yourdomain.com
 
 vacation.pl then checks the database to see wether a user is on holiday and
 what message to send back. Make sure that vacation.pl is able to communicate
-to your databse. In the first couple of lines you have to specify the
+to your database. In the first couple of lines you have to specify the
 database, username and password for it.
 NOTE: Make sure that the path to perl is correct.
 
