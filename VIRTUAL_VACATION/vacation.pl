@@ -146,10 +146,10 @@ $subject='';
 # Setup a logger...
 #
 getopts('f:t:', \%opts) or die "Usage: $0 [-t yes] -f sender -- recipient\n    -t for testing only\n";
-$opts{f} and $smtp_sender = $opts{f};
+$opts{f} and $smtp_sender = $opts{f} or die "-f sender not present on command line";
 $test_mode = 0;
 $opts{t} and $test_mode = 1;
-$smtp_recipient = shift || $smtp_recipient || $ENV{"USER"} || "";
+$smtp_recipient = shift or die "recipient not given on command line";
 
 
 my $log_layout = Log::Log4perl::Layout::PatternLayout->new("%d %p> %F:%L %M - %m%n");
@@ -452,7 +452,7 @@ $replyto = '';
 while (<STDIN>) {
     last if (/^$/);
     if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; next; }  
-    elsif (/^from:\s*(.*)\s*\n$/i) { $from = $1; $lastheader = \$from; }  
+    elsif (/^from:\s*(.*)\b\s*\n$/i) { $from = $1; $lastheader = \$from; }  
     elsif (/^to:\s*(.*)\s*\n$/i) { $to = $1; $lastheader = \$to; }  
     elsif (/^cc:\s*(.*)\s*\n$/i) { $cc = $1; $lastheader = \$cc; }  
     elsif (/^Reply-to:\s*(.*)\s*\n$/i) { $replyto = $1; $lastheader = \$replyto; }  
@@ -462,7 +462,7 @@ while (<STDIN>) {
     elsif (/^x-facebook-notify:/i) { $logger->debug('Mail from facebook, ignoring'); exit(0); }
     elsif (/^precedence:\s+(bulk|list|junk)/i) { $logger->debug("precedence: $1 found; exiting"); exit (0); }  
     elsif (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { $logger->debug("x-loop: postfix admin virtual vacation found; exiting"); exit (0); }  
-    elsif (/^Auto-Submitted:\s*no\s*/i) { next; }  
+    elsif (/^Auto-Submitted:\s*no\b*/i) { next; }  
     elsif (/^Auto-Submitted:/i) { $logger->debug("Auto-Submitted: something found; exiting"); exit (0); }
     elsif (/^List-(Id|Post):/i) { $logger->debug("List-$1: found; exiting"); exit (0); }
     else {$lastheader = "" ; }
