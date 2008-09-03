@@ -103,6 +103,8 @@ my $db_username = 'dg';
 my $db_password = 'gingerdog';
 my $db_name     = 'postfix';
 
+my $vacation_domain = 'autoreply.example.org';
+
 # smtp server used to send vacation e-mails
 my $smtp_server = 'localhost';
 
@@ -452,22 +454,32 @@ $replyto = '';
 while (<STDIN>) {
     last if (/^$/);
     if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; next; }  
-    elsif (/^from:\s*(.*)\b\s*\n$/i) { $from = $1; $lastheader = \$from; }  
-    elsif (/^to:\s*(.*)\s*\n$/i) { $to = $1; $lastheader = \$to; }  
-    elsif (/^cc:\s*(.*)\s*\n$/i) { $cc = $1; $lastheader = \$cc; }  
+    elsif (/^from:\s*(.*)\n$/i) { $from = $1; $lastheader = \$from; }  
+    elsif (/^to:\s*(.*)\n$/i) { $to = $1; $lastheader = \$to; }  
+    elsif (/^cc:\s*(.*)\n$/i) { $cc = $1; $lastheader = \$cc; }  
     elsif (/^Reply-to:\s*(.*)\s*\n$/i) { $replyto = $1; $lastheader = \$replyto; }  
-    elsif (/^subject:\s*(.*)\s*\n$/i) { $subject = $1; $lastheader = \$subject; }  
+    elsif (/^subject:\s*(.*)\n$/i) { $subject = $1; $lastheader = \$subject; }  
     elsif (/^message-id:\s*(.*)\s*\n$/i) { $messageid = $1; $lastheader = \$messageid; }  
     elsif (/^x-spam-(flag|status):\s+yes/i) { $logger->debug("x-spam-$1: yes found; exiting"); exit (0); }  
     elsif (/^x-facebook-notify:/i) { $logger->debug('Mail from facebook, ignoring'); exit(0); }
     elsif (/^precedence:\s+(bulk|list|junk)/i) { $logger->debug("precedence: $1 found; exiting"); exit (0); }  
     elsif (/^x-loop:\s+postfix\ admin\ virtual\ vacation/i) { $logger->debug("x-loop: postfix admin virtual vacation found; exiting"); exit (0); }  
-    elsif (/^Auto-Submitted:\s*no\b*/i) { next; }  
+    elsif (/^Auto-Submitted:\s*no/i) { next; }  
     elsif (/^Auto-Submitted:/i) { $logger->debug("Auto-Submitted: something found; exiting"); exit (0); }
     elsif (/^List-(Id|Post):/i) { $logger->debug("List-$1: found; exiting"); exit (0); }
     else {$lastheader = "" ; }
 }
 
+
+if($smtp_recipient =~ /\@$vacation_domain/) {
+    # the regexp used here could probably be improved somewhat, for now hope that people won't use # as a valid mailbox character.
+    my $tmp = $smtp_recipient;
+    $tmp =~ s/\@$vacation_domain//;
+    $tmp =~ s/#/\@/;
+    $logger->debug("Converted autoreply mailbox back to normal style - from $smtp_recipient to $tmp");
+    $smtp_recipient = $tmp;
+    undef $tmp;
+}
 
 
 # If either From: or To: are not set, exit
