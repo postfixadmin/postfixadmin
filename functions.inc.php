@@ -609,11 +609,12 @@ function check_alias ($domain)
    $limit = get_domain_properties ($domain);
    if ($limit['aliases'] == 0)
    {
-      return false;
+      # 0 = unlimited, -1 = disabled
+      return true;
    }
    if ($limit['aliases'] < 0)
    {
-      return true;
+      return false;
    }
    if ($limit['alias_count'] >= $limit['aliases'])
    {
