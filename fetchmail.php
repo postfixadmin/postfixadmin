@@ -89,11 +89,13 @@ $fm_defaults=array(
       array('POP3','IMAP','POP2','ETRN','AUTO'),
 );
 
+$table_fetchmail = table_by_key('fetchmail');
+$table_mailbox = table_by_key('mailbox');
 
 $list_domains = list_domains_for_admin ($SESSID_USERNAME);
 $user_domains=implode(", ",array_values($list_domains)); # for displaying
 $user_domains_sql=implode("','",escape_string(array_values($list_domains))); # for SQL
-$sql="SELECT username FROM mailbox WHERE domain in ('".$user_domains_sql."')"; # TODO: replace with domain selection dropdown
+$sql="SELECT username FROM $table_mailbox WHERE domain in ('".$user_domains_sql."')"; # TODO: replace with domain selection dropdown
 
 $res = db_query ($sql);
 if ($res['rows'] > 0){
@@ -114,7 +116,6 @@ if ($delete) {
    $row_id = $edit;
 }
 
-$table_fetchmail = table_by_key('fetchmail');
 
 if ($row_id) {
    $result = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM $table_fetchmail WHERE id=" . $row_id);
