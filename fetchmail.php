@@ -114,8 +114,10 @@ if ($delete) {
    $row_id = $edit;
 }
 
+$table_fetchmail = table_by_key('fetchmail');
+
 if ($row_id) {
-   $result = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM fetchmail WHERE id=" . $row_id);
+   $result = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM $table_fetchmail WHERE id=" . $row_id);
    if ($result['rows'] > 0) {
       $edit_row = db_array ($result['result']);
       $account = $edit_row['src_user'] . " @ " . $edit_row['src_server'];
@@ -133,7 +135,7 @@ if ($cancel) { # cancel $new or $edit
    $edit=0;
    $new=0;
 } elseif ($delete) { # delete an entry
-   $result = db_query ("delete from fetchmail WHERE id=".$delete);
+   $result = db_query ("delete from $table_fetchmail WHERE id=".$delete);
    if ($result['rows'] != 1)
    {
       flash_error($PALANG['pDelete_delete_error']) . '</span>';
@@ -179,12 +181,12 @@ if ($cancel) { # cancel $new or $edit
 
    if ($save) {
        if ($new) {
-         $sql="INSERT INTO fetchmail (".implode(",",escape_string(array_keys($formvars))).") VALUES ('".implode("','",escape_string($formvars))."')";
+         $sql="INSERT INTO $table_fetchmail (".implode(",",escape_string(array_keys($formvars))).") VALUES ('".implode("','",escape_string($formvars))."')";
       } else { # $edit
          foreach(array_keys($formvars) as $key) {
             $formvars[$key] = escape_string($key) . "='" . escape_string($formvars[$key]) . "'";
          }
-         $sql="UPDATE fetchmail SET ".implode(",",$formvars).",returned_text='', date=NOW() WHERE id=".$edit;
+         $sql="UPDATE $table_fetchmail SET ".implode(",",$formvars).",returned_text='', date=NOW() WHERE id=".$edit;
       }
       $result = db_query ($sql);
       if ($result['rows'] != 1)
@@ -213,7 +215,7 @@ if ($cancel) { # cancel $new or $edit
 
 $tFmail = array();
 if ($edit + $new == 0) { # display list
-   $res = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM fetchmail order by id desc");
+   $res = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM $table_fetchmail order by id desc");
    if ($res['rows'] > 0) {
       while ($row = db_array ($res['result'])) {
          $tFmail[] = $row;
