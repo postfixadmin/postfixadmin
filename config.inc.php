@@ -44,8 +44,8 @@ $CONF['postfix_admin_path'] = dirname(__FILE__);
 $CONF['default_language'] = 'en';
 
 // Database Config
-// mysql = MySQL 3.23 and 4.0
-// mysqli = MySQL 4.1
+// mysql = MySQL 3.23 and 4.0, 4.1 or 5
+// mysqli = MySQL 4.1+ 
 // pgsql = PostgreSQL
 $CONF['database_type'] = 'mysql';
 $CONF['database_host'] = 'localhost';
