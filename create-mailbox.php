@@ -259,6 +259,9 @@ TODO: this is the start of /create-mailbox code segment that was originally used
       To be compared / merged.
  */
 
+      // apparently uppercase usernames really confuse some IMAP clients.
+      $fUsername = strtolower($fUsername);
+
       $result = db_query ("INSERT INTO $table_mailbox (username,password,name,maildir,quota,domain,created,modified,active) VALUES ('$fUsername','$password','$fName','$maildir','$quota','$fDomain',NOW(),NOW(),'$sqlActive')");
       if ($result['rows'] != 1 || !mailbox_postcreation($fUsername,$fDomain,$maildir, $quota))
       {
