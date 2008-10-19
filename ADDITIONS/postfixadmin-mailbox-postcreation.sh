@@ -23,12 +23,12 @@
 basedir=/var/spool/maildirs
 
 if [ ! -e "$basedir" ]; then
-    echo "basedir '$basedir' does not exist; bailing out."
+    echo "$0: basedir '$basedir' does not exist; bailing out."
     exit 1
 fi
 
 if [ `echo $3 | fgrep '..'` ]; then
-    echo "An argument contained a double-dot sequence; bailing out."
+    echo "$0: An argument contained a double-dot sequence; bailing out."
     exit 1
 fi
 
@@ -36,27 +36,25 @@ maildir="${basedir}/$3"
 parent=`dirname "$maildir"`
 if [ ! -d "$parent" ]; then
     if [ -e "$parent" ]; then
-        echo "Strainge - directory '$parent' exists, but is not a directory."
-        echo "Bailing out."
+        echo "$0: strange - directory '$parent' exists, but is not a directory; bailing out."
         exit 1
     else
         mkdir -p "${parent}"
         if [ $? -ne 0 ]; then
-            echo "mkdir -p '$parent' returned non-zero; bailing out."
+            echo "$0: mkdir -p '$parent' returned non-zero; bailing out."
             exit 1
         fi
     fi
 fi
 
 if [ -e "$maildir" ]; then
-    echo "Directory '$maildir' already exists! Bailing out"
+    echo "$0: Directory '$maildir' already exists! bailing out"
     exit 1
 fi
 
 maildirmake "$maildir"
 if [ ! -d "$maildir" ]; then
-    echo "maildirmake didn't produce a directory"
-    echo "Bailing out."
+    echo "$0: maildirmake didn't produce a directory; bailing out."
     exit 1
 fi
 
