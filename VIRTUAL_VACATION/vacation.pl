@@ -1,7 +1,8 @@
 #!/usr/bin/perl -w
 #
-# Virtual Vacation 3.1
-# by Mischa Peters <mischa at high5 dot net>
+# Virtual Vacation 4.0
+# Originally by Mischa Peters <mischa at high5 dot net>
+#
 # Copyright (c) 2002 - 2005 High5!
 # Licensed under GPL for more info check GPL-LICENSE.TXT
 #
