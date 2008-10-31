@@ -93,31 +93,31 @@
 # can read it.
 
 # db_type - uncomment one of these
-my $db_type = 'Pg';
+our $db_type = 'Pg';
 #my $db_type = 'mysql';
 
 # leave empty for connection via UNIX socket
-my $db_host = '';
+our $db_host = '';
 
 # connection details
-my $db_username = 'dg';
-my $db_password = 'gingerdog';
-my $db_name     = 'postfix';
+our $db_username = 'dg';
+our $db_password = 'gingerdog';
+our $db_name     = 'postfix';
 
-my $vacation_domain = 'autoreply.example.org';
+our $vacation_domain = 'autoreply.example.org';
 
 # smtp server used to send vacation e-mails
-my $smtp_server = 'localhost';
+our $smtp_server = 'localhost';
 
 # Set to 1 to enable logging to syslog.
-my $syslog = 0;
+our $syslog = 0;
 
 # path to logfile, when empty logging is supressed
 # change to e.g. /dev/null if you want nothing logged.
 # if we can't write to this, we try /tmp/vacation.log instead
-my $logfile='/var/spool/vacation/vacation.log';
+our $logfile='/var/spool/vacation/vacation.log';
 # 2 = debug + info, 1 = info only, 0 = error only
-my $log_level = 2;
+our $log_level = 2;
 
 
 # notification interval, in seconds
@@ -125,7 +125,14 @@ my $log_level = 2;
 # e.g. 1 day ...
 #my $interval = 60*60*24;
 # disabled by default
-my $interval = 0;
+our $interval = 0;
+
+# instead of changing this script, you can put your settings to /etc/mail/postfixadmin/vacation.conf
+# just use perl syntax there to fill the variables listed above (without the "our" keyword). Example:
+# $db_username = 'mail';
+if (-f "/etc/mail/postfixadmin/vacation.conf") {
+	require "/etc/mail/postfixadmin/vacation.conf";
+}
 
 # =========== end configuration ===========
 
