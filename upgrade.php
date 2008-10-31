@@ -934,3 +934,60 @@ function upgrade_439_pgsql() {
     $table_fetchmail = table_by_key('fetchmail');
     db_query_parsed("ALTER TABLE $table_fetchmail ADD COLUMN ssl BOOLEAN NOT NULL DEFAULT false");
 }
+
+function upgrade_469_mysql() {
+    $table_admin   = table_by_key('admin');
+    $table_alias   = table_by_key('alias');
+    $table_al_dom  = table_by_key('alias_domain');
+    $table_domain  = table_by_key('domain');
+    $table_dom_adm = table_by_key('domain_admins');
+    $table_fmail   = table_by_key('fetchmail');
+    $table_mailbox = table_by_key('mailbox');
+    $table_log     = table_by_key('log');
+
+    # tables were created without explicit charset before :-(
+    $all_sql = split("\n", trim("
+        ALTER TABLE `$table_admin`   CHANGE `username`      `username`      VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_admin`   CHANGE `password`      `password`      VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_admin`   DEFAULT                                               {LATIN1}
+        ALTER TABLE `$table_alias`   CHANGE `address`       `address`       VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_alias`   CHANGE `goto`          `goto`          VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_alias`   CHANGE `domain`        `domain`        VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_alias`   DEFAULT                                               {LATIN1}
+        ALTER TABLE `$table_al_dom`  CHANGE `alias_domain`  `alias_domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_al_dom`  CHANGE `target_domain` `target_domain` VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_al_dom`  DEFAULT                                               {LATIN1}
+        ALTER TABLE `$table_domain`  CHANGE `domain`         `domain`       VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_domain`  CHANGE `transport`      `transport`    VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_domain`  DEFAULT                                               {LATIN1}
+        ALTER TABLE `$table_dom_adm` CHANGE `username`       `username`     VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_dom_adm` CHANGE `domain`         `domain`       VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_dom_adm` DEFAULT                                               {LATIN1}
+        ALTER TABLE `$table_log`     CHANGE `username`       `username`     VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_log`     CHANGE `domain`         `domain`       VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_log`     CHANGE `action`         `action`       VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_log`     CHANGE `data`           `data`         VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_log`     DEFAULT                                               {LATIN1}
+        ALTER TABLE `$table_mailbox` CHANGE `username`       `username`     VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_mailbox` CHANGE `password`       `password`     VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_mailbox` CHANGE `maildir`        `maildir`      VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_mailbox` CHANGE `domain`         `domain`       VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_mailbox` DEFAULT                                               {LATIN1}
+        ALTER TABLE `$table_fmail`   CHANGE `mailbox`        `mailbox`      VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_fmail`   CHANGE `src_server`     `src_server`   VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_fmail`   CHANGE `src_user`       `src_user`     VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_fmail`   CHANGE `src_password`   `src_password` VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_fmail`   CHANGE `src_folder`     `src_folder`   VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_fmail`   CHANGE `mda`            `mda`          VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_fmail`   CHANGE `mailbox`        `mailbox`      VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_fmail`   CHANGE `extra_options`  `extra_options`   TEXT        {LATIN1} NULL DEFAULT NULL
+        ALTER TABLE `$table_fmail`   CHANGE `returned_text`  `returned_text`   TEXT        {LATIN1} NULL DEFAULT NULL
+        ALTER TABLE `$table_fmail`   DEFAULT                                               {LATIN1}
+        "));
+
+    foreach ($all_sql as $sql) {
+        $result = db_query_parsed($sql);
+    }
+}
+
+
