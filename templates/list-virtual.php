@@ -370,7 +370,7 @@ if ($CONF['show_status'] == 'YES' && $CONF['show_status_key'] == 'YES')
      print "&nbsp;<span style='background-color:" . $CONF['show_popimap_color'] .
                         "'>" . $CONF['show_status_text'] . "</span>=" . $PALANG['pStatus_popimap'] . "\n";
   }
-  if ( $CONF['show_custom_count'] > 0 )
+  if ( count($CONF['show_custom_domains']) > 0 )
   {
     for ($i = 0; $i < sizeof ($CONF['show_custom_domains']); $i++)
     {

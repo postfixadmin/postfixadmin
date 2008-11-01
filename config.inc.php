@@ -274,11 +274,13 @@ $CONF['show_status_text']='&nbsp;&nbsp;';
 // elsewhere, you will probably want to disable this.
 $CONF['show_undeliverable']='NO';
 $CONF['show_undeliverable_color']='tomato';
+// mails to these domains will never be flagged as undeliverable
 $CONF['show_undeliverable_exceptions']=array("unixmail.domain.ext","exchangeserver.domain.ext","gmail.com");
 $CONF['show_popimap']='NO';
 $CONF['show_popimap_color']='darkgrey';
-// set 'show_custom_count' to 0 to disable custom indicators
-$CONF['show_custom_count']=2;
+// you can assign special colors to some domains. To do this,
+// - add the domain to show_custom_domains
+// - add the corresponding color to show_custom_colors
 $CONF['show_custom_domains']=array("subdomain.domain.ext","domain2.ext");
 $CONF['show_custom_colors']=array("lightgreen","lightblue");
 

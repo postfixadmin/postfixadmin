@@ -2061,7 +2061,7 @@ function gen_show_status ($show_alias)
    }
 
    // CUSTOM DESTINATION CHECK
-   if ( $CONF['show_custom_count'] > 0 )
+   if ( count($CONF['show_custom_domains']) > 0 )
    {
       for ($i = 0; $i < sizeof ($CONF['show_custom_domains']); $i++)
       {
