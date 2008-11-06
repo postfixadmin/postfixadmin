@@ -935,7 +935,7 @@ function upgrade_439_pgsql() {
     db_query_parsed("ALTER TABLE $table_fetchmail ADD COLUMN ssl BOOLEAN NOT NULL DEFAULT false");
 }
 
-function upgrade_469_mysql() {
+function upgrade_473_mysql() {
     $table_admin   = table_by_key('admin');
     $table_alias   = table_by_key('alias');
     $table_al_dom  = table_by_key('alias_domain');
@@ -951,7 +951,7 @@ function upgrade_469_mysql() {
         ALTER TABLE `$table_admin`   CHANGE `password`      `password`      VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_admin`   DEFAULT                                               {LATIN1}
         ALTER TABLE `$table_alias`   CHANGE `address`       `address`       VARCHAR( 255 ) {LATIN1} NOT NULL
-        ALTER TABLE `$table_alias`   CHANGE `goto`          `goto`          VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_alias`   CHANGE `goto`          `goto`             TEXT      ) {LATIN1} NOT NULL
         ALTER TABLE `$table_alias`   CHANGE `domain`        `domain`        VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_alias`   DEFAULT                                               {LATIN1}
         ALTER TABLE `$table_al_dom`  CHANGE `alias_domain`  `alias_domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
