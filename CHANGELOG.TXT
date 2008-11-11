@@ -15,10 +15,33 @@ Only in SVN trunk
 --------------------
 
   - added support for domain aliases (from lenix) (can be disabled with $CONF['alias_domain'])
-  - add clear error message for non-resolvable domains when creating mailboxes or aliases
-  - check for non-resolvable domains on domain creation
-  - enable re-notification after definable timeout in vacation (patch from Luxten)
+    Important: If you update from a previous version, you'll have to adapt your postfix 
+	configuration (see DOCUMENTS/POSTFIX_CONF.txt) - or just disable alias domain support,
+	your postfix configuration will continue to work
   - updated postfix example configuration for domain aliases and to use the new mysql map format
+  - vacation.pl:
+    - add option for re-notification after definable timeout (patch from Luxten)
+      (default stays on "notify once")
+    - force usage of envelope from/to, better checks for mailinglists, spam etc.
+      If in doubt, do not send a vacation reply (patch from Lutxen)
+    - added a small test suite
+    - use Log4Perl
+    - allow to enter the configuration in /etc/mail/postfixadmin/vacation.conf
+      instead of editing vacation.pl directly
+    - bump version number of vacation.pl
+  - added clear error message for non-resolvable domains when creating mailboxes or aliases
+  - check for non-resolvable domains on domain creation
+  - new option $CONF['create_mailbox_subdirs_prefix'] for compatibility with more IMAP servers
+  - fix "illegal mix of collations" problem in MySQL by explicitely setting the charset everywhere
+  - fix: cleanup vacation_notification table when disabling vacation
+  - fix: config and fetchmail tables now honor $CONF['database_tables']
+  - fix: "unlimited" and "disabled" for quota and limits were crossed at several places
+  - fix: honor $CONF['default_transport'] even if $CONF['transport'] = "no" (patch by fabiobon)
+  - show links to create mailboxes or alias even on disabled domains
+  - added support for fetchmail's "ssl" option
+  - force username to be lowercase - this helps some IMAP clients apprently
+  - dropped $CONF['show_custom_count']. PHP can count ;-)
+  - dropped obsolete VIRTUAL_VACATION/mail-filter script
   - translation updates
   - several small bugfixes
   - SVN revision *******************************
