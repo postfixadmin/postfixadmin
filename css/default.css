@@ -44,6 +44,24 @@ table {
 	border: 1px solid #888888;
 }
 
+ul.flash-info {
+	border:2px solid #AFE1A6; /* medium green */
+	padding:1em;
+	max-width:730px;
+	margin-left:auto;
+	margin-right:auto;
+	list-style:none;
+}
+
+ul.flash-error {
+	border:2px solid #FF6347; /* tomato */
+	padding:1em;
+	max-width:730px;
+	margin-left:auto;
+	margin-right:auto;
+	list-style:none;
+}
+
 .error_msg {
 	color: #d01313;
 }
