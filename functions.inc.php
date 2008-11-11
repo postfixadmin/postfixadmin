@@ -271,6 +271,7 @@ function check_domain ($domain)
 function check_email ($email)
 {
    global $CONF;
+   global $PALANG;
 
    $ce_email=$email;
 
