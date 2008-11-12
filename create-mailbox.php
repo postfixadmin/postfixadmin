@@ -112,11 +112,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $pCreate_mailbox_username_text = $PALANG['pCreate_mailbox_username_text_error1'];
    }
 
+   $tPassGenerated = 0;
    if (empty ($fPassword) or empty ($fPassword2) or ($fPassword != $fPassword2))
    {
       if (empty ($fPassword) and empty ($fPassword2) and $CONF['generate_password'] == "YES")
       {
          $fPassword = generate_password ();
+         $tPassGenerated = 1;
       }
       else
       {
@@ -278,22 +280,6 @@ TODO: this is the end of /create-mailbox.php code segment
  */
       $tDomain = $fDomain;
 
-      if ($CONF['generate_password'] == "YES")
-      {
-         $tMessage .= " / $fPassword)</br />";
-      }
-      else
-      {
-         if ($CONF['show_password'] == "YES")
-         {
-            $tMessage .= " / $fPassword)</br />";
-         }
-         else
-         {
-            $tMessage .= ")</br />";
-         }
-      }
-
       $tQuota = $CONF['maxquota'];
 
       if ($fMail == "on")
@@ -320,11 +306,14 @@ TODO: this is the end of /create-mailbox.php code segment
          }
       }
 
+      $tShowpass = "";
+      if ( $tPassGenerated == 1 || $CONF['show_password'] == "YES") $tShowpass = " / $fPassword";
+
       if (create_mailbox_subfolders($fUsername,$fPassword))
       {
-         $tMessage = $PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername)";
+         $tMessage .= $PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername$tShowpass)";
       } else {
-         $tMessage = $PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername)";
+         $tMessage .= $PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername$tShowpass)";
       }
 
       }
