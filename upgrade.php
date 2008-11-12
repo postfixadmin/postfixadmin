@@ -951,7 +951,7 @@ function upgrade_473_mysql() {
         ALTER TABLE `$table_admin`   CHANGE `password`      `password`      VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_admin`   DEFAULT                                               {LATIN1}
         ALTER TABLE `$table_alias`   CHANGE `address`       `address`       VARCHAR( 255 ) {LATIN1} NOT NULL
-        ALTER TABLE `$table_alias`   CHANGE `goto`          `goto`             TEXT      ) {LATIN1} NOT NULL
+        ALTER TABLE `$table_alias`   CHANGE `goto`          `goto`             TEXT        {LATIN1} NOT NULL
         ALTER TABLE `$table_alias`   CHANGE `domain`        `domain`        VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_alias`   DEFAULT                                               {LATIN1}
         ALTER TABLE `$table_al_dom`  CHANGE `alias_domain`  `alias_domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
