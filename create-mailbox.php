@@ -322,9 +322,9 @@ TODO: this is the end of /create-mailbox.php code segment
 
       if (create_mailbox_subfolders($fUsername,$fPassword))
       {
-         $tMessage = $PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername";
+         $tMessage = $PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername)";
       } else {
-         $tMessage = $PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername";
+         $tMessage = $PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername)";
       }
 
       }
