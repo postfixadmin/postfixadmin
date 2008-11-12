@@ -63,7 +63,7 @@ $fm_struct=array(   //   list($editible,$view,$type)
    "fetchall"        => array(1,                1,                'bool'      ),
    "keep"            => array(1,                1,                'bool'      ),
    "protocol"        => array(1,                1,                'enum'      ),
-   "ssl"             => array(1,                1,                'bool'      ),
+   "usessl"          => array(1,                1,                'bool'      ),
    "extra_options"   => array($extra_options,   $extra_options,   'longtext'  ),
    "mda"             => array($extra_options,   $extra_options,   'longtext'  ),
    "date"            => array(0,                $display_status,  'text'      ),
@@ -92,7 +92,12 @@ $fm_defaults=array(
 $table_fetchmail = table_by_key('fetchmail');
 $table_mailbox = table_by_key('mailbox');
 
-$list_domains = list_domains_for_admin ($SESSID_USERNAME);
+if (authentication_has_role('global-admin')) {
+   $list_domains = list_domains ();
+} else {
+   $list_domains = list_domains_for_admin(authentication_get_username());
+}
+
 $user_domains=implode(", ",array_values($list_domains)); # for displaying
 $user_domains_sql=implode("','",escape_string(array_values($list_domains))); # for SQL
 $sql="SELECT username FROM $table_mailbox WHERE domain in ('".$user_domains_sql."')"; # TODO: replace with domain selection dropdown

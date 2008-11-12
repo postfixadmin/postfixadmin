@@ -990,4 +990,13 @@ function upgrade_473_mysql() {
     }
 }
 
+function upgrade_479_mysql () {
+    # ssl is a reserved word in MySQL and causes several problems. Renaming the field...
+    $table_fmail   = table_by_key('fetchmail');
+    db_query_parsed("ALTER TABLE `$table_fmail` CHANGE `ssl` `usessl` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0'");
+}
+function upgrade_479_pgsql () {
+    $table_fmail   = table_by_key('fetchmail');
+    db_query_parsed("alter table $table_fmail rename column ssl to usessl");
+}
 
