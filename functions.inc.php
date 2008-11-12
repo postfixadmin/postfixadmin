@@ -2006,7 +2006,8 @@ function gen_show_status ($show_alias)
       $stat_ok = 1;
       while ( ($g=array_pop($gotos)) && $stat_ok )
       {
-         $stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g'");
+         $stat_catchall = substr($g,strpos($g,"@"));
+         $stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g' OR address = '$stat_catchall'");
          if ($stat_result['rows'] == 0)
          {
             $stat_ok = 0;
