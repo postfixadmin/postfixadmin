@@ -12,7 +12,7 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pEdit_mailbox_password'] . ":"; ?></td>
-      <td><input class="flat" type="password" name="fPassword" /></td>
+      <td><input class="flat" type="password" name="fPassword" value="<?php print htmlspecialchars ($tPassword,ENT_QUOTES); ?>"/></td>
       <td><?php print $pEdit_mailbox_password_text; ?></td>
    </tr>
    <tr>

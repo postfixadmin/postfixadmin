@@ -20,6 +20,7 @@
  *
  * tMessage
  * tName
+ * tPassword
  * tQuota
  *
  * Form POST \ GET Variables:
@@ -75,7 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       if ('pgsql'==$CONF['database_type']) {
          $tActive = ('t'==$user_details['active']) ? 1 : 0;
       }
-
+      $tPassword = '';
+      if ($CONF['show_password'] == "YES")
+      {
+         $tPassword = $user_details['password'];
+      }
       $result = db_query ("SELECT * FROM $table_domain WHERE domain='$fDomain'");
       if ($result['rows'] == 1)
       {
