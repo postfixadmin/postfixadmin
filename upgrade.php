@@ -1000,3 +1000,8 @@ function upgrade_479_pgsql () {
     db_query_parsed("alter table $table_fmail rename column ssl to usessl");
 }
 
+function upgrade_483_mysql () {
+    $table_log   = table_by_key('log');
+    db_query_parsed("ALTER TABLE $table_log CHANGE `data` `data` TEXT {LATIN1} NOT NULL");
+}
+
