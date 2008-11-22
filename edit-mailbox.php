@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fQuota'])) $fQuota = intval ($_POST['fQuota']);
    if (isset ($_POST['fActive'])) $fActive = escape_string ($_POST['fActive']);
 
-   if($fPassword != $user_details['password']){
+   if($fPassword != $user_details['password'] || $fPassword2 != $user_details['password']){
       $min_length = $CONF['min_password_length'];
 
       if($fPassword == $fPassword2) {
