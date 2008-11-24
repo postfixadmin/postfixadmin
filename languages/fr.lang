@@ -341,10 +341,10 @@ $PALANG['pUsersVacation_welcome'] = 'Répondeur Automatique.';
 $PALANG['pUsersVacation_welcome_text'] = 'Votre repondeur automatique est déjà configuré!';
 $PALANG['pUsersVacation_subject'] = 'Sujet';
 $PALANG['pUsersVacation_subject_text'] = 'En dehors du bureau';
-$PALANG['pUsersVacation_body'] = 'Message'; # XXX
+$PALANG['pUsersVacation_body'] = ''; # XXX
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Je serais absent(e) de <date> jusqu\'au <date>.
-Pour urgence communiquez avec mon collegue <contact person>.
+Je serai absent(e) de <date> jusqu\'au <date>.
+Pour toute urgence, merci de contacter <contact person>.
 EOM;
 $PALANG['pUsersVacation_button_away'] = 'Absence';
 $PALANG['pUsersVacation_button_back'] = 'De retour';
