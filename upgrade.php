@@ -363,17 +363,17 @@ function upgrade_2_pgsql() {
 
     if(!_pgsql_object_exists(table_by_key('alias'))) {
         db_query_parsed('
-            CREATE TABLE ' . table_by_key('alias') . ' (
+            CREATE TABLE ' . table_by_key("alias") . ' (
              address character varying(255) NOT NULL,
              goto text NOT NULL,
-             domain character varying(255) NOT NULL REFERENCES "' . table_by_key('domain') '",
+             domain character varying(255) NOT NULL REFERENCES "' . table_by_key("domain") . '",
              created timestamp with time zone default now(),
              modified timestamp with time zone default now(),
              active boolean NOT NULL default true,
              Constraint "alias_key" Primary Key ("address")
             );
-            CREATE INDEX alias_address_active ON ' . table_by_key('alias') . '(address,active);
-            COMMENT ON TABLE ' . table_by_key('alias') . ' IS \'Postfix Admin - Virtual Aliases\';
+            CREATE INDEX alias_address_active ON ' . table_by_key("alias") . '(address,active);
+            COMMENT ON TABLE ' . table_by_key("alias") . ' IS \'Postfix Admin - Virtual Aliases\';
         ');
     }
 
