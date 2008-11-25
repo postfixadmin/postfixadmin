@@ -401,10 +401,9 @@ function upgrade_2_pgsql() {
             COMMENT ON TABLE ' . table_by_key('log') . ' IS \'Postfix Admin - Log\';
         ');
     }
-
     if(!_pgsql_object_exists(table_by_key('mailbox'))) {
         db_query_parsed('
-            CREATE TABLE mailbox (
+            CREATE TABLE ' . table_by_key('mailbox') . ' (
                  username character varying(255) NOT NULL,
                  password character varying(255) NOT NULL default \'\',
                  name character varying(255) NOT NULL default \'\',
