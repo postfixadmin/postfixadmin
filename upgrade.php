@@ -564,7 +564,7 @@ function upgrade_4_pgsql() {
     $result = db_query_parsed("
         BEGIN;
             ALTER TABLE $table_vacation RENAME COLUMN domain to domain_old;
-            ALTER TABLE $table_vacation ADD COLUMN domain varchar(255) REFERENCES $domain;
+            ALTER TABLE $table_vacation ADD COLUMN domain varchar(255) REFERENCES $table_domain;
             UPDATE $table_vacation SET domain = domain_old;
             ALTER TABLE $table_vacation DROP COLUMN domain_old;
         COMMIT;
