@@ -41,7 +41,6 @@ function _pgsql_field_exists($table, $field) {
                 AND pg_catalog.pg_table_is_visible(c.oid)
         )
         AND a.attname = '$field' ";
-//    echo $sql;
     $r = db_query($sql);
     $row = db_row($r['result']);
     if($row) {
@@ -1004,5 +1003,24 @@ function upgrade_479_pgsql () {
 function upgrade_483_mysql () {
     $table_log   = table_by_key('log');
     db_query_parsed("ALTER TABLE $table_log CHANGE `data` `data` TEXT {LATIN1} NOT NULL");
+}
+
+# Add a local_part field to the mailbox table, and populate it with the local part of the user's address.
+# This is to make it easier (hopefully) to change the filesystem location of a mailbox in the future
+# See https://sourceforge.net/forum/message.php?msg_id=5394663
+function upgrade_495_pgsql() {
+    $table_mailbox = table_by_key('mailbox');
+    if(!_pgsql_field_exists($table_mailbox, 'local_part')) {
+        db_query_parsed("ALTER TABLE $table_mailbox add column local_part varchar(255) ");
+        db_query_parsed("UPDATE $table_mailbox SET local_part = substring(username from '^(.*)@')");
+        db_query_parsed("ALTER TABLE $table_mailbox alter column local_part SET NOT NULL");
+    }
+}
+# See https://sourceforge.net/forum/message.php?msg_id=5394663
+function upgrade_495_mysql() {
+    $table_mailbox = table_by_key('mailbox');
+    db_query_parsed("ALTER TABLE $table_mailbox add local_part varchar(255) "); // allow to be null
+    db_query_parsed("UPDATE $table_mailbox SET local_part = substring_index(username, '@', 1");
+    db_query_parsed("ALTER TABLE $table_mailbox change local_part local_part varchar(255) NOT NULL"); // remove null-ness...
 }
 
