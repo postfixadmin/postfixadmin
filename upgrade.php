@@ -932,7 +932,9 @@ function upgrade_439_mysql() {
 }
 function upgrade_439_pgsql() {
     $table_fetchmail = table_by_key('fetchmail');
-    db_query_parsed("ALTER TABLE $table_fetchmail ADD COLUMN ssl BOOLEAN NOT NULL DEFAULT false");
+    if(!_pgsql_field_exists($table_fetchmail, 'ssl')) {
+        db_query_parsed("ALTER TABLE $table_fetchmail ADD COLUMN ssl BOOLEAN NOT NULL DEFAULT false");
+    }
 }
 
 function upgrade_473_mysql() {
