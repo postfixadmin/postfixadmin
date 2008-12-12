@@ -263,8 +263,11 @@ TODO: this is the start of /create-mailbox code segment that was originally used
 
       // apparently uppercase usernames really confuse some IMAP clients.
       $fUsername = strtolower($fUsername);
-
-      $result = db_query ("INSERT INTO $table_mailbox (username,password,name,maildir,quota,domain,created,modified,active) VALUES ('$fUsername','$password','$fName','$maildir','$quota','$fDomain',NOW(),NOW(),'$sqlActive')");
+      $local_part = '';
+      if(preg_match('/^(.*)@/', $fUsername, $matches)) {
+          $local_part = $matches[1];
+      }
+      $result = db_query ("INSERT INTO $table_mailbox (username,password,name,maildir,local_part,quota,domain,created,modified,active) VALUES ('$fUsername','$password','$fName','$maildir','$local_part','$quota','$fDomain',NOW(),NOW(),'$sqlActive')");
       if ($result['rows'] != 1 || !mailbox_postcreation($fUsername,$fDomain,$maildir, $quota))
       {
          $tDomain = $fDomain;
