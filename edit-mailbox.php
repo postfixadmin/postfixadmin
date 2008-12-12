@@ -151,8 +151,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $formvars['name'] = $fName;
       $formvars['quota'] =$quota;
       $formvars['active']=$sqlActive;
-
-      $result = db_update ('mailbox', "username='$fUsername' AND domain='$fDomain'", $formvars, array('modified'));
+      if(preg_match('/^(.*)@/', $fUsername, $matches)) {
+         $formvars['local_part'] = $matches[1];
+      }
+      $result = db_update('mailbox', "username='$fUsername' AND domain='$fDomain'", $formvars, array('modified'));
       $maildir = $user_details['maildir'];
       if ($result != 1 || !mailbox_postedit($fUsername,$fDomain,$maildir, $quota)) {
          $tMessage = $PALANG['pEdit_mailbox_result_error'];
