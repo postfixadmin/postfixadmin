@@ -1022,7 +1022,7 @@ function upgrade_495_pgsql() {
 function upgrade_495_mysql() {
     $table_mailbox = table_by_key('mailbox');
     db_query_parsed("ALTER TABLE $table_mailbox add local_part varchar(255) "); // allow to be null
-    db_query_parsed("UPDATE $table_mailbox SET local_part = substring_index(username, '@', 1");
+    db_query_parsed("UPDATE $table_mailbox SET local_part = substring_index(username, '@', 1)");
     db_query_parsed("ALTER TABLE $table_mailbox change local_part local_part varchar(255) NOT NULL"); // remove null-ness...
 }
 
