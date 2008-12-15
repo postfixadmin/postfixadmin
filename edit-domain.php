@@ -69,7 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     $fTransport = $CONF['transport_default'];
     if($CONF['transport'] != 'NO' && isset ($_POST['fTransport'])) {
-        $fTransport = escape_string ($_POST['fTransport']);
+        $fTransport = escape_string($_POST['fTransport']);
+        if(!in_array($fTransport, $CONF['transport_options'])) {
+            die("Invalid transport option given; check config.inc.php");
+        }
     }
 
     if (isset ($_POST['fBackupmx'])) $fBackupmx = escape_string ($_POST['fBackupmx']);
