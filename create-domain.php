@@ -41,50 +41,61 @@ require_once('common.php');
 authentication_require_role('global-admin');
 
 
+$form_fields = array(
+    'fDomain'         => array('type' => 'str', 'default' => null),
+    'fDescription'    => array('type' => 'str', 'default' =>''), 
+    'fAliases'        => array('type' => 'int', 'default' => $CONF['aliases']), 
+    'fMailboxes'      => array('type' => 'int', 'default' => $CONF['mailboxes']), 
+    'fMaxquota'       => array('type' => 'int', 'default' => $CONF['maxquota']), 
+    'fTransport'      => array('type' => 'str', 'default' => $CONF['transport_default'], 'options' => $CONF['transport_options']), 
+    'fDefaultaliases' => array('type' => 'str', 'default' => 'off', 'options' => array('on', 'off')), 
+    'fBackupmx'       => array('type' => 'str', 'default' => 'off', 'options' => array('on', 'off')) 
+);
+
+foreach($form_fields  as $key => $default) {
+    if(isset($_POST[$key]) && (!empty($_POST[$key]))) {
+        $$key = escape_string($_POST[$key]);
+    }
+    else {
+        $$key = $default['default'];
+    }
+    if($default['type'] == 'int') {
+        $$key = intval($$key);
+    }
+    if($default['type'] == 'str') {
+        $$key = strip_tags($$key); /* should we even bother? */
+    }
+    if(isset($default['options'])) {
+        if(!in_array($$key, $default['options'])) {
+            die("Invalid parameter given for $key");
+        }
+    }
+}
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-    $tAliases = $CONF['aliases'];
-    $tMailboxes = $CONF['mailboxes'];
-    $tMaxquota = $CONF['maxquota'];
-    $tTransport = $CONF['transport_default'];
+    /* default values as set above */
+    $tTransport = $fTransport;
+    $tAliases = $fAliases;
+    $tMaxquota = $fMaxquota;
+    $tMailboxes = $fMailboxes;
+    $tDefaultAliases = $fDefaultaliases;
+    $tBackupmx = $fBackupmx;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-    if (isset($_POST['fDomain'])) { 
-        $fDomain = escape_string($_POST['fDomain']);
-    }
-    $form_fields = array(
-        'fDescription'    => '', 
-        'fAliases'        => '0', 
-        'fMailboxes'      => '0', 
-        'fMaxquota'       => '0', 
-        'fTransport'      => $CONF['transport_default'], 
-        'fDefaultaliases' => '0', 
-        'fBackupmx'       => '0' );
-
-    foreach($form_fields  as $key => $default) {
-        if(isset($_POST[$key]) && (!empty($_POST[$key]))) {
-            $$key = escape_string($_POST[$key]);
-        }
-        else {
-            $$key = $default;
-        }
-    }
-
-
-    if (empty($fDomain) or domain_exist($fDomain) or !check_domain($fDomain))
+    if ($fDomain == null or domain_exist($fDomain) or !check_domain($fDomain))
     {
         $error = 1;
-        $tDomain = escape_string ($_POST['fDomain']);
-        $tDescription = escape_string ($_POST['fDescription']);
-        $tAliases = escape_string ($_POST['fAliases']);
-        $tMailboxes = escape_string ($_POST['fMailboxes']);
-        if (isset ($_POST['fMaxquota'])) $tMaxquota = escape_string ($_POST['fMaxquota']);
-        if (isset ($_POST['fTransport'])) $tTransport = escape_string ($_POST['fTransport']);
-        if (isset ($_POST['fDefaultaliases'])) $tDefaultaliases = escape_string ($_POST['fDefaultaliases']);
-        if (isset ($_POST['fBackupmx'])) $tBackupmx = escape_string ($_POST['fBackupmx']);
-      /* if (empty ($fDomain) or !check_domain ($fDomain)) */ $pAdminCreate_domain_domain_text = $PALANG['pAdminCreate_domain_domain_text_error2'];
+        $tDomain = $fDomain;
+        $tDescription = $fDescription;
+        $tAliases = $fAliases;
+        $tMailboxes = $fMailboxes;
+        if (isset ($_POST['fMaxquota'])) $tMaxquota = $fMaxquota;
+        if (isset ($_POST['fTransport'])) $tTransport = $fTransport;
+        if (isset ($_POST['fDefaultaliases'])) $tDefaultaliases = $fDefaultaliases;
+        if (isset ($_POST['fBackupmx'])) $tBackupmx = $fBackupmx;
+        $pAdminCreate_domain_domain_text = $PALANG['pAdminCreate_domain_domain_text_error2'];
         if (domain_exist ($fDomain)) $pAdminCreate_domain_domain_text = $PALANG['pAdminCreate_domain_domain_text_error'];
     }
 

@@ -55,15 +55,15 @@
    <?php } ?>
    <tr>
       <td><?php print $PALANG['pAdminCreate_domain_defaultaliases'] . ":"; ?></td>
-      <td><?php $checked = (!empty ($tDefaultaliases)) ? 'checked' : ''; ?>
-      <input class="flat" type="checkbox" name="fDefaultaliases" <?php print $checked; ?> />
+      <td><?php $checked = ($tDefaultaliases == 'on') ? 'checked=checked' : ''; ?>
+      <input class="flat" type="checkbox" value='on' name="fDefaultaliases" <?php print $checked; ?> />
       </td>
       <td><?php print $PALANG['pAdminCreate_domain_defaultaliases_text']; ?></td>
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminCreate_domain_backupmx'] . ":"; ?></td>
-      <td><?php $checked = (!empty ($tBackupmx)) ? 'checked' : ''; ?>
-      <input class="flat" type="checkbox" name="fBackupmx" <?php print $checked; ?> />
+      <td><?php $checked = ($tBackupmx == 'on') ? 'checked' : ''; ?>
+      <input class="flat" type="checkbox" value='on' name="fBackupmx" <?php print $checked; ?> />
       </td>
       <td>&nbsp;</td>
    </tr>
