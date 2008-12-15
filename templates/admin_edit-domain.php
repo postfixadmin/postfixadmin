@@ -55,13 +55,13 @@
    <?php } ?>
    <tr>
       <td><?php print $PALANG['pAdminEdit_domain_backupmx'] . ":"; ?></td>
-      <td><?php $checked = (!empty ($tBackupmx)) ? 'checked' : ''; ?>
+      <td><?php $checked = (!empty ($tBackupmx)) ? 'checked=checked' : ''; ?>
       <input class="flat" type="checkbox" name="fBackupmx" <?php print $checked; ?> /></td>
       <td>&nbsp;</td>
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminEdit_domain_active'] . ":"; ?></td>
-      <td><?php $checked = (!empty ($tActive)) ? 'checked' : ''; ?>
+      <td><?php $checked = (!empty ($tActive)) ? 'checked=checked' : ''; ?>
       <input class="flat" type="checkbox" name="fActive" <?php print $checked; ?> /></td>
       <td>&nbsp;</td>
    </tr>
