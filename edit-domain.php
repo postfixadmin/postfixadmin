@@ -99,8 +99,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $sqlActive = db_get_boolean(False);
     }
 
+    $sqltransport = "";
+    if($CONF['transport'] != 'NO') { # only change transport if it is allowed in config. Otherwise, keep the old value.
+       $sqltransport = "transport='$fTransport',";
+    }
 
-    $result = db_query ("UPDATE $table_domain SET description='$fDescription',aliases=$fAliases,mailboxes=$fMailboxes,maxquota=$fMaxquota,transport='$fTransport',backupmx='$sqlBackupmx',active='$sqlActive',modified=NOW() WHERE domain='$domain'");
+    $result = db_query ("UPDATE $table_domain SET description='$fDescription',aliases=$fAliases,mailboxes=$fMailboxes,maxquota=$fMaxquota,$sqltransport backupmx='$sqlBackupmx',active='$sqlActive',modified=NOW() WHERE domain='$domain'");
     if ($result['rows'] == 1)
     {
         header ("Location: list-domain.php");
