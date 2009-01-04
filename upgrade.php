@@ -156,8 +156,8 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{UNSIGNED}'        => 'unsigned'  , 
                 '{FULLTEXT}'        => 'FULLTEXT', 
                 '{BOOLEAN}'         => 'tinyint(1) NOT NULL',
-                '{UTF-8}'           => '/*!40100 CHARACTER SET utf8 COLLATE utf8_unicode_ci */',
-                '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 COLLATE latin1_swedish_ci */',
+                '{UTF-8}'           => '/*!40100 CHARACTER SET utf8 */',
+                '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 */',
                 '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
                 '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
                 );
@@ -306,7 +306,7 @@ function upgrade_1_mysql() {
         active tinyint(4) NOT NULL default '1', 
         PRIMARY KEY (email), 
         KEY email (email) 
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation' ;";
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation' ;";
 
     foreach($sql as $query) {
         db_query_parsed($query);
@@ -772,7 +772,6 @@ function upgrade_318_mysql() {
 
     # in case someone has manually created the table with utf8 fields before:
     $all_sql = split("\n", trim("
-        ALTER TABLE `$table_vacation_notification` DROP FOREIGN KEY `vacation_notification_pkey`
         ALTER TABLE `$table_vacation_notification` CHANGE `on_vacation` `on_vacation` VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_vacation_notification` CHANGE `notified`    `notified`    VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_vacation_notification` DEFAULT                                           {LATIN1}
