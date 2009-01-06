@@ -714,7 +714,7 @@ function upgrade_81_mysql() { # MySQL only
         ALTER TABLE `$table_vacation` CHANGE `cache`    `cache`   TEXT           {LATIN1} NOT NULL
         ALTER TABLE `$table_vacation` CHANGE `domain`   `domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_vacation` CHANGE `active`   `active`  TINYINT( 1 )            NOT NULL DEFAULT '1'
-        ALTER TABLE `$table_vacation` DEFAULT                                    {LATIN1}
+        ALTER TABLE `$table_vacation` DEFAULT  {LATIN1}
         ALTER TABLE `$table_vacation` ENGINE = INNODB
     "));
 
@@ -774,7 +774,7 @@ function upgrade_318_mysql() {
     $all_sql = split("\n", trim("
         ALTER TABLE `$table_vacation_notification` CHANGE `on_vacation` `on_vacation` VARCHAR( 255 ) NOT NULL
         ALTER TABLE `$table_vacation_notification` CHANGE `notified`    `notified`    VARCHAR( 255 ) NOT NULL
-        ALTER TABLE `$table_vacation_notification` DEFAULT 
+        ALTER TABLE `$table_vacation_notification` DEFAULT {LATIN1}
     "));
     # Possible errors that can be ignored:
     # None.
