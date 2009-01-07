@@ -766,7 +766,7 @@ function upgrade_318_mysql() {
         CONSTRAINT `vacation_notification_pkey` 
         FOREIGN KEY (`on_vacation`) REFERENCES $table_vacation(`email`) ON DELETE CASCADE
     )
-    ENGINE=InnoDB DEFAULT {LATIN1} TYPE=InnoDB 
+    ENGINE=InnoDB TYPE=InnoDB 
     COMMENT='Postfix Admin - Virtual Vacation Notifications'
     ");
 
@@ -774,7 +774,7 @@ function upgrade_318_mysql() {
     $all_sql = split("\n", trim("
         ALTER TABLE `$table_vacation_notification` CHANGE `on_vacation` `on_vacation` VARCHAR( 255 ) NOT NULL
         ALTER TABLE `$table_vacation_notification` CHANGE `notified`    `notified`    VARCHAR( 255 ) NOT NULL
-        ALTER TABLE `$table_vacation_notification` DEFAULT {LATIN1}
+        ALTER TABLE `$table_vacation_notification` DEFAULT CHARACTER SET utf8
     "));
     # Possible errors that can be ignored:
     # None.
@@ -785,10 +785,6 @@ function upgrade_318_mysql() {
         $result = db_query_parsed($sql);
     }
 
-    # create constraint...
-    $result = db_query_parsed("
-        ALTER TABLE $table_vacation_notification ADD CONSTRAINT `vacation_notification_pkey` 
-        FOREIGN KEY (`on_vacation`) REFERENCES $table_vacation(`email`) ON DELETE CASCADE ");
 }
 
 
@@ -800,7 +796,7 @@ function upgrade_344_mysql() {
     $table_fetchmail = table_by_key('fetchmail');
 
     db_query_parsed( "
-        create table $table_fetchmail(
+        CREATE TABLE IF NOT EXISTS $table_fetchmail(
          id int(11) unsigned not null auto_increment,
          mailbox varchar(255) not null default '',
          src_server varchar(255) not null default '',
