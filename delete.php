@@ -61,7 +61,6 @@ if ($fTable == "admin")
       header ("Location: $url");
    }
 } # ($fTable == "admin")
-
 elseif ($fTable == "domain")
 {
    authentication_require_role('global-admin');
@@ -87,6 +86,15 @@ elseif ($fTable == "domain")
       header ("Location: $url");
    }
 } # ($fTable == "domain")
+elseif ($fTable == "alias_domain")
+{
+   authentication_require_role('global-admin');
+   $fWhere = 'domain';
+   if(db_delete ($table_domain_alias,$fWhere,$fDelete)) {
+      $url = "list-domain.php";
+      header ("Location: $url");
+   }
+} # ($fTable == "alias_domain")
 
 elseif ($fTable == "alias" or $fTable == "mailbox")
 {
@@ -150,7 +158,6 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
       if ($CONF['database_type'] == "pgsql") db_query('ROLLBACK');
    }
 } 
-
 else
 {
    flash_error($PALANG['invalid_parameter']);
