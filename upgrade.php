@@ -49,6 +49,15 @@ function _pgsql_field_exists($table, $field) {
     return false;
 }
 
+function _mysql_field_exists($table, $field) {
+    $sql = "SHOW COLUMNS FROM $table LIKE '$field'";
+    $r = db_query($sql);
+    $row = db_row($r['result']);
+    if($row) {
+        return true;
+    }
+    return false;
+}
 
 $table = table_by_key('config');
 if($CONF['database_type'] == 'pgsql') {
@@ -772,7 +781,6 @@ function upgrade_318_mysql() {
 
     # in case someone has manually created the table with utf8 fields before:
     $all_sql = split("\n", trim("
-        ALTER TABLE `$table_vacation_notification` CHANGE `on_vacation` `on_vacation` VARCHAR( 255 ) NOT NULL
         ALTER TABLE `$table_vacation_notification` CHANGE `notified`    `notified`    VARCHAR( 255 ) NOT NULL
         ALTER TABLE `$table_vacation_notification` DEFAULT CHARACTER SET utf8
     "));
@@ -990,11 +998,15 @@ function upgrade_473_mysql() {
 function upgrade_479_mysql () {
     # ssl is a reserved word in MySQL and causes several problems. Renaming the field...
     $table_fmail   = table_by_key('fetchmail');
-    db_query_parsed("ALTER TABLE `$table_fmail` CHANGE `ssl` `usessl` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0'");
+    if(!_mysql_field_exists($table_fmail, 'usessl')) {
+        db_query_parsed("ALTER TABLE `$table_fmail` CHANGE `ssl` `usessl` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0'");
+    }
 }
 function upgrade_479_pgsql () {
     $table_fmail   = table_by_key('fetchmail');
-    db_query_parsed("alter table $table_fmail rename column ssl to usessl");
+    if(!_pgsql_field_exists($table_fmail, 'usessl')) {
+        db_query_parsed("alter table $table_fmail rename column ssl to usessl");
+    }
 }
 
 function upgrade_483_mysql () {
@@ -1016,9 +1028,11 @@ function upgrade_495_pgsql() {
 # See https://sourceforge.net/forum/message.php?msg_id=5394663
 function upgrade_495_mysql() {
     $table_mailbox = table_by_key('mailbox');
-    db_query_parsed("ALTER TABLE $table_mailbox add local_part varchar(255) AFTER quota"); // allow to be null
-    db_query_parsed("UPDATE $table_mailbox SET local_part = substring_index(username, '@', 1)");
-    db_query_parsed("ALTER TABLE $table_mailbox change local_part local_part varchar(255) NOT NULL"); // remove null-ness...
+    if(!_mysql_field_exists($table_mailbox, 'local_part')) {
+        db_query_parsed("ALTER TABLE $table_mailbox add local_part varchar(255) AFTER quota"); // allow to be null
+        db_query_parsed("UPDATE $table_mailbox SET local_part = substring_index(username, '@', 1)");
+        db_query_parsed("ALTER TABLE $table_mailbox change local_part local_part varchar(255) NOT NULL"); // remove null-ness...
+    }
 }
 
 function upgrade_504_mysql() {
