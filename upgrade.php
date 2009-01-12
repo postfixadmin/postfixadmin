@@ -326,11 +326,12 @@ function upgrade_2_mysql() {
     # upgrade pre-2.1 database
     # from TABLE_BACKUP_MX.TXT
     $table_domain = table_by_key ('domain');
-    $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;", TRUE);
-    // don't think PGSQL supports 'AFTER transport'
-    $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx {BOOLEAN} DEFAULT {BOOL_FALSE} AFTER transport;", TRUE);
-    # possible errors that can be ignored:
-    # - Invalid query: Table 'postfix.domain' doesn't exist
+    if(!_mysql_field_exists($table_domain, 'transport')) {
+        $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;", TRUE);
+    }
+    if(!_mysql_field_exists($table_domain, 'backupmx')) {
+        $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx {BOOLEAN} DEFAULT {BOOL_FALSE} AFTER transport;", TRUE);
+    }
 }
 
 function upgrade_2_pgsql() {
@@ -468,36 +469,60 @@ function upgrade_3_mysql() {
     $table_mailbox = table_by_key ('mailbox');
     $table_vacation = table_by_key ('vacation');
 
-    // these will not work on PostgreSQL; syntax is :
-    // ALTER TABLE foo RENAME f1 TO f2 
-    $all_sql = split("\n", trim("
-    ALTER TABLE $table_admin {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-    ALTER TABLE $table_admin {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-    ALTER TABLE $table_alias {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-    ALTER TABLE $table_alias {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-    ALTER TABLE $table_domain {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-    ALTER TABLE $table_domain {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-    ALTER TABLE $table_domain ADD COLUMN aliases INT(10) DEFAULT '-1' NOT NULL AFTER description;
-    ALTER TABLE $table_domain ADD COLUMN mailboxes INT(10) DEFAULT '-1' NOT NULL AFTER aliases;
-    ALTER TABLE $table_domain ADD COLUMN maxquota INT(10) DEFAULT '-1' NOT NULL AFTER mailboxes;
-    ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;
-    ALTER TABLE $table_domain ADD COLUMN backupmx TINYINT(1) DEFAULT '0' NOT NULL AFTER transport;
-    ALTER TABLE $table_mailbox {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-    ALTER TABLE $table_mailbox {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;
-    ALTER TABLE $table_mailbox ADD COLUMN quota INT(10) DEFAULT '-1' NOT NULL AFTER maildir;
-    ALTER TABLE $table_vacation ADD COLUMN domain VARCHAR(255) DEFAULT '' NOT NULL AFTER cache;
-    ALTER TABLE $table_vacation ADD COLUMN created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL AFTER domain;
-    ALTER TABLE $table_vacation ADD COLUMN active TINYINT(1) DEFAULT '1' NOT NULL AFTER created;
-    ALTER TABLE $table_vacation DROP PRIMARY KEY
-    ALTER TABLE $table_vacation ADD PRIMARY KEY(email)
-    UPDATE $table_vacation SET domain=SUBSTRING_INDEX(email, '@', -1) WHERE email=email;
-    "));
-
-    foreach ($all_sql as $sql) {
-        $result = db_query_parsed($sql, TRUE);
+    if(!_mysql_field_exists($table_admin, 'created')) {
+        db_query_parsed("ALTER TABLE $table_admin {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
     }
-    # Possible errors that can be ignored:
-    # - Invalid query: Table 'postfix.*' doesn't exist
+    if(!_mysql_field_exists($table_admin, 'modified')) {
+        db_query_parsed("ALTER TABLE $table_admin {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+    }
+    if(!_mysql_field_exists($table_alias, 'created')) {
+        db_query_parsed("ALTER TABLE $table_alias {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+    }
+    if(!_mysql_field_exists($table_alias, 'modified')) {
+        db_query_parsed("ALTER TABLE $table_alias {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+    }
+    if(!_mysql_field_exists($table_domain, 'created')) {
+        db_query_parsed("ALTER TABLE $table_domain {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+    }
+    if(!_mysql_field_exists($table_domain, 'modified')) {
+        db_query_parsed("ALTER TABLE $table_domain {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+    }
+    if(!_mysql_field_exists($table_domain, 'aliases')) {
+        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN aliases INT(10) DEFAULT '-1' NOT NULL AFTER description;");
+    }
+    if(!_mysql_field_exists($table_domain, 'mailboxes')) {
+        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN mailboxes INT(10) DEFAULT '-1' NOT NULL AFTER aliases;");
+    }
+    if(!_mysql_field_exists($table_domain, 'maxquota')) {
+        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN maxquota INT(10) DEFAULT '-1' NOT NULL AFTER mailboxes;");
+    }
+    if(!_mysql_field_exists($table_domain, 'transport')) {
+        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;");
+    }
+    if(!_mysql_field_exists($table_domain, 'backupmx')) {
+        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx TINYINT(1) DEFAULT '0' NOT NULL AFTER transport;");
+    }
+    if(!_mysql_field_exists($table_mailbox, 'created')) {
+        db_query_parsed("ALTER TABLE $table_mailbox {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+    }
+    if(!_mysql_field_exists($table_mailbox, 'modified')) {
+        db_query_parsed("ALTER TABLE $table_mailbox {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+    }
+    if(!_mysql_field_exists($table_mailbox, 'quota')) {
+        db_query_parsed("ALTER TABLE $table_mailbox ADD COLUMN quota INT(10) DEFAULT '-1' NOT NULL AFTER maildir;");
+    }
+    if(!_mysql_field_exists($table_vacation, 'domain')) {
+        db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN domain VARCHAR(255) DEFAULT '' NOT NULL AFTER cache;");
+    }
+    if(!_mysql_field_exists($table_vacation, 'created')) {
+        db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL AFTER domain;");
+    }
+    if(!_mysql_field_exists($table_vacation, 'active')) {
+        db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN active TINYINT(1) DEFAULT '1' NOT NULL AFTER created;");
+    }
+    db_query_parsed("ALTER TABLE $table_vacation DROP PRIMARY KEY");
+    db_query_parsed("ALTER TABLE $table_vacation ADD PRIMARY KEY(email)");
+    db_query_parsed("UPDATE $table_vacation SET domain=SUBSTRING_INDEX(email, '@', -1) WHERE email=email;");
 }
 
 function upgrade_4_mysql() { # MySQL only
@@ -929,9 +954,9 @@ function upgrade_373_mysql() { # MySQL only
  */
 function upgrade_439_mysql() {
     $table_fetchmail = table_by_key('fetchmail');
-    db_query_parsed("
-        ALTER TABLE `$table_fetchmail` ADD `ssl` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' AFTER `protocol` ;
-    ");
+    if(!_mysql_field_exists($table_fetchmail, 'ssl')) {
+        db_query_parsed("ALTER TABLE `$table_fetchmail` ADD `ssl` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0' AFTER `protocol` ; ");
+    }
 }
 function upgrade_439_pgsql() {
     $table_fetchmail = table_by_key('fetchmail');
