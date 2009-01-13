@@ -247,7 +247,7 @@ sub already_notified {
         if ($e !~ /(?:_pkey|^Duplicate entry)/) {
             $logger->error("Failed to insert into vacation_notification table (to:$to from:$from error:'$e' query:'$query')");
             # Let's play safe and notify anyway
-            return 0;
+            return 1;
         }
         if ($interval) {
             $query = qq{SELECT NOW()-notified_at FROM vacation_notification WHERE on_vacation=? AND notified=?};
