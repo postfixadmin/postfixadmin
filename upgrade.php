@@ -756,8 +756,6 @@ function upgrade_81_mysql() { # MySQL only
         $result = db_query_parsed($sql, TRUE);
     }
 
-    # creation of vacation_notification table moved to upgrade_318_mysql because
-    # the query in this function was broken (key length vs. utf8 charset)
 }
 
 /**
@@ -793,7 +791,7 @@ function upgrade_318_mysql() {
 
     db_query_parsed( "
         CREATE TABLE {IF_NOT_EXISTS} $table_vacation_notification (
-            on_vacation varchar(255) NOT NULL,
+            on_vacation varchar(255) {LATIN1} NOT NULL,
             notified varchar(255) NOT NULL,
             notified_at timestamp NOT NULL default CURRENT_TIMESTAMP,
             PRIMARY KEY on_vacation (`on_vacation`, `notified`),
