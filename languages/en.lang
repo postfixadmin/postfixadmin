@@ -24,8 +24,7 @@ $PALANG['pLogin_welcome'] = 'Mail admins login here to administer your domain.';
 $PALANG['pLogin_username'] = 'Login (email)';
 $PALANG['pLogin_password'] = 'Password';
 $PALANG['pLogin_button'] = 'Login';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Your login is not correct. Make sure that you login with your email address!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Your password is not correct!</span>';
+$PALANG['pLogin_failed'] = '<span class="error_msg">Your email address or password are not correct.</span>';
 $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.';
 
 $PALANG['pMenu_main'] = 'Main';

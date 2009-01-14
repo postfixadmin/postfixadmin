@@ -71,14 +71,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         if ($result['rows'] != 1)
         {
             $error = 1;
-            $tMessage = $PALANG['pLogin_password_incorrect'];
+            $tMessage = $PALANG['pLogin_failed'];
             $tUsername = $fUsername;
         }
     }
     else
     {
         $error = 1;
-        $tMessage = $PALANG['pLogin_username_incorrect'];
+        $tMessage = $PALANG['pLogin_failed'];
     }
 
     if ($error != 1)
