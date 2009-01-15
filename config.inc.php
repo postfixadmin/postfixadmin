@@ -68,6 +68,7 @@ $CONF['database_tables'] = array (
     'mailbox' => 'mailbox',
     'vacation' => 'vacation',
     'vacation_notification' => 'vacation_notification',
+    'quota' => 'quota',
 );
 
 // Site Admin
@@ -333,6 +334,15 @@ $CONF['domain_postcreation_script']='sudo -u courier /usr/local/bin/postfixadmin
 //
 // Specify '' for Dovecot and 'INBOX.' for Courier.
 $CONF['create_mailbox_subdirs_prefix']='INBOX.';
+
+// Optional:
+// Show used quotas from Dovecot dictionary backend in virtual
+// mailbox listing.
+// See: DOCUMENTATION/DOVECOT.txt
+//      http://wiki.dovecot.org/Quota/Dict
+//
+// $CONF['used_quotas'] = 'YES';
+
 //
 // Normally, the TCP port number does not have to be specified.
 // $CONF['create_mailbox_subdirs_hostport']=143;

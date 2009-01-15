@@ -714,7 +714,7 @@ function divide_quota ($quota)
 {
    global $CONF;
    if ($quota == -1) return $quota;
-   $value = $quota / $CONF['quota_multiplier'];
+   $value = round($quota / $CONF['quota_multiplier'],2);
    return $value;
 }
 
@@ -2257,4 +2257,5 @@ $table_log = table_by_key ('log');
 $table_mailbox = table_by_key ('mailbox');
 $table_vacation = table_by_key ('vacation');
 $table_vacation_notification = table_by_key('vacation_notification');
+$table_quota = table_by_key ('quota');
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

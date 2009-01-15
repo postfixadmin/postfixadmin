@@ -1,41 +1,50 @@
 #
 # Dovecot configuration for Postfix Admin
-# Written by: Massimo <AndyCapp> Danieli
+# Originally written by: Massimo <AndyCapp> Danieli
+# Revised by: Sampsa Hario <shario> for Dovecot v1.0
 #
+
+More complete Dovecot documentation:
+
+http://wiki.dovecot.org/Quota
+http://wiki.dovecot.org/Quota/Dict
+http://www.opensourcehowto.org/how-to/mysql/mysql-users-postfixadmin-postfix-dovecot--squirrelmail-with-userprefs-stored-in-mysql.html
+
+Here are the relevant parts of Dovecot v1.0.x configuration for Postfixadmin setup.
+Please refer to Dovecot documentation for complete information.
+
+The setup gets userdb and passdb info from MySQL as well as quotas, and 
+uses dict backend to store used quotas as key=value pairs so that they can
+be viewed real-time in Postfixadmin.
+
 
 1. Dovecot setup
 -----------------
 
-dovecot.conf relevant part for postfixadmin setup
-Please refer to Dovecot documentation for complete information.
-
 default_mail_env = maildir:/usr/local/virtual/%u/
 
-
-# auth_userdb specifies maildir location  and user/group ID to use
-auth_userdb = mysql /etc/dovecot/dovecot-mysql.conf
-
-# auth_passdb specifies user passwords
-auth_passdb = mysql /etc/dovecot/dovecot-mysql.conf
+auth default {
+  userdb sql {
+    # Path for SQL configuration file, see doc/dovecot-sql-example.conf
+    args = /etc/dovecot-mysql.conf
+  }
+  passdb sql {
+    # Path for SQL configuration file, see doc/dovecot-sql-example.conf
+    args = /etc/dovecot-mysql.conf
+  }
+}
 
 # Valid UID range for users, defaults to 500 and above.
-first_valid_uid = 1001  # Change this to your postifx UID
+first_valid_uid = 1001  # Change this to your postfix UID
 
 
 2. Dovecot mysql setup
 ----------------------
 
-Below you'll find the relevant part of dovecot-mysql.conf file regarding our setup
-Things you may need to change are db_password, uid and gid
+Below you'll find the relevant part of dovecot-mysql.conf file regarding our
+setup. Things you may need to change are db_password, uid and gid:
 
-db_host = localhost
-db_port = 3306
-# Default sock for Debian sarge
-db_unix_socket = /var/run/mysqld/mysqld.sock
-db = postfix
-db_user = postfix
-db_passwd = postfix
-db_client_flags = 0
+connect = host=localhost dbname=postfix user=postfix password=postfix
 
 # Default password scheme.
 # depends on your $CONF['encrypt'] setting:
@@ -44,12 +53,80 @@ db_client_flags = 0
 # cleartext -> PLAIN
 default_pass_scheme = MD5-CRYPT
 
-# Query to retrieve password.
+# Query to retrieve password. user can be used to retrieve username in other
+# formats also.
 
-password_query = SELECT password FROM mailbox WHERE username = '%u'
+password_query = SELECT username AS user,password FROM mailbox WHERE username = '%u' AND active='1'
 
 # Query to retrieve user information.
 
-user_query = SELECT maildir, 1001 AS uid, 1001 AS gid FROM mailbox WHERE username = '%u'
+user_query = SELECT maildir, 1001 AS uid, 1001 AS gid FROM mailbox WHERE username = '%u' AND active='1'
 
-NB The GID and UID are for postfix user and group ID, NOT MySQL user and group ID.
+NB! The GID and UID are for postfix user and group ID, NOT MySQL user and group ID.
+
+
+3. Dovecot v1.0 quota support (optional)
+----------------------------------------
+
+Please note that you need to use Dovecot's own local delivery agent to
+enforce and update quotas. Then you can view real-time used quotas in
+Postfixadmin.
+
+Add to dovecot.conf:
+
+## IMAP quota
+protocol imap {
+  quota = dict:storage=200000 proxy::quota
+}
+
+## POP quota
+protocol pop3 {
+  mail_plugins = quota
+}
+
+## Local Delivery Agent
+protocol lda {
+  mail_plugins = quota
+}
+
+## Dictionary DB proxy
+dict {
+  quota = mysql:/etc/dovecot-dict-quota.conf
+}
+
+## Default quota values
+plugin {
+quota = dict:storage=200000 proxy::quota
+}
+
+
+Change dovecot-mysql.conf to return quota values:
+
+user_query = SELECT maildir, 1001 AS uid, 1001 AS gid, CONCAT('dict:storage=',floor(quota/1000),' proxy::quota') as quota FROM mailbox WHERE username = '%u'
+
+
+Create file dovecot-dict-quota.conf:
+
+driver = mysql
+connect = host=localhost dbname=postfix user=postfix password=postfix
+default_pass_scheme = MD5-CRYPT
+table = quota
+select_field = current
+where_field = path
+username_field = username
+
+
+Create database in Mysql:
+
+create table quota (
+  username varchar(255) not null,
+  path varchar(100) not null,
+  current integer,
+  primary key (username, path)
+); 
+
+
+Enable quota support in Postfixadmin config.inc.php:
+
+$CONF['used_quotas'] = 'YES';
+$CONF['quota'] = 'YES';
