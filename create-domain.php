@@ -136,6 +136,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             }
             $tMessage = $PALANG['pAdminCreate_domain_result_success'] . "<br />($fDomain)</br />";
         }
+        if (!domain_postcreation($fDomain))
+        {
+             $tMessage = $PALANG['pAdminCreate_domain_error'];
+       }
     }
 }
 

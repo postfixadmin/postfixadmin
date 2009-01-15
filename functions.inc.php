@@ -1805,6 +1805,42 @@ function mailbox_postdeletion($username,$domain)
 }
 
 /*
+   Called after a domain has been added in the DBMS.
+   Returns: boolean.
+ */
+function domain_postcreation($domain)
+{
+   global $CONF;
+   $confpar='domain_postcreation_script';
+
+   if (!isset($CONF[$confpar]) || empty($CONF[$confpar]))
+   {
+      return true;
+   }
+
+   if (empty($domain))
+   {
+      print '<p>Warning: empty domain parameter.</p>';
+      return false;
+   }
+
+   $cmdarg1=escapeshellarg($domain);
+   $command=$CONF[$confpar]." $cmdarg1";
+   $retval=0;
+   $output=array();
+   $firstline='';
+   $firstline=exec($command,$output,$retval);
+   if (0!=$retval)
+   {
+      error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+      print '<p>WARNING: Problems running domain postcreation script!</p>';
+      return FALSE;
+   }
+
+   return TRUE;
+}
+
+/*
    Called after a domain has been deleted in the DBMS.
    Returns: boolean.
  */
