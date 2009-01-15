@@ -88,6 +88,7 @@ $CONF['smtp_port'] = '25';
 // md5 = md5 sum of the password
 // system = whatever you have set as your PHP system default
 // cleartext = clear text passwords (ouch!)
+// mysql_encrypt = useful for PAM integration
 $CONF['encrypt'] = 'md5crypt';
 
 // Minimum length required for passwords. Postfixadmin will not
