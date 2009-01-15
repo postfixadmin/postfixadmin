@@ -320,7 +320,7 @@ else
          if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
       } else {
          print "<p><b>$tMessage</b></p>";
-		 echo "<p><b>You can now log in to Postfix Admin.</b></p>";
+		 echo "<p><b>Delete (or rename) setup.php, and then click <a href='login.php'>here to login</a>.</b></p>";
       }
    }
 
