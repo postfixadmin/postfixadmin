@@ -3,19 +3,53 @@
 use DBI;
 use MIME::Base64;
 # use Data::Dumper;
+use File::Temp qw/ mkstemp /;
+use Sys::Syslog;
+# require liblockfile-simple-perl
+use LockFile::Simple qw(lock trylock unlock);
 
-# the home dir of vmail user:
-$vmail_dir="/home/maildirs";
+openlog("fetchmail-all", "pid", "mail");
+
+sub log_and_die {
+	my($message) = @_;
+  syslog("err", $message);
+  die $message;
+}
+
+# read options and arguments
+
+$configfile = "/etc/fetchmail-all/config";
+
+@ARGS1 = @ARGV;
+
+while ($_ = shift @ARGS1) {
+    if (/^-/) {
+        if (/^--config$/) {
+            $configfile = shift @ARGS1
+        }
+    }
+}
 
 # mysql settings
 $database="mailadmin";
 $hostname="127.0.0.1";
 $user="mail";
-$password="*****";
+
+$run_dir="/var/run/fetchmail";
+
+# use specified config file
+if (-e $configfile) {
+    do $configfile;
+}
+
 $dsn = "DBI:mysql:database=$database;host=$hostname";
+$lock_file=$run_dir . "/fetchmail-all.lock";
+
+$lockmgr = LockFile::Simple->make(-autoclean => 1, -max => 1);
+$lockmgr->lock($lock_file) || log_and_die "can't lock ${lock_file}";
 
 #mysql connect
-$dbh = DBI->connect($dsn, $user, $password) || die "cannot connect the database";
+$dbh = DBI->connect($dsn, $user, $password) || log_and_die "cannot connect the database";
 
 $sql=<<SQL;
 SELECT id,mailbox,src_server,src_auth,src_user,src_password,src_folder,fetchall,keep,protocol,mda,extra_options,usessl 
@@ -26,6 +60,8 @@ SQL
 my (%config);
 map{
 	my ($id,$mailbox,$src_server,$src_auth,$src_user,$src_password,$src_folder,$fetchall,$keep,$protocol,$mda,$extra_options,$usessl)=@$_;
+
+  syslog("info","fetch ${src_user}@${src_server} for ${mailbox}");
 	
 	$cmd="user '${src_user}' there with password '".decode_base64($src_password)."'";
 	$cmd.=" folder '${src_folder}'" if ($src_folder);
@@ -44,21 +80,24 @@ set postmaster "postmaster"
 set nobouncemail
 set no spambounce
 set properties ""
+set syslog
 
 poll ${src_server} with proto ${protocol}
 	$cmd
 	
 TXT
 
-	open X,"> ${vmail_dir}/.fetchmailrc" || die "cannot open/create ${vmail_dir}/.fetchmailrc";
-	print X $text;
-	close X;
-	chmod 0600,"${vmail_dir}/.fetchmailrc";
-	$ret=`/usr/bin/fetchmail`;
-	$sql="UPDATE fetchmail SET returned_text=".$dbh->quote($ret).", date=now() WHERE id=".$id;
-	$dbh->do($sql);
+  ($file_handler, $filename) = mkstemp( "/tmp/fetchmail-all-XXXXX" ) or log_and_die "cannot open/create fetchmail temp file";
+  print $file_handler $text;
+  close $file_handler;
 
+  $ret=`/usr/bin/fetchmail -f $filename -i $run_dir/fetchmail.pid`;
+
+  unlink $filename;
+
+  $sql="UPDATE fetchmail SET returned_text=".$dbh->quote($ret).", date=now() WHERE id=".$id;
+  $dbh->do($sql);
 }@{$dbh->selectall_arrayref($sql)};
 
-unlink "${vmail_dir}/.fetchmailrc";
-
+$lockmgr->unlock($lock_file);
+closelog();
