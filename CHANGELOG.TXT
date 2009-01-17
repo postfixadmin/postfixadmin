@@ -14,7 +14,7 @@
 Only in SVN trunk
 --------------------
 
-Version 2.3 Beta - 2009/01/15 - SVN r523
+Version 2.3 Beta - 2009/01/15 - SVN r527
 -----------------------------------------
 
   - added support for domain aliases (from lenix) (can be disabled with $CONF['alias_domain'])

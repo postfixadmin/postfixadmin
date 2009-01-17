@@ -1,3 +1,18 @@
+postfixadmin (2.3beta) unstable; urgency=low
+
+  * Subversion revision 527 
+  * Fixes for MySQL upgrade issues
+  * Improved vacation.pl (renotification options, use SMTP headers, better
+    logging, optional external config file)
+  * Improved fetchmail.pl
+  * Domain aliases - new implementation should reduce backscatter etc.
+  * translation updates
+  * Added domain-postcreation script support
+  * Enhanced mailbox table to make it easier for people to customise where mailboxes live
+  * and much more
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Sat, 17 Jan 2009 20:06:00 +0000
+
 postfixadmin (2.2.1.1) unstable; urgency=low
 
   * Subversion revision 412 (from branches/postfixadmin-2.2.1)
