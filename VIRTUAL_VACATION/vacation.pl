@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 #
 # Virtual Vacation 4.0
+# $Revision$
 # Originally by Mischa Peters <mischa at high5 dot net>
 #
 # Copyright (c) 2002 - 2005 High5!
