@@ -1,0 +1,43 @@
+Return-Path: <david@example.org>
+X-Original-To: david@example.org
+Delivered-To: david@example.org
+Received: by mail.palepurple.co.uk (Postfix, from userid 1007)
+	id 83AE0894CF8; Tue,  5 Aug 2008 20:15:53 +0100 (BST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.palepurple.co.uk (Postfix) with ESMTP id 4A249894CF9
+	for <david@example.org>; Tue,  5 Aug 2008 20:15:53 +0100 (BST)
+X-Virus-Scanned: by Amavis+SpamAssassin+ClamAV and more at palepurple.co.uk
+X-Spam-Score: -2.836
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.836 tagged_above=-99 required=5 tests=[AWL=-0.237,
+	BAYES_00=-2.599]
+Received: from mail.palepurple.co.uk ([127.0.0.50])
+	by localhost (oak.palepurple.co.uk [127.0.0.50]) (amavisd-new, port 10024)
+	with ESMTP id gHB1TKpjKIKX for <david@example.org>;
+	Tue,  5 Aug 2008 20:15:50 +0100 (BST)
+Received: from irc.palepurple.co.uk (irc.palepurple.co.uk [89.16.169.131])
+	by mail.palepurple.co.uk (Postfix) with ESMTP id CAF82894CF8
+	for <david@example.org>; Tue,  5 Aug 2008 20:15:50 +0100 (BST)
+Received: by irc.palepurple.co.uk (Postfix, from userid 1000)
+	id 8869450146; Tue,  5 Aug 2008 20:15:50 +0100 (BST)
+Date: Tue, 5 Aug 2008 20:15:50 +0100
+From: David Goodwin <david@example.org>
+To: david@example.org, fred@example.org, barney@example.org, rover@example.org,
+    roger@example.org
+Subject: test email
+Message-ID: <20080805191549.GA27905@codepoets.co.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-GnuPG-Key-URL: http://codepoets.co.uk/files/pubkey.txt
+X-PGP-Key: 0x117957A6
+User-Agent: Mutt/1.5.13 (2006-08-11)
+Content-Length: 136
+Lines: 7
+
+hello world; this is in plain text only.
+
+-- 
+David Goodwin 
+
+[ http://www.codepoets.co.uk       ]
