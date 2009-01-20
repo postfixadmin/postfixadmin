@@ -152,6 +152,7 @@ use Log::Log4perl qw(get_logger :levels);
 my ($from, $to, $cc, $replyto , $subject, $messageid, $lastheader, $smtp_sender, $smtp_recipient, %opts, $spam, $test_mode, $logger);
 
 $subject='';
+$messageid='unknown';
 
 # Setup a logger...
 #
@@ -391,7 +392,7 @@ sub send_vacation_email {
             'Message' => encode_base64($body)
         );
         if($test_mode == 1) {
-            $logger->info("** TEST MODE ** : Vacation response sent to $to from $from subject $subject - NOT sent\n");
+            $logger->info("** TEST MODE ** : Vacation response sent to $to from $from subject $subject (not) sent\n");
             $logger->info(%mail);
             return 0;
         }
@@ -410,13 +411,28 @@ sub strip_address {
     }
     my @ok;
     $logger = get_logger();
-    for (split(/,\s*/, lc($arg))) {
-        my $temp = Email::Valid->address($_);
+    my @list;
+    @list = $arg =~ m/([\w\.\-\']+\@[\w\.\-]+\w+)/g;
+    foreach(@list) {
+        #$logger->debug("Checking: $_");
+        my $temp = Email::Valid->address( -address => $_, -mxcheck => 0);
         if($temp) {
             push(@ok, $temp);
         }
+        else {
+            $logger->debug("Email not valid : $Email::Valid::Details");
+        }
     }
-    my $result = join(", ", @ok);
+    # remove duplicates
+    my %seen = ();
+    my @uniq;
+    my $item;
+    foreach $item (@ok) {
+        push(@uniq, $item) unless $seen{$item}++
+    }
+
+    my $result = join(", ", @uniq);
+    #$logger->debug("Result: $result");
     return $result;
 }
 
@@ -459,6 +475,7 @@ sub check_and_clean_from_address {
 $cc = '';
 $replyto = '';
 
+$logger->debug("Script argument SMTP recipient is : '$smtp_recipient' and smtp_sender : '$smtp_sender'");
 while (<STDIN>) {
     last if (/^$/);
     if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; next; }  
@@ -495,7 +512,7 @@ if(!$from || !$to || !$messageid || !$smtp_sender || !$smtp_recipient) {
     $logger->info("One of from=$from, to=$to, messageid=$messageid, smtp sender=$smtp_sender, smtp recipient=$smtp_recipient empty"); 
     exit(0); 
 }
-
+$logger->debug("Email headers have to: '$to' and From: '$from'");
 $to = strip_address($to);
 $from = lc ($from);
 $from = check_and_clean_from_address($from);
