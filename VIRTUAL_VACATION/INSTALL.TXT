@@ -101,21 +101,22 @@ Execute "postfix reload" to complete the change.
 -------------------
 
 The database table should have already been created for you, by running 
-the 'upgrade.php' script.
+the 'upgrade.php' script when installing Postfixadmin.
 
 If security is an issue for you, read ../DOCUMENTS/Security.txt
 
-6. Edit filter.pl
+6. Edit vacation.pl
 -----------------
 
-The perl filter.pl script needs minor modification to know which database 
+The perl vacation.pl script needs minor modification to know which database 
 you are using, and also how to connect to the database.
 
 Namely :
 
 Change any variables starting with '$db_' and '$db_type' to either 'mysql' or 'pgsql'.
 
-
+Change the $vacation_domain variable to match what you entered in your /etc/postfix/transport 
+file.
 
 What do these files do?
 -----------------------
