@@ -1,6 +1,6 @@
 postfixadmin (2.3beta) unstable; urgency=low
 
-  * Subversion revision 527 
+  * Subversion revision 533
   * Fixes for MySQL upgrade issues
   * Improved vacation.pl (renotification options, use SMTP headers, better
     logging, optional external config file)
