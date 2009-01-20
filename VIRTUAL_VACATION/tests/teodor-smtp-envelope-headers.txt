@@ -1,0 +1,21 @@
+X-Original-To: david@example.org
+Delivered-To: david@example.org
+X-Virus-Scanned: amavisd-new at mx.ro 
+From: "Teodor Iacob" <david@example.org> 
+To: <david@example.org> 
+Subject: estsgf 
+Date: Mon, 19 Jan 2009 14:49:17 +0200 
+X-Mailer: Microsoft Office Outlook 11 
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.5579 
+Thread-Index: Acl6NFZyC+AImZ1WQSS0cPUO/Y2FqA== 
+X-BRO-MailScanner-Information: Please contact the ISP for more information 
+X-BRO-MailScanner-ID: n0JCoUwB014357 
+X-BRO-MailScanner: Found to be clean 
+X-MailScanner-From: david@example.org
+X-BRO-MailScanner-Watermark: 1232974231.00027@11VRmWFJ18WRflEdvrILlQ 
+ 
+dsgsgfsgfg 
+ 
+-- 
+ 
+Teodor Iacob 
