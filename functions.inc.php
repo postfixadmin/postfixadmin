@@ -1576,7 +1576,6 @@ function db_assoc ($result)
 function db_delete ($table,$where,$delete)
 {
     $query = "DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "'";
-    echo $query;
     $result = db_query ($query);
     if ($result['rows'] >= 1)
     {
