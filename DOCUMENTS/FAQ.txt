@@ -26,3 +26,11 @@ Frequently Asked Questions:
       wwwrun  ALL = (courier) NOPASSWD: /usr/local/bin/postfixadmin-mailbox-postcreation.sh
    (replace usernames and path according to your setup)
 
+
+4) I try and create a mailbox, but it keeps saying "Invalid email address"... ?
+
+ - Postfixadmin, by default, attempts to verify an email address is valid, partly by
+   checking that the domain exists. For most people this works as expected, but
+   if it doesn't for you, try editing $CONF['emailcheck_resolve_domain'] to 'NO' in 
+   config.inc.php and try again.
+
