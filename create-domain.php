@@ -53,7 +53,7 @@ $form_fields = array(
 );
 
 foreach($form_fields  as $key => $default) {
-    if(isset($_POST[$key]) && (!empty($_POST[$key]))) {
+    if(isset($_POST[$key]) && (strlen($_POST[$key]) > 0)) {
         $$key = escape_string($_POST[$key]);
     }
     else {
