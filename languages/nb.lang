@@ -4,7 +4,7 @@
 // Language file Norwegian (bokmål)
 // by Odd Henriksen
 //
-// Last updated: 2008-07-22 / Odd Henriksen
+// Last updated: 2009-01-24 / Odd Henriksen
 //
 
 $PALANG['YES'] = 'JA';
@@ -102,7 +102,7 @@ $PALANG['pCreate_alias_domain_button'] = 'Legg til aliasdomene';
 $PALANG['pCreate_alias_domain_error1'] = 'Du har ikke tillatelse til å opprette den valgte konfigurasjonen.';
 $PALANG['pCreate_alias_domain_error2'] = 'Den valgte konfigurasjonen er ugyldig, vennligst endre den!';
 $PALANG['pCreate_alias_domain_error3'] = 'Det mislyktes å lagre informasjonen i databasen.';
-$PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
+$PALANG['pCreate_alias_domain_error4'] = 'Det er allerede opprettet alias for alle domenene.';
 $PALANG['pCreate_alias_domain_success'] = 'Domenealiaset har blitt lagt inn i tabellen over aliasdomener!';
 
 $PALANG['pCreate_alias_welcome'] = 'Opprett et nytt alias.';
@@ -374,9 +374,9 @@ $PALANG['pStatus_undeliverable'] = 'kan kanskje IKKE LEVERES ';
 $PALANG['pStatus_custom'] = 'Leverer til ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['pPasswordTooShort'] = "Passordet er for kort - det må inneholde minst %s tegn";
-$PALANG['pInvalidDomainRegex'] = "Invalid domain name %s, fails regexp check"; # XXX
-$PALANG['pInvalidDomainDNS'] = "Invalid domain %s, and/or not discoverable in DNS"; # XXX
-$PALANG['pInvalidMailRegex'] = "Invalid email address, fails regexp check"; # XXX
+$PALANG['pInvalidDomainRegex'] = "Ugyldig domenenavn %s, regexp-validering feilet";
+$PALANG['pInvalidDomainDNS'] = "Ugyldig domene %s, og/eller finnes ikke i DNS";
+$PALANG['pInvalidMailRegex'] = "Ugyldig e-postadresse, regexp-validering feilet";
 $PALANG['pFetchmail_welcome'] = 'Hent e-post for:';
 $PALANG['pFetchmail_new_entry'] = 'Ny oppføring';
 $PALANG['pFetchmail_database_save_error'] = 'Kunne ikke lagre denne oppføringen i databasen!';
@@ -398,7 +398,7 @@ $PALANG['pFetchmail_field_poll_time']       = 'Spørringsintervall';
 $PALANG['pFetchmail_field_fetchall']        = 'Hent alt';
 $PALANG['pFetchmail_field_keep']            = 'Behold';
 $PALANG['pFetchmail_field_protocol']        = 'Protokoll';
-$PALANG['pFetchmail_field_usessl']          = 'SSL active'; # XXX
+$PALANG['pFetchmail_field_usessl']          = 'Bruk SSL';
 $PALANG['pFetchmail_field_extra_options']   = 'Ekstra alternativer';
 $PALANG['pFetchmail_field_mda']             = 'MDA';
 $PALANG['pFetchmail_field_date']            = 'Dato';
@@ -414,7 +414,7 @@ $PALANG['pFetchmail_desc_poll_time']        = 'Se etter meldinger hvert ... minu
 $PALANG['pFetchmail_desc_fetchall']         = 'Hent både gamle og nye meldinger';
 $PALANG['pFetchmail_desc_keep']             = 'Behold meldingene på den eksterne e-postserveren';
 $PALANG['pFetchmail_desc_protocol']         = 'Protokoll som skal brukes';
-$PALANG['pFetchmail_desc_usessl']           = 'SSL encryption'; # XXX
+$PALANG['pFetchmail_desc_usessl']           = 'Bruk SSL-kryptering';
 $PALANG['pFetchmail_desc_extra_options']    = 'Ekstra fetchmail-alternativer';
 $PALANG['pFetchmail_desc_mda']              = 'E-postleveringsagent (Mail Delivery Agent)';
 $PALANG['pFetchmail_desc_date']             = 'Dato for siste spørring/konfigurasjonsendring';
