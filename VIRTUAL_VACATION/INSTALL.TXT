@@ -49,6 +49,7 @@ vacation:*:65501:65501::0:0:Virtual Vacation:/nonexistent:/sbin/nologin
 #/etc/group
 vacation:*:65501:
 
+
 2. Create a directory
 ---------------------
 Create a directory, for example  /var/spool/vacation, that is accessible
@@ -67,6 +68,7 @@ Copy the vacation.pl file to the directory you created above:
 Which will then look something like:
 
 -rwx------   1 vacation  vacation  3356 Dec 21 00:00 vacation.pl*
+
 
 4. Setup the transport type
 --------------------
@@ -105,11 +107,12 @@ the 'upgrade.php' script when installing Postfixadmin.
 
 If security is an issue for you, read ../DOCUMENTS/Security.txt
 
-6. Edit vacation.pl
------------------
 
-The perl vacation.pl script needs minor modification to know which database 
-you are using, and also how to connect to the database.
+6. Configure vacation.pl
+------------------------
+
+The perl vacation.pl script needs to know which database you are using, and also
+how to connect to the database.
 
 Namely :
 
@@ -117,6 +120,17 @@ Change any variables starting with '$db_' and '$db_type' to either 'mysql' or 'p
 
 Change the $vacation_domain variable to match what you entered in your /etc/postfix/transport 
 file.
+
+You can do this in two ways:
+
+a) edit vacation.pl directly
+
+b) create /etc/mail/postfixadmin/vacation.conf and enter your settings there
+
+   Just use perl syntax there to fill the config variables listed in vacation.pl
+   (without the "our" keyword). Example:
+   $db_username = 'mail';
+
 
 What do these files do?
 -----------------------
