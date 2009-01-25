@@ -21,8 +21,7 @@ $PALANG['pLogin_welcome'] = 'Pašto srities administratorius.';
 $PALANG['pLogin_username'] = 'Vartotojas (el.paštas)';
 $PALANG['pLogin_password'] = 'Slaptažodis';
 $PALANG['pLogin_button'] = 'Prisijungti';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Prisijungti nepavyko. Vartotojo lauke įveskite srities pašto administratoriaus el.pašto adresą!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Slaptažodis neteisingas!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Pašto vartotojo nustatymai.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -338,7 +337,7 @@ $PALANG['pUsersVacation_welcome'] = 'Automatinis atsakymas.';
 $PALANG['pUsersVacation_welcome_text'] = 'Auto atsakiklis jau nustatytas!';
 $PALANG['pUsersVacation_subject'] = 'Tema';
 $PALANG['pUsersVacation_subject_text'] = 'Esu išvykęs';
-$PALANG['pUsersVacation_body'] = 'Žinutė';
+$PALANG['pUsersVacation_body'] = 'Žinutė'; # XXX text changed to 'Message'
 ### XXX (see below)
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 I will be away from <date> until <date>.

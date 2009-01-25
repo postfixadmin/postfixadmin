@@ -23,7 +23,7 @@ $PALANG['pLogin_welcome'] = 'Kirjautuminen';
 $PALANG['pLogin_username'] = 'Tunnus';
 $PALANG['pLogin_password'] = 'Salasana';
 $PALANG['pLogin_button'] = 'Kirjaudu';
-$PALANG['pLogin_failed'] = '<span class="error_msg">Sähköpostiosoite tai salasana väärin!</span>';
+$PALANG['pLogin_failed'] = 'Sähköpostiosoite tai salasana väärin!';
 $PALANG['pLogin_login_users'] = 'Käyttäjien kirjautuminen.';
 
 $PALANG['pMenu_main'] = 'Etusivu';
@@ -338,7 +338,7 @@ $PALANG['pUsersVacation_welcome'] = 'Automaattivastaus.';
 $PALANG['pUsersVacation_welcome_text'] = 'Sinulla on jo automaattivastaus päällä!';
 $PALANG['pUsersVacation_subject'] = 'Otsikko';
 $PALANG['pUsersVacation_subject_text'] = 'Lomalla';
-$PALANG['pUsersVacation_body'] = 'Viesti';
+$PALANG['pUsersVacation_body'] = 'Viesti'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Olen lomalla <päiväys> <päiväys> välisen ajan.
 Kiireellisissä asioissa voitte ottaa yhteyttä <sähköpostiosoite>.

@@ -24,8 +24,7 @@ $PALANG['pLogin_welcome'] = 'Entrez votre adresse courriel pour administrer votr
 $PALANG['pLogin_username'] = 'Adresse courriel';
 $PALANG['pLogin_password'] = 'Mot de passe';
 $PALANG['pLogin_button'] = 'Entrer';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Votre adresse courriel est invalide. Assurez-vous de saisir correctement l\'adresse courriel.</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Votre mot de passe est invalide !</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Utilisateurs, cliquez ici pour rejoindre votre section.';
 $PALANG['pMenu_main'] = 'Menu principal';
 
@@ -341,7 +340,7 @@ $PALANG['pUsersVacation_welcome'] = 'Répondeur Automatique.';
 $PALANG['pUsersVacation_welcome_text'] = 'Votre repondeur automatique est déjà configuré!';
 $PALANG['pUsersVacation_subject'] = 'Sujet';
 $PALANG['pUsersVacation_subject_text'] = 'En dehors du bureau';
-$PALANG['pUsersVacation_body'] = ''; # XXX
+$PALANG['pUsersVacation_body'] = 'Message'; # XXX
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Je serai absent(e) de <date> jusqu\'au <date>.
 Pour toute urgence, merci de contacter <contact person>.

@@ -23,8 +23,7 @@ $PALANG['pLogin_welcome'] = 'Администратора може да се л�
 $PALANG['pLogin_username'] = 'Логин (е-мейл)';
 $PALANG['pLogin_password'] = 'Парола';
 $PALANG['pLogin_button'] = 'Изход';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Вашият логин не е правилен. Проверете дали сте се написали правилно вашият е-мейл адрес!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Вашата парола не е правилна!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Ако сте потребител натиснете тук за логване в потребителската част.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -340,7 +339,7 @@ $PALANG['pUsersVacation_welcome'] = 'Автоматичен отговор.';
 $PALANG['pUsersVacation_welcome_text'] = 'Вие вече си имате конфигриран автоматичен отговор!';
 $PALANG['pUsersVacation_subject'] = 'Заглавие';
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office'; # XXX
-$PALANG['pUsersVacation_body'] = 'Текст';
+$PALANG['pUsersVacation_body'] = 'Текст'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Няма да бъда на разположение от <date> до <date>.
 При спешност можете да се свържете с <contact person>.

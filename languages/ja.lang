@@ -24,8 +24,7 @@ $PALANG['pLogin_welcome'] = 'こちらからドメインの管理ができます
 $PALANG['pLogin_username'] = 'ログイン (メールアドレス)';
 $PALANG['pLogin_password'] = 'パスワード';
 $PALANG['pLogin_button'] = 'ログイン';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">ログインが違います。正しいメールアドレスを入力してください。</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">パスワードが違います。</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = '一般ユーザのログインはここをクリックしてください。';
 
 $PALANG['pMenu_main'] = 'メイン';
@@ -345,7 +344,7 @@ $PALANG['pUsersVacation_welcome'] = '自動応答';
 $PALANG['pUsersVacation_welcome_text'] = '既に自動応答を構成してあります。';
 $PALANG['pUsersVacation_subject'] = '件名';
 $PALANG['pUsersVacation_subject_text'] = '不在';
-$PALANG['pUsersVacation_body'] = '本文';
+$PALANG['pUsersVacation_body'] = '本文'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 私は <date> から <date> まで不在です。
 緊急事項は <contact person> まで連絡してください。

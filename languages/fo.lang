@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = 'Umsitarar kunnu logga inn her fyri at umsita tykkar
 $PALANG['pLogin_username'] = 'Login (e-post)';
 $PALANG['pLogin_password'] = 'Loyniorð';
 $PALANG['pLogin_button'] = 'Logga inn';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Títt login er skeivt. Minst til at skriva fulla e-post adressu!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Títt loyniorð er skeivt!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Brúkarar kunnu logga inn her.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -339,7 +338,7 @@ $PALANG['pUsersVacation_welcome'] = 'Sjálvvirkið svar.';
 $PALANG['pUsersVacation_welcome_text'] = 'Tú hevur longu eini frítíðarboð uppsett!';
 $PALANG['pUsersVacation_subject'] = 'Evni';
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office';
-$PALANG['pUsersVacation_body'] = 'Boð';
+$PALANG['pUsersVacation_body'] = 'Boð'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 I will be away from <dagfesting> until <dagfesting>.
 

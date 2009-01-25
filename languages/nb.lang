@@ -24,8 +24,7 @@ $PALANG['pLogin_welcome'] = 'E-postadministratorer kan logge inn her for å admi
 $PALANG['pLogin_username'] = 'Brukernavn (e-postadresse)';
 $PALANG['pLogin_password'] = 'Passord';
 $PALANG['pLogin_button'] = 'Logg inn';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Påloggingsinformasjonen er ikke korrekt. Husk å bruke e-postadressen som brukernavn.</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Feil passord!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Vanlige brukere kan klikke her for å gå til brukerseksjonen.';
 
 $PALANG['pMenu_main'] = 'Hoved';
@@ -340,7 +339,7 @@ $PALANG['pUsersVacation_welcome'] = 'Automatisk svar.';
 $PALANG['pUsersVacation_welcome_text'] = 'Du har allerede et autosvar aktivert!';
 $PALANG['pUsersVacation_subject'] = 'Emne';
 $PALANG['pUsersVacation_subject_text'] = 'Fraværsmelding';
-$PALANG['pUsersVacation_body'] = 'Meldingstekst';
+$PALANG['pUsersVacation_body'] = 'Meldingstekst'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jeg er utilgjengelig fra <date> til <date>.
 Dersom det gjelder noe viktig kan du kontakte <contact person>.

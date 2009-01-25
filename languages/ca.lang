@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = 'Login d\'administrador per l\'administració de dom
 $PALANG['pLogin_username'] = 'Usuari (e-mail)';
 $PALANG['pLogin_password'] = 'Contrasenya';
 $PALANG['pLogin_button'] = 'Usuari';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">El login no és correcte. Aseguri\'s de que ha fet login amb el seu e-mail.</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">La seva contrasenya no es correcta!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Login per anar a la secció d\'usuaris.';
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Resum';
@@ -339,7 +338,7 @@ $PALANG['pUsersVacation_welcome'] = 'Resposta automàtica.';
 $PALANG['pUsersVacation_welcome_text'] = 'Ja disposa d\'una resposta automàtica configurada!';
 $PALANG['pUsersVacation_subject'] = 'Assumpte';
 $PALANG['pUsersVacation_subject_text'] = 'Fora de la feina';
-$PALANG['pUsersVacation_body'] = 'Cos';
+$PALANG['pUsersVacation_body'] = 'Cos'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Seré fora des del <date> fins al <date>.
 Per assumptes urgents pot contactar amb mi a <contact person>.

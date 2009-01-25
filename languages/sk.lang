@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = 'Tu sa prihlasuj&uacute; emailov&iacute; administr&a
 $PALANG['pLogin_username'] = 'U&#382;&iacute;vate&#318;sk&eacute; meno (email)';
 $PALANG['pLogin_password'] = 'Heslo';
 $PALANG['pLogin_button'] = 'Prihl&aacute;si&#357;';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Nespr&aacute;vne; u&#382;ivate&#318;sk&eacute; meno. Prihlasujte se svojou emailovou adresou!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Nespr&aacute;vne heslo!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Vstup do u&#382;&iacute;vate&#318;skej sekcie.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -339,7 +338,7 @@ $PALANG['pUsersVacation_welcome'] = 'Automatick&aacute; odpove&#271;';
 $PALANG['pUsersVacation_welcome_text'] = 'U&#382; m&aacute;ate nastaven&uacute; automatick&uacute; odpove&#271;!';
 $PALANG['pUsersVacation_subject'] = 'Predmet';
 $PALANG['pUsersVacation_subject_text'] = 'Dovolenka';
-$PALANG['pUsersVacation_body'] = 'Obsah';
+$PALANG['pUsersVacation_body'] = 'Obsah'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Som na dovolenke od <date> od <date>.
 S neodkladn&yacute;mi zpr&aacute;vami kontaktujte <contact person>.

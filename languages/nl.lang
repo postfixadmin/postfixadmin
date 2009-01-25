@@ -23,8 +23,7 @@ $PALANG['pLogin_welcome'] = 'Mail beheerders log hier in om uw domeinen te beher
 $PALANG['pLogin_username'] = 'Login (e-mail)';
 $PALANG['pLogin_password'] = 'Wachtwoord';
 $PALANG['pLogin_button'] = 'Login';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Foutieve login. U dient in te loggen met uw e-mail adres!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Foutief wachtwoord.!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Gebruikers klik hier om in te loggen.';
 
 $PALANG['pMenu_main'] = 'Start';

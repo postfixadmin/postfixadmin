@@ -24,8 +24,7 @@ $PALANG['pLogin_welcome'] = 'Sekcja przeznaczona dla administratorów domen.';
 $PALANG['pLogin_username'] = 'Login (email)';
 $PALANG['pLogin_password'] = 'Hasło';
 $PALANG['pLogin_button'] = 'Zaloguj';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Twój login jest niepoprawny!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Twoje hasło jest niepoprawne!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Sekcja przeznaczona dla użytkowników.';
 
 $PALANG['pMenu_main'] = 'Strona główna';
@@ -343,7 +342,7 @@ $PALANG['pUsersVacation_welcome'] = 'Auto odpowiedź.';
 $PALANG['pUsersVacation_welcome_text'] = 'Masz już skonfigurowaną auto odpowiedź!';
 $PALANG['pUsersVacation_subject'] = 'Temat';
 $PALANG['pUsersVacation_subject_text'] = 'Poza biurem';
-$PALANG['pUsersVacation_body'] = 'Tekst';
+$PALANG['pUsersVacation_body'] = 'Tekst'; # XXX text changed to 'Message'
 
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Będę nieobecny od <date> do <date>.

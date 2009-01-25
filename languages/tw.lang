@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = '郵件管理員請從這裡登錄以管理你的網
 $PALANG['pLogin_username'] = '帳號 (郵件地址)';
 $PALANG['pLogin_password'] = '密碼';
 $PALANG['pLogin_button'] = '登錄';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">登錄失敗, 請確認你是使用你的郵件地址登錄!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">密碼錯誤!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = '普通用戶點擊這裡進入用戶控制面板.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -339,7 +338,7 @@ $PALANG['pUsersVacation_welcome'] = '自動回復.';
 $PALANG['pUsersVacation_welcome_text'] = '你已經設置了自動回復!';
 $PALANG['pUsersVacation_subject'] = '主題';
 $PALANG['pUsersVacation_subject_text'] = '我現在無法回信';
-$PALANG['pUsersVacation_body'] = '內容';
+$PALANG['pUsersVacation_body'] = '內容'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
     我在 <date> 到 <date> 這段時間內暫時無法回信.
 如果你有急事請與 <contact person> 聯繫.

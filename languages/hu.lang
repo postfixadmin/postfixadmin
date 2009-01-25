@@ -23,8 +23,7 @@ $PALANG['pLogin_welcome'] = 'Mail adminisztrátorok itt jelentkezzenek be, hogy 
 $PALANG['pLogin_username'] = 'Bejelentkezés (email)';
 $PALANG['pLogin_password'] = 'Jelszó';
 $PALANG['pLogin_button'] = 'Bejelentkezés';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">A bejelentkezés érvénytelen. Biztos, hogy a saját email címeddel akarsz belépni?!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Nem jó a jelszó!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'A felhasználók kattintsanak ide a felhasználói felülethez.';
 
 $PALANG['pMenu_main'] = 'Főmenü';
@@ -345,7 +344,7 @@ $PALANG['pUsersVacation_welcome'] = 'Automatikus válasz.';
 $PALANG['pUsersVacation_welcome_text'] = 'Már van be állítva automatikus válasz !';
 $PALANG['pUsersVacation_subject'] = 'Tárgy';
 $PALANG['pUsersVacation_subject_text'] = 'Sajnálom, de jelenleg nem vagyok email közelben!';
-$PALANG['pUsersVacation_body'] = 'Üzenet';
+$PALANG['pUsersVacation_body'] = 'Üzenet'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Üdvözlöm. Sajnálom de jelenleg nem vagyok email közelben.
 Ettõl - Eddig.

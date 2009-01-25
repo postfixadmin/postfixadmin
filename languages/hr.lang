@@ -21,8 +21,7 @@ $PALANG['pLogin_welcome'] = 'Administratori prijavite se ovdje.';
 $PALANG['pLogin_username'] = 'Korisničko ime (adresa e-pote)';
 $PALANG['pLogin_password'] = 'Lozinka';
 $PALANG['pLogin_button'] = 'Prijavi';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Korisnicko ime nije točno. Morate se prijaviti sa adresom vae e-pote!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Lozinka nije točna!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Korisnici kliknite ovdje za prijavu u korisničku sekciju.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -338,7 +337,7 @@ $PALANG['pUsersVacation_welcome'] = 'Ovdje moete promijeniti obvijest o odsutn
 $PALANG['pUsersVacation_welcome_text'] = 'Obvijest o odsutnosti je već postavljena!';
 $PALANG['pUsersVacation_subject'] = 'Subjekt';
 $PALANG['pUsersVacation_subject_text'] = 'Odsutnost';
-$PALANG['pUsersVacation_body'] = 'Tekst';
+$PALANG['pUsersVacation_body'] = 'Tekst'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Od <datum> do <datum> sam odsutan.
 Za hitne stvari molim vas da kontaktirate <kontaktna osoba>.

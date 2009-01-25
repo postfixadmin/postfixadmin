@@ -24,8 +24,7 @@ $PALANG['pLogin_welcome'] = 'Mail administratörer loggar in här för att sköt
 $PALANG['pLogin_username'] = 'Login (epost)';
 $PALANG['pLogin_password'] = 'Lösenord';
 $PALANG['pLogin_button'] = 'Login';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Ditt login är ej korrekt. Logga in med din epostadress!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Du angav fel lösenord!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Användare klickar här för att logga in på användardelen.';
 
 $PALANG['pMenu_main'] = 'Huvudmeny';
@@ -341,7 +340,7 @@ $PALANG['pUsersVacation_welcome'] = 'Autosvar.';
 $PALANG['pUsersVacation_welcome_text'] = 'Du har redan ett autosvar meddelande definierat!';
 $PALANG['pUsersVacation_subject'] = 'Ärende';
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office';
-$PALANG['pUsersVacation_body'] = 'Text';
+$PALANG['pUsersVacation_body'] = 'Text'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jag är borta från <datum> till <datum>.
 För brådskande ärenden kan ni kontakta <kontakt person>.

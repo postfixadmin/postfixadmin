@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = 'Kudeatzailearen logina domeinuak kudeatzeko.';
 $PALANG['pLogin_username'] = 'Erabiltzailea (e-mail)';
 $PALANG['pLogin_password'] = 'Pasahitza';
 $PALANG['pLogin_button'] = 'Erabiltzailea';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Logina ez da zuzena. Ziurtatu zaitez logina zeure e-mailarekin egin duzula.</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Pasahitz okerra!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Erabiltzaileen gunera joateko logina.';
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Laburpena';
@@ -338,7 +337,7 @@ $PALANG['pUsersVacation_welcome'] = 'Erantzun automatikoa.';
 $PALANG['pUsersVacation_welcome_text'] = 'Erantzun automatiko bat konfiguratuta duzu!';
 $PALANG['pUsersVacation_subject'] = 'Gaia';
 $PALANG['pUsersVacation_subject_text'] = 'Lanetik kanpo';
-$PALANG['pUsersVacation_body'] = 'Gorputza';
+$PALANG['pUsersVacation_body'] = 'Gorputza'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 <date>-tik <date> arte kanpoan egongo naiz.
 Larrialdiko gaientzat, hemen <contact person> kontakta dezakezu nirekin.

@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = 'Login de administrador para administración de domi
 $PALANG['pLogin_username'] = 'Usuario (e-mail)';
 $PALANG['pLogin_password'] = 'Contraseña';
 $PALANG['pLogin_button'] = 'Usuario';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">El login no es correcto. Asegurese de que ha hecho login con su e-mail.</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">¡Su contraseña no es correcta!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Login para ir a la sección de usuarios.';
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Resumen';
@@ -340,7 +339,7 @@ $PALANG['pUsersVacation_welcome'] = 'Respuesta automática.';
 $PALANG['pUsersVacation_welcome_text'] = '¡Ya dispone de una respuesta automática configurada!';
 $PALANG['pUsersVacation_subject'] = 'Asunto';
 $PALANG['pUsersVacation_subject_text'] = 'Fuera del trabajo';
-$PALANG['pUsersVacation_body'] = 'Cuerpo';
+$PALANG['pUsersVacation_body'] = 'Cuerpo'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Estaré fuera desde <date> hasta <date>.
 Para asuntos urgentes, puede contactar conmigo en <contact person>.

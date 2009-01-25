@@ -23,8 +23,7 @@ $PALANG['pLogin_welcome'] = 'GLi amministratori di posta devono effettuare il lo
 $PALANG['pLogin_username'] = 'Nome utente (email)';
 $PALANG['pLogin_password'] = 'Password';
 $PALANG['pLogin_button'] = 'Entra';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Il tuo nome utente non &egrave; corretto. Assicurati di avere inserito il tuo indirizzo email corretto!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">La tua password non &egrave; corretta!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'GLi utenti devono cliccare qui per entrare nella propria sezione.';
 
 $PALANG['pMenu_main'] = 'Principale';
@@ -340,7 +339,7 @@ $PALANG['pUsersVacation_welcome'] = 'Autoresponditore.';
 $PALANG['pUsersVacation_welcome_text'] = 'Hai gi$agrave; un autoresponditore configurato';
 $PALANG['pUsersVacation_subject'] = 'Soggetto';
 $PALANG['pUsersVacation_subject_text'] = 'Assente dall\'ufficio';
-$PALANG['pUsersVacation_body'] = 'Corpo';
+$PALANG['pUsersVacation_body'] = 'Corpo'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Sar&ograve; assente dal <data> al <data>.
 Per problemi urgenti potete contattare <persona da contattare>.

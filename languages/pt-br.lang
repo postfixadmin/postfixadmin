@@ -24,8 +24,7 @@ $PALANG['pLogin_welcome'] = 'Administradores devem se autenticar aqui para geren
 $PALANG['pLogin_username'] = 'Usuário (email)';
 $PALANG['pLogin_password'] = 'Senha';
 $PALANG['pLogin_button'] = 'Entrar';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Usuário inválido. Certifique-se de ter digitado o email corretamente!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Senha inválida!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Usuários devem clicar aqui para acessar a seção de usuários.';
 
 $PALANG['pMenu_main'] = 'Menu Principal';

@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = 'Логин за администрирање на �
 $PALANG['pLogin_username'] = 'Корисничко име (email)';
 $PALANG['pLogin_password'] = 'Лозинка';
 $PALANG['pLogin_button'] = 'Пријава';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Погрешно корисничко име. Логирајте се со вашата e-mail адреса!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Погрешна лозинка!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Логин за обични корисници.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -340,7 +339,7 @@ $PALANG['pUsersVacation_welcome'] = 'Автоматски одговор.';
 $PALANG['pUsersVacation_welcome_text'] = 'Веќе имате конфигуриран автоматски одговор!';
 $PALANG['pUsersVacation_subject'] = 'Тема';
 $PALANG['pUsersVacation_subject_text'] = 'Отсутен';
-$PALANG['pUsersVacation_body'] = 'Содржина';
+$PALANG['pUsersVacation_body'] = 'Содржина'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Ќе бидам отсутен од <date> до <date>.
 За итни случаи контактирајте со <contact person>.

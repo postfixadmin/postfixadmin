@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = '邮件管理员请从这里登录以管理你的域
 $PALANG['pLogin_username'] = '帐号 (邮件地址)';
 $PALANG['pLogin_password'] = '密码';
 $PALANG['pLogin_button'] = '登录';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">登录失败, 请确认你是使用你的邮件地址登录!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">密码错误!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = '普通用户点击这里进入用户控制面板.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -339,7 +338,7 @@ $PALANG['pUsersVacation_welcome'] = '自动回复.';
 $PALANG['pUsersVacation_welcome_text'] = '你已经设置了自动回复!';
 $PALANG['pUsersVacation_subject'] = '主题';
 $PALANG['pUsersVacation_subject_text'] = '我现在无法回信';
-$PALANG['pUsersVacation_body'] = '内容';
+$PALANG['pUsersVacation_body'] = '内容'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
     我在 <date> 到 <date> 这段时间内暂时无法回信.
 如果你有急事请与 <contact person> 联系.

@@ -24,7 +24,7 @@ $PALANG['pLogin_welcome'] = 'Mail admins login here to administer your domain.';
 $PALANG['pLogin_username'] = 'Login (email)';
 $PALANG['pLogin_password'] = 'Password';
 $PALANG['pLogin_button'] = 'Login';
-$PALANG['pLogin_failed'] = '<span class="error_msg">Your email address or password are not correct.</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.';
 $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.';
 
 $PALANG['pMenu_main'] = 'Main';
@@ -346,7 +346,7 @@ $PALANG['pUsersVacation_welcome'] = 'Auto Response.';
 $PALANG['pUsersVacation_welcome_text'] = 'You already have an auto response configured!';
 $PALANG['pUsersVacation_subject'] = 'Subject';
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office';
-$PALANG['pUsersVacation_body'] = 'Body';
+$PALANG['pUsersVacation_body'] = 'Message';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 I will be away from <date> until <date>.
 For urgent matters you can contact <contact person>.

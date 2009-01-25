@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = 'Póst kerfisstjóri tengist hér til að viðhalda 
 $PALANG['pLogin_username'] = 'Auðkenni(email)';
 $PALANG['pLogin_password'] = 'Lykilorð';
 $PALANG['pLogin_button'] = 'Tengjast';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Auðkenni þitt er rangt, ath hvort þú hafir slegið það rangt inn og prófaðu aftur, ath notaðu fullt email til að tengjas!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Lykilorðið var rangt!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Notendur smellið hér til að opna almennt notendaviðmót.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -338,7 +337,7 @@ $PALANG['pUsersVacation_welcome'] = 'sjálfvirk skilaboð.';
 $PALANG['pUsersVacation_welcome_text'] = 'Þú hefur nú þegar skilgreint sjálfvirk skilaboð!';
 $PALANG['pUsersVacation_subject'] = 'Meginmál - Subject';
 $PALANG['pUsersVacation_subject_text'] = 'Er ekki við - Out of Office';
-$PALANG['pUsersVacation_body'] = 'Meginmál';
+$PALANG['pUsersVacation_body'] = 'Meginmál'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Ég er ekki við frá <date> og til <date>.  I will be away from <date> until <date>.
 Ef mikið liggur við, geturðu haft samaband við <contact person>. For urgent matters you can contact <contact person>.

@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = 'E-posti haldaja, logi siit domeeni administreerimis
 $PALANG['pLogin_username'] = 'Kasutajanimi (e-posti aadress)';
 $PALANG['pLogin_password'] = 'Parool';
 $PALANG['pLogin_button'] = 'Logi sisse';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Kasutajanimi pole õige. Veendu, et logid sisse korrektse e-posti aadressiga!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Parool pole õige!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Kasutaja, klõpsa siia logimaks sisse kasutaja sektsiooni.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -339,7 +338,7 @@ $PALANG['pUsersVacation_welcome'] = 'Automaatne vastus.';
 $PALANG['pUsersVacation_welcome_text'] = 'Automaatne vastus on juba seadistatud!';
 $PALANG['pUsersVacation_subject'] = 'Teema';
 $PALANG['pUsersVacation_subject_text'] = 'Kontorist väljas';
-$PALANG['pUsersVacation_body'] = 'Põhitekst';
+$PALANG['pUsersVacation_body'] = 'Põhitekst'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Olen kontorist eemal alates <date> kuni <date>.
 Kiireloomuliste asjade korral palun kontakteeru <kontakt isik>.

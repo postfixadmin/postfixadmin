@@ -24,8 +24,7 @@ $PALANG['pLogin_welcome'] = 'Postadministrator: Log ind for at administrere dine
 $PALANG['pLogin_username'] = 'Brugernavn (email)';
 $PALANG['pLogin_password'] = 'Adgangskode';
 $PALANG['pLogin_button'] = 'Login';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Dit brugernavn er forkert. Kontroller at du bruger din emailadresse som brugernavn!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Din adgangskode er forkert!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Bruger: Log ind på brugersektionen her.';
 
 $PALANG['pMenu_main'] = 'Start';
@@ -346,7 +345,7 @@ $PALANG['pUsersVacation_welcome'] = 'Autosvar.';
 $PALANG['pUsersVacation_welcome_text'] = 'Du har allerede et autosvar indstillet!';
 $PALANG['pUsersVacation_subject'] = 'Emne';
 $PALANG['pUsersVacation_subject_text'] = 'Ikke tilstede';
-$PALANG['pUsersVacation_body'] = 'Meddelelse';
+$PALANG['pUsersVacation_body'] = 'Meddelelse'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jeg er ikke tilstede i perioden <dato> til <dato>.
 I nødstilfælde kan <kontaktperson> kontaktes.

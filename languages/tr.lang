@@ -22,8 +22,7 @@ $PALANG['pLogin_welcome'] = 'Posta Yöneticileri buradan domainlerinizi yönetme
 $PALANG['pLogin_username'] = 'Kullanýcý adý (eposta)';
 $PALANG['pLogin_password'] = 'Þifre';
 $PALANG['pLogin_button'] = 'Giriþ';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Kullanýcý adnýnýz doðru deðil. E-posta adresinizi kontrol ediniz.</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Þifreniz doðru deðil!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Kullanýcý iþlemlerine girmek için burayý kullanýnýz.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -339,7 +338,7 @@ $PALANG['pUsersVacation_welcome'] = 'Otomatik Cevaplama.';
 $PALANG['pUsersVacation_welcome_text'] = 'Zaten bir otomatik cevaplamanýz bulunmakta!';
 $PALANG['pUsersVacation_subject'] = 'konu';
 $PALANG['pUsersVacation_subject_text'] = 'Ofis dýþýnda';
-$PALANG['pUsersVacation_body'] = 'Metin';
+$PALANG['pUsersVacation_body'] = 'Metin'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 <date> tarihinden den <date> ine burada bulunmayacaðým.
 Acil durumlarda lütfen  <contact person> a baþvurunuz.

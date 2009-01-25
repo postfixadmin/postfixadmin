@@ -24,8 +24,7 @@ $PALANG['pLogin_welcome'] = 'Mail-Administratoren loggen sich bitte hier ein.';
 $PALANG['pLogin_username'] = 'Login (eMail)';
 $PALANG['pLogin_password'] = 'Passwort';
 $PALANG['pLogin_button'] = 'Login';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Ihr Login-Name ist nicht korrekt. Bitte benutzen Sie die komplette eMail-Adresse</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Falsches Passwort!</span>';
+$PALANG['pLogin_failed'] = 'Ihre Mailadresse oder das Passwort sind nicht korrekt.';
 $PALANG['pLogin_login_users'] = 'eMail-Benutzer bitte hier einloggen.';
 
 $PALANG['pMenu_main'] = 'Startseite';

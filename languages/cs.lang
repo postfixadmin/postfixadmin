@@ -27,8 +27,7 @@ $PALANG['pLogin_welcome'] = 'Zde se přihlašují emailoví administrátoři pro
 $PALANG['pLogin_username'] = 'Uživatelské jméno (email)';
 $PALANG['pLogin_password'] = 'Heslo';
 $PALANG['pLogin_button'] = 'Přihlásit';
-$PALANG['pLogin_username_incorrect'] = '<span class="error_msg">Nesprávné uživatelské jmeno. Přihlašujte se svojí emailovou adresou!</span>';
-$PALANG['pLogin_password_incorrect'] = '<span class="error_msg">Nesprávné heslo!</span>';
+$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Vstup do uživatelské sekce.';
 
 $PALANG['pMenu_main'] = 'Hlavní';
@@ -348,7 +347,7 @@ $PALANG['pUsersVacation_welcome'] = 'Automatická odpověď';
 $PALANG['pUsersVacation_welcome_text'] = 'Již máte nastavenou automatickou odpověď!';
 $PALANG['pUsersVacation_subject'] = 'Předmět';
 $PALANG['pUsersVacation_subject_text'] = 'Dovolená';
-$PALANG['pUsersVacation_body'] = 'Obsah';
+$PALANG['pUsersVacation_body'] = 'Obsah'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jsem na dovolené od <datum> od <datum>.
 S neodkladnými zprávami prosím kontaktujte <kontaktní osoba>.
