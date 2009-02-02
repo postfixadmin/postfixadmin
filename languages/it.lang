@@ -19,12 +19,12 @@ $PALANG['check_update'] = 'Verifica gli aggiornamenti';
 $PALANG['invalid_parameter'] = 'Parametro non valido!';
 $PALANG['pFooter_logged_as'] = 'Collegato come %s';
 
-$PALANG['pLogin_welcome'] = 'GLi amministratori di posta devono effettuare il login qui per amministrare il proprio dominio.';
+$PALANG['pLogin_welcome'] = 'Gli amministratori di posta devono effettuare il login qui per amministrare il proprio dominio.';
 $PALANG['pLogin_username'] = 'Nome utente (email)';
 $PALANG['pLogin_password'] = 'Password';
 $PALANG['pLogin_button'] = 'Entra';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
-$PALANG['pLogin_login_users'] = 'GLi utenti devono cliccare qui per entrare nella propria sezione.';
+$PALANG['pLogin_login_users'] = 'Gli utenti devono cliccare qui per entrare nella propria sezione.';
 
 $PALANG['pMenu_main'] = 'Principale';
 $PALANG['pMenu_overview'] = 'Resoconto';
@@ -106,7 +106,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 $PALANG['pCreate_alias_welcome'] = 'Crea un nuovo alias per il tuo dominio.';
 $PALANG['pCreate_alias_address'] = 'Alias';
 $PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">L\' Alias non &egrave; valido!</span>';
-$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Questo indirizzo di post esiste gi&agrave;, per favore sceglierne uno diverso!</span>';
+$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Questo indirizzo di posta esiste gi&agrave;, per favore sceglierne uno diverso!</span>';
 $PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Hai raggiunto il tuo limite per creare alias!</span>';
 $PALANG['pCreate_alias_goto'] = 'A';
 $PALANG['pCreate_alias_active'] = 'Attivo';
@@ -115,7 +115,7 @@ $PALANG['pCreate_alias_goto_text'] = 'Dove la mail deve essere spedita.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Dove l\'email deve andare.<br /><span class="error_msg">Il campo A non &egrave; valido!</span>';
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Non sono riuscito ad aggiungere l\'alias alla tabella degli alias!</span>';
 $PALANG['pCreate_alias_result_success'] = 'L\'alias &egrave; stato aggiunto alla tabella degli alias!';
-$PALANG['pCreate_alias_catchall_text'] = 'Per creare un account universale, usare "*" come alias.<br />Per inoltri da dominio a dominio, usare "*@domain.tld" come campo \"a\".';
+$PALANG['pCreate_alias_catchall_text'] = 'Per creare un account universale, usare "*" come alias.<br />Per inoltri da dominio a dominio, usare "*@domain.tld" come campo "a".';
 
 $PALANG['pEdit_alias_welcome'] = 'Modifica un alias per il tuo dominio.<br />Un indirizzo per linea.';
 $PALANG['pEdit_alias_address'] = 'Alias';
@@ -209,7 +209,7 @@ $PALANG['pViewlog_result_error'] = '<span class="error_msg">Impossibile trovare 
 $PALANG['pSendmail_welcome'] = 'Spedisci una email.';
 $PALANG['pSendmail_admin'] = 'Da';
 $PALANG['pSendmail_to'] = 'A';
-$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">Il campo \"A\" &egrave; vuoto o non &egrave; un indirizzo valido!</span>';
+$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">Il campo "A" &egrave; vuoto o non &egrave; un indirizzo valido!</span>';
 $PALANG['pSendmail_subject'] = 'Oggetto';
 $PALANG['pSendmail_subject_text'] = 'Benvenuto';
 $PALANG['pSendmail_body'] = 'Corpo';

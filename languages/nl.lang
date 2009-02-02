@@ -23,7 +23,7 @@ $PALANG['pLogin_welcome'] = 'Mail beheerders log hier in om uw domeinen te beher
 $PALANG['pLogin_username'] = 'Login (e-mail)';
 $PALANG['pLogin_password'] = 'Wachtwoord';
 $PALANG['pLogin_button'] = 'Login';
-$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
+$PALANG['pLogin_failed'] = 'Uw login gegevens zijn onjuist.';
 $PALANG['pLogin_login_users'] = 'Gebruikers klik hier om in te loggen.';
 
 $PALANG['pMenu_main'] = 'Start';
@@ -339,7 +339,7 @@ $PALANG['pUsersVacation_welcome'] = 'Automatisch beantwoorden.';
 $PALANG['pUsersVacation_welcome_text'] = 'U heeft uw automatisch beantwoorden ingesteld.';
 $PALANG['pUsersVacation_subject'] = 'Onderwerp';
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office';
-$PALANG['pUsersVacation_body'] = 'Bericht'; # XXX text changed to 'Message'
+$PALANG['pUsersVacation_body'] = 'Bericht';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Ik zal afwezig zijn van <date> tot <date>.
 Voor belangrijke punten kunt u contact opnemen met <contact person>.
