@@ -15,13 +15,14 @@ Only in SVN trunk
 -----------------
 
 
-Version 2.3 - 2009/01/30 - SVN r557
+Version 2.3 - 2009/02/03 - SVN r561
 -----------------------------------
   - vacation.pl: make it strip/discover addresses better, slightly better logging, stop it 
     requiring a messageid
   - added ADDITIONS/delete-mailq-by-domain.pl (by Jose Nilton)
   - added ADDITIONS/quota_usage.pl (by Jose Nilton) - produces report of quota usage
-  - some small bugfixes
+  - added support for courier authlib authentication flavors ($CONF['authlib_default_flavor'])
+  - some small bugfixes and language updates
 
 
 Version 2.3 Beta - 2009/01/15 - SVN r527
