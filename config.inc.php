@@ -89,7 +89,14 @@ $CONF['smtp_port'] = '25';
 // system = whatever you have set as your PHP system default
 // cleartext = clear text passwords (ouch!)
 // mysql_encrypt = useful for PAM integration
+// authlib = support for courier-authlib style passwords
 $CONF['encrypt'] = 'md5crypt';
+
+// In what flavor should courier-authlib style passwords be enrypted?
+// md5 = {md5} + base64 encoded md5 hash
+// md5raw = {md5raw} + plain encoded md5 hash
+// crypt = {crypt} + Standard UNIX DES-enrypted with 2-character salt
+$CONF['authlib_default_flavor'] = 'md5raw';
 
 // Minimum length required for passwords. Postfixadmin will not
 // allow users to set passwords which are shorter than this value.
