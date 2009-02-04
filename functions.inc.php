@@ -256,7 +256,7 @@ function check_domain ($domain)
             flash_error("emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!");
         }
     }
-
+    
     return true;
 }
 
@@ -1128,7 +1128,7 @@ function pacrypt ($pw, $pw_db="")
     }
 
     if ($CONF['encrypt'] == 'system') {
-        if (ereg ("\$1\$", $pw_db)) {
+    	  if (ereg ("\$1\$", $pw_db)) {
             $split_salt = preg_split ('/\$/', $pw_db);
             $salt = $split_salt[2];
         }
@@ -1162,23 +1162,25 @@ function pacrypt ($pw, $pw_db="")
     }
     
     if ($CONF['encrypt'] == 'authlib') {
-       $flavor = $CONF['authlib_default_flavor'];
-       $salt = '  ';
-       if(ereg('^{.*}', $pw_db)) {
-          // we have a flavor in the db -> use it instead of default flavor
-          $result = split('{|}', $pw_db, 3);
-          $flavor = $result[1];  
-          $salt = substr($result[2], 0, 2);
-       }
-
-       if(stripos($flavor, 'md5raw') === 0) {
-          $password = '{' . $flavor . '}' . md5($pw);
-       } else if(stripos($flavor, 'md5') === 0) {
-          $password = '{' . $flavor . '}' . base64_encode(md5($pw, TRUE));
-       } else if(stripos($flavor, 'crypt') === 0) {
-          $password = '{' . $flavor . '}' . crypt($pw, $salt);
-       }
-    }
+    	$flavor = $CONF['authlib_default_flavor'];
+    	$salt = substr(create_salt(), 0, 2);
+    	if(ereg('^{.*}', $pw_db)) {
+    		// we have a flavor in the db -> use it instead of default flavor
+    		$result = split('{|}', $pw_db, 3);
+    		$flavor = $result[1];  
+    		$salt = substr($result[2], 0, 2);  		
+    	}
+    	    	
+      	if(stripos($flavor, 'md5raw') === 0) {
+         	$password = '{' . $flavor . '}' . md5($pw);
+      	} else if(stripos($flavor, 'md5') === 0) {
+      		$password = '{' . $flavor . '}' . base64_encode(md5($pw, TRUE));
+      	} else if(stripos($flavor, 'crypt') === 0) {
+      		$password = '{' . $flavor . '}' . crypt($pw, $salt);
+      	} else {
+      		die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5' and 'crypt'");
+      	}
+   	}
     
     
     $password = escape_string ($password);
