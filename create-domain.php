@@ -84,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
+    $tBackupmx = "";
     if ($fDomain == null or domain_exist($fDomain) or !check_domain($fDomain))
     {
         $error = 1;
@@ -139,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         if (!domain_postcreation($fDomain))
         {
              $tMessage = $PALANG['pAdminCreate_domain_error'];
-       }
+        }
     }
 }
 
@@ -148,5 +149,5 @@ include ("templates/menu.php");
 include ("templates/admin_create-domain.php");
 include ("templates/footer.php");
 
-/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
