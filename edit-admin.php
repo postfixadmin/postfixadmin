@@ -101,11 +101,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $sqlActive = db_get_boolean(False);
         }
 
-      $password_query = '';
-      if ($fPassword != '') { # do not change password to empty one
-         $password_query = ", password='$fPassword'";
-      }
-      $result = db_query ("UPDATE $table_admin SET modified=NOW(),active='$sqlActive' $password_query WHERE username='$username'");
+        $password_query = '';
+        if ($fPassword != '') { # do not change password to empty one
+            $password_query = ", password='$fPassword'";
+        }
+        $result = db_query ("UPDATE $table_admin SET modified=NOW(),active='$sqlActive' $password_query WHERE username='$username'");
 
         if ($fSadmin == "on") $fSadmin = 'ALL';
 
@@ -155,5 +155,5 @@ include ("templates/menu.php");
 include ("templates/admin_edit-admin.php");
 include ("templates/footer.php");
 
-/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

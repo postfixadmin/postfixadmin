@@ -41,7 +41,7 @@ if(authentication_has_role('global-admin')) {
     $list_domains = list_domains ();
 }
 else {
-   $list_domains = list_domains_for_admin ($username);
+    $list_domains = list_domains_for_admin ($username);
 }
 
 $pCreate_alias_goto_text = $PALANG['pCreate_alias_goto_text'];
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
     if (isset ($_POST['fAddress']) && isset ($_POST['fDomain'])) {
         $fAddress = escape_string($_POST['fAddress']) . "@" . escape_string ($_POST['fDomain']);
-       $fAddress = strtolower ($fAddress);
+        $fAddress = strtolower ($fAddress);
     }
 
     if (isset ($_POST['fGoto'])) {
@@ -156,4 +156,5 @@ include ("templates/header.php");
 include ("templates/menu.php");
 include ("templates/create-alias.php");
 include ("templates/footer.php");
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

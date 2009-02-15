@@ -90,7 +90,7 @@ if ($result['rows'] > 0)
             {
                 $row['modified']=gmstrftime('%c %Z',$row['modified']);
                 $row['active']=('t'==$row['active']) ? 1 : 0;
-            }         	
+            }
             $tAlias[] = $row;
         }
     }
@@ -129,5 +129,5 @@ include ("templates/menu.php");
 include ("templates/search.php");
 include ("templates/footer.php");
 
-// vim:ts=4:sw=4:et
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

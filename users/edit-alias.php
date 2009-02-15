@@ -135,4 +135,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     include ("../templates/users_edit-alias.php");
     include ("../templates/footer.php");
 }
+
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

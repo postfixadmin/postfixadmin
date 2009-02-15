@@ -99,15 +99,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $array = array();
    }
 
-	for ($i = 0; $i < sizeof ($array); $i++) {
-		if (in_array ("$array[$i]", $CONF['default_aliases'])) continue;
-		if (empty ($array[$i])) continue; # TODO: should never happen - remove after 2.2 release
-		if (!check_email ($array[$i]))
-		{
-   		$error = 1;
-   		$tGoto = $goto;
-   		$tMessage = $PALANG['pEdit_alias_goto_text_error2'] . "$array[$i]</span>";
-	   }
+   for ($i = 0; $i < sizeof ($array); $i++) {
+      if (in_array ("$array[$i]", $CONF['default_aliases'])) continue;
+      if (empty ($array[$i])) continue; # TODO: should never happen - remove after 2.2 release
+      if (!check_email ($array[$i]))
+      {
+         $error = 1;
+         $tGoto = $goto;
+         $tMessage = $PALANG['pEdit_alias_goto_text_error2'] . "$array[$i]</span>";
+      }
    }
    
    if ($error != 1)

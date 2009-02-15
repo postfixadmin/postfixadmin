@@ -85,3 +85,6 @@ if (!file_exists (realpath ("./setup.php")) || $CONF['configured'] == 'I_know_th
         </p>
     </body>
 </html>
+<?php
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
+?>

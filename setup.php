@@ -209,8 +209,8 @@ if ($config_loaded) {
    } else {
       print "<li><b>Error: Can't connect to database</b><br />\n";
       print "Please edit the \$CONF['database_*'] parameters in config.inc.php.\n";
-	  print "$error_text</li>\n";
-	  $error ++;
+      print "$error_text</li>\n";
+      $error ++;
    } 
 }
 
@@ -369,3 +369,6 @@ else
 </div>
 </body>
 </html>
+<?php
+/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
+?>

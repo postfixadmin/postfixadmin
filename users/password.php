@@ -32,7 +32,7 @@ require_once('../common.php');
 authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
 
-$tmp = preg_split ('/@/', $USERID_USERNAME);     
+$tmp = preg_split ('/@/', $USERID_USERNAME);
 $USERID_DOMAIN = $tmp[1];
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $row = db_array ($result['result']);
         $checked_password = pacrypt($fPassword_current, $row['password']);
 
-        $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$username' AND password='$checked_password'");      
+        $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$username' AND password='$checked_password'");
         if ($result['rows'] != 1)
         {
             $error = 1;

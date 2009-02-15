@@ -14,9 +14,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
 if (file_exists (realpath ("../".$CONF['theme_css']))) {
-	print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../".htmlentities($CONF['theme_css'])."\" />\n";
+    print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../".htmlentities($CONF['theme_css'])."\" />\n";
 } else {
-	print "<link rel=\"stylesheet\" type=\"text/css\" href=\"".htmlentities($CONF['theme_css'])."\" />\n";
+    print "<link rel=\"stylesheet\" type=\"text/css\" href=\"".htmlentities($CONF['theme_css'])."\" />\n";
 }
 ?>
 <title>Postfix Admin - <?php print $_SERVER['HTTP_HOST']; ?></title>
@@ -26,14 +26,14 @@ if (file_exists (realpath ("../".$CONF['theme_css']))) {
 <?php
 if (file_exists (realpath ("../".$CONF['theme_logo'])))
 {
-   print "<img id=\"login_header_logo\" src=\"../".htmlentities($CONF['theme_logo'])."\" />\n";
+    print "<img id=\"login_header_logo\" src=\"../".htmlentities($CONF['theme_logo'])."\" />\n";
 } else {
-   print "<img id=\"login_header_logo\" src=\"".htmlentities($CONF['theme_logo'])."\" />\n";
+    print "<img id=\"login_header_logo\" src=\"".htmlentities($CONF['theme_logo'])."\" />\n";
 }
 
 if (($CONF['show_header_text'] == "YES") and ($CONF['header_text']))
 {
-   print "<h2>" . $CONF['header_text'] . "</h2>\n";
+    print "<h2>" . $CONF['header_text'] . "</h2>\n";
 }
 ?>
 </div>
@@ -57,3 +57,6 @@ if(isset($_SESSION['flash'])) {
     /* nuke it from orbit. It's the only way to be sure. */
     $_SESSION['flash'] = array(); 
 }
+
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
+?>
