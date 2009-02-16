@@ -1298,7 +1298,7 @@ function to64 ($v, $n)
 // smtp_mail
 // Action: Sends email to new account.
 // Call: smtp_mail (string To, string From, string Data)
-//
+// TODO: Replace this with something decent like PEAR::Mail or Zend_Mail.
 function smtp_mail ($to, $from, $data)
 {
     global $CONF;
@@ -1317,6 +1317,7 @@ function smtp_mail ($to, $from, $data)
     }
     else
     {
+        $res = smtp_get_response($fh);
         fputs ($fh, "EHLO $smtp_server\r\n");
         $res = smtp_get_response($fh);
         fputs ($fh, "MAIL FROM:<$from>\r\n");
