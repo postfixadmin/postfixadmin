@@ -3,11 +3,9 @@
 ##################################################
 #
 # Postfix Admin (Virtual Vacation)
-# by Mischa Peters <mischa at high5 dot net>
+# Originally authored by Mischa Peters <mischa at high5 dot net>
 # Copyright (c) 2002 - 2005 High5!
 # Licensed under GPL for more info check GPL-LICENSE.TXT
-#
-# Modified by: Nicholas Paufler <npaufler at incentre dot net> (12/06/2004)
 #
 
 REQUIRED!
@@ -20,12 +18,19 @@ A full list of required modules can be found in the source of vacation.pl.
 
 It obviously relies on Perl
 
-
 About Virtual Vacation
 ----------------------
-Virtual Vacation is today done with a local shell account that can receive
-email. The email is then handled by a Perl script which sends the Vacation
-message back to the sender.
+The vacation script runs as service within Postfix's master.cf configuration file.
+Mail is sent to the vacation service via a transport table mapping.
+When users mark themselves as away on vacation, an alias is added to their account 
+sending a copy of all mail to them to the vacation service.
+
+e.g. mail to billy@goat.com will be delivered to 
+    billy@goat.com AND 
+    billy#goat.com@autoreply.goat.com
+
+Mail to @autoreply.goat.com is caught by the vacation.pl script and a reply 
+will be sent based on various settings. By default a reply is only sent once.
 
 
 Install Virtual Vacation
@@ -71,12 +76,15 @@ Which will then look something like:
 
 
 4. Setup the transport type
---------------------
+---------------------------
 Define the transport type in the Postfix master file:
 
 #/etc/postfix/master.cf:
 vacation    unix  -       n       n       -       -       pipe
   flags=Rq user=vacation argv=/var/spool/vacation/vacation.pl -f ${sender} -- ${recipient}
+
+5. Setup the transport maps file
+--------------------------------
 
 Tell Postfix to use a transport maps file, so add the following to your
 Postfix main.cf:
@@ -99,13 +107,6 @@ Execute "postmap /etc/postfix/transport" to build the hashed database.
 Execute "postfix reload" to complete the change.
 
 
-5. Create the table
--------------------
-
-The database table should have already been created for you, by running 
-the 'upgrade.php' script when installing Postfixadmin.
-
-If security is an issue for you, read ../DOCUMENTS/Security.txt
 
 
 6. Configure vacation.pl
@@ -130,6 +131,45 @@ b) create /etc/mail/postfixadmin/vacation.conf and enter your settings there
    Just use perl syntax there to fill the config variables listed in vacation.pl
    (without the "our" keyword). Example:
    $db_username = 'mail';
+
+
+7. Check the alias expansion
+----------------------------
+
+Depending on your setup, you may have multiple 'smtpd' service definitions within 
+your postfix master.cf file. This is especially the case if you are also using AMAVIS or
+another content filtering system when mail is re-injected into Postfix using the smtpd daemon.
+
+If you are, it's likely that alias expansion may happen more than once, in which case you 
+may see vacation-style responses duplicated. To suppress this behaviour, you need to add :
+
+  -o receive_override_options=no_address_mappings
+
+For example :
+
+smtp      inet  n       -       -       -       12       smtpd
+    -o content_filter=amavis:[127.0.0.50]:10024
+
+    ^^^ Alias expansion occurs here, so we don't want it to happen again for the other smtpd daemon (below)
+        which receives email out of amavis on port 10025.
+
+127.0.0.1:10025 inet    n   -   -   -   - smtpd
+    -o smtpd_autorized_xforward_hosts=127.0.0.0/8
+    -o smtpd_client_restrictions=
+    -o smtpd_helo_restrictions=
+    -o smtpd_sender_restrictions=
+    -o smtpd_recipient_restrictions=permit_mynetworks,reject
+    -o mynetworks=127.0.0.0/8
+    -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks,no_address_mappings
+
+
+
+8. Security
+-----------
+
+If security is an issue for you, read ../DOCUMENTS/Security.txt
+
+
 
 
 What do these files do?
