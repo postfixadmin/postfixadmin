@@ -80,9 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if ($fBackupmx == "on")
     {
-        $fAliases = -1;
-        $fMailboxes = -1;
-        $fMaxquota = -1;
         $fBackupmx = 1;
         $sqlBackupmx = db_get_boolean(True);
     }
