@@ -52,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $result = db_query ($q);
       if ($result['rows'] > 0)
       {
+         mb_internal_encoding("UTF-8");
          $b_name = mb_encode_mimeheader( $_POST['name'], 'UTF-8', 'Q');
          $b_subject = mb_encode_mimeheader( $_POST['subject'], 'UTF-8', 'Q');
          $b_message = base64_encode($_POST['message']);
