@@ -431,18 +431,25 @@ function get_domain_properties ($domain)
     global $table_alias, $table_mailbox, $table_domain;
     $list = array ();
 
-    $result = db_query ("SELECT COUNT(*) FROM $table_alias WHERE domain='$domain'");
-    $row = db_row ($result['result']);
-    $list['alias_count'] = $row[0];
+   $result = db_query ("SELECT COUNT(*) FROM $table_alias
+                        LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
+                        WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
+                              OR
+                              ($table_alias.domain='$domain'
+                               AND $table_alias.goto LIKE '%,%'
+                               AND $table_mailbox.maildir IS NOT NULL)");
+
+   $row = db_row ($result['result']);
+   $list['alias_count'] = $row[0];
 
     $result = db_query ("SELECT COUNT(*) FROM $table_mailbox WHERE domain='$domain'");
     $row = db_row ($result['result']);
     $list['mailbox_count'] = $row[0];
 
-    $result = db_query ("SELECT SUM(quota) FROM $table_mailbox WHERE domain='$domain'");
-    $row = db_row ($result['result']);
-    $list['quota_sum'] = $row[0];
-    $list['alias_count'] = $list['alias_count'] - $list['mailbox_count'];
+   $result = db_query ("SELECT SUM(quota) FROM $table_mailbox WHERE domain='$domain'");
+   $row = db_row ($result['result']);
+   $list['quota_sum'] = $row[0];
+   $list['alias_count'] = $list['alias_count'];
 
     $list['alias_pgindex']=array ();
     $list['mbox_pgindex']=array ();
@@ -455,24 +462,40 @@ function get_domain_properties ($domain)
     $idxlabel="";
     $list['alias_pgindex_count'] = 0;
 
-    if ( $list['alias_count'] > $page_size )
-    {
-        while ( $current < $list['alias_count'] )
-        { 
-            $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
-            $query = "SELECT $table_alias.address FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address LIMIT $limitSql";
-            $result = db_query ("$query");
-            $row = db_array ($result['result']);
-            $tmpstr = $row['address'];
-            //get first 2 chars
-            $idxlabel = $tmpstr[0] . $tmpstr[1] . "-";
-            ($current + $page_size - 1 <= $list['alias_count']) ? $current = $current + $page_size - 1 : $current = $list['alias_count'] - 1;
-            $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
-            $query = "SELECT $table_alias.address FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address LIMIT $limitSql";
-            $result = db_query ("$query");
-            $row = db_array ($result['result']);
-            $tmpstr = $row['address'];
-            $idxlabel = $idxlabel . $tmpstr[0] . $tmpstr[1];
+   if ( $list['alias_count'] > $page_size )
+   {
+      while ( $current < $list['alias_count'] )
+      { 
+         $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
+         $query = "SELECT $table_alias.address
+                   FROM $table_alias
+                   LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
+                   WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
+                        OR
+                         ($table_alias.domain='$domain'
+                          AND $table_alias.goto LIKE '%,%'
+                          AND $table_mailbox.maildir IS NOT NULL)
+                   ORDER BY $table_alias.address LIMIT $limitSql";
+         $result = db_query ("$query");
+         $row = db_array ($result['result']);
+         $tmpstr = $row['address'];
+         //get first 2 chars
+         $idxlabel = $tmpstr[0] . $tmpstr[1] . "-";
+         ($current + $page_size - 1 <= $list['alias_count']) ? $current = $current + $page_size - 1 : $current = $list['alias_count'] - 1;
+         $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
+         $query = "SELECT $table_alias.address
+                   FROM $table_alias
+                   LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
+                   WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
+                        OR
+                         ($table_alias.domain='$domain'
+                          AND $table_alias.goto LIKE '%,%'
+                          AND $table_mailbox.maildir IS NOT NULL)
+                   ORDER BY $table_alias.address LIMIT $limitSql";
+         $result = db_query ("$query");
+         $row = db_array ($result['result']);
+         $tmpstr = $row['address'];
+         $idxlabel = $idxlabel . $tmpstr[0] . $tmpstr[1];
 
             $current = $current + 1;
 
@@ -1103,11 +1126,16 @@ function generate_password ()
 
 
 
-//
-// pacrypt
-// Action: Encrypts password based on config settings
-// Call: pacrypt (string cleartextpassword)
-//
+/**
+ * Encrypt a password, using the apparopriate hashing mechanism as defined in 
+ * config.inc.php ($CONF['encrypt']). 
+ * When wanting to compare one pw to another, it's necessary to provide the salt used - hence
+ * the second parameter ($pw_db), which is the existing hash from the DB.
+ *
+ * @param string $pw
+ * @param string $encrypted password
+ * @return string encrypted password.
+ */
 function pacrypt ($pw, $pw_db="")
 {
     global $CONF;

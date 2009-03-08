@@ -43,6 +43,57 @@ $fDomain = escape_string (safeget('domain'));
 
 $error=0;
 
+/**
+ * delete_alias
+ *  Action: Delete an alias
+ * @param String $alias- alias to delete.
+ * @param String $domain - domain of the alias
+ * @param boolean $force_delete - deletes the alias from the table if true,
+ *                                checks if the alias is real and act accordlying if false.
+ *                                Default is false. 
+ * @return String username (e.g. foo@example.com)
+ */
+function delete_alias ($alias, $domain, $force_delete = false)
+{
+    global $table_alias, $table_mailbox;
+    $real_alias = true;
+
+    if (! $force_delete)
+    {
+        $result = db_query ("SELECT 1 FROM $table_mailbox
+            WHERE username='$alias' AND domain='$domain'");
+        if ($result['rows'] != 0)
+        {
+            /* If the alias is a real mailbox as well, remove all its real aliases and keep
+             * only the address */
+            $real_alias = false;
+        }
+    }
+
+    if ($force_delete or $real_alias)
+    {
+        $result = db_query ("DELETE FROM $table_alias WHERE address='$alias' AND domain='$domain'");
+    }
+    else
+    {
+        $result = db_query ("UPDATE $table_alias SET goto='$alias',modified=NOW()
+            WHERE address='$alias' AND domain='$domain'");
+    }
+
+    if ($result['rows'] != 1)
+    {
+        $tMessage = $PALANG['pDelete_delete_error'] . "<b>$alias</b> (alias)!</span>";
+
+        return false;
+    }
+    else
+    {
+        db_log ($SESSID_USERNAME, $fDomain, 'delete_alias', $fDelete);
+    }
+
+    return true;
+}
+
 if ($fTable == "admin")
 {
     authentication_require_role('global-admin');
@@ -98,7 +149,7 @@ elseif ($fTable == "alias_domain")
     }
 } # ($fTable == "alias_domain")
 
-elseif ($fTable == "alias" or $fTable == "mailbox")
+elseif ($fTable == "mailbox")
 {
 
     if (!check_owner ($SESSID_USERNAME, $fDomain))
@@ -114,52 +165,61 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
     else
     {
         if ($CONF['database_type'] == "pgsql") db_query('BEGIN');
-        /* there may be no aliases to delete */
-        $result = db_query("SELECT * FROM $table_alias WHERE address = '$fDelete' AND domain = '$fDomain'");
-        if($result['rows'] == 1) {
-            $result = db_query ("DELETE FROM $table_alias WHERE address='$fDelete' AND domain='$fDomain'");
-            db_log ($SESSID_USERNAME, $fDomain, 'delete_alias', $fDelete);
-        }
 
-        /* is there a mailbox? if do delete it from orbit; it's the only way to be sure */
-        $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
-        if ($result['rows'] == 1)
+        $error = delete_alias ($fDelete, $fDomain, $force_delete = true) ? 0 : 1;
+        if (! $error)
         {
-            $result = db_query ("DELETE FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
-            $postdel_res=mailbox_postdeletion($fDelete,$fDomain);
-            if ($result['rows'] != 1 || !$postdel_res)
+            /* is there a mailbox? if do delete it from orbit; it's the only way to be sure */
+            $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
+            if ($result['rows'] == 1)
             {
-                $error = 1;
-                $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (";
-                if ($result['rows']!=1)
+                $result = db_query ("DELETE FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
+                $postdel_res=mailbox_postdeletion($fDelete,$fDomain);
+                if ($result['rows'] != 1 || !$postdel_res)
                 {
-                    $tMessage.='mailbox';
-                    if (!$postdel_res) $tMessage.=', ';
+                    $error = 1;
+                    $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (";
+                    if ($result['rows']!=1)
+                    {
+                        $tMessage.='mailbox';
+                        if (!$postdel_res) $tMessage.=', ';
+                    }
+                    if (!$postdel_res)
+                    {
+                        $tMessage.='post-deletion';
+                    }
+                    $tMessage.=')</span>';
                 }
-                if (!$postdel_res)
-                {
-                    $tMessage.='post-deletion';
-                }
-                $tMessage.=')</span>';
+            }
+            $result = db_query("SELECT * FROM $table_vacation WHERE email = '$fDelete' AND domain = '$fDomain'");
+            if($result['rows'] == 1) {
+                db_query ("DELETE FROM $table_vacation WHERE email='$fDelete' AND domain='$fDomain'");
+                db_query ("DELETE FROM $table_vacation_notification WHERE on_vacation ='$fDelete' "); /* should be caught by cascade, if PgSQL */
             }
         }
-        $result = db_query("SELECT * FROM $table_vacation WHERE email = '$fDelete' AND domain = '$fDomain'");
-        if($result['rows'] == 1) {
-            db_query ("DELETE FROM $table_vacation WHERE email='$fDelete' AND domain='$fDomain'");
-            db_query ("DELETE FROM $table_vacation_notification WHERE on_vacation ='$fDelete' "); /* should be caught by cascade, if PgSQL */
+
+        if ($error != 1)
+        {
+            if ($CONF['database_type'] == "pgsql") db_query('COMMIT');
+            header ("Location: list-virtual.php?domain=$fDomain");
+            exit;
+        } else {
+            $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (physical mail)!</span>";
+            if ($CONF['database_type'] == "pgsql") db_query('ROLLBACK');
         }
-    }
+    } # ($fTable == "mailbox")
+}
+elseif ($fTable == "alias") {
+    $error = delete_alias ($fDelete, $fDomain) ? 0 : 1;
 
     if ($error != 1)
     {
-        if ($CONF['database_type'] == "pgsql") db_query('COMMIT');
         header ("Location: list-virtual.php?domain=$fDomain");
         exit;
     } else {
-        $tMessage .= $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (physical mail)!</span>";
-        if ($CONF['database_type'] == "pgsql") db_query('ROLLBACK');
+        $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (alias)!</span>";
     }
-} 
+}
 else
 {
     flash_error($PALANG['invalid_parameter']);

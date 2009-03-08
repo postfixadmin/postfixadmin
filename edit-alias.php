@@ -46,6 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       {
          $row = db_array ($result['result']);
          $tGoto = $row['goto'];
+
+         /* Has a mailbox as well? Remove the address from $tGoto in order to edit just the real aliases */
+         $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fAddress' AND domain='$fDomain'");
+         if ($result['rows'] == 1)
+         {
+            $tGoto = preg_replace ('/\s*,*\s*' . $fAddress . '\s*,*\s*/', '', $tGoto);
+         }
       }
    }
    else
@@ -110,6 +117,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       }
    }
    
+   $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fAddress' AND domain='$fDomain'");
+   /* The alias has a real mailbox as well, prepend $goto with it */
+   if ($result['rows'] == 1)
+   {
+      $goto = "$fAddress,$goto";
+   }
+
    if ($error != 1)
    {
       $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$fAddress' AND domain='$fDomain'");

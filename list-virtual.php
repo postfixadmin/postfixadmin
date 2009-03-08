@@ -72,7 +72,6 @@ if (!check_owner(authentication_get_username(), $fDomain)) {
    exit(0);
 }
 
-
 if (boolconf('alias_domain')) {
    # Alias-Domains
    # first try to get a list of other domains pointing
@@ -118,10 +117,29 @@ if (boolconf('alias_domain')) {
    }
 }
 
-$query = "SELECT $table_alias.address,$table_alias.goto,$table_alias.modified,$table_alias.active FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username WHERE $table_alias.domain='$fDomain' AND $table_mailbox.maildir IS NULL ORDER BY $table_alias.address LIMIT $fDisplay, $page_size";
+$query = "SELECT $table_alias.address,
+                 $table_alias.goto,
+                 $table_alias.modified,
+                 $table_alias.active
+          FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
+          WHERE ($table_alias.domain='$fDomain' AND $table_mailbox.maildir IS NULL)
+                OR
+                ($table_alias.domain='$fDomain'
+                AND $table_alias.goto LIKE '%,%'
+                AND $table_mailbox.maildir IS NOT NULL)
+          ORDER BY $table_alias.address LIMIT $fDisplay, $page_size";
+
 if ('pgsql'==$CONF['database_type'])
 {
-   $query = "SELECT address,goto,extract(epoch from modified) as modified,active FROM $table_alias WHERE domain='$fDomain' AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address) ORDER BY address LIMIT $page_size OFFSET $fDisplay";
+   $query = "SELECT address,
+                    goto,
+                    modified,
+                    active
+                    FROM $table_alias WHERE domain='$fDomain'
+                         AND NOT EXISTS(SELECT 1 FROM $table_mailbox
+                                        WHERE username=$table_alias.address
+                                              AND $table_alias.goto NOT LIKE '%,%')
+                    ORDER BY address LIMIT $page_size OFFSET $fDisplay";
 }
 $result = db_query ($query);
 if ($result['rows'] > 0)
@@ -133,6 +151,13 @@ if ($result['rows'] > 0)
          $row['modified']=gmstrftime('%c %Z',$row['modified']);
          $row['active']=('t'==$row['active']) ? 1 : 0;
       }
+
+      /* Has a real mailbox as well? Remove the address from $row['goto'] in order to edit just the real aliases */
+      if (strstr ($row['goto'], ',') != FALSE)
+      {
+         $row['goto'] = preg_replace ('/\s*,*\s*' . $row['address'] . '\s*,*\s*/', '', $row['goto']);
+      }
+
       $tAlias[] = $row;
    }
 }
