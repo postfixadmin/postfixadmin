@@ -45,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $fHeaders = "To: " . $fTo . "\n";
    $fHeaders .= "From: " . $fFrom . "\n";
 
-   $fHeaders .= "Subject: " . encode_header(safepost('fSubject')) . "\n";
+   mb_internal_encoding("UTF-8");
+   $fHeaders .= "Subject: " . mb_encode_mimeheader( safepost('fSubject'), 'UTF-8', 'Q') . "\n";
    $fHeaders .= "MIME-Version: 1.0\n";
    $fHeaders .= "Content-Type: text/plain; charset=utf-8\n";
    $fHeaders .= "Content-Transfer-Encoding: 8bit\n";
