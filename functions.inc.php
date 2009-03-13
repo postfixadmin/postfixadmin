@@ -1151,11 +1151,11 @@ function pacrypt ($pw, $pw_db="")
         $password = md5crypt ($pw, $salt);
     }
 
-    if ($CONF['encrypt'] == 'md5') {
+    elseif ($CONF['encrypt'] == 'md5') {
         $password = md5($pw);
     }
 
-    if ($CONF['encrypt'] == 'system') {
+    elseif ($CONF['encrypt'] == 'system') {
         if (ereg ("\$1\$", $pw_db)) {
             $split_salt = preg_split ('/\$/', $pw_db);
             $salt = $split_salt[2];
@@ -1171,13 +1171,13 @@ function pacrypt ($pw, $pw_db="")
         $password = crypt ($pw, $salt);
     }
 
-    if ($CONF['encrypt'] == 'cleartext') {
+    elseif ($CONF['encrypt'] == 'cleartext') {
         $password = $pw;
     }
 
     // See https://sourceforge.net/tracker/?func=detail&atid=937966&aid=1793352&group_id=191583
     // this is apparently useful for pam_mysql etc.
-    if ($CONF['encrypt'] == 'mysql_encrypt')
+    elseif ($CONF['encrypt'] == 'mysql_encrypt')
     {
         if ($pw_db!="") {
             $salt=substr($pw_db,0,2);
@@ -1189,7 +1189,7 @@ function pacrypt ($pw, $pw_db="")
         $password = $l[0];
     }
     
-    if ($CONF['encrypt'] == 'authlib') {
+    elseif ($CONF['encrypt'] == 'authlib') {
         $flavor = $CONF['authlib_default_flavor'];
         $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
         if(ereg('^{.*}', $pw_db)) {
@@ -1210,7 +1210,37 @@ function pacrypt ($pw, $pw_db="")
         }
     }
     
-    
+    elseif (preg_match("/^dovecot:/", $CONF['encrypt'])) {
+        $split_method = preg_split ('/:/', $CONF['encrypt']);
+        $method       = strtoupper($split_method[1]);
+        if (! preg_match("/^[A-Z0-9-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
+
+        $dovecotpw = "dovecotpw";
+        if (!empty($CONF['dovecotpw'])) $dovecotpw = $CONF['dovecotpw'];
+
+        // prevent showing plain password in process table
+        $prefix = "postfixadmin-";
+        $tmpfile = tempnam('/tmp', $prefix);
+        $pipe = popen("'$dovecotpw' -s '$method' > '$tmpfile'", 'w'); # TODO: replace tempfile usage with proc_open call
+
+        if (!$pipe) {
+            unlink($tmpfile);
+        } else {
+            // use dovecot's stdin, it uses getpass() twice
+            fwrite($pipe, $pw . "\n", 1+strlen($pw)); usleep(1000);
+            fwrite($pipe, $pw . "\n", 1+strlen($pw));
+            pclose($pipe);
+            $password = file_get_contents($tmpfile);
+            if ( !preg_match('/^\{' . $method . '\}/', $password)) { die("can't encrypt password with dovecotpw"); }
+            $password = trim(str_replace('{' . $method . '}', '', $password));
+            unlink($tmpfile);
+        }
+    }
+
+    else {
+        die ('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
+    }
+
     $password = escape_string ($password);
     return $password;
 }

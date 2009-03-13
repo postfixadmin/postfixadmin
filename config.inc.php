@@ -90,6 +90,7 @@ $CONF['smtp_port'] = '25';
 // cleartext = clear text passwords (ouch!)
 // mysql_encrypt = useful for PAM integration
 // authlib = support for courier-authlib style passwords
+// dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. Example: dovecot:CRAM-MD5
 $CONF['encrypt'] = 'md5crypt';
 
 // In what flavor should courier-authlib style passwords be enrypted?
@@ -97,6 +98,9 @@ $CONF['encrypt'] = 'md5crypt';
 // md5raw = {md5raw} + plain encoded md5 hash
 // crypt = {crypt} + Standard UNIX DES-enrypted with 2-character salt
 $CONF['authlib_default_flavor'] = 'md5raw';
+
+// If you use the dovecot encryption method: where is the dovecotpw binary located?
+$CONF['dovecotpw'] = "/usr/sbin/dovecotpw";
 
 // Minimum length required for passwords. Postfixadmin will not
 // allow users to set passwords which are shorter than this value.
