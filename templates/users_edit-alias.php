@@ -14,27 +14,17 @@
       <td><?php print $PALANG['pEdit_alias_goto'] . ":"; ?></td>
       <td><textarea class="flat" rows="4" cols="50" name="fGoto">
 <?php
-$array = preg_split ('/,/', $tGoto);
 
-$just_forward="YES"; # unless changed below
+$just_forward = "YES";
+if($tStoreAndForward) {
+    $just_forward = "NO";
+}
 
-for ($i = 0 ; $i < sizeof ($array) ; $i++)
-{
-   if (empty ($array[$i])) continue;
-   if ($array[$i] == "$vacation_goto")
-   {
-      $vacation = "YES";
-      continue;
-   }
-   if ($array[$i] == $USERID_USERNAME) {
-      $just_forward="NO";
-      continue;
-   }
-   print "$array[$i]\n";
+foreach($tGotoArray as $address) {
+   print "$address\n";
 }
 ?>
 </textarea>
-      <input type="hidden" name="fVacation" value="<?php print $vacation; ?>">
       </td>
       <td>&nbsp;</td>
    </tr>
