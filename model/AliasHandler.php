@@ -7,12 +7,15 @@ class AliasHandler {
 
     private $username = null;
 
+    /**
+     * @param string $username
+     */
     public function __construct($username) {
         $this->username = $username;
-
     }
+
     /**
-     * @return list of email addresses the user's mail is forwarded to.
+     * @return array - list of email addresses the user's mail is forwarded to.
      * (may be an empty list, especially if $CONF['alias_control'] is turned off...
      * @param boolean - by default we don't return special addresses (e.g. vacation and mailbox alias); pass in true here if you wish to.
      */

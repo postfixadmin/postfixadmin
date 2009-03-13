@@ -79,7 +79,6 @@ class VacationHandler {
         return false;
     }
     /**
-     * @param string $username
      * @param string $subject
      * @param string $body
      */
