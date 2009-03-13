@@ -63,9 +63,14 @@ $error = 0;
 //
 if ($f_phpversion == 1)
 {
-   if (phpversion() < 5) $phpversion = 4;
-   if (phpversion() >= 5) $phpversion = 5;
-   print "<li>PHP version " . phpversion () . "</li>\n";
+    if (phpversion() < 5) {
+        print "<li><b>Error: Depends on: PHP v5</b><br /></li>\n";
+        $error += 1;
+    }
+    if (phpversion() >= 5) { 
+        $phpversion = 5;
+        print "<li>PHP version " . phpversion () . "</li>\n";
+    }
 }
 else
 {
