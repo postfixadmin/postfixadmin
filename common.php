@@ -59,5 +59,19 @@ require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
 require_once("$incpath/languages/" . check_language () . ".lang");
 
+/**
+ * @param string $class
+ * __autoload implementation, for use with spl_autoload_register().
+ */
+function postfixadmin_autoload($class) {
+    $PATH = dirname(__FILE__) . '/model/' . $class . '.php';
+
+    if(is_file($PATH)) {
+        require_once($PATH);
+        return true;
+    }
+    return false;
+}
+spl_autoload_register('postfixadmin_autoload');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
