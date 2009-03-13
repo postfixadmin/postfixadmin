@@ -27,11 +27,8 @@ require_once('../common.php');
 authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
 
-$db_active = db_get_boolean(True);
-$result = db_query("SELECT * FROM $table_vacation WHERE email='$USERID_USERNAME' AND active='$db_active'");
-if ($result['rows'] == 1)
-{
-   $row = db_array($result['result']);
+$vh = new VacationHandler($USERID_USERNAME);
+if($vh->check_vacation()) {
    $tummVacationtext = $PALANG['pUsersMain_vacationSet'];
 }
 else
@@ -39,21 +36,10 @@ else
    $tummVacationtext = $PALANG['pUsersMain_vacation'];
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "GET")
-{
-   include ("../templates/header.php");
-   include ("../templates/users_menu.php");
-   include ("../templates/users_main.php");
-   include ("../templates/footer.php");
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST")
-{
-   include ("../templates/header.php");
-   include ("../templates/users_menu.php");
-   include ("../templates/users_main.php");
-   include ("../templates/footer.php");
-}
+include ("../templates/header.php");
+include ("../templates/users_menu.php");
+include ("../templates/users_main.php");
+include ("../templates/footer.php");
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

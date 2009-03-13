@@ -32,9 +32,6 @@ require_once('../common.php');
 authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
 
-$tmp = preg_split ('/@/', $USERID_USERNAME);
-$USERID_DOMAIN = $tmp[1];
-
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
     if(isset($_POST['fCancel'])) {
@@ -52,25 +49,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
     $username = $USERID_USERNAME;
 
-    $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$username'");
-    if ($result['rows'] == 1)
-    {
-        $row = db_array ($result['result']);
-        $checked_password = pacrypt($fPassword_current, $row['password']);
-
-        $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$username' AND password='$checked_password'");
-        if ($result['rows'] != 1)
-        {
-            $error = 1;
-            $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];
-        }
+    $uh = new UserHandler();
+    if(!$uh->login($username, $fPassword_current)) {
+        $error += 1;
+        $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];
     }
-    else
-    {
-        $error = 1;
-        $pPassword_email_text = $PALANG['pPassword_email_text_error']; 
-    }
-
     if (empty ($fPassword) or ($fPassword != $fPassword2))
     {
         $error = 1;
@@ -79,12 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if ($error != 1)
     {
-        $password = pacrypt ($fPassword);
-        $result = db_query ("UPDATE $table_mailbox SET password='$password',modified=NOW() WHERE username='$username'");
-        if ($result['rows'] == 1)
-        {
+        if($uh->change_pass($username, $fPassword_current, $fPassword)) {
             flash_info($PALANG['pPassword_result_success']);
-            db_log ($USERID_USERNAME, $USERID_DOMAIN, 'edit_password', "$USERID_USERNAME");
             header("Location: main.php");
             exit(0);
         }

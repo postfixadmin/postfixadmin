@@ -20,12 +20,12 @@
  * Template Variables:
  *
  * tMessage
- * tGoto
+ * tGotoArray
+ * tStoreAndForward
  *
  * Form POST \ GET Variables:
  *
  * fAddress
- * fDomain
  * fGoto
  */
 
@@ -40,20 +40,14 @@ $USERID_DOMAIN = $tmp[1];
 $vacation_domain = $CONF['vacation_domain'];
 $vacation_goto = preg_replace('/@/', '#', $USERID_USERNAME) . '@' . $vacation_domain;
 
+$ah = new AliasHandler($USERID_USERNAME);
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
     $vacation_domain = $CONF['vacation_domain'];
 
-    $result = db_query ("SELECT * FROM $table_alias WHERE address='$USERID_USERNAME'");
-    if ($result['rows'] == 1)
-    {
-        $row = db_array ($result['result']);
-        $tGoto = $row['goto'];
-    }
-    else
-    {
-        $tMessage = $PALANG['pEdit_alias_address_error'];
-    }
+    $tGotoArray = $ah->get();
+    $tStoreAndForward = $ah->hasStoreAndForward();
 
     include ("../templates/header.php");
     include ("../templates/users_menu.php");
@@ -71,63 +65,42 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     $pEdit_alias_goto = $PALANG['pEdit_alias_goto'];
 
-    if (isset ($_POST['fVacation'])) $fVacation = $_POST['fVacation'];   
-    if (isset ($_POST['fGoto'])) $fGoto = escape_string (trim($_POST['fGoto']));
-    if (isset ($_POST['fForward_and_store'])) $fForward_and_store = escape_string ($_POST['fForward_and_store']);
-
+    if (isset($_POST['fVacation'])) $fVacation = $_POST['fVacation'];   
+    if (isset($_POST['fGoto'])) $fGoto = escape_string (trim($_POST['fGoto']));
+    if (isset($_POST['fForward_and_store'])) $fForward_and_store = escape_string ($_POST['fForward_and_store']);
     $goto = strtolower ($fGoto);
     $goto = preg_replace ('/\\\r\\\n/', ',', $goto);
     $goto = preg_replace ('/\r\n/', ',', $goto);
     $goto = preg_replace ('/[\s]+/i', '', $goto);
     $goto = preg_replace ('/\,*$/', '', $goto);
-    ( $fForward_and_store == "YES" ) ? $goto = $USERID_USERNAME . "," . $goto : '';
+
     $goto = explode(",",$goto);
+
     $goto = array_merge(array_unique($goto));
-    $goto = implode(",",$goto);
 
-    $array = preg_split ('/,/', $goto);
-
-    for ($i = 0; $i < sizeof ($array); $i++) {
-        if (in_array ("$array[$i]", $CONF['default_aliases'])) continue;
-        if (empty ($array[$i]) && $fForward_and_store == "NO")
-        {
-            $error = 1;
-            $tGoto = $goto;
-            $tMessage = $PALANG['pEdit_alias_goto_text_error1'];
+    $good_goto = array();
+    foreach($goto as $address) {
+        if(!check_email($address)) {
+            $error += 1;
+            $tMessage = $PALANG['pEdit_alias_goto_text_error1'] . "$address</font>";
         }
-        if (empty ($array[$i])) continue;
-        if (!check_email ($array[$i]))
-        {
-            $error = 1;
-            $tGoto = $goto;
-            $tMessage = $PALANG['pEdit_alias_goto_text_error2'] . "$array[$i]</font>";
+        else {
+            $good_goto[] = $address;
         }
     }
+    $goto = $good_goto;
 
-    if ($error != 1)
-    {
-        if (empty ($goto))
-        {
-            $goto = $USERID_USERNAME;
+    if ($error == 0) {
+        $flags = 'remote_only';
+        if($fForward_and_store == "YES" ) {
+            $flags = 'forward_and_store';
         }
-
-        if ($fVacation == "YES")
-        {
-            $goto .= "," . $vacation_goto;
-        }
-
-        $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$USERID_USERNAME'");
-        if ($result['rows'] != 1)
-        {
-            $tMessage = $PALANG['pEdit_alias_result_error'];
-        }
-        else
-        {
-            db_log ($USERID_USERNAME, $USERID_DOMAIN, 'edit_alias', "$USERID_USERNAME -> $goto");
-
+        $updated = $ah->update($goto, $flags);
+        if($updated) {
             header ("Location: main.php");
             exit;
         }
+        $tMessage = $PALANG['pEdit_alias_result_error'];
     }
 
     include ("../templates/header.php");

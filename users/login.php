@@ -40,8 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-   $fUsername = escape_string ($_POST['fUsername']);
-   $fPassword = escape_string ($_POST['fPassword']);
+
    $lang = safepost('lang');
 
    if ( $lang != check_language(0) ) { # only set cookie if language selection was changed
@@ -49,33 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       # (language preference cookie is processed even if username and/or password are invalid)
    }
 
-   $active = db_get_boolean(True);
-   $query = "SELECT password FROM $table_mailbox WHERE username='$fUsername' AND active=$active";
+   $fUsername = escape_string ($_POST['fUsername']);
+   $fPassword = escape_string ($_POST['fPassword']);
 
-   $result = db_query ($query);
-   if ($result['rows'] == 1)
-   {
-      $row = db_array ($result['result']);
-      $password = pacrypt ($fPassword, $row['password']);
-
-      $query = "SELECT * FROM $table_mailbox WHERE username='$fUsername' AND password='$password' AND active=$active";
-
-      $result = db_query ($query);
-      if ($result['rows'] != 1)
-      {
-         $error = 1;
-         $tMessage = '<span class="error_msg">' . $PALANG['pLogin_failed'] . '</span>';
-         $tUsername = $fUsername;
-      }
-   }
-   else
-   {
-      $error = 1;
-      $tMessage = '<span class="error_msg">' . $PALANG['pLogin_failed'] . '</span>';
-   }
-
-   if ($error != 1)
-   {
+   if(UserHandler::login($_POST['fUsername'], $_POST['fPassword'])) {
       session_regenerate_id();
       $_SESSION['sessid'] = array();
       $_SESSION['sessid']['roles'] = array();
@@ -83,6 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $_SESSION['sessid']['username'] = $fUsername;
       header("Location: main.php");
       exit;
+   }
+   else {   
+         $error = 1;
+         $tMessage = '<span class="error_msg">' . $PALANG['pLogin_failed'] . '</span>';
+         $tUsername = $fUsername;
    }
 
    include ("../templates/header.php");
