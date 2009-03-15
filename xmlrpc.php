@@ -27,28 +27,37 @@
  * }
  *
  * Note, the requirement that your XmlRpc client provides cookies with each request.
- * If it does not do this, then your authentication details will not persist across requests.
+ * If it does not do this, then your authentication details will not persist across requests, and 
+ * this XMLRPC interface will not work.
  */
+require_once(dirname(__FILE__) . '/common.php');
 
 require_once('Zend/XmlRpc/Server.php');
 $server = new Zend_XmlRpc_Server();
 session_start();
 
+/**
+ * @param string $username
+ * @param string $password
+ * @return boolean true on success, else false.
+ */
 function login($username, $password) {
     if(UserHandler::login($username, $password)) {
         session_regenerate_id();
         $_SESSION['authenticated'] = true;
         $_SESSION['username'] = $username;
+        return true;
     }
+    return false;
 }
 
 if(!isset($_SESSION['authenticated'])) {
     $server->addFunction('login', 'login');
 }
 else {
-    $server->addClass('user', 'UserProxy');
-    $server->addClass('vacation', 'VacationProxy');
-    $server->addClass('alias', 'AliasProxy');
+    $server->setClass('UserProxy', 'user');
+    $server->setClass('VacationProxy', 'vacation');
+    $server->setClass('AliasProxy', 'alias');
 }
 echo $server->handle();
 
