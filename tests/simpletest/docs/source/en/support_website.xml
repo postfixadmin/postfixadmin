@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<page title="Support mailing list" here="Support mailing list">
+    <long_title>Support mailing list</long_title>
+    <content>
+ 		<p>
+			The <strong>simpletest-support</strong> mailing-list is probably the most active area
+			around SimpleTest : help, advice, bugs and workarounds tend to happen most of the time.
+		</p>
+		<p>
+			It's really <a href="https://lists.sourceforge.net/lists/listinfo/simpletest-support">easy to subscribe</a>
+			and it's <a href="http://sourceforge.net/mailarchive/forum.php?forum=simpletest-support">fully searchable</a> too.
+		</p>
+		<p>
+			At the last count, there were about 114 subscribers and 1908 message sent.
+			That's anything between 1 and 4 messages per day on average.
+		</p>
+    </content>
+    <internal>
+        <link>
+        	<a href="#current-release">Current release</a>
+        </link>
+        <link>
+        	<a href="#eclipse-release">Eclipse release</a>
+        </link>
+        <link>
+        	<a href="#packages">Packages</a>
+        </link>
+        <link>
+        	<a href="#source">Source</a>
+        </link>
+        <link>
+        	<a href="#older-stable-releases">Older stable releases</a>
+        </link>
+    </internal>
+
+    <external>
+    </external>
+
+    <meta>
+        <keywords>
+            SimpleTest,
+            download,
+            source code,
+            stable release,
+            eclipse release,
+            eclipse plugin,
+            debian package,
+            drupal module,
+            pear channel,
+            pearified package
+        </keywords>
+    </meta>
+</page>

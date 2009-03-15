@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<page title="Documentation sur les bouchons serveur" here="Les bouchons serveur">
+    <long_title>Documentation SimpleTest : les bouchons serveur</long_title>
+    <content>
+        <section name="quoi" title="Que sont les bouchons serveur ?">
+            <p>
+                Au départ il s'agit d'un modèle de conception initié par Robert Binder (Testing object-oriented systems: models, patterns, and tools, Addison-Wesley) in 1999. Un bouchon serveur est une simulation d'un objet ou d'un composant. Il doit remplacer exactement un composant dans un système pour des raisons de testabilité ou de prototypage, tout en restant léger. Il permet aux tests de tourner plus rapidement ou alors, si la classe simulée n'a pas été écrite, juste de fonctionner.
+            </p>
+        </section>
+        <section name="creation" title="Créer des bouchons serveur">
+            <p>
+                Nous avons juste besoin d'une classe préexistante, par exemple une connexion vers une base de données qui ressemblerait à...
+<php><![CDATA[
+<strong>class DatabaseConnection {
+    function DatabaseConnection() {
+    }
+    
+    function query() {
+    }
+    
+    function selectQuery() {
+    }
+}</strong>
+]]></php>
+                La classe n'a même pas encore besoin d'avoir été implémentée. Pour créer la version bouchonnée de cette classe, nous incluons la librairie de bouchon serveur et exécutons le générateur...
+<php><![CDATA[
+<strong>require_once('simpletest/mock_objects.php');
+require_once('database_connection.php');
+Stub::generate('DatabaseConnection');</strong>
+]]></php>
+                Est généré un clone de la classe appelé <code>StubDatabaseConnection</code>. Nous pouvons alors créer des instances de cette nouvelle classe à l'intérieur de notre prototype de script...
+<php><![CDATA[
+require_once('simpletest/mock_objects.php');
+require_once('database_connection.php');
+Stub::generate('DatabaseConnection');
+<strong>
+$connection = new StubDatabaseConnection();
+</strong>
+]]></php>
+                La version bouchonnée de la classe contient toutes les méthodes de l'original de telle sorte qu'une opération comme <code><![CDATA[$connection->query()]]></code> soit encore légale. La valeur retournée sera <code>null</code>, Mais nous pouvons y remédier avec...
+<php><![CDATA[
+<strong>$connection->setReturnValue('query', 37)</strong>
+]]></php>
+                Désormais à chaque appel de <code><![CDATA[$connection->query()]]></code> nous obtenons un résultat de 37. Nous pouvons choisir n'importe quelle valeur pour le résultat, par exemple un hash de résultats provenant d'une base de données imaginaire ou alors une liste d'objets persistants. Peu importe les paramètres, nous obtenons systématiquement les même valeurs chaque fois qu'ils ont été initialisés de la sorte : ça ne ressemble peut-être pas à une réponse convaincante venant d'une connexion vers une base de données. Mais pour la demi-douzaine de lignes d'une méthode de test c'est souvent largement suffisant.
+            </p>
+        </section>
+        <section name="modèles" title="Modèles de simulation">
+            <p>
+                Sauf que les choses ne sont que rarement aussi simples. Parmi les problèmes les plus courants on trouve les itérateurs : le renvoi d'une valeur constante peut causer une boucle infini dans l'objet testé. Pour ceux-ci nous avons besoin de mettre sur pied une suite de valeurs. Prenons par exemple un itérateur simple qui ressemble à...
+<php><![CDATA[
+class Iterator {
+    function Iterator() {
+    }
+    
+    function next() {
+    }
+}
+]]></php>
+                C'est probablement le plus simple des itérateurs possibles. Supposons que cet itérateur ne retourne que du texte, jusqu'à la fin - quand il retourne <code>false</code>. Une simulation est possible avec...
+<php><![CDATA[
+<strong>Stub::generate('Iterator');
+
+$iterator = new StubIterator();
+$iterator->setReturnValue('next', false);
+$iterator->setReturnValueAt(0, 'next', 'First string');
+$iterator->setReturnValueAt(1, 'next', 'Second string');</strong>
+]]></php>
+                A l'appel de <code>next()</code> sur l'itérateur bouchonné il va d'abord renvoyer &quot;First string&quot;, puis au second appel c'est &quot;Second string&quot; qui sera renvoyé. Finalement pour tous les autres appels, il s'agira d'un <code>false</code>. Les valeurs renvoyées successivement ont priorité sur la valeur constante renvoyé. Cette dernière est un genre de valeur par défaut.
+            </p>
+            <p>
+                Une autre situation délicate est une opération <code>get()</code> surchargée. Un exemple ? Un porteur d'information avec des pairs de clef / valeur. Prenons une classe de configuration...
+<php><![CDATA[
+class Configuration {
+    function Configuration() {
+    }
+    
+    function getValue($key) {
+    }
+}
+]]></php>
+                Il s'agit d'une situation propice à l'utilisation d'objets bouchon, surtout que la configuration en production dépend invariablement de la machine : l'utiliser directement ne va pas nous aider à maintenir notre confiance dans nos tests. Sauf que le problème tient de ce que toutes les données proviennent de la méthode <code>getValue()</code> et que nous voulons des résultats différents suivant la clef. Par chance les bouchons ont un système de filtre...
+<php><![CDATA[
+<strong>Stub::generate('Configuration');
+
+$config = &new StubConfiguration();
+$config->setReturnValue('getValue', 'primary', array('db_host'));
+$config->setReturnValue('getValue', 'admin', array('db_user'));
+$config->setReturnValue('getValue', 'secret', array('db_password'));</strong>
+]]></php>
+                Ce paramètre supplémentaire est une liste d'arguments que l'on peut utiliser. Dans ce cas nous essayons d'utiliser un unique argument, à savoir la clef recherchée. Maintenant quand on invoque le bouchon serveur via la méthode <code>getValue()</code> avec...
+<php><![CDATA[
+$config->getValue('db_user');
+]]></php>
+                ...il renvoie &quot;admin&quot;. Il le trouve en essayant d'assortir successivement les arguments d'entrée avec sa liste de ceux de sortie jusqu'au moment où une correspondance exacte est trouvée.
+            </p>
+            <p>
+                Vous pouvez définir un argument par défaut avec...
+<php><![CDATA[<strong>
+$config->setReturnValue('getValue', false, array('*'));</strong>
+]]></php>
+                Attention ce n'est pas équivalent à initialiser la valeur retournée sans aucun argument.
+<php><![CDATA[<strong>
+$config->setReturnValue('getValue', false);</strong>
+]]></php>
+                Dans le premier cas il acceptera n'importe quel argument, mais exactement un -- pas plus -- est nécessaire. Dans le second cas n'importe quel nombre d'arguments fera l'affaire : il agit comme un <cite>catchall</cite> après tous les correspondances. Prenez garde à l'ordre : si nous ajoutons un autre paramètre après le joker ('*') il sera ignoré puisque le joker aura été trouvé auparavant. Avec des listes de paramètres complexes l'ordre peut devenir crucial, au risque de perdre des correspondances souhaitées, masquées par un joker antérieur. Pensez à mettre d'abord les cas les plus spécifiques si vous n'êtes pas sûr.
+            </p>
+            <p>
+                Il y a des fois où l'on souhaite qu'un objet spécifique soit servi par le bouchon plutôt qu'une simple copie. La sémantique de la copie en PHP nous force à utiliser une autre méthode pour cela. Vous êtes peut-être en train de simuler un conteneur par exemple...
+<php><![CDATA[
+class Thing {
+}
+
+class Vector {
+    function Vector() {
+    }
+    
+    function get($index) {
+    }
+}
+]]></php>
+                Dans ce cas vous pouvez mettre une référence dans la liste renvoyée par le bouchon...
+<php><![CDATA[
+Stub::generate('Vector');
+
+$thing = new Thing();<strong>
+$vector = &new StubVector();
+$vector->setReturnReference('get', $thing, array(12));</strong>
+]]></php>
+                Avec ce petit arrangement vous vous assurez qu'à chaque fois que <code><![CDATA[$vector->get(12)]]></code> est appelé il renverra le même <code>$thing</code>.
+            </p>
+            <p>
+                Ces trois facteurs, ordre, paramètres et copie (ou référence), peuvent être combinés orthogonalement. Par exemple...
+<php><![CDATA[
+$complex = &new StubComplexThing();
+$stuff = new Stuff();<strong>
+$complex->setReturnReferenceAt(3, 'get', $stuff, array('*', 1));</strong>
+]]></php>
+                Le <code>$stuff</code> ne sera renvoyé qu'au troisième appel et seulement si deux paramètres étaient indiqués, avec la contrainte que le second de ceux-ci soit l'entier 1. N'est-ce pas suffisant pour des situations de prototypage simple ?
+            </p>
+            <p>
+                Un dernier cas critique reste celle d'un objet en créant un autre, connu sous le nom du modèle factory - fabrique. Supposons qu'après une requête réussie à notre base de données imaginaire, un ensemble de résultats est retourné sous la forme d'un itérateur, chaque appel à <code>next()</code> donnant une ligne et à la fin un <code>false</code>.
+                Au premier abord, ça donne l'impression d'être cauchemardesque à simuler. Alors qu'en fait tout peut être bouchonné en utilisant les mécanismes ci-dessus.
+            </p>
+            <p>
+                Voici comment...
+<php><![CDATA[
+Stub::generate('DatabaseConnection');
+Stub::generate('ResultIterator');
+
+class DatabaseTest extends UnitTestCase {
+    
+    function testUserFinder() {<strong>
+        $result = &new StubResultIterator();
+        $result->setReturnValue('next', false);
+        $result->setReturnValueAt(0, 'next', array(1, 'tom'));
+        $result->setReturnValueAt(1, 'next', array(3, 'dick'));
+        $result->setReturnValueAt(2, 'next', array(6, 'harry'));
+        
+        $connection = &new StubDatabaseConnection();
+        $connection->setReturnValue('query', false);
+        $connection->setReturnReference(
+                'query',
+                $result,
+                array('select id, name from users'));</strong>
+                
+        $finder = &new UserFinder($connection);
+        $this->assertIdentical(
+                $finder->findNames(),
+                array('tom', 'dick', 'harry'));
+    }
+}
+]]></php>
+                Désormais ce n'est que si notre <code>$connection</code> est appelé avec la bonne <code>query()</code> que le <code>$result</code> sera renvoyé après le troisième appel à <code>next()</code>. Cela devrait être suffisant pour que notre classe <code>UserFinder</code>, la classe effectivement testée à ce niveau, puisse s'exécuter comme il faut. Un test très précis et pas une seule base de données à l'horizon.
+            </p>
+        </section>
+        <section name="options" title="Options de création pour les bouchons">
+            <p>
+                Il y a d'autres options additionnelles à la création d'un bouchon. Au moment de la génération nous pouvons changer le nom de la classe...
+<php><![CDATA[
+<strong>Stub::generate('Iterator', 'MyStubIterator');
+$iterator = &new MyStubIterator();
+</strong>
+]]></php>
+                Pris tout seul ce n'est pas très utile étant donné qu'il n'y aurait pas de différence entre cette classe et celle par défaut -- à part le nom bien entendu. Par contre nous pouvons aussi lui ajouter d'autres méthodes qui ne se trouveraient pas dans l'interface originale...
+<php><![CDATA[
+class Iterator {
+}
+<strong>Stub::generate('Iterator', 'PrototypeIterator', array('next', 'isError'));
+$iterator = &new PrototypeIterator();
+$iterator->setReturnValue('next', 0);
+</strong>
+]]></php>
+                Les méthodes <code>next()</code> et <code>isError()</code> peuvent maintenant renvoyer des ensembles de valeurs exactement comme si elles existaient dans la classe originale.
+            </p>
+            <p>
+                Un moyen encore plus ésotérique de modifier les bouchons est de changer le joker utilisé par défaut pour la correspondance des paramètres.
+<php><![CDATA[
+<strong>Stub::generate('Connection');
+$iterator = &new StubConnection('wild');
+$iterator->setReturnValue('query', array('id' => 33), array('wild'));
+</strong>
+]]></php>
+                L'unique raison valable pour effectuer cette opération, c'est quand vous souhaitez tester la chaîne &quot;*&quot; sans pour autant l'interpréter comme un &quot;n'importe lequel&quot;.
+            </p>
+        </section>
+    </content>
+    <internal>
+        <link>
+            <a href="#quoi">Que sont les bouchons ?</a>
+        </link>
+        <link>
+            <a href="#creation">Créer des bouchons serveur</a> avec SimpleTest.
+        </link>
+        <link>
+            <a href="#modeles">Modèles de simulation</a> pour simuler des interactions d'objet plus complexes.
+        </link>
+        <link>
+            <a href="#options">Options à la génération</a> pour différents contextes.
+        </link>
+    </internal>
+    <external>
+        <link>
+            La page du projet SimpleTest sur <a href="http://sourceforge.net/projects/simpletest/">SourceForge</a>.
+        </link>
+        <link>
+            La page de téléchargement de SimpleTest sur <a href="http://www.lastcraft.com/simple_test.php">LastCraft</a>.
+        </link>
+        <link>
+            <a href="http://simpletest.sourceforge.net/">L'API complète pour SimpleTest</a> générée par PHPDoc.
+        </link>
+    </external>
+    <meta>
+        <keywords>
+            développement logiciel,
+            programmation php,
+            outils de développement logiciel,
+            tutoriel php,
+            outil gratuit de test pour php,
+            architecture,
+            ressuorces php,
+            objets fantaisie,
+            prototypage avec langage de scripts,
+            bouchons serveur,
+            test unitaire,
+            prototypage en php,
+            méthodes de test,
+            méthodologie de test
+        </keywords>
+    </meta>
+</page>
+

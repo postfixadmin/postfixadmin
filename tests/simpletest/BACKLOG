@@ -1,0 +1,37 @@
+BACKLOG
+This is backed up stuff that defines the 1.0.1 release.
+
+$Id: BACKLOG,v 1.10 2006/11/20 23:44:36 lastcraft Exp $
+
+Unit tester
+-----------
+
+Reporter
+--------
+
+Mock objects
+------------
+Fix new type hinting bug in PHP 5.0.2 and above (1).
+
+Parser
+------
+Add U flag to regexes to allow unicode (3).
+
+Browser
+-------
+Add a file() loading command (4).
+Change getUrls() to return more information (2).
+
+Web tester
+----------
+
+Documentation
+-------------
+Extension docs (1).
+Integrate SpikeSource docs (4).
+Write Eclipse plug-in guide (4).
+Add page for projects that use or extend SimpleTest (2).
+
+Build
+-----
+Integrate German documentation (2).

@@ -1,0 +1,32 @@
+TODO
+This is immediate stuff only for this iteration (1.0.1beta2) of 15 hours.
+
+$Id: TODO,v 1.508 2007/01/16 23:35:21 lastcraft Exp $
+
+Unit tester
+-----------
+Fix errors_test.php in PHP 5.2+ (2).
+
+Reporter
+--------
+Dumper should be passed in testMessage() call to expectation (3).
+
+Mock objects
+------------
+Mocks should inherit mocked class (9/4).
+
+Parser
+------
+
+Browser
+-------
+
+Web tester
+----------
+
+Documentation
+-------------
+Update roadmap (1).
+
+Build
+-----
