@@ -61,7 +61,8 @@ class VacationHandler {
 
     /**
      * Retrieve information on someone who is on vacation
-     * @return mixed stored information on vacation - array(subject - string, message - string, active - boolean) or false if they've never been on vacation.
+     * @return struct|boolean stored information on vacation - array(subject - string, message - string, active - boolean) 
+     * will return false if no existing data 
      */
     function get_details() {
         $table_vacation = table_by_key('vacation');
@@ -91,15 +92,15 @@ class VacationHandler {
         $subject = escape_string($subject);
 
         $result = db_query("SELECT * FROM $table_vacation WHERE email = '$username'");
+        $active = db_get_boolean(True);
         // check if the user has a vacation entry already, if so just update it
         if($result['rows'] == 1) {
-            $active = db_get_boolean(True);
             $result = db_query("UPDATE $table_vacation SET active = $active, body = '$body', subject = '$subject', created = NOW() WHERE email = '$username'");
         }
         else {
             $tmp = preg_split ('/@/', $username);
             $domain = escape_string($tmp[1]);
-            $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$username','$subject','$body','$domain',NOW(),$Active)");
+            $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$username','$subject','$body','$domain',NOW(),$active)");
         }
 
         $ah = new AliasHandler($this->username); 
