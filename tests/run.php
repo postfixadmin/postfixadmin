@@ -12,5 +12,6 @@ $test = new GroupTest('Postfixadmin XMLRPC Unit Tests');
 
 $test->addTestFile('./RemoteVacationTest.php');
 $test->addTestFile('./RemoteUserTest.php');
+$test->addTestFile('./RemoteAliasTest.php');
 
 exit($test->run(new TextReporter()) ? 0 : 1);
