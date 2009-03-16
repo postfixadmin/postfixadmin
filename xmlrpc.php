@@ -71,9 +71,20 @@ class UserProxy {
      */
     public function changePassword($old_password, $new_password) {
         $uh = new UserHandler($_SESSION['username']);
-        return $uh->change_pass($username, $old_password, $new_password);
+        return $uh->change_pass($old_password, $new_password);
+    }
+
+   /**
+     * @param string $username
+     * @param string $password
+     * @return boolean true if successful.
+     */
+    public function login($username, $password) {
+        $uh = new UserHandler($_SESSION['username']);
+        return $uh->login($username, $password);
     }
 }
+
 class VacationProxy {
     /**
      * @return boolean true if the vacation is removed successfully. Else false.
