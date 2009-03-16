@@ -11,5 +11,6 @@ require_once('simpletest/unit_tester.php');
 $test = new GroupTest('Postfixadmin XMLRPC Unit Tests');
 
 $test->addTestFile('./RemoteVacationTest.php');
+$test->addTestFile('./RemoteUserTest.php');
 
 exit($test->run(new TextReporter()) ? 0 : 1);
