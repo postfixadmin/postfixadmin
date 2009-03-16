@@ -4,7 +4,13 @@
  * Simple class to represent a user.
  */
 class UserHandler {
-    
+
+    protected $username = null;
+
+    public function __construct($username) {
+        $this->username = $username;
+    }
+
     /**
      * @return boolean true on success; false on failure 
      * @param string $username
@@ -14,12 +20,9 @@ class UserHandler {
      * All passwords need to be plain text; they'll be hashed appropriately
      * as per the configuration in config.inc.php
      */
-    public function change_pass($username, $old_password, $new_password) {
+    public function change_pass($old_password, $new_password) {
         global $config;
-        if(!UserHandler::login($username, $old_password)) {
-            return false;
-        }
-
+        $username = $this->username;
         $tmp = preg_split ('/@/', $username);
         $USERID_DOMAIN = $tmp[1];
 
