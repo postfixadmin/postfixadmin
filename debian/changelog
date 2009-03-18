@@ -1,3 +1,13 @@
+postfixadmin (2.3rc1) unstable; urgency=low
+
+  * Subversion revision 587
+  * New XmlRpc API for integration with 3rd party web mail clients.
+  * Various bug fixes
+  * Translation patches
+  * Addition of dovecotpw support
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Wed, 18 Mar 2009 19:52:00 +0000
+
 postfixadmin (2.3beta) unstable; urgency=low
 
   * Subversion revision 533
