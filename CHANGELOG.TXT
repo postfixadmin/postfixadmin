@@ -11,7 +11,7 @@
 # $Id$
 
 
-Version 2.3rc2 - 2009/02/03 - SVN r589
+Version 2.3rc2 - 2009/02/03 - SVN r593
 --------------------------------------
 
   - Refactor /users (see /model) and provide XmlRpc interface for remote mail clients

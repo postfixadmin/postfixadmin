@@ -1,6 +1,6 @@
 postfixadmin (2.3rc2) unstable; urgency=low
 
-  * Subversion revision 587
+  * Subversion revision 593
   * Add model directory to .deb etc.
   * Updated ChangeLog
 
