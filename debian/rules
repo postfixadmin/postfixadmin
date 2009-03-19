@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# debian/rules makefile for squirrelmail
+# debian/rules makefile for postfixadmin
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
