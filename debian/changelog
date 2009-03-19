@@ -1,3 +1,11 @@
+postfixadmin (2.3rc2) unstable; urgency=low
+
+  * Subversion revision 587
+  * Add model directory to .deb etc.
+  * Updated ChangeLog
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Thu, 19 Mar 2009 19:50:00 +0000
+
 postfixadmin (2.3rc1) unstable; urgency=low
 
   * Subversion revision 587

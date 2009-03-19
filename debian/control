@@ -9,8 +9,8 @@ XS-Vcs-Browse: http://postfixadmin.svn.sourceforge.net/viewvc/postfixadmin/trunk
 
 Package: postfixadmin
 Architecture: all
-Depends: apache2 | httpd, libapache2-mod-php4 | libapache-mod-php4 | php4 | php4-cgi | libapache2-mod-php5 | libapache-mod-php5 | php5-cgi | php5, ${misc:Depends}
-Recommends: squirrelmail-locales, ispell | aspell | aspell-bin, perl, postfix, postgresql-server, mysql-server
+Depends: apache2 | httpd, libapache2-mod-php5 | libapache-mod-php5 | php5-cgi | php5, ${misc:Depends}
+Recommends: perl, postfix, postgresql-server, mysql-server, squirrelmail, squirrelmail-postfixadmin, php5-zendframework, courier-imap, dovecot-imapd
 Suggests: 
 Description: Virtual mail hosting interface for Postfix
  Postfixadmin is a web interface to managing virtual users and domains
@@ -21,7 +21,7 @@ Description: Virtual mail hosting interface for Postfix
  vacation, password etc).
  Postfixadmin also includes support for virtual vacation support - 
  this requires Perl and various CPAN modules to be installed. 
- See vacation.pl for further details.
+ See included vacation.pl for further details.
  . 
  Homepage: http://postfixadmin.sf.net/
 
