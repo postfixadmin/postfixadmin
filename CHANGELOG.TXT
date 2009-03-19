@@ -11,18 +11,20 @@
 # $Id$
 
 
-Only in SVN trunk
------------------
+Version 2.3rc2 - 2009/02/03 - SVN r589
+--------------------------------------
 
-
-Version 2.3 - 2009/02/03 - SVN r561
------------------------------------
-  - vacation.pl: make it strip/discover addresses better, slightly better logging, stop it 
-    requiring a messageid
+  - Refactor /users (see /model) and provide XmlRpc interface for remote mail clients
+     (e.g. squirrelmail-postfixadmin)
+  - Add dovecotpw support - see: 
+     https://sourceforge.net/tracker/index.php?func=detail&aid=2607332&group_id=191583&atid=937966
+  - Add unit tests for model/ directory (see /tests)
+  - Add additional scripts to ADDITIONS
+  - Documentation updates
+  - Various language updates
   - added ADDITIONS/delete-mailq-by-domain.pl (by Jose Nilton)
   - added ADDITIONS/quota_usage.pl (by Jose Nilton) - produces report of quota usage
   - added support for courier authlib authentication flavors ($CONF['authlib_default_flavor'])
-  - some small bugfixes and language updates
 
 
 Version 2.3 Beta - 2009/01/15 - SVN r527
