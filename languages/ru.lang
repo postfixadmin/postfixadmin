@@ -22,10 +22,10 @@ $PALANG['invalid_parameter'] = 'Некорректный параметр!';
 $PALANG['pFooter_logged_as'] = 'Вошли как %s';
 
 $PALANG['pLogin_welcome'] = 'Вход для администрирования почтовых ящиков.';
-$PALANG['pLogin_username'] = 'Имя (название ящика)';
+$PALANG['pLogin_username'] = 'Имя (адрес e-mail)';
 $PALANG['pLogin_password'] = 'Пароль';
 $PALANG['pLogin_button'] = 'Войти';
-$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
+$PALANG['pLogin_failed'] = 'Ваш адрес e-mail или пароль неверен.';
 $PALANG['pLogin_login_users'] = 'Вход для обычных пользователей.';
 
 $PALANG['pMenu_main'] = 'Главная';
@@ -346,7 +346,7 @@ $PALANG['pUsersVacation_welcome'] = 'Автоответчик.';
 $PALANG['pUsersVacation_welcome_text'] = 'У вас уже есть настроенный автоответчик!';
 $PALANG['pUsersVacation_subject'] = 'Тема';
 $PALANG['pUsersVacation_subject_text'] = 'Вне офиса';
-$PALANG['pUsersVacation_body'] = 'Текст'; # XXX text changed to 'Message'
+$PALANG['pUsersVacation_body'] = 'Сообщение';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Я буду отсутствовать с <даты> по <дату>.
 По срочным вопросам вы можете обратиться к <контактному лицу>.
