@@ -37,7 +37,7 @@ if (file_exists (realpath ("./setup.php"))) {
     }
     else
     {
-      print "Please delete setup.php before using Postfix Admin!";
+      print "Please delete " . dirname(__FILE__) . "/setup.php before using Postfix Admin!";
       exit;
     }
 }
