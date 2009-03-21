@@ -1,17 +1,18 @@
 Source: postfixadmin
-Section: web
+Section: admin
 Priority: optional
 Maintainer: David Goodwin <david.goodwin@palepurple.co.uk>
-Build-Depends: debhelper (>= 5)
-Standards-Version: 3.7.2
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.8.1
+Homepage: http://postfixadmin.sourceforge.net
 XS-Vcs-Svn: https://postfixadmin.svn.sourceforge.net/svnroot/postfixadmin/trunk
 XS-Vcs-Browse: http://postfixadmin.svn.sourceforge.net/viewvc/postfixadmin/trunk/
 
 Package: postfixadmin
 Architecture: all
 Depends: apache2 | httpd, libapache2-mod-php5 | libapache-mod-php5 | php5-cgi | php5, ${misc:Depends}
-Recommends: perl, postfix, postgresql-server, mysql-server, squirrelmail, squirrelmail-postfixadmin, php5-zendframework, courier-imap, dovecot-imapd
-Suggests: 
+Recommends: 
+Suggests: postfix, postgresql-server, mysql-server, squirrelmail, squirrelmail-postfixadmin, courier-imap, dovecot-imapd
 Description: Virtual mail hosting interface for Postfix
  Postfixadmin is a web interface to managing virtual users and domains
  for a Postfix mailserver. The web interface is written in PHP.

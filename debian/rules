@@ -18,7 +18,7 @@ clean:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 	dh_install
 	cp motd* debian/postfixadmin/usr/share/postfixadmin
@@ -32,9 +32,7 @@ install: build
 	cp -a languages debian/postfixadmin/usr/share/postfixadmin
 	cp -a templates debian/postfixadmin/usr/share/postfixadmin
 	cp -a users debian/postfixadmin/usr/share/postfixadmin
-	mkdir -p debian/postfixadmin/usr/share/postfixadmin/css
 	cp css/default.css debian/postfixadmin/usr/share/postfixadmin/css
-	mkdir -p debian/postfixadmin/etc/apache2/conf.d
 	cp debian/apache-conf debian/postfixadmin/etc/apache2/conf.d/postfixadmin
 	find debian/postfixadmin -name .svn | xargs -r rm -r
 
