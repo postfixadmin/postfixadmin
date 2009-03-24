@@ -49,8 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
     $username = $USERID_USERNAME;
 
-    $uh = new UserHandler();
-    if(!$uh->login($username, $fPassword_current)) {
+    if(UserHandler::login($username, $fPassword_current)) {
         $error += 1;
         $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];
     }
@@ -62,7 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if ($error != 1)
     {
-        if($uh->change_pass($username, $fPassword_current, $fPassword)) {
+        $uh = new UserHandleR($username);
+        if($uh->change_pass($fPassword_current, $fPassword)) {
             flash_info($PALANG['pPassword_result_success']);
             header("Location: main.php");
             exit(0);
