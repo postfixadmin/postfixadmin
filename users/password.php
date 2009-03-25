@@ -30,7 +30,7 @@
 require_once('../common.php');
 
 authentication_require_role('user');
-$USERID_USERNAME = authentication_get_username();
+$username = authentication_get_username();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
@@ -39,17 +39,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         exit(0);
     }
 
-    $fPassword_current = escape_string ($_POST['fPassword_current']);
-    $fPassword = escape_string ($_POST['fPassword']);
-    $fPassword2 = escape_string ($_POST['fPassword2']);
+    $fPassword_current = $_POST['fPassword_current'];
+    $fPassword = $_POST['fPassword'];
+    $fPassword2 = $_POST['fPassword2'];
 
     if(strlen($fPassword) < $CONF['min_password_length']) {
         $error = 1;
         flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
     }
-    $username = $USERID_USERNAME;
-
-    if(UserHandler::login($username, $fPassword_current)) {
+    if(!UserHandler::login($username, $fPassword_current)) {
         $error += 1;
         $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];
     }
