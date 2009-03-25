@@ -41,14 +41,12 @@ $vacation_domain = $CONF['vacation_domain'];
 $vacation_goto = preg_replace('/@/', '#', $USERID_USERNAME) . '@' . $vacation_domain;
 
 $ah = new AliasHandler($USERID_USERNAME);
+$tGotoArray = $ah->get();
+$tStoreAndForward = $ah->hasStoreAndForward();
+$vacation_domain = $CONF['vacation_domain'];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-    $vacation_domain = $CONF['vacation_domain'];
-
-    $tGotoArray = $ah->get();
-    $tStoreAndForward = $ah->hasStoreAndForward();
-
     include ("../templates/header.php");
     include ("../templates/users_menu.php");
     include ("../templates/users_edit-alias.php");
@@ -66,8 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $pEdit_alias_goto = $PALANG['pEdit_alias_goto'];
 
     if (isset($_POST['fVacation'])) $fVacation = $_POST['fVacation'];   
-    if (isset($_POST['fGoto'])) $fGoto = escape_string (trim($_POST['fGoto']));
-    if (isset($_POST['fForward_and_store'])) $fForward_and_store = escape_string ($_POST['fForward_and_store']);
+    if (isset($_POST['fGoto'])) $fGoto = trim($_POST['fGoto']);
+    if (isset($_POST['fForward_and_store'])) $fForward_and_store = $_POST['fForward_and_store'];
+
     $goto = strtolower ($fGoto);
     $goto = preg_replace ('/\\\r\\\n/', ',', $goto);
     $goto = preg_replace ('/\r\n/', ',', $goto);
@@ -77,18 +76,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $goto = explode(",",$goto);
 
     $goto = array_merge(array_unique($goto));
-
     $good_goto = array();
-    foreach($goto as $address) {
-        if(!check_email($address)) {
-            $error += 1;
-            $tMessage = $PALANG['pEdit_alias_goto_text_error1'] . "$address</font>";
-        }
-        else {
-            $good_goto[] = $address;
-        }
+    if($fForward_and_store == 'NO' && sizeof($goto) == 1 && $goto[0] == '') {
+        $tMessage = $PALANG['pEdit_alias_goto_text_error1'];
+        $error += 1;
     }
-    $goto = $good_goto;
+    if($error === 0) {
+        foreach($goto as $address) {
+            if(!check_email($address)) {
+                $error += 1;
+                $tMessage = $PALANG['pEdit_alias_goto_text_error2'] . " $address</font>";
+            }
+            else {
+                $good_goto[] = $address;
+            }
+        }
+        $goto = $good_goto;
+    }
 
     if ($error == 0) {
         $flags = 'remote_only';
@@ -102,7 +106,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
         $tMessage = $PALANG['pEdit_alias_result_error'];
     }
-
+    else {
+        $tGotoArray = $goto;
+    }
     include ("../templates/header.php");
     include ("../templates/users_menu.php");
     include ("../templates/users_edit-alias.php");

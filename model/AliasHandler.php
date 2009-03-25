@@ -25,8 +25,7 @@ class AliasHandler {
 
         $sql = "SELECT * FROM $table_alias WHERE address='$username'";
         $result = db_query($sql);
-        if ($result['rows'] == 1)
-        {
+        if($result['rows'] == 1) {
             $row = db_array ($result['result']);
             // At the moment Postfixadmin stores aliases in it's database in a comma seperated list; this may change one day.
             $list = explode(',', $row['goto']);

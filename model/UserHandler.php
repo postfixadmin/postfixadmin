@@ -57,9 +57,9 @@ class UserHandler {
         if ($result['rows'] == 1)
         {
             $row = db_array ($result['result']);
-            $password = pacrypt ($password, $row['password']);
+            $crypt_password = pacrypt ($password, $row['password']);
 
-            if($row['password'] == $password) {
+            if($row['password'] == $crypt_password) {
                 return true;
             }
         }
