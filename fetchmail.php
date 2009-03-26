@@ -121,9 +121,10 @@ if ($delete) {
    $row_id = $edit;
 }
 
-
+$user_mailboxes_sql= "'" . implode("','",escape_string(array_values($fm_defaults["mailbox"]))) . "'"; # mailboxes as SQL
 if ($row_id) {
-   $result = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM $table_fetchmail WHERE id=" . $row_id);
+   $result = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM $table_fetchmail WHERE id=$row_id AND mailbox IN ($user_mailboxes_sql)");
+   # TODO: the "AND mailbox IN ..." part should obsolete the check_owner call. Remove it after checking again.
    if ($result['rows'] > 0) {
       $edit_row = db_array ($result['result']);
       $account = $edit_row['src_user'] . " @ " . $edit_row['src_server'];
@@ -221,7 +222,8 @@ if ($cancel) { # cancel $new or $edit
 
 $tFmail = array();
 if ($edit + $new == 0) { # display list
-   $res = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM $table_fetchmail order by id desc");
+   # TODO: ORDER BY would even be better if it would order by the _domain_ of the target mailbox first
+   $res = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM $table_fetchmail WHERE mailbox IN ($user_mailboxes_sql) ORDER BY mailbox,src_server,src_user");
    if ($res['rows'] > 0) {
       while ($row = db_array ($res['result'])) {
          $tFmail[] = $row;
