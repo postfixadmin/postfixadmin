@@ -49,7 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
     $tSubject = '';
     $tBody = '';
 
-    if($vh->get_details()) {
+    $details = $vh->get_details();
+    if($details != false) {
         $tSubject = $details['subject'];
         $tBody = $details['body'];
     }
