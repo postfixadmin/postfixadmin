@@ -1,3 +1,10 @@
+postfixadmin (2.3rc3) unstable; urgency=low
+
+  * Attempt at fixing Debian build issues (thanks to mez@sourceguru.net)
+  * SVN revision 611
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Mon, 6 Apr 2009 20:56:00 +0000
+
 postfixadmin (2.3rc2) unstable; urgency=low
 
   * Subversion revision 593

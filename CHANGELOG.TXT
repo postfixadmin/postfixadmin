@@ -11,6 +11,13 @@
 # $Id$
 
 
+Version 2.3rc3 - 2009/04/06 - SVN r611
+--------------------------------------
+
+  - Minor improvements to the Debian packaging, expect more soon
+  - Assorted bug fixes
+  - Partial support for per-user fetchmail.pl support
+
 Version 2.3rc2 - 2009/02/03 - SVN r593
 --------------------------------------
 
