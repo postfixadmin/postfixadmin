@@ -30,14 +30,12 @@
 
 require_once('common.php');
 
-# force user to delete setup.php (allows creation of superadmins!)
-if (file_exists (realpath ("./setup.php"))) {
-    if (is_string($CONF['configured']) && $CONF['configured'] == 'I_know_the_risk_of_not_deleting_setup.php')
-    {
-    }
-    else
-    {
-      print "Please delete " . dirname(__FILE__) . "/setup.php before using Postfix Admin!";
+if (isset($CONF['configured']) && $CONF['configured'] == 'I_know_the_risk_of_not_deleting_setup.php') {
+}
+else
+{
+    if($CONF['configured'] !== true) {
+      print "Installation not yet configured; please edit config.inc.php";
       exit;
     }
 }
