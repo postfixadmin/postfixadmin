@@ -26,7 +26,7 @@
 define('POSTFIXADMIN', 1); # checked in included files
 
 require_once("languages/en.lang");
-require_once("functions.inc.php");
+require_once('common.php');
 
 $CONF['show_header_text'] = 'NO';
 $CONF['theme_logo'] = 'images/logo-default.png';
@@ -74,7 +74,7 @@ if ($f_phpversion == 1)
 }
 else
 {
-   print "<li><b>Unable to check for PHP version. (missing function: phpversion())</b></li>\n";
+    print "<li><b>Unable to check for PHP version. (missing function: phpversion())</b></li>\n";
 }
 
 //
@@ -82,13 +82,13 @@ else
 //
 if ($f_apache_get_version == 1)
 {
-   print "<li>" . apache_get_version() . "</li>\n";
+    print "<li>" . apache_get_version() . "</li>\n";
 }
 else
 {
-   # not running on Apache.
-   # However postfixadmin _is_ running, so obviously we are on a supported webserver ;-))
-   # No need to confuse the user with a warning.
+    # not running on Apache.
+    # However postfixadmin _is_ running, so obviously we are on a supported webserver ;-))
+    # No need to confuse the user with a warning.
 }
 
 print "</ul>";
@@ -100,18 +100,18 @@ print "<ul>\n";
 //
 if ($f_get_magic_quotes_gpc == 1)
 {
-   if (get_magic_quotes_gpc () == 0)
-   {
-      print "<li>Magic Quotes: Disabled - OK</li>\n";
-   }
-   else
-   {
-      print "<li><b>Warning: Magic Quotes: ON (internal workaround used)</b></li>\n";   
-   }
+    if (get_magic_quotes_gpc () == 0)
+    {
+        print "<li>Magic Quotes: Disabled - OK</li>\n";
+    }
+    else
+    {
+        print "<li><b>Warning: Magic Quotes: ON (internal workaround used)</b></li>\n";   
+    }
 }
 else
 {
-   print "<li><b>Unable to check for Magic Quotes. (missing function: get_magic_quotes_gpc())</b></li>\n";
+    print "<li><b>Unable to check for Magic Quotes. (missing function: get_magic_quotes_gpc())</b></li>\n";
 }
 
 //
@@ -120,27 +120,27 @@ else
 $config_loaded = 0;
 if ($file_config == 1)
 {
-   print "<li>Depends on: presence config.inc.php - OK</li>\n";
-   require_once('config.inc.php');
-   $config_loaded = 1;
+    print "<li>Depends on: presence config.inc.php - OK</li>\n";
+    require_once('config.inc.php');
+    $config_loaded = 1;
 
-   require('config.inc.php');
-   if(isset($CONF['configured'])) {
-      if($CONF['configured'] == TRUE) {
-	  	 print "<li>Checking \$CONF['configured'] - OK\n";
-	  } else {
-         print "<li><b>Warning: \$CONF['configured'] is 'false'.<br>\n";
-		 print "You must edit your config.inc.php and change this to true (this indicates you've created the database and user)</b>\n";
-	  }
-   }
+    require('config.inc.php');
+    if(isset($CONF['configured'])) {
+        if($CONF['configured'] == TRUE) {
+            print "<li>Checking \$CONF['configured'] - OK\n";
+        } else {
+            print "<li><b>Warning: \$CONF['configured'] is 'false'.<br>\n";
+            print "You must edit your config.inc.php and change this to true (this indicates you've created the database and user)</b>\n";
+        }
+    }
 }
 else
 {
-   print "<li><b>Error: Depends on: presence config.inc.php - NOT FOUND</b><br /></li>\n";
-   print "Create the file, and edit as appropriate (e.g. select database type etc)<br />";
-   print "For example:<br />\n";
-   print "<code><pre>cp config.inc.php.sample config.inc.php</pre></code>\n";
-   $error =+ 1;
+    print "<li><b>Error: Depends on: presence config.inc.php - NOT FOUND</b><br /></li>\n";
+    print "Create the file, and edit as appropriate (e.g. select database type etc)<br />";
+    print "For example:<br />\n";
+    print "<code><pre>cp config.inc.php.sample config.inc.php</pre></code>\n";
+    $error =+ 1;
 }
 
 //
@@ -148,33 +148,33 @@ else
 //
 if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0))
 {
-   print "<li><b>Error: There is no database support in your PHP setup</b><br />\n";
-   print "To install MySQL 3.23 or 4.0 support on FreeBSD:<br />\n";
-   print "<pre>% cd /usr/ports/databases/php$phpversion-mysql/\n";
-   print "% make clean install\n";
-   print " - or with portupgrade -\n";
-   print "% portinstall php$phpversion-mysql</pre>\n";
-   if ($phpversion >= 5)
-   {
-      print "To install MySQL 4.1 support on FreeBSD:<br />\n";
-      print "<pre>% cd /usr/ports/databases/php5-mysqli/\n";
-      print "% make clean install\n";
-      print " - or with portupgrade -\n";
-      print "% portinstall php5-mysqli</pre>\n";
-   }
-   print "To install PostgreSQL support on FreeBSD:<br />\n";
-   print "<pre>% cd /usr/ports/databases/php$phpversion-pgsql/\n";
-   print "% make clean install\n";
-   print " - or with portupgrade -\n";
-   print "% portinstall php$phpversion-pgsql</pre></li>\n";
-   $error =+ 1;
+    print "<li><b>Error: There is no database support in your PHP setup</b><br />\n";
+    print "To install MySQL 3.23 or 4.0 support on FreeBSD:<br />\n";
+    print "<pre>% cd /usr/ports/databases/php$phpversion-mysql/\n";
+    print "% make clean install\n";
+    print " - or with portupgrade -\n";
+    print "% portinstall php$phpversion-mysql</pre>\n";
+    if ($phpversion >= 5)
+    {
+        print "To install MySQL 4.1 support on FreeBSD:<br />\n";
+        print "<pre>% cd /usr/ports/databases/php5-mysqli/\n";
+        print "% make clean install\n";
+        print " - or with portupgrade -\n";
+        print "% portinstall php5-mysqli</pre>\n";
+    }
+    print "To install PostgreSQL support on FreeBSD:<br />\n";
+    print "<pre>% cd /usr/ports/databases/php$phpversion-pgsql/\n";
+    print "% make clean install\n";
+    print " - or with portupgrade -\n";
+    print "% portinstall php$phpversion-pgsql</pre></li>\n";
+    $error =+ 1;
 }
 //
 // MySQL 3.23, 4.0 functions
 //
 if ($f_mysql_connect == 1)
 {
-   print "<li>Depends on: MySQL 3.23, 4.0 - OK</li>\n";
+    print "<li>Depends on: MySQL 3.23, 4.0 - OK</li>\n";
 }
 
 //
@@ -182,14 +182,14 @@ if ($f_mysql_connect == 1)
 //
 if ($phpversion >= 5)
 {
-   if ($f_mysqli_connect == 1)
-   {
-      print "<li>Depends on: MySQL 4.1 - OK\n";
-      if ( !($config_loaded && $CONF['database_type'] == 'mysqli') ) {
-          print "(change the database_type to 'mysqli' in config.inc.php!!)\n";
-      }
-      print "</li>";
-   }
+    if ($f_mysqli_connect == 1)
+    {
+        print "<li>Depends on: MySQL 4.1 - OK\n";
+        if ( !($config_loaded && $CONF['database_type'] == 'mysqli') ) {
+            print "(change the database_type to 'mysqli' in config.inc.php!!)\n";
+        }
+        print "</li>";
+    }
 }
 
 //
@@ -197,26 +197,26 @@ if ($phpversion >= 5)
 //
 if ($f_pg_connect == 1)
 {
-   print "<li>Depends on: PostgreSQL - OK \n";
-   if ( !($config_loaded && $CONF['database_type'] == 'pgsql') ) {
-      print "(change the database_type to 'pgsql' in config.inc.php!!)\n";
-   }
-   print "</li>";
+    print "<li>Depends on: PostgreSQL - OK \n";
+    if ( !($config_loaded && $CONF['database_type'] == 'pgsql') ) {
+        print "(change the database_type to 'pgsql' in config.inc.php!!)\n";
+    }
+    print "</li>";
 }
 
 //
 // Database connection
 //
 if ($config_loaded) {
-   list ($link, $error_text) = db_connect(TRUE);
-   if ($error_text == "") {
-      print "<li>Testing database connection - OK - {$CONF['database_type']}://{$CONF['database_user']}:xxxxx@{$CONF['database_host']}/{$CONF['database_name']}</li>";
-   } else {
-      print "<li><b>Error: Can't connect to database</b><br />\n";
-      print "Please edit the \$CONF['database_*'] parameters in config.inc.php.\n";
-      print "$error_text</li>\n";
-      $error ++;
-   } 
+    list ($link, $error_text) = db_connect(TRUE);
+    if ($error_text == "") {
+        print "<li>Testing database connection - OK - {$CONF['database_type']}://{$CONF['database_user']}:xxxxx@{$CONF['database_host']}/{$CONF['database_name']}</li>";
+    } else {
+        print "<li><b>Error: Can't connect to database</b><br />\n";
+        print "Please edit the \$CONF['database_*'] parameters in config.inc.php.\n";
+        print "$error_text</li>\n";
+        $error ++;
+    } 
 }
 
 //
@@ -224,17 +224,17 @@ if ($config_loaded) {
 //
 if ($f_session_start == 1)
 {
-   print "<li>Depends on: session - OK</li>\n";
+    print "<li>Depends on: session - OK</li>\n";
 }
 else
 {
-   print "<li><b>Error: Depends on: session - NOT FOUND</b><br />\n";
-   print "To install session support on FreeBSD:<br />\n";
-   print "<pre>% cd /usr/ports/www/php$phpversion-session/\n";
-   print "% make clean install\n";
-   print " - or with portupgrade -\n";
-   print "% portinstall php$phpversion-session</pre></li>\n";
-   $error =+ 1;
+    print "<li><b>Error: Depends on: session - NOT FOUND</b><br />\n";
+    print "To install session support on FreeBSD:<br />\n";
+    print "<pre>% cd /usr/ports/www/php$phpversion-session/\n";
+    print "% make clean install\n";
+    print " - or with portupgrade -\n";
+    print "% portinstall php$phpversion-session</pre></li>\n";
+    $error =+ 1;
 }
 
 //
@@ -242,17 +242,17 @@ else
 //
 if ($f_preg_match == 1)
 {
-   print "<li>Depends on: pcre - OK</li>\n";
+    print "<li>Depends on: pcre - OK</li>\n";
 }
 else
 {
-   print "<li><b>Error: Depends on: pcre - NOT FOUND</b><br />\n";
-   print "To install pcre support on FreeBSD:<br />\n";
-   print "<pre>% cd /usr/ports/devel/php$phpversion-pcre/\n";
-   print "% make clean install\n";
-   print " - or with portupgrade -\n";
-   print "% portinstall php$phpversion-pcre</pre></li>\n";
-   $error =+ 1;
+    print "<li><b>Error: Depends on: pcre - NOT FOUND</b><br />\n";
+    print "To install pcre support on FreeBSD:<br />\n";
+    print "<pre>% cd /usr/ports/devel/php$phpversion-pcre/\n";
+    print "% make clean install\n";
+    print " - or with portupgrade -\n";
+    print "% portinstall php$phpversion-pcre</pre></li>\n";
+    $error =+ 1;
 }
 
 //
@@ -260,13 +260,13 @@ else
 //
 if ( $f_mb_encode_mimeheader == 1 )
 {
-   print "<li>Depends on: multibyte string - OK</li>\n";
+    print "<li>Depends on: multibyte string - OK</li>\n";
 }
 else
 {
-   print "<li><b>Error: Depends on: multibyte string - NOT FOUND</b><br />\n";
-   print "To install multibyte string support, install php$phpversion-mbstring</li>\n";
-   $error =+ 1;
+    print "<li><b>Error: Depends on: multibyte string - NOT FOUND</b><br />\n";
+    print "To install multibyte string support, install php$phpversion-mbstring</li>\n";
+    $error =+ 1;
 }
 
 
@@ -275,14 +275,14 @@ else
 //
 if ( $f_imap_open == 1)
 {
-   print "<li>Depends on: IMAP functions - OK</li>\n";
+    print "<li>Depends on: IMAP functions - OK</li>\n";
 }
 else
 {
-   print "<li><b>Warning: Depends on: IMAP functions - NOT FOUND</b><br />\n";
-   print "To install IMAP support, install php$phpversion-imap<br />\n";
-   print "Without IMAP support, you won't be able to create subfolders when creating mailboxes.</li>\n";
-#   $error =+ 1;
+    print "<li><b>Warning: Depends on: IMAP functions - NOT FOUND</b><br />\n";
+    print "To install IMAP support, install php$phpversion-imap<br />\n";
+    print "Without IMAP support, you won't be able to create subfolders when creating mailboxes.</li>\n";
+    #   $error =+ 1;
 }
 
 
@@ -294,50 +294,69 @@ print "</ul>";
 
 if ($error != 0)
 {
-	print "<p><b>Please fix the errors listed above.</b></p>";
+    print "<p><b>Please fix the errors listed above.</b></p>";
 }
 else
 {
     print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
     require_once('upgrade.php');
 
-   $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
-   $pAdminCreate_admin_password_text = "";
-   $tUsername = '';
-   $tMessage = '';
+    $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
+    $pAdminCreate_admin_password_text = "";
+    $tUsername = '';
+    $tMessage = '';
 
 
-   if ($_SERVER['REQUEST_METHOD'] == "POST")
-   {
-      if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']);
-      if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
-      if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
+    if ($_SERVER['REQUEST_METHOD'] == "POST")
+    {
+        // ensure password is correct.
+        if(!isset($_POST['setup_password'])) {
+            $error += 1;
+            $tMessage = "Setup password must be specified";
+        }
+        if($_POST['setup_password'] != $CONF['setup_password']) {
+            $error += 1;
+            $tMessage = "Setup password not specified correctly";
+        }
 
-      // XXX need to ensure domains table includes an 'ALL' entry.
-      $table_domain = table_by_key('domain');
-      $r = db_query("SELECT * FROM $table_domain WHERE domain = 'ALL'");
-      if($r['rows'] == 0) {
-        db_insert($table_domain, array('domain' => 'ALL')); // all other fields should default through the schema.
-      }
+        if($error == 0) {
+            if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']);
+            if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
+            if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
 
-      list ($error, $tMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, array('ALL'), TRUE);
-      if ($error != 0) {
-         if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
-      } else {
-         print "<p><b>$tMessage</b></p>";
-		 echo "<p><b>Delete (or rename) setup.php, and then click <a href='login.php'>here to login</a>.</b></p>";
-      }
-   }
+            // XXX need to ensure domains table includes an 'ALL' entry.
+            $table_domain = table_by_key('domain');
+            $r = db_query("SELECT * FROM $table_domain WHERE domain = 'ALL'");
+            if($r['rows'] == 0) {
+                db_insert($table_domain, array('domain' => 'ALL')); // all other fields should default through the schema.
+            }
 
-   if ($_SERVER['REQUEST_METHOD'] == "GET" || $error != 0)
-   {
-       ?>
+            list ($error, $tMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, array('ALL'), TRUE);
+            if ($error != 0) {
+                if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
+            } else {
+                print "<p><b>$tMessage</b></p>";
+            }
+        }
+        else {
+            print "<p><b>$tMessage</b></p>";
+        }
+
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == "GET" || $error != 0)
+    {
+?>
 
 <div id="edit_form">
 <form name="create_admin" method="post">
 <table>
-   <tr>
       <td colspan="3"><h3>Create superadmin account</h3></td>
+   </tr>
+   <tr>
+      <td>Setup password (see config.inc.php)</td>
+      <td><input class="flat" type="password" name="setup_password" value="" /></td>
+      <td></td>
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminCreate_admin_username'] . ":"; ?></td>
@@ -364,11 +383,11 @@ else
 </form>
 </div>
 
-      <?php
-   }
+<?php
+    }
 
-   print "<b>Make sure you delete this setup.php file!</b><br />\n";
-   print "Also check the config.inc.php file for any settings that you might need to change!<br />\n";
+    print "<b>Since version 2.3 there is no requirement to delete setup.php!</b><br />\n";
+    print "<b>Check the config.inc.php file for any other settings that you might need to change!<br />\n";
 }
 ?>
 </div>
