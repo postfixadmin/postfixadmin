@@ -22,20 +22,6 @@ if(!defined('POSTFIXADMIN')) {
 }
 define('POSTFIXADMIN', 1); # checked in included files
 
-function incorrect_setup() {
-    global $incpath;
-    # we ask the user to delete setup.php, which makes a blind redirect a bad idea
-    if(!is_file("$incpath/setup.php")) {
-        die ("config.inc.php does not exist or is not configured correctly. Please re-install setup.php and create/fix your config.");
-    } else {
-        # common.php is indirectly included in setup.php (via upgrade.php) - avoid endless redirect loop
-        if (!preg_match('/setup\.php$/', $_SERVER['SCRIPT_NAME'])) { 
-            header("Location: setup.php");
-            exit(0);
-        }
-     }
-}
-
 $incpath = dirname(__FILE__);
 (ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_runtime', '0') : '1');
 (ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_sybase', '0') : '1');
@@ -46,15 +32,23 @@ if(ini_get('register_globals') == 'on') {
 require_once("$incpath/variables.inc.php");
 
 if(!is_file("$incpath/config.inc.php")) {
-    // incorrectly setup...
-    incorrect_setup();
+    die("config.inc.php is missing!");
 }
 require_once("$incpath/config.inc.php");
+
 if(isset($CONF['configured'])) {
     if($CONF['configured'] == FALSE) {
-        incorrect_setup();
+        die("Please edit config.inc.php - change \$CONF['configured'] to true after setting your database settings");
+    }
+    if(!isset($CONF['setup_password'])) {
+        die("You must have a \$CONF['setup_password'] defined - this allows authenticated access to setup.php");
+    }
+    if($CONF['setup_password'] == 'changeme') {
+        die("You must specify a password in config.inc.php (\$CONF['setup_password']) in order to access setup.php");
     }
 }
+
+
 require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
 require_once("$incpath/languages/" . check_language () . ".lang");
