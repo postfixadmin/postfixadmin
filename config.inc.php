@@ -27,9 +27,12 @@ if (ereg ("config.inc.php", $_SERVER['PHP_SELF']))
  * The following line needs commenting out or removing before the
  * application will run!
  * Doing this implies you have changed this file as required.
+ * i.e. configuring database etc; specifying setup.php password etc.
  */
 $CONF['configured'] = false;
 
+// In order to setup Postfixadmin, you MUST change the password below.
+$CONF['setup_password'] = 'changeme';
 
 // Postfix Admin Path
 // Set the location of your Postfix Admin installation here.
