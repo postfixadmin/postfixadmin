@@ -57,7 +57,7 @@ user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query = SELECT goto FROM alias,alias_domain WHERE alias_domain.alias_domain = '%d' and alias.address = CONCAT('%u', '@', alias_domain.target_domain) AND alias.active = 1
+query = SELECT goto FROM alias,alias_domain WHERE alias_domain.alias_domain = '%d' and alias.address = CONCAT('%u', '@', alias_domain.target_domain) AND alias.active = 1 AND alias_domain.active='1'
 
 (Note: PostgreSQL does not have a concat() function, instead use e.g. .... alias.address = '%u' || '@' || alias_domain.target_domain AND ....)
  
@@ -67,7 +67,7 @@ user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query  = SELECT goto FROM alias,alias_domain WHERE alias_domain.alias_domain = '%d' and alias.address = CONCAT('@', alias_domain.target_domain) AND alias.active = 1
+query  = SELECT goto FROM alias,alias_domain WHERE alias_domain.alias_domain = '%d' and alias.address = CONCAT('@', alias_domain.target_domain) AND alias.active = 1 AND alias_domain.active='1'
 
 (See above note re Concat + PostgreSQL)
 
@@ -87,17 +87,16 @@ user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query           = SELECT CONCAT(domain,'/',maildir) FROM mailbox WHERE username='%s' AND active = '1'
+query           = SELECT maildir FROM mailbox WHERE username='%s' AND active = '1'
 #expansion_limit = 100
-
-(See above note re Concat + PostgreSQL)
 
 mysql_virtual_alias_domain_mailbox_maps.cf:
 user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query = SELECT CONCAT(domain,'/',maildir) FROM mailbox,alias_domain WHERE alias_domain.alias_domain = '%d' and mailbox.username = CONCAT('%u', '@', alias_domain.target_domain) AND mailbox.active = 1
+query = SELECT maildir FROM mailbox,alias_domain WHERE alias_domain.alias_domain = '%d' and mailbox.username = CONCAT('%u', '@', alias_domain.target_domain) AND mailbox.active = 1 AND alias_domain.active='1'
+
 
 (See above note re Concat + PostgreSQL)
 
