@@ -23,9 +23,6 @@
  * Form POST \ GET Variables: -none-
  */
 
-define('POSTFIXADMIN', 1); # checked in included files
-
-require_once("languages/en.lang");
 require_once('common.php');
 
 $CONF['show_header_text'] = 'NO';
