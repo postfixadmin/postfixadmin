@@ -7,7 +7,7 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pPassword_admin'] . ":"; ?></td>
-      <td><?php print $USERID_USERNAME; ?></td>
+      <td><?php print $username; ?></td>
       <td><?php print $pPassword_admin_text; ?></td>
    </tr>
    <tr>
