@@ -161,11 +161,10 @@ $has_alias_control = 0; # temporary variable to simplify admin vs. superadmin co
             if ($CONF['alias_control'] == 'YES') $has_alias_control = 1;
          } else {
             if ($CONF['alias_control_admin'] == 'YES') $has_alias_control = 1;
-            if ($CONF['vacation_control_admin'] == 'YES')
-            {
-               $v_active = ($tMailbox[$i]['v_active'] == 1) ? $PALANG['pOverview_vacation_edit'] : '';
-               print "      <td><a href=\"edit-vacation.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "\">" . $v_active . "</a></td>\n";
-            }
+         }
+         if ($CONF['vacation_control_admin'] == 'YES') {
+            $v_active = ($tMailbox[$i]['v_active'] == 1) ? $PALANG['pOverview_vacation_edit'] : $PALANG['pOverview_vacation_option'];
+            print "      <td><a href=\"edit-vacation.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=" . $tMailbox[$i]['domain'] . "\">" . $v_active . "</a></td>\n";
          }
          if ($has_alias_control == 1)
          {
