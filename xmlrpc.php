@@ -34,7 +34,6 @@ require_once(dirname(__FILE__) . '/common.php');
 
 require_once('Zend/XmlRpc/Server.php');
 $server = new Zend_XmlRpc_Server();
-session_start();
 
 /**
  * @param string $username

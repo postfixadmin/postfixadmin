@@ -35,7 +35,7 @@ class UserHandler {
 
         $result = db_query ("UPDATE $table_mailbox SET password='$new_db_password',modified=NOW() WHERE username='$username'");
 
-        db_log ($username, $USERID_DOMAIN, 'edit_password', "$USERID_USERNAME");
+        db_log ($username, $USERID_DOMAIN, 'edit_password', "$username");
         return true;
     }
 
