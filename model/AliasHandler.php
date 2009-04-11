@@ -97,7 +97,7 @@ class AliasHandler {
         $addresses = array_unique($addresses);
 
         $original = $this->get(true);
-        $tmp = preg_split('/@/', $username);
+        $tmp = preg_split('/@/', $this->username);
         $domain = $tmp[1];
 
         foreach($original as $address) {
