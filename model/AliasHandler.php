@@ -97,6 +97,8 @@ class AliasHandler {
         $addresses = array_unique($addresses);
 
         $original = $this->get(true);
+        $tmp = preg_split('/@/', $username);
+        $domain = $tmp[1];
 
         foreach($original as $address) {
             if($vacation_persist) {
@@ -143,8 +145,6 @@ class AliasHandler {
         }
         if($this->hasAliasRecord() == false) {
             $true = db_get_boolean(True);
-            $tmp = preg_split('/@/', $username);
-            $domain = $tmp[1];
             $sql = "INSERT INTO $table_alias (address, goto, domain, created, modified, active) VALUES ('$username', '$goto', '$domain', NOW(), NOW(), $true)";
         }
         else {
