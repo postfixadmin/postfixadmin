@@ -306,17 +306,22 @@ else
 
     if ($_SERVER['REQUEST_METHOD'] == "POST")
     {
-        // ensure password is correct.
-        if(!isset($_POST['setup_password'])) {
+        # ensure setup password is correct
+        if (safepost('setup_password') == "" ) {
             $error += 1;
-            $tMessage = "Setup password must be specified";
-        }
-        if($_POST['setup_password'] != $CONF['setup_password']) {
+            $tMessage = "Setup password must be specified<br />If you didn't set up a setup password yet, enter the password you want to use.";
+        } elseif (strlen(safepost('setup_password')) < $CONF['min_password_length']) {
             $error += 1;
-            $tMessage = "Setup password not specified correctly";
+            $tMessage = "The setup password you entered is too short. Please choose a better one.";
+        } else {
+            $pw_check_result = check_setup_password(safepost('setup_password'));
+            if ($pw_check_result != 'pass_OK') {
+                $error += 1;
+                $tMessage = $pw_check_result;
+            }
         }
 
-        if($error == 0) {
+        if($error == 0 && $pw_check_result == 'pass_OK') {
             if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']);
             if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
             if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
@@ -391,5 +396,34 @@ else
 </body>
 </html>
 <?php
-/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
+
+function generate_setup_password_salt() {
+    $salt = time() . '*' . $_SERVER['REMOTE_ADDR'] . '*' . mt_rand(0,60000);
+    $salt = md5($salt);
+    return $salt;
+}
+
+function encrypt_setup_password($password, $salt) {
+    return $salt . ':' . sha1($salt . ':' . $password);
+}
+
+function check_setup_password($password) {
+    global $CONF;
+    $setuppw = "";
+    if (isset($CONF['setup_password'])) $setuppw = $CONF['setup_password'];
+
+    list($confsalt, $confpass, $trash) = explode(':', $setuppw . '::');
+    $pass = encrypt_setup_password($password, $confsalt);
+    if ($pass == $setuppw) { # correct passsword
+        $result = "pass_OK";
+    } else {
+        $pass = encrypt_setup_password($password, generate_setup_password_salt());
+        $result = '<p><b>Setup password not specified correctly</b></p>';
+        $result .= '<p>If you want to use the password you entered as setup password, edit config.inc.php and set</p>';
+        $result .= "<pre>\$CONF['setup_password'] = '$pass';</pre>";
+    }
+    return $result;
+}
+
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
