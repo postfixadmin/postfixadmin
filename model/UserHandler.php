@@ -66,3 +66,5 @@ class UserHandler {
         return false;
     }
 }
+
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
