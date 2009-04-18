@@ -38,6 +38,8 @@ if (!boolconf('alias_domain')) {
    exit;
 }
 
+$fAliasDomain = '';
+$fTargetDomain= '';
 $username = authentication_get_username();
 $SESSID_USERNAME = $username;
 if(authentication_has_role('global-admin')) {
