@@ -104,13 +104,12 @@ You should see a list of 'OK' messages.
 The setup.php script will attempt to create the database structure 
 (or upgrade it if you're coming from a previous version). 
 
-Assuming everything is OK you can create the admin user using the form displayed.
+Assuming everything is OK you can specify a password (which you'll 
+need to use setup.php again in the future); when you submit the form, 
+the hashed value (which you need to enter into config.inc.php is echoed 
+out - with appropriate instructions on what to do with it).
 
-Once you submit the form, all that's left to do is to delete "setup.php"
-
-e.g.
-
-mv setup.php setup.php.disabled
+create the admin user using the form displayed.
 
 5. Use PostfixAdmin
 -------------------
@@ -122,4 +121,7 @@ specified to host Postfix Admin.
 -------------------
 As of March 2007, PostfixAdmin moved to SourceForge.  For the
 forum posts and source updates, see:
+
 https://sourceforge.net/projects/postfixadmin
+
+There is also #postfixadmin on irc.freenode.net.

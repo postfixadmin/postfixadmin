@@ -1,3 +1,11 @@
+postfixadmin (2.3rc4) unstable; urgency=low
+
+  * Security fix for setup.php (issue occurs for those upgrading only; where 
+    it's possible for a new admin user to get created by nasty.person)
+  * SVN revision 632
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Sat, 18 Apr 2009 21:00:00 +0000
+
 postfixadmin (2.3rc3) unstable; urgency=low
 
   * Attempt at fixing Debian build issues (thanks to mez@sourceguru.net)

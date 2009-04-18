@@ -43,7 +43,7 @@ or
 Make sure that you are in your WWW directory and then unarchive the
 Postfix Admin archive (whatever the filename is):
 
-  $ tar -zxvf postfixadmin-2.2.tgz
+  $ tar -zxvf postfixadmin-X.X.tgz
 
 
 3. Change permissions
@@ -66,14 +66,23 @@ relevant to your setup.
 Comparing config.inc.php with your previous using "diff" might save you some
 time.
 
+You can use a config.local.php file to contain your local settings - these will override any 
+defined in config.inc.php
 
-5. Perform appropriate database upgrades
+5. Run setup.php
 ----------------------------------------
+
+Access setup.php through a web browser.
+
+It will attempt to upgrade your database, and also allow you to create a superadmin user.
+
+From version 2.3, you need to specify a setup_password in config.inc.php - 
+setup.php should guide you through this process. If you do not have a setup_password, type one
+into the form, and setup.php will echo out the hashed value (which needs to go into config.inc.php).
+The setup_password removes the requirement for you to delete setup.php, and also closes a security hole.
 
 Since version 2.2 of Postfixadmin, setup.php can perform the needed database 
 updates automatically .
-
-Open setup.php in your browser to update your database scheme.
 
 If you update from 2.1 or older, also create a superadmin account using setup.php.
 
@@ -81,13 +90,8 @@ Note that admin/ has been merged into the main directory. Login with the
 superadmin account to setup domains and domain admins.
 
 
-6. Delete setup.php
--------------------
-Delete setup.php - it allown non-authorized users to create a superadmin
-account!
 
-
-7. Done
+6. Done
 -------
 This is all that is needed. Fire up your browser and go to the site that you
 specified to host Postfix Admin.

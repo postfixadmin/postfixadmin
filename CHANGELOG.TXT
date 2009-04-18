@@ -11,6 +11,16 @@
 # $Id$
 
 
+Version 2.3rc4 - 2009/04/18 - SVN r632
+--------------------------------------
+
+  - *Security fix* - on upgrade setup.php is restored; allowing a malicious
+    user to create their own superadmin account. We've removed the requirement to delete
+    setup.php, and instead a new config parameter (setup_password) is used to protect access
+    to this page. Password is encrypted, and setup.php can be used to generate the initial value.
+  - Fix undefined variables problem(s)
+  - Fix PostgreSQL date timestamp issues...
+ 
 Version 2.3rc3 - 2009/04/06 - SVN r611
 --------------------------------------
 

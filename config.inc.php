@@ -31,7 +31,9 @@ if (ereg ("config.inc.php", $_SERVER['PHP_SELF']))
  */
 $CONF['configured'] = false;
 
-// In order to setup Postfixadmin, you MUST change the password below.
+// In order to setup Postfixadmin, you MUST specify a hashed password here.
+// To create the hash, visit setup.php in a browser and type a password into the field,
+// on submission it will be echoed out to you as a hashed value.
 $CONF['setup_password'] = 'changeme';
 
 // Postfix Admin Path
