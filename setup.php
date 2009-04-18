@@ -336,14 +336,8 @@ else
             list ($error, $tMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, array('ALL'), TRUE);
             if ($error != 0) {
                 if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
-            } else {
-                print "<p><b>$tMessage</b></p>";
             }
         }
-        else {
-            print "<p><b>$tMessage</b></p>";
-        }
-
     }
 
     if ($_SERVER['REQUEST_METHOD'] == "GET" || $error != 0)
