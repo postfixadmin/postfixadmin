@@ -4,7 +4,7 @@
 // Language file Norwegian (bokmål)
 // by Odd Henriksen
 //
-// Last updated: 2009-01-24 / Odd Henriksen
+// Last updated: 2009-04-19 / Odd Henriksen
 //
 
 $PALANG['YES'] = 'JA';
@@ -24,7 +24,7 @@ $PALANG['pLogin_welcome'] = 'E-postadministratorer kan logge inn her for å admi
 $PALANG['pLogin_username'] = 'Brukernavn (e-postadresse)';
 $PALANG['pLogin_password'] = 'Passord';
 $PALANG['pLogin_button'] = 'Logg inn';
-$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
+$PALANG['pLogin_failed'] = 'E-postadressen eller passordet er ikke korrekt.';
 $PALANG['pLogin_login_users'] = 'Vanlige brukere kan klikke her for å gå til brukerseksjonen.';
 
 $PALANG['pMenu_main'] = 'Hoved';
@@ -339,10 +339,10 @@ $PALANG['pUsersVacation_welcome'] = 'Automatisk svar.';
 $PALANG['pUsersVacation_welcome_text'] = 'Du har allerede et autosvar aktivert!';
 $PALANG['pUsersVacation_subject'] = 'Emne';
 $PALANG['pUsersVacation_subject_text'] = 'Fraværsmelding';
-$PALANG['pUsersVacation_body'] = 'Meldingstekst'; # XXX text changed to 'Message'
+$PALANG['pUsersVacation_body'] = 'Meldingstekst';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Jeg er utilgjengelig fra <date> til <date>.
-Dersom det gjelder noe viktig kan du kontakte <contact person>.
+Jeg er utilgjengelig fra (dato) til (dato).
+Dersom det gjelder noe viktig kan du kontakte (kontaktperson).
 EOM;
 $PALANG['pUsersVacation_button_away'] = 'Merk meg som fraværende';
 $PALANG['pUsersVacation_button_back'] = 'Merk meg som tilstede';
