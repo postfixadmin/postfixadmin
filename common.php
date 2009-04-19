@@ -43,9 +43,6 @@ if(isset($CONF['configured'])) {
     if(!isset($CONF['setup_password'])) {
         die("You must have a \$CONF['setup_password'] defined - this allows authenticated access to setup.php");
     }
-    if($CONF['setup_password'] == 'changeme') {
-        die("You must specify a password in config.inc.php (\$CONF['setup_password']) in order to access setup.php");
-    }
 }
 
 
