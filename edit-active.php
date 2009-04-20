@@ -32,6 +32,12 @@ require_once('common.php');
 authentication_require_role('admin');
 $SESSID_USERNAME = authentication_get_username();
 
+$fAliasDomain = '';
+$fUsername    = '';
+$fAlias       = '';
+$fDomain      = '';
+$fReturn      = '';
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
    if (isset ($_GET['alias_domain'])) $fAliasDomain = escape_string ($_GET['alias_domain']);
