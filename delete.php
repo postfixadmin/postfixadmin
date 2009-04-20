@@ -37,25 +37,26 @@ authentication_require_role('admin');
 $SESSID_USERNAME = authentication_get_username();
 $error = 0;
 
-$fTable  = escape_string (safeget('table') ); # see the if blocks below for valid values
-$fDelete = escape_string (safeget('delete'));
-$fDomain = escape_string (safeget('domain'));
+$fTable  = escape_string(safeget('table')); # see the if blocks below for valid values
+$fDelete = escape_string(safeget('delete'));
+$fDomain = escape_string(safeget('domain'));
 
 $error=0;
 
 /**
  * delete_alias
  *  Action: Delete an alias
- * @param String $alias- alias to delete.
- * @param String $domain - domain of the alias
+ * @param String $alias alias to delete.
+ * @param String $domain domain of the alias
  * @param boolean $force_delete - deletes the alias from the table if true,
  *                                checks if the alias is real and act accordlying if false.
  *                                Default is false. 
  * @return String username (e.g. foo@example.com)
  */
-function delete_alias ($alias, $domain, $force_delete = false)
+function delete_alias($alias, $domain, $force_delete = false)
 {
     global $table_alias, $table_mailbox;
+    $SESSID_USERNAME = authentication_get_username();
     $real_alias = true;
 
     if (! $force_delete)
@@ -88,7 +89,7 @@ function delete_alias ($alias, $domain, $force_delete = false)
     }
     else
     {
-        db_log ($SESSID_USERNAME, $fDomain, 'delete_alias', $fDelete);
+        db_log ($SESSID_USERNAME, $domain, 'delete_alias', $alias);
     }
 
     return true;
