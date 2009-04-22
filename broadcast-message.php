@@ -45,9 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
     else
     {
-        $q = 'select username from mailbox union '.
-            'select goto from alias '.
-            'where goto not in (select username from mailbox)';
+        $table_mailbox = table_by_key('mailbox');
+        $table_alias = table_by_key('alias');
+
+        $q = "select username from $table_mailbox union select goto from $table_alias " .
+                    "where goto not in (select username from $table_mailbox)";
 
         $result = db_query ($q);
         if ($result['rows'] > 0)
