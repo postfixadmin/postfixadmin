@@ -382,7 +382,7 @@ $CONF['theme_css'] = 'css/default.css';
 // that future updates work without problems, you can use a separate config 
 // file (config.local.php) instead of editing this file and override some
 // settings there.
-if (file_exists(dirname(__FILE__) . '/config.local.php')) { # for /
+if (file_exists(dirname(__FILE__) . '/config.local.php')) {
     include(dirname(__FILE__) . '/config.local.php');
 }
 

@@ -30,14 +30,9 @@
 
 require_once('common.php');
 
-if (isset($CONF['configured']) && $CONF['configured'] == 'I_know_the_risk_of_not_deleting_setup.php') {
-}
-else
-{
-    if($CONF['configured'] !== true) {
-      print "Installation not yet configured; please edit config.inc.php";
-      exit;
-    }
+if($CONF['configured'] !== true) {
+  print "Installation not yet configured; please edit config.inc.php";
+  exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")

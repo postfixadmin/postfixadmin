@@ -40,9 +40,6 @@ if(isset($CONF['configured'])) {
     if($CONF['configured'] == FALSE) {
         die("Please edit config.inc.php - change \$CONF['configured'] to true after setting your database settings");
     }
-    if(!isset($CONF['setup_password'])) {
-        die("You must have a \$CONF['setup_password'] defined - this allows authenticated access to setup.php");
-    }
 }
 
 
