@@ -256,7 +256,7 @@ function check_domain ($domain)
             flash_error("emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!");
         }
     }
-    
+
     return true;
 }
 
@@ -431,25 +431,25 @@ function get_domain_properties ($domain)
     global $table_alias, $table_mailbox, $table_domain;
     $list = array ();
 
-   $result = db_query ("SELECT COUNT(*) FROM $table_alias
-                        LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
-                        WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
-                              OR
-                              ($table_alias.domain='$domain'
-                               AND $table_alias.goto LIKE '%,%'
-                               AND $table_mailbox.maildir IS NOT NULL)");
+    $result = db_query ("SELECT COUNT(*) FROM $table_alias
+        LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
+        WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
+        OR
+        ($table_alias.domain='$domain'
+        AND $table_alias.goto LIKE '%,%'
+        AND $table_mailbox.maildir IS NOT NULL)");
 
-   $row = db_row ($result['result']);
-   $list['alias_count'] = $row[0];
+    $row = db_row ($result['result']);
+    $list['alias_count'] = $row[0];
 
     $result = db_query ("SELECT COUNT(*) FROM $table_mailbox WHERE domain='$domain'");
     $row = db_row ($result['result']);
     $list['mailbox_count'] = $row[0];
 
-   $result = db_query ("SELECT SUM(quota) FROM $table_mailbox WHERE domain='$domain'");
-   $row = db_row ($result['result']);
-   $list['quota_sum'] = $row[0];
-   $list['alias_count'] = $list['alias_count'];
+    $result = db_query ("SELECT SUM(quota) FROM $table_mailbox WHERE domain='$domain'");
+    $row = db_row ($result['result']);
+    $list['quota_sum'] = $row[0];
+    $list['alias_count'] = $list['alias_count'];
 
     $list['alias_pgindex']=array ();
     $list['mbox_pgindex']=array ();
@@ -462,40 +462,40 @@ function get_domain_properties ($domain)
     $idxlabel="";
     $list['alias_pgindex_count'] = 0;
 
-   if ( $list['alias_count'] > $page_size )
-   {
-      while ( $current < $list['alias_count'] )
-      { 
-         $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
-         $query = "SELECT $table_alias.address
-                   FROM $table_alias
-                   LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
-                   WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
-                        OR
-                         ($table_alias.domain='$domain'
-                          AND $table_alias.goto LIKE '%,%'
-                          AND $table_mailbox.maildir IS NOT NULL)
-                   ORDER BY $table_alias.address LIMIT $limitSql";
-         $result = db_query ("$query");
-         $row = db_array ($result['result']);
-         $tmpstr = $row['address'];
-         //get first 2 chars
-         $idxlabel = $tmpstr[0] . $tmpstr[1] . "-";
-         ($current + $page_size - 1 <= $list['alias_count']) ? $current = $current + $page_size - 1 : $current = $list['alias_count'] - 1;
-         $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
-         $query = "SELECT $table_alias.address
-                   FROM $table_alias
-                   LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
-                   WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
-                        OR
-                         ($table_alias.domain='$domain'
-                          AND $table_alias.goto LIKE '%,%'
-                          AND $table_mailbox.maildir IS NOT NULL)
-                   ORDER BY $table_alias.address LIMIT $limitSql";
-         $result = db_query ("$query");
-         $row = db_array ($result['result']);
-         $tmpstr = $row['address'];
-         $idxlabel = $idxlabel . $tmpstr[0] . $tmpstr[1];
+    if ( $list['alias_count'] > $page_size )
+    {
+        while ( $current < $list['alias_count'] )
+        { 
+            $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
+            $query = "SELECT $table_alias.address
+                FROM $table_alias
+                LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
+                WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
+                OR
+                ($table_alias.domain='$domain'
+                AND $table_alias.goto LIKE '%,%'
+                AND $table_mailbox.maildir IS NOT NULL)
+                ORDER BY $table_alias.address LIMIT $limitSql";
+            $result = db_query ("$query");
+            $row = db_array ($result['result']);
+            $tmpstr = $row['address'];
+            //get first 2 chars
+            $idxlabel = $tmpstr[0] . $tmpstr[1] . "-";
+            ($current + $page_size - 1 <= $list['alias_count']) ? $current = $current + $page_size - 1 : $current = $list['alias_count'] - 1;
+            $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
+            $query = "SELECT $table_alias.address
+                FROM $table_alias
+                LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
+                WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
+                OR
+                ($table_alias.domain='$domain'
+                AND $table_alias.goto LIKE '%,%'
+                AND $table_mailbox.maildir IS NOT NULL)
+                ORDER BY $table_alias.address LIMIT $limitSql";
+            $result = db_query ("$query");
+            $row = db_array ($result['result']);
+            $tmpstr = $row['address'];
+            $idxlabel = $idxlabel . $tmpstr[0] . $tmpstr[1];
 
             $current = $current + 1;
 
@@ -1188,7 +1188,7 @@ function pacrypt ($pw, $pw_db="")
         $l = db_row($res["result"]);
         $password = $l[0];
     }
-    
+
     elseif ($CONF['encrypt'] == 'authlib') {
         $flavor = $CONF['authlib_default_flavor'];
         $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
@@ -1198,7 +1198,7 @@ function pacrypt ($pw, $pw_db="")
             $flavor = $result[1];  
             $salt = substr($result[2], 0, 2);
         }
- 
+
         if(stripos($flavor, 'md5raw') === 0) {
             $password = '{' . $flavor . '}' . md5($pw);
         } elseif(stripos($flavor, 'md5') === 0) {
@@ -1209,7 +1209,7 @@ function pacrypt ($pw, $pw_db="")
             die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5' and 'crypt'");
         }
     }
-    
+
     elseif (preg_match("/^dovecot:/", $CONF['encrypt'])) {
         $split_method = preg_split ('/:/', $CONF['encrypt']);
         $method       = strtoupper($split_method[1]);
