@@ -69,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         exit(0);
     }
 
-    if (isset ($_POST['fSubject'])) $fSubject = escape_string ($_POST['fSubject']);
-    if (isset ($_POST['fBody'])) $fBody = escape_string ($_POST['fBody']);
+    if (isset ($_POST['fSubject'])) $fSubject = $_POST['fSubject'];
+    if (isset ($_POST['fBody']))    $fBody    = $_POST['fBody'];
     if (isset ($_POST['fAway'])) $fAway = escape_string ($_POST['fAway']);
     if (isset ($_POST['fBack'])) $fBack = escape_string ($_POST['fBack']);
 
