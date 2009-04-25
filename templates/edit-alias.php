@@ -1,4 +1,5 @@
 <?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
+
 <div id="edit_form">
 <form name="alias" method="post">
 <table>
@@ -15,11 +16,9 @@
       <td>
 <textarea class="flat" rows="10" cols="60" name="fGoto">
 <?php
-$array = preg_split ('/,/', $tGoto);
-for ($i = 0 ; $i < sizeof ($array) ; $i++)
-{
-   if (empty ($array[$i])) continue;
-   print "$array[$i]\n";
+
+foreach($alias_list as $alias) {
+   print "$alias\n";
 }
 ?>
 </textarea>

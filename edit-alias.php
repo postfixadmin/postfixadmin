@@ -123,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     {
         $new_aliases = explode(',', $goto);
     }
+    $new_aliases = array_unique($new_aliases);
 
     foreach($new_aliases as $address) {
         if (in_array($address, $CONF['default_aliases'])) continue;
@@ -161,7 +162,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         else
         {
             db_log ($SESSID_USERNAME, $fDomain, 'edit_alias', "$fAddress -> $goto");
-
             header ("Location: list-virtual.php?domain=$fDomain");
             exit;
         }
