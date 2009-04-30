@@ -63,14 +63,14 @@ if (sizeof ($tAlias) > 0)
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
          //highlight search string
          $tAlias[$i]['display_address'] = $tAlias[$i]['address'];
-         if (stristr($tAlias[$i]['display_address'],$fSearch))
+         if ($fSearch != "" && stristr($tAlias[$i]['display_address'],$fSearch))
          {
            $new_address = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
                $fSearch . "</span>", $tAlias[$i]['display_address']);
            $tAlias[$i]['display_address'] = $new_address;
          }
          print "      <td>" . $tAlias[$i]['display_address'] . "</td>\n";
-         if (stristr($tAlias[$i]['goto'],$fSearch))
+         if ($fSearch != "" && stristr($tAlias[$i]['goto'],$fSearch))
          {
            $new_goto = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
                $fSearch . "</span>", $tAlias[$i]['goto']);
@@ -137,14 +137,14 @@ if (sizeof ($tMailbox) > 0)
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
          $tMailbox[$i]['display_username'] = $tMailbox[$i]['username'];
-         if (stristr($tMailbox[$i]['display_username'],$fSearch))
+         if ($fSearch != "" && stristr($tMailbox[$i]['display_username'],$fSearch))
          {
            $new_name = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
                $fSearch . "</span>", $tMailbox[$i]['display_username']);
            $tMailbox[$i]['display_username'] = $new_name;
          }
          print "      <td>" . $tMailbox[$i]['display_username'] . "</td>\n";
-         if (stristr($tMailbox[$i]['name'],$fSearch))
+         if ($fSearch != "" && stristr($tMailbox[$i]['name'],$fSearch))
          {
            $new_name = str_ireplace($fSearch, "<span style='background-color: lightgreen'>" .
                $fSearch . "</span>", $tMailbox[$i]['name']);
