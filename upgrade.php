@@ -109,8 +109,8 @@ function _do_upgrade($current_version) {
     $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
 
     if ($current_version >= $target_version) {
-# already up to date
-        echo "Database is up to date";
+        # already up to date
+        echo "<p>Database is up to date</p>";
         return true;
     }
 

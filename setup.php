@@ -302,23 +302,27 @@ else
     $pAdminCreate_admin_password_text = "";
     $tUsername = '';
     $tMessage = '';
+    $lostpw_error = 0;
 
+    $setuppw = "";
+    if (isset($CONF['setup_password'])) $setuppw = $CONF['setup_password'];
 
-    if ($_SERVER['REQUEST_METHOD'] == "POST")
-    {
-        # ensure setup password is correct
-        if (safepost('setup_password') == "" ) {
-            $error += 1;
-            $tMessage = "Setup password must be specified<br />If you didn't set up a setup password yet, enter the password you want to use.";
-        } elseif (strlen(safepost('setup_password')) < $CONF['min_password_length']) {
-            $error += 1;
-            $tMessage = "The setup password you entered is too short. Please choose a better one.";
+    if (safepost("form") == "setuppw") {
+        # "setup password" form submitted
+        if (safepost('setup_password') != safepost('setup_password2')) {
+            $tMessage = "The two passwords differ!";
+            $lostpw_error = 1;
         } else {
-            $pw_check_result = check_setup_password(safepost('setup_password'));
-            if ($pw_check_result != 'pass_OK') {
-                $error += 1;
-                $tMessage = $pw_check_result;
-            }
+            list ($lostpw_error, $lostpw_result) = check_setup_password(safepost('setup_password'), 1);
+            $tMessage = $lostpw_result;
+            $setuppw = "changed";
+        }
+    } elseif (safepost("form") == "createadmin") {
+        # "create admin" form submitted
+        list ($pw_check_error, $pw_check_result) = check_setup_password(safepost('setup_password'));
+        if ($pw_check_result != 'pass_OK') {
+            $error += 1;
+            $tMessage = $pw_check_result;
         }
 
         if($error == 0 && $pw_check_result == 'pass_OK') {
@@ -338,21 +342,52 @@ else
                 if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
             }
         }
-    }
+    } 
 
-    if ($_SERVER['REQUEST_METHOD'] == "GET" || $error != 0)
-    {
-?>
+    if ( ($setuppw == "" || $setuppw == "changeme" || safeget("lostpw") == 1 || $lostpw_error != 0) /* && $_SERVER['REQUEST_METHOD'] != "POST" */ ) {
+# show "create setup password" form
+    ?>
 
+<div class="standout"><?php print $tMessage; ?></div>
+<div id="edit_form">
+<form name="setuppw" method="post" action="setup.php">
+<input type="hidden" name="form" value="setuppw" />
+<table>
+      <td colspan="3"><h3>Change setup password</h3></td>
+   </tr>
+   <tr>
+      <td>Setup password</td>
+      <td><input class="flat" type="password" name="setup_password" value="" /></td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>Setup password (again)</td>
+      <td><input class="flat" type="password" name="setup_password2" value="" /></td>
+      <td></td>
+   </tr>
+   <tr>
+      <td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="Generate password hash" /></td>
+   </tr>
+</table>
+</form>
+</div>
+
+<?php
+
+    } elseif ($_SERVER['REQUEST_METHOD'] == "GET" || $error != 0 || $lostpw_error == 0) {
+        ?>
+
+<div class="standout"><?php print $tMessage; ?></div>
 <div id="edit_form">
 <form name="create_admin" method="post">
+<input type="hidden" name="form" value="createadmin" />
 <table>
       <td colspan="3"><h3>Create superadmin account</h3></td>
    </tr>
    <tr>
-      <td>Setup password (see config.inc.php)</td>
+      <td>Setup password</td>
       <td><input class="flat" type="password" name="setup_password" value="" /></td>
-      <td></td>
+      <td><a href="setup.php?lostpw=1">Lost password?</a></td>
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminCreate_admin_username'] . ":"; ?></td>
@@ -371,9 +406,6 @@ else
    </tr>
    <tr>
       <td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="<?php print $PALANG['pAdminCreate_admin_button']; ?>" /></td>
-   </tr>
-   <tr>
-      <td colspan="3" class="standout"><?php print $tMessage; ?></td>
    </tr>
 </table>
 </form>
@@ -401,22 +433,42 @@ function encrypt_setup_password($password, $salt) {
     return $salt . ':' . sha1($salt . ':' . $password);
 }
 
-function check_setup_password($password) {
+
+/*
+    returns: array(
+        'error' => 0 (or 1),
+        'message => text
+    )
+*/
+function check_setup_password($password, $lostpw_mode = 0) {
     global $CONF;
+    $error = 1; # be pessimistic
+
     $setuppw = "";
     if (isset($CONF['setup_password'])) $setuppw = $CONF['setup_password'];
 
     list($confsalt, $confpass, $trash) = explode(':', $setuppw . '::');
     $pass = encrypt_setup_password($password, $confsalt);
-    if ($pass == $setuppw) { # correct passsword
+
+    if ($password == "" ) { # no password specified?
+        $result = "Setup password must be specified<br />If you didn't set up a setup password yet, enter the password you want to use.";
+    } elseif (strlen($password) < $CONF['min_password_length']) { # password too short?
+        $result = "The setup password you entered is too short. Please choose a better one.";
+    } elseif ($pass == $setuppw && $lostpw_mode == 0) { # correct passsword (and not asking for a new password)
         $result = "pass_OK";
+        $error = 0;
     } else {
         $pass = encrypt_setup_password($password, generate_setup_password_salt());
-        $result = '<p><b>Setup password not specified correctly</b></p>';
+        $result = "";
+        if ($lostpw_mode == 1) {
+            $error = 0; # non-matching password is expected when the user asks for a new password
+        } else {
+            $result = '<p><b>Setup password not specified correctly</b></p>';
+        }
         $result .= '<p>If you want to use the password you entered as setup password, edit config.inc.php and set</p>';
         $result .= "<pre>\$CONF['setup_password'] = '$pass';</pre>";
     }
-    return $result;
+    return array ($error, $result);
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
