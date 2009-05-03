@@ -42,13 +42,21 @@ use File::Path;
 use Getopt::Long;
 
 ### change settings as needed, see notes above #################################
-my $root_path = "/home/vmail";
-my $logfile = "/var/log/removed_maildirs.log";
-my $db_hostname = "localhost";
-my $db_port = "3306";
-my $db_database = "postfix";
-my $db_username = "someuser";
-my $db_password = "somepass";
+our $root_path = "/home/vmail";
+our $logfile = "/var/log/removed_maildirs.log";
+our $db_hostname = "localhost";
+our $db_port = "3306"; # this script currently supports MySQL only
+our $db_database = "postfix";
+our $db_username = "someuser";
+our $db_password = "somepass";
+
+# instead of changing this script, you can put your settings to /etc/mail/postfixadmin/cleanupdirs.conf
+# just use perl syntax there to fill the variables listed above (without the "our" keyword). Example:
+# $db_username = 'mail';
+if (-f "/etc/mail/postfixadmin/cleanupdirs.conf") {
+	require "/etc/mail/postfixadmin/cleanupdirs.conf";
+}
+
 ################################################################################
 
 ### begin program ##############################################################
@@ -63,6 +71,7 @@ opendir DOMAINDIR, $root_path
   or die "Unable to access directory '$root_path' ($!)";
 foreach my $domain_dir (sort readdir DOMAINDIR) {
   next if $domain_dir =~ /^\./; # skip dotted dirs
+  next if (! -d "$root_path/$domain_dir"); # skip everything that is not a directory
   my $full_domain_dir = "$root_path/$domain_dir";
   opendir USERDIR, $full_domain_dir
     or die "Unable to access directory '$full_domain_dir' ($!)";
