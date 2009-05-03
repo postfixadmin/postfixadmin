@@ -2140,7 +2140,13 @@ function gen_show_status ($show_alias)
         while ( ($g=array_pop($gotos)) && $stat_ok )
         {
             $stat_catchall = substr($g,strpos($g,"@"));
-            $stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g' OR address = '$stat_catchall'");
+            $stat_delimiter = "";
+            if (!empty($CONF['recipient_delimiter'])) {
+                $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
+                $stat_delimiter = preg_replace('/' .$delimiter. '[^' .$delimiter. ']*@/', "@", $g);
+                $stat_delimiter = "OR address = '$stat_delimiter'";
+            }
+            $stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g' OR address = '$stat_catchall' $stat_delimiter");
             if ($stat_result['rows'] == 0)
             {
                 $stat_ok = 0;
