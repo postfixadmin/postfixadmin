@@ -296,7 +296,7 @@ if (sizeof ($tMailbox) > 0) {
             }
             else
             {
-               if (boolconf('used_quotas') == 'YES')
+               if (boolconf('used_quotas'))
                   print divide_quota ($tMailbox[$i]['current']).'/';
                print divide_quota ($tMailbox[$i]['quota']);
             }
