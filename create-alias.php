@@ -117,15 +117,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $fAddress = "@" . escape_string ($_POST['fDomain']);
     }
 
-    $append_alias = false;
-
     $result = db_query ("SELECT * FROM $table_alias WHERE address='$fAddress'");
     if ($result['rows'] == 1)
     {
-        $append_alias = true;
+        $error = 1;
         $tAddress = escape_string ($_POST['fAddress']);
         $tGoto = $fGoto;
         $tDomain = $fDomain;
+        $pCreate_alias_address_text = $PALANG['pCreate_alias_address_text_error2'];
     }
 
     if ($fActive == "on") {
@@ -135,29 +134,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $sqlActive = db_get_boolean(False);
     }
 
-    $success = false;
-    /* Alias (or mailbox) already present, let's add the destination to that row */
-    if ($append_alias) {
-        if (preg_match('/^\*@(.*)$/', $fGoto, $match)) {
-            $fGoto = "@" . $match[1];
-        }
-
-        $array = db_array ($result['result']);
-
-        $values ['goto'] = $array['goto'] . ',' . $fGoto;
-        $result = db_update ($table_alias, "address = '$fAddress'", $values, array ('modified'));
-        $success = ($result == 1);
-
-    } elseif ($error != 1) {
+    if ($error != 1) {
         if (preg_match('/^\*@(.*)$/', $fGoto, $match)) {
             $fGoto = "@" . $match[1];
         }
 
         $result = db_query ("INSERT INTO $table_alias (address,goto,domain,created,modified,active) VALUES ('$fAddress','$fGoto','$fDomain',NOW(),NOW(),'$sqlActive')");
-        $success = ($result['rows'] == 1);
-    }
-
-    if (! $success) {
+        if ($result['rows'] != 1) {
             $tDomain = $fDomain;
             $tMessage = $PALANG['pCreate_alias_result_error'] . "<br />($fAddress -> $fGoto)<br />\n";
         }
@@ -167,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $tDomain = $fDomain;
             $tMessage = $PALANG['pCreate_alias_result_success'] . "<br />($fAddress -> $fGoto)<br />\n";
         }
+    }
 }
 
 include ("templates/header.php");

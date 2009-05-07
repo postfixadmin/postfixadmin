@@ -431,14 +431,7 @@ function get_domain_properties ($domain)
     global $table_alias, $table_mailbox, $table_domain;
     $list = array ();
 
-    $result = db_query ("SELECT COUNT(*) FROM $table_alias
-        LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
-        WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
-        OR
-        ($table_alias.domain='$domain'
-        AND $table_alias.goto LIKE '%,%'
-        AND $table_mailbox.maildir IS NOT NULL)");
-
+    $result = db_query ("SELECT COUNT(*) FROM $table_alias WHERE domain='$domain'");
     $row = db_row ($result['result']);
     $list['alias_count'] = $row[0];
 
@@ -449,7 +442,7 @@ function get_domain_properties ($domain)
     $result = db_query ("SELECT SUM(quota) FROM $table_mailbox WHERE domain='$domain'");
     $row = db_row ($result['result']);
     $list['quota_sum'] = $row[0];
-    $list['alias_count'] = $list['alias_count'];
+    $list['alias_count'] = $list['alias_count'] - $list['mailbox_count'];
 
     $list['alias_pgindex']=array ();
     $list['mbox_pgindex']=array ();
@@ -471,10 +464,6 @@ function get_domain_properties ($domain)
                 FROM $table_alias
                 LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
                 WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
-                OR
-                ($table_alias.domain='$domain'
-                AND $table_alias.goto LIKE '%,%'
-                AND $table_mailbox.maildir IS NOT NULL)
                 ORDER BY $table_alias.address LIMIT $limitSql";
             $result = db_query ("$query");
             $row = db_array ($result['result']);
@@ -487,10 +476,6 @@ function get_domain_properties ($domain)
                 FROM $table_alias
                 LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
                 WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
-                OR
-                ($table_alias.domain='$domain'
-                AND $table_alias.goto LIKE '%,%'
-                AND $table_mailbox.maildir IS NOT NULL)
                 ORDER BY $table_alias.address LIMIT $limitSql";
             $result = db_query ("$query");
             $row = db_array ($result['result']);

@@ -123,22 +123,15 @@ $query = "SELECT $table_alias.address,
     $table_alias.active
     FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
     WHERE ($table_alias.domain='$fDomain' AND $table_mailbox.maildir IS NULL)
-    OR
-    ($table_alias.domain='$fDomain'
-    AND $table_alias.goto LIKE '%,%'
-    AND $table_mailbox.maildir IS NOT NULL)
     ORDER BY $table_alias.address LIMIT $fDisplay, $page_size";
-
 if ('pgsql'==$CONF['database_type'])
 {
     $query = "SELECT address,
         goto,
-        modified,
+        extract(epoch from modified) as modified,
         active
-        FROM $table_alias WHERE domain='$fDomain'
-        AND NOT EXISTS(SELECT 1 FROM $table_mailbox
-        WHERE username=$table_alias.address
-        AND $table_alias.goto NOT LIKE '%,%')
+        FROM $table_alias
+        WHERE domain='$fDomain' AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address)
         ORDER BY address LIMIT $page_size OFFSET $fDisplay";
 }
 $result = db_query ($query);
@@ -147,20 +140,13 @@ if ($result['rows'] > 0)
     while ($row = db_array ($result['result']))
     {
         if ('pgsql'==$CONF['database_type'])
-        { 
+        {
             //. at least in my database, $row['modified'] already looks like : 2009-04-11 21:38:10.75586+01, 
             // while gmstrftime expects an integer value. strtotime seems happy though.
             //$row['modified']=gmstrftime('%c %Z',$row['modified']);
             $row['modified'] = date('Y-m-d H:i', strtotime($row['modified']));
             $row['active']=('t'==$row['active']) ? 1 : 0;
         }
-
-        /* Has a real mailbox as well? Remove the address from $row['goto'] in order to edit just the real aliases */
-        if (strstr ($row['goto'], ',') != FALSE)
-        {
-            $row['goto'] = preg_replace ('/\s*,*\s*' . $row['address'] . '\s*,*\s*/', '', $row['goto']);
-        }
-
         $tAlias[] = $row;
     }
 }
@@ -213,7 +199,7 @@ if (isset ($limit)) {
     }
     if (($limit['alias_count'] > $page_size) or ($limit['mailbox_count'] > $page_size)) {
         $tDisplay_up_show = 1;
-    }      
+    }
     if ((($fDisplay + $page_size) < $limit['alias_count']) or 
         (($fDisplay + $page_size) < $limit['mailbox_count'])) 
     {
@@ -242,5 +228,5 @@ include ("templates/menu.php");
 include ("templates/list-virtual.php");
 include ("templates/footer.php");
 
-/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
