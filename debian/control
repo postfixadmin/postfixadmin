@@ -1,8 +1,8 @@
 Source: postfixadmin
 Section: admin
 Priority: optional
-Maintainer: David Goodwin <david.goodwin@palepurple.co.uk>
-Build-Depends: debhelper (>= 7)
+Maintainer: Norman Messtorff <normes@normes.org>
+Build-Depends: debhelper (>= 7), po-debconf, quilt (>= 0.46)
 Standards-Version: 3.8.1
 Homepage: http://postfixadmin.sourceforge.net
 XS-Vcs-Svn: https://postfixadmin.svn.sourceforge.net/svnroot/postfixadmin/trunk
@@ -10,19 +10,16 @@ XS-Vcs-Browse: http://postfixadmin.svn.sourceforge.net/viewvc/postfixadmin/trunk
 
 Package: postfixadmin
 Architecture: all
-Depends: apache2 | httpd, libapache2-mod-php5 | libapache-mod-php5 | php5-cgi | php5, ${misc:Depends}
-Recommends: 
-Suggests: postfix, postgresql-server, mysql-server, squirrelmail, squirrelmail-postfixadmin, courier-imap, dovecot-imapd
+Depends: debconf (>= 0.5), dbconfig-common, wwwconfig-common (>= 0.2.0), apache2 | lighttpd, libapache2-mod-php5 | php5-cgi | php5, php5-imap, php5-mysql | php5-pgsql, mysql-client | postgresql-client, ${misc:Depends}
+Recommends: postfix-mysql | postfix-pgsql, mysql-server | postgresql-server
+Suggests: squirrelmail-postfixadmin, dovecot-common | courier-authlib-mysql | courier-authlib-postgresql
 Description: Virtual mail hosting interface for Postfix
  Postfixadmin is a web interface to managing virtual users and domains
- for a Postfix mailserver. The web interface is written in PHP.
- Postfixadmin allows administrators to delegate handling a domain to domain 
- administrators. 
- Postfixadmin allows users to login and change their own settings (e.g. forward,
- vacation, password etc).
- Postfixadmin also includes support for virtual vacation support - 
- this requires Perl and various CPAN modules to be installed. 
- See included vacation.pl for further details.
- . 
- Homepage: http://postfixadmin.sf.net/
-
+ for a Postfix mail transport agent. The web interface is written in PHP.
+ It supports Virtual mailboxes, aliases, forwarders and vacation.
+ .
+ Allows administrators to delegate the handling of domains to the
+ domain administrators. Allows users to login and change their own
+ settings (e.g. forwarders, vacation, passwords etc).
+ .
+ Provides easy integration into dovecot, courier or cyrus.

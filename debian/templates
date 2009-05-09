@@ -1,0 +1,6 @@
+Template: postfixadmin/reconfigure-webserver
+Type: multiselect
+Choices: apache2, apache, apache-ssl, apache-perl, lighttpd
+_Description: Web server to reconfigure automatically:
+ Please choose the web server that should be automatically configured
+ to run postfixadmin.

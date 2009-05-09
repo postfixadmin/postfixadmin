@@ -1,0 +1,4 @@
+ * Do all necessary things automatically (maybe with dbconfig?) (database, setp password...)
+ * DebTags
+ * dbconfig: DOCUMENTS/SECURITY.txt
+ * include postfix configuration templates
