@@ -27,7 +27,7 @@ if (!empty ($list_admins))
 </div>
 
 <?php 
-if (sizeof ($list_domains) > 0)
+if (sizeof ($domain_properties) > 0)
 {
    print "<table id=\"admin_table\">\n";
    print "   <tr class=\"header\">\n";
@@ -43,12 +43,13 @@ if (sizeof ($list_domains) > 0)
    print "      <td colspan=\"2\">&nbsp;</td>\n";
    print "   </tr>\n";
 
-   for ($i = 0; $i < sizeof ($list_domains); $i++)
+#   for ($i = 0; $i < sizeof ($domain_properties); $i++)
+   foreach(array_keys($domain_properties) as $i)
    {
-      if ((is_array ($list_domains) and sizeof ($list_domains) > 0))
+      if ((is_array ($domain_properties) and sizeof ($domain_properties) > 0))
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
-         print "<td><a href=\"list-virtual.php?domain=" . $list_domains[$i] . "\">" . $list_domains[$i] . "</a></td>";
+         print "<td><a href=\"list-virtual.php?domain=" . $domain_properties[$i]['domain'] . "\">" . $domain_properties[$i]['domain'] . "</a></td>";
          print "<td>" . $domain_properties[$i]['description'] . "</td>";
          print "<td>" . $domain_properties[$i]['alias_count'] . " / " . $domain_properties[$i]['aliases'] . "</td>";
          print "<td>" . $domain_properties[$i]['mailbox_count'] . " / " . $domain_properties[$i]['mailboxes'] . "</td>";
@@ -74,9 +75,9 @@ if (sizeof ($list_domains) > 0)
          print "<td>$backupmx</td>";
          print "<td>" . $domain_properties[$i]['modified'] . "</td>";
          $active = ($domain_properties[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
-         print "<td><a href=\"edit-active-domain.php?domain=" . $list_domains[$i] . "\">" . $active . "</a></td>";
-         print "<td><a href=\"edit-domain.php?domain=" . $list_domains[$i] . "\">" . $PALANG['edit'] . "</a></td>";
-         print "<td><a href=\"delete.php?table=domain&delete=" . $list_domains[$i] . "\" onclick=\"return confirm ('" . $PALANG['confirm_domain'] . $PALANG['pAdminList_admin_domain'] . ": " . $list_domains[$i] . "')\">" . $PALANG['del'] . "</a></td>";
+         print "<td><a href=\"edit-active-domain.php?domain=" . $domain_properties[$i]['domain'] . "\">" . $active . "</a></td>";
+         print "<td><a href=\"edit-domain.php?domain=" . $domain_properties[$i]['domain'] . "\">" . $PALANG['edit'] . "</a></td>";
+         print "<td><a href=\"delete.php?table=domain&delete=" . $domain_properties[$i]['domain'] . "\" onclick=\"return confirm ('" . $PALANG['confirm_domain'] . $PALANG['pAdminList_admin_domain'] . ": " . $domain_properties[$i]['domain'] . "')\">" . $PALANG['del'] . "</a></td>";
          print "</tr>\n";
 		}
    }

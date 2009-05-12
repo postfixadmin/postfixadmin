@@ -222,6 +222,21 @@ function _drop_index ($table, $index) {
     }
 }
 
+function _add_index($table, $indexname, $fieldlist) {
+    global $CONF;
+    $tabe = table_by_key ($table);
+
+    if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli' ) {
+        return "ALTER TABLE $table ADD INDEX `$indexname` ( `$fieldlist` )";
+    } elseif($CONF['database_type'] == 'pgsql') {
+        $pgindexname = $table . "_" . $indexname;
+        return "CREATE INDEX $pgindexname ON $table($fieldlist);"; # Index names are unique with a DB for PostgreSQL
+    } else {
+        echo "Sorry, unsupported database type " . $conf['database_type'];
+        exit;
+    }
+
+}
 
 function upgrade_1_mysql() {
     // CREATE MYSQL DATABASE TABLES.
@@ -1063,3 +1078,7 @@ function upgrade_504_mysql() {
     db_query_parsed("ALTER TABLE `$table_mailbox` CHANGE `local_part` `local_part` VARCHAR( 255 ) {LATIN1} NOT NULL");
 }
 
+function upgrade_655() {
+    db_query_parsed(_add_index('mailbox', 'domain', 'domain'));
+    db_query_parsed(_add_index('alias',   'domain', 'domain'));
+}

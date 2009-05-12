@@ -40,24 +40,59 @@ if (authentication_has_role('global-admin')) {
    $fUsername = "";
 }
 
+$list_all_domains = 0;
 if (isset($admin_properties) && $admin_properties['domain_count'] == 'ALL') { # list all domains for superadmins
-   $list_domains = list_domains ();
+   $list_all_domains = 1;
 } elseif (!empty($fUsername)) {
   $list_domains = list_domains_for_admin ($fUsername);
 } elseif ($is_superadmin) {
-   $list_domains = list_domains ();
+   $list_all_domains = 1;
 } else {
    $list_domains = list_domains_for_admin(authentication_get_username());
 }
 
-   if (!empty ($list_domains))
-   {
-      for ($i = 0; $i < sizeof ($list_domains); $i++)
-      {
-         $domain_properties[$i] = get_domain_properties ($list_domains[$i]);
-      }
-   }
-#}
+if ($list_all_domains == 1) {
+   $where = " WHERE domain.domain != 'ALL' "; # TODO: the ALL dummy domain is annoying...
+} else {
+   $list_domains = escape_string($list_domains);
+   $where = " WHERE domain.domain IN ('" . join("','", $list_domains) . "') ";
+}
+
+# fetch domain data and number of mailboxes
+# (PgSQL requires the extensive GROUP BY statement, https://sourceforge.net/forum/message.php?msg_id=7386240)
+$query = "
+   SELECT domain.* , COUNT( DISTINCT mailbox.username ) AS mailbox_count
+   FROM domain
+   LEFT JOIN mailbox ON domain.domain = mailbox.domain
+   $where
+   GROUP BY domain.domain, domain.description, domain.aliases, domain.mailboxes,
+   domain.maxquota, domain.quota, domain.transport, domain.backupmx, domain.created,
+   domain.modified, domain.active
+   ORDER BY domain.domain
+   ";
+$result = db_query($query);
+
+while ($row = db_array ($result['result'])) {
+   $domain_properties[$row['domain']] = $row;
+}
+
+# fetch number of aliases
+# doing this separate is much faster than doing it in one "big" query
+$query = "
+   SELECT domain.domain, COUNT( DISTINCT alias.address ) AS alias_count 
+   FROM domain
+   LEFT JOIN alias ON domain.domain = alias.domain
+   $where
+   GROUP BY domain.domain
+   ORDER BY domain.domain
+   ";
+
+$result = db_query($query);
+
+while ($row = db_array ($result['result'])) {
+   # add number of aliases to $domain_properties array. mailbox aliases do not count.
+   $domain_properties [$row['domain']] ['alias_count'] = $row['alias_count'] - $domain_properties [$row['domain']] ['mailbox_count'];
+}
 
 include ("templates/header.php");
 include ("templates/menu.php");
