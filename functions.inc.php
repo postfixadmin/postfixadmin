@@ -2174,8 +2174,15 @@ function gen_show_status ($show_alias)
     // POP/IMAP CHECK
     if ( $CONF['show_popimap'] == 'YES' )
     {
+        $stat_delimiter = "";
+        if (!empty($CONF['recipient_delimiter'])) {
+            $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
+            $stat_delimiter = preg_replace('/' .$delimiter. '[^' .$delimiter. '@]*@/', "@", $stat_goto);
+            $stat_delimiter = ',' . $stat_delimiter;
+        }
+
         //if the address passed in appears in its own goto field, its POP/IMAP
-        if ( preg_match ('/,' . $show_alias . ',/', ',' . $stat_goto . ',') )
+        if ( preg_match ('/,' . $show_alias . ',/', ',' . $stat_goto . $stat_delimiter . ',') )
         {
             $stat_string .= "<span  style='background-color:" . $CONF['show_popimap_color'] .
                 "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
