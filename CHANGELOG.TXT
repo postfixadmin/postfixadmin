@@ -11,6 +11,14 @@
 # $Id$
 
 
+Version 2.3rc5 - 2009/05/20 - SVN r658
+--------------------------------------
+
+  - Improvements to the setup process
+  - Far better Debian packaging (we hope!) which should make installation much, much easier.
+  - Various bug fixes 
+  - Performance enhancements (or we fixed the regressions ...) in domain listing etc.
+
 Version 2.3rc4 - 2009/04/18 - SVN r632
 --------------------------------------
 
