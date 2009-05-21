@@ -29,12 +29,12 @@ if (ereg ("config.inc.php", $_SERVER['PHP_SELF']))
  * Doing this implies you have changed this file as required.
  * i.e. configuring database etc; specifying setup.php password etc.
  */
-$CONF['configured'] = true;
+$CONF['configured'] = false;
 
 // In order to setup Postfixadmin, you MUST specify a hashed password here.
 // To create the hash, visit setup.php in a browser and type a password into the field,
 // on submission it will be echoed out to you as a hashed value.
-$CONF['setup_password'] = 'hello';
+$CONF['setup_password'] = 'changeme';
 
 // Postfix Admin Path
 // Set the location of your Postfix Admin installation here.
@@ -52,10 +52,10 @@ $CONF['default_language'] = 'en';
 // mysql = MySQL 3.23 and 4.0, 4.1 or 5
 // mysqli = MySQL 4.1+ 
 // pgsql = PostgreSQL
-$CONF['database_type'] = 'pgsql';
-$CONF['database_host'] = 'mysqlserver';
-$CONF['database_user'] = 'dg';
-$CONF['database_password'] = 'gingerdog';
+$CONF['database_type'] = 'mysql';
+$CONF['database_host'] = 'localhost';
+$CONF['database_user'] = 'postfix';
+$CONF['database_password'] = 'postfixadmin';
 $CONF['database_name'] = 'postfix';
 $CONF['database_prefix'] = '';
 
@@ -156,7 +156,7 @@ $CONF['maxquota'] = '10';
 
 // Quota
 // When you want to enforce quota for your mailbox users set this to 'YES'.
-$CONF['quota'] = 'YES';
+$CONF['quota'] = 'NO';
 // You can either use '1024000' or '1048576'
 $CONF['quota_multiplier'] = '1024000';
 
@@ -197,7 +197,7 @@ $CONF['vacation_control_admin'] = 'YES';
 // The reason for this is that when you want catch-all and normal mailboxes
 // to work you need to have the mailbox replicated in the alias table.
 // If you want to take control of these aliases as well set this to 'YES'.
-$CONF['alias_control'] = 'YES';
+$CONF['alias_control'] = 'NO';
 
 // Alias Control for admins
 // Set to 'NO' if your domain admins shouldn't be able to edit user aliases.
@@ -362,7 +362,7 @@ $CONF['create_mailbox_subdirs_prefix']='INBOX.';
 // See: DOCUMENTATION/DOVECOT.txt
 //      http://wiki.dovecot.org/Quota/Dict
 //
-$CONF['used_quotas'] = 'YES';
+// $CONF['used_quotas'] = 'YES';
 
 //
 // Normally, the TCP port number does not have to be specified.
