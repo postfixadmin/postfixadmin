@@ -229,7 +229,7 @@ function _add_index($table, $indexname, $fieldlist) {
     if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli' ) {
         return "ALTER TABLE $table ADD INDEX `$indexname` ( `$fieldlist` )";
     } elseif($CONF['database_type'] == 'pgsql') {
-        $pgindexname = $table . "_" . $indexname;
+        $pgindexname = $table . "_" . $indexname . '_idx';
         return "CREATE INDEX $pgindexname ON $table($fieldlist);"; # Index names are unique with a DB for PostgreSQL
     } else {
         echo "Sorry, unsupported database type " . $conf['database_type'];
