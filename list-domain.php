@@ -72,6 +72,7 @@ $query = "
    ";
 $result = db_query($query);
 
+$domain_properties = array();
 while ($row = db_array ($result['result'])) {
    $domain_properties[$row['domain']] = $row;
 }
