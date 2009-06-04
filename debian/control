@@ -10,7 +10,7 @@ XS-Vcs-Browse: http://postfixadmin.svn.sourceforge.net/viewvc/postfixadmin/trunk
 
 Package: postfixadmin
 Architecture: all
-Depends: debconf (>= 0.5), dbconfig-common, wwwconfig-common (>= 0.2.0), apache2 | lighttpd, libapache2-mod-php5 | php5-cgi | php5, php5-imap, php5-mysql | php5-pgsql, mysql-client | postgresql-client, ${misc:Depends}
+Depends: debconf (>= 0.5), dbconfig-common, wwwconfig-common, apache2 | lighttpd, libapache2-mod-php5 | php5-cgi | php5, php5-imap, php5-mysql | php5-pgsql, mysql-client | postgresql-client, ${misc:Depends}
 Recommends: postfix-mysql | postfix-pgsql, mysql-server | postgresql-server
 Suggests: squirrelmail-postfixadmin, dovecot-common | courier-authlib-mysql | courier-authlib-postgresql
 Description: Virtual mail hosting interface for Postfix

@@ -16,7 +16,11 @@ if [ "$1" = "configure" ]; then
 	linkdestination_apache="../../postfixadmin/apache.conf"
 	linkdestination_lighttpd="../../postfixadmin/lighttpd.conf"
 	linkname="postfixadmin"
-	. /usr/share/wwwconfig-common/confd-link.sh
+	if [ -e /usr/share/wwwconfig-common/confd-link.sh ]; then
+		. /usr/share/wwwconfig-common/confd-link.sh
+	else
+		. /usr/share/postfixadmin/confd-link.sh
+	fi
 	. /usr/share/wwwconfig-common/restart.sh
 fi
 
