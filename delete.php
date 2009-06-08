@@ -142,6 +142,7 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
                 }
                 $tMessage.=')</span>';
             }
+            db_log ($SESSID_USERNAME, $fDomain, 'delete_mailbox', $fDelete);
         }
         $result = db_query("SELECT * FROM $table_vacation WHERE email = '$fDelete' AND domain = '$fDomain'");
         if($result['rows'] == 1) {
