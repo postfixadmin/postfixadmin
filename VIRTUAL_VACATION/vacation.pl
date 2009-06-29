@@ -87,6 +87,16 @@
 # http://dag.wieers.com/home-made/apt/packages.php
 #
 
+use DBI;
+use MIME::Base64;
+use MIME::EncWords qw(:all);
+use Email::Valid;
+use strict;
+use Mail::Sendmail;
+use Getopt::Std;
+use Log::Log4perl qw(get_logger :levels);
+use File::Basename;
+
 # ========== begin configuration ==========
 
 # IMPORTANT: If you put passwords into this script, then remember
@@ -101,8 +111,8 @@ our $db_type = 'Pg';
 our $db_host = '';
 
 # connection details
-our $db_username = 'dg';
-our $db_password = 'gingerdog';
+our $db_username = 'user';
+our $db_password = 'password';
 our $db_name     = 'postfix';
 
 our $vacation_domain = 'autoreply.example.org';
@@ -115,11 +125,12 @@ our $syslog = 0;
 
 # path to logfile, when empty logging is supressed
 # change to e.g. /dev/null if you want nothing logged.
-# if we can't write to this, we try /tmp/vacation.log instead
-our $logfile='/var/spool/vacation/vacation.log';
+# if we can't write to this, and $log_to_file is 1 (below) the script will abort.
+our $logfile='/var/log/vacation.log';
 # 2 = debug + info, 1 = info only, 0 = error only
 our $log_level = 2;
-
+# Whether to log to file or not, 0 = do not write to a log file
+our $log_to_file = 1; 
 
 # notification interval, in seconds
 # set to 0 to notify only once
@@ -137,18 +148,13 @@ if (-f "/etc/mail/postfixadmin/vacation.conf") {
 
 # =========== end configuration ===========
 
-if ( ! -w $logfile ) {
-    $logfile = "/tmp/vacation.log";
+if($log_to_file == 1) {
+    if (( ! -w $logfile ) && (! -w dirname($logfile))) {
+        # Cannot log; no where to write to.
+        die("Cannot create logfile : $logfile");
+    }
 }
 
-use DBI;
-use MIME::Base64;
-use MIME::EncWords qw(:all);
-use Email::Valid;
-use strict;
-use Mail::Sendmail;
-use Getopt::Std;
-use Log::Log4perl qw(get_logger :levels);
 
 my ($from, $to, $cc, $replyto , $subject, $messageid, $lastheader, $smtp_sender, $smtp_recipient, %opts, $spam, $test_mode, $logger);
 
@@ -175,15 +181,17 @@ if($test_mode == 1) {
     $logger->debug("Test mode enabled");
 }
 else {
-    # log to file.
-    my $appender = Log::Log4perl::Appender->new(
-        'Log::Dispatch::File', 
-        filename => $logfile,
-        mode => 'append');
-
     $logger = get_logger();
-    $appender->layout($log_layout);
-    $logger->add_appender($appender);
+    if($log_to_file == 1) {
+        # log to file.
+        my $appender = Log::Log4perl::Appender->new(
+            'Log::Dispatch::File', 
+            filename => $logfile,
+            mode => 'append');
+
+        $appender->layout($log_layout);
+        $logger->add_appender($appender);
+    }
 
     if($syslog == 1) {
         my $syslog_appender = Log::Log4perl::Appender->new(
