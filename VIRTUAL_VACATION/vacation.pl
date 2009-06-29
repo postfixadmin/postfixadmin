@@ -56,15 +56,18 @@
 #             Use Log4Perl
 #             Added better testing (and -t option)
 #
+# 2009-06-29  Steve (sbajic/sf.net) 
+#             Add Mail::Sender for SMTP auth + more flexibility
+#
 # Requirements - the following perl modules are required:
 # DBD::Pg or DBD::mysql 
-# Mail::Sendmail, Email::Valid MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords and GetOpt::Std 
+# Mail::Sender, Email::Valid MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords and GetOpt::Std 
 #
 # You may install these via CPAN, or through your package tool.
 # CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
 #
 # On Debian based systems : 
-#   libmail-sendmail-perl
+#   libmail-sender-perl
 #   libdbd-pg-perl
 #   libemail-valid-perl
 #   libmime-perl
@@ -92,7 +95,7 @@ use MIME::Base64;
 use MIME::EncWords qw(:all);
 use Email::Valid;
 use strict;
-use Mail::Sendmail;
+use Mail::Sender;
 use Getopt::Std;
 use Log::Log4perl qw(get_logger :levels);
 use File::Basename;
@@ -119,6 +122,16 @@ our $vacation_domain = 'autoreply.example.org';
 
 # smtp server used to send vacation e-mails
 our $smtp_server = 'localhost';
+our $smtp_server_port = 25;
+
+# SMTP authentication protocol used for sending.
+# Can be 'PLAIN', 'LOGIN', 'CRAM-MD5' or 'NTLM'
+# Leave it blank if you don't use authentification
+our $smtp_auth = undef;
+# username used to login to the server
+our $smtp_authid = 'someuser';
+# password used to login to the server
+our $smtp_authpwd = 'somepass';
 
 # Set to 1 to enable logging to syslog.
 our $syslog = 0;
@@ -130,7 +143,7 @@ our $logfile='/var/log/vacation.log';
 # 2 = debug + info, 1 = info only, 0 = error only
 our $log_level = 2;
 # Whether to log to file or not, 0 = do not write to a log file
-our $log_to_file = 1; 
+our $log_to_file = 0; 
 
 # notification interval, in seconds
 # set to 0 to notify only once
@@ -386,27 +399,38 @@ sub send_vacation_email {
         my $body = $row[1];
         my $from = $email;
         my $to = $orig_from;
-        my $vacation_subject = encode_mimewords($subject, 'Encoding'=> 'q', 'Charset'=>'utf-8', 'Field'=>'Subject');
-        my %mail;
-        %mail = (
+        my %smtp_connection;
+        %smtp_connection = (
             'smtp' => $smtp_server,
-            'Subject' => $vacation_subject,
-            'From' => $from,
-            'To' => $to,
-            'MIME-Version' => '1.0',
-            'Content-Type' => 'text/plain; charset=UTF-8',
-            'Content-Transfer-Encoding' => 'base64',
-            'Precedence' => 'junk',
-            'X-Loop' => 'Postfix Admin Virtual Vacation',
-            'Message' => encode_base64($body)
+            'port' => $smtp_server_port,
+            'auth' => $smtp_auth,
+            'authid' => $smtp_authid,
+            'authpwd' => $smtp_authpwd,
+            'skip_bad_recipients' => 'true',
+            'encoding' => 'Base64',
+            'ctype' => 'text/plain; charset=UTF-8',
+            'headers' => 'Precedence: junk',
+            'headers' => 'X-Loop: Postfix Admin Virtual Vacation',
+        );
+        my %mail;
+        # I believe Mail::Sender qp encodes the subject, so we no longer need to.
+        %mail = (
+            'subject' => $subject,
+            'from' => $from,
+            'to' => $to,
+            'msg' => encode_base64($body)
         );
         if($test_mode == 1) {
             $logger->info("** TEST MODE ** : Vacation response sent to $to from $from subject $subject (not) sent\n");
             $logger->info(%mail);
             return 0;
         }
-        sendmail(%mail) or $logger->error("Failed to send vacation response: " . $Mail::Sendmail::error);
-        $logger->debug("Vacation response sent, Mail::Sendmail said : " . $Mail::Sendmail::log);
+        $Mail::Sender::NO_X_MAILER = 1;
+        my $sender = new Mail::Sender({%smtp_connection});
+        $sender->Open({%mail});
+        $sender->SentLineEnc($body);
+        $sender->Close() or $logger->error("Failed to send vacation response: " . $sender->{'error_msg'});
+        $logger->debug("Vacation response sent to $to, from $from");
     }
 }
 
