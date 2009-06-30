@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if ($error != 1)
     {
-        $uh = new UserHandleR($username);
+        $uh = new UserHandler($username);
         if($uh->change_pass($fPassword_current, $fPassword)) {
             flash_info($PALANG['pPassword_result_success']);
             header("Location: main.php");
