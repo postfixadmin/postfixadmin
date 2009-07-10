@@ -16,12 +16,6 @@
  * Contains re-usable code.
  */
 
-if (ereg ("functions.inc.php", $_SERVER['PHP_SELF']))
-{  
-    header ("Location: login.php");
-    exit;
-}
-
 $version = '2.3 rc5';
 
 /**
