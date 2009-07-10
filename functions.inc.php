@@ -1135,7 +1135,7 @@ function pacrypt ($pw, $pw_db="")
     }
 
     elseif ($CONF['encrypt'] == 'system') {
-        if (ereg ("\$1\$", $pw_db)) {
+        if (preg_match("/\$1\$/", $pw_db)) {
             $split_salt = preg_split ('/\$/', $pw_db);
             $salt = $split_salt[2];
         }
@@ -1171,7 +1171,7 @@ function pacrypt ($pw, $pw_db="")
     elseif ($CONF['encrypt'] == 'authlib') {
         $flavor = $CONF['authlib_default_flavor'];
         $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
-        if(ereg('^{.*}', $pw_db)) {
+        if(preg_match'/^{.*}/', $pw_db)) {
             // we have a flavor in the db -> use it instead of default flavor
             $result = split('{|}', $pw_db, 3);
             $flavor = $result[1];  
@@ -1554,7 +1554,7 @@ function db_query ($query, $ignore_errors = 0)
     if ($error_text != "" && $ignore_errors == 0) die($error_text);
 
     if ($error_text == "") {
-        if (eregi ("^SELECT", $query))
+        if (preg_match("/^SELECT/i", $query))
         {
             // if $query was a SELECT statement check the number of rows with [database_type]_num_rows ().
             if ($CONF['database_type'] == "mysql") $number_rows = mysql_num_rows ($result);
