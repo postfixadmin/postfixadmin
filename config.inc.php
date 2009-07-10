@@ -16,12 +16,6 @@
  * Contains configuration options.
  */
 
-if (ereg ("config.inc.php", $_SERVER['PHP_SELF']))
-{
-   header ("Location: login.php");
-   exit;
-}
-
 /*****************************************************************
  *  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
  * The following line needs commenting out or removing before the
