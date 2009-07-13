@@ -1171,7 +1171,7 @@ function pacrypt ($pw, $pw_db="")
     elseif ($CONF['encrypt'] == 'authlib') {
         $flavor = $CONF['authlib_default_flavor'];
         $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
-        if(preg_match'/^{.*}/', $pw_db)) {
+        if(preg_match('/^{.*}/', $pw_db)) {
             // we have a flavor in the db -> use it instead of default flavor
             $result = split('{|}', $pw_db, 3);
             $flavor = $result[1];  
