@@ -41,7 +41,12 @@ if (authentication_has_role('global-admin')) {
 }
 
 print _menulink("list-domain.php", $PALANG['pAdminMenu_list_domain'], $submenu_domain);
-print _menulink("list-virtual.php", $PALANG['pAdminMenu_list_virtual'], $submenu_virtual);
+
+$link = 'list-virtual.php';
+if(isset($_SESSION['list_virtual_sticky_domain'])) {
+    $link = "list-virtual.php?domain=" . htmlentities($_SESSION['list_virtual_sticky_domain'], ENT_QUOTES);
+}
+print _menulink($link, $PALANG['pAdminMenu_list_virtual'], $submenu_virtual);
 
 if ($CONF['fetchmail'] == 'YES') {
    print _menulink("fetchmail.php", $PALANG['pMenu_fetchmail'], $submenu_fetchmail);

@@ -1,4 +1,9 @@
 <?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
+<?php
+if(isset($_SESSION['list_virtual_sticky_domain'])) {
+    echo "<a href='list-virtual.php?domain=" . htmlentities($_SESSION['list_virtual_sticky_domain'], ENT_QUOTES) . "'>" . $PALANG['pAdminMenu_list_virtual'] . "</a>";
+}
+?>
 <div id="edit_form">
 <form name="mailbox" method="post">
 <table>

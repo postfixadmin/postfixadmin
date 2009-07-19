@@ -33,6 +33,7 @@ require_once('common.php');
 
 authentication_require_role('admin');
 
+$fDomain = false;
 $SESSID_USERNAME = authentication_get_username();
 
 if (authentication_has_role('global-admin')) {
@@ -57,6 +58,12 @@ else
 {
     if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
     if (isset ($_POST['limit'])) $fDisplay = intval ($_POST['limit']);
+}
+
+// store fDomain in $_SESSION so after adding/editing aliases/mailboxes we can 
+// take the user back to the appropriate domain listing. (see templates/menu.php)
+if($fDomain) {
+    $_SESSION['list_virtual_sticky_domain'] = $fDomain;
 }
 
 if (count($list_domains) == 0) {

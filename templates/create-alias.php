@@ -1,4 +1,5 @@
 <?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
+<!-- 'breadcrumb' -->
 <div id="edit_form">
 <form name="alias" method="post">
 <table>
