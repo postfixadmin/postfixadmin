@@ -76,7 +76,7 @@ if (sizeof ($tAlias) > 0)
                $fSearch . "</span>", $tAlias[$i]['goto']);
            $tAlias[$i]['goto'] = $new_goto;
          }
-         print "      <td>" . ereg_replace (",", "<br>", $tAlias[$i]['goto']) . "</td>\n";
+         print "      <td>" . preg_replace ("/,/", "<br>", $tAlias[$i]['goto']) . "</td>\n";
          print "      <td>" . $tAlias[$i]['modified'] . "</td>\n";
          if ($CONF['special_alias_control'] == 'YES' || authentication_has_role('global-admin'))
          {
