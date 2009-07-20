@@ -11,6 +11,13 @@
 # $Id$
 
 
+Version 2.3rc6 - 2009/07/20 - SVN r689
+--------------------------------------
+
+  - Updates to vacation.pl
+  - PHP 5.3 compatibility
+  - Easier dependencies for .debs - should work on Lenny/Ubuntu etc without issue now.
+
 Version 2.3rc5 - 2009/05/20 - SVN r658
 --------------------------------------
 
