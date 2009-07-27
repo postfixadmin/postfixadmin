@@ -11,6 +11,12 @@
 # $Id$
 
 
+Version 2.3rc7 - 2009/07/27 - SVN r691
+--------------------------------------
+
+  - Fix bug with confd-link.sh debian thing (breakage on Lenny with wwwconfig-common 0.1.2)
+  - Fix crypt() issue (see https://sourceforge.net/tracker/?func=detail&aid=2814820&group_id=191583&atid=937964 )
+
 Version 2.3rc6 - 2009/07/20 - SVN r689
 --------------------------------------
 
