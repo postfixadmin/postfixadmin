@@ -1135,9 +1135,9 @@ function pacrypt ($pw, $pw_db="")
     }
 
     elseif ($CONF['encrypt'] == 'system') {
-        if (preg_match("/\$1\$/", $pw_db)) {
+        if (ereg("\\$1\\$", $pw_db)) {
             $split_salt = preg_split ('/\$/', $pw_db);
-            $salt = $split_salt[2];
+            $salt = "\$1\$${split_salt[2]}\$";
         }
         else {
             if (strlen($pw_db) == 0) {
