@@ -54,9 +54,9 @@ echo $res;
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
    umask (077);
-   $path = (ini_get('upload_tmp_dir') != '') ? ini_get('upload_tmp_dir') : '/tmp/';
+   $path = (ini_get('upload_tmp_dir') != '') ? ini_get('upload_tmp_dir') : '/tmp';
    $filename = "postfixadmin-" . date ("Ymd") . "-" . getmypid() . ".sql";
-   $backup = $path . $filename;
+   $backup = $path . DIRECTORY_SEPARATOR . $filename;
 
    $header = "#\n# Postfix Admin $version\n# Date: " . date ("D M j G:i:s T Y") . "\n#\n";
 
