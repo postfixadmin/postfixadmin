@@ -1184,8 +1184,10 @@ function pacrypt ($pw, $pw_db="")
             $password = '{' . $flavor . '}' . base64_encode(md5($pw, TRUE));
         } elseif(stripos($flavor, 'crypt') === 0) {
             $password = '{' . $flavor . '}' . crypt($pw, $salt);
+	} elseif(stripos($flavor, 'SHA') === 0) {
+	    $password = '{' . $flavor . '}' . base64_encode(sha1($pw, TRUE));
         } else {
-            die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5' and 'crypt'");
+            die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5', 'SHA' and 'crypt'");
         }
     }
 
