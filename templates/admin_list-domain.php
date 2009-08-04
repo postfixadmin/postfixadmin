@@ -71,10 +71,10 @@ if (sizeof ($domain_properties) > 0)
             print "</td>\n";
          }
          if ($CONF['transport'] == 'YES') print "<td>" . $domain_properties[$i]['transport'] . "</td>";
-         $backupmx = ($domain_properties[$i]['backupmx'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
+         $backupmx = ($domain_properties[$i]['backupmx'] == db_get_boolean(true)) ? $PALANG['YES'] : $PALANG['NO'];
          print "<td>$backupmx</td>";
          print "<td>" . $domain_properties[$i]['modified'] . "</td>";
-         $active = ($domain_properties[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
+         $active = ($domain_properties[$i]['active'] == db_get_boolean(true)) ? $PALANG['YES'] : $PALANG['NO'];
          print "<td><a href=\"edit-active-domain.php?domain=" . $domain_properties[$i]['domain'] . "\">" . $active . "</a></td>";
          print "<td><a href=\"edit-domain.php?domain=" . $domain_properties[$i]['domain'] . "\">" . $PALANG['edit'] . "</a></td>";
          print "<td><a href=\"delete.php?table=domain&delete=" . $domain_properties[$i]['domain'] . "\" onclick=\"return confirm ('" . $PALANG['confirm_domain'] . $PALANG['pAdminList_admin_domain'] . ": " . $domain_properties[$i]['domain'] . "')\">" . $PALANG['del'] . "</a></td>";
