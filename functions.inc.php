@@ -1514,9 +1514,9 @@ function db_get_boolean($bool) {
     if($CONF['database_type']=='pgsql') {
         // return either true or false (unquoted strings)
         if($bool) {
-            return 'true';
+            return 't';
         }  
-        return 'false';
+        return 'f';
     }
     elseif($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli') {
         if($bool) {
