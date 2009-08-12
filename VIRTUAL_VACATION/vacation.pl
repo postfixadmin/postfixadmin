@@ -327,9 +327,9 @@ sub find_real_address {
         $logger->debug("Found '\$email'\ has vacation active");
     } else {
         $logger->debug("Looking for alias records that \'$email\' resolves to with vacation turned on");
-        $query = qq{SELECT goto FROM alias WHERE address=? AND (goto LIKE ?,% OR goto LIKE %,? OR goto LIKE %,?,%)};
+        $query = qq{SELECT goto FROM alias WHERE address=? AND (goto LIKE ? OR goto LIKE % OR goto LIKE ?)};
         $stm = $dbh->prepare($query) or panic_prepare($query);
-        $stm->execute($email,$email,$email,$email) or panic_execute($query,"address='$email'");
+        $stm->execute($email,"$email,%","%,$email","%,$email,%") or panic_execute($query,"address='$email'");
         $rv = $stm->rows;
 
 # Recipient is an alias, check if mailbox has vacation
