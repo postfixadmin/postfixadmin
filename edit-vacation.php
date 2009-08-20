@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
           $result = db_query("UPDATE $table_vacation SET active = $Active, subject = '$fSubject', body = '$fBody', created = NOW() WHERE email = '$fUsername'");
       }
       else {
-          $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$fUsername','$fSubject','$fBody','$fDomain',NOW(),$Active)");
+          $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$fUsername','$fSubject','$fBody','$fDomain',NOW(),'$Active')");
       }
 
       if ($result['rows'] != 1)
