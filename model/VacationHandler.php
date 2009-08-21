@@ -29,7 +29,7 @@ class VacationHandler {
         // tidy up vacation table.
         $active = db_get_boolean(False);
         $username = escape_string($this->username);
-        $result = db_query("UPDATE $table_vacation SET active = $active WHERE email='$username'");
+        $result = db_query("UPDATE $table_vacation SET active = '$active' WHERE email='$username'");
         $result = db_query("DELETE FROM $table_vacation_notification WHERE on_vacation='$username'");
         /* crap error handling; oh for exceptions... */
         return true;
@@ -95,12 +95,12 @@ class VacationHandler {
         $active = db_get_boolean(True);
         // check if the user has a vacation entry already, if so just update it
         if($result['rows'] == 1) {
-            $result = db_query("UPDATE $table_vacation SET active = $active, body = '$body', subject = '$subject', created = NOW() WHERE email = '$username'");
+            $result = db_query("UPDATE $table_vacation SET active = '$active', body = '$body', subject = '$subject', created = NOW() WHERE email = '$username'");
         }
         else {
             $tmp = preg_split ('/@/', $username);
             $domain = escape_string($tmp[1]);
-            $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$username','$subject','$body','$domain',NOW(),$active)");
+            $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$username','$subject','$body','$domain',NOW(),'$active')");
         }
 
         $ah = new AliasHandler($this->username); 

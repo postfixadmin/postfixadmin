@@ -30,7 +30,7 @@ class UserHandler {
         $table_mailbox = table_by_key('mailbox');
 
         $active = db_get_boolean(True);
-        $result = db_query("SELECT * FROM $table_mailbox WHERE username='$username' AND active=$active");
+        $result = db_query("SELECT * FROM $table_mailbox WHERE username='$username' AND active='$active'");
         $new_db_password = escape_string(pacrypt($new_password));
 
         $result = db_query ("UPDATE $table_mailbox SET password='$new_db_password',modified=NOW() WHERE username='$username'");
@@ -51,7 +51,7 @@ class UserHandler {
 
         $table_mailbox = table_by_key('mailbox');
         $active = db_get_boolean(True);
-        $query = "SELECT password FROM $table_mailbox WHERE username='$username' AND active=$active";
+        $query = "SELECT password FROM $table_mailbox WHERE username='$username' AND active='$active'";
 
         $result = db_query ($query);
         if ($result['rows'] == 1)
