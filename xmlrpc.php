@@ -10,7 +10,7 @@
  * $http_client->setCookieJar();
  *
  * $login_object = $xmlrpc->getProxy('login');
- * $success = $login_object->login($username, $password);
+ * $success = $login_object->login($email_address, $password);
  *
  * if($success) {
  *     echo "We're logged in";
@@ -22,7 +22,7 @@
  * $alias = $xmlrpc->getProxy('alias');
  * $vacation = $xmlrpc->getProxy('vacation');
  *
- * if($vacation->isEnabled()) {
+ * if($vacation->checkVacation()) {
  *     echo "Vacation turned on for user";
  * }
  *
