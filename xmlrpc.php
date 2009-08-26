@@ -4,7 +4,7 @@
  *
  * Usage example:
  * require_once('Zend/XmlRpc/Client.php');
- * $xmlrpc = new Zend_XmlRpc_Client('http://server/xmlrpc.php');
+ * $xmlrpc = new Zend_XmlRpc_Client('https://server/xmlrpc.php');
  *
  * $http_client = $xmlrpc->getHttpClient();
  * $http_client->setCookieJar();
@@ -32,6 +32,9 @@
  */
 require_once(dirname(__FILE__) . '/common.php');
 
+if($CONF['xmlrpc_enabled'] == false) {
+    die("xmlrpc support disabled");
+}
 require_once('Zend/XmlRpc/Server.php');
 $server = new Zend_XmlRpc_Server();
 
