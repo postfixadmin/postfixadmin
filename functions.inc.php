@@ -1461,7 +1461,10 @@ function db_connect ($ignore_errors = 0)
     {
         if (function_exists ("pg_pconnect"))
         {
-            $connect_string = "host=" . $CONF['database_host'] . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
+            if(!isset($CONF['database_port'])) {
+                $CONF['database_port'] = '5432';
+            }
+            $connect_string = "host=" . $CONF['database_host'] . " port=" . $CONF['database_port'] . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
             $link = @pg_pconnect ($connect_string) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: failed to connect to database. $DEBUG_TEXT");
             if ($link) pg_set_client_encoding($link, 'UNICODE');
         }
