@@ -52,6 +52,12 @@ $CONF['database_user'] = 'postfix';
 $CONF['database_password'] = 'postfixadmin';
 $CONF['database_name'] = 'postfix';
 $CONF['database_prefix'] = '';
+// If you need to specify a different port for a MYSQL database connection, use e.g.
+//   $CONF['database_host'] = '172.30.33.66:3308';
+// If you need to specify a different port for POSTGRESQL database connection
+//   uncomment and change the following
+// $CONF['database_port'] = '5432';
+
 
 // Here, if you need, you can customize table names.
 $CONF['database_prefix'] = '';
