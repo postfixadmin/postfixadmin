@@ -119,11 +119,11 @@ username_field = username
 Create database in Mysql:
 
 create table quota (
-  username varchar(255) not null,
-  path varchar(100) not null,
+  username varchar(255) /*!40100 CHARACTER SET latin1 */ not null,
+  path     varchar(100) /*!40100 CHARACTER SET latin1 */ not null,
   current integer,
   primary key (username, path)
-); 
+) TYPE=MyISAM ; 
 
 
 Enable quota support in Postfixadmin config.inc.php:
