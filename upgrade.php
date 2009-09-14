@@ -600,7 +600,7 @@ function upgrade_4_pgsql() {
         COMMIT;"
     );
     if(!_pgsql_object_exists('mailbox_username_active')) {
-        db_query_parsed('CREATE INDEX mailbox_username_active ON $table_mailbox(username,active)');
+        db_query_parsed("CREATE INDEX mailbox_username_active ON $table_mailbox(username,active)");
     }
 
 
