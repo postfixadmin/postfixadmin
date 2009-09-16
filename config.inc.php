@@ -18,7 +18,7 @@
 
 /*****************************************************************
  *  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
- * The following line needs commenting out or removing before the
+ * You have to set $CONF['configured'] = true; before the
  * application will run!
  * Doing this implies you have changed this file as required.
  * i.e. configuring database etc; specifying setup.php password etc.
