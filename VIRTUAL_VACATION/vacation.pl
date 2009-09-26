@@ -213,7 +213,7 @@ if($test_mode == 1) {
     if($syslog == 1) {
         my $syslog_appender = Log::Log4perl::Appender->new(
             'Log::Dispatch::Syslog',
-            Facility => 'user',
+            Facility => 'mail',
         );
         $logger->add_appender($syslog_appender);
     }
@@ -282,7 +282,7 @@ sub already_notified {
             my @row = $stm->fetchrow_array;
             my $int = $row[0];
             if ($int > $interval) {
-                $logger->debug("[Interval elapsed, sending the message]: From: $from To:$to");
+                $logger->info("[Interval elapsed, sending the message]: From: $from To:$to");
                 $query = qq{UPDATE vacation_notification SET notified_at=NOW() WHERE on_vacation=? AND notified=?};
                 $stm = $dbh->prepare($query);
                 if (!$stm) {
