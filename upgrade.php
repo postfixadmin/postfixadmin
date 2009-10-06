@@ -169,6 +169,8 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 */',
                 '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
                 '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
+                '{MYISAM}'          => 'ENGINE=MyISAM',
+                '{INNODB}'          => 'ENGINE=InnoDB',
                 );
         $sql = "$sql $attach_mysql";
 
@@ -179,10 +181,12 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{UNSIGNED}'        => '', 
                 '{FULLTEXT}'        => '', 
                 '{BOOLEAN}'         => 'BOOLEAN NOT NULL', 
-                '{UTF-8}'           => '', # TODO: UTF-8 is simply ignored.
-                '{LATIN1}'          => '', # TODO: same for latin1 
-                '{IF_NOT_EXISTS}'   => '', # TODO: does this work with PgSQL? NO
+                '{UTF-8}'           => '', # UTF-8 is simply ignored.
+                '{LATIN1}'          => '', # same for latin1 
+                '{IF_NOT_EXISTS}'   => '', # does not work with PgSQL
                 '{RENAME_COLUMN}'   => 'ALTER COLUMN', # PgSQL : ALTER TABLE x RENAME x TO y
+                '{MYISAM}'          => '',
+                '{INNODB}'          => '',
                 'int(1)'            => 'int',
                 'int(10)'           => 'int', 
                 'int(11)'           => 'int', 
@@ -257,7 +261,7 @@ function upgrade_1_mysql() {
       `modified` datetime NOT NULL default '0000-00-00 00:00:00',
       `active` tinyint(1) NOT NULL default '1',
       PRIMARY KEY  (`username`)
-  ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Admins';";
+  ) {MYISAM} COMMENT='Postfix Admin - Virtual Admins';";
 
     $sql[] = "
     CREATE TABLE {IF_NOT_EXISTS} $alias (
@@ -268,7 +272,7 @@ function upgrade_1_mysql() {
       `modified` datetime NOT NULL default '0000-00-00 00:00:00',
       `active` tinyint(1) NOT NULL default '1',
       PRIMARY KEY  (`address`)
-    ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Aliases'; ";
+    ) {MYISAM} COMMENT='Postfix Admin - Virtual Aliases'; ";
 
     $sql[] = "
     CREATE TABLE {IF_NOT_EXISTS} $domain (
@@ -284,7 +288,7 @@ function upgrade_1_mysql() {
       `modified` datetime NOT NULL default '0000-00-00 00:00:00',
       `active` tinyint(1) NOT NULL default '1',
       PRIMARY KEY  (`domain`)
-    ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Domains'; ";
+    ) {MYISAM} COMMENT='Postfix Admin - Virtual Domains'; ";
 
     $sql[] = "
     CREATE TABLE {IF_NOT_EXISTS} $domain_admins (
@@ -293,7 +297,7 @@ function upgrade_1_mysql() {
       `created` datetime NOT NULL default '0000-00-00 00:00:00',
       `active` tinyint(1) NOT NULL default '1',
       KEY username (`username`)
-    ) TYPE=MyISAM COMMENT='Postfix Admin - Domain Admins';";
+    ) {MYISAM} COMMENT='Postfix Admin - Domain Admins';";
 
     $sql[] = "
     CREATE TABLE {IF_NOT_EXISTS} $log (
@@ -303,7 +307,7 @@ function upgrade_1_mysql() {
       `action` varchar(255) NOT NULL default '',
       `data` varchar(255) NOT NULL default '',
       KEY timestamp (`timestamp`)
-    ) TYPE=MyISAM COMMENT='Postfix Admin - Log';";
+    ) {MYISAM} COMMENT='Postfix Admin - Log';";
 
     $sql[] = "
     CREATE TABLE {IF_NOT_EXISTS} $mailbox (
@@ -317,7 +321,7 @@ function upgrade_1_mysql() {
       `modified` datetime NOT NULL default '0000-00-00 00:00:00',
       `active` tinyint(1) NOT NULL default '1',
       PRIMARY KEY  (`username`)
-    ) TYPE=MyISAM COMMENT='Postfix Admin - Virtual Mailboxes';";
+    ) {MYISAM} COMMENT='Postfix Admin - Virtual Mailboxes';";
 
     $sql[] = "
     CREATE TABLE {IF_NOT_EXISTS} $vacation ( 
@@ -330,7 +334,7 @@ function upgrade_1_mysql() {
         active tinyint(4) NOT NULL default '1', 
         PRIMARY KEY (email), 
         KEY email (email) 
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 TYPE=InnoDB COMMENT='Postfix Admin - Virtual Vacation' ;";
+    ) {INNODB} DEFAULT CHARSET=utf8 COMMENT='Postfix Admin - Virtual Vacation' ;";
 
     foreach($sql as $query) {
         db_query_parsed($query);
@@ -657,7 +661,7 @@ function upgrade_5_mysql() {
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`username`),
     KEY username (`username`)
-) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Admins'; ");
+) {MYISAM} DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Admins'; ");
 
     $result = db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('alias') . "` (
@@ -669,7 +673,7 @@ function upgrade_5_mysql() {
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`address`),
     KEY address (`address`)
-            ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Aliases';
+            ) {MYISAM} DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Aliases';
     ");
 
     $result = db_query_parsed("
@@ -687,7 +691,7 @@ function upgrade_5_mysql() {
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`domain`),
     KEY domain (`domain`)
-            ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Domains';
+            ) {MYISAM} DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Domains';
     ");
 
     $result = db_query_parsed("
@@ -697,7 +701,7 @@ function upgrade_5_mysql() {
             `created` datetime NOT NULL default '0000-00-00 00:00:00',
             `active` tinyint(1) NOT NULL default '1',
             KEY username (`username`)
-        ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Domain Admins';
+        ) {MYISAM} DEFAULT {LATIN1} COMMENT='Postfix Admin - Domain Admins';
     ");
 
     $result = db_query_parsed("
@@ -708,7 +712,7 @@ function upgrade_5_mysql() {
             `action` varchar(255) NOT NULL default '',
             `data` varchar(255) NOT NULL default '',
             KEY timestamp (`timestamp`)
-        ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Log';
+        ) {MYISAM} DEFAULT {LATIN1} COMMENT='Postfix Admin - Log';
     ");
 
     $result = db_query_parsed("
@@ -724,7 +728,7 @@ function upgrade_5_mysql() {
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`username`),
     KEY username (`username`)
-            ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Mailboxes';
+            ) {MYISAM} DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Mailboxes';
     ");
 
     $result = db_query_parsed("
@@ -738,7 +742,7 @@ function upgrade_5_mysql() {
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`email`),
     KEY email (`email`)
-            ) TYPE=MyISAM DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Vacation';
+            ) {MYISAM} DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Vacation';
     ");
 }
 
@@ -764,7 +768,7 @@ function upgrade_81_mysql() { # MySQL only
         ALTER TABLE `$table_vacation` CHANGE `domain`   `domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_vacation` CHANGE `active`   `active`  TINYINT( 1 )            NOT NULL DEFAULT '1'
         ALTER TABLE `$table_vacation` DEFAULT  {LATIN1}
-        ALTER TABLE `$table_vacation` ENGINE = INNODB
+        ALTER TABLE `$table_vacation` {INNODB}
     "));
 
     foreach ($all_sql as $sql) {
@@ -813,7 +817,7 @@ function upgrade_318_mysql() {
         CONSTRAINT `vacation_notification_pkey` 
         FOREIGN KEY (`on_vacation`) REFERENCES $table_vacation(`email`) ON DELETE CASCADE
     )
-    ENGINE=InnoDB TYPE=InnoDB 
+    {INNODB}
     COMMENT='Postfix Admin - Virtual Vacation Notifications'
     ");
 
@@ -917,7 +921,7 @@ function upgrade_438_mysql() {
             PRIMARY KEY  (`alias_domain`),
             KEY `active` (`active`),
             KEY `target_domain` (`target_domain`)
-        ) TYPE=MyISAM COMMENT='Postfix Admin - Domain Aliases'
+        ) {MYISAM} COMMENT='Postfix Admin - Domain Aliases'
     ");
 }
 
