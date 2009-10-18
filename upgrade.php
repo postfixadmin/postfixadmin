@@ -171,6 +171,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
                 '{MYISAM}'          => 'ENGINE=MyISAM',
                 '{INNODB}'          => 'ENGINE=InnoDB',
+                '{BIGINT}'          => 'bigint',
                 );
         $sql = "$sql $attach_mysql";
 
@@ -187,6 +188,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{RENAME_COLUMN}'   => 'ALTER COLUMN', # PgSQL : ALTER TABLE x RENAME x TO y
                 '{MYISAM}'          => '',
                 '{INNODB}'          => '',
+                '{BIGINT}'          => 'bigint',
                 'int(1)'            => 'int',
                 'int(10)'           => 'int', 
                 'int(11)'           => 'int', 
@@ -1085,4 +1087,95 @@ function upgrade_504_mysql() {
 function upgrade_655() {
     db_query_parsed(_add_index('mailbox', 'domain', 'domain'));
     db_query_parsed(_add_index('alias',   'domain', 'domain'));
+}
+
+function upgrade_729() {
+    $table_quota = table_by_key('quota');
+    $table_quota2 = table_by_key('quota2');
+
+    # table for dovecot v1.0 & 1.1
+    db_query_parsed("
+    CREATE TABLE {IF_NOT_EXISTS} $table_quota (
+        username VARCHAR(255) {LATIN1} NOT NULL,
+        path     VARCHAR(100) {LATIN1} NOT NULL,
+        current  {BIGINT},
+        PRIMARY KEY (username, path)
+    ) {MYISAM} ; 
+    ");
+
+    # table for dovecot >= 1.2
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $table_quota2 (
+            username VARCHAR(100) {LATIN1} NOT NULL,
+            bytes {BIGINT} NOT NULL DEFAULT 0,
+            messages integer NOT NULL DEFAULT 0,
+            PRIMARY KEY (username)
+        ) {MYISAM} ;
+    ");
+}
+
+function upgrade_730_pgsql() {
+    $table_quota = table_by_key('quota');
+    $table_quota2 = table_by_key('quota2');
+
+    # trigger for dovecot v1.0 & 1.1 quota table
+    # taken from http://wiki.dovecot.org/Quota/Dict
+    db_query_parsed("
+        CREATE OR REPLACE FUNCTION merge_quota() RETURNS TRIGGER AS \$merge_quota\$
+        BEGIN
+            UPDATE $table_quota SET current = NEW.current + current WHERE username = NEW.username AND path = NEW.path;
+            IF found THEN
+                RETURN NULL;
+            ELSE
+                RETURN NEW;
+            END IF;
+      END;
+      \$merge_quota\$ LANGUAGE plpgsql;
+    ");
+    db_query_parsed("
+        CREATE TRIGGER mergequota BEFORE INSERT ON $table_quota FOR EACH ROW EXECUTE PROCEDURE merge_quota();
+    ");
+
+    # trigger for dovecot >= 1.2 quota table
+    # taken from http://wiki.dovecot.org/Quota/Dict, table/trigger name changed to quota2 naming
+    db_query_parsed("
+        CREATE OR REPLACE FUNCTION merge_quota2() RETURNS TRIGGER AS \$\$
+        BEGIN
+            IF NEW.messages < 0 OR NEW.messages IS NULL THEN
+                -- ugly kludge: we came here from this function, really do try to insert
+                IF NEW.messages IS NULL THEN
+                    NEW.messages = 0;
+                ELSE
+                    NEW.messages = -NEW.messages;
+                END IF;
+                return NEW;
+            END IF;
+
+            LOOP
+                UPDATE $table_quota2 SET bytes = bytes + NEW.bytes,
+                    messages = messages + NEW.messages
+                    WHERE username = NEW.username;
+                IF found THEN
+                    RETURN NULL;
+                END IF;
+
+                BEGIN
+                    IF NEW.messages = 0 THEN
+                    INSERT INTO $table_quota2 (bytes, messages, username) VALUES (NEW.bytes, NULL, NEW.username);
+                    ELSE
+                        INSERT INTO $table_quota2 (bytes, messages, username) VALUES (NEW.bytes, -NEW.messages, NEW.username);
+                    END IF;
+                    return NULL;
+                    EXCEPTION WHEN unique_violation THEN
+                    -- someone just inserted the record, update it
+                END;
+            END LOOP;
+        END;
+        \$\$ LANGUAGE plpgsql;
+");
+
+    db_query_parsed("
+        CREATE TRIGGER mergequota2 BEFORE INSERT ON $table_quota2
+            FOR EACH ROW EXECUTE PROCEDURE merge_quota2();
+    ");
 }

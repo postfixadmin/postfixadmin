@@ -74,6 +74,7 @@ $CONF['database_tables'] = array (
     'vacation' => 'vacation',
     'vacation_notification' => 'vacation_notification',
     'quota' => 'quota',
+    'quota2' => 'quota2',
 );
 
 // Site Admin
@@ -362,7 +363,11 @@ $CONF['create_mailbox_subdirs_prefix']='INBOX.';
 // See: DOCUMENTATION/DOVECOT.txt
 //      http://wiki.dovecot.org/Quota/Dict
 //
-// $CONF['used_quotas'] = 'YES';
+$CONF['used_quotas'] = 'NO';
+
+// if you use dovecot >= 1.2, set this to yes.
+// Note about dovecot config: table "quota" is for 1.0 & 1.1, table "quota2" is for dovecot 1.2 and newer
+$CONF['new_quota_table'] = 'NO';
 
 //
 // Normally, the TCP port number does not have to be specified.

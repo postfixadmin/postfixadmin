@@ -2352,4 +2352,5 @@ $table_mailbox = table_by_key ('mailbox');
 $table_vacation = table_by_key ('vacation');
 $table_vacation_notification = table_by_key('vacation_notification');
 $table_quota = table_by_key ('quota');
+$table_quota2 = table_by_key ('quota2');
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

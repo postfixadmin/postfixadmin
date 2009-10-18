@@ -117,16 +117,15 @@ username_field = username
 
 
 Create database in Mysql:
-
-create table quota (
-  username varchar(255) /*!40100 CHARACTER SET latin1 */ not null,
-  path     varchar(100) /*!40100 CHARACTER SET latin1 */ not null,
-  current integer,
-  primary key (username, path)
-) TYPE=MyISAM ; 
-
+(This is automatically done by postfixadmin's setup.php)
 
 Enable quota support in Postfixadmin config.inc.php:
 
 $CONF['used_quotas'] = 'YES';
 $CONF['quota'] = 'YES';
+
+Note: The above text describes the configuration for dovecot 1.0 & 1.1 quota table format.
+
+If you use dovecot 1.2 or newer, 
+- use the 'quota2' table (also created by setup.php)
+- set $CONF['new_quota_table'] = 'YES'

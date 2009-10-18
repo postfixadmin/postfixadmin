@@ -158,29 +158,60 @@ if ($result['rows'] > 0)
     }
 }
 
+# TODO: reduce number of different queries by not depending on too much config options
+#       (it probably won't hurt to include a field in the resultset that is not displayed later)
 if ($CONF['vacation_control_admin'] == 'YES')
 {
     if (boolconf('used_quotas'))
-        $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active, $table_quota.current FROM $table_mailbox 
-            LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email 
-            LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username 
-            WHERE $table_mailbox.domain='$fDomain' 
-            ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
-//    AND $table_quota.path='quota/storage' 
-    else
+    {
+        if (boolconf('new_quota_table'))
+        {
+            $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active, $table_quota2.bytes FROM $table_mailbox
+                LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email
+                LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username
+                WHERE $table_mailbox.domain='$fDomain'
+                ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
+        }
+        else
+        {
+            $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active, $table_quota.current FROM $table_mailbox 
+                LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email 
+                LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username 
+                WHERE $table_mailbox.domain='$fDomain' AND 
+                    ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL )
+                ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
+        }
+    }
+    else # $CONF[used_quotas] = NO
+    {
         $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox 
         LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email 
         WHERE $table_mailbox.domain='$fDomain' ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
-}
-else
-{
-
-    $query = "SELECT * FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $fDisplay, $page_size";
-    if ('pgsql'==$CONF['database_type'])
-    {
-        $query = "SELECT *,extract(epoch from created) as uts_created,extract(epoch from modified) as uts_modified FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $page_size OFFSET $fDisplay";
     }
-
+}
+else # $CONF['vacation_control_admin'] == 'NO'
+{
+    if (boolconf('used_quotas'))
+    {
+        if (boolconf('new_quota_table'))
+        {
+            $query = "SELECT $table_mailbox.*, $table_quota2.bytes as current FROM $table_mailbox
+                LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username
+                WHERE $table_mailbox.domain='$fDomain' ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
+        }
+        else
+        {
+            $query = "SELECT $table_mailbox.*, $table_quota.current FROM $table_mailbox
+                LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username
+                WHERE $table_mailbox.domain='$fDomain' AND
+                    ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL )
+                ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
+        }
+	}
+    else # $CONF[used_quotas] = NO
+    {
+            $query = "SELECT * FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $page_size OFFSET $fDisplay";
+    }
 }
 $result = db_query ($query);
 if ($result['rows'] > 0)
