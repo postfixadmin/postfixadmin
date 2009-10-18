@@ -61,7 +61,7 @@ if(isset($_SESSION['list_virtual_sticky_domain'])) {
    </tr>
    <tr>
       <td><?php print $PALANG['pCreate_mailbox_mail'] . ":"; ?></td>
-      <td><input class="flat" type="checkbox" name="fMail" <?php print (isset($CONF['create_mailbox_subdirs'])) ? '' : 'checked'; ?> /></td>
+      <td><input class="flat" type="checkbox" name="fMail" checked /></td>
       <td>&nbsp;</td>
    </tr>
    <tr>
