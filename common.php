@@ -17,10 +17,10 @@
  * environment and ensures other functions are loaded.
  */
 
-if(!defined('POSTFIXADMIN')) {
+if(!defined('POSTFIXADMIN')) { # already defined if called from setup.php
     session_start();
+    define('POSTFIXADMIN', 1); # checked in included files
 }
-define('POSTFIXADMIN', 1); # checked in included files
 
 $incpath = dirname(__FILE__);
 (ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_runtime', '0') : '1');

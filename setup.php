@@ -23,6 +23,8 @@
  * Form POST \ GET Variables: -none-
  */
 
+define('POSTFIXADMIN', 1); # by defining it here, common.php will not start a session.
+
 require_once('common.php');
 
 $CONF['show_header_text'] = 'NO';
