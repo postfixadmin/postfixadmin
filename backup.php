@@ -82,6 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          'fetchmail',
          'log',
          'mailbox',
+         'quota',
+         'quota2',
          'vacation',
          'vacation_notification'
       );

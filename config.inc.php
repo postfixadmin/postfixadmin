@@ -102,6 +102,7 @@ $CONF['encrypt'] = 'md5crypt';
 // In what flavor should courier-authlib style passwords be enrypted?
 // md5 = {md5} + base64 encoded md5 hash
 // md5raw = {md5raw} + plain encoded md5 hash
+// SHA = {SHA} + base64-encoded sha1 hash
 // crypt = {crypt} + Standard UNIX DES-enrypted with 2-character salt
 $CONF['authlib_default_flavor'] = 'md5raw';
 
