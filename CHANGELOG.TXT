@@ -10,8 +10,23 @@
 # Last update:
 # $Id$
 
+Version ***svn*** - 2009/10/24 - SVN r*****
+--------------------------------------
 
-Version 2.3rc7 - 2009/07/27 - SVN r691
+  - automatically create quota tables for dovecot (both 1.0/1.1 and >= 1.2)
+  - list-virtual can now handle both table formats
+  - fixed upgrade.php for MySQL 6.0 compability
+  - changed vacation.pl syslog facility from "user" to "mail"
+  - added config option for postregsql database port
+  - added config option to enable/disable XMLRPC interface (default: off)
+  - Fix check/query for alias with enabled vacation in vacation.pl 
+  - Fix db_get_boolean() to return t/f for postgresql, not true/false
+  - Fix missing quoting for boolean values in SQL queries at various places
+  - Allow SHA courier-authlib passwords
+  - various small bug fixes
+  - fixed SVN revision for 2.3rc7 in changelog (was r691, should be r694)
+
+Version 2.3rc7 - 2009/07/27 - SVN r694
 --------------------------------------
 
   - Fix bug with confd-link.sh debian thing (breakage on Lenny with wwwconfig-common 0.1.2)
