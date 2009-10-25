@@ -1,3 +1,9 @@
+postfixadmin (2.3) unstable; urgency=low
+
+  * New 'upstream' release.
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Mon, 27 Jul 2009 22:08:26 +0100
+
 postfixadmin (2.3rc7) unstable; urgency=low
 
   * Fix issue with pre.rm script
