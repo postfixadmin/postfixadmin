@@ -863,7 +863,7 @@ function upgrade_344_mysql() {
          extra_options text,
          returned_text text,
          mda varchar(255) not null default '',
-         date timestamp(14),
+         date timestamp,
          primary key(id)
         );
     ");
