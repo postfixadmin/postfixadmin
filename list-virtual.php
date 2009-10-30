@@ -166,7 +166,7 @@ if ($CONF['vacation_control_admin'] == 'YES')
     {
         if (boolconf('new_quota_table'))
         {
-            $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active, $table_quota2.bytes FROM $table_mailbox
+            $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active, $table_quota2.bytes as current FROM $table_mailbox
                 LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email
                 LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username
                 WHERE $table_mailbox.domain='$fDomain'
