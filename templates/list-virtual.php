@@ -295,8 +295,13 @@ if (sizeof ($tMailbox) > 0) {
             }
             else
             {
-               if (boolconf('used_quotas'))
-                  print divide_quota ($tMailbox[$i]['current']).'/';
+               if (boolconf('used_quotas')) {
+                 if (boolconf('new_quota_table')) {
+                   print divide_quota ($tMailbox[$i]['bytes']).'/';
+                 } else {
+                   print divide_quota ($tMailbox[$i]['current']).'/';
+                 }
+               }
                print divide_quota ($tMailbox[$i]['quota']);
             }
             print "</td>\n";
