@@ -39,16 +39,10 @@ if($CONF['alias_control_admin'] == 'NO' && !authentication_has_role('global-admi
 }
 
 /* retrieve existing alias record for the user first... may be via GET or POST */
-
-if(isset($_GET['address']) && isset($_GET['domain'])) {
-    $fAddress = escape_string($_GET['address']);
-    $fDomain = escape_string($_GET['domain']);
-}
-elseif(isset($_POST['address']) && isset($_POST['domain'])) {
-    $fAddress = escape_string($_POST['address']);
-    $fDomain = escape_string($_POST['domain']);
-}
-else {
+$fAddress = safepost('address', safeget('address')); # escaped below
+$fDomain = escape_string(preg_replace("/.*@/", "", $fAddress));
+$fAddress = escape_string($fAddress); # escaped now
+if ($fAddress == "") {
     die("Required parameters not present");
 }
 
@@ -88,7 +82,7 @@ if ($result['rows'] == 1)
     }
 }
 else {
-    die("Invalid alias / domain combination");
+    die("Invalid alias");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
