@@ -166,7 +166,7 @@ $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Das angegebene Quota ist zu hoch!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Diese Domain geh&ouml;rt nicht Ihnen: ';
 $PALANG['pEdit_mailbox_button'] = 'Mailbox editieren';
-$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Unm&ouml;glich das Passwort zu &auml;ndern!</span>';
+$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Mailbox kann nicht ge&auml;ndert werden!</span>';
 
 $PALANG['pPassword_welcome'] = '&Auml;ndern Sie Ihr Login-Passwort.';
 $PALANG['pPassword_admin'] = 'Login';
