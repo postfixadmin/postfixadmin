@@ -53,11 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
     if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
     if (isset ($_GET['limit'])) $fDisplay = intval ($_GET['limit']);
+    $search = escape_string(safeget('search'));
 }
 else
 {
     if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
     if (isset ($_POST['limit'])) $fDisplay = intval ($_POST['limit']);
+    $search = escape_string(safepost('search'));
 }
 
 // store fDomain in $_SESSION so after adding/editing aliases/mailboxes we can 
@@ -69,6 +71,7 @@ if($fDomain) {
 if (count($list_domains) == 0) {
     #   die("no domains");
     header("Location: list-domain.php"); # no domains (for this admin at least) - redirect to domain list
+    exit;
 }
 
 if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDomain)) $fDomain = $list_domains[0];
@@ -79,6 +82,11 @@ if (!check_owner(authentication_get_username(), $fDomain)) {
     exit(0);
 }
 
+#
+# alias domain
+#
+
+# TODO: add search support for alias domains
 if (boolconf('alias_domain')) {
     # Alias-Domains
     # first try to get a list of other domains pointing
@@ -124,23 +132,36 @@ if (boolconf('alias_domain')) {
     }
 }
 
+#
+# aliases
+#
+
+if ($search == "") {
+    $sql_domain = " $table_alias.domain='$fDomain' ";
+    $sql_where  = "";
+} else {
+    $sql_domain = db_in_clause("$table_alias.domain", $list_domains);
+    $sql_where  = " AND ( address LIKE '%$search%' OR goto LIKE '%$search%' ) ";
+}
 $query = "SELECT $table_alias.address,
     $table_alias.goto,
     $table_alias.modified,
     $table_alias.active
     FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
-    WHERE ($table_alias.domain='$fDomain' AND $table_mailbox.maildir IS NULL)
+    WHERE ($sql_domain AND $table_mailbox.maildir IS NULL $sql_where)
     ORDER BY $table_alias.address LIMIT $fDisplay, $page_size";
 if ('pgsql'==$CONF['database_type'])
 {
+    # TODO: is the different query for pgsql really needed? The mailbox query below also works with both...
     $query = "SELECT address,
         goto,
         extract(epoch from modified) as modified,
         active
         FROM $table_alias
-        WHERE domain='$fDomain' AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address)
+        WHERE $sql_domain AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address $sql_where)
         ORDER BY address LIMIT $page_size OFFSET $fDisplay";
 }
+
 $result = db_query ($query);
 if ($result['rows'] > 0)
 {
@@ -158,66 +179,75 @@ if ($result['rows'] > 0)
     }
 }
 
-# TODO: reduce number of different queries by not depending on too much config options
-#       (it probably won't hurt to include a field in the resultset that is not displayed later)
-if ($CONF['vacation_control_admin'] == 'YES')
-{
-    if (boolconf('used_quotas'))
-    {
-        if (boolconf('new_quota_table'))
-        {
-            $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active, $table_quota2.bytes as current FROM $table_mailbox
-                LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email
-                LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username
-                WHERE $table_mailbox.domain='$fDomain'
-                ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
-        }
-        else
-        {
-            $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active, $table_quota.current FROM $table_mailbox 
-                LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email 
-                LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username 
-                WHERE $table_mailbox.domain='$fDomain' AND 
-                    ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL )
-                ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
-        }
-    }
-    else # $CONF[used_quotas] = NO
-    {
-        $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active FROM $table_mailbox 
-        LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email 
-        WHERE $table_mailbox.domain='$fDomain' ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
-    }
+
+#
+# mailboxes
+#
+
+$display_mailbox_aliases = boolconf('special_alias_control'); # TODO: is this condition correct? - I'm slightly confused with alias_control, alias_control_admin and special_alias_control
+
+# build the sql query
+$sql_select = " SELECT $table_mailbox.* ";
+$sql_from   = " FROM $table_mailbox ";
+$sql_join   = "";
+$sql_where  = " WHERE 1 ";
+$sql_order  = " ORDER BY $table_mailbox.username ";
+$sql_limit  = " LIMIT $page_size OFFSET $fDisplay";
+
+if ($search == "") {
+    $sql_where  .= " AND $table_mailbox.domain='$fDomain' ";
+} else {
+    $sql_where  .= " AND " . db_in_clause("$table_mailbox.domain", $list_domains) . " ";
+    $sql_where  .= " AND ( $table_mailbox.username LIKE '%$search%' OR $table_mailbox.name LIKE '%$search%' ";
+    if ($display_mailbox_aliases) {
+        $sql_where  .= " OR $table_alias.goto LIKE '%$search%' ";
+    } 
+    $sql_where  .= " ) "; # $search is already escaped
 }
-else # $CONF['vacation_control_admin'] == 'NO'
-{
-    if (boolconf('used_quotas'))
-    {
-        if (boolconf('new_quota_table'))
-        {
-            $query = "SELECT $table_mailbox.*, $table_quota2.bytes as current FROM $table_mailbox
-                LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username
-                WHERE $table_mailbox.domain='$fDomain' ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
-        }
-        else
-        {
-            $query = "SELECT $table_mailbox.*, $table_quota.current FROM $table_mailbox
-                LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username
-                WHERE $table_mailbox.domain='$fDomain' AND
-                    ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL )
-                ORDER BY $table_mailbox.username LIMIT $page_size OFFSET $fDisplay";
-        }
-	}
-    else # $CONF[used_quotas] = NO
-    {
-            $query = "SELECT * FROM $table_mailbox WHERE domain='$fDomain' ORDER BY username LIMIT $page_size OFFSET $fDisplay";
-    }
+
+if ($display_mailbox_aliases) {
+    $sql_select .= ", $table_alias.goto ";
+    $sql_join   .= " LEFT JOIN $table_alias ON $table_mailbox.username=$table_alias.address ";
 }
+
+if (boolconf('vacation_control_admin')) {
+    $sql_select .= ", $table_vacation.active AS v_active ";
+    $sql_join   .= " LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email ";
+}
+
+if (boolconf('used_quotas') && boolconf('new_quota_table')) {
+    $sql_select .= ", $table_quota2.bytes as current ";
+    $sql_join   .= " LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username ";
+}
+
+if (boolconf('used_quotas') && ( ! boolconf('new_quota_table') ) ) {
+    $sql_select .= ", $table_quota.current ";
+    $sql_join   .= " LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username ";
+    $sql_where  .= " AND ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";
+}
+
+$query = "$sql_select\n$sql_from\n$sql_join\n$sql_where\n$sql_order\n$sql_limit";
+
 $result = db_query ($query);
 if ($result['rows'] > 0)
 {
     while ($row = db_array ($result['result']))
     {
+        if ($display_mailbox_aliases) {
+            $goto_split = split(",", $row['goto']);
+            $row['goto_mailbox'] = 0;
+            $row['goto_other'] = array();
+            
+            foreach ($goto_split as $goto_single) {
+                if ($goto_single == $row['username']) { # delivers to mailbox
+                    $row['goto_mailbox'] = 1;
+                } elseif (boolconf('vacation') && strstr($goto_single, '@' . $CONF['vacation_domain']) ) { # vacation alias - TODO: check for full vacation alias
+                    # skip the vacation alias, vacation status is detected otherwise
+                } else { # forwarding to other alias
+                    $row['goto_other'][] = $goto_single;
+                }
+            }
+        }
         if ('pgsql'==$CONF['database_type'])
         {
             // XXX
@@ -236,6 +266,7 @@ if ($result['rows'] > 0)
 $tCanAddAlias = false;
 $tCanAddMailbox = false;
 
+# TODO: needs reworking for $search...
 $limit = get_domain_properties($fDomain);
 if (isset ($limit)) {
     if ($fDisplay >= $page_size) {

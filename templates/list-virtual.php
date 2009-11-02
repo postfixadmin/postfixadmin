@@ -6,6 +6,17 @@
 
 $file = 'list-virtual.php';
 
+# search highlighting
+function searchhl($text) {
+   global $search;
+   if ($search == "") {
+      return $text;
+   } else {
+      return str_ireplace($search, "<span class='searchresult' style='background:lightgreen'>" . $search . "</span>", $text);
+      # TODO: find out why .searchresult class in css file doesn't work
+   }
+}
+
 if ($limit['aliases'] < 0) $limit['aliases'] = $PALANG['pOverview_disabled'];
 if ($limit['mailboxes'] < 0) $limit['mailboxes'] = $PALANG['pOverview_disabled'];
 if ($limit['maxquota'] < 0) $limit['maxquota'] = $PALANG['pOverview_disabled'];
@@ -94,6 +105,9 @@ if ((sizeof ($tAliasDomains) > 0) || (is_array ($tTargetDomain) ))
          print "      <td><a href=\"$file?domain=" . urlencode ($tAliasDomains[$i]['alias_domain']) . "&limit=" . $current_limit . "\">" . $tAliasDomains[$i]['alias_domain'] . "</a></td>\n";
          print "      <td>" . $tAliasDomains[$i]['modified'] . "</td>\n";
          $active = ($tAliasDomains[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
+
+# TODO: change all edit-*.php scripts not to require the domain parameter (and extract it from the address). This avoids superflous problems when using search.
+
          print "      <td><a href=\"edit-active.php?alias_domain=true&domain=" . urlencode ($tAliasDomains[$i]['alias_domain']) . "&return=$file" . urlencode ( "?domain=" . $fDomain . "&limit=" . $current_limit) . "\">" . $active . "</a></td>\n";
          print "      <td><a href=\"delete.php?table=alias_domain&delete=" . urlencode ($tAliasDomains[$i]['alias_domain']) . "&domain=$fDomain" . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_alias_domains'] . ": ". $tAliasDomains[$i]['alias_domain'] . "')\">" . $PALANG['del'] . "</a></td>\n";
          print "   </tr>\n";
@@ -151,10 +165,9 @@ if (sizeof ($tAlias) > 0)
          {
              print "  <td>" . gen_show_status($tAlias[$i]['address']) . "</td>\n";
          }
-
-         print "      <td>" . $tAlias[$i]['address'] . "</td>\n";
+         print "      <td>" . searchhl($tAlias[$i]['address']) . "</td>\n";
          if ($CONF['alias_goto_limit'] > 0) {
-            print "      <td>" . preg_replace (
+            print "      <td>" . searchhl(preg_replace (
                "/,/", 
                "<br>", 
                   preg_replace(
@@ -165,9 +178,9 @@ if (sizeof ($tAlias) > 0)
                      ),
                      $tAlias[$i]['goto']
                   )
-               ) . "</td>\n";
+               )) . "</td>\n";
          } else {
-            print "      <td>" . preg_replace ("/,/", "<br>", $tAlias[$i]['goto']) . "</td>\n";
+            print "      <td>" . searchhl(preg_replace ("/,/", "<br>", $tAlias[$i]['goto'])) . "</td>\n";
          }
          print "      <td>" . $tAlias[$i]['modified'] . "</td>\n";
 
@@ -177,7 +190,7 @@ if (sizeof ($tAlias) > 0)
 # superadmin code
          $active = ($tAlias[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
          print "      <td><a href=\"edit-active.php?alias=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain&return=$file?domain=$fDomain" . urlencode ("&limit=" . $current_limit) . "\">" . $active . "</a></td>\n";
-         print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\">" . $PALANG['edit'] . "</a></td>\n";
+         print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tAlias[$i]['address']) . "\">" . $PALANG['edit'] . "</a></td>\n";
          print "      <td><a href=\"delete.php?table=alias" . "&delete=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_aliases'] . ": ". $tAlias[$i]['address'] . "')\">" . $PALANG['del'] . "</a></td>\n";
 
          } else {
@@ -186,7 +199,7 @@ if (sizeof ($tAlias) > 0)
          {
             $active = ($tAlias[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
             print "      <td><a href=\"edit-active.php?alias=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\">" . $active . "</a></td>\n";
-            print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\">" . $PALANG['edit'] . "</a></td>\n";
+            print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tAlias[$i]['address']) . "\">" . $PALANG['edit'] . "</a></td>\n";
             print "      <td><a href=\"delete.php?table=alias&delete=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_aliases'] . ": ". $tAlias[$i]['address'] . "')\">" . $PALANG['del'] . "</a></td>\n";
          }
          else
@@ -195,7 +208,7 @@ if (sizeof ($tAlias) > 0)
             {
                $active = ($tAlias[$i]['active'] == 1) ? $PALANG['YES'] : $PALANG['NO'];
                print "      <td><a href=\"edit-active.php?alias=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\">" . $active . "</a></td>\n";
-               print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\">" . $PALANG['edit'] . "</a></td>\n";
+               print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tAlias[$i]['address']) . "\">" . $PALANG['edit'] . "</a></td>\n";
                print "      <td><a href=\"delete.php?table=alias&delete=" . urlencode ($tAlias[$i]['address']) . "&domain=$fDomain" . "\"onclick=\"return confirm ('" . $PALANG['confirm'] . $PALANG['pOverview_get_aliases'] . ": ". $tAlias[$i]['address'] . "')\">" . $PALANG['del'] . "</a></td>\n";
             }
             else
@@ -254,6 +267,8 @@ if (sizeof ($tMailbox) > 0) {
    $colspan=8;
    if ($CONF['vacation_control_admin'] == 'YES') $colspan=$colspan+1;
    if ($CONF['alias_control_admin'] == 'YES') $colspan=$colspan+1;
+   if ($display_mailbox_aliases)              $colspan=$colspan+1;
+
    print "<table id=\"mailbox_table\">\n";
    print "   <tr>\n";
    print "      <td colspan=\"$colspan\"><h3>" . $PALANG['pOverview_mailbox_title'] . "</h3></td>";
@@ -261,6 +276,7 @@ if (sizeof ($tMailbox) > 0) {
    print "   <tr class=\"header\">\n";
    if ($CONF['show_status'] == 'YES') { print "<td></td>\n"; }
    print "      <td>" . $PALANG['pOverview_mailbox_username'] . "</td>\n";
+   if ($display_mailbox_aliases) print "      <td>" . $PALANG['pOverview_alias_goto'] . "</td>\n";
    print "      <td>" . $PALANG['pOverview_mailbox_name'] . "</td>\n";
    if ($CONF['quota'] == 'YES') print "      <td>" . $PALANG['pOverview_mailbox_quota'] . "</td>\n";
    print "      <td>" . $PALANG['pOverview_mailbox_modified'] . "</td>\n";
@@ -280,7 +296,22 @@ if (sizeof ($tMailbox) > 0) {
              print "  <td>" . gen_show_status($tMailbox[$i]['username']) . "</td>\n";
          }
 
-         print "      <td>" . $tMailbox[$i]['username'] . "</td>\n";
+         print "      <td>" . searchhl($tMailbox[$i]['username']) . "</td>\n";
+
+         if ($display_mailbox_aliases) {
+            # print "      <td>" . searchhl($tMailbox[$i]['goto']) . "</td>\n";
+            print "      <td>";
+            if ($tMailbox[$i]['goto_mailbox'] == 1) {
+               print "Mailbox"; # TODO: make translatable
+            } else {
+               print "Forward only"; # TODO: make translatable
+            }
+            if (count($tMailbox[$i]['goto_other']) > 0) print "<br>";
+            print searchhl(join("<br>", $tMailbox[$i]['goto_other'])); # TODO: honor $CONF['alias_goto_limit']
+            print "</td>\n";
+         }
+
+
          print "      <td>" . $tMailbox[$i]['name'] . "</td>\n";
          if ($CONF['quota'] == 'YES')
          {
@@ -328,7 +359,7 @@ if (sizeof ($tMailbox) > 0) {
 
          if ($edit_aliases == 1)
          {
-            print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $PALANG['pOverview_alias_edit'] . "</a></td>\n";
+            print "      <td><a href=\"edit-alias.php?address=" . urlencode ($tMailbox[$i]['username']) . "\">" . $PALANG['pOverview_alias_edit'] . "</a></td>\n";
          }
 
          print "      <td><a href=\"edit-mailbox.php?username=" . urlencode ($tMailbox[$i]['username']) . "&domain=$fDomain" . "\">" . $PALANG['edit'] . "</a></td>\n";

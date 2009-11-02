@@ -1756,7 +1756,16 @@ function db_log ($username,$domain,$action,$data)
     }
 }
 
-
+/**
+ * db_in_clause
+ * Action: builds and returns the "field in(x, y)" clause for database queries
+ * Call: db_in_clause (string field, array values)
+ */
+function db_in_clause($field, $values) {
+    return " $field IN ('"
+    . implode("','",escape_string(array_values($values))) 
+    . "') "; 
+}
 
 //
 // table_by_key
