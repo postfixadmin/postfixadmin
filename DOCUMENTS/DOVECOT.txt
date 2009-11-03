@@ -21,9 +21,10 @@ be viewed real-time in Postfixadmin.
 1. Dovecot setup
 -----------------
 
-default_mail_env = maildir:/usr/local/virtual/%u/
+default_mail_env = maildir:/var/mail/vmail/%u/
 
 auth default {
+  mechanisms plain
   userdb sql {
     # Path for SQL configuration file, see doc/dovecot-sql-example.conf
     args = /etc/dovecot-mysql.conf
@@ -44,7 +45,9 @@ first_valid_uid = 1001  # Change this to your postfix UID
 Below you'll find the relevant part of dovecot-mysql.conf file regarding our
 setup. Things you may need to change are db_password, uid and gid:
 
+
 connect = host=localhost dbname=postfix user=postfix password=postfix
+driver = mysql
 
 # Default password scheme.
 # depends on your $CONF['encrypt'] setting:
