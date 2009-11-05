@@ -30,6 +30,7 @@ require_once('common.php');
 authentication_require_role('admin');
 
 if (authentication_has_role('global-admin')) {
+//if (authentication_has_role('admin')) {
    $list_admins = list_admins ();
    $is_superadmin = 1;
    $fUsername = safepost('fUsername', safeget('username')); # prefer POST over GET variable
@@ -52,10 +53,10 @@ if (isset($admin_properties) && $admin_properties['domain_count'] == 'ALL') { # 
 }
 
 if ($list_all_domains == 1) {
-   $where = " WHERE domain.domain != 'ALL' "; # TODO: the ALL dummy domain is annoying...
+	$where = " WHERE domain.domain != 'ALL' "; # TODO: the ALL dummy domain is annoying...
 } else {
-   $list_domains = escape_string($list_domains);
-   $where = " WHERE domain.domain IN ('" . join("','", $list_domains) . "') ";
+	$list_domains = escape_string($list_domains);
+	$where = " WHERE domain.domain IN ('" . join("','", $list_domains) . "') ";
 }
 
 # fetch domain data and number of mailboxes
@@ -72,7 +73,6 @@ $query = "
    ";
 $result = db_query($query);
 
-$domain_properties = array();
 while ($row = db_array ($result['result'])) {
    $domain_properties[$row['domain']] = $row;
 }
@@ -95,15 +95,19 @@ while ($row = db_array ($result['result'])) {
    $domain_properties [$row['domain']] ['alias_count'] = $row['alias_count'] - $domain_properties [$row['domain']] ['mailbox_count'];
 }
 
-include ("templates/header.php");
-include ("templates/menu.php");
-
-if ($is_superadmin) {
-   include ("templates/admin_list-domain.php");
-} else {
-   include ("templates/overview-get.php");
+$smarty->assign ('domain_properties', $domain_properties);
+if ($is_superadmin)
+{
+	$smarty->assign ('select_options', select_options ($list_admins, array ($fUsername)));
+	$smarty->assign ('smarty_template', 'admin_list-domain');
 }
-include ("templates/footer.php");
+else
+{
+	$smarty->assign ('select_options', select_options ($list_domains, array ($_GET['domain'])));
+	$smarty->assign ('smarty_template', 'overview-get');
+}
+
+$smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

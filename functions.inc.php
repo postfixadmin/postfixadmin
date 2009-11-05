@@ -16,7 +16,7 @@
  * Contains re-usable code.
  */
 
-$version = '2.3';
+$version = '2.4 develop';
 
 /**
  * check_session
@@ -250,7 +250,7 @@ function check_domain ($domain)
             flash_error("emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!");
         }
     }
-
+    
     return true;
 }
 
@@ -425,18 +425,19 @@ function get_domain_properties ($domain)
     global $table_alias, $table_mailbox, $table_domain;
     $list = array ();
 
-    $result = db_query ("SELECT COUNT(*) FROM $table_alias WHERE domain='$domain'");
-    $row = db_row ($result['result']);
-    $list['alias_count'] = $row[0];
+   $result = db_query ("SELECT COUNT(*) FROM $table_alias WHERE domain='$domain'");
+
+   $row = db_row ($result['result']);
+   $list['alias_count'] = $row[0];
 
     $result = db_query ("SELECT COUNT(*) FROM $table_mailbox WHERE domain='$domain'");
     $row = db_row ($result['result']);
     $list['mailbox_count'] = $row[0];
 
-    $result = db_query ("SELECT SUM(quota) FROM $table_mailbox WHERE domain='$domain'");
-    $row = db_row ($result['result']);
-    $list['quota_sum'] = $row[0];
-    $list['alias_count'] = $list['alias_count'] - $list['mailbox_count'];
+   $result = db_query ("SELECT SUM(quota) FROM $table_mailbox WHERE domain='$domain'");
+   $row = db_row ($result['result']);
+   $list['quota_sum'] = $row[0];
+   $list['alias_count'] = $list['alias_count'] - $list['mailbox_count'];
 
     $list['alias_pgindex']=array ();
     $list['mbox_pgindex']=array ();
@@ -449,32 +450,32 @@ function get_domain_properties ($domain)
     $idxlabel="";
     $list['alias_pgindex_count'] = 0;
 
-    if ( $list['alias_count'] > $page_size )
-    {
-        while ( $current < $list['alias_count'] )
-        { 
-            $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
-            $query = "SELECT $table_alias.address
-                FROM $table_alias
-                LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
-                WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
-                ORDER BY $table_alias.address LIMIT $limitSql";
-            $result = db_query ("$query");
-            $row = db_array ($result['result']);
-            $tmpstr = $row['address'];
-            //get first 2 chars
-            $idxlabel = $tmpstr[0] . $tmpstr[1] . "-";
-            ($current + $page_size - 1 <= $list['alias_count']) ? $current = $current + $page_size - 1 : $current = $list['alias_count'] - 1;
-            $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
-            $query = "SELECT $table_alias.address
-                FROM $table_alias
-                LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
-                WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
-                ORDER BY $table_alias.address LIMIT $limitSql";
-            $result = db_query ("$query");
-            $row = db_array ($result['result']);
-            $tmpstr = $row['address'];
-            $idxlabel = $idxlabel . $tmpstr[0] . $tmpstr[1];
+   if ( $list['alias_count'] > $page_size )
+   {
+      while ( $current < $list['alias_count'] )
+      { 
+         $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
+         $query = "SELECT $table_alias.address
+                   FROM $table_alias
+                   LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
+                   WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
+                   ORDER BY $table_alias.address LIMIT $limitSql";
+         $result = db_query ("$query");
+         $row = db_array ($result['result']);
+         $tmpstr = $row['address'];
+         //get first 2 chars
+         $idxlabel = $tmpstr[0] . $tmpstr[1] . "-";
+         ($current + $page_size - 1 <= $list['alias_count']) ? $current = $current + $page_size - 1 : $current = $list['alias_count'] - 1;
+         $limitSql=('pgsql'==$CONF['database_type']) ? "1 OFFSET $current" : "$current, 1";
+         $query = "SELECT $table_alias.address
+                   FROM $table_alias
+                   LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
+                   WHERE ($table_alias.domain='$domain' AND $table_mailbox.maildir IS NULL)
+                   ORDER BY $table_alias.address LIMIT $limitSql";
+         $result = db_query ("$query");
+         $row = db_array ($result['result']);
+         $tmpstr = $row['address'];
+         $idxlabel = $idxlabel . $tmpstr[0] . $tmpstr[1];
 
             $current = $current + 1;
 
@@ -1167,7 +1168,7 @@ function pacrypt ($pw, $pw_db="")
         $l = db_row($res["result"]);
         $password = $l[0];
     }
-
+    
     elseif ($CONF['encrypt'] == 'authlib') {
         $flavor = $CONF['authlib_default_flavor'];
         $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
@@ -1177,20 +1178,20 @@ function pacrypt ($pw, $pw_db="")
             $flavor = $result[1];  
             $salt = substr($result[2], 0, 2);
         }
-
+ 
         if(stripos($flavor, 'md5raw') === 0) {
             $password = '{' . $flavor . '}' . md5($pw);
         } elseif(stripos($flavor, 'md5') === 0) {
             $password = '{' . $flavor . '}' . base64_encode(md5($pw, TRUE));
         } elseif(stripos($flavor, 'crypt') === 0) {
             $password = '{' . $flavor . '}' . crypt($pw, $salt);
-	} elseif(stripos($flavor, 'SHA') === 0) {
-	    $password = '{' . $flavor . '}' . base64_encode(sha1($pw, TRUE));
+		} elseif(stripos($flavor, 'SHA') === 0) {
+			$password = '{' . $flavor . '}' . base64_encode(sha1($pw, TRUE));
         } else {
             die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5', 'SHA' and 'crypt'");
         }
     }
-
+    
     elseif (preg_match("/^dovecot:/", $CONF['encrypt'])) {
         $split_method = preg_split ('/:/', $CONF['encrypt']);
         $method       = strtoupper($split_method[1]);
@@ -1201,28 +1202,29 @@ function pacrypt ($pw, $pw_db="")
 
         # Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
         $spec = array(
-            0 => array("pipe", "r"), // stdin
-            1 => array("pipe", "w") // stdout
-        );
+			0 => array("pipe", "r"), // stdin
+			1 => array("pipe", "w") // stdout
+		);
 
-        $pipe = proc_open("$dovecotpw '-s' $method", $spec, $pipes);
+		$pipe = proc_open("$dovecotpw '-s' $method", $spec, $pipes);
 
         if (!$pipe) {
             die("can't proc_open $dovecotpw");
         } else {
             // use dovecot's stdin, it uses getpass() twice
-            // Write pass in pipe stdin
-            fwrite($pipes[0], $pw . "\n", 1+strlen($pw)); usleep(1000);
-            fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
-            fclose($pipes[0]);
+			// Write pass in pipe stdin
+			fwrite($pipes[0], $pw . "\n", 1+strlen($pw)); usleep(1000);
+			fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
+			fclose($pipes[0]);
 
-            // Read hash from pipe stdout
-            $password = fread($pipes[1], "200");
-    		fclose($pipes[1]);
-            proc_close($pipe);
+			// Read hash from pipe stdout
+			$password = fread($pipes[1], "200");
+			   fclose($pipes[1]);
+			proc_close($pipe);
 
             if ( !preg_match('/^\{' . $method . '\}/', $password)) { die("can't encrypt password with dovecotpw"); }
             $password = trim(str_replace('{' . $method . '}', '', $password));
+            unlink($tmpfile);
         }
     }
 
@@ -1469,9 +1471,9 @@ function db_connect ($ignore_errors = 0)
     {
         if (function_exists ("pg_pconnect"))
         {
-            if(!isset($CONF['database_port'])) {
-                $CONF['database_port'] = '5432';
-            }
+			if(!isset($CONF['database_port'])) {
+				$CONF['database_port'] = '5432';
+			}
             $connect_string = "host=" . $CONF['database_host'] . " port=" . $CONF['database_port'] . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
             $link = @pg_pconnect ($connect_string) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: failed to connect to database. $DEBUG_TEXT");
             if ($link) pg_set_client_encoding($link, 'UNICODE');
@@ -1770,9 +1772,9 @@ function db_log ($username,$domain,$action,$data)
  * Call: db_in_clause (string field, array values)
  */
 function db_in_clause($field, $values) {
-    return " $field IN ('"
-    . implode("','",escape_string(array_values($values))) 
-    . "') "; 
+	return " $field IN ('"
+	. implode("','",escape_string(array_values($values)))
+	. "') ";
 }
 
 //
@@ -2142,12 +2144,12 @@ function gen_show_status ($show_alias)
         {
             $stat_catchall = substr($g,strpos($g,"@"));
             $stat_delimiter = "";
-            if (!empty($CONF['recipient_delimiter'])) {
-                $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
-                $stat_delimiter = preg_replace('/' .$delimiter. '[^' .$delimiter. ']*@/', "@", $g);
-                $stat_delimiter = "OR address = '$stat_delimiter'";
-            }
-            $stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g' OR address = '$stat_catchall' $stat_delimiter");
+			if (!empty($CONF['recipient_delimiter'])) {
+				$delimiter = preg_quote($CONF['recipient_delimiter'], "/");
+				$stat_delimiter = preg_replace('/' .$delimiter. '[^' .$delimiter. ']*@/', "@", $g);
+				$stat_delimiter = "OR address = '$stat_delimiter'";
+			}
+			$stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g' OR address = '$stat_catchall' $stat_delimiter");
             if ($stat_result['rows'] == 0)
             {
                 $stat_ok = 0;
@@ -2190,15 +2192,15 @@ function gen_show_status ($show_alias)
     // POP/IMAP CHECK
     if ( $CONF['show_popimap'] == 'YES' )
     {
-        $stat_delimiter = "";
-        if (!empty($CONF['recipient_delimiter'])) {
-            $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
-            $stat_delimiter = preg_replace('/' .$delimiter. '[^' .$delimiter. '@]*@/', "@", $stat_goto);
-            $stat_delimiter = ',' . $stat_delimiter;
-        }
+		 $stat_delimiter = "";
+		 if (!empty($CONF['recipient_delimiter'])) {
+			 $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
+			 $stat_delimiter = preg_replace('/' .$delimiter. '[^' .$delimiter. '@]*@/', "@", $stat_goto);
+			 $stat_delimiter = ',' . $stat_delimiter;
+		 }
 
         //if the address passed in appears in its own goto field, its POP/IMAP
-        if ( preg_match ('/,' . $show_alias . ',/', ',' . $stat_goto . $stat_delimiter . ',') )
+         if ( preg_match ('/,' . $show_alias . ',/', ',' . $stat_goto . $stat_delimiter . ',') )
         {
             $stat_string .= "<span  style='background-color:" . $CONF['show_popimap_color'] .
                 "'>" . $CONF['show_status_text'] . "</span>&nbsp;";

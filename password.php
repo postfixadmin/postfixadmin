@@ -33,12 +33,12 @@ authentication_require_role('admin');
 
 $SESSID_USERNAME = authentication_get_username();
 
+$smarty->assign ('SESSID_USERNAME', $SESSID_USERNAME);
+$smarty->assign ('smarty_template', 'password');
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-    include ("./templates/header.php");
-    include ("./templates/menu.php");
-    include ("./templates/password.php");
-    include ("./templates/footer.php");
+	$smarty->display ('index.tpl');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -88,10 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
     }
 
-    include ("./templates/header.php");
-    include ("./templates/menu.php");
-    include ("./templates/password.php");
-    include ("./templates/footer.php");
+	$smarty->assign ('pPassword_password_current_text', $pPassword_password_current_text);
+	$smarty->assign ('pPassword_password_text', $pPassword_password_text);
+	$smarty->assign ('tMessage', $tMessage);
+	$smarty->display ('index.tpl');
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

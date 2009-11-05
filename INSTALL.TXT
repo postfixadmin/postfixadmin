@@ -9,7 +9,7 @@ REQUIRED!!
 ----------
 - You are using Postfix 2.0 or higher.
 - You are using Apache 1.3.27 / Lighttpd 1.3.15 or higher.
-- You are using PHP 5.1.2 or higher.
+- You are using PHP 5.X 
 - You are using MySQL 3.23 or higher (5.x recommended) OR PostgreSQL 7.4 (or higher)
 
 

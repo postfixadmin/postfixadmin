@@ -49,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
     $tSubject = '';
     $tBody = '';
 
-    $details = $vh->get_details();
-    if($details != false) {
+	$details = $vh->get_details();
+	if($details != false) {
         $tSubject = $details['subject'];
         $tBody = $details['body'];
     }
@@ -101,10 +101,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
-include ("../templates/header.php");
-include ("../templates/users_menu.php");
-include ("../templates/users_vacation.php");
-include ("../templates/footer.php");
-
+$smarty->assign ('tSubject', htmlentities ($tSubject, ENT_QUOTES, 'UTF-8'));
+$smarty->assign ('tBody', htmlentities ($tBody, ENT_QUOTES, 'UTF-8'));
+$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('smarty_template', 'users_vacation');
+$smarty->display ('index.tpl');
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

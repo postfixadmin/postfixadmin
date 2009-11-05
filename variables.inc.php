@@ -96,3 +96,4 @@ $pPassword_password_current_text = "&nbsp;";
 $pPassword_password_text = "&nbsp;";
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
+?>

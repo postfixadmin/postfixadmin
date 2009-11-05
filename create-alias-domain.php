@@ -86,11 +86,14 @@ if (isset ($_REQUEST['target_domain'])) {
    $fTargetDomain = escape_string ($_REQUEST['target_domain']);
    $fTargetDomain = strtolower ($fTargetDomain);
 }
+//*** ?????
 if (isset ($_REQUEST['active'])) {
    $fActive = (bool)$_REQUEST['active'];
 } else {
-   $fActive = true;
+   $fActive = false;
 }
+if (!isset ($_REQUEST['submit']))
+   $fActive = true;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
@@ -132,10 +135,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     $tMessage .= "<br />($fAliasDomain -> $fTargetDomain)<br />\n";
 }
-
-include ("templates/header.php");
-include ("templates/menu.php");
-include ("templates/create-alias-domain.php");
-include ("templates/footer.php");
+$smarty->assign ('alias_domains', (count($alias_domains) > 0));
+$smarty->assign ('select_options_alias', select_options ($alias_domains, array ($fAliasDomain)));
+$smarty->assign ('select_options_target', select_options ($target_domains, array ($fTargetDomain)));
+if ($fActive)	$smarty->assign ('fActive', ' checked="checked"');
+if ($error == 1)	$tMessage = '<span class="error_msg">'.$tMessage.'</span>';
+$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('smarty_template', 'create-alias-domain');
+$smarty->display ('index.tpl');
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

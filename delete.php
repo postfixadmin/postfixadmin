@@ -114,63 +114,61 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
     else
     {
         if ($CONF['database_type'] == "pgsql") db_query('BEGIN');
-        /* there may be no aliases to delete */
-        $result = db_query("SELECT * FROM $table_alias WHERE address = '$fDelete' AND domain = '$fDomain'");
-        if($result['rows'] == 1) {
-            $result = db_query ("DELETE FROM $table_alias WHERE address='$fDelete' AND domain='$fDomain'");
-            db_log ($SESSID_USERNAME, $fDomain, 'delete_alias', $fDelete);
-        }
-
-        /* is there a mailbox? if do delete it from orbit; it's the only way to be sure */
-        $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
-        if ($result['rows'] == 1)
-        {
-            $result = db_query ("DELETE FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
-            $postdel_res=mailbox_postdeletion($fDelete,$fDomain);
-            if ($result['rows'] != 1 || !$postdel_res)
+		/* there may be no aliases to delete */
+		$result = db_query("SELECT * FROM $table_alias WHERE address = '$fDelete' AND domain = '$fDomain'");
+		if($result['rows'] == 1) {
+			$result = db_query ("DELETE FROM $table_alias WHERE address='$fDelete' AND domain='$fDomain'");
+			db_log ($SESSID_USERNAME, $fDomain, 'delete_alias', $fDelete);
+		}
+            /* is there a mailbox? if do delete it from orbit; it's the only way to be sure */
+            $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
+            if ($result['rows'] == 1)
             {
-                $error = 1;
-                $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (";
-                if ($result['rows']!=1)
+                $result = db_query ("DELETE FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
+                $postdel_res=mailbox_postdeletion($fDelete,$fDomain);
+                if ($result['rows'] != 1 || !$postdel_res)
                 {
-                    $tMessage.='mailbox';
-                    if (!$postdel_res) $tMessage.=', ';
+                    $error = 1;
+                    $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (";
+                    if ($result['rows']!=1)
+                    {
+                        $tMessage.='mailbox';
+                        if (!$postdel_res) $tMessage.=', ';
+                    }
+                    if (!$postdel_res)
+                    {
+                        $tMessage.='post-deletion';
+                    }
+                    $tMessage.=')</span>';
                 }
-                if (!$postdel_res)
-                {
-                    $tMessage.='post-deletion';
-                }
-                $tMessage.=')</span>';
+				db_log ($SESSID_USERNAME, $fDomain, 'delete_mailbox', $fDelete);
             }
-            db_log ($SESSID_USERNAME, $fDomain, 'delete_mailbox', $fDelete);
+            $result = db_query("SELECT * FROM $table_vacation WHERE email = '$fDelete' AND domain = '$fDomain'");
+            if($result['rows'] == 1) {
+                db_query ("DELETE FROM $table_vacation WHERE email='$fDelete' AND domain='$fDomain'");
+                db_query ("DELETE FROM $table_vacation_notification WHERE on_vacation ='$fDelete' "); /* should be caught by cascade, if PgSQL */
+            }
         }
-        $result = db_query("SELECT * FROM $table_vacation WHERE email = '$fDelete' AND domain = '$fDomain'");
-        if($result['rows'] == 1) {
-            db_query ("DELETE FROM $table_vacation WHERE email='$fDelete' AND domain='$fDomain'");
-            db_query ("DELETE FROM $table_vacation_notification WHERE on_vacation ='$fDelete' "); /* should be caught by cascade, if PgSQL */
-        }
-    }
 
-    if ($error != 1)
-    {
-        if ($CONF['database_type'] == "pgsql") db_query('COMMIT');
-        header ("Location: list-virtual.php?domain=$fDomain");
-        exit;
-    } else {
-        $tMessage .= $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (physical mail)!</span>";
-        if ($CONF['database_type'] == "pgsql") db_query('ROLLBACK');
-    }
+        if ($error != 1)
+        {
+            if ($CONF['database_type'] == "pgsql") db_query('COMMIT');
+            header ("Location: list-virtual.php?domain=$fDomain");
+            exit;
+        } else {
+            $tMessage .= $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (physical mail)!</span>";
+            if ($CONF['database_type'] == "pgsql") db_query('ROLLBACK');
+        }
 }
 else
 {
     flash_error($PALANG['invalid_parameter']);
 }
 
+$smarty->assign ('smarty_template', 'message');
+$smarty->assign ('tMessage', $tMessage);
+$smarty->display ('index.tpl');
 
-include ("templates/header.php");
-include ("templates/menu.php");
-include ("templates/message.php");
-include ("templates/footer.php");
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

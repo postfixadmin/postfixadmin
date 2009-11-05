@@ -186,6 +186,8 @@ $PALANG['pEdit_vacation_remove'] = 'Automatische Antwort abschalten';
 $PALANG['pVacation_result_error'] = '<span class="error_msg">&Auml;nderungen der automatischen Antwort konnten nicht gespeichert werden!</span>';
 $PALANG['pVacation_result_removed'] = 'Automatische Antwort wurde abgeschaltet!';
 $PALANG['pVacation_result_added'] = 'Automatische Antwort wurde aktiviert!';
+$PALANG['pUsersVacation_activefrom'] = 'Aktiv ab dem';
+$PALANG['pUsersVacation_activeuntil'] = 'Aktiv bis zum';
 
 $PALANG['pViewlog_welcome'] = 'Zeigt die letzten 10 Aktionen f&uuml;r ';
 $PALANG['pViewlog_timestamp'] = 'Zeitpunkt';

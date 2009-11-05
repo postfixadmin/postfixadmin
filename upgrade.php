@@ -169,9 +169,9 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 */',
                 '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
                 '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
-                '{MYISAM}'          => 'ENGINE=MyISAM',
-                '{INNODB}'          => 'ENGINE=InnoDB',
-                '{BIGINT}'          => 'bigint',
+				'{MYISAM}'          => 'ENGINE=MyISAM',
+				'{INNODB}'          => 'ENGINE=InnoDB',
+				'{BIGINT}'          => 'bigint',
                 );
         $sql = "$sql $attach_mysql";
 
@@ -183,12 +183,11 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{FULLTEXT}'        => '', 
                 '{BOOLEAN}'         => 'BOOLEAN NOT NULL', 
                 '{UTF-8}'           => '', # UTF-8 is simply ignored.
-                '{LATIN1}'          => '', # same for latin1 
+                '{LATIN1}'          => '', # same for latin1
                 '{IF_NOT_EXISTS}'   => '', # does not work with PgSQL
                 '{RENAME_COLUMN}'   => 'ALTER COLUMN', # PgSQL : ALTER TABLE x RENAME x TO y
-                '{MYISAM}'          => '',
-                '{INNODB}'          => '',
-                '{BIGINT}'          => 'bigint',
+				'{MYISAM}'          => '',
+				'{INNODB}'          => '',
                 'int(1)'            => 'int',
                 'int(10)'           => 'int', 
                 'int(11)'           => 'int', 
@@ -1089,6 +1088,57 @@ function upgrade_655() {
     db_query_parsed(_add_index('alias',   'domain', 'domain'));
 }
 
+function upgrade_727_mysql() {
+	$table_vacation = table_by_key('vacation');
+    if(!_mysql_field_exists($table_vacation, 'activefrom')) {
+       db_query_parsed("ALTER TABLE $table_vacation add activefrom datetime default NULL");
+    }
+    if(!_mysql_field_exists($table_vacation, 'activeuntil')) {
+       db_query_parsed("ALTER TABLE $table_vacation add activeuntil datetime default NULL");
+    }
+
+    $table_client_access = table_by_key('client_access');
+     db_query_parsed("
+         CREATE TABLE IF NOT EXISTS $table_client_access (
+             `client` char(50) NOT NULL,
+             `action` char(50) NOT NULL default 'REJECT',
+             UNIQUE KEY `client` (`client`)
+         ) {MYISAM} COMMENT='Postfix Admin - Client Access'
+     ");
+    $table_from_access = table_by_key('from_access');
+     db_query_parsed("
+         CREATE TABLE IF NOT EXISTS $table_from_access (
+             `from_access` char(50) NOT NULL,
+             `action` char(50) NOT NULL default 'REJECT',
+             UNIQUE KEY `from_access` (`from_access`)
+         ) {MYISAM} COMMENT='Postfix Admin - From Access'
+     ");
+     $table_helo_access = table_by_key('helo_access');
+     db_query_parsed("
+         CREATE TABLE IF NOT EXISTS $table_helo_access (
+             `helo` char(50) NOT NULL,
+             `action` char(50) NOT NULL default 'REJECT',
+             UNIQUE KEY `helo` (`helo`)
+         ) {MYISAM} COMMENT='Postfix Admin - Helo Access'
+     ");
+     $table_rcpt_access = table_by_key('rcpt_access');
+     db_query_parsed("
+         CREATE TABLE IF NOT EXISTS $table_rcpt_access (
+             `rcpt` char(50) NOT NULL,
+             `action` char(50) NOT NULL default 'REJECT',
+             UNIQUE KEY `rcpt` (`rcpt`)
+         ) {MYISAM} COMMENT='Postfix Admin - Recipient Access'
+     ");
+	 $table_user_whitelist = table_by_key('user_whitelist');
+     db_query_parsed("
+         CREATE TABLE IF NOT EXISTS $table_user_whitelist (
+             `recipient` char(50) NOT NULL,
+             `action` char(50) NOT NULL default 'REJECT',
+             UNIQUE KEY `recipient` (`recipient`)
+         ) {MYISAM} COMMENT='Postfix Admin - User whitelist'
+     ");
+}
+
 function upgrade_729() {
     $table_quota = table_by_key('quota');
     $table_quota2 = table_by_key('quota2');
@@ -1117,8 +1167,9 @@ function upgrade_729() {
 function upgrade_730_pgsql() {
     $table_quota = table_by_key('quota');
     $table_quota2 = table_by_key('quota2');
+	
+	db_query_parsed('CREATE LANGUAGE plpgsql', 1); /* will error if plpgsql is already installed */
 
-    db_query_parsed('CREATE LANGUAGE plpgsql', 1); /* will error if plpgsql is already installed */
     # trigger for dovecot v1.0 & 1.1 quota table
     # taken from http://wiki.dovecot.org/Quota/Dict
     db_query_parsed("

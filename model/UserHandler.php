@@ -30,7 +30,7 @@ class UserHandler {
         $table_mailbox = table_by_key('mailbox');
 
         $active = db_get_boolean(True);
-        $result = db_query("SELECT * FROM $table_mailbox WHERE username='$username' AND active='$active'");
+		$result = db_query("SELECT * FROM $table_mailbox WHERE username='$username' AND active='$active'");
         $new_db_password = escape_string(pacrypt($new_password));
 
         $result = db_query ("UPDATE $table_mailbox SET password='$new_db_password',modified=NOW() WHERE username='$username'");
@@ -66,5 +66,3 @@ class UserHandler {
         return false;
     }
 }
-
-/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

@@ -30,12 +30,12 @@
 
 require_once("../common.php");
 
+$smarty->assign ('language_selector', language_selector());
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-   include ("../templates/header.php");
-   include ("../templates/users_login.php");
-   include ("../templates/footer.php");
+	$smarty->assign ('smarty_template', 'users_login');
+	$smarty->display ('index.tpl');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -65,10 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $tMessage = '<span class="error_msg">' . $PALANG['pLogin_failed'] . '</span>';
          $tUsername = $fUsername;
    }
-
-   include ("../templates/header.php");
-   include ("../templates/users_login.php");
-   include ("../templates/footer.php");
+	$smarty->assign ('tUsername', $tUsername);
+	$smarty->assign ('tMessage', $tMessage);
+	$smarty->assign ('smarty_template', 'users_login');
+	$smarty->display ('index.tpl');
 }
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

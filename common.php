@@ -19,7 +19,7 @@
 
 if(!defined('POSTFIXADMIN')) { # already defined if called from setup.php
     session_start();
-    define('POSTFIXADMIN', 1); # checked in included files
+	define('POSTFIXADMIN', 1); # checked in included files
 }
 
 $incpath = dirname(__FILE__);
@@ -62,4 +62,8 @@ function postfixadmin_autoload($class) {
 }
 spl_autoload_register('postfixadmin_autoload');
 
+//*****
+require_once ("$incpath/smarty.inc.php");
+//*****
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
+?>

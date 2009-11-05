@@ -30,16 +30,18 @@
 
 require_once('common.php');
 
-if($CONF['configured'] !== true) {
-  print "Installation not yet configured; please edit config.inc.php";
-  exit;
-}
+# force user to delete setup.php (allows creation of superadmins!)
+    if($CONF['configured'] !== true) {
+      print "Installation not yet configured; please edit config.inc.php";
+	  exit;
+    }
+
+	$smarty->assign ('language_selector', language_selector());
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-    include ("./templates/header.php");
-    include ("./templates/login.php");
-    include ("./templates/footer.php");
+	$smarty->assign ('smarty_template', 'login');
+	$smarty->display ('index.tpl');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -94,9 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         exit(0);
     }
 
-    include ("./templates/header.php");
-    include ("./templates/login.php");
-    include ("./templates/footer.php");
+	$smarty->assign ('tUsername', $tUsername);
+	$smarty->assign ('tMessage', $tMessage);
+
+	$smarty->assign ('smarty_template', 'login');
+	$smarty->display ('index.tpl');
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

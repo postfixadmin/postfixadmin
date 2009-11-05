@@ -79,11 +79,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       }
    }
 }
+$smarty->assign ('SESSID_USERNAME', $SESSID_USERNAME);
+$smarty->assign ('tMessage', $tMessage);
 
-include ("./templates/header.php");
-include ("./templates/menu.php");
-include ("./templates/sendmail.php");
-include ("./templates/footer.php");
+$smarty->assign ('smarty_template', 'sendmail');
+$smarty->display ('index.tpl');
+
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

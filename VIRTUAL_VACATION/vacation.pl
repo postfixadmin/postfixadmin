@@ -56,12 +56,15 @@
 #             Use Log4Perl
 #             Added better testing (and -t option)
 #
-# 2009-06-29  Stevan Bajic <stevan@bajic.ch>
+# 2009-06-29  Stevan Bajic <stevan at bajic.ch>
 #             Add Mail::Sender for SMTP auth + more flexibility
 #
-# 2009-07-07  Stevan Bajic <stevan@bajic.ch>
+# 2009-07-07  Stevan Bajic <stevan at bajic.ch>
 #             Add better alias lookups
 #             Check for more heades from Anti-Virus/Anti-Spam solutions
+#
+# 2009-08-10  Sebastian <reg9009 at yahoo dot de>
+#             Adjust SQL query for vacation timeframe. It is now possible to set from/until date for vacation message.
 #
 # Requirements - the following perl modules are required:
 # DBD::Pg or DBD::mysql 
@@ -316,24 +319,25 @@ sub find_real_address {
         exit(1);
     }
     my $realemail = '';
-    my $query = qq{SELECT email FROM vacation WHERE email=? AND active=$db_true};
+	my $query = qq{SELECT email FROM vacation WHERE email=? and active=$db_true and activefrom <= NOW() and activeuntil >= NOW()};
     my $stm = $dbh->prepare($query) or panic_prepare($query);
     $stm->execute($email) or panic_execute($query,"email='$email'");
     my $rv = $stm->rows;
 
 # Recipient has vacation
-    if ($rv == 1) {
-        $realemail = $email;
-        $logger->debug("Found '\$email'\ has vacation active");
-    } else {
-        my $vemail = $email;
-        $vemail =~ s/\@/#/g;
-        $vemail = $vemail . "\@" . $vacation_domain;
-        $logger->debug("Looking for alias records that \'$email\' resolves to with vacation turned on");
-        $query = qq{SELECT goto FROM alias WHERE address=? AND (goto LIKE ? OR goto LIKE ? OR goto LIKE ? OR goto = ?)};
-        $stm = $dbh->prepare($query) or panic_prepare($query);
-        $stm->execute($email,"$vemail,%","%,$vemail","%,$vemail,%", "$vemail") or panic_execute($query,"address='$email'");
-        $rv = $stm->rows;
+	if ($rv == 1) {
+		$realemail = $email;
+		$logger->debug("Found '\$email'\ has vacation active");
+	} else {
+		my $vemail = $email;
+		$vemail =~ s/\@/#/g;
+		$vemail = $vemail . "\@" . $vacation_domain;
+		$logger->debug("Looking for alias records that \'$email\' resolves to with vacation turned on");
+		$query = qq{SELECT goto FROM alias WHERE address=? AND (goto LIKE ? OR goto LIKE ? OR goto LIKE ? OR goto = ?)};
+		$stm = $dbh->prepare($query) or panic_prepare($query);
+		$stm->execute($email,"$vemail,%","%,$vemail","%,$vemail,%", "$vemail") or panic_execute($query,"address='$email'");
+		$rv = $stm->rows;
+
 
 # Recipient is an alias, check if mailbox has vacation
         if ($rv == 1) { 

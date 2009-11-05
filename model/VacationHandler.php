@@ -124,5 +124,3 @@ class VacationHandler {
         return $vacation_goto;
     }
 }
-
-/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

@@ -25,17 +25,24 @@ require_once("common.php");
 
 authentication_require_role('global-admin');
 
-$list_admins = list_admins();
-if ((is_array ($list_admins) and sizeof ($list_admins) > 0)) {
-    for ($i = 0; $i < sizeof ($list_admins); $i++) {
-        $admin_properties[$i] = get_admin_properties ($list_admins[$i]);
-    }
-}
+$_active = array ($PALANG ['NO'], $PALANG ['YES']);
 
-include ("templates/header.php");
-include ("templates/menu.php");
-include ("templates/admin_list-admin.php");
-include ("templates/footer.php");
+$list_admins = list_admins();
+if ((is_array ($list_admins) and sizeof ($list_admins) > 0))
+{
+	for ($i = 0; $i < sizeof ($list_admins); $i++)
+	{
+		$admin_properties[$i] = get_admin_properties ($list_admins[$i]);
+		$admin_properties[$i] ['name'] = $list_admins[$i];
+		if ($admin_properties [$i] ['domain_count'] == 'ALL')
+			$admin_properties [$i] ['domain_count'] = $PALANG ['pAdminEdit_admin_super_admin'];
+		$admin_properties [$i] ['active'] = $_active [$admin_properties [$i] ['active']];			
+	}
+}
+$smarty->assign ('admin_properties', $admin_properties);
+$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('smarty_template', 'admin_list-admin');
+$smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

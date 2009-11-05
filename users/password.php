@@ -72,10 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
-include ("../templates/header.php");
-include ("../templates/users_menu.php");
-include ("../templates/users_password.php");
-include ("../templates/footer.php");
+$smarty->assign ('USERID_USERNAME', $USERID_USERNAME);
+//$smarty->assign ('pPassword_admin_text', $pPassword_admin_text);
+$smarty->assign ('pPassword_password_current_text', $pPassword_password_current_text);
+$smarty->assign ('pPassword_password_text', $pPassword_password_text);
+$smarty->assign ('tMessage', $tMessage);
+
+$smarty->assign ('smarty_template', 'users_password');
+$smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

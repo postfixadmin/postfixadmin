@@ -72,6 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       $tMessage = '';
       $tSubject = $row['subject'];
       $tBody = $row['body'];
+	  $tActiveFrom = $row['activefrom'];
+	  $tActiveUntil = $row['activeuntil'];
    }
 
    $tUseremail = $fUsername;
@@ -87,10 +89,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $tSubject   = safepost('fSubject');
    $fSubject   = escape_string ($tSubject);
    $tBody      = safepost('fBody');
+//   $tActiveFrom = safepost('activefrom').' 00:00:01';
+//   $tActiveUntil = safepost('activeuntil').' 23:59:59';
+	$tActiveFrom = date ("Y-m-d 00:00:00", strtotime (safepost('activefrom')));
+	$tActiveUntil = date ("Y-m-d 23:59:59", strtotime (safepost('activeuntil')));
    $fBody      = escape_string ($tBody);
    $fChange    = escape_string (safepost('fChange'));
    $fBack      = escape_string (safepost('fBack'));
-
    if(authentication_has_role('admin') && isset($_GET['domain'])) {
       $fDomain = escape_string ($_GET['domain']);
    }
@@ -117,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          $db_false = db_get_boolean(false);
          // retain vacation message if possible - i.e disable vacation away-ness.
-         $result = db_query ("UPDATE $table_vacation SET active = '$db_false' WHERE email='$fUsername'");
+		 $result = db_query ("UPDATE $table_vacation SET active = '$db_false' WHERE email='$fUsername'");
          $result = db_query("DELETE FROM $table_vacation_notification WHERE on_vacation='$fUsername'");
 
          $result = db_query ("SELECT * FROM $table_alias WHERE address='$fUsername'");
@@ -161,10 +166,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       // insert a duplicate
       $result = db_query("SELECT * FROM $table_vacation WHERE email = '$fUsername'");
       if($result['rows'] == 1) {
-          $result = db_query("UPDATE $table_vacation SET active = '$Active', subject = '$fSubject', body = '$fBody', created = NOW() WHERE email = '$fUsername'");
+          $result = db_query("UPDATE $table_vacation SET active = '$Active', subject = '$fSubject', body = '$fBody', created = NOW(), activefrom = '$tActiveFrom', activeuntil = '$tActiveUntil' WHERE email = '$fUsername'");
       }
       else {
-          $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$fUsername','$fSubject','$fBody','$fDomain',NOW(),'$Active')");
+          $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active, activefrom, activeuntil) VALUES ('$fUsername','$fSubject','$fBody','$fDomain',NOW(),$Active, '$tActiveFrom', '$tActiveUntil')");
       }
 
       if ($result['rows'] != 1)
@@ -173,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       }
       if($goto == '') {
          $goto = $vacation_goto;
-         $sql = "INSERT INTO $table_alias (goto, address, domain, modified) VALUES ('$goto', '$fUsername', '$fDomain', NOW())";
+         $sql = "INSERT INTO $table_alias (goto, address, domain, modified, activefrom, activeuntil) VALUES ('$goto', '$fUsername', '$fDomain', NOW(), '$tActiveFrom', '$tActiveUntil')";
       }
       else {
          $goto = $goto . "," . $vacation_goto;
@@ -198,10 +203,20 @@ if($error == 0) {
 else {
    $tMessage = $PALANG['pVacation_result_error'];
 }
+if (empty ($tActiveFrom))
+	$tActiveFrom = date ("Y-m-d");
+if (empty ($tActiveUntil))
+	$tActiveUntil = date ("Y-m-d");
+	
+$smarty->assign ('tUseremail', $tUseremail);
+$smarty->assign ('tSubject', htmlentities(stripslashes($tSubject), ENT_QUOTES, 'UTF-8'));
+$smarty->assign ('tBody', htmlentities(stripslashes($tBody), ENT_QUOTES , 'UTF-8'));
+$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tActiveFrom',  date ("d.m.Y", strtotime ($tActiveFrom)));
+$smarty->assign ('tActiveUntil',  date ("d.m.Y", strtotime ($tActiveUntil)));
+$smarty->assign ('fCanceltarget', $fCanceltarget);
+$smarty->assign ('smarty_template', 'edit-vacation');
+$smarty->display ('index.tpl');
 
-include ("templates/header.php");
-include ("templates/menu.php");
-include ("templates/edit-vacation.php");
-include ("templates/footer.php");
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

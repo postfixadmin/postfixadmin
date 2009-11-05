@@ -30,6 +30,7 @@
  */
 
 require_once('../common.php');
+$smarty->assign ('smarty_template', 'users_edit-alias');
 
 authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
@@ -41,16 +42,19 @@ $vacation_domain = $CONF['vacation_domain'];
 $vacation_goto = preg_replace('/@/', '#', $USERID_USERNAME) . '@' . $vacation_domain;
 
 $ah = new AliasHandler($USERID_USERNAME);
+$smarty->assign ('USERID_USERNAME', $USERID_USERNAME);
+
+
 $tGotoArray = $ah->get();
 $tStoreAndForward = $ah->hasStoreAndForward();
 $vacation_domain = $CONF['vacation_domain'];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-    include ("../templates/header.php");
-    include ("../templates/users_menu.php");
-    include ("../templates/users_edit-alias.php");
-    include ("../templates/footer.php");
+	($tStoreAndForward) ? $smarty->assign ('forward_and_store', ' checked="checked"') : $smarty->assign ('forward_only', ' checked="checked"');
+
+	$smarty->assign ('tGotoArray', $tGotoArray);
+	$smarty->display ('index.tpl');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -109,10 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     else {
         $tGotoArray = $goto;
     }
-    include ("../templates/header.php");
-    include ("../templates/users_menu.php");
-    include ("../templates/users_edit-alias.php");
-    include ("../templates/footer.php");
+    $smarty->assign ('tMessage', $tMessage);
+	$smarty->display ('index.tpl');
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

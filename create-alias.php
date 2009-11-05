@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $tAddress = escape_string ($_POST['fAddress']);
         $tGoto = $fGoto;
         $tDomain = $fDomain;
-        $pCreate_alias_address_text = $PALANG['pCreate_alias_address_text_error2'];
+		$pCreate_alias_address_text = $PALANG['pCreate_alias_address_text_error2'];
     }
 
     if ($fActive == "on") {
@@ -150,12 +150,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $tDomain = $fDomain;
             $tMessage = $PALANG['pCreate_alias_result_success'] . "<br />($fAddress -> $fGoto)<br />\n";
         }
-    }
+}
 }
 
-include ("templates/header.php");
-include ("templates/menu.php");
-include ("templates/create-alias.php");
-include ("templates/footer.php");
+$smarty->assign ('tAddress', $tAddress);
+$smarty->assign ('select_options', select_options ($list_domains, array ($tDomain)));
+$smarty->assign ('pCreate_alias_address_text', $pCreate_alias_address_text);
+$smarty->assign ('tGoto', $tGoto);
+$smarty->assign ('pCreate_alias_goto_text', $pCreate_alias_goto_text);
+$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('smarty_template', 'create-alias');
+$smarty->display ('index.tpl');
+
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

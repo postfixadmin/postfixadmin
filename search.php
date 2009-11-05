@@ -124,10 +124,65 @@ if ($result['rows'] > 0)
     }
 }
 
-include ("templates/header.php");
-include ("templates/menu.php");
-include ("templates/search.php");
-include ("templates/footer.php");
+$check_alias_owner = array ();
+
+if ((is_array ($tAlias) and sizeof ($tAlias) > 0))
+	for ($i = 0; $i < sizeof ($tAlias); $i++)
+		$check_alias_owner [$i] = check_alias_owner ($SESSID_USERNAME, $tAlias[$i]['address']);
+
+$divide_quota = array ();
+if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
+	for ($i = 0; $i < sizeof ($tMailbox); $i++)
+	{
+		$divide_quota ['quota'][$i] = divide_quota ($tMailbox[$i]['quota']);
+	}
+
+for ($i = 0; $i < sizeof ($tAlias); $i++)
+{
+	if ((is_array ($tAlias) and sizeof ($tAlias) > 0))
+	{
+		$tAlias[$i]['display_address'] = $tAlias[$i]['address'];
+		if (stristr($tAlias[$i]['display_address'],$fSearch))
+		{
+			$new_address = str_ireplace($fSearch, "<span style='background-color: lightgreen'>".$fSearch."</span>", $tAlias[$i]['display_address']);
+			$tAlias[$i]['display_address'] = $new_address;
+		}
+		if (stristr($tAlias[$i]['goto'], $fSearch))
+		{
+			$tAlias[$i]['goto'] = str_ireplace($fSearch, "<span style='background-color: lightgreen'>".$fSearch."</span>", $tAlias[$i]['goto']);
+		}
+		($tAlias [$i]['active'] == 1) ? $tAlias [$i]['active'] = $PALANG ['YES'] : $tAlias [$i]['active'] = $PALANG ['NO'];
+	}
+}
+for ($i = 0; $i < sizeof ($tMailbox); $i++)
+{
+	if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
+	{
+		$tMailbox[$i]['display_username'] = $tMailbox[$i]['username'];
+		if (stristr($tMailbox[$i]['display_username'],$fSearch))
+		{
+			$new_name = str_ireplace ($fSearch, "<span style='background-color: lightgreen'>".$fSearch."</span>", $tMailbox[$i]['display_username']);
+			$tMailbox [$i]['display_username'] = $new_name;
+		}
+		if (stristr($tMailbox[$i]['name'],$fSearch))
+		{
+			$tMailbox[$i]['name'] = str_ireplace($fSearch, "<span style='background-color: lightgreen'>".$fSearch."</span>", $tMailbox[$i]['name']);
+         }
+		($tMailbox [$i]['active'] == 1) ? $tMailbox [$i]['active'] = $PALANG ['YES'] : $tMailbox [$i]['active'] = $PALANG ['NO'];
+		($tMailbox [$i]['v_active'] == 1) ? $tMailbox [$i]['v_active'] = $PALANG ['pOverview_vacation_edit'] : $tMailbox [$i]['v_active'] = '';
+	}
+}
+
+$smarty->assign ('fSearch', $fSearch);
+$smarty->assign ('select_options', select_options ($list_domains, array ($list_domains[0])));
+$smarty->assign ('tAlias', $tAlias);
+
+$smarty->assign ('check_alias_owner', $check_alias_owner);
+$smarty->assign ('tMailbox', $tMailbox);
+$smarty->assign ('divide_quota', $divide_quota);
+
+$smarty->assign ('smarty_template', 'search');
+$smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

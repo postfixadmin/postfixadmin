@@ -113,10 +113,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
-include ("templates/header.php");
-include ("templates/menu.php");
-include ("templates/admin_edit-domain.php");
-include ("templates/footer.php");
+$smarty->assign ('domain', $domain);
+$smarty->assign ('tDescription', htmlspecialchars($tDescription, ENT_QUOTES));
+$smarty->assign ('tAliases', $tAliases);
+$smarty->assign ('tMailboxes', $tMailboxes);
+$smarty->assign ('tMaxquota', $tMaxquota);
+$smarty->assign ('select_options', select_options ($CONF ['transport_options'], array ($tTransport)));
+if ($tBackupmx)	$smarty->assign ('tBackupmx', ' checked="checked"');
+if ($tActive)	$smarty->assign ('tActive', ' checked="checked"');
+$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('smarty_template', 'admin_edit-domain');
+$smarty->display ('index.tpl');
+
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

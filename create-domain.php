@@ -142,10 +142,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
-include ("templates/header.php");
-include ("templates/menu.php");
-include ("templates/admin_create-domain.php");
-include ("templates/footer.php");
+$smarty->assign ('tDomain', $tDomain);
+$smarty->assign ('pAdminCreate_domain_domain_text', $pAdminCreate_domain_domain_text);
+$smarty->assign ('tDescription', $tDescription);
+$smarty->assign ('tAliases', $tAliases);
+$smarty->assign ('tMailboxes', $tMailboxes);
+$smarty->assign ('tMaxquota', $tMaxquota);
+$smarty->assign ('select_options', select_options ($CONF ['transport_options'], array ($tTransport)));
+$smarty->assign ('tDefaultaliases', ($tDefaultaliases == 'on') ? ' checked="checked"' : '');
+$smarty->assign ('tBackupmx', ($tBackupmx == 'on') ? ' checked="checked"' : '');
+$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('smarty_template', 'admin_create-domain');
+$smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

@@ -97,8 +97,8 @@ class AliasHandler {
         $addresses = array_unique($addresses);
 
         $original = $this->get(true);
-        $tmp = preg_split('/@/', $this->username);
-        $domain = $tmp[1];
+		$tmp = preg_split('/@/', $this->username);
+		$domain = $tmp[1];
 
         foreach($original as $address) {
             if($vacation_persist) {
@@ -145,7 +145,7 @@ class AliasHandler {
         }
         if($this->hasAliasRecord() == false) {
             $true = db_get_boolean(True);
-            $sql = "INSERT INTO $table_alias (address, goto, domain, created, modified, active) VALUES ('$username', '$goto', '$domain', NOW(), NOW(), '$true')";
+			$sql = "INSERT INTO $table_alias (address, goto, domain, created, modified, active) VALUES ('$username', '$goto', '$domain', NOW(), NOW(), '$true')";
         }
         else {
             $sql = "UPDATE $table_alias SET goto = '$goto', modified = NOW() WHERE address = '$username'";
@@ -185,5 +185,3 @@ class AliasHandler {
         return false;
     }
 }
-
-/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

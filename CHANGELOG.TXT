@@ -10,8 +10,8 @@
 # Last update:
 # $Id$
 
-Version 2.3 - 2009/10/24 - SVN r739
------------------------------------
+Version ***svn*** - 2009/10/24 - SVN r*****
+--------------------------------------
 
   - automatically create quota tables for dovecot (both 1.0/1.1 and >= 1.2)
   - list-virtual can now handle both table formats
