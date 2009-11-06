@@ -63,6 +63,9 @@ function postfixadmin_autoload($class) {
 spl_autoload_register('postfixadmin_autoload');
 
 //*****
+if(!is_file("$incpath/smarty.inc.php")) {
+    die("smarty.inc.php is missing! Sonething is wrong...");
+}
 require_once ("$incpath/smarty.inc.php");
 //*****
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
