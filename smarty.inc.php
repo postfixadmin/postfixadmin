@@ -1,4 +1,4 @@
-<?
+<?php
 require_once ("$incpath/smarty/libs/Smarty.class.php");
 
 $smarty = new Smarty;
@@ -53,4 +53,4 @@ function eval_size ($aSize)
 	else 				{$ret_val = $aSize;	}
 	return $ret_val;
 }
-?>
+php?>
