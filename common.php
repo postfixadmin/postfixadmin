@@ -64,7 +64,7 @@ spl_autoload_register('postfixadmin_autoload');
 
 //*****
 if(!is_file("$incpath/smarty.inc.php")) {
-    die("smarty.inc.php is missing! Sonething is wrong...");
+    die("smarty.inc.php is missing! Something is wrong...");
 }
 require_once ("$incpath/smarty.inc.php");
 //*****
