@@ -25,12 +25,12 @@
 
 define('POSTFIXADMIN', 1); # by defining it here, common.php will not start a session.
 
-require_once('common.php');
+require_once(dirname(__FILE__).'/common.php'); # make sure correct common.php is used.
 
 $CONF['show_header_text'] = 'NO';
 $CONF['theme_logo'] = 'images/logo-default.png';
 $CONF['theme_css'] = 'css/default.css';
-require('templates/header.php');
+require($incpath.'/templates/header.php');
 ?>
 
 <div class='setup'>
@@ -120,10 +120,10 @@ $config_loaded = 0;
 if ($file_config == 1)
 {
     print "<li>Depends on: presence config.inc.php - OK</li>\n";
-    require_once('config.inc.php');
+    require_once($incpath.'/config.inc.php');
     $config_loaded = 1;
 
-    require('config.inc.php');
+    require($incpath.'/config.inc.php');
     if(isset($CONF['configured'])) {
         if($CONF['configured'] == TRUE) {
             print "<li>Checking \$CONF['configured'] - OK\n";
@@ -148,9 +148,11 @@ else
 
 if (!is_writeable($incpath.'/templates_c'))
 {
-    print "<li><b>Error: The subdirectory templates_c is not writable.</b><br />\n";
-    print "Please make it writable.<br />\n";
+    print "<li><b>Error: Smarty template compile directory templates_c is not writable.</b><br />\n";
+	print "<b>Please make it writable.</b><br />\n";
     $error =+ 1;
+} else {
+	print "<li>Smarty template compile directory is writable - OK<br />\n";
 }
 
 //
@@ -309,7 +311,7 @@ if ($error != 0)
 else
 {
     print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
-    require_once('upgrade.php');
+    require_once($incpath.'/upgrade.php');
 
     $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
     $pAdminCreate_admin_password_text = "";
