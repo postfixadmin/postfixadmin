@@ -33,7 +33,7 @@ else
 if (file_exists ($CONF ['postfix_admin_path'].'/templates/'.$motd_file))
 	$smarty->assign ('motd_file', $motd_file);
 ?>
-<?
+<?php
 function select_options ($aValues, $aSelected)
 {
 	$ret_val = '';
