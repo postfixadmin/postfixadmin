@@ -48,11 +48,15 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
     $tSubject = '';
     $tBody = '';
-
+	$tActiveFrom = '';
+	$tActiveUntil = '';
+		
 	$details = $vh->get_details();
 	if($details != false) {
         $tSubject = $details['subject'];
         $tBody = $details['body'];
+		$fActiveFrom = $details['activeFrom'];
+		$fActiveUntil = $details['activeUntil'];
     }
     if($vh->check_vacation()) {
         $tMessage = $PALANG['pUsersVacation_welcome_text'];
