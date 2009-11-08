@@ -58,9 +58,9 @@
 	</tr>
 	<tr>
 		<td colspan="3" class="hlp_center">
-		<input class="button" type="submit" name="fChange" value="{$PALANG.pEdit_vacation_set}" />
-		<input class="button" type="submit" name="fBack" value="{$PALANG.pEdit_vacation_remove}" />
-		<input class="button" type="button" name="fCancel" value="{$PALANG.exit}" onclick="newLocation()" />
+			<input class="button" type="submit" name="fChange" value="{$PALANG.pEdit_vacation_set}" />
+			<input class="button" type="submit" name="fBack" value="{$PALANG.pEdit_vacation_remove}" />
+			<input class="button" type="button" name="fCancel" value="{$PALANG.exit}" onclick="newLocation()" />
 		</td>
 	</tr>
 	<tr>

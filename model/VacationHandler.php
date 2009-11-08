@@ -61,7 +61,7 @@ class VacationHandler {
 
     /**
      * Retrieve information on someone who is on vacation
-     * @return struct|boolean stored information on vacation - array(subject - string, message - string, active - boolean) 
+     * @return struct|boolean stored information on vacation - array(subject - string, message - string, active - boolean, activeFrom - date, activeUntil - date) 
      * will return false if no existing data 
      */
     function get_details() {
@@ -75,32 +75,38 @@ class VacationHandler {
             $boolean = ($row['active'] == db_get_boolean(true));
             return array( 'subject' => $row['subject'],
                           'body' => $row['body'],
-                          'active'  => $boolean );
+                          'active'  => $boolean ,
+						  'activeFrom' => $row['activefrom'],
+						  'activeUntil' => $row['activeuntil']);
         }
         return false;
     }
     /**
      * @param string $subject
      * @param string $body
+     * @param date $activeFrom
+     * @param date $activeUntil
      */
-    function set_away($subject, $body) {
+    function set_away($subject, $body, $activeFrom, $activeUntil) {
         $this->remove(); // clean out any notifications that might already have been sent.
         // is there an entry in the vacaton table for the user, or do we need to insert?
         $table_vacation = table_by_key('vacation');
         $username = escape_string($this->username);
         $body = escape_string($body);
         $subject = escape_string($subject);
+		$activeFrom = date ("Y-m-d 00:00:00", strtotime ($activeFrom));
+		$activeUntil = date ("Y-m-d 23:59:59", strtotime ($activeUntil));
 
         $result = db_query("SELECT * FROM $table_vacation WHERE email = '$username'");
         $active = db_get_boolean(True);
         // check if the user has a vacation entry already, if so just update it
         if($result['rows'] == 1) {
-            $result = db_query("UPDATE $table_vacation SET active = '$active', body = '$body', subject = '$subject', created = NOW() WHERE email = '$username'");
+            $result = db_query("UPDATE $table_vacation SET active = '$active', body = '$body', subject = '$subject', activefrom = '$activeFrom', activeuntil = '$activeUntil', created = NOW() WHERE email = '$username'");
         }
         else {
             $tmp = preg_split ('/@/', $username);
             $domain = escape_string($tmp[1]);
-            $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active) VALUES ('$username','$subject','$body','$domain',NOW(),'$active')");
+            $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active,activefrom, activeuntil) VALUES ('$username','$subject','$body','$domain',NOW(),'$active','$activeFrom','$ativeUntil')");
         }
 
         $ah = new AliasHandler($this->username); 

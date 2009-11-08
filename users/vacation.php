@@ -73,6 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     if (isset ($_POST['fBody']))    $fBody    = $_POST['fBody'];
     if (isset ($_POST['fAway'])) $fAway = escape_string ($_POST['fAway']);
     if (isset ($_POST['fBack'])) $fBack = escape_string ($_POST['fBack']);
+	if (isset ($_POST['fActiveFrom'])) $tActiveFrom = date ("Y-m-d 00:00:00", strtotime ($_POST['fActiveFrom']));
+	if (isset ($_POST['fActiveUntil'])) $tActiveUntil = date ("Y-m-d 23:59:59", strtotime ($_POST['fActiveUntil']));
 
     //set a default, reset fields for coming back selection
     if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
@@ -83,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     // the user is going away - set the goto alias and vacation table as necessary.
     if (!empty ($fAway))
     {
-        if(!$vh->set_away($fSubject, $fBody)) {
+        if(!$vh->set_away($fSubject, $fBody, $tActiveFrom, $tActiveUntil)) {
             $error = 1;
             $tMessage = $PALANG['pUsersVacation_result_error'];
         }
@@ -104,6 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 $smarty->assign ('tSubject', htmlentities ($tSubject, ENT_QUOTES, 'UTF-8'));
 $smarty->assign ('tBody', htmlentities ($tBody, ENT_QUOTES, 'UTF-8'));
 $smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tActiveFrom',  date ("d.m.Y", strtotime ($fActiveFrom)));
+$smarty->assign ('tActiveUntil',  date ("d.m.Y", strtotime ($fActiveUntil)));
 $smarty->assign ('smarty_template', 'users_vacation');
 $smarty->display ('index.tpl');
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
