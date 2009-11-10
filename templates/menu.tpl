@@ -46,6 +46,7 @@
 	</li>
 {/strip}
 {* fetchmail *}
+{if $CONF.fetchmail}
 {strip}
 	<li><a target="_top" href="{#url_fetchmail#}">{$PALANG.pMenu_fetchmail}</a>
 		<ul>
@@ -54,6 +55,7 @@
 		</ul>
 	</li>
 {/strip}
+{/if}
 {* sendmail *}
 {strip}
 	<li><a target="_top" href="{#url_sendmail#}">{$PALANG.pMenu_sendmail}</a>

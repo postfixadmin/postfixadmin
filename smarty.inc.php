@@ -5,9 +5,9 @@ $smarty = new Smarty;
 
 //$smarty->debugging = true;
 
-$smarty->template_dir	= $incpath.'/'.$smarty->template_dir;
-$smarty->compile_dir	= $incpath.'/'.$smarty->compile_dir;
-$smarty->config_dir		= $incpath.'/'.$smarty->config_dir;
+$smarty->template_dir	= $incpath.'/templates';
+$smarty->compile_dir	= $incpath.'/templates_c';
+$smarty->config_dir	= $incpath.'/'.$smarty->config_dir;
 
 $CONF['theme_css']	= $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_css']);
 $CONF['theme_logo']	= $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_logo']);
@@ -32,8 +32,7 @@ else
 }
 if (file_exists ($CONF ['postfix_admin_path'].'/templates/'.$motd_file))
 	$smarty->assign ('motd_file', $motd_file);
-?>
-<?php
+
 function select_options ($aValues, $aSelected)
 {
 	$ret_val = '';
@@ -53,4 +52,4 @@ function eval_size ($aSize)
 	else 				{$ret_val = $aSize;	}
 	return $ret_val;
 }
-php?>
+?>
