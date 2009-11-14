@@ -18,10 +18,11 @@
 	<body>
 		<div id="login_header">
 		<img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo"/>
-{if $CONF.show_header_text===YES && $CONF.header_text}
+{if $CONF.show_header_text==='YES' && $CONF.header_text}
 		<h2>{$CONF.header_text}</h2>
 {/if}
 		</div>
+
 {strip}
 		{if $smarty.session.flash}
 			{if $smarty.session.flash.info}

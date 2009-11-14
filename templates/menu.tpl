@@ -46,7 +46,7 @@
 	</li>
 {/strip}
 {* fetchmail *}
-{if $CONF.fetchmail}
+{if $CONF.fetchmail==='YES'}
 {strip}
 	<li><a target="_top" href="{#url_fetchmail#}">{$PALANG.pMenu_fetchmail}</a>
 		<ul>
@@ -57,6 +57,7 @@
 {/strip}
 {/if}
 {* sendmail *}
+{if $CONF.sendmail==='YES'}
 {strip}
 	<li><a target="_top" href="{#url_sendmail#}">{$PALANG.pMenu_sendmail}</a>
 		<ul>
@@ -67,10 +68,11 @@
 		</ul>
 	</li>
 {/strip}
+{/if}
 {* password *}
 	<li><a target="_top" href="{#url_password#}">{$PALANG.pMenu_password}</a></li>
 {* backup *}
-{if $authentication_has_role.global_admin && $CONF.database_type!==pgsql && $CONF.backup===YES}
+{if $authentication_has_role.global_admin && $CONF.database_type!=='pgsql' && $CONF.backup === 'YES'}
 	<li><a target="_top" href="{#url_backup#}">{$PALANG.pAdminMenu_backup}</a></li>
 {/if}
 {* viewlog *}

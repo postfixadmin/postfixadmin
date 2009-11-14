@@ -13,7 +13,7 @@
 		<td nowrap="nowrap"><a target="_top" href="{#url_create_mailbox#}">{$PALANG.pMenu_create_mailbox}</a></td>
 		<td>{$PALANG.pMain_create_mailbox}</td>
 	</tr>
-{if $CONF.sendmail===YES}
+{if $CONF.sendmail==='YES'}
 	<tr>
 		<td nowrap="nowrap"><a target="_top" href="{#url_sendmail#}">{$PALANG.pMenu_sendmail}</a></td>
 		<td>{$PALANG.pMain_sendmail}</td>
