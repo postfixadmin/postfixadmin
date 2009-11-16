@@ -348,6 +348,8 @@ $PALANG['pUsersVacation_button_away'] = 'Afwezig';
 $PALANG['pUsersVacation_button_back'] = 'Kom terug';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Mislukt om uw automatisch beantwoorden instellingen te wijzigen.</span>';
 $PALANG['pUsersVacation_result_success'] = 'Uw automatisch beantwoorden is verwijderd.';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'mailbox aangemaakt';
 $PALANG['pCreate_dbLog_createalias'] = 'alias aangemaakt';

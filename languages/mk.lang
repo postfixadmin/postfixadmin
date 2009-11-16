@@ -348,6 +348,8 @@ $PALANG['pUsersVacation_button_away'] = 'Заминување';
 $PALANG['pUsersVacation_button_back'] = 'Враќање :)';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Не можам да ги променам сетирањата за автоматскиот одговор!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Вашиот автоматски одговор е отстранет!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX

@@ -347,6 +347,8 @@ $PALANG['pUsersVacation_button_away'] = 'Išvykstu';
 $PALANG['pUsersVacation_button_back'] = 'Grįžtu';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nepavyko nustatyti el.pašto auto atsakovo!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Auto atsakovas išjungtas!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'pašto dėžutė sukurta';
 $PALANG['pCreate_dbLog_createalias'] = 'sinonimas sukurtas';

@@ -347,6 +347,8 @@ $PALANG['pUsersVacation_button_away'] = 'Od&iacute;s&#357;';
 $PALANG['pUsersVacation_button_back'] = 'Vr&aacute;ti&#357; sa';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nepodarilo sa upravi&#357; nastavenie!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Nastavenie bolo upraven&eacute;!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'vytvori&#357; mailbox';     
 $PALANG['pCreate_dbLog_createalias'] = 'vytvori&#357; alias';

@@ -352,6 +352,8 @@ $PALANG['pUsersVacation_button_away'] = 'Burtur';
 $PALANG['pUsersVacation_button_back'] = 'Heima';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Fái ikki broytt tínar frítíðarboð uppsetingar!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Títt frítíðarboð er strikað!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX

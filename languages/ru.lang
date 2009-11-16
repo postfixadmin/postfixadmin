@@ -355,6 +355,8 @@ $PALANG['pUsersVacation_button_away'] = 'Ухожу';
 $PALANG['pUsersVacation_button_back'] = 'Возвращаюсь';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Невозможно изменить настройки автоответчика!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Ваш автоответчик был убран!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'создание ящика';     
 $PALANG['pCreate_dbLog_createalias'] = 'создание алиаса';

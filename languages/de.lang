@@ -186,8 +186,6 @@ $PALANG['pEdit_vacation_remove'] = 'Automatische Antwort abschalten';
 $PALANG['pVacation_result_error'] = '<span class="error_msg">&Auml;nderungen der automatischen Antwort konnten nicht gespeichert werden!</span>';
 $PALANG['pVacation_result_removed'] = 'Automatische Antwort wurde abgeschaltet!';
 $PALANG['pVacation_result_added'] = 'Automatische Antwort wurde aktiviert!';
-$PALANG['pUsersVacation_activefrom'] = 'Aktiv ab dem';
-$PALANG['pUsersVacation_activeuntil'] = 'Aktiv bis zum';
 
 $PALANG['pViewlog_welcome'] = 'Zeigt die letzten 10 Aktionen f&uuml;r ';
 $PALANG['pViewlog_timestamp'] = 'Zeitpunkt';
@@ -356,6 +354,8 @@ $PALANG['pUsersVacation_button_away'] = 'Ich gehe weg';
 $PALANG['pUsersVacation_button_back'] = 'Ich bin zur&uuml;ck';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Konnte Ihre Automatische Antwort nicht einstellen!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Ihre Automatische Antwort wurde gel&ouml;scht!';
+$PALANG['pUsersVacation_activefrom'] = 'Aktiv ab dem';
+$PALANG['pUsersVacation_activeuntil'] = 'Aktiv bis zum';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'Mailbox hinzuf&uuml;gen';     
 $PALANG['pCreate_dbLog_createalias'] = 'Alias hinzu&uuml;¼gen';

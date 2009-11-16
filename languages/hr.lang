@@ -346,6 +346,8 @@ $PALANG['pUsersVacation_button_away'] = 'Uključi odsutnost';
 $PALANG['pUsersVacation_button_back'] = 'Isključi odsutnost';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Nemoguće promijeniti vae postavke o odsutnosti!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Obvijest o odsutnosti je uklonjena!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'stvori potanski ormarić';
 $PALANG['pCreate_dbLog_createalias'] = 'stvori alias';

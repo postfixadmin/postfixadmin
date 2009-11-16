@@ -349,6 +349,8 @@ $PALANG['pUsersVacation_button_away'] = 'Ausente';
 $PALANG['pUsersVacation_button_back'] = 'De vuelta';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">¡Imposible actualizar la configuración de su respuesta automática!</span>';
 $PALANG['pUsersVacation_result_success'] = '¡Su respuesta automática ha sido borrada!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'crear buzón';
 $PALANG['pCreate_dbLog_createalias'] = 'crear alias'; 
