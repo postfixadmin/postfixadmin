@@ -56,6 +56,10 @@ def usage():
     print " * name     - full user name ('Name Surname')"
     print
     print "the 'name' column is optional, other columns will be ignored"
+    print
+    print "Known restrictions:"
+    print "* this script only works with MySQL"
+    print "* mailbox paths are hardcoded to domain/username/"
 
 
 # option parsing
