@@ -3,7 +3,7 @@
 {if $smarty.get.domain}
 {*** zuweisung muss eleganter gehen ***}
 	{assign var="url_domain" value=$smarty.get.domain}
-	{assign var="url_domain" value=?domain&#61;$url_domain}
+	{assign var="url_domain" value="?domain&#61;$url_domain"}
 {/if}
 {/strip}
 <div id="menu">

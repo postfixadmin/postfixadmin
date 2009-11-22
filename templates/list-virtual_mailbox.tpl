@@ -27,7 +27,7 @@
 				   {/if}
 			   	   {$item2}<br/>
 				{/foreach}
-				<td>
+				</td>
 			{/if}
 			<td>{$item.name}</td>
 			{if $CONF.quota===YES}
@@ -37,10 +37,10 @@
 				{elseif $item.quota<0}
 					{$PALANG.pOverview_disabled}
 				{else}
-				{if $boolconf_used_quotas}
-					{$divide_quota.current[$i]} / {$divide_quota.quota[$i]}
+					{if $boolconf_used_quotas}
+						{$divide_quota.current[$i]} / {$divide_quota.quota[$i]}
+					{/if}
 				{/if}
-			{/if}
 				</td>
 			{/if}
 			<td>{$item.modified}</td>
