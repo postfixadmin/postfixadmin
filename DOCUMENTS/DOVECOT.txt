@@ -105,7 +105,11 @@ quota = dict:storage=200000 proxy::quota
 
 Change dovecot-mysql.conf to return quota values:
 
-user_query = SELECT maildir, 1001 AS uid, 1001 AS gid, CONCAT('dict:storage=',floor(quota/1000),' proxy::quota') as quota FROM mailbox WHERE username = '%u'
+for MySQL:
+user_query = SELECT maildir, 1001 AS uid, 1001 AS gid, CONCAT('dict:storage=',floor(quota/1000),' proxy::quota') as quota FROM mailbox WHERE username = '%u' AND active='1'
+
+for PostgreSQL:
+user_query = SELECT maildir, 1001 AS uid, 1001 AS gid, 'dict:storage=' || floor(quota/1000) || '::proxy::quota' as quota FROM mailbox WHERE username = '%u' AND active='1'
 
 
 Create file dovecot-dict-quota.conf:
