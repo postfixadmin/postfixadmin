@@ -30,12 +30,19 @@
 			{#tr_hilightoff#}
 				<td><a href="{$smarty.config.url_list_virtual}?domain={$tTargetDomain.target_domain|escape:"url"}&amp;limit={$current_limit|escape:"url"}">{$tTargetDomain.target_domain}</a></td>
 				<td>{$tTargetDomain.modified}</td>
-				<td><a href="{#url_edit_active#}?alias_domain=true&amp;domain={$fDomain|escape:"url"}&amp;return={$smarty.config.url_list_virtual|escape:"url"}?domain={$fDomain|escape:"url"}&amp;limit={$current_limit|escape:"url"}">{if $tTargetDomain.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
+				<td><a href="{#url_edit_active#}?alias_domain=true&amp;domain={$fDomain|escape:"url"}&amp;return={$smarty.config.url_list_virtual|escape:"url"}?domain={$fDomain|escape:"url"}&amp;limit={$current_limit|escape:"url"}">
+				{if $tTargetDomain.active==1}
+					{$PALANG.YES}
+				{else}
+					{$PALANG.NO}
+				{/if}
+				</a></td>
 				<td><a href="{#url_delete#}?table=alias_domain&amp;delete={$fDomain|escape:"url"}&amp;domain={$fDomain|escape:"url"}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.pOverview_get_alias_domains}: {$fDomain})');">{$PALANG.del}</a></td>
 			</tr>
 		{/if}
 	{/if}
 </table>
 {if $tTargetDomain|@count<2}
-	<p><a href="{#url_create_alias_domain#}?target_domain={$fDomain|escape:"url"}">{$PALANG.pMenu_create_alias_domain}</a></p>
+	<br/>
+	<p id="mailbox_table"><a href="{#url_create_alias_domain#}?target_domain={$fDomain|escape:"url"}">{$PALANG.pMenu_create_alias_domain}</a></p>
 {/if}

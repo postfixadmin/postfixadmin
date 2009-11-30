@@ -15,7 +15,7 @@
 		{/if}
 		<td>{$item.address}</td>
 		{if $CONF.alias_goto_limit>0}
-			<td><i>sorry, alias_goto_limit > 0 not handeled</i></td>
+			<td><i>sorry, alias_goto_limit > 0 not handled</i></td>
 		{else}
 			<td>{$item.goto|replace:",":"<br/>"}</td>
 		{/if}

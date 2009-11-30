@@ -41,7 +41,8 @@
 	</table>
 	{$nav_bar_alias.bottom}
 	{if $tCanAddAlias}
-		<p><a href="create-alias.php?domain={$fDomain|escape:"url"}">{$PALANG.pMenu_create_alias}</a></p>
+		<br/>
+		<p id="mailbox_table"><a href="create-alias.php?domain={$fDomain|escape:"url"}">{$PALANG.pMenu_create_alias}</a></p>
 	{/if}
 {/if}
 {if $tab=='mailbox'}
@@ -59,7 +60,8 @@
 	{/if}
 	{$nav_bar_mailbox.bottom}
 	{if $tCanAddMailbox}
-		<p><a href="create-mailbox.php?domain={$fDomain|escape:"url"}">{$PALANG.pMenu_create_mailbox}</a></p>
+		<br/>
+		<p id="mailbox_table"><a href="create-mailbox.php?domain={$fDomain|escape:"url"}">{$PALANG.pMenu_create_mailbox}</a></p>
 	{/if}
 {/if}
 {if $CONF.show_status===YES && $CONF.show_status_key===YES}
