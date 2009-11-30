@@ -70,6 +70,7 @@ if($fDomain) {
 
 if (count($list_domains) == 0) {
 #   die("no domains");
+   flash_error( $PALANG['invalid_parameter'] );
    header("Location: list-domain.php"); # no domains (for this admin at least) - redirect to domain list
    exit;
 }
@@ -78,6 +79,7 @@ if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDoma
 
 if (!check_owner(authentication_get_username(), $fDomain)) {
 #   die($PALANG['invalid_parameter']);
+   flash_error( $PALANG['invalid_parameter'] );
    header("Location: list-domain.php"); # domain not owned by this admin
    exit(0);
 }

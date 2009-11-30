@@ -734,6 +734,10 @@ function check_owner ($username, $domain)
     $result = db_query ("SELECT 1 FROM $table_domain_admins WHERE username='$username' AND (domain='$domain' OR domain='ALL') AND active='1'");
     if ($result['rows'] != 1)
     {
+        if ($result['rows'] > 1) { # "ALL" + specific domain permissions. 2.3 doesn't create such entries, but they are available as leftover from older versions
+            flash_error("Permission check returned more than one result. Please go to 'edit admin' for your username and press the save "
+             . "button once to fix the database. If this doesn't help, open a bugreport.");
+        } 
         return false;
     }
     else
