@@ -36,7 +36,7 @@ require_once('common.php');
 	  exit;
     }
 
-	$smarty->assign ('language_selector', language_selector());
+	$smarty->assign ('language_selector', language_selector(), false);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
