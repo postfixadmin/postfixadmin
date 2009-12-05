@@ -1228,7 +1228,6 @@ function pacrypt ($pw, $pw_db="")
 
             if ( !preg_match('/^\{' . $method . '\}/', $password)) { die("can't encrypt password with dovecotpw"); }
             $password = trim(str_replace('{' . $method . '}', '', $password));
-            unlink($tmpfile);
         }
     }
 
