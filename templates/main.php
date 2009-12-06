@@ -13,12 +13,12 @@
       <td nowrap><a target="_top" href="create-mailbox.php"><?php print $PALANG['pMenu_create_mailbox']; ?></a></td>
       <td><?php print $PALANG['pMain_create_mailbox']; ?></td>
    </tr>
-<? if ($CONF['sendmail'] == "YES") { ?>
+<?php if ($CONF['sendmail'] == "YES") { ?>
    <tr>
       <td nowrap><a target="_top" href="sendmail.php"><?php print $PALANG['pMenu_sendmail']; ?></a></td>
       <td><?php print $PALANG['pMain_sendmail']; ?></td>
    </tr>
-<? } ?>
+<?php } ?>
    <tr>
       <td nowrap><a target="_top" href="password.php"><?php print $PALANG['pMenu_password']; ?></a></td>
       <td><?php print $PALANG['pMain_password']; ?></td>
