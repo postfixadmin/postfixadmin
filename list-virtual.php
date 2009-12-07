@@ -43,7 +43,6 @@ if (authentication_has_role('global-admin')) {
    $list_domains = list_domains_for_admin(authentication_get_username());
    $is_superadmin = 0;
 }
-
 $tAlias = array();
 $tMailbox = array();
 $fDisplay = 0;
@@ -69,7 +68,11 @@ if (count($list_domains) == 0) {
    exit;
 }
 
-if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDomain)) $fDomain = $list_domains[0];
+if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) {
+    if (empty ($fDomain)) {
+        $fDomain = $list_domains[0];
+    }
+}
 
 if(!in_array($fDomain, $list_domains)) {
    flash_error( $PALANG['invalid_parameter'] );
@@ -199,14 +202,14 @@ $display_mailbox_aliases = boolconf('special_alias_control'); # TODO: is this co
 $sql_select = " SELECT $table_mailbox.* ";
 $sql_from   = " FROM $table_mailbox ";
 $sql_join   = "";
-$sql_where  = " WHERE 1 ";
+$sql_where  = " WHERE ";
 $sql_order  = " ORDER BY $table_mailbox.username ";
 $sql_limit  = " LIMIT $page_size OFFSET $fDisplay";
 
 if ($search == "") {
-    $sql_where  .= " AND $table_mailbox.domain='$fDomain' ";
+    $sql_where  .= " $table_mailbox.domain='$fDomain' ";
 } else {
-    $sql_where  .= " AND " . db_in_clause("$table_mailbox.domain", $list_domains) . " ";
+    $sql_where  .=  db_in_clause("$table_mailbox.domain", $list_domains) . " ";
     $sql_where  .= " AND ( $table_mailbox.username LIKE '%$search%' OR $table_mailbox.name LIKE '%$search%' ";
     if ($display_mailbox_aliases) {
         $sql_where  .= " OR $table_alias.goto LIKE '%$search%' ";
@@ -231,12 +234,13 @@ if (boolconf('used_quotas') && boolconf('new_quota_table')) {
 if (boolconf('used_quotas') && ( ! boolconf('new_quota_table') ) ) {
     $sql_select .= ", $table_quota.current ";
     $sql_join   .= " LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username ";
-    $sql_where  .= " AND ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";
+    $sql_where  .= " ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";
 }
 
 $query = "$sql_select\n$sql_from\n$sql_join\n$sql_where\n$sql_order\n$sql_limit";
 
 $result = db_query ($query);
+
 if ($result['rows'] > 0)
 {
    while ($row = db_array ($result['result']))
