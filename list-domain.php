@@ -98,8 +98,8 @@ while ($row = db_array ($result['result'])) {
 $smarty->assign ('domain_properties', $domain_properties);
 if ($is_superadmin)
 {
-	$smarty->assign ('select_options', select_options ($list_admins, array ($fUsername)));
-	$smarty->assign ('smarty_template', 'admin_list-domain');
+	$smarty->assign('select_options', select_options($list_admins, array ($fUsername)), false);
+	$smarty->assign('smarty_template', 'admin_list-domain');
 }
 else
 {
