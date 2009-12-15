@@ -336,7 +336,7 @@ function upgrade_1_mysql() {
         active tinyint(4) NOT NULL default '1', 
         PRIMARY KEY (email), 
         KEY email (email) 
-    ) {INNODB} DEFAULT CHARSET=utf8 COMMENT='Postfix Admin - Virtual Vacation' ;";
+    ) {INNODB} DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Virtual Vacation' ;";
 
     foreach($sql as $query) {
         db_query_parsed($query);
