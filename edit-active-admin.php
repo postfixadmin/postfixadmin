@@ -15,7 +15,7 @@
  * File: edit-active-admin.php 
  * Edit an active administrator. This is used as a 'toggle' page from list-admin.
  *
- * Template File: message.php
+ * Template File: message.tpl
  *
  * Template Variables:
  *

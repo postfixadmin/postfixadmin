@@ -15,7 +15,7 @@
  * File: broadcast-message.php
  * Used to send a message to _ALL_ users with mailboxes on this server.
  *
- * Template File: broadcast-message.php
+ * Template File: broadcast-message.tpl
  *
  * Template Variables: -none-
  *
@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" || $error == 1)
 	$smarty->assign ('smarty_template', 'broadcast-message');
 	$smarty->display ('index.tpl');
 
-//   include ("templates/broadcast-message.php");
+//   include ("templates/broadcast-message.tpl");
 }
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

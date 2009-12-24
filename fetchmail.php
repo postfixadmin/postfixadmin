@@ -14,6 +14,7 @@
  * 
  * File: fetchmail.php
  * Responsible for setting up fetchmail
+ * template : fetchmail.tpl
  *
  * @version $Id$
  * @license GNU GPL v2 or later.
@@ -372,7 +373,7 @@ function _listview_password($val){
 
 $smarty->assign ('edit', $edit);
 $smarty->assign ('new', $new);
-$smarty->assign ('fetchmail_edit_row', fetchmail_edit_row($formvars));
+$smarty->assign ('fetchmail_edit_row', fetchmail_edit_row($formvars),false);
 $smarty->assign ('headers', $headers);
 $smarty->assign ('user_domains', $user_domains);
 $smarty->assign ('tFmail', $tFmail);

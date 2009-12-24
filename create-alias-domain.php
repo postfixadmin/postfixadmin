@@ -11,7 +11,7 @@
  *     http://www.postfixadmin.com or http://postfixadmin.sf.net
  *
  * File: create-alias-domain.php
- * Template File: create-alias-domain.php
+ * Template File: create-alias-domain.tpl
  * Responsible for allowing for the creation of alias domains.
  *
  * @version $Id$
@@ -136,11 +136,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $tMessage .= "<br />($fAliasDomain -> $fTargetDomain)<br />\n";
 }
 $smarty->assign ('alias_domains', (count($alias_domains) > 0));
-$smarty->assign ('select_options_alias', select_options ($alias_domains, array ($fAliasDomain)));
-$smarty->assign ('select_options_target', select_options ($target_domains, array ($fTargetDomain)));
+$smarty->assign ('select_options_alias', select_options ($alias_domains, array ($fAliasDomain)), false);
+$smarty->assign ('select_options_target', select_options ($target_domains, array ($fTargetDomain)), false);
 if ($fActive)	$smarty->assign ('fActive', ' checked="checked"');
 if ($error == 1)	$tMessage = '<span class="error_msg">'.$tMessage.'</span>';
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'create-alias-domain');
 $smarty->display ('index.tpl');
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

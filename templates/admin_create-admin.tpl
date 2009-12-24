@@ -17,14 +17,14 @@
 	<tr>
 		<td>{$PALANG.pAdminCreate_admin_password2}:</td>
 		<td><input class="flat" type="password" name="fPassword2" /></td>
-		<td>&nbsp;</td>
+
 	</tr>
 	<tr>
 		<td>{$PALANG.pAdminCreate_admin_address}:</td>
 		<td>
 			<select name="fDomains[]" size="10" multiple="multiple">{$select_options}</select>
 		</td>
-		<td>&nbsp;</td>
+
 	</tr>
 	<tr>
 		<td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="{$PALANG.pAdminCreate_admin_button}" /></td>

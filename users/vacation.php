@@ -15,7 +15,7 @@
  * File: vacation.php
  * Used by users to set/change their vacation settings.
  *
- * Template File: users_vacation.php
+ * Template File: users_vacation.tpl
  *
  * Template Variables:
  *
@@ -107,9 +107,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
-$smarty->assign ('tSubject', htmlentities ($tSubject, ENT_QUOTES, 'UTF-8'));
-$smarty->assign ('tBody', htmlentities ($tBody, ENT_QUOTES, 'UTF-8'));
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tSubject', htmlentities ($tSubject, ENT_QUOTES, 'UTF-8'), false);
+$smarty->assign ('tBody', htmlentities ($tBody, ENT_QUOTES, 'UTF-8'), false);
+$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('tActiveFrom',  date ("d.m.Y", strtotime ($fActiveFrom)));
 $smarty->assign ('tActiveUntil',  date ("d.m.Y", strtotime ($fActiveUntil)));
 $smarty->assign ('smarty_template', 'users_vacation');

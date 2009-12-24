@@ -26,13 +26,13 @@
 	<tr>
 		<td>{$PALANG.pAdminEdit_admin_super_admin}:</td>
 		<td><input class="flat" type="checkbox" name="fSadmin"{$tSadmin_checked}/></td>
-		<td>&nbsp;</td>
+                <td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="3" align="center">
-		<select name="fDomains[]" size="10" multiple="multiple">
-			{$select_options}
-		</select>
+	       <td>{$PALANG.pAdminCreate_admin_address}:</td>
+		<td>
+		<select name="fDomains[]" size="10" multiple="multiple">{$select_options}</select>
+		<td>&nbsp;</td>
 		</td>
 	</tr>
 	<tr>

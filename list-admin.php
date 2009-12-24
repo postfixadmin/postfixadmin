@@ -14,7 +14,7 @@
  * 
  * File: list-admin.php
  * Lists all administrators
- * Template File: list-admin.php
+ * Template File: list-admin.tpl
  *
  * Template Variables: -none-
  *
@@ -40,7 +40,7 @@ if ((is_array ($list_admins) and sizeof ($list_admins) > 0))
 	}
 }
 $smarty->assign ('admin_properties', $admin_properties);
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'admin_list-admin');
 $smarty->display ('index.tpl');
 

@@ -11,7 +11,7 @@
  *     http://www.postfixadmin.com or http://postfixadmin.sf.net
  *
  * File: create-alias.php
- * Template File: create-alias.php
+ * Template File: create-alias.tpl
  * Responsible for allowing for the creation of mail aliases.
  *
  * @version $Id$
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $tAddress = escape_string ($_POST['fAddress']);
         $tGoto = $fGoto;
         $tDomain = $fDomain;
-		$pCreate_alias_address_text = $PALANG['pCreate_alias_address_text_error2'];
+	$pCreate_alias_address_text = $PALANG['pCreate_alias_address_text_error2'];
     }
 
     if ($fActive == "on") {
@@ -154,11 +154,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 
 $smarty->assign ('tAddress', $tAddress);
-$smarty->assign ('select_options', select_options ($list_domains, array ($tDomain)));
-$smarty->assign ('pCreate_alias_address_text', $pCreate_alias_address_text);
-$smarty->assign ('tGoto', $tGoto);
+$smarty->assign ('select_options', select_options ($list_domains, array ($tDomain)), false);
+$smarty->assign ('pCreate_alias_address_text', $pCreate_alias_address_text, false);
+$smarty->assign ('tGoto', $tGoto, false);
 $smarty->assign ('pCreate_alias_goto_text', $pCreate_alias_goto_text);
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'create-alias');
 $smarty->display ('index.tpl');
 

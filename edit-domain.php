@@ -14,7 +14,7 @@
  * 
  * File: edit-domain.php 
  * Updates the properties of a domain.
- * Template File: admin_edit-domain.php
+ * Template File: admin_edit-domain.tpl
  *
  * Template Variables:
  *
@@ -114,14 +114,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 
 $smarty->assign ('domain', $domain);
-$smarty->assign ('tDescription', htmlspecialchars($tDescription, ENT_QUOTES));
+$smarty->assign ('tDescription', htmlspecialchars($tDescription, ENT_QUOTES), false);
 $smarty->assign ('tAliases', $tAliases);
 $smarty->assign ('tMailboxes', $tMailboxes);
 $smarty->assign ('tMaxquota', $tMaxquota);
-$smarty->assign ('select_options', select_options ($CONF ['transport_options'], array ($tTransport)));
+$smarty->assign ('select_options', select_options ($CONF ['transport_options'], array ($tTransport)), false);
 if ($tBackupmx)	$smarty->assign ('tBackupmx', ' checked="checked"');
 if ($tActive)	$smarty->assign ('tActive', ' checked="checked"');
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tMessage', $tMessage,false);
 $smarty->assign ('smarty_template', 'admin_edit-domain');
 $smarty->display ('index.tpl');
 

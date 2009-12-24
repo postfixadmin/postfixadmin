@@ -15,7 +15,7 @@
  * File: edit-active.php 
  * Responsible for toggling the active status of a mailbox. 
  *
- * Template File: message.php
+ * Template File: message.tp
  *
  * Template Variables:
  *

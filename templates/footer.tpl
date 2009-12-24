@@ -10,7 +10,7 @@
 	<a target="_blank" href="http://postfixadmin.sf.net/update-check.php?version={$version|escape:"url"}">{$PALANG.check_update}</a>
 	{if $CONF.show_footer_text == 'YES' && $CONF.footer_link}
 		&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-		<a href="{$CONF.footer_link|escape:"url"}">{$CONF.footer_text|escape:"url"}</a>
+		<a href="{$CONF.footer_link|escape:"url"}">{$CONF.footer_text|escape}</a>
 	{/if}
 </div>
 </body>

@@ -15,7 +15,7 @@
  * File: edit-admin.php
  * Edits a normal administrator's details.
  *
- * Template File: admin_edit-admin.php
+ * Template File: admin_edit-admin.tpl
  *
  * Template Variables:
  *
@@ -151,11 +151,11 @@ if ($result['rows'] >= 1) {
 }
 
 $smarty->assign ('username', $username);
-$smarty->assign ('pAdminEdit_admin_password_text', $pAdminEdit_admin_password_text);
+$smarty->assign ('pAdminEdit_admin_password_text', $pAdminEdit_admin_password_text, false);
 $smarty->assign ('tActive_checked', $tActive_checked);
 $smarty->assign ('tSadmin_checked', $tSadmin_checked);
-$smarty->assign ('select_options', select_options ($tAllDomains, $tDomains));
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('select_options', select_options ($tAllDomains, $tDomains), false);
+$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'admin_edit-admin');
 $smarty->display ('index.tpl');
 

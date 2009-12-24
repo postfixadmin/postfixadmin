@@ -1,5 +1,4 @@
-<?php
-/** 
+<?php /**
  * Postfix Admin 
  * 
  * LICENSE 
@@ -14,7 +13,7 @@
  * 
  * File: list-domain.php
  * List all domains as a quick overview.
- * Template File: admin_list-domain.php
+ * Template File: admin_list-domain.tpl
  *
  * Template Variables:
  *

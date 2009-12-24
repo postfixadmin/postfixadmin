@@ -87,7 +87,7 @@ if (!check_owner(authentication_get_username(), $fDomain)) {
 }
 
 // store fDomain in $_SESSION so after adding/editing aliases/mailboxes we can
-// take the user back to the appropriate domain listing. (see templates/menu.php)
+// take the user back to the appropriate domain listing. (see templates/menu.tpl)
 if($fDomain) {
     $_SESSION['list_virtual_sticky_domain'] = $fDomain;
 }
@@ -431,9 +431,9 @@ $nav_bar_mailbox->url = '&amp;domain='.$fDomain;
 // this is why we need a proper template layer.
 $fDomain = htmlentities($fDomain, ENT_QUOTES);
 
-$smarty->assign ('select_options', select_options ($list_domains, array ($fDomain)));
-$smarty->assign ('nav_bar_alias', array ('top' => $nav_bar_alias->display_top (), 'bottom' => $nav_bar_alias->display_bottom ()));
-$smarty->assign ('nav_bar_mailbox', array ('top' => $nav_bar_mailbox->display_top (), 'bottom' => $nav_bar_mailbox->display_bottom ()));
+$smarty->assign ('select_options', select_options ($list_domains, array ($fDomain)), false);
+$smarty->assign ('nav_bar_alias', array ('top' => $nav_bar_alias->display_top (), 'bottom' => $nav_bar_alias->display_bottom ()), false);
+$smarty->assign ('nav_bar_mailbox', array ('top' => $nav_bar_mailbox->display_top (), 'bottom' => $nav_bar_mailbox->display_bottom ()), false);
 
 $smarty->assign ('fDomain', $fDomain);
 

@@ -17,7 +17,7 @@
  * Note: if a domain is deleted, all mailboxes and aliases belonging 
  * to the domain are also removed.
  *
- * Template File: message.php
+ * Template File: message.tpl
  *
  * Template Variables:
  *

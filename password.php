@@ -14,7 +14,7 @@
  * 
  * File: password.php
  * Allows admins to change their own password.
- * Template File: password.php
+ * Template File: password.tpl
  *
  * Template Variables:
  *
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 	$smarty->assign ('pPassword_password_current_text', $pPassword_password_current_text);
 	$smarty->assign ('pPassword_password_text', $pPassword_password_text);
-	$smarty->assign ('tMessage', $tMessage);
+	$smarty->assign ('tMessage', $tMessage,false);
 	$smarty->display ('index.tpl');
 }
 

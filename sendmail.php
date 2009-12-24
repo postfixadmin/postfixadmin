@@ -14,7 +14,7 @@
  * 
  * File: sendmail.php
  * Used to send an email to a user.
- * Template File: sendmail.php
+ * Template File: sendmail.tpl
  *
  * Template Variables:
  *
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 $smarty->assign ('SESSID_USERNAME', $SESSID_USERNAME);
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tMessage', $tMessage, false);
 
 $smarty->assign ('smarty_template', 'sendmail');
 $smarty->display ('index.tpl');

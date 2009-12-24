@@ -14,7 +14,7 @@
  * 
  * File: login.php
  * Authenticates a user, and populates their $_SESSION as appropriate.
- * Template File: login.php
+ * Template File: login.tpl
  *
  * Template Variables:
  *
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 
 	$smarty->assign ('tUsername', $tUsername);
-	$smarty->assign ('tMessage', $tMessage);
+	$smarty->assign ('tMessage', $tMessage, false);
 
 	$smarty->assign ('smarty_template', 'login');
 	$smarty->display ('index.tpl');

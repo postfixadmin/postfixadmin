@@ -14,7 +14,7 @@
  * 
  * File: edit-active-domain.php 
  * Responsible for toggling the status of a domain
- * Template File: message.php
+ * Template File: message.tpl
  *
  * Template Variables:
  *

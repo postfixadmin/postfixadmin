@@ -14,7 +14,7 @@
  * 
  * File: search.php
  * Provides a method for searching for a user/mailbox
- * Template File: search.php
+ * Template File: search.tpl
  *
  * Template Variables:
  *
@@ -174,11 +174,11 @@ for ($i = 0; $i < sizeof ($tMailbox); $i++)
 }
 
 $smarty->assign ('fSearch', $fSearch);
-$smarty->assign ('select_options', select_options ($list_domains, array ($list_domains[0])));
-$smarty->assign ('tAlias', $tAlias);
+$smarty->assign ('select_options', select_options ($list_domains, array ($list_domains[0])), false);
+$smarty->assign ('tAlias', $tAlias, false);
 
 $smarty->assign ('check_alias_owner', $check_alias_owner);
-$smarty->assign ('tMailbox', $tMailbox);
+$smarty->assign ('tMailbox', $tMailbox, false);
 $smarty->assign ('divide_quota', $divide_quota);
 
 $smarty->assign ('smarty_template', 'search');

@@ -14,7 +14,7 @@
  * 
  * File: login.php
  * Used to authenticate want-to-be users.
- * Template File: login.php
+ * Template File: login.tpl
  *
  * Template Variables:
  *
@@ -30,7 +30,7 @@
 
 require_once("../common.php");
 
-$smarty->assign ('language_selector', language_selector());
+$smarty->assign ('language_selector', language_selector(), false);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $tUsername = $fUsername;
    }
 	$smarty->assign ('tUsername', $tUsername);
-	$smarty->assign ('tMessage', $tMessage);
+	$smarty->assign ('tMessage', $tMessage, false);
 	$smarty->assign ('smarty_template', 'users_login');
 	$smarty->display ('index.tpl');
 }

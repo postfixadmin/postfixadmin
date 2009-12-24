@@ -15,7 +15,7 @@
  * File: edit-vacation.php 
  * Responsible for allowing users to update their vacation status.
  *
- * Template File: edit-vacation.php
+ * Template File: edit-vacation.tpl
  *
  * Template Variables:
  *
@@ -209,9 +209,9 @@ if (empty ($tActiveUntil))
 	$tActiveUntil = date ("Y-m-d");
 	
 $smarty->assign ('tUseremail', $tUseremail);
-$smarty->assign ('tSubject', htmlentities(stripslashes($tSubject), ENT_QUOTES, 'UTF-8'));
-$smarty->assign ('tBody', htmlentities(stripslashes($tBody), ENT_QUOTES , 'UTF-8'));
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tSubject', htmlentities(stripslashes($tSubject), ENT_QUOTES, 'UTF-8'),false);
+$smarty->assign ('tBody', htmlentities(stripslashes($tBody), ENT_QUOTES , 'UTF-8'),false);
+$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('tActiveFrom',  date ("d.m.Y", strtotime ($tActiveFrom)));
 $smarty->assign ('tActiveUntil',  date ("d.m.Y", strtotime ($tActiveUntil)));
 $smarty->assign ('fCanceltarget', $fCanceltarget);

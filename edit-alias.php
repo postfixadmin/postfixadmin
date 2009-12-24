@@ -15,7 +15,7 @@
  * File: edit-alias.php 
  * Used to update an alias.
  *
- * Template File: edit-alias.php
+ * Template File: edit-alias.tpl
  *
  * Template Variables:
  *
@@ -173,9 +173,9 @@ $array = preg_split ('/,/', $tGoto);
 // TOCHECK
 $array = $alias_list;
 
-$smarty->assign ('fAddress', $fAddress);
-$smarty->assign ('array', $array);
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('fAddress', $fAddress, false);
+$smarty->assign ('array', $array, false);
+$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'edit-alias');
 $smarty->display ('index.tpl');
 

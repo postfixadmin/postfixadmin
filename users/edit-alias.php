@@ -15,7 +15,7 @@
  * File: edit-alias.php
  * Users can use this to set forwards etc for their mailbox.
  *
- * Template File: users_edit-alias.php
+ * Template File: users_edit-alias.tpl
  *
  * Template Variables:
  *
@@ -113,8 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     else {
         $tGotoArray = $goto;
     }
-    $smarty->assign ('tMessage', $tMessage);
-	$smarty->display ('index.tpl');
+    $smarty->assign ('tMessage', $tMessage, false);
+    $smarty->display ('index.tpl');
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

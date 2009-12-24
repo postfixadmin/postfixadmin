@@ -14,7 +14,7 @@
  * 
  * File: create-domain.php
  * Allows administrators to create new domains.
- * Template File: admin_create-domain.php
+ * Template File: admin_create-domain.tpl
  *
  * Template Variables:
  *
@@ -143,15 +143,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 
 $smarty->assign ('tDomain', $tDomain);
-$smarty->assign ('pAdminCreate_domain_domain_text', $pAdminCreate_domain_domain_text);
-$smarty->assign ('tDescription', $tDescription);
+$smarty->assign ('pAdminCreate_domain_domain_text', $pAdminCreate_domain_domain_text, false);
+$smarty->assign ('tDescription', $tDescription, false);
 $smarty->assign ('tAliases', $tAliases);
 $smarty->assign ('tMailboxes', $tMailboxes);
-$smarty->assign ('tMaxquota', $tMaxquota);
-$smarty->assign ('select_options', select_options ($CONF ['transport_options'], array ($tTransport)));
+$smarty->assign ('tMaxquota', $tMaxquota,false);
+$smarty->assign ('select_options', select_options ($CONF ['transport_options'], array ($tTransport)),false);
 $smarty->assign ('tDefaultaliases', ($tDefaultaliases == 'on') ? ' checked="checked"' : '');
 $smarty->assign ('tBackupmx', ($tBackupmx == 'on') ? ' checked="checked"' : '');
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'admin_create-domain');
 $smarty->display ('index.tpl');
 

@@ -264,13 +264,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 
 $smarty->assign ('tUsername', $tUsername);
-$smarty->assign ('select_options', select_options ($list_domains, array ($tDomain)));
-$smarty->assign ('pCreate_mailbox_username_text', $pCreate_mailbox_username_text);
-$smarty->assign ('pCreate_mailbox_password_text', $pCreate_mailbox_password_text);
-$smarty->assign ('tName', $tName);
+$smarty->assign ('select_options', select_options ($list_domains, array ($tDomain)), false);
+$smarty->assign ('pCreate_mailbox_username_text', $pCreate_mailbox_username_text, false);
+$smarty->assign ('pCreate_mailbox_password_text', $pCreate_mailbox_password_text, false);
+$smarty->assign ('tName', $tName, false);
 $smarty->assign ('tQuota', $tQuota);
-$smarty->assign ('pCreate_mailbox_quota_text', $pCreate_mailbox_quota_text);
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('pCreate_mailbox_quota_text', $pCreate_mailbox_quota_text, false);
+$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'create-mailbox');
 $smarty->display ('index.tpl');
 
