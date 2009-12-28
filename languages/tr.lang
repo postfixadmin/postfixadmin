@@ -347,6 +347,8 @@ $PALANG['pUsersVacation_button_away'] = 'Dýþarý gidiyorum.';
 $PALANG['pUsersVacation_button_back'] = 'Geri Geliyorum';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">otomatik cevaplama ayarlarýnýzý deðiþtirilemiyor!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Otomatik cevaplamanýz kaldýrýldý!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX

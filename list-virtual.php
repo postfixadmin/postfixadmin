@@ -60,23 +60,35 @@ else
     if (isset ($_POST['limit'])) $fDisplay = intval ($_POST['limit']);
 }
 
+if (count($list_domains) == 0) {
+    #   die("no domains");
+    flash_error( $PALANG['invalid_parameter'] );
+    header("Location: list-domain.php"); # no domains (for this admin at least) - redirect to domain list
+    exit;
+}
+
+if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) {
+    if (empty ($fDomain)) {
+        $fDomain = $list_domains[0];
+    }
+}
+
+if(!in_array($fDomain, $list_domains)) {
+    flash_error( $PALANG['invalid_parameter'] );
+    header("Location: list-domain.php"); # invalid domain, or not owned by this admin
+    exit;
+}
+
+if (!check_owner(authentication_get_username(), $fDomain)) { 
+    flash_error( $PALANG['invalid_parameter'] . " If you see this message, please open a bugreport"); # this check is most probably obsoleted by the in_array() check above
+    header("Location: list-domain.php"); # domain not owned by this admin
+    exit(0);
+}
+
 // store fDomain in $_SESSION so after adding/editing aliases/mailboxes we can 
 // take the user back to the appropriate domain listing. (see templates/menu.php)
 if($fDomain) {
     $_SESSION['list_virtual_sticky_domain'] = $fDomain;
-}
-
-if (count($list_domains) == 0) {
-    #   die("no domains");
-    header("Location: list-domain.php"); # no domains (for this admin at least) - redirect to domain list
-}
-
-if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) if (empty ($fDomain)) $fDomain = $list_domains[0];
-
-if (!check_owner(authentication_get_username(), $fDomain)) {
-    #   die($PALANG['invalid_parameter']);
-    header("Location: list-domain.php"); # domain not owned by this admin
-    exit(0);
 }
 
 if (boolconf('alias_domain')) {
@@ -166,7 +178,7 @@ if ($CONF['vacation_control_admin'] == 'YES')
     {
         if (boolconf('new_quota_table'))
         {
-            $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active, $table_quota2.bytes FROM $table_mailbox
+            $query = "SELECT $table_mailbox.*, $table_vacation.active AS v_active, $table_quota2.bytes as current FROM $table_mailbox
                 LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email
                 LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username
                 WHERE $table_mailbox.domain='$fDomain'

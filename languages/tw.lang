@@ -347,6 +347,8 @@ $PALANG['pUsersVacation_button_away'] = '開啟自動回復';
 $PALANG['pUsersVacation_button_back'] = '關閉自動回復';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">更新自動回復失敗!</span>';
 $PALANG['pUsersVacation_result_success'] = '你的自動回復已經關閉!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = '新建郵箱';     
 $PALANG['pCreate_dbLog_createalias'] = '新建別名';

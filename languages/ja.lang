@@ -353,6 +353,8 @@ $PALANG['pUsersVacation_button_away'] = '設定';
 $PALANG['pUsersVacation_button_back'] = '解除';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">自動応答の設定を更新できませんでした！</span>';
 $PALANG['pUsersVacation_result_success'] = '自動応答を解除しました。';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox'; # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX

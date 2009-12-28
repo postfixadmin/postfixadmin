@@ -166,7 +166,7 @@ $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Das angegebene Quota ist zu hoch!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Diese Domain geh&ouml;rt nicht Ihnen: ';
 $PALANG['pEdit_mailbox_button'] = 'Mailbox editieren';
-$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Unm&ouml;glich das Passwort zu &auml;ndern!</span>';
+$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Mailbox kann nicht ge&auml;ndert werden!</span>';
 
 $PALANG['pPassword_welcome'] = '&Auml;ndern Sie Ihr Login-Passwort.';
 $PALANG['pPassword_admin'] = 'Login';
@@ -354,6 +354,8 @@ $PALANG['pUsersVacation_button_away'] = 'Ich gehe weg';
 $PALANG['pUsersVacation_button_back'] = 'Ich bin zur&uuml;ck';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Konnte Ihre Automatische Antwort nicht einstellen!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Ihre Automatische Antwort wurde gel&ouml;scht!';
+$PALANG['pUsersVacation_activefrom'] = 'Aktiv ab dem';
+$PALANG['pUsersVacation_activeuntil'] = 'Aktiv bis zum';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'Mailbox hinzuf&uuml;gen';     
 $PALANG['pCreate_dbLog_createalias'] = 'Alias hinzu&uuml;¼gen';

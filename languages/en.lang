@@ -355,6 +355,8 @@ $PALANG['pUsersVacation_button_away'] = 'Going Away';
 $PALANG['pUsersVacation_button_back'] = 'Coming Back';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Unable to update your auto response settings!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Your auto response has been removed!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from';
+$PALANG['pUsersVacation_activeuntil'] = 'Active until';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

@@ -314,6 +314,7 @@ $CONF['recipient_delimiter'] = "";
 // Note that this may fail if PHP is run in "safe mode", or if
 // operating system features (such as SELinux) or limitations
 // prevent the web-server from executing external scripts.
+// Parameters: (1) username (2) domain (3) maildir (4) quota
 // $CONF['mailbox_postcreation_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postcreation.sh';
 
 // Optional:
@@ -321,6 +322,7 @@ $CONF['recipient_delimiter'] = "";
 // Note that this may fail if PHP is run in "safe mode", or if
 // operating system features (such as SELinux) or limitations
 // prevent the web-server from executing external scripts.
+// Parameters: (1) username (2) domain (3) maildir (4) quota
 // $CONF['mailbox_postedit_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postedit.sh';
 
 // Optional:
@@ -328,6 +330,7 @@ $CONF['recipient_delimiter'] = "";
 // Note that this may fail if PHP is run in "safe mode", or if
 // operating system features (such as SELinux) or limitations
 // prevent the web-server from executing external scripts.
+// Parameters: (1) username (2) domain
 // $CONF['mailbox_postdeletion_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postdeletion.sh';
 
 // Optional:
@@ -335,6 +338,7 @@ $CONF['recipient_delimiter'] = "";
 // Note that this may fail if PHP is run in "safe mode", or if
 // operating system features (such as SELinux) or limitations
 // prevent the web-server from executing external scripts.
+// Parameters: (1) username
 //$CONF['domain_postcreation_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postcreation.sh';
 
 // Optional:
@@ -342,6 +346,7 @@ $CONF['recipient_delimiter'] = "";
 // Note that this may fail if PHP is run in "safe mode", or if
 // operating system features (such as SELinux) or limitations
 // prevent the web-server from executing external scripts.
+// Parameters: (1) username
 // $CONF['domain_postdeletion_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postdeletion.sh';
 
 // Optional:

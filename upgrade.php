@@ -106,7 +106,8 @@ _do_upgrade($version);
 
 function _do_upgrade($current_version) {
     global $CONF;
-    $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
+    # $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
+    $target_version = 739; # hardcoded target version for 2.3 branch - increase (by one) if database changes in the branch are necessary
 
     if ($current_version >= $target_version) {
         # already up to date
@@ -336,7 +337,7 @@ function upgrade_1_mysql() {
         active tinyint(4) NOT NULL default '1', 
         PRIMARY KEY (email), 
         KEY email (email) 
-    ) {INNODB} DEFAULT CHARSET=utf8 COMMENT='Postfix Admin - Virtual Vacation' ;";
+    ) {INNODB} DEFAULT CHARSET=latin1 COMMENT='Postfix Admin - Virtual Vacation' ;";
 
     foreach($sql as $query) {
         db_query_parsed($query);
@@ -863,7 +864,7 @@ function upgrade_344_mysql() {
          extra_options text,
          returned_text text,
          mda varchar(255) not null default '',
-         date timestamp(14),
+         date timestamp,
          primary key(id)
         );
     ");

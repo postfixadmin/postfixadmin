@@ -347,6 +347,8 @@ $PALANG['pUsersVacation_button_away'] = 'Lomalle';
 $PALANG['pUsersVacation_button_back'] = 'Takaisin lomalta';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Automaattivastauksen asettaminen epäonnistui!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Automaattivastaus on poistettu käytöstä!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'luo sähköpostilaatikko';
 $PALANG['pCreate_dbLog_createalias'] = 'luo alias';

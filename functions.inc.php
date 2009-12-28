@@ -733,6 +733,10 @@ function check_owner ($username, $domain)
     $result = db_query ("SELECT 1 FROM $table_domain_admins WHERE username='$username' AND (domain='$domain' OR domain='ALL') AND active='1'");
     if ($result['rows'] != 1)
     {
+        if ($result['rows'] > 1) { # "ALL" + specific domain permissions. 2.3 doesn't create such entries, but they are available as leftover from older versions
+            flash_error("Permission check returned more than one result. Please go to 'edit admin' for your username and press the save "
+             . "button once to fix the database. If this doesn't help, open a bugreport.");
+        } 
         return false;
     }
     else
@@ -1199,22 +1203,30 @@ function pacrypt ($pw, $pw_db="")
         $dovecotpw = "dovecotpw";
         if (!empty($CONF['dovecotpw'])) $dovecotpw = $CONF['dovecotpw'];
 
-        // prevent showing plain password in process table
-        $prefix = "postfixadmin-";
-        $tmpfile = tempnam('/tmp', $prefix);
-        $pipe = popen("'$dovecotpw' -s '$method' > '$tmpfile'", 'w'); # TODO: replace tempfile usage with proc_open call
+        # Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
+        $spec = array(
+            0 => array("pipe", "r"), // stdin
+            1 => array("pipe", "w") // stdout
+        );
+
+        $pipe = proc_open("$dovecotpw '-s' $method", $spec, $pipes);
 
         if (!$pipe) {
-            unlink($tmpfile);
+            die("can't proc_open $dovecotpw");
         } else {
             // use dovecot's stdin, it uses getpass() twice
-            fwrite($pipe, $pw . "\n", 1+strlen($pw)); usleep(1000);
-            fwrite($pipe, $pw . "\n", 1+strlen($pw));
-            pclose($pipe);
-            $password = file_get_contents($tmpfile);
+            // Write pass in pipe stdin
+            fwrite($pipes[0], $pw . "\n", 1+strlen($pw)); usleep(1000);
+            fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
+            fclose($pipes[0]);
+
+            // Read hash from pipe stdout
+            $password = fread($pipes[1], "200");
+    		fclose($pipes[1]);
+            proc_close($pipe);
+
             if ( !preg_match('/^\{' . $method . '\}/', $password)) { die("can't encrypt password with dovecotpw"); }
             $password = trim(str_replace('{' . $method . '}', '', $password));
-            unlink($tmpfile);
         }
     }
 

@@ -344,6 +344,8 @@ $PALANG['pUsersVacation_button_away'] = 'Ikke tilstede';
 $PALANG['pUsersVacation_button_back'] = 'Straks tilbake';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Klarte ikke å oppdatere dine autosvar-instillinger!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Ditt autosvar er fjernet';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'oppret e-postkonto';     
 $PALANG['pCreate_dbLog_createalias'] = 'opprett alias';

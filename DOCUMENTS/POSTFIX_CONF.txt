@@ -40,7 +40,7 @@ autoreply features.
   Contents of the files
 
 These are examples only, you will likely have to and want to make some
-cumtomizations.  You will also want to consider the config.inc.php
+customizations.  You will also want to consider the config.inc.php
 settings for domain_path and domain_in_mailbox.  These examples
 use values of domain_path=YES and domain_in_mailbox=NO
 

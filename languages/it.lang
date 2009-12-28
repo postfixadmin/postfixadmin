@@ -348,6 +348,8 @@ $PALANG['pUsersVacation_button_away'] = 'Imposta autorisponditore';
 $PALANG['pUsersVacation_button_back'] = 'Rimuovi autorisponditore';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Impossibile registrare i valori per l\'autorisponditore!</span>';
 $PALANG['pUsersVacation_result_success'] = 'La tua risposta automatica &egrave; stata tolta!';
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'crea casella';     
 $PALANG['pCreate_dbLog_createalias'] = 'crea alias';
