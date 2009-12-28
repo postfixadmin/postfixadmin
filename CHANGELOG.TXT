@@ -10,8 +10,22 @@
 # Last update:
 # $Id$
 
-Version ***svn*** - 2009/10/24 - SVN r*****
---------------------------------------
+
+Version ***svn*** - 2009/12/26 - SVN r***
+-----------------------------------
+
+  - NOTE: changes from the 2.3 branch also apply to this version
+  - use smarty for templates
+  - add ability to choose activation date for vacation message in user module
+  - merge search functionality into list-virtual.php
+
+Version ***svn 2.3 branch*** - 2009/12/26 - SVN r***
+-----------------------------------
+
+*** see 2.3 branch CHANGELOG.TXT, will be added here after 2.3.1 release ***
+
+Version 2.3 - 2009/10/24 - SVN r739
+-----------------------------------
 
   - automatically create quota tables for dovecot (both 1.0/1.1 and >= 1.2)
   - list-virtual can now handle both table formats
