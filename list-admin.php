@@ -41,7 +41,7 @@ if ((is_array ($list_admins) and sizeof ($list_admins) > 0))
 }
 $smarty->assign ('admin_properties', $admin_properties);
 $smarty->assign ('tMessage', $tMessage, false);
-$smarty->assign ('smarty_template', 'admin_list-admin');
+$smarty->assign ('smarty_template', 'adminlistadmin');
 $smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

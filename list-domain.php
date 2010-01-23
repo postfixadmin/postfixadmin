@@ -13,7 +13,7 @@
  * 
  * File: list-domain.php
  * List all domains as a quick overview.
- * Template File: admin_list-domain.tpl
+ * Template File: adminlistdomain.tpl
  *
  * Template Variables:
  *
@@ -98,7 +98,7 @@ $smarty->assign ('domain_properties', $domain_properties);
 if ($is_superadmin)
 {
 	$smarty->assign('select_options', select_options($list_admins, array ($fUsername)), false);
-	$smarty->assign('smarty_template', 'admin_list-domain');
+	$smarty->assign('smarty_template', 'adminlistdomain');
 }
 else
 {
