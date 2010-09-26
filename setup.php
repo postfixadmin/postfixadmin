@@ -349,7 +349,7 @@ else
             $table_domain = table_by_key('domain');
             $r = db_query("SELECT * FROM $table_domain WHERE domain = 'ALL'");
             if($r['rows'] == 0) {
-                db_insert($table_domain, array('domain' => 'ALL')); // all other fields should default through the schema.
+                db_insert('domain', array('domain' => 'ALL')); // all other fields should default through the schema.
             }
 
             list ($error, $tMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, array('ALL'), TRUE);

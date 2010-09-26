@@ -22,7 +22,7 @@ class PFASmarty extends Smarty {
      * */
     public function sanitise($data) {
         if(!is_array($data)) {
-            return htmlentities($data, ENT_QUOTES, 'UTF-8');
+            return htmlentities($data, ENT_QUOTES, 'UTF-8', false);
         }
         if(is_array($data)) {
             $clean = array();

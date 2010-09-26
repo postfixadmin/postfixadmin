@@ -1,0 +1,27 @@
+squirrelmail-postfixadmin (2.3.0) stable; urgency=low
+
+  * Using XMLRPC backend (no SQL here)
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Mon, 01 Feb 2010 09:56:00 +0000
+
+squirrelmail-postfixadmin (2.2.0) stable; urgency=low
+
+  * Changed DB backend to use prepared statements
+  * Changed vacation handling to match that of Postfixadmin (vacation.active
+    etc)
+  * Changed vacation page to support UTF8
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Wed, 20 Aug 2008 15:25:00 +0000
+
+squirrelmail-postfixadmin (2.1.1-1) stable; urgency=low
+
+  * Add NL language support
+  * Better db error logging (e.g. if wrong mdb2 driver specified etc)
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Wed, 12 Dec 2007 16:00:00 +0000
+
+squirrelmail-postfixadmin (2.1.0-1) stable; urgency=low
+
+  * Initial release.
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Thu,  8 Nov 2007 20:00:00 +0000

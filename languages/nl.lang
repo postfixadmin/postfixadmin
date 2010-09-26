@@ -85,7 +85,7 @@ $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Laatst bewerkt';
 
 $PALANG['pDelete_delete_error'] = '<span class="error_msg">Mislukt te verwijderen ';
-$PALANG['pDelete_delete_success'] = '%s verwijdert.';
+$PALANG['pDelete_delete_success'] = '%s verwijderd.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Niet in staat mailbox te verwijderen ';
 $PALANG['pDelete_domain_error'] = '<span class="error_msg">Dit is niet uw domein ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">Dit is niet uw domein ';
@@ -191,12 +191,12 @@ $PALANG['pViewlog_domain'] = 'Domein';
 $PALANG['pViewlog_action'] = 'Actie';
 $PALANG['pViewlog_data'] = 'Aanpassing';
 $PALANG['pViewlog_action_create_mailbox'] = 'Mailbox toegevoegd';
-$PALANG['pViewlog_action_delete_mailbox'] = 'Mailbox verwijdert';
+$PALANG['pViewlog_action_delete_mailbox'] = 'Mailbox verwijderd';
 $PALANG['pViewlog_action_edit_mailbox'] = 'Mailbox bewerkt';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'status actieve mailbox bewerkt';
 $PALANG['pViewlog_action_create_alias'] = 'alias toegevoegd';
 $PALANG['pViewlog_action_create_alias_domain'] = 'maak domein alias';
-$PALANG['pViewlog_action_delete_alias'] = 'alias verwijdert';
+$PALANG['pViewlog_action_delete_alias'] = 'alias verwijderd';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'verwijder alias domein';
 $PALANG['pViewlog_action_edit_alias'] = 'alias bewerkt';
 $PALANG['pViewlog_action_edit_alias_state'] = 'status actieve alias bewerkt';
@@ -331,7 +331,7 @@ $PALANG['pUsersMenu_edit_alias'] = 'Wijzig uw forward';
 $PALANG['pUsersMenu_password'] = 'Wijzig wachtwoord';
 
 $PALANG['pUsersMain_vacation'] = 'Stel een "out of office" bericht of automatisch beantwoorden voor uw e-mail in.';
-$PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is actief, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/verweideren';
+$PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is actief, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/verwijderen';
 $PALANG['pUsersMain_edit_alias'] = 'Wijzig uw e-mail forwarding.';
 $PALANG['pUsersMain_password'] = 'Wijzig uw huidige wachtwoord.';
 
@@ -353,8 +353,8 @@ $PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'mailbox aangemaakt';
 $PALANG['pCreate_dbLog_createalias'] = 'alias aangemaakt';
-$PALANG['pDelete_dbLog_deletealias'] = 'alias verwijdert';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'mailbox verwijdert';
+$PALANG['pDelete_dbLog_deletealias'] = 'alias verwijderd';
+$PALANG['pDelete_dbLog_deletemailbox'] = 'mailbox verwijderd';
 
 $PALANG['pEdit_dbLog_editactive'] = 'status verandert';
 $PALANG['pEdit_dbLog_editalias'] = 'bewerk alias';

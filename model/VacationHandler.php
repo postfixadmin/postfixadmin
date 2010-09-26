@@ -106,7 +106,7 @@ class VacationHandler {
         else {
             $tmp = preg_split ('/@/', $username);
             $domain = escape_string($tmp[1]);
-            $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active,activefrom, activeuntil) VALUES ('$username','$subject','$body','$domain',NOW(),'$active','$activeFrom','$ativeUntil')");
+            $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active,activefrom, activeuntil) VALUES ('$username','$subject','$body','$domain',NOW(),'$active','$activeFrom','$activeUntil')");
         }
 
         $ah = new AliasHandler($this->username); 

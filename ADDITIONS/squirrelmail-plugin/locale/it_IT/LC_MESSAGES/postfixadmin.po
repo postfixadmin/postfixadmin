@@ -1,0 +1,129 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2004-01-29 17:35+0100\n"
+"PO-Revision-Date: 2010-02-19 11:30+0100\n"
+"Last-Translator: valentina <ruggiolona@tiscali.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: setup.php
+msgid "Forwarding"
+msgstr "Inoltro E-MAIL"
+
+msgid "Here you can create and edit E-Mail forwards."
+msgstr "Qui puoi creare e modificare l'inoltro dell' E-MAIL."
+
+msgid "Set an OUT OF OFFICE message or auto responder for your mail."
+msgstr "Imposta un messaggio OUT OF OFFICE / ASSENTE o un risponditore automatico per la tua mail."
+
+msgid "Change your mailbox password."
+msgstr "Modifica la tua password di accesso alla mail"
+
+#: postfixadmin_changepass.php
+msgid "Alias"
+msgstr "Alias"
+
+msgid "Change Password"
+msgstr "Modifica password"
+
+msgid "Change your login password"
+msgstr "Modifica la tua password di accesso"
+
+#: postfixadmin_forward.php
+msgid "Edit Alias"
+msgstr "Modifica Alias"
+
+msgid "Edit an alias* for your domain.<br />One entry per line."
+msgstr "Modifica un Alias per il tuo dominio.<br />Un record per linea."
+
+msgid "The email address that you have entered is not valid:"
+msgstr "L'indirizzo email che hai inserito non è corretto:"
+
+msgid "Unable to locate alias!"
+msgstr "Impossibile trovare l'alias!"
+
+msgid "Unable to modify the alias!"
+msgstr "Impossibile modificare l'alias!"
+
+msgid "*Additional forward-aliase always recieve messages BBC!"
+msgstr "* L'inoltro ad un alias aggiuntivo comporta l'invio del messaggio in BCC!"
+
+msgid "Alias successfully changend!"
+msgstr "Alias modificato correttamente!"
+
+#: postfixadmin_vacation.php
+msgid "Auto Response"
+msgstr "Risponditore automatico"
+
+msgid "Going Away"
+msgstr "Going Away"
+
+msgid "Coming Back"
+msgstr "Coming Back"
+
+msgid "Options"
+msgstr "Opzioni"
+
+msgid "Out of Office"
+msgstr "Out of Office/Assente"
+
+msgid "Subject"
+msgstr "Oggetto"
+
+msgid "Body"
+msgstr "Messaggio"
+
+msgid "Your auto response has been removed!"
+msgstr "Il risponditore automatico è stato disattivato!"
+
+msgid "Your auto response has been set!"
+msgstr "Il risponditore automatico è stato configurato!"
+
+msgid "You already have an auto response configured!"
+msgstr "Hai gia configurato il risponditore automatico !"
+
+#: postfixadmin_changepass.php:81
+#: postfixadmin_changepass.php:87
+msgid "The passwords that you supplied don't match!<br />Or are empty!"
+msgstr "Le password inserite non coincidono!<br />O i campi sono vuoti!"
+
+#: postfixadmin_forward.php:70
+#: postfixadmin_forward.php:152
+msgid "To"
+msgstr "A"
+
+#: postfixadmin_changepass.php:101
+msgid "Unable to change your password!"
+msgstr "Impossibile modificare la password"
+
+#: postfixadmin_changepass.php:75
+msgid "You didn't supply your current password!"
+msgstr "Non hai indicato la password attuale!"
+
+#: postfixadmin_changepass.php:96
+msgid "Your password has been changed!"
+msgstr "La tua password è stata modificata!"
+
+msgid "Password current"
+msgstr "Password attuale"
+
+msgid "Password new"
+msgstr "Nuova password"
+
+msgid "Password new again"
+msgstr "Insierisci nuovamente la nuova password"
+
+msgid "Please sign out and log back again with your new password!"
+msgstr "Per favore fai log out e riaccedi alla tua mail con la nuova password!"
+
+msgid "I will be away from <date> until <date>. For urgent matters you can contact <contact person>."
+msgstr "Mi dispiace sarò assente dal <date> al <date>. Per richieste urgenti vi prego di contattare <nome e indirizzo email>.    I will be away from <date> until <date>. For urgent matters you can contact <contact person>."
+

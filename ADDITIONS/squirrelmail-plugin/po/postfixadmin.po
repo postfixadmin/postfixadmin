@@ -1,0 +1,127 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2004-01-29 17:35+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: setup.php
+msgid "Forwarding"
+msgstr ""
+
+msgid "Here you can create and edit E-Mail forwards."
+msgstr ""
+
+msgid "Set an OUT OF OFFICE message or auto responder for your mail."
+msgstr ""
+
+msgid "Change your mailbox password."
+msgstr ""
+
+#: postfixadmin_changepass.php
+msgid "Alias"
+msgstr ""
+
+msgid "Change Password"
+msgstr ""
+
+msgid "Change your login password"
+msgstr ""
+
+#: postfixadmin_forward.php
+msgid "Edit Alias"
+msgstr ""
+
+msgid "Edit an alias* for your domain.<br />One entry per line."
+msgstr ""
+
+msgid "The email address that you have entered is not valid:"
+msgstr ""
+
+msgid "Unable to locate alias!"
+msgstr ""
+
+msgid "Unable to modify the alias!"
+msgstr ""
+
+msgid "*Additional forward-aliase always recieve messages BBC!"
+msgstr ""
+
+msgid "Alias successfully changend!"
+msgstr ""
+
+#: postfixadmin_vacation.php
+msgid "Auto Response"
+msgstr ""
+
+msgid "Going Away"
+msgstr ""
+
+msgid "Coming Back"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Out of Office"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Body"
+msgstr ""
+
+msgid "Your auto response has been removed!"
+msgstr ""
+
+msgid "Your auto response has been set!"
+msgstr ""
+
+msgid "You already have an auto response configured!"
+msgstr ""
+
+#: postfixadmin_changepass.php:81 postfixadmin_changepass.php:87
+msgid "The passwords that you supplied don't match!<br />Or are empty!"
+msgstr ""
+
+#: postfixadmin_forward.php:70 postfixadmin_forward.php:152
+msgid "To"
+msgstr ""
+
+#: postfixadmin_changepass.php:101
+msgid "Unable to change your password!"
+msgstr ""
+
+#: postfixadmin_changepass.php:75
+msgid "You didn't supply your current password!"
+msgstr ""
+
+#: postfixadmin_changepass.php:96
+msgid "Your password has been changed!"
+msgstr ""
+
+msgid "Password current"
+msgstr ""
+
+msgid "Password new"
+msgstr ""
+
+msgid "Password new again"
+msgstr ""
+
+msgid "Please sign out and log back again with your new password!"
+msgstr ""
+
+msgid "I will be away from <date> until <date>. For urgent matters you can contact <contact person>."
+msgstr ""

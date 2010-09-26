@@ -4,8 +4,6 @@ css		usr/share/postfixadmin
 images		usr/share/postfixadmin
 languages	usr/share/postfixadmin
 model		usr/share/postfixadmin
-motd.txt	usr/share/postfixadmin
-motd-users.txt	usr/share/postfixadmin
 templates	usr/share/postfixadmin
 users		usr/share/postfixadmin
 debian/apache.conf	etc/postfixadmin

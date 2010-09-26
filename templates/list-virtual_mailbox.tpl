@@ -16,16 +16,27 @@
 			{if $CONF.show_status===YES}
 				<td>{$gen_show_status_mailbox[$i]}</td>
 			{/if}
-			<td>{$item.username}</td>
+			<td>
+				{if $search eq ""}
+					{$item.username}
+				{else}
+					{$item.username|replace:$search:"<span class='searchresult'>$search</span>"}
+				{/if}
+			</td>
 			{if $display_mailbox_aliases==true}
 				<td>
+				{if $item.goto_mailbox == 1}
+					Mailbox<br/>
+				{else}
+					Forward only<br/>
+				{/if}
 				{foreach from=$item.goto_other item=item2 key=j}
-				   {if $item.goto_mailbox == 1}
-				   	  Mailbox<br/>
-				   {else}
-					  Forward only<br/>
-				   {/if}
-			   	   {$item2}<br/>
+					{if $search eq ""}
+						{$item2}
+					{else}
+						{$item2|replace:$search:"<span class='searchresult'>$search</span>"}
+					{/if}
+					<br/>
 				{/foreach}
 				</td>
 			{/if}
@@ -48,9 +59,9 @@
 			{if $CONF.vacation_control_admin===YES && $CONF.vacation===YES}
 				{if $item.v_active!==-1}
 					{if $item.v_active==1}
-						{assign var="v_active" value=$PALANG.pOverview_vacation_edit"}
+						{assign var="v_active" value=$PALANG.pOverview_vacation_edit}
 					{else}
-						{assign var="v_active" value=$PALANG.pOverview_vacation_option"}
+						{assign var="v_active" value=$PALANG.pOverview_vacation_option}
 					{/if}
 					<td><a href="edit-vacation.php?username={$item.username|escape:"url"}&amp;domain={$fDomain|escape:"url"}">{$v_active}</a></td>
 				{/if}

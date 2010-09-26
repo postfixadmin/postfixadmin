@@ -176,10 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 
 $smarty->assign ('fUsername', $fUsername);
-$smarty->assign ('fPassword', $user_details ['password'], false);
-//$smarty->assign ('pEdit_mailbox_username_text', $pEdit_mailbox_username_text);
 $smarty->assign ('pEdit_mailbox_password_text', $pEdit_mailbox_password_text, false);
-//$smarty->assign ('tName', htmlspecialchars ($tName,ENT_QUOTES));
 $smarty->assign ('tName', $tName, false);
 $smarty->assign ('pEdit_mailbox_name_text', $pEdit_mailbox_name_text,false);
 $smarty->assign ('tMaxquota', $tMaxquota);

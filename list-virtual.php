@@ -196,10 +196,10 @@ if ($result['rows'] > 0)
 # mailboxes
 #
 
-$display_mailbox_aliases = boolconf('special_alias_control'); # TODO: is this condition correct? - I'm slightly confused with alias_control, alias_control_admin and special_alias_control
+$display_mailbox_aliases = boolconf('alias_control_admin');
 
 # build the sql query
-$sql_select = " SELECT $table_mailbox.* ";
+$sql_select = "SELECT $table_mailbox.* ";
 $sql_from   = " FROM $table_mailbox ";
 $sql_join   = "";
 $sql_where  = " WHERE ";
@@ -234,7 +234,7 @@ if (boolconf('used_quotas') && boolconf('new_quota_table')) {
 if (boolconf('used_quotas') && ( ! boolconf('new_quota_table') ) ) {
     $sql_select .= ", $table_quota.current ";
     $sql_join   .= " LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username ";
-    $sql_where  .= " ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";
+    $sql_where  .= " AND ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";
 }
 
 $query = "$sql_select\n$sql_from\n$sql_join\n$sql_where\n$sql_order\n$sql_limit";
@@ -435,7 +435,9 @@ $smarty->assign ('select_options', select_options ($list_domains, array ($fDomai
 $smarty->assign ('nav_bar_alias', array ('top' => $nav_bar_alias->display_top (), 'bottom' => $nav_bar_alias->display_bottom ()), false);
 $smarty->assign ('nav_bar_mailbox', array ('top' => $nav_bar_mailbox->display_top (), 'bottom' => $nav_bar_mailbox->display_bottom ()), false);
 
-$smarty->assign ('fDomain', $fDomain);
+$smarty->assign ('fDomain', $fDomain, false);
+
+$smarty->assign ('search', $search);
 
 $smarty->assign ('list_domains', $list_domains);
 $smarty->assign ('limit', $limit);
@@ -454,11 +456,11 @@ if(is_array($tTargetDomain))
 	$smarty->assign ('PALANG_pOverview_alias_domain_target', sprintf($PALANG['pOverview_alias_domain_target'], $fDomain));
 }
 $smarty->assign ('tAlias', $tAlias);
-$smarty->assign ('gen_show_status', $gen_show_status);
+$smarty->assign ('gen_show_status', $gen_show_status, false);
 $smarty->assign ('check_alias_owner', $check_alias_owner);
 $smarty->assign ('tCanAddAlias', $tCanAddAlias);
 $smarty->assign ('tMailbox', $tMailbox);
-$smarty->assign ('gen_show_status_mailbox', $gen_show_status_mailbox);
+$smarty->assign ('gen_show_status_mailbox', $gen_show_status_mailbox, false);
 $smarty->assign ('boolconf_used_quotas', boolconf('used_quotas'));
 $smarty->assign ('divide_quota', $divide_quota);
 $smarty->assign ('tCanAddMailbox', $tCanAddMailbox);

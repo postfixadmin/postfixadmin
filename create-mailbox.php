@@ -158,7 +158,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    {
       $password = pacrypt ($fPassword);
 
-      if ($CONF['domain_path'] == "YES")
+      if($CONF['maildir_name_hook'] != 'NO' && function_exists($CONF['maildir_name_hook'])) {
+         $hook_func = $CONF['maildir_name_hook'];
+         $maildir = $hook_func ($fDomain, $fUsername);
+      }
+      else if ($CONF['domain_path'] == "YES")
       {
          if ($CONF['domain_in_mailbox'] == "YES")
          {
@@ -207,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $fUsername = strtolower($fUsername);
       $local_part = '';
       if(preg_match('/^(.*)@/', $fUsername, $matches)) {
-          $local_part = $matches[1];
+         $local_part = $matches[1];
       }
 
       $result = db_query ("INSERT INTO $table_mailbox (username,password,name,maildir,local_part,quota,domain,created,modified,active) VALUES ('$fUsername','$password','$fName','$maildir','$local_part','$quota','$fDomain',NOW(),NOW(),'$sqlActive')");
@@ -221,43 +225,43 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          db_query('COMMIT');
          db_log ($SESSID_USERNAME, $fDomain, 'create_mailbox', "$fUsername");
-      $tDomain = $fDomain;
+         $tDomain = $fDomain;
 
-      $tQuota = $CONF['maxquota'];
+         $tQuota = $CONF['maxquota'];
 
-      if ($fMail == "on")
-      {
-         $fTo = $fUsername;
-         $fFrom = $SESSID_USERNAME;
-         $fHeaders = "To: " . $fTo . "\n";
-         $fHeaders .= "From: " . $fFrom . "\n";
-
-         $fHeaders .= "Subject: " . encode_header ($PALANG['pSendmail_subject_text']) . "\n";
-         $fHeaders .= "MIME-Version: 1.0\n";
-         $fHeaders .= "Content-Type: text/plain; charset=utf-8\n";
-         $fHeaders .= "Content-Transfer-Encoding: 8bit\n";
-         
-         $fHeaders .= $CONF['welcome_text'];
-
-         if (!smtp_mail ($fTo, $fFrom, $fHeaders))
+         if ($fMail == "on")
          {
-            $tMessage .= "<br />" . $PALANG['pSendmail_result_error'] . "<br />";
+            $fTo = $fUsername;
+            $fFrom = $SESSID_USERNAME;
+            $fHeaders = "To: " . $fTo . "\n";
+            $fHeaders .= "From: " . $fFrom . "\n";
+
+            $fHeaders .= "Subject: " . encode_header ($PALANG['pSendmail_subject_text']) . "\n";
+            $fHeaders .= "MIME-Version: 1.0\n";
+            $fHeaders .= "Content-Type: text/plain; charset=utf-8\n";
+            $fHeaders .= "Content-Transfer-Encoding: 8bit\n";
+
+            $fHeaders .= $CONF['welcome_text'];
+
+            if (!smtp_mail ($fTo, $fFrom, $fHeaders))
+            {
+               $tMessage .= "<br />" . $PALANG['pSendmail_result_error'] . "<br />";
+            }
+            else
+            {
+               $tMessage .= "<br />" . $PALANG['pSendmail_result_success'] . "<br />";
+            }
          }
-         else
+
+         $tShowpass = "";
+         if ( $tPassGenerated == 1 || $CONF['show_password'] == "YES") $tShowpass = " / $fPassword";
+
+         if (create_mailbox_subfolders($fUsername,$fPassword))
          {
-            $tMessage .= "<br />" . $PALANG['pSendmail_result_success'] . "<br />";
+            $tMessage .= $PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername$tShowpass)";
+         } else {
+            $tMessage .= $PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername$tShowpass)";
          }
-      }
-
-      $tShowpass = "";
-      if ( $tPassGenerated == 1 || $CONF['show_password'] == "YES") $tShowpass = " / $fPassword";
-
-      if (create_mailbox_subfolders($fUsername,$fPassword))
-      {
-         $tMessage .= $PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername$tShowpass)";
-      } else {
-         $tMessage .= $PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername$tShowpass)";
-      }
 
       }
    }

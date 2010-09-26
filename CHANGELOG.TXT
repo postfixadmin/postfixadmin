@@ -10,7 +10,6 @@
 # Last update:
 # $Id$
 
-
 Version ***svn*** - 2009/12/26 - SVN r***
 -----------------------------------
 
@@ -19,10 +18,65 @@ Version ***svn*** - 2009/12/26 - SVN r***
   - add ability to choose activation date for vacation message in user module
   - merge search functionality into list-virtual.php
 
-Version ***svn 2.3 branch*** - 2009/12/26 - SVN r***
------------------------------------
+Version 2.3.2 - 2010/08/24 - SVN r860 (postfixadmin-2.3 branch)
+---------------------------------------------------------------
 
-*** see 2.3 branch CHANGELOG.TXT, will be added here after 2.3.1 release ***
+  - SUMMARY: PostfixAdmin 2.3.2 is a bugfix-only release for Postfix Admin 2.3.1
+  - SECURITY: attackers could find out if a admin exists (login pre-filled the
+    username after "only" a wrong password was entered)
+  - SECURITY: fix sql injection in list-domain (only exploitable by superadmins)
+  - alias targets in users/edit-alias are now validated
+  - invalid alias targets in users/edit-alias are shown to the user again
+    instead of dropping them
+  - fix dovecot:* password encryption (was broken in 2.3.1)
+  - fix displaying used quota for dovecot <= 1.1 (was broken in 2.3.1)
+  - when deleting a domain that is an alias domain (on the "from" side), the
+    alias domain is deleted
+
+Version 2.3.1 - 2010/07/09 - SVN r847 (postfixadmin-2.3 branch)
+---------------------------------------------------------------
+
+  - SUMMARY: PostfixAdmin 2.3.1 is a bugfix-only release for Postfix Admin 2.3.
+    The only visible change is displaying the alias target for mailboxes which
+    was a longstanding issue/"missing feature".
+    The ADDITIONS directory contains some new scripts.
+  - SECURITY: users could bypass checking the old password when changing the
+	password by entering a too short new password. Fortunately only
+	"exploitable" by authentificated users.
+  - merge in changes to /debain (thanks normes) from trunk
+  - display alias targets for mailboxes (if $CONF['special_alias_control'] = YES)
+  - add hook for custom maildir path generation
+  - add import_users_from_csv.py script (by Simone Piccardi)
+  - add mailbox_post* scripts for cyrus
+  - handle dovecot passwords without any tempfile (prevents safe_mode issues)
+  - fix MySQL 6.0 compatibility
+  - fix quota display (for dovecot >= 1.2)
+  - fix short open tags ("<?")
+  - translation updates and fixes
+  - documentation updates and fixes
+  - document commandline parameters for $CONF[*_script] options in config.inc.php
+  - list-virtual: added error message if the check_owner query returns more
+    than one result (can happen with pre-2.3 databases and prevents access for
+    superadmins)
+  - add in_array() check to avoid that superadmins can enter invalid domains
+  - fix delete link for alias domains (when on target domain)
+  - delete values from quota and quota2 table when deleting a mailbox
+  - fix hardcoded table names in list-domain.php
+  - fixed edit-alias.php not to drop alias to the mailbox if
+    special_alias_control = NO
+  - fix alias handling for mailboxes (special_alias_control vs.
+    alias_control_admin confusion)
+  - fix typo in upgrade.php that broke index creation and deletion when using
+    non-default table names
+  - fix creating 'ALL' domain (dummy for superadmins) when using non-default
+    table names
+  - fix: db_query did not return number of SELECTed rows if query starts with
+    with whitespace
+  - check for $CONF['encrypt'] = 'dovecot:md5-crypt' (postfixadmin login not
+    working because dovecotpw uses a new salt each time), recommend
+    internal md5crypt instead
+  - replaced terribly outdated, broken squirrelmail plugin with a fresh version.
+    Note: The new plugin version requires the Zend framework.
 
 Version 2.3 - 2009/10/24 - SVN r739
 -----------------------------------
@@ -99,8 +153,8 @@ Version 2.3 Beta - 2009/01/15 - SVN r527
 
   - added support for domain aliases (from lenix) (can be disabled with $CONF['alias_domain'])
     Important: If you update from a previous version, you'll have to adapt your postfix 
-	configuration (see DOCUMENTS/POSTFIX_CONF.txt) - or just disable alias domain support,
-	your postfix configuration will continue to work
+    configuration (see DOCUMENTS/POSTFIX_CONF.txt) - or just disable alias domain support,
+    your postfix configuration will continue to work
   - updated postfix example configuration for domain aliases and to use the new mysql map format
   - vacation.pl:
     - add option for re-notification after definable timeout (patch from Luxten)

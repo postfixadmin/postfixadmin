@@ -81,7 +81,12 @@ function authentication_require_role($role) {
     if(authentication_has_role($role)) {
         return True;
     }
-    header("Location: " . $CONF['postfix_admin_url'] . "/login.php");
+    if($role === 'user') {
+        header("Location: " . $CONF['postfix_admin_url'] . '/users/login.php');
+    }
+    else {
+        header("Location: " . $CONF['postfix_admin_url'] . "/login.php");
+    }
     exit(0);
 }
 /**
@@ -445,7 +450,8 @@ function get_domain_properties ($domain)
     //while loop to figure index names. use page_size and loop of queries
     $i=0;
     $current=0;
-    $page_size = $CONF['page_size'];
+    $page_size = (int) $CONF['page_size'];
+    if ($page_size < 1) die ("\$CONF['page_size'] = '$page_size' is invalid (it may only contain digits and must be >= 1)");
     $tmpstr="";
     $idxlabel="";
     $list['alias_pgindex_count'] = 0;
@@ -1200,6 +1206,7 @@ function pacrypt ($pw, $pw_db="")
         $split_method = preg_split ('/:/', $CONF['encrypt']);
         $method       = strtoupper($split_method[1]);
         if (! preg_match("/^[A-Z0-9-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
+        if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
 
         $dovecotpw = "dovecotpw";
         if (!empty($CONF['dovecotpw'])) $dovecotpw = $CONF['dovecotpw'];
@@ -1356,7 +1363,8 @@ function smtp_mail ($to, $from, $data)
     global $CONF;
     $smtpd_server = $CONF['smtp_server'];
     $smtpd_port = $CONF['smtp_port'];
-    $smtp_server = $_SERVER["SERVER_NAME"];
+    //$smtp_server = $_SERVER["SERVER_NAME"];
+    $smtp_server = php_uname("n");
     $errno = "0";
     $errstr = "0";
     $timeout = "30";
@@ -1572,7 +1580,7 @@ function db_query ($query, $ignore_errors = 0)
     if ($error_text != "" && $ignore_errors == 0) die($error_text);
 
     if ($error_text == "") {
-        if (preg_match("/^SELECT/i", $query))
+        if (preg_match("/^SELECT/i", trim($query)))
         {
             // if $query was a SELECT statement check the number of rows with [database_type]_num_rows ().
             if ($CONF['database_type'] == "mysql") $number_rows = mysql_num_rows ($result);
@@ -1730,12 +1738,15 @@ function db_update ($table, $where, $values, $timestamp = array())
  * Action: Logs actions from admin
  * Call: db_log (string username, string domain, string action, string data)
  * Possible actions are:
+ * 'create_domain'
  * 'create_alias'
  * 'create_alias_domain'
  * 'create_mailbox'
+ * 'delete_domain'
  * 'delete_alias'
  * 'delete_alias_domain'
  * 'delete_mailbox'
+ * 'edit_domain'
  * 'edit_alias'
  * 'edit_alias_state'
  * 'edit_alias_domain_state'
@@ -1747,9 +1758,9 @@ function db_log ($username,$domain,$action,$data)
 {
     global $CONF;
     global $table_log;
-    $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
+    $REMOTE_ADDR = getRemoteAddr();
 
-    $action_list = array('create_alias', 'create_alias_domain', 'delete_alias', 'delete_alias_domain', 'edit_alias', 'create_mailbox', 'delete_mailbox', 'edit_mailbox', 'edit_alias_state', 'edit_alias_domain_state', 'edit_mailbox_state', 'edit_password');
+    $action_list = array(  'create_domain', 'create_alias', 'create_alias_domain','delete_domain', 'delete_alias', 'delete_alias_domain','edit_domain', 'edit_alias', 'create_mailbox', 'delete_mailbox', 'edit_mailbox', 'edit_alias_state', 'edit_alias_domain_state', 'edit_mailbox_state', 'edit_password');
 
     if(!in_array($action, $action_list)) {
         die("Invalid log action : $action");   // could do with something better?
@@ -1788,9 +1799,13 @@ function db_in_clause($field, $values) {
 function table_by_key ($table_key)
 {
     global $CONF;
-    $table = $CONF['database_prefix'].$CONF['database_tables'][$table_key];
-    if (empty($table)) $table = $table_key;
-    return $table;
+    if (empty($CONF['database_tables'][$table_key])) {
+        $table = $table_key;
+    } else {
+        $table = $CONF['database_tables'][$table_key];
+    }
+
+    return $CONF['database_prefix'].$table;
 }
 
 
@@ -2103,6 +2118,7 @@ function create_mailbox_subfolders($login,$cleartext_password)
         $f='{'.$s_host.'}'.$s_prefix.$f;
         $res=imap_createmailbox($i,$f);
         if (!$res) {
+            error_log('Could not create IMAP folder $f: '.imap_last_error());
             @imap_close($i);
             return FALSE;
         }
@@ -2339,6 +2355,12 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
 
 
 }
+function getRemoteAddr() {
+    $REMOTE_ADDR = 'localhost';
+    if (isset($_SERVER['REMOTE_ADDR'])) 
+        $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
+    return $REMOTE_ADDR;
+}
 
 
 
@@ -2361,8 +2383,6 @@ function boolconf($setting) {
         return false;
     }
 }
-
-
 
 $table_admin = table_by_key ('admin');
 $table_alias = table_by_key ('alias');

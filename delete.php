@@ -68,6 +68,7 @@ elseif ($fTable == "domain")
     $result_domain_admins = db_delete ($table_domain_admins,$fWhere,$fDelete);
     $result_alias = db_delete ($table_alias,$fWhere,$fDelete);
     $result_mailbox = db_delete ($table_mailbox,$fWhere,$fDelete);
+    $result_alias_domain = db_delete($table_alias_domain,'alias_domain',$fDelete);
     $result_log = db_delete ($table_log,$fWhere,$fDelete);
     if ($CONF['vacation'] == "YES")
     {
@@ -147,6 +148,14 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
             if($result['rows'] == 1) {
                 db_query ("DELETE FROM $table_vacation WHERE email='$fDelete' AND domain='$fDomain'");
                 db_query ("DELETE FROM $table_vacation_notification WHERE on_vacation ='$fDelete' "); /* should be caught by cascade, if PgSQL */
+            }
+            $result = db_query("SELECT * FROM $table_quota WHERE username='$fDelete'");
+            if($result['rows'] >= 1) {
+                db_query ("DELETE FROM $table_quota WHERE username='$fDelete'");
+            }
+            $result = db_query("SELECT * FROM $table_quota2 WHERE username='$fDelete'");
+            if($result['rows'] == 1) {
+                db_query ("DELETE FROM $table_quota2 WHERE username='$fDelete'");
             }
         }
 

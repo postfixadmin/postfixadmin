@@ -1,0 +1,70 @@
+Squirrelmail Plugin Postfixadmin
+********************************
+
+The Postfixadmin SquirrelMail plugin let users change their virtual alias,
+vacation status/message and password if you are using the great postfixadmin
+tool from http://high5.net/postfixadmin
+
+Version 0.4.3   2007/08/14
+
+Postfixadmin - Postfixadmin+MySQL/PgSQL plugin for Squirrelmail
+
+
+Author: Florian Kimmerl <info@spacekoeln.de>
+Author: Sam Brookes <sam at pale purple.co.uk>
+    - Initial conversion to MDB2
+    - Fix SQL Injections etc
+Author: David Goodwin <david at pale purple.co.uk>
+    - Subsequent tidyup + testing etc
+Author: Krzysztof 'Mad Max' Laska - <madmax at riders.pl>
+    - Polish Translation.
+
+
+
+The Initial Developer of the Original postfixadmin Code is Mischa Peters.
+Portions created by Mischa Peters are Copyright (c) 2002, 2003, 2004.
+All Rights Reserved.
+
+REQUIREMENTS
+
+o SquirrelMail 1.4x
+
+o A working Mail-System "Virtual Domains and Users with postfix+Courier-IMAP+MySQL" (or PostgreSQL) See http://high5.net/howto/
+
+o POSTFIXADMIN version 2.2.0 or higher. See http://sf.net/projects/postfixadmin
+
+o This plugin only uses the postfixadmin database
+
+o Pear MDB2 database abstraction layer - see http://pear.php.net 
+
+o PHP installation with register globals TURNED OFF (huraren on IRC reports that the MDB2 driver isn't happy with it turned on)
+
+INSTALLATION
+
+See the included file INSTALL
+
+BUGS
+
+o Probably vulnerable to cross site scripting, certainly when setting the vacation message.
+
+o There may be some remaining SQL injection holes.
+
+TODO
+
+-Code Cleanup
+-Tranlation
+
+
+TRANSLATIONS
+
+Translations are welcome! Send the *.po-File to: david@NO.codepoets.SPAM.co.uk
+
+
+ACKNOWLEDGMENTS
+
+Thanks to the SquirrelMail team for building such a great app and
+for all the work they do to keep it running.
+
+Thanks to high5.net for writing the great Postfixadmin tool
+
+

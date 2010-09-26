@@ -36,7 +36,7 @@ table {
 	font-size: 11px;
 }
 
-.button:hover {
+.button:hover, .button:focus {
 	background: #BCFF36;
 	color: #888888;
 }
@@ -309,6 +309,10 @@ div.setup {
 
 div.setup li {
 	padding-bottom:1em;
+}
+
+.searchresult {
+	background:lightgreen;
 }
 
 div.nav_bar {

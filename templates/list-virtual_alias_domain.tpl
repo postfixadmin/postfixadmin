@@ -13,7 +13,13 @@
 			</tr>
 			{foreach from=$tAliasDomains item=item}
 				{#tr_hilightoff#}
-				<td><a href="{$smarty.config.url_list_virtual}?domain={$item.alias_domain|escape:"url"}&amp;limit={$current_limit|escape:"url"}">{$item.alias_domain}</a></td>
+				<td><a href="{$smarty.config.url_list_virtual}?domain={$item.alias_domain|escape:"url"}&amp;limit={$current_limit|escape:"url"}">
+					{if $search eq ""}
+						{$item.alias_domain}
+					{else}
+						{$item.alias_domain|replace:$search:"<span class='searchresult'>$search</span>"}
+					{/if}
+				</a></td>
 				<td>{$item.modified}</td>
 				<td><a href="{#url_edit_active#}?alias_domain=true&amp;domain={$item.alias_domain|escape:"url"}&amp;return={$smarty.config.url_list_virtual|escape:"url"}?domain={$fDomain|escape:"url"}&amp;limit={$current_limit|escape:"url"}">{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
 				<td><a href="{#url_delete#}?table=alias_domain&amp;delete={$item.alias_domain|escape:"url"}&amp;domain={$item.alias_domain|escape:"url"}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.pOverview_get_alias_domains}: {$item.alias_domain}');">{$PALANG.del}</a></td>

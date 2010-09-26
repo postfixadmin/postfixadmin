@@ -24,4 +24,3 @@
 	</tr>
 </table>
 </div>
-{$smarty_template}

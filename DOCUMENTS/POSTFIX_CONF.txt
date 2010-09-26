@@ -1,3 +1,5 @@
+#!/bin/bash
+content="
 
   Postfix configuration for use with PostfixAdmin
 
@@ -21,10 +23,9 @@ virtual_mailbox_maps =
 # Additional for quota support
 virtual_create_maildirsize = yes
 virtual_mailbox_extended = yes
-virtual_mailbox_limit_maps = mysql:/etc/postfix/mysql_virtual_mailbox_limit_maps.cf
+virtual_mailbox_limit_maps = mysql:/etc/postfix/sql/mysql_virtual_mailbox_limit_maps.cf
 virtual_mailbox_limit_override = yes
-virtual_maildir_limit_message = Sorry, the user's maildir has overdrawn his
-diskspace quota, please try again later.
+virtual_maildir_limit_message = Sorry, the user's maildir has overdrawn his diskspace quota, please try again later.
 virtual_overquota_bounce = yes
 
 Where you chose to store the .cf files doesn't really matter, but they will
@@ -43,6 +44,11 @@ These are examples only, you will likely have to and want to make some
 customizations.  You will also want to consider the config.inc.php
 settings for domain_path and domain_in_mailbox.  These examples
 use values of domain_path=YES and domain_in_mailbox=NO
+
+You can create these files (with your values for user, password, hosts and
+dbname) automatically by executing this file (sh POSTFIX_CONF.txt).
+Please note that the generated files are for use with MySQL. For PostgreSQL,
+you'll have to replace the CONCAT as described below.
 
 mysql_virtual_alias_maps.cf:
 user = postfix
@@ -116,4 +122,47 @@ query = SELECT quota FROM mailbox WHERE username='%s' AND active = '1'
 http://postfix.wiki.xs4all.nl/index.php?title=Virtual_Users_and_Domains_with_Courier-IMAP_and_MySQL
 http://wiki.dovecot.org/HowTo/DovecotLDAPostfixAdminMySQL
 
+" # end content
+
+# generate config files out of this file
+# to do this, run   sh POSTFIX_CONF.txt
+
+POSTFIX_CONF="$0"
+
+map_files="`sed -n '/^mysql.*cf:/ s/://p' < \"$0\"`"
+
+tmpdir="`mktemp -d /tmp/postfixadmin-XXXXXX`" || { echo "Error: could not create tempdir" >&2 ; exit 1; }
+echo $tmpdir
+
+echo 'Database host? (often localhost)'
+read hosts
+test -z "$hosts" && hosts=localhost
+
+echo 'Database name?'
+read dbname
+test -z "$dbname" && { echo "Error: you did not enter a database name" >&2 ; exit 1; }
+
+echo Database user?
+read user
+test -z "$user" && { echo "Error: you did not enter a database username" >&2 ; exit 1; }
+
+echo Database password?
+read password
+test -z "$password" && { echo "Error: you did not enter a database password" >&2 ; exit 1; }
+
+for file in $map_files ; do
+	(
+		echo "# $file"
+		sed -n "/$file:/,/^$/ p" < "$POSTFIX_CONF" | sed "
+			1d ; # filename
+			s/^user =.*/user = $user/ ;
+			s/^password =.*/password = $password/ ;
+			s/^hosts =.*/hosts = $hosts/ ;
+			s/^dbname =.*/dbname = $dbname/ ;
+		"
+	) > "$tmpdir/$file"
+done
+
+echo "Config files have been written to $tmpdir. Please check their content and move them to /etc/postfix/sql/."
+echo "Do not forget to edit /etc/postfix/main.cf as described in $POSTFIX_CONF."
 

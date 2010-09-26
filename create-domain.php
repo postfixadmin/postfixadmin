@@ -48,7 +48,7 @@ $form_fields = array(
     'fMailboxes'      => array('type' => 'int', 'default' => $CONF['mailboxes']), 
     'fMaxquota'       => array('type' => 'int', 'default' => $CONF['maxquota']), 
     'fTransport'      => array('type' => 'str', 'default' => $CONF['transport_default'], 'options' => $CONF['transport_options']), 
-    'fDefaultaliases' => array('type' => 'str', 'default' => 'off', 'options' => array('on', 'off')), 
+    'fDefaultaliases' => array('type' => 'str', 'default' => 'on', 'options' => array('on', 'off')), 
     'fBackupmx'       => array('type' => 'str', 'default' => 'off', 'options' => array('on', 'off')) 
 );
 
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
     $tAliases = $fAliases;
     $tMaxquota = $fMaxquota;
     $tMailboxes = $fMailboxes;
-    $tDefaultAliases = $fDefaultaliases;
+    $tDefaultaliases = $fDefaultaliases;
     $tBackupmx = $fBackupmx;
 }
 

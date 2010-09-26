@@ -64,8 +64,8 @@ if ($fAddress == "") {
          $tGoto = $row['goto'];
 		 $orig_alias_list = explode(',', $tGoto);
 		 $alias_list = $orig_alias_list;
-		 //. if we are not a global admin, and special_alias_control is NO, hide the alias that's the mailbox name.
-		 if($CONF['special_alias_control'] == 'NO' && !authentication_has_role('global-admin')) {
+		 //. if we are not a global admin, and alias_control_admin is NO, hide the alias that's the mailbox name.
+		 if($CONF['alias_control_admin'] == 'NO' && !authentication_has_role('global-admin')) {
 
          /* Has a mailbox as well? Remove the address from $tGoto in order to edit just the real aliases */
          $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fAddress' AND domain='$fDomain'");
@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    {
 	  if($CONF['alias_control_admin'] == 'NO' && !authentication_has_role('global-admin')) {
 		  // if original record had a mailbox alias, so ensure the updated one does too.
-		  if(in_array($orig_alias_list, $fAddress)) {
+		  if(in_array($fAddress, $orig_alias_list)) {
 			  $new_aliases[] = $fAddress;
 		  }
 	  }
@@ -165,15 +165,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       }
    }
 }
-
-$fAddress = htmlentities($fAddress, ENT_QUOTES);
-$fDomain = htmlentities($fDomain, ENT_QUOTES);
+// never used?
+//$fDomain = htmlentities($fDomain, ENT_QUOTES);
 
 $array = preg_split ('/,/', $tGoto);
 // TOCHECK
 $array = $alias_list;
 
-$smarty->assign ('fAddress', $fAddress, false);
+$smarty->assign ('fAddress', $fAddress);
 $smarty->assign ('array', $array, false);
 $smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'edit-alias');

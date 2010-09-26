@@ -196,6 +196,9 @@ $PALANG['pViewlog_domain'] = 'Domain';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Data';
 
+$PALANG['pViewlog_action_create_domain'] = 'create domain';
+$PALANG['pViewlog_action_delete_domain'] = 'delete domain';
+$PALANG['pViewlog_action_edit_domain'] = 'edit domain';
 $PALANG['pViewlog_action_create_mailbox'] = 'create mailbox';
 $PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox';
 $PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox';

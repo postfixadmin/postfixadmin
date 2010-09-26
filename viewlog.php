@@ -53,6 +53,9 @@ if (! (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('glob
    $tMessage = $PALANG['pViewlog_result_error'];
 }
 
+// we need to initialize $tLog as an array!
+$tLog = array();
+
 if ($error != 1)
 {
    $query = "SELECT timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT 10";

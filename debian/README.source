@@ -1,0 +1,27 @@
+This package is using the quilt framework.
+All patches are located in debian/patches.
+
+Adding a new patch: quilt new <date-patch_name>
+This will create a new file debian/patches/patch/date-patch_name.
+Please use the current date (e.g. 20100221 - YYYYMMDD) as prefix!
+
+Editing a file to include it into the patch: quilt edit <filename>
+This will open your $EDITOR.
+
+To write your changes into the new patchfile: quilt refresh.
+
+quilt push:
+Apply patch(es) from the series file.  Without options, the next
+patch in the series file is applied.  When a number is specified,
+apply the specified number of patches.  When a patch name is
+specified, apply all patches up to and including the specified patch.
+Patch names may include the patches/ prefix, which means that
+filename completion can be used.
+
+quilt pop:
+Remove patch(es) from the stack of applied patches.  Without options,
+the topmost patch is removed.  When a number is specified, remove the
+specified number of patches.  When a patch name is specified, remove
+patches until the specified patch end up on top of the stack.
+Patch names may include the patches/ prefix, which means that
+filename completion can be used.

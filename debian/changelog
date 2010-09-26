@@ -1,19 +1,19 @@
-postfixadmin (2.3rc7) unstable; urgency=low
+postfixadmin (2.3.2) unstable; urgency=low
 
-  * Fix issue with pre.rm script
-  * New 'upstream' release.
+  * New upstream release
 
- -- David Goodwin <david.goodwin@palepurple.co.uk>  Mon, 27 Jul 2009 22:08:26 +0100
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Mon, 23 Aug 2010 11:24:00 +0100
 
-postfixadmin (2.3rc6) unstable; urgency=low
+postfixadmin (2.3.1) unstable; urgency=low
 
-  * Bump version number; etc.
+  * New upstream release
+  * Updated .deb standards (thanks normes)
 
- -- David Goodwin <david.goodwin@palepurple.co.uk>  Mon, 20 Jul 2009 19:56:26 +0100
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Thu, 08 Jul 2010 22:20:14 +0100
 
-postfixadmin (2.3rc5) unstable; urgency=low
+postfixadmin (2.3) unstable; urgency=low
 
   * Initial release (Closes: #247225)
 
- -- Norman Messtorff <normes@normes.org>  Sat, 09 May 2009 22:36:26 +0200
+ -- Norman Messtorff <normes@normes.org>  Sun, 21 Feb 2010 22:36:26 +0200
 

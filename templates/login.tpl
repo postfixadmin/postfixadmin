@@ -6,7 +6,7 @@
 	</tr>
 	<tr>
 		<td>{$PALANG.pLogin_username}:</td>
-		<td><input class="flat" type="text" name="fUsername" value="{$tUsername}" /></td>
+		<td><input class="flat" type="text" name="fUsername" /></td>
 	</tr>
 	<tr>
 		<td>{$PALANG.pLogin_password}:</td>

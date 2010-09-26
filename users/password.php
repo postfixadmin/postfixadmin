@@ -43,8 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $fPassword = $_POST['fPassword'];
     $fPassword2 = $_POST['fPassword2'];
 
+    $error = 0;
     if(strlen($fPassword) < $CONF['min_password_length']) {
-        $error = 1;
+        $error += 1;
         flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
     }
     if(!UserHandler::login($username, $fPassword_current)) {
@@ -53,11 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
     if (empty ($fPassword) or ($fPassword != $fPassword2))
     {
-        $error = 1;
+        $error += 1;
         $pPassword_password_text = $PALANG['pPassword_password_text_error'];
     }
 
-    if ($error != 1)
+    if ($error == 0)
     {
         $uh = new UserHandler($username);
         if($uh->change_pass($fPassword_current, $fPassword)) {
@@ -72,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
-$smarty->assign ('USERID_USERNAME', $USERID_USERNAME);
+$smarty->assign ('USERID_USERNAME', $username);
 //$smarty->assign ('pPassword_admin_text', $pPassword_admin_text);
 $smarty->assign ('pPassword_password_current_text', $pPassword_password_current_text, false);
 $smarty->assign ('pPassword_password_text', $pPassword_password_text, false);

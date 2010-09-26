@@ -19,7 +19,6 @@
  * Template Variables:
  *
  *  tMessage
- *  tUsername
  *
  * Form POST \ GET Variables:
  *
@@ -67,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         {
             $error = 1;
             $tMessage = '<span class="error_msg">' . $PALANG['pLogin_failed'] . '</span>';
-            $tUsername = $fUsername;
         }
     }
     else
@@ -96,7 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         exit(0);
     }
 
-	$smarty->assign ('tUsername', $tUsername);
 	$smarty->assign ('tMessage', $tMessage, false);
 
 	$smarty->assign ('smarty_template', 'login');

@@ -11,11 +11,6 @@
 		<td>{$pEdit_mailbox_username_text}</td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pPassword_password_current}:</td>
-		<td>{$fPassword}</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
 		<td>{$PALANG.pEdit_mailbox_password}:</td>
 		<td><input class="flat" type="password" name="fPassword" /></td>
 		<td>{$pEdit_mailbox_password_text}</td>

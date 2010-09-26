@@ -47,7 +47,7 @@
 {/if}
 {if $tab=='mailbox'}
 	{$nav_bar_mailbox.top}
-	{assign var="colspan" value=8}
+	{assign var="colspan" value=9}
 	{if $CONF.vacation_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
 	{if $CONF.alias_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
 	<table id="mailbox_table">
