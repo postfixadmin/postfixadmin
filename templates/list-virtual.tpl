@@ -14,10 +14,10 @@
 </div>
 <div id="tabbar">
 <ul>
-<li><a href="?domain={$smarty.get.domain}&tab=mailbox">{$PALANG.pOverview_mailbox_title}</a></li>
-<li><a href="?domain={$smarty.get.domain}&tab=alias">{$PALANG.pOverview_alias_title}</a></li>
+<li><a href="?domain={$smarty.get.domain}&tab=mailbox{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_mailbox_title}</a></li>
+<li><a href="?domain={$smarty.get.domain}&tab=alias{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_title}</a></li>
 {if $boolconf_alias_domain}
-	<li><a href="?domain={$smarty.get.domain}&tab=alias_domain">{$PALANG.pOverview_alias_domain_title}</a></li>
+	<li><a href="?domain={$smarty.get.domain}&tab=alias_domain{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_domain_title}</a></li>
 {/if}
 </ul>
 </div>

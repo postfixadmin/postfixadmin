@@ -279,6 +279,16 @@ $tCanAddAlias = false;
 $tCanAddMailbox = false;
 
 # TODO: needs reworking for $search...
+# TODO: (= bug: no page browser displayed in search mode!) - https://sourceforge.net/tracker/?func=detail&aid=2782818&group_id=191583&atid=937964
+# for non-search mode, get_domain_properties counts the aliases and mailboxes
+# Options:
+# a)
+# if ($search == "") -> get_domain_properties
+# else -> "manual count"
+# b)
+# "manual count" for all cases (not really more work, queries are similar)
+#
+# Note: get_domain_properties also creates the page browser (which needs performance tuning anyway...)
 $limit = get_domain_properties($fDomain);
 if (isset ($limit)) {
    if ($fDisplay >= $page_size) {
