@@ -246,7 +246,7 @@ if ($result['rows'] > 0)
    while ($row = db_array ($result['result']))
    {
 	  if ($display_mailbox_aliases) {
-            $goto_split = split(",", $row['goto']);
+            $goto_split = explode(",", $row['goto']);
             $row['goto_mailbox'] = 0;
             $row['goto_other'] = array();
             
@@ -345,17 +345,22 @@ if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
 	
 class cNav_bar
 {
-	var $count, $title, $limit, $page_size, $pages;	//* arguments
+	var $count, $title, $limit, $page_size, $pages, $search; //* arguments
 	var $url;	//* manually
 	var $fInit, $arr_prev, $arr_next, $arr_top;	//* internal
 	var $anchor;
-	function cNav_bar ($aCount, $aTitle, $aLimit, $aPage_size, $aPages)
+	function cNav_bar ($aCount, $aTitle, $aLimit, $aPage_size, $aPages, $aSearch)
 	{
 		$this->count = $aCount;
 		$this->title = $aTitle;
 		$this->limit = $aLimit;
 		$this->page_size = $aPage_size;
 		$this->pages = $aPages;
+        if ($aSearch == "") {
+            $this->search = "";
+        } else {
+            $this->search = "&search=$aSearch";
+        }
 		$this->url = '';
 		$this->fInit = false;
 	}
@@ -363,9 +368,9 @@ class cNav_bar
 	{
 		$this->anchor = 'a'.substr ($this->title, 3);
 		$this->url .= '#'.$this->anchor;
-		($this->limit >= $this->page_size) ? $this->arr_prev = '&nbsp;<a href="?limit='.($this->limit - $this->page_size).$this->url.'"><img border="0" src="images/arrow-l.png" title="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'"/></a>&nbsp;' : $this->arr_prev = '';
-		($this->limit > 0) ? $this->arr_top = '&nbsp;<a href="?limit=0'.$this->url.'"><img border="0" src="images/arrow-u.png" title="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'" alt="'.$GLOABLS ['PALANG']['pOverview_up_arrow'].'"/></a>&nbsp;' : $this->arr_top = '';
-		(($this->limit + $this->page_size) < ($this->count * $this->page_size)) ? $this->arr_next = '&nbsp;<a href="?limit='.($this->limit + $this->page_size).$this->url.'"><img border="0" src="images/arrow-r.png" title="'.$GLOBALS ['PALANG']['pOverview_right_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_right_arrow'].'"/></a>&nbsp;' : $this->arr_next = '';
+		($this->limit >= $this->page_size) ? $this->arr_prev = '&nbsp;<a href="?limit='.($this->limit - $this->page_size).$this->search.$this->url.'"><img border="0" src="images/arrow-l.png" title="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'"/></a>&nbsp;' : $this->arr_prev = '';
+		($this->limit > 0) ? $this->arr_top = '&nbsp;<a href="?limit=0' .$this->search.$this->url.'"><img border="0" src="images/arrow-u.png" title="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'"/></a>&nbsp;' : $this->arr_top = '';
+		(($this->limit + $this->page_size) < ($this->count * $this->page_size)) ? $this->arr_next = '&nbsp;<a href="?limit='.($this->limit + $this->page_size).$this->search.$this->url.'"><img border="0" src="images/arrow-r.png" title="'.$GLOBALS ['PALANG']['pOverview_right_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_right_arrow'].'"/></a>&nbsp;' : $this->arr_next = '';
 		$this->fInit = true;
 	}
 	function display_pre ()
@@ -400,7 +405,7 @@ class cNav_bar
 			$lPage = $this->pages [$i];
 			if ($i == $highlight_at)
 				$lPage = '<b>'.$lPage.'</b>';
-			$ret_val .= '<a href="?limit='.($i * $this->page_size).$this->url.'">'.$lPage.'</a>'."\n";
+			$ret_val .= '<a href="?limit='.($i * $this->page_size).$this->search.$this->url.'">'.$lPage.'</a>'."\n";
 		}
 		$ret_val .= '</td><td valign="middle" align="right">';
 
@@ -430,10 +435,10 @@ class cNav_bar
 	}
 }
 
-$nav_bar_alias = new cNav_bar ($limit['alias_pgindex_count'], $PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $limit['alias_pgindex']);
+$nav_bar_alias = new cNav_bar ($limit['alias_pgindex_count'], $PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $limit['alias_pgindex'], $search);
 $nav_bar_alias->url = '&amp;domain='.$fDomain;
 
-$nav_bar_mailbox = new cNav_bar ($limit['mbox_pgindex_count'], $PALANG['pOverview_mailbox_title'], $fDisplay, $CONF['page_size'], $limit['mbox_pgindex']);
+$nav_bar_mailbox = new cNav_bar ($limit['mbox_pgindex_count'], $PALANG['pOverview_mailbox_title'], $fDisplay, $CONF['page_size'], $limit['mbox_pgindex'], $search);
 $nav_bar_mailbox->url = '&amp;domain='.$fDomain;
 //print $nav_bar_alias->display_top ();
 
