@@ -313,24 +313,24 @@ function fetchmail_edit_row($data=array())
 }
 function _edit_text($id,$key,$def_vals,$val=""){
    $val=htmlspecialchars($val);
-   return "<input type=text name=${key} id=${id} value='${val}'>";
+   return "<input type=text name=${key} id=${id} value='${val}' />";
 }
 
 function _edit_password($id,$key,$def_vals,$val=""){
    $val=preg_replace("{.}","*",$val);
-   return "<input type=password name=${key} id=${id} value='${val}'>";
+   return "<input type=password name=${key} id=${id} value='${val}' />";
 }
 
 function _edit_num($id,$key,$def_vals,$val=""){
    $val=(int)($val);
-   return "<input type=text name=${key} id=${id} value='${val}'>";
+   return "<input type=text name=${key} id=${id} value='${val}' />";
 }
 
 function _edit_bool($id,$key,$def_vals,$val=""){
    $ret="<input type=checkbox name=${key} id=${id}";
    if ($val)
-      $ret.=" checked";
-   $ret.=">";
+      $ret.=' checked="checked"';
+   $ret.=" />";
    return $ret;
 }
 
