@@ -45,7 +45,8 @@ if(isset($CONF['configured'])) {
 
 require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
-require_once("$incpath/languages/" . check_language () . ".lang");
+$_SESSION['lang'] = $language = check_language (); # TODO: storing the language only at login instead of calling check_language() on every page would save some processor cycles ;-)
+require_once("$incpath/languages/" . $_SESSION['lang'] . ".lang");
 
 /**
  * @param string $class

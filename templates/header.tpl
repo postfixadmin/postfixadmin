@@ -15,7 +15,7 @@
 		<link rel="stylesheet" type="text/css" href="{$CONF.theme_css}"/>
 		<title>Postfix Admin - {$smarty.server.HTTP_HOST}</title>
 	</head>
-	<body>
+	<body class="lang-{$smarty.session.lang}">
 		<div id="login_header">
 		<img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo"/>
 {if $CONF.show_header_text==='YES' && $CONF.header_text}
