@@ -155,24 +155,13 @@ if ($search == "") {
    $sql_where  = " AND ( address LIKE '%$search%' OR goto LIKE '%$search%' ) ";
 }
 
-$query = "SELECT $table_alias.address,
-                 $table_alias.goto,
-                 $table_alias.modified,
-                 $table_alias.active
-          FROM $table_alias LEFT JOIN $table_mailbox ON $table_alias.address=$table_mailbox.username
-          WHERE ($sql_domain AND $table_mailbox.maildir IS NULL $sql_where)
-          ORDER BY $table_alias.address LIMIT $fDisplay, $page_size";
-if ('pgsql'==$CONF['database_type'])
-{
-   # TODO: is the different query for pgsql really needed? The mailbox query below also works with both...
    $query = "SELECT address,
                     goto,
-                    extract(epoch from modified) as modified,
+                    modified,
                     active
                     FROM $table_alias
-					WHERE $sql_domain AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address $sql_where)
+					WHERE $sql_domain AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address)   $sql_where
                     ORDER BY address LIMIT $page_size OFFSET $fDisplay";
-}
 
 $result = db_query ($query);
 if ($result['rows'] > 0)
@@ -359,7 +348,7 @@ class cNav_bar
         if ($aSearch == "") {
             $this->search = "";
         } else {
-            $this->search = "&search=$aSearch";
+            $this->search = "&search=" . htmlentities($aSearch);
         }
 		$this->url = '';
 		$this->fInit = false;
