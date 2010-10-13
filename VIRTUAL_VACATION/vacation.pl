@@ -327,12 +327,12 @@ sub find_real_address {
 # Recipient has vacation
 	if ($rv == 1) {
 		$realemail = $email;
-		$logger->debug("Found '\$email'\ has vacation active");
+		$logger->debug("Found '$email' has vacation active");
 	} else {
 		my $vemail = $email;
 		$vemail =~ s/\@/#/g;
 		$vemail = $vemail . "\@" . $vacation_domain;
-		$logger->debug("Looking for alias records that \'$email\' resolves to with vacation turned on");
+		$logger->debug("Looking for alias records that '$email' resolves to with vacation turned on");
 		$query = qq{SELECT goto FROM alias WHERE address=? AND (goto LIKE ? OR goto LIKE ? OR goto LIKE ? OR goto = ?)};
 		$stm = $dbh->prepare($query) or panic_prepare($query);
 		$stm->execute($email,"$vemail,%","%,$vemail","%,$vemail,%", "$vemail") or panic_execute($query,"address='$email'");
