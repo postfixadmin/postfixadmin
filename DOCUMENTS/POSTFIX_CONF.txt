@@ -108,7 +108,7 @@ query = SELECT maildir FROM mailbox,alias_domain WHERE alias_domain.alias_domain
 
 # For quota support
 
-mysql-virtual-mailbox-limit-maps.cf:
+mysql_virtual_mailbox_limit_maps.cf:
 user = postfix
 password = password
 hosts = localhost
