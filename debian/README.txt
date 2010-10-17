@@ -7,7 +7,7 @@ If you wish to do it yourself, please try the following from within the trunk di
 
 1. Update debian/changelog; include your email address in the last change
 
-2. dpkg-buildpackage -rfakeroot .
+2. dpkg-buildpackage -rfakeroot 
 
 3. Look in ../ at the shiny .deb / .tar.gz
 
