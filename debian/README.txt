@@ -1,11 +1,16 @@
 Random instructions for help:
 
-
 This 'debian' directory is used by dpkg-buildpackage when creating a .deb.
 
-If you wish to do it yourself, please try the following from within the trunk directory.
+You'll need to install :
 
-1. Update debian/changelog; include your email address in the last change
+   apt-get install dpkg-dev quilt debhelper
+
+Then from within the trunk directory (or whatever forms the root of the 
+postfixadmin project), do the following :
+
+1. Update debian/changelog; include your email address in the last change 
+                (this is used to determine a gpg key to use)
 
 2. dpkg-buildpackage -rfakeroot 
 
