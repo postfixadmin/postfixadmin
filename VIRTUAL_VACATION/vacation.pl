@@ -163,10 +163,10 @@ our $interval = 0;
 # or /etc/postfixadmin/vacation.conf just use Perl syntax there to fill the variables listed above
 # (without the "our" keyword). Example:
 # $db_username = 'mail';
-if (-f "/etc/mail/postfixadmin/vacation.conf") {
-    require "/etc/mail/postfixadmin/vacation.conf";
-} elsif (-f "/etc/postfixadmin/vacation.conf") {
-    require "/etc/postfixadmin/vacation.conf";
+if (-f '/etc/mail/postfixadmin/vacation.conf') {
+    require '/etc/mail/postfixadmin/vacation.conf';
+} elsif (-f '/etc/postfixadmin/vacation.conf') {
+    require '/etc/postfixadmin/vacation.conf';
 }
 
 # =========== end configuration ===========
@@ -178,7 +178,7 @@ if($log_to_file == 1) {
     }
 }
 
-my ($from, $to, $cc, $replyto , $subject, $messageid, $lastheader, $smtp_sender, $smtp_recipient, %opts, $spam, $test_mode, $logger);
+my ($from, $to, $cc, $replyto , $subject, $messageid, $lastheader, $smtp_sender, $smtp_recipient, %opts, $test_mode, $logger);
 
 $subject='';
 $messageid='unknown';
@@ -186,12 +186,12 @@ $messageid='unknown';
 # Setup a logger...
 #
 getopts('f:t:', \%opts) or die "Usage: $0 [-t yes] -f sender -- recipient\n\t-t for testing only\n";
-$opts{f} and $smtp_sender = $opts{f} or die "-f sender not present on command line";
+$opts{f} and $smtp_sender = $opts{f} or die '-f sender not present on command line';
 $test_mode = 0;
 $opts{t} and $test_mode = 1;
-$smtp_recipient = shift or die "recipient not given on command line";
+$smtp_recipient = shift or die 'recipient not given on command line';
 
-my $log_layout = Log::Log4perl::Layout::PatternLayout->new("%d %p> %F:%L %M - %m%n");
+my $log_layout = Log::Log4perl::Layout::PatternLayout->new('%d %p> %F:%L %M - %m%n');
 
 if($test_mode == 1) {
     $logger = get_logger();
@@ -199,7 +199,7 @@ if($test_mode == 1) {
     my $appender = Log::Log4perl::Appender->new('Log::Dispatch::Screen');
     $appender->layout($log_layout);
     $logger->add_appender($appender);
-    $logger->debug("Test mode enabled");
+    $logger->debug('Test mode enabled');
 } else {
     $logger = get_logger();
     if($log_to_file == 1) {
@@ -231,7 +231,7 @@ if($log_level == 2) {
     $logger->level($DEBUG);
 }
 
-binmode (STDIN,':utf8');
+binmode (STDIN,':encoding(UTF-8)');
 
 my $dbh;
 if ($db_host) {
@@ -241,13 +241,13 @@ if ($db_host) {
 }
 
 if (!$dbh) {
-    $logger->error("Could not connect to database"); # eval { } etc better here?
+    $logger->error('Could not connect to database'); # eval { } etc better here?
     exit(0);
 }
 
 my $db_true; # MySQL and PgSQL use different values for TRUE, and unicode support...
-if ($db_type eq "mysql") {
-    $dbh->do("SET CHARACTER SET utf8;");
+if ($db_type eq 'mysql') {
+    $dbh->do('SET CHARACTER SET utf8;');
     $db_true = '1';
 } else { # Pg
     $dbh->do("SET CLIENT_ENCODING TO 'UTF8'");
@@ -465,7 +465,7 @@ sub send_vacation_email {
         my $sender = new Mail::Sender({%smtp_connection});
         $sender->Open({%mail});
         $sender->SendLineEnc($body);
-        $sender->Close() or $logger->error("Failed to send vacation response: " . $sender->{'error_msg'});
+        $sender->Close() or $logger->error('Failed to send vacation response: ' . $sender->{'error_msg'});
         $logger->debug("Vacation response sent to $to, from $from");
     }
 }
@@ -496,12 +496,11 @@ sub strip_address {
     # remove duplicates
     my %seen = ();
     my @uniq;
-    my $item;
-    foreach $item (@ok) {
+    foreach my $item (@ok) {
         push(@uniq, $item) unless $seen{$item}++
     }
 
-    my $result = lc(join(", ", @uniq));
+    my $result = lc(join(', ', @uniq));
     #$logger->debug("Result: $result");
     return $result;
 }
@@ -532,7 +531,7 @@ sub check_and_clean_from_address {
         exit(0); 
     }
     $address = strip_address($address);
-    if($address eq "") {
+    if($address eq '') {
         $logger->error("Address $address is not valid; exiting");
         exit(0);
     }
@@ -558,16 +557,16 @@ while (<STDIN>) {
     elsif (/^x\-spam\-(flag|status):\s+yes/i) { $logger->debug("x-spam-$1: yes found; exiting"); exit (0); }  
     elsif (/^x\-facebook\-notify:/i) { $logger->debug('Mail from facebook, ignoring'); exit(0); }
     elsif (/^precedence:\s+(bulk|list|junk)/i) { $logger->debug("precedence: $1 found; exiting"); exit (0); }  
-    elsif (/^x\-loop:\s+postfix\ admin\ virtual\ vacation/i) { $logger->debug("x-loop: postfix admin virtual vacation found; exiting"); exit (0); }  
+    elsif (/^x\-loop:\s+postfix\ admin\ virtual\ vacation/i) { $logger->debug('x-loop: postfix admin virtual vacation found; exiting'); exit (0); }  
     elsif (/^Auto\-Submitted:\s*no/i) { next; }  
-    elsif (/^Auto\-Submitted:/i) { $logger->debug("Auto-Submitted: something found; exiting"); exit (0); }
+    elsif (/^Auto\-Submitted:/i) { $logger->debug('Auto-Submitted: something found; exiting'); exit (0); }
     elsif (/^List\-(Id|Post):/i) { $logger->debug("List-$1: found; exiting"); exit (0); }
     elsif (/^(x\-(barracuda\-)?spam\-status):\s+(yes)/i) { $logger->debug("$1: $3 found; exiting"); exit (0); }
     elsif (/^(x\-dspam\-result):\s+(spam|bl[ao]cklisted)/i) { $logger->debug("$1: $2 found; exiting"); exit (0); }
     elsif (/^(x\-(anti|avas\-)?virus\-status):\s+(infected)/i) { $logger->debug("$1: $3 found; exiting"); exit (0); }
     elsif (/^(x\-(avas\-spam|spamtest|crm114|razor|pyzor)\-status):\s+(spam)/i) { $logger->debug("$1: $3 found; exiting"); exit (0); }
     elsif (/^(x\-osbf\-lua\-score):\s+[0-9\/\.\-\+]+\s+\[([-S])\]/i) { $logger->debug("$1: $2 found; exiting"); exit (0); }
-    else {$lastheader = "" ; }
+    else {$lastheader = '' ; }
 }
 
 if($smtp_recipient =~ /\@$vacation_domain/) {
@@ -589,7 +588,7 @@ $logger->debug("Email headers have to: '$to' and From: '$from'");
 $to = strip_address($to);
 $cc = strip_address($cc);
 $from = check_and_clean_from_address($from);
-if($replyto ne "") {
+if($replyto ne '') {
     # if reply-to is invalid, or looks like a mailing list, then we probably don't want to send a reply.
     $replyto = check_and_clean_from_address($replyto);
 }
