@@ -1,9 +1,9 @@
 <!-- {$smarty.template} -->
 {strip}
 {include file="header.tpl"}
-{if not $smarty_template|needle:"login"}
+{if $smarty_template|needle:"login" neq 1}
 	{config_load file="menu.conf" section=$smarty_template}
-	{if $smarty_template|needle:"users_"}
+	{if $smarty_template|needle:"users_" eq 1}
 		{include file='users_menu.tpl'}
 	{else}
 		{include file='menu.tpl'}
