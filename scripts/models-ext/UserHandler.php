@@ -95,6 +95,10 @@ class UserHandler {
  *
  */
     public function add($password, $name = '', $quota = 0, $active = true, $mail = true  ) {
+# FIXME: change default value of $quota to something that is not an allowed value, like "-9" (0 is "unlimited", and I don't like that as default)
+# FIXME: Should the parameters be optional at all?
+# TODO: check if parameters are valid/allowed (quota?). Checks should live in a separate function that can be used by add and edit.
+# TODO: On the longer term, the web interface should also use this class.
         global $config;
         $username = $this->username;
         $tmp = preg_split ('/@/', $username);
@@ -120,11 +124,12 @@ class UserHandler {
         
         $plain = $password;
         $password = pacrypt ($password);
-	
-	      if ( preg_match("/^dovecot:/", Config::read('encrypt')) ) {
-	        $split_method = preg_split ('/:/', Config::read('encrypt'));
-          $method       = strtoupper($split_method[1]);
-          $password = '{' . $method . '}' . $password;
+
+# TODO: Decide if we want to have the encryption method in the encrypted password string, and edit pacrypt() accordingly. No special handling here, please!
+        if ( preg_match("/^dovecot:/", Config::read('encrypt')) ) {
+            $split_method = preg_split ('/:/', Config::read('encrypt'));
+            $method       = strtoupper($split_method[1]);
+            $password = '{' . $method . '}' . $password;
         }
 
         if (Config::read('domain_path') == "YES")
@@ -143,7 +148,7 @@ class UserHandler {
             $maildir = $address . "/";
         }
 
-            $quota = multiply_quota ($quota);
+        $quota = multiply_quota ($quota);
 
 
         if ('pgsql'== Config::read('database_type'))
