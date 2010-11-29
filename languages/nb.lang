@@ -4,7 +4,7 @@
 // Language file Norwegian (bokmål)
 // by Odd Henriksen
 //
-// Last updated: 2009-04-19 / Odd Henriksen
+// Last updated: 2010-11-28 / Odd Henriksen
 //
 
 $PALANG['YES'] = 'JA';
@@ -348,8 +348,8 @@ $PALANG['pUsersVacation_button_away'] = 'Merk meg som fraværende';
 $PALANG['pUsersVacation_button_back'] = 'Merk meg som tilstede';
 $PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Kunne ikke oppdatere dine autosvar-innstillinger!</span>';
 $PALANG['pUsersVacation_result_success'] = 'Ditt automatiske svar er blitt fjernet!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_activefrom'] = 'Aktiv fra';
+$PALANG['pUsersVacation_activeuntil'] = 'Aktiv til';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'opprett e-postkonto';
 $PALANG['pCreate_dbLog_createalias'] = 'opprett alias';
