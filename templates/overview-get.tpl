@@ -17,7 +17,7 @@
 		<td>{$PALANG.pOverview_get_mailboxes}</td>
 		{if $CONF.quota===YES}<td>{$PALANG.pOverview_get_quota}</td>{/if}
 	</tr>
-{foreach from=$domain_properties item=domain }
+{foreach from=$domain_properties item=domain}
 		{#tr_hilightoff#}
 			<td><a href="{#url_list_virtual#}?domain={$domain.domain|escape:"url"}">{$domain.domain}</a></td>
 			<td>{$domain.alias_count} / {$domain.aliases}</td>
