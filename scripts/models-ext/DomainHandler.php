@@ -27,10 +27,6 @@ class DomainHandler {
     
     public function add($domain, $desc, $a, $m, $t, $q, $default, $backup){
       
-      $table_domain =  table_by_key('domain');
-      $table_alias = table_by_key('alias');
-      
-      
       ($backup == true) ? $backup = db_get_boolean(true) : $backup = db_get_boolean(false);
       
       $arr = array(
@@ -43,7 +39,7 @@ class DomainHandler {
             'backupmx' => $backup,
             );
         
-        $result = db_insert($table_domain, $arr, array('created', 'modified') );
+        $result = db_insert('domain', $arr, array('created', 'modified') );
         if ($result != 1)
         {
             $this->errormsg[] = Lang::read('pAdminCreate_domain_result_error') . "\n($domain)\n";
@@ -61,7 +57,7 @@ class DomainHandler {
                         'goto' => $goto,
                         'domain' => $domain,
                         );
-                    $result = db_insert ($table_alias, $arr, array('created', 'modified') );
+                    $result = db_insert ('alias', $arr, array('created', 'modified') );
                 }
             }
             $tMessage = Lang::read('pAdminCreate_domain_result_success') . "<br />($domain)</br />";

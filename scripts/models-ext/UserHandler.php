@@ -164,7 +164,7 @@ class UserHandler {
             'active' => $active,
             );
         
-        $result = db_insert($table_alias, $arr, array('created', 'modified') );
+        $result = db_insert('alias', $arr, array('created', 'modified') );
         if ($result != 1)
         {
             $this->errormsg[] = Lang::read('pAlias_result_error') . "\n($address -> $address)\n";
@@ -190,7 +190,7 @@ class UserHandler {
             'domain' => $domain,
             'active' => $active,
             );
-        $result = db_insert($table_mailbox, $arr2, array('created', 'modified') );
+        $result = db_insert('mailbox', $arr2, array('created', 'modified') );
         if ($result != 1 || !mailbox_postcreation($address,$domain,$maildir, $quota))
         {
             $this->errormsg[] = Lang::read('pCreate_mailbox_result_error') . "\n($address)\n";
@@ -269,7 +269,7 @@ class UserHandler {
         $result = db_query("SELECT * FROM $table_alias WHERE address = '$username' AND domain = '$domain'");
         if($result['rows'] == 1) {
             //$result = db_query ("DELETE FROM $table_alias WHERE address='$username' AND domain='$domain'");
-            $result = db_delete($table_alias, 'address', $username);
+            $result = db_delete('alias', 'address', $username);
             db_log ('CONSOLE', $domain, 'delete_alias', $username);
         }
 
@@ -278,7 +278,7 @@ class UserHandler {
         if ($result['rows'] == 1)
         {
             //$result = db_query ("DELETE FROM $table_mailbox WHERE username='$username' AND domain='$domain'");
-            $result = db_delete($table_mailbox, 'username', $username);
+            $result = db_delete('mailbox', 'username', $username);
             $postdel_res=mailbox_postdeletion($username,$domain);
             if ($result != 1 || !$postdel_res)
             {
@@ -301,9 +301,9 @@ class UserHandler {
         $result = db_query("SELECT * FROM $table_vacation WHERE email = '$username' AND domain = '$domain'");
         if($result['rows'] == 1) {
             //db_query ("DELETE FROM $table_vacation WHERE email='$username' AND domain='$domain'");
-            db_delete($table_vacation, 'email', $username);
+            db_delete('vacation', 'email', $username);
             //db_query ("DELETE FROM $table_vacation_notification WHERE on_vacation ='$username' "); /* should be caught by cascade, if PgSQL */
-            db_delete($table_vacation_notification, 'on_vacation', $username);
+            db_delete('vacation_notification', 'on_vacation', $username);
         }
         return 0;
     }
