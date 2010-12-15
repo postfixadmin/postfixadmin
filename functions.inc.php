@@ -1184,7 +1184,7 @@ function pacrypt ($pw, $pw_db="")
         $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
         if(preg_match('/^{.*}/', $pw_db)) {
             // we have a flavor in the db -> use it instead of default flavor
-            $result = split('{|}', $pw_db, 3);
+            $result = preg_split('/[{}]/', $pw_db, 3); # split at { and/or }
             $flavor = $result[1];  
             $salt = substr($result[2], 0, 2);
         }
@@ -1459,7 +1459,7 @@ function db_connect ($ignore_errors = 0)
         }
         else
         {
-            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available!<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available! (php5-mysql installed?)<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     }
     elseif ($CONF['database_type'] == "mysqli")
@@ -1475,7 +1475,7 @@ function db_connect ($ignore_errors = 0)
         }
         else
         {
-            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available!<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     }
     elseif ($CONF['database_type'] == "pgsql")
@@ -1491,7 +1491,7 @@ function db_connect ($ignore_errors = 0)
         }
         else
         {
-            $error_text .= "<p />DEBUG INFORMATION:<br />PostgreSQL functions not available!<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            $error_text .= "<p />DEBUG INFORMATION:<br />PostgreSQL functions not available! (php5-pgsql installed?)<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     }
     else
