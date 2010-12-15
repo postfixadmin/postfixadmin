@@ -16,7 +16,7 @@
  * Contains re-usable code.
  */
 
-$version = '2.3';
+$version = '2.3.2';
 
 /**
  * check_session
@@ -81,7 +81,12 @@ function authentication_require_role($role) {
     if(authentication_has_role($role)) {
         return True;
     }
-    header("Location: " . $CONF['postfix_admin_url'] . "/login.php");
+    if($role === 'user') {
+        header("Location: " . $CONF['postfix_admin_url'] . '/users/login.php');
+    }
+    else {
+        header("Location: " . $CONF['postfix_admin_url'] . "/login.php");
+    }
     exit(0);
 }
 /**
@@ -444,7 +449,8 @@ function get_domain_properties ($domain)
     //while loop to figure index names. use page_size and loop of queries
     $i=0;
     $current=0;
-    $page_size = $CONF['page_size'];
+    $page_size = (int) $CONF['page_size'];
+    if ($page_size < 1) die ("\$CONF['page_size'] = '$page_size' is invalid (it may only contain digits and must be >= 1)");
     $tmpstr="";
     $idxlabel="";
     $list['alias_pgindex_count'] = 0;
@@ -1177,7 +1183,7 @@ function pacrypt ($pw, $pw_db="")
         $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
         if(preg_match('/^{.*}/', $pw_db)) {
             // we have a flavor in the db -> use it instead of default flavor
-            $result = split('{|}', $pw_db, 3);
+            $result = preg_split('/[{}]/', $pw_db, 3); # split at { and/or }
             $flavor = $result[1];  
             $salt = substr($result[2], 0, 2);
         }
@@ -1199,6 +1205,7 @@ function pacrypt ($pw, $pw_db="")
         $split_method = preg_split ('/:/', $CONF['encrypt']);
         $method       = strtoupper($split_method[1]);
         if (! preg_match("/^[A-Z0-9-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
+        if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
 
         $dovecotpw = "dovecotpw";
         if (!empty($CONF['dovecotpw'])) $dovecotpw = $CONF['dovecotpw'];
@@ -1450,7 +1457,7 @@ function db_connect ($ignore_errors = 0)
         }
         else
         {
-            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available!<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available! (php5-mysql installed?)<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     }
     elseif ($CONF['database_type'] == "mysqli")
@@ -1466,7 +1473,7 @@ function db_connect ($ignore_errors = 0)
         }
         else
         {
-            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available!<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     }
     elseif ($CONF['database_type'] == "pgsql")
@@ -1482,7 +1489,7 @@ function db_connect ($ignore_errors = 0)
         }
         else
         {
-            $error_text .= "<p />DEBUG INFORMATION:<br />PostgreSQL functions not available!<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            $error_text .= "<p />DEBUG INFORMATION:<br />PostgreSQL functions not available! (php5-pgsql installed?)<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     }
     else
@@ -1571,7 +1578,7 @@ function db_query ($query, $ignore_errors = 0)
     if ($error_text != "" && $ignore_errors == 0) die($error_text);
 
     if ($error_text == "") {
-        if (preg_match("/^SELECT/i", $query))
+        if (preg_match("/^SELECT/i", trim($query)))
         {
             // if $query was a SELECT statement check the number of rows with [database_type]_num_rows ().
             if ($CONF['database_type'] == "mysql") $number_rows = mysql_num_rows ($result);
@@ -1768,7 +1775,16 @@ function db_log ($username,$domain,$action,$data)
     }
 }
 
-
+/**
+ * db_in_clause
+ * Action: builds and returns the "field in(x, y)" clause for database queries
+ * Call: db_in_clause (string field, array values)
+ */
+function db_in_clause($field, $values) {
+    return " $field IN ('"
+    . implode("','",escape_string(array_values($values))) 
+    . "') "; 
+}
 
 //
 // table_by_key
@@ -2093,6 +2109,7 @@ function create_mailbox_subfolders($login,$cleartext_password)
         $f='{'.$s_host.'}'.$s_prefix.$f;
         $res=imap_createmailbox($i,$f);
         if (!$res) {
+            error_log('Could not create IMAP folder $f: '.imap_last_error());
             @imap_close($i);
             return FALSE;
         }
@@ -2351,8 +2368,6 @@ function boolconf($setting) {
         return false;
     }
 }
-
-
 
 $table_admin = table_by_key ('admin');
 $table_alias = table_by_key ('alias');

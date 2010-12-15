@@ -7,7 +7,7 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pLogin_username'] . ":"; ?></td>
-      <td><input class="flat" type="text" name="fUsername" value="<?php print $tUsername; ?>" /></td>
+      <td><input class="flat" type="text" name="fUsername" value="" /></td>
    </tr>
    <tr>
       <td><?php print $PALANG['pLogin_password'] . ":"; ?></td>

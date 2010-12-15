@@ -159,7 +159,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     {
         $password = pacrypt ($fPassword);
 
-        if ($CONF['domain_path'] == "YES")
+        if($CONF['maildir_name_hook'] != 'NO' && function_exists($CONF['maildir_name_hook'])) {
+            $hook_func = $CONF['maildir_name_hook'];
+            $maildir = $hook_func ($fDomain, $fUsername);
+        }
+        else if ($CONF['domain_path'] == "YES")
         {
             if ($CONF['domain_in_mailbox'] == "YES")
             {

@@ -1,0 +1,20 @@
+Squirrelmail PostfixAdmin Plugin for Debian
+===========================================
+
+After installing the package, you will need to :
+
+1) Edit the config.inc.php file to point to the PostfixAdmin server.
+
+2) Ensure the xmlrpc interface is available and enabled on the Postfixadmin server
+
+3) Run the squirrelmail-configure script.
+
+Where to get help
+=================
+
+See http://squirrelmail-postfixadmin.palepurple.co.uk
+
+Try also : david [at] pale purple dot co dot uk
+
+Or #postfixadmin on irc.freenode.net might be a good bet.
+

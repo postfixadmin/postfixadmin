@@ -51,7 +51,6 @@ $CONF['database_host'] = 'localhost';
 $CONF['database_user'] = 'postfix';
 $CONF['database_password'] = 'postfixadmin';
 $CONF['database_name'] = 'postfix';
-$CONF['database_prefix'] = '';
 // If you need to specify a different port for a MYSQL database connection, use e.g.
 //   $CONF['database_host'] = '172.30.33.66:3308';
 // If you need to specify a different port for POSTGRESQL database connection
@@ -149,6 +148,36 @@ $CONF['domain_path'] = 'NO';
 //   NO:  /usr/local/virtual/domain.tld/username
 // Note: If $CONF['domain_path'] is set to NO, this setting will be forced to YES.
 $CONF['domain_in_mailbox'] = 'YES';
+// If you want to define your own function to generate a maildir path set this to the name of the function.
+// Notes: 
+//   - this configuration directive will override both domain_path and domain_in_mailbox
+//   - the maildir_name_hook() function example is present below, commented out
+//   - if the function does not exist the program will default to the above domain_path and domain_in_mailbox settings
+$CONF['maildir_name_hook'] = 'NO';
+
+/*
+    maildir_name_hook example function
+ 
+    Called by create-mailbox.php if $CONF['maildir_name_hook'] == '<name_of_the_function>'
+    - allows for customized maildir paths determined by a custom function
+    - the example below will prepend a single-character directory to the
+      beginning of the maildir, splitting domains more or less evenly over
+      36 directories for improved filesystem performance with large numbers
+      of domains.
+
+    Returns: maildir path
+    ie. I/example.com/user/
+*/
+/*
+function maildir_name_hook($domain, $user) {
+    $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    $dir_index = hexdec(substr(md5($domain), 28)) % strlen($chars);
+    $dir = substr($chars, $dir_index, 1);
+    return sprintf("%s/%s/%s/", $dir, $domain, $user);
+}
+*/
+
 
 // Default Domain Values
 // Specify your default values below. Quota in MB.
@@ -338,7 +367,7 @@ $CONF['recipient_delimiter'] = "";
 // Note that this may fail if PHP is run in "safe mode", or if
 // operating system features (such as SELinux) or limitations
 // prevent the web-server from executing external scripts.
-// Parameters: (1) username
+// Parameters: (1) domain
 //$CONF['domain_postcreation_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postcreation.sh';
 
 // Optional:
@@ -346,7 +375,7 @@ $CONF['recipient_delimiter'] = "";
 // Note that this may fail if PHP is run in "safe mode", or if
 // operating system features (such as SELinux) or limitations
 // prevent the web-server from executing external scripts.
-// Parameters: (1) username
+// Parameters: (1) domain
 // $CONF['domain_postdeletion_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postdeletion.sh';
 
 // Optional:

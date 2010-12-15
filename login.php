@@ -19,7 +19,6 @@
  * Template Variables:
  *
  *  tMessage
- *  tUsername
  *
  * Form POST \ GET Variables:
  *
@@ -65,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         {
             $error = 1;
             $tMessage = '<span class="error_msg">' . $PALANG['pLogin_failed'] . '</span>';
-            $tUsername = htmlentities($fUsername, ENT_QUOTES, 'UTF-8');
         }
     }
     else

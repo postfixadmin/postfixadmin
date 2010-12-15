@@ -32,7 +32,7 @@ authentication_require_role('admin');
 if (authentication_has_role('global-admin')) {
    $list_admins = list_admins ();
    $is_superadmin = 1;
-   $fUsername = safepost('fUsername', safeget('username')); # prefer POST over GET variable
+   $fUsername = escape_string(safepost('fUsername', safeget('username'))); # prefer POST over GET variable
    if ($fUsername != "") $admin_properties = get_admin_properties($fUsername);
 } else {
    $list_admins = array(authentication_get_username());
@@ -51,24 +51,28 @@ if (isset($admin_properties) && $admin_properties['domain_count'] == 'ALL') { # 
    $list_domains = list_domains_for_admin(authentication_get_username());
 }
 
+$table_domain  = table_by_key('domain');
+$table_mailbox = table_by_key('mailbox');
+$table_alias   = table_by_key('alias');
+
 if ($list_all_domains == 1) {
-   $where = " WHERE domain.domain != 'ALL' "; # TODO: the ALL dummy domain is annoying...
+   $where = " WHERE $table_domain.domain != 'ALL' "; # TODO: the ALL dummy domain is annoying...
 } else {
    $list_domains = escape_string($list_domains);
-   $where = " WHERE domain.domain IN ('" . join("','", $list_domains) . "') ";
+   $where = " WHERE $table_domain.domain IN ('" . join("','", $list_domains) . "') ";
 }
 
 # fetch domain data and number of mailboxes
 # (PgSQL requires the extensive GROUP BY statement, https://sourceforge.net/forum/message.php?msg_id=7386240)
 $query = "
-   SELECT domain.* , COUNT( DISTINCT mailbox.username ) AS mailbox_count
-   FROM domain
-   LEFT JOIN mailbox ON domain.domain = mailbox.domain
+   SELECT $table_domain.* , COUNT( DISTINCT $table_mailbox.username ) AS mailbox_count
+   FROM $table_domain
+   LEFT JOIN $table_mailbox ON $table_domain.domain = $table_mailbox.domain
    $where
-   GROUP BY domain.domain, domain.description, domain.aliases, domain.mailboxes,
-   domain.maxquota, domain.quota, domain.transport, domain.backupmx, domain.created,
-   domain.modified, domain.active
-   ORDER BY domain.domain
+   GROUP BY $table_domain.domain, $table_domain.description, $table_domain.aliases, $table_domain.mailboxes,
+   $table_domain.maxquota, $table_domain.quota, $table_domain.transport, $table_domain.backupmx, $table_domain.created,
+   $table_domain.modified, $table_domain.active
+   ORDER BY $table_domain.domain
    ";
 $result = db_query($query);
 
@@ -80,12 +84,12 @@ while ($row = db_array ($result['result'])) {
 # fetch number of aliases
 # doing this separate is much faster than doing it in one "big" query
 $query = "
-   SELECT domain.domain, COUNT( DISTINCT alias.address ) AS alias_count 
-   FROM domain
-   LEFT JOIN alias ON domain.domain = alias.domain
+   SELECT $table_domain.domain, COUNT( DISTINCT $table_alias.address ) AS alias_count 
+   FROM $table_domain
+   LEFT JOIN $table_alias ON $table_domain.domain = $table_alias.domain
    $where
-   GROUP BY domain.domain
-   ORDER BY domain.domain
+   GROUP BY $table_domain.domain
+   ORDER BY $table_domain.domain
    ";
 
 $result = db_query($query);

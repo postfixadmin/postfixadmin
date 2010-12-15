@@ -1,0 +1,39 @@
+Installing the postfixadmin Plugin
+======================================
+
+Requirements:
+=============
+
+ - PHP 5.2.x with php5-xmlrpc installed (if available; it should be available by default anyway)
+ - http access to a local/remote postfixadmin interface
+ - Zend Framework - download from http://framework.zend.com 
+    - the Zend directory needs to be in PHP's include_path, or in the same directory 
+      as the plugin. Suggested version 1.10; older versions should work.
+
+Installation :
+==============
+
+- Check out this code (svn co http://squirrelmail-postfixadmin.palepurple.co.uk/svn/trunk postfixadmin) 
+  into the Squirrelmail plugins directory.
+
+- Edit config.php and specify the remote URL for the Postfixadmin XmlRpc service. There isn't much more to change.
+
+- Edit the remote Postfixadmin's XmlRpc service config file and ensure 'xmlrpc_enable' is set to boolean true.
+
+- Enable the plugin through 'squirrelmail-configure' or 'config/conf.pl'.  
+   Choose option 8 and move the plugin from the "Available Plugins"
+   category to the "Installed Plugins" category.  Save and exit.
+
+
+Security :
+==========
+
+- The XmlRpc client needs to get the user's mailbox password before it will be able to connect to the
+  XmlRpc server (postfixadmin). The plugin prompts the user for their mailbox password, and caches it in their session
+  ($_SESSION['password']). This password is then sent once on every page load to the remote XmlRpc server.
+
+- You should consider doing any of the following :
+
+ - Using https if the server and client are on seperate servers. This will probably require a signed certificate etc, and may require changes to the Zend_XmlRpc_Client's HttpClient.
+ - Using something like stunnel to encrypt traffic between server(s).
+

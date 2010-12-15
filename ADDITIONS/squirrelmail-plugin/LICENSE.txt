@@ -1,0 +1,40 @@
+
+2007/03/29 :
+    Before I (David Goodwin) customised this plugin, it contained the following within all
+    files as a header. 
+
+    /****************************************************************************************
+
+        Author ......... Florian Kimmerl
+        Contact ........ info@spacekoeln.de
+        Home Site ...... http://www.spacekoeln.de/
+        Program ........ postfixadmin
+        Purpose ........ Allows you to change your postfixadmin settings within squirrelmail
+
+        *************************************************************************************
+
+        The Original Code is Postfix Admin.
+        The Initial Developer of the Original Code is Mischa Peters .
+        Portions created by Mischa Peters are Copyright (c) 2002, 2003, 2004.
+        All Rights Reserved.
+        Contributor(s):
+        This project includes work by Mischa Peters and others that is:
+        Copyright (c) 2002,2003,2004 Mischa Peters
+        All rights reserved.
+
+    ****************************************************************************************/
+
+    
+    Contacting the author provided no success, so I took over maintainership.
+
+    Please note:
+
+    1) Changes made by myself (David Goodwin) will be licensed under the GPL
+    2) PostfixAdmin has itself been relicensed under the GPL; however this took place _after_
+       this plugin was written.
+    3) Squirrelmail itself is released under http://squirrelmail.org/wiki/SquirrelMailGPL (GPL)
+
+
+The GNU public license can be found online at :
+
+    http://www.gnu.org/licenses/gpl.txt

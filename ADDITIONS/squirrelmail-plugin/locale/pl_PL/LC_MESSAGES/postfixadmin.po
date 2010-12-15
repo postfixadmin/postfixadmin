@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2004-01-29 17:35+0100\n"
+"PO-Revision-Date: 2007-07-20 20:46+0100\n"
+"Last-Translator: Krzysztof Laska <krzysiek@dip.pl>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: setup.php
+msgid "Forwarding"
+msgstr "Przekazywanie"
+
+msgid "Here you can create and edit E-Mail forwards."
+msgstr "Tutaj mo¿esz ustawiæ i edytowaæ opcje przekazywania wiadomo¶ci"
+
+msgid "Set an OUT OF OFFICE message or auto responder for your mail."
+msgstr "Ustaw wiadomo¶æ wysy³an± nadawcom podczas Twojej nieobecno¶ci (Vacation)"
+
+msgid "Change your mailbox password."
+msgstr "Zmieñ has³o do swojego konta pocztowego"
+
+#: postfixadmin_changepass.php
+msgid "Alias"
+msgstr "Konto"
+
+msgid "Change Password"
+msgstr "Zmieñ has³o"
+
+msgid "Change your login password"
+msgstr "Zmieñ has³o do swojego konta pocztowego"
+
+#: postfixadmin_forward.php
+msgid "Edit Alias"
+msgstr "Edytuj adresy do przekazywania"
+
+msgid "Edit an alias* for your domain.<br />One entry per line."
+msgstr "Edytuj forward* dla swojego konta. <br/> Ka¿dy adres w nowym wierszu."
+
+msgid "The email address that you have entered is not valid:"
+msgstr "Adres e-mail jaki poda³e¶ jest niepoprawny:"
+
+msgid "Unable to locate alias!"
+msgstr "Nie mo¿na zlokalizowaæ aliasu!"
+
+msgid "Unable to modify the alias!"
+msgstr "Nie mo¿na zmodyfikowaæ aliasu!"
+
+msgid "*Additional forward-aliase always recieve messages BBC!"
+msgstr "*Wszystkie dodatkowe adresy zawsze odbieraj± wiadomo¶ci przesy³ane jako BCC! Ca³a poczta jest przekazywana i nie jest przechowywana na koncie podstawowym!"
+
+msgid "Alias successfully changend!"
+msgstr "Zmiana zachowana!"
+
+msgid "To remove an alias, simply delete it's line from the text box."
+msgstr "¯eby wy³±czyæ forward na dane konto po prostu usuñ liniê z adresem na który nie chcesz ju¿ przekazywaæ poczty."
+
+#: postfixadmin_vacation.php
+msgid "Auto Response"
+msgstr "Autoodpowied¼"
+
+msgid "Going Away"
+msgstr "W³±cz autoodpowied¼"
+
+msgid "Coming Back"
+msgstr "Wy³±cz autoodpowied¼"
+
+msgid "Options"
+msgstr "Opcje"
+
+msgid "Out of Office"
+msgstr "Autoodpowied¼"
+
+msgid "Subject"
+msgstr "Temat"
+
+msgid "Body"
+msgstr "Tre¶æ"
+
+msgid "Your auto response has been removed!"
+msgstr "Twoja autoodpowied¼ zosta³a wy³±czona!"
+
+msgid "Your auto response has been set!"
+msgstr "Twoja autoodpowied¼ zosta³a w³±czona!"
+
+msgid "You already have an auto response configured!"
+msgstr "Masz ju¿ skonfigurowan± autoodpowied¼!"
+
+#: postfixadmin_changepass.php:81
+#: postfixadmin_changepass.php:87
+msgid "The passwords that you supplied don't match!<br />Or are empty!"
+msgstr "Has³a które poda³e¶ nie pasuj± lub s± puste!"
+
+#: postfixadmin_forward.php:70
+#: postfixadmin_forward.php:152
+msgid "To"
+msgstr "Do"
+
+#: postfixadmin_changepass.php:101
+msgid "Unable to change your password!"
+msgstr "Nie mo¿na zmieniæ has³a!"
+
+#: postfixadmin_changepass.php:75
+msgid "You didn't supply your current password!"
+msgstr "Nie poda³e¶ aktualnego has³a!"
+
+#: postfixadmin_changepass.php:96
+msgid "Your password has been changed!"
+msgstr "Twoje has³o zosta³o zmienione!"
+
+msgid "Password current"
+msgstr "Bie¿±ce has³o"
+
+msgid "Password new"
+msgstr "Nowe has³o"
+
+msgid "Password new again"
+msgstr "Powtórz nowe has³o"
+
+msgid "Please sign out and log back again with your new password!"
+msgstr "Wyloguj siê i zaloguj z nowym has³em!"
+
+msgid "I will be away from <date> until <date>. For urgent matters you can contact <contact person>."
+msgstr "Nie bêdê odbieraæ poczty pomiêdzy <data> a <data>. W sprawach pilnych proszê kontaktowaæ siê z <osoba kontaktowa>"
+

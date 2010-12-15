@@ -1,0 +1,131 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: postfixadmin-squirrelmail 2.1.0\n"
+"POT-Creation-Date: 2007-11-16 17:35+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Johan <johan@double-l.nl>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: setup.php
+msgid "Forwarding"
+msgstr "Doorsturen"
+
+msgid "Here you can create and edit E-Mail forwards."
+msgstr "Hier kunt u uw doorstuur adres bewerken"
+
+msgid "Set an OUT OF OFFICE message or auto responder for your mail."
+msgstr "Configureer hier uw automatisch beantwoorden"
+
+msgid "Change your mailbox password."
+msgstr "Verander uw wachtwoord"
+
+#: postfixadmin_changepass.php
+msgid "Alias"
+msgstr "Alias"
+
+msgid "Change Password"
+msgstr "Verander wachtwoord"
+
+msgid "Change your login password"
+msgstr "Verander uw login wachtwoord"
+
+#: postfixadmin_forward.php
+msgid "Edit Forwards"
+msgstr "Bewerk aliassen"
+
+msgid "Edit an alias* for your email address.<br />One entry per line."
+msgstr "Bewerk uw alias(sen) voor uw emailadres.<br />1 alias per regel."
+
+msgid "The email address that you have entered is not valid:"
+msgstr "Het ingevoerde adres is geen geldig adres"
+
+msgid "Unable to locate alias!"
+msgstr "Niet in staat opgeven alias te vinden!"
+
+msgid "Unable to modify the alias!"
+msgstr "Niet in staat de alias aan te passen"
+
+msgid "*Additional forward-aliases always receive messages BBC!"
+msgstr "Aliassen ontvangen altijd per BCC! "
+
+msgid "To remove an alias, simply delete its line from the text box."
+msgstr "Verwijder de regel om de alias(sen) te verwijderen."
+
+msgid "Alias successfully changed!"
+msgstr "Alias succesvol aangepast"
+
+#: postfixadmin_vacation.php
+msgid "Auto Response"
+msgstr "Automatisch beantwoorden"
+
+msgid "Going Away"
+msgstr "Ik ben weg, schakel Out of Office IN"
+
+msgid "Coming Back"
+msgstr "Ik ben terug, schakel Out of Office UIT"
+
+msgid "Options"
+msgstr "Opties"
+
+msgid "Out of Office"
+msgstr "Out of office"
+
+msgid "Subject"
+msgstr "Onderwerp"
+
+msgid "Body"
+msgstr "Tekst"
+
+msgid "Your auto response has been removed!"
+msgstr "Uw automatisch beantwoorden is verwijderd!"
+
+msgid "Your auto response has been set!"
+msgstr "Uw automatisch beantwoorden is geactiveerd!"
+
+msgid "You already have an auto response configured!"
+msgstr "Automatisch beantwoorden is al geconfigureerd!"
+
+#: postfixadmin_changepass.php:81 postfixadmin_changepass.php:87
+msgid "The passwords that you supplied don't match!<br />Or are empty!"
+msgstr "De wachtwoorden komen niet overeen!<br />Of er is geen wachtwoord opgegeven!"
+
+#: postfixadmin_forward.php:70 postfixadmin_forward.php:152
+msgid "To"
+msgstr "Aan"
+
+#: postfixadmin_changepass.php:101
+msgid "Unable to change your password!"
+msgstr "Niet in staat uw wachtwoord te wijzigen!"
+
+#: postfixadmin_changepass.php:75
+msgid "You didn't supply your current password!"
+msgstr "U moet uw huidige wachtwoord opgeven!"
+
+#: postfixadmin_changepass.php:96
+msgid "Your password has been changed!"
+msgstr "Uw wachtwoord is gewijzigd!"
+
+msgid "Password current"
+msgstr "Huidig wachtwoord"
+
+msgid "Password new"
+msgstr "Nieuw wachtwoord"
+
+msgid "Password new again"
+msgstr "Nieuw wachtwoord nogmaals"
+
+msgid "Please sign out and log back again with your new password!"
+msgstr "Log uit en opnieuw in met het nieuwe wachtwoord"
+
+msgid "I will be away from <date> until <date>. For urgent matters you can contact <contact person>."
+msgstr "Ik ben niet aanwezig van <datum> tot <datum>. Voor dringende zaken kunt u contact opnemen met <Contact persoon>."
+

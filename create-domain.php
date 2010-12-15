@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
     $tAliases = $fAliases;
     $tMaxquota = $fMaxquota;
     $tMailboxes = $fMailboxes;
-    $tDefaultAliases = $fDefaultaliases;
+    $tDefaultaliases = $fDefaultaliases;
     $tBackupmx = $fBackupmx;
 }
 

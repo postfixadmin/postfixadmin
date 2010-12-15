@@ -1,2 +1,16 @@
-ADDITIONS
 VIRTUAL_VACATION
+ADDITIONS/change_password.tgz
+ADDITIONS/import_users_from_csv.py
+ADDITIONS/postfixadmin-domain-postdeletion.sh
+ADDITIONS/cleanupdirs.pl
+ADDITIONS/mailbox_remover.pl
+ADDITIONS/postfixadmin-mailbox-postcreation.sh
+ADDITIONS/virtualmaildel.php
+ADDITIONS/convert-passwd-to-postfixadmin.pl
+ADDITIONS/mkeveryone.pl
+ADDITIONS/postfixadmin-mailbox-postdeletion.sh
+ADDITIONS/delete-mailq-by-domain.pl
+ADDITIONS/pfa_maildir_cleanup.pl
+ADDITIONS/quota_usage.pl
+ADDITIONS/fetchmail.pl
+ADDITIONS/README.TXT

@@ -117,7 +117,17 @@ create the admin user using the form displayed.
 This is all that is needed. Fire up your browser and go to the site that you
 specified to host Postfix Admin.
 
-6. More information
+6. Integration with Postfix, Dovecot etc.
+-----------------------------------------
+
+Now that PostfixAdmin is working, you need to do some configuration in Postfix,
+Dovecot etc. so that they use the domains, mailboxes and aliases you setup in
+PostfixAdmin.
+
+The files in the DOCUMENTS/ directory explain which settings you need to
+do/change.
+
+7. More information
 -------------------
 As of March 2007, PostfixAdmin moved to SourceForge.  For the
 forum posts and source updates, see:

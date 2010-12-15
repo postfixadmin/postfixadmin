@@ -1,0 +1,19 @@
+Source: squirrelmail-postfixadmin
+Section: mail
+Priority: optional
+Maintainer: David Goodwin <david.goodwin@palepurple.co.uk>
+Standards-Version: 3.6.1
+
+Package: squirrelmail-postfixadmin
+Architecture: all
+Depends: squirrelmail, php-pear
+Suggests: postfixadmin
+Description: Plugin for Squirrelmail to integrate with Postfixadmin
+ Postfixadmin is a web based interface for managing mail domains 
+ and users. This package integrates Squirrelmail with it. 
+ Users can change their password, forwarding and vacation settings
+ from within Squirrelmail when this package is installed, and 
+ enabled through the ./squirrelmail-configure command.
+ .
+ For further information see 
+ http://squirrelmail-postfixadmin.palepurple.co.uk

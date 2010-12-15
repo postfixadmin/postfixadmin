@@ -1,0 +1,22 @@
+<?php
+
+$CONF = array();
+$CONF['xmlrpc_url'] = 'http://postfixadmin.local/postfixadmin/xmlrpc.php';
+
+// Virtual Vacation
+// If you use virtual vacation for you mailbox users set this to 'true'.
+// NOTE: Make sure that you install the vacation module!!
+
+//$AllowVacation = true;    // true or false
+global $AllowVacation;
+$AllowVacation = true;
+
+// Change Password
+// Enables user to change the POP3/IMAP Password.
+//$AllowChangePass = true;    // true or false
+global $AllowChangePass;
+$AllowChangePass = true;
+
+// Minimum password length - set to Zero to not care, otherwise the number of 
+// characters a password must be longer than.
+$CONF['min_password_length'] = 5;

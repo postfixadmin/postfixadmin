@@ -23,6 +23,8 @@ be viewed real-time in Postfixadmin.
 
 default_mail_env = maildir:/var/mail/vmail/%u/
 
+(dovecot 1.0.7 calls this mail_location ... ie.. mail_location = maildir:/...../%u )
+
 auth default {
   mechanisms plain
   userdb sql {
@@ -64,6 +66,11 @@ password_query = SELECT username AS user,password FROM mailbox WHERE username = 
 # Query to retrieve user information.
 
 user_query = SELECT maildir, 1001 AS uid, 1001 AS gid FROM mailbox WHERE username = '%u' AND active='1'
+
+for dovecot 1.2: (for PostgreSQL, replace 'CONCAT(a, b)' with 'a || b')
+user_query = SELECT CONCAT('/home/vmail/', maildir) AS home, 1001 AS uid, 1001 AS gid, 
+	CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE username = '%u' AND active='1'
+
 
 NB! The GID and UID are for postfix user and group ID, NOT MySQL user and group ID.
 

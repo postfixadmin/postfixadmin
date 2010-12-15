@@ -35,7 +35,7 @@ table {
 	font-size: 11px;
 }
 
-.button:hover {
+.button:hover, .button:focus {
 	background: #BCFF36;
 	color: #888888;
 }

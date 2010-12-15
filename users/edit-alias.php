@@ -75,14 +75,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     $goto = explode(",",$goto);
 
+    $error = 0;
     $goto = array_merge(array_unique($goto));
     $good_goto = array();
+
     if($fForward_and_store == 'NO' && sizeof($goto) == 1 && $goto[0] == '') {
         $tMessage = $PALANG['pEdit_alias_goto_text_error1'];
         $error += 1;
     }
     if($error === 0) {
         foreach($goto as $address) {
+          if ($address != "") { # $goto[] may contain a "" element
             if(!check_email($address)) {
                 $error += 1;
                 $tMessage = $PALANG['pEdit_alias_goto_text_error2'] . " $address</font>";
@@ -90,8 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             else {
                 $good_goto[] = $address;
             }
+          }
         }
-        $goto = $good_goto;
     }
 
     if ($error == 0) {
@@ -99,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         if($fForward_and_store == "YES" ) {
             $flags = 'forward_and_store';
         }
-        $updated = $ah->update($goto, $flags);
+        $updated = $ah->update($good_goto, $flags);
         if($updated) {
             header ("Location: main.php");
             exit;

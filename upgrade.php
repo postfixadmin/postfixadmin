@@ -217,7 +217,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
 
 function _drop_index ($table, $index) {
     global $CONF;
-    $tabe = table_by_key ($table);
+    $table = table_by_key ($table);
 
     if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli' ) {
         return "ALTER TABLE $table DROP INDEX $index";
@@ -231,7 +231,7 @@ function _drop_index ($table, $index) {
 
 function _add_index($table, $indexname, $fieldlist) {
     global $CONF;
-    $tabe = table_by_key ($table);
+    $table = table_by_key ($table);
 
     if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli' ) {
         return "ALTER TABLE $table ADD INDEX `$indexname` ( `$fieldlist` )";
