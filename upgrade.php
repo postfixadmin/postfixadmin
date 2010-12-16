@@ -4,6 +4,7 @@ if(!defined('POSTFIXADMIN')) {
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
+# @version $Id$ 
 
 # Note: run with upgrade.php?debug=1 to see all SQL error messages
 
@@ -762,7 +763,7 @@ function upgrade_81_mysql() { # MySQL only
     $table_vacation = table_by_key ('vacation');
     $table_vacation_notification = table_by_key('vacation_notification');
 
-    $all_sql = split("\n", trim("
+    $all_sql = explode("\n", trim("
         ALTER TABLE `$table_vacation` CHANGE `email`    `email`   VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_vacation` CHANGE `subject`  `subject` VARCHAR( 255 ) {UTF-8}  NOT NULL
         ALTER TABLE `$table_vacation` CHANGE `body`     `body`    TEXT           {UTF-8}  NOT NULL
@@ -824,7 +825,7 @@ function upgrade_318_mysql() {
     ");
 
     # in case someone has manually created the table with utf8 fields before:
-    $all_sql = split("\n", trim("
+    $all_sql = explode("\n", trim("
         ALTER TABLE `$table_vacation_notification` CHANGE `notified`    `notified`    VARCHAR( 255 ) NOT NULL
         ALTER TABLE `$table_vacation_notification` DEFAULT CHARACTER SET utf8
     "));
@@ -957,7 +958,7 @@ function upgrade_373_mysql() { # MySQL only
     $table_domain = table_by_key ('domain');
     $table_mailbox = table_by_key('mailbox');
 
-    $all_sql = split("\n", trim("
+    $all_sql = explode("\n", trim("
         ALTER TABLE `$table_domain`  CHANGE `description`  `description` VARCHAR( 255 ) {UTF-8}  NOT NULL
         ALTER TABLE `$table_mailbox` CHANGE `name`         `name`        VARCHAR( 255 ) {UTF-8}  NOT NULL
     "));
@@ -995,7 +996,7 @@ function upgrade_473_mysql() {
     $table_log     = table_by_key('log');
 
     # tables were created without explicit charset before :-(
-    $all_sql = split("\n", trim("
+    $all_sql = explode("\n", trim("
         ALTER TABLE `$table_admin`   CHANGE `username`      `username`      VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_admin`   CHANGE `password`      `password`      VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_admin`   DEFAULT                                               {LATIN1}
