@@ -13,6 +13,8 @@
 Version 2.3.3 - 2010/**/** - SVN r*** (postfixadmin-2.3 branch)
 ---------------------------------------------------------------
 
+  - create-alias: allow multiple alias targets
+  - create-alias, edit-alias: prevent input data loss on validation errors
   - list-virtual: fix displaying of 'modified' column for aliases when using
 	postgres
   - replaced deprecated split() with preg_split() or explode()
@@ -25,6 +27,7 @@ Version 2.3.3 - 2010/**/** - SVN r*** (postfixadmin-2.3 branch)
   - POSTFIX_CONF.txt: fixed filename for quota map
   - config.inc.php: removed double $CONF['database_prefix']
   - config.inc.php: fixed comments about domain_post* script parameters
+  - some more minor fixes
 
 Version 2.3.2 - 2010/08/24 - SVN r860 (postfixadmin-2.3 branch)
 ---------------------------------------------------------------
