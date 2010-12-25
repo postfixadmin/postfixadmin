@@ -11,59 +11,56 @@ class UserHandler {
 
     public function __construct($username) {
         $this->username = strtolower($username);
-        
-        
     }
 
     public function change_pass($old_password, $new_password) {
         error_log('UserHandler->change_pass is deprecated. Please use UserHandler->change_pw!');
-        $this->change_pw($new_password, $old_password);
+        return $this->change_pw($new_password, $old_password);
     }
 
     /**
      * @return boolean true on success; false on failure 
-     * @param string $username
      * @param string $old_password
      * @param string $new_passwords
+     * @param bool $match = true
      *
      * All passwords need to be plain text; they'll be hashed appropriately
      * as per the configuration in config.inc.php
      */
     public function change_pw($new_password, $old_password, $match = true) {
-        global $config;
         $username = $this->username;
-        $tmp = preg_split ('/@/', $username);
-        $domain = $tmp[1];
+        list(/*NULL*/,$domain) = explode('@', $username);
 
         $username = escape_string($username);
         $table_mailbox = table_by_key('mailbox');
         
-        $new_db_password = escape_string(pacrypt($new_password));
+        $new_db_password = pacrypt($new_password);
 
         if ($match == true) {
                 $active = db_get_boolean(True);
                 $result = db_query("SELECT * FROM $table_mailbox WHERE username='$username' AND active='$active'");
                 $result = $result['result'];
-                if ($new_db_password != $result['password']) {
-                      $this->errormsg[] = 'Passwords do not Match';
-                      return 1;
+                if ($new_db_password != $result['password']) { # TODO: comparison might fail because pacrypt() didn't know the salt above (separate pacrypt call?)
+                      db_log ('CONSOLE', $domain, 'edit_password', "FAILURE: " . $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/  
+                      $this->errormsg[] = 'Passwords do not match'; # TODO: make translatable
+                      return false;
                 }
         }
         
         $set = array(
                 'password' => $new_db_password
-              );
+        );
         
-        $result = db_update('mailbox', 'username=\''.$username.'\'', $set, array('modified') );
+        $result = db_update('mailbox', 'username=\''.$username.'\'', $set );
 
-        db_log ('CONSOLE', $domain, 'edit_password', "$username");
         if ($result != 1) {
+            db_log ('CONSOLE', $domain, 'edit_password', "FAILURE: " . $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/  
             $this->errormsg[] = Lang::read('pEdit_mailbox_result_error');
-            return 1;
+            return false;
         }
         
-        return 0;
-        
+        db_log ('CONSOLE', $domain, 'edit_password', $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/
+        return true;
     }
 
     /**
@@ -73,7 +70,6 @@ class UserHandler {
      * @return boolean true on successful login (i.e. password matches etc)
      */
     public static function login($username, $password) {
-        global $config;
         $username = escape_string($username);
 
         $table_mailbox = table_by_key('mailbox');
@@ -99,94 +95,81 @@ class UserHandler {
  * @param name string
  *
  */
-    public function add($password, $name = '', $quota = 0, $active = true, $mail = true  ) {
-# FIXME: change default value of $quota to something that is not an allowed value, like "-9" (0 is "unlimited", and I don't like that as default)
+    public function add($password, $name = '', $quota = -999, $active = true, $mail = true  ) {
+# FIXME: default value of $quota (-999) is intentionally invalid. Add fallback to default quota.
 # FIXME: Should the parameters be optional at all?
-# TODO: check if parameters are valid/allowed (quota?). Checks should live in a separate function that can be used by add and edit.
+# TODO: check if parameters are valid/allowed (quota?). 
+# TODO: most code should live in a separate function that can be used by add and edit.
 # TODO: On the longer term, the web interface should also use this class.
-        global $config;
-        $username = $this->username;
-        $tmp = preg_split ('/@/', $username);
-        $domain = $tmp[1];
-        $address = escape_string($username);
-        $username = $tmp[0];
 
-        $table_mailbox = table_by_key('mailbox');
-        $table_alias = table_by_key('alias');
-        
-        $active = db_get_boolean($active);
-        
+# TODO: copy/move all checks and validations from create-mailbox.php here
+
+        $username = $this->username;
+        list($local_part,$domain) = explode ('@', $username);
+
         if(!check_mailbox ($domain)) {
             $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error3');
-            return 1;
+            return false;
         }
-        $result = db_query ("SELECT * FROM $table_alias WHERE address='$address'");
+
+        # check if an alias with this name already exists
+        $result = db_query ("SELECT * FROM " . table_by_key('alias') . " WHERE address='" . escape_string($username) . "'");
         if ($result['rows'] == 1){
             $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error2');
-            return 1;
+            return false;
         }
-        
         
         $plain = $password;
         $password = pacrypt ($password);
 
-# TODO: Decide if we want to have the encryption method in the encrypted password string, and edit pacrypt() accordingly. No special handling here, please!
-        if ( preg_match("/^dovecot:/", Config::read('encrypt')) ) {
-            $split_method = preg_split ('/:/', Config::read('encrypt'));
-            $method       = strtoupper($split_method[1]);
-            $password = '{' . $method . '}' . $password;
-        }
+# TODO: if we want to have the encryption method in the encrypted password string, it should be done in pacrypt(). No special handling here!
+#        if ( preg_match("/^dovecot:/", Config::read('encrypt')) ) {
+#            $split_method = preg_split ('/:/', Config::read('encrypt'));
+#            $method       = strtoupper($split_method[1]);
+#            $password = '{' . $method . '}' . $password;
+#        }
 
-        if (Config::read('domain_path') == "YES")
+        if(Config::read('maildir_name_hook') != 'NO' && function_exists(Config::read('maildir_name_hook')) ) {
+            $hook_func = $CONF['maildir_name_hook'];
+            $maildir = $hook_func ($fDomain, $fUsername);
+        }
+        elseif (Config::read('domain_path') == "YES")
         {
             if (Config::read('domain_in_mailbox') == "YES")
             {
-                $maildir = $domain . "/" . $address . "/";
+                $maildir = $domain . "/" . $username . "/";
             }
             else
             {
-                $maildir = $domain . "/" . $username . "/";
+                $maildir = $domain . "/" . $local_part . "/";
             }
         }
         else
         {
-            $maildir = $address . "/";
+            $maildir = $username . "/";
         }
 
+        db_begin();
+
+        $active = db_get_boolean($active);
         $quota = multiply_quota ($quota);
-
-
-        if ('pgsql'== Config::read('database_type'))
-        {
-            db_query('BEGIN');
-        }
-
-        //$result = db_query ("INSERT INTO $table_alias (address,goto,domain,created,modified,active) VALUES ('$address','$address','$domain',NOW(),NOW(),'$active')");
-        $arr = array(
-            'address' => $address,
-            'goto' => $address,
+        
+        $alias_data = array(
+            'address' => $username,
+            'goto' => $username,
             'domain' => $domain,
             'active' => $active,
             );
         
-        $result = db_insert('alias', $arr, array('created', 'modified') );
+        $result = db_insert('alias', $alias_data);
         if ($result != 1)
         {
-            $this->errormsg[] = Lang::read('pAlias_result_error') . "\n($address -> $address)\n";
-            return 1;
+            $this->errormsg[] = Lang::read('pAlias_result_error') . "\n($username -> $username)\n";
+            return false;
         }
 
-        // apparently uppercase usernames really confuse some IMAP clients.
-        $local_part = '';
-        if(preg_match('/^(.*)@/', $address, $matches)) {
-            $local_part = $matches[1];
-        }
-
-        //$result = db_query ("INSERT INTO $table_mailbox (username,password,name,maildir,local_part,quota,domain,created,modified,active) VALUES ('$username','$password','$name','$maildir','$local_part','$quota','$domain',NOW(),NOW(),'$active')");
-                                                          
-
-        $arr2 = array(
-            'username' => $address,
+        $mailbox_data = array(
+            'username' => $username,
             'password' => $password,
             'name' => $name,
             'maildir' => $maildir,
@@ -194,123 +177,124 @@ class UserHandler {
             'quota' => $quota,
             'domain' => $domain,
             'active' => $active,
-            );
-        $result = db_insert('mailbox', $arr2, array('created', 'modified') );
-        if ($result != 1 || !mailbox_postcreation($address,$domain,$maildir, $quota))
-        {
-            $this->errormsg[] = Lang::read('pCreate_mailbox_result_error') . "\n($address)\n";
-            db_query('ROLLBACK');
-            return 1;
-        }
-        else
-        {
-            db_query('COMMIT');
-            db_log ('CONSOLE', $domain, 'create_mailbox', "$address");
+        );
+        $result = db_insert('mailbox', $mailbox_data);
+        if ($result != 1 || !mailbox_postcreation($username,$domain,$maildir, $quota)) {
+            $this->errormsg[] = Lang::read('pCreate_mailbox_result_error') . "\n($username)\n";
+            db_rollback();
+            return false;
+        } else {
+            db_commit();
+            db_log ('CONSOLE', $domain, 'create_mailbox', $username); # TODO: remove hardcoded CONSOLE
 
 
             if ($mail == true)
             {
-                $fTo = $address;
+                # TODO: move "send the mail" to a function
+                $fTo = $username;
                 $fFrom = Config::read('admin_email');
-                $fHeaders = "To: " . $fTo . "\n";
-                $fHeaders .= "From: " . $fFrom . "\n";
+                $fSubject = Lang::read('pSendmail_subject_text');
+                $fBody = Config::read('welcome_text');
 
-                $fHeaders .= "Subject: " . encode_header (Lang::read('pSendmail_subject_text')) . "\n";
-                $fHeaders .= "MIME-Version: 1.0\n";
-                $fHeaders .= "Content-Type: text/plain; charset=utf-8\n";
-                $fHeaders .= "Content-Transfer-Encoding: 8bit\n";
-
-                $fHeaders .= Config::read('welcome_text');
-
-                if (!smtp_mail ($fTo, $fFrom, $fHeaders))
+                if (!smtp_mail ($fTo, $fFrom, $fSubject, $fBody))
                 {
                     $this->errormsg[] = Lang::read('pSendmail_result_error');
-                    return 1;
+                    return false;
                 }
             }
 
-            create_mailbox_subfolders($address,$plain);
+            create_mailbox_subfolders($username,$plain);
 
         }
-        return 0;
+        return true;
     }
     
     
     
     
     public function view() {
-        global $config;
-
-        
 
         $username = $this->username;
         $table_mailbox = table_by_key('mailbox');
-        
+       
+# TODO: check if DATE_FORMAT works in MySQL and PostgreSQL
+# TODO: maybe a more fine-grained date format would be better for non-CLI usage
         $result = db_query("SELECT username, name, maildir, quota, local_part, domain, DATE_FORMAT(created, '%d.%m.%y') AS created, DATE_FORMAT(modified, '%d.%m.%y') AS modified, active FROM $table_mailbox WHERE username='$username'");
         if ($result['rows'] != 0) {
           $this->return = db_array($result['result']);
-          return 0;
+          return true;
         }
         $this->errormsg = $result['error'];
-        return 1;
+        return false;
     }
     
     public function delete() {
-        global $config;
         $username = $this->username;
-        $tmp = preg_split ('/@/', $username);
-        $domain = $tmp[1];
-        $username = escape_string($username);
+        list(/*$local_part*/,$domain) = explode ('@', $username);
+
+        $E_username = escape_string($username);
+        $E_domain = escape_string($domain);
         
-
-
         $table_mailbox = table_by_key('mailbox');
         $table_alias = table_by_key('alias');
         $table_vacation = table_by_key('vacation');
         $table_vacation_notification = table_by_key('vacation_notification');
 
-         if (Config::read('database_type') == "pgsql") db_query('BEGIN');
-        /* there may be no aliases to delete */
-        $result = db_query("SELECT * FROM $table_alias WHERE address = '$username' AND domain = '$domain'");
+        db_begin();
+
+        $error = 0;
+
+        $result = db_query("SELECT * FROM $table_alias WHERE address = '$E_username' AND domain = '$domain'");
         if($result['rows'] == 1) {
-            //$result = db_query ("DELETE FROM $table_alias WHERE address='$username' AND domain='$domain'");
             $result = db_delete('alias', 'address', $username);
-            db_log ('CONSOLE', $domain, 'delete_alias', $username);
+            db_log ('CONSOLE', $domain, 'delete_alias', $username); # TODO: remove hardcoded CONSOLE
+        } else {
+            $this->errormsg[] = "no alias $username"; # todo: better message, make translatable
+            $error = 1;
         }
 
         /* is there a mailbox? if do delete it from orbit; it's the only way to be sure */
-        $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$username' AND domain='$domain'");
+        $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$E_username' AND domain='$domain'");
         if ($result['rows'] == 1)
         {
-            //$result = db_query ("DELETE FROM $table_mailbox WHERE username='$username' AND domain='$domain'");
             $result = db_delete('mailbox', 'username', $username);
             $postdel_res=mailbox_postdeletion($username,$domain);
             if ($result != 1 || !$postdel_res)
             {
 
                 $tMessage = Lang::read('pDelete_delete_error') . "$username (";
-                if ($result['rows']!=1)
+                if ($result['rows']!=1) # TODO: invalid test, $result is from db_delete and only contains the number of deleted rows
                 {
                     $tMessage.='mailbox';
                     if (!$postdel_res) $tMessage.=', ';
+                    $this->errormsg[] = "no mailbox $username"; # todo: better message, make translatable
+                    $error = 1;
                 }
                 if (!$postdel_res)
                 {
                     $tMessage.='post-deletion';
+                    $this->errormsg[] = "post-deletion script failed"; # todo: better message, make translatable
+                    $error = 1;
                 }
                 $this->errormsg[] = $tMessage.')';
-                return 1;
+                # TODO: does db_rollback(); make sense? Not sure because mailbox_postdeletion was already called (move the call checking the db_delete result?)
+                # TODO: maybe mailbox_postdeletion should be run after all queries, just before commit/rollback
+                $error = 1;
+#                return false; # TODO: does this make sense? Or should we still cleanup vacation and vacation_notification?
             }
             db_log ('CONSOLE', $domain, 'delete_mailbox', $username);
+        } else {
+            $this->errormsg[] = "no mailbox $username"; # TODO: better message, make translatable
+            $error = 1;
         }
-        $result = db_query("SELECT * FROM $table_vacation WHERE email = '$username' AND domain = '$domain'");
+        $result = db_query("SELECT * FROM $table_vacation WHERE email = '$E_username' AND domain = '$domain'");
         if($result['rows'] == 1) {
-            //db_query ("DELETE FROM $table_vacation WHERE email='$username' AND domain='$domain'");
             db_delete('vacation', 'email', $username);
-            //db_query ("DELETE FROM $table_vacation_notification WHERE on_vacation ='$username' "); /* should be caught by cascade, if PgSQL */
-            db_delete('vacation_notification', 'on_vacation', $username);
+            db_delete('vacation_notification', 'on_vacation', $username); # TODO: delete vacation_notification independent of vacation? (in case of "forgotten" vacation_notification entries)
         }
-        return 0;
+        db_commit();
+        if ($error != 0) return false;
+        return true;
     }
 
 }
