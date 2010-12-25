@@ -15,8 +15,7 @@
 	</tr>
 	<tr>
 		<td>{$PALANG.pCreate_alias_goto}:</td>
-		<td><input class="flat" type="text" name="fGoto" value="{$tGoto}" /></td>
-		<td>{$pCreate_alias_goto_text}</td>
+      	<td colspan="2"><textarea class="flat" rows="10" cols="60" name="fGoto">{$tGoto}</textarea></td>
 	</tr>
 	<tr>
 		<td>{$PALANG.pCreate_alias_active}:</td>
