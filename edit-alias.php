@@ -63,6 +63,7 @@ if ($fAddress == "") {
          $row = db_array ($result['result']);
          $tGoto = $row['goto'];
 		 $orig_alias_list = explode(',', $tGoto);
+       $tGoto = str_replace(',', "\n", $tGoto);
 		 $alias_list = $orig_alias_list;
 		 //. if we are not a global admin, and alias_control_admin is NO, hide the alias that's the mailbox name.
 		 if($CONF['alias_control_admin'] == 'NO' && !authentication_has_role('global-admin')) {
@@ -103,7 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    $goto = preg_replace ('/\\\r\\\n/', ',', $fGoto);
    $goto = preg_replace ('/\r\n/', ',', $goto);
-   $goto = preg_replace ('/[\s]+/i', '', $goto);
+   $goto = preg_replace ('/,[\s]+/i', ',', $goto); 
+   $goto = preg_replace ('/[\s]+,/i', ',', $goto); 
    $goto = preg_replace ('/,*$|^,*/', '', $goto);
    $goto = preg_replace ('/,,*/', ',', $goto);
 
@@ -128,7 +130,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          $error = 1;
          $tGoto = $goto;
-		 $tMessage = $PALANG['pEdit_alias_goto_text_error2'] . "$address</span>";
+         if (!empty($tMessage)) $tMessage .= "<br />";
+         $tMessage .= $PALANG['pEdit_alias_goto_text_error2'] . "$address</span>";
       }
    }
    
@@ -160,19 +163,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          db_log ($SESSID_USERNAME, $fDomain, 'edit_alias', "$fAddress -> $goto");
 
-		 header ("Location: list-virtual.php?domain=$fDomain");
+         header ("Location: list-virtual.php?domain=$fDomain");
          exit;
       }
    }
 }
-// never used?
-//$fDomain = htmlentities($fDomain, ENT_QUOTES);
 
 $array = preg_split ('/,/', $tGoto);
-// TOCHECK
-$array = $alias_list;
 
 $smarty->assign ('fAddress', $fAddress);
+$smarty->assign ('tGoto', $tGoto);
 $smarty->assign ('array', $array, false);
 $smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'edit-alias');
