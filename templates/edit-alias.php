@@ -15,12 +15,7 @@
       <td><?php print $PALANG['pEdit_alias_goto'] . ":"; ?></td>
       <td>
 <textarea class="flat" rows="10" cols="60" name="fGoto">
-<?php
-
-foreach($alias_list as $alias) {
-   print "$alias\n";
-}
-?>
+<?php print $tGoto; ?>
 </textarea>
       </td>
       <td>&nbsp;</td>
