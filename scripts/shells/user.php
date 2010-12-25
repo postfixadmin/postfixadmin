@@ -157,7 +157,7 @@ class AddTask extends Shell {
                 $handler =  new UserHandler($address);
                 $return = $handler->add($pw,  $name, $quota, true, true  );
 
-                if($return == 1) {
+                if( ! $return) {
                         $this->err(join("\n", $handler->errormsg));
                 } else {
                         $this->out("");
@@ -256,7 +256,7 @@ class DeleteTask extends Shell {
  * @access private
  */
         function __interactive() {
-                $question[] = "Which Address do you want to view?";
+                $question[] = "Which Address do you want to delete?";
 
                 $address = $this->in(join("\n", $question));
 
@@ -269,8 +269,6 @@ class DeleteTask extends Shell {
                 
                 if ($create)                
                       $this->__handle($address);
-
-
         
         }
  /**
@@ -283,11 +281,10 @@ class DeleteTask extends Shell {
 
                 $handler =  new UserHandler($address);
                 $status = $handler->delete();
-                if ($status == 0) {
-                      $this->out("Mailbox of '$address' was deleted.");
-                      
-                } else {
+                if ( ! $status ) {
                       $this->err(join("\n", $handler->errormsg));
+                } else {
+                      $this->out("Mailbox of '$address' was deleted.");
                 }
                 return;
         
@@ -316,6 +313,7 @@ class PasswordTask extends Shell {
  * @access public
  */
         function execute() {
+				$random = false;
                 if (empty($this->args)) {
                         $this->__interactive();
                 }
@@ -327,7 +325,7 @@ class PasswordTask extends Shell {
                         if (isset($this->params['g']) && $this->params['g'] == true ) {
                             $random = true;
                             $password = NULL;
-                        } elseif  (isset($this->args[1]) && length($this->args[1]) > 8) {
+                        } elseif  (isset($this->args[1]) && strlen($this->args[1]) > 8) { # TODO use $CONF['min_password_length']
                             $password = $this->args[1];
                         } else {
 
@@ -399,7 +397,7 @@ class PasswordTask extends Shell {
                 if ($password != NULL) {
                     $handler =  new UserHandler($address);
                     
-                    if ($handler->change_pw($password, NULL, false) == 1){
+                    if ( ! $handler->change_pw($password, NULL, false) ){
                         $this->error("Change Password",join("\n", $handler->errormsg));
                     }
                 }
@@ -473,8 +471,12 @@ class ViewTask extends Shell {
 
 
                 $handler =  new UserHandler($address);
-                $status = $handler->view();
-                if ($status == 0) {
+                if ( ! $handler->view() ) {
+					return ;
+					# TODO: display error message "not found"
+				}
+# TODO: offer alternative output formats (based on parameter)
+# TODO: whitespace fix - 8 lines below
                       $result = $handler->return;
                       $this->out(sprintf("Entries for: %s\n", $address));
                       $this->out("");
@@ -484,7 +486,6 @@ class ViewTask extends Shell {
                       $this->out(sprintf('|%25s|%15s|%10s|%20s|%8s|%8s|%6s|', $result['username'], $result['name'], $result['quota'], $result['maildir'], $result['created'], $result['modified'], $result['active']));
                       $this->out(sprintf("+%'-25s+%'-15s+%'-10s+%'-20s+%'-8s+%'-8s+%'-6s+",'','','','','','',''));
                       
-                }
                 return;
         
         }

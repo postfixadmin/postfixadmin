@@ -136,7 +136,7 @@ class Config {
         function &getInstance() {
                 static $instance = array();
                 if (!$instance) {
-                        $instance[0] =& new Config();
+                        $instance[0] = new Config();
                         //$instance[0]->__loadBootstrap($boot);
                 }
                 return $instance[0];
@@ -274,7 +274,7 @@ class Lang {
         function &getInstance() {
                 static $instance = array();
                 if (!$instance) {
-                        $instance[0] =& new Config();
+                        $instance[0] = new Config();
                         //$instance[0]->__loadBootstrap($boot);
                 }
                 return $instance[0];

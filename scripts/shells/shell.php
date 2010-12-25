@@ -215,7 +215,7 @@ class Shell {
                                 
                                         $this->taskNames[] = $taskName;
                                         if (!PHP5) {
-                                                $this->{$taskName} =& new $taskClass($this->Dispatch);
+                                                $this->{$taskName} = new $taskClass($this->Dispatch);
                                         } else {
                                                 $this->{$taskName} = new $taskClass($this->Dispatch);
                                         }
