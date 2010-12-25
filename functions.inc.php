@@ -1353,13 +1353,19 @@ function to64 ($v, $n)
 
 
 
-//
-// smtp_mail
-// Action: Sends email to new account.
-// Call: smtp_mail (string To, string From, string Data)
-// TODO: Replace this with something decent like PEAR::Mail or Zend_Mail.
-function smtp_mail ($to, $from, $data)
-{
+/**
+ * smtp_mail
+ * Action: Send email
+ * Call: smtp_mail (string to, string from, string subject, string body]) - or -
+ * Call: smtp_mail (string to, string from, string data) - DEPRECATED
+ * @param String - To:
+ * @param String - From:
+ * @param String - Subject: (if called with 4 parameters) or full mail body (if called with 3 parameters)
+ * @param String (optional, but recommended) - mail body
+ * @return bool - true on success, otherwise false
+ * TODO: Replace this with something decent like PEAR::Mail or Zend_Mail.
+ */
+function smtp_mail ($to, $from, $data, $body = "") {
     global $CONF;
     $smtpd_server = $CONF['smtp_server'];
     $smtpd_port = $CONF['smtp_port'];
@@ -1368,6 +1374,21 @@ function smtp_mail ($to, $from, $data)
     $errno = "0";
     $errstr = "0";
     $timeout = "30";
+
+    if ($body != "") {
+        $maildata = 
+            "To: " . $to . "\n"
+            . "From: " . $from . "\n"
+            . "Subject: " . encode_header ($data) . "\n"
+            . "MIME-Version: 1.0\n"
+            . "Content-Type: text/plain; charset=utf-8\n"
+            . "Content-Transfer-Encoding: 8bit\n"
+            . "\n"
+            . $body
+        ;
+    } else {
+        $maildata = $data;
+    }
 
     $fh = @fsockopen ($smtpd_server, $smtpd_port, $errno, $errstr, $timeout);
 
@@ -1386,7 +1407,7 @@ function smtp_mail ($to, $from, $data)
         $res = smtp_get_response($fh);
         fputs ($fh, "DATA\r\n");
         $res = smtp_get_response($fh);
-        fputs ($fh, "$data\r\n.\r\n");
+        fputs ($fh, "$maildata\r\n.\r\n");
         $res = smtp_get_response($fh);
         fputs ($fh, "QUIT\r\n");
         $res = smtp_get_response($fh);
@@ -1662,6 +1683,7 @@ function db_assoc ($result)
 //
 function db_delete ($table,$where,$delete)
 {
+    $table = table_by_key($table);
     $query = "DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "'";
     $result = db_query ($query);
     if ($result['rows'] >= 1)
@@ -1678,13 +1700,13 @@ function db_delete ($table,$where,$delete)
 /**
  * db_insert
  * Action: Inserts a row from a specified table
- * Call: db_insert (string table, array values)
- * @param String $table - table name
- * @param array - key/value map of data to insert into the table.
- * @param array (optional) - array of fields to set to now()
+ * Call: db_insert (string table, array values [, array timestamp])
+ * @param String - table name
+ * @param array  - key/value map of data to insert into the table.
+ * @param array (optional) - array of fields to set to now() - default: array('created', 'modified')
  * @return int - number of inserted rows
  */
-function db_insert ($table, $values, $timestamp = array())
+function db_insert ($table, $values, $timestamp = array('created', 'modified') )
 {
     $table = table_by_key ($table);
 
@@ -1706,14 +1728,14 @@ function db_insert ($table, $values, $timestamp = array())
 /**
  * db_update
  * Action: Updates a specified table
- * Call: db_update (string table, array values, string where)
- * @param String $table - table name
+ * Call: db_update (string table, string where, array values [, array timestamp])
+ * @param String - table name
  * @param String - WHERE condition
  * @param array - key/value map of data to insert into the table.
- * @param array (optional) - array of fields to set to now()
+ * @param array (optional) - array of fields to set to now() - default: array('modified')
  * @return int - number of updated rows
  */
-function db_update ($table, $where, $values, $timestamp = array())
+function db_update ($table, $where, $values, $timestamp = array('modified') )
 {
     $table = table_by_key ($table);
 
@@ -1730,6 +1752,37 @@ function db_update ($table, $where, $values, $timestamp = array())
     $result = db_query ($sql);
     return $result['rows'];
 }
+
+/**
+ * db_begin / db_commit / db_rollback
+ * Action: BEGIN / COMMIT / ROLLBACK transaction (PostgreSQL only!)
+ * Call: db_begin()
+ */
+function db_begin () {
+    global $CONF;
+#    if ('pgsql'== Config::read('database_type')) {
+    if ('pgsql'== $CONF['database_type']) {
+        db_query('BEGIN');
+    }
+}
+
+function db_commit () {
+    global $CONF;
+#    if ('pgsql'== Config::read('database_type')) {
+    if ('pgsql'== $CONF['database_type']) {
+        db_query('COMMIT');
+    }
+}
+
+function db_rollback () {
+    global $CONF;
+#    if ('pgsql'== Config::read('database_type')) {
+    if ('pgsql'== $CONF['database_type']) {
+        db_query('ROLLBACK');
+    }
+}
+
+
 
 
 
@@ -1768,8 +1821,15 @@ function db_log ($username,$domain,$action,$data)
 
     if ($CONF['logging'] == 'YES')
     {
-        $result = db_query ("INSERT INTO $table_log (timestamp,username,domain,action,data) VALUES (NOW(),'$username ($REMOTE_ADDR)','$domain','$action','$data')");
-        if ($result['rows'] != 1)
+        $logdata = array(
+            'username'  => "$username ($REMOTE_ADDR)",
+            'domain'    => $domain,
+            'action'    => $action,
+            'data'      => $data,
+        );
+        $result = db_insert('log', $logdata, array('timestamp') );
+        #$result = db_query ("INSERT INTO $table_log (timestamp,username,domain,action,data) VALUES (NOW(),'$username ($REMOTE_ADDR)','$domain','$action','$data')");
+        if ($result != 1)
         {
             return false;
         }
