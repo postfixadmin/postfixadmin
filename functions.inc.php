@@ -1813,7 +1813,13 @@ function db_log ($username,$domain,$action,$data)
     global $table_log;
     $REMOTE_ADDR = getRemoteAddr();
 
-    $action_list = array(  'create_domain', 'create_alias', 'create_alias_domain','delete_domain', 'delete_alias', 'delete_alias_domain','edit_domain', 'edit_alias', 'create_mailbox', 'delete_mailbox', 'edit_mailbox', 'edit_alias_state', 'edit_alias_domain_state', 'edit_mailbox_state', 'edit_password');
+    $action_list = array(  
+        'create_alias', 'edit_alias', 'edit_alias_state', 'delete_alias',
+        'create_mailbox', 'edit_mailbox', 'edit_mailbox_state', 'delete_mailbox',
+        'create_domain', 'edit_domain', 'delete_domain',
+        'create_alias_domain', 'edit_alias_domain_state', 'delete_alias_domain',
+        'edit_password',
+    );
 
     if(!in_array($action, $action_list)) {
         die("Invalid log action : $action");   // could do with something better?
@@ -1828,13 +1834,9 @@ function db_log ($username,$domain,$action,$data)
             'data'      => $data,
         );
         $result = db_insert('log', $logdata, array('timestamp') );
-        #$result = db_query ("INSERT INTO $table_log (timestamp,username,domain,action,data) VALUES (NOW(),'$username ($REMOTE_ADDR)','$domain','$action','$data')");
-        if ($result != 1)
-        {
+        if ($result != 1) {
             return false;
-        }
-        else
-        {
+        } else {
             return true;
         }
     }
