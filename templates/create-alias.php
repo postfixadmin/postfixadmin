@@ -30,8 +30,7 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pCreate_alias_goto'] . ":"; ?></td>
-      <td><input class="flat" type="text" name="fGoto" value="<?php print $tGoto; ?>" /></td>
-      <td><?php print $pCreate_alias_goto_text; ?></td>
+      <td colspan="2"><textarea class="flat" rows="10" cols="60" name="fGoto"><?php print $tGoto; ?></textarea></td>
    </tr>
    <tr>
       <td><?php print $PALANG['pCreate_alias_active'] . ":"; ?></td>
