@@ -12,28 +12,8 @@ class PostfixAdminDomain extends Shell {
         var $tasks = array('Add', 'Update', 'Delete', 'View');
 
 
-/**
- * Starts up the the Shell
- * allows for checking and configuring prior to command or main execution
- * can be overriden in subclasses
- *
- * @access public
- */
-        function startup() {
-                $this->_welcome();
-                $CONF = Config::read('all');
-        }
-/**
- * Displays a header for the shell
- *
- * @access protected
- */
-        function _welcome() {
-                $this->out("\nWelcome to Postfixadmin-CLI v" . $this->Dispatch->version);
-                $this->out("---------------------------------------------------------------");
-                $this->out('Path: '. PATH);
-                $this->hr();
-        }
+
+
 
 /**
  * Show help for this shell.

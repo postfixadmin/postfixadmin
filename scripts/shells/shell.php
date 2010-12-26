@@ -167,6 +167,7 @@ class Shell {
  */
         function startup() {
                 $this->_welcome();
+                $CONF = Config::read('all');
         }
 /**
  * Displays a header for the shell
