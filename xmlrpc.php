@@ -74,7 +74,7 @@ class UserProxy {
      */
     public function changePassword($old_password, $new_password) {
         $uh = new UserHandler($_SESSION['username']);
-        return $uh->change_pass($old_password, $new_password);
+        return $uh->change_pw($new_password, $old_password);
     }
 
    /**
@@ -141,7 +141,8 @@ class AliasProxy {
     public function get() {
         $ah = new AliasHandler($_SESSION['username']);
         /* I see no point in returning special addresses to the user. */
-        return $ah->get(false);
+        $ah->get(false);
+        return $ah->result;
     }
 
     /**
@@ -167,3 +168,4 @@ class AliasProxy {
         return $ah->hasStoreAndForward();
     }
 }
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

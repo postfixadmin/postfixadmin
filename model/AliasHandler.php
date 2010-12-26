@@ -45,9 +45,10 @@ class AliasHandler {
                 }
             }
             $list = $new_list;
-            return $list;
+            $this->return = $list;
+            return true;
         }
-        return array();
+        return false;
     }
 
    /** 
@@ -141,7 +142,8 @@ class AliasHandler {
         $goto = escape_string(implode(',', $addresses));
         $table_alias = table_by_key('alias');
         if(sizeof($addresses) == 0) {
-            $sql = "DELETE FROM $table_alias WHERE address = '$username'";
+            $sql = "DELETE FROM $table_alias WHERE address = '$username'"; # TODO: should never happen
+            error_log("Alias set to empty / deleted: $username"); # TODO: more/better error handling - maybe just return false?
         }
         if($this->hasAliasRecord() == false) {
             $true = db_get_boolean(True);
@@ -184,4 +186,13 @@ class AliasHandler {
         }
         return false;
     }
-}
+
+    /**
+     * @return return value of previously called method
+     */
+    public function result() {
+        return $this->return;
+    }
+ }
+
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

@@ -13,7 +13,8 @@ class VacationHandler {
      */
     function remove() {
         $ah = new AliasHandler($this->username);
-        $aliases = $ah->get(true); // fetch all.
+        $result = $ah->get(true); // fetch all # TODO check $result, error handling
+        $aliases = $ah->result;
         $new_aliases = array();
         $table_vacation = table_by_key('vacation');
         $table_vacation_notification = table_by_key('vacation_notification');
@@ -130,3 +131,4 @@ class VacationHandler {
         return $vacation_goto;
     }
 }
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
