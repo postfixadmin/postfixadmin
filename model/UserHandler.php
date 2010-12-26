@@ -38,10 +38,11 @@ class UserHandler {
 
         if ($match == true) {
                 $active = db_get_boolean(True);
-                $result = db_query("SELECT * FROM $table_mailbox WHERE username='$username' AND active='$active'");
-                $result = $result['result'];
-                if ($new_db_password != $result['password']) { # TODO: comparison might fail because pacrypt() didn't know the salt above (separate pacrypt call?)
-                      db_log ('CONSOLE', $domain, 'edit_password', "FAILURE: " . $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/  
+                $result = db_query("SELECT password FROM $table_mailbox WHERE username='$username' AND active='$active'");
+                $result = db_assoc($result['result']);
+
+                if (pacrypt($old_password, $result['password']) != $result['password']) {
+                      db_log ('CONSOLE', $domain, 'edit_password', "MATCH FAILURE: " . $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/  
                       $this->errormsg[] = 'Passwords do not match'; # TODO: make translatable
                       return false;
                 }
@@ -50,7 +51,7 @@ class UserHandler {
         $set = array(
                 'password' => $new_db_password
         );
-        
+
         $result = db_update('mailbox', 'username=\''.$username.'\'', $set );
 
         if ($result != 1) {
