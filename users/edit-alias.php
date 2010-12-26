@@ -45,16 +45,17 @@ $ah = new AliasHandler($USERID_USERNAME);
 $smarty->assign ('USERID_USERNAME', $USERID_USERNAME);
 
 
-$tGotoArray = $ah->get();
+if ( ! $ah->get() ) die("Can't get alias details. Invalid alias?"); # this can only happen if a admin deleted the user since the user logged in
+$tGotoArray = $ah->result();
 $tStoreAndForward = $ah->hasStoreAndForward();
 $vacation_domain = $CONF['vacation_domain'];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-	($tStoreAndForward) ? $smarty->assign ('forward_and_store', ' checked="checked"') : $smarty->assign ('forward_only', ' checked="checked"');
+    ($tStoreAndForward) ? $smarty->assign ('forward_and_store', ' checked="checked"') : $smarty->assign ('forward_only', ' checked="checked"');
 
-	$smarty->assign ('tGotoArray', $tGotoArray);
-	$smarty->display ('index.tpl');
+    $smarty->assign ('tGotoArray', $tGotoArray);
+    $smarty->display ('index.tpl');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -67,14 +68,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     $pEdit_alias_goto = $PALANG['pEdit_alias_goto'];
 
-    if (isset($_POST['fVacation'])) $fVacation = $_POST['fVacation'];   
     if (isset($_POST['fGoto'])) $fGoto = trim($_POST['fGoto']);
     if (isset($_POST['fForward_and_store'])) $fForward_and_store = $_POST['fForward_and_store'];
 
     $goto = strtolower ($fGoto);
     $goto = preg_replace ('/\\\r\\\n/', ',', $goto);
     $goto = preg_replace ('/\r\n/', ',', $goto);
-    $goto = preg_replace ('/[\s]+/i', '', $goto);
+    $goto = preg_replace ('/,[\s]+/i', ',', $goto);
+    $goto = preg_replace ('/[\s]+,/i', ',', $goto);
     $goto = preg_replace ('/\,*$/', '', $goto);
 
     $goto = explode(",",$goto);
@@ -83,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $goto = array_merge(array_unique($goto));
     $good_goto = array();
 
-    if($fForward_and_store == 'NO' && sizeof($goto) == 1 && $goto[0] == '') {
+    if($fForward_and_store != 'YES' && sizeof($goto) == 1 && $goto[0] == '') {
         $tMessage = $PALANG['pEdit_alias_goto_text_error1'];
         $error += 1;
     }
@@ -97,7 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             # (avoid empty elements in $goto) in trunk ;-)
             if(!check_email($address)) {
                 $error += 1;
-                $tMessage = $PALANG['pEdit_alias_goto_text_error2'] . " $address</font>";
+                if (!empty($tMessage)) $tMessage .= "<br />";
+                $tMessage .= $PALANG['pEdit_alias_goto_text_error2'] . " $address</font>";
             }
             else {
                 $good_goto[] = $address;
@@ -116,12 +118,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             header ("Location: main.php");
             exit;
         }
-        $tMessage = $PALANG['pEdit_alias_result_error'];
+        if (!empty($tMessage)) $tMessage .= "<br />";
+        $tMessage .= $PALANG['pEdit_alias_result_error'];
     }
     else {
         $tGotoArray = $goto;
     }
     $smarty->assign ('tMessage', $tMessage, false);
+    $smarty->assign ('tGotoArray', $tGotoArray);
+    ($fStoreAndForward) ? $smarty->assign ('forward_and_store', ' checked="checked"') : $smarty->assign ('forward_only', ' checked="checked"');
     $smarty->display ('index.tpl');
 }
 
