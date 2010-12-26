@@ -126,7 +126,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
     $smarty->assign ('tMessage', $tMessage, false);
     $smarty->assign ('tGotoArray', $tGotoArray);
-    ($fStoreAndForward) ? $smarty->assign ('forward_and_store', ' checked="checked"') : $smarty->assign ('forward_only', ' checked="checked"');
+    if ($fForward_and_store == "YES") {
+        $smarty->assign ('forward_and_store', ' checked="checked"');
+    } else {
+        $smarty->assign ('forward_only', ' checked="checked"');
+    }
     $smarty->display ('index.tpl');
 }
 
