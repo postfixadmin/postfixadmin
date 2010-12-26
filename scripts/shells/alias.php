@@ -183,7 +183,7 @@ class UpdateTask extends Shell {
  */
         function help() {
                 $this->hr();
-        $this->out("Not Implemented yet! If you want to change a password use the password command.");
+        $this->out("Not Implemented yet!");
                 /*$this->out("Usage: postfixadmin-cli user update <args>");
                 //$this->hr();
                 //$this->out('Commands:');
@@ -244,10 +244,12 @@ class DeleteTask extends Shell {
  */
         function __handle($address) {
 
-
+### TODO: don't use UserHandler, instead add delete function to AliasHandler (if not already there)
+### using UserHandler for deleting aliases is like taking a sledgehammer to crack a nut
+### (and will probably cause some error messages that I added today ;-)
                 $handler =  new UserHandler($address);
                 $status = $handler->delete();
-                if ($status == 0) {
+                if ($status == true) {
                       $this->out("Mailbox of '$address' was deleted.");
                       
                 } else {
@@ -357,7 +359,7 @@ class PasswordTask extends Shell {
  * @access private
  */
         function __handle($address, $password = NULL, $random = false) {
-
+# TODO: Does PasswordTask really make sense for Aliases? Probably not...
                 if ($random == true) {
                     $password = generate_password();
                 }
@@ -437,8 +439,10 @@ class ViewTask extends Shell {
 
 
                 $handler =  new AliasHandler($address);
-                $status = $handler->get($address);
-                if ($status == 0) {
+                $status = $handler->get(); # TODO: set the "all" flag?
+                if ( ! $status) {
+                    # TODO: error message
+                } else {
                       $result = $handler->return;
 
                       $this->out(sprintf("Entries for: %s\n", $address));
@@ -446,6 +450,8 @@ class ViewTask extends Shell {
                       foreach($result AS $goto) {
                         $this->out("\t -> ".$goto);
                       }
+                      # TODO: display "deliver to mailbox"
+                      # TODO: display if vacation is on?
                 }
                 return;
         
