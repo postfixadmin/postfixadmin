@@ -40,9 +40,9 @@ class UserHandler {
                 $active = db_get_boolean(True);
                 $result = db_query("SELECT password FROM $table_mailbox WHERE username='$username' AND active='$active'");
                 $result = db_assoc($result['result']);
-
+                
                 if (pacrypt($old_password, $result['password']) != $result['password']) {
-                      db_log ('CONSOLE', $domain, 'edit_password', "MATCH FAILURE: " . $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/  
+                      db_log ('CONSOLE', $domain, 'edit_password', "MATCH FAILURE: " . $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/
                       $this->errormsg[] = 'Passwords do not match'; # TODO: make translatable
                       return false;
                 }
@@ -98,6 +98,7 @@ class UserHandler {
  */
     public function add($password, $name = '', $quota = -999, $active = true, $mail = true  ) {
 # FIXME: default value of $quota (-999) is intentionally invalid. Add fallback to default quota.
+# Solution: Invent an sub config class with additional informations about domain based configs like default qouta.
 # FIXME: Should the parameters be optional at all?
 # TODO: check if parameters are valid/allowed (quota?). 
 # TODO: most code should live in a separate function that can be used by add and edit.
@@ -108,6 +109,8 @@ class UserHandler {
         $username = $this->username;
         list($local_part,$domain) = explode ('@', $username);
 
+
+#TODO: more self explaining language strings!
         if(!check_mailbox ($domain)) {
             $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error3');
             return false;
@@ -130,6 +133,8 @@ class UserHandler {
 #            $password = '{' . $method . '}' . $password;
 #        }
 
+#TODO: 2nd clause should be the first for self explaining code. 
+#TODO: When calling config::Read with parameter we sould be right that read return false if the parameter isn't in our config file.
         if(Config::read('maildir_name_hook') != 'NO' && function_exists(Config::read('maildir_name_hook')) ) {
             $hook_func = $CONF['maildir_name_hook'];
             $maildir = $hook_func ($fDomain, $fUsername);
@@ -163,6 +168,7 @@ class UserHandler {
             );
         
         $result = db_insert('alias', $alias_data);
+#MARK: db_insert returns true/false??
         if ($result != 1)
         {
             $this->errormsg[] = Lang::read('pAlias_result_error') . "\n($username -> $username)\n";
@@ -180,6 +186,7 @@ class UserHandler {
             'active' => $active,
         );
         $result = db_insert('mailbox', $mailbox_data);
+#MARK: Same here!
         if ($result != 1 || !mailbox_postcreation($username,$domain,$maildir, $quota)) {
             $this->errormsg[] = Lang::read('pCreate_mailbox_result_error') . "\n($username)\n";
             db_rollback();
@@ -236,13 +243,20 @@ class UserHandler {
         $E_username = escape_string($username);
         $E_domain = escape_string($domain);
         
+#TODO:  At this level of table by key calls we should think about a solution in our query function and drupal like {mailbox} {alias}.
+#       Pseudocode for db_query etc.
+#       if {} in query then
+#           table_by_key( content between { and } )
+#       else error
+
         $table_mailbox = table_by_key('mailbox');
         $table_alias = table_by_key('alias');
         $table_vacation = table_by_key('vacation');
         $table_vacation_notification = table_by_key('vacation_notification');
 
         db_begin();
-
+        
+#TODO: ture/false replacement!
         $error = 0;
 
         $result = db_query("SELECT * FROM $table_alias WHERE address = '$E_username' AND domain = '$domain'");
