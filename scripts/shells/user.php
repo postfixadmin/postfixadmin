@@ -63,7 +63,7 @@ class AddTask extends Shell {
                 }
 
                 if (!empty($this->args[0])) {
-                        if ($this->params['g']) {
+                        if (!empty($this->params['g'])) {
                             $this->__handle($this->args[0], NULL, true, $this->args[1], $this->args[2]);
                         } else {
                             $this->__handle($this->args[0], $this->args[1], false, $this->args[2], $this->args[3]);
@@ -135,9 +135,16 @@ class AddTask extends Shell {
                 
                 $handler =  new UserHandler($address);
                 $return = $handler->add($pw,  $name, $quota, true, true  );
+#CHECK!                
+if ( !empty($this->params['q']) ) {
 
                 if( $return == false ) {
-                        $this->err(join("\n", $handler->errormsg));
+                        $this->_stop(1);
+                }
+} else {                
+                if( $return == false ) {
+                        $this->err($handler->errormsg);
+                        $this->_stop(1);
                 } else {
                         $this->out("");
                         if ($name != '')
@@ -150,6 +157,8 @@ class AddTask extends Shell {
                         $this->out(sprintf('Quota:       %-20sMB',$quota));
                         $this->hr();
                 }
+#CHECK!
+}
         return;
         }
 /**
@@ -292,7 +301,7 @@ class PasswordTask extends Shell {
  * @access public
  */
         function execute() {
-				$random = false;
+				        $random = false;
                 if (empty($this->args)) {
                         $this->__interactive();
                 }
@@ -356,7 +365,7 @@ class PasswordTask extends Shell {
                         $question = "Pleas enter the new password?";
                         $password = $this->in($question);
                 }
-                var_dump($random);
+                
                 $this->__handle($address, $password, $random);
                 
 
