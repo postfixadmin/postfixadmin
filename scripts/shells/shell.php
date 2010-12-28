@@ -327,7 +327,7 @@ if ( empty($this->params['q'] ) ) {
                 $out .= "$msg\n";
                 $out .= "\n";
                 $this->err($out);
-                $this->_stop();
+                $this->_stop(1);
         }
         /**
  * Outputs usage text on the standard output. Implement it in subclasses.
@@ -341,7 +341,7 @@ if ( empty($this->params['q'] ) ) {
                         $this->Dispatch->help();
                 }
         }
-       /**
+ /**
  * Stop execution of the current script
  *
  * @param $status see http://php.net/exit for values

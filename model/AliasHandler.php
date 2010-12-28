@@ -8,10 +8,6 @@ class AliasHandler {
     private $username = null;
 
 
-# TODO: implement a "delete" method. Pseudocode:
-# - check if alias exists
-# - check if mailbox exists - if yes, error out (never delete the alias of a mailbox!)
-# - (if still here) delete alias
 
     /**
      * @param string $username
@@ -210,7 +206,30 @@ class AliasHandler {
         }
         return false;
     }
+    
+    # TODO: implement a "delete" method. Pseudocode:
+# - check if alias exists
+# - check if mailbox exists - if yes, error out (never delete the alias of a mailbox!)
+# - (if still here) delete alias
 
+#HERE IT IS!
+    /**
+     *  @param alias address
+     *  @return true on success false on failure
+     */
+    public function delete($address){
+      $E_address = escape_string($address);
+      $table_alias = table_by_key('alias');
+      if( $this->get($address) && !is_mailbox_alias($address) ) {
+        sql = "DELETE FROM $table_alias" WHERE address = '$E_address';
+        $result = db_query($sql);
+        if( $result['rows'] == 1 ) {
+          return true;
+        }
+        return false;
+      } 
+    }
+    
     /**
      * @return return value of previously called method
      */

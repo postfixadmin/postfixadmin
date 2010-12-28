@@ -139,8 +139,8 @@ class AddTask extends Shell {
                 $handler =  new DomainHandler('CONSOLE');
                 $return = $handler->add($domain, $desc, $a, $m, $t, $q, $default, $backup);
 
-                if($return == 1) {
-                        $this->err(join("\n", $handler->errormsg));
+                if(!$return) {
+                        $this->error("Error:", join("\n", $handler->errormsg));
                 } else {
                         $this->out("");
                         $this->out("Domain ( $domain ) generated.");
@@ -264,7 +264,7 @@ class DeleteTask extends Shell {
                       $this->out("Mailbox of '$address' was deleted.");
                       
                 } else {
-                      $this->err(join("\n", $handler->errormsg));
+                      $this->error("Error:", join("\n", $handler->errormsg));
                 }
                 return;
         
@@ -287,129 +287,7 @@ class DeleteTask extends Shell {
         }
 
 }
-class PasswordTask extends Shell {
-/**
- * Execution method always used for tasks
- *
- * @access public
- */
-        function execute() {
-                if (empty($this->args)) {
-                $this->help();
-                //        $this->__interactive();
-                }
-
-                if (!empty($this->args[0])) {
-                $this->help();
-                        //$address = $this->args[0];
-                        
-                        //if (isset($this->params['g']) && $this->params['g'] == true ) {
-                        //    $random = true;
-                        //   $password = NULL;
-                        //} elseif  (isset($this->args[1]) && length($this->args[1]) > 8) {
-                         //   $password = $this->args[1];
-                        //} else {
-
-                        //    $this->Dispatch->stderr('Missing <newpw> or -g. Falling back to interactive mode.');
-                         //   $this->__interactive();
-                        //}
-                        //$this->__handle($address, $password, $random);
-                
-                        
-                }
-        }
-/**
- * Interactive
- *
- * @access private
- */
-        function __interactive() {
-                
-                while(0==0) {
-                    $question = "Which address' password do you want to change?";
-                    $address = $this->in($question);
-                
-                    if(preg_match("/^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$/", $address) == 1)
-                        break;
-                    
-                    $this->err("Invalid emailaddress");
-  
-                }
-                
-                
-                $question2[] = "Do you want to change the password?";
-                $question2[] = "Are you really sure?";
-                $sure = $this->in(join("\n", $question2), array('y','n'));
-                
-                
-                if ($sure == 'n' ) {
-                  $this->out('You\'re not sure.');
-                  $this->_stop();
-                }
-                
-                $question = "Do you want to generate a random password?";
-                $random = $this->in($question, array('y','n'));
-                
-                $random == 'y' ? $random = true : $random = false;
-                
-                
-                $password = NULL;
-                if ($random == false) {
-                        $question = "Pleas enter the new password?";
-                        $password = $this->in($question);
-                }
-                var_dump($random);
-                $this->__handle($address, $password, $random);
-                
-
-
-        
-        }
- /**
- * Interactive
- *
- * @access private
- */
-        function __handle($address, $password = NULL, $random = false) {
-
-                if ($random == true) {
-                    $password = generate_password();
-                }
-                if ($password != NULL) {
-                    $handler =  new UserHandler($address);
-                    
-                    if ($handler->change_pw($password, NULL, false) == 1){
-                        $this->error("Change Password",join("\n", $handler->errormsg));
-                    }
-                }
-                
-                $this->out("");
-                        $this->out("Password updated.");
-                        $this->hr();
-                        $this->out(sprintf('The Mail address is  %20s', $address));
-                        $this->out(sprintf('The new password is %20s',$password));
-                        $this->hr();
-                
-                return ;
-        }
-/**
- * Displays help contents
- *
- * @access public
- */
-        function help() {
-                $this->out("NOT implemented yet.");
-                $this->hr();
-                $this->out("Usage: postfixadmin-cli user password <address> [<newpw>] [-g]");
-                $this->hr();
-                $this->out('Commands:');
-                $this->out("\n\tpassword\n\t\tchanges the password in interactive mode.");
-                $this->out("\n\tpassword <address> [<newpw>] [-g]\n\t\tchanges the password to <newpw> or if -g genereate a new pw for <address>");
-                $this->out("");
-                $this->_stop();
-        }
-
-}
+##Deleted PasswordTask because its silly in domain shell
 class ViewTask extends Shell {
 /**
  * Execution method always used for tasks
@@ -453,7 +331,9 @@ class ViewTask extends Shell {
 
                 $handler =  new DomainHandler('CONSOLE');
                 $status = $handler->view($domain);
-                if ($status == 0) {
+                if (!$status) {
+                      $this->error("Error:",join("\n", $handler->errormsg));
+                } else {
                       $result = $handler->return;
                       $this->out("Domain: \t".$result['domain']);
                       $this->out("Description: \t".$result['description']);
@@ -466,9 +346,8 @@ class ViewTask extends Shell {
                       $this->out("Modified: \t".$result['modified']);
                       $this->out("Created: \t".$result['created']);
 
-                      
+                      return ;
                 }
-                return;
         
         }
 /**

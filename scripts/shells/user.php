@@ -57,6 +57,11 @@ class AddTask extends Shell {
  *
  * @access public
  */
+ 
+ # Find one function that matches all executes in shell childclasses.
+ # Eventually getopts like call in __handle??
+ 
+ 
         function execute() {
                 if (empty($this->args)) {
                         $this->__interactive();
@@ -143,8 +148,10 @@ if ( !empty($this->params['q']) ) {
                 }
 } else {                
                 if( $return == false ) {
-                        $this->err($handler->errormsg);
-                        $this->_stop(1);
+### When $this->error is used, $this->_stop is useless.
+### Changed $this->error to stop with level 1.
+### Eventually param q check in $this->error is better!!  !Important!
+                        $this->error("Error:", $handler->errormsg);
                 } else {
                         $this->out("");
                         if ($name != '')
@@ -270,7 +277,8 @@ class DeleteTask extends Shell {
                 $handler =  new UserHandler($address);
                 $status = $handler->delete();
                 if ( ! $status ) {
-                      $this->err(join("\n", $handler->errormsg));
+                      $this->error("Error:", join("\n", $handler->errormsg));
+
                 } else {
                       $this->out("Mailbox of '$address' was deleted.");
                 }
@@ -460,9 +468,8 @@ class ViewTask extends Shell {
 
                 $handler =  new UserHandler($address);
                 if ( ! $handler->view() ) {
-					return ;
-					# TODO: display error message "not found"
-				}
+                  $this->error("Not Found!", "The user you have searched could not be found.");
+				      }
 # TODO: offer alternative output formats (based on parameter)
 # TODO: whitespace fix - 8 lines below
                       $result = $handler->return;

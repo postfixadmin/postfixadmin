@@ -107,7 +107,7 @@ class AddTask extends Shell {
                 $return = $handler->add($goto);
 
                 if($return == 1) {
-                        $this->err(join("\n", $handler->errormsg));
+                        $this->error("Error:", join("\n", $handler->errormsg));
                 } else {
                         $this->out("");
                         $this->out("Alias ( $address -> $goto ) generated.");
@@ -132,6 +132,7 @@ class AddTask extends Shell {
         }
 
 }
+#TODO: implement
 class UpdateTask extends Shell {
 /**
  * Execution method always used for tasks
@@ -209,7 +210,7 @@ class DeleteTask extends Shell {
        
                 $create = $this->in($question, array('y','n'));
                 
-                $create == 'y' ? $random = true : $random = false;
+                $create == 'y' ? $create = true : $create = false;
                 
                 if ($create)                
                       $this->__handle($address);
@@ -227,13 +228,15 @@ class DeleteTask extends Shell {
 ### TODO: don't use UserHandler, instead add delete function to AliasHandler (if not already there)
 ### using UserHandler for deleting aliases is like taking a sledgehammer to crack a nut
 ### (and will probably cause some error messages that I added today ;-)
-                $handler =  new UserHandler($address);
+
+### Implemented check it please!
+                $handler =  new AliasHandler($address);
                 $status = $handler->delete();
                 if ($status == true) {
                       $this->out("Mailbox of '$address' was deleted.");
                       
                 } else {
-                      $this->err(join("\n", $handler->errormsg));
+                      $this->error("Error:", join("\n", $handler->errormsg));
                 }
                 return;
         
@@ -256,128 +259,7 @@ class DeleteTask extends Shell {
         }
 
 }
-class PasswordTask extends Shell {
-/**
- * Execution method always used for tasks
- *
- * @access public
- */
-        function execute() {
-                if (empty($this->args)) {
-                        $this->__interactive();
-                }
-
-                if (!empty($this->args[0])) {
-                
-                        $address = $this->args[0];
-                        
-                        if (isset($this->params['g']) && $this->params['g'] == true ) {
-                            $random = true;
-                            $password = NULL;
-                        } elseif  (isset($this->args[1]) && length($this->args[1]) > 8) {
-                            $password = $this->args[1];
-                        } else {
-
-                            $this->Dispatch->stderr('Missing <newpw> or -g. Falling back to interactive mode.');
-                            $this->__interactive();
-                        }
-                        $this->__handle($address, $password, $random);
-                
-                        
-                }
-        }
-/**
- * Interactive
- *
- * @access private
- */
-        function __interactive() {
-                
-                while(0==0) {
-                    $question = "Which address' password do you want to change?";
-                    $address = $this->in($question);
-                
-                    if(preg_match("/^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$/", $address) == 1)
-                        break;
-                    
-                    $this->err("Invalid emailaddress");
-  
-                }
-                
-                
-                $question2[] = "Do you want to change the password?";
-                $question2[] = "Are you really sure?";
-                $sure = $this->in(join("\n", $question2), array('y','n'));
-                
-                
-                if ($sure == 'n' ) {
-                  $this->out('You\'re not sure.');
-                  $this->_stop();
-                }
-                
-                $question = "Do you want to generate a random password?";
-                $random = $this->in($question, array('y','n'));
-                
-                $random == 'y' ? $random = true : $random = false;
-                
-                
-                $password = NULL;
-                if ($random == false) {
-                        $question = "Pleas enter the new password?";
-                        $password = $this->in($question);
-                }
-                var_dump($random);
-                $this->__handle($address, $password, $random);
-                
-
-
-        
-        }
- /**
- * Interactive
- *
- * @access private
- */
-        function __handle($address, $password = NULL, $random = false) {
-# TODO: Does PasswordTask really make sense for Aliases? Probably not...
-                if ($random == true) {
-                    $password = generate_password();
-                }
-                if ($password != NULL) {
-                    $handler =  new UserHandler($address);
-                    
-                    if ($handler->change_pw($password, NULL, false) == 1){
-                        $this->error("Change Password",join("\n", $handler->errormsg));
-                    }
-                }
-                
-                $this->out("");
-                        $this->out("Password updated.");
-                        $this->hr();
-                        $this->out(sprintf('The Mail address is  %20s', $address));
-                        $this->out(sprintf('The new password is %20s',$password));
-                        $this->hr();
-                
-                return ;
-        }
-/**
- * Displays help contents
- *
- * @access public
- */
-        function help() {
-                $this->out("");
-                $this->hr();
-                $this->out("Usage: postfixadmin-cli user password <address> [<newpw>] [-g]");
-                $this->hr();
-                $this->out('Commands:');
-                $this->out("\n\tpassword\n\t\tchanges the password in interactive mode.");
-                $this->out("\n\tpassword <address> [<newpw>] [-g]\n\t\tchanges the password to <newpw> or if -g genereate a new pw for <address>");
-                $this->out("");
-                $this->_stop();
-        }
-
-}
+### PasswordTask was a rest of Copy Paste :D Deleted. Check it!
 class ViewTask extends Shell {
 /**
  * Execution method always used for tasks
@@ -421,7 +303,7 @@ class ViewTask extends Shell {
                 $handler =  new AliasHandler($address);
                 $status = $handler->get(); # TODO: set the "all" flag?
                 if ( ! $status) {
-                    # TODO: error message
+                    $this->error("Error: Not Found", "The requested alias was not found!");
                 } else {
                       $result = $handler->return;
 
@@ -431,7 +313,18 @@ class ViewTask extends Shell {
                         $this->out("\t -> ".$goto);
                       }
                       # TODO: display "deliver to mailbox"
+                      ##NEED fix in is_mailbox_alias because user is not set correctly in this scenario!
+                      /**
+                      if( $handler->is_mailbox_alias($address) )
+                        $this->out("A mailbox was set for this alias!\n");
+                      }
+                      */
                       # TODO: display if vacation is on?
+                      /**
+                      if( $handler->is_vacation_address($address) ) {
+                        $this->out("This alias is a vacation address!");
+                      }
+                      */
                 }
                 return;
         
