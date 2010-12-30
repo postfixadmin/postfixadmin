@@ -106,7 +106,7 @@ class AliasHandler {
         } 
         $addresses = array_unique($addresses);
 
-		list (/*NULL*/, $domain) = explode('@', $this->username);
+        list (/*NULL*/, $domain) = explode('@', $this->username);
 
         if ( ! $this->get(true) ) die("Alias not existing?"); # TODO: better error behaviour
 
@@ -149,7 +149,6 @@ class AliasHandler {
         $addresses = array_unique($new_list);
         $E_username = escape_string($this->username);
         $goto = implode(',', $addresses);
-#        $table_alias = table_by_key('alias');
         if(sizeof($addresses) == 0) {
             # $result = db_delete('alias', 'address', $this->username); # '"DELETE FROM $table_alias WHERE address = '$username'"; # TODO: should never happen and causes broken behaviour
             error_log("Alias set to empty / Attemp to delete: " . $this->username); # TODO: more/better error handling - maybe just return false?
@@ -163,15 +162,12 @@ class AliasHandler {
                 'active'    => db_get_boolean(True),
             );
             $result = db_insert('alias', $alias_data);
-#			$sql = "INSERT INTO $table_alias (address, goto, domain, created, modified, active) VALUES ('$username', '$goto', '$domain', NOW(), NOW(), '$true')";
-#            $result = db_query($sql);
         }
         else {
             $alias_data = array(
                 'goto' => $goto,
             );
             $result = db_update('alias', "address = '$E_username'", $alias_data);
-#            $sql = "UPDATE $table_alias SET goto = '$goto', modified = NOW() WHERE address = '$username'";
         }
         if($result != 1) {
             return false;
@@ -207,29 +203,29 @@ class AliasHandler {
         return false;
     }
     
-    # TODO: implement a "delete" method. Pseudocode:
-# - check if alias exists
-# - check if mailbox exists - if yes, error out (never delete the alias of a mailbox!)
-# - (if still here) delete alias
-
-#HERE IT IS!
     /**
      *  @param alias address
      *  @return true on success false on failure
      */
     public function delete($address){
-      $E_address = escape_string($address);
-      $table_alias = table_by_key('alias');
-      if( $this->get($address) && !is_mailbox_alias($address) ) {
-        sql = "DELETE FROM $table_alias" WHERE address = '$E_address';
-        $result = db_query($sql);
-        if( $result['rows'] == 1 ) {
-          return true;
+# TODO: use $this->username instead of $address function parameter?
+        if( ! $this->get($address) ) {
+            # TODO: error message "no such alias"
+            return false;
         }
-        return false;
-      } 
+
+        if (is_mailbox_alias($address) ) {
+            # TODO: error message "alias belongs to a mailbox and can't be deleted"
+            return false;
+        }
+
+        $result = db_delete('alias', 'address', $address);
+        if( $result == 1 ) {
+            db_log ($SESSID_USERNAME, $fDomain, 'delete_alias', $fDelete);
+            return true;
+        }
     }
-    
+
     /**
      * @return return value of previously called method
      */
