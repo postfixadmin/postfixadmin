@@ -49,7 +49,7 @@ shell and home directory.
 This should look like this:
 
 #/etc/passwd
-vacation:*:65501:65501::0:0:Virtual Vacation:/nonexistent:/sbin/nologin
+vacation:*:65501:65501:Virtual Vacation:/nonexistent:/sbin/nologin
 
 #/etc/group
 vacation:*:65501:
@@ -149,9 +149,7 @@ For example :
 
 smtp      inet  n       -       -       -       12       smtpd
     -o content_filter=amavis:[127.0.0.50]:10024
-
-    ^^^ Alias expansion occurs here, so we don't want it to happen again for the other smtpd daemon (below)
-        which receives email out of amavis on port 10025.
+    -o receive_override_options=no_address_mappings
 
 127.0.0.1:10025 inet    n   -   -   -   - smtpd
     -o smtpd_autorized_xforward_hosts=127.0.0.0/8
@@ -160,8 +158,12 @@ smtp      inet  n       -       -       -       12       smtpd
     -o smtpd_sender_restrictions=
     -o smtpd_recipient_restrictions=permit_mynetworks,reject
     -o mynetworks=127.0.0.0/8
-    -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks,no_address_mappings
+    -o receive_override_options=no_header_body_checks
 
+	^^^ Alias expansion occurs here, so we don't want it to happen again for the
+		first smtpd daemon (above). If you have per-user settings in amavis,
+		you might want to have no_address_mappings in the smtpd on port 10025
+		instead.
 
 
 8. Security
