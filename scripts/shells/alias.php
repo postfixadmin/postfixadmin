@@ -85,7 +85,7 @@ class AddTask extends Shell {
                 }
                 while(0==0) {
                     $question = "Forward to:";
-                    $random = $this->in($question);
+                    $goto = $this->in($question);
                     
                     if(preg_match("/^((?:(?:(?:[a-zA-Z0-9][\.\-\+_]?)*)[a-zA-Z0-9])+)\@((?:(?:(?:[a-zA-Z0-9][\.\-_]?){0,62})[a-zA-Z0-9])+)\.([a-zA-Z0-9]{2,6})$/", $address) == 1)
                         break;
