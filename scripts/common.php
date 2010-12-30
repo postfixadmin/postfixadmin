@@ -49,7 +49,7 @@ require_once("$incpath/languages/en.lang");
  * __autoload implementation, for use with spl_autoload_register().
  */
 function postfixadmin_autoload2($class) {
-    $PATH = CORE_INCLUDE_PATH.'/models-ext/' . $class . '.php';
+    $PATH = CORE_INCLUDE_PATH.'/../model/' . $class . '.php';
 
     if(is_file($PATH)) {
         require_once($PATH);
