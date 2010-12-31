@@ -207,21 +207,22 @@ class AliasHandler {
      *  @param alias address
      *  @return true on success false on failure
      */
-    public function delete($address){
-# TODO: use $this->username instead of $address function parameter?
-        if( ! $this->get($address) ) {
-            # TODO: error message "no such alias"
+    public function delete(){
+        if( ! $this->get($this->username) ) {
+            $this->errormsg[] = 'An alias with that address does not exist.'; # TODO: make translatable
             return false;
         }
 
-        if (is_mailbox_alias($address) ) {
-            # TODO: error message "alias belongs to a mailbox and can't be deleted"
+        if ($this->is_mailbox_alias($this->username) ) { ### FIXME use different check, this one always returns true :-(
+                                                         ### FIXME best solution might be to lookup the mailbox table (via UserHandler)
+            $this->errormsg[] = 'This alias belongs to a mailbox and can\'t be deleted.'; # TODO: make translatable
             return false;
         }
 
-        $result = db_delete('alias', 'address', $address);
+        $result = db_delete('alias', 'address', $this->username);
         if( $result == 1 ) {
-            db_log ($SESSID_USERNAME, $fDomain, 'delete_alias', $fDelete);
+            list(/*NULL*/,$domain) = explode('@', $this->username);
+            db_log ('CLI', $domain, 'delete_alias', $this->username); # TODO: replace hardcoded CLI
             return true;
         }
     }

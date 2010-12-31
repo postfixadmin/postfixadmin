@@ -189,10 +189,7 @@ class DeleteTask extends Shell {
                 }
 
                 if (!empty($this->args[0])) {
-                     $this->help();
-                      // $output = $this->__handle($this->args[0]);
-                      // $this->out($output);
-                       
+                    $this->__handle($this->args[0]);
                 }
         }
 /**
@@ -259,7 +256,6 @@ class DeleteTask extends Shell {
         }
 
 }
-### PasswordTask was a rest of Copy Paste :D Deleted. Check it!
 class ViewTask extends Shell {
 /**
  * Execution method always used for tasks
