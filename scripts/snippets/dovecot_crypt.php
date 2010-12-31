@@ -54,7 +54,8 @@ class DovecotCrypt extends Crypt {
       
       $scheme = $this->password_schemes[$algorithm];
       $func = '__'.$scheme[3];
-      $this->password = $this->$func($this->plain, $this->size);
+
+      $this->password = $this->$func($this->plain);
       //$this->plain = '';
   }
   
@@ -71,30 +72,21 @@ class DovecotCrypt extends Crypt {
       }
       
       $func = '__'.$scheme[2];
-      return  $this->$func($this->plain, $password, $this->size);
+      return  $this->$func($this->plain, $password);
       
   }
   
   private function __crypt_verify($plaintext, $password) {
-    $password = substr($password, 0, $this->size);
     $crypted = crypt($plaintext, $password);
-    
-    
     return strcmp($crypted, $password) == 0;
   }
-  private function __crypt_generate($plaintext, &$size) {
-    $salt =  $this->__random_fill(2);
+  private function __crypt_generate($plaintext) {
     
-    $salt[0] = $this->salt_chars[$salt[0] % (strlen($this->salt_chars)-1)];
-    $salt[1] = $this->salt_chars[$salt[1] % (strlen($this->salt_chars)-1)];
-    $salt[2] = '\0';
-    
-    $password = strtoupper(crypt($plaintext, $salt));
-    $size = strlen($password);
+    $password = crypt($plaintext);
     return $password;
   }
-  private function __md5_generate() {
-  
+  private function __md5_generate($plaintext) {
+    return $password;
   }
   private function __sha1_generate() {
   
@@ -102,20 +94,41 @@ class DovecotCrypt extends Crypt {
   private function __plain_generate() {
   
   }
-  private function __cram_md5_generate() {
+  private function __cram_md5_generate($plaintext) {
   
-  }
-  
-  
-  private function __random_fill($size) {
-    $pos = 0;
-    $tmp = array();
-    while( $pos <= $size ) {
-        $rand = mt_rand();
-        $rand_l = strlen((string)$rand);
-        $tmp[$pos] = substr((string)$rand, mt_rand(0, $rand_l - 1), 1);
-        $pos++;
+#http://hg.dovecot.org/dovecot-1.2/file/84373d238073/src/lib/hmac-md5.c 
+#http://hg.dovecot.org/dovecot-1.2/file/84373d238073/src/auth/password-scheme.c cram_md5_generate
+#am i right that the hmac salt is the plaintext password itself?
+$salt = $plaintext;
+    if(function_exists('hash_hmac')) {  //Some providers doesn't offers hash access.
+      return hash_hmac('md5', $plaintext, $salt);
+    } else {
+      return custom_hmac('md5', $plaintext, $salt);
     }
-    return join("", $tmp);
   }
+  
+  
+  function custom_hmac($algo, $data, $key, $raw_output = false)
+{
+    $algo = strtolower($algo);
+    $pack = 'H'.strlen($algo('test'));
+    $size = 64;
+    $opad = str_repeat(chr(0x5C), $size);
+    $ipad = str_repeat(chr(0x36), $size);
+
+    if (strlen($key) > $size) {
+        $key = str_pad(pack($pack, $algo($key)), $size, chr(0x00));
+    } else {
+        $key = str_pad($key, $size, chr(0x00));
+    }
+
+    for ($i = 0; $i < strlen($key) - 1; $i++) {
+        $opad[$i] = $opad[$i] ^ $key[$i];
+        $ipad[$i] = $ipad[$i] ^ $key[$i];
+    }
+
+    $output = $algo($opad.pack($pack, $algo($ipad.$data)));
+
+    return ($raw_output) ? pack($pack, $output) : $output;
+}
 }
