@@ -1728,15 +1728,30 @@ function db_insert ($table, $values, $timestamp = array('created', 'modified') )
 /**
  * db_update
  * Action: Updates a specified table
- * Call: db_update (string table, string where, array values [, array timestamp])
+ * Call: db_update (string table, string where_col, string where_value, array values [, array timestamp])
  * @param String - table name
- * @param String - WHERE condition
+ * @param String - column of WHERE condition
+ * @param String - value of WHERE condition
  * @param array - key/value map of data to insert into the table.
  * @param array (optional) - array of fields to set to now() - default: array('modified')
  * @return int - number of updated rows
  */
-function db_update ($table, $where, $values, $timestamp = array('modified') )
-{
+function db_update ($table, $where_col, $where_value, $values, $timestamp = array('modified') ) {
+    $where = $where_col . " = '" . escape_string($where_value) . "'";
+    return db_update_q ($table, $where, $values, $timestamp = array('modified') );
+}
+
+/**
+ * db_update_q
+ * Action: Updates a specified table
+ * Call: db_update_q (string table, string where, array values [, array timestamp])
+ * @param String - table name
+ * @param String - WHERE condition (as SQL)
+ * @param array - key/value map of data to insert into the table.
+ * @param array (optional) - array of fields to set to now() - default: array('modified')
+ * @return int - number of updated rows
+ */
+function db_update_q ($table, $where, $values, $timestamp = array('modified') ) {
     $table = table_by_key ($table);
 
     foreach(array_keys($values) as $key) {

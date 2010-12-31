@@ -167,7 +167,7 @@ class AliasHandler {
             $alias_data = array(
                 'goto' => $goto,
             );
-            $result = db_update('alias', "address = '$E_username'", $alias_data);
+            $result = db_update('alias', 'address', $this->username, $alias_data);
         }
         if($result != 1) {
             return false;

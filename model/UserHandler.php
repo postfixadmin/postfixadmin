@@ -28,17 +28,14 @@ class UserHandler {
      * as per the configuration in config.inc.php
      */
     public function change_pw($new_password, $old_password, $match = true) {
-        $username = $this->username;
         list(/*NULL*/,$domain) = explode('@', $username);
 
-        $username = escape_string($username);
+        $E_username = escape_string($this->username);
         $table_mailbox = table_by_key('mailbox');
         
-        $new_db_password = pacrypt($new_password);
-
         if ($match == true) {
                 $active = db_get_boolean(True);
-                $result = db_query("SELECT password FROM $table_mailbox WHERE username='$username' AND active='$active'");
+                $result = db_query("SELECT password FROM $table_mailbox WHERE username='$E_username' AND active='$active'");
                 $result = db_assoc($result['result']);
                 
                 if (pacrypt($old_password, $result['password']) != $result['password']) {
@@ -49,10 +46,10 @@ class UserHandler {
         }
         
         $set = array(
-                'password' => $new_db_password
+            'password' => pacrypt($new_password) ,
         );
 
-        $result = db_update('mailbox', 'username=\''.$username.'\'', $set );
+        $result = db_update('mailbox', 'username', $this->username, $set );
 
         if ($result != 1) {
             db_log ('CONSOLE', $domain, 'edit_password', "FAILURE: " . $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/  
