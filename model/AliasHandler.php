@@ -64,12 +64,23 @@ class AliasHandler {
     */
     public function is_mailbox_alias($address) {
         global $CONF;
+        $table_mailbox = table_by_key('mailbox');
+        
+        $sql = "SELECT * FROM $table_mailbox WHERE username='$address'";
+        $result = db_query($sql);
+        if($result['rows'] != 1) {
+           return false;
+        } else { 
+           return true;
+        }
+        /*
         $username = $this->username;
         if($address == $username) {
             # TODO: check (via SQL query) if there is really a mailbox with this address
             return true;
         }
         return false;
+        */
     }
 
     /**
