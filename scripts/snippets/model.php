@@ -1,41 +1,62 @@
 ﻿<?php
 
 
-class model {
+class Model {
 
 
   public  $errormsg = array();
-  private $table = array();
-	private $columns = array();
-	private $values = array();
-	
+  protected $table;
+	protected $columns = array();
+	protected $values = array();
 	/**
 	 * id of database entry
 	 * @access private
 	 */
-	private $id;
-  
+	protected $id;
+  protected $column_id;
 
-	public save() {
+	public function save() {
     $db = new Database;
     #Pseudecode if new
-      $db->insert($this->table, $this->values);
+      $db->insert( $this->table, $this->values );
     #pseudocode else
       $db->update( $this->table, $this->id, $this->values );
 	}
 	
-	public load( $parameter = array() ) {
-	  ##pseudocode if where is key in parameters
+	public function load( $parameter = array() ) {
+	  $sql = '';
+	  $db = new Database;
+	  if (array_key_exists( 'where', $parameter) ) {
 	    $w = $parameters['where']; # where = array('column', 'value' )
-	    $sql = " WHERE $where['column'] = $where['value']";
-	  ## elseif limit is key in parameters
-	    $l = $parameter['limit']
-	    $sq = " LIMIT $l[1], $l[2]";
+	    $sql .= " WHERE $w[0] = $w[1]";
+	  } elseif ( array_key_exists('limit', $parameter ) ) {
+	    $l = $parameter['limit'] # limit = array(start, length)
+	    $sql .= " LIMIT $l[0], $l[1]";
+	  }
 
 
-      $db->query("SELECT * FROM $this->table $sql");
+      $this->query = $db->query("SELECT * FROM \{ $this->table \} $sql");
 	}
-
+	
+	public function delete( $parameter = array() ) {
+	
+	}
+	public function Assoc() {
+	  $db = new Database();
+	  return $db->getAssoc($this->query);
+	}
+	public function Array() {
+	  $db = new Database();
+	  return $db->getArray($this->query);
+	}
+	public function Object() {
+	  $db = new Database();
+	  return $db->getObject($this->query);
+	}
+	public function Row() {
+	  $db = new Database();
+	  return $db->getRow($this->query);
+	}
 
 }
 
