@@ -31,29 +31,28 @@ class AliasHandler {
             return false;
         }
 
-# TODO: whitespace fix: move ~20 lines below one step left
-            $row = db_array ($result['result']);
-            // At the moment Postfixadmin stores aliases in it's database in a comma seperated list; this may change one day.
-            $list = explode(',', $row['goto']);
-            if($all) {
-                $this->return = $list;
-                return true;
-            }
+        $row = db_array ($result['result']);
+        // At the moment Postfixadmin stores aliases in it's database in a comma seperated list; this may change one day.
+        $list = explode(',', $row['goto']);
+        if($all) {
+            $this->return = $list;
+            return true;
+        }
 
-            $filtered_list = array();
-            /* if !$all, remove vacation & mailbox aliases */
-            foreach($list as $address) {
-                if($address != '' ) {
-                    if($this->is_vacation_address($address) || $this->is_mailbox_alias($address)) {
-                        # TODO: store "vacation_active" and "mailbox" status - should be readable public
-                    }
-                    else {
-                        $filtered_list[] = $address;
-                    }
+        $filtered_list = array();
+        /* if !$all, remove vacation & mailbox aliases */
+        foreach($list as $address) {
+            if($address != '' ) {
+                if($this->is_vacation_address($address) || $this->is_mailbox_alias($address)) {
+                    # TODO: store "vacation_active" and "mailbox" status - should be readable public
+                }
+                else {
+                    $filtered_list[] = $address;
                 }
             }
-            $this->return = $filtered_list;
-            return true;
+        }
+        $this->return = $filtered_list;
+        return true;
     }
 
    /** 
@@ -64,8 +63,12 @@ class AliasHandler {
     */
     public function is_mailbox_alias($address) {
         global $CONF;
+
+        if($address != $this->username) { # avoid false positives if $address is a mailbox
+            return false;
+        }
+
         $table_mailbox = table_by_key('mailbox');
-        
         $sql = "SELECT * FROM $table_mailbox WHERE username='$address'";
         $result = db_query($sql);
         if($result['rows'] != 1) {
@@ -73,14 +76,6 @@ class AliasHandler {
         } else { 
            return true;
         }
-        /*
-        $username = $this->username;
-        if($address == $username) {
-            # TODO: check (via SQL query) if there is really a mailbox with this address
-            return true;
-        }
-        return false;
-        */
     }
 
     /**
@@ -165,7 +160,6 @@ class AliasHandler {
             error_log("Alias set to empty / Attemp to delete: " . $this->username); # TODO: more/better error handling - maybe just return false?
         }
         if($this->hasAliasRecord() == false) { # TODO should never happen in update() - see also the comments on handling DELETE above
-            $true = db_get_boolean(True);
             $alias_data = array(
                 'address'   => $this->username,
                 'goto'      => $goto,
@@ -173,8 +167,7 @@ class AliasHandler {
                 'active'    => db_get_boolean(True),
             );
             $result = db_insert('alias', $alias_data);
-        }
-        else {
+        } else {
             $alias_data = array(
                 'goto' => $goto,
             );
@@ -219,13 +212,12 @@ class AliasHandler {
      *  @return true on success false on failure
      */
     public function delete(){
-        if( ! $this->get($this->username) ) {
+        if( ! $this->get() ) {
             $this->errormsg[] = 'An alias with that address does not exist.'; # TODO: make translatable
             return false;
         }
 
-        if ($this->is_mailbox_alias($this->username) ) { ### FIXME use different check, this one always returns true :-(
-                                                         ### FIXME best solution might be to lookup the mailbox table (via UserHandler)
+        if ($this->is_mailbox_alias($this->username) ) {
             $this->errormsg[] = 'This alias belongs to a mailbox and can\'t be deleted.'; # TODO: make translatable
             return false;
         }
