@@ -16,11 +16,9 @@ class VacationHandler {
         $result = $ah->get(true); // fetch all # TODO check $result, error handling
         $aliases = $ah->result;
         $new_aliases = array();
-        $table_vacation = table_by_key('vacation');
-        $table_vacation_notification = table_by_key('vacation_notification');
 
         /* go through the user's aliases and remove any that look like a vacation address */
-        foreach($aliases as $alias) {
+        foreach($aliases as $alias) { # TODO replace with (to be written) array_remove()
             if(!$ah->is_vacation_address($alias)) {
                 $new_aliases[] = $alias;
             }
@@ -28,10 +26,12 @@ class VacationHandler {
         $ah->update($new_aliases, '', false);
 
         // tidy up vacation table.
-        $active = db_get_boolean(False);
-        $username = escape_string($this->username);
-        $result = db_query("UPDATE $table_vacation SET active = '$active' WHERE email='$username'");
-        $result = db_query("DELETE FROM $table_vacation_notification WHERE on_vacation='$username'");
+        $vacation_data = array(
+            'active' => db_get_boolean(false),
+        );
+        $result = db_update('vacation', 'email', $this->username, $vacation_data);
+        $result = db_delete('vacation_notification', 'on_vacation', $this->username);
+# TODO db_log() call (maybe except if called from set_away?)
         /* crap error handling; oh for exceptions... */
         return true;
     }
@@ -67,20 +67,24 @@ class VacationHandler {
      */
     function get_details() {
         $table_vacation = table_by_key('vacation');
-        $username = escape_string($this->username);
+        $E_username = escape_string($this->username);
 
-        $sql = "SELECT * FROM $table_vacation WHERE email = '$username'";
+        $sql = "SELECT * FROM $table_vacation WHERE email = '$E_username'";
         $result = db_query($sql);
-        if($result['rows'] == 1) {
-            $row = db_array($result['result']);
-            $boolean = ($row['active'] == db_get_boolean(true));
-            return array( 'subject' => $row['subject'],
-                          'body' => $row['body'],
-                          'active'  => $boolean ,
-						  'activeFrom' => $row['activefrom'],
-						  'activeUntil' => $row['activeuntil']);
+        if($result['rows'] != 1) {
+            return false;
         }
-        return false;
+
+        $row = db_array($result['result']);
+        $boolean = ($row['active'] == db_get_boolean(true));
+        # TODO: only return true and store the db result array in $this->whatever for consistency with the other classes
+        return array( 
+            'subject' => $row['subject'],
+            'body' => $row['body'],
+            'active'  => $boolean ,
+            'activeFrom' => $row['activefrom'],
+            'activeUntil' => $row['activeuntil'],
+        );
     }
     /**
      * @param string $subject
@@ -90,26 +94,32 @@ class VacationHandler {
      */
     function set_away($subject, $body, $activeFrom, $activeUntil) {
         $this->remove(); // clean out any notifications that might already have been sent.
+
+        $E_username = escape_string($this->username);
+        $activeFrom = date ("Y-m-d 00:00:00", strtotime ($activeFrom)); # TODO check if result looks like a valid date
+        $activeUntil = date ("Y-m-d 23:59:59", strtotime ($activeUntil)); # TODO check if result looks like a valid date
+        list(/*NULL*/,$domain) = split('@', $this->username);
+
+        $vacation_data = array(
+            'email' => $this->username,
+            'domain' => $domain,
+            'subject' => $subject,
+            'body' => $body,
+            'active' => db_get_boolean(true),
+            'activefrom' => $activeFrom,
+            'activeuntil' => $activeUntil,
+        );
+
         // is there an entry in the vacaton table for the user, or do we need to insert?
         $table_vacation = table_by_key('vacation');
-        $username = escape_string($this->username);
-        $body = escape_string($body);
-        $subject = escape_string($subject);
-		$activeFrom = date ("Y-m-d 00:00:00", strtotime ($activeFrom));
-		$activeUntil = date ("Y-m-d 23:59:59", strtotime ($activeUntil));
-
-        $result = db_query("SELECT * FROM $table_vacation WHERE email = '$username'");
-        $active = db_get_boolean(True);
-        // check if the user has a vacation entry already, if so just update it
+        $result = db_query("SELECT * FROM $table_vacation WHERE email = '$E_username'");
         if($result['rows'] == 1) {
-            $result = db_query("UPDATE $table_vacation SET active = '$active', body = '$body', subject = '$subject', activefrom = '$activeFrom', activeuntil = '$activeUntil', created = NOW() WHERE email = '$username'");
+            $result = db_update('vacation', 'email', $this->username, $vacation_data);
+        } else {
+            $result = db_insert('vacation', $vacation_data);
         }
-        else {
-            $tmp = preg_split ('/@/', $username);
-            $domain = escape_string($tmp[1]);
-            $result = db_query ("INSERT INTO $table_vacation (email,subject,body,domain,created,active,activefrom, activeuntil) VALUES ('$username','$subject','$body','$domain',NOW(),'$active','$activeFrom','$activeUntil')");
-        }
-
+# TODO error check
+# TODO wrap whole function in db_begin / db_commit (or rollback)?
         $ah = new AliasHandler($this->username); 
         $aliases = $ah->get(true);
         $vacation_address = $this->getVacationAlias();
@@ -126,7 +136,7 @@ class VacationHandler {
     public function getVacationAlias() {
         global $CONF;
         $vacation_domain = $CONF['vacation_domain']; 
-        $vacation_goto = preg_replace('/@/', '#', $this->username); 
+        $vacation_goto = str_replace('@', '#', $this->username); 
         $vacation_goto = "{$vacation_goto}@{$vacation_domain}"; 
         return $vacation_goto;
     }
