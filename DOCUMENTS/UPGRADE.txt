@@ -57,6 +57,13 @@ to have change the permissions for Postfix Admin.
 
 (the last command assumes your Apache is running with group "www")
 
+Since version 2.4 we use smarty templates. That means the templates_c directory
+needs to be writeable for your webserver.
+
+  $ chown -R www-data templates_c/
+
+(if your Apache runs as user "www-data")
+
 
 4. Configure
 ------------
@@ -66,8 +73,8 @@ relevant to your setup.
 Comparing config.inc.php with your previous using "diff" might save you some
 time.
 
-You can use a config.local.php file to contain your local settings - these will override any 
-defined in config.inc.php
+You can use a config.local.php file to contain your local settings. These will override any 
+defined in config.inc.php - and save some time when upgrading to a new version of PostfixAdmin ;-)
 
 5. Run setup.php
 ----------------------------------------
@@ -75,6 +82,7 @@ defined in config.inc.php
 Access setup.php through a web browser.
 
 It will attempt to upgrade your database, and also allow you to create a superadmin user.
+(In case the database upgrade fails, you can run setup.php?debug=1 to see the last executed query.)
 
 From version 2.3, you need to specify a setup_password in config.inc.php - 
 setup.php should guide you through this process. If you do not have a setup_password, type one
@@ -89,6 +97,12 @@ If you update from 2.1 or older, also create a superadmin account using setup.ph
 Note that admin/ has been merged into the main directory. Login with the
 superadmin account to setup domains and domain admins.
 
+5. Upgrade your postfix config
+------------------------------
+
+Since version 2.3, PostfixAdmin supports alias domains ($CONF['alias_domain']).
+If you want to use them, you have to add some queries to your postfix config -
+see POSTFIX_CONF for details.
 
 
 6. Done
