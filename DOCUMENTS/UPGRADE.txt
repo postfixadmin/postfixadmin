@@ -97,7 +97,7 @@ If you update from 2.1 or older, also create a superadmin account using setup.ph
 Note that admin/ has been merged into the main directory. Login with the
 superadmin account to setup domains and domain admins.
 
-5. Upgrade your postfix config
+6. Upgrade your postfix config
 ------------------------------
 
 Since version 2.3, PostfixAdmin supports alias domains ($CONF['alias_domain']).
@@ -105,7 +105,7 @@ If you want to use them, you have to add some queries to your postfix config -
 see POSTFIX_CONF for details.
 
 
-6. Done
+7. Done
 -------
 This is all that is needed. Fire up your browser and go to the site that you
 specified to host Postfix Admin.
