@@ -193,6 +193,9 @@ $PALANG['pViewlog_username'] = '管理者';
 $PALANG['pViewlog_domain'] = 'ドメイン';
 $PALANG['pViewlog_action'] = 'アクション';
 $PALANG['pViewlog_data'] = 'データ';
+$PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
+$PALANG['pViewlog_action_delete_domain'] = 'delete domain'; # XXX
+$PALANG['pViewlog_action_edit_domain'] = 'edit domain'; # XXX
 
 $PALANG['pViewlog_action_create_mailbox'] = 'アドレス作成';
 $PALANG['pViewlog_action_delete_mailbox'] = 'アドレス削除';

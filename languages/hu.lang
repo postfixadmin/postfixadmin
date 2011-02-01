@@ -193,6 +193,9 @@ $PALANG['pViewlog_username'] = 'Admin';
 $PALANG['pViewlog_domain'] = 'Domain';
 $PALANG['pViewlog_action'] = 'Akció';
 $PALANG['pViewlog_data'] = 'Adat';
+$PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
+$PALANG['pViewlog_action_delete_domain'] = 'delete domain'; # XXX
+$PALANG['pViewlog_action_edit_domain'] = 'edit domain'; # XXX
 
 $PALANG['pViewlog_action_create_mailbox'] = 'postafiók létrehozása';
 $PALANG['pViewlog_action_delete_mailbox'] = 'postafiók törlése';

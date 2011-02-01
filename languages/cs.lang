@@ -196,6 +196,9 @@ $PALANG['pViewlog_username'] = 'Administrátor';
 $PALANG['pViewlog_domain'] = 'Doména';
 $PALANG['pViewlog_action'] = 'Akce';
 $PALANG['pViewlog_data'] = 'Poznámka';
+$PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
+$PALANG['pViewlog_action_delete_domain'] = 'delete domain'; # XXX
+$PALANG['pViewlog_action_edit_domain'] = 'edit domain'; # XXX
 
 $PALANG['pViewlog_action_create_mailbox'] = 'vytrořena schránka';
 $PALANG['pViewlog_action_delete_mailbox'] = 'smazána schránka';
