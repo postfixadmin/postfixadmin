@@ -1660,6 +1660,7 @@ function db_assoc ($result)
 //
 function db_delete ($table,$where,$delete)
 {
+    $table = table_by_key($table);
     $query = "DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "'";
     $result = db_query ($query);
     if ($result['rows'] >= 1)
@@ -1763,8 +1764,15 @@ function db_log ($username,$domain,$action,$data)
 
     if ($CONF['logging'] == 'YES')
     {
-        $result = db_query ("INSERT INTO $table_log (timestamp,username,domain,action,data) VALUES (NOW(),'$username ($REMOTE_ADDR)','$domain','$action','$data')");
-        if ($result['rows'] != 1)
+        $logdata = array(
+            'username'  => "$username ($REMOTE_ADDR)",
+            'domain'    => $domain,
+            'action'    => $action,
+            'data'      => $data,
+        );
+        $result = db_insert('log', $logdata, array('timestamp') );
+        #$result = db_query ("INSERT INTO $table_log (timestamp,username,domain,action,data) VALUES (NOW(),'$username ($REMOTE_ADDR)','$domain','$action','$data')");
+        if ($result != 1)
         {
             return false;
         }
