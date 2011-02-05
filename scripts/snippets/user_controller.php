@@ -28,7 +28,7 @@ class UserController extends Controller {
     //$this->User->values = array('frit@example.com', 'hased HMAC_MD5 PW', 'Fritz', '/home/fritz/maildir', 51200000, 'fritz', 'example.com', '{[CREATED]}', '{[MODIFIED]}'); {} = Model should replace something, [] = constant not tablenames
     
     if( ! $this->User->save() ) {
-      $this->errormsg[] = 'The data can't be saved.';
+      $this->errormsg[] = "The data can't be saved.";
       return false;
     }
     
@@ -44,7 +44,7 @@ class UserController extends Controller {
     //$this->User->values = array('frit@example.com', 'hased HMAC_MD5 PW', 'Fritz', '/home/fritz/maildir', 51200000, 'fritz', 'example.com', '{[CREATED]}', '{[MODIFIED]}'); {} = Model should replace something, [] = constant not tablenames
     
     if( ! $this->User->save() ) {
-      $this->errormsg[] = 'The data can't be saved.';
+      $this->errormsg[] = "The data can't be saved.";
       return false;
     }
     //redirect to view($id)

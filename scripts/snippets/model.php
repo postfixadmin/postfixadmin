@@ -30,7 +30,7 @@ class Model {
 	    $w = $parameters['where']; # where = array('column', 'value' )
 	    $sql .= " WHERE $w[0] = $w[1]";
 	  } elseif ( array_key_exists('limit', $parameter ) ) {
-	    $l = $parameter['limit'] # limit = array(start, length)
+	    $l = $parameter['limit']; # limit = array(start, length)
 	    $sql .= " LIMIT $l[0], $l[1]";
 	  }
 
