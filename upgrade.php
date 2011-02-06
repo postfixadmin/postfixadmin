@@ -204,7 +204,8 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{MYISAM}'          => 'ENGINE=MyISAM',
                 '{INNODB}'          => 'ENGINE=InnoDB',
                 '{BIGINT}'          => 'bigint',
-                '{DATECURRENT}'     => 'timestamp NOT NULL default CURRENT_TIMESTAMP',
+                '{DATE}'            => "timestamp NOT NULL default '2000-01-01'", # MySQL needs a sane default (no default is interpreted as CURRENT_TIMESTAMP, which is ...
+                '{DATECURRENT}'     => 'timestamp NOT NULL default CURRENT_TIMESTAMP', # only allowed once per table in MySQL
         );
         $sql = "$sql $attach_mysql";
 
@@ -226,6 +227,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 'int(10)'           => 'int', 
                 'int(11)'           => 'int', 
                 'int(4)'            => 'int', 
+                '{DATE}'            => "timestamp with time zone default '2000-01-01'", # stay in sync with MySQL
                 '{DATECURRENT}'     => 'timestamp with time zone default now()',
         );
 
@@ -1124,6 +1126,12 @@ function upgrade_655() {
     db_query_parsed(_add_index('alias',   'domain', 'domain'));
 }
 
+/* 
+   function number too small for upgrades from 2.3.x
+   -> adding activefrom and activeuntil to vacation table is now upgrade_964
+   -> the tables client_access, from_access, helo_access, rcpt_access, user_whitelist
+      are not used by PostfixAdmin - no replacement function needed
+   Note: Please never remove this function, even if it is disabled - it might be needed in case we have to debug a broken database upgrade etc.
 function upgrade_727_mysql() {
 # TODO: do the same for PostgreSQL - if possible without different queries
     $table_vacation = table_by_key('vacation');
@@ -1134,7 +1142,8 @@ function upgrade_727_mysql() {
        db_query_parsed("ALTER TABLE $table_vacation add activeuntil datetime default NULL");
     }
 
-# TODO: the following tables are not used - remove them from upgrade_727_mysql() ???
+    # the following tables are not used by postfixadmin
+
     $table_client_access = table_by_key('client_access');
      db_query_parsed("
          CREATE TABLE IF NOT EXISTS $table_client_access (
@@ -1176,6 +1185,7 @@ function upgrade_727_mysql() {
          ) {MYISAM} COMMENT='Postfix Admin - User whitelist'
      ");
 }
+*/
 
 function upgrade_729() {
     $table_quota = table_by_key('quota');
@@ -1274,15 +1284,16 @@ function upgrade_945() {
     _db_add_field('vacation', 'modified', '{DATECURRENT}', 'created');
 }
 
+function upgrade_946() {
+    # taken from upgrade_727_mysql, needs to be done for all databases
+    _db_add_field('vacation', 'activefrom',  '{DATE}', 'body');
+    _db_add_field('vacation', 'activeuntil', '{DATE}', 'activefrom');
+}
+
 
 # TODO MySQL:
 # - various varchar fields do not have a default value
 #   https://sourceforge.net/projects/postfixadmin/forums/forum/676076/topic/3419725
-# - change default of all timestamp fields to {DATECURRENT} (CURRENT_TIMESTAMP}
+# - change default of all timestamp fields to {DATECURRENT} (CURRENT_TIMESTAMP} or {DATE}
+#   including vacation.activefrom/activeuntil (might have a different default as leftover from upgrade_727_mysql)
 #   https://sourceforge.net/tracker/?func=detail&aid=1699218&group_id=191583&atid=937964
-#
-# TODO all:
-# drop function upgrade_727_mysql() (won't run for upgrades from 2.3.x) and 
-# - replace it with a function that works for all databases (_add_field)
-# - ignore the unused tables (client_access etc.)
-
