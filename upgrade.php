@@ -25,6 +25,7 @@ function _pgsql_object_exists($name) {
 }
 
 function _pgsql_field_exists($table, $field) {
+    $table = table_by_key($table);
     $sql = '
     SELECT
         a.attname,
@@ -51,13 +52,43 @@ function _pgsql_field_exists($table, $field) {
 }
 
 function _mysql_field_exists($table, $field) {
+    $table = table_by_key($table);
     $sql = "SHOW COLUMNS FROM $table LIKE '$field'";
     $r = db_query($sql);
     $row = db_row($r['result']);
+
     if($row) {
         return true;
     }
     return false;
+}
+
+function _db_field_exists($table, $field) {
+    global $CONF;
+    if($CONF['database_type'] == 'pgsql') {
+        return _pgsql_field_exists($table, $field); 
+    } else {
+        return _mysql_field_exists($table, $field);
+    }
+}
+
+function _db_add_field($table, $field, $fieldtype, $after) {
+    global $CONF;
+
+    $query = "ALTER TABLE " . table_by_key($table) . " ADD COLUMN $field $fieldtype";
+    if($CONF['database_type'] != 'pgsql') {
+        $query .= " AFTER $after "; # PgSQL does not support to specify where to add the column, MySQL does
+    }
+
+    if(! _db_field_exists($table, $field)) {
+        $result = db_query_parsed($query);
+    } else { 
+        printdebug ("field already exists: $table.$field");
+    }
+}
+
+function printdebug($text) {
+    if (safeget('debug') != "") print "<p style='color:#999'>$text</p>";
 }
 
 $table = table_by_key('config');
@@ -173,7 +204,8 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{MYISAM}'          => 'ENGINE=MyISAM',
                 '{INNODB}'          => 'ENGINE=InnoDB',
                 '{BIGINT}'          => 'bigint',
-                );
+                '{DATECURRENT}'     => 'timestamp NOT NULL default CURRENT_TIMESTAMP',
+        );
         $sql = "$sql $attach_mysql";
 
     } elseif($CONF['database_type'] == 'pgsql') {
@@ -194,7 +226,8 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 'int(10)'           => 'int', 
                 'int(11)'           => 'int', 
                 'int(4)'            => 'int', 
-                );
+                '{DATECURRENT}'     => 'timestamp with time zone default now()',
+        );
 
     } else {
         echo "Sorry, unsupported database type " . $conf['database_type'];
@@ -205,8 +238,9 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
     $replace['{BOOL_FALSE}'] = db_get_boolean(False);
 
     $query = trim(str_replace(array_keys($replace), $replace, $sql));
+
     if (safeget('debug') != "") {
-        print "<p style='color:#999'>$query";
+        printdebug ($query);
     }
     $result = db_query($query, $ignore_errors);
     if (safeget('debug') != "") {
@@ -909,7 +943,7 @@ function upgrade_344_pgsql() {
 /** 
  * Create alias_domain table - MySQL
  */
-# function upgrade_362_mysql() { # renamed to _438 to make sure it runs after an upgrade from 2.2.x
+# function upgrade_362_mysql() # renamed to _438 to make sure it runs after an upgrade from 2.2.x
 function upgrade_438_mysql() {
     # Table structure for table alias_domain
     #
@@ -931,7 +965,7 @@ function upgrade_438_mysql() {
 /** 
  * Create alias_domain table - PgSQL
  */
-# function upgrade_362_pgsql() { # renamed to _438 to make sure it runs after an upgrade from 2.2.x
+# function upgrade_362_pgsql()  # renamed to _438 to make sure it runs after an upgrade from 2.2.x
 function upgrade_438_pgsql() {
     # Table structure for table alias_domain
     $table_alias_domain = table_by_key('alias_domain');
@@ -1091,6 +1125,7 @@ function upgrade_655() {
 }
 
 function upgrade_727_mysql() {
+# TODO: do the same for PostgreSQL - if possible without different queries
     $table_vacation = table_by_key('vacation');
     if(!_mysql_field_exists($table_vacation, 'activefrom')) {
        db_query_parsed("ALTER TABLE $table_vacation add activefrom datetime default NULL");
@@ -1099,6 +1134,7 @@ function upgrade_727_mysql() {
        db_query_parsed("ALTER TABLE $table_vacation add activeuntil datetime default NULL");
     }
 
+# TODO: the following tables are not used - remove them from upgrade_727_mysql() ???
     $table_client_access = table_by_key('client_access');
      db_query_parsed("
          CREATE TABLE IF NOT EXISTS $table_client_access (
@@ -1233,3 +1269,20 @@ function upgrade_730_pgsql() {
             FOR EACH ROW EXECUTE PROCEDURE merge_quota2();
     ");
 }
+
+function upgrade_945() {
+    _db_add_field('vacation', 'modified', '{DATECURRENT}', 'created');
+}
+
+
+# TODO MySQL:
+# - various varchar fields do not have a default value
+#   https://sourceforge.net/projects/postfixadmin/forums/forum/676076/topic/3419725
+# - change default of all timestamp fields to {DATECURRENT} (CURRENT_TIMESTAMP}
+#   https://sourceforge.net/tracker/?func=detail&aid=1699218&group_id=191583&atid=937964
+#
+# TODO all:
+# drop function upgrade_727_mysql() (won't run for upgrades from 2.3.x) and 
+# - replace it with a function that works for all databases (_add_field)
+# - ignore the unused tables (client_access etc.)
+
