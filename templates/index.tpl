@@ -12,7 +12,6 @@
 {if $smarty_template}
 	{include file="$smarty_template.tpl"}
 {else}
-	<h3>Kein Template angegeben</h3>({php}print $_SERVER ['PHP_SELF'];{/php})
+	<h3>Template not found</h3>({php}print $_SERVER ['PHP_SELF'];{/php})
 {/if}
-{include file='footer.tpl'}
 {/strip}
