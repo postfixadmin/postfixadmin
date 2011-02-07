@@ -19,7 +19,10 @@
 
 if(!defined('POSTFIXADMIN')) { # already defined if called from setup.php
     session_start();
-	define('POSTFIXADMIN', 1); # checked in included files
+    define('POSTFIXADMIN', 1); # checked in included files
+    if(empty($_SESSION['flash'])) {
+        $_SESSION['flash'] = array();
+    }
 }
 
 $incpath = dirname(__FILE__);
