@@ -29,18 +29,19 @@
 
 require_once('common.php');
 
+$smarty->assign('tMessage', '');
 # force user to delete setup.php (allows creation of superadmins!)
-    if($CONF['configured'] !== true) {
-      print "Installation not yet configured; please edit config.inc.php";
-	  exit;
-    }
+if($CONF['configured'] !== true) {
+    print "Installation not yet configured; please edit config.inc.php";
+    exit;
+}
 
-	$smarty->assign ('language_selector', language_selector(), false);
+$smarty->assign ('language_selector', language_selector(), false);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-	$smarty->assign ('smarty_template', 'login');
-	$smarty->display ('index.tpl');
+    $smarty->assign ('smarty_template', 'login');
+    $smarty->display ('index.tpl');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
@@ -87,17 +88,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         if ($result['rows'] == 1)
         {
             $_SESSION['sessid']['roles'][] = 'global-admin';
-#            header("Location: admin/list-admin.php");
-#            exit(0);
+            #            header("Location: admin/list-admin.php");
+            #            exit(0);
         }
         header("Location: main.php");
         exit(0);
     }
 
-	$smarty->assign ('tMessage', $tMessage, false);
+    $smarty->assign ('tMessage', $tMessage, false);
 
-	$smarty->assign ('smarty_template', 'login');
-	$smarty->display ('index.tpl');
+    $smarty->assign ('smarty_template', 'login');
+    $smarty->display ('index.tpl');
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
