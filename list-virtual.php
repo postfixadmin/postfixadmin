@@ -323,13 +323,17 @@ if ((is_array ($tAlias) and sizeof ($tAlias) > 0))
 	}
 
 $gen_show_status_mailbox = array ();
-$divide_quota = array ();
+$divide_quota = array ('current' => array(), 'quota' => array());
 if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
 	for ($i = 0; $i < sizeof ($tMailbox); $i++)
 	{
-		$gen_show_status_mailbox [$i] = gen_show_status($tMailbox[$i]['username']);
-		$divide_quota ['current'][$i] = divide_quota ($tMailbox[$i]['current']);
-		$divide_quota ['quota'][$i] = divide_quota ($tMailbox[$i]['quota']);
+        $gen_show_status_mailbox [$i] = gen_show_status($tMailbox[$i]['username']);
+        if(isset($tMailbox[$i]['current'])) {
+            $divide_quota ['current'][$i] = divide_quota ($tMailbox[$i]['current']);
+        }
+        if(isset($tMailbox[$i]['quota'])) {
+            $divide_quota ['quota'][$i] = divide_quota ($tMailbox[$i]['quota']);
+        }
 	}
 	
 class cNav_bar
@@ -435,6 +439,9 @@ $nav_bar_mailbox->url = '&amp;domain='.$fDomain;
 // this is why we need a proper template layer.
 $fDomain = htmlentities($fDomain, ENT_QUOTES);
 
+if(empty($_GET['domain'])) {
+    $_GET['domain'] = '';
+}
 $smarty->assign ('select_options', select_options ($list_domains, array ($fDomain)), false);
 $smarty->assign ('nav_bar_alias', array ('top' => $nav_bar_alias->display_top (), 'bottom' => $nav_bar_alias->display_bottom ()), false);
 $smarty->assign ('nav_bar_mailbox', array ('top' => $nav_bar_mailbox->display_top (), 'bottom' => $nav_bar_mailbox->display_bottom ()), false);
