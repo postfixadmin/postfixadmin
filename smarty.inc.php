@@ -4,16 +4,33 @@ require_once ("$incpath/smarty/libs/Smarty.class.php");
 /**
  * Turn on sanitisation of all data by default so it's not possible for XSS flaws to occur in PFA
  */
-class PFASmarty extends Smarty {
+class PFASmarty {
+    protected $template = null;
+    public function __construct() {
+        $this->template = new Smarty();
+    }
+
     public function assign($key, $value, $sanitise = true) {
         if($sanitise == false) {
-            return parent::assign($key, $value);
+            return $this->template->assign($key, $value);
         }
         $clean = $this->sanitise($value);
         /* we won't run the key through sanitise() here... some might argue we should */
-        return parent::assign($key, $clean);
+        return $this->template->assign($key, $clean);
     }
 
+    public function __set($key, $value) {
+        $this->template->$key = $value;
+    }
+    public function __get($key) {
+        return $this->template->$key;
+    }
+    public function __call($method, $params) {
+        return call_user_func_array($this->template->$method, $params);
+    }
+    public function display($template) {
+        $this->template->display($template);
+    }
     /**
      * Recursive cleaning of data, using htmlentities - this assumes we only ever output to HTML and we're outputting in UTF-8 charset 
      *
@@ -39,7 +56,18 @@ $smarty = new PFASmarty();
 //$smarty->debugging = true;
 
 $smarty->template_dir	= $incpath.'/templates';
-$smarty->compile_dir	= $incpath.'/templates_c';
+if(is_writeable('/tmp')) {
+    if(!is_dir('/tmp/postfixadmin_templates_c')) {
+         mkdir('/tmp/postfixadmin_templates_c');
+    }
+}
+if(is_writeable('/tmp/postfixadmin_templates_c')) {
+    $smarty->compile_dir = '/tmp/postfixadmin_templates_c';
+}
+else {
+    $smarty->compile_dir	= $incpath.'/templates_c';
+}
+
 $smarty->config_dir	= $incpath.'/'.$smarty->config_dir;
 
 $CONF['theme_css']	= $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_css']);
@@ -47,7 +75,7 @@ $CONF['theme_logo']	= $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_l
 
 $smarty->assign ('CONF', $CONF);
 $smarty->assign ('PALANG', $PALANG);
-
+$smarty->assign('url_domain', '');
 //*** footer.tpl
 $smarty->assign ('version', $version);
 
@@ -63,6 +91,7 @@ else
 {
 	$motd_file = "motd.txt";
 }
+$smarty->assign('motd_file', '');
 if (file_exists ($CONF ['postfix_admin_path'].'/templates/'.$motd_file)) {
     $smarty->assign ('motd_file', $motd_file);
 }
