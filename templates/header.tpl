@@ -39,6 +39,5 @@
 					{/foreach}
 				</ul>
 			{/if}
-		{php}$_SESSION['flash'] = array();{/php}
 		{/if}
 {/strip}
