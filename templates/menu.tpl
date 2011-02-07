@@ -1,6 +1,6 @@
 <!-- {$smarty.template} -->
 {strip}
-{if $smarty.get.domain}
+{if !empty($smarty.get) && !empty($smarty.get.domain)}
 {*** zuweisung muss eleganter gehen ***}
 	{assign var="url_domain" value=$smarty.get.domain}
 	{assign var="url_domain" value="?domain=$url_domain"}
@@ -82,7 +82,7 @@
 </ul>
 </div>
 <br clear="all"/><br/>
-{if $motd_file}
+{if !empty($motd_file)}
 	<div id="motd">
 	{include file=$motd_file}
 	</div>
