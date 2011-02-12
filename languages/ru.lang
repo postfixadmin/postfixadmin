@@ -195,9 +195,9 @@ $PALANG['pViewlog_username'] = 'Админ';
 $PALANG['pViewlog_domain'] = 'Домен';
 $PALANG['pViewlog_action'] = 'Действие';
 $PALANG['pViewlog_data'] = 'Данные';
-$PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
-$PALANG['pViewlog_action_delete_domain'] = 'delete domain'; # XXX
-$PALANG['pViewlog_action_edit_domain'] = 'edit domain'; # XXX
+$PALANG['pViewlog_action_create_domain'] = 'создание домена';
+$PALANG['pViewlog_action_delete_domain'] = 'удаление домена';
+$PALANG['pViewlog_action_edit_domain'] = 'редактирование домена';
 
 $PALANG['pViewlog_action_create_mailbox'] = 'создание ящика';
 $PALANG['pViewlog_action_delete_mailbox'] = 'удаление ящика';
