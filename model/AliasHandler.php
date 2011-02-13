@@ -69,7 +69,8 @@ class AliasHandler {
         }
 
         $table_mailbox = table_by_key('mailbox');
-        $sql = "SELECT * FROM $table_mailbox WHERE username='$address'";
+        $E_address = escape_string($address);
+        $sql = "SELECT * FROM $table_mailbox WHERE username='$E_address'";
         $result = db_query($sql);
         if($result['rows'] != 1) {
            return false;
