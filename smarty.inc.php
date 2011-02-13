@@ -8,6 +8,12 @@ class PFASmarty {
     protected $template = null;
     public function __construct() {
         $this->template = new Smarty();
+
+        //$smarty->debugging = true;
+        $incpath = dirname(__FILE__);
+        $smarty->template_dir = $incpath.'/templates';
+        $smarty->compile_dir  = $incpath.'/templates_c';
+        $smarty->config_dir   = $incpath.'/'.$smarty->config_dir;
     }
 
     public function assign($key, $value, $sanitise = true) {
@@ -19,15 +25,6 @@ class PFASmarty {
         return $this->template->assign($key, $clean);
     }
 
-    public function __set($key, $value) {
-        $this->template->$key = $value;
-    }
-    public function __get($key) {
-        return $this->template->$key;
-    }
-    public function __call($method, $params) {
-        return call_user_func_array($this->template->$method, $params);
-    }
     public function display($template) {
         $this->template->display($template);
     }
@@ -53,25 +50,8 @@ class PFASmarty {
 }
 $smarty = new PFASmarty();
 
-//$smarty->debugging = true;
-
-$smarty->template_dir	= $incpath.'/templates';
-if(is_writeable('/tmp')) {
-    if(!is_dir('/tmp/postfixadmin_templates_c')) {
-         mkdir('/tmp/postfixadmin_templates_c');
-    }
-}
-if(is_writeable('/tmp/postfixadmin_templates_c')) {
-    $smarty->compile_dir = '/tmp/postfixadmin_templates_c';
-}
-else {
-    $smarty->compile_dir	= $incpath.'/templates_c';
-}
-
-$smarty->config_dir	= $incpath.'/'.$smarty->config_dir;
-
-$CONF['theme_css']	= $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_css']);
-$CONF['theme_logo']	= $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_logo']);
+$CONF['theme_css']  = $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_css']);
+$CONF['theme_logo'] = $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_logo']);
 
 $smarty->assign ('CONF', $CONF);
 $smarty->assign ('PALANG', $PALANG);
@@ -85,11 +65,11 @@ $smarty->assign ('authentication_has_role', array ('global_admin' => authenticat
 
 if (authentication_has_role('global-admin'))
 {
-	$motd_file = "motd-admin.txt";
+    $motd_file = "motd-admin.txt";
 }
 else
 {
-	$motd_file = "motd.txt";
+    $motd_file = "motd.txt";
 }
 $smarty->assign('motd_file', '');
 if (file_exists ($CONF ['postfix_admin_path'].'/templates/'.$motd_file)) {
@@ -98,15 +78,15 @@ if (file_exists ($CONF ['postfix_admin_path'].'/templates/'.$motd_file)) {
 
 function select_options($aValues, $aSelected)
 {
-	$ret_val = '';
-	foreach ($aValues as $val)
-	{
-		$ret_val .= '<option value="'.$val.'"';
-		if (in_array ($val, $aSelected))
-			$ret_val .= ' selected="selected"';
-		$ret_val .= '>'.$val.'</option>';
-	}
-	return $ret_val;
+    $ret_val = '';
+    foreach ($aValues as $val)
+    {
+        $ret_val .= '<option value="'.$val.'"';
+        if (in_array ($val, $aSelected))
+            $ret_val .= ' selected="selected"';
+        $ret_val .= '>'.$val.'</option>';
+    }
+    return $ret_val;
 }
 function eval_size ($aSize)
 {
@@ -115,4 +95,5 @@ function eval_size ($aSize)
 	else 				{$ret_val = $aSize;	}
 	return $ret_val;
 }
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
