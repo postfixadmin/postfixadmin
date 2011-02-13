@@ -42,7 +42,7 @@ class DomainHandler {
         $result = db_insert('domain', $arr);
         if ($result != 1) {
             $this->errormsg[] = Lang::read('pAdminCreate_domain_result_error') . "\n($domain)\n";
-            return 1;
+            return false;
         } else {
             if ($default) {
                 foreach (Config::read('default_aliases') as $address=>$goto) {
@@ -62,7 +62,7 @@ class DomainHandler {
             $tMessage = Lang::read('pAdminCreate_domain_error');
         }
         db_log('CONSOLE', $domain, 'create_domain', "");
-        return 0;
+        return true;
     }
     
     public function view () {
@@ -72,10 +72,10 @@ class DomainHandler {
         $result = db_query("SELECT domain, description, aliases, mailboxes, maxquota, quota, transport, backupmx,  DATE_FORMAT(created, '%d.%m.%y') AS created, DATE_FORMAT(modified, '%d.%m.%y') AS modified, active FROM $table_domain WHERE domain='$E_domain'");
         if ($result['rows'] != 0) {
             $this->return = db_array($result['result']);
-            return 0;
+            return true;
         }
         $this->errormsg = $result['error'];
-        return 1;
+        return false;
     }
 }
 
