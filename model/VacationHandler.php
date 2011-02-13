@@ -98,7 +98,7 @@ class VacationHandler {
         $E_username = escape_string($this->username);
         $activeFrom = date ("Y-m-d 00:00:00", strtotime ($activeFrom)); # TODO check if result looks like a valid date
         $activeUntil = date ("Y-m-d 23:59:59", strtotime ($activeUntil)); # TODO check if result looks like a valid date
-        list(/*NULL*/,$domain) = split('@', $this->username);
+        list(/*NULL*/,$domain) = explode('@', $this->username);
 
         $vacation_data = array(
             'email' => $this->username,
