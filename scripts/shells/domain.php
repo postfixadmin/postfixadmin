@@ -105,7 +105,7 @@ class AddTask extends Shell {
                      $question = "Max Quota (in MB):";
                     $q = $this->in($question);
     
-                    $handler = new DomainHandler('CONSOLE');
+                    $handler = new DomainHandler($domain);
                     $transports = $handler->getTransports();
                     $qt[] = 'Choose transport option';
                     foreach ($transports AS $key => $val) {
@@ -136,8 +136,8 @@ class AddTask extends Shell {
         function __handle($domain, $desc, $a, $m, $t, $q, $default, $backup) {
                 
 
-                $handler =  new DomainHandler('CONSOLE');
-                $return = $handler->add($domain, $desc, $a, $m, $t, $q, $default, $backup);
+                $handler =  new DomainHandler($domain);
+                $return = $handler->add($desc, $a, $m, $t, $q, $default, $backup);
 
                 if(!$return) {
                         $this->error("Error:", join("\n", $handler->errormsg));
@@ -216,15 +216,12 @@ class DeleteTask extends Shell {
         function execute() {
 
                 if (empty($this->args)) {
-                $this->help();
-                        //$this->__interactive();
+                	$this->__interactive();
                 }
 
                 if (!empty($this->args[0])) {
-                $this->help();
-                       //$output = $this->__handle($this->args[0]);
-                       //$this->out($output);
-                       
+                	$output = $this->__handle($this->args[0]);
+                   	$this->out($output);
                 }
         }
 /**
@@ -233,22 +230,13 @@ class DeleteTask extends Shell {
  * @access private
  */
         function __interactive() {
-                $question[] = "Which Address do you want to view?";
+                $question = "Which domain do you want to delete?";
+                $address = $this->in($question);
 
-                $address = $this->in(join("\n", $question));
-
-
-                $question = "Do you really want to delete mailbox of '$address'?";
-       
+                $question = "Do you really want to delete domain '$address'?";
                 $create = $this->in($question, array('y','n'));
                 
-                $create == 'y' ? $random = true : $random = false;
-                
-                if ($create)                
-                      $this->__handle($address);
-
-
-        
+                $this->__handle($address);
         }
  /**
  * Interactive
@@ -256,12 +244,10 @@ class DeleteTask extends Shell {
  * @access private
  */
         function __handle($address) {
-
-
-                $handler =  new UserHandler($address);
+                $handler =  new DomainHandler($address);
                 $status = $handler->delete();
-                if ($status == 0) {
-                      $this->out("Mailbox of '$address' was deleted.");
+                if ($status == true) {
+                      $this->out("Domain '$address' was deleted.");
                       
                 } else {
                       $this->error("Error:", join("\n", $handler->errormsg));
@@ -329,8 +315,8 @@ class ViewTask extends Shell {
         function __handle($domain) {
 
 
-                $handler =  new DomainHandler('CONSOLE');
-                $status = $handler->view($domain);
+                $handler =  new DomainHandler($domain);
+                $status = $handler->view();
                 if (!$status) {
                       $this->error("Error:",join("\n", $handler->errormsg));
                 } else {
