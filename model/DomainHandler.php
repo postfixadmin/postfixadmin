@@ -77,6 +77,28 @@ class DomainHandler {
         $this->errormsg = $result['error'];
         return false;
     }
+    /**
+     *  @return true on success false on failure
+     */
+    public function delete(){
+        if( ! $this->view() ) {
+            $this->errormsg[] = 'A domain with that name does not exist.'; # TODO: make translatable
+            return false;
+        }
+
+        $this->errormsg[] = '*** Domain deletion not implemented yet ***';
+        return false; # XXX function aborts here until TODO below is implemented! XXX
+
+        # TODO: recursively delete mailboxes, aliases, alias_domains, fetchmail entries etc. before deleting the domain
+        # TODO: move the needed code from delete.php here
+        $result = db_delete('domain', 'domain', $this->username);
+        if( $result == 1 ) {
+            list(/*NULL*/,$domain) = explode('@', $this->username);
+            db_log ('CLI', $domain, 'delete_domain', $this->username); # TODO: replace hardcoded CLI # TODO delete_domain is not a valid db_log keyword yet because we don't yet log add/delete domain
+            return true;
+        }
+    }
+
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
