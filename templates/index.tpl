@@ -14,4 +14,5 @@
 {else}
 	<h3>Template not found</h3>({php}print $_SERVER ['PHP_SELF'];{/php})
 {/if}
+{include file='footer.tpl'}
 {/strip}
