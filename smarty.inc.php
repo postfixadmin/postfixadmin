@@ -9,11 +9,11 @@ class PFASmarty {
     public function __construct() {
         $this->template = new Smarty();
 
-        //$smarty->debugging = true;
+        //$this->template->debugging = true;
         $incpath = dirname(__FILE__);
-        $smarty->template_dir = $incpath.'/templates';
-        $smarty->compile_dir  = $incpath.'/templates_c';
-        $smarty->config_dir   = $incpath.'/'.$smarty->config_dir;
+        $this->template->template_dir = $incpath.'/templates';
+        $this->template->compile_dir  = $incpath.'/templates_c';
+        $this->template->config_dir   = $incpath.'/'.$this->template->config_dir;
     }
 
     public function assign($key, $value, $sanitise = true) {
@@ -63,12 +63,9 @@ $smarty->assign ('version', $version);
 $smarty->assign ('boolconf_alias_domain', boolconf('alias_domain'));
 $smarty->assign ('authentication_has_role', array ('global_admin' => authentication_has_role ('global-admin'), 'admin' => authentication_has_role ('admin'), 'user' => authentication_has_role ('user')));
 
-if (authentication_has_role('global-admin'))
-{
+if (authentication_has_role('global-admin')) {
     $motd_file = "motd-admin.txt";
-}
-else
-{
+} else {
     $motd_file = "motd.txt";
 }
 $smarty->assign('motd_file', '');
@@ -76,11 +73,9 @@ if (file_exists ($CONF ['postfix_admin_path'].'/templates/'.$motd_file)) {
     $smarty->assign ('motd_file', $motd_file);
 }
 
-function select_options($aValues, $aSelected)
-{
+function select_options($aValues, $aSelected) {
     $ret_val = '';
-    foreach ($aValues as $val)
-    {
+    foreach ($aValues as $val) {
         $ret_val .= '<option value="'.$val.'"';
         if (in_array ($val, $aSelected))
             $ret_val .= ' selected="selected"';
@@ -88,8 +83,7 @@ function select_options($aValues, $aSelected)
     }
     return $ret_val;
 }
-function eval_size ($aSize)
-{
+function eval_size ($aSize) {
 	if ($aSize == 0)	{$ret_val = $GLOBALS ['PALANG']['pOverview_unlimited'];	}
 	elseif ($aSize < 0)	{$ret_val = $GLOBALS ['PALANG']['pOverview_disabled'];	}
 	else 				{$ret_val = $aSize;	}
