@@ -4,7 +4,6 @@
 	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 	{if $smarty.session.sessid.username}
 		{$PALANG.pFooter_logged_as|replace:"%s":$smarty.session.sessid.username}
-		{$PALANG_pFooter_logged_as}
 	{/if}
 	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 	<a target="_blank" href="http://postfixadmin.sf.net/update-check.php?version={$version|escape:"url"}">{$PALANG.check_update}</a>

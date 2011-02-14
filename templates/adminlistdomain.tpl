@@ -38,4 +38,4 @@
 {/foreach}
 	</table>
 {/if}
-<p><a href="{#url_create_domain#}">{$PALANG[$smarty.config.txt_create_domain]}</a></p>
+<p><a href="{#url_create_domain#}">{$PALANG.pAdminMenu_create_domain}</a></p>

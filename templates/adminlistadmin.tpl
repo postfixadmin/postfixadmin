@@ -18,5 +18,5 @@
 		</tr>
 {/foreach}
 	</table>
-	<p><a href="{#url_create_admin#}">{$PALANG[$smarty.config.txt_create_admin]}</a></p>
+	<p><a href="{#url_create_admin#}">{$PALANG.pAdminMenu_create_admin}</a></p>
 {/if}
