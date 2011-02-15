@@ -177,7 +177,7 @@ class AliasHandler {
         if($result != 1) {
             return false;
         }
-        db_log($this->username, $domain, 'edit_alias', "$E_username -> $goto");
+        db_log ($domain, 'edit_alias', "$E_username -> $goto");
         return true;
     }
 
@@ -226,7 +226,7 @@ class AliasHandler {
         $result = db_delete('alias', 'address', $this->username);
         if( $result == 1 ) {
             list(/*NULL*/,$domain) = explode('@', $this->username);
-            db_log ('CLI', $domain, 'delete_alias', $this->username); # TODO: replace hardcoded CLI
+            db_log ($domain, 'delete_alias', $this->username);
             return true;
         }
     }

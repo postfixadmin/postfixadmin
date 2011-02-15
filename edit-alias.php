@@ -161,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       }
       else
       {
-         db_log ($SESSID_USERNAME, $fDomain, 'edit_alias', "$fAddress -> $goto");
+         db_log ($fDomain, 'edit_alias', "$fAddress -> $goto");
 
          header ("Location: list-virtual.php?domain=$fDomain");
          exit;

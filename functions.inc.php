@@ -1809,7 +1809,7 @@ function db_rollback () {
 /**
  * db_log
  * Action: Logs actions from admin
- * Call: db_log (string username, string domain, string action, string data)
+ * Call: db_log (string domain, string action, string data)
  * Possible actions are:
  * 'create_domain'
  * 'create_alias'
@@ -1827,7 +1827,7 @@ function db_rollback () {
  * 'edit_mailbox_state'
  * 'edit_password'
  */
-function db_log ($username,$domain,$action,$data)
+function db_log ($domain,$action,$data)
 {
     global $CONF;
     global $table_log;
@@ -2428,7 +2428,7 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
 
     # TODO: should we log creation, editing and deletion of admins?
     # Note: needs special handling in viewlog, because domain is empty
-    # db_log ($SESSID_USERNAME, '', 'create_admin', "$fUsername");
+    # db_log ('', 'create_admin', "$fUsername");
 
     return array(
         $error,

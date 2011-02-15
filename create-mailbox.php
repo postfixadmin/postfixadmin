@@ -224,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       else
       {
          db_query('COMMIT');
-         db_log ($SESSID_USERNAME, $fDomain, 'create_mailbox', "$fUsername");
+         db_log ($fDomain, 'create_mailbox', "$fUsername");
          $tDomain = $fDomain;
 
          $tQuota = $CONF['maxquota'];

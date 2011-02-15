@@ -61,7 +61,7 @@ class DomainHandler {
         if (!domain_postcreation($domain)) {
             $tMessage = Lang::read('pAdminCreate_domain_error');
         }
-        db_log('CONSOLE', $domain, 'create_domain', "");
+        db_log ($domain, 'create_domain', "");
         return true;
     }
     
@@ -94,7 +94,7 @@ class DomainHandler {
         $result = db_delete('domain', 'domain', $this->username);
         if( $result == 1 ) {
             list(/*NULL*/,$domain) = explode('@', $this->username);
-            db_log ('CLI', $domain, 'delete_domain', $this->username); # TODO: replace hardcoded CLI # TODO delete_domain is not a valid db_log keyword yet because we don't yet log add/delete domain
+            db_log ($domain, 'delete_domain', $this->username); # TODO delete_domain is not a valid db_log keyword yet because we don't yet log add/delete domain
             return true;
         }
     }

@@ -181,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $tMessage = $PALANG['pCreate_alias_result_error'] . "<br />($fAddress -> $fGoto)<br />\n";
         }
         else {
-            db_log ($SESSID_USERNAME, $fDomain, 'create_alias', "$fAddress -> $fGoto");
+            db_log ($fDomain, 'create_alias', "$fAddress -> $fGoto");
 
             $tDomain = $fDomain;
             $tMessage = $PALANG['pCreate_alias_result_success'] . "<br />($fAddress -> $fGoto)<br />\n";

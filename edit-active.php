@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          }
          else
          {
-            db_log ($SESSID_USERNAME, $fDomain, 'edit_mailbox_state', $fUsername);
+            db_log ($fDomain, 'edit_mailbox_state', $fUsername);
          }
       }
       if ($fAlias != '')
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          }
          else
          {
-            db_log ($SESSID_USERNAME, $fDomain, 'edit_alias_state', $fAlias);
+            db_log ($fDomain, 'edit_alias_state', $fAlias);
          }
       }
       if ($fAliasDomain != '')
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          }
          else
          {
-            db_log ($SESSID_USERNAME, $fDomain, 'edit_alias_domain_state', $fDomain);
+            db_log ($fDomain, 'edit_alias_domain_state', $fDomain);
          }
       }
    }

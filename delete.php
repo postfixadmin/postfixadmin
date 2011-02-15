@@ -119,7 +119,7 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
 		$result = db_query("SELECT * FROM $table_alias WHERE address = '$fDelete' AND domain = '$fDomain'");
 		if($result['rows'] == 1) {
 			$result = db_query ("DELETE FROM $table_alias WHERE address='$fDelete' AND domain='$fDomain'");
-			db_log ($SESSID_USERNAME, $fDomain, 'delete_alias', $fDelete);
+			db_log ($fDomain, 'delete_alias', $fDelete);
 		}
             /* is there a mailbox? if do delete it from orbit; it's the only way to be sure */
             $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$fDelete' AND domain='$fDomain'");
@@ -142,7 +142,7 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
                     }
                     $tMessage.=')</span>';
                 }
-				db_log ($SESSID_USERNAME, $fDomain, 'delete_mailbox', $fDelete);
+				db_log ($fDomain, 'delete_mailbox', $fDelete);
             }
             $result = db_query("SELECT * FROM $table_vacation WHERE email = '$fDelete' AND domain = '$fDomain'");
             if($result['rows'] == 1) {

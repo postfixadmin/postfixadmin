@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $tMessage = $PALANG['pEdit_mailbox_result_error'];
       }
       else {
-         db_log ($SESSID_USERNAME, $fDomain, 'edit_mailbox', $fUsername);
+         db_log ($fDomain, 'edit_mailbox', $fUsername);
 
          header ("Location: list-virtual.php?domain=$fDomain");
          exit(0);

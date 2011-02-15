@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $tMessage = $PALANG['pCreate_alias_domain_error3'];
         }
         else {
-            db_log ($SESSID_USERNAME, $fAliasDomain, 'create_alias_domain', "$fAliasDomain -> $fTargetDomain");
+            db_log ($fAliasDomain, 'create_alias_domain', "$fAliasDomain -> $fTargetDomain");
 
             flash_info($PALANG['pCreate_alias_domain_success']);
             # we would have to update the list of domains available for aliasing. Doing a redirect is easier.

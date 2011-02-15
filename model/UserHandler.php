@@ -39,7 +39,7 @@ class UserHandler {
                 $result = db_assoc($result['result']);
                 
                 if (pacrypt($old_password, $result['password']) != $result['password']) {
-                      db_log ('CONSOLE', $domain, 'edit_password', "MATCH FAILURE: " . $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/
+                      db_log ($domain, 'edit_password', "MATCH FAILURE: " . $this->username);
                       $this->errormsg[] = 'Passwords do not match'; # TODO: make translatable
                       return false;
                 }
@@ -52,12 +52,12 @@ class UserHandler {
         $result = db_update('mailbox', 'username', $this->username, $set );
 
         if ($result != 1) {
-            db_log ('CONSOLE', $domain, 'edit_password', "FAILURE: " . $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/  
+            db_log ($domain, 'edit_password', "FAILURE: " . $this->username);
             $this->errormsg[] = Lang::read('pEdit_mailbox_result_error');
             return false;
         }
         
-        db_log ('CONSOLE', $domain, 'edit_password', $this->username); # TODO: replace hardcoded CONSOLE - class is used by XMLRPC and users/
+        db_log ($domain, 'edit_password', $this->username);
         return true;
     }
 
@@ -190,7 +190,7 @@ class UserHandler {
             return false;
         } else {
             db_commit();
-            db_log ('CONSOLE', $domain, 'create_mailbox', $username); # TODO: remove hardcoded CONSOLE
+            db_log ($domain, 'create_mailbox', $username);
 
 
             if ($mail == true)
@@ -259,7 +259,7 @@ class UserHandler {
         $result = db_query("SELECT * FROM $table_alias WHERE address = '$E_username' AND domain = '$domain'");
         if($result['rows'] == 1) {
             $result = db_delete('alias', 'address', $username);
-            db_log ('CONSOLE', $domain, 'delete_alias', $username); # TODO: remove hardcoded CONSOLE
+            db_log ($domain, 'delete_alias', $username);
         } else {
             $this->errormsg[] = "no alias $username"; # todo: better message, make translatable
             $error = 1;
@@ -294,7 +294,7 @@ class UserHandler {
                 $error = 1;
 #                return false; # TODO: does this make sense? Or should we still cleanup vacation and vacation_notification?
             }
-            db_log ('CONSOLE', $domain, 'delete_mailbox', $username);
+            db_log ($domain, 'delete_mailbox', $username);
         } else {
             $this->errormsg[] = "no mailbox $username"; # TODO: better message, make translatable
             $error = 1;
