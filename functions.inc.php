@@ -27,6 +27,11 @@ $version = '2.4 develop';
 function authentication_get_username()
 {
     global $CONF;
+
+    if (defined('POSTFIXADMIN_CLI')) {
+        return 'CLI';
+    }
+
     if (!isset($_SESSION['sessid'])) {
         header ("Location: " . $CONF['postfix_admin_url'] . "/login.php");
         exit(0);
@@ -1827,6 +1832,8 @@ function db_log ($username,$domain,$action,$data)
     global $CONF;
     global $table_log;
     $REMOTE_ADDR = getRemoteAddr();
+
+    $username = authentication_get_username();
 
     $action_list = array(  
         'create_alias', 'edit_alias', 'edit_alias_state', 'delete_alias',

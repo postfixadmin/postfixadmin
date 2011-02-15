@@ -557,6 +557,7 @@ class PostfixAdmin {
 }
 
 
+define ("POSTFIXADMIN_CLI", 1);
 
 $dispatcher = new PostfixAdmin($argv);
 
