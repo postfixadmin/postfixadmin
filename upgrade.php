@@ -1289,11 +1289,19 @@ function upgrade_946() {
     _db_add_field('vacation', 'activefrom',  '{DATE}', 'body');
     _db_add_field('vacation', 'activeuntil', '{DATE}', 'activefrom');
 }
-
+function upgrade_968_pgsql() {
+    # pgsql counterpart for upgrade_169_mysql() - allow really big quota
+    $table_domain = table_by_key ('domain');
+    $table_mailbox = table_by_key('mailbox');
+    db_query_parsed("ALTER TABLE $table_domain  ALTER COLUMN quota    type bigint");
+    db_query_parsed("ALTER TABLE $table_domain  ALTER COLUMN maxquota type bigint");
+    db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN quota    type bigint");
+}
 
 # TODO MySQL:
 # - various varchar fields do not have a default value
 #   https://sourceforge.net/projects/postfixadmin/forums/forum/676076/topic/3419725
 # - change default of all timestamp fields to {DATECURRENT} (CURRENT_TIMESTAMP} or {DATE}
 #   including vacation.activefrom/activeuntil (might have a different default as leftover from upgrade_727_mysql)
+#   including vacation.modified - should be {DATE}, not {DATECURRENT}
 #   https://sourceforge.net/tracker/?func=detail&aid=1699218&group_id=191583&atid=937964
