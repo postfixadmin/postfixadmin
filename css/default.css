@@ -100,7 +100,9 @@ ul.flash-error {
 }
 
 #menu, #tabbar {
-	width: 750px;
+	text-align:center;
+	float:left;
+	width:100%; 
 	margin: 0 auto;
 	padding-top: 10px;
 	white-space: nowrap;
@@ -112,6 +114,10 @@ ul.flash-error {
 	margin-left:auto;
 	margin-right:auto;
 	list-style: none;
+	text-align: center;
+	position:relative;
+	left:50%;
+	float:left;
 }
 
 #menu li, #tabbar li {
@@ -119,6 +125,9 @@ ul.flash-error {
 	background: #efefef;
 	margin-right: 3px;
 	border-top: 4px solid #aaaaaa;
+	position:relative;
+	right:50%;
+	/* border-bottom: 4px solid #aaaaaa; */
 }
 
 #menu li:hover, #menu li.sfhover, #tabbar li:hover, #tabbar li.sfhover {
@@ -128,8 +137,10 @@ ul.flash-error {
 #menu li ul, #tabbar li ul {
 	position: absolute;
 	width: auto;
-	left: -999em;
-    background: #FFFFFF;
+	left: -999em; 
+	right:auto;
+	background: #FFFFFF; 
+	color: #999999;
 	border:2px solid white;
 	border-top:none;
 }
@@ -139,10 +150,12 @@ ul.flash-error {
 
 
 #menu li ul li, #tabbar li ul li {
-    float: none;
+	float: none;
 	margin-right: 0px;
-	border-top:2px solid white;;
+	border-top:2px solid white;
 	text-align:left;
+	/* border-bottom: none; */
+	right:auto;
 }
 
 
@@ -260,7 +273,7 @@ ul.flash-error {
 }
 
 #alias_domain_table tr:hover, #alias_table tr:hover, #mailbox_table tr:hover, #overview_table tr:hover, #log_table tr:hover, #admin_table tr:hover {
-        background: #D9FF43; /*#D6FF85;*/ /*#ffdddd;*/
+	background: #D9FF43; /*#D6FF85;*/ /*#ffdddd;*/
 }
 
 
