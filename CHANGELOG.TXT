@@ -21,6 +21,8 @@ Version 2.3.3 - 2011/**/** - SVN r*** (postfixadmin-2.3 branch)
   - functions.inc.php: better error messages when database functions are missing
   - create domain: fixed typo in variable name that broke the default value for
     default aliases
+  - postgres: changed mailbox.quota, domain.quota and domain.maxquota fields
+    to bigint to allow mailboxes >4 GB (run setup.php to upgrade your database)
   - vacation.pl logged literal $variable instead of the variable content at two
     places
   - POSTFIX_CONF.txt: fixed filename for quota map

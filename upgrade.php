@@ -108,7 +108,7 @@ _do_upgrade($version);
 function _do_upgrade($current_version) {
     global $CONF;
     # $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
-    $target_version = 739; # hardcoded target version for 2.3 branch - increase (by one) if database changes in the branch are necessary
+    $target_version = 740; # hardcoded target version for 2.3 branch - increase (by one) if database changes in the branch are necessary
 
     if ($current_version >= $target_version) {
         # already up to date
@@ -1182,3 +1182,13 @@ function upgrade_730_pgsql() {
             FOR EACH ROW EXECUTE PROCEDURE merge_quota2();
     ");
 }
+
+function upgrade_740_pgsql() { # upgrade_968_pgsql() in SVN trunk
+    # pgsql counterpart for upgrade_169_mysql() - allow really big quota
+    $table_domain = table_by_key ('domain');
+    $table_mailbox = table_by_key('mailbox');
+    db_query_parsed("ALTER TABLE $table_domain  ALTER COLUMN quota    type bigint");
+    db_query_parsed("ALTER TABLE $table_domain  ALTER COLUMN maxquota type bigint");
+    db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN quota    type bigint");
+}
+
