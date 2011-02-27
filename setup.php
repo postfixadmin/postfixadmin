@@ -125,7 +125,7 @@ if ($file_config == 1)
 
     require($incpath.'/config.inc.php');
     if(isset($CONF['configured'])) {
-        if($CONF['configured'] == TRUE) {
+        if($CONF['configured'] === TRUE) {
             print "<li>Checking \$CONF['configured'] - OK\n";
         } else {
             print "<li><b>Warning: \$CONF['configured'] is 'false'.<br>\n";
