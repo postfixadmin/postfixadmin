@@ -78,7 +78,7 @@ class Smarty_Internal_Utility {
                 flush();
                 $_start_time = microtime(true);
                 try {
-                    $_tpl = $this->smarty->createTemplate($_template_file);
+                    $_tpl = $this->smarty->createTemplate($_template_file,null,null,null,false);
                     if ($_tpl->mustCompile()) {
                         $_tpl->compileTemplateSource();
                         echo ' compiled in  ', microtime(true) - $_start_time, ' seconds';
@@ -86,12 +86,16 @@ class Smarty_Internal_Utility {
                     } else {
                         echo ' is up to date';
                         flush();
-                    } 
-                } 
+                    }
+                }
                 catch (Exception $e) {
                     echo 'Error: ', $e->getMessage(), "<br><br>";
                     $_error_count++;
                 } 
+				// free memory
+                $this->smarty->template_objects = array();
+                $_tpl->smarty->template_objects = array();
+                $_tpl = null;
                 if ($max_errors !== null && $_error_count == $max_errors) {
                     echo '<br><br>too many errors';
                     exit();

@@ -273,7 +273,16 @@ class Smarty_Internal_Template extends Smarty_Internal_Data {
         } 
         if ($this->smarty->debugging) {
             Smarty_Internal_Debug::end_compile($this);
-        } 
+        }
+        // release objects to free memory
+		Smarty_Internal_TemplateCompilerBase::$_tag_objects = array();	
+        unset($this->compiler_object->parser->root_buffer,
+        	$this->compiler_object->parser->current_buffer,
+        	$this->compiler_object->parser,
+        	$this->compiler_object->lex,
+        	$this->compiler_object->template,
+        	$this->compiler_object
+        	); 
     } 
 
     /**
@@ -500,6 +509,9 @@ class Smarty_Internal_Template extends Smarty_Internal_Data {
                     $output .= preg_replace("!/\*/?%%SmartyNocache:{$this->properties['nocache_hash']}%%\*/!", '', $cache_parts[0][$curr_idx]);
                 } 
             } 
+            if (isset($this->smarty->autoload_filters['output']) || isset($this->smarty->registered_filters['output'])) {
+            	$output = Smarty_Internal_Filter_Handler::runFilter('output', $output, $this);
+        	}
             // rendering (must be done before writing cache file because of {function} nocache handling)
             $_smarty_tpl = $this;
             ob_start();
@@ -590,17 +602,27 @@ class Smarty_Internal_Template extends Smarty_Internal_Data {
     {
         if ($file == null) {
             $file = $this->resource_name;
-        } 
-        foreach((array)$this->smarty->template_dir as $_template_dir) {
-            if (strpos('/\\', substr($_template_dir, -1)) === false) {
-                $_template_dir .= DS;
-            } 
-
-            $_filepath = $_template_dir . $file;
-            if (file_exists($_filepath))
-                return $_filepath;
-        } 
-        if (file_exists($file)) return $file; 
+        }
+        // relative file name? 
+        if (!preg_match('/^([\/\\\\]|[a-zA-Z]:[\/\\\\])/', $file)) {
+	        foreach((array)$this->smarty->template_dir as $_template_dir) {
+           		if (strpos('/\\', substr($_template_dir, -1)) === false) {
+                	$_template_dir .= DS;
+            	} 
+            	$_filepath = $_template_dir . $file;
+            	if (file_exists($_filepath)) {
+                	return $_filepath;
+            	}
+        		if (!preg_match('/^([\/\\\\]|[a-zA-Z]:[\/\\\\])/', $_template_dir)) {
+        			// try PHP include_path
+        			if (($_filepath = Smarty_Internal_Get_Include_Path::getIncludePath($_filepath)) !== false) {
+        				return $_filepath;
+        			}
+        		}
+       		}
+       	}
+        // try absolute filepath
+        if (file_exists($file)) return $file;
         // no tpl file found
         if (!empty($this->smarty->default_template_handler_func)) {
             if (!is_callable($this->smarty->default_template_handler_func)) {
@@ -810,7 +832,7 @@ class Smarty_Internal_Template extends Smarty_Internal_Data {
     } 
 
     /**
-     * creates a loacal Smarty variable for array assignments
+     * creates a local Smarty variable for array assignments
      */
     public function createLocalArrayVariable($tpl_var, $nocache = false, $scope = Smarty::SCOPE_LOCAL)
     {
@@ -839,14 +861,10 @@ class Smarty_Internal_Template extends Smarty_Internal_Data {
     {
         if (is_array($value) === true || $value instanceof Countable) {
             return count($value);
-        } elseif ($value instanceof ArrayAccess) {
-            if ($value->offsetExists(0)) {
-                return 1;
-            }
         } elseif ($value instanceof Iterator) {
             $value->rewind();
             if ($value->valid()) {
-                return 1;
+                return iterator_count($value);
             }
         } elseif ($value instanceof PDOStatement) {
             return $value->rowCount();

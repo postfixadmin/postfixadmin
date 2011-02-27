@@ -42,8 +42,10 @@ class Smarty_Internal_Compile_Function extends Smarty_Internal_CompileBase {
         $_name = trim($_attr['name'], "'\"");
         unset($_attr['name']);
         $compiler->template->properties['function'][$_name]['parameter'] = array();
+		$_smarty_tpl = $compiler->template;
         foreach ($_attr as $_key => $_data) {
-            $compiler->template->properties['function'][$_name]['parameter'][$_key] = $_data;
+        	eval ('$tmp='.$_data.';');
+            $compiler->template->properties['function'][$_name]['parameter'][$_key] = $tmp;
         } 
         $compiler->smarty->template_functions[$_name]['parameter'] = $compiler->template->properties['function'][$_name]['parameter'];
         if ($compiler->template->caching) {
@@ -52,7 +54,7 @@ class Smarty_Internal_Compile_Function extends Smarty_Internal_CompileBase {
             $output = "<?php if (!function_exists('smarty_template_function_{$_name}')) {
     function smarty_template_function_{$_name}(\$_smarty_tpl,\$params) {
     \$saved_tpl_vars = \$_smarty_tpl->tpl_vars;
-    foreach (\$_smarty_tpl->template_functions['{$_name}']['parameter'] as \$key => \$value) {\$_smarty_tpl->tpl_vars[\$key] = new Smarty_variable(trim(\$value,'\''));};
+    foreach (\$_smarty_tpl->template_functions['{$_name}']['parameter'] as \$key => \$value) {\$_smarty_tpl->tpl_vars[\$key] = new Smarty_variable(\$value);};
     foreach (\$params as \$key => \$value) {\$_smarty_tpl->tpl_vars[\$key] = new Smarty_variable(\$value);}?>";
         } 
         // Init temporay context
