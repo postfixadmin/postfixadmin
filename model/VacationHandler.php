@@ -1,4 +1,5 @@
 <?php
+# $Id$ 
 
 class VacationHandler {
     protected $username = null;

@@ -1,4 +1,5 @@
 <?php
+# $Id$ 
 
 /**
  * Simple class to represent a user.
