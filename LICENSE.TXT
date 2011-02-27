@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-    Postfix Admin verion 2.1.1, Copyright (c) 2005 High5! (Mischa Peters & Contributors)
+    Postfix Admin version 2.1.1, Copyright (c) 2005 High5! (Mischa Peters & Contributors)
     Postfix Admin comes with ABSOLUTELY NO WARRANTY.
     This is free software, and you are welcome to redistribute it
     under certain conditions.
@@ -29,4 +29,14 @@
 
     Contributors: Mihau, Tarvin, SteveB, DJTremors, WhiteFox, David Osborn, 
                   David Goodwin (GingerDog), Christian Boltz (cboltz) and GregC and others.
-   
+
+
+Postfix Admin uses some libraries that come with a different license:
+- the Smarty templating engine is licensed under the GNU LESSER GENERAL PUBLIC 
+  LICENSE Version 3 (see smarty/COPYING.lib)
+- the CLI (commandline interface) is based on CakePHP which is licensed under
+  the MIT license.
+- simpletest is licensed under the GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
+  (see tests/simpletest/LICENSE)
+- the squirrelmail plugin uses Zend Framework which is licensed under the 
+  New BSD License (3-clause), see http://framework.zend.com/license
