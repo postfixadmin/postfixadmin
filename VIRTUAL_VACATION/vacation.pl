@@ -319,7 +319,8 @@ sub find_real_address {
         exit(1);
     }
     my $realemail = '';
-   my $query = qq{SELECT email FROM vacation WHERE email=? and active=$db_true and activefrom <= NOW() and activeuntil >= NOW()};
+    # TODO: make a function from the following query - the same query is used at 3 different places in this script...
+    my $query = qq{SELECT email FROM vacation WHERE email=? and active=$db_true and activefrom <= NOW() and activeuntil >= NOW()};
     my $stm = $dbh->prepare($query) or panic_prepare($query);
     $stm->execute($email) or panic_execute($query,"email='$email'");
     my $rv = $stm->rows;
@@ -347,7 +348,7 @@ sub find_real_address {
                 for (split(/\s*,\s*/, lc($alias))) {
                     my $singlealias = $_;
                     $logger->debug("Found alias \'$singlealias\' for email \'$email\'. Looking if vacation is on for alias.");
-                    $query = qq{SELECT email FROM vacation WHERE email=? AND active=$db_true};
+                    $query = qq{SELECT email FROM vacation WHERE email=? AND active=$db_true and activefrom <= NOW() and activeuntil >= NOW()};
                     $stm = $dbh->prepare($query) or panic_prepare($query);
                     $stm->execute($singlealias) or panic_execute($query,"email='$singlealias'");
                     $rv = $stm->rows;
@@ -358,7 +359,7 @@ sub find_real_address {
                     }
                 }
             } else {
-                $query = qq{SELECT email FROM vacation WHERE email=? AND active=$db_true};
+                $query = qq{SELECT email FROM vacation WHERE email=? AND active=$db_true and activefrom <= NOW() and activeuntil >= NOW()};
                 $stm = $dbh->prepare($query) or panic_prepare($query);
                 $stm->execute($alias) or panic_prepare($query,"email='$alias'");
                 $rv = $stm->rows;
