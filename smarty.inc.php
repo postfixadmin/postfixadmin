@@ -14,6 +14,7 @@ class PFASmarty {
         $this->template->template_dir = $incpath.'/templates';
         $this->template->compile_dir  = $incpath.'/templates_c';
         $this->template->config_dir   = $incpath.'/'.$this->template->config_dir;
+        $this->template->allow_php_tag = true;
     }
 
     public function assign($key, $value, $sanitise = true) {

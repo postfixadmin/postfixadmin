@@ -1,0 +1,6 @@
+$Id$
+
+Smarty version: 3.0.7
+
+Additional files (not part of the official Smarty release):
+- libs/plugins/modifier.needle.php
