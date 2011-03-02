@@ -47,8 +47,8 @@ if ($fTable == "admin")
 {
     authentication_require_role('global-admin');
     $fWhere = 'username';
-    $result_admin = db_delete ($table_admin,$fWhere,$fDelete);
-    $result_domain_admins = db_delete ($table_domain_admins,$fWhere,$fDelete);
+    $result_admin = db_delete ('admin',$fWhere,$fDelete);
+    $result_domain_admins = db_delete ('domain_admins',$fWhere,$fDelete);
 
     if (!($result_admin == 1) and ($result_domain_admins >= 0))
     {
@@ -65,16 +65,16 @@ elseif ($fTable == "domain")
 {
     authentication_require_role('global-admin');
     $fWhere = 'domain';
-    $result_domain_admins = db_delete ($table_domain_admins,$fWhere,$fDelete);
-    $result_alias = db_delete ($table_alias,$fWhere,$fDelete);
-    $result_mailbox = db_delete ($table_mailbox,$fWhere,$fDelete);
-    $result_alias_domain = db_delete($table_alias_domain,'alias_domain',$fDelete);
-    $result_log = db_delete ($table_log,$fWhere,$fDelete);
+    $result_domain_admins = db_delete ('domain_admins',$fWhere,$fDelete);
+    $result_alias = db_delete ('alias',$fWhere,$fDelete);
+    $result_mailbox = db_delete ('mailbox',$fWhere,$fDelete);
+    $result_alias_domain = db_delete('alias_domain','alias_domain',$fDelete);
+    $result_log = db_delete ('log',$fWhere,$fDelete);
     if ($CONF['vacation'] == "YES")
     {
-        $result_vacation = db_delete ($table_vacation,$fWhere,$fDelete);
+        $result_vacation = db_delete ('vacation',$fWhere,$fDelete);
     }
-    $result_domain = db_delete ($table_domain,$fWhere,$fDelete);
+    $result_domain = db_delete ('domain',$fWhere,$fDelete);
 
     if (!$result_domain || !domain_postdeletion($fDelete))
     {
@@ -93,7 +93,7 @@ elseif ($fTable == "alias_domain")
     $table_domain_alias = table_by_key('alias_domain');
     $fWhere = 'alias_domain';
     $fDelete = $fDomain;
-    if(db_delete($table_domain_alias,$fWhere,$fDelete)) {
+    if(db_delete('alias_domain',$fWhere,$fDelete)) {
         $url = "list-domain.php";
         header ("Location: $url");
     }
