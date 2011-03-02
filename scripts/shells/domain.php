@@ -136,8 +136,20 @@ class AddTask extends Shell {
         function __handle($domain, $desc, $a, $m, $t, $q, $default, $backup) {
                 
 
-                $handler =  new DomainHandler($domain);
-                $return = $handler->add($desc, $a, $m, $t, $q, $default, $backup);
+                $handler =  new DomainHandler($domain, 1);
+                $values = array(
+                    'domain'            => $domain,
+                    'description'       => $desc,
+                    'aliases'           => $a,
+                    'mailboxes'         => $m,
+                    'maxquota'          => $q,
+                    # 'quota'           => 
+                    'transport'         => $handler->getTransport($t),
+                    'backupmx'          => $backup,
+                    'active'            => $a,
+                    'default_aliases'   => $default,
+                );
+                $return = $handler->add($values);
 
                 if(!$return) {
                         $this->error("Error:", join("\n", $handler->errormsg));
@@ -154,6 +166,7 @@ class AddTask extends Shell {
  * @access public
  */
         function help() {
+# TODO: this is the DOMAIN shell...
                 $this->hr();
                 $this->out("Usage: postfixadmin-cli user add <address> [<password>] <name> <quota> [-g]");
                 $this->hr();
@@ -216,12 +229,12 @@ class DeleteTask extends Shell {
         function execute() {
 
                 if (empty($this->args)) {
-                	$this->__interactive();
+                    $this->__interactive();
                 }
 
                 if (!empty($this->args[0])) {
-                	$output = $this->__handle($this->args[0]);
-                   	$this->out($output);
+                    $output = $this->__handle($this->args[0]);
+                       $this->out($output);
                 }
         }
 /**
@@ -342,6 +355,7 @@ class ViewTask extends Shell {
  * @access public
  */
         function help() {
+# TODO: this is the DOMAIN shell...
                 $this->out("");
                 $this->hr();
                 $this->out("Usage: postfixadmin-cli user view <address>");
@@ -354,3 +368,4 @@ class ViewTask extends Shell {
         }
 
 }
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
