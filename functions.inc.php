@@ -1660,7 +1660,8 @@ function db_assoc ($result)
 //
 function db_delete ($table,$where,$delete)
 {
-    $table = table_by_key($table);
+    # $table = table_by_key($table); # intentionally disabled to avoid breaking delete.php in 2.3.x
+    # This makes the behaviour of this function incorrect, but delete.php is the only file in 2.3.x calling db_delete and expects this (wrong) behaviour.
     $query = "DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "'";
     $result = db_query ($query);
     if ($result['rows'] >= 1)

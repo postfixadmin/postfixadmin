@@ -28,8 +28,6 @@ Version 2.3.3 - 2011/**/** - SVN r*** (postfixadmin-2.3 branch)
   - POSTFIX_CONF.txt: fixed filename for quota map
   - config.inc.php: removed double $CONF['database_prefix']
   - config.inc.php: fixed comments about domain_post* script parameters
-  - fixed db_delete() to use table_by_key() so that it works with non-default
-    table names
   - updated INSTALL.TXT and UPGRADE.TXT
   - sk translation update
   - some more minor fixes
