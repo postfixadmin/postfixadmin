@@ -25,6 +25,7 @@ Version 2.3.3 - 2011/**/** - SVN r*** (postfixadmin-2.3 branch)
     to bigint to allow mailboxes >4 GB (run setup.php to upgrade your database)
   - vacation.pl logged literal $variable instead of the variable content at two
     places
+  - edit-vacation: log enabling/disabling vacation if done by admins
   - POSTFIX_CONF.txt: fixed filename for quota map
   - config.inc.php: removed double $CONF['database_prefix']
   - config.inc.php: fixed comments about domain_post* script parameters

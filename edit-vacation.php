@@ -55,6 +55,7 @@ else {
    $fUsername = $SESSID_USERNAME;
    $fDomain = $USERID_DOMAIN;
 }
+list (/*NULL*/, $domain) = explode('@', $fUsername);
 
 $vacation_domain = $CONF['vacation_domain'];
 $vacation_goto = preg_replace('/@/', '#', $fUsername);
@@ -140,6 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             {
                $error = 1;
             }
+            db_log($SESSID_USERNAME, $domain, 'edit_alias', "$fUsername -> $goto");
          }
       }
    }
@@ -184,6 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          $error = 1;
       }
+      db_log($SESSID_USERNAME, $domain, 'edit_alias', "$fUsername -> $goto");
    }
 }
 
