@@ -3,12 +3,18 @@
 
 /** 
  * Handlers User level alias actions - e.g. add alias, get aliases, update etc.
+ * @property $username name of alias
+ * @property $return return of methods
  */
 class AliasHandler {
 
     private $username = null;
-
-
+    
+    /**
+     *
+     * @public
+     */
+    public $return = null;
 
     /**
      * @param string $username
@@ -18,15 +24,15 @@ class AliasHandler {
     }
 
     /**
-     * @return array - list of email addresses the user's mail is forwarded to.
+     * @return bool true if succeed
      * (may be an empty list, especially if $CONF['alias_control'] is turned off...)
      * @param boolean - by default we don't return special addresses (e.g. vacation and mailbox alias); pass in true here if you wish to.
      */
     public function get($all=false) {
-        $username = escape_string($this->username);
+        $E_username = escape_string($this->username);
         $table_alias = table_by_key('alias');
 
-        $sql = "SELECT * FROM $table_alias WHERE address='$username'";
+        $sql = "SELECT * FROM $table_alias WHERE address='$E_username'";
         $result = db_query($sql);
         if($result['rows'] != 1) {
             return false;

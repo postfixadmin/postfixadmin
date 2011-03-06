@@ -14,27 +14,29 @@ class VacationHandler {
      */
     function remove() {
         $ah = new AliasHandler($this->username);
-        $result = $ah->get(true); // fetch all # TODO check $result, error handling
-        $aliases = $ah->result;
-        $new_aliases = array();
-
+        $result = $ah->get(true);
+        if($result === true) { // fetch all # TODO check $result, error handling
+          $aliases = $ah->return;
+          $new_aliases = array();
         /* go through the user's aliases and remove any that look like a vacation address */
-        foreach($aliases as $alias) { # TODO replace with (to be written) array_remove()
+          foreach($aliases as $alias) { # TODO replace with (to be written) array_remove()
             if(!$ah->is_vacation_address($alias)) {
                 $new_aliases[] = $alias;
             }
-        }
-        $ah->update($new_aliases, '', false);
+          }
+          $ah->update($new_aliases, '', false);
 
-        // tidy up vacation table.
-        $vacation_data = array(
+          // tidy up vacation table.
+          $vacation_data = array(
             'active' => db_get_boolean(false),
-        );
-        $result = db_update('vacation', 'email', $this->username, $vacation_data);
-        $result = db_delete('vacation_notification', 'on_vacation', $this->username);
+          );
+          $result = db_update('vacation', 'email', $this->username, $vacation_data, array());
+          $result = db_delete('vacation_notification', 'on_vacation', $this->username, array());
 # TODO db_log() call (maybe except if called from set_away?)
-        /* crap error handling; oh for exceptions... */
-        return true;
+          /* crap error handling; oh for exceptions... */
+          return true;
+        }
+      return false;
     }
 
     /**
@@ -115,14 +117,14 @@ class VacationHandler {
         $table_vacation = table_by_key('vacation');
         $result = db_query("SELECT * FROM $table_vacation WHERE email = '$E_username'");
         if($result['rows'] == 1) {
-            $result = db_update('vacation', 'email', $this->username, $vacation_data);
+            $result = db_update('vacation', 'email', $this->username, $vacation_data, array());
         } else {
-            $result = db_insert('vacation', $vacation_data);
+            $result = db_insert('vacation', $vacation_data, array());
         }
 # TODO error check
 # TODO wrap whole function in db_begin / db_commit (or rollback)?
         $ah = new AliasHandler($this->username); 
-        $aliases = $ah->get(true);
+        $alias = $ah->get(true);
         $vacation_address = $this->getVacationAlias();
         $aliases[] = $vacation_address;
         return $ah->update($aliases, '', false);

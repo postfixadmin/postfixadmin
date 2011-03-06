@@ -1305,3 +1305,4 @@ function upgrade_968_pgsql() {
 #   including vacation.activefrom/activeuntil (might have a different default as leftover from upgrade_727_mysql)
 #   including vacation.modified - should be {DATE}, not {DATECURRENT}
 #   https://sourceforge.net/tracker/?func=detail&aid=1699218&group_id=191583&atid=937964
+@todo vacation.email has 2 indizes

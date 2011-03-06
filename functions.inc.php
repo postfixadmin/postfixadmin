@@ -1743,7 +1743,7 @@ function db_insert ($table, $values, $timestamp = array('created', 'modified') )
  */
 function db_update ($table, $where_col, $where_value, $values, $timestamp = array('modified') ) {
     $where = $where_col . " = '" . escape_string($where_value) . "'";
-    return db_update_q ($table, $where, $values, $timestamp = array('modified') );
+    return db_update_q ($table, $where, $values, $timestamp );
 }
 
 /**
