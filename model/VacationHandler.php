@@ -24,14 +24,14 @@ class VacationHandler {
                 $new_aliases[] = $alias;
             }
           }
-          $ah->update($new_aliases, '', false);
+          $ah->update($new_aliases, '', false); # TODO: supress logging in AliasHandler if called from VacationHandler (VacationHandler should log itsself)
 
           // tidy up vacation table.
           $vacation_data = array(
             'active' => db_get_boolean(false),
           );
-          $result = db_update('vacation', 'email', $this->username, $vacation_data, array());
-          $result = db_delete('vacation_notification', 'on_vacation', $this->username, array());
+          $result = db_update('vacation', 'email', $this->username, $vacation_data);
+          $result = db_delete('vacation_notification', 'on_vacation', $this->username);
 # TODO db_log() call (maybe except if called from set_away?)
           /* crap error handling; oh for exceptions... */
           return true;
@@ -117,14 +117,15 @@ class VacationHandler {
         $table_vacation = table_by_key('vacation');
         $result = db_query("SELECT * FROM $table_vacation WHERE email = '$E_username'");
         if($result['rows'] == 1) {
-            $result = db_update('vacation', 'email', $this->username, $vacation_data, array());
+            $result = db_update('vacation', 'email', $this->username, $vacation_data);
         } else {
-            $result = db_insert('vacation', $vacation_data, array());
+            $result = db_insert('vacation', $vacation_data);
         }
 # TODO error check
 # TODO wrap whole function in db_begin / db_commit (or rollback)?
         $ah = new AliasHandler($this->username); 
         $alias = $ah->get(true);
+        $aliases = $ah->return;
         $vacation_address = $this->getVacationAlias();
         $aliases[] = $vacation_address;
         return $ah->update($aliases, '', false);
