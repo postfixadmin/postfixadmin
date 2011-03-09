@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if(preg_match('/^(.*)@/', $fUsername, $matches)) {
          $formvars['local_part'] = $matches[1];
       }
-      $result = db_update_q('mailbox', "username='$fUsername' AND domain='$fDomain'", $formvars, array('modified')); # TODO: check if we need the AND domain=... clause, if not, switch to db_update()
+      $result = db_update_q('mailbox', "username='$fUsername' AND domain='$fDomain'", $formvars); # TODO: check if we need the AND domain=... clause, if not, switch to db_update()
       $maildir = $user_details['maildir'];
       if ($result != 1 || !mailbox_postedit($fUsername,$fDomain,$maildir, $quota)) {
          $tMessage = $PALANG['pEdit_mailbox_result_error'];
