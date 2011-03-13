@@ -18,6 +18,29 @@ Version ***svn*** - 2009/12/26 - SVN r***
   - add ability to choose activation date for vacation message in user module
   - merge search functionality into list-virtual.php
 
+Version 2.3.3 - 2011/03/13 - SVN r999 (postfixadmin-2.3 branch)
+---------------------------------------------------------------
+
+  - create-alias: allow multiple alias targets
+  - create-alias, edit-alias: prevent input data loss on validation errors
+  - list-virtual: fix displaying of 'modified' column for aliases when using
+    postgres
+  - replaced deprecated split() with preg_split() or explode()
+  - functions.inc.php: better error messages when database functions are missing
+  - create domain: fixed typo in variable name that broke the default value for
+    default aliases
+  - postgres: changed mailbox.quota, domain.quota and domain.maxquota fields
+    to bigint to allow mailboxes >4 GB (run setup.php to upgrade your database)
+  - vacation.pl logged literal $variable instead of the variable content at two
+    places
+  - edit-vacation: log enabling/disabling vacation if done by admins
+  - POSTFIX_CONF.txt: fixed filename for quota map
+  - config.inc.php: removed double $CONF['database_prefix']
+  - config.inc.php: fixed comments about domain_post* script parameters
+  - updated INSTALL.TXT and UPGRADE.TXT
+  - sk translation update
+  - some more minor fixes
+
 Version 2.3.2 - 2010/08/24 - SVN r860 (postfixadmin-2.3 branch)
 ---------------------------------------------------------------
 
@@ -41,8 +64,8 @@ Version 2.3.1 - 2010/07/09 - SVN r847 (postfixadmin-2.3 branch)
     was a longstanding issue/"missing feature".
     The ADDITIONS directory contains some new scripts.
   - SECURITY: users could bypass checking the old password when changing the
-	password by entering a too short new password. Fortunately only
-	"exploitable" by authentificated users.
+    password by entering a too short new password. Fortunately only
+    "exploitable" by authentificated users.
   - merge in changes to /debain (thanks normes) from trunk
   - display alias targets for mailboxes (if $CONF['special_alias_control'] = YES)
   - add hook for custom maildir path generation
