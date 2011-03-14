@@ -91,9 +91,6 @@ $pCreate_mailbox_username_text = "&nbsp;";
 $pEdit_mailbox_password_text = "&nbsp;";
 $pEdit_mailbox_quota_text = "&nbsp;";
 $pEdit_mailbox_username_text = "&nbsp;";
-$pPassword_admin_text = "&nbsp;";
-$pPassword_password_current_text = "&nbsp;";
-$pPassword_password_text = "&nbsp;";
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

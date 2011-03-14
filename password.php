@@ -36,6 +36,9 @@ $SESSID_USERNAME = authentication_get_username();
 $smarty->assign ('SESSID_USERNAME', $SESSID_USERNAME);
 $smarty->assign ('smarty_template', 'password');
 
+$pPassword_password_current_text = "";
+$pPassword_password_text = "";
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
 	$smarty->display ('index.tpl');

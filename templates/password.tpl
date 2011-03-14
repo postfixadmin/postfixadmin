@@ -1,4 +1,3 @@
-{* pPassword_admin_text nicht gesetzt *}
 <div id="edit_form">
 <form name="mailbox" method="post" action="">
 <table>
@@ -8,7 +7,7 @@
 	<tr>
 		<td>{$PALANG.pPassword_admin}:</td>
 		<td>{$SESSID_USERNAME}</td>
-		<td>{$pPassword_admin_text}</td>
+		<td>&nbsp;</td>
 	</tr>
 	<tr>
 		<td>{$PALANG.pPassword_password_current}</td>
