@@ -64,6 +64,7 @@ if ($list_all_domains == 1) {
 
 # fetch domain data and number of mailboxes
 # (PgSQL requires the extensive GROUP BY statement, https://sourceforge.net/forum/message.php?msg_id=7386240)
+# TODO: SELECT domain.* -> domain.field1, domain.field2 -> see bugreport
 $query = "
    SELECT $table_domain.* , COUNT( DISTINCT $table_mailbox.username ) AS mailbox_count
    FROM $table_domain
@@ -76,6 +77,7 @@ $query = "
    ";
 $result = db_query($query);
 
+$domain_properties = array();
 while ($row = db_array ($result['result'])) {
    $domain_properties[$row['domain']] = $row;
 }
