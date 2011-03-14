@@ -1,3 +1,9 @@
+postfixadmin (2.3.3) unstable; urgency=low
+
+  * New upstream release (2.3.3)
+
+ -- David Goodwin <david.goodwin@palepurple.co.uk>  Mon, 14 Mar 2011 22:20:00 +0100
+
 postfixadmin (2.3.2) unstable; urgency=low
 
   * New upstream release

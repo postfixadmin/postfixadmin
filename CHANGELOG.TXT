@@ -10,7 +10,7 @@
 # Last update:
 # $Id$
 
-Version 2.3.3 - 2011/03/13 - SVN r999 (postfixadmin-2.3 branch)
+Version 2.3.3 - 2011/03/13 - SVN r1006 (postfixadmin-2.3 branch)
 ---------------------------------------------------------------
 
   - create-alias: allow multiple alias targets
