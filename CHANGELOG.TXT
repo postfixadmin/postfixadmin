@@ -18,8 +18,8 @@ Version ***svn*** - 2009/12/26 - SVN r***
   - add ability to choose activation date for vacation message in user module
   - merge search functionality into list-virtual.php
 
-Version 2.3.3 - 2011/03/13 - SVN r999 (postfixadmin-2.3 branch)
----------------------------------------------------------------
+Version 2.3.3 - 2011/03/14 - SVN r1010 (postfixadmin-2.3 branch)
+----------------------------------------------------------------
 
   - create-alias: allow multiple alias targets
   - create-alias, edit-alias: prevent input data loss on validation errors
