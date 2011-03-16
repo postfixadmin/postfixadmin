@@ -361,7 +361,7 @@ $PALANG['pUsersVacation_activefrom'] = 'Aktiv ab dem';
 $PALANG['pUsersVacation_activeuntil'] = 'Aktiv bis zum';
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'Mailbox hinzuf&uuml;gen';     
-$PALANG['pCreate_dbLog_createalias'] = 'Alias hinzu&uuml;¼gen';
+$PALANG['pCreate_dbLog_createalias'] = 'Alias hinzu&uuml;gen';
 $PALANG['pDelete_dbLog_deletealias'] = 'Alias l&uuml;schen';
 $PALANG['pDelete_dbLog_deletemailbox'] = 'Mailbox l&ouml;schen';
 
