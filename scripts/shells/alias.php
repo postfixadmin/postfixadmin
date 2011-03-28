@@ -222,8 +222,8 @@ class DeleteTask extends Shell {
  */
         function __handle($address) {
 
-### TODO: don't use UserHandler, instead add delete function to AliasHandler (if not already there)
-### using UserHandler for deleting aliases is like taking a sledgehammer to crack a nut
+### TODO: don't use MailboxHandler, instead add delete function to AliasHandler (if not already there)
+### using MailboxHandler for deleting aliases is like taking a sledgehammer to crack a nut
 ### (and will probably cause some error messages that I added today ;-)
 
 ### Implemented check it please!

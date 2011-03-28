@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $error += 1;
         flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
     }
-    if(!UserHandler::login($username, $fPassword_current)) {
+    if(!MailboxHandler::login($username, $fPassword_current)) {
         $error += 1;
         $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];
     }
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if ($error == 0)
     {
-        $uh = new UserHandler($username);
+        $uh = new MailboxHandler($username);
         if($uh->change_pw($fPassword, $fPassword_current) ) {
             flash_info($PALANG['pPassword_result_success']);
             header("Location: main.php");

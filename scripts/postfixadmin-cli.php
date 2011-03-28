@@ -533,11 +533,11 @@ class PostfixAdmin {
         
         
         return array(
-                'user' => array(
-                           'add'=> 'Adds a new user with mailbox.', 
-                           'update'=> 'Updates a user.', 
-                           'delete' => 'Deletes a user.', 
-                           'pw' => 'Changes the PW for a user.',
+                'mailbox' => array(
+                           'add'=> 'Adds a new mailbox.', 
+                           'update'=> 'Updates a mailbox.', 
+                           'delete' => 'Deletes a mailbox.', 
+                           'pw' => 'Changes the PW for a mailbox.',
                 ), 
                 'alias' => array(
                             'add' => 'Adds a new alias.',

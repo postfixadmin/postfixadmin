@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $fUsername = escape_string ($_POST['fUsername']);
    $fPassword = escape_string ($_POST['fPassword']);
 
-   if(UserHandler::login($_POST['fUsername'], $_POST['fPassword'])) {
+   if(MailboxHandler::login($_POST['fUsername'], $_POST['fPassword'])) {
       session_regenerate_id();
       $_SESSION['sessid'] = array();
       $_SESSION['sessid']['roles'] = array();

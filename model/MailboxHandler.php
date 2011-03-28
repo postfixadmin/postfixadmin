@@ -4,7 +4,7 @@
 /**
  * Simple class to represent a user.
  */
-class UserHandler {
+class MailboxHandler {
 
     protected $username = null;
     
@@ -15,7 +15,7 @@ class UserHandler {
     }
 
     public function change_pass($old_password, $new_password) {
-        error_log('UserHandler->change_pass is deprecated. Please use UserHandler->change_pw!');
+        error_log('MailboxHandler->change_pass is deprecated. Please use MailboxHandler->change_pw!');
         return $this->change_pw($new_password, $old_password);
     }
 

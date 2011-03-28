@@ -1,7 +1,7 @@
 <?php
 
 
-class PostfixAdminUser extends Shell {
+class PostfixAdminMailbox extends Shell {
 
 /**
  * Contains tasks to load and instantiate
@@ -20,18 +20,18 @@ class PostfixAdminUser extends Shell {
  * @access public
  */
         function help() {
-                $head  = "Usage: postfixadmin-cli user <task> [<address>] [] [-m <method>]\n";
+                $head  = "Usage: postfixadmin-cli mailbox <task> [<address>] [] [-m <method>]\n";
                 $head .= "-----------------------------------------------\n";
                 $head .= "Parameters:\n\n";
 
                 $commands = array(
                         'task' => "\t<task>\n" .
                                                 "\t\tAvailable values:\n\n".
-                                                "\t\t".sprintf("%-20s %s", "view: ",  "View an existing user.")."\n".
-                                                "\t\t".sprintf("%-20s %s", "add: ",  "Adds a new user with mailbox.")."\n".
-                                                "\t\t".sprintf("%-20s %s", "update: ",  "Updates a user.")."\n".
-                                                "\t\t".sprintf("%-20s %s", "delete: ",  "Deletes a user")."\n".
-                                                "\t\t".sprintf("%-20s %s", "password: ",  "Changes the PW for a user.")."\n",
+                                                "\t\t".sprintf("%-20s %s", "view: ",  "View an existing mailbox.")."\n".
+                                                "\t\t".sprintf("%-20s %s", "add: ",  "Adds a new mailbox.")."\n".
+                                                "\t\t".sprintf("%-20s %s", "update: ",  "Updates a mailbox.")."\n".
+                                                "\t\t".sprintf("%-20s %s", "delete: ",  "Deletes a mailbox")."\n".
+                                                "\t\t".sprintf("%-20s %s", "password: ",  "Changes the PW for a mailbox.")."\n",
                         'address' => "\t[<address>]\n" .
                                                 "\t\tA CakePHP core class name (e.g: Component, HtmlHelper).\n",
                 );
@@ -138,7 +138,7 @@ class AddTask extends Shell {
                       $pw = $password;
                 }
                 
-                $handler =  new UserHandler($address);
+                $handler =  new MailboxHandler($address);
                 $return = $handler->add($pw,  $name, $quota, true, true  );
 #CHECK!                
 if ( !empty($this->params['q']) ) {
@@ -175,7 +175,7 @@ if ( !empty($this->params['q']) ) {
  */
         function help() {
                 $this->hr();
-                $this->out("Usage: postfixadmin-cli user add <address> [<password>] <name> <quota> [-g]");
+                $this->out("Usage: postfixadmin-cli mailbox add <address> [<password>] <name> <quota> [-g]");
                 $this->hr();
                 $this->out('Commands:');
                 $this->out("\n\tadd\n\t\tAdds mailbox in interactive mode.");
@@ -217,7 +217,7 @@ class UpdateTask extends Shell {
         function help() {
                 $this->hr();
         $this->out("Not Implemented yet! If you want to change a password use the password command.");
-                /*$this->out("Usage: postfixadmin-cli user update <args>");
+                /*$this->out("Usage: postfixadmin-cli mailbox update <args>");
                 $this->hr();
                 $this->out('Commands:');
                 $this->out("\n\tmodel\n\t\tbakes model in interactive mode.");
@@ -274,7 +274,7 @@ class DeleteTask extends Shell {
         function __handle($address) {
 
 
-                $handler =  new UserHandler($address);
+                $handler =  new MailboxHandler($address);
                 $status = $handler->delete();
                 if ( ! $status ) {
                       $this->error("Error:", join("\n", $handler->errormsg));
@@ -292,7 +292,7 @@ class DeleteTask extends Shell {
  */
         function help() {
                 $this->hr();
-                $this->out("Usage: postfixadmin-cli user model <arg1>");
+                $this->out("Usage: postfixadmin-cli mailbox model <arg1>");
                 $this->hr();
                 $this->out('Commands:');
                 $this->out("\n\tdelete\n\t\tdeletes mailbox in interactive mode.");
@@ -391,7 +391,7 @@ class PasswordTask extends Shell {
                     $password = generate_password();
                 }
                 if ($password != NULL) {
-                    $handler =  new UserHandler($address);
+                    $handler =  new MailboxHandler($address);
                     
                     if ( ! $handler->change_pw($password, NULL, false) ){
                         $this->error("Change Password",join("\n", $handler->errormsg));
@@ -415,7 +415,7 @@ class PasswordTask extends Shell {
         function help() {
                 $this->out("");
                 $this->hr();
-                $this->out("Usage: postfixadmin-cli user password <address> [<newpw>] [-g]");
+                $this->out("Usage: postfixadmin-cli mailbox password <address> [<newpw>] [-g]");
                 $this->hr();
                 $this->out('Commands:');
                 $this->out("\n\tpassword\n\t\tchanges the password in interactive mode.");
@@ -466,9 +466,9 @@ class ViewTask extends Shell {
         function __handle($address) {
 
 
-                $handler =  new UserHandler($address);
+                $handler =  new MailboxHandler($address);
                 if ( ! $handler->view() ) {
-                  $this->error("Not Found!", "The user you have searched could not be found.");
+                  $this->error("Not Found!", "The mailbox you have searched could not be found.");
 				      }
 # TODO: offer alternative output formats (based on parameter)
 # TODO: whitespace fix - 8 lines below
@@ -492,11 +492,11 @@ class ViewTask extends Shell {
         function help() {
                 $this->out("");
                 $this->hr();
-                $this->out("Usage: postfixadmin-cli user view <address>");
+                $this->out("Usage: postfixadmin-cli mailbox view <address>");
                 $this->hr();
                 $this->out('Commands:');
-                $this->out("\n\tview\n\t\tView user. Select address in interactive mode.");
-                $this->out("\n\tview <address>\n\t\tView user with address <address>");
+                $this->out("\n\tview\n\t\tView mailbox. Select address in interactive mode.");
+                $this->out("\n\tview <address>\n\t\tView mailbox with address <address>");
                 $this->out("");
                 $this->_stop();
         }

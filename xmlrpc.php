@@ -45,7 +45,7 @@ $server = new Zend_XmlRpc_Server();
  * @return boolean true on success, else false.
  */
 function login($username, $password) {
-    if(UserHandler::login($username, $password)) {
+    if(MailboxHandler::login($username, $password)) {
         session_regenerate_id();
         $_SESSION['authenticated'] = true;
         $_SESSION['username'] = $username;
@@ -73,7 +73,7 @@ class UserProxy {
      * @return boolean true on success
      */
     public function changePassword($old_password, $new_password) {
-        $uh = new UserHandler($_SESSION['username']);
+        $uh = new MailboxHandler($_SESSION['username']);
         return $uh->change_pw($new_password, $old_password);
     }
 
@@ -83,7 +83,7 @@ class UserProxy {
      * @return boolean true if successful.
      */
     public function login($username, $password) {
-        $uh = new UserHandler($_SESSION['username']);
+        $uh = new MailboxHandler($_SESSION['username']);
         return $uh->login($username, $password);
     }
 }
