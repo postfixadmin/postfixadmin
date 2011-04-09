@@ -566,6 +566,56 @@ function get_domain_properties ($domain)
 }
 
 
+/**
+ * create_page_browser
+ * Action: Get page browser for a long list of mailboxes, aliases etc.
+ * Call: $pagebrowser = create_page_browser('table.field', 'query', 50)   # replaces $param = $_GET['param']
+ *
+ *  @param String idxfield - database field name to use as title
+ *  @param String query - core part of the query (starting at "FROM")
+ *  @param Int    item_count - number of total items (this function is lazy and doesn't want to count itsself ;-)
+ *  @return String 
+ */
+function create_page_browser($idxfield, $query, $item_count) {
+    global $CONF;
+    $page_size = $CONF['page_size'];
+    $label_len = 2;
+    $pagebrowser = array();
+
+# TODO: item_count is undefined on search results
+#    if ( $item_count <= $page_size ) return array(); # very short list - no pagebrowser needed
+
+    $initcount = "SET @row=-1";
+    $result = db_query($initcount);
+
+    $last_in_page = $page_size - 1;
+    $query = "SELECT * FROM (SELECT $idxfield AS label, @row := @row + 1 AS row $query ) idx WHERE MOD(idx.row, $page_size) IN (0,$last_in_page)"; 
+
+# TODO: $query is MySQL-specific
+
+# PostgreSQL: 
+# http://www.postgresql.org/docs/8.1/static/sql-createsequence.html
+# http://www.postgresonline.com/journal/archives/79-Simulating-Row-Number-in-PostgreSQL-Pre-8.4.html
+# http://www.pg-forum.de/sql/1518-nummerierung-der-abfrageergebnisse.html
+# CREATE TEMPORARY SEQUENCE foo MINVALUE 0 MAXVALUE $page_size CYCLE
+# afterwards: DROP SEQUENCE foo
+
+    $result = db_query ($query);
+    if ($result['rows'] > 0) {
+        while ($row = db_array ($result['result'])) {
+            if ($row2 = db_array ($result['result'])) {
+                $label = substr($row['label'],0,$label_len) . '-' . substr($row2['label'],0,$label_len);
+                $pagebrowser[] = $label;
+            } else {
+                $label = substr($row['label'],0,$label_len) . '-' . 'ZZ';
+                # TODO: separate query for the last row - or include it in the main query (... OR row = $item_count)
+                $pagebrowser[] = $label;
+            }
+        }
+    }
+
+    return $pagebrowser;
+}
 
 //
 // get_mailbox_properties
