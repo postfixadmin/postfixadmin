@@ -31,7 +31,7 @@ require_once('common.php');
 authentication_require_role('global-admin');
 
 if ($CONF['sendmail'] != 'YES') {
-   header("Location: " . $CONF['postfix_admin_url'] . "/main.php");
+   header("Location: main.php");
    exit;
 }
 

@@ -34,7 +34,7 @@ require_once('common.php');
 authentication_require_role('admin');
 
 if (!boolconf('alias_domain')) {
-   header("Location: " . $CONF['postfix_admin_url'] . "/main.php");
+   header("Location: main.php");
    exit;
 }
 
@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
             flash_info($PALANG['pCreate_alias_domain_success']);
             # we would have to update the list of domains available for aliasing. Doing a redirect is easier.
-            header("Location: " . $CONF['postfix_admin_url'] . "/create-alias-domain.php");
+            header("Location: create-alias-domain.php");
             exit;
         }
     }

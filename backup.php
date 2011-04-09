@@ -25,7 +25,7 @@ require_once('common.php');
 
 authentication_require_role('global-admin');
 
-(($CONF['backup'] == 'NO') ? header("Location: " . $CONF['postfix_admin_url'] . "/main.php") && exit : '1');
+(($CONF['backup'] == 'NO') ? header("Location: main.php") && exit : '1');
 
 // TODO: make backup supported for postgres
 if ('pgsql'==$CONF['database_type'])

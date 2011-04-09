@@ -38,7 +38,7 @@ $USERID_USERNAME = authentication_get_username();
 
 // is vacation support enabled in $CONF ?
 if($CONF['vacation'] == 'NO') {
-    header("Location: " . $CONF['postfix_admin_url'] . "/users/main.php");
+    header("Location: main.php");
     exit(0);
 }
 

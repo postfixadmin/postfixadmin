@@ -34,7 +34,7 @@ require_once('common.php');
 
 authentication_require_role('admin');
 
-(($CONF['sendmail'] == 'NO') ? header("Location: " . $CONF['postfix_admin_url'] . "/main.php") && exit : '1');
+(($CONF['sendmail'] == 'NO') ? header("Location: main.php") && exit : '1');
 
 $SESSID_USERNAME = authentication_get_username();
 

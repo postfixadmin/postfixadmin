@@ -33,7 +33,7 @@ function authentication_get_username()
     }
 
     if (!isset($_SESSION['sessid'])) {
-        header ("Location: " . $CONF['postfix_admin_url'] . "/login.php");
+        header ("Location: login.php");
         exit(0);
     }
     $SESSID_USERNAME = $_SESSION['sessid']['username'];
