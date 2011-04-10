@@ -1713,13 +1713,11 @@ function db_delete ($table,$where,$delete)
     $table = table_by_key($table);
     $query = "DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "'";
     $result = db_query ($query);
-    if ($result['rows'] >= 1)
-    {
+
+    if ($result['rows'] >= 1) {
         return $result['rows'];
-    }
-    else
-    {
-        return true;
+    } else {
+        return 0;
     }
 }
 
