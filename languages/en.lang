@@ -12,7 +12,7 @@ $PALANG['edit'] = 'edit';
 $PALANG['del'] = 'del';
 $PALANG['exit'] = 'Exit';
 $PALANG['cancel'] = 'Cancel';
-$PALANG['save'] = 'Save';
+$PALANG['save'] = 'Save changes';
 $PALANG['confirm'] = 'Are you sure you want to delete this?\n';
 $PALANG['confirm_domain'] = 'Do you really want to delete all records for this domain? This can not be undone!\n';
 $PALANG['check_update'] = 'Check for update';
@@ -120,7 +120,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Unable to add t
 $PALANG['pCreate_alias_result_success'] = 'The alias has been added to the alias table!';
 $PALANG['pCreate_alias_catchall_text'] = 'To create a catch-all use an "*" as alias.'; # XXX don't propagate usage of *@target-domain.com for domain-aliasing any longer
 
-$PALANG['pEdit_alias_welcome'] = 'Edit an alias for your domain.<br />One entry per line.';
+$PALANG['pEdit_alias_welcome'] = 'Edit forwarding settings';
+$PALANG['pEdit_alias_help'] = 'Accepts multiple targets, one entry per line.';
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Unable to locate alias!</span>';
 $PALANG['pEdit_alias_goto'] = 'To';
@@ -131,7 +132,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">This domain is no
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>';
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
-$PALANG['pEdit_alias_button'] = 'Edit Alias';
+$PALANG['pEdit_alias_button'] = 'Edit Alias'; # text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Unable to modify the alias!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Create a new mailbox for your domain.';
@@ -167,7 +168,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">The quota that you specified is to high!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">This domain is not yours: ';
-$PALANG['pEdit_mailbox_button'] = 'Edit Mailbox';
+$PALANG['pEdit_mailbox_button'] = 'Edit Mailbox'; # text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Unable to modify the mailbox!</span>';
 
 $PALANG['pPassword_welcome'] = 'Change your login password.';
@@ -302,7 +303,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminEdit_domain_active'] = 'Active';
-$PALANG['pAdminEdit_domain_button'] = 'Edit Domain';
+$PALANG['pAdminEdit_domain_button'] = 'Edit Domain'; # text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Unable to modify domain!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Add a new domain admin';
@@ -325,7 +326,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Password (again)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">The passwords that you supplied don\'t match!<br />Or are empty!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Active';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
-$PALANG['pAdminEdit_admin_button'] = 'Edit Admin';
+$PALANG['pAdminEdit_admin_button'] = 'Edit Admin'; # text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Unable to modify admin!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin has been modified!';
 

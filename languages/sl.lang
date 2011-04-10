@@ -11,7 +11,7 @@ $PALANG['edit'] = 'uredi';
 $PALANG['del'] = 'briši';
 $PALANG['exit'] = 'Exit'; # XXX
 $PALANG['cancel'] = 'Cancel'; # XXX
-$PALANG['save'] = 'Save'; # XXX
+$PALANG['save'] = 'Save'; # XXX # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Ali ste prepričani, da želite brisati?\n';
 $PALANG['confirm_domain'] = 'Ali ste prepričani, da želite brisati vse zapise za to domeno? Zapisi bodo izgubljeni za vedno!\n';
 $PALANG['check_update'] = 'Preveri, če obstaja novejša različica';
@@ -116,7 +116,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Aliasa ni bilo 
 $PALANG['pCreate_alias_result_success'] = 'Alias je bil uspešno dodan!';
 $PALANG['pCreate_alias_catchall_text'] = 'Če želite ustvariti "vseobsegajoči" alias, uporabite "*" namesto aliasa.<br />Za posredovanje iz domene na domeno, uporabite "*@domena.si" v "Za" polju.';
 
-$PALANG['pEdit_alias_welcome'] = 'Uredi alias za določeno domeno.<br />V posamezni vrstici je lahko samo en naslov.';
+$PALANG['pEdit_alias_welcome'] = 'Uredi alias za določeno domeno.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'V posamezni vrstici je lahko samo en naslov.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Aliasa ni bilo mogoče najti!</span>';
 $PALANG['pEdit_alias_goto'] = 'Za';
@@ -127,7 +128,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Izbrana domena ni
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
-$PALANG['pEdit_alias_button'] = 'Uredi alias';
+$PALANG['pEdit_alias_button'] = 'Uredi alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Aliasa ni bilo mogoče spremeniti!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Ustvari nov predal za izbrano domeno.';
@@ -163,7 +164,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Kvota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Vnešena kvota je prevelika!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Izbrana domena ni pod vašim nadzorom: ';
-$PALANG['pEdit_mailbox_button'] = 'Uredi predal';
+$PALANG['pEdit_mailbox_button'] = 'Uredi predal'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Predala ni bilo mogoče spremeniti!</span>';
 
 $PALANG['pPassword_welcome'] = 'Sprimenjanje gesla.';
@@ -294,7 +295,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Poštni strežnik je sekundarni MX';
 $PALANG['pAdminEdit_domain_active'] = 'Aktiven';
-$PALANG['pAdminEdit_domain_button'] = 'Shrani';
+$PALANG['pAdminEdit_domain_button'] = 'Shrani'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Domene ni bilo mogoče spremeniti!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Dodaj domenskega administratorja';
@@ -317,7 +318,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Geslo (ponovitev)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Vnešeni gesli se ne ujemata<br />ali pa sta prazni!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktiven';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Shrani';
+$PALANG['pAdminEdit_admin_button'] = 'Shrani'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Administratorja ni bilo mogoče spremeniti!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admininstrator je bil uspešno spremenjen!';
 

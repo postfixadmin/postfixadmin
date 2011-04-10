@@ -39,7 +39,7 @@
 	</tr>
    <tr>
 		<td colspan="3" class="hlp_center">
-			<input class="button" type="submit" name="submit" value="{$PALANG.pEdit_mailbox_button}" />
+			<input class="button" type="submit" name="submit" value="{$PALANG.save}" />
 			<input class="button" type="submit" name="cancel" value="{$PALANG.exit}"/>
 		</td>
 	</tr>

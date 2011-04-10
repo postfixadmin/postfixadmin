@@ -36,7 +36,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="{$PALANG.pAdminEdit_admin_button}" /></td>
+		<td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="{$PALANG.save}" /></td>
 	</tr>
 	<tr>
 		<td colspan="3" class="standout">{$tMessage}</td>

@@ -10,7 +10,7 @@ $PALANG['edit'] = 'keisti';
 $PALANG['del'] = 'šalinti';
 $PALANG['exit'] = 'Exit'; # XXX
 $PALANG['cancel'] = 'Cancel'; # XXX
-$PALANG['save'] = 'Save'; # XXX
+$PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = 'Tikrai norite šalinti?\n';
 $PALANG['confirm_domain'] = 'Tikrai norite šalinti visus šios srities įrašus? Operacija negrįžtama!\n';
 $PALANG['check_update'] = 'Patikrinti versiją';
@@ -115,7 +115,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Sinonimo regist
 $PALANG['pCreate_alias_result_success'] = 'Sinonimas užregistruotas!';
 $PALANG['pCreate_alias_catchall_text'] = 'Jei norite sukurti sinonimą kuris gautų visas žinutes neegzistuojantiems adresatams, naudokite "*".<br />Jei norite persiųsti į kitą pašto dėžutę kitame serveryje įveskite "*@domain.tld".';
 
-$PALANG['pEdit_alias_welcome'] = 'Keisti srities sinonimą.<br />Eilutėje leidžiamas tik vienas įrašas.';
+$PALANG['pEdit_alias_welcome'] = 'Keisti srities sinonimą.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Eilutėje leidžiamas tik vienas įrašas.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Sinonimas';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Sinonimas nerastas!</span>';
 $PALANG['pEdit_alias_goto'] = 'Kam';
@@ -126,7 +127,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Ši sritis ne jū
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
-$PALANG['pEdit_alias_button'] = 'Keisti sinonimą';
+$PALANG['pEdit_alias_button'] = 'Keisti sinonimą'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Sinonimo pakeisti nepavyko!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Nauja pašto dėžutė.';
@@ -162,7 +163,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Kvota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Įvesta per didelė kvota!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Ne jūsų sritis: ';
-$PALANG['pEdit_mailbox_button'] = 'Keisti pašto dėžutę';
+$PALANG['pEdit_mailbox_button'] = 'Keisti pašto dėžutę'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Pašto dėžutės pakeisti nepavyko!</span>';
 
 $PALANG['pPassword_welcome'] = 'Pakeiskite prisijungimo slaptažodį.';
@@ -293,7 +294,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Srities transportas';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Nustatyti transportą';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Tai atsarginis pašto serveris (MX)';
 $PALANG['pAdminEdit_domain_active'] = 'Įjungtas';
-$PALANG['pAdminEdit_domain_button'] = 'Keisti sritį';
+$PALANG['pAdminEdit_domain_button'] = 'Keisti sritį'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Srities pakeisti nepavyko!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Registruoti naują srities administratorių';
@@ -316,7 +317,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Slaptažodis (dar kartą)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Įvesti slaptažodžiai nesutampa!<br />Arba neįvesti!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Įjungta(s)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Keisti administratorių';
+$PALANG['pAdminEdit_admin_button'] = 'Keisti administratorių'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Administratoriaus keisti nepavyko!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administratorius pakeistas!';
 

@@ -11,7 +11,7 @@ $PALANG['edit'] = 'Измени';
 $PALANG['del'] = 'Бриши';
 $PALANG['exit'] = 'Exit'; # XXX
 $PALANG['cancel'] = 'Cancel'; # XXX
-$PALANG['save'] = 'Save'; # XXX
+$PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = 'Дали сте сигурни дека сакате да го избришете ова?\n';
 $PALANG['confirm_domain'] = 'Дали сакате да ги избришете сите записи од овој домен? Ова не може да се поправи покасно!\n';
 $PALANG['check_update'] = 'Check for update'; # XXX
@@ -116,7 +116,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Не можам
 $PALANG['pCreate_alias_result_success'] = 'Алијасот е додаден на табелата со алијаси!';
 $PALANG['pCreate_alias_catchall_text'] = 'За да креираш catch-all користи "*" како алијас.<br /> За препраќање од домен на домен користи "*@domain.tld" како ДО.';
 
-$PALANG['pEdit_alias_welcome'] = 'Едитирање на алијас за вашиот домен.<br />Еден запис по линија.';
+$PALANG['pEdit_alias_welcome'] = 'Едитирање на алијас за вашиот домен.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Еден запис по линија.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Алијас';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Не можам да го најдам алијасот!</span>';
 $PALANG['pEdit_alias_goto'] = 'До';
@@ -127,7 +128,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Овој доме
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
-$PALANG['pEdit_alias_button'] = 'Едитирање на алијас';
+$PALANG['pEdit_alias_button'] = 'Едитирање на алијас'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Не можам да го променам алијасот!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Креирање на ново поштенско сандаче.';
@@ -163,7 +164,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Квота';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Внесената квота е превисока!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Овој домен не е ваш: ';
-$PALANG['pEdit_mailbox_button'] = 'Измена на сандаче';
+$PALANG['pEdit_mailbox_button'] = 'Измена на сандаче'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Не можам да го променан сандачето!</span>';
 
 $PALANG['pPassword_welcome'] = 'Промена на лозинка за најавување.';
@@ -295,7 +296,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail серверот е backup MX';
 $PALANG['pAdminEdit_domain_active'] = 'Активен';
-$PALANG['pAdminEdit_domain_button'] = 'Едитирај домен';
+$PALANG['pAdminEdit_domain_button'] = 'Едитирај домен'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Не можам да го модифицирам доменот!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Додади нов администратор на домен';
@@ -318,7 +319,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Лозинка (повторно)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Внесените лозинки не одговараат!<br />Или се празни!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Активен';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Едитирај Администратор';
+$PALANG['pAdminEdit_admin_button'] = 'Едитирај Администратор'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Не можам да го модифицирам администраторот!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Администраторот е модифициран!';
 

@@ -12,7 +12,7 @@ $PALANG['edit'] = 'muokkaa';
 $PALANG['del'] = 'poista';
 $PALANG['exit'] = 'Poistu';
 $PALANG['cancel'] = 'Peruuta';
-$PALANG['save'] = 'Tallenna';
+$PALANG['save'] = 'Tallenna'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Oletko varma että haluat poistaa tämän?\n';
 $PALANG['confirm_domain'] = 'Oletko varma että haluat poistaa kaikki tietueet tästä domainista? Tätä komentoa ei voi perua!\n';
 $PALANG['check_update'] = 'Tarkista päivitykset';
@@ -116,7 +116,8 @@ $PALANG['pCreate_alias_goto_text_error'] = 'Minne sähköposti lähetetään.<br
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Aliaksen lisäys alias tauluun epäonnistui!</span>';
 $PALANG['pCreate_alias_result_success'] = 'Alias on lisätty!';
 $PALANG['pCreate_alias_catchall_text'] = 'Jos haluat luoda catch-all osoitteen käytä "*" merkkiä aliaksena.<br />Ohjaus domainista domainiin tapahtuu käyttämällä "*@domain.tld" Kenelle: -osoitteena.';
-$PALANG['pEdit_alias_welcome'] = 'Muokkaa aliasta.<br />Yksi kohta per rivi.';
+$PALANG['pEdit_alias_welcome'] = 'Muokkaa aliasta.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Yksi kohta per rivi.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Aliasta ei löydy!</span>';
 $PALANG['pEdit_alias_goto'] = 'Kenelle';
@@ -127,7 +128,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Tämä ei ole sin
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Alias domainia ei voitu muokata!</span>';
 $PALANG['pEdit_alias_forward_and_store'] = 'Toimita paikalliseen laatikkoon.';
 $PALANG['pEdit_alias_forward_only'] = 'Edelleenlähetä ainoastaan annettuun sähköpostiosoitteeseen.';
-$PALANG['pEdit_alias_button'] = 'Muokkaa aliasta';
+$PALANG['pEdit_alias_button'] = 'Muokkaa aliasta'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Aliasta ei voi muokata!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Luo uusi paikallinen postilaatikko.';
@@ -163,7 +164,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Kiintiö';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Antamasi kiintiö on liian korkea!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Tämä domaini ei ole sinun: ';
-$PALANG['pEdit_mailbox_button'] = 'Muokkaa postilaatikkoa';
+$PALANG['pEdit_mailbox_button'] = 'Muokkaa postilaatikkoa'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Postilaatikon muokkaus ei onnistunut!</span>';
 
 $PALANG['pPassword_welcome'] = 'Vaihda tunnuksesi salasana.';
@@ -294,7 +295,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Määritä transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Sähköpostipalvelin on vara MX';
 $PALANG['pAdminEdit_domain_active'] = 'Aktiivinen';
-$PALANG['pAdminEdit_domain_button'] = 'Muokkaa domainia';
+$PALANG['pAdminEdit_domain_button'] = 'Muokkaa domainia'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Domainin muokkaus ei onnistu!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Lisää uusi domainin ylläpitäjä';
@@ -317,7 +318,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Salasana (toistamiseen)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Antamasi salasanat eivät täsmää!<br />Tai ne ovat tyhjiä!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktiivinen';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Pääylläpitäjä';
-$PALANG['pAdminEdit_admin_button'] = 'Muokkaa ylläpitäjää';
+$PALANG['pAdminEdit_admin_button'] = 'Muokkaa ylläpitäjää'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Ylläpitäjän muokkaaminen ei onnistu!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Ylläpitäjän muokkaus onnistui!';
 

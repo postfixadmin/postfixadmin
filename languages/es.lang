@@ -12,7 +12,7 @@ $PALANG['edit'] = 'editar';
 $PALANG['del'] = 'borrar';
 $PALANG['exit'] = 'Salir'; 
 $PALANG['cancel'] = 'Cancelar'; 
-$PALANG['save'] = 'Salvar';
+$PALANG['save'] = 'Salvar'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = '¿Está seguro de que desea borrarlo?\n';
 $PALANG['confirm_domain'] = '¿Está seguro de que desea borrar todos los registros de este dominio? ¡Esto no puede ser deshecho!\n';
 $PALANG['check_update'] = 'Check for update'; # XXX
@@ -116,7 +116,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">¡No es posible
 $PALANG['pCreate_alias_result_success'] = '¡El alias ha sido añadido a la tabla de alias!';
 $PALANG['pCreate_alias_catchall_text'] = 'Para crear un alias general use "*" como alias.<br />Para una redirección de dominio a dominio, use "*@domain.tld" como Destino.';
 
-$PALANG['pEdit_alias_welcome'] = 'Edite un alias para su dominio.<br />Una entrada por línea.';
+$PALANG['pEdit_alias_welcome'] = 'Edite un alias para su dominio.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Una entrada por línea.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">¡Imposible de localizar el alias!</span>';
 $PALANG['pEdit_alias_goto'] = 'Destino';
@@ -127,7 +128,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Este dominio no l
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">¡No se pudo modificar el alias de dominio!</span>'; 
 $PALANG['pEdit_alias_forward_and_store'] = 'Entregar al  buzón local.'; 
 $PALANG['pEdit_alias_forward_only'] = 'Reenviar sólo al email especificado.'; 
-$PALANG['pEdit_alias_button'] = 'Editar alias';
+$PALANG['pEdit_alias_button'] = 'Editar alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">¡Imposible modificar el alias!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Crear un nuevo buzón para su dominio.';
@@ -163,7 +164,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Cuota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">¡La cuota especificada es demasiado alta!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Este dominio no le pertenece: ';
-$PALANG['pEdit_mailbox_button'] = 'Editar buzón';
+$PALANG['pEdit_mailbox_button'] = 'Editar buzón'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">¡Imposible cambiar la contraseña!</span>';
 
 $PALANG['pPassword_welcome'] = 'Cambie su contraseña de login.';
@@ -295,7 +296,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definir transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'El servidor de correo es backup MX'; # XXX
 $PALANG['pAdminEdit_domain_active'] = 'Activo';
-$PALANG['pAdminEdit_domain_button'] = 'Editar dominio';
+$PALANG['pAdminEdit_domain_button'] = 'Editar dominio'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">¡Imposible modificar el dominio!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Añadir un nuevo administrador de dominio';
@@ -319,7 +320,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Contraseña (repetir)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">¡Las contraseñas introducidas no coinciden<br />o están en blanco!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Activo';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Editar administrador';
+$PALANG['pAdminEdit_admin_button'] = 'Editar administrador'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">¡Imposible modificar el administrador!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = '¡El administrador ha sido modificado!';
 

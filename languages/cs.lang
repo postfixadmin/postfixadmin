@@ -15,7 +15,7 @@ $PALANG['edit'] = 'upravit';
 $PALANG['del'] = 'smazat';
 $PALANG['exit'] = 'Odejít';
 $PALANG['cancel'] = 'Zrušit';
-$PALANG['save'] = 'Uložit';
+$PALANG['save'] = 'Uložit'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Jste si jistí?\n';
 $PALANG['confirm_domain'] = 'Opravdu chcete smazat všechny záznamy v této doméně Tohle nelze vrátit!\n';
 $PALANG['check_update'] = 'Zkontrolovat aktualizace';
@@ -121,7 +121,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Nepodařilo se 
 $PALANG['pCreate_alias_result_success'] = 'Přesměrování bylo uspěšně přidáno do tabulky aliasů!';
 $PALANG['pCreate_alias_catchall_text'] = 'Pro vytvoření doménového koše použijte * jako alias.<br />Pro alias doména -> doména použijte *@domain.tld jako cíl.';
 
-$PALANG['pEdit_alias_welcome'] = 'Upravit přesměrování.<br />Jeden záznam na řádku.';
+$PALANG['pEdit_alias_welcome'] = 'Upravit přesměrování.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Jeden záznam na řádku.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Přesměrování';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Nelze najít alias!</span>';
 $PALANG['pEdit_alias_goto'] = 'Cíl';
@@ -132,7 +133,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Tato doména nen�
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Doručovat i do schránky.';
 $PALANG['pEdit_alias_forward_only'] = 'Přesměrovat pouze na dané adresy.';
-$PALANG['pEdit_alias_button'] = 'Upravit';
+$PALANG['pEdit_alias_button'] = 'Upravit'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Nepodařilo se upravit přesměrování!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Vytvořit novou lokální schránku v doméně.';
@@ -168,7 +169,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Místo';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Zadané místo je příliš velké!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Tato doména není vaše: ';
-$PALANG['pEdit_mailbox_button'] = 'Upravit schránku';
+$PALANG['pEdit_mailbox_button'] = 'Upravit schránku'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Nepodařilo se upravit schránku!</span>';
 
 $PALANG['pPassword_welcome'] = 'Změnit heslo.';
@@ -303,7 +304,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Nastavit transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Tento server je záložní MX domény';
 $PALANG['pAdminEdit_domain_active'] = 'Aktivní';
-$PALANG['pAdminEdit_domain_button'] = 'Upravit doménu';
+$PALANG['pAdminEdit_domain_button'] = 'Upravit doménu'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Nepodařilo se upravit doménu!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Přidat nového doménového administrátora';
@@ -326,7 +327,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Heslo (znovu)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Zadaná hesla jsou rozdílná nebo prázdná!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Administrátorský účet povolen';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Superuživatel';
-$PALANG['pAdminEdit_admin_button'] = 'Upravit Administrátora';
+$PALANG['pAdminEdit_admin_button'] = 'Upravit Administrátora'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Nepodařilo se upravit administrátora!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrátor byl upraven!';
 

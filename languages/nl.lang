@@ -12,7 +12,7 @@ $PALANG['edit'] = 'Bewerken';
 $PALANG['del'] = 'Verwijder';
 $PALANG['exit'] = 'Beëindigen';
 $PALANG['cancel'] = 'Annuleren';
-$PALANG['save'] = 'Opslaan';
+$PALANG['save'] = 'Opslaan'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Weet u het zeker dat u wilt verwijderen?\n';
 $PALANG['confirm_domain'] = 'Weet u zeker dat u ALLE data van het domein wilt verwijderen? Dit kan niet ongedaan worden gemaakt!\n';
 $PALANG['check_update'] = 'Zoeken naar nieuwe versie';
@@ -117,7 +117,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Mislukt om de a
 $PALANG['pCreate_alias_result_success'] = 'De alias is toegevoegd.';
 $PALANG['pCreate_alias_catchall_text'] = 'Om een catch-all te gebruiken, dient u een "*" (asteric) in te vullen als alias.<br/>Voor domein naar domein forwarding gebruik "*@domein.tld" als naar.';
 
-$PALANG['pEdit_alias_welcome'] = 'Bewerk een alias voor uw domein.<br />Een alias per regel.';
+$PALANG['pEdit_alias_welcome'] = 'Bewerk een alias voor uw domein.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Een alias per regel.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Mislukt om alias te vinden!</span>';
 $PALANG['pEdit_alias_goto'] = 'Naar';
@@ -128,7 +129,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Dit domein is nie
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Niet in staat de domein alias te bewerken!</span>';
 $PALANG['pEdit_alias_forward_and_store'] = 'Lever af op de lokale mailbox.';
 $PALANG['pEdit_alias_forward_only'] = 'Alleen op opgegeven email adres afleveren.';
-$PALANG['pEdit_alias_button'] = 'Bewerk Alias';
+$PALANG['pEdit_alias_button'] = 'Bewerk Alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Mislukt om de alias te bewerken!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Maak een nieuw lokale mailbox voor uw domein.';
@@ -164,7 +165,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">De quota die opgaf is te hoog.</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Dit domein is niet van nu: ';
-$PALANG['pEdit_mailbox_button'] = 'Bewerk Mailbox';
+$PALANG['pEdit_mailbox_button'] = 'Bewerk Mailbox'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Mislukt om het wachtwoord te wijzigen.</span>';
 
 $PALANG['pPassword_welcome'] = 'Bewerk u login wachtwoord.';
@@ -295,7 +296,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Defineer transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is back-up MX';
 $PALANG['pAdminEdit_domain_active'] = 'Actief';
-$PALANG['pAdminEdit_domain_button'] = 'Bewerk domein';
+$PALANG['pAdminEdit_domain_button'] = 'Bewerk domein'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Mislukt het domein te bewerken.</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Voeg een nieuw domein beheerder toe';
@@ -318,7 +319,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Wachtwoord (nogmaals)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">De wachtwoorden die u opgaf komen niet overeen.<br />Of zijn leeg.</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Actief';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administrator';
-$PALANG['pAdminEdit_admin_button'] = 'Bewerk beheerder';
+$PALANG['pAdminEdit_admin_button'] = 'Bewerk beheerder'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Mislukt om beheerder te bewerken</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Beheerder is bewerkt!';
 

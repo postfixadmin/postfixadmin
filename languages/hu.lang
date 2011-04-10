@@ -11,7 +11,7 @@ $PALANG['edit'] = 'szerkeszt';
 $PALANG['del'] = 'töröl';
 $PALANG['exit'] = 'Kilép';
 $PALANG['cancel'] = 'Cancel'; # XXX
-$PALANG['save'] = 'Save'; # XXX
+$PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = 'Biztos vagy benne hogy törlöd ezt?\n';
 $PALANG['confirm_domain'] = 'Biztos hogy törölni akarod az összes bejegyzést ez alól a domain alól? Nem lehet visszahozni késõbb!\n';
 $PALANG['check_update'] = 'Check for update'; # XXX
@@ -118,7 +118,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Nemsikerült ho
 $PALANG['pCreate_alias_result_success'] = 'Az aliast felvettük az alias táblába!';
 $PALANG['pCreate_alias_catchall_text'] = 'A catch-all (*@valami.hu) beállításához használj "*" -ot az alias mezõnél.<br />A domain-domain közötti átirányításhoz használd a "*@akarmi.hu" címet.';
 
-$PALANG['pEdit_alias_welcome'] = 'Alias szerkesztése a domainhez.<br />Soronként egy.';
+$PALANG['pEdit_alias_welcome'] = 'Alias szerkesztése a domainhez.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Soronként egy.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Nemsikerült megtalálni az aliast!</span>';
 $PALANG['pEdit_alias_goto'] = 'Hova';
@@ -129,7 +130,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Ehhez a domainhez
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Kézbesítés helyi mailbox-ba.';
 $PALANG['pEdit_alias_forward_only'] = 'Továbbítás csak az adott email címre.';
-$PALANG['pEdit_alias_button'] = 'Alias szerkesztése';
+$PALANG['pEdit_alias_button'] = 'Alias szerkesztése'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Nemsikerült módosítani az Aliast!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Új postafiók létrehozása az adott domainhez.';
@@ -165,7 +166,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">A megadott quota érték túl magas!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Ehhez a domainhez nincs jogosultságod: ';
-$PALANG['pEdit_mailbox_button'] = 'Postafiók szerkesztése';
+$PALANG['pEdit_mailbox_button'] = 'Postafiók szerkesztése'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Nemsikerült megváltoztatni a jelszót!</span>';
 
 $PALANG['pPassword_welcome'] = 'Bejelentkezési jelszó megváltoztatása';
@@ -300,7 +301,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Transport definiálása';
 $PALANG['pAdminEdit_domain_backupmx'] = 'A mail szerver egy backup MX';
 $PALANG['pAdminEdit_domain_active'] = 'Aktív';
-$PALANG['pAdminEdit_domain_button'] = 'Domain szerkesztése';
+$PALANG['pAdminEdit_domain_button'] = 'Domain szerkesztése'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">A domain módosítása sikertelen!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Új domain admin felvétele';
@@ -323,7 +324,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Jelszó (mégegyszer)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">A beírt jelszavak nem egyeznek!<br />Vagy üresek!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktív';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Admin szerkesztése';
+$PALANG['pAdminEdit_admin_button'] = 'Admin szerkesztése'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Nemsikerült módosítani az admint!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Az Admin módosítása megtörtént!';
 

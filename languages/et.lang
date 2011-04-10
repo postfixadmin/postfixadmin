@@ -11,7 +11,7 @@ $PALANG['edit'] = 'Redigeeri';
 $PALANG['del'] = 'Kustuta';
 $PALANG['exit'] = 'Exit'; # XXX
 $PALANG['cancel'] = 'Cancel'; # XXX
-$PALANG['save'] = 'Save'; # XXX
+$PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = 'Oled kindel, et soovid seda kustutada?\n';
 $PALANG['confirm_domain'] = 'Oled tõesti kindel, et tahad kustutada kõik kirjed sellele domeenile? Seda tegevust ei saa tagasi võtta!\n';
 $PALANG['check_update'] = 'Check for update'; # XXX
@@ -116,7 +116,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Aliase lisamine
 $PALANG['pCreate_alias_result_success'] = 'Alias lisati aliaste tabelisse!';
 $PALANG['pCreate_alias_catchall_text'] = 'Loomaks püüa-kõik aadressi kasuta aliasena "*".<br />Domeenilt domeenile edasisaatmiseks kasuta kellele väljal "*@domeen.xx".';
 
-$PALANG['pEdit_alias_welcome'] = 'Muuda aliast.<br />Üks kirje rea kohta.';
+$PALANG['pEdit_alias_welcome'] = 'Muuda aliast.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Üks kirje rea kohta.'; # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Aliase muutmine ebaõnnestus!</span>';
 $PALANG['pEdit_alias_goto'] = 'Kellele';
@@ -127,7 +128,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Puuduvad õigused
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
-$PALANG['pEdit_alias_button'] = 'Muuda alias';
+$PALANG['pEdit_alias_button'] = 'Muuda alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Aliase muutmine ebaõnnestus!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Loo uus postkast domeenis.';
@@ -163,7 +164,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Kettaruumi piirang';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Sisestatud kettaruumi piirang on liiga kõrge!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Puuduvad õigused. Domeen: ';
-$PALANG['pEdit_mailbox_button'] = 'Muuda postkast';
+$PALANG['pEdit_mailbox_button'] = 'Muuda postkast'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Postkasti muutmine ebaõnnestus!</span>';
 
 $PALANG['pPassword_welcome'] = 'Muuda kasutajanime parool.';
@@ -294,7 +295,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Kirjelda transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'E-posti server on varuserver (backup MX)';
 $PALANG['pAdminEdit_domain_active'] = 'Aktiivne';
-$PALANG['pAdminEdit_domain_button'] = 'Muuda domeen';
+$PALANG['pAdminEdit_domain_button'] = 'Muuda domeen'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Domeeni muutmine ebaõnnestus!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Lisa uus domeeni haldaja';
@@ -317,7 +318,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Parool (uuesti)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Sisestatud paroolid ei kattu!<br />Või on tühjad!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktiivne';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Muuda haldaja';
+$PALANG['pAdminEdit_admin_button'] = 'Muuda haldaja'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Haldaja muutmine ebaõnnestus!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Haldaja on muudetud!';
 

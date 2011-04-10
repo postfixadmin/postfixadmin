@@ -13,7 +13,7 @@ $PALANG['edit'] = 'Modifier';
 $PALANG['del'] = 'Effacer';
 $PALANG['exit'] = 'Quitter';
 $PALANG['cancel'] = 'Annuler';
-$PALANG['save'] = 'Enregistrer';
+$PALANG['save'] = 'Enregistrer'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Etes vous sur de vouloir supprimer cet enregistrement\n';
 $PALANG['confirm_domain'] = 'Etes-vous sur de vouloir effacer tous les enregistrements dans ce domaine ? Cette opération ne pourra pas être annulée.\n';
 $PALANG['check_update'] = 'Vérifiez les mises à jour';
@@ -117,7 +117,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Impossible d\'a
 $PALANG['pCreate_alias_result_success'] = 'L\'alias a été ajouté !';
 $PALANG['pCreate_alias_catchall_text'] = 'Pour ajouter un alias global, utilisez "*".<br />Pour un transfert de domaine à domaine, utilisez "*@domain.tld" dans le champs A.';
 
-$PALANG['pEdit_alias_welcome'] = 'Modifier un alias dans votre domaine.<br>Une entrée par ligne.';
+$PALANG['pEdit_alias_welcome'] = 'Modifier un alias dans votre domaine.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Une entrée par ligne.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Impossible de localiser l\'alias!</span>';
 $PALANG['pEdit_alias_goto'] = 'À';
@@ -128,7 +129,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Ce domaine n\'est
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Impossible de modifier cet alias de domaine!</span>';
 $PALANG['pEdit_alias_forward_and_store'] = 'Transferer une copie.';
 $PALANG['pEdit_alias_forward_only'] = 'Transferer les messages sans conserver de copie.';
-$PALANG['pEdit_alias_button'] = 'Modifier cet alias';
+$PALANG['pEdit_alias_button'] = 'Modifier cet alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Impossible de modifier cet alias!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Ajouter un nouveau compte courriel à votre domaine.';
@@ -164,7 +165,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Limite';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">La limite fournit est trop haute!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Ce domaine n\'est pas le votre: ';
-$PALANG['pEdit_mailbox_button'] = 'Modifier un compte courriel';
+$PALANG['pEdit_mailbox_button'] = 'Modifier un compte courriel'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Impossible de modifier le compte courriel !</span>';
 
 $PALANG['pPassword_welcome'] = 'Changer votre mot de passe.';
@@ -296,7 +297,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definir le transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Le serveur est un "backup MX"';
 $PALANG['pAdminEdit_domain_active'] = 'Actif';
-$PALANG['pAdminEdit_domain_button'] = 'Modifier un domaine';
+$PALANG['pAdminEdit_domain_button'] = 'Modifier un domaine'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Impossible de modifier le domain!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Ajouter un nouvel administrateur de domaine';
@@ -319,7 +320,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Mot de passe(confirmation)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Le mot de passe fournit ne correspond pas<br /> ou est vide!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Actif';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administrateur';
-$PALANG['pAdminEdit_admin_button'] = 'Modifier l\administrateur';
+$PALANG['pAdminEdit_admin_button'] = 'Modifier l\administrateur'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Impossible de modifier l\'administrateur !</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'L\'administrateur a été ajouté!';
 

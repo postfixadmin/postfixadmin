@@ -11,7 +11,7 @@ $PALANG['edit'] = 'broyt';
 $PALANG['del'] = 'strika';
 $PALANG['exit'] = 'Exit'; # XXX
 $PALANG['cancel'] = 'Cancel'; # XXX
-$PALANG['save'] = 'Save'; # XXX
+$PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = 'Ert tú vís(ur) í at tú vilt strika hetta?\n';
 $PALANG['confirm_domain'] = 'Vilt tú veruliga strika allar upplýsingar fyri hetta navnaøki? Her kann ikki vendast aftur!\n';
 $PALANG['check_update'] = 'Check for update'; # XXX
@@ -116,7 +116,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Fái ikki stovn
 $PALANG['pCreate_alias_result_success'] = 'Dulnevni er stovnað!';
 $PALANG['pCreate_alias_catchall_text'] = 'Fyri at stovna eitt ið fangar alt, brúka eina "*" sum dulnevni.<br />Fyri navnaøki til navnaøki víðarisending brúka "*@navnaøki.fo" til hetta.';
 
-$PALANG['pEdit_alias_welcome'] = 'Broyt eitt dulnevni á tínum navnaøki.<br />Eina adressu pr. linju.';
+$PALANG['pEdit_alias_welcome'] = 'Broyt eitt dulnevni á tínum navnaøki.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Eina adressu pr. linju.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Dulnevni';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Finni ikki dulnevni!</span>';
 $PALANG['pEdit_alias_goto'] = 'Til';
@@ -127,7 +128,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Hetta navnaøki e
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
-$PALANG['pEdit_alias_button'] = 'Broyt Dulnevni';
+$PALANG['pEdit_alias_button'] = 'Broyt Dulnevni'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Fái ikki broytt dulnevni!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Stovna ein nýggjan postkassa á tínum navnaøki.';
@@ -163,7 +164,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Kvota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Kvotan tú skrivaði er ov høg!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Hetta navnaøki er ikki títt: ';
-$PALANG['pEdit_mailbox_button'] = 'Broyt postkassa';
+$PALANG['pEdit_mailbox_button'] = 'Broyt postkassa'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Fái ikki broytt loyniorðið!</span>';
 
 $PALANG['pPassword_welcome'] = 'Broyt títt login loyniorð.';
@@ -294,7 +295,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Post servari er "backup MX"';
 $PALANG['pAdminEdit_domain_active'] = 'Virki';
-$PALANG['pAdminEdit_domain_button'] = 'Broyt navnaøki';
+$PALANG['pAdminEdit_domain_button'] = 'Broyt navnaøki'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Fái ikki broytt navnaøki!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Stovna navnaøki umsitara';
@@ -317,7 +318,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Loyniorð (umaftur)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Loyniorðini tú skrivaði samsvara ikki!<br />Ella eru tóm!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Virkin';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Broyt umsitara';
+$PALANG['pAdminEdit_admin_button'] = 'Broyt umsitara'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Fái ikki broytt umsitara!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Umsitari er broyttur!';
 

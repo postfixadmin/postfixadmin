@@ -12,7 +12,7 @@ $PALANG['edit'] = '編集';
 $PALANG['del'] = '削除';
 $PALANG['exit'] = '終了';
 $PALANG['cancel'] = 'キャンセル';
-$PALANG['save'] = '保存';
+$PALANG['save'] = '保存'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = '本当に削除してもよろしいですか？\n';
 $PALANG['confirm_domain'] = '本当にこのドメインのすべての情報を削除してもよろしいですか？これを元に戻すことはできません。\n';
 $PALANG['check_update'] = '更新の確認';
@@ -118,7 +118,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">転送先を追
 $PALANG['pCreate_alias_result_success'] = '転送先を追加しました。';
 $PALANG['pCreate_alias_catchall_text'] = 'すべてのメールを受け取るには、転送元に "*" を使います。<br />別のドメインにすべて転送するには、転送先に "*.domain.tld" を使います。';
 
-$PALANG['pEdit_alias_welcome'] = '転送先アドレスの編集<br />1行に1エントリです。';
+$PALANG['pEdit_alias_welcome'] = '転送先アドレスの編集'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = '1行に1エントリです。'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = '転送元';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">転送元が見つかりません！</span>';
 $PALANG['pEdit_alias_goto'] = '転送先';
@@ -129,7 +130,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">このドメイ�
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'ローカルのメールボックスに残す';
 $PALANG['pEdit_alias_forward_only'] = '指定された転送アドレスのみ';
-$PALANG['pEdit_alias_button'] = '転送先修正';
+$PALANG['pEdit_alias_button'] = '転送先修正'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">修正できません！</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = '新しいメールアドレスの作成';
@@ -165,7 +166,7 @@ $PALANG['pEdit_mailbox_quota'] = '容量制限';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">指定された容量制限が大きすぎます。</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">このドメインは管理外です: ';
-$PALANG['pEdit_mailbox_button'] = 'メールアドレス修正';
+$PALANG['pEdit_mailbox_button'] = 'メールアドレス修正'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">修正できません！</span>';
 
 $PALANG['pPassword_welcome'] = 'パスワードの変更';
@@ -300,7 +301,7 @@ $PALANG['pAdminEdit_domain_transport'] = '配送方法';
 $PALANG['pAdminEdit_domain_transport_text'] = '配送方法の定義';
 $PALANG['pAdminEdit_domain_backupmx'] = 'バックアップ MXサーバ';
 $PALANG['pAdminEdit_domain_active'] = 'アクティブ';
-$PALANG['pAdminEdit_domain_button'] = 'ドメイン修正';
+$PALANG['pAdminEdit_domain_button'] = 'ドメイン修正'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">ドメインが修正できません！</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = '新しいドメイン管理者の追加';
@@ -323,7 +324,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'パスワード (確認)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">パスワードが一致しません。<br />または空です。</span>';
 $PALANG['pAdminEdit_admin_active'] = 'アクティブ';
 $PALANG['pAdminEdit_admin_super_admin'] = '特権管理者';
-$PALANG['pAdminEdit_admin_button'] = '管理者修正';
+$PALANG['pAdminEdit_admin_button'] = '管理者修正'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">管理者を修正できません！</span>';
 $PALANG['pAdminEdit_admin_result_success'] = '管理者を修正しました。';
 

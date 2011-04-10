@@ -11,7 +11,7 @@ $PALANG['edit'] = '編輯';
 $PALANG['del'] = '刪除';
 $PALANG['exit'] = 'Exit'; # XXX
 $PALANG['cancel'] = 'Cancel'; # XXX
-$PALANG['save'] = 'Save'; # XXX
+$PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = '是否確定刪除?\n';
 $PALANG['confirm_domain'] = '你是否確定要刪除該網域中的所有記錄? 刪除後不可恢復!\n';
 $PALANG['check_update'] = '檢查新版本';
@@ -116,7 +116,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">不能將別名
 $PALANG['pCreate_alias_result_success'] = '添加別名成功!';
 $PALANG['pCreate_alias_catchall_text'] = '要將所有的郵件全部轉發請使用"*"作為別名.<br />網域到網域的轉發請使用"*@domain.tld".';
 
-$PALANG['pEdit_alias_welcome'] = '編輯你網域名中的別名.<br />每行一條記錄.';
+$PALANG['pEdit_alias_welcome'] = '編輯你網域名中的別名.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = '每行一條記錄.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = '別名';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">不能定位別名!</span>';
 $PALANG['pEdit_alias_goto'] = '轉到';
@@ -127,7 +128,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">你沒有該網�
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
-$PALANG['pEdit_alias_button'] = '編輯別名';
+$PALANG['pEdit_alias_button'] = '編輯別名'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">不能修改該別名!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = '在你的網域中新建一個本地郵箱.';
@@ -163,7 +164,7 @@ $PALANG['pEdit_mailbox_quota'] = '限制';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">你輸入的容量限制超出範圍!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">你沒有該網域的管理權限: ';
-$PALANG['pEdit_mailbox_button'] = '編輯郵箱';
+$PALANG['pEdit_mailbox_button'] = '編輯郵箱'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">不能編輯該郵箱!</span>';
 
 $PALANG['pPassword_welcome'] = '更改你的登錄密碼.';
@@ -294,7 +295,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = '備份郵件服務器';
 $PALANG['pAdminEdit_domain_active'] = '活動';
-$PALANG['pAdminEdit_domain_button'] = '修改';
+$PALANG['pAdminEdit_domain_button'] = '修改'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">修改網域失敗!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = '新增網域管理員';
@@ -317,7 +318,7 @@ $PALANG['pAdminEdit_admin_password2'] = '密碼 (驗證)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">你兩次輸入的新密碼不相同!<br />或者為空!</span>';
 $PALANG['pAdminEdit_admin_active'] = '活動';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
-$PALANG['pAdminEdit_admin_button'] = '修改';
+$PALANG['pAdminEdit_admin_button'] = '修改'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">編輯網域管理員失敗!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = '編輯網域管理員成功!';
 

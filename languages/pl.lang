@@ -14,7 +14,7 @@ $PALANG['edit'] = 'Edytuj';
 $PALANG['del'] = 'Usuń';
 $PALANG['exit'] = 'Wyjdź';
 $PALANG['cancel'] = 'Anuluj';
-$PALANG['save'] = 'Zapisz';
+$PALANG['save'] = 'Zapisz'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Jesteś przekonany, że chcesz to usunąć?\n';
 $PALANG['confirm_domain'] = 'Czy rzeczywiście chcesz usunąć wszystkie wpisy dla tej domeny? To jest proces nieodwracalny!\n';
 $PALANG['check_update'] = 'Sprawdź aktualizację';
@@ -118,7 +118,8 @@ $PALANG['pCreate_alias_goto_text_error'] = 'Gdzie ten mail powinien dotrzeć.<br
 $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Nie można dodać aliasu do tabeli aliasów!</span>';
 $PALANG['pCreate_alias_result_success'] = 'Alias został dodany do tabeli aliasów!';
 $PALANG['pCreate_alias_catchall_text'] = 'Aby utworzyć domyślne konto dla domeny (catch-all) podaj "*" (gwiazdkę) jako alias.<br />Jeśli chcesz przekazywać całość poczty do innej domeny, wpisz jako alias "*@domena.tld".';
-$PALANG['pEdit_alias_welcome'] = 'Edytuj alias dla Twojej domeny.<br />Jeden wpis na linię.';
+$PALANG['pEdit_alias_welcome'] = 'Edytuj alias dla Twojej domeny.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Jeden wpis na linię.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Nie można zokalizować aliasu!</span>';
 $PALANG['pEdit_alias_goto'] = 'Do';
@@ -129,7 +130,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Ta domena nie nal
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Nie można zmodyfikować aliasu domeny!</span>';
 $PALANG['pEdit_alias_forward_and_store'] = 'Dostarczaj do mojej skrzynki.';
 $PALANG['pEdit_alias_forward_only'] = 'Prześlij jedynie na podane adresy.';
-$PALANG['pEdit_alias_button'] = 'Edytuj alias';
+$PALANG['pEdit_alias_button'] = 'Edytuj alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Nie można zmodyfikować aliasu!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Utwórz lokalne konto pocztowe dla Twojej domeny.';
@@ -165,7 +166,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Udział';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Podany udział jest za wysoki!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Ta domena nie należy do Ciebie: ';
-$PALANG['pEdit_mailbox_button'] = 'Edytuj konto';
+$PALANG['pEdit_mailbox_button'] = 'Edytuj konto'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Nie można zmienić parametrów!</span>';
 
 $PALANG['pPassword_welcome'] = 'Zmień Swoje hasło.';
@@ -297,7 +298,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Zdefiniuj transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Serwer pocztowy jest zapasowym MX';
 $PALANG['pAdminEdit_domain_active'] = 'Aktywne';
-$PALANG['pAdminEdit_domain_button'] = 'Edytuj domenę';
+$PALANG['pAdminEdit_domain_button'] = 'Edytuj domenę'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Nie można zmodyfikować domeny!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Dodaj konto administratora';
@@ -320,7 +321,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Hasło (ponownie)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Podane hasło nie pasuje!<br />Lub jest puste!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktywny';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Główny administrator';
-$PALANG['pAdminEdit_admin_button'] = 'Edytuj administratora';
+$PALANG['pAdminEdit_admin_button'] = 'Edytuj administratora'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Nie można zmodyfikować administratora!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrator został zmodyfikowany!';
 

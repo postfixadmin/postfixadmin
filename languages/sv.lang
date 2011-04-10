@@ -13,7 +13,7 @@ $PALANG['edit'] = 'ändra';
 $PALANG['del'] = 'radera';
 $PALANG['exit'] = 'Avbryt';
 $PALANG['cancel'] = 'Avbryt';
-$PALANG['save'] = 'Spara';
+$PALANG['save'] = 'Spara'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Är du säker på att du vill radera denna?\n';
 $PALANG['confirm_domain'] = 'Vill du verkligen radera all data för denna domän? Kan ej ångras!\n';
 $PALANG['check_update'] = 'Senaste versionen?';
@@ -118,7 +118,8 @@ $PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Kan inte lägga
 $PALANG['pCreate_alias_result_success'] = 'Aliaset har lagts till i aliastabellen!';
 $PALANG['pCreate_alias_catchall_text'] = 'För att skapa en catch-all ange ett "*" som alias.<br />För domän till domän forwarding använd "*@domän.tld" som till.';
 
-$PALANG['pEdit_alias_welcome'] = 'Ändra ett alias för din domän.<br />Ett alias per rad.';
+$PALANG['pEdit_alias_welcome'] = 'Ändra ett alias för din domän.'; # XXX Text change to: 'Edit forwarding settings'
+$PALANG['pEdit_alias_help'] = 'Ett alias per rad.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Kan inte hitta detta alias!</span>';
 $PALANG['pEdit_alias_goto'] = 'Till';
@@ -129,7 +130,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Detta är inte di
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Leverera till lokal brevlåda.';
 $PALANG['pEdit_alias_forward_only'] = 'Vidarebefodra till angiven epost endast.';
-$PALANG['pEdit_alias_button'] = 'Ändra alias';
+$PALANG['pEdit_alias_button'] = 'Ändra alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Kan inte modifiera detta alias!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Skapa ett nytt lokalt brevlåda i din domän.';
@@ -165,7 +166,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Quotagränsen du angett är för stor!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Detta är inte din domän: ';
-$PALANG['pEdit_mailbox_button'] = 'Ändra brevlåda';
+$PALANG['pEdit_mailbox_button'] = 'Ändra brevlåda'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Kan inte ändra lösenordet!</span>';
 
 $PALANG['pPassword_welcome'] = 'Ändra ditt lösenord.';
@@ -296,7 +297,7 @@ $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definiera transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminEdit_domain_active'] = 'Aktiv';
-$PALANG['pAdminEdit_domain_button'] = 'Ändra domän';
+$PALANG['pAdminEdit_domain_button'] = 'Ändra domän'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Kan inte modifiera domänen!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Lägg till ny domänadmin';
@@ -319,7 +320,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Lösenord (igen)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Lösenorden du angav är olika!<br />Eller är tomma!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktiv';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administratör';
-$PALANG['pAdminEdit_admin_button'] = 'Ändra admin';
+$PALANG['pAdminEdit_admin_button'] = 'Ändra admin'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Kan inte ändra admin!</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin har ändrats!';
 

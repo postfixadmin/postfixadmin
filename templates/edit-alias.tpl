@@ -2,7 +2,7 @@
 <form name="alias" method="post" action="">
 <table>
 	<tr>
-		<td colspan="3"><h3>{$PALANG.pEdit_alias_welcome}</h3></td>
+		<td colspan="3"><h3>{$PALANG.pEdit_alias_welcome}<br />{$PALANG.pEdit_alias_help}</h3></td>
 	</tr>
 	<tr>
 		<td>{$PALANG.pEdit_alias_address}:</td>
@@ -21,7 +21,7 @@
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="{$PALANG.pEdit_alias_button}" /></td>
+		<td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="{$PALANG.save}" /></td>
 	</tr>
 	<tr>
 		<td colspan="3" class="standout">{$tMessage}</td>
