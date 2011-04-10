@@ -10,6 +10,11 @@
 # Last update:
 # $Id$
 
+Changes after 2.3.3 release (postfixadmin-2.3 branch)
+---------------------------------------------------------------
+
+  - fix typo in variable name in squirrelmail plugin
+
 Version 2.3.3 - 2011/03/14 - SVN r1010 (postfixadmin-2.3 branch)
 ---------------------------------------------------------------
 

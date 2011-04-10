@@ -92,7 +92,7 @@ $optmode = 'display';
 // Call: check_email (string email)
 //
 function check_email ($email) {
-    $return = filter_var('validate_email', $emai);
+    $return = filter_var('validate_email', $email);
     if($return === false) {
         return false;
     }
