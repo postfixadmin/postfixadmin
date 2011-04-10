@@ -1163,9 +1163,30 @@ function encode_header ($string, $default_charset = "utf-8")
 // Action: Generates a random password
 // Call: generate_password ()
 //
-function generate_password ()
-{
-    $password = substr (md5 (mt_rand ()), 0, 8);
+function generate_password () {
+    global $CONF;
+
+    //check that password length is sensible
+    $length = (int) $CONF['min_password_length'];
+    if ($length < 5 || $length > 32) {
+  	    $length = 8;
+    }
+
+    // define possible characters
+    $possible = "2345678923456789abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ"; # skip 0 and 1 to avoid confusion with O and l
+
+    // add random characters to $password until $length is reached
+    $password = "";
+    while (strlen($password) < $length) {
+        // pick a random character from the possible ones
+        $char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
+
+        // we don't want this character if it's already in the password
+        if (!strstr($password, $char)) {
+            $password .= $char;
+        }
+    }
+
     return $password;
 }
 
