@@ -600,6 +600,9 @@ function create_page_browser($idxfield, $querypart) {
 
     # init row counter
     $initcount = "SET @row=-1";
+    if ('pgsql'==$CONF['database_type']) {
+        $initcount = "CREATE TEMPORARY SEQUENCE rowcount MINVALUE 0";
+    }
     $result = db_query($initcount);
 
     # get labels for relevant rows (first and last of each page)
@@ -609,6 +612,13 @@ function create_page_browser($idxfield, $querypart) {
             SELECT $idxfield AS label, @row := @row + 1 AS row $querypart 
         ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
     "; 
+    if ('pgsql'==$CONF['database_type']) {
+        $query = "
+            SELECT * FROM (
+                SELECT $idxfield AS label, nextval('rowcount') AS row $querypart 
+            ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
+        "; 
+    }
 #   echo "<p>$query";
 
 # TODO: $query is MySQL-specific
@@ -631,6 +641,10 @@ function create_page_browser($idxfield, $querypart) {
                 $pagebrowser[] = $label;
             }
         }
+    }
+
+    if ('pgsql'==$CONF['database_type']) {
+        db_query ("DROP SEQUENCE rowcount");
     }
 
     return $pagebrowser;
