@@ -573,23 +573,43 @@ function get_domain_properties ($domain)
  *
  *  @param String idxfield - database field name to use as title
  *  @param String query - core part of the query (starting at "FROM")
- *  @param Int    item_count - number of total items (this function is lazy and doesn't want to count itsself ;-)
  *  @return String 
  */
-function create_page_browser($idxfield, $query, $item_count) {
+function create_page_browser($idxfield, $querypart) {
     global $CONF;
-    $page_size = $CONF['page_size'];
+    $page_size = (int) $CONF['page_size'];
     $label_len = 2;
     $pagebrowser = array();
 
-# TODO: item_count is undefined on search results
-#    if ( $item_count <= $page_size ) return array(); # very short list - no pagebrowser needed
+    if ($page_size < 2) { # will break the page browser
+        die('$CONF[\'page_size\'] must be 2 or more!');
+    }
 
+    # get number of rows
+    $query = "SELECT count(*) as counter $querypart";
+    $result = db_query ($query);
+    if ($result['rows'] > 0) {
+        $row = db_array ($result['result']);
+        $count_results = $row['counter'] -1; # we start counting at 0, not 1
+    }
+#    echo "<p>rows: " . ($count_results +1) . " --- $query";
+
+    if ($count_results < $page_size) {
+        return array(); # only one page - no pagebrowser required
+    }
+
+    # init row counter
     $initcount = "SET @row=-1";
     $result = db_query($initcount);
 
-    $last_in_page = $page_size - 1;
-    $query = "SELECT * FROM (SELECT $idxfield AS label, @row := @row + 1 AS row $query ) idx WHERE MOD(idx.row, $page_size) IN (0,$last_in_page)"; 
+    # get labels for relevant rows (first and last of each page)
+    $page_size_zerobase = $page_size - 1;
+    $query = "
+        SELECT * FROM (
+            SELECT $idxfield AS label, @row := @row + 1 AS row $querypart 
+        ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
+    "; 
+#   echo "<p>$query";
 
 # TODO: $query is MySQL-specific
 
@@ -597,7 +617,7 @@ function create_page_browser($idxfield, $query, $item_count) {
 # http://www.postgresql.org/docs/8.1/static/sql-createsequence.html
 # http://www.postgresonline.com/journal/archives/79-Simulating-Row-Number-in-PostgreSQL-Pre-8.4.html
 # http://www.pg-forum.de/sql/1518-nummerierung-der-abfrageergebnisse.html
-# CREATE TEMPORARY SEQUENCE foo MINVALUE 0 MAXVALUE $page_size CYCLE
+# CREATE TEMPORARY SEQUENCE foo MINVALUE 0 MAXVALUE $page_size_zerobase CYCLE
 # afterwards: DROP SEQUENCE foo
 
     $result = db_query ($query);
@@ -606,9 +626,8 @@ function create_page_browser($idxfield, $query, $item_count) {
             if ($row2 = db_array ($result['result'])) {
                 $label = substr($row['label'],0,$label_len) . '-' . substr($row2['label'],0,$label_len);
                 $pagebrowser[] = $label;
-            } else {
-                $label = substr($row['label'],0,$label_len) . '-' . 'ZZ';
-                # TODO: separate query for the last row - or include it in the main query (... OR row = $item_count)
+            } else { # only one row remaining
+                $label = substr($row['label'],0,$label_len);
                 $pagebrowser[] = $label;
             }
         }
