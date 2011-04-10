@@ -23,8 +23,14 @@
 #
 ################################################################################
 
-LIB=${0/%postfixadmin-cli/}
+# LIB is expected to be relative to this script (inside the PostfixAdmin sources)
+# This breaks if you symlink postfixadmin-cli to /usr/bin or alike. Therefore we
+# have to follow the symlink to get the correct path.
+self="$0"
+test -L "$self" && self="`readlink -f \"$self\"`"
 
-exec php -q ${LIB}postfixadmin-cli.php "$@"
+LIB="${self/%postfixadmin-cli/}"
+
+exec php -q "${LIB}postfixadmin-cli.php" "$@"
 
 exit;
