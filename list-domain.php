@@ -63,16 +63,21 @@ if ($list_all_domains == 1) {
 }
 
 # fetch domain data and number of mailboxes
-# (PgSQL requires the extensive GROUP BY statement, https://sourceforge.net/forum/message.php?msg_id=7386240)
-# TODO: SELECT domain.* -> domain.field1, domain.field2 -> see bugreport
+# PgSQL requires the extensive GROUP BY statement (https://sourceforge.net/forum/message.php?msg_id=7386240)
+# and also in the field list (https://sourceforge.net/tracker/?func=detail&aid=2859165&group_id=191583&atid=937964)
+# Note: future versions should auto-generate the field list based on $struct in DomainHandler (use all fields from the domain table)
+$table_domain_fieldlist = "
+   $table_domain.domain, $table_domain.description, $table_domain.aliases, $table_domain.mailboxes,
+   $table_domain.maxquota, $table_domain.quota, $table_domain.transport, $table_domain.backupmx, $table_domain.created,
+   $table_domain.modified, $table_domain.active
+";
+
 $query = "
-   SELECT $table_domain.* , COUNT( DISTINCT $table_mailbox.username ) AS mailbox_count
+   SELECT $table_domain_fieldlist , COUNT( DISTINCT $table_mailbox.username ) AS mailbox_count
    FROM $table_domain
    LEFT JOIN $table_mailbox ON $table_domain.domain = $table_mailbox.domain
    $where
-   GROUP BY $table_domain.domain, $table_domain.description, $table_domain.aliases, $table_domain.mailboxes,
-   $table_domain.maxquota, $table_domain.quota, $table_domain.transport, $table_domain.backupmx, $table_domain.created,
-   $table_domain.modified, $table_domain.active
+   GROUP BY $table_domain_fieldlist
    ORDER BY $table_domain.domain
    ";
 $result = db_query($query);
