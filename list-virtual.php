@@ -155,13 +155,17 @@ if ($search == "") {
    $sql_where  = " AND ( address LIKE '%$search%' OR goto LIKE '%$search%' ) ";
 }
 
-   $query = "SELECT address,
-                    goto,
-                    modified,
-                    active
-                    FROM $table_alias
-					WHERE $sql_domain AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address)   $sql_where
-                    ORDER BY address LIMIT $page_size OFFSET $fDisplay";
+$alias_pagebrowser_query = "
+    FROM $table_alias
+    WHERE $sql_domain AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address) $sql_where
+    ORDER BY address 
+";
+
+$query = "
+    SELECT address, goto, modified, active
+    $alias_pagebrowser_query
+    LIMIT $page_size OFFSET $fDisplay
+";
 
 $result = db_query ($query);
 if ($result['rows'] > 0)
@@ -226,7 +230,8 @@ if (boolconf('used_quotas') && ( ! boolconf('new_quota_table') ) ) {
     $sql_where  .= " AND ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";
 }
 
-$query = "$sql_select\n$sql_from\n$sql_join\n$sql_where\n$sql_order\n$sql_limit";
+$mailbox_pagebrowser_query = "$sql_from\n$sql_join\n$sql_where\n$sql_order" ;
+$query = "$sql_select\n$mailbox_pagebrowser_query\n$sql_limit";
 
 $result = db_query ($query);
 
@@ -267,17 +272,6 @@ if ($result['rows'] > 0)
 $tCanAddAlias = false;
 $tCanAddMailbox = false;
 
-# TODO: needs reworking for $search...
-# TODO: (= bug: no page browser displayed in search mode!) - https://sourceforge.net/tracker/?func=detail&aid=2782818&group_id=191583&atid=937964
-# for non-search mode, get_domain_properties counts the aliases and mailboxes
-# Options:
-# a)
-# if ($search == "") -> get_domain_properties
-# else -> "manual count"
-# b)
-# "manual count" for all cases (not really more work, queries are similar)
-#
-# Note: get_domain_properties also creates the page browser (which needs performance tuning anyway...)
 $limit = get_domain_properties($fDomain);
 if (isset ($limit)) {
    if ($fDisplay >= $page_size) {
@@ -342,9 +336,9 @@ class cNav_bar
 	var $url;	//* manually
 	var $fInit, $arr_prev, $arr_next, $arr_top;	//* internal
 	var $anchor;
-	function cNav_bar ($aCount, $aTitle, $aLimit, $aPage_size, $aPages, $aSearch)
+	function cNav_bar ($aTitle, $aLimit, $aPage_size, $aPages, $aSearch)
 	{
-		$this->count = $aCount;
+		$this->count = count($aPages);
 		$this->title = $aTitle;
 		$this->limit = $aLimit;
 		$this->page_size = $aPage_size;
@@ -428,10 +422,12 @@ class cNav_bar
 	}
 }
 
-$nav_bar_alias = new cNav_bar ($limit['alias_pgindex_count'], $PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $limit['alias_pgindex'], $search);
+$pagebrowser_alias = create_page_browser("$table_alias.address", $alias_pagebrowser_query);
+$nav_bar_alias = new cNav_bar ($PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $pagebrowser_alias, $search);
 $nav_bar_alias->url = '&amp;domain='.$fDomain;
 
-$nav_bar_mailbox = new cNav_bar ($limit['mbox_pgindex_count'], $PALANG['pOverview_mailbox_title'], $fDisplay, $CONF['page_size'], $limit['mbox_pgindex'], $search);
+$pagebrowser_mailbox = create_page_browser("$table_mailbox.username", $mailbox_pagebrowser_query);
+$nav_bar_mailbox = new cNav_bar ($PALANG['pOverview_mailbox_title'], $fDisplay, $CONF['page_size'], $pagebrowser_mailbox, $search);
 $nav_bar_mailbox->url = '&amp;domain='.$fDomain;
 //print $nav_bar_alias->display_top ();
 
