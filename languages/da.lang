@@ -86,12 +86,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Postbokse';
 $PALANG['pOverview_get_quota'] = 'Postboks Kvota (MB)';
 $PALANG['pOverview_get_modified'] = 'Senest ændret';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Kan ikke slette denne post ';
+$PALANG['pDelete_delete_error'] = 'Kan ikke slette denne post ';
 $PALANG['pDelete_delete_success'] = '%s er slettet.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Kunne ikke fjerne postkassen ';
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Dette domæne er ikke dit ';
+$PALANG['pDelete_domain_error'] = 'Dette domæne er ikke dit ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Kunne ikke slette aliaset ';
+$PALANG['pDelete_alias_error'] = 'Kunne ikke slette aliaset ';
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -286,8 +286,8 @@ $PALANG['pAdminCreate_domain_button'] = 'Tilføj domæne';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Kan ikke tilføje domæne!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domænet er tilføjet!';
 
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Domænet kunne ikke slettes!</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'Domænet kunne ikke slettes!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Rediger et domæne';
 $PALANG['pAdminEdit_domain_domain'] = 'Domæne';

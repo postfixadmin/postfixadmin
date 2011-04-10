@@ -85,12 +85,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Postafiókok';
 $PALANG['pOverview_get_quota'] = 'Postafiók Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Utolsó módosítás';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Nem sikerült törölni a bejegyzést ';
+$PALANG['pDelete_delete_error'] = 'Nem sikerült törölni a bejegyzést ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Nem sikerült törölni a mailbox-ot ';
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Ehhez a domainhez nincs jogosultságod ';
+$PALANG['pDelete_domain_error'] = 'Ehhez a domainhez nincs jogosultságod ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Nem sikerült törölni az alias-t ';
+$PALANG['pDelete_alias_error'] = 'Nem sikerült törölni az alias-t ';
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -285,8 +285,8 @@ $PALANG['pAdminCreate_domain_button'] = 'Domain felvétele';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">A domain felvétele sikertelen!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'A domain-t felvettük az adatbázisba!';
 
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">A domain törlése nem sikerült!</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'A domain törlése nem sikerült!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain szerkesztése';
 $PALANG['pAdminEdit_domain_domain'] = 'Domain';

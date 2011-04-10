@@ -50,16 +50,11 @@ if ($fTable == "admin")
     $result_admin = db_delete ('admin',$fWhere,$fDelete);
     $result_domain_admins = db_delete ('domain_admins',$fWhere,$fDelete);
 
-    if (!($result_admin == 1) and ($result_domain_admins >= 0))
-    {
-        $error = 1;
-        $tMessage = $PALANG['pAdminDelete_admin_error'];
+    if ($result_admin != 1) {
+        flash_error($PALANG['pAdminDelete_admin_error']);
     }
-    else
-    {
-        $url = "list-admin.php";
-        header ("Location: $url");
-    }
+    header ("Location: list-admin.php");
+    exit;
 } # ($fTable == "admin")
 elseif ($fTable == "domain")
 {
@@ -78,14 +73,10 @@ elseif ($fTable == "domain")
 
     if (!$result_domain || !domain_postdeletion($fDelete))
     {
-        $error = 1;
-        $tMessage = $PALANG['pAdminDelete_domain_error'];
+        flash_error($PALANG['pAdminDelete_domain_error']);
     }
-    else
-    {
-        $url = "list-domain.php";
-        header ("Location: $url");
-    }
+    header ("Location: list-domain.php");
+    exit;
 } # ($fTable == "domain")
 elseif ($fTable == "alias_domain")
 {
@@ -93,10 +84,11 @@ elseif ($fTable == "alias_domain")
     $table_domain_alias = table_by_key('alias_domain');
     $fWhere = 'alias_domain';
     $fDelete = $fDomain;
-    if(db_delete('alias_domain',$fWhere,$fDelete)) {
-        $url = "list-domain.php";
-        header ("Location: $url");
+    if(db_delete('alias_domain',$fWhere,$fDelete) != 1) {
+        flash_error($PALANG['pAdminDelete_alias_domain_error']);
     }
+    header ("Location: list-domain.php");
+    exit;
 } # ($fTable == "alias_domain")
 
 elseif ($fTable == "alias" or $fTable == "mailbox")
@@ -105,16 +97,16 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
     if (!check_owner ($SESSID_USERNAME, $fDomain))
     {
         $error = 1;
-        $tMessage = $PALANG['pDelete_domain_error'] . "<b>$fDomain</b>!</span>";
+        flash_error($PALANG['pDelete_domain_error'] . "($fDomain)!");
     }
     elseif (!check_alias_owner ($SESSID_USERNAME, $fDelete))
     {
         $error = 1;
-        $tMessage = $PALANG['pDelete_alias_error'] . "<b>$fDelete</b>!</span>";
+        flash_error($PALANG['pDelete_alias_error'] . "($fDelete)!");
     }
     else
     {
-        if ($CONF['database_type'] == "pgsql") db_query('BEGIN');
+        db_begin();
 		/* there may be no aliases to delete */
 		$result = db_query("SELECT * FROM $table_alias WHERE address = '$fDelete' AND domain = '$fDomain'");
 		if($result['rows'] == 1) {
@@ -130,7 +122,7 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
                 if ($result['rows'] != 1 || !$postdel_res)
                 {
                     $error = 1;
-                    $tMessage = $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (";
+                    $tMessage = $PALANG['pDelete_delete_error'] . "$fDelete (";
                     if ($result['rows']!=1)
                     {
                         $tMessage.='mailbox';
@@ -140,7 +132,8 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
                     {
                         $tMessage.='post-deletion';
                     }
-                    $tMessage.=')</span>';
+                    $tMessage.=')';
+                    flash_error($tMessage);
                 }
 				db_log ($fDomain, 'delete_mailbox', $fDelete);
             }
@@ -161,21 +154,24 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
 
         if ($error != 1)
         {
-            if ($CONF['database_type'] == "pgsql") db_query('COMMIT');
-            header ("Location: list-virtual.php?domain=$fDomain");
-            exit;
+            db_commit();
         } else {
-            $tMessage .= $PALANG['pDelete_delete_error'] . "<b>$fDelete</b> (physical mail)!</span>";
-            if ($CONF['database_type'] == "pgsql") db_query('ROLLBACK');
+            flash_error($PALANG['pDelete_delete_error'] . "$fDelete (physical mail)!");
+            db_rollback();
         }
+        header ("Location: list-virtual.php?domain=$fDomain");
+        exit;
 }
 else
 {
     flash_error($PALANG['invalid_parameter']);
+    header("Location: main.php");
+    exit;
 }
 
+# we should most probably never reach this point
 $smarty->assign ('smarty_template', 'message');
-$smarty->assign ('tMessage', $tMessage);
+$smarty->assign ('tMessage', $tMessage . " If you see this, please open a bugreport and include the exact delete.php parameters.");
 $smarty->display ('index.tpl');
 
 

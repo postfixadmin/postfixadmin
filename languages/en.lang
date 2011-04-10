@@ -86,12 +86,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Mailboxes';
 $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Last Modified';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Unable to delete the entry ';
+$PALANG['pDelete_delete_error'] = 'Unable to delete the entry ';
 $PALANG['pDelete_delete_success'] = '%s deleted.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox ';
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">This domain is not yours ';
+$PALANG['pDelete_domain_error'] = 'This domain is not yours ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours ';
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias ';
+$PALANG['pDelete_alias_error'] = 'Unable to delete alias ';
 
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.';
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain';
@@ -287,8 +287,9 @@ $PALANG['pAdminCreate_domain_button'] = 'Add Domain';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Unable to add domain!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain has been added!';
 
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!';
+$PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Edit a domain';
 $PALANG['pAdminEdit_domain_domain'] = 'Domain';

@@ -84,12 +84,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Пощенски кутии';
 $PALANG['pOverview_get_quota'] = 'Обем на пощенската кутия (MB)';
 $PALANG['pOverview_get_modified'] = 'Последно модифициран';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Не мога да изтрия записа ';
+$PALANG['pDelete_delete_error'] = 'Не мога да изтрия записа ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Не мога да изтрия пощенската кутия';
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Този домейн не е ваш! ';
+$PALANG['pDelete_domain_error'] = 'Този домейн не е ваш! ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">Този домейн не е ваш ';
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -280,8 +280,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Мейл сървъра е резер
 $PALANG['pAdminCreate_domain_button'] = 'Добави домейн';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Не мога да добавя домейна!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Домейна бе добавен успешно!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Грешка при изтриването на домейна!</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'Грешка при изтриването на домейна!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Редактиране на домейн';
 $PALANG['pAdminEdit_domain_domain'] = 'Домейн';

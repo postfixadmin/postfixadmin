@@ -83,12 +83,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Postkassar';
 $PALANG['pOverview_get_quota'] = 'Postkassa kvota (MB)';
 $PALANG['pOverview_get_modified'] = 'Síðst broytt';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Fái ikki strikað ';
+$PALANG['pDelete_delete_error'] = 'Fái ikki strikað ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Hetta er ikki títt navnaøki ';
+$PALANG['pDelete_domain_error'] = 'Hetta er ikki títt navnaøki ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -279,8 +279,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Post servari er "backup MX"';
 $PALANG['pAdminCreate_domain_button'] = 'Stovna navnaøki';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Fái ikki stovnað navnaøki!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Navnaøki er stovnað!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Broyt navnaøki';
 $PALANG['pAdminEdit_domain_domain'] = 'Navnaøki';

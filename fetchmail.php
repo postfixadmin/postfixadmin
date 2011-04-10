@@ -146,7 +146,7 @@ if ($cancel) { # cancel $new or $edit
    $result = db_query ("delete from $table_fetchmail WHERE id=".$delete);
    if ($result['rows'] != 1)
    {
-      flash_error($PALANG['pDelete_delete_error']) . '</span>';
+      flash_error($PALANG['pDelete_delete_error']);
    } else {
       flash_info(sprintf($PALANG['pDelete_delete_success'],$account));
    }

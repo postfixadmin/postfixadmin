@@ -85,12 +85,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Mailboxen';
 $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Zuletzt ver&auml;ndert';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Eintrag konnte nicht gel&ouml;scht werden ';
+$PALANG['pDelete_delete_error'] = 'Eintrag konnte nicht gel&ouml;scht werden ';
 $PALANG['pDelete_delete_success'] = '%s gel&ouml;scht.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Mailbox konnte nicht gel&ouml;scht werden ';
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Diese Domain geh&ouml;rt nicht Ihnen ';
+$PALANG['pDelete_domain_error'] = 'Diese Domain geh&ouml;rt nicht Ihnen ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">Diese Domain geh&ouml;rt nicht Ihnen ';
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Alias konnte nicht gel&ouml;scht werden ';
+$PALANG['pDelete_alias_error'] = 'Alias konnte nicht gel&ouml;scht werden ';
 $PALANG['pCreate_alias_domain_welcome'] = 'Adressen einer Ihrer Domains auf eine andere Domain weiterleiten.';
 $PALANG['pCreate_alias_domain_alias'] = 'Alias-Domain';
 $PALANG['pCreate_alias_domain_alias_text'] = 'Die Domain, f&uuml;r die Mails hereinkommen.';
@@ -285,8 +285,8 @@ $PALANG['pAdminCreate_domain_button'] = 'Domain hinzuf&uuml;gen';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Konnte Domain nicht anlegen!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain wurde angelegt!';
 
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Domain konnte nicht gel&ouml;scht werden!</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Alias-Domain konnte nicht gel&ouml;scht werden!</span>';
+$PALANG['pAdminDelete_domain_error'] = 'Domain konnte nicht gel&ouml;scht werden!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Alias-Domain konnte nicht gel&ouml;scht werden!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain editieren';
 $PALANG['pAdminEdit_domain_domain'] = 'Domain';

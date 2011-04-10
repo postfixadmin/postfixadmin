@@ -85,12 +85,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Brevlåda';
 $PALANG['pOverview_get_quota'] = 'Kvot för brevlåda (MB)';
 $PALANG['pOverview_get_modified'] = 'Senast Ändrad';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Kan inte radera data för ';
+$PALANG['pDelete_delete_error'] = 'Kan inte radera data för ';
 $PALANG['pDelete_delete_success'] = '%s borttagen.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Kunde inte tabort brevlåda ';
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Detta är inte din domän ';
+$PALANG['pDelete_domain_error'] = 'Detta är inte din domän ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Kunde inte tabort alias ';
+$PALANG['pDelete_alias_error'] = 'Kunde inte tabort alias ';
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -281,8 +281,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mailserver är backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Lägg till domän';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Kan inte skapa domänen!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domänen har skapats!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Kunde inte tabort domän!</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'Kunde inte tabort domän!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Ändra en domän';
 $PALANG['pAdminEdit_domain_domain'] = 'Domän';

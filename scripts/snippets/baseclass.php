@@ -204,7 +204,7 @@ class postfixadminBaseclass {
         $result = db_delete($this->table, $this->primarykey, $key);
         if ($result != 1)
         {
-            flash_error($PALANG['pDelete_delete_error']) . '</span>';
+            flash_error($PALANG['pDelete_delete_error']);
         } else {
             flash_info(sprintf($PALANG['pDelete_delete_success'],$account));
         }

@@ -83,12 +83,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Buzones';
 $PALANG['pOverview_get_quota'] = 'Cuota de buzón (MB)';
 $PALANG['pOverview_get_modified'] = 'Última Modificación';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Imposible borrar el registro ';
+$PALANG['pDelete_delete_error'] = 'Imposible borrar el registro ';
 $PALANG['pDelete_delete_success'] = '%s borrado.'; 
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">No se pudo eliminar el buzón '; 
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Este dominio no le pertenece ';
+$PALANG['pDelete_domain_error'] = 'Este dominio no le pertenece ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">Este dominio no te pertenece '; 
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">No se pudo eliminar el alias '; 
+$PALANG['pDelete_alias_error'] = 'No se pudo eliminar el alias '; 
 $PALANG['pCreate_alias_domain_welcome'] = 'Sincronizar direcciones de un dominio a otro.'; 
 $PALANG['pCreate_alias_domain_alias'] = 'Alias de Dominio'; 
 $PALANG['pCreate_alias_domain_alias_text'] = 'El dominio al que llega el email.'; 
@@ -280,8 +280,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'El servidor de correo es backup MX'; 
 $PALANG['pAdminCreate_domain_button'] = 'Añadir dominio';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">¡Imposible añadir el dominio!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = '¡El dominio ha sido añadido!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">¡No se pudo eliminar el dominio!</span>'; 
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">¡No se pudo eliminar el alias de dominio!</span>'; 
+$PALANG['pAdminDelete_domain_error'] = '¡No se pudo eliminar el dominio!'; 
+$PALANG['pAdminDelete_alias_domain_error'] = '¡No se pudo eliminar el alias de dominio!'; 
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Editar un dominio';
 $PALANG['pAdminEdit_domain_domain'] = 'Dominio';

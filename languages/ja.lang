@@ -85,12 +85,12 @@ $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'アドレス';
 $PALANG['pOverview_get_quota'] = '容量制限 (MB)';
 $PALANG['pOverview_get_modified'] = '最終更新日';
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">エントリを削除できません。 ';
+$PALANG['pDelete_delete_error'] = 'エントリを削除できません。 ';
 $PALANG['pDelete_delete_success'] = '%s を削除しました。';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">メールアドレスを削除できません。 ';
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">このドメインは管理外です。 ';
+$PALANG['pDelete_domain_error'] = 'このドメインは管理外です。 ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">転送アドレスを削除できません。 ';
+$PALANG['pDelete_alias_error'] = '転送アドレスを削除できません。 ';
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -285,8 +285,8 @@ $PALANG['pAdminCreate_domain_button'] = 'ドメイン追加';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">ドメインを追加できません！</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'ドメインを追加しました。';
 
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">ドメインが削除できません！</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'ドメインが削除できません！';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'ドメインの修正';
 $PALANG['pAdminEdit_domain_domain'] = 'ドメイン';

@@ -82,12 +82,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Bústies';
 $PALANG['pOverview_get_quota'] = 'Quota de bústia (MB)';
 $PALANG['pOverview_get_modified'] = 'Última Modificació';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Imposible borrar el registre ';
+$PALANG['pDelete_delete_error'] = 'Imposible borrar el registre ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Aquest domini no et pertany ';
+$PALANG['pDelete_domain_error'] = 'Aquest domini no et pertany ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -278,8 +278,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Afegir domini';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Imposible afegir el domini!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'El domini ha estat afegit!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Editar un domini';
 $PALANG['pAdminEdit_domain_domain'] = 'Domini';

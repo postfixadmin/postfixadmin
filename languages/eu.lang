@@ -82,12 +82,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Postontziak';
 $PALANG['pOverview_get_quota'] = 'Postontzi kuota (MB)';
 $PALANG['pOverview_get_modified'] = 'Azken aldaketa';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Ezinezkoa sarrera ezabatzea ';
+$PALANG['pDelete_delete_error'] = 'Ezinezkoa sarrera ezabatzea ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Ez zara domeinu honen jabe';
+$PALANG['pDelete_domain_error'] = 'Ez zara domeinu honen jabe';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -277,8 +277,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminCreate_domain_button'] = 'Domeinua gehitu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Ezinezkoa domeinua gehitzea!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domeinua gehituta!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domeinu bat aldatu';
 $PALANG['pAdminEdit_domain_domain'] = 'Domeinua';

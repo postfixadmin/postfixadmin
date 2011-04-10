@@ -85,12 +85,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Comptes courriels';
 $PALANG['pOverview_get_quota'] = 'Limite compte courriels (MB)';
 $PALANG['pOverview_get_modified'] = 'Dernière Modification';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Impossible d\'effacer cette entrée ';
+$PALANG['pDelete_delete_error'] = 'Impossible d\'effacer cette entrée ';
 $PALANG['pDelete_delete_success'] = '%s supprimé.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Impossible d\'effacer ce compte courriel';
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Ce domaine n\'est pas le votre ';
+$PALANG['pDelete_domain_error'] = 'Ce domaine n\'est pas le votre ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">Ce domaine n\'est pas le votre ';
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Impossible d\'effacer cet alias ';
+$PALANG['pDelete_alias_error'] = 'Impossible d\'effacer cet alias ';
 $PALANG['pCreate_alias_domain_welcome'] = 'Les adresses mirroirs de l\'un de vos domaines vers un autre.';
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domaine';
 $PALANG['pCreate_alias_domain_alias_text'] = 'Le domaine dans lequel les courriels viennent.';
@@ -281,8 +281,8 @@ $PALANG['pAdminCreate_domain_button'] = 'Ajouter un domaine';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Impossible d\'ajouter le domaine!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Le domaine a été ajouté!';
 
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Impossible de supprimer le domain!</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Impossible de supprimé cet alias de domaine!</span>';
+$PALANG['pAdminDelete_domain_error'] = 'Impossible de supprimer le domain!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Impossible de supprimé cet alias de domaine!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Modifier un domaine';
 $PALANG['pAdminEdit_domain_domain'] = 'Domaine';

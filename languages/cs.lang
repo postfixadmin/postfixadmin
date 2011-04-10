@@ -88,12 +88,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Schránky';
 $PALANG['pOverview_get_quota'] = 'Místo pro schránku (MB)';
 $PALANG['pOverview_get_modified'] = 'Naposledy změněno';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Nelze smazat položku ';
+$PALANG['pDelete_delete_error'] = 'Nelze smazat položku ';
 $PALANG['pDelete_delete_success'] = '%s odstraněn.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Nelze odstranit schránku ';
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Tato doména není vaše ';
+$PALANG['pDelete_domain_error'] = 'Tato doména není vaše ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Nelze odstranit přesměrování ';
+$PALANG['pDelete_alias_error'] = 'Nelze odstranit přesměrování ';
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -288,8 +288,8 @@ $PALANG['pAdminCreate_domain_button'] = 'Přidat doménu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Nepodařilo se přidat doménu!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Doména byla přidána!';
 
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Nepodařilo se odstranit doménu!</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'Nepodařilo se odstranit doménu!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Upravit doménu';
 $PALANG['pAdminEdit_domain_domain'] = 'Doména';

@@ -83,12 +83,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Postakutularý';
 $PALANG['pOverview_get_quota'] = 'Posta kutusu Kotasý (MB)';
 $PALANG['pOverview_get_modified'] = 'Son Düzenleme';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Kayýt silinemiyor ';
+$PALANG['pDelete_delete_error'] = 'Kayýt silinemiyor ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Bu domain size ait deðil ';
+$PALANG['pDelete_domain_error'] = 'Bu domain size ait deðil ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -279,8 +279,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminCreate_domain_button'] = 'Domain ekle';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domain eklenemedi!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain eklendi!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain düzenle';
 $PALANG['pAdminEdit_domain_domain'] = 'Domain';

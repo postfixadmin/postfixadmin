@@ -82,12 +82,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Potanski ormarići';
 $PALANG['pOverview_get_quota'] = 'Kvota za potanske ormariće (MB)';
 $PALANG['pOverview_get_modified'] = 'Zadnja promjena';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Unos nije bilo moguče izbrisati ';
+$PALANG['pDelete_delete_error'] = 'Unos nije bilo moguče izbrisati ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Izabrana domena nije pod vaim nadzorom ';
+$PALANG['pDelete_domain_error'] = 'Izabrana domena nije pod vaim nadzorom ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -278,8 +278,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Posluitelj e-pote je sekundarni M
 $PALANG['pAdminCreate_domain_button'] = 'Dodaj domenu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domenu nije bilo moguče dodati!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domena je bila uspjeno dodana!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Uredi domenu';
 $PALANG['pAdminEdit_domain_domain'] = 'Domena';

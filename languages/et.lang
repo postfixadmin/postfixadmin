@@ -83,12 +83,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Postkastid';
 $PALANG['pOverview_get_quota'] = 'Postkasti kettaruumi piirang (MB)';
 $PALANG['pOverview_get_modified'] = 'Viimati muudetud';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Kustutamine ebaõnnestus. Kirje: ';
+$PALANG['pDelete_delete_error'] = 'Kustutamine ebaõnnestus. Kirje: ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Puuduvad õigused. Domeen: ';
+$PALANG['pDelete_domain_error'] = 'Puuduvad õigused. Domeen: ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Unable to delete alias '; # XXX
+$PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
@@ -279,8 +279,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'E-posti server on varuserver (backup 
 $PALANG['pAdminCreate_domain_button'] = 'Lisa domeen';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domeeni lisamine ebaõnnestus!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domeen on lisatud!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
+$PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Redigeeri domeeni';
 $PALANG['pAdminEdit_domain_domain'] = 'Domeen';

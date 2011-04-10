@@ -84,12 +84,12 @@ $PALANG['pOverview_get_mailboxes'] = 'Mailboxen';
 $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 $PALANG['pOverview_get_modified'] = 'Laatst bewerkt';
 
-$PALANG['pDelete_delete_error'] = '<span class="error_msg">Mislukt te verwijderen ';
+$PALANG['pDelete_delete_error'] = 'Mislukt te verwijderen ';
 $PALANG['pDelete_delete_success'] = '%s verwijderd.';
 $PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Niet in staat mailbox te verwijderen ';
-$PALANG['pDelete_domain_error'] = '<span class="error_msg">Dit is niet uw domein ';
+$PALANG['pDelete_domain_error'] = 'Dit is niet uw domein ';
 $PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">Dit is niet uw domein ';
-$PALANG['pDelete_alias_error'] = '<span class="error_msg">Niet in staat alias te verwijderen ';
+$PALANG['pDelete_alias_error'] = 'Niet in staat alias te verwijderen ';
 $PALANG['pCreate_alias_domain_welcome'] = 'Spiegel een van uw domeinen naar een ander domein.';
 $PALANG['pCreate_alias_domain_alias'] = 'Alias domein';
 $PALANG['pCreate_alias_domain_alias_text'] = 'Het domein waar mail voor binnen komt.';
@@ -280,8 +280,8 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is back-up MX';
 $PALANG['pAdminCreate_domain_button'] = 'Voeg Domein toe';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Mislukt om het domein toe te voegen.</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd!';
-$PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Niet in staat domein te verwijderen!</span>';
-$PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Niet in staat domein alias te verwijderen!</span>';
+$PALANG['pAdminDelete_domain_error'] = 'Niet in staat domein te verwijderen!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Niet in staat domein alias te verwijderen!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Bewerk een domein';
 $PALANG['pAdminEdit_domain_domain'] = 'Domein';
