@@ -71,6 +71,9 @@ foreach($form_fields  as $key => $default) {
         }
     }
 }
+
+$fDomain = strtolower($fDomain);
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
     /* default values as set above */
