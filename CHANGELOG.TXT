@@ -16,6 +16,8 @@ Changes after 2.3.3 release (postfixadmin-2.3 branch)
   - generate more secure random passwords
   - squirrelmail plugin: fix typo in variable name
   - list-domain: fix SELECT query to work with PgSQL even when using custom fields
+  - create-domain: force domain name to lowercase to avoid problems with PgSQL
+    foreign keys
 
 Version 2.3.3 - 2011/03/14 - SVN r1010 (postfixadmin-2.3 branch)
 ---------------------------------------------------------------
