@@ -17,7 +17,7 @@ class DomainHandler extends PFAHandler {
      * @param string $username
      */
     public function __construct($username, $new = 0) {
-        $this->username = $username;
+        $this->username = strtolower($username); # TODO: find a better place for strtolower() to avoid a special constructor in DomainHandler (or agree that $username should be lowercase in all *Handler classes ;-)
         if ($new) $this->new = 1;
         # TODO: if $new == 1, check that item does NOT exist and is a valid (in this case) domain
         # TODO: else: check if item exists. error out if not.
