@@ -28,6 +28,7 @@ class PFASmarty {
 
     public function display($template) {
         $this->template->display($template);
+        unset($_SESSION['flash']); # cleanup flash messages
     }
     /**
      * Recursive cleaning of data, using htmlentities - this assumes we only ever output to HTML and we're outputting in UTF-8 charset 
