@@ -561,7 +561,7 @@ while (<STDIN>) {
     elsif (/^x\-loop:\s+postfix\ admin\ virtual\ vacation/i) { $logger->debug('x-loop: postfix admin virtual vacation found; exiting'); exit (0); }
     elsif (/^Auto\-Submitted:\s*no/i) { next; }
     elsif (/^Auto\-Submitted:/i) { $logger->debug('Auto-Submitted: something found; exiting'); exit (0); }
-    elsif (/^List\-(Id|Post):/i) { $logger->debug("List-$1: found; exiting"); exit (0); }
+    elsif (/^List\-(Id|Post|Unsubscribe):/i) { $logger->debug("List-$1: found; exiting"); exit (0); }
     elsif (/^(x\-(barracuda\-)?spam\-status):\s+(yes)/i) { $logger->debug("$1: $3 found; exiting"); exit (0); }
     elsif (/^(x\-dspam\-result):\s+(spam|bl[ao]cklisted)/i) { $logger->debug("$1: $2 found; exiting"); exit (0); }
     elsif (/^(x\-(anti|avas\-)?virus\-status):\s+(infected)/i) { $logger->debug("$1: $3 found; exiting"); exit (0); }
