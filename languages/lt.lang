@@ -240,7 +240,8 @@ $PALANG['pAdminList_domain_domain'] = 'Sritis';
 $PALANG['pAdminList_domain_description'] = 'Aprašymas';
 $PALANG['pAdminList_domain_aliases'] = 'Sinonimai';
 $PALANG['pAdminList_domain_mailboxes'] = 'Pašto dėžutės';
-$PALANG['pAdminList_domain_maxquota'] = 'Kvota (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Kvota (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Srities transportas';
 $PALANG['pAdminList_domain_backupmx'] = 'Atsarginis MX';
 $PALANG['pAdminList_domain_modified'] = 'Paskutinį kartą keista(s)';
@@ -278,6 +279,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Tai atsarginis pašto serveris (MX)';
 $PALANG['pAdminCreate_domain_button'] = 'Registruoti sritį';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Srities užregistruoti nepavyko!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Sritis užregistruota!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
@@ -290,6 +292,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Pašto dėžutės';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 išjungta(s) | 0 = neribota(s)';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maksimali kvota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = išjungta(s) | 0 = neribota(s)';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Srities transportas';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Nustatyti transportą';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Tai atsarginis pašto serveris (MX)';

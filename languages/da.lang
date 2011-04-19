@@ -247,7 +247,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domæne';
 $PALANG['pAdminList_domain_description'] = 'Beskrivelse';
 $PALANG['pAdminList_domain_aliases'] = 'Alias';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postbokse';
-$PALANG['pAdminList_domain_maxquota'] = 'Maks. kvota (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Maks. kvota (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['pAdminList_domain_modified'] = 'Senest ændret';
@@ -285,6 +286,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mailserveren er backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Tilføj domæne';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Kan ikke tilføje domæne!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domænet er tilføjet!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
 $PALANG['pAdminDelete_domain_error'] = 'Domænet kunne ikke slettes!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
@@ -298,6 +300,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Postbokse';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = annuller | 0 = uendeligt';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maks. kvota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = annuller | 0 = uendeligt';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Præciser transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mailserveren er backup MX';

@@ -241,7 +241,8 @@ $PALANG['pAdminList_domain_domain'] = 'Navnaøki';
 $PALANG['pAdminList_domain_description'] = 'Frágreiðing';
 $PALANG['pAdminList_domain_aliases'] = 'Dulnevni';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postkassar';
-$PALANG['pAdminList_domain_maxquota'] = 'Hægsta Kvota (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Hægsta Kvota (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = 'Síðst broytt';
@@ -279,6 +280,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Post servari er "backup MX"';
 $PALANG['pAdminCreate_domain_button'] = 'Stovna navnaøki';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Fái ikki stovnað navnaøki!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Navnaøki er stovnað!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
@@ -291,6 +293,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Postkassar';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = óvirkja | 0 = óavmarkað';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Hægsta kvota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = óvirkja | 0 = óavmarkað';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Post servari er "backup MX"';

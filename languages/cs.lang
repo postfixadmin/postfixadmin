@@ -249,7 +249,8 @@ $PALANG['pAdminList_domain_domain'] = 'Doména';
 $PALANG['pAdminList_domain_description'] = 'Popis';
 $PALANG['pAdminList_domain_aliases'] = 'Přesměrování';
 $PALANG['pAdminList_domain_mailboxes'] = 'Schránek';
-$PALANG['pAdminList_domain_maxquota'] = 'Maximální místo (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Maximální místo (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Záložní MX';
 $PALANG['pAdminList_domain_modified'] = 'Naposledy Změněno';
@@ -287,6 +288,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Tento server je záložní MX domény
 $PALANG['pAdminCreate_domain_button'] = 'Přidat doménu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Nepodařilo se přidat doménu!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Doména byla přidána!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
 $PALANG['pAdminDelete_domain_error'] = 'Nepodařilo se odstranit doménu!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
@@ -300,6 +302,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Schránek';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = znepřístupnit | 0 = neomezeně';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maximální místo';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = znepřístupnit | 0 = neomezeně';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Nastavit transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Tento server je záložní MX domény';

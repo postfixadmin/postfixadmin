@@ -239,7 +239,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domeinua';
 $PALANG['pAdminList_domain_description'] = 'Deskripzioa';
 $PALANG['pAdminList_domain_aliases'] = 'Aliasa';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postontziak';
-$PALANG['pAdminList_domain_maxquota'] = 'Gehienezko kuota (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Gehienezko kuota (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['pAdminList_domain_modified'] = 'Azken aldaketa';
@@ -277,6 +278,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminCreate_domain_button'] = 'Domeinua gehitu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Ezinezkoa domeinua gehitzea!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domeinua gehituta!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
@@ -289,6 +291,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Postontziak';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = desegokitu | 0 = mugagabea';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Gehienezko kuota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = desegokitu | 0 = mugagabea';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX

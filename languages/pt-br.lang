@@ -248,7 +248,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domínio';
 $PALANG['pAdminList_domain_description'] = 'Descrição';
 $PALANG['pAdminList_domain_aliases'] = 'Aliases';
 $PALANG['pAdminList_domain_mailboxes'] = 'Contas de Email';
-$PALANG['pAdminList_domain_maxquota'] = 'Cota de Espaço (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Cota de Espaço (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transporte';
 $PALANG['pAdminList_domain_backupmx'] = 'MX de Backup';
 $PALANG['pAdminList_domain_modified'] = 'Última Modificação';
@@ -286,6 +287,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Servidor de email é um MX de backup'
 $PALANG['pAdminCreate_domain_button'] = 'Criar Domínio';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Não foi possível criar o domínio!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domínio criado!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
 $PALANG['pAdminDelete_domain_error'] = 'Não foi possível remover o domínio!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Não foi possível remover o alias de domínio!';
@@ -299,6 +301,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Contas de email';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = desativar | 0 = ilimitado';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Cota de espaço máxima';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = desativar | 0 = ilimitado';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transporte';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definir transporte';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Servidor de email é um MX de backup';

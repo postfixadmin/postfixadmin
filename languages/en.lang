@@ -248,7 +248,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domain';
 $PALANG['pAdminList_domain_description'] = 'Description';
 $PALANG['pAdminList_domain_aliases'] = 'Aliases';
 $PALANG['pAdminList_domain_mailboxes'] = 'Mailboxes';
-$PALANG['pAdminList_domain_maxquota'] = 'Quota (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Quota (MB)'; # obsolete
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)';
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['pAdminList_domain_modified'] = 'Last Modified';
@@ -276,7 +277,7 @@ $PALANG['pAdminCreate_domain_aliases'] = 'Aliases';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = disable | 0 = unlimited';
 $PALANG['pAdminCreate_domain_mailboxes'] = 'Mailboxes';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = disable | 0 = unlimited';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota';
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max Mailbox Quota'; # TODO: add change comment in translations
 $PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = disable | 0 = unlimited';
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
@@ -298,8 +299,9 @@ $PALANG['pAdminEdit_domain_aliases'] = 'Aliases';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = disable | 0 = unlimited';
 $PALANG['pAdminEdit_domain_mailboxes'] = 'Mailboxes';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = disable | 0 = unlimited';
-$PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Max Mailbox Quota'; # TODO: add change comment in translation - or drop and use pAdminCreate_domain_maxquota
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = disable | 0 = unlimited';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota';
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';

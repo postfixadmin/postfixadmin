@@ -241,7 +241,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domena';
 $PALANG['pAdminList_domain_description'] = 'Opis';
 $PALANG['pAdminList_domain_aliases'] = 'Aliasi';
 $PALANG['pAdminList_domain_mailboxes'] = 'Predali';
-$PALANG['pAdminList_domain_maxquota'] = 'Maksimalna kvota (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Maksimalna kvota (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['pAdminList_domain_modified'] = 'Zadnjič spremenjeno';
@@ -279,6 +280,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Poštni strežnik je sekundarni MX';
 $PALANG['pAdminCreate_domain_button'] = 'Dodaj domeno';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domene ni bilo mogoče dodati!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domena je bila uspešno dodana!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
@@ -291,6 +293,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Predali';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = onemogoči | 0 = neomejeno';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maksimalna kvota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = onemogoči | 0 = neomejeno';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Poštni strežnik je sekundarni MX';

@@ -243,7 +243,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domän';
 $PALANG['pAdminList_domain_description'] = 'Beskrivning';
 $PALANG['pAdminList_domain_aliases'] = 'Alias';
 $PALANG['pAdminList_domain_mailboxes'] = 'Brevlåda';
-$PALANG['pAdminList_domain_maxquota'] = 'Max Quota (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Max Quota (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['pAdminList_domain_modified'] = 'Senast modifierad';
@@ -281,6 +282,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mailserver är backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Lägg till domän';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Kan inte skapa domänen!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domänen har skapats!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Kunde inte tabort domän!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
@@ -293,6 +295,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Brevlåda';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = avaktivera | 0 = obegränsat';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = avaktivera | 0 = obegränsat';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definiera transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';

@@ -244,7 +244,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domena';
 $PALANG['pAdminList_domain_description'] = 'Opis';
 $PALANG['pAdminList_domain_aliases'] = 'Aliasy';
 $PALANG['pAdminList_domain_mailboxes'] = 'Konta';
-$PALANG['pAdminList_domain_maxquota'] = 'Max udział (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Max udział (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Zapasowy MX';
 $PALANG['pAdminList_domain_modified'] = 'Ostatnio zmodyfikowane';
@@ -282,6 +283,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Serwer pocztowy jest zapasowym MX';
 $PALANG['pAdminCreate_domain_button'] = 'Dodaj domenę';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Nie można dodać domeny!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domena została dodana!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Nie można usunąć domeny!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Nie można usunąć aliasu domeny!';
 
@@ -294,6 +296,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Konta';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = wyłączone | 0 = bez limitów';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max udział';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = wyłączone | 0 = bez limitów';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Zdefiniuj transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Serwer pocztowy jest zapasowym MX';

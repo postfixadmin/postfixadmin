@@ -248,7 +248,8 @@ $PALANG['pAdminList_domain_domain'] = 'Домен';
 $PALANG['pAdminList_domain_description'] = 'Описание';
 $PALANG['pAdminList_domain_aliases'] = 'Алиасы';
 $PALANG['pAdminList_domain_mailboxes'] = 'Ящики';
-$PALANG['pAdminList_domain_maxquota'] = 'Квота (МБ)';
+$PALANG['pAdminList_domain_maxquota'] = 'Квота (МБ)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Транспорт';
 $PALANG['pAdminList_domain_backupmx'] = 'Резервный MX';
 $PALANG['pAdminList_domain_modified'] = 'Последнее изменение';
@@ -286,6 +287,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Почтовый сервер явл�
 $PALANG['pAdminCreate_domain_button'] = 'Добавить домен';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Невозможно добавить домен!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Домен был добавлен!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
 $PALANG['pAdminDelete_domain_error'] = 'Невозможно удалить домен!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Невозможно удалить домен-алиас!';
@@ -299,6 +301,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Ящики';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = отключить | 0 = неограниченное';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Макс. квота';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'МБ<br /> -1 = отключить | 0 = неограниченное';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Транспорт';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Укажите транспорт';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Почтовый сервер является резервным MX';

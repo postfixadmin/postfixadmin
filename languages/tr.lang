@@ -241,7 +241,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domain';
 $PALANG['pAdminList_domain_description'] = 'Açýklama';
 $PALANG['pAdminList_domain_aliases'] = 'Aliaslar';
 $PALANG['pAdminList_domain_mailboxes'] = 'Posta kutularý';
-$PALANG['pAdminList_domain_maxquota'] = 'Max kota (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Max kota (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['pAdminList_domain_modified'] = 'Son Düzenleme';
@@ -279,6 +280,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminCreate_domain_button'] = 'Domain ekle';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domain eklenemedi!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain eklendi!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
@@ -291,6 +293,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Posta kutularý';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = iptal | 0 = limitsiz';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Kota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = iptal | 0 = limitsiz';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX

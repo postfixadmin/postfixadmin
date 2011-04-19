@@ -246,7 +246,8 @@ $PALANG['pAdminList_domain_domain'] = 'ドメイン';
 $PALANG['pAdminList_domain_description'] = '説明';
 $PALANG['pAdminList_domain_aliases'] = '転送数';
 $PALANG['pAdminList_domain_mailboxes'] = 'アドレス数';
-$PALANG['pAdminList_domain_maxquota'] = '容量制限 (MB)';
+$PALANG['pAdminList_domain_maxquota'] = '容量制限 (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = '配送方法';
 $PALANG['pAdminList_domain_backupmx'] = 'バックアップ MX';
 $PALANG['pAdminList_domain_modified'] = '最終更新日';
@@ -284,6 +285,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'バックアップ MXサーバ';
 $PALANG['pAdminCreate_domain_button'] = 'ドメイン追加';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">ドメインを追加できません！</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'ドメインを追加しました。';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
 $PALANG['pAdminDelete_domain_error'] = 'ドメインが削除できません！';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
@@ -297,6 +299,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = '最大メールアドレス';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = 無効 | 0 = 無制限';
 $PALANG['pAdminEdit_domain_maxquota'] = '最大容量制限';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = 無効 | 0 = 無制限';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = '配送方法';
 $PALANG['pAdminEdit_domain_transport_text'] = '配送方法の定義';
 $PALANG['pAdminEdit_domain_backupmx'] = 'バックアップ MXサーバ';

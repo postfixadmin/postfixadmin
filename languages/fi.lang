@@ -241,7 +241,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domain';
 $PALANG['pAdminList_domain_description'] = 'Kuvaus';
 $PALANG['pAdminList_domain_aliases'] = 'Aliakset';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postilaatikot';
-$PALANG['pAdminList_domain_maxquota'] = 'Suurin sallittu kiintiö (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Suurin sallittu kiintiö (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Vara MX';
 $PALANG['pAdminList_domain_modified'] = 'Viimeksi muokattu';
@@ -279,6 +280,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Sähköpostipalvelin on vara MX';
 $PALANG['pAdminCreate_domain_button'] = 'Lisää domain';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domainin lisäys ei onnistunut!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain on lisätty!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Domainin voitu poistaa!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Domainin aliasta ei voitu poistaa!';
 
@@ -291,6 +293,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Postilaatikot';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = ei käytössä | 0 = rajoittamaton';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max kiintiö';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = ei käytössä | 0 = rajoittamaton';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Määritä transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Sähköpostipalvelin on vara MX';

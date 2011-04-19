@@ -241,7 +241,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domeen';
 $PALANG['pAdminList_domain_description'] = 'Kirjeldus';
 $PALANG['pAdminList_domain_aliases'] = 'Aliased';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postkastid';
-$PALANG['pAdminList_domain_maxquota'] = 'Maksimaalne kettaruumi piirang (MB)';
+$PALANG['pAdminList_domain_maxquota'] = 'Maksimaalne kettaruumi piirang (MB)'; # XXX no longer used
+$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['pAdminList_domain_modified'] = 'Viimati muudetud';
@@ -279,6 +280,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'E-posti server on varuserver (backup 
 $PALANG['pAdminCreate_domain_button'] = 'Lisa domeen';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domeeni lisamine ebaõnnestus!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domeen on lisatud!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
@@ -291,6 +293,7 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Postkaste';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = keelatud | 0 = piiramatult';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maksimaalne kettaruum';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = keelatud | 0 = piiramatult';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Kirjelda transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'E-posti server on varuserver (backup MX)';
