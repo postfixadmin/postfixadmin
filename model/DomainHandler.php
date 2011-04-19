@@ -40,7 +40,7 @@ class DomainHandler extends PFAHandler {
            "aliases"         => array(  1,          1,      1,      'num'       ),
            "mailboxes"       => array(  1,          1,      1,      'num'       ),
            "maxquota"        => array(  1,          1,      1,      'num'       ),
-           "quota"           => array(  0,          0,      0,      'num'       ), # currently unused, reserved for domain total quota
+           "quota"           => array(  0,          0,      0,      'num'       ),
            "transport"       => array(  1,          1,      1,      'enum'      ),
            "backupmx"        => array(  1,          1,      1,      'bool'      ),
            "active"          => array(  1,          1,      1,      'bool'      ),
@@ -53,7 +53,7 @@ class DomainHandler extends PFAHandler {
             'aliases'   => Config::read('aliases'),
             'mailboxes' => Config::read('mailboxes'),
             'maxquota'  => Config::read('maxquota'),
-            'quota'     => 0, # TODO: Config::read(''), - config option does not exist yet
+            'quota'     => Config::read('domain_quota_default'),
             'transport' => $this->getTransports(),
             'backupmx'  => 0,
             'active'    => 1,
