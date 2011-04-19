@@ -14,7 +14,8 @@
 			<td>{$PALANG.pAdminList_domain_description}</td>
 			<td>{$PALANG.pAdminList_domain_aliases}</td>
 			<td>{$PALANG.pAdminList_domain_mailboxes}</td>
-			{if $CONF.quota==YES}<td>{$PALANG.pAdminList_domain_maxquota}</td>{/if}
+			{if $CONF.quota==YES}<td>{$PALANG.pOverview_get_quota}</td>{/if}
+			{if $CONF.domain_quota==YES}<td>{$PALANG.pAdminList_domain_quota}</td>{/if}
 			{if $CONF.transport==YES}<td>{$PALANG.pAdminList_domain_transport}</td>{/if}
 			<td>{$PALANG.pAdminList_domain_backupmx}</td>
 			<td>{$PALANG.pAdminList_domain_modified}</td>
@@ -28,6 +29,7 @@
 			<td>{$domain.alias_count} / {$domain.aliases}</td>
 			<td>{$domain.mailbox_count} / {$domain.mailboxes}</td>
 			{if $CONF.quota==YES}<td>{$domain.maxquota}</td>{/if}
+			{if $CONF.domain_quota===YES}<td>{$domain.total_quota} / {$domain.quota}</td>{/if}
 			{if $CONF.transport==YES}<td>{$domain.transport}</td>{/if}
 			<td>{$domain.backupmx}</td>
 			<td>{$domain.modified}</td>

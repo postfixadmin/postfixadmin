@@ -16,6 +16,7 @@
 		<td>{$PALANG.pOverview_get_aliases}</td>
 		<td>{$PALANG.pOverview_get_mailboxes}</td>
 		{if $CONF.quota===YES}<td>{$PALANG.pOverview_get_quota}</td>{/if}
+		{if $CONF.domain_quota===YES}<td>{$PALANG.pAdminList_domain_quota}</td>{/if}
 	</tr>
 {foreach from=$domain_properties item=domain}
 		{#tr_hilightoff#}
@@ -23,6 +24,7 @@
 			<td>{$domain.alias_count} / {$domain.aliases}</td>
 			<td>{$domain.mailbox_count} / {$domain.mailboxes}</td>
 			{if $CONF.quota===YES}<td>{$domain.maxquota}</td>{/if}
+			{if $CONF.domain_quota===YES}<td>{$domain.total_quota} / {$domain.quota}</td>{/if}
 		</tr>
 {/foreach}
 </table>

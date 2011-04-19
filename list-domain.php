@@ -73,7 +73,7 @@ $table_domain_fieldlist = "
 ";
 
 $query = "
-   SELECT $table_domain_fieldlist , COUNT( DISTINCT $table_mailbox.username ) AS mailbox_count
+   SELECT $table_domain_fieldlist , COUNT( DISTINCT $table_mailbox.username ) AS mailbox_count, SUM( $table_mailbox.quota ) AS total_quota
    FROM $table_domain
    LEFT JOIN $table_mailbox ON $table_domain.domain = $table_mailbox.domain
    $where
@@ -103,6 +103,9 @@ $result = db_query($query);
 while ($row = db_array ($result['result'])) {
    # add number of aliases to $domain_properties array. mailbox aliases do not count.
    $domain_properties [$row['domain']] ['alias_count'] = $row['alias_count'] - $domain_properties [$row['domain']] ['mailbox_count'];
+   $domain_properties [$row['domain']] ['total_quota'] = (int) divide_quota($domain_properties [$row['domain']] ['total_quota']); # convert to MB
+   if ($domain_properties [$row['domain']] ['quota'] == -1) $domain_properties [$row['domain']] ['quota'] = $PALANG['pOverview_unlimited'];
+   if ($domain_properties [$row['domain']] ['maxquota'] == -1) $domain_properties [$row['domain']] ['maxquota'] = $PALANG['pOverview_unlimited'];
 }
 
 $smarty->assign ('domain_properties', $domain_properties);

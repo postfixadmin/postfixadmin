@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
    if ($CONF['quota'] == "YES")
    {
-      if (!check_quota ($fQuota, $fDomain))
+      if (!check_quota ($fQuota, $fDomain, $fUsername))
       {
          $error = 1;
          $tName = $fName;

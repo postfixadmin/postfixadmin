@@ -24,6 +24,13 @@
 		<td><input class="flat" type="text" name="fMailboxes" value="{$tMailboxes}" /></td>
 		<td>{$PALANG.pAdminEdit_domain_mailboxes_text}</td>
 	</tr>
+{if $CONF.domain_quota===YES}
+	<tr>
+		<td>{$PALANG.pAdminEdit_domain_quota}:</td>
+		<td><input class="flat" type="text" name="fDomainquota" value="{$tDomainquota}" /></td>
+		<td>{$PALANG.pAdminEdit_domain_maxquota_text}</td>
+	</tr>
+{/if}
 {if $CONF.quota===YES}
 	<tr>
 		<td>{$PALANG.pAdminEdit_domain_maxquota}:</td>

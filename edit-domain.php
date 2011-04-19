@@ -47,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
         $tDescription = $domain_properties['description'];
         $tAliases = $domain_properties['aliases'];
         $tMailboxes = $domain_properties['mailboxes'];
+        $tDomainquota = $domain_properties['quota'];
         $tMaxquota = $domain_properties['maxquota'];
         $tTransport = $domain_properties['transport'];
         $tBackupmx = $domain_properties['backupmx'];
@@ -65,6 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $fMaxquota = intval($_POST['fMaxquota']);
     } else {
         $fMaxquota = 0;
+    }
+    if (isset ($_POST['fDomainquota'])) {
+        $fDomainquota = intval($_POST['fDomainquota']);
+    } else {
+        $fDomainquota = $CONF['domain_quota_default'];
     }
 
     $fTransport = $CONF['transport_default'];
@@ -101,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
        $sqltransport = "transport='$fTransport',";
     }
 
-    $result = db_query ("UPDATE $table_domain SET description='$fDescription',aliases=$fAliases,mailboxes=$fMailboxes,maxquota=$fMaxquota,$sqltransport backupmx='$sqlBackupmx',active='$sqlActive',modified=NOW() WHERE domain='$domain'");
+    $result = db_query ("UPDATE $table_domain SET description='$fDescription',aliases=$fAliases,mailboxes=$fMailboxes,maxquota=$fMaxquota,quota=$fDomainquota,$sqltransport backupmx='$sqlBackupmx',active='$sqlActive',modified=NOW() WHERE domain='$domain'");
     if ($result['rows'] == 1)
     {
         header ("Location: list-domain.php");
@@ -118,6 +124,7 @@ $smarty->assign ('tDescription', $tDescription);
 $smarty->assign ('tAliases', $tAliases);
 $smarty->assign ('tMailboxes', $tMailboxes);
 $smarty->assign ('tMaxquota', $tMaxquota);
+$smarty->assign ('tDomainquota', $tDomainquota);
 $smarty->assign ('select_options', select_options($CONF['transport_options'], array($tTransport)), false);
 if ($tBackupmx)	$smarty->assign ('tBackupmx', ' checked="checked"');
 if ($tActive)	$smarty->assign ('tActive', ' checked="checked"');

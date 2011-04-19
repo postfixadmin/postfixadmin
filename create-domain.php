@@ -46,7 +46,8 @@ $form_fields = array(
     'fDescription'    => array('type' => 'str', 'default' =>''), 
     'fAliases'        => array('type' => 'int', 'default' => $CONF['aliases']), 
     'fMailboxes'      => array('type' => 'int', 'default' => $CONF['mailboxes']), 
-    'fMaxquota'       => array('type' => 'int', 'default' => $CONF['maxquota']), 
+    'fMaxquota'       => array('type' => 'int', 'default' => $CONF['maxquota']),
+    'fDomainquota'    => array('type' => 'int', 'default' => $CONF['domain_quota_default']),
     'fTransport'      => array('type' => 'str', 'default' => $CONF['transport_default'], 'options' => $CONF['transport_options']), 
     'fDefaultaliases' => array('type' => 'str', 'default' => 'on', 'options' => array('on', 'off')), 
     'fBackupmx'       => array('type' => 'str', 'default' => 'off', 'options' => array('on', 'off')) 
@@ -80,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
     $tTransport = $fTransport;
     $tAliases = $fAliases;
     $tMaxquota = $fMaxquota;
+    $tDomainquota = $fDomainquota;
     $tMailboxes = $fMailboxes;
     $tDefaultaliases = $fDefaultaliases;
     $tBackupmx = $fBackupmx;
@@ -96,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $tAliases = $fAliases;
         $tMailboxes = $fMailboxes;
         if (isset ($_POST['fMaxquota'])) $tMaxquota = $fMaxquota;
+        if (isset ($_POST['fDomainquota'])) $tDomainquota = $fDomainquota;
         if (isset ($_POST['fTransport'])) $tTransport = $fTransport;
         if (isset ($_POST['fDefaultaliases'])) $tDefaultaliases = $fDefaultaliases;
         if (isset ($_POST['fBackupmx'])) $tBackupmx = $fBackupmx;
@@ -108,6 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $tAliases = $CONF['aliases'];
         $tMailboxes = $CONF['mailboxes'];
         $tMaxquota = $CONF['maxquota'];
+        $tDomainquota = $CONF['domain_quota_default'];
 
         if ($fBackupmx == "on")
         {
@@ -120,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $sqlBackupmx = db_get_boolean(false);
         }
 
-        $sql_query = "INSERT INTO $table_domain (domain,description,aliases,mailboxes,maxquota,transport,backupmx,created,modified) VALUES ('$fDomain','$fDescription',$fAliases,$fMailboxes,$fMaxquota,'$fTransport','$sqlBackupmx',NOW(),NOW())";
+        $sql_query = "INSERT INTO $table_domain (domain,description,aliases,mailboxes,maxquota,quota,transport,backupmx,created,modified) VALUES ('$fDomain','$fDescription',$fAliases,$fMailboxes,$fMaxquota,$fDomainquota,'$fTransport','$sqlBackupmx',NOW(),NOW())";
         $result = db_query($sql_query);
         if ($result['rows'] != 1)
         {
@@ -150,7 +154,8 @@ $smarty->assign ('pAdminCreate_domain_domain_text', $pAdminCreate_domain_domain_
 $smarty->assign ('tDescription', $tDescription, false);
 $smarty->assign ('tAliases', $tAliases);
 $smarty->assign ('tMailboxes', $tMailboxes);
-$smarty->assign ('tMaxquota', $tMaxquota,false);
+$smarty->assign ('tDomainquota', $tDomainquota);
+$smarty->assign ('tMaxquota', $tMaxquota,false); # TODO: why is sanitize disabled? Should be just integer...
 $smarty->assign ('select_options', select_options ($CONF ['transport_options'], array ($tTransport)),false);
 $smarty->assign ('tDefaultaliases', ($tDefaultaliases == 'on') ? ' checked="checked"' : '');
 $smarty->assign ('tBackupmx', ($tBackupmx == 'on') ? ' checked="checked"' : '');

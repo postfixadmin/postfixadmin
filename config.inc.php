@@ -182,10 +182,13 @@ function maildir_name_hook($domain, $user) {
 $CONF['aliases'] = '10';
 $CONF['mailboxes'] = '10';
 $CONF['maxquota'] = '10';
+$CONF['domain_quota_default'] = '2048';
 
 // Quota
 // When you want to enforce quota for your mailbox users set this to 'YES'.
 $CONF['quota'] = 'NO';
+// If you want to enforce domain-level quotas set this to 'YES'.
+$CONF['domain_quota'] = 'YES';
 // You can either use '1024000' or '1048576'
 $CONF['quota_multiplier'] = '1024000';
 

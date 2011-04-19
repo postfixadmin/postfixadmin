@@ -678,29 +678,53 @@ function check_mailbox ($domain)
 // Action: Checks if the user is creating a mailbox with the correct quota
 // Call: check_quota (string domain)
 //
-function check_quota ($quota, $domain)
-{
+function check_quota ($quota, $domain, $username="") {
+    global $CONF;
+    $rval = false;
     $limit = get_domain_properties ($domain);
     if ($limit['maxquota'] == 0)
     {
-        return true;
+        $rval = true;
     }
     if (($limit['maxquota'] < 0) and ($quota < 0))
     {
-        return true;
+        $rval = true;
     }
     if (($limit['maxquota'] > 0) and ($quota == 0))
     {
-        return false;
+        $rval = false;
     }
     if ($quota > $limit['maxquota'])
     {
-        return false;
+        $rval = false;
     }
     else
     {
-        return true;
+        $rval = true;
     }
+
+    # TODO: detailed error message ("domain quota exceeded", "mailbox quota too big" etc.) via flash_error? Or "available quota: xxx MB"?
+    if (!$rval || $CONF['domain_quota'] != 'YES') {
+        return $rval;
+    } elseif ($limit['quota'] <= 0) {
+        $rval = true;
+    } else {
+        $table_mailbox = table_by_key('mailbox');
+        $query = "SELECT SUM(quota) FROM $table_mailbox WHERE domain = '" . escape_string($domain) . "'";
+        if ($username != "") {
+            $query .= " AND username != '" . escape_string($username) . "'";
+        }
+        $result = db_query ($query);
+        $row = db_row ($result['result']);
+        $cur_quota_total = divide_quota($row[0]); # convert to MB
+        if ( ($quota + $cur_quota_total) > $limit['quota'] ) {
+            $rval = false;
+        } else {
+            $rval = true;
+        }
+    }
+
+    return $rval;
 }
 
 
