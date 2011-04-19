@@ -152,6 +152,33 @@ function addcomment() {
 } # end add_comment
 
 
+function obsolete() {
+	for file in $filelist ; do
+		# do not skip en.lang
+
+		line="$(grep "PALANG\['$text'\]" "$file")" || {
+			echo "*** $file does not contain \$PALANG['$text'] ***" >&2
+			continue
+		}
+
+		newline="$line # obsolete"
+
+		# create patch
+		echo "
+--- $file.old
++++ $file
+@@ -1,1 +1,1 @@
+-$line
++$newline
+		" > "$file.patch"
+
+		test $patch = 0 && cat $file.patch
+		test $patch = 1 && patch $file < $file.patch
+	done
+} # end add_comment
+
+
+
 
 function cleanup() {
 	# check for duplicated strings
@@ -241,6 +268,11 @@ echo '
 	Useful if a string needs to be translated again.
 
 
+'"$0"' --obsolete string [--patch] [--nocleanup] [foo.lang [bar.lang [...] ] ]
+
+    Mark $PALANG['"'"'string'"'"'] as obsolete / no longer used
+
+
 '"$0"' --forcepatch [foo.lang [bar.lang [...] ] ]
 
     Similar to --patch, but applies the patch line by line. Useful if --patch
@@ -280,6 +312,7 @@ rename=0 # rename a string
 remove=0 # remove a string
 stats=0  # create translation statistics
 addcomment=0 # add translation comment
+obsolete=0 # add obsolete note
 text=''
 comment=''
 rename_old=''
@@ -321,6 +354,12 @@ while [ -n "$1" ] ; do
 			echo "$text" | grep '^[a-z_-]*\.lang$' && comment='' # error out on *.lang - probably a filename
 			echo "$comment" | grep '^[a-z_-]*\.lang$' && comment='' # error out on *.lang - probably a filename
 			test -z "$comment" && { echo '--addcomment needs two parameters' >&2 ; exit 1 ; }
+			;;
+		--obsolete)
+			obsolete=1
+			shift ; text="$1"
+			echo "$text" | grep '^[a-z_-]*\.lang$' && comment='' # error out on *.lang - probably a filename
+			test -z "$text" && { echo '--addcomment needs a parameter' >&2 ; exit 1 ; }
 			;;
 		--forcepatch)
 			forcepatch=1
