@@ -73,9 +73,15 @@ ul.flash-error {
 	text-align: center;
 }
 
-#login_header {
+#login_header, #login, #main_menu, #edit_form, #overview,
+#admin_domains, #admin_virtual, .nav_bar, #alias_domain_table,
+#alias_table, #mailbox_table, #overview_table, #log_table,
+#admin_table, #footer {
 	width: 750px;
 	margin: 0 auto;
+}
+
+#login_header {
 	padding-bottom: 10px;
 	text-align: left;
 }
@@ -176,13 +182,6 @@ ul.flash-error {
 	padding: 5px 5px 5px 5px;
 }
 
-
-
-#main_menu, #edit_form {
-	width: 750px;
-	margin: 0 auto;
-}
-
 #edit_form table {
 	margin: 0 auto;
 	padding-top: 10px;
@@ -240,8 +239,6 @@ ul.flash-error {
 }
 
 #overview, #admin_domains, #admin_virtual {
-	width: 750px;
-	margin: 0 auto;
 	background: #AFE1A6; /*#9ACD32;*/
 	border: 1px solid #bbb;
 }
@@ -253,8 +250,6 @@ ul.flash-error {
 }
 
 #alias_domain_table, #alias_table, #mailbox_table, #overview_table, #log_table, #admin_table {
-	width: 750px;
-	margin: 0px auto;
 	border: 1px solid #efefef;
 }
 
@@ -292,7 +287,6 @@ text-align	: left;
 }
 
 #footer {
-	width: 750px;
 	margin: 20px auto;
 	border-top: 1px solid #bbbbbb;
 	background: #efefef;
@@ -330,6 +324,4 @@ div.setup li {
 
 div.nav_bar {
 	text-align: left;
-	width: 750px;
-	margin: 0 auto;
 }
