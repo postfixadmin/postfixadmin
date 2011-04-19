@@ -32,8 +32,8 @@ class DomainHandler extends PFAHandler {
         # TODO: use a helper function to fill $struct with named keys instead of [0], [1], ...
         # TODO: find a way to handle field labels - not sure if the fetchmail way (construct $LANG keys from field name) is perfect
 
-        $this->struct=array(   //   list($editible,$view,$type)
-            # field name                allow       display field?  type
+        $this->struct=array(
+            # field name                allow       display in...   type
             #                           editing?    form    list
            "domain"          => array(  $this->new, 1,      1,      'text'      ),
            "description"     => array(  1,          1,      1,      'text'      ),
@@ -71,8 +71,6 @@ class DomainHandler extends PFAHandler {
     }
     
     public function add($values) {
-#    ($desc, $a, $m, $t, $q, $default, $backup)
-
         # TODO: make this a generic function for add and edit
         # TODO: move DB writes etc. to separate save() function
 
@@ -100,32 +98,30 @@ class DomainHandler extends PFAHandler {
 
         # TODO: more validation
 
-        $domain = $this->username; # TODO fix variable names below
-
         $checked['domain'] = $this->username;
         $result = db_insert('domain', $checked);
         if ($result != 1) {
-            $this->errormsg[] = Lang::read('pAdminCreate_domain_result_error') . "\n($domain)\n";
+            $this->errormsg[] = Lang::read('pAdminCreate_domain_result_error') . "\n(" . $this->username . ")\n";
             return false;
         } else {
             if ($this->new && $values['default_aliases']) {
                 foreach (Config::read('default_aliases') as $address=>$goto) {
-                    $address = $address . "@" . $domain;
+                    $address = $address . "@" . $this->username;
                     # TODO: use AliasHandler->add instead of writing directly to the alias table
                     $arr = array(
                         'address' => $address,
                         'goto' => $goto,
-                        'domain' => $domain,
+                        'domain' => $this->username,
                     );
                     $result = db_insert ('alias', $arr);
                 }
             }
-            $tMessage = Lang::read('pAdminCreate_domain_result_success') . "<br />($domain)</br />";
+            $tMessage = Lang::read('pAdminCreate_domain_result_success') . "<br />(" . $this->username . ")</br />";
         }
-        if (!domain_postcreation($domain)) {
+        if (!domain_postcreation($this->username)) {
             $tMessage = Lang::read('pAdminCreate_domain_error');
         }
-        db_log ($domain, 'create_domain', "");
+        db_log ($this->username, 'create_domain', "");
         return true;
     }
     
