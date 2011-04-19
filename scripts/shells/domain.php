@@ -40,6 +40,8 @@ class PostfixAdminDomain extends Shell {
                                                 "\t\tNumber of max mailboxes. -1 = disable | 0 = unlimited\n",
                         'q' => "\t[<quota in MB>]\n" .
                                                 "\t\tMax Quota in MB. -1 = disable | 0 = unlimited\n",
+                        'd' => "\t[<domain quota in MB>]\n" .
+                                                "\t\tDomain Quota in MB. -1 = disable | 0 = unlimited\n",
                         't' => "\t[<transport>]\n" .
                                                 "\t\tTransport options from config.inc.php.\n",
                         'default' => "\t\tSet to add default Aliases.\n",
@@ -74,7 +76,7 @@ class AddTask extends Shell {
 
                 if (!empty($this->args[0])) {
                         $this->__handle($this->args[0], $this->args[1]);
-
+                        # TODO: handle the various -* parameters (see help)
                 }
         }
 /**
@@ -104,6 +106,9 @@ class AddTask extends Shell {
                     
                      $question = "Max Quota (in MB):";
                     $q = $this->in($question);
+
+                     $question = "Domain Quota (in MB):";
+                    $d = $this->in($question);
     
                     $handler = new DomainHandler($domain);
                     $transports = $handler->getTransports();
@@ -125,7 +130,7 @@ class AddTask extends Shell {
                     ($backup == 'y') ? $backup = true : $backup = false;
                 
                 
-                $this->__handle($domain, $desc, $a, $m, $t, $q, $default, $backup);
+                $this->__handle($domain, $desc, $a, $m, $t, $q, $d, $default, $backup);
         }
         
 /**
@@ -133,7 +138,7 @@ class AddTask extends Shell {
  *
  * @access private
  */
-        function __handle($domain, $desc, $a, $m, $t, $q, $default, $backup) {
+        function __handle($domain, $desc, $a, $m, $t, $q, $d, $default, $backup) {
                 
 
                 $handler =  new DomainHandler($domain, 1);
@@ -143,7 +148,7 @@ class AddTask extends Shell {
                     'aliases'           => $a,
                     'mailboxes'         => $m,
                     'maxquota'          => $q,
-                    # 'quota'           => 
+                    'quota'             => $d,
                     'transport'         => $handler->getTransport($t),
                     'backupmx'          => $backup,
                     'active'            => $a,
@@ -339,6 +344,8 @@ class ViewTask extends Shell {
                       $this->out("Aliases: \t".$result['aliases']);
                       $this->out("Mailboxes: \t".$result['mailboxes']);
                       $this->out("Max. Quota: \t".$result['maxquota']);
+                      $this->out("Domain Quota: \t".$result['quota']);
+                      # TODO: show allocated domain quota (sum of mailbox quota)
                       $this->out("Transport: \t".$result['transport']);
                       $this->out("Backup MX: \t".$result['backupmx']);
                       $this->out("Active: \t".$result['active']);
