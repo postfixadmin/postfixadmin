@@ -40,7 +40,7 @@ class DomainHandler extends PFAHandler {
            "aliases"         => array(  1,          1,      1,      'num'       ),
            "mailboxes"       => array(  1,          1,      1,      'num'       ),
            "maxquota"        => array(  1,          1,      1,      'num'       ),
-           "quota"           => array(  0,          0,      0,      'num'       ),
+           "quota"           => array(  1,          1,      1,      'num'       ),
            "transport"       => array(  1,          1,      1,      'enum'      ),
            "backupmx"        => array(  1,          1,      1,      'bool'      ),
            "active"          => array(  1,          1,      1,      'bool'      ),
