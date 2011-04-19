@@ -28,14 +28,27 @@ authentication_require_role('global-admin');
 (($CONF['backup'] == 'NO') ? header("Location: main.php") && exit : '1');
 
 // TODO: make backup supported for postgres
-if ('pgsql'==$CONF['database_type'])
-{
-	$smarty->assign ('tMessage', '<p>Sorry: Backup is currently not supported for your DBMS ('.$CONF['database_type'].').</p>');
+if ('pgsql'==$CONF['database_type']) {
+	$smarty->assign ('tMessage', '<p>Sorry: Backup is currently not supported for your DBMS ('.$CONF['database_type'].').</p>', false);
 	$smarty->assign ('smarty_template', 'message');
 	$smarty->display ('index.tpl');
-//    print '<p>Sorry: Backup is currently not supported for your DBMS.</p>';
-die;
+   die;
 }
+
+if (safeget('download') == "") {
+	$smarty->assign ('tMessage', '
+         <p><span class="error_msg">Warning:</span> The backup module of PostfixAdmin is poorly maintained and might contain bugs.</p>
+         <p>Please use <tt>mysqldump</tt> to get a reliable backup of your database.</p>
+         <p>&nbsp;</p>
+         <p>If you still trust this backup module, you can <a href="backup.php?download=1">download the database dump now</a></p>
+   ', false);
+	$smarty->assign ('smarty_template', 'message');
+	$smarty->display ('index.tpl');
+   die;
+}
+
+# Still here? Then let's create the database dump...
+
 /*
 	SELECT attnum,attname,typname,atttypmod-4,attnotnull,atthasdef,adsrc
 	AS def FROM pg_attribute,pg_class,pg_type,pg_attrdef
