@@ -42,22 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    $fTo = safepost('fTo');
    $fFrom = $SESSID_USERNAME;
-   $fHeaders = "To: " . $fTo . "\n";
-   $fHeaders .= "From: " . $fFrom . "\n";
-
-   mb_internal_encoding("UTF-8");
-   $fHeaders .= "Subject: " . mb_encode_mimeheader( safepost('fSubject'), 'UTF-8', 'Q') . "\n";
-   $fHeaders .= "MIME-Version: 1.0\n";
-   $fHeaders .= "Content-Type: text/plain; charset=utf-8\n";
-   $fHeaders .= "Content-Transfer-Encoding: 8bit\n";
-   $fHeaders .= "\n";
+   $fSubject = safepost('fSubject');
 
    $tBody = $_POST['fBody'];
    if (get_magic_quotes_gpc ())
    {
-      $tBody = stripslashes($tBody);
+      $tBody = stripslashes($tBody); # TODO: check for get_magic_quotes_gpc inside safepost/safeget
    }
-   $fHeaders .= $tBody;
 
    if (empty ($fTo) or !check_email ($fTo))
    {
@@ -69,12 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if ($error != 1)
    {
-      if (!smtp_mail ($fTo, $fFrom, $fHeaders))
-      {
+      if (!smtp_mail ($fTo, $fFrom, $fSubject, $tBody)) {
          $tMessage .= $PALANG['pSendmail_result_error'];
-      }
-      else
-      {
+      } else {
          $tMessage .= $PALANG['pSendmail_result_success'];
       }
    }
