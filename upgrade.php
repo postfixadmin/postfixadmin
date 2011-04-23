@@ -270,6 +270,7 @@ function _add_index($table, $indexname, $fieldlist) {
     $table = table_by_key ($table);
 
     if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli' ) {
+        $fieldlist = str_replace(',', '`,`', $fieldlist); # fix quoting if index contains multiple fields
         return "ALTER TABLE $table ADD INDEX `$indexname` ( `$fieldlist` )";
     } elseif($CONF['database_type'] == 'pgsql') {
         $pgindexname = $table . "_" . $indexname . '_idx';
@@ -1296,6 +1297,10 @@ function upgrade_968_pgsql() {
     db_query_parsed("ALTER TABLE $table_domain  ALTER COLUMN quota    type bigint");
     db_query_parsed("ALTER TABLE $table_domain  ALTER COLUMN maxquota type bigint");
     db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN quota    type bigint");
+}
+
+function upgrade_1050() {
+    db_query_parsed(_add_index('log', 'domain_timestamp', 'domain,timestamp'));
 }
 
 # TODO MySQL:
