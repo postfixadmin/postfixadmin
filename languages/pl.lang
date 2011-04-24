@@ -19,6 +19,8 @@ $PALANG['confirm'] = 'Jesteś przekonany, że chcesz to usunąć?\n';
 $PALANG['confirm_domain'] = 'Czy rzeczywiście chcesz usunąć wszystkie wpisy dla tej domeny? To jest proces nieodwracalny!\n';
 $PALANG['check_update'] = 'Sprawdź aktualizację';
 $PALANG['invalid_parameter'] = 'Błędny parametr!';
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Zalogowano jako %s';
 
 $PALANG['pLogin_welcome'] = 'Sekcja przeznaczona dla administratorów domen.';
@@ -60,7 +62,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Konta pocztowe';
 $PALANG['pOverview_button'] = 'Idź';
 $PALANG['pOverview_welcome'] = 'Dane zbiorcze dla domeny ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Domeny aliasowe';
-$PALANG['pOverview_alias_domain_target'] = '%s jest domeną aliasową dla:';
+$PALANG['pOverview_alias_domain_target'] = '%s jest domeną aliasową dla:'; # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Alias';
 $PALANG['pOverview_alias_mailbox_count'] = 'Konta';
 $PALANG['pOverview_alias_address'] = 'Od';

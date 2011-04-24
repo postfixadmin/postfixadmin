@@ -17,6 +17,8 @@ $PALANG['confirm'] = '¿Está seguro de que desea borrarlo?\n';
 $PALANG['confirm_domain'] = '¿Está seguro de que desea borrar todos los registros de este dominio? ¡Esto no puede ser deshecho!\n';
 $PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = '¡Par&aacute;metro inválido!'; 
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Autenticado como %s'; 
 
 $PALANG['pLogin_welcome'] = 'Login de administrador para administración de dominios.';
@@ -57,7 +59,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Buzones';
 $PALANG['pOverview_button'] = 'Ir';
 $PALANG['pOverview_welcome'] = 'Resumen de ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias de Dominios'; 
-$PALANG['pOverview_alias_domain_target'] = '%s es un alias de dominio para:'; 
+$PALANG['pOverview_alias_domain_target'] = '%s es un alias de dominio para:';  # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Alias'; 
 $PALANG['pOverview_alias_mailbox_count'] = 'Buzones';
 $PALANG['pOverview_alias_address'] = 'De';

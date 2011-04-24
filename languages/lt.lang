@@ -15,6 +15,8 @@ $PALANG['confirm'] = 'Tikrai norite šalinti?\n';
 $PALANG['confirm_domain'] = 'Tikrai norite šalinti visus šios srities įrašus? Operacija negrįžtama!\n';
 $PALANG['check_update'] = 'Patikrinti versiją';
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Pašto srities administratorius.';
@@ -56,7 +58,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Pašto dėžutės';
 $PALANG['pOverview_button'] = 'Eiti';
 $PALANG['pOverview_welcome'] = 'Peržiūra ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'sinonimų';
 $PALANG['pOverview_alias_mailbox_count'] = 'pašto dėžučių';
 $PALANG['pOverview_alias_address'] = 'Nuo';

@@ -16,6 +16,8 @@ $PALANG['confirm'] = 'Vil du slette dette?\n';
 $PALANG['confirm_domain'] = 'Vil du virkelig slette alle poster og domenet?\n';
 $PALANG['check_update'] = 'Se etter oppdatering';
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Postadministrator; Logg inn her for å administrere ditt domene';
@@ -57,7 +59,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Epostkontoer';
 $PALANG['pOverview_button'] = 'Vis';
 $PALANG['pOverview_welcome'] = 'Oversikt for ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Alias';
 $PALANG['pOverview_alias_mailbox_count'] = 'Epostkontoer';
 $PALANG['pOverview_alias_address'] = 'Fra';

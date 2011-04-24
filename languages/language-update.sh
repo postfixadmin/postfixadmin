@@ -386,6 +386,7 @@ test "$filelist" = "" && filelist="`ls -1 *.lang`"
 test "$addcomment" = 1 && { addcomment ; cleanup ; exit 0 ; }
 test "$rename" = 1 && { rename_string ; cleanup ; exit 0 ; }
 test "$remove" = 1 && { remove_string ; cleanup ; exit 0 ; }
+test "$obsolete" = 1 && { obsolete ; cleanup ; exit 0 ; }
 test "$forcepatch" = 1 && { forcepatch ; cleanup ; exit 0 ; }
 
 test "$stats" = 1 && { statistics ; exit 0 ; }

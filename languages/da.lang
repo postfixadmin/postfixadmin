@@ -17,6 +17,8 @@ $PALANG['confirm'] = 'Er du sikker på du vil slette dette?\n';
 $PALANG['confirm_domain'] = 'Vil du virkelig slette alle adresser for dette domæne? Dette kan ikke fortrydes!\n';
 $PALANG['check_update'] = 'Søg efter opdateringer';
 $PALANG['invalid_parameter'] = 'Ugyldig parameter!';
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Indlogget som %s';
 
@@ -59,7 +61,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Postbokse';
 $PALANG['pOverview_button'] = 'Vis';
 $PALANG['pOverview_welcome'] = 'Oversigt for ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Alias';
 $PALANG['pOverview_alias_mailbox_count'] = 'Postbokse';
 $PALANG['pOverview_alias_address'] = 'Alias';

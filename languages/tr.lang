@@ -16,6 +16,8 @@ $PALANG['confirm'] = 'Bunu silmek istediðinizden emin misiniz?\n';
 $PALANG['confirm_domain'] = 'Bu domain için tüm kayýtlarý silmek istediðinizden emin misiniz? Bu iþlem geri alýnamaz!\n';
 $PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Posta Yöneticileri buradan domainlerinizi yönetmek için giriþ yapabilirsiniz.';
@@ -57,7 +59,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxes'; # XXX
 $PALANG['pOverview_button'] = 'Git';
 $PALANG['pOverview_welcome'] = 'Genel Bilgiler: ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Aliaselar';
 $PALANG['pOverview_alias_mailbox_count'] = 'Posta kutularý';
 $PALANG['pOverview_alias_address'] = 'Kimden';

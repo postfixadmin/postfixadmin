@@ -18,6 +18,8 @@ $PALANG['confirm'] = 'Etes vous sur de vouloir supprimer cet enregistrement\n';
 $PALANG['confirm_domain'] = 'Etes-vous sur de vouloir effacer tous les enregistrements dans ce domaine ? Cette opération ne pourra pas être annulée.\n';
 $PALANG['check_update'] = 'Vérifiez les mises à jour';
 $PALANG['invalid_parameter'] = 'Paramètres invalides!';
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Bonjour %s';
 
 $PALANG['pLogin_welcome'] = 'Entrez votre adresse courriel pour administrer votre domaine.';
@@ -59,7 +61,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Comptes courriels';
 $PALANG['pOverview_button'] = 'Aller';
 $PALANG['pOverview_welcome'] = 'Vue d\'ensemble pour ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domaines';
-$PALANG['pOverview_alias_domain_target'] = '%s est un alias de domaine pour:';
+$PALANG['pOverview_alias_domain_target'] = '%s est un alias de domaine pour:'; # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Alias';
 $PALANG['pOverview_alias_mailbox_count'] = 'Comptes courriels';
 $PALANG['pOverview_alias_address'] = 'De';

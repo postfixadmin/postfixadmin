@@ -16,6 +16,8 @@ $PALANG['confirm'] = 'Дали сте сигурни дека сакате да 
 $PALANG['confirm_domain'] = 'Дали сакате да ги избришете сите записи од овој домен? Ова не може да се поправи покасно!\n';
 $PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Логин за администрирање на домени (Само за администратори!)';
@@ -57,7 +59,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxes'; # XXX
 $PALANG['pOverview_button'] = 'Оди';
 $PALANG['pOverview_welcome'] = 'Преглед за ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Алијаси';
 $PALANG['pOverview_alias_mailbox_count'] = 'Поштенски сандачиња';
 $PALANG['pOverview_alias_address'] = 'Од';

@@ -17,6 +17,8 @@ $PALANG['confirm'] = 'Ste si istí?\n';
 $PALANG['confirm_domain'] = 'Naozaj chcete zmazať všetky záznamy v tejto doméne? Toto nie je možné vrátiť!\n';
 $PALANG['check_update'] = 'Skontrolovať aktualizácie';
 $PALANG['invalid_parameter'] = 'Neplatný parameter!';
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Prihlásený ako %s';
 
 $PALANG['pLogin_welcome'] = 'Prihlásenie administrátorov pre správu domén';
@@ -58,7 +60,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailové schránky';
 $PALANG['pOverview_button'] = 'Prejsť';
 $PALANG['pOverview_welcome'] = 'Prehľad pre doménu ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Aliasy domén';
-$PALANG['pOverview_alias_domain_target'] = '%s je alias domény:';
+$PALANG['pOverview_alias_domain_target'] = '%s je alias domény:'; # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Aliasov';
 $PALANG['pOverview_alias_mailbox_count'] = 'Schránok';
 $PALANG['pOverview_alias_address'] = 'Od';

@@ -18,6 +18,8 @@ $PALANG['confirm'] = 'Är du säker på att du vill radera denna?\n';
 $PALANG['confirm_domain'] = 'Vill du verkligen radera all data för denna domän? Kan ej ångras!\n';
 $PALANG['check_update'] = 'Senaste versionen?';
 $PALANG['invalid_parameter'] = 'Felaktig parameter!'; 
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Inloggad som %s';
 
 $PALANG['pLogin_welcome'] = 'Mail administratörer loggar in här för att sköta er domän.';
@@ -59,7 +61,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Brevlådor';
 $PALANG['pOverview_button'] = 'Visa';
 $PALANG['pOverview_welcome'] = 'Sammanfattning för ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Alias';
 $PALANG['pOverview_alias_mailbox_count'] = 'Brevlådor';
 $PALANG['pOverview_alias_address'] = 'Från';

@@ -17,6 +17,8 @@ $PALANG['confirm'] = 'Oletko varma että haluat poistaa tämän?\n';
 $PALANG['confirm_domain'] = 'Oletko varma että haluat poistaa kaikki tietueet tästä domainista? Tätä komentoa ei voi perua!\n';
 $PALANG['check_update'] = 'Tarkista päivitykset';
 $PALANG['invalid_parameter'] = 'Viallinen parametri!';
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Kirjautunut sisään tunnuksella %s';
 
 $PALANG['pLogin_welcome'] = 'Kirjautuminen';
@@ -58,7 +60,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Sähköpostilaatikot';
 $PALANG['pOverview_button'] = 'Siirry';
 $PALANG['pOverview_welcome'] = 'Yleisnäkymä ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domainit';
-$PALANG['pOverview_alias_domain_target'] = '%s on Alias Domaini domainille:';
+$PALANG['pOverview_alias_domain_target'] = '%s on Alias Domaini domainille:'; # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Aliakset';
 $PALANG['pOverview_alias_mailbox_count'] = 'Postilaatikot';
 $PALANG['pOverview_alias_address'] = 'Keneltä';

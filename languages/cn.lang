@@ -16,6 +16,8 @@ $PALANG['confirm'] = '是否确定删除?\n';
 $PALANG['confirm_domain'] = '你是否确定要删除该域中的所有记录? 删除后不可恢复!\n';
 $PALANG['check_update'] = '检查新版本';
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = '邮件管理员请从这里登录以管理你的域名.';
@@ -57,7 +59,7 @@ $PALANG['pOverview_mailbox_title'] = ':: 邮箱';
 $PALANG['pOverview_button'] = '执行';
 $PALANG['pOverview_welcome'] = '浏览 ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = '别名';
 $PALANG['pOverview_alias_mailbox_count'] = '邮箱';
 $PALANG['pOverview_alias_address'] = '前往';

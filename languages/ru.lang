@@ -18,6 +18,8 @@ $PALANG['confirm'] = 'Вы уверены, что хотите удалить э
 $PALANG['confirm_domain'] = 'Вы действительно хотите удалить все настройки для домена? Это действие нельзя будет отменить!\n';
 $PALANG['check_update'] = 'Проверить обновление';
 $PALANG['invalid_parameter'] = 'Некорректный параметр!';
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Вошли как %s';
 
@@ -60,7 +62,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Ящики';
 $PALANG['pOverview_button'] = 'Выбрать';
 $PALANG['pOverview_welcome'] = 'Обзор для ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Домены-алиасы';
-$PALANG['pOverview_alias_domain_target'] = '%s это домен-алиас для:';
+$PALANG['pOverview_alias_domain_target'] = '%s это домен-алиас для:'; # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Алиасы';
 $PALANG['pOverview_alias_mailbox_count'] = 'Ящики';
 $PALANG['pOverview_alias_address'] = 'От';

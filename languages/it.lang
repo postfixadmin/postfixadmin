@@ -17,6 +17,8 @@ $PALANG['confirm'] = 'Sei certo di volerlo cancellare?\n';
 $PALANG['confirm_domain'] = 'Sei sicuro di voler cancellare tutti gli indirizzi di questo dominio? Questa modifica sar&agrave; permanente!\n';
 $PALANG['check_update'] = 'Verifica gli aggiornamenti';
 $PALANG['invalid_parameter'] = 'Parametro non valido!';
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Collegato come %s';
 
 $PALANG['pLogin_welcome'] = 'Gli amministratori di posta devono effettuare il login qui per amministrare il proprio dominio.';
@@ -58,7 +60,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Caselle di posta';
 $PALANG['pOverview_button'] = 'Vai';
 $PALANG['pOverview_welcome'] = 'Resoconto per ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Alias';
 $PALANG['pOverview_alias_mailbox_count'] = 'Caselle di posta';
 $PALANG['pOverview_alias_address'] = 'Da';

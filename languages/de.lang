@@ -17,6 +17,8 @@ $PALANG['confirm'] = 'Sind Sie sicher dass Sie das l&ouml;schen wollen?\n';
 $PALANG['confirm_domain'] = 'Wollen Sie wirklich alle Eintr&auml;ge dieser Domain l&ouml;schen? Dies kann NICHT r&uuml;ckg&auml;ngig gemacht werden!\n';
 $PALANG['check_update'] = 'Auf Updates &uuml;berpr&uuml;fen';
 $PALANG['invalid_parameter'] = 'Ung&uuml;ltiger Parameter!';
+$PALANG['show'] = 'Anzeigen:';
+$PALANG['all'] = 'Alle';
 
 $PALANG['pFooter_logged_as'] = 'Angemeldet als %s';
 
@@ -59,7 +61,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxen';
 $PALANG['pOverview_button'] = 'Los';
 $PALANG['pOverview_welcome'] = '&Uuml;berblick &uuml;ber ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias-Domains';
-$PALANG['pOverview_alias_domain_target'] = '%s ist eine Alias-Domain f&uuml;r:';
+$PALANG['pOverview_alias_domain_target'] = '%s ist eine Alias-Domain f&uuml;r:'; # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Aliase';
 $PALANG['pOverview_alias_mailbox_count'] = 'Mailboxen';
 $PALANG['pOverview_alias_address'] = 'Von';
@@ -130,7 +132,7 @@ $PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Diese Domain geh&
 $PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Alias-Domain kann nicht ge&auml;ndert werden!</span>';
 $PALANG['pEdit_alias_forward_and_store'] = 'Mail in der lokalen Mailbox ablegen.';
 $PALANG['pEdit_alias_forward_only'] = 'Nur zur angegebenen Adresse weiterleiten.';
-$PALANG['pEdit_alias_button'] = 'Alias &auml;ndern'; # XXX text no longer used
+$PALANG['pEdit_alias_button'] = 'Alias &auml;ndern'; # obsolete
 $PALANG['pEdit_alias_result_error'] = '<span class="error_msg">&Auml;ndern des Aliases nicht m&ouml;glich!</span>';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Legen Sie eine neue Mailbox f&uuml;r Ihre Domain an.';
@@ -166,7 +168,7 @@ $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Das angegebene Quota ist zu hoch!</span>';
 $PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Diese Domain geh&ouml;rt nicht Ihnen: ';
-$PALANG['pEdit_mailbox_button'] = 'Mailbox editieren'; # XXX text no longer used
+$PALANG['pEdit_mailbox_button'] = 'Mailbox editieren'; # obsolete
 $PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Mailbox kann nicht ge&auml;ndert werden!</span>';
 
 $PALANG['pPassword_welcome'] = '&Auml;ndern Sie Ihr Login-Passwort.';
@@ -246,8 +248,8 @@ $PALANG['pAdminList_domain_domain'] = 'Domain';
 $PALANG['pAdminList_domain_description'] = 'Beschreibung';
 $PALANG['pAdminList_domain_aliases'] = 'Aliase';
 $PALANG['pAdminList_domain_mailboxes'] = 'Mailboxen';
-$PALANG['pAdminList_domain_maxquota'] = 'Max Quota (MB)'; # XXX no longer used
-$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
+$PALANG['pAdminList_domain_maxquota'] = 'Max Quota (MB)'; # obsolete
+$PALANG['pAdminList_domain_quota'] = 'Domain Quota (MB)';
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['pAdminList_domain_modified'] = 'zuletzt ge&auml;ndert';
@@ -299,12 +301,12 @@ $PALANG['pAdminEdit_domain_mailboxes'] = 'Mailboxen';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = ausschalten | 0 = kein Limit';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = ausschalten | 0 = kein Limit';
-$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota';
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminEdit_domain_active'] = 'Aktiv';
-$PALANG['pAdminEdit_domain_button'] = 'Domain editieren'; # XXX text no longer used
+$PALANG['pAdminEdit_domain_button'] = 'Domain editieren'; # obsolete
 $PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Konnte Domain nicht editieren!</span>';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Neuen Domain-Admin hinzuf&uuml;gen';
@@ -327,7 +329,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Passwort (nochmal)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Die beiden Passw&ouml;rter sind nicht identisch<br />Oder leer!</span>';
 $PALANG['pAdminEdit_admin_active'] = 'Aktiv';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super-Admin';
-$PALANG['pAdminEdit_admin_button'] = 'Admin editieren'; # XXX text no longer used
+$PALANG['pAdminEdit_admin_button'] = 'Admin editieren'; # obsolete
 $PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Konnte Admin nicht &auml;ndern</span>';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin ge&auml;ndert!';
 

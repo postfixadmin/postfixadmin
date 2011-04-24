@@ -17,6 +17,8 @@ $PALANG['confirm'] = '本当に削除してもよろしいですか？\n';
 $PALANG['confirm_domain'] = '本当にこのドメインのすべての情報を削除してもよろしいですか？これを元に戻すことはできません。\n';
 $PALANG['check_update'] = '更新の確認';
 $PALANG['invalid_parameter'] = '無効なパラメータです。';
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'ログイン名 %s';
 
@@ -59,7 +61,7 @@ $PALANG['pOverview_mailbox_title'] = ':: メールアドレス';
 $PALANG['pOverview_button'] = '表示';
 $PALANG['pOverview_welcome'] = '概要 ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = '転送数';
 $PALANG['pOverview_alias_mailbox_count'] = 'アドレス数';
 $PALANG['pOverview_alias_address'] = '転送元';

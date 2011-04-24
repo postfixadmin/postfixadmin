@@ -17,6 +17,8 @@ $PALANG['confirm'] = 'Are you sure you want to delete this?\n';
 $PALANG['confirm_domain'] = 'Do you really want to delete all records for this domain? This can not be undone!\n';
 $PALANG['check_update'] = 'Check for update';
 $PALANG['invalid_parameter'] = 'Invalid parameter!';
+$PALANG['show'] = 'Show:';
+$PALANG['all'] = 'All';
 
 $PALANG['pFooter_logged_as'] = 'Logged as %s';
 
@@ -59,7 +61,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
 $PALANG['pOverview_button'] = 'Go';
 $PALANG['pOverview_welcome'] = 'Overview for ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains';
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:';
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Aliases';
 $PALANG['pOverview_alias_mailbox_count'] = 'Mailboxes';
 $PALANG['pOverview_alias_address'] = 'From';

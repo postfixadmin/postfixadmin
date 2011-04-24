@@ -17,6 +17,8 @@ $PALANG['confirm'] = 'Weet u het zeker dat u wilt verwijderen?\n';
 $PALANG['confirm_domain'] = 'Weet u zeker dat u ALLE data van het domein wilt verwijderen? Dit kan niet ongedaan worden gemaakt!\n';
 $PALANG['check_update'] = 'Zoeken naar nieuwe versie';
 $PALANG['invalid_parameter'] = 'ongeldige parameter!';
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'aangemeld als %s';
 
 $PALANG['pLogin_welcome'] = 'Mail beheerders log hier in om uw domeinen te beheren.';
@@ -58,7 +60,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxen';
 $PALANG['pOverview_button'] = 'Ga';
 $PALANG['pOverview_welcome'] = 'Overzicht voor ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias domeinen';
-$PALANG['pOverview_alias_domain_target'] = '%s is een alias voor domein:';
+$PALANG['pOverview_alias_domain_target'] = '%s is een alias voor domein:'; # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Aliasen';
 $PALANG['pOverview_alias_mailbox_count'] = 'Mailboxes';
 $PALANG['pOverview_alias_address'] = 'Van';

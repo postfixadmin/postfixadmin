@@ -15,6 +15,8 @@ $PALANG['confirm'] = 'Da li ste sigurni da elite ovo pobrisati?\n';
 $PALANG['confirm_domain'] = 'Da li ste sigurni da elite pobrisati sve zapise za tu domenu? Zapisi ce biti zauvijek pobrisani!\n';
 $PALANG['check_update'] = 'Provjeri da li postoji novija inačica';
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Administratori prijavite se ovdje.';
@@ -56,7 +58,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Potanski ormarići';
 $PALANG['pOverview_button'] = 'Idi';
 $PALANG['pOverview_welcome'] = 'Pregled za ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Aliasi';
 $PALANG['pOverview_alias_mailbox_count'] = 'Potanski ormarići';
 $PALANG['pOverview_alias_address'] = 'Od';

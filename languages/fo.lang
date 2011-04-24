@@ -16,6 +16,8 @@ $PALANG['confirm'] = 'Ert tú vís(ur) í at tú vilt strika hetta?\n';
 $PALANG['confirm_domain'] = 'Vilt tú veruliga strika allar upplýsingar fyri hetta navnaøki? Her kann ikki vendast aftur!\n';
 $PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
+$PALANG['show'] = 'Show:'; # XXX
+$PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Umsitarar kunnu logga inn her fyri at umsita tykkara navnaøki.';
@@ -57,7 +59,7 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxes'; # XXX
 $PALANG['pOverview_button'] = 'Vel';
 $PALANG['pOverview_welcome'] = 'Yvirlit yvir ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX
+$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Dulnevni';
 $PALANG['pOverview_alias_mailbox_count'] = 'Postkassar';
 $PALANG['pOverview_alias_address'] = 'Frá';
