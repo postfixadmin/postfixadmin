@@ -99,16 +99,21 @@ if($fDomain) {
 # TODO: add search support for alias domains
 
 if (boolconf('alias_domain')) {
-   # Alias-Domains
-   # first try to get a list of other domains pointing
-   # to this currently chosen one (aka. alias domains)
-   $query = "SELECT $table_alias_domain.alias_domain,$table_alias_domain.target_domain,$table_alias_domain.modified,$table_alias_domain.active FROM $table_alias_domain WHERE target_domain='$fDomain' ORDER BY $table_alias_domain.alias_domain LIMIT $fDisplay, $page_size";
-   if ('pgsql'==$CONF['database_type'])
-   {
-      $query = "SELECT alias_domain,target_domain,extract(epoch from modified) as modified,active FROM $table_alias_domain WHERE target_domain='$fDomain' ORDER BY alias_domain LIMIT $page_size OFFSET $fDisplay";
+    $modified_field = 'modified';
+    if ('pgsql'==$CONF['database_type']) { # TODO: do we really need the extract(epoch from modified) for pgsql? We ust gmstrftime anyway (see below)
+        $modified_field = 'extract(epoch from modified) as modified';
    }
+
+    $query = "
+        SELECT alias_domain,target_domain,$modified_field,active FROM $table_alias_domain 
+        WHERE alias_domain='$fDomain' OR target_domain='$fDomain' 
+        ORDER BY alias_domain 
+        LIMIT $page_size OFFSET $fDisplay
+    ";
+
    $result = db_query ($query);
    $tAliasDomains = array();
+    $can_create_alias_domain = 1;
    if ($result['rows'] > 0)
    {
       while ($row = db_array ($result['result']))
@@ -119,29 +124,11 @@ if (boolconf('alias_domain')) {
             $row['active']=('t'==$row['active']) ? 1 : 0;
          }
          $tAliasDomains[] = $row;
+            if ($row['target_domain'] == $fDomain) $can_create_alias_domain = 0;
       }
    } 
-   # now let's see if the current domain itself is an alias for another domain
-   $query = "SELECT $table_alias_domain.alias_domain,$table_alias_domain.target_domain,$table_alias_domain.modified,$table_alias_domain.active FROM $table_alias_domain WHERE alias_domain='$fDomain'";
-   if ('pgsql'==$CONF['database_type'])
-   {
-      $query = "SELECT alias_domain,target_domain,extract(epoch from modified) as modified,active FROM $table_alias_domain WHERE alias_domain='$fDomain'";
+    # TODO: set $can_create_alias_domain = 0; if all domains (of this admin) are already used as alias domains
    }
-   $result = db_query ($query);
-   $tTargetDomain = "";
-   if ($result['rows'] > 0)
-   {
-      if($row = db_array ($result['result']))
-      {
-         if ('pgsql'==$CONF['database_type'])
-         {
-            $row['modified']=gmstrftime('%c %Z',$row['modified']);
-            $row['active']=('t'==$row['active']) ? 1 : 0;
-         }
-         $tTargetDomain = $row;
-      }
-   }
-}
 
 #
 # aliases
@@ -457,11 +444,7 @@ $smarty->assign ('tDisplay_next', $tDisplay_next);
 if(sizeof ($tAliasDomains) > 0)
 	$smarty->assign ('tAliasDomains', $tAliasDomains);
 
-if(is_array($tTargetDomain))
-{
-	$smarty->assign ('tTargetDomain', $tTargetDomain);
-	$smarty->assign ('PALANG_pOverview_alias_domain_target', sprintf($PALANG['pOverview_alias_domain_target'], $fDomain));
-}
+$smarty->assign ('can_create_alias_domain', $can_create_alias_domain);
 $smarty->assign ('tAlias', $tAlias);
 $smarty->assign ('gen_show_status', $gen_show_status, false);
 $smarty->assign ('check_alias_owner', $check_alias_owner);
