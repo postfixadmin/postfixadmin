@@ -31,12 +31,16 @@
                   David Goodwin (GingerDog), Christian Boltz (cboltz) and GregC and others.
 
 
-Postfix Admin uses some libraries that come with a different license:
+Postfix Admin uses some libraries that come with a different license.
+
+a) libraries shipped with PostfixAdmin 
 - the Smarty templating engine is licensed under the GNU LESSER GENERAL PUBLIC 
   LICENSE Version 3 (see smarty/COPYING.lib)
 - the CLI (commandline interface) is based on CakePHP which is licensed under
   the MIT license.
-- simpletest is licensed under the GNU LESSER GENERAL PUBLIC LICENSE Version 2.1
-  (see tests/simpletest/LICENSE)
-- the squirrelmail plugin uses Zend Framework which is licensed under the 
-  New BSD License (3-clause), see http://framework.zend.com/license
+
+b) libraries not shipped with PostfixAdmin
+- the XMLRPC interface and the squirrelmail plugin use the Zend Framework which is
+  licensed under the New BSD License (3-clause), see http://framework.zend.com/license
+- PHPUnit (used in tests/) is licensed under the BSD License (3-clause).
+
