@@ -12,24 +12,28 @@
 <p>{$PALANG.pOverview_alias_mailbox_count}: {$limit.mailbox_count} / {$limit.mailboxes}</p>
 {#form_search#}
 </div>
-<div id="tabbar">
-<ul>
-<li><a href="?domain={$smarty.get.domain}&tab=mailbox{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_mailbox_title}</a></li>
-<li><a href="?domain={$smarty.get.domain}&tab=alias{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_title}</a></li>
-{if $boolconf_alias_domain}
-	<li><a href="?domain={$smarty.get.domain}&tab=alias_domain{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_domain_title}</a></li>
-{/if}
-</ul>
-</div>
+<div class='subnav'><p>{$PALANG.show}
+	{if $tab=='all'}<span class='active'>{$PALANG.all}</span>
+	{else}<a href="?domain={$smarty.get.domain}&tab=all{if $search != ""}&search={$search}{/if}">{$PALANG.all}</a>{/if}
+	{if $tab=='mailbox'}<span class='active'>{$PALANG.pOverview_mailbox_title}</span>
+	{else}<a href="?domain={$smarty.get.domain}&tab=mailbox{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_mailbox_title}</a>{/if}
+	{if $tab=='alias'}<span class='active'>{$PALANG.pOverview_alias_title}</span>
+	{else}<a href="?domain={$smarty.get.domain}&tab=alias{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_title}</a>{/if}
+	{if $boolconf_alias_domain}
+		{if $tab=='alias_domain'}<span class='active'>{$PALANG.pOverview_alias_domain_title}</span>
+		{else}<a href="?domain={$smarty.get.domain}&tab=alias_domain{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_domain_title}</a>{/if}
+	{/if}
+</p></div>
 <br clear="all"/><br/>
 {*** Domain Aliases ***}
 {if $boolconf_alias_domain}
-	{if $tab=='alias_domain'}
+	{if $tab=='alias_domain' || $tab=='all'}
 		{include file="list-virtual_alias_domain.tpl"}
 	{/if}
 {/if}
+{if $tab=='all'}<br />{/if}
 {*** Aliases ***}
-{if $tab=='alias'}
+{if $tab=='alias' || $tab=='all'}
 	{$nav_bar_alias.top}
 	<table id="alias_table">
 		<tr>
@@ -45,7 +49,8 @@
 		<p id="mailbox_table"><a href="create-alias.php?domain={$fDomain|escape:"url"}">{$PALANG.pMenu_create_alias}</a></p>
 	{/if}
 {/if}
-{if $tab=='mailbox'}
+{if $tab=='all'}<br />{/if}
+{if $tab=='mailbox' || $tab=='all'}
 	{$nav_bar_mailbox.top}
 	{assign var="colspan" value=9}
 	{if $CONF.vacation_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
