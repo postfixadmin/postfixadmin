@@ -1,6 +1,6 @@
 <div id="menu">
 <ul>
-	<li><a target="_top" href="{$CONF.user_footer_link}">{$PALANG.pMenu_main}</a></li>
+	<li><a target="_top" href="{#url_user_main#}">{$PALANG.pMenu_main}</a></li>
 {if $CONF.vacation===YES}
 	<li><a target="_top" href="{#url_user_vacation#}">{$PALANG.pUsersMenu_vacation}</a></li>
 {/if}

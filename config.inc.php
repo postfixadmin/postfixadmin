@@ -280,9 +280,6 @@ $CONF['fetchmail_extra_options'] = 'NO';
 $CONF['show_header_text'] = 'NO';
 $CONF['header_text'] = ':: Postfix Admin ::';
 
-// link to display under 'Main' menu when logged in as a user.
-$CONF['user_footer_link'] = "http://change-this-to-your.domain.tld/main";
-
 // Footer
 // Below information will be on all pages.
 // If you don't want the footer information to appear set this to 'NO'.
