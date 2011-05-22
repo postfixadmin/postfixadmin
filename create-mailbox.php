@@ -233,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          {
             $fTo = $fUsername;
             $fFrom = $SESSID_USERNAME;
-            $fSubject = $CONF['pSendmail_subject_text'];
+            $fSubject = $PALANG['pSendmail_subject_text'];
             $fBody = $CONF['welcome_text'];
 
             if (!smtp_mail ($fTo, $fFrom, $fSubject, $fBody))
