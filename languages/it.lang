@@ -19,7 +19,7 @@ $PALANG['check_update'] = 'Verifica gli aggiornamenti';
 $PALANG['invalid_parameter'] = 'Parametro non valido!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
-$PALANG['pFooter_logged_as'] = 'Collegato come %s';
+$PALANG['pFooter_logged_as'] = 'Collegato come %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Gli amministratori di posta devono effettuare il login qui per amministrare il proprio dominio.';
 $PALANG['pLogin_username'] = 'Nome utente (email)';

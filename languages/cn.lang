@@ -18,7 +18,7 @@ $PALANG['check_update'] = '检查新版本';
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
-$PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX
+$PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = '邮件管理员请从这里登录以管理你的域名.';
 $PALANG['pLogin_username'] = '帐号 (邮件地址)';

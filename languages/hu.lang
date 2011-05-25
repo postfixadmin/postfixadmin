@@ -19,7 +19,7 @@ $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 
-$PALANG['pFooter_logged_as'] = '%s-ként bejelentkezve';
+$PALANG['pFooter_logged_as'] = '%s-ként bejelentkezve'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Mail adminisztrátorok itt jelentkezzenek be, hogy adminisztrálják a domainjüket.';
 $PALANG['pLogin_username'] = 'Bejelentkezés (email)';

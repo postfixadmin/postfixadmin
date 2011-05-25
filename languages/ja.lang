@@ -20,7 +20,7 @@ $PALANG['invalid_parameter'] = '無効なパラメータです。';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 
-$PALANG['pFooter_logged_as'] = 'ログイン名 %s';
+$PALANG['pFooter_logged_as'] = 'ログイン名 %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'こちらからドメインの管理ができます。';
 $PALANG['pLogin_username'] = 'ログイン (メールアドレス)';

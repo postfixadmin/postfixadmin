@@ -19,7 +19,7 @@ $PALANG['check_update'] = 'Skontrolovať aktualizácie';
 $PALANG['invalid_parameter'] = 'Neplatný parameter!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
-$PALANG['pFooter_logged_as'] = 'Prihlásený ako %s';
+$PALANG['pFooter_logged_as'] = 'Prihlásený ako %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Prihlásenie administrátorov pre správu domén';
 $PALANG['pLogin_username'] = 'Užívateľské meno (email)';

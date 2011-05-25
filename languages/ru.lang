@@ -21,7 +21,7 @@ $PALANG['invalid_parameter'] = 'Некорректный параметр!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 
-$PALANG['pFooter_logged_as'] = 'Вошли как %s';
+$PALANG['pFooter_logged_as'] = 'Вошли как %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Вход для администрирования почтовых ящиков.';
 $PALANG['pLogin_username'] = 'Имя (адрес e-mail)';

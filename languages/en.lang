@@ -20,7 +20,7 @@ $PALANG['invalid_parameter'] = 'Invalid parameter!';
 $PALANG['show'] = 'Show:';
 $PALANG['all'] = 'All';
 
-$PALANG['pFooter_logged_as'] = 'Logged as %s';
+$PALANG['pFooter_logged_as'] = 'Logged in as %s';
 
 $PALANG['pLogin_welcome'] = 'Mail admins login here to administer your domain.';
 $PALANG['pLogin_username'] = 'Login (email)';
