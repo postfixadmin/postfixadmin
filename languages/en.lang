@@ -18,7 +18,7 @@ $PALANG['confirm_domain'] = 'Do you really want to delete all records for this d
 $PALANG['check_update'] = 'Check for update';
 $PALANG['invalid_parameter'] = 'Invalid parameter!';
 
-$PALANG['pFooter_logged_as'] = 'Logged as %s';
+$PALANG['pFooter_logged_as'] = 'Logged in as %s';
 
 $PALANG['pLogin_welcome'] = 'Mail admins login here to administer your domain.';
 $PALANG['pLogin_username'] = 'Login (email)';
