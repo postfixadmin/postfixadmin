@@ -682,31 +682,35 @@ function check_quota ($quota, $domain, $username="") {
     global $CONF;
     $rval = false;
     $limit = get_domain_properties ($domain);
+
     if ($limit['maxquota'] == 0)
     {
-        $rval = true;
+        $rval = true; # maxquota unlimited -> OK, but domain level quota could still be hit
     }
+
     if (($limit['maxquota'] < 0) and ($quota < 0))
     {
-        $rval = true;
+        return true; # maxquota and $quota are both disabled -> OK, no need for more checks
     }
+
     if (($limit['maxquota'] > 0) and ($quota == 0))
     {
-        $rval = false;
+        return false; # mailbox with unlimited quota on a domain with maxquota restriction -> not allowed, no more checks needed
     }
-    if ($quota > $limit['maxquota'])
+
+    if ($limit['maxquota'] != 0 && $quota > $limit['maxquota'])
     {
-        $rval = false;
+        return false; # mailbox bigger than maxquota restriction (and maxquota != unlimited) -> not allowed, no more checks needed
     }
     else
     {
-        $rval = true;
+        $rval = true; # mailbox size looks OK, but domain level quota could still be hit
     }
 
     # TODO: detailed error message ("domain quota exceeded", "mailbox quota too big" etc.) via flash_error? Or "available quota: xxx MB"?
     if (!$rval || $CONF['domain_quota'] != 'YES') {
         return $rval;
-    } elseif ($limit['quota'] <= 0) {
+    } elseif ($limit['quota'] <= 0) { # TODO: CHECK - 0 (unlimited) is fine, not sure about <= -1 (disabled)...
         $rval = true;
     } else {
         $table_mailbox = table_by_key('mailbox');
