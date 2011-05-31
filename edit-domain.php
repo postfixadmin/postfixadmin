@@ -59,19 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
     if (isset ($_GET['domain'])) $domain = escape_string ($_GET['domain']);
 
-    if (isset ($_POST['fDescription'])) $fDescription = escape_string ($_POST['fDescription']);
-    if (isset ($_POST['fAliases'])) $fAliases = intval($_POST['fAliases']);
-    if (isset ($_POST['fMailboxes'])) $fMailboxes = intval($_POST['fMailboxes']);
-    if (isset ($_POST['fMaxquota'])) {
-        $fMaxquota = intval($_POST['fMaxquota']);
-    } else {
-        $fMaxquota = 0;
-    }
-    if (isset ($_POST['fDomainquota'])) {
-        $fDomainquota = intval($_POST['fDomainquota']);
-    } else {
-        $fDomainquota = $CONF['domain_quota_default'];
-    }
+    $fDescription   =       safepost('fDescription');
+    $fAliases       = (int) safepost('fAliases');
+    $fMailboxes     = (int) safepost('fMailboxes');
+    $fMaxquota      = (int) safepost('fMaxquota', 0);
+    $fDomainquota   = (int) safepost('fDomainquota', $CONF['domain_quota_default']);
+    # TODO: check for / error out on values < -1
 
     $fTransport = $CONF['transport_default'];
     if($CONF['transport'] != 'NO' && isset ($_POST['fTransport'])) {
@@ -102,19 +95,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $sqlActive = db_get_boolean(False);
     }
 
-    $sqltransport = "";
+    $db_values = array(
+       'description'=> $fDescription,
+       'aliases'    => $fAliases,
+       'mailboxes'  => $fMailboxes,
+       'maxquota'   => $fMaxquota,
+       'quota'      => $fDomainquota,
+       'backupmx'   => $sqlBackupmx,
+       'active'     => $sqlActive,
+    );
+
     if($CONF['transport'] != 'NO') { # only change transport if it is allowed in config. Otherwise, keep the old value.
-       $sqltransport = "transport='$fTransport',";
+        $db_values['transport'] =$fTransport;
     }
 
-    $result = db_query ("UPDATE $table_domain SET description='$fDescription',aliases=$fAliases,mailboxes=$fMailboxes,maxquota=$fMaxquota,quota=$fDomainquota,$sqltransport backupmx='$sqlBackupmx',active='$sqlActive',modified=NOW() WHERE domain='$domain'");
-    if ($result['rows'] == 1)
-    {
+    $result = db_update('domain', 'domain', $domain, $db_values);
+
+    if ($result == 1) {
         header ("Location: list-domain.php");
         exit;
-    }
-    else
-    {
+    } else {
         $tMessage = $PALANG['pAdminEdit_domain_result_error'];
     }
 }
