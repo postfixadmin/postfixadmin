@@ -683,27 +683,21 @@ function check_quota ($quota, $domain, $username="") {
     $rval = false;
     $limit = get_domain_properties ($domain);
 
-    if ($limit['maxquota'] == 0)
-    {
+    if ($limit['maxquota'] == 0) {
         $rval = true; # maxquota unlimited -> OK, but domain level quota could still be hit
     }
 
-    if (($limit['maxquota'] < 0) and ($quota < 0))
-    {
+    if (($limit['maxquota'] < 0) and ($quota < 0)) {
         return true; # maxquota and $quota are both disabled -> OK, no need for more checks
     }
 
-    if (($limit['maxquota'] > 0) and ($quota == 0))
-    {
+    if (($limit['maxquota'] > 0) and ($quota == 0)) {
         return false; # mailbox with unlimited quota on a domain with maxquota restriction -> not allowed, no more checks needed
     }
 
-    if ($limit['maxquota'] != 0 && $quota > $limit['maxquota'])
-    {
+    if ($limit['maxquota'] != 0 && $quota > $limit['maxquota']) {
         return false; # mailbox bigger than maxquota restriction (and maxquota != unlimited) -> not allowed, no more checks needed
-    }
-    else
-    {
+    } else {
         $rval = true; # mailbox size looks OK, but domain level quota could still be hit
     }
 
