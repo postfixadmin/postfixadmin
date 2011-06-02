@@ -2068,6 +2068,11 @@ function gen_show_status ($show_alias) {
         $stat_goto = $row[0];
     }
 
+    if (!empty($CONF['recipient_delimiter'])) {
+        $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
+        $delimiter_regex = '/' .$delimiter. '[^' .$delimiter. '@]*@/';
+    }
+
     // UNDELIVERABLE CHECK
     if ( $CONF['show_undeliverable'] == 'YES' ) {
         $gotos=array();
@@ -2077,29 +2082,19 @@ function gen_show_status ($show_alias) {
         //make sure this alias goes somewhere known
         $stat_ok = 1;
         while ( ($g=array_pop($gotos)) && $stat_ok ) {
-            $stat_catchall = substr($g,strpos($g,"@"));
+            list(/*NULL*/,$stat_domain) = explode('@',$g);
             $stat_delimiter = "";
 			if (!empty($CONF['recipient_delimiter'])) {
-				$delimiter = preg_quote($CONF['recipient_delimiter'], "/");
-				$stat_delimiter = preg_replace('/' .$delimiter. '[^' .$delimiter. ']*@/', "@", $g);
-				$stat_delimiter = "OR address = '$stat_delimiter'";
+				$stat_delimiter = "OR address = '" . preg_replace($delimiter_regex, "@", $g) . "'";
 			}
-			$stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g' OR address = '$stat_catchall' $stat_delimiter");
+			$stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g' OR address = '@$stat_domain' $stat_delimiter");
             if ($stat_result['rows'] == 0) {
                 $stat_ok = 0;
             }
             if ( $stat_ok == 0 ) {
-                $stat_domain = substr($g,strpos($g,"@")+1);
-                $stat_vacdomain = substr($stat_domain,strpos($stat_domain,"@")+1);
-                if ( $stat_vacdomain == $CONF['vacation_domain'] ) {
+                if ( $stat_domain == $CONF['vacation_domain'] || in_array($stat_domain, $CONF['show_undeliverable_exceptions']) ) {
                     $stat_ok = 1;
                     break;
-                }
-                for ($i=0; $i < sizeof($CONF['show_undeliverable_exceptions']);$i++) {
-                    if ( $stat_domain == $CONF['show_undeliverable_exceptions'][$i] ) {
-                        $stat_ok = 1;
-                        break;
-                    }
                 }
             }
         } // while
@@ -2118,12 +2113,11 @@ function gen_show_status ($show_alias) {
     if ( $CONF['show_popimap'] == 'YES' ) {
 		 $stat_delimiter = "";
 		 if (!empty($CONF['recipient_delimiter'])) {
-			 $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
-			 $stat_delimiter = preg_replace('/' .$delimiter. '[^' .$delimiter. '@]*@/', "@", $stat_goto);
-			 $stat_delimiter = ',' . $stat_delimiter;
+			 $stat_delimiter = ',' . preg_replace($delimiter_regex, "@", $stat_goto);
 		 }
 
         //if the address passed in appears in its own goto field, its POP/IMAP
+        # TODO: or not (might also be an alias loop) -> check mailbox table!
         if ( preg_match ('/,' . $show_alias . ',/', ',' . $stat_goto . $stat_delimiter . ',') ) {
             $stat_string .= "<span  style='background-color:" . $CONF['show_popimap_color'] .
                 "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
