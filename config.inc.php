@@ -34,9 +34,6 @@ $CONF['setup_password'] = 'changeme';
 // YOU MUST ENTER THE COMPLETE URL e.g. http://domain.tld/postfixadmin
 $CONF['postfix_admin_url'] = '';
 
-// shouldn't need changing.
-$CONF['postfix_admin_path'] = dirname(__FILE__);
-
 // Language config
 // Language files are located in './languages', change as required..
 $CONF['default_language'] = 'en';

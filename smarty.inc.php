@@ -71,7 +71,7 @@ if (authentication_has_role('global-admin')) {
     $motd_file = "motd.txt";
 }
 $smarty->assign('motd_file', '');
-if (file_exists ($CONF ['postfix_admin_path'].'/templates/'.$motd_file)) {
+if (file_exists ($incpath.'/templates/'.$motd_file)) {
     $smarty->assign ('motd_file', $motd_file);
 }
 
