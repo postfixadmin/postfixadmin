@@ -2094,7 +2094,6 @@ function gen_show_status ($show_alias) {
             if ( $stat_ok == 0 ) {
                 if ( $stat_domain == $CONF['vacation_domain'] || in_array($stat_domain, $CONF['show_undeliverable_exceptions']) ) {
                     $stat_ok = 1;
-                    break;
                 }
             }
         } // while
@@ -2104,10 +2103,7 @@ function gen_show_status ($show_alias) {
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
         } 
-
-    } else {
-        $stat_string .= $CONF['show_status_text'] . "&nbsp;";
-    } 
+    }
 
     // POP/IMAP CHECK
     if ( $CONF['show_popimap'] == 'YES' ) {
