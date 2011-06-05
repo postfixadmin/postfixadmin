@@ -1150,7 +1150,8 @@ function pacrypt ($pw, $pw_db="") {
         # Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
         $spec = array(
 			0 => array("pipe", "r"), // stdin
-			1 => array("pipe", "w") // stdout
+			1 => array("pipe", "w"), // stdout
+			2 => array("pipe", "w"), // stderr
 		);
 
 		$pipe = proc_open("$dovecotpw '-s' $method", $spec, $pipes);
@@ -1166,10 +1167,18 @@ function pacrypt ($pw, $pw_db="") {
 
 			// Read hash from pipe stdout
 			$password = fread($pipes[1], "200");
-			   fclose($pipes[1]);
+
+            if ( !preg_match('/^\{' . $method . '\}/', $password)) {
+                $stderr_output = stream_get_contents($pipes[2]);
+                error_log('dovecotpw password encryption failed.');
+                error_log('STDERR output: ' . $stderr_output);
+                die("can't encrypt password with dovecotpw, see error log for details"); 
+            }
+
+			fclose($pipes[1]);
+			fclose($pipes[2]);
 			proc_close($pipe);
 
-            if ( !preg_match('/^\{' . $method . '\}/', $password)) { die("can't encrypt password with dovecotpw"); }
             $password = trim(str_replace('{' . $method . '}', '', $password));
         }
     }
