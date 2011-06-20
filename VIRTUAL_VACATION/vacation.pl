@@ -216,7 +216,7 @@ if($test_mode == 1) {
     if($syslog == 1) {
         my $syslog_appender = Log::Log4perl::Appender->new(
             'Log::Dispatch::Syslog',
-            Facility => 'mail',
+            facility => 'mail',
         );
         $logger->add_appender($syslog_appender);
     }
