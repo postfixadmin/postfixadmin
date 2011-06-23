@@ -18,6 +18,7 @@ Changes after 2.3.3 release (postfixadmin-2.3 branch)
   - list-domain: fix SELECT query to work with PgSQL even when using custom fields
   - create-domain: force domain name to lowercase to avoid problems with PgSQL
     foreign keys
+  - fix vacation.pl to log to "mail" syslog facility
 
 Version 2.3.3 - 2011/03/14 - SVN r1010 (postfixadmin-2.3 branch)
 ---------------------------------------------------------------
