@@ -54,7 +54,11 @@ class VacationHandler {
      */
     function check_vacation() {
         $ah = new AliasHandler($this->username);
-        $aliases = $ah->get(true); // fetch all.
+        $success = $ah->get(true); # fetch all.
+        if (!$success) { 
+            return false; # TODO: error handling?
+        }
+        $aliases = $ah->result();
         foreach($aliases as $alias) {
             if($ah->is_vacation_address($alias)) {
                 return true;
