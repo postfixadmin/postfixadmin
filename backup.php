@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
    umask (077);
    $path = (ini_get('upload_tmp_dir') != '') ? ini_get('upload_tmp_dir') : '/tmp';
+   date_default_timezone_set(@date_default_timezone_get()); # Suppress date.timezone warnings
    $filename = "postfixadmin-" . date ("Ymd") . "-" . getmypid() . ".sql";
    $backup = $path . DIRECTORY_SEPARATOR . $filename;
 

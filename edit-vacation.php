@@ -55,6 +55,9 @@ else {
    $fUsername = $SESSID_USERNAME;
    $fDomain = $USERID_DOMAIN;
 }
+
+date_default_timezone_set(@date_default_timezone_get()); # Suppress date.timezone warnings
+
 $vh = new VacationHandler($fUsername);
 $vacation_domain = $CONF['vacation_domain'];
 $vacation_goto = preg_replace('/@/', '#', $fUsername);

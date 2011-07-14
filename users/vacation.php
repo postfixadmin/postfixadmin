@@ -42,6 +42,8 @@ if($CONF['vacation'] == 'NO') {
     exit(0);
 }
 
+date_default_timezone_set(@date_default_timezone_get()); # Suppress date.timezone warnings
+
 $vh = new VacationHandler(authentication_get_username());
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
