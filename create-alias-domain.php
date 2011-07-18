@@ -19,7 +19,7 @@
  *
  * Template Variables:
  *
- * tMessage
+ * none
  *
  * Form POST \ GET Variables:
  *
@@ -66,9 +66,10 @@ foreach ($list_domains as $dom) {
    if (isset($list_aliases[$dom]) || in_array($dom,$list_aliases)) continue;
    $alias_domains[] = $dom;
 }
+
 if (count($alias_domains) == 0) {
    $error = 1;
-   $tMessage = $PALANG['pCreate_alias_domain_error4'];
+   flash_error($PALANG['pCreate_alias_domain_error4']);
 }
 
 # filter available target domains
@@ -102,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          check_owner ($SESSID_USERNAME, $fTargetDomain)))
     {
         $error = 1;
-        $tMessage = $PALANG['pCreate_alias_domain_error1'];
+        flash_error($PALANG['pCreate_alias_domain_error1']);
     }
 
     if (isset($list_aliases[$fAliasDomain]) ||      // alias_domain is unique (primary key, a domain can't be an alias for multiple others)
@@ -112,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         empty($fAliasDomain) || empty($fTargetDomain)) // explain this, do i?
     {
         $error = 1;
-        $tMessage = $PALANG['pCreate_alias_domain_error2'];
+        flash_error($PALANG['pCreate_alias_domain_error2']);
     }
 
     $sqlActive = db_get_boolean($fActive);
@@ -121,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $result = db_query ("INSERT INTO $table_alias_domain (alias_domain,target_domain,created,modified,active) VALUES ('$fAliasDomain','$fTargetDomain',NOW(),NOW(),'$sqlActive')");
         if ($result['rows'] != 1) {
             $error = 1;
-            $tMessage = $PALANG['pCreate_alias_domain_error3'];
+            flash_error($PALANG['pCreate_alias_domain_error3']);
         }
         else {
             db_log ($fAliasDomain, 'create_alias_domain', "$fAliasDomain -> $fTargetDomain");
@@ -133,14 +134,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
     }
 
-    $tMessage .= "<br />($fAliasDomain -> $fTargetDomain)<br />\n";
+    flash_info("<br />($fAliasDomain -> $fTargetDomain)<br />\n");
 }
+
+
 $smarty->assign ('alias_domains', (count($alias_domains) > 0));
 $smarty->assign ('select_options_alias', select_options ($alias_domains, array ($fAliasDomain)), false);
 $smarty->assign ('select_options_target', select_options ($target_domains, array ($fTargetDomain)), false);
 if ($fActive)	$smarty->assign ('fActive', ' checked="checked"');
-if ($error == 1)	$tMessage = '<span class="error_msg">'.$tMessage.'</span>';
-$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'create-alias-domain');
 $smarty->display ('index.tpl');
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

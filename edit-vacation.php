@@ -20,7 +20,6 @@
  * Template Variables:
  *
  * tUseremail
- * tMessage
  * tSubject
  * tBody
  *
@@ -72,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if ($result['rows'] == 1)
    {
       $row = db_array($result['result']);
-      $tMessage = '';
       $tSubject = $row['subject'];
       $tBody = $row['body'];
 	  $tActiveFrom = $row['activefrom'];
@@ -137,14 +135,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 if($error == 0) {
    if(!empty ($fBack)) {
-      $tMessage = $PALANG['pVacation_result_removed'];
+      flash_info($PALANG['pVacation_result_removed']);
    }
    if(!empty($fChange)) {
-      $tMessage= $PALANG['pVacation_result_added'];   
+      flash_info($PALANG['pVacation_result_added']);
    }
 }
 else {
-   $tMessage = $PALANG['pVacation_result_error'];
+   flash_error($PALANG['pVacation_result_error']);
 }
 if (empty ($tActiveFrom))
 	$tActiveFrom = date ("Y-m-d");
@@ -154,7 +152,6 @@ if (empty ($tActiveUntil))
 $smarty->assign ('tUseremail', $tUseremail);
 $smarty->assign ('tSubject', $tSubject);
 $smarty->assign ('tBody', $tBody ,false);
-$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('tActiveFrom',  date ("d.m.Y", strtotime ($tActiveFrom)));
 $smarty->assign ('tActiveUntil',  date ("d.m.Y", strtotime ($tActiveUntil)));
 $smarty->assign ('fCanceltarget', $fCanceltarget);

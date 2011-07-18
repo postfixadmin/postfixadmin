@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         header ("Location: list-domain.php");
         exit;
     } else {
-        $tMessage = $PALANG['pAdminEdit_domain_result_error'];
+        flash_error($PALANG['pAdminEdit_domain_result_error']);
     }
 }
 
@@ -128,7 +128,6 @@ $smarty->assign ('tDomainquota', $tDomainquota);
 $smarty->assign ('select_options', select_options($CONF['transport_options'], array($tTransport)), false);
 if ($tBackupmx)	$smarty->assign ('tBackupmx', ' checked="checked"');
 if ($tActive)	$smarty->assign ('tActive', ' checked="checked"');
-$smarty->assign ('tMessage', $tMessage,false);
 $smarty->assign ('smarty_template', 'admin_edit-domain');
 $smarty->display ('index.tpl');
 

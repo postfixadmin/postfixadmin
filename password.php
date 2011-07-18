@@ -18,7 +18,7 @@
  *
  * Template Variables:
  *
- * tMessage
+ * none
  *
  * Form POST \ GET Variables:
  *
@@ -83,17 +83,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $result = db_query ("UPDATE $table_admin SET password='$password',modified=NOW() WHERE username='$username'");
         if ($result['rows'] == 1)
         {
-            $tMessage = $PALANG['pPassword_result_success'];
+            flash_info($PALANG['pPassword_result_success']);
         }
         else
         {
-            $tMessage = $PALANG['pPassword_result_error'];
+            flash_error($PALANG['pPassword_result_error']);
         }
     }
 
 	$smarty->assign ('pPassword_password_current_text', $pPassword_password_current_text);
 	$smarty->assign ('pPassword_password_text', $pPassword_password_text);
-	$smarty->assign ('tMessage', $tMessage,false);
 	$smarty->display ('index.tpl');
 }
 

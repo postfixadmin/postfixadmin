@@ -19,7 +19,6 @@
  *
  * Template Variables:
  *
- * tMessage
  * tLog
  *
  * Form POST \ GET Variables:
@@ -50,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if (! (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin')))
 {
    $error = 1;
-   $tMessage = $PALANG['pViewlog_result_error'];
+   flash_error($PALANG['pViewlog_result_error']);
 }
 
 // we need to initialize $tLog as an array!

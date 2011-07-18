@@ -19,7 +19,6 @@
  *
  * Template Variables:
  *
- * tMessage
  * tGoto
  *
  * Form POST \ GET Variables:
@@ -99,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    {
      $error = 1;
      $tGoto = $fGoto;
-     $tMessage = $PALANG['pEdit_alias_result_error'];
+     flash_error($PALANG['pEdit_alias_result_error']);
    }
 
    $goto = preg_replace ('/\\\r\\\n/', ',', $fGoto);
@@ -113,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    {
       $error = 1;
       $tGoto = $_POST['fGoto'];
-      $tMessage = $PALANG['pEdit_alias_goto_text_error1'];
+      flash_error($PALANG['pEdit_alias_goto_text_error1']);
    }
 
    $new_aliases = array();
@@ -130,8 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       {
          $error = 1;
          $tGoto = $goto;
-         if (!empty($tMessage)) $tMessage .= "<br />";
-         $tMessage .= $PALANG['pEdit_alias_goto_text_error2'] . "$address</span>";
+         flash_error($PALANG['pEdit_alias_goto_text_error2'] . "$address");
       }
    }
    
@@ -157,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $result = db_query ("UPDATE $table_alias SET goto='$goto',modified=NOW() WHERE address='$fAddress' AND domain='$fDomain'");
       if ($result['rows'] != 1)
       {
-         $tMessage = $PALANG['pEdit_alias_result_error'];
+         flash_error($PALANG['pEdit_alias_result_error']);
       }
       else
       {
@@ -174,7 +172,6 @@ $array = preg_split ('/,/', $tGoto);
 $smarty->assign ('fAddress', $fAddress);
 $smarty->assign ('tGoto', $tGoto);
 $smarty->assign ('array', $array, false);
-$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'edit-alias');
 $smarty->display ('index.tpl');
 
