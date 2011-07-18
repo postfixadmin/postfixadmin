@@ -9,6 +9,7 @@
 		{include file='menu.tpl'}
 	{/if}
 {/if}
+{include file='flash_error.tpl'}
 {if $smarty_template}
 	{include file="$smarty_template.tpl"}
 {else}

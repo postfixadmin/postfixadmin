@@ -12,32 +12,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" type="text/css" href="{$CONF.theme_css}"/>
+		<link rel="stylesheet" type="text/css" href="{$CONF.theme_css}" />
 		<title>Postfix Admin - {$smarty.server.HTTP_HOST}</title>
 	</head>
 	<body class="lang-{$smarty.session.lang}">
+		<div id="container">
 		<div id="login_header">
-		<img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo"/>
+		<img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo" />
 {if $CONF.show_header_text==='YES' && $CONF.header_text}
 		<h2>{$CONF.header_text}</h2>
 {/if}
 		</div>
-
-{strip}
-		{if $smarty.session.flash}
-			{if $smarty.session.flash.info}
-				<ul class="flash-info">
-					{foreach from=$smarty.session.flash.info item=msg}
-						<li>{$msg}</li>
-					{/foreach}
-				</ul>
-			{/if}
-			{if $smarty.session.flash.error}
-				<ul class="flash-error">
-					{foreach from=$smarty.session.flash.error item=msg}
-						<li>{$msg}</li>
-					{/foreach}
-				</ul>
-			{/if}
-		{/if}
-{/strip}
