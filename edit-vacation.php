@@ -1,18 +1,18 @@
 <?php
-/** 
- * Postfix Admin 
- * 
- * LICENSE 
- * This source file is subject to the GPL license that is bundled with  
- * this package in the file LICENSE.TXT. 
- * 
- * Further details on the project are available at : 
- *     http://www.postfixadmin.com or http://postfixadmin.sf.net 
- * 
- * @version $Id$ 
- * @license GNU GPL v2 or later. 
- * 
- * File: edit-vacation.php 
+/**
+ * Postfix Admin
+ *
+ * LICENSE
+ * This source file is subject to the GPL license that is bundled with
+ * this package in the file LICENSE.TXT.
+ *
+ * Further details on the project are available at :
+ *     http://www.postfixadmin.com or http://postfixadmin.sf.net
+ *
+ * @version $Id$
+ * @license GNU GPL v2 or later.
+ *
+ * File: edit-vacation.php
  * Responsible for allowing users to update their vacation status.
  *
  * Template File: edit-vacation.tpl
@@ -36,7 +36,7 @@
 
 require_once('common.php');
 
-if($CONF['vacation'] == 'NO') { 
+if($CONF['vacation'] == 'NO') {
    header("Location: list-virtual.php");
    exit(0);
 }
@@ -73,8 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       $row = db_array($result['result']);
       $tSubject = $row['subject'];
       $tBody = $row['body'];
-	  $tActiveFrom = $row['activefrom'];
-	  $tActiveUntil = $row['activeuntil'];
+      $tActiveFrom = $row['activefrom'];
+      $tActiveUntil = $row['activeuntil'];
    }
 
    $tUseremail = $fUsername;
@@ -86,14 +86,14 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-    
+
    $tSubject   = safepost('fSubject');
    $fSubject   = escape_string ($tSubject);
    $tBody      = safepost('fBody');
 //   $tActiveFrom = safepost('activefrom').' 00:00:01';
 //   $tActiveUntil = safepost('activeuntil').' 23:59:59';
-	$tActiveFrom = date ("Y-m-d 00:00:00", strtotime (safepost('activefrom')));
-	$tActiveUntil = date ("Y-m-d 23:59:59", strtotime (safepost('activeuntil')));
+   $tActiveFrom = date ("Y-m-d 00:00:00", strtotime (safepost('activefrom')));
+   $tActiveUntil = date ("Y-m-d 23:59:59", strtotime (safepost('activeuntil')));
    $fBody      = escape_string ($tBody);
    $fChange    = escape_string (safepost('fChange'));
    $fBack      = escape_string (safepost('fBack'));
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if(!$vh->set_away($fSubject, $fBody, $tActiveFrom, $tActiveUntil)) {
             $error = 1;
         }
-     
+
    }
 }
 
@@ -145,10 +145,10 @@ else {
    flash_error($PALANG['pVacation_result_error']);
 }
 if (empty ($tActiveFrom))
-	$tActiveFrom = date ("Y-m-d");
+   $tActiveFrom = date ("Y-m-d");
 if (empty ($tActiveUntil))
-	$tActiveUntil = date ("Y-m-d");
-	
+   $tActiveUntil = date ("Y-m-d");
+
 $smarty->assign ('tUseremail', $tUseremail);
 $smarty->assign ('tSubject', $tSubject);
 $smarty->assign ('tBody', $tBody ,false);
