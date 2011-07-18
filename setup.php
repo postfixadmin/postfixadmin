@@ -316,7 +316,7 @@ else
     $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
     $pAdminCreate_admin_password_text = "";
     $tUsername = '';
-    $tMessage = '';
+    $setupMessage = '';
     $lostpw_error = 0;
 
     $setuppw = "";
@@ -325,11 +325,11 @@ else
     if (safepost("form") == "setuppw") {
         # "setup password" form submitted
         if (safepost('setup_password') != safepost('setup_password2')) {
-            $tMessage = "The two passwords differ!";
+            $setupMessage = "The two passwords differ!";
             $lostpw_error = 1;
         } else {
             list ($lostpw_error, $lostpw_result) = check_setup_password(safepost('setup_password'), 1);
-            $tMessage = $lostpw_result;
+            $setupMessage = $lostpw_result;
             $setuppw = "changed";
         }
     } elseif (safepost("form") == "createadmin") {
@@ -337,7 +337,7 @@ else
         list ($pw_check_error, $pw_check_result) = check_setup_password(safepost('setup_password'));
         if ($pw_check_result != 'pass_OK') {
             $error += 1;
-            $tMessage = $pw_check_result;
+            $setupMessage = $pw_check_result;
         }
 
         if($error == 0 && $pw_check_result == 'pass_OK') {
@@ -352,7 +352,7 @@ else
                 db_insert('domain', array('domain' => 'ALL')); // all other fields should default through the schema.
             }
 
-            list ($error, $tMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, array('ALL'), TRUE);
+            list ($error, $setupMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, array('ALL'), TRUE);
             if ($error != 0) {
                 if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
             }
@@ -363,7 +363,7 @@ else
 # show "create setup password" form
     ?>
 
-<div class="standout"><?php print $tMessage; ?></div>
+<div class="standout"><?php print $setupMessage; ?></div>
 <div id="edit_form">
 <form name="setuppw" method="post" action="setup.php">
 <input type="hidden" name="form" value="setuppw" />
@@ -392,7 +392,7 @@ else
     } elseif ($_SERVER['REQUEST_METHOD'] == "GET" || $error != 0 || $lostpw_error == 0) {
         ?>
 
-<div class="standout"><?php print $tMessage; ?></div>
+<div class="standout"><?php print $setupMessage; ?></div>
 <div id="edit_form">
 <form name="create_admin" method="post">
 <input type="hidden" name="form" value="createadmin" />
