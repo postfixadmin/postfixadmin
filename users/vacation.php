@@ -19,7 +19,6 @@
  *
  * Template Variables:
  *
- * tMessage
  * tSubject
  * tBody
  *
@@ -61,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 		$fActiveUntil = $details['activeUntil'];
     }
     if($vh->check_vacation()) {
-        $tMessage = $PALANG['pUsersVacation_welcome_text'];
+        flash_info($PALANG['pUsersVacation_welcome_text']);
     }
 
     if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
@@ -93,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     {
         if(!$vh->set_away($fSubject, $fBody, $tActiveFrom, $tActiveUntil)) {
             $error = 1;
-            $tMessage = $PALANG['pUsersVacation_result_error'];
+            flash_error($PALANG['pUsersVacation_result_error']);
         }
         flash_info($PALANG['pVacation_result_added']);
         header ("Location: main.php");
@@ -102,16 +101,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if (!empty ($fBack)) {
         $vh->remove();
-        $tMessage = $PALANG['pUsersVacation_result_success'];
-        flash_info($tMessage);
+        flash_info($PALANG['pUsersVacation_result_success']);
         header ("Location: main.php");
         exit;
     }
 }
 
+if (empty ($fActiveFrom))
+	$fActiveFrom = date ("Y-m-d");
+if (empty ($fActiveUntil))
+	$fActiveUntil = date ("Y-m-d");
+	
 $smarty->assign ('tSubject', htmlentities ($tSubject, ENT_QUOTES, 'UTF-8'), false);
 $smarty->assign ('tBody', htmlentities ($tBody, ENT_QUOTES, 'UTF-8'), false);
-$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('tActiveFrom',  date ("d.m.Y", strtotime ($fActiveFrom)));
 $smarty->assign ('tActiveUntil',  date ("d.m.Y", strtotime ($fActiveUntil)));
 $smarty->assign ('smarty_template', 'users_vacation');

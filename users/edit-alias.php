@@ -19,7 +19,6 @@
  *
  * Template Variables:
  *
- * tMessage
  * tGotoArray
  * tStoreAndForward
  *
@@ -85,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $good_goto = array();
 
     if($fForward_and_store != 'YES' && sizeof($goto) == 1 && $goto[0] == '') {
-        $tMessage = $PALANG['pEdit_alias_goto_text_error1'];
+        flash_error($PALANG['pEdit_alias_goto_text_error1']);
         $error += 1;
     }
     if($error === 0) {
@@ -98,8 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             # (avoid empty elements in $goto) in trunk ;-)
             if(!check_email($address)) {
                 $error += 1;
-                if (!empty($tMessage)) $tMessage .= "<br />";
-                $tMessage .= $PALANG['pEdit_alias_goto_text_error2'] . " $address</font>";
+                flash_error($PALANG['pEdit_alias_goto_text_error2'] . " $address");
             }
             else {
                 $good_goto[] = $address;
@@ -118,13 +116,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             header ("Location: main.php");
             exit;
         }
-        if (!empty($tMessage)) $tMessage .= "<br />";
-        $tMessage .= $PALANG['pEdit_alias_result_error'];
+        flash_error($PALANG['pEdit_alias_result_error']);
     }
     else {
         $tGotoArray = $goto;
     }
-    $smarty->assign ('tMessage', $tMessage, false);
     $smarty->assign ('tGotoArray', $tGotoArray);
     if ($fForward_and_store == "YES") {
         $smarty->assign ('forward_and_store', ' checked="checked"');

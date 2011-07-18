@@ -18,7 +18,7 @@
  *
  * Template Variables:
  *
- * tMessage
+ * none
  *
  * Form POST \ GET Variables:
  *
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
         else
         {
-            $tMessage = $PALANG['pPassword_result_error'];
+            flash_error($PALANG['pPassword_result_error']);
         }
     }
 }
@@ -79,7 +79,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 $smarty->assign ('USERID_USERNAME', $username);
 $smarty->assign ('pPassword_password_current_text', $pPassword_password_current_text, false);
 $smarty->assign ('pPassword_password_text', $pPassword_password_text, false);
-$smarty->assign ('tMessage', $tMessage, false);
 
 $smarty->assign ('smarty_template', 'users_password');
 $smarty->display ('index.tpl');
