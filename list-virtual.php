@@ -19,7 +19,6 @@
  *
  * Template Variables:
  *
- * tMessage
  * tAlias
  * tMailbox
  *
