@@ -19,7 +19,7 @@
  *
  * Template Variables:
  *
- * tMessage
+ * none
  *
  * Form POST \ GET Variables:
  *
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if (! (check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin') ) )
    {
       $error = 1;
-      $tMessage = $PALANG['pEdit_mailbox_domain_error'] . "<b>$fDomain</b>!</font>";
+      flash_error($PALANG['pEdit_mailbox_domain_error'] . "<b>$fDomain</b>!");
    }
    else
    {
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          if ($result['rows'] != 1)
          {
             $error = 1;
-            $tMessage = $PALANG['pEdit_mailbox_result_error'];
+            flash_error($PALANG['pEdit_mailbox_result_error']);
          }
          else
          {
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          if ($result['rows'] != 1)
          {
             $error = 1;
-            $tMessage = $PALANG['pEdit_mailbox_result_error'];
+            flash_error($PALANG['pEdit_mailbox_result_error']);
          }
          else
          {
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          if ($result['rows'] != 1)
          {
             $error = 1;
-            $tMessage = $PALANG['pEdit_alias_domain_result_error'];
+            flash_error($PALANG['pEdit_alias_domain_result_error']);
          }
          else
          {
@@ -112,7 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    }
 }
 
-$smarty->assign ('tMessage', $tMessage);
 $smarty->assign ('smarty_template', 'message');
 $smarty->display ('index.tpl');
 

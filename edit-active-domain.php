@@ -18,7 +18,7 @@
  *
  * Template Variables:
  *
- * tMessage
+ * none
  *
  * Form POST \ GET Variables:
  *
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if ($result['rows'] != 1)
    {
       $error = 1;
-      $tMessage = $PALANG['pAdminEdit_domain_result_error'];
+      flash_error($PALANG['pAdminEdit_domain_result_error']);
    }
    
    if ($error != 1)
@@ -50,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    }
 }
 
-$smarty->assign ('tMessage', $tMessage);
 $smarty->assign ('smarty_template', 'message');
 $smarty->display ('index.tpl');
 
