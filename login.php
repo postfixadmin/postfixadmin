@@ -18,7 +18,7 @@
  *
  * Template Variables:
  *
- *  tMessage
+ *  none
  *
  * Form POST \ GET Variables:
  *
@@ -29,7 +29,6 @@
 
 require_once('common.php');
 
-$smarty->assign('tMessage', '');
 # force user to delete setup.php (allows creation of superadmins!)
 if($CONF['configured'] !== true) {
     print "Installation not yet configured; please edit config.inc.php";
@@ -66,13 +65,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         if ($result['rows'] != 1)
         {
             $error = 1;
-            $tMessage = '<span class="error_msg">' . $PALANG['pLogin_failed'] . '</span>';
+            flash_error($PALANG['pLogin_failed']);
         }
     }
     else
     {
         $error = 1;
-        $tMessage = '<span class="error_msg">' . $PALANG['pLogin_failed'] . '</span>';
+        flash_error($PALANG['pLogin_failed']);
     }
 
     if ($error != 1)
@@ -94,8 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         header("Location: main.php");
         exit(0);
     }
-
-    $smarty->assign ('tMessage', $tMessage, false);
 
     $smarty->assign ('smarty_template', 'login');
     $smarty->display ('index.tpl');
