@@ -21,7 +21,7 @@
  *
  * Template Variables:
  *
- * tMessage
+ * none
  *
  * Form POST \ GET Variables:
  *
@@ -122,18 +122,18 @@ elseif ($fTable == "alias" or $fTable == "mailbox")
                 if ($result['rows'] != 1 || !$postdel_res)
                 {
                     $error = 1;
-                    $tMessage = $PALANG['pDelete_delete_error'] . "$fDelete (";
+                    $deletionMessage = $PALANG['pDelete_delete_error'] . "$fDelete (";
                     if ($result['rows']!=1)
                     {
-                        $tMessage.='mailbox';
-                        if (!$postdel_res) $tMessage.=', ';
+                        $deletionMessage.='mailbox';
+                        if (!$postdel_res) $deletionMessage.=', ';
                     }
                     if (!$postdel_res)
                     {
-                        $tMessage.='post-deletion';
+                        $deletionMessage.='post-deletion';
                     }
-                    $tMessage.=')';
-                    flash_error($tMessage);
+                    $deletionMessage.=')';
+                    flash_error($deletionMessage);
                 }
 				db_log ($fDomain, 'delete_mailbox', $fDelete);
             }
@@ -171,7 +171,7 @@ else
 
 # we should most probably never reach this point
 $smarty->assign ('smarty_template', 'message');
-$smarty->assign ('tMessage', $tMessage . " If you see this, please open a bugreport and include the exact delete.php parameters.");
+flash_error("If you see this, please open a bugreport and include the exact delete.php parameters.");
 $smarty->display ('index.tpl');
 
 
