@@ -1,9 +1,5 @@
 <div id="main_menu">
 <table>
-	<tr>
-		<td>&nbsp;</td>
-		<td>{$smarty.session.sessid.username}</td>
-	</tr>
 {if $CONF.vacation===YES}
 	<tr>
 		<td nowrap="nowrap"><a target="_top" href="vacation.php">{$PALANG.pUsersMenu_vacation}</a></td>
