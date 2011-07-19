@@ -13,6 +13,9 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" type="text/css" href="{$CONF.theme_css}" />
+{if $CONF.theme_custom_css}
+		<link rel="stylesheet" type="text/css" href="{$CONF.theme_custom_css}" />
+{/if}
 		<title>Postfix Admin - {$smarty.server.HTTP_HOST}</title>
 	</head>
 	<body class="lang-{$smarty.session.lang}">
