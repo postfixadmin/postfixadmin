@@ -23,6 +23,7 @@ $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged 
 $PALANG['pLogin_welcome'] = 'Логин за администрирање на домени (Само за администратори!)';
 $PALANG['pLogin_username'] = 'Корисничко име (email)';
 $PALANG['pLogin_password'] = 'Лозинка';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Пријава';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Логин за обични корисници.';

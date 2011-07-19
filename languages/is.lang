@@ -23,6 +23,7 @@ $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged 
 $PALANG['pLogin_welcome'] = 'Póst kerfisstjóri tengist hér til að viðhalda póstkerfi lénsins þins.';
 $PALANG['pLogin_username'] = 'Auðkenni(email)';
 $PALANG['pLogin_password'] = 'Lykilorð';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Tengjast';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Notendur smellið hér til að opna almennt notendaviðmót.';

@@ -24,6 +24,7 @@ $PALANG['pFooter_logged_as'] = 'aangemeld als %s'; # XXX Text change: 'logged in
 $PALANG['pLogin_welcome'] = 'Mail beheerders log hier in om uw domeinen te beheren.';
 $PALANG['pLogin_username'] = 'Login (e-mail)';
 $PALANG['pLogin_password'] = 'Wachtwoord';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Login';
 $PALANG['pLogin_failed'] = 'Uw login gegevens zijn onjuist.';
 $PALANG['pLogin_login_users'] = 'Gebruikers klik hier om in te loggen.';

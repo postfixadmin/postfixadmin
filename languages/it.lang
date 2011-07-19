@@ -24,6 +24,7 @@ $PALANG['pFooter_logged_as'] = 'Collegato come %s'; # XXX Text change: 'logged i
 $PALANG['pLogin_welcome'] = 'Gli amministratori di posta devono effettuare il login qui per amministrare il proprio dominio.';
 $PALANG['pLogin_username'] = 'Nome utente (email)';
 $PALANG['pLogin_password'] = 'Password';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Entra';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Gli utenti devono cliccare qui per entrare nella propria sezione.';

@@ -25,6 +25,7 @@ $PALANG['pFooter_logged_as'] = 'Bonjour %s'; # XXX Text change: 'logged in as %s
 $PALANG['pLogin_welcome'] = 'Entrez votre adresse courriel pour administrer votre domaine.';
 $PALANG['pLogin_username'] = 'Adresse courriel';
 $PALANG['pLogin_password'] = 'Mot de passe';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Entrer';
 $PALANG['pLogin_failed'] = 'Votre email ou mot de passe est incorrect.';
 $PALANG['pLogin_login_users'] = 'Utilisateurs, cliquez ici pour rejoindre votre section.';

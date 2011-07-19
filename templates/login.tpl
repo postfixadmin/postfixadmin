@@ -2,24 +2,23 @@
 <form name="frmLogin" method="post" action="">
 <table id="login_table" cellspacing="10">
 	<tr>
-		<td colspan="2"><h4>{$PALANG.pLogin_welcome}</h4></td>
+		<th colspan="2">{$PALANG.pLogin_welcome}</th>
 	</tr>
 	<tr>
-		<td>{$PALANG.pLogin_username}:</td>
+		<td class="label"><label>{$PALANG.pLogin_username}:</label></td>
 		<td><input class="flat" type="text" name="fUsername" /></td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pLogin_password}:</td>
+		<td class="label"><label>{$PALANG.pLogin_password}:</label></td>
 		<td><input class="flat" type="password" name="fPassword" /></td>
 	</tr>
 	<tr>
-		<td colspan="2">{$language_selector}</td>
+		<td class="label"><label>{$PALANG.pLogin_language}:</label></td>
+		<td>{$language_selector}</td>
 	</tr>
 	<tr>
-		<td colspan="2" class="hlp_center"><input class="button" type="submit" name="submit" value="{$PALANG.pLogin_button}" /></td>
-	</tr>
-	<tr>
-		<td colspan="2" class="standout">{$tMessage}</td>
+		<td class="label">&nbsp;</td>
+		<td><input class="button" type="submit" name="submit" value="{$PALANG.pLogin_button}" /></td>
 	</tr>
 	<tr>
 		<td colspan="2"><a href="users/">{$PALANG.pLogin_login_users}</a></td>

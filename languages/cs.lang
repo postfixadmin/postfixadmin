@@ -28,6 +28,7 @@ $PALANG['pFooter_logged_as'] = 'Přihlášen jako %s'; # XXX Text change: 'logge
 $PALANG['pLogin_welcome'] = 'Zde se přihlašují emailoví administrátoři pro administraci svých domén.';
 $PALANG['pLogin_username'] = 'Uživatelské jméno (email)';
 $PALANG['pLogin_password'] = 'Heslo';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Přihlásit';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Vstup do uživatelské sekce.';

@@ -24,6 +24,7 @@ $PALANG['pFooter_logged_as'] = '%s-ként bejelentkezve'; # XXX Text change: 'log
 $PALANG['pLogin_welcome'] = 'Mail adminisztrátorok itt jelentkezzenek be, hogy adminisztrálják a domainjüket.';
 $PALANG['pLogin_username'] = 'Bejelentkezés (email)';
 $PALANG['pLogin_password'] = 'Jelszó';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Bejelentkezés';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'A felhasználók kattintsanak ide a felhasználói felülethez.';

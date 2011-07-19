@@ -25,6 +25,7 @@ $PALANG['pFooter_logged_as'] = 'Inloggad som %s'; # XXX Text change: 'logged in 
 $PALANG['pLogin_welcome'] = 'Mail administratörer loggar in här för att sköta er domän.';
 $PALANG['pLogin_username'] = 'Login (epost)';
 $PALANG['pLogin_password'] = 'Lösenord';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Login';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Användare klickar här för att logga in på användardelen.';

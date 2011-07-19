@@ -25,6 +25,7 @@ $PALANG['pFooter_logged_as'] = 'Indlogget som %s'; # XXX Text change: 'logged in
 $PALANG['pLogin_welcome'] = 'Postadministrator: Log ind for at administrere dine domæner.';
 $PALANG['pLogin_username'] = 'Brugernavn (email)';
 $PALANG['pLogin_password'] = 'Adgangskode';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Login';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Bruger: Log ind på brugersektionen her.';

@@ -23,6 +23,7 @@ $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged 
 $PALANG['pLogin_welcome'] = 'Login d\'administrador per l\'administració de dominis.';
 $PALANG['pLogin_username'] = 'Usuari (e-mail)';
 $PALANG['pLogin_password'] = 'Contrasenya';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Usuari';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Login per anar a la secció d\'usuaris.';

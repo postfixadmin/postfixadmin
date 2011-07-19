@@ -25,6 +25,7 @@ $PALANG['pFooter_logged_as'] = 'ログイン名 %s'; # XXX Text change: 'logged 
 $PALANG['pLogin_welcome'] = 'こちらからドメインの管理ができます。';
 $PALANG['pLogin_username'] = 'ログイン (メールアドレス)';
 $PALANG['pLogin_password'] = 'パスワード';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'ログイン';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = '一般ユーザのログインはここをクリックしてください。';

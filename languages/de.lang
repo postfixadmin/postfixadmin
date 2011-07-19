@@ -25,6 +25,7 @@ $PALANG['pFooter_logged_as'] = 'Angemeldet als %s';
 $PALANG['pLogin_welcome'] = 'Mail-Administratoren loggen sich bitte hier ein.';
 $PALANG['pLogin_username'] = 'Login (eMail)';
 $PALANG['pLogin_password'] = 'Passwort';
+$PALANG['pLogin_language'] = 'Sprache';
 $PALANG['pLogin_button'] = 'Login';
 $PALANG['pLogin_failed'] = 'Ihre Mailadresse oder das Passwort sind nicht korrekt.';
 $PALANG['pLogin_login_users'] = 'eMail-Benutzer bitte hier einloggen.';

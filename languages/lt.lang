@@ -22,6 +22,7 @@ $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged 
 $PALANG['pLogin_welcome'] = 'Pašto srities administratorius.';
 $PALANG['pLogin_username'] = 'Vartotojas (el.paštas)';
 $PALANG['pLogin_password'] = 'Slaptažodis';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Prisijungti';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Pašto vartotojo nustatymai.';

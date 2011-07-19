@@ -24,6 +24,7 @@ $PALANG['pFooter_logged_as'] = 'Autenticado como %s';  # XXX Text change: 'logge
 $PALANG['pLogin_welcome'] = 'Login de administrador para administración de dominios.';
 $PALANG['pLogin_username'] = 'Usuario (e-mail)';
 $PALANG['pLogin_password'] = 'Contraseña';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Usuario';
 $PALANG['pLogin_failed'] = 'La cuenta de email o la contraseña no son correctas.'; 
 $PALANG['pLogin_login_users'] = 'Login para ir a la sección de usuarios.';

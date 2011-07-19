@@ -23,6 +23,7 @@ $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged 
 $PALANG['pLogin_welcome'] = 'E-posti haldaja, logi siit domeeni administreerimiseks sisse.';
 $PALANG['pLogin_username'] = 'Kasutajanimi (e-posti aadress)';
 $PALANG['pLogin_password'] = 'Parool';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Logi sisse';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Kasutaja, klõpsa siia logimaks sisse kasutaja sektsiooni.';

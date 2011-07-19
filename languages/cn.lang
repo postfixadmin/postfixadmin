@@ -23,6 +23,7 @@ $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged 
 $PALANG['pLogin_welcome'] = '邮件管理员请从这里登录以管理你的域名.';
 $PALANG['pLogin_username'] = '帐号 (邮件地址)';
 $PALANG['pLogin_password'] = '密码';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = '登录';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = '普通用户点击这里进入用户控制面板.';

@@ -24,6 +24,7 @@ $PALANG['pFooter_logged_as'] = 'Kirjautunut sisään tunnuksella %s'; # XXX Text
 $PALANG['pLogin_welcome'] = 'Kirjautuminen';
 $PALANG['pLogin_username'] = 'Tunnus';
 $PALANG['pLogin_password'] = 'Salasana';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Kirjaudu';
 $PALANG['pLogin_failed'] = 'Sähköpostiosoite tai salasana väärin!';
 $PALANG['pLogin_login_users'] = 'Käyttäjien kirjautuminen.';

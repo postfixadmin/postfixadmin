@@ -26,6 +26,7 @@ $PALANG['pFooter_logged_as'] = 'Вошли как %s'; # XXX Text change: 'logge
 $PALANG['pLogin_welcome'] = 'Вход для администрирования почтовых ящиков.';
 $PALANG['pLogin_username'] = 'Имя (адрес e-mail)';
 $PALANG['pLogin_password'] = 'Пароль';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Войти';
 $PALANG['pLogin_failed'] = 'Ваш адрес e-mail или пароль неверен.';
 $PALANG['pLogin_login_users'] = 'Вход для обычных пользователей.';

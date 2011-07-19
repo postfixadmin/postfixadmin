@@ -23,6 +23,7 @@ $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged 
 $PALANG['pLogin_welcome'] = 'Administratorji se prijavite tukaj.';
 $PALANG['pLogin_username'] = 'Uporabniško ime (e-poštni naslov)';
 $PALANG['pLogin_password'] = 'Geslo';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Prijavi';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Uporabniki kliknite tukaj, če želite nastaviti odsotnost ali spremeniti geslo.';

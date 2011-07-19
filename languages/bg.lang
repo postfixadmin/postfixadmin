@@ -24,6 +24,7 @@ $PALANG['pFooter_logged_as'] = 'Потребител %s'; # XXX # XXX Text chang
 $PALANG['pLogin_welcome'] = 'Администратора може да се логне оттук за администриране на домейн.';
 $PALANG['pLogin_username'] = 'Логин (е-мейл)';
 $PALANG['pLogin_password'] = 'Парола';
+$PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Изход';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Ако сте потребител натиснете тук за логване в потребителската част.';
