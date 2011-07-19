@@ -1,23 +1,22 @@
 {literal}
-	<script type="text/javascript">
+	<script language="JavaScript" type="text/javascript">
 	function newLocation() {
 		window.location="{/literal}{$fCanceltarget}{literal}"
 	}
 	</script>
-	<script language="JavaScript" src="calendar.js"></script>
-	<link rel="stylesheet" href="css/calendar.css">
+	<script language="JavaScript" src="calendar.js" type="text/javascript"></script>
 {/literal}
 <div id="edit_form">
 <form name="vacation" method="post" action=''>
 <table>
 	<tr>
-		<td colspan="3"><h3>{$PALANG.pUsersVacation_welcome}</h3></td>
+		<th colspan="3">{$PALANG.pUsersVacation_welcome}</th>
 	</tr>
 	<tr>
-		<td>{$PALANG.pUsersVacation_activefrom}:</td>
-		<td><input name="fActiveFrom" value="{$tActiveFrom}" readonly="readonly" style="background:#eee;"/>
+		<td class="label"><label>{$PALANG.pUsersVacation_activefrom}:</label></td>
+		<td><input class="flat" name="fActiveFrom" value="{$tActiveFrom}" readonly="readonly" style="background:#eee;" />
 {literal}
-<script language="JavaScript">
+<script language="JavaScript" type="text/javascript">
 	new tcal ({
 		'formname': 'vacation',
 		'controlname': 'fActiveFrom'
@@ -28,10 +27,10 @@
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pUsersVacation_activeuntil}:</td>
-		<td><input name="fActiveUntil" value="{$tActiveUntil}" readonly="readonly" style="background:#eee;"/>
+		<td class="label"><label>{$PALANG.pUsersVacation_activeuntil}:</label></td>
+		<td><input class="flat" name="fActiveUntil" value="{$tActiveUntil}" readonly="readonly" style="background:#eee;" />
 {literal}
-<script language="JavaScript">
+<script language="JavaScript" type="text/javascript">
 	new tcal ({
 		'formname': 'vacation',
 		'controlname': 'fActiveUntil'
@@ -42,24 +41,22 @@
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pUsersVacation_subject}:</td>
+		<td class="label"><label>{$PALANG.pUsersVacation_subject}:</label></td>
 		<td><textarea class="flat" rows="3" cols="60" name="fSubject" >{$tSubject}</textarea></td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pUsersVacation_body}:</td>
+		<td class="label"><label>{$PALANG.pUsersVacation_body}:</label></td>
 		<td><textarea class="flat" rows="10" cols="60" name="fBody" >{$tBody}</textarea></td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="3" class="hlp_center">
+		<td>&nbsp;</td>
+		<td colspan="2">
 			<input class="button" type="submit" name="fAway" value="{$PALANG.pUsersVacation_button_away}" />
 			<input class="button" type="submit" name="fBack" value="{$PALANG.pUsersVacation_button_back}" />
 			<input class="button" type="submit" name="fCancel" value="{$PALANG.exit}" />
 		</td>
-	</tr>
-	<tr>
-		<td colspan="3" class="standout">{$tMessage}</td>
 	</tr>
 </table>
 </form>
