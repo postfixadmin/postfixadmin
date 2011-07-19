@@ -18,7 +18,6 @@
  *
  * Template Variables:
  *
- * tMessage
  * tFrom
  * tSubject
  * tBody
@@ -36,12 +35,13 @@ authentication_require_role('admin');
 
 (($CONF['sendmail'] == 'NO') ? header("Location: main.php") && exit : '1');
 
-$SESSID_USERNAME = authentication_get_username();
+$smtp_from_email = smtp_get_admin_email();
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    $fTo = safepost('fTo');
-   $fFrom = $SESSID_USERNAME;
+   $fFrom = $smtp_from_email;
    $fSubject = safepost('fSubject');
 
    $tBody = $_POST['fBody'];
@@ -55,21 +55,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $error = 1;
       $tTo = escape_string ($_POST['fTo']);
       $tSubject = escape_string ($_POST['fSubject']);
-      $tMessage = $PALANG['pSendmail_to_text_error'];
+      flash_error($PALANG['pSendmail_to_text_error']);
    }
 
    if ($error != 1)
    {
       if (!smtp_mail ($fTo, $fFrom, $fSubject, $tBody)) {
-         $tMessage .= $PALANG['pSendmail_result_error'];
+         flash_error($PALANG['pSendmail_result_error']);
       } else {
-         $tMessage .= $PALANG['pSendmail_result_success'];
+         flash_info($PALANG['pSendmail_result_success']);
       }
    }
 }
-$smarty->assign ('SESSID_USERNAME', $SESSID_USERNAME);
-$smarty->assign ('tMessage', $tMessage, false);
-
+$smarty->assign ('smtp_from_email', $smtp_from_email);
 $smarty->assign ('smarty_template', 'sendmail');
 $smarty->display ('index.tpl');
 

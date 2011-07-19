@@ -35,13 +35,14 @@ if ($CONF['sendmail'] != 'YES') {
    exit;
 }
 
-$SESSID_USERNAME = authentication_get_username();
+$smtp_from_email = smtp_get_admin_email();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    if (empty($_POST['subject']) || empty($_POST['message']) || empty($_POST['name']))
    {
       $error = 1;
+      flash_error($PALANG['pBroadcast_error_empty']);
    }
    else
    {
@@ -63,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          while ($row = db_array ($result['result'])) {
             $fTo = $row[0];
             $fHeaders  = 'To: ' . $fTo . "\n";
-            $fHeaders .= 'From: ' . $b_name . ' <' . $CONF['admin_email'] . ">\n";
+            $fHeaders .= 'From: ' . $b_name . ' <' . $smtp_from_email . ">\n";
             $fHeaders .= 'Subject: ' . $b_subject . "\n";
             $fHeaders .= 'MIME-Version: 1.0' . "\n";
             $fHeaders .= 'Content-Type: text/plain; charset=UTF-8' . "\n";
@@ -71,17 +72,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
             $fHeaders .= $b_message;
 
-            if (!smtp_mail ($fTo, $CONF['admin_email'], $fHeaders))
+            if (!smtp_mail ($fTo, $smtp_from_email, $fHeaders))
             {
-               $tMessage .= "<br />" . $PALANG['pSendmail_result_error'] . "<br />";
+               flash_error("<br />" . $PALANG['pSendmail_result_error'] . "<br />");
             }
             else
             {
-               $tMessage .= "<br />" . $PALANG['pSendmail_result_success'] . "<br />";
+               flash_info("<br />" . $PALANG['pSendmail_result_success'] . "<br />");
             }
          }
       }
-		$smarty->assign ('tMessage', $PALANG['pBroadcast_success']);
+		flash_info($PALANG['pBroadcast_success']);
 		$smarty->assign ('smarty_template', 'message');
 		$smarty->display ('index.tpl');
 //		echo '<p>'.$PALANG['pBroadcast_success'].'</p>';
@@ -90,6 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 if ($_SERVER['REQUEST_METHOD'] == "GET" || $error == 1)
 {
+	$smarty->assign ('smtp_from_email', $smtp_from_email);
 	$smarty->assign ('error', $error);
 	$smarty->assign ('smarty_template', 'broadcast-message');
 	$smarty->display ('index.tpl');

@@ -2,29 +2,27 @@
 <form name="broadcast-message" method="post" action="">
 <table>
 	<tr>
-		<td colspan="3"><h3>{$PALANG.pBroadcast_title}</h3></td>
+		<th colspan="2">{$PALANG.pBroadcast_title}</th>
 	</tr>
 	<tr>
-		<td>{$PALANG.pBroadcast_from}:</td>
-		<td>{$CONF.admin_email}</td>
+		<td class="label"><label>{$PALANG.pBroadcast_from}:</label></td>
+		<td><em>{$smtp_from_email}</em></td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pBroadcast_name}:</td>
+		<td class="label"><label>{$PALANG.pBroadcast_name}:</label></td>
 		<td><input class="flat" size="43" type="text" name="name"/></td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pBroadcast_subject}:</td>
+		<td class="label"><label>{$PALANG.pBroadcast_subject}:</label></td>
 		<td><input class="flat" size="43" type="text" name="subject"/></td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pBroadcast_message}:</td>
+		<td class="label"><label>{$PALANG.pBroadcast_message}:</label></td>
 		<td><textarea class="flat" cols="40" rows="6" name="message"></textarea></td>
 	</tr>
 	<tr>
-		<td colspan="3" class="hlp_center">
-{if $error}
-		<br/><span class="error_msg">{$PALANG.pBroadcast_error_empty}</span><br/><br/>
-{/if}
+		<td>&nbsp;</td>
+		<td>
 		<input class="button" type="submit" name="submit" value="{$PALANG.pBroadcast_send}" />
 		</td>
 	</tr>
