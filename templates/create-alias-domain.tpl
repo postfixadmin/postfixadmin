@@ -2,7 +2,7 @@
 <form name="alias_domain" method="post" action="">
 <table>
 	<tr>
-		<td colspan="3"><h3>{$PALANG.pCreate_alias_domain_welcome}</h3></td>
+		<th colspan="3">{$PALANG.pCreate_alias_domain_welcome}</th>
 	</tr>
 {if $alias_domains}
 	<tr>
@@ -26,7 +26,8 @@
 	</tr>
 {if $alias_domains}
 	<tr>
-		<td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="{$PALANG.pCreate_alias_domain_button}" /></td>
+		<td>&nbsp;</td>
+		<td colspan="2"><input class="button" type="submit" name="submit" value="{$PALANG.pCreate_alias_domain_button}" /></td>
 	</tr>
 {/if}
 </table>

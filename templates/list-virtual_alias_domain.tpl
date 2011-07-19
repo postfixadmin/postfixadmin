@@ -1,7 +1,7 @@
 {*** Domain Aliases ***}
 <table id="alias_domain_table">
 	<tr>
-		<td colspan="5"><h3>{$PALANG.pOverview_alias_domain_title}</h3></td>
+		<th colspan="5">{$PALANG.pOverview_alias_domain_title}</th>
 	</tr>
 	{if $tAliasDomains|@count>0 || $tTargetDomain|@count>1}
 		{if $tAliasDomains|@count>0} {* -> HAT alias-domains *}
