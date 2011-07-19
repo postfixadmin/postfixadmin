@@ -2,15 +2,15 @@
 <form name="alias" method="post" action="">
 <table>
 	<tr>
-		<td colspan="3"><h3>{$PALANG.pEdit_alias_welcome}<br />{$PALANG.pEdit_alias_help}</h3></td>
+		<th colspan="3">{$PALANG.pEdit_alias_welcome}<br /><em>{$PALANG.pEdit_alias_help}</em></th>
 	</tr>
 	<tr>
-		<td>{$PALANG.pEdit_alias_address}:</td>
-		<td>{$fAddress}</td>
+		<td class="label"><label>{$PALANG.pEdit_alias_address}:</label></td>
+		<td><em>{$fAddress}</em></td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pEdit_alias_goto}:</td>
+		<td class="label"><label>{$PALANG.pEdit_alias_goto}:</label></td>
 		<td>
 			<textarea class="flat" rows="10" cols="60" name="fGoto">
 {foreach from=$array item=item}
@@ -21,7 +21,8 @@
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="{$PALANG.save}" /></td>
+		<td>&nbsp;</td>
+		<td colspan="2"><input class="button" type="submit" name="submit" value="{$PALANG.save}" /></td>
 	</tr>
 	<tr>
 		<td colspan="3" class="standout">{$tMessage}</td>
