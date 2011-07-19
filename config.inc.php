@@ -72,9 +72,11 @@ $CONF['database_tables'] = array (
 );
 
 // Site Admin
-// Define the Site Admins email address below.
-// This will be used to send emails from to create mailboxes.
-$CONF['admin_email'] = 'postmaster@change-this-to-your.domain.tld';
+// Define the Site Admin's email address below.
+// This will be used to send emails from to create mailboxes and
+// from Send Email / Broadcast message pages.
+// Leave blank to send email from the logged-in Admin's Email address.
+$CONF['admin_email'] = '';
 
 // Mail Server
 // Hostname (FQDN) of your mail server.

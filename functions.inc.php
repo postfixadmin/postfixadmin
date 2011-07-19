@@ -1340,6 +1340,19 @@ function smtp_mail ($to, $from, $data, $body = "") {
     return true;
 }
 
+/**
+ * smtp_get_admin_email
+ * Action: Get configured email address or current user if nothing configured
+ * Call: smtp_get_admin_email
+ * @return String - username/mail address
+ */
+function smtp_get_admin_email() {
+	global $CONF;
+	if(isset($CONF['admin_email']) && !empty($CONF['admin_email']))
+		return $CONF['admin_email'];
+	else
+		return authentication_get_username();
+}
 
 
 //
