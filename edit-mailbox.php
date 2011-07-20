@@ -18,7 +18,6 @@
  *
  * Template Variables:
  *
- * tMessage
  * tName
  * tQuota
  *
@@ -48,7 +47,7 @@ if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
 
 $pEdit_mailbox_name_text = $PALANG['pEdit_mailbox_name_text'];
 $pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text'];
-
+$pEdit_mailbox_quota_text_error = "";
 
 if (!(check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin')) )
 {
@@ -56,7 +55,7 @@ if (!(check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('globa
    $tName = $fName;
    $tQuota = $fQuota;
    $tActive = $fActive;
-   $tMessage = $PALANG['pEdit_mailbox_domain_error'] . "$fDomain</span>";
+   flash_error($PALANG['pEdit_mailbox_domain_error'] . "$fDomain");
 }
 
 $result = db_query("SELECT * FROM $table_mailbox WHERE username = '$fUsername' AND domain = '$fDomain'");
@@ -123,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $tName = $fName;
          $tQuota = $fQuota;
          $tActive = $fActive;
-         $pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text_error'];
+         $pEdit_mailbox_quota_text_error = $PALANG['pEdit_mailbox_quota_text_error'];
       }
    }
    if ($error != 1)
@@ -157,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $result = db_update_q('mailbox', "username='$fUsername' AND domain='$fDomain'", $formvars); # TODO: check if we need the AND domain=... clause, if not, switch to db_update()
       $maildir = $user_details['maildir'];
       if ($result != 1 || !mailbox_postedit($fUsername,$fDomain,$maildir, $quota)) {
-         $tMessage = $PALANG['pEdit_mailbox_result_error'];
+         flash_error($PALANG['pEdit_mailbox_result_error']);
       }
       else {
          db_log ($fDomain, 'edit_mailbox', $fUsername);
@@ -182,8 +181,8 @@ $smarty->assign ('pEdit_mailbox_name_text', $pEdit_mailbox_name_text,false);
 $smarty->assign ('tMaxquota', $tMaxquota);
 $smarty->assign ('tQuota', $tQuota);
 $smarty->assign ('pEdit_mailbox_quota_text', $pEdit_mailbox_quota_text);
+$smarty->assign ('pEdit_mailbox_quota_text_error', $pEdit_mailbox_quota_text_error);
 if ($tActive)	$smarty->assign ('tActive', ' checked="checked"');
-$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'edit-mailbox');
 $smarty->display ('index.tpl');
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
