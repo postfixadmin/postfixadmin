@@ -77,17 +77,14 @@ $tSubject = "";
 $tUsername = "";
 $tTransport = "";
 
-$pAdminCreate_domain_defaultaliases_text = "&nbsp;";
 $pAdminCreate_domain_domain_text = "&nbsp;";
 $pCreate_alias_address_text = "&nbsp;";
 $pCreate_alias_goto_text = "&nbsp;";
-$pCreate_mailbox_name_text = "&nbsp;";
 $pCreate_mailbox_password_text = "&nbsp;";
 $pCreate_mailbox_quota_text = "&nbsp;";
 $pCreate_mailbox_username_text = "&nbsp;";
 $pEdit_mailbox_password_text = "&nbsp;";
 $pEdit_mailbox_quota_text = "&nbsp;";
-$pEdit_mailbox_username_text = "&nbsp;";
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
