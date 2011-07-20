@@ -81,7 +81,6 @@ $pAdminCreate_admin_password_text = "&nbsp;";
 $pAdminCreate_admin_username_text = "&nbsp;";
 $pAdminCreate_domain_defaultaliases_text = "&nbsp;";
 $pAdminCreate_domain_domain_text = "&nbsp;";
-$pAdminEdit_admin_password_text = "&nbsp;";
 $pCreate_alias_address_text = "&nbsp;";
 $pCreate_alias_goto_text = "&nbsp;";
 $pCreate_mailbox_name_text = "&nbsp;";

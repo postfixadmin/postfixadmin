@@ -38,6 +38,8 @@ require_once('common.php');
 authentication_require_role('global-admin');
 
 $error = 1;
+$pAdminEdit_admin_password_text_error = "";
+
 if(isset($_GET['username'])) {
     $username = escape_string ($_GET['username']);
     $result = db_query("SELECT * FROM $table_admin WHERE username = '$username'");
@@ -81,12 +83,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                 }
                 else {
                     $error = 1;
-                    flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
+                    $pAdminEdit_admin_password_text_error = sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']);
                 }
             }
             else {
                 $error = 1;
-                $pAdminEdit_admin_password_text = $PALANG['pAdminEdit_admin_password_text_error'];
+                $pAdminEdit_admin_password_text_error = $PALANG['pAdminEdit_admin_password_text_error'];
             }
         }
     }
@@ -151,11 +153,10 @@ if ($result['rows'] >= 1) {
 }
 
 $smarty->assign ('username', $username);
-$smarty->assign ('pAdminEdit_admin_password_text', $pAdminEdit_admin_password_text, false);
+$smarty->assign ('pAdminEdit_admin_password_text_error', $pAdminEdit_admin_password_text_error, false);
 $smarty->assign ('tActive_checked', $tActive_checked);
 $smarty->assign ('tSadmin_checked', $tSadmin_checked);
 $smarty->assign ('select_options', select_options ($tAllDomains, $tDomains), false);
-$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'admin_edit-admin');
 $smarty->display ('index.tpl');
 
