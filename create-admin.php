@@ -19,7 +19,6 @@
  *
  * Template Variables:
  *
- * tMessage
  * tUsername
  * tDomains
  *
@@ -36,10 +35,11 @@ require_once('common.php');
 authentication_require_role('global-admin');
 $list_domains = list_domains ();
 $tDomains = array();
+$pAdminCreate_admin_username_text_error = "";
+$pAdminCreate_admin_password_text_error = "";
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-   $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
    $tDomains = array ();
 }
 
@@ -50,18 +50,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
    $fDomains = array();
    if (!empty ($_POST['fDomains'])) $fDomains = $_POST['fDomains'];
-   list ($error, $tMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, $fDomains);
+   list ($error, $infoMessage, $pAdminCreate_admin_username_text_error, $pAdminCreate_admin_password_text_error) = create_admin($fUsername, $fPassword, $fPassword2, $fDomains);
 
    if ($error != 0) {
       if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
       if (isset ($_POST['fDomains'])) $tDomains = $_POST['fDomains'];
    }
+   
+   if(!empty($infoMessage))
+	flash_info($infoMessage);
+   
 }
 
 $smarty->assign ('tUsername', $tUsername);
-$smarty->assign ('pAdminCreate_admin_username_text', $pAdminCreate_admin_username_text, false);
-$smarty->assign ('pAdminCreate_admin_password_text', $pAdminCreate_admin_password_text, false);
-$smarty->assign ('tMessage', $tMessage, false);
+$smarty->assign ('pAdminCreate_admin_username_text', $PALANG['pAdminCreate_admin_username_text'], false);
+$smarty->assign ('pAdminCreate_admin_username_text_error', $pAdminCreate_admin_username_text_error, false);
+$smarty->assign ('pAdminCreate_admin_password_text_error', $pAdminCreate_admin_password_text_error, false);
 $smarty->assign ('select_options', select_options ($list_domains, $tDomains), false);
 
 $smarty->assign ('smarty_template', 'admin_create-admin');

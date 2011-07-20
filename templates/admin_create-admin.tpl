@@ -2,35 +2,36 @@
 <form name="create_admin" method="post" action="">
 <table>
 	<tr>
-		<td colspan="3"><h3>{$PALANG.pAdminCreate_admin_welcome}</h3></td>
+		<th colspan="4">{$PALANG.pAdminCreate_admin_welcome}</th>
 	</tr>
 	<tr>
-		<td>{$PALANG.pAdminCreate_admin_username}:</td>
+		<td class="label"><label>{$PALANG.pAdminCreate_admin_username}:</label></td>
 		<td><input class="flat" type="text" name="fUsername" value="{$tUsername}" /></td>
 		<td>{$pAdminCreate_admin_username_text}</td>
+		<td><span class="error_msg">{$pAdminCreate_admin_username_text_error}</span></td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pAdminCreate_admin_password}:</td>
+		<td class="label"><label>{$PALANG.pAdminCreate_admin_password}:</label></td>
 		<td><input class="flat" type="password" name="fPassword" /></td>
-		<td>{$pAdminCreate_admin_password_text}</td>
+		<td>&nbsp;</td>
+		<td><span class="error_msg">{$pAdminCreate_admin_password_text_error}</span></td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pAdminCreate_admin_password2}:</td>
+		<td class="label"><label>{$PALANG.pAdminCreate_admin_password2}:</label></td>
 		<td><input class="flat" type="password" name="fPassword2" /></td>
-
+		<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pAdminCreate_admin_address}:</td>
+		<td class="label"><label>{$PALANG.pAdminCreate_admin_address}:</label></td>
 		<td>
 			<select name="fDomains[]" size="10" multiple="multiple">{$select_options}</select>
 		</td>
-
+		<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="{$PALANG.pAdminCreate_admin_button}" /></td>
-	</tr>
-	<tr>
-		<td colspan="3" class="standout">{$tMessage}</td>
+		<td>&nbsp;</td>
+		<td><input class="button" type="submit" name="submit" value="{$PALANG.pAdminCreate_admin_button}" /></td>
+		<td colspan="2">&nbsp;</td>
 	</tr>
 </table>
 </form>
