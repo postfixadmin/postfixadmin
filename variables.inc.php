@@ -77,7 +77,6 @@ $tSubject = "";
 $tUsername = "";
 $tTransport = "";
 
-$pAdminCreate_domain_domain_text = "&nbsp;";
 $pCreate_alias_address_text = "&nbsp;";
 $pCreate_alias_goto_text = "&nbsp;";
 $pCreate_mailbox_password_text = "&nbsp;";

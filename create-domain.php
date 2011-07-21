@@ -18,7 +18,6 @@
  *
  * Template Variables:
  *
- * tMessage
  * tDomain
  * tDescription
  * tAliases
@@ -102,8 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         if (isset ($_POST['fTransport'])) $tTransport = $fTransport;
         if (isset ($_POST['fDefaultaliases'])) $tDefaultaliases = $fDefaultaliases;
         if (isset ($_POST['fBackupmx'])) $tBackupmx = $fBackupmx;
-        $pAdminCreate_domain_domain_text = $PALANG['pAdminCreate_domain_domain_text_error2'];
-        if (domain_exist ($fDomain)) $pAdminCreate_domain_domain_text = $PALANG['pAdminCreate_domain_domain_text_error'];
+        $pAdminCreate_domain_domain_text_error = $PALANG['pAdminCreate_domain_domain_text_error2'];
+        if (domain_exist ($fDomain)) $pAdminCreate_domain_domain_text_error = $PALANG['pAdminCreate_domain_domain_text_error'];
     }
 
     if ($error != 1)
@@ -128,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $result = db_query($sql_query);
         if ($result['rows'] != 1)
         {
-            $tMessage = $PALANG['pAdminCreate_domain_result_error'] . "<br />($fDomain)<br />";
+            $pAdminCreate_domain_domain_text_error = $PALANG['pAdminCreate_domain_result_error'] . "<br />($fDomain)<br />";
         }
         else
         {
@@ -140,17 +139,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                     $result = db_query ("INSERT INTO $table_alias (address,goto,domain,created,modified) VALUES ('$address','$goto','$fDomain',NOW(),NOW())");
                 }
             }
-            $tMessage = $PALANG['pAdminCreate_domain_result_success'] . "<br />($fDomain)</br />";
+            flash_info($PALANG['pAdminCreate_domain_result_success'] . "<br />($fDomain)</br />");
         }
         if (!domain_postcreation($fDomain))
         {
-             $tMessage = $PALANG['pAdminCreate_domain_error'];
+             flash_error($PALANG['pAdminCreate_domain_error']);
         }
     }
 }
 
+
 $smarty->assign ('tDomain', $tDomain);
 $smarty->assign ('pAdminCreate_domain_domain_text', $pAdminCreate_domain_domain_text, false);
+$smarty->assign ('pAdminCreate_domain_domain_text_error', $pAdminCreate_domain_domain_text_error, false);
 $smarty->assign ('tDescription', $tDescription, false);
 $smarty->assign ('tAliases', $tAliases);
 $smarty->assign ('tMailboxes', $tMailboxes);
@@ -159,7 +160,6 @@ $smarty->assign ('tMaxquota', $tMaxquota,false); # TODO: why is sanitize disable
 $smarty->assign ('select_options', select_options ($CONF ['transport_options'], array ($tTransport)),false);
 $smarty->assign ('tDefaultaliases', ($tDefaultaliases == 'on') ? ' checked="checked"' : '');
 $smarty->assign ('tBackupmx', ($tBackupmx == 'on') ? ' checked="checked"' : '');
-$smarty->assign ('tMessage', $tMessage, false);
 $smarty->assign ('smarty_template', 'admin_create-domain');
 $smarty->display ('index.tpl');
 
