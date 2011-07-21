@@ -2179,18 +2179,18 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
     global $PALANG;
     global $CONF;
     $error = 0;
-    $tMessage = '';
-    $pAdminCreate_admin_username_text = '';
-    $pAdminCreate_admin_password_text = '';
+    $pAdminCreate_admin_message = '';
+    $pAdminCreate_admin_username_text_error = '';
+    $pAdminCreate_admin_password_text_error = '';
 
     if (!check_email ($fUsername)) {
         $error = 1;
-        $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text_error1'];
+        $pAdminCreate_admin_username_text_error = $PALANG['pAdminCreate_admin_username_text_error1'];
     }
 
     if (empty ($fUsername) or admin_exist ($fUsername)) {
         $error = 1;
-        $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text_error2'];
+        $pAdminCreate_admin_username_text_error = $PALANG['pAdminCreate_admin_username_text_error2'];
     }
 
     if (empty ($fPassword) or empty ($fPassword2) or ($fPassword != $fPassword2)) {
@@ -2198,18 +2198,17 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
             $fPassword = generate_password ();
         } else {
             $error = 1;
-            $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
-            $pAdminCreate_admin_password_text = $PALANG['pAdminCreate_admin_password_text_error'];
+            $pAdminCreate_admin_password_text_error = $PALANG['pAdminCreate_admin_password_text_error'];
         }
     }
 
     if ($error != 1) {
         $password = pacrypt($fPassword);
-        $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
+        // $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
 
         $result = db_query ("INSERT INTO " . table_by_key('admin') . " (username,password,created,modified) VALUES ('$fUsername','$password',NOW(),NOW())");
         if ($result['rows'] != 1) {
-            $tMessage = $PALANG['pAdminCreate_admin_result_error'] . "<br />($fUsername)<br />";
+            $pAdminCreate_admin_message = $PALANG['pAdminCreate_admin_result_error'] . "<br />($fUsername)<br />";
         } else {
             if (!empty ($fDomains[0])) {
                 for ($i = 0; $i < sizeof ($fDomains); $i++) {
@@ -2217,14 +2216,14 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
                     $result = db_query ("INSERT INTO " . table_by_key ('domain_admins') . " (username,domain,created) VALUES ('$fUsername','$domain',NOW())");
                 }
             }
-            $tMessage = $PALANG['pAdminCreate_admin_result_success'] . "<br />($fUsername";
+            $pAdminCreate_admin_message = $PALANG['pAdminCreate_admin_result_success'] . "<br />($fUsername";
             if ($CONF['generate_password'] == "YES" && $no_generate_password == 0) {
-                $tMessage .= " / $fPassword)</br />";
+                $pAdminCreate_admin_message .= " / $fPassword)</br />";
             } else {
                 if ($CONF['show_password'] == "YES" && $no_generate_password == 0) {
-                    $tMessage .= " / $fPassword)</br />";
+                    $pAdminCreate_admin_message .= " / $fPassword)</br />";
                 } else {
-                    $tMessage .= ")</br />";
+                    $pAdminCreate_admin_message .= ")</br />";
                 }
             }
         }
@@ -2236,9 +2235,9 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
 
     return array(
         $error,
-        $tMessage,
-        $pAdminCreate_admin_username_text,
-        $pAdminCreate_admin_password_text
+        $pAdminCreate_admin_message,
+        $pAdminCreate_admin_username_text_error,
+        $pAdminCreate_admin_password_text_error
     );
 
 
