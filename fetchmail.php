@@ -260,7 +260,7 @@ function fetchmail_edit_row($data=array())
 	$id = $data["id"];
 	$_id = $data["id"] * 100 + 1;
 	$ret = "<table>";
-   $ret .= '<tr><td colspan="3"><h3>'.$PALANG['pMenu_fetchmail'] . '</h3></td></tr>';
+   $ret .= '<tr><th colspan="3">'.$PALANG['pMenu_fetchmail'] . '</th></tr>';
    # TODO: $formvars possibly contains db-specific boolean values
    # TODO: no problems with MySQL, to be tested with PgSQL
    # TODO: undefined values may also occour
@@ -269,8 +269,8 @@ function fetchmail_edit_row($data=array())
       $title = $PALANG['pFetchmail_field_' . $key];
       $comment = $PALANG['pFetchmail_desc_' . $key];
       if ($editible){
-         $ret.="<tr><td align='left' valign='top'><label for='${_id}' style='width:20em;'>${title}:&nbsp;</label></td>";
-         $ret.="<td align=left style='padding-left:.25em;padding-right:.25em;background-color:white;'>";
+         $ret.="<tr><td class=\"label\"><label for='${_id}'>${title}:</label></td>";
+         $ret.="<td>";
          $func="_edit_".$type;
          if (! function_exists($func))
             $func="_edit_text";
@@ -282,7 +282,7 @@ function fetchmail_edit_row($data=array())
             );
          $fm_defaults_key = ""; if (isset($fm_defaults[$key])) $fm_defaults_key = $fm_defaults[$key];
          $ret.=$func($_id++,$key,$fm_defaults_key,$val);
-         $ret.="</td><td align=left valign=top><i>&nbsp;${comment}</i></td></tr>\n";
+         $ret.="</td><td><em>${comment}</em></td></tr>\n";
       }
       elseif($view){
          $func="_view_".$type;
@@ -292,21 +292,21 @@ function fetchmail_edit_row($data=array())
                :nl2br($data[$key])
             )
             :"--x--";
-         $ret.="<tr><td align=left valign=top>${title}:&nbsp;</label></td>";
-         $ret.="<td align=left valign=top style='padding-left:.25em;padding-right:.25em;background-color:white;'>".$val;
-         $ret.="</td><td align=left valign=top><i>&nbsp;${comment}</i></td></tr>\n";
+         $ret.="<tr><td class=\"label\">${title}:</label></td>";
+         $ret.="<td >".$val;
+         $ret.="</td><td><em>${comment}</em></td></tr>\n";
       }
    }
-   $ret.="<tr><td align=center colspan=3>
-      <input type=submit name=save value='" . $PALANG['save'] . "'> &nbsp;
-      <input type=submit name=cancel value='" . $PALANG['cancel'] . "'>
+   $ret.="<tr><td>&nbsp;</td><td colspan=2>
+      <input type=submit class=\"button\" name=save value='" . $PALANG['save'] . "' /> &nbsp;
+      <input type=submit class=\"button\" name=cancel value='" . $PALANG['cancel'] . "' />
    ";
    if ($id){
       $ret.="<input type=hidden name=edit value='${id}'>";
    }
    $ret.="</td></tr>\n";
    $ret.="</table>\n";
-   $ret.="<p />\n";
+   $ret.="<br />\n";
    $ret.="</form>\n";
    $ret.="</div>\n";
    return $ret;
