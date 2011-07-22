@@ -332,6 +332,7 @@ $PALANG['pAdminEdit_admin_result_success'] = 'Administratoren er blitt endret!';
 $PALANG['pUsersLogin_welcome'] = 'Brukere kan logge inn her for å endre passord og videresending.';
 $PALANG['pUsersLogin_username'] = 'Brukernavn (e-postadresse)';
 $PALANG['pUsersLogin_password'] = 'Passord';
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX
 $PALANG['pUsersLogin_button'] = 'Logg inn';
 $PALANG['pUsersLogin_username_incorrect'] = 'Påloggingsinformasjonen er ikke korrekt. Husk å bruke e-postadressen som brukernavn.';
 $PALANG['pUsersLogin_password_incorrect'] = 'Feil passord!';

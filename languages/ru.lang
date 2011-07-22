@@ -339,6 +339,7 @@ $PALANG['pAdminEdit_admin_result_success'] = 'Администратор был 
 $PALANG['pUsersLogin_welcome'] = 'Вход пользователей для изменения паролей и алиасов.';
 $PALANG['pUsersLogin_username'] = 'Имя (адрес)';
 $PALANG['pUsersLogin_password'] = 'Пароль';
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX
 $PALANG['pUsersLogin_button'] = 'Войти';
 $PALANG['pUsersLogin_username_incorrect'] = 'Введено неправильное имя. Проверьте, что вы ввели свой адрес электронной почты!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Введен неверный пароль!';

@@ -334,6 +334,7 @@ $PALANG['pAdminEdit_admin_result_success'] = 'Administrator został zmodyfikowan
 $PALANG['pUsersLogin_welcome'] = 'Zaloguj się żeby zmienić hasło albo dodać aliasy.';
 $PALANG['pUsersLogin_username'] = 'Użytkownik (email)';
 $PALANG['pUsersLogin_password'] = 'Hasło';
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX
 $PALANG['pUsersLogin_button'] = 'Zaloguj';
 $PALANG['pUsersLogin_username_incorrect'] = 'Podana nazwa użytkownika jest nieprawidłowa! ';
 $PALANG['pUsersLogin_password_incorrect'] = 'Podane hasło jest nieprawidłowe!';

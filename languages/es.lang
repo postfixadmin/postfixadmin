@@ -333,6 +333,7 @@ $PALANG['pAdminEdit_admin_result_success'] = '¡El administrador ha sido modific
 $PALANG['pUsersLogin_welcome'] = 'Login de usuarios para cambiar la contraseña y alias.';
 $PALANG['pUsersLogin_username'] = 'Login (e-mail)';
 $PALANG['pUsersLogin_password'] = 'Contraseña';
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX
 $PALANG['pUsersLogin_button'] = 'Login';
 $PALANG['pUsersLogin_username_incorrect'] = 'Su login no es correcto. ¡Asegúrese de haber introducido su dirección de e-mail como login!';
 $PALANG['pUsersLogin_password_incorrect'] = '¡Su contraseña no es correcta!';

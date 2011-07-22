@@ -338,6 +338,7 @@ $PALANG['pAdminEdit_admin_result_success'] = 'Administrator er rettet!';
 $PALANG['pUsersLogin_welcome'] = 'Postboksbruger: Login for at ændre adgangskode og videresending.';
 $PALANG['pUsersLogin_username'] = 'Brugernavn (email)';
 $PALANG['pUsersLogin_password'] = 'Adgangskode';
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX
 $PALANG['pUsersLogin_button'] = 'Log ind';
 $PALANG['pUsersLogin_username_incorrect'] = 'Dit brugernavn er forkert. Tjek at du bruger din emailadresse som brugernavn!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Din adgangskode er ikke korrekt!';

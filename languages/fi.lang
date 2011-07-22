@@ -331,6 +331,7 @@ $PALANG['pAdminEdit_admin_result_success'] = 'Ylläpitäjän muokkaus onnistui!'
 $PALANG['pUsersLogin_welcome'] = 'Salasanan vaihto.';
 $PALANG['pUsersLogin_username'] = 'Tunnus';
 $PALANG['pUsersLogin_password'] = 'Salasana';
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX
 $PALANG['pUsersLogin_button'] = 'Kirjaudu';
 $PALANG['pUsersLogin_username_incorrect'] = 'Käyttäjätunnus tai salasana väärin!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Käyttäjätunnus tai salasana väärin!';

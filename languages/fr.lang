@@ -333,6 +333,7 @@ $PALANG['pAdminEdit_admin_result_success'] = 'L\'administrateur a été ajouté!
 $PALANG['pUsersLogin_welcome'] = 'Entrer votre adresse courriel pour modifier votre mot de passe et vos transferts.';
 $PALANG['pUsersLogin_username'] = 'Adresse courriel';
 $PALANG['pUsersLogin_password'] = 'Mot de passe';
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX
 $PALANG['pUsersLogin_button'] = 'Entrer';
 $PALANG['pUsersLogin_username_incorrect'] = 'L\'adresse courriel est invalide. Assurez-vous d\'avoir correctement saisie votre adresse courriel!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Votre mot de passe est invalide!';
