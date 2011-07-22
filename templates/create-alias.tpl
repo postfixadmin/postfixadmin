@@ -3,33 +3,32 @@
 <form name="alias" method="post" action="">
 <table>
 	<tr>
-		<td colspan="3"><h3>{$PALANG.pCreate_alias_welcome}</h3></td>
+		<th colspan="4">{$PALANG.pCreate_alias_welcome}</th>
 	</tr>
 	<tr>
-		<td>{$PALANG.pCreate_alias_address}</td>
-		<td><input class="flat" type="text" name="fAddress" value="{$tAddress}" /></td>
-		<td>@
+		<td class="label"><label>{$PALANG.pCreate_alias_address}:</label></td>
+		<td colspan="2"><input class="flat" type="text" name="fAddress" value="{$tAddress}" />
+		@
 		<select class="flat" name="fDomain">{$select_options}</select>
 		{$pCreate_alias_address_text}
 		</td>
+		<td><span class="error_msg">{$pCreate_alias_address_text_error}</span></td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pCreate_alias_goto}:</td>
-      	<td colspan="2"><textarea class="flat" rows="10" cols="60" name="fGoto">{$tGoto}</textarea></td>
-	</tr>
-	<tr>
-		<td>{$PALANG.pCreate_alias_active}:</td>
-		<td><input class="flat" type="checkbox" name="fActive" checked="checked"/></td>
+		<td class="label"><label>{$PALANG.pCreate_alias_goto}:</label></td>
+      	<td><textarea class="flat" rows="10" cols="35" name="fGoto">{$tGoto}</textarea></td>
+		<td>{$PALANG.pCreate_alias_help}<br /><br />{$PALANG.pCreate_alias_catchall_text}</td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="{$PALANG.pCreate_alias_button}" /></td>
+		<td class="label"><label>{$PALANG.pCreate_alias_active}:</label></td>
+		<td><input class="flat" type="checkbox" name="fActive" checked="checked"/></td>
+		<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan="3" class="standout">{$tMessage}</td>
-	</tr>
-	<tr>
-		<td colspan="3" class="help_text">{$PALANG.pCreate_alias_catchall_text}</td>
+		<td>&nbsp;</td>
+		<td><input class="button" type="submit" name="submit" value="{$PALANG.pCreate_alias_button}" /></td>
+		<td colspan="2">&nbsp;</td>
 	</tr>
 </table>
 </form>
