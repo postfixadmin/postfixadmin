@@ -17,7 +17,6 @@
  *
  * Template Variables:
  *
- * tMessage
  * tUsername
  * tName
  * tQuota
@@ -49,6 +48,9 @@ else {
 
 $pCreate_mailbox_password_text = $PALANG['pCreate_mailbox_password_text'];
 $pCreate_mailbox_quota_text = $PALANG['pCreate_mailbox_quota_text'];
+$pCreate_mailbox_username_text_error = "";
+$pCreate_mailbox_password_text_error = "";
+$pCreate_mailbox_quota_text_error = "";
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
@@ -88,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $tName = $fName;
       $tQuota = $fQuota;
       $tDomain = $fDomain;
-      $pCreate_mailbox_username_text = $PALANG['pCreate_mailbox_username_text_error1'];
+      $pCreate_mailbox_username_text_error = $PALANG['pCreate_mailbox_username_text_error1'];
    }
 
    if (!check_mailbox ($fDomain))
@@ -98,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $tName = $fName;
       $tQuota = $fQuota;
       $tDomain = $fDomain;
-      $pCreate_mailbox_username_text = $PALANG['pCreate_mailbox_username_text_error3'];
+      $pCreate_mailbox_username_text_error = $PALANG['pCreate_mailbox_username_text_error3'];
    }
 
    if (empty ($fUsername) or !check_email ($fUsername))
@@ -108,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $tName = $fName;
       $tQuota = $fQuota;
       $tDomain = $fDomain;
-      $pCreate_mailbox_username_text = $PALANG['pCreate_mailbox_username_text_error1'];
+      $pCreate_mailbox_username_text_error = $PALANG['pCreate_mailbox_username_text_error1'];
    }
 
    $tPassGenerated = 0;
@@ -126,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $tName = $fName;
          $tQuota = $fQuota;
          $tDomain = $fDomain;
-         $pCreate_mailbox_password_text = $PALANG['pCreate_mailbox_password_text_error'];
+         $pCreate_mailbox_password_text_error = $PALANG['pCreate_mailbox_password_text_error'];
       }
    }
 
@@ -139,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $tName = $fName;
          $tQuota = $fQuota;
          $tDomain = $fDomain;
-         $pCreate_mailbox_quota_text = $PALANG['pCreate_mailbox_quota_text_error'];
+         $pCreate_mailbox_quota_text_error = $PALANG['pCreate_mailbox_quota_text_error'];
       }
    }
 
@@ -151,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $tName = $fName;
       $tQuota = $fQuota;
       $tDomain = $fDomain;
-      $pCreate_mailbox_username_text = $PALANG['pCreate_mailbox_username_text_error2'];
+      $pCreate_mailbox_username_text_error = $PALANG['pCreate_mailbox_username_text_error2'];
    }
 
    if ($error != 1)
@@ -204,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if ($result['rows'] != 1)
       {
          $tDomain = $fDomain;
-         $tMessage = $PALANG['pAlias_result_error'] . "<br />($fUsername -> $fUsername)</br />";
+         flash_error($PALANG['pAlias_result_error'] . "<br />($fUsername -> $fUsername)");
       }
 
       // apparently uppercase usernames really confuse some IMAP clients.
@@ -218,7 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if ($result['rows'] != 1 || !mailbox_postcreation($fUsername,$fDomain,$maildir, $quota))
       {
          $tDomain = $fDomain;
-         $tMessage .= $PALANG['pCreate_mailbox_result_error'] . "<br />($fUsername)<br />";
+         flash_error($PALANG['pCreate_mailbox_result_error'] . "<br />($fUsername)");
          db_query('ROLLBACK');
       }
       else
@@ -238,11 +240,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
             if (!smtp_mail ($fTo, $fFrom, $fSubject, $fBody))
             {
-               $tMessage .= "<br />" . $PALANG['pSendmail_result_error'] . "<br />";
+               flash_error($PALANG['pSendmail_result_error']);
             }
             else
             {
-               $tMessage .= "<br />" . $PALANG['pSendmail_result_success'] . "<br />";
+               flash_info($PALANG['pSendmail_result_success']);
             }
          }
 
@@ -251,9 +253,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
          if (create_mailbox_subfolders($fUsername,$fPassword))
          {
-            $tMessage .= $PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername$tShowpass)";
+            flash_info($PALANG['pCreate_mailbox_result_success'] . "<br />($fUsername$tShowpass)");
          } else {
-            $tMessage .= $PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername$tShowpass)";
+            flash_info($PALANG['pCreate_mailbox_result_succes_nosubfolders'] . "<br />($fUsername$tShowpass)");
          }
 
       }
@@ -263,11 +265,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 $smarty->assign ('tUsername', $tUsername);
 $smarty->assign ('select_options', select_options ($list_domains, array ($tDomain)), false);
 $smarty->assign ('pCreate_mailbox_username_text', $pCreate_mailbox_username_text, false);
+$smarty->assign ('pCreate_mailbox_username_text_error', $pCreate_mailbox_username_text_error, false);
 $smarty->assign ('pCreate_mailbox_password_text', $pCreate_mailbox_password_text, false);
+$smarty->assign ('pCreate_mailbox_password_text_error', $pCreate_mailbox_password_text_error, false);
 $smarty->assign ('tName', $tName, false);
 $smarty->assign ('tQuota', $tQuota);
 $smarty->assign ('pCreate_mailbox_quota_text', $pCreate_mailbox_quota_text, false);
-$smarty->assign ('tMessage', $tMessage, false);
+$smarty->assign ('pCreate_mailbox_quota_text_error', $pCreate_mailbox_quota_text_error, false);
 $smarty->assign ('smarty_template', 'create-mailbox');
 $smarty->display ('index.tpl');
 
