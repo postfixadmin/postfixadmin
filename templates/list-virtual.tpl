@@ -14,14 +14,14 @@
 </div>
 <div class='subnav'><p>{$PALANG.show}
 	{if $tab=='all'}<span class='active'>{$PALANG.all}</span>
-	{else}<a href="?domain={$smarty.get.domain}&tab=all{if $search != ""}&search={$search}{/if}">{$PALANG.all}</a>{/if}
+	{else}<a href="?domain={$smarty.get.domain}&amp;tab=all{if $search != ""}&search={$search}{/if}">{$PALANG.all}</a>{/if}
 	{if $tab=='mailbox'}<span class='active'>{$PALANG.pOverview_mailbox_title}</span>
-	{else}<a href="?domain={$smarty.get.domain}&tab=mailbox{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_mailbox_title}</a>{/if}
+	{else}<a href="?domain={$smarty.get.domain}&amp;tab=mailbox{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_mailbox_title}</a>{/if}
 	{if $tab=='alias'}<span class='active'>{$PALANG.pOverview_alias_title}</span>
-	{else}<a href="?domain={$smarty.get.domain}&tab=alias{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_title}</a>{/if}
+	{else}<a href="?domain={$smarty.get.domain}&amp;tab=alias{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_title}</a>{/if}
 	{if $boolconf_alias_domain}
 		{if $tab=='alias_domain'}<span class='active'>{$PALANG.pOverview_alias_domain_title}</span>
-		{else}<a href="?domain={$smarty.get.domain}&tab=alias_domain{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_domain_title}</a>{/if}
+		{else}<a href="?domain={$smarty.get.domain}&amp;tab=alias_domain{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_domain_title}</a>{/if}
 	{/if}
 </p></div>
 <br clear="all"/><br/>
@@ -37,7 +37,7 @@
 	{$nav_bar_alias.top}
 	<table id="alias_table">
 		<tr>
-			<td colspan="7"><h3>{$PALANG.pOverview_alias_title}</h3></td>
+			<th colspan="7">{$PALANG.pOverview_alias_title}</th>
 		</tr>
 	{if $tAlias}
 		{include file="list-virtual_alias.tpl"}
@@ -45,8 +45,7 @@
 	</table>
 	{$nav_bar_alias.bottom}
 	{if $tCanAddAlias}
-		<br/>
-		<p id="mailbox_table"><a href="create-alias.php?domain={$fDomain|escape:"url"}">{$PALANG.pMenu_create_alias}</a></p>
+		<br /><a href="create-alias.php?domain={$fDomain|escape:"url"}" class="button">{$PALANG.pMenu_create_alias}</a><br />
 	{/if}
 {/if}
 {if $tab=='all'}<br />{/if}
@@ -65,8 +64,7 @@
 	{/if}
 	{$nav_bar_mailbox.bottom}
 	{if $tCanAddMailbox}
-		<br/>
-		<p id="mailbox_table"><a href="create-mailbox.php?domain={$fDomain|escape:"url"}">{$PALANG.pMenu_create_mailbox}</a></p>
+		<br /><a href="create-mailbox.php?domain={$fDomain|escape:"url"}" class="button">{$PALANG.pMenu_create_mailbox}</a><br />
 	{/if}
 {/if}
 {if $CONF.show_status===YES && $CONF.show_status_key===YES}
