@@ -18,5 +18,5 @@
 		</tr>
 {/foreach}
 	</table>
-	<p><a href="{#url_create_admin#}">{$PALANG.pAdminMenu_create_admin}</a></p>
+	<br /><a href="{#url_create_admin#}" class="button">{$PALANG.pAdminMenu_create_admin}</a><br />
 {/if}

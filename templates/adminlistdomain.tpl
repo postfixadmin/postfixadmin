@@ -40,4 +40,4 @@
 {/foreach}
 	</table>
 {/if}
-<p><a href="{#url_create_domain#}">{$PALANG.pAdminMenu_create_domain}</a></p>
+<br /><a href="{#url_create_domain#}" class="button">{$PALANG.pAdminMenu_create_domain}</a><br />
