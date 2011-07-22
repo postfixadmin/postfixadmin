@@ -6,7 +6,7 @@
 {/if}
 	<li><a target="_top" href="{#url_user_edit_alias#}">{$PALANG.pUsersMenu_edit_alias}</a></li>
 	<li><a target="_top" href="{#url_user_password#}">{$PALANG.pUsersMenu_password}</a></li>
-	<li><a target="_top" href="{#url_user_logout#}">{$PALANG.pMenu_logout}</a></li>
+	<li class="logout"><a target="_top" href="{#url_user_logout#}">{$PALANG.pMenu_logout}</a></li>
 </ul>
 </div>
 <br clear="all"/><br/>

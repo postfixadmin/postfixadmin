@@ -78,10 +78,9 @@
 {* viewlog *}
 	<li><a target="_top" href="{#url_viewlog#}">{$PALANG.pMenu_viewlog}</a></li>
 {* logout *}
-	<li><a target="_top" href="{#url_logout#}">{$PALANG.pMenu_logout}</a></li>
+	<li class="logout"><a target="_top" href="{#url_logout#}">{$PALANG.pMenu_logout}</a></li>
 </ul>
 </div>
-<br clear="all"/><br/>
 {if !empty($motd_file)}
 	<div id="motd">
 	{include file=$motd_file}
