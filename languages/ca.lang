@@ -87,9 +87,9 @@ $PALANG['pOverview_get_modified'] = 'Última Modificació';
 
 $PALANG['pDelete_delete_error'] = 'Imposible borrar el registre ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
-$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
+$PALANG['pDelete_postdelete_error'] = 'Unable to remove mailbox '; # XXX # obsolete
 $PALANG['pDelete_domain_error'] = 'Aquest domini no et pertany ';
-$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
+$PALANG['pDelete_domain_alias_error'] = 'This domain is not yours '; # XXX # obsolete
 $PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
@@ -106,83 +106,83 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = 'Crear un nou àlies pel domini.';
 $PALANG['pCreate_alias_address'] = 'Àlies';
-$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">L\'àlies no és vàlid!</span>';
-$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Aquesta adreça ja existeix, escull una altra de diferent, si us plau!</span>';
-$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Has arribat al límit de creació d\'àlies!</span>';
+$PALANG['pCreate_alias_address_text_error1'] = 'L\'àlies no és vàlid!';
+$PALANG['pCreate_alias_address_text_error2'] = 'Aquesta adreça ja existeix, escull una altra de diferent, si us plau!';
+$PALANG['pCreate_alias_address_text_error3'] = 'Has arribat al límit de creació d\'àlies!';
 $PALANG['pCreate_alias_goto'] = 'Destí';
 $PALANG['pCreate_alias_active'] = 'Active'; # XXX
 $PALANG['pCreate_alias_button'] = 'Afegir àlies';
 $PALANG['pCreate_alias_goto_text'] = 'A on ha de ser enviat l\'e-mail.';
-$PALANG['pCreate_alias_goto_text_error'] = 'A on ha de ser enviat l\'e-mail.<br /><span class="error_msg">El destí no és vàlid!</span>';
-$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">¡No és posible afegir l\'àlies a la taula d\'àlies!</span>';
+$PALANG['pCreate_alias_goto_text_error'] = 'A on ha de ser enviat l\'e-mail.<br />El destí no és vàlid!';
+$PALANG['pCreate_alias_result_error'] = '¡No és posible afegir l\'àlies a la taula d\'àlies!';
 $PALANG['pCreate_alias_result_success'] = 'L\'àlies ha estat creat correctament!';
 $PALANG['pCreate_alias_catchall_text'] = 'Per crear un àlies general usi "*" com a àlies.<br />Per una redirecció de domini a domini, usi "*@domain.tld" com a Destí.';
 
 $PALANG['pEdit_alias_welcome'] = 'Editi un àlies pel seu domini.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Una entrada per línia.'; # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Àlies';
-$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">Imposible de localizar l\'àlies!</span>';
+$PALANG['pEdit_alias_address_error'] = 'Imposible de localizar l\'àlies!'; # obsolete
 $PALANG['pEdit_alias_goto'] = 'Destí';
 $PALANG['pEdit_alias_active'] = 'Active'; # XXX
-$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">No has introduït res al destí</span>';
-$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">L\'adreça d\'e-mail introduida no és vàlida: ';
-$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Aquest domini no et pertany: ';
-$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
+$PALANG['pEdit_alias_goto_text_error1'] = 'No has introduït res al destí';
+$PALANG['pEdit_alias_goto_text_error2'] = 'L\'adreça d\'e-mail introduida no és vàlida: ';
+$PALANG['pEdit_alias_domain_error'] = 'Aquest domini no et pertany: '; # obsolete
+$PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = 'Editar àlies'; # XXX text no longer used
-$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Imposible modificar l\'àlies!</span>';
+$PALANG['pEdit_alias_result_error'] = 'Imposible modificar l\'àlies!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Crear una nova bústia pel seu domini.';
 $PALANG['pCreate_mailbox_username'] = 'Usuari';
-$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">L\'e-mail no és vàlido!</span>';
-$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">Aquest e-mail ja existeix, escull un de diferente si us plau!</span>';
-$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">Has arribat al límit de creació de bústies!</span>';
+$PALANG['pCreate_mailbox_username_text_error1'] = 'L\'e-mail no és vàlido!';
+$PALANG['pCreate_mailbox_username_text_error2'] = 'Aquest e-mail ja existeix, escull un de diferente si us plau!';
+$PALANG['pCreate_mailbox_username_text_error3'] = 'Has arribat al límit de creació de bústies!';
 $PALANG['pCreate_mailbox_password'] = 'Contrasenya';
 $PALANG['pCreate_mailbox_password2'] = 'Contrasenya (repetir)';
 $PALANG['pCreate_mailbox_password_text'] = 'Contrasenya per a POP3/IMAP';
-$PALANG['pCreate_mailbox_password_text_error'] = 'Contrasenya per a POP3/IMAP<br /><span class="error_msg">Les contrasenyes introduides no coincideixen<br />o estan en blanc!</span>';
+$PALANG['pCreate_mailbox_password_text_error'] = 'Contrasenya per a POP3/IMAP<br />Les contrasenyes introduides no coincideixen<br />o estan en blanc!';
 $PALANG['pCreate_mailbox_name'] = 'Nom';
 $PALANG['pCreate_mailbox_name_text'] = 'Nom complet';
 $PALANG['pCreate_mailbox_quota'] = 'Quota'; # XXX
 $PALANG['pCreate_mailbox_quota_text'] = 'MB';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">La quota especificada és massa alta!</span>';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'La quota especificada és massa alta!';
 $PALANG['pCreate_mailbox_active'] = 'Actiu';
 $PALANG['pCreate_mailbox_mail'] = 'Crear bústia';
 $PALANG['pCreate_mailbox_button'] = 'Afegir bústia';
-$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Imposible afegir una bústia a la taula de bústies!</span>';
+$PALANG['pCreate_mailbox_result_error'] = 'Imposible afegir una bústia a la taula de bústies!';
 $PALANG['pCreate_mailbox_result_success'] = 'La bústia ha estat afegida a la taula de bústies!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Editar una bústia pel seu domini.';
 $PALANG['pEdit_mailbox_username'] = 'Usuari';
-$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">Imposible localitzar la bústia!</span>';
+$PALANG['pEdit_mailbox_username_error'] = 'Imposible localitzar la bústia!'; # obsolete
 $PALANG['pEdit_mailbox_password'] = 'Nova contrasenya';
 $PALANG['pEdit_mailbox_password2'] = 'Nova contrasenya (repetiu)';
-$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Les contrasenyes introduides no coincideixen!</span>';
+$PALANG['pEdit_mailbox_password_text_error'] = 'Les contrasenyes introduides no coincideixen!';
 $PALANG['pEdit_mailbox_name'] = 'Nom';
 $PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX
 $PALANG['pEdit_mailbox_quota'] = 'Quota'; # XXX
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
-$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">La quota especificada és massa alta!</span>';
-$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Aquest domini no et pertany: ';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'La quota especificada és massa alta!';
+$PALANG['pEdit_mailbox_domain_error'] = 'Aquest domini no et pertany: ';
 $PALANG['pEdit_mailbox_button'] = 'Editar bústia'; # XXX text no longer used
-$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Imposible canviar la contrasenya!</span>';
+$PALANG['pEdit_mailbox_result_error'] = 'Imposible canviar la contrasenya!';
 
 $PALANG['pPassword_welcome'] = 'Canvia la teva contrasenya de login.';
 $PALANG['pPassword_admin'] = 'Login';
-$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">El login suministrat no coincideix amb cap bústia!</span>';
+$PALANG['pPassword_admin_text_error'] = 'El login suministrat no coincideix amb cap bústia!'; # obsolete
 $PALANG['pPassword_password_current'] = 'Contrasenya actual';
-$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">No ha introduït la contrasenya actual!</span>';
+$PALANG['pPassword_password_current_text_error'] = 'No ha introduït la contrasenya actual!';
 $PALANG['pPassword_password'] = 'Nova contrasenya';
 $PALANG['pPassword_password2'] = 'Nova contrasenya (repetiu)';
-$PALANG['pPassword_password_text_error'] = '<span class="error_msg">Les contrasenyes introduides no coincideixen<br />o estan en blanc!</span>';
+$PALANG['pPassword_password_text_error'] = 'Les contrasenyes introduides no coincideixen<br />o estan en blanc!';
 $PALANG['pPassword_button'] = 'Canviar la contrasenya';
-$PALANG['pPassword_result_error'] = '<span class="error_msg">Imposible canviar la contrasenya!</span>';
+$PALANG['pPassword_result_error'] = 'Imposible canviar la contrasenya!';
 $PALANG['pPassword_result_success'] = 'La seva contrasenya ha estat canviada!';
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
 $PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
-$PALANG['pVacation_result_error'] = '<span class="error_msg">Unable to update auto response settings!</span>'; # XXX
+$PALANG['pVacation_result_error'] = 'Unable to update auto response settings!'; # XXX
 $PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
 $PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
 
@@ -209,17 +209,17 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = 'Ves';
-$PALANG['pViewlog_result_error'] = '<span class="error_msg">Imposible trobar els logs!</span>';
+$PALANG['pViewlog_result_error'] = 'Imposible trobar els logs!';
 
 $PALANG['pSendmail_welcome'] = 'Enviar un e-mail.';
 $PALANG['pSendmail_admin'] = 'De';
 $PALANG['pSendmail_to'] = 'Destí';
-$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">La direcció de destí està buida o és una direcció invàlida!</span>';
+$PALANG['pSendmail_to_text_error'] = 'La direcció de destí està buida o és una direcció invàlida!';
 $PALANG['pSendmail_subject'] = 'Assumpte';
 $PALANG['pSendmail_subject_text'] = 'Benvingut';
 $PALANG['pSendmail_body'] = 'Cos';
 $PALANG['pSendmail_button'] = 'Enviar missatge';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Imposible crear la bústia!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = 'Imposible crear la bústia!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
 $PALANG['pSendmail_result_success'] = 'La bústia ha estat creada!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Llistat d\'administradors';
@@ -265,22 +265,22 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Actiu';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Afegir nou domini';
 $PALANG['pAdminCreate_domain_domain'] = 'Domini';
-$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">El domini ja existeix!</span>';
-$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">The domain is invalid!</span>'; # XXX
+$PALANG['pAdminCreate_domain_domain_text_error'] = 'El domini ja existeix!';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
 $PALANG['pAdminCreate_domain_description'] = 'Descripció';
 $PALANG['pAdminCreate_domain_aliases'] = 'Àlies';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = ilimitat | 0 = deshabilitar';
 $PALANG['pAdminCreate_domain_mailboxes'] = 'Bústies';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = ilimitat | 0 = deshabilitar';
 $PALANG['pAdminCreate_domain_maxquota'] = 'Quota màxima';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = ilimitat | 0 = deshabilitar';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = ilimitat | 0 = deshabilitar';
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Afegir àlies per defecte';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Afegir domini';
-$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Imposible afegir el domini!</span>';
+$PALANG['pAdminCreate_domain_result_error'] = 'Imposible afegir el domini!';
 $PALANG['pAdminCreate_domain_result_success'] = 'El domini ha estat afegit!';
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
@@ -294,26 +294,26 @@ $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = ilimitat | 0 = deshabilitar';
 $PALANG['pAdminEdit_domain_mailboxes'] = 'Bústies';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = ilimitat | 0 = deshabilitar';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Quota màxima';
-$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = ilimitat | 0 = deshabilitar';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = ilimitat | 0 = deshabilitar';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminEdit_domain_active'] = 'Actiu';
 $PALANG['pAdminEdit_domain_button'] = 'Editar domini'; # XXX text no longer used
-$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Imposible modificar el domini!</span>';
+$PALANG['pAdminEdit_domain_result_error'] = 'Imposible modificar el domini!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Afegir un nou administrador de domini';
 $PALANG['pAdminCreate_admin_username'] = 'Administrador';
 $PALANG['pAdminCreate_admin_username_text'] = 'E-mail';
-$PALANG['pAdminCreate_admin_username_text_error1'] = 'E-mail<br /><span class="error_msg">Administrador no es un e-mail vàlid!</span>';
-$PALANG['pAdminCreate_admin_username_text_error2'] = 'E-mail<br /><span class="error_msg">L\'administrador ja existeix o no es vàlid!</span>';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'E-mail<br />Administrador no es un e-mail vàlid!';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'E-mail<br />L\'administrador ja existeix o no es vàlid!';
 
 $PALANG['pAdminCreate_admin_password'] = 'Contrasenya';
 $PALANG['pAdminCreate_admin_password2'] = 'Contrasenya (repetiu)';
-$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Les contrasenyes introduides no coincideixen<br />o estan en blanc!</span>';
+$PALANG['pAdminCreate_admin_password_text_error'] = 'Les contrasenyes introduides no coincideixen<br />o estan en blanc!';
 $PALANG['pAdminCreate_admin_button'] = 'Afegir administrador';
-$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Imposible afegir l\'administrador!</span>';
+$PALANG['pAdminCreate_admin_result_error'] = 'Imposible afegir l\'administrador!';
 $PALANG['pAdminCreate_admin_result_success'] = 'L\'administrador ha estat afegit!';
 $PALANG['pAdminCreate_admin_address'] = 'Domini';
 
@@ -321,11 +321,11 @@ $PALANG['pAdminEdit_admin_welcome'] = 'Editar un administrador de domini';
 $PALANG['pAdminEdit_admin_username'] = 'Administrador';
 $PALANG['pAdminEdit_admin_password'] = 'Contrasenya';
 $PALANG['pAdminEdit_admin_password2'] = 'Contrasenya (repetiu)';
-$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Les contrasenyes introduides no coincideixen<br />o estan en blanc!</span>';
+$PALANG['pAdminEdit_admin_password_text_error'] = 'Les contrasenyes introduides no coincideixen<br />o estan en blanc!';
 $PALANG['pAdminEdit_admin_active'] = 'Actiu';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Editar administrador'; # XXX text no longer used
-$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Imposible modificar l\'administrador!</span>';
+$PALANG['pAdminEdit_admin_result_error'] = 'Imposible modificar l\'administrador!';
 $PALANG['pAdminEdit_admin_result_success'] = 'L\'administrador ha estat modificat!';
 
 $PALANG['pUsersLogin_welcome'] = 'Login d\'usuaris per canviar la contrasenya i els àlies.';
@@ -355,7 +355,7 @@ Per assumptes urgents pot contactar amb mi a <contact person>.
 EOM;
 $PALANG['pUsersVacation_button_away'] = 'Absent';
 $PALANG['pUsersVacation_button_back'] = 'De tornada';
-$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">Imposible actualitzar la configuració de la seva resposta automàtica!</span>';
+$PALANG['pUsersVacation_result_error'] = 'Imposible actualitzar la configuració de la seva resposta automàtica!';
 $PALANG['pUsersVacation_result_success'] = 'La seva resposta automàtica ha estat esborrada!';
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
 $PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX

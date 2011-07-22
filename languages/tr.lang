@@ -88,9 +88,9 @@ $PALANG['pOverview_get_modified'] = 'Son Düzenleme';
 
 $PALANG['pDelete_delete_error'] = 'Kayýt silinemiyor ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
-$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
+$PALANG['pDelete_postdelete_error'] = 'Unable to remove mailbox '; # XXX # obsolete
 $PALANG['pDelete_domain_error'] = 'Bu domain size ait deðil ';
-$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
+$PALANG['pDelete_domain_alias_error'] = 'This domain is not yours '; # XXX # obsolete
 $PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
@@ -107,83 +107,83 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = 'Domaininiz için yeni bir alias yaratýn.';
 $PALANG['pCreate_alias_address'] = 'Alias';
-$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">ALIAS uygun deðil!</span>';
-$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">Bu e-posta zaten kullanýlýyor, lütfen baþka bir tane seçin!</span>';
-$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">Alias limitine ulaþtýnýz!</span>';
+$PALANG['pCreate_alias_address_text_error1'] = 'ALIAS uygun deðil!';
+$PALANG['pCreate_alias_address_text_error2'] = 'Bu e-posta zaten kullanýlýyor, lütfen baþka bir tane seçin!';
+$PALANG['pCreate_alias_address_text_error3'] = 'Alias limitine ulaþtýnýz!';
 $PALANG['pCreate_alias_goto'] = 'kime';
 $PALANG['pCreate_alias_active'] = 'Active'; # XXX
 $PALANG['pCreate_alias_button'] = 'Alias Ekle';
 $PALANG['pCreate_alias_goto_text'] = 'E-postanýn gitmesi gereken yer.';
-$PALANG['pCreate_alias_goto_text_error'] = 'E-postanýn gitmesi gereken bir yer.<br /><span class="error_msg">Kime alaný uygun deðil!</span>';
-$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">Alias\'ý alias tabþlosuna eklenemedi!</span>';
+$PALANG['pCreate_alias_goto_text_error'] = 'E-postanýn gitmesi gereken bir yer.<br />Kime alaný uygun deðil!';
+$PALANG['pCreate_alias_result_error'] = 'Alias\'ý alias tabþlosuna eklenemedi!';
 $PALANG['pCreate_alias_result_success'] = 'Alias tabloya eklendi!';
 $PALANG['pCreate_alias_catchall_text'] = 'Hepsini-yakala yaratmak için alias olarak "*" kullanýn.<br />Domain yönlendirme domaini için kime kýsmýnda "*@domain.tld" kullanýn.';
 
 $PALANG['pEdit_alias_welcome'] = 'domaniniz için bir domain\'i düzenleyin. '; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Satýr baþýna bir giriþ.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
-$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">alias bulunamýyor!</span>';
+$PALANG['pEdit_alias_address_error'] = 'alias bulunamýyor!'; # obsolete
 $PALANG['pEdit_alias_goto'] = 'Kime';
 $PALANG['pEdit_alias_active'] = 'Active'; # XXX
-$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">Kime kýsmýna hiçbirþey girmediniz.</span>';
-$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">Girdiðiniz e-posta uygun deðil: ';
-$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">Bu domain sizin deðil: ';
-$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
+$PALANG['pEdit_alias_goto_text_error1'] = 'Kime kýsmýna hiçbirþey girmediniz.';
+$PALANG['pEdit_alias_goto_text_error2'] = 'Girdiðiniz e-posta uygun deðil: ';
+$PALANG['pEdit_alias_domain_error'] = 'Bu domain sizin deðil: '; # obsolete
+$PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = 'Alias Düzenle'; # XXX text no longer used
-$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">Alias düzenlenemiyor!</span>';
+$PALANG['pEdit_alias_result_error'] = 'Alias düzenlenemiyor!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Domaininiz için yeni bir lokal e-posta yaratýn.';
 $PALANG['pCreate_mailbox_username'] = 'Kullanýcý adý';
-$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">E-POSTA uygun deðil!</span>';
-$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">Bu elektronik posta kullanýlmakta, lütfen farklý bir tane seçin!</span>';
-$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">Posta kutusu yaratma limitinize eriþtiniz!</span>';
+$PALANG['pCreate_mailbox_username_text_error1'] = 'E-POSTA uygun deðil!';
+$PALANG['pCreate_mailbox_username_text_error2'] = 'Bu elektronik posta kullanýlmakta, lütfen farklý bir tane seçin!';
+$PALANG['pCreate_mailbox_username_text_error3'] = 'Posta kutusu yaratma limitinize eriþtiniz!';
 $PALANG['pCreate_mailbox_password'] = 'þifre';
 $PALANG['pCreate_mailbox_password2'] = 'þifre (tekrar)';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP için þifre';
-$PALANG['pCreate_mailbox_password_text_error'] = 'POP3/IMAP için þifre<br /><span class="error_msg">Verdiðiniz þifreler birbirini tutmuyor!<br />Ya da boþ!</span>';
+$PALANG['pCreate_mailbox_password_text_error'] = 'POP3/IMAP için þifre<br />Verdiðiniz þifreler birbirini tutmuyor!<br />Ya da boþ!';
 $PALANG['pCreate_mailbox_name'] = 'Ýsim';
 $PALANG['pCreate_mailbox_name_text'] = 'Tam isim';
 $PALANG['pCreate_mailbox_quota'] = 'kota';
 $PALANG['pCreate_mailbox_quota_text'] = 'MB';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Veridðiniz kota çok yüksek!</span>';
+$PALANG['pCreate_mailbox_quota_text_error'] = 'Veridðiniz kota çok yüksek!';
 $PALANG['pCreate_mailbox_active'] = 'Aktif';
 $PALANG['pCreate_mailbox_mail'] = 'Posta kutusu yarat';
 $PALANG['pCreate_mailbox_button'] = 'Posta kutusu ekle';
-$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">Posta kutusu posta kutusu tablosuna eklenemiyor!</span>';
+$PALANG['pCreate_mailbox_result_error'] = 'Posta kutusu posta kutusu tablosuna eklenemiyor!';
 $PALANG['pCreate_mailbox_result_success'] = 'Posta kutusu tabloya eklendi!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Domaninizdeki bir posta kutusunu düzenleyin.';
 $PALANG['pEdit_mailbox_username'] = 'kullanýcý adý';
-$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">Posta kutusu bulunamadý!</span>';
+$PALANG['pEdit_mailbox_username_error'] = 'Posta kutusu bulunamadý!'; # obsolete
 $PALANG['pEdit_mailbox_password'] = 'Yeni þifre';
 $PALANG['pEdit_mailbox_password2'] = 'Yeni þifre (tekrar)';
-$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">Verdiðiniz þifreler birbirini tutmuyor!</span>';
+$PALANG['pEdit_mailbox_password_text_error'] = 'Verdiðiniz þifreler birbirini tutmuyor!';
 $PALANG['pEdit_mailbox_name'] = 'Ýsim';
 $PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX
 $PALANG['pEdit_mailbox_quota'] = 'kota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
-$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">Verdiðiniz kota çok yüksek!</span>';
-$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">Bu domain dizin deðil: ';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'Verdiðiniz kota çok yüksek!';
+$PALANG['pEdit_mailbox_domain_error'] = 'Bu domain dizin deðil: ';
 $PALANG['pEdit_mailbox_button'] = 'Posta kutusunu düzenle'; # XXX text no longer used
-$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">Þifre deðiþtirilemedi!</span>';
+$PALANG['pEdit_mailbox_result_error'] = 'Þifre deðiþtirilemedi!';
 
 $PALANG['pPassword_welcome'] = 'Giriþ þifrenizi deðiþtirin.';
 $PALANG['pPassword_admin'] = 'Giriþ';
-$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">Verdiðiniz e-posta kutusu hiçbir posta kutusuna uymuyor!</span>';
+$PALANG['pPassword_admin_text_error'] = 'Verdiðiniz e-posta kutusu hiçbir posta kutusuna uymuyor!'; # obsolete
 $PALANG['pPassword_password_current'] = 'þuanki þifre';
-$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">Þuanki þifrenizi vermediniz!</span>';
+$PALANG['pPassword_password_current_text_error'] = 'Þuanki þifrenizi vermediniz!';
 $PALANG['pPassword_password'] = 'Yeni Þifre';
 $PALANG['pPassword_password2'] = 'Yeni þifre (tekrar)';
-$PALANG['pPassword_password_text_error'] = '<span class="error_msg">Verdiðiniz þifreler birbirini tutmuyor!<br />Ya da boþ!</span>';
+$PALANG['pPassword_password_text_error'] = 'Verdiðiniz þifreler birbirini tutmuyor!<br />Ya da boþ!';
 $PALANG['pPassword_button'] = 'Þifreyi deðiþtir';
-$PALANG['pPassword_result_error'] = '<span class="error_msg">Þifreniz deðiþtirilemedi!</span>';
+$PALANG['pPassword_result_error'] = 'Þifreniz deðiþtirilemedi!';
 $PALANG['pPassword_result_success'] = 'þifreniz deðiþtirildi!';
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
 $PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
-$PALANG['pVacation_result_error'] = '<span class="error_msg">Unable to update auto response settings!</span>'; # XXX
+$PALANG['pVacation_result_error'] = 'Unable to update auto response settings!'; # XXX
 $PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
 $PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
 
@@ -210,17 +210,17 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = 'Git';
-$PALANG['pViewlog_result_error'] = '<span class="error_msg">Loglar bulunamýyor!</span>';
+$PALANG['pViewlog_result_error'] = 'Loglar bulunamýyor!';
 
 $PALANG['pSendmail_welcome'] = 'Eposta gönder.';
 $PALANG['pSendmail_admin'] = 'kimden';
 $PALANG['pSendmail_to'] = 'Kime';
-$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">Kime doðru bir e-posta deðil!</span>';
+$PALANG['pSendmail_to_text_error'] = 'Kime doðru bir e-posta deðil!';
 $PALANG['pSendmail_subject'] = 'konu';
 $PALANG['pSendmail_subject_text'] = 'Hoþ geldiniz';
 $PALANG['pSendmail_body'] = 'Metin';
 $PALANG['pSendmail_button'] = 'Mesaj Gönder';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">Posta kutusu yaratýlamadý!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = 'Posta kutusu yaratýlamadý!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
 $PALANG['pSendmail_result_success'] = 'Posta kutusu yaratýldý!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Yönetici Listesi';
@@ -266,22 +266,22 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktif';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Yeni domain ekle';
 $PALANG['pAdminCreate_domain_domain'] = 'Domain';
-$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">Bu Domain halen bulunmakta!</span>';
-$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">The domain is invalid!</span>'; # XXX
+$PALANG['pAdminCreate_domain_domain_text_error'] = 'Bu Domain halen bulunmakta!';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
 $PALANG['pAdminCreate_domain_description'] = 'Açýklama';
 $PALANG['pAdminCreate_domain_aliases'] = 'Aliaslar';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = iptal | 0 = limisiz';
 $PALANG['pAdminCreate_domain_mailboxes'] = 'Postakutularý';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = iptal | 0 = limitsiz';
 $PALANG['pAdminCreate_domain_maxquota'] = 'Max Kota';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = iptal | 0 = limitsiz';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = iptal | 0 = limitsiz';
 $PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Öntanýmlý posta aliasý ekle';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminCreate_domain_button'] = 'Domain ekle';
-$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domain eklenemedi!</span>';
+$PALANG['pAdminCreate_domain_result_error'] = 'Domain eklenemedi!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain eklendi!';
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
@@ -295,25 +295,25 @@ $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = iptal | 0 = limitsiz';
 $PALANG['pAdminEdit_domain_mailboxes'] = 'Posta kutularý';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = iptal | 0 = limitsiz';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Kota';
-$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = iptal | 0 = limitsiz';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = iptal | 0 = limitsiz';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminEdit_domain_active'] = 'Aktif';
 $PALANG['pAdminEdit_domain_button'] = 'Domain düzenle'; # XXX text no longer used
-$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">Domain düzenlenemedi!</span>';
+$PALANG['pAdminEdit_domain_result_error'] = 'Domain düzenlenemedi!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Yöneticiye yeni bir domain ekle';
 $PALANG['pAdminCreate_admin_username'] = 'Yönetici';
 $PALANG['pAdminCreate_admin_username_text'] = 'Eposta adresi';
-$PALANG['pAdminCreate_admin_username_text_error1'] = 'Eposta adresi<br /><span class="error_msg">Yönetici uygun bir eposta adresi deðil!</span>';
-$PALANG['pAdminCreate_admin_username_text_error2'] = 'Eposta adresi<br /><span class="error_msg">Yönetici halen bulunmakta ya da uygun deðil</span>';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'Eposta adresi<br />Yönetici uygun bir eposta adresi deðil!';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'Eposta adresi<br />Yönetici halen bulunmakta ya da uygun deðil';
 $PALANG['pAdminCreate_admin_password'] = 'Þifre';
 $PALANG['pAdminCreate_admin_password2'] = 'Þifre (tekrar)';
-$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">Girdiðiniz þifreler uymuyor!<br />Ya da boþ!</span>';
+$PALANG['pAdminCreate_admin_password_text_error'] = 'Girdiðiniz þifreler uymuyor!<br />Ya da boþ!';
 $PALANG['pAdminCreate_admin_button'] = 'Yönetici ekle';
-$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">Yönetici eklenemiyor!</span>';
+$PALANG['pAdminCreate_admin_result_error'] = 'Yönetici eklenemiyor!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Yönetici eklendi!';
 $PALANG['pAdminCreate_admin_address'] = 'Domain';
 
@@ -321,11 +321,11 @@ $PALANG['pAdminEdit_admin_welcome'] = 'Domain yöneticisi düzenle';
 $PALANG['pAdminEdit_admin_username'] = 'Yönetici';
 $PALANG['pAdminEdit_admin_password'] = 'Þifre';
 $PALANG['pAdminEdit_admin_password2'] = 'þifre (tekrar)';
-$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">Verdiðiniz þifreler birbirini tutmuyor!<br />Ya da boþ!</span>';
+$PALANG['pAdminEdit_admin_password_text_error'] = 'Verdiðiniz þifreler birbirini tutmuyor!<br />Ya da boþ!';
 $PALANG['pAdminEdit_admin_active'] = 'Aktif';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Yönetici Ekle'; # XXX text no longer used
-$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">Yönetici düzenlenemedi!</span>';
+$PALANG['pAdminEdit_admin_result_error'] = 'Yönetici düzenlenemedi!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Yönetici düzenlendi!';
 
 $PALANG['pUsersLogin_welcome'] = 'Posta kutusu sahipleri, þifre ddeðiþtirmek için giriþ yapýn.';
@@ -355,7 +355,7 @@ Acil durumlarda lütfen  <contact person> a baþvurunuz.
 EOM;
 $PALANG['pUsersVacation_button_away'] = 'Dýþarý gidiyorum.';
 $PALANG['pUsersVacation_button_back'] = 'Geri Geliyorum';
-$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">otomatik cevaplama ayarlarýnýzý deðiþtirilemiyor!</span>';
+$PALANG['pUsersVacation_result_error'] = 'otomatik cevaplama ayarlarýnýzý deðiþtirilemiyor!';
 $PALANG['pUsersVacation_result_success'] = 'Otomatik cevaplamanýz kaldýrýldý!';
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
 $PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX

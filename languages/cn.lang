@@ -88,9 +88,9 @@ $PALANG['pOverview_get_modified'] = '最后修改日期';
 
 $PALANG['pDelete_delete_error'] = '不能删除本记录';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
-$PALANG['pDelete_postdelete_error'] = '<span class="error_msg">Unable to remove mailbox '; # XXX
+$PALANG['pDelete_postdelete_error'] = 'Unable to remove mailbox '; # XXX # obsolete
 $PALANG['pDelete_domain_error'] = '你没有该域的管理权限';
-$PALANG['pDelete_domain_alias_error'] = '<span class="error_msg">This domain is not yours '; # XXX
+$PALANG['pDelete_domain_alias_error'] = 'This domain is not yours '; # XXX # obsolete
 $PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
@@ -107,83 +107,83 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = '在你的域中新建一个别名.';
 $PALANG['pCreate_alias_address'] = '别名';
-$PALANG['pCreate_alias_address_text_error1'] = '<br /><span class="error_msg">该别名非法!</span>';
-$PALANG['pCreate_alias_address_text_error2'] = '<br /><span class="error_msg">邮件地址已经存在, 请重新选择!</span>';
-$PALANG['pCreate_alias_address_text_error3'] = '<br /><span class="error_msg">你的别名已经达到上限!</span>';
+$PALANG['pCreate_alias_address_text_error1'] = '该别名非法!';
+$PALANG['pCreate_alias_address_text_error2'] = '邮件地址已经存在, 请重新选择!';
+$PALANG['pCreate_alias_address_text_error3'] = '你的别名已经达到上限!';
 $PALANG['pCreate_alias_goto'] = '转到';
 $PALANG['pCreate_alias_active'] = 'Active'; # XXX
 $PALANG['pCreate_alias_button'] = '新建别名';
 $PALANG['pCreate_alias_goto_text'] = '邮件接收地址.';
-$PALANG['pCreate_alias_goto_text_error'] = '邮件接收地址.<br /><span class="error_msg">接收地址不正确!</span>';
-$PALANG['pCreate_alias_result_error'] = '<span class="error_msg">不能将别名添加到别名表中!</span>';
+$PALANG['pCreate_alias_goto_text_error'] = '邮件接收地址.<br />接收地址不正确!';
+$PALANG['pCreate_alias_result_error'] = '不能将别名添加到别名表中!';
 $PALANG['pCreate_alias_result_success'] = '添加别名成功!';
 $PALANG['pCreate_alias_catchall_text'] = '要将所有的邮件全部转发请使用"*"作为别名.<br />域到域的转发请使用"*@domain.tld".';
 
 $PALANG['pEdit_alias_welcome'] = '编辑你域名中的别名.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = '每行一条记录.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = '别名';
-$PALANG['pEdit_alias_address_error'] = '<span class="error_msg">不能定位别名!</span>';
+$PALANG['pEdit_alias_address_error'] = '不能定位别名!'; # obsolete
 $PALANG['pEdit_alias_goto'] = '转到';
 $PALANG['pEdit_alias_active'] = 'Active'; # XXX
-$PALANG['pEdit_alias_goto_text_error1'] = '<span class="error_msg">你没有填写收信人</span>';
-$PALANG['pEdit_alias_goto_text_error2'] = '<span class="error_msg">邮件地址非法: ';
-$PALANG['pEdit_alias_domain_error'] = '<span class="error_msg">你没有该域的管理权限: ';
-$PALANG['pEdit_alias_domain_result_error'] = '<span class="error_msg">Unable to modify the alias domain!</span>'; # XXX
+$PALANG['pEdit_alias_goto_text_error1'] = '你没有填写收信人';
+$PALANG['pEdit_alias_goto_text_error2'] = '邮件地址非法: ';
+$PALANG['pEdit_alias_domain_error'] = '你没有该域的管理权限: '; # obsolete
+$PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
 $PALANG['pEdit_alias_button'] = '编辑别名'; # XXX text no longer used
-$PALANG['pEdit_alias_result_error'] = '<span class="error_msg">不能修改该别名!</span>';
+$PALANG['pEdit_alias_result_error'] = '不能修改该别名!';
 
 $PALANG['pCreate_mailbox_welcome'] = '在你的域中新建一个本地邮箱.';
 $PALANG['pCreate_mailbox_username'] = '用户名';
-$PALANG['pCreate_mailbox_username_text_error1'] = '<br /><span class="error_msg">邮件非法!</span>';
-$PALANG['pCreate_mailbox_username_text_error2'] = '<br /><span class="error_msg">邮件地址已经存在,请重新选择!</span>';
-$PALANG['pCreate_mailbox_username_text_error3'] = '<br /><span class="error_msg">邮箱地址已经达到上限!</span>';
+$PALANG['pCreate_mailbox_username_text_error1'] = '邮件非法!';
+$PALANG['pCreate_mailbox_username_text_error2'] = '邮件地址已经存在,请重新选择!';
+$PALANG['pCreate_mailbox_username_text_error3'] = '邮箱地址已经达到上限!';
 $PALANG['pCreate_mailbox_password'] = '密码';
 $PALANG['pCreate_mailbox_password2'] = '密码 (再次输入)';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP 密码';
-$PALANG['pCreate_mailbox_password_text_error'] = 'POP3/IMAP 密码<br /><span class="error_msg">你输入的密码不相同!<br />或者为空!</span>';
+$PALANG['pCreate_mailbox_password_text_error'] = 'POP3/IMAP 密码<br />你输入的密码不相同!<br />或者为空!';
 $PALANG['pCreate_mailbox_name'] = '名字';
 $PALANG['pCreate_mailbox_name_text'] = '全名';
 $PALANG['pCreate_mailbox_quota'] = '限制';
 $PALANG['pCreate_mailbox_quota_text'] = 'MB';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">你输入的容量限制超出范围!</span>';
+$PALANG['pCreate_mailbox_quota_text_error'] = '你输入的容量限制超出范围!';
 $PALANG['pCreate_mailbox_active'] = '活动';
 $PALANG['pCreate_mailbox_mail'] = '新建邮箱';
 $PALANG['pCreate_mailbox_button'] = '增加邮箱';
-$PALANG['pCreate_mailbox_result_error'] = '<span class="error_msg">不能将邮箱增加到邮箱表中!</span>';
+$PALANG['pCreate_mailbox_result_error'] = '不能将邮箱增加到邮箱表中!';
 $PALANG['pCreate_mailbox_result_success'] = '增加邮箱成功!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = '编辑你域中的邮箱.';
 $PALANG['pEdit_mailbox_username'] = '用户名';
-$PALANG['pEdit_mailbox_username_error'] = '<span class="error_msg">不能定们邮箱!</span>';
+$PALANG['pEdit_mailbox_username_error'] = '不能定们邮箱!'; # obsolete
 $PALANG['pEdit_mailbox_password'] = '新密码';
 $PALANG['pEdit_mailbox_password2'] = '新密码 (验证)';
-$PALANG['pEdit_mailbox_password_text_error'] = '<span class="error_msg">你输入的两个新密码不相同!</span>';
+$PALANG['pEdit_mailbox_password_text_error'] = '你输入的两个新密码不相同!';
 $PALANG['pEdit_mailbox_name'] = '姓名';
 $PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX
 $PALANG['pEdit_mailbox_quota'] = '限制';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
-$PALANG['pEdit_mailbox_quota_text_error'] = 'MB<br /><span class="error_msg">你输入的容量限制超出范围!</span>';
-$PALANG['pEdit_mailbox_domain_error'] = '<span class="error_msg">你没有该域的管理权限: ';
+$PALANG['pEdit_mailbox_quota_text_error'] = '你输入的容量限制超出范围!';
+$PALANG['pEdit_mailbox_domain_error'] = '你没有该域的管理权限: ';
 $PALANG['pEdit_mailbox_button'] = '编辑邮箱'; # XXX text no longer used
-$PALANG['pEdit_mailbox_result_error'] = '<span class="error_msg">不能编辑该邮箱!</span>';
+$PALANG['pEdit_mailbox_result_error'] = '不能编辑该邮箱!';
 
 $PALANG['pPassword_welcome'] = '更改你的登录密码.';
 $PALANG['pPassword_admin'] = '帐号';
-$PALANG['pPassword_admin_text_error'] = '<span class="error_msg">你所提供的登录帐号不正确!</span>';
+$PALANG['pPassword_admin_text_error'] = '你所提供的登录帐号不正确!'; # obsolete
 $PALANG['pPassword_password_current'] = '当前密码';
-$PALANG['pPassword_password_current_text_error'] = '<span class="error_msg">你没有填写当前密码!</span>';
+$PALANG['pPassword_password_current_text_error'] = '你没有填写当前密码!';
 $PALANG['pPassword_password'] = '新密码';
 $PALANG['pPassword_password2'] = '新密码 (验证)';
-$PALANG['pPassword_password_text_error'] = '<span class="error_msg">你两次输入的新密码不相同!<br />或者为空!</span>';
+$PALANG['pPassword_password_text_error'] = '你两次输入的新密码不相同!<br />或者为空!';
 $PALANG['pPassword_button'] = '更改密码';
-$PALANG['pPassword_result_error'] = '<span class="error_msg">更改密码失败!</span>';
+$PALANG['pPassword_result_error'] = '更改密码失败!';
 $PALANG['pPassword_result_success'] = '更改密码成功!';
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
 $PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
-$PALANG['pVacation_result_error'] = '<span class="error_msg">Unable to update auto response settings!</span>'; # XXX
+$PALANG['pVacation_result_error'] = 'Unable to update auto response settings!'; # XXX
 $PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
 $PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
 
@@ -210,17 +210,17 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 
 $PALANG['pViewlog_button'] = '执行';
-$PALANG['pViewlog_result_error'] = '<span class="error_msg">未找到相关的日志!</span>';
+$PALANG['pViewlog_result_error'] = '未找到相关的日志!';
 
 $PALANG['pSendmail_welcome'] = '发送邮件.';
 $PALANG['pSendmail_admin'] = '发件人';
 $PALANG['pSendmail_to'] = '收件人';
-$PALANG['pSendmail_to_text_error'] = '<span class="error_msg">收件人为空或者收件人地址不正确!</span>';
+$PALANG['pSendmail_to_text_error'] = '收件人为空或者收件人地址不正确!';
 $PALANG['pSendmail_subject'] = '主题';
 $PALANG['pSendmail_subject_text'] = '欢迎';
 $PALANG['pSendmail_body'] = '内容';
 $PALANG['pSendmail_button'] = '发送';
-$PALANG['pSendmail_result_error'] = '<span class="error_msg">建立邮箱失败!</span>'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = '建立邮箱失败!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
 $PALANG['pSendmail_result_success'] = '建立邮箱成功!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = '管理员清单';
@@ -266,22 +266,22 @@ $PALANG['pAdminList_virtual_mailbox_active'] = '活动';
 
 $PALANG['pAdminCreate_domain_welcome'] = '新建域';
 $PALANG['pAdminCreate_domain_domain'] = '域名';
-$PALANG['pAdminCreate_domain_domain_text_error'] = '<span class="error_msg">该域已经存在!</span>';
-$PALANG['pAdminCreate_domain_domain_text_error2'] = '<span class="error_msg">The domain is invalid!</span>'; # XXX
+$PALANG['pAdminCreate_domain_domain_text_error'] = '该域已经存在!';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
 $PALANG['pAdminCreate_domain_description'] = '描述';
 $PALANG['pAdminCreate_domain_aliases'] = '别名数';
 $PALANG['pAdminCreate_domain_aliases_text'] = '-1 = 禁用 | 0 = 无限制';
 $PALANG['pAdminCreate_domain_mailboxes'] = '邮箱数';
 $PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = 禁用 | 0 = 无限制';
 $PALANG['pAdminCreate_domain_maxquota'] = '最大容量限制';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB<br /> -1 = 禁用 | 0 = 无限制';
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = 禁用 | 0 = 无限制';
 $PALANG['pAdminCreate_domain_transport'] = 'Transport';
 $PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminCreate_domain_defaultaliases'] = '增加默认别名';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_backupmx'] = '备份邮件服务器';
 $PALANG['pAdminCreate_domain_button'] = '新增';
-$PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">新增域失败!</span>';
+$PALANG['pAdminCreate_domain_result_error'] = '新增域失败!';
 $PALANG['pAdminCreate_domain_result_success'] = '新增域成功!';
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
@@ -295,25 +295,25 @@ $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = 禁止 | 0 = 无限制';
 $PALANG['pAdminEdit_domain_mailboxes'] = '邮箱数';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = 禁止 | 0 = 无限制';
 $PALANG['pAdminEdit_domain_maxquota'] = '最大容量限制';
-$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB<br /> -1 = 禁止 | 0 = 无限制';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = 禁止 | 0 = 无限制';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = '备份邮件服务器';
 $PALANG['pAdminEdit_domain_active'] = '活动';
 $PALANG['pAdminEdit_domain_button'] = '修改'; # XXX text no longer used
-$PALANG['pAdminEdit_domain_result_error'] = '<span class="error_msg">修改域失败!</span>';
+$PALANG['pAdminEdit_domain_result_error'] = '修改域失败!';
 
 $PALANG['pAdminCreate_admin_welcome'] = '新增域管理员';
 $PALANG['pAdminCreate_admin_username'] = '管理员';
 $PALANG['pAdminCreate_admin_username_text'] = '邮件地址';
-$PALANG['pAdminCreate_admin_username_text_error1'] = '邮件地址<br /><span class="error_msg">管理员名不是一个合法的邮件地址!</span>';
-$PALANG['pAdminCreate_admin_username_text_error2'] = '邮件地址<br /><span class="error_msg">管理员已经存在或者管理员名非法!</span>';
+$PALANG['pAdminCreate_admin_username_text_error1'] = '邮件地址<br />管理员名不是一个合法的邮件地址!';
+$PALANG['pAdminCreate_admin_username_text_error2'] = '邮件地址<br />管理员已经存在或者管理员名非法!';
 $PALANG['pAdminCreate_admin_password'] = '密码';
 $PALANG['pAdminCreate_admin_password2'] = '密码 (验证)';
-$PALANG['pAdminCreate_admin_password_text_error'] = '<span class="error_msg">新所输入的两次新密码不相同!<br />或者为空!</span>';
+$PALANG['pAdminCreate_admin_password_text_error'] = '新所输入的两次新密码不相同!<br />或者为空!';
 $PALANG['pAdminCreate_admin_button'] = '新增';
-$PALANG['pAdminCreate_admin_result_error'] = '<span class="error_msg">新增管理员失败!</span>';
+$PALANG['pAdminCreate_admin_result_error'] = '新增管理员失败!';
 $PALANG['pAdminCreate_admin_result_success'] = '新增管理员成功!';
 $PALANG['pAdminCreate_admin_address'] = '域';
 
@@ -321,11 +321,11 @@ $PALANG['pAdminEdit_admin_welcome'] = '修改域管理员';
 $PALANG['pAdminEdit_admin_username'] = '管理员';
 $PALANG['pAdminEdit_admin_password'] = '密码';
 $PALANG['pAdminEdit_admin_password2'] = '密码 (验证)';
-$PALANG['pAdminEdit_admin_password_text_error'] = '<span class="error_msg">你两次输入的新密码不相同!<br />或者为空!</span>';
+$PALANG['pAdminEdit_admin_password_text_error'] = '你两次输入的新密码不相同!<br />或者为空!';
 $PALANG['pAdminEdit_admin_active'] = '活动';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['pAdminEdit_admin_button'] = '修改'; # XXX text no longer used
-$PALANG['pAdminEdit_admin_result_error'] = '<span class="error_msg">编辑域管理员失败!</span>';
+$PALANG['pAdminEdit_admin_result_error'] = '编辑域管理员失败!';
 $PALANG['pAdminEdit_admin_result_success'] = '编辑域管理员成功!';
 
 $PALANG['pUsersLogin_welcome'] = '邮件用户从这里登录管理你的密码和别名.';
@@ -355,7 +355,7 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 EOM;
 $PALANG['pUsersVacation_button_away'] = '开启自动回复';
 $PALANG['pUsersVacation_button_back'] = '关闭自动回复';
-$PALANG['pUsersVacation_result_error'] = '<span class="error_msg">更新自动回复失败!</span>';
+$PALANG['pUsersVacation_result_error'] = '更新自动回复失败!';
 $PALANG['pUsersVacation_result_success'] = '你的自动回复已经关闭!';
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
 $PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
