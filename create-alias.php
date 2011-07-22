@@ -43,7 +43,6 @@ else {
     $list_domains = list_domains_for_admin ($username);
 }
 
-$pCreate_alias_goto_text = $PALANG['pCreate_alias_goto_text'];
 $pCreate_alias_address_text_error = "";
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
@@ -145,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $tAddress = escape_string ($_POST['fAddress']);
         $tGoto = $fGoto;
         $tDomain = $fDomain;
-        flash_error($PALANG['pCreate_alias_goto_text_error']");
+        flash_error($PALANG['pCreate_alias_goto_text_error']);
     }
 
     if (escape_string($_POST['fAddress']) == "*") {
@@ -194,10 +193,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 $smarty->assign ('tAddress', $tAddress);
 $smarty->assign ('select_options', select_options ($list_domains, array ($tDomain)), false);
-$smarty->assign ('pCreate_alias_address_text', $pCreate_alias_address_text, false);
 $smarty->assign ('pCreate_alias_address_text_error', $pCreate_alias_address_text_error, false);
 $smarty->assign ('tGoto', $tGoto, false);
-$smarty->assign ('pCreate_alias_goto_text', $pCreate_alias_goto_text);
 $smarty->assign ('smarty_template', 'create-alias');
 $smarty->display ('index.tpl');
 
