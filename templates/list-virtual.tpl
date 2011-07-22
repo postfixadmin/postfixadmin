@@ -56,7 +56,7 @@
 	{if $CONF.alias_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
 	<table id="mailbox_table">
 		<tr>
-			<td colspan="{$colspan}"><h3>{$PALANG.pOverview_mailbox_title}</h3></td>
+			<th colspan="{$colspan}">{$PALANG.pOverview_mailbox_title}</th>
 		</tr>
 	{if $tMailbox}
 		{include file="list-virtual_mailbox.tpl"}
