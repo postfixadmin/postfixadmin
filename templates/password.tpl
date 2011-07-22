@@ -29,9 +29,6 @@
 		<td><input class="button" type="submit" name="submit" value="{$PALANG.pPassword_button}" /></td>
 		<td>&nbsp;</td>
 	</tr>
-	<tr>
-		<td colspan="3" class="standout">{$tMessage}</td>
-	</tr>
 </table>
 </form>
 </div>

@@ -24,9 +24,6 @@
 		<td>&nbsp;</td>
 		<td colspan="2"><input class="button" type="submit" name="submit" value="{$PALANG.save}" /></td>
 	</tr>
-	<tr>
-		<td colspan="3" class="standout">{$tMessage}</td>
-	</tr>
 </table>
 </form>
 </div>

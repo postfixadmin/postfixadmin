@@ -21,9 +21,6 @@
 		<td>&nbsp;</td>
 	</tr>
 {/if}
-	<tr>
-		<td colspan="3" class="standout">{$tMessage}</td>
-	</tr>
 {if $alias_domains}
 	<tr>
 		<td>&nbsp;</td>

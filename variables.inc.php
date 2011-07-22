@@ -70,7 +70,6 @@ $tLog = "";
 $tMailbox = "";
 $tMailboxes = "";
 $tMaxquota = "";
-$tMessage = "&nbsp;";
 $tName = "";
 $tQuota = "";
 $tSubject = "";

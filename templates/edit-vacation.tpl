@@ -63,9 +63,6 @@
 			<input class="button" type="button" name="fCancel" value="{$PALANG.exit}" onclick="newLocation()" />
 		</td>
 	</tr>
-	<tr>
-		<td colspan="3" class="standout">{$tMessage}</td>
-	</tr>
 </table>
 </form>
 </div>
