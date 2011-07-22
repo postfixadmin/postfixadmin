@@ -8,14 +8,13 @@
 		<form name="frmOverview" method="post" action="">
 		<table id="log_table" border="0">
 			<tr>
-				<td colspan="{$colspan+2}"><h3>{$PALANG.pFetchmail_welcome}{$user_domains}</h3></td>
+				<th colspan="{$colspan+2}">{$PALANG.pFetchmail_welcome}{$user_domains}</th>
 			</tr>
 			{#tr_header#}
 			{foreach from=$headers item=header}
 				<td>{$header}</td>
 			{/foreach}
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td colspan="2">&nbsp;</td>
 			</tr>
 		{if $tFmail}
 			{foreach from=$tFmail item=row}
@@ -40,5 +39,5 @@
 		</table>
 </form>
 </div>
-<p><a href='?new=1'>{$PALANG.pFetchmail_new_entry}</a></p>
+<br /><a href='?new=1' class="button">{$PALANG.pFetchmail_new_entry}</a><br />
 {/if}
