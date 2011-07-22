@@ -7,7 +7,7 @@
 {if $tLog}
 <table id="log_table">
 	<tr>
-		<td colspan="5"><h3>{$PALANG.pViewlog_welcome} {$fDomain}</h3></td>
+		<th colspan="5">{$PALANG.pViewlog_welcome} {$fDomain}</th>
 	</tr>
 	{#tr_header#}
 		<td>{$PALANG.pViewlog_timestamp}</td>

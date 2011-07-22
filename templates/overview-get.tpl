@@ -1,6 +1,6 @@
 <div id="overview">
 <form name="frmOverview" method="get" action="">
-	<select class="flat" name="domain" onchange="this.form.submit();">
+	<select name="domain" onchange="this.form.submit();">
 	{$select_options}
 	</select>
 	<input class="button" type="submit" name="go" value="{$PALANG.pOverview_button}" />
@@ -9,7 +9,7 @@
 </div>
 <table id="overview_table">
 	<tr>
-		<td colspan="5"><h3>{$PALANG.pOverview_title}</h3></td>
+		<th colspan="5">{$PALANG.pOverview_title}</th>
 	</tr>
 	{#tr_header#}
 		<td>{$PALANG.pOverview_get_domain}</td>
