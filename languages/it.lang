@@ -221,7 +221,7 @@ $PALANG['pSendmail_subject'] = 'Oggetto';
 $PALANG['pSendmail_subject_text'] = 'Benvenuto';
 $PALANG['pSendmail_body'] = 'Corpo';
 $PALANG['pSendmail_button'] = 'Spedisci messaggio';
-$PALANG['pSendmail_result_error'] = 'Impossibile creare la casella di posta!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = 'Impossibile creare la casella di posta!'; # XXX text change - new: Unable to send email!
 $PALANG['pSendmail_result_success'] = 'La casella di posta &egrave; stata creata!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Lista degli amministratori';

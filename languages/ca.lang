@@ -219,7 +219,7 @@ $PALANG['pSendmail_subject'] = 'Assumpte';
 $PALANG['pSendmail_subject_text'] = 'Benvingut';
 $PALANG['pSendmail_body'] = 'Cos';
 $PALANG['pSendmail_button'] = 'Enviar missatge';
-$PALANG['pSendmail_result_error'] = 'Imposible crear la bústia!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = 'Imposible crear la bústia!'; # XXX text change - new: Unable to send email!
 $PALANG['pSendmail_result_success'] = 'La bústia ha estat creada!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Llistat d\'administradors';

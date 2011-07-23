@@ -220,7 +220,7 @@ $PALANG['pSendmail_subject'] = '主题';
 $PALANG['pSendmail_subject_text'] = '欢迎';
 $PALANG['pSendmail_body'] = '内容';
 $PALANG['pSendmail_button'] = '发送';
-$PALANG['pSendmail_result_error'] = '建立邮箱失败!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = '建立邮箱失败!'; # XXX text change - new: Unable to send email!
 $PALANG['pSendmail_result_success'] = '建立邮箱成功!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = '管理员清单';

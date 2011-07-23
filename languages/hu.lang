@@ -225,7 +225,7 @@ $PALANG['pSendmail_subject'] = 'Tárgy';
 $PALANG['pSendmail_subject_text'] = 'Postafiókja sikeresen elkészült!';
 $PALANG['pSendmail_body'] = 'Üzenet';
 $PALANG['pSendmail_button'] = 'Üzenet küldése';
-$PALANG['pSendmail_result_error'] = 'Postafiók létrehozása sikertelen!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = 'Postafiók létrehozása sikertelen!'; # XXX text change - new: Unable to send email!
 $PALANG['pSendmail_result_success'] = 'A postafiók sikeresen elkészült!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Admin Lista';

@@ -219,7 +219,7 @@ $PALANG['pSendmail_subject'] = 'Tema';
 $PALANG['pSendmail_subject_text'] = 'Sveiki';
 $PALANG['pSendmail_body'] = 'Žinutė';
 $PALANG['pSendmail_button'] = 'Siųsti';
-$PALANG['pSendmail_result_error'] = 'Pašto dėžutės sukurti nepavyko!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = 'Pašto dėžutės sukurti nepavyko!'; # XXX text change - new: Unable to send email!
 $PALANG['pSendmail_result_success'] = 'Pašto dėžutė sukurta!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Administratoriai';

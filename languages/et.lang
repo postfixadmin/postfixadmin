@@ -220,7 +220,7 @@ $PALANG['pSendmail_subject'] = 'Teema';
 $PALANG['pSendmail_subject_text'] = 'Tere tulemast';
 $PALANG['pSendmail_body'] = 'Põhitekst';
 $PALANG['pSendmail_button'] = 'Saada teade';
-$PALANG['pSendmail_result_error'] = 'Postkasti loomine ebaõnnestus!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = 'Postkasti loomine ebaõnnestus!'; # XXX text change - new: Unable to send email!
 $PALANG['pSendmail_result_success'] = 'Postkast on loodud!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Haldajad';

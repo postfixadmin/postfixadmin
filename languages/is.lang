@@ -219,7 +219,7 @@ $PALANG['pSendmail_subject'] = 'Efni bréfs';
 $PALANG['pSendmail_subject_text'] = 'Velkomin';
 $PALANG['pSendmail_body'] = 'Meginmál';
 $PALANG['pSendmail_button'] = 'Senda skilaboð';
-$PALANG['pSendmail_result_error'] = 'Get ekki búið til nýtt pósthólf!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = 'Get ekki búið til nýtt pósthólf!'; # XXX text change - new: Unable to send email!
 $PALANG['pSendmail_result_success'] = 'Pósthólfið hefur verið stofnað!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Kerfisstjóralisti';

@@ -218,7 +218,7 @@ $PALANG['pSendmail_subject'] = 'Emne';
 $PALANG['pSendmail_subject_text'] = 'Velkommen';
 $PALANG['pSendmail_body'] = 'Melding';
 $PALANG['pSendmail_button'] = 'Send beskjed';
-$PALANG['pSendmail_result_error'] = 'Klarte ikke å opprette e-postkontoen!'; # XXX text change - new: <span class="error_msg">Unable to send email!</span>
+$PALANG['pSendmail_result_error'] = 'Klarte ikke å opprette e-postkontoen!'; # XXX text change - new: Unable to send email!
 $PALANG['pSendmail_result_success'] = 'E-postkontoen er opprettet!'; # XXX text change - new: Email sent!
 
 $PALANG['pAdminMenu_list_admin'] = 'Administrator-liste';
