@@ -8,6 +8,10 @@ body {
 	text-align: left;
 }
 
+#container {
+	width:970px;
+	margin:auto;
+}
 a {
 	text-decoration: none;
 	color: #888888;
@@ -29,17 +33,22 @@ table {
 	text-align: left;
 }
 
+input, .button, textarea {
+	padding: 6px;
+	font-size: 13px;
+}	
+
 .button {
 	border: 1px solid #aaaaaa;
 	color: #777777;
 	background: #dddddd;
 	padding: 3px 3px 3px 3px;
-	font-size: 11px;
 }
 
 .button:hover, .button:focus {
-	background: #BCFF36;
-	color: #888888;
+	background: #eee;
+	color: #666;
+	text-decoration:none;
 }
 
 .flat {
@@ -49,7 +58,7 @@ table {
 ul.flash-info {
 	border:2px solid #AFE1A6; /* medium green */
 	padding:1em;
-	max-width:730px;
+	max-width:970px;
 	margin-left:auto;
 	margin-right:auto;
 	list-style:none;
@@ -58,7 +67,7 @@ ul.flash-info {
 ul.flash-error {
 	border:2px solid #FF6347; /* tomato */
 	padding:1em;
-	max-width:730px;
+	max-width:970px;
 	margin-left:auto;
 	margin-right:auto;
 	list-style:none;
@@ -78,7 +87,7 @@ ul.flash-error {
 #admin_domains, #admin_virtual, .nav_bar, #alias_domain_table,
 #alias_table, #mailbox_table, #overview_table, #log_table,
 #admin_table, #footer, .subnav {
-	width: 750px;
+	width: 990px;
 	margin: 0 auto;
 }
 
@@ -88,16 +97,17 @@ ul.flash-error {
 }
 
 #login {
-	width: 750px;
+	width: 990px;
 	margin: 0 auto;
+	background:#fff url(../images/mail_bg.gif) right 50% no-repeat;
 }
 
 #login_table {
-	border-left: 8px solid gray;
-	border-right: 8px solid gray;
-	background: #eeeeee;
-	width: 350px;
-	margin: 0 auto;
+	border-left: none;
+	border-right: 1px solid #999;
+	background: #fff;
+	width: 400px;
+	margin: 0 0 0 200px;
 	border-collapse: separate;
 	border-spacing: 10px;
 }
@@ -134,11 +144,10 @@ ul.flash-error {
 	border-top: 4px solid #aaaaaa;
 	position:relative;
 	right:50%;
-	/* border-bottom: 4px solid #aaaaaa; */
 }
 
 #menu li:hover, #menu li.sfhover, #tabbar li:hover, #tabbar li.sfhover {
-	background: #BFFF00;
+	background: #ccc;
 }
 
 #menu li ul, #tabbar li ul {
@@ -151,40 +160,34 @@ ul.flash-error {
 	border:2px solid white;
 	border-top:none;
 }
+
 #menu li:hover ul, #menu li.sfhover ul, #tabbar li:hover ul, #tabbar li.sfhover ul {
    left: auto;
 }
-
 
 #menu li ul li, #tabbar li ul li {
 	float: none;
 	margin-right: 0px;
 	border-top:2px solid white;
 	text-align:left;
-	/* border-bottom: none; */
 	right:auto;
 }
-
 
 #menu a, #tabbar a {
 	display: block;
 	width: auto;
 	padding: 20px 5px 5px 5px;
-	color: #888888;
 }
 
-#menu a:hover, #tabbar a:hover {
+#menu a, #tabbar a, #menu a:hover, #tabbar a:hover {
 	color: #888888;
 }
-
-
 
 #menu li ul li a, #tabbar li ul li a {
 	padding: 5px 5px 5px 5px;
 }
 
 .subnav p {
-	border-left: 4px solid #aaaaaa;
 	padding-left:10px;
 	margin-top:2em;
 	margin-bottom:0;
@@ -195,18 +198,13 @@ ul.flash-error {
 	margin: 0 auto;
 	padding-top: 10px;
 	text-align: left;
-	width: 500px;
-	border: 1px solid #efefef;
 }
 
-#edit_form h3  {
-	text-align: center;
+#edit_form th  {
+	text-align: left;
 	font-size: 12px;
 	margin: 0;
-	background: #AFE1A6; /*#b4004a;*/
-	border: 1px solid #bbb;
 	line-height: 25px;
-	color: #555555;
 }
 
 .hlp_center {
@@ -214,9 +212,6 @@ ul.flash-error {
 }
 
 .help_text {
-	background: #efefef;
-	border-left: 1px solid #bbbbbb;
-	border-right: 1px solid #bbbbbb;
 	text-align: center;
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -240,16 +235,17 @@ ul.flash-error {
 }
 
 #main_menu a:hover {
-	color: #40B33C; /*#CD6A6A;*/
+	color: #333;
 	text-decoration: none;
 	padding-left: 4px;
-	border-bottom: 1px solid #40B33C;
-	border-left: 4px solid #40B33C;
+	border-bottom: none;
+	border-left: 4px solid #333;
 }
 
-#overview, #admin_domains, #admin_virtual {
-	background: #AFE1A6; /*#9ACD32;*/
-	border: 1px solid #bbb;
+#overview {
+/*	background: #AFE1A6; /*#9ACD32;*/
+/*	border: 1px solid #bbb;
+*/
 }
 
 #overview h4, #overview P, #overview FORM, #admin_virtual h4, #admin_virtual P, #admin_virtual FORM {
@@ -258,31 +254,13 @@ ul.flash-error {
 	line-height: 30px;
 }
 
-#alias_domain_table, #alias_table, #mailbox_table, #overview_table, #log_table, #admin_table {
-	border: 1px solid #efefef;
-}
-
 #alias_domain_table .header, #alias_table .header, #mailbox_table .header, #overview_table .header, #log_table .header, #admin_table .header {
 	line-height: 20px;
 	background: #efefef;
 	color: black;
 }
 
-#alias_domain_table .hilightoff, #alias_table .hilightoff, #mailbox_table .hilightoff, #overview_table .hilightoff, #log_table .hilightoff, #admin_table .hilighoff {
-	background: white;
-}
-
-#alias_domain_table .hilighton, #alias_table .hilighton, #mailbox_table .hilighton, #overview_table .hilighton, #log_table .hilighton, #admin_table .hilighton {
-	background: #D9FF43; /*#D6FF85;*/ /*#ffdddd;*/
-}
-
-#alias_domain_table tr:hover, #alias_table tr:hover, #mailbox_table tr:hover, #overview_table tr:hover, #log_table tr:hover, #admin_table tr:hover {
-	background: #D9FF43; /*#D6FF85;*/ /*#ffdddd;*/
-}
-
-
 #alias_domain_table h3, #alias_table h3, #mailbox_table h3, #overview_table h3, #log_table h3, #admin_table h3 {
-	background: silver;
 	text-align: left;
 	font-size: 12px;
 	font-weight: bold;
@@ -291,11 +269,48 @@ ul.flash-error {
 	margin: 0;
 }
 
+#alias_domain_table .hilightoff, #alias_table .hilightoff, #mailbox_table .hilightoff, #overview_table .hilightoff, #log_table .hilightoff, #admin_table .hilighoff {
+	background: white;
+}
+
+#alias_domain_table .hilighton, #alias_table .hilighton, #mailbox_table .hilighton, #overview_table .hilighton, #log_table .hilighton, #admin_table .hilighton {
+	background: #eee; /*#D6FF85;*/ /*#ffdddd;*/
+}
+
+#alias_domain_table tr:hover, #alias_table tr:hover, #mailbox_table tr:hover, #overview_table tr:hover, #log_table tr:hover, #admin_table tr:hover {
+	background: #eee; /*#D6FF85;*/ /*#ffdddd;*/
+}
+
+th {
+	text-align: center;
+	padding:7px 0;
+	margin: 0 0 14px 0;
+	background: #fff;
+	border-bottom: 1px solid #bbb;
+	color: #555555;
+}
+
+td {
+	padding:7px 7px;
+}
+
+td.label {
+	text-align:right;
+	margin-right:0px;
+}
+
+label {
+	padding-right:0;
+	font-weight:bold;
+	vertical-align:middle;
+}
+
 #alias_domain_table td, #alias_table td, #mailbox_table td, #overview_table td, #log_table td, #admin_table td {
-text-align	: left;
+	text-align: left;
 }
 
 #footer {
+	width:975px;
 	margin: 20px auto;
 	border-top: 1px solid #bbbbbb;
 	background: #efefef;
