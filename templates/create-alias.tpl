@@ -18,7 +18,7 @@
 	<tr>
 		<td class="label"><label>{$PALANG.pCreate_alias_goto}:</label></td>
       	<td><textarea class="flat" rows="10" cols="35" name="fGoto">{$tGoto}</textarea></td>
-		<td>{$PALANG.pCreate_alias_goto_text}</td>
+		<td>{$PALANG.pCreate_alias_goto_text}<br /><br />{$PALANG.pEdit_alias_help}</td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
