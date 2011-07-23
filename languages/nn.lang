@@ -114,7 +114,7 @@ $PALANG['pCreate_alias_goto'] = 'Mottaker';
 $PALANG['pCreate_alias_active'] = 'Active'; # XXX
 $PALANG['pCreate_alias_button'] = 'Legg til Alias';
 $PALANG['pCreate_alias_goto_text'] = 'Hvor skal e-posten videresendes?';
-$PALANG['pCreate_alias_goto_text_error'] = 'Hvor skal eposten videresendes?.<br />Mottakerfeltet er ikke gyldig!';
+$PALANG['pCreate_alias_goto_text_error'] = 'Mottakerfeltet er ikke gyldig!';
 $PALANG['pCreate_alias_result_error'] = 'Klarte ikke legge til aliaset!';
 $PALANG['pCreate_alias_result_success'] = 'Aliaset er lagt til i alias-tabellen!';
 $PALANG['pCreate_alias_catchall_text'] = 'For å opprette et alias som "mottar alt" bruk "*" som alias.<br />For domene-til-domene videresending bruk "*@domene.tld" som mottaker.'; 
@@ -141,7 +141,7 @@ $PALANG['pCreate_mailbox_username_text_error3'] = 'Du er over grensen for antall
 $PALANG['pCreate_mailbox_password'] = 'Passord';
 $PALANG['pCreate_mailbox_password2'] = 'Passord (igjen)';
 $PALANG['pCreate_mailbox_password_text'] = 'Passord for POP3/IMAP';
-$PALANG['pCreate_mailbox_password_text_error'] = 'Passord for POP3/IMAP<br />Passordene er ikke like!<br />Eller feltet er tomt!'; $PALANG['pCreate_mailbox_name'] = 'Namn';
+$PALANG['pCreate_mailbox_password_text_error'] = 'Passordene er ikke like!<br />Eller feltet er tomt!'; $PALANG['pCreate_mailbox_name'] = 'Namn';
 $PALANG['pCreate_mailbox_name_text'] = 'Fornavn og etternavn';
 $PALANG['pCreate_mailbox_quota'] = 'Kvote';
 $PALANG['pCreate_mailbox_quota_text'] = 'MB';
@@ -305,8 +305,8 @@ $PALANG['pAdminEdit_domain_result_error'] = 'Klarte ikke å oppdatere domenet!';
 $PALANG['pAdminCreate_admin_welcome'] = 'Legg til ny domene-administrator';
 $PALANG['pAdminCreate_admin_username'] = 'Administrator';
 $PALANG['pAdminCreate_admin_username_text'] = 'E-postadresse';
-$PALANG['pAdminCreate_admin_username_text_error1'] = 'E-postadresse<br />Administrator er ikke gyldig adresse!';
-$PALANG['pAdminCreate_admin_username_text_error2'] = 'E-postadresse<br />Administratoren eksisterer eller er ikke gyldig'; $PALANG['pAdminCreate_admin_password'] = 'Passord';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrator er ikke gyldig adresse!';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'Administratoren eksisterer eller er ikke gyldig'; $PALANG['pAdminCreate_admin_password'] = 'Passord';
 $PALANG['pAdminCreate_admin_password2'] = 'Passord (igjen)';
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Passordene er ikke like!<br />Eller feltene er tomme!';
 $PALANG['pAdminCreate_admin_button'] = 'Legg til en administrator';
