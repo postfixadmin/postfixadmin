@@ -14,7 +14,7 @@
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pUsersVacation_activefrom}:</label></td>
-		<td><input class="flat" name="fActiveFrom" value="{$tActiveFrom}" readonly="readonly" style="background:#eee;" />
+		<td><input class="flat readonly" name="fActiveFrom" value="{$tActiveFrom}" readonly="readonly" />
 {literal}
 <script language="JavaScript" type="text/javascript">
 	new tcal ({
@@ -28,7 +28,7 @@
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pUsersVacation_activeuntil}:</label></td>
-		<td><input class="flat" name="fActiveUntil" value="{$tActiveUntil}" readonly="readonly" style="background:#eee;" />
+		<td><input class="flat readonly" name="fActiveUntil" value="{$tActiveUntil}" readonly="readonly" />
 {literal}
 <script language="JavaScript" type="text/javascript">
 	new tcal ({

@@ -38,6 +38,10 @@ input, .button, textarea {
 	font-size: 13px;
 }	
 
+.readonly {
+	background:#eee;
+}
+
 .button {
 	border: 1px solid #aaaaaa;
 	color: #777777;
