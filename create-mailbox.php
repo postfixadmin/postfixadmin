@@ -46,8 +46,6 @@ else {
 }
 
 
-$pCreate_mailbox_password_text = $PALANG['pCreate_mailbox_password_text'];
-$pCreate_mailbox_quota_text = $PALANG['pCreate_mailbox_quota_text'];
 $pCreate_mailbox_username_text_error = "";
 $pCreate_mailbox_password_text_error = "";
 $pCreate_mailbox_quota_text_error = "";
@@ -264,13 +262,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 $smarty->assign ('tUsername', $tUsername);
 $smarty->assign ('select_options', select_options ($list_domains, array ($tDomain)), false);
-$smarty->assign ('pCreate_mailbox_username_text', $pCreate_mailbox_username_text, false);
 $smarty->assign ('pCreate_mailbox_username_text_error', $pCreate_mailbox_username_text_error, false);
-$smarty->assign ('pCreate_mailbox_password_text', $pCreate_mailbox_password_text, false);
 $smarty->assign ('pCreate_mailbox_password_text_error', $pCreate_mailbox_password_text_error, false);
 $smarty->assign ('tName', $tName, false);
 $smarty->assign ('tQuota', $tQuota);
-$smarty->assign ('pCreate_mailbox_quota_text', $pCreate_mailbox_quota_text, false);
 $smarty->assign ('pCreate_mailbox_quota_text_error', $pCreate_mailbox_quota_text_error, false);
 $smarty->assign ('smarty_template', 'create-mailbox');
 $smarty->display ('index.tpl');

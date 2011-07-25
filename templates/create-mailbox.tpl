@@ -10,14 +10,13 @@
 		<td><input class="flat" type="text" name="fUsername" value="{$tUsername}"/></td>
 		<td>@
 		<select name="fDomain">{$select_options}</select>
-		{$pCreate_mailbox_username_text}
 		</td>
 		<td><span class="error_msg">{$pCreate_mailbox_username_text_error}</span></td>
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pCreate_mailbox_password}:</label></td>
 		<td><input class="flat" type="password" name="fPassword" /></td>
-		<td>{$pCreate_mailbox_password_text}</td>
+		<td>{$PALANG.pCreate_mailbox_password_text}</td>
 		<td><span class="error_msg">{$pCreate_mailbox_password_text_error}</span></td>
 	</tr>
 	<tr>
@@ -35,7 +34,7 @@
 	<tr>
 		<td class="label"><label>{$PALANG.pCreate_mailbox_quota}:</label></td>
 		<td><input class="flat" type="text" name="fQuota" value="{$tQuota}" /></td>
-		<td>{$pCreate_mailbox_quota_text}</td>
+		<td>{$PALANG.pCreate_mailbox_quota_text}</td>
 		<td><span class="error_msg">{$pCreate_mailbox_quota_text_error}</span></td>
 	</tr>
 {/if}

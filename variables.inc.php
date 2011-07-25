@@ -76,9 +76,6 @@ $tSubject = "";
 $tUsername = "";
 $tTransport = "";
 
-$pCreate_mailbox_password_text = "&nbsp;";
-$pCreate_mailbox_quota_text = "&nbsp;";
-$pCreate_mailbox_username_text = "&nbsp;";
 $pEdit_mailbox_password_text = "&nbsp;";
 $pEdit_mailbox_quota_text = "&nbsp;";
 
