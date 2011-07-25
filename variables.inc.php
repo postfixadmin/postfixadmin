@@ -76,8 +76,5 @@ $tSubject = "";
 $tUsername = "";
 $tTransport = "";
 
-$pEdit_mailbox_password_text = "&nbsp;";
-$pEdit_mailbox_quota_text = "&nbsp;";
-
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

@@ -14,7 +14,7 @@
 	<tr>
 		<td class="label"><label>{$PALANG.pEdit_mailbox_password}:</label></td>
 		<td><input class="flat" type="password" name="fPassword" /></td>
-		<td>{$pEdit_mailbox_password_text}</td>
+		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
@@ -33,7 +33,7 @@
 	<tr>
 		<td class="label"><label>{$PALANG.pEdit_mailbox_quota} (max: {$tMaxquota}):</label></td>
 		<td><input class="flat" type="text" name="fQuota" value="{$tQuota}" /></td>
-		<td>{$pEdit_mailbox_quota_text}</td>
+		<td>{$PALANG.pEdit_mailbox_quota_text}</td>
 		<td>{$pEdit_mailbox_quota_text_error}</td>
 	</tr>
 {/if}

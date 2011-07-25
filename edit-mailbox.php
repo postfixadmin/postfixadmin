@@ -46,7 +46,6 @@ $fUsername = strtolower ($fUsername);
 if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
 
 $pEdit_mailbox_name_text = $PALANG['pEdit_mailbox_name_text'];
-$pEdit_mailbox_quota_text = $PALANG['pEdit_mailbox_quota_text'];
 $pEdit_mailbox_quota_text_error = "";
 
 if (!(check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin')) )
@@ -175,12 +174,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 
 $smarty->assign ('fUsername', $fUsername);
-$smarty->assign ('pEdit_mailbox_password_text', $pEdit_mailbox_password_text, false);
 $smarty->assign ('tName', $tName, false);
 $smarty->assign ('pEdit_mailbox_name_text', $pEdit_mailbox_name_text,false);
 $smarty->assign ('tMaxquota', $tMaxquota);
 $smarty->assign ('tQuota', $tQuota);
-$smarty->assign ('pEdit_mailbox_quota_text', $pEdit_mailbox_quota_text);
 $smarty->assign ('pEdit_mailbox_quota_text_error', $pEdit_mailbox_quota_text_error);
 if ($tActive)	$smarty->assign ('tActive', ' checked="checked"');
 $smarty->assign ('smarty_template', 'edit-mailbox');
