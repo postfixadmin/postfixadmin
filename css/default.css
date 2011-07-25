@@ -83,7 +83,7 @@ ul.flash-error {
 	text-align: center;
 }
 
-#login_header, #login, #main_menu, #edit_form, #overview,
+#login_header, #login, #main_menu, #overview,
 #admin_domains, #admin_virtual, .nav_bar, #alias_domain_table,
 #alias_table, #mailbox_table, #overview_table, #log_table,
 #admin_table, #footer, .subnav {
@@ -133,7 +133,7 @@ ul.flash-error {
 	list-style: none;
 	text-align: center;
 	position:relative;
-	left:50%;
+	width:990px;
 	float:left;
 }
 
@@ -143,7 +143,6 @@ ul.flash-error {
 	margin-right: 3px;
 	border-top: 4px solid #aaaaaa;
 	position:relative;
-	right:50%;
 }
 
 #menu li:hover, #menu li.sfhover, #tabbar li:hover, #tabbar li.sfhover {
@@ -195,7 +194,7 @@ ul.flash-error {
 }
 
 #edit_form table {
-	margin: 0 auto;
+	margin: 0 50px;
 	padding-top: 10px;
 	text-align: left;
 }
@@ -218,7 +217,7 @@ ul.flash-error {
 }
 
 #main_menu table {
-	margin: 0 auto;
+	margin: 0 0;
 	text-align: left;
 	padding-top: 20px;
 	padding-bottom: 20px;
@@ -230,7 +229,6 @@ ul.flash-error {
 }
 
 #main_menu a {
-	color: #888888;
 	padding-left: 8px;
 }
 
@@ -240,12 +238,6 @@ ul.flash-error {
 	padding-left: 4px;
 	border-bottom: none;
 	border-left: 4px solid #333;
-}
-
-#overview {
-/*	background: #AFE1A6; /*#9ACD32;*/
-/*	border: 1px solid #bbb;
-*/
 }
 
 #overview h4, #overview P, #overview FORM, #admin_virtual h4, #admin_virtual P, #admin_virtual FORM {
