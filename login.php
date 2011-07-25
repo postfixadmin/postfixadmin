@@ -29,7 +29,6 @@
 
 require_once('common.php');
 
-# force user to delete setup.php (allows creation of superadmins!)
 if($CONF['configured'] !== true) {
     print "Installation not yet configured; please edit config.inc.php";
     exit;
