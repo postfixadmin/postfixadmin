@@ -116,7 +116,7 @@ if ($is_superadmin)
 }
 else
 {
-	$smarty->assign ('select_options', select_options ($list_domains, array ($_GET['domain'])));
+	$smarty->assign ('select_options', select_options($list_admins, array ($fUsername)), false);
 	$smarty->assign ('smarty_template', 'overview-get');
 }
 
