@@ -198,7 +198,8 @@ class MailboxHandler {
             {
                 # TODO: move "send the mail" to a function
                 $fTo = $username;
-                $fFrom = Config::read('admin_email');
+                $fFrom = smtp_get_admin_email();
+                if(empty($fFrom) || $fFrom == 'CLI') $fFrom = $this->username;
                 $fSubject = Lang::read('pSendmail_subject_text');
                 $fBody = Config::read('welcome_text');
 
