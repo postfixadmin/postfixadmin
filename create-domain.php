@@ -74,6 +74,9 @@ foreach($form_fields  as $key => $default) {
 
 $fDomain = strtolower($fDomain);
 
+$fDefaultaliases = "";
+$tDefaultaliases = "";
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
     /* default values as set above */

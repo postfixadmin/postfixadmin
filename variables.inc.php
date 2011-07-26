@@ -19,14 +19,12 @@
  */
 
 $error = "";
-$escaped_string = "";
 $quota = "";
 $vacation = "";
 $fActive = "";
 $fAddress = "";
 $fAliases = "";
 $fBackupmx = "";
-$fDefaultaliases = "";
 $fDelete = "";
 $fDescription = "";
 $fDomain = "";
@@ -55,13 +53,7 @@ $tAddress = "";
 $tAlias = "";
 $tAliases = "";
 $tBody = "";
-$tDefaultaliases = "";
 $tDescription = "";
-$tDisplay_back = "";
-$tDisplay_back_show = "";
-$tDisplay_up_show = "";
-$tDisplay_next = "";
-$tDisplay_next_show = "";
 $tDomain = "";
 $tDomains = "";
 $tFrom = "";

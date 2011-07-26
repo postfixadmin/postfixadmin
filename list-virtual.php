@@ -246,6 +246,12 @@ if ($result['rows'] > 0) {
 $tCanAddAlias = false;
 $tCanAddMailbox = false;
 
+$tDisplay_back = "";
+$tDisplay_back_show = "";
+$tDisplay_up_show = "";
+$tDisplay_next = "";
+$tDisplay_next_show = "";
+
 $limit = get_domain_properties($fDomain);
 if (isset ($limit)) {
     if ($fDisplay >= $page_size) {
