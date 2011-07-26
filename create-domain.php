@@ -48,12 +48,19 @@ $form_fields = array(
     'fMaxquota'       => array('type' => 'int', 'default' => $CONF['maxquota']),
     'fDomainquota'    => array('type' => 'int', 'default' => $CONF['domain_quota_default']),
     'fTransport'      => array('type' => 'str', 'default' => $CONF['transport_default'], 'options' => $CONF['transport_options']), 
-    'fDefaultaliases' => array('type' => 'str', 'default' => 'on', 'options' => array('on', 'off')), 
-    'fBackupmx'       => array('type' => 'str', 'default' => 'off', 'options' => array('on', 'off')) 
+    'fDefaultaliases' => array('type' => 'bool', 'default' => 'on', 'options' => array('on', 'off')), 
+    'fBackupmx'       => array('type' => 'bool', 'default' => 'off', 'options' => array('on', 'off')) 
 );
 
+$fDefaultaliases = "";
+$tDefaultaliases = "";
+
+# TODO: this foreach block should only be executed for POST
 foreach($form_fields  as $key => $default) {
-    if(isset($_POST[$key]) && (strlen($_POST[$key]) > 0)) {
+    if($default['type'] == 'bool' && $_SERVER['REQUEST_METHOD'] == "POST") {
+        $$key = escape_string(safepost($key, 'off')); # isset for unchecked checkboxes is always false
+    } 
+    elseif (isset($_POST[$key]) && (strlen($_POST[$key]) > 0)) {
         $$key = escape_string($_POST[$key]);
     }
     else {
@@ -73,9 +80,6 @@ foreach($form_fields  as $key => $default) {
 }
 
 $fDomain = strtolower($fDomain);
-
-$fDefaultaliases = "";
-$tDefaultaliases = "";
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
@@ -130,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $result = db_query($sql_query);
         if ($result['rows'] != 1)
         {
-            $pAdminCreate_domain_domain_text_error = $PALANG['pAdminCreate_domain_result_error'] . "<br />($fDomain)<br />";
+            $pAdminCreate_domain_domain_text_error = $PALANG['pAdminCreate_domain_result_error'] . "<br />($fDomain)"; # TODO: remove a sprintf string
         }
         else
         {
@@ -142,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                     $result = db_query ("INSERT INTO $table_alias (address,goto,domain,created,modified) VALUES ('$address','$goto','$fDomain',NOW(),NOW())");
                 }
             }
-            flash_info($PALANG['pAdminCreate_domain_result_success'] . "<br />($fDomain)</br />");
+            flash_info($PALANG['pAdminCreate_domain_result_success'] . "<br />($fDomain)"); # TODO: use a sprintf string
         }
         if (!domain_postcreation($fDomain))
         {
