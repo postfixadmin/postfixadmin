@@ -27,7 +27,7 @@
 	<tr>
 		<td class="label">&nbsp;</td>
 		<td>
-			<input class="button" type="submit" name="submit" value="{$PALANG.pPassword_button}" /></td>
+			<input class="button" type="submit" name="submit" value="{$PALANG.pPassword_button}" />
 			{if $authentication_has_role.user}
 				<input class="button" type="submit" name="fCancel" value="{$PALANG.exit}" />
 			{/if}
