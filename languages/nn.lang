@@ -134,17 +134,17 @@ $PALANG['pEdit_alias_button'] = 'Endre Alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = 'Kan ikke endre Aliaset!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Opprett en ny epostkonto.';
-$PALANG['pCreate_mailbox_username'] = 'Brukernavn';
+$PALANG['pCreate_mailbox_username'] = 'Brukernavn'; # obsolete
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-postadressen er ugyldig!';
 $PALANG['pCreate_mailbox_username_text_error2'] = 'E-postadressen eksisterer allerede, velg en annen!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Du er over grensen for antall e-postkontoer!';
 $PALANG['pCreate_mailbox_password'] = 'Passord';
 $PALANG['pCreate_mailbox_password2'] = 'Passord (igjen)';
 $PALANG['pCreate_mailbox_password_text'] = 'Passord for POP3/IMAP';
-$PALANG['pCreate_mailbox_password_text_error'] = 'Passordene er ikke like! Eller feltet er tomt!'; $PALANG['pCreate_mailbox_name'] = 'Namn'; # XXX check/beautify - was split in two lines before
+$PALANG['pCreate_mailbox_password_text_error'] = 'Passordene er ikke like! Eller feltet er tomt!'; $PALANG['pCreate_mailbox_name'] = 'Namn'; # XXX check/beautify - was split in two lines before # obsolete
 $PALANG['pCreate_mailbox_name_text'] = 'Fornavn og etternavn';
-$PALANG['pCreate_mailbox_quota'] = 'Kvote';
-$PALANG['pCreate_mailbox_quota_text'] = 'MB';
+$PALANG['pCreate_mailbox_quota'] = 'Kvote'; # obsolete
+$PALANG['pCreate_mailbox_quota_text'] = 'MB'; # obsolete
 $PALANG['pCreate_mailbox_quota_text_error'] = 'Den ønskede kvoten er for høy!';
 $PALANG['pCreate_mailbox_active'] = 'Aktiv';
 $PALANG['pCreate_mailbox_mail'] = 'Opprett epostkonto';
@@ -159,8 +159,8 @@ $PALANG['pEdit_mailbox_username_error'] = 'Fant ikke e-postkontoen!'; # obsolete
 $PALANG['pEdit_mailbox_password'] = 'Nytt passord';
 $PALANG['pEdit_mailbox_password2'] = 'Nytt passord (igjen)';
 $PALANG['pEdit_mailbox_password_text_error'] = 'Passordene er ikke like!';
-$PALANG['pEdit_mailbox_name'] = 'Navn';
-$PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX
+$PALANG['pEdit_mailbox_name'] = 'Navn'; # XXX check / compare with pCreate_mailbox_name - should be ""
+$PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX # obsolete
 $PALANG['pEdit_mailbox_quota'] = 'Kvote';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Kvoten er for høy!';
