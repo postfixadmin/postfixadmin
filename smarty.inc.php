@@ -66,16 +66,6 @@ $smarty->assign ('version', $version);
 $smarty->assign ('boolconf_alias_domain', boolconf('alias_domain'));
 $smarty->assign ('authentication_has_role', array ('global_admin' => authentication_has_role ('global-admin'), 'admin' => authentication_has_role ('admin'), 'user' => authentication_has_role ('user')));
 
-if (authentication_has_role('global-admin')) {
-    $motd_file = "motd-admin.txt";
-} else {
-    $motd_file = "motd.txt";
-}
-$smarty->assign('motd_file', '');
-if (file_exists ($incpath.'/templates/'.$motd_file)) {
-    $smarty->assign ('motd_file', $motd_file);
-}
-
 function select_options($aValues, $aSelected) {
     $ret_val = '';
     foreach ($aValues as $val) {

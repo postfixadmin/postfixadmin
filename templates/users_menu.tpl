@@ -9,12 +9,3 @@
 	<li class="logout"><a target="_top" href="{#url_user_logout#}">{$PALANG.pMenu_logout}</a></li>
 </ul>
 </div>
-<br clear="all"/><br/>
-{php}
-if (file_exists (realpath ("../motd-users.txt"))) 
-{
-   print "<div id=\"motd\">\n";
-   include ("../motd-users.txt");
-   print "</div>";
-}
-{/php}

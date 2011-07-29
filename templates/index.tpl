@@ -9,6 +9,16 @@
 		{include file='menu.tpl'}
 	{/if}
 {/if}
+<br clear="all" />
+
+{if $authentication_has_role.user && $CONF.motd_user}
+	<div id="motd">{$CONF.motd_user}</div>
+{elseif $authentication_has_role.global_admin && $CONF.motd_superadmin}
+	<div id="motd">{$CONF.motd_superadmin}</div>
+{elseif $authentication_has_role.admin && $CONF.motd_admin}
+	<div id="motd">{$CONF.motd_admin}</div>
+{/if}
+
 {include file='flash_error.tpl'}
 {if $smarty_template}
 	{include file="$smarty_template.tpl"}

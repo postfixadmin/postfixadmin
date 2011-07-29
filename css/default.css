@@ -81,6 +81,11 @@ ul.flash-error {
 	color: #d01313;
 }
 
+#motd {
+	color: maroon;
+	padding-top:2em;
+}
+
 .standout {
 	color: maroon;
 	padding: 3px 3px 3px 3px;

@@ -286,6 +286,13 @@ $CONF['show_footer_text'] = 'YES';
 $CONF['footer_text'] = 'Return to change-this-to-your.domain.tld';
 $CONF['footer_link'] = 'http://change-this-to-your.domain.tld';
 
+// MOTD ("Motto of the day")
+// You can display a MOTD below the menu on all pages.
+// This can be configured seperately for users, domain admins and superadmins
+$CONF['motd_user'] = '';
+$CONF['motd_admin'] = '';
+$CONF['motd_superadmin'] = '';
+
 // Welcome Message
 // This message is send to every newly created mailbox.
 // Change the text between EOM.

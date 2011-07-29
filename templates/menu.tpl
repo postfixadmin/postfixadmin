@@ -81,11 +81,6 @@
 	<li class="logout"><a target="_top" href="{#url_logout#}">{$PALANG.pMenu_logout}</a></li>
 </ul>
 </div>
-{if !empty($motd_file)}
-	<div id="motd">
-	{include file=$motd_file}
-	</div>
-{/if}
 {literal}
 <script type='text/javascript'>
 // <![CDATA[
