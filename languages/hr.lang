@@ -20,10 +20,10 @@ $PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Administratori prijavite se ovdje.';
-$PALANG['pLogin_username'] = 'Korisničko ime (adresa e-pote)';
+$PALANG['pLogin_username'] = 'Korisničko ime (adresa e-pote)'; # XXX compare with pUsersLogin_username - should be "Login (email)"
 $PALANG['pLogin_password'] = 'Lozinka';
 $PALANG['pLogin_language'] = 'Language'; # XXX
-$PALANG['pLogin_button'] = 'Prijavi';
+$PALANG['pLogin_button'] = 'Prijavi'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Korisnici kliknite ovdje za prijavu u korisničku sekciju.';
 
@@ -328,10 +328,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Administratora nije bilo moguće pro
 $PALANG['pAdminEdit_admin_result_success'] = 'Admininstrator je uspjeno promjenjen!';
 
 $PALANG['pUsersLogin_welcome'] = 'Korisnici potanskih ormarića ukoliko elite promjeniti lozinku ili aliase.';
-$PALANG['pUsersLogin_username'] = 'Prijava (adresa e-pote)';
-$PALANG['pUsersLogin_password'] = 'Lozinka';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Prijava';
+$PALANG['pUsersLogin_username'] = 'Prijava (adresa e-pote)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Lozinka'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Prijava'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Korisničko ime nije pravilno! Morate upotrijebiti adresu vae e-pote!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Lozinka nije pravilna!';
 

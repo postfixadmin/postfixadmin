@@ -29,17 +29,9 @@
 
 require_once("../common.php");
 
-$smarty->assign ('language_selector', language_selector(), false);
-
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
-	$smarty->assign ('smarty_template', 'users_login');
-	$smarty->display ('index.tpl');
-}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-
    $lang = safepost('lang');
 
    if ( $lang != check_language(0) ) { # only set cookie if language selection was changed
@@ -62,11 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    else {   
          $error = 1;
          flash_error($PALANG['pLogin_failed']);;
-         $tUsername = $fUsername;
    }
-	$smarty->assign ('tUsername', $tUsername);
-	$smarty->assign ('smarty_template', 'users_login');
-	$smarty->display ('index.tpl');
 }
+
+$smarty->assign ('language_selector', language_selector(), false);
+$smarty->assign ('smarty_template', 'login');
+$smarty->assign ('logintype', 'user');
+$smarty->display ('index.tpl');
+
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

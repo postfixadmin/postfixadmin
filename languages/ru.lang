@@ -24,7 +24,7 @@ $PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Вошли как %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Вход для администрирования почтовых ящиков.';
-$PALANG['pLogin_username'] = 'Имя (адрес e-mail)';
+$PALANG['pLogin_username'] = 'Имя (адрес e-mail)'; # XXX compare with pUsersLogin_username - should be "Login (email)"
 $PALANG['pLogin_password'] = 'Пароль';
 $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Войти';
@@ -337,10 +337,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Невозможно изменит�
 $PALANG['pAdminEdit_admin_result_success'] = 'Администратор был изменен!';
 
 $PALANG['pUsersLogin_welcome'] = 'Вход пользователей для изменения паролей и алиасов.';
-$PALANG['pUsersLogin_username'] = 'Имя (адрес)';
-$PALANG['pUsersLogin_password'] = 'Пароль';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Войти';
+$PALANG['pUsersLogin_username'] = 'Имя (адрес)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Пароль'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Войти'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Введено неправильное имя. Проверьте, что вы ввели свой адрес электронной почты!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Введен неверный пароль!';
 

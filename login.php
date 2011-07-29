@@ -34,13 +34,6 @@ if($CONF['configured'] !== true) {
     exit;
 }
 
-$smarty->assign ('language_selector', language_selector(), false);
-
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
-    $smarty->assign ('smarty_template', 'login');
-    $smarty->display ('index.tpl');
-}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
@@ -92,10 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         header("Location: main.php");
         exit(0);
     }
-
-    $smarty->assign ('smarty_template', 'login');
-    $smarty->display ('index.tpl');
 }
+
+$smarty->assign ('language_selector', language_selector(), false);
+$smarty->assign ('logintype', 'admin');
+$smarty->assign ('smarty_template', 'login');
+$smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

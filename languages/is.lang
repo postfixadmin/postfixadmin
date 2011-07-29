@@ -21,10 +21,10 @@ $PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Póst kerfisstjóri tengist hér til að viðhalda póstkerfi lénsins þins.';
-$PALANG['pLogin_username'] = 'Auðkenni(email)';
+$PALANG['pLogin_username'] = 'Auðkenni(email)'; # XXX compare with pUsersLogin_username - should be "Login (email)"
 $PALANG['pLogin_password'] = 'Lykilorð';
 $PALANG['pLogin_language'] = 'Language'; # XXX
-$PALANG['pLogin_button'] = 'Tengjast';
+$PALANG['pLogin_button'] = 'Tengjast'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Notendur smellið hér til að opna almennt notendaviðmót.';
 
@@ -328,10 +328,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Get ekki breytt kerfisstjóra!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Kerfisstjórinn hefur verið breyttur!';
 
 $PALANG['pUsersLogin_welcome'] = 'Pósthólf notenda til að tengjast svo hægt er að breyta lykilorði eða alias.';
-$PALANG['pUsersLogin_username'] = 'Innskrá (email)';
-$PALANG['pUsersLogin_password'] = 'Lykilorð';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Innskrá';
+$PALANG['pUsersLogin_username'] = 'Innskrá (email)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Lykilorð'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Innskrá'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Innskráning þín er röng, gaktu úr skugga um að þú tengist með réttu póstfangi (email address)!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Lykilorð þitt er rangt!';
 

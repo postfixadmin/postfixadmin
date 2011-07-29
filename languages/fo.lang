@@ -329,10 +329,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Fái ikki broytt umsitara!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Umsitari er broyttur!';
 
 $PALANG['pUsersLogin_welcome'] = 'Postkassa brúkarar loggi inn fyri at broyta loyniorð, víðarisending ella frítíðarboð.';
-$PALANG['pUsersLogin_username'] = 'Login (e-post)';
-$PALANG['pUsersLogin_password'] = 'Loyniorð';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Logga inn';
+$PALANG['pUsersLogin_username'] = 'Login (e-post)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Loyniorð'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Logga inn'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Títt login er skeivt. Minst til at logga inn við tíni e-post adressu!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Títt loyniorð er skeivt!';
 

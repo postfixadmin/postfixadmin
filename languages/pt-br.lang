@@ -337,10 +337,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Não foi possível editar o administ
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrador editado!';
 
 $PALANG['pUsersLogin_welcome'] = 'Usuários devem se autenticar aqui para troca de senha e configuração de redirecionamento de mensagens.';
-$PALANG['pUsersLogin_username'] = 'Usuário (email)';
-$PALANG['pUsersLogin_password'] = 'Senha';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Entrar';
+$PALANG['pUsersLogin_username'] = 'Usuário (email)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Senha'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Entrar'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Usuário inválido. Certifique-se de ter digitado o email corretamente!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Senha inválida!';
 

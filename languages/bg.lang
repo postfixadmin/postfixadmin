@@ -25,7 +25,7 @@ $PALANG['pLogin_welcome'] = 'Администратора може да се л�
 $PALANG['pLogin_username'] = 'Логин (е-мейл)';
 $PALANG['pLogin_password'] = 'Парола';
 $PALANG['pLogin_language'] = 'Language'; # XXX
-$PALANG['pLogin_button'] = 'Изход';
+$PALANG['pLogin_button'] = 'Изход'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Ако сте потребител натиснете тук за логване в потребителската част.';
 
@@ -330,10 +330,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Не мога да модифици�
 $PALANG['pAdminEdit_admin_result_success'] = 'Админ-а беше модифициран!';
 
 $PALANG['pUsersLogin_welcome'] = 'Потребителски вход за смяна на парола и alias-и.';
-$PALANG['pUsersLogin_username'] = 'Логин (е-мейл)';
-$PALANG['pUsersLogin_password'] = 'Парола';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Вход';
+$PALANG['pUsersLogin_username'] = 'Логин (е-мейл)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Парола'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Вход'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Вашият логин не е правилен. Моля проверете за коректност на вашият е-мейл адрес!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Вашата парола не е правилна!';
 

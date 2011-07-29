@@ -328,10 +328,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Administratoriaus keisti nepavyko!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administratorius pakeistas!';
 
 $PALANG['pUsersLogin_welcome'] = 'Pašto vartotojai prisijungia ir keičia Mailbox users login to change your password and aliases.';
-$PALANG['pUsersLogin_username'] = 'Vartotojas (el.paštas)';
-$PALANG['pUsersLogin_password'] = 'Slaptažodis';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Prisijungti';
+$PALANG['pUsersLogin_username'] = 'Vartotojas (el.paštas)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Slaptažodis'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Prisijungti'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Prisijungti nepavyko. Įsitikinkite, kad gerai įvedėte savo el.pašto adresą!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Slaptažodis neteisingas!';
 

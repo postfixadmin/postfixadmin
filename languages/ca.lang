@@ -21,10 +21,10 @@ $PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Login d\'administrador per l\'administració de dominis.';
-$PALANG['pLogin_username'] = 'Usuari (e-mail)';
+$PALANG['pLogin_username'] = 'Usuari (e-mail)'; # XXX compare with pUsersLogin_username - should be "Login (email)"
 $PALANG['pLogin_password'] = 'Contrasenya';
 $PALANG['pLogin_language'] = 'Language'; # XXX
-$PALANG['pLogin_button'] = 'Usuari';
+$PALANG['pLogin_button'] = 'Usuari'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Login per anar a la secció d\'usuaris.';
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -329,10 +329,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Imposible modificar l\'administrador
 $PALANG['pAdminEdit_admin_result_success'] = 'L\'administrador ha estat modificat!';
 
 $PALANG['pUsersLogin_welcome'] = 'Login d\'usuaris per canviar la contrasenya i els àlies.';
-$PALANG['pUsersLogin_username'] = 'Login (e-mail)';
-$PALANG['pUsersLogin_password'] = 'Contrasenya';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Login';
+$PALANG['pUsersLogin_username'] = 'Login (e-mail)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Contrasenya'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Login'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'El seu login no és correcte. Asseguri\'s d\'haver introduït la seva adreça d\'e-mail com a login!';
 $PALANG['pUsersLogin_password_incorrect'] = 'La seva contrasenya no és correcta!';
 

@@ -26,7 +26,7 @@ $PALANG['pLogin_welcome'] = 'Postadministrator: Log ind for at administrere dine
 $PALANG['pLogin_username'] = 'Brugernavn (email)';
 $PALANG['pLogin_password'] = 'Adgangskode';
 $PALANG['pLogin_language'] = 'Language'; # XXX
-$PALANG['pLogin_button'] = 'Login';
+$PALANG['pLogin_button'] = 'Login'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Bruger: Log ind på brugersektionen her.';
 
@@ -336,10 +336,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Kan ikke rette administrator!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrator er rettet!';
 
 $PALANG['pUsersLogin_welcome'] = 'Postboksbruger: Login for at ændre adgangskode og videresending.';
-$PALANG['pUsersLogin_username'] = 'Brugernavn (email)';
-$PALANG['pUsersLogin_password'] = 'Adgangskode';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Log ind';
+$PALANG['pUsersLogin_username'] = 'Brugernavn (email)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Adgangskode'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Log ind'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Dit brugernavn er forkert. Tjek at du bruger din emailadresse som brugernavn!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Din adgangskode er ikke korrekt!';
 

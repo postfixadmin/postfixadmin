@@ -21,7 +21,7 @@ $PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = '郵件管理員請從這裡登錄以管理你的網域名.';
-$PALANG['pLogin_username'] = '帳號 (郵件地址)';
+$PALANG['pLogin_username'] = '帳號 (郵件地址)'; # XXX compare with pUsersLogin_username - should be "Login (email)"
 $PALANG['pLogin_password'] = '密碼';
 $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = '登錄';
@@ -329,10 +329,10 @@ $PALANG['pAdminEdit_admin_result_error'] = '編輯網域管理員失敗!';
 $PALANG['pAdminEdit_admin_result_success'] = '編輯網域管理員成功!';
 
 $PALANG['pUsersLogin_welcome'] = '郵件用戶從這裡登錄管理你的密碼和別名.';
-$PALANG['pUsersLogin_username'] = '帳號 (郵箱地址)';
-$PALANG['pUsersLogin_password'] = '密碼';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = '登錄';
+$PALANG['pUsersLogin_username'] = '帳號 (郵箱地址)'; # obsolete
+$PALANG['pUsersLogin_password'] = '密碼'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = '登錄'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = '登錄失敗. 請確認你是使用你的郵箱地址登錄!';
 $PALANG['pUsersLogin_password_incorrect'] = '登錄密碼不正確!';
 

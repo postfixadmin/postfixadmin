@@ -23,7 +23,7 @@ $PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Inloggad som %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Mail administratörer loggar in här för att sköta er domän.';
-$PALANG['pLogin_username'] = 'Login (epost)';
+$PALANG['pLogin_username'] = 'Login (epost)'; # XXX compare with pUsersLogin_username - should be "Login (email)"
 $PALANG['pLogin_password'] = 'Lösenord';
 $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Login';
@@ -331,10 +331,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Kan inte ändra admin!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin har ändrats!';
 
 $PALANG['pUsersLogin_welcome'] = 'Mailbox användare logga in här för att ändra ert lösenord och alias.';
-$PALANG['pUsersLogin_username'] = 'Login (epostadress)';
-$PALANG['pUsersLogin_password'] = 'Lösenord';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Login';
+$PALANG['pUsersLogin_username'] = 'Login (epostadress)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Lösenord'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Login'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Ditt login är felaktigt. Logga in med din epostadress!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Ditt lösenord är felaktigt!';
 

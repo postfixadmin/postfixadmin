@@ -21,10 +21,10 @@ $PALANG['all'] = 'All'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Kudeatzailearen logina domeinuak kudeatzeko.';
-$PALANG['pLogin_username'] = 'Erabiltzailea (e-mail)';
+$PALANG['pLogin_username'] = 'Erabiltzailea (e-mail)'; # XXX compare with pUsersLogin_username - should be "Login (email)"
 $PALANG['pLogin_password'] = 'Pasahitza';
 $PALANG['pLogin_language'] = 'Language'; # XXX
-$PALANG['pLogin_button'] = 'Erabiltzailea';
+$PALANG['pLogin_button'] = 'Erabiltzailea'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Erabiltzaileen gunera joateko logina.';
 $PALANG['pMenu_main'] = 'Main'; # XXX
@@ -328,10 +328,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Ezinezkoa kudeatzailea aldatzea!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Kudeatzailea aldatu da!';
 
 $PALANG['pUsersLogin_welcome'] = 'Erabiltzaileen logina pasahitz eta aliasa aldatzeko.';
-$PALANG['pUsersLogin_username'] = 'Login (e-mail)';
-$PALANG['pUsersLogin_password'] = 'Pasahitza';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Login';
+$PALANG['pUsersLogin_username'] = 'Login (e-mail)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Pasahitza'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Login'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Login okerra. Ziurta zaitez posta helbidea login gisa sartu duzula!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Pasahitz okerra!';
 

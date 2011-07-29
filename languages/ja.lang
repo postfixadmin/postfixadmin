@@ -335,10 +335,10 @@ $PALANG['pAdminEdit_admin_result_error'] = '管理者を修正できません！
 $PALANG['pAdminEdit_admin_result_success'] = '管理者を修正しました。';
 
 $PALANG['pUsersLogin_welcome'] = 'あなたのパスワードと転送先が変更できます。';
-$PALANG['pUsersLogin_username'] = 'ログイン (メールアドレス)';
-$PALANG['pUsersLogin_password'] = 'パスワード';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'ログイン';
+$PALANG['pUsersLogin_username'] = 'ログイン (メールアドレス)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'パスワード'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'ログイン'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'ログインが違います。正しいメールアドレスを入力してください。';
 $PALANG['pUsersLogin_password_incorrect'] = 'パスワードが違います。';
 

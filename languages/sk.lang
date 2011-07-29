@@ -330,10 +330,10 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Nepodarilo sa upraviť administráto
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrátor bol upravený!';
 
 $PALANG['pUsersLogin_welcome'] = 'Prihlásenie užívateľov pre zmenu hesla alebo presmerovanie';
-$PALANG['pUsersLogin_username'] = 'Užívateľské meno (email)';
-$PALANG['pUsersLogin_password'] = 'Heslo';
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX
-$PALANG['pUsersLogin_button'] = 'Prihlásiť';
+$PALANG['pUsersLogin_username'] = 'Užívateľské meno (email)'; # obsolete
+$PALANG['pUsersLogin_password'] = 'Heslo'; # obsolete
+$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
+$PALANG['pUsersLogin_button'] = 'Prihlásiť'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Nesprávné užívateľské meno. Prihlasujte sa svojou emailovou adresou!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Nesprávne heslo!';
 
