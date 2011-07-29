@@ -7,7 +7,7 @@
 	<tr>
 		<td class="label"><label>{$PALANG.pEdit_mailbox_username}:</label></td>
 		<td><em>{$fUsername}</em></td>
-		<td>{$pEdit_mailbox_username_text}</td>
+		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>

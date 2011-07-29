@@ -46,6 +46,7 @@ $fUsername = strtolower ($fUsername);
 if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
 
 $pEdit_mailbox_quota_text_error = "";
+$mailbox_password_text_error = "";
 
 if (!(check_owner ($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin')) )
 {
