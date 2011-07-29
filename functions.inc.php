@@ -392,6 +392,37 @@ function safecookie ($param, $default="") {
     return $retval;
 }
 
+/**
+ * pacol
+ * @param int $allow_editing
+ * @param int $display_in_form
+ * @param int display_in_list
+ * @param String $type
+ * @param String PALANG_label
+ * @param String PALANG_desc
+ * @param any optional $default
+ * @param array optional $options
+ * @param int $not_in_db
+ * @return array for $struct
+ */
+function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $not_in_db=0) {
+    global $PALANG;
+
+    if ($PALANG_label != '') $PALANG_label = $PALANG[$PALANG_label];
+    if ($PALANG_desc  != '') $PALANG_desc  = $PALANG[$PALANG_desc ];
+
+    return array(
+        'editable'          => $allow_editing,
+        'display_in_form'   => $display_in_form,
+        'display_in_list'   => $display_in_list,
+        'type'              => $type,
+        'label'             => $PALANG_label,   # $PALANG field label
+        'desc'              => $PALANG_desc,    # $PALANG field description
+        'default'           => $default,
+        'options'           => $options,
+        'not_in_db'         => $not_in_db,
+    );
+}
 
 //
 // get_domain_properties

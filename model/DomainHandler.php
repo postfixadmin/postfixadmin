@@ -9,7 +9,6 @@ class DomainHandler extends PFAHandler {
     protected $username = null; # actually it's the domain - variable name kept for consistence with the other classes
     protected $id_field = null;
     protected $struct = array();
-    protected $defaults = array();
     protected $new = 0; # 1 on create, otherwise 0
 
     public $errormsg = array();
@@ -28,36 +27,32 @@ class DomainHandler extends PFAHandler {
     private function initStruct() {
         $this->id_field = 'domain';
 
-        # TODO: merge $struct and $defaults to one array?
-        # TODO: use a helper function to fill $struct with named keys instead of [0], [1], ...
-        # TODO: find a way to handle field labels - not sure if the fetchmail way (construct $LANG keys from field name) is perfect
+        # TODO: shorter PALANG labels ;-)
+        # TODO: hardcode 'default' to Config::read in pacol()?
+
+        $transp = boolconf('transport')     ? 1 : 0; # TOOD: use a function or write a Config::intbool function
+        $quota  = boolconf('maxquota')      ? 1 : 0; # TOOD: use a function or write a Config::intbool function
+        $dom_q  = boolconf('domain_quota')  ? 1 : 0; # TOOD: use a function or write a Config::intbool function
 
         $this->struct=array(
-            # field name                allow       display in...   type
+            # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / not in database
             #                           editing?    form    list
-           "domain"          => array(  $this->new, 1,      1,      'text'      ),
-           "description"     => array(  1,          1,      1,      'text'      ),
-           "aliases"         => array(  1,          1,      1,      'num'       ),
-           "mailboxes"       => array(  1,          1,      1,      'num'       ),
-           "maxquota"        => array(  1,          1,      1,      'num'       ),
-           "quota"           => array(  1,          1,      1,      'num'       ),
-           "transport"       => array(  1,          1,      1,      'enum'      ),
-           "backupmx"        => array(  1,          1,      1,      'bool'      ),
-           "active"          => array(  1,          1,      1,      'bool'      ),
-           "created"         => array(  0,          0,      1,      'text'      ),
-           "modified"        => array(  0,          0,      1,      'text'      ),
+           "domain"          => pacol(  $this->new, 1,      1,      'text', 'pAdminEdit_domain_domain'     , ''                                 ),
+           "description"     => pacol(  1,          1,      1,      'text', 'pAdminEdit_domain_description', ''                                 ),
+           "aliases"         => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_aliases'    , 'pAdminEdit_domain_aliases_text'   , Config::read('aliases')   ),
+           "mailboxes"       => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_mailboxes'  , 'pAdminEdit_domain_mailboxes_text' , Config::read('mailboxes') ),
+           "maxquota"        => pacol(  $quota,     $quota, $quota, 'num' , 'pAdminEdit_domain_maxquota'   , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')  ),
+           "quota"           => pacol(  $dom_q,     $dom_q, $dom_q, 'num' , 'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
+           "transport"       => pacol(  $transp,    $transp,$transp,'enum', 'pAdminEdit_domain_transport'  , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
+                                                                                                                                /*options*/ $this->getTransports()     ),
+           "backupmx"        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 ),
+           "active"          => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 ),
+           "defaultaliases"  => pacol(  $this->new, 1,      0,      'bool', 'pAdminCreate_domain_defaultaliases ', ''                           , '','', /*not in db*/ 1    ),
+           "created"         => pacol(  0,          0,      1,      'text', ''                             , ''                                 ), # TODO: type = date?
+                                                                                                # TODO (or "ctime/mtime" so that "date" can be used for vacation start/end date)
+           "modified"        => pacol(  0,          0,      1,      'text', 'pAdminList_domain_modified'   , ''                                 ), # TODO: type = date?
         );
-        # labels and descriptions are taken from $PALANG['pFetchmail_field_xxx'] and $PALANG['pFetchmail_desc_xxx']
 
-        $this->defaults=array(
-            'aliases'   => Config::read('aliases'),
-            'mailboxes' => Config::read('mailboxes'),
-            'maxquota'  => Config::read('maxquota'),
-            'quota'     => Config::read('domain_quota_default'),
-            'transport' => $this->getTransports(),
-            'backupmx'  => 0,
-            'active'    => 1,
-        );
     }
 
     public function getTransports() {
@@ -81,11 +76,13 @@ class DomainHandler extends PFAHandler {
         # base validation
         $checked = array();
         foreach($this->struct as $key=>$row) {
-            list($editable, $displayform, $displaylist, $type) = $row;
-            if ($editable != 0){
-                $func="_inp_".$type;
-                $val=safepost($key);
-                if ($type!="password" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
+#            list($editable, $displayform, $displaylist, $type) = $row;
+            if ($row['editable'] == 0){ # not editable
+                # TODO: fill with defaults if $this->new != 0
+            } else { 
+                $func="_inp_".$row['type'];
+                $val=safepost($key); # TODO: use $values instead of $_POST
+                if ($row['type'] != "password" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
                     if (method_exists($this, $func) ) {
                         $checked[$key] = $this->{$func}($values[$key]);
                     } else {
@@ -114,12 +111,13 @@ class DomainHandler extends PFAHandler {
                         'domain' => $this->username,
                     );
                     $result = db_insert ('alias', $arr);
+                    # TODO: error checking
                 }
             }
-            $tMessage = Lang::read('pAdminCreate_domain_result_success') . "<br />(" . $this->username . ")</br />";
+            $tMessage = Lang::read('pAdminCreate_domain_result_success') . "<br />(" . $this->username . ")</br />"; # TODO: remove <br> # TODO: tMessage is not used/returned anywhere
         }
         if (!domain_postcreation($this->username)) {
-            $tMessage = Lang::read('pAdminCreate_domain_error');
+            $tMessage = Lang::read('pAdminCreate_domain_error'); # TODO: tMessage is not used/returned anywhere
         }
         db_log ($this->username, 'create_domain', "");
         return true;
