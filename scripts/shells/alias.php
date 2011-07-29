@@ -122,11 +122,11 @@ class AddTask extends Shell {
  */
         function help() {
                 $this->hr();
-                $this->out("Usage: postfixadmin-cli user add <address> [<password>] <name> <quota> [-g]");
+                $this->out("Usage: postfixadmin-cli alias add <address> <goto>");
                 $this->hr();
                 $this->out('Commands:');
-                $this->out("\n\tadd\n\t\tAdds mailbox in interactive mode.");
-                $this->out("\n\tadd <address> [<password>] [-g] <name> <quota>\n\t\tAdds mailbox for <address> with password <password> of if -g with rand pw. <quota> in MB.");
+                $this->out("\n\tadd\n\t\tAdds alias in interactive mode.");
+                $this->out("\n\tadd <address> <goto>\n\t\tAdds an alias <address> -> <goto>\n\t\t<goto> accepts multiple addresses as comma-separated list.");
                 $this->out("");
                 $this->_stop();
         }
