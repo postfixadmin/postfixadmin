@@ -1,5 +1,5 @@
 <div id="edit_form">
-<form name="mailbox" method="post" action="">
+<form name="password" method="post" action="">
 <table>
 	<tr>
 		<th colspan="3">{$PALANG.pPassword_welcome}</th>
@@ -26,7 +26,11 @@
 	</tr>
 	<tr>
 		<td class="label">&nbsp;</td>
-		<td><input class="button" type="submit" name="submit" value="{$PALANG.pPassword_button}" /></td>
+		<td>
+			<input class="button" type="submit" name="submit" value="{$PALANG.pPassword_button}" /></td>
+			{if $authentication_has_role.user}
+				<input class="button" type="submit" name="fCancel" value="{$PALANG.exit}" />
+			{/if}
 		<td>&nbsp;</td>
 	</tr>
 </table>

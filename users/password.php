@@ -14,7 +14,7 @@
  * 
  * File: password.php
  * Used by users to change their mailbox (and login) password.
- * Template File: users_password.php
+ * Template File: password.tpl
  *
  * Template Variables:
  *
@@ -76,11 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
-$smarty->assign ('USERID_USERNAME', $username);
+$smarty->assign ('SESSID_USERNAME', $username);
 $smarty->assign ('pPassword_password_current_text', $pPassword_password_current_text, false);
 $smarty->assign ('pPassword_password_text', $pPassword_password_text, false);
 
-$smarty->assign ('smarty_template', 'users_password');
+$smarty->assign ('smarty_template', 'password');
 $smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
