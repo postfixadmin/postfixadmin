@@ -273,21 +273,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Naposledy Změněno';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktivní';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Přidat Novou Doménu';
-$PALANG['pAdminCreate_domain_domain'] = 'Doména';
+$PALANG['pAdminCreate_domain_domain'] = 'Doména'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Taková doména už existuje!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Taková doména není platná!';
-$PALANG['pAdminCreate_domain_description'] = 'Popis';
-$PALANG['pAdminCreate_domain_aliases'] = 'Přesměrování';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = znepřístupnit | 0 = neomezeně';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Schránek';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = znepřístupnit | 0 = neomezeně';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Maximální místo';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = znepřístupnit | 0 = neomezeně';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Nastavit transport';
+$PALANG['pAdminCreate_domain_description'] = 'Popis'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Přesměrování'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = znepřístupnit | 0 = neomezeně'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Schránek'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = znepřístupnit | 0 = neomezeně'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Maximální místo'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = znepřístupnit | 0 = neomezeně'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Nastavit transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Přidat implicitní přesměrování';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Tento server je záložní MX domény';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Tento server je záložní MX domény'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Přidat doménu';
 $PALANG['pAdminCreate_domain_result_error'] = 'Nepodařilo se přidat doménu!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Doména byla přidána!';

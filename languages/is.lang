@@ -264,21 +264,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Síðast breytt';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Virkt';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Bæta við léni';
-$PALANG['pAdminCreate_domain_domain'] = 'Lén';
+$PALANG['pAdminCreate_domain_domain'] = 'Lén'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Lénið er til nú þegar!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
-$PALANG['pAdminCreate_domain_description'] = 'Lýsing';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliasar';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = óvirkt | 0 = ótakmarkað';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Póstbox';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = óvirkt | 0 = ótakmarkað';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Hámarks kvóti';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = óvirkt | 0 = ótakmarkað';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
+$PALANG['pAdminCreate_domain_description'] = 'Lýsing'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliasar'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = óvirkt | 0 = ótakmarkað'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Póstbox'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = óvirkt | 0 = ótakmarkað'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Hámarks kvóti'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = óvirkt | 0 = ótakmarkað'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Setja sjálfgefinn póstalias';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Bæta við léni';
 $PALANG['pAdminCreate_domain_result_error'] = 'Get ekki bætt við léni!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Lén hefur verið bætt inn!';

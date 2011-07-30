@@ -263,21 +263,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Azken aldaketa';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktibatua';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Domeinu berria gehitu';
-$PALANG['pAdminCreate_domain_domain'] = 'Domeinua';
+$PALANG['pAdminCreate_domain_domain'] = 'Domeinua'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Domeinua existitzen da!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
-$PALANG['pAdminCreate_domain_description'] = 'Deskripzioa';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliasa';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = desegokitu | 0 = mugagabea';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Postontziak';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = desegokitu | 0 = mugagabea';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Gehienezko kuota';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = desegokitu | 0 = mugagabea';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_description'] = 'Deskripzioa'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliasa'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = desegokitu | 0 = mugagabea'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postontziak'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = desegokitu | 0 = mugagabea'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Gehienezko kuota'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = desegokitu | 0 = mugagabea'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Aurremugatutako aliasa gehitu';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Domeinua gehitu';
 $PALANG['pAdminCreate_domain_result_error'] = 'Ezinezkoa domeinua gehitzea!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domeinua gehituta!';

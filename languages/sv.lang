@@ -267,21 +267,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Senast ändrad';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiv';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Lägg till ny domän';
-$PALANG['pAdminCreate_domain_domain'] = 'Domän';
+$PALANG['pAdminCreate_domain_domain'] = 'Domän'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Den domänen finns redan!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Domänen är ogiltig!';
-$PALANG['pAdminCreate_domain_description'] = 'Beskrivning';
-$PALANG['pAdminCreate_domain_aliases'] = 'Alias';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = avaktivera | 0 = obegränsat';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Brevlåda';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = avaktivera | 0 = obegränsat';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = avaktivera | 0 = obegränsat';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Definiera transport';
+$PALANG['pAdminCreate_domain_description'] = 'Beskrivning'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Alias'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = avaktivera | 0 = obegränsat'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Brevlåda'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = avaktivera | 0 = obegränsat'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = avaktivera | 0 = obegränsat'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Definiera transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Skapa standard alias';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mailserver är backup MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mailserver är backup MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Lägg till domän';
 $PALANG['pAdminCreate_domain_result_error'] = 'Kan inte skapa domänen!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domänen har skapats!';
@@ -301,7 +301,7 @@ $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = avaktivera | 0 = obegrä
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definiera transport';
-$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX untranslated? compare with pAdminCreate_domain_backupmx
 $PALANG['pAdminEdit_domain_active'] = 'Aktiv';
 $PALANG['pAdminEdit_domain_button'] = 'Ändra domän'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Kan inte modifiera domänen!';

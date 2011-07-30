@@ -265,22 +265,22 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Последна промен�
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Активно';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Додади нов домен';
-$PALANG['pAdminCreate_domain_domain'] = 'Домен';
+$PALANG['pAdminCreate_domain_domain'] = 'Домен'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Доменот веќе постои!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
-$PALANG['pAdminCreate_domain_description'] = 'Опис';
-$PALANG['pAdminCreate_domain_aliases'] = 'Алијаси';
-$PALANG['pAdminCreate_domain_aliases_text'] = '0 = забрането | -1 = неограничено';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Поштенски сандачиња';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '0 = забрането | -1 = неограничено';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Максимална квота';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | 0 = исклучено | -1 = неограничено';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_description'] = 'Опис'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Алијаси'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '0 = забрането | -1 = неограничено'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Поштенски сандачиња'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '0 = забрането | -1 = неограничено'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Максимална квота'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | 0 = исклучено | -1 = неограничено'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Додади на имплицитни алијаси';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail серверот е backup MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail серверот е backup MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Додади домен';
 $PALANG['pAdminCreate_domain_result_error'] = 'Не можам да го додадам доменот!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Доменот е додаден!';
@@ -296,7 +296,7 @@ $PALANG['pAdminEdit_domain_aliases_text'] = '0 = забрането | -1 = не�
 $PALANG['pAdminEdit_domain_mailboxes'] = 'Поштенски сандачиња';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '0 = забрането | -1 = неограничено';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Максимална квота';
-$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | 0 = исклучена | -1 = неограничена';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | 0 = исклучена | -1 = неограничена'; # XXX check - should be "MB | -1 = disable | 0 = unlimited"
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX

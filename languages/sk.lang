@@ -266,21 +266,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Posledná zmena';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktívny';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Pridať novú doménu';
-$PALANG['pAdminCreate_domain_domain'] = 'Doména';
+$PALANG['pAdminCreate_domain_domain'] = 'Doména'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Takáto doména už existuje!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Doména nie je platná!';
-$PALANG['pAdminCreate_domain_description'] = 'Popis';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliasov';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = zakázať | 0 = neobmedzene';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Schránok';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = zakázať | 0 = neobmedzene';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Maximálna kvóta';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = vypnúť | 0 = neobmedzená';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Použiť transport';
+$PALANG['pAdminCreate_domain_description'] = 'Popis'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliasov'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = zakázať | 0 = neobmedzene'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Schránok'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = zakázať | 0 = neobmedzene'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Maximálna kvóta'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = vypnúť | 0 = neobmedzená'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Použiť transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Vytvoriť implicitné aliasy';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server je záložný MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server je záložný MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Vytvoriť doménu';
 $PALANG['pAdminCreate_domain_result_error'] = 'Nepodarilo sa pridať doménu!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Doména bola pridaná!';
@@ -296,7 +296,7 @@ $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = zakázať | 0 = neobmedzene';
 $PALANG['pAdminEdit_domain_mailboxes'] = 'Schránok';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = zakázať | 0 = neobmedzene';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maximálna kvóta';
-$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = vypnúť | 0 = neobmedzene';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = vypnúť | 0 = neobmedzene'; # XXX check - should be "MB | -1 = disable | 0 = unlimited"
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Použiť transport';

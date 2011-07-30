@@ -268,21 +268,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Ostatnio zmodyfikowane';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktywne';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Dodaj nową domenę';
-$PALANG['pAdminCreate_domain_domain'] = 'Domena';
+$PALANG['pAdminCreate_domain_domain'] = 'Domena'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Podana domena już istnieje!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Podana domena jest nieprawidłowa!';
-$PALANG['pAdminCreate_domain_description'] = 'Opis';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliasy';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = wyłączone | 0 = bez limitów';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Konta';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = wyłączone | 0 = bez limitów';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Max udział';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = wyłączone | 0 = bez limitów';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Zdefiniuj transport';
+$PALANG['pAdminCreate_domain_description'] = 'Opis'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliasy'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = wyłączone | 0 = bez limitów'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Konta'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = wyłączone | 0 = bez limitów'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max udział'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = wyłączone | 0 = bez limitów'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Zdefiniuj transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Dodaj domyślne aliasy mailowe';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Serwer pocztowy jest zapasowym MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Serwer pocztowy jest zapasowym MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Dodaj domenę';
 $PALANG['pAdminCreate_domain_result_error'] = 'Nie można dodać domeny!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domena została dodana!';

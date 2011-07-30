@@ -272,21 +272,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Last Modified';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Active';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Add a new domain';
-$PALANG['pAdminCreate_domain_domain'] = 'Domain';
+$PALANG['pAdminCreate_domain_domain'] = 'Domain'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'The domain already exists!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!';
-$PALANG['pAdminCreate_domain_description'] = 'Description';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliases';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = disable | 0 = unlimited';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Mailboxes';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = disable | 0 = unlimited';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Max Mailbox Quota'; # TODO: add change comment in translations
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = disable | 0 = unlimited';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_description'] = 'Description'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliases'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = disable | 0 = unlimited'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Mailboxes'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = disable | 0 = unlimited'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max Mailbox Quota'; # TODO: add change comment in translations # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = disable | 0 = unlimited'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Add default mail aliases';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Add Domain';
 $PALANG['pAdminCreate_domain_result_error'] = 'Unable to add domain!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain has been added!';

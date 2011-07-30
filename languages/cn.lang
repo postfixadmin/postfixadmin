@@ -265,21 +265,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = '最后修改日期';
 $PALANG['pAdminList_virtual_mailbox_active'] = '活动';
 
 $PALANG['pAdminCreate_domain_welcome'] = '新建域';
-$PALANG['pAdminCreate_domain_domain'] = '域名';
+$PALANG['pAdminCreate_domain_domain'] = '域名'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = '该域已经存在!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
-$PALANG['pAdminCreate_domain_description'] = '描述';
-$PALANG['pAdminCreate_domain_aliases'] = '别名数';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = 禁用 | 0 = 无限制';
-$PALANG['pAdminCreate_domain_mailboxes'] = '邮箱数';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = 禁用 | 0 = 无限制';
-$PALANG['pAdminCreate_domain_maxquota'] = '最大容量限制';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = 禁用 | 0 = 无限制';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
+$PALANG['pAdminCreate_domain_description'] = '描述'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = '别名数'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = 禁用 | 0 = 无限制'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = '邮箱数'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = 禁用 | 0 = 无限制'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = '最大容量限制'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = 禁用 | 0 = 无限制'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = '增加默认别名';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = '备份邮件服务器';
+$PALANG['pAdminCreate_domain_backupmx'] = '备份邮件服务器'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = '新增';
 $PALANG['pAdminCreate_domain_result_error'] = '新增域失败!';
 $PALANG['pAdminCreate_domain_result_success'] = '新增域成功!';
@@ -291,11 +291,11 @@ $PALANG['pAdminEdit_domain_welcome'] = '修改域';
 $PALANG['pAdminEdit_domain_domain'] = '域名';
 $PALANG['pAdminEdit_domain_description'] = '描述';
 $PALANG['pAdminEdit_domain_aliases'] = '别名数';
-$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = 禁止 | 0 = 无限制';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = 禁止 | 0 = 无限制'; # XXX check / compare with pAdminCreate_domain_aliases_text - should be "-1 = disable | ..."
 $PALANG['pAdminEdit_domain_mailboxes'] = '邮箱数';
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = 禁止 | 0 = 无限制';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = 禁止 | 0 = 无限制'; # XXX check - should be "-1 = disable | 0 = unlimited"
 $PALANG['pAdminEdit_domain_maxquota'] = '最大容量限制';
-$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = 禁止 | 0 = 无限制';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = 禁止 | 0 = 无限制'; # XXX check - should be "MB | -1 = disable | 0 = unlimited"
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX

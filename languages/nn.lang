@@ -263,21 +263,22 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Sist endret';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiv';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Legg til et nytt domene';
-$PALANG['pAdminCreate_domain_domain'] = 'Domene';
+$PALANG['pAdminCreate_domain_domain'] = 'Domene'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Domenet eksisterer!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
-$PALANG['pAdminCreate_domain_description'] = 'Beskrivelse';
-$PALANG['pAdminCreate_domain_aliases'] = 'Alias';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = deaktivere | 0 = ubegrenset';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Epostkontoer';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = deaktivere | 0 = ubegrenset';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Maks Kvote';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = deaktivere | 0 = ubegrenset';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Definer transport';
+$PALANG['pAdminCreate_domain_description'] = 'Beskrivelse'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Alias'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = deaktivere | 0 = ubegrenset'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Epostkontoer'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = deaktivere | 0 = ubegrenset'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Maks Kvote'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = deaktivere | 0 = ubegrenset'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Definer transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Legg til standard Alias';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'E-postserveren er backup-MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'E-postserveren er backup-MX'; # XXX E-postservereb or E-postserveren ? # obsolete
+
 $PALANG['pAdminCreate_domain_button'] = 'Legg til domene';
 $PALANG['pAdminCreate_domain_result_error'] = 'Klarte ikke å legge til domenet!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domenet er lagt til!';
@@ -290,7 +291,7 @@ $PALANG['pAdminEdit_domain_domain'] = 'Domene';
 $PALANG['pAdminEdit_domain_description'] = 'Beskrivelse';
 $PALANG['pAdminEdit_domain_aliases'] = 'Alias';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = deaktivere | 0 = ubegrenset';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Epost kontoer';
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Epost kontoer'; # XXX check / compare with pAdminCreate_domain_mailboxes - should be "Mailboxes"
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = deaktivere | 0 = ubegrenset';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maks kvote';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = deaktivere | 0 = ubegrenset';

@@ -266,21 +266,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Laatst bewerkt';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Actief';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Voeg een nieuw domein toe';
-$PALANG['pAdminCreate_domain_domain'] = 'Domein';
+$PALANG['pAdminCreate_domain_domain'] = 'Domein'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Het domein bestaat al.';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Het domein is niet geldig!';
-$PALANG['pAdminCreate_domain_description'] = 'Omschrijving';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliassen';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = uit | 0 = onbeperkt';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Mailboxen';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = uit | 0 = onbeperkt';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = uit | 0 = onbeperkt';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Definieer transport';
+$PALANG['pAdminCreate_domain_description'] = 'Omschrijving'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliassen'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = uit | 0 = onbeperkt'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Mailboxen'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = uit | 0 = onbeperkt'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = uit | 0 = onbeperkt'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Definieer transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Gebruik standaard aliassen';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is back-up MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is back-up MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Voeg Domein toe';
 $PALANG['pAdminCreate_domain_result_error'] = 'Mislukt om het domein toe te voegen.';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd!';
@@ -299,7 +299,7 @@ $PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = uit | 0 = onbeperkt';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Defineer transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Defineer transport'; # XXX check - Defin_i_eer or Defineer?
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is back-up MX';
 $PALANG['pAdminEdit_domain_active'] = 'Actief';
 $PALANG['pAdminEdit_domain_button'] = 'Bewerk domein'; # XXX text no longer used

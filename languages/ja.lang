@@ -270,21 +270,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = '最終更新日';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'アクティブ';
 
 $PALANG['pAdminCreate_domain_welcome'] = '新しいドメインの追加';
-$PALANG['pAdminCreate_domain_domain'] = 'ドメイン';
+$PALANG['pAdminCreate_domain_domain'] = 'ドメイン'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'ドメインが既に存在します。';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'ドメインが無効です。';
-$PALANG['pAdminCreate_domain_description'] = '説明';
-$PALANG['pAdminCreate_domain_aliases'] = '最大転送先数';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = 無効 | 0 = 無制限';
-$PALANG['pAdminCreate_domain_mailboxes'] = '最大メールアドレス数';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = 無効 | 0 = 無制限';
-$PALANG['pAdminCreate_domain_maxquota'] = '最大容量制限';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = 無効 | 0 = 無制限';
-$PALANG['pAdminCreate_domain_transport'] = '配送方法';
-$PALANG['pAdminCreate_domain_transport_text'] = '配送方法の定義';
+$PALANG['pAdminCreate_domain_description'] = '説明'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = '最大転送先数'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = 無効 | 0 = 無制限'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = '最大メールアドレス数'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = 無効 | 0 = 無制限'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = '最大容量制限'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = 無効 | 0 = 無制限'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = '配送方法'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = '配送方法の定義'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'デフォルト転送先の追加';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'バックアップ MXサーバ';
+$PALANG['pAdminCreate_domain_backupmx'] = 'バックアップ MXサーバ'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'ドメイン追加';
 $PALANG['pAdminCreate_domain_result_error'] = 'ドメインを追加できません！';
 $PALANG['pAdminCreate_domain_result_success'] = 'ドメインを追加しました。';
@@ -298,7 +298,7 @@ $PALANG['pAdminEdit_domain_domain'] = 'ドメイン';
 $PALANG['pAdminEdit_domain_description'] = '説明';
 $PALANG['pAdminEdit_domain_aliases'] = '最大転送先数';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = 無効 | 0 = 無制限';
-$PALANG['pAdminEdit_domain_mailboxes'] = '最大メールアドレス';
+$PALANG['pAdminEdit_domain_mailboxes'] = '最大メールアドレス'; # XXX check / compare with pAdminCreate_domain_mailboxes - should be "Mailboxes"
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = 無効 | 0 = 無制限';
 $PALANG['pAdminEdit_domain_maxquota'] = '最大容量制限';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = 無効 | 0 = 無制限';

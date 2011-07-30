@@ -272,21 +272,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Última Modificação';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Habilitado';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Criação de um novo domínio.';
-$PALANG['pAdminCreate_domain_domain'] = 'Domínio';
+$PALANG['pAdminCreate_domain_domain'] = 'Domínio'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'O domínio já existe!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Domínio inválido!';
-$PALANG['pAdminCreate_domain_description'] = 'Descrição';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliases';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = desativar | 0 = ilimitado';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Contas de email';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = desativar | 0 = ilimitado';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Cota de espaço máxima';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = desativar | 0 = ilimitado';
-$PALANG['pAdminCreate_domain_transport'] = 'Transporte';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Definir transporte';
+$PALANG['pAdminCreate_domain_description'] = 'Descrição'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliases'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = desativar | 0 = ilimitado'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Contas de email'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = desativar | 0 = ilimitado'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Cota de espaço máxima'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = desativar | 0 = ilimitado'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transporte'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Definir transporte'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Adicionar aliases padrão';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Servidor de email é um MX de backup';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Servidor de email é um MX de backup'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Criar Domínio';
 $PALANG['pAdminCreate_domain_result_error'] = 'Não foi possível criar o domínio!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domínio criado!';

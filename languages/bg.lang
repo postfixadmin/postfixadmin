@@ -266,21 +266,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Последно модифи�
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Активен';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Добавяне на нов домейн';
-$PALANG['pAdminCreate_domain_domain'] = 'домейн';
+$PALANG['pAdminCreate_domain_domain'] = 'домейн'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Този домейн вече съществува!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Невалиден домайн!';
-$PALANG['pAdminCreate_domain_description'] = 'Описание';
-$PALANG['pAdminCreate_domain_aliases'] = 'Alias-и';
-$PALANG['pAdminCreate_domain_aliases_text'] = '0 = изключени | -1 = неограничени';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Пощенски кутии';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '0 = изключени | -1 = неограничени';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Максимален обем';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | 0 = изключено | -1 = неограничен';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminCreate_domain_description'] = 'Описание'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Alias-и'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '0 = изключени | -1 = неограничени'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Пощенски кутии'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '0 = изключени | -1 = неограничени'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Максимален обем'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | 0 = изключено | -1 = неограничен'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Добави alias-и по подразбиране';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'Мейл сървъра е резервен MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Мейл сървъра е резервен MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Добави домейн';
 $PALANG['pAdminCreate_domain_result_error'] = 'Не мога да добавя домейна!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Домейна бе добавен успешно!';

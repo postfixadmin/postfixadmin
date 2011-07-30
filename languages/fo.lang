@@ -265,21 +265,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Síðst broytt';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Virkin';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Stova nýtt navnaøki';
-$PALANG['pAdminCreate_domain_domain'] = 'Navnaøki';
+$PALANG['pAdminCreate_domain_domain'] = 'Navnaøki'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Navnaøki finst longu!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
-$PALANG['pAdminCreate_domain_description'] = 'Frágreiðing';
-$PALANG['pAdminCreate_domain_aliases'] = 'Dulnevni';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = óvirkja | 0 = óavmarkað';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Postkassar';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = óvirkja | 0 = óavmarkað';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Hægsta kvota';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = óvirkja | 0 = óavmarkað';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
+$PALANG['pAdminCreate_domain_description'] = 'Frágreiðing'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Dulnevni'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = óvirkja | 0 = óavmarkað'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postkassar'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = óvirkja | 0 = óavmarkað'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Hægsta kvota'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = óvirkja | 0 = óavmarkað'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Stovna sjálvvirkin e-post dulnevni';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'Post servari er "backup MX"';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Post servari er "backup MX"'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Stovna navnaøki';
 $PALANG['pAdminCreate_domain_result_error'] = 'Fái ikki stovnað navnaøki!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Navnaøki er stovnað!';

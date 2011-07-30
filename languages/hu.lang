@@ -270,21 +270,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Utolsó módosítás';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktív';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Új domain felvétele';
-$PALANG['pAdminCreate_domain_domain'] = 'Domain';
+$PALANG['pAdminCreate_domain_domain'] = 'Domain'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'A domain már létezik!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'A domain érvénytelen!';
-$PALANG['pAdminCreate_domain_description'] = 'Leírás';
-$PALANG['pAdminCreate_domain_aliases'] = 'Alias-ok';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = kikapcsol | 0 = végtelen';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Postafiókok';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = kikapcsol | 0 = végtelen';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota'; # XXX
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = kikapcsol | 0 = végtelen';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Transport definiálása';
+$PALANG['pAdminCreate_domain_description'] = 'Leírás'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Alias-ok'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = kikapcsol | 0 = végtelen'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postafiókok'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = kikapcsol | 0 = végtelen'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota'; # XXX # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = kikapcsol | 0 = végtelen'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Transport definiálása'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Alapértelmezett alias-ok hozzáadása';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'A mail szerver egy backup MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'A mail szerver egy backup MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Domain felvétele';
 $PALANG['pAdminCreate_domain_result_error'] = 'A domain felvétele sikertelen!';
 $PALANG['pAdminCreate_domain_result_success'] = 'A domain-t felvettük az adatbázisba!';

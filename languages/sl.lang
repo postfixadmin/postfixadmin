@@ -265,21 +265,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Zadnjič spremenjeno';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiven';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Dodaj novo domeno';
-$PALANG['pAdminCreate_domain_domain'] = 'Domena';
+$PALANG['pAdminCreate_domain_domain'] = 'Domena'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Vnešena domena že obstaja!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
-$PALANG['pAdminCreate_domain_description'] = 'Opis';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliasi';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = onemogoči | 0 = neomejeno';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Predali';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = onemogoči | 0 = neomejeno';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Maksimalna kvota';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = onemogoči | 0 = neomejeno';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Definiraj transport';
+$PALANG['pAdminCreate_domain_description'] = 'Opis'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliasi'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = onemogoči | 0 = neomejeno'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Predali'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = onemogoči | 0 = neomejeno'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Maksimalna kvota'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = onemogoči | 0 = neomejeno'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Definiraj transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Dodaj privzete aliase';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Poštni strežnik je sekundarni MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Poštni strežnik je sekundarni MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Dodaj domeno';
 $PALANG['pAdminCreate_domain_result_error'] = 'Domene ni bilo mogoče dodati!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domena je bila uspešno dodana!';
@@ -298,7 +298,7 @@ $PALANG['pAdminEdit_domain_maxquota'] = 'Maksimalna kvota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = onemogoči | 0 = neomejeno';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
+$PALANG['pAdminEdit_domain_transport_text'] = 'Definiraj transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Poštni strežnik je sekundarni MX';
 $PALANG['pAdminEdit_domain_active'] = 'Aktiven';
 $PALANG['pAdminEdit_domain_button'] = 'Shrani'; # XXX text no longer used

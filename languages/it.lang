@@ -266,21 +266,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Ultima modifica';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Attivo';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Aggiungi nuovo dominio';
-$PALANG['pAdminCreate_domain_domain'] = 'Dominio';
+$PALANG['pAdminCreate_domain_domain'] = 'Dominio'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Il dominio esiste gi&agrave;!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Dominio non valido!';
-$PALANG['pAdminCreate_domain_description'] = 'Descrizione';
-$PALANG['pAdminCreate_domain_aliases'] = 'Alias';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = disabilita | 0 = illimitati';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Caselle di posta';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = disabilita | 0 = illimitate';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Quota Massima';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = disabilita | 0 = illimitata';
-$PALANG['pAdminCreate_domain_transport'] = 'Trasporto';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Definisci trasporto';
+$PALANG['pAdminCreate_domain_description'] = 'Descrizione'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Alias'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = disabilita | 0 = illimitati'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Caselle di posta'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = disabilita | 0 = illimitate'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Quota Massima'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = disabilita | 0 = illimitata'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Trasporto'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Definisci trasporto'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Aggiungi gli alias di default';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Questo server &egrave; un MX secondario';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Questo server &egrave; un MX secondario'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Aggiungi dominio';
 $PALANG['pAdminCreate_domain_result_error'] = 'Impossibile aggiungere il dominio!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Il dominio &egrave; stato aggiunto!';
@@ -296,10 +296,10 @@ $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = disabilita | 0 = illimitati';
 $PALANG['pAdminEdit_domain_mailboxes'] = 'Caselle di posta';
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = disabilita | 0 = illimitate';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Quota massima';
-$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = disabilita | 0 = illimitato';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = disabilita | 0 = illimitato'; # XXX check - should be "MB | -1 = disable | 0 = unlimited"
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Trasporto';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Definisci il trasporto';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Definisci il trasporto'; # XXX check / compare with pAdminCreate_domain_transport_text - should be "Define transport"
 $PALANG['pAdminEdit_domain_backupmx'] = 'Questo server &egrave; un MX secondario';
 $PALANG['pAdminEdit_domain_active'] = 'Attivo';
 $PALANG['pAdminEdit_domain_button'] = 'Modifica dominio'; # XXX text no longer used

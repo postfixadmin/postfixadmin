@@ -265,21 +265,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Son Düzenleme';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktif';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Yeni domain ekle';
-$PALANG['pAdminCreate_domain_domain'] = 'Domain';
+$PALANG['pAdminCreate_domain_domain'] = 'Domain'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Bu Domain halen bulunmakta!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
-$PALANG['pAdminCreate_domain_description'] = 'Açýklama';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliaslar';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = iptal | 0 = limisiz';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Postakutularý';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = iptal | 0 = limitsiz';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Max Kota';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = iptal | 0 = limitsiz';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
+$PALANG['pAdminCreate_domain_description'] = 'Açýklama'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliaslar'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = iptal | 0 = limisiz'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postakutularý'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = iptal | 0 = limitsiz'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max Kota'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = iptal | 0 = limitsiz'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Öntanýmlý posta aliasý ekle';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX'; # XXX # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Domain ekle';
 $PALANG['pAdminCreate_domain_result_error'] = 'Domain eklenemedi!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain eklendi!';
@@ -291,8 +291,8 @@ $PALANG['pAdminEdit_domain_welcome'] = 'Domain düzenle';
 $PALANG['pAdminEdit_domain_domain'] = 'Domain';
 $PALANG['pAdminEdit_domain_description'] = 'Açýklama';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliaslar';
-$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = iptal | 0 = limitsiz';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Posta kutularý';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = iptal | 0 = limitsiz'; # XXX check - "limisiz" or "limi_t_siz"?
+$PALANG['pAdminEdit_domain_mailboxes'] = 'Posta kutularý'; # XXX check / compare with pAdminCreate_domain_mailboxes - should be "Mailboxes"
 $PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = iptal | 0 = limitsiz';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Kota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = iptal | 0 = limitsiz';

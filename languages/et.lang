@@ -265,21 +265,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Viimati muudetud';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiivne';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Lisa uus domeen';
-$PALANG['pAdminCreate_domain_domain'] = 'Domeen';
+$PALANG['pAdminCreate_domain_domain'] = 'Domeen'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Selline domeen on juba olemas!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
-$PALANG['pAdminCreate_domain_description'] = 'Kirjeldus';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliasi';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = keelatud | 0 = piiramatult';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Postkaste';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = keelatud | 0 = piiramatult';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Maksimaalne kettaruum';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = keelatud | 0 = piiramatult';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX
+$PALANG['pAdminCreate_domain_description'] = 'Kirjeldus'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliasi'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = keelatud | 0 = piiramatult'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postkaste'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = keelatud | 0 = piiramatult'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Maksimaalne kettaruum'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = keelatud | 0 = piiramatult'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # XXX # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # XXX # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Lisa vaikimisi aliased';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'E-posti server on varuserver (backup MX)';
+$PALANG['pAdminCreate_domain_backupmx'] = 'E-posti server on varuserver (backup MX)'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Lisa domeen';
 $PALANG['pAdminCreate_domain_result_error'] = 'Domeeni lisamine ebaõnnestus!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domeen on lisatud!';

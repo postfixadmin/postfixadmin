@@ -271,21 +271,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Senest ændret';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiv';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Tilføj et nyt domæne';
-$PALANG['pAdminCreate_domain_domain'] = 'Domæne';
+$PALANG['pAdminCreate_domain_domain'] = 'Domæne'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Domænet eksisterer allerede!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Domænet er ugyldigt!';
-$PALANG['pAdminCreate_domain_description'] = 'Beskrivelse';
-$PALANG['pAdminCreate_domain_aliases'] = 'Alias';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = annuller | 0 = uendeligt';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Postbokse';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = annuller | 0 = uendeligt';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Maks. kvota';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = annuller | 0 = uendeligt';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Præciser transport';
+$PALANG['pAdminCreate_domain_description'] = 'Beskrivelse'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Alias'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = annuller | 0 = uendeligt'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postbokse'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = annuller | 0 = uendeligt'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Maks. kvota'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = annuller | 0 = uendeligt'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Præciser transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Tilføj standard alias';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mailserveren er backup MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Mailserveren er backup MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Tilføj domæne';
 $PALANG['pAdminCreate_domain_result_error'] = 'Kan ikke tilføje domæne!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domænet er tilføjet!';

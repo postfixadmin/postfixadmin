@@ -265,21 +265,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Viimeksi muokattu';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiivinen';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Lisää uusi domain';
-$PALANG['pAdminCreate_domain_domain'] = 'Domain';
+$PALANG['pAdminCreate_domain_domain'] = 'Domain'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Domain on jo järjestelmässä!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Domain on virheellinen!';
-$PALANG['pAdminCreate_domain_description'] = 'Kuvaus';
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliakset';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = ei käytössä | 0 = rajoittamaton';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Postilaatikot';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = ei käytössä | 0 = rajoittamaton';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Max kiintiö';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = ei käytössä | 0 = rajoittamaton';
-$PALANG['pAdminCreate_domain_transport'] = 'Transport';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Määritä transport';
+$PALANG['pAdminCreate_domain_description'] = 'Kuvaus'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Aliakset'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = ei käytössä | 0 = rajoittamaton'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Postilaatikot'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = ei käytössä | 0 = rajoittamaton'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Max kiintiö'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = ei käytössä | 0 = rajoittamaton'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Määritä transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Lisää oletus aliakset';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Sähköpostipalvelin on vara MX';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Sähköpostipalvelin on vara MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Lisää domain';
 $PALANG['pAdminCreate_domain_result_error'] = 'Domainin lisäys ei onnistunut!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain on lisätty!';

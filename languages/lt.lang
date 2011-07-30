@@ -264,21 +264,21 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Paskutinį kartą keista';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Įjungta';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Nauja sritis';
-$PALANG['pAdminCreate_domain_domain'] = 'Sritis';
+$PALANG['pAdminCreate_domain_domain'] = 'Sritis'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Tokia sritis jau yra!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
-$PALANG['pAdminCreate_domain_description'] = 'Aprašymas';
-$PALANG['pAdminCreate_domain_aliases'] = 'Sinonimai';
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = išjungta(s) | 0 = neribota(s)';
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Pašto dėžutės';
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = išjungta(s) | 0 = neribota(s)';
-$PALANG['pAdminCreate_domain_maxquota'] = 'Maksimali kvota';
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = išjungta(s) | 0 = neribota(s)';
-$PALANG['pAdminCreate_domain_transport'] = 'Srities transportas';
-$PALANG['pAdminCreate_domain_transport_text'] = 'Nustatyti transportą';
+$PALANG['pAdminCreate_domain_description'] = 'Aprašymas'; # obsolete
+$PALANG['pAdminCreate_domain_aliases'] = 'Sinonimai'; # obsolete
+$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = išjungta(s) | 0 = neribota(s)'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes'] = 'Pašto dėžutės'; # obsolete
+$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = išjungta(s) | 0 = neribota(s)'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota'] = 'Maksimali kvota'; # obsolete
+$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = išjungta(s) | 0 = neribota(s)'; # obsolete
+$PALANG['pAdminCreate_domain_transport'] = 'Srities transportas'; # obsolete
+$PALANG['pAdminCreate_domain_transport_text'] = 'Nustatyti transportą'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Registruoti tipinius pašto sinonimus';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'Tai atsarginis pašto serveris (MX)';
+$PALANG['pAdminCreate_domain_backupmx'] = 'Tai atsarginis pašto serveris (MX)'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Registruoti sritį';
 $PALANG['pAdminCreate_domain_result_error'] = 'Srities užregistruoti nepavyko!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Sritis užregistruota!';
@@ -290,9 +290,9 @@ $PALANG['pAdminEdit_domain_welcome'] = 'Keisti sritį';
 $PALANG['pAdminEdit_domain_domain'] = 'Sritis';
 $PALANG['pAdminEdit_domain_description'] = 'Aprašymas';
 $PALANG['pAdminEdit_domain_aliases'] = 'Sinonimai';
-$PALANG['pAdminEdit_domain_aliases_text'] = '-1 išjungta(s) | 0 = neribota(s)';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = išjungta(s) | 0 = neribota(s)';
 $PALANG['pAdminEdit_domain_mailboxes'] = 'Pašto dėžutės';
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 išjungta(s) | 0 = neribota(s)';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = išjungta(s) | 0 = neribota(s)';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maksimali kvota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = išjungta(s) | 0 = neribota(s)';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
