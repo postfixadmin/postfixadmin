@@ -51,7 +51,13 @@ $vacation_domain = $CONF['vacation_domain'];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-    ($tStoreAndForward) ? $smarty->assign ('forward_and_store', ' checked="checked"') : $smarty->assign ('forward_only', ' checked="checked"');
+    if ($tStoreAndForward) {
+        $smarty->assign ('forward_and_store', ' checked="checked"');
+        $smarty->assign ('forward_only', '');
+    } else {
+        $smarty->assign ('forward_and_store', '');
+        $smarty->assign ('forward_only', ' checked="checked"');
+    }
 
     $smarty->assign ('tGotoArray', $tGotoArray);
     $smarty->display ('index.tpl');
@@ -124,7 +130,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $smarty->assign ('tGotoArray', $tGotoArray);
     if ($fForward_and_store == "YES") {
         $smarty->assign ('forward_and_store', ' checked="checked"');
+        $smarty->assign ('forward_only', '');
     } else {
+        $smarty->assign ('forward_and_store', '');
         $smarty->assign ('forward_only', ' checked="checked"');
     }
     $smarty->display ('index.tpl');
