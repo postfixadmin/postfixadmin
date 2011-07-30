@@ -184,7 +184,8 @@ function comparetext() {
 		echo "<?php 
 			include('$file');
 			if (\$PALANG['$text1'] != \$PALANG['$text2']) {
-				echo '$file: ' . \$PALANG['$text1'] . ' --- ' . \$PALANG['$text2'] . \"\\n\";
+				echo '$file: ' . \$PALANG['$text1'] . ' -- $text1' . \"\\n\";
+				echo '$file: ' . \$PALANG['$text2'] . ' -- $text2' . \"\\n\";
 			}
 		" | php
 	done
