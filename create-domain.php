@@ -156,6 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 
 
+$smarty->assign ('mode', 'create');
 $smarty->assign ('tDomain', $tDomain);
 $smarty->assign ('pAdminCreate_domain_domain_text', $pAdminCreate_domain_domain_text, false);
 $smarty->assign ('pAdminCreate_domain_domain_text_error', $pAdminCreate_domain_domain_text_error, false);
@@ -167,7 +168,7 @@ $smarty->assign ('tMaxquota', $tMaxquota,false); # TODO: why is sanitize disable
 $smarty->assign ('select_options', select_options ($CONF ['transport_options'], array ($tTransport)),false);
 $smarty->assign ('tDefaultaliases', ($tDefaultaliases == 'on') ? ' checked="checked"' : '');
 $smarty->assign ('tBackupmx', ($tBackupmx == 'on') ? ' checked="checked"' : '');
-$smarty->assign ('smarty_template', 'admin_create-domain');
+$smarty->assign ('smarty_template', 'admin_edit-domain');
 $smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
