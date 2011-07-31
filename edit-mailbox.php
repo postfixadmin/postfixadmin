@@ -173,6 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 
+$smarty->assign ('mode', 'edit');
 $smarty->assign ('fUsername', $fUsername);
 $smarty->assign ('tName', $tName, false);
 $smarty->assign ('tMaxquota', $tMaxquota);

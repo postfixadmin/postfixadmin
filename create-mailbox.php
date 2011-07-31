@@ -260,6 +260,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 
+$smarty->assign ('mode', 'create');
 $smarty->assign ('tUsername', $tUsername);
 $smarty->assign ('tActive', ' checked="checked" '); # TODO: use form value if POST
 $smarty->assign ('select_options', select_options ($list_domains, array ($tDomain)), false);
