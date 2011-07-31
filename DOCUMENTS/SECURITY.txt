@@ -23,6 +23,11 @@ You may wish to consider the following :
     the vacation_notification table (and read alias and vacation).
  3. PostfixAdmin itself needs to be able to READ and WRITE to 
     all the tables.
+ 4. PostfixAdmin's setup.php additionally needs permissions to CREATE
+    and ALTER tables in the PostfixAdmin database. For PostgreSQL, also
+	permissions for CREATE FUNCTION and CREATE TRIGGER are needed.
+	In other words: setup.php needs all permissions on the PostfixAdmin
+	database.
 
 Using the above, you can improve security by creating separate 
 database user accounts for each of the above roles, and limit 
@@ -33,5 +38,7 @@ FILE SYSTEM SECURITY
 --------------------
 
 PostfixAdmin does not require write support on the underlying 
-filesystem - aside from PHP creating session files.
+filesystem with the following exceptions:
+- the templates_c directory where Smarty caches the templates
+- PHP's session.save_path to store session files
 
