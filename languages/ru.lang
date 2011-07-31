@@ -110,7 +110,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Все домены уже задей�
 $PALANG['pCreate_alias_domain_success'] = 'Домен-алиас добавлен в таблицу доменов-алиасов!';
 
 $PALANG['pCreate_alias_welcome'] = 'Создание нового алиаса в вашем домене.';
-$PALANG['pCreate_alias_address'] = 'Алиас';
+$PALANG['pCreate_alias_address'] = 'Алиас'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'Неверное имя алиаса!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Этот почтовый адрес уже существует, пожалуйста, выберите другой.';
 $PALANG['pCreate_alias_address_text_error3'] = 'Вы достигли лимита по созданным алиасам!';

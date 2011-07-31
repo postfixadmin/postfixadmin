@@ -109,7 +109,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Wszystkie domeny są już aliasowane.'
 $PALANG['pCreate_alias_domain_success'] = 'Alias domeny został dodany do tabeli aliasów domen!';
 
 $PALANG['pCreate_alias_welcome'] = 'Utwórz nowy alias dla Twojej domeny.';
-$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address'] = 'Alias'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'Alias jest niepoprawny!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Taki adres email juz istnieje, proszę wybrać inny!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Twój limit aliasów został osiągniety!';

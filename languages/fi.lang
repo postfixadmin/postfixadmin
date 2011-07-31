@@ -107,7 +107,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Kaikilla domaineilla on jo alias.';
 $PALANG['pCreate_alias_domain_success'] = 'Domainin alias on lisätty domain alias tauluun!';
 
 $PALANG['pCreate_alias_welcome'] = 'Luo uusi alias.';
-$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address'] = 'Alias'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'Alias ei ole oikean muotoinen!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Tämä sähköpostiosoite on jo käytössä, ole hyvä ja valitse jokin toinen!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Aliasten maksimimäärä saavutettu. Et voi lisätä aliaksia enää!';

@@ -107,7 +107,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Alle domeinen hebben al een alias!';
 $PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de alias domein tabel!';
 
 $PALANG['pCreate_alias_welcome'] = 'Maak een nieuw alias aan voor uw domein.';
-$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address'] = 'Alias'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'De Alias is niet geldig!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Dit e-mail aders bestaat al, kies aub een andere.';
 $PALANG['pCreate_alias_address_text_error3'] = 'U bezit het maximum aantal aliassen.';

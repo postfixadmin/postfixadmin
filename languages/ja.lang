@@ -108,7 +108,7 @@ $PALANG['pCreate_alias_domain_error4'] = '全てのドメインがエイリア�
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = '新しい転送先の作成';
-$PALANG['pCreate_alias_address'] = '転送元アドレス';
+$PALANG['pCreate_alias_address'] = '転送元アドレス'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'メールアドレスが無効です。';
 $PALANG['pCreate_alias_address_text_error2'] = 'このメールアドレスは既に存在するので、 別のアドレスを選択してください。'; # XXX check/beautify - was split in two lines before
 $PALANG['pCreate_alias_address_text_error3'] = '転送アドレスの制限数に達しました。';
@@ -123,9 +123,9 @@ $PALANG['pCreate_alias_catchall_text'] = 'すべてのメールを受け取る�
 
 $PALANG['pEdit_alias_welcome'] = '転送先アドレスの編集'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = '1行に1エントリです。'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = '転送元';
+$PALANG['pEdit_alias_address'] = '転送元'; # XXX check / compare with pCreate_alias_address - should be 'Alias'
 $PALANG['pEdit_alias_address_error'] = '転送元が見つかりません！'; # obsolete
-$PALANG['pEdit_alias_goto'] = '転送先';
+$PALANG['pEdit_alias_goto'] = '転送先'; # XXX check / compare with pCreate_alias_goto - should be "To"
 $PALANG['pEdit_alias_active'] = 'アクティブ';
 $PALANG['pEdit_alias_goto_text_error1'] = '転送先が入力されていません。';
 $PALANG['pEdit_alias_goto_text_error2'] = 'このメールアドレスは無効です: ';

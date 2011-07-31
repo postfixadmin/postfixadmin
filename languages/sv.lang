@@ -108,7 +108,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Skapa nytt alias för din domän.';
-$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address'] = 'Alias'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'Detta ALIAS är inte giltigt!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Denna epostadress existerar redan, välj en annan epostadress!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Du har redan högsta tillåtna antal alias definierade!';

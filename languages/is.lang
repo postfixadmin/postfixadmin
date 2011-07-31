@@ -105,7 +105,7 @@ $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
-$PALANG['pCreate_alias_welcome'] = 'Útbúa nýjan alias fyrir þitt lén.'; $PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_welcome'] = 'Útbúa nýjan alias fyrir þitt lén.'; $PALANG['pCreate_alias_address'] = 'Alias'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'Aliasinn er ekki í lagi!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Þetta pósthólf er nú þegar til, veldu annað!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Þú hefur stofnað þann fjölda pósthólfa sem þú hefur heimild til!';
@@ -122,7 +122,7 @@ $PALANG['pEdit_alias_welcome'] = 'Breyta alias í léninu.'; # XXX Text change t
 $PALANG['pEdit_alias_help'] = 'Ein færsla í einu.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = 'Get ekki fundið aliasinn!'; # obsolete
-$PALANG['pEdit_alias_goto'] = 'To';
+$PALANG['pEdit_alias_goto'] = 'To'; # XXX check / compare with pCreate_alias_goto - should be "To"
 $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = 'þú gafst ekki upp neitt í Til';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Pósthólfið sem þú reynir að nota er ekki til: ';

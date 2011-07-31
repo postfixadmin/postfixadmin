@@ -106,7 +106,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Ya están todos los dominios asignados
 $PALANG['pCreate_alias_domain_success'] = '¡El alias de dominio se insertó en la tabla!'; 
 
 $PALANG['pCreate_alias_welcome'] = 'Crear un nuevo alias para el dominio.';
-$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address'] = 'Alias'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = '¡El ALIAS no es válido!';
 $PALANG['pCreate_alias_address_text_error2'] = '¡Esta dirección ya existe, elija otra diferente por favor!';
 $PALANG['pCreate_alias_address_text_error3'] = '¡Ha llegado a su límite de creación de alias!';

@@ -105,7 +105,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Naujas sinonimas.';
-$PALANG['pCreate_alias_address'] = 'Sinonimas';
+$PALANG['pCreate_alias_address'] = 'Sinonimas'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'Netinkamas sinonimas!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Tokia pašto dėžutė jau yra. Pasirinkite kitą vardą!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Išnaudota visa pašto sinonimų kvota!';
@@ -122,7 +122,7 @@ $PALANG['pEdit_alias_welcome'] = 'Keisti srities sinonimą.'; # XXX Text change 
 $PALANG['pEdit_alias_help'] = 'Eilutėje leidžiamas tik vienas įrašas.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Sinonimas';
 $PALANG['pEdit_alias_address_error'] = 'Sinonimas nerastas!'; # obsolete
-$PALANG['pEdit_alias_goto'] = 'Kam';
+$PALANG['pEdit_alias_goto'] = 'Kam'; # XXX check / compare with pCreate_alias_goto - should be "To"
 $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = 'Neužpildėte lauko "Kam"';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Įvestas neteisingas pašto adresas: ';

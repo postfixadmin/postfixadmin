@@ -108,7 +108,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Alle Domains sind bereits Alias-Domain
 $PALANG['pCreate_alias_domain_success'] = 'Die Alias-Domain wurde in der Datenbank eingetragen!';
 
 $PALANG['pCreate_alias_welcome'] = 'Neuen Alias f&uuml;r Ihre Domain anlegen';
-$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address'] = 'Alias'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'Dieses ALIAS ist nicht erlaubt!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Diese eMail-Adresse existiert bereits. Bitte w&auml;hlen Sie eine andere!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Sie haben Ihr Limit f&uuml;r Aliase auf dieser Domain erreicht!';

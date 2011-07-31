@@ -106,7 +106,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = '在你的域中新建一个别名.';
-$PALANG['pCreate_alias_address'] = '别名';
+$PALANG['pCreate_alias_address'] = '别名'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = '该别名非法!';
 $PALANG['pCreate_alias_address_text_error2'] = '邮件地址已经存在, 请重新选择!';
 $PALANG['pCreate_alias_address_text_error3'] = '你的别名已经达到上限!';

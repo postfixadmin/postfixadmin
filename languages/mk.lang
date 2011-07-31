@@ -106,7 +106,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Креирање на нов алијас за вашиот домен.';
-$PALANG['pCreate_alias_address'] = 'Алијас';
+$PALANG['pCreate_alias_address'] = 'Алијас'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'Алијасот не е валиден!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Оваа адреса веќе постои. Ве молам одберете друга!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Го достигнавте вашиот лимит за креирање алијаси!';

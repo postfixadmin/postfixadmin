@@ -109,7 +109,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Tilføj nyt alias til dit domæne.';
-$PALANG['pCreate_alias_address'] = 'Alias';
+$PALANG['pCreate_alias_address'] = 'Alias'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'Aliaset er ikke gyldigt!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Emailadressen eksisterer allerede. Vælg venligst en anden!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Du har nået grænsen for antallet af alias til dit domæne!';
@@ -126,7 +126,7 @@ $PALANG['pEdit_alias_welcome'] = 'Rediger alias.'; # XXX Text change to: 'Edit f
 $PALANG['pEdit_alias_help'] = 'En modtager pr. linje.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
 $PALANG['pEdit_alias_address_error'] = 'Kan ikke finde aliaset!'; # obsolete
-$PALANG['pEdit_alias_goto'] = 'Modtager(e)';
+$PALANG['pEdit_alias_goto'] = 'Modtager(e)'; # XXX check / compare with pCreate_alias_goto - should be "To"
 $PALANG['pEdit_alias_active'] = 'Aktiv';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Du udfyldte ikke noget i Modtager(e)';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Den tilføjede emailadresse er ikke gyldig: ';

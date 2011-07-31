@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if (!check_email($address))
       {
          $error = 1;
-         $tGoto = $goto;
+         $tGoto = $_POST['fGoto'];
          flash_error($PALANG['pEdit_alias_goto_text_error2'] . "$address");
       }
    }
@@ -167,11 +167,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 }
 
-$array = preg_split ('/,/', $tGoto);
-
+$smarty->assign ('mode', 'edit');
+$smarty->assign ('pCreate_alias_address_text_error', '');
 $smarty->assign ('fAddress', $fAddress);
 $smarty->assign ('tGoto', $tGoto);
-$smarty->assign ('array', $array, false);
 $smarty->assign ('smarty_template', 'edit-alias');
 $smarty->display ('index.tpl');
 

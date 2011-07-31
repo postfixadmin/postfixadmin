@@ -191,11 +191,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 }
 
+$smarty->assign ('mode', 'create');
 $smarty->assign ('tAddress', $tAddress);
 $smarty->assign ('select_options', select_options ($list_domains, array ($tDomain)), false);
 $smarty->assign ('pCreate_alias_address_text_error', $pCreate_alias_address_text_error, false);
 $smarty->assign ('tGoto', $tGoto, false);
-$smarty->assign ('smarty_template', 'create-alias');
+$smarty->assign ('smarty_template', 'edit-alias');
 $smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

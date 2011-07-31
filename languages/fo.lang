@@ -106,7 +106,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Stovna eitt nýtt dulnevni á tínum navnaøki.';
-$PALANG['pCreate_alias_address'] = 'Dulnevni';
+$PALANG['pCreate_alias_address'] = 'Dulnevni'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'DULNEVNI er ógyldugt!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Hendan e-post adressa finst longu, vinarliga vel eina aðra!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Tú hevur nátt tínum marki at stovna dulnevni!';

@@ -105,7 +105,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Crear un nou àlies pel domini.';
-$PALANG['pCreate_alias_address'] = 'Àlies';
+$PALANG['pCreate_alias_address'] = 'Àlies'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'L\'àlies no és vàlid!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Aquesta adreça ja existeix, escull una altra de diferent, si us plau!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Has arribat al límit de creació d\'àlies!';
