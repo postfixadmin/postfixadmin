@@ -306,12 +306,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Endre domene'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Kunne ikke endre domenet!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Legg til en ny domeneadministrator';
-$PALANG['pAdminCreate_admin_username'] = 'Administrator';
+$PALANG['pAdminCreate_admin_username'] = 'Administrator'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'E-postadresse';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Du har ikke skrevet inn en gyldig e-postadresse!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Administratoren er allerede definert, eller du har skrevet inn en ugyldig adresse';
-$PALANG['pAdminCreate_admin_password'] = 'Passord';
-$PALANG['pAdminCreate_admin_password2'] = 'Passord (bekreft)';
+$PALANG['pAdminCreate_admin_password'] = 'Passord'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Passord (bekreft)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Passordene du oppga stemmer ikke overens! Eller du har ikke fylt ut feltene!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Legg til en administrator';
 $PALANG['pAdminCreate_admin_result_error'] = 'Kunne ikke legge til administratoren!';

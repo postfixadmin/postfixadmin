@@ -313,12 +313,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Редактировать домен'; #
 $PALANG['pAdminEdit_domain_result_error'] = 'Невозможно изменить домен!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Добавление нового администратора домена';
-$PALANG['pAdminCreate_admin_username'] = 'Администратор';
+$PALANG['pAdminCreate_admin_username'] = 'Администратор'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Почтовый адрес';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Некорректный адрес администратора!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Администратор уже существует либо некорректное имя';
-$PALANG['pAdminCreate_admin_password'] = 'Пароль';
-$PALANG['pAdminCreate_admin_password2'] = 'Пароль (еще раз)';
+$PALANG['pAdminCreate_admin_password'] = 'Пароль'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Пароль (еще раз)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Введенные вами пароли не совпадают! Либо пустые!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Добавить администратора';
 $PALANG['pAdminCreate_admin_result_error'] = 'Невозможно добавить администратора!';

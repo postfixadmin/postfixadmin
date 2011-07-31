@@ -312,12 +312,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Rediger domæne'; # XXX text no longer us
 $PALANG['pAdminEdit_domain_result_error'] = 'Kan ikke rette domæne!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Tilføj ny domæneadministrator';
-$PALANG['pAdminCreate_admin_username'] = 'Administrator';
+$PALANG['pAdminCreate_admin_username'] = 'Administrator'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Emailadresse';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrator er ikke en gyldig emailadresse!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Aministratoren findes allerede eller er ikke gyldig';
-$PALANG['pAdminCreate_admin_password'] = 'Adgangskode';
-$PALANG['pAdminCreate_admin_password2'] = 'Adgangskode (igen)';
+$PALANG['pAdminCreate_admin_password'] = 'Adgangskode'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Adgangskode (igen)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Adgangskoderne er ikke ens! Eller er tomme!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Tilføj administrator';
 $PALANG['pAdminCreate_admin_result_error'] = 'Kan ikke tilføje administrator!';

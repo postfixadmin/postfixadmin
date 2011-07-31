@@ -305,12 +305,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Muuda domeen'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Domeeni muutmine ebaõnnestus!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Lisa uus domeeni haldaja';
-$PALANG['pAdminCreate_admin_username'] = 'Haldaja';
+$PALANG['pAdminCreate_admin_username'] = 'Haldaja'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'E-posti aadress';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Väljal haldaja pole kehtiv e-posti aadress!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Selline haldaja on juba olemas';
-$PALANG['pAdminCreate_admin_password'] = 'Parool';
-$PALANG['pAdminCreate_admin_password2'] = 'Parool (uuesti)';
+$PALANG['pAdminCreate_admin_password'] = 'Parool'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Parool (uuesti)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Sisestatud paroolid ei kattu! Või on tühjad!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Lisa haldaja';
 $PALANG['pAdminCreate_admin_result_error'] = 'Haldaja lisamine ebaõnnestus!';

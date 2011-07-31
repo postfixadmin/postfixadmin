@@ -306,12 +306,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Bewerk domein'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Mislukt het domein te bewerken.';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Voeg een nieuw domein beheerder toe';
-$PALANG['pAdminCreate_admin_username'] = 'Beheerder';
+$PALANG['pAdminCreate_admin_username'] = 'Beheerder'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'E-mail adres';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Beheerder is geen geldig e-mail adres!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'De beheerder bestaat al of is niet geldig';
-$PALANG['pAdminCreate_admin_password'] = 'Wachtwoord';
-$PALANG['pAdminCreate_admin_password2'] = 'Wachtwoord (nogmaals)';
+$PALANG['pAdminCreate_admin_password'] = 'Wachtwoord'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Wachtwoord (nogmaals)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'De wachtwoorden die u opgaf komen niet overeen. Of zijn leeg.'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Voeg beheerder toe';
 $PALANG['pAdminCreate_admin_result_error'] = 'Mislukt om beheerder toe te voegen!';

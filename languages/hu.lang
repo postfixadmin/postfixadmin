@@ -311,12 +311,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Domain szerkesztése'; # XXX text no long
 $PALANG['pAdminEdit_domain_result_error'] = 'A domain módosítása sikertelen!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Új domain admin felvétele';
-$PALANG['pAdminCreate_admin_username'] = 'Admin';
+$PALANG['pAdminCreate_admin_username'] = 'Admin'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Email cím';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Az Admin nem valós email cím!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Az Admin már létezik, vagy nem valós a cím!';
-$PALANG['pAdminCreate_admin_password'] = 'Jelszó';
-$PALANG['pAdminCreate_admin_password2'] = 'Jelszó (mégegyszer)';
+$PALANG['pAdminCreate_admin_password'] = 'Jelszó'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Jelszó (mégegyszer)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'A beírt jelszavak nem egyeznek! Vagy üresek!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Admin felvétele';
 $PALANG['pAdminCreate_admin_result_error'] = 'Nemsikerült az Admint felvenni!';

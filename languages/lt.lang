@@ -304,12 +304,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Keisti sritį'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Srities pakeisti nepavyko!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Registruoti naują srities administratorių';
-$PALANG['pAdminCreate_admin_username'] = 'Administratorius';
+$PALANG['pAdminCreate_admin_username'] = 'Administratorius'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'El.pašto adresas';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrotorius - tai ne el.pašto adresas!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Administratorius šiai sričiai jau yra';
-$PALANG['pAdminCreate_admin_password'] = 'Slaptažodis';
-$PALANG['pAdminCreate_admin_password2'] = 'Slaptažodis (dar kartą)';
+$PALANG['pAdminCreate_admin_password'] = 'Slaptažodis'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Slaptažodis (dar kartą)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Įvesti slaptažodžiai nesutampa! Arba neįvesti!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Registruoti administratorių';
 $PALANG['pAdminCreate_admin_result_error'] = 'Administratoriaus užregistruoti nepavyko!';

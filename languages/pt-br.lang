@@ -313,12 +313,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Editar Domínio'; # XXX text no longer us
 $PALANG['pAdminEdit_domain_result_error'] = 'Não foi possível editar o domínio!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Criação de um novo administrador de domínio.';
-$PALANG['pAdminCreate_admin_username'] = 'Administrador';
+$PALANG['pAdminCreate_admin_username'] = 'Administrador'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Endereço de email';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Endereço de email inválido!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Administrador já existe ou é inválido';
-$PALANG['pAdminCreate_admin_password'] = 'Senha';
-$PALANG['pAdminCreate_admin_password2'] = 'Senha (confirmação)';
+$PALANG['pAdminCreate_admin_password'] = 'Senha'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Senha (confirmação)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'As senhas fornecidas são diferentes! Ou não foram digitadas!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Criar Administrador';
 $PALANG['pAdminCreate_admin_result_error'] = 'Não foi possível criar o administrador!';

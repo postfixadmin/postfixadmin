@@ -305,12 +305,12 @@ $PALANG['pAdminEdit_domain_button'] = '修改'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = '修改域失败!';
 
 $PALANG['pAdminCreate_admin_welcome'] = '新增域管理员';
-$PALANG['pAdminCreate_admin_username'] = '管理员';
+$PALANG['pAdminCreate_admin_username'] = '管理员'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = '邮件地址';
 $PALANG['pAdminCreate_admin_username_text_error1'] = '管理员名不是一个合法的邮件地址!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = '管理员已经存在或者管理员名非法!';
-$PALANG['pAdminCreate_admin_password'] = '密码';
-$PALANG['pAdminCreate_admin_password2'] = '密码 (验证)';
+$PALANG['pAdminCreate_admin_password'] = '密码'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = '密码 (验证)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = '新所输入的两次新密码不相同! 或者为空!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = '新增';
 $PALANG['pAdminCreate_admin_result_error'] = '新增管理员失败!';

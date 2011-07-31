@@ -314,12 +314,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Upravit doménu'; # XXX text no longer us
 $PALANG['pAdminEdit_domain_result_error'] = 'Nepodařilo se upravit doménu!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Přidat nového doménového administrátora';
-$PALANG['pAdminCreate_admin_username'] = 'Uživatelské jméno';
+$PALANG['pAdminCreate_admin_username'] = 'Uživatelské jméno'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Emailová adresa';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Tato adresa není platná!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Taková adresa již existuje!';
-$PALANG['pAdminCreate_admin_password'] = 'Heslo';
-$PALANG['pAdminCreate_admin_password2'] = 'Heslo (znovu)';
+$PALANG['pAdminCreate_admin_password'] = 'Heslo'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Heslo (znovu)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Zadaná hesla jsou rozdílná nebo prázdná!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Přidat administrátora';
 $PALANG['pAdminCreate_admin_result_error'] = 'Nepodařilo se přidat administrátora!';

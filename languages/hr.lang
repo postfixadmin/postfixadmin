@@ -304,12 +304,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Uredi domenu'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Domenu nije bilo moguće premeniti!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Dodaj administratora domene';
-$PALANG['pAdminCreate_admin_username'] = 'Administrator';
+$PALANG['pAdminCreate_admin_username'] = 'Administrator'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Adresa e-pote';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrator nije valjana adresa e-pote!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Adminstrator već postoji ili nije valjan';
-$PALANG['pAdminCreate_admin_password'] = 'Lozinka';
-$PALANG['pAdminCreate_admin_password2'] = 'Lozinka (ponovi)';
+$PALANG['pAdminCreate_admin_password'] = 'Lozinka'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Lozinka (ponovi)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Uneene lozinke se ne podudaraju ili su prazne!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Dodaj administratora';
 $PALANG['pAdminCreate_admin_result_error'] = 'Administratora nije bilo moguće dodati!';

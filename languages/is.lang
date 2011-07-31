@@ -304,12 +304,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Breyta léni'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Get ekki breytt léni!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Bæta nýju léni við';
-$PALANG['pAdminCreate_admin_username'] = 'Kerfisstjóri';
+$PALANG['pAdminCreate_admin_username'] = 'Kerfisstjóri'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Póstfang';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Kerfisstjóri er ekki rétt póstfang!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Kerfisstjóri er til nú þegar eða er ekki leyfilegt';
-$PALANG['pAdminCreate_admin_password'] = 'Lykilorð';
-$PALANG['pAdminCreate_admin_password2'] = 'Lykilorð (aftur)';
+$PALANG['pAdminCreate_admin_password'] = 'Lykilorð'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Lykilorð (aftur)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Lykilorðið sem þú gafst upp passar ekki! Eða var tómt!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Bæta við kerfisstjóra';
 $PALANG['pAdminCreate_admin_result_error'] = 'Get ekki bætt við kerfisstjóra!';

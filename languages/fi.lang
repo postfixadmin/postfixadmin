@@ -305,12 +305,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Muokkaa domainia'; # XXX text no longer u
 $PALANG['pAdminEdit_domain_result_error'] = 'Domainin muokkaus ei onnistu!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Lisää uusi domainin ylläpitäjä';
-$PALANG['pAdminCreate_admin_username'] = 'Ylläpitäjä';
+$PALANG['pAdminCreate_admin_username'] = 'Ylläpitäjä'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Sähköpostiosoite';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Ylläpitäjän sähköpostiosoite ei ole oikeanmuotoinen!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Ylläpitäjän sähköpostiosoite on jo olemassa tai se ei ole oikean muotoinen';
-$PALANG['pAdminCreate_admin_password'] = 'Salasana';
-$PALANG['pAdminCreate_admin_password2'] = 'Salasana (toistamiseen)';
+$PALANG['pAdminCreate_admin_password'] = 'Salasana'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Salasana (toistamiseen)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Antamasi salasanat eivät täsmää Tai ne ovat tyhjiä!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Lisää ylläpitäjä';
 $PALANG['pAdminCreate_admin_result_error'] = 'Ylläpitäjän lisäys ei onnistu!';

@@ -303,13 +303,13 @@ $PALANG['pAdminEdit_domain_button'] = 'Domeinua aldatu'; # XXX text no longer us
 $PALANG['pAdminEdit_domain_result_error'] = 'Ezinezkoa domeinua aldatzea!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Domeinu kudeatzaile berri bat gehitu';
-$PALANG['pAdminCreate_admin_username'] = 'Kudeatzailea';
+$PALANG['pAdminCreate_admin_username'] = 'Kudeatzailea'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'E-mail helbidea';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Kudeatzaile e-mailak ez du balio!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Kudeatzailea existitzen da edo ez du balio!';
 
-$PALANG['pAdminCreate_admin_password'] = 'Pasahitza';
-$PALANG['pAdminCreate_admin_password2'] = 'Pasahitza (errepikatu)';
+$PALANG['pAdminCreate_admin_password'] = 'Pasahitza'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Pasahitza (errepikatu)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Sartutako pasahitzak ez datoz bat edo zuriz daude!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Kudeatzailea gehitu';
 $PALANG['pAdminCreate_admin_result_error'] = 'Ezinezkoa kudeatzailea gehitzea!';

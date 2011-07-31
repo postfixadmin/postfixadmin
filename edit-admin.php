@@ -152,8 +152,9 @@ if ($result['rows'] >= 1) {
     }
 }
 
+$smarty->assign ('mode', 'edit');
 $smarty->assign ('username', $username);
-$smarty->assign ('pAdminEdit_admin_password_text_error', $pAdminEdit_admin_password_text_error, false);
+$smarty->assign ('admin_password_text_error', $pAdminEdit_admin_password_text_error, false);
 $smarty->assign ('tActive_checked', $tActive_checked);
 $smarty->assign ('tSadmin_checked', $tSadmin_checked);
 $smarty->assign ('select_options', select_options ($tAllDomains, $tDomains), false);

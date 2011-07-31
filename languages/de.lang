@@ -311,12 +311,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Domain editieren'; # obsolete
 $PALANG['pAdminEdit_domain_result_error'] = 'Konnte Domain nicht editieren!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Neuen Domain-Admin hinzuf&uuml;gen';
-$PALANG['pAdminCreate_admin_username'] = 'Admin';
+$PALANG['pAdminCreate_admin_username'] = 'Admin'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Email Adresse';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Admin-Adresse ist keine echte Email-Adresse!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Der Admin existiert bereits bzw. ist nicht korrekt';
-$PALANG['pAdminCreate_admin_password'] = 'Passwort';
-$PALANG['pAdminCreate_admin_password2'] = 'Passwort (nochmal)';
+$PALANG['pAdminCreate_admin_password'] = 'Passwort'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Passwort (nochmal)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Die angegebenen Passw&ouml;rter sind nicht identisch oder leer!';
 $PALANG['pAdminCreate_admin_button'] = 'Admin hinzuf&uuml;gen';
 $PALANG['pAdminCreate_admin_result_error'] = 'Konnte den Admin nicht anlegen!';

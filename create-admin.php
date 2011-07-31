@@ -14,7 +14,7 @@
  * 
  * File: create-admin.php
  * Used to create new administrators.
- * Template File: admin_create-admin.tpl
+ * Template File: admin_edit-admin.tpl
  *
  *
  * Template Variables:
@@ -62,13 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    
 }
 
+$smarty->assign ('mode', 'create');
 $smarty->assign ('tUsername', $tUsername);
 $smarty->assign ('pAdminCreate_admin_username_text', $PALANG['pAdminCreate_admin_username_text'], false);
 $smarty->assign ('pAdminCreate_admin_username_text_error', $pAdminCreate_admin_username_text_error, false);
-$smarty->assign ('pAdminCreate_admin_password_text_error', $pAdminCreate_admin_password_text_error, false);
+$smarty->assign ('admin_password_text_error', $pAdminCreate_admin_password_text_error, false);
 $smarty->assign ('select_options', select_options ($list_domains, $tDomains), false);
 
-$smarty->assign ('smarty_template', 'admin_create-admin');
+$smarty->assign ('smarty_template', 'admin_edit-admin');
 $smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

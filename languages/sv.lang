@@ -307,12 +307,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Ändra domän'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Kan inte modifiera domänen!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Lägg till ny domänadmin';
-$PALANG['pAdminCreate_admin_username'] = 'Admin';
+$PALANG['pAdminCreate_admin_username'] = 'Admin'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Epostadress';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Admin är inte en giltig epostadress!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Denna admin finns redan eller är inte giltig';
-$PALANG['pAdminCreate_admin_password'] = 'Lösenord';
-$PALANG['pAdminCreate_admin_password2'] = 'Lösenord (igen)';
+$PALANG['pAdminCreate_admin_password'] = 'Lösenord'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Lösenord (igen)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Lösenorden du angav är olika! Eller är tomma!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Lägg till admin';
 $PALANG['pAdminCreate_admin_result_error'] = 'Kan inte lägga till admin!';

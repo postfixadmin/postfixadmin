@@ -311,12 +311,12 @@ $PALANG['pAdminEdit_domain_button'] = 'ドメイン修正'; # XXX text no longer
 $PALANG['pAdminEdit_domain_result_error'] = 'ドメインが修正できません！';
 
 $PALANG['pAdminCreate_admin_welcome'] = '新しいドメイン管理者の追加';
-$PALANG['pAdminCreate_admin_username'] = 'ドメイン管理者';
+$PALANG['pAdminCreate_admin_username'] = 'ドメイン管理者'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'メールアドレス';
 $PALANG['pAdminCreate_admin_username_text_error1'] = '管理者は有効なメールアドレスではありません。';
 $PALANG['pAdminCreate_admin_username_text_error2'] = '管理者は存在するか無効です。';
-$PALANG['pAdminCreate_admin_password'] = 'パスワード';
-$PALANG['pAdminCreate_admin_password2'] = 'パスワード (確認)';
+$PALANG['pAdminCreate_admin_password'] = 'パスワード'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'パスワード (確認)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'パスワードが一致しません。 または空です。'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = '管理者追加';
 $PALANG['pAdminCreate_admin_result_error'] = '管理者を追加できません！';
@@ -324,7 +324,7 @@ $PALANG['pAdminCreate_admin_result_success'] = '管理者を追加しました�
 $PALANG['pAdminCreate_admin_address'] = 'ドメイン';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'ドメイン管理者の編集';
-$PALANG['pAdminEdit_admin_username'] = '管理者';
+$PALANG['pAdminEdit_admin_username'] = '管理者'; # XXX check / compare with pAdminCreate_admin_username - should be "admin"
 $PALANG['pAdminEdit_admin_password'] = 'パスワード';
 $PALANG['pAdminEdit_admin_password2'] = 'パスワード (確認)';
 $PALANG['pAdminEdit_admin_password_text_error'] = 'パスワードが一致しません。 または空です。'; # XXX check/beautify - was split in two lines before

@@ -304,11 +304,11 @@ $PALANG['pAdminEdit_domain_button'] = 'Endre'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Klarte ikke å oppdatere domenet!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Legg til ny domene-administrator';
-$PALANG['pAdminCreate_admin_username'] = 'Administrator';
+$PALANG['pAdminCreate_admin_username'] = 'Administrator'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'E-postadresse';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrator er ikke gyldig adresse!';
-$PALANG['pAdminCreate_admin_username_text_error2'] = 'Administratoren eksisterer eller er ikke gyldig'; $PALANG['pAdminCreate_admin_password'] = 'Passord';
-$PALANG['pAdminCreate_admin_password2'] = 'Passord (igjen)';
+$PALANG['pAdminCreate_admin_username_text_error2'] = 'Administratoren eksisterer eller er ikke gyldig'; $PALANG['pAdminCreate_admin_password'] = 'Passord'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Passord (igjen)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Passordene er ikke like! Eller feltene er tomme!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Legg til en administrator';
 $PALANG['pAdminCreate_admin_result_error'] = 'Klarte ikke å legge til administratoren!';

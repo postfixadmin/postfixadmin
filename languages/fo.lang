@@ -305,12 +305,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Broyt navnaøki'; # XXX text no longer us
 $PALANG['pAdminEdit_domain_result_error'] = 'Fái ikki broytt navnaøki!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Stovna navnaøki umsitara';
-$PALANG['pAdminCreate_admin_username'] = 'Umsitari';
+$PALANG['pAdminCreate_admin_username'] = 'Umsitari'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'E-post adressa';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Umsitari er ógyldug e-post adressa!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Umsitari finst longu ella er ógyldugur';
-$PALANG['pAdminCreate_admin_password'] = 'Loyniorð';
-$PALANG['pAdminCreate_admin_password2'] = 'Loyniorð (umaftur)';
+$PALANG['pAdminCreate_admin_password'] = 'Loyniorð'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Loyniorð (umaftur)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Loyniorðini tú skrivaði samsvara ikki! Ella eru tóm!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Stovna umsitara';
 $PALANG['pAdminCreate_admin_result_error'] = 'Fái ikki stovnað umsitara!';

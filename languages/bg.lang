@@ -306,12 +306,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Редактирай домейн'; # XXX
 $PALANG['pAdminEdit_domain_result_error'] = 'Не мога да модифицирам домейна!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Добави нов админ на домейна';
-$PALANG['pAdminCreate_admin_username'] = 'Админ';
+$PALANG['pAdminCreate_admin_username'] = 'Админ'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Е-мейл адрес';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Админ не е валиден е-мейл адрес!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Админ-а вече съществува или не е валиден';
-$PALANG['pAdminCreate_admin_password'] = 'Парола';
-$PALANG['pAdminCreate_admin_password2'] = 'Парола (отново)';
+$PALANG['pAdminCreate_admin_password'] = 'Парола'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Парола (отново)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Паролите, които сте въвели не съвпадат! Или са празни!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Добави админ';
 $PALANG['pAdminCreate_admin_result_error'] = 'Не мога да добавя админа!';

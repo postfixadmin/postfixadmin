@@ -305,12 +305,12 @@ $PALANG['pAdminEdit_domain_button'] = 'Shrani'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Domene ni bilo mogoče spremeniti!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Dodaj domenskega administratorja';
-$PALANG['pAdminCreate_admin_username'] = 'Administrator';
+$PALANG['pAdminCreate_admin_username'] = 'Administrator'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'E-poštni naslov';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrator ni veljaven e-poštni naslov!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Adminstrator že obstaja ali pa ni pravilen';
-$PALANG['pAdminCreate_admin_password'] = 'Geslo';
-$PALANG['pAdminCreate_admin_password2'] = 'Geslo (ponovitev)';
+$PALANG['pAdminCreate_admin_password'] = 'Geslo'; # obsolete
+$PALANG['pAdminCreate_admin_password2'] = 'Geslo (ponovitev)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Vnešeni gesli se ne ujemata ali pa sta prazni!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Dodaj administratorja';
 $PALANG['pAdminCreate_admin_result_error'] = 'Administratorja ni bilo mogoče dodati!';
