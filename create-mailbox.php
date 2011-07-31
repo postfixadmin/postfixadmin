@@ -64,6 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    {
       $row = db_array ($result['result']);
       $tQuota = $row['maxquota'];
+      # TODO: check for remaining domain quota, reduce $tQuota if it is lower
+      # Note: this is dependent on the domain, which means to do it correct we'd have to remove the domain dropdown and hardcode the domain name from ?domain=...
+      # allowed_quota() will provide the maximum allowed quota 
    }
 }
 
@@ -72,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if (isset ($_POST['fUsername']) && isset ($_POST['fDomain'])) $fUsername = escape_string ($_POST['fUsername']) . "@" . escape_string ($_POST['fDomain']);
    $fUsername = strtolower ($fUsername);
-   if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
+   if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']); # TODO: remove escaping (except for DB query and when handing it over to dovecotpw) - https://sourceforge.net/tracker/?func=detail&aid=3094804&group_id=191583&atid=937964
    if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
    isset ($_POST['fName']) ? $fName = escape_string ($_POST['fName']) : $fName = "";
    if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
@@ -269,7 +272,7 @@ $smarty->assign ('mailbox_password_text_error', $pCreate_mailbox_password_text_e
 $smarty->assign ('tName', $tName, false);
 $smarty->assign ('tQuota', $tQuota);
 $smarty->assign ('mailbox_quota_text_error', $pCreate_mailbox_quota_text_error, false);
-$smarty->assign ('smarty_template', 'create-mailbox');
+$smarty->assign ('smarty_template', 'edit-mailbox');
 $smarty->display ('index.tpl');
 
 
