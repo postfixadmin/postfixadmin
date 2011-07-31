@@ -704,6 +704,30 @@ function check_quota ($quota, $domain, $username="") {
 }
 
 
+/**
+ * Get allowed maximum quota for a mailbox
+ * @param String $domain
+ * @param Integer $current_user_quota (in bytes)
+ * @return Integer allowed maximum quota (in MB)
+ */
+function allowed_quota($domain, $current_user_quota) {
+   $domain_properties = get_domain_properties($domain);
+
+   $tMaxquota = $domain_properties['maxquota'];
+
+   if (boolconf('domain_quota') && $domain_properties['quota']) {
+      $dquota = $domain_properties['quota'] - divide_quota($domain_properties['quota_sum'] - $current_user_quota);
+      if ($dquota < $tMaxquota) {
+         $tMaxquota = $dquota;
+      }
+
+      if ($tMaxquota == 0) {
+         $tMaxquota = $dquota;
+      }
+   }
+   return $tMaxquota;
+}
+
 
 //
 // multiply_quota
@@ -1218,7 +1242,7 @@ function pacrypt ($pw, $pw_db="") {
         die ('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
     }
 
-    $password = escape_string ($password);
+    $password = escape_string ($password); # TODO: disable escaping - https://sourceforge.net/tracker/?func=detail&aid=3301752&group_id=191583&atid=937964
     return $password;
 }
 

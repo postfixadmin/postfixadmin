@@ -74,12 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          $tActive = ('t'==$user_details['active']) ? 1 : 0;
       }
 
-      $result = db_query ("SELECT * FROM $table_domain WHERE domain='$fDomain'");
-      if ($result['rows'] == 1)
-      {
-         $row = db_array ($result['result']);
-         $tMaxquota = $row['maxquota'];
-      }
+      $tMaxquota = allowed_quota($fDomain, $user_details['quota']);
    }
 }
 
@@ -121,6 +116,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          $tName = $fName;
          $tQuota = $fQuota;
          $tActive = $fActive;
+         $tMaxquota = allowed_quota($fDomain, $user_details['quota']);
+
          $pEdit_mailbox_quota_text_error = $PALANG['pEdit_mailbox_quota_text_error'];
       }
    }
