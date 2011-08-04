@@ -17,14 +17,14 @@ $PALANG['confirm'] = 'Weet u het zeker dat u wilt verwijderen?\n';
 $PALANG['confirm_domain'] = 'Weet u zeker dat u ALLE data van het domein wilt verwijderen? Dit kan niet ongedaan worden gemaakt!\n';
 $PALANG['check_update'] = 'Zoeken naar nieuwe versie';
 $PALANG['invalid_parameter'] = 'ongeldige parameter!';
-$PALANG['show'] = 'Show:'; # XXX
-$PALANG['all'] = 'All'; # XXX
+$PALANG['show'] = 'Toon:';
+$PALANG['all'] = 'Alle';
 $PALANG['pFooter_logged_as'] = 'aangemeld als %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Mail beheerders log hier in om uw domeinen te beheren.';
 $PALANG['pLogin_username'] = 'Login (e-mail)';
 $PALANG['pLogin_password'] = 'Wachtwoord';
-$PALANG['pLogin_language'] = 'Language'; # XXX
+$PALANG['pLogin_language'] = 'Taal';
 $PALANG['pLogin_button'] = 'Login';
 $PALANG['pLogin_failed'] = 'Uw login gegevens zijn onjuist.';
 $PALANG['pLogin_login_users'] = 'Gebruikers klik hier om in te loggen.';
@@ -182,11 +182,12 @@ $PALANG['pPassword_password_text_error'] = 'De wachtwoorden komen niet overeen. 
 $PALANG['pPassword_button'] = 'Wijzig wachtwoord';
 $PALANG['pPassword_result_error'] = 'Mislukt om uw wachtwoord te veranderen.';
 $PALANG['pPassword_result_success'] = 'Uw wachtwoord is veranderd.';
+
 $PALANG['pEdit_vacation_set'] = 'Verander / Activeer beantwoorden tekst';
 $PALANG['pEdit_vacation_remove'] = 'Verwijder beantwoorden tekst';
 $PALANG['pVacation_result_error'] = 'Niet in staat automatisch beantwoorden te wijzigen!';
 $PALANG['pVacation_result_removed'] = 'Automatisch beantwoorden is gedeactiveerd!';
-$PALANG['pVacation_result_added'] = 'Automatisch beatwoorden is geactiveerd!';
+$PALANG['pVacation_result_added'] = 'Automatisch beantwoorden is geactiveerd!';
 
 $PALANG['pViewlog_welcome'] = 'Laat de laatste 10 actie\'s zien van ';
 $PALANG['pViewlog_timestamp'] = 'Tijd';
