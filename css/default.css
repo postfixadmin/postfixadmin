@@ -108,13 +108,12 @@ ul.flash-error {
 #login {
 	width: 990px;
 	margin: 0 auto;
-	background:#fff url(../images/mail_bg.gif) right 50% no-repeat;
+	background: url(../images/mail_bg.gif) right 50% no-repeat;
 }
 
 #login_table {
 	border-left: none;
 	border-right: 1px solid #999;
-	background: #fff;
 	width: 400px;
 	margin: 0 0 0 200px;
 	border-collapse: separate;
@@ -286,7 +285,6 @@ th {
 	text-align: center;
 	padding:7px 0;
 	margin: 0 0 14px 0;
-	background: #fff;
 	border-bottom: 1px solid #bbb;
 	color: #555555;
 }
