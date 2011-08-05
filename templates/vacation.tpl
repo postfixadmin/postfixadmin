@@ -1,16 +1,16 @@
 {literal}
-	<script language="JavaScript" type="text/javascript">
-	function newLocation() {
-		window.location="{/literal}{$fCanceltarget}{literal}"
-	}
-	</script>
 	<script language="JavaScript" src="calendar.js" type="text/javascript"></script>
 {/literal}
 <div id="edit_form">
-<form name="vacation" method="post" action=''>
+<form name="edit-vacation" method="post" action=''>
 <table>
 	<tr>
 		<th colspan="3">{$PALANG.pUsersVacation_welcome}</th>
+	</tr>
+	<tr>
+		<td class="label"><label>{$PALANG.pUsersLogin_username}:</label></td>
+		<td><em>{$tUseremail}</em></td>
+		<td>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pUsersVacation_activefrom}:</label></td>
@@ -18,7 +18,7 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 	new tcal ({
-		'formname': 'vacation',
+		'formname': 'edit-vacation',
 		'controlname': 'fActiveFrom'
 	});
 </script>
@@ -32,7 +32,7 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 	new tcal ({
-		'formname': 'vacation',
+		'formname': 'edit-vacation',
 		'controlname': 'fActiveUntil'
 	});
 </script>
@@ -53,8 +53,8 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td colspan="2">
-			<input class="button" type="submit" name="fAway" value="{$PALANG.pUsersVacation_button_away}" />
-			<input class="button" type="submit" name="fBack" value="{$PALANG.pUsersVacation_button_back}" />
+			<input class="button" type="submit" name="fChange" value="{$PALANG.pEdit_vacation_set}" />
+			<input class="button" type="submit" name="fBack" value="{$PALANG.pEdit_vacation_remove}" />
 			<input class="button" type="submit" name="fCancel" value="{$PALANG.exit}" />
 		</td>
 	</tr>
