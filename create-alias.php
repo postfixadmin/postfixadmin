@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $tAddress = escape_string ($_POST['fAddress']);
         $tGoto = $fGoto;
         $tDomain = $fDomain;
-        flash_error($PALANG['pCreate_alias_goto_text_error']);
+        flash_error($PALANG['pCreate_alias_address_text_error1']);
     }
 
     if (escape_string($_POST['fAddress']) == "*") {
