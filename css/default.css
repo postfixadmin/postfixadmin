@@ -352,3 +352,29 @@ span.active {
 div.nav_bar {
 	text-align: left;
 }
+
+
+.quota {
+z-index:99;
+height:14px;
+position: absolute;
+}
+.quota_text {
+z-index:100;
+  text-align: center;
+  font-size: 10px;
+  color: #666;
+
+  cursor: default;
+  position: absolute;
+  width:120px;
+  height:14px;
+  margin-top:-14px;
+}
+.quota_bg { background-color: white; z-index:98; width:120px; height:14px;margin-top:-1px;margin-left:-1px;   border: 1px solid #999;}
+.quota_high { background: url(images/quota-colors.png) repeat-x 0 -28px #f90509; }
+.quota_mid { background: url(images/quota-colors.png) repeat-x 0 -14px #e3e909; }
+.quota_low { background: url(images/quota-colors.png) repeat-x 0 0px #05f905; }
+.quota_text_high { color: white; }
+.quota_text_mid { color: #666; }
+.quota_text_low { color: #666; }

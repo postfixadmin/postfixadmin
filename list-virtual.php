@@ -307,6 +307,11 @@ if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
         if(isset($tMailbox[$i]['quota'])) {
             $divide_quota ['quota'][$i] = divide_quota ($tMailbox[$i]['quota']);
         }
+        if(isset($tMailbox[$i]['quota']) && isset($tMailbox[$i]['current']))
+        {
+          $divide_quota ['percent'][$i] = min(100, round(($divide_quota ['current'][$i]/max(1,$divide_quota ['quota'][$i]))*100));
+          $divide_quota ['quota_width'][$i] = ($divide_quota ['percent'][$i] / 100 * 120);
+        }
     }
     
 class cNav_bar

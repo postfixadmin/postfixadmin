@@ -49,7 +49,18 @@
 					{$PALANG.pOverview_disabled}
 				{else}
 					{if $boolconf_used_quotas}
-						{$divide_quota.current[$i]} / {$divide_quota.quota[$i]}
+
+						
+						{if $divide_quota.quota_width[$i]>90}
+							{assign var="quota_level" value="high"}
+						{elseif $divide_quota.quota_width[$i]>55}
+							{assign var="quota_level" value="mid"}
+						{else} 
+							{assign var="quota_level" value="low"}
+						{/if}
+						<div class="quota quota_{$quota_level}" style="width:{$divide_quota.quota_width[$i]}px;"></div>
+						<div class="quota_bg"></div></div>
+						<div class="quota_text quota_text_{$quota_level}">{$divide_quota.current[$i]} / {$divide_quota.quota[$i]}</div>
 					{/if}
 				{/if}
 				</td>
