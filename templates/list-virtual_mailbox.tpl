@@ -74,7 +74,7 @@
 					{else}
 						{assign var="v_active" value=$PALANG.pOverview_vacation_option}
 					{/if}
-					<td><a href="edit-vacation.php?username={$item.username|escape:"url"}&amp;domain={$fDomain|escape:"url"}">{$v_active}</a></td>
+					<td><a href="vacation.php?username={$item.username|escape:"url"}&amp;domain={$fDomain|escape:"url"}">{$v_active}</a></td>
 				{/if}
 			{else}
 					<td>&nbsp;</td>

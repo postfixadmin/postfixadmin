@@ -20,15 +20,16 @@
  * Template Variables:
  *
  * tUseremail
+ * tActiveFrom
+ * tActiveUntil
  * tSubject
  * tBody
  *
  * Form POST \ GET Variables:
  *
- * fRole
  * fUsername
  * fDomain
- * fCanceltarget
+ * fCancel
  * fChange
  * fBack
  * fQuota
@@ -37,30 +38,31 @@
 
 require_once('common.php');
 
-if($CONF['vacation'] == 'NO') {
-   header("Location: list-virtual.php");
-   exit(0);
-}
-
-// TODO
-// Get the $Role of who wants to modify vacation setiing [admin of user]
-// on $Role get correct Username and domain  of emailname
-// for  wtich we are going to modify thet vacation setting.
-// This has to by don up front before display new  windows.
-
-
 $SESSID_USERNAME = authentication_get_username();
 $tmp = preg_split ('/@/', $SESSID_USERNAME);
 $USERID_DOMAIN = $tmp[1];
 
 // only allow admins to change someone else's 'stuff'
 if(authentication_has_role('admin')) {
+   $Admin_role = 1 ;
+
    if (isset($_GET['username'])) $fUsername = escape_string ($_GET['username']);
    if (isset($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
+   $Return_url = "list-virtual.php?domain=$fDomain";
 }
 else {
+   $Admin_role = 0 ;
+#   $Return_url = "users/main.php";
+   $Return_url = "main.php";
+   authentication_require_role('user');
    $fUsername = $SESSID_USERNAME;
    $fDomain = $USERID_DOMAIN;
+}
+
+// is vacation support enabled in $CONF ?
+if($CONF['vacation'] == 'NO') {
+  header ("Location: $Return_url");
+  exit(0);
 }
 
 date_default_timezone_set(@date_default_timezone_get()); # Suppress date.timezone warnings
@@ -68,12 +70,12 @@ date_default_timezone_set(@date_default_timezone_get()); # Suppress date.timezon
 $vh = new VacationHandler($fUsername);
 
 
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $tSubject = '';
     $tBody = '';
     $tActiveFrom = '';
     $tActiveUntil = '';
+    $tUseremail = $fUsername;
 
     $details = $vh->get_details();
     if($details != false) {
@@ -83,8 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
         $tActiveUntil = $details['activeUntil'];
     }
 
-   $tUseremail = $fUsername;
-   $tDomain = $fDomain;
+    if($vh->check_vacation() and (!$Admin_role)) {
+        flash_info($PALANG['pUsersVacation_welcome_text']);
+    }
 
     //set a default, reset fields for coming back selection
    if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
@@ -94,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
     if(isset($_POST['fCancel'])) {
-        header("Location: list-virtual.php?domain=$fDomain");
+	header ("Location: $Return_url");
         exit(0);
     }
 
@@ -109,24 +112,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $fChange    = escape_string (safepost('fChange'));
    $fBack      = escape_string (safepost('fBack'));
 
-   if(authentication_has_role('admin') && isset($_GET['domain'])) {
-      $fDomain = escape_string ($_GET['domain']);
-   }
-   else {
-      $fDomain = $USERID_DOMAIN;
-   }
-   if(authentication_has_role('admin') && isset ($_GET['username'])) {
-      $fUsername = escape_string($_GET['username']);
-   }
-   else {
-      $fUsername = authentication_get_username();
-   }
-
    $tUseremail = $fUsername;
 
     //set a default, reset fields for coming back selection
    if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
    if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
+
+   // if they've set themselves change OR back, delete any record of vacation emails.
+   // the user is going away - set the goto alias and vacation table as necessary.
 
    //Set the vacation data for $fUsername
    if (!empty ($fChange))
@@ -143,32 +136,28 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $error = 1;
       }
    }
-
 }
-// If NO error then diplay flash message  and  go back to right url where we came from 
+
+// If NO error then diplay flash message  and  go back to right url where we came from
 if($error == 0) {
    if(!empty ($fBack)) {
-      $Flash_Message = $PALANG['pVacation_result_removed'] ; //TODO adding useremail to flash info depending on $Role
-      flash_info($Flash_Message);
-      header ("Location: list-virtual.php?domain=$fDomain");
-      exit;
+	flash_info(sprintf($PALANG['pVacation_result_removed'],$tUseremail));
+	header ("Location: $Return_url");
+	exit;
    }
    if(!empty($fChange)) {
-      $Flash_Message =( $PALANG['pVacation_result_added']); //TODO adding useremail to flash info depending on $Role
-      flash_info($Flash_Message);
-      header ("Location: list-virtual.php?domain=$fDomain");
-      exit;
+	flash_info(sprintf($PALANG['pVacation_result_added'],$tUseremail));
+	header ("Location: $Return_url");
+	exit;
    }
 }
 else {
-   $Flash_Message = $PALANG['pVacation_result_error'] ; //TODO adding useremail to flash info depending on $Role
-   flash_error($Flash_Message);
+	flash_error($PALANG['pVacation_result_error']);
 }
 if (empty ($tActiveFrom))
    $tActiveFrom = date ("Y-m-d");
 if (empty ($tActiveUntil))
    $tActiveUntil = date ("Y-m-d");
-
 
 $smarty->assign ('tUseremail', $tUseremail);
 $smarty->assign ('tSubject', $tSubject);

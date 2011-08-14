@@ -7,11 +7,13 @@
 	<tr>
 		<th colspan="3">{$PALANG.pUsersVacation_welcome}</th>
 	</tr>
+	{if !$authentication_has_role.user}
 	<tr>
 		<td class="label"><label>{$PALANG.pUsersLogin_username}:</label></td>
 		<td><em>{$tUseremail}</em></td>
 		<td>&nbsp;</td>
 	</tr>
+	{/if}
 	<tr>
 		<td class="label"><label>{$PALANG.pUsersVacation_activefrom}:</label></td>
 		<td><input class="flat readonly" name="fActiveFrom" value="{$tActiveFrom}" readonly="readonly" />
