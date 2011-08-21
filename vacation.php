@@ -38,25 +38,25 @@
 
 require_once('common.php');
 
-$SESSID_USERNAME = authentication_get_username();
-$tmp = preg_split ('/@/', $SESSID_USERNAME);
-$USERID_DOMAIN = $tmp[1];
-
 // only allow admins to change someone else's 'stuff'
 if(authentication_has_role('admin')) {
    $Admin_role = 1 ;
+   $fUsername = safeget('username');
+   list(/*NULL*/,$fDomain) = explode('@',$fUsername);
+   $Return_url = "list-virtual.php?domain=" . urlencode($fDomain);
 
-   if (isset($_GET['username'])) $fUsername = escape_string ($_GET['username']);
-   if (isset($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
-   $Return_url = "list-virtual.php?domain=$fDomain";
+   # TODO: better check for valid username (check if mailbox exists)
+   # TODO: (should be done in VacationHandler)
+   if ($fDomain == '' || !check_owner(authentication_get_username(), $fDomain)) {
+      die("Invalid username!"); # TODO: better error message
+   }
 }
 else {
    $Admin_role = 0 ;
 #   $Return_url = "users/main.php";
    $Return_url = "main.php";
    authentication_require_role('user');
-   $fUsername = $SESSID_USERNAME;
-   $fDomain = $USERID_DOMAIN;
+   $fUsername = authentication_get_username();
 }
 
 // is vacation support enabled in $CONF ?
@@ -86,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
 
     if($vh->check_vacation() and (!$Admin_role)) {
+       # TODO: would also be useful for admins, but needs a text change to include the username
         flash_info($PALANG['pUsersVacation_welcome_text']);
     }
 
@@ -141,14 +142,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 // If NO error then diplay flash message  and  go back to right url where we came from
 if($error == 0) {
    if(!empty ($fBack)) {
-	flash_info(sprintf($PALANG['pVacation_result_removed'],$tUseremail));
-	header ("Location: $Return_url");
-	exit;
+      flash_info(sprintf($PALANG['pVacation_result_removed'],htmlentities($tUseremail)));
+      header ("Location: $Return_url");
+      exit;
    }
    if(!empty($fChange)) {
-	flash_info(sprintf($PALANG['pVacation_result_added'],$tUseremail));
-	header ("Location: $Return_url");
-	exit;
+      flash_info(sprintf($PALANG['pVacation_result_added'],htmlentities($tUseremail)));
+      header ("Location: $Return_url");
+      exit;
    }
 }
 else {
