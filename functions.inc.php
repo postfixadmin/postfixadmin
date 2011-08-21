@@ -764,7 +764,9 @@ function divide_quota ($quota) {
 //
 function check_owner ($username, $domain) {
     global $table_domain_admins;
-    $result = db_query ("SELECT 1 FROM $table_domain_admins WHERE username='$username' AND (domain='$domain' OR domain='ALL') AND active='1'");
+    $E_username = escape_string($username);
+    $E_domain = escape_string($domain);
+    $result = db_query ("SELECT 1 FROM $table_domain_admins WHERE username='$E_username' AND (domain='$E_domain' OR domain='ALL') AND active='1'");
     if ($result['rows'] != 1) {
         if ($result['rows'] > 1) { # "ALL" + specific domain permissions. 2.3 doesn't create such entries, but they are available as leftover from older versions
             flash_error("Permission check returned more than one result. Please go to 'edit admin' for your username and press the save "
@@ -773,6 +775,7 @@ function check_owner ($username, $domain) {
         return false;
     } else {
         return true;
+        # TODO: if superadmin, check if given domain exists in the database
     }
 }
 
