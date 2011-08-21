@@ -353,12 +353,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 <date>-tik <date> arte kanpoan egongo naiz.
 Larrialdiko gaientzat, hemen <contact person> kontakta dezakezu nirekin.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Aldeginda';
-$PALANG['pUsersVacation_button_back'] = 'Itzulita';
-$PALANG['pUsersVacation_result_error'] = 'Ezinezkoa zure erantzun atomatikoaren konfigurazioa eguneratzea!';
-$PALANG['pUsersVacation_result_success'] = 'Zure erantzun automatikoa borratu da!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Aldeginda'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Itzulita'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Ezinezkoa zure erantzun atomatikoaren konfigurazioa eguneratzea!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Zure erantzun automatikoa borratu da!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX

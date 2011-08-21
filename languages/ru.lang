@@ -362,12 +362,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Я буду отсутствовать с <даты> по <дату>.
 По срочным вопросам вы можете обратиться к <контактному лицу>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Ухожу';
-$PALANG['pUsersVacation_button_back'] = 'Возвращаюсь';
-$PALANG['pUsersVacation_result_error'] = 'Невозможно изменить настройки автоответчика!';
-$PALANG['pUsersVacation_result_success'] = 'Ваш автоответчик был убран!';
-$PALANG['pUsersVacation_activefrom'] = 'Активен с';
-$PALANG['pUsersVacation_activeuntil'] = 'Активен по';
+$PALANG['pUsersVacation_button_away'] = 'Ухожу'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Возвращаюсь'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Невозможно изменить настройки автоответчика!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Ваш автоответчик был убран!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Активен с'; # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Активен по'; # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'создание ящика';     
 $PALANG['pCreate_dbLog_createalias'] = 'создание алиаса';

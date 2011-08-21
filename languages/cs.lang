@@ -363,12 +363,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jsem na dovolené od <datum> od <datum>.
 S neodkladnými zprávami prosím kontaktujte <kontaktní osoba>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Odjet pryč';
-$PALANG['pUsersVacation_button_back'] = 'Vrátit se';
-$PALANG['pUsersVacation_result_error'] = 'Nepodařilo se upravit nastavení!';
-$PALANG['pUsersVacation_result_success'] = 'Nastavení bylo upraveno!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Odjet pryč'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Vrátit se'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Nepodařilo se upravit nastavení!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Nastavení bylo upraveno!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'vytvořil schránku';
 $PALANG['pCreate_dbLog_createalias'] = 'vytvořil alias';

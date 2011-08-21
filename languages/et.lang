@@ -357,12 +357,12 @@ Kiireloomuliste asjade korral palun kontakteeru <kontakt isik>.
 I will be away from <date> until <date>.
 For urgent matters you can contact <contact person>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Olen eemal alates';
-$PALANG['pUsersVacation_button_back'] = 'Tulen tagasi';
-$PALANG['pUsersVacation_result_error'] = 'Automaatse vastuse uuendamine ebaõnnestus!';
-$PALANG['pUsersVacation_result_success'] = 'Automaatne vastus on eemaldatud!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Olen eemal alates'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Tulen tagasi'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Automaatse vastuse uuendamine ebaõnnestus!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Automaatne vastus on eemaldatud!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'postkasti loomine';     
 $PALANG['pCreate_dbLog_createalias'] = 'aliase loomine';

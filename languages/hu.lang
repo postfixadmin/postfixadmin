@@ -362,12 +362,12 @@ Ettõl - Eddig.
 
 Ez egy automatikus üzenet.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Automatikus válaszadás bekapcsolása';
-$PALANG['pUsersVacation_button_back'] = 'Automatikus válaszadás kikapcsolása';
-$PALANG['pUsersVacation_result_error'] = 'Nem sikerült megváltoztatni az automatikus válasz konfigurációdat!';
-$PALANG['pUsersVacation_result_success'] = 'Az automatikus válaszadás sikeresen kikapcsolva!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Automatikus válaszadás bekapcsolása'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Automatikus válaszadás kikapcsolása'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Nem sikerült megváltoztatni az automatikus válasz konfigurációdat!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Az automatikus válaszadás sikeresen kikapcsolva!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'postafiók létrehozása';
 $PALANG['pCreate_dbLog_createalias'] = 'alias létrehozása';

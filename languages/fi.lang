@@ -354,12 +354,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Olen lomalla <päiväys> <päiväys> välisen ajan.
 Kiireellisissä asioissa voitte ottaa yhteyttä <sähköpostiosoite>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Lomalle';
-$PALANG['pUsersVacation_button_back'] = 'Takaisin lomalta';
-$PALANG['pUsersVacation_result_error'] = 'Automaattivastauksen asettaminen epäonnistui!';
-$PALANG['pUsersVacation_result_success'] = 'Automaattivastaus on poistettu käytöstä!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Lomalle'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Takaisin lomalta'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Automaattivastauksen asettaminen epäonnistui!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Automaattivastaus on poistettu käytöstä!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'luo sähköpostilaatikko';
 $PALANG['pCreate_dbLog_createalias'] = 'luo alias';

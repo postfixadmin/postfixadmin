@@ -354,12 +354,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 <date> tarihinden den <date> ine burada bulunmayacaðým.
 Acil durumlarda lütfen  <contact person> a baþvurunuz.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Dýþarý gidiyorum.';
-$PALANG['pUsersVacation_button_back'] = 'Geri Geliyorum';
-$PALANG['pUsersVacation_result_error'] = 'otomatik cevaplama ayarlarýnýzý deðiþtirilemiyor!';
-$PALANG['pUsersVacation_result_success'] = 'Otomatik cevaplamanýz kaldýrýldý!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Dýþarý gidiyorum.'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Geri Geliyorum'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'otomatik cevaplama ayarlarýnýzý deðiþtirilemiyor!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Otomatik cevaplamanýz kaldýrýldý!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX

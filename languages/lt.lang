@@ -354,12 +354,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 I will be away from <date> until <date>.
 For urgent matters you can contact <contact person>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Išvykstu';
-$PALANG['pUsersVacation_button_back'] = 'Grįžtu';
-$PALANG['pUsersVacation_result_error'] = 'Nepavyko nustatyti el.pašto auto atsakovo!';
-$PALANG['pUsersVacation_result_success'] = 'Auto atsakovas išjungtas!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Išvykstu'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Grįžtu'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Nepavyko nustatyti el.pašto auto atsakovo!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Auto atsakovas išjungtas!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'pašto dėžutė sukurta';
 $PALANG['pCreate_dbLog_createalias'] = 'sinonimas sukurtas';

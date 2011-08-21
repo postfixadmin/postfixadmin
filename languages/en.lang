@@ -362,12 +362,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 I will be away from <date> until <date>.
 For urgent matters you can contact <contact person>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Going Away';
-$PALANG['pUsersVacation_button_back'] = 'Coming Back';
-$PALANG['pUsersVacation_result_error'] = 'Unable to update your auto response settings!';
-$PALANG['pUsersVacation_result_success'] = 'Your auto response has been removed!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from';
-$PALANG['pUsersVacation_activeuntil'] = 'Active until';
+$PALANG['pUsersVacation_button_away'] = 'Going Away'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Coming Back'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Unable to update your auto response settings!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Your auto response has been removed!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';
 $PALANG['pCreate_dbLog_createalias'] = 'create alias';

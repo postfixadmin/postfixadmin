@@ -360,12 +360,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 私は <date> から <date> まで不在です。
 緊急事項は <contact person> まで連絡してください。
 EOM;
-$PALANG['pUsersVacation_button_away'] = '設定';
-$PALANG['pUsersVacation_button_back'] = '解除';
-$PALANG['pUsersVacation_result_error'] = '自動応答の設定を更新できませんでした！';
-$PALANG['pUsersVacation_result_success'] = '自動応答を解除しました。';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = '設定'; # obsolete
+$PALANG['pUsersVacation_button_back'] = '解除'; # obsolete
+$PALANG['pUsersVacation_result_error'] = '自動応答の設定を更新できませんでした！'; # obsolete
+$PALANG['pUsersVacation_result_success'] = '自動応答を解除しました。'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox'; # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX

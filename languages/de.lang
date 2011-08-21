@@ -361,12 +361,12 @@ Ich bin vom <date> bis <date> nicht zu Hause / im B&uuml;ro.
 In dringenden F&auml;llen setzen Sie sich bitte mit <contact person> in Verbindung.
 Vielen Dank f&uuml;r Ihr Verst&auml;ndnis.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Ich gehe weg';
-$PALANG['pUsersVacation_button_back'] = 'Ich bin zur&uuml;ck';
-$PALANG['pUsersVacation_result_error'] = 'Konnte Ihre Automatische Antwort nicht einstellen!';
-$PALANG['pUsersVacation_result_success'] = 'Ihre Automatische Antwort wurde gel&ouml;scht!';
-$PALANG['pUsersVacation_activefrom'] = 'Aktiv ab dem';
-$PALANG['pUsersVacation_activeuntil'] = 'Aktiv bis zum';
+$PALANG['pUsersVacation_button_away'] = 'Ich gehe weg'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Ich bin zur&uuml;ck'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Konnte Ihre Automatische Antwort nicht einstellen!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Ihre Automatische Antwort wurde gel&ouml;scht!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Aktiv ab dem'; # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Aktiv bis zum'; # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'Mailbox hinzuf&uuml;gen';     
 $PALANG['pCreate_dbLog_createalias'] = 'Alias hinzu&uuml;gen';

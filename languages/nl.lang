@@ -356,12 +356,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Ik zal afwezig zijn van <date> tot <date>.
 Voor belangrijke punten kunt u contact opnemen met <contact person>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Afwezig';
-$PALANG['pUsersVacation_button_back'] = 'Kom terug';
-$PALANG['pUsersVacation_result_error'] = 'Mislukt om uw automatisch beantwoorden instellingen te wijzigen.';
-$PALANG['pUsersVacation_result_success'] = 'Uw automatisch beantwoorden is verwijderd.';
-$PALANG['pUsersVacation_activefrom'] = 'Actief vanaf';
-$PALANG['pUsersVacation_activeuntil'] = 'Actief t/m';
+$PALANG['pUsersVacation_button_away'] = 'Afwezig'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Kom terug'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Mislukt om uw automatisch beantwoorden instellingen te wijzigen.'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Uw automatisch beantwoorden is verwijderd.'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Actief vanaf'; # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Actief t/m'; # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'mailbox aangemaakt';
 $PALANG['pCreate_dbLog_createalias'] = 'alias aangemaakt';

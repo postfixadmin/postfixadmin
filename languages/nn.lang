@@ -352,12 +352,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jeg vil være utilgjengelig fra <date> til <date>.
 For viktige henvendelser kan du kontakte <contact person>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Ikke tilstede';
-$PALANG['pUsersVacation_button_back'] = 'Straks tilbake';
-$PALANG['pUsersVacation_result_error'] = 'Klarte ikke å oppdatere dine autosvar-instillinger!';
-$PALANG['pUsersVacation_result_success'] = 'Ditt autosvar er fjernet';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Ikke tilstede'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Straks tilbake'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Klarte ikke å oppdatere dine autosvar-instillinger!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Ditt autosvar er fjernet'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'oppret e-postkonto';     
 $PALANG['pCreate_dbLog_createalias'] = 'opprett alias';

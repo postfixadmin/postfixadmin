@@ -354,12 +354,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
     我在 <date> 到 <date> 这段时间内暂时无法回信.
 如果你有急事请与 <contact person> 联系.
 EOM;
-$PALANG['pUsersVacation_button_away'] = '开启自动回复';
-$PALANG['pUsersVacation_button_back'] = '关闭自动回复';
-$PALANG['pUsersVacation_result_error'] = '更新自动回复失败!';
-$PALANG['pUsersVacation_result_success'] = '你的自动回复已经关闭!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = '开启自动回复'; # obsolete
+$PALANG['pUsersVacation_button_back'] = '关闭自动回复'; # obsolete
+$PALANG['pUsersVacation_result_error'] = '更新自动回复失败!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = '你的自动回复已经关闭!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = '新建邮箱';     
 $PALANG['pCreate_dbLog_createalias'] = '新建别名';

@@ -354,12 +354,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Seré fora des del <date> fins al <date>.
 Per assumptes urgents pot contactar amb mi a <contact person>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Absent';
-$PALANG['pUsersVacation_button_back'] = 'De tornada';
-$PALANG['pUsersVacation_result_error'] = 'Imposible actualitzar la configuració de la seva resposta automàtica!';
-$PALANG['pUsersVacation_result_success'] = 'La seva resposta automàtica ha estat esborrada!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Absent'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'De tornada'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Imposible actualitzar la configuració de la seva resposta automàtica!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'La seva resposta automàtica ha estat esborrada!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX

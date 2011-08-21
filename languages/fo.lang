@@ -359,12 +359,12 @@ For urgent matters you can contact <firmanavn>.
 
 Títt navn
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Burtur';
-$PALANG['pUsersVacation_button_back'] = 'Heima';
-$PALANG['pUsersVacation_result_error'] = 'Fái ikki broytt tínar frítíðarboð uppsetingar!';
-$PALANG['pUsersVacation_result_success'] = 'Títt frítíðarboð er strikað!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Burtur'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Heima'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Fái ikki broytt tínar frítíðarboð uppsetingar!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Títt frítíðarboð er strikað!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX

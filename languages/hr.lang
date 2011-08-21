@@ -353,12 +353,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Od <datum> do <datum> sam odsutan.
 Za hitne stvari molim vas da kontaktirate <kontaktna osoba>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Uključi odsutnost';
-$PALANG['pUsersVacation_button_back'] = 'Isključi odsutnost';
-$PALANG['pUsersVacation_result_error'] = 'Nemoguće promijeniti vae postavke o odsutnosti!';
-$PALANG['pUsersVacation_result_success'] = 'Obvijest o odsutnosti je uklonjena!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Uključi odsutnost'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Isključi odsutnost'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Nemoguće promijeniti vae postavke o odsutnosti!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Obvijest o odsutnosti je uklonjena!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'stvori potanski ormarić';
 $PALANG['pCreate_dbLog_createalias'] = 'stvori alias';

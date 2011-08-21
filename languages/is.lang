@@ -353,12 +353,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Ég er ekki við frá <date> og til <date>.  I will be away from <date> until <date>.
 Ef mikið liggur við, geturðu haft samaband við <contact person>. For urgent matters you can contact <contact person>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Verð í burtu';
-$PALANG['pUsersVacation_button_back'] = 'Kem aftur';
-$PALANG['pUsersVacation_result_error'] = 'Get ekki uppfært sjálfvirk skilaboð þín!';
-$PALANG['pUsersVacation_result_success'] = 'Sjálfvirk skilaboð þín (svar) hefur verið fjarlægt!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Verð í burtu'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Kem aftur'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Get ekki uppfært sjálfvirk skilaboð þín!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Sjálfvirk skilaboð þín (svar) hefur verið fjarlægt!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'create mailbox';      # XXX
 $PALANG['pCreate_dbLog_createalias'] = 'create alias'; # XXX

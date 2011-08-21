@@ -356,12 +356,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Je serai absent(e) de <date> jusqu\'au <date>.
 Pour toute urgence, merci de contacter <contact person>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Absence';
-$PALANG['pUsersVacation_button_back'] = 'De retour';
-$PALANG['pUsersVacation_result_error'] = 'Impossible de mettre à jour vos paramètres de réponse automatique!';
-$PALANG['pUsersVacation_result_success'] = 'Votre réponse automatique a été enlevée!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Absence'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'De retour'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Impossible de mettre à jour vos paramètres de réponse automatique!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'Votre réponse automatique a été enlevée!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'Création de compte';
 $PALANG['pCreate_dbLog_createalias'] = 'Création d\'alias';

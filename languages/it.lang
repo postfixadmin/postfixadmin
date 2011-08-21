@@ -355,12 +355,12 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Sar&ograve; assente dal <data> al <data>.
 Per problemi urgenti potete contattare <persona da contattare>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Imposta autorisponditore';
-$PALANG['pUsersVacation_button_back'] = 'Rimuovi autorisponditore';
-$PALANG['pUsersVacation_result_error'] = 'Impossibile registrare i valori per l\'autorisponditore!';
-$PALANG['pUsersVacation_result_success'] = 'La tua risposta automatica &egrave; stata tolta!';
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_button_away'] = 'Imposta autorisponditore'; # obsolete
+$PALANG['pUsersVacation_button_back'] = 'Rimuovi autorisponditore'; # obsolete
+$PALANG['pUsersVacation_result_error'] = 'Impossibile registrare i valori per l\'autorisponditore!'; # obsolete
+$PALANG['pUsersVacation_result_success'] = 'La tua risposta automatica &egrave; stata tolta!'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'crea casella';     
 $PALANG['pCreate_dbLog_createalias'] = 'crea alias';
