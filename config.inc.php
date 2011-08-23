@@ -48,19 +48,33 @@ $CONF['language_hook'] = '';
     Called if $CONF['language_hook'] == '<name_of_the_function>'
     Allows to add or override $PALANG interface texts.
 
+    If you add new texts, please always prefix them with 'x_' (for example 
+    $PALANG['x_mytext'] = 'foo') to avoid they clash with texts that might be
+    added to languages/*.lang in future versions of PostfixAdmin.
+
+    Please also make sure that all your added texts are included in all
+    sections - that includes all 'case "XY":' sections and the 'default:'
+    section (for users that don't have any of the languages specified
+    in the 'case "XY":' section). 
+    Usually the 'default:' section should contain english text.
+
+    If you modify an existing text/translation, please consider to report it
+    to the bugtracker on http://sf.net/projects/postfixadmin so that all users
+    can benefit from the corrected text/translation.
+
     Returns: modified $PALANG array
 */
 /*
 function language_hook($PALANG, $language) {
     switch ($language) {
         case "de":
-            $PALANG['whatever'] = 'foo';
+            $PALANG['x_whatever'] = 'foo';
             break;
-        case "en":
-            $PALANG['whatever'] = 'bar';
+        case "fr":
+            $PALANG['x_whatever'] = 'bar';
             break;
         default:
-            $PALANG['whatever'] = 'foobar';
+            $PALANG['x_whatever'] = 'foobar';
     }
 
     return $PALANG;
