@@ -38,6 +38,35 @@ $CONF['postfix_admin_url'] = '';
 // Language files are located in './languages', change as required..
 $CONF['default_language'] = 'en';
 
+// Hook to override or add translations in $PALANG
+// Set to the function name you want to use as hook function (see language_hook example function below)
+$CONF['language_hook'] = '';
+
+/*
+    language_hook example function
+ 
+    Called if $CONF['language_hook'] == '<name_of_the_function>'
+    Allows to add or override $PALANG interface texts.
+
+    Returns: modified $PALANG array
+*/
+/*
+function language_hook($PALANG, $language) {
+    switch ($language) {
+        case "de":
+            $PALANG['whatever'] = 'foo';
+            break;
+        case "en":
+            $PALANG['whatever'] = 'bar';
+            break;
+        default:
+            $PALANG['whatever'] = 'foobar';
+    }
+
+    return $PALANG;
+}
+*/
+
 // Database Config
 // mysql = MySQL 3.23 and 4.0, 4.1 or 5
 // mysqli = MySQL 4.1+ 

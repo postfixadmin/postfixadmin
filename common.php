@@ -51,6 +51,11 @@ require_once("$incpath/functions.inc.php");
 $_SESSION['lang'] = $language = check_language (); # TODO: storing the language only at login instead of calling check_language() on every page would save some processor cycles ;-)
 require_once("$incpath/languages/" . $_SESSION['lang'] . ".lang");
 
+if($CONF['language_hook'] != '' && function_exists($CONF['language_hook'])) {
+    $hook_func = $CONF['language_hook'];
+    $PALANG = $hook_func ($PALANG, $_SESSION['lang']);
+}
+
 /**
  * @param string $class
  * __autoload implementation, for use with spl_autoload_register().
