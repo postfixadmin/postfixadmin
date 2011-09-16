@@ -27,7 +27,7 @@ Version 2.3.3 - 2011/03/14 - SVN r1010 (postfixadmin-2.3 branch)
   - create-alias: allow multiple alias targets
   - create-alias, edit-alias: prevent input data loss on validation errors
   - list-virtual: fix displaying of 'modified' column for aliases when using
-	postgres
+    postgres
   - replaced deprecated split() with preg_split() or explode()
   - functions.inc.php: better error messages when database functions are missing
   - create domain: fixed typo in variable name that broke the default value for
@@ -67,8 +67,8 @@ Version 2.3.1 - 2010/07/09 - SVN r847 (postfixadmin-2.3 branch)
     was a longstanding issue/"missing feature".
     The ADDITIONS directory contains some new scripts.
   - SECURITY: users could bypass checking the old password when changing the
-	password by entering a too short new password. Fortunately only
-	"exploitable" by authentificated users.
+    password by entering a too short new password. Fortunately only
+    "exploitable" by authentificated users.
   - merge in changes to /debain (thanks normes) from trunk
   - display alias targets for mailboxes (if $CONF['special_alias_control'] = YES)
   - add hook for custom maildir path generation
