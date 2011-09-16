@@ -10,8 +10,8 @@
 # Last update:
 # $Id$
 
-Changes after 2.3.3 release (postfixadmin-2.3 branch)
----------------------------------------------------------------
+Version 2.3.4 - 2011/09/16 - SVN r1180 (postfixadmin-2.3 branch)
+----------------------------------------------------------------
 
   - generate more secure random passwords
   - squirrelmail plugin: fix typo in variable name
@@ -22,7 +22,7 @@ Changes after 2.3.3 release (postfixadmin-2.3 branch)
   - error_log() dovecotpw error messages
 
 Version 2.3.3 - 2011/03/14 - SVN r1010 (postfixadmin-2.3 branch)
----------------------------------------------------------------
+----------------------------------------------------------------
 
   - create-alias: allow multiple alias targets
   - create-alias, edit-alias: prevent input data loss on validation errors
