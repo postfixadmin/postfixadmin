@@ -276,6 +276,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is back-up MX';
 $PALANG['pAdminCreate_domain_button'] = 'Voeg Domein toe';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Mislukt om het domein toe te voegen.</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd!';
+$PALANG['pAdminDelete_admin_error'] = 'Niet in staat beheerder te verwijderen!';
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Niet in staat domein te verwijderen!</span>';
 $PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Niet in staat domein alias te verwijderen!</span>';
 

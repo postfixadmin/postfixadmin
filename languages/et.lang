@@ -275,6 +275,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'E-posti server on varuserver (backup 
 $PALANG['pAdminCreate_domain_button'] = 'Lisa domeen';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domeeni lisamine ebaõnnestus!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domeen on lisatud!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 

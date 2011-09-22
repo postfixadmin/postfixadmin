@@ -275,6 +275,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Post servari er "backup MX"';
 $PALANG['pAdminCreate_domain_button'] = 'Stovna navnaøki';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Fái ikki stovnað navnaøki!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Navnaøki er stovnað!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 

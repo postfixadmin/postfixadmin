@@ -274,6 +274,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Posluitelj e-pote je sekundarni M
 $PALANG['pAdminCreate_domain_button'] = 'Dodaj domenu';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Domenu nije bilo moguče dodati!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domena je bila uspjeno dodana!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 

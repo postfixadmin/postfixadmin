@@ -274,6 +274,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Afegir domini';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Imposible afegir el domini!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'El domini ha estat afegit!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 

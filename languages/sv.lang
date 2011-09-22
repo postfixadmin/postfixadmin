@@ -277,6 +277,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Mailserver är backup MX';
 $PALANG['pAdminCreate_domain_button'] = 'Lägg till domän';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Kan inte skapa domänen!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domänen har skapats!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Kunde inte tabort domän!</span>';
 $PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 

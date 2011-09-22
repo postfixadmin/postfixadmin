@@ -276,6 +276,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = 'Le serveur est un "backup MX"';
 $PALANG['pAdminCreate_domain_button'] = 'Ajouter un domaine';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Impossible d\'ajouter le domaine!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Le domaine a été ajouté!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Impossible de supprimer le domain!</span>';
 $PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Impossible de supprimé cet alias de domaine!</span>';

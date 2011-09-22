@@ -283,6 +283,7 @@ $PALANG['pAdminCreate_domain_button'] = 'Add Domain';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Unable to add domain!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain has been added!';
 
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!';
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>';
 $PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>';
 

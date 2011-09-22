@@ -275,6 +275,7 @@ $PALANG['pAdminCreate_domain_backupmx'] = '备份邮件服务器';
 $PALANG['pAdminCreate_domain_button'] = '新增';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">新增域失败!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = '新增域成功!';
+$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Unable to remove domain!</span>'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Unable to remove domain alias!</span>'; # XXX
 

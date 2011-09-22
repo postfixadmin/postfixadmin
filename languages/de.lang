@@ -281,6 +281,7 @@ $PALANG['pAdminCreate_domain_button'] = 'Domain hinzuf&uuml;gen';
 $PALANG['pAdminCreate_domain_result_error'] = '<span class="error_msg">Konnte Domain nicht anlegen!</span>';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain wurde angelegt!';
 
+$PALANG['pAdminDelete_admin_error'] = 'Admin kann nicht gel&ouml;scht werden!';
 $PALANG['pAdminDelete_domain_error'] = '<span class="error_msg">Domain konnte nicht gel&ouml;scht werden!</span>';
 $PALANG['pAdminDelete_alias_domain_error'] = '<span class="error_msg">Alias-Domain konnte nicht gel&ouml;scht werden!</span>';
 
