@@ -49,7 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
    if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
    $fDomains = array();
-   if (!empty ($_POST['fDomains'])) $fDomains = $_POST['fDomains'];
+   if (!empty ($_POST['fDomains'])) $fDomains = escape_string($_POST['fDomains']);
+# TODO: work with non-escaped values here and do the escaping in create_admin()
    list ($error, $infoMessage, $pAdminCreate_admin_username_text_error, $pAdminCreate_admin_password_text_error) = create_admin($fUsername, $fPassword, $fPassword2, $fDomains);
 
    if ($error != 0) {
