@@ -2349,7 +2349,7 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
             {
                 for ($i = 0; $i < sizeof ($fDomains); $i++)
                 {
-                    $domain = $fDomains[$i];
+                    $domain = escape_string($fDomains[$i]);
                     $result = db_query ("INSERT INTO " . table_by_key ('domain_admins') . " (username,domain,created) VALUES ('$fUsername','$domain',NOW())");
                 }
             }
