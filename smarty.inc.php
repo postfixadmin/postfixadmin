@@ -69,10 +69,10 @@ $smarty->assign ('authentication_has_role', array ('global_admin' => authenticat
 function select_options($aValues, $aSelected) {
     $ret_val = '';
     foreach ($aValues as $val) {
-        $ret_val .= '<option value="'.$val.'"';
+        $ret_val .= '<option value="'.htmlentities($val).'"';
         if (in_array ($val, $aSelected))
             $ret_val .= ' selected="selected"';
-        $ret_val .= '>'.$val.'</option>';
+        $ret_val .= '>'.htmlentities($val).'</option>';
     }
     return $ret_val;
 }
