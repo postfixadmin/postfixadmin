@@ -2264,14 +2264,22 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
         $password = pacrypt($fPassword);
         // $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
 
-        $result = db_query ("INSERT INTO " . table_by_key('admin') . " (username,password,created,modified) VALUES ('$fUsername','$password',NOW(),NOW())");
-        if ($result['rows'] != 1) {
+        $db_values = array(
+            'username'  => $fUsername,
+            'password'  => $password,
+        );
+        $result = db_insert('admin', $db_values);
+        if ($result != 1) {
             $pAdminCreate_admin_message = $PALANG['pAdminCreate_admin_result_error'] . "<br />($fUsername)<br />";
         } else {
             if (!empty ($fDomains[0])) {
                 for ($i = 0; $i < sizeof ($fDomains); $i++) {
                     $domain = $fDomains[$i];
-                    $result = db_query ("INSERT INTO " . table_by_key ('domain_admins') . " (username,domain,created) VALUES ('$fUsername','$domain',NOW())");
+                    $db_values = array(
+                        'username'  => $fUsername,
+                        'domain'    => $domain,
+                    );
+                    $result = db_insert('domain_admins', $db_values, array('created'));
                 }
             }
             $pAdminCreate_admin_message = $PALANG['pAdminCreate_admin_result_success'] . "<br />($fUsername";

@@ -123,7 +123,6 @@ if ($file_config == 1)
     require_once($incpath.'/config.inc.php');
     $config_loaded = 1;
 
-    require($incpath.'/config.inc.php');
     if(isset($CONF['configured'])) {
         if($CONF['configured'] === TRUE) {
             print "<li>Checking \$CONF['configured'] - OK\n";
@@ -341,9 +340,9 @@ else
         }
 
         if($error == 0 && $pw_check_result == 'pass_OK') {
-            if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']);
-            if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
-            if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
+            $fUsername  = safepost('fUsername');
+            $fPassword  = safepost('fPassword');
+            $fPassword2 = safepost('fPassword2');
 
             // XXX need to ensure domains table includes an 'ALL' entry.
             $table_domain = table_by_key('domain');
@@ -354,7 +353,7 @@ else
 
             list ($error, $setupMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, array('ALL'), TRUE);
             if ($error != 0) {
-                if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
+                $tUsername = htmlentities($fUsername);
             }
         }
     } 

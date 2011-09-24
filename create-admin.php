@@ -38,34 +38,25 @@ $tDomains = array();
 $pAdminCreate_admin_username_text_error = "";
 $pAdminCreate_admin_password_text_error = "";
 
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
-   $tDomains = array ();
-}
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+   $fUsername  = safepost('fUsername');
+   $fPassword  = safepost('fPassword');
+   $fPassword2 = safepost('fPassword2');
+   $fDomains   = safepost('fDomains', array());
 
-if ($_SERVER['REQUEST_METHOD'] == "POST")
-{
-   if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']);
-   if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
-   if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
-   $fDomains = array();
-   if (!empty ($_POST['fDomains'])) $fDomains = escape_string($_POST['fDomains']);
-# TODO: work with non-escaped values here and do the escaping in create_admin()
    list ($error, $infoMessage, $pAdminCreate_admin_username_text_error, $pAdminCreate_admin_password_text_error) = create_admin($fUsername, $fPassword, $fPassword2, $fDomains);
 
    if ($error != 0) {
-      if (isset ($_POST['fUsername'])) $tUsername = escape_string ($_POST['fUsername']);
-      if (isset ($_POST['fDomains'])) $tDomains = $_POST['fDomains'];
+      $tUsername = $fUsername;
+      $tDomains = $fDomains;
    }
-   
-   if(!empty($infoMessage))
-	flash_info($infoMessage);
-   
+
+   if(!empty($infoMessage)) flash_info($infoMessage);
 }
 
 $smarty->assign ('mode', 'create');
 $smarty->assign ('tUsername', $tUsername);
-$smarty->assign ('pAdminCreate_admin_username_text', $PALANG['pAdminCreate_admin_username_text'], false);
+$smarty->assign ('pAdminCreate_admin_username_text', $PALANG['pAdminCreate_admin_username_text']);
 $smarty->assign ('pAdminCreate_admin_username_text_error', $pAdminCreate_admin_username_text_error, false);
 $smarty->assign ('admin_password_text_error', $pAdminCreate_admin_password_text_error, false);
 $smarty->assign ('select_options', select_options ($list_domains, $tDomains), false);
