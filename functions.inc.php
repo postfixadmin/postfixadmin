@@ -266,7 +266,7 @@ function check_email ($email) {
     //and change from blah#foo.com@autoreply.foo.com to blah@foo.com
     if ($CONF['vacation'] == 'YES') { 
         $vacation_domain = $CONF['vacation_domain'];
-        $ce_email = preg_replace("/@$vacation_domain/", '', $ce_email);
+        $ce_email = preg_replace("/@$vacation_domain\$/", '', $ce_email);
         $ce_email = preg_replace("/#/", '@', $ce_email);
     }
 
