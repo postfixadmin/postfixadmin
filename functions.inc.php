@@ -2277,13 +2277,21 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
         $pAdminCreate_admin_username_text_error = $PALANG['pAdminCreate_admin_username_text_error2'];
     }
 
+    $generated_password = 0;
     if (empty ($fPassword) or empty ($fPassword2) or ($fPassword != $fPassword2)) {
         if (empty ($fPassword) and empty ($fPassword2) and $CONF['generate_password'] == "YES" && $no_generate_password == 0) {
             $fPassword = generate_password ();
+            $generated_password = 1;
         } else {
             $error = 1;
             $pAdminCreate_admin_password_text_error = $PALANG['pAdminCreate_admin_password_text_error'];
         }
+    }
+
+    $validpass = validate_password($fPassword);
+    if(count($validpass) > 0 && $generated_password == 0) { # skip this check for generated passwords
+        $pAdminCreate_admin_password_text_error = $validpass[0]; # TODO: honor all error messages, not only the first one
+        $error = 1;
     }
 
     if ($error != 1) {
@@ -2309,15 +2317,10 @@ function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_genera
                 }
             }
             $pAdminCreate_admin_message = $PALANG['pAdminCreate_admin_result_success'] . "<br />($fUsername";
-            if ($CONF['generate_password'] == "YES" && $no_generate_password == 0) {
-                $pAdminCreate_admin_message .= " / $fPassword)</br />";
-            } else {
-                if ($CONF['show_password'] == "YES" && $no_generate_password == 0) {
-                    $pAdminCreate_admin_message .= " / $fPassword)</br />";
-                } else {
-                    $pAdminCreate_admin_message .= ")</br />";
-                }
+            if ($CONF['show_password'] == "YES" || $generated_password == 1) {
+                $pAdminCreate_admin_message .= " / $fPassword";
             }
+            $pAdminCreate_admin_message .= ")</br />";
         }
     }
 
