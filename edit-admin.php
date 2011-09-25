@@ -78,12 +78,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             // if it has, ensure both fields are the same...
             if ($fPassword == $fPassword2)
             {
-                if(strlen($fPassword) >= $CONF['min_password_length']) {
-                    $fPassword = pacrypt($fPassword);
-                }
-                else {
+                $validpass = validate_password($fPassword);
+                if(count($validpass) > 0) {
+                    $pAdminEdit_admin_password_text_error = $validpass[0]; # TODO: honor all error messages, not only the first one
                     $error = 1;
-                    $pAdminEdit_admin_password_text_error = sprintf($PALANG['password_too_short'], $CONF['min_password_length']);
                 }
             }
             else {
@@ -105,6 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
         $password_query = '';
         if ($fPassword != '') { # do not change password to empty one
+            $fPassword = pacrypt($fPassword);
             $password_query = ", password='$fPassword'";
         }
         $result = db_query ("UPDATE $table_admin SET modified=NOW(),active='$sqlActive' $password_query WHERE username='$username'");

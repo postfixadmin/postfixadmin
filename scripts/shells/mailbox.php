@@ -321,7 +321,7 @@ class PasswordTask extends Shell {
                         if (isset($this->params['g']) && $this->params['g'] == true ) {
                             $random = true;
                             $password = NULL;
-                        } elseif  (isset($this->args[1]) && strlen($this->args[1]) > 8) { # TODO use $CONF['min_password_length']
+                        } elseif  (isset($this->args[1]) && strlen($this->args[1]) > 8) { # TODO use validate_password()
                             $password = $this->args[1];
                         } else {
 

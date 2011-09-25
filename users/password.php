@@ -47,10 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $fPassword2 = $_POST['fPassword2'];
 
     $error = 0;
-    if(strlen($fPassword) < $CONF['min_password_length']) {
+
+    $validpass = validate_password($fPassword);
+    if(count($validpass) > 0) {
+        flash_error($validpass[0]); # TODO: honor all error messages, not only the first one
         $error += 1;
-        flash_error(sprintf($PALANG['password_too_short'], $CONF['min_password_length']));
     }
+  
     if(!MailboxHandler::login($username, $fPassword_current)) {
         $error += 1;
         $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];

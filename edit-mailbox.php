@@ -92,12 +92,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if (isset ($_POST['fActive'])) $fActive = escape_string ($_POST['fActive']);
 
    if($fPassword != $user_details['password'] || $fPassword2 != $user_details['password']){
-      $min_length = $CONF['min_password_length'];
-
       if($fPassword == $fPassword2) {
          if ($fPassword != "") {
-            if($min_length > 0 && strlen($fPassword) < $min_length) {
-               $mailbox_password_text_error = sprintf($PALANG['password_too_short'], $CONF['min_password_length']);
+            $validpass = validate_password($fPassword);
+            if(count($validpass) > 0) {
+               $mailbox_password_text_error = $validpass[0]; # TODO: honor all error messages, not only the first one
                $error = 1;
             }
             $formvars['password'] = pacrypt($fPassword);

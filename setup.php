@@ -464,10 +464,12 @@ function check_setup_password($password, $lostpw_mode = 0) {
     list($confsalt, $confpass, $trash) = explode(':', $setuppw . '::');
     $pass = encrypt_setup_password($password, $confsalt);
 
+    $validpass = validate_password($password);
+
     if ($password == "" ) { # no password specified?
         $result = "Setup password must be specified<br />If you didn't set up a setup password yet, enter the password you want to use.";
-    } elseif (strlen($password) < $CONF['min_password_length']) { # password too short?
-        $result = "The setup password you entered is too short. Please choose a better one.";
+    } elseif (count($validpass) > 0) {
+        $result = $validpass[0]; # TODO: honor all error messages, not only the first one
     } elseif ($pass == $setuppw && $lostpw_mode == 0) { # correct passsword (and not asking for a new password)
         $result = "pass_OK";
         $error = 0;
@@ -479,7 +481,7 @@ function check_setup_password($password, $lostpw_mode = 0) {
         } else {
             $result = '<p><b>Setup password not specified correctly</b></p>';
         }
-        $result .= '<p>If you want to use the password you entered as setup password, edit config.inc.php and set</p>';
+        $result .= '<p>If you want to use the password you entered as setup password, edit config.inc.php or config.local.php and set</p>';
         $result .= "<pre>\$CONF['setup_password'] = '$pass';</pre>";
     }
     return array ($error, $result);

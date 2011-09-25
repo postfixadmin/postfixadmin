@@ -148,9 +148,21 @@ $CONF['authlib_default_flavor'] = 'md5raw';
 // If you use the dovecot encryption method: where is the dovecotpw binary located?
 $CONF['dovecotpw'] = "/usr/sbin/dovecotpw";
 
-// Minimum length required for passwords. Postfixadmin will not
-// allow users to set passwords which are shorter than this value.
-$CONF['min_password_length'] = 5;
+// Password validation
+// New/changed passwords will be validated using all regular expressions in the array.
+// If a password doesn't match one of the regular expressions, the corresponding
+// error message from $PALANG (see languages/*) will be displayed.
+// See http://de3.php.net/manual/en/reference.pcre.pattern.syntax.php for details
+// about the regular expression syntax.
+// If you need custom error messages, you can add them using $CONF['language_hook'].
+// If a $PALANG text contains a %s, you can add its value after the $PALANG key
+// (separated with a space).
+$CONF['password_validation'] = array(
+#    '/regular expression/' => '$PALANG key (optional: + parameter)',
+    '/.{5}/'                => 'password_too_short 5',      # minimum length 5 characters
+    '/([a-zA-Z].*){3}/'     => 'password_no_characters 3',  # must contain at least 3 characters
+    '/([0-9].*){2}/'        => 'password_no_digits 2',      # must contain at least 2 digits
+);
 
 // Generate Password
 // Generate a random password for a mailbox or admin and display it.

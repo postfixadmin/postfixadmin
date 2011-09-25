@@ -1088,11 +1088,8 @@ function encode_header ($string, $default_charset = "utf-8") {
 function generate_password () {
     global $CONF;
 
-    //check that password length is sensible
-    $length = (int) $CONF['min_password_length'];
-    if ($length < 5 || $length > 32) {
-  	    $length = 8;
-    }
+    // length of the generated password
+    $length = 8;
 
     // define possible characters
     $possible = "2345678923456789abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ"; # skip 0 and 1 to avoid confusion with O and l
@@ -1112,6 +1109,35 @@ function generate_password () {
     return $password;
 }
 
+
+
+/**
+ * Check if a password is strong enough based on the conditions in $CONF['password_validation']
+ * @param String $password
+ * @return array of error messages, or empty array if the password is ok
+ */
+function validate_password($password) {
+    global $CONF;
+    global $PALANG;
+    $result = array();
+
+    if (isset($CONF['min_password_length'])) { # used up to 2.3.x - check it for backward compatibility
+        $minlen = (int) $CONF['min_password_length'];
+        $CONF['password_validation']['/.{' . $minlen . '}/'] = "password_too_short $minlen";
+    }
+
+    foreach ($CONF['password_validation'] as $regex => $message) {
+        if (!preg_match($regex, $password)) {
+            $msgparts = preg_split("/ /", $message, 2);
+            if (count($msgparts) == 1) {
+                $result[] = $PALANG[$msgparts[0]];
+            } else {
+                $result[] = sprintf($PALANG[$msgparts[0]], $msgparts[1]);
+            }
+        }
+    }
+    return $result;
+}
 
 
 /**
