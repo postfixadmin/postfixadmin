@@ -87,49 +87,33 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if ( (!check_owner ($SESSID_USERNAME, $fDomain)) && (!authentication_has_role('global-admin')) )
    {
       $error = 1;
-      $tUsername = escape_string ($_POST['fUsername']);
-      $tName = $fName;
-      $tQuota = $fQuota;
-      $tDomain = $fDomain;
       $pCreate_mailbox_username_text_error = $PALANG['pCreate_mailbox_username_text_error1'];
    }
 
    if (!check_mailbox ($fDomain))
    {
       $error = 1;
-      $tUsername = escape_string ($_POST['fUsername']);
-      $tName = $fName;
-      $tQuota = $fQuota;
-      $tDomain = $fDomain;
       $pCreate_mailbox_username_text_error = $PALANG['pCreate_mailbox_username_text_error3'];
    }
 
    if (empty ($fUsername) or !check_email ($fUsername))
    {
       $error = 1;
-      $tUsername = escape_string ($_POST['fUsername']);
-      $tName = $fName;
-      $tQuota = $fQuota;
-      $tDomain = $fDomain;
       $pCreate_mailbox_username_text_error = $PALANG['pCreate_mailbox_username_text_error1'];
    }
 
    $tPassGenerated = 0;
-   if (empty ($fPassword) or empty ($fPassword2) or ($fPassword != $fPassword2))
-   {
-      if (empty ($fPassword) and empty ($fPassword2) and $CONF['generate_password'] == "YES")
-      {
-         $fPassword = generate_password ();
-         $tPassGenerated = 1;
-      }
-      else
-      {
+   if (empty ($fPassword) && empty ($fPassword2) && $CONF['generate_password'] == "YES") {
+      $fPassword = generate_password ();
+      $tPassGenerated = 1;
+   } elseif (empty ($fPassword) || empty ($fPassword2) || ($fPassword != $fPassword2)) {
          $error = 1;
-         $tUsername = escape_string ($_POST['fUsername']);
-         $tName = $fName;
-         $tQuota = $fQuota;
-         $tDomain = $fDomain;
          $pCreate_mailbox_password_text_error = $PALANG['pCreate_mailbox_password_text_error'];
+   } else {
+      $validpass = validate_password($fPassword);
+      if(count($validpass) > 0) {
+         $pCreate_mailbox_password_text_error = $validpass[0]; # TODO: honor all error messages, not only the first one
+         $error = 1;
       }
    }
 
@@ -138,10 +122,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if (!check_quota ($fQuota, $fDomain))
       {
          $error = 1;
-         $tUsername = escape_string ($_POST['fUsername']);
-         $tName = $fName;
-         $tQuota = $fQuota;
-         $tDomain = $fDomain;
          $pCreate_mailbox_quota_text_error = $PALANG['pCreate_mailbox_quota_text_error'];
       }
    }
@@ -150,15 +130,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    if ($result['rows'] == 1)
    {
       $error = 1;
+      $pCreate_mailbox_username_text_error = $PALANG['pCreate_mailbox_username_text_error2'];
+   }
+
+   if ($error != 0) {
       $tUsername = escape_string ($_POST['fUsername']);
       $tName = $fName;
       $tQuota = $fQuota;
       $tDomain = $fDomain;
-      $pCreate_mailbox_username_text_error = $PALANG['pCreate_mailbox_username_text_error2'];
-   }
-
-   if ($error != 1)
-   {
+   } else {
       $password = pacrypt ($fPassword);
 
       if($CONF['maildir_name_hook'] != 'NO' && function_exists($CONF['maildir_name_hook'])) {
