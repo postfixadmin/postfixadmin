@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
                 }
                 else {
                     $error = 1;
-                    $pAdminEdit_admin_password_text_error = sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']);
+                    $pAdminEdit_admin_password_text_error = sprintf($PALANG['password_too_short'], $CONF['min_password_length']);
                 }
             }
             else {

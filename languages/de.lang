@@ -396,7 +396,9 @@ $PALANG['pStatus_undeliverable'] = 'm&ouml;glicherweise UNZUSTELLBAR ';
 $PALANG['pStatus_custom'] = 'Zustellung an ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
-$PALANG['pPasswordTooShort'] = "Das Passwort ist zu kurz - mindestens %s Zeichen ben&ouml;tigt";
+$PALANG['password_too_short'] = "Das Passwort ist zu kurz - mindestens %s Zeichen ben&ouml;tigt";
+$PALANG['password_no_characters'] = "Ihr Passwort muss mindestens %s Buchstaben enthalten.";
+$PALANG['password_no_digits'] = "Ihr Passwort muss mindestens %s Ziffer(n) enthalten.";
 $PALANG['pInvalidDomainRegex'] = "Ung&uuml;ltiger Domainname %s - &Uuml;berpr&uuml;fung per RegEx fehlgeschlagen";
 $PALANG['pInvalidDomainDNS'] = "Ung&uuml;ltige Domain %s - nicht per DNS aufl&ouml;sbar";
 $PALANG['pInvalidMailRegex'] = "Ung&uuml;ltige Mailadresse - &Uuml;berpr&uuml;fung per RegEx fehlgeschlagen";

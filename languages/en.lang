@@ -397,7 +397,9 @@ $PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE ';
 $PALANG['pStatus_custom'] = 'Delivers to ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
-$PALANG['pPasswordTooShort'] = "Password is too short - requires %s characters"; # usage: flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
+$PALANG['password_too_short'] = "Password is too short - requires %s characters";
+$PALANG['password_no_characters'] = "Your password must contain at least %s character(s).";
+$PALANG['password_no_digits'] = "Your password must contain at least %s digit(s).";
 $PALANG['pInvalidDomainRegex'] = "Invalid domain name %s, fails regexp check";
 $PALANG['pInvalidDomainDNS'] = "Invalid domain %s, and/or not discoverable in DNS";
 $PALANG['pInvalidMailRegex'] = "Invalid email address, fails regexp check";

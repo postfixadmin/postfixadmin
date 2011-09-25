@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       if($fPassword == $fPassword2) {
          if ($fPassword != "") {
             if($min_length > 0 && strlen($fPassword) < $min_length) {
-               $mailbox_password_text_error = sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']);
+               $mailbox_password_text_error = sprintf($PALANG['password_too_short'], $CONF['min_password_length']);
                $error = 1;
             }
             $formvars['password'] = pacrypt($fPassword);

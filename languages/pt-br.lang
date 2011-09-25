@@ -397,7 +397,9 @@ $PALANG['pStatus_undeliverable'] = 'talvez NÃO-ENTREGÁVEL ';
 $PALANG['pStatus_custom'] = 'Envia para ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
-$PALANG['pPasswordTooShort'] = "Senha muito curta - requer %s caracteres";  # uso: flash_error(sprintf($PALANG['pPasswordTooShort'], $CONF['min_password_length']));
+$PALANG['password_too_short'] = "Senha muito curta - requer %s caracteres";
+$PALANG['password_no_characters'] = "Your password must contain at least %s character(s)."; # XXX
+$PALANG['password_no_digits'] = "Your password must contain at least %s digit(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Nome de domínio inválido %s, falhou checagem por expressão regular";
 $PALANG['pInvalidDomainDNS'] = "Domínio inválido %s, e/ou não pôde ser resolvido por DNS";
 $PALANG['pInvalidMailRegex'] = "Endereço de email inválido, falhou checagem por expressão regular";

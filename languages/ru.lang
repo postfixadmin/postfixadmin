@@ -397,7 +397,9 @@ $PALANG['pStatus_undeliverable'] = 'возможно НЕ ДОСТАВЛЕНО '
 $PALANG['pStatus_custom'] = 'Доставляется для ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
-$PALANG['pPasswordTooShort'] = "Пароль слишком короткий - требуется %s символов";
+$PALANG['password_too_short'] = "Пароль слишком короткий - требуется %s символов";
+$PALANG['password_no_characters'] = "Your password must contain at least %s character(s)."; # XXX
+$PALANG['password_no_digits'] = "Your password must contain at least %s digit(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Некорректное имя домена %s, не соответствует регулярному выражению";
 $PALANG['pInvalidDomainDNS'] = "Некорректный домен %s, и/или не обнаруживается в DNS";
 $PALANG['pInvalidMailRegex'] = "Некорректный адрес e-mail, не соответствует регулярному выражению";
