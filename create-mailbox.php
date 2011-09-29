@@ -215,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          if ($fMail == "on")
          {
             $fTo = $fUsername;
-            $fFrom = $SESSID_USERNAME;
+            $fFrom = smtp_get_admin_email();
             $fSubject = $PALANG['pSendmail_subject_text'];
             $fBody = $CONF['welcome_text'];
 
