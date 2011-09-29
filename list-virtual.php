@@ -58,8 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 }
 
 if (count($list_domains) == 0) {
-#   die("no domains");
-    flash_error( $PALANG['invalid_parameter'] );
+    if ($is_superadmin) {
+        flash_error($PALANG['no_domains_exist']);
+    } else {
+        flash_error($PALANG['no_domains_for_this_admin']);
+    }
     header("Location: list-domain.php"); # no domains (for this admin at least) - redirect to domain list
     exit;
 }

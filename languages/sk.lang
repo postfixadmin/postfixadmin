@@ -79,6 +79,8 @@ $PALANG['pOverview_mailbox_modified'] = 'Posledná zmena';
 $PALANG['pOverview_mailbox_active'] = 'Aktívna';
 $PALANG['pOverview_vacation_edit'] = 'AUT. ODPOVEĎ';
 $PALANG['pOverview_vacation_option'] = 'aut. odpoveď';
+$PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
+$PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 $PALANG['pOverview_get_domain'] = 'Doména';
 $PALANG['pOverview_get_aliases'] = 'Aliasy';

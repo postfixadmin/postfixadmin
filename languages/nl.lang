@@ -79,6 +79,8 @@ $PALANG['pOverview_mailbox_modified'] = 'Laatst Bewerkt';
 $PALANG['pOverview_mailbox_active'] = 'Actief';
 $PALANG['pOverview_vacation_edit'] = 'AUTOMATISCH BEANTWOORDEN IS ACTIEF';
 $PALANG['pOverview_vacation_option'] = 'Activeer automatisch beantwoorden';
+$PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
+$PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 $PALANG['pOverview_get_domain'] = 'Domein';
 $PALANG['pOverview_get_aliases'] = 'Aliassen';

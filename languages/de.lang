@@ -80,6 +80,8 @@ $PALANG['pOverview_mailbox_modified'] = 'Zuletzt ver&auml;ndert';
 $PALANG['pOverview_mailbox_active'] = 'Aktiv';
 $PALANG['pOverview_vacation_edit'] = 'AUTOMATISCHE ANTWORT IST AKTIV';
 $PALANG['pOverview_vacation_option'] = 'Automatische Antwort einrichten';
+$PALANG['no_domains_for_this_admin'] = 'Sie haben f&uuml;r keine Domain eine Berechtigung';
+$PALANG['no_domains_exist'] = 'Sie m&uuml;ssen mindestens eine Domain erstellen, bevor Sie die Virtual Liste verwenden k&ouml;nnen.';
 
 $PALANG['pOverview_get_domain'] = 'Domain';
 $PALANG['pOverview_get_aliases'] = 'Aliases';

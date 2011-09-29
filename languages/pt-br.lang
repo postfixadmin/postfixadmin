@@ -80,6 +80,8 @@ $PALANG['pOverview_mailbox_modified'] = 'Última Modificação';
 $PALANG['pOverview_mailbox_active'] = 'Habilitado';
 $PALANG['pOverview_vacation_edit'] = 'EM MODO DE FÉRIAS';
 $PALANG['pOverview_vacation_option'] = 'Modo de férias';
+$PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
+$PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 
 $PALANG['pOverview_get_domain'] = 'Domínio';
