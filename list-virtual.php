@@ -243,6 +243,9 @@ $result = db_query ($query);
 
 if ($result['rows'] > 0)
 {
+    $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
+    $goto_single_rec_del = "";
+
     while ($row = db_array ($result['result']))
     {
         if ($display_mailbox_aliases) {
@@ -251,7 +254,11 @@ if ($result['rows'] > 0)
             $row['goto_other'] = array();
             
             foreach ($goto_split as $goto_single) {
-                if ($goto_single == $row['username']) { # delivers to mailbox
+                if (!empty($CONF['recipient_delimiter'])) {
+                    $goto_single_rec_del = preg_replace('/' .$delimiter. '[^' .$delimiter. '@]*@/', "@", $goto_single);
+                }
+
+                if ($goto_single == $row['username'] || $goto_single_rec_del == $row['username']) { # delivers to mailbox
                     $row['goto_mailbox'] = 1;
                 } elseif (boolconf('vacation') && strstr($goto_single, '@' . $CONF['vacation_domain']) ) { # vacation alias - TODO: check for full vacation alias
                     # skip the vacation alias, vacation status is detected otherwise
