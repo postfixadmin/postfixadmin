@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
    if ($result['rows'] == 1)
    {
       $row = db_array ($result['result']);
-      $tQuota = $row['maxquota'];
+      $tQuota = allowed_quota($tDomain, 0);
       # TODO: check for remaining domain quota, reduce $tQuota if it is lower
       # Note: this is dependent on the domain, which means to do it correct we'd have to remove the domain dropdown and hardcode the domain name from ?domain=...
       # allowed_quota() will provide the maximum allowed quota 
@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
          db_log ($fDomain, 'create_mailbox', "$fUsername");
          $tDomain = $fDomain;
 
-         $tQuota = $CONF['maxquota'];
+         $tQuota = allowed_quota($tDomain, 0);
 
          if ($fMail == "on")
          {
