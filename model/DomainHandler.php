@@ -7,6 +7,7 @@
 class DomainHandler extends PFAHandler {
 
     protected $username = null; # actually it's the domain - variable name kept for consistence with the other classes
+    protected $db_table = null;
     protected $id_field = null;
     protected $struct = array();
     protected $new = 0; # 1 on create, otherwise 0
@@ -25,13 +26,14 @@ class DomainHandler extends PFAHandler {
     }
 
     private function initStruct() {
+        $this->db_table = 'domain';
         $this->id_field = 'domain';
 
         # TODO: shorter PALANG labels ;-)
         # TODO: hardcode 'default' to Config::read in pacol()?
 
         $transp = boolconf('transport')     ? 1 : 0; # TOOD: use a function or write a Config::intbool function
-        $quota  = boolconf('maxquota')      ? 1 : 0; # TOOD: use a function or write a Config::intbool function
+        $quota  = boolconf('quota')         ? 1 : 0; # TOOD: use a function or write a Config::intbool function
         $dom_q  = boolconf('domain_quota')  ? 1 : 0; # TOOD: use a function or write a Config::intbool function
 
         $this->struct=array(
@@ -47,10 +49,9 @@ class DomainHandler extends PFAHandler {
                                                                                                                                 /*options*/ $this->getTransports()     ),
            "backupmx"        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 ),
            "active"          => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 ),
-           "defaultaliases"  => pacol(  $this->new, 1,      0,      'bool', 'pAdminCreate_domain_defaultaliases ', ''                           , '','', /*not in db*/ 1    ),
-           "created"         => pacol(  0,          0,      1,      'text', ''                             , ''                                 ), # TODO: type = date?
-                                                                                                # TODO (or "ctime/mtime" so that "date" can be used for vacation start/end date)
-           "modified"        => pacol(  0,          0,      1,      'text', 'pAdminList_domain_modified'   , ''                                 ), # TODO: type = date?
+           "default_aliases" => pacol(  $this->new, 1,      0,      'bool', 'pAdminCreate_domain_defaultaliases ', ''                           , '','', /*not in db*/ 1    ),
+           "created"         => pacol(  0,          0,      0,      'ts',    '' /* TODO: "created" label */ , ''                                 ),
+           "modified"        => pacol(  0,          0,      1,      'ts',   'pAdminList_domain_modified'   , ''                                 ),
         );
 
     }
@@ -67,21 +68,25 @@ class DomainHandler extends PFAHandler {
     
     public function add($values) {
         # TODO: make this a generic function for add and edit
-        # TODO: move DB writes etc. to separate save() function
+        # TODO: move DB writes etc. to separate save() function (to allow on-the-fly validation before saving to DB)
 
         ($values['backupmx'] == true) ? $values['backupmx'] = db_get_boolean(true) : $values['backupmx'] = db_get_boolean(false);
-      
-        $values['domain'] = $this->username;
+
+        if ($this->new == 1) {
+            $values[$this->id_field] = $this->username;
+        }
 
         # base validation
         $checked = array();
         foreach($this->struct as $key=>$row) {
-#            list($editable, $displayform, $displaylist, $type) = $row;
             if ($row['editable'] == 0){ # not editable
-                # TODO: fill with defaults if $this->new != 0
+                if ($this->new == 1) {
+                    $checked[$key] = $row['default'];
+                }
             } else { 
                 $func="_inp_".$row['type'];
-                $val=safepost($key); # TODO: use $values instead of $_POST
+                # TODO: error out if an editable field is not set in $values (on $this->new) -or- skip if in edit mode
+                $val=$values[$key];
                 if ($row['type'] != "password" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
                     if (method_exists($this, $func) ) {
                         $checked[$key] = $this->{$func}($values[$key]);
@@ -95,8 +100,12 @@ class DomainHandler extends PFAHandler {
 
         # TODO: more validation
 
-        $checked['domain'] = $this->username;
-        $result = db_insert('domain', $checked);
+#        $checked[$this->id_field] = $this->username; # should already be set (if $this->new) via values[$this->id_field] and the base check
+
+        $db_values = $checked;
+        unset ($db_values['default_aliases']); # TODO: automate based on $this->struct
+
+        $result = db_insert($this->db_table, $db_values);
         if ($result != 1) {
             $this->errormsg[] = Lang::read('pAdminCreate_domain_result_error') . "\n(" . $this->username . ")\n";
             return false;
@@ -124,7 +133,7 @@ class DomainHandler extends PFAHandler {
     }
     
     public function view () {
-        $table_domain = table_by_key('domain');
+        $table_domain = table_by_key($this->db_table);
        
         $E_domain = escape_string($this->username);
         $result = db_query("SELECT domain, description, aliases, mailboxes, maxquota, quota, transport, backupmx,  DATE_FORMAT(created, '%d.%m.%y') AS created, DATE_FORMAT(modified, '%d.%m.%y') AS modified, active FROM $table_domain WHERE domain='$E_domain'");
@@ -150,7 +159,7 @@ class DomainHandler extends PFAHandler {
 
         # TODO: recursively delete mailboxes, aliases, alias_domains, fetchmail entries etc. before deleting the domain
         # TODO: move the needed code from delete.php here
-        $result = db_delete('domain', 'domain', $this->username);
+        $result = db_delete($this->db_table, $this->id_field, $this->username);
         if( $result == 1 ) {
             list(/*NULL*/,$domain) = explode('@', $this->username);
             db_log ($domain, 'delete_domain', $this->username); # TODO delete_domain is not a valid db_log keyword yet because we don't yet log add/delete domain
