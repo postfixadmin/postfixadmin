@@ -6,7 +6,7 @@
  * @property $username name of alias
  * @property $return return of methods
  */
-class AliasHandler {
+class AliasHandler extends PFAHandler {
 
     private $username = null;
     
@@ -237,12 +237,6 @@ class AliasHandler {
         }
     }
 
-    /**
-     * @return return value of previously called method
-     */
-    public function result() {
-        return $this->return;
-    }
  }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
