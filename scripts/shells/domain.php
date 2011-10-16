@@ -142,8 +142,12 @@ class AddTask extends Shell {
                 
 
                 $handler =  new DomainHandler($domain, 1);
+                if (!$handler->result()) {
+                      $this->error("Error:",join("\n", $handler->errormsg));
+                      return;
+                } 
+
                 $values = array(
-                    'domain'            => $domain,
                     'description'       => $desc,
                     'aliases'           => $a,
                     'mailboxes'         => $m,
@@ -151,19 +155,22 @@ class AddTask extends Shell {
                     'quota'             => $d,
                     'transport'         => $handler->getTransport($t),
                     'backupmx'          => $backup,
-                    'active'            => $a,
+                    'active'            => 1,
                     'default_aliases'   => $default,
                 );
-                $return = $handler->add($values);
 
-                if(!$return) {
+                if (!$handler->set($values)) {
+                        $this->error("Error:", join("\n", $handler->errormsg));
+                }
+
+                if (!$handler->store()) {
                         $this->error("Error:", join("\n", $handler->errormsg));
                 } else {
                         $this->out("");
                         $this->out("Domain ( $domain ) generated.");
                         $this->hr();
                 }
-        return;
+                return;
         }
 /**
  * Displays help contents
@@ -263,6 +270,11 @@ class DeleteTask extends Shell {
  */
         function __handle($address) {
                 $handler =  new DomainHandler($address);
+                if (!$handler->result()) {
+                      $this->error("Error:",join("\n", $handler->errormsg));
+                      return;
+                } 
+
                 $status = $handler->delete();
                 if ($status == true) {
                       $this->out("Domain '$address' was deleted.");
@@ -334,6 +346,11 @@ class ViewTask extends Shell {
 
 
                 $handler =  new DomainHandler($domain);
+                if (!$handler->result()) {
+                      $this->error("Error:",join("\n", $handler->errormsg));
+                      return;
+                }
+                    
                 $status = $handler->view();
                 if (!$status) {
                       $this->error("Error:",join("\n", $handler->errormsg));
