@@ -12,17 +12,25 @@ class PFAHandler {
     /**
       * functions for basic input validation
       */
-    function _inp_num($val) {
-        return (int)($val);
+    function _inp_num($field, $val) {
+        $valid = is_numeric($val);
+        if ($val < -1) $valid = false;
+        if (!$valid) $this->errormsg[] = "$field must be numeric";
+        return $valid;
+        # return (int)($val);
     }
 
-    function _inp_bool($val) {
-        return $val ? db_get_boolean(true): db_get_boolean(false);
+    function _inp_bool($field, $val) {
+        if ($val == "0" || $val == "1") return true;
+        $this->errormsg[] = "$field must be boolean";
+        return false;
+        # return $val ? db_get_boolean(true): db_get_boolean(false);
     }
 
-    function _inp_password($val){
+    function _inp_password($field, $val){
         # TODO: fetchmail specific. Not suited for mailbox/admin passwords.
-        return base64_encode($val);
+        return false;
+        # return base64_encode($val);
     }
 
 }

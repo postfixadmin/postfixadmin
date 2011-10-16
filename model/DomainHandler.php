@@ -11,6 +11,8 @@ class DomainHandler extends PFAHandler {
     protected $id_field = null;
     protected $struct = array();
     protected $new = 0; # 1 on create, otherwise 0
+    protected $values = array();
+    protected $values_valid = false;
 
     public $errormsg = array();
 
@@ -99,7 +101,7 @@ class DomainHandler extends PFAHandler {
         return $transports[$id-1];
     }
 
-    public function add($values) {
+    public function set($values) {
         # TODO: make this a generic function for add and edit
         # TODO: move DB writes etc. to separate save() function (to allow on-the-fly validation before saving to DB)
 
@@ -110,11 +112,12 @@ class DomainHandler extends PFAHandler {
         }
 
         # base validation
-        $checked = array();
+        $this->values = array();
+        $this->values_valid = false;
         foreach($this->struct as $key=>$row) {
             if ($row['editable'] == 0) { # not editable
                 if ($this->new == 1) {
-                    $checked[$key] = $row['default'];
+                    $this->values[$key] = $row['default'];
                 }
             } else {
                 $func="_inp_".$row['type'];
@@ -122,10 +125,12 @@ class DomainHandler extends PFAHandler {
                 $val=$values[$key];
                 if ($row['type'] != "password" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
                     if (method_exists($this, $func) ) {
-                        $checked[$key] = $this->{$func}($values[$key]);
+                        if ($this->{$func}($key, $values[$key])) {
+                            $this->values[$key] = $values[$key];
+                        }
                     } else {
                         # TODO: warning if no validation function exists?
-                        $checked[$key] = $values[$key];
+                        $this->values[$key] = $values[$key];
                     }
                 }
             }
@@ -133,9 +138,19 @@ class DomainHandler extends PFAHandler {
 
         # TODO: more validation
 
-#        $checked[$this->id_field] = $this->username; # should already be set (if $this->new) via values[$this->id_field] and the base check
+        if (count($this->errormsg) == 0) {
+            $this->values_valid = true;
+        }
+        return $this->values_valid;
+    }
 
-        $db_values = $checked;
+    function store() {
+        if ($this->values_valid == false) {
+            $this->errormsg[] = "one or more values are invalid!";
+            return false;
+        }
+
+        $db_values = $this->values;
         unset ($db_values['default_aliases']); # TODO: automate based on $this->struct
 
         $result = db_insert($this->db_table, $db_values);
@@ -143,7 +158,7 @@ class DomainHandler extends PFAHandler {
             $this->errormsg[] = Lang::read('pAdminCreate_domain_result_error') . "\n(" . $this->username . ")\n";
             return false;
         } else {
-            if ($this->new && $values['default_aliases']) {
+            if ($this->new && $this->values['default_aliases']) {
                 foreach (Config::read('default_aliases') as $address=>$goto) {
                     $address = $address . "@" . $this->username;
                     # TODO: use AliasHandler->add instead of writing directly to the alias table
