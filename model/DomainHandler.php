@@ -1,7 +1,7 @@
 <?php
-# $Id$ 
+# $Id$
 
-/** 
+/**
  * Handlers User level alias actions - e.g. add alias, get aliases, update etc.
  */
 class DomainHandler extends PFAHandler {
@@ -39,19 +39,19 @@ class DomainHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / not in database
             #                           editing?    form    list
-           "domain"          => pacol(  $this->new, 1,      1,      'text', 'pAdminEdit_domain_domain'     , ''                                 ),
-           "description"     => pacol(  1,          1,      1,      'text', 'pAdminEdit_domain_description', ''                                 ),
-           "aliases"         => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_aliases'    , 'pAdminEdit_domain_aliases_text'   , Config::read('aliases')   ),
-           "mailboxes"       => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_mailboxes'  , 'pAdminEdit_domain_mailboxes_text' , Config::read('mailboxes') ),
-           "maxquota"        => pacol(  $quota,     $quota, $quota, 'num' , 'pAdminEdit_domain_maxquota'   , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')  ),
-           "quota"           => pacol(  $dom_q,     $dom_q, $dom_q, 'num' , 'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
-           "transport"       => pacol(  $transp,    $transp,$transp,'enum', 'pAdminEdit_domain_transport'  , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
+           'domain'          => pacol(  $this->new, 1,      1,      'text', 'pAdminEdit_domain_domain'     , ''                                 ),
+           'description'     => pacol(  1,          1,      1,      'text', 'pAdminEdit_domain_description', ''                                 ),
+           'aliases'         => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_aliases'    , 'pAdminEdit_domain_aliases_text'   , Config::read('aliases')   ),
+           'mailboxes'       => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_mailboxes'  , 'pAdminEdit_domain_mailboxes_text' , Config::read('mailboxes') ),
+           'maxquota'        => pacol(  $quota,     $quota, $quota, 'num' , 'pAdminEdit_domain_maxquota'   , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')  ),
+           'quota'           => pacol(  $dom_q,     $dom_q, $dom_q, 'num' , 'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
+           'transport'       => pacol(  $transp,    $transp,$transp,'enum', 'pAdminEdit_domain_transport'  , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
                                                                                                                                 /*options*/ $this->getTransports()     ),
-           "backupmx"        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 ),
-           "active"          => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 ),
-           "default_aliases" => pacol(  $this->new, 1,      0,      'bool', 'pAdminCreate_domain_defaultaliases ', ''                           , '','', /*not in db*/ 1    ),
-           "created"         => pacol(  0,          0,      0,      'ts',    '' /* TODO: "created" label */ , ''                                 ),
-           "modified"        => pacol(  0,          0,      1,      'ts',   'pAdminList_domain_modified'   , ''                                 ),
+           'backupmx'        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 ),
+           'active'          => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 ),
+           'default_aliases' => pacol(  $this->new, 1,      0,      'bool', 'pAdminCreate_domain_defaultaliases ', ''                           , '','', /*not in db*/ 1    ),
+           'created'         => pacol(  0,          0,      0,      'ts',    '' /* TODO: "created" label */ , ''                                 ),
+           'modified'        => pacol(  0,          0,      1,      'ts',   'pAdminList_domain_modified'   , ''                                 ),
         );
 
     }
@@ -65,7 +65,7 @@ class DomainHandler extends PFAHandler {
         $transports = Config::read('transport_options');
         return $transports[$id-1];
     }
-    
+
     public function add($values) {
         # TODO: make this a generic function for add and edit
         # TODO: move DB writes etc. to separate save() function (to allow on-the-fly validation before saving to DB)
@@ -79,11 +79,11 @@ class DomainHandler extends PFAHandler {
         # base validation
         $checked = array();
         foreach($this->struct as $key=>$row) {
-            if ($row['editable'] == 0){ # not editable
+            if ($row['editable'] == 0) { # not editable
                 if ($this->new == 1) {
                     $checked[$key] = $row['default'];
                 }
-            } else { 
+            } else {
                 $func="_inp_".$row['type'];
                 # TODO: error out if an editable field is not set in $values (on $this->new) -or- skip if in edit mode
                 $val=$values[$key];
@@ -131,10 +131,10 @@ class DomainHandler extends PFAHandler {
         db_log ($this->username, 'create_domain', "");
         return true;
     }
-    
-    public function view () {
+
+    public function view() {
         $table_domain = table_by_key($this->db_table);
-       
+
         $E_domain = escape_string($this->username);
         $result = db_query("SELECT domain, description, aliases, mailboxes, maxquota, quota, transport, backupmx,  DATE_FORMAT(created, '%d.%m.%y') AS created, DATE_FORMAT(modified, '%d.%m.%y') AS modified, active FROM $table_domain WHERE domain='$E_domain'");
         if ($result['rows'] != 0) {
@@ -148,8 +148,8 @@ class DomainHandler extends PFAHandler {
     /**
      *  @return true on success false on failure
      */
-    public function delete(){
-        if( ! $this->view() ) {
+    public function delete() {
+        if ( ! $this->view() ) {
             $this->errormsg[] = 'A domain with that name does not exist.'; # TODO: make translatable
             return false;
         }
@@ -160,7 +160,7 @@ class DomainHandler extends PFAHandler {
         # TODO: recursively delete mailboxes, aliases, alias_domains, fetchmail entries etc. before deleting the domain
         # TODO: move the needed code from delete.php here
         $result = db_delete($this->db_table, $this->id_field, $this->username);
-        if( $result == 1 ) {
+        if ( $result == 1 ) {
             list(/*NULL*/,$domain) = explode('@', $this->username);
             db_log ($domain, 'delete_domain', $this->username); # TODO delete_domain is not a valid db_log keyword yet because we don't yet log add/delete domain
             return true;
