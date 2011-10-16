@@ -271,6 +271,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiv';
 $PALANG['pAdminCreate_domain_welcome'] = 'Lägg till ny domän';
 $PALANG['pAdminCreate_domain_domain'] = 'Domän'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Den domänen finns redan!';
+$PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Domänen är ogiltig!';
 $PALANG['pAdminCreate_domain_description'] = 'Beskrivning'; # obsolete
 $PALANG['pAdminCreate_domain_aliases'] = 'Alias'; # obsolete

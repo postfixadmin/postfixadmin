@@ -270,6 +270,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktívny';
 $PALANG['pAdminCreate_domain_welcome'] = 'Pridať novú doménu';
 $PALANG['pAdminCreate_domain_domain'] = 'Doména'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Takáto doména už existuje!';
+$PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Doména nie je platná!';
 $PALANG['pAdminCreate_domain_description'] = 'Popis'; # obsolete
 $PALANG['pAdminCreate_domain_aliases'] = 'Aliasov'; # obsolete

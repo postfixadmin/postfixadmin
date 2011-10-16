@@ -268,6 +268,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Virkt';
 $PALANG['pAdminCreate_domain_welcome'] = 'Bæta við léni';
 $PALANG['pAdminCreate_domain_domain'] = 'Lén'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Lénið er til nú þegar!';
+$PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
 $PALANG['pAdminCreate_domain_description'] = 'Lýsing'; # obsolete
 $PALANG['pAdminCreate_domain_aliases'] = 'Aliasar'; # obsolete

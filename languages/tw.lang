@@ -269,6 +269,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = '活動';
 $PALANG['pAdminCreate_domain_welcome'] = '新建網域';
 $PALANG['pAdminCreate_domain_domain'] = '網域名'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = '該網域已經存在!';
+$PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
 $PALANG['pAdminCreate_domain_description'] = '描述'; # obsolete
 $PALANG['pAdminCreate_domain_aliases'] = '別名數'; # obsolete

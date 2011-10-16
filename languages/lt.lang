@@ -268,6 +268,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Įjungta';
 $PALANG['pAdminCreate_domain_welcome'] = 'Nauja sritis';
 $PALANG['pAdminCreate_domain_domain'] = 'Sritis'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Tokia sritis jau yra!';
+$PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
 $PALANG['pAdminCreate_domain_description'] = 'Aprašymas'; # obsolete
 $PALANG['pAdminCreate_domain_aliases'] = 'Sinonimai'; # obsolete

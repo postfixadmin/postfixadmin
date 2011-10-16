@@ -274,6 +274,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'アクティブ';
 $PALANG['pAdminCreate_domain_welcome'] = '新しいドメインの追加';
 $PALANG['pAdminCreate_domain_domain'] = 'ドメイン'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'ドメインが既に存在します。';
+$PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'ドメインが無効です。';
 $PALANG['pAdminCreate_domain_description'] = '説明'; # obsolete
 $PALANG['pAdminCreate_domain_aliases'] = '最大転送先数'; # obsolete

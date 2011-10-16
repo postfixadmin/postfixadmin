@@ -269,6 +269,7 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Активно';
 $PALANG['pAdminCreate_domain_welcome'] = 'Додади нов домен';
 $PALANG['pAdminCreate_domain_domain'] = 'Домен'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Доменот веќе постои!';
+$PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!'; # XXX
 $PALANG['pAdminCreate_domain_description'] = 'Опис'; # obsolete
 $PALANG['pAdminCreate_domain_aliases'] = 'Алијаси'; # obsolete
