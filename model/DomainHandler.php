@@ -13,19 +13,52 @@ class DomainHandler extends PFAHandler {
     protected $new = 0; # 1 on create, otherwise 0
 
     public $errormsg = array();
+
+    # error messages used in __construct() and view()
+    protected $error_already_exists = 'pAdminCreate_domain_domain_text_error';
+    protected $error_does_not_exist = 'domain_does_not_exist';
+
     /**
      * @param string $username
      */
     public function __construct($username, $new = 0) {
         $this->username = strtolower($username); # TODO: find a better place for strtolower() to avoid a special constructor in DomainHandler (or agree that $username should be lowercase in all *Handler classes ;-)
         if ($new) $this->new = 1;
-        # TODO: if $new == 1, check that item does NOT exist and is a valid (in this case) domain
-        # TODO: else: check if item exists. error out if not.
-        # TODO: target: if construct succeeds, $this->username is valid
+
         $this->initStruct();
+
+        $exists = $this->view(false);
+        $this->return = false; # be pessimistic by default
+
+        if ($new) {
+            if ($exists) {
+                $this->errormsg[] = Lang::read($this->error_already_exists);
+            } elseif (!$this->validate_id() ) {
+                # errormsg filled by validate_id()
+            } else {
+                $this->return = true;
+            }
+        } else { # edit mode
+            if (!$exists) {
+                $this->errormsg[] = Lang::read($this->error_does_not_exist);
+            } else {
+                $this->return = true;
+            }
+        }
     }
 
-    private function initStruct() {
+   protected function validate_id() {
+       $valid = check_domain($this->username);
+
+       if ($valid) {
+            return true;
+       } else {
+            $this->errormsg[] = 'invalid domain'; # TODO: errormsg is currently delivered via flash_error() in check_domain
+            return false;
+       }
+   }
+
+    protected function initStruct() {
         $this->db_table = 'domain';
         $this->id_field = 'domain';
 
@@ -132,7 +165,7 @@ class DomainHandler extends PFAHandler {
         return true;
     }
 
-    public function view() {
+    public function view($errors=true) {
         $table_domain = table_by_key($this->db_table);
 
         $E_domain = escape_string($this->username);
@@ -141,7 +174,7 @@ class DomainHandler extends PFAHandler {
             $this->return = db_array($result['result']);
             return true;
         }
-        $this->errormsg[] = "Domain " . $this->username . " does not exist.";
+        if ($errors) $this->errormsg[] = Lang::read($this->error_does_not_exist);
 #        $this->errormsg[] = $result['error'];
         return false;
     }
