@@ -83,7 +83,7 @@ class DomainHandler extends PFAHandler {
            'backupmx'        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 ),
            'active'          => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 ),
            'default_aliases' => pacol(  $this->new, 1,      0,      'bool', 'pAdminCreate_domain_defaultaliases ', ''                           , '','', /*not in db*/ 1    ),
-           'created'         => pacol(  0,          0,      0,      'ts',    '' /* TODO: "created" label */ , ''                                 ),
+           'created'         => pacol(  0,          0,      1,      'ts',    '' /* TODO: "created" label */ , ''                                 ),
            'modified'        => pacol(  0,          0,      1,      'ts',   'pAdminList_domain_modified'   , ''                                 ),
         );
 
@@ -166,12 +166,35 @@ class DomainHandler extends PFAHandler {
     }
 
     public function view($errors=true) {
-        $table_domain = table_by_key($this->db_table);
+        $select_cols = array();
+        $bool_fields = array();
 
-        $E_domain = escape_string($this->username);
-        $result = db_query("SELECT domain, description, aliases, mailboxes, maxquota, quota, transport, backupmx,  DATE_FORMAT(created, '%d.%m.%y') AS created, DATE_FORMAT(modified, '%d.%m.%y') AS modified, active FROM $table_domain WHERE domain='$E_domain'");
+        # get list of fields to display
+        foreach($this->struct as $key=>$row) {
+            if ( $row['display_in_list'] != 0 && $row['not_in_db'] == 0 ) {
+                if ($row['type'] == 'ts') {
+                    # TODO: replace hardcoded %Y-%m-%d with a country-specific date format via *.lang?
+                    $select_cols[] = "DATE_FORMAT($key, '%Y-%m-%d') AS $key, $key AS _$key"; # timestamps formatted as date, raw data in _fieldname
+                } elseif ($row['type'] == 'bool') {
+                    $bool_fields[] = $key; # remember boolean fields (will be converted to integer 0/1 later)  - TODO: do this in the sql query with CASE?
+                    $select_cols[] = $key;
+                } else {
+                    $select_cols[] = $key;
+                }
+            }
+        }
+
+        $cols = join(',', $select_cols);
+        $table = table_by_key($this->db_table);
+        $id_field = $this->id_field;
+        $E_username = escape_string($this->username);
+
+        $result = db_query("SELECT $cols FROM $table WHERE $id_field='$E_username'");
         if ($result['rows'] != 0) {
             $this->return = db_array($result['result']);
+            foreach ($bool_fields as $field) {
+                $this->return[$field] = db_boolean_to_int($this->return[$field]); # convert bool to integer (0/1)
+            }
             return true;
         }
         if ($errors) $this->errormsg[] = Lang::read($this->error_does_not_exist);
