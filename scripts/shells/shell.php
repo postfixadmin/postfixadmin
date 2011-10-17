@@ -138,10 +138,10 @@ class Shell {
                 $shellKey = Inflector::underscore($this->className);
 
                 if (!PHP5 && isset($this->args[0])) {
-                        if(strpos($this->className, low(Inflector::camelize($this->args[0]))) !== false) {
+                        if(strpos($this->className, strtolower(Inflector::camelize($this->args[0]))) !== false) {
                                 $dispatch->shiftArgs();
                         }
-                        if (low($this->command) == low(Inflector::variable($this->args[0])) && method_exists($this, $this->command)) {
+                        if (strtolower($this->command) == strtolower(Inflector::variable($this->args[0])) && method_exists($this, $this->command)) {
                                 $dispatch->shiftArgs();
                         }
                 }
@@ -259,7 +259,7 @@ if ( empty($this->params['q'] ) ) {
                         }
                 }
                 if (is_array($options)) {
-                        while ($in == '' || ($in && (!in_array(low($in), $options) && !in_array(up($in), $options)) && !in_array($in, $options))) {
+                        while ($in == '' || ($in && (!in_array(strtolower($in), $options) && !in_array(strtoupper($in), $options)) && !in_array($in, $options))) {
                                 $in = $this->Dispatch->getInput($prompt, $options, $default);
                         }
                 }

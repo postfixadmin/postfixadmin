@@ -53,8 +53,8 @@ class PostfixAdminDomain extends Shell {
                         foreach ($commands as $cmd) {
                                 $this->out("{$cmd}\n\n");
                         }
-                } elseif (isset($commands[low($this->args[1])])) {
-                        $this->out($commands[low($this->args[1])] . "\n\n");
+                } elseif (isset($commands[strtolower($this->args[1])])) {
+                        $this->out($commands[strtolower($this->args[1])] . "\n\n");
                 } else {
                         $this->out("Command '" . $this->args[1] . "' not found");
                 }
