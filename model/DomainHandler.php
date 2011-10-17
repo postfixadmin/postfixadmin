@@ -55,7 +55,7 @@ class DomainHandler extends PFAHandler {
        if ($valid) {
             return true;
        } else {
-            $this->errormsg[] = 'invalid domain'; # TODO: errormsg is currently delivered via flash_error() in check_domain
+            $this->errormsg[] = Lang::read('pAdminCreate_domain_domain_text_error2'); # TODO: half of the errormsg is currently delivered via flash_error() in check_domain
             return false;
        }
    }
@@ -89,6 +89,10 @@ class DomainHandler extends PFAHandler {
            'modified'        => pacol(  0,          0,      1,      'ts',   'pAdminList_domain_modified'   , ''                                 ),
         );
 
+    }
+
+    public function getStruct() {
+        return $this->struct;
     }
 
     public function getTransports() {
@@ -144,7 +148,7 @@ class DomainHandler extends PFAHandler {
         return $this->values_valid;
     }
 
-    function store() {
+    public function store() {
         if ($this->values_valid == false) {
             $this->errormsg[] = "one or more values are invalid!";
             return false;
@@ -171,10 +175,10 @@ class DomainHandler extends PFAHandler {
                     # TODO: error checking
                 }
             }
-            $tMessage = Lang::read('pAdminCreate_domain_result_success') . "<br />(" . $this->username . ")</br />"; # TODO: remove <br> # TODO: tMessage is not used/returned anywhere
+            $tMessage = Lang::read('pAdminCreate_domain_result_success') . " (" . $this->username . ")"; # TODO: tMessage is not used/returned anywhere
         }
         if (!domain_postcreation($this->username)) {
-            $tMessage = Lang::read('pAdminCreate_domain_error'); # TODO: tMessage is not used/returned anywhere
+            $this->errormsg[] = Lang::read('pAdminCreate_domain_error');
         }
         db_log ($this->username, 'create_domain', "");
         return true;
