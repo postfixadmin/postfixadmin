@@ -213,10 +213,8 @@ class PostfixAdmin {
                 }
                 $includes = array(
                         PATH.'/config.inc.php',
-                        PATH.'/languages/language.php',
                         PATH.'/functions.inc.php',
-                        PATH.'/languages/en.lang', # TODO: honor $CONF[default_language] and/or language from $_ENV
-                        CORE_INCLUDE_PATH.'/common.php',
+                        PATH.'/common.php',
                         CORE_INCLUDE_PATH.'/inflector.php',
                 );
 
@@ -226,16 +224,11 @@ class PostfixAdmin {
                                 return false;
                         }
                 }
+
                 Config::getInstance();
                 Config::write($CONF);
                 
                 Lang::getInstance();
-
-                if($CONF['language_hook'] != '' && function_exists($CONF['language_hook'])) {
-                    $hook_func = $CONF['language_hook'];
-                    $PALANG = $hook_func ($PALANG, 'en'); # $includes is also hardcoded to 'en' - see TODO above
-                }
-                
                 Lang::write($PALANG);
 
                 return true;

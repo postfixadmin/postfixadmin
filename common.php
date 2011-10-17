@@ -18,10 +18,13 @@
  */
 
 if(!defined('POSTFIXADMIN')) { # already defined if called from setup.php
-    session_start();
     define('POSTFIXADMIN', 1); # checked in included files
-    if(empty($_SESSION['flash'])) {
-        $_SESSION['flash'] = array();
+
+    if (!defined('POSTFIXADMIN_CLI')) {
+        session_start();
+        if(empty($_SESSION['flash'])) {
+            $_SESSION['flash'] = array();
+        }
     }
 }
 
@@ -48,12 +51,19 @@ if(isset($CONF['configured'])) {
 
 require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
-$_SESSION['lang'] = $language = check_language (); # TODO: storing the language only at login instead of calling check_language() on every page would save some processor cycles ;-)
-require_once("$incpath/languages/" . $_SESSION['lang'] . ".lang");
+
+if (defined('POSTFIXADMIN_CLI')) {
+    $language = 'en'; # TODO: make configurable or autodetect from locale settings
+} else {
+    $language = check_language (); # TODO: storing the language only at login instead of calling check_language() on every page would save some processor cycles ;-)
+    $_SESSION['lang'] = $language;
+}
+
+require_once("$incpath/languages/" . $language . ".lang");
 
 if($CONF['language_hook'] != '' && function_exists($CONF['language_hook'])) {
     $hook_func = $CONF['language_hook'];
-    $PALANG = $hook_func ($PALANG, $_SESSION['lang']);
+    $PALANG = $hook_func ($PALANG, $language);
 }
 
 /**
@@ -71,11 +81,11 @@ function postfixadmin_autoload($class) {
 }
 spl_autoload_register('postfixadmin_autoload');
 
-//*****
-if(!is_file("$incpath/smarty.inc.php")) {
-    die("smarty.inc.php is missing! Something is wrong...");
+if (!defined('POSTFIXADMIN_CLI')) {
+    if(!is_file("$incpath/smarty.inc.php")) {
+        die("smarty.inc.php is missing! Something is wrong...");
+    }
+    require_once ("$incpath/smarty.inc.php");
 }
-require_once ("$incpath/smarty.inc.php");
-//*****
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
