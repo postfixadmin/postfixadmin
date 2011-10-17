@@ -81,6 +81,12 @@ function postfixadmin_autoload($class) {
 }
 spl_autoload_register('postfixadmin_autoload');
 
+Lang::getInstance();
+Lang::write($PALANG);
+
+Config::getInstance();
+Config::write($CONF);
+
 if (!defined('POSTFIXADMIN_CLI')) {
     if(!is_file("$incpath/smarty.inc.php")) {
         die("smarty.inc.php is missing! Something is wrong...");

@@ -225,12 +225,6 @@ class PostfixAdmin {
                         }
                 }
 
-                Config::getInstance();
-                Config::write($CONF);
-                
-                Lang::getInstance();
-                Lang::write($PALANG);
-
                 return true;
         }
 
