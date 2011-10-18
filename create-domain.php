@@ -21,54 +21,33 @@ require_once('common.php');
 
 authentication_require_role('global-admin');
 
-
 $error = 0;
 
-$form_fields = array(
-    'domain'         => array('type' => 'str', 'default' => null),
-    'description'    => array('type' => 'str', 'default' =>''), 
-    'aliases'        => array('type' => 'int', 'default' => $CONF['aliases']), 
-    'mailboxes'      => array('type' => 'int', 'default' => $CONF['mailboxes']), 
-    'maxquota'       => array('type' => 'int', 'default' => $CONF['maxquota']),
-    'quota'          => array('type' => 'int', 'default' => $CONF['domain_quota_default']),
-    'transport'      => array('type' => 'str', 'default' => $CONF['transport_default'], 'options' => $CONF['transport_options']), 
-    'default_aliases'=> array('type' => 'bool', 'default' => '1', 'options' => array(1, 0)), 
-    'backupmx'       => array('type' => 'bool', 'default' => '0', 'options' => array(1, 0)) 
-);
-
-# TODO: this foreach block should only be executed for POST
-foreach($form_fields  as $key => $field) {
-    if($field['type'] == 'bool' && $_SERVER['REQUEST_METHOD'] == "POST") {
-        $values[$key] = safepost($key, 0); # isset for unchecked checkboxes is always false
-    } 
-    elseif (isset($_POST[$key]) && (strlen($_POST[$key]) > 0)) {
-        $values[$key] = safepost($key);
-    }
-    else {
-        $values[$key] = $field['default'];
-    }
-
-# TODO: check via _inp_enum in *Handler
-    if(isset($field['options'])) {
-        if(!in_array($values[$key], $field['options'])) {
-            die("Invalid parameter given for $key");
-        }
-    }
-}
+$handler = new DomainHandler(1);
+$form_fields = $handler->getStruct();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    $handler = new DomainHandler(1);
+    foreach($form_fields  as $key => $field) {
+        if ($field['editable'] == 0) {
+            $values[$key] = $field['default'];
+        } else {
+            if($field['type'] == 'bool') {
+                $values[$key] = safepost($key, 0); # isset() for unchecked checkboxes is always false
+            } else {
+                $values[$key] = safepost($key);
+            }
+        }
+    }
+
     if (!$handler->init($values['domain'])) {
         $error = 1;
         $pAdminCreate_domain_domain_text_error = join("<br />", $handler->errormsg);
     }
 
-    $values['active'] = 1; # hardcoded for now - TODO: change this ;-)
-    
     if (!$handler->set($values)) {
-            $error = 1;
-            $pAdminCreate_domain_domain_text_error = join("<br />", $handler->errormsg);
+        $error = 1;
+        $pAdminCreate_domain_domain_text_error = join("<br />", $handler->errormsg);
     }
 
     if ($error != 1) {
@@ -102,6 +81,7 @@ $smarty->assign ('tMaxquota', $values['maxquota']);
 $smarty->assign ('select_options', select_options ($form_fields['transport']['options'], array ($values['transport'])),false);
 $smarty->assign ('tDefaultaliases', ($values['default_aliases'] == '1') ? ' checked="checked"' : '');
 $smarty->assign ('tBackupmx', ($values['backupmx'] == '1') ? ' checked="checked"' : '');
+$smarty->assign ('tActive', ($values['active'] == '1') ? ' checked="checked"' : '');
 $smarty->assign ('smarty_template', 'admin_edit-domain');
 $smarty->display ('index.tpl');
 

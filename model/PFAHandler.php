@@ -27,8 +27,15 @@ class PFAHandler {
         # return $val ? db_get_boolean(true): db_get_boolean(false);
     }
 
+    function _inp_enum($field, $val) {
+        if(in_array($val, $this->struct[$field]['options'])) return true;
+        $this->errormsg[] = "Invalid parameter given for $field";
+        return false;
+    }
+
     function _inp_password($field, $val){
         # TODO: fetchmail specific. Not suited for mailbox/admin passwords.
+        $this->errormsg[] = "_inp_password not implemented yet";
         return false;
         # return base64_encode($val);
     }

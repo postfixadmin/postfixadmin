@@ -77,14 +77,11 @@
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>
-{if $mode == 'edit'}
-<!-- TODO: create should also offer the 'active' option -->
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_active}:</label></td>
 		<td><input class="flat" type="checkbox" value='1' name="active"{$tActive}/></td>
 		<td colspan="2">&nbsp;</td>
 	</tr>
-{/if}
 	<tr>
 		<td>&nbsp;</td>
 		<td colspan="3"><input class="button" type="submit" name="submit" value="{if $mode == 'edit'}{$PALANG.save}{else}{$PALANG.pAdminCreate_domain_button}{/if}" /></td>
