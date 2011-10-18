@@ -74,10 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
     }
 
-    if (isset ($_POST['fBackupmx'])) $fBackupmx = escape_string ($_POST['fBackupmx']);
-    if (isset ($_POST['fActive'])) $fActive = escape_string ($_POST['fActive']);
+    if (isset ($_POST['fBackupmx'])) $fBackupmx = (int) escape_string ($_POST['fBackupmx']);
+    if (isset ($_POST['fActive']))   $fActive   = (int) escape_string ($_POST['fActive']);
 
-    if ($fBackupmx == "on")
+    if ($fBackupmx == 1)
     {
         $fBackupmx = 1;
         $sqlBackupmx = db_get_boolean(True);
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $sqlBackupmx = db_get_boolean(False);
     }
 
-    if ($fActive == "on") { 
+    if ($fActive == 1) { 
         $sqlActive = db_get_boolean(True);
     }
     else {

@@ -14,7 +14,7 @@
  * 
  * File: create-domain.php
  * Allows administrators to create new domains.
- * Template File: admin_create-domain.tpl
+ * Template File: admin_edit-domain.tpl
  *
  * Template Variables:
  *
@@ -48,8 +48,8 @@ $form_fields = array(
     'fMaxquota'       => array('type' => 'int', 'default' => $CONF['maxquota']),
     'fDomainquota'    => array('type' => 'int', 'default' => $CONF['domain_quota_default']),
     'fTransport'      => array('type' => 'str', 'default' => $CONF['transport_default'], 'options' => $CONF['transport_options']), 
-    'fDefaultaliases' => array('type' => 'bool', 'default' => 'on', 'options' => array('on', 'off')), 
-    'fBackupmx'       => array('type' => 'bool', 'default' => 'off', 'options' => array('on', 'off')) 
+    'fDefaultaliases' => array('type' => 'bool', 'default' => '1', 'options' => array(1, 0)), 
+    'fBackupmx'       => array('type' => 'bool', 'default' => '0', 'options' => array(1, 0)) 
 );
 
 $fDefaultaliases = "";
@@ -58,7 +58,7 @@ $tDefaultaliases = "";
 # TODO: this foreach block should only be executed for POST
 foreach($form_fields  as $key => $default) {
     if($default['type'] == 'bool' && $_SERVER['REQUEST_METHOD'] == "POST") {
-        $$key = escape_string(safepost($key, 'off')); # isset for unchecked checkboxes is always false
+        $$key = escape_string(safepost($key, 0)); # isset for unchecked checkboxes is always false
     } 
     elseif (isset($_POST[$key]) && (strlen($_POST[$key]) > 0)) {
         $$key = escape_string($_POST[$key]);
@@ -79,8 +79,6 @@ foreach($form_fields  as $key => $default) {
     }
 }
 
-$fDomain = strtolower($fDomain);
-
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
     /* default values as set above */
@@ -96,8 +94,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
     $tBackupmx = "";
-    if ($fDomain == null or domain_exist($fDomain) or !check_domain($fDomain))
-    {
+
+    $handler =  new DomainHandler($fDomain, 1);
+    if (!$handler->result()) {
         $error = 1;
         $tDomain = $fDomain;
         $tDescription = $fDescription;
@@ -108,8 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         if (isset ($_POST['fTransport'])) $tTransport = $fTransport;
         if (isset ($_POST['fDefaultaliases'])) $tDefaultaliases = $fDefaultaliases;
         if (isset ($_POST['fBackupmx'])) $tBackupmx = $fBackupmx;
-        $pAdminCreate_domain_domain_text_error = $PALANG['pAdminCreate_domain_domain_text_error2'];
-        if (domain_exist ($fDomain)) $pAdminCreate_domain_domain_text_error = $PALANG['pAdminCreate_domain_domain_text_error'];
+        $pAdminCreate_domain_domain_text_error = join("<br />", $handler->errormsg);
     }
 
     if ($error != 1)
@@ -119,38 +117,29 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $tMaxquota = $CONF['maxquota'];
         $tDomainquota = $CONF['domain_quota_default'];
 
-        if ($fBackupmx == "on")
-        {
-            $fBackupmx = 1;
-            $sqlBackupmx = db_get_boolean(true);
-        }
-        else
-        {
-            $fBackupmx = 0;
-            $sqlBackupmx = db_get_boolean(false);
-        }
+        $values = array(
+           'description'     => $fDescription,
+           'aliases'         => $fAliases,
+           'mailboxes'       => $fMailboxes,
+           'maxquota'        => $fMaxquota,
+           'quota'           => $fDomainquota,
+           'transport'       => $fTransport,
+           'backupmx'        => $fBackupmx,
+           'active'          => 1, # hardcoded for now - TODO: change this ;-)
+           'default_aliases' => $fDefaultaliases,
+        );
 
-        $sql_query = "INSERT INTO $table_domain (domain,description,aliases,mailboxes,maxquota,quota,transport,backupmx,created,modified) VALUES ('$fDomain','$fDescription',$fAliases,$fMailboxes,$fMaxquota,$fDomainquota,'$fTransport','$sqlBackupmx',NOW(),NOW())";
-        $result = db_query($sql_query);
-        if ($result['rows'] != 1)
-        {
-            $pAdminCreate_domain_domain_text_error = $PALANG['pAdminCreate_domain_result_error'] . "<br />($fDomain)"; # TODO: remove a sprintf string
-        }
-        else
-        {
-            if ($fDefaultaliases == "on")
-            {
-                foreach ($CONF['default_aliases'] as $address=>$goto)
-                {
-                    $address = $address . "@" . $fDomain;
-                    $result = db_query ("INSERT INTO $table_alias (address,goto,domain,created,modified) VALUES ('$address','$goto','$fDomain',NOW(),NOW())");
+        if (!$handler->set($values)) {
+            $pAdminCreate_domain_domain_text_error = join("<br />", $handler->errormsg);
+        } else {
+            if (!$handler->store()) {
+                $pAdminCreate_domain_domain_text_error = join("\n", $handler->errormsg);
+            } else {
+                flash_info($PALANG['pAdminCreate_domain_result_success'] . " ($fDomain)"); # TODO: use a sprintf string
+                if (count($handler->errormsg)) { # might happen if domain_postcreation fails
+                    flash_error(join("<br />", $handler->errormsg));
                 }
             }
-            flash_info($PALANG['pAdminCreate_domain_result_success'] . "<br />($fDomain)"); # TODO: use a sprintf string
-        }
-        if (!domain_postcreation($fDomain))
-        {
-             flash_error($PALANG['pAdminCreate_domain_error']);
         }
     }
 }
@@ -166,8 +155,8 @@ $smarty->assign ('tMailboxes', $tMailboxes);
 $smarty->assign ('tDomainquota', $tDomainquota);
 $smarty->assign ('tMaxquota', $tMaxquota,false); # TODO: why is sanitize disabled? Should be just integer...
 $smarty->assign ('select_options', select_options ($CONF ['transport_options'], array ($tTransport)),false);
-$smarty->assign ('tDefaultaliases', ($tDefaultaliases == 'on') ? ' checked="checked"' : '');
-$smarty->assign ('tBackupmx', ($tBackupmx == 'on') ? ' checked="checked"' : '');
+$smarty->assign ('tDefaultaliases', ($tDefaultaliases == '1') ? ' checked="checked"' : '');
+$smarty->assign ('tBackupmx', ($tBackupmx == '1') ? ' checked="checked"' : '');
 $smarty->assign ('smarty_template', 'admin_edit-domain');
 $smarty->display ('index.tpl');
 

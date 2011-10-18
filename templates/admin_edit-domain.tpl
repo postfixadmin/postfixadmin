@@ -66,14 +66,14 @@
 {if $mode == 'create'}
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminCreate_domain_defaultaliases}:</label></td>
-		<td><input class="flat" type="checkbox" value='on' name="fDefaultaliases"{$tDefaultaliases}/></td>
+		<td><input class="flat" type="checkbox" value='1' name="fDefaultaliases"{$tDefaultaliases}/></td>
 		<td>{$PALANG.pAdminCreate_domain_defaultaliases_text}</td>
 		<td>&nbsp;</td>
 	</tr>
 {/if}
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_backupmx}:</label></td>
-		<td><input class="flat" type="checkbox" value='on' name="fBackupmx"{$tBackupmx}/></td>
+		<td><input class="flat" type="checkbox" value='1' name="fBackupmx"{$tBackupmx}/></td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>
@@ -81,7 +81,7 @@
 <!-- TODO: create should also offer the 'active' option -->
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_active}:</label></td>
-		<td><input class="flat" type="checkbox" name="fActive"{$tActive}/></td>
+		<td><input class="flat" type="checkbox" value='1' name="fActive"{$tActive}/></td>
 		<td colspan="2">&nbsp;</td>
 	</tr>
 {/if}
