@@ -42,7 +42,7 @@
 {if $CONF.domain_quota===YES}
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_quota}:</label></td>
-		<td><input class="flat" type="text" name="quota" value="{$tDomainquota}" /></td>
+		<td><input class="flat" type="text" name="quota" value="{$tQuota}" /></td>
 		<td>{$PALANG.pAdminEdit_domain_maxquota_text}</td>
 		<td>&nbsp;</td>
 	</tr>
@@ -58,7 +58,7 @@
 {if $CONF.transport===YES}
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_transport}:</label></td>
-		<td><select class="flat" name="transport">{$select_options}</select></td>
+		<td><select class="flat" name="transport">{$tTransport}</select></td>
 		<td>{$PALANG.pAdminEdit_domain_transport_text}</td>
 		<td>&nbsp;</td>
 	</tr>
@@ -66,7 +66,7 @@
 {if $mode == 'create'}
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminCreate_domain_defaultaliases}:</label></td>
-		<td><input class="flat" type="checkbox" value='1' name="default_aliases"{$tDefaultaliases}/></td>
+		<td><input class="flat" type="checkbox" value='1' name="default_aliases"{$tDefault_aliases}/></td>
 		<td>{$PALANG.pAdminCreate_domain_defaultaliases_text}</td>
 		<td>&nbsp;</td>
 	</tr>

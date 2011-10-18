@@ -28,7 +28,7 @@ $form_fields = $handler->getStruct();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    foreach($form_fields  as $key => $field) {
+    foreach($form_fields as $key => $field) {
         if ($field['editable'] == 0) {
             $values[$key] = $field['default'];
         } else {
@@ -70,18 +70,22 @@ if ($error != 1) {
     }
 }
 
+foreach($form_fields as $key => $field) {
+    $smartykey = "t" . ucfirst($key); # TODO: ugly workaround until I decide on the template variable names
+    switch ($field['type']) {
+        case 'bool':
+            $smarty->assign ($smartykey, ($values[$key] == '1') ? ' checked="checked"' : '');
+            break;
+        case 'enum':
+            $smarty->assign ($smartykey, select_options ($form_fields[$key]['options'], array ($values[$key])),false);
+            break;
+        default:
+            $smarty->assign ($smartykey, $values[$key]);
+    }
+}
+
 $smarty->assign ('mode', 'create');
 $smarty->assign ('pAdminCreate_domain_domain_text_error', $pAdminCreate_domain_domain_text_error, false);
-$smarty->assign ('tDomain', $values['domain']);
-$smarty->assign ('tDescription', $values['description']);
-$smarty->assign ('tAliases', $values['aliases']);
-$smarty->assign ('tMailboxes', $values['mailboxes']);
-$smarty->assign ('tDomainquota', $values['quota']);
-$smarty->assign ('tMaxquota', $values['maxquota']);
-$smarty->assign ('select_options', select_options ($form_fields['transport']['options'], array ($values['transport'])),false);
-$smarty->assign ('tDefaultaliases', ($values['default_aliases'] == '1') ? ' checked="checked"' : '');
-$smarty->assign ('tBackupmx', ($values['backupmx'] == '1') ? ' checked="checked"' : '');
-$smarty->assign ('tActive', ($values['active'] == '1') ? ' checked="checked"' : '');
 $smarty->assign ('smarty_template', 'admin_edit-domain');
 $smarty->display ('index.tpl');
 
