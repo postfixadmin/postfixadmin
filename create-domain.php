@@ -58,8 +58,8 @@ foreach($form_fields  as $key => $field) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    $handler =  new DomainHandler($values['domain'], 1);
-    if (!$handler->result()) {
+    $handler = new DomainHandler(1);
+    if (!$handler->init($values['domain'])) {
         $error = 1;
         $pAdminCreate_domain_domain_text_error = join("<br />", $handler->errormsg);
     }

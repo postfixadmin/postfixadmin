@@ -110,7 +110,7 @@ class AddTask extends Shell {
                      $question = "Domain Quota (in MB):";
                     $d = $this->in($question);
     
-                    $handler = new DomainHandler($domain);
+                    $handler = new DomainHandler();
                     $transports = $handler->getTransports();
                     $qt[] = 'Choose transport option';
                     foreach ($transports AS $key => $val) {
@@ -141,8 +141,8 @@ class AddTask extends Shell {
         function __handle($domain, $desc, $a, $m, $t, $q, $d, $default, $backup) {
                 
 
-                $handler =  new DomainHandler($domain, 1);
-                if (!$handler->result()) {
+                $handler =  new DomainHandler(1);
+                if (!$handler->init($domain)) {
                       $this->error("Error:",join("\n", $handler->errormsg));
                       return;
                 } 
@@ -269,8 +269,8 @@ class DeleteTask extends Shell {
  * @access private
  */
         function __handle($address) {
-                $handler =  new DomainHandler($address);
-                if (!$handler->result()) {
+                $handler =  new DomainHandler();
+                if (!$handler->init($address)) {
                       $this->error("Error:",join("\n", $handler->errormsg));
                       return;
                 } 
@@ -345,8 +345,8 @@ class ViewTask extends Shell {
         function __handle($domain) {
 
 
-                $handler =  new DomainHandler($domain);
-                if (!$handler->result()) {
+                $handler =  new DomainHandler();
+                if (!$handler->init($domain)) {
                       $this->error("Error:",join("\n", $handler->errormsg));
                       return;
                 }

@@ -16,35 +16,44 @@ class DomainHandler extends PFAHandler {
 
     public $errormsg = array();
 
-    # error messages used in __construct() and view()
+    # error messages used in init() and view()
     protected $error_already_exists = 'pAdminCreate_domain_domain_text_error';
     protected $error_does_not_exist = 'domain_does_not_exist';
 
     /**
+     * Constructor: fill $struct etc.
+     * @param string $new
+     */
+    public function __construct($new = 0) {
+        if ($new) $this->new = 1;
+        $this->initStruct();
+    }
+
+    /**
+     * initialize with $username and check if it is valid
      * @param string $username
      */
-    public function __construct($username, $new = 0) {
-        $this->username = strtolower($username); # TODO: find a better place for strtolower() to avoid a special constructor in DomainHandler (or agree that $username should be lowercase in all *Handler classes ;-)
-        if ($new) $this->new = 1;
-
-        $this->initStruct();
+    public function init($username) {
+        $this->username = strtolower($username);
 
         $exists = $this->view(false);
-        $this->return = false; # be pessimistic by default
 
-        if ($new) {
+        if ($this->new) {
             if ($exists) {
                 $this->errormsg[] = Lang::read($this->error_already_exists);
+                return false;
             } elseif (!$this->validate_id() ) {
                 # errormsg filled by validate_id()
+                return false;
             } else {
-                $this->return = true;
+                return true;
             }
         } else { # edit mode
             if (!$exists) {
                 $this->errormsg[] = Lang::read($this->error_does_not_exist);
+                return false;
             } else {
-                $this->return = true;
+                return true;
             }
         }
     }
