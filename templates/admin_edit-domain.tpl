@@ -16,7 +16,7 @@
 {if $mode == 'edit'}
 			<em>{$domain}</em>
 {else}
-			<input class="flat" type="text" name="fDomain" value="{$tDomain}" />
+			<input class="flat" type="text" name="domain" value="{$tDomain}" />
 {/if}
 		</td>
 		<td>&nbsp;</td>
@@ -24,25 +24,25 @@
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_description}:</label></td>
-		<td><input class="flat" type="text" name="fDescription" value="{$tDescription}" /></td>
+		<td><input class="flat" type="text" name="description" value="{$tDescription}" /></td>
 		<td colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_aliases}:</label></td>
-		<td><input class="flat" type="text" name="fAliases" value="{$tAliases}" /></td>
+		<td><input class="flat" type="text" name="aliases" value="{$tAliases}" /></td>
 		<td>{$PALANG.pAdminEdit_domain_aliases_text}</td>
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_mailboxes}:</label></td>
-		<td><input class="flat" type="text" name="fMailboxes" value="{$tMailboxes}" /></td>
+		<td><input class="flat" type="text" name="mailboxes" value="{$tMailboxes}" /></td>
 		<td>{$PALANG.pAdminEdit_domain_mailboxes_text}</td>
 		<td>&nbsp;</td>
 	</tr>
 {if $CONF.domain_quota===YES}
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_quota}:</label></td>
-		<td><input class="flat" type="text" name="fDomainquota" value="{$tDomainquota}" /></td>
+		<td><input class="flat" type="text" name="quota" value="{$tDomainquota}" /></td>
 		<td>{$PALANG.pAdminEdit_domain_maxquota_text}</td>
 		<td>&nbsp;</td>
 	</tr>
@@ -50,7 +50,7 @@
 {if $CONF.quota===YES}
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_maxquota}:</label></td>
-		<td><input class="flat" type="text" name="fMaxquota" value="{$tMaxquota}" /></td>
+		<td><input class="flat" type="text" name="maxquota" value="{$tMaxquota}" /></td>
 		<td>{$PALANG.pAdminEdit_domain_maxquota_text}</td>
 		<td>&nbsp;</td>
 	</tr>
@@ -58,7 +58,7 @@
 {if $CONF.transport===YES}
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_transport}:</label></td>
-		<td><select class="flat" name="fTransport">{$select_options}</select></td>
+		<td><select class="flat" name="transport">{$select_options}</select></td>
 		<td>{$PALANG.pAdminEdit_domain_transport_text}</td>
 		<td>&nbsp;</td>
 	</tr>
@@ -66,14 +66,14 @@
 {if $mode == 'create'}
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminCreate_domain_defaultaliases}:</label></td>
-		<td><input class="flat" type="checkbox" value='1' name="fDefaultaliases"{$tDefaultaliases}/></td>
+		<td><input class="flat" type="checkbox" value='1' name="default_aliases"{$tDefaultaliases}/></td>
 		<td>{$PALANG.pAdminCreate_domain_defaultaliases_text}</td>
 		<td>&nbsp;</td>
 	</tr>
 {/if}
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_backupmx}:</label></td>
-		<td><input class="flat" type="checkbox" value='1' name="fBackupmx"{$tBackupmx}/></td>
+		<td><input class="flat" type="checkbox" value='1' name="backupmx"{$tBackupmx}/></td>
 		<td>&nbsp;</td>
 		<td>&nbsp;</td>
 	</tr>
@@ -81,7 +81,7 @@
 <!-- TODO: create should also offer the 'active' option -->
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_active}:</label></td>
-		<td><input class="flat" type="checkbox" value='1' name="fActive"{$tActive}/></td>
+		<td><input class="flat" type="checkbox" value='1' name="active"{$tActive}/></td>
 		<td colspan="2">&nbsp;</td>
 	</tr>
 {/if}

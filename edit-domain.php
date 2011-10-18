@@ -59,23 +59,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
     if (isset ($_GET['domain'])) $domain = escape_string ($_GET['domain']);
 
-    $fDescription   =       safepost('fDescription');
-    $fAliases       = (int) safepost('fAliases');
-    $fMailboxes     = (int) safepost('fMailboxes');
-    $fMaxquota      = (int) safepost('fMaxquota', 0);
-    $fDomainquota   = (int) safepost('fDomainquota', $CONF['domain_quota_default']);
+    $fDescription   =       safepost('description');
+    $fAliases       = (int) safepost('aliases');
+    $fMailboxes     = (int) safepost('mailboxes');
+    $fMaxquota      = (int) safepost('maxquota', 0);
+    $fQuota         = (int) safepost('quota', $CONF['domain_quota_default']);
     # TODO: check for / error out on values < -1
 
     $fTransport = $CONF['transport_default'];
-    if($CONF['transport'] != 'NO' && isset ($_POST['fTransport'])) {
-        $fTransport = escape_string($_POST['fTransport']);
+    if($CONF['transport'] != 'NO' && isset ($_POST['transport'])) {
+        $fTransport = escape_string($_POST['transport']);
         if(!in_array($fTransport, $CONF['transport_options'])) {
             die("Invalid transport option given; check config.inc.php");
         }
     }
 
-    if (isset ($_POST['fBackupmx'])) $fBackupmx = (int) escape_string ($_POST['fBackupmx']);
-    if (isset ($_POST['fActive']))   $fActive   = (int) escape_string ($_POST['fActive']);
+    if (isset ($_POST['backupmx'])) $fBackupmx = (int) escape_string ($_POST['backupmx']);
+    if (isset ($_POST['active']))   $fActive   = (int) escape_string ($_POST['active']);
 
     if ($fBackupmx == 1)
     {
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
        'aliases'    => $fAliases,
        'mailboxes'  => $fMailboxes,
        'maxquota'   => $fMaxquota,
-       'quota'      => $fDomainquota,
+       'quota'      => $fQuota,
        'backupmx'   => $sqlBackupmx,
        'active'     => $sqlActive,
     );
