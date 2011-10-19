@@ -14,13 +14,14 @@
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_domain}:</label></td>
 		<td>
 {if $mode == 'edit'}
-			<em>{$domain}</em>
+			<em>{$tDomain}</em>
+			<input type="hidden" name="edit" value="{$tDomain}" />
 {else}
 			<input class="flat" type="text" name="domain" value="{$tDomain}" />
 {/if}
 		</td>
 		<td>&nbsp;</td>
-		<td><span class="error_msg">{$pAdminCreate_domain_domain_text_error}</span></td>
+		<td><span class="error_msg">{$errortext}</span></td>
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_description}:</label></td>

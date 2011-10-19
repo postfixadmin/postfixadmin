@@ -22,9 +22,41 @@ require_once('common.php');
 authentication_require_role('global-admin');
 
 $error = 0;
+$errortext = "";
+$mode = 'create';
 
-$handler = new DomainHandler(1);
+$edit = safepost('edit', safeget('edit'));
+$new  = 0;
+if ($edit == "") $new = 1;
+
+$listview = 'list-domain.php';
+
+$handler     = new DomainHandler($new);
 $form_fields = $handler->getStruct();
+$id_field    = $handler->getId_field();
+
+
+if ($edit != "") {
+    $mode = 'edit';
+
+    if (!$handler->init($edit)) {
+        flash_error(join("<br />", $handler->errormsg));
+        header ("Location: $listview");
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == "GET") { # read values from database
+        if (!$handler->view()) {
+            flash_error(join("<br />", $handler->errormsg));
+            header ("Location: $listview");
+            exit;
+        } else {
+            $values = $handler->return;
+            $values[$id_field] = $edit;
+        }
+    }
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -39,31 +71,40 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
+    if ($edit != "") $field[$id_field] = $edit;
 
-    if (!$handler->init($values['domain'])) {
+    if (!$handler->init($values[$id_field])) {
         $error = 1;
-        $pAdminCreate_domain_domain_text_error = join("<br />", $handler->errormsg);
+        $errortext = join("<br />", $handler->errormsg);
     }
 
     if (!$handler->set($values)) {
         $error = 1;
-        $pAdminCreate_domain_domain_text_error = join("<br />", $handler->errormsg);
+        $errortext = join("<br />", $handler->errormsg);
     }
 
     if ($error != 1) {
         if (!$handler->store()) {
-            $pAdminCreate_domain_domain_text_error = join("\n", $handler->errormsg);
+            $errortext = join("\n", $handler->errormsg);
         } else {
-            flash_info($PALANG['pAdminCreate_domain_result_success'] . " (" . $values['domain'] . ")"); # TODO: use a sprintf string
+            flash_info($PALANG['pAdminCreate_domain_result_success'] . " (" . $values[$id_field] . ")");
+            # TODO: - use a sprintf string
+            # TODO: - get the success message from DomainHandler
+            # TODO: - use a different success message for create and edit
+
             if (count($handler->errormsg)) { # might happen if domain_postcreation fails
                 flash_error(join("<br />", $handler->errormsg));
+            }
+
+            if ($edit != "") {
+                header ("Location: $listview");
+                exit;
             }
         }
     }
 }
 
-
-if ($error != 1) {
+if ($error != 1 && $new) { # no error and not in edit mode - reset fields to default for new item
     $values = array();
     foreach (array_keys($form_fields) as $key) {
         $values[$key] = $form_fields[$key]['default'];
@@ -84,8 +125,8 @@ foreach($form_fields as $key => $field) {
     }
 }
 
-$smarty->assign ('mode', 'create');
-$smarty->assign ('pAdminCreate_domain_domain_text_error', $pAdminCreate_domain_domain_text_error, false);
+$smarty->assign ('mode', $mode);
+$smarty->assign ('errortext', $errortext, false); # non-escaped
 $smarty->assign ('smarty_template', 'admin_edit-domain');
 $smarty->display ('index.tpl');
 

@@ -120,8 +120,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 
 $smarty->assign ('mode', 'edit');
-$smarty->assign ('pAdminCreate_domain_domain_text_error', '');
-$smarty->assign ('domain', $domain);
+$smarty->assign ('errortext', '');
+$smarty->assign ('tDomain', $domain);
 $smarty->assign ('tDescription', $tDescription);
 $smarty->assign ('tAliases', $tAliases);
 $smarty->assign ('tMailboxes', $tMailboxes);
