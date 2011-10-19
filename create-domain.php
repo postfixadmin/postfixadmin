@@ -13,7 +13,7 @@
  * @license GNU GPL v2 or later. 
  * 
  * File: create-domain.php
- * Allows administrators to create new domains.
+ * Allows administrators to create or edit domains.
  * Template File: admin_edit-domain.tpl
  */
 
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
-    if ($edit != "") $field[$id_field] = $edit;
+    if ($edit != "") $values[$id_field] = $edit;
 
     if (!$handler->init($values[$id_field])) {
         $error = 1;
