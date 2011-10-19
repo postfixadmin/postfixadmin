@@ -16,9 +16,9 @@ class DomainHandler extends PFAHandler {
 
     public $errormsg = array();
 
-    # error messages used in init() and view()
-    protected $error_already_exists = 'pAdminCreate_domain_domain_text_error';
-    protected $error_does_not_exist = 'domain_does_not_exist';
+    # messages used in various functions
+    # (stored separately to make the functions reuseable)
+    protected $msg = array();
 
     /**
      * Constructor: fill $struct etc.
@@ -27,6 +27,7 @@ class DomainHandler extends PFAHandler {
     public function __construct($new = 0) {
         if ($new) $this->new = 1;
         $this->initStruct();
+        $this->initMsg();
     }
 
     /**
@@ -40,7 +41,7 @@ class DomainHandler extends PFAHandler {
 
         if ($this->new) {
             if ($exists) {
-                $this->errormsg[] = Lang::read($this->error_already_exists);
+                $this->errormsg[] = Lang::read($this->msg['error_already_exists']);
                 return false;
             } elseif (!$this->validate_id() ) {
                 # errormsg filled by validate_id()
@@ -50,7 +51,7 @@ class DomainHandler extends PFAHandler {
             }
         } else { # edit mode
             if (!$exists) {
-                $this->errormsg[] = Lang::read($this->error_does_not_exist);
+                $this->errormsg[] = Lang::read($this->msg['error_does_not_exist']);
                 return false;
             } else {
                 return true;
@@ -69,6 +70,7 @@ class DomainHandler extends PFAHandler {
        }
    }
 
+    # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
         $this->db_table = 'domain';
         $this->id_field = 'domain';
@@ -100,6 +102,21 @@ class DomainHandler extends PFAHandler {
 
     }
 
+    # messages used in various functions.
+    # always list the key to hand over to Lang::read
+    # the only exception is 'logname' which uses the key for db_log
+    protected function initMsg() {
+        $this->msg['error_already_exists'] = 'pAdminCreate_domain_domain_text_error';
+        $this->msg['error_does_not_exist'] = 'domain_does_not_exist';
+        if ($this->new) {
+            $this->msg['logname'] = 'create_domain';
+            $this->msg['store_error'] = 'pAdminCreate_domain_result_error';
+        } else {
+            $this->msg['logname'] = 'edit_domain';
+            $this->msg['store_error'] = 'pAdminEdit_domain_result_error';
+        }
+    }
+
     public function getStruct() {
         return $this->struct;
     }
@@ -116,9 +133,6 @@ class DomainHandler extends PFAHandler {
 
     public function set($values) {
         # TODO: make this a generic function for add and edit
-        # TODO: move DB writes etc. to separate save() function (to allow on-the-fly validation before saving to DB)
-
-        ($values['backupmx'] == true) ? $values['backupmx'] = db_get_boolean(true) : $values['backupmx'] = db_get_boolean(false);
 
         if ($this->new == 1) {
             $values[$this->id_field] = $this->username;
@@ -133,23 +147,31 @@ class DomainHandler extends PFAHandler {
                     $this->values[$key] = $row['default'];
                 }
             } else {
-                $func="_inp_".$row['type'];
-                # TODO: error out if an editable field is not set in $values (on $this->new) -or- skip if in edit mode
-                $val=$values[$key];
-                if ($row['type'] != "password" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
-                    if (method_exists($this, $func) ) {
-                        if ($this->{$func}($key, $values[$key])) {
+                if (isset($values[$key])) {
+                    if ($row['type'] != "password" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
+                        $valid = true; # trust input unless validator objects
+
+                        $func="_inp_".$row['type'];
+                        if (method_exists($this, $func) ) {
+                            if (!$this->{$func}($key, $values[$key])) $valid = false;
+                        } else {
+                            # TODO: warning if no validation function exists?
+                        }
+
+                        # TODO: more validation (_field_$fieldname() ?)
+
+                        if ($valid) {
                             $this->values[$key] = $values[$key];
                         }
-                    } else {
-                        # TODO: warning if no validation function exists?
-                        $this->values[$key] = $values[$key];
                     }
+                } elseif ($this->new) { # new, field not set in input data
+                    $this->errormsg[] = "field $key is missing";
+                    # echo "MISSING / not set: $key\n";
+                } else { # edit, field unchanged
+                    # echo "skipped / not set: $key\n";
                 }
             }
         }
-
-        # TODO: more validation
 
         if (count($this->errormsg) == 0) {
             $this->values_valid = true;
@@ -164,13 +186,29 @@ class DomainHandler extends PFAHandler {
         }
 
         $db_values = $this->values;
-        unset ($db_values['default_aliases']); # TODO: automate based on $this->struct
 
-        $result = db_insert($this->db_table, $db_values);
+        foreach(array_keys($db_values) as $key) {
+            switch ($this->struct[$key]['type']) { # modify field content for some types
+                case 'bool':
+                    $db_values[$key] = db_get_boolean($db_values[$key]);
+                    break;
+                # TODO: passwords -> pacrypt()
+            }
+            if ($this->struct[$key]['not_in_db'] == 1) unset ($db_values[$key]); # remove 'not in db' columns
+        }
+
+        if ($this->new) {
+            $result = db_insert($this->db_table, $db_values);
+        } else {
+            $result = db_update($this->db_table, $this->id_field, $this->username, $db_values);
+        }
         if ($result != 1) {
-            $this->errormsg[] = Lang::read('pAdminCreate_domain_result_error') . "\n(" . $this->username . ")\n";
+            $this->errormsg[] = Lang::read($this->msg['store_error']) . "\n(" . $this->username . ")\n"; # TODO: change message + use sprintf
             return false;
         } else {
+# TODO: drop the "else {" - if $result != 1, the "return false" will already exit the function
+# TODO: everything after this comment (= specific to domains) should be a separate function,
+# TODO: because everything above is generic "write values to DB" code
             if ($this->new && $this->values['default_aliases']) {
                 foreach (Config::read('default_aliases') as $address=>$goto) {
                     $address = $address . "@" . $this->username;
@@ -184,12 +222,21 @@ class DomainHandler extends PFAHandler {
                     # TODO: error checking
                 }
             }
-            $tMessage = Lang::read('pAdminCreate_domain_result_success') . " (" . $this->username . ")"; # TODO: tMessage is not used/returned anywhere
+            if ($this->new) {
+                $tMessage = Lang::read('pAdminCreate_domain_result_success') . " (" . $this->username . ")"; # TODO: tMessage is not used/returned anywhere
+            } else {
+                # TODO: success message for edit
+            }
         }
-        if (!domain_postcreation($this->username)) {
-            $this->errormsg[] = Lang::read('pAdminCreate_domain_error');
+
+        if ($this->new) {
+            if (!domain_postcreation($this->username)) {
+                $this->errormsg[] = Lang::read('pAdminCreate_domain_error');
+            }
+        } else {
+            # we don't have domain_postedit()
         }
-        db_log ($this->username, 'create_domain', "");
+        db_log ($this->username, $this->msg['logname'], "");
         return true;
     }
 
@@ -225,7 +272,7 @@ class DomainHandler extends PFAHandler {
             }
             return true;
         }
-        if ($errors) $this->errormsg[] = Lang::read($this->error_does_not_exist);
+        if ($errors) $this->errormsg[] = Lang::read($this->msg['error_does_not_exist']);
 #        $this->errormsg[] = $result['error'];
         return false;
     }
