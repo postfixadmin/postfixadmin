@@ -1546,7 +1546,7 @@ function db_connect ($ignore_errors = 0) {
  * @return String or int as appropriate.
  */
 function db_get_boolean($bool) {
-    if(!is_bool($bool)) {
+    if(! (is_bool($bool) || $bool == '0' || $bool == '1') ) {
         die("Invalid usage of 'db_get_boolean($bool)'");
     }
 
