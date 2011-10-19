@@ -121,6 +121,10 @@ class DomainHandler extends PFAHandler {
         return $this->struct;
     }
 
+    public function getId_field() {
+        return $this->id_field;
+    }
+
     public function getTransports() {
         return Config::read('transport_options');
     }
