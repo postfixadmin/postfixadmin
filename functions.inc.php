@@ -1404,6 +1404,7 @@ function smtp_mail ($to, $from, $data, $body = "") {
     $fh = @fsockopen ($smtpd_server, $smtpd_port, $errno, $errstr, $timeout);
 
     if (!$fh) {
+        error_log("fsockopen failed - errno: $errno - errstr: $errstr");
         return false;
     } else {
         $res = smtp_get_response($fh);
