@@ -82,14 +82,36 @@ class DomainHandler extends PFAHandler {
         $quota  = boolconf('quota')         ? 1 : 0; # TOOD: use a function or write a Config::intbool function
         $dom_q  = boolconf('domain_quota')  ? 1 : 0; # TOOD: use a function or write a Config::intbool function
 
+        # values for the "type" column:
+        # text  one line of text
+        # num   number
+        # vnum  "virtual" number, coming from JOINs etc.
+        # bool  boolean (converted to 0/1, additional column _$field with yes/no)
+        # ts    timestamp (created/modified)
+        # enum  list of options, must be given in column "options" as array
+
+        # NOTE: There are dependencies between alias_count, mailbox_count and total_quota.
+        # NOTE: If you disable "display in list" for one of them, the SQL query for the others might break.
+        # NOTE: (Disabling all of them shouldn't be a problem.)
+
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / not in database
             #                           editing?    form    list
            'domain'          => pacol(  $this->new, 1,      1,      'text', 'pAdminEdit_domain_domain'     , ''                                 ),
            'description'     => pacol(  1,          1,      1,      'text', 'pAdminEdit_domain_description', ''                                 ),
            'aliases'         => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_aliases'    , 'pAdminEdit_domain_aliases_text'   , Config::read('aliases')   ),
+           'alias_count'     => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '', 0, 
+               /*select*/ 'coalesce(__alias_count - __mailbox_count,0) as alias_count', 
+               /*extrafrom*/ 'left join ( select count(*) as __alias_count, domain as __alias_domain from ' . table_by_key('alias') . 
+                             ' group by domain) as __alias on domain = __alias_domain'),
            'mailboxes'       => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_mailboxes'  , 'pAdminEdit_domain_mailboxes_text' , Config::read('mailboxes') ),
+           'mailbox_count'   => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '', 0, 
+               /*select*/ 'coalesce(__mailbox_count,0) as mailbox_count', 
+               /*extrafrom*/ 'left join ( select count(*) as __mailbox_count, sum(quota) as __total_quota, domain as __mailbox_domain from ' . table_by_key('mailbox') . 
+                             ' group by domain) as __mailbox on domain = __mailbox_domain'),
            'maxquota'        => pacol(  $quota,     $quota, $quota, 'num' , 'pAdminEdit_domain_maxquota'   , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')  ),
+           'total_quota'     => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '', 0, 
+               /*select*/ 'round(coalesce(__total_quota/' . intval(Config::read('quota_multiplier')) . ',0)) as total_quota' /*extrafrom*//* already in mailbox_count */ ),
            'quota'           => pacol(  $dom_q,     $dom_q, $dom_q, 'num' , 'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
            'transport'       => pacol(  $transp,    $transp,$transp,'enum', 'pAdminEdit_domain_transport'  , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
                                                                                                                                 /*options*/ $this->getTransports()     ),
@@ -263,8 +285,13 @@ class DomainHandler extends PFAHandler {
         );
 
         # get list of fields to display
+        $extrafrom = "";
         foreach($this->struct as $key=>$row) {
             if ( $row['display_in_list'] != 0 && $row['not_in_db'] == 0 ) {
+                if ($row['select'] != '') $key = $row['select'];
+
+                if ($row['extrafrom'] != '') $extrafrom = $extrafrom . " " . $row['extrafrom'] . "\n";
+
                 if (isset($colformat[$row['type']])) {
                     $select_cols[] = str_replace('###KEY###', $key, $colformat[$row['type']] );
                 } else {
@@ -283,7 +310,8 @@ class DomainHandler extends PFAHandler {
             $where = " WHERE $condition ";
         }
 
-        $result = db_query("SELECT $cols FROM $table $where");
+        $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->id_field;
+        $result = db_query($query);
 
         $db_result = array();
         if ($result['rows'] != 0) {
@@ -295,6 +323,12 @@ class DomainHandler extends PFAHandler {
         return $db_result;
     }
 
+    /**
+     * get the settings of a domain
+     * @param array or string $condition
+     * @return bool - true if at least one domain was found
+     * The data is stored in $this->return (as associative array of column => value)
+     */
     public function view($errors=true) {
         $result = $this->read_from_db(array($this->id_field => $this->username) );
         if (count($result) == 1) {
@@ -306,6 +340,27 @@ class DomainHandler extends PFAHandler {
 #        $this->errormsg[] = $result['error'];
         return false;
     }
+
+    /**
+     * get a list of one or more domains with all settings
+     * @param array or string $condition
+     * @return bool - true if at least one domain was found
+     * The data is stored in $this->return (as array of rows, each row is an associative array of column => value)
+     */
+    public function getList($condition) {
+        $result = $this->read_from_db($condition);
+        if (count($result) >= 1) {
+            $this->return = $result;
+            return true;
+        }
+
+#        $this->errormsg[] = Lang::read($this->msg['error_does_not_exist']);
+#        $this->errormsg[] = $result['error'];
+        return false;
+    }
+
+
+
     /**
      *  @return true on success false on failure
      */

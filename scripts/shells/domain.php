@@ -358,10 +358,10 @@ class ViewTask extends Shell {
                       $result = $handler->return;
                       $this->out("Domain: \t".$result['domain']);
                       $this->out("Description: \t".$result['description']);
-                      $this->out("Aliases: \t".$result['aliases']);
-                      $this->out("Mailboxes: \t".$result['mailboxes']);
+                      $this->out("Aliases: \t".$result['alias_count'] . " / " . $result['aliases']);
+                      $this->out("Mailboxes: \t".$result['mailbox_count'] . " / " . $result['mailboxes']);
                       $this->out("Max. Quota: \t".$result['maxquota']);
-                      $this->out("Domain Quota: \t".$result['quota']);
+                      $this->out("Domain Quota: \t".$result['total_quota'] . " / " . $result['quota']);
                       # TODO: show allocated domain quota (sum of mailbox quota)
                       $this->out("Transport: \t".$result['transport']);
                       $this->out("Backup MX: \t".$result['backupmx']);
