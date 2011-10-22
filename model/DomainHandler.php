@@ -248,27 +248,32 @@ class DomainHandler extends PFAHandler {
         $select_cols = array();
         $bool_fields = array();
 
+        $colformat = array(
+            # TODO: replace hardcoded %Y-%m-%d with a country-specific date format via *.lang?
+            'ts' => "DATE_FORMAT(###KEY###, '%Y-%m-%d') AS ###KEY###, ###KEY### AS _###KEY###",
+        );
+
         # get list of fields to display
         foreach($this->struct as $key=>$row) {
             if ( $row['display_in_list'] != 0 && $row['not_in_db'] == 0 ) {
-                if ($row['type'] == 'ts') {
-                    # TODO: replace hardcoded %Y-%m-%d with a country-specific date format via *.lang?
-                    $select_cols[] = "DATE_FORMAT($key, '%Y-%m-%d') AS $key, $key AS _$key"; # timestamps formatted as date, raw data in _fieldname
-                } elseif ($row['type'] == 'bool') {
-                    $bool_fields[] = $key; # remember boolean fields (will be converted to integer 0/1 later)  - TODO: do this in the sql query with CASE?
-                    $select_cols[] = $key;
+                if (isset($colformat[$row['type']])) {
+                    $select_cols[] = str_replace('###KEY###', $key, $colformat[$row['type']] );
                 } else {
                     $select_cols[] = $key;
+                }
+
+                if ($row['type'] == 'bool') {
+                    $bool_fields[] = $key; # remember boolean fields (will be converted to integer 0/1 later)  - TODO: do this in the sql query/$colformat with CASE?
                 }
             }
         }
 
         $cols = join(',', $select_cols);
         $table = table_by_key($this->db_table);
-        $id_field = $this->id_field;
-        $E_username = escape_string($this->username);
 
-        $result = db_query("SELECT $cols FROM $table WHERE $id_field='$E_username'");
+        $where = db_where_clause( array($this->id_field => $this->username), $this->struct);
+        $result = db_query("SELECT $cols FROM $table $where");
+
         if ($result['rows'] != 0) {
             $this->return = db_array($result['result']);
             foreach ($bool_fields as $field) {

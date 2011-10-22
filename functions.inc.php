@@ -1878,6 +1878,30 @@ function db_in_clause($field, $values) {
 	. "') ";
 }
 
+/**
+ * db_where_clause
+ * Action: builds and returns a WHERE clause for database queries. All given conditions will be AND'ed.
+ * Call: db_where_clause (array $conditions, array $struct)
+ * param array $conditios: array('field' => 'value', 'field2' => 'value2, ...)
+ * param array $struct - field structure, used for automatic bool conversion
+ */
+function db_where_clause($condition, $struct) {
+    if (!is_array($condition)) {
+        die('db_where_cond: parameter $cond is not an array!');
+    } elseif (count($condition) == 0) {
+        die("db_where_cond: parameter is an empty array!"); # die() might sound harsh, but can prevent information leaks 
+    } elseif(!is_array($struct)) {
+        die('db_where_cond: parameter $struct is not an array!');
+    }
+
+    foreach($condition as $field => $value) {
+        if (isset($struct[$field]) && $struct[$field]['type'] == 'bool') $value = db_get_boolean($value);
+        $parts[] = "$field='" . escape_string($value) . "'";
+    }
+    $query = " WHERE " . join(" AND ", $parts) . " ";
+	return $query;
+}
+
 //
 // table_by_key
 // Action: Return table name for given key
