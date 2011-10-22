@@ -210,7 +210,7 @@ class DomainHandler extends PFAHandler {
             $this->errormsg[] = Lang::read($this->msg['store_error']) . "\n(" . $this->username . ")\n"; # TODO: change message + use sprintf
             return false;
         } else {
-# TODO: drop the "else {" - if $result != 1, the "return false" will already exit the function
+# TODO: drop the "else" - if $result != 1, the "return false" will already exit the function
 # TODO: everything after this comment (= specific to domains) should be a separate function,
 # TODO: because everything above is generic "write values to DB" code
             if ($this->new && $this->values['default_aliases']) {
@@ -244,13 +244,22 @@ class DomainHandler extends PFAHandler {
         return true;
     }
 
-    public function view($errors=true) {
+    /**
+     * read_from_db
+     * @param array or string - condition (an array will be AND'ed using db_where_clause, a string will be directly used)
+     * @return array - rows
+     */
+    protected function read_from_db($condition) {
         $select_cols = array();
-        $bool_fields = array();
+
+        $yes = escape_string(Lang::read('YES'));
+        $no  = escape_string(Lang::read('NO'));
 
         $colformat = array(
             # TODO: replace hardcoded %Y-%m-%d with a country-specific date format via *.lang?
             'ts' => "DATE_FORMAT(###KEY###, '%Y-%m-%d') AS ###KEY###, ###KEY### AS _###KEY###",
+            'bool' => "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '1'    WHEN '" . db_get_boolean(false) . "' THEN '0'   END as ###KEY###," .
+                      "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '$yes' WHEN '" . db_get_boolean(false) . "' THEN '$no' END as _###KEY###",
         );
 
         # get list of fields to display
@@ -262,25 +271,37 @@ class DomainHandler extends PFAHandler {
                     $select_cols[] = $key;
                 }
 
-                if ($row['type'] == 'bool') {
-                    $bool_fields[] = $key; # remember boolean fields (will be converted to integer 0/1 later)  - TODO: do this in the sql query/$colformat with CASE?
-                }
             }
         }
 
         $cols = join(',', $select_cols);
         $table = table_by_key($this->db_table);
 
-        $where = db_where_clause( array($this->id_field => $this->username), $this->struct);
+        if (is_array($condition)) {
+            $where = db_where_clause($condition, $this->struct);
+        } else {
+            $where = " WHERE $condition ";
+        }
+
         $result = db_query("SELECT $cols FROM $table $where");
 
+        $db_result = array();
         if ($result['rows'] != 0) {
-            $this->return = db_array($result['result']);
-            foreach ($bool_fields as $field) {
-                $this->return[$field] = db_boolean_to_int($this->return[$field]); # convert bool to integer (0/1)
+            while ($row = db_assoc ($result['result'])) {
+                $db_result[] = $row;
             }
+        }
+
+        return $db_result;
+    }
+
+    public function view($errors=true) {
+        $result = $this->read_from_db(array($this->id_field => $this->username) );
+        if (count($result) == 1) {
+            $this->return = $result[0];
             return true;
         }
+
         if ($errors) $this->errormsg[] = Lang::read($this->msg['error_does_not_exist']);
 #        $this->errormsg[] = $result['error'];
         return false;
