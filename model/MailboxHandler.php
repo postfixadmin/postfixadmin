@@ -142,6 +142,8 @@ class MailboxHandler {
                 $maildir = $domain . "/" . $local_part . "/";
             }
         } else {
+            # If $CONF['domain_path'] is set to NO, $CONF['domain_in_mailbox] is forced to YES.
+            # Otherwise user@example.com and user@foo.bar would be mixed up in the same maildir "user/".
             $maildir = $username . "/";
         }
 
