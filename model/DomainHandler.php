@@ -277,9 +277,16 @@ class DomainHandler extends PFAHandler {
         $yes = escape_string(Lang::read('YES'));
         $no  = escape_string(Lang::read('NO'));
 
+        # TODO: replace hardcoded %Y-%m-%d with a country-specific date format via *.lang?
+        # TODO: (not too easy because pgsql uses a different formatstring format :-/ )
+        if (Config::read('database_type') == 'pgsql') {
+            $formatted_date = "TO_DATE(text(###KEY###), 'YYYY-mm-dd')";
+        } else {
+            $formatted_date = "DATE_FORMAT(###KEY###, '%Y-%m-%d')";
+        }
+
         $colformat = array(
-            # TODO: replace hardcoded %Y-%m-%d with a country-specific date format via *.lang?
-            'ts' => "TO_DATE(text(###KEY###), 'YYYY-mm-dd') AS ###KEY###, ###KEY### AS _###KEY###",
+            'ts' => "$formatted_date AS ###KEY###, ###KEY### AS _###KEY###",
             'bool' => "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '1'    WHEN '" . db_get_boolean(false) . "' THEN '0'   END as ###KEY###," .
                       "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '$yes' WHEN '" . db_get_boolean(false) . "' THEN '$no' END as _###KEY###",
         );
