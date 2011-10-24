@@ -81,10 +81,7 @@ function postfixadmin_autoload($class) {
 }
 spl_autoload_register('postfixadmin_autoload');
 
-Lang::getInstance();
 Lang::write($PALANG);
-
-Config::getInstance();
 Config::write($CONF);
 
 if (!defined('POSTFIXADMIN_CLI')) {
