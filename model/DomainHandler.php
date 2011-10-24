@@ -279,7 +279,7 @@ class DomainHandler extends PFAHandler {
 
         $colformat = array(
             # TODO: replace hardcoded %Y-%m-%d with a country-specific date format via *.lang?
-            'ts' => "DATE_FORMAT(###KEY###, '%Y-%m-%d') AS ###KEY###, ###KEY### AS _###KEY###",
+            'ts' => "TO_DATE(text(###KEY###), 'YYYY-mm-dd') AS ###KEY###, ###KEY### AS _###KEY###",
             'bool' => "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '1'    WHEN '" . db_get_boolean(false) . "' THEN '0'   END as ###KEY###," .
                       "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '$yes' WHEN '" . db_get_boolean(false) . "' THEN '$no' END as _###KEY###",
         );
