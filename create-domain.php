@@ -112,6 +112,7 @@ if ($error != 1 && $new) { # no error and not in edit mode - reset fields to def
 }
 
 foreach($form_fields as $key => $field) {
+  if($form_fields[$key]['display_in_form']) {
     $smartykey = "t" . ucfirst($key); # TODO: ugly workaround until I decide on the template variable names
     switch ($field['type']) {
         case 'bool':
@@ -123,6 +124,7 @@ foreach($form_fields as $key => $field) {
         default:
             $smarty->assign ($smartykey, $values[$key]);
     }
+  }
 }
 
 $smarty->assign ('mode', $mode);

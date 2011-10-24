@@ -117,7 +117,7 @@ class DomainHandler extends PFAHandler {
                                                                                                                                 /*options*/ $this->getTransports()     ),
            'backupmx'        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 ),
            'active'          => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 , 1                         ),
-           'default_aliases' => pacol(  $this->new, 1,      0,      'bool', 'pAdminCreate_domain_defaultaliases ', ''                           , 1,'', /*not in db*/ 1     ),
+           'default_aliases' => pacol(  $this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases ', ''                           , 1,'', /*not in db*/ 1     ),
            'created'         => pacol(  0,          0,      1,      'ts',    '' /* TODO: "created" label */ , ''                                 ),
            'modified'        => pacol(  0,          0,      1,      'ts',   'pAdminList_domain_modified'   , ''                                 ),
         );
