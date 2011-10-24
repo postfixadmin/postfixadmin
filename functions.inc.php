@@ -406,10 +406,8 @@ function safecookie ($param, $default="") {
  * @return array for $struct
  */
 function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $not_in_db=0, $select="", $extrafrom="") {
-    global $PALANG;
-
-    if ($PALANG_label != '') $PALANG_label = $PALANG[$PALANG_label];
-    if ($PALANG_desc  != '') $PALANG_desc  = $PALANG[$PALANG_desc ];
+    if ($PALANG_label != '') $PALANG_label = Lang::Read($PALANG_label);
+    if ($PALANG_desc  != '') $PALANG_desc  = Lang::Read($PALANG_desc );
 
     return array(
         'editable'          => $allow_editing,
