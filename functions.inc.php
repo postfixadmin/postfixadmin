@@ -1611,12 +1611,12 @@ function db_query ($query, $ignore_errors = 0) {
     if (!is_resource($link)) $link = db_connect ();
 
     if ($CONF['database_type'] == "mysql") $result = @mysql_query ($query, $link) 
-        or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query: " . mysql_error($link) . "$DEBUG_TEXT";
+        or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query ($query) : " . mysql_error($link) . "$DEBUG_TEXT";
     if ($CONF['database_type'] == "mysqli") $result = @mysqli_query ($link, $query) 
-        or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query: " . mysqli_error($link) . "$DEBUG_TEXT";
+        or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query ($query) : " . mysqli_error($link) . "$DEBUG_TEXT";
     if ($CONF['database_type'] == "pgsql") {
         $result = @pg_query ($link, $query) 
-            or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query: " . pg_last_error() . "$DEBUG_TEXT";
+            or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query ($query): " . pg_last_error() . "$DEBUG_TEXT";
     }
     if ($error_text != "" && $ignore_errors == 0) die($error_text);
 
