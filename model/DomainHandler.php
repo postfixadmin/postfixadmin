@@ -95,22 +95,28 @@ class DomainHandler extends PFAHandler {
         # NOTE: (Disabling all of them shouldn't be a problem.)
 
         $this->struct=array(
-            # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / not in database
+            # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
            'domain'          => pacol(  $this->new, 1,      1,      'text', 'pAdminEdit_domain_domain'     , ''                                 ),
            'description'     => pacol(  1,          1,      1,      'text', 'pAdminEdit_domain_description', ''                                 ),
            'aliases'         => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_aliases'    , 'pAdminEdit_domain_aliases_text'   , Config::read('aliases')   ),
-           'alias_count'     => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '', 0, 
+           'alias_count'     => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '', 
+               /*not_in_db*/ 0, 
+               /*dont_write_to_db*/ 1,
                /*select*/ 'coalesce(__alias_count - __mailbox_count,0) as alias_count', 
                /*extrafrom*/ 'left join ( select count(*) as __alias_count, domain as __alias_domain from ' . table_by_key('alias') . 
                              ' group by domain) as __alias on domain = __alias_domain'),
            'mailboxes'       => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_mailboxes'  , 'pAdminEdit_domain_mailboxes_text' , Config::read('mailboxes') ),
-           'mailbox_count'   => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '', 0, 
+           'mailbox_count'   => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '', 
+               /*not_in_db*/ 0, 
+               /*dont_write_to_db*/ 1,
                /*select*/ 'coalesce(__mailbox_count,0) as mailbox_count', 
                /*extrafrom*/ 'left join ( select count(*) as __mailbox_count, sum(quota) as __total_quota, domain as __mailbox_domain from ' . table_by_key('mailbox') . 
                              ' group by domain) as __mailbox on domain = __mailbox_domain'),
            'maxquota'        => pacol(  $quota,     $quota, $quota, 'num' , 'pAdminEdit_domain_maxquota'   , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')  ),
-           'total_quota'     => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '', 0, 
+           'total_quota'     => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '', 
+               /*not_in_db*/ 0, 
+               /*dont_write_to_db*/ 1,
                /*select*/ 'round(coalesce(__total_quota/' . intval(Config::read('quota_multiplier')) . ',0)) as total_quota' /*extrafrom*//* already in mailbox_count */ ),
            'quota'           => pacol(  $dom_q,     $dom_q, $dom_q, 'num' , 'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
            'transport'       => pacol(  $transp,    $transp,$transp,'enum', 'pAdminEdit_domain_transport'  , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
@@ -221,6 +227,7 @@ class DomainHandler extends PFAHandler {
                 # TODO: passwords -> pacrypt()
             }
             if ($this->struct[$key]['not_in_db'] == 1) unset ($db_values[$key]); # remove 'not in db' columns
+            if ($this->struct[$key]['dont_write_to_db'] == 1) unset ($db_values[$key]); # remove 'dont_write_to_db' columns
         }
 
         if ($this->new) {

@@ -405,7 +405,7 @@ function safecookie ($param, $default="") {
  * @param int $not_in_db
  * @return array for $struct
  */
-function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $not_in_db=0, $select="", $extrafrom="") {
+function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $not_in_db=0, $dont_write_to_db=0, $select="", $extrafrom="") {
     if ($PALANG_label != '') $PALANG_label = Lang::Read($PALANG_label);
     if ($PALANG_desc  != '') $PALANG_desc  = Lang::Read($PALANG_desc );
 
@@ -419,6 +419,7 @@ function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALAN
         'default'           => $default,
         'options'           => $options,
         'not_in_db'         => $not_in_db,
+        'dont_write_to_db'  => $dont_write_to_db,
         'select'            => $select,         # replaces the field name after SELECT
         'extrafrom'         => $extrafrom,      # added after FROM xy - useful for JOINs etc.
     );
