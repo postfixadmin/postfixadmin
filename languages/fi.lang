@@ -186,8 +186,8 @@ $PALANG['pPassword_result_success'] = 'Salasana vaihdettu!';
 $PALANG['pEdit_vacation_set'] = 'Muuta / Aseta poissaoloviesti';
 $PALANG['pEdit_vacation_remove'] = 'Poista poissaoloviesti';
 $PALANG['pVacation_result_error'] = 'Automaattivastauksen asetuksia ei voitu päivittää!';
-$PALANG['pVacation_result_removed'] = 'Automaattivastaus poistettu!';
-$PALANG['pVacation_result_added'] = 'Automaattivastaus päällä!';
+$PALANG['pVacation_result_removed'] = 'Automaattivastaus poistettu! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Automaattivastaus päällä! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Näytä viimeiset kymmenen tapahtumaa domainille ';
 $PALANG['pViewlog_timestamp'] = 'Aikaleima';

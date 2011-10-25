@@ -192,8 +192,8 @@ $PALANG['pEdit_vacation_set'] = 'Поменять / задать сообщен�
 $PALANG['pEdit_vacation_remove'] = 'Убрать сообщение об отсутствии';
 
 $PALANG['pVacation_result_error'] = 'Невозможно обновить настройки автоответчика!';
-$PALANG['pVacation_result_removed'] = 'Автоответчик отключен!';
-$PALANG['pVacation_result_added'] = 'Автоответчик включен!';
+$PALANG['pVacation_result_removed'] = 'Автоответчик отключен! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Автоответчик включен! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Просмотреть последних 10 действий для  ';
 $PALANG['pViewlog_timestamp'] = 'Время создания/модификации';

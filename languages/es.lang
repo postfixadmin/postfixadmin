@@ -187,8 +187,8 @@ $PALANG['pPassword_result_success'] = '¡Su contraseña ha sido cambiada!';
 $PALANG['pEdit_vacation_set'] = 'Cambiar / Establecer mensaje de ausencia'; 
 $PALANG['pEdit_vacation_remove'] = 'Quitar mensaje de ausencia'; 
 $PALANG['pVacation_result_error'] = '¡Imposible actualizar la configuracióne la respuesta automática!';
-$PALANG['pVacation_result_removed'] = '¡Autorespuesta eliminada!'; 
-$PALANG['pVacation_result_added'] = '¡Autorespuesta habilitada!'; 
+$PALANG['pVacation_result_removed'] = '¡Autorespuesta eliminada! (%s)';  # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = '¡Autorespuesta habilitada! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Ver las últimas 10 acciones para ';
 $PALANG['pViewlog_timestamp'] = 'Fecha/Hora';

@@ -189,8 +189,8 @@ $PALANG['pPassword_result_success'] = 'Twoje hasło zostało zmienione!';
 $PALANG['pEdit_vacation_set'] = 'Zmień / Ustaw wiadomość automatycznej odpowiedzi';
 $PALANG['pEdit_vacation_remove'] = 'Usuń wiadomość automatycznej odpowiedzi';
 $PALANG['pVacation_result_error'] = 'Nie można ustawić wiadomości automatycznej odpowiedzi!';
-$PALANG['pVacation_result_removed'] = 'Auto odpowiedź została usunięta!';
-$PALANG['pVacation_result_added'] = 'Auto odpowiedź została dodana!';
+$PALANG['pVacation_result_removed'] = 'Auto odpowiedź została usunięta! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Auto odpowiedź została dodana! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Pokaż 10 ostatnich działań dla ';
 $PALANG['pViewlog_timestamp'] = 'Data';

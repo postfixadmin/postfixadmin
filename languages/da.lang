@@ -191,8 +191,8 @@ $PALANG['pEdit_vacation_set'] = 'Ændre / Angiv autosvar';
 $PALANG['pEdit_vacation_remove'] = 'Fjern autosvar';
 
 $PALANG['pVacation_result_error'] = 'Autosvarindstillinger kunne ikke opdateres!';
-$PALANG['pVacation_result_removed'] = 'Autosvar er fjernet!';
-$PALANG['pVacation_result_added'] = 'Autosvar er aktiveret!';
+$PALANG['pVacation_result_removed'] = 'Autosvar er fjernet! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Autosvar er aktiveret! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Vis de sidste 10 poster for ';
 $PALANG['pViewlog_timestamp'] = 'Tidsstempel';

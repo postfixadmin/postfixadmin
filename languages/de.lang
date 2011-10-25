@@ -190,8 +190,8 @@ $PALANG['pEdit_vacation_set'] = 'Automatische Antwort &auml;ndern / einrichten';
 $PALANG['pEdit_vacation_remove'] = 'Automatische Antwort abschalten';
 
 $PALANG['pVacation_result_error'] = '&Auml;nderungen der automatischen Antwort konnten nicht gespeichert werden!';
-$PALANG['pVacation_result_removed'] = 'Automatische Antwort wurde abgeschaltet!';
-$PALANG['pVacation_result_added'] = 'Automatische Antwort wurde aktiviert!';
+$PALANG['pVacation_result_removed'] = 'Automatische Antwort f&uuml;r %s wurde abgeschaltet!';
+$PALANG['pVacation_result_added'] = 'Automatische Antwort f&uuml;r %s wurde aktiviert!';
 
 $PALANG['pViewlog_welcome'] = 'Zeigt die letzten 10 Aktionen f&uuml;r ';
 $PALANG['pViewlog_timestamp'] = 'Zeitpunkt';

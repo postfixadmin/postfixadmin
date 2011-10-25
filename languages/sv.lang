@@ -188,8 +188,8 @@ $PALANG['pPassword_result_success'] = 'Ditt lösenord har ändrats!';
 $PALANG['pEdit_vacation_set'] = 'Ändra / Aktivera meddelande för ledighet';
 $PALANG['pEdit_vacation_remove'] = 'Tabort meddelande för ledighet';
 $PALANG['pVacation_result_error'] = 'Kunde inte uppdatera autosvar inställningar!';
-$PALANG['pVacation_result_removed'] = 'Autosvar meddelande har tagits bort!';
-$PALANG['pVacation_result_added'] = 'Autosvar meddelande har aktiverats!';
+$PALANG['pVacation_result_removed'] = 'Autosvar meddelande har tagits bort! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Autosvar meddelande har aktiverats! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Visa dom senaste 10 åtgärderna för ';
 $PALANG['pViewlog_timestamp'] = 'Tidpunkt';

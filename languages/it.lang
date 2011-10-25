@@ -187,8 +187,8 @@ $PALANG['pPassword_result_success'] = 'La tua password &egrave; stata modificata
 $PALANG['pEdit_vacation_set'] = 'Cambia / inserisci messaggio';
 $PALANG['pEdit_vacation_remove'] = 'Rimuovi messaggio';
 $PALANG['pVacation_result_error'] = 'Impossibile registrare le modifiche!';
-$PALANG['pVacation_result_removed'] = 'Autorisponditore disabilitato!';
-$PALANG['pVacation_result_added'] = 'Autorisponditore abilitato!';
+$PALANG['pVacation_result_removed'] = 'Autorisponditore disabilitato! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Autorisponditore abilitato! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Elenca gli ultimi dieci eventi per ';
 $PALANG['pViewlog_timestamp'] = 'Orario';

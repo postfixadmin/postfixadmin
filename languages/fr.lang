@@ -187,8 +187,8 @@ $PALANG['pPassword_result_success'] = 'Votre mot de passe a été change!';
 $PALANG['pEdit_vacation_set'] = 'Modifier le message';
 $PALANG['pEdit_vacation_remove'] = 'Effacer le message';
 $PALANG['pVacation_result_error'] = 'Impossible de mettre à jour les réglages du répondeur!';
-$PALANG['pVacation_result_removed'] = 'Le répondeur a été désactivé!';
-$PALANG['pVacation_result_added'] = 'Le répondeur a été activé!';
+$PALANG['pVacation_result_removed'] = 'Le répondeur a été désactivé! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Le répondeur a été activé! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Visualiser les 10 dernières action pour ';
 $PALANG['pViewlog_timestamp'] = 'Date/Heure';

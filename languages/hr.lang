@@ -185,8 +185,8 @@ $PALANG['pPassword_result_success'] = 'Lozinka je uspjeno promijenjena!';
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
 $PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
 $PALANG['pVacation_result_error'] = 'Unable to update auto response settings!'; # XXX
-$PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
-$PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
+$PALANG['pVacation_result_removed'] = 'Auto response for %s has been disabled!'; # XXX
+$PALANG['pVacation_result_added'] = 'Auto response for %s has been enabled!'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Pogledaj zadnjih 10 akcija za ';
 $PALANG['pViewlog_timestamp'] = 'Vrijeme';

@@ -190,8 +190,8 @@ $PALANG['pEdit_vacation_set'] = 'Nem vagyok elérhatő üzenet módosítás / be
 $PALANG['pEdit_vacation_remove'] = 'Nem vagyok elérhatő üzenet törlése';
 
 $PALANG['pVacation_result_error'] = 'Nem sikerült frissíteni az automatikus válasz beállításait!';
-$PALANG['pVacation_result_removed'] = 'Az automatikus válasz törölve!';
-$PALANG['pVacation_result_added'] = 'Az automatikus válasz engedélyezve!';
+$PALANG['pVacation_result_removed'] = 'Az automatikus válasz törölve! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Az automatikus válasz engedélyezve! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Az utolsó 10 esemény megtekintése: ';
 $PALANG['pViewlog_timestamp'] = 'Idõbélyeg';

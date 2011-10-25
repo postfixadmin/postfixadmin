@@ -190,8 +190,8 @@ $PALANG['pEdit_vacation_set'] = 'メッセージ変更／設定';
 $PALANG['pEdit_vacation_remove'] = 'メッセージ解除';
 
 $PALANG['pVacation_result_error'] = '自動応答の設定を更新できませんでした！';
-$PALANG['pVacation_result_removed'] = '自動応答を解除しました。';
-$PALANG['pVacation_result_added'] = '自動応答を設定しました。';
+$PALANG['pVacation_result_removed'] = '自動応答を解除しました。 (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = '自動応答を設定しました。 (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = '過去10個のアクション ';
 $PALANG['pViewlog_timestamp'] = 'タイムスタンプ';

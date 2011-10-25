@@ -186,8 +186,8 @@ $PALANG['pPassword_result_success'] = '更改密碼成功!';
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
 $PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
 $PALANG['pVacation_result_error'] = 'Unable to update auto response settings!'; # XXX
-$PALANG['pVacation_result_removed'] = 'Auto response has been removed!'; # XXX
-$PALANG['pVacation_result_added'] = 'Auto response has been enabled!'; # XXX
+$PALANG['pVacation_result_removed'] = 'Auto response for %s has been disabled!'; # XXX
+$PALANG['pVacation_result_added'] = 'Auto response for %s has been enabled!'; # XXX
 
 $PALANG['pViewlog_welcome'] = '查看最新的10項操作日誌 網域名: ';
 $PALANG['pViewlog_timestamp'] = '時間';

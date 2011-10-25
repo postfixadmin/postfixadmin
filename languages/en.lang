@@ -191,7 +191,7 @@ $PALANG['pEdit_vacation_set'] = 'Change / Set away message';
 $PALANG['pEdit_vacation_remove'] = 'Remove away message';
 
 $PALANG['pVacation_result_error'] = 'Unable to update auto response settings!';
-$PALANG['pVacation_result_removed'] = 'Auto response for %s has been removed!';
+$PALANG['pVacation_result_removed'] = 'Auto response for %s has been disabled!';
 $PALANG['pVacation_result_added'] = 'Auto response for %s has been enabled!';
 
 $PALANG['pViewlog_welcome'] = 'View the last 10 actions for ';

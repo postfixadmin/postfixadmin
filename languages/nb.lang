@@ -187,8 +187,8 @@ $PALANG['pPassword_result_success'] = 'Ditt passord er nå endret!';
 $PALANG['pEdit_vacation_set'] = 'Endre / angi fraværsmelding';
 $PALANG['pEdit_vacation_remove'] = 'Fjern fraværsmelding';
 $PALANG['pVacation_result_error'] = 'Kunne ikke oppdatere innstillinger for automatisk svar!';
-$PALANG['pVacation_result_removed'] = 'Automatisk svar har blitt fjernet!';
-$PALANG['pVacation_result_added'] = 'Automatisk svar har blitt aktivert!';
+$PALANG['pVacation_result_removed'] = 'Automatisk svar har blitt fjernet! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Automatisk svar har blitt aktivert! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Vis de 10 siste handlingene for ';
 $PALANG['pViewlog_timestamp'] = 'Klokkeslett';

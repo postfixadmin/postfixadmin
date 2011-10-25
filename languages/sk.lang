@@ -187,8 +187,8 @@ $PALANG['pPassword_result_success'] = 'Heslo bolo zmenené!';
 $PALANG['pEdit_vacation_set'] = 'Zmeniť/nastaviť aut. odpoveď';
 $PALANG['pEdit_vacation_remove'] = 'Odstrániť aut. odpoveď';
 $PALANG['pVacation_result_error'] = 'Neopdarilo sa zmeniť automatickú odpoveď!';
-$PALANG['pVacation_result_removed'] = 'Automatická odpoveď bola odstránená!';
-$PALANG['pVacation_result_added'] = 'Automatická odpoveď bola nastavená!';
+$PALANG['pVacation_result_removed'] = 'Automatická odpoveď bola odstránená! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Automatická odpoveď bola nastavená! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Prehľad 10 posledných akcií pre ';
 $PALANG['pViewlog_timestamp'] = 'Časová značka';

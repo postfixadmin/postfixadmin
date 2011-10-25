@@ -192,8 +192,8 @@ $PALANG['pEdit_vacation_set'] = 'Editar / Definir Mensagem';
 $PALANG['pEdit_vacation_remove'] = 'Remover Mensagem';
 
 $PALANG['pVacation_result_error'] = 'Não foi possível atualizar as opções de resposta automática!';
-$PALANG['pVacation_result_removed'] = 'Resposta automática removida!';
-$PALANG['pVacation_result_added'] = 'Resposta automática habilitada!';
+$PALANG['pVacation_result_removed'] = 'Resposta automática removida! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Resposta automática habilitada! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Últimas 10 ações para ';
 $PALANG['pViewlog_timestamp'] = 'Data/Hora';

@@ -193,8 +193,8 @@ $PALANG['pEdit_vacation_set'] = 'Změnit / Nastavit zprávu o nepřítomnosti';
 $PALANG['pEdit_vacation_remove'] = 'Ostranit zprávu o nepřítomnosti';
 
 $PALANG['pVacation_result_error'] = 'Nebylo možné aktualizovat nastavení automatické odpověďi!';
-$PALANG['pVacation_result_removed'] = 'Automatická odpověď byla odstraněna!';
-$PALANG['pVacation_result_added'] = 'Automatická odpověd byla zapnuta!';
+$PALANG['pVacation_result_removed'] = 'Automatická odpověď byla odstraněna! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
+$PALANG['pVacation_result_added'] = 'Automatická odpověd byla zapnuta! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 
 $PALANG['pViewlog_welcome'] = 'Prohlížet 10 posledních akcí pro ';
 $PALANG['pViewlog_timestamp'] = 'Časová značka';
