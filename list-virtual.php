@@ -467,7 +467,7 @@ if (isset ($_GET ['tab']))
 //if (empty ($_GET ['tab']))
 // unset ($_SESSION ['tab']);
 if (!isset ($_SESSION ['tab']))
-    $_SESSION ['tab'] = 'mailbox';
+    $_SESSION ['tab'] = 'all';
 $smarty->assign ('tab', $_SESSION ['tab']);
 $smarty->assign ('smarty_template', 'list-virtual');
 $smarty->display ('index.tpl');
