@@ -103,7 +103,7 @@ class DomainHandler extends PFAHandler {
            'alias_count'     => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '', 
                /*not_in_db*/ 0, 
                /*dont_write_to_db*/ 1,
-               /*select*/ 'coalesce(__alias_count - __mailbox_count,0) as alias_count', 
+               /*select*/ 'coalesce(__alias_count,0) - coalesce(__mailbox_count,0)  as alias_count',
                /*extrafrom*/ 'left join ( select count(*) as __alias_count, domain as __alias_domain from ' . table_by_key('alias') . 
                              ' group by domain) as __alias on domain = __alias_domain'),
            'mailboxes'       => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_mailboxes'  , 'pAdminEdit_domain_mailboxes_text' , Config::read('mailboxes') ),
@@ -183,6 +183,7 @@ class DomainHandler extends PFAHandler {
                     if ($row['type'] != "password" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
                         $valid = true; # trust input unless validator objects
 
+                        # validate based on field type (_inp_$type)
                         $func="_inp_".$row['type'];
                         if (method_exists($this, $func) ) {
                             if (!$this->{$func}($key, $values[$key])) $valid = false;
@@ -190,7 +191,11 @@ class DomainHandler extends PFAHandler {
                             # TODO: warning if no validation function exists?
                         }
 
-                        # TODO: more validation (_field_$fieldname() ?)
+                        # validate based on field name (_field_$fieldname)
+                        $func="_field_".$key;
+                        if (method_exists($this, $func) ) {
+                            if (!$this->{$func}($key, $values[$key])) $valid = false;
+                        }
 
                         if ($valid) {
                             $this->values[$key] = $values[$key];
@@ -211,6 +216,10 @@ class DomainHandler extends PFAHandler {
         return $this->values_valid;
     }
 
+    /**
+     * store $this->values in the database
+     * calls $this->storemore() where additional things can be done
+     */
     public function store() {
         if ($this->values_valid == false) {
             $this->errormsg[] = "one or more values are invalid!";
@@ -238,10 +247,22 @@ class DomainHandler extends PFAHandler {
         if ($result != 1) {
             $this->errormsg[] = Lang::read($this->msg['store_error']) . "\n(" . $this->username . ")\n"; # TODO: change message + use sprintf
             return false;
-        } else {
-# TODO: drop the "else" - if $result != 1, the "return false" will already exit the function
-# TODO: everything after this comment (= specific to domains) should be a separate function,
-# TODO: because everything above is generic "write values to DB" code
+        }
+
+        $result = $this->storemore();
+
+        if ($result) {
+            db_log ($this->username, $this->msg['logname'], "");
+        }
+        return $result;
+    }
+
+    /**
+     * called by $this->store() after storing $this->values in the database
+     * can be used to update additional tables, call scripts etc.
+     */
+    protected function storemore() {
+# TODO: whitespace fix
             if ($this->new && $this->values['default_aliases']) {
                 foreach (Config::read('default_aliases') as $address=>$goto) {
                     $address = $address . "@" . $this->username;
@@ -260,7 +281,8 @@ class DomainHandler extends PFAHandler {
             } else {
                 # TODO: success message for edit
             }
-        }
+# TODO: END whitespace fix
+ 
 
         if ($this->new) {
             if (!domain_postcreation($this->username)) {
@@ -269,8 +291,7 @@ class DomainHandler extends PFAHandler {
         } else {
             # we don't have domain_postedit()
         }
-        db_log ($this->username, $this->msg['logname'], "");
-        return true;
+        return true; # TODO: don't hardcode
     }
 
     /**
