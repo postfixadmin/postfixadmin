@@ -248,7 +248,7 @@ class MailboxHandler {
 #TODO: true/false replacement!
         $error = 0;
 
-        $result = db_query("SELECT * FROM $table_alias WHERE address = '$E_username' AND domain = '$domain'");
+        $result = db_query("SELECT * FROM $table_alias WHERE address = '$E_username' AND domain = '$E_domain'");
         if($result['rows'] == 1) {
             $result = db_delete('alias', 'address', $username);
             db_log ($domain, 'delete_alias', $username);
@@ -258,7 +258,7 @@ class MailboxHandler {
         }
 
         /* is there a mailbox? if do delete it from orbit; it's the only way to be sure */
-        $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$E_username' AND domain='$domain'");
+        $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$E_username' AND domain='$E_domain'");
         if ($result['rows'] == 1) {
             $result = db_delete('mailbox', 'username', $username);
             $postdel_res=mailbox_postdeletion($username,$domain);
@@ -287,7 +287,7 @@ class MailboxHandler {
             $this->errormsg[] = "no mailbox $username"; # TODO: better message, make translatable
             $error = 1;
         }
-        $result = db_query("SELECT * FROM $table_vacation WHERE email = '$E_username' AND domain = '$domain'");
+        $result = db_query("SELECT * FROM $table_vacation WHERE email = '$E_username' AND domain = '$E_domain'");
         if($result['rows'] == 1) {
             db_delete('vacation', 'email', $username);
             db_delete('vacation_notification', 'on_vacation', $username); # TODO: delete vacation_notification independent of vacation? (in case of "forgotten" vacation_notification entries)
