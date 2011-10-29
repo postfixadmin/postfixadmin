@@ -431,52 +431,18 @@ function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALAN
 // Call: get_domain_properties (string domain)
 //
 function get_domain_properties ($domain) {
-    global $CONF;
-    global $table_alias, $table_mailbox, $table_domain;
-    $list = array ();
 
-   $result = db_query ("SELECT COUNT(*) FROM $table_alias WHERE domain='$domain'");
-
-   $row = db_row ($result['result']);
-   $list['alias_count'] = $row[0];
-
-    $result = db_query ("SELECT COUNT(*) FROM $table_mailbox WHERE domain='$domain'");
-    $row = db_row ($result['result']);
-    $list['mailbox_count'] = $row[0];
-
-   $result = db_query ("SELECT SUM(quota) FROM $table_mailbox WHERE domain='$domain'");
-   $row = db_row ($result['result']);
-   $list['quota_sum'] = $row[0];
-   $list['alias_count'] = $list['alias_count'] - $list['mailbox_count'];
-
-    $query="SELECT * FROM $table_domain WHERE domain='$domain'";
-    if ('pgsql'==$CONF['database_type']) {
-        $query=" SELECT *, EXTRACT(epoch FROM created) AS uts_created, EXTRACT(epoch FROM modified) AS uts_modified FROM $table_domain WHERE domain='$domain' ";
-    }
-    $result = db_query ($query);
-    $row = db_array ($result['result']);
-    $list['description'] = $row['description'];
-    $list['aliases'] = $row['aliases'];
-    $list['mailboxes'] = $row['mailboxes'];
-    $list['maxquota'] = $row['maxquota'];
-    $list['quota'] = $row['quota'];
-    $list['transport'] = $row['transport'];
-    $list['backupmx'] = $row['backupmx'];
-    $list['created'] = $row['created'];
-    $list['modified'] = $row['modified'];
-    $list['active'] = $row['active'];
-
-    if ($CONF['database_type'] == "pgsql") {
-        $list['active']=('t'==$row['active']) ? 1 : 0;
-        $list['backupmx']=('t'==$row['backupmx']) ? 1 : 0;
-        $list['created']= gmstrftime('%c %Z',$row['uts_created']);
-        $list['modified']= gmstrftime('%c %Z',$row['uts_modified']);
-    } else {
-        $list['active'] = $row['active'];
-        $list['backupmx'] = $row['backupmx'];
+    $handler = new DomainHandler();
+    if (!$handler->init($domain)) {
+        die("Error: " . join("\n", $handler->errormsg));
     }
 
-    return $list;
+    if (!$handler->view()) {
+        die("Error: " . join("\n", $handler->errormsg));
+    }
+
+    $result = $handler->return;
+    return $result;
 }
 
 
@@ -717,7 +683,7 @@ function allowed_quota($domain, $current_user_quota) {
    $tMaxquota = $domain_properties['maxquota'];
 
    if (boolconf('domain_quota') && $domain_properties['quota']) {
-      $dquota = $domain_properties['quota'] - divide_quota($domain_properties['quota_sum'] - $current_user_quota);
+      $dquota = $domain_properties['quota'] - $domain_properties['total_quota'] + divide_quota($current_user_quota);
       if ($dquota < $tMaxquota) {
          $tMaxquota = $dquota;
       }
