@@ -58,10 +58,13 @@ class PFAHandler {
 
 
 
-
+    /**
+     * set and verify values
+     * @param array values - associative array with ($field1 => $value1, $field2 => $value2, ...)
+     * @return bool - true if all values are valid, otherwise false
+     * error messages (if any) are stored in $this->errormsg
+     */
     public function set($values) {
-        # TODO: make this a generic function for add and edit
-
         if ($this->new == 1) {
             $values[$this->id_field] = $this->id;
         }
@@ -115,6 +118,8 @@ class PFAHandler {
     /**
      * store $this->values in the database
      * calls $this->storemore() where additional things can be done
+     * @return bool - true if all values are valid, otherwise false
+     * error messages (if any) are stored in $this->errormsg
      */
     public function store() {
         if ($this->values_valid == false) {
@@ -220,10 +225,11 @@ class PFAHandler {
     }
 
     /**
-     * get the settings of a domain
+     * get the values of an item
      * @param array or string $condition
-     * @return bool - true if at least one domain was found
+     * @return bool - true if at least one item was found
      * The data is stored in $this->return (as associative array of column => value)
+     * error messages (if any) are stored in $this->errormsg
      */
     public function view($errors=true) {
         $result = $this->read_from_db(array($this->id_field => $this->id) );
@@ -238,9 +244,9 @@ class PFAHandler {
     }
 
     /**
-     * get a list of one or more domains with all settings
+     * get a list of one or more items with all values
      * @param array or string $condition
-     * @return bool - true if at least one domain was found
+     * @return bool - true if at least one item was found
      * The data is stored in $this->return (as array of rows, each row is an associative array of column => value)
      */
     public function getList($condition) {
@@ -256,7 +262,9 @@ class PFAHandler {
     }
 
 
-    
+    /**************************************************************************
+     * functions to read protected variables
+     */
     public function getStruct() {
         return $this->struct;
     }
@@ -273,7 +281,7 @@ class PFAHandler {
     }
 
 
-    /**
+    /**************************************************************************
       * functions for basic input validation
       */
     function _inp_num($field, $val) {
