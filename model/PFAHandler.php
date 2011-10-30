@@ -15,27 +15,27 @@ class PFAHandler {
     function _inp_num($field, $val) {
         $valid = is_numeric($val);
         if ($val < -1) $valid = false;
-        if (!$valid) $this->errormsg[] = "$field must be numeric";
+        if (!$valid) $this->errormsg[$field] = "$field must be numeric";
         return $valid;
         # return (int)($val);
     }
 
     function _inp_bool($field, $val) {
         if ($val == "0" || $val == "1") return true;
-        $this->errormsg[] = "$field must be boolean";
+        $this->errormsg[$field] = "$field must be boolean";
         return false;
         # return $val ? db_get_boolean(true): db_get_boolean(false);
     }
 
     function _inp_enum($field, $val) {
         if(in_array($val, $this->struct[$field]['options'])) return true;
-        $this->errormsg[] = "Invalid parameter given for $field";
+        $this->errormsg[$field] = "Invalid parameter given for $field";
         return false;
     }
 
     function _inp_password($field, $val){
         # TODO: fetchmail specific. Not suited for mailbox/admin passwords.
-        $this->errormsg[] = "_inp_password not implemented yet";
+        $this->errormsg[$field] = "_inp_password not implemented yet";
         return false;
         # return base64_encode($val);
     }

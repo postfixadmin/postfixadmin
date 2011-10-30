@@ -14,7 +14,6 @@
  * 
  * File: create-domain.php
  * Allows administrators to create or edit domains.
- * Template File: admin_edit-domain.tpl
  */
 
 require_once('common.php');
@@ -22,7 +21,6 @@ require_once('common.php');
 authentication_require_role('global-admin');
 
 $error = 0;
-$errortext = "";
 $mode = 'create';
 
 $edit = safepost('edit', safeget('edit'));
@@ -75,17 +73,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (!$handler->init($values[$id_field])) {
         $error = 1;
-        $errortext = join("<br />", $handler->errormsg);
+        $errormsg = $handler->errormsg;
     }
 
     if (!$handler->set($values)) {
         $error = 1;
-        $errortext = join("<br />", $handler->errormsg);
+        $errormsg = $handler->errormsg;
     }
 
     if ($error != 1) {
         if (!$handler->store()) {
-            $errortext = join("\n", $handler->errormsg);
+            $errormsg = $handler->errormsg;
         } else {
             flash_info($PALANG['pAdminCreate_domain_result_success'] . " (" . $values[$id_field] . ")");
             # TODO: - use a sprintf string
@@ -111,20 +109,34 @@ if ($error != 1 && $new) { # no error and not in edit mode - reset fields to def
     }
 }
 
+$errormsg = $handler->errormsg;
+$fielderror = array();
+
 foreach($form_fields as $key => $field) {
   if($form_fields[$key]['display_in_form']) {
-    $smartykey = "t" . ucfirst($key); # TODO: ugly workaround until I decide on the template variable names
+
+    if (isset($errormsg[$key])) {
+        $fielderror[$key] = $errormsg[$key];
+        unset ($errormsg[$key]);
+    } else {
+        $fielderror[$key] = '';
+    }
+
     switch ($field['type']) {
         case 'bool':
-            $smarty->assign ($smartykey, ($values[$key] == '1') ? ' checked="checked"' : '');
+            $smarty->assign ("value_$key", ($values[$key] == '1') ? ' checked="checked"' : '');
             break;
         case 'enum':
-            $smarty->assign ($smartykey, select_options ($form_fields[$key]['options'], array ($values[$key])),false);
+            $smarty->assign ("value_$key", select_options ($form_fields[$key]['options'], array ($values[$key])),false); # non-escaped
             break;
         default:
-            $smarty->assign ($smartykey, $values[$key]);
+            $smarty->assign ("value_$key", $values[$key]);
     }
   }
+}
+
+foreach($errormsg as $msg) { # output the remaining error messages (not related to a field) with flash_error
+    flash_error($msg);
 }
 
 if ($mode == 'edit') {
@@ -135,9 +147,11 @@ if ($mode == 'edit') {
     $smarty->assign('submitbutton', Lang::read('pAdminCreate_domain_button'));
 }
 
+$smarty->assign ('struct', $form_fields);
+$smarty->assign ('fielderror', $fielderror);
 $smarty->assign ('mode', $mode);
-$smarty->assign ('errortext', $errortext, false); # non-escaped
-$smarty->assign ('smarty_template', 'admin_edit-domain');
+$smarty->assign ('table', 'domain');
+$smarty->assign ('smarty_template', 'editform');
 $smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

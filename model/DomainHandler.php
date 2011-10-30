@@ -41,7 +41,7 @@ class DomainHandler extends PFAHandler {
 
         if ($this->new) {
             if ($exists) {
-                $this->errormsg[] = Lang::read($this->msg['error_already_exists']);
+                $this->errormsg[$this->id_field] = Lang::read($this->msg['error_already_exists']);
                 return false;
             } elseif (!$this->validate_id() ) {
                 # errormsg filled by validate_id()
@@ -51,7 +51,7 @@ class DomainHandler extends PFAHandler {
             }
         } else { # edit mode
             if (!$exists) {
-                $this->errormsg[] = Lang::read($this->msg['error_does_not_exist']);
+                $this->errormsg[$this->id_field] = Lang::read($this->msg['error_does_not_exist']);
                 return false;
             } else {
                 return true;
@@ -65,7 +65,7 @@ class DomainHandler extends PFAHandler {
        if ($valid) {
             return true;
        } else {
-            $this->errormsg[] = Lang::read('pAdminCreate_domain_domain_text_error2'); # TODO: half of the errormsg is currently delivered via flash_error() in check_domain
+            $this->errormsg[$this->id_field] = Lang::read('pAdminCreate_domain_domain_text_error2'); # TODO: half of the errormsg is currently delivered via flash_error() in check_domain
             return false;
        }
    }
@@ -123,11 +123,12 @@ class DomainHandler extends PFAHandler {
                                                                                                                                 /*options*/ $this->getTransports()     ),
            'backupmx'        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 ),
            'active'          => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 , 1                         ),
-           'default_aliases' => pacol(  $this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases ', ''                           , 1,'', /*not in db*/ 1     ),
+           'default_aliases' => pacol(  $this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,'', /*not in db*/ 1     ),
            'created'         => pacol(  0,          0,      1,      'ts',    '' /* TODO: "created" label */ , ''                                 ),
            'modified'        => pacol(  0,          0,      1,      'ts',   'pAdminList_domain_modified'   , ''                                 ),
         );
 
+        # TODO: hook to modify $this->struct
     }
 
     # messages used in various functions.
