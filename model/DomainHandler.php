@@ -67,7 +67,7 @@ class DomainHandler extends PFAHandler {
                /*select*/ 'round(coalesce(__total_quota/' . intval(Config::read('quota_multiplier')) . ',0)) as total_quota' /*extrafrom*//* already in mailbox_count */ ),
            'quota'           => pacol(  $dom_q,     $dom_q, $dom_q, 'num' , 'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
            'transport'       => pacol(  $transp,    $transp,$transp,'enum', 'pAdminEdit_domain_transport'  , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
-                                                                                                                                /*options*/ $this->getTransports()     ),
+               /*options*/ Config::read('transport_options')    ),
            'backupmx'        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 ),
            'active'          => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 , 1                         ),
            'default_aliases' => pacol(  $this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,'', /*not in db*/ 1     ),
@@ -91,16 +91,6 @@ class DomainHandler extends PFAHandler {
             $this->msg['logname'] = 'edit_domain';
             $this->msg['store_error'] = 'pAdminEdit_domain_result_error';
         }
-    }
-
-    public function getTransports() {
-        return Config::read('transport_options');
-    }
-
-    # TODO: specific for CLI? If yes, move to CLI code
-    public function getTransport($id) {
-        $transports = Config::read('transport_options');
-        return $transports[$id-1];
     }
 
     /**

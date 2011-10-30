@@ -111,7 +111,8 @@ class AddTask extends Shell {
                     $d = $this->in($question);
     
                     $handler = new DomainHandler();
-                    $transports = $handler->getTransports();
+                    $struct = $handler->getStruct();
+                    $transports = $struct['transport']['options'];
                     $qt[] = 'Choose transport option';
                     foreach ($transports AS $key => $val) {
                         //workaround. $this->in hates number 0 
@@ -120,7 +121,9 @@ class AddTask extends Shell {
                     }
                     
                     $t = $this->in( join("\n", $qt) );
-                    
+
+                    $t = $transports[$t-1]; # convert int to transport name
+
                     $question = "Add default Aliases:";
                     $default = $this->in($question, array('y','n'));
                     ($default == 'y') ? $default = true : $default = false;
@@ -153,7 +156,7 @@ class AddTask extends Shell {
                     'mailboxes'         => $m,
                     'maxquota'          => $q,
                     'quota'             => $d,
-                    'transport'         => $handler->getTransport($t),
+                    'transport'         => $t,
                     'backupmx'          => $backup,
                     'active'            => 1,
                     'default_aliases'   => $default,
