@@ -6,7 +6,7 @@
  */
 class DomainHandler extends PFAHandler {
 
-    protected $username = null; # actually it's the domain - variable name kept for consistence with the other classes
+    protected $id = null;
     protected $db_table = null;
     protected $id_field = null;
     protected $struct = array();
@@ -31,11 +31,11 @@ class DomainHandler extends PFAHandler {
     }
 
     /**
-     * initialize with $username and check if it is valid
-     * @param string $username
+     * initialize with $id and check if it is valid
+     * @param string $id
      */
-    public function init($username) {
-        $this->username = strtolower($username);
+    public function init($id) {
+        $this->id = strtolower($id);
 
         $exists = $this->view(false);
 
@@ -43,8 +43,8 @@ class DomainHandler extends PFAHandler {
             if ($exists) {
                 $this->errormsg[$this->id_field] = Lang::read($this->msg['error_already_exists']);
                 return false;
-            } elseif (!$this->validate_id() ) {
-                # errormsg filled by validate_id()
+            } elseif (!$this->validate_new_id() ) {
+                # errormsg filled by validate_new_id()
                 return false;
             } else {
                 return true;
@@ -59,8 +59,8 @@ class DomainHandler extends PFAHandler {
         }
     }
 
-   protected function validate_id() {
-       $valid = check_domain($this->username);
+   protected function validate_new_id() {
+       $valid = check_domain($this->id);
 
        if ($valid) {
             return true;
@@ -168,7 +168,7 @@ class DomainHandler extends PFAHandler {
         # TODO: make this a generic function for add and edit
 
         if ($this->new == 1) {
-            $values[$this->id_field] = $this->username;
+            $values[$this->id_field] = $this->id;
         }
 
         # base validation
@@ -243,17 +243,17 @@ class DomainHandler extends PFAHandler {
         if ($this->new) {
             $result = db_insert($this->db_table, $db_values);
         } else {
-            $result = db_update($this->db_table, $this->id_field, $this->username, $db_values);
+            $result = db_update($this->db_table, $this->id_field, $this->id, $db_values);
         }
         if ($result != 1) {
-            $this->errormsg[] = Lang::read($this->msg['store_error']) . "\n(" . $this->username . ")\n"; # TODO: change message + use sprintf
+            $this->errormsg[] = Lang::read($this->msg['store_error']) . "\n(" . $this->id . ")\n"; # TODO: change message + use sprintf
             return false;
         }
 
         $result = $this->storemore();
 
         if ($result) {
-            db_log ($this->username, $this->msg['logname'], "");
+            db_log ($this->id, $this->msg['logname'], "");
         }
         return $result;
     }
@@ -265,25 +265,25 @@ class DomainHandler extends PFAHandler {
     protected function storemore() {
         if ($this->new && $this->values['default_aliases']) {
             foreach (Config::read('default_aliases') as $address=>$goto) {
-                $address = $address . "@" . $this->username;
+                $address = $address . "@" . $this->id;
                 # TODO: use AliasHandler->add instead of writing directly to the alias table
                 $arr = array(
                     'address' => $address,
                     'goto' => $goto,
-                    'domain' => $this->username,
+                    'domain' => $this->id,
                 );
                 $result = db_insert ('alias', $arr);
                 # TODO: error checking
             }
         }
         if ($this->new) {
-            $tMessage = Lang::read('pAdminCreate_domain_result_success') . " (" . $this->username . ")"; # TODO: tMessage is not used/returned anywhere
+            $tMessage = Lang::read('pAdminCreate_domain_result_success') . " (" . $this->id . ")"; # TODO: tMessage is not used/returned anywhere
         } else {
             # TODO: success message for edit
         }
 
         if ($this->new) {
-            if (!domain_postcreation($this->username)) {
+            if (!domain_postcreation($this->id)) {
                 $this->errormsg[] = Lang::read('pAdminCreate_domain_error');
             }
         } else {
@@ -363,7 +363,7 @@ class DomainHandler extends PFAHandler {
      * The data is stored in $this->return (as associative array of column => value)
      */
     public function view($errors=true) {
-        $result = $this->read_from_db(array($this->id_field => $this->username) );
+        $result = $this->read_from_db(array($this->id_field => $this->id) );
         if (count($result) == 1) {
             $this->return = $result[0];
             return true;
@@ -408,10 +408,10 @@ class DomainHandler extends PFAHandler {
 
         # TODO: recursively delete mailboxes, aliases, alias_domains, fetchmail entries etc. before deleting the domain
         # TODO: move the needed code from delete.php here
-        $result = db_delete($this->db_table, $this->id_field, $this->username);
+        $result = db_delete($this->db_table, $this->id_field, $this->id);
         if ( $result == 1 ) {
-            list(/*NULL*/,$domain) = explode('@', $this->username);
-            db_log ($domain, 'delete_domain', $this->username); # TODO delete_domain is not a valid db_log keyword yet because we don't yet log add/delete domain
+            list(/*NULL*/,$domain) = explode('@', $this->id);
+            db_log ($domain, 'delete_domain', $this->id); # TODO delete_domain is not a valid db_log keyword yet because we don't yet log add/delete domain
             return true;
         }
     }
