@@ -127,6 +127,14 @@ foreach($form_fields as $key => $field) {
   }
 }
 
+if ($mode == 'edit') {
+    $smarty->assign('formtitle', Lang::read('pAdminEdit_domain_welcome'));
+    $smarty->assign('submitbutton', Lang::read('save'));
+} else {
+    $smarty->assign('formtitle', Lang::read('pAdminCreate_domain_welcome'));
+    $smarty->assign('submitbutton', Lang::read('pAdminCreate_domain_button'));
+}
+
 $smarty->assign ('mode', $mode);
 $smarty->assign ('errortext', $errortext, false); # non-escaped
 $smarty->assign ('smarty_template', 'admin_edit-domain');

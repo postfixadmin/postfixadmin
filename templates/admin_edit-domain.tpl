@@ -2,13 +2,7 @@
 <form name="edit_domain" method="post" action="">
 <table>
 	<tr>
-		<th colspan="4">
-{if $mode == 'edit'}
-			{$PALANG.pAdminEdit_domain_welcome}
-{else}
-			{$PALANG.pAdminCreate_domain_welcome}
-{/if}
-	</th>
+		<th colspan="4">{$formtitle}</th>
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pAdminEdit_domain_domain}:</label></td>
@@ -85,7 +79,7 @@
 	</tr>
 	<tr>
 		<td>&nbsp;</td>
-		<td colspan="3"><input class="button" type="submit" name="submit" value="{if $mode == 'edit'}{$PALANG.save}{else}{$PALANG.pAdminCreate_domain_button}{/if}" /></td>
+		<td colspan="3"><input class="button" type="submit" name="submit" value="{$submitbutton}" /></td>
 	</tr>
 </table>
 </form>
