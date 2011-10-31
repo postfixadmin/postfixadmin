@@ -19,6 +19,7 @@ $PALANG['check_update'] = 'Checar por atualização';
 $PALANG['invalid_parameter'] = 'Parâmetro inválido!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
+$PALANG['created'] = 'Created'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Autenticado como %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 

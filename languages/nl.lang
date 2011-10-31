@@ -19,6 +19,7 @@ $PALANG['check_update'] = 'Zoeken naar nieuwe versie';
 $PALANG['invalid_parameter'] = 'ongeldige parameter!';
 $PALANG['show'] = 'Toon:';
 $PALANG['all'] = 'Alle';
+$PALANG['created'] = 'Created'; # XXX
 $PALANG['pFooter_logged_as'] = 'aangemeld als %s';
 
 $PALANG['pLogin_welcome'] = 'Mail beheerders log hier in om uw domeinen te beheren.';

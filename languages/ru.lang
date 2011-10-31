@@ -20,6 +20,7 @@ $PALANG['check_update'] = 'Проверить обновление';
 $PALANG['invalid_parameter'] = 'Некорректный параметр!';
 $PALANG['show'] = 'Показать:';
 $PALANG['all'] = 'Все';
+$PALANG['created'] = 'Created'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Вошли как %s';
 

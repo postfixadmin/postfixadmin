@@ -18,6 +18,7 @@ $PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
+$PALANG['created'] = 'Created'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged in as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Posta Yöneticileri buradan domainlerinizi yönetmek için giriþ yapabilirsiniz.';

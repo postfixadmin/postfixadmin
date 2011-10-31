@@ -18,6 +18,7 @@ $PALANG['check_update'] = 'Preveri, če obstaja novejša različica';
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
+$PALANG['created'] = 'Created'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Administratorji se prijavite tukaj.';

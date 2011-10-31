@@ -19,6 +19,7 @@ $PALANG['check_update'] = 'Auf Updates &uuml;berpr&uuml;fen';
 $PALANG['invalid_parameter'] = 'Ung&uuml;ltiger Parameter!';
 $PALANG['show'] = 'Anzeigen:';
 $PALANG['all'] = 'Alle';
+$PALANG['created'] = 'Erstellt';
 
 $PALANG['pFooter_logged_as'] = 'Angemeldet als %s';
 

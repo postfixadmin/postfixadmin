@@ -22,6 +22,7 @@ $PALANG['check_update'] = 'Zkontrolovat aktualizace';
 $PALANG['invalid_parameter'] = 'Neplatný parametr!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
+$PALANG['created'] = 'Created'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Přihlášen jako %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 

@@ -21,6 +21,7 @@ $PALANG['check_update'] = 'Sprawdź aktualizację';
 $PALANG['invalid_parameter'] = 'Błędny parametr!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
+$PALANG['created'] = 'Created'; # XXX
 $PALANG['pFooter_logged_as'] = 'Zalogowano jako %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Sekcja przeznaczona dla administratorów domen.';

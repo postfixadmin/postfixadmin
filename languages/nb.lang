@@ -20,6 +20,7 @@ $PALANG['check_update'] = 'Se etter oppdatering';
 $PALANG['invalid_parameter'] = 'Ugyldig parameter!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
+$PALANG['created'] = 'Created'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logget inn som %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'E-postadministratorer kan logge inn her for å administrere sine domener';

@@ -19,6 +19,7 @@ $PALANG['check_update'] = 'Check for update';
 $PALANG['invalid_parameter'] = 'Невалиден параметър!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
+$PALANG['created'] = 'Created'; # XXX
 $PALANG['pFooter_logged_as'] = 'Потребител %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Администратора може да се логне оттук за администриране на домейн.';

@@ -19,6 +19,7 @@ $PALANG['check_update'] = '更新の確認';
 $PALANG['invalid_parameter'] = '無効なパラメータです。';
 $PALANG['show'] = '閲覧:';
 $PALANG['all'] = '全て';
+$PALANG['created'] = 'Created'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'ログイン名 %s';
 
