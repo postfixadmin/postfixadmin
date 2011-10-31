@@ -202,7 +202,7 @@ function cleanup() {
 
 	# cleanup tempfiles
 	test $nocleanup = 0 && for file in $filelist ; do
-		rm -f $file.patch $file.strings $file.diff
+		rm -f $file.patch $file.strings $file.diff $file.orig
 	done
 } # end cleanup()
 
