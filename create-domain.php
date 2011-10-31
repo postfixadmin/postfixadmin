@@ -126,9 +126,6 @@ foreach($form_fields as $key => $field) {
         case 'bool':
             $smarty->assign ("value_$key", ($values[$key] == '1') ? ' checked="checked"' : '');
             break;
-        case 'enum':
-            $smarty->assign ("value_$key", select_options ($form_fields[$key]['options'], array ($values[$key])),false); # non-escaped
-            break;
         default:
             $smarty->assign ("value_$key", $values[$key]);
     }

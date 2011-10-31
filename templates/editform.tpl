@@ -23,7 +23,9 @@
 					{elseif $field.type == 'bool'}
 						<input class="flat" type="checkbox" value='1' name="{$key}"{$value_{$key}}/>
 					{elseif $field.type == 'enum'}
-						<select class="flat" name="{$key}">{$value_{$key}}</select>
+						<select class="flat" name="{$key}">
+						{html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_transport}
+						</select>
 					{else}
 						<input class="flat" type="text" name="{$key}" value="{$value_{$key}}" />
 					{/if}
