@@ -96,19 +96,19 @@ class AddTask extends Shell {
   
                 }
                     $question = "Description:";
-                    $desc = $this->in($question);
+                    $values['description'] = $this->in($question);
                     
                      $question = "Number of Aliases:";
-                    $a = $this->in($question);
+                    $values['aliases'] = $this->in($question);
                     
                      $question = "Numer of Mailboxes:";
-                    $m = $this->in($question);
+                    $values['mailboxes'] = $this->in($question);
                     
                      $question = "Max Quota (in MB):";
-                    $q = $this->in($question);
+                    $values['maxquota'] = $this->in($question);
 
                      $question = "Domain Quota (in MB):";
-                    $d = $this->in($question);
+                    $values['quota'] = $this->in($question);
     
                     $handler = new DomainHandler();
                     $struct = $handler->getStruct();
@@ -122,18 +122,18 @@ class AddTask extends Shell {
                     
                     $t = $this->in( join("\n", $qt) );
 
-                    $t = $transports[$t-1]; # convert int to transport name
+                    $values['transport'] = $transports[$t-1]; # convert int to transport name
 
                     $question = "Add default Aliases:";
-                    $default = $this->in($question, array('y','n'));
-                    ($default == 'y') ? $default = true : $default = false;
+                    $values['default_aliases'] = $this->in($question, array('y','n'));
+                    ($values['default_aliases'] == 'y') ? $values['default_aliases'] = true : $values['default_aliases'] = false;
                     
                      $question = "Use as Backup MX:";
-                    $backup = $this->in($question, array('y','n'));
-                    ($backup == 'y') ? $backup = true : $backup = false;
+                    $values['backupmx'] = $this->in($question, array('y','n'));
+                    ($values['backupmx'] == 'y') ? $values['backupmx'] = true : $values['backupmx'] = false;
                 
                 
-                $this->__handle($domain, $desc, $a, $m, $t, $q, $d, $default, $backup);
+                $this->__handle($domain, $values);
         }
         
 /**
@@ -141,7 +141,7 @@ class AddTask extends Shell {
  *
  * @access private
  */
-        function __handle($domain, $desc, $a, $m, $t, $q, $d, $default, $backup) {
+        function __handle($domain, $values) {
                 
 
                 $handler =  new DomainHandler(1);
@@ -149,18 +149,6 @@ class AddTask extends Shell {
                       $this->error("Error:",join("\n", $handler->errormsg));
                       return;
                 } 
-
-                $values = array(
-                    'description'       => $desc,
-                    'aliases'           => $a,
-                    'mailboxes'         => $m,
-                    'maxquota'          => $q,
-                    'quota'             => $d,
-                    'transport'         => $t,
-                    'backupmx'          => $backup,
-                    'active'            => 1,
-                    'default_aliases'   => $default,
-                );
 
                 if (!$handler->set($values)) {
                         $this->error("Error:", join("\n", $handler->errormsg));
@@ -358,21 +346,30 @@ class ViewTask extends Shell {
                 if (!$status) {
                       $this->error("Error:",join("\n", $handler->errormsg));
                 } else {
-                      $result = $handler->return;
-                      $this->out("Domain: \t".$result['domain']);
-                      $this->out("Description: \t".$result['description']);
-                      $this->out("Aliases: \t".$result['alias_count'] . " / " . $result['aliases']);
-                      $this->out("Mailboxes: \t".$result['mailbox_count'] . " / " . $result['mailboxes']);
-                      $this->out("Max. Quota: \t".$result['maxquota']);
-                      $this->out("Domain Quota: \t".$result['total_quota'] . " / " . $result['quota']);
-                      # TODO: show allocated domain quota (sum of mailbox quota)
-                      $this->out("Transport: \t".$result['transport']);
-                      $this->out("Backup MX: \t".$result['backupmx']);
-                      $this->out("Active: \t".$result['active']);
-                      $this->out("Modified: \t".$result['modified']);
-                      $this->out("Created: \t".$result['created']);
+                    $result = $handler->result();
+                    $struct = $handler->getStruct();
 
-                      return ;
+                    # TODO: $totalfield should be in DomainHandler (in $struct or as separate array)
+                    $totalfield = array(
+                        'aliases' => 'alias_count',
+                        'mailboxes' => 'mailbox_count',
+                        'quota' => 'total_quota',
+                    );
+
+                    foreach($struct as $key => $field) {
+                        if ($field['display_in_list']) {
+                            if (isset($totalfield[$key])) {
+                                # TODO: format based on $field['type'] (also in the else section)
+                                $this->out($field['label'] . ": \t" . $result[$totalfield[$key]] . " / " . $result[$key] );
+                            } else {
+                                if (!in_array($key, $totalfield)) { # skip if we already displayed the field as part of "x/y"
+                                    $this->out($field['label'] . ": \t" . $result[$key]);
+                                }
+                            }
+                        }
+                    }
+
+                    return;
                 }
         
         }
