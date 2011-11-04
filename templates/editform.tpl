@@ -21,7 +21,7 @@
 					{if $table == 'foo' && $key == 'bar'}
 						Special handling (td content) for {$table} / {$key}
 					{elseif $field.type == 'bool'}
-						<input class="flat" type="checkbox" value='1' name="{$key}"{$value_{$key}}/>
+						<input class="flat" type="checkbox" value='1' name="{$key}"{if {$value_{$key}} == 1} checked="checked"{/if}/>
 					{elseif $field.type == 'enum'}
 						<select class="flat" name="{$key}">
 						{html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_transport}

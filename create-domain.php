@@ -122,13 +122,7 @@ foreach($form_fields as $key => $field) {
         $fielderror[$key] = '';
     }
 
-    switch ($field['type']) {
-        case 'bool':
-            $smarty->assign ("value_$key", ($values[$key] == '1') ? ' checked="checked"' : '');
-            break;
-        default:
-            $smarty->assign ("value_$key", $values[$key]);
-    }
+    $smarty->assign ("value_$key", $values[$key]);
   }
 }
 
