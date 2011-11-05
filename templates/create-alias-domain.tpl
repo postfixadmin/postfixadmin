@@ -16,7 +16,7 @@
 		<td>{$PALANG.pCreate_alias_domain_target_text}</td>
 	</tr>
 	<tr>
-		<td>{$PALANG.pCreate_alias_domain_active}:</td>
+		<td>{$PALANG.pAdminEdit_domain_active}:</td>
 		<td><input class="flat" type="checkbox" name="active" value="1"{$fActive}/></td>
 		<td>&nbsp;</td>
 	</tr>
