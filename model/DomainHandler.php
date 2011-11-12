@@ -6,6 +6,8 @@
  */
 class DomainHandler extends PFAHandler {
 
+    protected $domain_field = 'domain';
+
    protected function validate_new_id() {
        $valid = check_domain($this->id);
 
