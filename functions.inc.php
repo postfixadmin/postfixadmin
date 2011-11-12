@@ -888,16 +888,18 @@ function get_admin_properties ($username) {
     global $table_admin, $table_domain_admins;
     $list = array ();
 
-    $result = db_query ("SELECT * FROM $table_domain_admins WHERE username='$username' AND domain='ALL'");
+    $E_username = escape_string($username);
+
+    $result = db_query ("SELECT * FROM $table_domain_admins WHERE username='$E_username' AND domain='ALL'");
     if ($result['rows'] == 1) {
         $list['domain_count'] = 'ALL';
     } else {
-        $result = db_query ("SELECT COUNT(*) FROM $table_domain_admins WHERE username='$username'");
+        $result = db_query ("SELECT COUNT(*) FROM $table_domain_admins WHERE username='$E_username'");
         $row = db_row ($result['result']);
         $list['domain_count'] = $row[0];
     }
 
-    $query = "SELECT * FROM $table_admin WHERE username='$username'";
+    $query = "SELECT * FROM $table_admin WHERE username='$E_username'";
     if ('pgsql'==$CONF['database_type']) {
         $query="
             SELECT
@@ -905,7 +907,7 @@ function get_admin_properties ($username) {
             EXTRACT(epoch FROM created) AS uts_created,
             EXTRACT (epoch FROM modified) AS uts_modified
             FROM $table_admin
-            WHERE username='$username'
+            WHERE username='$E_username'
             ";
     }
 
