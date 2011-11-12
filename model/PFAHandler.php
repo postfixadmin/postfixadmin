@@ -8,6 +8,9 @@ class PFAHandler {
     protected $new = 0; # 1 on create, otherwise 0
     protected $values = array();
     protected $values_valid = false;
+    protected $admin_username = "";     # if set, restrict $allowed_domains to this admin
+    protected $domain_field = "";       # column containing the domain
+    protected $allowed_domains = false; # if $domain_field is set, this is an array with the domain list
 
     public $errormsg = array();
 
@@ -21,8 +24,20 @@ class PFAHandler {
      * Constructor: fill $struct etc.
      * @param string $new
      */
-    public function __construct($new = 0) {
+    public function __construct($new = 0, $admin_username = "") {
         if ($new) $this->new = 1;
+        $this->admin_username = $admin_username;
+
+        if ($this->domain_field == "") {
+            if ($admin_username != "") die('Attemp to restrict domains without setting $this->domain_field!');
+        } else {
+            if ($admin_username != "") {
+                $this->allowed_domains = list_domains_for_admin($admin_username);
+            } else {
+                $this->allowed_domains = list_domains();
+            }
+        }
+
         $this->initStruct();
         $this->initMsg();
     }
@@ -208,7 +223,12 @@ class PFAHandler {
         if (is_array($condition)) {
             $where = db_where_clause($condition, $this->struct);
         } else {
+            if ($condition == "") $condition = '1=1';
             $where = " WHERE $condition ";
+        }
+
+        if ($this->domain_field != "") {
+            $where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains);
         }
 
         $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->id_field;
