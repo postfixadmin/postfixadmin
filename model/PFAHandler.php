@@ -237,7 +237,7 @@ class PFAHandler {
         $db_result = array();
         if ($result['rows'] != 0) {
             while ($row = db_assoc ($result['result'])) {
-                $db_result[] = $row;
+                $db_result[$row[$this->id_field]] = $row;
             }
         }
 
