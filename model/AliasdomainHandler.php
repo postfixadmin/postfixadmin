@@ -6,28 +6,58 @@
  */
 class AliasdomainHandler extends PFAHandler {
 
+    protected $domain_field = 'alias_domain';
+
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
         $this->db_table = 'alias_domain';
         $this->id_field = 'alias_domain';
 
-        $from_domains   = list_domains(); # TODO: include only domains that are not used as alias domain
-        $target_domains = list_domains(); # TODO: see above
         # TODO: add public function set_options_for_admin() to list only domains available to that admin
 
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
             'alias_domain'  => pacol(   $this->new, 1,      1,      'enum', 'pCreate_alias_domain_alias'    , 'pCreate_alias_domain_alias_text' , '',
-                /*options*/ $from_domains   ),
+                /*options*/ array() /* filled below */  ),
             'target_domain' => pacol(   1,          1,      1,      'enum', 'pCreate_alias_domain_target'   , 'pCreate_alias_domain_target_text', '',
-                /*options*/ $target_domains ),
+                /*options*/ array() /* filled below */  ),
             'active'        => pacol(   1,          1,      1,      'bool', 'pAdminEdit_domain_active'      , ''                                 , 1                         ),
             'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                 ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                 ),
         );
 
+
+        # check which domains are available as an alias- or target-domain
+        $this->getList("");
+        $used_targets = array();
+
+        foreach ($this->allowed_domains as $dom) {
+            if (isset($this->return[$dom]) ) { # already used as alias_domain
+                $used_targets[$this->return[$dom]['target_domain']] = $this->return[$dom]['target_domain'];
+            } else { # might be available
+                $this->struct['alias_domain']['options'][$dom] = $dom;
+                $this->struct['target_domain']['options'][$dom] = $dom;
+            }
+        }
+
+        foreach ($this->struct['alias_domain']['options'] as $dom) {
+            if (isset($used_targets[$dom])) unset ($this->struct['alias_domain']['options'][$dom]); # don't allow chained domain aliases (domain1 -> domain2 -> domain3)
+        }
+
         # TODO: hook to modify $this->struct
+    }
+
+    public function init($id) {
+        $success = parent::init($id);
+        if ($success) {
+            if (count($this->struct['alias_domain']['options']) == 0 && $this->new) {
+               $this->errormsg[] = Lang::read('pCreate_alias_domain_error4');
+               return false;
+            }
+            # TODO: check if target domains are available (in new and edit mode)
+        }
+        return $success;
     }
 
     # messages used in various functions.
