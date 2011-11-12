@@ -773,17 +773,24 @@ function check_alias_owner ($username, $alias) {
 function list_domains_for_admin ($username) {
     global $CONF;
     global $table_domain, $table_domain_admins;
-    $list = array ();
-    // does $username need escaping here?
-    $active_sql = db_get_boolean(True);
-    $backupmx_sql = db_get_boolean(False);
-    $query = "SELECT $table_domain.domain, $table_domain_admins.username FROM $table_domain 
-        LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain 
-        WHERE $table_domain_admins.username='$username' 
-        AND $table_domain.active='$active_sql'
-        AND $table_domain.backupmx='$backupmx_sql'
-        ORDER BY $table_domain_admins.domain";
 
+    $E_username = escape_string($username);
+
+    $query = "SELECT $table_domain.domain FROM $table_domain ";
+    $condition[] = "$table_domain.domain != 'ALL'";
+
+    $result = db_query ("SELECT username FROM $table_domain_admins WHERE username='$E_username' AND domain='ALL'");
+    if ($result['rows'] < 1) { # not a superadmin
+        $query .= " LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain ";
+        $condition[] = "$table_domain_admins.username='$E_username' ";
+        $condition[] = "$table_domain.active='"   . db_get_boolean(true)  . "'"; # TODO: does it really make sense to exclude inactive...
+        $condition[] = "$table_domain.backupmx='" . db_get_boolean(False) . "'"; # TODO: ... and backupmx domains for non-superadmins?
+    }
+
+    $query .= " WHERE " . join(' AND ', $condition);
+    $query .= " ORDER BY $table_domain.domain";
+
+    $list = array ();
     $result = db_query ($query);
     if ($result['rows'] > 0) {
         $i = 0;
