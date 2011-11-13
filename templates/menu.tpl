@@ -27,7 +27,7 @@
 		<ul>
 			<li><a target="_top" href="{#url_list_domain#}">{$PALANG.pAdminMenu_list_domain}</a></li>
 {if $authentication_has_role.global_admin}
-			<li><a target="_top" href="{#url_create_domain#}">{$PALANG.pAdminMenu_create_domain}</a></li>
+			<li><a target="_top" href="{#url_edit_domain#}">{$PALANG.pAdminMenu_create_domain}</a></li>
 {/if}
 		</ul>
 	</li>

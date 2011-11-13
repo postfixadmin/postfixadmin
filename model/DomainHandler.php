@@ -95,6 +95,24 @@ class DomainHandler extends PFAHandler {
         }
     }
 
+    /*
+     * Configuration for the web interface
+     */
+    public function webformConfig() {
+        return array(
+            # $PALANG labels
+            'formtitle_create' => 'pAdminCreate_domain_welcome',
+            'formtitle_edit' => 'pAdminEdit_domain_welcome',
+            'create_button' => 'pAdminCreate_domain_button',
+            'successmessage' => 'pAdminCreate_domain_result_success',
+
+            # various settings
+            'required_role' => 'global-admin',
+            'listview' => 'list-domain.php',
+            'early_init' => 0,
+        );
+    }
+
     /**
      * called by $this->store() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.

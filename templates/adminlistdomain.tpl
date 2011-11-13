@@ -34,10 +34,10 @@
 			<td>{$domain.backupmx}</td>
 			<td>{$domain.modified}</td>
 			<td><a href="{#url_edit_active_domain#}?domain={$domain.domain|escape:"url"}">{$domain.active}</a></td>
-			<td><a href="{#url_edit_domain#}?edit={$domain.domain|escape:"url"}">{$PALANG.edit}</a></td>
+			<td><a href="{#url_edit_domain#}&amp;edit={$domain.domain|escape:"url"}">{$PALANG.edit}</a></td>
 			<td><a href="{#url_delete#}?table=domain&amp;delete={$domain.domain|escape:"url"}" onclick="return confirm ('{$PALANG.confirm_domain}{$PALANG.pAdminList_admin_domain}: {$domain.domain}')">{$PALANG.del}</a></td>
 		</tr>
 {/foreach}
 	</table>
 {/if}
-<br /><a href="{#url_create_domain#}" class="button">{$PALANG.pAdminMenu_create_domain}</a><br />
+<br /><a href="{#url_edit_domain#}" class="button">{$PALANG.pAdminMenu_create_domain}</a><br />
