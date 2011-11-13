@@ -12,13 +12,20 @@
  * @version $Id$ 
  * @license GNU GPL v2 or later. 
  * 
- * File: create-domain.php
- * Allows administrators to create or edit domains.
+ * File: edit.php
+ * This file implements the handling of edit forms.
  */
 
 require_once('common.php');
 
-authentication_require_role('global-admin');
+$username = authentication_get_username(); # enforce login
+
+$table = safepost('table', safeget('table'));
+$handlerclass = ucfirst($table) . 'Handler';
+
+if ( !preg_match('/^[a-z]+$/', $table) || !file_exists("model/$handlerclass.php")) { # validate $table
+    die ("Invalid table name given!");
+}
 
 $error = 0;
 $mode = 'create';
@@ -27,26 +34,30 @@ $edit = safepost('edit', safeget('edit'));
 $new  = 0;
 if ($edit == "") $new = 1;
 
-$listview = 'list-domain.php';
+$handler     = new $handlerclass($new, $username);
 
-$handler     = new DomainHandler($new);
+$formconf = $handler->webformConfig();
+
+authentication_require_role($formconf['required_role']);
+
 $form_fields = $handler->getStruct();
 $id_field    = $handler->getId_field();
 
 
-if ($edit != "") {
-    $mode = 'edit';
-
+if ($edit != "" || $formconf['early_init']) {
     if (!$handler->init($edit)) {
         flash_error(join("<br />", $handler->errormsg));
-        header ("Location: $listview");
+        header ("Location: " . $formconf['listview']);
         exit;
     }
+    }
 
+if ($edit != "") {
+    $mode = 'edit';
     if ($_SERVER['REQUEST_METHOD'] == "GET") { # read values from database
         if (!$handler->view()) {
             flash_error(join("<br />", $handler->errormsg));
-            header ("Location: $listview");
+            header ("Location: " . $formconf['listview']);
             exit;
         } else {
             $values = $handler->return;
@@ -85,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (!$handler->store()) {
             $errormsg = $handler->errormsg;
         } else {
-            flash_info($PALANG['pAdminCreate_domain_result_success'] . " (" . $values[$id_field] . ")");
+            flash_info(Lang::read($formconf['successmessage']) . " (" . $values[$id_field] . ")");
             # TODO: - use a sprintf string
             # TODO: - get the success message from DomainHandler
             # TODO: - use a different success message for create and edit
@@ -95,7 +106,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
 
             if ($edit != "") {
-                header ("Location: $listview");
+                header ("Location: " . $formconf['listview']);
+                exit;
+            } else {
+                header("Location: edit.php?table=$table");
                 exit;
             }
         }
@@ -131,17 +145,17 @@ foreach($errormsg as $msg) { # output the remaining error messages (not related 
 }
 
 if ($mode == 'edit') {
-    $smarty->assign('formtitle', Lang::read('pAdminEdit_domain_welcome'));
+    $smarty->assign('formtitle', Lang::read($formconf['formtitle_edit']));
     $smarty->assign('submitbutton', Lang::read('save'));
 } else {
-    $smarty->assign('formtitle', Lang::read('pAdminCreate_domain_welcome'));
-    $smarty->assign('submitbutton', Lang::read('pAdminCreate_domain_button'));
+    $smarty->assign('formtitle', Lang::read($formconf['formtitle_create']));
+    $smarty->assign('submitbutton', Lang::read($formconf['create_button']));
 }
 
 $smarty->assign ('struct', $form_fields);
 $smarty->assign ('fielderror', $fielderror);
 $smarty->assign ('mode', $mode);
-$smarty->assign ('table', 'domain');
+$smarty->assign ('table', $table);
 $smarty->assign ('smarty_template', 'editform');
 $smarty->display ('index.tpl');
 

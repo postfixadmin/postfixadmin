@@ -1,5 +1,6 @@
 <div id="edit_form">
 <form name="edit_{$table}" method="post" action="">
+<input class="flat" type="hidden" name="table" value="{$table}" />
 
 <table>
 	<tr>
