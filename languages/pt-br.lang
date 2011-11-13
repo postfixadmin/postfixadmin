@@ -212,6 +212,7 @@ $PALANG['pViewlog_action_edit_mailbox'] = 'editar conta de email';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'habilitar/desabilitar conta de email';
 $PALANG['pViewlog_action_create_alias'] = 'criar alias';
 $PALANG['pViewlog_action_create_alias_domain'] = 'criar alias de domínio';
+$PALANG['pViewlog_action_edit_alias_domain'] = 'edit alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'remover alias';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'remover alias de domínio';
 $PALANG['pViewlog_action_edit_alias'] = 'editar alias';

@@ -212,6 +212,7 @@ $PALANG['pViewlog_action_edit_mailbox'] = 'редактирование ящик
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'изменение активности ящика';
 $PALANG['pViewlog_action_create_alias'] = 'создание алиаса';
 $PALANG['pViewlog_action_create_alias_domain'] = 'создание домена-алиаса';
+$PALANG['pViewlog_action_edit_alias_domain'] = 'edit alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'удаление алиаса';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'удаление домена-алиаса';
 $PALANG['pViewlog_action_edit_alias'] = 'редактирование алиаса';

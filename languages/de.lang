@@ -210,6 +210,7 @@ $PALANG['pViewlog_action_edit_mailbox'] = 'Mailbox bearbeiten';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'Mailbox Aktiv bearbeiten';
 $PALANG['pViewlog_action_create_alias'] = 'Alias erstellen';
 $PALANG['pViewlog_action_create_alias_domain'] = 'Alias-Domain erstellen';
+$PALANG['pViewlog_action_edit_alias_domain'] = 'Alias-Domain bearbeiten';
 $PALANG['pViewlog_action_delete_alias'] = 'Alias l&ouml;schen';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'Alias-Domain l&ouml;schen';
 $PALANG['pViewlog_action_edit_alias'] = 'Alias bearbeiten';

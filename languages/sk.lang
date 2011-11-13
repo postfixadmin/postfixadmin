@@ -206,6 +206,7 @@ $PALANG['pViewlog_action_edit_mailbox'] = 'zmena schránky';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'zmena aktivity schránky';
 $PALANG['pViewlog_action_create_alias'] = 'vytvorenie aliasu';
 $PALANG['pViewlog_action_create_alias_domain'] = 'vytvorenie aliasu domény';
+$PALANG['pViewlog_action_edit_alias_domain'] = 'edit alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'zrušenie aliasu';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'zrušenie aliasu domény';
 $PALANG['pViewlog_action_edit_alias'] = 'zmena aliasu';

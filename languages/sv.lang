@@ -207,6 +207,7 @@ $PALANG['pViewlog_action_edit_mailbox'] = 'ändra brevlåda';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'ändra brevlåde status';
 $PALANG['pViewlog_action_create_alias'] = 'skapa alias';
 $PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
+$PALANG['pViewlog_action_edit_alias_domain'] = 'edit alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'radera alias';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = 'ändra alias';

@@ -207,6 +207,7 @@ $PALANG['pViewlog_action_edit_mailbox'] = 'mailbox bewerkt';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'status actieve mailbox bewerkt';
 $PALANG['pViewlog_action_create_alias'] = 'alias toegevoegd';
 $PALANG['pViewlog_action_create_alias_domain'] = 'maak domein alias';
+$PALANG['pViewlog_action_edit_alias_domain'] = 'edit alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'alias verwijderd';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'verwijder alias domein';
 $PALANG['pViewlog_action_edit_alias'] = 'alias bewerkt';

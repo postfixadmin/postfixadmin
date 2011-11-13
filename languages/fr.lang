@@ -206,6 +206,7 @@ $PALANG['pViewlog_action_edit_mailbox'] = 'éditer un compte courriel';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'activer un compte courriel';
 $PALANG['pViewlog_action_create_alias'] = 'créer un alias';
 $PALANG['pViewlog_action_create_alias_domain'] = 'créer un alias de domaine';
+$PALANG['pViewlog_action_edit_alias_domain'] = 'edit alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'supprimer un alias';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'supprimer un alias de domaine';
 $PALANG['pViewlog_action_edit_alias'] = 'éditer un alias';

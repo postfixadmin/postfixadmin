@@ -210,6 +210,7 @@ $PALANG['pViewlog_action_edit_mailbox'] = 'アドレス編集';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'アドレス状態編集';
 $PALANG['pViewlog_action_create_alias'] = '転送先作成';
 $PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
+$PALANG['pViewlog_action_edit_alias_domain'] = 'edit alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = '転送先削除';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = '転送先編集';

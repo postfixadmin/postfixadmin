@@ -206,6 +206,7 @@ $PALANG['pViewlog_action_edit_mailbox'] = 'modifica casella';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'cambia stato casella';
 $PALANG['pViewlog_action_create_alias'] = 'crea alias';
 $PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
+$PALANG['pViewlog_action_edit_alias_domain'] = 'edit alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'distruggi alias';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = 'modifica alias';

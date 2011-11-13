@@ -210,6 +210,7 @@ $PALANG['pViewlog_action_edit_mailbox'] = 'postafiók módosítása';
 $PALANG['pViewlog_action_edit_mailbox_state'] = 'postafiók aktivitás módosítása';
 $PALANG['pViewlog_action_create_alias'] = 'alias létrehozása';
 $PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
+$PALANG['pViewlog_action_edit_alias_domain'] = 'edit alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'alias törlése';
 $PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
 $PALANG['pViewlog_action_edit_alias'] = 'alias módosítása';
