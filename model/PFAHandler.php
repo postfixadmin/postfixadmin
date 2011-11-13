@@ -254,7 +254,7 @@ class PFAHandler {
     public function view($errors=true) {
         $result = $this->read_from_db(array($this->id_field => $this->id) );
         if (count($result) == 1) {
-            $this->return = $result[0];
+            $this->return = $result[$this->id];
             return true;
         }
 
