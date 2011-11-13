@@ -45,6 +45,11 @@ class AliasdomainHandler extends PFAHandler {
             if (isset($used_targets[$dom])) unset ($this->struct['alias_domain']['options'][$dom]); # don't allow chained domain aliases (domain1 -> domain2 -> domain3)
         }
 
+        if (count($this->struct['alias_domain']['options']) == 1) { # only one alias_domain available - filter it out from target_domain list
+            $keys = array_keys($this->struct['alias_domain']['options']);
+            unset ($this->struct['target_domain']['options'][$keys[0]]);
+        }
+
         # TODO: hook to modify $this->struct
     }
 
