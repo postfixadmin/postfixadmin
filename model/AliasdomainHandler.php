@@ -80,6 +80,24 @@ class AliasdomainHandler extends PFAHandler {
         }
     }
 
+    /*
+     * Configuration for the web interface
+     */
+    public function webformConfig() {
+        return array(
+            # $PALANG labels
+            'formtitle_create' => 'pCreate_alias_domain_welcome',
+            'formtitle_edit' => 'pCreate_alias_domain_welcome',
+            'create_button' => 'pCreate_alias_domain_button',
+            'successmessage' => 'pCreate_alias_domain_success',
+
+            # various settings
+            'required_role' => 'admin',
+            'listview' => 'list-virtual.php',
+            'early_init' => 1, # 0 for create-domain
+        );
+    }
+
    protected function validate_new_id() {
        return true; # alias_domain is enum, so we don't need to check its syntax etc.
    }
