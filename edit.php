@@ -50,7 +50,7 @@ if ($edit != "" || $formconf['early_init']) {
         header ("Location: " . $formconf['listview']);
         exit;
     }
-    }
+}
 
 if ($edit != "") {
     $mode = 'edit';
@@ -80,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
+
     if ($edit != "") $values[$id_field] = $edit;
 
     if (!$handler->init($values[$id_field])) {
