@@ -37,9 +37,6 @@ $USERID_USERNAME = authentication_get_username();
 $tmp = preg_split ('/@/', $USERID_USERNAME);
 $USERID_DOMAIN = $tmp[1];
 
-$vacation_domain = $CONF['vacation_domain'];
-$vacation_goto = preg_replace('/@/', '#', $USERID_USERNAME) . '@' . $vacation_domain;
-
 $ah = new AliasHandler($USERID_USERNAME);
 $smarty->assign ('USERID_USERNAME', $USERID_USERNAME);
 
@@ -47,7 +44,6 @@ $smarty->assign ('USERID_USERNAME', $USERID_USERNAME);
 if ( ! $ah->get() ) die("Can't get alias details. Invalid alias?"); # this can only happen if a admin deleted the user since the user logged in
 $tGotoArray = $ah->result();
 $tStoreAndForward = $ah->hasStoreAndForward();
-$vacation_domain = $CONF['vacation_domain'];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
