@@ -25,20 +25,16 @@ require_once("common.php");
 
 authentication_require_role('global-admin');
 
-$_active = array ($PALANG ['NO'], $PALANG ['YES']);
+# TODO: move code to list_admins() in functions.inc.php?
+$handler = new AdminHandler(0 /*, $admin_username*/ );
 
-$list_admins = list_admins();
-if ((is_array ($list_admins) and sizeof ($list_admins) > 0))
-{
-	for ($i = 0; $i < sizeof ($list_admins); $i++)
-	{
-		$admin_properties[$i] = get_admin_properties ($list_admins[$i]);
-		$admin_properties[$i] ['name'] = $list_admins[$i];
-		if ($admin_properties [$i] ['domain_count'] == 'ALL')
-			$admin_properties [$i] ['domain_count'] = $PALANG ['pAdminEdit_admin_super_admin'];
-		$admin_properties [$i] ['active'] = $_active [$admin_properties [$i] ['active']];			
-	}
+if ($handler->getList('1=1')) {
+    $admin_properties = $handler->result();
+} else {
+    $admin_properties = array();
+    # TODO: check if there was an error or simply no admins (which shouldn't happen because nobody could login then...)
 }
+
 $smarty->assign ('admin_properties', $admin_properties);
 $smarty->assign ('smarty_template', 'adminlistadmin');
 $smarty->display ('index.tpl');

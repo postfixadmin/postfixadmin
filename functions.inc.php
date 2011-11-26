@@ -869,6 +869,7 @@ function domain_exist ($domain) {
 // was admin_list_admins
 //
 function list_admins () {
+    # TODO: use AdminHandler
     global $table_admin;
     $list = "";
 
@@ -879,54 +880,6 @@ function list_admins () {
             $list[$i] = $row['username'];
             $i++;
         }
-    }
-    return $list;
-}
-
-
-
-//
-// get_admin_properties
-// Action: Get all the admin properties.
-// Call: get_admin_properties (string admin)
-//
-function get_admin_properties ($username) {
-    global $CONF;
-    global $table_admin, $table_domain_admins;
-    $list = array ();
-
-    $E_username = escape_string($username);
-
-    $result = db_query ("SELECT * FROM $table_domain_admins WHERE username='$E_username' AND domain='ALL'");
-    if ($result['rows'] == 1) {
-        $list['domain_count'] = 'ALL';
-    } else {
-        $result = db_query ("SELECT COUNT(*) FROM $table_domain_admins WHERE username='$E_username'");
-        $row = db_row ($result['result']);
-        $list['domain_count'] = $row[0];
-    }
-
-    $query = "SELECT * FROM $table_admin WHERE username='$E_username'";
-    if ('pgsql'==$CONF['database_type']) {
-        $query="
-            SELECT
-            *,
-            EXTRACT(epoch FROM created) AS uts_created,
-            EXTRACT (epoch FROM modified) AS uts_modified
-            FROM $table_admin
-            WHERE username='$E_username'
-            ";
-    }
-
-    $result = db_query ($query);
-    $row = db_array ($result['result']);
-    $list['created'] = $row['created'];
-    $list['modified'] = $row['modified'];
-    $list['active'] = $row['active'];
-    if ('pgsql'==$CONF['database_type']) {
-        $list['active'] = ('t'==$row['active']) ? 1 : 0;
-        $list['created']= gmstrftime('%c %Z',$row['uts_created']);
-        $list['modified']= gmstrftime('%c %Z',$row['uts_modified']);
     }
     return $list;
 }
