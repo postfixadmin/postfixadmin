@@ -1308,6 +1308,19 @@ function upgrade_1283() {
     _db_add_field('admin', 'superadmin', '{BOOLEAN}', 'password');
 }
 
+function upgrade_1284() {
+    # migrate the ALL domain to the superadmin column
+    # Note: The ALL domain is not (yet) deleted to stay backwards-compatible for now (will be done in a later upgrade function)
+
+    $result = db_query("SELECT username FROM " . table_by_key('domain_admins') . " where domain='ALL'");
+
+    if ($result['rows'] > 0) {
+        while ($row = db_array ($result['result'])) {
+            printdebug ("Setting superadmin flag for " . $row['username']);
+            db_update('admin', 'username', $row['username'], array('superadmin' => db_get_boolean(true)) );
+        }
+    }
+}
 
 
 # TODO MySQL:
