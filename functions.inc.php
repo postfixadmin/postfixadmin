@@ -1624,9 +1624,9 @@ function db_assoc ($result) {
 // Action: Deletes a row from a specified table
 // Call: db_delete (string table, string where, string delete)
 //
-function db_delete ($table,$where,$delete) {
+function db_delete ($table,$where,$delete,$additionalwhere='') {
     $table = table_by_key($table);
-    $query = "DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "'";
+    $query = "DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "' " . $additionalwhere;
     $result = db_query ($query);
 
     if ($result['rows'] >= 1) {
