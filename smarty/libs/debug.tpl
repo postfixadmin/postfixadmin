@@ -86,7 +86,7 @@ td {
 </head>
 <body>
 
-<h1>Smarty Debug Console  -  {if isset($template_name)}{$template_name|debug_print_var}{else}Total Time {$execution_time|string_format:"%.5f"}{/if}</h1>
+<h1>Smarty Debug Console  -  {if isset($template_name)}{$template_name|debug_print_var nofilter}{else}Total Time {$execution_time|string_format:"%.5f"}{/if}</h1>
 
 {if !empty($template_data)}
 <h2>included templates &amp; config files (load time in seconds)</h2>
@@ -108,7 +108,7 @@ td {
     {foreach $assigned_vars as $vars}
        <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">   
        <th>${$vars@key|escape:'html'}</th>
-       <td>{$vars|debug_print_var}</td></tr>
+       <td>{$vars|debug_print_var nofilter}</td></tr>
     {/foreach}
 </table>
 
@@ -118,7 +118,7 @@ td {
     {foreach $config_vars as $vars}
        <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">   
        <th>{$vars@key|escape:'html'}</th>
-       <td>{$vars|debug_print_var}</td></tr>
+       <td>{$vars|debug_print_var nofilter}</td></tr>
     {/foreach}
 
 </table>
@@ -128,6 +128,6 @@ td {
 <script type="text/javascript">
 {$id = $template_name|default:''|md5}
     _smarty_console = window.open("","console{$id}","width=680,height=600,resizable,scrollbars=yes");
-    _smarty_console.document.write("{$debug_output|escape:'javascript'}");
+    _smarty_console.document.write("{$debug_output|escape:'javascript' nofilter}");
     _smarty_console.document.close();
 </script>

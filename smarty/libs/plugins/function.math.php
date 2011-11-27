@@ -12,16 +12,22 @@
  *
  * Type:     function<br>
  * Name:     math<br>
- * Purpose:  handle math computations in template<br>
- * @link http://smarty.php.net/manual/en/language.function.math.php {math}
+ * Purpose:  handle math computations in template
+ *
+ * @link http://www.smarty.net/manual/en/language.function.math.php {math}
  *          (Smarty online manual)
  * @author   Monte Ohrt <monte at ohrt dot com>
- * @param array $params parameters
- * @param object $template template object
+ * @param array                    $params   parameters
+ * @param Smarty_Internal_Template $template template object
  * @return string|null
  */
 function smarty_function_math($params, $template)
 {
+    static $_allowed_funcs = array(
+        'int' => true, 'abs' => true, 'ceil' => true, 'cos' => true, 'exp' => true, 'floor' => true,
+        'log' => true, 'log10' => true, 'max' => true, 'min' => true, 'pi' => true, 'pow' => true,
+        'rand' => true, 'round' => true, 'sin' => true, 'sqrt' => true, 'srand' => true ,'tan' => true
+    );
     // be sure equation parameter is present
     if (empty($params['equation'])) {
         trigger_error("math: missing equation parameter",E_USER_WARNING);
@@ -38,11 +44,9 @@ function smarty_function_math($params, $template)
 
     // match all vars in equation, make sure all are passed
     preg_match_all("!(?:0x[a-fA-F0-9]+)|([a-zA-Z][a-zA-Z0-9_]*)!",$equation, $match);
-    $allowed_funcs = array('int','abs','ceil','cos','exp','floor','log','log10',
-                           'max','min','pi','pow','rand','round','sin','sqrt','srand','tan');
-    
+
     foreach($match[1] as $curr_var) {
-        if ($curr_var && !in_array($curr_var, array_keys($params)) && !in_array($curr_var, $allowed_funcs)) {
+        if ($curr_var && !isset($params[$curr_var]) && !isset($_allowed_funcs[$curr_var])) {
             trigger_error("math: function call $curr_var not allowed",E_USER_WARNING);
             return;
         }
