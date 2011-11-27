@@ -1304,6 +1304,12 @@ function upgrade_1050() {
     db_query_parsed(_add_index('log', 'domain_timestamp', 'domain,timestamp'));
 }
 
+function upgrade_1283() {
+    _db_add_field('admin', 'superadmin', '{BOOLEAN}', 'password');
+}
+
+
+
 # TODO MySQL:
 # - various varchar fields do not have a default value
 #   https://sourceforge.net/projects/postfixadmin/forums/forum/676076/topic/3419725
