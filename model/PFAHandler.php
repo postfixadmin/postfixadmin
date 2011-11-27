@@ -29,7 +29,7 @@ class PFAHandler {
         $this->admin_username = $admin_username;
 
         if ($this->domain_field == "") {
-            if ($admin_username != "") die('Attemp to restrict domains without setting $this->domain_field!');
+            $this->no_domain_field();
         } else {
             if ($admin_username != "") {
                 $this->allowed_domains = list_domains_for_admin($admin_username);
@@ -40,6 +40,10 @@ class PFAHandler {
 
         $this->initStruct();
         $this->initMsg();
+    }
+
+    protected function no_domain_field() {
+            if ($this->admin_username != "") die('Attemp to restrict domains without setting $this->domain_field!');
     }
 
     /**
