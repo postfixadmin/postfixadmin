@@ -207,7 +207,7 @@ class PFAHandler {
         # get list of fields to display
         $extrafrom = "";
         foreach($this->struct as $key=>$row) {
-            if ( $row['display_in_list'] != 0 && $row['not_in_db'] == 0 ) {
+            if ( ($row['display_in_list'] != 0 || $row['display_in_form'] != 0) && $row['not_in_db'] == 0 ) {
                 if ($row['select'] != '') $key = $row['select'];
 
                 if ($row['extrafrom'] != '') $extrafrom = $extrafrom . " " . $row['extrafrom'] . "\n";
@@ -245,8 +245,14 @@ class PFAHandler {
             }
         }
 
+        $db_result = $this->read_from_db_postprocess($db_result);
         return $db_result;
     }
+
+    protected function read_from_db_postprocess($db_result) {
+        return $db_result;
+    }
+
 
     /**
      * get the values of an item
