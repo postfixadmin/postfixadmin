@@ -1,5 +1,7 @@
 <?php
-require_once ("$incpath/smarty/libs/Smarty.class.php");
+#require_once ("$incpath/smarty/libs/Smarty.class.php");
+# We have to use the SmartyBC ("Backwards Compatible") class because some templates use {php}. (TODO: do we really need {php}?)
+require_once ("$incpath/smarty/libs/SmartyBC.class.php");
 
 /**
  * Turn on sanitisation of all data by default so it's not possible for XSS flaws to occur in PFA
@@ -7,14 +9,13 @@ require_once ("$incpath/smarty/libs/Smarty.class.php");
 class PFASmarty {
     protected $template = null;
     public function __construct() {
-        $this->template = new Smarty();
+        $this->template = new SmartyBC();
 
         //$this->template->debugging = true;
         $incpath = dirname(__FILE__);
         $this->template->template_dir = $incpath.'/templates';
         $this->template->compile_dir  = $incpath.'/templates_c';
-        $this->template->config_dir   = $incpath.'/'.$this->template->config_dir;
-        $this->template->allow_php_tag = true;
+        $this->template->config_dir   = $incpath.'/'.$this->template->config_dir[0];
     }
 
     public function assign($key, $value, $sanitise = true) {
