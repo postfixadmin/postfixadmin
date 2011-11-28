@@ -37,6 +37,8 @@
 							{html_checkboxes name={$key} output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key} separator="<br />"}
 						</div>
 -->
+					{elseif $field.type == 'pass'}
+						<input class="flat" type="password" name="{$key}" />
 					{else}
 						<input class="flat" type="text" name="{$key}" value="{$value_{$key}}" />
 					{/if}
