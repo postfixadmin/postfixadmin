@@ -25,8 +25,18 @@
 						<input class="flat" type="checkbox" value='1' name="{$key}"{if {$value_{$key}} == 1} checked="checked"{/if}/>
 					{elseif $field.type == 'enum'}
 						<select class="flat" name="{$key}">
-						{html_options output=$struct.{$key}.options values=$struct.{$key}.options selected={$value_{$key}}}
+						{html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
 						</select>
+					{elseif $field.type == 'list'}
+						<select class="flat" name="{$key}[]" size="10" multiple="multiple">
+						{html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
+						</select>
+
+<!-- alternative: 
+						<div style='max-height:30em; overflow:auto;'>
+							{html_checkboxes name={$key} output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key} separator="<br />"}
+						</div>
+-->
 					{else}
 						<input class="flat" type="text" name="{$key}" value="{$value_{$key}}" />
 					{/if}
