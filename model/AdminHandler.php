@@ -14,6 +14,10 @@ class AdminHandler extends PFAHandler {
        }
    }
 
+    protected function no_domain_field() {
+        # PFAHandler die()s if domain field is not set. Disable this behaviour for AdminHandler.
+    }
+
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
         $this->db_table = 'admin';
@@ -27,7 +31,6 @@ class AdminHandler extends PFAHandler {
         # pass  password (will be encrypted with pacrypt())  # TODO: not implemented yet
         # num   number
         # vnum  "virtual" number, coming from JOINs etc.
-#TODO   # vbool "virtual" bool, coming from JOINs etc.
         # bool  boolean (converted to 0/1, additional column _$field with yes/no)
         # ts    timestamp (created/modified)
         # enum  list of options, must be given in column "options" as array
@@ -43,20 +46,21 @@ class AdminHandler extends PFAHandler {
             'username'        => pacol( $this->new, 1,      1,      'text', 'pAdminEdit_admin_username'    , 'pAdminCreate_admin_username_text' ),
             'password'        => pacol( 1,          1,      0,      'pass', 'pAdminEdit_admin_password'    , ''                                 ),
             'password2'       => pacol( 1,          1,      0,      'pass', 'pAdminEdit_admin_password2'   , ''                                 , '', '',
-               /*not_in_db*/ 1  ),
-
-            'superadmin'      => pacol( 1,          1,      1,      'vbool','pAdminEdit_admin_super_admin' , ''                                 , 0, '',
-# TODO: (finally) replace the ALL domain with a column in the admin table
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
-               /*select*/ 'coalesce(__superadmin,0) as superadmin',
-               /*extrafrom*/ 'LEFT JOIN ( ' .
-                                ' SELECT count(*) AS __superadmin, username AS __superadmin_username FROM ' . table_by_key('domain_admins') .
-                                ' WHERE domain = "ALL" GROUP BY username ' .
-                             ' ) AS __superadmin on username = __superadmin_username'
+                /*select*/ 'password as password2'
             ),
 
-            'domains'         => pacol( 1,          1,      0,      'list', 'pAdminCreate_admin_address'   , ''                                 , '', '',
+            'superadmin'      => pacol( 1,          1,      1,      'bool', 'pAdminEdit_admin_super_admin' , ''                                 , 0
+# TODO: (finally) replace the ALL domain with a column in the admin table
+# TODO: current status: 'superadmin' column exists and is written when storing an admin with AdminHandler,
+# TODO: but the superadmin status is still (additionally) stored in the domain_admins table ("ALL" dummy domain)
+# TODO: to keep the database backwards-compatible with 2.3.x. 
+# TODO: Note: superadmins created with 2.3.x after running upgrade_1284() will not work until you re-run upgrade_1284()
+# TODO: Create them with the trunk version to avoid this problem.
+            ),
+
+            'domains'         => pacol( 1,          1,      1,      'list', 'pAdminCreate_admin_address'   , ''                                 , array(), list_domains(),
 # TODO: on read: split domains - on write: write to domain_admins table
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
@@ -126,8 +130,58 @@ class AdminHandler extends PFAHandler {
      * can be used to update additional tables, call scripts etc.
      */
     protected function storemore() {
-        return false; # TODO: update domain_admins table - and then remove the "return false"
+        if (isset($this->values['domains'])) {
+            if (is_array($this->values['domains'])) {
+                $domains = $this->values['domains'];
+            } elseif ($this->values['domains'] == '') {
+                $domains = array();
+            } else {
+                $domains = explode(',', $this->values['domains']);
+            }
+
+            db_delete('domain_admins', 'username', $this->id, "AND domain != 'ALL'");
+
+            foreach ($domains as $domain) {
+                $values = array(
+                    'username'  => $this->id,
+                    'domain'    => $domain,
+                );
+                db_insert('domain_admins', $values, array('created'));
+                # TODO: check for errors
+            }
+        }
+
+        # Temporary workaround to keep the database compatible with 2.3.x
+        if (isset($this->values['superadmin'])) {
+            if ($this->values['superadmin'] == 1) {
+                $values = array(
+                    'username'  => $this->id,
+                    'domain'    => 'ALL',
+                );
+                $where = db_where_clause(array('username' => $this->id, 'domain' => 'ALL'), $this->struct);
+                $result = db_query("SELECT username from " . table_by_key('domain_admins') . " " . $where);
+                if ($result['rows'] == 0) {
+                    db_insert('domain_admins', $values, array('created'));
+                    # TODO: check for errors
+                } 
+            } else {
+                db_delete('domain_admins', 'username', $this->id, "AND domain = 'ALL'");
+                # TODO: check for errors (Note: we are blindly deleting the ALL domain for this admin, maybe he wasn't superadmin before so result count might be 0)
+            }
+        }
+
         return true; # TODO: don't hardcode
+    }
+
+    protected function read_from_db_postprocess($db_result) {
+        foreach ($db_result as $key => $row) {
+            if ($row['domains'] == '') {
+                $db_result[$key]['domains'] = array();
+            } else {
+                $db_result[$key]['domains'] = explode(',', $row['domains']);
+            }
+        }
+        return $db_result;
     }
 
     /**
