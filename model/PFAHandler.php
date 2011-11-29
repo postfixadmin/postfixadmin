@@ -98,7 +98,7 @@ class PFAHandler {
                 }
             } else {
                 if (isset($values[$key])) {
-                    if ($row['type'] != "password" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
+                    if ($row['type'] != "pass" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
                         $valid = true; # trust input unless validator objects
 
                         # validate based on field type (_inp_$type)
@@ -335,11 +335,13 @@ class PFAHandler {
         return false;
     }
 
-    function _inp_password($field, $val){
-        # TODO: fetchmail specific. Not suited for mailbox/admin passwords.
-        $this->errormsg[$field] = "_inp_password not implemented yet";
+    function _inp_pass($field, $val){
+        $validpass = validate_password($val);
+
+        if(count($validpass) == 0) return true;
+
+        $this->errormsg[$field] = $validpass[0]; # TODO: honor all error messages, not only the first one?
         return false;
-        # return base64_encode($val);
     }
 
 }
