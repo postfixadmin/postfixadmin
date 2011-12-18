@@ -2,14 +2,14 @@
 set -e
 
 if [ "$1" = "configure" ]; then
+	# configure DB stuff via dbconfig-common
+	dbc_generate_include=php:/etc/postfixadmin/dbconfig.inc.php
+	dbc_generate_include_args="-O root:www-data -m 640 -U"
 	. /usr/share/debconf/confmodule
-	db_version 2.0
-	dbc_generate_include='template:/etc/postfixadmin/config.inc.php'
-	dbc_generate_include_owner='root:www-data'
-	dbc_generate_include_perms='640'
-	dbc_generate_include_args="-U -o template_infile=/usr/share/postfixadmin/config.inc.php"
 	. /usr/share/dbconfig-common/dpkg/postinst
 	dbc_go postfixadmin $@
+	
+	# configure webserver stuff
 	db_get postfixadmin/reconfigure-webserver
 	servers="$RET"
 	restart="$servers"
@@ -25,5 +25,7 @@ if [ "$1" = "configure" ]; then
 fi
 
 #DEBHELPER#
+
+chown www-data /usr/share/postfixadmin/templates_c
 
 exit 0

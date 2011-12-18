@@ -19,6 +19,16 @@ if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
 			dbc_go postfixadmin $@
 		fi
 	fi
+        
+	if [ "$1" = "purge" ]; then
+                rm -f /etc/postfixadmin/dbconfig.inc.php
+                if which ucf >/dev/null 2>&1; then
+                        ucf --purge /etc/postfixadmin/dbconfig.inc.php
+                fi
+
+                db_purge || true
+
+        fi
 fi
 
 #DEBHELPER#
