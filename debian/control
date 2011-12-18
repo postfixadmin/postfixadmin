@@ -3,9 +3,8 @@ Section: admin
 Priority: optional
 Maintainer: Norman Messtorff <normes@normes.org>
 Build-Depends: debhelper (>= 7), po-debconf, quilt (>= 0.46)
-Standards-Version: 3.8.4
+Standards-Version: 3.9.2
 Homepage: http://postfixadmin.sourceforge.net
-XS-Vcs-Svn: https://postfixadmin.svn.sourceforge.net/svnroot/postfixadmin/trunk
 
 Package: postfixadmin
 Architecture: all
