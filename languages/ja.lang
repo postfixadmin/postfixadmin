@@ -217,6 +217,8 @@ $PALANG['pViewlog_action_edit_alias'] = '転送先編集';
 $PALANG['pViewlog_action_edit_alias_state'] = '転送先状態編集';
 $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active'; # XXX
 $PALANG['pViewlog_action_edit_password'] = 'パスワード変更';
+$PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
+$PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
  
 $PALANG['pViewlog_button'] = '表示';
 $PALANG['pViewlog_result_error'] = 'ログが見つかりません！';

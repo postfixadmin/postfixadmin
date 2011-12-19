@@ -215,6 +215,8 @@ $PALANG['pViewlog_action_edit_alias'] = 'edycja aliasu';
 $PALANG['pViewlog_action_edit_alias_state'] = 'edycja statusu aliasu';
 $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edycja statusu aliasu domeny';
 $PALANG['pViewlog_action_edit_password'] = 'zmień hasło';
+$PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
+$PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
 
 $PALANG['pViewlog_button'] = 'Idź';
 $PALANG['pViewlog_result_error'] = 'Nie można odszukać logów!';

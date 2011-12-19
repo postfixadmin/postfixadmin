@@ -213,6 +213,8 @@ $PALANG['pViewlog_action_edit_alias'] = 'rediger alias';
 $PALANG['pViewlog_action_edit_alias_state'] = 'rediger aliasstatus';
 $PALANG['pViewlog_action_edit_alias_domain_state'] = 'endre aktiv-status på aliasdomene';
 $PALANG['pViewlog_action_edit_password'] = 'endre passord';
+$PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
+$PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
 
 $PALANG['pViewlog_button'] = 'Vis';
 $PALANG['pViewlog_result_error'] = 'Finner ikke den aktuelle loggen!';

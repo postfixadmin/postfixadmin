@@ -211,6 +211,8 @@ $PALANG['pViewlog_action_edit_alias'] = 'edit alias'; # XXX
 $PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active'; # XXX
 $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active'; # XXX
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
+$PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
+$PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
 
 $PALANG['pViewlog_button'] = 'Eiti';
 $PALANG['pViewlog_result_error'] = 'Įvykių žurnalas nerastas!';
