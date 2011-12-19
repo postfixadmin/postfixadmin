@@ -18,8 +18,8 @@
 				{/if}
 			</td>
 			<td>{$admin.modified}</td>
-			<td><a href="{#url_edit_active_admin#}?username={$admin.username|escape:"url"}">{$admin._active}</a></td>
-			<td><a href="{#url_edit_admin#}?username={$admin.username|escape:"url"}">{$PALANG.edit}</a></td>
+			<td><a href="{#url_edit_active_admin#}&edit={$admin.username|escape:"url"}">{$admin._active}</a></td>
+			<td><a href="{#url_edit_admin#}&edit={$admin.username|escape:"url"}">{$PALANG.edit}</a></td>
 			<td><a href="{#url_delete#}?table=admin&amp;delete={$admin.username|escape:"url"}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.pAdminList_admin_username}: {$admin.username}');">{$PALANG.del}</a></td>
 		</tr>
 {/foreach}
