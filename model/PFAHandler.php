@@ -7,6 +7,7 @@ class PFAHandler {
     protected $struct = array();
     protected $new = 0; # 1 on create, otherwise 0
     protected $values = array();
+    protected $RAWvalues = array(); # unchecked (!) input given to set() - use it carefully!
     protected $values_valid = false;
     protected $admin_username = "";     # if set, restrict $allowed_domains to this admin
     protected $domain_field = "";       # column containing the domain
@@ -87,6 +88,9 @@ class PFAHandler {
         if ($this->new == 1) {
             $values[$this->id_field] = $this->id;
         }
+
+        $this->RAWvalues = $values; # allows comparison of two fields before the second field is checked
+        # Warning: $this->RAWvalues contains unchecked input data - use it carefully!
 
         # base validation
         $this->values = array();
