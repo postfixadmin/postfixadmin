@@ -31,6 +31,10 @@ function authentication_get_username() {
         return 'CLI';
     }
 
+    if (defined('POSTFIXADMIN_SETUP')) {
+        return 'SETUP.PHP';
+    }
+
     if (!isset($_SESSION['sessid'])) {
         header ("Location: login.php");
         exit(0);
@@ -2226,84 +2230,6 @@ function gen_show_status ($show_alias) {
    )
  */
 
-function create_admin($fUsername, $fPassword, $fPassword2, $fDomains, $no_generate_password=0) {
-    global $PALANG;
-    global $CONF;
-    $error = 0;
-    $pAdminCreate_admin_message = '';
-    $pAdminCreate_admin_username_text_error = '';
-    $pAdminCreate_admin_password_text_error = '';
-
-    if (!check_email ($fUsername)) {
-        $error = 1;
-        $pAdminCreate_admin_username_text_error = $PALANG['pAdminCreate_admin_username_text_error1'];
-    }
-
-    if (empty ($fUsername) or admin_exist ($fUsername)) {
-        $error = 1;
-        $pAdminCreate_admin_username_text_error = $PALANG['pAdminCreate_admin_username_text_error2'];
-    }
-
-    $generated_password = 0;
-    if (empty ($fPassword) or empty ($fPassword2) or ($fPassword != $fPassword2)) {
-        if (empty ($fPassword) and empty ($fPassword2) and $CONF['generate_password'] == "YES" && $no_generate_password == 0) {
-            $fPassword = generate_password ();
-            $generated_password = 1;
-        } else {
-            $error = 1;
-            $pAdminCreate_admin_password_text_error = $PALANG['pAdminCreate_admin_password_text_error'];
-        }
-    }
-
-    $validpass = validate_password($fPassword);
-    if(count($validpass) > 0 && $generated_password == 0) { # skip this check for generated passwords
-        $pAdminCreate_admin_password_text_error = $validpass[0]; # TODO: honor all error messages, not only the first one
-        $error = 1;
-    }
-
-    if ($error != 1) {
-        $password = pacrypt($fPassword);
-        // $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
-
-        $db_values = array(
-            'username'  => $fUsername,
-            'password'  => $password,
-        );
-        $result = db_insert('admin', $db_values);
-        if ($result != 1) {
-            $pAdminCreate_admin_message = $PALANG['pAdminCreate_admin_result_error'] . "<br />($fUsername)<br />";
-        } else {
-            if (!empty ($fDomains[0])) {
-                for ($i = 0; $i < sizeof ($fDomains); $i++) {
-                    $domain = $fDomains[$i];
-                    $db_values = array(
-                        'username'  => $fUsername,
-                        'domain'    => $domain,
-                    );
-                    $result = db_insert('domain_admins', $db_values, array('created'));
-                }
-            }
-            $pAdminCreate_admin_message = $PALANG['pAdminCreate_admin_result_success'] . "<br />($fUsername";
-            if ($CONF['show_password'] == "YES" || $generated_password == 1) {
-                $pAdminCreate_admin_message .= " / $fPassword";
-            }
-            $pAdminCreate_admin_message .= ")</br />";
-        }
-    }
-
-    # TODO: should we log creation, editing and deletion of admins?
-    # Note: needs special handling in viewlog, because domain is empty
-    # db_log ('', 'create_admin', "$fUsername");
-
-    return array(
-        $error,
-        $pAdminCreate_admin_message,
-        $pAdminCreate_admin_username_text_error,
-        $pAdminCreate_admin_password_text_error
-    );
-
-
-}
 function getRemoteAddr() {
     $REMOTE_ADDR = 'localhost';
     if (isset($_SERVER['REMOTE_ADDR'])) 

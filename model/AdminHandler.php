@@ -206,6 +206,10 @@ class AdminHandler extends PFAHandler {
         }
     }
 
+
+# TODO: generate password if $new, no password specified and $CONF['generate_password'] is set
+# TODO: except if $this->admin_username == setup.php
+
     /**
      * compare password / password2 field
      * error message will be displayed at the password2 field

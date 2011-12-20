@@ -340,10 +340,6 @@ else
         }
 
         if($error == 0 && $pw_check_result == 'pass_OK') {
-            $fUsername  = safepost('fUsername');
-            $fPassword  = safepost('fPassword');
-            $fPassword2 = safepost('fPassword2');
-
             // XXX need to ensure domains table includes an 'ALL' entry.
             $table_domain = table_by_key('domain');
             $r = db_query("SELECT * FROM $table_domain WHERE domain = 'ALL'");
@@ -351,9 +347,19 @@ else
                 db_insert('domain', array('domain' => 'ALL')); // all other fields should default through the schema.
             }
 
-            list ($error, $setupMessage, $pAdminCreate_admin_username_text, $pAdminCreate_admin_password_text) = create_admin($fUsername, $fPassword, $fPassword2, array('ALL'), TRUE);
+            $values = array(
+                'username'      => safepost('username'),
+                'password'      => safepost('password'),
+                'password2'     => safepost('password2'),
+                'superadmin'    => 1,
+                'domains'       => array(),
+                'active'        => 1,
+            );
+
+            list ($error, $setupMessage, $errormsg) = create_admin($values);
+
             if ($error != 0) {
-                $tUsername = htmlentities($fUsername);
+                $tUsername = htmlentities($values['username']);
             }
         }
     } 
@@ -405,18 +411,18 @@ else
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminCreate_admin_username'] . ":"; ?></td>
-      <td><input class="flat" type="text" name="fUsername" value="<?php print $tUsername; ?>" /></td>
-      <td><?php print $pAdminCreate_admin_username_text; ?></td>
+      <td><input class="flat" type="text" name="username" value="<?php print $tUsername; ?>" /></td>
+      <td><?php if (isset($errormsg['username'])) print $errormsg['username']; ?></td>
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminCreate_admin_password'] . ":"; ?></td>
-      <td><input class="flat" type="password" name="fPassword" /></td>
-      <td><?php print $pAdminCreate_admin_password_text; ?></td>
+      <td><input class="flat" type="password" name="password" /></td>
+      <td><?php if (isset($errormsg['password'])) print $errormsg['password']; ?></td>
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminCreate_admin_password2'] . ":"; ?></td>
-      <td><input class="flat" type="password" name="fPassword2" /></td>
-      <td>&nbsp;</td>
+      <td><input class="flat" type="password" name="password2" /></td>
+      <td><?php if (isset($errormsg['password2'])) print $errormsg['password2']; ?></td>
    </tr>
    <tr>
       <td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="<?php print $PALANG['pAdminCreate_admin_button']; ?>" /></td>
@@ -486,6 +492,33 @@ function check_setup_password($password, $lostpw_mode = 0) {
     }
     return array ($error, $result);
 }
+
+function create_admin($values) {
+
+    DEFINE('POSTFIXADMIN_SETUP', 1); # avoids instant redirect to login.php after creating the admin
+
+    $handler = new AdminHandler(1, 'setup.php');
+    $formconf = $handler->webformConfig();
+
+    if (!$handler->init($values['username'])) {
+        return array(1, "", $handler->errormsg);
+    } 
+
+    if (!$handler->set($values)) {
+        return array(1, "", $handler->errormsg);
+    }
+
+    if (!$handler->store()) {
+        return array(1, "", $handler->errormsg);
+    }
+
+    return array(
+        0,
+        Lang::read($formconf['successmessage']),
+        array(),
+    );
+}
+
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
