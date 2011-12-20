@@ -49,8 +49,6 @@ class AliasdomainHandler extends PFAHandler {
             $keys = array_keys($this->struct['alias_domain']['options']);
             unset ($this->struct['target_domain']['options'][$keys[0]]);
         }
-
-        # TODO: hook to modify $this->struct
     }
 
     public function init($id) {

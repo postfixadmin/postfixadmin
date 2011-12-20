@@ -230,6 +230,44 @@ function maildir_name_hook($domain, $user) {
 }
 */
 
+/*  
+    *_struct_hook - change, add or remove fields
+
+    If you need additional fields or want to change or remove existing fields,
+    you can write a hook function to modify $struct in the *Handler classes. 
+
+    The edit form will automatically be updated according to the modified
+    $struct. The list page is not yet updated automatically.
+
+    You can define one hook function per class, named like the primary database
+    table of that class.
+    The hook function is called with $struct as parameter and must return the
+    modified $struct. 
+
+    Note: Adding a field to $struct adds the handling of this field in
+    PostfixAdmin, but it does not create it in the database. You have to do
+    that yourself. 
+    Please follow the naming policy for custom database fields and tables on
+    http://sourceforge.net/apps/mediawiki/postfixadmin/index.php?title=Custom_fields
+    to avoid clashes with future versions of PostfixAdmin.
+
+    See initStruct() in the *Handler class for the default $struct.
+    See pacol() in functions.inc.php for the available flags on each column.
+    
+    Example:
+
+    function x_struct_admin_modify($struct) {
+        $struct['superadmin']['editable'] = 0;          # make the 'superadmin' flag read-only
+        $struct['superadmin']['display_in_form'] = 0;   # don't display the 'superadmin' flag in edit form
+        $struct['x_newfield'] = pacol( [...] );        # additional field 'x_newfield'
+        return $struct; # important!
+    }
+    $CONF['admin_struct_hook'] = 'x_struct_admin_modify';
+*/
+$CONF['admin_struct_hook']          = '';
+$CONF['domain_struct_hook']         = '';
+$CONF['alias_domain_struct_hook']   = '';
+
 
 // Default Domain Values
 // Specify your default values below. Quota in MB.

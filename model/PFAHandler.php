@@ -40,6 +40,12 @@ class PFAHandler {
         }
 
         $this->initStruct();
+
+        $struct_hook = Config::read($this->db_table . '_struct_hook');
+        if ( $struct_hook != 'NO' && function_exists($struct_hook) ) {
+            $this->struct = $struct_hook($this->struct);
+        }
+
         $this->initMsg();
     }
 

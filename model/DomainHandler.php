@@ -76,8 +76,6 @@ class DomainHandler extends PFAHandler {
            'created'         => pacol(  0,          0,      1,      'ts',   'created'                      , ''                                 ),
            'modified'        => pacol(  0,          0,      1,      'ts',   'pAdminList_domain_modified'   , ''                                 ),
         );
-
-        # TODO: hook to modify $this->struct
     }
 
     # messages used in various functions.
