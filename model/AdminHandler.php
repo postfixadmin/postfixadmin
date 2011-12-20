@@ -28,13 +28,13 @@ class AdminHandler extends PFAHandler {
 
         # values for the "type" column:
         # text  one line of text
-        # pass  password (will be encrypted with pacrypt())  # TODO: not implemented yet
+        # pass  password (will be encrypted with pacrypt())
         # num   number
         # vnum  "virtual" number, coming from JOINs etc.
         # bool  boolean (converted to 0/1, additional column _$field with yes/no)
         # ts    timestamp (created/modified)
         # enum  list of options, must be given in column "options" as array
-#TODO   # list  like enum, but allow multiple selections
+        # list  like enum, but allow multiple selections
 
         # NOTE: There are dependencies between domains and domain_count
         # NOTE: If you disable "display in list" for domain_count, the SQL query for domains might break.
@@ -61,7 +61,6 @@ class AdminHandler extends PFAHandler {
             ),
 
             'domains'         => pacol( 1,          1,      1,      'list', 'pAdminCreate_admin_address'   , ''                                 , array(), list_domains(),
-# TODO: on read: split domains - on write: write to domain_admins table
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ 'coalesce(domains,"") as domains'
@@ -196,19 +195,19 @@ class AdminHandler extends PFAHandler {
         $this->errormsg[] = '*** Admin deletion not implemented yet ***';
         return false; # XXX function aborts here until TODO below is implemented! XXX
 
-        # TODO: recursively delete mailboxes, aliases, alias_domains, fetchmail entries etc. before deleting the domain
+        # TODO: delete from domain_admins before deleting the admin
         # TODO: move the needed code from delete.php here
         $result = db_delete($this->db_table, $this->id_field, $this->id);
         if ( $result == 1 ) {
             list(/*NULL*/,$domain) = explode('@', $this->id);
-            db_log ($domain, 'delete_admin', $this->id); # TODO delete_domain is not a valid db_log keyword yet because we don't yet log add/delete domain
+            db_log ($domain, 'delete_admin', $this->id); # TODO delete_admin is not a valid db_log keyword yet
             return true;
         }
     }
 
 
 # TODO: generate password if $new, no password specified and $CONF['generate_password'] is set
-# TODO: except if $this->admin_username == setup.php
+# TODO: except if $this->admin_username == setup.php --- this exception should be handled directly in setup.php ("if $values['password'] == '' error_out")
 
     /**
      * compare password / password2 field

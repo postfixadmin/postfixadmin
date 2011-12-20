@@ -157,7 +157,9 @@ class PFAHandler {
                 case 'bool':
                     $db_values[$key] = db_get_boolean($db_values[$key]);
                     break;
-                # TODO: passwords -> pacrypt()
+                case 'pass':
+                    $db_values[$key] = pacrypt($db_values[$key]);
+                    break;
             }
             if ($this->struct[$key]['not_in_db'] == 1) unset ($db_values[$key]); # remove 'not in db' columns
             if ($this->struct[$key]['dont_write_to_db'] == 1) unset ($db_values[$key]); # remove 'dont_write_to_db' columns
