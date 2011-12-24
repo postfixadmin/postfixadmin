@@ -30,6 +30,8 @@ install: build
 	mv debian/postfixadmin/usr/share/postfixadmin/config.inc.php debian/postfixadmin/etc/postfixadmin/config.inc.php
 	find debian/postfixadmin -name .svn | xargs -r rm -r
 	cp debian/confd-link.sh debian/postfixadmin/usr/share/postfixadmin/
+	chmod +x debian/postfixadmin/usr/share/postfixadmin/scripts/postfixadmin-cli
+	chmod +x debian/postfixadmin/usr/share/postfixadmin/scripts/postfixadmin-cli.php
 
 # Build architecture-independent files here.
 binary-indep: build install
