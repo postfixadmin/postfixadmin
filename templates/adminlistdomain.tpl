@@ -31,9 +31,9 @@
 			{if $CONF.quota==YES}<td>{$domain.maxquota}</td>{/if}
 			{if $CONF.domain_quota===YES}<td>{$domain.total_quota} / {$domain.quota}</td>{/if}
 			{if $CONF.transport==YES}<td>{$domain.transport}</td>{/if}
-			<td>{$domain.backupmx}</td>
+			<td>{$domain._backupmx}</td>
 			<td>{$domain.modified}</td>
-			<td><a href="{#url_edit_active_domain#}?domain={$domain.domain|escape:"url"}">{$domain.active}</a></td>
+			<td><a href="{#url_edit_domain#}&amp;edit={$domain.domain|escape:"url"}&amp;active={if ($domain.active==0)}1{else}0{/if}">{$domain._active}</a></td>
 			<td><a href="{#url_edit_domain#}&amp;edit={$domain.domain|escape:"url"}">{$PALANG.edit}</a></td>
 			<td><a href="{#url_delete#}?table=domain&amp;delete={$domain.domain|escape:"url"}" onclick="return confirm ('{$PALANG.confirm_domain}{$PALANG.pAdminList_admin_domain}: {$domain.domain}')">{$PALANG.del}</a></td>
 		</tr>
