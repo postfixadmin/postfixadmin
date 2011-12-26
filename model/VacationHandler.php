@@ -13,7 +13,8 @@ class VacationHandler {
      * @return boolean true on success.
      */
     function remove() {
-        $ah = new AliasHandler($this->username);
+        $ah = new AliasHandler();
+        $ah->init($this->username);
         $result = $ah->get(true);
         if($result === true) { // fetch all # TODO check $result, error handling
           $aliases = $ah->return;
@@ -53,7 +54,8 @@ class VacationHandler {
      * Why do we bother storing true/false in the vacation table if the alias dictates it anyway?
      */
     function check_vacation() {
-        $ah = new AliasHandler($this->username);
+        $ah = new AliasHandler();
+        $ah->init($this->username);
         $success = $ah->get(true); # fetch all.
         if (!$success) { 
             return false; # TODO: error handling?
@@ -127,7 +129,8 @@ class VacationHandler {
         }
 # TODO error check
 # TODO wrap whole function in db_begin / db_commit (or rollback)?
-        $ah = new AliasHandler($this->username); 
+        $ah = new AliasHandler();
+        $ah->init($this->username); 
         $alias = $ah->get(true);
         $aliases = $ah->return;
         $vacation_address = $this->getVacationAlias();

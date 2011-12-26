@@ -37,7 +37,9 @@ $USERID_USERNAME = authentication_get_username();
 $tmp = preg_split ('/@/', $USERID_USERNAME);
 $USERID_DOMAIN = $tmp[1];
 
-$ah = new AliasHandler($USERID_USERNAME);
+$ah = new AliasHandler();
+$ah->init($USERID_USERNAME);
+
 $smarty->assign ('USERID_USERNAME', $USERID_USERNAME);
 
 

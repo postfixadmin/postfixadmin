@@ -16,12 +16,35 @@ class AliasHandler extends PFAHandler {
      */
     public $return = null;
 
-    /**
-     * @param string $username
-     */
-    public function __construct($username) {
-        $this->username = strtolower($username);
+    protected function initStruct() {
+        $this->db_table = 'alias';
+        $this->id_field = 'address';
+
+        $this->struct=array(
+            # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
+            #                           editing?    form    list
+            'address'       => pacol(   $this->new, 1,      1,      'mail', 'pCreate_alias_domain_alias'    , 'pCreate_alias_domain_alias_text'             ),
+            'goto'          => pacol(   1,          1,      1,      'mail', 'pCreate_alias_domain_target'   , 'pCreate_alias_domain_target_text'            ),
+            'domain'        => pacol(   $this->new, 0,      0,      'text', ''                              , ''                                            ),
+            'active'        => pacol(   1,          1,      1,      'bool', 'pAdminEdit_domain_active'      , ''                                 , 1        ),
+            'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                            ),
+            'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                            ),
+        );
     }
+
+    protected function initMsg() {
+        $this->msg['error_already_exists'] = 'pCreate_alias_address_text_error2';
+        $this->msg['error_does_not_exist'] = 'pCreate_alias_address_text_error1'; # TODO: better error message
+        if ($this->new) {
+            $this->msg['logname'] = 'create_alias';
+            $this->msg['store_error'] = 'pCreate_alias_result_error';
+        } else {
+            $this->msg['logname'] = 'edit_alias';
+            $this->msg['store_error'] = 'pEdit_alias_result_error';
+        }
+    }
+
+
 
     /**
      * @return bool true if succeed
@@ -29,7 +52,7 @@ class AliasHandler extends PFAHandler {
      * @param boolean - by default we don't return special addresses (e.g. vacation and mailbox alias); pass in true here if you wish to.
      */
     public function get($all=false) {
-        $E_username = escape_string($this->username);
+        $E_username = escape_string($this->id);
         $table_alias = table_by_key('alias');
 
         $sql = "SELECT * FROM $table_alias WHERE address='$E_username'";
@@ -71,7 +94,7 @@ class AliasHandler extends PFAHandler {
     public function is_mailbox_alias($address) {
         global $CONF;
 
-        if($address != $this->username) { # avoid false positives if $address is a mailbox
+        if($address != $this->id) { # avoid false positives if $address is a mailbox
             return false;
         }
 
@@ -120,7 +143,7 @@ class AliasHandler extends PFAHandler {
         } 
         $addresses = array_unique($addresses);
 
-        list (/*NULL*/, $domain) = explode('@', $this->username);
+        list (/*NULL*/, $domain) = explode('@', $this->id);
 
         if ( ! $this->get(true) ) die("Alias not existing?"); # TODO: better error behaviour
 
@@ -142,7 +165,7 @@ class AliasHandler extends PFAHandler {
         if($flags == 'remote_only') {
             foreach($addresses as $address) { # TODO: write a remove_from_array function, see http://tech.petegraham.co.uk/2007/03/22/php-remove-values-from-array/
                 // strip out our username... if it's in the list given.
-                if($address != $this->username) {
+                if($address != $this->id) {
                     $new_list[] = $address;            
                 }
             }
@@ -150,8 +173,8 @@ class AliasHandler extends PFAHandler {
         }
         
         if($flags == 'forward_and_store') {
-            if(!in_array($this->username, $addresses)) {
-                $addresses[] = $this->username;
+            if(!in_array($this->id, $addresses)) {
+                $addresses[] = $this->id;
             }
         }
         $new_list = array();
@@ -161,15 +184,15 @@ class AliasHandler extends PFAHandler {
             }
         } 
         $addresses = array_unique($new_list);
-        $E_username = escape_string($this->username);
+        $E_username = escape_string($this->id);
         $goto = implode(',', $addresses);
         if(sizeof($addresses) == 0) {
-            # $result = db_delete('alias', 'address', $this->username); # '"DELETE FROM $table_alias WHERE address = '$username'"; # TODO: should never happen and causes broken behaviour
-            error_log("Alias set to empty / Attemp to delete: " . $this->username); # TODO: more/better error handling - maybe just return false?
+            # $result = db_delete('alias', 'address', $this->id); # '"DELETE FROM $table_alias WHERE address = '$username'"; # TODO: should never happen and causes broken behaviour
+            error_log("Alias set to empty / Attemp to delete: " . $this->id); # TODO: more/better error handling - maybe just return false?
         }
         if($this->hasAliasRecord() == false) { # TODO should never happen in update() - see also the comments on handling DELETE above
             $alias_data = array(
-                'address'   => $this->username,
+                'address'   => $this->id,
                 'goto'      => $goto,
                 'domain'    => $domain,
                 'active'    => db_get_boolean(True),
@@ -179,7 +202,7 @@ class AliasHandler extends PFAHandler {
             $alias_data = array(
                 'goto' => $goto,
             );
-            $result = db_update('alias', 'address', $this->username, $alias_data);
+            $result = db_update('alias', 'address', $this->id, $alias_data);
         }
         if($result != 1) {
             return false;
@@ -195,7 +218,7 @@ class AliasHandler extends PFAHandler {
      */
     public function hasStoreAndForward() {
         $result = $this->get(true); # TODO: error checking?
-        if(in_array($this->username, $this->return)) {
+        if(in_array($this->id, $this->return)) {
             return true;
         }
         return false;
@@ -205,7 +228,7 @@ class AliasHandler extends PFAHandler {
      * @return boolean true if the user has an alias record (i.e row in alias table); else false.
      */
     public function hasAliasRecord() {
-        $username = escape_string($this->username);
+        $username = escape_string($this->id);
         $table_alias = table_by_key('alias');
         $sql = "SELECT * FROM $table_alias WHERE address = '$username'";
         $result = db_query($sql);
@@ -224,15 +247,15 @@ class AliasHandler extends PFAHandler {
             return false;
         }
 
-        if ($this->is_mailbox_alias($this->username) ) {
+        if ($this->is_mailbox_alias($this->id) ) {
             $this->errormsg[] = 'This alias belongs to a mailbox and can\'t be deleted.'; # TODO: make translatable
             return false;
         }
 
-        $result = db_delete('alias', 'address', $this->username);
+        $result = db_delete('alias', 'address', $this->id);
         if( $result == 1 ) {
-            list(/*NULL*/,$domain) = explode('@', $this->username);
-            db_log ($domain, 'delete_alias', $this->username);
+            list(/*NULL*/,$domain) = explode('@', $this->id);
+            db_log ($domain, 'delete_alias', $this->id);
             return true;
         }
     }

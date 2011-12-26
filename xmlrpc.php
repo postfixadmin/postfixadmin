@@ -139,7 +139,8 @@ class AliasProxy {
      * @return array - array of aliases this user has. Array may be empty.
      */
     public function get() {
-        $ah = new AliasHandler($_SESSION['username']);
+        $ah = new AliasHandler();
+        $ah->init($_SESSION['username']);
         /* I see no point in returning special addresses to the user. */
         $ah->get(false);
         return $ah->result;
@@ -151,7 +152,8 @@ class AliasProxy {
      * @return boolean true
      */
     public function update($addresses, $flags) {
-        $ah = new AliasHandler($_SESSION['username']);
+        $ah = new AliasHandler();
+        $ah->init($_SESSION['username']);
         /**
          * if the user is on vacation, they should use VacationProxy stuff to remove it 
          * and we'll never return the vacation address from here anyway
@@ -164,7 +166,8 @@ class AliasProxy {
      * (i.e. their email address is also in the alias table). IF it returns false, then it's 'remote_only'
      */
     public function hasStoreAndForward() {
-        $ah = new AliasHandler($_SESSION['username']);
+        $ah = new AliasHandler();
+        $ah->init($_SESSION['username']);
         return $ah->hasStoreAndForward();
     }
 }

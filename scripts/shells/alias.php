@@ -103,7 +103,8 @@ class AddTask extends Shell {
  */
         function __handle($address, $goto) {
                 
-                $handler =  new AliasHandler($address);
+                $handler =  new AliasHandler(1);
+                $handler->init($address);
                 $return = $handler->add($goto);
 
                 if($return == 1) {
@@ -227,7 +228,8 @@ class DeleteTask extends Shell {
 ### (and will probably cause some error messages that I added today ;-)
 
 ### Implemented check it please!
-                $handler =  new AliasHandler($address);
+                $handler =  new AliasHandler();
+                $handler->init($address);
                 $status = $handler->delete();
                 if ($status == true) {
                       $this->out("Mailbox of '$address' was deleted.");
@@ -296,7 +298,8 @@ class ViewTask extends Shell {
         function __handle($address) {
 
 
-                $handler =  new AliasHandler($address);
+                $handler =  new AliasHandler();
+                $handler->init($address);
                 $status = $handler->get(); # TODO: set the "all" flag?
                 if ( ! $status) {
                     $this->error("Error: Not Found", "The requested alias was not found!");
@@ -343,3 +346,5 @@ class ViewTask extends Shell {
         }
 
 }
+
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
