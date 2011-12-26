@@ -14,6 +14,11 @@
  * 
  * File: edit.php
  * This file implements the handling of edit forms.
+ *
+ * GET parameters:
+ *      table   what to edit (*Handler)
+ *      edit    item to edit
+ *      active  only change active state to given value (which must be 0 or 1) and return to listview
  */
 
 require_once('common.php');
@@ -34,6 +39,8 @@ $edit = safepost('edit', safeget('edit'));
 $new  = 0;
 if ($edit == "") $new = 1;
 
+$active = safeget('active');
+
 $handler     = new $handlerclass($new, $username);
 
 $formconf = $handler->webformConfig();
@@ -43,8 +50,11 @@ authentication_require_role($formconf['required_role']);
 $form_fields = $handler->getStruct();
 $id_field    = $handler->getId_field();
 
+if ($active != '0' && $active != '1') {
+    $active = ''; # ignore invalid values
+}
 
-if ($edit != "" || $formconf['early_init']) {
+if ($edit != '' || $active != '' || $formconf['early_init']) {
     if (!$handler->init($edit)) {
         flash_error(join("<br />", $handler->errormsg));
         header ("Location: " . $formconf['listview']);
@@ -54,7 +64,7 @@ if ($edit != "" || $formconf['early_init']) {
 
 if ($edit != "") {
     $mode = 'edit';
-    if ($_SERVER['REQUEST_METHOD'] == "GET") { # read values from database
+    if ($_SERVER['REQUEST_METHOD'] == "GET" && $active == '') { # read values from database (except if $active is set to save some CPU cycles)
         if (!$handler->view()) {
             flash_error(join("<br />", $handler->errormsg));
             header ("Location: " . $formconf['listview']);
@@ -80,7 +90,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
+}
 
+if ($active != '') {
+    $values['active'] = $active;
+}
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" || $active != '') {
     if ($edit != "") $values[$id_field] = $edit;
 
     if (!$handler->init($values[$id_field])) {
