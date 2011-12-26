@@ -189,6 +189,13 @@ class PFAHandler {
         return $result;
     }
 
+    /**
+     * called by $this->store() after storing $this->values in the database
+     * can be used to update additional tables, call scripts etc.
+     */
+    protected function storemore() {
+        return true; # do nothing, successfully ;-)
+    }
 
 
     /**

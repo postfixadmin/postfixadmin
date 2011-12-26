@@ -100,13 +100,6 @@ class AliasdomainHandler extends PFAHandler {
        return true; # alias_domain is enum, so we don't need to check its syntax etc.
    }
 
-    /**
-     * called by $this->store() after storing $this->values in the database
-     * can be used to update additional tables, call scripts etc.
-     */
-    protected function storemore() {
-        return true; # do nothing, successfully ;-)
-    }
 
     /**
      *  @return true on success false on failure
