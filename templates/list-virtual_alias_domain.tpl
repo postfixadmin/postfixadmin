@@ -30,7 +30,7 @@
 					{/if}
 					{if $item.target_domain != $fDomain}</a>{/if}</td>
 				<td>{$item.modified}</td>
-				<td><a href="{#url_edit_active#}?alias_domain=true&amp;domain={$item.alias_domain|escape:"url"}&amp;return={$smarty.config.url_list_virtual|escape:"url"}?domain={$fDomain|escape:"url"}&amp;limit={$current_limit|escape:"url"}">{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
+				<td><a href="{#url_create_alias_domain#}&amp;edit={$item.alias_domain|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}">{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
 				<td><a href="{#url_create_alias_domain#}&amp;edit={$item.alias_domain|escape:"url"}">{$PALANG.edit}</a></td>
 				<td><a href="{#url_delete#}?table=alias_domain&amp;delete={$item.alias_domain|escape:"url"}&amp;domain={$item.alias_domain|escape:"url"}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.pOverview_get_alias_domains}: {$item.alias_domain}');">{$PALANG.del}</a></td>
 				</tr>
