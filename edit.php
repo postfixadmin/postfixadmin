@@ -85,6 +85,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         } else {
             if($field['type'] == 'bool') {
                 $values[$key] = safepost($key, 0); # isset() for unchecked checkboxes is always false
+            } elseif($field['type'] == 'txtl') {
+                $values[$key] = safepost($key);
+                $values[$key] = preg_replace ('/\\\r\\\n/', ',', $values[$key]);
+                $values[$key] = preg_replace ('/\r\n/',     ',', $values[$key]);
+                $values[$key] = preg_replace ('/,[\s]+/i',  ',', $values[$key]); 
+                $values[$key] = preg_replace ('/[\s]+,/i',  ',', $values[$key]); 
+                $values[$key] = preg_replace ('/,,*/',      ',', $values[$key]);
+                $values[$key] = preg_replace ('/,*$|^,*/',  '',  $values[$key]);
+                if ($values[$key] == '') {
+                    $values[$key] = array();
+                } else {
+                    $values[$key] = explode(",", $values[$key]);
+                }
             } else {
                 $values[$key] = safepost($key);
             }
@@ -98,6 +111,10 @@ if ($active != '') {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST" || $active != '') {
     if ($edit != "") $values[$id_field] = $edit;
+
+    if ($new && ($form_fields[$id_field]['display_in_form'] == 0) && ($form_fields[$id_field]['editable'] == 1) ) { # address split to localpart and domain?
+        $values[$id_field] = $handler->mergeId($values);
+    }
 
     if (!$handler->init($values[$id_field])) {
         $error = 1;

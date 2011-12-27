@@ -30,6 +30,7 @@ class AdminHandler extends PFAHandler {
         # text  one line of text
         # pass  password (will be encrypted with pacrypt())
         # num   number
+        # txtl  text "list" - array of one line texts
         # vnum  "virtual" number, coming from JOINs etc.
         # bool  boolean (converted to 0/1, additional column _$field with yes/no)
         # ts    timestamp (created/modified)

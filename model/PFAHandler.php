@@ -138,10 +138,21 @@ class PFAHandler {
             }
         }
 
+        $this->setmore($values);
+
         if (count($this->errormsg) == 0) {
             $this->values_valid = true;
         }
         return $this->values_valid;
+    }
+
+    /**
+     * set more values
+     * can be used to update additional columns etc.
+     * hint: modify $this->values and $this->errormsg directly as needed
+     */
+    protected function setmore($values) {
+        # do nothing
     }
 
     /**

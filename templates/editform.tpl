@@ -39,6 +39,9 @@
 -->
 					{elseif $field.type == 'pass'}
 						<input class="flat" type="password" name="{$key}" />
+					{elseif $field.type == 'txtl'}
+						<textarea class="flat" rows="10" cols="35" name="{$key}">{foreach key=key2 item=field2 from=$value_{$key}}{$field2}
+{/foreach}</textarea>
 					{else}
 						<input class="flat" type="text" name="{$key}" value="{$value_{$key}}" />
 					{/if}

@@ -8,7 +8,7 @@
  */
 class AliasHandler extends PFAHandler {
 
-    private $username = null;
+    protected $domain_field = 'domain';
     
     /**
      *
@@ -21,14 +21,22 @@ class AliasHandler extends PFAHandler {
         $this->id_field = 'address';
 
         $this->struct=array(
-            # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
+            # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / ...
             #                           editing?    form    list
-            'address'       => pacol(   $this->new, 1,      1,      'mail', 'pCreate_alias_domain_alias'    , 'pCreate_alias_domain_alias_text'             ),
-            'goto'          => pacol(   1,          1,      1,      'mail', 'pCreate_alias_domain_target'   , 'pCreate_alias_domain_target_text'            ),
-            'domain'        => pacol(   $this->new, 0,      0,      'text', ''                              , ''                                            ),
-            'active'        => pacol(   1,          1,      1,      'bool', 'pAdminEdit_domain_active'      , ''                                 , 1        ),
-            'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                            ),
-            'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                            ),
+            'address'       => pacol(   $this->new, 1,      1,      'mail', 'pEdit_alias_address'           , 'pCreate_alias_catchall_text'     ),
+            'localpart'     => pacol(   $this->new, 0,      0,      'text', 'pEdit_alias_address'           , 'pCreate_alias_catchall_text'     , '', 
+                /*options*/ '', 
+                /*not_in_db*/ 1                         ),
+            'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 
+                /*options*/ $this->allowed_domains      ),
+            'goto'          => pacol(   1,          1,      1,      'txtl', 'pEdit_alias_goto'              , 'pEdit_alias_help'                ),
+# target (forwardings)
+# is_mailbox (alias belongs to mailbox)
+# mailbox_target (is_mailbox and mailbox is (part of the) target
+# vacation (active? 0/1)
+            'active'        => pacol(   1,          1,      1,      'bool', 'pAdminEdit_domain_active'      , ''                                , 1     ),
+            'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                ),
+            'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                ),
         );
     }
 
@@ -45,6 +53,97 @@ class AliasHandler extends PFAHandler {
     }
 
 
+    public function webformConfig() {
+        if ($this->new) { # the webform will display a localpart field + domain dropdown on $new
+            $this->struct['address']['display_in_form'] = 0;
+            $this->struct['localpart']['display_in_form'] = 1;
+            $this->struct['domain']['display_in_form'] = 1;
+        }
+
+        return array(
+            # $PALANG labels
+            'formtitle_create'  => 'pCreate_alias_welcome',
+            'formtitle_edit'    => 'pEdit_alias_welcome',
+            'create_button'     => 'pCreate_alias_button',
+            'successmessage'    => 'pCreate_alias_result_success', # TODO: better message for edit
+
+            # various settings
+            'required_role' => 'admin',
+            'listview' => 'list-virtual.php',
+            'early_init' => 0,
+        );
+    }
+
+   protected function validate_new_id() {
+       $valid = check_email($this->id); # TODO: check_email should return error message instead of using flash_error itsself
+       # TODO: handle catchall (input: *@domain, write to db: @domain (without *)
+       return $valid;
+   }
+
+   /**
+    * merge localpart and domain to address
+    * called by edit.php (if id_field is editable and hidden in editform) _before_ ->init
+    */
+    public function mergeId($values) {
+        if ($this->struct['localpart']['display_in_form'] == 1 && $this->struct['domain']['display_in_form']) { # webform mode - combine to 'address' field
+            if (empty($values['localpart']) || empty($values['domain']) ) { # localpart or domain not set
+                return "";
+            }
+            if ($values['localpart'] == '*') $values['localpart'] = ''; # catchall
+            error_log("merged to: " . $values['localpart'] . '@' . $values['domain']);
+            return $values['localpart'] . '@' . $values['domain'];
+        } else {
+            return $values[$this->id_field];
+        }
+    }
+
+    protected function setmore($values) {
+        if ($this->new) {
+            if ($this->struct['address']['display_in_form'] == 1) { # default mode - split off 'domain' field from 'address' # TODO: do this unconditional?
+                list(/*NULL*/,$domain) = explode('@', $values['address']);
+                $this->values['domain'] = $domain;
+            }
+        }
+
+        $this->values['goto'] = join(',', $values['goto']); # TODO: add mailbox and vacation aliases
+    }
+
+    protected function read_from_db_postprocess($db_result) {                                                                                                                   
+        foreach ($db_result as $key => $value) {
+            $db_result[$key]['goto'] = explode(',', $db_result[$key]['goto']);
+        } 
+#print_r($db_result); exit;
+        return $db_result;
+    }
+
+/* delete is already implemented in the "old functions" section
+    public function delete() {
+        $this->errormsg[] = '*** Alias domain deletion not implemented yet ***';
+        return false; # XXX function aborts here until TODO below is implemented! XXX
+        # TODO: move the needed code from delete.php here
+    }
+*/
+
+    protected function _field_goto($field, $val) {
+        if (count($val) == 0) {
+            # TODO: empty is ok for mailboxes - mailbox alias is in a separate field
+            $this->errormsg[$field] = 'empty goto'; # TODO: better error message
+            return false;
+        }
+        
+        foreach ($val as $singlegoto) {
+            if (!check_email($singlegoto)) {
+                $this->errormsg[$field] .= "invalid: $singlegoto   "; # TODO: better error message
+            }
+        }
+
+        return false;
+    }
+
+/**********************************************************************************************************************************************************
+  old function from non-PFAHandler times of AliasHandler
+  They still work, but are deprecated and will be removed.
+ **********************************************************************************************************************************************************/
 
     /**
      * @return bool true if succeed
@@ -227,7 +326,7 @@ class AliasHandler extends PFAHandler {
     /**
      * @return boolean true if the user has an alias record (i.e row in alias table); else false.
      */
-    public function hasAliasRecord() {
+    private function hasAliasRecord() { # only used by update() in this class
         $username = escape_string($this->id);
         $table_alias = table_by_key('alias');
         $sql = "SELECT * FROM $table_alias WHERE address = '$username'";
