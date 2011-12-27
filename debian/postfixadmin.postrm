@@ -11,7 +11,9 @@ if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
 			servers="$RET"
 			restart=$servers
 			linkname="postfixadmin"
-			. /usr/share/wwwconfig-common/restart.sh
+			if [ -e /usr/share/wwwconfig-common/restart.sh ]; then
+				. /usr/share/wwwconfig-common/restart.sh
+			fi
 		fi
 		
 		if [ -f /usr/share/dbconfig-common/dpkg/postrm ]; then
