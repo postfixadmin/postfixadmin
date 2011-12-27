@@ -4,6 +4,10 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+export PFADIR 		= $(shell pwd)
+export VERSION 		= $(shell grep -E "version = '.*';" functions.inc.php |sed -e "s/.version = '//" |sed -e "s/';.*//" |sed -e "s/ /-/g")
+export DEBVERSION	= $(shell grep -E "postfixadmin .([0-9]+|\.)+" debian/changelog |head -1 |sed -e "s/postfixadmin .//" |sed -e "s/-.*//")
+
 include /usr/share/quilt/quilt.make
 
 build: build-arch build-indep
@@ -14,6 +18,15 @@ build-stamp: $(QUILT_STAMPFN)
 	#dh_testroot
 	touch build-stamp
 
+# Create a needed tar.gz file to build a non-nativ .dpkg
+prep:
+	rm -f ../postfixadmin_*orig.tar.gz
+	cd ..; tar --exclude-vcs --exclude=postfixadmin/debian  --exclude=postfixadmin/.pc -czf postfixadmin_${DEBVERSION}.orig.tar.gz postfixadmin
+
+# Call this target to build a shiny new .dpkg file.
+build-package: prep
+	dh_testdir
+	cd ${PFADIR}; dpkg-buildpackage -rfakeroot
 
 clean: unpatch
 	dh_testdir
