@@ -1099,6 +1099,7 @@ function pacrypt ($pw, $pw_db="") {
     // See https://sourceforge.net/tracker/?func=detail&atid=937966&aid=1793352&group_id=191583
     // this is apparently useful for pam_mysql etc.
     elseif ($CONF['encrypt'] == 'mysql_encrypt') {
+        $pw = escape_string($pw);
         if ($pw_db!="") {
             $salt=substr($pw_db,0,2);
             $res=db_query("SELECT ENCRYPT('".$pw."','".$salt."');");
