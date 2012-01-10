@@ -13,6 +13,14 @@
 SVN changes since 2.3.4 release (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
 
+  - fix SQL injection in pacrypt() (if $CONF[encrypt] == 'mysql_encrypt')
+  - fix SQL injection in backup.php - the dump was not mysql_escape()d, 
+    therefore users could inject SQL (for example in the vacation message)
+    which will be executed when restoring the database dump.
+    WARNING: database dumps created with backup.php from 2.3.4 or older might
+             contain malicious SQL. Double-check before using them!
+  - fix XSS with $_GET[domain] in templates/menu.php and edit-vacation
+  - fix XSS in some create-domain input fields
   - create-domain: fix SQL injection (only exploitable by superadmins)
   - add missing $LANG['pAdminDelete_admin_error']
   - don't mark mailbox targets with recipient delimiter as "forward only"
