@@ -61,7 +61,7 @@ $vacation_domain = $CONF['vacation_domain'];
 $vacation_goto = preg_replace('/@/', '#', $fUsername);
 $vacation_goto = $vacation_goto . '@' . $vacation_domain;
 
-$fCanceltarget = $CONF['postfix_admin_url'] . "/list-virtual.php?domain=$fDomain";
+$fCanceltarget = $CONF['postfix_admin_url'] . "/list-virtual.php?domain=" . urlencode($fDomain);
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
