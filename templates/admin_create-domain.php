@@ -7,12 +7,12 @@
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminCreate_domain_domain'] . ":"; ?></td>
-      <td><input class="flat" type="text" name="fDomain" value="<?php print $tDomain; ?>" /></td>
+      <td><input class="flat" type="text" name="fDomain" value="<?php print htmlentities($tDomain); ?>" /></td>
       <td><?php print $pAdminCreate_domain_domain_text; ?></td>
    </tr>
    <tr>
       <td><?php print $PALANG['pAdminCreate_domain_description'] . ":"; ?></td>
-      <td><input class="flat" type="text" name="fDescription" value="<?php print $tDescription; ?>" /></td>
+      <td><input class="flat" type="text" name="fDescription" value="<?php print htmlentities($tDescription); ?>" /></td>
       <td>&nbsp;</td>
    </tr>
    <tr>
