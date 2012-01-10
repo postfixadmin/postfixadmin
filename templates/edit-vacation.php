@@ -2,8 +2,7 @@
 <script type="text/javascript">
 function newLocation()
 {
-window.location="<?php print $fCanceltarget; ?>"
-
+    window.location= "<?php echo urlencode($fCanceltarget); ?>"
 }
 </script>
 <div id="edit_form">
