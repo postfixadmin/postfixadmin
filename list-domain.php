@@ -37,7 +37,7 @@ if (authentication_has_role('global-admin')) { # more permissions? Fine!
 }
 
 $handler = new DomainHandler(0, $admin_username);
-if ($handler->getList()) {
+if ($handler->getList('1=1')) {
    $domain_properties = $handler->result();
 } else {
    $domain_properties = array();
