@@ -577,29 +577,6 @@ function get_mailbox_properties ($username) {
 
 
 //
-// check_alias
-// Action: Checks if the domain is still able to create aliases.
-// Call: check_alias (string domain)
-//
-function check_alias ($domain) {
-    $limit = get_domain_properties ($domain);
-    if ($limit['aliases'] == 0) {
-        # 0 = unlimited, -1 = disabled
-        return true;
-    }
-    if ($limit['aliases'] < 0) {
-        return false;
-    }
-    if ($limit['alias_count'] >= $limit['aliases']) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-
-
-//
 // check_mailbox
 // Action: Checks if the domain is still able to create mailboxes.
 // Call: check_mailbox (string domain)

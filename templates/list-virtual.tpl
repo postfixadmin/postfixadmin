@@ -45,7 +45,7 @@
 	</table>
 	{$nav_bar_alias.bottom}
 	{if $tCanAddAlias}
-		<br /><a href="create-alias.php?domain={$fDomain|escape:"url"}" class="button">{$PALANG.pMenu_create_alias}</a><br />
+		<br /><a href="{#url_create_alias#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.pMenu_create_alias}</a><br />
 	{/if}
 {/if}
 {if $tab=='all'}<br />{/if}
