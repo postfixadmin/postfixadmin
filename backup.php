@@ -123,11 +123,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
          {
             while ($row = db_assoc ($result['result']))
             {
-               foreach ($row as $key=>$val)
-               {
-                  $fields[] = $key;
-                  $values[] = $val;
-               }
+                $fields = array_keys($row);
+                $values = array_values($row);
+                $values = array_map('escape_string', $values);
 
                fwrite ($fh, "INSERT INTO ". $tables[$i] . " (". implode (',',$fields) . ") VALUES ('" . implode ('\',\'',$values) . "');\n");
                $fields = "";
