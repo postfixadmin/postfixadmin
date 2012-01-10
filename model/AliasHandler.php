@@ -74,11 +74,57 @@ class AliasHandler extends PFAHandler {
         );
     }
 
-   protected function validate_new_id() {
-       $valid = check_email($this->id); # TODO: check_email should return error message instead of using flash_error itsself
-       # TODO: handle catchall (input: *@domain, write to db: @domain (without *)
-       return $valid;
-   }
+
+    public function init($id) {
+        @list($local_part,$domain) = explode ('@', $id); # supress error message if $id doesn't contain '@'
+
+        if ($local_part == '*') { # catchall - postfix expects '@domain', not '*@domain'
+            $id = '@' . $domain;
+        }
+
+        return parent::init($id);
+    }
+
+    protected function validate_new_id() {
+        if ($this->id == '') {
+            $this->errormsg[] = Lang::read('pCreate_alias_address_text_error1');
+            return false;
+        }
+
+        list($local_part,$domain) = explode ('@', $this->id);
+
+        if(!$this->create_allowed($domain)) {
+            $this->errormsg[] = Lang::read('pCreate_alias_address_text_error3');
+            return false;
+        }
+ 
+        # TODO: already checked in set() - does it make sense to check it here also? Only advantage: it's an early check
+#        if (!in_array($domain, $this->allowed_domains)) { 
+#            $this->errormsg[] = Lang::read('pCreate_alias_address_text_error1');
+#            return false;
+#        }
+
+        if ($local_part == '') { # catchall
+            $valid = true;
+        } else {
+            $valid = check_email($this->id); # TODO: check_email should return error message instead of using flash_error itsself
+        }
+
+        return $valid;
+    }
+
+    /**
+     * check number of existing aliases for this domain - is one more allowed?
+     */
+    private function create_allowed($domain) {
+        $limit = get_domain_properties ($domain);
+
+        if ($limit['aliases'] == 0) return true; # unlimited
+        if ($limit['aliases'] < 0) return false; # disabled
+        if ($limit['alias_count'] >= $limit['aliases']) return false;
+        return true;
+    }
+
 
    /**
     * merge localpart and domain to address
@@ -90,7 +136,6 @@ class AliasHandler extends PFAHandler {
                 return "";
             }
             if ($values['localpart'] == '*') $values['localpart'] = ''; # catchall
-            error_log("merged to: " . $values['localpart'] . '@' . $values['domain']);
             return $values['localpart'] . '@' . $values['domain'];
         } else {
             return $values[$this->id_field];
@@ -130,14 +175,28 @@ class AliasHandler extends PFAHandler {
             $this->errormsg[$field] = 'empty goto'; # TODO: better error message
             return false;
         }
-        
+
+        $errors = array();
+
         foreach ($val as $singlegoto) {
-            if (!check_email($singlegoto)) {
-                $this->errormsg[$field] .= "invalid: $singlegoto   "; # TODO: better error message
+            if (substr($singlegoto, 0, 1) == '@') { # domain-wide forward - check only the domain part
+                # Note: alias domains are better, but we should keep this way supported for backward compatibility
+                #       and because alias domains can't forward to external domains
+                list (/*NULL*/, $domain) = explode('@', $singlegoto);
+                if (!check_domain($domain)) {
+                     $errors[] = "invalid: $singlegoto"; # TODO: better error message
+                }
+            } elseif (!check_email($singlegoto)) {
+                $errors[] = "invalid: $singlegoto"; # TODO: better error message
             }
         }
 
-        return false;
+        if (count($errors)) {
+            $this->errormsg[$field] = join("   ", $errors);
+            return false;
+        } else {
+            return true;
+        }
     }
 
 /**********************************************************************************************************************************************************
