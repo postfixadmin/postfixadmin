@@ -24,6 +24,7 @@ SVN changes since 2.3.4 release (postfixadmin-2.3 branch)
   - create-domain: fix SQL injection (only exploitable by superadmins)
   - add missing $LANG['pAdminDelete_admin_error']
   - don't mark mailbox targets with recipient delimiter as "forward only"
+  - wrap hex2bin with function_exists() - PHP 5.3.8 has it as native function
 
 Version 2.3.4 - 2011/09/16 - SVN r1180 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------

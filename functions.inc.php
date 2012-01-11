@@ -1356,6 +1356,7 @@ function create_salt ()
     return $salt;
 }
 
+/**/ if (!function_exists('hex2bin')) { # PHP around 5.3.8 includes hex2bin as native function - http://php.net/hex2bin
 function hex2bin ($str)
 {
     $len = strlen ($str);
@@ -1367,6 +1368,7 @@ function hex2bin ($str)
     }
     return $nstr;
 }
+/**/ }
 
 function to64 ($v, $n)
 {
