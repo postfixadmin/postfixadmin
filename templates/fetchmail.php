@@ -41,7 +41,7 @@ if ($edit || $new) { # edit mode
             list($editible,$view,$type)=$fm_struct[$key];
             if ($view){
                $func="_listview_".$type;
-               print "      <td nowrap>" . (function_exists($func)?$func($val):$val) . "</td>\n";
+               print "      <td nowrap>" . htmlentities(function_exists($func)?$func($val):$val) . "</td>\n";
             }
 
          }

@@ -21,6 +21,9 @@ SVN changes since 2.3.4 release (postfixadmin-2.3 branch)
              contain malicious SQL. Double-check before using them!
   - fix XSS with $_GET[domain] in templates/menu.php and edit-vacation
   - fix XSS in some create-domain input fields
+  - fix XSS in create-alias and edit-alias error message
+  - fix XSS (by values stored in the database) in fetchmail list view,
+    list-domain and list-virtual
   - create-domain: fix SQL injection (only exploitable by superadmins)
   - add missing $LANG['pAdminDelete_admin_error']
   - don't mark mailbox targets with recipient delimiter as "forward only"

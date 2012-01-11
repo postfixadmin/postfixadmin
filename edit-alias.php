@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $error = 1;
             $tGoto = $goto;
             if (!empty($tMessage)) $tMessage .= "<br />";
-            $tMessage .= $PALANG['pEdit_alias_goto_text_error2'] . "$address</span>";
+            $tMessage .= $PALANG['pEdit_alias_goto_text_error2'] . htmlentities($address) . "</span>"; 
         }
     }
 
