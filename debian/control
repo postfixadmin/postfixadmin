@@ -3,14 +3,13 @@ Section: admin
 Priority: optional
 Maintainer: Norman Messtorff <normes@normes.org>
 Build-Depends: debhelper (>= 7), po-debconf, quilt (>= 0.46)
-Standards-Version: 3.8.4
+Standards-Version: 3.9.2
 Homepage: http://postfixadmin.sourceforge.net
-XS-Vcs-Svn: https://postfixadmin.svn.sourceforge.net/svnroot/postfixadmin/trunk
 
 Package: postfixadmin
 Architecture: all
 Depends: debconf (>= 0.5), dbconfig-common, wwwconfig-common, apache2 | lighttpd | httpd, libapache2-mod-php5 | php5-cgi | php5, php5-imap, php5-mysql | php5-pgsql, mysql-client | postgresql-client, ${misc:Depends}
-Recommends: postfix-mysql | postfix-pgsql, mysql-server | postgresql-server
+Recommends: postfix-mysql | postfix-pgsql, mysql-server | postgresql-server | postgresql
 Suggests: squirrelmail-postfixadmin, dovecot-common | courier-authlib-mysql | courier-authlib-postgresql
 Description: Virtual mail hosting interface for Postfix
  Postfixadmin is a web interface to managing virtual users and domains
