@@ -1191,7 +1191,7 @@ function pacrypt ($pw, $pw_db="")
     {
         $pw = escape_string($pw);
         if ($pw_db!="") {
-            $salt=substr($pw_db,0,2);
+            $salt=escape_string(substr($pw_db,0,2));
             $res=db_query("SELECT ENCRYPT('".$pw."','".$salt."');");
         } else {
             $res=db_query("SELECT ENCRYPT('".$pw."');");
