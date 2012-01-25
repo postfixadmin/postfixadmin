@@ -21,7 +21,7 @@ build-stamp: $(QUILT_STAMPFN)
 # Create a needed tar.gz file to build a non-nativ .dpkg
 prep:
 	rm -f ../postfixadmin_*orig.tar.gz
-	cd ..; tar --exclude-vcs --exclude=*.svn* --exclude=postfixadmin/debian  --exclude=postfixadmin/.pc -czf postfixadmin_${DEBVERSION}.orig.tar.gz postfixadmin-2.3
+	cd ..; tar --exclude-vcs --exclude=*.svn* --exclude=postfixadmin/debian  --exclude=postfixadmin/.pc -czf postfixadmin_${DEBVERSION}.orig.tar.gz postfixadmin-${DEBVERSION}
 
 # Call this target to build a shiny new .dpkg file.
 build-package: 
