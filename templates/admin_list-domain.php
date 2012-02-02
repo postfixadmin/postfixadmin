@@ -50,7 +50,7 @@ if (sizeof ($domain_properties) > 0)
       {
          print "   <tr class=\"hilightoff\" onMouseOver=\"className='hilighton';\" onMouseOut=\"className='hilightoff';\">\n";
          print "<td><a href=\"list-virtual.php?domain=" . $domain_properties[$i]['domain'] . "\">" . $domain_properties[$i]['domain'] . "</a></td>";
-         print "<td>" . htmlentities($domain_properties[$i]['description']) . "</td>";
+         print "<td>" . htmlentities($domain_properties[$i]['description'], ENT_QUOTES, 'UTF-8') . "</td>";
          print "<td>" . $domain_properties[$i]['alias_count'] . " / " . $domain_properties[$i]['aliases'] . "</td>";
          print "<td>" . $domain_properties[$i]['mailbox_count'] . " / " . $domain_properties[$i]['mailboxes'] . "</td>";
          if ($CONF['quota'] == 'YES')

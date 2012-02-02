@@ -314,7 +314,7 @@ if (sizeof ($tMailbox) > 0) {
          }
 
 
-         print "      <td>" . htmlentities($tMailbox[$i]['name']) . "</td>\n";
+         print "      <td>" . htmlentities($tMailbox[$i]['name'], ENT_QUOTES, 'UTF-8') . "</td>\n";
          if ($CONF['quota'] == 'YES')
          {
             print "      <td>";
