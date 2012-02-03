@@ -30,6 +30,10 @@ class AliasHandler extends PFAHandler {
             'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 
                 /*options*/ $this->allowed_domains      ),
             'goto'          => pacol(   1,          1,      1,      'txtl', 'pEdit_alias_goto'              , 'pEdit_alias_help'                ),
+            'on_vacation'   => pacol(   1,          0,      1,      'bool', ''                              , ''                                , 0 ,
+                /*options*/ '', 
+                /*not_in_db*/ 1                         ),
+
 # target (forwardings)
 # is_mailbox (alias belongs to mailbox)
 # mailbox_target (is_mailbox and mailbox is (part of the) target
@@ -153,10 +157,15 @@ class AliasHandler extends PFAHandler {
         $this->values['goto'] = join(',', $values['goto']); # TODO: add mailbox and vacation aliases
     }
 
-    protected function read_from_db_postprocess($db_result) {                                                                                                                   
+    protected function read_from_db_postprocess($db_result) {
         foreach ($db_result as $key => $value) {
             $db_result[$key]['goto'] = explode(',', $db_result[$key]['goto']);
-        } 
+
+            $vh = new VacationHandler($this->id);
+            $vacation_alias = $vh->getVacationAlias(); # TODO: move getVacationAlias to functions.inc.php to avoid the need
+                                                       # for lots of VacationHandler instances (performance)?
+            list($db_result[$key]['on_vacation'], $db_result[$key]['goto']) = remove_from_array($db_result[$key]['goto'], $vacation_alias);
+        }
 #print_r($db_result); exit;
         return $db_result;
     }
