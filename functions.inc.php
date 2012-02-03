@@ -1262,6 +1262,23 @@ function hex2bin ($str) {
     }
     return $nstr;
 }
+
+/*
+ * remove item $item from array $array
+ */
+function remove_from_array($array, $item) {
+    # array_diff might be faster, but doesn't provide an easy way to know if the value was found or not
+    # return array_diff($array, array($item));
+    $ret = array_search($item, $array);
+    if ($ret === false) {
+        $found = 0;
+    } else {
+        $found = 1;
+        unset ($array[$ret]);
+    }
+    return array($found, $array);
+}
+
 /**/ }
 
 function to64 ($v, $n) {
