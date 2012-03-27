@@ -146,7 +146,7 @@ function _do_upgrade($current_version) {
         return true;
     }
 
-    echo "<p>Updating database:</p><p>- old version: $current_version; target version: $target_version</p>";
+    echo "<p>Updating database:</p><p>- old version: $current_version; target version: $target_version</p>\n";
     echo "<div style='color:#999'>&nbsp;&nbsp;(If the update doesn't work, run setup.php?debug=1 to see the detailed error messages and SQL queries.)</div>";
 
     for ($i = $current_version +1; $i <= $target_version; $i++) {
