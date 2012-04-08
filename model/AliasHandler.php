@@ -30,14 +30,24 @@ class AliasHandler extends PFAHandler {
             'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 
                 /*options*/ $this->allowed_domains      ),
             'goto'          => pacol(   1,          1,      1,      'txtl', 'pEdit_alias_goto'              , 'pEdit_alias_help'                ),
-            'on_vacation'   => pacol(   1,          0,      1,      'bool', ''                              , ''                                , 0 ,
+            'is_mailbox'    => pacol(   0,          0,      1,      'int', ''                             , ''                                , 0 ,
+                # technically 'is_mailbox' is bool, but the automatic bool conversion breaks the query. Flagging it as int avoids this problem.
+                # Maybe having a vbool type (without the automatic conversion) would be cleaner - we'll see if we need it.
+                /*options*/ '',
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox',
+                /*extrafrom*/ 'LEFT JOIN ( ' .
+                    ' SELECT 1 as __is_mailbox, username as __mailbox_username ' .
+                    ' FROM ' . table_by_key('mailbox') .
+                    ' WHERE username IS NOT NULL ' .
+                    ' ) AS __mailbox ON __mailbox_username = address' ),
+            'goto_mailbox'  => pacol(   1,          1,      1,      'bool', 'pEdit_alias_forward_and_store' , ''                                , 0,
+                /*options*/ '',
+                /*not_in_db*/ 1                         ),
+            'on_vacation'   => pacol(   1,          0,      1,      'bool', 'pUsersMenu_vacation'           , ''                                , 0 ,
                 /*options*/ '', 
                 /*not_in_db*/ 1                         ),
-
-# target (forwardings)
-# is_mailbox (alias belongs to mailbox)
-# mailbox_target (is_mailbox and mailbox is (part of the) target
-# vacation (active? 0/1)
             'active'        => pacol(   1,          1,      1,      'bool', 'pAdminEdit_domain_active'      , ''                                , 1     ),
             'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                ),
@@ -164,7 +174,18 @@ class AliasHandler extends PFAHandler {
             $vh = new VacationHandler($this->id);
             $vacation_alias = $vh->getVacationAlias(); # TODO: move getVacationAlias to functions.inc.php to avoid the need
                                                        # for lots of VacationHandler instances (performance)?
+
+            # Vacation enabled?
             list($db_result[$key]['on_vacation'], $db_result[$key]['goto']) = remove_from_array($db_result[$key]['goto'], $vacation_alias);
+
+            # if it is a mailbox, does the alias point to the mailbox?
+            if ($db_result[$key]['is_mailbox']) {
+                # this intentionally does not catch mailbox targets with recipient delimiter.
+                # if it would, we would have to make goto_mailbox a text instead of a bool (which would annoy 99% of the users)
+                list($db_result[$key]['goto_mailbox'], $db_result[$key]['goto']) = remove_from_array($db_result[$key]['goto'], $key);
+            } else { # not a mailbox
+                $db_result[$key]['goto_mailbox'] = 0;
+            }
         }
 #print_r($db_result); exit;
         return $db_result;
