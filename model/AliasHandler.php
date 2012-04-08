@@ -109,6 +109,15 @@ class AliasHandler extends PFAHandler {
             $this->struct['goto_mailbox']['display_in_list'] = 0;
         }
 
+        if ( !$this->new && $this->return['is_mailbox'] && $this->admin_username != ''&& !authentication_has_role('global-admin') ) {
+            # domain admins are not allowed to change mailbox alias $CONF['alias_control_admin'] = NO
+            if (!boolconf('alias_control_admin')) {
+                # TODO: make translateable
+                $this->errormsg[] = "Domain administrators do not have the ability to edit user's aliases (check config.inc.php - alias_control_admin)";
+                return false;
+            }
+        }
+
         return $retval;
     }
 
