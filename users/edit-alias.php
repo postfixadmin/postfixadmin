@@ -34,9 +34,6 @@ $smarty->assign ('smarty_template', 'users_edit-alias');
 authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
 
-$tmp = preg_split ('/@/', $USERID_USERNAME);
-$USERID_DOMAIN = $tmp[1];
-
 $ah = new AliasHandler();
 $ah->init($USERID_USERNAME);
 
