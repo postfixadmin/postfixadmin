@@ -3,7 +3,7 @@
 	<tr>
 		<th colspan="6">{$PALANG.pOverview_alias_domain_title}</th>
 	</tr>
-	{if $tAliasDomains|@count>0 || $tTargetDomain|@count>1}
+	{if $tAliasDomains|@count>0}
 		{if $tAliasDomains|@count>0} {* -> HAT alias-domains *}
 			{#tr_header#}
 			<td>{$PALANG.pOverview_alias_address}</td>

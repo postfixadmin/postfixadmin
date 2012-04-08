@@ -33,7 +33,7 @@ require_once('common.php');
 authentication_require_role('admin');
 
 $fDomain = false;
-$SESSID_USERNAME = authentication_get_username();
+$admin_username = authentication_get_username();
 
 if (authentication_has_role('global-admin')) {
     $list_domains = list_domains ();
@@ -69,7 +69,7 @@ if (count($list_domains) == 0) {
 
 if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) {
     if (empty ($fDomain)) {
-        $fDomain = $list_domains[0];
+        $fDomain = escape_string($list_domains[0]);
     }
 }
 
@@ -95,35 +95,29 @@ if($fDomain) {
 # alias domain
 #
 
-# TODO: add search support for alias domains
-
 if (boolconf('alias_domain')) {
-    $modified_field = 'modified';
-    if ('pgsql'==$CONF['database_type']) { # TODO: do we really need the extract(epoch from modified) for pgsql? We ust gmstrftime anyway (see below)
-        $modified_field = 'extract(epoch from modified) as modified';
+    if ($search == "") {
+        $list_param = "alias_domain='$fDomain' OR target_domain='$fDomain'";
+    } else {
+        $list_param = "alias_domain LIKE '%$search%' OR target_domain LIKE '%$search%'";
     }
 
-    $query = "
-        SELECT alias_domain,target_domain,$modified_field,active FROM $table_alias_domain 
-        WHERE alias_domain='$fDomain' OR target_domain='$fDomain' 
-        ORDER BY alias_domain 
-        LIMIT $page_size OFFSET $fDisplay
-    ";
+    $handler = new AliasdomainHandler(0, $admin_username);
+    if ($handler->getList($list_param)) {
+        $tAliasDomains = $handler->result();
+    } else {
+        $tAliasDomains = array();
+        # TODO: check if there was an error or simply no alias domains
+    }
 
-    $result = db_query ($query);
-    $tAliasDomains = array();
     $can_create_alias_domain = 1;
-    if ($result['rows'] > 0) {
-        while ($row = db_array ($result['result'])) {
-            if ('pgsql'==$CONF['database_type']) {
-                $row['modified']=gmstrftime('%c %Z',$row['modified']);
-                $row['active']=('t'==$row['active']) ? 1 : 0;
-            }
-            $tAliasDomains[] = $row;
-            if ($row['target_domain'] == $fDomain) $can_create_alias_domain = 0;
-        }
-    } 
-    # TODO: set $can_create_alias_domain = 0; if all domains (of this admin) are already used as alias domains
+    foreach ($tAliasDomains as $row) {
+        if ($row['alias_domain'] == $fDomain) $can_create_alias_domain = 0; # domain is already an alias domain
+    }
+    # set $can_create_alias_domain = 0 if all domains (of this admin) are already used as alias domains
+    if ($handler->getList("1=1")) {
+        if ( count($handler->result()) + 1 >= count($list_domains) ) $can_create_alias_domain = 0; # all domains (of this admin) are already alias domains
+    }
 }
 
 #
@@ -303,7 +297,7 @@ $check_alias_owner = array ();
 if ((is_array ($tAlias) and sizeof ($tAlias) > 0))
     for ($i = 0; $i < sizeof ($tAlias); $i++) {
         $gen_show_status [$i] = gen_show_status($tAlias[$i]['address']);
-        $check_alias_owner [$i] = check_alias_owner($SESSID_USERNAME, $tAlias[$i]['address']);
+        $check_alias_owner [$i] = check_alias_owner($admin_username, $tAlias[$i]['address']);
     }
 
 $gen_show_status_mailbox = array ();
@@ -448,9 +442,7 @@ $smarty->assign ('tDisplay_up_show', $tDisplay_up_show);
 $smarty->assign ('tDisplay_next_show', $tDisplay_next_show);
 $smarty->assign ('tDisplay_next', $tDisplay_next);
 
-if(sizeof ($tAliasDomains) > 0)
-    $smarty->assign ('tAliasDomains', $tAliasDomains);
-
+$smarty->assign ('tAliasDomains', $tAliasDomains);
 $smarty->assign ('can_create_alias_domain', $can_create_alias_domain);
 $smarty->assign ('tAlias', $tAlias);
 $smarty->assign ('gen_show_status', $gen_show_status, false);
