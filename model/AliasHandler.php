@@ -244,6 +244,11 @@ class AliasHandler extends PFAHandler {
         return $db_result;
     }
 
+    public function getList($condition, $limit=-1, $offset=-1) {
+        # only list aliases that do not belong to mailboxes
+        return parent::getList( "__is_mailbox IS NULL AND ( $condition )", $limit, $offset);
+    }
+
 /* delete is already implemented in the "old functions" section
     public function delete() {
         $this->errormsg[] = '*** Alias domain deletion not implemented yet ***';

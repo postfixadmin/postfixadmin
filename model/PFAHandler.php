@@ -214,7 +214,7 @@ class PFAHandler {
      * @param array or string - condition (an array will be AND'ed using db_where_clause, a string will be directly used)
      * @return array - rows
      */
-    protected function read_from_db($condition) {
+    protected function read_from_db($condition, $limit=-1, $offset=-1) {
         $select_cols = array();
 
         $yes = escape_string(Lang::read('YES'));
@@ -266,6 +266,11 @@ class PFAHandler {
         }
 
         $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->id_field;
+
+        if ($limit > -1 && $offset > -1) {
+            $query .= " LIMIT $limit OFFSET $offset ";
+        }
+
         $result = db_query($query);
 
         $db_result = array();
@@ -309,8 +314,8 @@ class PFAHandler {
      * @return bool - true if at least one item was found
      * The data is stored in $this->return (as array of rows, each row is an associative array of column => value)
      */
-    public function getList($condition) {
-        $result = $this->read_from_db($condition);
+    public function getList($condition, $limit=-1, $offset=-1) {
+        $result = $this->read_from_db($condition, $limit, $offset);
         if (count($result) >= 1) {
             $this->return = $result;
             return true;
