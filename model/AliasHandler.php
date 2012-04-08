@@ -20,6 +20,8 @@ class AliasHandler extends PFAHandler {
         $this->db_table = 'alias';
         $this->id_field = 'address';
 
+        $mbgoto = 1 - $this->new;
+
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / ...
             #                           editing?    form    list
@@ -42,7 +44,7 @@ class AliasHandler extends PFAHandler {
                     ' FROM ' . table_by_key('mailbox') .
                     ' WHERE username IS NOT NULL ' .
                     ' ) AS __mailbox ON __mailbox_username = address' ),
-            'goto_mailbox'  => pacol(   1,          1,      1,      'bool', 'pEdit_alias_forward_and_store' , ''                                , 0,
+            'goto_mailbox'  => pacol(   $mbgoto,    $mbgoto,$mbgoto,'bool', 'pEdit_alias_forward_and_store' , ''                                , 0,
                 /*options*/ '',
                 /*not_in_db*/ 1                         ),
             'on_vacation'   => pacol(   1,          0,      1,      'bool', 'pUsersMenu_vacation'           , ''                                , 0 ,
@@ -96,7 +98,18 @@ class AliasHandler extends PFAHandler {
             $id = '@' . $domain;
         }
 
-        return parent::init($id);
+        $retval = parent::init($id);
+
+        # hide 'goto_mailbox' for non-mailbox aliases
+        # parent::init called view() before, so we can rely on having $this->return filled
+        # (only validate_new_id() is called from parent::init and could in theory change $this->return)
+        if ($this->new || $this->return['is_mailbox'] == 0) {
+            $this->struct['goto_mailbox']['editable']        = 0;
+            $this->struct['goto_mailbox']['display_in_form'] = 0;
+            $this->struct['goto_mailbox']['display_in_list'] = 0;
+        }
+
+        return $retval;
     }
 
     protected function validate_new_id() {
@@ -161,6 +174,32 @@ class AliasHandler extends PFAHandler {
             if ($this->struct['address']['display_in_form'] == 1) { # default mode - split off 'domain' field from 'address' # TODO: do this unconditional?
                 list(/*NULL*/,$domain) = explode('@', $values['address']);
                 $this->values['domain'] = $domain;
+            }
+        }
+
+        if (! $this->new) { # edit mode - preserve vacation and mailbox alias if they were included before
+            $old_ah = new AliasHandler();
+
+            if (!$old_ah->init($this->id)) {
+                $this->errormsg[] = $old_ah->errormsg[0];
+            } elseif (!$old_ah->view()) {
+                $this->errormsg[] = $old_ah->errormsg[0];
+            } else {
+                $oldvalues = $old_ah->result();
+                
+                if ($oldvalues['on_vacation']) { 
+                    $vh = new VacationHandler($this->id);
+                    $values['goto'][] = $vh->getVacationAlias();
+                }
+
+                if ($oldvalues['is_mailbox']) { # alias belongs to a mailbox - add/keep mailbox to/in goto
+                    if (!isset($values['goto_mailbox'])) { # no new value given?
+                        $values['goto_mailbox'] = $oldvalues['goto_mailbox'];
+                    }
+                    if ($values['goto_mailbox']) {
+                        $values['goto'][] = $this->id;
+                    }
+                }
             }
         }
 

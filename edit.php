@@ -47,9 +47,6 @@ $formconf = $handler->webformConfig();
 
 authentication_require_role($formconf['required_role']);
 
-$form_fields = $handler->getStruct();
-$id_field    = $handler->getId_field();
-
 if ($active != '0' && $active != '1') {
     $active = ''; # ignore invalid values
 }
@@ -61,6 +58,9 @@ if ($edit != '' || $active != '' || $formconf['early_init']) {
         exit;
     }
 }
+
+$form_fields = $handler->getStruct();
+$id_field    = $handler->getId_field();
 
 if ($edit != "") {
     $mode = 'edit';
