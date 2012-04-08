@@ -24,11 +24,15 @@
 			<td><i>sorry, alias_goto_limit > 0 not handled</i></td>
 		{else}
 			<td>
+				{foreach key=key2 item=singlegoto from=$item.goto}
+
 				{if $search eq ""}
-					{$item.goto|replace:",":"<br/>"}
+					{$singlegoto}<br />
 				{else}
-					{$item.goto|replace:",":"<br/>"|replace:$search:"<span class='searchresult'>$search</span>"}
+					{$singlegoto|replace:$search:"<span class='searchresult'>$search</span>"}<br />
 				{/if}
+
+				{/foreach}
 			</td>
 		{/if}
 		<td>{$item.modified}</td>

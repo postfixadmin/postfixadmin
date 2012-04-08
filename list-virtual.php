@@ -125,9 +125,13 @@ if (boolconf('alias_domain')) {
 #
 
 if ($search == "") {
+    $list_param = "domain='$fDomain'";
+    # sql_domain / sql_where only needed for pagebrowser
     $sql_domain = " $table_alias.domain='$fDomain' ";
     $sql_where  = "";
 } else {
+    $list_param = "(address LIKE '%$search%' OR goto LIKE '%$search%')";
+    # sql_domain / sql_where only needed for pagebrowser
     $sql_domain = db_in_clause("$table_alias.domain", $list_domains);
     $sql_where  = " AND ( address LIKE '%$search%' OR goto LIKE '%$search%' ) ";
 }
@@ -137,26 +141,22 @@ $alias_pagebrowser_query = "
     WHERE $sql_domain AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address) $sql_where
     ORDER BY address 
 ";
-
+/*
 $query = "
     SELECT address, goto, modified, active
     $alias_pagebrowser_query
     LIMIT $page_size OFFSET $fDisplay
 ";
+*/
 
-$result = db_query ($query);
-if ($result['rows'] > 0) {
-    while ($row = db_array ($result['result'])) {
-        if ('pgsql'==$CONF['database_type']) {
-            //. at least in my database, $row['modified'] already looks like : 2009-04-11 21:38:10.75586+01,
-            // while gmstrftime expects an integer value. strtotime seems happy though.
-            //$row['modified']=gmstrftime('%c %Z',$row['modified']);
-            $row['modified'] = date('Y-m-d H:i', strtotime($row['modified']));
-            $row['active']=('t'==$row['active']) ? 1 : 0;
-        }
-        $tAlias[] = $row;
-    }
+$handler = new AliasHandler(0, $admin_username);
+if ($handler->getList($list_param, $page_size, $fDisplay)) {
+    $tAlias = $handler->result();
+} else {
+    $tAlias= array();
+    # TODO: check if there was an error or simply no aliases
 }
+
 
 
 #
@@ -295,7 +295,7 @@ $gen_show_status = array ();
 $check_alias_owner = array ();
 
 if ((is_array ($tAlias) and sizeof ($tAlias) > 0))
-    for ($i = 0; $i < sizeof ($tAlias); $i++) {
+    foreach (array_keys($tAlias) as $i) {
         $gen_show_status [$i] = gen_show_status($tAlias[$i]['address']);
         $check_alias_owner [$i] = check_alias_owner($admin_username, $tAlias[$i]['address']);
     }
