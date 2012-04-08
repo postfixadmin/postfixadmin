@@ -207,6 +207,11 @@ class AliasHandler extends PFAHandler {
                     }
                     if ($values['goto_mailbox']) {
                         $values['goto'][] = $this->id;
+
+                        # if the alias points to the mailbox, don't display the "empty goto" error message
+                        if ($this->errormsg['goto'] == Lang::read('pEdit_alias_goto_text_error1') ) {
+                            unset($this->errormsg['goto']);
+                        }
                     }
                 }
             }
@@ -249,8 +254,8 @@ class AliasHandler extends PFAHandler {
 
     protected function _field_goto($field, $val) {
         if (count($val) == 0) {
-            # TODO: empty is ok for mailboxes - mailbox alias is in a separate field
-            $this->errormsg[$field] = 'empty goto'; # TODO: better error message
+            # empty is ok for mailboxes - this is checked in setmore() which can clear the error message
+            $this->errormsg[$field] = Lang::read('pEdit_alias_goto_text_error1');
             return false;
         }
 
