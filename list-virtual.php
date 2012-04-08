@@ -378,9 +378,11 @@ class cNav_bar
         for ($i = 0; $i < count ($this->pages); $i++)
         {
             $lPage = $this->pages [$i];
-            if ($i == $highlight_at)
-                $lPage = '<b>'.$lPage.'</b>';
-            $ret_val .= '<a href="?limit='.($i * $this->page_size).$this->search.$this->url.'">'.$lPage.'</a>'."\n";
+            if ($i == $highlight_at) {
+                $ret_val .= '<b>'.$lPage.'</b>'."\n";
+            } else {
+                $ret_val .= '<a href="?limit='.($i * $this->page_size).$this->search.$this->url.'">'.$lPage.'</a>'."\n";
+            }
         }
         $ret_val .= '</td><td valign="middle" align="right">';
 
