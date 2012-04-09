@@ -98,6 +98,19 @@ class PFAHandler {
         $this->RAWvalues = $values; # allows comparison of two fields before the second field is checked
         # Warning: $this->RAWvalues contains unchecked input data - use it carefully!
 
+        if ($this->new) {
+            foreach($this->struct as $key=>$row) {
+                if ($row['editable'] && !isset($values[$key]) ) {
+                    $func="_missing_".$key; # call $this->_missing_$fieldname()
+                    if (method_exists($this, $func) ) {
+                        $this->{$func}($key); # function can set $this->RAWvalues[$key] (or do nothing if it can't set a useful value)
+                    }
+                }
+            }
+            $values = $this->RAWvalues;
+        }
+
+
         # base validation
         $this->values = array();
         $this->values_valid = false;
@@ -361,6 +374,18 @@ class PFAHandler {
         $this->errormsg[$field2] = Lang::read('pEdit_mailbox_password_text_error');
         return false;
     }
+
+    /**
+     * set field to default value
+     * typically called from _missing_$fieldname()
+     * @param string $field - fieldname
+     */
+    protected function set_default_value($field) {
+        if (isset($this->struct[$field]['default'])) {
+            $this->RAWvalues[$field] = $this->struct[$field]['default'];
+        }
+    }
+
 
     /**************************************************************************
       * functions for basic input validation

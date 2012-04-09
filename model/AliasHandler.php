@@ -286,6 +286,23 @@ class AliasHandler extends PFAHandler {
         }
     }
 
+    protected function _missing_on_vacation($field) { return $this->set_default_value($field); }
+    protected function _missing_active     ($field) { return $this->set_default_value($field); }
+
+    protected function _missing_localpart  ($field) {
+        if (isset($this->RAWvalues['address'])) {
+            $parts = explode('@', $this->RAWvalues['address']);
+            if (count($parts) == 2) $this->RAWvalues['localpart'] = $parts[0];
+        }
+    }
+
+    protected function _missing_domain     ($field) {
+        if (isset($this->RAWvalues['address'])) {
+            $parts = explode('@', $this->RAWvalues['address']);
+            if (count($parts) == 2) $this->RAWvalues['domain'] = $parts[1];
+        }
+    }
+
 
      /**
      * Returns the vacation alias for this user. 

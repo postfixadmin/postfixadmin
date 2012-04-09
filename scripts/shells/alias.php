@@ -105,9 +105,13 @@ class AddTask extends Shell {
                 
                 $handler =  new AliasHandler(1);
                 $handler->init($address);
-                $return = $handler->add($goto);
 
-                if($return == 1) {
+                $values = array(
+                    'goto'  => explode(',', $goto),
+                );
+                if (!$handler->set($values)) {
+                    $this->error("Error:", join("\n", $handler->errormsg));
+                } elseif (!$handler->store()) {
                         $this->error("Error:", join("\n", $handler->errormsg));
                 } else {
                         $this->out("");
