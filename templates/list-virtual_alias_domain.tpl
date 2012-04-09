@@ -15,14 +15,14 @@
 			</tr>
 			{foreach from=$tAliasDomains item=item}
 				{#tr_hilightoff#}
-				<td>{if $item.alias_domain != $fDomain}<a href="{$smarty.config.url_list_virtual}?domain={$item.alias_domain|escape:"url"}&amp;limit={$current_limit|escape:"url"}">{/if}
+				<td>{if $item.alias_domain != $fDomain}<a href="{$smarty.config.url_list_virtual}?domain={$item.alias_domain|escape:"url"}">{/if}
 					{if $search eq ""}
 						{$item.alias_domain}
 					{else}
 						{$item.alias_domain|replace:$search:"<span class='searchresult'>$search</span>"}
 					{/if}
 					{if $item.alias_domain != $fDomain}</a>{/if}</td>
-				<td>{if $item.target_domain != $fDomain}<a href="{$smarty.config.url_list_virtual}?domain={$item.target_domain|escape:"url"}&amp;limit={$current_limit|escape:"url"}">{/if}
+				<td>{if $item.target_domain != $fDomain}<a href="{$smarty.config.url_list_virtual}?domain={$item.target_domain|escape:"url"}">{/if}
 					{if $search eq ""}
 						{$item.target_domain}
 					{else}
