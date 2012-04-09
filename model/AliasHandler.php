@@ -296,45 +296,6 @@ class AliasHandler extends PFAHandler {
   They still work, but are deprecated and will be removed.
  **********************************************************************************************************************************************************/
 
-    /**
-     * @return bool true if succeed
-     * (may be an empty list, especially if $CONF['alias_control'] is turned off...)
-     * @param boolean - by default we don't return special addresses (e.g. vacation and mailbox alias); pass in true here if you wish to.
-     */
-    public function get($all=false) {
-        $E_username = escape_string($this->id);
-        $table_alias = table_by_key('alias');
-
-        $sql = "SELECT * FROM $table_alias WHERE address='$E_username'";
-        $result = db_query($sql);
-        if($result['rows'] != 1) {
-            return false;
-        }
-
-        $row = db_array ($result['result']);
-        // At the moment Postfixadmin stores aliases in it's database in a comma seperated list; this may change one day.
-        $list = explode(',', $row['goto']);
-        if($all) {
-            $this->return = $list;
-            return true;
-        }
-
-        $filtered_list = array();
-        /* if !$all, remove vacation & mailbox aliases */
-        foreach($list as $address) {
-            if($address != '' ) {
-                if($this->is_vacation_address($address) || $this->is_mailbox_alias($address)) {
-                    # TODO: store "vacation_active" and "mailbox" status - should be readable public
-                }
-                else {
-                    $filtered_list[] = $address;
-                }
-            }
-        }
-        $this->return = $filtered_list;
-        return true;
-    }
-
    /** 
     * @param string $address
     * @param string $username
@@ -459,19 +420,6 @@ class AliasHandler extends PFAHandler {
         }
         db_log ($domain, 'edit_alias', "$E_username -> $goto");
         return true;
-    }
-
-    /** 
-     * Determine whether a local delivery address is present. This is 
-     * stores as an alias with the same name as the mailbox name (username)
-     * @return boolean true if local delivery is enabled
-     */
-    public function hasStoreAndForward() {
-        $result = $this->get(true); # TODO: error checking?
-        if(in_array($this->id, $this->return)) {
-            return true;
-        }
-        return false;
     }
 
     /**

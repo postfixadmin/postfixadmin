@@ -300,30 +300,25 @@ class ViewTask extends Shell {
 
                 $handler =  new AliasHandler();
                 $handler->init($address);
-                $status = $handler->get(); # TODO: set the "all" flag?
-                if ( ! $status) {
+                if ( ! $handler->view() ) {
                     $this->error("Error: Not Found", "The requested alias was not found!");
                 } else {
                       $result = $handler->return;
 
                       $this->out(sprintf("Entries for: %s\n", $address));
                       $this->out("Goto: \t");
-                      foreach($result AS $goto) {
+                      foreach($result['goto'] AS $goto) {
                         $this->out("\t -> ".$goto);
                       }
-                      # TODO: display "deliver to mailbox"
-                      ##NEED fix in is_mailbox_alias because user is not set correctly in this scenario!
-                      /**
-                      if( $handler->is_mailbox_alias($address) )
+                    if( $result['is_mailbox'] ) {
                         $this->out("A mailbox was set for this alias!\n");
-                      }
-                      */
-                      # TODO: display if vacation is on?
-                      /**
-                      if( $handler->is_vacation_address($address) ) {
+                    }
+                    if( $result['goto_mailbox'] ) {
+                        $this->out("The alias delivers to the mailbox!\n");
+                    }
+                    if( $result['on_vacation'] ) {
                         $this->out("This alias is a vacation address!");
-                      }
-                      */
+                    }
                 }
                 return;
         

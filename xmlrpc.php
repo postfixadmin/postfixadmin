@@ -142,8 +142,9 @@ class AliasProxy {
         $ah = new AliasHandler();
         $ah->init($_SESSION['username']);
         /* I see no point in returning special addresses to the user. */
-        $ah->get(false);
-        return $ah->result;
+        $ah->view();
+        $result = $ah->result;
+        return $result['goto'];
     }
 
     /**
@@ -168,7 +169,9 @@ class AliasProxy {
     public function hasStoreAndForward() {
         $ah = new AliasHandler();
         $ah->init($_SESSION['username']);
-        return $ah->hasStoreAndForward();
+        $ah->view();
+        $result = $ah->result;
+        return $result['goto_mailbox'] == 1;
     }
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

@@ -17,15 +17,6 @@
  *
  * Template File: users_edit-alias.tpl
  *
- * Template Variables:
- *
- * tGotoArray
- * tStoreAndForward
- *
- * Form POST \ GET Variables:
- *
- * fAddress
- * fGoto
  */
 
 require_once('../common.php');
@@ -40,9 +31,10 @@ $ah->init($USERID_USERNAME);
 $smarty->assign ('USERID_USERNAME', $USERID_USERNAME);
 
 
-if ( ! $ah->get() ) die("Can't get alias details. Invalid alias?"); # this can only happen if a admin deleted the user since the user logged in
-$tGotoArray = $ah->result();
-$tStoreAndForward = $ah->hasStoreAndForward();
+if ( ! $ah->view() ) die("Can't get alias details. Invalid alias?"); # this can only happen if a admin deleted the user since the user logged in
+$result = $ah->result();
+$tGotoArray = $result['goto'];
+$tStoreAndForward = $result['goto_mailbox'];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
