@@ -4,15 +4,121 @@
 /**
  * Simple class to represent a user.
  */
-class MailboxHandler {
+class MailboxHandler extends PFAHandler {
 
-    protected $username = null;
+    protected $domain_field = 'domain';
 
-    public $errormsg = array();
-
-    public function __construct($username) {
-        $this->username = strtolower($username);
+    # init $this->struct, $this->db_table and $this->id_field
+    protected function initStruct() {
+        $this->db_table = 'mailbox';
+        $this->id_field = 'username';
+    
+        $this->struct=array(
+            # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
+            #                           editing?    form    list
+            'username'      => pacol(   $this->new, 1,      1,      'text', ''                              , ''                                , '' ),
+            'local_part'    => pacol(   0,          0,      0,      'text', ''                              , ''                                , '' ),
+            'domain'        => pacol(   0,          0,      0,      'enum', ''                              , ''                                , '' ),
+            'maildir'       => pacol(   0,          0,      0,      'text', ''                              , ''                                , '' ),
+            'password'      => pacol(   1,          1,      0,      'pass', ''                              , ''                                , '' ),
+            'password2'     => pacol(   1,          1,      0,      'pass', ''                             , ''                                 , '', 
+                /*options*/ '',
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ 'password as password2'
+            ),
+            'name'          => pacol(   1,          1,      1,      'text', ''                              , ''                                , '' ),
+            'quota'         => pacol(   1,          1,      1,      'int' , ''                              , ''                                , '' ),
+            'active'        => pacol(   1,          1,      1,      'bool', ''                              , ''                                 , 1 ),
+            'created'       => pacol(   0,          0,      1,      'ts',   ''                              , ''                                 ),
+            'modified'      => pacol(   0,          0,      1,      'ts',   ''                              , ''                                 ),
+            # TODO: add virtual 'notified' column and allow to display who received a vacation response?
+        );
     }
+
+    # messages used in various functions.
+    # always list the key to hand over to Lang::read
+    # the only exception is 'logname' which uses the key for db_log
+    protected function initMsg() {
+        $this->msg['error_already_exists'] = 'pCreate_mailbox_username_text_error2';
+        $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1';
+        if ($this->new) {
+            $this->msg['logname'] = 'create_mailbox';
+            $this->msg['store_error'] = 'pCreate_mailbox_result_error';
+        } else {
+            $this->msg['logname'] = 'edit_mailbox';
+            $this->msg['store_error'] = 'pCreate_mailbox_result_error'; # TODO: better error message
+        }
+    }
+
+    /*
+     * Configuration for the web interface
+     */
+    public function webformConfig() {
+        return array(
+            # $PALANG labels
+            'formtitle_create' => 'pCreate_mailbox_welcome',
+            'formtitle_edit' => 'pEdit_mailbox_welcome',
+            'create_button' => 'pCreate_mailbox_button',
+            'successmessage' => 'pCreate_mailbox_result_success',
+
+            # various settings
+            'required_role' => 'admin',
+            'listview' => 'list-virtual.php',
+            'early_init' => 1, # 0 for create-domain
+        );
+    }
+
+
+    protected function validate_new_id() {
+        if ($this->id == '') {
+            $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error1');
+            return false;
+        }
+
+        list($local_part,$domain) = explode ('@', $this->id);
+
+        if(!$this->create_allowed($domain)) {
+            $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error3');
+            return false;
+        }
+
+        # check if an alias with this name already exists - if yes, don't allow to create the mailbox
+        $handler = new AliasHandler(1);
+        if (!$handler->init($this->id)) {
+            $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error2');
+            return false;
+        }
+
+        return check_email($this->id); # TODO: check_email should return error message instead of using flash_error itsself
+    }
+
+    /**
+     * check number of existing mailboxes for this domain - is one more allowed?
+     */
+    private function create_allowed($domain) {
+        $limit = get_domain_properties ($domain);
+
+        if ($limit['mailboxes'] == 0) return true; # unlimited
+        if ($limit['mailboxes'] < 0) return false; # disabled
+        if ($limit['mailbox_count'] >= $limit['mailboxes']) return false;
+        return true;
+    }
+
+
+/* function already exists (see old code below 
+    public function delete() {
+        $this->errormsg[] = '*** deletion not implemented yet ***';
+        return false; # XXX function aborts here! XXX
+    }
+*/
+
+
+
+/********************************************************************************************************************
+     old functions - we'll see what happens to them
+     (at least they should use the *Handler functions instead of doing SQL)
+/********************************************************************************************************************/
 
     public function change_pass($old_password, $new_password) {
         error_log('MailboxHandler->change_pass is deprecated. Please use MailboxHandler->change_pw!');
@@ -29,36 +135,29 @@ class MailboxHandler {
      * as per the configuration in config.inc.php
      */
     public function change_pw($new_password, $old_password, $match = true) {
-        list(/*NULL*/,$domain) = explode('@', $username);
-
-        $E_username = escape_string($this->username);
-        $table_mailbox = table_by_key('mailbox');
+        list(/*NULL*/,$domain) = explode('@', $this->id);
 
         if ($match == true) {
-                $active = db_get_boolean(True);
-                $result = db_query("SELECT password FROM $table_mailbox WHERE username='$E_username' AND active='$active'");
-                $result = db_assoc($result['result']);
-
-                if (pacrypt($old_password, $result['password']) != $result['password']) {
-                      db_log ($domain, 'edit_password', "MATCH FAILURE: " . $this->username);
+            if (!$this->login($this->id, $old_password)) {
+                      db_log ($domain, 'edit_password', "MATCH FAILURE: " . $this->id);
                       $this->errormsg[] = 'Passwords do not match'; # TODO: make translatable
                       return false;
-                }
+            }
         }
 
         $set = array(
             'password' => pacrypt($new_password) ,
         );
 
-        $result = db_update('mailbox', 'username', $this->username, $set );
+        $result = db_update('mailbox', 'username', $this->id, $set );
 
         if ($result != 1) {
-            db_log ($domain, 'edit_password', "FAILURE: " . $this->username);
+            db_log ($domain, 'edit_password', "FAILURE: " . $this->id);
             $this->errormsg[] = Lang::read('pEdit_mailbox_result_error');
             return false;
         }
 
-        db_log ($domain, 'edit_password', $this->username);
+        db_log ($domain, 'edit_password', $this->id);
         return true;
     }
 
@@ -103,7 +202,7 @@ class MailboxHandler {
 
 # TODO: copy/move all checks and validations from create-mailbox.php here
 
-        $username = $this->username;
+        $username = $this->id;
         list($local_part,$domain) = explode ('@', $username);
 
 
@@ -191,7 +290,7 @@ class MailboxHandler {
                 # TODO: move "send the mail" to a function
                 $fTo = $username;
                 $fFrom = smtp_get_admin_email();
-                if(empty($fFrom) || $fFrom == 'CLI') $fFrom = $this->username;
+                if(empty($fFrom) || $fFrom == 'CLI') $fFrom = $this->id;
                 $fSubject = Lang::read('pSendmail_subject_text');
                 $fBody = Config::read('welcome_text');
 
@@ -207,26 +306,8 @@ class MailboxHandler {
     }
 
 
-
-
-    public function view() {
-
-        $username = $this->username;
-        $table_mailbox = table_by_key('mailbox');
-
-# TODO: check if DATE_FORMAT works in MySQL and PostgreSQL
-# TODO: maybe a more fine-grained date format would be better for non-CLI usage
-        $result = db_query("SELECT username, name, maildir, quota, local_part, domain, DATE_FORMAT(created, '%d.%m.%y') AS created, DATE_FORMAT(modified, '%d.%m.%y') AS modified, active FROM $table_mailbox WHERE username='$username'");
-        if ($result['rows'] != 0) {
-          $this->return = db_array($result['result']);
-          return true;
-        }
-        $this->errormsg = $result['error'];
-        return false;
-    }
-
     public function delete() {
-        $username = $this->username;
+        $username = $this->id;
         list(/*$local_part*/,$domain) = explode ('@', $username);
 
         $E_username = escape_string($username);

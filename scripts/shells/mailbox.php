@@ -466,7 +466,10 @@ class ViewTask extends Shell {
         function __handle($address) {
 
 
-                $handler =  new MailboxHandler($address);
+                $handler =  new MailboxHandler();
+				if ( ! $handler->init($address)) {
+					$this->error("Not found!", "The mailbox you have searched could not be found.");
+				}
                 if ( ! $handler->view() ) {
                   $this->error("Not Found!", "The mailbox you have searched could not be found.");
 				      }
@@ -478,6 +481,7 @@ class ViewTask extends Shell {
                       $this->out(sprintf("+%'-25s+%'-15s+%'-10s+%'-20s+%'-8s+%'-8s+%'-6s+",'','','','','','',''));
                       $this->out(sprintf('|%25s|%15s|%10s|%20s|%8s|%8s|%6s|', 'Address', 'Name', 'Quota', 'Dir', 'Created', 'Modified', 'Active'));
                       $this->out(sprintf("+%'-25s+%'-15s+%'-10s+%'-20s+%'-8s+%'-8s+%'-6s+",'','','','','','',''));
+					  $result['maildir'] = '--- skipped ---'; # TODO: include in view() result - or don't (try to) display it
                       $this->out(sprintf('|%25s|%15s|%10s|%20s|%8s|%8s|%6s|', $result['username'], $result['name'], $result['quota'], $result['maildir'], $result['created'], $result['modified'], $result['active']));
                       $this->out(sprintf("+%'-25s+%'-15s+%'-10s+%'-20s+%'-8s+%'-8s+%'-6s+",'','','','','','',''));
                       

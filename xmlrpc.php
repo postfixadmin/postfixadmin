@@ -73,7 +73,8 @@ class UserProxy {
      * @return boolean true on success
      */
     public function changePassword($old_password, $new_password) {
-        $uh = new MailboxHandler($_SESSION['username']);
+        $uh = new MailboxHandler();
+        if (!$uh->init($_SESSION['username'])) return false;
         return $uh->change_pw($new_password, $old_password);
     }
 
@@ -83,7 +84,7 @@ class UserProxy {
      * @return boolean true if successful.
      */
     public function login($username, $password) {
-        $uh = new MailboxHandler($_SESSION['username']);
+        $uh = new MailboxHandler(); # $_SESSION['username']);
         return $uh->login($username, $password);
     }
 }

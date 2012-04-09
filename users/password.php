@@ -66,8 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if ($error == 0)
     {
-        $uh = new MailboxHandler($username);
-        if($uh->change_pw($fPassword, $fPassword_current) ) {
+        $mh = new MailboxHandler();
+        $mh->init($username); # TODO: error handling
+        if($mh->change_pw($fPassword, $fPassword_current) ) {
             flash_info($PALANG['pPassword_result_success']);
             header("Location: main.php");
             exit(0);
