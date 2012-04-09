@@ -222,6 +222,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'změna hesla';
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_button'] = 'Jít';
 $PALANG['pViewlog_result_error'] = 'Nepodařilo se najít záznamy!';
@@ -340,6 +341,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Heslo (znovu)';
 $PALANG['pAdminEdit_admin_password_text_error'] = 'Zadaná hesla jsou rozdílná nebo prázdná!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminEdit_admin_active'] = 'Administrátorský účet povolen';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Superuživatel';
+$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Upravit Administrátora'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Nepodařilo se upravit administrátora!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrátor byl upraven!';

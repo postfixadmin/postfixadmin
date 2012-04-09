@@ -212,6 +212,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_button'] = 'Vis';
 $PALANG['pViewlog_result_error'] = 'Fant ikke loggen!';
@@ -329,6 +330,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Passord (igjen)';
 $PALANG['pAdminEdit_admin_password_text_error'] = 'Passordene er ikke like! Eller feltene er tomme!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminEdit_admin_active'] = 'Aktiv';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
+$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Endre Administrator'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Klarte ikke å endre administratoren!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administratoren er endret/oppdatert!';

@@ -214,6 +214,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_button'] = '執行';
 $PALANG['pViewlog_result_error'] = '未找到相關的日誌!';
@@ -331,6 +332,7 @@ $PALANG['pAdminEdit_admin_password2'] = '密碼 (驗證)';
 $PALANG['pAdminEdit_admin_password_text_error'] = '你兩次輸入的新密碼不相同! 或者為空!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminEdit_admin_active'] = '活動';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
+$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = '修改'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '編輯網域管理員失敗!';
 $PALANG['pAdminEdit_admin_result_success'] = '編輯網域管理員成功!';

@@ -214,6 +214,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_button'] = 'Mine';
 $PALANG['pViewlog_result_error'] = 'Logi ei leitud!';
@@ -331,6 +332,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Parool (uuesti)';
 $PALANG['pAdminEdit_admin_password_text_error'] = 'Sisestatud paroolid ei kattu! Või on tühjad!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminEdit_admin_active'] = 'Aktiivne';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
+$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Muuda haldaja'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Haldaja muutmine ebaõnnestus!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Haldaja on muudetud!';

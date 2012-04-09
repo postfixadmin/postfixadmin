@@ -214,6 +214,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'muokkaa aktiivista alias d
 $PALANG['pViewlog_action_edit_password'] = 'vaihda salasana';
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_button'] = 'Siirry';
 $PALANG['pViewlog_result_error'] = 'Lokeja ei löydy!';
@@ -331,6 +332,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Salasana (toistamiseen)';
 $PALANG['pAdminEdit_admin_password_text_error'] = 'Antamasi salasanat eivät täsmää! Tai ne ovat tyhjiä!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminEdit_admin_active'] = 'Aktiivinen';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Pääylläpitäjä';
+$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Muokkaa ylläpitäjää'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Ylläpitäjän muokkaaminen ei onnistu!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Ylläpitäjän muokkaus onnistui!';

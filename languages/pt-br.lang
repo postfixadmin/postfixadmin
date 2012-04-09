@@ -221,6 +221,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'habilitar/desabilitar alia
 $PALANG['pViewlog_action_edit_password'] = 'alterar senha';
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_button'] = 'Acessar';
 $PALANG['pViewlog_result_error'] = 'Não foi possível encontrar o histórico!';
@@ -339,6 +340,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Senha (confirmação)';
 $PALANG['pAdminEdit_admin_password_text_error'] = 'As senhas fornecidas são diferentes! Ou não foram digitadas!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminEdit_admin_active'] = 'Habilitado';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administrador';
+$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Editar Administrador'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Não foi possível editar o administrador!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrador editado!';

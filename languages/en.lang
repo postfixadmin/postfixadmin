@@ -220,6 +220,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password';
 $PALANG['pViewlog_action_create_admin'] = 'create admin';
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin';
+$PALANG['pViewlog_action_edit_vacation'] = 'edit vacation';
  
 $PALANG['pViewlog_button'] = 'Go';
 $PALANG['pViewlog_result_error'] = 'Unable to find the logs!';
@@ -338,6 +339,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Password (again)';
 $PALANG['pAdminEdit_admin_password_text_error'] = 'The passwords that you supplied don\'t match or are empty!';
 $PALANG['pAdminEdit_admin_active'] = 'Active';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.';
 $PALANG['pAdminEdit_admin_button'] = 'Edit Admin'; # text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Unable to modify admin!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin has been modified!';

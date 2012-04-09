@@ -217,6 +217,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edycja statusu aliasu dome
 $PALANG['pViewlog_action_edit_password'] = 'zmień hasło';
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_button'] = 'Idź';
 $PALANG['pViewlog_result_error'] = 'Nie można odszukać logów!';
@@ -334,6 +335,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Hasło (ponownie)';
 $PALANG['pAdminEdit_admin_password_text_error'] = 'Podane hasło nie pasuje! Lub jest puste!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminEdit_admin_active'] = 'Aktywny';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Główny administrator';
+$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Edytuj administratora'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Nie można zmodyfikować administratora!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrator został zmodyfikowany!';

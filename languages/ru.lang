@@ -221,6 +221,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'изменение акт�
 $PALANG['pViewlog_action_edit_password'] = 'изменение пароля';
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_button'] = 'Выбрать';
 $PALANG['pViewlog_result_error'] = 'Невозможно найти журнал!';
@@ -339,6 +340,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'Пароль (еще раз)';
 $PALANG['pAdminEdit_admin_password_text_error'] = 'Введенные вами пароли не совпадают либо пустые!';
 $PALANG['pAdminEdit_admin_active'] = 'Активен';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Супер админ';
+$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Редактировать администратора'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Невозможно изменить администратора!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Администратор был изменен!';

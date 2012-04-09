@@ -219,6 +219,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'パスワード変更';
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
  
 $PALANG['pViewlog_button'] = '表示';
 $PALANG['pViewlog_result_error'] = 'ログが見つかりません！';
@@ -337,6 +338,7 @@ $PALANG['pAdminEdit_admin_password2'] = 'パスワード (確認)';
 $PALANG['pAdminEdit_admin_password_text_error'] = 'パスワードが一致しません。 または空です。'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminEdit_admin_active'] = 'アクティブ';
 $PALANG['pAdminEdit_admin_super_admin'] = '特権管理者';
+$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = '管理者修正'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '管理者を修正できません！';
 $PALANG['pAdminEdit_admin_result_success'] = '管理者を修正しました。';
