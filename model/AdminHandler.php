@@ -52,7 +52,7 @@ class AdminHandler extends PFAHandler {
                 /*select*/ 'password as password2'
             ),
 
-            'superadmin'      => pacol( 1,          1,      1,      'bool', 'pAdminEdit_admin_super_admin' , ''                                 , 0
+            'superadmin'      => pacol( 1,          1,      1,      'bool', 'pAdminEdit_admin_super_admin' , 'super_admin_desc'                 , 0
 # TODO: (finally) replace the ALL domain with a column in the admin table
 # TODO: current status: 'superadmin' column exists and is written when storing an admin with AdminHandler,
 # TODO: but the superadmin status is still (additionally) stored in the domain_admins table ("ALL" dummy domain)
