@@ -155,18 +155,5 @@ class VacationHandler {
         return true;
     }
 
-    /**
-     * Returns the vacation alias for this user. 
-     * i.e. if this user's username was roger@example.com, and the autoreply domain was set to
-     * autoreply.fish.net in config.inc.php we'd return roger#example.com@autoreply.fish.net
-     * @return string an email alias.
-     */
-    public function getVacationAlias() {
-        global $CONF;
-        $vacation_domain = $CONF['vacation_domain']; 
-        $vacation_goto = str_replace('@', '#', $this->username); 
-        $vacation_goto = "{$vacation_goto}@{$vacation_domain}"; 
-        return $vacation_goto;
-    }
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

@@ -201,8 +201,7 @@ class AliasHandler extends PFAHandler {
                 }
 
                 if ($values['on_vacation']) { 
-                    $vh = new VacationHandler($this->id);
-                    $values['goto'][] = $vh->getVacationAlias();
+                    $values['goto'][] = $this->getVacationAlias();
                 }
 
                 if ($oldvalues['is_mailbox']) { # alias belongs to a mailbox - add/keep mailbox to/in goto
@@ -228,12 +227,8 @@ class AliasHandler extends PFAHandler {
         foreach ($db_result as $key => $value) {
             $db_result[$key]['goto'] = explode(',', $db_result[$key]['goto']);
 
-            $vh = new VacationHandler($this->id);
-            $vacation_alias = $vh->getVacationAlias(); # TODO: move getVacationAlias to functions.inc.php to avoid the need
-                                                       # for lots of VacationHandler instances (performance)?
-
             # Vacation enabled?
-            list($db_result[$key]['on_vacation'], $db_result[$key]['goto']) = remove_from_array($db_result[$key]['goto'], $vacation_alias);
+            list($db_result[$key]['on_vacation'], $db_result[$key]['goto']) = remove_from_array($db_result[$key]['goto'], $this->getVacationAlias() );
 
             # if it is a mailbox, does the alias point to the mailbox?
             if ($db_result[$key]['is_mailbox']) {
@@ -291,6 +286,18 @@ class AliasHandler extends PFAHandler {
         }
     }
 
+
+     /**
+     * Returns the vacation alias for this user. 
+     * i.e. if this user's username was roger@example.com, and the autoreply domain was set to
+     * autoreply.fish.net in config.inc.php we'd return roger#example.com@autoreply.fish.net
+     * @return string an email alias.
+     */
+    protected function getVacationAlias() {
+        $vacation_goto = str_replace('@', '#', $this->id); 
+        return $vacation_goto . '@' . Config::read('vacation_domain');
+    }
+ 
 /**********************************************************************************************************************************************************
   old function from non-PFAHandler times of AliasHandler
   Will be replaced by a global delete() function in PFAHandler
