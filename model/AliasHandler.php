@@ -195,8 +195,12 @@ class AliasHandler extends PFAHandler {
                 $this->errormsg[] = $old_ah->errormsg[0];
             } else {
                 $oldvalues = $old_ah->result();
-                
-                if ($oldvalues['on_vacation']) { 
+
+                if (!isset($values['on_vacation'])) { # no new value given?
+                    $values['on_vacation'] = $oldvalues['on_vacation'];
+                }
+
+                if ($values['on_vacation']) { 
                     $vh = new VacationHandler($this->id);
                     $values['goto'][] = $vh->getVacationAlias();
                 }
@@ -209,7 +213,7 @@ class AliasHandler extends PFAHandler {
                         $values['goto'][] = $this->id;
 
                         # if the alias points to the mailbox, don't display the "empty goto" error message
-                        if ($this->errormsg['goto'] == Lang::read('pEdit_alias_goto_text_error1') ) {
+                        if (isset($this->errormsg['goto']) && $this->errormsg['goto'] == Lang::read('pEdit_alias_goto_text_error1') ) {
                             unset($this->errormsg['goto']);
                         }
                     }
@@ -240,7 +244,7 @@ class AliasHandler extends PFAHandler {
                 $db_result[$key]['goto_mailbox'] = 0;
             }
         }
-#print_r($db_result); exit;
+
         return $db_result;
     }
 

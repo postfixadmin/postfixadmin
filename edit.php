@@ -80,9 +80,7 @@ if ($edit != "") {
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     foreach($form_fields as $key => $field) {
-        if ($field['editable'] == 0) {
-            $values[$key] = $field['default'];
-        } else {
+        if ($field['editable'] && $field['display_in_form']) {
             if($field['type'] == 'bool') {
                 $values[$key] = safepost($key, 0); # isset() for unchecked checkboxes is always false
             } elseif($field['type'] == 'txtl') {

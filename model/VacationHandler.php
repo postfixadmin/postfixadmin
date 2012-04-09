@@ -5,6 +5,7 @@ class VacationHandler {
     protected $username = null;
     function __construct($username) {
         $this->username = $username;
+        $this->id = $username;
     }
 
     /**
@@ -13,19 +14,7 @@ class VacationHandler {
      * @return boolean true on success.
      */
     function remove() {
-        $ah = new AliasHandler();
-        $ah->init($this->username);
-        $result = $ah->get(true);
-        if($result === true) { // fetch all # TODO check $result, error handling
-          $aliases = $ah->return;
-          $new_aliases = array();
-        /* go through the user's aliases and remove any that look like a vacation address */
-          foreach($aliases as $alias) { # TODO replace with (to be written) array_remove()
-            if(!$ah->is_vacation_address($alias)) {
-                $new_aliases[] = $alias;
-            }
-          }
-          $ah->update($new_aliases, '', false); # TODO: supress logging in AliasHandler if called from VacationHandler (VacationHandler should log itsself)
+        if (!$this->updateAlias(0)) return false;
 
           // tidy up vacation table.
           $vacation_data = array(
@@ -36,8 +25,6 @@ class VacationHandler {
 # TODO db_log() call (maybe except if called from set_away?)
           /* crap error handling; oh for exceptions... */
           return true;
-        }
-      return false;
     }
 
     /**
@@ -54,18 +41,21 @@ class VacationHandler {
      * Why do we bother storing true/false in the vacation table if the alias dictates it anyway?
      */
     function check_vacation() {
-        $ah = new AliasHandler();
-        $ah->init($this->username);
-        $success = $ah->get(true); # fetch all.
-        if (!$success) { 
-            return false; # TODO: error handling?
+        $handler = new AliasHandler();
+
+        if (!$handler->init($this->id)) {
+            # print_r($handler->errormsg); # TODO: error handling
+            return false;
         }
-        $aliases = $ah->result();
-        foreach($aliases as $alias) {
-            if($ah->is_vacation_address($alias)) {
-                return true;
-            }
+
+        if (!$handler->view()) {
+            # print_r($handler->errormsg); # TODO: error handling
+            return false;
         }
+
+        $result = $handler->result();
+
+        if ($result['on_vacation']) return true;
         return false;
     }
 
@@ -129,13 +119,40 @@ class VacationHandler {
         }
 # TODO error check
 # TODO wrap whole function in db_begin / db_commit (or rollback)?
-        $ah = new AliasHandler();
-        $ah->init($this->username); 
-        $alias = $ah->get(true);
-        $aliases = $ah->return;
-        $vacation_address = $this->getVacationAlias();
-        $aliases[] = $vacation_address;
-        return $ah->update($aliases, '', false);
+
+        return $this->updateAlias(1);
+    }
+
+     /**
+     * add/remove the vacation alias
+     * @param int $vacationActive
+     */
+    protected function updateAlias($vacationActive) {
+        $handler = new AliasHandler();
+
+        if (!$handler->init($this->id)) {
+            # print_r($handler->errormsg); # TODO: error handling
+            return false;
+        }
+
+        $values = array (
+            'on_vacation' => $vacationActive,
+         );
+
+        if (!$handler->set($values)) {
+            # print_r($handler->errormsg); # TODO: error handling
+            return false;
+        }
+
+        # TODO: supress logging in AliasHandler if called from VacationHandler (VacationHandler should log itsself)
+
+        if (!$handler->store()) {
+            print_r($handler->errormsg); # TODO: error handling
+            return false;
+        }
+
+        # still here? then everything worked
+        return true;
     }
 
     /**
