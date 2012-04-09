@@ -60,8 +60,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     $pEdit_alias_goto = $PALANG['pEdit_alias_goto'];
 
-    if (isset($_POST['fGoto'])) $fGoto = trim($_POST['fGoto']);
-    if (isset($_POST['fForward_and_store'])) $fForward_and_store = $_POST['fForward_and_store'];
+    $fGoto = trim(safepost('fGoto'));
+    $fForward_and_store = safepost('fForward_and_store');
+
+    # TODO: use edit.php (or create a edit_user.php)
+    # TODO: this will obsolete lots of the code below (parsing $goto and the error checks)
 
     $goto = strtolower ($fGoto);
     $goto = preg_replace ('/\\\r\\\n/', ',', $goto);
@@ -76,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $goto = array_merge(array_unique($goto));
     $good_goto = array();
 
-    if($fForward_and_store != 'YES' && sizeof($goto) == 1 && $goto[0] == '') {
+    if($fForward_and_store != 1 && sizeof($goto) == 1 && $goto[0] == '') {
         flash_error($PALANG['pEdit_alias_goto_text_error1']);
         $error += 1;
     }
@@ -100,22 +103,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
 
     if ($error == 0) {
-        $flags = 'remote_only';
-        if($fForward_and_store == "YES" ) {
-            $flags = 'forward_and_store';
+
+        $values = array(
+            'goto'          => $good_goto,
+            'goto_mailbox'  => $fForward_and_store,
+        );
+
+        if (!$ah->set($values)) {
+            $errormsg = $ah->errormsg;
+            flash_error($errormsg[0]);
         }
-        $updated = $ah->update($good_goto, $flags);
+
+        $updated = $ah->store();
+
         if($updated) {
             header ("Location: main.php");
             exit;
         }
         flash_error($PALANG['pEdit_alias_result_error']);
+
     }
     else {
         $tGotoArray = $goto;
     }
     $smarty->assign ('tGotoArray', $tGotoArray);
-    if ($fForward_and_store == "YES") {
+    if ($fForward_and_store == 1) {
         $smarty->assign ('forward_and_store', ' checked="checked"');
         $smarty->assign ('forward_only', '');
     } else {

@@ -293,159 +293,19 @@ class AliasHandler extends PFAHandler {
 
 /**********************************************************************************************************************************************************
   old function from non-PFAHandler times of AliasHandler
-  They still work, but are deprecated and will be removed.
+  Will be replaced by a global delete() function in PFAHandler
  **********************************************************************************************************************************************************/
 
-   /** 
-    * @param string $address
-    * @param string $username
-    * @return boolean true if the username is an alias for the mailbox AND we have alias_control turned off.
-    * TODO: comment for @return: does alias_control really matter here?
-    */
-    public function is_mailbox_alias($address) {
-        global $CONF;
-
-        if($address != $this->id) { # avoid false positives if $address is a mailbox
-            return false;
-        }
-
-        $table_mailbox = table_by_key('mailbox');
-        $E_address = escape_string($address);
-        $sql = "SELECT * FROM $table_mailbox WHERE username='$E_address'";
-        $result = db_query($sql);
-        if($result['rows'] != 1) {
-           return false;
-        } else { 
-           return true;
-        }
-    }
-
-    /**
-     * @param string $address
-     * @return boolean true if the address contains the vacation domain
-     */
-    public function is_vacation_address($address) {
-        global $CONF;
-        if($CONF['vacation'] == 'YES') {
-            if(stripos($address, '@' . $CONF['vacation_domain'])) { # TODO: check full vacation address user#domain.com@vacation_domain
-                return true;
-            }
-        }
-        return false;
-    }
-    /**
-     * @return boolean true on success
-     * @param string $username
-     * @param array $addresses - list of aliases to set for the user.
-     * @param string flags - forward_and_store or remote_only or ''
-     * @param boolean $vacation_persist - set to false to stop the vacation address persisting across updates
-     * Set the user's aliases to those provided. If $addresses ends up being empty the alias record is removed. # TODO: deleting that's buggy behaviour, error out instead
-     */
-    public function update($addresses, $flags = '', $vacation_persist=true) {
-        // find out if the user is on vacation or not; if they are, 
-        // then the vacation alias needs adding to the db (as we strip it out in the get method) 
-        // likewise with the alias_control address.
-
-        # TODO: move all validation from edit-alias/create-alias and users/edit-alias here
-
-        $valid_flags = array('', 'forward_and_store', 'remote_only');
-        if(!in_array($flags, $valid_flags)) {
-            die("Invalid flag passed into update()... : $flag - valid options are :" . implode(',', $valid_flags));
-        } 
-        $addresses = array_unique($addresses);
-
-        list (/*NULL*/, $domain) = explode('@', $this->id);
-
-        if ( ! $this->get(true) ) die("Alias not existing?"); # TODO: better error behaviour
-
-        foreach($this->return as $address) {
-            if($vacation_persist) {
-                if($this->is_vacation_address($address)) {
-                    $addresses[] = $address;
-                }
-            }
-            if($flags != 'remote_only') {
-                if($this->is_mailbox_alias($address)) {
-                    $addresses[] = $address;
-                }
-            }
-        }
-        $addresses = array_unique($addresses);
-
-        $new_list = array();
-        if($flags == 'remote_only') {
-            foreach($addresses as $address) { # TODO: write a remove_from_array function, see http://tech.petegraham.co.uk/2007/03/22/php-remove-values-from-array/
-                // strip out our username... if it's in the list given.
-                if($address != $this->id) {
-                    $new_list[] = $address;            
-                }
-            }
-            $addresses = $new_list;
-        }
-        
-        if($flags == 'forward_and_store') {
-            if(!in_array($this->id, $addresses)) {
-                $addresses[] = $this->id;
-            }
-        }
-        $new_list = array();
-        foreach($addresses as $address) {
-            if($address != '') {
-                $new_list[] = $address; # TODO use remove_from_array, see above
-            }
-        } 
-        $addresses = array_unique($new_list);
-        $E_username = escape_string($this->id);
-        $goto = implode(',', $addresses);
-        if(sizeof($addresses) == 0) {
-            # $result = db_delete('alias', 'address', $this->id); # '"DELETE FROM $table_alias WHERE address = '$username'"; # TODO: should never happen and causes broken behaviour
-            error_log("Alias set to empty / Attemp to delete: " . $this->id); # TODO: more/better error handling - maybe just return false?
-        }
-        if($this->hasAliasRecord() == false) { # TODO should never happen in update() - see also the comments on handling DELETE above
-            $alias_data = array(
-                'address'   => $this->id,
-                'goto'      => $goto,
-                'domain'    => $domain,
-                'active'    => db_get_boolean(True),
-            );
-            $result = db_insert('alias', $alias_data);
-        } else {
-            $alias_data = array(
-                'goto' => $goto,
-            );
-            $result = db_update('alias', 'address', $this->id, $alias_data);
-        }
-        if($result != 1) {
-            return false;
-        }
-        db_log ($domain, 'edit_alias', "$E_username -> $goto");
-        return true;
-    }
-
-    /**
-     * @return boolean true if the user has an alias record (i.e row in alias table); else false.
-     */
-    private function hasAliasRecord() { # only used by update() in this class
-        $username = escape_string($this->id);
-        $table_alias = table_by_key('alias');
-        $sql = "SELECT * FROM $table_alias WHERE address = '$username'";
-        $result = db_query($sql);
-        if($result['rows'] == 1) {
-            return true;
-        }
-        return false;
-    }
-    
     /**
      *  @return true on success false on failure
      */
     public function delete(){
-        if( ! $this->get() ) {
+        if( ! $this->view() ) {
             $this->errormsg[] = 'An alias with that address does not exist.'; # TODO: make translatable
             return false;
         }
 
-        if ($this->is_mailbox_alias($this->id) ) {
+        if ($this->return['is_mailbox']) {
             $this->errormsg[] = 'This alias belongs to a mailbox and can\'t be deleted.'; # TODO: make translatable
             return false;
         }

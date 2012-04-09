@@ -22,9 +22,9 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td colspan="2">
-		<input class="flat" type="radio" name="fForward_and_store" value="YES"{$forward_and_store}/>
+		<input class="flat" type="radio" name="fForward_and_store" value="1"{$forward_and_store}/>
 		{$PALANG.pEdit_alias_forward_and_store}<br />
-		<input class="flat" type="radio" name="fForward_and_store" value="NO" {$forward_only}/>
+		<input class="flat" type="radio" name="fForward_and_store" value="0" {$forward_only}/>
 		{$PALANG.pEdit_alias_forward_only}
 		</td>
 	</tr>

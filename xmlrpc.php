@@ -155,11 +155,19 @@ class AliasProxy {
     public function update($addresses, $flags) {
         $ah = new AliasHandler();
         $ah->init($_SESSION['username']);
-        /**
-         * if the user is on vacation, they should use VacationProxy stuff to remove it 
-         * and we'll never return the vacation address from here anyway
-         */
-        return $ah->update($addresses, $flags, true);
+        
+        $values['goto'] = $addresses;
+
+        if ($flags == 'forward_and_store') {
+            $values['goto_mailbox'] = 1;
+        } elseif ($flags == 'remote_only') {
+            $values['goto_mailbox'] = 0;
+        } else {
+            return false; # invalid parameter
+        }
+
+        if (!$ah->set($values)) return false;
+        return $ah->store();
     }
 
     /**
