@@ -16,22 +16,26 @@ class MailboxHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'username'      => pacol(   $this->new, 1,      1,      'text', ''                              , ''                                , '' ),
-            'local_part'    => pacol(   0,          0,      0,      'text', ''                              , ''                                , '' ),
-            'domain'        => pacol(   0,          0,      0,      'enum', ''                              , ''                                , '' ),
+            'username'      => pacol(   $this->new, 1,      1,      'text', 'pEdit_mailbox_username'        , ''                                , '' ),
+            'local_part'    => pacol(   $this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '' ),
+            'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 
+                /*options*/ $this->allowed_domains      ),
             'maildir'       => pacol(   0,          0,      0,      'text', ''                              , ''                                , '' ),
-            'password'      => pacol(   1,          1,      0,      'pass', ''                              , ''                                , '' ),
-            'password2'     => pacol(   1,          1,      0,      'pass', ''                             , ''                                 , '', 
+            'password'      => pacol(   1,          1,      0,      'pass', 'pCreate_mailbox_password'      , 'pCreate_mailbox_password_text'   , '' ),
+            'password2'     => pacol(   1,          1,      0,      'pass', 'pCreate_mailbox_password2'    , ''                                 , '', 
                 /*options*/ '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
             ),
-            'name'          => pacol(   1,          1,      1,      'text', ''                              , ''                                , '' ),
-            'quota'         => pacol(   1,          1,      1,      'int' , ''                              , ''                                , '' ),
-            'active'        => pacol(   1,          1,      1,      'bool', ''                              , ''                                 , 1 ),
-            'created'       => pacol(   0,          0,      1,      'ts',   ''                              , ''                                 ),
-            'modified'      => pacol(   0,          0,      1,      'ts',   ''                              , ''                                 ),
+            'name'          => pacol(   1,          1,      1,      'text', 'pEdit_mailbox_name'            , 'pCreate_mailbox_name_text'       , '' ),
+            'quota'         => pacol(   1,          1,      1,      'int' , 'pEdit_mailbox_quota'           , 'pEdit_mailbox_quota_text'        , '' ),
+            'active'        => pacol(   1,          1,      1,      'bool', 'pCreate_mailbox_active'        , ''                                 , 1 ),
+            'welcome_mail'  => pacol(   $this->new, $this->new, 0,  'bool', 'pCreate_mailbox_mail'          , ''                                 , 1, 
+                /*options*/ '',
+                /*not_in_db*/ 1             ),
+            'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                 ),
+            'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                 ),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
     }
@@ -55,7 +59,13 @@ class MailboxHandler extends PFAHandler {
      * Configuration for the web interface
      */
     public function webformConfig() {
-        return array(
+         if ($this->new) { # the webform will display a local_part field + domain dropdown on $new
+            $this->struct['username']['display_in_form'] = 0;
+            $this->struct['local_part']['display_in_form'] = 1;
+            $this->struct['domain']['display_in_form'] = 1;
+        }
+
+       return array(
             # $PALANG labels
             'formtitle_create' => 'pCreate_mailbox_welcome',
             'formtitle_edit' => 'pEdit_mailbox_welcome',
@@ -65,7 +75,7 @@ class MailboxHandler extends PFAHandler {
             # various settings
             'required_role' => 'admin',
             'listview' => 'list-virtual.php',
-            'early_init' => 1, # 0 for create-domain
+            'early_init' => 0,
         );
     }
 
@@ -105,6 +115,21 @@ class MailboxHandler extends PFAHandler {
         return true;
     }
 
+   /**
+    * merge local_part and domain to address
+    * called by edit.php (if id_field is editable and hidden in editform) _before_ ->init
+    */
+    public function mergeId($values) {
+        if ($this->struct['local_part']['display_in_form'] == 1 && $this->struct['domain']['display_in_form']) { # webform mode - combine to 'address' field
+            if (empty($values['local_part']) || empty($values['domain']) ) { # local_part or domain not set
+                return "";
+            }
+            return $values['local_part'] . '@' . $values['domain'];
+        } else {
+            return $values[$this->id_field];
+        }
+    }
+
 
 /* function already exists (see old code below 
     public function delete() {
@@ -113,17 +138,20 @@ class MailboxHandler extends PFAHandler {
     }
 */
 
+    /**
+     * compare password / password2 field
+     * error message will be displayed at the password2 field
+     */
+    protected function _field_password2($field, $val) {
+        return $this->compare_password_fields('password', 'password2');
+    }
+
 
 
 /********************************************************************************************************************
      old functions - we'll see what happens to them
      (at least they should use the *Handler functions instead of doing SQL)
 /********************************************************************************************************************/
-
-    public function change_pass($old_password, $new_password) {
-        error_log('MailboxHandler->change_pass is deprecated. Please use MailboxHandler->change_pw!');
-        return $this->change_pw($new_password, $old_password);
-    }
 
     /**
      * @return boolean true on success; false on failure
