@@ -346,6 +346,22 @@ class PFAHandler {
     }
 
 
+    /**
+     * compare two password fields
+     * typically called from _field_password2()
+     * @param string $field1 - "password" field
+     * @param string $field2 - "repeat password" field
+     */
+    protected function compare_password_fields($field1, $field2) {
+        if ($this->RAWvalues[$field1] == $this->RAWvalues[$field2]) {
+            unset ($this->errormsg[$field2]); # no need to warn about too short etc. passwords - it's enough to display this message at the 'password' field
+            return true;
+        }
+
+        $this->errormsg[$field2] = Lang::read('pEdit_mailbox_password_text_error');
+        return false;
+    }
+
     /**************************************************************************
       * functions for basic input validation
       */

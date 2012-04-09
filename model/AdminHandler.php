@@ -213,13 +213,7 @@ class AdminHandler extends PFAHandler {
      * error message will be displayed at the password2 field
      */
     protected function _field_password2($field, $val) {
-        if ($this->RAWvalues['password'] == $this->RAWvalues['password2']) {
-            unset ($this->errormsg['password2']); # no need to warn about too short etc. passwords - it's enough to display this message at the 'password' field
-            return true;
-        }
-
-        $this->errormsg['password2'] = Lang::read('pAdminEdit_admin_password_text_error');
-        return false;
+        return $this->compare_password_fields('password', 'password2');
     }
 
 }
