@@ -1262,6 +1262,7 @@ function hex2bin ($str) {
     }
     return $nstr;
 }
+/**/ }
 
 /*
  * remove item $item from array $array
@@ -1278,8 +1279,6 @@ function remove_from_array($array, $item) {
     }
     return array($found, $array);
 }
-
-/**/ }
 
 function to64 ($v, $n) {
     $ITOA64 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
