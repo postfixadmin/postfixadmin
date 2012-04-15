@@ -2215,18 +2215,6 @@ function gen_show_status ($show_alias) {
     return $stat_string;
 }
 
-/*
-   Called by create-admin.php and setup.php
-
-   Returns:
-   array(
-      'error' => 0,                             # 0 on success, otherwise > 0
-      'pAdminCreate_admin_message' => '',                         # success / failure message
-      'pAdminCreate_admin_username_text' => '', # help text / error message for username
-      'pAdminCreate_admin_password_text' => ''  # error message for username
-   )
- */
-
 function getRemoteAddr() {
     $REMOTE_ADDR = 'localhost';
     if (isset($_SERVER['REMOTE_ADDR'])) 
