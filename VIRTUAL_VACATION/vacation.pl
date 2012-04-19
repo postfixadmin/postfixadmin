@@ -272,6 +272,16 @@ my $loopcount=0;
 sub already_notified {
     my ($to, $from) = @_;
     my $logger = get_logger();
+
+    # delete old notifications
+    my $query = qq{DELETE vacation_notification.* FROM vacation_notification LEFT JOIN vacation ON vacation.email = vacation_notification.on_vacation WHERE on_vacation = ? AND notified = ? AND notified_at < vacation.activefrom};
+    my $stm = $dbh->prepare($query);
+    if (!$stm) {
+        $logger->error("Could not prepare query (trying to delete old vacation notifications) :'$query' to: $to, from:$from");
+        return 1;
+    }
+    $stm->execute($to,$from);
+
     my $query = qq{INSERT into vacation_notification (on_vacation,notified) values (?,?)};
     my $stm = $dbh->prepare($query);
     if (!$stm) {
@@ -347,18 +357,18 @@ sub find_real_address {
     my $rv = check_for_vacation($email);
 
 # Recipient has vacation
-   if ($rv == 1) {
-      $realemail = $email;
-      $logger->debug("Found '$email' has vacation active");
-   } else {
-      my $vemail = $email;
-      $vemail =~ s/\@/#/g;
-      $vemail = $vemail . "\@" . $vacation_domain;
-      $logger->debug("Looking for alias records that '$email' resolves to with vacation turned on");
-      my $query = qq{SELECT goto FROM alias WHERE address=? AND (goto LIKE ? OR goto LIKE ? OR goto LIKE ? OR goto = ?)};
-      my $stm = $dbh->prepare($query) or panic_prepare($query);
-      $stm->execute($email,"$vemail,%","%,$vemail","%,$vemail,%", "$vemail") or panic_execute($query,"address='$email'");
-      $rv = $stm->rows;
+    if ($rv == 1) {
+        $realemail = $email;
+        $logger->debug("Found '$email' has vacation active");
+    } else {
+        my $vemail = $email;
+        $vemail =~ s/\@/#/g;
+        $vemail = $vemail . "\@" . $vacation_domain;
+        $logger->debug("Looking for alias records that '$email' resolves to with vacation turned on");
+        my $query = qq{SELECT goto FROM alias WHERE address=? AND (goto LIKE ? OR goto LIKE ? OR goto LIKE ? OR goto = ?)};
+        my $stm = $dbh->prepare($query) or panic_prepare($query);
+        $stm->execute($email,"$vemail,%","%,$vemail","%,$vemail,%", "$vemail") or panic_execute($query,"address='$email'");
+        $rv = $stm->rows;
 
 
 # Recipient is an alias, check if mailbox has vacation
@@ -636,5 +646,3 @@ if ($rv == 1) {
 0;
 
 #/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
-
-
