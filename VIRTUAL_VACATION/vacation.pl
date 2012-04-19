@@ -66,6 +66,10 @@
 # 2009-08-10  Sebastian <reg9009 at yahoo dot de>
 #             Adjust SQL query for vacation timeframe. It is now possible to set from/until date for vacation message.
 #
+# 2012-04-19   Nikolaos Topp <info at ichier.de>
+#             Add configuration parameter $smtp_client in order to get mails through
+#             postfix helo-checks, using check_helo_access whitelist without permitting 'localhost' default style stuff
+
 # Requirements - the following perl modules are required:
 # DBD::Pg or DBD::mysql
 # Mail::Sender, Email::Valid MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords and GetOpt::Std
@@ -130,6 +134,10 @@ our $vacation_domain = 'autoreply.example.org';
 # smtp server used to send vacation e-mails
 our $smtp_server = 'localhost';
 our $smtp_server_port = 25;
+
+# this is the helo we [the vacation script] use on connection; you may need to change this to your hostname or something,
+# depending upon what smtp helo restrictions you have in place within Postfix. 
+our $smtp_client = 'localhost';
 
 # SMTP authentication protocol used for sending.
 # Can be 'PLAIN', 'LOGIN', 'CRAM-MD5' or 'NTLM'
@@ -443,6 +451,7 @@ sub send_vacation_email {
             'auth' => $smtp_auth,
             'authid' => $smtp_authid,
             'authpwd' => $smtp_authpwd,
+            'smtp_client' => $smtp_client,
             'skip_bad_recipients' => 'true',
             'encoding' => 'Base64',
             'ctype' => 'text/plain; charset=UTF-8',
