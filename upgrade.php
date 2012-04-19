@@ -1322,6 +1322,12 @@ function upgrade_1284() {
     }
 }
 
+function upgrade_1345_mysql() {
+    $table_vacation = table_by_key('vacation');
+    db_query_parsed("ALTER TABLE `$table_vacation` ADD `reply_type` VARCHAR( 20 ) NOT NULL AFTER `domain`  ");
+    db_query_parsed("ALTER TABLE `$table_vacation` ADD `interval_time` INT NOT NULL DEFAULT '0' AFTER `reply_type` ");
+}
+
 
 # TODO MySQL:
 # - various varchar fields do not have a default value

@@ -67,12 +67,15 @@
 # 2009-08-10  Sebastian <reg9009 at yahoo dot de>
 #             Adjust SQL query for vacation timeframe. It is now possible to set from/until date for vacation message.
 #
-# 2012-04-19   Nikolaos Topp <info at ichier.de>
+# 2012-04-1   Nikolaos Topp <info at ichier.de>
 #             Add configuration parameter $smtp_client in order to get mails through
 #             postfix helo-checks, using check_helo_access whitelist without permitting 'localhost' default style stuff
-# 2012-03-16  Jan Kruis <jan at crossreferenc dot nl>
-#             change SQL query for vacation into function.
 #
+# 2012-04-19  Jan Kruis <jan at crossreferenc dot nl>
+#             change SQL query for vacation into function.
+#             Add sub get_interval()
+#             Gives the user the option to set the interval time ( 0 = one reply, 1 = autoreply, > 1 = Delay reply ) 
+#             See https://sourceforge.net/tracker/?func=detail&aid=3508083&group_id=191583&atid=937966
 
 # Requirements - the following perl modules are required:
 # DBD::Pg or DBD::mysql
@@ -269,6 +272,25 @@ if ($db_type eq 'mysql') {
 # used to detect infinite address lookup loops
 my $loopcount=0;
 
+#
+# Get interval_time for email user from the vacation table 
+#
+sub get_interval {
+    my ($to) = @_;
+    my $query = qq{SELECT interval_time  FROM vacation  WHERE  email=? };
+    my $stm = $dbh->prepare($query) or panic_prepare($query);
+    $stm->execute($to) or panic_execute($query," 'email='$to'");
+    my $rv = $stm->rows;
+    if ($rv == 1) {
+        my @row = $stm->fetchrow_array;
+        my $interval = $row[0] ;
+        return $interval ;
+    } else {
+        return 0 ;
+    }
+}
+
+
 sub already_notified {
     my ($to, $from) = @_;
     my $logger = get_logger();
@@ -300,6 +322,9 @@ sub already_notified {
             # Let's play safe and notify anyway
             return 1;
         }
+
+        $interval = get_interval($to);
+
         if ($interval) {
             $query = qq{SELECT NOW()-notified_at FROM vacation_notification WHERE on_vacation=? AND notified=?};
             $stm = $dbh->prepare($query) or panic_prepare($query);

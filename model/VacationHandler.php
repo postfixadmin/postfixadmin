@@ -16,15 +16,15 @@ class VacationHandler {
     function remove() {
         if (!$this->updateAlias(0)) return false;
 
-          // tidy up vacation table.
-          $vacation_data = array(
+        // tidy up vacation table.
+        $vacation_data = array(
             'active' => db_get_boolean(false),
-          );
-          $result = db_update('vacation', 'email', $this->username, $vacation_data);
-          $result = db_delete('vacation_notification', 'on_vacation', $this->username);
-# TODO db_log() call (maybe except if called from set_away?)
-          /* crap error handling; oh for exceptions... */
-          return true;
+        );
+        $result = db_update('vacation', 'email', $this->username, $vacation_data);
+        $result = db_delete('vacation_notification', 'on_vacation', $this->username);
+        # TODO db_log() call (maybe except if called from set_away?)
+        /* crap error handling; oh for exceptions... */
+        return true;
     }
 
     /**
@@ -81,6 +81,8 @@ class VacationHandler {
             'subject' => $row['subject'],
             'body' => $row['body'],
             'active'  => $boolean ,
+            'reply_type' => $row['reply_type'],
+            'interval_time' => $row['interval_time'],
             'activeFrom' => $row['activefrom'],
             'activeUntil' => $row['activeuntil'],
         );
@@ -88,10 +90,12 @@ class VacationHandler {
     /**
      * @param string $subject
      * @param string $body
+     * @param string $reply_type
+     * @param string $interval_time
      * @param date $activeFrom
      * @param date $activeUntil
      */
-    function set_away($subject, $body, $activeFrom, $activeUntil) {
+    function set_away($subject, $body, $reply_type, $interval_time, $activeFrom, $activeUntil) {
         $this->remove(); // clean out any notifications that might already have been sent.
 
         $E_username = escape_string($this->username);
@@ -104,6 +108,8 @@ class VacationHandler {
             'domain' => $domain,
             'subject' => $subject,
             'body' => $body,
+            'reply_type' => $reply_type,
+            'interval_time' => $interval_time,
             'active' => db_get_boolean(true),
             'activefrom' => $activeFrom,
             'activeuntil' => $activeUntil,
@@ -117,13 +123,13 @@ class VacationHandler {
         } else {
             $result = db_insert('vacation', $vacation_data);
         }
-# TODO error check
-# TODO wrap whole function in db_begin / db_commit (or rollback)?
+        # TODO error check
+        # TODO wrap whole function in db_begin / db_commit (or rollback)?
 
         return $this->updateAlias(1);
     }
 
-     /**
+    /**
      * add/remove the vacation alias
      * @param int $vacationActive
      */
@@ -137,7 +143,7 @@ class VacationHandler {
 
         $values = array (
             'on_vacation' => $vacationActive,
-         );
+        );
 
         if (!$handler->set($values)) {
             # print_r($handler->errormsg); # TODO: error handling

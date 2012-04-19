@@ -42,6 +42,19 @@
 		</td>
 		<td>&nbsp;</td>
 	</tr>
+
+    <tr>
+        <td class="label"><label>{$PALANG.pVacation_reply_type}:</label></td>
+        <td><select class="flat" name="fReply_Type">{$select_options}</select></td>
+        <td>&nbsp;</td>
+    </tr>
+    <tr>
+        <td class="label"><label>{$PALANG.pVacation_reply_delay_time}:</label></td>
+        <td><input class="flat" type="text" name="fInterval_Time" value="{$tInterval_Time}" /></td>
+        <td>{$PALANG.pVacation_reply_delay_time_text}</td>
+        <td>&nbsp;</td>
+    </tr>
+
 	<tr>
 		<td class="label"><label>{$PALANG.pUsersVacation_subject}:</label></td>
 		<td><textarea class="flat" rows="3" cols="60" name="fSubject" >{$tSubject}</textarea></td>

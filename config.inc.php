@@ -299,6 +299,8 @@ $CONF['transport_options'] = array (
 // You should define default transport. It must be in array above.
 $CONF['transport_default'] = 'virtual';
 
+$CONF['usercontol'] = 'YES';
+
 // Virtual Vacation
 // If you want to use virtual vacation for you mailbox users set this to 'YES'.
 // NOTE: Make sure that you install the vacation module. (See VIRTUAL-VACATION/)
@@ -315,6 +317,23 @@ $CONF['vacation_control'] ='YES';
 // Vacation Control for admins
 // Set to 'YES' if your domain admins should be able to edit user vacation.
 $CONF['vacation_control_admin'] = 'YES';
+
+// Get the user ofr Admin a chioce of reply
+$CONF['choice_of_reply'] = array (
+    'One Reply',   // Only Reply ones on a email
+    'Auto Reply',  // Only Reply to this Sender  if last email from this sender 
+    'Interval Reply'   // same as above but delay time is 
+);
+
+$CONF['replytype_default'] = 'One Reply';
+$CONF['autoreplydelay_default'] = '10';    // Send no email if last email was send within 10 sec.
+$CONF['intervaldelay_default'] = '3600';   // Send only a reply to a email if the last 1 hour ago.
+
+// Users Control for Domain Admin
+// Set to "Yes" if your doamain admins schould be able to  edit  field userscontrole in  table domain
+// Userscontrol is edited in admin_create-domain.tpl and admin_edit-domain.tpl
+// Userscontrol is default set  to  on when creating a domain
+$CONF['users_domain_controle'] = 'YES';
 
 // Alias Control
 // Postfix Admin inserts an alias in the alias table for every mailbox it creates.

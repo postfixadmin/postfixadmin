@@ -191,6 +191,10 @@ $PALANG['pEdit_vacation_remove'] = 'Verwijder beantwoorden tekst';
 $PALANG['pVacation_result_error'] = 'Niet in staat automatisch beantwoorden te wijzigen!';
 $PALANG['pVacation_result_removed'] = 'Automatisch beantwoorden is voor %s gedeactiveerd!';
 $PALANG['pVacation_result_added'] = 'Automatisch beantwoorden is voor %s geactiveerd!';
+$PALANG['pVacation_result_added'] = 'Automatisch beantwoorden is geactiveerd!';
+$PALANG['pVacation_reply_type'] = 'Keuze van beantwoording';
+$PALANG['pVacation_reply_delay_time'] = 'Interval tijd';
+$PALANG['pVacation_reply_delay_time_text'] = 'Tijd in seconds';
 
 $PALANG['pViewlog_welcome'] = 'Laat de laatste 10 actie\'s zien van ';
 $PALANG['pViewlog_timestamp'] = 'Tijd';
@@ -272,6 +276,7 @@ $PALANG['pAdminList_virtual_mailbox_name'] = 'Naam';
 $PALANG['pAdminList_virtual_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pAdminList_virtual_mailbox_modified'] = 'Laatst bewerkt';
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Actief';
+$PALANG['pAdminList_domain_userscontrol'] = 'Gebruikers<br />Beheer';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Voeg een nieuw domein toe';
 $PALANG['pAdminCreate_domain_domain'] = 'Domein'; # obsolete
@@ -313,6 +318,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is back-up MX';
 $PALANG['pAdminEdit_domain_active'] = 'Actief';
 $PALANG['pAdminEdit_domain_button'] = 'Bewerk domein'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Mislukt het domein te bewerken.';
+$PALANG['pAdminEdit_domain_userscontrol'] = 'Sta contorle door gebruikers toe';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Voeg een nieuw domein beheerder toe';
 $PALANG['pAdminCreate_admin_username'] = 'Beheerder'; # obsolete
