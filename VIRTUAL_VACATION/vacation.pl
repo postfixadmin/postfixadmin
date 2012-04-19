@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 #
-# Virtual Vacation 4.0
+# Virtual Vacation 4.0r1
+#
 # $Revision$
 # Originally by Mischa Peters <mischa at high5 dot net>
 #
@@ -69,6 +70,9 @@
 # 2012-04-19   Nikolaos Topp <info at ichier.de>
 #             Add configuration parameter $smtp_client in order to get mails through
 #             postfix helo-checks, using check_helo_access whitelist without permitting 'localhost' default style stuff
+# 2012-03-16  Jan Kruis <jan at crossreferenc dot nl>
+#             change SQL query for vacation into function.
+#
 
 # Requirements - the following perl modules are required:
 # DBD::Pg or DBD::mysql
@@ -316,6 +320,19 @@ sub already_notified {
     return 0;
 }
 
+#
+# Check to see if there is a vacation record against a specific email address. 
+#
+sub check_for_vacation {
+    my ($email_to_check) =@_;
+    my $query = qq{SELECT email FROM vacation WHERE email=? and active=$db_true and activefrom <= NOW() and activeuntil >= NOW()};
+    my $stm = $dbh->prepare($query) or panic_prepare($query);
+    $stm->execute($email_to_check) or panic_execute($query,"email='$email_to_check'");
+    my $rv = $stm->rows;
+    return $rv;
+}
+
+
 # try and determine if email address has vacation turned on; we
 # have to do alias searching, and domain aliasing resolution for this.
 # If found, return ($num_matches, $real_email);
@@ -327,11 +344,7 @@ sub find_real_address {
         exit(1);
     }
     my $realemail = '';
-    # TODO: make a function from the following query - the same query is used at 3 different places in this script...
-    my $query = qq{SELECT email FROM vacation WHERE email=? and active=$db_true and activefrom <= NOW() and activeuntil >= NOW()};
-    my $stm = $dbh->prepare($query) or panic_prepare($query);
-    $stm->execute($email) or panic_execute($query,"email='$email'");
-    my $rv = $stm->rows;
+    my $rv = check_for_vacation($email);
 
 # Recipient has vacation
    if ($rv == 1) {
@@ -342,8 +355,8 @@ sub find_real_address {
       $vemail =~ s/\@/#/g;
       $vemail = $vemail . "\@" . $vacation_domain;
       $logger->debug("Looking for alias records that '$email' resolves to with vacation turned on");
-      $query = qq{SELECT goto FROM alias WHERE address=? AND (goto LIKE ? OR goto LIKE ? OR goto LIKE ? OR goto = ?)};
-      $stm = $dbh->prepare($query) or panic_prepare($query);
+      my $query = qq{SELECT goto FROM alias WHERE address=? AND (goto LIKE ? OR goto LIKE ? OR goto LIKE ? OR goto = ?)};
+      my $stm = $dbh->prepare($query) or panic_prepare($query);
       $stm->execute($email,"$vemail,%","%,$vemail","%,$vemail,%", "$vemail") or panic_execute($query,"address='$email'");
       $rv = $stm->rows;
 
@@ -356,10 +369,7 @@ sub find_real_address {
                 for (split(/\s*,\s*/, lc($alias))) {
                     my $singlealias = $_;
                     $logger->debug("Found alias \'$singlealias\' for email \'$email\'. Looking if vacation is on for alias.");
-                    $query = qq{SELECT email FROM vacation WHERE email=? AND active=$db_true and activefrom <= NOW() and activeuntil >= NOW()};
-                    $stm = $dbh->prepare($query) or panic_prepare($query);
-                    $stm->execute($singlealias) or panic_execute($query,"email='$singlealias'");
-                    $rv = $stm->rows;
+                    $rv = check_for_vacaton($singlealias);
 # Alias has vacation
                     if ($rv == 1) {
                         $realemail = $singlealias;
@@ -367,10 +377,7 @@ sub find_real_address {
                     }
                 }
             } else {
-                $query = qq{SELECT email FROM vacation WHERE email=? AND active=$db_true and activefrom <= NOW() and activeuntil >= NOW()};
-                $stm = $dbh->prepare($query) or panic_prepare($query);
-                $stm->execute($alias) or panic_prepare($query,"email='$alias'");
-                $rv = $stm->rows;
+                $rv = check_for_vacation($alias);
 # Alias has vacation
                 if ($rv == 1) {
                     $realemail = $alias;
