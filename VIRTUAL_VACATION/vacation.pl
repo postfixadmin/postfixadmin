@@ -71,7 +71,7 @@
 #             Add configuration parameter $smtp_client in order to get mails through
 #             postfix helo-checks, using check_helo_access whitelist without permitting 'localhost' default style stuff
 #
-# 2012-04-19  Jan Kruis <jan at crossreferenc dot nl>
+# 2012-04-19  Jan Kruis <jan at crossreference dot nl>
 #             change SQL query for vacation into function.
 #             Add sub get_interval()
 #             Gives the user the option to set the interval time ( 0 = one reply, 1 = autoreply, > 1 = Delay reply ) 
@@ -304,8 +304,8 @@ sub already_notified {
     }
     $stm->execute($to,$from);
 
-    my $query = qq{INSERT into vacation_notification (on_vacation,notified) values (?,?)};
-    my $stm = $dbh->prepare($query);
+    $query = qq{INSERT into vacation_notification (on_vacation,notified) values (?,?)};
+    $stm = $dbh->prepare($query);
     if (!$stm) {
         $logger->error("Could not prepare query '$query' to: $to, from:$from");
         return 1;

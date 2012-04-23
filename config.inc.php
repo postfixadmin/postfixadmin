@@ -299,12 +299,17 @@ $CONF['transport_options'] = array (
 // You should define default transport. It must be in array above.
 $CONF['transport_default'] = 'virtual';
 
-$CONF['usercontol'] = 'YES';
 
-// Virtual Vacation
+//
+//
+// Virtual Vacation Stuff
+//
+//
+
 // If you want to use virtual vacation for you mailbox users set this to 'YES'.
 // NOTE: Make sure that you install the vacation module. (See VIRTUAL-VACATION/)
 $CONF['vacation'] = 'NO';
+
 // This is the autoreply domain that you will need to set in your Postfix
 // transport maps to handle virtual vacations. It does not need to be a
 // real domain (i.e. you don't need to setup DNS for it).
@@ -318,22 +323,52 @@ $CONF['vacation_control'] ='YES';
 // Set to 'YES' if your domain admins should be able to edit user vacation.
 $CONF['vacation_control_admin'] = 'YES';
 
-// Get the user ofr Admin a chioce of reply
-$CONF['choice_of_reply'] = array (
-    'One Reply',   // Only Reply ones on a email
-    'Auto Reply',  // Only Reply to this Sender  if last email from this sender 
-    'Interval Reply'   // same as above but delay time is 
+// Alllow ReplyType Control
+// This varible will be checked in ./templates/vacation.tpl 
+// YES means it show the reply option, everything else means it will not show
+$CONF['vacation_replytype_control'] = 'YES';
+
+// AllowUser Reply
+// You can Allow or Disable User control over Reply Type
+// This variable will be checked in ./templates/vacation.tpl 
+// YES means it show the reply option, anything else means it will not show
+$CONF['vacation_allow_user_reply'] = 'YES';
+
+// ReplyType options
+// If you want to define additional reply options put them in array below.
+$CONF['vacation_choice_of_reply'] = array (
+   'One Reply',        // Sends only Once the message during Out of Office
+   'Auto Reply',       // Reply on every email but not within autoreplydelay
+   'Interval Reply'        // Reply on every email but not within intervaldelay_default 
 );
 
-$CONF['replytype_default'] = 'One Reply';
-$CONF['autoreplydelay_default'] = '10';    // Send no email if last email was send within 10 sec.
-$CONF['intervaldelay_default'] = '3600';   // Send only a reply to a email if the last 1 hour ago.
+// ReplyType default
+// You should define default replytype. It must be in array above.
+$CONF['vacation_replytype_default'] = 'One Reply';
+
+// autoreplydelay
+// You should define autodefaultdelay is seconds
+// if a new message comes in within this delay it most likely that that the sender is
+// autoreplying on our autoreply message.
+$CONF['vacation_autoreplydelay_default'] = '10';
+
+// Replydelay default
+// You should define default replydelay time here time in in seconds.
+$CONF['vacation_intervaldelay_default'] = '86400'; // is 1 day = 60 sec * 60 min * 24 hours
+
+//
+// End Vacation Stuff.
+//
 
 // Users Control for Domain Admin
-// Set to "Yes" if your doamain admins schould be able to  edit  field userscontrole in  table domain
+// Set to "Yes" if your domain admins schould be able to  edit  field userscontrole in  table domain
 // Userscontrol is edited in admin_create-domain.tpl and admin_edit-domain.tpl
 // Userscontrol is default set  to  on when creating a domain
 $CONF['users_domain_controle'] = 'YES';
+
+
+$CONF['usercontol'] = 'YES';
+
 
 // Alias Control
 // Postfix Admin inserts an alias in the alias table for every mailbox it creates.

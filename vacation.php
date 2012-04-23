@@ -98,11 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
    if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
    if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
 
-    if ($tReply_Type =='') { $tReply_Type = $CONF['replytype_default'];}
+    if ($tReply_Type =='') { $tReply_Type = $CONF['vacation_replytype_default'];}
     if ($tReply_Type =='One Reply') { $tInterval_Time = '0';}
-    if ($tReply_Type =='Auto Reply') { $tInterval_Time = $CONF['autoreplydelay_default'];}
-    if (($tReply_Type =='Interval Reply') and ($tInterval_Time =='')) { $tInterval_Time = $CONF['intervaldelay_default'];}
-    if (($tReply_Type =='Interval Reply') and ($tInterval_Time <= $CONF['autoreplydelay_default'])) { $tInterval_Time = $CONF['intervaldelay_default'];}
+    if ($tReply_Type =='Auto Reply') { $tInterval_Time = $CONF['vacation_autoreplydelay_default'];}
+    if (($tReply_Type =='Interval Reply') and ($tInterval_Time =='')) { $tInterval_Time = $CONF['vacation_intervaldelay_default'];}
+    if (($tReply_Type =='Interval Reply') and ($tInterval_Time <= $CONF['vacation_autoreplydelay_default'])) { $tInterval_Time = $CONF['vacation_intervaldelay_default'];}
 
 }
 
@@ -132,11 +132,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     //set a default, reset fields for coming back selection
    if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
    if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
-   if ($tReply_Type =='')  { $tReply_Type = $CONF['replytype_default'];}
+   if ($tReply_Type =='')  { $tReply_Type = $CONF['vacation_replytype_default'];}
    if ($tReply_Type =='One Reply')  { $tInterval_Time = '0';}
-   if ($tReply_Type =='Auto Reply') { $tInterval_Time = $CONF['autoreplydelay_default'];}
-   if (($tReply_Type =='Interval Reply') and ($tInterval_Time ==''))  { $tInterval_Time  = $CONF['intervaldelay_default'];}
-   if (($tReply_Type =='Interval Reply') and ($tInterval_Time <= $CONF['autoreplydelay_default']))  { $tInterval_Time = $CONF['intervaldelay_default'];}
+   if ($tReply_Type =='Auto Reply') { $tInterval_Time = $CONF['vacation_autoreplydelay_default'];}
+   if (($tReply_Type =='Interval Reply') and ($tInterval_Time ==''))  { $tInterval_Time  = $CONF['vacation_intervaldelay_default'];}
+   if (($tReply_Type =='Interval Reply') and ($tInterval_Time <= $CONF['vacation_autoreplydelay_default']))  { $tInterval_Time = $CONF['vacation_intervaldelay_default'];}
 
    $fReply_Type = $tReply_Type ;
    $fInterval_Time = $tInterval_Time;
@@ -187,7 +187,7 @@ $smarty->assign ('tSubject', $tSubject);
 $smarty->assign ('tBody', $tBody);
 $smarty->assign ('tActiveFrom',  date ("d.m.Y", strtotime ($tActiveFrom)));
 $smarty->assign ('tActiveUntil',  date ("d.m.Y", strtotime ($tActiveUntil)));
-$smarty->assign ('select_options', select_options ( $CONF ['choice_of_reply'], array ($tReply_Type)),false);
+$smarty->assign ('select_options', select_options ( $CONF ['vacation_choice_of_reply'], array ($tReply_Type)),false);
 $smarty->assign ('tInterval_Time', $tInterval_Time);
 $smarty->assign ('smarty_template', 'vacation');
 $smarty->display ('index.tpl');
