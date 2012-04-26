@@ -1,0 +1,53 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Changes:
+#   - Initial translation
+#       Matías Bellone <matiasbellone+debian@gmail.com>, 2012
+#
+# Traductores, si no conocen el formato PO, merece la pena leer la
+# documentación de gettext, especialmente las secciones dedicadas a este
+# formato, por ejemplo ejecutando:
+#          info -n '(gettext)PO Files'
+#          info -n '(gettext)Header Entry'
+#
+# Equipo de traducción al español, por favor, lean antes de traducir
+# los siguientes documentos:
+#
+#  - El proyecto de traducción de Debian al español
+#    http://www.debian.org/intl/spanish/
+#    especialmente las notas de traducción en
+#    http://www.debian.org/intl/spanish/notas
+#
+#  - La guía de traducción de po's de debconf:
+#    /usr/share/doc/po-debconf/README-trans
+#    o http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: postfixadmin@packages.debian.org\n"
+"POT-Creation-Date: 2008-10-27 22:14+0100\n"
+"PO-Revision-Date: 2012-04-15 04:27:00+00:00\n"
+"Last-Translator: Matías Bellone <matiasbellone+debian@gmail.com>\n"
+"Language-Team: Debian Spanish <debian-l10n-spanish@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: multiselect
+#. Description
+#: ../templates:1001
+msgid "Web server to reconfigure automatically:"
+msgstr "Servidor web a reconfigurar automáticamente:"
+
+#. Type: multiselect
+#. Description
+#: ../templates:1001
+msgid ""
+"Please choose the web server that should be automatically configured to run "
+"postfixadmin."
+msgstr ""
+"Seleccione el servidor web que deberá ser configurado automáticamente "
+"para ejecutar «postfixadmin»."

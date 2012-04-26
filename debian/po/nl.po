@@ -1,0 +1,32 @@
+# Dutch translation of postfixadmin debconf templates.
+# Copyright (C) 2012 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the postfixadmin package.
+# Jeroen Schot <schot@a-eskwadraat.nl>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: postfixadmin 2.3.5-1\n"
+"Report-Msgid-Bugs-To: postfixadmin@packages.debian.org\n"
+"POT-Creation-Date: 2008-10-27 22:14+0100\n"
+"PO-Revision-Date: 2012-04-12 15:26+0200\n"
+"Last-Translator: Jeroen Schot <schot@a-eskwadraat.nl>\n"
+"Language-Team: Debian l10n Dutch <debian-l10n-dutch@lists.debian.org>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: multiselect
+#. Description
+#: ../templates:1001
+msgid "Web server to reconfigure automatically:"
+msgstr "Automatisch te configureren webserver:"
+
+#. Type: multiselect
+#. Description
+#: ../templates:1001
+msgid ""
+"Please choose the web server that should be automatically configured to run "
+"postfixadmin."
+msgstr ""
+"Welke webserver moet automatisch worden geconfigureerd voor postfixadmin?"

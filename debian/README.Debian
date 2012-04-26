@@ -1,20 +1,13 @@
 PostfixAdmin for Debian
 =======================
-
 After installing the package, you should find that :
 
 http://youserver/postfixadmin/setup.php works. This should 
 guide you through the appropriate process.
 
-You will need to create a database (either MySQL or PostgreSQL) 
-and know the username and password for it. The Database does not need
-to be on the same server as the Postfixadmin install.
-
-
 
 Recommended and Suggested Packages
 ==================================
-
  - Postfix
  - MySQL or PostgreSQL
  - Courier or Dovecot
@@ -22,25 +15,8 @@ Recommended and Suggested Packages
 
 Where to get help
 =================
-
 The first stop would be the Postfixadmin Website, Forum or IRC channel. 
 
 See :
  - http://postfixadmin.sf.net
  - #postfixadmin on irc.freenode.net
-
-
-How to build this package for Debian/lenny
-==========================================
-
-If you want to build this package for Debian/lenny, you have to execute
-
-	DIST="lenny" dpkg-buildpackage -rfakeroot
-
-This will include the confd-link.sh script into the package. That script
-is included in wwwconfig-common >0.2, but we have an older version in
-lenny at the moment.
-
-We (upstream and myself) want to provide also an lenny ready package,
-which will be available via sf.net. Just as an easy way for interested
-people which are running lenny.
