@@ -10,7 +10,6 @@ scripts		usr/share/postfixadmin
 smarty		usr/share/postfixadmin
 templates	usr/share/postfixadmin
 templates_c	usr/share/postfixadmin
-tests		usr/share/postfixadmin
 users		usr/share/postfixadmin
 debian/apache.conf	etc/postfixadmin
 debian/lighttpd.conf	etc/postfixadmin

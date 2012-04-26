@@ -1,0 +1,34 @@
+# Italian translation of postfixadmin debconf messages.
+# Copyright (C) 2012 postfixadmin package copyright holder
+# This file is distributed under the same license as the postfixadmin package.
+# Beatrice Torracca <beatricet@libero.it>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: postfixadmin\n"
+"Report-Msgid-Bugs-To: postfixadmin@packages.debian.org\n"
+"POT-Creation-Date: 2008-10-27 22:14+0100\n"
+"PO-Revision-Date: 2012-04-07 16:15+0200\n"
+"Last-Translator: Beatrice Torracca <beatricet@libero.it>\n"
+"Language-Team: Italian <debian-l10n-italian@lists.debian.org>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
+
+#. Type: multiselect
+#. Description
+#: ../templates:1001
+msgid "Web server to reconfigure automatically:"
+msgstr "Server web da riconfigurare automaticamente:"
+
+#. Type: multiselect
+#. Description
+#: ../templates:1001
+msgid ""
+"Please choose the web server that should be automatically configured to run "
+"postfixadmin."
+msgstr ""
+"Scegliere il server web che deve essere configurato automaticamente per "
+"eseguire postfixadmin."

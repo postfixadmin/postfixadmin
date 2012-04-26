@@ -2,22 +2,26 @@ Source: postfixadmin
 Section: admin
 Priority: optional
 Maintainer: Norman Messtorff <normes@normes.org>
-Build-Depends: debhelper (>= 7), po-debconf, quilt (>= 0.46)
-Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 7), po-debconf
+Standards-Version: 3.9.3
+XS-Vcs-Svn: https://postfixadmin.svn.sourceforge.net/svnroot/postfixadmin/trunk
+XS-Vcs-Browser: https://postfixadmin.svn.sourceforge.net/svnroot/postfixadmin/trunk
 Homepage: http://postfixadmin.sourceforge.net
 
 Package: postfixadmin
 Architecture: all
 Depends: debconf (>= 0.5), dbconfig-common, wwwconfig-common, apache2 | lighttpd | httpd, libapache2-mod-php5 | php5-cgi | php5, php5-cli, php5-imap, php5-mysql | php5-pgsql, mysql-client | postgresql-client, ${misc:Depends}
 Recommends: postfix-mysql | postfix-pgsql, mysql-server | postgresql-server
-Suggests: squirrelmail-postfixadmin, dovecot-common | courier-authlib-mysql | courier-authlib-postgresql
+Suggests: dovecot-common | courier-authlib-mysql | courier-authlib-postgresql
 Description: Virtual mail hosting interface for Postfix
- Postfixadmin is a web interface to managing virtual users and domains
- for a Postfix mail transport agent. The web interface is written in PHP.
- It supports Virtual mailboxes, aliases, forwarders and vacation.
+ Postfixadmin is a web interface to manage virtual users and domains
+ for a Postfix mail transport agent. It supports Virtual mailboxes, 
+ aliases, forwarders and vacation.
  .
- Allows administrators to delegate the handling of domains to the
- domain administrators. Allows users to login and change their own
+ Postfixadmin allows administrators to delegate account handling 
+ to domain administrators and allows users to login and change their own
  settings (e.g. forwarders, vacation, passwords etc).
  .
- Provides easy integration into dovecot, courier or cyrus.
+ It provides easy integration into dovecot, courier or cyrus.
+ .
+ Postfixadmin is written in PHP.

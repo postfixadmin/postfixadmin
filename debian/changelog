@@ -1,19 +1,14 @@
-postfixadmin (2.3.2) unstable; urgency=low
+postfixadmin (2.3.5-2) unstable; urgency=low
 
-  * New upstream release
+  * Added .po translation files (Closes: 667951, #667962, #668202, #668288)
+  * Closes: #668298, #668301, #668405, #668635
+  * Updated standards version to 3.9.3 without changes.
 
- -- David Goodwin <david.goodwin@palepurple.co.uk>  Mon, 23 Aug 2010 11:24:00 +0100
+ -- Norman Messtorff <normes@normes.org>  Thu, 26 Apr 2012 20:55:57 +0200
 
-postfixadmin (2.3.1) unstable; urgency=low
+postfixadmin (2.3.5-1) unstable; urgency=low
 
-  * New upstream release
-  * Updated .deb standards (thanks normes)
+  * Initial Debian release (Closes: #247225)
 
- -- David Goodwin <david.goodwin@palepurple.co.uk>  Thu, 08 Jul 2010 22:20:14 +0100
-
-postfixadmin (2.3) unstable; urgency=low
-
-  * Initial release (Closes: #247225)
-
- -- Norman Messtorff <normes@normes.org>  Sun, 21 Feb 2010 22:36:26 +0200
+ -- Norman Messtorff <normes@normes.org>  Sun, 15 Jan 2012 12:27:28 +0100
 

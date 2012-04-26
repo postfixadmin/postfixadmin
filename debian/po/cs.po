@@ -1,0 +1,32 @@
+# Czech PO debconf template translation of postfixadmin.
+# Copyright (C) 2012 Michal Simunek <michal.simunek@gmail.com>
+# This file is distributed under the same license as the postfixadmin package.
+# Michal Simunek <michal.simunek@gmail.com>, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: postfixadmin 2.3.5-1\n"
+"Report-Msgid-Bugs-To: postfixadmin@packages.debian.org\n"
+"POT-Creation-Date: 2008-10-27 22:14+0100\n"
+"PO-Revision-Date: 2012-04-13 18:31+0200\n"
+"Last-Translator: Michal Simunek <michal.simunek@gmail.com>\n"
+"Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: multiselect
+#. Description
+#: ../templates:1001
+msgid "Web server to reconfigure automatically:"
+msgstr "Automaticky přenastavit webový server:"
+
+#. Type: multiselect
+#. Description
+#: ../templates:1001
+msgid ""
+"Please choose the web server that should be automatically configured to run "
+"postfixadmin."
+msgstr ""
+"Zvolte si prosím webový server, který se má automaticky nastavit ke "
+"spuštění postfixadmin."
