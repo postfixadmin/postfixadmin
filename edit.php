@@ -14,11 +14,13 @@
  * 
  * File: edit.php
  * This file implements the handling of edit forms.
+ * The form layout is retrieved from the *Handler classes, which also do
+ * the actual work of verifying and storing the values.
  *
  * GET parameters:
  *      table   what to edit (*Handler)
- *      edit    item to edit
- *      active  only change active state to given value (which must be 0 or 1) and return to listview
+ *      edit    item to edit (if net given: a new item will be created)
+ *      active  if given: only change active state to given value (which must be 0 or 1) and return to listview
  */
 
 require_once('common.php');
@@ -33,7 +35,6 @@ if ( !preg_match('/^[a-z]+$/', $table) || !file_exists("model/$handlerclass.php"
 }
 
 $error = 0;
-$mode = 'create';
 
 $edit = safepost('edit', safeget('edit'));
 $new  = 0;
@@ -53,7 +54,7 @@ if ($active != '0' && $active != '1') {
 
 if ($edit != '' || $active != '' || $formconf['early_init']) {
     if (!$handler->init($edit)) {
-        flash_error(join("<br />", $handler->errormsg));
+        flash_error($handler->errormsg);
         header ("Location: " . $formconf['listview']);
         exit;
     }
@@ -63,10 +64,9 @@ $form_fields = $handler->getStruct();
 $id_field    = $handler->getId_field();
 
 if ($edit != "") {
-    $mode = 'edit';
     if ($_SERVER['REQUEST_METHOD'] == "GET" && $active == '') { # read values from database (except if $active is set to save some CPU cycles)
         if (!$handler->view()) {
-            flash_error(join("<br />", $handler->errormsg));
+            flash_error($handler->errormsg);
             header ("Location: " . $formconf['listview']);
             exit;
         } else {
@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $active != '') {
             # TODO: - use a different success message for create and edit
 
             if (count($handler->errormsg)) { # might happen if domain_postcreation fails
-                flash_error(join("<br />", $handler->errormsg));
+                flash_error($handler->errormsg);
             }
 
             if ($edit != "") {
@@ -172,21 +172,20 @@ foreach($form_fields as $key => $field) {
   }
 }
 
-foreach($errormsg as $msg) { # output the remaining error messages (not related to a field) with flash_error
-    flash_error($msg);
-}
+if (count($errormsg)) flash_error($errormsg); # display the remaining error messages (not related to a field) with flash_error
 
-if ($mode == 'edit') {
-    $smarty->assign('formtitle', Lang::read($formconf['formtitle_edit']));
-    $smarty->assign('submitbutton', Lang::read('save'));
-} else {
+if ($new) {
+    $smarty->assign ('mode', 'create');
     $smarty->assign('formtitle', Lang::read($formconf['formtitle_create']));
     $smarty->assign('submitbutton', Lang::read($formconf['create_button']));
+} else {
+    $smarty->assign ('mode', 'edit');
+    $smarty->assign('formtitle', Lang::read($formconf['formtitle_edit']));
+    $smarty->assign('submitbutton', Lang::read('save'));
 }
 
 $smarty->assign ('struct', $form_fields);
 $smarty->assign ('fielderror', $fielderror);
-$smarty->assign ('mode', $mode);
 $smarty->assign ('table', $table);
 $smarty->assign ('smarty_template', 'editform');
 $smarty->display ('index.tpl');
