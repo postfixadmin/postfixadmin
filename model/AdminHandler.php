@@ -128,6 +128,7 @@ class AdminHandler extends PFAHandler {
      * can be used to update additional tables, call scripts etc.
      */
     protected function storemore() {
+        # store list of allowed domains in the domain_admins table
         if (isset($this->values['domains'])) {
             if (is_array($this->values['domains'])) {
                 $domains = $this->values['domains'];
@@ -173,6 +174,7 @@ class AdminHandler extends PFAHandler {
 
     protected function read_from_db_postprocess($db_result) {
         foreach ($db_result as $key => $row) {
+            # convert 'domains' field to an array
             if ($row['domains'] == '') {
                 $db_result[$key]['domains'] = array();
             } else {

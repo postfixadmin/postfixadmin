@@ -20,6 +20,8 @@ class AliasHandler extends PFAHandler {
         $this->db_table = 'alias';
         $this->id_field = 'address';
 
+        # hide 'goto_mailbox' if $this->new
+        # (for existing aliases, init() hides it for non-mailbox aliases)
         $mbgoto = 1 - $this->new;
 
         $this->struct=array(
@@ -46,13 +48,21 @@ class AliasHandler extends PFAHandler {
                     ' ) AS __mailbox ON __mailbox_username = address' ),
             'goto_mailbox'  => pacol(   $mbgoto,    $mbgoto,$mbgoto,'bool', 'pEdit_alias_forward_and_store' , ''                                , 0,
                 /*options*/ '',
-                /*not_in_db*/ 1                         ),
+                /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value
             'on_vacation'   => pacol(   1,          0,      1,      'bool', 'pUsersMenu_vacation'           , ''                                , 0 ,
                 /*options*/ '', 
-                /*not_in_db*/ 1                         ),
+                /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value - TODO: read active flag from vacation table instead?
             'active'        => pacol(   1,          1,      1,      'bool', 'pAdminEdit_domain_active'      , ''                                , 1     ),
             'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                ),
+            'editable'      => pacol(   0,          0,      1,      'int', ''                             , ''                                , 0 ,
+                # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
+                # technically 'editable' is bool, but the automatic bool conversion breaks the query. Flagging it as int avoids this problem.
+                # Maybe having a vbool type (without the automatic conversion) would be cleaner - we'll see if we need it.
+                /*options*/ '',
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ '1 as editable'              ),
         );
     }
 
@@ -91,6 +101,10 @@ class AliasHandler extends PFAHandler {
     }
 
 
+    /**
+     * AliasHandler needs some special handling in init() and therefore overloads the function.
+     * It also calls parent::init()
+     */
     public function init($id) {
         @list($local_part,$domain) = explode ('@', $id); # supress error message if $id doesn't contain '@'
 
@@ -220,11 +234,12 @@ class AliasHandler extends PFAHandler {
             }
         }
 
-        $this->values['goto'] = join(',', $values['goto']); # TODO: add mailbox and vacation aliases
+        $this->values['goto'] = join(',', $values['goto']);
     }
 
     protected function read_from_db_postprocess($db_result) {
         foreach ($db_result as $key => $value) {
+            # split comma-separated 'goto' into an array
             $db_result[$key]['goto'] = explode(',', $db_result[$key]['goto']);
 
             # Vacation enabled?
@@ -232,12 +247,15 @@ class AliasHandler extends PFAHandler {
 
             # if it is a mailbox, does the alias point to the mailbox?
             if ($db_result[$key]['is_mailbox']) {
-                # this intentionally does not catch mailbox targets with recipient delimiter.
+                # this intentionally does not match mailbox targets with recipient delimiter.
                 # if it would, we would have to make goto_mailbox a text instead of a bool (which would annoy 99% of the users)
                 list($db_result[$key]['goto_mailbox'], $db_result[$key]['goto']) = remove_from_array($db_result[$key]['goto'], $key);
             } else { # not a mailbox
                 $db_result[$key]['goto_mailbox'] = 0;
             }
+
+            # TODO: set 'editable' to 0 if not superadmin, $CONF[special_alias_control] == NO and alias is in $CONF[default_aliases]
+            # TODO: see check_alias_owner() in functions.inc.php
         }
 
         return $db_result;
@@ -269,6 +287,7 @@ class AliasHandler extends PFAHandler {
             if (substr($singlegoto, 0, 1) == '@') { # domain-wide forward - check only the domain part
                 # Note: alias domains are better, but we should keep this way supported for backward compatibility
                 #       and because alias domains can't forward to external domains
+                # TODO: allow this only if $this->id is a catchall?
                 list (/*NULL*/, $domain) = explode('@', $singlegoto);
                 if (!check_domain($domain)) {
                      $errors[] = "invalid: $singlegoto"; # TODO: better error message
@@ -279,7 +298,7 @@ class AliasHandler extends PFAHandler {
         }
 
         if (count($errors)) {
-            $this->errormsg[$field] = join("   ", $errors);
+            $this->errormsg[$field] = join("   ", $errors); # TODO: find a way to display multiple error messages per field
             return false;
         } else {
             return true;
@@ -289,6 +308,9 @@ class AliasHandler extends PFAHandler {
     protected function _missing_on_vacation($field) { return $this->set_default_value($field); }
     protected function _missing_active     ($field) { return $this->set_default_value($field); }
 
+    /**
+     * on $this->new, set localpart based on address
+     */
     protected function _missing_localpart  ($field) {
         if (isset($this->RAWvalues['address'])) {
             $parts = explode('@', $this->RAWvalues['address']);
@@ -296,6 +318,9 @@ class AliasHandler extends PFAHandler {
         }
     }
 
+    /**
+     * on $this->new, set localpart based on address
+     */
     protected function _missing_domain     ($field) {
         if (isset($this->RAWvalues['address'])) {
             $parts = explode('@', $this->RAWvalues['address']);
