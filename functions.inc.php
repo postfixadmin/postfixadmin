@@ -1497,31 +1497,6 @@ function db_get_boolean($bool) {
     }
 }
 
-/**
- * Converts a boolean value from the database internal format to integer (0 or 1)
- * Currently only PostgreSQL and MySQL are supported.
- * @param string $bool (REQUIRED)
- * @return int
- */
-function db_boolean_to_int($bool) {
-    global $CONF;
-
-    if($CONF['database_type']=='pgsql') {
-        // return either true or false (unquoted strings)
-        if($bool == 't') {
-            return 1;
-        }  
-        return 0;
-    } elseif($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli') {
-        if($bool) {
-            return 1;  
-        } 
-        return 0;
-    } else {
-        die('Unknown value in $CONF[database_type]');
-    }
-}
-
 //
 // db_query
 // Action: Sends a query to the database and returns query result and number of rows
