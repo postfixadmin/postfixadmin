@@ -113,7 +113,7 @@ function authentication_is_user() {
 
 /**
  * Add an error message for display on the next page that is rendered.
- * @param String message to show. 
+ * @param String/Array message(s) to show. 
  *
  * Stores string in session. Flushed through header template.
  * @see _flash_string()
@@ -124,8 +124,8 @@ function flash_error($string) {
 
 /**
  * Used to display an info message on successful update.
- * @param String $string
- * Stores data in sessio.
+ * @param String/Array message(s) to show. 
+ * Stores data in session.
  * @see _flash_string()
  */
 function flash_info($string) {
@@ -135,6 +135,13 @@ function flash_info($string) {
  * 'Private' method used for flash_info() and flash_error().
  */
 function _flash_string($type, $string) {
+    if (is_array($string)) {
+        foreach ($string as $singlestring) {
+            _flash_string($type, $singlestring);
+            return;
+        }
+    }
+
     if(!isset($_SESSION['flash'])) {
         $_SESSION['flash'] = array();
     }
