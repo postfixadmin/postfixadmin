@@ -1,22 +1,70 @@
 <?php
 class PFAHandler {
 
-    protected $id = null;
-    protected $db_table = null;
-    protected $id_field = null;
-    protected $struct = array();
-    protected $new = 0; # 1 on create, otherwise 0
-    protected $values = array();
-    protected $RAWvalues = array(); # unchecked (!) input given to set() - use it carefully!
-    protected $values_valid = false;
-    protected $admin_username = "";     # if set, restrict $allowed_domains to this admin
-    protected $domain_field = "";       # column containing the domain
-    protected $allowed_domains = false; # if $domain_field is set, this is an array with the domain list
+    /**
+     * public variables
+     */
 
+    # array of error messages - if a method returns false, you'll find the error message(s) here
     public $errormsg = array();
+
+
+    /**
+     * variables that must be defined in all *Handler classes
+     */
+
+    # (default) name of the database table
+    # (can be overridden by $CONF[database_prefix] and $CONF[database_tables][*] via table_by_key())
+    protected $db_table = null;
+
+    # field containing the ID
+    protected $id_field = null;
+
+    # column containing the domain
+    # if a table does not contain a domain column, leave empty and override no_domain_field())
+    protected $domain_field = "";
+
+
+    /**
+     * internal variables - filled by methods of *Handler
+     */
+
+    # if $domain_field is set, this is an array with the domain list
+    # set in __construct()
+    protected $allowed_domains = false;
+
+    # if set, restrict $allowed_domains to this admin
+    # set in __construct()
+    protected $admin_username = "";
+
+
+    # the ID of the current item (where item can be an admin, domain, mailbox, alias etc.)
+    # filled in init()
+    protected $id = null;
+
+    # structure of the database table, list, edit form etc.
+    # filled in initStruct()
+    protected $struct = array();
+
+    # new item or edit existing one?
+    # set in __construct()
+    protected $new = 0; # 1 on create, otherwise 0
+
+    # validated values
+    # filled in set()
+    protected $values = array();
+
+    # unchecked (!) input given to set() - use it carefully!
+    # filled in set(), can be modified by _missing_$field()
+    protected $RAWvalues = array();
+
+    # are the values given to set() valid?
+    # set by set(), checked by store()
+    protected $values_valid = false;
 
     # messages used in various functions
     # (stored separately to make the functions reuseable)
+    # filled by initMsg()
     protected $msg = array();
 
 
@@ -101,7 +149,9 @@ class PFAHandler {
         if ($this->new) {
             foreach($this->struct as $key=>$row) {
                 if ($row['editable'] && !isset($values[$key]) ) {
-                    $func="_missing_".$key; # call $this->_missing_$fieldname()
+                    # if a field is editable and not set, call $this->_missing_$fieldname()
+                    # (if the method exists - otherwise the field won't be set, resulting in an error later)
+                    $func="_missing_".$key;
                     if (method_exists($this, $func) ) {
                         $this->{$func}($key); # function can set $this->RAWvalues[$key] (or do nothing if it can't set a useful value)
                     }
@@ -117,14 +167,15 @@ class PFAHandler {
         foreach($this->struct as $key=>$row) {
             if ($row['editable'] == 0) { # not editable
                 if ($this->new == 1) {
+                    # on $new, always set non-editable field to default value on $new (even if input data contains another value)
                     $this->values[$key] = $row['default'];
                 }
-            } else {
+            } else { # field is editable
                 if (isset($values[$key])) {
                     if ($row['type'] != "pass" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
                         $valid = true; # trust input unless validator objects
 
-                        # validate based on field type (_inp_$type)
+                        # validate based on field type ($this->_inp_$type)
                         $func="_inp_".$row['type'];
                         if (method_exists($this, $func) ) {
                             if (!$this->{$func}($key, $values[$key])) $valid = false;
@@ -225,7 +276,9 @@ class PFAHandler {
     /**
      * read_from_db
      * @param array or string - condition (an array will be AND'ed using db_where_clause, a string will be directly used)
-     * @return array - rows
+     * @param integer limit - maximum number of rows to return
+     * @param integer offset - number of first row to return
+     * @return array - rows (as associative array, with the ID as key)
      */
     protected function read_from_db($condition, $limit=-1, $offset=-1) {
         $select_cols = array();
@@ -281,6 +334,8 @@ class PFAHandler {
         $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->id_field;
 
         if ($limit > -1 && $offset > -1) {
+            # TODO: make sure $limit and $offset are really integers - cast via (int) ?
+            # TODO: make sure $limit is > 0 (0 doesn't break anything, but guarantees an empty resultset, so it's pointless)
             $query .= " LIMIT $limit OFFSET $offset ";
         }
 
@@ -324,6 +379,8 @@ class PFAHandler {
     /**
      * get a list of one or more items with all values
      * @param array or string $condition
+     * @param integer limit - maximum number of rows to return
+     * @param integer offset - number of first row to return
      * @return bool - true if at least one item was found
      * The data is stored in $this->return (as array of rows, each row is an associative array of column => value)
      */
@@ -388,31 +445,47 @@ class PFAHandler {
 
 
     /**************************************************************************
+      * _inp_*()
       * functions for basic input validation
+      * @return boolean - true if the value is valid, otherwise false
+      * also set $this->errormsg[$field] if a value is invalid
       */
+
+    /**
+      * check if value is numeric and >= -1 (= minimum value for quota)
+     */
     function _inp_num($field, $val) {
         $valid = is_numeric($val);
         if ($val < -1) $valid = false;
-        if (!$valid) $this->errormsg[$field] = "$field must be numeric";
+        if (!$valid) $this->errormsg[$field] = "$field must be numeric"; # TODO: make translateable
         return $valid;
         # return (int)($val);
     }
 
+    /**
+      * check if value is (numeric) boolean - in other words: 0 or 1
+     */
     function _inp_bool($field, $val) {
         if ($val == "0" || $val == "1") return true;
-        $this->errormsg[$field] = "$field must be boolean";
+        $this->errormsg[$field] = "$field must be boolean"; # TODO: make translateable
         return false;
         # return $val ? db_get_boolean(true): db_get_boolean(false);
     }
 
+    /**
+      * check if value of an enum field is in the list of allowed values
+     */
     function _inp_enum($field, $val) {
         if(in_array($val, $this->struct[$field]['options'])) return true;
-        $this->errormsg[$field] = "Invalid parameter given for $field";
+        $this->errormsg[$field] = "Invalid parameter given for $field"; # TODO: make translateable
         return false;
     }
 
+    /**
+      * check if a password is secure enough
+     */
     function _inp_pass($field, $val){
-        $validpass = validate_password($val);
+        $validpass = validate_password($val); # returns array of error messages, or empty array on success
 
         if(count($validpass) == 0) return true;
 
