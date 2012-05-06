@@ -63,9 +63,6 @@ class AliasdomainHandler extends PFAHandler {
         return $success;
     }
 
-    # messages used in various functions.
-    # always list the key to hand over to Lang::read
-    # the only exception is 'logname' which uses the key for db_log
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'pCreate_alias_domain_error2'; # TODO: better error message
         $this->msg['error_does_not_exist'] = 'pCreate_alias_domain_error2'; # TODO: better error message
@@ -78,9 +75,6 @@ class AliasdomainHandler extends PFAHandler {
         }
     }
 
-    /*
-     * Configuration for the web interface
-     */
     public function webformConfig() {
         return array(
             # $PALANG labels

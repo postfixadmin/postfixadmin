@@ -1,5 +1,5 @@
 <?php
-class PFAHandler {
+abstract class PFAHandler {
 
     /**
      * public variables
@@ -71,7 +71,8 @@ class PFAHandler {
 
     /**
      * Constructor: fill $struct etc.
-     * @param string $new
+     * @param integer - 0 is edit mode, set to 1 to switch to create mode
+     * @param string - if an admin_username is specified, permissions will be restricted to the domains this admin may manage
      */
     public function __construct($new = 0, $admin_username = "") {
         if ($new) $this->new = 1;
@@ -97,9 +98,54 @@ class PFAHandler {
         $this->initMsg();
     }
 
+    /**
+     * ensure a lazy programmer can't give access to all items accidently
+     *
+     * to intentionally disable the check if $this->domain_field is empty, override this function
+     */
     protected function no_domain_field() {
             if ($this->admin_username != "") die('Attemp to restrict domains without setting $this->domain_field!');
     }
+
+    /**
+     * init $this->struct (an array of pacol() results)
+     * see pacol() in functions.inc.php for all available parameters
+     *
+     * available values for the "type" column:
+     *    text  one line of text
+     *    pass  password (will be encrypted with pacrypt())
+     *    num   number
+     *    txtl  text "list" - array of one line texts
+     *    vnum  "virtual" number, coming from JOINs etc.
+     *    bool  boolean (converted to 0/1, additional column _$field with yes/no)
+     *    ts    timestamp (created/modified)
+     *    enum  list of options, must be given in column "options" as array
+     *    list  like enum, but allow multiple selections
+     * You can use custom types, but you'll have to add handling for them in *Handler and the smarty templates
+     *
+     */
+    abstract protected function initStruct();
+
+    /**
+     * init $this->msg[] with messages used in various functions.
+     *
+     * always list the key to hand over to Lang::read
+     * the only exception is 'logname' which uses the key for db_log
+     *
+     * The values can depend on $this->new
+     * TODO: use separate keys edit_* and new_* and choose the needed message at runtime
+     */
+    abstract protected function initMsg();
+
+    /**
+     * returns an array with some labels and settings for the web interface
+     * can also change $this->struct to something that makes the web interface better
+     * (for example, it can make local_part and domain editable as separate fields
+     * so that users can choose the domain from a dropdown)
+     * 
+     * @return array
+     */
+    abstract public function webformConfig();
 
     /**
      * initialize with $id and check if it is valid
@@ -130,7 +176,13 @@ class PFAHandler {
         }
     }
 
-
+    /**
+     * on $new, check if the ID is valid (for example, check if it is a valid mail address syntax-wise)
+     * called by init()
+     * @return boolean true/false
+     * must also set $this->errormsg[$this->id_field] if ID is invalid
+     */
+    abstract protected function validate_new_id();
 
     /**
      * set and verify values
@@ -184,6 +236,7 @@ class PFAHandler {
                         }
 
                         # validate based on field name (_field_$fieldname)
+                        # TODO: rename to _validate_$key ?
                         $func="_field_".$key;
                         if (method_exists($this, $func) ) {
                             if (!$this->{$func}($key, $values[$key])) $valid = false;
@@ -194,7 +247,7 @@ class PFAHandler {
                         }
                     }
                 } elseif ($this->new) { # new, field not set in input data
-                    $this->errormsg[] = "field $key is missing";
+                    $this->errormsg[] = "field $key is missing"; # TODO: make translateable # TODO: use $this->errormsg[$key] ?
                     # echo "MISSING / not set: $key\n";
                 } else { # edit, field unchanged
                     # echo "skipped / not set: $key\n";
@@ -221,8 +274,11 @@ class PFAHandler {
 
     /**
      * store $this->values in the database
+     *
+     * converts values based on $this->struct[*][type] (boolean, password encryption)
+     *
      * calls $this->storemore() where additional things can be done
-     * @return bool - true if all values are valid, otherwise false
+     * @return bool - true if all values were stored in the database, otherwise false
      * error messages (if any) are stored in $this->errormsg
      */
     public function store() {
@@ -275,7 +331,14 @@ class PFAHandler {
 
     /**
      * read_from_db
+     *
+     * reads all fields specified in $this->struct from the database
+     * and auto-converts them to database-independent values based on the field type (see $colformat)
+     *
+     * calls $this->read_from_db_postprocess() to postprocess the result
+     *
      * @param array or string - condition (an array will be AND'ed using db_where_clause, a string will be directly used)
+     *                          (if you use a string, make sure it is correctly escaped!)
      * @param integer limit - maximum number of rows to return
      * @param integer offset - number of first row to return
      * @return array - rows (as associative array, with the ID as key)
@@ -295,7 +358,9 @@ class PFAHandler {
         }
 
         $colformat = array(
+            # 'ts' fields are always returned as $formatted_date, and the raw value as _$field
             'ts' => "$formatted_date AS ###KEY###, ###KEY### AS _###KEY###",
+            # 'bool' fields are always returned as 0/1, additonally _$field contains yes/no (already translated)
             'bool' => "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '1'    WHEN '" . db_get_boolean(false) . "' THEN '0'   END as ###KEY###," .
                       "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '$yes' WHEN '" . db_get_boolean(false) . "' THEN '$no' END as _###KEY###",
         );
@@ -328,6 +393,8 @@ class PFAHandler {
         }
 
         if ($this->domain_field != "") {
+            # TODO: wrap where clause in (...) to avoid problems if OR is used?
+            # TODO: Note: this would need a change in db_where_clause not to include the WHERE keyword in the result
             $where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains);
         }
 
@@ -352,6 +419,10 @@ class PFAHandler {
         return $db_result;
     }
 
+    /**
+     * allows to postprocess the database result
+     * called by read_from_db()
+     */
     protected function read_from_db_postprocess($db_result) {
         return $db_result;
     }
@@ -359,8 +430,8 @@ class PFAHandler {
 
     /**
      * get the values of an item
-     * @param array or string $condition
-     * @return bool - true if at least one item was found
+     * @param boolean (optional) - if false, $this->errormsg[] will not be filled in case of errors 
+     * @return bool - true if item was found
      * The data is stored in $this->return (as associative array of column => value)
      * error messages (if any) are stored in $this->errormsg
      */
@@ -378,7 +449,7 @@ class PFAHandler {
 
     /**
      * get a list of one or more items with all values
-     * @param array or string $condition
+     * @param array or string $condition - see read_from_db for details
      * @param integer limit - maximum number of rows to return
      * @param integer offset - number of first row to return
      * @return bool - true if at least one item was found

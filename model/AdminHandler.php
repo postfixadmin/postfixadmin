@@ -26,17 +26,6 @@ class AdminHandler extends PFAHandler {
         # TODO: shorter PALANG labels ;-)
         # TODO: hardcode 'default' to Config::read in pacol()?
 
-        # values for the "type" column:
-        # text  one line of text
-        # pass  password (will be encrypted with pacrypt())
-        # num   number
-        # txtl  text "list" - array of one line texts
-        # vnum  "virtual" number, coming from JOINs etc.
-        # bool  boolean (converted to 0/1, additional column _$field with yes/no)
-        # ts    timestamp (created/modified)
-        # enum  list of options, must be given in column "options" as array
-        # list  like enum, but allow multiple selections
-
         # NOTE: There are dependencies between domains and domain_count
         # NOTE: If you disable "display in list" for domain_count, the SQL query for domains might break.
         # NOTE: (Disabling both shouldn't be a problem.)
@@ -84,9 +73,6 @@ class AdminHandler extends PFAHandler {
         );
     }
 
-    # messages used in various functions.
-    # always list the key to hand over to Lang::read
-    # the only exception is 'logname' which uses the key for db_log
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'pAdminCreate_admin_username_text_error2'; # TODO: better error message
         $this->msg['error_does_not_exist'] = 'pAdminEdit_admin_result_error'; # TODO: better error message
@@ -99,9 +85,6 @@ class AdminHandler extends PFAHandler {
         }
     }
 
-    /*
-     * Configuration for the web interface
-     */
     public function webformConfig() {
         if ($this->new) {
             $successmsg = 'pAdminCreate_admin_result_success';

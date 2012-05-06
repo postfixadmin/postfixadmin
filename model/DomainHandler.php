@@ -31,14 +31,6 @@ class DomainHandler extends PFAHandler {
         $quota  = boolconf('quota')         ? 1 : 0; # TOOD: use a function or write a Config::intbool function
         $dom_q  = boolconf('domain_quota')  ? 1 : 0; # TOOD: use a function or write a Config::intbool function
 
-        # values for the "type" column:
-        # text  one line of text
-        # num   number
-        # vnum  "virtual" number, coming from JOINs etc.
-        # bool  boolean (converted to 0/1, additional column _$field with yes/no)
-        # ts    timestamp (created/modified)
-        # enum  list of options, must be given in column "options" as array
-
         # NOTE: There are dependencies between alias_count, mailbox_count and total_quota.
         # NOTE: If you disable "display in list" for one of them, the SQL query for the others might break.
         # NOTE: (Disabling all of them shouldn't be a problem.)
@@ -78,9 +70,6 @@ class DomainHandler extends PFAHandler {
         );
     }
 
-    # messages used in various functions.
-    # always list the key to hand over to Lang::read
-    # the only exception is 'logname' which uses the key for db_log
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'pAdminCreate_domain_domain_text_error';
         $this->msg['error_does_not_exist'] = 'domain_does_not_exist';
@@ -93,9 +82,6 @@ class DomainHandler extends PFAHandler {
         }
     }
 
-    /*
-     * Configuration for the web interface
-     */
     public function webformConfig() {
         return array(
             # $PALANG labels

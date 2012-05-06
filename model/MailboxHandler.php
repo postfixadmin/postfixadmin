@@ -40,9 +40,6 @@ class MailboxHandler extends PFAHandler {
         );
     }
 
-    # messages used in various functions.
-    # always list the key to hand over to Lang::read
-    # the only exception is 'logname' which uses the key for db_log
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'pCreate_mailbox_username_text_error2';
         $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1';
@@ -55,9 +52,6 @@ class MailboxHandler extends PFAHandler {
         }
     }
 
-    /*
-     * Configuration for the web interface
-     */
     public function webformConfig() {
          if ($this->new) { # the webform will display a local_part field + domain dropdown on $new
             $this->struct['username']['display_in_form'] = 0;
