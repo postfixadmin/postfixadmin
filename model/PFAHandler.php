@@ -454,7 +454,7 @@ class PFAHandler {
     /**
       * check if value is numeric and >= -1 (= minimum value for quota)
      */
-    function _inp_num($field, $val) {
+    protected function _inp_num($field, $val) {
         $valid = is_numeric($val);
         if ($val < -1) $valid = false;
         if (!$valid) $this->errormsg[$field] = "$field must be numeric"; # TODO: make translateable
@@ -465,7 +465,7 @@ class PFAHandler {
     /**
       * check if value is (numeric) boolean - in other words: 0 or 1
      */
-    function _inp_bool($field, $val) {
+    protected function _inp_bool($field, $val) {
         if ($val == "0" || $val == "1") return true;
         $this->errormsg[$field] = "$field must be boolean"; # TODO: make translateable
         return false;
@@ -475,7 +475,7 @@ class PFAHandler {
     /**
       * check if value of an enum field is in the list of allowed values
      */
-    function _inp_enum($field, $val) {
+    protected function _inp_enum($field, $val) {
         if(in_array($val, $this->struct[$field]['options'])) return true;
         $this->errormsg[$field] = "Invalid parameter given for $field"; # TODO: make translateable
         return false;
@@ -484,7 +484,7 @@ class PFAHandler {
     /**
       * check if a password is secure enough
      */
-    function _inp_pass($field, $val){
+    protected function _inp_pass($field, $val){
         $validpass = validate_password($val); # returns array of error messages, or empty array on success
 
         if(count($validpass) == 0) return true;
