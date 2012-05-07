@@ -266,6 +266,7 @@ function check_domain ($domain) {
  * @param String $email - a string that may be an email address.
  * @return boolean true if it's an email address, else false.
  * TODO: make check_email able to handle already added domains
+ * TODO: don't use flash_error, use return value instead
  */
 function check_email ($email) {
     global $CONF;
@@ -857,18 +858,15 @@ function domain_exist ($domain) {
 // was admin_list_admins
 //
 function list_admins () {
-    # TODO: use AdminHandler
-    global $table_admin;
-    $list = "";
+    $handler = new AdminHandler();
 
-    $result = db_query ("SELECT username FROM $table_admin ORDER BY username");
-    if ($result['rows'] > 0) {
-        $i = 0;
-        while ($row = db_array ($result['result'])) {
-            $list[$i] = $row['username'];
-            $i++;
-        }
+    if ($handler->getList('1=1')) {
+        $list = $handler->result();
+    } else {
+        $list = array();
+        # TODO: check if there was an error or simply no admins (which shouldn't happen because nobody could login then...)
     }
+
     return $list;
 }
 

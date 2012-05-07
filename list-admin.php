@@ -25,15 +25,7 @@ require_once("common.php");
 
 authentication_require_role('global-admin');
 
-# TODO: move code to list_admins() in functions.inc.php?
-$handler = new AdminHandler(0 /*, $admin_username*/ );
-
-if ($handler->getList('1=1')) {
-    $admin_properties = $handler->result();
-} else {
-    $admin_properties = array();
-    # TODO: check if there was an error or simply no admins (which shouldn't happen because nobody could login then...)
-}
+$admin_properties = list_admins();
 
 $smarty->assign ('admin_properties', $admin_properties);
 $smarty->assign ('smarty_template', 'adminlistadmin');

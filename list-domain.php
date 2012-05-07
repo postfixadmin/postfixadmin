@@ -27,7 +27,7 @@ $is_superadmin = 0;
 $fUsername = "";
 
 if (authentication_has_role('global-admin')) { # more permissions? Fine!
-   $list_admins = list_admins ();
+   $list_admins = array_keys(list_admins());
    $is_superadmin = 1;
 
    $fUsername = safepost('fUsername', safeget('username', authentication_get_username())); # prefer POST over GET variable
