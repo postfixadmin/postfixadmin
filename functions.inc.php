@@ -500,7 +500,7 @@ function create_page_browser($idxfield, $querypart) {
     # get labels for relevant rows (first and last of each page)
     $page_size_zerobase = $page_size - 1;
     $query = "
-        SELECT * FROM (
+        SELECT *, MOD(idx.row, $page_size) FROM (
             SELECT $idxfield AS label, @row := @row + 1 AS row $querypart 
         ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
     "; 
