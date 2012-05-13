@@ -500,10 +500,11 @@ function create_page_browser($idxfield, $querypart) {
     # get labels for relevant rows (first and last of each page)
     $page_size_zerobase = $page_size - 1;
     $query = "
-        SELECT *, MOD(idx.row, $page_size) FROM (
+        SELECT * FROM (
             SELECT $idxfield AS label, @row := @row + 1 AS row $querypart 
         ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
     "; 
+
     if ('pgsql'==$CONF['database_type']) {
         $query = "
             SELECT * FROM (
@@ -1517,7 +1518,8 @@ function db_query ($query, $ignore_errors = 0) {
     $error_text = "";
     if ($ignore_errors) $DEBUG_TEXT = "";
 
-    if (!is_resource($link)) $link = db_connect ();
+    # mysql and pgsql $link are resources, mysqli $link is an object
+    if (! (is_resource($link) || is_object($link) ) ) $link = db_connect ();
 
     if ($CONF['database_type'] == "mysql") $result = @mysql_query ($query, $link) 
         or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query ($query) : " . mysql_error($link) . "$DEBUG_TEXT";
