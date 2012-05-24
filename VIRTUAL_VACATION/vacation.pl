@@ -487,6 +487,7 @@ sub send_vacation_email {
         my $from = $email;
         my $to = $orig_from;
         my %smtp_connection;
+        my $friendly_from = "Vacation Service";
         %smtp_connection = (
             'smtp' => $smtp_server,
             'port' => $smtp_server_port,
@@ -499,12 +500,14 @@ sub send_vacation_email {
             'ctype' => 'text/plain; charset=UTF-8',
             'headers' => 'Precedence: junk',
             'headers' => 'X-Loop: Postfix Admin Virtual Vacation',
+            'on_errors' => 'die', # raise exception on error
         );
         my %mail;
         # I believe Mail::Sender qp encodes the subject, so we no longer need to.
         %mail = (
             'subject' => $subject,
             'from' => $from,
+            'fake_from' => $friendly_from . " <$from>",
             'to' => $to,
             'msg' => encode_base64($body)
         );
@@ -513,12 +516,17 @@ sub send_vacation_email {
             $logger->info(%mail);
             return 0;
         }
-        $Mail::Sender::NO_X_MAILER = 1;
-        my $sender = new Mail::Sender({%smtp_connection});
-        $sender->Open({%mail});
-        $sender->SendLineEnc($body);
-        $sender->Close() or $logger->error('Failed to send vacation response: ' . $sender->{'error_msg'});
-        $logger->debug("Vacation response sent to $to, from $from");
+        eval {
+            $Mail::Sender::NO_X_MAILER = 1;
+            my $sender = new Mail::Sender({%smtp_connection});
+            $sender->Open({%mail});
+            $sender->SendLineEnc($body);
+            $sender->Close();
+            $logger->debug("Vacation response sent to $to, from $from");
+        };
+        if ($@) {
+            $logger->error("Failed to send vacation response: $@ / " . $Mail::Sender::Error);
+        }
     }
 }
 
