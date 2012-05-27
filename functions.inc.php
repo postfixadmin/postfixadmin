@@ -283,7 +283,7 @@ function check_email ($email) {
     }
 
     // Perform non-domain-part sanity checks
-    if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', trim ($ce_email))) {
+    if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', $ce_email)) {
         flash_error($PALANG['pInvalidMailRegex']);
         return false;
     }
