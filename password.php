@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     if ($result['rows'] == 1)
     {
         $row = db_array ($result['result']);
-        $checked_password = pacrypt ($fPassword_current, $row['password']);
+        $checked_password = escape_string(pacrypt ($fPassword_current, $row['password']));
 
         $result = db_query ("SELECT * FROM $table_admin WHERE username='$username' AND password='$checked_password'");
         if ($result['rows'] != 1)
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if ($error != 1)
     {
-        $password = pacrypt ($fPassword);
+        $password = escape_string(pacrypt ($fPassword));
         $result = db_query ("UPDATE $table_admin SET password='$password',modified=NOW() WHERE username='$username'");
         if ($result['rows'] == 1)
         {

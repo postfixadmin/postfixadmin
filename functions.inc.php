@@ -1184,7 +1184,6 @@ function pacrypt ($pw, $pw_db="") {
         die ('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
     }
 
-    $password = escape_string ($password); # TODO: disable escaping - https://sourceforge.net/tracker/?func=detail&aid=3301752&group_id=191583&atid=937964
     return $password;
 }
 

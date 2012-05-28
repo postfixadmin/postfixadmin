@@ -48,14 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         # (language preference cookie is processed even if username and/or password are invalid)
     }
 
+    # TODO: move to AdminHandler->login
     $result = db_query ("SELECT password FROM $table_admin WHERE username='$fUsername' AND active='1'");
     if ($result['rows'] == 1)
     {
         $row = db_array ($result['result']);
-        $password = pacrypt ($fPassword, $row['password']);
-        $result = db_query ("SELECT * FROM $table_admin WHERE username='$fUsername' AND password='$password' AND active='1'");
-        if ($result['rows'] != 1)
-        {
+        $crypt_password = pacrypt ($fPassword, $row['password']);
+        if ($row['password'] != $crypt_password) {
             $error = 1;
             flash_error($PALANG['pLogin_failed']);
         }

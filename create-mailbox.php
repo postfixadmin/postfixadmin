@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $tQuota = $fQuota;
       $tDomain = $fDomain;
    } else {
-      $password = pacrypt ($fPassword);
+      $password = escape_string(pacrypt ($fPassword));
 
       if($CONF['maildir_name_hook'] != 'NO' && function_exists($CONF['maildir_name_hook'])) {
          $hook_func = $CONF['maildir_name_hook'];
