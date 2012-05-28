@@ -89,11 +89,8 @@ function authentication_require_role($role) {
     if(authentication_has_role($role)) {
         return True;
     }
-    if($role === 'user') {
-        header("Location: " . $CONF['postfix_admin_url'] . '/users/login.php');
-    } else {
-        header("Location: " . $CONF['postfix_admin_url'] . "/login.php");
-    }
+
+    header("Location: ./login.php");
     exit(0);
 }
 /**
