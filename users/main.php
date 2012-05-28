@@ -23,6 +23,7 @@
  * Form POST \ GET Variables: -none-
  */
 
+$rel_path = '../';
 require_once('../common.php');
 authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();

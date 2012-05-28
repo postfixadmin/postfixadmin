@@ -19,6 +19,7 @@
  *
  */
 
+$rel_path = '../';
 require_once('../common.php');
 $smarty->assign ('smarty_template', 'users_edit-alias');
 

@@ -53,9 +53,11 @@ class PFASmarty {
 }
 $smarty = new PFASmarty();
 
-$CONF['theme_css']  = $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_css']);
-if ($CONF['theme_custom_css'] != "") $CONF['theme_custom_css']  = $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_custom_css']);
-$CONF['theme_logo'] = $CONF['postfix_admin_url'].'/'.htmlentities($CONF['theme_logo']);
+if (!isset($rel_path)) $rel_path = ''; # users/* sets this to '../'
+
+$CONF['theme_css']  = $rel_path . htmlentities($CONF['theme_css']);
+if ($CONF['theme_custom_css'] != "") $CONF['theme_custom_css']  = $rel_path . htmlentities($CONF['theme_custom_css']);
+$CONF['theme_logo'] = $rel_path . htmlentities($CONF['theme_logo']);
 
 $smarty->assign ('CONF', $CONF);
 $smarty->assign ('PALANG', $PALANG);
