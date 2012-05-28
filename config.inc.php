@@ -29,10 +29,6 @@ $CONF['configured'] = false;
 // To create the hash, visit setup.php in a browser and type a password into the field,
 // on submission it will be echoed out to you as a hashed value.
 $CONF['setup_password'] = 'changeme';
-// Postfix Admin Path
-// Set the location of your Postfix Admin installation here.
-// YOU MUST ENTER THE COMPLETE URL e.g. http://domain.tld/postfixadmin
-$CONF['postfix_admin_url'] = '';
 
 // Language config
 // Language files are located in './languages', change as required..

@@ -78,8 +78,7 @@ function authentication_has_role($role) {
 /**
  * Used to enforce that $user has a particular role when 
  * viewing a page.
- * If they are lacking a role, redirect them to 
- * $CONF['postfix_admin_url']/login.php
+ * If they are lacking a role, redirect them to login.php
  *
  * Note, user < admin < global-admin
  */
@@ -90,7 +89,7 @@ function authentication_require_role($role) {
         return True;
     }
 
-    header("Location: ./login.php");
+    header("Location: login.php");
     exit(0);
 }
 /**
