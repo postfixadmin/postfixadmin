@@ -478,7 +478,7 @@ function create_page_browser($idxfield, $querypart) {
     }
 
     # get number of rows
-    $query = "SELECT count(*) as counter $querypart";
+    $query = "SELECT count(*) as counter FROM (SELECT $idxfield $querypart) AS tmp";
     $result = db_query ($query);
     if ($result['rows'] > 0) {
         $row = db_array ($result['result']);
