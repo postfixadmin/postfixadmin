@@ -75,8 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    if (isset ($_POST['fUsername']) && isset ($_POST['fDomain'])) $fUsername = escape_string ($_POST['fUsername']) . "@" . escape_string ($_POST['fDomain']);
    $fUsername = strtolower ($fUsername);
-   if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']); # TODO: remove escaping (except for DB query and when handing it over to dovecotpw) - https://sourceforge.net/tracker/?func=detail&aid=3094804&group_id=191583&atid=937964
-   if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
+   if (isset ($_POST['fPassword'])) $fPassword = $_POST['fPassword']; # NOT ESCAPED!
+   if (isset ($_POST['fPassword2'])) $fPassword2 = $_POST['fPassword2']; # NOT ESCAPED
    isset ($_POST['fName']) ? $fName = escape_string ($_POST['fName']) : $fName = "";
    if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
    isset ($_POST['fQuota']) ? $fQuota = intval($_POST['fQuota']) : $fQuota = 0;
