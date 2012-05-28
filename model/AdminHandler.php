@@ -30,6 +30,13 @@ class AdminHandler extends PFAHandler {
         # NOTE: If you disable "display in list" for domain_count, the SQL query for domains might break.
         # NOTE: (Disabling both shouldn't be a problem.)
 
+        # TODO: move to a db_group_concat() function?
+        if (Config::read('database_type') == 'pgsql') {
+            $domains_grouped = "array_to_string(array_agg(domain), ',')";
+        } else { # mysql
+            $domains_grouped = 'group_concat(domain)';
+        }
+
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
@@ -53,7 +60,7 @@ class AdminHandler extends PFAHandler {
             'domains'         => pacol( 1,          1,      1,      'list', 'pAdminCreate_admin_address'   , ''                                 , array(), list_domains(),
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
-               /*select*/ 'coalesce(domains,"") as domains'
+               /*select*/ "coalesce(domains,'') as domains"
                /*extrafrom set in domain_count*/
             ),
 
@@ -62,9 +69,9 @@ class AdminHandler extends PFAHandler {
                /*dont_write_to_db*/ 1,
                /*select*/ 'coalesce(__domain_count,0) as domain_count',
                /*extrafrom*/ 'LEFT JOIN ( ' .
-                                ' SELECT count(*) AS __domain_count, group_concat(domain) AS domains, username AS __domain_username ' .
+                                ' SELECT count(*) AS __domain_count, ' . $domains_grouped . ' AS domains, username AS __domain_username ' .
                                 ' FROM ' . table_by_key('domain_admins') .
-                                ' WHERE domain != "ALL" GROUP BY username ' .
+                                " WHERE domain != 'ALL' GROUP BY username " .
                              ' ) AS __domain on username = __domain_username'),
 
             'active'          => pacol( 1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 , 1     ),   # obsoletes pAdminEdit_admin_active
