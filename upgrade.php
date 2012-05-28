@@ -25,7 +25,7 @@ function _pgsql_object_exists($name) {
 }
 
 function _pgsql_field_exists($table, $field) {
-    $table = table_by_key($table);
+    # $table = table_by_key($table); # _pgsql_field_exists is always called with the expanded table name - don't expand it twice
     $sql = '
     SELECT
         a.attname,
@@ -52,7 +52,7 @@ function _pgsql_field_exists($table, $field) {
 }
 
 function _mysql_field_exists($table, $field) {
-    $table = table_by_key($table);
+    # $table = table_by_key($table); # _mysql_field_exists is always called with the expanded table name - don't expand it twice
     $sql = "SHOW COLUMNS FROM $table LIKE '$field'";
     $r = db_query($sql);
     $row = db_row($r['result']);
