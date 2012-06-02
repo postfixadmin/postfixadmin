@@ -720,15 +720,16 @@ function check_owner ($username, $domain) {
     $E_username = escape_string($username);
     $E_domain = escape_string($domain);
     $result = db_query ("SELECT 1 FROM $table_domain_admins WHERE username='$E_username' AND (domain='$E_domain' OR domain='ALL') AND active='1'");
-    if ($result['rows'] != 1) {
-        if ($result['rows'] > 1) { # "ALL" + specific domain permissions. 2.3 doesn't create such entries, but they are available as leftover from older versions
-            flash_error("Permission check returned more than one result. Please go to 'edit admin' for your username and press the save "
-             . "button once to fix the database. If this doesn't help, open a bugreport.");
-        } 
-        return false;
-    } else {
-        return true;
+
+    if ($result['rows'] == 1 || $result['rows'] == 2) { # "ALL" + specific domain permissions is possible
         # TODO: if superadmin, check if given domain exists in the database
+        return true;
+    } else {
+        if ($result['rows'] > 2) { # more than 2 results means something really strange happened...
+            flash_error("Permission check returned multiple results. Please go to 'edit admin' for your username and press the save "
+             . "button once to fix the database. If this doesn't help, open a bugreport.");
+        }
+        return false;
     }
 }
 
