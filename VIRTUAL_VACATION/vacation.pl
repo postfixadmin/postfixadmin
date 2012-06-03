@@ -404,7 +404,7 @@ sub find_real_address {
                 for (split(/\s*,\s*/, lc($alias))) {
                     my $singlealias = $_;
                     $logger->debug("Found alias \'$singlealias\' for email \'$email\'. Looking if vacation is on for alias.");
-                    $rv = check_for_vacaton($singlealias);
+                    $rv = check_for_vacation($singlealias);
 # Alias has vacation
                     if ($rv == 1) {
                         $realemail = $singlealias;
