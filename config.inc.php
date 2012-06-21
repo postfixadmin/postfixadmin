@@ -132,6 +132,7 @@ $CONF['smtp_port'] = '25';
 // mysql_encrypt = useful for PAM integration
 // authlib = support for courier-authlib style passwords
 // dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. Example: dovecot:CRAM-MD5
+//   (WARNING: do not use a dovecot:* method that includes a salt - you won't be able to login to PostfixAdmin in this case)
 $CONF['encrypt'] = 'md5crypt';
 
 // In what flavor should courier-authlib style passwords be enrypted?
