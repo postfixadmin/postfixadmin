@@ -1,6 +1,6 @@
 <!-- {$smarty.template} -->
 <div id="footer">
-	<a target="_blank" href="http://postfixadmin.com/">Postfix Admin {$version}</a>
+	<a target="_blank" href="http://postfixadmin.sf.net/">Postfix Admin {$version}</a>
 	&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 	<a target="_blank" href="http://postfixadmin.sf.net/update-check.php?version={$version|escape:"url"}">{$PALANG.check_update}</a>
     {if isset($smarty.session.sessid)}
