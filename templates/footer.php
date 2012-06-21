@@ -1,6 +1,6 @@
 <?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
 <div id="footer">
-<a target="_blank" href="http://postfixadmin.com/">Postfix Admin <?php print $version; ?></a>
+<a target="_blank" href="http://postfixadmin.sf.net/">Postfix Admin <?php print $version; ?></a>
 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
 <?php 
 if(isset($_SESSION['sessid']['username'])) {

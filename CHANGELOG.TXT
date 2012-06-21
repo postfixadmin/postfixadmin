@@ -14,6 +14,7 @@ changes since the 2.3.5 release (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
 
   - display domain and mailbox description with correct encoding
+  - fix footer link
 
 Version 2.3.5 - 2012/01/16 - SVN r1335 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
