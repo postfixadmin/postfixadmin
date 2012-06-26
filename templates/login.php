@@ -30,7 +30,7 @@
 </table>
 </form>
 
-<script tyle="text/javascript"><!--
+<script type="text/javascript"><!--
 	document.login.fUsername.focus();
 // -->
 </script>

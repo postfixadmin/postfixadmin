@@ -26,4 +26,9 @@
    </tr>
 </table>
 </form>
+<script type="text/javascript"><!--
+	document.login.fUsername.focus();
+// -->
+</script>
+
 </div>
