@@ -123,7 +123,6 @@ if ($file_config == 1)
     require_once($incpath.'/config.inc.php');
     $config_loaded = 1;
 
-    require($incpath.'/config.inc.php');
     if(isset($CONF['configured'])) {
         if($CONF['configured'] === TRUE) {
             print "<li>Checking \$CONF['configured'] - OK\n";
