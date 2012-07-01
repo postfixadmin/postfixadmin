@@ -81,7 +81,7 @@ function language_hook($PALANG, $language) {
 // mysql = MySQL 3.23 and 4.0, 4.1 or 5
 // mysqli = MySQL 4.1+ 
 // pgsql = PostgreSQL
-$CONF['database_type'] = 'mysql';
+$CONF['database_type'] = 'mysqli';
 $CONF['database_host'] = 'localhost';
 $CONF['database_user'] = 'postfix';
 $CONF['database_password'] = 'postfixadmin';
@@ -143,7 +143,10 @@ $CONF['encrypt'] = 'md5crypt';
 $CONF['authlib_default_flavor'] = 'md5raw';
 
 // If you use the dovecot encryption method: where is the dovecotpw binary located?
-$CONF['dovecotpw'] = "/usr/sbin/dovecotpw";
+// for dovecot 1.x
+// $CONF['dovecotpw'] = "/usr/sbin/dovecotpw";
+// for dovecot 2.x (dovecot 2.0.0 - 2.0.7 is not supported!)
+$CONF['dovecotpw'] = "/usr/sbin/doveadm pw";
 
 // Password validation
 // New/changed passwords will be validated using all regular expressions in the array.
@@ -190,13 +193,13 @@ $CONF['default_aliases'] = array (
 // Examples:
 //   YES: /usr/local/virtual/domain.tld/username@domain.tld
 //   NO:  /usr/local/virtual/username@domain.tld
-$CONF['domain_path'] = 'NO';
+$CONF['domain_path'] = 'YES';
 // If you don't want to have the domain in your mailbox set this to 'NO'.
 // Examples: 
 //   YES: /usr/local/virtual/domain.tld/username@domain.tld
 //   NO:  /usr/local/virtual/domain.tld/username
 // Note: If $CONF['domain_path'] is set to NO, this setting will be forced to YES.
-$CONF['domain_in_mailbox'] = 'YES';
+$CONF['domain_in_mailbox'] = 'NO';
 // If you want to define your own function to generate a maildir path set this to the name of the function.
 // Notes: 
 //   - this configuration directive will override both domain_path and domain_in_mailbox
@@ -374,10 +377,10 @@ $CONF['usercontol'] = 'YES';
 // If you want to take control of these aliases as well set this to 'YES'.
 
 // Alias control for superadmins
-$CONF['alias_control'] = 'NO';
+$CONF['alias_control'] = 'YES';
 
 // Alias Control for domain admins
-$CONF['alias_control_admin'] = 'NO';
+$CONF['alias_control_admin'] = 'YES';
 
 // Special Alias Control
 // Set to 'NO' if your domain admins shouldn't be able to edit the default aliases
@@ -400,7 +403,7 @@ $CONF['alias_domain'] = 'YES';
 
 // Backup
 // If you don't want backup tab set this to 'NO';
-$CONF['backup'] = 'YES';
+$CONF['backup'] = 'NO';
 
 // Send Mail
 // If you don't want sendmail tab set this to 'NO';
@@ -462,20 +465,20 @@ $CONF['emailcheck_resolve_domain']='YES';
 // color names available on most browsers
 
 //set to YES to enable this feature
-$CONF['show_status']='NO';
+$CONF['show_status']='YES';
 //display a guide to what these colors mean
-$CONF['show_status_key']='NO';
+$CONF['show_status_key']='YES';
 // 'show_status_text' will be displayed with the background colors
 // associated with each status, you can customize it here
 $CONF['show_status_text']='&nbsp;&nbsp;';
 // show_undeliverable is useful if most accounts are delivered to this
 // postfix system.  If many aliases and mailboxes are forwarded
 // elsewhere, you will probably want to disable this.
-$CONF['show_undeliverable']='NO';
+$CONF['show_undeliverable']='YES';
 $CONF['show_undeliverable_color']='tomato';
 // mails to these domains will never be flagged as undeliverable
-$CONF['show_undeliverable_exceptions']=array("unixmail.domain.ext","exchangeserver.domain.ext","gmail.com");
-$CONF['show_popimap']='NO';
+$CONF['show_undeliverable_exceptions']=array("unixmail.domain.ext","exchangeserver.domain.ext");
+$CONF['show_popimap']='YES';
 $CONF['show_popimap_color']='darkgrey';
 // you can assign special colors to some domains. To do this,
 // - add the domain to show_custom_domains
@@ -551,7 +554,7 @@ $CONF['used_quotas'] = 'NO';
 
 // if you use dovecot >= 1.2, set this to yes.
 // Note about dovecot config: table "quota" is for 1.0 & 1.1, table "quota2" is for dovecot 1.2 and newer
-$CONF['new_quota_table'] = 'NO';
+$CONF['new_quota_table'] = 'YES';
 
 //
 // Normally, the TCP port number does not have to be specified.
