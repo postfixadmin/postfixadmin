@@ -67,11 +67,12 @@ class AddTask extends Shell {
                         $this->__interactive();
                 }
 
-				if (count($this->args) < 3) { # without -g, 4 parameters are needed
-					$this->error('Error:', 'Not enough parameters!');
-				}
-
                 if (!empty($this->args[0])) {
+
+					if (count($this->args) < 3) { # without -g, 4 parameters are needed
+						$this->error('Error:', 'Not enough parameters!');
+					}
+
                         if (!empty($this->params['g'])) {
                             $this->__handle($this->args[0], NULL, true, $this->args[1], $this->args[2]);
                         } else {
