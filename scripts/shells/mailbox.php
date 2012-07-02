@@ -67,6 +67,10 @@ class AddTask extends Shell {
                         $this->__interactive();
                 }
 
+				if (count($this->args) < 3) { # without -g, 4 parameters are needed
+					$this->error('Error:', 'Not enough parameters!');
+				}
+
                 if (!empty($this->args[0])) {
                         if (!empty($this->params['g'])) {
                             $this->__handle($this->args[0], NULL, true, $this->args[1], $this->args[2]);
@@ -137,8 +141,12 @@ class AddTask extends Shell {
                 } elseif ($password  != NULL) {
                       $pw = $password;
                 }
-                
-                $handler =  new MailboxHandler($address);
+
+                $handler =  new MailboxHandler(1);
+				if (!$handler->init($address)) {
+					$this->error("Error:", join("\n",$handler->errormsg));
+					$this->_stop(1);
+				}
                 $return = $handler->add($pw,  $name, $quota, true, true  );
 #CHECK!                
 if ( !empty($this->params['q']) ) {
@@ -151,7 +159,7 @@ if ( !empty($this->params['q']) ) {
 ### When $this->error is used, $this->_stop is useless.
 ### Changed $this->error to stop with level 1.
 ### Eventually param q check in $this->error is better!!  !Important!
-                        $this->error("Error:", $handler->errormsg);
+                        $this->error("Error:", join("\n",$handler->errormsg));
                 } else {
                         $this->out("");
                         if ($name != '')
@@ -273,8 +281,11 @@ class DeleteTask extends Shell {
  */
         function __handle($address) {
 
+                $handler =  new MailboxHandler();
+				if (!$handler->init($address)) {
+                      $this->error("Error:", join("\n", $handler->errormsg));
+				}
 
-                $handler =  new MailboxHandler($address);
                 $status = $handler->delete();
                 if ( ! $status ) {
                       $this->error("Error:", join("\n", $handler->errormsg));
@@ -391,7 +402,11 @@ class PasswordTask extends Shell {
                     $password = generate_password();
                 }
                 if ($password != NULL) {
-                    $handler =  new MailboxHandler($address);
+                    $handler =  new MailboxHandler();
+
+					if (!$handler->init($address)) {
+                        $this->error("Change Password",join("\n", $handler->errormsg));
+					}
                     
                     if ( ! $handler->change_pw($password, NULL, false) ){
                         $this->error("Change Password",join("\n", $handler->errormsg));
