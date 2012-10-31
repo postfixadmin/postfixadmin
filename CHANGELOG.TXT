@@ -17,6 +17,7 @@ changes since the 2.3.5 release (postfixadmin-2.3 branch)
   - fix footer link
   - focus username input field in login form
   - fix double inclusion of config.inc.php in setup.php
+  - fix bool and date handling in fetchmail
 
 Version 2.3.5 - 2012/01/16 - SVN r1335 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
