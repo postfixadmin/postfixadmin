@@ -211,6 +211,11 @@ if ($cancel) { # cancel $new or $edit
 } elseif ($edit) { # edit entry form
    $formvars = $edit_row;
    $formvars['src_password'] = '';
+   if ('pgsql'==$CONF['database_type']) {
+      $formvars['fetchall']=('t'==$formvars['fetchall']) ? 1 : 0;
+      $formvars['keep']=('t'==$formvars['keep']) ? 1 : 0;
+      $formvars['usessl']=('t'==$formvars['usessl']) ? 1 : 0;
+   }
 } elseif ($new) { # create entry form
    foreach (array_keys($fm_struct) as $value) {
       if (isset($fm_defaults[$value])) {
@@ -227,6 +232,15 @@ if ($edit + $new == 0) { # display list
    $res = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM $table_fetchmail WHERE mailbox IN ($user_mailboxes_sql) ORDER BY mailbox,src_server,src_user");
    if ($res['rows'] > 0) {
       while ($row = db_array ($res['result'])) {
+         if ('pgsql'==$CONF['database_type']) {
+            //. at least in my database, $row['modified'] already looks like : 2009-04-11 21:38:10.75586+01,
+            // while gmstrftime expects an integer value. strtotime seems happy though.
+            //$row['date']=gmstrftime('%c %Z',$row['date']);
+            $row['date'] = date('Y-m-d H:i:s', strtotime($row['date']));
+            $row['fetchall']=('t'==$row['fetchall']) ? 1 : 0;
+            $row['keep']=('t'==$row['keep']) ? 1 : 0;
+            $row['usessl']=('t'==$row['usessl']) ? 1 : 0;
+         }
          $tFmail[] = $row;
       }
    }
