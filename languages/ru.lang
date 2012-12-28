@@ -172,6 +172,7 @@ $PALANG['pEdit_mailbox_name'] = 'Имя';
 $PALANG['pEdit_mailbox_name_text'] = 'Полное имя'; # obsolete
 $PALANG['pEdit_mailbox_quota'] = 'Квота';
 $PALANG['pEdit_mailbox_quota_text'] = 'МБ';
+$PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Квота, выставленная вами, слишком велика!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Этот домен не принадлежит вам: ';
 $PALANG['pEdit_mailbox_button'] = 'Редактировать ящик'; # XXX text no longer used
@@ -195,6 +196,9 @@ $PALANG['pEdit_vacation_remove'] = 'Убрать сообщение об отс�
 $PALANG['pVacation_result_error'] = 'Невозможно обновить настройки автоответчика!';
 $PALANG['pVacation_result_removed'] = 'Автоответчик для %s отключен!';
 $PALANG['pVacation_result_added'] = 'Автоответчик для %s включен!';
+$PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
+$PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
+$PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Просмотреть 10 последних действий для  ';
 $PALANG['pViewlog_timestamp'] = 'Время создания/модификации';

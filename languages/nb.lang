@@ -169,6 +169,7 @@ $PALANG['pEdit_mailbox_name'] = 'Navn';
 $PALANG['pEdit_mailbox_name_text'] = 'Fullt navn'; # obsolete
 $PALANG['pEdit_mailbox_quota'] = 'Kvote';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Kvoten du har angitt er for høy!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Dette domenet tilhører deg ikke: ';
 $PALANG['pEdit_mailbox_button'] = 'Endre e-postkonto'; # XXX text no longer used
@@ -190,6 +191,9 @@ $PALANG['pEdit_vacation_remove'] = 'Fjern fraværsmelding';
 $PALANG['pVacation_result_error'] = 'Kunne ikke oppdatere innstillinger for automatisk svar!';
 $PALANG['pVacation_result_removed'] = 'Automatisk svar har blitt fjernet! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
 $PALANG['pVacation_result_added'] = 'Automatisk svar har blitt aktivert! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
+$PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
+$PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
+$PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Vis de 10 siste handlingene for ';
 $PALANG['pViewlog_timestamp'] = 'Klokkeslett';

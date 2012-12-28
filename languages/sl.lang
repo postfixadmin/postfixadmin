@@ -168,6 +168,7 @@ $PALANG['pEdit_mailbox_name'] = 'Ime';
 $PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX # obsolete
 $PALANG['pEdit_mailbox_quota'] = 'Kvota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Vnešena kvota je prevelika!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Izbrana domena ni pod vašim nadzorom: ';
 $PALANG['pEdit_mailbox_button'] = 'Uredi predal'; # XXX text no longer used
@@ -189,6 +190,9 @@ $PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
 $PALANG['pVacation_result_error'] = 'Unable to update auto response settings!'; # XXX
 $PALANG['pVacation_result_removed'] = 'Auto response for %s has been disabled!'; # XXX
 $PALANG['pVacation_result_added'] = 'Auto response for %s has been enabled!'; # XXX
+$PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
+$PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
+$PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Seznam zadnjih 10 operacij za ';
 $PALANG['pViewlog_timestamp'] = 'Čas';

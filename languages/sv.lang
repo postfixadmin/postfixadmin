@@ -170,6 +170,7 @@ $PALANG['pEdit_mailbox_name'] = 'Namn';
 $PALANG['pEdit_mailbox_name_text'] = 'Fullständigt namn'; # obsolete
 $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Quotagränsen du angett är för stor!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Detta är inte din domän: ';
 $PALANG['pEdit_mailbox_button'] = 'Ändra brevlåda'; # XXX text no longer used
@@ -191,6 +192,9 @@ $PALANG['pEdit_vacation_remove'] = 'Tabort meddelande för ledighet';
 $PALANG['pVacation_result_error'] = 'Kunde inte uppdatera autosvar inställningar!';
 $PALANG['pVacation_result_removed'] = 'Autosvar meddelande har tagits bort! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
 $PALANG['pVacation_result_added'] = 'Autosvar meddelande har aktiverats! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
+$PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
+$PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
+$PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Visa dom senaste 10 åtgärderna för ';
 $PALANG['pViewlog_timestamp'] = 'Tidpunkt';

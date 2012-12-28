@@ -168,6 +168,7 @@ $PALANG['pEdit_mailbox_name'] = 'Nimi';
 $PALANG['pEdit_mailbox_name_text'] = 'Koko nimi'; # obsolete
 $PALANG['pEdit_mailbox_quota'] = 'Kiintiö';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Antamasi kiintiö on liian korkea!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Tämä domaini ei ole sinun: ';
 $PALANG['pEdit_mailbox_button'] = 'Muokkaa postilaatikkoa'; # XXX text no longer used
@@ -189,6 +190,9 @@ $PALANG['pEdit_vacation_remove'] = 'Poista poissaoloviesti';
 $PALANG['pVacation_result_error'] = 'Automaattivastauksen asetuksia ei voitu päivittää!';
 $PALANG['pVacation_result_removed'] = 'Automaattivastaus poistettu! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
 $PALANG['pVacation_result_added'] = 'Automaattivastaus päällä! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
+$PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
+$PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
+$PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Näytä viimeiset kymmenen tapahtumaa domainille ';
 $PALANG['pViewlog_timestamp'] = 'Aikaleima';

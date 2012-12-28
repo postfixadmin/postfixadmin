@@ -170,6 +170,7 @@ $PALANG['pEdit_mailbox_name'] = '名前';
 $PALANG['pEdit_mailbox_name_text'] = 'フルネーム'; # obsolete
 $PALANG['pEdit_mailbox_quota'] = '容量制限';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = '指定された容量制限が大きすぎます。';
 $PALANG['pEdit_mailbox_domain_error'] = 'このドメインは管理外です: ';
 $PALANG['pEdit_mailbox_button'] = 'メールアドレス修正'; # XXX text no longer used
@@ -193,6 +194,9 @@ $PALANG['pEdit_vacation_remove'] = 'メッセージ解除';
 $PALANG['pVacation_result_error'] = '自動応答の設定を更新できませんでした！';
 $PALANG['pVacation_result_removed'] = '自動応答を解除しました。 (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
 $PALANG['pVacation_result_added'] = '自動応答を設定しました。 (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
+$PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
+$PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
+$PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = '過去10個のアクション ';
 $PALANG['pViewlog_timestamp'] = 'タイムスタンプ';

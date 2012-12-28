@@ -170,6 +170,7 @@ $PALANG['pEdit_mailbox_name'] = 'Nazwa';
 $PALANG['pEdit_mailbox_name_text'] = 'Pełna nazwa'; # obsolete
 $PALANG['pEdit_mailbox_quota'] = 'Udział';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Podany udział jest za wysoki!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Ta domena nie należy do Ciebie: ';
 $PALANG['pEdit_mailbox_button'] = 'Edytuj konto'; # XXX text no longer used
@@ -192,6 +193,9 @@ $PALANG['pEdit_vacation_remove'] = 'Usuń wiadomość automatycznej odpowiedzi';
 $PALANG['pVacation_result_error'] = 'Nie można ustawić wiadomości automatycznej odpowiedzi!';
 $PALANG['pVacation_result_removed'] = 'Auto odpowiedź została usunięta! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
 $PALANG['pVacation_result_added'] = 'Auto odpowiedź została dodana! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
+$PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
+$PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
+$PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Pokaż 10 ostatnich działań dla ';
 $PALANG['pViewlog_timestamp'] = 'Data';
