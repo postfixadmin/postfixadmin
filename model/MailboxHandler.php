@@ -12,7 +12,7 @@ class MailboxHandler extends PFAHandler {
     protected function initStruct() {
         $this->db_table = 'mailbox';
         $this->id_field = 'username';
-    
+
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
@@ -20,7 +20,9 @@ class MailboxHandler extends PFAHandler {
             'local_part'    => pacol(   $this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '' ),
             'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 
                 /*options*/ $this->allowed_domains      ),
-            'maildir'       => pacol(   0,          0,      0,      'text', ''                              , ''                                , '' ),
+            # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
+            # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
+            'maildir'       => pacol(   0,          0,      1,      'text', ''                              , ''                                , '' ),
             'password'      => pacol(   1,          1,      0,      'pass', 'pCreate_mailbox_password'      , 'pCreate_mailbox_password_text'   , '' ),
             'password2'     => pacol(   1,          1,      0,      'pass', 'pCreate_mailbox_password2'    , ''                                 , '', 
                 /*options*/ '',
@@ -29,7 +31,8 @@ class MailboxHandler extends PFAHandler {
                 /*select*/ 'password as password2'
             ),
             'name'          => pacol(   1,          1,      1,      'text', 'pEdit_mailbox_name'            , 'pCreate_mailbox_name_text'       , '' ),
-            'quota'         => pacol(   1,          1,      1,      'int' , 'pEdit_mailbox_quota'           , 'pEdit_mailbox_quota_text'        , '' ),
+            'quota'         => pacol(   1,          1,      1,      'int' , 'pEdit_mailbox_quota'           , 'pEdit_mailbox_quota_text'        , '' ), # in MB
+            # read_from_db_postprocess() also sets 'quotabytes' for use in init()
             'active'        => pacol(   1,          1,      1,      'bool', 'pCreate_mailbox_active'        , ''                                 , 1 ),
             'welcome_mail'  => pacol(   $this->new, $this->new, 0,  'bool', 'pCreate_mailbox_mail'          , ''                                 , 1, 
                 /*options*/ '',
@@ -38,6 +41,24 @@ class MailboxHandler extends PFAHandler {
             'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                 ),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
+    }
+
+    public function init($id) {
+        $retval = parent::init($id);
+
+        @list($local_part,$domain) = explode ('@', $id); # supress error message if $id doesn't contain '@'
+
+        if ($this->new) {
+            # TODO
+        } else {
+            # show max allowed quota in quota field description
+            list(/*NULL*/,$domain) = explode('@', $this->id);
+            $currentquota = $this->return['quotabytes']; # parent::init called ->view()
+            $maxquota = allowed_quota($domain, $currentquota);
+            $this->struct['quota']['desc'] = sprintf(Lang::Read('mb_max'), $maxquota);
+        }
+
+        return $retval;
     }
 
     protected function initMsg() {
@@ -125,12 +146,73 @@ class MailboxHandler extends PFAHandler {
     }
 
 
+    protected function read_from_db_postprocess($db_result) {
+        foreach ($db_result as $key => $row) {
+            $db_result[$key]['quotabytes'] = $row['quota'];
+            $db_result[$key]['quota'] = divide_quota($row['quota']); # convert quota to MB
+        }
+        return $db_result;
+    }
+
+
+    protected function setmore($values) {
+        $this->values['quota'] = multiply_quota($values['quota']); # convert quota from MB to bytes
+    }
+
+    protected function storemore() {
+        if ($this->new) {
+# TODO: postcreate hook
+# TODO: send welcome mail
+# TODO: create mailbox subfolders
+        } else {
+            # postedit hook
+# TODO: implement a poststore() function? - would make handling of old and new values much easier...
+            list(/*NULL*/,$domain) = explode('@', $this->id);
+
+            $old_mh = new MailboxHandler();
+
+            if (!$old_mh->init($this->id)) {
+                $this->errormsg[] = $old_mh->errormsg[0];
+            } elseif (!$old_mh->view()) {
+                $this->errormsg[] = $old_mh->errormsg[0];
+            } else {
+                $oldvalues = $old_mh->result();
+
+                $maildir = $oldvalues['maildir'];
+                if (isset($this->values['quota'])) {
+                    $quota = $this->values['quota'];
+                } else {
+                    $quota = $oldvalues['quota'];
+                }
+
+                if ( !mailbox_postedit($this->id,$domain,$maildir, $quota)) {
+                    $this->errormsg[] = $PALANG['pEdit_mailbox_result_error']; # TODO: more specific error message
+                }
+            }
+        }
+        return true; # even if a hook failed, mark the overall operation as OK
+    }
+
+
 /* function already exists (see old code below 
     public function delete() {
         $this->errormsg[] = '*** deletion not implemented yet ***';
         return false; # XXX function aborts here! XXX
     }
 */
+
+
+    /**
+     * check if quota is allowed
+     */
+    protected function _field_quota($field, $val) {
+        list(/*NULL*/,$domain) = explode('@', $this->id);
+
+        if ( !check_quota ($val, $domain, $this->id) ) {
+            $this->errormsg[$field] = Lang::Read('pEdit_mailbox_quota_text_error');
+            return false;
+        }
+    }
 
     /**
      * compare password / password2 field
