@@ -612,6 +612,11 @@ function check_mailbox ($domain) {
 function check_quota ($quota, $domain, $username="") {
     global $CONF;
     $rval = false;
+
+    if ($CONF['quota'] == "NO") {
+        return true; # enforcing quotas is disabled - just allow it
+    }
+
     $limit = get_domain_properties ($domain);
 
     if ($limit['maxquota'] == 0) {
