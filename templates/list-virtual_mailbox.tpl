@@ -85,7 +85,7 @@
 			{if $edit_aliases==1}
 				<td><a href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}">{$PALANG.pOverview_alias_edit}</a></td>
 			{/if}
-			<td><a href="edit-mailbox.php?username={$item.username|escape:"url"}&amp;domain={$fDomain|escape:"url"}">{$PALANG.edit}</a></td>
+			<td><a href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}">{$PALANG.edit}</a></td>
 			<td><a href="delete.php?table=mailbox&amp;delete={$item.username|escape:"url"}&amp;domain={$fDomain|escape:"url"}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.pOverview_get_mailboxes}: {$item.username}');">{$PALANG.del}</a></td>
 		</tr>
 	{/foreach}
