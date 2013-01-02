@@ -1,3 +1,9 @@
+postfixadmin (2.3.6-1) unstable; urgency=low
+ 
+  * New upstream release (v2.3.6)
+
+ -- David Goodwin (PalePurple) <david@palepurple.co.uk>  Wed, 2 Jan 2013 21:20:00 +0100
+
 postfixadmin (2.3.5-1) unstable; urgency=low
 
   * Initial Debian release (Closes: #247225)

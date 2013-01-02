@@ -16,7 +16,7 @@
  * Contains re-usable code.
  */
 
-$version = '2.3.5';
+$version = '2.3.6';
 
 /**
  * check_session
