@@ -170,7 +170,7 @@ our $log_to_file = 0;
 # notification interval, in seconds
 # set to 0 to notify only once
 # e.g. 1 day ...
-#my $interval = 60*60*24;
+#our $interval = 60*60*24;
 # disabled by default
 our $interval = 0;
 
