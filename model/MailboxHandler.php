@@ -89,8 +89,9 @@ class MailboxHandler extends PFAHandler {
 
             # various settings
             'required_role' => 'admin',
-            'listview' => 'list-virtual.php',
-            'early_init' => 0,
+            'listview'      => 'list-virtual.php',
+            'early_init'    => 0,
+            'prefill'       => array('domain'),
         );
     }
 
@@ -161,10 +162,14 @@ class MailboxHandler extends PFAHandler {
 
     protected function storemore() {
         if ($this->new) {
+# TODO: create alias
 # TODO: postcreate hook
 # TODO: send welcome mail
 # TODO: create mailbox subfolders
+# TODO: --- most of this is probably already in $this->add() already ---
         } else {
+# TODO: update alias (active status)
+
             # postedit hook
 # TODO: implement a poststore() function? - would make handling of old and new values much easier...
             list(/*NULL*/,$domain) = explode('@', $this->id);

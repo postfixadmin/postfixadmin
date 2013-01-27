@@ -87,6 +87,7 @@ class AliasdomainHandler extends PFAHandler {
             'required_role' => 'admin',
             'listview' => 'list-virtual.php',
             'early_init' => 1, # 0 for create-domain
+            'prefill'       => array('alias_domain', 'target_domain'),
         );
     }
 

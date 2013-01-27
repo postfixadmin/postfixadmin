@@ -63,8 +63,14 @@ if ($edit != '' || $active != '' || $formconf['early_init']) {
 $form_fields = $handler->getStruct();
 $id_field    = $handler->getId_field();
 
-if ($edit != "") {
-    if ($_SERVER['REQUEST_METHOD'] == "GET" && $active == '') { # read values from database (except if $active is set to save some CPU cycles)
+if ($_SERVER['REQUEST_METHOD'] == "GET" && $active == '') {
+    if ($edit == '') { # new - prefill fields from URL parameters if allowed in $formconf['prefill']
+        if ( isset($formconf['prefill']) ) {
+            foreach ($formconf['prefill'] as $field) {
+                if (isset ($_GET[$field])) $form_fields[$field]['default'] = safeget($field);
+            }
+        }
+    } else { # edit mode - read values from database
         if (!$handler->view()) {
             flash_error($handler->errormsg);
             header ("Location: " . $formconf['listview']);
@@ -141,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $active != '') {
                 header ("Location: " . $formconf['listview']);
                 exit;
             } else {
-                header("Location: edit.php?table=$table");
+                header("Location: edit.php?table=$table"); # TODO: hand over last used domain etc. ($formconf['prefill'] ?)
                 exit;
             }
         }

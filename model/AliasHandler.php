@@ -95,8 +95,9 @@ class AliasHandler extends PFAHandler {
 
             # various settings
             'required_role' => 'admin',
-            'listview' => 'list-virtual.php',
-            'early_init' => 0,
+            'listview'      => 'list-virtual.php',
+            'early_init'    => 0,
+            'prefill'       => array('domain'),
         );
     }
 
@@ -235,6 +236,11 @@ class AliasHandler extends PFAHandler {
         }
 
         $this->values['goto'] = join(',', $values['goto']);
+    }
+
+    protected function storemore() {
+        # TODO: if alias belongs to a mailbox, update mailbox active status
+        return true;
     }
 
     protected function read_from_db_postprocess($db_result) {
