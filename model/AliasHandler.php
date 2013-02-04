@@ -9,6 +9,8 @@
 class AliasHandler extends PFAHandler {
 
     protected $domain_field = 'domain';
+
+    protected $called_by_MailboxHandler = false;
     
     /**
      *
@@ -101,6 +103,12 @@ class AliasHandler extends PFAHandler {
         );
     }
 
+    /**
+     * set a special flag if called by MailboxHandler
+     */
+    public function MailboxAliasConfig() {
+        $this->called_by_MailboxHandler = true;
+    }
 
     /**
      * AliasHandler needs some special handling in init() and therefore overloads the function.
@@ -168,6 +176,8 @@ class AliasHandler extends PFAHandler {
      * check number of existing aliases for this domain - is one more allowed?
      */
     private function create_allowed($domain) {
+        if ($this->called_by_MailboxHandler) return true; # always allow creating an alias for a mailbox
+
         $limit = get_domain_properties ($domain);
 
         if ($limit['aliases'] == 0) return true; # unlimited
@@ -311,9 +321,6 @@ class AliasHandler extends PFAHandler {
         }
     }
 
-    protected function _missing_on_vacation($field) { return $this->set_default_value($field); }
-    protected function _missing_active     ($field) { return $this->set_default_value($field); }
-
     /**
      * on $this->new, set localpart based on address
      */
@@ -325,7 +332,7 @@ class AliasHandler extends PFAHandler {
     }
 
     /**
-     * on $this->new, set localpart based on address
+     * on $this->new, set domain based on address
      */
     protected function _missing_domain     ($field) {
         if (isset($this->RAWvalues['address'])) {
