@@ -16,13 +16,13 @@ class MailboxHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'username'      => pacol(   $this->new, 1,      1,      'text', 'pEdit_mailbox_username'        , ''                                , '' ),
+            'username'      => pacol(   $this->new, 1,      1,      'mail', 'pEdit_mailbox_username'        , ''                                , '' ),
             'local_part'    => pacol(   $this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '' ),
             'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 
                 /*options*/ $this->allowed_domains      ),
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
-            'maildir'       => pacol(   0,          0,      1,      'text', ''                              , ''                                , '' ),
+            'maildir'       => pacol(   $this->new, 0,      1,      'text', ''                              , ''                                , '' ),
             'password'      => pacol(   1,          1,      0,      'pass', 'pCreate_mailbox_password'      , 'pCreate_mailbox_password_text'   , '' ),
             'password2'     => pacol(   1,          1,      0,      'pass', 'pCreate_mailbox_password2'    , ''                                 , '', 
                 /*options*/ '',
@@ -46,10 +46,8 @@ class MailboxHandler extends PFAHandler {
     public function init($id) {
         $retval = parent::init($id);
 
-        @list($local_part,$domain) = explode ('@', $id); # supress error message if $id doesn't contain '@'
-
         if ($this->new) {
-            # TODO
+            # handled in validate_new_id() 
         } else {
             # show max allowed quota in quota field description
             list(/*NULL*/,$domain) = explode('@', $this->id);
@@ -102,7 +100,11 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-        list($local_part,$domain) = explode ('@', $this->id);
+        if ( !check_email($this->id) ) { # TODO: check_email should return error message instead of using flash_error itsself
+            return false;
+        }
+
+        list(/*NULL*/,$domain) = explode ('@', $this->id);
 
         if(!$this->create_allowed($domain)) {
             $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error3');
@@ -116,7 +118,7 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-        return check_email($this->id); # TODO: check_email should return error message instead of using flash_error itsself
+        return true; # still here? good!
     }
 
     /**
@@ -156,22 +158,72 @@ class MailboxHandler extends PFAHandler {
     }
 
 
-    protected function setmore($values) {
-        $this->values['quota'] = multiply_quota($values['quota']); # convert quota from MB to bytes
-    }
+    protected function beforestore() {
 
+        if ( isset($this->values['quota']) && $this->values['quota'] != -1 ) {
+            $this->values['quota'] = $this->values['quota'] * Config::read('quota_multiplier'); # convert quota from MB to bytes
+        }
+
+        if ($this->new) {
+            $ah = new AliasHandler(1, $this->admin_username);
+
+            $ah->MailboxAliasConfig();
+
+            if ( !$ah->init($this->id) ) {
+                $this->errormsg[] = $ah->errormsg[0];
+                return false;
+            }
+
+            $alias_data = array(
+                # 'goto_mailbox' = 1; # would be technically correct, but setting 'goto' is easier
+                'goto' => array($this->id),
+                'active' => $this->values['active'],
+            );
+
+            if (!$ah->set($alias_data)) {
+                $this->errormsg[] = $ah->errormsg[0];
+                return false;
+            }
+
+            if (!$ah->store()) {
+                $this->errormsg[] = $ah->errormsg[0];
+                return false;
+            }
+        }
+
+        return true; # still here? good!
+    }
+    
     protected function storemore() {
         if ($this->new) {
-# TODO: create alias
-# TODO: postcreate hook
-# TODO: send welcome mail
-# TODO: create mailbox subfolders
-# TODO: --- most of this is probably already in $this->add() already ---
-        } else {
-# TODO: update alias (active status)
+
+            list(/*NULL*/,$domain) = explode('@', $this->id);
+
+            if ( !mailbox_postcreation($this->id,$domain,$this->values['maildir'], $this->values['quota']) ) {
+                $this->errormsg[] = Lang::read('pCreate_mailbox_result_error') . " ($this->id)";
+                # return false; # TODO: should this be fatal?
+            }
+
+            if ($this->values['welcome_mail'] == true) {
+                if ( !$this->send_welcome_mail() ) {
+                    # return false; # TODO: should this be fatal?
+                }
+            }
+
+            if ( !create_mailbox_subfolders($this->id,$this->values['password'])) {
+                # TODO: implement $tShowpass
+                flash_info(Lang::read('pCreate_mailbox_result_succes_nosubfolders') . " ($fUsername$tShowpass)"); # TODO: don't use flash_info
+            } else { # everything ok
+                # TODO: implement $tShowpass
+                # flash_info(Lang::read('pCreate_mailbox_result_success']) . " ($fUsername$tShowpass)*"); # TODO: don't use flash_info
+                # TODO: currently edit.php displays the default success message from webformConfig
+            } 
+
+        } else { # edit mode
+            # TODO: update alias (active status)
 
             # postedit hook
-# TODO: implement a poststore() function? - would make handling of old and new values much easier...
+            # TODO: implement a poststore() function? - would make handling of old and new values much easier...
             list(/*NULL*/,$domain) = explode('@', $this->id);
 
             $old_mh = new MailboxHandler();
@@ -217,6 +269,7 @@ class MailboxHandler extends PFAHandler {
             $this->errormsg[$field] = Lang::Read('pEdit_mailbox_quota_text_error');
             return false;
         }
+        return true;
     }
 
     /**
@@ -227,6 +280,68 @@ class MailboxHandler extends PFAHandler {
         return $this->compare_password_fields('password', 'password2');
     }
 
+
+# TODO: generate password if $new, no password specified and $CONF['generate_password'] is set
+
+        /**
+         * on $this->new, set localpart based on address
+         */
+        protected function _missing_local_part ($field) {
+            list($local_part,$domain) = explode ('@', $this->id);
+            if (count($parts) == 2) $this->RAWvalues['localpart'] = $local_part;
+        }
+
+        /**
+         * on $this->new, set domain based on address
+         */
+        protected function _missing_domain ($field) {
+            list($local_part,$domain) = explode ('@', $this->id);
+            if (count($parts) == 2) $this->RAWvalues['domain'] = $domain;
+        }
+
+
+    /**
+    * calculate maildir path for the mailbox
+    */
+    protected function _missing_maildir($field) {
+        list($local_part,$domain) = explode('@', $this->id);                                                                                   
+
+        #TODO: 2nd clause should be the first for self explaining code.
+        #TODO: When calling config::Read with parameter we sould be right that read return false if the parameter isn't in our config file.
+
+        if(Config::read('maildir_name_hook') != 'NO' && function_exists(Config::read('maildir_name_hook')) ) {
+            $hook_func = $CONF['maildir_name_hook'];
+            $maildir = $hook_func ($domain, $this->id);
+        } elseif (Config::read('domain_path') == "YES") {
+            if (Config::read('domain_in_mailbox') == "YES") {
+                $maildir = $domain . "/" . $this->id . "/";
+            } else {
+                $maildir = $domain . "/" . $local_part . "/";
+            }
+        } else {
+            # If $CONF['domain_path'] is set to NO, $CONF['domain_in_mailbox] is forced to YES.
+            # Otherwise user@example.com and user@foo.bar would be mixed up in the same maildir "user/".
+            $maildir = $this->id . "/";
+        }
+        $this->RAWvalues['maildir'] = $maildir;
+    }
+
+    private function send_welcome_mail() {
+        $fTo = $this->id;
+        $fFrom = smtp_get_admin_email();
+        if(empty($fFrom) || $fFrom == 'CLI') $fFrom = $this->id;
+        $fSubject = Lang::read('pSendmail_subject_text');
+        $fBody = Config::read('welcome_text');
+
+        if (!smtp_mail ($fTo, $fFrom, $fSubject, $fBody)) {
+            $this->errormsg[] = Lang::read('pSendmail_result_error');
+            return false;
+        } else {
+# TODO            flash_info($PALANG['pSendmail_result_success']); 
+        }
+
+        return true;
+    }
 
 
 /********************************************************************************************************************
@@ -294,14 +409,8 @@ class MailboxHandler extends PFAHandler {
         }
         return false;
     }
-/**
- * Add mailbox
- * @param password string password of account
- * @param gen boolean
- * @param name string
- *
- */
-    public function add($password, $name = '', $quota = -999, $active = true, $mail = true  ) {
+
+# remaining comments from add():
 # FIXME: default value of $quota (-999) is intentionally invalid. Add fallback to default quota.
 # Solution: Invent an sub config class with additional informations about domain based configs like default qouta.
 # FIXME: Should the parameters be optional at all?
@@ -309,27 +418,8 @@ class MailboxHandler extends PFAHandler {
 # TODO: most code should live in a separate function that can be used by add and edit.
 # TODO: On the longer term, the web interface should also use this class.
 
-# TODO: copy/move all checks and validations from create-mailbox.php here
-
-        $username = $this->id;
-        list($local_part,$domain) = explode ('@', $username);
-
 
 #TODO: more self explaining language strings!
-        if(!check_mailbox ($domain)) {
-            $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error3');
-            return false;
-        }
-
-        # check if an alias with this name already exists
-        $result = db_query ("SELECT * FROM " . table_by_key('alias') . " WHERE address='" . escape_string($username) . "'");
-        if ($result['rows'] == 1) {
-            $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error2');
-            return false;
-        }
-
-        $plain = $password;
-        $password = pacrypt ($password);
 
 # TODO: if we want to have the encryption method in the encrypted password string, it should be done in pacrypt(). No special handling here!
 #        if ( preg_match("/^dovecot:/", Config::read('encrypt')) ) {
@@ -337,83 +427,6 @@ class MailboxHandler extends PFAHandler {
 #            $method       = strtoupper($split_method[1]);
 #            $password = '{' . $method . '}' . $password;
 #        }
-
-#TODO: 2nd clause should be the first for self explaining code.
-#TODO: When calling config::Read with parameter we sould be right that read return false if the parameter isn't in our config file.
-        if(Config::read('maildir_name_hook') != 'NO' && function_exists(Config::read('maildir_name_hook')) ) {
-            $hook_func = $CONF['maildir_name_hook'];
-            $maildir = $hook_func ($fDomain, $fUsername);
-        } elseif (Config::read('domain_path') == "YES") {
-            if (Config::read('domain_in_mailbox') == "YES") {
-                $maildir = $domain . "/" . $username . "/";
-            } else {
-                $maildir = $domain . "/" . $local_part . "/";
-            }
-        } else {
-            # If $CONF['domain_path'] is set to NO, $CONF['domain_in_mailbox] is forced to YES.
-            # Otherwise user@example.com and user@foo.bar would be mixed up in the same maildir "user/".
-            $maildir = $username . "/";
-        }
-
-        db_begin();
-
-        $active = db_get_boolean($active);
-        $quota = multiply_quota ($quota);
-
-        $alias_data = array(
-            'address' => $username,
-            'goto' => $username,
-            'domain' => $domain,
-            'active' => $active,
-        );
-
-        $result = db_insert('alias', $alias_data);
-#MARK: db_insert returns true/false??
-        if ($result != 1) {
-            $this->errormsg[] = Lang::read('pAlias_result_error') . "\n($username -> $username)\n";
-            return false;
-        }
-
-        $mailbox_data = array(
-            'username' => $username,
-            'password' => $password,
-            'name' => $name,
-            'maildir' => $maildir,
-            'local_part' => $local_part,
-            'quota' => $quota,
-            'domain' => $domain,
-            'active' => $active,
-        );
-        $result = db_insert('mailbox', $mailbox_data);
-#MARK: Same here!
-        if ($result != 1 || !mailbox_postcreation($username,$domain,$maildir, $quota)) {
-            $this->errormsg[] = Lang::read('pCreate_mailbox_result_error') . "\n($username)\n";
-            db_rollback();
-            return false;
-        } else {
-            db_commit();
-            db_log ($domain, 'create_mailbox', $username);
-
-
-            if ($mail == true) {
-                # TODO: move "send the mail" to a function
-                $fTo = $username;
-                $fFrom = smtp_get_admin_email();
-                if(empty($fFrom) || $fFrom == 'CLI') $fFrom = $this->id;
-                $fSubject = Lang::read('pSendmail_subject_text');
-                $fBody = Config::read('welcome_text');
-
-                if (!smtp_mail ($fTo, $fFrom, $fSubject, $fBody)) {
-                    $this->errormsg[] = Lang::read('pSendmail_result_error');
-                    return false;
-                }
-            }
-
-            create_mailbox_subfolders($username,$plain);
-        }
-        return true;
-    }
-
 
     public function delete() {
         $username = $this->id;
