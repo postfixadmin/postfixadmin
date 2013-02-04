@@ -201,11 +201,19 @@ abstract class PFAHandler {
         if ($this->new) {
             foreach($this->struct as $key=>$row) {
                 if ($row['editable'] && !isset($values[$key]) ) {
-                    # if a field is editable and not set, call $this->_missing_$fieldname()
-                    # (if the method exists - otherwise the field won't be set, resulting in an error later)
+                    /**
+                    * when creating a new item:
+                    * if a field is editable and not set, 
+                    * - if $this->_missing_$fieldname() exists, call it
+                    *   (it can set $this->RAWvalues[$fieldname] - or do nothing if it can't set a useful value)
+                    * - otherwise use the default value from $this->struct
+                    *   (if you don't want this, create an empty _missing_$fieldname() function)
+                    */
                     $func="_missing_".$key;
                     if (method_exists($this, $func) ) {
-                        $this->{$func}($key); # function can set $this->RAWvalues[$key] (or do nothing if it can't set a useful value)
+                        $this->{$func}($key); # call _missing_$fieldname()
+                    } else { 
+                        $this->set_default_value($key); # take default value from $this->struct
                     }
                 }
             }
@@ -225,6 +233,7 @@ abstract class PFAHandler {
             } else { # field is editable
                 if (isset($values[$key])) {
                     if ($row['type'] != "pass" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
+# TODO: do not skip "password2" if "password" is filled, but "password2" is empty
                         $valid = true; # trust input unless validator objects
 
                         # validate based on field type ($this->_inp_$type)
@@ -287,6 +296,10 @@ abstract class PFAHandler {
             return false;
         }
 
+        if ( !$this->beforestore() ) {
+            return false;
+        }
+
         $db_values = $this->values;
 
         foreach(array_keys($db_values) as $key) {
@@ -319,6 +332,14 @@ abstract class PFAHandler {
         }
         return $result;
     }
+
+    /**
+     * called by $this->store() before storing the values in the database
+     * @return bool - if false, store() will abort
+     */
+     protected function beforestore() {
+        return true; # do nothing, successfully ;-)
+     }
 
     /**
      * called by $this->store() after storing $this->values in the database
@@ -505,7 +526,6 @@ abstract class PFAHandler {
 
     /**
      * set field to default value
-     * typically called from _missing_$fieldname()
      * @param string $field - fieldname
      */
     protected function set_default_value($field) {
