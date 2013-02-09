@@ -185,6 +185,19 @@ abstract class PFAHandler {
     abstract protected function validate_new_id();
 
     /**
+     * web interface can prefill some fields
+     * if a _prefill_$field method exists, call it (it can for example modify $struct)
+     * @param string - field
+     * @param string - prefill value
+     */
+    public function prefill($field, $val) {
+        $func="_prefill_".$field;
+        if (method_exists($this, $func) ) {
+            $this->{$func}($field, $val); # call _missing_$fieldname()
+        } 
+    }
+
+    /**
      * set and verify values
      * @param array values - associative array with ($field1 => $value1, $field2 => $value2, ...)
      * @return bool - true if all values are valid, otherwise false

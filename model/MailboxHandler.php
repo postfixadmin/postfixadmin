@@ -41,22 +41,46 @@ class MailboxHandler extends PFAHandler {
             'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                 ),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
+
+        # update allowed quota
+        if (count($this->struct['domain']['options']) > 0) $this->prefill('domain', $this->struct['domain']['options'][0]);
     }
 
     public function init($id) {
-        $retval = parent::init($id);
-
-        if ($this->new) {
-            # handled in validate_new_id() 
-        } else {
-            # show max allowed quota in quota field description
-            list(/*NULL*/,$domain) = explode('@', $this->id);
-            $currentquota = $this->return['quotabytes']; # parent::init called ->view()
-            $maxquota = allowed_quota($domain, $currentquota);
-            $this->struct['quota']['desc'] = sprintf(Lang::Read('mb_max'), $maxquota);
+        if (!parent::init($id)) {
+            return false;
         }
 
-        return $retval;
+        if ($this->new) {
+            $domain = $this->struct['domain']['default'];
+            $currentquota = 0;
+        } else {
+            list(/*NULL*/,$domain) = explode('@', $this->id);
+            $currentquota = $this->return['quotabytes']; # parent::init called ->view()
+        }
+
+        $this->updateMaxquota($domain, $currentquota);
+
+        return true; # still here? good.
+    }
+
+    /**
+     * show max allowed quota in quota field description
+     * @param string - domain
+     * @param int - current quota
+     */
+    protected function updateMaxquota ($domain, $currentquota) {
+        if ($domain == '') return false;
+
+        $maxquota = allowed_quota($domain, $currentquota);
+
+        if ($maxquota == 0) {
+            # TODO: show 'unlimited'
+        # } elseif ($maxquota < 0) {
+            # TODO: show 'disabled' - at the moment, just shows '-1'
+        } else {
+            $this->struct['quota']['desc'] = sprintf(Lang::Read('mb_max'), $maxquota);
+        }
     }
 
     protected function initMsg() {
@@ -258,6 +282,12 @@ class MailboxHandler extends PFAHandler {
     }
 */
 
+    protected function _prefill_domain($field, $val) {
+        if (in_array($val, $this->struct[$field]['options'])) {
+            $this->struct[$field]['default'] = $val;
+            $this->updateMaxquota($val, 0);
+        }
+    }
 
     /**
      * check if quota is allowed

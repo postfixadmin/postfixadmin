@@ -67,9 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && $active == '') {
     if ($edit == '') { # new - prefill fields from URL parameters if allowed in $formconf['prefill']
         if ( isset($formconf['prefill']) ) {
             foreach ($formconf['prefill'] as $field) {
-                if (isset ($_GET[$field])) $form_fields[$field]['default'] = safeget($field);
+                if (isset ($_GET[$field])) {
+                    $form_fields[$field]['default'] = safeget($field);
+                    $handler->prefill($field, safeget($field));
+                }
             }
         }
+            $form_fields = $handler->getStruct(); # refresh $form_fields - a prefill field might have changed something
     } else { # edit mode - read values from database
         if (!$handler->view()) {
             flash_error($handler->errormsg);
