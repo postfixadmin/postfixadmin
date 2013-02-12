@@ -21,6 +21,7 @@
  *      table   what to edit (*Handler)
  *      edit    item to edit (if net given: a new item will be created)
  *      active  if given: only change active state to given value (which must be 0 or 1) and return to listview
+ *      additional parameters will be accepted if specified in *Handler->webformConfig()[prefill] when creating a new item
  */
 
 require_once('common.php');
