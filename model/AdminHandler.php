@@ -86,25 +86,20 @@ class AdminHandler extends PFAHandler {
         if ($this->new) {
             $this->msg['logname'] = 'create_admin';
             $this->msg['store_error'] = 'pAdminCreate_admin_result_error';
+            $this->msg['successmessage'] = 'pAdminCreate_admin_result_success';
         } else {
             $this->msg['logname'] = 'edit_admin';
             $this->msg['store_error'] = 'pAdminEdit_admin_result_error';
+            $this->msg['successmessage'] = 'pAdminEdit_admin_result_success';
         }
     }
 
     public function webformConfig() {
-        if ($this->new) {
-            $successmsg = 'pAdminCreate_admin_result_success';
-        } else {
-            $successmsg = 'pAdminEdit_admin_result_success';
-        }
-
         return array(
             # $PALANG labels
             'formtitle_create' => 'pAdminCreate_admin_welcome',
             'formtitle_edit' => 'pAdminEdit_admin_welcome',
             'create_button' => 'pAdminCreate_admin_button',
-            'successmessage' => $successmsg,
 
             # various settings
             'required_role' => 'global-admin',

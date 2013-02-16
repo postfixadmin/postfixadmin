@@ -76,9 +76,11 @@ class DomainHandler extends PFAHandler {
         if ($this->new) {
             $this->msg['logname'] = 'create_domain';
             $this->msg['store_error'] = 'pAdminCreate_domain_result_error';
+            $this->msg['successmessage'] = 'pAdminCreate_domain_result_success';
         } else {
             $this->msg['logname'] = 'edit_domain';
             $this->msg['store_error'] = 'pAdminEdit_domain_result_error';
+            $this->msg['successmessage'] = 'pAdminCreate_domain_result_success'; # TODO: better message for edit
         }
     }
 
@@ -88,7 +90,6 @@ class DomainHandler extends PFAHandler {
             'formtitle_create' => 'pAdminCreate_domain_welcome',
             'formtitle_edit' => 'pAdminEdit_domain_welcome',
             'create_button' => 'pAdminCreate_domain_button',
-            'successmessage' => 'pAdminCreate_domain_result_success',
 
             # various settings
             'required_role' => 'global-admin',

@@ -74,9 +74,11 @@ class AliasHandler extends PFAHandler {
         if ($this->new) {
             $this->msg['logname'] = 'create_alias';
             $this->msg['store_error'] = 'pCreate_alias_result_error';
+            $this->msg['successmessage'] = 'pCreate_alias_result_success';
         } else {
             $this->msg['logname'] = 'edit_alias';
             $this->msg['store_error'] = 'pEdit_alias_result_error';
+            $this->msg['successmessage'] = 'pCreate_alias_result_success'; # TODO: better message for edit
         }
     }
 
@@ -93,7 +95,6 @@ class AliasHandler extends PFAHandler {
             'formtitle_create'  => 'pCreate_alias_welcome',
             'formtitle_edit'    => 'pEdit_alias_welcome',
             'create_button'     => 'pCreate_alias_button',
-            'successmessage'    => 'pCreate_alias_result_success', # TODO: better message for edit
 
             # various settings
             'required_role' => 'admin',

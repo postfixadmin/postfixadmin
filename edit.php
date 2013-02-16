@@ -139,10 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $active != '') {
         if (!$handler->store()) {
             $errormsg = $handler->errormsg;
         } else {
-            flash_info(Lang::read($formconf['successmessage']) . " (" . $values[$id_field] . ")");
-            # TODO: - use a sprintf string
-            # TODO: - get the success message from DomainHandler
-            # TODO: - use a different success message for create and edit
+            flash_info($handler->infomsg);
 
             if (count($handler->errormsg)) { # might happen if domain_postcreation fails
                 flash_error($handler->errormsg);

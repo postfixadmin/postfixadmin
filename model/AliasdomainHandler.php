@@ -69,9 +69,11 @@ class AliasdomainHandler extends PFAHandler {
         if ($this->new) {
             $this->msg['logname'] = 'create_alias_domain';
             $this->msg['store_error'] = 'pCreate_alias_domain_error3'; # TODO: error message could be better
+            $this->msg['successmessage'] = 'pCreate_alias_domain_success';
         } else {
             $this->msg['logname'] = 'edit_alias_domain';
             $this->msg['store_error'] = 'pCreate_alias_domain_error3'; # TODO: error message could be better
+            $this->msg['successmessage'] = 'pCreate_alias_domain_success'; # TODO: better message for edit
         }
     }
 
@@ -81,7 +83,6 @@ class AliasdomainHandler extends PFAHandler {
             'formtitle_create' => 'pCreate_alias_domain_welcome',
             'formtitle_edit' => 'pCreate_alias_domain_welcome',
             'create_button' => 'pCreate_alias_domain_button',
-            'successmessage' => 'pCreate_alias_domain_success',
 
             # various settings
             'required_role' => 'admin',

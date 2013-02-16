@@ -89,9 +89,11 @@ class MailboxHandler extends PFAHandler {
         if ($this->new) {
             $this->msg['logname'] = 'create_mailbox';
             $this->msg['store_error'] = 'pCreate_mailbox_result_error';
+            $this->msg['successmessage'] = 'pCreate_mailbox_result_success';
         } else {
             $this->msg['logname'] = 'edit_mailbox';
             $this->msg['store_error'] = 'pCreate_mailbox_result_error'; # TODO: better error message
+            $this->msg['successmessage'] = 'pCreate_mailbox_result_success'; # TODO: better message
         }
     }
 
@@ -107,7 +109,6 @@ class MailboxHandler extends PFAHandler {
             'formtitle_create' => 'pCreate_mailbox_welcome',
             'formtitle_edit' => 'pEdit_mailbox_welcome',
             'create_button' => 'pCreate_mailbox_button',
-            'successmessage' => 'pCreate_mailbox_result_success',
 
             # various settings
             'required_role' => 'admin',
