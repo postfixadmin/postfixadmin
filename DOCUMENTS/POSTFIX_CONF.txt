@@ -20,6 +20,10 @@ virtual_mailbox_maps =
    proxy:mysql:/etc/postfix/sql/mysql_virtual_mailbox_maps.cf,
    proxy:mysql:/etc/postfix/sql/mysql_virtual_alias_domain_mailbox_maps.cf
 
+# if you let postfix store your mails directly (without using maildrop, dovecot deliver etc.)
+virtual_mailbox_base = /var/mail/vmail
+# or whereever you want to store the mails
+
 # Additional for quota support
 virtual_create_maildirsize = yes
 virtual_mailbox_extended = yes
