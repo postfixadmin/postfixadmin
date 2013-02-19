@@ -166,7 +166,7 @@ $CONF['password_validation'] = array(
 
 // Generate Password
 // Generate a random password for a mailbox or admin and display it.
-// If you want to automagically generate paswords set this to 'YES'.
+// If you want to automagically generate passwords set this to 'YES'.
 $CONF['generate_password'] = 'NO';
 
 // Show Password
