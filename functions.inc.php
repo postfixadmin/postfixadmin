@@ -134,8 +134,8 @@ function _flash_string($type, $string) {
     if (is_array($string)) {
         foreach ($string as $singlestring) {
             _flash_string($type, $singlestring);
-            return;
         }
+        return;
     }
 
     if(!isset($_SESSION['flash'])) {
