@@ -64,7 +64,7 @@
 	{/if}
 	{$nav_bar_mailbox.bottom}
 	{if $tCanAddMailbox}
-		<br /><a href="create-mailbox.php?domain={$fDomain|escape:"url"}" class="button">{$PALANG.pMenu_create_mailbox}</a><br />
+		<br /><a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.pMenu_create_mailbox}</a><br />
 	{/if}
 {/if}
 {if $CONF.show_status===YES && $CONF.show_status_key===YES}

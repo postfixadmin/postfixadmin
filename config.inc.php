@@ -210,7 +210,7 @@ $CONF['maildir_name_hook'] = 'NO';
 /*
     maildir_name_hook example function
  
-    Called by create-mailbox.php if $CONF['maildir_name_hook'] == '<name_of_the_function>'
+    Called when creating a mailbox if $CONF['maildir_name_hook'] == '<name_of_the_function>'
     - allows for customized maildir paths determined by a custom function
     - the example below will prepend a single-character directory to the
       beginning of the maildir, splitting domains more or less evenly over

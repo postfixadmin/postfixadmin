@@ -582,33 +582,12 @@ function get_mailbox_properties ($username) {
 
 
 //
-// check_mailbox
-// Action: Checks if the domain is still able to create mailboxes.
-// Call: check_mailbox (string domain)
-//
-function check_mailbox ($domain) {
-    $limit = get_domain_properties ($domain);
-    /* -1 = disable, 0 = unlimited */
-    if ($limit['mailboxes'] == 0) {
-        return true;
-    }
-    if ($limit['mailboxes'] < 0) {
-        return false;
-    }
-    if ($limit['mailbox_count'] >= $limit['mailboxes']) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-
-
-//
 // check_quota
 // Action: Checks if the user is creating a mailbox with the correct quota
 // Call: check_quota (string domain)
 //
+# TODO: move to MailboxHandler
+# TODO: merge with allowed_quota?
 function check_quota ($quota, $domain, $username="") {
     global $CONF;
     $rval = false;
@@ -687,17 +666,6 @@ function allowed_quota($domain, $current_user_quota) {
 }
 
 
-//
-// multiply_quota
-// Action: Recalculates the quota from bytes to MBs (multiply, *)
-// Call: multiply_quota (string $quota)
-//
-function multiply_quota ($quota) {
-    global $CONF;
-    if ($quota == -1) return $quota;
-    $value = $quota * $CONF['quota_multiplier'];
-    return $value;
-}
 
 
 
@@ -1822,6 +1790,9 @@ function table_by_key ($table_key) {
    Called after a mailbox has been created in the DBMS.
    Returns: boolean.
  */
+# TODO: move to MailboxHandler
+# TODO: use Config::read instead of $CONF
+# TODO: replace "print" with $this->errormsg (or infomsg?)
 function mailbox_postcreation($username,$domain,$maildir,$quota) {
     if (empty($username) || empty($domain) || empty($maildir)) {
         trigger_error('In '.__FUNCTION__.': empty username, domain and/or maildir parameter',E_USER_ERROR);
