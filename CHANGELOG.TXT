@@ -10,6 +10,10 @@
 # Last update:
 # $Id$
 
+Changes since 2.3.6 release
+----------------------------------------------------------------
+  - lt.lang translation update
+
 Version 2.3.6 - 2013/01/02 - SVN r1417 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
 
