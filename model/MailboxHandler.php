@@ -337,7 +337,7 @@ class MailboxHandler extends PFAHandler {
          */
         protected function _missing_local_part ($field) {
             list($local_part,$domain) = explode ('@', $this->id);
-            if (count($parts) == 2) $this->RAWvalues['localpart'] = $local_part;
+            $this->RAWvalues['local_part'] = $local_part;
         }
 
         /**
@@ -345,7 +345,7 @@ class MailboxHandler extends PFAHandler {
          */
         protected function _missing_domain ($field) {
             list($local_part,$domain) = explode ('@', $this->id);
-            if (count($parts) == 2) $this->RAWvalues['domain'] = $domain;
+            $this->RAWvalues['domain'] = $domain;
         }
 
 
