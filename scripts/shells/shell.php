@@ -207,7 +207,10 @@ if ( empty($this->params['q'] ) ) {
                                 $taskClass = Inflector::camelize($taskName.'Task');
                                 $taskKey = Inflector::underscore($taskClass);
 
-                                if (!class_exists($taskClass)) {
+                                if ($taskName == 'Add') {
+                                    $taskClass = 'CliEdit';
+
+                                } elseif (!class_exists($taskClass)) {
                                         foreach ($this->Dispatch->shellPaths as $path) {
                                                 $taskPath = $path . 'tasks' . DS . $task.'.php';
                                                 if (file_exists($taskPath)) {
@@ -223,7 +226,11 @@ if ( empty($this->params['q'] ) ) {
                                         } else {
                                                 $this->{$taskName} = new $taskClass($this->Dispatch);
                                         }
-                                
+
+                                if ($taskName == 'Add') {
+                                    $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
+                                    $this->{$taskName}->new = 1;
+                                }
 
                                 if (!isset($this->{$taskName})) {
                                         $this->err("Task '".$taskName."' could not be loaded");
@@ -247,6 +254,7 @@ if ( empty($this->params['q'] ) ) {
                 if (!$this->interactive) {
                         return $default;
                 }
+                if ($prompt != '') $this->out("");
                 $in = $this->Dispatch->getInput($prompt, $options, $default);
 
                 if ($options && is_string($options)) {
@@ -260,12 +268,12 @@ if ( empty($this->params['q'] ) ) {
                 }
                 if (is_array($options)) {
                         while ($in == '' || ($in && (!in_array(strtolower($in), $options) && !in_array(strtoupper($in), $options)) && !in_array($in, $options))) {
+                                $this->err("Invalid input"); # TODO: make translateable
                                 $in = $this->Dispatch->getInput($prompt, $options, $default);
                         }
                 }
-                if ($in) {
-                        return $in;
-                }
+
+                return $in;
         }
 /**
  * Outputs to the stdout filehandle.
