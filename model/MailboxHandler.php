@@ -322,6 +322,7 @@ class MailboxHandler extends PFAHandler {
             $this->infomsg[] = "Password: $val"; # TODO: make translateable
         }
 
+        return true; # still here? good.
     }
 
     /**
