@@ -205,14 +205,47 @@ echo "*** value of $key is NULL - this should not happen! ***";
     * Displays help contents
     */
     public function help() {
+        $cmd = 'edit';
+        if ($this->new) $cmd = 'add';
+        
+        $module = preg_replace('/Handler$/', '', $this->handler_to_use);
+        $module = strtolower($module);
+
 # TODO: generate from $struct
-        $this->hr();
-        $this->out("Usage: postfixadmin-cli user add <address> [<password>] <name> <quota> [-g]");
-        $this->hr();
-        $this->out('Commands:');
-        $this->out("\n\tadd\n\t\tAdds mailbox in interactive mode.");
-        $this->out("\n\tadd <address> [<password>] [-g] <name> <quota>\n\t\tAdds mailbox for <address> with password <password> of if -g with rand pw. <quota> in MB.");
-        $this->out("");
+#        $this->hr();
+        $this->out(
+"Usage:
+
+    postfixadmin-cli $module $cmd
+
+        Adds $module in interactive mode.
+
+- or -
+
+    postfixadmin-cli $module $cmd <address> --option value --option2 value [...]
+
+        Adds $module in non-interactive mode.
+
+        Available options are:
+");
+
+        $handler = new $this->handler_to_use($this->new);
+
+        $form_fields = $handler->getStruct();
+        $id_field    = $handler->getId_field();
+
+        foreach($form_fields as $key => $field) {
+            if ($field['editable'] && $field['display_in_form'] && $key != $id_field) {
+                $optkey = str_replace('_', '-', $key);
+                $this->out("        --$optkey");
+                $this->out("            " . $field['label']);
+                if ($field['desc']) $this->out("            " . $field['desc']);
+                $this->out("");
+            }
+        }
+
+
+
         $this->_stop();
     }
 
