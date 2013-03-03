@@ -1003,25 +1003,25 @@ function generate_password () {
  * @return array of error messages, or empty array if the password is ok
  */
 function validate_password($password) {
-    global $CONF;
-    global $PALANG;
+    $val_conf = Config::read('password_validation');
     $result = array();
 
-    if (isset($CONF['min_password_length'])) { # used up to 2.3.x - check it for backward compatibility
-        $minlen = (int) $CONF['min_password_length'];
-        $CONF['password_validation']['/.{' . $minlen . '}/'] = "password_too_short $minlen";
+    $minlen = (int) Config::read('min_password_length'); # used up to 2.3.x - check it for backward compatibility
+    if ($minlen > 0) {
+        $val_conf['/.{' . $minlen . '}/'] = "password_too_short $minlen";
     }
 
-    foreach ($CONF['password_validation'] as $regex => $message) {
+    foreach ($val_conf as $regex => $message) {
         if (!preg_match($regex, $password)) {
             $msgparts = preg_split("/ /", $message, 2);
             if (count($msgparts) == 1) {
-                $result[] = $PALANG[$msgparts[0]];
+                $result[] = Lang::read($msgparts[0]);
             } else {
-                $result[] = sprintf($PALANG[$msgparts[0]], $msgparts[1]);
+                $result[] = sprintf(Lang::read($msgparts[0]), $msgparts[1]);
             }
         }
     }
+
     return $result;
 }
 
