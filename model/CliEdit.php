@@ -20,10 +20,50 @@ class CliEdit extends Shell {
         }
 
         if (!empty($this->args[0])) {
-            # print_r($this->args); print_r($this->params); die;
-            # TODO: handle the various -* parameters (see help)
-            $this->__handle($this->args[0], $this->args[1]);
+            $this->__handle_params();
         }
+    }
+
+    /**
+     * non-interactive mode
+     * read, check and handle all --* parameters
+     * The list of allowed params is based on $handler->struct
+     */
+    private function __handle_params() {
+
+        $handler     = new $this->handler_to_use($this->new);
+        $form_fields = $handler->getStruct();
+        $id_field    = $handler->getId_field();
+
+        $values      = array();
+        $param_error = 0;
+
+        foreach($this->params as $key => $val) {
+            $key = preg_replace('/^-/', '', $key); # allow --param, not only -param
+            $key = str_replace('-', '_', $key);    # allow --foo-bar even if field is named foo_bar
+
+            if (isset($form_fields[$key]) && $form_fields[$key]['editable'] && $form_fields[$key]['display_in_form'] && $key != $id_field) {
+                if ($form_fields[$key]['type'] == 'txtl') {
+                    $values[$key] = explode(',', $val);
+                } elseif ($form_fields[$key]['type'] == 'bool') {
+                    if (strtolower($val) == 'y') $val = 1; # convert y to 1
+                    if (strtolower($val) == 'n') $val = 0; # convert n to 0
+                    $values[$key] = $val; # don't modify any other value - *Handler will complain if it's invalid ;-)
+                } else {
+                    $values[$key] = $val;
+                }
+
+            } elseif ($key == 'webroot') {
+                # always set, ignore
+            } else { # not editable, unknown field etc.
+                $param_error = 1;
+                $this->err("invalid parameter --$key => $val");
+            }
+        }
+
+        if ($param_error) $this->_stop(1);
+
+        $this->__handle($this->args[0], $values);
     }
 
     /**
@@ -142,16 +182,17 @@ echo "*** value of $key is NULL - this should not happen! ***";
 
         $handler =  new $this->handler_to_use($this->new);
         if (!$handler->init($id)) {
-            $this->error("Error:",join("\n", $handler->errormsg));
+            $this->err($handler->errormsg);
             return;
         }
 
         if (!$handler->set($values)) {
-            $this->error("Error:", join("\n", $handler->errormsg));
+            $this->err($handler->errormsg);
+            return;
         }
 
         if (!$handler->store()) {
-            $this->error("Error:", join("\n", $handler->errormsg));
+            $this->err($handler->errormsg);
         } else {
             $this->out("");
             $this->out($handler->infomsg);
