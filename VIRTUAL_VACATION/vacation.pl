@@ -174,6 +174,15 @@ our $log_to_file = 0;
 # disabled by default
 our $interval = 0;
 
+# Send vacation mails to do-not-reply email adresses.
+# By default vacation email adresses will be sent.
+# For now emails from bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter won't
+# be answered when $custom_noreply_pattern is set to 1.
+# default = 0
+our $custom_noreply_pattern = 0;
+our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter'; 
+
+
 # instead of changing this script, you can put your settings to /etc/mail/postfixadmin/vacation.conf
 # or /etc/postfixadmin/vacation.conf just use Perl syntax there to fill the variables listed above
 # (without the "our" keyword). Example:
@@ -586,7 +595,8 @@ sub check_and_clean_from_address {
     my $logger = get_logger();
 
     if($address =~ /^(noreply|postmaster|mailer\-daemon|listserv|majordomo|owner\-|request\-|bounces\-)/i ||
-        $address =~ /\-(owner|request|bounces)\@/i ) {
+        $address =~ /\-(owner|request|bounces)\@/i ||
+        ($custom_noreply_pattern == 1 && $adress =~ /^.*($noreply_pattern).*/i) ) {
         $logger->debug("sender $address contains $1 - will not send vacation message");
         exit(0);
     }
