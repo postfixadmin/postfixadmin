@@ -648,6 +648,10 @@ function check_quota ($quota, $domain, $username="") {
  * @return Integer allowed maximum quota (in MB)
  */
 function allowed_quota($domain, $current_user_quota) {
+   if ( !boolconf('quota') ) {
+       return 0; # quota disabled means no limits - no need for more checks
+   }
+
    $domain_properties = get_domain_properties($domain);
 
    $tMaxquota = $domain_properties['maxquota'];

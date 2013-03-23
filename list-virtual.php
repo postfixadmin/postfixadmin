@@ -288,7 +288,9 @@ if (isset ($limit)) {
 
     $limit ['aliases']    = eval_size ($limit ['aliases']);
     $limit ['mailboxes']    = eval_size ($limit ['mailboxes']);
-    $limit ['maxquota']    = eval_size ($limit ['maxquota']);
+    if (boolconf('quota')) {
+        $limit ['maxquota']    = eval_size ($limit ['maxquota']);
+    }
 }
 
 $gen_show_status = array ();
