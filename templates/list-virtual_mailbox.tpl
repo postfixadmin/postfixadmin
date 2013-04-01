@@ -66,7 +66,8 @@
 				</td>
 			{/if}
 			<td>{$item.modified}</td>
-			<td><a href="edit-active.php?username={$item.username|escape:"url"}&amp;domain={$fDomain|escape:"url"}">{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
+			<td><a href="{#url_create_mailbox#}&amp;edit={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}"
+				>{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
 			{if $CONF.vacation_control_admin===YES && $CONF.vacation===YES}
 				{if $item.v_active!==-1}
 					{if $item.v_active==1}
