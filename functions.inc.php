@@ -228,14 +228,11 @@ function check_string ($var) {
  * TODO: skip DNS check if the domain exists in PostfixAdmin?
  */
 function check_domain ($domain) {
-    global $CONF;
-    global $PALANG;
-
     if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', ($domain))) {
-        return sprintf($PALANG['pInvalidDomainRegex'], htmlentities($domain));
+        return sprintf(Lang::read('pInvalidDomainRegex'), htmlentities($domain));
     }
 
-    if (isset($CONF['emailcheck_resolve_domain']) && 'YES' == $CONF['emailcheck_resolve_domain'] && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))) {
+    if (boolconf('emailcheck_resolve_domain') && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))) {
 
         // Look for an AAAA, A, or MX record for the domain
 
@@ -246,7 +243,7 @@ function check_domain ($domain) {
             }
             if (checkdnsrr($domain,'A')) return '';
             if (checkdnsrr($domain,'MX')) return '';
-            return sprintf($PALANG['pInvalidDomainDNS'], htmlentities($domain));
+            return sprintf(Lang::Read('pInvalidDomainDNS'), htmlentities($domain));
         } else {
             return 'emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!';
         }
@@ -264,28 +261,25 @@ function check_domain ($domain) {
  * TODO: make check_email able to handle already added domains
  */
 function check_email ($email) {
-    global $CONF;
-    global $PALANG;
-
     $ce_email=$email;
 
     //strip the vacation domain out if we are using it
     //and change from blah#foo.com@autoreply.foo.com to blah@foo.com
-    if ($CONF['vacation'] == 'YES') { 
-        $vacation_domain = $CONF['vacation_domain'];
+    if (boolconf('vacation')) { 
+        $vacation_domain = Config::read('vacation_domain');
         $ce_email = preg_replace("/@$vacation_domain\$/", '', $ce_email);
         $ce_email = preg_replace("/#/", '@', $ce_email);
     }
 
     // Perform non-domain-part sanity checks
     if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', $ce_email)) {
-        return $PALANG['pInvalidMailRegex'];
+        return Lang::read('pInvalidMailRegex');
     }
 
     // Determine domain name
     $matches=array();
     if (!preg_match('|@(.+)$|',$ce_email,$matches)) {
-        return $PALANG['pInvalidMailRegex'];
+        return Lang::read('pInvalidMailRegex');
     }
     $domain=$matches[1];
 
@@ -2186,11 +2180,9 @@ function getRemoteAddr() {
  */
 
 function boolconf($setting) {
-    global $CONF;
-    if (!isset($CONF[$setting])) { # not set
-        # TODO: show/log error message on unknown settings?
-        return false;
-    } elseif (strtoupper($CONF[$setting]) == 'YES') { # YES
+    $value = Config::read($setting);
+
+    if (strtoupper($value) == 'YES') { # YES
         return true;
     } else { # NO, unknown value
         # TODO: show/log error message on unknown value?
