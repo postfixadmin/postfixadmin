@@ -50,12 +50,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $tBody = stripslashes($tBody); # TODO: check for get_magic_quotes_gpc inside safepost/safeget
    }
 
-   if (empty ($fTo) or !check_email ($fTo))
+   $email_check = check_email ($fTo);
+   if (empty ($fTo) or ($email_check != ''))
    {
       $error = 1;
       $tTo = escape_string ($_POST['fTo']);
       $tSubject = escape_string ($_POST['fSubject']);
-      flash_error($PALANG['pSendmail_to_text_error']);
+      flash_error($PALANG['pSendmail_to_text_error']); # TODO: superfluous?
+      flash_error($email_check);
    }
 
    if ($error != 1)

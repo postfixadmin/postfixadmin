@@ -4,12 +4,13 @@
 class AdminHandler extends PFAHandler {
 
    protected function validate_new_id() {
-       $valid = check_email($this->id);
+       $email_check = check_email($this->id);
 
-       if ($valid) {
+       if ($email_check == '') {
             return true;
        } else {
-            $this->errormsg[$this->id_field] = Lang::read('pAdminCreate_admin_username_text_error1'); # TODO: half of the errormsg is currently delivered via flash_error() in check_email / check_domain
+            $this->errormsg[] = $email_check;
+            $this->errormsg[$this->id_field] = Lang::read('pAdminCreate_admin_username_text_error1');
             return false;
        }
    }

@@ -219,19 +219,20 @@ function check_string ($var) {
 
 
 
-//
-// check_domain
-// Action: Checks if domain is valid and returns TRUE if this is the case.
-// Call: check_domain (string domain)
-//
-// TODO: make check_domain able to handle as example .local domains
+/**
+ * Checks if a domain is valid 
+ * @param string $domain
+ * @return empty string if the domain is valid, otherwise string with the errormessage
+ *
+ * TODO: make check_domain able to handle as example .local domains
+ * TODO: skip DNS check if the domain exists in PostfixAdmin?
+ */
 function check_domain ($domain) {
     global $CONF;
     global $PALANG;
 
     if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', ($domain))) {
-        flash_error(sprintf($PALANG['pInvalidDomainRegex'], htmlentities($domain)));
-        return false;
+        return sprintf($PALANG['pInvalidDomainRegex'], htmlentities($domain));
     }
 
     if (isset($CONF['emailcheck_resolve_domain']) && 'YES' == $CONF['emailcheck_resolve_domain'] && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))) {
@@ -241,18 +242,17 @@ function check_domain ($domain) {
         if(function_exists('checkdnsrr')) {
             // AAAA (IPv6) is only available in PHP v. >= 5
             if (version_compare(phpversion(), "5.0.0", ">=")) {
-                if (checkdnsrr($domain,'AAAA')) return true;
+                if (checkdnsrr($domain,'AAAA')) return '';
             }
-            if (checkdnsrr($domain,'A')) return true;
-            if (checkdnsrr($domain,'MX')) return true;
-            flash_error(sprintf($PALANG['pInvalidDomainDNS'], htmlentities($domain)));
-            return false;
+            if (checkdnsrr($domain,'A')) return '';
+            if (checkdnsrr($domain,'MX')) return '';
+            return sprintf($PALANG['pInvalidDomainDNS'], htmlentities($domain));
         } else {
-            flash_error("emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!");
+            return 'emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!';
         }
     }
     
-    return true;
+    return '';
 }
 
 
@@ -260,9 +260,8 @@ function check_domain ($domain) {
  * check_email
  * Checks if an email is valid - if it is, return true, else false.
  * @param String $email - a string that may be an email address.
- * @return boolean true if it's an email address, else false.
+ * @return empty string if it's a valid email address, otherwise string with the errormessage
  * TODO: make check_email able to handle already added domains
- * TODO: don't use flash_error, use return value instead
  */
 function check_email ($email) {
     global $CONF;
@@ -280,15 +279,13 @@ function check_email ($email) {
 
     // Perform non-domain-part sanity checks
     if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', $ce_email)) {
-        flash_error($PALANG['pInvalidMailRegex']);
-        return false;
+        return $PALANG['pInvalidMailRegex'];
     }
 
     // Determine domain name
     $matches=array();
     if (!preg_match('|@(.+)$|',$ce_email,$matches)) {
-        flash_error($PALANG['pInvalidMailRegex']);
-        return false;
+        return $PALANG['pInvalidMailRegex'];
     }
     $domain=$matches[1];
 

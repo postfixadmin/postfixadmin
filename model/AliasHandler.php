@@ -158,7 +158,13 @@ class AliasHandler extends PFAHandler {
         if ($local_part == '') { # catchall
             $valid = true;
         } else {
-            $valid = check_email($this->id); # TODO: check_email should return error message instead of using flash_error itsself
+            $email_check = check_email($this->id);
+            if ($email_check == '') {
+                $valid = true;
+            } else {
+                $this->errormsg[$this->id_field] = $email_check;
+                $valid = false;
+            }
         }
 
         return $valid;
@@ -297,11 +303,15 @@ class AliasHandler extends PFAHandler {
                 #       and because alias domains can't forward to external domains
                 # TODO: allow this only if $this->id is a catchall?
                 list (/*NULL*/, $domain) = explode('@', $singlegoto);
-                if (!check_domain($domain)) {
-                     $errors[] = "invalid: $singlegoto"; # TODO: better error message
+                $domain_check = check_domain($domain);
+                if ($domain_check != '') {
+                     $errors[] = "$singlegoto: $domain_check";
                 }
-            } elseif (!check_email($singlegoto)) {
-                $errors[] = "invalid: $singlegoto"; # TODO: better error message
+            } else {
+                $email_check = check_email($singlegoto);
+                if ($email_check != '') {
+                    $errors[] = "$singlegoto: $email_check";
+                }
             }
         }
 

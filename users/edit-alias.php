@@ -92,9 +92,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             # - for example, $goto[] can contain an element with empty string. I added a
             # check for that in the 2.3 branch, but we should use a better solution
             # (avoid empty elements in $goto) in trunk ;-)
-            if(!check_email($address)) {
+            $email_check = check_email($address);             
+            if($email_check != '') {
                 $error += 1;
-                flash_error($PALANG['pEdit_alias_goto_text_error2'] . " $address");
+                flash_error("$address: $email_check");
             }
             else {
                 $good_goto[] = $address;

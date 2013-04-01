@@ -9,12 +9,12 @@ class DomainHandler extends PFAHandler {
     protected $domain_field = 'domain';
 
    protected function validate_new_id() {
-       $valid = check_domain($this->id);
+       $domain_check = check_domain($this->id);
 
-       if ($valid) {
+       if ($domain_check == '') {
             return true;
        } else {
-            $this->errormsg[$this->id_field] = Lang::read('pAdminCreate_domain_domain_text_error2'); # TODO: half of the errormsg is currently delivered via flash_error() in check_domain
+            $this->errormsg[$this->id_field] = $domain_check;
             return false;
        }
    }

@@ -125,7 +125,9 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-        if ( !check_email($this->id) ) { # TODO: check_email should return error message instead of using flash_error itsself
+        $email_check = check_email($this->id);
+        if ( $email_check != '' ) {
+            $this->errormsg[$this->id_field] = $email_check;
             return false;
         }
 
