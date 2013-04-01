@@ -35,6 +35,22 @@ $incpath = dirname(__FILE__);
 if(ini_get('register_globals') == 'on') {
     die("Please turn off register_globals; edit your php.ini");
 }
+
+/**
+ * @param string $class
+ * __autoload implementation, for use with spl_autoload_register().
+ */
+function postfixadmin_autoload($class) {
+    $PATH = dirname(__FILE__) . '/model/' . $class . '.php';
+
+    if(is_file($PATH)) {
+        require_once($PATH);
+        return true;
+    }
+    return false;
+}
+spl_autoload_register('postfixadmin_autoload');
+
 require_once("$incpath/variables.inc.php");
 
 if(!is_file("$incpath/config.inc.php")) {
@@ -48,6 +64,7 @@ if(isset($CONF['configured'])) {
     }
 }
 
+Config::write($CONF);
 
 require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
@@ -66,23 +83,7 @@ if($CONF['language_hook'] != '' && function_exists($CONF['language_hook'])) {
     $PALANG = $hook_func ($PALANG, $language);
 }
 
-/**
- * @param string $class
- * __autoload implementation, for use with spl_autoload_register().
- */
-function postfixadmin_autoload($class) {
-    $PATH = dirname(__FILE__) . '/model/' . $class . '.php';
-
-    if(is_file($PATH)) {
-        require_once($PATH);
-        return true;
-    }
-    return false;
-}
-spl_autoload_register('postfixadmin_autoload');
-
 Lang::write($PALANG);
-Config::write($CONF);
 
 if (!defined('POSTFIXADMIN_CLI')) {
     if(!is_file("$incpath/smarty.inc.php")) {
