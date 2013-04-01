@@ -25,8 +25,6 @@ $version = '2.4 develop';
  * @return String username (e.g. foo@example.com)
  */
 function authentication_get_username() {
-    global $CONF;
-
     if (defined('POSTFIXADMIN_CLI')) {
         return 'CLI';
     }
@@ -64,7 +62,6 @@ function authentication_get_usertype() {
  * Note, user < admin < global-admin
  */
 function authentication_has_role($role) {
-    global $CONF;
     if(isset($_SESSION['sessid'])) {
         if(isset($_SESSION['sessid']['roles'])) {
             if(in_array($role, $_SESSION['sessid']['roles'])) {
@@ -83,7 +80,6 @@ function authentication_has_role($role) {
  * Note, user < admin < global-admin
  */
 function authentication_require_role($role) {
-    global $CONF;
     // redirect to appropriate page?
     if(authentication_has_role($role)) {
         return True;
@@ -154,10 +150,9 @@ function _flash_string($type, $string) {
 // Parameter: $use_post - set to 0 if $_POST should NOT be read
 //
 function check_language ($use_post = 1) {
-    global $CONF;
     global $supported_languages; # from languages/languages.php
 
-    $lang = $CONF['default_language'];
+    $lang = Config::read('default_language');
 
     if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
         $lang_array = preg_split ('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
@@ -670,9 +665,8 @@ function allowed_quota($domain, $current_user_quota) {
 // Call: divide_quota (string $quota)
 //
 function divide_quota ($quota) {
-    global $CONF;
     if ($quota == -1) return $quota;
-    $value = round($quota / $CONF['quota_multiplier'],2);
+    $value = round($quota / Config::read('quota_multiplier'),2);
     return $value;
 }
 
@@ -726,7 +720,6 @@ function check_alias_owner ($username, $alias) {
  * @return array of domain names.
  */
 function list_domains_for_admin ($username) {
-    global $CONF;
     global $table_domain, $table_domain_admins;
 
     $E_username = escape_string($username);
@@ -967,8 +960,6 @@ function encode_header ($string, $default_charset = "utf-8") {
 // Call: generate_password ()
 //
 function generate_password () {
-    global $CONF;
-
     // length of the generated password
     $length = 8;
 
@@ -1693,7 +1684,6 @@ function db_rollback () {
  * Possible actions are defined in $action_list
  */
 function db_log ($domain,$action,$data) {
-    global $CONF;
     global $table_log;
     $REMOTE_ADDR = getRemoteAddr();
 
@@ -1712,7 +1702,7 @@ function db_log ($domain,$action,$data) {
         die("Invalid log action : $action");   // could do with something better?
     }
 
-    if ($CONF['logging'] == 'YES') {
+    if (boolconf('logging')) {
         $logdata = array(
             'username'  => "$username ($REMOTE_ADDR)",
             'domain'    => $domain,
