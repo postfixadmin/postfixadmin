@@ -207,7 +207,7 @@ if ( empty($this->params['q'] ) ) {
                                 $taskClass = Inflector::camelize($taskName.'Task');
                                 $taskKey = Inflector::underscore($taskClass);
 
-                                if ($taskName == 'Add') {
+                                if ($taskName == 'Add' || $taskName == 'Update') {
                                     $taskClass = 'CliEdit';
 
                                 } elseif (!class_exists($taskClass)) {
@@ -230,6 +230,9 @@ if ( empty($this->params['q'] ) ) {
                                 if ($taskName == 'Add') {
                                     $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
                                     $this->{$taskName}->new = 1;
+                                } elseif ($taskName == 'Update') {
+                                    $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
+                                    $this->{$taskName}->new = 0;
                                 }
 
                                 if (!isset($this->{$taskName})) {
