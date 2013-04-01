@@ -10,8 +10,6 @@ class AliasHandler extends PFAHandler {
 
     protected $domain_field = 'domain';
 
-    protected $called_by_MailboxHandler = false;
-    
     /**
      *
      * @public
@@ -105,13 +103,6 @@ class AliasHandler extends PFAHandler {
     }
 
     /**
-     * set a special flag if called by MailboxHandler
-     */
-    public function MailboxAliasConfig() {
-        $this->called_by_MailboxHandler = true;
-    }
-
-    /**
      * AliasHandler needs some special handling in init() and therefore overloads the function.
      * It also calls parent::init()
      */
@@ -177,7 +168,7 @@ class AliasHandler extends PFAHandler {
      * check number of existing aliases for this domain - is one more allowed?
      */
     private function create_allowed($domain) {
-        if ($this->called_by_MailboxHandler) return true; # always allow creating an alias for a mailbox
+        if ($this->called_by == 'MailboxHandler') return true; # always allow creating an alias for a mailbox
 
         $limit = get_domain_properties ($domain);
 

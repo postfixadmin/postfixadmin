@@ -69,6 +69,8 @@ abstract class PFAHandler {
     # filled by initMsg()
     protected $msg = array();
 
+    # called via another *Handler class? (use calledBy() to set this information)
+    protected $called_by = '';
 
 
     /**
@@ -125,6 +127,11 @@ abstract class PFAHandler {
      *    list  like enum, but allow multiple selections
      * You can use custom types, but you'll have to add handling for them in *Handler and the smarty templates
      *
+     * All database tables should have a 'created' and a 'modified' column.
+     *
+     * Do not use one of the following field names:
+     *    edit, delete, prefill, webroot, help
+     * because those are used as parameter names in the web and/or commandline interface
      */
     abstract protected function initStruct();
 
@@ -148,6 +155,16 @@ abstract class PFAHandler {
      * @return array
      */
     abstract public function webformConfig();
+
+    /**
+     * if you call one *Handler class from another one, tell the "child" *Handler as early as possible (before init())
+     * The flag can be used to avoid logging, avoid loops etc. The exact handling is up to the implementation in *Handler
+     *
+     * @param string calling class
+     */
+    public function calledBy($calling_class) {
+        $this->called_by = $calling_class;
+    }
 
     /**
      * initialize with $id and check if it is valid

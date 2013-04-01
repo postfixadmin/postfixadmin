@@ -189,31 +189,33 @@ class MailboxHandler extends PFAHandler {
             $this->values['quota'] = $this->values['quota'] * Config::read('quota_multiplier'); # convert quota from MB to bytes
         }
 
+        $ah = new AliasHandler($this->new, $this->admin_username);
+
+        $ah->calledBy('MailboxHandler');
+
+        if ( !$ah->init($this->id) ) {
+            $this->errormsg[] = $ah->errormsg[0];
+            return false;
+        }
+
+        $alias_data = array();
+
+        if (isset($this->values['active'])) { # might not be set in edit mode
+            $alias_data['active'] = $this->values['active'];
+        }
+
         if ($this->new) {
-            $ah = new AliasHandler(1, $this->admin_username);
+            $alias_data['goto'] == array($this->id); # 'goto_mailbox' = 1; # would be technically correct, but setting 'goto' is easier
+        }
 
-            $ah->MailboxAliasConfig();
+        if (!$ah->set($alias_data)) {
+            $this->errormsg[] = $ah->errormsg[0];
+            return false;
+        }
 
-            if ( !$ah->init($this->id) ) {
-                $this->errormsg[] = $ah->errormsg[0];
-                return false;
-            }
-
-            $alias_data = array(
-                # 'goto_mailbox' = 1; # would be technically correct, but setting 'goto' is easier
-                'goto' => array($this->id),
-                'active' => $this->values['active'],
-            );
-
-            if (!$ah->set($alias_data)) {
-                $this->errormsg[] = $ah->errormsg[0];
-                return false;
-            }
-
-            if (!$ah->store()) {
-                $this->errormsg[] = $ah->errormsg[0];
-                return false;
-            }
+        if (!$ah->store()) {
+            $this->errormsg[] = $ah->errormsg[0];
+            return false;
         }
 
         return true; # still here? good!
