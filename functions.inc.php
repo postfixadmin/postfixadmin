@@ -1694,7 +1694,7 @@ function db_log ($domain,$action,$data) {
         'create_mailbox', 'edit_mailbox', 'edit_mailbox_state', 'delete_mailbox',
         'create_domain', 'edit_domain', 'delete_domain',
         'create_alias_domain', 'edit_alias_domain', 'edit_alias_domain_state', 'delete_alias_domain',
-        'create_admin', 'edit_admin', /* 'edit_admin_state', 'delete_admin', */
+        'create_admin', 'edit_admin', /* 'edit_admin_state', */ 'delete_admin',
         'edit_password',
     );
 
