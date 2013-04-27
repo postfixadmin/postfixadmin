@@ -179,11 +179,8 @@ class AdminHandler extends PFAHandler {
             return false;
         }
 
-        $this->errormsg[] = '*** Admin deletion not implemented yet ***';
-        return false; # XXX function aborts here until TODO below is implemented! XXX
+        $result = db_delete('domain_admins', $this->id_field, $this->id); # TODO: check for errors?
 
-        # TODO: delete from domain_admins before deleting the admin
-        # TODO: move the needed code from delete.php here
         $result = db_delete($this->db_table, $this->id_field, $this->id);
         if ( $result == 1 ) {
             list(/*NULL*/,$domain) = explode('@', $this->id);
