@@ -37,7 +37,7 @@ class Inflector {
  * @access public
  * @static
  */
-        function camelize($lowerCaseAndUnderscoredWord) {
+        public static function camelize($lowerCaseAndUnderscoredWord) {
                 $replace = str_replace(" ", "", ucwords(str_replace("_", " ", $lowerCaseAndUnderscoredWord)));
                 return $replace;
         }
@@ -49,45 +49,8 @@ class Inflector {
  * @access public
  * @static
  */
-        function underscore($camelCasedWord) {
+        public static function underscore($camelCasedWord) {
                 $replace = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $camelCasedWord));
-                return $replace;
-        }
-/**
- * Returns a human-readable string from $lower_case_and_underscored_word,
- * by replacing underscores with a space, and by upper-casing the initial characters.
- *
- * @param string $lower_case_and_underscored_word String to be made more readable
- * @return string Human-readable string
- * @access public
- * @static
- */
-        function humanize($lowerCaseAndUnderscoredWord) {
-                $replace = ucwords(str_replace("_", " ", $lowerCaseAndUnderscoredWord));
-                return $replace;
-        }
-/**
- * Returns corresponding table name for given $class_name. ("posts" for the model class "Post").
- *
- * @param string $class_name Name of class to get database table name for
- * @return string Name of the database table for given class
- * @access public
- * @static
- */
-        function tableize($className) {
-                $replace = Inflector::pluralize(Inflector::underscore($className));
-                return $replace;
-        }
-/**
- * Returns Cake model class name ("Post" for the database table "posts".) for given database table.
- *
- * @param string $tableName Name of database table to get class name for
- * @return string Class name
- * @access public
- * @static
- */
-        function classify($tableName) {
-                $replace = Inflector::camelize(Inflector::singularize($tableName));
                 return $replace;
         }
 /**
@@ -98,54 +61,11 @@ class Inflector {
  * @access public
  * @static
  */
-        function variable($string) {
+        public static function variable($string) {
                 $string = Inflector::camelize(Inflector::underscore($string));
                 $replace = strtolower(substr($string, 0, 1));
                 $variable = preg_replace('/\\w/', $replace, $string, 1);
                 return $variable;
         }
-/**
- * Returns a string with all spaces converted to $replacement and non word characters removed.
- *
- * @param string $string
- * @param string $replacement
- * @return string
- * @access public
- * @static
- */
-        function slug($string, $replacement = '_') {
-                if (!class_exists('String')) {
-                        require LIBS . 'string.php';
-                }
-                $map = array(
-                        '/à|á|å|â/' => 'a',
-                        '/è|é|ê|ẽ|ë/' => 'e',
-                        '/ì|í|î/' => 'i',
-                        '/ò|ó|ô|ø/' => 'o',
-                        '/ù|ú|ů|û/' => 'u',
-                        '/ç/' => 'c',
-                        '/ñ/' => 'n',
-                        '/ä|æ/' => 'ae',
-                        '/ö/' => 'oe',
-                        '/ü/' => 'ue',
-                        '/Ä/' => 'Ae',
-                        '/Ü/' => 'Ue',
-                        '/Ö/' => 'Oe',
-                        '/ß/' => 'ss',
-                        '/[^\w\s]/' => ' ',
-                        '/\\s+/' => $replacement,
-                        String::insert('/^[:replacement]+|[:replacement]+$/', array('replacement' => preg_quote($replacement, '/'))) => '',
-                );
-                $string = preg_replace(array_keys($map), array_values($map), $string);
-                return $string;
-        }
 }
-/**
- * Enclose a string for preg matching.
- *
- * @param string $string String to enclose
- * @return string Enclosed string
- */
-        function __enclose($string) {
-                return '(?:' . $string . ')';
-        }
+
