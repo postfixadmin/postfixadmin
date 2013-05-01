@@ -138,14 +138,14 @@ class AliasHandler extends PFAHandler {
 
     protected function validate_new_id() {
         if ($this->id == '') {
-            $this->errormsg[] = Lang::read('pCreate_alias_address_text_error1');
+            $this->errormsg[$this->id_field] = Lang::read('pCreate_alias_address_text_error1');
             return false;
         }
 
         list($local_part,$domain) = explode ('@', $this->id);
 
         if(!$this->create_allowed($domain)) {
-            $this->errormsg[] = Lang::read('pCreate_alias_address_text_error3');
+            $this->errormsg[$this->id_field] = Lang::read('pCreate_alias_address_text_error3');
             return false;
         }
  
