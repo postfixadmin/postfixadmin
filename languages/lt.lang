@@ -119,7 +119,7 @@ $PALANG['pCreate_alias_button'] = 'Naujas sinonimas';
 $PALANG['pCreate_alias_goto_text'] = 'Adresas, kuriuo persiųsti paštą.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Kam: įvestas neteisingai!';
 $PALANG['pCreate_alias_result_error'] = 'Sinonimo registruoti nepavyko!';
-$PALANG['pCreate_alias_result_success'] = 'Sinonimas užregistruotas!';
+$PALANG['pCreate_alias_result_success'] = 'Sinonimas užregistruotas!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Jei norite sukurti sinonimą, kuris gautų visas žinutes neegzistuojantiems adresatams, naudokite "*".';
 
 

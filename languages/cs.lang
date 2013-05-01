@@ -124,7 +124,7 @@ $PALANG['pCreate_alias_button'] = 'Přidat';
 $PALANG['pCreate_alias_goto_text'] = 'Kam má pošta chodit.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Cíl není platný!';
 $PALANG['pCreate_alias_result_error'] = 'Nepodařilo se přidat přesměrování do tabulky aliasů!';
-$PALANG['pCreate_alias_result_success'] = 'Přesměrování bylo uspěšně přidáno do tabulky aliasů!';
+$PALANG['pCreate_alias_result_success'] = 'Přesměrování bylo uspěšně přidáno do tabulky aliasů!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Pro vytvoření doménového koše použijte * jako alias. Pro alias doména -> doména použijte *@domain.tld jako cíl.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Upravit přesměrování.'; # XXX Text change to: 'Edit forwarding settings'

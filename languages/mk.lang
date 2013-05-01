@@ -119,7 +119,7 @@ $PALANG['pCreate_alias_button'] = 'Додавање алијас';
 $PALANG['pCreate_alias_goto_text'] = 'Каде треба да се испрати поштата.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Полето ДО не е валидно!';
 $PALANG['pCreate_alias_result_error'] = 'Не можам да го додадам алијасот на табелата со алијаси!';
-$PALANG['pCreate_alias_result_success'] = 'Алијасот е додаден на табелата со алијаси!';
+$PALANG['pCreate_alias_result_success'] = 'Алијасот е додаден на табелата со алијаси!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'За да креираш catch-all користи "*" како алијас.  За препраќање од домен на домен користи "*@domain.tld" како ДО.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Едитирање на алијас за вашиот домен.'; # XXX Text change to: 'Edit forwarding settings'

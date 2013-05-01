@@ -121,7 +121,7 @@ $PALANG['pCreate_alias_button'] = 'Alias hinzufügen';
 $PALANG['pCreate_alias_goto_text'] = 'Wohin soll die eMail weitergeleitet werden?';
 $PALANG['pCreate_alias_goto_text_error'] = 'Das An-Feld ist falsch!';
 $PALANG['pCreate_alias_result_error'] = 'Unmöglich dieses Alias in die Alias-Tabelle einzutragen!';
-$PALANG['pCreate_alias_result_success'] = 'Das Alias wurde in die Alias-Tabelle hinzugefügt!';
+$PALANG['pCreate_alias_result_success'] = 'Der Alias %s wurde erstellt!';
 $PALANG['pCreate_alias_catchall_text'] = 'Um alle Adressen abzudecken benutzen Sie einen "*" als Alias. Um ganze Domains an andere Domains weiterzuleiten benutzen Sie "*@domain.tld" im "An"-Feld.';
 
 $PALANG['pEdit_alias_welcome'] = 'Weiterleitungs-Einstellungen ändern';

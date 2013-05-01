@@ -122,7 +122,7 @@ $PALANG['pCreate_alias_button'] = 'Add Alias';
 $PALANG['pCreate_alias_goto_text'] = 'Where the mail needs to be sent to.';
 $PALANG['pCreate_alias_goto_text_error'] = 'The To: is not valid!';
 $PALANG['pCreate_alias_result_error'] = 'Unable to add the alias to the alias table!';
-$PALANG['pCreate_alias_result_success'] = 'The alias has been added to the alias table!';
+$PALANG['pCreate_alias_result_success'] = 'The alias %s has been created!';
 $PALANG['pCreate_alias_catchall_text'] = 'To create a catch-all use an "*" as alias.'; # XXX don't propagate usage of *@target-domain.com for domain-aliasing any longer
 
 $PALANG['pEdit_alias_welcome'] = 'Edit forwarding settings';

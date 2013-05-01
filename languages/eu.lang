@@ -117,7 +117,7 @@ $PALANG['pCreate_alias_button'] = 'Aliasa gehitu';
 $PALANG['pCreate_alias_goto_text'] = 'Nora bidali behar den e-maila.';
 $PALANG['pCreate_alias_goto_text_error'] = 'NORAKO okerra!';
 $PALANG['pCreate_alias_result_error'] = 'Ezinezkoa aliasa alias taulan sartzea!';
-$PALANG['pCreate_alias_result_success'] = 'Aliasa alias taulan gehituta!';
+$PALANG['pCreate_alias_result_success'] = 'Aliasa alias taulan gehituta!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Alias orokor bat sortzeko "*" erabil ezazu alias gisa. Domeinuz domeinurako birbideraketa baterako Norako gisa "*@domain.tld" erabil ezazu.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Domeinuarentzat aliasa aldatu.'; # XXX Text change to: 'Edit forwarding settings'

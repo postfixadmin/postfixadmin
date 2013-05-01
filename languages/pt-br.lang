@@ -123,7 +123,7 @@ $PALANG['pCreate_alias_button'] = 'Criar Alias';
 $PALANG['pCreate_alias_goto_text'] = 'Para onde as mensagens serão enviadas.';
 $PALANG['pCreate_alias_goto_text_error'] = 'O endereço no campo Para é inválido!';
 $PALANG['pCreate_alias_result_error'] = 'Não foi possível criar o alias!';
-$PALANG['pCreate_alias_result_success'] = 'Alias criado!';
+$PALANG['pCreate_alias_result_success'] = 'Alias criado!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Para criar um alias global, use "*" no campo Alias. Para encaminhar de um domínio para outro, use "*@dominio.tld" no campo Para.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Edição de alias do domínio.'; # XXX Text change to: 'Edit forwarding settings'

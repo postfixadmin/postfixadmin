@@ -119,7 +119,7 @@ $PALANG['pCreate_alias_button'] = 'Dodaj alias';
 $PALANG['pCreate_alias_goto_text'] = 'Kamor želite nasloviti pošto.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Vnos "Za" je napačen!'; # XXX check - should be   The To: is not valid!
 $PALANG['pCreate_alias_result_error'] = 'Aliasa ni bilo mogoče dodati!';
-$PALANG['pCreate_alias_result_success'] = 'Alias je bil uspešno dodan!';
+$PALANG['pCreate_alias_result_success'] = 'Alias je bil uspešno dodan!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Če želite ustvariti "vseobsegajoči" alias, uporabite "*" namesto aliasa. Za posredovanje iz domene na domeno, uporabite "*@domena.si" v "Za" polju.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Uredi alias za določeno domeno.'; # XXX Text change to: 'Edit forwarding settings'

@@ -120,7 +120,7 @@ $PALANG['pCreate_alias_button'] = 'Ajouter un alias';
 $PALANG['pCreate_alias_goto_text'] = 'Destinataires des courriels.';
 $PALANG['pCreate_alias_goto_text_error'] = 'le champ À contient des erreurs!';
 $PALANG['pCreate_alias_result_error'] = 'Impossible d\'ajouter cet alias dans la table !';
-$PALANG['pCreate_alias_result_success'] = 'L\'alias a été ajouté !';
+$PALANG['pCreate_alias_result_success'] = 'L\'alias a été ajouté !'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Pour ajouter un alias global, utilisez "*". Pour un transfert de domaine à domaine, utilisez "*@domain.tld" dans le champs A.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Modifier un alias dans votre domaine.'; # XXX Text change to: 'Edit forwarding settings'

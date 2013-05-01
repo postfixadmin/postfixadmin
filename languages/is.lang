@@ -118,7 +118,7 @@ $PALANG['pCreate_alias_button'] = 'Bæta við alias';
 $PALANG['pCreate_alias_goto_text'] = 'Þangað sem pósturinn á að sendast.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Til línan er ekki gild!';
 $PALANG['pCreate_alias_result_error'] = 'Get ekki bætt við alias í alias töflu!';
-$PALANG['pCreate_alias_result_success'] = 'Nýr alias hefur verið bætt við alias töfluna!';
+$PALANG['pCreate_alias_result_success'] = 'Nýr alias hefur verið bætt við alias töfluna!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Til að útbúa alias fyrir öll netföng í léninu, þá geturðu útbúið "*" alias. Til að áframsenda með alias á annað lén eða pósthólf, notaðu "*@domain.tld í til.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Breyta alias í léninu.'; # XXX Text change to: 'Edit forwarding settings'

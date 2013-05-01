@@ -121,7 +121,7 @@ $PALANG['pCreate_alias_button'] = 'Alias felvétele';
 $PALANG['pCreate_alias_goto_text'] = 'Ahova a levélnek mennie kell.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Érvénytelen a HOVA mezõ!';
 $PALANG['pCreate_alias_result_error'] = 'Nemsikerült hozzáadni az aliast az alias táblához!';
-$PALANG['pCreate_alias_result_success'] = 'Az aliast felvettük az alias táblába!';
+$PALANG['pCreate_alias_result_success'] = 'Az aliast felvettük az alias táblába!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'A catch-all (*@valami.hu) beállításához használj "*" -ot az alias mezõnél. A domain-domain közötti átirányításhoz használd a "*@akarmi.hu" címet.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Alias szerkesztése a domainhez.'; # XXX Text change to: 'Edit forwarding settings'

@@ -120,7 +120,7 @@ $PALANG['pCreate_alias_button'] = 'Vytvoriť alias';
 $PALANG['pCreate_alias_goto_text'] = 'Kam má pošta chodiť';
 $PALANG['pCreate_alias_goto_text_error'] = 'Cieľ nie je platný!';
 $PALANG['pCreate_alias_result_error'] = 'Nepodarilo sa pridať alias do tabuľky!';
-$PALANG['pCreate_alias_result_success'] = 'Alias bol pridaný do tabuľky!';
+$PALANG['pCreate_alias_result_success'] = 'Alias bol pridaný do tabuľky!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Pre vytvorenie doménového koša použite * ako alias. Pre alias doména-doména použite *@domain.tld ako cieľ.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Upraviť aliasy'; # XXX Text change to: 'Edit forwarding settings'

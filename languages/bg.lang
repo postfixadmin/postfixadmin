@@ -120,7 +120,7 @@ $PALANG['pCreate_alias_button'] = 'Добави Alias';
 $PALANG['pCreate_alias_goto_text'] = 'Накъде трябва да се изпраща писмото.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Избраният адрес в полето Към не е валиден!';
 $PALANG['pCreate_alias_result_error'] = 'Не мога да добавя alias-а към таблицата!';
-$PALANG['pCreate_alias_result_success'] = 'Alias-а беше добавен успешно в таблицата!';
+$PALANG['pCreate_alias_result_success'] = 'Alias-а беше добавен успешно в таблицата!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'За да създадете catch-all използвайте "*" за alias. За пренасочване на домейн към домейн използвайте "*@domain.tld" в полето Към.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Редактиране на alias за вашия домейн.'; # XXX Text change to: 'Edit forwarding settings'

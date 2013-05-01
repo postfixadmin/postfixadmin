@@ -119,7 +119,7 @@ $PALANG['pCreate_alias_button'] = 'Lisa alias';
 $PALANG['pCreate_alias_goto_text'] = 'Kuhu peab kirja saatma.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Kellele pole kehtiv!';
 $PALANG['pCreate_alias_result_error'] = 'Aliase lisamine tabelisse ebaõnnestus!';
-$PALANG['pCreate_alias_result_success'] = 'Alias lisati aliaste tabelisse!';
+$PALANG['pCreate_alias_result_success'] = 'Alias lisati aliaste tabelisse!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Loomaks püüa-kõik aadressi kasuta aliasena "*". Domeenilt domeenile edasisaatmiseks kasuta kellele väljal "*@domeen.xx".'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Muuda aliast.'; # XXX Text change to: 'Edit forwarding settings'

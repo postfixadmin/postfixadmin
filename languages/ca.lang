@@ -118,7 +118,7 @@ $PALANG['pCreate_alias_button'] = 'Afegir àlies';
 $PALANG['pCreate_alias_goto_text'] = 'A on ha de ser enviat l\'e-mail.';
 $PALANG['pCreate_alias_goto_text_error'] = 'El destí no és vàlid!';
 $PALANG['pCreate_alias_result_error'] = '¡No és posible afegir l\'àlies a la taula d\'àlies!';
-$PALANG['pCreate_alias_result_success'] = 'L\'àlies ha estat creat correctament!';
+$PALANG['pCreate_alias_result_success'] = 'L\'àlies ha estat creat correctament!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Per crear un àlies general usi "*" com a àlies. Per una redirecció de domini a domini, usi "*@domain.tld" com a Destí.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Editi un àlies pel seu domini.'; # XXX Text change to: 'Edit forwarding settings'

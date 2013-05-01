@@ -120,7 +120,7 @@ $PALANG['pCreate_alias_button'] = 'Voeg alias toe';
 $PALANG['pCreate_alias_goto_text'] = 'Waar de e-mails heen gestuurd worden.';
 $PALANG['pCreate_alias_goto_text_error'] = 'De NAAR is niet geldig.';
 $PALANG['pCreate_alias_result_error'] = 'Mislukt om de alias toe te voegen.';
-$PALANG['pCreate_alias_result_success'] = 'De alias is toegevoegd.';
+$PALANG['pCreate_alias_result_success'] = 'De alias is toegevoegd.'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Om een catch-all te gebruiken, dient u een "*" (asteric) in te vullen als alias. Voor domein naar domein forwarding gebruik "*@domein.tld" als naar.';
 
 $PALANG['pEdit_alias_welcome'] = 'Bewerk een alias voor uw domein.';
@@ -192,7 +192,6 @@ $PALANG['pEdit_vacation_remove'] = 'Verwijder beantwoorden tekst';
 $PALANG['pVacation_result_error'] = 'Niet in staat automatisch beantwoorden te wijzigen!';
 $PALANG['pVacation_result_removed'] = 'Automatisch beantwoorden is voor %s gedeactiveerd!';
 $PALANG['pVacation_result_added'] = 'Automatisch beantwoorden is voor %s geactiveerd!';
-$PALANG['pVacation_result_added'] = 'Automatisch beantwoorden is geactiveerd!';
 $PALANG['pVacation_reply_type'] = 'Keuze van beantwoording';
 $PALANG['pVacation_reply_delay_time'] = 'Interval tijd';
 $PALANG['pVacation_reply_delay_time_text'] = 'Tijd in seconds';

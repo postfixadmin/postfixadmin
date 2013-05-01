@@ -122,7 +122,7 @@ $PALANG['pCreate_alias_button'] = 'Tilføj alias';
 $PALANG['pCreate_alias_goto_text'] = 'Hvor emailen skal videresendes til.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Modtageradressen er ikke gyldig!';
 $PALANG['pCreate_alias_result_error'] = 'Kan ikke tilføje aliaset til alias-tabellen!';
-$PALANG['pCreate_alias_result_success'] = 'Aliaset er blevet tilføjet til alias-tabellen!';
+$PALANG['pCreate_alias_result_success'] = 'Aliaset er blevet tilføjet til alias-tabellen!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'For at tilføje et stjerne-alias, brug en "*" som alias. For domæne til domæne-videresending brug "*@domain.tld" som modtager.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Rediger alias.'; # XXX Text change to: 'Edit forwarding settings'

@@ -121,7 +121,7 @@ $PALANG['pCreate_alias_button'] = 'Lägg till alias';
 $PALANG['pCreate_alias_goto_text'] = 'Vart skall mailen skickas.';
 $PALANG['pCreate_alias_goto_text_error'] = 'TILL data är felaktigt!';
 $PALANG['pCreate_alias_result_error'] = 'Kan inte lägga till detta alias i aliastabellen!';
-$PALANG['pCreate_alias_result_success'] = 'Aliaset har lagts till i aliastabellen!';
+$PALANG['pCreate_alias_result_success'] = 'Aliaset har lagts till i aliastabellen!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'För att skapa en catch-all ange ett "*" som alias. För domän till domän forwarding använd "*@domän.tld" som till.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Ändra ett alias för din domän.'; # XXX Text change to: 'Edit forwarding settings'

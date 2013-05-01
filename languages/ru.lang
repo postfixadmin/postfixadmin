@@ -123,7 +123,7 @@ $PALANG['pCreate_alias_button'] = 'Создать алиас';
 $PALANG['pCreate_alias_goto_text'] = 'Куда должна доставляться почта.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Неверное поле Кому!';
 $PALANG['pCreate_alias_result_error'] = 'Невозможно добавить алиас в список!';
-$PALANG['pCreate_alias_result_success'] = 'Алиас был успешно создан!';
+$PALANG['pCreate_alias_result_success'] = 'Алиас был успешно создан!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Для создания catch-all почтового ящика используйте "*" в качестве имени алиаса.'; # XXX don't propagate usage of *@target-domain.com for domain-aliasing any longer
 
 $PALANG['pEdit_alias_welcome'] = 'Редактирование настроек пересылки';

@@ -121,7 +121,7 @@ $PALANG['pCreate_alias_button'] = '転送先追加';
 $PALANG['pCreate_alias_goto_text'] = 'メールを転送するアドレス';
 $PALANG['pCreate_alias_goto_text_error'] = '転送先が無効です。';
 $PALANG['pCreate_alias_result_error'] = '転送先を追加できません！';
-$PALANG['pCreate_alias_result_success'] = '転送先を追加しました。';
+$PALANG['pCreate_alias_result_success'] = '転送先を追加しました。'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'すべてのメールを受け取るには、転送元に "*" を使います。 別のドメインにすべて転送するには、転送先に "*.domain.tld" を使います。'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = '転送先アドレスの編集'; # XXX Text change to: 'Edit forwarding settings'

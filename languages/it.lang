@@ -120,7 +120,7 @@ $PALANG['pCreate_alias_button'] = 'Aggiungi Alias';
 $PALANG['pCreate_alias_goto_text'] = 'Dove la mail deve essere spedita.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Il campo A non è valido!';
 $PALANG['pCreate_alias_result_error'] = 'Non sono riuscito ad aggiungere l\'alias alla tabella degli alias!';
-$PALANG['pCreate_alias_result_success'] = 'L\'alias è stato aggiunto alla tabella degli alias!';
+$PALANG['pCreate_alias_result_success'] = 'L\'alias è stato aggiunto alla tabella degli alias!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Per creare un account universale, usare "*" come alias. Per inoltri da dominio a dominio, usare "*@domain.tld" come campo "a".'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Modifica un alias per il tuo dominio.'; # XXX Text change to: 'Edit forwarding settings'
