@@ -62,7 +62,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxen';
 $PALANG['pOverview_button'] = 'Ga';
 $PALANG['pOverview_welcome'] = 'Overzicht voor ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias domeinen';
-$PALANG['pOverview_alias_domain_target'] = '%s is een alias voor domein:'; # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Aliasen';
 $PALANG['pOverview_alias_mailbox_count'] = 'Mailboxes';
 $PALANG['pOverview_alias_address'] = 'Van';
@@ -92,16 +91,13 @@ $PALANG['pOverview_get_modified'] = 'Laatst bewerkt';
 
 $PALANG['pDelete_delete_error'] = 'Mislukt te verwijderen ';
 $PALANG['pDelete_delete_success'] = '%s verwijderd.';
-$PALANG['pDelete_postdelete_error'] = 'Niet in staat mailbox te verwijderen '; # obsolete
 $PALANG['pDelete_domain_error'] = 'Dit is niet uw domein ';
-$PALANG['pDelete_domain_alias_error'] = 'Dit is niet uw domein '; # obsolete
 $PALANG['pDelete_alias_error'] = 'Niet in staat alias te verwijderen ';
 $PALANG['pCreate_alias_domain_welcome'] = 'Spiegel een van uw domeinen naar een ander domein.';
 $PALANG['pCreate_alias_domain_alias'] = 'Alias domein';
 $PALANG['pCreate_alias_domain_alias_text'] = 'Het domein waar mail voor binnen komt.';
 $PALANG['pCreate_alias_domain_target'] = 'Doel domein';
 $PALANG['pCreate_alias_domain_target_text'] = 'Domein waar de mail naar toe moet.';
-$PALANG['pCreate_alias_domain_active'] = 'Actief'; # obsolete
 $PALANG['pCreate_alias_domain_button'] = 'Voeg alias domein toe';
 $PALANG['pCreate_alias_domain_error1'] = 'U heeft niet genoeg rechten om de huidige configuratie te maken.';
 $PALANG['pCreate_alias_domain_error2'] = 'De huidige configuratie is ongeldig, slecteer een andere!';
@@ -110,7 +106,6 @@ $PALANG['pCreate_alias_domain_error4'] = 'Alle domeinen hebben al een alias!';
 $PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de alias domein tabel!';
 
 $PALANG['pCreate_alias_welcome'] = 'Maak een nieuw alias aan voor uw domein.';
-$PALANG['pCreate_alias_address'] = 'Alias'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'De Alias is niet geldig!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Dit e-mail aders bestaat al, kies aub een andere.';
 $PALANG['pCreate_alias_address_text_error3'] = 'U bezit het maximum aantal aliassen.';
@@ -126,12 +121,10 @@ $PALANG['pCreate_alias_catchall_text'] = 'Om een catch-all te gebruiken, dient u
 $PALANG['pEdit_alias_welcome'] = 'Bewerk een alias voor uw domein.';
 $PALANG['pEdit_alias_help'] = 'Meerdere e-mailadressen toegestaan. Slechts één alias per regel.';
 $PALANG['pEdit_alias_address'] = 'Alias';
-$PALANG['pEdit_alias_address_error'] = 'Mislukt om alias te vinden!'; # obsolete
 $PALANG['pEdit_alias_goto'] = 'Naar';
 $PALANG['pEdit_alias_active'] = 'Actief';
 $PALANG['pEdit_alias_goto_text_error1'] = 'U heeft geen Naar opgegeven.';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Het e-mail adres wat u opgaf is niet geldig: ';
-$PALANG['pEdit_alias_domain_error'] = 'Dit domein is niet van u: '; # obsolete
 $PALANG['pEdit_alias_domain_result_error'] = 'Niet in staat de domein alias te bewerken!';
 $PALANG['pEdit_alias_forward_and_store'] = 'Lever af op de lokale mailbox.';
 $PALANG['pEdit_alias_forward_only'] = 'Alleen op opgegeven email adres afleveren.';
@@ -139,7 +132,6 @@ $PALANG['pEdit_alias_button'] = 'Bewerk Alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = 'Mislukt om de alias te bewerken!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Maak een nieuw lokale mailbox voor uw domein.';
-$PALANG['pCreate_mailbox_username'] = 'Gebruikersnaam'; # obsolete
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Het e-mail adres is niet geldig.';
 $PALANG['pCreate_mailbox_username_text_error2'] = 'Dit e-mail adres is al ingebruik. Kies aub een andere.';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'U bezit het maximum aantal mailboxen.';
@@ -147,10 +139,7 @@ $PALANG['pCreate_mailbox_password'] = 'Wachtwoord';
 $PALANG['pCreate_mailbox_password2'] = 'Wachtwoord nogmaals';
 $PALANG['pCreate_mailbox_password_text'] = 'Wachtwoord voor POP3/IMAP';
 $PALANG['pCreate_mailbox_password_text_error'] = 'De wachtwoorden die u opgaf komen niet overeen of zijn leeg.';
-$PALANG['pCreate_mailbox_name'] = 'Naam'; # obsolete
 $PALANG['pCreate_mailbox_name_text'] = 'Volledige naam';
-$PALANG['pCreate_mailbox_quota'] = 'Quota'; # obsolete
-$PALANG['pCreate_mailbox_quota_text'] = 'MB'; # obsolete
 $PALANG['pCreate_mailbox_quota_text_error'] = 'De quota die opgaf is te hoog.';
 $PALANG['pCreate_mailbox_active'] = 'Actief';
 $PALANG['pCreate_mailbox_mail'] = 'Mailbox toevoegen'; # XXX Text change to 'Send Welcome mail'
@@ -161,12 +150,8 @@ $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'De mailbox is aan de ma
 
 $PALANG['pEdit_mailbox_welcome'] = 'Bewerk een mailbox voor uw domein.';
 $PALANG['pEdit_mailbox_username'] = 'Gebruikersnaam';
-$PALANG['pEdit_mailbox_username_error'] = 'Mislukt om mailbox te vinden!'; # obsolete
-$PALANG['pEdit_mailbox_password'] = 'Nieuw wachtwoord'; # obsolete
-$PALANG['pEdit_mailbox_password2'] = 'Nieuw wachtwoord (nogmaals)'; # obsolete
 $PALANG['pEdit_mailbox_password_text_error'] = 'De wachtwoorden die u opgaf komen niet overeen.';
 $PALANG['pEdit_mailbox_name'] = 'Naam';
-$PALANG['pEdit_mailbox_name_text'] = 'Volledige naam'; # obsolete
 $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['mb_max'] = 'MB (max: %s)'; # XXX
@@ -177,7 +162,6 @@ $PALANG['pEdit_mailbox_result_error'] = 'Mislukt om het wachtwoord te wijzigen.'
 
 $PALANG['pPassword_welcome'] = 'Bewerk u login wachtwoord.';
 $PALANG['pPassword_admin'] = 'Login';
-$PALANG['pPassword_admin_text_error'] = 'De login die u opgaf komt niet overeen met een mailbox.'; # obsolete
 $PALANG['pPassword_password_current'] = 'Huidig wachtwoord';
 $PALANG['pPassword_password_current_text_error'] = 'U heeft uw huidige wachtwoord niet opgegeven.';
 $PALANG['pPassword_password'] = 'Nieuw wachtwoord';
@@ -257,7 +241,6 @@ $PALANG['pAdminList_domain_domain'] = 'Domein';
 $PALANG['pAdminList_domain_description'] = 'Omschrijving';
 $PALANG['pAdminList_domain_aliases'] = 'Aliassen';
 $PALANG['pAdminList_domain_mailboxes'] = 'Mailboxen';
-$PALANG['pAdminList_domain_maxquota'] = 'Quota (MB)'; # XXX no longer used
 $PALANG['pAdminList_domain_quota'] = 'Domein quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Back-up MX';
@@ -279,22 +262,11 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Actief';
 $PALANG['pAdminList_domain_userscontrol'] = 'Gebruikers<br />Beheer';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Voeg een nieuw domein toe';
-$PALANG['pAdminCreate_domain_domain'] = 'Domein'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Het domein bestaat al.';
 $PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Het domein is niet geldig!';
-$PALANG['pAdminCreate_domain_description'] = 'Omschrijving'; # obsolete
-$PALANG['pAdminCreate_domain_aliases'] = 'Aliassen'; # obsolete
-$PALANG['pAdminCreate_domain_aliases_text'] = '-1 = uit | 0 = onbeperkt'; # obsolete
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Mailboxen'; # obsolete
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '-1 = uit | 0 = onbeperkt'; # obsolete
-$PALANG['pAdminCreate_domain_maxquota'] = 'Max Quota'; # obsolete
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | -1 = uit | 0 = onbeperkt'; # obsolete
-$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
-$PALANG['pAdminCreate_domain_transport_text'] = 'Definieer transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Gebruik standaard aliassen';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_backupmx'] = 'Mail server is back-up MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Voeg Domein toe';
 $PALANG['pAdminCreate_domain_result_error'] = 'Mislukt om het domein toe te voegen.';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd!';
@@ -321,12 +293,9 @@ $PALANG['pAdminEdit_domain_result_error'] = 'Mislukt het domein te bewerken.';
 $PALANG['pAdminEdit_domain_userscontrol'] = 'Sta contorle door gebruikers toe';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Voeg een nieuw domein beheerder toe';
-$PALANG['pAdminCreate_admin_username'] = 'Beheerder'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'E-mail adres';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Beheerder is geen geldig e-mail adres!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'De beheerder bestaat al of is niet geldig';
-$PALANG['pAdminCreate_admin_password'] = 'Wachtwoord'; # obsolete
-$PALANG['pAdminCreate_admin_password2'] = 'Wachtwoord (nogmaals)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'De wachtwoorden die u opgaf komen niet overeen of zijn leeg.';
 $PALANG['pAdminCreate_admin_button'] = 'Voeg beheerder toe';
 $PALANG['pAdminCreate_admin_result_error'] = 'Mislukt om beheerder toe te voegen!';
@@ -347,9 +316,6 @@ $PALANG['pAdminEdit_admin_result_success'] = 'Beheerder is bewerkt!';
 
 $PALANG['pUsersLogin_welcome'] = 'Mailbox gebruikers login om uw wachtwoord en aliassen te bewerken.';
 $PALANG['pUsersLogin_username'] = 'Login (email)'; # obsolete
-$PALANG['pUsersLogin_password'] = 'Wachtwoord'; # obsolete
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
-$PALANG['pUsersLogin_button'] = 'Login'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Uw login is niet correct. U dient in te loggen met uw e-mail adres.';
 $PALANG['pUsersLogin_password_incorrect'] = 'Uw wachtwoord is niet correct.';
 
@@ -371,10 +337,6 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Ik zal afwezig zijn van <date> tot <date>.
 Voor belangrijke punten kunt u contact opnemen met <contact person>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Afwezig'; # obsolete
-$PALANG['pUsersVacation_button_back'] = 'Kom terug'; # obsolete
-$PALANG['pUsersVacation_result_error'] = 'Mislukt om uw automatisch beantwoorden instellingen te wijzigen.'; # obsolete
-$PALANG['pUsersVacation_result_success'] = 'Uw automatisch beantwoorden is verwijderd.'; # obsolete
 $PALANG['pUsersVacation_activefrom'] = 'Actief vanaf'; # obsolete
 $PALANG['pUsersVacation_activeuntil'] = 'Actief t/m'; # obsolete
 

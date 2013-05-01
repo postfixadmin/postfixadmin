@@ -62,7 +62,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxes'; # XXX
 $PALANG['pOverview_button'] = 'Напред';
 $PALANG['pOverview_welcome'] = 'Преглед на ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_domain_target'] = '%s is an Alias Domain for:'; # XXX # obsolete
 $PALANG['pOverview_alias_alias_count'] = 'Alias-и';
 $PALANG['pOverview_alias_mailbox_count'] = 'Пощенски кутии';
 $PALANG['pOverview_alias_address'] = 'От';
@@ -92,16 +91,13 @@ $PALANG['pOverview_get_modified'] = 'Последно модифициран';
 
 $PALANG['pDelete_delete_error'] = 'Не мога да изтрия записа ';
 $PALANG['pDelete_delete_success'] = '%s deleted.'; # XXX
-$PALANG['pDelete_postdelete_error'] = 'Не мога да изтрия пощенската кутия'; # obsolete
 $PALANG['pDelete_domain_error'] = 'Този домейн не е ваш! ';
-$PALANG['pDelete_domain_alias_error'] = 'Този домейн не е ваш '; # obsolete
 $PALANG['pDelete_alias_error'] = 'Unable to delete alias '; # XXX
 $PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
 $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
 $PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
 $PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
-$PALANG['pCreate_alias_domain_active'] = 'Active'; # XXX # obsolete
 $PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_error1'] = 'Не ви е позволено да използвате избраната конфигурация.';
 $PALANG['pCreate_alias_domain_error2'] = 'Избраната конфигурация е невалидна. Изберете друга!';
@@ -110,7 +106,6 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_welcome'] = 'Създай нов alias за вашия домейн.';
-$PALANG['pCreate_alias_address'] = 'Alias'; # obsolete
 $PALANG['pCreate_alias_address_text_error1'] = 'Този ALIAS не е валиден!';
 $PALANG['pCreate_alias_address_text_error2'] = 'Този е-мейл адрес вече съществува, моля изберете различен!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Достигнали сте лимита си за създаване на alias-и!';
@@ -126,12 +121,10 @@ $PALANG['pCreate_alias_catchall_text'] = 'За да създадете catch-all
 $PALANG['pEdit_alias_welcome'] = 'Редактиране на alias за вашия домейн.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Един запис на ред.'; # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['pEdit_alias_address'] = 'Alias';
-$PALANG['pEdit_alias_address_error'] = 'Не мога да открия този alias!'; # obsolete
 $PALANG['pEdit_alias_goto'] = 'Към';
 $PALANG['pEdit_alias_active'] = 'Active'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = 'Не сте въвели нищо в полето Към';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Е-мейл адреса, който сте въвели не е валиден: ';
-$PALANG['pEdit_alias_domain_error'] = 'Този домейн не е ваш: '; # obsolete
 $PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
@@ -139,7 +132,6 @@ $PALANG['pEdit_alias_button'] = 'Редактирай Alias'; # XXX text no long
 $PALANG['pEdit_alias_result_error'] = 'Не мога да модифицирам този alias!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Създаване на нова пощенска кутия за вашия домейн.';
-$PALANG['pCreate_mailbox_username'] = 'Логин'; # obsolete
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Е-мейл-а не е валиден!';
 $PALANG['pCreate_mailbox_username_text_error2'] = 'Този е-мейл адрес вече съществува, моля изберете друг!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Вие сте достигнали своя лимит за създаване на пощенски кутии!';
@@ -147,10 +139,7 @@ $PALANG['pCreate_mailbox_password'] = 'Парола';
 $PALANG['pCreate_mailbox_password2'] = 'Парола (отново)';
 $PALANG['pCreate_mailbox_password_text'] = 'Парола за POP3/IMAP';
 $PALANG['pCreate_mailbox_password_text_error'] = 'Паролите, които сте дали не съвпадат! Или са празни!'; # XXX check/beautify - was split in two lines before
-$PALANG['pCreate_mailbox_name'] = 'Име'; # obsolete
 $PALANG['pCreate_mailbox_name_text'] = 'Пълно име';
-$PALANG['pCreate_mailbox_quota'] = 'Обем'; # obsolete
-$PALANG['pCreate_mailbox_quota_text'] = 'MB'; # obsolete
 $PALANG['pCreate_mailbox_quota_text_error'] = 'Обема, който сте задали е твърде голям!';
 $PALANG['pCreate_mailbox_active'] = 'Активен';
 $PALANG['pCreate_mailbox_mail'] = 'Създай пощенска кутия'; # XXX Text change to 'Send Welcome mail'
@@ -161,12 +150,8 @@ $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been ad
 
 $PALANG['pEdit_mailbox_welcome'] = 'Редакция на пощенска кутия за вашия домейн.';
 $PALANG['pEdit_mailbox_username'] = 'Логин';
-$PALANG['pEdit_mailbox_username_error'] = 'Не мога да открия пощенската кутия!'; # obsolete
-$PALANG['pEdit_mailbox_password'] = 'Нова парола'; # obsolete
-$PALANG['pEdit_mailbox_password2'] = 'Нова парола (отново)'; # obsolete
 $PALANG['pEdit_mailbox_password_text_error'] = 'Паролите, които сте дали не съвпадат!';
 $PALANG['pEdit_mailbox_name'] = 'Име';
-$PALANG['pEdit_mailbox_name_text'] = 'Full name'; # XXX # obsolete
 $PALANG['pEdit_mailbox_quota'] = 'Обем';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['mb_max'] = 'MB (max: %s)'; # XXX
@@ -177,7 +162,6 @@ $PALANG['pEdit_mailbox_result_error'] = 'Не мога да модифицира
 
 $PALANG['pPassword_welcome'] = 'Смяна на парола.';
 $PALANG['pPassword_admin'] = 'Логин';
-$PALANG['pPassword_admin_text_error'] = 'Логин-а, който сте дали не съвпада с пощенската кутия!'; # obsolete
 $PALANG['pPassword_password_current'] = 'Настояща парола';
 $PALANG['pPassword_password_current_text_error'] = 'Не сте въвели вашата настояща парола!';
 $PALANG['pPassword_password'] = 'Нова парола';
@@ -256,7 +240,6 @@ $PALANG['pAdminList_domain_domain'] = 'Домейн';
 $PALANG['pAdminList_domain_description'] = 'Описание';
 $PALANG['pAdminList_domain_aliases'] = 'Alias-и';
 $PALANG['pAdminList_domain_mailboxes'] = 'Пощенски кутии';
-$PALANG['pAdminList_domain_maxquota'] = 'Максимален обем (MB)'; # XXX no longer used
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
@@ -277,22 +260,11 @@ $PALANG['pAdminList_virtual_mailbox_modified'] = 'Последно модифи�
 $PALANG['pAdminList_virtual_mailbox_active'] = 'Активен';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Добавяне на нов домейн';
-$PALANG['pAdminCreate_domain_domain'] = 'домейн'; # obsolete
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Този домейн вече съществува!';
 $PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Невалиден домайн!';
-$PALANG['pAdminCreate_domain_description'] = 'Описание'; # obsolete
-$PALANG['pAdminCreate_domain_aliases'] = 'Alias-и'; # obsolete
-$PALANG['pAdminCreate_domain_aliases_text'] = '0 = изключени | -1 = неограничени'; # obsolete
-$PALANG['pAdminCreate_domain_mailboxes'] = 'Пощенски кутии'; # obsolete
-$PALANG['pAdminCreate_domain_mailboxes_text'] = '0 = изключени | -1 = неограничени'; # obsolete
-$PALANG['pAdminCreate_domain_maxquota'] = 'Максимален обем'; # obsolete
-$PALANG['pAdminCreate_domain_maxquota_text'] = 'MB | 0 = изключено | -1 = неограничен'; # obsolete
-$PALANG['pAdminCreate_domain_transport'] = 'Transport'; # obsolete
-$PALANG['pAdminCreate_domain_transport_text'] = 'Define transport'; # obsolete
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Добави alias-и по подразбиране';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
-$PALANG['pAdminCreate_domain_backupmx'] = 'Мейл сървъра е резервен MX'; # obsolete
 $PALANG['pAdminCreate_domain_button'] = 'Добави домейн';
 $PALANG['pAdminCreate_domain_result_error'] = 'Не мога да добавя домейна!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Домейна бе добавен успешно!';
@@ -318,12 +290,9 @@ $PALANG['pAdminEdit_domain_button'] = 'Редактирай домейн'; # XXX
 $PALANG['pAdminEdit_domain_result_error'] = 'Не мога да модифицирам домейна!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Добави нов админ на домейна';
-$PALANG['pAdminCreate_admin_username'] = 'Админ'; # obsolete
 $PALANG['pAdminCreate_admin_username_text'] = 'Е-мейл адрес';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Админ не е валиден е-мейл адрес!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Админ-а вече съществува или не е валиден';
-$PALANG['pAdminCreate_admin_password'] = 'Парола'; # obsolete
-$PALANG['pAdminCreate_admin_password2'] = 'Парола (отново)'; # obsolete
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Паролите, които сте въвели не съвпадат! Или са празни!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Добави админ';
 $PALANG['pAdminCreate_admin_result_error'] = 'Не мога да добавя админа!';
@@ -344,9 +313,6 @@ $PALANG['pAdminEdit_admin_result_success'] = 'Админ-а беше модиф�
 
 $PALANG['pUsersLogin_welcome'] = 'Потребителски вход за смяна на парола и alias-и.';
 $PALANG['pUsersLogin_username'] = 'Логин (е-мейл)'; # obsolete
-$PALANG['pUsersLogin_password'] = 'Парола'; # obsolete
-$PALANG['pUsersLogin_language'] = 'Language'; # XXX # obsolete
-$PALANG['pUsersLogin_button'] = 'Вход'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Вашият логин не е правилен. Моля проверете за коректност на вашият е-мейл адрес!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Вашата парола не е правилна!';
 
@@ -368,10 +334,6 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Няма да бъда на разположение от <date> до <date>.
 При спешност можете да се свържете с <contact person>.
 EOM;
-$PALANG['pUsersVacation_button_away'] = 'Отивам във ваканция'; # obsolete
-$PALANG['pUsersVacation_button_back'] = 'Връщам се от ваканция'; # obsolete
-$PALANG['pUsersVacation_result_error'] = 'Не мога да обновя настройките за вашият автоматичен отговор!'; # obsolete
-$PALANG['pUsersVacation_result_success'] = 'Вашият автоматичен отговор беше премахнат!'; # obsolete
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
 $PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
