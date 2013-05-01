@@ -121,7 +121,7 @@ class MailboxHandler extends PFAHandler {
 
     protected function validate_new_id() {
         if ($this->id == '') {
-            $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error1');
+            $this->errormsg[$this->id_field] = Lang::read('pCreate_mailbox_username_text_error1');
             return false;
         }
 
@@ -196,7 +196,8 @@ class MailboxHandler extends PFAHandler {
         $ah->calledBy('MailboxHandler');
 
         if ( !$ah->init($this->id) ) {
-            $this->errormsg[] = $ah->errormsg[0];
+            $arraykeys = array_keys($ah->errormsg);
+            $this->errormsg[] = $ah->errormsg[$arraykeys[0]]; # TODO: implement this as PFAHandler->firstErrormsg()
             return false;
         }
 
