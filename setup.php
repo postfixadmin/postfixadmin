@@ -410,17 +410,17 @@ else
       <td><a href="setup.php?lostpw=1">Lost password?</a></td>
    </tr>
    <tr>
-      <td><?php print $PALANG['pAdminCreate_admin_username'] . ":"; ?></td>
+      <td><?php print $PALANG['pAdminEdit_admin_username'] . ":"; ?></td>
       <td><input class="flat" type="text" name="username" value="<?php print $tUsername; ?>" /></td>
       <td><?php if (isset($errormsg['username'])) print $errormsg['username']; ?></td>
    </tr>
    <tr>
-      <td><?php print $PALANG['pAdminCreate_admin_password'] . ":"; ?></td>
+      <td><?php print $PALANG['pAdminEdit_admin_password'] . ":"; ?></td>
       <td><input class="flat" type="password" name="password" /></td>
       <td><?php if (isset($errormsg['password'])) print $errormsg['password']; ?></td>
    </tr>
    <tr>
-      <td><?php print $PALANG['pAdminCreate_admin_password2'] . ":"; ?></td>
+      <td><?php print $PALANG['pAdminEdit_admin_password2'] . ":"; ?></td>
       <td><input class="flat" type="password" name="password2" /></td>
       <td><?php if (isset($errormsg['password2'])) print $errormsg['password2']; ?></td>
    </tr>
