@@ -115,6 +115,9 @@ class AliasdomainHandler extends PFAHandler {
             list(/*NULL*/,$domain) = explode('@', $this->id);
             db_log ($domain, 'delete_alias_domain', $this->id);
             return true;
+        } else {
+            $this->errormsg[] = $PALANG['pAdminDelete_alias_domain_error'];
+            return false;
         }
     }
 
