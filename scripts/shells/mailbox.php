@@ -84,7 +84,7 @@ class DeleteTask extends Shell {
        
                 $create = $this->in($question, array('y','n'));
                 
-                $create == 'y' ? $random = true : $random = false;
+                $create == 'y' ? $create = true : $create = false;
                 
                 if ($create)                
                       $this->__handle($address);
@@ -104,7 +104,7 @@ class DeleteTask extends Shell {
 
                 $status = $handler->delete();
                 if ( ! $status ) {
-                      $this->error("Error:", join("\n", $handler->errormsg));
+                      $this->err($handler->errormsg);
 
                 } else {
                       $this->out("Mailbox of '$address' was deleted.");

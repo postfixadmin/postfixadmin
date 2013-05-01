@@ -61,8 +61,8 @@ class DeleteTask extends Shell {
         function execute() {
 
                 if (empty($this->args)) {
-                        $this->help();
-                        //$this->__interactive();
+#                       $this->help();
+                        $this->__interactive();
                 }
 
                 if (!empty($this->args[0])) {
@@ -75,12 +75,12 @@ class DeleteTask extends Shell {
  * @access private
  */
         function __interactive() {
-                $question[] = "Which Address do you want to view?";
+                $question[] = "Which Address do you want to delete?";
 
                 $address = $this->in(join("\n", $question));
 
 
-                $question = "Do you really want to delete mailbox of '$address'?";
+                $question = "Do you really want to delete the alias '$address'?";
        
                 $create = $this->in($question, array('y','n'));
                 
@@ -99,19 +99,14 @@ class DeleteTask extends Shell {
  */
         function __handle($address) {
 
-### TODO: don't use MailboxHandler, instead add delete function to AliasHandler (if not already there)
-### using MailboxHandler for deleting aliases is like taking a sledgehammer to crack a nut
-### (and will probably cause some error messages that I added today ;-)
-
-### Implemented check it please!
                 $handler =  new AliasHandler();
                 $handler->init($address);
                 $status = $handler->delete();
                 if ($status == true) {
-                      $this->out("Mailbox of '$address' was deleted.");
+                      $this->out("Alias '$address' was deleted.");
                       
                 } else {
-                      $this->error("Error:", join("\n", $handler->errormsg));
+                      $this->err($handler->errormsg);
                 }
                 return;
         
@@ -195,6 +190,7 @@ class ViewTask extends Shell {
                     if( $result['on_vacation'] ) {
                         $this->out("This alias is a vacation address!");
                     }
+                    $this->out("Active: " . $result['active']);
                 }
                 return;
         

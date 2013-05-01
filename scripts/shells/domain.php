@@ -92,7 +92,7 @@ class DeleteTask extends Shell {
                 $question = "Do you really want to delete domain '$address'?";
                 $create = $this->in($question, array('y','n'));
                 
-                $this->__handle($address);
+                if ($create == 'y') $this->__handle($address);
         }
  /**
  * Interactive
@@ -102,7 +102,7 @@ class DeleteTask extends Shell {
         function __handle($address) {
                 $handler =  new DomainHandler();
                 if (!$handler->init($address)) {
-                      $this->error("Error:",join("\n", $handler->errormsg));
+                      $this->err($handler->errormsg);
                       return;
                 } 
 
@@ -111,7 +111,7 @@ class DeleteTask extends Shell {
                       $this->out("Domain '$address' was deleted.");
                       
                 } else {
-                      $this->error("Error:", join("\n", $handler->errormsg));
+                      $this->err($handler->errormsg);
                 }
                 return;
         
