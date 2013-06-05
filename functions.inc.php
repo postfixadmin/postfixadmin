@@ -2167,17 +2167,12 @@ function getRemoteAddr() {
    (obviously only useful for settings that can be YES or NO)
 
    Returns: TRUE (on YES/yes) or FALSE (on NO/no/not set/unknown value)
+
+   Note: boolconf() is deprecated - please use Config::bool() instead
  */
 
 function boolconf($setting) {
-    $value = Config::read($setting);
-
-    if (strtoupper($value) == 'YES') { # YES
-        return true;
-    } else { # NO, unknown value
-        # TODO: show/log error message on unknown value?
-        return false;
-    }
+    return Config::bool($setting);    
 }
 
 $table_admin = table_by_key ('admin');

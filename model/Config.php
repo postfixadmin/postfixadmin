@@ -115,6 +115,30 @@ class Config {
         return null;
     }
 
+    /**
+     * Used to read Configure::$var, converted to boolean
+     * (obviously only useful for settings that can be YES or NO)
+     *
+     * Usage
+     * Configure::read('Name'); will return the value for Name, converted to boolean
+     *
+     * @param string $var Variable to obtain
+     * @return bool value of Configure::$var (TRUE (on YES/yes) or FALSE (on NO/no/not set/unknown value)
+     * @access public
+     */
+
+    public static function bool($setting) {
+        $value = Config::read($setting);
+
+        if (strtoupper($value) == 'YES') { # YES
+            return true;
+        } else { # NO, unknown value
+            # TODO: show/log error message on unknown value?
+            return false;
+        }
+    }
+
+
 
     function getAll() {
         $output = $this->config;
