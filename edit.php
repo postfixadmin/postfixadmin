@@ -135,6 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" || $active != '') {
         $errormsg = $handler->errormsg;
     }
 
+    $form_fields = $handler->getStruct(); # refresh $form_fields - set() might have changed something
+
     if ($error != 1) {
         if (!$handler->store()) {
             $errormsg = $handler->errormsg;
