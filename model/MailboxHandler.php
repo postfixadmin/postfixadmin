@@ -51,11 +51,11 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
+        list(/*NULL*/,$domain) = explode('@', $this->id);
+
         if ($this->new) {
-            $domain = $this->struct['domain']['default'];
             $currentquota = 0;
         } else {
-            list(/*NULL*/,$domain) = explode('@', $this->id);
             $currentquota = $this->return['quotabytes']; # parent::init called ->view()
         }
 
@@ -79,7 +79,7 @@ class MailboxHandler extends PFAHandler {
         # } elseif ($maxquota < 0) {
             # TODO: show 'disabled' - at the moment, just shows '-1'
         } else {
-            $this->struct['quota']['desc'] = sprintf(Lang::Read('mb_max'), $maxquota);
+            $this->struct['quota']['desc'] = Lang::read_f('mb_max', $maxquota);
         }
     }
 
@@ -166,9 +166,6 @@ class MailboxHandler extends PFAHandler {
     */
     public function mergeId($values) {
         if ($this->struct['local_part']['display_in_form'] == 1 && $this->struct['domain']['display_in_form']) { # webform mode - combine to 'address' field
-            if (empty($values['local_part']) || empty($values['domain']) ) { # local_part or domain not set
-                return "";
-            }
             return $values['local_part'] . '@' . $values['domain'];
         } else {
             return $values[$this->id_field];
