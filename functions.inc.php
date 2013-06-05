@@ -268,13 +268,13 @@ function check_email ($email) {
 
     // Perform non-domain-part sanity checks
     if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', $ce_email)) {
-        return Lang::read('pInvalidMailRegex');
+        return Lang::read_f('pInvalidMailRegex', $email);
     }
 
     // Determine domain name
     $matches=array();
     if (!preg_match('|@(.+)$|',$ce_email,$matches)) {
-        return Lang::read('pInvalidMailRegex');
+        return Lang::read_f('pInvalidMailRegex', $email);
     }
     $domain=$matches[1];
 
