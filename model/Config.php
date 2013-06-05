@@ -115,8 +115,28 @@ class Config {
         return null;
     }
 
+    /** 
+     * read Config::$var and apply sprintf on it
+     * also checks if $var is changed by sprintf - if not, it writes a warning to error_log
+     *
+     * @param string $var Variable to obtain
+     * @param string $value Value to use as sprintf parameter
+     * @return string value of Config::$var, parsed by sprintf
+     * @access public
+     */
+    public static function read_f($var, $value) {
+        $text = self::read($var);
+
+        $newtext = sprintf($text, $value);
+
+        # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
+        if ($text == $newtext) error_log("$var used via read_f, but nothing replaced (value $value)");
+
+        return $newtext;
+    }
+
     /**
-     * Used to read Configure::$var, converted to boolean
+     * Used to read Config::$var, converted to boolean
      * (obviously only useful for settings that can be YES or NO)
      *
      * Usage
@@ -127,8 +147,8 @@ class Config {
      * @access public
      */
 
-    public static function bool($setting) {
-        $value = Config::read($setting);
+    public static function bool($var) {
+        $value = self::read($var);
 
         if (strtoupper($value) == 'YES') { # YES
             return true;
