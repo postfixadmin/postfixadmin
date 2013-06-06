@@ -66,7 +66,7 @@ $smarty->assign('url_domain', '');
 $smarty->assign ('version', $version);
 
 //*** menu.tpl
-$smarty->assign ('boolconf_alias_domain', boolconf('alias_domain'));
+$smarty->assign ('boolconf_alias_domain', Config::bool('alias_domain'));
 $smarty->assign ('authentication_has_role', array ('global_admin' => authentication_has_role ('global-admin'), 'admin' => authentication_has_role ('admin'), 'user' => authentication_has_role ('user')));
 
 function select_options($aValues, $aSelected) {

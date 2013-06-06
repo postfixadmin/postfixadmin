@@ -95,7 +95,7 @@ if($fDomain) {
 # alias domain
 #
 
-if (boolconf('alias_domain')) {
+if (Config::bool('alias_domain')) {
     if ($search == "") {
         $list_param = "alias_domain='$fDomain' OR target_domain='$fDomain'";
     } else {
@@ -163,7 +163,7 @@ if ($handler->getList($list_param, $page_size, $fDisplay)) {
 # mailboxes
 #
 
-$display_mailbox_aliases = boolconf('alias_control_admin');
+$display_mailbox_aliases = Config::bool('alias_control_admin');
 
 # build the sql query
 $sql_select = "SELECT $table_mailbox.* ";
@@ -188,17 +188,17 @@ if ($display_mailbox_aliases) {
     $sql_join   .= " LEFT JOIN $table_alias ON $table_mailbox.username=$table_alias.address ";
 }
 
-if (boolconf('vacation_control_admin')) {
+if (Config::bool('vacation_control_admin')) {
     $sql_select .= ", $table_vacation.active AS v_active ";
     $sql_join   .= " LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email ";
 }
 
-if (boolconf('used_quotas') && boolconf('new_quota_table')) {
+if (Config::bool('used_quotas') && Config::bool('new_quota_table')) {
     $sql_select .= ", $table_quota2.bytes as current ";
     $sql_join   .= " LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username ";
 }
 
-if (boolconf('used_quotas') && ( ! boolconf('new_quota_table') ) ) {
+if (Config::bool('used_quotas') && ( ! Config::bool('new_quota_table') ) ) {
     $sql_select .= ", $table_quota.current ";
     $sql_join   .= " LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username ";
     $sql_where  .= " AND ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";
@@ -226,7 +226,7 @@ if ($result['rows'] > 0) {
 
                 if ($goto_single == $row['username'] || $goto_single_rec_del == $row['username']) { # delivers to mailbox
                     $row['goto_mailbox'] = 1;
-                } elseif (boolconf('vacation') && strstr($goto_single, '@' . $CONF['vacation_domain']) ) { # vacation alias - TODO: check for full vacation alias
+                } elseif (Config::bool('vacation') && strstr($goto_single, '@' . $CONF['vacation_domain']) ) { # vacation alias - TODO: check for full vacation alias
                     # skip the vacation alias, vacation status is detected otherwise
                 } else { # forwarding to other alias
                     $row['goto_other'][] = $goto_single;
@@ -288,7 +288,7 @@ if (isset ($limit)) {
 
     $limit ['aliases']    = eval_size ($limit ['aliases']);
     $limit ['mailboxes']    = eval_size ($limit ['mailboxes']);
-    if (boolconf('quota')) {
+    if (Config::bool('quota')) {
         $limit ['maxquota']    = eval_size ($limit ['maxquota']);
     }
 }
@@ -457,7 +457,7 @@ $smarty->assign ('check_alias_owner', $check_alias_owner);
 $smarty->assign ('tCanAddAlias', $tCanAddAlias);
 $smarty->assign ('tMailbox', $tMailbox);
 $smarty->assign ('gen_show_status_mailbox', $gen_show_status_mailbox, false);
-$smarty->assign ('boolconf_used_quotas', boolconf('used_quotas'));
+$smarty->assign ('boolconf_used_quotas', Config::bool('used_quotas'));
 $smarty->assign ('divide_quota', $divide_quota);
 $smarty->assign ('tCanAddMailbox', $tCanAddMailbox);
 $smarty->assign ('display_mailbox_aliases', $display_mailbox_aliases);
