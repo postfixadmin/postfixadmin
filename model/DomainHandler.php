@@ -27,9 +27,9 @@ class DomainHandler extends PFAHandler {
         # TODO: shorter PALANG labels ;-)
         # TODO: hardcode 'default' to Config::read in pacol()?
 
-        $transp = boolconf('transport')     ? 1 : 0; # TOOD: use a function or write a Config::intbool function
-        $quota  = boolconf('quota')         ? 1 : 0; # TOOD: use a function or write a Config::intbool function
-        $dom_q  = boolconf('domain_quota')  ? 1 : 0; # TOOD: use a function or write a Config::intbool function
+        $transp = Config::intbool('transport');
+        $quota  = Config::intbool('quota');
+        $dom_q  = Config::intbool('domain_quota');
 
         # NOTE: There are dependencies between alias_count, mailbox_count and total_quota.
         # NOTE: If you disable "display in list" for one of them, the SQL query for the others might break.

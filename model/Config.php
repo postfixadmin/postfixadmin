@@ -158,6 +158,14 @@ class Config {
         }
     }
 
+    /**
+     * Used to read Config::$var, converted to bool, returned as integer (0 or 1)
+     * @see bool()
+     */
+    public static function intbool($var) {
+        return Config::bool($var) ? 1 : 0;
+    }
+
 
 
     function getAll() {
