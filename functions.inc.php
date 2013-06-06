@@ -227,7 +227,7 @@ function check_domain ($domain) {
         return sprintf(Lang::read('pInvalidDomainRegex'), htmlentities($domain));
     }
 
-    if (boolconf('emailcheck_resolve_domain') && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))) {
+    if (Config::bool('emailcheck_resolve_domain') && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))) {
 
         // Look for an AAAA, A, or MX record for the domain
 
@@ -260,7 +260,7 @@ function check_email ($email) {
 
     //strip the vacation domain out if we are using it
     //and change from blah#foo.com@autoreply.foo.com to blah@foo.com
-    if (boolconf('vacation')) { 
+    if (Config::bool('vacation')) { 
         $vacation_domain = Config::read('vacation_domain');
         $ce_email = preg_replace("/@$vacation_domain\$/", '', $ce_email);
         $ce_email = preg_replace("/#/", '@', $ce_email);
@@ -634,7 +634,7 @@ function check_quota ($quota, $domain, $username="") {
  * @return Integer allowed maximum quota (in MB)
  */
 function allowed_quota($domain, $current_user_quota) {
-   if ( !boolconf('quota') ) {
+   if ( !Config::bool('quota') ) {
        return 0; # quota disabled means no limits - no need for more checks
    }
 
@@ -642,7 +642,7 @@ function allowed_quota($domain, $current_user_quota) {
 
    $tMaxquota = $domain_properties['maxquota'];
 
-   if (boolconf('domain_quota') && $domain_properties['quota']) {
+   if (Config::bool('domain_quota') && $domain_properties['quota']) {
       $dquota = $domain_properties['quota'] - $domain_properties['total_quota'] + divide_quota($current_user_quota);
       if ($dquota < $tMaxquota) {
          $tMaxquota = $dquota;
@@ -1702,7 +1702,7 @@ function db_log ($domain,$action,$data) {
         die("Invalid log action : $action");   // could do with something better?
     }
 
-    if (boolconf('logging')) {
+    if (Config::bool('logging')) {
         $logdata = array(
             'username'  => "$username ($REMOTE_ADDR)",
             'domain'    => $domain,
