@@ -205,7 +205,7 @@ class MailboxHandler extends PFAHandler {
         }
 
         if ($this->new) {
-            $alias_data['goto'] == array($this->id); # 'goto_mailbox' = 1; # would be technically correct, but setting 'goto' is easier
+            $alias_data['goto'] = array($this->id); # 'goto_mailbox' = 1; # would be technically correct, but setting 'goto' is easier
         }
 
         if (!$ah->set($alias_data)) {
