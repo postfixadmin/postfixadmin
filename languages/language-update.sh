@@ -219,9 +219,9 @@ Translating is easy:
 - search for lines with '# XXX' comments and
   - translate the line
   - remove the '# XXX'
-  Note: The file is utf-8 encoded. You can also use htmlentities.
+  Note: The file is utf-8 encoded.
 - post your translation to the tracker
-  http://sourceforge.net/tracker/?group_id=191583&atid=937966
+  http://sourceforge.net/p/postfixadmin/patches/
 
 
 Number of missing translations:
