@@ -5,6 +5,8 @@
 // by Lars
 // updated by Jesper R. Meyer <jrm at upthere dot dk>
 //
+// titanus <titanus@aptget.dk>, 2013
+//
 
 $PALANG['YES'] = 'JA';
 $PALANG['NO'] = 'NEJ';
@@ -16,7 +18,7 @@ $PALANG['save'] = 'Gem'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Er du sikker på du vil slette dette?\n';
 $PALANG['confirm_domain'] = 'Vil du virkelig slette alle adresser for dette domæne? Dette kan ikke fortrydes!\n';
 $PALANG['check_update'] = 'Søg efter opdateringer';
-$PALANG['invalid_parameter'] = 'Ugyldig parameter!';
+$PALANG['invalid_parameter'] = 'Ugyldig parameter.';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
@@ -27,14 +29,14 @@ $PALANG['pLogin_welcome'] = 'Postadministrator: Log ind for at administrere dine
 $PALANG['pLogin_username'] = 'Brugernavn (email)';
 $PALANG['pLogin_password'] = 'Adgangskode';
 $PALANG['pLogin_language'] = 'Language'; # XXX
-$PALANG['pLogin_button'] = 'Login'; # XXX compare with pUsersLogin_button - should be "Login"
-$PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
-$PALANG['pLogin_login_users'] = 'Bruger: Log ind på brugersektionen her.';
+$PALANG['pLogin_button'] = 'Log ind'; # XXX compare with pUsersLogin_button - should be "Login"
+$PALANG['pLogin_failed'] = 'Dit brugernavn eller adgangskode var ikke korrekt.';
+$PALANG['pLogin_login_users'] = 'Log ind på brugersektionen her.';
 
 $PALANG['pMenu_main'] = 'Start';
 $PALANG['pMenu_overview'] = 'Oversigt';
 $PALANG['pMenu_create_alias'] = 'Tilføj alias';
-$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
+$PALANG['pMenu_create_alias_domain'] = 'Tilføje alias domæne';
 $PALANG['pMenu_create_mailbox'] = 'Tilføj postboks';
 $PALANG['pMenu_fetchmail'] = 'Hent email';
 $PALANG['pMenu_sendmail'] = 'Send email';
@@ -42,14 +44,14 @@ $PALANG['pMenu_password'] = 'Adgangskode';
 $PALANG['pMenu_viewlog'] = 'Vis log';
 $PALANG['pMenu_logout'] = 'Log ud';
 
-$PALANG['pMain_welcome'] = 'Velkommen til Postfix Admin!';
-$PALANG['pMain_overview'] = 'Vis alle alias og postbokse. Du kan redigere/slette dem herfra.';
-$PALANG['pMain_create_alias'] = 'Tilføj nyt alias til dit domæne.';
-$PALANG['pMain_create_mailbox'] = 'Tilføj ny postboks til dit domæne.';
-$PALANG['pMain_sendmail'] = 'Send en email til en af dine nyoprettede postbokse.';
+$PALANG['pMain_welcome'] = 'Velkommen til PostfixAdmin!';
+$PALANG['pMain_overview'] = 'Vis alle aliases og postbokse. Du kan redigere/slette dem herfra.';
+$PALANG['pMain_create_alias']   = 'Tilføj et nyt alias til et domæne.';
+$PALANG['pMain_create_mailbox'] = 'Tilføj en ny postboks til et domæne.';
+$PALANG['pMain_sendmail']       = 'Send en email til en eksisterende postboks.';
 $PALANG['pMain_password'] = 'Ændre adgangskoden til din administratorkonto.';
 $PALANG['pMain_viewlog'] = 'Vis logfiler.';
-$PALANG['pMain_logout'] = 'Log ud fra systemet.';
+$PALANG['pMain_logout']         = 'Log af systemet.';
 
 $PALANG['pOverview_disabled'] = 'Deaktiveret';
 $PALANG['pOverview_unlimited'] = 'Ubegrænset';
@@ -57,20 +59,20 @@ $PALANG['pOverview_title'] = ':: Oprettede domæner';
 $PALANG['pOverview_up_arrow'] = 'Gå til top';
 $PALANG['pOverview_right_arrow'] = 'Næste side';
 $PALANG['pOverview_left_arrow'] = 'Foregående side';
-$PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases'; # XXX
+$PALANG['pOverview_alias_domain_title']    = ':: Domæne aliases';
 $PALANG['pOverview_alias_title'] = ':: Alias';
 $PALANG['pOverview_mailbox_title'] = ':: Postbokse';
 $PALANG['pOverview_button'] = 'Vis';
 $PALANG['pOverview_welcome'] = 'Oversigt for ';
-$PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
+$PALANG['pOverview_alias_domain_aliases']  = 'Alias domæner';
 $PALANG['pOverview_alias_alias_count'] = 'Alias';
 $PALANG['pOverview_alias_mailbox_count'] = 'Postbokse';
 $PALANG['pOverview_alias_address'] = 'Alias';
 $PALANG['pOverview_alias_goto'] = 'Modtager';
 $PALANG['pOverview_alias_modified'] = 'Senest ændret';
-$PALANG['pOverview_alias_domain_modified'] = 'Last Modified'; # XXX
+$PALANG['pOverview_alias_domain_modified'] = 'Senest ændret';
 $PALANG['pOverview_alias_active'] = 'Aktiveret';
-$PALANG['pOverview_alias_domain_active'] = 'Active'; # XXX
+$PALANG['pOverview_alias_domain_active']   = 'Aktiveret';
 $PALANG['pOverview_alias_edit'] = 'Alias';
 $PALANG['and_x_more'] = '[og %s til...]';
 $PALANG['pOverview_mailbox_username'] = 'Emailadresse';
@@ -86,7 +88,7 @@ $PALANG['no_domains_exist'] = 'You have to create at least one domain before you
 
 $PALANG['pOverview_get_domain'] = 'Domæne';
 $PALANG['pOverview_get_aliases'] = 'Alias';
-$PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
+$PALANG['pOverview_get_alias_domains']     = 'Domæne aliases';
 $PALANG['pOverview_get_mailboxes'] = 'Postbokse';
 $PALANG['pOverview_get_quota'] = 'Postboks Kvota (MB)';
 $PALANG['pOverview_get_modified'] = 'Senest ændret';
@@ -95,30 +97,30 @@ $PALANG['pDelete_delete_error'] = 'Kan ikke slette denne post ';
 $PALANG['pDelete_delete_success'] = '%s er slettet.';
 $PALANG['pDelete_domain_error'] = 'Dette domæne er ikke dit ';
 $PALANG['pDelete_alias_error'] = 'Kunne ikke slette aliaset ';
-$PALANG['pCreate_alias_domain_welcome'] = 'Mirror addresses of one of your domains to another.'; # XXX
-$PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
-$PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
-$PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
-$PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
-$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
-$PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
-$PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
-$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
-$PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
-$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
+$PALANG['pCreate_alias_domain_welcome']     = 'Spejl adresser fra et domæne til et andet.';
+$PALANG['pCreate_alias_domain_alias']       = 'Alias-domæne';
+$PALANG['pCreate_alias_domain_alias_text']  = 'Domæne som emails kommer fra.';
+$PALANG['pCreate_alias_domain_target']      = 'Modtager-domæne';
+$PALANG['pCreate_alias_domain_target_text'] = 'Domæne hvor emails skal sendes til.';
+$PALANG['pCreate_alias_domain_button']      = 'Tilføj alias domæne';
+$PALANG['pCreate_alias_domain_error1']      = 'Du har ikke tilladelse til at lave den valgte konfiguration';
+$PALANG['pCreate_alias_domain_error2']      = 'Den valgte konfiguration er ikke korrekt, vælg venligst en anden.';
+$PALANG['pCreate_alias_domain_error3']      = 'Indsætning i databasen fejlede.';
+$PALANG['pCreate_alias_domain_error4']      = 'Alle domænerne har allerede aliases.';
+$PALANG['pCreate_alias_domain_success']     = 'Domæne-alias blev tilføjet alias-tabellen.';
 
-$PALANG['pCreate_alias_welcome'] = 'Tilføj nyt alias til dit domæne.';
-$PALANG['pCreate_alias_address_text_error1'] = 'Aliaset er ikke gyldigt!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Emailadressen eksisterer allerede. Vælg venligst en anden!';
-$PALANG['pCreate_alias_address_text_error3'] = 'Du har nået grænsen for antallet af alias til dit domæne!';
+$PALANG['pCreate_alias_welcome']             = 'Tilføj et nyt alias til domænet.';
+$PALANG['pCreate_alias_address_text_error1'] = 'Aliaset er ikke gyldigt.';
+$PALANG['pCreate_alias_address_text_error2'] = 'Emailadressen eksisterer allerede, vælg venligst en anden.';
+$PALANG['pCreate_alias_address_text_error3'] = 'Du har nået grænsen for antallet af aliases til domænet.';
 $PALANG['pCreate_alias_goto'] = 'Modtager';
 $PALANG['pCreate_alias_active'] = 'Aktiv';
 $PALANG['pCreate_alias_button'] = 'Tilføj alias';
 $PALANG['pCreate_alias_goto_text'] = 'Hvor emailen skal videresendes til.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Modtageradressen er ikke gyldig!';
 $PALANG['pCreate_alias_result_error'] = 'Kan ikke tilføje aliaset til alias-tabellen!';
-$PALANG['pCreate_alias_result_success'] = 'Aliaset er blevet tilføjet til alias-tabellen!'; # XXX text change: 'The alias %s has been created!'
-$PALANG['pCreate_alias_catchall_text'] = 'For at tilføje et stjerne-alias, brug en "*" som alias. For domæne til domæne-videresending brug "*@domain.tld" som modtager.'; # XXX check/beautify - was split in two lines before
+$PALANG['pCreate_alias_result_success'] = 'Aliaset er blevet tilføjet alias-tabellen!'; # XXX text change: 'The alias %s has been created!'
+$PALANG['pCreate_alias_catchall_text'] = 'For at tilføje et stjerne-alias, brug en "*" som alias. For domæne til domæne-videresending brug "*@domæne.tld" som modtager.'; # XXX check/beautify - was split in two lines before
 
 $PALANG['pEdit_alias_welcome'] = 'Rediger alias.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'En modtager pr. linje.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
@@ -127,22 +129,22 @@ $PALANG['pEdit_alias_goto'] = 'Modtager(e)'; # XXX check / compare with pCreate_
 $PALANG['pEdit_alias_active'] = 'Aktiv';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Du udfyldte ikke noget i Modtager(e)';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Den tilføjede emailadresse er ikke gyldig: ';
-$PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
-$PALANG['pEdit_alias_forward_and_store'] = 'Lever email til den lokale postboks.';
-$PALANG['pEdit_alias_forward_only'] = 'Videresend til angiven emailadresse uden lokal kopi.';
-$PALANG['pEdit_alias_button'] = 'Ret alias'; # XXX text no longer used
-$PALANG['pEdit_alias_result_error'] = 'Kan ikke redigere aliaset!';
+$PALANG['pEdit_alias_domain_result_error'] = 'Kan ikke ændre alias-domænet.';
+$PALANG['pEdit_alias_forward_and_store']   = 'Aflever email til den lokale postboks.';
+$PALANG['pEdit_alias_forward_only']        = 'Videresend til angivene emailadresse uden lokal kopi.';
+$PALANG['pEdit_alias_button']              = 'Ret alias';
+$PALANG['pEdit_alias_result_error']        = 'Kan ikke redigere aliaset.';
 
-$PALANG['pCreate_mailbox_welcome'] = 'Tilføj en ny lokal postboks til dit domæne.';
+$PALANG['pCreate_mailbox_welcome'] = 'Tilføj en ny lokal postboks til domænet.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Emailadressen er ikke gyldig!';
 $PALANG['pCreate_mailbox_username_text_error2'] = 'Emailadressen eksisterer allerede. Vælg venligst en anden!';
-$PALANG['pCreate_mailbox_username_text_error3'] = 'Du har nået grænsen for antallet af postbokse til dit domæne!';
+$PALANG['pCreate_mailbox_username_text_error3']       = 'Du har nået grænsen for antallet af postbokse til domæne!';
 $PALANG['pCreate_mailbox_password'] = 'Adgangskode';
 $PALANG['pCreate_mailbox_password2'] = 'Adgangskode (igen)';
 $PALANG['pCreate_mailbox_password_text'] = 'Adgangskode til POP3/IMAP';
 $PALANG['pCreate_mailbox_password_text_error'] = 'Adgangskoderne er ikke ens! Eller er tomme!'; # XXX check/beautify - was split in two lines before
 $PALANG['pCreate_mailbox_name_text'] = 'Fulde navn';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'Den ønskede kvota er for høj!';
+$PALANG['pCreate_mailbox_quota_text_error']           = 'Den valgte kvota er for høj.';
 $PALANG['pCreate_mailbox_active'] = 'Aktiv';
 $PALANG['pCreate_mailbox_mail'] = 'Send velkomsthilsen'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_button'] = 'Tilføj postboks';
@@ -162,21 +164,21 @@ $PALANG['pEdit_mailbox_domain_error'] = 'Dette domæne er ikke dit: ';
 $PALANG['pEdit_mailbox_button'] = 'Ret postboks'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = 'Kan ikke ændre adgangskoden!';
 
-$PALANG['pPassword_welcome'] = 'Ændre din adgangskode.';
+$PALANG['pPassword_welcome']                     = 'Ændr din adgangskode.';
 $PALANG['pPassword_admin'] = 'Adgangskode';
 $PALANG['pPassword_password_current'] = 'Nuværende adgangskode';
 $PALANG['pPassword_password_current_text_error'] = 'Du glemte at skrive din nuværende adgangskode!';
 $PALANG['pPassword_password'] = 'Ny adgangskode';
 $PALANG['pPassword_password2'] = 'Ny adgangskode (igen)';
 $PALANG['pPassword_password_text_error'] = 'Adgangskoderne er ikke ens! Eller er tomme!'; # XXX check/beautify - was split in two lines before
-$PALANG['pPassword_button'] = 'Ændre adgangskode';
+$PALANG['pPassword_button'] = 'Ændr adgangskode';
 $PALANG['pPassword_result_error'] = 'Kan ikke ændre adgangskoden!';
 $PALANG['pPassword_result_success'] = 'Din adgangskode er ændret!';
 
-$PALANG['pEdit_vacation_set'] = 'Ændre / Angiv autosvar';
+$PALANG['pEdit_vacation_set'] = 'Ændr / Angiv autosvar';
 $PALANG['pEdit_vacation_remove'] = 'Fjern autosvar';
 
-$PALANG['pVacation_result_error'] = 'Autosvarindstillinger kunne ikke opdateres!';
+$PALANG['pVacation_result_error'] = 'Indstillingerne til autosvar kunne ikke opdateres.';
 $PALANG['pVacation_result_removed'] = 'Autosvar er fjernet! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
 $PALANG['pVacation_result_added'] = 'Autosvar er aktiveret! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
@@ -196,27 +198,27 @@ $PALANG['pViewlog_action_edit_domain'] = 'edit domain'; # XXX
 $PALANG['pViewlog_action_create_mailbox'] = 'tilføj postboks';
 $PALANG['pViewlog_action_delete_mailbox'] = 'slet postboks';
 $PALANG['pViewlog_action_edit_mailbox'] = 'rediger postboks';
-$PALANG['pViewlog_action_edit_mailbox_state'] = 'ændre postboks aktiv';
+$PALANG['pViewlog_action_edit_mailbox_state']      = 'ændr postboks status';
 $PALANG['pViewlog_action_create_alias'] = 'tilføj alias';
-$PALANG['pViewlog_action_create_alias_domain'] = 'create alias domain'; # XXX
+$PALANG['pViewlog_action_create_alias_domain'] = 'lav domæne-alias';
 $PALANG['pViewlog_action_edit_alias_domain'] = 'edit alias domain'; # XXX
 $PALANG['pViewlog_action_delete_alias'] = 'slet alias';
-$PALANG['pViewlog_action_delete_alias_domain'] = 'delete alias domain'; # XXX
+$PALANG['pViewlog_action_delete_alias_domain']     = 'slet domæne-alias';
 $PALANG['pViewlog_action_edit_alias'] = 'rediger alias';
-$PALANG['pViewlog_action_edit_alias_state'] = 'ændre alias aktiv';
-$PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active'; # XXX
-$PALANG['pViewlog_action_edit_password'] = 'ændre adgangskode';
+$PALANG['pViewlog_action_edit_alias_state'] = 'ændr alias status';
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'ændr domæne-alias status';
+$PALANG['pViewlog_action_edit_password'] = 'ændr adgangskode';
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_button'] = 'Vis';
-$PALANG['pViewlog_result_error'] = 'Kan ikke finde loggen!';
+$PALANG['pViewlog_result_error'] = 'Loggen kan ikke findes.';
 
 $PALANG['pSendmail_welcome'] = 'Send en email.';
 $PALANG['pSendmail_admin'] = 'Afsender';
 $PALANG['pSendmail_to'] = 'Modtager';
-$PALANG['pSendmail_to_text_error'] = 'Modtager er tom eller en ugyldig emailadresse!';
+$PALANG['pSendmail_to_text_error']  = 'Modtager er tom, eller har en ugyldig emailadresse.';
 $PALANG['pSendmail_subject'] = 'Emne';
 $PALANG['pSendmail_subject_text'] = 'Velkommen';
 $PALANG['pSendmail_body'] = 'Meddelelse';
@@ -225,15 +227,15 @@ $PALANG['pSendmail_result_error'] = 'Kan ikke sende email!';
 $PALANG['pSendmail_result_success'] = 'Email sendt!';
 
 $PALANG['pAdminMenu_list_admin'] = 'Administratorliste';
-$PALANG['pAdminMenu_list_domain'] = 'Domæneliste';
+$PALANG['pAdminMenu_list_domain']          = 'Domæne-liste';
 $PALANG['pAdminMenu_list_virtual'] = 'Virtuel Liste';
 $PALANG['pAdminMenu_viewlog'] = 'Vis Log';
 $PALANG['pAdminMenu_backup'] = 'Backup';
-$PALANG['pAdminMenu_create_domain_admins'] = 'Domæneadministrator';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Domæne-administrator';
 $PALANG['pAdminMenu_create_admin'] = 'Ny administrator';
 $PALANG['pAdminMenu_create_domain'] = 'Nyt domæne';
-$PALANG['pAdminMenu_create_alias'] = 'Tilføj alias';
-$PALANG['pAdminMenu_create_mailbox'] = 'Tilføj postboks';
+$PALANG['pAdminMenu_create_alias']         = 'Nyt alias';
+$PALANG['pAdminMenu_create_mailbox']       = 'Ny postboks';
 
 $PALANG['pAdminList_admin_domain'] = 'Domæne';
 $PALANG['pAdminList_admin_username'] = 'Administrator';
@@ -267,45 +269,45 @@ $PALANG['pAdminList_virtual_mailbox_active'] = 'Aktiv';
 $PALANG['pAdminCreate_domain_welcome'] = 'Tilføj et nyt domæne';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Domænet eksisterer allerede!';
 $PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
-$PALANG['pAdminCreate_domain_domain_text_error2'] = 'Domænet er ugyldigt!';
-$PALANG['pAdminCreate_domain_defaultaliases'] = 'Tilføj standard alias';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = 'Domænet er ikke gyldigt.';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Tilføj standard alias(es)';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Tilføj domæne';
-$PALANG['pAdminCreate_domain_result_error'] = 'Kan ikke tilføje domæne!';
+$PALANG['pAdminCreate_domain_result_error'] = 'Kan ikke tilføje domænet!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domænet er tilføjet!';
-$PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
+$PALANG['pAdminDelete_admin_error'] = 'Administratoren kunne ikke slettes.';
 
 $PALANG['pAdminDelete_domain_error'] = 'Domænet kunne ikke slettes!';
-$PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
+$PALANG['pAdminDelete_alias_domain_error'] = 'Domæne-aliaset kunne ikke slettes!';
 
-$PALANG['pAdminEdit_domain_welcome'] = 'Rediger et domæne';
+$PALANG['pAdminEdit_domain_welcome']        = 'Redigér et domæne';
 $PALANG['pAdminEdit_domain_domain'] = 'Domæne';
 $PALANG['pAdminEdit_domain_description'] = 'Beskrivelse';
 $PALANG['pAdminEdit_domain_aliases'] = 'Alias';
-$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = annuller | 0 = uendeligt';
+$PALANG['pAdminEdit_domain_aliases_text']   = '-1 = annullér | 0 = uendeligt';
 $PALANG['pAdminEdit_domain_mailboxes'] = 'Postbokse';
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = annuller | 0 = uendeligt';
-$PALANG['pAdminEdit_domain_maxquota'] = 'Maks. kvota';
-$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = annuller | 0 = uendeligt';
+$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = annullér | 0 = uendeligt';
+$PALANG['pAdminEdit_domain_maxquota']       = 'Maksimal kvota';
+$PALANG['pAdminEdit_domain_maxquota_text']  = 'MB | -1 = annullér | 0 = uendeligt';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['pAdminEdit_domain_transport'] = 'Transport';
-$PALANG['pAdminEdit_domain_transport_text'] = 'Præciser transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Præcisér transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mailserveren er backup MX';
 $PALANG['pAdminEdit_domain_active'] = 'Aktiv';
 $PALANG['pAdminEdit_domain_button'] = 'Rediger domæne'; # XXX text no longer used
-$PALANG['pAdminEdit_domain_result_error'] = 'Kan ikke rette domæne!';
+$PALANG['pAdminEdit_domain_result_error'] = 'Kan ikke rette domænet!';
 
-$PALANG['pAdminCreate_admin_welcome'] = 'Tilføj ny domæneadministrator';
+$PALANG['pAdminCreate_admin_welcome']              = 'Tilføj en ny domæneadministrator';
 $PALANG['pAdminCreate_admin_username_text'] = 'Emailadresse';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrator er ikke en gyldig emailadresse!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Aministratoren findes allerede eller er ikke gyldig';
 $PALANG['pAdminCreate_admin_password_text_error'] = 'Adgangskoderne er ikke ens! Eller er tomme!'; # XXX check/beautify - was split in two lines before
 $PALANG['pAdminCreate_admin_button'] = 'Tilføj administrator';
-$PALANG['pAdminCreate_admin_result_error'] = 'Kan ikke tilføje administrator!';
-$PALANG['pAdminCreate_admin_result_success'] = 'Administrator er tilføjet!';
+$PALANG['pAdminCreate_admin_result_error']         = 'Administratoren kunne ikke tilføjes!';
+$PALANG['pAdminCreate_admin_result_success']       = 'Administratoren er tilføjet!';
 $PALANG['pAdminCreate_admin_address'] = 'Domæne';
 
-$PALANG['pAdminEdit_admin_welcome'] = 'Rediger en domæneadministrator';
+$PALANG['pAdminEdit_admin_welcome']             = 'Redigér en domæneadministrator';
 $PALANG['pAdminEdit_admin_username'] = 'Administrator';
 $PALANG['pAdminEdit_admin_password'] = 'Adgangskode';
 $PALANG['pAdminEdit_admin_password2'] = 'Adgangskode (igen)';
@@ -313,26 +315,26 @@ $PALANG['pAdminEdit_admin_password_text_error'] = 'Adgangskoderne er ikke ens! E
 $PALANG['pAdminEdit_admin_active'] = 'Aktiv';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Superadministrator';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Rediger administrator'; # XXX text no longer used
-$PALANG['pAdminEdit_admin_result_error'] = 'Kan ikke rette administrator!';
+$PALANG['pAdminEdit_admin_button'] = 'Redigér administrator'; # XXX text no longer used
+$PALANG['pAdminEdit_admin_result_error'] = 'Kunne ikke rette administrator!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrator er rettet!';
 
-$PALANG['pUsersLogin_welcome'] = 'Postboksbruger: Login for at ændre adgangskode og videresending.';
+$PALANG['pUsersLogin_welcome'] = 'Postboksbruger: Log ind for at ændre adgangskode og videresending.';
 $PALANG['pUsersLogin_username'] = 'Brugernavn (email)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Dit brugernavn er forkert. Tjek at du bruger din emailadresse som brugernavn!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Din adgangskode er ikke korrekt!';
 
 $PALANG['pUsersMenu_vacation'] = 'Autosvar';
-$PALANG['pUsersMenu_edit_alias'] = 'Rediger videresending';
-$PALANG['pUsersMenu_password'] = 'Ændre adgangskode';
+$PALANG['pUsersMenu_edit_alias'] = 'Redigér videresending';
+$PALANG['pUsersMenu_password']   = 'Ændr adgangskode';
 
 $PALANG['pUsersMain_vacation'] = 'Tilføj en "ikke tilstede" besked eller et autosvar til din emailadresse.';
 $PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' er AKTIVERET, klik \'' . $PALANG['pUsersMenu_vacation'] . '\' for at ' . $PALANG['edit'] . '/fjerne';
-$PALANG['pUsersMain_edit_alias'] = 'Ændre levering/videresending af email.';
-$PALANG['pUsersMain_password'] = 'Ændre din nuværende adgangskode.';
+$PALANG['pUsersMain_edit_alias']  = 'Ændr levering/videresending af email.';
+$PALANG['pUsersMain_password']    = 'Ændr din nuværende adgangskode.';
 
 $PALANG['pUsersVacation_welcome'] = 'Autosvar.';
-$PALANG['pUsersVacation_welcome_text'] = 'Du har allerede et autosvar indstillet!';
+$PALANG['pUsersVacation_welcome_text'] = 'Du har allerede autosvar indstillet!';
 $PALANG['pUsersVacation_subject'] = 'Emne';
 $PALANG['pUsersVacation_subject_text'] = 'Ikke tilstede';
 $PALANG['pUsersVacation_body'] = 'Meddelelse'; # XXX text changed to 'Message'
@@ -340,17 +342,17 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jeg er ikke tilstede i perioden <dato> til <dato>.
 I nødstilfælde kan <kontaktperson> kontaktes.
 EOM;
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Aktiv fra'; # XXX # obsolete
+$PALANG['pUsersVacation_activeuntil'] = 'Aktiv til'; # XXX # obsolete
 
 $PALANG['pCreate_dbLog_createmailbox'] = 'tilføj postboks';
 $PALANG['pCreate_dbLog_createalias'] = 'tilføj alias';
 $PALANG['pDelete_dbLog_deletealias'] = 'slet alias';
 $PALANG['pDelete_dbLog_deletemailbox'] = 'slet postboks';
 
-$PALANG['pEdit_dbLog_editactive'] = 'ændre aktivtilstand';
-$PALANG['pEdit_dbLog_editalias'] = 'rediger alias';
-$PALANG['pEdit_dbLog_editmailbox'] = 'rediger postboks';
+$PALANG['pEdit_dbLog_editactive']  = 'ændr aktivtilstand';
+$PALANG['pEdit_dbLog_editalias']   = 'redigér alias';
+$PALANG['pEdit_dbLog_editmailbox'] = 'redigér postboks';
 
 $PALANG['pSearch'] = 'søg';
 $PALANG['pSearch_welcome'] = 'Søg efter: ';
@@ -365,22 +367,22 @@ $PALANG['pBroadcast_message'] = 'Meddelelse';
 $PALANG['pBroadcast_send'] = 'Send meddelelse';
 $PALANG['pBroadcast_success'] = 'Din meddelelse er rundsendt.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Rundsend meddelse';
-$PALANG['pBroadcast_error_empty'] = 'Felterne Dit navn, Emne og Meddelelse skal udfyldes!';
+$PALANG['pBroadcast_error_empty']       = 'Felterne "Dit navn", "Emne" og "Meddelelse" skal alle udfyldes.';
 
 $PALANG['pStatus_undeliverable'] = 'kan måske ikke leveres ';
 $PALANG['pStatus_custom'] = 'Leveres til ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
-$PALANG['password_too_short'] = "Adgangskoden er for kort - mindst %s tegn kræves";
+$PALANG['password_too_short']   = "Adgangskoden er for kort. Der kræves mindst %s tegn";
 $PALANG['password_no_characters'] = "Your password must contain at least %s character(s)."; # XXX
 $PALANG['password_no_digits'] = "Your password must contain at least %s digit(s)."; # XXX
-$PALANG['pInvalidDomainRegex'] = "Invalid domain name %s, fails regexp check"; # XXX
-$PALANG['pInvalidDomainDNS'] = "Invalid domain %s, and/or not discoverable in DNS"; # XXX
-$PALANG['pInvalidMailRegex'] = "Invalid email address, fails regexp check"; # XXX
+$PALANG['pInvalidDomainRegex'] = "Ugyldigt domæne-navn %s. Fejlede regulært udtryks-tjek";
+$PALANG['pInvalidDomainDNS']   = "Ugyldigt domæne %s, og/eller ikke fundet i DNS";
+$PALANG['pInvalidMailRegex']   = "Ugyldig emailadresse. Fejlede regulært udtryks-tjek";
 
 $PALANG['pFetchmail_welcome'] = 'Hent post for:';
 $PALANG['pFetchmail_new_entry'] = 'Ny regel';
-$PALANG['pFetchmail_database_save_error'] = 'Reglen kunne ikke gemmes in databasen!';
+$PALANG['pFetchmail_database_save_error'] = 'Reglen kunne ikke gemmes i databasen!';
 $PALANG['pFetchmail_database_save_success'] = 'Reglen er gemt i databasen.';
 $PALANG['pFetchmail_error_invalid_id'] = 'Reglen med ID %s eksisterer ikke!';
 $PALANG['pFetchmail_invalid_mailbox'] = 'Ugyldig postboks!';
@@ -398,7 +400,7 @@ $PALANG['pFetchmail_field_poll_time']       = 'Prøve';
 $PALANG['pFetchmail_field_fetchall']        = 'Hent alle';
 $PALANG['pFetchmail_field_keep']            = 'Behold';
 $PALANG['pFetchmail_field_protocol']        = 'Protokol';
-$PALANG['pFetchmail_field_usessl']          = 'SSL active'; # XXX
+$PALANG['pFetchmail_field_usessl']          = 'SSL aktiv';
 $PALANG['pFetchmail_field_extra_options']   = 'Ekstra tilvalg';
 $PALANG['pFetchmail_field_mda']             = 'MDA (Mail Delivery Agent)';
 $PALANG['pFetchmail_field_date']            = 'Dato';
@@ -407,15 +409,15 @@ $PALANG['pFetchmail_desc_id']               = 'Post ID';
 $PALANG['pFetchmail_desc_mailbox']          = 'Lokal postboks';
 $PALANG['pFetchmail_desc_src_server']       = 'Fjernserver';
 $PALANG['pFetchmail_desc_src_auth']         = 'Somregel \'password\''; # Translators: Please do NOT translate 'password' here
-$PALANG['pFetchmail_desc_src_user']         = 'Ekstern brugernavn';
+$PALANG['pFetchmail_desc_src_user']         = 'Eksternt brugernavn';
 $PALANG['pFetchmail_desc_src_password']     = 'Ekstern adgangskode';
 $PALANG['pFetchmail_desc_src_folder']       = 'Ekstern mappe';
-$PALANG['pFetchmail_desc_poll_time']        = 'Prøv hver ... minut';
-$PALANG['pFetchmail_desc_fetchall']         = 'Hent både gamle (sete) og nye beskeder';
+$PALANG['pFetchmail_desc_poll_time']        = 'Prøv hvert ... minut';
+$PALANG['pFetchmail_desc_fetchall']         = 'Hent både læste og nye beskeder';
 $PALANG['pFetchmail_desc_keep']             = 'Gem hentede beskeder på den eksterne postserver';
 $PALANG['pFetchmail_desc_protocol']         = 'Brug protokol';
-$PALANG['pFetchmail_desc_usessl']           = 'SSL encryption'; # XXX
-$PALANG['pFetchmail_desc_extra_options']    = 'Ekstra fetchmail flag';
+$PALANG['pFetchmail_desc_usessl']           = 'SSL-kryptering';
+$PALANG['pFetchmail_desc_extra_options']    = 'Ekstra flag til fetchmail';
 $PALANG['pFetchmail_desc_mda']              = 'Mail Delivery Agent';
 $PALANG['pFetchmail_desc_date']             = 'Dato for seneste prøve/konfigurationsændring';
 $PALANG['pFetchmail_desc_returned_text']    = 'Tekstbesked fra seneste prøve';
