@@ -6,13 +6,12 @@
  */
 class AliasdomainHandler extends PFAHandler {
 
+    protected $db_table = 'alias_domain';
+    protected $id_field = 'alias_domain';
     protected $domain_field = 'alias_domain';
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
-        $this->db_table = 'alias_domain';
-        $this->id_field = 'alias_domain';
-
         # TODO: add public function set_options_for_admin() to list only domains available to that admin
 
         $this->struct=array(

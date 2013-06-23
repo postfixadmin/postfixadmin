@@ -8,6 +8,8 @@
  */
 class AliasHandler extends PFAHandler {
 
+    protected $db_table = 'alias';
+    protected $id_field = 'address';
     protected $domain_field = 'domain';
 
     /**
@@ -17,9 +19,6 @@ class AliasHandler extends PFAHandler {
     public $return = null;
 
     protected function initStruct() {
-        $this->db_table = 'alias';
-        $this->id_field = 'address';
-
         # hide 'goto_mailbox' if $this->new
         # (for existing aliases, init() hides it for non-mailbox aliases)
         $mbgoto = 1 - $this->new;

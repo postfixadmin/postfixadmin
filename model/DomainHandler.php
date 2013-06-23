@@ -6,6 +6,8 @@
  */
 class DomainHandler extends PFAHandler {
 
+    protected $db_table = 'domain';
+    protected $id_field = 'domain';
     protected $domain_field = 'domain';
 
    protected function validate_new_id() {
@@ -21,9 +23,6 @@ class DomainHandler extends PFAHandler {
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
-        $this->db_table = 'domain';
-        $this->id_field = 'domain';
-
         # TODO: shorter PALANG labels ;-)
         # TODO: hardcode 'default' to Config::read in pacol()?
 

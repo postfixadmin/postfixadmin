@@ -3,6 +3,9 @@
 
 class AdminHandler extends PFAHandler {
 
+    protected $db_table = 'admin';
+    protected $id_field = 'username';
+
    protected function validate_new_id() {
        $email_check = check_email($this->id);
 
@@ -21,9 +24,6 @@ class AdminHandler extends PFAHandler {
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
-        $this->db_table = 'admin';
-        $this->id_field = 'username';
-
         # TODO: shorter PALANG labels ;-)
         # TODO: hardcode 'default' to Config::read in pacol()?
 

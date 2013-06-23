@@ -6,13 +6,12 @@
  */
 class MailboxHandler extends PFAHandler {
 
+    protected $db_table = 'mailbox';
+    protected $id_field = 'username';
     protected $domain_field = 'domain';
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
-        $this->db_table = 'mailbox';
-        $this->id_field = 'username';
-
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
