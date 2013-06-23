@@ -45,7 +45,9 @@ $server = new Zend_XmlRpc_Server();
  * @return boolean true on success, else false.
  */
 function login($username, $password) {
-    if(MailboxHandler::login($username, $password)) {
+
+    $h = new MailboxHandler();
+    if($h::login($username, $password)) {
         session_regenerate_id();
         $_SESSION['authenticated'] = true;
         $_SESSION['username'] = $username;

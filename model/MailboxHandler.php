@@ -442,12 +442,12 @@ class MailboxHandler extends PFAHandler {
      * @param string $password
      * @return boolean true on successful login (i.e. password matches etc)
      */
-    public static function login($username, $password) {
+    public function login($username, $password) {
         $username = escape_string($username);
 
-        $table_mailbox = table_by_key('mailbox');
+        $table = table_by_key($this->db_table);
         $active = db_get_boolean(True);
-        $query = "SELECT password FROM $table_mailbox WHERE username='$username' AND active='$active'";
+        $query = "SELECT password FROM $table WHERE " . $this->id_field . "='$username' AND active='$active'";
 
         $result = db_query ($query);
         if ($result['rows'] == 1) {
