@@ -528,6 +528,32 @@ abstract class PFAHandler {
     }
 
 
+    /**
+     * Attempt to log a user in.
+     * @param string $username
+     * @param string $password
+     * @return boolean true on successful login (i.e. password matches etc)
+     */
+    public function login($username, $password) {
+        $username = escape_string($username);
+
+        $table = table_by_key($this->db_table);
+        $active = db_get_boolean(True);
+        $query = "SELECT password FROM $table WHERE " . $this->id_field . "='$username' AND active='$active'";
+
+        $result = db_query ($query);
+        if ($result['rows'] == 1) {
+            $row = db_array ($result['result']);
+            $crypt_password = pacrypt ($password, $row['password']);
+
+            if($row['password'] == $crypt_password) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     /**************************************************************************
      * functions to read protected variables
      */
