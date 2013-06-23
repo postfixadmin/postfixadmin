@@ -54,8 +54,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         flash_error($validpass[0]); # TODO: honor all error messages, not only the first one
         $error += 1;
     }
-  
-    if(!MailboxHandler::login($username, $fPassword_current)) {
+ 
+    $mh = new MailboxHandler;
+
+    if(!$mh->login($username, $fPassword_current)) {
         $error += 1;
         $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];
     }
@@ -67,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     if ($error == 0)
     {
-        $mh = new MailboxHandler();
         $mh->init($username); # TODO: error handling
         if($mh->change_pw($fPassword, $fPassword_current) ) {
             flash_info($PALANG['pPassword_result_success']);
