@@ -246,7 +246,7 @@ class MailboxHandler extends PFAHandler {
             } 
 
         } else { # edit mode
-            # TODO: update alias (active status)
+            # alias active status is updated in before_store()
 
             # postedit hook
             # TODO: implement a poststore() function? - would make handling of old and new values much easier...
