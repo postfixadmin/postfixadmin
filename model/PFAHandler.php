@@ -26,6 +26,10 @@ abstract class PFAHandler {
     # if a table does not contain a domain column, leave empty and override no_domain_field())
     protected $domain_field = "";
 
+    # skip empty password fields in edit mode
+    # enabled by default to allow changing an admin, mailbox etc. without changing the password
+    # disable for "edit password" forms
+    protected $skip_empty_pass = true;
 
     /**
      * internal variables - filled by methods of *Handler
@@ -264,7 +268,7 @@ abstract class PFAHandler {
                 }
             } else { # field is editable
                 if (isset($values[$key])) {
-                    if ($row['type'] != "pass" || strlen($values[$key]) > 0 || $this->new == 1) { # skip on empty (aka unchanged) password on edit
+                    if ($row['type'] != "pass" || strlen($values[$key]) > 0 || $this->new == 1 || $this->skip_empty_pass != true) { # skip on empty (aka unchanged) password on edit
 # TODO: do not skip "password2" if "password" is filled, but "password2" is empty
                         $valid = true; # trust input unless validator objects
 
