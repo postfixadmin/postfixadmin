@@ -1651,7 +1651,7 @@ function db_where_clause($condition, $struct) {
         if (isset($struct[$field]) && $struct[$field]['type'] == 'bool') $value = db_get_boolean($value);
         $parts[] = "$field='" . escape_string($value) . "'";
     }
-    $query = " WHERE " . join(" AND ", $parts) . " ";
+    $query = " WHERE ( " . join(" AND ", $parts) . " ) ";
 	return $query;
 }
 

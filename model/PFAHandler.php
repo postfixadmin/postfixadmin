@@ -453,12 +453,10 @@ abstract class PFAHandler {
             $where = db_where_clause($condition, $this->struct);
         } else {
             if ($condition == "") $condition = '1=1';
-            $where = " WHERE $condition ";
+            $where = " WHERE ( $condition ) ";
         }
 
         if ($this->domain_field != "") {
-            # TODO: wrap where clause in (...) to avoid problems if OR is used?
-            # TODO: Note: this would need a change in db_where_clause not to include the WHERE keyword in the result
             $where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains);
         }
 
