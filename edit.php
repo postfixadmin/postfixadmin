@@ -119,7 +119,11 @@ if ($active != '') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST" || $active != '') {
-    if ($edit != "") $values[$id_field] = $edit;
+    if ($formconf['hardcoded_edit']) {
+        $values[$id_field] = $form_fields[$id_field]['default'];
+    } elseif ($edit != "") {
+        $values[$id_field] = $edit;
+    }
 
     if ($new && ($form_fields[$id_field]['display_in_form'] == 0) && ($form_fields[$id_field]['editable'] == 1) ) { # address split to localpart and domain?
         $values[$id_field] = $handler->mergeId($values);
