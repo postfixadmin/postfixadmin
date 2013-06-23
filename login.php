@@ -37,10 +37,8 @@ if($CONF['configured'] !== true) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-    $fUsername = '';
-    $fPassword = '';
-    if (isset ($_POST['fUsername'])) $fUsername = escape_string ($_POST['fUsername']);
-    if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
+    $fUsername = safepost('fUsername');
+    $fPassword = safepost('fPassword');
     $lang = safepost('lang');
 
     if ( $lang != check_language(0) ) { # only set cookie if language selection was changed
@@ -48,25 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         # (language preference cookie is processed even if username and/or password are invalid)
     }
 
-    # TODO: move to AdminHandler->login
-    $result = db_query ("SELECT password FROM $table_admin WHERE username='$fUsername' AND active='1'");
-    if ($result['rows'] == 1)
-    {
-        $row = db_array ($result['result']);
-        $crypt_password = pacrypt ($fPassword, $row['password']);
-        if ($row['password'] != $crypt_password) {
-            $error = 1;
-            flash_error($PALANG['pLogin_failed']);
-        }
-    }
-    else
-    {
-        $error = 1;
-        flash_error($PALANG['pLogin_failed']);
-    }
-
-    if ($error != 1)
-    {
+    $h = new AdminHandler;
+    if ( $h->login($fUsername, $fPassword) ) {
         session_regenerate_id();
         $_SESSION['sessid'] = array();
         $_SESSION['sessid']['username'] = $fUsername;
@@ -74,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $_SESSION['sessid']['roles'][] = 'admin';
 
         // they've logged in, so see if they are a domain admin, as well.
+        # TODO: use AdminHandler and the superadmin flag
         $result = db_query ("SELECT * FROM $table_domain_admins WHERE username='$fUsername' AND domain='ALL' AND active='1'");
         if ($result['rows'] == 1)
         {
@@ -83,6 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         }
         header("Location: main.php");
         exit(0);
+    } else {
+        flash_error($PALANG['pLogin_failed']);
     }
 }
 
