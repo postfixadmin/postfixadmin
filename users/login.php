@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
 
    $h = new MailboxHandler();
-   if($h->login($_POST['fUsername'], $_POST['fPassword'])) {
+   if($h->login($fUsername, $fPassword)) {
       session_regenerate_id();
       $_SESSION['sessid'] = array();
       $_SESSION['sessid']['roles'] = array();
