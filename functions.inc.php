@@ -88,19 +88,6 @@ function authentication_require_role($role) {
     header("Location: login.php");
     exit(0);
 }
-/**
- * @return boolean TRUE if a admin, FALSE otherwise.
- */
-function authentication_is_admin() {
-    return authentication_get_usertype() == 'admin';
-}
-
-/**
- * @return boolean TRUE if a user, FALSE otherwise.
- */
-function authentication_is_user() {
-    return authentication_get_usertype() == 'user';
-}
 
 
 /**
@@ -199,18 +186,6 @@ function language_selector() {
     return $selector;
 }
 
-//
-// check_string
-// Action: checks if a string is valid and returns TRUE if this is the case.
-// Call: check_string (string var)
-//
-function check_string ($var) {
-    if (preg_match ('/^([A-Za-z0-9 ]+)+$/', $var)) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 
 
@@ -593,6 +568,7 @@ function check_quota ($quota, $domain, $username="") {
  * @param Integer $current_user_quota (in bytes)
  * @return Integer allowed maximum quota (in MB)
  */
+# TODO: move to MailboxHandler
 function allowed_quota($domain, $current_user_quota) {
    if ( !Config::bool('quota') ) {
        return 0; # quota disabled means no limits - no need for more checks
@@ -732,40 +708,6 @@ function list_domains () {
     return $list;
 }
 
-
-
-
-//
-// admin_exist
-// Action: Checks if the admin already exists.
-// Call: admin_exist (string admin)
-//
-function admin_exist ($username) {
-    $result = db_query ("SELECT 1 FROM " . table_by_key ('admin') . " WHERE username='$username'");
-    if ($result['rows'] != 1) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-
-
-//
-// domain_exist
-// Action: Checks if the domain already exists.
-// Call: domain_exist (string domain)
-//
-function domain_exist ($domain) {
-    global $table_domain;
-
-    $result = db_query("SELECT 1 FROM $table_domain WHERE domain='$domain'");
-    if ($result['rows'] != 1) {
-        return false;
-    } else {
-        return true;
-    }
-}
 
 
 
@@ -1772,6 +1714,9 @@ function mailbox_postcreation($username,$domain,$maildir,$quota) {
    Called after a mailbox has been altered in the DBMS.
    Returns: boolean.
  */
+# TODO: move to MailboxHandler
+# TODO: use Config::read instead of $CONF
+# TODO: replace "print" with $this->errormsg (or infomsg?)
 function mailbox_postedit($username,$domain,$maildir,$quota) {
     if (empty($username) || empty($domain) || empty($maildir)) {
         trigger_error('In '.__FUNCTION__.': empty username, domain and/or maildir parameter',E_USER_ERROR);
@@ -1840,6 +1785,9 @@ function mailbox_postdeletion($username,$domain) {
    Called after a domain has been added in the DBMS.
    Returns: boolean.
  */
+# TODO: move to DomainHandler
+# TODO: use Config::read instead of $CONF
+# TODO: replace "print" with $this->errormsg (or infomsg?)
 function domain_postcreation($domain) {
     global $CONF;
     $confpar='domain_postcreation_script';
@@ -1872,6 +1820,9 @@ function domain_postcreation($domain) {
    Called after a domain has been deleted in the DBMS.
    Returns: boolean.
  */
+# TODO: move to DomainHandler (after moving the delete code there)
+# TODO: use Config::read instead of $CONF
+# TODO: replace "print" with $this->errormsg (or infomsg?)
 function domain_postdeletion($domain) {
     global $CONF;
     $confpar='domain_postdeletion_script';
@@ -1904,6 +1855,7 @@ function domain_postdeletion($domain) {
    Called after an alias_domain has been deleted in the DBMS.
    Returns: boolean.
  */
+# TODO: This function is never called
 function alias_domain_postdeletion($alias_domain) {
     global $CONF;
     $confpar='alias_domain_postdeletion_script';
@@ -1949,6 +1901,8 @@ function alias_domain_postdeletion($alias_domain) {
    Doesn't clean up, if only some of the folders could be
    created.
  */
+# TODO: move to MailboxHandler
+# TODO: use Config::read
 function create_mailbox_subfolders($login,$cleartext_password) {
     global $CONF;
 
