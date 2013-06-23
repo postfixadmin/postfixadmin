@@ -525,46 +525,6 @@ function create_page_browser($idxfield, $querypart) {
     return $pagebrowser;
 }
 
-//
-// get_mailbox_properties
-// Action: Get all the properties of a mailbox.
-// Call: get_mailbox_properties (string mailbox)
-//
-function get_mailbox_properties ($username) {
-    global $CONF;
-    global $table_mailbox;
-    $query="SELECT * FROM $table_mailbox WHERE username='$username'";
-    if ('pgsql'==$CONF['database_type']) {
-        $query="
-            SELECT
-            *,
-            EXTRACT(epoch FROM created) AS uts_created,
-            EXTRACT(epoch FROM modified) AS uts_modified
-            FROM $table_mailbox
-            WHERE username='$username'
-            ";
-    }
-    $result = db_query ($query);
-    $row = db_array ($result['result']);
-    $list['name'] = $row['name'];
-    $list['maildir'] = $row['maildir'];
-    $list['quota'] = $row['quota'];
-    $list['domain'] = $row['domain'];
-    $list['created'] = $row['created'];
-    $list['modified'] = $row['modified'];
-    $list['active'] = $row['active'];
-
-    if ($CONF['database_type'] == "pgsql") {
-        $list['active']=('t'==$row['active']) ? 1 : 0;
-        $list['created']= gmstrftime('%c %Z',$row['uts_created']);
-        $list['modified']= gmstrftime('%c %Z',$row['uts_modified']);
-    } else {
-        $list['active'] = $row['active'];
-    }
-
-    return $list;
-}
-
 
 
 //
