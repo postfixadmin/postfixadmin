@@ -34,14 +34,13 @@ require_once("../common.php");
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    $lang = safepost('lang');
+   $fUsername = safepost('fUsername');
+   $fPassword = safepost('fPassword');
 
    if ( $lang != check_language(0) ) { # only set cookie if language selection was changed
       setcookie('lang', $lang, time() + 60*60*24*30); # language cookie, lifetime 30 days
       # (language preference cookie is processed even if username and/or password are invalid)
    }
-
-   $fUsername = escape_string ($_POST['fUsername']);
-   $fPassword = escape_string ($_POST['fPassword']);
 
    $h = new MailboxHandler();
    if($h->login($_POST['fUsername'], $_POST['fPassword'])) {
