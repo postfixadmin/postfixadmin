@@ -377,7 +377,7 @@ $PALANG['password_no_characters'] = "Your password must contain at least %s char
 $PALANG['password_no_digits'] = "Your password must contain at least %s digit(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Nome de domínio inválido %s, falhou checagem por expressão regular";
 $PALANG['pInvalidDomainDNS'] = "Domínio inválido %s, e/ou não pôde ser resolvido por DNS";
-$PALANG['pInvalidMailRegex'] = "Endereço de email inválido, falhou checagem por expressão regular";
+$PALANG['pInvalidMailRegex'] = "Endereço de email inválido, falhou checagem por expressão regular (%s)"; # XXX %s added - but it should be in the text, not at the end
 
 $PALANG['pFetchmail_welcome'] = 'Configuração de recuperação de mensagens para: ';
 $PALANG['pFetchmail_new_entry'] = 'Criar Novo Registro';

@@ -378,7 +378,7 @@ $PALANG['password_no_characters'] = "Your password must contain at least %s char
 $PALANG['password_no_digits'] = "Your password must contain at least %s digit(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Ugyldigt domæne-navn %s. Fejlede regulært udtryks-tjek";
 $PALANG['pInvalidDomainDNS']   = "Ugyldigt domæne %s, og/eller ikke fundet i DNS";
-$PALANG['pInvalidMailRegex']   = "Ugyldig emailadresse. Fejlede regulært udtryks-tjek";
+$PALANG['pInvalidMailRegex']   = "Ugyldig emailadresse %s. Fejlede regulært udtryks-tjek"; # XXX %s added, check if text is ok
 
 $PALANG['pFetchmail_welcome'] = 'Hent post for:';
 $PALANG['pFetchmail_new_entry'] = 'Ny regel';

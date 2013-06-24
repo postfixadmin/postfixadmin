@@ -377,7 +377,7 @@ $PALANG['password_no_characters'] = "Ваш пароль должен содер
 $PALANG['password_no_digits'] = "Ваш пароль должен содержать не менее %s цифр(ы).";
 $PALANG['pInvalidDomainRegex'] = "Некорректное имя домена %s, не соответствует регулярному выражению";
 $PALANG['pInvalidDomainDNS'] = "Некорректный домен %s, и/или не обнаруживается в DNS";
-$PALANG['pInvalidMailRegex'] = "Некорректный адрес e-mail, не соответствует регулярному выражению";
+$PALANG['pInvalidMailRegex'] = "Некорректный адрес e-mail, не соответствует регулярному выражению (%s)"; # XXX %s added - but it should be in the text, not at the end
 
 $PALANG['pFetchmail_welcome'] = 'Собирать почту для:';
 $PALANG['pFetchmail_new_entry'] = 'Новая запись';

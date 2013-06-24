@@ -375,7 +375,7 @@ $PALANG['password_no_characters'] = "Your password must contain at least %s char
 $PALANG['password_no_digits'] = "Your password must contain at least %s digit(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Invalid domain name %s, fails regexp check"; # XXX
 $PALANG['pInvalidDomainDNS'] = "Invalid domain %s, and/or not discoverable in DNS"; # XXX
-$PALANG['pInvalidMailRegex'] = "Invalid email address, fails regexp check"; # XXX
+$PALANG['pInvalidMailRegex'] = "Invalid email address %s, fails regexp check"; # XXX
 
 $PALANG['pFetchmail_welcome'] = 'メール取得:';
 $PALANG['pFetchmail_new_entry'] = '新しいエントリ';

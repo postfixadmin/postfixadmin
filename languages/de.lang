@@ -166,7 +166,7 @@ $PALANG['pPassword_admin'] = 'Login';
 $PALANG['pPassword_password_current'] = 'Jetziges Password';
 $PALANG['pPassword_password_current_text_error'] = 'Sie haben Ihr derzeitiges Passwort nicht angegeben!';
 $PALANG['pPassword_password'] = 'Neues Passwort';
-$PALANG['pPassword_password2'] = 'Neues Password (nochmal)';
+$PALANG['pPassword_password2'] = 'Neues Passwort (nochmal)';
 $PALANG['pPassword_password_text_error'] = 'Die beiden angegebenen Passwörter sind nicht identisch oder leer!';
 $PALANG['pPassword_button'] = 'Passwort ändern';
 $PALANG['pPassword_result_error'] = 'Unmöglich das Passwort zu ändern!';
@@ -376,7 +376,7 @@ $PALANG['password_no_characters'] = "Ihr Passwort muss mindestens %s Buchstaben 
 $PALANG['password_no_digits'] = "Ihr Passwort muss mindestens %s Ziffer(n) enthalten.";
 $PALANG['pInvalidDomainRegex'] = "Ungültiger Domainname %s - Überprüfung per RegEx fehlgeschlagen";
 $PALANG['pInvalidDomainDNS'] = "Ungültige Domain %s - nicht per DNS auflösbar";
-$PALANG['pInvalidMailRegex'] = "Ungültige Mailadresse - Überprüfung per RegEx fehlgeschlagen";
+$PALANG['pInvalidMailRegex'] = "Ungültige Mailadresse %s - Überprüfung per RegEx fehlgeschlagen";
 
 $PALANG['pFetchmail_welcome'] = 'E-Mail Abruf für: ';
 $PALANG['pFetchmail_new_entry'] = 'Neuer Eintrag';
