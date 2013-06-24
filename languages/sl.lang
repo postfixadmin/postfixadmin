@@ -22,7 +22,7 @@ $PALANG['created'] = 'Created'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Administratorji se prijavite tukaj.';
-$PALANG['pLogin_username'] = 'Uporabniško ime (e-poštni naslov)'; # XXX compare with pUsersLogin_username - should be "Login (email)"
+$PALANG['pLogin_username'] = 'Uporabniško ime (e-poštni naslov)'; # XXX check translation - should be "Login (email)"
 $PALANG['pLogin_password'] = 'Geslo';
 $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Prijavi'; # XXX compare with pUsersLogin_button - should be "Login"
@@ -311,7 +311,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Administratorja ni bilo mogoče spre
 $PALANG['pAdminEdit_admin_result_success'] = 'Admininstrator je bil uspešno spremenjen!';
 
 $PALANG['pUsersLogin_welcome'] = 'Če želite spremeniti gesli ali nastaviti sporočilo o odsotnosti, se prijavite.';
-$PALANG['pUsersLogin_username'] = 'E-poštni naslov'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Uporabniško ime ni pravilno! Uporabiti morate svoj e-poštni naslov!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Geslo ni pravilno!';
 

@@ -311,7 +311,6 @@ $PALANG['pAdminEdit_admin_result_error'] = '编辑域管理员失败!';
 $PALANG['pAdminEdit_admin_result_success'] = '编辑域管理员成功!';
 
 $PALANG['pUsersLogin_welcome'] = '邮件用户从这里登录管理你的密码和别名.';
-$PALANG['pUsersLogin_username'] = '帐号 (邮箱地址)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = '登录失败. 请确认你是使用你的邮箱地址登录!';
 $PALANG['pUsersLogin_password_incorrect'] = '登录密码不正确!';
 

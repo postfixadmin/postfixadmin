@@ -317,7 +317,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Konnte Admin nicht ändern';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin geändert!';
 
 $PALANG['pUsersLogin_welcome'] = 'Benutzer bitte hier einloggen, um Weiterleitungen bzw. das Passwort zu ändern.';
-$PALANG['pUsersLogin_username'] = 'Login (email)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Falscher Login! Bitte benutzen Sie ihre Email-Adresse als Login';
 $PALANG['pUsersLogin_password_incorrect'] = 'Falsches Passwort!';
 

@@ -311,7 +311,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Haldaja muutmine ebaõnnestus!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Haldaja on muudetud!';
 
 $PALANG['pUsersLogin_welcome'] = 'Postkasti kasutaja sisse logimine muutmaks parooli ja aliast.';
-$PALANG['pUsersLogin_username'] = 'Kasutajanimi (e-posti aadress)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Kasutajanimi pole õige. Veendu, et sisestatud kasutajanimi on e-posti aadress!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Parool pole õige!';
 

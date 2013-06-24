@@ -9,7 +9,7 @@
 	</tr>
 	{if !$authentication_has_role.user}
 	<tr>
-		<td class="label"><label>{$PALANG.pUsersLogin_username}:</label></td>
+		<td class="label"><label>{$PALANG.pLogin_username}:</label></td>
 		<td><em>{$tUseremail}</em></td>
 		<td>&nbsp;</td>
 	</tr>

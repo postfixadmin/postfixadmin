@@ -311,7 +311,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Imposible modificar l\'administrador
 $PALANG['pAdminEdit_admin_result_success'] = 'L\'administrador ha estat modificat!';
 
 $PALANG['pUsersLogin_welcome'] = 'Login d\'usuaris per canviar la contrasenya i els àlies.';
-$PALANG['pUsersLogin_username'] = 'Login (e-mail)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'El seu login no és correcte. Asseguri\'s d\'haver introduït la seva adreça d\'e-mail com a login!';
 $PALANG['pUsersLogin_password_incorrect'] = 'La seva contrasenya no és correcta!';
 

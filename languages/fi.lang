@@ -311,7 +311,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Ylläpitäjän muokkaaminen ei onnis
 $PALANG['pAdminEdit_admin_result_success'] = 'Ylläpitäjän muokkaus onnistui!';
 
 $PALANG['pUsersLogin_welcome'] = 'Salasanan vaihto.';
-$PALANG['pUsersLogin_username'] = 'Tunnus'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Käyttäjätunnus tai salasana väärin!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Käyttäjätunnus tai salasana väärin!';
 

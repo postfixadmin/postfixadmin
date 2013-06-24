@@ -22,7 +22,7 @@ $PALANG['created'] = 'Created'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged in as %s'; # XXX
 
 $PALANG['pLogin_welcome'] = 'Posta Yöneticileri buradan domainlerinizi yönetmek için giriþ yapabilirsiniz.';
-$PALANG['pLogin_username'] = 'Kullanýcý adý (eposta)'; # XXX compare with pUsersLogin_username - should be "Login (email)"
+$PALANG['pLogin_username'] = 'Kullanýcý adý (eposta)'; # # XXX check translation - should be "Login (email)"
 $PALANG['pLogin_password'] = 'Þifre'; # XXX compare with pUsersLogin_password - should be "Password"
 $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Giriþ'; # XXX compare with pUsersLogin_button - should be "Login"
@@ -311,7 +311,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Yönetici düzenlenemedi!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Yönetici düzenlendi!';
 
 $PALANG['pUsersLogin_welcome'] = 'Posta kutusu sahipleri, þifre ddeðiþtirmek için giriþ yapýn.';
-$PALANG['pUsersLogin_username'] = 'Giriþ (eposta)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Kullanýcý adýnýz doðru deðil. E-posta adresiniz ile giriþ yaptýðýnýzdan emin olunuz!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Þifreniz doðru deðil!';
 

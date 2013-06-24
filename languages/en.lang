@@ -321,7 +321,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Unable to modify admin!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin has been modified!';
 
 $PALANG['pUsersLogin_welcome'] = 'Mailbox users login to change your password and aliases.';
-$PALANG['pUsersLogin_username'] = 'Login (email)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Your login is not correct. Make sure that you login with your email address!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Your password is not correct!';
 

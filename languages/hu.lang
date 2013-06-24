@@ -317,7 +317,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Nemsikerült módosítani az admint!
 $PALANG['pAdminEdit_admin_result_success'] = 'Az Admin módosítása megtörtént!';
 
 $PALANG['pUsersLogin_welcome'] = 'A felhasználók ezen a felületen tudnak bejelentkezni a levelezõ rendszerbe a saját felhasználó nevükkel (azaz email címükkel) és itt tudják megváltoztatni az aliasokat, stb..'; # XXX check/beautify - was split in two lines before
-$PALANG['pUsersLogin_username'] = 'Login (email)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Nem megfelelõ a Login (email) cím! Kérlek pontosítsd!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Nem megfelelõ a jelszavad!';
 

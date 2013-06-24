@@ -312,7 +312,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Administratoriaus pakeisti nepavyko!
 $PALANG['pAdminEdit_admin_result_success'] = 'Administratorius pakeistas!';
 
 $PALANG['pUsersLogin_welcome'] = 'Pašto vartotojai prisijungia ir keičia slaptažodžius ir sinonimus.';
-$PALANG['pUsersLogin_username'] = 'Vartotojas (el.paštas)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Prisijungti nepavyko. Įsitikinkite, kad gerai įvedėte savo el.pašto adresą!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Slaptažodis neteisingas!';
 

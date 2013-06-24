@@ -312,7 +312,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Не можам да го модиф
 $PALANG['pAdminEdit_admin_result_success'] = 'Администраторот е модифициран!';
 
 $PALANG['pUsersLogin_welcome'] = 'Логин за корисници на поштенски сандачиња.Промена на логин и лозинка';
-$PALANG['pUsersLogin_username'] = 'Корисничко име (email)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Погрешно корисничко име. Логирајте се со вашата email адреса!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Погрешна лозинка!';
 

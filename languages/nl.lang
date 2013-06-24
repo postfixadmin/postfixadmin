@@ -315,7 +315,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Mislukt om beheerder te bewerken';
 $PALANG['pAdminEdit_admin_result_success'] = 'Beheerder is bewerkt!';
 
 $PALANG['pUsersLogin_welcome'] = 'Mailbox gebruikers login om uw wachtwoord en aliassen te bewerken.';
-$PALANG['pUsersLogin_username'] = 'Login (email)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Uw login is niet correct. U dient in te loggen met uw e-mail adres.';
 $PALANG['pUsersLogin_password_incorrect'] = 'Uw wachtwoord is niet correct.';
 

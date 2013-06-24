@@ -310,7 +310,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Ezinezkoa kudeatzailea aldatzea!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Kudeatzailea aldatu da!';
 
 $PALANG['pUsersLogin_welcome'] = 'Erabiltzaileen logina pasahitz eta aliasa aldatzeko.';
-$PALANG['pUsersLogin_username'] = 'Login (e-mail)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Login okerra. Ziurta zaitez posta helbidea login gisa sartu duzula!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Pasahitz okerra!';
 

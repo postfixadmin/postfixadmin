@@ -313,7 +313,6 @@ $PALANG['pAdminEdit_admin_result_error'] = 'Kan inte ändra admin!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin har ändrats!';
 
 $PALANG['pUsersLogin_welcome'] = 'Mailbox användare logga in här för att ändra ert lösenord och alias.';
-$PALANG['pUsersLogin_username'] = 'Login (epostadress)'; # obsolete
 $PALANG['pUsersLogin_username_incorrect'] = 'Ditt login är felaktigt. Logga in med din epostadress!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Ditt lösenord är felaktigt!';
 
