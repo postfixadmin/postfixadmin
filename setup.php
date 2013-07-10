@@ -344,7 +344,7 @@ else
             $table_domain = table_by_key('domain');
             $r = db_query("SELECT * FROM $table_domain WHERE domain = 'ALL'");
             if($r['rows'] == 0) {
-                db_insert('domain', array('domain' => 'ALL')); // all other fields should default through the schema.
+                db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => '') ); // all other fields should default through the schema.
             }
 
             $values = array(
