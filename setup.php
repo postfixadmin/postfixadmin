@@ -70,6 +70,7 @@ if ($f_phpversion == 1)
         $phpversion = 5;
         print "<li>PHP version " . phpversion () . "</li>\n";
     }
+# TODO: check for PHP >= 5.2.3 - smarty uses htmlentities with 4 parameters. The forth parameter was added in PHP 5.2.3, older versions will give a warning
 }
 else
 {
