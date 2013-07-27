@@ -243,7 +243,7 @@ $PALANG['pAdminList_domain_mailboxes'] = 'Pašto dėžutės';
 $PALANG['pAdminList_domain_quota'] = 'Srities kvota (MB)';
 $PALANG['pAdminList_domain_transport'] = 'Srities transportas';
 $PALANG['pAdminList_domain_backupmx'] = 'Atsarginis MX';
-$PALANG['pAdminList_domain_modified'] = 'Paskutinį kartą keista(s)';
+$PALANG['last_modified'] = 'Paskutinį kartą keista(s)';
 $PALANG['pAdminList_domain_active'] = 'Įjungta';
 
 $PALANG['pAdminList_virtual_button'] = 'Eiti';

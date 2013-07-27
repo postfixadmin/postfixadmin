@@ -37,7 +37,7 @@ class MailboxHandler extends PFAHandler {
                 /*options*/ '',
                 /*not_in_db*/ 1             ),
             'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                 ),
-            'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                 ),
+            'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 

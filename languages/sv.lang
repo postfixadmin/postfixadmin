@@ -244,7 +244,7 @@ $PALANG['pAdminList_domain_mailboxes'] = 'Brevlåda';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
-$PALANG['pAdminList_domain_modified'] = 'Senast modifierad';
+$PALANG['last_modified'] = 'Senast modifierad';
 $PALANG['pAdminList_domain_active'] = 'Aktiv';
 
 $PALANG['pAdminList_virtual_button'] = 'Kör';

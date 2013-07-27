@@ -53,7 +53,7 @@ class AliasHandler extends PFAHandler {
                 /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value - TODO: read active flag from vacation table instead?
             'active'        => pacol(   1,          1,      1,      'bool', 'pAdminEdit_domain_active'      , ''                                , 1     ),
             'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                ),
-            'modified'      => pacol(   0,          0,      1,      'ts',   'pAdminList_domain_modified'    , ''                                ),
+            'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                ),
             'editable'      => pacol(   0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
                 # technically 'editable' is bool, but the automatic bool conversion breaks the query. Flagging it as int avoids this problem.

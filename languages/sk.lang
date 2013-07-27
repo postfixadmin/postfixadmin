@@ -243,7 +243,7 @@ $PALANG['pAdminList_domain_mailboxes'] = 'Schránok';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Záložný MX';
-$PALANG['pAdminList_domain_modified'] = 'Posledná zmena';
+$PALANG['last_modified'] = 'Posledná zmena';
 $PALANG['pAdminList_domain_active'] = 'Aktívna';
 
 $PALANG['pAdminList_virtual_button'] = 'Prejsť';

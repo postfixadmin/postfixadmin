@@ -249,7 +249,7 @@ $PALANG['pAdminList_domain_mailboxes'] = 'Ящики';
 $PALANG['pAdminList_domain_quota'] = 'Квота домена (МБ)';
 $PALANG['pAdminList_domain_transport'] = 'Транспорт';
 $PALANG['pAdminList_domain_backupmx'] = 'Резервный MX';
-$PALANG['pAdminList_domain_modified'] = 'Последнее изменение';
+$PALANG['last_modified'] = 'Последнее изменение';
 $PALANG['pAdminList_domain_active'] = 'Активен';
 
 $PALANG['pAdminList_virtual_button'] = 'Выбрать';

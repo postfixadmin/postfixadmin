@@ -18,7 +18,7 @@
 			{if $CONF.domain_quota==YES}<td>{$PALANG.pAdminList_domain_quota}</td>{/if}
 			{if $CONF.transport==YES}<td>{$PALANG.pAdminList_domain_transport}</td>{/if}
 			<td>{$PALANG.pAdminList_domain_backupmx}</td>
-			<td>{$PALANG.pAdminList_domain_modified}</td>
+			<td>{$PALANG.last_modified}</td>
 			<td>{$PALANG.pAdminList_domain_active}</td>
 			<td colspan="2">&nbsp;</td>
 		</tr>

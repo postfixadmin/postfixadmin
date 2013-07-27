@@ -77,7 +77,7 @@ class AdminHandler extends PFAHandler {
 
             'active'          => pacol( 1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 , 1     ),   # obsoletes pAdminEdit_admin_active
             'created'         => pacol( 0,          0,      1,      'ts',   'created'                      , ''                                 ),
-            'modified'        => pacol( 0,          0,      1,      'ts',   'pAdminList_domain_modified'   , ''                                 ), # obsoletes pAdminList_admin_modified
+            'modified'        => pacol( 0,          0,      1,      'ts',   'last_modified'                , ''                                 ),
         );
     }
 

@@ -247,7 +247,7 @@ $PALANG['pAdminList_domain_mailboxes'] = 'アドレス数';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = '配送方法';
 $PALANG['pAdminList_domain_backupmx'] = 'バックアップ MX';
-$PALANG['pAdminList_domain_modified'] = '最終更新日';
+$PALANG['last_modified'] = '最終更新日';
 $PALANG['pAdminList_domain_active'] = 'アクティブ';
 
 $PALANG['pAdminList_virtual_button'] = '表示';

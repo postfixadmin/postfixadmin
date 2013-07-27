@@ -242,7 +242,7 @@ $PALANG['pAdminList_domain_mailboxes'] = 'Поштенски сандачиња'
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
-$PALANG['pAdminList_domain_modified'] = 'Последна промена';
+$PALANG['last_modified'] = 'Последна промена';
 $PALANG['pAdminList_domain_active'] = 'Активен';
 
 $PALANG['pAdminList_virtual_button'] = 'Оди';

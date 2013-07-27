@@ -244,7 +244,7 @@ $PALANG['pAdminList_domain_mailboxes'] = 'Mailboxen';
 $PALANG['pAdminList_domain_quota'] = 'Domein quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Back-up MX';
-$PALANG['pAdminList_domain_modified'] = 'Laatst bewerkt';
+$PALANG['last_modified'] = 'Laatst bewerkt';
 $PALANG['pAdminList_domain_active'] = 'Actief';
 
 $PALANG['pAdminList_virtual_button'] = 'Ga';

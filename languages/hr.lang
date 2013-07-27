@@ -241,7 +241,7 @@ $PALANG['pAdminList_domain_mailboxes'] = 'Potanski ormarići';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
-$PALANG['pAdminList_domain_modified'] = 'Zadnja promjena';
+$PALANG['last_modified'] = 'Zadnja promjena';
 $PALANG['pAdminList_domain_active'] = 'Aktivan';
 
 $PALANG['pAdminList_virtual_button'] = 'Idi';

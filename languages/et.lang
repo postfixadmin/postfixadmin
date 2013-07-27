@@ -242,7 +242,7 @@ $PALANG['pAdminList_domain_mailboxes'] = 'Postkastid';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
-$PALANG['pAdminList_domain_modified'] = 'Viimati muudetud';
+$PALANG['last_modified'] = 'Viimati muudetud';
 $PALANG['pAdminList_domain_active'] = 'Aktiivne';
 
 $PALANG['pAdminList_virtual_button'] = 'Mine';

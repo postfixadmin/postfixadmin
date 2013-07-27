@@ -241,7 +241,7 @@ $PALANG['pAdminList_domain_mailboxes'] = 'Bústies';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
-$PALANG['pAdminList_domain_modified'] = 'Última Modificació';
+$PALANG['last_modified'] = 'Última Modificació';
 $PALANG['pAdminList_domain_active'] = 'Actiu';
 
 $PALANG['pAdminList_virtual_button'] = 'Ves';

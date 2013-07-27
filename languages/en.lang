@@ -249,7 +249,7 @@ $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)';
 $PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['pAdminList_domain_usercontrol'] = 'User Control';
-$PALANG['pAdminList_domain_modified'] = 'Last Modified';
+$PALANG['last_modified'] = 'Last Modified';
 $PALANG['pAdminList_domain_active'] = 'Active';
 
 $PALANG['pAdminList_virtual_button'] = 'Go';
