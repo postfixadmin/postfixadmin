@@ -100,7 +100,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = 'Ustvari nov alias za določeno domeno.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Sintaksa aliasa je napačna!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Ta e-poštni naslov že obstaja, prosimo izberite drugega!';
+$PALANG['email-address-already-exists'] = 'Ta e-poštni naslov že obstaja, prosimo izberite drugega!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Maksimalno število aliasov je preseženo!';
 $PALANG['pCreate_alias_goto'] = 'Za';
 $PALANG['pCreate_alias_button'] = 'Dodaj alias';
@@ -124,7 +124,6 @@ $PALANG['pEdit_alias_result_error'] = 'Aliasa ni bilo mogoče spremeniti!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Ustvari nov predal za izbrano domeno.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-poštni naslov ni pravilen!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Izbrani e-poštni naslov že obstaja, prosimo izberite drugega!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Maksimalno število predalov je preseženo!';
 $PALANG['pCreate_mailbox_password2'] = 'Geslo (ponovitev)';
 $PALANG['pCreate_mailbox_password_text'] = 'Geslo za POP3/IMAP';

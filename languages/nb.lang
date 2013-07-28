@@ -102,7 +102,7 @@ $PALANG['pCreate_alias_domain_success'] = 'Domenealiaset har blitt lagt inn i ta
 
 $PALANG['pCreate_alias_welcome'] = 'Opprett et nytt alias.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Aliaset er ikke gyldig!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Denne e-postadressen eksisterer allerede, vennligst velg en annen!';
+$PALANG['email-address-already-exists'] = 'Denne e-postadressen eksisterer allerede, vennligst velg en annen!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Du har nådd grensen for antall aliaser under dette domenet!';
 $PALANG['pCreate_alias_goto'] = 'Til';
 $PALANG['pCreate_alias_button'] = 'Legg til alias';
@@ -125,7 +125,6 @@ $PALANG['pEdit_alias_result_error'] = 'Kan ikke endre aliaset!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Opprett en ny e-postkonto.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-postadressen er ikke gyldig!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'E-postadressen eksisterer allerede, vennligst velg en annen!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Du har nådd grensen for antall e-postkontoer under dette domenet!';
 $PALANG['pCreate_mailbox_password2'] = 'Passord (bekreft)';
 $PALANG['pCreate_mailbox_password_text'] = 'Passord for POP3/IMAP';

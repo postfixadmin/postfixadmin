@@ -101,7 +101,7 @@ $PALANG['pCreate_alias_domain_success'] = 'Domainin alias on lisätty domain ali
 
 $PALANG['pCreate_alias_welcome'] = 'Luo uusi alias.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Alias ei ole oikean muotoinen!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Tämä sähköpostiosoite on jo käytössä, ole hyvä ja valitse jokin toinen!';
+$PALANG['email-address-already-exists'] = 'Tämä sähköpostiosoite on jo käytössä, ole hyvä ja valitse jokin toinen!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Aliasten maksimimäärä saavutettu. Et voi lisätä aliaksia enää!';
 $PALANG['pCreate_alias_goto'] = 'Kenelle';
 $PALANG['pCreate_alias_button'] = 'Lisää alias';
@@ -124,7 +124,6 @@ $PALANG['pEdit_alias_result_error'] = 'Aliasta ei voi muokata!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Luo uusi paikallinen postilaatikko.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Sähköpostiosoite ei ole oikean muotoinen!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Sähköpostiosoite on jo käytössä, ole hyvä ja valitse jokin toinen!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Postilaatikoiden maksimimäärä saavutettu!';
 $PALANG['pCreate_mailbox_password2'] = 'Salasana (toistamiseen)';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP salasana';

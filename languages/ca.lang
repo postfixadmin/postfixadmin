@@ -99,7 +99,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = 'Crear un nou àlies pel domini.';
 $PALANG['pCreate_alias_address_text_error1'] = 'L\'àlies no és vàlid!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Aquesta adreça ja existeix, escull una altra de diferent, si us plau!';
+$PALANG['email-address-already-exists'] = 'Aquesta adreça ja existeix, escull una altra de diferent, si us plau!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Has arribat al límit de creació d\'àlies!';
 $PALANG['pCreate_alias_goto'] = 'Destí';
 $PALANG['pCreate_alias_button'] = 'Afegir àlies';
@@ -123,7 +123,6 @@ $PALANG['pEdit_alias_result_error'] = 'Imposible modificar l\'àlies!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Crear una nova bústia pel seu domini.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'L\'e-mail no és vàlido!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Aquest e-mail ja existeix, escull un de diferente si us plau!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Has arribat al límit de creació de bústies!';
 $PALANG['pCreate_mailbox_password2'] = 'Contrasenya (repetir)';
 $PALANG['pCreate_mailbox_password_text'] = 'Contrasenya per a POP3/IMAP';

@@ -99,7 +99,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = 'Stvori novi alias za domenu.';
 $PALANG['pCreate_alias_address_text_error1'] = 'ALIAS nije valjan!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Ova adresa e-pote već postoji, molimo izaberite drugu!';
+$PALANG['email-address-already-exists'] = 'Ova adresa e-pote već postoji, molimo izaberite drugu!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Postigli ste maksimalan broj vaih aliasa!';
 $PALANG['pCreate_alias_goto'] = 'Za';
 $PALANG['pCreate_alias_button'] = 'Dodaj alias';
@@ -123,7 +123,6 @@ $PALANG['pEdit_alias_result_error'] = 'Alias nije bilo moguče promjeniti!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Stvori novi potanski ormarić za izbranu domenu.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Adresa e-pote nije pravilna!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Ova adresa e-pote već postoji, molimo izaberite drugu!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Dostigli ste va limit potanskih ormarića!';
 $PALANG['pCreate_mailbox_password2'] = 'Lozinka (ponovi)';
 $PALANG['pCreate_mailbox_password_text'] = 'Lozinka za POP3/IMAP';

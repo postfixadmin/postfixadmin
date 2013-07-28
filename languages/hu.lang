@@ -102,7 +102,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = 'Új alias készítése az adott domainhez';
 $PALANG['pCreate_alias_address_text_error1'] = 'Az ALIAS érvénytelen!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Ez az email cím már létezik, kérlek válassz másikat!';
+$PALANG['email-address-already-exists'] = 'Ez az email cím már létezik, kérlek válassz másikat!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Elérted a maximális alias limitet!';
 $PALANG['pCreate_alias_goto'] = 'Hova';
 $PALANG['pCreate_alias_button'] = 'Alias felvétele';
@@ -126,7 +126,6 @@ $PALANG['pEdit_alias_result_error'] = 'Nemsikerült módosítani az Aliast!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Új postafiók létrehozása az adott domainhez.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Érvénytelen EMAIL !';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Ez az email cím már létezik, kérlek válassz másikat!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Elérted a maximális postafiók számot!';
 $PALANG['pCreate_mailbox_password2'] = 'Jelszó (mégegyszer)';
 $PALANG['pCreate_mailbox_password_text'] = 'Jelszó a POP3/IMAP -hoz';

@@ -100,7 +100,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = '在你的網域中新建一個別名.';
 $PALANG['pCreate_alias_address_text_error1'] = '該別名非法!';
-$PALANG['pCreate_alias_address_text_error2'] = '郵件地址已經存在, 請重新選擇!';
+$PALANG['email-address-already-exists'] = '郵件地址已經存在, 請重新選擇!';
 $PALANG['pCreate_alias_address_text_error3'] = '你的別名已經達到上限!';
 $PALANG['pCreate_alias_goto'] = '轉到';
 $PALANG['pCreate_alias_button'] = '新建別名';
@@ -124,7 +124,6 @@ $PALANG['pEdit_alias_result_error'] = '不能修改該別名!';
 
 $PALANG['pCreate_mailbox_welcome'] = '在你的網域中新建一個本地郵箱.';
 $PALANG['pCreate_mailbox_username_text_error1'] = '郵件非法!';
-$PALANG['pCreate_mailbox_username_text_error2'] = '郵件地址已經存在,請重新選擇!';
 $PALANG['pCreate_mailbox_username_text_error3'] = '郵箱地址已經達到上限!';
 $PALANG['pCreate_mailbox_password2'] = '密碼 (再次輸入)';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP 密碼';

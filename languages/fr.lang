@@ -101,7 +101,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Tous les domaines sont déj� liés � u
 $PALANG['pCreate_alias_domain_success'] = 'L\'alias de domaine est déj� pr�sent dans la table de domaine!';
 $PALANG['pCreate_alias_welcome'] = 'Créer un nouvel alias pour votre domaine.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Cet ALIAS n\'est pas valide!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Ce compte courriel existe déjà, choisissez un autre libellé !';
+$PALANG['email-address-already-exists'] = 'Ce compte courriel existe déjà, choisissez un autre libellé !'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Vous avez atteint votre limite d\'alias créés !';
 $PALANG['pCreate_alias_goto'] = 'À';
 $PALANG['pCreate_alias_button'] = 'Ajouter un alias';
@@ -125,7 +125,6 @@ $PALANG['pEdit_alias_result_error'] = 'Impossible de modifier cet alias!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Ajouter un nouveau compte courriel à votre domaine.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'L\'adresse courriel est invalide!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Ce compte courriel existe deja ! Entrez une autre adresse courriel !';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Vous avez atteint le nombre maximum de compte courriel !';
 $PALANG['pCreate_mailbox_password2'] = 'Mot de passe (confirmation)';
 $PALANG['pCreate_mailbox_password_text'] = 'Mot de passe pour compte POP3/IMAP';

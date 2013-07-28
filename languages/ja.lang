@@ -102,7 +102,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = '新しい転送先の作成';
 $PALANG['pCreate_alias_address_text_error1'] = 'メールアドレスが無効です。';
-$PALANG['pCreate_alias_address_text_error2'] = 'このメールアドレスは既に存在するので、 別のアドレスを選択してください。'; # XXX check/beautify - was split in two lines before
+$PALANG['email-address-already-exists'] = 'このメールアドレスは既に存在するので、 別のアドレスを選択してください。'; # XXX check/beautify - was split in two lines before
 $PALANG['pCreate_alias_address_text_error3'] = '転送アドレスの制限数に達しました。';
 $PALANG['pCreate_alias_goto'] = '転送先アドレス';
 $PALANG['pCreate_alias_button'] = '転送先追加';
@@ -126,7 +126,6 @@ $PALANG['pEdit_alias_result_error'] = '修正できません！';
 
 $PALANG['pCreate_mailbox_welcome'] = '新しいメールアドレスの作成';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'メールアドレスが無効です。';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'このメールアドレスは既に存在するので、別のアドレスを選択してください。';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'メールアドレスの制限数に達しました。';
 $PALANG['pCreate_mailbox_password2'] = 'パスワード (確認)';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAPのパスワード';

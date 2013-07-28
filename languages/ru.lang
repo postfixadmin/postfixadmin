@@ -104,7 +104,7 @@ $PALANG['pCreate_alias_domain_success'] = 'Домен-алиас добавле�
 
 $PALANG['pCreate_alias_welcome'] = 'Создание нового алиаса в вашем домене.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Неверное имя алиаса!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Этот почтовый адрес уже существует, пожалуйста, выберите другой.';
+$PALANG['email-address-already-exists'] = 'Этот почтовый адрес уже существует, пожалуйста, выберите другой.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Вы достигли лимита по созданным алиасам!';
 $PALANG['pCreate_alias_goto'] = 'Кому';
 $PALANG['pCreate_alias_button'] = 'Создать алиас';
@@ -128,7 +128,6 @@ $PALANG['pEdit_alias_result_error'] = 'Невозможно изменить а�
 
 $PALANG['pCreate_mailbox_welcome'] = 'Создание нового почтового ящика для вашего домена.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Неверное имя!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Это имя уже существует, пожалуйста, выберите другое!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Вы достигли лимита по созданию почтовых ящиков!';
 $PALANG['pCreate_mailbox_password2'] = 'Пароль (еще раз)';
 $PALANG['pCreate_mailbox_password_text'] = 'Пароль для POP3/IMAP';

@@ -98,7 +98,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 $PALANG['pCreate_alias_welcome'] = 'Domeinuarentzat alias berri bat sortu.';
 $PALANG['pCreate_alias_address_text_error1'] = 'ALIASa okerra da!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Helbide hau existitzen da, ezberdin bat aukera ezazu mesedez!';
+$PALANG['email-address-already-exists'] = 'Helbide hau existitzen da, ezberdin bat aukera ezazu mesedez!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Alias sortze mugara heldu zara!';
 $PALANG['pCreate_alias_goto'] = 'Norakoa';
 $PALANG['pCreate_alias_button'] = 'Aliasa gehitu';
@@ -122,7 +122,6 @@ $PALANG['pEdit_alias_result_error'] = 'Ezinezkoa aliasa aldatzea!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Postontzi berri bat sortu domeinuarentzat.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-maila baliogabekoa da!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'E-mail hau existitzen da. Ezberdin bat aukera ezazu, mesedez!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Postontzi sorkuntza mugara iritsi zara!';
 $PALANG['pCreate_mailbox_password2'] = 'Pasahitza (errepikatu)';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP-entzat pasahitza';

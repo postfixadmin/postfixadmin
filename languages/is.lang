@@ -99,7 +99,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Aliasinn er ekki í lagi!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Þetta pósthólf er nú þegar til, veldu annað!';
+$PALANG['email-address-already-exists'] = 'Þetta pósthólf er nú þegar til, veldu annað!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Þú hefur stofnað þann fjölda pósthólfa sem þú hefur heimild til!';
 $PALANG['pCreate_alias_goto'] = 'Til';
 $PALANG['pCreate_alias_button'] = 'Bæta við alias';
@@ -123,7 +123,6 @@ $PALANG['pEdit_alias_result_error'] = 'Get ekki breytt alias!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Create a new local mailbox for your domain.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Netfangið er ekki til!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Þetta pósthólf er til núþegar, veldu þér annað!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Þú hefur stofnað þau póstholf sem þú hefur heimild til!';
 $PALANG['pCreate_mailbox_password2'] = 'Lykilorð (aftur)';
 $PALANG['pCreate_mailbox_password_text'] = 'Lykilorð til að opna POP3/IMAP';

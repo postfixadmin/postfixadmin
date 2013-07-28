@@ -102,7 +102,7 @@ $PALANG['pCreate_alias_domain_success'] = 'Die Alias-Domain wurde in der Datenba
 
 $PALANG['pCreate_alias_welcome'] = 'Neuen Alias für Ihre Domain anlegen';
 $PALANG['pCreate_alias_address_text_error1'] = 'Dieses ALIAS ist nicht erlaubt!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Diese eMail-Adresse existiert bereits. Bitte wählen Sie eine andere!';
+$PALANG['email-address-already-exists'] = 'Diese eMail-Adresse existiert bereits. Bitte wählen Sie eine andere!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Sie haben Ihr Limit für Aliase auf dieser Domain erreicht!';
 $PALANG['pCreate_alias_goto'] = 'An';
 $PALANG['pCreate_alias_button'] = 'Alias hinzufügen';
@@ -126,7 +126,6 @@ $PALANG['pEdit_alias_result_error'] = 'Ändern des Aliases nicht möglich!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Legen Sie eine neue Mailbox für Ihre Domain an.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Die EMAIL ist nicht korrekt!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Diese Email-Adresse existiert bereits. Bitte wählen Sie eine andere!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Sie dürfen leider nicht mehr Mailboxen für diese Domain anlegen!';
 $PALANG['pCreate_mailbox_password2'] = 'Passwort (nochmal)';
 $PALANG['pCreate_mailbox_password_text'] = 'Passwort für POP3/IMAP';

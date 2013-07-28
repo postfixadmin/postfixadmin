@@ -83,7 +83,7 @@ class MailboxHandler extends PFAHandler {
     }
 
     protected function initMsg() {
-        $this->msg['error_already_exists'] = 'pCreate_mailbox_username_text_error2';
+        $this->msg['error_already_exists'] = 'email-address-already-exists';
         $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1';
         if ($this->new) {
             $this->msg['logname'] = 'create_mailbox';
@@ -140,7 +140,7 @@ class MailboxHandler extends PFAHandler {
         # check if an alias with this name already exists - if yes, don't allow to create the mailbox
         $handler = new AliasHandler(1);
         if (!$handler->init($this->id)) {
-            $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error2');
+            $this->errormsg[] = Lang::read('email-address-already-exists');
             return false;
         }
 

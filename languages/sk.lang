@@ -101,7 +101,7 @@ $PALANG['pCreate_alias_domain_success'] = 'Alias domény bol pridaný do tabuľk
 
 $PALANG['pCreate_alias_welcome'] = 'Vytvoriť nový alias v doméne';
 $PALANG['pCreate_alias_address_text_error1'] = 'Adresa nie je platná!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Takáto emailová adresa už existuje!';
+$PALANG['email-address-already-exists'] = 'Takáto emailová adresa už existuje!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Dosiahli ste limit, nemôžete vytvárať ďalšie aliasy!';
 $PALANG['pCreate_alias_goto'] = 'Cieľ';
 $PALANG['pCreate_alias_button'] = 'Vytvoriť alias';
@@ -125,7 +125,6 @@ $PALANG['pEdit_alias_result_error'] = 'Nepodarilo se upraviť alias!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Vytvoriť novú schránku v doméne';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Adresa nie je platná!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Takáto emailová adresa už¸ existuje!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Dosiahli ste limit, nemôžete vytvárať ďalšie schránky!';
 $PALANG['pCreate_mailbox_password2'] = 'Heslo (znovu)';
 $PALANG['pCreate_mailbox_password_text'] = 'Heslo pre POP3/IMAP/SMTP';

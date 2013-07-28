@@ -101,7 +101,7 @@ $PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de 
 
 $PALANG['pCreate_alias_welcome'] = 'Maak een nieuw alias aan voor uw domein.';
 $PALANG['pCreate_alias_address_text_error1'] = 'De Alias is niet geldig!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Dit e-mail aders bestaat al, kies aub een andere.';
+$PALANG['email-address-already-exists'] = 'Dit e-mail aders bestaat al, kies aub een andere.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'U bezit het maximum aantal aliassen.';
 $PALANG['pCreate_alias_goto'] = 'Naar';
 $PALANG['pCreate_alias_button'] = 'Voeg alias toe';
@@ -125,7 +125,6 @@ $PALANG['pEdit_alias_result_error'] = 'Mislukt om de alias te bewerken!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Maak een nieuw lokale mailbox voor uw domein.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Het e-mail adres is niet geldig.';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Dit e-mail adres is al ingebruik. Kies aub een andere.';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'U bezit het maximum aantal mailboxen.';
 $PALANG['pCreate_mailbox_password2'] = 'Wachtwoord nogmaals';
 $PALANG['pCreate_mailbox_password_text'] = 'Wachtwoord voor POP3/IMAP';

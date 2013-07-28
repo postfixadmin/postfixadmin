@@ -100,7 +100,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = 'Domaininiz için yeni bir alias yaratýn.';
 $PALANG['pCreate_alias_address_text_error1'] = 'ALIAS uygun deðil!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Bu e-posta zaten kullanýlýyor, lütfen baþka bir tane seçin!';
+$PALANG['email-address-already-exists'] = 'Bu e-posta zaten kullanýlýyor, lütfen baþka bir tane seçin!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Alias limitine ulaþtýnýz!';
 $PALANG['pCreate_alias_goto'] = 'kime';
 $PALANG['pCreate_alias_button'] = 'Alias Ekle';
@@ -124,7 +124,6 @@ $PALANG['pEdit_alias_result_error'] = 'Alias düzenlenemiyor!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Domaininiz için yeni bir lokal e-posta yaratýn.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-POSTA uygun deðil!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Bu elektronik posta kullanýlmakta, lütfen farklý bir tane seçin!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Posta kutusu yaratma limitinize eriþtiniz!';
 $PALANG['pCreate_mailbox_password2'] = 'þifre (tekrar)';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP için þifre';

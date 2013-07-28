@@ -105,7 +105,7 @@ $PALANG['pCreate_alias_domain_success']     = 'Domæne-alias blev tilføjet alia
 
 $PALANG['pCreate_alias_welcome']             = 'Tilføj et nyt alias til domænet.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Aliaset er ikke gyldigt.';
-$PALANG['pCreate_alias_address_text_error2'] = 'Emailadressen eksisterer allerede, vælg venligst en anden.';
+$PALANG['email-address-already-exists'] = 'Emailadressen eksisterer allerede, vælg venligst en anden.';
 $PALANG['pCreate_alias_address_text_error3'] = 'Du har nået grænsen for antallet af aliases til domænet.';
 $PALANG['pCreate_alias_goto'] = 'Modtager';
 $PALANG['pCreate_alias_button'] = 'Tilføj alias';
@@ -129,7 +129,6 @@ $PALANG['pEdit_alias_result_error']        = 'Kan ikke redigere aliaset.';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Tilføj en ny lokal postboks til domænet.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Emailadressen er ikke gyldig!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Emailadressen eksisterer allerede. Vælg venligst en anden!';
 $PALANG['pCreate_mailbox_username_text_error3']       = 'Du har nået grænsen for antallet af postbokse til domæne!';
 $PALANG['pCreate_mailbox_password2'] = 'Adgangskode (igen)';
 $PALANG['pCreate_mailbox_password_text'] = 'Adgangskode til POP3/IMAP';

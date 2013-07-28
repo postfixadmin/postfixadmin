@@ -103,7 +103,7 @@ $PALANG['pCreate_alias_domain_success'] = 'Alias domeny został dodany do tabeli
 
 $PALANG['pCreate_alias_welcome'] = 'Utwórz nowy alias dla Twojej domeny.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Alias jest niepoprawny!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Taki adres email juz istnieje, proszę wybrać inny!';
+$PALANG['email-address-already-exists'] = 'Taki adres email juz istnieje, proszę wybrać inny!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Twój limit aliasów został osiągniety!';
 $PALANG['pCreate_alias_goto'] = 'Do';
 $PALANG['pCreate_alias_button'] = 'Dodaj alias';
@@ -126,7 +126,6 @@ $PALANG['pEdit_alias_result_error'] = 'Nie można zmodyfikować aliasu!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Utwórz lokalne konto pocztowe dla Twojej domeny.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Adres EMAIL jest niepoprawny!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Taki adres email już istnieje, proszę wybrać inny!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Twój limit kont pocztowych został osiągniety!';
 $PALANG['pCreate_mailbox_password2'] = 'Hasło (ponownie)';
 $PALANG['pCreate_mailbox_password_text'] = 'Hasło do POP3/IMAP';

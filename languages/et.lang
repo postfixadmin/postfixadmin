@@ -100,7 +100,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = 'Loo uus alias domeenis.';
 $PALANG['pCreate_alias_address_text_error1'] = 'ALIAS pole kehtiv!';
-$PALANG['pCreate_alias_address_text_error2'] = 'See e-posti aadress eksisteerib juba, palun vali erinev!';
+$PALANG['email-address-already-exists'] = 'See e-posti aadress eksisteerib juba, palun vali erinev!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Oled kasutanud kogu aliaste arvu!';
 $PALANG['pCreate_alias_goto'] = 'Kellele';
 $PALANG['pCreate_alias_button'] = 'Lisa alias';
@@ -124,7 +124,6 @@ $PALANG['pEdit_alias_result_error'] = 'Aliase muutmine ebaõnnestus!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Loo uus postkast domeenis.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-posti aadress pole kehtiv!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Selline e-posti aadress on juba olemas, palun vali erinev!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Oled kasutanud kogu postkastide arvu!';
 $PALANG['pCreate_mailbox_password2'] = 'Parool (uuesti)';
 $PALANG['pCreate_mailbox_password_text'] = 'Parool POP3/IMAP\'le';

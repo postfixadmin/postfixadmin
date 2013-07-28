@@ -102,7 +102,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = 'Skapa nytt alias för din domän.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Detta ALIAS är inte giltigt!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Denna epostadress existerar redan, välj en annan epostadress!';
+$PALANG['email-address-already-exists'] = 'Denna epostadress existerar redan, välj en annan epostadress!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Du har redan högsta tillåtna antal alias definierade!';
 $PALANG['pCreate_alias_goto'] = 'Till';
 $PALANG['pCreate_alias_button'] = 'Lägg till alias';
@@ -126,7 +126,6 @@ $PALANG['pEdit_alias_result_error'] = 'Kan inte modifiera detta alias!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Skapa ett nytt lokalt brevlåda i din domän.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'EPOSTADRESSEN är inte korrekt!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Denna epostadress finns redan, ange en annan adress!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Du har redan skapat max tillåtet antal brevlådan!';
 $PALANG['pCreate_mailbox_password2'] = 'Lösenord (igen)';
 $PALANG['pCreate_mailbox_password_text'] = 'Lösenord för POP3/IMAP';

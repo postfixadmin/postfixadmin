@@ -104,7 +104,7 @@ $PALANG['pCreate_alias_domain_success'] = 'Alias de domínio criado!';
 
 $PALANG['pCreate_alias_welcome'] = 'Criação de um novo alias para o domínio.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Alias inválido!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Endereço de email fornecido já existe. Por favor, escolha outro endereço!';
+$PALANG['email-address-already-exists'] = 'Endereço de email fornecido já existe. Por favor, escolha outro endereço!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Você alcançou seu limite de aliases!';
 $PALANG['pCreate_alias_goto'] = 'Para';
 $PALANG['pCreate_alias_button'] = 'Criar Alias';
@@ -128,7 +128,6 @@ $PALANG['pEdit_alias_result_error'] = 'Não foi possível editar o alias!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Criação de uma nova conta de email para o domínio.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Email inválido!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Endereço de email fornecido já existe. Por favor, escolha outro endereço!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Você alcançou o limite de contas de email!';
 $PALANG['pCreate_mailbox_password2'] = 'Senha (confirmação)';
 $PALANG['pCreate_mailbox_password_text'] = 'Senha para POP3/IMAP';

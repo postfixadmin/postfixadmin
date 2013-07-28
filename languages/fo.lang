@@ -100,7 +100,7 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 
 $PALANG['pCreate_alias_welcome'] = 'Stovna eitt nýtt dulnevni á tínum navnaøki.';
 $PALANG['pCreate_alias_address_text_error1'] = 'DULNEVNI er ógyldugt!';
-$PALANG['pCreate_alias_address_text_error2'] = 'Hendan e-post adressa finst longu, vinarliga vel eina aðra!';
+$PALANG['email-address-already-exists'] = 'Hendan e-post adressa finst longu, vinarliga vel eina aðra!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Tú hevur nátt tínum marki at stovna dulnevni!';
 $PALANG['pCreate_alias_goto'] = 'Til';
 $PALANG['pCreate_alias_button'] = 'Stovna Dulnevni';
@@ -124,7 +124,6 @@ $PALANG['pEdit_alias_result_error'] = 'Fái ikki broytt dulnevni!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Stovna ein nýggjan postkassa á tínum navnaøki.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-post adressan er ógyldug!';
-$PALANG['pCreate_mailbox_username_text_error2'] = 'Hendan e-post adressan finst longu, vinarliga vel eina aðra!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Tú hevur nýtt tínum marki at stovna postkassar!';
 $PALANG['pCreate_mailbox_password2'] = 'Loyniorð (umaftur)';
 $PALANG['pCreate_mailbox_password_text'] = 'Loyniorð til POP3/IMAP';

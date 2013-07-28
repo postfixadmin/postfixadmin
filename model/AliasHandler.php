@@ -66,7 +66,7 @@ class AliasHandler extends PFAHandler {
     }
 
     protected function initMsg() {
-        $this->msg['error_already_exists'] = 'pCreate_alias_address_text_error2';
+        $this->msg['error_already_exists'] = 'email-address-already-exists';
         $this->msg['error_does_not_exist'] = 'pCreate_alias_address_text_error1'; # TODO: better error message
         if ($this->new) {
             $this->msg['logname'] = 'create_alias';
