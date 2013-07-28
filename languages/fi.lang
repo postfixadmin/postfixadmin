@@ -297,7 +297,7 @@ $PALANG['pUsersMain_password'] = 'Vaihda nykyinen salasanasi.';
 $PALANG['pUsersVacation_welcome'] = 'Automaattivastaus.';
 $PALANG['pUsersVacation_welcome_text'] = 'Sinulla on jo automaattivastaus päällä!';
 $PALANG['pUsersVacation_subject_text'] = 'Lomalla';
-$PALANG['pUsersVacation_body'] = 'Viesti'; # XXX text changed to 'Message'
+$PALANG['message'] = 'Viesti'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Olen lomalla <päiväys> <päiväys> välisen ajan.
 Kiireellisissä asioissa voitte ottaa yhteyttä <sähköpostiosoite>.
@@ -320,7 +320,6 @@ $PALANG['pReturn_to'] = 'Palaa osoitteeseen';
 $PALANG['pBroadcast_title'] = 'Lähetä tiedotusviesti';
 $PALANG['pBroadcast_from'] = 'Lähettäjä';
 $PALANG['pBroadcast_name'] = 'Nimesi';
-$PALANG['pBroadcast_message'] = 'Viesti';
 $PALANG['pBroadcast_send'] = 'Lähetä viesti';
 $PALANG['pBroadcast_success'] = 'Tiedostusviestisi on lähetetty.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Tiedotusviesti';

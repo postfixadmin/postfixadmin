@@ -303,7 +303,7 @@ $PALANG['pUsersMain_password'] = 'Ändern Sie Ihr Passwort.';
 $PALANG['pUsersVacation_welcome'] = 'Automatische Antwort.';
 $PALANG['pUsersVacation_welcome_text'] = 'Sie haben schon eine Automatische Antwort konfiguriert!';
 $PALANG['pUsersVacation_subject_text'] = 'Ich bin weg...';
-$PALANG['pUsersVacation_body'] = 'Nachricht';
+$PALANG['message'] = 'Nachricht';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Ich bin vom <date> bis <date> nicht zu Hause / im Büro.
 In dringenden Fällen setzen Sie sich bitte mit <contact person> in Verbindung.
@@ -329,7 +329,6 @@ $PALANG['pReturn_to'] = 'Zurück zu';
 $PALANG['pBroadcast_title'] = 'Rundmail senden';
 $PALANG['pBroadcast_from'] = 'Von';
 $PALANG['pBroadcast_name'] = 'Ihr Name';
-$PALANG['pBroadcast_message'] = 'Nachricht';
 $PALANG['pBroadcast_send'] = 'Nachricht senden';
 $PALANG['pBroadcast_success'] = 'Ihre Rundmail wurde gesendet.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Rundmail';

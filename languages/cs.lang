@@ -306,7 +306,7 @@ $PALANG['pUsersMain_password'] = 'Změnit heslo';
 $PALANG['pUsersVacation_welcome'] = 'Automatická odpověď';
 $PALANG['pUsersVacation_welcome_text'] = 'Již máte nastavenou automatickou odpověď!';
 $PALANG['pUsersVacation_subject_text'] = 'Dovolená';
-$PALANG['pUsersVacation_body'] = 'Obsah'; # XXX text changed to 'Message'
+$PALANG['message'] = 'Obsah'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jsem na dovolené od <datum> od <datum>.
 S neodkladnými zprávami prosím kontaktujte <kontaktní osoba>.
@@ -331,7 +331,6 @@ $PALANG['pReturn_to'] = 'Odpovědět komu';
 $PALANG['pBroadcast_title'] = 'Odeslat zprávu do všech schránek';
 $PALANG['pBroadcast_from'] = 'Od';
 $PALANG['pBroadcast_name'] = 'Vaše jméno';
-$PALANG['pBroadcast_message'] = 'Zpráva';
 $PALANG['pBroadcast_send'] = 'Odeslat zprávu';
 $PALANG['pBroadcast_success'] = 'Zpráva pro všechny schránky byla odeslána.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Poslat email všem';

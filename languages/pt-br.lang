@@ -305,7 +305,7 @@ $PALANG['pUsersMain_password'] = 'Altere a senha de sua conta.';
 $PALANG['pUsersVacation_welcome'] = 'Configuração de resposta automática.';
 $PALANG['pUsersVacation_welcome_text'] = 'Você já possui uma resposta automática configurada!';
 $PALANG['pUsersVacation_subject_text'] = 'Ausente';
-$PALANG['pUsersVacation_body'] = 'Corpo da Mensagem';
+$PALANG['message'] = 'Corpo da Mensagem'; # XXX check text - should be 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Estarei ausente de <data> até <data>.
 Em caso de urgência, favor contatar <pessoa de contato>.
@@ -330,7 +330,6 @@ $PALANG['pReturn_to'] = 'Retornar para';
 $PALANG['pBroadcast_title'] = 'Envio de mensagem em massa.';
 $PALANG['pBroadcast_from'] = 'De';
 $PALANG['pBroadcast_name'] = 'Seu nome';
-$PALANG['pBroadcast_message'] = 'Mensagem';
 $PALANG['pBroadcast_send'] = 'Enviar Mensagem';
 $PALANG['pBroadcast_success'] = 'Mensagem em massa enviada.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Mensagem em massa';

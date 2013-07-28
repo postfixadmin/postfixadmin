@@ -17,7 +17,7 @@
 		<td><input class="flat" size="43" type="text" name="subject"/></td>
 	</tr>
 	<tr>
-		<td class="label"><label>{$PALANG.pBroadcast_message}:</label></td>
+		<td class="label"><label>{$PALANG.message}:</label></td>
 		<td><textarea class="flat" cols="40" rows="6" name="message"></textarea></td>
 	</tr>
 	<tr>

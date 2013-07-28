@@ -303,7 +303,7 @@ $PALANG['pUsersMain_password'] = 'パスワードを変更します。';
 $PALANG['pUsersVacation_welcome'] = '自動応答';
 $PALANG['pUsersVacation_welcome_text'] = '既に自動応答を構成してあります。';
 $PALANG['pUsersVacation_subject_text'] = '不在';
-$PALANG['pUsersVacation_body'] = '本文'; # XXX text changed to 'Message'
+$PALANG['message'] = '本文'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 私は <date> から <date> まで不在です。
 緊急事項は <contact person> まで連絡してください。
@@ -328,7 +328,6 @@ $PALANG['pReturn_to'] = '戻る: ';
 $PALANG['pBroadcast_title'] = 'ブロードキャストメッセージの送信';
 $PALANG['pBroadcast_from'] = '差出人';
 $PALANG['pBroadcast_name'] = '名前';
-$PALANG['pBroadcast_message'] = 'メッセージ';
 $PALANG['pBroadcast_send'] = 'メッセージ送信';
 $PALANG['pBroadcast_success'] = 'ブロードキャストメッセージは送信されました。';
 $PALANG['pAdminMenu_broadcast_message'] = 'ブロードキャスト';

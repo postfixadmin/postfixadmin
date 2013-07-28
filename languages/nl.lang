@@ -301,7 +301,7 @@ $PALANG['pUsersMain_password'] = 'Wijzig uw huidige wachtwoord.';
 $PALANG['pUsersVacation_welcome'] = 'Automatisch beantwoorden.';
 $PALANG['pUsersVacation_welcome_text'] = 'U heeft uw automatisch beantwoorden ingesteld.';
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office';
-$PALANG['pUsersVacation_body'] = 'Bericht';
+$PALANG['message'] = 'Bericht';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Ik zal afwezig zijn van <date> tot <date>.
 Voor belangrijke punten kunt u contact opnemen met <contact person>.
@@ -324,7 +324,6 @@ $PALANG['pReturn_to'] = 'Ga terug naar';
 $PALANG['pBroadcast_title'] = 'Verzend broadcast bericht';
 $PALANG['pBroadcast_from'] = 'Van';
 $PALANG['pBroadcast_name'] = 'Uw naam';
-$PALANG['pBroadcast_message'] = 'Bericht';
 $PALANG['pBroadcast_send'] = 'Verzend bericht';
 $PALANG['pBroadcast_success'] = 'Uw algemene bericht is verzonden.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Algemeen bericht';

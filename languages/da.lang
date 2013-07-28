@@ -306,7 +306,7 @@ $PALANG['pUsersMain_password']    = 'Ændr din nuværende adgangskode.';
 $PALANG['pUsersVacation_welcome'] = 'Autosvar.';
 $PALANG['pUsersVacation_welcome_text'] = 'Du har allerede autosvar indstillet!';
 $PALANG['pUsersVacation_subject_text'] = 'Ikke tilstede';
-$PALANG['pUsersVacation_body'] = 'Meddelelse'; # XXX text changed to 'Message'
+$PALANG['message'] = 'Meddelelse'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jeg er ikke tilstede i perioden <dato> til <dato>.
 I nødstilfælde kan <kontaktperson> kontaktes.
@@ -331,7 +331,6 @@ $PALANG['pReturn_to'] = 'Tilbage til';
 $PALANG['pBroadcast_title'] = 'Rundsend meddelelse';
 $PALANG['pBroadcast_from'] = 'Afsender';
 $PALANG['pBroadcast_name'] = 'Dit navn';
-$PALANG['pBroadcast_message'] = 'Meddelelse';
 $PALANG['pBroadcast_send'] = 'Send meddelelse';
 $PALANG['pBroadcast_success'] = 'Din meddelelse er rundsendt.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Rundsend meddelse';

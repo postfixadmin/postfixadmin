@@ -297,7 +297,7 @@ $PALANG['pUsersMain_password'] = '修改当前密码.';
 $PALANG['pUsersVacation_welcome'] = '自动回复.';
 $PALANG['pUsersVacation_welcome_text'] = '你已经设置了自动回复!';
 $PALANG['pUsersVacation_subject_text'] = '我现在无法回信';
-$PALANG['pUsersVacation_body'] = '内容'; # XXX text changed to 'Message'
+$PALANG['message'] = '内容'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
     我在 <date> 到 <date> 这段时间内暂时无法回信.
 如果你有急事请与 <contact person> 联系.
@@ -320,7 +320,6 @@ $PALANG['pReturn_to'] = 'Return to'; # XXX
 $PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
 $PALANG['pBroadcast_from'] = 'From'; # XXX
 $PALANG['pBroadcast_name'] = 'Your name'; # XXX
-$PALANG['pBroadcast_message'] = 'Message'; # XXX
 $PALANG['pBroadcast_send'] = 'Send message'; # XXX
 $PALANG['pBroadcast_success'] = 'Your broadcast message was sent.'; # XXX
 $PALANG['pAdminMenu_broadcast_message'] = 'Broadcast message'; # XXX

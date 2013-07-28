@@ -307,7 +307,7 @@ $PALANG['pUsersMain_password'] = 'Change your current password.';
 $PALANG['pUsersVacation_welcome'] = 'Auto Response.';
 $PALANG['pUsersVacation_welcome_text'] = 'You already have an auto response configured!';
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office';
-$PALANG['pUsersVacation_body'] = 'Message';
+$PALANG['message'] = 'Message';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 I will be away from <date> until <date>.
 For urgent matters you can contact <contact person>.
@@ -332,7 +332,6 @@ $PALANG['pReturn_to'] = 'Return to';
 $PALANG['pBroadcast_title'] = 'Send broadcast message';
 $PALANG['pBroadcast_from'] = 'From';
 $PALANG['pBroadcast_name'] = 'Your name';
-$PALANG['pBroadcast_message'] = 'Message';
 $PALANG['pBroadcast_send'] = 'Send message';
 $PALANG['pBroadcast_success'] = 'Your broadcast message was sent.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Broadcast message';

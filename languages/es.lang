@@ -299,7 +299,7 @@ $PALANG['pUsersMain_password'] = 'Cambie su contraseña.';
 $PALANG['pUsersVacation_welcome'] = 'Respuesta automática.';
 $PALANG['pUsersVacation_welcome_text'] = '¡Ya dispone de una respuesta automática configurada!';
 $PALANG['pUsersVacation_subject_text'] = 'Fuera del trabajo';
-$PALANG['pUsersVacation_body'] = 'Mensaje'; 
+$PALANG['message'] = 'Mensaje'; 
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Estaré fuera desde <date> hasta <date>.
 Para asuntos urgentes, puede contactar conmigo en <contact person>.
@@ -322,7 +322,6 @@ $PALANG['pReturn_to'] = 'Volver a';
 $PALANG['pBroadcast_title'] = 'Enviar mensaje a todos'; # XXX
 $PALANG['pBroadcast_from'] = 'De'; 
 $PALANG['pBroadcast_name'] = 'Tu nombre'; 
-$PALANG['pBroadcast_message'] = 'Mensaje'; 
 $PALANG['pBroadcast_send'] = 'Enviar mensaje'; 
 $PALANG['pBroadcast_success'] = 'Se ha enviado el mensaje.'; 
 $PALANG['pAdminMenu_broadcast_message'] = 'Broadcast message'; # XXX

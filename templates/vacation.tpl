@@ -61,7 +61,7 @@
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="label"><label>{$PALANG.pUsersVacation_body}:</label></td>
+		<td class="label"><label>{$PALANG.message}:</label></td>
 		<td><textarea class="flat" rows="10" cols="60" name="fBody" >{$tBody}</textarea></td>
 		<td>&nbsp;</td>
 	</tr>

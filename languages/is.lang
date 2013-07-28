@@ -296,7 +296,7 @@ $PALANG['pUsersMain_password'] = 'Breyta núverandi lykilorði.';
 $PALANG['pUsersVacation_welcome'] = 'sjálfvirk skilaboð.';
 $PALANG['pUsersVacation_welcome_text'] = 'Þú hefur nú þegar skilgreint sjálfvirk skilaboð!';
 $PALANG['pUsersVacation_subject_text'] = 'Er ekki við - Out of Office';
-$PALANG['pUsersVacation_body'] = 'Meginmál'; # XXX text changed to 'Message'
+$PALANG['message'] = 'Meginmál'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Ég er ekki við frá <date> og til <date>.  I will be away from <date> until <date>.
 Ef mikið liggur við, geturðu haft samaband við <contact person>. For urgent matters you can contact <contact person>.
@@ -319,7 +319,6 @@ $PALANG['pReturn_to'] = 'Return to'; # XXX
 $PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
 $PALANG['pBroadcast_from'] = 'From'; # XXX
 $PALANG['pBroadcast_name'] = 'Your name'; # XXX
-$PALANG['pBroadcast_message'] = 'Message'; # XXX
 $PALANG['pBroadcast_send'] = 'Send message'; # XXX
 $PALANG['pBroadcast_success'] = 'Your broadcast message was sent.'; # XXX
 $PALANG['pAdminMenu_broadcast_message'] = 'Broadcast message'; # XXX

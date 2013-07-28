@@ -303,7 +303,7 @@ $PALANG['pUsersMain_password'] = 'Jelenlegi jelszó megváltoztatása.';
 $PALANG['pUsersVacation_welcome'] = 'Automatikus válasz.';
 $PALANG['pUsersVacation_welcome_text'] = 'Már van be állítva automatikus válasz !';
 $PALANG['pUsersVacation_subject_text'] = 'Sajnálom, de jelenleg nem vagyok email közelben!';
-$PALANG['pUsersVacation_body'] = 'Üzenet'; # XXX text changed to 'Message'
+$PALANG['message'] = 'Üzenet'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Üdvözlöm. Sajnálom de jelenleg nem vagyok email közelben.
 Ettõl - Eddig.
@@ -330,7 +330,6 @@ $PALANG['pReturn_to'] = 'Válasz ide';
 $PALANG['pBroadcast_title'] = 'Broadcast üzenet küldése';
 $PALANG['pBroadcast_from'] = 'Feladó';
 $PALANG['pBroadcast_name'] = 'Neved';
-$PALANG['pBroadcast_message'] = 'Üzenet';
 $PALANG['pBroadcast_send'] = 'Üzenet küldése';
 $PALANG['pBroadcast_success'] = 'Broadcast üzeneted elküldve.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Broadcast üzenet'; # XXX partly translated

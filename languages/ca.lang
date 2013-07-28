@@ -297,7 +297,7 @@ $PALANG['pUsersMain_password'] = 'Canvïi la seva contrasenya.';
 $PALANG['pUsersVacation_welcome'] = 'Resposta automàtica.';
 $PALANG['pUsersVacation_welcome_text'] = 'Ja disposa d\'una resposta automàtica configurada!';
 $PALANG['pUsersVacation_subject_text'] = 'Fora de la feina';
-$PALANG['pUsersVacation_body'] = 'Cos'; # XXX text changed to 'Message'
+$PALANG['message'] = 'Cos'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Seré fora des del <date> fins al <date>.
 Per assumptes urgents pot contactar amb mi a <contact person>.
@@ -320,7 +320,6 @@ $PALANG['pReturn_to'] = 'Return to'; # XXX
 $PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
 $PALANG['pBroadcast_from'] = 'From'; # XXX
 $PALANG['pBroadcast_name'] = 'Your name'; # XXX
-$PALANG['pBroadcast_message'] = 'Message'; # XXX
 $PALANG['pBroadcast_send'] = 'Send message'; # XXX
 $PALANG['pBroadcast_success'] = 'Your broadcast message was sent.'; # XXX
 $PALANG['pAdminMenu_broadcast_message'] = 'Broadcast message'; # XXX

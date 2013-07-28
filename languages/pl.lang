@@ -302,7 +302,7 @@ $PALANG['pUsersMain_password'] = 'Zmień aktualne hasło.';
 $PALANG['pUsersVacation_welcome'] = 'Automatyczną odpowiedź.';
 $PALANG['pUsersVacation_welcome_text'] = 'Masz już skonfigurowaną automatyczną odpowiedź!';
 $PALANG['pUsersVacation_subject_text'] = 'Poza biurem';
-$PALANG['pUsersVacation_body'] = 'Wiadomość';
+$PALANG['message'] = 'Wiadomość';
 
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Będę nieobecny od <date> do <date>.
@@ -326,7 +326,6 @@ $PALANG['pReturn_to'] = 'Powrót do';
 $PALANG['pBroadcast_title'] = 'Wyślij wiadomość do wszystkich';
 $PALANG['pBroadcast_from'] = 'Od';
 $PALANG['pBroadcast_name'] = 'Nazwa';
-$PALANG['pBroadcast_message'] = 'Wiadomość';
 $PALANG['pBroadcast_send'] = 'Wyślij wiadomość';
 $PALANG['pBroadcast_success'] = 'Wiadomość do wszystkich została wysłana.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Wiadomość do wszystkich';

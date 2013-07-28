@@ -298,7 +298,7 @@ $PALANG['pUsersMain_password'] = 'Pakeisti slaptažodį.';
 $PALANG['pUsersVacation_welcome'] = 'Automatinis (atostogų) atsakymas.';
 $PALANG['pUsersVacation_welcome_text'] = 'Auto atsakiklis jau nustatytas!';
 $PALANG['pUsersVacation_subject_text'] = 'Esu išvykęs';
-$PALANG['pUsersVacation_body'] = 'Žinutė';
+$PALANG['message'] = 'Žinutė';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Esu išvykęs nuo <data> iki <data>.
 Esant neatidėliotiniems reikalams, kreipkitės į <kontaktinis asmuo>.
@@ -326,7 +326,6 @@ $PALANG['pReturn_to'] = 'Grįžti į';
 $PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
 $PALANG['pBroadcast_from'] = 'From'; # XXX
 $PALANG['pBroadcast_name'] = 'Your name'; # XXX
-$PALANG['pBroadcast_message'] = 'Message'; # XXX
 $PALANG['pBroadcast_send'] = 'Send message'; # XXX
 $PALANG['pBroadcast_success'] = 'Your broadcast message was sent.'; # XXX
 $PALANG['pAdminMenu_broadcast_message'] = 'Broadcast message'; # XXX

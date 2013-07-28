@@ -305,7 +305,7 @@ $PALANG['pUsersMain_password'] = 'Изменить текущий пароль.'
 $PALANG['pUsersVacation_welcome'] = 'Автоответчик.';
 $PALANG['pUsersVacation_welcome_text'] = 'У вас уже есть настроенный автоответчик!';
 $PALANG['pUsersVacation_subject_text'] = 'Вне офиса';
-$PALANG['pUsersVacation_body'] = 'Сообщение';
+$PALANG['message'] = 'Сообщение';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Я буду отсутствовать с <даты> по <дату>.
 По срочным вопросам вы можете обратиться к <контактному лицу>.
@@ -330,7 +330,6 @@ $PALANG['pReturn_to'] = 'Вернуться к';
 $PALANG['pBroadcast_title'] = 'Отправка широковещательного сообщения';
 $PALANG['pBroadcast_from'] = 'От';
 $PALANG['pBroadcast_name'] = 'Ваше имя';
-$PALANG['pBroadcast_message'] = 'Сообщение';
 $PALANG['pBroadcast_send'] = 'Отправить сообщение';
 $PALANG['pBroadcast_success'] = 'Ваше широковещательное сообщение было отправлено.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Широковещательное сообщение';

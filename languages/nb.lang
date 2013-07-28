@@ -298,7 +298,7 @@ $PALANG['pUsersMain_password'] = 'Endre passordet ditt.';
 $PALANG['pUsersVacation_welcome'] = 'Automatisk svar.';
 $PALANG['pUsersVacation_welcome_text'] = 'Du har allerede et autosvar aktivert!';
 $PALANG['pUsersVacation_subject_text'] = 'Fraværsmelding';
-$PALANG['pUsersVacation_body'] = 'Meldingstekst';
+$PALANG['message'] = 'Meldingstekst'; # XXX check text - should be 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jeg er utilgjengelig fra (dato) til (dato).
 Dersom det gjelder noe viktig kan du kontakte (kontaktperson).
@@ -320,7 +320,6 @@ $PALANG['pReturn_to'] = 'Returner til';
 $PALANG['pBroadcast_title'] = 'Send masseutsendelse';
 $PALANG['pBroadcast_from'] = 'Fra';
 $PALANG['pBroadcast_name'] = 'Ditt navn';
-$PALANG['pBroadcast_message'] = 'Melding';
 $PALANG['pBroadcast_send'] = 'Send melding';
 $PALANG['pBroadcast_success'] = 'Masseutsendelsesmeldingen ble sendt.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Send masseutsendelse';
