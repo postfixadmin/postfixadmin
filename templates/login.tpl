@@ -13,7 +13,7 @@
 		<td><input class="flat" type="text" name="fUsername" /></td>
 	</tr>
 	<tr>
-		<td class="label"><label>{$PALANG.pLogin_password}:</label></td>
+		<td class="label"><label>{$PALANG.password}:</label></td>
 		<td><input class="flat" type="password" name="fPassword" /></td>
 	</tr>
 	<tr>

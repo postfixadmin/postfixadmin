@@ -22,7 +22,7 @@ class MailboxHandler extends PFAHandler {
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
             'maildir'       => pacol(   $this->new, 0,      1,      'text', ''                              , ''                                , '' ),
-            'password'      => pacol(   1,          1,      0,      'pass', 'pCreate_mailbox_password'      , 'pCreate_mailbox_password_text'   , '' ),
+            'password'      => pacol(   1,          1,      0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
             'password2'     => pacol(   1,          1,      0,      'pass', 'pCreate_mailbox_password2'    , ''                                 , '', 
                 /*options*/ '',
                 /*not_in_db*/ 0,
