@@ -36,9 +36,9 @@ $PALANG['pLogin_login_users'] = 'Vstup do uživatelské sekce.';
 
 $PALANG['pMenu_main'] = 'Hlavní';
 $PALANG['pMenu_overview'] = 'Přehled';
-$PALANG['add-alias'] = 'Přidat přesměrování'; # XXX check text - should be 'Add Alias'
-$PALANG['add-alias-domain'] = 'Add Alias Domain'; # XXX
-$PALANG['add-mailbox'] = 'Přidat schránku';
+$PALANG['add_alias'] = 'Přidat přesměrování'; # XXX check text - should be 'Add Alias'
+$PALANG['add_alias_domain'] = 'Add Alias Domain'; # XXX
+$PALANG['add_mailbox'] = 'Přidat schránku';
 $PALANG['pMenu_fetchmail'] = 'Stahování pošty';
 $PALANG['pMenu_sendmail'] = 'Poslat email';
 $PALANG['pMenu_password'] = 'Změnit heslo';
@@ -99,7 +99,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Adresa neni platná!';
-$PALANG['email-address-already-exists'] = 'Taková emailová adresa již existuje!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
+$PALANG['email_address_already_exists'] = 'Taková emailová adresa již existuje!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Dosáhli jste limitu, nemůžete vytvářet další aliasy!';
 $PALANG['pCreate_alias_goto'] = 'Cíl';
 $PALANG['pCreate_alias_goto_text'] = 'Kam má pošta chodit.';
@@ -149,7 +149,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Nezadal(a) jste současné h
 $PALANG['pPassword_password'] = 'Nové heslo';
 $PALANG['pPassword_password2'] = 'Nové heslo (znovu)';
 $PALANG['pPassword_password_text_error'] = 'Zadaná hesla jsou rozdílná nebo prázdná!'; # XXX check/beautify - was split in two lines before
-$PALANG['change-password'] = 'Změnit heslo'; # XXX check text - should be 'Change Password'
+$PALANG['change_password'] = 'Změnit heslo'; # XXX check text - should be 'Change Password'
 $PALANG['pPassword_result_error'] = 'Nepodařilo se změnit heslo!';
 $PALANG['pPassword_result_success'] = 'Heslo bylo změněno!';
 
@@ -260,7 +260,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Administrátor byl přidán!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Upravit doménového administrátora';
 $PALANG['pAdminEdit_admin_username'] = 'Uživatelské jméno';
-$PALANG['password-again'] = 'Heslo (znovu)';
+$PALANG['password_again'] = 'Heslo (znovu)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Superuživatel';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Upravit Administrátora'; # XXX text no longer used

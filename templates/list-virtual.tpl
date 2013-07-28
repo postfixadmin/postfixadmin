@@ -45,7 +45,7 @@
 	</table>
 	{$nav_bar_alias.bottom}
 	{if $tCanAddAlias}
-		<br /><a href="{#url_create_alias#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.add-alias}</a><br />
+		<br /><a href="{#url_create_alias#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.add_alias}</a><br />
 	{/if}
 {/if}
 {if $tab=='all'}<br />{/if}
@@ -64,7 +64,7 @@
 	{/if}
 	{$nav_bar_mailbox.bottom}
 	{if $tCanAddMailbox}
-		<br /><a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.add-mailbox}</a><br />
+		<br /><a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.add_mailbox}</a><br />
 	{/if}
 {/if}
 {if $CONF.show_status===YES && $CONF.show_status_key===YES}

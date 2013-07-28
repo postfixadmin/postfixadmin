@@ -66,7 +66,7 @@ class AliasHandler extends PFAHandler {
     }
 
     protected function initMsg() {
-        $this->msg['error_already_exists'] = 'email-address-already-exists';
+        $this->msg['error_already_exists'] = 'email_address_already_exists';
         $this->msg['error_does_not_exist'] = 'pCreate_alias_address_text_error1'; # TODO: better error message
         if ($this->new) {
             $this->msg['logname'] = 'create_alias';
@@ -91,7 +91,7 @@ class AliasHandler extends PFAHandler {
             # $PALANG labels
             'formtitle_create'  => 'pMain_create_alias',
             'formtitle_edit'    => 'pEdit_alias_welcome',
-            'create_button'     => 'add-alias',
+            'create_button'     => 'add_alias',
 
             # various settings
             'required_role' => 'admin',

@@ -34,9 +34,9 @@ $PALANG['pLogin_login_users'] = 'Вход для обычных пользова
 
 $PALANG['pMenu_main'] = 'Главная';
 $PALANG['pMenu_overview'] = 'Обзор';
-$PALANG['add-alias'] = 'Создать алиас';
-$PALANG['add-alias-domain'] = 'Создать домен-алиас';
-$PALANG['add-mailbox'] = 'Создать ящик';
+$PALANG['add_alias'] = 'Создать алиас';
+$PALANG['add_alias_domain'] = 'Создать домен-алиас';
+$PALANG['add_mailbox'] = 'Создать ящик';
 $PALANG['pMenu_fetchmail'] = 'Сбор почты';
 $PALANG['pMenu_sendmail'] = 'Послать письмо';
 $PALANG['pMenu_password'] = 'Пароль';
@@ -98,7 +98,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Все домены уже задей�
 $PALANG['pCreate_alias_domain_success'] = 'Домен-алиас добавлен в таблицу доменов-алиасов!';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Неверное имя алиаса!';
-$PALANG['email-address-already-exists'] = 'Этот почтовый адрес уже существует, пожалуйста, выберите другой.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
+$PALANG['email_address_already_exists'] = 'Этот почтовый адрес уже существует, пожалуйста, выберите другой.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Вы достигли лимита по созданным алиасам!';
 $PALANG['pCreate_alias_goto'] = 'Кому';
 $PALANG['pCreate_alias_goto_text'] = 'Куда должна доставляться почта.';
@@ -148,7 +148,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Вы не указали в�
 $PALANG['pPassword_password'] = 'Новый пароль';
 $PALANG['pPassword_password2'] = 'Новый пароль (еще раз)';
 $PALANG['pPassword_password_text_error'] = 'Введенные вами пароли не совпадают либо пусты!';
-$PALANG['change-password'] = 'Изменить пароль';
+$PALANG['change_password'] = 'Изменить пароль';
 $PALANG['pPassword_result_error'] = 'Невозможно изменить ваш пароль!';
 $PALANG['pPassword_result_success'] = 'Ваш пароль был изменен!';
 
@@ -259,7 +259,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Администратор бы�
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Редактирование администратора домена';
 $PALANG['pAdminEdit_admin_username'] = 'Администратор';
-$PALANG['password-again'] = 'Пароль (еще раз)';
+$PALANG['password_again'] = 'Пароль (еще раз)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Супер админ';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Редактировать администратора'; # XXX text no longer used

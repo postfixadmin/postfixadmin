@@ -32,9 +32,9 @@ $PALANG['pLogin_login_users'] = 'A felhasználók kattintsanak ide a felhasznál
 
 $PALANG['pMenu_main'] = 'Főmenü';
 $PALANG['pMenu_overview'] = 'Áttekintés';
-$PALANG['add-alias'] = 'Alias felvétele';
-$PALANG['add-alias-domain'] = 'Add Alias Domain'; # XXX
-$PALANG['add-mailbox'] = 'Felhasználó felvétele'; # XXX check text - should be 'Add Mailbox'
+$PALANG['add_alias'] = 'Alias felvétele';
+$PALANG['add_alias_domain'] = 'Add Alias Domain'; # XXX
+$PALANG['add_mailbox'] = 'Felhasználó felvétele'; # XXX check text - should be 'Add Mailbox'
 $PALANG['pMenu_fetchmail'] = 'Email lehozása';
 $PALANG['pMenu_sendmail'] = 'Email küldése';
 $PALANG['pMenu_password'] = 'Jelszó';
@@ -96,7 +96,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Az ALIAS érvénytelen!';
-$PALANG['email-address-already-exists'] = 'Ez az email cím már létezik, kérlek válassz másikat!';
+$PALANG['email_address_already_exists'] = 'Ez az email cím már létezik, kérlek válassz másikat!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Elérted a maximális alias limitet!';
 $PALANG['pCreate_alias_goto'] = 'Hova';
 $PALANG['pCreate_alias_goto_text'] = 'Ahova a levélnek mennie kell.';
@@ -146,7 +146,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Nem adtad meg a régi jelsza
 $PALANG['pPassword_password'] = 'Új jelszó';
 $PALANG['pPassword_password2'] = 'Új jelszó (mégegyszer)';
 $PALANG['pPassword_password_text_error'] = 'A beírt jelszavak nem egyeznek! Vagy üresek!'; # XXX check/beautify - was split in two lines before
-$PALANG['change-password'] = 'Jelszó megváltoztatása';
+$PALANG['change_password'] = 'Jelszó megváltoztatása';
 $PALANG['pPassword_result_error'] = 'Nemsikerült megváltoztatni a jelszavad!';
 $PALANG['pPassword_result_success'] = 'A jelszavad megváltozott!';
 
@@ -257,7 +257,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Az Admin sikeresen bekerült az 
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain admin szerkesztése';
 $PALANG['pAdminEdit_admin_username'] = 'Admin';
-$PALANG['password-again'] = 'Jelszó (mégegyszer)';
+$PALANG['password_again'] = 'Jelszó (mégegyszer)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Admin szerkesztése'; # XXX text no longer used

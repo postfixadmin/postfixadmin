@@ -33,9 +33,9 @@ $PALANG['pLogin_login_users'] = 'eMail-Benutzer bitte hier einloggen.';
 
 $PALANG['pMenu_main'] = 'Startseite';
 $PALANG['pMenu_overview'] = 'Überblick';
-$PALANG['add-alias'] = 'Alias hinzufügen';
-$PALANG['add-alias-domain'] = 'Alias-Domain hinzufügen';
-$PALANG['add-mailbox'] = 'Mailbox hinzufügen';
+$PALANG['add_alias'] = 'Alias hinzufügen';
+$PALANG['add_alias_domain'] = 'Alias-Domain hinzufügen';
+$PALANG['add_mailbox'] = 'Mailbox hinzufügen';
 $PALANG['pMenu_fetchmail'] = 'E-Mail Abruf';
 $PALANG['pMenu_sendmail'] = 'Email versenden';
 $PALANG['pMenu_password'] = 'Passwort ändern';
@@ -96,7 +96,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Alle Domains sind bereits Alias-Domain
 $PALANG['pCreate_alias_domain_success'] = 'Die Alias-Domain wurde in der Datenbank eingetragen!';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Dieses ALIAS ist nicht erlaubt!';
-$PALANG['email-address-already-exists'] = 'Diese eMail-Adresse existiert bereits. Bitte wählen Sie eine andere!';
+$PALANG['email_address_already_exists'] = 'Diese eMail-Adresse existiert bereits. Bitte wählen Sie eine andere!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Sie haben Ihr Limit für Aliase auf dieser Domain erreicht!';
 $PALANG['pCreate_alias_goto'] = 'An';
 $PALANG['pCreate_alias_goto_text'] = 'Wohin soll die eMail weitergeleitet werden?';
@@ -146,7 +146,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Sie haben Ihr derzeitiges Pa
 $PALANG['pPassword_password'] = 'Neues Passwort';
 $PALANG['pPassword_password2'] = 'Neues Passwort (nochmal)';
 $PALANG['pPassword_password_text_error'] = 'Die beiden angegebenen Passwörter sind nicht identisch oder leer!';
-$PALANG['change-password'] = 'Passwort ändern';
+$PALANG['change_password'] = 'Passwort ändern';
 $PALANG['pPassword_result_error'] = 'Unmöglich das Passwort zu ändern!';
 $PALANG['pPassword_result_success'] = 'Ihr Passwort wurde geändert!';
 
@@ -257,7 +257,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Admin angelegt!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain Admin editieren';
 $PALANG['pAdminEdit_admin_username'] = 'Admin';
-$PALANG['password-again'] = 'Passwort (nochmal)';
+$PALANG['password_again'] = 'Passwort (nochmal)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super-Admin';
 $PALANG['super_admin_desc'] = 'Super-Admins haben Zugriff auf alle Domains und können Domains und Admins verwalten.';
 $PALANG['pAdminEdit_admin_button'] = 'Admin editieren'; # obsolete

@@ -43,7 +43,7 @@ class AdminHandler extends PFAHandler {
             #                           editing?    form    list
             'username'        => pacol( $this->new, 1,      1,      'text', 'pAdminEdit_admin_username'    , 'pAdminCreate_admin_username_text' ),
             'password'        => pacol( 1,          1,      0,      'pass', 'password'                     , ''                                 ),
-            'password2'       => pacol( 1,          1,      0,      'pass', 'password-again'               , ''                                 , '', '',
+            'password2'       => pacol( 1,          1,      0,      'pass', 'password_again'               , ''                                 , '', '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'

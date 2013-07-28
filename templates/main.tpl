@@ -6,11 +6,11 @@
 		<td>{$PALANG.pMain_overview}</td>
 	</tr>
 	<tr>
-		<td nowrap="nowrap"><a target="_top" href="{#url_create_alias#}">{$PALANG.add-alias}</a></td>
+		<td nowrap="nowrap"><a target="_top" href="{#url_create_alias#}">{$PALANG.add_alias}</a></td>
 		<td>{$PALANG.pMain_create_alias}</td>
 	</tr>
 	<tr>
-		<td nowrap="nowrap"><a target="_top" href="{#url_create_mailbox#}">{$PALANG.add-mailbox}</a></td>
+		<td nowrap="nowrap"><a target="_top" href="{#url_create_mailbox#}">{$PALANG.add_mailbox}</a></td>
 		<td>{$PALANG.pMain_create_mailbox}</td>
 	</tr>
 {if $CONF.sendmail==='YES'}

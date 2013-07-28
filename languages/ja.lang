@@ -33,9 +33,9 @@ $PALANG['pLogin_login_users'] = '一般ユーザのログインはここをク�
 
 $PALANG['pMenu_main'] = 'メイン';
 $PALANG['pMenu_overview'] = '概要';
-$PALANG['add-alias'] = '転送先の追加'; # XXX check text - should be 'Add Alias'
-$PALANG['add-alias-domain'] = 'エイリアスドメインの追加';
-$PALANG['add-mailbox'] = 'アドレスの追加'; # XXX check text - should be 'Add Mailbox'
+$PALANG['add_alias'] = '転送先の追加'; # XXX check text - should be 'Add Alias'
+$PALANG['add_alias_domain'] = 'エイリアスドメインの追加';
+$PALANG['add_mailbox'] = 'アドレスの追加'; # XXX check text - should be 'Add Mailbox'
 $PALANG['pMenu_fetchmail'] = 'メール取得';
 $PALANG['pMenu_sendmail'] = 'メール送信';
 $PALANG['pMenu_password'] = 'パスワード';
@@ -96,7 +96,7 @@ $PALANG['pCreate_alias_domain_error4'] = '全てのドメインがエイリア�
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'メールアドレスが無効です。';
-$PALANG['email-address-already-exists'] = 'このメールアドレスは既に存在するので、 別のアドレスを選択してください。'; # XXX check/beautify - was split in two lines before
+$PALANG['email_address_already_exists'] = 'このメールアドレスは既に存在するので、 別のアドレスを選択してください。'; # XXX check/beautify - was split in two lines before
 $PALANG['pCreate_alias_address_text_error3'] = '転送アドレスの制限数に達しました。';
 $PALANG['pCreate_alias_goto'] = '転送先アドレス';
 $PALANG['pCreate_alias_goto_text'] = 'メールを転送するアドレス';
@@ -146,7 +146,7 @@ $PALANG['pPassword_password_current_text_error'] = '現在のパスワードが�
 $PALANG['pPassword_password'] = '新規パスワード';
 $PALANG['pPassword_password2'] = '新規パスワード (確認)';
 $PALANG['pPassword_password_text_error'] = 'パスワードが一致しません。 または空です。'; # XXX check/beautify - was split in two lines before
-$PALANG['change-password'] = 'パスワード変更';
+$PALANG['change_password'] = 'パスワード変更';
 $PALANG['pPassword_result_error'] = 'パスワードを変更できません！';
 $PALANG['pPassword_result_success'] = 'パスワードを変更しました。';
 
@@ -257,7 +257,7 @@ $PALANG['pAdminCreate_admin_result_success'] = '管理者を追加しました�
 
 $PALANG['pAdminEdit_admin_welcome'] = 'ドメイン管理者の編集';
 $PALANG['pAdminEdit_admin_username'] = '管理者'; # XXX check / compare with pAdminCreate_admin_username - should be "admin"
-$PALANG['password-again'] = 'パスワード (確認)';
+$PALANG['password_again'] = 'パスワード (確認)';
 $PALANG['pAdminEdit_admin_super_admin'] = '特権管理者';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = '管理者修正'; # XXX text no longer used

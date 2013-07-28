@@ -35,9 +35,9 @@ $PALANG['pLogin_login_users'] = 'Log ind på brugersektionen her.';
 
 $PALANG['pMenu_main'] = 'Start';
 $PALANG['pMenu_overview'] = 'Oversigt';
-$PALANG['add-alias'] = 'Tilføj alias';
-$PALANG['add-alias-domain'] = 'Tilføje alias domæne'; # XXX check text - should be 'Add Alias Domain'
-$PALANG['add-mailbox'] = 'Tilføj postboks';
+$PALANG['add_alias'] = 'Tilføj alias';
+$PALANG['add_alias_domain'] = 'Tilføje alias domæne'; # XXX check text - should be 'Add Alias Domain'
+$PALANG['add_mailbox'] = 'Tilføj postboks';
 $PALANG['pMenu_fetchmail'] = 'Hent email';
 $PALANG['pMenu_sendmail'] = 'Send email';
 $PALANG['pMenu_password'] = 'Adgangskode';
@@ -99,7 +99,7 @@ $PALANG['pCreate_alias_domain_error4']      = 'Alle domænerne har allerede alia
 $PALANG['pCreate_alias_domain_success']     = 'Domæne-alias blev tilføjet alias-tabellen.';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Aliaset er ikke gyldigt.';
-$PALANG['email-address-already-exists'] = 'Emailadressen eksisterer allerede, vælg venligst en anden.';
+$PALANG['email_address_already_exists'] = 'Emailadressen eksisterer allerede, vælg venligst en anden.';
 $PALANG['pCreate_alias_address_text_error3'] = 'Du har nået grænsen for antallet af aliases til domænet.';
 $PALANG['pCreate_alias_goto'] = 'Modtager';
 $PALANG['pCreate_alias_goto_text'] = 'Hvor emailen skal videresendes til.';
@@ -149,7 +149,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Du glemte at skrive din nuv�
 $PALANG['pPassword_password'] = 'Ny adgangskode';
 $PALANG['pPassword_password2'] = 'Ny adgangskode (igen)';
 $PALANG['pPassword_password_text_error'] = 'Adgangskoderne er ikke ens! Eller er tomme!'; # XXX check/beautify - was split in two lines before
-$PALANG['change-password'] = 'Ændr adgangskode';
+$PALANG['change_password'] = 'Ændr adgangskode';
 $PALANG['pPassword_result_error'] = 'Kan ikke ændre adgangskoden!';
 $PALANG['pPassword_result_success'] = 'Din adgangskode er ændret!';
 
@@ -260,7 +260,7 @@ $PALANG['pAdminCreate_admin_result_success']       = 'Administratoren er tilføj
 
 $PALANG['pAdminEdit_admin_welcome']             = 'Redigér en domæneadministrator';
 $PALANG['pAdminEdit_admin_username'] = 'Administrator';
-$PALANG['password-again'] = 'Adgangskode (igen)';
+$PALANG['password_again'] = 'Adgangskode (igen)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Superadministrator';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Redigér administrator'; # XXX text no longer used

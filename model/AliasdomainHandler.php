@@ -81,7 +81,7 @@ class AliasdomainHandler extends PFAHandler {
             # $PALANG labels
             'formtitle_create' => 'pCreate_alias_domain_welcome',
             'formtitle_edit' => 'pCreate_alias_domain_welcome',
-            'create_button' => 'add-alias-domain',
+            'create_button' => 'add_alias_domain',
 
             # various settings
             'required_role' => 'admin',

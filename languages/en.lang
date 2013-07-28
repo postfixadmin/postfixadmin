@@ -33,9 +33,9 @@ $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.'
 
 $PALANG['pMenu_main'] = 'Main';
 $PALANG['pMenu_overview'] = 'Overview';
-$PALANG['add-alias'] = 'Add Alias';
-$PALANG['add-alias-domain'] = 'Add Alias Domain';
-$PALANG['add-mailbox'] = 'Add Mailbox';
+$PALANG['add_alias'] = 'Add Alias';
+$PALANG['add_alias_domain'] = 'Add Alias Domain';
+$PALANG['add_mailbox'] = 'Add Mailbox';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email';
 $PALANG['pMenu_sendmail'] = 'Send Email';
 $PALANG['pMenu_password'] = 'Password';
@@ -97,7 +97,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.';
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'The ALIAS is not valid!';
-$PALANG['email-address-already-exists'] = 'This email address already exists, please choose a different one!';
+$PALANG['email_address_already_exists'] = 'This email address already exists, please choose a different one!';
 $PALANG['pCreate_alias_address_text_error3'] = 'You have reached your limit to create aliases!';
 $PALANG['pCreate_alias_goto'] = 'To';
 $PALANG['pCreate_alias_goto_text'] = 'Where the mail needs to be sent to.';
@@ -147,7 +147,7 @@ $PALANG['pPassword_password_current_text_error'] = 'You didn\'t supply your curr
 $PALANG['pPassword_password'] = 'New Password';
 $PALANG['pPassword_password2'] = 'New Password (again)';
 $PALANG['pPassword_password_text_error'] = 'The passwords that you supplied don\'t match or are empty!';
-$PALANG['change-password'] = 'Change Password';
+$PALANG['change_password'] = 'Change Password';
 $PALANG['pPassword_result_error'] = 'Unable to change your password!';
 $PALANG['pPassword_result_success'] = 'Your password has been changed!';
 
@@ -261,7 +261,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Admin has been added!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Edit a domain admin';
 $PALANG['pAdminEdit_admin_username'] = 'Admin';
-$PALANG['password-again'] = 'Password (again)';
+$PALANG['password_again'] = 'Password (again)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.';
 $PALANG['pAdminEdit_admin_button'] = 'Edit Admin'; # text no longer used

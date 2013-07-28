@@ -32,9 +32,9 @@ $PALANG['pLogin_login_users'] = 'Gebruikers klik hier om in te loggen.';
 
 $PALANG['pMenu_main'] = 'Start';
 $PALANG['pMenu_overview'] = 'Overzicht';
-$PALANG['add-alias'] = 'Alias toevoegen'; # XXX check text - should be 'Add Alias'
-$PALANG['add-alias-domain'] = 'Domein alias toevoegen'; # XXX check text - should be 'Add Alias Domain'
-$PALANG['add-mailbox'] = 'Mailbox toevoegen';
+$PALANG['add_alias'] = 'Alias toevoegen'; # XXX check text - should be 'Add Alias'
+$PALANG['add_alias_domain'] = 'Domein alias toevoegen'; # XXX check text - should be 'Add Alias Domain'
+$PALANG['add_mailbox'] = 'Mailbox toevoegen';
 $PALANG['pMenu_fetchmail'] = 'Externe email ophalen';
 $PALANG['pMenu_sendmail'] = 'Verstuur E-mail';
 $PALANG['pMenu_password'] = 'Wachtwoord';
@@ -95,7 +95,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Alle domeinen hebben al een alias!';
 $PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de alias domein tabel!';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'De Alias is niet geldig!';
-$PALANG['email-address-already-exists'] = 'Dit e-mail aders bestaat al, kies aub een andere.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
+$PALANG['email_address_already_exists'] = 'Dit e-mail aders bestaat al, kies aub een andere.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'U bezit het maximum aantal aliassen.';
 $PALANG['pCreate_alias_goto'] = 'Naar';
 $PALANG['pCreate_alias_goto_text'] = 'Waar de e-mails heen gestuurd worden.';
@@ -145,7 +145,7 @@ $PALANG['pPassword_password_current_text_error'] = 'U heeft uw huidige wachtwoor
 $PALANG['pPassword_password'] = 'Nieuw wachtwoord';
 $PALANG['pPassword_password2'] = 'Nieuw wachtwoord (nogmaals)';
 $PALANG['pPassword_password_text_error'] = 'De wachtwoorden die u opgaf komen niet overeen of zijn leeg.';
-$PALANG['change-password'] = 'Wijzig wachtwoord';
+$PALANG['change_password'] = 'Wijzig wachtwoord';
 $PALANG['pPassword_result_error'] = 'Mislukt om uw wachtwoord te veranderen.';
 $PALANG['pPassword_result_success'] = 'Uw wachtwoord is veranderd.';
 
@@ -255,7 +255,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Beheerder is toegevoegd.';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Bewerk een domein beheerder';
 $PALANG['pAdminEdit_admin_username'] = 'Beheerder';
-$PALANG['password-again'] = 'Wachtwoord (nogmaals)';
+$PALANG['password_again'] = 'Wachtwoord (nogmaals)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administrator';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Bewerk beheerder'; # XXX text no longer used

@@ -23,7 +23,7 @@ class MailboxHandler extends PFAHandler {
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
             'maildir'       => pacol(   $this->new, 0,      1,      'text', ''                              , ''                                , '' ),
             'password'      => pacol(   1,          1,      0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
-            'password2'     => pacol(   1,          1,      0,      'pass', 'password-again'                , ''                                 , '', 
+            'password2'     => pacol(   1,          1,      0,      'pass', 'password_again'                , ''                                 , '', 
                 /*options*/ '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
@@ -83,7 +83,7 @@ class MailboxHandler extends PFAHandler {
     }
 
     protected function initMsg() {
-        $this->msg['error_already_exists'] = 'email-address-already-exists';
+        $this->msg['error_already_exists'] = 'email_address_already_exists';
         $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1';
         if ($this->new) {
             $this->msg['logname'] = 'create_mailbox';
@@ -107,7 +107,7 @@ class MailboxHandler extends PFAHandler {
             # $PALANG labels
             'formtitle_create' => 'pCreate_mailbox_welcome',
             'formtitle_edit' => 'pEdit_mailbox_welcome',
-            'create_button' => 'add-mailbox',
+            'create_button' => 'add_mailbox',
 
             # various settings
             'required_role' => 'admin',
@@ -140,7 +140,7 @@ class MailboxHandler extends PFAHandler {
         # check if an alias with this name already exists - if yes, don't allow to create the mailbox
         $handler = new AliasHandler(1);
         if (!$handler->init($this->id)) {
-            $this->errormsg[] = Lang::read('email-address-already-exists');
+            $this->errormsg[] = Lang::read('email_address_already_exists');
             return false;
         }
 
