@@ -13,7 +13,7 @@
 		<td><input class="flat" size="43" type="text" name="name"/></td>
 	</tr>
 	<tr>
-		<td class="label"><label>{$PALANG.pBroadcast_subject}:</label></td>
+		<td class="label"><label>{$PALANG.subject}:</label></td>
 		<td><input class="flat" size="43" type="text" name="subject"/></td>
 	</tr>
 	<tr>

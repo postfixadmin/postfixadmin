@@ -15,7 +15,7 @@
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="label"><label>{$PALANG.pSendmail_subject}:</label></td>
+		<td class="label"><label>{$PALANG.subject}:</label></td>
 		<td><input class="flat" type="text" name="fSubject" value="{$PALANG.pSendmail_subject_text}" /></td>
 		<td>&nbsp;</td>
 	</tr>

@@ -56,7 +56,7 @@
     </tr>
 
 	<tr>
-		<td class="label"><label>{$PALANG.pUsersVacation_subject}:</label></td>
+		<td class="label"><label>{$PALANG.subject}:</label></td>
 		<td><textarea class="flat" rows="3" cols="60" name="fSubject" >{$tSubject}</textarea></td>
 		<td>&nbsp;</td>
 	</tr>

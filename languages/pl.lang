@@ -200,7 +200,7 @@ $PALANG['pSendmail_welcome'] = 'Wyślij wiadomość.';
 $PALANG['pSendmail_admin'] = 'Od';
 $PALANG['pSendmail_to'] = 'Do';
 $PALANG['pSendmail_to_text_error'] = 'Podany adres jest niepoprawny, bądź pole "Do" jest puste!';
-$PALANG['pSendmail_subject'] = 'Temat';
+$PALANG['subject'] = 'Temat';
 $PALANG['pSendmail_subject_text'] = 'Witamy';
 $PALANG['pSendmail_body'] = 'Tekst';
 $PALANG['pSendmail_button'] = 'Wyślij wiadomość';
@@ -301,7 +301,6 @@ $PALANG['pUsersMain_password'] = 'Zmień aktualne hasło.';
 
 $PALANG['pUsersVacation_welcome'] = 'Automatyczną odpowiedź.';
 $PALANG['pUsersVacation_welcome_text'] = 'Masz już skonfigurowaną automatyczną odpowiedź!';
-$PALANG['pUsersVacation_subject'] = 'Temat';
 $PALANG['pUsersVacation_subject_text'] = 'Poza biurem';
 $PALANG['pUsersVacation_body'] = 'Wiadomość';
 
@@ -327,7 +326,6 @@ $PALANG['pReturn_to'] = 'Powrót do';
 $PALANG['pBroadcast_title'] = 'Wyślij wiadomość do wszystkich';
 $PALANG['pBroadcast_from'] = 'Od';
 $PALANG['pBroadcast_name'] = 'Nazwa';
-$PALANG['pBroadcast_subject'] = 'Temat';
 $PALANG['pBroadcast_message'] = 'Wiadomość';
 $PALANG['pBroadcast_send'] = 'Wyślij wiadomość';
 $PALANG['pBroadcast_success'] = 'Wiadomość do wszystkich została wysłana.';
