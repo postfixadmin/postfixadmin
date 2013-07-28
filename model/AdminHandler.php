@@ -75,7 +75,7 @@ class AdminHandler extends PFAHandler {
                                 " WHERE domain != 'ALL' GROUP BY username " .
                              ' ) AS __domain on username = __domain_username'),
 
-            'active'          => pacol( 1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 , 1     ),   # obsoletes pAdminEdit_admin_active
+            'active'          => pacol( 1,          1,      1,      'bool', 'active'                       , ''                                 , 1     ),
             'created'         => pacol( 0,          0,      1,      'ts',   'created'                      , ''                                 ),
             'modified'        => pacol( 0,          0,      1,      'ts',   'last_modified'                , ''                                 ),
         );

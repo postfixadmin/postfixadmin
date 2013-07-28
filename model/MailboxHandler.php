@@ -32,7 +32,7 @@ class MailboxHandler extends PFAHandler {
             'name'          => pacol(   1,          1,      1,      'text', 'pEdit_mailbox_name'            , 'pCreate_mailbox_name_text'       , '' ),
             'quota'         => pacol(   1,          1,      1,      'int' , 'pEdit_mailbox_quota'           , 'pEdit_mailbox_quota_text'        , '' ), # in MB
             # read_from_db_postprocess() also sets 'quotabytes' for use in init()
-            'active'        => pacol(   1,          1,      1,      'bool', 'pCreate_mailbox_active'        , ''                                 , 1 ),
+            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
             'welcome_mail'  => pacol(   $this->new, $this->new, 0,  'bool', 'pCreate_mailbox_mail'          , ''                                 , 1, 
                 /*options*/ '',
                 /*not_in_db*/ 1             ),

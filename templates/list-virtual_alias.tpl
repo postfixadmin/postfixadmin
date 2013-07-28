@@ -5,7 +5,7 @@
 		<td>{$PALANG.pOverview_alias_address}</td>
 		<td>{$PALANG.pOverview_alias_goto}</td>
 		<td>{$PALANG.last_modified}</td>
-		<td>{$PALANG.pOverview_alias_active}</td>
+		<td>{$PALANG.active}</td>
 		<td colspan="2">&nbsp;</td>
 	</tr>
 	{foreach from=$tAlias item=item key=i}

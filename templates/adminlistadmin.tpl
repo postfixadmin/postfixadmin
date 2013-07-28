@@ -4,7 +4,7 @@
 			<td>{$PALANG.pAdminList_admin_username}</td>
 			<td>{$PALANG.pAdminList_admin_count}</td>
 			<td>{$PALANG.last_modified}</td>
-			<td>{$PALANG.pAdminList_admin_active}</td>
+			<td>{$PALANG.active}</td>
 			<td colspan="2">&nbsp;</td>
 		</tr>
 {foreach from=$admin_properties item=admin}

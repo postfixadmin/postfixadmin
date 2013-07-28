@@ -19,7 +19,7 @@
 			{if $CONF.transport==YES}<td>{$PALANG.pAdminList_domain_transport}</td>{/if}
 			<td>{$PALANG.pAdminList_domain_backupmx}</td>
 			<td>{$PALANG.last_modified}</td>
-			<td>{$PALANG.pAdminList_domain_active}</td>
+			<td>{$PALANG.active}</td>
 			<td colspan="2">&nbsp;</td>
 		</tr>
 {foreach from=$domain_properties item=domain}

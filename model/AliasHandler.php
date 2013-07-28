@@ -51,7 +51,7 @@ class AliasHandler extends PFAHandler {
             'on_vacation'   => pacol(   1,          0,      1,      'bool', 'pUsersMenu_vacation'           , ''                                , 0 ,
                 /*options*/ '', 
                 /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value - TODO: read active flag from vacation table instead?
-            'active'        => pacol(   1,          1,      1,      'bool', 'pAdminEdit_domain_active'      , ''                                , 1     ),
+            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                , 1     ),
             'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                ),
             'editable'      => pacol(   0,          0,      1,      'int', ''                             , ''                                , 0 ,

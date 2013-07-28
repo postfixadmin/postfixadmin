@@ -62,7 +62,7 @@ class DomainHandler extends PFAHandler {
            'transport'       => pacol(  $transp,    $transp,$transp,'enum', 'pAdminEdit_domain_transport'  , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
                /*options*/ Config::read('transport_options')    ),
            'backupmx'        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 ),
-           'active'          => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_active'     , ''                                 , 1                         ),
+           'active'          => pacol(  1,          1,      1,      'bool', 'active'                       , ''                                 , 1                         ),
            'default_aliases' => pacol(  $this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,'', /*not in db*/ 1     ),
            'created'         => pacol(  0,          0,      1,      'ts',   'created'                      , ''                                 ),
            'modified'        => pacol(  0,          0,      1,      'ts',   'last_modified'                , ''                                 ),

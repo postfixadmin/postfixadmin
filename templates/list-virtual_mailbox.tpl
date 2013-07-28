@@ -7,7 +7,7 @@
 		<td>{$PALANG.pOverview_mailbox_name}</td>
 		{if $CONF.quota===YES}<td>{$PALANG.pOverview_mailbox_quota}</td>{/if}
 		<td>{$PALANG.last_modified}</td>
-		<td>{$PALANG.pOverview_mailbox_active}</td>
+		<td>{$PALANG.active}</td>
 		{assign var="colspan" value="`$colspan-6`"}
 		<td colspan="{$colspan}">&nbsp;</td>
 	</tr>

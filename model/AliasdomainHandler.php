@@ -21,7 +21,7 @@ class AliasdomainHandler extends PFAHandler {
                 /*options*/ array() /* filled below */  ),
             'target_domain' => pacol(   1,          1,      1,      'enum', 'pCreate_alias_domain_target'   , 'pCreate_alias_domain_target_text', '',
                 /*options*/ array() /* filled below */  ),
-            'active'        => pacol(   1,          1,      1,      'bool', 'pAdminEdit_domain_active'      , ''                                 , 1                         ),
+            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                 , 1                         ),
             'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                 ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
         );
