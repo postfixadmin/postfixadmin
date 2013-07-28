@@ -26,8 +26,8 @@ class AliasHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / ...
             #                           editing?    form    list
-            'address'       => pacol(   $this->new, 1,      1,      'mail', 'pEdit_alias_address'           , 'pCreate_alias_catchall_text'     ),
-            'localpart'     => pacol(   $this->new, 0,      0,      'text', 'pEdit_alias_address'           , 'pCreate_alias_catchall_text'     , '', 
+            'address'       => pacol(   $this->new, 1,      1,      'mail', 'alias'                         , 'pCreate_alias_catchall_text'     ),
+            'localpart'     => pacol(   $this->new, 0,      0,      'text', 'alias'                         , 'pCreate_alias_catchall_text'     , '', 
                 /*options*/ '', 
                 /*not_in_db*/ 1                         ),
             'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 

@@ -66,7 +66,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Postkaste';
 $PALANG['pOverview_alias_address'] = 'Kellelt';
 $PALANG['pOverview_alias_goto'] = 'Kellele';
 $PALANG['active'] = 'Aktiivne';
-$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-posti aadress';
 $PALANG['pOverview_mailbox_name'] = 'Nimi';
@@ -112,7 +111,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'Loomaks püüa-kõik aadressi kasuta a
 
 $PALANG['pEdit_alias_welcome'] = 'Muuda aliast.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Üks kirje rea kohta.'; # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['alias'] = 'Alias';
 $PALANG['pEdit_alias_goto'] = 'Kellele';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Kellele väli on tühi.';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Sisestatud e/posti aadress pole kehtiv: ';

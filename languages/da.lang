@@ -70,7 +70,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Postbokse';
 $PALANG['pOverview_alias_address'] = 'Alias';
 $PALANG['pOverview_alias_goto'] = 'Modtager';
 $PALANG['active'] = 'Aktiv';
-$PALANG['pOverview_alias_edit'] = 'Alias';
 $PALANG['and_x_more'] = '[og %s til...]';
 $PALANG['pOverview_mailbox_username'] = 'Emailadresse';
 $PALANG['pOverview_mailbox_name'] = 'Navn';
@@ -117,7 +116,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'For at tilføje et stjerne-alias, brug
 
 $PALANG['pEdit_alias_welcome'] = 'Rediger alias.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'En modtager pr. linje.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['alias'] = 'Alias';
 $PALANG['pEdit_alias_goto'] = 'Modtager(e)'; # XXX check / compare with pCreate_alias_goto - should be "To"
 $PALANG['pEdit_alias_goto_text_error1'] = 'Du udfyldte ikke noget i Modtager(e)';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Den tilføjede emailadresse er ikke gyldig: ';

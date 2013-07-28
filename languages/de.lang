@@ -68,7 +68,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Mailboxen';
 $PALANG['pOverview_alias_address'] = 'Von';
 $PALANG['pOverview_alias_goto'] = 'An';
 $PALANG['active'] = 'Aktiv';
-$PALANG['pOverview_alias_edit'] = 'Alias';
 $PALANG['and_x_more'] = '[und %s weitere...]';
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['pOverview_mailbox_name'] = 'Name';
@@ -114,7 +113,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'Um alle Adressen abzudecken benutzen S
 
 $PALANG['pEdit_alias_welcome'] = 'Weiterleitungs-Einstellungen ändern';
 $PALANG['pEdit_alias_help'] = 'Angabe mehrerer Ziele möglich, ein Eintrag pro Zeile.';
-$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['alias'] = 'Alias';
 $PALANG['pEdit_alias_goto'] = 'An';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Sie haben im "To"-Feld nichts angegeben!';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Die angegebene eMail-Adresse ist nicht korrekt: ';

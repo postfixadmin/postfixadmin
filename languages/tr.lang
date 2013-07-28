@@ -66,7 +66,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Posta kutularý';
 $PALANG['pOverview_alias_address'] = 'Kimden';
 $PALANG['pOverview_alias_goto'] = 'Kime';
 $PALANG['active'] = 'Aktif';
-$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'Eposta';
 $PALANG['pOverview_mailbox_name'] = 'Ýsim';
@@ -112,7 +111,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'Hepsini-yakala yaratmak için alias ol
 
 $PALANG['pEdit_alias_welcome'] = 'domaniniz için bir domain\'i düzenleyin. '; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Satýr baþýna bir giriþ.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['alias'] = 'Alias';
 $PALANG['pEdit_alias_goto'] = 'Kime'; # XXX check / compare with pCreate_alias_goto - should be "To"
 $PALANG['pEdit_alias_goto_text_error1'] = 'Kime kýsmýna hiçbirþey girmediniz.';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Girdiðiniz e-posta uygun deðil: ';

@@ -68,7 +68,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Brevlådor';
 $PALANG['pOverview_alias_address'] = 'Från';
 $PALANG['pOverview_alias_goto'] = 'Till';
 $PALANG['active'] = 'Aktiv';
-$PALANG['pOverview_alias_edit'] = 'Alias';
 $PALANG['and_x_more'] = '[och %s mer...]';
 $PALANG['pOverview_mailbox_username'] = 'Epost';
 $PALANG['pOverview_mailbox_name'] = 'Namn';
@@ -114,7 +113,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'För att skapa en catch-all ange ett "
 
 $PALANG['pEdit_alias_welcome'] = 'Ändra ett alias för din domän.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Ett alias per rad.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['alias'] = 'Alias';
 $PALANG['pEdit_alias_goto'] = 'Till';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Du angav inget i Till';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Epost adressen du angivit är felaktig: ';

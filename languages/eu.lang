@@ -65,7 +65,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Postontziak';
 $PALANG['pOverview_alias_address'] = 'Igorlea';
 $PALANG['pOverview_alias_goto'] = 'Norakoa';
 $PALANG['active'] = 'Aktibatua';
-$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-mail';
 $PALANG['pOverview_mailbox_name'] = 'Izena';
@@ -110,7 +109,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'Alias orokor bat sortzeko "*" erabil e
 
 $PALANG['pEdit_alias_welcome'] = 'Domeinuarentzat aliasa aldatu.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Lerroko sarrera bat.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = 'Aliasa';
+$PALANG['alias'] = 'Aliasa';
 $PALANG['pEdit_alias_goto'] = 'Norakoa';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Norakoan ez duzu ezer jarri';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Sartutako e-mail helbidea baliiogabekoa da: ';

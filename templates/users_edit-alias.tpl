@@ -5,7 +5,7 @@
 		<th colspan="3">{$PALANG.pEdit_alias_welcome}<br /><em>{$PALANG.pEdit_alias_help}</em></th>
 	</tr>
 	<tr>
-		<td class="label"><label>{$PALANG.pEdit_alias_address}:</label></td>
+		<td class="label"><label>{$PALANG.alias}:</label></td>
 		<td><em>{$USERID_USERNAME}</em></td>
 		<td>&nbsp;</td>
 	</tr>

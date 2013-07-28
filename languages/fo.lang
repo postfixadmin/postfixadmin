@@ -66,7 +66,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Postkassar';
 $PALANG['pOverview_alias_address'] = 'Frá';
 $PALANG['pOverview_alias_goto'] = 'Til';
 $PALANG['active'] = 'Virkin';
-$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-post';
 $PALANG['pOverview_mailbox_name'] = 'Navn';
@@ -112,7 +111,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'Fyri at stovna eitt ið fangar alt, br
 
 $PALANG['pEdit_alias_welcome'] = 'Broyt eitt dulnevni á tínum navnaøki.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Eina adressu pr. linju.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = 'Dulnevni';
+$PALANG['alias'] = 'Dulnevni';
 $PALANG['pEdit_alias_goto'] = 'Til';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Tú skrivaði onki í Til teigin';
 $PALANG['pEdit_alias_goto_text_error2'] = 'E-post adressan tú skrivaði er ógyldug: ';

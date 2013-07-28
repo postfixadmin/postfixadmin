@@ -84,7 +84,7 @@
 			{if $authentication_has_role.global_admin!==true && $CONF.alias_control_admin===YES}{assign var="edit_aliases" value=1}{/if}
 			{if $authentication_has_role.global_admin==true && $CONF.alias_control===YES}{assign var="edit_aliases" value=1}{/if}
 			{if $edit_aliases==1}
-				<td><a href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}">{$PALANG.pOverview_alias_edit}</a></td>
+				<td><a href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}">{$PALANG.alias}</a></td>
 			{/if}
 			<td><a href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}">{$PALANG.edit}</a></td>
 			<td><a href="delete.php?table=mailbox&amp;delete={$item.username|escape:"url"}&amp;domain={$fDomain|escape:"url"}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.pOverview_get_mailboxes}: {$item.username}');">{$PALANG.del}</a></td>

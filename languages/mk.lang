@@ -66,7 +66,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Поштенски сандачињ�
 $PALANG['pOverview_alias_address'] = 'Од';
 $PALANG['pOverview_alias_goto'] = 'До';
 $PALANG['active'] = 'Активен';
-$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'Адреса';
 $PALANG['pOverview_mailbox_name'] = 'Име';
@@ -112,7 +111,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'За да креираш catch-all к�
 
 $PALANG['pEdit_alias_welcome'] = 'Едитирање на алијас за вашиот домен.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Еден запис по линија.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = 'Алијас';
+$PALANG['alias'] = 'Алијас';
 $PALANG['pEdit_alias_goto'] = 'До';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Немате ништо внесено во полето ДО';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Адресата која ја имате внесено не е валидна: ';

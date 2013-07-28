@@ -65,7 +65,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Potanski ormarići';
 $PALANG['pOverview_alias_address'] = 'Od';
 $PALANG['pOverview_alias_goto'] = 'Za';
 $PALANG['active'] = 'Aktivan';
-$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-pota';
 $PALANG['pOverview_mailbox_name'] = 'Ime';
@@ -111,7 +110,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'Ukoliko elite stvoriti "sveprimajuć
 
 $PALANG['pEdit_alias_welcome'] = 'Uredi alias za domenu.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Jedan unos po liniji.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['alias'] = 'Alias';
 $PALANG['pEdit_alias_goto'] = 'Za';
 $PALANG['pEdit_alias_goto_text_error1'] = 'U polje "Za" niste unijeli nita!';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Adresa e-pote, koju ste unijeli nije pravilna: ';

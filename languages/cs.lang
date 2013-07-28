@@ -71,7 +71,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Schránek';
 $PALANG['pOverview_alias_address'] = 'Od';
 $PALANG['pOverview_alias_goto'] = 'Pro';
 $PALANG['active'] = 'Aktivní';
-$PALANG['pOverview_alias_edit'] = 'Přesměrování';
 $PALANG['and_x_more'] = '[a %s dalších...]';
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['pOverview_mailbox_name'] = 'Jméno';
@@ -117,7 +116,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'Pro vytvoření doménového koše pou
 
 $PALANG['pEdit_alias_welcome'] = 'Upravit přesměrování.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Jeden záznam na řádku.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = 'Přesměrování';
+$PALANG['alias'] = 'Přesměrování';
 $PALANG['pEdit_alias_goto'] = 'Cíl';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Nezadali jste cíl';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Emailová adresa kterou jste zadali není platná: ';

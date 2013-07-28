@@ -66,7 +66,6 @@ $PALANG['pOverview_alias_mailbox_count'] = 'Buzones';
 $PALANG['pOverview_alias_address'] = 'De';
 $PALANG['pOverview_alias_goto'] = 'Destino';
 $PALANG['active'] = 'Activo'; 
-$PALANG['pOverview_alias_edit'] = 'Alias'; 
 $PALANG['and_x_more'] = '[y %s más...]'; 
 $PALANG['pOverview_mailbox_username'] = 'E-mail';
 $PALANG['pOverview_mailbox_name'] = 'Nombre';
@@ -112,7 +111,7 @@ $PALANG['pCreate_alias_catchall_text'] = 'Para crear un alias general use "*" co
 
 $PALANG['pEdit_alias_welcome'] = 'Edite un alias para su dominio.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Una entrada por línea.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = 'Alias';
+$PALANG['alias'] = 'Alias';
 $PALANG['pEdit_alias_goto'] = 'Destino';
 $PALANG['pEdit_alias_goto_text_error1'] = 'No ha introducido nada en el destino';
 $PALANG['pEdit_alias_goto_text_error2'] = 'La dirección de e-mail introducida no es válida: ';

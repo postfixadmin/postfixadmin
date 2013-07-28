@@ -66,7 +66,6 @@ $PALANG['pOverview_alias_mailbox_count'] = '郵箱';
 $PALANG['pOverview_alias_address'] = '前往';
 $PALANG['pOverview_alias_goto'] = '轉到';
 $PALANG['active'] = '活動';
-$PALANG['pOverview_alias_edit'] = 'Alias'; # XXX
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = '郵件地址';
 $PALANG['pOverview_mailbox_name'] = '姓名';
@@ -112,7 +111,7 @@ $PALANG['pCreate_alias_catchall_text'] = '要將所有的郵件全部轉發請�
 
 $PALANG['pEdit_alias_welcome'] = '編輯你網域名中的別名.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = '每行一條記錄.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
-$PALANG['pEdit_alias_address'] = '別名';
+$PALANG['alias'] = '別名';
 $PALANG['pEdit_alias_goto'] = '轉到';
 $PALANG['pEdit_alias_goto_text_error1'] = '你沒有填寫收信人';
 $PALANG['pEdit_alias_goto_text_error2'] = '郵件地址非法: ';
