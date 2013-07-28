@@ -63,7 +63,7 @@ class AdminpasswordHandler extends PFAHandler {
             # $PALANG labels
             'formtitle_create' => 'pPassword_welcome',
             'formtitle_edit' => 'pPassword_welcome',
-            'create_button' => 'pPassword_button',
+            'create_button' => 'change-password',
 
             # various settings
             'required_role' => 'admin',

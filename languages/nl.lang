@@ -32,9 +32,9 @@ $PALANG['pLogin_login_users'] = 'Gebruikers klik hier om in te loggen.';
 
 $PALANG['pMenu_main'] = 'Start';
 $PALANG['pMenu_overview'] = 'Overzicht';
-$PALANG['pMenu_create_alias'] = 'Alias toevoegen';
-$PALANG['pMenu_create_alias_domain'] = 'Domein alias toevoegen';
-$PALANG['pMenu_create_mailbox'] = 'Mailbox toevoegen';
+$PALANG['add-alias'] = 'Alias toevoegen'; # XXX check text - should be 'Add Alias'
+$PALANG['add-alias-domain'] = 'Domein alias toevoegen'; # XXX check text - should be 'Add Alias Domain'
+$PALANG['add-mailbox'] = 'Mailbox toevoegen';
 $PALANG['pMenu_fetchmail'] = 'Externe email ophalen';
 $PALANG['pMenu_sendmail'] = 'Verstuur E-mail';
 $PALANG['pMenu_password'] = 'Wachtwoord';
@@ -43,7 +43,7 @@ $PALANG['pMenu_logout'] = 'Uitloggen';
 
 $PALANG['pMain_welcome'] = 'Welkom bij Postfix Admin!';
 $PALANG['pMain_overview'] = 'Laat uw aliassen en mailboxen zien. U kunt ze vanaf hier bewerken / verwijderen.';
-$PALANG['pMain_create_alias'] = 'Maak een nieuwe alias aan voor uw domein.';
+$PALANG['pMain_create_alias'] = 'Maak een nieuwe alias aan voor uw domein.'; # XXX check text - should be 'Create a new alias for your domain.'
 $PALANG['pMain_create_mailbox'] = 'Maak een nieuwe mailbox aan voor uw domein.';
 $PALANG['pMain_sendmail'] = 'Verstuur een e-mail naar een van de nieuwe mailboxen.';
 $PALANG['pMain_password'] = 'Wijzig uw wachtwoord.';
@@ -62,8 +62,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxen';
 $PALANG['pOverview_button'] = 'Ga';
 $PALANG['pOverview_welcome'] = 'Overzicht voor ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias domeinen';
-$PALANG['pOverview_alias_alias_count'] = 'Aliasen';
-$PALANG['pOverview_alias_mailbox_count'] = 'Mailboxes';
 $PALANG['pOverview_alias_address'] = 'Van';
 $PALANG['pOverview_alias_goto'] = 'Naar';
 $PALANG['active'] = 'Actief';
@@ -77,9 +75,8 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 $PALANG['domain'] = 'Domein';
-$PALANG['pOverview_get_aliases'] = 'Aliassen';
 $PALANG['pOverview_get_alias_domains'] = 'Domein aliasen';
-$PALANG['pOverview_get_mailboxes'] = 'Mailboxen';
+$PALANG['mailboxes'] = 'Mailboxen';
 $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 
 $PALANG['pDelete_delete_error'] = 'Mislukt te verwijderen ';
@@ -91,19 +88,16 @@ $PALANG['pCreate_alias_domain_alias'] = 'Alias domein';
 $PALANG['pCreate_alias_domain_alias_text'] = 'Het domein waar mail voor binnen komt.';
 $PALANG['pCreate_alias_domain_target'] = 'Doel domein';
 $PALANG['pCreate_alias_domain_target_text'] = 'Domein waar de mail naar toe moet.';
-$PALANG['pCreate_alias_domain_button'] = 'Voeg alias domein toe';
 $PALANG['pCreate_alias_domain_error1'] = 'U heeft niet genoeg rechten om de huidige configuratie te maken.';
 $PALANG['pCreate_alias_domain_error2'] = 'De huidige configuratie is ongeldig, slecteer een andere!';
 $PALANG['pCreate_alias_domain_error3'] = 'Fout bij vullen database.';
 $PALANG['pCreate_alias_domain_error4'] = 'Alle domeinen hebben al een alias!';
 $PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de alias domein tabel!';
 
-$PALANG['pCreate_alias_welcome'] = 'Maak een nieuw alias aan voor uw domein.';
 $PALANG['pCreate_alias_address_text_error1'] = 'De Alias is niet geldig!';
 $PALANG['email-address-already-exists'] = 'Dit e-mail aders bestaat al, kies aub een andere.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'U bezit het maximum aantal aliassen.';
 $PALANG['pCreate_alias_goto'] = 'Naar';
-$PALANG['pCreate_alias_button'] = 'Voeg alias toe';
 $PALANG['pCreate_alias_goto_text'] = 'Waar de e-mails heen gestuurd worden.';
 $PALANG['pCreate_alias_goto_text_error'] = 'De NAAR is niet geldig.';
 $PALANG['pCreate_alias_result_error'] = 'Mislukt om de alias toe te voegen.';
@@ -125,12 +119,9 @@ $PALANG['pEdit_alias_result_error'] = 'Mislukt om de alias te bewerken!';
 $PALANG['pCreate_mailbox_welcome'] = 'Maak een nieuw lokale mailbox voor uw domein.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Het e-mail adres is niet geldig.';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'U bezit het maximum aantal mailboxen.';
-$PALANG['pCreate_mailbox_password2'] = 'Wachtwoord nogmaals';
 $PALANG['pCreate_mailbox_password_text'] = 'Wachtwoord voor POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Volledige naam';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'De quota die opgaf is te hoog.';
 $PALANG['pCreate_mailbox_mail'] = 'Mailbox toevoegen'; # XXX Text change to 'Send Welcome mail'
-$PALANG['pCreate_mailbox_button'] = 'Mailbox toevoegen';
 $PALANG['pCreate_mailbox_result_error'] = 'Mislukt om de mailbox toe te voegen.';
 $PALANG['pCreate_mailbox_result_success'] = 'De mailbox is toegevoegd.';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'De mailbox is aan de mailbox tabel toegevoegd, maar geen (of sommige) van de vooraf gedefinieerde sub-folders kon aangemaakt worden';
@@ -154,7 +145,7 @@ $PALANG['pPassword_password_current_text_error'] = 'U heeft uw huidige wachtwoor
 $PALANG['pPassword_password'] = 'Nieuw wachtwoord';
 $PALANG['pPassword_password2'] = 'Nieuw wachtwoord (nogmaals)';
 $PALANG['pPassword_password_text_error'] = 'De wachtwoorden die u opgaf komen niet overeen of zijn leeg.';
-$PALANG['pPassword_button'] = 'Wijzig wachtwoord';
+$PALANG['change-password'] = 'Wijzig wachtwoord';
 $PALANG['pPassword_result_error'] = 'Mislukt om uw wachtwoord te veranderen.';
 $PALANG['pPassword_result_success'] = 'Uw wachtwoord is veranderd.';
 
@@ -209,34 +200,24 @@ $PALANG['pSendmail_result_success'] = 'E-mail verstuurd!';
 $PALANG['pAdminMenu_list_admin'] = 'Beheerders overzicht';
 $PALANG['pAdminMenu_list_domain'] = 'Domein overzicht';
 $PALANG['pAdminMenu_list_virtual'] = 'Virtueel overzicht';
-$PALANG['pAdminMenu_viewlog'] = 'Laat Log zien';
 $PALANG['pAdminMenu_backup'] = 'Backup';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Domein Beheerders';
 $PALANG['pAdminMenu_create_admin'] = 'Nieuwe beheerder';
 $PALANG['pAdminMenu_create_domain'] = 'Voeg Domein toe';
-$PALANG['pAdminMenu_create_alias'] = 'Voeg Alias toe';
-$PALANG['pAdminMenu_create_mailbox'] = 'Voeg Mailbox toe';
 
 $PALANG['pAdminList_admin_username'] = 'Beheerder';
 $PALANG['pAdminList_admin_count'] = 'Domeinen';
 
-$PALANG['pAdminList_domain_description'] = 'Omschrijving';
-$PALANG['pAdminList_domain_aliases'] = 'Aliassen';
-$PALANG['pAdminList_domain_mailboxes'] = 'Mailboxen';
+$PALANG['description'] = 'Omschrijving';
+$PALANG['aliases'] = 'Aliassen'; # XXX check text - should be 'Aliases'
 $PALANG['pAdminList_domain_quota'] = 'Domein quota (MB)'; # XXX
-$PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Back-up MX';
 $PALANG['last_modified'] = 'Laatst bewerkt';
 
 $PALANG['pAdminList_virtual_button'] = 'Ga';
-$PALANG['pAdminList_virtual_welcome'] = 'Overzicht voor ';
-$PALANG['pAdminList_virtual_alias_alias_count'] = 'Aliassen';
-$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Mailboxen';
 $PALANG['pAdminList_virtual_alias_address'] = 'Van';
 $PALANG['pAdminList_virtual_alias_goto'] = 'Naar';
-$PALANG['pAdminList_virtual_mailbox_username'] = 'e-mail';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Naam';
-$PALANG['pAdminList_virtual_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pAdminList_domain_userscontrol'] = 'Gebruikers<br />Beheer';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Voeg een nieuw domein toe';
@@ -253,15 +234,11 @@ $PALANG['pAdminDelete_domain_error'] = 'Niet in staat domein te verwijderen!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Niet in staat domein alias te verwijderen!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Bewerk een domein';
-$PALANG['pAdminEdit_domain_description'] = 'Omschrijving';
-$PALANG['pAdminEdit_domain_aliases'] = 'Aliassen';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = uit | 0 = onbeperkt';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Mailboxen';
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = uit | 0 = onbeperkt';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = uit | 0 = onbeperkt';
 $PALANG['pAdminEdit_domain_quota'] = 'Domein Quota'; # XXX
-$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definieer transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is back-up MX';
 $PALANG['pAdminEdit_domain_button'] = 'Bewerk domein'; # XXX text no longer used
@@ -278,7 +255,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Beheerder is toegevoegd.';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Bewerk een domein beheerder';
 $PALANG['pAdminEdit_admin_username'] = 'Beheerder';
-$PALANG['pAdminEdit_admin_password2'] = 'Wachtwoord (nogmaals)';
+$PALANG['password-again'] = 'Wachtwoord (nogmaals)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administrator';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Bewerk beheerder'; # XXX text no longer used
@@ -291,7 +268,6 @@ $PALANG['pUsersLogin_password_incorrect'] = 'Uw wachtwoord is niet correct.';
 
 $PALANG['pUsersMenu_vacation'] = 'Automatisch beantwoorden';
 $PALANG['pUsersMenu_edit_alias'] = 'Wijzig uw forward';
-$PALANG['pUsersMenu_password'] = 'Wijzig wachtwoord';
 
 $PALANG['pUsersMain_vacation'] = 'Stel een "out of office" bericht of automatisch beantwoorden voor uw e-mail in.';
 $PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is actief, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/verwijderen';

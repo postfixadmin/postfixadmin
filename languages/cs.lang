@@ -36,9 +36,9 @@ $PALANG['pLogin_login_users'] = 'Vstup do uživatelské sekce.';
 
 $PALANG['pMenu_main'] = 'Hlavní';
 $PALANG['pMenu_overview'] = 'Přehled';
-$PALANG['pMenu_create_alias'] = 'Přidat přesměrování';
-$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
-$PALANG['pMenu_create_mailbox'] = 'Přidat schránku';
+$PALANG['add-alias'] = 'Přidat přesměrování'; # XXX check text - should be 'Add Alias'
+$PALANG['add-alias-domain'] = 'Add Alias Domain'; # XXX
+$PALANG['add-mailbox'] = 'Přidat schránku';
 $PALANG['pMenu_fetchmail'] = 'Stahování pošty';
 $PALANG['pMenu_sendmail'] = 'Poslat email';
 $PALANG['pMenu_password'] = 'Změnit heslo';
@@ -47,7 +47,7 @@ $PALANG['pMenu_logout'] = 'Odhlásit.';
 
 $PALANG['pMain_welcome'] = 'Vítejte v Postfix Adminu!';
 $PALANG['pMain_overview'] = 'Výpis přesměrování a schránek. Můžete je zde upravovat a mazat.';
-$PALANG['pMain_create_alias'] = 'Vytvořit přesměrování v této doméně.';
+$PALANG['pMain_create_alias'] = 'Vytvořit přesměrování v této doméně.'; # XXX check text - should be 'Create a new alias for your domain.'
 $PALANG['pMain_create_mailbox'] = 'Vytvořit schránku v této doméně.';
 $PALANG['pMain_sendmail'] = 'Poslat email do jedné z nově vytvořených schránek.';
 $PALANG['pMain_password'] = 'Změnit heslo administrátorského účtu.';
@@ -66,8 +66,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Schránky';
 $PALANG['pOverview_button'] = 'Přejít';
 $PALANG['pOverview_welcome'] = 'Přehled domény ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_alias_count'] = 'Přesměrování';
-$PALANG['pOverview_alias_mailbox_count'] = 'Schránek';
 $PALANG['pOverview_alias_address'] = 'Od';
 $PALANG['pOverview_alias_goto'] = 'Pro';
 $PALANG['active'] = 'Aktivní';
@@ -81,9 +79,8 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 $PALANG['domain'] = 'Doména';
-$PALANG['pOverview_get_aliases'] = 'Přesměrování';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
-$PALANG['pOverview_get_mailboxes'] = 'Schránky';
+$PALANG['mailboxes'] = 'Schránky';
 $PALANG['pOverview_get_quota'] = 'Místo pro schránku (MB)';
 
 $PALANG['pDelete_delete_error'] = 'Nelze smazat položku ';
@@ -95,19 +92,16 @@ $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
 $PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
 $PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
-$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
-$PALANG['pCreate_alias_welcome'] = 'Vytvořit nové přesměrování ve Vaší doméně.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Adresa neni platná!';
 $PALANG['email-address-already-exists'] = 'Taková emailová adresa již existuje!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Dosáhli jste limitu, nemůžete vytvářet další aliasy!';
 $PALANG['pCreate_alias_goto'] = 'Cíl';
-$PALANG['pCreate_alias_button'] = 'Přidat';
 $PALANG['pCreate_alias_goto_text'] = 'Kam má pošta chodit.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Cíl není platný!';
 $PALANG['pCreate_alias_result_error'] = 'Nepodařilo se přidat přesměrování do tabulky aliasů!';
@@ -129,12 +123,9 @@ $PALANG['pEdit_alias_result_error'] = 'Nepodařilo se upravit přesměrování!'
 $PALANG['pCreate_mailbox_welcome'] = 'Vytvořit novou lokální schránku v doméně.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Adresa neni platná!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Dosáhli jste limitu, nemů&cedil;ete vytvářet další schránky!';
-$PALANG['pCreate_mailbox_password2'] = 'Heslo (znovu)';
 $PALANG['pCreate_mailbox_password_text'] = 'Heslo pro POP3/IMAP/SMTP';
 $PALANG['pCreate_mailbox_name_text'] = 'Celé jméno';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'Zadané místo je příliš velké!';
 $PALANG['pCreate_mailbox_mail'] = 'Vytvořit schránku na disku (odešle uvítací email)'; # XXX Text change to 'Send Welcome mail'
-$PALANG['pCreate_mailbox_button'] = 'Přidat schránku';
 $PALANG['pCreate_mailbox_result_error'] = 'Nepodařilo se přidat schránku do tabulky schránek!';
 $PALANG['pCreate_mailbox_result_success'] = 'Schránka byla přidána do tabulky schránek!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Schránka byla přidána do tabulky schránek, ale žádné (nebo pouze některé) ze předdefinovaných podsložek bylo možné vytovořit';
@@ -158,7 +149,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Nezadal(a) jste současné h
 $PALANG['pPassword_password'] = 'Nové heslo';
 $PALANG['pPassword_password2'] = 'Nové heslo (znovu)';
 $PALANG['pPassword_password_text_error'] = 'Zadaná hesla jsou rozdílná nebo prázdná!'; # XXX check/beautify - was split in two lines before
-$PALANG['pPassword_button'] = 'Změnit heslo';
+$PALANG['change-password'] = 'Změnit heslo'; # XXX check text - should be 'Change Password'
 $PALANG['pPassword_result_error'] = 'Nepodařilo se změnit heslo!';
 $PALANG['pPassword_result_success'] = 'Heslo bylo změněno!';
 
@@ -215,34 +206,24 @@ $PALANG['pSendmail_result_success'] = 'Email odeslán!';
 $PALANG['pAdminMenu_list_admin'] = 'Administrátoři domén';
 $PALANG['pAdminMenu_list_domain'] = 'Domény';
 $PALANG['pAdminMenu_list_virtual'] = 'Schránky';
-$PALANG['pAdminMenu_viewlog'] = 'Prohlížet Log';
 $PALANG['pAdminMenu_backup'] = 'Vytvořit zálohu';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Administrátoři'; // unused
 $PALANG['pAdminMenu_create_admin'] = 'Nový Administrátor';
 $PALANG['pAdminMenu_create_domain'] = 'Nová Doména';
-$PALANG['pAdminMenu_create_alias'] = 'Nové Přesměrování';
-$PALANG['pAdminMenu_create_mailbox'] = 'Nová Schránka';
 
 $PALANG['pAdminList_admin_username'] = 'Administrátor';
 $PALANG['pAdminList_admin_count'] = 'Domény';
 
-$PALANG['pAdminList_domain_description'] = 'Popis';
-$PALANG['pAdminList_domain_aliases'] = 'Přesměrování';
-$PALANG['pAdminList_domain_mailboxes'] = 'Schránek';
+$PALANG['description'] = 'Popis';
+$PALANG['aliases'] = 'Přesměrování';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
-$PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Záložní MX';
 $PALANG['last_modified'] = 'Naposledy Změněno';
 
 $PALANG['pAdminList_virtual_button'] = 'Jít';
-$PALANG['pAdminList_virtual_welcome'] = 'Přehled pro ';
-$PALANG['pAdminList_virtual_alias_alias_count'] = 'Přesměrování';
-$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Schránek';
 $PALANG['pAdminList_virtual_alias_address'] = 'Od';
 $PALANG['pAdminList_virtual_alias_goto'] = 'Cíl';
-$PALANG['pAdminList_virtual_mailbox_username'] = 'Název';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Celé Jméno';
-$PALANG['pAdminList_virtual_mailbox_quota'] = 'Místo (MB)';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Přidat Novou Doménu';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Taková doména už existuje!';
@@ -259,15 +240,11 @@ $PALANG['pAdminDelete_domain_error'] = 'Nepodařilo se odstranit doménu!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Upravit doménu';
-$PALANG['pAdminEdit_domain_description'] = 'Popis';
-$PALANG['pAdminEdit_domain_aliases'] = 'Přesměrování';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = znepřístupnit | 0 = neomezeně';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Schránek';
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = znepřístupnit | 0 = neomezeně';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maximální místo';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = znepřístupnit | 0 = neomezeně';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
-$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Nastavit transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Tento server je záložní MX domény';
 $PALANG['pAdminEdit_domain_button'] = 'Upravit doménu'; # XXX text no longer used
@@ -283,7 +260,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Administrátor byl přidán!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Upravit doménového administrátora';
 $PALANG['pAdminEdit_admin_username'] = 'Uživatelské jméno';
-$PALANG['pAdminEdit_admin_password2'] = 'Heslo (znovu)';
+$PALANG['password-again'] = 'Heslo (znovu)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Superuživatel';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Upravit Administrátora'; # XXX text no longer used
@@ -296,7 +273,6 @@ $PALANG['pUsersLogin_password_incorrect'] = 'Nesprávné heslo!';
 
 $PALANG['pUsersMenu_vacation'] = 'Automatická Odpověď';
 $PALANG['pUsersMenu_edit_alias'] = 'Změna Přesměrování';
-$PALANG['pUsersMenu_password'] = 'Změna Hesla';
 
 $PALANG['pUsersMain_vacation'] = 'Nastavit ,,jsem pryč`` nebo podobnou automatickou odpověď.';
 $PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' je NASTAVENA, klikněte na \'' . $PALANG['pUsersMenu_vacation'] . '\' pro odstranění nebo změnu';

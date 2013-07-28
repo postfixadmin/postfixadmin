@@ -41,7 +41,7 @@
 				>{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
 			<td><a href="{#url_create_alias#}&amp;edit={$item.address|escape:"url"}">{$PALANG.edit}</a></td>
 			<td><a href="delete.php?table=alias&amp;delete={$item.address|escape:"url"}&amp;domain={$fDomain|escape:"url"}" 
-				onclick="return confirm ('{$PALANG.confirm}{$PALANG.pOverview_get_aliases}: {$item.address}');">{$PALANG.del}</a></td>
+				onclick="return confirm ('{$PALANG.confirm}{$PALANG.aliases}: {$item.address}');">{$PALANG.del}</a></td>
 		{else}
 			<td>{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</td>
 			<td>&nbsp;</td>

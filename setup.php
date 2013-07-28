@@ -421,7 +421,7 @@ else
       <td><?php if (isset($errormsg['password'])) print $errormsg['password']; ?></td>
    </tr>
    <tr>
-      <td><?php print $PALANG['pAdminEdit_admin_password2'] . ":"; ?></td>
+      <td><?php print $PALANG['password-again'] . ":"; ?></td>
       <td><input class="flat" type="password" name="password2" /></td>
       <td><?php if (isset($errormsg['password2'])) print $errormsg['password2']; ?></td>
    </tr>

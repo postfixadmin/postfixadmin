@@ -31,9 +31,9 @@ $PALANG['pLogin_login_users'] = 'Kullanýcý iþlemlerine girmek için burayý k
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Genel Bilgiler';
-$PALANG['pMenu_create_alias'] = 'Alias Ekle';
-$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
-$PALANG['pMenu_create_mailbox'] = 'Posta kutusu ekle';
+$PALANG['add-alias'] = 'Alias Ekle';
+$PALANG['add-alias-domain'] = 'Add Alias Domain'; # XXX
+$PALANG['add-mailbox'] = 'Posta kutusu ekle';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'E-posta Gönder';
 $PALANG['pMenu_password'] = 'Þifre';
@@ -42,7 +42,7 @@ $PALANG['pMenu_logout'] = 'Çýkýþ';
 
 $PALANG['pMain_welcome'] = 'Postfix Admin\'e hoþ geldiniz!';
 $PALANG['pMain_overview'] = 'posta kutularýnýzýn ve aliaslarýnýzýn listesi. buradan silip düzenleyebilirsiniz.';
-$PALANG['pMain_create_alias'] = 'Domaininiz icin yeni bir alias yaratýn.';
+$PALANG['pMain_create_alias'] = 'Domaininiz icin yeni bir alias yaratýn.'; # XXX check text - should be 'Create a new alias for your domain.'
 $PALANG['pMain_create_mailbox'] = 'Domaininiz için yeni bir posta kutusu yaratýn.';
 $PALANG['pMain_sendmail'] = 'Yeni yaratmýþ olduðunuz posta kutularýndan birine posta gönderin.';
 $PALANG['pMain_password'] = 'Yönetici hesabýnýzýn þifresini deðiþtirin.';
@@ -61,8 +61,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxes'; # XXX
 $PALANG['pOverview_button'] = 'Git';
 $PALANG['pOverview_welcome'] = 'Genel Bilgiler: ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_alias_count'] = 'Aliaselar';
-$PALANG['pOverview_alias_mailbox_count'] = 'Posta kutularý';
 $PALANG['pOverview_alias_address'] = 'Kimden';
 $PALANG['pOverview_alias_goto'] = 'Kime';
 $PALANG['active'] = 'Aktif';
@@ -76,9 +74,8 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 $PALANG['domain'] = 'Domain';
-$PALANG['pOverview_get_aliases'] = 'Aliaslar';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
-$PALANG['pOverview_get_mailboxes'] = 'Postakutularý';
+$PALANG['mailboxes'] = 'Postakutularý'; # XXX check / compare with pAdminCreate_domain_mailboxes - should be "Mailboxes"
 $PALANG['pOverview_get_quota'] = 'Posta kutusu Kotasý (MB)';
 
 $PALANG['pDelete_delete_error'] = 'Kayýt silinemiyor ';
@@ -90,19 +87,16 @@ $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
 $PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
 $PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
-$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
-$PALANG['pCreate_alias_welcome'] = 'Domaininiz için yeni bir alias yaratýn.';
 $PALANG['pCreate_alias_address_text_error1'] = 'ALIAS uygun deðil!';
 $PALANG['email-address-already-exists'] = 'Bu e-posta zaten kullanýlýyor, lütfen baþka bir tane seçin!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Alias limitine ulaþtýnýz!';
 $PALANG['pCreate_alias_goto'] = 'kime';
-$PALANG['pCreate_alias_button'] = 'Alias Ekle';
 $PALANG['pCreate_alias_goto_text'] = 'E-postanýn gitmesi gereken yer.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Kime alaný uygun deðil!';
 $PALANG['pCreate_alias_result_error'] = 'Alias\'ý alias tabþlosuna eklenemedi!';
@@ -124,12 +118,9 @@ $PALANG['pEdit_alias_result_error'] = 'Alias düzenlenemiyor!';
 $PALANG['pCreate_mailbox_welcome'] = 'Domaininiz için yeni bir lokal e-posta yaratýn.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-POSTA uygun deðil!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Posta kutusu yaratma limitinize eriþtiniz!';
-$PALANG['pCreate_mailbox_password2'] = 'þifre (tekrar)';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP için þifre';
 $PALANG['pCreate_mailbox_name_text'] = 'Tam isim';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'Veridðiniz kota çok yüksek!';
 $PALANG['pCreate_mailbox_mail'] = 'Posta kutusu yarat'; # XXX Text change to 'Send Welcome mail'
-$PALANG['pCreate_mailbox_button'] = 'Posta kutusu ekle';
 $PALANG['pCreate_mailbox_result_error'] = 'Posta kutusu posta kutusu tablosuna eklenemiyor!';
 $PALANG['pCreate_mailbox_result_success'] = 'Posta kutusu tabloya eklendi!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
@@ -153,7 +144,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Þuanki þifrenizi vermedini
 $PALANG['pPassword_password'] = 'Yeni Þifre';
 $PALANG['pPassword_password2'] = 'Yeni þifre (tekrar)';
 $PALANG['pPassword_password_text_error'] = 'Verdiðiniz þifreler birbirini tutmuyor! Ya da boþ!'; # XXX check/beautify - was split in two lines before
-$PALANG['pPassword_button'] = 'Þifreyi deðiþtir';
+$PALANG['change-password'] = 'Þifreyi deðiþtir'; # XXX check text - should be 'Change Password'
 $PALANG['pPassword_result_error'] = 'Þifreniz deðiþtirilemedi!';
 $PALANG['pPassword_result_success'] = 'þifreniz deðiþtirildi!';
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
@@ -207,34 +198,24 @@ $PALANG['pSendmail_result_success'] = 'Posta kutusu yaratýldý!'; # XXX text ch
 $PALANG['pAdminMenu_list_admin'] = 'Yönetici Listesi';
 $PALANG['pAdminMenu_list_domain'] = 'Domain Listesi';
 $PALANG['pAdminMenu_list_virtual'] = 'Sanal Liste';
-$PALANG['pAdminMenu_viewlog'] = 'Log Ýzle';
 $PALANG['pAdminMenu_backup'] = 'Yedek';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Domain Yöneticileri';
 $PALANG['pAdminMenu_create_admin'] = 'Yeni Yönetici';
 $PALANG['pAdminMenu_create_domain'] = 'Yeni Domain';
-$PALANG['pAdminMenu_create_alias'] = 'Alias ekle';
-$PALANG['pAdminMenu_create_mailbox'] = 'Postakutusu ekle';
 
 $PALANG['pAdminList_admin_username'] = 'Yönetici';
 $PALANG['pAdminList_admin_count'] = 'Domainler';
 
-$PALANG['pAdminList_domain_description'] = 'Açýklama';
-$PALANG['pAdminList_domain_aliases'] = 'Aliaslar';
-$PALANG['pAdminList_domain_mailboxes'] = 'Posta kutularý';
+$PALANG['description'] = 'Açýklama';
+$PALANG['aliases'] = 'Aliaslar'; # XXX check text - should be 'Aliases'
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
-$PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['last_modified'] = 'Son Düzenleme';
 
 $PALANG['pAdminList_virtual_button'] = 'Git';
-$PALANG['pAdminList_virtual_welcome'] = 'Genel Bilgiler:';
-$PALANG['pAdminList_virtual_alias_alias_count'] = 'Aliaslar';
-$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Postakutularý';
 $PALANG['pAdminList_virtual_alias_address'] = 'Kimden';
 $PALANG['pAdminList_virtual_alias_goto'] = 'Kime';
-$PALANG['pAdminList_virtual_mailbox_username'] = 'Eposta';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Ýsim';
-$PALANG['pAdminList_virtual_mailbox_quota'] = 'kota (MB)';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Yeni domain ekle';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Bu Domain halen bulunmakta!';
@@ -250,15 +231,11 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain düzenle';
-$PALANG['pAdminEdit_domain_description'] = 'Açýklama';
-$PALANG['pAdminEdit_domain_aliases'] = 'Aliaslar';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = iptal | 0 = limitsiz'; # XXX check - "limisiz" or "limi_t_siz"?
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Posta kutularý'; # XXX check / compare with pAdminCreate_domain_mailboxes - should be "Mailboxes"
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = iptal | 0 = limitsiz';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Kota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = iptal | 0 = limitsiz';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
-$PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
+$PALANG['transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminEdit_domain_button'] = 'Domain düzenle'; # XXX text no longer used
@@ -274,7 +251,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Yönetici eklendi!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain yöneticisi düzenle';
 $PALANG['pAdminEdit_admin_username'] = 'Yönetici';
-$PALANG['pAdminEdit_admin_password2'] = 'Þifre (tekrar)';
+$PALANG['password-again'] = 'Þifre (tekrar)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Yönetici Ekle'; # XXX text no longer used
@@ -287,7 +264,6 @@ $PALANG['pUsersLogin_password_incorrect'] = 'Þifreniz doðru deðil!';
 
 $PALANG['pUsersMenu_vacation'] = 'Otomatik cevaplama';
 $PALANG['pUsersMenu_edit_alias'] = 'Yönlendirmen deðiþtir';
-$PALANG['pUsersMenu_password'] = 'þifre deðiþtir';
 
 $PALANG['pUsersMain_vacation'] = 'Posta kutunuz için "ofis dýþý" mesajý veya otomatik cevaplama ekleyin.';
 $PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is ON, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/remove'; # XXX

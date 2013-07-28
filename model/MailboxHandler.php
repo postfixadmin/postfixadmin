@@ -23,7 +23,7 @@ class MailboxHandler extends PFAHandler {
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
             'maildir'       => pacol(   $this->new, 0,      1,      'text', ''                              , ''                                , '' ),
             'password'      => pacol(   1,          1,      0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
-            'password2'     => pacol(   1,          1,      0,      'pass', 'pCreate_mailbox_password2'    , ''                                 , '', 
+            'password2'     => pacol(   1,          1,      0,      'pass', 'password-again'                , ''                                 , '', 
                 /*options*/ '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
@@ -107,7 +107,7 @@ class MailboxHandler extends PFAHandler {
             # $PALANG labels
             'formtitle_create' => 'pCreate_mailbox_welcome',
             'formtitle_edit' => 'pEdit_mailbox_welcome',
-            'create_button' => 'pCreate_mailbox_button',
+            'create_button' => 'add-mailbox',
 
             # various settings
             'required_role' => 'admin',

@@ -30,9 +30,9 @@ $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # 
 $PALANG['pLogin_login_users'] = 'Login per anar a la secció d\'usuaris.';
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Resum';
-$PALANG['pMenu_create_alias'] = 'Afegir àlies';
-$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
-$PALANG['pMenu_create_mailbox'] = 'Afegir bústia';
+$PALANG['add-alias'] = 'Afegir àlies';
+$PALANG['add-alias-domain'] = 'Add Alias Domain'; # XXX
+$PALANG['add-mailbox'] = 'Afegir bústia';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'Enviar e-mail';
 $PALANG['pMenu_password'] = 'Contrasenya';
@@ -41,7 +41,7 @@ $PALANG['pMenu_logout'] = 'Sortir';
 
 $PALANG['pMain_welcome'] = 'Benvingut al Postfix Admin!';
 $PALANG['pMain_overview'] = 'Llistat dels seus àlies i bústies. Pot editar-los / borrar-los des d\'aquí.';
-$PALANG['pMain_create_alias'] = 'Creació d\'un nou àlies pel seu domini.';
+$PALANG['pMain_create_alias'] = 'Creació d\'un nou àlies pel seu domini.'; # XXX check text - should be 'Create a new alias for your domain.'
 $PALANG['pMain_create_mailbox'] = 'Creació d\'una nova bústia pel seu domini.';
 $PALANG['pMain_sendmail'] = 'Enviar un e-mail a una de les bústies acabades de crear.';
 $PALANG['pMain_password'] = 'Canviar la contrasenya per la seva compta d\'administració.';
@@ -60,8 +60,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxes'; # XXX
 $PALANG['pOverview_button'] = 'Ves';
 $PALANG['pOverview_welcome'] = 'Resum de ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_alias_count'] = 'Àlies';
-$PALANG['pOverview_alias_mailbox_count'] = 'Bústies';
 $PALANG['pOverview_alias_address'] = 'De';
 $PALANG['pOverview_alias_goto'] = 'Destí';
 $PALANG['active'] = 'Actiu';
@@ -75,9 +73,8 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 $PALANG['domain'] = 'Domini';
-$PALANG['pOverview_get_aliases'] = 'Àlies';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
-$PALANG['pOverview_get_mailboxes'] = 'Bústies';
+$PALANG['mailboxes'] = 'Bústies';
 $PALANG['pOverview_get_quota'] = 'Quota de bústia (MB)';
 
 $PALANG['pDelete_delete_error'] = 'Imposible borrar el registre ';
@@ -89,19 +86,16 @@ $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
 $PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
 $PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
-$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
-$PALANG['pCreate_alias_welcome'] = 'Crear un nou àlies pel domini.';
 $PALANG['pCreate_alias_address_text_error1'] = 'L\'àlies no és vàlid!';
 $PALANG['email-address-already-exists'] = 'Aquesta adreça ja existeix, escull una altra de diferent, si us plau!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Has arribat al límit de creació d\'àlies!';
 $PALANG['pCreate_alias_goto'] = 'Destí';
-$PALANG['pCreate_alias_button'] = 'Afegir àlies';
 $PALANG['pCreate_alias_goto_text'] = 'A on ha de ser enviat l\'e-mail.';
 $PALANG['pCreate_alias_goto_text_error'] = 'El destí no és vàlid!';
 $PALANG['pCreate_alias_result_error'] = '¡No és posible afegir l\'àlies a la taula d\'àlies!';
@@ -123,12 +117,9 @@ $PALANG['pEdit_alias_result_error'] = 'Imposible modificar l\'àlies!';
 $PALANG['pCreate_mailbox_welcome'] = 'Crear una nova bústia pel seu domini.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'L\'e-mail no és vàlido!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Has arribat al límit de creació de bústies!';
-$PALANG['pCreate_mailbox_password2'] = 'Contrasenya (repetir)';
 $PALANG['pCreate_mailbox_password_text'] = 'Contrasenya per a POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Nom complet';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'La quota especificada és massa alta!';
 $PALANG['pCreate_mailbox_mail'] = 'Crear bústia'; # XXX Text change to 'Send Welcome mail'
-$PALANG['pCreate_mailbox_button'] = 'Afegir bústia';
 $PALANG['pCreate_mailbox_result_error'] = 'Imposible afegir una bústia a la taula de bústies!';
 $PALANG['pCreate_mailbox_result_success'] = 'La bústia ha estat afegida a la taula de bústies!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
@@ -152,7 +143,7 @@ $PALANG['pPassword_password_current_text_error'] = 'No ha introduït la contrase
 $PALANG['pPassword_password'] = 'Nova contrasenya';
 $PALANG['pPassword_password2'] = 'Nova contrasenya (repetiu)';
 $PALANG['pPassword_password_text_error'] = 'Les contrasenyes introduides no coincideixen o estan en blanc!'; # XXX check/beautify - was split in two lines before
-$PALANG['pPassword_button'] = 'Canviar la contrasenya';
+$PALANG['change-password'] = 'Canviar la contrasenya';
 $PALANG['pPassword_result_error'] = 'Imposible canviar la contrasenya!';
 $PALANG['pPassword_result_success'] = 'La seva contrasenya ha estat canviada!';
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
@@ -206,34 +197,24 @@ $PALANG['pSendmail_result_success'] = 'La bústia ha estat creada!'; # XXX text 
 $PALANG['pAdminMenu_list_admin'] = 'Llistat d\'administradors';
 $PALANG['pAdminMenu_list_domain'] = 'Llistat de dominis';
 $PALANG['pAdminMenu_list_virtual'] = 'Llista de direccions virtuals';
-$PALANG['pAdminMenu_viewlog'] = 'Veure Logs';
 $PALANG['pAdminMenu_backup'] = 'Backup';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Administradors de domini';
 $PALANG['pAdminMenu_create_admin'] = 'Nou administrador';
 $PALANG['pAdminMenu_create_domain'] = 'Nou dominio';
-$PALANG['pAdminMenu_create_alias'] = 'Afegir àlies';
-$PALANG['pAdminMenu_create_mailbox'] = 'Afegir bústia';
 
 $PALANG['pAdminList_admin_username'] = 'Administrador';
 $PALANG['pAdminList_admin_count'] = 'Dominis';
 
-$PALANG['pAdminList_domain_description'] = 'Descripció';
-$PALANG['pAdminList_domain_aliases'] = 'Àlies';
-$PALANG['pAdminList_domain_mailboxes'] = 'Bústies';
+$PALANG['description'] = 'Descripció';
+$PALANG['aliases'] = 'Àlies';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
-$PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['last_modified'] = 'Última Modificació';
 
 $PALANG['pAdminList_virtual_button'] = 'Ves';
-$PALANG['pAdminList_virtual_welcome'] = 'Resum de ';
-$PALANG['pAdminList_virtual_alias_alias_count'] = 'Àlies';
-$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Bústies';
 $PALANG['pAdminList_virtual_alias_address'] = 'De';
 $PALANG['pAdminList_virtual_alias_goto'] = 'Destí';
-$PALANG['pAdminList_virtual_mailbox_username'] = 'E-mail';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Nom';
-$PALANG['pAdminList_virtual_mailbox_quota'] = 'Quota (MB)';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Afegir nou domini';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'El domini ja existeix!';
@@ -249,15 +230,11 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Editar un domini';
-$PALANG['pAdminEdit_domain_description'] = 'Descripció';
-$PALANG['pAdminEdit_domain_aliases'] = 'Àlies';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = ilimitat | 0 = deshabilitar';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Bústies';
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = ilimitat | 0 = deshabilitar';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Quota màxima';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = ilimitat | 0 = deshabilitar';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
-$PALANG['pAdminEdit_domain_transport'] = 'Transport'; # XXX
+$PALANG['transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX
 $PALANG['pAdminEdit_domain_button'] = 'Editar domini'; # XXX text no longer used
@@ -274,7 +251,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'L\'administrador ha estat afegit
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Editar un administrador de domini';
 $PALANG['pAdminEdit_admin_username'] = 'Administrador';
-$PALANG['pAdminEdit_admin_password2'] = 'Contrasenya (repetiu)';
+$PALANG['password-again'] = 'Contrasenya (repetiu)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Editar administrador'; # XXX text no longer used
@@ -287,7 +264,6 @@ $PALANG['pUsersLogin_password_incorrect'] = 'La seva contrasenya no és correcta
 
 $PALANG['pUsersMenu_vacation'] = 'Resposta automàtica';
 $PALANG['pUsersMenu_edit_alias'] = 'Canviar la redirecció';
-$PALANG['pUsersMenu_password'] = 'Canviar la contrasenya';
 
 $PALANG['pUsersMain_vacation'] = 'Configuri un missatge de "Fora de la feina" o una resposta automàtica pel seu correu.';
 $PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is ON, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/remove'; # XXX

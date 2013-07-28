@@ -33,9 +33,9 @@ $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.'
 
 $PALANG['pMenu_main'] = 'Main';
 $PALANG['pMenu_overview'] = 'Overview';
-$PALANG['pMenu_create_alias'] = 'Add Alias';
-$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain';
-$PALANG['pMenu_create_mailbox'] = 'Add Mailbox';
+$PALANG['add-alias'] = 'Add Alias';
+$PALANG['add-alias-domain'] = 'Add Alias Domain';
+$PALANG['add-mailbox'] = 'Add Mailbox';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email';
 $PALANG['pMenu_sendmail'] = 'Send Email';
 $PALANG['pMenu_password'] = 'Password';
@@ -63,8 +63,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
 $PALANG['pOverview_button'] = 'Go';
 $PALANG['pOverview_welcome'] = 'Overview for ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains';
-$PALANG['pOverview_alias_alias_count'] = 'Aliases';
-$PALANG['pOverview_alias_mailbox_count'] = 'Mailboxes';
 $PALANG['pOverview_alias_address'] = 'From';
 $PALANG['pOverview_alias_goto'] = 'To';
 $PALANG['active'] = 'Active';
@@ -78,9 +76,8 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual']
 
 $PALANG['domain'] = 'Domain';
-$PALANG['pOverview_get_aliases'] = 'Aliases';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases';
-$PALANG['pOverview_get_mailboxes'] = 'Mailboxes';
+$PALANG['mailboxes'] = 'Mailboxes';
 $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';
 
 $PALANG['pDelete_delete_error'] = 'Unable to delete the entry ';
@@ -93,19 +90,16 @@ $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain';
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.';
 $PALANG['pCreate_alias_domain_target'] = 'Target Domain';
 $PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.';
-$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain';
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.';
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!';
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.';
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.';
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!';
 
-$PALANG['pCreate_alias_welcome'] = 'Create a new alias for your domain.';
 $PALANG['pCreate_alias_address_text_error1'] = 'The ALIAS is not valid!';
 $PALANG['email-address-already-exists'] = 'This email address already exists, please choose a different one!';
 $PALANG['pCreate_alias_address_text_error3'] = 'You have reached your limit to create aliases!';
 $PALANG['pCreate_alias_goto'] = 'To';
-$PALANG['pCreate_alias_button'] = 'Add Alias';
 $PALANG['pCreate_alias_goto_text'] = 'Where the mail needs to be sent to.';
 $PALANG['pCreate_alias_goto_text_error'] = 'The To: is not valid!';
 $PALANG['pCreate_alias_result_error'] = 'Unable to add the alias to the alias table!';
@@ -127,12 +121,9 @@ $PALANG['pEdit_alias_result_error'] = 'Unable to modify the alias!';
 $PALANG['pCreate_mailbox_welcome'] = 'Create a new mailbox for your domain.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'The EMAIL is not valid!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'You have reached your limit to create mailboxes!';
-$PALANG['pCreate_mailbox_password2'] = 'Password (again)';
 $PALANG['pCreate_mailbox_password_text'] = 'Password for POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Full name';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'The quota that you specified is too high!';
 $PALANG['pCreate_mailbox_mail'] = 'Send Welcome mail';
-$PALANG['pCreate_mailbox_button'] = 'Add Mailbox';
 $PALANG['pCreate_mailbox_result_error'] = 'Unable to add the mailbox to the mailbox table!';
 $PALANG['pCreate_mailbox_result_success'] = 'The mailbox has been added to the mailbox table!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created';
@@ -156,7 +147,7 @@ $PALANG['pPassword_password_current_text_error'] = 'You didn\'t supply your curr
 $PALANG['pPassword_password'] = 'New Password';
 $PALANG['pPassword_password2'] = 'New Password (again)';
 $PALANG['pPassword_password_text_error'] = 'The passwords that you supplied don\'t match or are empty!';
-$PALANG['pPassword_button'] = 'Change Password';
+$PALANG['change-password'] = 'Change Password';
 $PALANG['pPassword_result_error'] = 'Unable to change your password!';
 $PALANG['pPassword_result_success'] = 'Your password has been changed!';
 
@@ -213,35 +204,25 @@ $PALANG['pSendmail_result_success'] = 'Email sent!';
 $PALANG['pAdminMenu_list_admin'] = 'Admin List';
 $PALANG['pAdminMenu_list_domain'] = 'Domain List';
 $PALANG['pAdminMenu_list_virtual'] = 'Virtual List';
-$PALANG['pAdminMenu_viewlog'] = 'View Log';
 $PALANG['pAdminMenu_backup'] = 'Backup';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Domain Admins';
 $PALANG['pAdminMenu_create_admin'] = 'New Admin';
 $PALANG['pAdminMenu_create_domain'] = 'New Domain';
-$PALANG['pAdminMenu_create_alias'] = 'Add Alias';
-$PALANG['pAdminMenu_create_mailbox'] = 'Add Mailbox';
 
 $PALANG['pAdminList_admin_username'] = 'Admin';
 $PALANG['pAdminList_admin_count'] = 'Domains';
 
-$PALANG['pAdminList_domain_description'] = 'Description';
-$PALANG['pAdminList_domain_aliases'] = 'Aliases';
-$PALANG['pAdminList_domain_mailboxes'] = 'Mailboxes';
+$PALANG['description'] = 'Description';
+$PALANG['aliases'] = 'Aliases';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)';
-$PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['pAdminList_domain_usercontrol'] = 'User Control';
 $PALANG['last_modified'] = 'Last modified';
 
 $PALANG['pAdminList_virtual_button'] = 'Go';
-$PALANG['pAdminList_virtual_welcome'] = 'Overview for ';
-$PALANG['pAdminList_virtual_alias_alias_count'] = 'Aliases';
-$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Mailboxes';
 $PALANG['pAdminList_virtual_alias_address'] = 'From';
 $PALANG['pAdminList_virtual_alias_goto'] = 'To';
-$PALANG['pAdminList_virtual_mailbox_username'] = 'Email';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Name';
-$PALANG['pAdminList_virtual_mailbox_quota'] = 'Quota (MB)';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Add a new domain';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'The domain already exists!';
@@ -259,15 +240,11 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Edit a domain';
-$PALANG['pAdminEdit_domain_description'] = 'Description';
-$PALANG['pAdminEdit_domain_aliases'] = 'Aliases';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = disable | 0 = unlimited';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Mailboxes';
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = disable | 0 = unlimited';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Mailbox Quota'; # TODO: add change comment in translation - or drop and use pAdminCreate_domain_maxquota
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = disable | 0 = unlimited';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota';
-$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminEdit_domain_usercontrol'] = 'Allow user control';
@@ -284,7 +261,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Admin has been added!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Edit a domain admin';
 $PALANG['pAdminEdit_admin_username'] = 'Admin';
-$PALANG['pAdminEdit_admin_password2'] = 'Password (again)';
+$PALANG['password-again'] = 'Password (again)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.';
 $PALANG['pAdminEdit_admin_button'] = 'Edit Admin'; # text no longer used
@@ -297,7 +274,6 @@ $PALANG['pUsersLogin_password_incorrect'] = 'Your password is not correct!';
 
 $PALANG['pUsersMenu_vacation'] = 'Auto Response';
 $PALANG['pUsersMenu_edit_alias'] = 'Change your forward';
-$PALANG['pUsersMenu_password'] = 'Change Password';
 
 $PALANG['pUsersMain_vacation'] = 'Set an "out of office" message or auto responder for your mail.';
 $PALANG['pUsersMain_vacationSet'] = 'Auto Response is ON, click \'Auto Response\' to edit/remove';

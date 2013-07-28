@@ -31,9 +31,9 @@ $PALANG['pLogin_login_users'] = 'Brukare, trykk her for å gå til bruker-seksjo
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Oversikt';
-$PALANG['pMenu_create_alias'] = 'Legg til Alias';
-$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
-$PALANG['pMenu_create_mailbox'] = 'Legg til e-postkonto';
+$PALANG['add-alias'] = 'Legg til Alias';
+$PALANG['add-alias-domain'] = 'Add Alias Domain'; # XXX
+$PALANG['add-mailbox'] = 'Legg til e-postkonto'; # XXX check text - should be 'Add Mailbox'
 $PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'Send E-Post';
 $PALANG['pMenu_password'] = 'Passord';
@@ -42,7 +42,7 @@ $PALANG['pMenu_logout'] = 'Logg ut';
 
 $PALANG['pMain_welcome'] = 'Velkommen Til Postfix Admin!';
 $PALANG['pMain_overview'] = 'Vis alle alias og epostkontoer. Her kan du endre.';
-$PALANG['pMain_create_alias'] = 'Opprett nytt alias.';
+$PALANG['pMain_create_alias'] = 'Opprett nytt alias.'; # XXX check text - should be 'Create a new alias for your domain.'
 $PALANG['pMain_create_mailbox'] = 'Opprett ny e-postkonto.';
 $PALANG['pMain_sendmail'] = 'Send e-post til en av de nyopprettede e-postkontoene.';
 $PALANG['pMain_password'] = 'Skift passord til din administratorkonto.';
@@ -61,8 +61,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Epostkontoer';
 $PALANG['pOverview_button'] = 'Vis';
 $PALANG['pOverview_welcome'] = 'Oversikt for ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_alias_count'] = 'Alias';
-$PALANG['pOverview_alias_mailbox_count'] = 'Epostkontoer';
 $PALANG['pOverview_alias_address'] = 'Fra';
 $PALANG['pOverview_alias_goto'] = 'Mottaker';
 $PALANG['active'] = 'Aktiv'; # XXX check text - should be 'Active'
@@ -76,9 +74,8 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 $PALANG['domain'] = 'Domene';
-$PALANG['pOverview_get_aliases'] = 'Alias';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
-$PALANG['pOverview_get_mailboxes'] = 'Epostkontoer';
+$PALANG['mailboxes'] = 'Epostkontoer';
 $PALANG['pOverview_get_quota'] = 'Epostkonto Kvote (MB)';
 
 $PALANG['pDelete_delete_error'] = 'Kan ikke slette';
@@ -90,19 +87,16 @@ $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
 $PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
 $PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
-$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
-$PALANG['pCreate_alias_welcome'] = 'Opprett et nytt alias.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Aliaset er ikke gyldig!';
 $PALANG['email-address-already-exists'] = 'Denne epostadressen eksisterer allerede, velg en annen!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Du er over grensen for antall aliaser i ditt domene!';
 $PALANG['pCreate_alias_goto'] = 'Mottaker';
-$PALANG['pCreate_alias_button'] = 'Legg til Alias';
 $PALANG['pCreate_alias_goto_text'] = 'Hvor skal e-posten videresendes?';
 $PALANG['pCreate_alias_goto_text_error'] = 'Mottakerfeltet er ikke gyldig!';
 $PALANG['pCreate_alias_result_error'] = 'Klarte ikke legge til aliaset!';
@@ -123,12 +117,9 @@ $PALANG['pEdit_alias_result_error'] = 'Kan ikke endre Aliaset!';
 $PALANG['pCreate_mailbox_welcome'] = 'Opprett en ny epostkonto.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-postadressen er ugyldig!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Du er over grensen for antall e-postkontoer!';
-$PALANG['pCreate_mailbox_password2'] = 'Passord (igjen)';
 $PALANG['pCreate_mailbox_password_text'] = 'Passord for POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Fornavn og etternavn';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'Den ønskede kvoten er for høy!';
 $PALANG['pCreate_mailbox_mail'] = 'Opprett epostkonto'; # XXX Text change to 'Send Welcome mail'
-$PALANG['pCreate_mailbox_button'] = 'Opprett Alias';
 $PALANG['pCreate_mailbox_result_error'] = 'Klarte ikke å legge til e-postkontoen!';
 $PALANG['pCreate_mailbox_result_success'] = 'E-postkontoen er opprettet!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
@@ -152,7 +143,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Oppgi det eksisterende passo
 $PALANG['pPassword_password'] = 'Nytt passord';
 $PALANG['pPassword_password2'] = 'Nytt passord (igjen)';
 $PALANG['pPassword_password_text_error'] = 'Passordene er ikke like! Eller feltene er tomme!'; # XXX check/beautify - was split in two lines before
-$PALANG['pPassword_button'] = 'Endre Passord';
+$PALANG['change-password'] = 'Endre Passord';
 $PALANG['pPassword_result_error'] = 'Klarte ikke å endre passord!';
 $PALANG['pPassword_result_success'] = 'Passordet ditt er nå endret!';
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
@@ -206,34 +197,24 @@ $PALANG['pSendmail_result_success'] = 'E-postkontoen er opprettet!'; # XXX text 
 $PALANG['pAdminMenu_list_admin'] = 'Administrator-liste';
 $PALANG['pAdminMenu_list_domain'] = 'Domene-liste';
 $PALANG['pAdminMenu_list_virtual'] = 'Virtuell Liste';
-$PALANG['pAdminMenu_viewlog'] = 'Vis logg';
 $PALANG['pAdminMenu_backup'] = 'Backup';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Domene-administratorer';
 $PALANG['pAdminMenu_create_admin'] = 'Ny Administrator';
 $PALANG['pAdminMenu_create_domain'] = 'Nytt Domene';
-$PALANG['pAdminMenu_create_alias'] = 'Legg til Alias';
-$PALANG['pAdminMenu_create_mailbox'] = 'Legg til e-postkonto';
 
 $PALANG['pAdminList_admin_username'] = 'Administrator';
 $PALANG['pAdminList_admin_count'] = 'Domener';
 
-$PALANG['pAdminList_domain_description'] = 'Beskrivelse';
-$PALANG['pAdminList_domain_aliases'] = 'Alias';
-$PALANG['pAdminList_domain_mailboxes'] = 'Epostkontoer';
+$PALANG['description'] = 'Beskrivelse';
+$PALANG['aliases'] = 'Alias';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
-$PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['last_modified'] = 'Sist endret';
 
 $PALANG['pAdminList_virtual_button'] = 'Vis';
-$PALANG['pAdminList_virtual_welcome'] = 'Oversikt for ';
-$PALANG['pAdminList_virtual_alias_alias_count'] = 'Alias';
-$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Epostkontoer';
 $PALANG['pAdminList_virtual_alias_address'] = 'Fra';
 $PALANG['pAdminList_virtual_alias_goto'] = 'Til';
-$PALANG['pAdminList_virtual_mailbox_username'] = 'E-post';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Navn';
-$PALANG['pAdminList_virtual_mailbox_quota'] = 'Kvote (MB)';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Legg til et nytt domene';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Domenet eksisterer!';
@@ -250,15 +231,11 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Endre domenet';
-$PALANG['pAdminEdit_domain_description'] = 'Beskrivelse';
-$PALANG['pAdminEdit_domain_aliases'] = 'Alias';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = deaktivere | 0 = ubegrenset';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Epost kontoer'; # XXX check / compare with pAdminCreate_domain_mailboxes - should be "Mailboxes"
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = deaktivere | 0 = ubegrenset';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maks kvote';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = deaktivere | 0 = ubegrenset';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
-$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definer transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'E-postservereb er backup-MX';
 $PALANG['pAdminEdit_domain_button'] = 'Endre'; # XXX text no longer used
@@ -273,7 +250,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Administratoren er lagt til!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Endre domene-administrator';
 $PALANG['pAdminEdit_admin_username'] = 'Administrator';
-$PALANG['pAdminEdit_admin_password2'] = 'Passord (igjen)';
+$PALANG['password-again'] = 'Passord (igjen)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Endre Administrator'; # XXX text no longer used
@@ -286,7 +263,6 @@ $PALANG['pUsersLogin_password_incorrect'] = 'Feil passord!';
 
 $PALANG['pUsersMenu_vacation'] = 'Automatisk Svar';
 $PALANG['pUsersMenu_edit_alias'] = 'Endre videresending';
-$PALANG['pUsersMenu_password'] = 'Endre Passord';
 
 $PALANG['pUsersMain_vacation'] = 'Legg til en beskjed når du har status "ikke tilstede" eller et annet automatisk svar.';
 $PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is ON, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/remove'; # XXX

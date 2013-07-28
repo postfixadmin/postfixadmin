@@ -33,9 +33,9 @@ $PALANG['pLogin_login_users'] = 'Utilisateurs, cliquez ici pour rejoindre votre 
 $PALANG['pMenu_main'] = 'Menu principal';
 
 $PALANG['pMenu_overview'] = 'Vue d\'ensemble';
-$PALANG['pMenu_create_alias'] = 'Ajouter un alias';
-$PALANG['pMenu_create_alias_domain'] = 'Ajouter un alias de domaine';
-$PALANG['pMenu_create_mailbox'] = 'Ajouter un compte courriel';
+$PALANG['add-alias'] = 'Ajouter un alias';
+$PALANG['add-alias-domain'] = 'Ajouter un alias de domaine'; # XXX check text - should be 'Add Alias Domain'
+$PALANG['add-mailbox'] = 'Ajouter un compte courriel';
 $PALANG['pMenu_fetchmail'] = 'Récupérer le courrier';
 $PALANG['pMenu_sendmail'] = 'Envoyer un courriel';
 $PALANG['pMenu_password'] = 'Mot de passe';
@@ -44,7 +44,7 @@ $PALANG['pMenu_logout'] = 'Sortir';
 
 $PALANG['pMain_welcome'] = 'Bienvenue sur Postfix Admin!';
 $PALANG['pMain_overview'] = 'Visualiser vos alias et comptes courriels. (Modifier/Effacer)';
-$PALANG['pMain_create_alias'] = 'Ajouter un nouvel alias à votre domaine.';
+$PALANG['pMain_create_alias'] = 'Ajouter un nouvel alias à votre domaine.'; # XXX check text - should be 'Create a new alias for your domain.'
 $PALANG['pMain_create_mailbox'] = 'Ajouter un nouveau compte courriel à votre domaine.';
 $PALANG['pMain_sendmail'] = 'Envoyer un courriel à un de vos nouveaux comptes courriels.';
 $PALANG['pMain_password'] = 'Changer votre mot de passe pour le compte administrateur.';
@@ -63,8 +63,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Comptes courriels';
 $PALANG['pOverview_button'] = 'Aller';
 $PALANG['pOverview_welcome'] = 'Vue d\'ensemble pour ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domaines';
-$PALANG['pOverview_alias_alias_count'] = 'Alias';
-$PALANG['pOverview_alias_mailbox_count'] = 'Comptes courriels';
 $PALANG['pOverview_alias_address'] = 'De';
 $PALANG['pOverview_alias_goto'] = 'A';
 $PALANG['active'] = 'Actif';
@@ -78,9 +76,8 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 $PALANG['domain'] = 'Domaine';
-$PALANG['pOverview_get_aliases'] = 'Alias';
 $PALANG['pOverview_get_alias_domains'] = 'Alias Domaine';
-$PALANG['pOverview_get_mailboxes'] = 'Comptes courriels';
+$PALANG['mailboxes'] = 'Comptes courriels';
 $PALANG['pOverview_get_quota'] = 'Limite compte courriels (MB)';
 
 $PALANG['pDelete_delete_error'] = 'Impossible d\'effacer cette entrée ';
@@ -92,18 +89,15 @@ $PALANG['pCreate_alias_domain_alias'] = 'Alias Domaine';
 $PALANG['pCreate_alias_domain_alias_text'] = 'Le domaine dans lequel les courriels viennent.';
 $PALANG['pCreate_alias_domain_target'] = 'Domaine Cible';
 $PALANG['pCreate_alias_domain_target_text'] = 'Le domaine o� les mails doivent aller.';
-$PALANG['pCreate_alias_domain_button'] = 'Ajouter un Alias de Domaine';
 $PALANG['pCreate_alias_domain_error1'] = 'Vous n\'etes pas autorisé a créer la configuration choisie.';
 $PALANG['pCreate_alias_domain_error2'] = 'La configuration choisie est invalide, merci d\'en choisir une autre!';
 $PALANG['pCreate_alias_domain_error3'] = 'Insertion dans la base de donnée échouée.';
 $PALANG['pCreate_alias_domain_error4'] = 'Tous les domaines sont déj� liés � un alias.';
 $PALANG['pCreate_alias_domain_success'] = 'L\'alias de domaine est déj� pr�sent dans la table de domaine!';
-$PALANG['pCreate_alias_welcome'] = 'Créer un nouvel alias pour votre domaine.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Cet ALIAS n\'est pas valide!';
 $PALANG['email-address-already-exists'] = 'Ce compte courriel existe déjà, choisissez un autre libellé !'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Vous avez atteint votre limite d\'alias créés !';
 $PALANG['pCreate_alias_goto'] = 'À';
-$PALANG['pCreate_alias_button'] = 'Ajouter un alias';
 $PALANG['pCreate_alias_goto_text'] = 'Destinataires des courriels.';
 $PALANG['pCreate_alias_goto_text_error'] = 'le champ À contient des erreurs!';
 $PALANG['pCreate_alias_result_error'] = 'Impossible d\'ajouter cet alias dans la table !';
@@ -125,12 +119,9 @@ $PALANG['pEdit_alias_result_error'] = 'Impossible de modifier cet alias!';
 $PALANG['pCreate_mailbox_welcome'] = 'Ajouter un nouveau compte courriel à votre domaine.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'L\'adresse courriel est invalide!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Vous avez atteint le nombre maximum de compte courriel !';
-$PALANG['pCreate_mailbox_password2'] = 'Mot de passe (confirmation)';
 $PALANG['pCreate_mailbox_password_text'] = 'Mot de passe pour compte POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Nom complet';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'La limite que vous avez specifie est trop haute!';
 $PALANG['pCreate_mailbox_mail'] = 'Envoyer le message de bienvenue'; # XXX Text change to 'Send Welcome mail'
-$PALANG['pCreate_mailbox_button'] = 'Ajouter le compte courriel';
 $PALANG['pCreate_mailbox_result_error'] = 'Impossible d\'ajouter un compte courriel dans la table!';
 $PALANG['pCreate_mailbox_result_success'] = 'Le compte courriel a été ajouté!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Le compte courriel a été ajouté à la table, mais un ou plusieurs dossiers prédéfinis n\'ont pu être créés !';
@@ -154,7 +145,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Vous n\'avez pas fournit le 
 $PALANG['pPassword_password'] = 'Nouveau mot de passe';
 $PALANG['pPassword_password2'] = 'Nouveau mot de passe (confirmation)';
 $PALANG['pPassword_password_text_error'] = 'Le mot de passe fournit ne correspond pas! Ou est vide!'; # XXX check/beautify - was split in two lines before
-$PALANG['pPassword_button'] = 'Changer le mot de passe';
+$PALANG['change-password'] = 'Changer le mot de passe'; # XXX check text - should be 'Change Password'
 $PALANG['pPassword_result_error'] = 'Impossible de changer votre mot de passe!';
 $PALANG['pPassword_result_success'] = 'Votre mot de passe a été change!';
 $PALANG['pEdit_vacation_set'] = 'Modifier le message';
@@ -208,34 +199,24 @@ $PALANG['pSendmail_result_success'] = 'Le message a été envoyé!';
 $PALANG['pAdminMenu_list_admin'] = 'Liste Administrateurs';
 $PALANG['pAdminMenu_list_domain'] = 'Liste Domaines';
 $PALANG['pAdminMenu_list_virtual'] = 'Liste Virtuels';
-$PALANG['pAdminMenu_viewlog'] = 'Visualiser événements';
 $PALANG['pAdminMenu_backup'] = 'Sauvegarde';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Administrateurs de domaines';
 $PALANG['pAdminMenu_create_admin'] = 'Nouvel administrateur';
 $PALANG['pAdminMenu_create_domain'] = 'Nouveau domaine';
-$PALANG['pAdminMenu_create_alias'] = 'Ajouter un Alias';
-$PALANG['pAdminMenu_create_mailbox'] = 'Ajouter un compte courriel';
 
 $PALANG['pAdminList_admin_username'] = 'Administrateur';
 $PALANG['pAdminList_admin_count'] = 'Domaines';
 
-$PALANG['pAdminList_domain_description'] = 'Description';
-$PALANG['pAdminList_domain_aliases'] = 'Alias';
-$PALANG['pAdminList_domain_mailboxes'] = 'Comptes courriels';
+$PALANG['description'] = 'Description';
+$PALANG['aliases'] = 'Alias';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
-$PALANG['pAdminList_domain_transport'] = 'Transport';
 $PALANG['pAdminList_domain_backupmx'] = 'MX Backup';
 $PALANG['last_modified'] = 'Dernière modification';
 
 $PALANG['pAdminList_virtual_button'] = 'Aller';
-$PALANG['pAdminList_virtual_welcome'] = 'Vue générale pour ';
-$PALANG['pAdminList_virtual_alias_alias_count'] = 'Alias';
-$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Comptes courriels';
 $PALANG['pAdminList_virtual_alias_address'] = 'De';
 $PALANG['pAdminList_virtual_alias_goto'] = 'À';
-$PALANG['pAdminList_virtual_mailbox_username'] = 'Adresse courriel';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Nom';
-$PALANG['pAdminList_virtual_mailbox_quota'] = 'Limite (MB)';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Ajouter un nouveau domaine';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Le domaine existe déjà!';
@@ -252,15 +233,11 @@ $PALANG['pAdminDelete_domain_error'] = 'Impossible de supprimer le domain!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Impossible de supprimé cet alias de domaine!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Modifier un domaine';
-$PALANG['pAdminEdit_domain_description'] = 'Description';
-$PALANG['pAdminEdit_domain_aliases'] = 'Alias';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = désactivé | 0 = illimité';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Comptes courriels';
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = désactivé | 0 = illimité';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Limite maximum';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = désactivé | 0 = illimité';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
-$PALANG['pAdminEdit_domain_transport'] = 'Transport';
+$PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definir le transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Le serveur est un "backup MX"';
 $PALANG['pAdminEdit_domain_button'] = 'Modifier un domaine'; # XXX text no longer used
@@ -276,7 +253,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'L\'administrateur a été ajout�
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Modifier un domaine';
 $PALANG['pAdminEdit_admin_username'] = 'Administrateur';
-$PALANG['pAdminEdit_admin_password2'] = 'Mot de passe (confirmation)';
+$PALANG['password-again'] = 'Mot de passe (confirmation)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administrateur';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Modifier l\administrateur'; # XXX text no longer used
@@ -289,7 +266,6 @@ $PALANG['pUsersLogin_password_incorrect'] = 'Votre mot de passe est invalide!';
 
 $PALANG['pUsersMenu_vacation'] = 'Réponse Automatique';
 $PALANG['pUsersMenu_edit_alias'] = 'Modifier votre transfert';
-$PALANG['pUsersMenu_password'] = 'Modifier votre mot de passe';
 
 $PALANG['pUsersMain_vacation'] = 'Configurer votre répondeur automatique.';
 $PALANG['pUsersMain_vacationSet'] = 'La ' . $PALANG['pUsersMenu_vacation'] . ' est activée, cliquer \'' . $PALANG['pUsersMenu_vacation'] . '\' pour ' . $PALANG['edit'] . '/effacer';

@@ -11,12 +11,12 @@
 	<table id="admin_table">
 		{#tr_header#}
 			<td>{$PALANG.domain}</td>
-			<td>{$PALANG.pAdminList_domain_description}</td>
-			<td>{$PALANG.pAdminList_domain_aliases}</td>
-			<td>{$PALANG.pAdminList_domain_mailboxes}</td>
+			<td>{$PALANG.description}</td>
+			<td>{$PALANG.aliases}</td>
+			<td>{$PALANG.mailboxes}</td>
 			{if $CONF.quota==YES}<td>{$PALANG.pOverview_get_quota}</td>{/if}
 			{if $CONF.domain_quota==YES}<td>{$PALANG.pAdminList_domain_quota}</td>{/if}
-			{if $CONF.transport==YES}<td>{$PALANG.pAdminList_domain_transport}</td>{/if}
+			{if $CONF.transport==YES}<td>{$PALANG.transport}</td>{/if}
 			<td>{$PALANG.pAdminList_domain_backupmx}</td>
 			<td>{$PALANG.last_modified}</td>
 			<td>{$PALANG.active}</td>

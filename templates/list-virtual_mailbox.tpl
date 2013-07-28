@@ -87,7 +87,7 @@
 				<td><a href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}">{$PALANG.alias}</a></td>
 			{/if}
 			<td><a href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}">{$PALANG.edit}</a></td>
-			<td><a href="delete.php?table=mailbox&amp;delete={$item.username|escape:"url"}&amp;domain={$fDomain|escape:"url"}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.pOverview_get_mailboxes}: {$item.username}');">{$PALANG.del}</a></td>
+			<td><a href="delete.php?table=mailbox&amp;delete={$item.username|escape:"url"}&amp;domain={$fDomain|escape:"url"}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$item.username}');">{$PALANG.del}</a></td>
 		</tr>
 	{/foreach}
 </table>

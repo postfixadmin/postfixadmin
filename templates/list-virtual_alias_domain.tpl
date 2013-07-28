@@ -40,6 +40,6 @@
 </table>
 {if $can_create_alias_domain}
 	<br/>
-	<br /><a href="{#url_create_alias_domain#}&amp;target_domain={$fDomain|escape:"url"}" class="button">{$PALANG.pMenu_create_alias_domain}</a><br />
+	<br /><a href="{#url_create_alias_domain#}&amp;target_domain={$fDomain|escape:"url"}" class="button">{$PALANG.add-alias-domain}</a><br />
 
 {/if}

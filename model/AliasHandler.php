@@ -89,9 +89,9 @@ class AliasHandler extends PFAHandler {
 
         return array(
             # $PALANG labels
-            'formtitle_create'  => 'pCreate_alias_welcome',
+            'formtitle_create'  => 'pMain_create_alias',
             'formtitle_edit'    => 'pEdit_alias_welcome',
-            'create_button'     => 'pCreate_alias_button',
+            'create_button'     => 'add-alias',
 
             # various settings
             'required_role' => 'admin',

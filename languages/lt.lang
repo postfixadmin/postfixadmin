@@ -31,9 +31,9 @@ $PALANG['pLogin_login_users'] = 'Pašto vartotojams jungtis prie vartotojų sekc
 
 $PALANG['pMenu_main'] = 'Pagrindinis';
 $PALANG['pMenu_overview'] = 'Peržiūra';
-$PALANG['pMenu_create_alias'] = 'Naujas sinonimas';
-$PALANG['pMenu_create_alias_domain'] = 'Naujas srities sinonimas';
-$PALANG['pMenu_create_mailbox'] = 'Nauja pašto dėžutė';
+$PALANG['add-alias'] = 'Naujas sinonimas';
+$PALANG['add-alias-domain'] = 'Naujas srities sinonimas'; # XXX check text - should be 'Add Alias Domain'
+$PALANG['add-mailbox'] = 'Nauja pašto dėžutė';
 $PALANG['pMenu_fetchmail'] = 'Atsisiųsti paštą';
 $PALANG['pMenu_sendmail'] = 'Siųsti laišką';
 $PALANG['pMenu_password'] = 'Slaptažodis';
@@ -42,7 +42,7 @@ $PALANG['pMenu_logout'] = 'Atsijungti';
 
 $PALANG['pMain_welcome'] = 'Sveiki prisijungę prie pašto administratoriaus!';
 $PALANG['pMain_overview'] = 'Pežiūrėti visas pašto dėžutes ir sinonimus. Čionai atliekami pakeitimai, šalinimas.';
-$PALANG['pMain_create_alias'] = 'Naujas pašto sinonimas.';
+$PALANG['pMain_create_alias'] = 'Naujas pašto sinonimas.'; # XXX check text - should be 'Create a new alias for your domain.'
 $PALANG['pMain_create_mailbox'] = 'Nauja pašto dėžutė.';
 $PALANG['pMain_sendmail'] = 'Siųsti laišką į vieną naujai sukurtą pašto dėžutę.';
 $PALANG['pMain_password'] = 'Keisti administratoriaus slaptažodį.';
@@ -61,8 +61,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Pašto dėžutės';
 $PALANG['pOverview_button'] = 'Eiti';
 $PALANG['pOverview_welcome'] = 'Peržiūra ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Srities sinonimai';
-$PALANG['pOverview_alias_alias_count'] = 'sinonimų';
-$PALANG['pOverview_alias_mailbox_count'] = 'pašto dėžučių';
 $PALANG['pOverview_alias_address'] = 'Iš';
 $PALANG['pOverview_alias_goto'] = 'Į';
 $PALANG['active'] = 'Įjungtas'; # XXX check text - should be 'Active'
@@ -76,9 +74,8 @@ $PALANG['no_domains_for_this_admin'] = 'Jūs neturite teisių jokiai sričiai.';
 $PALANG['no_domains_exist'] = 'Jūs turite sukurti bent vieną sritį prieš naudodami virtualų sąrašą.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual']
 
 $PALANG['domain'] = 'Sritis';
-$PALANG['pOverview_get_aliases'] = 'Sinonimai';
 $PALANG['pOverview_get_alias_domains'] = 'Srities sinonimai';
-$PALANG['pOverview_get_mailboxes'] = 'Pašto dėžutės';
+$PALANG['mailboxes'] = 'Pašto dėžutės'; # XXX check text - should be 'Mailboxes'
 $PALANG['pOverview_get_quota'] = 'Pašto dėžutės kvota (MB)';
 
 $PALANG['pDelete_delete_error'] = 'Nepavyko pašalinti įrašo ';
@@ -90,19 +87,16 @@ $PALANG['pCreate_alias_domain_alias'] = 'Srities sinonimas';
 $PALANG['pCreate_alias_domain_alias_text'] = 'Sritis, kuriai ateina laiškai.';
 $PALANG['pCreate_alias_domain_target'] = 'Nukreipta sritis';
 $PALANG['pCreate_alias_domain_target_text'] = 'Sritis, į kurią turi būti nukreipti laiškai.';
-$PALANG['pCreate_alias_domain_button'] = 'Pridėti srities sinonimą';
 $PALANG['pCreate_alias_domain_error1'] = 'Jūs negalite sukurti pasirinktos konfigūracijos.';
 $PALANG['pCreate_alias_domain_error2'] = 'Pasirinkta neteisinga konfigūracija, pasirinkite kitą!';
 $PALANG['pCreate_alias_domain_error3'] = 'Duomenų bazės papildyti nepavyko.';
 $PALANG['pCreate_alias_domain_error4'] = 'Visos sritys jau turi sinonimus.';
 $PALANG['pCreate_alias_domain_success'] = 'Srities sinonimas užregistruotas!';
 
-$PALANG['pCreate_alias_welcome'] = 'Naujas sinonimas.';
 $PALANG['pCreate_alias_address_text_error1'] = 'Netinkamas sinonimas!';
 $PALANG['email-address-already-exists'] = 'Šis el.pašto adresas jau yra, pasirinkite kitą pavadinimą!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Išnaudota visa pašto sinonimų kvota!';
 $PALANG['pCreate_alias_goto'] = 'Kam';
-$PALANG['pCreate_alias_button'] = 'Naujas sinonimas';
 $PALANG['pCreate_alias_goto_text'] = 'Adresas, kuriuo persiųsti paštą.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Kam: įvestas neteisingai!';
 $PALANG['pCreate_alias_result_error'] = 'Sinonimo registruoti nepavyko!';
@@ -125,12 +119,9 @@ $PALANG['pEdit_alias_result_error'] = 'Sinonimo pakeisti nepavyko!';
 $PALANG['pCreate_mailbox_welcome'] = 'Nauja pašto dėžutė.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Šis el.pašto adresas neteisingas!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Išnaudota srities pašto dėžučių kvota!';
-$PALANG['pCreate_mailbox_password2'] = 'Slaptažodis (dar kartą)';
 $PALANG['pCreate_mailbox_password_text'] = 'Slaptažodis jungtis prie POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Vardas Pavardė';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'Įvesta per didelė kvota!';
 $PALANG['pCreate_mailbox_mail'] = 'Siųsti pasveikinimo žinutę';
-$PALANG['pCreate_mailbox_button'] = 'Nauja pašto dėžutė';
 $PALANG['pCreate_mailbox_result_error'] = 'Pašto dėžutės užregistruoti nepavyko!';
 $PALANG['pCreate_mailbox_result_success'] = 'Pašto dėžutė užregistruota!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Pašto dėžutė užregistruota, bet nepavyko sukurti (galbūt kai kurių) nustatytų subdirektorijų';
@@ -154,7 +145,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Neįvedėte dabartinio slapt
 $PALANG['pPassword_password'] = 'Naujas slaptažodis';
 $PALANG['pPassword_password2'] = 'Naujas slaptažodis (dar kartą)';
 $PALANG['pPassword_password_text_error'] = 'Įvesti slaptažodžiai nesutampa arba tušti!';
-$PALANG['pPassword_button'] = 'Keisti slaptažodį';
+$PALANG['change-password'] = 'Keisti slaptažodį';
 $PALANG['pPassword_result_error'] = 'Slaptažodžio pakeisti nepavyko!';
 $PALANG['pPassword_result_success'] = 'Slaptažodis pakeistas!';
 $PALANG['pEdit_vacation_set'] = 'Pakeisti / nustatyti atostogų pranešimą';
@@ -208,34 +199,24 @@ $PALANG['pSendmail_result_success'] = 'Žinutė išsiųsta!';
 $PALANG['pAdminMenu_list_admin'] = 'Administratoriai';
 $PALANG['pAdminMenu_list_domain'] = 'Sritys';
 $PALANG['pAdminMenu_list_virtual'] = 'Virtualus sąrašas';
-$PALANG['pAdminMenu_viewlog'] = 'Žurnalas';
 $PALANG['pAdminMenu_backup'] = 'Kopijos';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Sričių administratoriai';
 $PALANG['pAdminMenu_create_admin'] = 'Naujas administratorius';
 $PALANG['pAdminMenu_create_domain'] = 'Nauja sritis';
-$PALANG['pAdminMenu_create_alias'] = 'Naujas sinonimas';
-$PALANG['pAdminMenu_create_mailbox'] = 'Nauja pašto dėžutė';
 
 $PALANG['pAdminList_admin_username'] = 'Administratorius';
 $PALANG['pAdminList_admin_count'] = 'Sritys';
 
-$PALANG['pAdminList_domain_description'] = 'Aprašymas';
-$PALANG['pAdminList_domain_aliases'] = 'Sinonimai';
-$PALANG['pAdminList_domain_mailboxes'] = 'Pašto dėžutės';
+$PALANG['description'] = 'Aprašymas';
+$PALANG['aliases'] = 'Sinonimai'; # XXX check text - should be 'Aliases'
 $PALANG['pAdminList_domain_quota'] = 'Srities kvota (MB)';
-$PALANG['pAdminList_domain_transport'] = 'Srities transportas';
 $PALANG['pAdminList_domain_backupmx'] = 'Atsarginis MX';
 $PALANG['last_modified'] = 'Paskutinį kartą keista(s)'; # XXX check text - should be "Last modified"
 
 $PALANG['pAdminList_virtual_button'] = 'Eiti';
-$PALANG['pAdminList_virtual_welcome'] = 'Peržiūrėti ';
-$PALANG['pAdminList_virtual_alias_alias_count'] = 'sinonimus';
-$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'pašto dėžutes';
 $PALANG['pAdminList_virtual_alias_address'] = 'Iš';
 $PALANG['pAdminList_virtual_alias_goto'] = 'Į';
-$PALANG['pAdminList_virtual_mailbox_username'] = 'El.paštas';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Vardas';
-$PALANG['pAdminList_virtual_mailbox_quota'] = 'Kvota (MB)';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Nauja sritis';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Tokia sritis jau yra!';
@@ -251,15 +232,11 @@ $PALANG['pAdminDelete_domain_error'] = 'Nepavyko panaikinti srities!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Nepavyko panaikinti srities sinonimo!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Keisti sritį';
-$PALANG['pAdminEdit_domain_description'] = 'Aprašymas';
-$PALANG['pAdminEdit_domain_aliases'] = 'Sinonimai';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = išjungta(s) | 0 = neribota(s)';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Pašto dėžutės';
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = išjungta(s) | 0 = neribota(s)';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maksimali kvota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = išjungta(s) | 0 = neribota(s)';
 $PALANG['pAdminEdit_domain_quota'] = 'Srities kvota';
-$PALANG['pAdminEdit_domain_transport'] = 'Srities transportas';
+$PALANG['transport'] = 'Srities transportas';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Nustatyti transportą';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Tai atsarginis pašto serveris (MX)';
 $PALANG['pAdminEdit_domain_button'] = 'Keisti sritį'; # XXX text no longer used
@@ -275,7 +252,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Administratorius užregistruotas
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Registruoti srities administratorių';
 $PALANG['pAdminEdit_admin_username'] = 'Administratorius';
-$PALANG['pAdminEdit_admin_password2'] = 'Slaptažodis (dar kartą)';
+$PALANG['password-again'] = 'Slaptažodis (dar kartą)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administratorius';
 $PALANG['super_admin_desc'] = 'Super administratoriai turi priėjimą prie visų sričių, gali keisti sritis ir administratorius.';
 $PALANG['pAdminEdit_admin_button'] = 'Keisti administratorių'; # XXX text no longer used
@@ -288,7 +265,6 @@ $PALANG['pUsersLogin_password_incorrect'] = 'Slaptažodis neteisingas!';
 
 $PALANG['pUsersMenu_vacation'] = 'Automatinis (atostogų) atsakymas';
 $PALANG['pUsersMenu_edit_alias'] = 'Keisti laiškų peradresaciją';
-$PALANG['pUsersMenu_password'] = 'Keisti slaptažodį';
 
 $PALANG['pUsersMain_vacation'] = 'Nustatyti "Esu išvykęs" automatinį atsakymą visiems ateinantiems laiškams.';
 $PALANG['pUsersMain_vacationSet'] = 'Automatinis atsakymas ĮJUNGTAS, paspauskite \'Automatinis (atostogų) atsakymas\' pakeisti ar ištrinti';

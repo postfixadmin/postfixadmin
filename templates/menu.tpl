@@ -37,10 +37,10 @@
 	<li><a target="_top" href="{#url_list_virtual#}">{$PALANG.pAdminMenu_list_virtual}</a>
 		<ul>
 			<li><a target="_top" href="{#url_list_virtual#}">{$PALANG.pAdminMenu_list_virtual}</a></li>
-			<li><a target="_top" href="{#url_create_mailbox#}{$url_domain}">{$PALANG.pMenu_create_mailbox}</a></li>
-			<li><a target="_top" href="{#url_create_alias#}{$url_domain}">{$PALANG.pMenu_create_alias}</a></li>
+			<li><a target="_top" href="{#url_create_mailbox#}{$url_domain}">{$PALANG.add-mailbox}</a></li>
+			<li><a target="_top" href="{#url_create_alias#}{$url_domain}">{$PALANG.add-alias}</a></li>
 {if $boolconf_alias_domain}
-			<li><a target="_top" href="{#url_create_alias_domain#}{$url_domain}">{$PALANG.pMenu_create_alias_domain}</a></li>
+			<li><a target="_top" href="{#url_create_alias_domain#}{$url_domain}">{$PALANG.add-alias-domain}</a></li>
 {/if}
 		</ul>
 	</li>

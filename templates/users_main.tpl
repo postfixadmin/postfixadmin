@@ -11,7 +11,7 @@
 		<td>{$PALANG.pUsersMain_edit_alias}</td>
 	</tr>
 	<tr>
-		<td nowrap="nowrap"><a target="_top" href="password.php">{$PALANG.pUsersMenu_password}</a></td>
+		<td nowrap="nowrap"><a target="_top" href="password.php">{$PALANG.change-password}</a></td>
 		<td>{$PALANG.pUsersMain_password}</td>
 	</tr>
 	<tr>

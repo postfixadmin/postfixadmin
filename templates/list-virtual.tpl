@@ -8,8 +8,8 @@
 	<input class="button" type="submit" name="go" value="{$PALANG.pOverview_button}" />
 </form>
 <h4>{$PALANG.pOverview_welcome}{$fDomain}</h4>
-<p>{$PALANG.pOverview_alias_alias_count}: {$limit.alias_count} / {$limit.aliases}</p>
-<p>{$PALANG.pOverview_alias_mailbox_count}: {$limit.mailbox_count} / {$limit.mailboxes}</p>
+<p>{$PALANG.aliases}: {$limit.alias_count} / {$limit.aliases}</p>
+<p>{$PALANG.mailboxes}: {$limit.mailbox_count} / {$limit.mailboxes}</p>
 {#form_search#}
 </div>
 <div class='subnav'><p>{$PALANG.show}
@@ -45,7 +45,7 @@
 	</table>
 	{$nav_bar_alias.bottom}
 	{if $tCanAddAlias}
-		<br /><a href="{#url_create_alias#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.pMenu_create_alias}</a><br />
+		<br /><a href="{#url_create_alias#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.add-alias}</a><br />
 	{/if}
 {/if}
 {if $tab=='all'}<br />{/if}
@@ -64,7 +64,7 @@
 	{/if}
 	{$nav_bar_mailbox.bottom}
 	{if $tCanAddMailbox}
-		<br /><a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.pMenu_create_mailbox}</a><br />
+		<br /><a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.add-mailbox}</a><br />
 	{/if}
 {/if}
 {if $CONF.show_status===YES && $CONF.show_status_key===YES}

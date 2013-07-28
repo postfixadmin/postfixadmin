@@ -13,8 +13,8 @@
 	</tr>
 	{#tr_header#}
 		<td>{$PALANG.domain}</td>
-		<td>{$PALANG.pOverview_get_aliases}</td>
-		<td>{$PALANG.pOverview_get_mailboxes}</td>
+		<td>{$PALANG.aliases}</td>
+		<td>{$PALANG.mailboxes}</td>
 		{if $CONF.quota===YES}<td>{$PALANG.pOverview_get_quota}</td>{/if}
 		{if $CONF.domain_quota===YES}<td>{$PALANG.pAdminList_domain_quota}</td>{/if}
 	</tr>

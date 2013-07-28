@@ -30,9 +30,9 @@ $PALANG['pLogin_login_users'] = 'Korisnici kliknite ovdje za prijavu u korisnič
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Pregled';
-$PALANG['pMenu_create_alias'] = 'Dodaj alias';
-$PALANG['pMenu_create_alias_domain'] = 'Add Alias Domain'; # XXX
-$PALANG['pMenu_create_mailbox'] = 'Dodaj potanski ormarić';
+$PALANG['add-alias'] = 'Dodaj alias';
+$PALANG['add-alias-domain'] = 'Add Alias Domain'; # XXX
+$PALANG['add-mailbox'] = 'Dodaj potanski ormarić';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email'; # XXX
 $PALANG['pMenu_sendmail'] = 'Polji e-potu';
 $PALANG['pMenu_password'] = 'Lozinka';
@@ -60,8 +60,6 @@ $PALANG['pOverview_mailbox_title'] = ':: Potanski ormarići';
 $PALANG['pOverview_button'] = 'Idi';
 $PALANG['pOverview_welcome'] = 'Pregled za ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
-$PALANG['pOverview_alias_alias_count'] = 'Aliasi';
-$PALANG['pOverview_alias_mailbox_count'] = 'Potanski ormarići';
 $PALANG['pOverview_alias_address'] = 'Od';
 $PALANG['pOverview_alias_goto'] = 'Za';
 $PALANG['active'] = 'Aktivan';
@@ -75,9 +73,8 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 $PALANG['domain'] = 'Domena';
-$PALANG['pOverview_get_aliases'] = 'Aliasi';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
-$PALANG['pOverview_get_mailboxes'] = 'Potanski ormarići';
+$PALANG['mailboxes'] = 'Potanski ormarići';
 $PALANG['pOverview_get_quota'] = 'Kvota za potanske ormariće (MB)';
 
 $PALANG['pDelete_delete_error'] = 'Unos nije bilo moguče izbrisati ';
@@ -89,19 +86,16 @@ $PALANG['pCreate_alias_domain_alias'] = 'Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_alias_text'] = 'The domain that mails come in for.'; # XXX
 $PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
 $PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
-$PALANG['pCreate_alias_domain_button'] = 'Add Alias Domain'; # XXX
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
-$PALANG['pCreate_alias_welcome'] = 'Stvori novi alias za domenu.';
 $PALANG['pCreate_alias_address_text_error1'] = 'ALIAS nije valjan!';
 $PALANG['email-address-already-exists'] = 'Ova adresa e-pote već postoji, molimo izaberite drugu!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Postigli ste maksimalan broj vaih aliasa!';
 $PALANG['pCreate_alias_goto'] = 'Za';
-$PALANG['pCreate_alias_button'] = 'Dodaj alias';
 $PALANG['pCreate_alias_goto_text'] = 'Kuda poslati e-potu.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Unos "Za" je nepravilan!'; # XXX check - should be   The To: is not valid!
 $PALANG['pCreate_alias_result_error'] = 'Nije bilo moguće dodati alias u tablicu aliasa!';
@@ -123,12 +117,9 @@ $PALANG['pEdit_alias_result_error'] = 'Alias nije bilo moguče promjeniti!';
 $PALANG['pCreate_mailbox_welcome'] = 'Stvori novi potanski ormarić za izbranu domenu.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Adresa e-pote nije pravilna!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Dostigli ste va limit potanskih ormarića!';
-$PALANG['pCreate_mailbox_password2'] = 'Lozinka (ponovi)';
 $PALANG['pCreate_mailbox_password_text'] = 'Lozinka za POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Puno ime';
-$PALANG['pCreate_mailbox_quota_text_error'] = 'Uneena kvota je prevelika!';
 $PALANG['pCreate_mailbox_mail'] = 'Stvori potanski ormarić'; # XXX Text change to 'Send Welcome mail'
-$PALANG['pCreate_mailbox_button'] = 'Dodaj potanski ormarić';
 $PALANG['pCreate_mailbox_result_error'] = 'Potanski ormarić nije moguče stvoriti!';
 $PALANG['pCreate_mailbox_result_success'] = 'Potanski ormarić je uspjeno stvoren!';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
@@ -152,7 +143,7 @@ $PALANG['pPassword_password_current_text_error'] = 'Morate unijeti trenutačnu l
 $PALANG['pPassword_password'] = 'Nova lozinka';
 $PALANG['pPassword_password2'] = 'Nova lozinka (ponovi)';
 $PALANG['pPassword_password_text_error'] = 'Uneene lozinke se ne podudaraju ili su prazne!'; # XXX check/beautify - was split in two lines before
-$PALANG['pPassword_button'] = 'Promijeni lozinku';
+$PALANG['change-password'] = 'Promijeni lozinku';
 $PALANG['pPassword_result_error'] = 'Lozinku nije bilo moguče promijeniti!';
 $PALANG['pPassword_result_success'] = 'Lozinka je uspjeno promijenjena!';
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
@@ -206,34 +197,24 @@ $PALANG['pSendmail_result_success'] = 'Potanski ormarić je uspjeno stvoren!
 $PALANG['pAdminMenu_list_admin'] = 'Lista administratora';
 $PALANG['pAdminMenu_list_domain'] = 'Lista domena';
 $PALANG['pAdminMenu_list_virtual'] = 'Lista aliasa in potanskih ormarića';
-$PALANG['pAdminMenu_viewlog'] = 'Pregled zapisa';
 $PALANG['pAdminMenu_backup'] = 'Arhiviraj';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Domenski administratori';
 $PALANG['pAdminMenu_create_admin'] = 'Novi administrator';
 $PALANG['pAdminMenu_create_domain'] = 'Nova domena';
-$PALANG['pAdminMenu_create_alias'] = 'Dodaj alias';
-$PALANG['pAdminMenu_create_mailbox'] = 'Dodaj potanski ormarić';
 
 $PALANG['pAdminList_admin_username'] = 'Administrator';
 $PALANG['pAdminList_admin_count'] = 'Domene';
 
-$PALANG['pAdminList_domain_description'] = 'Opis';
-$PALANG['pAdminList_domain_aliases'] = 'Aliasi';
-$PALANG['pAdminList_domain_mailboxes'] = 'Potanski ormarići';
+$PALANG['description'] = 'Opis';
+$PALANG['aliases'] = 'Aliasi';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
-$PALANG['pAdminList_domain_transport'] = 'Transport'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['last_modified'] = 'Zadnja promjena';
 
 $PALANG['pAdminList_virtual_button'] = 'Idi';
-$PALANG['pAdminList_virtual_welcome'] = 'Pregled za: ';
-$PALANG['pAdminList_virtual_alias_alias_count'] = 'Aliasi';
-$PALANG['pAdminList_virtual_alias_mailbox_count'] = 'Potanski ormarići';
 $PALANG['pAdminList_virtual_alias_address'] = 'Od';
 $PALANG['pAdminList_virtual_alias_goto'] = 'Za';
-$PALANG['pAdminList_virtual_mailbox_username'] = 'E-pota';
 $PALANG['pAdminList_virtual_mailbox_name'] = 'Ime';
-$PALANG['pAdminList_virtual_mailbox_quota'] = 'Kvota (MB)';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Dodaj novu domenu';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Uneena domena već postoji!';
@@ -249,15 +230,11 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Uredi domenu';
-$PALANG['pAdminEdit_domain_description'] = 'Opis';
-$PALANG['pAdminEdit_domain_aliases'] = 'Aliasi';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = onemogući | 0 = bezgranično';
-$PALANG['pAdminEdit_domain_mailboxes'] = 'Potanski ormarići';
-$PALANG['pAdminEdit_domain_mailboxes_text'] = '-1 = onemogući | 0 = bezgranično'; # XXX check - should be "-1 = disable | 0 = unlimited"
 $PALANG['pAdminEdit_domain_maxquota'] = 'Maksimalna kvota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = onemogući | 0 = bezgranično';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
-$PALANG['pAdminEdit_domain_transport'] = 'Prijenos';
+$PALANG['transport'] = 'Prijenos'; # XXX check text - should be 'Transport'
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definiraj prijenos';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Posluitelj e-pote je sekundarni MX';
 $PALANG['pAdminEdit_domain_button'] = 'Uredi domenu'; # XXX text no longer used
@@ -273,7 +250,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Admininstrator je uspjeno doda
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Uredi administratora domene';
 $PALANG['pAdminEdit_admin_username'] = 'Administrator';
-$PALANG['pAdminEdit_admin_password2'] = 'Lozinka (ponovi)';
+$PALANG['password-again'] = 'Lozinka (ponovi)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_button'] = 'Uredi Administratora'; # XXX text no longer used
@@ -286,7 +263,6 @@ $PALANG['pUsersLogin_password_incorrect'] = 'Lozinka nije pravilna!';
 
 $PALANG['pUsersMenu_vacation'] = 'Obavijest o odsutnosti';
 $PALANG['pUsersMenu_edit_alias'] = 'Promijeni preusmjerenje';
-$PALANG['pUsersMenu_password'] = 'Promijeni lozinku';
 
 $PALANG['pUsersMain_vacation'] = 'Promijenite obvijest o odsutnosti.';
 $PALANG['pUsersMain_vacationSet'] = $PALANG['pUsersMenu_vacation'] . ' is ON, click \'' . $PALANG['pUsersMenu_vacation'] . '\' to ' . $PALANG['edit'] . '/remove'; # XXX
