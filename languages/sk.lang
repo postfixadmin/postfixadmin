@@ -79,7 +79,7 @@ $PALANG['pOverview_vacation_option'] = 'aut. odpoveď';
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Doména';
+$PALANG['domain'] = 'Doména';
 $PALANG['pOverview_get_aliases'] = 'Aliasy';
 $PALANG['pOverview_get_alias_domains'] = 'Aliasy domén';
 $PALANG['pOverview_get_mailboxes'] = 'Schránky';
@@ -178,7 +178,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Prehľad 10 posledných akcií pre ';
 $PALANG['pViewlog_timestamp'] = 'Časová značka';
 $PALANG['pViewlog_username'] = 'Užívateľ';
-$PALANG['pViewlog_domain'] = 'Doména';
 $PALANG['pViewlog_action'] = 'Akcia';
 $PALANG['pViewlog_data'] = 'Podrobnosti';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -226,12 +225,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Nová doména';
 $PALANG['pAdminMenu_create_alias'] = 'Pridať alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Pridať schránku';
 
-$PALANG['pAdminList_admin_domain'] = 'Doména';
 $PALANG['pAdminList_admin_username'] = 'Administrátor';
 $PALANG['pAdminList_admin_count'] = 'Domény';
 $PALANG['pAdminList_admin_active'] = 'Aktívny';
 
-$PALANG['pAdminList_domain_domain'] = 'Doména';
 $PALANG['pAdminList_domain_description'] = 'Popis';
 $PALANG['pAdminList_domain_aliases'] = 'Aliasov';
 $PALANG['pAdminList_domain_mailboxes'] = 'Schránok';
@@ -266,7 +263,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Nepodarilo sa odstrániť doménu!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Nepodario sa odstrániť alias domény!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Upraviť doménu';
-$PALANG['pAdminEdit_domain_domain'] = 'Doména';
 $PALANG['pAdminEdit_domain_description'] = 'Popis';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliasov';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = zakázať | 0 = neobmedzene';
@@ -290,7 +286,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Zadané heslá sú rozdieln
 $PALANG['pAdminCreate_admin_button'] = 'Vytvoriť administrátora';
 $PALANG['pAdminCreate_admin_result_error'] = 'Nepodarilo sa pridať administrátora!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Administrátor bol pridaný!';
-$PALANG['pAdminCreate_admin_address'] = 'Domény';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Upraviť doménového administrátora';
 $PALANG['pAdminEdit_admin_username'] = 'Užívateľské meno';

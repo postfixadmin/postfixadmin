@@ -83,7 +83,7 @@ $PALANG['pOverview_vacation_option'] = 'vypnuto';
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Doména';
+$PALANG['domain'] = 'Doména';
 $PALANG['pOverview_get_aliases'] = 'Přesměrování';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Schránky';
@@ -184,7 +184,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Prohlížet 10 posledních akcí pro ';
 $PALANG['pViewlog_timestamp'] = 'Časová značka';
 $PALANG['pViewlog_username'] = 'Administrátor';
-$PALANG['pViewlog_domain'] = 'Doména';
 $PALANG['pViewlog_action'] = 'Akce';
 $PALANG['pViewlog_data'] = 'Poznámka';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -233,12 +232,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Nová Doména';
 $PALANG['pAdminMenu_create_alias'] = 'Nové Přesměrování';
 $PALANG['pAdminMenu_create_mailbox'] = 'Nová Schránka';
 
-$PALANG['pAdminList_admin_domain'] = 'Doména';
 $PALANG['pAdminList_admin_username'] = 'Administrátor';
 $PALANG['pAdminList_admin_count'] = 'Domény';
 $PALANG['pAdminList_admin_active'] = 'Aktivní';
 
-$PALANG['pAdminList_domain_domain'] = 'Doména';
 $PALANG['pAdminList_domain_description'] = 'Popis';
 $PALANG['pAdminList_domain_aliases'] = 'Přesměrování';
 $PALANG['pAdminList_domain_mailboxes'] = 'Schránek';
@@ -274,7 +271,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Nepodařilo se odstranit doménu!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Upravit doménu';
-$PALANG['pAdminEdit_domain_domain'] = 'Doména';
 $PALANG['pAdminEdit_domain_description'] = 'Popis';
 $PALANG['pAdminEdit_domain_aliases'] = 'Přesměrování';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = znepřístupnit | 0 = neomezeně';
@@ -298,7 +294,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Zadaná hesla jsou rozdíln
 $PALANG['pAdminCreate_admin_button'] = 'Přidat administrátora';
 $PALANG['pAdminCreate_admin_result_error'] = 'Nepodařilo se přidat administrátora!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Administrátor byl přidán!';
-$PALANG['pAdminCreate_admin_address'] = 'Doména';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Upravit doménového administrátora';
 $PALANG['pAdminEdit_admin_username'] = 'Uživatelské jméno';

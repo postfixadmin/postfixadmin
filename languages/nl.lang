@@ -79,7 +79,7 @@ $PALANG['pOverview_vacation_option'] = 'Activeer automatisch beantwoorden';
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Domein';
+$PALANG['domain'] = 'Domein';
 $PALANG['pOverview_get_aliases'] = 'Aliassen';
 $PALANG['pOverview_get_alias_domains'] = 'Domein aliasen';
 $PALANG['pOverview_get_mailboxes'] = 'Mailboxen';
@@ -179,7 +179,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Tijd in seconds';
 $PALANG['pViewlog_welcome'] = 'Laat de laatste 10 actie\'s zien van ';
 $PALANG['pViewlog_timestamp'] = 'Tijd';
 $PALANG['pViewlog_username'] = 'Beheerder';
-$PALANG['pViewlog_domain'] = 'Domein';
 $PALANG['pViewlog_action'] = 'Actie';
 $PALANG['pViewlog_data'] = 'Aanpassing';
 $PALANG['pViewlog_action_create_domain'] = 'domein toegevoegd';
@@ -227,12 +226,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Voeg Domein toe';
 $PALANG['pAdminMenu_create_alias'] = 'Voeg Alias toe';
 $PALANG['pAdminMenu_create_mailbox'] = 'Voeg Mailbox toe';
 
-$PALANG['pAdminList_admin_domain'] = 'Domein';
 $PALANG['pAdminList_admin_username'] = 'Beheerder';
 $PALANG['pAdminList_admin_count'] = 'Domeinen';
 $PALANG['pAdminList_admin_active'] = 'Actief';
 
-$PALANG['pAdminList_domain_domain'] = 'Domein';
 $PALANG['pAdminList_domain_description'] = 'Omschrijving';
 $PALANG['pAdminList_domain_aliases'] = 'Aliassen';
 $PALANG['pAdminList_domain_mailboxes'] = 'Mailboxen';
@@ -268,7 +265,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Niet in staat domein te verwijderen!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Niet in staat domein alias te verwijderen!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Bewerk een domein';
-$PALANG['pAdminEdit_domain_domain'] = 'Domein';
 $PALANG['pAdminEdit_domain_description'] = 'Omschrijving';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliassen';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = uit | 0 = onbeperkt';
@@ -293,7 +289,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'De wachtwoorden die u opgaf
 $PALANG['pAdminCreate_admin_button'] = 'Voeg beheerder toe';
 $PALANG['pAdminCreate_admin_result_error'] = 'Mislukt om beheerder toe te voegen!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Beheerder is toegevoegd.';
-$PALANG['pAdminCreate_admin_address'] = 'Domein';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Bewerk een domein beheerder';
 $PALANG['pAdminEdit_admin_username'] = 'Beheerder';

@@ -78,7 +78,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Domene';
+$PALANG['domain'] = 'Domene';
 $PALANG['pOverview_get_aliases'] = 'Alias';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Epostkontoer';
@@ -175,7 +175,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Vis de 10 siste handlingene ';
 $PALANG['pViewlog_timestamp'] = 'Klokkeslett';
 $PALANG['pViewlog_username'] = 'Administrator';
-$PALANG['pViewlog_domain'] = 'Domene';
 $PALANG['pViewlog_action'] = 'Handling';
 $PALANG['pViewlog_data'] = 'Data';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -223,12 +222,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Nytt Domene';
 $PALANG['pAdminMenu_create_alias'] = 'Legg til Alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Legg til e-postkonto';
 
-$PALANG['pAdminList_admin_domain'] = 'Domene';
 $PALANG['pAdminList_admin_username'] = 'Administrator';
 $PALANG['pAdminList_admin_count'] = 'Domener';
 $PALANG['pAdminList_admin_active'] = 'Aktiv';
 
-$PALANG['pAdminList_domain_domain'] = 'Domene';
 $PALANG['pAdminList_domain_description'] = 'Beskrivelse';
 $PALANG['pAdminList_domain_aliases'] = 'Alias';
 $PALANG['pAdminList_domain_mailboxes'] = 'Epostkontoer';
@@ -264,7 +261,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Endre domenet';
-$PALANG['pAdminEdit_domain_domain'] = 'Domene';
 $PALANG['pAdminEdit_domain_description'] = 'Beskrivelse';
 $PALANG['pAdminEdit_domain_aliases'] = 'Alias';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = deaktivere | 0 = ubegrenset';
@@ -287,7 +283,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Passordene er ikke like! El
 $PALANG['pAdminCreate_admin_button'] = 'Legg til en administrator';
 $PALANG['pAdminCreate_admin_result_error'] = 'Klarte ikke å legge til administratoren!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Administratoren er lagt til!';
-$PALANG['pAdminCreate_admin_address'] = 'Domene';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Endre domene-administrator';
 $PALANG['pAdminEdit_admin_username'] = 'Administrator';

@@ -79,7 +79,7 @@ $PALANG['pOverview_vacation_option'] = 'Aseta lomavastaaja';
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Domain';
+$PALANG['domain'] = 'Domain';
 $PALANG['pOverview_get_aliases'] = 'Aliakset';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliakset';
 $PALANG['pOverview_get_mailboxes'] = 'Postilaatikot';
@@ -177,7 +177,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Näytä viimeiset kymmenen tapahtumaa domainille ';
 $PALANG['pViewlog_timestamp'] = 'Aikaleima';
 $PALANG['pViewlog_username'] = 'Admin';
-$PALANG['pViewlog_domain'] = 'Domain';
 $PALANG['pViewlog_action'] = 'Tapahtuma';
 $PALANG['pViewlog_data'] = 'Tiedot';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -225,12 +224,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Uusi domain';
 $PALANG['pAdminMenu_create_alias'] = 'Lisää alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Lisää postilaatikko';
 
-$PALANG['pAdminList_admin_domain'] = 'Domain';
 $PALANG['pAdminList_admin_username'] = 'Ylläpitäjä';
 $PALANG['pAdminList_admin_count'] = 'Domainit';
 $PALANG['pAdminList_admin_active'] = 'Aktiivinen';
 
-$PALANG['pAdminList_domain_domain'] = 'Domain';
 $PALANG['pAdminList_domain_description'] = 'Kuvaus';
 $PALANG['pAdminList_domain_aliases'] = 'Aliakset';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postilaatikot';
@@ -265,7 +262,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Domainin voitu poistaa!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Domainin aliasta ei voitu poistaa!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Muokkaa domainia';
-$PALANG['pAdminEdit_domain_domain'] = 'Domain';
 $PALANG['pAdminEdit_domain_description'] = 'Kuvaus';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliakset';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = ei käytössä | 0 = rajoittamaton';
@@ -289,7 +285,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Antamasi salasanat eivät t
 $PALANG['pAdminCreate_admin_button'] = 'Lisää ylläpitäjä';
 $PALANG['pAdminCreate_admin_result_error'] = 'Ylläpitäjän lisäys ei onnistu!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Ylläpitäjä on lisätty!';
-$PALANG['pAdminCreate_admin_address'] = 'Domain';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Muokkaa domainin ylläpitäjää';
 $PALANG['pAdminEdit_admin_username'] = 'Ylläpitäjä';

@@ -80,7 +80,7 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 
-$PALANG['pOverview_get_domain'] = 'Domain';
+$PALANG['domain'] = 'Domain';
 $PALANG['pOverview_get_aliases'] = 'Alias-ok';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Postafiókok';
@@ -181,7 +181,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Az utolsó 10 esemény megtekintése: ';
 $PALANG['pViewlog_timestamp'] = 'Idõbélyeg';
 $PALANG['pViewlog_username'] = 'Admin';
-$PALANG['pViewlog_domain'] = 'Domain';
 $PALANG['pViewlog_action'] = 'Akció';
 $PALANG['pViewlog_data'] = 'Adat';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -230,12 +229,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Új Domain';
 $PALANG['pAdminMenu_create_alias'] = 'Új Alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Új Postafiók';
 
-$PALANG['pAdminList_admin_domain'] = 'Domain';
 $PALANG['pAdminList_admin_username'] = 'Admin';
 $PALANG['pAdminList_admin_count'] = 'Domain-ek';
 $PALANG['pAdminList_admin_active'] = 'Aktív';
 
-$PALANG['pAdminList_domain_domain'] = 'Domain';
 $PALANG['pAdminList_domain_description'] = 'Leírás';
 $PALANG['pAdminList_domain_aliases'] = 'Alias-ok';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postafiókok';
@@ -271,7 +268,6 @@ $PALANG['pAdminDelete_domain_error'] = 'A domain törlése nem sikerült!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain szerkesztése';
-$PALANG['pAdminEdit_domain_domain'] = 'Domain';
 $PALANG['pAdminEdit_domain_description'] = 'Leírás';
 $PALANG['pAdminEdit_domain_aliases'] = 'Alias-ok';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = kikapcsol | 0 = végtelen';
@@ -295,7 +291,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'A beírt jelszavak nem egye
 $PALANG['pAdminCreate_admin_button'] = 'Admin felvétele';
 $PALANG['pAdminCreate_admin_result_error'] = 'Nemsikerült az Admint felvenni!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Az Admin sikeresen bekerült az adatbázisba!';
-$PALANG['pAdminCreate_admin_address'] = 'Domain';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain admin szerkesztése';
 $PALANG['pAdminEdit_admin_username'] = 'Admin';

@@ -83,7 +83,7 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 
-$PALANG['pOverview_get_domain'] = 'Domæne';
+$PALANG['domain'] = 'Domæne';
 $PALANG['pOverview_get_aliases'] = 'Alias';
 $PALANG['pOverview_get_alias_domains']     = 'Domæne aliases';
 $PALANG['pOverview_get_mailboxes'] = 'Postbokse';
@@ -184,7 +184,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Vis de sidste 10 poster for ';
 $PALANG['pViewlog_timestamp'] = 'Tidsstempel';
 $PALANG['pViewlog_username'] = 'Administrator';
-$PALANG['pViewlog_domain'] = 'Domæne';
 $PALANG['pViewlog_action'] = 'Handling';
 $PALANG['pViewlog_data'] = 'Data';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -233,12 +232,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Nyt domæne';
 $PALANG['pAdminMenu_create_alias']         = 'Nyt alias';
 $PALANG['pAdminMenu_create_mailbox']       = 'Ny postboks';
 
-$PALANG['pAdminList_admin_domain'] = 'Domæne';
 $PALANG['pAdminList_admin_username'] = 'Administrator';
 $PALANG['pAdminList_admin_count'] = 'Domæner';
 $PALANG['pAdminList_admin_active'] = 'Aktiv';
 
-$PALANG['pAdminList_domain_domain'] = 'Domæne';
 $PALANG['pAdminList_domain_description'] = 'Beskrivelse';
 $PALANG['pAdminList_domain_aliases'] = 'Alias';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postbokse';
@@ -274,7 +271,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Domænet kunne ikke slettes!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Domæne-aliaset kunne ikke slettes!';
 
 $PALANG['pAdminEdit_domain_welcome']        = 'Redigér et domæne';
-$PALANG['pAdminEdit_domain_domain'] = 'Domæne';
 $PALANG['pAdminEdit_domain_description'] = 'Beskrivelse';
 $PALANG['pAdminEdit_domain_aliases'] = 'Alias';
 $PALANG['pAdminEdit_domain_aliases_text']   = '-1 = annullér | 0 = uendeligt';
@@ -298,7 +294,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Adgangskoderne er ikke ens!
 $PALANG['pAdminCreate_admin_button'] = 'Tilføj administrator';
 $PALANG['pAdminCreate_admin_result_error']         = 'Administratoren kunne ikke tilføjes!';
 $PALANG['pAdminCreate_admin_result_success']       = 'Administratoren er tilføjet!';
-$PALANG['pAdminCreate_admin_address'] = 'Domæne';
 
 $PALANG['pAdminEdit_admin_welcome']             = 'Redigér en domæneadministrator';
 $PALANG['pAdminEdit_admin_username'] = 'Administrator';

@@ -78,7 +78,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Navnaøki';
+$PALANG['domain'] = 'Navnaøki';
 $PALANG['pOverview_get_aliases'] = 'Dulnevni';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Postkassar';
@@ -177,7 +177,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Vís seinastu 10 hendingarnar fyri ';
 $PALANG['pViewlog_timestamp'] = 'Tíðarstempul';
 $PALANG['pViewlog_username'] = 'Umsitari';
-$PALANG['pViewlog_domain'] = 'Navnaøki';
 $PALANG['pViewlog_action'] = 'Hending';
 $PALANG['pViewlog_data'] = 'Dáta';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -225,12 +224,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Nýtt Navnaøki';
 $PALANG['pAdminMenu_create_alias'] = 'Stovna Dulnevni';
 $PALANG['pAdminMenu_create_mailbox'] = 'Stovna Postkassa';
 
-$PALANG['pAdminList_admin_domain'] = 'Navnaøki';
 $PALANG['pAdminList_admin_username'] = 'Umsitari';
 $PALANG['pAdminList_admin_count'] = 'Navnaøki';
 $PALANG['pAdminList_admin_active'] = 'Virkin';
 
-$PALANG['pAdminList_domain_domain'] = 'Navnaøki';
 $PALANG['pAdminList_domain_description'] = 'Frágreiðing';
 $PALANG['pAdminList_domain_aliases'] = 'Dulnevni';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postkassar';
@@ -265,7 +262,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Broyt navnaøki';
-$PALANG['pAdminEdit_domain_domain'] = 'Navnaøki';
 $PALANG['pAdminEdit_domain_description'] = 'Frágreiðing';
 $PALANG['pAdminEdit_domain_aliases'] = 'Dulnevni';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = óvirkja | 0 = óavmarkað';
@@ -289,7 +285,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Loyniorðini tú skrivaði 
 $PALANG['pAdminCreate_admin_button'] = 'Stovna umsitara';
 $PALANG['pAdminCreate_admin_result_error'] = 'Fái ikki stovnað umsitara!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Umsitari er stovnaður!';
-$PALANG['pAdminCreate_admin_address'] = 'Navnaøki';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Broyt navnaøki umsitara';
 $PALANG['pAdminEdit_admin_username'] = 'Umsitari';

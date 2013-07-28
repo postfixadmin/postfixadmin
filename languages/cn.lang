@@ -78,7 +78,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = '域';
+$PALANG['domain'] = '域';
 $PALANG['pOverview_get_aliases'] = '别名';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = '邮箱';
@@ -177,7 +177,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = '查看最新的10项操作日志 域名: ';
 $PALANG['pViewlog_timestamp'] = '时间';
 $PALANG['pViewlog_username'] = '管理员';
-$PALANG['pViewlog_domain'] = '域';
 $PALANG['pViewlog_action'] = '操作';
 $PALANG['pViewlog_data'] = '内容';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -225,12 +224,10 @@ $PALANG['pAdminMenu_create_domain'] = '新建域';
 $PALANG['pAdminMenu_create_alias'] = '新建别名';
 $PALANG['pAdminMenu_create_mailbox'] = '新建邮箱';
 
-$PALANG['pAdminList_admin_domain'] = '域';
 $PALANG['pAdminList_admin_username'] = '管理员';
 $PALANG['pAdminList_admin_count'] = '管理域数量';
 $PALANG['pAdminList_admin_active'] = '活动';
 
-$PALANG['pAdminList_domain_domain'] = '域';
 $PALANG['pAdminList_domain_description'] = '描述';
 $PALANG['pAdminList_domain_aliases'] = '别名数';
 $PALANG['pAdminList_domain_mailboxes'] = '邮箱数';
@@ -265,7 +262,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = '修改域';
-$PALANG['pAdminEdit_domain_domain'] = '域名';
 $PALANG['pAdminEdit_domain_description'] = '描述';
 $PALANG['pAdminEdit_domain_aliases'] = '别名数';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = 禁止 | 0 = 无限制'; # XXX check / compare with pAdminCreate_domain_aliases_text - should be "-1 = disable | ..."
@@ -289,7 +285,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = '新所输入的两次新密
 $PALANG['pAdminCreate_admin_button'] = '新增';
 $PALANG['pAdminCreate_admin_result_error'] = '新增管理员失败!';
 $PALANG['pAdminCreate_admin_result_success'] = '新增管理员成功!';
-$PALANG['pAdminCreate_admin_address'] = '域';
 
 $PALANG['pAdminEdit_admin_welcome'] = '修改域管理员';
 $PALANG['pAdminEdit_admin_username'] = '管理员';

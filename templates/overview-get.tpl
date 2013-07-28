@@ -12,7 +12,7 @@
 		<th colspan="5">{$PALANG.pOverview_title}</th>
 	</tr>
 	{#tr_header#}
-		<td>{$PALANG.pOverview_get_domain}</td>
+		<td>{$PALANG.domain}</td>
 		<td>{$PALANG.pOverview_get_aliases}</td>
 		<td>{$PALANG.pOverview_get_mailboxes}</td>
 		{if $CONF.quota===YES}<td>{$PALANG.pOverview_get_quota}</td>{/if}

@@ -12,7 +12,7 @@
 	{#tr_header#}
 		<td>{$PALANG.pViewlog_timestamp}</td>
 		<td>{$PALANG.pViewlog_username}</td>
-		<td>{$PALANG.pViewlog_domain}</td>
+		<td>{$PALANG.domain}</td>
 		<td>{$PALANG.pViewlog_action}</td>
 		<td>{$PALANG.pViewlog_data}</td>
 	</tr>

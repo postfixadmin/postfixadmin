@@ -81,7 +81,7 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 
-$PALANG['pOverview_get_domain'] = 'Domínio';
+$PALANG['domain'] = 'Domínio';
 $PALANG['pOverview_get_aliases'] = 'Aliases';
 $PALANG['pOverview_get_alias_domains'] = 'Aliases de Domínio';
 $PALANG['pOverview_get_mailboxes'] = 'Contas de email';
@@ -183,7 +183,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Últimas 10 ações para ';
 $PALANG['pViewlog_timestamp'] = 'Data/Hora';
 $PALANG['pViewlog_username'] = 'Administrador';
-$PALANG['pViewlog_domain'] = 'Domínio';
 $PALANG['pViewlog_action'] = 'Ação';
 $PALANG['pViewlog_data'] = 'Descrição';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -232,12 +231,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Criar Domínio';
 $PALANG['pAdminMenu_create_alias'] = 'Criar Alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Criar Conta de Email';
 
-$PALANG['pAdminList_admin_domain'] = 'Domínio';
 $PALANG['pAdminList_admin_username'] = 'Administrador';
 $PALANG['pAdminList_admin_count'] = 'Domínios';
 $PALANG['pAdminList_admin_active'] = 'Habilitado';
 
-$PALANG['pAdminList_domain_domain'] = 'Domínio';
 $PALANG['pAdminList_domain_description'] = 'Descrição';
 $PALANG['pAdminList_domain_aliases'] = 'Aliases';
 $PALANG['pAdminList_domain_mailboxes'] = 'Contas de Email';
@@ -273,7 +270,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Não foi possível remover o domínio!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Não foi possível remover o alias de domínio!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Edição de domínio.';
-$PALANG['pAdminEdit_domain_domain'] = 'Domínio';
 $PALANG['pAdminEdit_domain_description'] = 'Descrição';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliases';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = desativar | 0 = ilimitado';
@@ -297,7 +293,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'As senhas fornecidas são d
 $PALANG['pAdminCreate_admin_button'] = 'Criar Administrador';
 $PALANG['pAdminCreate_admin_result_error'] = 'Não foi possível criar o administrador!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Administrador criado!';
-$PALANG['pAdminCreate_admin_address'] = 'Domínio(s)';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Edição de administrador de domínio.';
 $PALANG['pAdminEdit_admin_username'] = 'Administrador';

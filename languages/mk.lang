@@ -78,7 +78,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Домен';
+$PALANG['domain'] = 'Домен';
 $PALANG['pOverview_get_aliases'] = 'Алијаси';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Поштенски сандачиња';
@@ -177,7 +177,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Преглед на последните 10 операции за: ';
 $PALANG['pViewlog_timestamp'] = 'Маркер (Timestamp)';
 $PALANG['pViewlog_username'] = 'Админ';
-$PALANG['pViewlog_domain'] = 'Домен';
 $PALANG['pViewlog_action'] = 'Операција';
 $PALANG['pViewlog_data'] = 'Датум';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -225,12 +224,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Нов домен';
 $PALANG['pAdminMenu_create_alias'] = 'Нов алијас';
 $PALANG['pAdminMenu_create_mailbox'] = 'Ново сандаче';
 
-$PALANG['pAdminList_admin_domain'] = 'Домен';
 $PALANG['pAdminList_admin_username'] = 'Корисничко име';
 $PALANG['pAdminList_admin_count'] = 'Домени';
 $PALANG['pAdminList_admin_active'] = 'Активен';
 
-$PALANG['pAdminList_domain_domain'] = 'Домен';
 $PALANG['pAdminList_domain_description'] = 'Опис';
 $PALANG['pAdminList_domain_aliases'] = 'Алијаси';
 $PALANG['pAdminList_domain_mailboxes'] = 'Поштенски сандачиња';
@@ -266,7 +263,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Измена на домен';
-$PALANG['pAdminEdit_domain_domain'] = 'Домен';
 $PALANG['pAdminEdit_domain_description'] = 'Опис';
 $PALANG['pAdminEdit_domain_aliases'] = 'Алијаси';
 $PALANG['pAdminEdit_domain_aliases_text'] = '0 = забрането | -1 = неограничено';
@@ -290,7 +286,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Внесените лози
 $PALANG['pAdminCreate_admin_button'] = 'Додади Администратор';
 $PALANG['pAdminCreate_admin_result_error'] = 'Не можам да додадам администратор!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Администраторот е додаден!';
-$PALANG['pAdminCreate_admin_address'] = 'Домен';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Измена на администратор на домен';
 $PALANG['pAdminEdit_admin_username'] = 'Администратор';

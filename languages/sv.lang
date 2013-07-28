@@ -80,7 +80,7 @@ $PALANG['pOverview_vacation_option'] = 'Aktivera ledighet';
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Domän';
+$PALANG['domain'] = 'Domän';
 $PALANG['pOverview_get_aliases'] = 'Alias';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Brevlåda';
@@ -179,7 +179,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Visa dom senaste 10 åtgärderna för ';
 $PALANG['pViewlog_timestamp'] = 'Tidpunkt';
 $PALANG['pViewlog_username'] = 'Admin';
-$PALANG['pViewlog_domain'] = 'Domän';
 $PALANG['pViewlog_action'] = 'Åtgärd';
 $PALANG['pViewlog_data'] = 'Data';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -227,12 +226,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Ny domän';
 $PALANG['pAdminMenu_create_alias'] = 'Lägg till alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Lägg till brevlåda';
 
-$PALANG['pAdminList_admin_domain'] = 'Domän';
 $PALANG['pAdminList_admin_username'] = 'Admin';
 $PALANG['pAdminList_admin_count'] = 'Domäner';
 $PALANG['pAdminList_admin_active'] = 'Aktiv';
 
-$PALANG['pAdminList_domain_domain'] = 'Domän';
 $PALANG['pAdminList_domain_description'] = 'Beskrivning';
 $PALANG['pAdminList_domain_aliases'] = 'Alias';
 $PALANG['pAdminList_domain_mailboxes'] = 'Brevlåda';
@@ -267,7 +264,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Kunde inte tabort domän!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Ändra en domän';
-$PALANG['pAdminEdit_domain_domain'] = 'Domän';
 $PALANG['pAdminEdit_domain_description'] = 'Beskrivning';
 $PALANG['pAdminEdit_domain_aliases'] = 'Alias';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = avaktivera | 0 = obegränsat';
@@ -291,7 +287,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Lösenorden du angav är ol
 $PALANG['pAdminCreate_admin_button'] = 'Lägg till admin';
 $PALANG['pAdminCreate_admin_result_error'] = 'Kan inte lägga till admin!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Admin har lagts till!';
-$PALANG['pAdminCreate_admin_address'] = 'Domän';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Ändra en domänadmin';
 $PALANG['pAdminEdit_admin_username'] = 'Admin';

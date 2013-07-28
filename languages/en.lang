@@ -80,7 +80,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation';
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.';
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual']
 
-$PALANG['pOverview_get_domain'] = 'Domain';
+$PALANG['domain'] = 'Domain';
 $PALANG['pOverview_get_aliases'] = 'Aliases';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases';
 $PALANG['pOverview_get_mailboxes'] = 'Mailboxes';
@@ -182,7 +182,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds';
 $PALANG['pViewlog_welcome'] = 'View the last 10 actions for ';
 $PALANG['pViewlog_timestamp'] = 'Timestamp';
 $PALANG['pViewlog_username'] = 'Admin';
-$PALANG['pViewlog_domain'] = 'Domain';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Data';
 
@@ -231,12 +230,10 @@ $PALANG['pAdminMenu_create_domain'] = 'New Domain';
 $PALANG['pAdminMenu_create_alias'] = 'Add Alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Add Mailbox';
 
-$PALANG['pAdminList_admin_domain'] = 'Domain';
 $PALANG['pAdminList_admin_username'] = 'Admin';
 $PALANG['pAdminList_admin_count'] = 'Domains';
 $PALANG['pAdminList_admin_active'] = 'Active';
 
-$PALANG['pAdminList_domain_domain'] = 'Domain';
 $PALANG['pAdminList_domain_description'] = 'Description';
 $PALANG['pAdminList_domain_aliases'] = 'Aliases';
 $PALANG['pAdminList_domain_mailboxes'] = 'Mailboxes';
@@ -274,7 +271,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Edit a domain';
-$PALANG['pAdminEdit_domain_domain'] = 'Domain';
 $PALANG['pAdminEdit_domain_description'] = 'Description';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliases';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = disable | 0 = unlimited';
@@ -299,7 +295,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'The passwords that you supp
 $PALANG['pAdminCreate_admin_button'] = 'Add Admin';
 $PALANG['pAdminCreate_admin_result_error'] = 'Unable to add admin!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Admin has been added!';
-$PALANG['pAdminCreate_admin_address'] = 'Domain';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Edit a domain admin';
 $PALANG['pAdminEdit_admin_username'] = 'Admin';

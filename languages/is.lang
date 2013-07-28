@@ -78,7 +78,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Lén';
+$PALANG['domain'] = 'Lén';
 $PALANG['pOverview_get_aliases'] = 'Aliasar';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Pósthólf';
@@ -176,7 +176,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Skoða síðustu 10 aðgerðir fyrir ';
 $PALANG['pViewlog_timestamp'] = 'Tími';
 $PALANG['pViewlog_username'] = 'kerfisstjóri';
-$PALANG['pViewlog_domain'] = 'lén';
 $PALANG['pViewlog_action'] = 'aðgerð';
 $PALANG['pViewlog_data'] = 'gögn';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -224,12 +223,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Nýtt lén';
 $PALANG['pAdminMenu_create_alias'] = 'Bæta við alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Bæta við pósthólfi';
 
-$PALANG['pAdminList_admin_domain'] = 'Lén';
 $PALANG['pAdminList_admin_username'] = 'Notandi';
 $PALANG['pAdminList_admin_count'] = 'Lén';
 $PALANG['pAdminList_admin_active'] = 'Virkt';
 
-$PALANG['pAdminList_domain_domain'] = 'Lén';
 $PALANG['pAdminList_domain_description'] = 'Lýsing';
 $PALANG['pAdminList_domain_aliases'] = 'Aliasar';
 $PALANG['pAdminList_domain_mailboxes'] = 'Póstbox';
@@ -264,7 +261,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Breyta léni';
-$PALANG['pAdminEdit_domain_domain'] = 'Lén';
 $PALANG['pAdminEdit_domain_description'] = 'Lýsing';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliasar';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = óvirkt | 0 = ótakmarkað';
@@ -288,7 +284,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Lykilorðið sem þú gafst
 $PALANG['pAdminCreate_admin_button'] = 'Bæta við kerfisstjóra';
 $PALANG['pAdminCreate_admin_result_error'] = 'Get ekki bætt við kerfisstjóra!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Kerfisstjórinn hefur verið skráður!';
-$PALANG['pAdminCreate_admin_address'] = 'Lén';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Breyta kerfisstjóra léns';
 $PALANG['pAdminEdit_admin_username'] = 'Kerfisstjóri';

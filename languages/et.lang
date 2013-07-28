@@ -78,7 +78,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Domeen';
+$PALANG['domain'] = 'Domeen';
 $PALANG['pOverview_get_aliases'] = 'Aliased';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Postkastid';
@@ -177,7 +177,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Vaata 10 viimast muudatust domeeniga ';
 $PALANG['pViewlog_timestamp'] = 'Ajatempel';
 $PALANG['pViewlog_username'] = 'Haldaja';
-$PALANG['pViewlog_domain'] = 'Domeen';
 $PALANG['pViewlog_action'] = 'Toiming';
 $PALANG['pViewlog_data'] = 'Andmed';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -225,12 +224,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Lisa domeen';
 $PALANG['pAdminMenu_create_alias'] = 'Lisa alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Lisa postkast';
 
-$PALANG['pAdminList_admin_domain'] = 'Domeen';
 $PALANG['pAdminList_admin_username'] = 'Haldaja';
 $PALANG['pAdminList_admin_count'] = 'Domeene';
 $PALANG['pAdminList_admin_active'] = 'Aktiivne';
 
-$PALANG['pAdminList_domain_domain'] = 'Domeen';
 $PALANG['pAdminList_domain_description'] = 'Kirjeldus';
 $PALANG['pAdminList_domain_aliases'] = 'Aliased';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postkastid';
@@ -265,7 +262,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Redigeeri domeeni';
-$PALANG['pAdminEdit_domain_domain'] = 'Domeen';
 $PALANG['pAdminEdit_domain_description'] = 'Kirjeldus';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliasi';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = keelatud | 0 = piiramatult';
@@ -289,7 +285,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Sisestatud paroolid ei katt
 $PALANG['pAdminCreate_admin_button'] = 'Lisa haldaja';
 $PALANG['pAdminCreate_admin_result_error'] = 'Haldaja lisamine ebaõnnestus!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Haldaja on lisatud!';
-$PALANG['pAdminCreate_admin_address'] = 'Domeen';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Muuda domeeni haldajat';
 $PALANG['pAdminEdit_admin_username'] = 'Haldaja';

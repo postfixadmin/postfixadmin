@@ -78,7 +78,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Domena';
+$PALANG['domain'] = 'Domena';
 $PALANG['pOverview_get_aliases'] = 'Aliasi';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Predali';
@@ -177,7 +177,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Seznam zadnjih 10 operacij za ';
 $PALANG['pViewlog_timestamp'] = 'Čas';
 $PALANG['pViewlog_username'] = 'Administrator';
-$PALANG['pViewlog_domain'] = 'Domena';
 $PALANG['pViewlog_action'] = 'Operacija';
 $PALANG['pViewlog_data'] = 'Podatki';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -225,12 +224,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Nova domena';
 $PALANG['pAdminMenu_create_alias'] = 'Dodaj alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Dodaj predal';
 
-$PALANG['pAdminList_admin_domain'] = 'Domena';
 $PALANG['pAdminList_admin_username'] = 'Administrator';
 $PALANG['pAdminList_admin_count'] = 'Domene';
 $PALANG['pAdminList_admin_active'] = 'Aktiven';
 
-$PALANG['pAdminList_domain_domain'] = 'Domena';
 $PALANG['pAdminList_domain_description'] = 'Opis';
 $PALANG['pAdminList_domain_aliases'] = 'Aliasi';
 $PALANG['pAdminList_domain_mailboxes'] = 'Predali';
@@ -265,7 +262,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Uredi domeno';
-$PALANG['pAdminEdit_domain_domain'] = 'Domena';
 $PALANG['pAdminEdit_domain_description'] = 'Opis';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliasi';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = onemogoči | 0 = neomejeno';
@@ -289,7 +285,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Vnešeni gesli se ne ujemat
 $PALANG['pAdminCreate_admin_button'] = 'Dodaj administratorja';
 $PALANG['pAdminCreate_admin_result_error'] = 'Administratorja ni bilo mogoče dodati!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Admininstrator je bil uspešno dodan';
-$PALANG['pAdminCreate_admin_address'] = 'Domena';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Uredi domenskega administratorja';
 $PALANG['pAdminEdit_admin_username'] = 'Administrator';

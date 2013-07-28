@@ -78,7 +78,7 @@ $PALANG['pOverview_vacation_option'] = 'Atostogų nustatymai';
 $PALANG['no_domains_for_this_admin'] = 'Jūs neturite teisių jokiai sričiai.';
 $PALANG['no_domains_exist'] = 'Jūs turite sukurti bent vieną sritį prieš naudodami virtualų sąrašą.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual']
 
-$PALANG['pOverview_get_domain'] = 'Sritis';
+$PALANG['domain'] = 'Sritis';
 $PALANG['pOverview_get_aliases'] = 'Sinonimai';
 $PALANG['pOverview_get_alias_domains'] = 'Srities sinonimai';
 $PALANG['pOverview_get_mailboxes'] = 'Pašto dėžutės';
@@ -178,7 +178,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Laikas sekundėmis';
 $PALANG['pViewlog_welcome'] = 'Peržiūrėti paskutinius 10 vartotojo veiksmų ';
 $PALANG['pViewlog_timestamp'] = 'Laikas';
 $PALANG['pViewlog_username'] = 'Vartotojas';
-$PALANG['pViewlog_domain'] = 'Sritis';
 $PALANG['pViewlog_action'] = 'Veiksmas';
 $PALANG['pViewlog_data'] = 'Duomenys';
 $PALANG['pViewlog_action_create_domain'] = 'sukurta sritis';
@@ -226,12 +225,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Nauja sritis';
 $PALANG['pAdminMenu_create_alias'] = 'Naujas sinonimas';
 $PALANG['pAdminMenu_create_mailbox'] = 'Nauja pašto dėžutė';
 
-$PALANG['pAdminList_admin_domain'] = 'Sritis';
 $PALANG['pAdminList_admin_username'] = 'Administratorius';
 $PALANG['pAdminList_admin_count'] = 'Sritys';
 $PALANG['pAdminList_admin_active'] = 'Įjungta(s)';
 
-$PALANG['pAdminList_domain_domain'] = 'Sritis';
 $PALANG['pAdminList_domain_description'] = 'Aprašymas';
 $PALANG['pAdminList_domain_aliases'] = 'Sinonimai';
 $PALANG['pAdminList_domain_mailboxes'] = 'Pašto dėžutės';
@@ -266,7 +263,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Nepavyko panaikinti srities!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Nepavyko panaikinti srities sinonimo!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Keisti sritį';
-$PALANG['pAdminEdit_domain_domain'] = 'Sritis';
 $PALANG['pAdminEdit_domain_description'] = 'Aprašymas';
 $PALANG['pAdminEdit_domain_aliases'] = 'Sinonimai';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = išjungta(s) | 0 = neribota(s)';
@@ -290,7 +286,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Įvesti slaptažodžiai nes
 $PALANG['pAdminCreate_admin_button'] = 'Registruoti administratorių';
 $PALANG['pAdminCreate_admin_result_error'] = 'Administratoriaus užregistruoti nepavyko!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Administratorius užregistruotas!';
-$PALANG['pAdminCreate_admin_address'] = 'Sritis';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Registruoti srities administratorių';
 $PALANG['pAdminEdit_admin_username'] = 'Administratorius';

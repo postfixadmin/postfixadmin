@@ -81,7 +81,7 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 
-$PALANG['pOverview_get_domain'] = 'ドメイン';
+$PALANG['domain'] = 'ドメイン';
 $PALANG['pOverview_get_aliases'] = '転送';
 $PALANG['pOverview_get_alias_domains'] = 'ドメインエイリアス';
 $PALANG['pOverview_get_mailboxes'] = 'アドレス';
@@ -181,7 +181,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = '過去10個のアクション ';
 $PALANG['pViewlog_timestamp'] = 'タイムスタンプ';
 $PALANG['pViewlog_username'] = '管理者';
-$PALANG['pViewlog_domain'] = 'ドメイン';
 $PALANG['pViewlog_action'] = 'アクション';
 $PALANG['pViewlog_data'] = 'データ';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -230,12 +229,10 @@ $PALANG['pAdminMenu_create_domain'] = '新しいドメイン';
 $PALANG['pAdminMenu_create_alias'] = '転送先の追加';
 $PALANG['pAdminMenu_create_mailbox'] = 'アドレスの追加';
 
-$PALANG['pAdminList_admin_domain'] = 'ドメイン';
 $PALANG['pAdminList_admin_username'] = '管理者';
 $PALANG['pAdminList_admin_count'] = 'ドメイン数';
 $PALANG['pAdminList_admin_active'] = 'アクティブ';
 
-$PALANG['pAdminList_domain_domain'] = 'ドメイン';
 $PALANG['pAdminList_domain_description'] = '説明';
 $PALANG['pAdminList_domain_aliases'] = '転送数';
 $PALANG['pAdminList_domain_mailboxes'] = 'アドレス数';
@@ -271,7 +268,6 @@ $PALANG['pAdminDelete_domain_error'] = 'ドメインが削除できません！'
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'ドメインの修正';
-$PALANG['pAdminEdit_domain_domain'] = 'ドメイン';
 $PALANG['pAdminEdit_domain_description'] = '説明';
 $PALANG['pAdminEdit_domain_aliases'] = '最大転送先数';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = 無効 | 0 = 無制限';
@@ -295,7 +291,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'パスワードが一致し
 $PALANG['pAdminCreate_admin_button'] = '管理者追加';
 $PALANG['pAdminCreate_admin_result_error'] = '管理者を追加できません！';
 $PALANG['pAdminCreate_admin_result_success'] = '管理者を追加しました。';
-$PALANG['pAdminCreate_admin_address'] = 'ドメイン';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'ドメイン管理者の編集';
 $PALANG['pAdminEdit_admin_username'] = '管理者'; # XXX check / compare with pAdminCreate_admin_username - should be "admin"

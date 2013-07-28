@@ -78,7 +78,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Domain';
+$PALANG['domain'] = 'Domain';
 $PALANG['pOverview_get_aliases'] = 'Aliaslar';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Postakutularý';
@@ -177,7 +177,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Son 10 hareket:';
 $PALANG['pViewlog_timestamp'] = 'Timestamp';
 $PALANG['pViewlog_username'] = 'Yönetici';
-$PALANG['pViewlog_domain'] = 'Domain';
 $PALANG['pViewlog_action'] = 'Aksiyon';
 $PALANG['pViewlog_data'] = 'Veri';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -225,12 +224,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Yeni Domain';
 $PALANG['pAdminMenu_create_alias'] = 'Alias ekle';
 $PALANG['pAdminMenu_create_mailbox'] = 'Postakutusu ekle';
 
-$PALANG['pAdminList_admin_domain'] = 'Domain';
 $PALANG['pAdminList_admin_username'] = 'Yönetici';
 $PALANG['pAdminList_admin_count'] = 'Domainler';
 $PALANG['pAdminList_admin_active'] = 'Aktif';
 
-$PALANG['pAdminList_domain_domain'] = 'Domain';
 $PALANG['pAdminList_domain_description'] = 'Açýklama';
 $PALANG['pAdminList_domain_aliases'] = 'Aliaslar';
 $PALANG['pAdminList_domain_mailboxes'] = 'Posta kutularý';
@@ -265,7 +262,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain düzenle';
-$PALANG['pAdminEdit_domain_domain'] = 'Domain';
 $PALANG['pAdminEdit_domain_description'] = 'Açýklama';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliaslar';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = iptal | 0 = limitsiz'; # XXX check - "limisiz" or "limi_t_siz"?
@@ -289,7 +285,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Girdiðiniz þifreler uymuy
 $PALANG['pAdminCreate_admin_button'] = 'Yönetici ekle';
 $PALANG['pAdminCreate_admin_result_error'] = 'Yönetici eklenemiyor!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Yönetici eklendi!';
-$PALANG['pAdminCreate_admin_address'] = 'Domain';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain yöneticisi düzenle';
 $PALANG['pAdminEdit_admin_username'] = 'Yönetici';

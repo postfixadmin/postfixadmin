@@ -58,7 +58,7 @@ class AdminHandler extends PFAHandler {
 # TODO: Create them with the trunk version to avoid this problem.
             ),
 
-            'domains'         => pacol( 1,          1,      1,      'list', 'pAdminCreate_admin_address'   , ''                                 , array(), list_domains(),
+            'domains'         => pacol( 1,          1,      1,      'list', 'domain'                       , ''                                 , array(), list_domains(),
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ "coalesce(domains,'') as domains"

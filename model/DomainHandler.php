@@ -37,7 +37,7 @@ class DomainHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
-           'domain'          => pacol(  $this->new, 1,      1,      'text', 'pAdminEdit_domain_domain'     , ''                                 ),
+           'domain'          => pacol(  $this->new, 1,      1,      'text', 'domain'                       , ''                                 ),
            'description'     => pacol(  1,          1,      1,      'text', 'pAdminEdit_domain_description', ''                                 ),
            'aliases'         => pacol(  1,          1,      1,      'num' , 'pAdminEdit_domain_aliases'    , 'pAdminEdit_domain_aliases_text'   , Config::read('aliases')   ),
            'alias_count'     => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '',

@@ -80,7 +80,7 @@ $PALANG['pOverview_vacation_option'] = 'Configurer le répondeur';
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Domaine';
+$PALANG['domain'] = 'Domaine';
 $PALANG['pOverview_get_aliases'] = 'Alias';
 $PALANG['pOverview_get_alias_domains'] = 'Alias Domaine';
 $PALANG['pOverview_get_mailboxes'] = 'Comptes courriels';
@@ -178,7 +178,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Visualiser les 10 dernières action pour ';
 $PALANG['pViewlog_timestamp'] = 'Date/Heure';
 $PALANG['pViewlog_username'] = 'Administrateur';
-$PALANG['pViewlog_domain'] = 'Domaine';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Information';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -226,12 +225,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Nouveau domaine';
 $PALANG['pAdminMenu_create_alias'] = 'Ajouter un Alias';
 $PALANG['pAdminMenu_create_mailbox'] = 'Ajouter un compte courriel';
 
-$PALANG['pAdminList_admin_domain'] = 'Domaine';
 $PALANG['pAdminList_admin_username'] = 'Administrateur';
 $PALANG['pAdminList_admin_count'] = 'Domaines';
 $PALANG['pAdminList_admin_active'] = 'Actif';
 
-$PALANG['pAdminList_domain_domain'] = 'Domaine';
 $PALANG['pAdminList_domain_description'] = 'Description';
 $PALANG['pAdminList_domain_aliases'] = 'Alias';
 $PALANG['pAdminList_domain_mailboxes'] = 'Comptes courriels';
@@ -267,7 +264,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Impossible de supprimer le domain!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Impossible de supprimé cet alias de domaine!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Modifier un domaine';
-$PALANG['pAdminEdit_domain_domain'] = 'Domaine';
 $PALANG['pAdminEdit_domain_description'] = 'Description';
 $PALANG['pAdminEdit_domain_aliases'] = 'Alias';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = désactivé | 0 = illimité';
@@ -291,7 +287,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Le mot de passe fournit ne 
 $PALANG['pAdminCreate_admin_button'] = 'Ajouter un administrateur';
 $PALANG['pAdminCreate_admin_result_error'] = 'Impossible d\'ajouter un administrateur!';
 $PALANG['pAdminCreate_admin_result_success'] = 'L\'administrateur a été ajouté!';
-$PALANG['pAdminCreate_admin_address'] = 'Domaine';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Modifier un domaine';
 $PALANG['pAdminEdit_admin_username'] = 'Administrateur';

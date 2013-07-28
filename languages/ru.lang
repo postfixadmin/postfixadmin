@@ -81,7 +81,7 @@ $PALANG['pOverview_vacation_option'] = 'Установить автоответ�
 $PALANG['no_domains_for_this_admin'] = 'У вас нет разрешений ни на один домен.';
 $PALANG['no_domains_exist'] = 'Вам нужно создать хотя бы один домен, чтобы использовать обзор.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual']
 
-$PALANG['pOverview_get_domain'] = 'Домен';
+$PALANG['domain'] = 'Домен';
 $PALANG['pOverview_get_aliases'] = 'Алиасы';
 $PALANG['pOverview_get_alias_domains'] = 'Домены-алиасы';
 $PALANG['pOverview_get_mailboxes'] = 'Ящики';
@@ -183,7 +183,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Просмотреть 10 последних действий для  ';
 $PALANG['pViewlog_timestamp'] = 'Время создания/модификации';
 $PALANG['pViewlog_username'] = 'Админ';
-$PALANG['pViewlog_domain'] = 'Домен';
 $PALANG['pViewlog_action'] = 'Действие';
 $PALANG['pViewlog_data'] = 'Данные';
 
@@ -232,12 +231,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Новый домен';
 $PALANG['pAdminMenu_create_alias'] = 'Создать алиас';
 $PALANG['pAdminMenu_create_mailbox'] = 'Создать ящик';
 
-$PALANG['pAdminList_admin_domain'] = 'Домен';
 $PALANG['pAdminList_admin_username'] = 'Админ';
 $PALANG['pAdminList_admin_count'] = 'Домены';
 $PALANG['pAdminList_admin_active'] = 'Активен';
 
-$PALANG['pAdminList_domain_domain'] = 'Домен';
 $PALANG['pAdminList_domain_description'] = 'Описание';
 $PALANG['pAdminList_domain_aliases'] = 'Алиасы';
 $PALANG['pAdminList_domain_mailboxes'] = 'Ящики';
@@ -273,7 +270,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Невозможно удалить до
 $PALANG['pAdminDelete_alias_domain_error'] = 'Невозможно удалить домен-алиас!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Редактирование домена';
-$PALANG['pAdminEdit_domain_domain'] = 'Домен';
 $PALANG['pAdminEdit_domain_description'] = 'Описание';
 $PALANG['pAdminEdit_domain_aliases'] = 'Алиасы';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = отключить | 0 = неограниченное';
@@ -297,7 +293,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Введенные вами
 $PALANG['pAdminCreate_admin_button'] = 'Добавить администратора';
 $PALANG['pAdminCreate_admin_result_error'] = 'Невозможно добавить администратора!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Администратор был добавлен!';
-$PALANG['pAdminCreate_admin_address'] = 'Домен';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Редактирование администратора домена';
 $PALANG['pAdminEdit_admin_username'] = 'Администратор';

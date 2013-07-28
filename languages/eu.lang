@@ -77,7 +77,7 @@ $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
-$PALANG['pOverview_get_domain'] = 'Domeinua';
+$PALANG['domain'] = 'Domeinua';
 $PALANG['pOverview_get_aliases'] = 'Aliasa';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['pOverview_get_mailboxes'] = 'Postontziak';
@@ -175,7 +175,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 $PALANG['pViewlog_welcome'] = 'Honen azken 10 ekintzak ikusi ';
 $PALANG['pViewlog_timestamp'] = 'Data/ordua';
 $PALANG['pViewlog_username'] = 'Kudeatzailea';
-$PALANG['pViewlog_domain'] = 'Domeinua';
 $PALANG['pViewlog_action'] = 'Ekintza';
 $PALANG['pViewlog_data'] = 'Datuak';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -223,12 +222,10 @@ $PALANG['pAdminMenu_create_domain'] = 'Domeinu berria';
 $PALANG['pAdminMenu_create_alias'] = 'Aliasa gehitu';
 $PALANG['pAdminMenu_create_mailbox'] = 'Postontzia gehitu';
 
-$PALANG['pAdminList_admin_domain'] = 'Domeinua';
 $PALANG['pAdminList_admin_username'] = 'Kudeatzailea';
 $PALANG['pAdminList_admin_count'] = 'Domeinuak';
 $PALANG['pAdminList_admin_active'] = 'Aktibatua';
 
-$PALANG['pAdminList_domain_domain'] = 'Domeinua';
 $PALANG['pAdminList_domain_description'] = 'Deskripzioa';
 $PALANG['pAdminList_domain_aliases'] = 'Aliasa';
 $PALANG['pAdminList_domain_mailboxes'] = 'Postontziak';
@@ -263,7 +260,6 @@ $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domeinu bat aldatu';
-$PALANG['pAdminEdit_domain_domain'] = 'Domeinua';
 $PALANG['pAdminEdit_domain_description'] = 'Deskripzioa';
 $PALANG['pAdminEdit_domain_aliases'] = 'Aliasa';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = desegokitu | 0 = mugagabea';
@@ -288,7 +284,6 @@ $PALANG['pAdminCreate_admin_password_text_error'] = 'Sartutako pasahitzak ez dat
 $PALANG['pAdminCreate_admin_button'] = 'Kudeatzailea gehitu';
 $PALANG['pAdminCreate_admin_result_error'] = 'Ezinezkoa kudeatzailea gehitzea!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Kudeatzailea gehituta1';
-$PALANG['pAdminCreate_admin_address'] = 'Domeinua';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domeinu kudeatzaile bat aldatu';
 $PALANG['pAdminEdit_admin_username'] = 'Kudeatzailea';
