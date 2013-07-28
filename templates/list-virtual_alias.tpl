@@ -4,7 +4,7 @@
 		{/if}
 		<td>{$PALANG.pOverview_alias_address}</td>
 		<td>{$PALANG.pOverview_alias_goto}</td>
-		<td>{$PALANG.pOverview_alias_modified}</td>
+		<td>{$PALANG.last_modified}</td>
 		<td>{$PALANG.pOverview_alias_active}</td>
 		<td colspan="2">&nbsp;</td>
 	</tr>
