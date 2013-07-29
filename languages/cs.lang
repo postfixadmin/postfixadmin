@@ -290,14 +290,8 @@ EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
 $PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'vytvořil schránku';
-$PALANG['pCreate_dbLog_createalias'] = 'vytvořil alias';
-$PALANG['pDelete_dbLog_deletealias'] = 'smazal alias';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'smazal schránku';
 
 $PALANG['pEdit_dbLog_editactive'] = 'změnil aktivní stav';
-$PALANG['pEdit_dbLog_editalias'] = 'editoval alias';
-$PALANG['pEdit_dbLog_editmailbox'] = 'editoval schránku';
 
 $PALANG['pSearch'] = 'vyhledat';
 $PALANG['pSearch_welcome'] = 'Vyhledávání: ';

@@ -285,14 +285,8 @@ EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Įjungtas nuo';
 $PALANG['pUsersVacation_activeuntil'] = 'Įjungtas iki';
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'pašto dėžutė sukurta';
-$PALANG['pCreate_dbLog_createalias'] = 'sinonimas sukurtas';
-$PALANG['pDelete_dbLog_deletealias'] = 'sinonimas pašalintas';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'pašto dėžutė pašalinta';
 
 $PALANG['pEdit_dbLog_editactive'] = 'pakeista būsena';
-$PALANG['pEdit_dbLog_editalias'] = 'sinonimas pakeistas';
-$PALANG['pEdit_dbLog_editmailbox'] = 'pašto dėžutė pakeista';
 
 $PALANG['pSearch'] = 'ieškoti';
 $PALANG['pSearch_welcome'] = 'Ieškoti: ';

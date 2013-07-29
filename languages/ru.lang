@@ -289,14 +289,8 @@ EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Активен с'; # obsolete
 $PALANG['pUsersVacation_activeuntil'] = 'Активен по'; # obsolete
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'создание ящика';     
-$PALANG['pCreate_dbLog_createalias'] = 'создание алиаса';
-$PALANG['pDelete_dbLog_deletealias'] = 'удаление алиаса';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'удаление ящика';
 
 $PALANG['pEdit_dbLog_editactive'] = 'изменение статуса активности';
-$PALANG['pEdit_dbLog_editalias'] = 'редактирование алиаса';
-$PALANG['pEdit_dbLog_editmailbox'] = 'редактирование ящика';
 
 $PALANG['pSearch'] = 'поиск';
 $PALANG['pSearch_welcome'] = 'Искать: ';

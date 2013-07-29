@@ -284,13 +284,7 @@ EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
 $PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'postkasti loomine';     
-$PALANG['pCreate_dbLog_createalias'] = 'aliase loomine';
-$PALANG['pDelete_dbLog_deletealias'] = 'aliase ksututamine';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'postkasti kustutamine';
 $PALANG['pEdit_dbLog_editactive'] = 'aktiivne staatuse muutmine';
-$PALANG['pEdit_dbLog_editalias'] = 'aliase redigeerimine';
-$PALANG['pEdit_dbLog_editmailbox'] = 'postkasti redigeerimine';
 
 $PALANG['pSearch'] = 'otsi';
 $PALANG['pSearch_welcome'] = 'Otsi: ';

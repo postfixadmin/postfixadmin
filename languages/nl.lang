@@ -285,14 +285,8 @@ EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Actief vanaf'; # obsolete
 $PALANG['pUsersVacation_activeuntil'] = 'Actief t/m'; # obsolete
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'mailbox aangemaakt';
-$PALANG['pCreate_dbLog_createalias'] = 'alias aangemaakt';
-$PALANG['pDelete_dbLog_deletealias'] = 'alias verwijderd';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'mailbox verwijderd';
 
 $PALANG['pEdit_dbLog_editactive'] = 'status verandert';
-$PALANG['pEdit_dbLog_editalias'] = 'bewerk alias';
-$PALANG['pEdit_dbLog_editmailbox'] = 'bewerk mailbox';
 
 $PALANG['pSearch'] = 'zoek';
 $PALANG['pSearch_welcome'] = 'zoeken naar: ';

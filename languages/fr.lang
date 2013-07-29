@@ -283,14 +283,8 @@ EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
 $PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'Création de compte';
-$PALANG['pCreate_dbLog_createalias'] = 'Création d\'alias';
-$PALANG['pDelete_dbLog_deletealias'] = 'Suppression d\'alias';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'Suppression de compte';
 
 $PALANG['pEdit_dbLog_editactive'] = 'Changement du statut d\'activation';
-$PALANG['pEdit_dbLog_editalias'] = 'Modificaton d\'alias';
-$PALANG['pEdit_dbLog_editmailbox'] = 'Modification de compte';
 
 $PALANG['pSearch'] = 'Rechercher';
 $PALANG['pSearch_welcome'] = 'Recherche : ';

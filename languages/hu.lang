@@ -289,14 +289,8 @@ EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
 $PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
-$PALANG['pCreate_dbLog_createmailbox'] = 'postafiók létrehozása';
-$PALANG['pCreate_dbLog_createalias'] = 'alias létrehozása';
-$PALANG['pDelete_dbLog_deletealias'] = 'alias törlése';
-$PALANG['pDelete_dbLog_deletemailbox'] = 'postafiók törlése';
 
 $PALANG['pEdit_dbLog_editactive'] = 'aktív státusz megváltoztatása';
-$PALANG['pEdit_dbLog_editalias'] = 'alias szerkesztése';
-$PALANG['pEdit_dbLog_editmailbox'] = 'postafiók szerkesztése';
 
 $PALANG['pSearch'] = 'search';
 $PALANG['pSearch_welcome'] = 'Keresendõ kulcsszó: ';

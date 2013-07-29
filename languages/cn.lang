@@ -281,14 +281,8 @@ EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
 $PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
 
-$PALANG['pCreate_dbLog_createmailbox'] = '新建邮箱';     
-$PALANG['pCreate_dbLog_createalias'] = '新建别名';
-$PALANG['pDelete_dbLog_deletealias'] = '删除别名';
-$PALANG['pDelete_dbLog_deletemailbox'] = '邮件邮箱';
 
 $PALANG['pEdit_dbLog_editactive'] = '改变活动状态';
-$PALANG['pEdit_dbLog_editalias'] = '编辑别名';
-$PALANG['pEdit_dbLog_editmailbox'] = '编辑邮箱';
 
 $PALANG['pSearch'] = 'search'; # XXX
 $PALANG['pSearch_welcome'] = '搜索: ';
