@@ -7,7 +7,7 @@
 		{if $tAliasDomains|@count>0} {* -> HAT alias-domains *}
 			{#tr_header#}
 			<td>{$PALANG.pOverview_alias_address}</td>
-			<td>{$PALANG.pOverview_alias_goto}</td>
+			<td>{$PALANG.to}</td>
 			<td>{$PALANG.last_modified}</td>
 			<td>{$PALANG.active}</td>
 			<td>&nbsp;</td>

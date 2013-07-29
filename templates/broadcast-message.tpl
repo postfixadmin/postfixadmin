@@ -5,7 +5,7 @@
 		<th colspan="2">{$PALANG.pBroadcast_title}</th>
 	</tr>
 	<tr>
-		<td class="label"><label>{$PALANG.pBroadcast_from}:</label></td>
+		<td class="label"><label>{$PALANG.from}:</label></td>
 		<td><em>{$smtp_from_email}</em></td>
 	</tr>
 	<tr>
@@ -23,7 +23,7 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td>
-		<input class="button" type="submit" name="submit" value="{$PALANG.pBroadcast_send}" />
+		<input class="button" type="submit" name="submit" value="{$PALANG.pSendmail_button}" />
 		</td>
 	</tr>
 </table>

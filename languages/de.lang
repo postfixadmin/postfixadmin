@@ -60,15 +60,14 @@ $PALANG['pOverview_left_arrow'] = 'Vorherige Seite';
 $PALANG['pOverview_alias_domain_title'] = ':: Alias-Domains';
 $PALANG['pOverview_alias_title'] = ':: Alias';
 $PALANG['pOverview_mailbox_title'] = ':: Mailboxen';
-$PALANG['pOverview_button'] = 'Los';
+$PALANG['go'] = 'Los';
 $PALANG['pOverview_welcome'] = 'Überblick über ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias-Domains';
 $PALANG['pOverview_alias_address'] = 'Von';
-$PALANG['pOverview_alias_goto'] = 'An';
 $PALANG['active'] = 'Aktiv';
 $PALANG['and_x_more'] = '[und %s weitere...]';
 $PALANG['pOverview_mailbox_username'] = 'Email';
-$PALANG['pOverview_mailbox_name'] = 'Name';
+$PALANG['name'] = 'Name';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pOverview_vacation_edit'] = 'AUTOMATISCHE ANTWORT IST AKTIV';
 $PALANG['pOverview_vacation_option'] = 'Automatische Antwort einrichten';
@@ -98,7 +97,6 @@ $PALANG['pCreate_alias_domain_success'] = 'Die Alias-Domain wurde in der Datenba
 $PALANG['pCreate_alias_address_text_error1'] = 'Dieses ALIAS ist nicht erlaubt!';
 $PALANG['email_address_already_exists'] = 'Diese eMail-Adresse existiert bereits. Bitte wählen Sie eine andere!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Sie haben Ihr Limit für Aliase auf dieser Domain erreicht!';
-$PALANG['pCreate_alias_goto'] = 'An';
 $PALANG['pCreate_alias_goto_text'] = 'Wohin soll die eMail weitergeleitet werden?';
 $PALANG['pCreate_alias_goto_text_error'] = 'Das An-Feld ist falsch!';
 $PALANG['pCreate_alias_result_error'] = 'Unmöglich dieses Alias in die Alias-Tabelle einzutragen!';
@@ -108,13 +106,12 @@ $PALANG['pCreate_alias_catchall_text'] = 'Um alle Adressen abzudecken benutzen S
 $PALANG['pEdit_alias_welcome'] = 'Weiterleitungs-Einstellungen ändern';
 $PALANG['pEdit_alias_help'] = 'Angabe mehrerer Ziele möglich, ein Eintrag pro Zeile.';
 $PALANG['alias'] = 'Alias';
-$PALANG['pEdit_alias_goto'] = 'An';
+$PALANG['to'] = 'An';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Sie haben im "To"-Feld nichts angegeben!';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Die angegebene eMail-Adresse ist nicht korrekt: ';
 $PALANG['pEdit_alias_domain_result_error'] = 'Alias-Domain kann nicht geändert werden!';
 $PALANG['pEdit_alias_forward_and_store'] = 'Mail in der lokalen Mailbox ablegen.';
 $PALANG['pEdit_alias_forward_only'] = 'Nur zur angegebenen Adresse weiterleiten.';
-$PALANG['pEdit_alias_button'] = 'Alias ändern'; # obsolete
 $PALANG['pEdit_alias_result_error'] = 'Ändern des Aliases nicht möglich!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Legen Sie eine neue Mailbox für Ihre Domain an.';
@@ -130,13 +127,11 @@ $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Die Mailbox wurde in de
 $PALANG['pEdit_mailbox_welcome'] = 'Ändern Sie ihre Mailbox hier.';
 $PALANG['pEdit_mailbox_username'] = 'Benutzername';
 $PALANG['pEdit_mailbox_password_text_error'] = 'Die beiden Passwörter sind nicht identisch!';
-$PALANG['pEdit_mailbox_name'] = 'Name';
 $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['mb_max'] = 'MB (max: %s)';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Das angegebene Quota ist zu hoch!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Diese Domain gehört nicht Ihnen: ';
-$PALANG['pEdit_mailbox_button'] = 'Mailbox editieren'; # obsolete
 $PALANG['pEdit_mailbox_result_error'] = 'Mailbox kann nicht geändert werden!';
 
 $PALANG['pPassword_welcome'] = 'Ändern Sie Ihr Login-Passwort.';
@@ -162,7 +157,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Zeigt die letzten 10 Aktionen für ';
 $PALANG['pViewlog_timestamp'] = 'Zeitpunkt';
-$PALANG['pViewlog_username'] = 'Admin';
 $PALANG['pViewlog_action'] = 'Aktion';
 $PALANG['pViewlog_data'] = 'Daten';
 
@@ -186,17 +180,16 @@ $PALANG['pViewlog_action_create_admin'] = 'Admin erstellen';
 $PALANG['pViewlog_action_edit_admin'] = 'Admin ändern';
 $PALANG['pViewlog_action_edit_vacation'] = 'Automatische Antwort ändern';
 
-$PALANG['pViewlog_button'] = 'Los';
 $PALANG['pViewlog_result_error'] = 'Kann keine Einträge finden!';
 
 $PALANG['pSendmail_welcome'] = 'eMail versenden.';
-$PALANG['pSendmail_admin'] = 'Von';
+$PALANG['from'] = 'Von';
 $PALANG['pSendmail_to'] = 'An';
 $PALANG['pSendmail_to_text_error'] = 'Das "An"-Feld ist leer bzw. ungültig!';
 $PALANG['subject'] = 'Betreff';
 $PALANG['pSendmail_subject_text'] = 'Willkommen';
 $PALANG['pSendmail_body'] = 'Text';
-$PALANG['pSendmail_button'] = 'Versende Nachricht';
+$PALANG['pSendmail_button'] = 'Nachricht versenden';
 $PALANG['pSendmail_result_error'] = 'Mail konnte nicht gesendet werden!';
 $PALANG['pSendmail_result_success'] = 'Mail gesendet!';
 
@@ -208,7 +201,6 @@ $PALANG['pAdminMenu_create_domain_admins'] = 'Domain Admins';
 $PALANG['pAdminMenu_create_admin'] = 'Neuer Admin';
 $PALANG['pAdminMenu_create_domain'] = 'Neue Domain';
 
-$PALANG['pAdminList_admin_username'] = 'Admin';
 $PALANG['pAdminList_admin_count'] = 'Domains';
 
 $PALANG['description'] = 'Beschreibung';
@@ -217,10 +209,6 @@ $PALANG['pAdminList_domain_quota'] = 'Domain Quota (MB)';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['last_modified'] = 'zuletzt geändert';
 
-$PALANG['pAdminList_virtual_button'] = 'Los';
-$PALANG['pAdminList_virtual_alias_address'] = 'Von';
-$PALANG['pAdminList_virtual_alias_goto'] = 'An';
-$PALANG['pAdminList_virtual_mailbox_name'] = 'Name';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Domain hinzufügen';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Diese Domain existiert bereits!';
@@ -244,7 +232,6 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota';
 $PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
-$PALANG['pAdminEdit_domain_button'] = 'Domain editieren'; # obsolete
 $PALANG['pAdminEdit_domain_result_error'] = 'Konnte Domain nicht editieren!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Neuen Domain-Admin hinzufügen';
@@ -256,11 +243,10 @@ $PALANG['pAdminCreate_admin_result_error'] = 'Konnte den Admin nicht anlegen!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Admin angelegt!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain Admin editieren';
-$PALANG['pAdminEdit_admin_username'] = 'Admin';
+$PALANG['admin'] = 'Admin';
 $PALANG['password_again'] = 'Passwort (nochmal)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super-Admin';
 $PALANG['super_admin_desc'] = 'Super-Admins haben Zugriff auf alle Domains und können Domains und Admins verwalten.';
-$PALANG['pAdminEdit_admin_button'] = 'Admin editieren'; # obsolete
 $PALANG['pAdminEdit_admin_result_error'] = 'Konnte Admin nicht ändern';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin geändert!';
 
@@ -297,9 +283,7 @@ $PALANG['pSearch_welcome'] = 'Suche nach: ';
 $PALANG['pReturn_to'] = 'Zurück zu';
 
 $PALANG['pBroadcast_title'] = 'Rundmail senden';
-$PALANG['pBroadcast_from'] = 'Von';
 $PALANG['pBroadcast_name'] = 'Ihr Name';
-$PALANG['pBroadcast_send'] = 'Nachricht senden';
 $PALANG['pBroadcast_success'] = 'Ihre Rundmail wurde gesendet.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Rundmail';
 $PALANG['pBroadcast_error_empty'] = 'Die Felder Name, Betreff und Nachricht dürfen nicht leer sein!';

@@ -5,7 +5,7 @@
 		{$select_options}
 	</select>
 	<input type="hidden" name="limit" value="0" />
-	<input class="button" type="submit" name="go" value="{$PALANG.pOverview_button}" />
+	<input class="button" type="submit" name="go" value="{$PALANG.go}" />
 </form>
 <h4>{$PALANG.pOverview_welcome}{$fDomain}</h4>
 <p>{$PALANG.aliases}: {$limit.alias_count} / {$limit.aliases}</p>

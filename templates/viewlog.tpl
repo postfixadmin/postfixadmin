@@ -1,7 +1,7 @@
 <div id="overview">
 <form name="frmOverview" method="post" action="">
 	<select name="fDomain" onchange="this.form.submit();">{$select_options}</select>
-	<input class="button" type="submit" name="go" value="{$PALANG.pViewlog_button}" />
+	<input class="button" type="submit" name="go" value="{$PALANG.go}" />
 </form>
 </div>
 {if $tLog}
@@ -11,7 +11,7 @@
 	</tr>
 	{#tr_header#}
 		<td>{$PALANG.pViewlog_timestamp}</td>
-		<td>{$PALANG.pViewlog_username}</td>
+		<td>{$PALANG.admin}</td>
 		<td>{$PALANG.domain}</td>
 		<td>{$PALANG.pViewlog_action}</td>
 		<td>{$PALANG.pViewlog_data}</td>

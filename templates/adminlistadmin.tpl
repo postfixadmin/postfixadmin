@@ -1,7 +1,7 @@
 {if $admin_properties}
 	<table id="admin_table">
 		{#tr_header#}
-			<td>{$PALANG.pAdminList_admin_username}</td>
+			<td>{$PALANG.admin}</td>
 			<td>{$PALANG.pAdminList_admin_count}</td>
 			<td>{$PALANG.last_modified}</td>
 			<td>{$PALANG.active}</td>
@@ -20,7 +20,7 @@
 			<td>{$admin.modified}</td>
 			<td><a href="{#url_edit_admin#}&amp;edit={$admin.username|escape:"url"}&amp;active={if ($admin.active==0)}1{else}0{/if}">{$admin._active}</a></td>
 			<td><a href="{#url_edit_admin#}&edit={$admin.username|escape:"url"}">{$PALANG.edit}</a></td>
-			<td><a href="{#url_delete#}?table=admin&amp;delete={$admin.username|escape:"url"}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.pAdminList_admin_username}: {$admin.username}');">{$PALANG.del}</a></td>
+			<td><a href="{#url_delete#}?table=admin&amp;delete={$admin.username|escape:"url"}" onclick="return confirm ('{$PALANG.confirm}{$PALANG.admin}: {$admin.username}');">{$PALANG.del}</a></td>
 		</tr>
 {/foreach}
 	</table>

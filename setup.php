@@ -411,7 +411,7 @@ else
       <td><a href="setup.php?lostpw=1">Lost password?</a></td>
    </tr>
    <tr>
-      <td><?php print $PALANG['pAdminEdit_admin_username'] . ":"; ?></td>
+      <td><?php print $PALANG['admin'] . ":"; ?></td>
       <td><input class="flat" type="text" name="username" value="<?php print $tUsername; ?>" /></td>
       <td><?php if (isset($errormsg['username'])) print $errormsg['username']; ?></td>
    </tr>

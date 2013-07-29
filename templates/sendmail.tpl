@@ -5,7 +5,7 @@
 		<th colspan="3">{$PALANG.pSendmail_welcome}</th>
 	</tr>
 	<tr>
-		<td class="label"><label>{$PALANG.pSendmail_admin}:</label></td>
+		<td class="label"><label>{$PALANG.from}:</label></td>
 		<td><em>{$smtp_from_email}</em></td>
 		<td>&nbsp;</td>
 	</tr>

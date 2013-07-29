@@ -2,9 +2,9 @@
 		{if $CONF.show_status===YES}<td></td>{/if}
 		<td>{$PALANG.pOverview_mailbox_username}</td>
 		{if $display_mailbox_aliases==true}
-			<td>{$PALANG.pOverview_alias_goto}</td>
+			<td>{$PALANG.to}</td>
 		{/if}
-		<td>{$PALANG.pOverview_mailbox_name}</td>
+		<td>{$PALANG.name}</td>
 		{if $CONF.quota===YES}<td>{$PALANG.pOverview_mailbox_quota}</td>{/if}
 		<td>{$PALANG.last_modified}</td>
 		<td>{$PALANG.active}</td>

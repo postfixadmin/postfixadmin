@@ -41,7 +41,7 @@ class AdminHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'username'        => pacol( $this->new, 1,      1,      'text', 'pAdminEdit_admin_username'    , 'pAdminCreate_admin_username_text' ),
+            'username'        => pacol( $this->new, 1,      1,      'text', 'admin'                        , 'pAdminCreate_admin_username_text' ),
             'password'        => pacol( 1,          1,      0,      'pass', 'password'                     , ''                                 ),
             'password2'       => pacol( 1,          1,      0,      'pass', 'password_again'               , ''                                 , '', '',
                 /*not_in_db*/ 0,

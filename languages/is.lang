@@ -58,15 +58,14 @@ $PALANG['pOverview_left_arrow'] = 'Previous Page'; # XXX
 $PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases'; # XXX
 $PALANG['pOverview_alias_title'] = ':: Alias'; # XXX
 $PALANG['pOverview_mailbox_title'] = ':: Mailboxes'; # XXX
-$PALANG['pOverview_button'] = 'Áfram';
+$PALANG['go'] = 'Áfram';
 $PALANG['pOverview_welcome'] = 'Yfirlit fyrir ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
 $PALANG['pOverview_alias_address'] = 'Póstur fyrir';
-$PALANG['pOverview_alias_goto'] = 'Áframsendist til';
 $PALANG['active'] = 'Virkt';
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'Póstfang';
-$PALANG['pOverview_mailbox_name'] = 'Nafn notanda';
+$PALANG['name'] = 'Nafn notanda'; # XXX check text - should be 'Name'
 $PALANG['pOverview_mailbox_quota'] = 'Heimild kvóta (MB)';
 $PALANG['pOverview_vacation_edit'] = 'VACATION IS ON'; # XXX
 $PALANG['pOverview_vacation_option'] = 'Set Vacation'; # XXX
@@ -96,7 +95,6 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 $PALANG['pCreate_alias_address_text_error1'] = 'Aliasinn er ekki í lagi!';
 $PALANG['email_address_already_exists'] = 'Þetta pósthólf er nú þegar til, veldu annað!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Þú hefur stofnað þann fjölda pósthólfa sem þú hefur heimild til!';
-$PALANG['pCreate_alias_goto'] = 'Til';
 $PALANG['pCreate_alias_goto_text'] = 'Þangað sem pósturinn á að sendast.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Til línan er ekki gild!';
 $PALANG['pCreate_alias_result_error'] = 'Get ekki bætt við alias í alias töflu!';
@@ -106,13 +104,12 @@ $PALANG['pCreate_alias_catchall_text'] = 'Til að útbúa alias fyrir öll netf�
 $PALANG['pEdit_alias_welcome'] = 'Breyta alias í léninu.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Ein færsla í einu.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['alias'] = 'Alias';
-$PALANG['pEdit_alias_goto'] = 'To'; # XXX check / compare with pCreate_alias_goto - should be "To"
+$PALANG['to'] = 'To'; # XXX check text - should be 'To'
 $PALANG['pEdit_alias_goto_text_error1'] = 'þú gafst ekki upp neitt í Til';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Pósthólfið sem þú reynir að nota er ekki til: ';
 $PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.'; # XXX
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; # XXX
-$PALANG['pEdit_alias_button'] = 'Breyta Alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = 'Get ekki breytt alias!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Create a new local mailbox for your domain.'; # XXX
@@ -128,13 +125,11 @@ $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been ad
 $PALANG['pEdit_mailbox_welcome'] = 'Breyta pósthólfi i léninu þínu.';
 $PALANG['pEdit_mailbox_username'] = 'Auðkenni'; # XXX check / compare with pCreate_mailbox_username - should be "Username"
 $PALANG['pEdit_mailbox_password_text_error'] = 'Lykilorðið sem þú skrifaðir inn passar ekki saman!';
-$PALANG['pEdit_mailbox_name'] = 'Nafn';
 $PALANG['pEdit_mailbox_quota'] = 'kvóti';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Kvótinn sem þú skilgreindir er of hár fyrir heimildina þína!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Þetta lén er ekki á þínum vegum: ';
-$PALANG['pEdit_mailbox_button'] = 'Breyta pósthólfi'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = 'Get ekki breytt lykilorðinu!';
 
 $PALANG['pPassword_welcome'] = 'Breyta auðkenninu þínu til að tengjast.';
@@ -158,7 +153,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Skoða síðustu 10 aðgerðir fyrir ';
 $PALANG['pViewlog_timestamp'] = 'Tími';
-$PALANG['pViewlog_username'] = 'kerfisstjóri';
 $PALANG['pViewlog_action'] = 'aðgerð';
 $PALANG['pViewlog_data'] = 'gögn';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -181,11 +175,10 @@ $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
-$PALANG['pViewlog_button'] = 'Áfram';
 $PALANG['pViewlog_result_error'] = 'Get ekki fundið log skráningu!';
 
 $PALANG['pSendmail_welcome'] = 'sendu tölvupóst.';
-$PALANG['pSendmail_admin'] = 'frá';
+$PALANG['from'] = 'frá';
 $PALANG['pSendmail_to'] = 'til';
 $PALANG['pSendmail_to_text_error'] = 'til er tómt eða ekki uppgefið gilt netfang!';
 $PALANG['subject'] = 'Efni bréfs'; # XXX check text - should be 'Subject'
@@ -203,7 +196,6 @@ $PALANG['pAdminMenu_create_domain_admins'] = 'Lén kerfisstjórar';
 $PALANG['pAdminMenu_create_admin'] = 'Nýr kerfisstjóri';
 $PALANG['pAdminMenu_create_domain'] = 'Nýtt lén';
 
-$PALANG['pAdminList_admin_username'] = 'Notandi';
 $PALANG['pAdminList_admin_count'] = 'Lén';
 
 $PALANG['description'] = 'Lýsing';
@@ -212,10 +204,6 @@ $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX'; # XXX
 $PALANG['last_modified'] = 'Síðast breytt';
 
-$PALANG['pAdminList_virtual_button'] = 'Áfram';
-$PALANG['pAdminList_virtual_alias_address'] = 'Frá';
-$PALANG['pAdminList_virtual_alias_goto'] = 'Til';
-$PALANG['pAdminList_virtual_mailbox_name'] = 'Nafn';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Bæta við léni';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Lénið er til nú þegar!';
@@ -238,7 +226,6 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['transport'] = 'Transport'; # XXX
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX
-$PALANG['pAdminEdit_domain_button'] = 'Breyta léni'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Get ekki breytt léni!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Bæta nýju léni við';
@@ -250,11 +237,10 @@ $PALANG['pAdminCreate_admin_result_error'] = 'Get ekki bætt við kerfisstjóra!
 $PALANG['pAdminCreate_admin_result_success'] = 'Kerfisstjórinn hefur verið skráður!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Breyta kerfisstjóra léns';
-$PALANG['pAdminEdit_admin_username'] = 'Kerfisstjóri';
+$PALANG['admin'] = 'Kerfisstjóri'; # XXX check text - should be 'Admin'
 $PALANG['password_again'] = 'Lykilorð (aftur)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Breyta kerfisstjóra'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Get ekki breytt kerfisstjóra!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Kerfisstjórinn hefur verið breyttur!';
 
@@ -288,9 +274,7 @@ $PALANG['pSearch'] = 'search'; # XXX
 $PALANG['pSearch_welcome'] = 'Searching for: '; # XXX
 $PALANG['pReturn_to'] = 'Return to'; # XXX
 $PALANG['pBroadcast_title'] = 'Send broadcast message'; # XXX
-$PALANG['pBroadcast_from'] = 'From'; # XXX
 $PALANG['pBroadcast_name'] = 'Your name'; # XXX
-$PALANG['pBroadcast_send'] = 'Send message'; # XXX
 $PALANG['pBroadcast_success'] = 'Your broadcast message was sent.'; # XXX
 $PALANG['pAdminMenu_broadcast_message'] = 'Broadcast message'; # XXX
 $PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message shouldn\'t be empty!'; # XXX

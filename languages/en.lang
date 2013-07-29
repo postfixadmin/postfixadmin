@@ -60,15 +60,14 @@ $PALANG['pOverview_left_arrow'] = 'Previous Page';
 $PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases';
 $PALANG['pOverview_alias_title'] = ':: Aliases';
 $PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
-$PALANG['pOverview_button'] = 'Go';
+$PALANG['go'] = 'Go';
 $PALANG['pOverview_welcome'] = 'Overview for ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains';
 $PALANG['pOverview_alias_address'] = 'From';
-$PALANG['pOverview_alias_goto'] = 'To';
 $PALANG['active'] = 'Active';
 $PALANG['and_x_more'] = '[and %s more...]';
 $PALANG['pOverview_mailbox_username'] = 'Email';
-$PALANG['pOverview_mailbox_name'] = 'Name';
+$PALANG['name'] = 'Name';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pOverview_vacation_edit'] = 'VACATION IS ON';
 $PALANG['pOverview_vacation_option'] = 'Set Vacation';
@@ -99,7 +98,6 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 $PALANG['pCreate_alias_address_text_error1'] = 'The ALIAS is not valid!';
 $PALANG['email_address_already_exists'] = 'This email address already exists, please choose a different one!';
 $PALANG['pCreate_alias_address_text_error3'] = 'You have reached your limit to create aliases!';
-$PALANG['pCreate_alias_goto'] = 'To';
 $PALANG['pCreate_alias_goto_text'] = 'Where the mail needs to be sent to.';
 $PALANG['pCreate_alias_goto_text_error'] = 'The To: is not valid!';
 $PALANG['pCreate_alias_result_error'] = 'Unable to add the alias to the alias table!';
@@ -109,13 +107,12 @@ $PALANG['pCreate_alias_catchall_text'] = 'To create a catch-all use an "*" as al
 $PALANG['pEdit_alias_welcome'] = 'Edit forwarding settings';
 $PALANG['pEdit_alias_help'] = 'Accepts multiple targets, one entry per line.';
 $PALANG['alias'] = 'Alias';
-$PALANG['pEdit_alias_goto'] = 'To';
+$PALANG['to'] = 'To';
 $PALANG['pEdit_alias_goto_text_error1'] = 'You didn\'t enter anything at To';
 $PALANG['pEdit_alias_goto_text_error2'] = 'The email address that you have entered is not valid: ';
 $PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!';
 $PALANG['pEdit_alias_forward_and_store'] = 'Deliver to the local mailbox.';
 $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
-$PALANG['pEdit_alias_button'] = 'Edit Alias'; # text no longer used
 $PALANG['pEdit_alias_result_error'] = 'Unable to modify the alias!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Create a new mailbox for your domain.';
@@ -131,13 +128,11 @@ $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been ad
 $PALANG['pEdit_mailbox_welcome'] = 'Edit a mailbox for your domain.';
 $PALANG['pEdit_mailbox_username'] = 'Username';
 $PALANG['pEdit_mailbox_password_text_error'] = 'The passwords that you supplied don\'t match!';
-$PALANG['pEdit_mailbox_name'] = 'Name';
 $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['mb_max'] = 'MB (max: %s)';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'The quota that you specified is too high!';
 $PALANG['pEdit_mailbox_domain_error'] = 'This domain is not yours: ';
-$PALANG['pEdit_mailbox_button'] = 'Edit Mailbox'; # text no longer used
 $PALANG['pEdit_mailbox_result_error'] = 'Unable to modify the mailbox!';
 
 $PALANG['pPassword_welcome'] = 'Change your login password.';
@@ -163,7 +158,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds';
 
 $PALANG['pViewlog_welcome'] = 'View the last 10 actions for ';
 $PALANG['pViewlog_timestamp'] = 'Timestamp';
-$PALANG['pViewlog_username'] = 'Admin';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Data';
 
@@ -187,11 +181,10 @@ $PALANG['pViewlog_action_create_admin'] = 'create admin';
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin';
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation';
  
-$PALANG['pViewlog_button'] = 'Go';
 $PALANG['pViewlog_result_error'] = 'Unable to find the logs!';
 
 $PALANG['pSendmail_welcome'] = 'Send an email.';
-$PALANG['pSendmail_admin'] = 'From';
+$PALANG['from'] = 'From';
 $PALANG['pSendmail_to'] = 'To';
 $PALANG['pSendmail_to_text_error'] = 'To is empty or is not a valid email address!';
 $PALANG['subject'] = 'Subject';
@@ -209,7 +202,6 @@ $PALANG['pAdminMenu_create_domain_admins'] = 'Domain Admins';
 $PALANG['pAdminMenu_create_admin'] = 'New Admin';
 $PALANG['pAdminMenu_create_domain'] = 'New Domain';
 
-$PALANG['pAdminList_admin_username'] = 'Admin';
 $PALANG['pAdminList_admin_count'] = 'Domains';
 
 $PALANG['description'] = 'Description';
@@ -219,10 +211,6 @@ $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['pAdminList_domain_usercontrol'] = 'User Control';
 $PALANG['last_modified'] = 'Last modified';
 
-$PALANG['pAdminList_virtual_button'] = 'Go';
-$PALANG['pAdminList_virtual_alias_address'] = 'From';
-$PALANG['pAdminList_virtual_alias_goto'] = 'To';
-$PALANG['pAdminList_virtual_mailbox_name'] = 'Name';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Add a new domain';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'The domain already exists!';
@@ -248,7 +236,6 @@ $PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminEdit_domain_usercontrol'] = 'Allow user control';
-$PALANG['pAdminEdit_domain_button'] = 'Edit Domain'; # text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Unable to modify domain!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Add a new domain admin';
@@ -260,11 +247,10 @@ $PALANG['pAdminCreate_admin_result_error'] = 'Unable to add admin!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Admin has been added!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Edit a domain admin';
-$PALANG['pAdminEdit_admin_username'] = 'Admin';
+$PALANG['admin'] = 'Admin';
 $PALANG['password_again'] = 'Password (again)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.';
-$PALANG['pAdminEdit_admin_button'] = 'Edit Admin'; # text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Unable to modify admin!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin has been modified!';
 
@@ -300,9 +286,7 @@ $PALANG['pSearch_welcome'] = 'Searching for: ';
 $PALANG['pReturn_to'] = 'Return to';
 
 $PALANG['pBroadcast_title'] = 'Send broadcast message';
-$PALANG['pBroadcast_from'] = 'From';
 $PALANG['pBroadcast_name'] = 'Your name';
-$PALANG['pBroadcast_send'] = 'Send message';
 $PALANG['pBroadcast_success'] = 'Your broadcast message was sent.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Broadcast message';
 $PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message shouldn\'t be empty!';

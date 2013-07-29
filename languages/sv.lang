@@ -60,15 +60,14 @@ $PALANG['pOverview_left_arrow'] = 'Föregående sida';
 $PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases'; # XXX
 $PALANG['pOverview_alias_title'] = ':: Alias';
 $PALANG['pOverview_mailbox_title'] = ':: Brevlådor';
-$PALANG['pOverview_button'] = 'Visa';
+$PALANG['go'] = 'Visa'; # XXX check text - should be 'Go'
 $PALANG['pOverview_welcome'] = 'Sammanfattning för ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
 $PALANG['pOverview_alias_address'] = 'Från';
-$PALANG['pOverview_alias_goto'] = 'Till';
 $PALANG['active'] = 'Aktiv';
 $PALANG['and_x_more'] = '[och %s mer...]';
 $PALANG['pOverview_mailbox_username'] = 'Epost';
-$PALANG['pOverview_mailbox_name'] = 'Namn';
+$PALANG['name'] = 'Namn';
 $PALANG['pOverview_mailbox_quota'] = 'Quota (MB)';
 $PALANG['pOverview_vacation_edit'] = 'LEDIGHET ÄR AKTIVERAT';
 $PALANG['pOverview_vacation_option'] = 'Aktivera ledighet';
@@ -98,7 +97,6 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 $PALANG['pCreate_alias_address_text_error1'] = 'Detta ALIAS är inte giltigt!';
 $PALANG['email_address_already_exists'] = 'Denna epostadress existerar redan, välj en annan epostadress!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Du har redan högsta tillåtna antal alias definierade!';
-$PALANG['pCreate_alias_goto'] = 'Till';
 $PALANG['pCreate_alias_goto_text'] = 'Vart skall mailen skickas.';
 $PALANG['pCreate_alias_goto_text_error'] = 'TILL data är felaktigt!';
 $PALANG['pCreate_alias_result_error'] = 'Kan inte lägga till detta alias i aliastabellen!';
@@ -108,13 +106,12 @@ $PALANG['pCreate_alias_catchall_text'] = 'För att skapa en catch-all ange ett "
 $PALANG['pEdit_alias_welcome'] = 'Ändra ett alias för din domän.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Ett alias per rad.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['alias'] = 'Alias';
-$PALANG['pEdit_alias_goto'] = 'Till';
+$PALANG['to'] = 'Till';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Du angav inget i Till';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Epost adressen du angivit är felaktig: ';
 $PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Leverera till lokal brevlåda.';
 $PALANG['pEdit_alias_forward_only'] = 'Vidarebefodra till angiven epost endast.';
-$PALANG['pEdit_alias_button'] = 'Ändra alias'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = 'Kan inte modifiera detta alias!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Skapa ett nytt lokalt brevlåda i din domän.';
@@ -130,13 +127,11 @@ $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Brevlådan har lagts ti
 $PALANG['pEdit_mailbox_welcome'] = 'Ändra ett brevlåda i din domän.';
 $PALANG['pEdit_mailbox_username'] = 'Epostadress';
 $PALANG['pEdit_mailbox_password_text_error'] = 'Lösenorden du angav är olika!';
-$PALANG['pEdit_mailbox_name'] = 'Namn';
 $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Quotagränsen du angett är för stor!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Detta är inte din domän: ';
-$PALANG['pEdit_mailbox_button'] = 'Ändra brevlåda'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = 'Kan inte ändra lösenordet!';
 
 $PALANG['pPassword_welcome'] = 'Ändra ditt lösenord.';
@@ -160,7 +155,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Visa dom senaste 10 åtgärderna för ';
 $PALANG['pViewlog_timestamp'] = 'Tidpunkt';
-$PALANG['pViewlog_username'] = 'Admin';
 $PALANG['pViewlog_action'] = 'Åtgärd';
 $PALANG['pViewlog_data'] = 'Data';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -183,11 +177,10 @@ $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
-$PALANG['pViewlog_button'] = 'Kör';
 $PALANG['pViewlog_result_error'] = 'Kan inte hitta loggarna!';
 
 $PALANG['pSendmail_welcome'] = 'Skicka ett mail.';
-$PALANG['pSendmail_admin'] = 'Från';
+$PALANG['from'] = 'Från';
 $PALANG['pSendmail_to'] = 'Till';
 $PALANG['pSendmail_to_text_error'] = 'Till är en ogiltig mailadress eller tomt.!';
 $PALANG['subject'] = 'Ämne'; # XXX check text - should be 'Subject'
@@ -205,7 +198,6 @@ $PALANG['pAdminMenu_create_domain_admins'] = 'Domän admins';
 $PALANG['pAdminMenu_create_admin'] = 'Ny admin';
 $PALANG['pAdminMenu_create_domain'] = 'Ny domän';
 
-$PALANG['pAdminList_admin_username'] = 'Admin';
 $PALANG['pAdminList_admin_count'] = 'Domäner';
 
 $PALANG['description'] = 'Beskrivning';
@@ -214,10 +206,6 @@ $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['last_modified'] = 'Senast modifierad'; # XXX check text - should be "Last modified"
 
-$PALANG['pAdminList_virtual_button'] = 'Kör';
-$PALANG['pAdminList_virtual_alias_address'] = 'Från';
-$PALANG['pAdminList_virtual_alias_goto'] = 'Till';
-$PALANG['pAdminList_virtual_mailbox_name'] = 'Namn';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Lägg till ny domän';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Den domänen finns redan!';
@@ -240,7 +228,6 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definiera transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX'; # XXX untranslated? compare with pAdminCreate_domain_backupmx
-$PALANG['pAdminEdit_domain_button'] = 'Ändra domän'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Kan inte modifiera domänen!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Lägg till ny domänadmin';
@@ -252,11 +239,10 @@ $PALANG['pAdminCreate_admin_result_error'] = 'Kan inte lägga till admin!';
 $PALANG['pAdminCreate_admin_result_success'] = 'Admin har lagts till!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Ändra en domänadmin';
-$PALANG['pAdminEdit_admin_username'] = 'Admin';
+$PALANG['admin'] = 'Admin';
 $PALANG['password_again'] = 'Lösenord (igen)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administratör';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Ändra admin'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Kan inte ändra admin!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin har ändrats!';
 
@@ -290,9 +276,7 @@ $PALANG['pSearch'] = 'sök';
 $PALANG['pSearch_welcome'] = 'Söker efter: ';
 $PALANG['pReturn_to'] = 'Återvänd till';
 $PALANG['pBroadcast_title'] = 'Grupputskick till alla';
-$PALANG['pBroadcast_from'] = 'Från';
 $PALANG['pBroadcast_name'] = 'Ditt namn';
-$PALANG['pBroadcast_send'] = 'Skicka';
 $PALANG['pBroadcast_success'] = 'Ditt grupputskick har sänts.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Grupputskick';
 $PALANG['pBroadcast_error_empty'] = 'Fälten namn, ämne och meddelande skall inte vara tomma!';

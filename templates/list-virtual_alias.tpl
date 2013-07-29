@@ -3,7 +3,7 @@
 			<td></td>
 		{/if}
 		<td>{$PALANG.pOverview_alias_address}</td>
-		<td>{$PALANG.pOverview_alias_goto}</td>
+		<td>{$PALANG.to}</td>
 		<td>{$PALANG.last_modified}</td>
 		<td>{$PALANG.active}</td>
 		<td colspan="2">&nbsp;</td>

@@ -61,15 +61,14 @@ $PALANG['pOverview_left_arrow'] = 'Предыдущая страница';
 $PALANG['pOverview_alias_domain_title'] = ':: Домены-алиасы';
 $PALANG['pOverview_alias_title'] = ':: Алиасы';
 $PALANG['pOverview_mailbox_title'] = ':: Ящики';
-$PALANG['pOverview_button'] = 'Выбрать';
+$PALANG['go'] = 'Выбрать';
 $PALANG['pOverview_welcome'] = 'Обзор для ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Домены-алиасы';
 $PALANG['pOverview_alias_address'] = 'От';
-$PALANG['pOverview_alias_goto'] = 'Кому';
 $PALANG['active'] = 'Активен';
 $PALANG['and_x_more'] = '[и еще %s...]';
 $PALANG['pOverview_mailbox_username'] = 'Ящик';
-$PALANG['pOverview_mailbox_name'] = 'Имя';
+$PALANG['name'] = 'Имя';
 $PALANG['pOverview_mailbox_quota'] = 'Квота (МБ)';
 $PALANG['pOverview_vacation_edit'] = 'ВКЛЮЧЕН АВТООТВЕТЧИК';
 $PALANG['pOverview_vacation_option'] = 'Установить автоответчик';
@@ -100,7 +99,6 @@ $PALANG['pCreate_alias_domain_success'] = 'Домен-алиас добавле�
 $PALANG['pCreate_alias_address_text_error1'] = 'Неверное имя алиаса!';
 $PALANG['email_address_already_exists'] = 'Этот почтовый адрес уже существует, пожалуйста, выберите другой.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Вы достигли лимита по созданным алиасам!';
-$PALANG['pCreate_alias_goto'] = 'Кому';
 $PALANG['pCreate_alias_goto_text'] = 'Куда должна доставляться почта.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Неверное поле Кому!';
 $PALANG['pCreate_alias_result_error'] = 'Невозможно добавить алиас в список!';
@@ -110,13 +108,12 @@ $PALANG['pCreate_alias_catchall_text'] = 'Для создания catch-all по
 $PALANG['pEdit_alias_welcome'] = 'Редактирование настроек пересылки';
 $PALANG['pEdit_alias_help'] = 'Можно указать несколько целей, одна запись на строку.';
 $PALANG['alias'] = 'Алиас';
-$PALANG['pEdit_alias_goto'] = 'Кому';
+$PALANG['to'] = 'Кому';
 $PALANG['pEdit_alias_goto_text_error1'] = 'Вы ничего не ввели в поле Кому';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Вы ввели неверный адрес: ';
 $PALANG['pEdit_alias_domain_result_error'] = 'Невозможно изменить домен-алиас!';
 $PALANG['pEdit_alias_forward_and_store'] = 'Доставлять в локальный почтовый ящик.';
 $PALANG['pEdit_alias_forward_only'] = 'Только пересылать на указанные адреса.';
-$PALANG['pEdit_alias_button'] = 'Редактировать алиас'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = 'Невозможно изменить алиас!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Создание нового почтового ящика для вашего домена.';
@@ -132,13 +129,11 @@ $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Почтовый ящи
 $PALANG['pEdit_mailbox_welcome'] = 'Редактирование ящика для вашего домена.';
 $PALANG['pEdit_mailbox_username'] = 'Название';
 $PALANG['pEdit_mailbox_password_text_error'] = 'Введенные вами пароли не совпадают!';
-$PALANG['pEdit_mailbox_name'] = 'Имя';
 $PALANG['pEdit_mailbox_quota'] = 'Квота';
 $PALANG['pEdit_mailbox_quota_text'] = 'МБ';
 $PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Квота, выставленная вами, слишком велика!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Этот домен не принадлежит вам: ';
-$PALANG['pEdit_mailbox_button'] = 'Редактировать ящик'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = 'Невозможно изменить пароль!';
 
 $PALANG['pPassword_welcome'] = 'Изменение вашего пароля.';
@@ -164,7 +159,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Просмотреть 10 последних действий для  ';
 $PALANG['pViewlog_timestamp'] = 'Время создания/модификации';
-$PALANG['pViewlog_username'] = 'Админ';
 $PALANG['pViewlog_action'] = 'Действие';
 $PALANG['pViewlog_data'] = 'Данные';
 
@@ -188,11 +182,10 @@ $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
-$PALANG['pViewlog_button'] = 'Выбрать';
 $PALANG['pViewlog_result_error'] = 'Невозможно найти журнал!';
 
 $PALANG['pSendmail_welcome'] = 'Послать письмо.';
-$PALANG['pSendmail_admin'] = 'От';
+$PALANG['from'] = 'От';
 $PALANG['pSendmail_to'] = 'Кому';
 $PALANG['pSendmail_to_text_error'] = 'Поле Кому пустое либо содержит некорректный адрес!';
 $PALANG['subject'] = 'Тема';
@@ -210,7 +203,6 @@ $PALANG['pAdminMenu_create_domain_admins'] = 'Админы доменов';
 $PALANG['pAdminMenu_create_admin'] = 'Новый админ';
 $PALANG['pAdminMenu_create_domain'] = 'Новый домен';
 
-$PALANG['pAdminList_admin_username'] = 'Админ';
 $PALANG['pAdminList_admin_count'] = 'Домены';
 
 $PALANG['description'] = 'Описание';
@@ -219,10 +211,6 @@ $PALANG['pAdminList_domain_quota'] = 'Квота домена (МБ)';
 $PALANG['pAdminList_domain_backupmx'] = 'Резервный MX';
 $PALANG['last_modified'] = 'Последнее изменение';
 
-$PALANG['pAdminList_virtual_button'] = 'Выбрать';
-$PALANG['pAdminList_virtual_alias_address'] = 'От';
-$PALANG['pAdminList_virtual_alias_goto'] = 'Кому';
-$PALANG['pAdminList_virtual_mailbox_name'] = 'Имя';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Добавление нового домена';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Домен уже существует!';
@@ -246,7 +234,6 @@ $PALANG['pAdminEdit_domain_quota'] = 'Квота домена';
 $PALANG['transport'] = 'Транспорт';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Укажите транспорт';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Почтовый сервер является резервным MX';
-$PALANG['pAdminEdit_domain_button'] = 'Редактировать домен'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'Невозможно изменить домен!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Добавление нового администратора домена';
@@ -258,11 +245,10 @@ $PALANG['pAdminCreate_admin_result_error'] = 'Невозможно добави�
 $PALANG['pAdminCreate_admin_result_success'] = 'Администратор был добавлен!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Редактирование администратора домена';
-$PALANG['pAdminEdit_admin_username'] = 'Администратор';
+$PALANG['admin'] = 'Администратор'; # XXX check text - should be 'Admin'
 $PALANG['password_again'] = 'Пароль (еще раз)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Супер админ';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
-$PALANG['pAdminEdit_admin_button'] = 'Редактировать администратора'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = 'Невозможно изменить администратора!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Администратор был изменен!';
 
@@ -298,9 +284,7 @@ $PALANG['pSearch_welcome'] = 'Искать: ';
 $PALANG['pReturn_to'] = 'Вернуться к';
 
 $PALANG['pBroadcast_title'] = 'Отправка широковещательного сообщения';
-$PALANG['pBroadcast_from'] = 'От';
 $PALANG['pBroadcast_name'] = 'Ваше имя';
-$PALANG['pBroadcast_send'] = 'Отправить сообщение';
 $PALANG['pBroadcast_success'] = 'Ваше широковещательное сообщение было отправлено.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Широковещательное сообщение';
 $PALANG['pBroadcast_error_empty'] = 'Поля Имя, Тема и Сообщение не должны быть пустыми!';

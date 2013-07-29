@@ -10,7 +10,7 @@
 		<td>&nbsp;</td>
 	</tr>
 	<tr>
-		<td class="label"><label>{$PALANG.pEdit_alias_goto}:</label></td>
+		<td class="label"><label>{$PALANG.to}:</label></td>
 		<td><textarea class="flat" rows="4" cols="50" name="fGoto">
 {foreach from=$tGotoArray item=address}
 {$address}

@@ -3,7 +3,7 @@
 	<select name="domain" onchange="this.form.submit();">
 	{$select_options}
 	</select>
-	<input class="button" type="submit" name="go" value="{$PALANG.pOverview_button}" />
+	<input class="button" type="submit" name="go" value="{$PALANG.go}" />
 </form>
 {#form_search#}
 </div>

@@ -60,15 +60,14 @@ $PALANG['pOverview_left_arrow'] = '前ページ';
 $PALANG['pOverview_alias_domain_title'] = ':: ドメインエイリアス';
 $PALANG['pOverview_alias_title'] = ':: 転送アドレス';
 $PALANG['pOverview_mailbox_title'] = ':: メールアドレス';
-$PALANG['pOverview_button'] = '表示';
+$PALANG['go'] = '表示';
 $PALANG['pOverview_welcome'] = '概要 ';
 $PALANG['pOverview_alias_domain_aliases'] = 'エイリアスドメイン';
 $PALANG['pOverview_alias_address'] = '転送元';
-$PALANG['pOverview_alias_goto'] = '転送先';
 $PALANG['active'] = 'アクティブ';
 $PALANG['and_x_more'] = '[その他 %s 個]';
 $PALANG['pOverview_mailbox_username'] = 'メールアドレス';
-$PALANG['pOverview_mailbox_name'] = '名前';
+$PALANG['name'] = '名前';
 $PALANG['pOverview_mailbox_quota'] = '容量制限 (MB)';
 $PALANG['pOverview_vacation_edit'] = '自動応答 利用中';
 $PALANG['pOverview_vacation_option'] = '自動応答';
@@ -98,7 +97,6 @@ $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to th
 $PALANG['pCreate_alias_address_text_error1'] = 'メールアドレスが無効です。';
 $PALANG['email_address_already_exists'] = 'このメールアドレスは既に存在するので、 別のアドレスを選択してください。'; # XXX check/beautify - was split in two lines before
 $PALANG['pCreate_alias_address_text_error3'] = '転送アドレスの制限数に達しました。';
-$PALANG['pCreate_alias_goto'] = '転送先アドレス';
 $PALANG['pCreate_alias_goto_text'] = 'メールを転送するアドレス';
 $PALANG['pCreate_alias_goto_text_error'] = '転送先が無効です。';
 $PALANG['pCreate_alias_result_error'] = '転送先を追加できません！';
@@ -108,13 +106,12 @@ $PALANG['pCreate_alias_catchall_text'] = 'すべてのメールを受け取る�
 $PALANG['pEdit_alias_welcome'] = '転送先アドレスの編集'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = '1行に1エントリです。'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['alias'] = '転送元'; # XXX check text - should be 'Alias'
-$PALANG['pEdit_alias_goto'] = '転送先'; # XXX check / compare with pCreate_alias_goto - should be "To"
+$PALANG['to'] = '転送先'; # XXX check text - should be 'To'
 $PALANG['pEdit_alias_goto_text_error1'] = '転送先が入力されていません。';
 $PALANG['pEdit_alias_goto_text_error2'] = 'このメールアドレスは無効です: ';
 $PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'ローカルのメールボックスに残す';
 $PALANG['pEdit_alias_forward_only'] = '指定された転送アドレスのみ';
-$PALANG['pEdit_alias_button'] = '転送先修正'; # XXX text no longer used
 $PALANG['pEdit_alias_result_error'] = '修正できません！';
 
 $PALANG['pCreate_mailbox_welcome'] = '新しいメールアドレスの作成';
@@ -130,13 +127,11 @@ $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'メールアドレス�
 $PALANG['pEdit_mailbox_welcome'] = 'メールアドレスの編集';
 $PALANG['pEdit_mailbox_username'] = 'メールアドレス'; # XXX check / compare with pCreate_mailbox_username - should be "Username"
 $PALANG['pEdit_mailbox_password_text_error'] = 'パスワードが一致しません。';
-$PALANG['pEdit_mailbox_name'] = '名前';
 $PALANG['pEdit_mailbox_quota'] = '容量制限';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = '指定された容量制限が大きすぎます。';
 $PALANG['pEdit_mailbox_domain_error'] = 'このドメインは管理外です: ';
-$PALANG['pEdit_mailbox_button'] = 'メールアドレス修正'; # XXX text no longer used
 $PALANG['pEdit_mailbox_result_error'] = '修正できません！';
 
 $PALANG['pPassword_welcome'] = 'パスワードの変更';
@@ -162,7 +157,6 @@ $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
 
 $PALANG['pViewlog_welcome'] = '過去10個のアクション ';
 $PALANG['pViewlog_timestamp'] = 'タイムスタンプ';
-$PALANG['pViewlog_username'] = '管理者';
 $PALANG['pViewlog_action'] = 'アクション';
 $PALANG['pViewlog_data'] = 'データ';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
@@ -186,11 +180,10 @@ $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
  
-$PALANG['pViewlog_button'] = '表示';
 $PALANG['pViewlog_result_error'] = 'ログが見つかりません！';
 
 $PALANG['pSendmail_welcome'] = 'メール送信';
-$PALANG['pSendmail_admin'] = '差出人';
+$PALANG['from'] = '差出人';
 $PALANG['pSendmail_to'] = '宛先';
 $PALANG['pSendmail_to_text_error'] = '宛先が空欄か無効です。';
 $PALANG['subject'] = '件名';
@@ -208,7 +201,6 @@ $PALANG['pAdminMenu_create_domain_admins'] = 'ドメイン管理者';
 $PALANG['pAdminMenu_create_admin'] = '新しい管理者';
 $PALANG['pAdminMenu_create_domain'] = '新しいドメイン';
 
-$PALANG['pAdminList_admin_username'] = '管理者';
 $PALANG['pAdminList_admin_count'] = 'ドメイン数';
 
 $PALANG['description'] = '説明';
@@ -217,10 +209,6 @@ $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'バックアップ MX';
 $PALANG['last_modified'] = '最終更新日';
 
-$PALANG['pAdminList_virtual_button'] = '表示';
-$PALANG['pAdminList_virtual_alias_address'] = '転送元';
-$PALANG['pAdminList_virtual_alias_goto'] = '転送先';
-$PALANG['pAdminList_virtual_mailbox_name'] = '名前';
 
 $PALANG['pAdminCreate_domain_welcome'] = '新しいドメインの追加';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'ドメインが既に存在します。';
@@ -244,7 +232,6 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['transport'] = '配送方法';
 $PALANG['pAdminEdit_domain_transport_text'] = '配送方法の定義';
 $PALANG['pAdminEdit_domain_backupmx'] = 'バックアップ MXサーバ';
-$PALANG['pAdminEdit_domain_button'] = 'ドメイン修正'; # XXX text no longer used
 $PALANG['pAdminEdit_domain_result_error'] = 'ドメインが修正できません！';
 
 $PALANG['pAdminCreate_admin_welcome'] = '新しいドメイン管理者の追加';
@@ -256,11 +243,10 @@ $PALANG['pAdminCreate_admin_result_error'] = '管理者を追加できません�
 $PALANG['pAdminCreate_admin_result_success'] = '管理者を追加しました。';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'ドメイン管理者の編集';
-$PALANG['pAdminEdit_admin_username'] = '管理者'; # XXX check / compare with pAdminCreate_admin_username - should be "admin"
+$PALANG['admin'] = '管理者'; # XXX check / compare with pAdminCreate_admin_username - should be "admin"
 $PALANG['password_again'] = 'パスワード (確認)';
 $PALANG['pAdminEdit_admin_super_admin'] = '特権管理者';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
-$PALANG['pAdminEdit_admin_button'] = '管理者修正'; # XXX text no longer used
 $PALANG['pAdminEdit_admin_result_error'] = '管理者を修正できません！';
 $PALANG['pAdminEdit_admin_result_success'] = '管理者を修正しました。';
 
@@ -296,9 +282,7 @@ $PALANG['pSearch_welcome'] = '検索文字列: ';
 $PALANG['pReturn_to'] = '戻る: ';
 
 $PALANG['pBroadcast_title'] = 'ブロードキャストメッセージの送信';
-$PALANG['pBroadcast_from'] = '差出人';
 $PALANG['pBroadcast_name'] = '名前';
-$PALANG['pBroadcast_send'] = 'メッセージ送信';
 $PALANG['pBroadcast_success'] = 'ブロードキャストメッセージは送信されました。';
 $PALANG['pAdminMenu_broadcast_message'] = 'ブロードキャスト';
 $PALANG['pBroadcast_error_empty'] = '名前、件名、メッセージは入力が必要です。';

@@ -59,8 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         exit(0);
     }
 
-    $pEdit_alias_goto = $PALANG['pEdit_alias_goto'];
-
     $fGoto = trim(safepost('fGoto'));
     $fForward_and_store = safepost('fForward_and_store');
 
