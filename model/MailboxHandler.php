@@ -71,7 +71,7 @@ class MailboxHandler extends PFAHandler {
     protected function updateMaxquota ($domain, $currentquota) {
         if ($domain == '') return false;
 
-        $maxquota = allowed_quota($domain, $currentquota);
+        $maxquota = $this->allowed_quota($domain, $currentquota);
 
         if ($maxquota == 0) {
             # TODO: show 'unlimited'
@@ -225,7 +225,7 @@ class MailboxHandler extends PFAHandler {
 
             list(/*NULL*/,$domain) = explode('@', $this->id);
 
-            if ( !mailbox_postcreation($this->id,$domain,$this->values['maildir'], $this->values['quota']) ) {
+            if ( !$this->mailbox_postcreation($this->id,$domain,$this->values['maildir'], $this->values['quota']) ) {
                 $this->errormsg[] = Lang::read('pCreate_mailbox_result_error') . " ($this->id)";
                 # return false; # TODO: should this be fatal?
             }
@@ -236,7 +236,7 @@ class MailboxHandler extends PFAHandler {
                 }
             }
 
-            if ( !create_mailbox_subfolders($this->id,$this->values['password'])) {
+            if ( !$this->create_mailbox_subfolders($this->id,$this->values['password'])) {
                 # TODO: implement $tShowpass
                 flash_info(Lang::read('pCreate_mailbox_result_succes_nosubfolders') . " ($fUsername$tShowpass)"); # TODO: don't use flash_info
             } else { # everything ok
@@ -268,7 +268,7 @@ class MailboxHandler extends PFAHandler {
                     $quota = $oldvalues['quota'];
                 }
 
-                if ( !mailbox_postedit($this->id,$domain,$maildir, $quota)) {
+                if ( !$this->mailbox_postedit($this->id,$domain,$maildir, $quota)) {
                     $this->errormsg[] = $PALANG['pEdit_mailbox_result_error']; # TODO: more specific error message
                 }
             }
@@ -297,7 +297,7 @@ class MailboxHandler extends PFAHandler {
     protected function _field_quota($field, $val) {
         list(/*NULL*/,$domain) = explode('@', $this->id);
 
-        if ( !check_quota ($val, $domain, $this->id) ) {
+        if ( !$this->check_quota ($val, $domain, $this->id) ) {
             $this->errormsg[$field] = Lang::Read('pEdit_mailbox_quota_text_error');
             return false;
         }
@@ -392,6 +392,269 @@ class MailboxHandler extends PFAHandler {
         }
 
         return true;
+    }
+
+
+    /**
+     * Check if the user is creating a mailbox within the quota limits of the domain
+     *
+     * @param Integer $quota - quota wanted for the mailbox
+     * @param String $domain - domain of the mailbox
+     * @param String $username - mailbox to ignore in quota calculation (used when editing a mailbox)
+     * @return Boolean - true if requested quota is OK, otherwise false
+     */
+    # TODO: merge with allowed_quota?
+    function check_quota ($quota, $domain, $username="") {
+        $rval = false;
+
+        if ( !Config::bool('quota') ) {
+            return true; # enforcing quotas is disabled - just allow it
+        }
+
+        $limit = get_domain_properties ($domain);
+
+        if ($limit['maxquota'] == 0) {
+            $rval = true; # maxquota unlimited -> OK, but domain level quota could still be hit
+        }
+
+        if (($limit['maxquota'] < 0) and ($quota < 0)) {
+            return true; # maxquota and $quota are both disabled -> OK, no need for more checks
+        }
+
+        if (($limit['maxquota'] > 0) and ($quota == 0)) {
+            return false; # mailbox with unlimited quota on a domain with maxquota restriction -> not allowed, no more checks needed
+        }
+
+        if ($limit['maxquota'] != 0 && $quota > $limit['maxquota']) {
+            return false; # mailbox bigger than maxquota restriction (and maxquota != unlimited) -> not allowed, no more checks needed
+        } else {
+            $rval = true; # mailbox size looks OK, but domain level quota could still be hit
+        }
+
+        if (!$rval) {
+            return false; # over quota - no need to check domain_quota
+        }
+
+        # TODO: detailed error message ("domain quota exceeded", "mailbox quota too big" etc.) via flash_error? Or "available quota: xxx MB"?
+        if ( !Config::bool('domain_quota') ) {
+            return true; # enforcing domain_quota is disabled - just allow it
+        } elseif ($limit['quota'] <= 0) { # TODO: CHECK - 0 (unlimited) is fine, not sure about <= -1 (disabled)...
+            $rval = true;
+        } else {
+            $table_mailbox = table_by_key('mailbox');
+            $query = "SELECT SUM(quota) FROM $table_mailbox WHERE domain = '" . escape_string($domain) . "'";
+            if ($username != "") {
+                $query .= " AND username != '" . escape_string($username) . "'";
+            }
+            $result = db_query ($query);
+            $row = db_row ($result['result']);
+            $cur_quota_total = divide_quota($row[0]); # convert to MB
+            if ( ($quota + $cur_quota_total) > $limit['quota'] ) {
+                $rval = false;
+            } else {
+                $rval = true;
+            }
+        }
+
+        return $rval;
+}
+
+
+    /**
+     * Get allowed maximum quota for a mailbox
+     *
+     * @param String $domain
+     * @param Integer $current_user_quota (in bytes)
+     * @return Integer allowed maximum quota (in MB)
+     */
+    function allowed_quota($domain, $current_user_quota) {
+       if ( !Config::bool('quota') ) {
+           return 0; # quota disabled means no limits - no need for more checks
+       }
+
+       $domain_properties = get_domain_properties($domain);
+
+       $tMaxquota = $domain_properties['maxquota'];
+
+       if (Config::bool('domain_quota') && $domain_properties['quota']) {
+          $dquota = $domain_properties['quota'] - $domain_properties['total_quota'] + divide_quota($current_user_quota);
+          if ($dquota < $tMaxquota) {
+             $tMaxquota = $dquota;
+          }
+
+          if ($tMaxquota == 0) {
+             $tMaxquota = $dquota;
+          }
+       }
+       return $tMaxquota;
+    }
+
+
+    /**
+     * Called after a mailbox has been created in the DBMS.
+     *
+     * @param String $username
+     * @param String $domain
+     * @param String $maildir
+     * @param Integer $quota
+     * @return Boolean success/failure status
+     */
+    # TODO: replace "print" with $this->errormsg (or infomsg?)
+    # TODO: merge with mailbox_postedit?
+    function mailbox_postcreation($username,$domain,$maildir,$quota) {
+        if (empty($username) || empty($domain) || empty($maildir)) {
+            trigger_error('In '.__FUNCTION__.': empty username, domain and/or maildir parameter',E_USER_ERROR);
+            return FALSE;
+        }
+
+        $cmd = Config::read('mailbox_postcreation_script');
+        if ( empty($cmd) ) return TRUE;
+
+        $cmdarg1=escapeshellarg($username);
+        $cmdarg2=escapeshellarg($domain);
+        $cmdarg3=escapeshellarg($maildir);
+        if ($quota <= 0) $quota = 0;
+        $cmdarg4=escapeshellarg($quota);
+        $command= "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
+        $retval=0;
+        $output=array();
+        $firstline='';
+        $firstline=exec($command,$output,$retval);
+        if (0!=$retval) {
+            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+            print '<p>WARNING: Problems running mailbox postcreation script!</p>';
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    /**
+     * Called after a mailbox has been altered in the DBMS.
+     *
+     * @param String $username
+     * @param String $domain
+     * @param String $maildir
+     * @param Integer $quota
+     * @return Boolean success/failure status
+     */
+    # TODO: replace "print" with $this->errormsg (or infomsg?)
+    function mailbox_postedit($username,$domain,$maildir,$quota) {
+        if (empty($username) || empty($domain) || empty($maildir)) {
+            trigger_error('In '.__FUNCTION__.': empty username, domain and/or maildir parameter',E_USER_ERROR);
+            return FALSE;
+        }
+
+        $cmd = Config::read('mailbox_postedit_script');
+
+        if ( empty($cmd) ) return TRUE;
+
+        $cmdarg1=escapeshellarg($username);
+        $cmdarg2=escapeshellarg($domain);
+        $cmdarg3=escapeshellarg($maildir);
+        if ($quota <= 0) $quota = 0;
+        $cmdarg4=escapeshellarg($quota);
+        $command = "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
+        $retval=0;
+        $output=array();
+        $firstline='';
+        $firstline=exec($command,$output,$retval);
+        if (0!=$retval) {
+            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+            print '<p>WARNING: Problems running mailbox postedit script!</p>';
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+
+    /**
+     * Called by mailbox_postcreation() after a mailbox has been
+     * created. Immediately returns, unless configuration indicates
+     * that one or more sub-folders should be created.
+     *
+     * Triggers E_USER_ERROR if configuration error is detected.
+     *
+     * If IMAP login fails, the problem is logged to the system log
+     * (such as /var/log/httpd/error_log), and the function returns
+     * FALSE.
+     *
+     * Doesn't clean up, if only some of the folders could be
+     * created.
+     *
+     * @param String $login - mailbox username
+     * @param String $cleartext_password
+     * @return Boolean TRUE if everything succeeds, FALSE on all errors
+     */
+    function create_mailbox_subfolders($login,$cleartext_password) {
+        if (empty($login)) {
+            trigger_error('In '.__FUNCTION__.': empty $login',E_USER_ERROR);
+            return FALSE;
+        }
+
+        $create_mailbox_subdirs = Config::read('create_mailbox_subdirs');
+        if ( empty($create_mailbox_subdirs) ) return TRUE;
+
+        if ( !is_array($create_mailbox_subdirs) ) {
+            trigger_error('create_mailbox_subdirs must be an array',E_USER_ERROR);
+            return FALSE;
+        }
+
+        $s_host = Config::read('create_mailbox_subdirs_host');
+        if ( empty($s_host) ) {
+            trigger_error('An IMAP/POP server host ($CONF["create_mailbox_subdirs_host"]) must be configured, if sub-folders are to be created',E_USER_ERROR);
+            return FALSE;
+        }
+
+        $s_options='';
+
+        $create_mailbox_subdirs_hostoptions = Config::read('create_mailbox_subdirs_hostoptions');
+        if ( !empty($create_mailbox_subdirs_hostoptions )) {
+            if ( !is_array($create_mailbox_subdirs_hostoptions) ) {
+                trigger_error('The $CONF["create_mailbox_subdirs_hostoptions"] parameter must be an array',E_USER_ERROR);
+                return FALSE;
+            }
+            foreach ($create_mailbox_subdirs_hostoptions as $o) {
+                $s_options.='/'.$o;
+            }
+        }
+
+        $s_port='';
+        $create_mailbox_subdirs_hostport = Config::read('create_mailbox_subdirs_hostport');
+        if ( !empty($create_mailbox_subdirs_hostport) ) {
+            $s_port = $create_mailbox_subdirs_hostport;
+            if (intval($s_port)!=$s_port) {
+                trigger_error('The $CONF["create_mailbox_subdirs_hostport"] parameter must be an integer',E_USER_ERROR);
+                return FALSE;
+            }
+            $s_port=':'.$s_port;
+        }
+
+        $s='{'.$s_host.$s_port.$s_options.'}';
+
+        sleep(1); # give the mail triggering the mailbox creation a chance to do its job
+
+        $i=@imap_open($s,$login,$cleartext_password);
+        if (FALSE==$i) {
+            error_log('Could not log into IMAP/POP server: '.imap_last_error());
+            return FALSE;
+        }
+
+        $s_prefix = Config::read('create_mailbox_subdirs_prefix');
+        foreach($create_mailbox_subdirs as $f) {
+            $f='{'.$s_host.'}'.$s_prefix.$f;
+            $res=imap_createmailbox($i,$f);
+            if (!$res) {
+                error_log('Could not create IMAP folder $f: '.imap_last_error());
+                @imap_close($i);
+                return FALSE;
+            }
+            @imap_subscribe($i,$f);
+        }
+
+        @imap_close($i);
+        return TRUE;
     }
 
 
