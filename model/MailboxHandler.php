@@ -234,7 +234,7 @@ class MailboxHandler extends PFAHandler {
                 }
             }
 
-            if ( !$this->create_mailbox_subfolders() {
+            if ( !$this->create_mailbox_subfolders() ) {
                 # TODO: implement $tShowpass
                 flash_info(Lang::read('pCreate_mailbox_result_succes_nosubfolders') . " ($fUsername$tShowpass)"); # TODO: don't use flash_info
             } else { # everything ok
