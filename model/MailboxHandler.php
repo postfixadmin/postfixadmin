@@ -221,12 +221,10 @@ class MailboxHandler extends PFAHandler {
     }
     
     protected function storemore() {
+
         if ($this->new) {
 
-            list(/*NULL*/,$domain) = explode('@', $this->id);
-
-            if ( !$this->mailbox_postcreation($this->id,$domain,$this->values['maildir'], $this->values['quota']) ) {
-                $this->errormsg[] = Lang::read('pCreate_mailbox_result_error') . " ($this->id)";
+            if ( !$this->mailbox_post_script() ) {
                 # return false; # TODO: should this be fatal?
             }
 
@@ -250,7 +248,6 @@ class MailboxHandler extends PFAHandler {
 
             # postedit hook
             # TODO: implement a poststore() function? - would make handling of old and new values much easier...
-            list(/*NULL*/,$domain) = explode('@', $this->id);
 
             $old_mh = new MailboxHandler();
 
@@ -268,8 +265,8 @@ class MailboxHandler extends PFAHandler {
                     $quota = $oldvalues['quota'];
                 }
 
-                if ( !$this->mailbox_postedit($this->id,$domain,$maildir, $quota)) {
-                    $this->errormsg[] = $PALANG['pEdit_mailbox_result_error']; # TODO: more specific error message
+                if ( !$this->mailbox_post_script() ) {
+                    # TODO: should this be fatal?
                 }
             }
         }
@@ -491,29 +488,35 @@ class MailboxHandler extends PFAHandler {
 
 
     /**
-     * Called after a mailbox has been created in the DBMS.
+     * Called after a mailbox has been created or edited in the DBMS.
      *
-     * @param String $username
-     * @param String $domain
-     * @param String $maildir
-     * @param Integer $quota
      * @return Boolean success/failure status
      */
     # TODO: replace "print" with $this->errormsg (or infomsg?)
-    # TODO: merge with mailbox_postedit?
-    function mailbox_postcreation($username,$domain,$maildir,$quota) {
-        if (empty($username) || empty($domain) || empty($maildir)) {
+    function mailbox_post_script() {
+
+        if ($this->new) {
+            $cmd = Config::read('mailbox_postcreation_script');
+            $warnmsg = 'WARNING: Problems running mailbox postcreation script!'; # TODO: make translateable
+        } else {
+            $cmd = Config::read('mailbox_postedit_script');
+            $warnmsg = 'WARNING: Problems running mailbox postedit script!'; # TODO: make translateable
+        }
+
+        if ( empty($cmd) ) return TRUE; # nothing to do
+
+        list(/*NULL*/,$domain) = explode('@', $this->id);
+        $quota = $this->values['quota'];
+
+        if ( empty($this->id) || empty($domain) || empty($this->values['maildir']) ) {
             trigger_error('In '.__FUNCTION__.': empty username, domain and/or maildir parameter',E_USER_ERROR);
             return FALSE;
         }
 
-        $cmd = Config::read('mailbox_postcreation_script');
-        if ( empty($cmd) ) return TRUE;
-
-        $cmdarg1=escapeshellarg($username);
+        $cmdarg1=escapeshellarg($this->id);
         $cmdarg2=escapeshellarg($domain);
-        $cmdarg3=escapeshellarg($maildir);
-        if ($quota <= 0) $quota = 0;
+        $cmdarg3=escapeshellarg($this->values['maildir']);
+        if ($quota <= 0) $quota = 0; # TODO: check if this is correct behaviour
         $cmdarg4=escapeshellarg($quota);
         $command= "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
         $retval=0;
@@ -522,7 +525,7 @@ class MailboxHandler extends PFAHandler {
         $firstline=exec($command,$output,$retval);
         if (0!=$retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
-            print '<p>WARNING: Problems running mailbox postcreation script!</p>';
+            $this->errormsg[] = $warnmsg;
             return FALSE;
         }
 
@@ -530,48 +533,8 @@ class MailboxHandler extends PFAHandler {
     }
 
     /**
-     * Called after a mailbox has been altered in the DBMS.
-     *
-     * @param String $username
-     * @param String $domain
-     * @param String $maildir
-     * @param Integer $quota
-     * @return Boolean success/failure status
-     */
-    # TODO: replace "print" with $this->errormsg (or infomsg?)
-    function mailbox_postedit($username,$domain,$maildir,$quota) {
-        if (empty($username) || empty($domain) || empty($maildir)) {
-            trigger_error('In '.__FUNCTION__.': empty username, domain and/or maildir parameter',E_USER_ERROR);
-            return FALSE;
-        }
-
-        $cmd = Config::read('mailbox_postedit_script');
-
-        if ( empty($cmd) ) return TRUE;
-
-        $cmdarg1=escapeshellarg($username);
-        $cmdarg2=escapeshellarg($domain);
-        $cmdarg3=escapeshellarg($maildir);
-        if ($quota <= 0) $quota = 0;
-        $cmdarg4=escapeshellarg($quota);
-        $command = "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
-        $retval=0;
-        $output=array();
-        $firstline='';
-        $firstline=exec($command,$output,$retval);
-        if (0!=$retval) {
-            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
-            print '<p>WARNING: Problems running mailbox postedit script!</p>';
-            return FALSE;
-        }
-
-        return TRUE;
-    }
-
-
-    /**
-     * Called by mailbox_postcreation() after a mailbox has been
-     * created. Immediately returns, unless configuration indicates
+     * Called by storemore() after a mailbox has been created.
+     * Immediately returns, unless configuration indicates
      * that one or more sub-folders should be created.
      *
      * Triggers E_USER_ERROR if configuration error is detected.
