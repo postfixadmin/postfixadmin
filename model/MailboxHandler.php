@@ -234,7 +234,7 @@ class MailboxHandler extends PFAHandler {
                 }
             }
 
-            if ( !$this->create_mailbox_subfolders($this->id,$this->values['password'])) {
+            if ( !$this->create_mailbox_subfolders() {
                 # TODO: implement $tShowpass
                 flash_info(Lang::read('pCreate_mailbox_result_succes_nosubfolders') . " ($fUsername$tShowpass)"); # TODO: don't use flash_info
             } else { # everything ok
@@ -292,9 +292,7 @@ class MailboxHandler extends PFAHandler {
      * check if quota is allowed
      */
     protected function _field_quota($field, $val) {
-        list(/*NULL*/,$domain) = explode('@', $this->id);
-
-        if ( !$this->check_quota ($val, $domain, $this->id) ) {
+        if ( !$this->check_quota ($val) ) {
             $this->errormsg[$field] = Lang::Read('pEdit_mailbox_quota_text_error');
             return false;
         }
@@ -396,18 +394,17 @@ class MailboxHandler extends PFAHandler {
      * Check if the user is creating a mailbox within the quota limits of the domain
      *
      * @param Integer $quota - quota wanted for the mailbox
-     * @param String $domain - domain of the mailbox
-     * @param String $username - mailbox to ignore in quota calculation (used when editing a mailbox)
      * @return Boolean - true if requested quota is OK, otherwise false
      */
     # TODO: merge with allowed_quota?
-    function check_quota ($quota, $domain, $username="") {
+    protected function check_quota ($quota) {
         $rval = false;
 
         if ( !Config::bool('quota') ) {
             return true; # enforcing quotas is disabled - just allow it
         }
 
+        list(/*NULL*/,$domain) = explode('@', $this->id);
         $limit = get_domain_properties ($domain);
 
         if ($limit['maxquota'] == 0) {
@@ -440,9 +437,7 @@ class MailboxHandler extends PFAHandler {
         } else {
             $table_mailbox = table_by_key('mailbox');
             $query = "SELECT SUM(quota) FROM $table_mailbox WHERE domain = '" . escape_string($domain) . "'";
-            if ($username != "") {
-                $query .= " AND username != '" . escape_string($username) . "'";
-            }
+            $query .= " AND username != '" . escape_string($this->id) . "'";
             $result = db_query ($query);
             $row = db_row ($result['result']);
             $cur_quota_total = divide_quota($row[0]); # convert to MB
@@ -454,7 +449,7 @@ class MailboxHandler extends PFAHandler {
         }
 
         return $rval;
-}
+    }
 
 
     /**
@@ -464,7 +459,7 @@ class MailboxHandler extends PFAHandler {
      * @param Integer $current_user_quota (in bytes)
      * @return Integer allowed maximum quota (in MB)
      */
-    function allowed_quota($domain, $current_user_quota) {
+    protected function allowed_quota($domain, $current_user_quota) {
        if ( !Config::bool('quota') ) {
            return 0; # quota disabled means no limits - no need for more checks
        }
@@ -492,8 +487,7 @@ class MailboxHandler extends PFAHandler {
      *
      * @return Boolean success/failure status
      */
-    # TODO: replace "print" with $this->errormsg (or infomsg?)
-    function mailbox_post_script() {
+    protected function mailbox_post_script() {
 
         if ($this->new) {
             $cmd = Config::read('mailbox_postcreation_script');
@@ -546,16 +540,9 @@ class MailboxHandler extends PFAHandler {
      * Doesn't clean up, if only some of the folders could be
      * created.
      *
-     * @param String $login - mailbox username
-     * @param String $cleartext_password
      * @return Boolean TRUE if everything succeeds, FALSE on all errors
      */
-    function create_mailbox_subfolders($login,$cleartext_password) {
-        if (empty($login)) {
-            trigger_error('In '.__FUNCTION__.': empty $login',E_USER_ERROR);
-            return FALSE;
-        }
-
+    protected function create_mailbox_subfolders() {
         $create_mailbox_subdirs = Config::read('create_mailbox_subdirs');
         if ( empty($create_mailbox_subdirs) ) return TRUE;
 
@@ -598,7 +585,7 @@ class MailboxHandler extends PFAHandler {
 
         sleep(1); # give the mail triggering the mailbox creation a chance to do its job
 
-        $i=@imap_open($s,$login,$cleartext_password);
+        $i=@imap_open($s, $this->id, $this->values['password']);
         if (FALSE==$i) {
             error_log('Could not log into IMAP/POP server: '.imap_last_error());
             return FALSE;
