@@ -29,6 +29,13 @@
 					<td nowrap="nowrap">{$row.keep}&nbsp;</td>
 					<td nowrap="nowrap">{$row.protocol}&nbsp;</td>
 					<td nowrap="nowrap">{$row.usessl}&nbsp;</td>
+					<td nowrap="nowrap">{$row.sslcertck}&nbsp;</td>
+{if $extra_options}
+					<td nowrap="nowrap">{$row.sslcertpath}&nbsp;</td>
+					<td nowrap="nowrap">{$row.sslfingerprint}&nbsp;</td>
+					<td nowrap="nowrap">{$row.extra_options}&nbsp;</td>
+					<td nowrap="nowrap">{$row.mda}&nbsp;</td>
+{/if}
 					<td nowrap="nowrap">{$row.date}&nbsp;</td>
 					<td nowrap="nowrap">{$row.returned_text}--x--&nbsp;</td> <!-- Inhalt mit if auswerten!  -->
 					<td><a href="fetchmail.php?edit={$row.id|escape:"url"}">{$PALANG.edit}</a></td>

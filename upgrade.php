@@ -80,7 +80,7 @@ function _db_add_field($table, $field, $fieldtype, $after) {
         $query .= " AFTER $after "; # PgSQL does not support to specify where to add the column, MySQL does
     }
 
-    if(! _db_field_exists($table, $field)) {
+    if(! _db_field_exists(table_by_key($table), $field)) {
         $result = db_query_parsed($query);
     } else { 
         printdebug ("field already exists: $table.$field");
@@ -1326,6 +1326,12 @@ function upgrade_1345_mysql() {
     $table_vacation = table_by_key('vacation');
     db_query_parsed("ALTER TABLE `$table_vacation` ADD `reply_type` VARCHAR( 20 ) NOT NULL AFTER `domain`  ");
     db_query_parsed("ALTER TABLE `$table_vacation` ADD `interval_time` INT NOT NULL DEFAULT '0' AFTER `reply_type` ");
+}
+
+function upgrade_1519() {
+    _db_add_field('fetchmail', 'sslcertck',      '{BOOLEAN}',                        'usessl'     );
+    _db_add_field('fetchmail', 'sslcertpath',    "VARCHAR(255) {UTF-8}  DEFAULT ''", 'sslcertck'  );
+    _db_add_field('fetchmail', 'sslfingerprint', "VARCHAR(255) {LATIN1} DEFAULT ''", 'sslcertpath');
 }
 
 

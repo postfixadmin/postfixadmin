@@ -65,6 +65,9 @@ $fm_struct=array(   //   list($editible,$view,$type)
    "keep"            => array(1,                1,                'bool'      ),
    "protocol"        => array(1,                1,                'enum'      ),
    "usessl"          => array(1,                1,                'bool'      ),
+   "sslcertck"       => array(1,                1,                'bool'      ),
+   "sslcertpath"     => array($extra_options,   $extra_options,   'text'      ), # TODO: input validation
+   "sslfingerprint"  => array($extra_options,   $extra_options,   'text'      ), # TODO: input validation
    "extra_options"   => array($extra_options,   $extra_options,   'longtext'  ),
    "mda"             => array($extra_options,   $extra_options,   'longtext'  ),
    "date"            => array(0,                $display_status,  'text'      ),
@@ -215,6 +218,7 @@ if ($cancel) { # cancel $new or $edit
       $formvars['fetchall']=('t'==$formvars['fetchall']) ? 1 : 0;
       $formvars['keep']=('t'==$formvars['keep']) ? 1 : 0;
       $formvars['usessl']=('t'==$formvars['usessl']) ? 1 : 0;
+      $formvars['sslcertck']=('t'==$formvars['sslcertck']) ? 1: 0;
    }
 } elseif ($new) { # create entry form
    foreach (array_keys($fm_struct) as $value) {
@@ -240,6 +244,7 @@ if ($edit + $new == 0) { # display list
             $row['fetchall']=('t'==$row['fetchall']) ? 1 : 0;
             $row['keep']=('t'==$row['keep']) ? 1 : 0;
             $row['usessl']=('t'==$row['usessl']) ? 1 : 0;
+            $row['sslcertck']=('t'==$row['sslcertck']) ? 1: 0;
          }
          $tFmail[] = $row;
       }
@@ -391,6 +396,7 @@ $smarty->assign ('fetchmail_edit_row', fetchmail_edit_row($formvars),false);
 $smarty->assign ('headers', $headers);
 $smarty->assign ('user_domains', $user_domains);
 $smarty->assign ('tFmail', $tFmail);
+$smarty->assign ('extra_options', $extra_options);
 
 $smarty->assign ('smarty_template', 'fetchmail');
 $smarty->display ('index.tpl');

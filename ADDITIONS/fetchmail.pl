@@ -87,7 +87,7 @@ if($db_type eq "Pg") {
 }
 
 $sql = "
-	SELECT id,mailbox,src_server,src_auth,src_user,src_password,src_folder,fetchall,keep,protocol,mda,extra_options,usessl 
+	SELECT id,mailbox,src_server,src_auth,src_user,src_password,src_folder,fetchall,keep,protocol,mda,extra_options,usessl, sslcertck, sslcertpath, sslfingerprint
 	FROM fetchmail
 	WHERE $sql_cond  > poll_time*60
 	";
@@ -97,19 +97,22 @@ map{
 	my ($id,$mailbox,$src_server,$src_auth,$src_user,$src_password,$src_folder,$fetchall,$keep,$protocol,$mda,$extra_options,$usessl)=@$_;
 
 	syslog("info","fetch ${src_user}@${src_server} for ${mailbox}");
-	
+
 	$cmd="user '${src_user}' there with password '".decode_base64($src_password)."'";
 	$cmd.=" folder '${src_folder}'" if ($src_folder);
 	$cmd.=" mda ".$mda if ($mda);
 
 #	$cmd.=" mda \"/usr/local/libexec/dovecot/deliver -m ${mailbox}\"";
 	$cmd.=" is '${mailbox}' here";
-	
+
 	$cmd.=" keep" if ($keep);
 	$cmd.=" fetchall" if ($fetchall);
 	$cmd.=" ssl" if ($usessl);
+	$cmd.=" sslcertck" if($sslcertck);
+	$cmd.=" sslcertpath $sslcertpath" if ($sslcertck && $sslcertpath);
+	$cmd.=" sslfingerprint \"$sslfingerprint\"" if ($sslfingerprint);
 	$cmd.=" ".$extra_options if ($extra_options);
-	
+
 	$text=<<TXT;
 set postmaster "postmaster"
 set nobouncemail
@@ -119,7 +122,7 @@ set syslog
 
 poll ${src_server} with proto ${protocol}
 	$cmd
-	
+
 TXT
 
   ($file_handler, $filename) = mkstemp( "/tmp/fetchmail-all-XXXXX" ) or log_and_die "cannot open/create fetchmail temp file";
