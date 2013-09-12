@@ -16,6 +16,7 @@ Changes since 2.3.6 release
   - when enabling/disabling a mailbox, also update the corresponding alias
   - fix creating superadmin in setup.php with MariaDB (more strict SQL)
   - trim() localpart in create-mailbox to avoid mailbox names with leading space
+  - mark vacation_notification.notified field as latin1 to avoid overlong index
 
 Version 2.3.6 - 2013/01/02 - SVN r1417 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------

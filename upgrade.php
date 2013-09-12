@@ -815,7 +815,7 @@ function upgrade_318_mysql() {
     db_query_parsed( "
         CREATE TABLE {IF_NOT_EXISTS} $table_vacation_notification (
             on_vacation varchar(255) {LATIN1} NOT NULL,
-            notified varchar(255) NOT NULL,
+            notified    varchar(255) {LATIN1} NOT NULL,
             notified_at timestamp NOT NULL default CURRENT_TIMESTAMP,
             PRIMARY KEY on_vacation (`on_vacation`, `notified`),
         CONSTRAINT `vacation_notification_pkey` 
@@ -827,7 +827,7 @@ function upgrade_318_mysql() {
 
     # in case someone has manually created the table with utf8 fields before:
     $all_sql = explode("\n", trim("
-        ALTER TABLE `$table_vacation_notification` CHANGE `notified`    `notified`    VARCHAR( 255 ) NOT NULL
+        ALTER TABLE `$table_vacation_notification` CHANGE `notified`    `notified`    VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_vacation_notification` DEFAULT CHARACTER SET utf8
     "));
     # Possible errors that can be ignored:
