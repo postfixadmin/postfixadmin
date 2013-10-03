@@ -912,9 +912,9 @@ function pacrypt ($pw, $pw_db="") {
         $method       = strtoupper($split_method[1]);
         if (! preg_match("/^[A-Z0-9-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
         # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
-        $crypt_method = preg_match ("/.*-CRYPT$/", $method);
+        # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
 
-        $dovecotpw = "dovecotpw";
+        $dovecotpw = "doveadm pw";
         if (!empty($CONF['dovecotpw'])) $dovecotpw = $CONF['dovecotpw'];
 
         # Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
@@ -924,18 +924,19 @@ function pacrypt ($pw, $pw_db="") {
 			2 => array("pipe", "w"), // stderr
 		);
 
-        if (empty($pw_db)) {
-            $pipe = proc_open("$dovecotpw '-s' $method",             $spec, $pipes);
-        } else {
-            $pipe = proc_open("$dovecotpw '-s' $method -t '$pw_db'", $spec, $pipes);
+        $dovepasstest = '';
+        if (!empty($pw_db)) {
+            # TODO: only use -t for salted passwords to be backward compatible with dovecot < 2.1 again
+            $dovepasstest = " -t " . escapeshellarg($pw_db);
         }
+        $pipe = proc_open("$dovecotpw '-s' $method$dovepasstest", $spec, $pipes);
 
         if (!$pipe) {
             die("can't proc_open $dovecotpw");
         } else {
-            // use dovecot's stdin, it uses getpass() twice
+            // use dovecot's stdin, it uses getpass() twice (except when using -t)
 			// Write pass in pipe stdin
-            if (empty($pw_db)) {
+            if (empty($dovepasstest)) {
                 fwrite($pipes[0], $pw . "\n", 1+strlen($pw)); usleep(1000);
             }
 			fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
@@ -944,7 +945,7 @@ function pacrypt ($pw, $pw_db="") {
 			// Read hash from pipe stdout
 			$password = fread($pipes[1], "200");
 
-            if (empty($pw_db)) {
+            if (empty($dovepasstest)) {
                 if ( !preg_match('/^\{' . $method . '\}/', $password)) {
                     $stderr_output = stream_get_contents($pipes[2]);
                     error_log('dovecotpw password encryption failed.');
