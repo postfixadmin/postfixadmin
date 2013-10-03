@@ -911,7 +911,8 @@ function pacrypt ($pw, $pw_db="") {
         $split_method = preg_split ('/:/', $CONF['encrypt']);
         $method       = strtoupper($split_method[1]);
         if (! preg_match("/^[A-Z0-9-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
-        if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
+        # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
+        $crypt_method = preg_match ("/.*-CRYPT$/", $method);
 
         $dovecotpw = "dovecotpw";
         if (!empty($CONF['dovecotpw'])) $dovecotpw = $CONF['dovecotpw'];
@@ -923,32 +924,46 @@ function pacrypt ($pw, $pw_db="") {
 			2 => array("pipe", "w"), // stderr
 		);
 
-		$pipe = proc_open("$dovecotpw '-s' $method", $spec, $pipes);
+        if (empty($pw_db)) {
+            $pipe = proc_open("$dovecotpw '-s' $method",             $spec, $pipes);
+        } else {
+            $pipe = proc_open("$dovecotpw '-s' $method -t '$pw_db'", $spec, $pipes);
+        }
 
         if (!$pipe) {
             die("can't proc_open $dovecotpw");
         } else {
             // use dovecot's stdin, it uses getpass() twice
 			// Write pass in pipe stdin
-			fwrite($pipes[0], $pw . "\n", 1+strlen($pw)); usleep(1000);
+            if (empty($pw_db)) {
+                fwrite($pipes[0], $pw . "\n", 1+strlen($pw)); usleep(1000);
+            }
 			fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
 			fclose($pipes[0]);
 
 			// Read hash from pipe stdout
 			$password = fread($pipes[1], "200");
 
-            if ( !preg_match('/^\{' . $method . '\}/', $password)) {
-                $stderr_output = stream_get_contents($pipes[2]);
-                error_log('dovecotpw password encryption failed.');
-                error_log('STDERR output: ' . $stderr_output);
-                die("can't encrypt password with dovecotpw, see error log for details"); 
+            if (empty($pw_db)) {
+                if ( !preg_match('/^\{' . $method . '\}/', $password)) {
+                    $stderr_output = stream_get_contents($pipes[2]);
+                    error_log('dovecotpw password encryption failed.');
+                    error_log('STDERR output: ' . $stderr_output);
+                    die("can't encrypt password with dovecotpw, see error log for details");
+                }
+            } else {
+                if ( !preg_match('(verified)', $password)) {
+                    $password="Thepasswordcannotbeverified";
+                } else {
+                    $password = rtrim(str_replace('(verified)', '', $password));
+                }
             }
 
 			fclose($pipes[1]);
 			fclose($pipes[2]);
 			proc_close($pipe);
 
-            $password = trim(str_replace('{' . $method . '}', '', $password));
+            $password = rtrim($password);
         }
     }
 
