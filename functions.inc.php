@@ -1588,10 +1588,9 @@ function table_by_key ($table_key) {
    Returns: boolean.
  */
 function mailbox_postdeletion($username,$domain) {
-    global $CONF;
-    $confpar='mailbox_postdeletion_script';
+    $cmd = Config::read('mailbox_postdeletion_script');
 
-    if (!isset($CONF[$confpar]) || empty($CONF[$confpar])) {
+    if ( empty($cmd) ) {
         return true;
     }
 
@@ -1602,7 +1601,7 @@ function mailbox_postdeletion($username,$domain) {
 
     $cmdarg1=escapeshellarg($username);
     $cmdarg2=escapeshellarg($domain);
-    $command=$CONF[$confpar]." $cmdarg1 $cmdarg2";
+    $command = "$cmd $cmdarg1 $cmdarg2";
     $retval=0;
     $output=array();
     $firstline='';
