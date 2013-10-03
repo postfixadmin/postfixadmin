@@ -914,6 +914,9 @@ function pacrypt ($pw, $pw_db="") {
         # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
         # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
 
+        # digest-md5 hashes include the username - until someone implements it, let's declare it as unsupported
+        if (strtolower($method) == 'digest-md5') die("Sorry, \$CONF['encrypt'] = 'dovecot:digest-md5' is not supported by PostfixAdmin.");
+
         $dovecotpw = "doveadm pw";
         if (!empty($CONF['dovecotpw'])) $dovecotpw = $CONF['dovecotpw'];
 
