@@ -118,14 +118,6 @@ class PostfixAdmin {
  */
         var $shellName = null;
 /**
- * Constructs this ShellDispatcher instance.
- *
- * @param array $args the argv.
- */
-        function PostfixAdmin($args = array()) {
-                $this->__construct($args);
-        }
-/**
  * Constructor
  *
  * @param array $args the argv.
