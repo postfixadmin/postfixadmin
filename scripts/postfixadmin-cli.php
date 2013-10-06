@@ -147,7 +147,7 @@ class PostfixAdmin {
                 define('DS', DIRECTORY_SEPARATOR);
                 define('PHP5', (PHP_VERSION >= 5));
                 define('CORE_INCLUDE_PATH', dirname(__FILE__));
-                define('CORE_PATH', substr(CORE_INCLUDE_PATH, 0, -8) );
+                define('CORE_PATH', dirname(CORE_INCLUDE_PATH) ); # CORE_INCLUDE_PATH/../
                 
                 if(!defined('POSTFIXADMIN')) { # already defined if called from setup.php
                         define('POSTFIXADMIN', 1); # checked in included files
