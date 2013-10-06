@@ -205,26 +205,29 @@ echo "*** value of $key is NULL - this should not happen! ***";
     * Displays help contents
     */
     public function help() {
-        $cmd = 'edit';
-        if ($this->new) $cmd = 'add';
-        
+        if ($this->new) {
+            $cmd = 'add';
+            $cmdtext = 'Adds';
+        } else {
+            $cmd = 'update';
+            $cmdtext = 'Changes';
+        }
+
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
 
-# TODO: generate from $struct
-#        $this->hr();
         $this->out(
 "Usage:
 
     postfixadmin-cli $module $cmd
 
-        Adds $module in interactive mode.
+        $cmdtext $module in interactive mode.
 
 - or -
 
     postfixadmin-cli $module $cmd <address> --option value --option2 value [...]
 
-        Adds $module in non-interactive mode.
+        $cmdtext $module in non-interactive mode.
 
         Available options are:
 ");
