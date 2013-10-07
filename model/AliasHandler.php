@@ -32,7 +32,7 @@ class AliasHandler extends PFAHandler {
                 /*not_in_db*/ 1                         ),
             'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 
                 /*options*/ $this->allowed_domains      ),
-            'goto'          => pacol(   1,          1,      1,      'txtl', 'to'                            , 'pEdit_alias_help'                ),
+            'goto'          => pacol(   1,          1,      1,      'txtl', 'to'                            , 'pEdit_alias_help'                , array() ),
             'is_mailbox'    => pacol(   0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 # technically 'is_mailbox' is bool, but the automatic bool conversion breaks the query. Flagging it as int avoids this problem.
                 # Maybe having a vbool type (without the automatic conversion) would be cleaner - we'll see if we need it.
