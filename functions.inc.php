@@ -910,12 +910,14 @@ function pacrypt ($pw, $pw_db="") {
     elseif (preg_match("/^dovecot:/", $CONF['encrypt'])) {
         $split_method = preg_split ('/:/', $CONF['encrypt']);
         $method       = strtoupper($split_method[1]);
-        if (! preg_match("/^[A-Z0-9-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
+        if (! preg_match("/^[A-Z0-9.-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
         # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
         # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
 
-        # digest-md5 hashes include the username - until someone implements it, let's declare it as unsupported
+        # digest-md5 and SCRAM-SHA-1 hashes include the username - until someone implements it, let's declare it as unsupported
         if (strtolower($method) == 'digest-md5') die("Sorry, \$CONF['encrypt'] = 'dovecot:digest-md5' is not supported by PostfixAdmin.");
+        if (strtoupper($method) == 'SCRAM-SHA-1') die("Sorry, \$CONF['encrypt'] = 'dovecot:scram-sha-1' is not supported by PostfixAdmin.");
+        # TODO: add -u option for those hashes, or for everything that is salted (-u was available before dovecot 2.1 -> no problem with backward compability)
 
         $dovecotpw = "doveadm pw";
         if (!empty($CONF['dovecotpw'])) $dovecotpw = $CONF['dovecotpw'];
@@ -927,9 +929,12 @@ function pacrypt ($pw, $pw_db="") {
 			2 => array("pipe", "w"), // stderr
 		);
 
+        $nonsaltedtypes = "SHA|SHA1|SHA256|SHA512|CLEAR|CLEARTEXT|PLAIN|PLAIN-TRUNC|CRAM-MD5|HMAC-MD5|PLAIN-MD4|PLAIN-MD5|LDAP-MD5|LANMAN|NTLM|RPA";
+        $salted = ! preg_match("/^($nonsaltedtypes)(\.B64|\.BASE64|\.HEX)?$/", strtoupper($method) );
+
         $dovepasstest = '';
-        if (!empty($pw_db)) {
-            # TODO: only use -t for salted passwords to be backward compatible with dovecot < 2.1 again
+        if ( $salted && (!empty($pw_db)) ) {
+            # only use -t for salted passwords to be backward compatible with dovecot < 2.1
             $dovepasstest = " -t " . escapeshellarg($pw_db);
         }
         $pipe = proc_open("$dovecotpw '-s' $method$dovepasstest", $spec, $pipes);
@@ -1850,9 +1855,9 @@ function boolconf($setting) {
     return Config::bool($setting);    
 }
 
-$table_admin = table_by_key ('admin');
+#$table_admin = table_by_key ('admin');
 $table_alias = table_by_key ('alias');
-$table_alias_domain = table_by_key ('alias_domain');
+#$table_alias_domain = table_by_key ('alias_domain');
 $table_domain = table_by_key ('domain');
 $table_domain_admins = table_by_key ('domain_admins');
 $table_log = table_by_key ('log');
