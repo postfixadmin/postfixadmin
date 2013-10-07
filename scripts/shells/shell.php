@@ -137,14 +137,14 @@ class Shell {
 
                 $shellKey = Inflector::underscore($this->className);
 
-                if (!PHP5 && isset($this->args[0])) {
-                        if(strpos($this->className, strtolower(Inflector::camelize($this->args[0]))) !== false) {
-                                $dispatch->shiftArgs();
-                        }
-                        if (strtolower($this->command) == strtolower(Inflector::variable($this->args[0])) && method_exists($this, $this->command)) {
-                                $dispatch->shiftArgs();
-                        }
-                }
+#                if (!PHP5 && isset($this->args[0])) {
+#                        if(strpos($this->className, strtolower(Inflector::camelize($this->args[0]))) !== false) {
+#                                $dispatch->shiftArgs();
+#                        }
+#                        if (strtolower($this->command) == strtolower(Inflector::variable($this->args[0])) && method_exists($this, $this->command)) {
+#                                $dispatch->shiftArgs();
+#                        }
+#                }
 
                 $this->Dispatch =& $dispatch;
         }
@@ -210,22 +210,23 @@ if ( empty($this->params['q'] ) ) {
                                 if ($taskName == 'Add' || $taskName == 'Update') {
                                     $taskClass = 'CliEdit';
 
-                                } elseif (!class_exists($taskClass)) {
-                                        foreach ($this->Dispatch->shellPaths as $path) {
-                                                $taskPath = $path . 'tasks' . DS . $task.'.php';
-                                                if (file_exists($taskPath)) {
-                                                        require_once $taskPath;
-                                                        break;
-                                                }
-                                        }
                                 }
+#                                elseif (!class_exists($taskClass)) {
+#                                        foreach ($this->Dispatch->shellPaths as $path) {
+#                                                $taskPath = $path . 'tasks' . DS . $task.'.php';
+#                                                if (file_exists($taskPath)) {
+#                                                        require_once $taskPath;
+#                                                        break;
+#                                                }
+#                                        }
+#                                }
                                 
                                         $this->taskNames[] = $taskName;
-                                        if (!PHP5) {
+#                                        if (!PHP5) {
+#                                                $this->{$taskName} = new $taskClass($this->Dispatch);
+#                                        } else {
                                                 $this->{$taskName} = new $taskClass($this->Dispatch);
-                                        } else {
-                                                $this->{$taskName} = new $taskClass($this->Dispatch);
-                                        }
+#                                        }
 
                                 if ($taskName == 'Add') {
                                     $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
