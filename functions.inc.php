@@ -1158,9 +1158,9 @@ function smtp_mail ($to, $from, $data, $body = "") {
  * @return String - username/mail address
  */
 function smtp_get_admin_email() {
-	global $CONF;
-	if(isset($CONF['admin_email']) && !empty($CONF['admin_email']))
-		return $CONF['admin_email'];
+    $admin_email = Config::read('admin_email');
+	if(!empty($admin_email))
+		return $admin_email;
 	else
 		return authentication_get_username();
 }
@@ -1174,11 +1174,11 @@ function smtp_get_admin_email() {
 function smtp_get_response ($fh) {
     $res ='';
     do {
-    $line = fgets($fh, 256);
-    $res .= $line;
-}
-while (preg_match("/^\d\d\d\-/", $line));
-return $res;
+        $line = fgets($fh, 256);
+        $res .= $line;
+    }
+    while (preg_match("/^\d\d\d\-/", $line));
+    return $res;
 }
 
 
@@ -1644,13 +1644,11 @@ function mailbox_postdeletion($username,$domain) {
    Returns: boolean.
  */
 # TODO: move to DomainHandler
-# TODO: use Config::read instead of $CONF
 # TODO: replace "print" with $this->errormsg (or infomsg?)
 function domain_postcreation($domain) {
-    global $CONF;
-    $confpar='domain_postcreation_script';
+    $script=Config::read('domain_postcreation_script');
 
-    if (!isset($CONF[$confpar]) || empty($CONF[$confpar])) {
+    if (empty($script)) {
         return true;
     }
 
@@ -1660,7 +1658,7 @@ function domain_postcreation($domain) {
     }
 
     $cmdarg1=escapeshellarg($domain);
-    $command=$CONF[$confpar]." $cmdarg1";
+    $command= "$script $cmdarg1";
     $retval=0;
     $output=array();
     $firstline='';
@@ -1679,13 +1677,11 @@ function domain_postcreation($domain) {
    Returns: boolean.
  */
 # TODO: move to DomainHandler (after moving the delete code there)
-# TODO: use Config::read instead of $CONF
 # TODO: replace "print" with $this->errormsg (or infomsg?)
 function domain_postdeletion($domain) {
-    global $CONF;
-    $confpar='domain_postdeletion_script';
+    $script=Config::read('domain_postdeletion_script');
 
-    if (!isset($CONF[$confpar]) || empty($CONF[$confpar])) {
+    if (empty($script)) {
         return true;
     }
 
@@ -1695,7 +1691,7 @@ function domain_postdeletion($domain) {
     }
 
     $cmdarg1=escapeshellarg($domain);
-    $command=$CONF[$confpar]." $cmdarg1";
+    $command= "$script $cmdarg1";
     $retval=0;
     $output=array();
     $firstline='';
