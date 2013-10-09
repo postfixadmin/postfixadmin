@@ -20,6 +20,7 @@ $PALANG['invalid_parameter'] = '無効なパラメータです。';
 $PALANG['show'] = '閲覧:';
 $PALANG['all'] = '全て';
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'ログイン名 %s';
 
@@ -121,8 +122,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAPのパスワード';
 $PALANG['pCreate_mailbox_name_text'] = 'フルネーム';
 $PALANG['pCreate_mailbox_mail'] = 'ようこそメールの送信'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'メールアドレスを追加できません！';
-$PALANG['pCreate_mailbox_result_success'] = 'メールアドレスを追加しました。';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'メールアドレスを追加しました。しかし、いくつかのサブフォルダの作成に失敗しました。';
+$PALANG['pCreate_mailbox_result_success'] = 'メールアドレスを追加しました。 (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'メールアドレスを追加しました。しかし、いくつかのサブフォルダの作成に失敗しました。 (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'メールアドレスの編集';
 $PALANG['pEdit_mailbox_username'] = 'メールアドレス'; # XXX check / compare with pCreate_mailbox_username - should be "Username"

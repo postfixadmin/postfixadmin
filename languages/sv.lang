@@ -21,6 +21,7 @@ $PALANG['invalid_parameter'] = 'Felaktig parameter!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['pFooter_logged_as'] = 'Inloggad som %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Mail administratörer loggar in här för att sköta er domän.';
@@ -121,8 +122,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Lösenord för POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Fullständigt namn';
 $PALANG['pCreate_mailbox_mail'] = 'Skicka välkomstbrev'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Kan ej lägga till brevlådat i tabellen för konton!';
-$PALANG['pCreate_mailbox_result_success'] = 'Mailkontot har lagts till!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Brevlådan har lagts till i tabellen mailbox, men inga (eller få) av de fördefinierade underkatalogerna kunde skapas';
+$PALANG['pCreate_mailbox_result_success'] = 'Mailkontot har lagts till! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Brevlådan har lagts till i tabellen mailbox, men inga (eller få) av de fördefinierade underkatalogerna kunde skapas (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'Ändra ett brevlåda i din domän.';
 $PALANG['pEdit_mailbox_username'] = 'Epostadress';

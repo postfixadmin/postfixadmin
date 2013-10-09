@@ -21,6 +21,7 @@ $PALANG['invalid_parameter'] = 'Ugyldig parameter!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logget inn som %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'E-postadministratorer kan logge inn her for å administrere sine domener';
@@ -120,8 +121,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Passord for POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Fullt navn';
 $PALANG['pCreate_mailbox_mail'] = 'Send velkomstmelding'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Kunne ikke legge til e-postkontoen i mailbox-tabellen!';
-$PALANG['pCreate_mailbox_result_success'] = 'E-postkontoen er blitt opprettet i mailbox-tabellen!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'E-postkontoen er blitt opprettet i mailbox-tabellen, men ingen (eller kun noen) av de forhåndsdefinerte undermappene kunne opprettes.';
+$PALANG['pCreate_mailbox_result_success'] = 'E-postkontoen er blitt opprettet i mailbox-tabellen! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'E-postkontoen er blitt opprettet i mailbox-tabellen, men ingen (eller kun noen) av de forhåndsdefinerte undermappene kunne opprettes. (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'Endre en e-postkonto.';
 $PALANG['pEdit_mailbox_username'] = 'Brukernavn';

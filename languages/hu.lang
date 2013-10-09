@@ -19,6 +19,7 @@ $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 
 $PALANG['pFooter_logged_as'] = '%s-ként bejelentkezve'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
@@ -121,8 +122,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Jelszó a POP3/IMAP -hoz';
 $PALANG['pCreate_mailbox_name_text'] = 'Teljes név';
 $PALANG['pCreate_mailbox_mail'] = 'Postafiók létrehozása'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Nemsikerült a postafiókot felvenni a mailbox adatbázis táblába!';
-$PALANG['pCreate_mailbox_result_success'] = 'A postafiókot sikeresen felvettük a mailbox adatbázis táblába!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'A postafiókot hozzáadtuk a postafiók táblához, de egyik előre definiált alkönyvtárat sem tudtuk létrehozni (vagy csak néhányat)';
+$PALANG['pCreate_mailbox_result_success'] = 'A postafiókot sikeresen felvettük a mailbox adatbázis táblába! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'A postafiókot hozzáadtuk a postafiók táblához, de egyik előre definiált alkönyvtárat sem tudtuk létrehozni (vagy csak néhányat) (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'Postafiók szerkesztése az adott domainhez.';
 $PALANG['pEdit_mailbox_username'] = 'Felhasználónév';

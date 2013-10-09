@@ -19,6 +19,7 @@ $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Póst kerfisstjóri tengist hér til að viðhalda póstkerfi lénsins þins.';
@@ -119,8 +120,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Lykilorð til að opna POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Fullt nafn';
 $PALANG['pCreate_mailbox_mail'] = 'Stofna pósthólf'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Get ekki bætt við pósthólfi í mailbox töfluna!';
-$PALANG['pCreate_mailbox_result_success'] = 'Pósthólfinu hefur verið bætt við mailbox töfluna!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
+$PALANG['pCreate_mailbox_result_success'] = 'Pósthólfinu hefur verið bætt við mailbox töfluna! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Breyta pósthólfi i léninu þínu.';
 $PALANG['pEdit_mailbox_username'] = 'Auðkenni'; # XXX check / compare with pCreate_mailbox_username - should be "Username"

@@ -23,6 +23,7 @@ $PALANG['invalid_parameter'] = 'Neplatný parametr!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Přihlášen jako %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
@@ -124,8 +125,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Heslo pro POP3/IMAP/SMTP';
 $PALANG['pCreate_mailbox_name_text'] = 'Celé jméno';
 $PALANG['pCreate_mailbox_mail'] = 'Vytvořit schránku na disku (odešle uvítací email)'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Nepodařilo se přidat schránku do tabulky schránek!';
-$PALANG['pCreate_mailbox_result_success'] = 'Schránka byla přidána do tabulky schránek!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Schránka byla přidána do tabulky schránek, ale žádné (nebo pouze některé) ze předdefinovaných podsložek bylo možné vytovořit';
+$PALANG['pCreate_mailbox_result_success'] = 'Schránka byla přidána do tabulky schránek! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Schránka byla přidána do tabulky schránek, ale žádné (nebo pouze některé) ze předdefinovaných podsložek bylo možné vytovořit (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'Upravit lokální chránku v doméně.';
 $PALANG['pEdit_mailbox_username'] = 'Uživatelské jméno';

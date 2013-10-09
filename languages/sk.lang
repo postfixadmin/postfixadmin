@@ -20,6 +20,7 @@ $PALANG['invalid_parameter'] = 'Neplatný parameter!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['pFooter_logged_as'] = 'Prihlásený ako %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Prihlásenie administrátorov pre správu domén';
@@ -120,8 +121,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Heslo pre POP3/IMAP/SMTP';
 $PALANG['pCreate_mailbox_name_text'] = 'Celé meno';
 $PALANG['pCreate_mailbox_mail'] = 'Poslať uvítací email'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Nepodarilo sa pridať schránku do tabuľky!';
-$PALANG['pCreate_mailbox_result_success'] = 'Schránka bola pridaná do tabuľky!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Schránka bola pridaná do tabuľky, ale nepodarilo sa vytvoriť (niektoré) definované adresáre';
+$PALANG['pCreate_mailbox_result_success'] = 'Schránka bola pridaná do tabuľky! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Schránka bola pridaná do tabuľky, ale nepodarilo sa vytvoriť (niektoré) definované adresáre (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'Upraviť schránku v doméne';
 $PALANG['pEdit_mailbox_username'] = 'Užívateľské meno';

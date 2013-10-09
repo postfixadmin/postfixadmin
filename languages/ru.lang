@@ -21,6 +21,7 @@ $PALANG['invalid_parameter'] = 'Некорректный параметр!';
 $PALANG['show'] = 'Показать:';
 $PALANG['all'] = 'Все';
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Вошли как %s';
 
@@ -123,8 +124,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Пароль для POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Полное имя';
 $PALANG['pCreate_mailbox_mail'] = 'Отправить приветственное письмо';
 $PALANG['pCreate_mailbox_result_error'] = 'Невозможно добавить ящик в список существующих ящиков!';
-$PALANG['pCreate_mailbox_result_success'] = 'Почтовый ящик был успешно создан!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Почтовый ящик был успешно создан, но в нем не удалось создать (некоторые) стандартные папки';
+$PALANG['pCreate_mailbox_result_success'] = 'Почтовый ящик был успешно создан! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Почтовый ящик был успешно создан, но в нем не удалось создать (некоторые) стандартные папки (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'Редактирование ящика для вашего домена.';
 $PALANG['pEdit_mailbox_username'] = 'Название';

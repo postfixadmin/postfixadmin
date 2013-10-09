@@ -20,6 +20,7 @@ $PALANG['invalid_parameter'] = 'ongeldige parameter!';
 $PALANG['show'] = 'Toon:';
 $PALANG['all'] = 'Alle';
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['pFooter_logged_as'] = 'aangemeld als %s';
 
 $PALANG['pLogin_welcome'] = 'Mail beheerders log hier in om uw domeinen te beheren.';
@@ -120,8 +121,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Wachtwoord voor POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Volledige naam';
 $PALANG['pCreate_mailbox_mail'] = 'Mailbox toevoegen'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Mislukt om de mailbox toe te voegen.';
-$PALANG['pCreate_mailbox_result_success'] = 'De mailbox is toegevoegd.';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'De mailbox is aan de mailbox tabel toegevoegd, maar geen (of sommige) van de vooraf gedefinieerde sub-folders kon aangemaakt worden';
+$PALANG['pCreate_mailbox_result_success'] = 'De mailbox is toegevoegd. (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'De mailbox is aan de mailbox tabel toegevoegd, maar geen (of sommige) van de vooraf gedefinieerde sub-folders kon aangemaakt worden (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'Bewerk een mailbox voor uw domein.';
 $PALANG['pEdit_mailbox_username'] = 'Gebruikersnaam';
@@ -206,8 +207,6 @@ $PALANG['pAdminList_domain_quota'] = 'Domein quota (MB)'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'Back-up MX';
 $PALANG['last_modified'] = 'Laatst bewerkt';
 
-$PALANG['pAdminList_domain_userscontrol'] = 'Gebruikers<br />Beheer';
-
 $PALANG['pAdminCreate_domain_welcome'] = 'Voeg een nieuw domein toe';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'Het domein bestaat al.';
 $PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
@@ -230,7 +229,6 @@ $PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definieer transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is back-up MX';
 $PALANG['pAdminEdit_domain_result_error'] = 'Mislukt het domein te bewerken.';
-$PALANG['pAdminEdit_domain_userscontrol'] = 'Sta contorle door gebruikers toe';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Voeg een nieuw domein beheerder toe';
 $PALANG['pAdminCreate_admin_username_text'] = 'E-mail adres';

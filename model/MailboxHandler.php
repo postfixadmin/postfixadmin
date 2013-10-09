@@ -236,10 +236,10 @@ class MailboxHandler extends PFAHandler {
 
             if ( !$this->create_mailbox_subfolders() ) {
                 # TODO: implement $tShowpass
-                flash_info(Lang::read('pCreate_mailbox_result_succes_nosubfolders') . " ($fUsername$tShowpass)"); # TODO: don't use flash_info
+                $this->infomsg[] = Lang::read_f('pCreate_mailbox_result_succes_nosubfolders', "$fUsername$tShowpass");
             } else { # everything ok
                 # TODO: implement $tShowpass
-                # flash_info(Lang::read('pCreate_mailbox_result_success']) . " ($fUsername$tShowpass)*"); # TODO: don't use flash_info
+                # $this->infomsg[] = Lang::read_f('pCreate_mailbox_result_success'], "$fUsername$tShowpass");
                 # TODO: currently edit.php displays the default success message from webformConfig
             } 
 

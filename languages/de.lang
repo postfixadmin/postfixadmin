@@ -20,6 +20,7 @@ $PALANG['invalid_parameter'] = 'Ungültiger Parameter!';
 $PALANG['show'] = 'Anzeigen:';
 $PALANG['all'] = 'Alle';
 $PALANG['created'] = 'Erstellt';
+$PALANG['missing_field'] = 'Das Feld %s fehlt';
 
 $PALANG['pFooter_logged_as'] = 'Angemeldet als %s';
 
@@ -121,8 +122,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Passwort für POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Vollständiger Name';
 $PALANG['pCreate_mailbox_mail'] = 'Begrüßungsmail senden';
 $PALANG['pCreate_mailbox_result_error'] = 'Unmöglich die Mailbox in die Mailbox-Tabelle einzutragen!';
-$PALANG['pCreate_mailbox_result_success'] = 'Die Mailbox wurde in die Mailbox-Tabelle eingetragen!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Die Mailbox wurde in der Mailbox-Tabelle eingetragen, aber keine (oder nur einige) der vorkonfigurierten Unterordner konnte erstellt werden';
+$PALANG['pCreate_mailbox_result_success'] = 'Die Mailbox %s wurde in die Mailbox-Tabelle eingetragen.';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Die Mailbox %s wurde in der Mailbox-Tabelle eingetragen, aber keine (oder nur einige) der vorkonfigurierten Unterordner konnte erstellt werden!';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Ändern Sie ihre Mailbox hier.';
 $PALANG['pEdit_mailbox_username'] = 'Benutzername';

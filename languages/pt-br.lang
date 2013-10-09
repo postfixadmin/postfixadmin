@@ -20,6 +20,7 @@ $PALANG['invalid_parameter'] = 'Parâmetro inválido!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Autenticado como %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
@@ -123,8 +124,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Senha para POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Nome completo';
 $PALANG['pCreate_mailbox_mail'] = 'Enviar mensagem de boas-vindas'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Não foi possível criar a conta de email!';
-$PALANG['pCreate_mailbox_result_success'] = 'Conta de email criada!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Conta de email criada, mas nenhum (ou apenas alguns) dos subdiretórios pré-definidos puderam ser criados';
+$PALANG['pCreate_mailbox_result_success'] = 'Conta de email criada! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Conta de email criada, mas nenhum (ou apenas alguns) dos subdiretórios pré-definidos puderam ser criados (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'Edição de conta de email do domínio.';
 $PALANG['pEdit_mailbox_username'] = 'Usuário';

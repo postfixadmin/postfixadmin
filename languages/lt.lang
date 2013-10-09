@@ -19,6 +19,7 @@ $PALANG['invalid_parameter'] = 'Neteisingas parametras!';
 $PALANG['show'] = 'Rodyti:';
 $PALANG['all'] = 'Visi';
 $PALANG['created'] = 'Sukurta';
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['pFooter_logged_as'] = 'Prisijungęs kaip %s';
 
 $PALANG['pLogin_welcome'] = 'Pašto srities administratorius.';
@@ -120,8 +121,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Slaptažodis jungtis prie POP3/IMAP'
 $PALANG['pCreate_mailbox_name_text'] = 'Vardas Pavardė';
 $PALANG['pCreate_mailbox_mail'] = 'Siųsti pasveikinimo žinutę';
 $PALANG['pCreate_mailbox_result_error'] = 'Pašto dėžutės užregistruoti nepavyko!';
-$PALANG['pCreate_mailbox_result_success'] = 'Pašto dėžutė užregistruota!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Pašto dėžutė užregistruota, bet nepavyko sukurti (galbūt kai kurių) nustatytų subdirektorijų';
+$PALANG['pCreate_mailbox_result_success'] = 'Pašto dėžutė užregistruota! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Pašto dėžutė užregistruota, bet nepavyko sukurti (galbūt kai kurių) nustatytų subdirektorijų (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'Keisti pašto dėžutę.';
 $PALANG['pEdit_mailbox_username'] = 'Vartotojas';

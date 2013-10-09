@@ -19,6 +19,7 @@ $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Kudeatzailearen logina domeinuak kudeatzeko.';
@@ -117,8 +118,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP-entzat pasahitza';
 $PALANG['pCreate_mailbox_name_text'] = 'Izen osoa';
 $PALANG['pCreate_mailbox_mail'] = 'Postontzia sortu'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Ezinezkoa postontzi taulara postontzia gehitzea!';
-$PALANG['pCreate_mailbox_result_success'] = 'Postontzia postontzi taulara sartu da!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
+$PALANG['pCreate_mailbox_result_success'] = 'Postontzia postontzi taulara sartu da! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Domeinuarentzat postontzi bat aldatu.';
 $PALANG['pEdit_mailbox_username'] = 'Erabiltzailea';

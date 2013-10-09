@@ -19,6 +19,7 @@ $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Логин за администрирање на домени (Само за администратори!)';
@@ -119,8 +120,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Лозинка за POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Цело име';
 $PALANG['pCreate_mailbox_mail'] = 'Креирање на поштенско сандаче'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Не можам да додадам ново сандаче на табелата!';
-$PALANG['pCreate_mailbox_result_success'] = 'Поштенското сандаче е додадено на табелата!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
+$PALANG['pCreate_mailbox_result_success'] = 'Поштенското сандаче е додадено на табелата! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Измена на поштенско сандаче на доменот.';
 $PALANG['pEdit_mailbox_username'] = 'Корисничко име';

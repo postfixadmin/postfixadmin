@@ -20,6 +20,7 @@ $PALANG['invalid_parameter'] = 'Viallinen parametri!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['pFooter_logged_as'] = 'Kirjautunut sisään tunnuksella %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Kirjautuminen';
@@ -119,8 +120,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP salasana';
 $PALANG['pCreate_mailbox_name_text'] = 'Koko nimi';
 $PALANG['pCreate_mailbox_mail'] = 'Luo postilaatikko'; # XXX Text change to 'Send Welcome mail'
 $PALANG['pCreate_mailbox_result_error'] = 'Postilaatikon lisääminen ei onnistu!';
-$PALANG['pCreate_mailbox_result_success'] = 'Postilaatikko on lisätty!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Sähköpostilaatikko on lisätty tauluun, mutta ennaltamääriteltyjen alikansioiden luonneista yksi tai useampi epäonnistui';
+$PALANG['pCreate_mailbox_result_success'] = 'Postilaatikko on lisätty! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Sähköpostilaatikko on lisätty tauluun, mutta ennaltamääriteltyjen alikansioiden luonneista yksi tai useampi epäonnistui (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
 $PALANG['pEdit_mailbox_welcome'] = 'Muokkaa postilaatikkoa.';
 $PALANG['pEdit_mailbox_username'] = 'Käyttäjätunnus';

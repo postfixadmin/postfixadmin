@@ -20,6 +20,7 @@ $PALANG['invalid_parameter'] = '¡Par&aacute;metro inválido!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['pFooter_logged_as'] = 'Autenticado como %s';  # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Login de administrador para administración de dominios.';
@@ -119,8 +120,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Contraseña para POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Nombre completo';
 $PALANG['pCreate_mailbox_mail'] = 'Enviar correo bienvenida';
 $PALANG['pCreate_mailbox_result_error'] = '¡Imposible añadir un buzón a la tabla de buzones!';
-$PALANG['pCreate_mailbox_result_success'] = '¡El buzón ha sido añadido a la tabla de buzones!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created'; # XXX
+$PALANG['pCreate_mailbox_result_success'] = '¡El buzón ha sido añadido a la tabla de buzones! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.'; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Editar un buzón para su dominio.';
 $PALANG['pEdit_mailbox_username'] = 'Usuario';

@@ -20,6 +20,7 @@ $PALANG['invalid_parameter'] = 'Invalid parameter!';
 $PALANG['show'] = 'Show:';
 $PALANG['all'] = 'All';
 $PALANG['created'] = 'Created';
+$PALANG['missing_field'] = 'Field %s is missing';
 
 $PALANG['pFooter_logged_as'] = 'Logged in as %s';
 
@@ -122,8 +123,8 @@ $PALANG['pCreate_mailbox_password_text'] = 'Password for POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Full name';
 $PALANG['pCreate_mailbox_mail'] = 'Send Welcome mail';
 $PALANG['pCreate_mailbox_result_error'] = 'Unable to add the mailbox to the mailbox table!';
-$PALANG['pCreate_mailbox_result_success'] = 'The mailbox has been added to the mailbox table!';
-$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created';
+$PALANG['pCreate_mailbox_result_success'] = 'The mailbox %s has been added to the mailbox table.';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.';
 
 $PALANG['pEdit_mailbox_welcome'] = 'Edit a mailbox for your domain.';
 $PALANG['pEdit_mailbox_username'] = 'Username';
@@ -208,7 +209,6 @@ $PALANG['description'] = 'Description';
 $PALANG['aliases'] = 'Aliases';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
-$PALANG['pAdminList_domain_usercontrol'] = 'User Control';
 $PALANG['last_modified'] = 'Last modified';
 
 
@@ -218,7 +218,6 @@ $PALANG['domain_does_not_exist'] = 'This domain does not exist!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Add default mail aliases';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
-$PALANG['pAdminCreate_domain_usercontrol'] = 'Allow user control';
 $PALANG['pAdminCreate_domain_button'] = 'Add Domain';
 $PALANG['pAdminCreate_domain_result_error'] = 'Unable to add domain!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain has been added!';
@@ -235,7 +234,6 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota';
 $PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
-$PALANG['pAdminEdit_domain_usercontrol'] = 'Allow user control';
 $PALANG['pAdminEdit_domain_result_error'] = 'Unable to modify domain!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Add a new domain admin';
