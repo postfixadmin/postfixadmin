@@ -37,13 +37,8 @@ if (authentication_has_role('global-admin')) { # more permissions? Fine!
 }
 
 $handler = new DomainHandler(0, $admin_username);
-if ($handler->getList('1=1')) {
-   $domain_properties = $handler->result();
-} else {
-   $domain_properties = array();
-   # TODO: check if there was an error or simply no domains
-}
-
+$handler->getList('');
+$domain_properties = $handler->result();
 
 $smarty->assign ('domain_properties', $domain_properties);
 $smarty->assign ('select_options', select_options($list_admins, array ($fUsername)), false);

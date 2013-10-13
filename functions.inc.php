@@ -410,7 +410,7 @@ function get_domain_properties ($domain) {
         die("Error: " . join("\n", $handler->errormsg));
     }
 
-    $result = $handler->return;
+    $result = $handler->result();
     return $result;
 }
 
@@ -631,14 +631,8 @@ function list_domains () {
 function list_admins () {
     $handler = new AdminHandler();
 
-    if ($handler->getList('1=1')) {
-        $list = $handler->result();
-    } else {
-        $list = array();
-        # TODO: check if there was an error or simply no admins (which shouldn't happen because nobody could login then...)
-    }
-
-    return $list;
+    $handler->getList('');
+    return $handler->result();
 }
 
 

@@ -513,19 +513,20 @@ abstract class PFAHandler {
      * @param array or string $condition - see read_from_db for details
      * @param integer limit - maximum number of rows to return
      * @param integer offset - number of first row to return
-     * @return bool - true if at least one item was found
+     * @return bool - always true, no need to check ;-) (if $result is not an array, getList die()s)
      * The data is stored in $this->result (as array of rows, each row is an associative array of column => value)
      */
     public function getList($condition, $limit=-1, $offset=-1) {
         $result = $this->read_from_db($condition, $limit, $offset);
-        if (count($result) >= 1) {
-            $this->result = $result;
-            return true;
+
+        if (!is_array($result)) {
+            error_log('getList: read_from_db didn\'t return an array. table: ' . $this->db_table . ' - condition: $condition - limit: $limit - offset: $offset');
+            error_log('getList: This is most probably caused by read_from_db_postprocess()');
+            die('Unexpected error while reading from database! (Please check the error log for details, and open a bugreport)');
         }
 
-#        $this->errormsg[] = Lang::read($this->msg['error_does_not_exist']);
-#        $this->errormsg[] = $result['error'];
-        return false;
+        $this->result = $result;
+        return true;
     }
 
 

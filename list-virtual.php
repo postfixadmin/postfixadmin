@@ -103,21 +103,16 @@ if (Config::bool('alias_domain')) {
     }
 
     $handler = new AliasdomainHandler(0, $admin_username);
-    if ($handler->getList($list_param)) {
-        $tAliasDomains = $handler->result();
-    } else {
-        $tAliasDomains = array();
-        # TODO: check if there was an error or simply no alias domains
-    }
+    $handler->getList($list_param);
+    $tAliasDomains = $handler->result();
 
     $can_create_alias_domain = 1;
     foreach ($tAliasDomains as $row) {
         if ($row['alias_domain'] == $fDomain) $can_create_alias_domain = 0; # domain is already an alias domain
     }
     # set $can_create_alias_domain = 0 if all domains (of this admin) are already used as alias domains
-    if ($handler->getList("1=1")) {
-        if ( count($handler->result()) + 1 >= count($list_domains) ) $can_create_alias_domain = 0; # all domains (of this admin) are already alias domains
-    }
+    $handler->getList("");
+    if ( count($handler->result()) + 1 >= count($list_domains) ) $can_create_alias_domain = 0; # all domains (of this admin) are already alias domains
 }
 
 #
@@ -150,12 +145,8 @@ $query = "
 */
 
 $handler = new AliasHandler(0, $admin_username);
-if ($handler->getList($list_param, $page_size, $fDisplay)) {
-    $tAlias = $handler->result();
-} else {
-    $tAlias= array();
-    # TODO: check if there was an error or simply no aliases
-}
+$handler->getList($list_param, $page_size, $fDisplay);
+$tAlias = $handler->result();
 
 
 
