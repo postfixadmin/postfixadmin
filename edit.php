@@ -119,7 +119,7 @@ if ($active != '') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST" || $active != '') {
-    if ($formconf['hardcoded_edit']) {
+    if (isset($formconf['hardcoded_edit']) && $formconf['hardcoded_edit']) {
         $values[$id_field] = $form_fields[$id_field]['default'];
     } elseif ($edit != "") {
         $values[$id_field] = $edit;
