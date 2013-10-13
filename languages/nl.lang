@@ -92,7 +92,7 @@ $PALANG['pCreate_alias_domain_error1'] = 'U heeft niet genoeg rechten om de huid
 $PALANG['pCreate_alias_domain_error2'] = 'De huidige configuratie is ongeldig, slecteer een andere!';
 $PALANG['pCreate_alias_domain_error3'] = 'Fout bij vullen database. (%s)'; # XXX Text changed to: Creating the alias domain %s failed!
 $PALANG['pCreate_alias_domain_error4'] = 'Alle domeinen hebben al een alias!';
-$PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de alias domein tabel!';
+$PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de alias domein tabel! (%s)'; # XXX Text changed to: The alias domain %s has been created.
 
 $PALANG['pCreate_alias_address_text_error1'] = 'De Alias is niet geldig!';
 $PALANG['email_address_already_exists'] = 'Dit e-mail aders bestaat al, kies aub een andere.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
@@ -143,7 +143,7 @@ $PALANG['pPassword_password2'] = 'Nieuw wachtwoord (nogmaals)';
 $PALANG['pPassword_password_text_error'] = 'De wachtwoorden die u opgaf komen niet overeen of zijn leeg.';
 $PALANG['change_password'] = 'Wijzig wachtwoord';
 $PALANG['pPassword_result_error'] = 'Mislukt om uw wachtwoord te veranderen. (%s)'; # XXX Text changed to: Changing the password for %s failed!
-$PALANG['pPassword_result_success'] = 'Uw wachtwoord is veranderd.';
+$PALANG['pPassword_result_success'] = 'Uw wachtwoord is veranderd. (%s)'; # XXX Text changed to: The password for %s has been changed.
 
 $PALANG['pEdit_vacation_set'] = 'Verander / Activeer beantwoorden tekst';
 $PALANG['pEdit_vacation_remove'] = 'Verwijder beantwoorden tekst';
@@ -215,7 +215,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Gebruik standaard aliassen';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Voeg Domein toe';
 $PALANG['pAdminCreate_domain_result_error'] = 'Mislukt om het domein toe te voegen. (%s)'; # XXX Text changed to: Adding the domain %s failed!
-$PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Niet in staat beheerder te verwijderen!';
 $PALANG['pAdminDelete_domain_error'] = 'Niet in staat domein te verwijderen!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Niet in staat domein alias te verwijderen!';
@@ -236,7 +236,7 @@ $PALANG['pAdminCreate_admin_username_text_error1'] = 'Beheerder is geen geldig e
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'De beheerder bestaat al of is niet geldig';
 $PALANG['pAdminCreate_admin_button'] = 'Voeg beheerder toe';
 $PALANG['pAdminCreate_admin_result_error'] = 'Mislukt om beheerder toe te voegen! (%s)'; # XXX Text changed to: Adding the admin %s failed!
-$PALANG['pAdminCreate_admin_result_success'] = 'Beheerder is toegevoegd.';
+$PALANG['pAdminCreate_admin_result_success'] = 'Beheerder is toegevoegd. (%s)'; # XXX Text changed to: The admin %s has been added.
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Bewerk een domein beheerder';
 $PALANG['admin'] = 'Beheerder';
@@ -244,7 +244,7 @@ $PALANG['password_again'] = 'Wachtwoord (nogmaals)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administrator';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Mislukt om beheerder te bewerken (%s)'; # XXX Text changed to: Modifying the admin %s failed!
-$PALANG['pAdminEdit_admin_result_success'] = 'Beheerder is bewerkt!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Beheerder is bewerkt! (%s)'; # XXX Text changed to: The admin %s has been modified.
 
 $PALANG['pUsersLogin_welcome'] = 'Mailbox gebruikers login om uw wachtwoord en aliassen te bewerken.';
 $PALANG['pUsersLogin_username_incorrect'] = 'Uw login is niet correct. U dient in te loggen met uw e-mail adres.';

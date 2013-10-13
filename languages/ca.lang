@@ -90,7 +90,7 @@ $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chos
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed. (%s)'; # XXX # XXX Text changed to: Creating the alias domain %s failed!
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
-$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
+$PALANG['pCreate_alias_domain_success'] = 'The alias domain %s has been created.'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'L\'àlies no és vàlid!';
 $PALANG['email_address_already_exists'] = 'Aquesta adreça ja existeix, escull una altra de diferent, si us plau!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
@@ -141,7 +141,7 @@ $PALANG['pPassword_password2'] = 'Nova contrasenya (repetiu)';
 $PALANG['pPassword_password_text_error'] = 'Les contrasenyes introduides no coincideixen o estan en blanc!'; # XXX check/beautify - was split in two lines before
 $PALANG['change_password'] = 'Canviar la contrasenya';
 $PALANG['pPassword_result_error'] = 'Imposible canviar la contrasenya! (%s)'; # XXX Text changed to: Changing the password for %s failed!
-$PALANG['pPassword_result_success'] = 'La seva contrasenya ha estat canviada!';
+$PALANG['pPassword_result_success'] = 'La seva contrasenya ha estat canviada! (%s)'; # XXX Text changed to: The password for %s has been changed.
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
 $PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
 $PALANG['pVacation_result_error'] = 'Updating the auto response settings for %s failed'; # XXX
@@ -213,7 +213,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Afegir àlies per defecte';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = ''; # XXX
 $PALANG['pAdminCreate_domain_button'] = 'Afegir domini';
 $PALANG['pAdminCreate_domain_result_error'] = 'Imposible afegir el domini! (%s)'; # XXX Text changed to: Adding the domain %s failed!
-$PALANG['pAdminCreate_domain_result_success'] = 'El domini ha estat afegit!';
+$PALANG['pAdminCreate_domain_result_success'] = 'El domini ha estat afegit! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
@@ -235,7 +235,7 @@ $PALANG['pAdminCreate_admin_username_text_error2'] = 'L\'administrador ja existe
 
 $PALANG['pAdminCreate_admin_button'] = 'Afegir administrador';
 $PALANG['pAdminCreate_admin_result_error'] = 'Imposible afegir l\'administrador! (%s)'; # XXX Text changed to: Adding the admin %s failed!
-$PALANG['pAdminCreate_admin_result_success'] = 'L\'administrador ha estat afegit!';
+$PALANG['pAdminCreate_admin_result_success'] = 'L\'administrador ha estat afegit! (%s)'; # XXX Text changed to: The admin %s has been added.
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Editar un administrador de domini';
 $PALANG['admin'] = 'Administrador';
@@ -243,7 +243,7 @@ $PALANG['password_again'] = 'Contrasenya (repetiu)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Imposible modificar l\'administrador! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
-$PALANG['pAdminEdit_admin_result_success'] = 'L\'administrador ha estat modificat!';
+$PALANG['pAdminEdit_admin_result_success'] = 'L\'administrador ha estat modificat! (%s)'; # XXX Text changed to: The admin %s has been modified.
 
 $PALANG['pUsersLogin_welcome'] = 'Login d\'usuaris per canviar la contrasenya i els àlies.';
 $PALANG['pUsersLogin_username_incorrect'] = 'El seu login no és correcte. Asseguri\'s d\'haver introduït la seva adreça d\'e-mail com a login!';

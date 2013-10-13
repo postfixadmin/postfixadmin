@@ -91,7 +91,7 @@ $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chos
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed. (%s)'; # XXX # XXX Text changed to: Creating the alias domain %s failed!
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
-$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
+$PALANG['pCreate_alias_domain_success'] = 'The alias domain %s has been created.'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Алијасот не е валиден!';
 $PALANG['email_address_already_exists'] = 'Оваа адреса веќе постои. Ве молам одберете друга!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
@@ -142,7 +142,7 @@ $PALANG['pPassword_password2'] = 'Нова лозинка (повторно)';
 $PALANG['pPassword_password_text_error'] = 'Внесените лозинки не одговараат! Или се празни!'; # XXX check/beautify - was split in two lines before
 $PALANG['change_password'] = 'Промена на лозинка';
 $PALANG['pPassword_result_error'] = 'Не можам да ја променам вашата лозинка! (%s)'; # XXX Text changed to: Changing the password for %s failed!
-$PALANG['pPassword_result_success'] = 'Вашата лозинка е сменета!';
+$PALANG['pPassword_result_success'] = 'Вашата лозинка е сменета! (%s)'; # XXX Text changed to: The password for %s has been changed.
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message'; # XXX
 $PALANG['pEdit_vacation_remove'] = 'Remove away message'; # XXX
 $PALANG['pVacation_result_error'] = 'Updating the auto response settings for %s failed'; # XXX
@@ -215,7 +215,7 @@ $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 
 $PALANG['pAdminCreate_domain_button'] = 'Додади домен';
 $PALANG['pAdminCreate_domain_result_error'] = 'Не можам да го додадам доменот! (%s)'; # XXX Text changed to: Adding the domain %s failed!
-$PALANG['pAdminCreate_domain_result_success'] = 'Доменот е додаден!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Доменот е додаден! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
@@ -236,7 +236,7 @@ $PALANG['pAdminCreate_admin_username_text_error1'] = 'Администратор
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Администраторот веќе постои или не е валидна';
 $PALANG['pAdminCreate_admin_button'] = 'Додади Администратор';
 $PALANG['pAdminCreate_admin_result_error'] = 'Не можам да додадам администратор! (%s)'; # XXX Text changed to: Adding the admin %s failed!
-$PALANG['pAdminCreate_admin_result_success'] = 'Администраторот е додаден!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Администраторот е додаден! (%s)'; # XXX Text changed to: The admin %s has been added.
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Измена на администратор на домен';
 $PALANG['admin'] = 'Администратор'; # XXX check text - should be 'Admin'
@@ -244,7 +244,7 @@ $PALANG['password_again'] = 'Лозинка (повторно)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Не можам да го модифицирам администраторот! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
-$PALANG['pAdminEdit_admin_result_success'] = 'Администраторот е модифициран!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Администраторот е модифициран! (%s)'; # XXX Text changed to: The admin %s has been modified.
 
 $PALANG['pUsersLogin_welcome'] = 'Логин за корисници на поштенски сандачиња.Промена на логин и лозинка';
 $PALANG['pUsersLogin_username_incorrect'] = 'Погрешно корисничко име. Логирајте се со вашата email адреса!';

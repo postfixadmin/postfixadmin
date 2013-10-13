@@ -93,7 +93,7 @@ $PALANG['pCreate_alias_domain_error1'] = 'Sie dürfen die gewählte Konfiguratio
 $PALANG['pCreate_alias_domain_error2'] = 'Die gewählte Konfiguration ist ungültig, bitte wählen Sie eine andere';
 $PALANG['pCreate_alias_domain_error3'] = 'Das Erstellen der Alias-Domain %s ist fehlgeschlagen!';
 $PALANG['pCreate_alias_domain_error4'] = 'Alle Domains sind bereits Alias-Domains.';
-$PALANG['pCreate_alias_domain_success'] = 'Die Alias-Domain wurde in der Datenbank eingetragen!';
+$PALANG['pCreate_alias_domain_success'] = 'Die Alias-Domain %s wurde erstellt.';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Dieses ALIAS ist nicht erlaubt!';
 $PALANG['email_address_already_exists'] = 'Diese eMail-Adresse existiert bereits. Bitte wählen Sie eine andere!';
@@ -144,7 +144,7 @@ $PALANG['pPassword_password2'] = 'Neues Passwort (nochmal)';
 $PALANG['pPassword_password_text_error'] = 'Die beiden angegebenen Passwörter sind nicht identisch oder leer!';
 $PALANG['change_password'] = 'Passwort ändern';
 $PALANG['pPassword_result_error'] = 'Das Passwort für %s konnte nicht geändert werden';
-$PALANG['pPassword_result_success'] = 'Ihr Passwort wurde geändert!';
+$PALANG['pPassword_result_success'] = 'Das Passwort für %s wurde geändert.';
 
 $PALANG['pEdit_vacation_set'] = 'Automatische Antwort ändern / einrichten';
 $PALANG['pEdit_vacation_remove'] = 'Automatische Antwort abschalten';
@@ -219,7 +219,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Standard-Aliase hinzufügen';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Domain hinzufügen';
 $PALANG['pAdminCreate_domain_result_error'] = 'Das Anlegen der Domain %s ist fehlgeschlagen!';
-$PALANG['pAdminCreate_domain_result_success'] = 'Domain wurde angelegt!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Die Domain %s wurde angelegt.';
 $PALANG['pAdminDelete_admin_error'] = 'Admin kann nicht gelöscht werden!';
 
 $PALANG['pAdminDelete_domain_error'] = 'Domain konnte nicht gelöscht werden!';
@@ -241,7 +241,7 @@ $PALANG['pAdminCreate_admin_username_text_error1'] = 'Admin-Adresse ist keine ec
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Der Admin existiert bereits bzw. ist nicht korrekt';
 $PALANG['pAdminCreate_admin_button'] = 'Admin hinzufügen';
 $PALANG['pAdminCreate_admin_result_error'] = 'Das anlegen des Admins %s ist fehlgeschlagen';
-$PALANG['pAdminCreate_admin_result_success'] = 'Admin angelegt!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Der Admin %s wurde angelegt.';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain Admin editieren';
 $PALANG['admin'] = 'Admin';
@@ -249,7 +249,7 @@ $PALANG['password_again'] = 'Passwort (nochmal)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super-Admin';
 $PALANG['super_admin_desc'] = 'Super-Admins haben Zugriff auf alle Domains und können Domains und Admins verwalten.';
 $PALANG['pAdminEdit_admin_result_error'] = 'Das Ändern des Admins %s ist fehlgeschlagen!';
-$PALANG['pAdminEdit_admin_result_success'] = 'Admin geändert!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Der Admin %s wurde geändert.';
 
 $PALANG['pUsersLogin_welcome'] = 'Benutzer bitte hier einloggen, um Weiterleitungen bzw. das Passwort zu ändern.';
 $PALANG['pUsersLogin_username_incorrect'] = 'Falscher Login! Bitte benutzen Sie ihre Email-Adresse als Login';

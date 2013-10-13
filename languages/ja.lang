@@ -93,7 +93,7 @@ $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chos
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed. (%s)'; # XXX # XXX Text changed to: Creating the alias domain %s failed!
 $PALANG['pCreate_alias_domain_error4'] = '全てのドメインがエイリアスされています。';
-$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
+$PALANG['pCreate_alias_domain_success'] = 'The alias domain %s has been created.'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'メールアドレスが無効です。';
 $PALANG['email_address_already_exists'] = 'このメールアドレスは既に存在するので、 別のアドレスを選択してください。'; # XXX check/beautify - was split in two lines before
@@ -144,7 +144,7 @@ $PALANG['pPassword_password2'] = '新規パスワード (確認)';
 $PALANG['pPassword_password_text_error'] = 'パスワードが一致しません。 または空です。'; # XXX check/beautify - was split in two lines before
 $PALANG['change_password'] = 'パスワード変更';
 $PALANG['pPassword_result_error'] = 'パスワードを変更できません！ (%s)'; # XXX Text changed to: Changing the password for %s failed!
-$PALANG['pPassword_result_success'] = 'パスワードを変更しました。';
+$PALANG['pPassword_result_success'] = 'パスワードを変更しました。 (%s)'; # XXX Text changed to: The password for %s has been changed.
 
 $PALANG['pEdit_vacation_set'] = 'メッセージ変更／設定';
 $PALANG['pEdit_vacation_remove'] = 'メッセージ解除';
@@ -219,7 +219,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'デフォルト転送先の追�
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'ドメイン追加';
 $PALANG['pAdminCreate_domain_result_error'] = 'ドメインを追加できません！ (%s)'; # XXX Text changed to: Adding the domain %s failed!
-$PALANG['pAdminCreate_domain_result_success'] = 'ドメインを追加しました。';
+$PALANG['pAdminCreate_domain_result_success'] = 'ドメインを追加しました。 (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
 $PALANG['pAdminDelete_domain_error'] = 'ドメインが削除できません！';
@@ -241,7 +241,7 @@ $PALANG['pAdminCreate_admin_username_text_error1'] = '管理者は有効なメ�
 $PALANG['pAdminCreate_admin_username_text_error2'] = '管理者は存在するか無効です。';
 $PALANG['pAdminCreate_admin_button'] = '管理者追加';
 $PALANG['pAdminCreate_admin_result_error'] = '管理者を追加できません！ (%s)'; # XXX Text changed to: Adding the admin %s failed!
-$PALANG['pAdminCreate_admin_result_success'] = '管理者を追加しました。';
+$PALANG['pAdminCreate_admin_result_success'] = '管理者を追加しました。 (%s)'; # XXX Text changed to: The admin %s has been added.
 
 $PALANG['pAdminEdit_admin_welcome'] = 'ドメイン管理者の編集';
 $PALANG['admin'] = '管理者'; # XXX check / compare with pAdminCreate_admin_username - should be "admin"
@@ -249,7 +249,7 @@ $PALANG['password_again'] = 'パスワード (確認)';
 $PALANG['pAdminEdit_admin_super_admin'] = '特権管理者';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = '管理者を修正できません！ (%s)'; # XXX Text changed to: Modifying the admin %s failed!
-$PALANG['pAdminEdit_admin_result_success'] = '管理者を修正しました。';
+$PALANG['pAdminEdit_admin_result_success'] = '管理者を修正しました。 (%s)'; # XXX Text changed to: The admin %s has been modified.
 
 $PALANG['pUsersLogin_welcome'] = 'あなたのパスワードと転送先が変更できます。';
 $PALANG['pUsersLogin_username_incorrect'] = 'ログインが違います。正しいメールアドレスを入力してください。';

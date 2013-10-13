@@ -95,7 +95,7 @@ $PALANG['pCreate_alias_domain_error1'] = 'Você não possui permissão para cria
 $PALANG['pCreate_alias_domain_error2'] = 'Configuração inválida. Por favor, defina outra configuração!';
 $PALANG['pCreate_alias_domain_error3'] = 'Não foi possível criar o alias de domínio. (%s)'; # XXX Text changed to: Creating the alias domain %s failed!
 $PALANG['pCreate_alias_domain_error4'] = 'Todos os domínios já estão espelhados.';
-$PALANG['pCreate_alias_domain_success'] = 'Alias de domínio criado!';
+$PALANG['pCreate_alias_domain_success'] = 'Alias de domínio criado! (%s)'; # XXX Text changed to: The alias domain %s has been created.
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Alias inválido!';
 $PALANG['email_address_already_exists'] = 'Endereço de email fornecido já existe. Por favor, escolha outro endereço!';
@@ -146,7 +146,7 @@ $PALANG['pPassword_password2'] = 'Nova senha (confirmação)';
 $PALANG['pPassword_password_text_error'] = 'As senhas fornecidas são diferentes! Ou não foram digitadas!'; # XXX check/beautify - was split in two lines before
 $PALANG['change_password'] = 'Alterar Senha';
 $PALANG['pPassword_result_error'] = 'Não foi possível alterar sua senha! (%s)'; # XXX Text changed to: Changing the password for %s failed!
-$PALANG['pPassword_result_success'] = 'Senha alterada!';
+$PALANG['pPassword_result_success'] = 'Senha alterada! (%s)'; # XXX Text changed to: The password for %s has been changed.
 
 $PALANG['pEdit_vacation_set'] = 'Editar / Definir Mensagem';
 $PALANG['pEdit_vacation_remove'] = 'Remover Mensagem';
@@ -221,7 +221,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Adicionar aliases padrão';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Criar Domínio';
 $PALANG['pAdminCreate_domain_result_error'] = 'Não foi possível criar o domínio! (%s)'; # XXX Text changed to: Adding the domain %s failed!
-$PALANG['pAdminCreate_domain_result_success'] = 'Domínio criado!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Domínio criado! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
 $PALANG['pAdminDelete_domain_error'] = 'Não foi possível remover o domínio!';
@@ -243,7 +243,7 @@ $PALANG['pAdminCreate_admin_username_text_error1'] = 'Endereço de email inváli
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Administrador já existe ou é inválido';
 $PALANG['pAdminCreate_admin_button'] = 'Criar Administrador';
 $PALANG['pAdminCreate_admin_result_error'] = 'Não foi possível criar o administrador! (%s)'; # XXX Text changed to: Adding the admin %s failed!
-$PALANG['pAdminCreate_admin_result_success'] = 'Administrador criado!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Administrador criado! (%s)'; # XXX Text changed to: The admin %s has been added.
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Edição de administrador de domínio.';
 $PALANG['admin'] = 'Administrador';
@@ -251,7 +251,7 @@ $PALANG['password_again'] = 'Senha (confirmação)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administrador';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Não foi possível editar o administrador! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
-$PALANG['pAdminEdit_admin_result_success'] = 'Administrador editado!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Administrador editado! (%s)'; # XXX Text changed to: The admin %s has been modified.
 
 $PALANG['pUsersLogin_welcome'] = 'Usuários devem se autenticar aqui para troca de senha e configuração de redirecionamento de mensagens.';
 $PALANG['pUsersLogin_username_incorrect'] = 'Usuário inválido. Certifique-se de ter digitado o email corretamente!';

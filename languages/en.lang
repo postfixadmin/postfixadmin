@@ -94,7 +94,7 @@ $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chos
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!';
 $PALANG['pCreate_alias_domain_error3'] = 'Creating the alias domain %s failed!';
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.';
-$PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!';
+$PALANG['pCreate_alias_domain_success'] = 'The alias domain %s has been created.';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'The ALIAS is not valid!';
 $PALANG['email_address_already_exists'] = 'This email address already exists, please choose a different one!';
@@ -145,7 +145,7 @@ $PALANG['pPassword_password2'] = 'New Password (again)';
 $PALANG['pPassword_password_text_error'] = 'The passwords that you supplied don\'t match or are empty!';
 $PALANG['change_password'] = 'Change Password';
 $PALANG['pPassword_result_error'] = 'Changing the password for %s failed!';
-$PALANG['pPassword_result_success'] = 'Your password has been changed!';
+$PALANG['pPassword_result_success'] = 'The password for %s has been changed.';
 
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message';
 $PALANG['pEdit_vacation_remove'] = 'Remove away message';
@@ -220,7 +220,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Add default mail aliases';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Add Domain';
 $PALANG['pAdminCreate_domain_result_error'] = 'Adding the domain %s failed!';
-$PALANG['pAdminCreate_domain_result_success'] = 'Domain has been added!';
+$PALANG['pAdminCreate_domain_result_success'] = 'The domain %s has been added.';
 
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!';
 $PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!';
@@ -242,7 +242,7 @@ $PALANG['pAdminCreate_admin_username_text_error1'] = 'Admin is not a valid email
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'The admin already exists or is not valid';
 $PALANG['pAdminCreate_admin_button'] = 'Add Admin';
 $PALANG['pAdminCreate_admin_result_error'] = 'Adding the admin %s failed!';
-$PALANG['pAdminCreate_admin_result_success'] = 'Admin has been added!';
+$PALANG['pAdminCreate_admin_result_success'] = 'The admin %s has been added!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Edit a domain admin';
 $PALANG['admin'] = 'Admin';
@@ -250,7 +250,7 @@ $PALANG['password_again'] = 'Password (again)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.';
 $PALANG['pAdminEdit_admin_result_error'] = 'Modifying the admin %s failed!';
-$PALANG['pAdminEdit_admin_result_success'] = 'Admin has been modified!';
+$PALANG['pAdminEdit_admin_result_success'] = 'The admin %s has been modified.';
 
 $PALANG['pUsersLogin_welcome'] = 'Mailbox users login to change your password and aliases.';
 $PALANG['pUsersLogin_username_incorrect'] = 'Your login is not correct. Make sure that you login with your email address!';

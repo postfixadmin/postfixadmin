@@ -515,7 +515,7 @@ function create_admin($values) {
 
     return array(
         0,
-        Config::lang($formconf['successmessage']),
+        Config::lang_f($formconf['successmessage'], $values['username']),
         array(),
     );
 }

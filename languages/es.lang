@@ -91,7 +91,7 @@ $PALANG['pCreate_alias_domain_error1'] = 'No estás autorizado a crear la config
 $PALANG['pCreate_alias_domain_error2'] = '¡La configuración seleccionada no es válida, por favor elige una diferente!'; 
 $PALANG['pCreate_alias_domain_error3'] = 'Falló la inserción en la base de datos. (%s)';  # XXX Text changed to: Creating the alias domain %s failed!
 $PALANG['pCreate_alias_domain_error4'] = 'Ya están todos los dominios asignados.'; 
-$PALANG['pCreate_alias_domain_success'] = '¡El alias de dominio se insertó en la tabla!'; 
+$PALANG['pCreate_alias_domain_success'] = '¡El alias de dominio se insertó en la tabla! (%s)';  # XXX Text changed to: The alias domain %s has been created.
 
 $PALANG['pCreate_alias_address_text_error1'] = '¡El ALIAS no es válido!';
 $PALANG['email_address_already_exists'] = '¡Esta dirección ya existe, elija otra diferente por favor!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
@@ -142,7 +142,7 @@ $PALANG['pPassword_password2'] = 'Nueva contraseña (repetir)';
 $PALANG['pPassword_password_text_error'] = '¡Las contraseñas introducidas no coinciden o están en blanco!'; # XXX check/beautify - was split in two lines before
 $PALANG['change_password'] = 'Cambiar contraseña'; # XXX check text - should be 'Change Password'
 $PALANG['pPassword_result_error'] = '¡Imposible cambiar la contraseña! (%s)'; # XXX Text changed to: Changing the password for %s failed!
-$PALANG['pPassword_result_success'] = '¡Su contraseña ha sido cambiada!';
+$PALANG['pPassword_result_success'] = '¡Su contraseña ha sido cambiada! (%s)'; # XXX Text changed to: The password for %s has been changed.
 
 $PALANG['pEdit_vacation_set'] = 'Cambiar / Establecer mensaje de ausencia'; 
 $PALANG['pEdit_vacation_remove'] = 'Quitar mensaje de ausencia'; 
@@ -215,7 +215,7 @@ $PALANG['pAdminCreate_domain_defaultaliases'] = 'Añadir alias por defecto';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Añadir dominio';
 $PALANG['pAdminCreate_domain_result_error'] = '¡Imposible añadir el dominio! (%s)'; # XXX Text changed to: Adding the domain %s failed!
-$PALANG['pAdminCreate_domain_result_success'] = '¡El dominio ha sido añadido!';
+$PALANG['pAdminCreate_domain_result_success'] = '¡El dominio ha sido añadido! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = '¡No se pudo eliminar el dominio!'; 
 $PALANG['pAdminDelete_alias_domain_error'] = '¡No se pudo eliminar el alias de dominio!'; 
@@ -237,7 +237,7 @@ $PALANG['pAdminCreate_admin_username_text_error2'] = 'El administrador ya existe
 
 $PALANG['pAdminCreate_admin_button'] = 'Añadir administrador';
 $PALANG['pAdminCreate_admin_result_error'] = '¡Imposible añadir el administrador! (%s)'; # XXX Text changed to: Adding the admin %s failed!
-$PALANG['pAdminCreate_admin_result_success'] = '¡El administrador ha sido añadido!';
+$PALANG['pAdminCreate_admin_result_success'] = '¡El administrador ha sido añadido! (%s)'; # XXX Text changed to: The admin %s has been added.
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Editar un administrador de dominio';
 $PALANG['admin'] = 'Administrador';
@@ -245,7 +245,7 @@ $PALANG['password_again'] = 'Contraseña (repetir)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = '¡Imposible modificar el administrador! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
-$PALANG['pAdminEdit_admin_result_success'] = '¡El administrador ha sido modificado!';
+$PALANG['pAdminEdit_admin_result_success'] = '¡El administrador ha sido modificado! (%s)'; # XXX Text changed to: The admin %s has been modified.
 
 $PALANG['pUsersLogin_welcome'] = 'Login de usuarios para cambiar la contraseña y alias.';
 $PALANG['pUsersLogin_username_incorrect'] = 'Su login no es correcto. ¡Asegúrese de haber introducido su dirección de e-mail como login!';
