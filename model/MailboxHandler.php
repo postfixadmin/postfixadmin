@@ -352,14 +352,12 @@ class MailboxHandler extends PFAHandler {
     protected function _missing_maildir($field) {
         list($local_part,$domain) = explode('@', $this->id);                                                                                   
 
-        #TODO: 2nd clause should be the first for self explaining code.
-        #TODO: When calling config::Read with parameter we sould be right that read return false if the parameter isn't in our config file.
+        $maildir_name_hook = Config::read('maildir_name_hook');
 
-        if(Config::read('maildir_name_hook') != 'NO' && function_exists(Config::read('maildir_name_hook')) ) {
-            $hook_func = $CONF['maildir_name_hook'];
-            $maildir = $hook_func ($domain, $this->id);
-        } elseif (Config::read('domain_path') == "YES") {
-            if (Config::read('domain_in_mailbox') == "YES") {
+        if($maildir_name_hook != 'NO' && function_exists($maildir_name_hook) ) {
+            $maildir = $maildir_name_hook ($domain, $this->id);
+        } elseif (Config::bool('domain_path')) {
+            if (Config::bool('domain_in_mailbox')) {
                 $maildir = $domain . "/" . $this->id . "/";
             } else {
                 $maildir = $domain . "/" . $local_part . "/";
@@ -649,23 +647,8 @@ class MailboxHandler extends PFAHandler {
         return true;
     }
 
-# remaining comments from add():
-# FIXME: default value of $quota (-999) is intentionally invalid. Add fallback to default quota.
-# Solution: Invent an sub config class with additional informations about domain based configs like default qouta.
-# FIXME: Should the parameters be optional at all?
-# TODO: check if parameters are valid/allowed (quota?).
-# TODO: most code should live in a separate function that can be used by add and edit.
-# TODO: On the longer term, the web interface should also use this class.
-
 
 #TODO: more self explaining language strings!
-
-# TODO: if we want to have the encryption method in the encrypted password string, it should be done in pacrypt(). No special handling here!
-#        if ( preg_match("/^dovecot:/", Config::read('encrypt')) ) {
-#            $split_method = preg_split ('/:/', Config::read('encrypt'));
-#            $method       = strtoupper($split_method[1]);
-#            $password = '{' . $method . '}' . $password;
-#        }
 
     public function delete() {
         $username = $this->id;
