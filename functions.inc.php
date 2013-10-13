@@ -199,7 +199,7 @@ function language_selector() {
  */
 function check_domain ($domain) {
     if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', ($domain))) {
-        return sprintf(Lang::read('pInvalidDomainRegex'), htmlentities($domain));
+        return sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
     }
 
     if (Config::bool('emailcheck_resolve_domain') && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))) {
@@ -213,7 +213,7 @@ function check_domain ($domain) {
             }
             if (checkdnsrr($domain,'A')) return '';
             if (checkdnsrr($domain,'MX')) return '';
-            return sprintf(Lang::Read('pInvalidDomainDNS'), htmlentities($domain));
+            return sprintf(Config::lang('pInvalidDomainDNS'), htmlentities($domain));
         } else {
             return 'emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!';
         }
@@ -243,13 +243,13 @@ function check_email ($email) {
 
     // Perform non-domain-part sanity checks
     if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', $ce_email)) {
-        return Lang::read_f('pInvalidMailRegex', $email);
+        return Config::lang_f('pInvalidMailRegex', $email);
     }
 
     // Determine domain name
     $matches=array();
     if (!preg_match('|@(.+)$|',$ce_email,$matches)) {
-        return Lang::read_f('pInvalidMailRegex', $email);
+        return Config::lang_f('pInvalidMailRegex', $email);
     }
     $domain=$matches[1];
 
@@ -375,8 +375,8 @@ function safecookie ($param, $default="") {
  * @return array for $struct
  */
 function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $not_in_db=0, $dont_write_to_db=0, $select="", $extrafrom="") {
-    if ($PALANG_label != '') $PALANG_label = Lang::Read($PALANG_label);
-    if ($PALANG_desc  != '') $PALANG_desc  = Lang::Read($PALANG_desc );
+    if ($PALANG_label != '') $PALANG_label = Config::lang($PALANG_label);
+    if ($PALANG_desc  != '') $PALANG_desc  = Config::lang($PALANG_desc );
 
     return array(
         'editable'          => $allow_editing,
@@ -807,9 +807,9 @@ function validate_password($password) {
         if (!preg_match($regex, $password)) {
             $msgparts = preg_split("/ /", $message, 2);
             if (count($msgparts) == 1) {
-                $result[] = Lang::read($msgparts[0]);
+                $result[] = Config::lang($msgparts[0]);
             } else {
-                $result[] = sprintf(Lang::read($msgparts[0]), $msgparts[1]);
+                $result[] = sprintf(Config::lang($msgparts[0]), $msgparts[1]);
             }
         }
     }

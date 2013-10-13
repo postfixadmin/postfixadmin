@@ -138,20 +138,20 @@ class AliasHandler extends PFAHandler {
 
     protected function validate_new_id() {
         if ($this->id == '') {
-            $this->errormsg[$this->id_field] = Lang::read('pCreate_alias_address_text_error1');
+            $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error1');
             return false;
         }
 
         list($local_part,$domain) = explode ('@', $this->id);
 
         if(!$this->create_allowed($domain)) {
-            $this->errormsg[$this->id_field] = Lang::read('pCreate_alias_address_text_error3');
+            $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error3');
             return false;
         }
  
         # TODO: already checked in set() - does it make sense to check it here also? Only advantage: it's an early check
 #        if (!in_array($domain, $this->allowed_domains)) { 
-#            $this->errormsg[] = Lang::read('pCreate_alias_address_text_error1');
+#            $this->errormsg[] = Config::lang('pCreate_alias_address_text_error1');
 #            return false;
 #        }
 
@@ -235,7 +235,7 @@ class AliasHandler extends PFAHandler {
                         $values['goto'][] = $this->id;
 
                         # if the alias points to the mailbox, don't display the "empty goto" error message
-                        if (isset($this->errormsg['goto']) && $this->errormsg['goto'] == Lang::read('pEdit_alias_goto_text_error1') ) {
+                        if (isset($this->errormsg['goto']) && $this->errormsg['goto'] == Config::lang('pEdit_alias_goto_text_error1') ) {
                             unset($this->errormsg['goto']);
                         }
                     }
@@ -291,7 +291,7 @@ class AliasHandler extends PFAHandler {
     protected function _field_goto($field, $val) {
         if (count($val) == 0) {
             # empty is ok for mailboxes - this is checked in setmore() which can clear the error message
-            $this->errormsg[$field] = Lang::read('pEdit_alias_goto_text_error1');
+            $this->errormsg[$field] = Config::lang('pEdit_alias_goto_text_error1');
             return false;
         }
 

@@ -54,7 +54,7 @@ class AliasdomainHandler extends PFAHandler {
         $success = parent::init($id);
         if ($success) {
             if (count($this->struct['alias_domain']['options']) == 0 && $this->new) {
-               $this->errormsg[] = Lang::read('pCreate_alias_domain_error4');
+               $this->errormsg[] = Config::lang('pCreate_alias_domain_error4');
                return false;
             }
             # TODO: check if target domains are available (in new and edit mode)
@@ -125,7 +125,7 @@ class AliasdomainHandler extends PFAHandler {
      */
     protected function _field_target_domain($field, $val) {
         if ($val == $this->id) {
-            $this->errormsg[$field] = Lang::read('pCreate_alias_domain_error2'); # TODO: error message could be better...
+            $this->errormsg[$field] = Config::lang('pCreate_alias_domain_error2'); # TODO: error message could be better...
             return false;
         }
         return true;

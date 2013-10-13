@@ -64,8 +64,6 @@ if(isset($CONF['configured'])) {
     }
 }
 
-Config::write($CONF);
-
 require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
 
@@ -83,7 +81,10 @@ if($CONF['language_hook'] != '' && function_exists($CONF['language_hook'])) {
     $PALANG = $hook_func ($PALANG, $language);
 }
 
-Lang::write($PALANG);
+$CONF['__LANG'] = $PALANG;
+
+Config::write($CONF);
+
 
 if (!defined('POSTFIXADMIN_CLI')) {
     if(!is_file("$incpath/smarty.inc.php")) {

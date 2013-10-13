@@ -116,14 +116,14 @@ class DomainHandler extends PFAHandler {
             }
         }
         if ($this->new) {
-            $tMessage = Lang::read('pAdminCreate_domain_result_success') . " (" . $this->id . ")"; # TODO: tMessage is not used/returned anywhere
+            $tMessage = Config::lang('pAdminCreate_domain_result_success') . " (" . $this->id . ")"; # TODO: tMessage is not used/returned anywhere
         } else {
             # TODO: success message for edit
         }
 
         if ($this->new) {
             if (!domain_postcreation($this->id)) {
-                $this->errormsg[] = Lang::read('pAdminCreate_domain_error');
+                $this->errormsg[] = Config::lang('pAdminCreate_domain_error');
             }
         } else {
             # we don't have domain_postedit()

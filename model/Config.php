@@ -1,23 +1,12 @@
 <?php
 # $Id$
 
-class Config {
-    /**
-     * Determine if $__objects cache should be wrote
-     *
-     * @var boolean
-     * @access private
-     */
-    private $__cache = false;
-    /**
-     * Holds and key => value array of objects type
-     *
-     * @var array
-     * @access private
-     */
-    private $__objects = array();
+# This class is too static - if you inherit a class from it, it will share the static $instance and all its contents 
+# Therefore the class is marked as final to prevent someone accidently does this ;-)
+final class Config {
 
     private static $instance = null;
+
     /**
      * Return a singleton instance of Configure.
      *
@@ -152,8 +141,13 @@ class Config {
 
         if (strtoupper($value) == 'YES') { # YES
             return true;
-        } else { # NO, unknown value
-            # TODO: show/log error message on unknown value?
+        } elseif (strtoupper($value) == 'NO') { # NO
+            return false;
+        } else { # unknown value
+            # show and log error message on unknown value
+            $msg = "\$CONF['$var'] has an invalid value, should be 'YES' or 'NO'";
+            flash_error($msg);
+            error_log("$msg (value: $value)");
             return false;
         }
     }
@@ -166,6 +160,32 @@ class Config {
         return Config::bool($var) ? 1 : 0;
     }
 
+
+
+/**
+     * Get translated text from $PALANG
+     * (wrapper for self::read(), see also the comments there)
+     *
+     * @param string $var Variable to obtain
+     * @return string value of $PALANG[$var]
+     * @access public
+     */
+    public static function lang($var) {
+        return self::read(array('__LANG', $var));
+    }
+
+    /** 
+     * Get translated text from $PALANG and apply sprintf on it
+     * (wrapper for self::read_f(), see also the comments there)
+     *
+     * @param string $var Text (from $PALANG) to obtain
+     * @param string $value Value to use as sprintf parameter
+     * @return string value of $PALANG[$var], parsed by sprintf
+     * @access public
+     */
+    public static function lang_f($var, $value) {
+        return self::read_f(array('__LANG', $var), $value);
+    }
 
 
     function getAll() {

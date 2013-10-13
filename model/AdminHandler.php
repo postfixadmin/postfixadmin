@@ -13,7 +13,7 @@ class AdminHandler extends PFAHandler {
             return true;
        } else {
             $this->errormsg[] = $email_check;
-            $this->errormsg[$this->id_field] = Lang::read('pAdminCreate_admin_username_text_error1');
+            $this->errormsg[$this->id_field] = Config::lang('pAdminCreate_admin_username_text_error1');
             return false;
        }
    }

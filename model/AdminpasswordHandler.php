@@ -82,7 +82,7 @@ class AdminpasswordHandler extends PFAHandler {
             return true;
         }
 
-        $this->errormsg[$field] = Lang::read('pPassword_password_current_text_error');
+        $this->errormsg[$field] = Config::lang('pPassword_password_current_text_error');
         return false;
     }
 

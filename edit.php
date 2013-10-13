@@ -190,12 +190,12 @@ if (count($errormsg)) flash_error($errormsg); # display the remaining error mess
 
 if ($new) {
     $smarty->assign ('mode', 'create');
-    $smarty->assign('formtitle', Lang::read($formconf['formtitle_create']));
-    $smarty->assign('submitbutton', Lang::read($formconf['create_button']));
+    $smarty->assign('formtitle', Config::lang($formconf['formtitle_create']));
+    $smarty->assign('submitbutton', Config::lang($formconf['create_button']));
 } else {
     $smarty->assign ('mode', 'edit');
-    $smarty->assign('formtitle', Lang::read($formconf['formtitle_edit']));
-    $smarty->assign('submitbutton', Lang::read('save'));
+    $smarty->assign('formtitle', Config::lang($formconf['formtitle_edit']));
+    $smarty->assign('submitbutton', Config::lang('save'));
 }
 
 $smarty->assign ('struct', $form_fields);

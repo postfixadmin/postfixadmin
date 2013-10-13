@@ -78,7 +78,7 @@ class MailboxHandler extends PFAHandler {
         # } elseif ($maxquota < 0) {
             # TODO: show 'disabled' - at the moment, just shows '-1'
         } else {
-            $this->struct['quota']['desc'] = Lang::read_f('mb_max', $maxquota);
+            $this->struct['quota']['desc'] = Config::lang_f('mb_max', $maxquota);
         }
     }
 
@@ -120,7 +120,7 @@ class MailboxHandler extends PFAHandler {
 
     protected function validate_new_id() {
         if ($this->id == '') {
-            $this->errormsg[$this->id_field] = Lang::read('pCreate_mailbox_username_text_error1');
+            $this->errormsg[$this->id_field] = Config::lang('pCreate_mailbox_username_text_error1');
             return false;
         }
 
@@ -133,14 +133,14 @@ class MailboxHandler extends PFAHandler {
         list(/*NULL*/,$domain) = explode ('@', $this->id);
 
         if(!$this->create_allowed($domain)) {
-            $this->errormsg[] = Lang::read('pCreate_mailbox_username_text_error3');
+            $this->errormsg[] = Config::lang('pCreate_mailbox_username_text_error3');
             return false;
         }
 
         # check if an alias with this name already exists - if yes, don't allow to create the mailbox
         $handler = new AliasHandler(1);
         if (!$handler->init($this->id)) {
-            $this->errormsg[] = Lang::read('email_address_already_exists');
+            $this->errormsg[] = Config::lang('email_address_already_exists');
             return false;
         }
 
@@ -236,10 +236,10 @@ class MailboxHandler extends PFAHandler {
 
             if ( !$this->create_mailbox_subfolders() ) {
                 # TODO: implement $tShowpass
-                $this->infomsg[] = Lang::read_f('pCreate_mailbox_result_succes_nosubfolders', "$fUsername$tShowpass");
+                $this->infomsg[] = Config::lang_f('pCreate_mailbox_result_succes_nosubfolders', "$fUsername$tShowpass");
             } else { # everything ok
                 # TODO: implement $tShowpass
-                # $this->infomsg[] = Lang::read_f('pCreate_mailbox_result_success'], "$fUsername$tShowpass");
+                # $this->infomsg[] = Config::lang_f('pCreate_mailbox_result_success'], "$fUsername$tShowpass");
                 # TODO: currently edit.php displays the default success message from webformConfig
             } 
 
@@ -293,7 +293,7 @@ class MailboxHandler extends PFAHandler {
      */
     protected function _field_quota($field, $val) {
         if ( !$this->check_quota ($val) ) {
-            $this->errormsg[$field] = Lang::Read('pEdit_mailbox_quota_text_error');
+            $this->errormsg[$field] = Config::lang('pEdit_mailbox_quota_text_error');
             return false;
         }
         return true;
@@ -376,11 +376,11 @@ class MailboxHandler extends PFAHandler {
         $fTo = $this->id;
         $fFrom = smtp_get_admin_email();
         if(empty($fFrom) || $fFrom == 'CLI') $fFrom = $this->id;
-        $fSubject = Lang::read('pSendmail_subject_text');
+        $fSubject = Config::lang('pSendmail_subject_text');
         $fBody = Config::read('welcome_text');
 
         if (!smtp_mail ($fTo, $fFrom, $fSubject, $fBody)) {
-            $this->errormsg[] = Lang::read('pSendmail_result_error');
+            $this->errormsg[] = Config::lang('pSendmail_result_error');
             return false;
         } else {
 # TODO            flash_info($PALANG['pSendmail_result_success']); 
@@ -641,7 +641,7 @@ class MailboxHandler extends PFAHandler {
 
         if ($result != 1) {
             db_log ($domain, 'edit_password', "FAILURE: " . $this->id);
-            $this->errormsg[] = Lang::read('pEdit_mailbox_result_error');
+            $this->errormsg[] = Config::lang('pEdit_mailbox_result_error');
             return false;
         }
 
@@ -706,7 +706,7 @@ class MailboxHandler extends PFAHandler {
             $postdel_res=mailbox_postdeletion($username,$domain);
             if ($result != 1 || !$postdel_res) {
 
-                $tMessage = Lang::read('pDelete_delete_error') . "$username (";
+                $tMessage = Config::lang('pDelete_delete_error') . "$username (";
                 if ($result['rows']!=1) { # TODO: invalid test, $result is from db_delete and only contains the number of deleted rows
                     $tMessage.='mailbox';
                     if (!$postdel_res) $tMessage.=', ';
