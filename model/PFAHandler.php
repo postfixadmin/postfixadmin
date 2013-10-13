@@ -356,7 +356,7 @@ abstract class PFAHandler {
             $result = db_update($this->db_table, $this->id_field, $this->id, $db_values);
         }
         if ($result != 1) {
-            $this->errormsg[] = Config::lang($this->msg['store_error']) . "\n(" . $this->id . ")\n"; # TODO: change message + use sprintf
+            $this->errormsg[] = Config::lang_f($this->msg['store_error'], $this->id);
             return false;
         }
 

@@ -91,7 +91,7 @@ $PALANG['pCreate_alias_domain_target'] = '宛先ドメイン';
 $PALANG['pCreate_alias_domain_target_text'] = 'メールをこのドメイン宛に届けます。';
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
-$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
+$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed. (%s)'; # XXX # XXX Text changed to: Creating the alias domain %s failed!
 $PALANG['pCreate_alias_domain_error4'] = '全てのドメインがエイリアスされています。';
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
@@ -100,7 +100,7 @@ $PALANG['email_address_already_exists'] = 'このメールアドレスは既に�
 $PALANG['pCreate_alias_address_text_error3'] = '転送アドレスの制限数に達しました。';
 $PALANG['pCreate_alias_goto_text'] = 'メールを転送するアドレス';
 $PALANG['pCreate_alias_goto_text_error'] = '転送先が無効です。';
-$PALANG['pCreate_alias_result_error'] = '転送先を追加できません！';
+$PALANG['pCreate_alias_result_error'] = '転送先を追加できません！ (%s)'; # XXX Text changed to: Creating the alias %s failed!
 $PALANG['pCreate_alias_result_success'] = '転送先を追加しました。'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'すべてのメールを受け取るには、転送元に "*" を使います。 別のドメインにすべて転送するには、転送先に "*.domain.tld" を使います。'; # XXX check/beautify - was split in two lines before
 
@@ -113,7 +113,7 @@ $PALANG['pEdit_alias_goto_text_error2'] = 'このメールアドレスは無効�
 $PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'ローカルのメールボックスに残す';
 $PALANG['pEdit_alias_forward_only'] = '指定された転送アドレスのみ';
-$PALANG['pEdit_alias_result_error'] = '修正できません！';
+$PALANG['pEdit_alias_result_error'] = '修正できません！ (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = '新しいメールアドレスの作成';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'メールアドレスが無効です。';
@@ -121,7 +121,7 @@ $PALANG['pCreate_mailbox_username_text_error3'] = 'メールアドレスの制�
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAPのパスワード';
 $PALANG['pCreate_mailbox_name_text'] = 'フルネーム';
 $PALANG['pCreate_mailbox_mail'] = 'ようこそメールの送信'; # XXX Text change to 'Send Welcome mail'
-$PALANG['pCreate_mailbox_result_error'] = 'メールアドレスを追加できません！';
+$PALANG['pCreate_mailbox_result_error'] = 'メールアドレスを追加できません！ (%s)'; # XXX Text changed to: Creating the mailbox %s failed!
 $PALANG['pCreate_mailbox_result_success'] = 'メールアドレスを追加しました。 (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'メールアドレスを追加しました。しかし、いくつかのサブフォルダの作成に失敗しました。 (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
@@ -143,13 +143,13 @@ $PALANG['pPassword_password'] = '新規パスワード';
 $PALANG['pPassword_password2'] = '新規パスワード (確認)';
 $PALANG['pPassword_password_text_error'] = 'パスワードが一致しません。 または空です。'; # XXX check/beautify - was split in two lines before
 $PALANG['change_password'] = 'パスワード変更';
-$PALANG['pPassword_result_error'] = 'パスワードを変更できません！';
+$PALANG['pPassword_result_error'] = 'パスワードを変更できません！ (%s)'; # XXX Text changed to: Changing the password for %s failed!
 $PALANG['pPassword_result_success'] = 'パスワードを変更しました。';
 
 $PALANG['pEdit_vacation_set'] = 'メッセージ変更／設定';
 $PALANG['pEdit_vacation_remove'] = 'メッセージ解除';
 
-$PALANG['pVacation_result_error'] = '自動応答の設定を更新できませんでした！';
+$PALANG['pVacation_result_error'] = '自動応答の設定を更新できませんでした！ (%s)'; # XXX Text changed to: Updating the auto response settings for %s failed
 $PALANG['pVacation_result_removed'] = '自動応答を解除しました。 (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
 $PALANG['pVacation_result_added'] = '自動応答を設定しました。 (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
@@ -218,7 +218,7 @@ $PALANG['pAdminCreate_domain_domain_text_error2'] = 'ドメインが無効です
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'デフォルト転送先の追加';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'ドメイン追加';
-$PALANG['pAdminCreate_domain_result_error'] = 'ドメインを追加できません！';
+$PALANG['pAdminCreate_domain_result_error'] = 'ドメインを追加できません！ (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = 'ドメインを追加しました。';
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
@@ -233,14 +233,14 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['transport'] = '配送方法';
 $PALANG['pAdminEdit_domain_transport_text'] = '配送方法の定義';
 $PALANG['pAdminEdit_domain_backupmx'] = 'バックアップ MXサーバ';
-$PALANG['pAdminEdit_domain_result_error'] = 'ドメインが修正できません！';
+$PALANG['pAdminEdit_domain_result_error'] = 'ドメインが修正できません！ (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = '新しいドメイン管理者の追加';
 $PALANG['pAdminCreate_admin_username_text'] = 'メールアドレス';
 $PALANG['pAdminCreate_admin_username_text_error1'] = '管理者は有効なメールアドレスではありません。';
 $PALANG['pAdminCreate_admin_username_text_error2'] = '管理者は存在するか無効です。';
 $PALANG['pAdminCreate_admin_button'] = '管理者追加';
-$PALANG['pAdminCreate_admin_result_error'] = '管理者を追加できません！';
+$PALANG['pAdminCreate_admin_result_error'] = '管理者を追加できません！ (%s)'; # XXX Text changed to: Adding the admin %s failed!
 $PALANG['pAdminCreate_admin_result_success'] = '管理者を追加しました。';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'ドメイン管理者の編集';
@@ -248,7 +248,7 @@ $PALANG['admin'] = '管理者'; # XXX check / compare with pAdminCreate_admin_us
 $PALANG['password_again'] = 'パスワード (確認)';
 $PALANG['pAdminEdit_admin_super_admin'] = '特権管理者';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
-$PALANG['pAdminEdit_admin_result_error'] = '管理者を修正できません！';
+$PALANG['pAdminEdit_admin_result_error'] = '管理者を修正できません！ (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = '管理者を修正しました。';
 
 $PALANG['pUsersLogin_welcome'] = 'あなたのパスワードと転送先が変更できます。';

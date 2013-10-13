@@ -89,7 +89,7 @@ $PALANG['pCreate_alias_domain_target'] = 'Dominio de destino';
 $PALANG['pCreate_alias_domain_target_text'] = 'El dominio al que deberían ir los emails.'; 
 $PALANG['pCreate_alias_domain_error1'] = 'No estás autorizado a crear la configuración que has elegido.'; 
 $PALANG['pCreate_alias_domain_error2'] = '¡La configuración seleccionada no es válida, por favor elige una diferente!'; 
-$PALANG['pCreate_alias_domain_error3'] = 'Falló la inserción en la base de datos.'; 
+$PALANG['pCreate_alias_domain_error3'] = 'Falló la inserción en la base de datos. (%s)';  # XXX Text changed to: Creating the alias domain %s failed!
 $PALANG['pCreate_alias_domain_error4'] = 'Ya están todos los dominios asignados.'; 
 $PALANG['pCreate_alias_domain_success'] = '¡El alias de dominio se insertó en la tabla!'; 
 
@@ -98,7 +98,7 @@ $PALANG['email_address_already_exists'] = '¡Esta dirección ya existe, elija ot
 $PALANG['pCreate_alias_address_text_error3'] = '¡Ha llegado a su límite de creación de alias!';
 $PALANG['pCreate_alias_goto_text'] = 'A donde debe de ser enviado el e-mail.';
 $PALANG['pCreate_alias_goto_text_error'] = '¡El PARA no es válido!';
-$PALANG['pCreate_alias_result_error'] = '¡No es posible añadir el alias a la tabla de alias!';
+$PALANG['pCreate_alias_result_error'] = '¡No es posible añadir el alias a la tabla de alias! (%s)'; # XXX Text changed to: Creating the alias %s failed!
 $PALANG['pCreate_alias_result_success'] = '¡El alias ha sido añadido a la tabla de alias!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Para crear un alias general use "*" como alias. Para una redirección de dominio a dominio, use "*@domain.tld" como Destino.'; # XXX check/beautify - was split in two lines before
 
@@ -111,7 +111,7 @@ $PALANG['pEdit_alias_goto_text_error2'] = 'La dirección de e-mail introducida n
 $PALANG['pEdit_alias_domain_result_error'] = '¡No se pudo modificar el alias de dominio!'; 
 $PALANG['pEdit_alias_forward_and_store'] = 'Entregar al  buzón local.'; 
 $PALANG['pEdit_alias_forward_only'] = 'Reenviar sólo al email especificado.'; 
-$PALANG['pEdit_alias_result_error'] = '¡Imposible modificar el alias!';
+$PALANG['pEdit_alias_result_error'] = '¡Imposible modificar el alias! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Crear un nuevo buzón para su dominio.';
 $PALANG['pCreate_mailbox_username_text_error1'] = '¡El e-mail no es válido!';
@@ -119,7 +119,7 @@ $PALANG['pCreate_mailbox_username_text_error3'] = '¡Ha llegado al límite de cr
 $PALANG['pCreate_mailbox_password_text'] = 'Contraseña para POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Nombre completo';
 $PALANG['pCreate_mailbox_mail'] = 'Enviar correo bienvenida';
-$PALANG['pCreate_mailbox_result_error'] = '¡Imposible añadir un buzón a la tabla de buzones!';
+$PALANG['pCreate_mailbox_result_error'] = '¡Imposible añadir un buzón a la tabla de buzones! (%s)'; # XXX Text changed to: Creating the mailbox %s failed!
 $PALANG['pCreate_mailbox_result_success'] = '¡El buzón ha sido añadido a la tabla de buzones! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.'; # XXX
 
@@ -141,12 +141,12 @@ $PALANG['pPassword_password'] = 'Nueva contraseña';
 $PALANG['pPassword_password2'] = 'Nueva contraseña (repetir)';
 $PALANG['pPassword_password_text_error'] = '¡Las contraseñas introducidas no coinciden o están en blanco!'; # XXX check/beautify - was split in two lines before
 $PALANG['change_password'] = 'Cambiar contraseña'; # XXX check text - should be 'Change Password'
-$PALANG['pPassword_result_error'] = '¡Imposible cambiar la contraseña!';
+$PALANG['pPassword_result_error'] = '¡Imposible cambiar la contraseña! (%s)'; # XXX Text changed to: Changing the password for %s failed!
 $PALANG['pPassword_result_success'] = '¡Su contraseña ha sido cambiada!';
 
 $PALANG['pEdit_vacation_set'] = 'Cambiar / Establecer mensaje de ausencia'; 
 $PALANG['pEdit_vacation_remove'] = 'Quitar mensaje de ausencia'; 
-$PALANG['pVacation_result_error'] = '¡Imposible actualizar la configuracióne la respuesta automática!';
+$PALANG['pVacation_result_error'] = '¡Imposible actualizar la configuracióne la respuesta automática! (%s)'; # XXX Text changed to: Updating the auto response settings for %s failed
 $PALANG['pVacation_result_removed'] = '¡Autorespuesta eliminada! (%s)';  # XXX Text changed to "Auto response for %s has been disabled!"
 $PALANG['pVacation_result_added'] = '¡Autorespuesta habilitada! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
@@ -214,7 +214,7 @@ $PALANG['pAdminCreate_domain_domain_text_error2'] = '!El dominio no es válido!'
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Añadir alias por defecto';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Añadir dominio';
-$PALANG['pAdminCreate_domain_result_error'] = '¡Imposible añadir el dominio!';
+$PALANG['pAdminCreate_domain_result_error'] = '¡Imposible añadir el dominio! (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = '¡El dominio ha sido añadido!';
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 $PALANG['pAdminDelete_domain_error'] = '¡No se pudo eliminar el dominio!'; 
@@ -228,7 +228,7 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['transport'] = 'Transport'; # XXX check text - should be 'Transport'
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definir transport'; # XXX
 $PALANG['pAdminEdit_domain_backupmx'] = 'El servidor de correo es backup MX'; # XXX
-$PALANG['pAdminEdit_domain_result_error'] = '¡Imposible modificar el dominio!';
+$PALANG['pAdminEdit_domain_result_error'] = '¡Imposible modificar el dominio! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Añadir un nuevo administrador de dominio';
 $PALANG['pAdminCreate_admin_username_text'] = 'E-mail';
@@ -236,7 +236,7 @@ $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrador no es un e-m
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'El administrador ya existe o no es válido!';
 
 $PALANG['pAdminCreate_admin_button'] = 'Añadir administrador';
-$PALANG['pAdminCreate_admin_result_error'] = '¡Imposible añadir el administrador!';
+$PALANG['pAdminCreate_admin_result_error'] = '¡Imposible añadir el administrador! (%s)'; # XXX Text changed to: Adding the admin %s failed!
 $PALANG['pAdminCreate_admin_result_success'] = '¡El administrador ha sido añadido!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Editar un administrador de dominio';
@@ -244,7 +244,7 @@ $PALANG['admin'] = 'Administrador';
 $PALANG['password_again'] = 'Contraseña (repetir)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
-$PALANG['pAdminEdit_admin_result_error'] = '¡Imposible modificar el administrador!';
+$PALANG['pAdminEdit_admin_result_error'] = '¡Imposible modificar el administrador! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = '¡El administrador ha sido modificado!';
 
 $PALANG['pUsersLogin_welcome'] = 'Login de usuarios para cambiar la contraseña y alias.';

@@ -90,7 +90,7 @@ $PALANG['pCreate_alias_domain_target'] = 'Doel domein';
 $PALANG['pCreate_alias_domain_target_text'] = 'Domein waar de mail naar toe moet.';
 $PALANG['pCreate_alias_domain_error1'] = 'U heeft niet genoeg rechten om de huidige configuratie te maken.';
 $PALANG['pCreate_alias_domain_error2'] = 'De huidige configuratie is ongeldig, slecteer een andere!';
-$PALANG['pCreate_alias_domain_error3'] = 'Fout bij vullen database.';
+$PALANG['pCreate_alias_domain_error3'] = 'Fout bij vullen database. (%s)'; # XXX Text changed to: Creating the alias domain %s failed!
 $PALANG['pCreate_alias_domain_error4'] = 'Alle domeinen hebben al een alias!';
 $PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de alias domein tabel!';
 
@@ -99,7 +99,7 @@ $PALANG['email_address_already_exists'] = 'Dit e-mail aders bestaat al, kies aub
 $PALANG['pCreate_alias_address_text_error3'] = 'U bezit het maximum aantal aliassen.';
 $PALANG['pCreate_alias_goto_text'] = 'Waar de e-mails heen gestuurd worden.';
 $PALANG['pCreate_alias_goto_text_error'] = 'De NAAR is niet geldig.';
-$PALANG['pCreate_alias_result_error'] = 'Mislukt om de alias toe te voegen.';
+$PALANG['pCreate_alias_result_error'] = 'Mislukt om de alias toe te voegen. (%s)'; # XXX Text changed to: Creating the alias %s failed!
 $PALANG['pCreate_alias_result_success'] = 'De alias is toegevoegd.'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Om een catch-all te gebruiken, dient u een "*" (asteric) in te vullen als alias. Voor domein naar domein forwarding gebruik "*@domein.tld" als naar.';
 
@@ -112,7 +112,7 @@ $PALANG['pEdit_alias_goto_text_error2'] = 'Het e-mail adres wat u opgaf is niet 
 $PALANG['pEdit_alias_domain_result_error'] = 'Niet in staat de domein alias te bewerken!';
 $PALANG['pEdit_alias_forward_and_store'] = 'Lever af op de lokale mailbox.';
 $PALANG['pEdit_alias_forward_only'] = 'Alleen op opgegeven email adres afleveren.';
-$PALANG['pEdit_alias_result_error'] = 'Mislukt om de alias te bewerken!';
+$PALANG['pEdit_alias_result_error'] = 'Mislukt om de alias te bewerken! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Maak een nieuw lokale mailbox voor uw domein.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Het e-mail adres is niet geldig.';
@@ -120,7 +120,7 @@ $PALANG['pCreate_mailbox_username_text_error3'] = 'U bezit het maximum aantal ma
 $PALANG['pCreate_mailbox_password_text'] = 'Wachtwoord voor POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Volledige naam';
 $PALANG['pCreate_mailbox_mail'] = 'Mailbox toevoegen'; # XXX Text change to 'Send Welcome mail'
-$PALANG['pCreate_mailbox_result_error'] = 'Mislukt om de mailbox toe te voegen.';
+$PALANG['pCreate_mailbox_result_error'] = 'Mislukt om de mailbox toe te voegen. (%s)'; # XXX Text changed to: Creating the mailbox %s failed!
 $PALANG['pCreate_mailbox_result_success'] = 'De mailbox is toegevoegd. (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'De mailbox is aan de mailbox tabel toegevoegd, maar geen (of sommige) van de vooraf gedefinieerde sub-folders kon aangemaakt worden (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
@@ -142,12 +142,12 @@ $PALANG['pPassword_password'] = 'Nieuw wachtwoord';
 $PALANG['pPassword_password2'] = 'Nieuw wachtwoord (nogmaals)';
 $PALANG['pPassword_password_text_error'] = 'De wachtwoorden die u opgaf komen niet overeen of zijn leeg.';
 $PALANG['change_password'] = 'Wijzig wachtwoord';
-$PALANG['pPassword_result_error'] = 'Mislukt om uw wachtwoord te veranderen.';
+$PALANG['pPassword_result_error'] = 'Mislukt om uw wachtwoord te veranderen. (%s)'; # XXX Text changed to: Changing the password for %s failed!
 $PALANG['pPassword_result_success'] = 'Uw wachtwoord is veranderd.';
 
 $PALANG['pEdit_vacation_set'] = 'Verander / Activeer beantwoorden tekst';
 $PALANG['pEdit_vacation_remove'] = 'Verwijder beantwoorden tekst';
-$PALANG['pVacation_result_error'] = 'Niet in staat automatisch beantwoorden te wijzigen!';
+$PALANG['pVacation_result_error'] = 'Niet in staat automatisch beantwoorden te wijzigen! (%s)'; # XXX Text changed to: Updating the auto response settings for %s failed
 $PALANG['pVacation_result_removed'] = 'Automatisch beantwoorden is voor %s gedeactiveerd!';
 $PALANG['pVacation_result_added'] = 'Automatisch beantwoorden is voor %s geactiveerd!';
 $PALANG['pVacation_reply_type'] = 'Keuze van beantwoording';
@@ -214,7 +214,7 @@ $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Het domein is niet geldig!'
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Gebruik standaard aliassen';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Voeg Domein toe';
-$PALANG['pAdminCreate_domain_result_error'] = 'Mislukt om het domein toe te voegen.';
+$PALANG['pAdminCreate_domain_result_error'] = 'Mislukt om het domein toe te voegen. (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd!';
 $PALANG['pAdminDelete_admin_error'] = 'Niet in staat beheerder te verwijderen!';
 $PALANG['pAdminDelete_domain_error'] = 'Niet in staat domein te verwijderen!';
@@ -228,14 +228,14 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domein Quota'; # XXX
 $PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definieer transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is back-up MX';
-$PALANG['pAdminEdit_domain_result_error'] = 'Mislukt het domein te bewerken.';
+$PALANG['pAdminEdit_domain_result_error'] = 'Mislukt het domein te bewerken. (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Voeg een nieuw domein beheerder toe';
 $PALANG['pAdminCreate_admin_username_text'] = 'E-mail adres';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Beheerder is geen geldig e-mail adres!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'De beheerder bestaat al of is niet geldig';
 $PALANG['pAdminCreate_admin_button'] = 'Voeg beheerder toe';
-$PALANG['pAdminCreate_admin_result_error'] = 'Mislukt om beheerder toe te voegen!';
+$PALANG['pAdminCreate_admin_result_error'] = 'Mislukt om beheerder toe te voegen! (%s)'; # XXX Text changed to: Adding the admin %s failed!
 $PALANG['pAdminCreate_admin_result_success'] = 'Beheerder is toegevoegd.';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Bewerk een domein beheerder';
@@ -243,7 +243,7 @@ $PALANG['admin'] = 'Beheerder';
 $PALANG['password_again'] = 'Wachtwoord (nogmaals)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super administrator';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
-$PALANG['pAdminEdit_admin_result_error'] = 'Mislukt om beheerder te bewerken';
+$PALANG['pAdminEdit_admin_result_error'] = 'Mislukt om beheerder te bewerken (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Beheerder is bewerkt!';
 
 $PALANG['pUsersLogin_welcome'] = 'Mailbox gebruikers login om uw wachtwoord en aliassen te bewerken.';

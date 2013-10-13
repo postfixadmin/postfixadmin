@@ -94,7 +94,7 @@ $PALANG['pCreate_alias_domain_target'] = 'Target Domain'; # XXX
 $PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go to.'; # XXX
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
-$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed.'; # XXX
+$PALANG['pCreate_alias_domain_error3'] = 'Database insert failed. (%s)'; # XXX # XXX Text changed to: Creating the alias domain %s failed!
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'The domain alias has been added to the alias domain table!'; # XXX
 
@@ -103,7 +103,7 @@ $PALANG['email_address_already_exists'] = 'Taková emailová adresa již existuj
 $PALANG['pCreate_alias_address_text_error3'] = 'Dosáhli jste limitu, nemůžete vytvářet další aliasy!';
 $PALANG['pCreate_alias_goto_text'] = 'Kam má pošta chodit.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Cíl není platný!';
-$PALANG['pCreate_alias_result_error'] = 'Nepodařilo se přidat přesměrování do tabulky aliasů!';
+$PALANG['pCreate_alias_result_error'] = 'Nepodařilo se přidat přesměrování do tabulky aliasů! (%s)'; # XXX Text changed to: Creating the alias %s failed!
 $PALANG['pCreate_alias_result_success'] = 'Přesměrování bylo uspěšně přidáno do tabulky aliasů!'; # XXX text change: 'The alias %s has been created!'
 $PALANG['pCreate_alias_catchall_text'] = 'Pro vytvoření doménového koše použijte * jako alias. Pro alias doména -> doména použijte *@domain.tld jako cíl.'; # XXX check/beautify - was split in two lines before
 
@@ -116,7 +116,7 @@ $PALANG['pEdit_alias_goto_text_error2'] = 'Emailová adresa kterou jste zadali n
 $PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
 $PALANG['pEdit_alias_forward_and_store'] = 'Doručovat i do schránky.';
 $PALANG['pEdit_alias_forward_only'] = 'Přesměrovat pouze na dané adresy.';
-$PALANG['pEdit_alias_result_error'] = 'Nepodařilo se upravit přesměrování!';
+$PALANG['pEdit_alias_result_error'] = 'Nepodařilo se upravit přesměrování! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Vytvořit novou lokální schránku v doméně.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Adresa neni platná!';
@@ -124,7 +124,7 @@ $PALANG['pCreate_mailbox_username_text_error3'] = 'Dosáhli jste limitu, nemů&c
 $PALANG['pCreate_mailbox_password_text'] = 'Heslo pro POP3/IMAP/SMTP';
 $PALANG['pCreate_mailbox_name_text'] = 'Celé jméno';
 $PALANG['pCreate_mailbox_mail'] = 'Vytvořit schránku na disku (odešle uvítací email)'; # XXX Text change to 'Send Welcome mail'
-$PALANG['pCreate_mailbox_result_error'] = 'Nepodařilo se přidat schránku do tabulky schránek!';
+$PALANG['pCreate_mailbox_result_error'] = 'Nepodařilo se přidat schránku do tabulky schránek! (%s)'; # XXX Text changed to: Creating the mailbox %s failed!
 $PALANG['pCreate_mailbox_result_success'] = 'Schránka byla přidána do tabulky schránek! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Schránka byla přidána do tabulky schránek, ale žádné (nebo pouze některé) ze předdefinovaných podsložek bylo možné vytovořit (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
 
@@ -146,13 +146,13 @@ $PALANG['pPassword_password'] = 'Nové heslo';
 $PALANG['pPassword_password2'] = 'Nové heslo (znovu)';
 $PALANG['pPassword_password_text_error'] = 'Zadaná hesla jsou rozdílná nebo prázdná!'; # XXX check/beautify - was split in two lines before
 $PALANG['change_password'] = 'Změnit heslo'; # XXX check text - should be 'Change Password'
-$PALANG['pPassword_result_error'] = 'Nepodařilo se změnit heslo!';
+$PALANG['pPassword_result_error'] = 'Nepodařilo se změnit heslo! (%s)'; # XXX Text changed to: Changing the password for %s failed!
 $PALANG['pPassword_result_success'] = 'Heslo bylo změněno!';
 
 $PALANG['pEdit_vacation_set'] = 'Změnit / Nastavit zprávu o nepřítomnosti';
 $PALANG['pEdit_vacation_remove'] = 'Ostranit zprávu o nepřítomnosti';
 
-$PALANG['pVacation_result_error'] = 'Nebylo možné aktualizovat nastavení automatické odpověďi!';
+$PALANG['pVacation_result_error'] = 'Nebylo možné aktualizovat nastavení automatické odpověďi! (%s)'; # XXX Text changed to: Updating the auto response settings for %s failed
 $PALANG['pVacation_result_removed'] = 'Automatická odpověď byla odstraněna! (%s)'; # XXX Text changed to "Auto response for %s has been disabled!"
 $PALANG['pVacation_result_added'] = 'Automatická odpověd byla zapnuta! (%s)'; # XXX Text changed to "Auto response for %s has been enabled!"
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
@@ -221,7 +221,7 @@ $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Taková doména není platn
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Přidat implicitní přesměrování';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Přidat doménu';
-$PALANG['pAdminCreate_domain_result_error'] = 'Nepodařilo se přidat doménu!';
+$PALANG['pAdminCreate_domain_result_error'] = 'Nepodařilo se přidat doménu! (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = 'Doména byla přidána!';
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
@@ -236,14 +236,14 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
 $PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Nastavit transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Tento server je záložní MX domény';
-$PALANG['pAdminEdit_domain_result_error'] = 'Nepodařilo se upravit doménu!';
+$PALANG['pAdminEdit_domain_result_error'] = 'Nepodařilo se upravit doménu! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Přidat nového doménového administrátora';
 $PALANG['pAdminCreate_admin_username_text'] = 'Emailová adresa';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Tato adresa není platná!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Taková adresa již existuje!';
 $PALANG['pAdminCreate_admin_button'] = 'Přidat administrátora';
-$PALANG['pAdminCreate_admin_result_error'] = 'Nepodařilo se přidat administrátora!';
+$PALANG['pAdminCreate_admin_result_error'] = 'Nepodařilo se přidat administrátora! (%s)'; # XXX Text changed to: Adding the admin %s failed!
 $PALANG['pAdminCreate_admin_result_success'] = 'Administrátor byl přidán!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Upravit doménového administrátora';
@@ -251,7 +251,7 @@ $PALANG['admin'] = 'Uživatelské jméno'; # XXX check text - should be 'Admin'
 $PALANG['password_again'] = 'Heslo (znovu)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Superuživatel';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
-$PALANG['pAdminEdit_admin_result_error'] = 'Nepodařilo se upravit administrátora!';
+$PALANG['pAdminEdit_admin_result_error'] = 'Nepodařilo se upravit administrátora! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrátor byl upraven!';
 
 $PALANG['pUsersLogin_welcome'] = 'Zde se přihlašují uživatelé pro změnu hesla, přesměrování nebo automatické odpovědi.';

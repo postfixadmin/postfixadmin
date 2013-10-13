@@ -91,7 +91,7 @@ $PALANG['pCreate_alias_domain_target'] = 'Zieldomain';
 $PALANG['pCreate_alias_domain_target_text'] = 'Die Domain, an die die Mails gehen sollen.';
 $PALANG['pCreate_alias_domain_error1'] = 'Sie dürfen die gewählte Konfiguration nicht erstellen.';
 $PALANG['pCreate_alias_domain_error2'] = 'Die gewählte Konfiguration ist ungültig, bitte wählen Sie eine andere';
-$PALANG['pCreate_alias_domain_error3'] = 'Datenbank-Eintrag fehlgeschlagen.';
+$PALANG['pCreate_alias_domain_error3'] = 'Das Erstellen der Alias-Domain %s ist fehlgeschlagen!';
 $PALANG['pCreate_alias_domain_error4'] = 'Alle Domains sind bereits Alias-Domains.';
 $PALANG['pCreate_alias_domain_success'] = 'Die Alias-Domain wurde in der Datenbank eingetragen!';
 
@@ -100,7 +100,7 @@ $PALANG['email_address_already_exists'] = 'Diese eMail-Adresse existiert bereits
 $PALANG['pCreate_alias_address_text_error3'] = 'Sie haben Ihr Limit für Aliase auf dieser Domain erreicht!';
 $PALANG['pCreate_alias_goto_text'] = 'Wohin soll die eMail weitergeleitet werden?';
 $PALANG['pCreate_alias_goto_text_error'] = 'Das An-Feld ist falsch!';
-$PALANG['pCreate_alias_result_error'] = 'Unmöglich dieses Alias in die Alias-Tabelle einzutragen!';
+$PALANG['pCreate_alias_result_error'] = 'Das Erstellen des Aliases %s ist fehlgeschlagen!';
 $PALANG['pCreate_alias_result_success'] = 'Der Alias %s wurde erstellt!';
 $PALANG['pCreate_alias_catchall_text'] = 'Um alle Adressen abzudecken benutzen Sie einen "*" als Alias. Um ganze Domains an andere Domains weiterzuleiten benutzen Sie "*@domain.tld" im "An"-Feld.';
 
@@ -113,7 +113,7 @@ $PALANG['pEdit_alias_goto_text_error2'] = 'Die angegebene eMail-Adresse ist nich
 $PALANG['pEdit_alias_domain_result_error'] = 'Alias-Domain kann nicht geändert werden!';
 $PALANG['pEdit_alias_forward_and_store'] = 'Mail in der lokalen Mailbox ablegen.';
 $PALANG['pEdit_alias_forward_only'] = 'Nur zur angegebenen Adresse weiterleiten.';
-$PALANG['pEdit_alias_result_error'] = 'Ändern des Aliases nicht möglich!';
+$PALANG['pEdit_alias_result_error'] = 'Ändern des Aliases %s ist fehlgeschlagen!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Legen Sie eine neue Mailbox für Ihre Domain an.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Die EMAIL ist nicht korrekt!';
@@ -121,7 +121,7 @@ $PALANG['pCreate_mailbox_username_text_error3'] = 'Sie dürfen leider nicht mehr
 $PALANG['pCreate_mailbox_password_text'] = 'Passwort für POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Vollständiger Name';
 $PALANG['pCreate_mailbox_mail'] = 'Begrüßungsmail senden';
-$PALANG['pCreate_mailbox_result_error'] = 'Unmöglich die Mailbox in die Mailbox-Tabelle einzutragen!';
+$PALANG['pCreate_mailbox_result_error'] = 'Das Erstellen der Mailbox %s ist fehlgeschlagen';
 $PALANG['pCreate_mailbox_result_success'] = 'Die Mailbox %s wurde in die Mailbox-Tabelle eingetragen.';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Die Mailbox %s wurde in der Mailbox-Tabelle eingetragen, aber keine (oder nur einige) der vorkonfigurierten Unterordner konnte erstellt werden!';
 
@@ -143,18 +143,18 @@ $PALANG['pPassword_password'] = 'Neues Passwort';
 $PALANG['pPassword_password2'] = 'Neues Passwort (nochmal)';
 $PALANG['pPassword_password_text_error'] = 'Die beiden angegebenen Passwörter sind nicht identisch oder leer!';
 $PALANG['change_password'] = 'Passwort ändern';
-$PALANG['pPassword_result_error'] = 'Unmöglich das Passwort zu ändern!';
+$PALANG['pPassword_result_error'] = 'Das Passwort für %s konnte nicht geändert werden';
 $PALANG['pPassword_result_success'] = 'Ihr Passwort wurde geändert!';
 
 $PALANG['pEdit_vacation_set'] = 'Automatische Antwort ändern / einrichten';
 $PALANG['pEdit_vacation_remove'] = 'Automatische Antwort abschalten';
 
-$PALANG['pVacation_result_error'] = 'Änderungen der automatischen Antwort konnten nicht gespeichert werden!';
+$PALANG['pVacation_result_error'] = 'Änderungen der automatischen Antwort für %s konnten nicht gespeichert werden!';
 $PALANG['pVacation_result_removed'] = 'Automatische Antwort für %s wurde abgeschaltet!';
 $PALANG['pVacation_result_added'] = 'Automatische Antwort für %s wurde aktiviert!';
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
 $PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
-$PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
+$PALANG['pVacation_reply_delay_time_text'] = 'Zeit in Sekunden';
 
 $PALANG['pViewlog_welcome'] = 'Zeigt die letzten 10 Aktionen für ';
 $PALANG['pViewlog_timestamp'] = 'Zeitpunkt';
@@ -218,7 +218,7 @@ $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Diese Domain ist ungültig!
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Standard-Aliase hinzufügen';
 $PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Domain hinzufügen';
-$PALANG['pAdminCreate_domain_result_error'] = 'Konnte Domain nicht anlegen!';
+$PALANG['pAdminCreate_domain_result_error'] = 'Das Anlegen der Domain %s ist fehlgeschlagen!';
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain wurde angelegt!';
 $PALANG['pAdminDelete_admin_error'] = 'Admin kann nicht gelöscht werden!';
 
@@ -233,14 +233,14 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota';
 $PALANG['transport'] = 'Transport';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
-$PALANG['pAdminEdit_domain_result_error'] = 'Konnte Domain nicht editieren!';
+$PALANG['pAdminEdit_domain_result_error'] = 'Das Ändern der Domain %s ist fehlgeschlagen';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Neuen Domain-Admin hinzufügen';
 $PALANG['pAdminCreate_admin_username_text'] = 'Email Adresse';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Admin-Adresse ist keine echte Email-Adresse!';
 $PALANG['pAdminCreate_admin_username_text_error2'] = 'Der Admin existiert bereits bzw. ist nicht korrekt';
 $PALANG['pAdminCreate_admin_button'] = 'Admin hinzufügen';
-$PALANG['pAdminCreate_admin_result_error'] = 'Konnte den Admin nicht anlegen!';
+$PALANG['pAdminCreate_admin_result_error'] = 'Das anlegen des Admins %s ist fehlgeschlagen';
 $PALANG['pAdminCreate_admin_result_success'] = 'Admin angelegt!';
 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain Admin editieren';
@@ -248,7 +248,7 @@ $PALANG['admin'] = 'Admin';
 $PALANG['password_again'] = 'Passwort (nochmal)';
 $PALANG['pAdminEdit_admin_super_admin'] = 'Super-Admin';
 $PALANG['super_admin_desc'] = 'Super-Admins haben Zugriff auf alle Domains und können Domains und Admins verwalten.';
-$PALANG['pAdminEdit_admin_result_error'] = 'Konnte Admin nicht ändern';
+$PALANG['pAdminEdit_admin_result_error'] = 'Das Ändern des Admins %s ist fehlgeschlagen!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Admin geändert!';
 
 $PALANG['pUsersLogin_welcome'] = 'Benutzer bitte hier einloggen, um Weiterleitungen bzw. das Passwort zu ändern.';
