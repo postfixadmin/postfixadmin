@@ -306,7 +306,7 @@ class ViewTask extends Shell {
 				      }
 # TODO: offer alternative output formats (based on parameter)
 # TODO: whitespace fix - 8 lines below
-                      $result = $handler->return;
+                      $result = $handler->result;
                       $this->out(sprintf("Entries for: %s\n", $address));
                       $this->out("");
                       $this->out(sprintf("+%'-25s+%'-15s+%'-10s+%'-20s+%'-8s+%'-8s+%'-6s+",'','','','','','',''));

@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" && $active == '') {
             header ("Location: " . $formconf['listview']);
             exit;
         } else {
-            $values = $handler->return;
+            $values = $handler->result;
             $values[$id_field] = $edit;
         }
     }

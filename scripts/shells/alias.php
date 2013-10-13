@@ -174,7 +174,7 @@ class ViewTask extends Shell {
                 if ( ! $handler->view() ) {
                     $this->error("Error: Not Found", "The requested alias was not found!");
                 } else {
-                      $result = $handler->return;
+                      $result = $handler->result;
 
                       $this->out(sprintf("Entries for: %s\n", $address));
                       $this->out("Goto: \t");

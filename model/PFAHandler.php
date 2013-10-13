@@ -493,13 +493,13 @@ abstract class PFAHandler {
      * get the values of an item
      * @param boolean (optional) - if false, $this->errormsg[] will not be filled in case of errors 
      * @return bool - true if item was found
-     * The data is stored in $this->return (as associative array of column => value)
+     * The data is stored in $this->result (as associative array of column => value)
      * error messages (if any) are stored in $this->errormsg
      */
     public function view($errors=true) {
         $result = $this->read_from_db(array($this->id_field => $this->id) );
         if (count($result) == 1) {
-            $this->return = $result[$this->id];
+            $this->result = $result[$this->id];
             return true;
         }
 
@@ -514,12 +514,12 @@ abstract class PFAHandler {
      * @param integer limit - maximum number of rows to return
      * @param integer offset - number of first row to return
      * @return bool - true if at least one item was found
-     * The data is stored in $this->return (as array of rows, each row is an associative array of column => value)
+     * The data is stored in $this->result (as array of rows, each row is an associative array of column => value)
      */
     public function getList($condition, $limit=-1, $offset=-1) {
         $result = $this->read_from_db($condition, $limit, $offset);
         if (count($result) >= 1) {
-            $this->return = $result;
+            $this->result = $result;
             return true;
         }
 
@@ -570,7 +570,7 @@ abstract class PFAHandler {
      * @return return value of previously called method
      */
     public function result() {
-        return $this->return;
+        return $this->result;
     }
 
 

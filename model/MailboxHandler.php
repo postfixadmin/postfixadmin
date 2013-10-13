@@ -55,7 +55,7 @@ class MailboxHandler extends PFAHandler {
         if ($this->new) {
             $currentquota = 0;
         } else {
-            $currentquota = $this->return['quotabytes']; # parent::init called ->view()
+            $currentquota = $this->result['quotabytes']; # parent::init called ->view()
         }
 
         $this->updateMaxquota($domain, $currentquota);

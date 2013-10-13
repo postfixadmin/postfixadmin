@@ -115,15 +115,15 @@ class AliasHandler extends PFAHandler {
         $retval = parent::init($id);
 
         # hide 'goto_mailbox' for non-mailbox aliases
-        # parent::init called view() before, so we can rely on having $this->return filled
-        # (only validate_new_id() is called from parent::init and could in theory change $this->return)
-        if ($this->new || $this->return['is_mailbox'] == 0) {
+        # parent::init called view() before, so we can rely on having $this->result filled
+        # (only validate_new_id() is called from parent::init and could in theory change $this->result)
+        if ($this->new || $this->result['is_mailbox'] == 0) {
             $this->struct['goto_mailbox']['editable']        = 0;
             $this->struct['goto_mailbox']['display_in_form'] = 0;
             $this->struct['goto_mailbox']['display_in_list'] = 0;
         }
 
-        if ( !$this->new && $this->return['is_mailbox'] && $this->admin_username != ''&& !authentication_has_role('global-admin') ) {
+        if ( !$this->new && $this->result['is_mailbox'] && $this->admin_username != ''&& !authentication_has_role('global-admin') ) {
             # domain admins are not allowed to change mailbox alias $CONF['alias_control_admin'] = NO
             # TODO: apply the same restriction to superadmins?
             if (!Config::bool('alias_control_admin')) {
@@ -369,7 +369,7 @@ class AliasHandler extends PFAHandler {
             return false;
         }
 
-        if ($this->return['is_mailbox']) {
+        if ($this->result['is_mailbox']) {
             $this->errormsg[] = 'This alias belongs to a mailbox and can\'t be deleted.'; # TODO: make translatable
             return false;
         }

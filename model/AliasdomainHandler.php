@@ -32,8 +32,8 @@ class AliasdomainHandler extends PFAHandler {
         $used_targets = array();
 
         foreach ($this->allowed_domains as $dom) {
-            if (isset($this->return[$dom]) ) { # already used as alias_domain
-                $used_targets[$this->return[$dom]['target_domain']] = $this->return[$dom]['target_domain'];
+            if (isset($this->result[$dom]) ) { # already used as alias_domain
+                $used_targets[$this->result[$dom]['target_domain']] = $this->result[$dom]['target_domain'];
             } else { # might be available
                 $this->struct['alias_domain']['options'][$dom] = $dom;
                 $this->struct['target_domain']['options'][$dom] = $dom;
