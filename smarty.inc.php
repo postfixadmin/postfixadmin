@@ -1,7 +1,5 @@
 <?php
-#require_once ("$incpath/smarty/libs/Smarty.class.php");
-# We have to use the SmartyBC ("Backwards Compatible") class because some templates use {php}. (TODO: do we really need {php}?)
-require_once ("$incpath/smarty/libs/SmartyBC.class.php");
+require_once ("$incpath/smarty/libs/Smarty.class.php");
 
 /**
  * Turn on sanitisation of all data by default so it's not possible for XSS flaws to occur in PFA
@@ -9,7 +7,7 @@ require_once ("$incpath/smarty/libs/SmartyBC.class.php");
 class PFASmarty {
     protected $template = null;
     public function __construct() {
-        $this->template = new SmartyBC();
+        $this->template = new Smarty();
 
         //$this->template->debugging = true;
         $incpath = dirname(__FILE__);
@@ -28,6 +26,13 @@ class PFASmarty {
     }
 
     public function display($template) {
+        header ("Expires: Sun, 16 Mar 2003 05:00:00 GMT");
+        header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
+        header ("Cache-Control: no-store, no-cache, must-revalidate");
+        header ("Cache-Control: post-check=0, pre-check=0", false);
+        header ("Pragma: no-cache");
+        header ("Content-Type: text/html; charset=UTF-8");
+
         $this->template->display($template);
         unset($_SESSION['flash']); # cleanup flash messages
     }
@@ -80,8 +85,8 @@ function select_options($aValues, $aSelected) {
     return $ret_val;
 }
 function eval_size ($aSize) {
-	if ($aSize == 0)	{$ret_val = $GLOBALS ['PALANG']['pOverview_unlimited'];	}
-	elseif ($aSize < 0)	{$ret_val = $GLOBALS ['PALANG']['pOverview_disabled'];	}
+	if ($aSize == 0)	{$ret_val = Config::Lang('pOverview_unlimited'); }
+	elseif ($aSize < 0)	{$ret_val = Config::Lang('pOverview_disabled');  }
 	else 				{$ret_val = $aSize;	}
 	return $ret_val;
 }
