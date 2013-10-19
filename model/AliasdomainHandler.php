@@ -10,10 +10,7 @@ class AliasdomainHandler extends PFAHandler {
     protected $id_field = 'alias_domain';
     protected $domain_field = 'alias_domain';
 
-    # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
-        # TODO: add public function set_options_for_admin() to list only domains available to that admin
-
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
@@ -67,12 +64,12 @@ class AliasdomainHandler extends PFAHandler {
         $this->msg['error_does_not_exist'] = 'pCreate_alias_domain_error2'; # TODO: better error message
         if ($this->new) {
             $this->msg['logname'] = 'create_alias_domain';
-            $this->msg['store_error'] = 'pCreate_alias_domain_error3'; # TODO: error message could be better
+            $this->msg['store_error'] = 'pCreate_alias_domain_error3';
             $this->msg['successmessage'] = 'pCreate_alias_domain_success';
         } else {
             $this->msg['logname'] = 'edit_alias_domain';
-            $this->msg['store_error'] = 'pCreate_alias_domain_error3'; # TODO: error message could be better
-            $this->msg['successmessage'] = 'pCreate_alias_domain_success'; # TODO: better message for edit
+            $this->msg['store_error'] = 'alias_domain_change_failed';
+            $this->msg['successmessage'] = 'alias_domain_changed';
         }
     }
 
@@ -125,7 +122,7 @@ class AliasdomainHandler extends PFAHandler {
      */
     protected function _field_target_domain($field, $val) {
         if ($val == $this->id) {
-            $this->errormsg[$field] = Config::lang('pCreate_alias_domain_error2'); # TODO: error message could be better...
+            $this->errormsg[$field] = Config::lang('alias_domain_to_itsself');
             return false;
         }
         return true;

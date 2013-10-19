@@ -94,8 +94,11 @@ $PALANG['pCreate_alias_domain_target_text'] = 'O domínio para onde as mensagens
 $PALANG['pCreate_alias_domain_error1'] = 'Você não possui permissão para criar a configuração desejada.';
 $PALANG['pCreate_alias_domain_error2'] = 'Configuração inválida. Por favor, defina outra configuração!';
 $PALANG['pCreate_alias_domain_error3'] = 'Não foi possível criar o alias de domínio. (%s)'; # XXX Text changed to: Creating the alias domain %s failed!
+$PALANG['alias_domain_change_failed'] = 'Changing the alias domain %s failed!'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = 'Todos os domínios já estão espelhados.';
 $PALANG['pCreate_alias_domain_success'] = 'Alias de domínio criado! (%s)'; # XXX Text changed to: The alias domain %s has been created.
+$PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
+$PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Alias inválido!';
 $PALANG['email_address_already_exists'] = 'Endereço de email fornecido já existe. Por favor, escolha outro endereço!';

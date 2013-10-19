@@ -92,8 +92,11 @@ $PALANG['pCreate_alias_domain_target_text'] = 'メールをこのドメイン宛
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed. (%s)'; # XXX # XXX Text changed to: Creating the alias domain %s failed!
+$PALANG['alias_domain_change_failed'] = 'Changing the alias domain %s failed!'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = '全てのドメインがエイリアスされています。';
 $PALANG['pCreate_alias_domain_success'] = 'The alias domain %s has been created.'; # XXX
+$PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
+$PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'メールアドレスが無効です。';
 $PALANG['email_address_already_exists'] = 'このメールアドレスは既に存在するので、 別のアドレスを選択してください。'; # XXX check/beautify - was split in two lines before

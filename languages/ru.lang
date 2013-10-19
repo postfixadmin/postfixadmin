@@ -94,8 +94,11 @@ $PALANG['pCreate_alias_domain_target_text'] = 'Домен, куда должна
 $PALANG['pCreate_alias_domain_error1'] = 'Вам не разрешено создавать выбранную конфигурацию.';
 $PALANG['pCreate_alias_domain_error2'] = 'Выбранная конфигурация некорректна, пожалуйста, выберите другую!';
 $PALANG['pCreate_alias_domain_error3'] = 'Не удалось добавить запись в базу данных. (%s)'; # XXX Text changed to: Creating the alias domain %s failed!
+$PALANG['alias_domain_change_failed'] = 'Changing the alias domain %s failed!'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = 'Все домены уже задействованы в доменах-алиасах.';
 $PALANG['pCreate_alias_domain_success'] = 'Домен-алиас добавлен в таблицу доменов-алиасов! (%s)'; # XXX Text changed to: The alias domain %s has been created.
+$PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
+$PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Неверное имя алиаса!';
 $PALANG['email_address_already_exists'] = 'Этот почтовый адрес уже существует, пожалуйста, выберите другой.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'

@@ -92,8 +92,11 @@ $PALANG['pCreate_alias_domain_target_text'] = 'The domain where mails should go 
 $PALANG['pCreate_alias_domain_error1'] = 'You are not allowed to create the chosen configuration.'; # XXX
 $PALANG['pCreate_alias_domain_error2'] = 'The chosen configuration is invalid, please choose a different one!'; # XXX
 $PALANG['pCreate_alias_domain_error3'] = 'Database insert failed. (%s)'; # XXX # XXX Text changed to: Creating the alias domain %s failed!
+$PALANG['alias_domain_change_failed'] = 'Changing the alias domain %s failed!'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # XXX
 $PALANG['pCreate_alias_domain_success'] = 'The alias domain %s has been created.'; # XXX
+$PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
+$PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Az ALIAS érvénytelen!';
 $PALANG['email_address_already_exists'] = 'Ez az email cím már létezik, kérlek válassz másikat!';

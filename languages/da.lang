@@ -95,8 +95,11 @@ $PALANG['pCreate_alias_domain_target_text'] = 'Domæne hvor emails skal sendes t
 $PALANG['pCreate_alias_domain_error1']      = 'Du har ikke tilladelse til at lave den valgte konfiguration';
 $PALANG['pCreate_alias_domain_error2']      = 'Den valgte konfiguration er ikke korrekt, vælg venligst en anden.';
 $PALANG['pCreate_alias_domain_error3']      = 'Indsætning i databasen fejlede. (%s)'; # XXX Text changed to: Creating the alias domain %s failed!
+$PALANG['alias_domain_change_failed'] = 'Changing the alias domain %s failed!'; # XXX
 $PALANG['pCreate_alias_domain_error4']      = 'Alle domænerne har allerede aliases.';
 $PALANG['pCreate_alias_domain_success']     = 'Domæne-alias blev tilføjet alias-tabellen. (%s)'; # XXX Text changed to: The alias domain %s has been created.
+$PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
+$PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Aliaset er ikke gyldigt.';
 $PALANG['email_address_already_exists'] = 'Emailadressen eksisterer allerede, vælg venligst en anden.';

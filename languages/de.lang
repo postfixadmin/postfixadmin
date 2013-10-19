@@ -92,8 +92,11 @@ $PALANG['pCreate_alias_domain_target_text'] = 'Die Domain, an die die Mails gehe
 $PALANG['pCreate_alias_domain_error1'] = 'Sie dürfen die gewählte Konfiguration nicht erstellen.';
 $PALANG['pCreate_alias_domain_error2'] = 'Die gewählte Konfiguration ist ungültig, bitte wählen Sie eine andere';
 $PALANG['pCreate_alias_domain_error3'] = 'Das Erstellen der Alias-Domain %s ist fehlgeschlagen!';
+$PALANG['alias_domain_change_failed'] = 'Ändern der Alias-Domain %s fehlgeschlagen!';
 $PALANG['pCreate_alias_domain_error4'] = 'Alle Domains sind bereits Alias-Domains.';
 $PALANG['pCreate_alias_domain_success'] = 'Die Alias-Domain %s wurde erstellt.';
+$PALANG['alias_domain_changed'] = 'Die Alias-Domain %s wurde geändert.';
+$PALANG['alias_domain_to_itsself'] = 'Eine Domain kann keine Alias-Domain von sich selbst sein!';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Dieses ALIAS ist nicht erlaubt!';
 $PALANG['email_address_already_exists'] = 'Diese eMail-Adresse existiert bereits. Bitte wählen Sie eine andere!';

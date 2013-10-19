@@ -91,8 +91,11 @@ $PALANG['pCreate_alias_domain_target_text'] = 'Domaini johon mailien pitäisi me
 $PALANG['pCreate_alias_domain_error1'] = 'Sinulla ei ole oikeutta luoda valittua konfiguraatiota.';
 $PALANG['pCreate_alias_domain_error2'] = 'Valittu konfiguraatio on viallinen, ole hyvä ja valitse toinen!';
 $PALANG['pCreate_alias_domain_error3'] = 'Syöttö tietokantaan epäonnistui. (%s)'; # XXX Text changed to: Creating the alias domain %s failed!
+$PALANG['alias_domain_change_failed'] = 'Changing the alias domain %s failed!'; # XXX
 $PALANG['pCreate_alias_domain_error4'] = 'Kaikilla domaineilla on jo alias.';
 $PALANG['pCreate_alias_domain_success'] = 'Domainin alias on lisätty domain alias tauluun! (%s)'; # XXX Text changed to: The alias domain %s has been created.
+$PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
+$PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Alias ei ole oikean muotoinen!';
 $PALANG['email_address_already_exists'] = 'Tämä sähköpostiosoite on jo käytössä, ole hyvä ja valitse jokin toinen!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
