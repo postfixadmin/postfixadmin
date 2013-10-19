@@ -29,20 +29,14 @@ authentication_require_role('global-admin');
 
 // TODO: make backup supported for postgres
 if ('pgsql'==$CONF['database_type']) {
-	flash_error('<p>Sorry: Backup is currently not supported for your DBMS ('.$CONF['database_type'].').</p>');
+	flash_error('Sorry: Backup is currently not supported for your DBMS ('.$CONF['database_type'].').');
 	$smarty->assign ('smarty_template', 'message');
 	$smarty->display ('index.tpl');
    die;
 }
 
 if (safeget('download') == "") {
-	flash_error('
-         <p><span class="error_msg">Warning:</span> The backup module of PostfixAdmin is poorly maintained and might contain bugs.</p>
-         <p>Please use <tt>mysqldump</tt> to get a reliable backup of your database.</p>
-         <p>&nbsp;</p>
-         <p>If you still trust this backup module, you can <a href="backup.php?download=1" class="button">download the database dump now</a></p>
-   ');
-	$smarty->assign ('smarty_template', 'message');
+	$smarty->assign ('smarty_template', 'backupwarning');
 	$smarty->display ('index.tpl');
    die;
 }
