@@ -30,16 +30,16 @@
 require_once('common.php');
 
 if($CONF['configured'] !== true) {
-    print "Installation not yet configured; please edit config.inc.php";
+    print "Installation not yet configured; please edit config.inc.php or write your settings to config.local.php";
     exit;
 }
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
+    $lang = safepost('lang');
     $fUsername = safepost('fUsername');
     $fPassword = safepost('fPassword');
-    $lang = safepost('lang');
 
     if ( $lang != check_language(0) ) { # only set cookie if language selection was changed
         setcookie('lang', $lang, time() + 60*60*24*30); # language cookie, lifetime 30 days
@@ -50,29 +50,37 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     if ( $h->login($fUsername, $fPassword) ) {
         session_regenerate_id();
         $_SESSION['sessid'] = array();
-        $_SESSION['sessid']['username'] = $fUsername;
         $_SESSION['sessid']['roles'] = array();
         $_SESSION['sessid']['roles'][] = 'admin';
+        $_SESSION['sessid']['username'] = $fUsername;
 
-        // they've logged in, so see if they are a domain admin, as well.
-        # TODO: use AdminHandler and the superadmin flag
-        $result = db_query ("SELECT * FROM $table_domain_admins WHERE username='$fUsername' AND domain='ALL' AND active='1'");
-        if ($result['rows'] == 1)
-        {
-            $_SESSION['sessid']['roles'][] = 'global-admin';
-            #            header("Location: admin/list-admin.php");
-            #            exit(0);
+        # they've logged in, so see if they are a domain admin, as well.
+
+        if (!$h->init($fUsername)) {
+            flash_error($PALANG['pLogin_failed']);
         }
+
+        if (!$h->view()) {
+            flash_error($PALANG['pLogin_failed']);
+        }
+
+        $adminproperties = $h->result();
+
+        if ($adminproperties['superadmin'] == 1) {
+            $_SESSION['sessid']['roles'][] = 'global-admin';
+        }
+
         header("Location: main.php");
         exit(0);
-    } else {
+
+    } else { # $h->login failed
         flash_error($PALANG['pLogin_failed']);
     }
 }
 
 $smarty->assign ('language_selector', language_selector(), false);
-$smarty->assign ('logintype', 'admin');
 $smarty->assign ('smarty_template', 'login');
+$smarty->assign ('logintype', 'admin');
 $smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
