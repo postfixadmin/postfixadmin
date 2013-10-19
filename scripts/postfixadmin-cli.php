@@ -338,7 +338,7 @@ class PostfixAdmin {
                                                         $shell->startup();
                                                         $shell->{$command}();
                                                 } else {
-                                                        $this->stderr("Unknown {$this->shellName} command '$command'.\nFor usage, try 'cake {$this->shell} help'.\n\n");
+                                                        $this->stderr("Unknown {$this->shellName} command '$command'.\nFor usage, try 'postfixadmin-cli {$this->shell} help'.\n\n");
                                                 }
                                         } else {
                                                 $this->stderr('Class '.$this->shellClass.' could not be loaded');

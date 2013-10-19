@@ -20,7 +20,7 @@ class PostfixAdminMailbox extends Shell {
  * @access public
  */
         function help() {
-                $head  = "Usage: postfixadmin-cli mailbox <task> [<address>] [] [-m <method>]\n";
+                $head  = "Usage: postfixadmin-cli mailbox <task> [<address>] [] [--<option> <value>]\n";
                 $head .= "-----------------------------------------------\n";
                 $head .= "Parameters:\n\n";
 
@@ -33,7 +33,7 @@ class PostfixAdminMailbox extends Shell {
                                                 "\t\t".sprintf("%-20s %s", "delete: ",  "Deletes a mailbox")."\n".
                                                 "\t\t".sprintf("%-20s %s", "password: ",  "Changes the PW for a mailbox.")."\n",
                         'address' => "\t[<address>]\n" .
-                                                "\t\tA CakePHP core class name (e.g: Component, HtmlHelper).\n",
+                                                "\t\tMail address\n",
                 );
 
                 $this->out($head);

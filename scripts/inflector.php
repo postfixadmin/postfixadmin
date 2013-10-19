@@ -53,19 +53,5 @@ class Inflector {
                 $replace = strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $camelCasedWord));
                 return $replace;
         }
-/**
- * Returns camelBacked version of a string.
- *
- * @param string $string
- * @return string in variable form
- * @access public
- * @static
- */
-        public static function variable($string) {
-                $string = Inflector::camelize(Inflector::underscore($string));
-                $replace = strtolower(substr($string, 0, 1));
-                $variable = preg_replace('/\\w/', $replace, $string, 1);
-                return $variable;
-        }
 }
 

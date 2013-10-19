@@ -348,7 +348,7 @@ if ( empty($this->params['q'] ) ) {
  */
         function help() {
                 if ($this->command != null) {
-                        $this->err("Unknown {$this->name} command '$this->command'.\nFor usage, try 'cake {$this->shell} help'.\n\n");
+                        $this->err("Unknown {$this->name} command '$this->command'.\nFor usage, try 'postfixadmin-cli {$this->shell} help'.\n\n");
                 } else {
                         $this->Dispatch->help();
                 }
