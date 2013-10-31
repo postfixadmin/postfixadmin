@@ -153,6 +153,7 @@ function check_language ($use_post = 1) {
         for($i = 0; $i < count($lang_array); $i++) {
             $lang_next = $lang_array[$i];
             $lang_next = strtolower(trim($lang_next));
+            $lang_next = preg_replace('/;.*$/', '', $lang_next); # remove things like ";q=0.8"
             if(array_key_exists($lang_next, $supported_languages)) {
                 $lang = $lang_next;
                 break;
