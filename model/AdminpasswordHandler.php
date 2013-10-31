@@ -25,7 +25,7 @@ class AdminpasswordHandler extends PFAHandler {
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
             'username'        => pacol( 0,          1,      1,      'text', 'admin'                        , ''                                 ),
-            'oldpass'         => pacol( 1,          1,      0,      'pass', 'pPassword_password_current'   , 'pPassword_password_current_text', '', '', 
+            'oldpass'         => pacol( 1,          1,      0,      'pass', 'pPassword_password_current'   , '', '', '', 
                 /*not_in_db*/ 1  ),
             'password'        => pacol( 1,          1,      0,      'pass', 'pPassword_password'           , ''                                 ),
             'password2'       => pacol( 1,          1,      0,      'pass', 'pPassword_password2'          , ''                                 , '', '',
