@@ -135,11 +135,11 @@ $CONF['smtp_port'] = '25';
 //   (WARNING: do not use a dovecot:* method that includes a salt - you won't be able to login to PostfixAdmin in this case)
 $CONF['encrypt'] = 'md5crypt';
 
-// In what flavor should courier-authlib style passwords be enrypted?
+// In what flavor should courier-authlib style passwords be encrypted?
 // md5 = {md5} + base64 encoded md5 hash
 // md5raw = {md5raw} + plain encoded md5 hash
 // SHA = {SHA} + base64-encoded sha1 hash
-// crypt = {crypt} + Standard UNIX DES-enrypted with 2-character salt
+// crypt = {crypt} + Standard UNIX DES-encrypted with 2-character salt
 $CONF['authlib_default_flavor'] = 'md5raw';
 
 // If you use the dovecot encryption method: where is the dovecotpw binary located?
@@ -365,9 +365,6 @@ $CONF['vacation_intervaldelay_default'] = '86400'; // is 1 day = 60 sec * 60 min
 // Userscontrol is edited in admin_create-domain.tpl and admin_edit-domain.tpl
 // Userscontrol is default set  to  on when creating a domain
 $CONF['users_domain_controle'] = 'YES';
-
-
-$CONF['usercontol'] = 'YES';
 
 
 // Alias Control
