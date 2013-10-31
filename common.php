@@ -64,6 +64,8 @@ if(isset($CONF['configured'])) {
     }
 }
 
+Config::write($CONF);
+
 require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
 
@@ -81,9 +83,7 @@ if($CONF['language_hook'] != '' && function_exists($CONF['language_hook'])) {
     $PALANG = $hook_func ($PALANG, $language);
 }
 
-$CONF['__LANG'] = $PALANG;
-
-Config::write($CONF);
+Config::write('__LANG', $PALANG);
 
 
 if (!defined('POSTFIXADMIN_CLI')) {
