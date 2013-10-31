@@ -101,6 +101,8 @@ final class Config {
             }
             break;
         }
+
+        error_log('Config::read(): attemp to read undefined config option "' . join('.', $name) . '", returning null');
         return null;
     }
 
