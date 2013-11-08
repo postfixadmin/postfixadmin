@@ -77,7 +77,7 @@ class AdminpasswordHandler extends PFAHandler {
     /**
      * check if old password is correct
      */
-    protected function _field_oldpass($field, $val) {
+    protected function _validate_oldpass($field, $val) {
         if ( $this->login($this->id, $val) ) {
             return true;
         }
@@ -99,7 +99,7 @@ class AdminpasswordHandler extends PFAHandler {
      * compare password / password2 field
      * error message will be displayed at the password2 field
      */
-    protected function _field_password2($field, $val) {
+    protected function _validate_password2($field, $val) {
         return $this->compare_password_fields('password', 'password2');
     }
 

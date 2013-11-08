@@ -288,7 +288,7 @@ class AliasHandler extends PFAHandler {
     }
 */
 
-    protected function _field_goto($field, $val) {
+    protected function _validate_goto($field, $val) {
         if (count($val) == 0) {
             # empty is ok for mailboxes - this is checked in setmore() which can clear the error message
             $this->errormsg[$field] = Config::lang('pEdit_alias_goto_text_error1');

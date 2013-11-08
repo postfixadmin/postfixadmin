@@ -280,9 +280,8 @@ abstract class PFAHandler {
                             # TODO: warning if no validation function exists?
                         }
 
-                        # validate based on field name (_field_$fieldname)
-                        # TODO: rename to _validate_$key ?
-                        $func="_field_".$key;
+                        # validate based on field name (_validate_$fieldname)
+                        $func="_validate_".$key;
                         if (method_exists($this, $func) ) {
                             if (!$this->{$func}($key, $values[$key])) $valid = false;
                         }
@@ -577,7 +576,7 @@ abstract class PFAHandler {
 
     /**
      * compare two password fields
-     * typically called from _field_password2()
+     * typically called from _validate_password2()
      * @param string $field1 - "password" field
      * @param string $field2 - "repeat password" field
      */
