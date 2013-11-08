@@ -21,6 +21,9 @@ $PALANG['show'] = 'Anzeigen:';
 $PALANG['all'] = 'Alle';
 $PALANG['created'] = 'Erstellt';
 $PALANG['missing_field'] = 'Das Feld %s fehlt';
+$PALANG['must_be_numeric'] = '%s muss numerisch sein';
+$PALANG['must_be_boolean'] = "%s muss ein Bool'scher Wert sein";
+$PALANG['invalid_value_given'] = 'Ungültiger Wert für %s angegeben';
 
 $PALANG['pFooter_logged_as'] = 'Angemeldet als %s';
 
@@ -347,6 +350,8 @@ $PALANG['pFetchmail_desc_extra_options']    = 'Zusätzliche fetchmail-Optionen';
 $PALANG['pFetchmail_desc_mda']              = 'Programm zur Mailauslieferung';
 $PALANG['pFetchmail_desc_date']             = 'Datum des letzten Mailabrufs/Konfigurationsänderung';
 $PALANG['pFetchmail_desc_returned_text']    = 'Textausgabe des letzten Mailabrufs';
+$PALANG['dateformat_pgsql'] = 'dd.mm.YYYY'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format
+$PALANG['dateformat_mysql'] = '%d.%m.%Y';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

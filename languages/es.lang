@@ -21,6 +21,9 @@ $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
 $PALANG['missing_field'] = 'Field %s is missing'; # XXX
+$PALANG['must_be_numeric'] = '%s must be numeric'; # XXX
+$PALANG['must_be_boolean'] = '%s must be boolean'; # XXX
+$PALANG['invalid_value_given'] = 'Invalid value given for %s'; # XXX
 $PALANG['pFooter_logged_as'] = 'Autenticado como %s';  # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
 $PALANG['pLogin_welcome'] = 'Login de administrador para administración de dominios.';
@@ -337,6 +340,8 @@ $PALANG['pFetchmail_desc_extra_options']    = 'Opciones extras para fetchmail';
 $PALANG['pFetchmail_desc_mda']              = 'Mail Delivery Agent'; # XXX
 $PALANG['pFetchmail_desc_date']             = 'Fecha del último sondeo/cambio en la configuración';
 $PALANG['pFetchmail_desc_returned_text']    = 'Mensaje del último sondeo'; 
+$PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format # XXX
+$PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
