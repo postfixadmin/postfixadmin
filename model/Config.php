@@ -121,7 +121,10 @@ final class Config {
         $newtext = sprintf($text, $value);
 
         # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
-        if ($text == $newtext) error_log("$var used via read_f, but nothing replaced (value $value)");
+        if ($text == $newtext) {
+            if (is_array($var)) $var = join('.', $var);
+            error_log("$var used via read_f, but nothing replaced (value $value)");
+        }
 
         return $newtext;
     }
