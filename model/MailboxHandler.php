@@ -273,13 +273,36 @@ class MailboxHandler extends PFAHandler {
         return true; # even if a hook failed, mark the overall operation as OK
     }
 
-
-/* function already exists (see old code below 
     public function delete() {
-        $this->errormsg[] = '*** deletion not implemented yet ***';
-        return false; # XXX function aborts here! XXX
+        if ( ! $this->view() ) {
+            $this->errormsg[] = Config::Lang('pFetchmail_invalid_mailbox'); # TODO: can users hit this message at all? init() should already fail...
+            return false;
+        }
+
+        # the correct way would be to delete the alias and fetchmail entries with *Handler before
+        # deleting the mailbox, but it's easier and a bit faster to do it on the database level.
+        # cleaning up all tables doesn't hurt, even if vacation or displaying the quota is disabled
+
+        db_delete('fetchmail',              'mailbox',       $this->id);
+        db_delete('vacation',               'email',         $this->id);
+        db_delete('vacation_notification',  'on_vacation',   $this->id); # should be caught by cascade, if PgSQL
+        db_delete('quota',                  'username',      $this->id);
+        db_delete('quota2',                 'username',      $this->id);
+        db_delete('alias',                  'address',       $this->id);
+        db_delete($this->db_table,          $this->id_field, $this->id); # finally delete the mailbox
+
+        list(/*NULL*/,$domain) = explode('@', $this->id);
+        if ( !mailbox_postdeletion($username,$domain) ) {
+            $this->error_msg[] = 'Mailbox postdeletion failed!'; # TODO: make translateable
+        }
+
+        list(/*NULL*/,$domain) = explode('@', $this->id);
+        db_log ($domain, 'delete_mailbox', $this->id);
+        $this->infomsg[] = Config::Lang_f('pDelete_delete_success', $this->id);
+        return true;
     }
-*/
+
+
 
     protected function _prefill_domain($field, $val) {
         if (in_array($val, $this->struct[$field]['options'])) {
@@ -649,78 +672,6 @@ class MailboxHandler extends PFAHandler {
 
 
 #TODO: more self explaining language strings!
-
-    public function delete() {
-        $username = $this->id;
-        list(/*$local_part*/,$domain) = explode ('@', $username);
-
-        $E_username = escape_string($username);
-        $E_domain = escape_string($domain);
-
-#TODO:  At this level of table by key calls we should think about a solution in our query function and drupal like {mailbox} {alias}.
-#       Pseudocode for db_query etc.
-#       if {} in query then
-#           table_by_key( content between { and } )
-#       else error
-
-        $table_mailbox = table_by_key('mailbox');
-        $table_alias = table_by_key('alias');
-        $table_vacation = table_by_key('vacation');
-        $table_vacation_notification = table_by_key('vacation_notification');
-
-        db_begin();
-
-#TODO: true/false replacement!
-        $error = 0;
-
-        $result = db_query("SELECT * FROM $table_alias WHERE address = '$E_username' AND domain = '$E_domain'");
-        if($result['rows'] == 1) {
-            $result = db_delete('alias', 'address', $username);
-            db_log ($domain, 'delete_alias', $username);
-        } else {
-            $this->errormsg[] = "no alias $username"; # todo: better message, make translatable
-            $error = 1;
-        }
-
-        /* is there a mailbox? if do delete it from orbit; it's the only way to be sure */
-        $result = db_query ("SELECT * FROM $table_mailbox WHERE username='$E_username' AND domain='$E_domain'");
-        if ($result['rows'] == 1) {
-            $result = db_delete('mailbox', 'username', $username);
-            $postdel_res=mailbox_postdeletion($username,$domain);
-            if ($result != 1 || !$postdel_res) {
-
-                $tMessage = Config::lang('pDelete_delete_error') . "$username (";
-                if ($result['rows']!=1) { # TODO: invalid test, $result is from db_delete and only contains the number of deleted rows
-                    $tMessage.='mailbox';
-                    if (!$postdel_res) $tMessage.=', ';
-                    $this->errormsg[] = "no mailbox $username"; # todo: better message, make translatable
-                    $error = 1;
-                }
-                if (!$postdel_res) {
-                    $tMessage.='post-deletion';
-                    $this->errormsg[] = "post-deletion script failed"; # todo: better message, make translatable
-                    $error = 1;
-                }
-                $this->errormsg[] = $tMessage.')';
-                # TODO: does db_rollback(); make sense? Not sure because mailbox_postdeletion was already called (move the call checking the db_delete result?)
-                # TODO: maybe mailbox_postdeletion should be run after all queries, just before commit/rollback
-                $error = 1;
-#                return false; # TODO: does this make sense? Or should we still cleanup vacation and vacation_notification?
-            }
-            db_log ($domain, 'delete_mailbox', $username);
-        } else {
-            $this->errormsg[] = "no mailbox $username"; # TODO: better message, make translatable
-            $error = 1;
-        }
-        $result = db_query("SELECT * FROM $table_vacation WHERE email = '$E_username' AND domain = '$E_domain'");
-        if($result['rows'] == 1) {
-            db_delete('vacation', 'email', $username);
-            db_delete('vacation_notification', 'on_vacation', $username); # TODO: delete vacation_notification independent of vacation? (in case of "forgotten" vacation_notification entries)
-        }
-        db_commit();
-        if ($error != 0) return false;
-        return true;
-    }
 
 }
 

@@ -355,15 +355,10 @@ class AliasHandler extends PFAHandler {
         return $vacation_goto . '@' . Config::read('vacation_domain');
     }
  
-/**********************************************************************************************************************************************************
-  old function from non-PFAHandler times of AliasHandler
-  Will be replaced by a global delete() function in PFAHandler
- **********************************************************************************************************************************************************/
-
     /**
      *  @return true on success false on failure
      */
-    public function delete(){
+    public function delete() {
         if( ! $this->view() ) {
             $this->errormsg[] = 'An alias with that address does not exist.'; # TODO: make translatable
             return false;
@@ -374,14 +369,14 @@ class AliasHandler extends PFAHandler {
             return false;
         }
 
-        $result = db_delete('alias', 'address', $this->id);
-        if( $result == 1 ) {
-            list(/*NULL*/,$domain) = explode('@', $this->id);
-            db_log ($domain, 'delete_alias', $this->id);
-            return true;
-        }
+        db_delete('alias', 'address', $this->id);
+
+        list(/*NULL*/,$domain) = explode('@', $this->id);
+        db_log ($domain, 'delete_alias', $this->id);
+        $this->infomsg[] = Config::Lang_f('pDelete_delete_success', $this->id);
+        return true;
     }
 
- }
+}
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
