@@ -102,6 +102,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Wszystkie domeny są już aliasowane.'
 $PALANG['pCreate_alias_domain_success'] = 'Alias domeny został dodany do tabeli aliasów domen! (%s)'; # XXX Text changed to: The alias domain %s has been created.
 $PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
 $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
+$PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Alias jest niepoprawny!';
 $PALANG['email_address_already_exists'] = 'Taki adres email juz istnieje, proszę wybrać inny!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
@@ -226,7 +227,7 @@ $PALANG['pAdminCreate_domain_button'] = 'Dodaj domenę';
 $PALANG['pAdminCreate_domain_result_error'] = 'Nie można dodać domeny! (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = 'Domena została dodana! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
-$PALANG['pAdminDelete_domain_error'] = 'Nie można usunąć domeny!';
+$PALANG['domain_postdel_failed'] = 'Nie można usunąć domeny!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
 $PALANG['pAdminDelete_alias_domain_error'] = 'Nie można usunąć aliasu domeny!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Edytuj domenę';

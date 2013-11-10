@@ -140,8 +140,17 @@ class DomainHandler extends PFAHandler {
             return false;
         }
 
-        # TODO: check if this domain is an alias domain target - if yes, do not allow to delete it 
+        if (Config::bool('alias_domain')) {
+            # check if this domain is an alias domain target - if yes, do not allow to delete it 
+            $handler = new AliasdomainHandler(0, $this->admin_username);
+            $handler->getList("target_domain = '" . escape_string($this->id) . "'");
+            $aliasdomains = $handler->result();
 
+            if (count($aliasdomains) > 0) {
+                $this->errormsg[] = Config::Lang_f('delete_domain_aliasdomain_target', $this->id);
+                return false;
+            }
+        }
 
         # the correct way would be to recursively delete mailboxes, aliases, alias_domains, fetchmail entries 
         # with *Handler before deleting the domain, but this would be terribly slow on domains with many aliases etc., 
@@ -166,7 +175,7 @@ class DomainHandler extends PFAHandler {
         db_delete($this->db_table,         $this->id_field, $this->id);
 
         if ( !domain_postdeletion($this->id) ) {
-            $this->error_msg[] = $PALANG['pAdminDelete_domain_error']; # TODO: better error message
+            $this->error_msg[] = $PALANG['domain_postdel_failed'];
         }
 
         db_log ($this->id, 'delete_domain', $this->id); # TODO delete_domain is not a valid db_log keyword yet

@@ -100,6 +100,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Kaikilla domaineilla on jo alias.';
 $PALANG['pCreate_alias_domain_success'] = 'Domainin alias on lisätty domain alias tauluun! (%s)'; # XXX Text changed to: The alias domain %s has been created.
 $PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
 $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
+$PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Alias ei ole oikean muotoinen!';
 $PALANG['email_address_already_exists'] = 'Tämä sähköpostiosoite on jo käytössä, ole hyvä ja valitse jokin toinen!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
@@ -223,7 +224,7 @@ $PALANG['pAdminCreate_domain_button'] = 'Lisää domain';
 $PALANG['pAdminCreate_domain_result_error'] = 'Domainin lisäys ei onnistunut! (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = 'Domain on lisätty! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
-$PALANG['pAdminDelete_domain_error'] = 'Domainin voitu poistaa!';
+$PALANG['domain_postdel_failed'] = 'Domainin voitu poistaa!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
 $PALANG['pAdminDelete_alias_domain_error'] = 'Domainin aliasta ei voitu poistaa!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Muokkaa domainia';

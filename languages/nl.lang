@@ -100,6 +100,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Alle domeinen hebben al een alias!';
 $PALANG['pCreate_alias_domain_success'] = 'De domein alias is toegevoegd aan de alias domein tabel! (%s)'; # XXX Text changed to: The alias domain %s has been created.
 $PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
 $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
+$PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'De Alias is niet geldig!';
 $PALANG['email_address_already_exists'] = 'Dit e-mail aders bestaat al, kies aub een andere.'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
@@ -224,7 +225,7 @@ $PALANG['pAdminCreate_domain_button'] = 'Voeg Domein toe';
 $PALANG['pAdminCreate_domain_result_error'] = 'Mislukt om het domein toe te voegen. (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = 'Domein is toegevoegd! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Niet in staat beheerder te verwijderen!';
-$PALANG['pAdminDelete_domain_error'] = 'Niet in staat domein te verwijderen!';
+$PALANG['domain_postdel_failed'] = 'Niet in staat domein te verwijderen!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
 $PALANG['pAdminDelete_alias_domain_error'] = 'Niet in staat domein alias te verwijderen!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Bewerk een domein';

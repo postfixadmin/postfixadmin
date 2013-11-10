@@ -100,6 +100,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Všetky domény už majú aliasy.';
 $PALANG['pCreate_alias_domain_success'] = 'Alias domény bol pridaný do tabuľky! (%s)'; # XXX Text changed to: The alias domain %s has been created.
 $PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
 $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
+$PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Adresa nie je platná!';
 $PALANG['email_address_already_exists'] = 'Takáto emailová adresa už existuje!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
@@ -224,7 +225,7 @@ $PALANG['pAdminCreate_domain_button'] = 'Vytvoriť doménu';
 $PALANG['pAdminCreate_domain_result_error'] = 'Nepodarilo sa pridať doménu! (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = 'Doména bola pridaná! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
-$PALANG['pAdminDelete_domain_error'] = 'Nepodarilo sa odstrániť doménu!';
+$PALANG['domain_postdel_failed'] = 'Nepodarilo sa odstrániť doménu!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
 $PALANG['pAdminDelete_alias_domain_error'] = 'Nepodario sa odstrániť alias domény!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Upraviť doménu';

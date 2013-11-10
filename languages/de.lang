@@ -101,6 +101,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'Alle Domains sind bereits Alias-Domain
 $PALANG['pCreate_alias_domain_success'] = 'Die Alias-Domain %s wurde erstellt.';
 $PALANG['alias_domain_changed'] = 'Die Alias-Domain %s wurde geändert.';
 $PALANG['alias_domain_to_itsself'] = 'Eine Domain kann keine Alias-Domain von sich selbst sein!';
+$PALANG['delete_domain_aliasdomain_target'] = 'Die Domain %s ist das Ziel einer oder mehrerer Alias-Domains und kann nicht gelöscht werden! (Löschen Sie zuerst die Alias-Domains.)';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Dieses ALIAS ist nicht erlaubt!';
 $PALANG['email_address_already_exists'] = 'Diese eMail-Adresse existiert bereits. Bitte wählen Sie eine andere!';
@@ -229,7 +230,7 @@ $PALANG['pAdminCreate_domain_result_error'] = 'Das Anlegen der Domain %s ist feh
 $PALANG['pAdminCreate_domain_result_success'] = 'Die Domain %s wurde angelegt.';
 $PALANG['pAdminDelete_admin_error'] = 'Admin kann nicht gelöscht werden!';
 
-$PALANG['pAdminDelete_domain_error'] = 'Domain konnte nicht gelöscht werden!';
+$PALANG['domain_postdel_failed'] = 'Domain konnte nicht gelöscht werden!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
 $PALANG['pAdminDelete_alias_domain_error'] = 'Alias-Domain konnte nicht gelöscht werden!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain editieren';

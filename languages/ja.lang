@@ -101,6 +101,7 @@ $PALANG['pCreate_alias_domain_error4'] = '全てのドメインがエイリア�
 $PALANG['pCreate_alias_domain_success'] = 'The alias domain %s has been created.'; # XXX
 $PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
 $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
+$PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'メールアドレスが無効です。';
 $PALANG['email_address_already_exists'] = 'このメールアドレスは既に存在するので、 別のアドレスを選択してください。'; # XXX check/beautify - was split in two lines before
@@ -229,7 +230,7 @@ $PALANG['pAdminCreate_domain_result_error'] = 'ドメインを追加できませ
 $PALANG['pAdminCreate_domain_result_success'] = 'ドメインを追加しました。 (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
-$PALANG['pAdminDelete_domain_error'] = 'ドメインが削除できません！';
+$PALANG['domain_postdel_failed'] = 'ドメインが削除できません！'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'ドメインの修正';

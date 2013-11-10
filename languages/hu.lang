@@ -101,6 +101,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The alias domain %s has been created.'; # XXX
 $PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
 $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
+$PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Az ALIAS érvénytelen!';
 $PALANG['email_address_already_exists'] = 'Ez az email cím már létezik, kérlek válassz másikat!';
@@ -229,7 +230,7 @@ $PALANG['pAdminCreate_domain_result_error'] = 'A domain felvétele sikertelen! (
 $PALANG['pAdminCreate_domain_result_success'] = 'A domain-t felvettük az adatbázisba! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
-$PALANG['pAdminDelete_domain_error'] = 'A domain törlése nem sikerült!';
+$PALANG['domain_postdel_failed'] = 'A domain törlése nem sikerült!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain szerkesztése';

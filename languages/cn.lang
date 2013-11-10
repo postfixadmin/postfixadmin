@@ -99,6 +99,7 @@ $PALANG['pCreate_alias_domain_error4'] = 'All domains are already aliased.'; # X
 $PALANG['pCreate_alias_domain_success'] = 'The alias domain %s has been created.'; # XXX
 $PALANG['alias_domain_changed'] = 'The alias domain %s has been changed.'; # XXX
 $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itsself!'; # XXX
+$PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = '该别名非法!';
 $PALANG['email_address_already_exists'] = '邮件地址已经存在, 请重新选择!';
@@ -223,7 +224,7 @@ $PALANG['pAdminCreate_domain_button'] = '新增';
 $PALANG['pAdminCreate_domain_result_error'] = '新增域失败! (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = '新增域成功! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
-$PALANG['pAdminDelete_domain_error'] = 'Unable to remove domain!'; # XXX
+$PALANG['domain_postdel_failed'] = 'The domain postdeletion script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = '修改域';
