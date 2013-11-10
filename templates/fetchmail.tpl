@@ -39,7 +39,8 @@
 					<td nowrap="nowrap">{$row.date}&nbsp;</td>
 					<td nowrap="nowrap">{$row.returned_text}--x--&nbsp;</td> <!-- Inhalt mit if auswerten!  -->
 					<td><a href="fetchmail.php?edit={$row.id|escape:"url"}">{$PALANG.edit}</a></td>
-					<td><a href="fetchmail.php?delete={$row.id|escape:"url"}" onclick="return confirm('{$PALANG.confirm}{$PALANG.pMenu_fetchmail}:{$row.src_user}@{$row.src_server}')">{$PALANG.del}</a></td>
+					<td><a href="fetchmail.php?delete={$row.id|escape:"url"}&amp;token={$smarty.session.PFA_token|escape:"url"}"
+						onclick="return confirm('{$PALANG.confirm}{$PALANG.pMenu_fetchmail}:{$row.src_user}@{$row.src_server}')">{$PALANG.del}</a></td>
 				</tr>
 			{/foreach}
 		{/if}

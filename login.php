@@ -53,6 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         $_SESSION['sessid']['roles'][] = 'admin';
         $_SESSION['sessid']['username'] = $fUsername;
 
+        $_SESSION['PFA_token'] = md5(uniqid(rand(), true));
+
         # they've logged in, so see if they are a domain admin, as well.
 
         if (!$h->init($fUsername)) {

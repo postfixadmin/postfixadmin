@@ -19,6 +19,8 @@
 
 require_once('common.php');
 
+if (safeget('token') != $_SESSION['PFA_token']) die('Invalid token!');
+
 $username = authentication_get_username(); # enforce login
 
 $id    = safeget('delete');

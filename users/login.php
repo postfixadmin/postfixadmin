@@ -48,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $_SESSION['sessid']['roles'] = array();
       $_SESSION['sessid']['roles'][] = 'user';
       $_SESSION['sessid']['username'] = $fUsername;
+      $_SESSION['PFA_token'] = md5(uniqid(rand(), true));
       header("Location: main.php");
       exit;
    }
