@@ -238,7 +238,8 @@ $PALANG['pAdminEdit_domain_result_error'] = 'Imposible modificar el domini! (%s)
 $PALANG['pAdminCreate_admin_welcome'] = 'Afegir un nou administrador de domini';
 $PALANG['pAdminCreate_admin_username_text'] = 'E-mail';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrador no es un e-mail vàlid!';
-$PALANG['pAdminCreate_admin_username_text_error2'] = 'L\'administrador ja existeix o no es vàlid!';
+$PALANG['admin_already_exists'] = 'L\'administrador ja existeix o no es vàlid!'; # XXX Text changed to: The admin already exists!
+$PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
 
 $PALANG['pAdminCreate_admin_button'] = 'Afegir administrador';
 $PALANG['pAdminCreate_admin_result_error'] = 'Imposible afegir l\'administrador! (%s)'; # XXX Text changed to: Adding the admin %s failed!

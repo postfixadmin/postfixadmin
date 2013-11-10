@@ -237,7 +237,8 @@ $PALANG['pAdminEdit_domain_result_error'] = 'Ezinezkoa domeinua aldatzea! (%s)';
 $PALANG['pAdminCreate_admin_welcome'] = 'Domeinu kudeatzaile berri bat gehitu';
 $PALANG['pAdminCreate_admin_username_text'] = 'E-mail helbidea';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Kudeatzaile e-mailak ez du balio!';
-$PALANG['pAdminCreate_admin_username_text_error2'] = 'Kudeatzailea existitzen da edo ez du balio!';
+$PALANG['admin_already_exists'] = 'Kudeatzailea existitzen da edo ez du balio!'; # XXX Text changed to: The admin already exists!
+$PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
 
 $PALANG['pAdminCreate_admin_button'] = 'Kudeatzailea gehitu';
 $PALANG['pAdminCreate_admin_result_error'] = 'Ezinezkoa kudeatzailea gehitzea! (%s)'; # XXX Text changed to: Adding the admin %s failed!
