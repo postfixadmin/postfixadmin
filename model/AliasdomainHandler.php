@@ -98,29 +98,22 @@ class AliasdomainHandler extends PFAHandler {
      */
     public function delete() {
         if ( ! $this->view() ) {
-            $this->errormsg[] = 'An alias domain with that name does not exist.'; # TODO: make translatable / move to $this->msg
+            $this->errormsg[] = 'An alias domain with that name does not exist!'; # TODO: make translatable? (will a user ever see this?)
             return false;
         }
 
-        $this->errormsg[] = '*** Alias domain deletion not implemented yet ***';
-        return false; # XXX function aborts here until TODO below is implemented! XXX
+        db_delete($this->db_table, $this->id_field, $this->id);
 
-        # TODO: move the needed code from delete.php here
-        $result = db_delete($this->db_table, $this->id_field, $this->id);
-        if ( $result == 1 ) {
-            list(/*NULL*/,$domain) = explode('@', $this->id);
-            db_log ($domain, 'delete_alias_domain', $this->id);
-            return true;
-        } else {
-            $this->errormsg[] = $PALANG['pAdminDelete_alias_domain_error'];
-            return false;
-        }
+        db_log ($this->id, 'delete_alias_domain', $this->result['target_domain']);
+        $this->infomsg[] = Config::Lang_f('pDelete_delete_success', $this->result['alias_domain'] . ' -> ' . $this->result['target_domain']);
+
+        return true;
     }
 
     /**
      * validate target_domain field - it must be != $this->id to avoid a loop
      */
-    protected function _field_target_domain($field, $val) {
+    protected function _validate_target_domain($field, $val) {
         if ($val == $this->id) {
             $this->errormsg[$field] = Config::lang('alias_domain_to_itsself');
             return false;
