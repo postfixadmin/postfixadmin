@@ -18,8 +18,8 @@
 				{/if}
 			</td>
 			<td>{$admin.modified}</td>
-			<td><a href="{#url_edit_admin#}&amp;edit={$admin.username|escape:"url"}&amp;active={if ($admin.active==0)}1{else}0{/if}">{$admin._active}</a></td>
-			<td><a href="{#url_edit_admin#}&edit={$admin.username|escape:"url"}">{$PALANG.edit}</a></td>
+			<td><a href="{#url_editactive#}admin&amp;id={$admin.username|escape:"url"}&amp;active={if ($admin.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$admin._active}</a></td>
+			<td><a href="{#url_edit_admin#}&amp;edit={$admin.username|escape:"url"}">{$PALANG.edit}</a></td>
 			<td><a href="{#url_delete#}?table=admin&amp;delete={$admin.username|escape:"url"}&amp;token={$smarty.session.PFA_token|escape:"url"}" 
 				onclick="return confirm ('{$PALANG.confirm}{$PALANG.admin}: {$admin.username}');">{$PALANG.del}</a></td>
 		</tr>

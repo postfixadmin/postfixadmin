@@ -66,7 +66,7 @@
 				</td>
 			{/if}
 			<td>{$item.modified}</td>
-			<td><a href="{#url_create_mailbox#}&amp;edit={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}"
+			<td><a href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
 				>{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
 			{if $CONF.vacation_control_admin===YES && $CONF.vacation===YES}
 				{if $item.v_active!==-1}

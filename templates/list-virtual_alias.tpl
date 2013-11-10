@@ -37,7 +37,7 @@
 		{/if}
 		<td>{$item.modified}</td>
 		{if $check_alias_owner[$i]==true}
-			<td><a href="{#url_create_alias#}&amp;edit={$item.address|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}"
+			<td><a href="{#url_editactive#}alias&amp;id={$item.address|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
 				>{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
 			<td><a href="{#url_create_alias#}&amp;edit={$item.address|escape:"url"}">{$PALANG.edit}</a></td>
 			<td><a href="delete.php?table=alias&amp;delete={$item.address|escape:"url"}&amp;token={$smarty.session.PFA_token|escape:"url"}" 

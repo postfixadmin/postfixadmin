@@ -19,7 +19,6 @@
  * GET parameters:
  *      table   what to edit (*Handler)
  *      edit    item to edit (if net given: a new item will be created)
- *      active  if given: only change active state to given value (which must be 0 or 1) and return to listview
  *      additional parameters will be accepted if specified in *Handler->webformConfig()[prefill] when creating a new item
  */
 
@@ -40,19 +39,13 @@ $edit = safepost('edit', safeget('edit'));
 $new  = 0;
 if ($edit == "") $new = 1;
 
-$active = safeget('active');
-
 $handler     = new $handlerclass($new, $username);
 
 $formconf = $handler->webformConfig();
 
 authentication_require_role($formconf['required_role']);
 
-if ($active != '0' && $active != '1') {
-    $active = ''; # ignore invalid values
-}
-
-if ($edit != '' || $active != '' || $formconf['early_init']) {
+if ($edit != '' || $formconf['early_init']) {
     if (!$handler->init($edit)) {
         flash_error($handler->errormsg);
         header ("Location: " . $formconf['listview']);
@@ -63,7 +56,7 @@ if ($edit != '' || $active != '' || $formconf['early_init']) {
 $form_fields = $handler->getStruct();
 $id_field    = $handler->getId_field();
 
-if ($_SERVER['REQUEST_METHOD'] == "GET" && $active == '') {
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if ($edit == '') { # new - prefill fields from URL parameters if allowed in $formconf['prefill']
         if ( isset($formconf['prefill']) ) {
             foreach ($formconf['prefill'] as $field) {
@@ -113,11 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
-if ($active != '') {
-    $values['active'] = $active;
-}
-
-if ($_SERVER['REQUEST_METHOD'] == "POST" || $active != '') {
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($formconf['hardcoded_edit']) && $formconf['hardcoded_edit']) {
         $values[$id_field] = $form_fields[$id_field]['default'];
     } elseif ($edit != "") {

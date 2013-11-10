@@ -33,7 +33,7 @@
 			{if $CONF.transport==YES}<td>{$domain.transport}</td>{/if}
 			<td>{$domain._backupmx}</td>
 			<td>{$domain.modified}</td>
-			<td><a href="{#url_edit_domain#}&amp;edit={$domain.domain|escape:"url"}&amp;active={if ($domain.active==0)}1{else}0{/if}">{$domain._active}</a></td>
+			<td><a href="{#url_editactive#}domain&amp;id={$domain.domain|escape:"url"}&amp;active={if ($domain.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$domain._active}</a></td>
 			<td><a href="{#url_edit_domain#}&amp;edit={$domain.domain|escape:"url"}">{$PALANG.edit}</a></td>
 			<td><a href="{#url_delete#}?table=domain&amp;delete={$domain.domain|escape:"url"}&amp;token={$smarty.session.PFA_token|escape:"url"}" 
 				onclick="return confirm ('{$PALANG.confirm_domain}{$PALANG.domain}: {$domain.domain}')">{$PALANG.del}</a></td>
