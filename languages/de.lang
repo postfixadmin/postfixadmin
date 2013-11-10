@@ -20,6 +20,7 @@ $PALANG['invalid_parameter'] = 'Ungültiger Parameter!';
 $PALANG['show'] = 'Anzeigen:';
 $PALANG['all'] = 'Alle';
 $PALANG['created'] = 'Erstellt';
+$PALANG['unknown'] = 'unbekannt';
 $PALANG['missing_field'] = 'Das Feld %s fehlt';
 $PALANG['must_be_numeric'] = '%s muss numerisch sein';
 $PALANG['must_be_boolean'] = "%s muss ein Bool'scher Wert sein";

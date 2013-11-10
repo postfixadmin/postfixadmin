@@ -309,7 +309,7 @@ if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
           $divide_quota ['percent'][$i] = min(100, round(($divide_quota ['current'][$i]/max(1,$divide_quota ['quota'][$i]))*100));
           $divide_quota ['quota_width'][$i] = ($divide_quota ['percent'][$i] / 100 * 120);
         } else {
-          $divide_quota ['current'][$i] = 'unknown'; # TODO: make translateable
+          $divide_quota ['current'][$i] = Config::Lang('unknown');
           $divide_quota ['quota_width'][$i] = 0; # TODO: use special value?
         }
     }

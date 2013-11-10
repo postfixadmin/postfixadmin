@@ -22,6 +22,7 @@ $PALANG['invalid_parameter'] = 'Ugyldig parameter.';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
+$PALANG['unknown'] = 'unknown'; # XXX
 $PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['must_be_numeric'] = '%s must be numeric'; # XXX
 $PALANG['must_be_boolean'] = '%s must be boolean'; # XXX

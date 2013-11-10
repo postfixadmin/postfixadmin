@@ -19,6 +19,7 @@ $PALANG['invalid_parameter'] = 'Neteisingas parametras!';
 $PALANG['show'] = 'Rodyti:';
 $PALANG['all'] = 'Visi';
 $PALANG['created'] = 'Sukurta';
+$PALANG['unknown'] = 'unknown'; # XXX
 $PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['must_be_numeric'] = '%s must be numeric'; # XXX
 $PALANG['must_be_boolean'] = '%s must be boolean'; # XXX
