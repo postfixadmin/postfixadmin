@@ -179,14 +179,12 @@ class AdminHandler extends PFAHandler {
             return false;
         }
 
-        $result = db_delete('domain_admins', $this->id_field, $this->id); # TODO: check for errors?
+        db_delete('domain_admins', $this->id_field, $this->id);
+        db_delete($this->db_table, $this->id_field, $this->id);
 
-        $result = db_delete($this->db_table, $this->id_field, $this->id);
-        if ( $result == 1 ) {
-            list(/*NULL*/,$domain) = explode('@', $this->id);
-            db_log ($domain, 'delete_admin', $this->id); # TODO delete_admin is not a valid db_log keyword yet
-            return true;
-        }
+        db_log ('admin', 'delete_admin', $this->id); # TODO delete_admin is not a valid db_log keyword yet, and 'admin' is not displayed in viewlog.php
+        $this->infomsg[] = Config::Lang_f('pDelete_delete_success', $this->id);
+        return true;
     }
 
 

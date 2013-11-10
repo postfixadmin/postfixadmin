@@ -136,21 +136,42 @@ class DomainHandler extends PFAHandler {
      */
     public function delete() {
         if ( ! $this->view() ) {
-            $this->errormsg[] = 'A domain with that name does not exist.'; # TODO: make translatable
+            $this->errormsg[] = Config::Lang('domain_does_not_exist'); # TODO: can users hit this message at all? init() should already fail...
             return false;
         }
 
-        $this->errormsg[] = '*** Domain deletion not implemented yet ***';
-        return false; # XXX function aborts here until TODO below is implemented! XXX
+        # TODO: check if this domain is an alias domain target - if yes, do not allow to delete it 
 
-        # TODO: recursively delete mailboxes, aliases, alias_domains, fetchmail entries etc. before deleting the domain
-        # TODO: move the needed code from delete.php here
-        $result = db_delete($this->db_table, $this->id_field, $this->id);
-        if ( $result == 1 ) {
-            list(/*NULL*/,$domain) = explode('@', $this->id);
-            db_log ($domain, 'delete_domain', $this->id); # TODO delete_domain is not a valid db_log keyword yet because we don't yet log add/delete domain
-            return true;
+
+        # the correct way would be to recursively delete mailboxes, aliases, alias_domains, fetchmail entries 
+        # with *Handler before deleting the domain, but this would be terribly slow on domains with many aliases etc., 
+        # so we do it the fast way on the database level
+        # cleaning up all tables doesn't hurt, even if vacation or displaying the quota is disabled
+
+        # some tables don't have a domain field, so we need a workaround
+        $like_domain = "LIKE '" . escape_string('%@' . $this->id) . "'";
+
+        db_delete('domain_admins',         'domain',        $this->id);
+        db_delete('alias',                 'domain',        $this->id);
+        db_delete('mailbox',               'domain',        $this->id);
+        db_delete('alias_domain',          'alias_domain',  $this->id);
+        db_delete('vacation',              'domain',        $this->id);
+        db_delete('vacation_notification', 'on_vacation',   $this->id, "OR on_vacation $like_domain");
+        db_delete('quota',                 'username',      $this->id, "OR username    $like_domain");
+        db_delete('quota2',                'username',      $this->id, "OR username    $like_domain");
+        db_delete('fetchmail',             'mailbox',       $this->id, "OR mailbox     $like_domain");
+        db_delete('log',                   'domain',        $this->id); # TODO: should we really delete the log?
+
+        # finally delete the domain
+        db_delete($this->db_table,         $this->id_field, $this->id);
+
+        if ( !domain_postdeletion($this->id) ) {
+            $this->error_msg[] = $PALANG['pAdminDelete_domain_error']; # TODO: better error message
         }
+
+        db_log ($this->id, 'delete_domain', $this->id); # TODO delete_domain is not a valid db_log keyword yet
+        $this->infomsg[] = Config::Lang_f('pDelete_delete_success', $this->id);
+        return true;
     }
 
 }
