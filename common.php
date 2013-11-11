@@ -21,6 +21,13 @@ if(!defined('POSTFIXADMIN')) { # already defined if called from setup.php
 
     if (!defined('POSTFIXADMIN_CLI')) {
         session_start();
+
+        if (defined('POSTFIXADMIN_LOGOUT')) {
+            session_unset();
+            session_destroy();
+            session_start();
+        }
+
         if(empty($_SESSION['flash'])) {
             $_SESSION['flash'] = array();
         }

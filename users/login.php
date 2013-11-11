@@ -27,6 +27,7 @@
  */
 
 $rel_path = '../';
+define('POSTFIXADMIN_LOGOUT', 1);
 require_once("../common.php");
 
 

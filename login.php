@@ -26,6 +26,7 @@
  *  lang
  */
 
+define('POSTFIXADMIN_LOGOUT', 1);
 require_once('common.php');
 
 if($CONF['configured'] !== true) {
