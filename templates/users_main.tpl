@@ -15,7 +15,7 @@
 		<td>{$PALANG.pUsersMain_password}</td>
 	</tr>
 	<tr>
-		<td nowrap="nowrap"><a target="_top" href="logout.php">{$PALANG.pMenu_logout}</a></td>
+		<td nowrap="nowrap"><a target="_top" href="{#url_user_logout#}">{$PALANG.pMenu_logout}</a></td>
 		<td>{$PALANG.pMain_logout}</td>
 	</tr>
 </table>
