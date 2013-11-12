@@ -8,7 +8,7 @@ class CliDelete extends Shell {
     /**
      * Execution method always used for tasks
      */
-    protected function execute() {
+    public function execute() {
 
         if (empty($this->args)) {
             $this->__interactive();
@@ -60,7 +60,7 @@ class CliDelete extends Shell {
     *
     * @access public
     */
-    protected function help() {
+    public function help() {
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
 
