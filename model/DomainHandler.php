@@ -183,6 +183,16 @@ class DomainHandler extends PFAHandler {
         return true;
     }
 
-}
 
+
+    /**
+     * get formatted version of fields
+     *
+     * @param array values of current item
+     */
+    public function _formatted_aliases  ($item) { return $item['alias_count']   . ' / ' . $item['aliases']  ; }
+    public function _formatted_mailboxes($item) { return $item['mailbox_count'] . ' / ' . $item['mailboxes']; }
+    public function _formatted_quota    ($item) { return $item['total_quota']   . ' / ' . $item['quota']    ; }
+
+}
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
