@@ -211,6 +211,8 @@ if ( empty($this->params['q'] ) ) {
                                     $taskClass = 'CliEdit';
                                 } elseif ($taskName == 'Delete') {
 									$taskClass = 'CliDelete';
+                                } elseif ($taskName == 'View') {
+									$taskClass = 'CliView';
 								}
 
 #                                elseif (!class_exists($taskClass)) {
@@ -232,7 +234,7 @@ if ( empty($this->params['q'] ) ) {
                                 } elseif ($taskName == 'Update') {
                                     $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
                                     $this->{$taskName}->new = 0;
-                                } elseif ($taskName == 'Delete') {
+                                } elseif ($taskName == 'Delete' || $taskName == 'View') {
                                     $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
                                     $this->{$taskName}->new = 0;
 								}
