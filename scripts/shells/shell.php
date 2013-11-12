@@ -209,8 +209,10 @@ if ( empty($this->params['q'] ) ) {
 
                                 if ($taskName == 'Add' || $taskName == 'Update') {
                                     $taskClass = 'CliEdit';
+                                } elseif ($taskName == 'Delete') {
+									$taskClass = 'CliDelete';
+								}
 
-                                }
 #                                elseif (!class_exists($taskClass)) {
 #                                        foreach ($this->Dispatch->shellPaths as $path) {
 #                                                $taskPath = $path . 'tasks' . DS . $task.'.php';
@@ -221,12 +223,8 @@ if ( empty($this->params['q'] ) ) {
 #                                        }
 #                                }
                                 
-                                        $this->taskNames[] = $taskName;
-#                                        if (!PHP5) {
-#                                                $this->{$taskName} = new $taskClass($this->Dispatch);
-#                                        } else {
-                                                $this->{$taskName} = new $taskClass($this->Dispatch);
-#                                        }
+                                $this->taskNames[] = $taskName;
+                                $this->{$taskName} = new $taskClass($this->Dispatch);
 
                                 if ($taskName == 'Add') {
                                     $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
@@ -234,8 +232,11 @@ if ( empty($this->params['q'] ) ) {
                                 } elseif ($taskName == 'Update') {
                                     $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
                                     $this->{$taskName}->new = 0;
-                                }
-
+                                } elseif ($taskName == 'Delete') {
+                                    $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
+                                    $this->{$taskName}->new = 0;
+								}
+ 
                                 if (!isset($this->{$taskName})) {
                                         $this->err("Task '".$taskName."' could not be loaded");
                                         $this->_stop();
