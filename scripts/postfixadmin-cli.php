@@ -11,7 +11,8 @@
  * Copyright 2005-2008, Cake Software Foundation, Inc.
  *                                                              1785 E. Sahara Avenue, Suite 490-204
  *                                                              Las Vegas, Nevada 89104
- * Modified for Postfixadmin by Valkum
+ * Modified for PostfixAdmin by Valkum 2011
+ * Modified for PostfixAdmin by Christian Boltz 2011-2013
  *
  * Copyright 2010
  *
@@ -228,33 +229,31 @@ class PostfixAdmin {
         function dispatch() {
         $CONF = Config::read('all');
 
-                if (!isset($this->args[0])) {
-                        $this->help();
-                        return;
-                }
+			if (!isset($this->args[0])) {
+					$this->help();
+					return;
+			}
 
-                        $this->shell = $this->args[0];
-                        $this->shiftArgs();
-                        $this->shellName = Inflector::camelize($this->shell);
-                        $this->shellClass = $this->shellName . 'Handler';
-                        
+			$this->shell = $this->args[0];
+			$this->shiftArgs();
+			$this->shellName = Inflector::camelize($this->shell);
+			$this->shellClass = $this->shellName . 'Handler';
+			
 
-                        if ($this->shell == 'help') {
-                                $this->help();
-                                return;
-                        }
+			if ($this->shell == 'help') {
+				$this->help();
+				return;
+			}
 # TODO: move shells/shell.php to model/ to enable autoloading
-                                        if (!class_exists('Shell')) {
-                                                require CORE_INCLUDE_PATH . DS . "shells" . DS . 'shell.php';
-                                        }
-                                                $command = 'help'; # not the worst default ;-)
-                                                if (isset($this->args[0])) {
-                                                        $command = $this->args[0];
-                                                }
+			if (!class_exists('Shell')) {
+					require CORE_INCLUDE_PATH . DS . "shells" . DS . 'shell.php';
+			}
+			$command = 'help'; # not the worst default ;-)
+			if (isset($this->args[0])) {
+					$command = $this->args[0];
+			}
 
-                                                $this->shellCommand = $command;
-
-
+			$this->shellCommand = $command;
 			$this->shellClass = 'Cli' . Inflector::camelize($command);
 
             if (ucfirst($command) == 'Add' || ucfirst($command) == 'Update') {
@@ -284,62 +283,62 @@ class PostfixAdmin {
 
 # TODO: add a way to Cli* to signal if the selected handler is supported (for example, not all *Handler support changing the password)
 
-                                                if (strtolower(get_parent_class($shell)) == 'shell') {
-                                                        $shell->initialize();
+			if (strtolower(get_parent_class($shell)) == 'shell') {
+				$shell->initialize();
 
-														$handler = new $shell->handler_to_use;
-                                                        if (in_array($task, $handler->taskNames)) {
-                                                                $this->shiftArgs();
-                                                                $shell->startup();
+				$handler = new $shell->handler_to_use;
+				if (in_array($task, $handler->taskNames)) {
+					$this->shiftArgs();
+					$shell->startup();
 
 
-                                                                if (isset($this->args[0]) && $this->args[0] == 'help') {
-                                                                        if (method_exists($shell, 'help')) {
-                                                                                $shell->help();
-                                                                                exit();
-                                                                        } else {
-                                                                                $this->help();
-                                                                        }
-                                                                }
+					if (isset($this->args[0]) && $this->args[0] == 'help') {
+						if (method_exists($shell, 'help')) {
+							$shell->help();
+							exit();
+						} else {
+							$this->help();
+						}
+					}
 
-                                                                $shell->execute();
-                                                                return;
-                                                        }
-                                                }
+					$shell->execute();
+					return;
+				}
+			}
 
-                                                $classMethods = get_class_methods($shell);
+			$classMethods = get_class_methods($shell);
 
-                                                $privateMethod = $missingCommand = false;
-                                                if ((in_array($command, $classMethods) || in_array(strtolower($command), $classMethods)) && strpos($command, '_', 0) === 0) {
-                                                        $privateMethod = true;
-                                                }
+			$privateMethod = $missingCommand = false;
+			if ((in_array($command, $classMethods) || in_array(strtolower($command), $classMethods)) && strpos($command, '_', 0) === 0) {
+				$privateMethod = true;
+			}
 
-                                                if (!in_array($command, $classMethods) && !in_array(strtolower($command), $classMethods)) {
-                                                        $missingCommand = true;
-                                                }
+			if (!in_array($command, $classMethods) && !in_array(strtolower($command), $classMethods)) {
+				$missingCommand = true;
+			}
 
-                                                $protectedCommands = array(
-                                                        'initialize','in','out','err','hr',
-                                                        'createfile', 'isdir','copydir','object','tostring',
-                                                        'requestaction','log','cakeerror', 'shelldispatcher',
-                                                        '__initconstants','__initenvironment','__construct',
-                                                        'dispatch','__bootstrap','getinput','stdout','stderr','parseparams','shiftargs'
-                                                );
+			$protectedCommands = array(
+				'initialize','in','out','err','hr',
+				'createfile', 'isdir','copydir','object','tostring',
+				'requestaction','log','cakeerror', 'shelldispatcher',
+				'__initconstants','__initenvironment','__construct',
+				'dispatch','__bootstrap','getinput','stdout','stderr','parseparams','shiftargs'
+			);
 
-                                                if (in_array(strtolower($command), $protectedCommands)) {
-                                                        $missingCommand = true;
-                                                }
+			if (in_array(strtolower($command), $protectedCommands)) {
+				$missingCommand = true;
+			}
 
-                                                if ($missingCommand && method_exists($shell, 'main')) {
-                                                        $shell->startup();
-                                                        $shell->main();
-                                                } elseif (!$privateMethod && method_exists($shell, $command)) {
-                                                        $this->shiftArgs();
-                                                        $shell->startup();
-                                                        $shell->{$command}();
-                                                } else {
-                                                        $this->stderr("Unknown {$this->shellName} command '$command'.\nFor usage, try 'postfixadmin-cli {$this->shell} help'.\n\n");
-                                                }
+			if ($missingCommand && method_exists($shell, 'main')) {
+				$shell->startup();
+				$shell->main();
+			} elseif (!$privateMethod && method_exists($shell, $command)) {
+				$this->shiftArgs();
+				$shell->startup();
+				$shell->{$command}();
+			} else {
+				$this->stderr("Unknown {$this->shellName} command '$command'.\nFor usage, try 'postfixadmin-cli {$this->shell} help'.\n\n");
+			}
         }
 
 /**
