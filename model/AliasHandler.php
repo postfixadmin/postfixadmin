@@ -114,6 +114,8 @@ class AliasHandler extends PFAHandler {
 
         $retval = parent::init($id);
 
+        if (!$retval) return false; # parent::init() failed, no need to continue
+        
         # hide 'goto_mailbox' for non-mailbox aliases
         # parent::init called view() before, so we can rely on having $this->result filled
         # (only validate_new_id() is called from parent::init and could in theory change $this->result)
