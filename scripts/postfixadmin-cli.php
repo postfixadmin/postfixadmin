@@ -227,82 +227,82 @@ class PostfixAdmin {
  */
         function dispatch() {
         $CONF = Config::read('all');
-                if (isset($this->args[0])) {
-                        $plugin = null;
-                        $shell = $this->args[0];
-                        if (strpos($shell, '.') !== false)  {
-                                list($plugin, $shell) = explode('.', $this->args[0]);
-                        }
 
-                        $this->shell = $shell;
+                if (!isset($this->args[0])) {
+                        $this->help();
+                        return;
+                }
+
+                        $this->shell = $this->args[0];
                         $this->shiftArgs();
                         $this->shellName = Inflector::camelize($this->shell);
-                        $this->shellClass = 'PostfixAdmin'.$this->shellName;
+                        $this->shellClass = $this->shellName . 'Handler';
                         
 
                         if ($this->shell == 'help') {
                                 $this->help();
-                        } else {
-                                $loaded = false;
-                                $paths = array();
-
-                                if ($plugin !== null) {
-                                        $pluginPaths = Config::read('pluginPaths');
-                                        $count = count($pluginPaths);
-                                        for ($i = 0; $i < $count; $i++) {
-                                                $paths[] = $pluginPaths[$i] . $plugin . DS . 'vendors' . DS . 'shells' . DS;
-                                        }
-                                }
-
-
-                                $paths[] = CORE_INCLUDE_PATH . DS . "shells" . DS;
-
-                                $this->shellPaths = $paths;
-                                foreach ($this->shellPaths as $path) {
-                                        $this->shellPath = $path . $this->shell . ".php";
-                                        if (file_exists($this->shellPath)) {
-                                                $loaded = true;
-                                                break;
-                                        }
-                                }
-                                if ($loaded) {
+                                return;
+                        }
+# TODO: move shells/shell.php to model/ to enable autoloading
                                         if (!class_exists('Shell')) {
                                                 require CORE_INCLUDE_PATH . DS . "shells" . DS . 'shell.php';
                                         }
-
-                                        require $this->shellPath;
-                                        if (class_exists($this->shellClass)) {
-                                                $command = null;
+                                                $command = 'help'; # not the worst default ;-)
                                                 if (isset($this->args[0])) {
                                                         $command = $this->args[0];
                                                 }
+
                                                 $this->shellCommand = $command;
-                                                $shell = new $this->shellClass($this);
+
+
+			$this->shellClass = 'Cli' . Inflector::camelize($command);
+
+            if (ucfirst($command) == 'Add' || ucfirst($command) == 'Update') {
+                $this->shellClass = 'CliEdit';
+            }
+
+            if (!class_exists($this->shellClass)) {
+                $this->stderr('Class '.$this->shellClass.' could not be loaded');
+                return;
+            }
+
+            $shell = new $this->shellClass($this);
+
+            $shell->handler_to_use = ucfirst($this->shell) . 'Handler';
+
+            if (!class_exists($shell->handler_to_use)) {
+                $this->stderr('Class '.$shell->handler_to_use.' could not be loaded');
+                return;
+            }
+
+            $task = Inflector::camelize($command);
+
+            $shell->new = 0;
+            if ($task == 'Add') {
+                $shell->new = 1;
+            }
+
+# TODO: add a way to Cli* to signal if the selected handler is supported (for example, not all *Handler support changing the password)
 
                                                 if (strtolower(get_parent_class($shell)) == 'shell') {
                                                         $shell->initialize();
-                                                        $shell->loadTasks();
 
-                                                        foreach ($shell->taskNames as $task) {
-                                                                if (strtolower(get_parent_class($shell)) == 'shell') {
-                                                                        $shell->{$task}->initialize();
-                                                                        $shell->{$task}->loadTasks();
-                                                                }
-                                                        }
-
-                                                        $task = Inflector::camelize($command);
-                                                        if (in_array($task, $shell->taskNames)) {
+														$handler = new $shell->handler_to_use;
+                                                        if (in_array($task, $handler->taskNames)) {
                                                                 $this->shiftArgs();
-                                                                $shell->{$task}->startup();
+                                                                $shell->startup();
+
+
                                                                 if (isset($this->args[0]) && $this->args[0] == 'help') {
-                                                                        if (method_exists($shell->{$task}, 'help')) {
-                                                                                $shell->{$task}->help();
+                                                                        if (method_exists($shell, 'help')) {
+                                                                                $shell->help();
                                                                                 exit();
                                                                         } else {
                                                                                 $this->help();
                                                                         }
                                                                 }
-                                                                $shell->{$task}->execute();
+
+                                                                $shell->execute();
                                                                 return;
                                                         }
                                                 }
@@ -340,16 +340,6 @@ class PostfixAdmin {
                                                 } else {
                                                         $this->stderr("Unknown {$this->shellName} command '$command'.\nFor usage, try 'postfixadmin-cli {$this->shell} help'.\n\n");
                                                 }
-                                        } else {
-                                                $this->stderr('Class '.$this->shellClass.' could not be loaded');
-                                        }
-                                } else {
-                                        $this->help();
-                                }
-                        }
-                } else {
-                        $this->help();
-                }
         }
 
 /**

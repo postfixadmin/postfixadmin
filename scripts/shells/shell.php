@@ -102,13 +102,6 @@ class Shell {
  */
         var $tasks = array();
 /**
- * Contains the loaded tasks
- *
- * @var array
- * @access public
- */
-        var $taskNames = array();
-/**
  * Contains models to load and instantiate
  *
  * @var array
@@ -184,71 +177,7 @@ if ( empty($this->params['q'] ) ) {
                 $this->hr();
         }
         
-        /**
- * Loads tasks defined in var $tasks
- *
- * @return bool
- * @access public
- */
-        function loadTasks() {
-                if ($this->tasks === null || $this->tasks === false) {
-                        return;
-                }
-
-                if ($this->tasks !== true && !empty($this->tasks)) {
-
-                        $tasks = $this->tasks;
-                        if (!is_array($tasks)) {
-                                $tasks = array($tasks);
-                        }
-
-                        foreach ($tasks as $taskName) {
-                                $task = Inflector::underscore($taskName);
-                                $taskClass = Inflector::camelize($taskName.'Task');
-                                $taskKey = Inflector::underscore($taskClass);
-
-                                if ($taskName == 'Add' || $taskName == 'Update') {
-                                    $taskClass = 'CliEdit';
-                                } elseif ($taskName == 'Delete') {
-									$taskClass = 'CliDelete';
-                                } elseif ($taskName == 'View') {
-									$taskClass = 'CliView';
-								}
-
-#                                elseif (!class_exists($taskClass)) {
-#                                        foreach ($this->Dispatch->shellPaths as $path) {
-#                                                $taskPath = $path . 'tasks' . DS . $task.'.php';
-#                                                if (file_exists($taskPath)) {
-#                                                        require_once $taskPath;
-#                                                        break;
-#                                                }
-#                                        }
-#                                }
-                                
-                                $this->taskNames[] = $taskName;
-                                $this->{$taskName} = new $taskClass($this->Dispatch);
-
-                                if ($taskName == 'Add') {
-                                    $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
-                                    $this->{$taskName}->new = 1;
-                                } elseif ($taskName == 'Update') {
-                                    $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
-                                    $this->{$taskName}->new = 0;
-                                } elseif ($taskName == 'Delete' || $taskName == 'View') {
-                                    $this->{$taskName}->handler_to_use = ucfirst($this->shell) . 'Handler';
-                                    $this->{$taskName}->new = 0;
-								}
- 
-                                if (!isset($this->{$taskName})) {
-                                        $this->err("Task '".$taskName."' could not be loaded");
-                                        $this->_stop();
-                                }
-                        }
-                }
-
-                return false;
-        }
-        /**
+/**
  * Prompts the user for input, and returns it.
  *
  * @param string $prompt Prompt text.
