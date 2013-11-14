@@ -8,7 +8,7 @@
 
 $PALANG['YES'] = 'JA';
 $PALANG['NO'] = 'NEIN';
-$PALANG['edit'] = 'editieren';
+$PALANG['edit'] = 'bearbeiten';
 $PALANG['del'] = 'löschen';
 $PALANG['exit'] = 'Verlassen';
 $PALANG['cancel'] = 'Abbrechen';
@@ -48,7 +48,7 @@ $PALANG['pMenu_viewlog'] = 'Log ansehen';
 $PALANG['pMenu_logout'] = 'Logout';
 
 $PALANG['pMain_welcome'] = 'Willkommen zu Postfix Admin!';
-$PALANG['pMain_overview'] = 'Listet Ihre Aliase und Mailboxen auf. Sie können sie hier editieren und löschen.';
+$PALANG['pMain_overview'] = 'Listet Ihre Aliase und Mailboxen auf. Sie können sie hier bearbeiten und löschen.';
 $PALANG['pMain_create_alias'] = 'Neuen Alias für Ihre Domain anlegen';
 $PALANG['pMain_create_mailbox'] = 'Legt eine neue Mailbox für Ihre Domain an.';
 $PALANG['pMain_sendmail'] = 'Versenden Sie eine Email.';
@@ -230,10 +230,10 @@ $PALANG['pAdminCreate_domain_result_error'] = 'Das Anlegen der Domain %s ist feh
 $PALANG['pAdminCreate_domain_result_success'] = 'Die Domain %s wurde angelegt.';
 $PALANG['pAdminDelete_admin_error'] = 'Admin kann nicht gelöscht werden!';
 
-$PALANG['domain_postdel_failed'] = 'Domain konnte nicht gelöscht werden!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
+$PALANG['domain_postdel_failed'] = 'Fehler beim Ausführen des domain postdeletion-Scripts, überprüfen Sie das Error-Log für Details!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Alias-Domain konnte nicht gelöscht werden!';
 
-$PALANG['pAdminEdit_domain_welcome'] = 'Domain editieren';
+$PALANG['pAdminEdit_domain_welcome'] = 'Domain bearbeiten';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = ausschalten | 0 = kein Limit';
 $PALANG['pAdminEdit_domain_maxquota'] = 'Max Quota';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = ausschalten | 0 = kein Limit';
@@ -252,7 +252,7 @@ $PALANG['pAdminCreate_admin_button'] = 'Admin hinzufügen';
 $PALANG['pAdminCreate_admin_result_error'] = 'Das anlegen des Admins %s ist fehlgeschlagen';
 $PALANG['pAdminCreate_admin_result_success'] = 'Der Admin %s wurde angelegt.';
 
-$PALANG['pAdminEdit_admin_welcome'] = 'Domain Admin editieren';
+$PALANG['pAdminEdit_admin_welcome'] = 'Domain Admin bearbeiten';
 $PALANG['admin'] = 'Admin';
 $PALANG['password_again'] = 'Passwort (nochmal)';
 $PALANG['super_admin'] = 'Super-Admin';
