@@ -98,20 +98,6 @@ class PostfixAdmin {
  */
         var $shellCommand = null;
 /**
- * The path locations of shells.
- *
- * @var array
- * @access public
- */
-        var $shellPaths = array();
-/**
- * The path to the current shell location.
- *
- * @var string
- * @access public
- */
-        var $shellPath = null;
-/**
  * The name of the shell in camelized.
  *
  * @var string
@@ -174,7 +160,6 @@ class PostfixAdmin {
 
 
                 if (basename(__FILE__) !=  basename($this->args[0])) {
-                        $this->stderr("\nCakePHP Console: ");
                         $this->stderr('Warning: the dispatcher may have been loaded incorrectly, which could lead to unexpected results...');
                         if ($this->getInput('Continue anyway?', array('y', 'n'), 'y') == 'n') {
                                 exit();
@@ -203,18 +188,10 @@ class PostfixAdmin {
                         return false;
                 
                 }
-                $includes = array(
-                        PATH.'/config.inc.php',
-                        PATH.'/functions.inc.php',
-                        PATH.'/common.php',
-                        CORE_INCLUDE_PATH.'/inflector.php',
-                );
 
-                foreach ($includes as $inc) {
-                        if (!require_once($inc)) {
-                                $this->stderr("Failed to load {$inc}");
-                                return false;
-                        }
+                if (!require_once(PATH . '/common.php')) {
+                        $this->stderr("Failed to load " . PATH . '/common.php');
+                        return false;
                 }
 
                 return true;
@@ -260,7 +237,7 @@ class PostfixAdmin {
             }
 
             if (!class_exists($this->shellClass)) {
-                $this->stderr('Class '.$this->shellClass.' could not be loaded');
+                $this->stderr('Unknown task ' . $this->shellCommand);
                 return;
             }
 
@@ -269,7 +246,7 @@ class PostfixAdmin {
             $shell->handler_to_use = ucfirst($this->shell) . 'Handler';
 
             if (!class_exists($shell->handler_to_use)) {
-                $this->stderr('Class '.$shell->handler_to_use.' could not be loaded');
+                $this->stderr('Unknown module ' . $this->shell);
                 return;
             }
 
@@ -504,7 +481,7 @@ class PostfixAdmin {
         function commands() {
         
         
-        
+# TODO: this list is incomplete  
         return array(
                 'mailbox' => array(
                            'add'=> 'Adds a new mailbox.', 

@@ -45,14 +45,6 @@ class Shell {
  */
         var $interactive = true;
 /**
- * Holds the DATABASE_CONFIG object for the app. Null if database.php could not be found,
- * or the app does not exist.
- *
- * @var object
- * @access public
- */
-        var $DbConfig = null;
-/**
  * Contains command switches parsed from the command line.
  *
  * @var array
@@ -94,20 +86,7 @@ class Shell {
  * @access public
  */
         var $name = null;
-/**
- * Contains tasks to load and instantiate
- *
- * @var array
- * @access public
- */
-        var $tasks = array();
-/**
- * Contains models to load and instantiate
- *
- * @var array
- * @access public
- */
-        var $uses = array();
+
 /**
  *  Constructs this Shell instance.
  *
@@ -161,8 +140,6 @@ if ( empty($this->params['q'] ) ) {
  */
         function _welcome() {
                 $this->out("\nWelcome to Postfixadmin-CLI v" . $this->Dispatch->version);
-                $this->out("---------------------------------------------------------------");
-                $this->out('Path: '. PATH);
                 $this->hr();
         }
         
