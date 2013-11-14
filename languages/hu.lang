@@ -244,7 +244,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'A mail szerver egy backup MX';
 $PALANG['pAdminEdit_domain_result_error'] = 'A domain módosítása sikertelen! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Új domain admin felvétele';
-$PALANG['pAdminCreate_admin_username_text'] = 'Email cím';
+$PALANG['email_address'] = 'Email cím';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Az Admin nem valós email cím!';
 $PALANG['admin_already_exists'] = 'Az Admin már létezik, vagy nem valós a cím!'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -255,7 +255,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Az Admin sikeresen bekerült az 
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain admin szerkesztése';
 $PALANG['admin'] = 'Admin';
 $PALANG['password_again'] = 'Jelszó (mégegyszer)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
+$PALANG['super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Nemsikerült módosítani az admint! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Az Admin módosítása megtörtént! (%s)'; # XXX Text changed to: The admin %s has been modified.

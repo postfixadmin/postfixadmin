@@ -12,7 +12,7 @@
 			<td><a href="list-domain.php?username={$admin.username|escape:"url"}">{$admin.username}</a></td>
 			<td>
 				{if $admin.superadmin == 1}
-					{$PALANG.pAdminEdit_admin_super_admin}
+					{$PALANG.super_admin}
 				{else}
 					{$admin.domain_count}
 				{/if}

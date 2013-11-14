@@ -247,7 +247,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Mailserveren er backup MX';
 $PALANG['pAdminEdit_domain_result_error'] = 'Kan ikke rette domænet! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome']              = 'Tilføj en ny domæneadministrator';
-$PALANG['pAdminCreate_admin_username_text'] = 'Emailadresse';
+$PALANG['email_address'] = 'Emailadresse';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrator er ikke en gyldig emailadresse!';
 $PALANG['admin_already_exists'] = 'Aministratoren findes allerede eller er ikke gyldig'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -258,7 +258,7 @@ $PALANG['pAdminCreate_admin_result_success']       = 'Administratoren er tilføj
 $PALANG['pAdminEdit_admin_welcome']             = 'Redigér en domæneadministrator';
 $PALANG['admin'] = 'Administrator';
 $PALANG['password_again'] = 'Adgangskode (igen)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Superadministrator';
+$PALANG['super_admin'] = 'Superadministrator';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Kunne ikke rette administrator! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrator er rettet! (%s)'; # XXX Text changed to: The admin %s has been modified.

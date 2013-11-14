@@ -238,7 +238,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Post servari er "backup MX"';
 $PALANG['pAdminEdit_domain_result_error'] = 'Fái ikki broytt navnaøki! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Stovna navnaøki umsitara';
-$PALANG['pAdminCreate_admin_username_text'] = 'E-post adressa';
+$PALANG['email_address'] = 'E-post adressa';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Umsitari er ógyldug e-post adressa!';
 $PALANG['admin_already_exists'] = 'Umsitari finst longu ella er ógyldugur'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -249,7 +249,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Umsitari er stovnaður! (%s)'; #
 $PALANG['pAdminEdit_admin_welcome'] = 'Broyt navnaøki umsitara';
 $PALANG['admin'] = 'Umsitari';
 $PALANG['password_again'] = 'Loyniorð (umaftur)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
+$PALANG['super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Fái ikki broytt umsitara! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Umsitari er broyttur! (%s)'; # XXX Text changed to: The admin %s has been modified.

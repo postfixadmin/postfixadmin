@@ -239,7 +239,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Мейл сървъра е резерв
 $PALANG['pAdminEdit_domain_result_error'] = 'Не мога да модифицирам домейна! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Добави нов админ на домейна';
-$PALANG['pAdminCreate_admin_username_text'] = 'Е-мейл адрес';
+$PALANG['email_address'] = 'Е-мейл адрес';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Админ не е валиден е-мейл адрес!';
 $PALANG['admin_already_exists'] = 'Админ-а вече съществува или не е валиден'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -250,7 +250,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Админа беше добав
 $PALANG['pAdminEdit_admin_welcome'] = 'Редакция на админ на домейн';
 $PALANG['admin'] = 'Админ';
 $PALANG['password_again'] = 'Парола (отново)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Главен Администратор';
+$PALANG['super_admin'] = 'Главен Администратор';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Не мога да модифицирам админа! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Админ-а беше модифициран! (%s)'; # XXX Text changed to: The admin %s has been modified.

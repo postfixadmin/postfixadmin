@@ -239,7 +239,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server je záložný MX';
 $PALANG['pAdminEdit_domain_result_error'] = 'Nepodarilo sa upraviť doménu! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Pridať nového administrátora';
-$PALANG['pAdminCreate_admin_username_text'] = 'Emailová adresa';
+$PALANG['email_address'] = 'Emailová adresa';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Táto adresa nie je platná!';
 $PALANG['admin_already_exists'] = 'Takáto adresa už existuje!'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -250,7 +250,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Administrátor bol pridaný! (%s
 $PALANG['pAdminEdit_admin_welcome'] = 'Upraviť doménového administrátora';
 $PALANG['admin'] = 'Užívateľské meno'; # XXX check text - should be 'Admin'
 $PALANG['password_again'] = 'Heslo (znovu)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['super_admin'] = 'Super admin';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Nepodarilo sa upraviť administrátora! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrátor bol upravený! (%s)'; # XXX Text changed to: The admin %s has been modified.

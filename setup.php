@@ -312,8 +312,6 @@ else
     print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
     require_once($incpath.'/upgrade.php');
 
-    $pAdminCreate_admin_username_text = $PALANG['pAdminCreate_admin_username_text'];
-    $pAdminCreate_admin_password_text = "";
     $tUsername = '';
     $setupMessage = '';
     $lostpw_error = 0;
@@ -412,7 +410,7 @@ else
    <tr>
       <td><?php print $PALANG['admin'] . ":"; ?></td>
       <td><input class="flat" type="text" name="username" value="<?php print $tUsername; ?>" /></td>
-      <td><?php if (isset($errormsg['username'])) print $errormsg['username']; ?></td>
+      <td><?php if (isset($errormsg['username'])) print $errormsg['username']; ?><?php print $PALANG['email_address'] ?></td>
    </tr>
    <tr>
       <td><?php print $PALANG['password'] . ":"; ?></td>

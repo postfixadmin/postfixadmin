@@ -238,7 +238,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'E-posti server on varuserver (backup MX
 $PALANG['pAdminEdit_domain_result_error'] = 'Domeeni muutmine ebaõnnestus! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Lisa uus domeeni haldaja';
-$PALANG['pAdminCreate_admin_username_text'] = 'E-posti aadress';
+$PALANG['email_address'] = 'E-posti aadress';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Väljal haldaja pole kehtiv e-posti aadress!';
 $PALANG['admin_already_exists'] = 'Selline haldaja on juba olemas'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -249,7 +249,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Haldaja on lisatud! (%s)'; # XXX
 $PALANG['pAdminEdit_admin_welcome'] = 'Muuda domeeni haldajat';
 $PALANG['admin'] = 'Haldaja';
 $PALANG['password_again'] = 'Parool (uuesti)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
+$PALANG['super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Haldaja muutmine ebaõnnestus! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Haldaja on muudetud! (%s)'; # XXX Text changed to: The admin %s has been modified.

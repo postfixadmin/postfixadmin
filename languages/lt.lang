@@ -239,7 +239,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Tai atsarginis pašto serveris (MX)';
 $PALANG['pAdminEdit_domain_result_error'] = 'Srities pakeisti nepavyko! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Registruoti naują srities administratorių';
-$PALANG['pAdminCreate_admin_username_text'] = 'El.pašto adresas';
+$PALANG['email_address'] = 'El.pašto adresas';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administratorius turi būti el.pašto adresas!';
 $PALANG['admin_already_exists'] = 'Administratorius šiai sričiai jau yra arba neteisingas'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -250,7 +250,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Administratorius užregistruotas
 $PALANG['pAdminEdit_admin_welcome'] = 'Registruoti srities administratorių';
 $PALANG['admin'] = 'Administratorius'; # XXX check text - should be 'Admin'
 $PALANG['password_again'] = 'Slaptažodis (dar kartą)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super administratorius';
+$PALANG['super_admin'] = 'Super administratorius';
 $PALANG['super_admin_desc'] = 'Super administratoriai turi priėjimą prie visų sričių, gali keisti sritis ir administratorius.';
 $PALANG['pAdminEdit_admin_result_error'] = 'Administratoriaus pakeisti nepavyko! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Administratorius pakeistas! (%s)'; # XXX Text changed to: The admin %s has been modified.

@@ -244,7 +244,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'バックアップ MXサーバ';
 $PALANG['pAdminEdit_domain_result_error'] = 'ドメインが修正できません！ (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = '新しいドメイン管理者の追加';
-$PALANG['pAdminCreate_admin_username_text'] = 'メールアドレス';
+$PALANG['email_address'] = 'メールアドレス';
 $PALANG['pAdminCreate_admin_username_text_error1'] = '管理者は有効なメールアドレスではありません。';
 $PALANG['admin_already_exists'] = '管理者は存在するか無効です。'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -255,7 +255,7 @@ $PALANG['pAdminCreate_admin_result_success'] = '管理者を追加しました�
 $PALANG['pAdminEdit_admin_welcome'] = 'ドメイン管理者の編集';
 $PALANG['admin'] = '管理者'; # XXX check / compare with pAdminCreate_admin_username - should be "admin"
 $PALANG['password_again'] = 'パスワード (確認)';
-$PALANG['pAdminEdit_admin_super_admin'] = '特権管理者';
+$PALANG['super_admin'] = '特権管理者';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = '管理者を修正できません！ (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = '管理者を修正しました。 (%s)'; # XXX Text changed to: The admin %s has been modified.

@@ -24,9 +24,6 @@ class AdminHandler extends PFAHandler {
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
-        # TODO: shorter PALANG labels ;-)
-        # TODO: hardcode 'default' to Config::read in pacol()?
-
         # NOTE: There are dependencies between domains and domain_count
         # NOTE: If you disable "display in list" for domain_count, the SQL query for domains might break.
         # NOTE: (Disabling both shouldn't be a problem.)
@@ -39,17 +36,17 @@ class AdminHandler extends PFAHandler {
         }
 
         $this->struct=array(
-            # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
+            # field name                allow       display in...   type    $PALANG label          $PALANG description   default / options / ...
             #                           editing?    form    list
-            'username'        => pacol( $this->new, 1,      1,      'text', 'admin'                        , 'pAdminCreate_admin_username_text' ),
-            'password'        => pacol( 1,          1,      0,      'pass', 'password'                     , ''                                 ),
-            'password2'       => pacol( 1,          1,      0,      'pass', 'password_again'               , ''                                 , '', '',
+            'username'        => pacol( $this->new, 1,      1,      'text', 'admin'              , 'email_address'     ),
+            'password'        => pacol( 1,          1,      0,      'pass', 'password'           , ''                  ),
+            'password2'       => pacol( 1,          1,      0,      'pass', 'password_again'     , ''                  , '', '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
             ),
 
-            'superadmin'      => pacol( 1,          1,      1,      'bool', 'pAdminEdit_admin_super_admin' , 'super_admin_desc'                 , 0
+            'superadmin'      => pacol( 1,          1,      1,      'bool', 'super_admin'        , 'super_admin_desc'  , 0
 # TODO: (finally) replace the ALL domain with a column in the admin table
 # TODO: current status: 'superadmin' column exists and is written when storing an admin with AdminHandler,
 # TODO: but the superadmin status is still (additionally) stored in the domain_admins table ("ALL" dummy domain)
@@ -58,14 +55,14 @@ class AdminHandler extends PFAHandler {
 # TODO: Create them with the trunk version to avoid this problem.
             ),
 
-            'domains'         => pacol( 1,          1,      1,      'list', 'domain'                       , ''                                 , array(), list_domains(),
+            'domains'         => pacol( 1,          1,      1,      'list', 'domain'             , ''                  , array(), list_domains(),
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ "coalesce(domains,'') as domains"
                /*extrafrom set in domain_count*/
             ),
 
-            'domain_count'    => pacol( 0,          0,      1,      'vnum', ''                             , ''                                 , '', '',
+            'domain_count'    => pacol( 0,          0,      1,      'vnum', ''                   , ''                  , '', '',
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ 'coalesce(__domain_count,0) as domain_count',
@@ -75,9 +72,9 @@ class AdminHandler extends PFAHandler {
                                 " WHERE domain != 'ALL' GROUP BY username " .
                              ' ) AS __domain on username = __domain_username'),
 
-            'active'          => pacol( 1,          1,      1,      'bool', 'active'                       , ''                                 , 1     ),
-            'created'         => pacol( 0,          0,      1,      'ts',   'created'                      , ''                                 ),
-            'modified'        => pacol( 0,          0,      1,      'ts',   'last_modified'                , ''                                 ),
+            'active'          => pacol( 1,          1,      1,      'bool', 'active'             , ''                  , 1     ),
+            'created'         => pacol( 0,          0,      1,      'ts',   'created'            , ''                  ),
+            'modified'        => pacol( 0,          0,      1,      'ts',   'last_modified'      , ''                  ),
         );
     }
 

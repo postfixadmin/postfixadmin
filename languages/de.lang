@@ -244,7 +244,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminEdit_domain_result_error'] = 'Das Ändern der Domain %s ist fehlgeschlagen';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Neuen Domain-Admin hinzufügen';
-$PALANG['pAdminCreate_admin_username_text'] = 'Email Adresse';
+$PALANG['email_address'] = 'Email Adresse';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Admin-Adresse ist keine echte Email-Adresse!';
 $PALANG['admin_already_exists'] = 'Der Admin existiert bereits!';
 $PALANG['admin_does_not_exist'] = 'Der Admin existiert nicht!';
@@ -255,7 +255,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Der Admin %s wurde angelegt.';
 $PALANG['pAdminEdit_admin_welcome'] = 'Domain Admin editieren';
 $PALANG['admin'] = 'Admin';
 $PALANG['password_again'] = 'Passwort (nochmal)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super-Admin';
+$PALANG['super_admin'] = 'Super-Admin';
 $PALANG['super_admin_desc'] = 'Super-Admins haben Zugriff auf alle Domains und können Domains und Admins verwalten.';
 $PALANG['pAdminEdit_admin_result_error'] = 'Das Ändern des Admins %s ist fehlgeschlagen!';
 $PALANG['pAdminEdit_admin_result_success'] = 'Der Admin %s wurde geändert.';

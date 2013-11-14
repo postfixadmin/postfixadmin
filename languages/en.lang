@@ -245,7 +245,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminEdit_domain_result_error'] = 'Modifying the domain %s failed!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Add a new domain admin';
-$PALANG['pAdminCreate_admin_username_text'] = 'Email address';
+$PALANG['email_address'] = 'Email address';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Admin is not a valid email address!';
 $PALANG['admin_already_exists'] = 'The admin already exists!';
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!';
@@ -256,7 +256,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'The admin %s has been added!';
 $PALANG['pAdminEdit_admin_welcome'] = 'Edit a domain admin';
 $PALANG['admin'] = 'Admin';
 $PALANG['password_again'] = 'Password (again)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin';
+$PALANG['super_admin'] = 'Super admin';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.';
 $PALANG['pAdminEdit_admin_result_error'] = 'Modifying the admin %s failed!';
 $PALANG['pAdminEdit_admin_result_success'] = 'The admin %s has been modified.';

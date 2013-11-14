@@ -238,7 +238,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Sähköpostipalvelin on vara MX';
 $PALANG['pAdminEdit_domain_result_error'] = 'Domainin muokkaus ei onnistu! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Lisää uusi domainin ylläpitäjä';
-$PALANG['pAdminCreate_admin_username_text'] = 'Sähköpostiosoite';
+$PALANG['email_address'] = 'Sähköpostiosoite';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Ylläpitäjän sähköpostiosoite ei ole oikeanmuotoinen!';
 $PALANG['admin_already_exists'] = 'Ylläpitäjän sähköpostiosoite on jo olemassa tai se ei ole oikean muotoinen'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -249,7 +249,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Ylläpitäjä on lisätty! (%s)'
 $PALANG['pAdminEdit_admin_welcome'] = 'Muokkaa domainin ylläpitäjää';
 $PALANG['admin'] = 'Ylläpitäjä'; # XXX check text - should be 'Admin'
 $PALANG['password_again'] = 'Salasana (toistamiseen)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Pääylläpitäjä';
+$PALANG['super_admin'] = 'Pääylläpitäjä';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Ylläpitäjän muokkaaminen ei onnistu! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Ylläpitäjän muokkaus onnistui! (%s)'; # XXX Text changed to: The admin %s has been modified.

@@ -238,7 +238,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = '备份邮件服务器';
 $PALANG['pAdminEdit_domain_result_error'] = '修改域失败! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = '新增域管理员';
-$PALANG['pAdminCreate_admin_username_text'] = '邮件地址';
+$PALANG['email_address'] = '邮件地址';
 $PALANG['pAdminCreate_admin_username_text_error1'] = '管理员名不是一个合法的邮件地址!';
 $PALANG['admin_already_exists'] = '管理员已经存在或者管理员名非法!'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -249,7 +249,7 @@ $PALANG['pAdminCreate_admin_result_success'] = '新增管理员成功! (%s)'; # 
 $PALANG['pAdminEdit_admin_welcome'] = '修改域管理员';
 $PALANG['admin'] = '管理员';
 $PALANG['password_again'] = '密码 (验证)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
+$PALANG['super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = '编辑域管理员失败! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = '编辑域管理员成功! (%s)'; # XXX Text changed to: The admin %s has been modified.

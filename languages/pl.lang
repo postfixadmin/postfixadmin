@@ -241,7 +241,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Serwer pocztowy jest zapasowym MX';
 $PALANG['pAdminEdit_domain_result_error'] = 'Nie można zmodyfikować domeny! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Dodaj konto administratora';
-$PALANG['pAdminCreate_admin_username_text'] = 'Adres email';
+$PALANG['email_address'] = 'Adres email';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administartor nie jest poprawnym adresem email!';
 $PALANG['admin_already_exists'] = 'Administrator już istnieje lub jest niepoprawny'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -252,7 +252,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Administrator został dodany! (%
 $PALANG['pAdminEdit_admin_welcome'] = 'Edytuj administratora domeny';
 $PALANG['admin'] = 'Administrator'; # XXX check text - should be 'Admin'
 $PALANG['password_again'] = 'Hasło (ponownie)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Główny administrator';
+$PALANG['super_admin'] = 'Główny administrator';
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Nie można zmodyfikować administratora! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Administrator został zmodyfikowany! (%s)'; # XXX Text changed to: The admin %s has been modified.

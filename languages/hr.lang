@@ -237,7 +237,7 @@ $PALANG['pAdminEdit_domain_backupmx'] = 'Posluitelj e-pote je sekundarni MX'
 $PALANG['pAdminEdit_domain_result_error'] = 'Domenu nije bilo moguće premeniti! (%s)'; # XXX Text changed to: Modifying the domain %s failed!
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Dodaj administratora domene';
-$PALANG['pAdminCreate_admin_username_text'] = 'Adresa e-pote';
+$PALANG['email_address'] = 'Adresa e-pote';
 $PALANG['pAdminCreate_admin_username_text_error1'] = 'Administrator nije valjana adresa e-pote!';
 $PALANG['admin_already_exists'] = 'Adminstrator već postoji ili nije valjan'; # XXX Text changed to: The admin already exists!
 $PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
@@ -248,7 +248,7 @@ $PALANG['pAdminCreate_admin_result_success'] = 'Admininstrator je uspjeno doda
 $PALANG['pAdminEdit_admin_welcome'] = 'Uredi administratora domene';
 $PALANG['admin'] = 'Administrator';
 $PALANG['password_again'] = 'Lozinka (ponovi)';
-$PALANG['pAdminEdit_admin_super_admin'] = 'Super admin'; # XXX
+$PALANG['super_admin'] = 'Super admin'; # XXX
 $PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = 'Administratora nije bilo moguće promjeniti! (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = 'Admininstrator je uspjeno promjenjen! (%s)'; # XXX Text changed to: The admin %s has been modified.
