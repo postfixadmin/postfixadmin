@@ -292,8 +292,7 @@ class MailboxHandler extends PFAHandler {
         db_delete('alias',                  'address',       $this->id);
         db_delete($this->db_table,          $this->id_field, $this->id); # finally delete the mailbox
 
-        list(/*NULL*/,$domain) = explode('@', $this->id);
-        if ( !mailbox_postdeletion($username,$domain) ) {
+        if ( !$this->mailbox_postdeletion() ) {
             $this->error_msg[] = 'Mailbox postdeletion failed!'; # TODO: make translateable
         }
 
@@ -551,6 +550,44 @@ class MailboxHandler extends PFAHandler {
 
         return TRUE;
     }
+
+    /**
+     * Called after a mailbox has been deleted
+     *
+     * @return boolean true on success, false on failure
+     * also adds a detailed error message to $this->errormsg[]
+     */
+    protected function mailbox_postdeletion() {
+        $cmd = Config::read('mailbox_postdeletion_script');
+
+        if ( empty($cmd) ) {
+            return true;
+        }
+
+        list(/*NULL*/,$domain) = explode('@', $this->id);
+
+        if (empty($this->id) || empty($domain)) {
+            $this->errormsg[] = 'Empty username and/or domain parameter in mailbox_postdeletion';
+            return false;
+        }
+
+        $cmdarg1=escapeshellarg($this->id);
+        $cmdarg2=escapeshellarg($domain);
+        $command = "$cmd $cmdarg1 $cmdarg2";
+        $retval=0;
+        $output=array();
+        $firstline='';
+        $firstline=exec($command,$output,$retval);
+        if (0!=$retval) {
+            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+            $this->errormsg[] = 'Problems running mailbox postdeletion script!';
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+
 
     /**
      * Called by storemore() after a mailbox has been created.

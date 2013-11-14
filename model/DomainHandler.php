@@ -122,7 +122,7 @@ class DomainHandler extends PFAHandler {
         }
 
         if ($this->new) {
-            if (!domain_postcreation($this->id)) {
+            if (!$this->domain_postcreation()) {
                 $this->errormsg[] = Config::lang('pAdminCreate_domain_error');
             }
         } else {
@@ -174,7 +174,7 @@ class DomainHandler extends PFAHandler {
         # finally delete the domain
         db_delete($this->db_table,         $this->id_field, $this->id);
 
-        if ( !domain_postdeletion($this->id) ) {
+        if ( !$this->domain_postdeletion() ) {
             $this->error_msg[] = $PALANG['domain_postdel_failed'];
         }
 
@@ -193,6 +193,70 @@ class DomainHandler extends PFAHandler {
     public function _formatted_aliases  ($item) { return $item['alias_count']   . ' / ' . $item['aliases']  ; }
     public function _formatted_mailboxes($item) { return $item['mailbox_count'] . ' / ' . $item['mailboxes']; }
     public function _formatted_quota    ($item) { return $item['total_quota']   . ' / ' . $item['quota']    ; }
+
+    /**
+     * Called after a domain has been added
+     *
+     * @return boolean
+     */
+    protected function domain_postcreation() {
+        $script=Config::read('domain_postcreation_script');
+
+        if (empty($script)) {
+            return true;
+        }
+
+        if (empty($this->id)) {
+            $this->errormsg[] = 'Empty domain parameter in domain_postcreation';
+            return false;
+        }
+
+        $cmdarg1=escapeshellarg($this->id);
+        $command= "$script $cmdarg1";
+        $retval=0;
+        $output=array();
+        $firstline='';
+        $firstline=exec($command,$output,$retval);
+        if (0!=$retval) {
+            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+            $this->errormsg[] = 'Problems running domain postcreation script!';
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    /**
+     * Called after a domain has been deleted
+     *
+     * @return boolean
+     */
+    protected function domain_postdeletion() {
+        $script=Config::read('domain_postdeletion_script');
+
+        if (empty($script)) {
+            return true;
+        }
+
+        if (empty($this->id)) {
+            $this->errormsg[] = 'Empty domain parameter in domain_postdeletion';
+            return false;
+        }
+
+        $cmdarg1=escapeshellarg($this->id);
+        $command= "$script $cmdarg1";
+        $retval=0;
+        $output=array();
+        $firstline='';
+        $firstline=exec($command,$output,$retval);
+        if (0!=$retval) {
+            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+            $this->errormsg[] = 'Problems running domain postdeletion script!';
+            return FALSE;
+        }
+
+        return TRUE;
+    }
 
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
