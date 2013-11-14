@@ -128,17 +128,6 @@ class Shell {
                         $this->name = str_replace(array('shell', 'Shell', 'task', 'Task'), '', $this->className);
                 }
 
-                $shellKey = Inflector::underscore($this->className);
-
-#                if (!PHP5 && isset($this->args[0])) {
-#                        if(strpos($this->className, strtolower(Inflector::camelize($this->args[0]))) !== false) {
-#                                $dispatch->shiftArgs();
-#                        }
-#                        if (strtolower($this->command) == strtolower(Inflector::variable($this->args[0])) && method_exists($this, $this->command)) {
-#                                $dispatch->shiftArgs();
-#                        }
-#                }
-
                 $this->Dispatch =& $dispatch;
         }
         

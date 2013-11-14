@@ -146,7 +146,6 @@ class PostfixAdmin {
                 }
                 
                 define('DS', DIRECTORY_SEPARATOR);
-                define('PHP5', (PHP_VERSION >= 5));
                 define('CORE_INCLUDE_PATH', dirname(__FILE__));
                 define('CORE_PATH', dirname(CORE_INCLUDE_PATH) ); # CORE_INCLUDE_PATH/../
                 
@@ -236,7 +235,7 @@ class PostfixAdmin {
 
 			$this->shell = $this->args[0];
 			$this->shiftArgs();
-			$this->shellName = Inflector::camelize($this->shell);
+			$this->shellName = ucfirst($this->shell);
 			$this->shellClass = $this->shellName . 'Handler';
 			
 
@@ -254,7 +253,7 @@ class PostfixAdmin {
 			}
 
 			$this->shellCommand = $command;
-			$this->shellClass = 'Cli' . Inflector::camelize($command);
+			$this->shellClass = 'Cli' . ucfirst($command);
 
             if (ucfirst($command) == 'Add' || ucfirst($command) == 'Update') {
                 $this->shellClass = 'CliEdit';
@@ -274,7 +273,7 @@ class PostfixAdmin {
                 return;
             }
 
-            $task = Inflector::camelize($command);
+            $task = ucfirst($command);
 
             $shell->new = 0;
             if ($task == 'Add') {
