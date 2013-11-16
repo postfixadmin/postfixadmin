@@ -1134,8 +1134,9 @@ function upgrade_655() {
    -> the tables client_access, from_access, helo_access, rcpt_access, user_whitelist
       are not used by PostfixAdmin - no replacement function needed
    Note: Please never remove this function, even if it is disabled - it might be needed in case we have to debug a broken database upgrade etc.
+    Note: there never was a function upgrade_727_pgsql()
+
 function upgrade_727_mysql() {
-# TODO: do the same for PostgreSQL - if possible without different queries
     $table_vacation = table_by_key('vacation');
     if(!_mysql_field_exists($table_vacation, 'activefrom')) {
        db_query_parsed("ALTER TABLE $table_vacation add activefrom datetime default NULL");
