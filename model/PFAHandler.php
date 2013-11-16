@@ -460,9 +460,9 @@ abstract class PFAHandler {
 
         $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->id_field;
 
+        $limit  = (int) $limit; # make sure $limit and $offset are really integers
+        $offset = (int) $offset;
         if ($limit > -1 && $offset > -1) {
-            # TODO: make sure $limit and $offset are really integers - cast via (int) ?
-            # TODO: make sure $limit is > 0 (0 doesn't break anything, but guarantees an empty resultset, so it's pointless)
             $query .= " LIMIT $limit OFFSET $offset ";
         }
 
