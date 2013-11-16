@@ -106,13 +106,16 @@ $PALANG['alias_domain_to_itsself'] = 'Eine Domain kann keine Alias-Domain von si
 $PALANG['delete_domain_aliasdomain_target'] = 'Die Domain %s ist das Ziel einer oder mehrerer Alias-Domains und kann nicht gelöscht werden! (Löschen Sie zuerst die Alias-Domains.)';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Dieses ALIAS ist nicht erlaubt!';
+$PALANG['alias_does_not_exist'] = 'This alias does not exist!'; # XXX
 $PALANG['email_address_already_exists'] = 'Diese eMail-Adresse existiert bereits. Bitte wählen Sie eine andere!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Sie haben Ihr Limit für Aliase auf dieser Domain erreicht!';
 $PALANG['pCreate_alias_goto_text'] = 'Wohin soll die eMail weitergeleitet werden?';
 $PALANG['pCreate_alias_goto_text_error'] = 'Das An-Feld ist falsch!';
 $PALANG['pCreate_alias_result_error'] = 'Das Erstellen des Aliases %s ist fehlgeschlagen!';
 $PALANG['pCreate_alias_result_success'] = 'Der Alias %s wurde erstellt!';
+$PALANG['alias_updated'] = 'The alias %s has been updated!'; # XXX
 $PALANG['pCreate_alias_catchall_text'] = 'Um alle Adressen abzudecken benutzen Sie einen "*" als Alias. Um ganze Domains an andere Domains weiterzuleiten benutzen Sie "*@domain.tld" im "An"-Feld.';
+$PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = 'Weiterleitungs-Einstellungen ändern';
 $PALANG['pEdit_alias_help'] = 'Angabe mehrerer Ziele möglich, ein Eintrag pro Zeile.';

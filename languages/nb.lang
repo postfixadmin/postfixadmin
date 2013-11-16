@@ -106,13 +106,16 @@ $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itss
 $PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'Aliaset er ikke gyldig!';
+$PALANG['alias_does_not_exist'] = 'This alias does not exist!'; # XXX
 $PALANG['email_address_already_exists'] = 'Denne e-postadressen eksisterer allerede, vennligst velg en annen!'; # XXX check text - should be 'This email address already exists, please choose a different one\!'
 $PALANG['pCreate_alias_address_text_error3'] = 'Du har nådd grensen for antall aliaser under dette domenet!';
 $PALANG['pCreate_alias_goto_text'] = 'Hvor e-postmeldingen skal videresendes til.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Til-adressen er ikke gyldig!';
 $PALANG['pCreate_alias_result_error'] = 'Kunne ikke legge til aliaset i alias-tabellen! (%s)'; # XXX Text changed to: Creating the alias %s failed!
 $PALANG['pCreate_alias_result_success'] = 'Aliaset er blitt lagt til i alias-tabellen!'; # XXX text change: 'The alias %s has been created!'
+$PALANG['alias_updated'] = 'The alias %s has been updated!'; # XXX
 $PALANG['pCreate_alias_catchall_text'] = 'For å opprette et "catch-all"-alias, bruk "*" som alias. For domene-til-domene-videresending, bruk "*@domene.tld" i Til-feltet.'; # XXX check/beautify - was split in two lines before
+$PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!'; # XXX
 $PALANG['pEdit_alias_welcome'] = 'Endre et alias.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Én e-postadresse per linje.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['alias'] = 'Alias';

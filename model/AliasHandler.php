@@ -67,7 +67,7 @@ class AliasHandler extends PFAHandler {
 
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'email_address_already_exists';
-        $this->msg['error_does_not_exist'] = 'pCreate_alias_address_text_error1'; # TODO: better error message
+        $this->msg['error_does_not_exist'] = 'alias_does_not_exist';
         if ($this->new) {
             $this->msg['logname'] = 'create_alias';
             $this->msg['store_error'] = 'pCreate_alias_result_error';
@@ -75,7 +75,7 @@ class AliasHandler extends PFAHandler {
         } else {
             $this->msg['logname'] = 'edit_alias';
             $this->msg['store_error'] = 'pEdit_alias_result_error';
-            $this->msg['successmessage'] = 'pCreate_alias_result_success'; # TODO: better message for edit
+            $this->msg['successmessage'] = 'alias_updated';
         }
     }
 
@@ -282,14 +282,6 @@ class AliasHandler extends PFAHandler {
         return parent::getList( "__is_mailbox IS NULL AND ( $condition )", $limit, $offset);
     }
 
-/* delete is already implemented in the "old functions" section
-    public function delete() {
-        $this->errormsg[] = '*** Alias domain deletion not implemented yet ***';
-        return false; # XXX function aborts here until TODO below is implemented! XXX
-        # TODO: move the needed code from delete.php here
-    }
-*/
-
     protected function _validate_goto($field, $val) {
         if (count($val) == 0) {
             # empty is ok for mailboxes - this is checked in setmore() which can clear the error message
@@ -300,10 +292,10 @@ class AliasHandler extends PFAHandler {
         $errors = array();
 
         foreach ($val as $singlegoto) {
-            if (substr($singlegoto, 0, 1) == '@') { # domain-wide forward - check only the domain part
+            if (substr($this->id, 0, 1) == '@' && substr($singlegoto, 0, 1) == '@') { # domain-wide forward - check only the domain part
+                # only allowed if $this->id is a catchall
                 # Note: alias domains are better, but we should keep this way supported for backward compatibility
                 #       and because alias domains can't forward to external domains
-                # TODO: allow this only if $this->id is a catchall?
                 list (/*NULL*/, $domain) = explode('@', $singlegoto);
                 $domain_check = check_domain($domain);
                 if ($domain_check != '') {
@@ -362,12 +354,12 @@ class AliasHandler extends PFAHandler {
      */
     public function delete() {
         if( ! $this->view() ) {
-            $this->errormsg[] = 'An alias with that address does not exist.'; # TODO: make translatable
+            $this->errormsg[] = Config::Lang('alias_does_not_exist');
             return false;
         }
 
         if ($this->result['is_mailbox']) {
-            $this->errormsg[] = 'This alias belongs to a mailbox and can\'t be deleted.'; # TODO: make translatable
+            $this->errormsg[] = Config::Lang('mailbox_alias_cant_be_deleted');
             return false;
         }
 

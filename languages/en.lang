@@ -107,13 +107,16 @@ $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itss
 $PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)';
 
 $PALANG['pCreate_alias_address_text_error1'] = 'The ALIAS is not valid!';
+$PALANG['alias_does_not_exist'] = 'This alias does not exist!';
 $PALANG['email_address_already_exists'] = 'This email address already exists, please choose a different one!';
 $PALANG['pCreate_alias_address_text_error3'] = 'You have reached your limit to create aliases!';
 $PALANG['pCreate_alias_goto_text'] = 'Where the mail needs to be sent to.';
 $PALANG['pCreate_alias_goto_text_error'] = 'The To: is not valid!';
 $PALANG['pCreate_alias_result_error'] = 'Creating the alias %s failed!';
 $PALANG['pCreate_alias_result_success'] = 'The alias %s has been created!';
+$PALANG['alias_updated'] = 'The alias %s has been updated!';
 $PALANG['pCreate_alias_catchall_text'] = 'To create a catch-all use an "*" as alias.'; # XXX don't propagate usage of *@target-domain.com for domain-aliasing any longer
+$PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!';
 
 $PALANG['pEdit_alias_welcome'] = 'Edit forwarding settings';
 $PALANG['pEdit_alias_help'] = 'Accepts multiple targets, one entry per line.';

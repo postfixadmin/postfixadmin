@@ -103,13 +103,16 @@ $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itss
 $PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = 'ALIAS nije valjan!';
+$PALANG['alias_does_not_exist'] = 'This alias does not exist!'; # XXX
 $PALANG['email_address_already_exists'] = 'Ova adresa e-pote već postoji, molimo izaberite drugu!';
 $PALANG['pCreate_alias_address_text_error3'] = 'Postigli ste maksimalan broj vaih aliasa!';
 $PALANG['pCreate_alias_goto_text'] = 'Kuda poslati e-potu.';
 $PALANG['pCreate_alias_goto_text_error'] = 'Unos "Za" je nepravilan!'; # XXX check - should be   The To: is not valid!
 $PALANG['pCreate_alias_result_error'] = 'Nije bilo moguće dodati alias u tablicu aliasa! (%s)'; # XXX Text changed to: Creating the alias %s failed!
 $PALANG['pCreate_alias_result_success'] = 'Alias je dodan u tablicu aliasa!'; # XXX text change: 'The alias %s has been created!'
+$PALANG['alias_updated'] = 'The alias %s has been updated!'; # XXX
 $PALANG['pCreate_alias_catchall_text'] = 'Ukoliko elite stvoriti "sveprimajući" alias, upotrijebite "*" umjesto aliasa. Za preusmjeravanje iz domene na domenu, upotrijebite "*@domena.tld" u "Za" polju.'; # XXX check/beautify - was split in two lines before
+$PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = 'Uredi alias za domenu.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Jedan unos po liniji.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'

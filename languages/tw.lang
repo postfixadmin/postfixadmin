@@ -104,13 +104,16 @@ $PALANG['alias_domain_to_itsself'] = 'A domain can\'t be an alias domain to itss
 $PALANG['delete_domain_aliasdomain_target'] = 'The domain %s is the target for one or more alias domains and can\'t be deleted! (Delete the alias domains first.)'; # XXX
 
 $PALANG['pCreate_alias_address_text_error1'] = '該別名非法!';
+$PALANG['alias_does_not_exist'] = 'This alias does not exist!'; # XXX
 $PALANG['email_address_already_exists'] = '郵件地址已經存在, 請重新選擇!';
 $PALANG['pCreate_alias_address_text_error3'] = '你的別名已經達到上限!';
 $PALANG['pCreate_alias_goto_text'] = '郵件接收地址.';
 $PALANG['pCreate_alias_goto_text_error'] = '接收地址不正確!';
 $PALANG['pCreate_alias_result_error'] = '不能將別名添加到別名表中! (%s)'; # XXX Text changed to: Creating the alias %s failed!
 $PALANG['pCreate_alias_result_success'] = '添加別名成功!'; # XXX text change: 'The alias %s has been created!'
+$PALANG['alias_updated'] = 'The alias %s has been updated!'; # XXX
 $PALANG['pCreate_alias_catchall_text'] = '要將所有的郵件全部轉發請使用"*"作為別名. 網域到網域的轉發請使用"*@domain.tld".'; # XXX check/beautify - was split in two lines before
+$PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = '編輯你網域名中的別名.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = '每行一條記錄.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
