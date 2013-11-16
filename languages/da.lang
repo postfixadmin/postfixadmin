@@ -135,6 +135,8 @@ $PALANG['pCreate_mailbox_mail'] = 'Send velkomsthilsen'; # XXX Text change to 'S
 $PALANG['pCreate_mailbox_result_error'] = 'Kan ikke tilføje postboksen til postboks-tabellen! (%s)'; # XXX Text changed to: Creating the mailbox %s failed!
 $PALANG['pCreate_mailbox_result_success'] = 'Postboksen er tilføjet til postboks-tabellen! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Postkassen er tilføjet, men ingen (eller kun dele) af de foruddefinerede undermapper kunne oprettes. (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
+$PALANG['mailbox_updated'] = "The mailbox %s has been updated.";  # XXX
+$PALANG['mailbox_update_failed'] = "Updating the mailbox %s failed!"; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Rediger postboks.';
 $PALANG['pEdit_mailbox_username'] = 'Brugernavn';
@@ -234,6 +236,9 @@ $PALANG['pAdminCreate_domain_result_success'] = 'Domænet er tilføjet! (%s)'; #
 $PALANG['pAdminDelete_admin_error'] = 'Administratoren kunne ikke slettes.';
 
 $PALANG['domain_postdel_failed'] = 'Domænet kunne ikke slettes!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
+$PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, check the error log for details!'; # XXX
+$PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!'; # XXX
+$PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Domæne-aliaset kunne ikke slettes!';
 
 $PALANG['pAdminEdit_domain_welcome']        = 'Redigér et domæne';

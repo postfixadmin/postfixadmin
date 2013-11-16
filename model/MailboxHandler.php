@@ -92,8 +92,8 @@ class MailboxHandler extends PFAHandler {
             $this->msg['successmessage'] = 'pCreate_mailbox_result_success';
         } else {
             $this->msg['logname'] = 'edit_mailbox';
-            $this->msg['store_error'] = 'pCreate_mailbox_result_error'; # TODO: better error message
-            $this->msg['successmessage'] = 'pCreate_mailbox_result_success'; # TODO: better message
+            $this->msg['store_error'] = 'mailbox_update_failed';
+            $this->msg['successmessage'] = 'mailbox_updated';
         }
     }
 
@@ -293,7 +293,7 @@ class MailboxHandler extends PFAHandler {
         db_delete($this->db_table,          $this->id_field, $this->id); # finally delete the mailbox
 
         if ( !$this->mailbox_postdeletion() ) {
-            $this->error_msg[] = 'Mailbox postdeletion failed!'; # TODO: make translateable
+            $this->error_msg[] = Config::Lang('mailbox_postdel_failed');
         }
 
         list(/*NULL*/,$domain) = explode('@', $this->id);
@@ -335,10 +335,10 @@ class MailboxHandler extends PFAHandler {
             unset ($this->errormsg[$field]); # remove "password too short" error message
             $val = generate_password();
             $this->values[$field] = $val; # we are doing this "behind the back" of set()
-            $this->infomsg[] = "Password: $val"; # TODO: make translateable
+            $this->infomsg[] = Config::Lang('password') . ": $val";
             return false; # to avoid that set() overwrites $this->values[$field]
         } elseif ($this->new && Config::read('show_password') == 'YES') {
-            $this->infomsg[] = "Password: $val"; # TODO: make translateable
+            $this->infomsg[] = Config::Lang('password') . ": $val";
         }
 
         return true; # still here? good.
@@ -407,8 +407,6 @@ class MailboxHandler extends PFAHandler {
         if (!smtp_mail ($fTo, $fFrom, $fSubject, $fBody)) {
             $this->errormsg[] = Config::lang('pSendmail_result_error');
             return false;
-        } else {
-# TODO            flash_info($PALANG['pSendmail_result_success']); 
         }
 
         return true;
@@ -516,10 +514,10 @@ class MailboxHandler extends PFAHandler {
 
         if ($this->new) {
             $cmd = Config::read('mailbox_postcreation_script');
-            $warnmsg = 'WARNING: Problems running mailbox postcreation script!'; # TODO: make translateable
+            $warnmsg = Config::Lang('mailbox_postcreate_failed');
         } else {
             $cmd = Config::read('mailbox_postedit_script');
-            $warnmsg = 'WARNING: Problems running mailbox postedit script!'; # TODO: make translateable
+            $warnmsg = Config::Lang('mailbox_postedit_failed');
         }
 
         if ( empty($cmd) ) return TRUE; # nothing to do
@@ -691,7 +689,7 @@ class MailboxHandler extends PFAHandler {
         if ($match == true) {
             if (!$this->login($this->id, $old_password)) {
                       db_log ($domain, 'edit_password', "MATCH FAILURE: " . $this->id);
-                      $this->errormsg[] = 'Passwords do not match'; # TODO: make translatable
+                      $this->errormsg[] = Config::Lang('pPassword_password_current_text_error');
                       return false;
             }
         }

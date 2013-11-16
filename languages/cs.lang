@@ -135,6 +135,8 @@ $PALANG['pCreate_mailbox_mail'] = 'Vytvořit schránku na disku (odešle uvítac
 $PALANG['pCreate_mailbox_result_error'] = 'Nepodařilo se přidat schránku do tabulky schránek! (%s)'; # XXX Text changed to: Creating the mailbox %s failed!
 $PALANG['pCreate_mailbox_result_success'] = 'Schránka byla přidána do tabulky schránek! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Schránka byla přidána do tabulky schránek, ale žádné (nebo pouze některé) ze předdefinovaných podsložek bylo možné vytovořit (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
+$PALANG['mailbox_updated'] = "The mailbox %s has been updated.";  # XXX
+$PALANG['mailbox_update_failed'] = "Updating the mailbox %s failed!"; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Upravit lokální chránku v doméně.';
 $PALANG['pEdit_mailbox_username'] = 'Uživatelské jméno';
@@ -234,6 +236,9 @@ $PALANG['pAdminCreate_domain_result_success'] = 'Doména byla přidána! (%s)'; 
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
 $PALANG['domain_postdel_failed'] = 'Nepodařilo se odstranit doménu!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
+$PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, check the error log for details!'; # XXX
+$PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!'; # XXX
+$PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Upravit doménu';

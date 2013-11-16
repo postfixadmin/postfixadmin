@@ -131,6 +131,8 @@ $PALANG['pCreate_mailbox_mail'] = 'Siųsti pasveikinimo žinutę';
 $PALANG['pCreate_mailbox_result_error'] = 'Pašto dėžutės užregistruoti nepavyko! (%s)'; # XXX Text changed to: Creating the mailbox %s failed!
 $PALANG['pCreate_mailbox_result_success'] = 'Pašto dėžutė užregistruota! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Pašto dėžutė užregistruota, bet nepavyko sukurti (galbūt kai kurių) nustatytų subdirektorijų (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
+$PALANG['mailbox_updated'] = "The mailbox %s has been updated.";  # XXX
+$PALANG['mailbox_update_failed'] = "Updating the mailbox %s failed!"; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Keisti pašto dėžutę.';
 $PALANG['pEdit_mailbox_username'] = 'Vartotojas';
@@ -226,6 +228,9 @@ $PALANG['pAdminCreate_domain_result_error'] = 'Srities užregistruoti nepavyko! 
 $PALANG['pAdminCreate_domain_result_success'] = 'Sritis užregistruota! (%s)'; # XXX Text changed to: The domain %s has been added.
 $PALANG['pAdminDelete_admin_error'] = 'Nepavyko panaikinti administratoriaus!';
 $PALANG['domain_postdel_failed'] = 'Nepavyko panaikinti srities!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
+$PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, check the error log for details!'; # XXX
+$PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!'; # XXX
+$PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Nepavyko panaikinti srities sinonimo!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Keisti sritį';

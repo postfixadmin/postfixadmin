@@ -134,6 +134,8 @@ $PALANG['pCreate_mailbox_mail'] = 'Отправить приветственно
 $PALANG['pCreate_mailbox_result_error'] = 'Невозможно добавить ящик в список существующих ящиков! (%s)'; # XXX Text changed to: Creating the mailbox %s failed!
 $PALANG['pCreate_mailbox_result_success'] = 'Почтовый ящик был успешно создан! (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table!
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Почтовый ящик был успешно создан, но в нем не удалось создать (некоторые) стандартные папки (%s)'; # XXX Text changed to: The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.
+$PALANG['mailbox_updated'] = "The mailbox %s has been updated.";  # XXX
+$PALANG['mailbox_update_failed'] = "Updating the mailbox %s failed!"; # XXX
 
 $PALANG['pEdit_mailbox_welcome'] = 'Редактирование ящика для вашего домена.';
 $PALANG['pEdit_mailbox_username'] = 'Название';
@@ -233,6 +235,9 @@ $PALANG['pAdminCreate_domain_result_success'] = 'Домен был добавл�
 
 $PALANG['pAdminDelete_admin_error'] = 'Невозможно удалить администратора!';
 $PALANG['domain_postdel_failed'] = 'Невозможно удалить домен!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
+$PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, check the error log for details!'; # XXX
+$PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!'; # XXX
+$PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Невозможно удалить домен-алиас!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Редактирование домена';
