@@ -148,7 +148,6 @@ class AdminHandler extends PFAHandler {
                 } 
             } else {
                 db_delete('domain_admins', 'username', $this->id, "AND domain = 'ALL'");
-                # TODO: check for errors (Note: we are blindly deleting the ALL domain for this admin, maybe he wasn't superadmin before so result count might be 0)
             }
         }
 
@@ -172,7 +171,7 @@ class AdminHandler extends PFAHandler {
      */
     public function delete() {
         if ( ! $this->view() ) {
-            $this->errormsg[] = 'An admin with that name does not exist.'; # TODO: make translatable
+            $this->errormsg[] = Config::Lang($this->msg['error_does_not_exist']);
             return false;
         }
 
