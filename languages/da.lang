@@ -234,13 +234,14 @@ $PALANG['pAdminCreate_domain_domain_text_error'] = 'Domænet eksisterer allerede
 $PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Domænet er ikke gyldigt.';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Tilføj standard alias(es)';
-$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Tilføj domæne';
 $PALANG['pAdminCreate_domain_result_error'] = 'Kan ikke tilføje domænet! (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = 'Domænet er tilføjet! (%s)'; # XXX Text changed to: The domain %s has been added.
+$PALANG['domain_updated'] = 'The domain %s has been updated.'; # XXX
 $PALANG['pAdminDelete_admin_error'] = 'Administratoren kunne ikke slettes.';
 
 $PALANG['domain_postdel_failed'] = 'Domænet kunne ikke slettes!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
+$PALANG['domain_postcreate_failed'] = 'The domain postcreate script failed, check the error log for details!'; # XXX
 $PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, check the error log for details!'; # XXX
 $PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!'; # XXX
 $PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!'; # XXX

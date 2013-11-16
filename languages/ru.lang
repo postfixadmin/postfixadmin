@@ -233,13 +233,14 @@ $PALANG['pAdminCreate_domain_domain_text_error'] = 'Домен уже сущес
 $PALANG['domain_does_not_exist'] = 'Этот домен не существует!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'Некорректный домен!';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Добавить стандартные алиасы для домена';
-$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Добавить домен';
 $PALANG['pAdminCreate_domain_result_error'] = 'Невозможно добавить домен! (%s)'; # XXX Text changed to: Adding the domain %s failed!
 $PALANG['pAdminCreate_domain_result_success'] = 'Домен был добавлен! (%s)'; # XXX Text changed to: The domain %s has been added.
+$PALANG['domain_updated'] = 'The domain %s has been updated.'; # XXX
 
 $PALANG['pAdminDelete_admin_error'] = 'Невозможно удалить администратора!';
 $PALANG['domain_postdel_failed'] = 'Невозможно удалить домен!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
+$PALANG['domain_postcreate_failed'] = 'The domain postcreate script failed, check the error log for details!'; # XXX
 $PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, check the error log for details!'; # XXX
 $PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!'; # XXX
 $PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!'; # XXX
