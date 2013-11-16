@@ -265,6 +265,8 @@ function maildir_name_hook($domain, $user) {
 */
 $CONF['admin_struct_hook']          = '';
 $CONF['domain_struct_hook']         = '';
+$CONF['alias_struct_hook']          = '';
+$CONF['mailbox_struct_hook']        = '';
 $CONF['alias_domain_struct_hook']   = '';
 
 
@@ -493,6 +495,7 @@ $CONF['recipient_delimiter'] = "";
 // prevent the web-server from executing external scripts.
 // Parameters: (1) username (2) domain (3) maildir (4) quota
 // $CONF['mailbox_postcreation_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postcreation.sh';
+$CONF['mailbox_postcreation_script'] = '';
 
 // Optional:
 // Script to run after alteration of mailboxes.
@@ -501,6 +504,7 @@ $CONF['recipient_delimiter'] = "";
 // prevent the web-server from executing external scripts.
 // Parameters: (1) username (2) domain (3) maildir (4) quota
 // $CONF['mailbox_postedit_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postedit.sh';
+$CONF['mailbox_postedit_script'] = '';
 
 // Optional:
 // Script to run after deletion of mailboxes.
@@ -509,6 +513,7 @@ $CONF['recipient_delimiter'] = "";
 // prevent the web-server from executing external scripts.
 // Parameters: (1) username (2) domain
 // $CONF['mailbox_postdeletion_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postdeletion.sh';
+$CONF['mailbox_postdeletion_script'] = '';
 
 // Optional:
 // Script to run after creation of domains.
@@ -517,6 +522,7 @@ $CONF['recipient_delimiter'] = "";
 // prevent the web-server from executing external scripts.
 // Parameters: (1) domain
 //$CONF['domain_postcreation_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postcreation.sh';
+$CONF['domain_postcreation_script'] = '';
 
 // Optional:
 // Script to run after deletion of domains.
@@ -525,6 +531,7 @@ $CONF['recipient_delimiter'] = "";
 // prevent the web-server from executing external scripts.
 // Parameters: (1) domain
 // $CONF['domain_postdeletion_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postdeletion.sh';
+$CONF['domain_postdeletion_script'] = '';
 
 // Optional:
 // Sub-folders which should automatically be created for new users.
@@ -535,7 +542,8 @@ $CONF['recipient_delimiter'] = "";
 // create_mailbox_subdirs_host must also be defined.
 //
 // $CONF['create_mailbox_subdirs']=array('Spam');
-// $CONF['create_mailbox_subdirs_host']='localhost';
+$CONF['create_mailbox_subdirs'] = array();
+$CONF['create_mailbox_subdirs_host']='localhost';
 //
 // Specify '' for Dovecot and 'INBOX.' for Courier.
 $CONF['create_mailbox_subdirs_prefix']='INBOX.';
@@ -563,6 +571,7 @@ $CONF['new_quota_table'] = 'YES';
 // $CONF['create_mailbox_subdirs_hostoptions']=array('novalidate-cert','norsh');
 // See also the "Optional flags for names" table at
 // http://www.php.net/manual/en/function.imap-open.php
+$CONF['create_mailbox_subdirs_hostoptions'] = array('');
 
 
 // Theme Config
