@@ -24,7 +24,6 @@ class DomainHandler extends PFAHandler {
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
         # TODO: shorter PALANG labels ;-)
-        # TODO: hardcode 'default' to Config::read in pacol()?
 
         $transp = Config::intbool('transport');
         $quota  = Config::intbool('quota');
@@ -79,7 +78,7 @@ class DomainHandler extends PFAHandler {
         } else {
             $this->msg['logname'] = 'edit_domain';
             $this->msg['store_error'] = 'pAdminEdit_domain_result_error';
-            $this->msg['successmessage'] = 'pAdminCreate_domain_result_success'; # TODO: better message for edit
+            $this->msg['successmessage'] = 'domain_updated';
         }
     }
 
@@ -115,15 +114,10 @@ class DomainHandler extends PFAHandler {
                 # TODO: error checking
             }
         }
-        if ($this->new) {
-            $tMessage = Config::lang('pAdminCreate_domain_result_success') . " (" . $this->id . ")"; # TODO: tMessage is not used/returned anywhere
-        } else {
-            # TODO: success message for edit
-        }
 
         if ($this->new) {
             if (!$this->domain_postcreation()) {
-                $this->errormsg[] = Config::lang('pAdminCreate_domain_error');
+                $this->errormsg[] = Config::lang('domain_postcreate_failed');
             }
         } else {
             # we don't have domain_postedit()

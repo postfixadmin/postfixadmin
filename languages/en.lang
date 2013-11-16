@@ -232,13 +232,14 @@ $PALANG['pAdminCreate_domain_domain_text_error'] = 'The domain already exists!';
 $PALANG['domain_does_not_exist'] = 'This domain does not exist!';
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'The domain is invalid!';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'Add default mail aliases';
-$PALANG['pAdminCreate_domain_defaultaliases_text'] = '';
 $PALANG['pAdminCreate_domain_button'] = 'Add Domain';
 $PALANG['pAdminCreate_domain_result_error'] = 'Adding the domain %s failed!';
 $PALANG['pAdminCreate_domain_result_success'] = 'The domain %s has been added.';
+$PALANG['domain_updated'] = 'The domain %s has been updated.';
 
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!';
 $PALANG['domain_postdel_failed'] = 'The domain postdeletion script failed, check the error log for details!';
+$PALANG['domain_postcreate_failed'] = 'The domain postcreate script failed, check the error log for details!';
 $PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, check the error log for details!';
 $PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!';
 $PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!';
