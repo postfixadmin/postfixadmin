@@ -27,7 +27,7 @@ authentication_require_role('global-admin');
 (($CONF['backup'] == 'NO') ? header("Location: main.php") && exit : '1');
 
 // TODO: make backup supported for postgres
-if ('pgsql'==$CONF['database_type']) {
+if (db_pgsql()) {
 	flash_error('Sorry: Backup is currently not supported for your DBMS ('.$CONF['database_type'].').');
 	$smarty->assign ('smarty_template', 'message');
 	$smarty->display ('index.tpl');

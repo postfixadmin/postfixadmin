@@ -289,7 +289,7 @@ function escape_string ($string) {
         if ($CONF['database_type'] == "mysqli") {
             $escaped_string = mysqli_real_escape_string($link, $string);
         }
-        if ($CONF['database_type'] == "pgsql") {
+        if (db_pgsql()) {
             // php 5.2+ allows for $link to be specified.
             if (version_compare(phpversion(), "5.2.0", ">=")) {
                 $escaped_string = pg_escape_string($link, $string);
@@ -449,7 +449,7 @@ function create_page_browser($idxfield, $querypart) {
 
     # init row counter
     $initcount = "SET @row=-1";
-    if ('pgsql'==$CONF['database_type']) {
+    if (db_pgsql()) {
         $initcount = "CREATE TEMPORARY SEQUENCE rowcount MINVALUE 0";
     }
     $result = db_query($initcount);
@@ -462,7 +462,7 @@ function create_page_browser($idxfield, $querypart) {
         ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
     "; 
 
-    if ('pgsql'==$CONF['database_type']) {
+    if (db_pgsql()) {
         $query = "
             SELECT * FROM (
                 SELECT $idxfield AS label, nextval('rowcount') AS row $querypart 
@@ -493,7 +493,7 @@ function create_page_browser($idxfield, $querypart) {
         }
     }
 
-    if ('pgsql'==$CONF['database_type']) {
+    if (db_pgsql()) {
         db_query ("DROP SEQUENCE rowcount");
     }
 
@@ -1233,7 +1233,7 @@ function db_connect ($ignore_errors = 0) {
         } else {
             $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
-    } elseif ($CONF['database_type'] == "pgsql") {
+    } elseif (db_pgsql()) {
         if (function_exists ("pg_pconnect")) {
 			if(!isset($CONF['database_port'])) {
 				$CONF['database_port'] = '5432';
@@ -1276,20 +1276,30 @@ function db_get_boolean($bool) {
         die("Invalid usage of 'db_get_boolean($bool)'");
     }
 
-    global $CONF;
-    if($CONF['database_type']=='pgsql') {
+    if(db_pgsql()) {
         // return either true or false (unquoted strings)
         if($bool) {
             return 't';
         }  
         return 'f';
-    } elseif($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli') {
+    } elseif(Config::Read('database_type') == 'mysql' || Config::Read('database_type') == 'mysqli') {
         if($bool) {
             return 1;  
         } 
         return 0;
     } else {
         die('Unknown value in $CONF[database_type]');
+    }
+}
+
+/**
+ * returns true if PostgreSQL is used, false otherwise
+ */
+function db_pgsql() {
+    if(Config::Read('database_type')=='pgsql') {
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -1315,7 +1325,7 @@ function db_query ($query, $ignore_errors = 0) {
         or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query ($query) : " . mysql_error($link) . "$DEBUG_TEXT";
     if ($CONF['database_type'] == "mysqli") $result = @mysqli_query ($link, $query) 
         or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query ($query) : " . mysqli_error($link) . "$DEBUG_TEXT";
-    if ($CONF['database_type'] == "pgsql") {
+    if (db_pgsql()) {
         $result = @pg_query ($link, $query) 
             or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query ($query): " . pg_last_error() . "$DEBUG_TEXT";
     }
@@ -1326,13 +1336,13 @@ function db_query ($query, $ignore_errors = 0) {
             // if $query was a SELECT statement check the number of rows with [database_type]_num_rows ().
             if ($CONF['database_type'] == "mysql") $number_rows = mysql_num_rows ($result);
             if ($CONF['database_type'] == "mysqli") $number_rows = mysqli_num_rows ($result);
-            if ($CONF['database_type'] == "pgsql") $number_rows = pg_num_rows ($result);
+            if (db_pgsql()                        ) $number_rows = pg_num_rows ($result);
         } else {
             // if $query was something else, UPDATE, DELETE or INSERT check the number of rows with
             // [database_type]_affected_rows ().
             if ($CONF['database_type'] == "mysql") $number_rows = mysql_affected_rows ($link);
             if ($CONF['database_type'] == "mysqli") $number_rows = mysqli_affected_rows ($link);
-            if ($CONF['database_type'] == "pgsql") $number_rows = pg_affected_rows ($result);
+            if (db_pgsql()                        ) $number_rows = pg_affected_rows ($result);
         }
     }
 
@@ -1355,7 +1365,7 @@ function db_row ($result) {
     $row = "";
     if ($CONF['database_type'] == "mysql") $row = mysql_fetch_row ($result);
     if ($CONF['database_type'] == "mysqli") $row = mysqli_fetch_row ($result);
-    if ($CONF['database_type'] == "pgsql") $row = pg_fetch_row ($result);
+    if (db_pgsql()                        ) $row = pg_fetch_row ($result);
     return $row;
 }
 
@@ -1370,7 +1380,7 @@ function db_array ($result) {
     $row = "";
     if ($CONF['database_type'] == "mysql") $row = mysql_fetch_array ($result);
     if ($CONF['database_type'] == "mysqli") $row = mysqli_fetch_array ($result);
-    if ($CONF['database_type'] == "pgsql") $row = pg_fetch_array ($result);
+    if (db_pgsql()                        ) $row = pg_fetch_array ($result);
     return $row;
 }
 
@@ -1385,7 +1395,7 @@ function db_assoc ($result) {
     $row = "";
     if ($CONF['database_type'] == "mysql") $row = mysql_fetch_assoc ($result);
     if ($CONF['database_type'] == "mysqli") $row = mysqli_fetch_assoc ($result);
-    if ($CONF['database_type'] == "pgsql") $row = pg_fetch_assoc ($result);
+    if (db_pgsql()                        ) $row = pg_fetch_assoc ($result);
     return $row;
 }
 
@@ -1485,25 +1495,19 @@ function db_update_q ($table, $where, $values, $timestamp = array('modified') ) 
  * Call: db_begin()
  */
 function db_begin () {
-    global $CONF;
-#    if ('pgsql'== Config::read('database_type')) {
-    if ('pgsql'== $CONF['database_type']) {
+    if (db_pgsql()) { # TODO: also enable for mysql? (not supported by MyISAM, which is used for most tables)
         db_query('BEGIN');
     }
 }
 
 function db_commit () {
-    global $CONF;
-#    if ('pgsql'== Config::read('database_type')) {
-    if ('pgsql'== $CONF['database_type']) {
+    if (db_pgsql()) {
         db_query('COMMIT');
     }
 }
 
 function db_rollback () {
-    global $CONF;
-#    if ('pgsql'== Config::read('database_type')) {
-    if ('pgsql'== $CONF['database_type']) {
+    if (db_pgsql()) {
         db_query('ROLLBACK');
     }
 }
@@ -1738,19 +1742,6 @@ function getRemoteAddr() {
 }
 
 
-
-/*
-   Convert $CONF['whatever'] to boolean
-   (obviously only useful for settings that can be YES or NO)
-
-   Returns: TRUE (on YES/yes) or FALSE (on NO/no/not set/unknown value)
-
-   Note: boolconf() is deprecated - please use Config::bool() instead
- */
-
-function boolconf($setting) {
-    return Config::bool($setting);    
-}
 
 #$table_admin = table_by_key ('admin');
 $table_alias = table_by_key ('alias');

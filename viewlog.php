@@ -57,8 +57,7 @@ $tLog = array();
 if ($error != 1)
 {
    $query = "SELECT timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT 10";
-   if ('pgsql'==$CONF['database_type'])
-   {
+   if (db_pgsql()) {
       $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT 10";
    }
    $result=db_query($query);
@@ -66,8 +65,7 @@ if ($error != 1)
    {
       while ($row = db_array ($result['result']))
       {
-         if ('pgsql'==$CONF['database_type'])
-         {
+         if (db_pgsql()) {
             $row['timestamp']=gmstrftime('%c %Z',$row['timestamp']);
          }
          $tLog[] = $row;

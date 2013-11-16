@@ -223,7 +223,7 @@ if ($result['rows'] > 0) {
                 }
             }
         }
-        if ('pgsql'==$CONF['database_type']) {
+        if (db_pgsql()) {
             // XXX
             $row['modified'] = date('Y-m-d H:i', strtotime($row['modified']));
             $row['created'] = date('Y-m-d H:i', strtotime($row['created']));

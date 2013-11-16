@@ -166,7 +166,7 @@ if ($cancel) { # cancel $new or $edit
       }
    }
    $formvars['id'] = $edit; # results in 0 on $new
-   if($CONF['database_type'] == 'pgsql' && $new) {
+   if(db_pgsql() && $new) {
       // skip - shouldn't need to specify this as it will default to the next available value anyway.
       unset($formvars['id']);
    }
@@ -213,7 +213,7 @@ if ($cancel) { # cancel $new or $edit
 } elseif ($edit) { # edit entry form
    $formvars = $edit_row;
    $formvars['src_password'] = '';
-   if ('pgsql'==$CONF['database_type']) {
+   if (db_pgsql()) {
       $formvars['fetchall']=('t'==$formvars['fetchall']) ? 1 : 0;
       $formvars['keep']=('t'==$formvars['keep']) ? 1 : 0;
       $formvars['usessl']=('t'==$formvars['usessl']) ? 1 : 0;
@@ -235,7 +235,7 @@ if ($edit + $new == 0) { # display list
    $res = db_query ("SELECT ".implode(",",escape_string(array_keys($fm_struct)))." FROM $table_fetchmail WHERE mailbox IN ($user_mailboxes_sql) ORDER BY mailbox,src_server,src_user");
    if ($res['rows'] > 0) {
       while ($row = db_array ($res['result'])) {
-         if ('pgsql'==$CONF['database_type']) {
+         if (db_pgsql()) {
             //. at least in my database, $row['modified'] already looks like : 2009-04-11 21:38:10.75586+01,
             // while gmstrftime expects an integer value. strtotime seems happy though.
             //$row['date']=gmstrftime('%c %Z',$row['date']);

@@ -413,7 +413,7 @@ abstract class PFAHandler {
         $yes = escape_string(Config::lang('YES'));
         $no  = escape_string(Config::lang('NO'));
 
-        if (Config::read('database_type') == 'pgsql') {
+        if (db_pgsql()) {
             $formatted_date = "TO_DATE(text(###KEY###), '" . escape_string(Config::Lang('dateformat_pgsql')) . "')";
         } else {
             $formatted_date = "DATE_FORMAT(###KEY###, '"   . escape_string(Config::Lang('dateformat_mysql')) . "')";

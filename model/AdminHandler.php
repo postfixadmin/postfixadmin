@@ -29,7 +29,7 @@ class AdminHandler extends PFAHandler {
         # NOTE: (Disabling both shouldn't be a problem.)
 
         # TODO: move to a db_group_concat() function?
-        if (Config::read('database_type') == 'pgsql') {
+        if (db_pgsql()) {
             $domains_grouped = "array_to_string(array_agg(domain), ',')";
         } else { # mysql
             $domains_grouped = 'group_concat(domain)';
