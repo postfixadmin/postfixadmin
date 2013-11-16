@@ -60,11 +60,11 @@ class AliasdomainHandler extends PFAHandler {
     }
 
     protected function initMsg() {
-        $this->msg['error_already_exists'] = 'pCreate_alias_domain_error2'; # TODO: better error message
-        $this->msg['error_does_not_exist'] = 'pCreate_alias_domain_error2'; # TODO: better error message
+        $this->msg['error_already_exists'] = 'alias_domain_already_exists';
+        $this->msg['error_does_not_exist'] = 'alias_domain_does_not_exist';
         if ($this->new) {
             $this->msg['logname'] = 'create_alias_domain';
-            $this->msg['store_error'] = 'pCreate_alias_domain_error3';
+            $this->msg['store_error'] = 'alias_domain_create_failed';
             $this->msg['successmessage'] = 'pCreate_alias_domain_success';
         } else {
             $this->msg['logname'] = 'edit_alias_domain';
