@@ -1187,7 +1187,7 @@ $DEBUG_TEXT = "\n
     Please check the documentation and website for more information.\n
     <p />\n
     <a href=\"http://postfixadmin.sf.net/\">Postfix Admin</a><br />\n
-    <a href='https://sourceforge.net/forum/forum.php?forum_id=676076'>Forums</a>
+    <a href='https://sourceforge.net/p/postfixadmin/discussion/676076'>Forums</a>
     ";
 
 
@@ -1322,14 +1322,18 @@ function db_query ($query, $ignore_errors = 0) {
     if (! (is_resource($link) || is_object($link) ) ) $link = db_connect ();
 
     if ($CONF['database_type'] == "mysql") $result = @mysql_query ($query, $link) 
-        or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query ($query) : " . mysql_error($link) . "$DEBUG_TEXT";
+        or $error_text = "Invalid query: " . mysql_error($link);
     if ($CONF['database_type'] == "mysqli") $result = @mysqli_query ($link, $query) 
-        or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query ($query) : " . mysqli_error($link) . "$DEBUG_TEXT";
+        or $error_text = "Invalid query: " . mysqli_error($link);
     if (db_pgsql()) {
         $result = @pg_query ($link, $query) 
-            or $error_text = "<p />DEBUG INFORMATION:<br />Invalid query ($query): " . pg_last_error() . "$DEBUG_TEXT";
+            or $error_text = "Invalid query: " . pg_last_error();
     }
-    if ($error_text != "" && $ignore_errors == 0) die($error_text);
+    if ($error_text != "" && $ignore_errors == 0) {
+        error_log($error_text);
+        error_log("caused by query: $query");
+        die("<p />DEBUG INFORMATION:<br />$error_text <p>Check your error_log for the failed query. $DEBUG_TEXT");
+    }
 
     if ($error_text == "") {
         if (preg_match("/^SELECT/i", trim($query))) {
