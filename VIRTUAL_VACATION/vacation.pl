@@ -512,9 +512,8 @@ sub send_vacation_email {
             'on_errors' => 'die', # raise exception on error
         );
         my %mail;
-        # I believe Mail::Sender qp encodes the subject, so we no longer need to.
         %mail = (
-            'subject' => $subject,
+            'subject' => encode_mimewords($subject, 'Charset', 'UTF-8'),
             'from' => $from,
             'fake_from' => $friendly_from . " <$from>",
             'to' => $to,
