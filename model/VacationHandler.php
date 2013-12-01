@@ -7,7 +7,10 @@ class VacationHandler extends PFAHandler {
     protected $id_field = 'email';
     protected $domain_field = 'domain';
 
-    # init $this->struct, $this->db_table and $this->id_field
+    function init($id) {
+        die('VacationHandler is not yet ready to be used with *Handler methods'); # obvious TODO: remove when it's ready ;-) 
+    }
+
     protected function initStruct() {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...

@@ -13,6 +13,7 @@
 Version ***svn*** - 2009/12/26 - SVN r***
 -----------------------------------
 
+
   - NOTE: changes from the 2.3 branch also apply to this version
   - use smarty for templates
   - new command-line interface for PostfixAdmin (scripts/postfixadmin-cli)
