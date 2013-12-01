@@ -16,48 +16,32 @@
  *
  * Template File: list-virtual.php
  *
- * Template Variables:
- *
- * tAlias
- * tMailbox
- *
  * Form POST \ GET Variables:
  *
  * fDomain
  * fDisplay
+ * search
  */
 require_once('common.php');
 
 
 authentication_require_role('admin');
 
-$fDomain = false;
 $admin_username = authentication_get_username();
 
-if (authentication_has_role('global-admin')) {
-    $list_domains = list_domains ();
-    $is_superadmin = 1;
-} else {
-    $list_domains = list_domains_for_admin(authentication_get_username());
-    $is_superadmin = 0;
-}
-$tAlias = array();
-$tMailbox = array();
-$fDisplay = 0;
+$list_domains = list_domains_for_admin($admin_username);
+
 $page_size = $CONF['page_size'];
 
-if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    if (isset ($_GET['domain'])) $fDomain = escape_string ($_GET['domain']);
-    if (isset ($_GET['limit'])) $fDisplay = intval ($_GET['limit']);
-    $search = escape_string(safeget('search'));
-} else {
-    if (isset ($_POST['fDomain'])) $fDomain = escape_string ($_POST['fDomain']);
-    if (isset ($_POST['limit'])) $fDisplay = intval ($_POST['limit']);
-    $search = escape_string(safepost('search'));
+$fDomain = safepost('fDomain', safeget('domain', safesession('list-virtual:domain')));
+if (safesession('list-virtual:domain') != $fDomain) {
+    unset($_SESSION['list-virtual:limit']);
 }
+$fDisplay = (int) safepost('limit', safeget('limit', safesession('list-virtual:limit')));
+$search   = safepost('search',  safeget('search', '')); # not remembered in the session
 
 if (count($list_domains) == 0) {
-    if ($is_superadmin) {
+    if (authentication_has_role('global-admin')) {
         flash_error($PALANG['no_domains_exist']);
     } else {
         flash_error($PALANG['no_domains_for_this_admin']);
@@ -74,21 +58,22 @@ if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) {
 
 if(!in_array($fDomain, $list_domains)) {
     flash_error( $PALANG['invalid_parameter'] );
+    unset($_SESSION['list-virtual:domain']);
     header("Location: list-domain.php"); # invalid domain, or not owned by this admin
     exit;
 }
 
 if (!check_owner(authentication_get_username(), $fDomain)) { 
     flash_error( $PALANG['invalid_parameter'] . " If you see this message, please open a bugreport"); # this check is most probably obsoleted by the in_array() check above
+    unset($_SESSION['list-virtual:domain']);
     header("Location: list-domain.php"); # domain not owned by this admin
     exit(0);
 }
 
-// store fDomain in $_SESSION so after adding/editing aliases/mailboxes we can
-// take the user back to the appropriate domain listing. (see templates/menu.tpl)
-if($fDomain) {
-    $_SESSION['list_virtual_sticky_domain'] = $fDomain;
-}
+// store domain and page browser offset in $_SESSION so after adding/editing aliases/mailboxes we can
+// take the user back to the appropriate domain listing.
+$_SESSION['list-virtual:domain'] = $fDomain;
+$_SESSION['list-virtual:limit'] = $fDisplay;
 
 #
 # alias domain
@@ -120,28 +105,17 @@ if (Config::bool('alias_domain')) {
 
 if ($search == "") {
     $list_param = "domain='$fDomain'";
-    # sql_domain / sql_where only needed for pagebrowser
     $sql_domain = " $table_alias.domain='$fDomain' ";
-    $sql_where  = "";
 } else {
     $list_param = "(address LIKE '%$search%' OR goto LIKE '%$search%')";
-    # sql_domain / sql_where only needed for pagebrowser
     $sql_domain = db_in_clause("$table_alias.domain", $list_domains);
-    $sql_where  = " AND ( address LIKE '%$search%' OR goto LIKE '%$search%' ) ";
 }
 
 $alias_pagebrowser_query = "
     FROM $table_alias
-    WHERE $sql_domain AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address) $sql_where
+    WHERE $sql_domain AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address) AND ( $list_param )
     ORDER BY address 
 ";
-/*
-$query = "
-    SELECT address, goto, modified, active
-    $alias_pagebrowser_query
-    LIMIT $page_size OFFSET $fDisplay
-";
-*/
 
 $handler = new AliasHandler(0, $admin_username);
 $handler->getList($list_param, $page_size, $fDisplay);
@@ -203,6 +177,7 @@ if ($result['rows'] > 0) {
     $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
     $goto_single_rec_del = "";
 
+    $tMailbox = array();
     while ($row = db_array ($result['result'])) {
         if ($display_mailbox_aliases) {
             $goto_split = explode(",", $row['goto']);

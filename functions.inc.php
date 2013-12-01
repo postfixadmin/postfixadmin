@@ -362,6 +362,20 @@ function safecookie ($param, $default="") {
 }
 
 /**
+ * safesession
+ * @see safeget()
+ * @param String $param 
+ * @param String $default (optional)
+ * @return String value from $_SESSION[$param] or $default
+ */
+function safesession ($param, $default="") {
+    $retval=$default;
+    if (isset($_SESSION[$param])) $retval=$_SESSION[$param];
+    return $retval;
+}
+
+
+/**
  * pacol
  * @param int $allow_editing
  * @param int $display_in_form
