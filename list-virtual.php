@@ -73,7 +73,12 @@ if (!check_owner(authentication_get_username(), $fDomain)) {
 // store domain and page browser offset in $_SESSION so after adding/editing aliases/mailboxes we can
 // take the user back to the appropriate domain listing.
 $_SESSION['list-virtual:domain'] = $fDomain;
+$_SESSION['prefill:alias:domain'] = $fDomain;
+$_SESSION['prefill:mailbox:domain'] = $fDomain;
+$_SESSION['prefill:aliasdomain:target_domain'] = $fDomain;
+
 $_SESSION['list-virtual:limit'] = $fDisplay;
+
 
 #
 # alias domain

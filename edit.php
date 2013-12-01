@@ -60,13 +60,14 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if ($edit == '') { # new - prefill fields from URL parameters if allowed in $formconf['prefill']
         if ( isset($formconf['prefill']) ) {
             foreach ($formconf['prefill'] as $field) {
-                if (isset ($_GET[$field])) {
-                    $form_fields[$field]['default'] = safeget($field);
-                    $handler->prefill($field, safeget($field));
+                $prefillvalue = safeget($field, safesession("prefill:$table:$field"));
+                if ($prefillvalue != '') {
+                    $form_fields[$field]['default'] = $prefillvalue;
+                    $handler->prefill($field, $prefillvalue);
                 }
             }
         }
-            $form_fields = $handler->getStruct(); # refresh $form_fields - a prefill field might have changed something
+        $form_fields = $handler->getStruct(); # refresh $form_fields - a prefill field might have changed something
     } else { # edit mode - read values from database
         if (!$handler->view()) {
             flash_error($handler->errormsg);
@@ -104,9 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
-}
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($formconf['hardcoded_edit']) && $formconf['hardcoded_edit']) {
         $values[$id_field] = $form_fields[$id_field]['default'];
     } elseif ($edit != "") {
@@ -139,11 +138,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 flash_error($handler->errormsg);
             }
 
+            # remember prefill values for next usage of the form
+            if ( isset($formconf['prefill']) ) {
+                foreach ($formconf['prefill'] as $field) {
+                    if (isset($values[$field])) {
+                        $_SESSION["prefill:$table:$field"] = $values[$field];
+                    }
+                }
+            }
+
             if ($edit != "") {
                 header ("Location: " . $formconf['listview']);
                 exit;
             } else {
-                header("Location: edit.php?table=$table"); # TODO: hand over last used domain etc. ($formconf['prefill'] ?)
+                header("Location: edit.php?table=$table");
                 exit;
             }
         }

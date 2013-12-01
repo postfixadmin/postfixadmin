@@ -220,7 +220,9 @@ abstract class PFAHandler {
         $func="_prefill_".$field;
         if (method_exists($this, $func) ) {
             $this->{$func}($field, $val); # call _missing_$fieldname()
-        } 
+        } else {
+            $this->struct[$field]['default'] = $val;
+        }
     }
 
     /**
