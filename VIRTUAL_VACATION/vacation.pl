@@ -445,9 +445,8 @@ sub send_vacation_email {
             'headers' => 'X-Loop: Postfix Admin Virtual Vacation',
         );
         my %mail;
-        # I believe Mail::Sender qp encodes the subject, so we no longer need to.
         %mail = (
-            'subject' => $subject,
+            'subject' => encode_mimewords($subject, 'Charset', 'UTF-8'),
             'from' => $from,
             'to' => $to,
             'msg' => encode_base64($body)
