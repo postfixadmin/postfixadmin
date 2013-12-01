@@ -143,3 +143,6 @@ Note: The above text describes the configuration for dovecot 1.0 & 1.1 quota tab
 If you use dovecot 1.2 or newer, 
 - use the 'quota2' table (also created by setup.php)
 - set $CONF['new_quota_table'] = 'YES'
+
+
+*** TODO: Update based on chatlog 2012-05-02 ***

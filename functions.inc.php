@@ -861,17 +861,11 @@ function pacrypt ($pw, $pw_db="") {
     }
 
     elseif ($CONF['encrypt'] == 'system') {
-        if (preg_match("/\\$1\\$/", $pw_db)) {
-            $split_salt = preg_split ('/\$/', $pw_db);
-            $salt = "\$1\$${split_salt[2]}\$";
+        if ($pw_db) {
+            $password = crypt($pw, $pw_db);
         } else {
-            if (strlen($pw_db) == 0) {
-                $salt = substr (md5 (mt_rand ()), 0, 2);
-            } else {
-                $salt = substr ($pw_db, 0, 2);
-            }
+            $password = crypt($pw);
         }
-        $password = crypt ($pw, $salt);
     }
 
     elseif ($CONF['encrypt'] == 'cleartext') {

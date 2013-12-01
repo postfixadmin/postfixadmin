@@ -1,7 +1,74 @@
 <?php
 # $Id$ 
 
-class VacationHandler {
+class VacationHandler extends PFAHandler {
+
+    protected $db_table = 'vacation';
+    protected $id_field = 'email';
+    protected $domain_field = 'domain';
+
+    # init $this->struct, $this->db_table and $this->id_field
+    protected function initStruct() {
+        $this->struct=array(
+            # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
+            #                           editing?    form    list
+            'email'         => pacol(   $this->new, 1,      1,      'text', 'pLogin_username'               , ''                                , '' ),
+            'domain'        => pacol(   1,          0,      0,      'text', ''                              , ''                                , '' ),
+            'subject'       => pacol(   1,          1,      0,      'text', 'pUsersVacation_subject'        , ''                                , '' ),
+            'body'          => pacol(   1,          1,      0,      'text', 'pUsersVacation_body'           , ''                                , '' ),
+            'activefrom'    => pacol(   1,          1,      1,      'text', 'pUsersVacation_activefrom'     , ''                                , '' ),
+            'activeuntil'   => pacol(   1,          1,      1,      'text', 'pUsersVacation_activeuntil'    , ''                                , '' ),
+#           'cache'         => pacol(   0,          0,      0,      'text', ''                              , ''                                , '' ), # leftover from 2.2
+            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
+            'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                 ),
+            'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
+            # TODO: add virtual 'notified' column and allow to display who received a vacation response?
+        );
+    }
+
+    protected function initMsg() {
+        $this->msg['error_already_exists'] = 'pCreate_mailbox_username_text_error1'; # TODO: better error message
+        $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1'; # TODO: better error message
+        if ($this->new) {
+            $this->msg['logname'] = 'edit_vacation';
+            $this->msg['store_error'] = 'pVacation_result_error';
+            $this->msg['successmessage'] = 'pVacation_result_removed'; # TODO: or pVacation_result_added - depends on 'active'... -> we probably need a new message
+        } else {
+            $this->msg['logname'] = 'edit_vacation';
+            $this->msg['store_error'] = 'pVacation_result_error';
+            $this->msg['successmessage'] = 'pVacation_result_removed'; # TODO: or pVacation_result_added - depends on 'active'... -> we probably need a new message
+        }
+    }
+
+    public function webformConfig() {
+        return array(
+            # $PALANG labels
+            'formtitle_create' => 'pUsersVacation_welcome',
+            'formtitle_edit' => 'pUsersVacation_welcome',
+            'create_button' => 'save',
+
+            # various settings
+            'required_role' => 'admin',
+            'listview' => 'list-virtual.php',
+            'early_init' => 1, # 0 for create-domain
+        );
+    }
+
+    protected function validate_new_id() {
+        # vacation can only be enabled if a mailbox with this name exists
+        $handler = new MailboxHandler();
+        return $handler->init($address);                                                                                                                       
+    }
+
+    public function delete() {
+        $this->errormsg[] = '*** deletion not implemented yet ***';
+        return false; # XXX function aborts here! XXX
+
+    }
+
+
+
+
     protected $username = null;
     function __construct($username) {
         $this->username = $username;
@@ -29,11 +96,9 @@ class VacationHandler {
 
     /**
      * @return boolean true indicates this server supports vacation messages, and users are able to change their own.
-     * @global array $CONF
      */
     function vacation_supported() {
-        global $CONF;
-        return $CONF['vacation'] == 'YES' && $CONF['vacation_control'] == 'YES';
+        return Config::bool('vacation') && Config::bool('vacation_control');
     }
 
     /**

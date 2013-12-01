@@ -13,14 +13,11 @@
 Version ***svn*** - 2009/12/26 - SVN r***
 -----------------------------------
 
-*** TODO: changelog for r1157 and r1163
-*** TODO: copy changelog from the 2.3 branch after 2.3.3 release to trunk
-
   - NOTE: changes from the 2.3 branch also apply to this version
   - use smarty for templates
   - new command-line interface for PostfixAdmin (scripts/postfixadmin-cli)
-    (still incomplete)
-  - add ability to choose activation and end date for vacation message
+  - add ability to choose activation date, end date and reply interval for vacation message
+*** reply interval needs rework, https://sourceforge.net/tracker/?func=detail&aid=3508083&group_id=191583&atid=937966
   - add support for total quota per domain - $CONF[domain_quota]
   - redesign login page, list and edit pages (goodbye, green!) and made them wider
   - new config option $CONF['theme_custom_css'] - allows to add some custom CSS
@@ -36,32 +33,66 @@ Version ***svn*** - 2009/12/26 - SVN r***
     domains - or all in one page as in 2.3
   - extreme speedup of page browser in list-virtual if a large number of 
     mailboxes or aliases exist
-*** TODO: totally broken for PostgreSQL :-( - see create_page_browser() in functions.inc.php ***
   - display alias domains less confusing (using From/To)
 *** TODO: make "all" the default? ***
   - merge search.php functionality into list-virtual.php (which brings various
     bug fixes for free)
   - don't mark mailboxes with vacation active as undeliverable
-*** TODO: backport candidate? r1068 ***
   - fix: undeliverable targets were not flagged if another target pointed to a
     domain in $CONF[show_undeliverable_exceptions]
-*** TODO: backport candidate? r1069 ***
-  - move lots of code into classes (model/*) which is then used by the
-    webinterface and the commandline interface (still incomplete)
+  - move lots of code into classes (model/*Handler) which is then used by the
+    webinterface and the commandline interface
   - supress warnings about PHP's date.timezone not set at various places
-*** TODO: do it always for Smarty? ***
   - table_by_key function now always prepends $CONF['database_prefix'] even if
     $CONF['database_tables'][$table] is not set. If you have/had an incomplete
     database_tables array and use a database_prefix, you might need to rename/
     add the database_prefix to the affected tables manually.
 *** TODO: add a check/warning in setup.php? ***
-  - cleanup of $PALANG - marked lots of duplicated texts as obsolete
+  - cleanup of $PALANG - removed lots of duplicated texts
     (which means less texts to translate)
-  - removed <span> and <br> tags from $PALANG texts (formatting is now done in
-    the templates)
+  - removed HTML tags from $PALANG texts
   - several translation updates
   - merged templates for "edit" and "create" forms and for user and admin mode
   - lots of code cleanup, removal of duplicated code etc.
+
+Version 2.3.6 - 2013/01/02 - SVN r1417 (postfixadmin-2.3 branch)
+----------------------------------------------------------------
+
+  - display domain and mailbox description with correct encoding
+  - fix footer link
+  - focus username input field in login form
+  - fix double inclusion of config.inc.php in setup.php
+  - fix bool and date handling in fetchmail
+
+Version 2.3.5 - 2012/01/16 - SVN r1335 (postfixadmin-2.3 branch)
+----------------------------------------------------------------
+
+  - fix SQL injection in pacrypt() (if $CONF[encrypt] == 'mysql_encrypt')
+  - fix SQL injection in backup.php - the dump was not mysql_escape()d, 
+    therefore users could inject SQL (for example in the vacation message)
+    which will be executed when restoring the database dump.
+    WARNING: database dumps created with backup.php from 2.3.4 or older might
+             contain malicious SQL. Double-check before using them!
+  - fix XSS with $_GET[domain] in templates/menu.php and edit-vacation
+  - fix XSS in some create-domain input fields
+  - fix XSS in create-alias and edit-alias error message
+  - fix XSS (by values stored in the database) in fetchmail list view,
+    list-domain and list-virtual
+  - create-domain: fix SQL injection (only exploitable by superadmins)
+  - add missing $LANG['pAdminDelete_admin_error']
+  - don't mark mailbox targets with recipient delimiter as "forward only"
+  - wrap hex2bin with function_exists() - PHP 5.3.8 has it as native function
+
+Version 2.3.4 - 2011/09/16 - SVN r1180 (postfixadmin-2.3 branch)
+----------------------------------------------------------------
+
+  - generate more secure random passwords
+  - squirrelmail plugin: fix typo in variable name
+  - list-domain: fix SELECT query to work with PgSQL even when using custom fields
+  - create-domain: force domain name to lowercase to avoid problems with PgSQL
+    foreign keys
+  - fix vacation.pl to log to "mail" syslog facility
+  - error_log() dovecotpw error messages
 
 Version 2.3.3 - 2011/03/14 - SVN r1010 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
@@ -567,3 +598,6 @@ Version 1.3.8  -- 2003/03/25
 Version 1.3.7  -- 2002/12/24
 ----------------------------
   - Initial public release of Postfix Admin.
+
+
+# vim: set expandtab softtabstop=2 tabstop=2 shiftwidth=2:
