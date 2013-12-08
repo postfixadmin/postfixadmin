@@ -108,6 +108,9 @@ if (Config::bool('alias_domain')) {
 # aliases
 #
 
+$table_alias = table_by_key('alias');
+$table_mailbox = table_by_key('mailbox');
+
 if ($search == "") {
     $list_param = "domain='$fDomain'";
     $sql_domain = " $table_alias.domain='$fDomain' ";
@@ -158,16 +161,19 @@ if ($display_mailbox_aliases) {
 }
 
 if (Config::bool('vacation_control_admin')) {
+    $table_vacation = table_by_key('vacation');
     $sql_select .= ", $table_vacation.active AS v_active ";
     $sql_join   .= " LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email ";
 }
 
 if (Config::bool('used_quotas') && Config::bool('new_quota_table')) {
+    $table_quota2 = table_by_key('quota2');
     $sql_select .= ", $table_quota2.bytes as current ";
     $sql_join   .= " LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username ";
 }
 
 if (Config::bool('used_quotas') && ( ! Config::bool('new_quota_table') ) ) {
+    $table_quota = table_by_key('quota');
     $sql_select .= ", $table_quota.current ";
     $sql_join   .= " LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username ";
     $sql_where  .= " AND ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";

@@ -538,7 +538,7 @@ function divide_quota ($quota) {
 // Call: check_owner (string admin, string domain)
 //
 function check_owner ($username, $domain) {
-    global $table_domain_admins;
+    $table_domain_admins = table_by_key('domain_admins');
     $E_username = escape_string($username);
     $E_domain = escape_string($domain);
     $result = db_query ("SELECT 1 FROM $table_domain_admins WHERE username='$E_username' AND (domain='$E_domain' OR domain='ALL') AND active='1'");
@@ -580,7 +580,8 @@ function check_alias_owner ($username, $alias) {
  * @return array of domain names.
  */
 function list_domains_for_admin ($username) {
-    global $table_domain, $table_domain_admins;
+    $table_domain = table_by_key('domain');
+    $table_domain_admins = table_by_key('domain_admins');
 
     $E_username = escape_string($username);
 
@@ -618,9 +619,9 @@ function list_domains_for_admin ($username) {
 // Call: list_domains ()
 //
 function list_domains () {
-    global $table_domain;
     $list = array();
 
+    $table_domain = table_by_key('domain');
     $result = db_query ("SELECT domain FROM $table_domain WHERE domain!='ALL' ORDER BY domain");
     if ($result['rows'] > 0) {
         $i = 0;
@@ -1535,7 +1536,7 @@ function db_rollback () {
  * Possible actions are defined in $action_list
  */
 function db_log ($domain,$action,$data) {
-    global $table_log;
+    $table_log = table_by_key('log');
     $REMOTE_ADDR = getRemoteAddr();
 
     $username = authentication_get_username();
@@ -1663,7 +1664,8 @@ function alias_domain_postdeletion($alias_domain) {
 // Call: gen_show_status (string alias_address)
 //
 function gen_show_status ($show_alias) {
-    global $CONF, $table_alias;
+    global $CONF;
+    $table_alias = table_by_key('alias');
     $stat_string = "";
 
     $stat_goto = "";
@@ -1753,17 +1755,4 @@ function getRemoteAddr() {
     return $REMOTE_ADDR;
 }
 
-
-
-#$table_admin = table_by_key ('admin');
-$table_alias = table_by_key ('alias');
-#$table_alias_domain = table_by_key ('alias_domain');
-$table_domain = table_by_key ('domain');
-$table_domain_admins = table_by_key ('domain_admins');
-$table_log = table_by_key ('log');
-$table_mailbox = table_by_key ('mailbox');
-$table_vacation = table_by_key ('vacation');
-$table_vacation_notification = table_by_key('vacation_notification');
-$table_quota = table_by_key ('quota');
-$table_quota2 = table_by_key ('quota2');
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

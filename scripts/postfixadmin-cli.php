@@ -544,19 +544,7 @@ $dispatcher = new PostfixAdmin($argv);
 
 $CONF = Config::read('all');
 
-//bugfix shitty globals and OOP.....
-
-#$table_admin = table_by_key ('admin');
-$table_alias = table_by_key ('alias');
-#$table_alias_domain = table_by_key ('alias_domain');
-$table_domain = table_by_key ('domain');
-$table_domain_admins = table_by_key ('domain_admins');
-$table_log = table_by_key ('log');
-$table_mailbox = table_by_key ('mailbox');
-$table_vacation = table_by_key ('vacation');
-$table_vacation_notification = table_by_key('vacation_notification');
-$table_quota = table_by_key ('quota');
-$table_quota2 = table_by_key ('quota2');
-
 $dispatcher->dispatch();
+
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
