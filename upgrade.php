@@ -204,7 +204,8 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
                 '{MYISAM}'          => 'ENGINE=MyISAM',
                 '{INNODB}'          => 'ENGINE=InnoDB',
-                '{BIGINT}'          => 'bigint',
+                '{INT}'             => 'integer NOT NULL DEFAULT 0',
+                '{BIGINT}'          => 'bigint NOT NULL DEFAULT 0',
                 '{DATE}'            => "timestamp NOT NULL default '2000-01-01'", # MySQL needs a sane default (no default is interpreted as CURRENT_TIMESTAMP, which is ...
                 '{DATECURRENT}'     => 'timestamp NOT NULL default CURRENT_TIMESTAMP', # only allowed once per table in MySQL
         );
@@ -223,7 +224,8 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{RENAME_COLUMN}'   => 'ALTER COLUMN', # PgSQL : ALTER TABLE x RENAME x TO y
                 '{MYISAM}'          => '',
                 '{INNODB}'          => '',
-                '{BIGINT}'          => 'bigint',
+                '{INT}'             => 'integer NOT NULL DEFAULT 0',
+                '{BIGINT}'          => 'bigint NOT NULL DEFAULT 0',
                 'int(1)'            => 'int',
                 'int(10)'           => 'int', 
                 'int(11)'           => 'int', 
@@ -1208,7 +1210,7 @@ function upgrade_729() {
     db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} $table_quota2 (
             username VARCHAR(100) {LATIN1} NOT NULL,
-            bytes {BIGINT} NOT NULL DEFAULT 0,
+            bytes {BIGINT},
             messages integer NOT NULL DEFAULT 0,
             PRIMARY KEY (username)
         ) {MYISAM} ;
