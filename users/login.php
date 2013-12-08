@@ -52,10 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $_SESSION['PFA_token'] = md5(uniqid(rand(), true));
       header("Location: main.php");
       exit;
-   }
-   else {   
-         $error = 1;
-         flash_error($PALANG['pLogin_failed']);;
+   } else {   
+      error_log("PostfixAdmin login failed (username: $fUsername)");
+      flash_error($PALANG['pLogin_failed']);
    }
 }
 
