@@ -50,7 +50,8 @@ function login($username, $password) {
     if($h::login($username, $password)) {
         session_regenerate_id();
         $_SESSION['authenticated'] = true;
-        $_SESSION['username'] = $username;
+        $_SESSION['sessid'] = array();
+        $_SESSION['sessid']['username'] = $username;
         return true;
     }
     return false;
@@ -76,7 +77,7 @@ class UserProxy {
      */
     public function changePassword($old_password, $new_password) {
         $uh = new MailboxHandler();
-        if (!$uh->init($_SESSION['username'])) return false;
+        if (!$uh->init($_SESSION['sessid']['username'])) return false;
         return $uh->change_pw($new_password, $old_password);
     }
 
@@ -86,7 +87,7 @@ class UserProxy {
      * @return boolean true if successful.
      */
     public function login($username, $password) {
-        $uh = new MailboxHandler(); # $_SESSION['username']);
+        $uh = new MailboxHandler(); # $_SESSION['sessid']['username']);
         return $uh->login($username, $password);
     }
 }
@@ -96,7 +97,7 @@ class VacationProxy {
      * @return boolean true if the vacation is removed successfully. Else false.
      */
     public function remove() {
-        $vh = new VacationHandler($_SESSION['username']);
+        $vh = new VacationHandler($_SESSION['sessid']['username']);
         return $vh->remove();
     }
 
@@ -105,7 +106,7 @@ class VacationProxy {
      * and the user has the ability to make changes to it.
      */
     public function isVacationSupported() {
-        $vh = new VacationHandler($_SESSION['username']);
+        $vh = new VacationHandler($_SESSION['sessid']['username']);
         return $vh->vacation_supported();
     }
 
@@ -113,7 +114,7 @@ class VacationProxy {
      * @return boolean true if the user has an active vacation record etc.
      */
     public function checkVacation() {
-        $vh = new VacationHandler($_SESSION['username']);
+        $vh = new VacationHandler($_SESSION['sessid']['username']);
         return $vh->check_vacation();
     }
 
@@ -121,18 +122,22 @@ class VacationProxy {
      * @return struct|boolean - either array of vacation details or boolean false if the user has none.
      */
     public function getDetails() {
-        $vh = new VacationHandler($_SESSION['username']);
+        $vh = new VacationHandler($_SESSION['sessid']['username']);
         return $vh->get_details();
     }
 
     /**
      * @param string $subject
      * @param string $body
+     * @param string $reply_type
+     * @param string $interval_time
+     * @param string $activeFrom
+     * @param string $activeUntil
      * @return boolean true on success.
      */
-    public function setAway($subject, $body) {
-        $vh = new VacationHandler($_SESSION['username']);
-        return $vh->set_away($subject, $body);
+    public function setAway($subject, $body, $reply_type = 'One Reply', $interval_time = 0, $activeFrom = '2000-01-01', $activeUntil = '2099-12-31') {
+        $vh = new VacationHandler($_SESSION['sessid']['username']);
+        return $vh->set_away($subject, $body, $reply_type, $interval_time, $activeFrom, $activeUntil);
     }
 
 
@@ -143,7 +148,7 @@ class AliasProxy {
      */
     public function get() {
         $ah = new AliasHandler();
-        $ah->init($_SESSION['username']);
+        $ah->init($_SESSION['sessid']['username']);
         /* I see no point in returning special addresses to the user. */
         $ah->view();
         $result = $ah->result;
@@ -157,7 +162,7 @@ class AliasProxy {
      */
     public function update($addresses, $flags) {
         $ah = new AliasHandler();
-        $ah->init($_SESSION['username']);
+        $ah->init($_SESSION['sessid']['username']);
         
         $values['goto'] = $addresses;
 
@@ -179,7 +184,7 @@ class AliasProxy {
      */
     public function hasStoreAndForward() {
         $ah = new AliasHandler();
-        $ah->init($_SESSION['username']);
+        $ah->init($_SESSION['sessid']['username']);
         $ah->view();
         $result = $ah->result;
         return $result['goto_mailbox'] == 1;
