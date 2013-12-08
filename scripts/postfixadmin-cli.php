@@ -447,6 +447,7 @@ class PostfixAdmin {
         function help() {
                 $this->stdout("\nWelcome to Postfixadmin-CLI v" . $this->version);
                 $this->stdout("---------------------------------------------------------------");
+                /* users shouldn't need to specify -webroot - therefore let's "hide" it ;-)
                 $this->stdout("Options:");
                 $this->stdout(" -webroot: " . $this->params['webroot']);
                 $this->stdout("");
@@ -454,7 +455,36 @@ class PostfixAdmin {
                 $this->stdout("your webroot should be the same as your postfixadmin path");
                 $this->stdout("to change your path use the '-webroot' param.");
                 $this->stdout("Example: -webroot r/absolute/path/to/postfixadmin");
+                */
 
+                $this->stdout("Usage:");
+                $this->stdout("    postfixadmin-cli <module> <task> [--option value --option2 value]");
+                $this->stdout("");
+                $this->stdout("Available modules:");
+
+                $modules = explode(',','admin,domain,mailbox,alias,aliasdomain');
+                foreach ($modules as $module) {
+                    $this->stdout("    $module");
+                }
+                $this->stdout("");
+                $this->stdout("Most modules support the following tasks:");
+                $this->stdout("    view      View an item");
+                $this->stdout("    add       Add an item");
+                $this->stdout("    update    Update an item");
+                $this->stdout("    delete    Delete an item");
+                $this->stdout("    help      Print help output");
+                $this->stdout("");
+                $this->stdout("");
+                $this->stdout("For module-specific help, see:");
+                $this->stdout("");
+                $this->stdout("    postfixadmin-cli <module> help");
+                $this->stdout("        print a detailed list of available commands");
+                $this->stdout("");
+                $this->stdout("    postfixadmin-cli <module> <task> help");
+                $this->stdout("        print a list of available options.");
+                $this->stdout("");
+
+                /*
                 $this->stdout("\nAvailable Commands:");
                 foreach ($this->commands() AS $command => $desc) {
                         if (is_array($desc)) {
@@ -469,6 +499,7 @@ class PostfixAdmin {
                 }
                 $this->stdout("\nTo run a command, type 'postfixadmin-cli command [args]'");
                 $this->stdout("To get help on a specific command, type 'postfixadmin-cli command help'");
+                */
                 exit();
 
         }
@@ -478,6 +509,7 @@ class PostfixAdmin {
  * @return array List of commands
  * @access public
  */
+/* currently unused (and outdated)
         function commands() {
         
         
@@ -494,14 +526,13 @@ class PostfixAdmin {
                             'update' => 'Updates a alias.',
                             'delete' => 'Deletes a alias.',
                 ), 
-                'version' => 'Prints version of Postfixadmin and Postfixadmin-CLI' 
                 );
         
         
         
         
         }
-
+*/
 
 
 }
