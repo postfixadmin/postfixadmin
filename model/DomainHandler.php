@@ -60,7 +60,7 @@ class DomainHandler extends PFAHandler {
            'quota'           => pacol(  $dom_q,     $dom_q, $dom_q, 'num' , 'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
            'transport'       => pacol(  $transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
                /*options*/ Config::read('transport_options')    ),
-           'backupmx'        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 ),
+           'backupmx'        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 , 0),
            'active'          => pacol(  1,          1,      1,      'bool', 'active'                       , ''                                 , 1                         ),
            'default_aliases' => pacol(  $this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,'', /*not in db*/ 1     ),
            'created'         => pacol(  0,          0,      1,      'ts',   'created'                      , ''                                 ),
