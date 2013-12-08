@@ -135,9 +135,9 @@ class VacationProxy {
      * @param string $activeUntil
      * @return boolean true on success.
      */
-    public function setAway($subject, $body, $reply_type = 'One Reply', $interval_time = 0, $activeFrom = '2000-01-01', $activeUntil = '2099-12-31') {
+    public function setAway($subject, $body, $interval_time = 0, $activeFrom = '2000-01-01', $activeUntil = '2099-12-31') {
         $vh = new VacationHandler($_SESSION['sessid']['username']);
-        return $vh->set_away($subject, $body, $reply_type, $interval_time, $activeFrom, $activeUntil);
+        return $vh->set_away($subject, $body, '', $interval_time, $activeFrom, $activeUntil);
     }
 
 
