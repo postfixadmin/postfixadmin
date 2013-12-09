@@ -10,51 +10,322 @@
 # $Id$
 
 # (last real update was in r1166 - the above Id: was a minor change)
-Version ***svn*** - 2009/12/26 - SVN r***
+Version ***svn*** - 2013/12/09 - SVN r***
 -----------------------------------
 
 
-  - NOTE: changes from the 2.3 branch also apply to this version
-  - use smarty for templates
-  - new command-line interface for PostfixAdmin (scripts/postfixadmin-cli)
-  - add ability to choose activation date, end date and reply interval for vacation message
-*** reply interval needs rework, https://sourceforge.net/tracker/?func=detail&aid=3508083&group_id=191583&atid=937966
-  - add support for total quota per domain - $CONF[domain_quota]
-  - redesign login page, list and edit pages (goodbye, green!) and made them wider
-  - new config option $CONF['theme_custom_css'] - allows to add some custom CSS
-    without editing the default CSS file.
-  - changed default of $CONF['admin_email'] to '' (not set).
+  Summary of major changes:
+  - new command-line interface "postfixadmin-cli"
+  - major rewrite:
+    - move lots of code into *Handler classes, which are used by web and
+      command-line interface
+    - replace various edit-*.php and create-*.php with a generic editform
+      (edit.php/editform.tpl)
+    - this also means it's easy to customize forms, add fields etc.
+      (see $CONF['*_struct_hook'])
+    - lots of code cleanup, remove/merge lots of duplicated code and templates
+    - use smarty for templates
+  - various enhancements everywhere
+  - redesign login page, list and edit pages (goodbye, green!) and make them wider
+  - several new config options and changed defaults
+  - NOTE: changes from the 2.3.x releases also apply to this version
+  
+  new config options:
+  - $CONF['language_hook']
+    Hook function to override or add translations to $PALANG.
+    Example hook function included (commented out).
+  - $CONF['password_validation'] - array with regular expressions to check
+    if a password is valid/good enough.
+    The default configuration enforces:
+    - minimum length 5 characters/digits/whatever
+    - at least 2 characters
+    - at least 2 digits
+  - $CONF['*_struct_hook'] - make $struct in the *Handler classes customizeable
+  - $CONF['vacation_replytype_control'] - allow selecting vacation reply interval
+******* and various other options related to this feature ***********
+  - $CONF[domain_quota] - total quota per domain
+  - $CONF['theme_custom_css'] - to add some custom CSS without editing the
+    default CSS file
+  - $CONF['motd_*'] - replaces motd*.txt
+  
+  changed config defaults (with their new default value):
+  - $CONF['database_type'] = 'mysqli';
+  - $CONF['dovecotpw'] = "/usr/sbin/doveadm pw";
+    $CONF['new_quota_table'] = 'YES'; (for dovecot 2)
+  - $CONF['domain_path'] = 'YES'; $CONF['domain_in_mailbox'] = 'NO';
+    (results in domain.tld/username/ maildirs)
+  - $CONF['alias_control'] = 'YES'; $CONF['alias_control_admin'] = 'YES';
+  - $CONF['backup'] = 'NO';
+  - $CONF['show_status']='YES'; $CONF['show_status_key']='YES';
+    $CONF['show_undeliverable']='YES'; $CONF['show_popimap']='YES';
+    $CONF['show_undeliverable_exceptions'] - "gmail.com" removed
+  - $CONF[*_post*_script] - add empty defaults
+  - $CONF['admin_email'] = ''
     IMPORTANT: If set, this will be used as mail sender for all mails
     (2.3.x used the currently logged in admin's username in most cases).
     $CONF['admin_email'] = '' will match the 2.3.x behaviour.
-  - replaced motd*.txt with $CONF['motd_*']
-  - DOCUMENTS/POSTFIX_CONF.TXT is now executable and can generate the
-    mysql_*.cf maps for postfix
+  
+  removed config options:
+  - $CONF['min_password_length'] - now handled in /.{5}/ in
+    $CONF['password_validation']
+  - $CONF[postfix_admin_url] - relative paths are now used everywhere
+  
+  list-virtual.php:
+  - display percentage of quota usage
+  - display alias domains less confusing (using From/To)
   - list-virtual can now display only mailboxes, only aliases or only alias
     domains - or all in one page as in 2.3
-  - extreme speedup of page browser in list-virtual if a large number of 
+  - extreme speedup of page browser in list-virtual if a large number of
     mailboxes or aliases exist
-  - display alias domains less confusing (using From/To)
-*** TODO: make "all" the default? ***
-  - merge search.php functionality into list-virtual.php (which brings various
-    bug fixes for free)
-  - don't mark mailboxes with vacation active as undeliverable
+  - include search support (replaces search.php and brings various bug fixes
+    for free)
+  - fix: delivery to mailbox with a recipient delimiter (mailbox+foo@domain)
+    was marked as "forward only"
+  - fix: don't mark mailboxes with vacation active as undeliverable
   - fix: undeliverable targets were not flagged if another target pointed to a
     domain in $CONF[show_undeliverable_exceptions]
-  - move lots of code into classes (model/*Handler) which is then used by the
-    webinterface and the commandline interface
-  - supress warnings about PHP's date.timezone not set at various places
-  - table_by_key function now always prepends $CONF['database_prefix'] even if
-    $CONF['database_tables'][$table] is not set. If you have/had an incomplete
-    database_tables array and use a database_prefix, you might need to rename/
-    add the database_prefix to the affected tables manually.
-*** TODO: add a check/warning in setup.php? ***
-  - cleanup of $PALANG - removed lots of duplicated texts
-    (which means less texts to translate)
+  
+  fetchmail.php, fetchmail.pl:
+  - add sslcertck, sslcertpath, sslfingerprint fields/check
+    (sslcertpath and sslfingerprint require $CONF[fetchmail_extra_options]
+    because they don't have input validation)
+  
+  functions.inc.php
+  - allowed_quota: if $CONF[quota] == NO, just return 0 (unlimited)
+  - authentification_get_username() - honor POSTFIXADMIN_SETUP to avoid
+    a redirect to login.php after creating an admin with setup.php and to
+    get "SETUP.PHP" for db_log()
+  - check_domain(), check_email(): instead of calling flash_error(),
+    return string with error message - or empty string if everything is ok
+  - check_email():
+    - replace $CONF[vacation_domain] only at the end of the mail address
+    - don't trim() mail address to avoid that aliases starting with a space are
+      allowed. This fixes http://sourceforge.net/p/postfixadmin/bugs/210/
+  - check_language(): remove things like ";q=0.8" before checking if
+    a language exists
+  - check_owner():
+    - escape_string() $username and $domain to prevent SQL injections
+  - db_pgsql() - new function to replace lots of
+    "if ($CONF[database_type] == 'pgsql')) checks
+  - db_delete(): allow to specify additional conditions for the WHERE clause
+  - db_get_boolean(): allow 0 and 1 as parameters, not only boolean true/false
+  - db_log():
+    - allow log actions create_admin and edit_admin
+    - add edit_admin_state and delete_admin as comment/reminder that they
+      should also be logged
+  - db_query(): error_log() failed query
+  - db_where_clause($condition, $struct) - new function to create a WHERE clause
+    (bool values are converted with db_get_boolean() based on $struct)
+  - _flash_string():
+    - also accept an array of messages, not only a string
+    - html-escape messages to fix XSS if the message contains user-supplied input
+  - generate_password(): make generated password always 8 chars long
+    (instead of $CONF['min_password_length'])
+  - get_domain_properties(): use DomainHandler (function result mostly
+    unchanged, only difference: instead of quota_sum in bytes it now
+    returns total_quota in MB)
+  - list_domains_for_admin():
+    - rewrite to work for superadmins also (will list all domains now
+      instead of "ALL"), which means we can drop the admin vs. superadmin
+      check at various places
+  - pacrypt():
+    - no longer escape_string() the result. This fixes
+      http://sourceforge.net/p/postfixadmin/bugs/218/
+    - for 'system' encryption, use full hashed password as salt
+    https://sourceforge.net/p/postfixadmin/bugs/2/
+    - dovecot:*:
+      - add support for dovecot *-CRYPT passwords (needs dovecot >= 2.1)
+      - allow "." in dovecot method (to allow a suffix like ".b64")
+      - Also, the {METHOD} part is no longer removed (passwords without
+        {METHOD} still work)
+  - remove_from_array() - new function
+  - safesession() - new function (like safeget(), but for $_SESSION)
+  - smtp_mail(): error_log() the error message if fsockopen() fails
+  - table_by_key() now always prepends $CONF['database_prefix']
+    NOTE: If you have/had an incomplete database_tables array and use
+    $CONF['database_prefix'], you might need to rename the affected tables
+    manually (add the database_prefix in their name).
+  - moved several functions to the *Handler classes
+  - deleted no longer used functions:
+    - admin_exist()
+    - authentication_is_admin()
+    - authentication_is_user()
+    - boolconf() (moved to Config::bool())
+    - check_string()
+    - create_admin()
+    - check_alias() (moved to AliasHandler->create_allowed())
+    - db_boolean_to_int()
+    - domain_exist()
+    - get_admin_properties()
+    - get_mailbox_properties()
+  - get rid of global $table_* variables, use table_by_key() instead
+  
+  PFAHandler.php:
+  - parent class for all *Handler classes
+  - contains code shared between all classes
+  
+  AdminHandler.php:
+  - Handler class for admins
+  - for now, set the superadmin column and add "ALL" in domain_admins to
+    keep the database backwards-compatible with 2.3.x
+  
+  AdminpasswordHandler.php:
+  - used for the "change password" form for admins
+  
+  DomainHandler.php
+  - handler class for domains
+  - delete(): do not allow to delete a domain if it is an alias domain target
+  
+  AliasdomainHandler.php:
+  - handler class for alias domains
+  - alias domains can now be edited
+  
+  AliasHandler.php:
+  - rewrite based on PFAHandler
+  - we even get a "deliver to local mailbox" checkbox :-)
+  - only allow @domain as target if $this->id is a catchall
+  - remove deprecated functions:
+    - get()
+    - hasStoreAndForward()
+    - update()
+    - is_mailbox_alias()
+    - is_vacation_address()
+    - hasAliasRecord()
+  
+  MailboxHandler (previously named UserHandler in 2.3):
+  - rewrite based on PFAHandler
+  - drop old __construct(), view() and change_pass()
+  - replace check of old password in change_pw() with $this->login
+  - delete(): also cleanup fetchmail, quota and quota2 tables
+  - always check password with validate_password()
+  - always display correct available quota (using allowed_quota())
+  - do not escape the password coming from $_POST. Fixes
+    http://sourceforge.net/p/postfixadmin/bugs/218/
+  
+  VacationHandler:
+  - rewrite based on PFAHandler (not useable yet)
+  
+  ------------------------------------------------------------------------
+  
+  vacation:
+  
+  - add ability to choose activation date, end date and reply interval for
+    vacation message
+*** reply interval needs rework,
+*** http://sourceforge.net/p/postfixadmin/patches/111/
+  
+  vacation.pl
+  - encode subject
+    https://sourceforge.net/p/postfixadmin/bugs/272/
+    https://sourceforge.net/p/postfixadmin/patches/119/
+  
+  
+  
+  
+  r1373 | GingerDog | 2012-04-19 23:55:36 +0200 (Do, 19. Apr 2012) | 1 Zeile
+     M /trunk/VIRTUAL_VACATION/vacation.pl
+     M /trunk/config.inc.php
+     M /trunk/model/VacationHandler.php
+     M /trunk/templates/vacation.tpl
+     M /trunk/upgrade.php
+     M /trunk/vacation.php
+  
+  Merge jan-kruis's vacation interval reply behaviour - see
+  http://sourceforge.net/p/postfixadmin/patches/111/
+  
+     M /trunk/VIRTUAL_VACATION/vacation.pl
+  
+  add a friendly from address to vacation messages ("Vacation Service"); 
+  probably needs more work to beautify it though...;
+  
+  change error handling if we cannot
+  send the reply to be hopefully more robust
+  
+  - add $smtp_client config option to specify the helo name
+  - added custom noreply detection
+  
+  ------------------------------------------------------------------------
+  
+  Config.php
+  - new class to store $CONF
+  - also used to store $PALANG texts (Config::Lang())
+  - contains functions to read config entries in various ways (bool etc.)
+  
+  edit.php
+  - generic edit page for everything (admins, domains, mailboxes, aliases, ...)
+  - use ?table= parameter to decide what will be edited (basically $tableHandler)
+  - read handler-specific configuration from $handler->webformConfig()
+    and use it at various places
+  - always redirect to edit.php?table=$table after adding an item to
+    ensure correct initialization for next item
+  - call $handler->mergeId if $id_field is editable, but not displayed
+    in form (usecase: merge localpart + domain to address)
+  - set $form_fields and $id_field later (after $hander->init()) - needed
+    for AliasHandler to decide if goto_mailbox should be displayed
+  - only set $values if a field is editable and displayed in the form
+  
+  editform.tpl:
+  - generic edit form template, uses $struct to render the form
+  - implement handling of 'list' fields (<select> with multiple choices
+    allowed)
+  - also include alternative implementation with checkboxes (commented out)
+  
+  upgrade.php
+  - _pgsql_field_exists(), _mysql_field_exists():
+    Those functions are always called with the expanded table name - don't
+    expand it twice. (The better solution would be to change all calling
+    code to provide non-expanded tablenames, but that's more work.)
+  - change {BIGINT} to include "NOT NULL DEFAULT 0"
+  - upgrade_1283(): add a "superadmin" column to the admin table
+    This is the first step to get rid of the "ALL" dummy domain.
+  - upgrade_1284(): migrate the ALL domain to the superadmin column
+    Note: The ALL domain is not (yet) deleted to stay backwards-compatible
+    for now (will be done in a later upgrade function)
+  
+  setup.php:
+****** TODO: fix the TODO ;-)
+  - add TODO note to check for PHP >= 5.2.3 because smarty uses
+    htmlentities with 4 parameters (4th param added in PHP 5.2.3)
+  
+  login.php
+  - when login.php is requested, logout the current admin/user
+    https://sourceforge.net/p/postfixadmin/bugs/284/
+  - this also means login.php is now used for logout
+  - error_log() failed login attemps
+    https://sourceforge.net/p/postfixadmin/feature-requests/111/
+  
+  delete.php, editactive.php:
+  - require token for CSRF protection, see
+    https://sourceforge.net/p/postfixadmin/bugs/269/
+  
+  xmlrpc.php:
+  - adopt to *Handler syntax
+  - setAway(): add (optional) new parameters for interval_time, activeFrom and
+    activeUntil - https://sourceforge.net/p/postfixadmin/patches/113/
+  - change $_SESSION['username'] to $_SESSION['sessid']['username']
+***** Note: the changes in xmlrpc.php are untested!
+  
+  *.lang:
+  - get rid of several duplicate texts
   - removed HTML tags from $PALANG texts
   - several translation updates
-  - merged templates for "edit" and "create" forms and for user and admin mode
-  - lots of code cleanup, removal of duplicated code etc.
+  
+  documentation updates:
+  - SECURITY.TXT: add note about templates_c directory
+  - DOCUMENTS/POSTFIX_CONF.TXT is now executable and can generate the
+    mysql_*.cf maps for postfix
+  
+  Debian packaging:
+  - Changed source format to 3.0 (quilt)
+  - simplified the DB credential patch and removing ucf registrations on package
+    purge...
+  - control: added php5-cli dependency
+  - rules:
+    - some permission fixes to postfixadmin-cli scripts
+    - New target prep: Create a needed tar.gz file to build a non-nativ .dpkg
+    - New target build-package: Call this target to build a shiny new .dpkg file
+  - postfixadmin.docs: removed redundant changelog file
+  - debian/postfixadmin.postrm: Call wwwconfig scripts only if they are existing
 
 Version 2.3.6 - 2013/01/02 - SVN r1417 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
