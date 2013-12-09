@@ -1197,6 +1197,9 @@ function upgrade_729() {
     $table_quota2 = table_by_key('quota2');
 
     # table for dovecot v1.0 & 1.1
+    # note: quota table created with old versions of upgrade.php (before r1605)
+    # will not have explicit "NOT NULL DEFAULT 0" for the "current" field
+    # (shouldn't hurt) 
     db_query_parsed("
     CREATE TABLE {IF_NOT_EXISTS} $table_quota (
         username VARCHAR(255) {LATIN1} NOT NULL,
