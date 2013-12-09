@@ -1,10 +1,10 @@
-# Postfix Admin 
-# 
-# LICENSE 
-# This source file is subject to the GPL license that is bundled with  
-# this package in the file LICENSE.TXT. 
-# 
-# Further details on the project are available at http://postfixadmin.sf.net 
+# Postfix Admin
+#
+# LICENSE
+# This source file is subject to the GPL license that is bundled with
+# this package in the file LICENSE.TXT.
+#
+# Further details on the project are available at http://postfixadmin.sf.net
 #
 # Last update:
 # $Id$
@@ -12,7 +12,6 @@
 # (last real update was in r1166 - the above Id: was a minor change)
 Version ***svn*** - 2013/12/09 - SVN r***
 -----------------------------------
-
 
   Summary of major changes:
   - new command-line interface "postfixadmin-cli"
@@ -29,7 +28,7 @@ Version ***svn*** - 2013/12/09 - SVN r***
   - redesign login page, list and edit pages (goodbye, green!) and make them wider
   - several new config options and changed defaults
   - NOTE: changes from the 2.3.x releases also apply to this version
-  
+
   new config options:
   - $CONF['language_hook']
     Hook function to override or add translations to $PALANG.
@@ -47,7 +46,7 @@ Version ***svn*** - 2013/12/09 - SVN r***
   - $CONF['theme_custom_css'] - to add some custom CSS without editing the
     default CSS file
   - $CONF['motd_*'] - replaces motd*.txt
-  
+
   changed config defaults (with their new default value):
   - $CONF['database_type'] = 'mysqli';
   - $CONF['dovecotpw'] = "/usr/sbin/doveadm pw";
@@ -64,12 +63,12 @@ Version ***svn*** - 2013/12/09 - SVN r***
     IMPORTANT: If set, this will be used as mail sender for all mails
     (2.3.x used the currently logged in admin's username in most cases).
     $CONF['admin_email'] = '' will match the 2.3.x behaviour.
-  
+
   removed config options:
   - $CONF['min_password_length'] - now handled in /.{5}/ in
     $CONF['password_validation']
   - $CONF[postfix_admin_url] - relative paths are now used everywhere
-  
+
   list-virtual.php:
   - display percentage of quota usage
   - display alias domains less confusing (using From/To)
@@ -84,12 +83,12 @@ Version ***svn*** - 2013/12/09 - SVN r***
   - fix: don't mark mailboxes with vacation active as undeliverable
   - fix: undeliverable targets were not flagged if another target pointed to a
     domain in $CONF[show_undeliverable_exceptions]
-  
+
   fetchmail.php, fetchmail.pl:
   - add sslcertck, sslcertpath, sslfingerprint fields/check
     (sslcertpath and sslfingerprint require $CONF[fetchmail_extra_options]
     because they don't have input validation)
-  
+
   functions.inc.php
   - allowed_quota: if $CONF[quota] == NO, just return 0 (unlimited)
   - authentification_get_username() - honor POSTFIXADMIN_SETUP to avoid
@@ -132,7 +131,7 @@ Version ***svn*** - 2013/12/09 - SVN r***
     - no longer escape_string() the result. This fixes
       http://sourceforge.net/p/postfixadmin/bugs/218/
     - for 'system' encryption, use full hashed password as salt
-    https://sourceforge.net/p/postfixadmin/bugs/2/
+      https://sourceforge.net/p/postfixadmin/bugs/2/
     - dovecot:*:
       - add support for dovecot *-CRYPT passwords (needs dovecot >= 2.1)
       - allow "." in dovecot method (to allow a suffix like ".b64")
@@ -159,27 +158,27 @@ Version ***svn*** - 2013/12/09 - SVN r***
     - get_admin_properties()
     - get_mailbox_properties()
   - get rid of global $table_* variables, use table_by_key() instead
-  
+
   PFAHandler.php:
   - parent class for all *Handler classes
   - contains code shared between all classes
-  
+
   AdminHandler.php:
   - Handler class for admins
   - for now, set the superadmin column and add "ALL" in domain_admins to
     keep the database backwards-compatible with 2.3.x
-  
+
   AdminpasswordHandler.php:
   - used for the "change password" form for admins
-  
+
   DomainHandler.php
   - handler class for domains
   - delete(): do not allow to delete a domain if it is an alias domain target
-  
+
   AliasdomainHandler.php:
   - handler class for alias domains
   - alias domains can now be edited
-  
+
   AliasHandler.php:
   - rewrite based on PFAHandler
   - we even get a "deliver to local mailbox" checkbox :-)
@@ -191,7 +190,7 @@ Version ***svn*** - 2013/12/09 - SVN r***
     - is_mailbox_alias()
     - is_vacation_address()
     - hasAliasRecord()
-  
+
   MailboxHandler (previously named UserHandler in 2.3):
   - rewrite based on PFAHandler
   - drop old __construct(), view() and change_pass()
@@ -201,27 +200,27 @@ Version ***svn*** - 2013/12/09 - SVN r***
   - always display correct available quota (using allowed_quota())
   - do not escape the password coming from $_POST. Fixes
     http://sourceforge.net/p/postfixadmin/bugs/218/
-  
+
   VacationHandler:
   - rewrite based on PFAHandler (not useable yet)
-  
+
   ------------------------------------------------------------------------
-  
+
   vacation:
-  
+
   - add ability to choose activation date, end date and reply interval for
     vacation message
 *** reply interval needs rework,
 *** http://sourceforge.net/p/postfixadmin/patches/111/
-  
+
   vacation.pl
   - encode subject
     https://sourceforge.net/p/postfixadmin/bugs/272/
     https://sourceforge.net/p/postfixadmin/patches/119/
-  
-  
-  
-  
+
+
+
+
   r1373 | GingerDog | 2012-04-19 23:55:36 +0200 (Do, 19. Apr 2012) | 1 Zeile
      M /trunk/VIRTUAL_VACATION/vacation.pl
      M /trunk/config.inc.php
@@ -229,28 +228,28 @@ Version ***svn*** - 2013/12/09 - SVN r***
      M /trunk/templates/vacation.tpl
      M /trunk/upgrade.php
      M /trunk/vacation.php
-  
+
   Merge jan-kruis's vacation interval reply behaviour - see
   http://sourceforge.net/p/postfixadmin/patches/111/
-  
+
      M /trunk/VIRTUAL_VACATION/vacation.pl
-  
-  add a friendly from address to vacation messages ("Vacation Service"); 
+
+  add a friendly from address to vacation messages ("Vacation Service");
   probably needs more work to beautify it though...;
-  
+
   change error handling if we cannot
   send the reply to be hopefully more robust
-  
+
   - add $smtp_client config option to specify the helo name
   - added custom noreply detection
-  
+
   ------------------------------------------------------------------------
-  
+
   Config.php
   - new class to store $CONF
   - also used to store $PALANG texts (Config::Lang())
   - contains functions to read config entries in various ways (bool etc.)
-  
+
   edit.php
   - generic edit page for everything (admins, domains, mailboxes, aliases, ...)
   - use ?table= parameter to decide what will be edited (basically $tableHandler)
@@ -263,13 +262,13 @@ Version ***svn*** - 2013/12/09 - SVN r***
   - set $form_fields and $id_field later (after $hander->init()) - needed
     for AliasHandler to decide if goto_mailbox should be displayed
   - only set $values if a field is editable and displayed in the form
-  
+
   editform.tpl:
   - generic edit form template, uses $struct to render the form
   - implement handling of 'list' fields (<select> with multiple choices
     allowed)
   - also include alternative implementation with checkboxes (commented out)
-  
+
   upgrade.php
   - _pgsql_field_exists(), _mysql_field_exists():
     Those functions are always called with the expanded table name - don't
@@ -281,40 +280,40 @@ Version ***svn*** - 2013/12/09 - SVN r***
   - upgrade_1284(): migrate the ALL domain to the superadmin column
     Note: The ALL domain is not (yet) deleted to stay backwards-compatible
     for now (will be done in a later upgrade function)
-  
+
   setup.php:
 ****** TODO: fix the TODO ;-)
   - add TODO note to check for PHP >= 5.2.3 because smarty uses
     htmlentities with 4 parameters (4th param added in PHP 5.2.3)
-  
+
   login.php
   - when login.php is requested, logout the current admin/user
     https://sourceforge.net/p/postfixadmin/bugs/284/
   - this also means login.php is now used for logout
   - error_log() failed login attemps
     https://sourceforge.net/p/postfixadmin/feature-requests/111/
-  
+
   delete.php, editactive.php:
   - require token for CSRF protection, see
     https://sourceforge.net/p/postfixadmin/bugs/269/
-  
+
   xmlrpc.php:
   - adopt to *Handler syntax
   - setAway(): add (optional) new parameters for interval_time, activeFrom and
     activeUntil - https://sourceforge.net/p/postfixadmin/patches/113/
   - change $_SESSION['username'] to $_SESSION['sessid']['username']
 ***** Note: the changes in xmlrpc.php are untested!
-  
+
   *.lang:
   - get rid of several duplicate texts
   - removed HTML tags from $PALANG texts
   - several translation updates
-  
+
   documentation updates:
   - SECURITY.TXT: add note about templates_c directory
   - DOCUMENTS/POSTFIX_CONF.TXT is now executable and can generate the
     mysql_*.cf maps for postfix
-  
+
   Debian packaging:
   - Changed source format to 3.0 (quilt)
   - simplified the DB credential patch and removing ucf registrations on package
@@ -340,7 +339,7 @@ Version 2.3.5 - 2012/01/16 - SVN r1335 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
 
   - fix SQL injection in pacrypt() (if $CONF[encrypt] == 'mysql_encrypt')
-  - fix SQL injection in backup.php - the dump was not mysql_escape()d, 
+  - fix SQL injection in backup.php - the dump was not mysql_escape()d,
     therefore users could inject SQL (for example in the vacation message)
     which will be executed when restoring the database dump.
     WARNING: database dumps created with backup.php from 2.3.4 or older might
@@ -458,7 +457,7 @@ Version 2.3 - 2009/10/24 - SVN r739
   - changed vacation.pl syslog facility from "user" to "mail"
   - added config option for postregsql database port
   - added config option to enable/disable XMLRPC interface (default: off)
-  - Fix check/query for alias with enabled vacation in vacation.pl 
+  - Fix check/query for alias with enabled vacation in vacation.pl
   - Fix db_get_boolean() to return t/f for postgresql, not true/false
   - Fix missing quoting for boolean values in SQL queries at various places
   - Allow SHA courier-authlib passwords
@@ -483,7 +482,7 @@ Version 2.3rc5 - 2009/05/20 - SVN r658
 
   - Improvements to the setup process
   - Far better Debian packaging (we hope!) which should make installation much, much easier.
-  - Various bug fixes 
+  - Various bug fixes
   - Performance enhancements (or we fixed the regressions ...) in domain listing etc.
 
 Version 2.3rc4 - 2009/04/18 - SVN r632
@@ -495,7 +494,7 @@ Version 2.3rc4 - 2009/04/18 - SVN r632
     to this page. Password is encrypted, and setup.php can be used to generate the initial value.
   - Fix undefined variables problem(s)
   - Fix PostgreSQL date timestamp issues...
- 
+
 Version 2.3rc3 - 2009/04/06 - SVN r611
 --------------------------------------
 
@@ -508,7 +507,7 @@ Version 2.3rc2 - 2009/02/03 - SVN r593
 
   - Refactor /users (see /model) and provide XmlRpc interface for remote mail clients
      (e.g. squirrelmail-postfixadmin)
-  - Add dovecotpw support - see: 
+  - Add dovecotpw support - see:
      https://sourceforge.net/tracker/index.php?func=detail&aid=2607332&group_id=191583&atid=937966
   - Add unit tests for model/ directory (see /tests)
   - Add additional scripts to ADDITIONS
@@ -523,7 +522,7 @@ Version 2.3 Beta - 2009/01/15 - SVN r527
 -----------------------------------------
 
   - added support for domain aliases (from lenix) (can be disabled with $CONF['alias_domain'])
-    Important: If you update from a previous version, you'll have to adapt your postfix 
+    Important: If you update from a previous version, you'll have to adapt your postfix
     configuration (see DOCUMENTS/POSTFIX_CONF.txt) - or just disable alias domain support,
     your postfix configuration will continue to work
   - updated postfix example configuration for domain aliases and to use the new mysql map format
@@ -545,7 +544,7 @@ Version 2.3 Beta - 2009/01/15 - SVN r527
   - added clear error message for non-resolvable domains when creating mailboxes or aliases
   - check for non-resolvable domains on domain creation
   - new option $CONF['create_mailbox_subdirs_prefix'] for compatibility with more IMAP servers
-  - added support for mysql encrypt() password encrpytion 
+  - added support for mysql encrypt() password encrpytion
   - fix "illegal mix of collations" problem in MySQL by explicitely setting the charset everywhere
   - fix: cleanup vacation_notification table when disabling vacation
   - fix: config and fetchmail tables now honor $CONF['database_tables']
@@ -608,20 +607,20 @@ Version 2.2.0 - 2008/04/29
   - Added: Slovakian language posted on SourceForge by eszabo
   - Changed: searches include mailbox.name matches (GregC)
   - Fixed: function check_email will ignore vacation_domain if vacation==YES (GregC)
-  - Changed: applied patches from Christian Boltz posted at 
+  - Changed: applied patches from Christian Boltz posted at
     http://www.cboltz.de/tmp/postfixadmin-3.patch, referenced at
     https://sourceforge.net/tracker/index.php?func=detail&aid=1696647&group_id=191583&atid=937966 (GregC)
   - Added: main.php to admin dirctory (GregC)
   - Added: Item "Main" on admin menu (GregC)
   - Changed: Edit-vacation now edits for admins/superadmins (GregC)
-  - Added: Do not store local copy when forward mail. (Mihau) [24] 
+  - Added: Do not store local copy when forward mail. (Mihau) [24]
   - Added: Virtual Vacation for PostgreSQL. (Tarvin)
   - Added: Virtual Vacation 3.2 (Thanx David)
-  - Added: SUBJECT tag for Virtual Vacation.         
+  - Added: SUBJECT tag for Virtual Vacation.
   - Added: Dovecot setup document for Postfix Admin. (Thanx Massimo)
   - Added: SquirrelMail plugin to change_password.
   - Changed: Starting to merge /admin in root. (Mihau)
-  - Changed: Moved some TXT files to DOCUMENTS.   
+  - Changed: Moved some TXT files to DOCUMENTS.
   - Changed: Updated tw.lang. (Thanx Bruce)
   - Fixed: Usage of mysql_real_escape_string(). (Mihau)
   - Fixed: Calculating of quotas. (Mihau)
@@ -819,7 +818,7 @@ Version 1.5.1  -- 2003/06/04
   - Added: Option to completely control the stored aliases. (Thanx Alex)
   - Changed: config.inc.php is renamed to config.inc.php.sample. (Thanx Alex)
   - Fixed: $PHP_SELF in config.inc.php and my_lib.php. (Thanx Jim)
-  
+
 
 Version 1.5.0  -- 2003/05/28
 ----------------------------
