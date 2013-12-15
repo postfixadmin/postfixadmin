@@ -148,17 +148,24 @@ our $smtp_client = 'localhost';
 
 # SMTP authentication protocol used for sending.
 # Can be 'PLAIN', 'LOGIN', 'CRAM-MD5' or 'NTLM'
-# Leave it blank if you don't use authentification
+# Leave it blank if you don't use authentication
 our $smtp_auth = undef;
 # username used to login to the server
 our $smtp_authid = 'someuser';
 # password used to login to the server
 our $smtp_authpwd = 'somepass';
 
+# This specifies the mail 'from' name which is shown to recipients of vacation replies.
+# If you leave it empty, the vacation mail will contain: 
+# From: <original@recipient.domain>
+# If you specify something here you'd instead see something like :
+# From: Some Friendly Name <original@recipient.domain>
+our $friendly_from = '';
+
 # Set to 1 to enable logging to syslog.
 our $syslog = 0;
 
-# path to logfile, when empty logging is supressed
+# path to logfile, when empty logging is suppressed
 # change to e.g. /dev/null if you want nothing logged.
 # if we can't write to this, and $log_to_file is 1 (below) the script will abort.
 our $logfile='/var/log/vacation.log';
@@ -174,8 +181,8 @@ our $log_to_file = 0;
 # disabled by default
 our $interval = 0;
 
-# Send vacation mails to do-not-reply email adresses.
-# By default vacation email adresses will be sent.
+# Send vacation mails to do-not-reply email addresses.
+# By default vacation email addresses will be sent.
 # For now emails from bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter won't
 # be answered when $custom_noreply_pattern is set to 1.
 # default = 0
@@ -324,7 +331,7 @@ sub already_notified {
     if (!$stm->execute($to,$from)) {
         my $e=$dbh->errstr;
 
-# Violation of a primay key constraint may happen here, and that's
+# Violation of a primary key constraint may happen here, and that's
 # fine. All other error conditions are not fine, however.
         if ($e !~ /(?:_pkey|^Duplicate entry)/) {
             $logger->error("Failed to insert into vacation_notification table (to:$to from:$from error:'$e' query:'$query')");
@@ -452,7 +459,7 @@ sub find_real_address {
                 $stm->execute("\@$domain") or panic_execute($query,"address='\@$domain'");
                 $rv = $stm->rows;
 
-# The receipient has a domain level alias
+# The recipient has a domain level alias
                 if ($rv == 1) {
                     my @row = $stm->fetchrow_array;
                     my $wildcard_dest = $row[0];
@@ -496,7 +503,6 @@ sub send_vacation_email {
         my $from = $email;
         my $to = $orig_from;
         my %smtp_connection;
-        my $friendly_from = "Vacation Service";
         %smtp_connection = (
             'smtp' => $smtp_server,
             'port' => $smtp_server_port,
