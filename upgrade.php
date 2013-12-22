@@ -1329,9 +1329,11 @@ function upgrade_1284() {
 }
 
 function upgrade_1345_mysql() {
-    $table_vacation = table_by_key('vacation');
-    db_query_parsed("ALTER TABLE `$table_vacation` ADD `reply_type` VARCHAR( 20 ) NOT NULL AFTER `domain`  ");
-    db_query_parsed("ALTER TABLE `$table_vacation` ADD `interval_time` INT NOT NULL DEFAULT '0' AFTER `reply_type` ");
+    # $table_vacation = table_by_key('vacation');
+    # adding and usage of reply_type field removed in r1610
+    # db_query_parsed("ALTER TABLE `$table_vacation` ADD `reply_type` VARCHAR( 20 ) NOT NULL AFTER `domain`  ");
+    # obsoleted by upgrade_1610()
+    # db_query_parsed("ALTER TABLE `$table_vacation` ADD `interval_time` INT NOT NULL DEFAULT '0' AFTER `reply_type` ");
 }
 
 function upgrade_1519() {
@@ -1340,6 +1342,10 @@ function upgrade_1519() {
     _db_add_field('fetchmail', 'sslfingerprint', "VARCHAR(255) {LATIN1} DEFAULT ''", 'sslcertpath');
 }
 
+function upgrade_1610() {
+    # obsoletes upgrade_1345_mysql() - which means debug mode could print "field already exists"
+    _db_add_field('vacation', 'interval_time', '{INT}', 'domain');
+}
 
 # TODO MySQL:
 # - various varchar fields do not have a default value

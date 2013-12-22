@@ -68,6 +68,10 @@ date_default_timezone_set(@date_default_timezone_get()); # Suppress date.timezon
 
 $vh = new VacationHandler($fUsername);
 
+$choice_of_reply = Config::read('vacation_choice_of_reply');
+foreach (array_keys($choice_of_reply) as $key) {
+   $choice_of_reply[$key] = Config::Lang($choice_of_reply[$key]);
+}
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $tSubject = '';
@@ -75,14 +79,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $tActiveFrom = '';
     $tActiveUntil = '';
     $tUseremail = $fUsername;
-    $tReply_Type = '';
     $tInterval_Time = '';
 
     $details = $vh->get_details();
     if($details != false) {
         $tSubject = $details['subject'];
         $tBody = $details['body'];
-   $tReply_Type = $details['reply_type'];
    $tInterval_Time = $details['interval_time'];
         $tActiveFrom = $details['activeFrom'];
         $tActiveUntil = $details['activeUntil'];
@@ -96,12 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     //set a default, reset fields for coming back selection
    if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
    if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
-
-    if ($tReply_Type =='') { $tReply_Type = $CONF['vacation_replytype_default'];}
-    if ($tReply_Type =='One Reply') { $tInterval_Time = '0';}
-    if ($tReply_Type =='Auto Reply') { $tInterval_Time = $CONF['vacation_autoreplydelay_default'];}
-    if (($tReply_Type =='Interval Reply') and ($tInterval_Time =='')) { $tInterval_Time = $CONF['vacation_intervaldelay_default'];}
-    if (($tReply_Type =='Interval Reply') and ($tInterval_Time <= $CONF['vacation_autoreplydelay_default'])) { $tInterval_Time = $CONF['vacation_intervaldelay_default'];}
 
 }
 
@@ -120,7 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $tBody      = safepost('fBody');
    $fBody	= $tBody;
 
-   $tReply_Type = safepost('fReply_Type');
    $tInterval_Time = safepost('fInterval_Time');
 
    $fChange    = escape_string (safepost('fChange'));
@@ -131,14 +126,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     //set a default, reset fields for coming back selection
    if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
    if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
-   if ($tReply_Type =='')  { $tReply_Type = $CONF['vacation_replytype_default'];}
-   if ($tReply_Type =='One Reply')  { $tInterval_Time = '0';}
-   if ($tReply_Type =='Auto Reply') { $tInterval_Time = $CONF['vacation_autoreplydelay_default'];}
-   if (($tReply_Type =='Interval Reply') and ($tInterval_Time ==''))  { $tInterval_Time  = $CONF['vacation_intervaldelay_default'];}
-   if (($tReply_Type =='Interval Reply') and ($tInterval_Time <= $CONF['vacation_autoreplydelay_default']))  { $tInterval_Time = $CONF['vacation_intervaldelay_default'];}
 
-   $fReply_Type = $tReply_Type ;
-   $fInterval_Time = $tInterval_Time;
+   if (isset($choice_of_reply[$tInterval_Time])) {
+      $fInterval_Time = $tInterval_Time;
+   } else {
+      $fInterval_Time = 0;
+   }
 
    // if they've set themselves change OR back, delete any record of vacation emails.
    // the user is going away - set the goto alias and vacation table as necessary.
@@ -146,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    //Set the vacation data for $fUsername
    if (!empty ($fChange))
    {
-      if(!$vh->set_away($fSubject, $fBody, $fReply_Type, $fInterval_Time, $tActiveFrom, $tActiveUntil)) {
+      if(!$vh->set_away($fSubject, $fBody, $fInterval_Time, $tActiveFrom, $tActiveUntil)) {
             $error = 1;
         }
    }
@@ -176,17 +169,25 @@ if($error == 0) {
 else {
 	flash_error($PALANG['pVacation_result_error']);
 }
-if (empty ($tActiveFrom))
-   $tActiveFrom = date ("Y-m-d");
-if (empty ($tActiveUntil))
-   $tActiveUntil = date ("Y-m-d");
+
+$today = date ("Y-m-d");
+if (empty ($tActiveFrom))  $tActiveFrom = $today;
+if (empty ($tActiveUntil)) $tActiveUntil = $today;
+
+if ( ! $details['active']) {
+   # if vacation is disabled, there's no point in displaying the date of the last vacation ;-)
+   # (which also means users would have to scroll in the calendar a lot)
+   # so let's be user-friendly and set today's date (but only if the last vacation is in the past)
+   if ($tActiveFrom  < $today) $tActiveFrom  = $today;
+   if ($tActiveUntil < $today) $tActiveUntil = $today;
+}
 
 $smarty->assign ('tUseremail', $tUseremail);
 $smarty->assign ('tSubject', $tSubject);
 $smarty->assign ('tBody', $tBody);
 $smarty->assign ('tActiveFrom',  date ("d.m.Y", strtotime ($tActiveFrom)));
 $smarty->assign ('tActiveUntil',  date ("d.m.Y", strtotime ($tActiveUntil)));
-$smarty->assign ('select_options', select_options ( $CONF ['vacation_choice_of_reply'], array ($tReply_Type)),false);
+$smarty->assign ('select_options', $choice_of_reply);
 $smarty->assign ('tInterval_Time', $tInterval_Time);
 $smarty->assign ('smarty_template', 'vacation');
 $smarty->display ('index.tpl');

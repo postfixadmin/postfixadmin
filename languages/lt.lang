@@ -167,6 +167,9 @@ $PALANG['pVacation_result_added'] = 'Atostogų pranešimas įjungtas!';
 $PALANG['pVacation_reply_type'] = 'Atsakymo tipas';
 $PALANG['pVacation_reply_delay_time'] = 'Intervalas';
 $PALANG['pVacation_reply_delay_time_text'] = 'Laikas sekundėmis';
+$PALANG['reply_once'] = 'Reply once'; # XXX
+$PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
+$PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Peržiūrėti paskutinius 10 vartotojo veiksmų ';
 $PALANG['pViewlog_timestamp'] = 'Laikas';

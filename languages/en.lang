@@ -171,6 +171,9 @@ $PALANG['pVacation_result_added'] = 'Auto response for %s has been enabled!';
 $PALANG['pVacation_reply_type'] = 'Choice of reply';
 $PALANG['pVacation_reply_delay_time'] = 'Interval time';
 $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds';
+$PALANG['reply_once'] = 'Reply once';
+$PALANG['reply_every_mail'] = 'Reply on every mail';
+$PALANG['reply_once_per_week'] = 'Reply once per week';
 
 $PALANG['pViewlog_welcome'] = 'View the last 10 actions for ';
 $PALANG['pViewlog_timestamp'] = 'Timestamp';

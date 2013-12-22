@@ -131,7 +131,7 @@ $CONF['smtp_port'] = '25';
 // mysql_encrypt = useful for PAM integration
 // authlib = support for courier-authlib style passwords
 // dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. Example: dovecot:CRAM-MD5
-//   (WARNING: do not use a dovecot:* method that includes a salt - you won't be able to login to PostfixAdmin in this case)
+//   (WARNING: don't use dovecot:* methods that include the username in the hash - you won't be able to login to PostfixAdmin in this case)
 $CONF['encrypt'] = 'md5crypt';
 
 // In what flavor should courier-authlib style passwords be encrypted?
@@ -337,15 +337,16 @@ $CONF['vacation_allow_user_reply'] = 'YES';
 
 // ReplyType options
 // If you want to define additional reply options put them in array below.
+// The array has the format   seconds between replies => $PALANG text
+// Special values for seconds are: 
+// 0 => only reply to the first mail while on vacation 
+// 1 => reply on every mail
 $CONF['vacation_choice_of_reply'] = array (
-   'One Reply',        // Sends only Once the message during Out of Office
-   'Auto Reply',       // Reply on every email but not within autoreplydelay
-   'Interval Reply'        // Reply on every email but not within intervaldelay_default 
+   0 => 'reply_once',        // Sends only Once the message during Out of Office
+   # considered annoying - only send a reply on every mail if you really need it
+   # 1 => 'reply_every_mail',       // Reply on every email
+   60*60 *24*7 => 'reply_once_per_week'        // Reply if last autoreply was at least a week ago
 );
-
-// ReplyType default
-// You should define default replytype. It must be in array above.
-$CONF['vacation_replytype_default'] = 'One Reply';
 
 // autoreplydelay
 // You should define autodefaultdelay is seconds

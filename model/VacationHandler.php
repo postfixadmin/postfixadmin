@@ -149,7 +149,6 @@ class VacationHandler extends PFAHandler {
             'subject' => $row['subject'],
             'body' => $row['body'],
             'active'  => $boolean ,
-            'reply_type' => $row['reply_type'],
             'interval_time' => $row['interval_time'],
             'activeFrom' => $row['activefrom'],
             'activeUntil' => $row['activeuntil'],
@@ -158,12 +157,11 @@ class VacationHandler extends PFAHandler {
     /**
      * @param string $subject
      * @param string $body
-     * @param string $reply_type
      * @param string $interval_time
      * @param date $activeFrom
      * @param date $activeUntil
      */
-    function set_away($subject, $body, $reply_type, $interval_time, $activeFrom, $activeUntil) {
+    function set_away($subject, $body, $interval_time, $activeFrom, $activeUntil) {
         $this->remove(); // clean out any notifications that might already have been sent.
 
         $E_username = escape_string($this->username);
@@ -176,7 +174,6 @@ class VacationHandler extends PFAHandler {
             'domain' => $domain,
             'subject' => $subject,
             'body' => $body,
-            'reply_type' => $reply_type,
             'interval_time' => $interval_time,
             'active' => db_get_boolean(true),
             'activefrom' => $activeFrom,

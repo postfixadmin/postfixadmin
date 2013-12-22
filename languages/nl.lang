@@ -168,6 +168,9 @@ $PALANG['pVacation_result_added'] = 'Automatisch beantwoorden is voor %s geactiv
 $PALANG['pVacation_reply_type'] = 'Keuze van beantwoording';
 $PALANG['pVacation_reply_delay_time'] = 'Interval tijd';
 $PALANG['pVacation_reply_delay_time_text'] = 'Tijd in seconds';
+$PALANG['reply_once'] = 'Reply once'; # XXX
+$PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
+$PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Laat de laatste 10 actie\'s zien van ';
 $PALANG['pViewlog_timestamp'] = 'Tijd';

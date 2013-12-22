@@ -166,6 +166,9 @@ $PALANG['pVacation_result_added'] = 'Auto response for %s has been enabled!'; # 
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
 $PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
 $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
+$PALANG['reply_once'] = 'Reply once'; # XXX
+$PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
+$PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = '查看最新的10項操作日誌 網域名: ';
 $PALANG['pViewlog_timestamp'] = '時間';

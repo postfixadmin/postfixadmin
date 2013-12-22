@@ -170,6 +170,9 @@ $PALANG['pVacation_result_added'] = 'Automatische Antwort für %s wurde aktivier
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
 $PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
 $PALANG['pVacation_reply_delay_time_text'] = 'Zeit in Sekunden';
+$PALANG['reply_once'] = 'Einmal antworten';
+$PALANG['reply_every_mail'] = 'Jede Mail beantworten';
+$PALANG['reply_once_per_week'] = 'Einmal pro Woche antworten';
 
 $PALANG['pViewlog_welcome'] = 'Zeigt die letzten 10 Aktionen für ';
 $PALANG['pViewlog_timestamp'] = 'Zeitpunkt';
