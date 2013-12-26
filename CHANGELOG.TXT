@@ -9,7 +9,6 @@
 # Last update:
 # $Id$
 
-# (last real update was in r1166 - the above Id: was a minor change)
 Version ***svn*** - 2013/12/09 - SVN r***
 -----------------------------------
 
@@ -40,8 +39,7 @@ Version ***svn*** - 2013/12/09 - SVN r***
     - at least 2 characters
     - at least 2 digits
   - $CONF['*_struct_hook'] - make $struct in the *Handler classes customizeable
-  - $CONF['vacation_replytype_control'] - allow selecting vacation reply interval
-******* and various other options related to this feature ***********
+  - $CONF['vacation_choice_of_reply'] - list of reply interval options
   - $CONF[domain_quota] - total quota per domain
   - $CONF['theme_custom_css'] - to add some custom CSS without editing the
     default CSS file
@@ -203,47 +201,16 @@ Version ***svn*** - 2013/12/09 - SVN r***
 
   VacationHandler:
   - rewrite based on PFAHandler (not useable yet)
-
-  ------------------------------------------------------------------------
-
-  vacation:
-
   - add ability to choose activation date, end date and reply interval for
-    vacation message
-*** reply interval needs rework,
-*** http://sourceforge.net/p/postfixadmin/patches/111/
+    vacation message - http://sourceforge.net/p/postfixadmin/patches/111/
 
-  vacation.pl
-  - encode subject
-    https://sourceforge.net/p/postfixadmin/bugs/272/
+  vacation.pl:
+  - encode subject - https://sourceforge.net/p/postfixadmin/bugs/272/ ,
     https://sourceforge.net/p/postfixadmin/patches/119/
-
-
-
-
-  r1373 | GingerDog | 2012-04-19 23:55:36 +0200 (Do, 19. Apr 2012) | 1 Zeile
-     M /trunk/VIRTUAL_VACATION/vacation.pl
-     M /trunk/config.inc.php
-     M /trunk/model/VacationHandler.php
-     M /trunk/templates/vacation.tpl
-     M /trunk/upgrade.php
-     M /trunk/vacation.php
-
-  Merge jan-kruis's vacation interval reply behaviour - see
-  http://sourceforge.net/p/postfixadmin/patches/111/
-
-     M /trunk/VIRTUAL_VACATION/vacation.pl
-
-  add a friendly from address to vacation messages ("Vacation Service");
-  probably needs more work to beautify it though...;
-
-  change error handling if we cannot
-  send the reply to be hopefully more robust
-
+  - add a friendly from address to vacation messages ($friendly_from)
+  - make error handling if we cannot send the reply more robust
   - add $smtp_client config option to specify the helo name
-  - added custom noreply detection
-
-  ------------------------------------------------------------------------
+  - added custom noreply detection ($noreply_pattern, $custom_noreply_pattern)
 
   Config.php
   - new class to store $CONF

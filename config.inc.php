@@ -324,17 +324,6 @@ $CONF['vacation_control'] ='YES';
 // Set to 'YES' if your domain admins should be able to edit user vacation.
 $CONF['vacation_control_admin'] = 'YES';
 
-// Alllow ReplyType Control
-// This varible will be checked in ./templates/vacation.tpl 
-// YES means it show the reply option, everything else means it will not show
-$CONF['vacation_replytype_control'] = 'YES';
-
-// AllowUser Reply
-// You can Allow or Disable User control over Reply Type
-// This variable will be checked in ./templates/vacation.tpl 
-// YES means it show the reply option, anything else means it will not show
-$CONF['vacation_allow_user_reply'] = 'YES';
-
 // ReplyType options
 // If you want to define additional reply options put them in array below.
 // The array has the format   seconds between replies => $PALANG text
@@ -347,16 +336,6 @@ $CONF['vacation_choice_of_reply'] = array (
    # 1 => 'reply_every_mail',       // Reply on every email
    60*60 *24*7 => 'reply_once_per_week'        // Reply if last autoreply was at least a week ago
 );
-
-// autoreplydelay
-// You should define autodefaultdelay is seconds
-// if a new message comes in within this delay it most likely that that the sender is
-// autoreplying on our autoreply message.
-$CONF['vacation_autoreplydelay_default'] = '10';
-
-// Replydelay default
-// You should define default replydelay time here time in in seconds.
-$CONF['vacation_intervaldelay_default'] = '86400'; // is 1 day = 60 sec * 60 min * 24 hours
 
 //
 // End Vacation Stuff.
