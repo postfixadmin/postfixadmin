@@ -68,7 +68,7 @@
 #             Adjust SQL query for vacation timeframe. It is now possible to set from/until date for vacation message.
 #
 # 2012-04-1   Nikolaos Topp <info at ichier.de>
-#             Add configuration parameter $smtp_client in order to get mails through
+#             Add configuration parameter $smtp_client in order to get mails through
 #             postfix helo-checks, using check_helo_access whitelist without permitting 'localhost' default style stuff
 #
 # 2012-04-19  Jan Kruis <jan at crossreference dot nl>
@@ -602,9 +602,9 @@ sub check_and_clean_from_address {
     if($address =~ /^(noreply|postmaster|mailer\-daemon|listserv|majordomo|owner\-|request\-|bounces\-)/i ||
         $address =~ /\-(owner|request|bounces)\@/i ||
         ($custom_noreply_pattern == 1 && $address =~ /^.*($noreply_pattern).*/i) ) {
-        $logger->debug("sender $address contains $1 - will not send vacation message");
-        exit(0);
-    }
+            $logger->debug("sender $address contains $1 - will not send vacation message");
+            exit(0);
+        }
     $address = strip_address($address);
     if($address eq '') {
         $logger->error("Address $address is not valid; exiting");
@@ -693,4 +693,4 @@ if ($rv == 1) {
 
 0;
 
-#/* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */
+#/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
