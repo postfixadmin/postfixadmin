@@ -64,8 +64,12 @@ if ($f_phpversion == 1)
     if (phpversion() < 5) {
         print "<li><b>Error: Depends on: PHP v5</b><br /></li>\n";
         $error += 1;
-    }
-    if (phpversion() >= 5) { 
+    } elseif (version_compare(phpversion(), '5.2.3') < 0) {
+        # smarty uses htmlentities() with 4 parameters, the 4th parameter was introduced in PHP 5.2.3
+        # older PHP versions will cause warnings
+        $phpversion = 5;
+        print "<li><b>Recommended PHP version: >= 5.2.3, you have " . phpversion () . "</b></li>\n";
+    } else {
         $phpversion = 5;
         print "<li>PHP version " . phpversion () . "</li>\n";
     }
@@ -198,7 +202,7 @@ if ($phpversion >= 5)
     {
         print "<li>Depends on: MySQL 4.1 - OK\n";
         if ( !($config_loaded && $CONF['database_type'] == 'mysqli') ) {
-            print "(change the database_type to 'mysqli' in config.inc.php!!)\n";
+            print "<br>(change the database_type to 'mysqli' in config.inc.php if you want to use MySQL)\n";
         }
         print "</li>";
     }
@@ -211,7 +215,7 @@ if ($f_pg_connect == 1)
 {
     print "<li>Depends on: PostgreSQL - OK \n";
     if ( !($config_loaded && $CONF['database_type'] == 'pgsql') ) {
-        print "(change the database_type to 'pgsql' in config.inc.php!!)\n";
+        print "<br>(change the database_type to 'pgsql' in config.inc.php if you want to use PostgreSQL)\n";
     }
     print "</li>";
 }

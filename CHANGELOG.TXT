@@ -205,6 +205,8 @@ Version ***svn*** - 2013/12/09 - SVN r***
     vacation message - http://sourceforge.net/p/postfixadmin/patches/111/
 
   vacation.pl:
+  - allow to use original subject in vacation reply subject ("Re: $SUBJECT")
+    http://sourceforge.net/p/postfixadmin/patches/117/
   - encode subject - https://sourceforge.net/p/postfixadmin/bugs/272/ ,
     https://sourceforge.net/p/postfixadmin/patches/119/
   - add a friendly from address to vacation messages ($friendly_from)
@@ -248,11 +250,6 @@ Version ***svn*** - 2013/12/09 - SVN r***
     Note: The ALL domain is not (yet) deleted to stay backwards-compatible
     for now (will be done in a later upgrade function)
 
-  setup.php:
-****** TODO: fix the TODO ;-)
-  - add TODO note to check for PHP >= 5.2.3 because smarty uses
-    htmlentities with 4 parameters (4th param added in PHP 5.2.3)
-
   login.php
   - when login.php is requested, logout the current admin/user
     https://sourceforge.net/p/postfixadmin/bugs/284/
@@ -292,6 +289,17 @@ Version ***svn*** - 2013/12/09 - SVN r***
     - New target build-package: Call this target to build a shiny new .dpkg file
   - postfixadmin.docs: removed redundant changelog file
   - debian/postfixadmin.postrm: Call wwwconfig scripts only if they are existing
+
+Changes since 2.3.6 release (from 2.3 branch)
+----------------------------------------------------------------
+  - lt.lang, da.lang translation update
+  - when enabling/disabling a mailbox, also update the corresponding alias
+  - fix creating superadmin in setup.php with MariaDB (more strict SQL)
+  - trim() localpart in create-mailbox to avoid mailbox names with leading space
+  - mark vacation_notification.notified field as latin1 to avoid overlong index
+  - vacation.pl: encode subject
+  - vacation.pl: disable use of TLS by default due to a bug in Mail::Sender 0.8.22
+    (you can re-enable it with $smtp_tls_allowed)
 
 Version 2.3.6 - 2013/01/02 - SVN r1417 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
