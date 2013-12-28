@@ -76,6 +76,12 @@
 #             Add sub get_interval()
 #             Gives the user the option to set the interval time ( 0 = one reply, 1 = autoreply, > 1 = Delay reply ) 
 #             See https://sourceforge.net/tracker/?func=detail&aid=3508083&group_id=191583&atid=937966
+#
+# 2012-06-18  Christoph Lechleitner <christoph.lechleitner@iteg.at>
+#             Add capability to include the subject of the original mail in the subject of the vacation message.
+#             A good vacation subject could be: 'Re: $SUBJECT'
+#             Also corrected log entry about "Already informed ..." to show the $orig_from, not $email
+#
 
 # Requirements - the following perl modules are required:
 # DBD::Pg or DBD::mysql
@@ -483,7 +489,7 @@ sub find_real_address {
 # sends the vacation mail to the original sender.
 #
 sub send_vacation_email {
-    my ($email, $orig_from, $orig_to, $orig_messageid, $test_mode) = @_;
+    my ($email, $orig_from, $orig_to, $orig_messageid, $orig_subject, $test_mode) = @_;
     my $logger = get_logger();
     $logger->debug("Asked to send vacation reply to $email thanks to $orig_messageid");
     my $query = qq{SELECT subject,body FROM vacation WHERE email=?};
@@ -493,12 +499,18 @@ sub send_vacation_email {
     if ($rv == 1) {
         my @row = $stm->fetchrow_array;
         if (already_notified($email, $orig_from) == 1) {
-            $logger->debug("Already notified $email, or some error prevented us from doing so");
+            $logger->debug("Already notified $orig_from, or some error prevented us from doing so");
             return;
         }
 
         $logger->debug("Will send vacation response for $orig_messageid: FROM: $email (orig_to: $orig_to), TO: $orig_from; VACATION SUBJECT: $row[0] ; VACATION BODY: $row[1]");
+
         my $subject = $row[0];
+        $subject =~ s/\$SUBJECT/$orig_subject/g;
+        if ($subject ne $row[0]) {
+          $logger->debug("Patched Subject of vacation message to: $subject");
+        }
+
         my $body = $row[1];
         my $from = $email;
         my $to = $orig_from;
@@ -686,7 +698,7 @@ for (split(/,\s*/, lc($to)), split(/,\s*/, lc($cc))) {
 my ($rv, $email) = find_real_address($smtp_recipient);
 if ($rv == 1) {
     $logger->debug("Attempting to send vacation response for: $messageid to: $smtp_sender, $smtp_recipient, $email (test_mode = $test_mode)");
-    send_vacation_email($email, $smtp_sender, $smtp_recipient, $messageid, $test_mode);
+    send_vacation_email($email, $smtp_sender, $smtp_recipient, $messageid, $subject, $test_mode);
 } else {
     $logger->debug("SMTP recipient $smtp_recipient which resolves to $email does not have an active vacation (rv: $rv, email: $email)");
 }
