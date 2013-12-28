@@ -154,6 +154,7 @@ our $smtp_client = 'localhost';
 
 # SMTP authentication protocol used for sending.
 # Can be 'PLAIN', 'LOGIN', 'CRAM-MD5' or 'NTLM'
+# see "perldoc Mail::Sender" (search for "auth") for more options and details
 # Leave it blank if you don't use authentication
 our $smtp_auth = undef;
 # username used to login to the server
@@ -167,6 +168,10 @@ our $smtp_authpwd = 'somepass';
 # If you specify something here you'd instead see something like :
 # From: Some Friendly Name <original@recipient.domain>
 our $friendly_from = '';
+
+# use TLS for the SMTP connection?
+# while in general this would be a good idea, TLS with Mail::Sender 0.8.22 is buggy - https://rt.cpan.org/Public/Bug/Display.html?id=85438
+our $smtp_tls_allowed = 0;
 
 # Set to 1 to enable logging to syslog.
 our $syslog = 0;
@@ -521,6 +526,7 @@ sub send_vacation_email {
             'auth' => $smtp_auth,
             'authid' => $smtp_authid,
             'authpwd' => $smtp_authpwd,
+            'tls_allowed' => $smtp_tls_allowed,
             'smtp_client' => $smtp_client,
             'skip_bad_recipients' => 'true',
             'encoding' => 'Base64',
