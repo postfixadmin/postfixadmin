@@ -35,8 +35,12 @@ table {
 
 input, .button, textarea {
 	padding: 6px;
+}
+
+input, .button, textarea, select {
+	font-family: "BitStream Vera Sans", Verdana, Arial, Helvetica, sans-serif;
 	font-size: 13px;
-}	
+}
 
 .readonly {
 	background:#eee;
