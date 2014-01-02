@@ -2,6 +2,7 @@
 # Dovecot configuration for Postfix Admin
 # Originally written by: Massimo <AndyCapp> Danieli
 # Revised by: Sampsa Hario <shario> for Dovecot v1.0
+# Revised by: David Goodwin <david@palepurple.co.uk> for Dovecot 2.1.x  (2014/01/02)
 #
 
 More complete Dovecot documentation:
@@ -10,7 +11,9 @@ http://wiki.dovecot.org/Quota
 http://wiki.dovecot.org/Quota/Dict
 http://www.opensourcehowto.org/how-to/mysql/mysql-users-postfixadmin-postfix-dovecot--squirrelmail-with-userprefs-stored-in-mysql.html
 
-Here are the relevant parts of Dovecot v1.0.x configuration for Postfixadmin setup.
+
+Here are the relevant parts of Dovecot v2.1.x configuration for Postfixadmin setup.
+
 Please refer to Dovecot documentation for complete information.
 
 The setup gets userdb and passdb info from MySQL as well as quotas, and 
@@ -21,37 +24,77 @@ be viewed real-time in Postfixadmin.
 1. Dovecot setup
 -----------------
 
-default_mail_env = maildir:/var/mail/vmail/%u/
+A basic /etc/dovecot/dovecot.conf is as follows, this was generated using 'dovecot -n' on a vanilla install and then
+changing to talk to a PostgreSQL or MySQL database. 
 
-(dovecot 1.0.7 calls this mail_location ... ie.. mail_location = maildir:/...../%u )
+# BEGIN /etc/dovecot/dovecot.conf:
+# Change this to where your mail root is, this needs to match whatever structure postfix expects....
 
-auth default {
-  mechanisms plain
-  userdb sql {
-    # Path for SQL configuration file, see doc/dovecot-sql-example.conf
-    args = /etc/dovecot-mysql.conf
+mail_location = maildir:/var/mail/vmail/%u/
+
+namespace inbox {
+  inbox = yes
+  location = 
+  mailbox Drafts {
+    special_use = \Drafts
   }
-  passdb sql {
-    # Path for SQL configuration file, see doc/dovecot-sql-example.conf
-    args = /etc/dovecot-mysql.conf
+  mailbox Junk {
+    special_use = \Junk
   }
+  mailbox Sent {
+    special_use = \Sent
+  }
+  mailbox "Sent Messages" {
+    special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
+  }
+  prefix = 
 }
 
-# Valid UID range for users, defaults to 500 and above.
-first_valid_uid = 1001  # Change this to your postfix UID
+protocols = "imap pop3"
+ssl_cert = </etc/dovecot/dovecot.pem
+ssl_key = </etc/dovecot/private/dovecot.pem
+
+auth_mechanisms = plain
+userdb { 
+    driver = sql
+    args = /etc/dovecot/dovecot-sql.conf 
+}
+
+passdb { 
+    driver = sql
+    args = /etc/dovecot/dovecot-sql.conf 
+}
+
+# Needs to match Postfix virtual_uid_maps
+first_valid_uid = 1001 
+
+# allow plaintext auth.
+disable_plaintext_auth = yes
+
+#END
 
 
-2. Dovecot mysql setup
+2. Dovecot *sql setup
 ----------------------
 
-Below you'll find the relevant part of dovecot-mysql.conf file regarding our
-setup. Things you may need to change are db_password, uid and gid:
+Below you'll find the relevant part of dovecot-sql.conf file regarding our
+setup. 
 
+Things you will probably need to change are db connection settings (connect=)
+and the default_pass_scheme.
+
+#BEGIN /etc/dovecot/dovecot-sql.conf
 
 connect = host=localhost dbname=postfix user=postfix password=postfix
+# Use either 
 driver = mysql
+# Or 
+# driver = pgsql
 
-# Default password scheme.
+# Default password scheme - change to match your Postfixadmin setting.
 # depends on your $CONF['encrypt'] setting:
 # md5crypt  -> MD5-CRYPT
 # md5       -> PLAIN-MD5
@@ -63,16 +106,20 @@ default_pass_scheme = MD5-CRYPT
 
 password_query = SELECT username AS user,password FROM mailbox WHERE username = '%u' AND active='1'
 
-# Query to retrieve user information.
-
+# Query to retrieve user information, note uid matches dovecot.conf AND Postfix virtual_uid_maps parameter.
 user_query = SELECT maildir, 1001 AS uid, 1001 AS gid FROM mailbox WHERE username = '%u' AND active='1'
 
-for dovecot 1.2: (for PostgreSQL, replace 'CONCAT(a, b)' with 'a || b')
+
+# MYSQL :
 user_query = SELECT CONCAT('/home/vmail/', maildir) AS home, 1001 AS uid, 1001 AS gid, 
 	CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE username = '%u' AND active='1'
+# PostgreSQL : (no Quota though) :
+# user_query = SELECT '/var/vmail/mail/' || maildir AS home, 1001 as uid, 1001 as gid FROM mailbox WHERE username = '%s' AND active = '1'
+
+#END /etc/dovecot/dovecot-sql.conf
 
 
-NB! The GID and UID are for postfix user and group ID, NOT MySQL user and group ID.
+
 
 
 3. Dovecot v1.0 quota support (optional)
@@ -110,7 +157,7 @@ quota = dict:storage=200000 proxy::quota
 }
 
 
-Change dovecot-mysql.conf to return quota values:
+Change dovecot-sql.conf to return quota values:
 
 for MySQL:
 user_query = SELECT maildir, 1001 AS uid, 1001 AS gid, CONCAT('dict:storage=',floor(quota/1000),' proxy::quota') as quota FROM mailbox WHERE username = '%u' AND active='1'
