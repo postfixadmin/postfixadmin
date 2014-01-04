@@ -11,7 +11,7 @@
     {/if}
 	{if $CONF.show_footer_text == 'YES' && $CONF.footer_link}
 		&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-		<a href="{$CONF.footer_link}">{$CONF.footer_text|escape}</a>
+		<a href="{$CONF.footer_link}">{$CONF.footer_text}</a>
 	{/if}
 </div>
 </div>
