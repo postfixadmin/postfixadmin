@@ -23,26 +23,27 @@ function smarty_modifiercompiler_unescape($params, $compiler)
         $params[1] = 'html';
     }
     if (!isset($params[2])) {
-        $params[2] = "SMARTY_RESOURCE_CHAR_SET";
+        $params[2] = '\'' . addslashes(Smarty::$_CHARSET) . '\'';
     } else {
         $params[2] = "'" . $params[2] . "'";
     }
 
     switch (trim($params[1], '"\'')) {
         case 'entity':
-            return 'mb_convert_encoding(' . $params[0] . ', ' . $params[2] . ', \'HTML-ENTITIES\')';
         case 'htmlall':
-            if (SMARTY_MBSTRING /* ^phpunit */&&empty($_SERVER['SMARTY_PHPUNIT_DISABLE_MBSTRING'])/* phpunit$ */) {
+            if (Smarty::$_MBSTRING) {
                 return 'mb_convert_encoding(' . $params[0] . ', ' . $params[2] . ', \'HTML-ENTITIES\')';
             }
-            return 'html_entity_decode(' . $params[0] . ', ENT_QUOTES, ' . $params[2] . ')';
+
+            return 'html_entity_decode(' . $params[0] . ', ENT_NOQUOTES, ' . $params[2] . ')';
 
         case 'html':
             return 'htmlspecialchars_decode(' . $params[0] . ', ENT_QUOTES)';
+
+        case 'url':
+            return 'rawurldecode(' . $params[0] . ')';
 
         default:
             return $params[0];
     }
 }
-
-?>

@@ -13,14 +13,14 @@
  * @package Smarty
  * @subpackage PluginsInternal
  */
-class Smarty_Internal_Write_File {
-
+class Smarty_Internal_Write_File
+{
     /**
      * Writes file in a safe way to disk
      *
-     * @param string $_filepath complete filepath
-     * @param string $_contents file content
-     * @param Smarty $smarty    smarty instance
+     * @param  string  $_filepath complete filepath
+     * @param  string  $_contents file content
+     * @param  Smarty  $smarty    smarty instance
      * @return boolean true
      */
     public static function writeFile($_filepath, $_contents, Smarty $smarty)
@@ -38,21 +38,41 @@ class Smarty_Internal_Write_File {
         }
 
         // write to tmp file, then move to overt file lock race condition
-        $_tmp_file = $_dirpath . DS . uniqid('wrt');
+        $_tmp_file = $_dirpath . DS . uniqid('wrt', true);
         if (!file_put_contents($_tmp_file, $_contents)) {
             error_reporting($_error_reporting);
             throw new SmartyException("unable to write file {$_tmp_file}");
+
             return false;
         }
 
-        // remove original file
-        @unlink($_filepath);
+        /*
+         * Windows' rename() fails if the destination exists,
+         * Linux' rename() properly handles the overwrite.
+         * Simply unlink()ing a file might cause other processes
+         * currently reading that file to fail, but linux' rename()
+         * seems to be smart enough to handle that for us.
+         */
+        if (Smarty::$_IS_WINDOWS) {
+            // remove original file
+            @unlink($_filepath);
+            // rename tmp file
+            $success = @rename($_tmp_file, $_filepath);
+        } else {
+            // rename tmp file
+            $success = @rename($_tmp_file, $_filepath);
+            if (!$success) {
+                // remove original file
+                @unlink($_filepath);
+                // rename tmp file
+                $success = @rename($_tmp_file, $_filepath);
+            }
+        }
 
-        // rename tmp file
-        $success = rename($_tmp_file, $_filepath);
         if (!$success) {
             error_reporting($_error_reporting);
             throw new SmartyException("unable to write file {$_filepath}");
+
             return false;
         }
 
@@ -62,9 +82,8 @@ class Smarty_Internal_Write_File {
             umask($old_umask);
         }
         error_reporting($_error_reporting);
+
         return true;
     }
 
 }
-
-?>

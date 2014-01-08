@@ -2,10 +2,10 @@
 /**
 * Smarty Internal Plugin Configfilelexer
 *
-* This is the lexer to break the config file source into tokens
+* This is the lexer to break the config file source into tokens 
 * @package Smarty
 * @subpackage Config
-* @author Uwe Tews
+* @author Uwe Tews 
 */
 /**
 * Smarty Internal Plugin Configfilelexer
@@ -20,18 +20,21 @@ class Smarty_Internal_Configfilelexer
     public $node;
     public $line;
     private $state = 1;
+    public $yyTraceFILE;
+    public $yyTracePrompt;
+    public $state_name = array (1 => 'START', 2 => 'VALUE', 3 => 'NAKED_STRING_VALUE', 4 => 'COMMENT', 5 => 'SECTION', 6 => 'TRIPPLE');
     public $smarty_token_names = array (		// Text for parser error messages
    				);
-
-
+    				
+    				
     function __construct($data, $smarty)
     {
         // set instance object
-        self::instance($this);
+        self::instance($this); 
         $this->data = $data . "\n"; //now all lines are \n-terminated
         $this->counter = 0;
         $this->line = 1;
-        $this->smarty = $smarty;
+        $this->smarty = $smarty; 
         $this->mbstring_overload = ini_get('mbstring.func_overload') & 2;
     }
     public static function &instance($new_instance = null)
@@ -40,6 +43,11 @@ class Smarty_Internal_Configfilelexer
         if (isset($new_instance) && is_object($new_instance))
             $instance = $new_instance;
         return $instance;
+    } 
+    public function PrintTrace()
+    {
+        $this->yyTraceFILE = fopen('php://output', 'w');
+        $this->yyTracePrompt = '<br>';
     }
 
 
@@ -47,31 +55,47 @@ class Smarty_Internal_Configfilelexer
     private $_yy_state = 1;
     private $_yy_stack = array();
 
-    function yylex()
+    public function yylex()
     {
         return $this->{'yylex' . $this->_yy_state}();
     }
 
-    function yypushstate($state)
+    public function yypushstate($state)
     {
+        if ($this->yyTraceFILE) {
+             fprintf($this->yyTraceFILE, "%sState push %s\n", $this->yyTracePrompt, isset($this->state_name[$this->_yy_state]) ? $this->state_name[$this->_yy_state] : $this->_yy_state);
+        }
         array_push($this->_yy_stack, $this->_yy_state);
         $this->_yy_state = $state;
+        if ($this->yyTraceFILE) {
+             fprintf($this->yyTraceFILE, "%snew State %s\n", $this->yyTracePrompt, isset($this->state_name[$this->_yy_state]) ? $this->state_name[$this->_yy_state] : $this->_yy_state);
+        }
     }
 
-    function yypopstate()
+    public function yypopstate()
     {
-        $this->_yy_state = array_pop($this->_yy_stack);
+       if ($this->yyTraceFILE) {
+             fprintf($this->yyTraceFILE, "%sState pop %s\n", $this->yyTracePrompt,  isset($this->state_name[$this->_yy_state]) ? $this->state_name[$this->_yy_state] : $this->_yy_state);
+        }
+       $this->_yy_state = array_pop($this->_yy_stack);
+        if ($this->yyTraceFILE) {
+             fprintf($this->yyTraceFILE, "%snew State %s\n", $this->yyTracePrompt, isset($this->state_name[$this->_yy_state]) ? $this->state_name[$this->_yy_state] : $this->_yy_state);
+        }
+
     }
 
-    function yybegin($state)
+    public function yybegin($state)
     {
-        $this->_yy_state = $state;
+       $this->_yy_state = $state;
+        if ($this->yyTraceFILE) {
+             fprintf($this->yyTraceFILE, "%sState set %s\n", $this->yyTracePrompt, isset($this->state_name[$this->_yy_state]) ? $this->state_name[$this->_yy_state] : $this->_yy_state);
+        }
     }
 
 
 
 
-    function yylex1()
+    public function yylex1()
     {
         $tokenMap = array (
               1 => 0,
@@ -81,14 +105,15 @@ class Smarty_Internal_Configfilelexer
               5 => 0,
               6 => 0,
               7 => 0,
+              8 => 0,
             );
-        if ($this->counter >= strlen($this->data)) {
+        if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
             return false; // end of input
         }
-        $yy_global_pattern = "/\G(#|;)|\G(\\[)|\G(\\])|\G(=)|\G([ \t\r]+)|\G(\n)|\G([0-9]*[a-zA-Z_]\\w*)/iS";
+        $yy_global_pattern = "/\G(#|;)|\G(\\[)|\G(\\])|\G(=)|\G([ \t\r]+)|\G(\n)|\G([0-9]*[a-zA-Z_]\\w*)|\G([\S\s])/iS";
 
         do {
-            if ($this->mbstring_overload ? preg_match($yy_global_pattern, substr($this->data, $this->counter), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
+            if ($this->mbstring_overload ? preg_match($yy_global_pattern, mb_substr($this->data, $this->counter,2000000000,'latin1'), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
                 $yysubmatches = $yymatches;
                 $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
                 if (!count($yymatches)) {
@@ -108,7 +133,7 @@ class Smarty_Internal_Configfilelexer
                 $this->value = current($yymatches); // token value
                 $r = $this->{'yy_r1_' . $this->token}($yysubmatches);
                 if ($r === null) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
@@ -117,9 +142,9 @@ class Smarty_Internal_Configfilelexer
                     // process this token in the new state
                     return $this->yylex();
                 } elseif ($r === false) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
-                    if ($this->counter >= strlen($this->data)) {
+                    if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
                         return false; // end of input
                     }
                     // skip this token
@@ -173,10 +198,15 @@ class Smarty_Internal_Configfilelexer
 
     $this->token = Smarty_Internal_Configfileparser::TPC_ID;
     }
+    function yy_r1_8($yy_subpatterns)
+    {
+
+    $this->token = Smarty_Internal_Configfileparser::TPC_OTHER;
+    }
 
 
 
-    function yylex2()
+    public function yylex2()
     {
         $tokenMap = array (
               1 => 0,
@@ -189,13 +219,13 @@ class Smarty_Internal_Configfilelexer
               8 => 0,
               9 => 0,
             );
-        if ($this->counter >= strlen($this->data)) {
+        if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
             return false; // end of input
         }
         $yy_global_pattern = "/\G([ \t\r]+)|\G(\\d+\\.\\d+(?=[ \t\r]*[\n#;]))|\G(\\d+(?=[ \t\r]*[\n#;]))|\G(\"\"\")|\G('[^'\\\\]*(?:\\\\.[^'\\\\]*)*'(?=[ \t\r]*[\n#;]))|\G(\"[^\"\\\\]*(?:\\\\.[^\"\\\\]*)*\"(?=[ \t\r]*[\n#;]))|\G([a-zA-Z]+(?=[ \t\r]*[\n#;]))|\G([^\n]+?(?=[ \t\r]*\n))|\G(\n)/iS";
 
         do {
-            if ($this->mbstring_overload ? preg_match($yy_global_pattern, substr($this->data, $this->counter), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
+            if ($this->mbstring_overload ? preg_match($yy_global_pattern, mb_substr($this->data, $this->counter,2000000000,'latin1'), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
                 $yysubmatches = $yymatches;
                 $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
                 if (!count($yymatches)) {
@@ -215,7 +245,7 @@ class Smarty_Internal_Configfilelexer
                 $this->value = current($yymatches); // token value
                 $r = $this->{'yy_r2_' . $this->token}($yysubmatches);
                 if ($r === null) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
@@ -224,9 +254,9 @@ class Smarty_Internal_Configfilelexer
                     // process this token in the new state
                     return $this->yylex();
                 } elseif ($r === false) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
-                    if ($this->counter >= strlen($this->data)) {
+                    if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
                         return false; // end of input
                     }
                     // skip this token
@@ -305,18 +335,18 @@ class Smarty_Internal_Configfilelexer
 
 
 
-    function yylex3()
+    public function yylex3()
     {
         $tokenMap = array (
               1 => 0,
             );
-        if ($this->counter >= strlen($this->data)) {
+        if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
             return false; // end of input
         }
         $yy_global_pattern = "/\G([^\n]+?(?=[ \t\r]*\n))/iS";
 
         do {
-            if ($this->mbstring_overload ? preg_match($yy_global_pattern, substr($this->data, $this->counter), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
+            if ($this->mbstring_overload ? preg_match($yy_global_pattern, mb_substr($this->data, $this->counter,2000000000,'latin1'), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
                 $yysubmatches = $yymatches;
                 $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
                 if (!count($yymatches)) {
@@ -336,7 +366,7 @@ class Smarty_Internal_Configfilelexer
                 $this->value = current($yymatches); // token value
                 $r = $this->{'yy_r3_' . $this->token}($yysubmatches);
                 if ($r === null) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
@@ -345,9 +375,9 @@ class Smarty_Internal_Configfilelexer
                     // process this token in the new state
                     return $this->yylex();
                 } elseif ($r === false) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
-                    if ($this->counter >= strlen($this->data)) {
+                    if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
                         return false; // end of input
                     }
                     // skip this token
@@ -372,20 +402,20 @@ class Smarty_Internal_Configfilelexer
 
 
 
-    function yylex4()
+    public function yylex4()
     {
         $tokenMap = array (
               1 => 0,
               2 => 0,
               3 => 0,
             );
-        if ($this->counter >= strlen($this->data)) {
+        if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
             return false; // end of input
         }
         $yy_global_pattern = "/\G([ \t\r]+)|\G([^\n]+?(?=[ \t\r]*\n))|\G(\n)/iS";
 
         do {
-            if ($this->mbstring_overload ? preg_match($yy_global_pattern, substr($this->data, $this->counter), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
+            if ($this->mbstring_overload ? preg_match($yy_global_pattern, mb_substr($this->data, $this->counter,2000000000,'latin1'), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
                 $yysubmatches = $yymatches;
                 $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
                 if (!count($yymatches)) {
@@ -405,7 +435,7 @@ class Smarty_Internal_Configfilelexer
                 $this->value = current($yymatches); // token value
                 $r = $this->{'yy_r4_' . $this->token}($yysubmatches);
                 if ($r === null) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
@@ -414,9 +444,9 @@ class Smarty_Internal_Configfilelexer
                     // process this token in the new state
                     return $this->yylex();
                 } elseif ($r === false) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
-                    if ($this->counter >= strlen($this->data)) {
+                    if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
                         return false; // end of input
                     }
                     // skip this token
@@ -451,19 +481,19 @@ class Smarty_Internal_Configfilelexer
 
 
 
-    function yylex5()
+    public function yylex5()
     {
         $tokenMap = array (
               1 => 0,
               2 => 0,
             );
-        if ($this->counter >= strlen($this->data)) {
+        if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
             return false; // end of input
         }
         $yy_global_pattern = "/\G(\\.)|\G(.*?(?=[\.=[\]\r\n]))/iS";
 
         do {
-            if ($this->mbstring_overload ? preg_match($yy_global_pattern, substr($this->data, $this->counter), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
+            if ($this->mbstring_overload ? preg_match($yy_global_pattern, mb_substr($this->data, $this->counter,2000000000,'latin1'), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
                 $yysubmatches = $yymatches;
                 $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
                 if (!count($yymatches)) {
@@ -483,7 +513,7 @@ class Smarty_Internal_Configfilelexer
                 $this->value = current($yymatches); // token value
                 $r = $this->{'yy_r5_' . $this->token}($yysubmatches);
                 if ($r === null) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
@@ -492,9 +522,9 @@ class Smarty_Internal_Configfilelexer
                     // process this token in the new state
                     return $this->yylex();
                 } elseif ($r === false) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
-                    if ($this->counter >= strlen($this->data)) {
+                    if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
                         return false; // end of input
                     }
                     // skip this token
@@ -523,20 +553,19 @@ class Smarty_Internal_Configfilelexer
     }
 
 
-    function yylex6()
+    public function yylex6()
     {
         $tokenMap = array (
               1 => 0,
               2 => 0,
-              3 => 2,
             );
-        if ($this->counter >= strlen($this->data)) {
+        if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
             return false; // end of input
         }
-        $yy_global_pattern = "/\G(\"\"\"(?=[ \t\r]*[\n#;]))|\G([ \t\r]*\n)|\G(([\S\s]*?)(?=([ \t\r]*\n|\"\"\")))/iS";
+        $yy_global_pattern = "/\G(\"\"\"(?=[ \t\r]*[\n#;]))|\G([\S\s])/iS";
 
         do {
-            if ($this->mbstring_overload ? preg_match($yy_global_pattern, substr($this->data, $this->counter), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
+            if ($this->mbstring_overload ? preg_match($yy_global_pattern, mb_substr($this->data, $this->counter,2000000000,'latin1'), $yymatches) : preg_match($yy_global_pattern,$this->data, $yymatches, null, $this->counter)) {
                 $yysubmatches = $yymatches;
                 $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
                 if (!count($yymatches)) {
@@ -556,7 +585,7 @@ class Smarty_Internal_Configfilelexer
                 $this->value = current($yymatches); // token value
                 $r = $this->{'yy_r6_' . $this->token}($yysubmatches);
                 if ($r === null) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
                     // accept this token
                     return true;
@@ -565,9 +594,9 @@ class Smarty_Internal_Configfilelexer
                     // process this token in the new state
                     return $this->yylex();
                 } elseif ($r === false) {
-                    $this->counter += strlen($this->value);
+                    $this->counter += ($this->mbstring_overload ? mb_strlen($this->value,'latin1'): strlen($this->value));
                     $this->line += substr_count($this->value, "\n");
-                    if ($this->counter >= strlen($this->data)) {
+                    if ($this->counter >= ($this->mbstring_overload ? mb_strlen($this->data,'latin1'): strlen($this->data))) {
                         return false; // end of input
                     }
                     // skip this token
@@ -593,14 +622,25 @@ class Smarty_Internal_Configfilelexer
     function yy_r6_2($yy_subpatterns)
     {
 
-    $this->token = Smarty_Internal_Configfileparser::TPC_TRIPPLE_CONTENT;
-    }
-    function yy_r6_3($yy_subpatterns)
-    {
-
-    $this->token = Smarty_Internal_Configfileparser::TPC_TRIPPLE_CONTENT;
+  if ($this->mbstring_overload) {
+    $to = mb_strlen($this->data,'latin1');
+  } else {
+    $to = strlen($this->data);
+  }
+  preg_match("/\"\"\"[ \t\r]*[\n#;]/",$this->data,$match,PREG_OFFSET_CAPTURE,$this->counter);
+  if (isset($match[0][1])) {
+    $to = $match[0][1];
+  } else {
+    $this->compiler->trigger_template_error ("missing or misspelled literal closing tag");
+  }  
+  if ($this->mbstring_overload) {
+    $this->value = mb_substr($this->data,$this->counter,$to-$this->counter,'latin1');
+  } else {
+    $this->value = substr($this->data,$this->counter,$to-$this->counter);
+  }
+  $this->token = Smarty_Internal_Configfileparser::TPC_TRIPPLE_TEXT;
     }
 
 
 }
-?>
+
