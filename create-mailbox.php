@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
 
-    if (isset ($_POST['fUsername']) && isset ($_POST['fDomain'])) $fUsername = escape_string (trim($_POST['fUsername'])) . "@" . escape_string ($_POST['fDomain']);
+    if (isset ($_POST['fUsername']) && isset ($_POST['fDomain'])) $fUsername = escape_string ($_POST['fUsername']) . "@" . escape_string ($_POST['fDomain']);
     $fUsername = strtolower ($fUsername);
     if (isset ($_POST['fPassword'])) $fPassword = escape_string ($_POST['fPassword']);
     if (isset ($_POST['fPassword2'])) $fPassword2 = escape_string ($_POST['fPassword2']);
