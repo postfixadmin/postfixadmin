@@ -1310,8 +1310,12 @@ function upgrade_1050() {
     db_query_parsed(_add_index('log', 'domain_timestamp', 'domain,timestamp'));
 }
 
-function upgrade_1283() {
+function upgrade_1283_mysql() {
     _db_add_field('admin', 'superadmin', '{BOOLEAN}', 'password');
+}
+
+function upgrade_1283_pgsql() { /* postgresql doesn't like adding columns which can't be null when there is data already there. */
+    _db_add_field('admin', 'superadmin', "{BOOLEAN} DEFAULT '{BOOL_TRUE}'", 'password');
 }
 
 function upgrade_1284() {
