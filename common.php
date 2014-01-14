@@ -84,7 +84,7 @@ if (defined('POSTFIXADMIN_CLI')) {
 
 require_once("$incpath/languages/" . $language . ".lang");
 
-if($CONF['language_hook'] != '' && function_exists($CONF['language_hook'])) {
+if(!empty($CONF['language_hook']) && function_exists($CONF['language_hook'])) {
     $hook_func = $CONF['language_hook'];
     $PALANG = $hook_func ($PALANG, $language);
 }
