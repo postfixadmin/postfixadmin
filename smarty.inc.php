@@ -61,7 +61,7 @@ $smarty = new PFASmarty();
 if (!isset($rel_path)) $rel_path = ''; # users/* sets this to '../'
 
 $CONF['theme_css']  = $rel_path . htmlentities($CONF['theme_css']);
-if ($CONF['theme_custom_css'] != "") $CONF['theme_custom_css']  = $rel_path . htmlentities($CONF['theme_custom_css']);
+if (!empty($CONF['theme_custom_css'])) $CONF['theme_custom_css']  = $rel_path . htmlentities($CONF['theme_custom_css']);
 $CONF['theme_logo'] = $rel_path . htmlentities($CONF['theme_logo']);
 
 $smarty->assign ('CONF', $CONF);
