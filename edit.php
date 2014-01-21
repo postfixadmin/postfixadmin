@@ -186,7 +186,11 @@ foreach($form_fields as $key => $field) {
         $fielderror[$key] = '';
     }
 
-    $smarty->assign ("value_$key", $values[$key]);
+    if (isset($values[$key])) {
+        $smarty->assign ("value_$key", $values[$key]);
+    } else {
+        $smarty->assign ("value_$key", $form_fields[$key]['default']);
+    }
   }
 }
 
