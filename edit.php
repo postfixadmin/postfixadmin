@@ -82,13 +82,17 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $inp_values = safepost('value', array() );
 
     foreach($form_fields as $key => $field) {
         if ($field['editable'] && $field['display_in_form']) {
-            if($field['type'] == 'bool') {
-                $values[$key] = safepost($key, 0); # isset() for unchecked checkboxes is always false
+            if (!isset($inp_values[$key])) {
+                if($field['type'] == 'bool') {
+                    $values[$key] = 0; # isset() for unchecked checkboxes is always false
+                }
+                # do nothing for other field types
             } elseif($field['type'] == 'txtl') {
-                $values[$key] = safepost($key);
+                $values[$key] = $inp_values[$key];
                 $values[$key] = preg_replace ('/\\\r\\\n/', ',', $values[$key]);
                 $values[$key] = preg_replace ('/\r\n/',     ',', $values[$key]);
                 $values[$key] = preg_replace ('/,[\s]+/i',  ',', $values[$key]); 
@@ -101,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $values[$key] = explode(",", $values[$key]);
                 }
             } else {
-                $values[$key] = safepost($key);
+                $values[$key] = $inp_values[$key];
             }
         }
     }

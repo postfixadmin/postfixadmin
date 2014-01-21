@@ -22,28 +22,28 @@
 					{if $table == 'foo' && $key == 'bar'}
 						Special handling (td content) for {$table} / {$key}
 					{elseif $field.type == 'bool'}
-						<input class="flat" type="checkbox" value='1' name="{$key}"{if {$value_{$key}} == 1} checked="checked"{/if}/>
+						<input class="flat" type="checkbox" value='1' name="value[{$key}]"{if {$value_{$key}} == 1} checked="checked"{/if}/>
 					{elseif $field.type == 'enum'}
-						<select class="flat" name="{$key}">
+						<select class="flat" name="value[{$key}]">
 						{html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
 						</select>
 					{elseif $field.type == 'list'}
-						<select class="flat" name="{$key}[]" size="10" multiple="multiple">
+						<select class="flat" name="value[{$key}][]" size="10" multiple="multiple">
 						{html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
 						</select>
 
 <!-- alternative: 
 						<div style='max-height:30em; overflow:auto;'>
-							{html_checkboxes name={$key} output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key} separator="<br />"}
+							{html_checkboxes name="value[{$key}]" output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key} separator="<br />"}
 						</div>
 -->
 					{elseif $field.type == 'pass'}
-						<input class="flat" type="password" name="{$key}" />
+						<input class="flat" type="password" name="value[{$key}]" />
 					{elseif $field.type == 'txtl'}
-						<textarea class="flat" rows="10" cols="35" name="{$key}">{foreach key=key2 item=field2 from=$value_{$key}}{$field2}
+						<textarea class="flat" rows="10" cols="35" name="value[{$key}]">{foreach key=key2 item=field2 from=$value_{$key}}{$field2}
 {/foreach}</textarea>
 					{else}
-						<input class="flat" type="text" name="{$key}" value="{$value_{$key}}" />
+						<input class="flat" type="text" name="value[{$key}]" value="{$value_{$key}}" />
 					{/if}
 				{/if}	
 				</td>
