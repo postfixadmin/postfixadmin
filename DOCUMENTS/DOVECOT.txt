@@ -54,10 +54,18 @@ namespace inbox {
 }
 
 protocols = "imap pop3"
-ssl_cert = </etc/dovecot/dovecot.pem
+# change to 'no' if you don't have ssl cert/keys, and comment out ssl_cert/ssl_key
+ssl = yes 
+ssl_cert = </etc/dovecot/private/dovecot.pem
 ssl_key = </etc/dovecot/private/dovecot.pem
 
-auth_mechanisms = plain
+# login is for outlook express smtpd auth
+auth_mechanisms = plain login
+
+# If you're having trouble, try uncommenting these :
+#auth_debug = yes
+#auth_debug_passwords = yes
+
 userdb { 
     driver = sql
     args = /etc/dovecot/dovecot-sql.conf 
@@ -68,11 +76,24 @@ passdb {
     args = /etc/dovecot/dovecot-sql.conf 
 }
 
+# Uncomment this if you want Postfix to be able to do smtpd auth through dovecot
+# At a minimum Postfix probably needs : smtpd_sasl_type = dovecot 
+# And additionally: smtpd_sasl_path = private/auth
+#service auth {
+#    unix_listener /var/spool/postfix/private/auth {
+#        mode = 0660
+#        user = postfix
+#        group = postfix
+#    }
+#    user = postfix
+#    group = postfix
+#}
+
 # Needs to match Postfix virtual_uid_maps
 first_valid_uid = 1001 
 
-# allow plaintext auth.
-disable_plaintext_auth = yes
+# allow plaintext auth (change to 'yes' to block plaintext passwords)
+disable_plaintext_auth = no
 
 #END
 
@@ -111,7 +132,7 @@ user_query = SELECT maildir, 1001 AS uid, 1001 AS gid FROM mailbox WHERE usernam
 
 
 # MYSQL :
-user_query = SELECT CONCAT('/home/vmail/', maildir) AS home, 1001 AS uid, 1001 AS gid, 
+user_query = SELECT CONCAT('/var/vmail/mail/', maildir) AS home, 1001 AS uid, 1001 AS gid, 
 	CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE username = '%u' AND active='1'
 # PostgreSQL : (no Quota though) :
 # user_query = SELECT '/var/vmail/mail/' || maildir AS home, 1001 as uid, 1001 as gid FROM mailbox WHERE username = '%u' AND active = '1'
