@@ -120,8 +120,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $values[$id_field] = $edit;
     }
 
-    if ($new && ($form_fields[$id_field]['display_in_form'] == 0) && ($form_fields[$id_field]['editable'] == 1) ) { # address split to localpart and domain?
-        $values[$id_field] = $handler->mergeId($values);
+    if ($new && ($form_fields[$id_field]['display_in_form'] == 0)) {
+        if ($form_fields[$id_field]['editable'] == 1) { # address split to localpart and domain?
+            $values[$id_field] = $handler->mergeId($values);
+        } else { # probably auto_increment
+            $values[$id_field] = '';
+        }
     }
 
     if (!$handler->init($values[$id_field])) {
