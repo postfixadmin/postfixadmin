@@ -47,6 +47,10 @@ authentication_require_role($formconf['required_role']);
 
 if ($edit != '' || $formconf['early_init']) {
     if (!$handler->init($edit)) {
+        if (count($handler->errormsg) == 0) {
+            # should never happen and indicates a bug in $handler->init()
+            flash_error($handlerclass . "->init() failed, but didn't set any error message");
+        }
         flash_error($handler->errormsg);
         header ("Location: " . $formconf['listview']);
         exit;
