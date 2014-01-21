@@ -197,7 +197,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{PRIMARY}'         => 'primary key',
                 '{UNSIGNED}'        => 'unsigned'  , 
                 '{FULLTEXT}'        => 'FULLTEXT', 
-                '{BOOLEAN}'         => 'tinyint(1) NOT NULL',
+                '{BOOLEAN}'         => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(False) . "'",
                 '{UTF-8}'           => '/*!40100 CHARACTER SET utf8 */',
                 '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 */',
                 '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
@@ -217,7 +217,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{PRIMARY}'         => 'primary key', 
                 '{UNSIGNED}'        => '', 
                 '{FULLTEXT}'        => '', 
-                '{BOOLEAN}'         => 'BOOLEAN NOT NULL', 
+                '{BOOLEAN}'         => "BOOLEAN NOT NULL DEFAULT '" . db_get_boolean(False) . "'",
                 '{UTF-8}'           => '', # UTF-8 is simply ignored.
                 '{LATIN1}'          => '', # same for latin1
                 '{IF_NOT_EXISTS}'   => '', # does not work with PgSQL
@@ -392,7 +392,7 @@ function upgrade_2_mysql() {
         $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;", TRUE);
     }
     if(!_mysql_field_exists($table_domain, 'backupmx')) {
-        $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx {BOOLEAN} DEFAULT {BOOL_FALSE} AFTER transport;", TRUE);
+        $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx {BOOLEAN} AFTER transport;", TRUE);
     }
 }
 
@@ -1310,12 +1310,8 @@ function upgrade_1050() {
     db_query_parsed(_add_index('log', 'domain_timestamp', 'domain,timestamp'));
 }
 
-function upgrade_1283_mysql() {
+function upgrade_1283() {
     _db_add_field('admin', 'superadmin', '{BOOLEAN}', 'password');
-}
-
-function upgrade_1283_pgsql() { /* postgresql doesn't like adding columns which can't be null when there is data already there. */
-    _db_add_field('admin', 'superadmin', "{BOOLEAN} DEFAULT '{BOOL_TRUE}'", 'password');
 }
 
 function upgrade_1284() {
