@@ -18,6 +18,7 @@ Changes since 2.3.6 release
   - don't trim() mail address to avoid that aliases starting with a space are
     allowed. This fixes http://sourceforge.net/p/postfixadmin/bugs/210/ and
     https://sourceforge.net/p/postfixadmin/feature-requests/113/
+  - update regex in check_domain() to support new, longer TLDs like .photography
   - mark vacation_notification.notified field as latin1 to avoid overlong index
   - vacation.pl: encode subject
   - vacation.pl: disable use of TLS by default due to a bug in Mail::Sender 0.8.22

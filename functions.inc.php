@@ -229,7 +229,7 @@ function check_domain ($domain)
     global $CONF;
     global $PALANG;
 
-    if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,6}$/i', ($domain)))
+    if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,11}$/i', ($domain)))
     {
         flash_error(sprintf($PALANG['pInvalidDomainRegex'], htmlentities($domain)));
         return false;
