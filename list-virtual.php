@@ -272,17 +272,19 @@ if (isset ($limit)) {
 $gen_show_status = array ();
 $check_alias_owner = array ();
 
-if ((is_array ($tAlias) and sizeof ($tAlias) > 0))
+if ((is_array ($tAlias) and sizeof ($tAlias) > 0)) {
     foreach (array_keys($tAlias) as $i) {
         $gen_show_status [$i] = gen_show_status($tAlias[$i]['address']);
         $check_alias_owner [$i] = check_alias_owner($admin_username, $tAlias[$i]['address']);
     }
+}
 
 $gen_show_status_mailbox = array ();
 $divide_quota = array ('current' => array(), 'quota' => array());
-if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
-    for ($i = 0; $i < sizeof ($tMailbox); $i++) {
+if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0)) {
+    for ($i = 0; $i < sizeof ($tMailbox); $i++) { 
         $gen_show_status_mailbox [$i] = gen_show_status($tMailbox[$i]['username']);
+
         if(isset($tMailbox[$i]['current'])) {
             $divide_quota ['current'][$i] = divide_quota ($tMailbox[$i]['current']);
         }
@@ -298,7 +300,9 @@ if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0))
           $divide_quota ['quota_width'][$i] = 0; # TODO: use special value?
         }
     }
-    
+}    
+
+
 class cNav_bar
 {
     var $count, $title, $limit, $page_size, $pages, $search; //* arguments
