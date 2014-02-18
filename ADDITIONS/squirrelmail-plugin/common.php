@@ -8,12 +8,12 @@ if (!defined('SM_PATH'))
 {
     define('SM_PATH','../');
 }
-include_once(SM_PATH . 'plugins/postfixadmin/config.php');
-include_once(SM_PATH . 'plugins/postfixadmin/functions.inc.php');
-include_if_exists(SM_PATH . 'include/validate.php');
-if (file_exists(SM_PATH . 'include/validate.php')) 
+include_once(dirname(__FILE__)  . '/config.php');
+include_once(dirname(__FILE__) . '/functions.inc.php');
+include_if_exists(dirname(__FILE__) . '/../include/validate.php');
+if (file_exists(dirname(__FILE__) . '/../include/validate.php')) 
 {
-    include_once(SM_PATH . 'include/validate.php');
+    include_once(dirname(__FILE__) . '/include/validate.php');
 }
 else { 
     include_if_exists(SM_PATH . 'src/validate.php');
@@ -34,6 +34,6 @@ header("Content-Type: text/html; charset=utf8");
 
 
 //global $VACCONFMESSAGE;
-bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
+bindtextdomain('postfixadmin', dirname(__FILE__) . '/postfixadmin/locale');
 textdomain('postfixadmin');
 
