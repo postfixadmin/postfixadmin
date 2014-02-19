@@ -1,6 +1,11 @@
 <?php
 // vim:ts=4:sw=4:et
 ini_set('include_path', get_include_path() . ':' . dirname(__FILE__));
+
+@include_once('Zend/Version.php');
+if(!class_exists('Zend_Version', false)) {
+	die("Zend Framework not found. Please check the INSTALL File.");
+}
 chdir("..");
 
 
