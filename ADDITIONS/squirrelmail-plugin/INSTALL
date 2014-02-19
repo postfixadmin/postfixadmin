@@ -4,24 +4,26 @@ Installing the postfixadmin Plugin
 Requirements:
 =============
 
- - PHP 5.2.x with php5-xmlrpc installed (if available; it should be available by default anyway)
- - http access to a local/remote postfixadmin interface
-
+ - PHP 5.[234].* with php5-xmlrpc installed (if available; it should be available by default anyway)
+ - http access to a local/remote postfixadmin interface 
+ - Zend Framework (1.12.x) - needs adding to the include path within common.php, 
+   or installing in a system include path directory (e.g. /usr/share/php)
+   (e.g. from within the directory containing this file ...
+	wget https://packages.zendframework.com/releases/ZendFramework-1.12.3/ZendFramework-1.12.3-minimal.tar.gz 
+	tar -zxf ZendFramework-1.12.3-minimal.tar.gz
+	mv ZendFramework-1.12.3-minimal/library/Zend .    )
 
 Installation :
 ==============
 
-- Check out this code (svn co http://squirrelmail-postfixadmin.palepurple.co.uk/svn/trunk postfixadmin) 
-  into the Squirrelmail plugins directory.
-
-- Edit config.php and specify the remote URL for the Postfixadmin XmlRpc service. There isn't much more to change.
-
-- Edit the remote Postfixadmin's XmlRpc service config file and ensure 'xmlrpc_enable' is set to boolean true.
-
+- Copy this code into the Squirrelmail plugins directory - your life will be easiest if it's in a directory called 'postfixadmin'
+- Install Zend Framework (see above under Requirements for example)
+- Edit config.php and specify the remote URL for the Postfixadmin XmlRpc service. 
+- Edit common.php and (if you need to) change the include path(s) so they are correct.
+- Edit the remote Postfixadmin's XmlRpc service config file and ensure 'xmlrpc_enabled' is set to boolean true.
 - Enable the plugin through 'squirrelmail-configure' or 'config/conf.pl'.  
    Choose option 8 and move the plugin from the "Available Plugins"
    category to the "Installed Plugins" category.  Save and exit.
-
 
 Security :
 ==========
@@ -31,7 +33,5 @@ Security :
   ($_SESSION['password']). This password is then sent once on every page load to the remote XmlRpc server.
 
 - You should consider doing any of the following :
-
  - Using https if the server and client are on seperate servers. This will probably require a signed certificate etc, and may require changes to the Zend_XmlRpc_Client's HttpClient.
  - Using something like stunnel to encrypt traffic between server(s).
-
