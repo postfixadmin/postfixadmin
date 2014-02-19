@@ -51,7 +51,7 @@ function get_xmlrpc() {
             }
             catch(Exception $e) {
                 //var_dump($client->getHttpClient()->getLastResponse()->getBody());
-                error_log("Failed to login to xmlrpc instance - " . $e->getMessage);
+                error_log("Failed to login to xmlrpc instance - " . $e->getMessage());
                 die('Failed to login to xmlrpc instance');
             }
             if($success) {
@@ -91,8 +91,8 @@ $optmode = 'display';
 // Action: Checks if email is valid and returns TRUE if this is the case.
 // Call: check_email (string email)
 //
-function check_email ($email) {
-    $return = filter_var('validate_email', $email);
+function check_email($email) {
+    $return = filter_var($email, FILTER_VALIDATE_EMAIL);
     if($return === false) {
         return false;
     }
