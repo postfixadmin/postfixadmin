@@ -47,7 +47,7 @@ $server = new Zend_XmlRpc_Server();
 function login($username, $password) {
 
     $h = new MailboxHandler();
-    if($h::login($username, $password)) {
+    if($h->login($username, $password)) {
         session_regenerate_id();
         $_SESSION['authenticated'] = true;
         $_SESSION['sessid'] = array();
@@ -129,11 +129,11 @@ class VacationProxy {
     /**
      * @param string $subject
      * @param string $body
-     * @param string $reply_type
      * @param string $interval_time
      * @param string $activeFrom
      * @param string $activeUntil
      * @return boolean true on success.
+     * Whatiis @replyType?? for
      */
     public function setAway($subject, $body, $interval_time = 0, $activeFrom = '2000-01-01', $activeUntil = '2099-12-31') {
         $vh = new VacationHandler($_SESSION['sessid']['username']);
@@ -174,8 +174,12 @@ class AliasProxy {
             return false; # invalid parameter
         }
 
-        if (!$ah->set($values)) return false;
-        return $ah->store();
+        if (!$ah->set($values)) {
+            //error_log('ah->set failed' . print_r($values, true));
+            return false;
+        }
+        $store = $ah->store();
+        return $store;
     }
 
     /**
