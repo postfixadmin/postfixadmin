@@ -37,13 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     $goto = preg_replace ('/[\s]+/i', '', $goto);
     $goto = preg_replace ('/\,*$/', '', $goto);
     $array = preg_split ('/,/', $goto);
-
     $error = 0;
     // check that we have valid addresses in the list
-    foreach($array as $email_address) 
+
+    foreach($array as $key => $email_address) 
     {
         if (empty($email_address))
         {
+            unset($array[$key]);	
             continue;
         }
         if (!check_email($email_address)) 
@@ -59,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     }
     if ($error != 1) {
         $flag = 'forward_and_store'; // goto = $USERID_USERNAME;
-
         $success = $alias->update($array, $flag);
         if(!$success) {
             bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
@@ -82,6 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 }
 bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
 textdomain('postfixadmin');
+
+if(!isset($tMessage)) {
+    $tMessage = '';
+}
 echo "<table bgcolor=\"$color[0]\" align=\"center\" width=\"95%\" cellpadding=\"1\" cellspacing=\"0\" border=\"0\">
 <tr>
 <td align=\"center\" bgcolor=\"$color[0]\" colspan=\"2\">
