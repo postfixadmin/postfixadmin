@@ -16,7 +16,7 @@
  * Contains re-usable code.
  */
 
-$version = '2.3.6';
+$version = '2.3.7';
 
 /**
  * check_session
@@ -2174,6 +2174,8 @@ function gen_show_status ($show_alias)
 {
     global $CONF, $table_alias;
     $stat_string = "";
+
+    $show_alias = escape_string($show_alias);
 
     $stat_goto = "";
     $stat_result = db_query ("SELECT goto FROM $table_alias WHERE address='$show_alias'");
