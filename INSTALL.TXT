@@ -138,7 +138,17 @@ PostfixAdmin.
 The files in the DOCUMENTS/ directory explain which settings you need to
 do/change.
 
-7. More information
+7. XMLRPC Integration (OPTIONAL!)
+--------------------------------
+
+See ADDITIONS/squirrelmail-plugin
+See xmlrpc.php - only a subset of Postfixadmin's functionality is currently exposed.
+See config.inc.php - see xmlrpc_enabled key (defaults to off).
+
+You'll need to install a copy of the Zend Framework within Postfixadmin (see header within xmlrpc.php)
+You'll need to enable the xmlrpc link (see config.inc.php)
+
+8. More information
 -------------------
 As of March 2007, PostfixAdmin moved to SourceForge.  For the
 forum posts and source updates, see:
