@@ -10,7 +10,7 @@
 # Last update:
 # $Id$
 
-Version 2.3.7 - 2014/02/__ - SVN r16__ (postfixadmin-2.3 branch)
+Version 2.3.7 - 2014/02/20 - SVN r1651 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
   - SECURITY: fix SQL injection in show_gen_status()
   - lt.lang, da.lang translation update
