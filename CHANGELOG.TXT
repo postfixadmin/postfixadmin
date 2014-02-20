@@ -9,7 +9,7 @@
 # Last update:
 # $Id$
 
-Version ***svn*** - 2013/12/09 - SVN r***
+Version ***svn*** - 2014/02/__ - SVN r***
 -----------------------------------
 
   Summary of major changes:
@@ -249,6 +249,7 @@ Version ***svn*** - 2013/12/09 - SVN r***
   - upgrade_1284(): migrate the ALL domain to the superadmin column
     Note: The ALL domain is not (yet) deleted to stay backwards-compatible
     for now (will be done in a later upgrade function)
+  - change {BOOLEAN} to include "default false"
 
   login.php
   - when login.php is requested, logout the current admin/user
@@ -266,7 +267,6 @@ Version ***svn*** - 2013/12/09 - SVN r***
   - setAway(): add (optional) new parameters for interval_time, activeFrom and
     activeUntil - https://sourceforge.net/p/postfixadmin/patches/113/
   - change $_SESSION['username'] to $_SESSION['sessid']['username']
-***** Note: the changes in xmlrpc.php are untested!
 
   *.lang:
   - get rid of several duplicate texts
@@ -277,6 +277,11 @@ Version ***svn*** - 2013/12/09 - SVN r***
   - SECURITY.TXT: add note about templates_c directory
   - DOCUMENTS/POSTFIX_CONF.TXT is now executable and can generate the
     mysql_*.cf maps for postfix
+  - update DOCUMENTS/DOVECOT.TXT for dovecot 2.x
+
+  squirrelmail plugin:
+  - various bugfixes
+  - documentation update
 
   Debian packaging:
   - Changed source format to 3.0 (quilt)
@@ -290,12 +295,16 @@ Version ***svn*** - 2013/12/09 - SVN r***
   - postfixadmin.docs: removed redundant changelog file
   - debian/postfixadmin.postrm: Call wwwconfig scripts only if they are existing
 
-Changes since 2.3.6 release (from 2.3 branch)
+Version 2.3.7 - 2014/02/20 - SVN r1651 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
+  - SECURITY: fix SQL injection in show_gen_status()
   - lt.lang, da.lang translation update
   - when enabling/disabling a mailbox, also update the corresponding alias
   - fix creating superadmin in setup.php with MariaDB (more strict SQL)
-  - trim() localpart in create-mailbox to avoid mailbox names with leading space
+  - don't trim() mail address to avoid that aliases starting with a space are
+    allowed. This fixes http://sourceforge.net/p/postfixadmin/bugs/210/ and
+    https://sourceforge.net/p/postfixadmin/feature-requests/113/
+  - update regex in check_domain() to support new, longer TLDs like .international
   - mark vacation_notification.notified field as latin1 to avoid overlong index
   - vacation.pl: encode subject
   - vacation.pl: disable use of TLS by default due to a bug in Mail::Sender 0.8.22
