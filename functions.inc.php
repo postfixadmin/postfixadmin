@@ -1372,7 +1372,7 @@ function db_query ($query, $ignore_errors = 0) {
 // db_row
 // Action: Returns a row from a table
 // Call: db_row (int result)
-//
+
 function db_row ($result) {
     global $CONF;
     $row = "";
@@ -1533,24 +1533,14 @@ function db_rollback () {
  * db_log
  * Action: Logs actions from admin
  * Call: db_log (string domain, string action, string data)
- * Possible actions are defined in $action_list
+ * Possible actions are defined in $LANG["pViewlog_action_$action"]
  */
 function db_log ($domain,$action,$data) {
-    $table_log = table_by_key('log');
     $REMOTE_ADDR = getRemoteAddr();
 
     $username = authentication_get_username();
 
-    $action_list = array(  
-        'create_alias', 'edit_alias', 'edit_alias_state', 'delete_alias',
-        'create_mailbox', 'edit_mailbox', 'edit_mailbox_state', 'delete_mailbox',
-        'create_domain', 'edit_domain', 'delete_domain',
-        'create_alias_domain', 'edit_alias_domain', 'edit_alias_domain_state', 'delete_alias_domain',
-        'create_admin', 'edit_admin', /* 'edit_admin_state', */ 'delete_admin',
-        'edit_password',
-    );
-
-    if(!in_array($action, $action_list)) {
+    if (Config::Lang("pViewlog_action_$action") == '') {
         die("Invalid log action : $action");   // could do with something better?
     }
 
