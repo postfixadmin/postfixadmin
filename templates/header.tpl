@@ -10,7 +10,7 @@
 {/if}
 		<title>Postfix Admin - {$smarty.server.HTTP_HOST}</title>
 	</head>
-	<body class="lang-{$smarty.session.lang}">
+	<body class="lang-{$smarty.session.lang} page-{$smarty_template} {if isset($table)}page-{$smarty_template}-{$table}{/if}">
 		<div id="container">
 		<div id="login_header">
 		<a href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo" /></a>
