@@ -175,8 +175,13 @@ class MailboxHandler extends PFAHandler {
 
     protected function read_from_db_postprocess($db_result) {
         foreach ($db_result as $key => $row) {
-            $db_result[$key]['quotabytes'] = $row['quota'];
-            $db_result[$key]['quota'] = divide_quota($row['quota']); # convert quota to MB
+            if (isset($row['quota'])) { # quota could be disabled in $struct
+                $db_result[$key]['quotabytes'] = $row['quota'];
+                $db_result[$key]['quota'] = divide_quota($row['quota']); # convert quota to MB
+            } else {
+                $db_result[$key]['quotabytes'] = -1;
+                $db_result[$key]['quota'] = -1;
+            }
         }
         return $db_result;
     }
