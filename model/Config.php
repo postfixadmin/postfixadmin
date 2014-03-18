@@ -7,6 +7,11 @@ final class Config {
 
     private static $instance = null;
 
+    # do not error_log() 'undefined config option' for deprecated options
+    private static $deprecated_options = array(
+        'min_password_length',
+    );
+
     /**
      * Return a singleton instance of Configure.
      *
@@ -102,7 +107,10 @@ final class Config {
             break;
         }
 
-        error_log('Config::read(): attempt to read undefined config option "' . join('.', $name) . '", returning null');
+        if ( !in_array(join('.', $name), self::$deprecated_options) ) {
+            error_log('Config::read(): attempt to read undefined config option "' . join('.', $name) . '", returning null');
+        }
+
         return null;
     }
 
