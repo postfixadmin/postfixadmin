@@ -70,13 +70,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     {
         $mh->init($username); # TODO: error handling
         if($mh->change_pw($fPassword, $fPassword_current) ) {
-            flash_info($PALANG['pPassword_result_success']);
+            flash_info(Config::Lang_f('pPassword_result_success', $username));
             header("Location: main.php");
             exit(0);
         }
         else
         {
-            flash_error($PALANG['pPassword_result_error']);
+            flash_error(Config::Lang_f('pPassword_result_error', $username));
         }
     }
 }
