@@ -17,9 +17,7 @@ class CliEdit extends Shell {
     public function execute() {
         if (empty($this->args)) {
             $this->__interactive();
-        }
-
-        if (!empty($this->args[0])) {
+        } else {
             $this->__handle_params();
         }
     }
@@ -76,7 +74,8 @@ class CliEdit extends Shell {
         $form_fields = $handler->getStruct();
         $id_field    = $handler->getId_field();
 
-        while(0==0) { # endlees loop - except if input is valid
+        $values[$id_field] = '';
+        while($form_fields[$id_field]['editable'] != 0) { # endlees loop - except if input is valid or id_field is not editable (like auto_increment)
             $question = $form_fields[$id_field]['label'] . ":";
             if ( $form_fields[$id_field]['desc'] != '') {
                 $question .= "\n(" . $form_fields[$id_field]['desc'] . ')';
