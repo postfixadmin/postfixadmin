@@ -408,7 +408,7 @@ class PostfixAdmin {
                 $count = count($params);
                 for ($i = 0; $i < $count; $i++) {
                         if (isset($params[$i])) {
-                                if ($params[$i]{0} === '-') {
+                                if ($params[$i] != '' && $params[$i]{0} === '-') {
                                         $key = substr($params[$i], 1);
                                         $this->params[$key] = true;
                                         unset($params[$i]);
