@@ -140,7 +140,10 @@ class MailboxHandler extends PFAHandler {
 
         # check if an alias with this name already exists - if yes, don't allow to create the mailbox
         $handler = new AliasHandler(1);
+        $handler->calledBy('MailboxHandler'); # make sure mailbox creation still works if the alias limit for the domain is hit
+
         if (!$handler->init($this->id)) {
+            # TODO: keep original error message from AliasHandler
             $this->errormsg[] = Config::lang('email_address_already_exists');
             return false;
         }
