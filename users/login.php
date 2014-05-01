@@ -34,7 +34,7 @@ require_once("../common.php");
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
    $lang = safepost('lang');
-   $fUsername = safepost('fUsername');
+   $fUsername = trim(safepost('fUsername'));
    $fPassword = safepost('fPassword');
 
    if ( $lang != check_language(0) ) { # only set cookie if language selection was changed
