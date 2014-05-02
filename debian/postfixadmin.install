@@ -1,6 +1,5 @@
 *.php		usr/share/postfixadmin
 *.js		usr/share/postfixadmin
-admin		usr/share/postfixadmin
 configs		usr/share/postfixadmin
 css		usr/share/postfixadmin
 images		usr/share/postfixadmin
