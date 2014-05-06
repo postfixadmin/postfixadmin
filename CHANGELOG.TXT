@@ -9,8 +9,8 @@
 # Last update:
 # $Id$
 
-Version ***svn*** - 2014/02/__ - SVN r***
------------------------------------
+Version 3.0 beta1 (2.91) - 2014/05/06 - SVN r1670
+-------------------------------------------------
 
   Summary of major changes:
   - new command-line interface "postfixadmin-cli"
@@ -23,6 +23,8 @@ Version ***svn*** - 2014/02/__ - SVN r***
       (see $CONF['*_struct_hook'])
     - lots of code cleanup, remove/merge lots of duplicated code and templates
     - use smarty for templates
+  - add ability to choose activation date, end date and reply interval for
+    vacation message
   - various enhancements everywhere
   - redesign login page, list and edit pages (goodbye, green!) and make them wider
   - several new config options and changed defaults
@@ -40,7 +42,7 @@ Version ***svn*** - 2014/02/__ - SVN r***
     - at least 2 digits
   - $CONF['*_struct_hook'] - make $struct in the *Handler classes customizeable
   - $CONF['vacation_choice_of_reply'] - list of reply interval options
-  - $CONF[domain_quota] - total quota per domain
+  - $CONF['domain_quota'] - total quota per domain
   - $CONF['theme_custom_css'] - to add some custom CSS without editing the
     default CSS file
   - $CONF['motd_*'] - replaces motd*.txt
@@ -65,7 +67,7 @@ Version ***svn*** - 2014/02/__ - SVN r***
   removed config options:
   - $CONF['min_password_length'] - now handled in /.{5}/ in
     $CONF['password_validation']
-  - $CONF[postfix_admin_url] - relative paths are now used everywhere
+  - $CONF['postfix_admin_url'] - relative paths are now used everywhere
 
   list-virtual.php:
   - display percentage of quota usage
