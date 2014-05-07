@@ -4,6 +4,11 @@ postfixadmin
 PostfixAdmin - web based administration interface for Postfix mail servers
 
 
+Technically this project is still hosted in SVN/SourceForge. However, we welcome git pull requests and will merge them into subversion as necessary. If this repository (on github) becomes well used, we'll probably migrate.
+
+(DG. 2014/05/07)
+
+
 Useful Links
 ------------
 
