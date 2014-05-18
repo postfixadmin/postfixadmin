@@ -61,6 +61,8 @@
 						<div class="quota quota_{$quota_level}" style="width:{$divide_quota.quota_width[$i]}px;"></div>
 						<div class="quota_bg"></div></div>
 						<div class="quota_text quota_text_{$quota_level}">{$divide_quota.current[$i]} / {$divide_quota.quota[$i]}</div>
+					{else}
+						{$divide_quota.quota[$i]}
 					{/if}
 				{/if}
 				</td>
