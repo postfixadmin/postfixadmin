@@ -321,9 +321,14 @@ sub get_interval {
 sub already_notified {
     my ($to, $from) = @_;
     my $logger = get_logger();
+    my $query;
 
     # delete old notifications
-    my $query = qq{DELETE vacation_notification.* FROM vacation_notification LEFT JOIN vacation ON vacation.email = vacation_notification.on_vacation WHERE on_vacation = ? AND notified = ? AND notified_at < vacation.activefrom};
+    if ($db_type eq 'Pg') {
+        $query = qq{DELETE FROM vacation_notification USING vacation WHERE vacation.email = vacation_notification.on_vacation AND on_vacation = ? AND notified = ? AND notified_at < vacation.activefrom;};
+    } else { # mysql
+        $query = qq{DELETE vacation_notification.* FROM vacation_notification LEFT JOIN vacation ON vacation.email = vacation_notification.on_vacation WHERE on_vacation = ? AND notified = ? AND notified_at < vacation.activefrom};
+    }
     my $stm = $dbh->prepare($query);
     if (!$stm) {
         $logger->error("Could not prepare query (trying to delete old vacation notifications) :'$query' to: $to, from:$from");
@@ -353,7 +358,11 @@ sub already_notified {
         $interval = get_interval($to);
 
         if ($interval) {
-            $query = qq{SELECT NOW()-notified_at FROM vacation_notification WHERE on_vacation=? AND notified=?};
+            if ($db_type eq 'Pg') {
+                $query = qq{SELECT extract( epoch from (NOW()-notified_at))::int FROM vacation_notification WHERE on_vacation=? AND notified=?};
+            } else { # mysql
+                $query = qq{SELECT NOW()-notified_at FROM vacation_notification WHERE on_vacation=? AND notified=?};
+            }
             $stm = $dbh->prepare($query) or panic_prepare($query);
             $stm->execute($to,$from) or panic_execute($query,"on_vacation='$to', notified='$from'");
             my @row = $stm->fetchrow_array;
