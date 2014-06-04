@@ -1282,6 +1282,7 @@ function db_connect ($ignore_errors = 0) {
  */
 function db_get_boolean($bool) {
     if(! (is_bool($bool) || $bool == '0' || $bool == '1') ) {
+        error_log("Invalid usage of 'db_get_boolean($bool)'");
         die("Invalid usage of 'db_get_boolean($bool)'");
     }
 

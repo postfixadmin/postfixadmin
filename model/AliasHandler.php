@@ -221,6 +221,10 @@ class AliasHandler extends PFAHandler {
             } else {
                 $oldvalues = $old_ah->result();
 
+                if (!isset($values['goto'])) { # no new value given?
+                    $values['goto'] = $oldvalues['goto'];
+                }
+
                 if (!isset($values['on_vacation'])) { # no new value given?
                     $values['on_vacation'] = $oldvalues['on_vacation'];
                 }

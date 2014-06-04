@@ -45,7 +45,7 @@ $formconf = $handler->webformConfig();
 
 authentication_require_role($formconf['required_role']);
 
-if ($edit != '' || $formconf['early_init']) {
+if ($new == 0 || $formconf['early_init']) {
     if (!$handler->init($edit)) {
         if (count($handler->errormsg) == 0) {
             # should never happen and indicates a bug in $handler->init()
@@ -61,7 +61,7 @@ $form_fields = $handler->getStruct();
 $id_field    = $handler->getId_field();
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    if ($edit == '') { # new - prefill fields from URL parameters if allowed in $formconf['prefill']
+    if ($new) { # new - prefill fields from URL parameters if allowed in $formconf['prefill']
         if ( isset($formconf['prefill']) ) {
             foreach ($formconf['prefill'] as $field) {
                 $prefillvalue = safeget($field, safesession("prefill:$table:$field"));
@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (isset($formconf['hardcoded_edit']) && $formconf['hardcoded_edit']) {
         $values[$id_field] = $form_fields[$id_field]['default'];
-    } elseif ($edit != "") {
+    } elseif ($new == 0) {
         $values[$id_field] = $edit;
     }
 
@@ -159,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 }
             }
 
-            if ($edit != "") {
+            if ($new == 0) {
                 header ("Location: " . $formconf['listview']);
                 exit;
             } else {
