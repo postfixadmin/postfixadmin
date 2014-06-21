@@ -94,7 +94,7 @@ $sql = "
 
 my (%config);
 map{
-	my ($id,$mailbox,$src_server,$src_auth,$src_user,$src_password,$src_folder,$fetchall,$keep,$protocol,$mda,$extra_options,$usessl)=@$_;
+	my ($id,$mailbox,$src_server,$src_auth,$src_user,$src_password,$src_folder,$fetchall,$keep,$protocol,$mda,$extra_options,$usessl,$sslcertck,$sslcertpath,$sslfingerprint)=@$_;
 
 	syslog("info","fetch ${src_user}@${src_server} for ${mailbox}");
 
