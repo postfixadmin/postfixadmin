@@ -39,7 +39,7 @@ DOCUMENTS/ folder.
 Make sure that you are in your WWW directory and then unarchive the
 Postfix Admin archive (whatever the filename is):
 
-  $ tar -zxvf postfixadmin-2.2.0.tgz
+  $ tar -zxvf postfixadmin-$version.tgz
 
 
 2. Setup a Database
@@ -69,7 +69,21 @@ For PostgreSQL:
 3. Configure PostfixAdmin so it can find the database
 -----------------------------------------------------
 
-Edit the config.inc.php file - or - create config.local.php and add your settings there.
+Create a config.local.php file for your local configuration:
+
+<?php
+$CONF['database_type'] = 'mysqli';
+$CONF['database_user'] = 'postfix';
+$CONF['database_password'] = 'postfixadmin';
+$CONF['database_name'] = 'postfix';
+
+$CONF['configured'] = true;
+?>
+
+See config.inc.php for all available config options and their default value.
+
+You can also edit config.inc.php instead of creating a config.local.php,
+but this will make updates harder and is therefore not recommended.
 
 The most important settings are those for your database server.
 
