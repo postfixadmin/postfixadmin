@@ -51,8 +51,14 @@ use values of domain_path=YES and domain_in_mailbox=NO
 
 You can create these files (with your values for user, password, hosts and
 dbname) automatically by executing this file (sh POSTFIX_CONF.txt).
-Please note that the generated files are for use with MySQL. For PostgreSQL,
-you'll have to replace the CONCAT as described below.
+Please note that the generated files are for use with MySQL. 
+
+If you are using PostgreSQL, you'll need to do some changes to the queries:
+- PostgreSQL uses a different implementation for boolean values, which means 
+  you'll need to change  active='1'  to  active='t'  in all queries
+- PostgreSQL does not have a concat() function, instead use e.g. 
+  .... alias.address = '%u' || '@' || alias_domain.target_domain AND ....
+ 
 
 mysql_virtual_alias_maps.cf:
 user = postfix
@@ -69,8 +75,6 @@ hosts = localhost
 dbname = postfix
 query = SELECT goto FROM alias,alias_domain WHERE alias_domain.alias_domain = '%d' and alias.address = CONCAT('%u', '@', alias_domain.target_domain) AND alias.active = 1 AND alias_domain.active='1'
 
-(Note: PostgreSQL does not have a concat() function, instead use e.g. .... alias.address = '%u' || '@' || alias_domain.target_domain AND ....)
- 
 mysql_virtual_alias_domain_catchall_maps.cf:
 # handles catch-all settings of target-domain
 user = postfix
