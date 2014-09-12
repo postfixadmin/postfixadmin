@@ -9,6 +9,19 @@
 # Last update:
 # $Id$
 
+SVN changes since 3.0 beta1 (2.91)
+----------------------------------
+
+- AliasHandler: don't clean goto field when making alias inactive (bug#316)
+- list-virtual: display quota even if $CONF[used_quotas] == NO (bug#307)
+- vacation.pl: fix queries in vacation.pl (bug#315)
+- fix query in AliasHandler getList which caused an empty list on some 
+  systems (bug#313)
+- fetchmail.pl: fix ssl extra options (cert check, cert path, fingerprint)
+- fix logging (run setup.php to fix old log entries) (bug#317)
+- fetchmail.php: change error_reporting() to exclude E_NOTICE (bug#322)
+- fr.lang translation update (patch#123)
+
 Version 3.0 beta1 (2.91) - 2014/05/06 - SVN r1670
 -------------------------------------------------
 
