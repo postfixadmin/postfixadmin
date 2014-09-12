@@ -277,7 +277,7 @@ echo '
 
     Add a comment to $PALANG['"'"'string'"'"']
 
-	Useful if a string needs to be translated again.
+    Useful if a string needs to be translated again.
 
 
 '"$0"' --obsolete string [--patch] [--nocleanup] [foo.lang [bar.lang [...] ] ]
@@ -297,9 +297,9 @@ echo '
 
 '"$0"' --comparetext string1 string2 [foo.lang [bar.lang [...] ] ]
 
-	Compare two texts in $PALANG.
-	This can be useful to find out if two equel texts in $PALANG are the 
-	same in all languages. No output means no difference.
+    Compare two texts in $PALANG.
+    This can be useful to find out if two equel texts in $PALANG are the 
+    same in all languages. No output means no difference.
 
 
 '"$0"' --stats
@@ -311,6 +311,7 @@ Common parameters:
 
     --patch
         patch the language file directly (instead of displaying the patch)
+        (use --forcepatch if --patch fails with rejections)
     --nocleanup 
         keep all temp files (for debugging)
 
