@@ -51,6 +51,10 @@ abstract class PFAHandler {
     # filled in init()
     protected $id = null;
 
+    # the domain of the current item (used for logging)
+    # filled in domain_from_id() via init()
+    protected $domain = null;
+
     # structure of the database table, list, edit form etc.
     # filled in initStruct()
     protected $struct = array();
@@ -189,17 +193,21 @@ abstract class PFAHandler {
             } elseif (!$this->validate_new_id() ) {
                 # errormsg filled by validate_new_id()
                 return false;
-            } else {
-                return true;
+#            } else {
+#                return true;
             }
         } else { # edit mode
             if (!$exists) {
                 $this->errormsg[$this->id_field] = Config::lang($this->msg['error_does_not_exist']);
                 return false;
-            } else {
-                return true;
+#            } else {
+#                return true;
             }
         }
+
+        $this->domain = $this->domain_from_id();
+
+        return true;
     }
 
     /**
@@ -209,6 +217,21 @@ abstract class PFAHandler {
      * must also set $this->errormsg[$this->id_field] if ID is invalid
      */
     abstract protected function validate_new_id();
+
+    /**
+     * called by init() if $this->id != $this->domain_field
+     * must be overridden if $id_field != $domain_field
+     * @return string the domain to use for logging
+     */
+    protected function domain_from_id() {
+        if ($this->id_field == $this->domain_field) {
+            return $this->id;
+        } elseif ($this->domain_field == "") {
+            return "";
+        } else {
+            die('You must override domain_from_id()!');
+        }
+    }
 
     /**
      * web interface can prefill some fields
@@ -367,7 +390,7 @@ abstract class PFAHandler {
         $result = $this->storemore();
 
         # db_log() even if storemore() failed
-        db_log ($this->id, $this->msg['logname'], "");
+        db_log ($this->domain, $this->msg['logname'], $this->id);
 
         if ($result) {
             # return success message

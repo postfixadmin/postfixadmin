@@ -138,6 +138,11 @@ class AliasHandler extends PFAHandler {
         return $retval;
     }
 
+    protected function domain_from_id() {
+        list(/*NULL*/,$domain) = explode('@', $this->id);
+        return $domain;
+    }
+
     protected function validate_new_id() {
         if ($this->id == '') {
             $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error1');
