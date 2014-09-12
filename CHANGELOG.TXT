@@ -14,7 +14,7 @@ SVN changes since 3.0 beta1 (2.91)
 
 - AliasHandler: don't clean goto field when making alias inactive (bug#316)
 - list-virtual: display quota even if $CONF[used_quotas] == NO (bug#307)
-- vacation.pl: fix queries in vacation.pl (bug#315)
+- vacation.pl: fix postgresql queries in vacation.pl (bug#315)
 - fix query in AliasHandler getList which caused an empty list on some 
   systems (bug#313)
 - fetchmail.pl: fix ssl extra options (cert check, cert path, fingerprint)
