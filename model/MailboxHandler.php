@@ -51,17 +51,20 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-        list(/*NULL*/,$domain) = explode('@', $this->id);
-
         if ($this->new) {
             $currentquota = 0;
         } else {
             $currentquota = $this->result['quotabytes']; # parent::init called ->view()
         }
 
-        $this->updateMaxquota($domain, $currentquota);
+        $this->updateMaxquota($this->domain, $currentquota);
 
         return true; # still here? good.
+    }
+
+    protected function domain_from_id() {
+        list(/*NULL*/,$domain) = explode('@', $this->id);
+        return $domain;
     }
 
     /**

@@ -37,6 +37,11 @@ require_once('common.php');
 
 authentication_require_role('admin');
 
+# workaround for https://sourceforge.net/p/postfixadmin/bugs/322/ 
+# TODO: convert fetchmail.php to FetchmailHandler
+$old_error_reporting = error_reporting();
+error_reporting($old_error_reporting ^ E_NOTICE);
+
 $extra_options = 0;
 if ($CONF['fetchmail_extra_options'] == 'YES') $extra_options = 1;
 

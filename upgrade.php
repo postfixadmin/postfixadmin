@@ -1347,6 +1347,19 @@ function upgrade_1610() {
     _db_add_field('vacation', 'interval_time', '{INT}', 'domain');
 }
 
+function upgrade_1685_mysql() {
+    # Fix existing log entries broken by https://sourceforge.net/p/postfixadmin/bugs/317/
+    $table = table_by_key('log');
+    db_query_parsed("UPDATE $table SET data = domain WHERE data = '' AND domain LIKE '%@%'");
+    db_query_parsed("UPDATE $table SET domain=SUBSTRING_INDEX(domain, '@', -1) WHERE domain=data;");
+}
+function upgrade_1685_pgsql() {
+    $table = table_by_key('log');
+    db_query_parsed("UPDATE $table SET data = domain WHERE data = '' AND domain LIKE '%@%'");
+    db_query_parsed("UPDATE $table SET domain=SPLIT_PART(domain, '@', 2) WHERE domain=data;");
+}
+
+
 # TODO MySQL:
 # - various varchar fields do not have a default value
 #   https://sourceforge.net/projects/postfixadmin/forums/forum/676076/topic/3419725
