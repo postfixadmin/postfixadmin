@@ -104,6 +104,10 @@ class DomainHandler extends PFAHandler {
         if ($this->new && $this->values['default_aliases']) {
             foreach (Config::read('default_aliases') as $address=>$goto) {
                 $address = $address . "@" . $this->id;
+                # if $goto doesn't contain @, let the alias point to the same domain
+                if(!strstr($goto, '@')) {
+                    $goto = $goto . "@" . $this->id;
+                }
                 # TODO: use AliasHandler->add instead of writing directly to the alias table
                 $arr = array(
                     'address' => $address,

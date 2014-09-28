@@ -180,6 +180,9 @@ $CONF['page_size'] = '10';
 
 // Default Aliases
 // The default aliases that need to be created for all domains.
+// You can specify the target address in two ways:
+// a) a full mail address
+// b) only a localpart ('postmaster' => 'admin') - the alias target will point to the same domain
 $CONF['default_aliases'] = array (
     'abuse' => 'abuse@change-this-to-your.domain.tld',
     'hostmaster' => 'hostmaster@change-this-to-your.domain.tld',
