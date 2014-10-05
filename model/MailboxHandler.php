@@ -247,12 +247,7 @@ class MailboxHandler extends PFAHandler {
             }
 
             if ( !$this->create_mailbox_subfolders() ) {
-                # TODO: implement $tShowpass
-                $this->infomsg[] = Config::lang_f('pCreate_mailbox_result_succes_nosubfolders', "$fUsername$tShowpass");
-            } else { # everything ok
-                # TODO: implement $tShowpass
-                # $this->infomsg[] = Config::lang_f('pCreate_mailbox_result_success'], "$fUsername$tShowpass");
-                # TODO: currently edit.php displays the default success message from webformConfig
+                $this->infomsg[] = Config::lang_f('pCreate_mailbox_result_succes_nosubfolders', $this->id);
             } 
 
         } else { # edit mode
@@ -659,7 +654,7 @@ class MailboxHandler extends PFAHandler {
 
         $i=@imap_open($s, $this->id, $this->values['password']);
         if (FALSE==$i) {
-            error_log('Could not log into IMAP/POP server: '.imap_last_error());
+            error_log('Could not log into IMAP/POP server: ' . $this->id . ': ' . imap_last_error());
             return FALSE;
         }
 
@@ -668,7 +663,7 @@ class MailboxHandler extends PFAHandler {
             $f='{'.$s_host.'}'.$s_prefix.$f;
             $res=imap_createmailbox($i,$f);
             if (!$res) {
-                error_log('Could not create IMAP folder $f: '.imap_last_error());
+                error_log('Could not create IMAP folder $f: ' . $this->id . ': ' . imap_last_error());
                 @imap_close($i);
                 return FALSE;
             }
