@@ -192,6 +192,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password'; # XXX
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_delete_admin'] = 'delete admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_result_error'] = 'Logi ei leitud!';

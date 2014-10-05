@@ -197,6 +197,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'Alias-Domain Aktiv bearbei
 $PALANG['pViewlog_action_edit_password'] = 'Passwort ändern';
 $PALANG['pViewlog_action_create_admin'] = 'Admin erstellen';
 $PALANG['pViewlog_action_edit_admin'] = 'Admin ändern';
+$PALANG['pViewlog_action_delete_admin'] = 'Admin löschen';
 $PALANG['pViewlog_action_edit_vacation'] = 'Automatische Antwort ändern';
 
 $PALANG['pViewlog_result_error'] = 'Kann keine Einträge finden!';

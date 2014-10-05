@@ -198,6 +198,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password';
 $PALANG['pViewlog_action_create_admin'] = 'create admin';
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin';
+$PALANG['pViewlog_action_delete_admin'] = 'delete admin';
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation';
  
 $PALANG['pViewlog_result_error'] = 'Unable to find the logs!';

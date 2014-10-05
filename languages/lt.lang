@@ -193,6 +193,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = '(į)išjungtas srities sin
 $PALANG['pViewlog_action_edit_password'] = 'pakeistas slaptažodis';
 $PALANG['pViewlog_action_create_admin'] = 'sukurtas adminas';
 $PALANG['pViewlog_action_edit_admin'] = 'pakeistas adminas';
+$PALANG['pViewlog_action_delete_admin'] = 'delete admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'pakeistas atostogų nust.';
 
 $PALANG['pViewlog_result_error'] = 'Įvykių žurnalas nerastas!';
