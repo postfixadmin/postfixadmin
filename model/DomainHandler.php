@@ -10,18 +10,23 @@ class DomainHandler extends PFAHandler {
     protected $id_field = 'domain';
     protected $domain_field = 'domain';
 
-   protected function validate_new_id() {
-       $domain_check = check_domain($this->id);
+    protected function validate_new_id() {
+        $domain_check = check_domain($this->id);
 
-       if ($domain_check == '') {
-            return true;
-       } else {
+        if ($domain_check != '') {
             $this->errormsg[$this->id_field] = $domain_check;
             return false;
-       }
-   }
+        }
 
-    # init $this->struct, $this->db_table and $this->id_field
+        if (Config::read('vacation_domain') == $this->id) {
+            $this->errormsg[$this->id_field] = Config::Lang('domain_conflict_vacation_domain');
+            return false;
+        }
+
+        # still here? good.
+        return true;
+    }
+
     protected function initStruct() {
         # TODO: shorter PALANG labels ;-)
 

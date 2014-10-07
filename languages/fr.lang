@@ -243,6 +243,7 @@ $PALANG['mailbox_postdel_failed'] = 'Le script postdeletion du compte courriel a
 $PALANG['mailbox_postedit_failed'] = 'Le script postedit du compte courriel a échoué, consultez la log!';
 $PALANG['mailbox_postcreate_failed'] = 'Le script postcreate du compte courriel a échoué, consultez la log!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Impossible de supprimé cet alias de domaine!';
+$PALANG['domain_conflict_vacation_domain'] = 'You can\'t use the vacation domain as mail domain!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Modifier un domaine';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = désactivé | 0 = illimité';

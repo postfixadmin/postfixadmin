@@ -247,6 +247,7 @@ $PALANG['mailbox_postdel_failed'] = 'Fehler beim Ausführen des mailbox postdele
 $PALANG['mailbox_postedit_failed'] = 'Fehler beim Ausführen des mailbox postedit-Scripts, überprüfen Sie das Error-Log für Details!';
 $PALANG['mailbox_postcreate_failed'] = 'Fehler beim Ausführen des mailbox postcreate-Scripts, überprüfen Sie das Error-Log für Details!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Alias-Domain konnte nicht gelöscht werden!';
+$PALANG['domain_conflict_vacation_domain'] = 'Sie können die Vacation-Domain nicht als Maildomain benutzen!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain bearbeiten';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = ausschalten | 0 = kein Limit';

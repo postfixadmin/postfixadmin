@@ -317,6 +317,7 @@ $CONF['vacation'] = 'NO';
 // This is the autoreply domain that you will need to set in your Postfix
 // transport maps to handle virtual vacations. It does not need to be a
 // real domain (i.e. you don't need to setup DNS for it).
+// This domain must exclusively be used for vacation. Do NOT use it for "normal" mail addresses.
 $CONF['vacation_domain'] = 'autoreply.change-this-to-your.domain.tld';
 
 // Vacation Control
