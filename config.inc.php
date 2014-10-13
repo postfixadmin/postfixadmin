@@ -180,6 +180,9 @@ $CONF['page_size'] = '10';
 
 // Default Aliases
 // The default aliases that need to be created for all domains.
+// You can specify the target address in two ways:
+// a) a full mail address
+// b) only a localpart ('postmaster' => 'admin') - the alias target will point to the same domain
 $CONF['default_aliases'] = array (
     'abuse' => 'abuse@change-this-to-your.domain.tld',
     'hostmaster' => 'hostmaster@change-this-to-your.domain.tld',
@@ -314,6 +317,7 @@ $CONF['vacation'] = 'NO';
 // This is the autoreply domain that you will need to set in your Postfix
 // transport maps to handle virtual vacations. It does not need to be a
 // real domain (i.e. you don't need to setup DNS for it).
+// This domain must exclusively be used for vacation. Do NOT use it for "normal" mail addresses.
 $CONF['vacation_domain'] = 'autoreply.change-this-to-your.domain.tld';
 
 // Vacation Control

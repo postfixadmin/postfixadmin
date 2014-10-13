@@ -10,18 +10,23 @@ class DomainHandler extends PFAHandler {
     protected $id_field = 'domain';
     protected $domain_field = 'domain';
 
-   protected function validate_new_id() {
-       $domain_check = check_domain($this->id);
+    protected function validate_new_id() {
+        $domain_check = check_domain($this->id);
 
-       if ($domain_check == '') {
-            return true;
-       } else {
+        if ($domain_check != '') {
             $this->errormsg[$this->id_field] = $domain_check;
             return false;
-       }
-   }
+        }
 
-    # init $this->struct, $this->db_table and $this->id_field
+        if (Config::read('vacation_domain') == $this->id) {
+            $this->errormsg[$this->id_field] = Config::Lang('domain_conflict_vacation_domain');
+            return false;
+        }
+
+        # still here? good.
+        return true;
+    }
+
     protected function initStruct() {
         # TODO: shorter PALANG labels ;-)
 
@@ -104,6 +109,10 @@ class DomainHandler extends PFAHandler {
         if ($this->new && $this->values['default_aliases']) {
             foreach (Config::read('default_aliases') as $address=>$goto) {
                 $address = $address . "@" . $this->id;
+                # if $goto doesn't contain @, let the alias point to the same domain
+                if(!strstr($goto, '@')) {
+                    $goto = $goto . "@" . $this->id;
+                }
                 # TODO: use AliasHandler->add instead of writing directly to the alias table
                 $arr = array(
                     'address' => $address,

@@ -197,6 +197,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'jelszó módosítása';
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_delete_admin'] = 'delete admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_result_error'] = 'Nemsikerült megtalálni a napló fájlokat!';
@@ -246,6 +247,7 @@ $PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, che
 $PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!'; # XXX
 $PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!'; # XXX
+$PALANG['domain_conflict_vacation_domain'] = 'You can\'t use the vacation domain as mail domain!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Domain szerkesztése';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = kikapcsol | 0 = végtelen';

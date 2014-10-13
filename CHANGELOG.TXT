@@ -21,6 +21,7 @@ SVN changes since 3.0 beta1 (2.91)
 - fix logging (run setup.php to fix old log entries) (bug#317)
 - fetchmail.php: change error_reporting() to exclude E_NOTICE (bug#322)
 - fr.lang translation update (patch#123)
+- $CONF[default_aliases] can now use the new domain as alias target (patch#124) 
 
 Version 3.0 beta1 (2.91) - 2014/05/06 - SVN r1670
 -------------------------------------------------

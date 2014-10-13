@@ -198,6 +198,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password';
 $PALANG['pViewlog_action_create_admin'] = 'create admin';
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin';
+$PALANG['pViewlog_action_delete_admin'] = 'delete admin';
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation';
  
 $PALANG['pViewlog_result_error'] = 'Unable to find the logs!';
@@ -247,6 +248,7 @@ $PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, che
 $PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!';
 $PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!';
+$PALANG['domain_conflict_vacation_domain'] = 'You can\'t use the vacation domain as mail domain!';
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Edit a domain';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = disable | 0 = unlimited';

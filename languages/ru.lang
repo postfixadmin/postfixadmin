@@ -199,6 +199,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'изменение акт�
 $PALANG['pViewlog_action_edit_password'] = 'изменение пароля';
 $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
+$PALANG['pViewlog_action_delete_admin'] = 'delete admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
 
 $PALANG['pViewlog_result_error'] = 'Невозможно найти журнал!';
@@ -248,6 +249,7 @@ $PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, che
 $PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!'; # XXX
 $PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Невозможно удалить домен-алиас!';
+$PALANG['domain_conflict_vacation_domain'] = 'You can\'t use the vacation domain as mail domain!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Редактирование домена';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = отключить | 0 = неограниченное';

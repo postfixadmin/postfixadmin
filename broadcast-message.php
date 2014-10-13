@@ -73,11 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
             if (!smtp_mail ($fTo, $smtp_from_email, $fHeaders))
             {
-               flash_error("<br />" . $PALANG['pSendmail_result_error'] . "<br />");
+               flash_error($PALANG['pSendmail_result_error']);
             }
             else
             {
-               flash_info("<br />" . $PALANG['pSendmail_result_success'] . "<br />");
+               flash_info($PALANG['pSendmail_result_success']);
             }
          }
       }

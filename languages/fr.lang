@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 # $Id$
 //
 // Language file French
@@ -193,6 +193,7 @@ $PALANG['pViewlog_action_edit_alias_domain_state'] = 'editer alias de domaine ac
 $PALANG['pViewlog_action_edit_password'] = 'changer le mot de passe';
 $PALANG['pViewlog_action_create_admin'] = 'créer un admin';
 $PALANG['pViewlog_action_edit_admin'] = 'modifier un admin';
+$PALANG['pViewlog_action_delete_admin'] = 'delete admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'modifier le répondeur';
 
 $PALANG['pViewlog_result_error'] = 'Impossible de trouver le journal des événements!';
@@ -242,6 +243,7 @@ $PALANG['mailbox_postdel_failed'] = 'Le script postdeletion du compte courriel a
 $PALANG['mailbox_postedit_failed'] = 'Le script postedit du compte courriel a échoué, consultez la log!';
 $PALANG['mailbox_postcreate_failed'] = 'Le script postcreate du compte courriel a échoué, consultez la log!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Impossible de supprimé cet alias de domaine!';
+$PALANG['domain_conflict_vacation_domain'] = 'You can\'t use the vacation domain as mail domain!'; # XXX
 
 $PALANG['pAdminEdit_domain_welcome'] = 'Modifier un domaine';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = désactivé | 0 = illimité';
