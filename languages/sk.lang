@@ -167,8 +167,11 @@ $PALANG['pVacation_result_added'] = 'Automatická odpoveď bola nastavená! (%s)
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
 $PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
 $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
+$PALANG['pVacation_until_before_today'] = 'The Date of [Active until] is set  before Today'; # XXX
+$PALANG['pVacation_until_before_from'] = 'The Date of [Active until] is set before [Active from]'; # XXX
 $PALANG['reply_once'] = 'Reply once'; # XXX
 $PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
+$PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Prehľad 10 posledných akcií pre ';
@@ -284,15 +287,15 @@ $PALANG['pUsersMain_edit_alias'] = 'Nastaviť/zmeniť presmerovanie';
 $PALANG['pUsersMain_password'] = 'Zmeniť heslo';
 
 $PALANG['pUsersVacation_welcome'] = 'Automatická odpoveď';
-$PALANG['pUsersVacation_welcome_text'] = 'Automatická odpoveď je zapnutá!';
+$PALANG['pUsersVacation_welcome_text'] = 'Automatická odpoveď je zapnutá! (%s)'; # XXX Text changed to: 'Auto response for %s is active!'
 $PALANG['pUsersVacation_subject_text'] = 'Dovolenka';
 $PALANG['message'] = 'Správa'; # XXX check text - should be 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Som na dovolenke od <date> od <date>.
 S neodkladnými vecami kontaktujte <contact person>.
 EOM;
-$PALANG['pUsersVacation_activefrom'] = 'Aktívna od'; # obsolete
-$PALANG['pUsersVacation_activeuntil'] = 'Aktívna do'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Aktívna od';
+$PALANG['pUsersVacation_activeuntil'] = 'Aktívna do';
 
 
 $PALANG['pEdit_dbLog_editactive'] = 'zmena aktivity';

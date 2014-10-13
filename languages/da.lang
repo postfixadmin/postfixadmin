@@ -173,8 +173,11 @@ $PALANG['pVacation_result_added'] = 'Autosvar er aktiveret! (%s)'; # XXX Text ch
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
 $PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
 $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
+$PALANG['pVacation_until_before_today'] = 'The Date of [Active until] is set  before Today'; # XXX
+$PALANG['pVacation_until_before_from'] = 'The Date of [Active until] is set before [Active from]'; # XXX
 $PALANG['reply_once'] = 'Reply once'; # XXX
 $PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
+$PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Vis de sidste 10 poster for ';
@@ -292,15 +295,15 @@ $PALANG['pUsersMain_edit_alias']  = 'Ændr levering/videresending af email.';
 $PALANG['pUsersMain_password']    = 'Ændr din nuværende adgangskode.';
 
 $PALANG['pUsersVacation_welcome'] = 'Autosvar.';
-$PALANG['pUsersVacation_welcome_text'] = 'Du har allerede autosvar indstillet!';
+$PALANG['pUsersVacation_welcome_text'] = 'Du har allerede autosvar indstillet! (%s)'; # XXX Text changed to: 'Auto response for %s is active!'
 $PALANG['pUsersVacation_subject_text'] = 'Ikke tilstede';
 $PALANG['message'] = 'Meddelelse'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Jeg er ikke tilstede i perioden <dato> til <dato>.
 I nødstilfælde kan <kontaktperson> kontaktes.
 EOM;
-$PALANG['pUsersVacation_activefrom'] = 'Aktiv fra'; # XXX # obsolete
-$PALANG['pUsersVacation_activeuntil'] = 'Aktiv til'; # XXX # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Aktiv fra'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Aktiv til'; # XXX
 
 
 $PALANG['pEdit_dbLog_editactive']  = 'ændr aktivtilstand';

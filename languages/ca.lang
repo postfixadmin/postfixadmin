@@ -165,8 +165,11 @@ $PALANG['pVacation_result_added'] = 'Auto response for %s has been enabled!'; # 
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
 $PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
 $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
+$PALANG['pVacation_until_before_today'] = 'The Date of [Active until] is set  before Today'; # XXX
+$PALANG['pVacation_until_before_from'] = 'The Date of [Active until] is set before [Active from]'; # XXX
 $PALANG['reply_once'] = 'Reply once'; # XXX
 $PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
+$PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Veure les últimes 10 accions per ';
@@ -283,15 +286,15 @@ $PALANG['pUsersMain_edit_alias'] = 'Canvïi la seva redirecció de correu.';
 $PALANG['pUsersMain_password'] = 'Canvïi la seva contrasenya.';
 
 $PALANG['pUsersVacation_welcome'] = 'Resposta automàtica.';
-$PALANG['pUsersVacation_welcome_text'] = 'Ja disposa d\'una resposta automàtica configurada!';
+$PALANG['pUsersVacation_welcome_text'] = 'Ja disposa d\'una resposta automàtica configurada! (%s)'; # XXX Text changed to: 'Auto response for %s is active!'
 $PALANG['pUsersVacation_subject_text'] = 'Fora de la feina';
 $PALANG['message'] = 'Cos'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Seré fora des del <date> fins al <date>.
 Per assumptes urgents pot contactar amb mi a <contact person>.
 EOM;
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 
 $PALANG['pEdit_dbLog_editactive'] = 'change active state'; # XXX
