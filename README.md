@@ -17,6 +17,6 @@ Useful Links
  - [Installation instructions](/INSTALL.TXT)
  - [Wiki](http://sourceforge.net/apps/mediawiki/postfixadmin)
  - [Mailing list](https://sourceforge.net/p/postfixadmin/discussion/676076)
- - [IRC channel](irc://irc.freenode.net/postfixadmin)
+ - [IRC channel](irc://irc.freenode.net/postfixadmin) (#postfixadmin on irc.freenode.net).
  
   
