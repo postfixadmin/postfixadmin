@@ -171,9 +171,12 @@ $PALANG['pVacation_result_added'] = 'Auto response for %s has been enabled!';
 $PALANG['pVacation_reply_type'] = 'Choice of reply';
 $PALANG['pVacation_reply_delay_time'] = 'Interval time';
 $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds';
+$PALANG['pVacation_until_before_today'] = 'The Date of [Active until] is set  before Today';
+$PALANG['pVacation_until_before_from'] = 'The Date of [Active until] is set before [Active from]';
 $PALANG['reply_once'] = 'Reply once';
 $PALANG['reply_every_mail'] = 'Reply on every mail';
-$PALANG['reply_once_per_week'] = 'Reply once per week';
+$PALANG['reply_once_per_day'] = 'Reply once a day';
+$PALANG['reply_once_per_week'] = 'Reply once a week';
 
 $PALANG['pViewlog_welcome'] = 'View the last 10 actions for ';
 $PALANG['pViewlog_timestamp'] = 'Timestamp';
@@ -290,15 +293,15 @@ $PALANG['pUsersMain_edit_alias'] = 'Change your email forwarding.';
 $PALANG['pUsersMain_password'] = 'Change your current password.';
 
 $PALANG['pUsersVacation_welcome'] = 'Auto Response.';
-$PALANG['pUsersVacation_welcome_text'] = 'You already have an auto response configured!';
+$PALANG['pUsersVacation_welcome_text'] = 'Auto response for %s is active!';
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office';
 $PALANG['message'] = 'Message';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 I will be away from <date> until <date>.
 For urgent matters you can contact <contact person>.
 EOM;
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # obsolete
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from';
+$PALANG['pUsersVacation_activeuntil'] = 'Active until';
 
 
 $PALANG['pEdit_dbLog_editactive'] = 'change active state';

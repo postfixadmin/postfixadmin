@@ -12,9 +12,11 @@
  * @license GNU GPL v2 or later.
  *
  * File: edit-vacation.php
- * Responsible for allowing users to update their vacation status.
  *
- * Template File: edit-vacation.tpl
+ * Allows users to update their vacation status and
+ * admins to update the vacation status for the their users 
+ *
+ * Template File: vacation.tpl
  *
  * Template Variables:
  *
@@ -23,6 +25,7 @@
  * tActiveUntil
  * tSubject
  * tBody
+ * tInterval_time
  *
  * Form POST \ GET Variables:
  *
@@ -31,7 +34,6 @@
  * fCancel
  * fChange
  * fBack
- * fQuota
  * fActive
  */
 
@@ -52,7 +54,6 @@ if(authentication_has_role('admin')) {
 }
 else {
    $Admin_role = 0 ;
-#   $Return_url = "users/main.php";
    $Return_url = "main.php";
    authentication_require_role('user');
    $fUsername = authentication_get_username();
@@ -85,26 +86,25 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if($details != false) {
         $tSubject = $details['subject'];
         $tBody = $details['body'];
-   $tInterval_Time = $details['interval_time'];
+        $tInterval_Time = $details['interval_time'];
         $tActiveFrom = $details['activeFrom'];
         $tActiveUntil = $details['activeUntil'];
     }
 
-    if($vh->check_vacation() and (!$Admin_role)) {
-       # TODO: would also be useful for admins, but needs a text change to include the username
-        flash_info($PALANG['pUsersVacation_welcome_text']);
+    if($vh->check_vacation()) {
+        flash_info(sprintf($PALANG['pUsersVacation_welcome_text'],htmlentities($tUseremail)));
     }
 
     //set a default, reset fields for coming back selection
-   if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
-   if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
+    if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
+    if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
 
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
     if(isset($_POST['fCancel'])) {
-	header ("Location: $Return_url");
+        header ("Location: $Return_url");
         exit(0);
     }
 
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    $tSubject   = safepost('fSubject');
    $fSubject   = $tSubject;
    $tBody      = safepost('fBody');
-   $fBody	= $tBody;
+   $fBody      = $tBody;
 
    $tInterval_Time = safepost('fInterval_Time');
 
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    $tUseremail = $fUsername;
 
-    //set a default, reset fields for coming back selection
+   //set a default, reset fields for coming back selection
    if ($tSubject == '') { $tSubject = html_entity_decode($PALANG['pUsersVacation_subject_text'], ENT_QUOTES, 'UTF-8'); }
    if ($tBody == '') { $tBody = html_entity_decode($PALANG['pUsersVacation_body_text'], ENT_QUOTES, 'UTF-8'); }
 
@@ -137,11 +137,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    // the user is going away - set the goto alias and vacation table as necessary.
 
    //Set the vacation data for $fUsername
+
    if (!empty ($fChange))
    {
-      if(!$vh->set_away($fSubject, $fBody, $fInterval_Time, $tActiveFrom, $tActiveUntil)) {
-            $error = 1;
-        }
+
+      ## check if ActiveUnitl is not  back in time,
+      ## because vacation.pl will report SMTP recipient $smtp_recipient which resolves to $email does not have an active vacation (rv: $rv, email: $email)"
+      ## and will not send message
+
+      if ( ($tActiveUntil >= date ("Y-m-d")) and  ($tActiveUntil >= $tActiveFrom) ) {
+         if (!$vh->set_away($fSubject, $fBody, $fInterval_Time, $tActiveFrom, $tActiveUntil)) {
+           $error = 1;
+         }
+      } else {
+         if ( $tActiveUntil < date ("Y-m-d") ) {
+            flash_error($PALANG['pVacation_until_before_today']);
+         } else {
+            flash_error($PALANG['pVacation_until_before_from']);
+         }
+         $error = 1;
+      }
    }
 
    //if change, remove old one, then perhaps set new one
@@ -167,7 +182,7 @@ if($error == 0) {
    }
 }
 else {
-	flash_error($PALANG['pVacation_result_error']);
+    flash_error(sprintf($PALANG['pVacation_result_error'],htmlentities($fUsername)));
 }
 
 $today = date ("Y-m-d");

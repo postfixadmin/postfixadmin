@@ -172,8 +172,11 @@ $PALANG['pVacation_result_added'] = 'Resposta automática habilitada! (%s)'; # X
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
 $PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
 $PALANG['pVacation_reply_delay_time_text'] = 'Time in seconds'; # XXX
+$PALANG['pVacation_until_before_today'] = 'The Date of [Active until] is set  before Today'; # XXX
+$PALANG['pVacation_until_before_from'] = 'The Date of [Active until] is set before [Active from]'; # XXX
 $PALANG['reply_once'] = 'Reply once'; # XXX
 $PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
+$PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Últimas 10 ações para ';
@@ -291,15 +294,15 @@ $PALANG['pUsersMain_edit_alias'] = 'Defina endereços de email para redirecionam
 $PALANG['pUsersMain_password'] = 'Altere a senha de sua conta.';
 
 $PALANG['pUsersVacation_welcome'] = 'Configuração de resposta automática.';
-$PALANG['pUsersVacation_welcome_text'] = 'Você já possui uma resposta automática configurada!';
+$PALANG['pUsersVacation_welcome_text'] = 'Você já possui uma resposta automática configurada! (%s)'; # XXX Text changed to: 'Auto response for %s is active!'
 $PALANG['pUsersVacation_subject_text'] = 'Ausente';
 $PALANG['message'] = 'Corpo da Mensagem'; # XXX check text - should be 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 Estarei ausente de <data> até <data>.
 Em caso de urgência, favor contatar <pessoa de contato>.
 EOM;
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX # obsolete
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
 
 
 $PALANG['pEdit_dbLog_editactive'] = 'habilitar/desabilitar';

@@ -170,8 +170,11 @@ $PALANG['pVacation_result_added'] = 'Automatische Antwort für %s wurde aktivier
 $PALANG['pVacation_reply_type'] = 'Choice of reply'; # XXX
 $PALANG['pVacation_reply_delay_time'] = 'Interval time'; # XXX
 $PALANG['pVacation_reply_delay_time_text'] = 'Zeit in Sekunden';
+$PALANG['pVacation_until_before_today'] = 'The Date of [Active until] is set  before Today'; # XXX
+$PALANG['pVacation_until_before_from'] = 'The Date of [Active until] is set before [Active from]'; # XXX
 $PALANG['reply_once'] = 'Einmal antworten';
 $PALANG['reply_every_mail'] = 'Jede Mail beantworten';
+$PALANG['reply_once_per_day'] = 'Einmal pro Tag antworten';
 $PALANG['reply_once_per_week'] = 'Einmal pro Woche antworten';
 
 $PALANG['pViewlog_welcome'] = 'Zeigt die letzten 10 Aktionen für ';
@@ -289,7 +292,7 @@ $PALANG['pUsersMain_edit_alias'] = 'Ändern Sie Ihre Weiterleitung.';
 $PALANG['pUsersMain_password'] = 'Ändern Sie Ihr Passwort.';
 
 $PALANG['pUsersVacation_welcome'] = 'Automatische Antwort.';
-$PALANG['pUsersVacation_welcome_text'] = 'Sie haben schon eine Automatische Antwort konfiguriert!';
+$PALANG['pUsersVacation_welcome_text'] = 'Automatische Antwort für %s ist aktiv!';
 $PALANG['pUsersVacation_subject_text'] = 'Ich bin weg...';
 $PALANG['message'] = 'Nachricht';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
@@ -297,8 +300,8 @@ Ich bin vom <date> bis <date> nicht zu Hause / im Büro.
 In dringenden Fällen setzen Sie sich bitte mit <contact person> in Verbindung.
 Vielen Dank für Ihr Verständnis.
 EOM;
-$PALANG['pUsersVacation_activefrom'] = 'Aktiv ab dem'; # obsolete
-$PALANG['pUsersVacation_activeuntil'] = 'Aktiv bis zum'; # obsolete
+$PALANG['pUsersVacation_activefrom'] = 'Aktiv ab dem';
+$PALANG['pUsersVacation_activeuntil'] = 'Aktiv bis zum';
 
 
 $PALANG['pEdit_dbLog_editactive'] = 'Aktiv-Status ändern';

@@ -167,8 +167,11 @@ $PALANG['pVacation_result_added'] = 'Atostogų pranešimas įjungtas!';
 $PALANG['pVacation_reply_type'] = 'Atsakymo tipas';
 $PALANG['pVacation_reply_delay_time'] = 'Intervalas';
 $PALANG['pVacation_reply_delay_time_text'] = 'Laikas sekundėmis';
+$PALANG['pVacation_until_before_today'] = 'The Date of [Active until] is set  before Today'; # XXX
+$PALANG['pVacation_until_before_from'] = 'The Date of [Active until] is set before [Active from]'; # XXX
 $PALANG['reply_once'] = 'Reply once'; # XXX
 $PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
+$PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Peržiūrėti paskutinius 10 vartotojo veiksmų ';
@@ -284,7 +287,7 @@ $PALANG['pUsersMain_edit_alias'] = 'Pakeisti laiškų peradresavimą.';
 $PALANG['pUsersMain_password'] = 'Pakeisti slaptažodį.';
 
 $PALANG['pUsersVacation_welcome'] = 'Automatinis (atostogų) atsakymas.';
-$PALANG['pUsersVacation_welcome_text'] = 'Auto atsakiklis jau nustatytas!';
+$PALANG['pUsersVacation_welcome_text'] = 'Auto atsakiklis jau nustatytas! (%s)'; # XXX Text changed to: 'Auto response for %s is active!'
 $PALANG['pUsersVacation_subject_text'] = 'Esu išvykęs';
 $PALANG['message'] = 'Žinutė';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
