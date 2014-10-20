@@ -159,7 +159,9 @@ See ADDITIONS/squirrelmail-plugin
 See xmlrpc.php - only a subset of Postfixadmin's functionality is currently exposed.
 See config.inc.php - see xmlrpc_enabled key (defaults to off).
 
-You'll need to install a copy of the Zend Framework within Postfixadmin (see header within xmlrpc.php)
+You'll need to install a copy of the Zend Framework (version 1.12.x) within Postfixadmin
+or your PHP include_path (see header within xmlrpc.php).
+NOTE: The XMLRPC interface is _not compatible_ with Zend Framework version 2.x.
 You'll need to enable the xmlrpc link (see config.inc.php)
 
 8. More information

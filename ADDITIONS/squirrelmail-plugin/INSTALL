@@ -12,6 +12,7 @@ Requirements:
 	wget https://packages.zendframework.com/releases/ZendFramework-1.12.3/ZendFramework-1.12.3-minimal.tar.gz 
 	tar -zxf ZendFramework-1.12.3-minimal.tar.gz
 	mv ZendFramework-1.12.3-minimal/library/Zend .    )
+   NOTE: This plugin is _not compatible_ with Zend Framework version 2.x.
 
 Installation :
 ==============
