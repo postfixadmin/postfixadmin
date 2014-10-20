@@ -48,8 +48,8 @@ class CliHelp extends Shell {
                         "\t\t".sprintf("%-20s %s", "view: ",  "View an existing $module.")."\n".
                         "\t\t".sprintf("%-20s %s", "add: ",  "Add a $module.")."\n".
                         "\t\t".sprintf("%-20s %s", "update: ",  "Update a $module.")."\n".
-                        "\t\t".sprintf("%-20s %s", "delete: ",  "Delete a $module")."\n".
-            'address' => "\t[<address>]\n" .
+                        "\t\t".sprintf("%-20s %s", "delete: ",  "Delete a $module")."\n",
+            'address' => "\t[<address>]\n" .  
                         "\t\tA address of recipient.\n",
         );
 
