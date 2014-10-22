@@ -40,8 +40,9 @@ class AliasHandler extends PFAHandler {
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox',
+                # "COUNT(1)" instead of just "1" needed for MariaDB, see https://sourceforge.net/p/postfixadmin/bugs/325/ 
                 /*extrafrom*/ 'LEFT JOIN ( ' .
-                    ' SELECT 1 as __is_mailbox, username as __mailbox_username ' .
+                    ' SELECT COUNT(1) as __is_mailbox, username as __mailbox_username ' .
                     ' FROM ' . table_by_key('mailbox') .
                     ' WHERE username IS NOT NULL ' .
                     ' ) AS __mailbox ON __mailbox_username = address' ),
