@@ -15,13 +15,15 @@ SVN changes since 3.0 beta1 (2.91)
 - AliasHandler: don't clean goto field when making alias inactive (bug#316)
 - list-virtual: display quota even if $CONF[used_quotas] == NO (bug#307)
 - vacation.pl: fix postgresql queries in vacation.pl (bug#315)
-- fix query in AliasHandler getList which caused an empty list on some 
-  systems (bug#313)
+- fix query in AliasHandler getList() which caused an empty list and init()
+  which breaks deleting aliases in MariaDB (bug#313, bug#325)
 - fetchmail.pl: fix ssl extra options (cert check, cert path, fingerprint)
 - fix logging (run setup.php to fix old log entries) (bug#317)
 - fetchmail.php: change error_reporting() to exclude E_NOTICE (bug#322)
-- fr.lang translation update (patch#123)
-- $CONF[default_aliases] can now use the new domain as alias target (patch#124) 
+- translation updates: fr (patch#123), nl (patch#122)
+- $CONF[default_aliases] can now use the new domain as alias target (patch#124)
+- check that vacation start/end date are not in the past (patch#122) 
+- update vacation INSTALL.TXT with more secure locations
 
 Version 3.0 beta1 (2.91) - 2014/05/06 - SVN r1670
 -------------------------------------------------
