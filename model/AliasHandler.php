@@ -39,7 +39,8 @@ class AliasHandler extends PFAHandler {
                 /*options*/ '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
-                /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox',
+                /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox, __mailbox_username', 
+                           # __mailbox_username is unused, but needed as workaround for a MariaDB bug
                 /*extrafrom*/ 'LEFT JOIN ( ' .
                     ' SELECT 1 as __is_mailbox, username as __mailbox_username ' .
                     ' FROM ' . table_by_key('mailbox') .
