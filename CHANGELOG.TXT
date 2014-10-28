@@ -24,6 +24,7 @@ SVN changes since 3.0 beta1 (2.91)
 - $CONF[default_aliases] can now use the new domain as alias target (patch#124)
 - check that vacation start/end date are not in the past (patch#122) 
 - update vacation INSTALL.TXT with more secure locations
+- update Smarty to 3.1.21
 
 Version 3.0 beta1 (2.91) - 2014/05/06 - SVN r1670
 -------------------------------------------------
