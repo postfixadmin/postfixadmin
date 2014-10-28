@@ -9,8 +9,8 @@
 # Last update:
 # $Id$
 
-SVN changes since 3.0 beta1 (2.91)
-----------------------------------
+Version 3.0 beta2 (2.92) - 2014/10/28 - SVN r1706
+-------------------------------------------------
 
 - AliasHandler: don't clean goto field when making alias inactive (bug#316)
 - list-virtual: display quota even if $CONF[used_quotas] == NO (bug#307)
