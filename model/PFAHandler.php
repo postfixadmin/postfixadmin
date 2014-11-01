@@ -12,7 +12,7 @@ abstract class PFAHandler {
     public $infomsg = array();
 
     # array of tasks available in CLI
-    public $taskNames = array('Help', 'Add', 'Update', 'Delete', 'View');
+    public $taskNames = array('Help', 'Add', 'Update', 'Delete', 'View', 'Scheme');
 
     /**
      * variables that must be defined in all *Handler classes
