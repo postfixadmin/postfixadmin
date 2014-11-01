@@ -46,6 +46,8 @@ abstract class PFAHandler {
     # set in __construct()
     protected $admin_username = "";
 
+    # will be set to 0 if $admin_username is set and is not a superadmin
+    protected $is_superadmin = 1;
 
     # the ID of the current item (where item can be an admin, domain, mailbox, alias etc.)
     # filled in init()
@@ -92,6 +94,10 @@ abstract class PFAHandler {
     public function __construct($new = 0, $admin_username = "") {
         if ($new) $this->new = 1;
         $this->admin_username = $admin_username;
+
+        if ($admin_username != "" && (! authentication_has_role('global-admin') ) ) {
+            $this->is_superadmin = 0;
+        }
 
         if ($this->domain_field == "") {
             $this->no_domain_field();
