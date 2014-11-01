@@ -1303,6 +1303,34 @@ function db_get_boolean($bool) {
 }
 
 /**
+ * Returns a query that reports the used quota ("x / y")
+ * @param string column containing used quota
+ * @param string column containing allowed quota
+ * @param string column that will contain "x / y"
+ * @return string
+ */
+function db_quota_text($count, $quota, $fieldname) {
+    return " CASE $quota
+        WHEN '-1' THEN coalesce($count,0)
+        ELSE CONCAT(coalesce($count,0), ' / ', $quota)   
+    END AS $fieldname";
+}
+
+/**
+ * Returns a query that reports the used quota ("x / y")
+ * @param string column containing used quota
+ * @param string column containing allowed quota
+ * @param string column that will contain "x / y"
+ * @return string
+ */
+function db_quota_percent($count, $quota, $fieldname) {
+    return " CASE $quota   
+        WHEN '-1' THEN -1
+        ELSE round(100 * coalesce($count,0) / $quota)
+    END AS $fieldname";
+}
+
+/**
  * returns true if PostgreSQL is used, false otherwise
  */
 function db_pgsql() {
