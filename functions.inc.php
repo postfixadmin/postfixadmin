@@ -385,12 +385,22 @@ function safesession ($param, $default="") {
  * @param String PALANG_desc
  * @param any optional $default
  * @param array optional $options
- * @param int $not_in_db
+ * @param int or $not_in_db - if array, can contain the remaining parameters as associated array
+ * @param ...
  * @return array for $struct
  */
-function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $not_in_db=0, $dont_write_to_db=0, $select="", $extrafrom="") {
+function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $multiopt=0, $dont_write_to_db=0, $select="", $extrafrom="", $linkto="") {
     if ($PALANG_label != '') $PALANG_label = Config::lang($PALANG_label);
     if ($PALANG_desc  != '') $PALANG_desc  = Config::lang($PALANG_desc );
+
+    if (is_array($multiopt)) { # remaining parameters provided in named array
+        $not_in_db = 0; # keep default value
+        foreach ($multiopt as $key => $value) {
+            $$key = $value; # extract everything to the matching variable
+        }
+    } else {
+        $not_in_db = $multiopt;
+    }
 
     return array(
         'editable'          => $allow_editing,
@@ -405,6 +415,7 @@ function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALAN
         'dont_write_to_db'  => $dont_write_to_db,
         'select'            => $select,         # replaces the field name after SELECT
         'extrafrom'         => $extrafrom,      # added after FROM xy - useful for JOINs etc.
+        'linkto'            => $linkto,         # make the value a link - %s will be replaced with the ID
     );
 }
 
