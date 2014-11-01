@@ -135,6 +135,7 @@ abstract class PFAHandler {
      *    bool  boolean (converted to 0/1, additional column _$field with yes/no)
      *    ts    timestamp (created/modified)
      *    enum  list of options, must be given in column "options" as array
+     *    enma  list of options, must be given in column "options" as associative array
      *    list  like enum, but allow multiple selections
      * You can use custom types, but you'll have to add handling for them in *Handler and the smarty templates
      *
@@ -659,6 +660,15 @@ abstract class PFAHandler {
      */
     protected function _inp_enum($field, $val) {
         if(in_array($val, $this->struct[$field]['options'])) return true;
+        $this->errormsg[$field] = Config::Lang_f('invalid_value_given', $field);
+        return false;
+    }
+
+    /**
+      * check if value of an enum field is in the list of allowed values
+     */
+    protected function _inp_enma($field, $val) {
+        if(array_key_exists($val, $this->struct[$field]['options'])) return true;
         $this->errormsg[$field] = Config::Lang_f('invalid_value_given', $field);
         return false;
     }
