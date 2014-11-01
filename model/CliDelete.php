@@ -1,4 +1,5 @@
 <?php
+# $Id$ 
 /**
  * class to handle 'delete' in Cli
  */

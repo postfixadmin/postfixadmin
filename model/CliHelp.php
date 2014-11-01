@@ -1,4 +1,5 @@
 <?php
+# $Id$ 
 
 class CliHelp extends Shell {
 
