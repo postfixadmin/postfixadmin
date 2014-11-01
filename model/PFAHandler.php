@@ -128,16 +128,20 @@ abstract class PFAHandler {
      *
      * available values for the "type" column:
      *    text  one line of text
+     *   *vtxt  "virtual" line of text, coming from JOINs etc.
      *    pass  password (will be encrypted with pacrypt())
      *    num   number
      *    txtl  text "list" - array of one line texts
-     *    vnum  "virtual" number, coming from JOINs etc.
+     *   *vnum  "virtual" number, coming from JOINs etc.
      *    bool  boolean (converted to 0/1, additional column _$field with yes/no)
      *    ts    timestamp (created/modified)
      *    enum  list of options, must be given in column "options" as array
      *    enma  list of options, must be given in column "options" as associative array
      *    list  like enum, but allow multiple selections
+     *   *quot  used / total quota ("5 / 10") - for field "quotausage", there must also be a "_quotausage_percent" (type vnum)
      * You can use custom types, but you'll have to add handling for them in *Handler and the smarty templates
+     * 
+     * Field types marked with * will automatically be skipped in store().
      *
      * All database tables should have a 'created' and a 'modified' column.
      *
@@ -372,6 +376,11 @@ abstract class PFAHandler {
                     break;
                 case 'pass':
                     $db_values[$key] = pacrypt($db_values[$key]);
+                    break;
+                case 'quot':
+                case 'vnum':
+                case 'vtxt':
+                    unset ($db_values[$key]); # virtual field, never write it
                     break;
             }
             if ($this->struct[$key]['not_in_db'] == 1) unset ($db_values[$key]); # remove 'not in db' columns
