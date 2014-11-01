@@ -29,6 +29,9 @@ abstract class PFAHandler {
     # if a table does not contain a domain column, leave empty and override no_domain_field())
     protected $domain_field = "";
 
+    # column containing the username (if logged in as non-admin)
+    protected $user_field = '';
+
     # skip empty password fields in edit mode
     # enabled by default to allow changing an admin, mailbox etc. without changing the password
     # disable for "edit password" forms
@@ -48,6 +51,12 @@ abstract class PFAHandler {
 
     # will be set to 0 if $admin_username is set and is not a superadmin
     protected $is_superadmin = 1;
+
+    # if set, switch to user (non-admin) mode
+    protected $username = '';
+
+    # will be set to 0 if a user (non-admin) is logged in
+    protected $is_admin = 1;
 
     # the ID of the current item (where item can be an admin, domain, mailbox, alias etc.)
     # filled in init()
@@ -90,23 +99,35 @@ abstract class PFAHandler {
      * Constructor: fill $struct etc.
      * @param integer - 0 is edit mode, set to 1 to switch to create mode
      * @param string - if an admin_username is specified, permissions will be restricted to the domains this admin may manage
+     * @param integer - 0 if logged in as user, 1 if logged in as admin or superadmin
      */
-    public function __construct($new = 0, $admin_username = "") {
+    public function __construct($new = 0, $username = "", $is_admin = 1) {
         if ($new) $this->new = 1;
-        $this->admin_username = $admin_username;
 
-        if ($admin_username != "" && (! authentication_has_role('global-admin') ) ) {
+        if ($is_admin) {    
+            $this->admin_username = $username;
+        } else {
+            $this->username = $username;
+            $this->is_admin = 0;
+            $this->is_superadmin = 0;
+        }
+
+        if ($username != "" && (! authentication_has_role('global-admin') ) ) {
             $this->is_superadmin = 0;
         }
 
         if ($this->domain_field == "") {
             $this->no_domain_field();
         } else {
-            if ($admin_username != "") {
-                $this->allowed_domains = list_domains_for_admin($admin_username);
+            if ($this->admin_username != "") {
+                $this->allowed_domains = list_domains_for_admin($username);
             } else {
                 $this->allowed_domains = list_domains();
             }
+        }
+
+        if ($this->user_field == '') {
+            $this->no_user_field();
         }
 
         $this->initStruct();
@@ -127,6 +148,17 @@ abstract class PFAHandler {
     protected function no_domain_field() {
             if ($this->admin_username != "") die('Attemp to restrict domains without setting $this->domain_field!');
     }
+
+    /**
+     * ensure a lazy programmer can't give access to all items accidently
+     *
+     * to intentionally disable the check if $this->user_field is empty, override this function
+     */
+    protected function no_user_field() {
+            if ($this->username != '') die('Attemp to restrict users without setting $this->user_field!');
+    }
+
+
 
     /**
      * init $this->struct (an array of pacol() results)
@@ -497,6 +529,11 @@ abstract class PFAHandler {
 
         if ($this->domain_field != "") {
             $where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains);
+        }
+
+        # if logged in as user, restrict to the items the user is allowed to see
+        if ( (!$this->is_admin) && $this->user_field != '') {
+            $where .= " AND " . $this->user_field . " = '" . escape_string($this->username) . "' ";
         }
 
         $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->id_field;
