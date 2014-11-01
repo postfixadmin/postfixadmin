@@ -16,6 +16,7 @@ $PALANG['cancel'] = 'Annuler';
 $PALANG['save'] = 'Enregistrer les modifications';
 $PALANG['confirm'] = 'Etes vous sur de vouloir supprimer cet enregistrement\n';
 $PALANG['confirm_domain'] = 'Etes-vous sur de vouloir effacer tous les enregistrements dans ce domaine ? Cette opération ne pourra pas être annulée.\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Vérifier les mises à jour';
 $PALANG['invalid_parameter'] = 'Paramètres invalides!';
 $PALANG['show'] = 'Afficher:';

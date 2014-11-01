@@ -18,6 +18,7 @@ $PALANG['cancel'] = 'Zrušit';
 $PALANG['save'] = 'Uložit'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Jste si jistí?\n';
 $PALANG['confirm_domain'] = 'Opravdu chcete smazat všechny záznamy v této doméně Tohle nelze vrátit!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Zkontrolovat aktualizace';
 $PALANG['invalid_parameter'] = 'Neplatný parametr!';
 $PALANG['show'] = 'Show:'; # XXX

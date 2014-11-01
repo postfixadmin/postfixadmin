@@ -15,6 +15,7 @@ $PALANG['cancel'] = 'Annuleren';
 $PALANG['save'] = 'Wijzigingen opslaan';
 $PALANG['confirm'] = 'Weet u het zeker dat u wilt verwijderen?\n';
 $PALANG['confirm_domain'] = 'Weet u zeker dat u ALLE data van het domein wilt verwijderen? Dit kan niet ongedaan worden gemaakt!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Zoeken naar nieuwe versie';
 $PALANG['invalid_parameter'] = 'ongeldige parameter!';
 $PALANG['show'] = 'Toon:';

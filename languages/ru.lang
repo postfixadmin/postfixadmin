@@ -16,6 +16,7 @@ $PALANG['cancel'] = 'Отменить';
 $PALANG['save'] = 'Сохранить изменения';
 $PALANG['confirm'] = 'Вы уверены, что хотите удалить это?\n';
 $PALANG['confirm_domain'] = 'Вы действительно хотите удалить все настройки для домена? Это действие нельзя будет отменить!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Проверить обновление';
 $PALANG['invalid_parameter'] = 'Некорректный параметр!';
 $PALANG['show'] = 'Показать:';

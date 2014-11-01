@@ -15,6 +15,7 @@ $PALANG['cancel'] = 'キャンセル';
 $PALANG['save'] = '変更を保存';
 $PALANG['confirm'] = '本当に削除してもよろしいですか？\n';
 $PALANG['confirm_domain'] = '本当にこのドメインのすべての情報を削除してもよろしいですか？これを元に戻すことはできません。\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = '更新の確認';
 $PALANG['invalid_parameter'] = '無効なパラメータです。';
 $PALANG['show'] = '閲覧:';

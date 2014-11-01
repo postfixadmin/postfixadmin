@@ -14,6 +14,7 @@ $PALANG['cancel'] = 'Cancel'; # XXX
 $PALANG['save'] = 'Save'; # XXX # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Ali ste prepričani, da želite brisati?\n';
 $PALANG['confirm_domain'] = 'Ali ste prepričani, da želite brisati vse zapise za to domeno? Zapisi bodo izgubljeni za vedno!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Preveri, če obstaja novejša različica';
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX

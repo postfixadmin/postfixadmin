@@ -14,6 +14,7 @@ $PALANG['cancel'] = 'Cancel'; # XXX
 $PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = 'Oled kindel, et soovid seda kustutada?\n';
 $PALANG['confirm_domain'] = 'Oled tõesti kindel, et tahad kustutada kõik kirjed sellele domeenile? Seda tegevust ei saa tagasi võtta!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX

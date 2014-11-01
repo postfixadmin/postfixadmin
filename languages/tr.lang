@@ -14,6 +14,7 @@ $PALANG['cancel'] = 'Cancel'; # XXX
 $PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = 'Bunu silmek istediðinizden emin misiniz?\n';
 $PALANG['confirm_domain'] = 'Bu domain için tüm kayýtlarý silmek istediðinizden emin misiniz? Bu iþlem geri alýnamaz!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX

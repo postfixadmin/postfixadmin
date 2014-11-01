@@ -14,6 +14,7 @@ $PALANG['cancel'] = 'Cancel'; # XXX
 $PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = '是否确定删除?\n';
 $PALANG['confirm_domain'] = '你是否确定要删除该域中的所有记录? 删除后不可恢复!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = '检查新版本';
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX

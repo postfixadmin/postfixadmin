@@ -14,6 +14,7 @@ $PALANG['cancel'] = 'Atšaukti';
 $PALANG['save'] = 'Išsaugoti';
 $PALANG['confirm'] = 'Tikrai norite šalinti?\n';
 $PALANG['confirm_domain'] = 'Tikrai norite šalinti visus šios srities įrašus? Operacija negrįžtama!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Patikrinti versiją';
 $PALANG['invalid_parameter'] = 'Neteisingas parametras!';
 $PALANG['show'] = 'Rodyti:';

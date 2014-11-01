@@ -14,6 +14,7 @@ $PALANG['cancel'] = 'Cancel'; # XXX
 $PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = 'Ertu viss um að þú viljir eyða þessu?\n';
 $PALANG['confirm_domain'] = 'Ertu viss um að þú viljir eyða öllu sem tengist þessu léni? Það er ekki hægt að bakka með aðgerðina!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
 $PALANG['show'] = 'Show:'; # XXX

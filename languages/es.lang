@@ -15,6 +15,7 @@ $PALANG['cancel'] = 'Cancelar';
 $PALANG['save'] = 'Salvar'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = '¿Está seguro de que desea borrarlo?\n';
 $PALANG['confirm_domain'] = '¿Está seguro de que desea borrar todos los registros de este dominio? ¡Esto no puede ser deshecho!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = '¡Par&aacute;metro inválido!'; 
 $PALANG['show'] = 'Show:'; # XXX

@@ -15,6 +15,7 @@ $PALANG['cancel'] = 'Abbrechen';
 $PALANG['save'] = 'Änderungen speichern';
 $PALANG['confirm'] = 'Sind Sie sicher dass Sie das löschen wollen?\n';
 $PALANG['confirm_domain'] = 'Wollen Sie wirklich alle Einträge dieser Domain löschen? Dies kann NICHT rückgängig gemacht werden!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Auf Updates überprüfen';
 $PALANG['invalid_parameter'] = 'Ungültiger Parameter!';
 $PALANG['show'] = 'Anzeigen:';

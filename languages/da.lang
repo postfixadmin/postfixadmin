@@ -17,6 +17,7 @@ $PALANG['cancel'] = 'Annuller';
 $PALANG['save'] = 'Gem'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Er du sikker på du vil slette dette?\n';
 $PALANG['confirm_domain'] = 'Vil du virkelig slette alle adresser for dette domæne? Dette kan ikke fortrydes!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Søg efter opdateringer';
 $PALANG['invalid_parameter'] = 'Ugyldig parameter.';
 $PALANG['show'] = 'Show:'; # XXX

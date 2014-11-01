@@ -15,6 +15,7 @@ $PALANG['cancel'] = 'Peruuta';
 $PALANG['save'] = 'Tallenna'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Oletko varma että haluat poistaa tämän?\n';
 $PALANG['confirm_domain'] = 'Oletko varma että haluat poistaa kaikki tietueet tästä domainista? Tätä komentoa ei voi perua!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Tarkista päivitykset';
 $PALANG['invalid_parameter'] = 'Viallinen parametri!';
 $PALANG['show'] = 'Show:'; # XXX
