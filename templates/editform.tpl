@@ -27,6 +27,10 @@
 						<select class="flat" name="value[{$key}]">
 						{html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
 						</select>
+					{elseif $field.type == 'enma'}
+						<select class="flat" name="value[{$key}]">
+						{html_options options=$struct.{$key}.options selected=$value_{$key}}
+						</select>
 					{elseif $field.type == 'list'}
 						<select class="flat" name="value[{$key}][]" size="10" multiple="multiple">
 						{html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
