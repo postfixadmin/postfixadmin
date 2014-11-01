@@ -66,6 +66,15 @@ abstract class PFAHandler {
     # filled in domain_from_id() via init()
     protected $domain = null;
 
+    # can this item be edited?
+    # filled in init() (only in edit mode)
+    protected $can_edit = 1;
+
+    # can this item be deleted?
+    # filled in init() (only in edit mode)
+    protected $can_delete = 1;
+    # TODO: needs to be implemented in delete()
+
     # structure of the database table, list, edit form etc.
     # filled in initStruct()
     protected $struct = array();
@@ -131,6 +140,22 @@ abstract class PFAHandler {
         }
 
         $this->initStruct();
+
+        if (!isset($this->struct['_can_edit'])) {
+            $this->struct['_can_edit'] = pacol( 0,          0,      1,      'vnum', ''                   , ''                  , '', '',
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ '1 as _can_edit'
+                );
+        }
+
+        if (!isset($this->struct['_can_delete'])) {
+            $this->struct['_can_delete'] = pacol( 0,          0,      1,      'vnum', ''                   , ''                  , '', '',
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ '1 as _can_delete'
+                );
+        }
 
         $struct_hook = Config::read($this->db_table . '_struct_hook');
         if ( $struct_hook != 'NO' && function_exists($struct_hook) ) {
@@ -239,11 +264,13 @@ abstract class PFAHandler {
 #            } else {
 #                return true;
             }
-        } else { # edit mode
+        } else { # view or edit mode
             if (!$exists) {
                 $this->errormsg[$this->id_field] = Config::lang($this->msg['error_does_not_exist']);
                 return false;
-#            } else {
+            } else {
+                $this->can_edit   = $this->result['_can_edit'];
+                $this->can_delete = $this->result['_can_delete'];
 #                return true;
             }
         }
@@ -298,6 +325,11 @@ abstract class PFAHandler {
      * error messages (if any) are stored in $this->errormsg
      */
     public function set($values) {
+        if ( !$this->can_edit ) {
+            $this->errormsg[] = Config::Lang_f('edit_not_allowed', $this->id);
+            return false;
+        }
+
         if ($this->new == 1) {
             $values[$this->id_field] = $this->id;
         }
