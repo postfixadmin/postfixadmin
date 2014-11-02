@@ -22,6 +22,7 @@ $PALANG['show'] = 'Toon:';
 $PALANG['all'] = 'Alle';
 $PALANG['created'] = 'Aangemaakt'; #XXX
 $PALANG['unknown'] = 'onbekend'; #XXX
+$PALANG['download_csv'] = 'Download this list as CSV file'; # XXX
 $PALANG['missing_field'] = 'Veld %s is niet aanwezig'; #XXX
 $PALANG['must_be_numeric'] = '%s moet een getal zijn'; #XXX
 $PALANG['must_be_boolean'] = '%s moet een boolean zijn'; #XXX

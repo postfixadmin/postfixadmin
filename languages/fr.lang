@@ -23,6 +23,7 @@ $PALANG['show'] = 'Afficher:';
 $PALANG['all'] = 'Tous';
 $PALANG['created'] = 'Créé';
 $PALANG['unknown'] = 'inconnu';
+$PALANG['download_csv'] = 'Download this list as CSV file'; # XXX
 $PALANG['missing_field'] = 'Le champ %s est manquant';
 $PALANG['must_be_numeric'] = '%s doit être numérique';
 $PALANG['must_be_boolean'] = '%s doit être booléen';

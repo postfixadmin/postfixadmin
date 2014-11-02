@@ -56,9 +56,46 @@ if ($is_admin) {
 $handler->getList('');
 $items = $handler->result();
 
-$smarty->assign('admin_list', $list_admins);
-$smarty->assign('admin_selected', $username);
-#if ($is_superadmin) {
+if (safeget('output') == 'csv') {
+
+    $out = fopen('php://output', 'w');
+    header( 'Content-Type: text/csv; charset=utf-8' );
+    header( 'Content-Disposition: attachment;filename='.$table.'.csv');
+    
+    print "\xEF\xBB\xBF"; # utf8 byte-order to indicate the file is utf8 encoded
+    # print "sep=;"; # hint that ; is used as seperator - breaks the utf8 flag in excel import!
+    print "\n";
+
+    if (!defined('ENT_HTML401')) { # for compability for PHP < 5.4.0
+        define('ENT_HTML401', 0);
+    }
+
+    # print column headers as csv
+    $header = array();
+    $columns = array();
+    foreach ($handler->getStruct() as $key => $field) {
+        if ($field['display_in_list'] && $field['label'] != '') { # don't show fields without a label
+                $header[] = html_entity_decode ( $field['label'], ENT_COMPAT | ENT_HTML401, 'UTF-8' );
+                $columns[] = $key;
+        }
+    }
+    fputcsv($out, $header, ';');
+
+    # print items as csv
+    foreach ($items as $item) {
+        $fields = array();
+        foreach ($columns as $column) {
+            $fields[] = $item[$column];
+        }
+        fputcsv($out, $fields, ';');
+    }
+
+    fclose($out);
+
+} else { # HTML output
+
+    $smarty->assign('admin_list', $list_admins);
+    $smarty->assign('admin_selected', $username);
     $smarty->assign('smarty_template', 'list');
     $smarty->assign('struct', $handler->getStruct());
     $smarty->assign('msg', $handler->getMsg());
@@ -66,11 +103,10 @@ $smarty->assign('admin_selected', $username);
     $smarty->assign('items', $items);
     $smarty->assign('id_field', $handler->getId_field());
     $smarty->assign('formconf', $formconf);
-#} else {
-#    $smarty->assign ('smarty_template', 'overview-get');
-#}
 
-$smarty->display ('index.tpl');
+    $smarty->display ('index.tpl');
+
+}
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
