@@ -8,6 +8,19 @@
 {#form_search#}
 </div>
 
+    {if ($search|count > 0)}
+        <div class='searchparams'>
+            <p>{$PALANG.searchparams}
+            {foreach key=key item=field from=$search}
+                <span>{if $struct.$key.label}{$struct.$key.label}{else}{$key}{/if}
+                    {if isset($searchmode.$key)}{$searchmode.$key}{else}={/if} {$field}
+                </span>
+            {/foreach}
+            <span><a href="list.php?table={$table}&reset_search=1">[x]</a></span>
+        </div>
+    {/if}
+
+
 
 <div id="list">
 <table border=0 id='admin_table'><!-- TODO: 'admin_table' needed because of CSS for table header -->

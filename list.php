@@ -53,8 +53,31 @@ if ($is_admin) {
     }
 }
 
-$handler->getList('');
+$search     = safeget('search', safesession("search_$table", array()));
+$searchmode = safeget('searchmode', safesession("searchmode_$table", array()));
+
+if (!is_array($search) || !is_array($searchmode)) {
+    # avoid injection of raw SQL if $search is a string instead of an array
+    die("Invalid parameter");
+}
+
+if (safeget('reset_search', 0)) {
+    $search = array();
+    $searchmode = array();
+}
+$_SESSION["search_$table"] = $search;
+$_SESSION["searchmode_$table"] = $searchmode;
+
+if (count($search)) {
+    $handler->getList($search, $searchmode);
+} else {
+    $handler->getList('');
+}
 $items = $handler->result();
+
+if (count($handler->errormsg)) flash_error($handler->errormsg);
+if (count($handler->infomsg))  flash_error($handler->infomsg);
+
 
 if (safeget('output') == 'csv') {
 
@@ -103,6 +126,8 @@ if (safeget('output') == 'csv') {
     $smarty->assign('items', $items);
     $smarty->assign('id_field', $handler->getId_field());
     $smarty->assign('formconf', $formconf);
+    $smarty->assign('search', $search);
+    $smarty->assign('searchmode', $searchmode);
 
     $smarty->display ('index.tpl');
 
