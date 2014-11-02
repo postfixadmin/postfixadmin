@@ -672,6 +672,10 @@ abstract class PFAHandler {
         return $this->struct;
     }
 
+    public function getMsg() {
+        return $this->msg;
+    }
+
     public function getId_field() {
         return $this->id_field;
     }
