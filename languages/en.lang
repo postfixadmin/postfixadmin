@@ -27,6 +27,8 @@ $PALANG['missing_field'] = 'Field %s is missing';
 $PALANG['must_be_numeric'] = '%s must be numeric';
 $PALANG['must_be_boolean'] = '%s must be boolean';
 $PALANG['invalid_value_given'] = 'Invalid value given for %s';
+$PALANG['edit_not_allowed'] = 'You are not allowed to edit %s';
+$PALANG['searchparams'] = 'Search parameters:';
 
 $PALANG['pFooter_logged_as'] = 'Logged in as %s';
 

@@ -27,6 +27,8 @@ $PALANG['missing_field'] = 'Veld %s is niet aanwezig'; #XXX
 $PALANG['must_be_numeric'] = '%s moet een getal zijn'; #XXX
 $PALANG['must_be_boolean'] = '%s moet een boolean zijn'; #XXX
 $PALANG['invalid_value_given'] = 'Foutief waarde ingevooerd %s'; # XXX
+$PALANG['edit_not_allowed'] = 'You are not allowed to edit %s'; # XXX
+$PALANG['searchparams'] = 'Search parameters:'; # XXX
 $PALANG['pFooter_logged_as'] = 'aangemeld als %s';
 
 $PALANG['pLogin_welcome'] = 'Mail beheerders log hier in om uw domeinen te beheren.';

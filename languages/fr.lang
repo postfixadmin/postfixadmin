@@ -28,6 +28,8 @@ $PALANG['missing_field'] = 'Le champ %s est manquant';
 $PALANG['must_be_numeric'] = '%s doit être numérique';
 $PALANG['must_be_boolean'] = '%s doit être booléen';
 $PALANG['invalid_value_given'] = 'Valeur incorrecte pour %s';
+$PALANG['edit_not_allowed'] = 'You are not allowed to edit %s'; # XXX
+$PALANG['searchparams'] = 'Search parameters:'; # XXX
 $PALANG['pFooter_logged_as'] = 'Connecté en tant que %s';
 
 $PALANG['pLogin_welcome'] = 'Entrez votre adresse courriel pour administrer votre domaine.';
