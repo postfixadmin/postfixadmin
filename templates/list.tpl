@@ -28,6 +28,13 @@
     {foreach key=key item=field from=$struct}
         {if $field.display_in_list == 1 && $field.label}
 
+            {if $field.linkto != '' && ($item.$id_field != '' || $item.$id_field > 0) }
+                {assign "linkto" "{$field.linkto|replace:'%s':{$item.$id_field|escape:url}}"} {* TODO: use label field instead *}
+                {assign "linktext" "<a href='{$linkto}'>{$item.{$key}}</a>"}
+            {else}
+                {assign "linktext" $item.$key}
+            {/if}
+
             {if $table == 'foo' && $key == 'bar'}
                 <td>Special handling (complete table row) for {$table} / {$key}</td></tr>
             {else}
@@ -58,7 +65,7 @@
                         {if $item[$tmpkey] > -1}
                             <div class="quota quota_{$quota_level}" style="width:{$item[$tmpkey] *1.2}px;"></div>
                             <div class="quota_bg"></div></div>
-                            <div class="quota_text quota_text_{$quota_level}">{$item[$key]}</div>
+                            <div class="quota_text quota_text_{$quota_level}">{$linktext}</div>
                         {else}
                             {$item[$key]}
                         {/if}
@@ -66,7 +73,7 @@
                     {elseif $field.type == 'txtl'}
                         {foreach key=key2 item=field2 from=$value_{$key}}<p>{$field2} {/foreach}
                     {else}
-{$item.{$key}}
+                        {$linktext}
                     {/if}
                 </td>
             {/if}
