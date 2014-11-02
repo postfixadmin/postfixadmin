@@ -1617,21 +1617,54 @@ function db_in_clause($field, $values) {
  * Call: db_where_clause (array $conditions, array $struct)
  * param array $conditios: array('field' => 'value', 'field2' => 'value2, ...)
  * param array $struct - field structure, used for automatic bool conversion
+ * param string $additional_raw_where - raw sniplet to include in the WHERE part - typically needs to start with AND
+ * param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see 
+ *                           $allowed_operators for available operators)
  */
-function db_where_clause($condition, $struct) {
+function db_where_clause($condition, $struct, $additional_raw_where = '', $searchmode = array()) {
     if (!is_array($condition)) {
         die('db_where_cond: parameter $cond is not an array!');
+    } elseif(!is_array($searchmode)) {
+        die('db_where_cond: parameter $searchmode is not an array!');
     } elseif (count($condition) == 0) {
         die("db_where_cond: parameter is an empty array!"); # die() might sound harsh, but can prevent information leaks 
     } elseif(!is_array($struct)) {
         die('db_where_cond: parameter $struct is not an array!');
     }
 
+    $allowed_operators = explode(' ', '< > >= <= = != <> CONT LIKE');
+    $where_parts = array();
+    $having_parts = array();
+
     foreach($condition as $field => $value) {
         if (isset($struct[$field]) && $struct[$field]['type'] == 'bool') $value = db_get_boolean($value);
-        $parts[] = "$field='" . escape_string($value) . "'";
+        $operator = '=';
+        if (isset($searchmode[$field])) {
+            if (in_array($searchmode[$field], $allowed_operators)) {
+                $operator = $searchmode[$field];
+
+                if ($operator == 'CONT') { # CONT - as in "contains"
+                    $operator = ' LIKE '; # add spaces
+                    $value = '%' . $value . '%';
+                } elseif ($operator == 'LIKE') { # LIKE -without adding % wildcards (the search value can contain %)
+                    $operator = ' LIKE '; # add spaces
+                }
+            } else {
+                die('db_where_clause: Invalid searchmode for ' . $field);
+            }
+        }
+        $querypart = $field . $operator . "'" . escape_string($value) . "'";
+        if($struct[$field]['select'] != '') {
+            $having_parts[$field] = $querypart;
+        } else {
+            $where_parts[$field] = $querypart;
+        }
     }
-    $query = " WHERE ( " . join(" AND ", $parts) . " ) ";
+    $query = ' WHERE 1=1 ';
+    $query .= " $additional_raw_where ";
+    if (count($where_parts)  > 0) $query .= " AND    ( " . join(" AND ", $where_parts)  . " ) ";
+    if (count($having_parts) > 0) $query .= " HAVING ( " . join(" AND ", $having_parts) . " ) ";
+
 	return $query;
 }
 

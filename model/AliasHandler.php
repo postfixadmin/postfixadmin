@@ -287,10 +287,10 @@ class AliasHandler extends PFAHandler {
         return $db_result;
     }
 
-    public function getList($condition, $limit=-1, $offset=-1) {
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) {
         # only list aliases that do not belong to mailboxes
         # TODO: breaks if $condition is an array
-        return parent::getList( "__mailbox_username IS NULL AND ( $condition )", $limit, $offset);
+        return parent::getList( "__mailbox_username IS NULL AND ( $condition )", $searchmode, $limit, $offset);
     }
 
     protected function _validate_goto($field, $val) {

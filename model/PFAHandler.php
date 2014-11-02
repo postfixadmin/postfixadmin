@@ -533,11 +533,13 @@ abstract class PFAHandler {
      *
      * @param array or string - condition (an array will be AND'ed using db_where_clause, a string will be directly used)
      *                          (if you use a string, make sure it is correctly escaped!)
+     *                        - WARNING: will be changed to array only in the future, with an option to include a raw string inside the array
+     * @param array searchmode - operators to use (=, <, >) if $condition is an array. Defaults to = if not specified for a field.
      * @param integer limit - maximum number of rows to return
      * @param integer offset - number of first row to return
      * @return array - rows (as associative array, with the ID as key)
      */
-    protected function read_from_db($condition, $limit=-1, $offset=-1) {
+    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) {
         $select_cols = array();
 
         $yes = escape_string(Config::lang('YES'));
@@ -577,21 +579,23 @@ abstract class PFAHandler {
         $cols = join(',', $select_cols);
         $table = table_by_key($this->db_table);
 
-        if (is_array($condition)) {
-            $where = db_where_clause($condition, $this->struct);
-        } else {
-            if ($condition == "") $condition = '1=1';
-            $where = " WHERE ( $condition ) ";
-        }
-
+        $additional_where = '';
         if ($this->domain_field != "") {
-            $where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains);
+            $additional_where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains);
         }
 
         # if logged in as user, restrict to the items the user is allowed to see
         if ( (!$this->is_admin) && $this->user_field != '') {
-            $where .= " AND " . $this->user_field . " = '" . escape_string($this->username) . "' ";
+            $additional_where .= " AND " . $this->user_field . " = '" . escape_string($this->username) . "' ";
         }
+
+        if (is_array($condition)) {
+            $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode);
+        } else {
+            if ($condition == "") $condition = '1=1';
+            $where = " WHERE ( $condition ) $additional_where";
+        }
+
         $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->order_by;
 
         $limit  = (int) $limit; # make sure $limit and $offset are really integers
@@ -644,13 +648,30 @@ abstract class PFAHandler {
     /**
      * get a list of one or more items with all values
      * @param array or string $condition - see read_from_db for details
+     *        WARNING: will be changed to array only in the future, with an option to include a raw string inside the array
+     * @param array - modes to use if $condition is an array - see read_from_db for details
      * @param integer limit - maximum number of rows to return
      * @param integer offset - number of first row to return
      * @return bool - always true, no need to check ;-) (if $result is not an array, getList die()s)
      * The data is stored in $this->result (as array of rows, each row is an associative array of column => value)
      */
-    public function getList($condition, $limit=-1, $offset=-1) {
-        $result = $this->read_from_db($condition, $limit, $offset);
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+        if (is_array($condition)) {
+            $real_condition = array();
+            foreach ($condition as $key => $value) {
+                # allow only access to fields the user can access to avoid information leaks via search parameters
+                if (isset($this->struct[$key]) && ($this->struct[$key]['display_in_list'] || $this->struct[$key]['display_in_form']) ) {
+                    $real_condition[$key] = $value;
+                } else {
+                    $this->errormsg[] = "Ignoring unknown search field $key";
+                }
+            }
+        } else {
+            # warning: no sanity checks are applied if $condition is not an array!
+            $real_condition = $condition;
+        }
+
+        $result = $this->read_from_db($real_condition, $searchmode, $limit, $offset);
 
         if (!is_array($result)) {
             error_log('getList: read_from_db didn\'t return an array. table: ' . $this->db_table . ' - condition: $condition - limit: $limit - offset: $offset');
