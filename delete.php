@@ -32,11 +32,18 @@ if ( !preg_match('/^[a-z]+$/', $table) || !file_exists("model/$handlerclass.php"
     die ("Invalid table name given!");
 }
 
-$handler = new $handlerclass(0, $username);                                                                                                           
+$is_admin = authentication_has_role('admin');
 
+$handler  = new $handlerclass(0, $username, $is_admin);
 $formconf = $handler->webformConfig();
 
-authentication_require_role($formconf['required_role']);
+if ($is_admin) {
+    authentication_require_role($formconf['required_role']);
+} else {
+    if (empty($formconf['user_hardcoded_field'])) {
+        die($handlerclass . ' is not available for users');
+    }
+}
 
 if ($handler->init($id)) { # errors will be displayed as last step anyway, no need for duplicated code ;-)
     $handler->delete();
