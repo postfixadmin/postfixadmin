@@ -45,6 +45,24 @@
                         {foreach key=key2 item=field2 from=$value_{$key}}<p>{$field2} {/foreach}
                     {elseif $field.type == 'pass'}
                         (hidden)
+                    {elseif $field.type == 'quot'}
+                        {assign "tmpkey" "_{$key}_percent"}
+
+                        {if $item[$tmpkey]>90}
+                            {assign var="quota_level" value="high"}
+                        {elseif $item[$tmpkey]>55}
+                            {assign var="quota_level" value="mid"}
+                        {else} 
+                            {assign var="quota_level" value="low"}
+                        {/if}
+                        {if $item[$tmpkey] > -1}
+                            <div class="quota quota_{$quota_level}" style="width:{$item[$tmpkey] *1.2}px;"></div>
+                            <div class="quota_bg"></div></div>
+                            <div class="quota_text quota_text_{$quota_level}">{$item[$key]}</div>
+                        {else}
+                            {$item[$key]}
+                        {/if}
+
                     {elseif $field.type == 'txtl'}
                         {foreach key=key2 item=field2 from=$value_{$key}}<p>{$field2} {/foreach}
                     {else}
