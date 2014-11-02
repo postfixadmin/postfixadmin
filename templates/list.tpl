@@ -1,9 +1,9 @@
 <div id="overview">
 <form name="frmOverview" method="post" action="">
-    <select name="username" onchange="this.form.submit();">
-    {$select_options}
-    </select>
-    <input class="button" type="submit" name="go" value="{$PALANG.go}" />
+    {if ($admin_list|count > 1)}
+        {html_options name='username' output=$admin_list values=$admin_list selected=$admin_selected onchange="this.form.submit();"}
+        <input class="button" type="submit" name="go" value="{$PALANG.go}" />
+    {/if}
 </form>
 {#form_search#}
 </div>

@@ -48,7 +48,8 @@ authentication_require_role($formconf['required_role']);
 $handler->getList('');
 $items = $handler->result();
 
-$smarty->assign ('select_options', select_options($list_admins, array ($fUsername)), false);
+$smarty->assign('admin_list', $list_admins);
+$smarty->assign('admin_selected', $username);
 #if ($is_superadmin) {
     $smarty->assign('smarty_template', 'list');
     $smarty->assign('struct', $handler->getStruct());
