@@ -36,14 +36,22 @@ $is_superadmin = 0;
 if (authentication_has_role('global-admin')) { # more permissions? Fine!
     $list_admins = array_keys(list_admins());
     $is_superadmin = 1;
-    $username = safepost('username', safeget('username', authentication_get_username())); # prefer POST over GET variable
+    $username = safepost('username', safeget('username', $username)); # prefer POST over GET variable
 }
 
-$handler = new $handlerclass(0, $username);
+$is_admin = authentication_has_role('admin');
+
+$handler = new $handlerclass(0, $username, $is_admin);
 
 $formconf = $handler->webformConfig();
 
-authentication_require_role($formconf['required_role']);
+if ($is_admin) {
+    authentication_require_role($formconf['required_role']);
+} else {
+    if (empty($formconf['user_hardcoded_field'])) {
+        die($handlerclass . ' is not available for users');
+    }
+}
 
 $handler->getList('');
 $items = $handler->result();
