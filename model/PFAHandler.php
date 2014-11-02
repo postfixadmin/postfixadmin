@@ -29,6 +29,11 @@ abstract class PFAHandler {
     # defaults to $id_field if not set
     protected $label_field = null;
 
+    # field(s) to use in the ORDER BY clause
+    # can contain multiple comma-separated fields
+    # defaults to $id_field if not set
+    protected $order_by = null;
+
     # column containing the domain
     # if a table does not contain a domain column, leave empty and override no_domain_field())
     protected $domain_field = "";
@@ -122,6 +127,11 @@ abstract class PFAHandler {
         # set label_field if not explicitely set
         if (empty($this->label_field)) {
             $this->label_field = $this->id_field;
+        }
+
+        # set order_by if not explicitely set
+        if (empty($this->order_by)) {
+            $this->order_by = $this->id_field;
         }
 
         if ($new) $this->new = 1;
@@ -582,8 +592,7 @@ abstract class PFAHandler {
         if ( (!$this->is_admin) && $this->user_field != '') {
             $where .= " AND " . $this->user_field . " = '" . escape_string($this->username) . "' ";
         }
-
-        $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->id_field;
+        $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->order_by;
 
         $limit  = (int) $limit; # make sure $limit and $offset are really integers
         $offset = (int) $offset;
