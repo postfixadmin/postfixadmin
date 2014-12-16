@@ -16,16 +16,20 @@ $PALANG['cancel'] = 'Отменить';
 $PALANG['save'] = 'Сохранить изменения';
 $PALANG['confirm'] = 'Вы уверены, что хотите удалить это?\n';
 $PALANG['confirm_domain'] = 'Вы действительно хотите удалить все настройки для домена? Это действие нельзя будет отменить!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Проверить обновление';
 $PALANG['invalid_parameter'] = 'Некорректный параметр!';
 $PALANG['show'] = 'Показать:';
 $PALANG['all'] = 'Все';
 $PALANG['created'] = 'Created'; # XXX
 $PALANG['unknown'] = 'unknown'; # XXX
+$PALANG['download_csv'] = 'Download this list as CSV file'; # XXX
 $PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['must_be_numeric'] = '%s must be numeric'; # XXX
 $PALANG['must_be_boolean'] = '%s must be boolean'; # XXX
 $PALANG['invalid_value_given'] = 'Invalid value given for %s'; # XXX
+$PALANG['edit_not_allowed'] = 'You are not allowed to edit %s'; # XXX
+$PALANG['searchparams'] = 'Search parameters:'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Вошли как %s';
 

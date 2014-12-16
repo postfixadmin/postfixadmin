@@ -15,16 +15,20 @@ $PALANG['cancel'] = 'Cancelar';
 $PALANG['save'] = 'Gravar'; # XXX Text change: "Save" -> "Save changes"
 $PALANG['confirm'] = 'Tem certeza de que deseja remover?\n';
 $PALANG['confirm_domain'] = 'Tem certeza de que deseja remover todos os registros deste domínio? Essa ação não pode ser desfeita!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Checar por atualização';
 $PALANG['invalid_parameter'] = 'Parâmetro inválido!';
 $PALANG['show'] = 'Show:'; # XXX
 $PALANG['all'] = 'All'; # XXX
 $PALANG['created'] = 'Created'; # XXX
 $PALANG['unknown'] = 'unknown'; # XXX
+$PALANG['download_csv'] = 'Download this list as CSV file'; # XXX
 $PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['must_be_numeric'] = '%s must be numeric'; # XXX
 $PALANG['must_be_boolean'] = '%s must be boolean'; # XXX
 $PALANG['invalid_value_given'] = 'Invalid value given for %s'; # XXX
+$PALANG['edit_not_allowed'] = 'You are not allowed to edit %s'; # XXX
+$PALANG['searchparams'] = 'Search parameters:'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'Autenticado como %s'; # XXX Text change: 'logged in as %s' (the 'in' was missing)
 

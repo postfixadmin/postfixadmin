@@ -15,16 +15,20 @@ $PALANG['cancel'] = 'Abbrechen';
 $PALANG['save'] = 'Änderungen speichern';
 $PALANG['confirm'] = 'Sind Sie sicher dass Sie das löschen wollen?\n';
 $PALANG['confirm_domain'] = 'Wollen Sie wirklich alle Einträge dieser Domain löschen? Dies kann NICHT rückgängig gemacht werden!\n';
+$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Auf Updates überprüfen';
 $PALANG['invalid_parameter'] = 'Ungültiger Parameter!';
 $PALANG['show'] = 'Anzeigen:';
 $PALANG['all'] = 'Alle';
 $PALANG['created'] = 'Erstellt';
 $PALANG['unknown'] = 'unbekannt';
+$PALANG['download_csv'] = 'Diese Liste als CSV-Datei herunterladen';
 $PALANG['missing_field'] = 'Das Feld %s fehlt';
 $PALANG['must_be_numeric'] = '%s muss numerisch sein';
 $PALANG['must_be_boolean'] = "%s muss ein Bool'scher Wert sein";
 $PALANG['invalid_value_given'] = 'Ungültiger Wert für %s angegeben';
+$PALANG['edit_not_allowed'] = 'Sie dülrfen %s nicht bearbeiten!';
+$PALANG['searchparams'] = 'Suchparameter:';
 
 $PALANG['pFooter_logged_as'] = 'Angemeldet als %s';
 

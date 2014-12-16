@@ -472,6 +472,7 @@ class PostfixAdmin {
                 $this->stdout("    add       Add an item");
                 $this->stdout("    update    Update an item");
                 $this->stdout("    delete    Delete an item");
+                $this->stdout("    scheme    Print database scheme (useful for developers only)");
                 $this->stdout("    help      Print help output");
                 $this->stdout("");
                 $this->stdout("");

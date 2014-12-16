@@ -12,7 +12,7 @@ abstract class PFAHandler {
     public $infomsg = array();
 
     # array of tasks available in CLI
-    public $taskNames = array('Help', 'Add', 'Update', 'Delete', 'View');
+    public $taskNames = array('Help', 'Add', 'Update', 'Delete', 'View', 'Scheme');
 
     /**
      * variables that must be defined in all *Handler classes
@@ -25,9 +25,21 @@ abstract class PFAHandler {
     # field containing the ID
     protected $id_field = null;
 
+    # field containing the label
+    # defaults to $id_field if not set
+    protected $label_field = null;
+
+    # field(s) to use in the ORDER BY clause
+    # can contain multiple comma-separated fields
+    # defaults to $id_field if not set
+    protected $order_by = null;
+
     # column containing the domain
     # if a table does not contain a domain column, leave empty and override no_domain_field())
     protected $domain_field = "";
+
+    # column containing the username (if logged in as non-admin)
+    protected $user_field = '';
 
     # skip empty password fields in edit mode
     # enabled by default to allow changing an admin, mailbox etc. without changing the password
@@ -46,6 +58,14 @@ abstract class PFAHandler {
     # set in __construct()
     protected $admin_username = "";
 
+    # will be set to 0 if $admin_username is set and is not a superadmin
+    protected $is_superadmin = 1;
+
+    # if set, switch to user (non-admin) mode
+    protected $username = '';
+
+    # will be set to 0 if a user (non-admin) is logged in
+    protected $is_admin = 1;
 
     # the ID of the current item (where item can be an admin, domain, mailbox, alias etc.)
     # filled in init()
@@ -54,6 +74,19 @@ abstract class PFAHandler {
     # the domain of the current item (used for logging)
     # filled in domain_from_id() via init()
     protected $domain = null;
+
+    # the label of the current item (for usage in error/info messages)
+    # filled in init() (only contains the "real" label in edit mode - in new mode, it will be the same as $id)
+    protected $label = null;
+
+    # can this item be edited?
+    # filled in init() (only in edit mode)
+    protected $can_edit = 1;
+
+    # can this item be deleted?
+    # filled in init() (only in edit mode)
+    protected $can_delete = 1;
+    # TODO: needs to be implemented in delete()
 
     # structure of the database table, list, edit form etc.
     # filled in initStruct()
@@ -88,22 +121,64 @@ abstract class PFAHandler {
      * Constructor: fill $struct etc.
      * @param integer - 0 is edit mode, set to 1 to switch to create mode
      * @param string - if an admin_username is specified, permissions will be restricted to the domains this admin may manage
+     * @param integer - 0 if logged in as user, 1 if logged in as admin or superadmin
      */
-    public function __construct($new = 0, $admin_username = "") {
+    public function __construct($new = 0, $username = "", $is_admin = 1) {
+        # set label_field if not explicitely set
+        if (empty($this->label_field)) {
+            $this->label_field = $this->id_field;
+        }
+
+        # set order_by if not explicitely set
+        if (empty($this->order_by)) {
+            $this->order_by = $this->id_field;
+        }
+
         if ($new) $this->new = 1;
-        $this->admin_username = $admin_username;
+
+        if ($is_admin) {    
+            $this->admin_username = $username;
+        } else {
+            $this->username = $username;
+            $this->is_admin = 0;
+            $this->is_superadmin = 0;
+        }
+
+        if ($username != "" && (! authentication_has_role('global-admin') ) ) {
+            $this->is_superadmin = 0;
+        }
 
         if ($this->domain_field == "") {
             $this->no_domain_field();
         } else {
-            if ($admin_username != "") {
-                $this->allowed_domains = list_domains_for_admin($admin_username);
+            if ($this->admin_username != "") {
+                $this->allowed_domains = list_domains_for_admin($username);
             } else {
                 $this->allowed_domains = list_domains();
             }
         }
 
+        if ($this->user_field == '') {
+            $this->no_user_field();
+        }
+
         $this->initStruct();
+
+        if (!isset($this->struct['_can_edit'])) {
+            $this->struct['_can_edit'] = pacol( 0,          0,      1,      'vnum', ''                   , ''                  , '', '',
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ '1 as _can_edit'
+                );
+        }
+
+        if (!isset($this->struct['_can_delete'])) {
+            $this->struct['_can_delete'] = pacol( 0,          0,      1,      'vnum', ''                   , ''                  , '', '',
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ '1 as _can_delete'
+                );
+        }
 
         $struct_hook = Config::read($this->db_table . '_struct_hook');
         if ( $struct_hook != 'NO' && function_exists($struct_hook) ) {
@@ -123,20 +198,36 @@ abstract class PFAHandler {
     }
 
     /**
+     * ensure a lazy programmer can't give access to all items accidently
+     *
+     * to intentionally disable the check if $this->user_field is empty, override this function
+     */
+    protected function no_user_field() {
+            if ($this->username != '') die('Attemp to restrict users without setting $this->user_field!');
+    }
+
+
+
+    /**
      * init $this->struct (an array of pacol() results)
      * see pacol() in functions.inc.php for all available parameters
      *
      * available values for the "type" column:
      *    text  one line of text
+     *   *vtxt  "virtual" line of text, coming from JOINs etc.
      *    pass  password (will be encrypted with pacrypt())
      *    num   number
      *    txtl  text "list" - array of one line texts
-     *    vnum  "virtual" number, coming from JOINs etc.
+     *   *vnum  "virtual" number, coming from JOINs etc.
      *    bool  boolean (converted to 0/1, additional column _$field with yes/no)
      *    ts    timestamp (created/modified)
      *    enum  list of options, must be given in column "options" as array
+     *    enma  list of options, must be given in column "options" as associative array
      *    list  like enum, but allow multiple selections
+     *   *quot  used / total quota ("5 / 10") - for field "quotausage", there must also be a "_quotausage_percent" (type vnum)
      * You can use custom types, but you'll have to add handling for them in *Handler and the smarty templates
+     * 
+     * Field types marked with * will automatically be skipped in store().
      *
      * All database tables should have a 'created' and a 'modified' column.
      *
@@ -183,6 +274,7 @@ abstract class PFAHandler {
      */
     public function init($id) {
         $this->id = strtolower($id);
+        $this->label = $this->id;
 
         $exists = $this->view(false);
 
@@ -196,11 +288,14 @@ abstract class PFAHandler {
 #            } else {
 #                return true;
             }
-        } else { # edit mode
+        } else { # view or edit mode
             if (!$exists) {
                 $this->errormsg[$this->id_field] = Config::lang($this->msg['error_does_not_exist']);
                 return false;
-#            } else {
+            } else {
+                $this->can_edit   = $this->result['_can_edit'];
+                $this->can_delete = $this->result['_can_delete'];
+                $this->label      = $this->result[$this->label_field];
 #                return true;
             }
         }
@@ -255,6 +350,11 @@ abstract class PFAHandler {
      * error messages (if any) are stored in $this->errormsg
      */
     public function set($values) {
+        if ( !$this->can_edit ) {
+            $this->errormsg[] = Config::Lang_f('edit_not_allowed', $this->label);
+            return false;
+        }
+
         if ($this->new == 1) {
             $values[$this->id_field] = $this->id;
         }
@@ -372,6 +472,11 @@ abstract class PFAHandler {
                 case 'pass':
                     $db_values[$key] = pacrypt($db_values[$key]);
                     break;
+                case 'quot':
+                case 'vnum':
+                case 'vtxt':
+                    unset ($db_values[$key]); # virtual field, never write it
+                    break;
             }
             if ($this->struct[$key]['not_in_db'] == 1) unset ($db_values[$key]); # remove 'not in db' columns
             if ($this->struct[$key]['dont_write_to_db'] == 1) unset ($db_values[$key]); # remove 'dont_write_to_db' columns
@@ -383,7 +488,7 @@ abstract class PFAHandler {
             $result = db_update($this->db_table, $this->id_field, $this->id, $db_values);
         }
         if ($result != 1) {
-            $this->errormsg[] = Config::lang_f($this->msg['store_error'], $this->id);
+            $this->errormsg[] = Config::lang_f($this->msg['store_error'], $this->label);
             return false;
         }
 
@@ -395,7 +500,7 @@ abstract class PFAHandler {
         if ($result) {
             # return success message
             # TODO: add option to override the success message (for example to include autogenerated passwords)
-            $this->infomsg['success'] = Config::lang_f($this->msg['successmessage'], $this->id);
+            $this->infomsg['success'] = Config::lang_f($this->msg['successmessage'], $this->label);
         }
 
         return $result;
@@ -428,11 +533,13 @@ abstract class PFAHandler {
      *
      * @param array or string - condition (an array will be AND'ed using db_where_clause, a string will be directly used)
      *                          (if you use a string, make sure it is correctly escaped!)
+     *                        - WARNING: will be changed to array only in the future, with an option to include a raw string inside the array
+     * @param array searchmode - operators to use (=, <, >) if $condition is an array. Defaults to = if not specified for a field.
      * @param integer limit - maximum number of rows to return
      * @param integer offset - number of first row to return
      * @return array - rows (as associative array, with the ID as key)
      */
-    protected function read_from_db($condition, $limit=-1, $offset=-1) {
+    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) {
         $select_cols = array();
 
         $yes = escape_string(Config::lang('YES'));
@@ -472,18 +579,24 @@ abstract class PFAHandler {
         $cols = join(',', $select_cols);
         $table = table_by_key($this->db_table);
 
+        $additional_where = '';
+        if ($this->domain_field != "") {
+            $additional_where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains);
+        }
+
+        # if logged in as user, restrict to the items the user is allowed to see
+        if ( (!$this->is_admin) && $this->user_field != '') {
+            $additional_where .= " AND " . $this->user_field . " = '" . escape_string($this->username) . "' ";
+        }
+
         if (is_array($condition)) {
-            $where = db_where_clause($condition, $this->struct);
+            $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode);
         } else {
             if ($condition == "") $condition = '1=1';
-            $where = " WHERE ( $condition ) ";
+            $where = " WHERE ( $condition ) $additional_where";
         }
 
-        if ($this->domain_field != "") {
-            $where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains);
-        }
-
-        $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->id_field;
+        $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->order_by;
 
         $limit  = (int) $limit; # make sure $limit and $offset are really integers
         $offset = (int) $offset;
@@ -535,13 +648,30 @@ abstract class PFAHandler {
     /**
      * get a list of one or more items with all values
      * @param array or string $condition - see read_from_db for details
+     *        WARNING: will be changed to array only in the future, with an option to include a raw string inside the array
+     * @param array - modes to use if $condition is an array - see read_from_db for details
      * @param integer limit - maximum number of rows to return
      * @param integer offset - number of first row to return
      * @return bool - always true, no need to check ;-) (if $result is not an array, getList die()s)
      * The data is stored in $this->result (as array of rows, each row is an associative array of column => value)
      */
-    public function getList($condition, $limit=-1, $offset=-1) {
-        $result = $this->read_from_db($condition, $limit, $offset);
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+        if (is_array($condition)) {
+            $real_condition = array();
+            foreach ($condition as $key => $value) {
+                # allow only access to fields the user can access to avoid information leaks via search parameters
+                if (isset($this->struct[$key]) && ($this->struct[$key]['display_in_list'] || $this->struct[$key]['display_in_form']) ) {
+                    $real_condition[$key] = $value;
+                } else {
+                    $this->errormsg[] = "Ignoring unknown search field $key";
+                }
+            }
+        } else {
+            # warning: no sanity checks are applied if $condition is not an array!
+            $real_condition = $condition;
+        }
+
+        $result = $this->read_from_db($real_condition, $searchmode, $limit, $offset);
 
         if (!is_array($result)) {
             error_log('getList: read_from_db didn\'t return an array. table: ' . $this->db_table . ' - condition: $condition - limit: $limit - offset: $offset');
@@ -585,6 +715,10 @@ abstract class PFAHandler {
      */
     public function getStruct() {
         return $this->struct;
+    }
+
+    public function getMsg() {
+        return $this->msg;
     }
 
     public function getId_field() {
@@ -659,6 +793,15 @@ abstract class PFAHandler {
      */
     protected function _inp_enum($field, $val) {
         if(in_array($val, $this->struct[$field]['options'])) return true;
+        $this->errormsg[$field] = Config::Lang_f('invalid_value_given', $field);
+        return false;
+    }
+
+    /**
+      * check if value of an enum field is in the list of allowed values
+     */
+    protected function _inp_enma($field, $val) {
+        if(array_key_exists($val, $this->struct[$field]['options'])) return true;
         $this->errormsg[$field] = Config::Lang_f('invalid_value_given', $field);
         return false;
     }

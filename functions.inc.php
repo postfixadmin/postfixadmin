@@ -15,7 +15,7 @@
  * Contains re-usable code.
  */
 
-$version = '2.91';
+$version = '2.92';
 
 /**
  * check_session
@@ -385,12 +385,22 @@ function safesession ($param, $default="") {
  * @param String PALANG_desc
  * @param any optional $default
  * @param array optional $options
- * @param int $not_in_db
+ * @param int or $not_in_db - if array, can contain the remaining parameters as associated array
+ * @param ...
  * @return array for $struct
  */
-function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $not_in_db=0, $dont_write_to_db=0, $select="", $extrafrom="") {
+function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $multiopt=0, $dont_write_to_db=0, $select="", $extrafrom="", $linkto="") {
     if ($PALANG_label != '') $PALANG_label = Config::lang($PALANG_label);
     if ($PALANG_desc  != '') $PALANG_desc  = Config::lang($PALANG_desc );
+
+    if (is_array($multiopt)) { # remaining parameters provided in named array
+        $not_in_db = 0; # keep default value
+        foreach ($multiopt as $key => $value) {
+            $$key = $value; # extract everything to the matching variable
+        }
+    } else {
+        $not_in_db = $multiopt;
+    }
 
     return array(
         'editable'          => $allow_editing,
@@ -405,6 +415,7 @@ function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALAN
         'dont_write_to_db'  => $dont_write_to_db,
         'select'            => $select,         # replaces the field name after SELECT
         'extrafrom'         => $extrafrom,      # added after FROM xy - useful for JOINs etc.
+        'linkto'            => $linkto,         # make the value a link - %s will be replaced with the ID
     );
 }
 
@@ -1303,6 +1314,34 @@ function db_get_boolean($bool) {
 }
 
 /**
+ * Returns a query that reports the used quota ("x / y")
+ * @param string column containing used quota
+ * @param string column containing allowed quota
+ * @param string column that will contain "x / y"
+ * @return string
+ */
+function db_quota_text($count, $quota, $fieldname) {
+    return " CASE $quota
+        WHEN '-1' THEN coalesce($count,0)
+        ELSE CONCAT(coalesce($count,0), ' / ', $quota)   
+    END AS $fieldname";
+}
+
+/**
+ * Returns a query that reports the used quota ("x / y")
+ * @param string column containing used quota
+ * @param string column containing allowed quota
+ * @param string column that will contain "x / y"
+ * @return string
+ */
+function db_quota_percent($count, $quota, $fieldname) {
+    return " CASE $quota   
+        WHEN '-1' THEN -1
+        ELSE round(100 * coalesce($count,0) / $quota)
+    END AS $fieldname";
+}
+
+/**
  * returns true if PostgreSQL is used, false otherwise
  */
 function db_pgsql() {
@@ -1578,21 +1617,54 @@ function db_in_clause($field, $values) {
  * Call: db_where_clause (array $conditions, array $struct)
  * param array $conditios: array('field' => 'value', 'field2' => 'value2, ...)
  * param array $struct - field structure, used for automatic bool conversion
+ * param string $additional_raw_where - raw sniplet to include in the WHERE part - typically needs to start with AND
+ * param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see 
+ *                           $allowed_operators for available operators)
  */
-function db_where_clause($condition, $struct) {
+function db_where_clause($condition, $struct, $additional_raw_where = '', $searchmode = array()) {
     if (!is_array($condition)) {
         die('db_where_cond: parameter $cond is not an array!');
+    } elseif(!is_array($searchmode)) {
+        die('db_where_cond: parameter $searchmode is not an array!');
     } elseif (count($condition) == 0) {
         die("db_where_cond: parameter is an empty array!"); # die() might sound harsh, but can prevent information leaks 
     } elseif(!is_array($struct)) {
         die('db_where_cond: parameter $struct is not an array!');
     }
 
+    $allowed_operators = explode(' ', '< > >= <= = != <> CONT LIKE');
+    $where_parts = array();
+    $having_parts = array();
+
     foreach($condition as $field => $value) {
         if (isset($struct[$field]) && $struct[$field]['type'] == 'bool') $value = db_get_boolean($value);
-        $parts[] = "$field='" . escape_string($value) . "'";
+        $operator = '=';
+        if (isset($searchmode[$field])) {
+            if (in_array($searchmode[$field], $allowed_operators)) {
+                $operator = $searchmode[$field];
+
+                if ($operator == 'CONT') { # CONT - as in "contains"
+                    $operator = ' LIKE '; # add spaces
+                    $value = '%' . $value . '%';
+                } elseif ($operator == 'LIKE') { # LIKE -without adding % wildcards (the search value can contain %)
+                    $operator = ' LIKE '; # add spaces
+                }
+            } else {
+                die('db_where_clause: Invalid searchmode for ' . $field);
+            }
+        }
+        $querypart = $field . $operator . "'" . escape_string($value) . "'";
+        if($struct[$field]['select'] != '') {
+            $having_parts[$field] = $querypart;
+        } else {
+            $where_parts[$field] = $querypart;
+        }
     }
-    $query = " WHERE ( " . join(" AND ", $parts) . " ) ";
+    $query = ' WHERE 1=1 ';
+    $query .= " $additional_raw_where ";
+    if (count($where_parts)  > 0) $query .= " AND    ( " . join(" AND ", $where_parts)  . " ) ";
+    if (count($having_parts) > 0) $query .= " HAVING ( " . join(" AND ", $having_parts) . " ) ";
+
 	return $query;
 }
 

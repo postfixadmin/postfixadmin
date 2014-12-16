@@ -39,11 +39,18 @@ $edit = safepost('edit', safeget('edit'));
 $new  = 0;
 if ($edit == "") $new = 1;
 
-$handler     = new $handlerclass($new, $username);
+$is_admin = authentication_has_role('admin');
 
+$handler  = new $handlerclass($new, $username, $is_admin);
 $formconf = $handler->webformConfig();
 
-authentication_require_role($formconf['required_role']);
+if ($is_admin) {
+    authentication_require_role($formconf['required_role']);
+} else {
+    if (empty($formconf['user_hardcoded_field'])) {
+        die($handlerclass . ' is not available for users');
+    }
+}
 
 if ($new == 0 || $formconf['early_init']) {
     if (!$handler->init($edit)) {

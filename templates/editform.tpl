@@ -17,7 +17,11 @@
 				<td class="label">{$field.label}</td>
 				<td>
 				{if $field.editable == 0}
-					{$value_{$key}}
+					{if $field.type == 'enma'}
+						{$struct.{$key}.options.{$value_{$key}}}
+					{else}
+						{$value_{$key}}
+					{/if}
 				{else}
 					{if $table == 'foo' && $key == 'bar'}
 						Special handling (td content) for {$table} / {$key}
@@ -26,6 +30,10 @@
 					{elseif $field.type == 'enum'}
 						<select class="flat" name="value[{$key}]">
 						{html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
+						</select>
+					{elseif $field.type == 'enma'}
+						<select class="flat" name="value[{$key}]">
+						{html_options options=$struct.{$key}.options selected=$value_{$key}}
 						</select>
 					{elseif $field.type == 'list'}
 						<select class="flat" name="value[{$key}][]" size="10" multiple="multiple">

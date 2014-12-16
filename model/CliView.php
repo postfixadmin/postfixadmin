@@ -1,4 +1,5 @@
 <?php
+# $Id$ 
 /**
  * class to handle 'view' in Cli
  */

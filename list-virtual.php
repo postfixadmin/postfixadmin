@@ -126,7 +126,7 @@ $alias_pagebrowser_query = "
 ";
 
 $handler = new AliasHandler(0, $admin_username);
-$handler->getList($list_param, $page_size, $fDisplay);
+$handler->getList($list_param, array(), $page_size, $fDisplay);
 $tAlias = $handler->result();
 
 

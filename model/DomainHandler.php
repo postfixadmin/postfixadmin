@@ -30,9 +30,11 @@ class DomainHandler extends PFAHandler {
     protected function initStruct() {
         # TODO: shorter PALANG labels ;-)
 
-        $transp = Config::intbool('transport');
-        $quota  = Config::intbool('quota');
-        $dom_q  = Config::intbool('domain_quota');
+        $super = $this->is_superadmin;
+
+        $transp = min($super, Config::intbool('transport'));
+        $quota  = min($super, Config::intbool('quota'));
+        $dom_q  = min($super, Config::intbool('domain_quota'));
 
         # NOTE: There are dependencies between alias_count, mailbox_count and total_quota.
         # NOTE: If you disable "display in list" for one of them, the SQL query for the others might break.
@@ -42,15 +44,15 @@ class DomainHandler extends PFAHandler {
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
            'domain'          => pacol(  $this->new, 1,      1,      'text', 'domain'                       , ''                                 ),
-           'description'     => pacol(  1,          1,      1,      'text', 'description'                  , ''                                 ),
-           'aliases'         => pacol(  1,          1,      1,      'num' , 'aliases'                      , 'pAdminEdit_domain_aliases_text'   , Config::read('aliases')   ),
+           'description'     => pacol(  $super,     1,      1,      'text', 'description'                  , ''                                 ),
+           'aliases'         => pacol(  $super,     $super, 1,      'num' , 'aliases'                      , 'pAdminEdit_domain_aliases_text'   , Config::read('aliases')   ),
            'alias_count'     => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '',
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ 'coalesce(__alias_count,0) - coalesce(__mailbox_count,0)  as alias_count',
                /*extrafrom*/ 'left join ( select count(*) as __alias_count, domain as __alias_domain from ' . table_by_key('alias') .
                              ' group by domain) as __alias on domain = __alias_domain'),
-           'mailboxes'       => pacol(  1,          1,      1,      'num' , 'mailboxes'                    , 'pAdminEdit_domain_aliases_text'   , Config::read('mailboxes') ),
+           'mailboxes'       => pacol(  $super,     $super, 1,      'num' , 'mailboxes'                    , 'pAdminEdit_domain_aliases_text'   , Config::read('mailboxes') ),
            'mailbox_count'   => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '',
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
@@ -65,11 +67,21 @@ class DomainHandler extends PFAHandler {
            'quota'           => pacol(  $dom_q,     $dom_q, $dom_q, 'num' , 'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
            'transport'       => pacol(  $transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
                /*options*/ Config::read('transport_options')    ),
-           'backupmx'        => pacol(  1,          1,      1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 , 0),
-           'active'          => pacol(  1,          1,      1,      'bool', 'active'                       , ''                                 , 1                         ),
+           'backupmx'        => pacol(  $super,     $super, 1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 , 0),
+           'active'          => pacol(  $super,     $super, 1,      'bool', 'active'                       , ''                                 , 1                         ),
            'default_aliases' => pacol(  $this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,'', /*not in db*/ 1     ),
            'created'         => pacol(  0,          0,      1,      'ts',   'created'                      , ''                                 ),
            'modified'        => pacol(  0,          0,      1,      'ts',   'last_modified'                , ''                                 ),
+            '_can_edit'       => pacol( 0,          0,      1,      'int', ''                             , ''                                , 0 ,
+                /*options*/ '',
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ $this->is_superadmin . ' as _can_edit'              ),
+            '_can_delete'     => pacol( 0,          0,      1,      'int', ''                             , ''                                , 0 ,
+                /*options*/ '',
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ $this->is_superadmin . ' as _can_delete'            ),
         );
     }
 
@@ -95,10 +107,21 @@ class DomainHandler extends PFAHandler {
             'create_button' => 'pAdminCreate_domain_button',
 
             # various settings
-            'required_role' => 'global-admin',
+            'required_role' => 'admin',
             'listview' => 'list-domain.php',
             'early_init' => 0,
         );
+    }
+
+
+    protected function beforestore() {
+        # TODO: is this function superfluous? _can_edit should already cover this
+        if ($this->is_superadmin) {
+            return true;
+        }
+
+        $this->errormsg[] = Config::Lang('edit_not_allowed', $this->id);
+        return false;
     }
 
     /**
@@ -138,6 +161,12 @@ class DomainHandler extends PFAHandler {
      *  @return true on success false on failure
      */
     public function delete() {
+        # TODO: check for _can_delete instead
+        if (! $this->is_superadmin) {
+            $this->errormsg[] = Config::Lang_f('no_delete_permissions', $this->id);
+            return false;
+        }
+
         if ( ! $this->view() ) {
             $this->errormsg[] = Config::Lang('domain_does_not_exist'); # TODO: can users hit this message at all? init() should already fail...
             return false;
