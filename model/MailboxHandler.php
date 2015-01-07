@@ -17,7 +17,7 @@ class MailboxHandler extends PFAHandler {
             #                           editing?    form    list
             'username'      => pacol(   $this->new, 1,      1,      'mail', 'pEdit_mailbox_username'        , ''                                , '' ),
             'local_part'    => pacol(   $this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '' ),
-            'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 
+            'domain'        => pacol(   $this->new, 0,      1,      'enum', ''                              , ''                                , '', 
                 /*options*/ $this->allowed_domains      ),
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)

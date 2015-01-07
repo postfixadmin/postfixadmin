@@ -30,7 +30,7 @@ class AliasHandler extends PFAHandler {
             'localpart'     => pacol(   $this->new, 0,      0,      'text', 'alias'                         , 'pCreate_alias_catchall_text'     , '', 
                 /*options*/ '', 
                 /*not_in_db*/ 1                         ),
-            'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 
+            'domain'        => pacol(   $this->new, 0,      1,      'enum', ''                              , ''                                , '', 
                 /*options*/ $this->allowed_domains      ),
             'goto'          => pacol(   1,          1,      1,      'txtl', 'to'                            , 'pEdit_alias_help'                , array() ),
             'is_mailbox'    => pacol(   0,          0,      1,      'int', ''                             , ''                                , 0 ,
