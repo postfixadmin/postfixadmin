@@ -463,6 +463,8 @@ class MailboxHandler extends PFAHandler {
             return true; # enforcing domain_quota is disabled - just allow it
         } elseif ($limit['quota'] <= 0) { # TODO: CHECK - 0 (unlimited) is fine, not sure about <= -1 (disabled)...
             $rval = true;
+        } elseif ($quota == 0) { # trying to create an unlimited mailbox, but domain quota is set
+            return false;
         } else {
             $table_mailbox = table_by_key('mailbox');
             $query = "SELECT SUM(quota) FROM $table_mailbox WHERE domain = '" . escape_string($domain) . "'";
