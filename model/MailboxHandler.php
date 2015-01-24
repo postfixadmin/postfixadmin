@@ -265,7 +265,8 @@ class MailboxHandler extends PFAHandler {
             } else {
                 $oldvalues = $old_mh->result();
 
-                $maildir = $oldvalues['maildir'];
+                $this->values['maildir'] = $oldvalues['maildir'];
+
                 if (isset($this->values['quota'])) {
                     $quota = $this->values['quota'];
                 } else {
