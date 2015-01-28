@@ -17,7 +17,7 @@ class MailboxHandler extends PFAHandler {
             #                           editing?    form    list
             'username'      => pacol(   $this->new, 1,      1,      'mail', 'pEdit_mailbox_username'        , ''                                , '' ),
             'local_part'    => pacol(   $this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '' ),
-            'domain'        => pacol(   $this->new, 0,      0,      'enum', ''                              , ''                                , '', 
+            'domain'        => pacol(   $this->new, 0,      1,      'enum', ''                              , ''                                , '', 
                 /*options*/ $this->allowed_domains      ),
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
@@ -265,7 +265,8 @@ class MailboxHandler extends PFAHandler {
             } else {
                 $oldvalues = $old_mh->result();
 
-                $maildir = $oldvalues['maildir'];
+                $this->values['maildir'] = $oldvalues['maildir'];
+
                 if (isset($this->values['quota'])) {
                     $quota = $this->values['quota'];
                 } else {
@@ -463,6 +464,8 @@ class MailboxHandler extends PFAHandler {
             return true; # enforcing domain_quota is disabled - just allow it
         } elseif ($limit['quota'] <= 0) { # TODO: CHECK - 0 (unlimited) is fine, not sure about <= -1 (disabled)...
             $rval = true;
+        } elseif ($quota == 0) { # trying to create an unlimited mailbox, but domain quota is set
+            return false;
         } else {
             $table_mailbox = table_by_key('mailbox');
             $query = "SELECT SUM(quota) FROM $table_mailbox WHERE domain = '" . escape_string($domain) . "'";
