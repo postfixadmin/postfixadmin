@@ -135,10 +135,20 @@ if($r['rows'] == 1) {
 
 _do_upgrade($version);
 
-
 function _do_upgrade($current_version) {
     global $CONF;
-    $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
+
+    $target_version = 0;
+    // Rather than being bound to an svn revision number, just look for the largest function name that matches upgrade_\d+...
+    // $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
+    $our_upgrade_functions = array_filter(get_defined_functions()['user'], function($name) { return preg_match('/upgrade_[\d]+(_mysql|_pgsql)?$/', $name) == 1; } );
+    foreach($our_upgrade_functions as $function_name) {
+        $bits = explode("_", $function_name);
+        $function_number = $bits[1];
+        if($function_number > $current_version && $function_number > $target_version) {
+            $target_version = $function_number;
+        }
+    }
 
     if ($current_version >= $target_version) {
         # already up to date
