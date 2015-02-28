@@ -84,7 +84,8 @@
                             <div class="quota_bg"></div></div>
                             <div class="quota_text quota_text_{$quota_level}">{$linktext}</div>
                         {else}
-                            {$item[$key]}
+                            <div class="quota_bg quota_no_border"></div></div>
+                            <div class="quota_text">{$linktext}</div>
                         {/if}
 
                     {elseif $field.type == 'txtl'}
