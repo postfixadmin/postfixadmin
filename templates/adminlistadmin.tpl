@@ -9,7 +9,7 @@
 		</tr>
 {foreach from=$admin_properties item=admin}
 		{#tr_hilightoff#}
-			<td><a href="list-domain.php?username={$admin.username|escape:"url"}">{$admin.username}</a></td>
+			<td><a href="list.php?table=domain&amp;username={$admin.username|escape:"url"}">{$admin.username}</a></td>
 			<td>
 				{if $admin.superadmin == 1}
 					{$PALANG.super_admin}
