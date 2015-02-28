@@ -46,7 +46,7 @@ if (count($list_domains) == 0) {
     } else {
         flash_error($PALANG['no_domains_for_this_admin']);
     }
-    header("Location: list-domain.php"); # no domains (for this admin at least) - redirect to domain list
+    header("Location: list.php?table=domain"); # no domains (for this admin at least) - redirect to domain list
     exit;
 }
 
@@ -59,14 +59,14 @@ if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) {
 if(!in_array($fDomain, $list_domains)) {
     flash_error( $PALANG['invalid_parameter'] );
     unset($_SESSION['list-virtual:domain']);
-    header("Location: list-domain.php"); # invalid domain, or not owned by this admin
+    header("Location: list.php?table=domain"); # invalid domain, or not owned by this admin
     exit;
 }
 
 if (!check_owner(authentication_get_username(), $fDomain)) { 
     flash_error( $PALANG['invalid_parameter'] . " If you see this message, please open a bugreport"); # this check is most probably obsoleted by the in_array() check above
     unset($_SESSION['list-virtual:domain']);
-    header("Location: list-domain.php"); # domain not owned by this admin
+    header("Location: list.php?table=domain"); # domain not owned by this admin
     exit(0);
 }
 
