@@ -56,9 +56,13 @@
                         Special handling (td content) for {$table} / {$key}
 {*                    {elseif $table == 'domain' && $key == 'domain'}
                         <a href="list.php?table=domain&domain={$item.domain|escape:"url"}">{$item.domain}</a>
-*}                        
+*}
                     {elseif $key == 'active'}
-                        <a href="{#url_editactive#}{$table}&amp;id={$item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$item._active}</a>
+                        {if $item._can_edit}
+                            <a href="{#url_editactive#}{$table}&amp;id={$item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$item._active}</a>
+                        {else}
+                            {$item._active}
+                        {/if}
                     {elseif $field.type == 'bool'}
                         {assign "tmpkey" "_{$key}"}{$item.{$tmpkey}}
                     {elseif $field.type == 'list'}
@@ -80,7 +84,8 @@
                             <div class="quota_bg"></div></div>
                             <div class="quota_text quota_text_{$quota_level}">{$linktext}</div>
                         {else}
-                            {$item[$key]}
+                            <div class="quota_bg quota_no_border"></div></div>
+                            <div class="quota_text">{$linktext}</div>
                         {/if}
 
                     {elseif $field.type == 'txtl'}

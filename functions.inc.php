@@ -1322,8 +1322,9 @@ function db_get_boolean($bool) {
  */
 function db_quota_text($count, $quota, $fieldname) {
     return " CASE $quota
-        WHEN '-1' THEN coalesce($count,0)
-        ELSE CONCAT(coalesce($count,0), ' / ', $quota)   
+        WHEN '-1' THEN CONCAT(coalesce($count,0), ' / -')
+        WHEN '0' THEN CONCAT(coalesce($count,0), ' / ', '" . escape_string(html_entity_decode('&infin;')) . "')
+        ELSE CONCAT(coalesce($count,0), ' / ', $quota)
     END AS $fieldname";
 }
 
@@ -1335,8 +1336,9 @@ function db_quota_text($count, $quota, $fieldname) {
  * @return string
  */
 function db_quota_percent($count, $quota, $fieldname) {
-    return " CASE $quota   
+    return " CASE $quota
         WHEN '-1' THEN -1
+        WHEN '0' THEN -1
         ELSE round(100 * coalesce($count,0) / $quota)
     END AS $fieldname";
 }
