@@ -76,7 +76,9 @@
 	<li><a target="_top" href="{#url_backup#}">{$PALANG.pAdminMenu_backup}</a></li>
 {/if}
 {* viewlog *}
+{if $CONF.logging==='YES'}
 	<li><a target="_top" href="{#url_viewlog#}">{$PALANG.pMenu_viewlog}</a></li>
+{/if}
 {* logout *}
 	<li class="logout"><a target="_top" href="{#url_logout#}">{$PALANG.pMenu_logout}</a></li>
 </ul>
