@@ -218,6 +218,7 @@ abstract class PFAHandler {
      *    text  one line of text
      *   *vtxt  "virtual" line of text, coming from JOINs etc.
      *    pass  password (will be encrypted with pacrypt())
+     *    b64p  password (will be stored with base64_encode())
      *    num   number
      *    txtl  text "list" - array of one line texts
      *   *vnum  "virtual" number, coming from JOINs etc.
@@ -228,7 +229,7 @@ abstract class PFAHandler {
      *    list  like enum, but allow multiple selections
      *   *quot  used / total quota ("5 / 10") - for field "quotausage", there must also be a "_quotausage_percent" (type vnum)
      * You can use custom types, but you'll have to add handling for them in *Handler and the smarty templates
-     * 
+     *
      * Field types marked with * will automatically be skipped in store().
      *
      * All database tables should have a 'created' and a 'modified' column.
@@ -398,7 +399,12 @@ abstract class PFAHandler {
                 }
             } else { # field is editable
                 if (isset($values[$key])) {
-                    if ($row['type'] != "pass" || strlen($values[$key]) > 0 || $this->new == 1 || $this->skip_empty_pass != true) { # skip on empty (aka unchanged) password on edit
+                    if (
+                        ($row['type'] != "pass" && $row['type'] != 'b64p') || # field  type is NOT 'pass' or 'b64p' - or -
+                        strlen($values[$key]) > 0 ||    # new value is not empty - or -
+                        $this->new == 1 ||              # create mode - or -
+                        $this->skip_empty_pass != true  # skip on empty (aka unchanged) password on edit
+                    ) {
 # TODO: do not skip "password2" if "password" is filled, but "password2" is empty
                         $valid = true; # trust input unless validator objects
 
@@ -473,6 +479,9 @@ abstract class PFAHandler {
                     break;
                 case 'pass':
                     $db_values[$key] = pacrypt($db_values[$key]);
+                    break;
+                case 'b64p':
+                    $db_values[$key] = base64_encode($db_values[$key]);
                     break;
                 case 'quot':
                 case 'vnum':
@@ -549,8 +558,10 @@ abstract class PFAHandler {
 
         if (db_pgsql()) {
             $formatted_date = "TO_DATE(text(###KEY###), '" . escape_string(Config::Lang('dateformat_pgsql')) . "')";
+            $base64_decode = "DECODE(###KEY###, 'base64')";
         } else {
             $formatted_date = "DATE_FORMAT(###KEY###, '"   . escape_string(Config::Lang('dateformat_mysql')) . "')";
+            $base64_decode = "FROM_BASE64(###KEY###)";
         }
 
         $colformat = array(
@@ -559,6 +570,7 @@ abstract class PFAHandler {
             # 'bool' fields are always returned as 0/1, additonally _$field contains yes/no (already translated)
             'bool' => "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '1'    WHEN '" . db_get_boolean(false) . "' THEN '0'   END as ###KEY###," .
                       "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '$yes' WHEN '" . db_get_boolean(false) . "' THEN '$no' END as _###KEY###",
+            'b64p' => "$base64_decode AS ###KEY###",
         );
 
         # get list of fields to display
