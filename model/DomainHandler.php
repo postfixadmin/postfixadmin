@@ -111,6 +111,8 @@ class DomainHandler extends PFAHandler {
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'pAdminCreate_domain_domain_text_error';
         $this->msg['error_does_not_exist'] = 'domain_does_not_exist';
+        $this->msg['confirm_delete'] = 'confirm_delete_domain';
+
         if ($this->new) {
             $this->msg['logname'] = 'create_domain';
             $this->msg['store_error'] = 'pAdminCreate_domain_result_error';

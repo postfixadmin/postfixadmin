@@ -111,7 +111,9 @@ abstract class PFAHandler {
     # messages used in various functions
     # (stored separately to make the functions reuseable)
     # filled by initMsg()
-    protected $msg = array();
+    protected $msg = array(
+        'confirm_delete' => 'confirm',
+    );
 
     # called via another *Handler class? (use calledBy() to set this information)
     protected $called_by = '';

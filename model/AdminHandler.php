@@ -81,6 +81,8 @@ class AdminHandler extends PFAHandler {
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'admin_already_exists';
         $this->msg['error_does_not_exist'] = 'admin_does_not_exist';
+        $this->msg['confirm_delete'] = 'confirm_delete_admin';
+
         if ($this->new) {
             $this->msg['logname'] = 'create_admin';
             $this->msg['store_error'] = 'pAdminCreate_admin_result_error';

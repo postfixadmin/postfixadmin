@@ -89,6 +89,8 @@ class MailboxHandler extends PFAHandler {
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'email_address_already_exists';
         $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1';
+        $this->msg['confirm_delete'] = 'confirm_delete_mailbox';
+
         if ($this->new) {
             $this->msg['logname'] = 'create_mailbox';
             $this->msg['store_error'] = 'pCreate_mailbox_result_error';

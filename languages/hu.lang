@@ -13,7 +13,13 @@ $PALANG['exit'] = 'Kilép';
 $PALANG['cancel'] = 'Cancel'; # XXX
 $PALANG['save'] = 'Save changes'; # XXX
 $PALANG['confirm'] = 'Biztos vagy benne hogy törlöd ezt?\n';
-$PALANG['confirm_domain'] = 'Biztos hogy törölni akarod az összes bejegyzést ez alól a domain alól? Nem lehet visszahozni késõbb!\n';
+$PALANG['confirm_delete_admin'] = 'Do you really want to delete the admin %s?'; # XXX
+$PALANG['confirm_delete_alias'] = 'Do you really want to delete the alias %s?'; # XXX
+$PALANG['confirm_delete_aliasdomain'] = 'Do you really want to delete the alias domain %s?'; # XXX
+$PALANG['confirm_delete_domain'] = 'Biztos hogy törölni akarod az összes bejegyzést ez alól a domain alól? Nem lehet visszahozni késõbb!\n (%s)'; # XXX XXX text changed to: 'Do you really want to delete all records for the domain %s? This can not be undone'
+$PALANG['confirm_delete_fetchmail'] = 'Do you really want to delete the fetchmail job %s?'; # XXX
+$PALANG['confirm_delete_mailbox'] = 'Do you really want to delete the mailbox %s?'; # XXX
+$PALANG['confirm_delete_vacation'] = 'Do you really want to delete the vacation message for %s?'; # XXX
 $PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Check for update'; # XXX
 $PALANG['invalid_parameter'] = 'Invalid parameter!'; # XXX
@@ -206,6 +212,9 @@ $PALANG['pViewlog_action_create_admin'] = 'create admin'; # XXX
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin'; # XXX
 $PALANG['pViewlog_action_delete_admin'] = 'delete admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'edit vacation'; # XXX
+$PALANG['pViewlog_action_create_fetchmail'] = 'create fetchmail job'; # XXX
+$PALANG['pViewlog_action_edit_fetchmail'] = 'edit fetchmail job'; # XXX
+$PALANG['pViewlog_action_delete_fetchmail'] = 'delete fetchmail job'; # XXX
 
 $PALANG['pViewlog_result_error'] = 'Nemsikerült megtalálni a napló fájlokat!';
 

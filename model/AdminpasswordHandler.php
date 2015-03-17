@@ -52,6 +52,7 @@ class AdminpasswordHandler extends PFAHandler {
     public function initMsg() {
         $this->msg['error_already_exists'] = 'admin_already_exists'; # probably unused
         $this->msg['error_does_not_exist'] = 'admin_does_not_exist'; # probably unused
+        $this->msg['confirm_delete'] = 'confirm_delete_admin'; # probably unused
 
         $this->msg['logname'] = 'edit_password';
         $this->msg['store_error'] = 'pPassword_result_error';

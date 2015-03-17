@@ -15,7 +15,13 @@ $PALANG['exit'] = 'Quitter';
 $PALANG['cancel'] = 'Annuler';
 $PALANG['save'] = 'Enregistrer les modifications';
 $PALANG['confirm'] = 'Etes vous sur de vouloir supprimer cet enregistrement\n';
-$PALANG['confirm_domain'] = 'Etes-vous sur de vouloir effacer tous les enregistrements dans ce domaine ? Cette opération ne pourra pas être annulée.\n';
+$PALANG['confirm_delete_admin'] = 'Do you really want to delete the admin %s?'; # XXX
+$PALANG['confirm_delete_alias'] = 'Do you really want to delete the alias %s?'; # XXX
+$PALANG['confirm_delete_aliasdomain'] = 'Do you really want to delete the alias domain %s?'; # XXX
+$PALANG['confirm_delete_domain'] = 'Etes-vous sur de vouloir effacer tous les enregistrements dans ce domaine ? Cette opération ne pourra pas être annulée.\n (%s)'; # XXX XXX text changed to: 'Do you really want to delete all records for the domain %s? This can not be undone'
+$PALANG['confirm_delete_fetchmail'] = 'Do you really want to delete the fetchmail job %s?'; # XXX
+$PALANG['confirm_delete_mailbox'] = 'Do you really want to delete the mailbox %s?'; # XXX
+$PALANG['confirm_delete_vacation'] = 'Do you really want to delete the vacation message for %s?'; # XXX
 $PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
 $PALANG['check_update'] = 'Vérifier les mises à jour';
 $PALANG['invalid_parameter'] = 'Paramètres invalides!';
@@ -202,6 +208,9 @@ $PALANG['pViewlog_action_create_admin'] = 'créer un admin';
 $PALANG['pViewlog_action_edit_admin'] = 'modifier un admin';
 $PALANG['pViewlog_action_delete_admin'] = 'delete admin'; # XXX
 $PALANG['pViewlog_action_edit_vacation'] = 'modifier le répondeur';
+$PALANG['pViewlog_action_create_fetchmail'] = 'create fetchmail job'; # XXX
+$PALANG['pViewlog_action_edit_fetchmail'] = 'edit fetchmail job'; # XXX
+$PALANG['pViewlog_action_delete_fetchmail'] = 'delete fetchmail job'; # XXX
 
 $PALANG['pViewlog_result_error'] = 'Impossible de trouver le journal des événements!';
 
