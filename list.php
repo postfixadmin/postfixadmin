@@ -30,11 +30,9 @@ if ( !preg_match('/^[a-z]+$/', $table) || !file_exists("model/$handlerclass.php"
 }
 
 # default: domain admin restrictions
-$list_admins = array($username);
 $is_superadmin = 0;
 
 if (authentication_has_role('global-admin')) { # more permissions? Fine!
-    $list_admins = array_keys(list_admins());
     $is_superadmin = 1;
     $username = safepost('username', safeget('username', $username)); # prefer POST over GET variable
 }
@@ -44,6 +42,11 @@ $is_admin = authentication_has_role('admin');
 $handler = new $handlerclass(0, $username, $is_admin);
 
 $formconf = $handler->webformConfig();
+
+$list_admins = array($username);
+if ($is_superadmin && $formconf['required_role'] != 'global-admin') { # 'simulate admin' dropdown doesn't make sense for superadmin-only modules
+    $list_admins = array_keys(list_admins());
+}
 
 if ($is_admin) {
     authentication_require_role($formconf['required_role']);
