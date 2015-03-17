@@ -104,7 +104,7 @@ class AdminHandler extends PFAHandler {
 
             # various settings
             'required_role' => 'global-admin',
-            'listview' => 'list-admin.php',
+            'listview' => 'list.php?table=admin',
             'early_init' => 0,
         );
     }
