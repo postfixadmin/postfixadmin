@@ -38,7 +38,8 @@ class AdminHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label          $PALANG description   default / options / ...
             #                           editing?    form    list
-            'username'        => pacol( $this->new, 1,      1,      'text', 'admin'              , 'email_address'     ),
+            'username'        => pacol( $this->new, 1,      1,      'text', 'admin'              , 'email_address'     , '', '',
+                array('linkto' => 'list.php?table=domain&username=%s') ),
             'password'        => pacol( 1,          1,      0,      'pass', 'password'           , ''                  ),
             'password2'       => pacol( 1,          1,      0,      'pass', 'password_again'     , ''                  , '', '',
                 /*not_in_db*/ 0,
@@ -46,7 +47,7 @@ class AdminHandler extends PFAHandler {
                 /*select*/ 'password as password2'
             ),
 
-            'superadmin'      => pacol( 1,          1,      1,      'bool', 'super_admin'        , 'super_admin_desc'  , 0
+            'superadmin'      => pacol( 1,          1,      0,      'bool', 'super_admin'        , 'super_admin_desc'  , 0
 # TODO: (finally) replace the ALL domain with a column in the admin table
 # TODO: current status: 'superadmin' column exists and is written when storing an admin with AdminHandler,
 # TODO: but the superadmin status is still (additionally) stored in the domain_admins table ("ALL" dummy domain)
@@ -55,14 +56,14 @@ class AdminHandler extends PFAHandler {
 # TODO: Create them with the trunk version to avoid this problem.
             ),
 
-            'domains'         => pacol( 1,          1,      1,      'list', 'domain'             , ''                  , array(), list_domains(),
+            'domains'         => pacol( 1,          1,      0,      'list', 'domain'             , ''                  , array(), list_domains(),
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ "coalesce(domains,'') as domains"
                /*extrafrom set in domain_count*/
             ),
 
-            'domain_count'    => pacol( 0,          0,      1,      'vnum', ''                   , ''                  , '', '',
+            'domain_count'    => pacol( 0,          0,      1,      'vnum', 'pAdminList_admin_count', ''               , '', '',
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ 'coalesce(__domain_count,0) as domain_count',
@@ -73,7 +74,7 @@ class AdminHandler extends PFAHandler {
                              ' ) AS __domain on username = __domain_username'),
 
             'active'          => pacol( 1,          1,      1,      'bool', 'active'             , ''                  , 1     ),
-            'created'         => pacol( 0,          0,      1,      'ts',   'created'            , ''                  ),
+            'created'         => pacol( 0,          0,      0,      'ts',   'created'            , ''                  ),
             'modified'        => pacol( 0,          0,      1,      'ts',   'last_modified'      , ''                  ),
         );
     }
@@ -163,6 +164,9 @@ class AdminHandler extends PFAHandler {
                 $db_result[$key]['domains'] = array();
             } else {
                 $db_result[$key]['domains'] = explode(',', $row['domains']);
+            }
+            if ($row['superadmin']) {
+                $db_result[$key]['domain_count'] = Config::lang('super_admin');
             }
         }
         return $db_result;
