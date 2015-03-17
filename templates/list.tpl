@@ -66,7 +66,7 @@
                     {elseif $field.type == 'bool'}
                         {assign "tmpkey" "_{$key}"}{$item.{$tmpkey}}
                     {elseif $field.type == 'list'}
-                        {foreach key=key2 item=field2 from=$value_{$key}}<p>{$field2} {/foreach}
+                        {foreach key=key2 item=field2 from=$item.$key}{$field2}<br> {/foreach}
                     {elseif $field.type == 'pass'}
                         (hidden)
                     {elseif $field.type == 'quot'}
@@ -89,7 +89,7 @@
                         {/if}
 
                     {elseif $field.type == 'txtl'}
-                        {foreach key=key2 item=field2 from=$value_{$key}}<p>{$field2} {/foreach}
+                        {foreach key=key2 item=field2 from=$item.$key}{$field2}<br> {/foreach}
                     {else}
                         {$linktext}
                     {/if}
