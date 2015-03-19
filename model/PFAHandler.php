@@ -535,22 +535,18 @@ abstract class PFAHandler {
 
 
     /**
-     * read_from_db
+     * build_select_query
      *
-     * reads all fields specified in $this->struct from the database
-     * and auto-converts them to database-independent values based on the field type (see $colformat)
-     *
-     * calls $this->read_from_db_postprocess() to postprocess the result
+     * helper function to build the inner part of the select query
+     * can be used by read_from_db() and for generating the pagebrowser
      *
      * @param array or string - condition (an array will be AND'ed using db_where_clause, a string will be directly used)
      *                          (if you use a string, make sure it is correctly escaped!)
      *                        - WARNING: will be changed to array only in the future, with an option to include a raw string inside the array
      * @param array searchmode - operators to use (=, <, >) if $condition is an array. Defaults to = if not specified for a field.
-     * @param integer limit - maximum number of rows to return
-     * @param integer offset - number of first row to return
-     * @return array - rows (as associative array, with the ID as key)
+     * @return array - contains query parts
      */
-    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+    protected function build_select_query($condition, $searchmode) {
         $select_cols = array();
 
         $yes = escape_string(Config::lang('YES'));
@@ -610,7 +606,30 @@ abstract class PFAHandler {
             $where = " WHERE ( $condition ) $additional_where";
         }
 
-        $query = "SELECT $cols FROM $table $extrafrom $where ORDER BY " . $this->order_by;
+        return array(
+            'select_cols'       => " SELECT $cols ",
+            'from_where_order'  => " FROM $table $extrafrom $where ORDER BY " . $this->order_by,
+        );
+    }
+
+    /**
+     * read_from_db
+     *
+     * reads all fields specified in $this->struct from the database
+     * and auto-converts them to database-independent values based on the field type (see $colformat)
+     *
+     * calls $this->read_from_db_postprocess() to postprocess the result
+     *
+     * @param array or string condition -see build_select_query() for details
+     * @param array searchmode - see build_select_query() for details
+     * @param integer limit - maximum number of rows to return
+     * @param integer offset - number of first row to return
+     * @return array - rows (as associative array, with the ID as key)
+     */
+    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+        $queryparts = $this->build_select_query($condition, $searchmode);
+
+        $query = $queryparts['select_cols'] . $queryparts['from_where_order'];
 
         $limit  = (int) $limit; # make sure $limit and $offset are really integers
         $offset = (int) $offset;
