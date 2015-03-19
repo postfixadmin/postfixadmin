@@ -119,14 +119,9 @@ if ($search == "") {
     $sql_domain = db_in_clause("$table_alias.domain", $list_domains);
 }
 
-$alias_pagebrowser_query = "
-    FROM $table_alias
-    WHERE $sql_domain AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address) AND ( $list_param )
-    ORDER BY address 
-";
-
 $handler = new AliasHandler(0, $admin_username);
 $handler->getList($list_param, array(), $page_size, $fDisplay);
+$pagebrowser_alias = $handler->getPagebrowser($list_param, array());
 $tAlias = $handler->result();
 
 
@@ -397,7 +392,7 @@ class cNav_bar
     }
 }
 
-$pagebrowser_alias = create_page_browser("$table_alias.address", $alias_pagebrowser_query);
+
 $nav_bar_alias = new cNav_bar ($PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $pagebrowser_alias, $search);
 $nav_bar_alias->url = '&amp;domain='.$fDomain;
 

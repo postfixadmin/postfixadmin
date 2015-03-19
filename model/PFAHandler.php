@@ -613,6 +613,18 @@ abstract class PFAHandler {
     }
 
     /**
+     * getPagebrowser
+     *
+     * @param array or string condition (see build_select_query() for details)
+     * @param array searchmode - (see build_select_query() for details)
+     * @return array - pagebrowser keys ("aa-cz", "de-pf", ...)
+     */
+    public function getPagebrowser($condition, $searchmode) {
+        $queryparts = $this->build_select_query($condition, $searchmode);
+        return create_page_browser($this->label_field, $queryparts['from_where_order']);
+    }
+
+    /**
      * read_from_db
      *
      * reads all fields specified in $this->struct from the database
