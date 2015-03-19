@@ -35,8 +35,8 @@ class DomainHandler extends PFAHandler {
         $transp = min($super, Config::intbool('transport'));
         $editquota  = min($super, Config::intbool('quota'));
         $quota  = Config::intbool('quota');
-        $edit_dom_q  = min($super, Config::intbool('domain_quota'));
-        $dom_q  = Config::intbool('domain_quota');
+        $edit_dom_q  = min($super, Config::intbool('domain_quota'), $quota);
+        $dom_q  = min(Config::intbool('domain_quota'), $quota);
 
         $query_used_domainquota = 'round(coalesce(__total_quota/' . intval(Config::read('quota_multiplier')) . ',0))';
 
@@ -81,11 +81,11 @@ class DomainHandler extends PFAHandler {
 
             # Domain quota
             'quota'          => pacol($edit_dom_q,$edit_dom_q, 0,   'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
-            'total_quota'    => pacol(  0,          0,      1,      'vnum', 'total_quota'                  , ''                                 , '', '',
-                array('select' => "$query_used_domainquota AS total_quota") /*extrafrom*//* already in mailbox_count */ ),
-            'total_quot'     => pacol( 0,          0,      1,       'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, '',
+#            'total_quota'    => pacol(  0,          0,      0,      'vnum', ''                             , ''                                 , '', '',
+#                array('select' => "$query_used_domainquota AS total_quota") /*extrafrom*//* already in mailbox_count */ ),
+            'total_quot'     => pacol( 0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, '',
                 array('select' => db_quota_text(   $query_used_domainquota, 'quota', 'total_quot'))   ),
-            '_total_quot_percent'=> pacol( 0,      0,      1,       'vnum', ''                             , ''                                 , 0, '',
+            '_total_quot_percent'=> pacol( 0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, '',
                 array('select' => db_quota_percent($query_used_domainquota, 'quota', '_total_quot_percent'))   ),
 
            'transport'       => pacol(  $transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
