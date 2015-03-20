@@ -98,10 +98,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     foreach($form_fields as $key => $field) {
         if ($field['editable'] && $field['display_in_form']) {
             if (!isset($inp_values[$key])) {
-                if($field['type'] == 'bool') {
-                    $values[$key] = 0; # isset() for unchecked checkboxes is always false
-                }
-                # do nothing for other field types
+                $inp_values[$key] = ''; # newer PHP versions don't include empty fields in $_POST (noticed with PHP 5.6.6)
+            }
+
+            if($field['type'] == 'bool' && $inp_values[$key] == '') {
+                $inp_values[$key] = 0; # isset() for unchecked checkboxes is always false
             } elseif($field['type'] == 'txtl') {
                 $values[$key] = $inp_values[$key];
                 $values[$key] = preg_replace ('/\\\r\\\n/', ',', $values[$key]);
