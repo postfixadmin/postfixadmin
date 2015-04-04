@@ -31,6 +31,7 @@ $PALANG['unknown'] = 'unknown'; # XXX
 $PALANG['download_csv'] = 'Download this list as CSV file'; # XXX
 $PALANG['missing_field'] = 'Field %s is missing'; # XXX
 $PALANG['must_be_numeric'] = '%s must be numeric'; # XXX
+$PALANG['must_be_numeric_bigger_than_null'] = '%s must be numeric and bigger than 0'; # XXX
 $PALANG['must_be_boolean'] = '%s must be boolean'; # XXX
 $PALANG['invalid_value_given'] = 'Invalid value given for %s'; # XXX
 $PALANG['edit_not_allowed'] = 'You are not allowed to edit %s'; # XXX
@@ -342,6 +343,8 @@ $PALANG['pInvalidMailRegex'] = "Invalid email address %s, fails regexp check"; #
 
 $PALANG['pFetchmail_welcome'] = 'メール取得:';
 $PALANG['pFetchmail_new_entry'] = '新しいエントリ';
+$PALANG['fetchmail_already_exists']         = 'This fetchmail job already exists!'; # XXX
+$PALANG['fetchmail_does_not_exist']         = 'This fetchmail job does not exist!'; # XXX
 $PALANG['pFetchmail_database_save_error'] = 'このエントリをデータベースに保存できませんでした。';
 $PALANG['pFetchmail_database_save_success'] = 'エントリをデータベースに保存しました。';
 $PALANG['pFetchmail_error_invalid_id'] = 'ID %s のエントリが見つかりません。';
