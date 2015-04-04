@@ -271,6 +271,7 @@ $CONF['domain_struct_hook']         = '';
 $CONF['alias_struct_hook']          = '';
 $CONF['mailbox_struct_hook']        = '';
 $CONF['alias_domain_struct_hook']   = '';
+$CONF['fetchmail_struct_hook']      = '';
 
 
 // Default Domain Values
