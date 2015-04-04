@@ -1381,6 +1381,12 @@ function upgrade_1763() {
     db_query_parsed("UPDATE $table SET domain=SUBSTRING_INDEX(mailbox, '@', -1) WHERE domain='';");
 }
 
+function upgrade_1767() {
+    # 'active' was just added, so make sure all existing jobs stay active
+    $table = table_by_key('fetchmail');
+    db_query_parsed("UPDATE $table SET active='{BOOL_TRUE}'");
+}
+
 
 # TODO MySQL:
 # - various varchar fields do not have a default value
