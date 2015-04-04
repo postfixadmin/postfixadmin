@@ -422,6 +422,8 @@ abstract class PFAHandler {
                             if (!$this->{$func}($key, $values[$key])) $valid = false;
                         }
 
+                        if (isset($this->errormsg[$key]) && $this->errormsg[$key] != '') $valid = false;
+
                         if ($valid) {
                             $this->values[$key] = $values[$key];
                         }
