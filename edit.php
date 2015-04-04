@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
 
             if($field['type'] == 'bool' && $inp_values[$key] == '') {
-                $inp_values[$key] = 0; # isset() for unchecked checkboxes is always false
+                $values[$key] = 0; # isset() for unchecked checkboxes is always false
             } elseif($field['type'] == 'txtl') {
                 $values[$key] = $inp_values[$key];
                 $values[$key] = preg_replace ('/\\\r\\\n/', ',', $values[$key]);
