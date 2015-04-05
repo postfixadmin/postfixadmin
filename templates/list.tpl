@@ -5,9 +5,12 @@
         <input class="button" type="submit" name="go" value="{$PALANG.go}" />
     {/if}
 </form>
-{#form_search#}
+{if $msg.show_simple_search}
+    {#form_search#}
+{/if}
 </div>
 
+{if $msg.show_simple_search}
     {if ($search|count > 0)}
         <div class='searchparams'>
             <p>{$PALANG.searchparams}
@@ -19,6 +22,7 @@
             <span><a href="list.php?table={$table}&reset_search=1">[x]</a></span>
         </div>
     {/if}
+{/if}
 
 
 

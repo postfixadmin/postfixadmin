@@ -9,6 +9,7 @@ class AliasdomainHandler extends PFAHandler {
     protected $db_table = 'alias_domain';
     protected $id_field = 'alias_domain';
     protected $domain_field = 'alias_domain';
+    protected $searchfields = array('alias_domain', 'target_domain');
 
     protected function initStruct() {
         $this->struct=array(

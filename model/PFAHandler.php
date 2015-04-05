@@ -46,6 +46,11 @@ abstract class PFAHandler {
     # disable for "edit password" forms
     protected $skip_empty_pass = true;
 
+    # fields to search when using simple search ("?search[_]=...")
+    # array with one or more fields to search (all fields will be OR'ed in the query)
+    # searchmode is always 'contains' (using LIKE "%searchterm%")
+    protected $searchfields = array();
+
     /**
      * internal variables - filled by methods of *Handler
      */
@@ -189,6 +194,7 @@ abstract class PFAHandler {
         }
 
         $this->initMsg();
+        $this->msg['show_simple_search'] = count($this->searchfields) > 0;
     }
 
     /**

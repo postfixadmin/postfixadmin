@@ -9,6 +9,7 @@ class MailboxHandler extends PFAHandler {
     protected $db_table = 'mailbox';
     protected $id_field = 'username';
     protected $domain_field = 'domain';
+    protected $searchfields = array('username');
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {

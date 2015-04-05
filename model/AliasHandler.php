@@ -11,6 +11,7 @@ class AliasHandler extends PFAHandler {
     protected $db_table = 'alias';
     protected $id_field = 'address';
     protected $domain_field = 'domain';
+    protected $searchfields = array('address', 'goto');
 
     /**
      *
