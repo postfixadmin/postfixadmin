@@ -106,8 +106,10 @@
 
 </table>
 
+{if $msg.can_create}
 <br /><a href="edit.php?table={$table|escape:"url"}" class="button">{$PALANG.{$formconf.create_button}}</a><br />
 <br />
+{/if}
 <br /><a href="list.php?table={$table|escape:"url"}&amp;output=csv">{$PALANG.download_csv}</a>
 
 </div>

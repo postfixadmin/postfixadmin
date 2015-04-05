@@ -122,6 +122,7 @@ class DomainHandler extends PFAHandler {
             $this->msg['store_error'] = 'pAdminEdit_domain_result_error';
             $this->msg['successmessage'] = 'domain_updated';
         }
+        $this->msg['can_create'] = $this->is_superadmin;
     }
 
     public function webformConfig() {

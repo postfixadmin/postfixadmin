@@ -112,6 +112,7 @@ abstract class PFAHandler {
     # (stored separately to make the functions reuseable)
     # filled by initMsg()
     protected $msg = array(
+        'can_create' => True,
         'confirm_delete' => 'confirm',
     );
 
