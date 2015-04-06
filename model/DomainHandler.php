@@ -60,9 +60,9 @@ class DomainHandler extends PFAHandler {
                /*extrafrom*/ 'left join ( select count(*) as __alias_count, domain as __alias_domain from ' . table_by_key('alias') .
                              ' group by domain) as __alias on domain = __alias_domain'),
             'aliases_quot'  => pacol(   0,          0,      1,      'quot', 'aliases'                      , ''                                  , 0, '',
-                array('select' => db_quota_text(   '__alias_count - __mailbox_count', 'aliases', 'aliases_quot'))   ),
+                array('select' => db_quota_text(   '__alias_count - coalesce(__mailbox_count,0)', 'aliases', 'aliases_quot'))   ),
             '_aliases_quot_percent' => pacol( 0, 0,      1,      'vnum', ''                   ,''                   , 0, '',
-                array('select' => db_quota_percent('__alias_count - __mailbox_count', 'aliases', '_aliases_quot_percent'))   ),
+                array('select' => db_quota_percent('__alias_count - coalesce(__mailbox_count,0)', 'aliases', '_aliases_quot_percent'))   ),
 
             # Mailboxes
            'mailboxes'       => pacol(  $super,     $super, 0,      'num' , 'mailboxes'                    , 'pAdminEdit_domain_aliases_text'   , Config::read('mailboxes') ),
