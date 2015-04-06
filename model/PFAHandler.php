@@ -194,6 +194,7 @@ abstract class PFAHandler {
         }
 
         $this->initMsg();
+        $this->msg['id_field'] = $this->id_field;
         $this->msg['show_simple_search'] = count($this->searchfields) > 0;
     }
 

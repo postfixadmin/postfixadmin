@@ -1,3 +1,9 @@
+{if isset($search._)}
+    {assign var="search" value=$search._}
+{else}
+    {assign var="search" value=''}
+{/if}
+
 	{#tr_header#}
 		{if $CONF.show_status===YES}<td></td>{/if}
 		<td>{$PALANG.pOverview_mailbox_username}</td>
