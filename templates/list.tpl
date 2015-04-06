@@ -2,7 +2,7 @@
 <form name="frmOverview" method="post" action="">
     {if ($admin_list|count > 1)}
         {html_options name='username' output=$admin_list values=$admin_list selected=$admin_selected onchange="this.form.submit();"}
-        <input class="button" type="submit" name="go" value="{$PALANG.go}" />
+        <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}" /></noscript>
     {/if}
 </form>
 {if $msg.show_simple_search}

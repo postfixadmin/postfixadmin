@@ -5,7 +5,7 @@
 		{$select_options}
 	</select>
 	<input type="hidden" name="limit" value="0" />
-	<input class="button" type="submit" name="go" value="{$PALANG.go}" />
+	<noscript><input class="button" type="submit" name="go" value="{$PALANG.go}" /></noscript>
 </form>
 {if isset($search._)}
 	<h4>{$PALANG.pSearch_welcome} {$search._}</h4>
