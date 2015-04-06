@@ -1628,7 +1628,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
         die('db_where_cond: parameter $cond is not an array!');
     } elseif(!is_array($searchmode)) {
         die('db_where_cond: parameter $searchmode is not an array!');
-    } elseif (count($condition) == 0) {
+    } elseif (count($condition) == 0 && trim($additional_raw_where) == '') {
         die("db_where_cond: parameter is an empty array!"); # die() might sound harsh, but can prevent information leaks 
     } elseif(!is_array($struct)) {
         die('db_where_cond: parameter $struct is not an array!');

@@ -609,6 +609,14 @@ abstract class PFAHandler {
         }
 
         if (is_array($condition)) {
+            if (isset($condition['_']) && count($this->searchfields) > 0) {
+                $simple_search = array();
+                foreach ($this->searchfields as $field) {
+                    $simple_search[] = "$field LIKE '%" . escape_string($condition['_']) . "%'";
+                }
+                $additional_where .= " AND ( " . join(" OR ", $simple_search) . " ) ";
+                unset($condition['_']);
+            }
             $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode);
         } else {
             if ($condition == "") $condition = '1=1';
@@ -715,6 +723,8 @@ abstract class PFAHandler {
             foreach ($condition as $key => $value) {
                 # allow only access to fields the user can access to avoid information leaks via search parameters
                 if (isset($this->struct[$key]) && ($this->struct[$key]['display_in_list'] || $this->struct[$key]['display_in_form']) ) {
+                    $real_condition[$key] = $value;
+                } elseif (($key == '_') && count($this->searchfields)) {
                     $real_condition[$key] = $value;
                 } else {
                     $this->errormsg[] = "Ignoring unknown search field $key";
