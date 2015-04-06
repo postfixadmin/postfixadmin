@@ -13,15 +13,21 @@
 {#form_search#}
 </div>
 <div class='subnav'><p>{$PALANG.show}
+	{if isset($search._)}
+		{assign var="searchsuffix" value="&search[_]={$search._}"}
+	{else}
+		{assign var="searchsuffix" value=""}
+	{/if}
+
 	{if $tab=='all'}<span class='active'>{$PALANG.all}</span>
-	{else}<a href="?domain={$smarty.get.domain}&amp;tab=all{if $search != ""}&search={$search}{/if}">{$PALANG.all}</a>{/if}
+	{else}<a href="?domain={$smarty.get.domain}&amp;tab=all{$searchsuffix}">{$PALANG.all}</a>{/if}
 	{if $tab=='mailbox'}<span class='active'>{$PALANG.pOverview_mailbox_title}</span>
-	{else}<a href="?domain={$smarty.get.domain}&amp;tab=mailbox{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_mailbox_title}</a>{/if}
+	{else}<a href="?domain={$smarty.get.domain}&amp;tab=mailbox{$searchsuffix}">{$PALANG.pOverview_mailbox_title}</a>{/if}
 	{if $tab=='alias'}<span class='active'>{$PALANG.pOverview_alias_title}</span>
-	{else}<a href="?domain={$smarty.get.domain}&amp;tab=alias{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_title}</a>{/if}
+	{else}<a href="?domain={$smarty.get.domain}&amp;tab=alias{$searchsuffix}">{$PALANG.pOverview_alias_title}</a>{/if}
 	{if $boolconf_alias_domain}
 		{if $tab=='alias_domain'}<span class='active'>{$PALANG.pOverview_alias_domain_title}</span>
-		{else}<a href="?domain={$smarty.get.domain}&amp;tab=alias_domain{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_domain_title}</a>{/if}
+		{else}<a href="?domain={$smarty.get.domain}&amp;tab=alias_domain{$searchsuffix}">{$PALANG.pOverview_alias_domain_title}</a>{/if}
 	{/if}
 </p></div>
 <br clear="all"/><br/>
