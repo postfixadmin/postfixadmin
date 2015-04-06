@@ -29,6 +29,18 @@
 <div id="list">
 <table border=0 id='admin_table'><!-- TODO: 'admin_table' needed because of CSS for table header -->
 
+{if $msg.list_header}
+	{assign var="colcount" value=2}
+    {foreach key=key item=field from=$struct}
+        {if $field.display_in_list == 1 && $field.label}{* don't show fields without a label *}
+			{assign var="colcount" value=$colcount+1}
+        {/if}
+    {/foreach}
+	<tr>
+		<th colspan="{$colcount}">{$PALANG.{$msg.list_header}}</th>
+	</tr>
+{/if}
+
 <tr class="header">
     {foreach key=key item=field from=$struct}
         {if $field.display_in_list == 1 && $field.label}{* don't show fields without a label *}

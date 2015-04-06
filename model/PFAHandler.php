@@ -119,6 +119,7 @@ abstract class PFAHandler {
     protected $msg = array(
         'can_create' => True,
         'confirm_delete' => 'confirm',
+        'list_header' => '', # headline used in list view
     );
 
     # called via another *Handler class? (use calledBy() to set this information)
