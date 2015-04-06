@@ -96,6 +96,8 @@
 
                     {elseif $field.type == 'txtl'}
                         {foreach key=key2 item=field2 from=$item.$key}{$field2}<br> {/foreach}
+                    {elseif $field.type == 'html'}
+						{$RAW_items.{$item.{$msg.id_field}}.$key}
                     {else}
                         {$linktext}
                     {/if}

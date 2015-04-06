@@ -225,6 +225,7 @@ abstract class PFAHandler {
      * available values for the "type" column:
      *    text  one line of text
      *   *vtxt  "virtual" line of text, coming from JOINs etc.
+     *    html  raw html (use carefully, won't get auto-escaped by smarty! Don't use with user input!)
      *    pass  password (will be encrypted with pacrypt())
      *    b64p  password (will be stored with base64_encode())
      *    num   number
