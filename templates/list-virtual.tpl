@@ -7,9 +7,13 @@
 	<input type="hidden" name="limit" value="0" />
 	<input class="button" type="submit" name="go" value="{$PALANG.go}" />
 </form>
-<h4>{$PALANG.pOverview_welcome}{$fDomain}</h4>
-<p>{$PALANG.aliases}: {$limit.alias_count} / {$limit.aliases}</p>
-<p>{$PALANG.mailboxes}: {$limit.mailbox_count} / {$limit.mailboxes}</p>
+{if isset($search._)}
+	<h4>{$PALANG.pSearch_welcome} {$search._}</h4>
+{else}
+	<h4>{$PALANG.pOverview_welcome}{$fDomain}</h4>
+	<p>{$PALANG.aliases}: {$limit.alias_count} / {$limit.aliases}</p>
+	<p>{$PALANG.mailboxes}: {$limit.mailbox_count} / {$limit.mailboxes}</p>
+{/if}
 {#form_search#}
 </div>
 <div class='subnav'><p>{$PALANG.show}
