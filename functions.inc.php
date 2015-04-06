@@ -568,23 +568,6 @@ function check_owner ($username, $domain) {
 
 
 
-//
-// check_alias_owner
-// Action: Checks if the admin is the owner of the alias.
-// Call: check_alias_owner (string admin, string alias)
-//
-function check_alias_owner ($username, $alias) {
-    global $CONF;
-    if (authentication_has_role('global-admin')) return true;
-    $tmp = preg_split('/\@/', $alias);
-    if (($CONF['special_alias_control'] == 'NO') && array_key_exists($tmp[0], $CONF['default_aliases'])) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-
 /**
  * List domains for an admin user. 
  * @param String $username

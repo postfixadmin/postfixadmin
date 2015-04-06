@@ -56,14 +56,11 @@ class AliasHandler extends PFAHandler {
             'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                , 1     ),
             'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                ),
-            'editable'      => pacol(   0,          0,      1,      'int', ''                             , ''                                , 0 ,
+            '_can_edit'     => pacol(   0,          0,      1,      'vnum', ''                              , ''                                , 0 , '',
+                array('select' => '1 as _can_edit')  ),
+            '_can_delete'   => pacol(   0,          0,      1,      'vnum', ''                              , ''                                , 0 , '',
+                array('select' => '1 as _can_delete')  ), # read_from_db_postprocess() updates the value
                 # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
-                # technically 'editable' is bool, but the automatic bool conversion breaks the query. Flagging it as int avoids this problem.
-                # Maybe having a vbool type (without the automatic conversion) would be cleaner - we'll see if we need it.
-                /*options*/ '',
-                /*not_in_db*/ 0,
-                /*dont_write_to_db*/ 1,
-                /*select*/ '1 as editable'              ),
         );
     }
 
@@ -283,8 +280,12 @@ class AliasHandler extends PFAHandler {
                 $db_result[$key]['goto_mailbox'] = 0;
             }
 
-            # TODO: set 'editable' to 0 if not superadmin, $CONF[special_alias_control] == NO and alias is in $CONF[default_aliases]
-            # TODO: see check_alias_owner() in functions.inc.php
+            # editing a default alias (postmaster@ etc.) is only allowed if special_alias_control is allowed or if the user is a superadmin
+            $tmp = preg_split('/\@/', $db_result[$key]['address']);
+            if (!$this->is_superadmin && !Config::bool('special_alias_control') && array_key_exists($tmp[0], Config::Read('default_aliases'))) {
+                        $db_result[$key]['_can_edit'] = 0;
+                        $db_result[$key]['_can_delete'] = 0;
+            }
         }
 
         return $db_result;

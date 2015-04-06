@@ -136,11 +136,9 @@ $table_mailbox = table_by_key('mailbox');
 
 if (count($search) == 0 || !isset($search['_'])) {
     $list_param = "domain='$fDomain'";
-    $sql_domain = " $table_alias.domain='$fDomain' ";
 } else {
     $searchterm = escape_string($search['_']);
     $list_param = "(address LIKE '%$searchterm%' OR goto LIKE '%$searchterm%')";
-    $sql_domain = db_in_clause("$table_alias.domain", $list_domains);
 }
 
 $handler = new AliasHandler(0, $admin_username);
@@ -290,12 +288,10 @@ if (isset ($limit)) {
 }
 
 $gen_show_status = array ();
-$check_alias_owner = array ();
 
 if ((is_array ($tAlias) and sizeof ($tAlias) > 0)) {
     foreach (array_keys($tAlias) as $i) {
         $gen_show_status [$i] = gen_show_status($tAlias[$i]['address']);
-        $check_alias_owner [$i] = check_alias_owner($admin_username, $tAlias[$i]['address']);
     }
 }
 
@@ -455,7 +451,6 @@ $smarty->assign ('aliasdomain_data', $aliasdomain_data);
 
 $smarty->assign ('tAlias', $tAlias);
 $smarty->assign ('gen_show_status', $gen_show_status, false);
-$smarty->assign ('check_alias_owner', $check_alias_owner);
 $smarty->assign ('tCanAddAlias', $tCanAddAlias);
 $smarty->assign ('tMailbox', $tMailbox);
 $smarty->assign ('gen_show_status_mailbox', $gen_show_status_mailbox, false);
