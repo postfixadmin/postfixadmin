@@ -228,8 +228,8 @@ $PALANG['subject'] = 'Subject';
 $PALANG['pSendmail_subject_text'] = 'Welcome';
 $PALANG['pSendmail_body'] = 'Body';
 $PALANG['pSendmail_button'] = 'Send Message';
-$PALANG['pSendmail_result_error'] = 'Unable to send email!';
-$PALANG['pSendmail_result_success'] = 'Email sent!';
+$PALANG['pSendmail_result_error'] = 'Unable to send email to %s!';
+$PALANG['pSendmail_result_success'] = 'Email sent to %s.';
 
 $PALANG['pAdminMenu_list_admin'] = 'Admin List';
 $PALANG['pAdminMenu_list_domain'] = 'Domain List';
