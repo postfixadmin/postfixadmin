@@ -16,12 +16,13 @@ class AliasdomainHandler extends PFAHandler {
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
             'alias_domain'  => pacol(   $this->new, 1,      1,      'enum', 'pCreate_alias_domain_alias'    , 'pCreate_alias_domain_alias_text' , '',
-                /*options*/ array() /* filled below */  ),
+                /*options, filled below*/ array(),
+                /* multiopt */ array('linkto' => 'list-virtual.php?domain=%s') ),
             'target_domain' => pacol(   1,          1,      1,      'enum', 'pCreate_alias_domain_target'   , 'pCreate_alias_domain_target_text', '',
                 /*options*/ array() /* filled below */  ),
-            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                 , 1                         ),
-            'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                 ),
+            'created'       => pacol(   0,          0,      0,      'ts',   'created'                       , ''                                 ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
+            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                 , 1   ),
         );
 
 
