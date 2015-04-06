@@ -27,6 +27,8 @@ class AliasHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / ...
             #                           editing?    form    list
+            'status'        => pacol(   0,          0,      0,      'html', ''                              , ''                                , '', '',
+                array('not_in_db' => 1)  ),
             'address'       => pacol(   $this->new, 1,      1,      'mail', 'alias'                         , 'pCreate_alias_catchall_text'     ),
             'localpart'     => pacol(   $this->new, 0,      0,      'text', 'alias'                         , 'pCreate_alias_catchall_text'     , '', 
                 /*options*/ '', 
@@ -53,9 +55,9 @@ class AliasHandler extends PFAHandler {
             'on_vacation'   => pacol(   1,          0,      1,      'bool', 'pUsersMenu_vacation'           , ''                                , 0 ,
                 /*options*/ '', 
                 /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value - TODO: read active flag from vacation table instead?
-            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                , 1     ),
-            'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                ),
+            'created'       => pacol(   0,          0,      0,      'ts',   'created'                       , ''                                ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                ),
+            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                , 1     ),
             '_can_edit'     => pacol(   0,          0,      1,      'vnum', ''                              , ''                                , 0 , '',
                 array('select' => '1 as _can_edit')  ),
             '_can_delete'   => pacol(   0,          0,      1,      'vnum', ''                              , ''                                , 0 , '',
@@ -68,6 +70,7 @@ class AliasHandler extends PFAHandler {
         $this->msg['error_already_exists'] = 'email_address_already_exists';
         $this->msg['error_does_not_exist'] = 'alias_does_not_exist';
         $this->msg['confirm_delete'] = 'confirm_delete_alias';
+        $this->msg['list_header'] = 'pOverview_alias_title';
 
         if ($this->new) {
             $this->msg['logname'] = 'create_alias';
@@ -86,6 +89,11 @@ class AliasHandler extends PFAHandler {
             $this->struct['address']['display_in_form'] = 0;
             $this->struct['localpart']['display_in_form'] = 1;
             $this->struct['domain']['display_in_form'] = 1;
+        }
+
+        if (Config::bool('show_status')) {
+            $this->struct['status']['display_in_list'] = 1;
+            $this->struct['status']['label'] = ' ';
         }
 
         return array(
@@ -285,6 +293,10 @@ class AliasHandler extends PFAHandler {
             if (!$this->is_superadmin && !Config::bool('special_alias_control') && array_key_exists($tmp[0], Config::Read('default_aliases'))) {
                         $db_result[$key]['_can_edit'] = 0;
                         $db_result[$key]['_can_delete'] = 0;
+            }
+
+            if ($this->struct['status']['display_in_list'] && Config::Bool('show_status')) {
+                $db_result[$key]['status'] = gen_show_status($db_result[$key]['address']);
             }
         }
 

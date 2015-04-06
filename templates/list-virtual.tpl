@@ -35,18 +35,8 @@
 {*** Aliases ***}
 {if $tab=='alias' || $tab=='all'}
 	{$nav_bar_alias.top}
-	<table id="alias_table">
-		<tr>
-			<th colspan="7">{$PALANG.pOverview_alias_title}</th>
-		</tr>
-	{if $tAlias}
-		{include file="list-virtual_alias.tpl"}
-	{/if}
-	</table>
+	{include file="list-virtual_alias.tpl"}
 	{$nav_bar_alias.bottom}
-	{if $tCanAddAlias}
-		<br /><a href="{#url_create_alias#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.add_alias}</a><br />
-	{/if}
 {/if}
 {if $tab=='all'}<br />{/if}
 {if $tab=='mailbox' || $tab=='all'}

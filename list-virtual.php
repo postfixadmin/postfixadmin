@@ -89,10 +89,11 @@ $_SESSION['list-virtual:limit'] = $fDisplay;
 
 if (Config::bool('alias_domain')) {
     $handler = new AliasdomainHandler(0, $admin_username);
+    $formconf = $handler->webformConfig(); # might change struct
     $aliasdomain_data = array(
         'struct'    => $handler->getStruct(),
         'msg'       => $handler->getMsg(),
-        'formconf'  => $handler->webformConfig(),
+        'formconf'  => $formconf,
     );
     $aliasdomain_data['msg']['show_simple_search'] = False; # hide search box
 
@@ -142,6 +143,16 @@ if (count($search) == 0 || !isset($search['_'])) {
 }
 
 $handler = new AliasHandler(0, $admin_username);
+$formconf = $handler->webformConfig(); # might change struct
+$alias_data = array(
+    'formconf'  => $formconf,
+    'struct'    => $handler->getStruct(),
+    'msg'       => $handler->getMsg(),
+);
+$alias_data['struct']['goto_mailbox']['display_in_list'] = 0; # not useful/defined for non-mailbox aliases
+$alias_data['struct']['on_vacation']['display_in_list'] = 0;
+$alias_data['msg']['show_simple_search'] = False; # hide search box
+
 $handler->getList($list_param, array(), $page_size, $fDisplay);
 $pagebrowser_alias = $handler->getPagebrowser($list_param, array());
 $tAlias = $handler->result();
@@ -241,7 +252,7 @@ if ($result['rows'] > 0) {
     }
 }
 
-$tCanAddAlias = false;
+$alias_data['msg']['can_create'] = false;
 $tCanAddMailbox = false;
 
 $tDisplay_back = "";
@@ -268,11 +279,12 @@ if (isset ($limit)) {
     }
 
     if($limit['aliases'] == 0) {
-        $tCanAddAlias = true;
+        $alias_data['msg']['can_create'] = true;
     }
     elseif($limit['alias_count'] < $limit['aliases']) {
-        $tCanAddAlias = true;
+        $alias_data['msg']['can_create'] = true;
     }
+
     if($limit['mailboxes'] == 0) {
         $tCanAddMailbox = true;
     }
@@ -284,14 +296,6 @@ if (isset ($limit)) {
     $limit ['mailboxes']    = eval_size ($limit ['mailboxes']);
     if (Config::bool('quota')) {
         $limit ['maxquota']    = eval_size ($limit ['maxquota']);
-    }
-}
-
-$gen_show_status = array ();
-
-if ((is_array ($tAlias) and sizeof ($tAlias) > 0)) {
-    foreach (array_keys($tAlias) as $i) {
-        $gen_show_status [$i] = gen_show_status($tAlias[$i]['address']);
     }
 }
 
@@ -450,8 +454,8 @@ $smarty->assign ('tAliasDomains', $tAliasDomains);
 $smarty->assign ('aliasdomain_data', $aliasdomain_data);
 
 $smarty->assign ('tAlias', $tAlias);
-$smarty->assign ('gen_show_status', $gen_show_status, false);
-$smarty->assign ('tCanAddAlias', $tCanAddAlias);
+$smarty->assign ('alias_data', $alias_data);
+
 $smarty->assign ('tMailbox', $tMailbox);
 $smarty->assign ('gen_show_status_mailbox', $gen_show_status_mailbox, false);
 $smarty->assign ('boolconf_used_quotas', Config::bool('used_quotas'));
