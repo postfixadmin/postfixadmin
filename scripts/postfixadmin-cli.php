@@ -462,7 +462,7 @@ class PostfixAdmin {
                 $this->stdout("");
                 $this->stdout("Available modules:");
 
-                $modules = explode(',','admin,domain,mailbox,alias,aliasdomain');
+                $modules = explode(',','admin,domain,mailbox,alias,aliasdomain,fetchmail');
                 foreach ($modules as $module) {
                     $this->stdout("    $module");
                 }
