@@ -346,13 +346,6 @@ $CONF['vacation_choice_of_reply'] = array (
 // End Vacation Stuff.
 //
 
-// Users Control for Domain Admin
-// Set to "Yes" if your domain admins schould be able to  edit  field userscontrole in  table domain
-// Userscontrol is edited in admin_create-domain.tpl and admin_edit-domain.tpl
-// Userscontrol is default set  to  on when creating a domain
-$CONF['users_domain_controle'] = 'YES';
-
-
 // Alias Control
 // Postfix Admin inserts an alias in the alias table for every mailbox it creates.
 // The reason for this is that when you want catch-all and normal mailboxes
