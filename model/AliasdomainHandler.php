@@ -9,18 +9,20 @@ class AliasdomainHandler extends PFAHandler {
     protected $db_table = 'alias_domain';
     protected $id_field = 'alias_domain';
     protected $domain_field = 'alias_domain';
+    protected $searchfields = array('alias_domain', 'target_domain');
 
     protected function initStruct() {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
             'alias_domain'  => pacol(   $this->new, 1,      1,      'enum', 'pCreate_alias_domain_alias'    , 'pCreate_alias_domain_alias_text' , '',
-                /*options*/ array() /* filled below */  ),
+                /*options, filled below*/ array(),
+                /* multiopt */ array('linkto' => 'list-virtual.php?domain=%s') ),
             'target_domain' => pacol(   1,          1,      1,      'enum', 'pCreate_alias_domain_target'   , 'pCreate_alias_domain_target_text', '',
                 /*options*/ array() /* filled below */  ),
-            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                 , 1                         ),
-            'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                 ),
+            'created'       => pacol(   0,          0,      0,      'ts',   'created'                       , ''                                 ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
+            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                 , 1   ),
         );
 
 
@@ -62,6 +64,8 @@ class AliasdomainHandler extends PFAHandler {
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'alias_domain_already_exists';
         $this->msg['error_does_not_exist'] = 'alias_domain_does_not_exist';
+        $this->msg['confirm_delete'] = 'confirm_delete_aliasdomain';
+
         if ($this->new) {
             $this->msg['logname'] = 'create_alias_domain';
             $this->msg['store_error'] = 'alias_domain_create_failed';

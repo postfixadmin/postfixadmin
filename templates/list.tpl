@@ -2,12 +2,15 @@
 <form name="frmOverview" method="post" action="">
     {if ($admin_list|count > 1)}
         {html_options name='username' output=$admin_list values=$admin_list selected=$admin_selected onchange="this.form.submit();"}
-        <input class="button" type="submit" name="go" value="{$PALANG.go}" />
+        <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}" /></noscript>
     {/if}
 </form>
-{#form_search#}
+{if $msg.show_simple_search}
+    {#form_search#}
+{/if}
 </div>
 
+{if $msg.show_simple_search}
     {if ($search|count > 0)}
         <div class='searchparams'>
             <p>{$PALANG.searchparams}
@@ -19,11 +22,24 @@
             <span><a href="list.php?table={$table}&reset_search=1">[x]</a></span>
         </div>
     {/if}
+{/if}
 
 
 
 <div id="list">
 <table border=0 id='admin_table'><!-- TODO: 'admin_table' needed because of CSS for table header -->
+
+{if $msg.list_header}
+	{assign var="colcount" value=2}
+    {foreach key=key item=field from=$struct}
+        {if $field.display_in_list == 1 && $field.label}{* don't show fields without a label *}
+			{assign var="colcount" value=$colcount+1}
+        {/if}
+    {/foreach}
+	<tr>
+		<th colspan="{$colcount}">{$PALANG.{$msg.list_header}}</th>
+	</tr>
+{/if}
 
 <tr class="header">
     {foreach key=key item=field from=$struct}
@@ -54,6 +70,8 @@
                 <td>
                     {if $table == 'foo' && $key == 'bar'}
                         Special handling (td content) for {$table} / {$key}
+                    {elseif $table == 'aliasdomain' && $key == 'target_domain' && $struct.target_domain.linkto == 'target'}
+                        <a href="list-virtual.php?domain={$item.target_domain|escape:"url"}">{$item.target_domain}</a>
 {*                    {elseif $table == 'domain' && $key == 'domain'}
                         <a href="list.php?table=domain&domain={$item.domain|escape:"url"}">{$item.domain}</a>
 *}
@@ -66,7 +84,7 @@
                     {elseif $field.type == 'bool'}
                         {assign "tmpkey" "_{$key}"}{$item.{$tmpkey}}
                     {elseif $field.type == 'list'}
-                        {foreach key=key2 item=field2 from=$value_{$key}}<p>{$field2} {/foreach}
+                        {foreach key=key2 item=field2 from=$item.$key}{$field2}<br> {/foreach}
                     {elseif $field.type == 'pass'}
                         (hidden)
                     {elseif $field.type == 'quot'}
@@ -89,7 +107,9 @@
                         {/if}
 
                     {elseif $field.type == 'txtl'}
-                        {foreach key=key2 item=field2 from=$value_{$key}}<p>{$field2} {/foreach}
+                        {foreach key=key2 item=field2 from=$item.$key}{$field2}<br> {/foreach}
+                    {elseif $field.type == 'html'}
+						{$RAW_items.{$item.{$msg.id_field}}.$key}
                     {else}
                         {$linktext}
                     {/if}
@@ -106,8 +126,10 @@
 
 </table>
 
+{if $msg.can_create}
 <br /><a href="edit.php?table={$table|escape:"url"}" class="button">{$PALANG.{$formconf.create_button}}</a><br />
 <br />
+{/if}
 <br /><a href="list.php?table={$table|escape:"url"}&amp;output=csv">{$PALANG.download_csv}</a>
 
 </div>

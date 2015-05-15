@@ -1369,6 +1369,28 @@ function upgrade_1685_pgsql() {
     db_query_parsed("UPDATE $table SET domain=SPLIT_PART(domain, '@', 2) WHERE domain=data;");
 }
 
+function upgrade_1762() {
+    _db_add_field('fetchmail', 'domain',   "VARCHAR(255) {LATIN1} DEFAULT ''", 'id');
+    _db_add_field('fetchmail', 'active',   '{BOOLEAN}',                        'date');
+    _db_add_field('fetchmail', 'created',  '{DATE}',                           'date');
+    _db_add_field('fetchmail', 'modified', '{DATECURRENT}',                    'created');
+}
+
+function upgrade_1763_mysql() {
+    $table = table_by_key('fetchmail');
+    db_query_parsed("UPDATE $table SET domain=SUBSTRING_INDEX(mailbox, '@', -1) WHERE domain='';");
+}
+function upgrade_1763_pgsql() {
+    $table = table_by_key('fetchmail');
+    db_query_parsed("UPDATE $table SET domain=SPLIT_PART(mailbox, '@', 2) WHERE domain='';");
+}
+
+function upgrade_1767() {
+    # 'active' was just added, so make sure all existing jobs stay active
+    $table = table_by_key('fetchmail');
+    db_query_parsed("UPDATE $table SET active='{BOOL_TRUE}'");
+}
+
 
 # TODO MySQL:
 # - various varchar fields do not have a default value

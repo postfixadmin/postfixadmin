@@ -45,7 +45,7 @@
 							{html_checkboxes name="value[{$key}]" output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key} separator="<br />"}
 						</div>
 -->
-					{elseif $field.type == 'pass'}
+					{elseif $field.type == 'pass' || $field.type == 'b64p'}
 						<input class="flat" type="password" name="value[{$key}]" />
 					{elseif $field.type == 'txtl'}
 						<textarea class="flat" rows="10" cols="35" name="value[{$key}]">{foreach key=key2 item=field2 from=$value_{$key}}{$field2}

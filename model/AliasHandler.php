@@ -11,6 +11,7 @@ class AliasHandler extends PFAHandler {
     protected $db_table = 'alias';
     protected $id_field = 'address';
     protected $domain_field = 'domain';
+    protected $searchfields = array('address', 'goto');
 
     /**
      *
@@ -26,6 +27,8 @@ class AliasHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / ...
             #                           editing?    form    list
+            'status'        => pacol(   0,          0,      0,      'html', ''                              , ''                                , '', '',
+                array('not_in_db' => 1)  ),
             'address'       => pacol(   $this->new, 1,      1,      'mail', 'alias'                         , 'pCreate_alias_catchall_text'     ),
             'localpart'     => pacol(   $this->new, 0,      0,      'text', 'alias'                         , 'pCreate_alias_catchall_text'     , '', 
                 /*options*/ '', 
@@ -52,23 +55,23 @@ class AliasHandler extends PFAHandler {
             'on_vacation'   => pacol(   1,          0,      1,      'bool', 'pUsersMenu_vacation'           , ''                                , 0 ,
                 /*options*/ '', 
                 /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value - TODO: read active flag from vacation table instead?
-            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                , 1     ),
-            'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                ),
+            'created'       => pacol(   0,          0,      0,      'ts',   'created'                       , ''                                ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                ),
-            'editable'      => pacol(   0,          0,      1,      'int', ''                             , ''                                , 0 ,
+            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                , 1     ),
+            '_can_edit'     => pacol(   0,          0,      1,      'vnum', ''                              , ''                                , 0 , '',
+                array('select' => '1 as _can_edit')  ),
+            '_can_delete'   => pacol(   0,          0,      1,      'vnum', ''                              , ''                                , 0 , '',
+                array('select' => '1 as _can_delete')  ), # read_from_db_postprocess() updates the value
                 # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
-                # technically 'editable' is bool, but the automatic bool conversion breaks the query. Flagging it as int avoids this problem.
-                # Maybe having a vbool type (without the automatic conversion) would be cleaner - we'll see if we need it.
-                /*options*/ '',
-                /*not_in_db*/ 0,
-                /*dont_write_to_db*/ 1,
-                /*select*/ '1 as editable'              ),
         );
     }
 
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'email_address_already_exists';
         $this->msg['error_does_not_exist'] = 'alias_does_not_exist';
+        $this->msg['confirm_delete'] = 'confirm_delete_alias';
+        $this->msg['list_header'] = 'pOverview_alias_title';
+
         if ($this->new) {
             $this->msg['logname'] = 'create_alias';
             $this->msg['store_error'] = 'pCreate_alias_result_error';
@@ -86,6 +89,11 @@ class AliasHandler extends PFAHandler {
             $this->struct['address']['display_in_form'] = 0;
             $this->struct['localpart']['display_in_form'] = 1;
             $this->struct['domain']['display_in_form'] = 1;
+        }
+
+        if (Config::bool('show_status')) {
+            $this->struct['status']['display_in_list'] = 1;
+            $this->struct['status']['label'] = ' ';
         }
 
         return array(
@@ -280,8 +288,16 @@ class AliasHandler extends PFAHandler {
                 $db_result[$key]['goto_mailbox'] = 0;
             }
 
-            # TODO: set 'editable' to 0 if not superadmin, $CONF[special_alias_control] == NO and alias is in $CONF[default_aliases]
-            # TODO: see check_alias_owner() in functions.inc.php
+            # editing a default alias (postmaster@ etc.) is only allowed if special_alias_control is allowed or if the user is a superadmin
+            $tmp = preg_split('/\@/', $db_result[$key]['address']);
+            if (!$this->is_superadmin && !Config::bool('special_alias_control') && array_key_exists($tmp[0], Config::Read('default_aliases'))) {
+                        $db_result[$key]['_can_edit'] = 0;
+                        $db_result[$key]['_can_delete'] = 0;
+            }
+
+            if ($this->struct['status']['display_in_list'] && Config::Bool('show_status')) {
+                $db_result[$key]['status'] = gen_show_status($db_result[$key]['address']);
+            }
         }
 
         return $db_result;
@@ -290,8 +306,22 @@ class AliasHandler extends PFAHandler {
     public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) {
         # only list aliases that do not belong to mailboxes
         # TODO: breaks if $condition is an array
-        return parent::getList( "__mailbox_username IS NULL AND ( $condition )", $searchmode, $limit, $offset);
+        if ($condition != '') {
+            $condition = "  AND ( $condition ) ";
+        }
+        return parent::getList( "__mailbox_username IS NULL $condition", $searchmode, $limit, $offset);
     }
+
+    public function getPagebrowser($condition, $searchmode = array()) {
+        # only list aliases that do not belong to mailboxes
+        # TODO: breaks if $condition is an array
+        if ($condition != '') {
+            $condition = "  AND ( $condition ) ";
+        }
+        return parent::getPagebrowser( "__mailbox_username IS NULL $condition", $searchmode);
+    }
+
+
 
     protected function _validate_goto($field, $val) {
         if (count($val) == 0) {

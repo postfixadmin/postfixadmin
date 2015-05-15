@@ -1,16 +1,16 @@
 <?php
-/** 
- * Postfix Admin 
- * 
- * LICENSE 
- * This source file is subject to the GPL license that is bundled with  
- * this package in the file LICENSE.TXT. 
- * 
- * Further details on the project are available at http://postfixadmin.sf.net 
- * 
- * @version $Id$ 
- * @license GNU GPL v2 or later. 
- * 
+/**
+ * Postfix Admin
+ *
+ * LICENSE
+ * This source file is subject to the GPL license that is bundled with
+ * this package in the file LICENSE.TXT
+ *
+ * Further details on the project are available at http://postfixadmin.sf.net
+ *
+ * @version $Id$
+ * @license GNU GPL v2 or later.
+ *
  * File: delete.php
  * Used to delete admins, domains, mailboxes, aliases etc.
  *
@@ -33,7 +33,7 @@ if ( !preg_match('/^[a-z]+$/', $table) || !file_exists("model/$handlerclass.php"
     die ("Invalid table name given!");
 }
 
-$handler = new $handlerclass(0, $username);                                                                                                           
+$handler = new $handlerclass(0, $username);
 
 $formconf = $handler->webformConfig();
 
@@ -43,8 +43,6 @@ if ($handler->init($id)) { # errors will be displayed as last step anyway, no ne
     if ($active != '0' && $active != '1') {
         die(Config::Lang('invalid_parameter'));
     }
-
-    $values['active'] = $active;
 
     if ( $handler->set(array('active' => $active)) ) {
         $handler->store();

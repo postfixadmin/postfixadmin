@@ -568,23 +568,6 @@ function check_owner ($username, $domain) {
 
 
 
-//
-// check_alias_owner
-// Action: Checks if the admin is the owner of the alias.
-// Call: check_alias_owner (string admin, string alias)
-//
-function check_alias_owner ($username, $alias) {
-    global $CONF;
-    if (authentication_has_role('global-admin')) return true;
-    $tmp = preg_split('/\@/', $alias);
-    if (($CONF['special_alias_control'] == 'NO') && array_key_exists($tmp[0], $CONF['default_aliases'])) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-
 /**
  * List domains for an admin user. 
  * @param String $username
@@ -1628,7 +1611,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
         die('db_where_cond: parameter $cond is not an array!');
     } elseif(!is_array($searchmode)) {
         die('db_where_cond: parameter $searchmode is not an array!');
-    } elseif (count($condition) == 0) {
+    } elseif (count($condition) == 0 && trim($additional_raw_where) == '') {
         die("db_where_cond: parameter is an empty array!"); # die() might sound harsh, but can prevent information leaks 
     } elseif(!is_array($struct)) {
         die('db_where_cond: parameter $struct is not an array!');

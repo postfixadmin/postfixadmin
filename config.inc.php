@@ -271,6 +271,7 @@ $CONF['domain_struct_hook']         = '';
 $CONF['alias_struct_hook']          = '';
 $CONF['mailbox_struct_hook']        = '';
 $CONF['alias_domain_struct_hook']   = '';
+$CONF['fetchmail_struct_hook']      = '';
 
 
 // Default Domain Values
@@ -344,13 +345,6 @@ $CONF['vacation_choice_of_reply'] = array (
 //
 // End Vacation Stuff.
 //
-
-// Users Control for Domain Admin
-// Set to "Yes" if your domain admins schould be able to  edit  field userscontrole in  table domain
-// Userscontrol is edited in admin_create-domain.tpl and admin_edit-domain.tpl
-// Userscontrol is default set  to  on when creating a domain
-$CONF['users_domain_controle'] = 'YES';
-
 
 // Alias Control
 // Postfix Admin inserts an alias in the alias table for every mailbox it creates.

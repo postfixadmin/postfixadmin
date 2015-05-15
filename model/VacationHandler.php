@@ -32,6 +32,8 @@ class VacationHandler extends PFAHandler {
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'pCreate_mailbox_username_text_error1'; # TODO: better error message
         $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1'; # TODO: better error message
+        $this->msg['confirm_delete'] = 'confirm_delete_vacation'; # unused?
+
         if ($this->new) {
             $this->msg['logname'] = 'edit_vacation';
             $this->msg['store_error'] = 'pVacation_result_error';

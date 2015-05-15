@@ -9,6 +9,7 @@ class MailboxHandler extends PFAHandler {
     protected $db_table = 'mailbox';
     protected $id_field = 'username';
     protected $domain_field = 'domain';
+    protected $searchfields = array('username');
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
@@ -89,6 +90,8 @@ class MailboxHandler extends PFAHandler {
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'email_address_already_exists';
         $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1';
+        $this->msg['confirm_delete'] = 'confirm_delete_mailbox';
+
         if ($this->new) {
             $this->msg['logname'] = 'create_mailbox';
             $this->msg['store_error'] = 'pCreate_mailbox_result_error';
@@ -412,7 +415,7 @@ class MailboxHandler extends PFAHandler {
         $fBody = Config::read('welcome_text');
 
         if (!smtp_mail ($fTo, $fFrom, $fSubject, $fBody)) {
-            $this->errormsg[] = Config::lang('pSendmail_result_error');
+            $this->errormsg[] = Config::lang_f('pSendmail_result_error', $this->id);
             return false;
         }
 

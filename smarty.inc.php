@@ -17,6 +17,7 @@ class PFASmarty {
     }
 
     public function assign($key, $value, $sanitise = true) {
+        $this->template->assign("RAW_$key", $value);
         if($sanitise == false) {
             return $this->template->assign($key, $value);
         }

@@ -35,8 +35,8 @@ class DomainHandler extends PFAHandler {
         $transp = min($super, Config::intbool('transport'));
         $editquota  = min($super, Config::intbool('quota'));
         $quota  = Config::intbool('quota');
-        $edit_dom_q  = min($super, Config::intbool('domain_quota'));
-        $dom_q  = Config::intbool('domain_quota');
+        $edit_dom_q  = min($super, Config::intbool('domain_quota'), $quota);
+        $dom_q  = min(Config::intbool('domain_quota'), $quota);
 
         $query_used_domainquota = 'round(coalesce(__total_quota/' . intval(Config::read('quota_multiplier')) . ',0))';
 
@@ -60,9 +60,9 @@ class DomainHandler extends PFAHandler {
                /*extrafrom*/ 'left join ( select count(*) as __alias_count, domain as __alias_domain from ' . table_by_key('alias') .
                              ' group by domain) as __alias on domain = __alias_domain'),
             'aliases_quot'  => pacol(   0,          0,      1,      'quot', 'aliases'                      , ''                                  , 0, '',
-                array('select' => db_quota_text(   '__alias_count - __mailbox_count', 'aliases', 'aliases_quot'))   ),
+                array('select' => db_quota_text(   '__alias_count - coalesce(__mailbox_count,0)', 'aliases', 'aliases_quot'))   ),
             '_aliases_quot_percent' => pacol( 0, 0,      1,      'vnum', ''                   ,''                   , 0, '',
-                array('select' => db_quota_percent('__alias_count - __mailbox_count', 'aliases', '_aliases_quot_percent'))   ),
+                array('select' => db_quota_percent('__alias_count - coalesce(__mailbox_count,0)', 'aliases', '_aliases_quot_percent'))   ),
 
             # Mailboxes
            'mailboxes'       => pacol(  $super,     $super, 0,      'num' , 'mailboxes'                    , 'pAdminEdit_domain_aliases_text'   , Config::read('mailboxes') ),
@@ -81,11 +81,11 @@ class DomainHandler extends PFAHandler {
 
             # Domain quota
             'quota'          => pacol($edit_dom_q,$edit_dom_q, 0,   'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
-            'total_quota'    => pacol(  0,          0,      1,      'vnum', 'total_quota'                  , ''                                 , '', '',
+            'total_quota'    => pacol(  0,          0,      1,      'vnum', ''                             , ''                                 , '', '',
                 array('select' => "$query_used_domainquota AS total_quota") /*extrafrom*//* already in mailbox_count */ ),
-            'total_quot'     => pacol( 0,          0,      1,       'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, '',
+            'total_quot'     => pacol( 0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, '',
                 array('select' => db_quota_text(   $query_used_domainquota, 'quota', 'total_quot'))   ),
-            '_total_quot_percent'=> pacol( 0,      0,      1,       'vnum', ''                             , ''                                 , 0, '',
+            '_total_quot_percent'=> pacol( 0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, '',
                 array('select' => db_quota_percent($query_used_domainquota, 'quota', '_total_quot_percent'))   ),
 
            'transport'       => pacol(  $transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
@@ -111,6 +111,8 @@ class DomainHandler extends PFAHandler {
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'pAdminCreate_domain_domain_text_error';
         $this->msg['error_does_not_exist'] = 'domain_does_not_exist';
+        $this->msg['confirm_delete'] = 'confirm_delete_domain';
+
         if ($this->new) {
             $this->msg['logname'] = 'create_domain';
             $this->msg['store_error'] = 'pAdminCreate_domain_result_error';
@@ -120,6 +122,7 @@ class DomainHandler extends PFAHandler {
             $this->msg['store_error'] = 'pAdminEdit_domain_result_error';
             $this->msg['successmessage'] = 'domain_updated';
         }
+        $this->msg['can_create'] = $this->is_superadmin;
     }
 
     public function webformConfig() {

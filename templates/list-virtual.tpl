@@ -5,23 +5,33 @@
 		{$select_options}
 	</select>
 	<input type="hidden" name="limit" value="0" />
-	<input class="button" type="submit" name="go" value="{$PALANG.go}" />
+	<noscript><input class="button" type="submit" name="go" value="{$PALANG.go}" /></noscript>
 </form>
-<h4>{$PALANG.pOverview_welcome}{$fDomain}</h4>
-<p>{$PALANG.aliases}: {$limit.alias_count} / {$limit.aliases}</p>
-<p>{$PALANG.mailboxes}: {$limit.mailbox_count} / {$limit.mailboxes}</p>
+{if isset($search._)}
+	<h4>{$PALANG.pSearch_welcome} {$search._}</h4>
+{else}
+	<h4>{$PALANG.pOverview_welcome}{$fDomain}</h4>
+	<p>{$PALANG.aliases}: {$limit.alias_count} / {$limit.aliases}</p>
+	<p>{$PALANG.mailboxes}: {$limit.mailbox_count} / {$limit.mailboxes}</p>
+{/if}
 {#form_search#}
 </div>
 <div class='subnav'><p>{$PALANG.show}
+	{if isset($search._)}
+		{assign var="searchsuffix" value="&search[_]={$search._}"}
+	{else}
+		{assign var="searchsuffix" value=""}
+	{/if}
+
 	{if $tab=='all'}<span class='active'>{$PALANG.all}</span>
-	{else}<a href="?domain={$smarty.get.domain}&amp;tab=all{if $search != ""}&search={$search}{/if}">{$PALANG.all}</a>{/if}
+	{else}<a href="?domain={$smarty.get.domain}&amp;tab=all{$searchsuffix}">{$PALANG.all}</a>{/if}
 	{if $tab=='mailbox'}<span class='active'>{$PALANG.pOverview_mailbox_title}</span>
-	{else}<a href="?domain={$smarty.get.domain}&amp;tab=mailbox{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_mailbox_title}</a>{/if}
+	{else}<a href="?domain={$smarty.get.domain}&amp;tab=mailbox{$searchsuffix}">{$PALANG.pOverview_mailbox_title}</a>{/if}
 	{if $tab=='alias'}<span class='active'>{$PALANG.pOverview_alias_title}</span>
-	{else}<a href="?domain={$smarty.get.domain}&amp;tab=alias{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_title}</a>{/if}
+	{else}<a href="?domain={$smarty.get.domain}&amp;tab=alias{$searchsuffix}">{$PALANG.pOverview_alias_title}</a>{/if}
 	{if $boolconf_alias_domain}
 		{if $tab=='alias_domain'}<span class='active'>{$PALANG.pOverview_alias_domain_title}</span>
-		{else}<a href="?domain={$smarty.get.domain}&amp;tab=alias_domain{if $search != ""}&search={$search}{/if}">{$PALANG.pOverview_alias_domain_title}</a>{/if}
+		{else}<a href="?domain={$smarty.get.domain}&amp;tab=alias_domain{$searchsuffix}">{$PALANG.pOverview_alias_domain_title}</a>{/if}
 	{/if}
 </p></div>
 <br clear="all"/><br/>
@@ -35,18 +45,8 @@
 {*** Aliases ***}
 {if $tab=='alias' || $tab=='all'}
 	{$nav_bar_alias.top}
-	<table id="alias_table">
-		<tr>
-			<th colspan="7">{$PALANG.pOverview_alias_title}</th>
-		</tr>
-	{if $tAlias}
-		{include file="list-virtual_alias.tpl"}
-	{/if}
-	</table>
+	{include file="list-virtual_alias.tpl"}
 	{$nav_bar_alias.bottom}
-	{if $tCanAddAlias}
-		<br /><a href="{#url_create_alias#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.add_alias}</a><br />
-	{/if}
 {/if}
 {if $tab=='all'}<br />{/if}
 {if $tab=='mailbox' || $tab=='all'}

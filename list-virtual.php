@@ -38,7 +38,10 @@ if (safesession('list-virtual:domain') != $fDomain) {
     unset($_SESSION['list-virtual:limit']);
 }
 $fDisplay = (int) safepost('limit', safeget('limit', safesession('list-virtual:limit')));
-$search   = safepost('search',  safeget('search', '')); # not remembered in the session
+$search   = safepost('search',  safeget('search', array())); # not remembered in the session
+if (!is_array($search)) {
+    die(Config::Lang('invalid_parameter'));
+}
 
 if (count($list_domains) == 0) {
     if (authentication_has_role('global-admin')) {
@@ -85,23 +88,44 @@ $_SESSION['list-virtual:limit'] = $fDisplay;
 #
 
 if (Config::bool('alias_domain')) {
-    if ($search == "") {
+    $handler = new AliasdomainHandler(0, $admin_username);
+    $formconf = $handler->webformConfig(); # might change struct
+    $aliasdomain_data = array(
+        'struct'    => $handler->getStruct(),
+        'msg'       => $handler->getMsg(),
+        'formconf'  => $formconf,
+    );
+    $aliasdomain_data['msg']['show_simple_search'] = False; # hide search box
+
+    $aliasdomain_data['msg']['can_create'] = 1;
+
+    # hide create button if all domains (of this admin) are already used as alias domains
+    $handler->getList("");
+    if ( count($handler->result()) + 1 >= count($list_domains) ) $aliasdomain_data['msg']['can_create'] = 0; # all domains (of this admin) are already alias domains
+
+    # get the really requested list
+    if (count($search) == 0) {
         $list_param = "alias_domain='$fDomain' OR target_domain='$fDomain'";
     } else {
-        $list_param = "alias_domain LIKE '%$search%' OR target_domain LIKE '%$search%'";
+        $list_param = $search;
     }
 
-    $handler = new AliasdomainHandler(0, $admin_username);
     $handler->getList($list_param);
     $tAliasDomains = $handler->result();
 
-    $can_create_alias_domain = 1;
     foreach ($tAliasDomains as $row) {
-        if ($row['alias_domain'] == $fDomain) $can_create_alias_domain = 0; # domain is already an alias domain
+        if ($row['alias_domain'] == $fDomain) {
+            $aliasdomain_data['struct']['target_domain']['linkto'] = 'target';
+            if (count($search) == 0) {
+                $aliasdomain_data['struct']['alias_domain']['linkto'] = '';
+                $aliasdomain_data['msg']['can_create'] = 0; # domain is already an alias domain
+            }
+        }
     }
-    # set $can_create_alias_domain = 0 if all domains (of this admin) are already used as alias domains
-    $handler->getList("");
-    if ( count($handler->result()) + 1 >= count($list_domains) ) $can_create_alias_domain = 0; # all domains (of this admin) are already alias domains
+
+    if (count($search) > 0) {
+        $aliasdomain_data['struct']['target_domain']['linkto'] = 'target';
+    }
 }
 
 #
@@ -111,22 +135,26 @@ if (Config::bool('alias_domain')) {
 $table_alias = table_by_key('alias');
 $table_mailbox = table_by_key('mailbox');
 
-if ($search == "") {
+if (count($search) == 0 || !isset($search['_'])) {
     $list_param = "domain='$fDomain'";
-    $sql_domain = " $table_alias.domain='$fDomain' ";
 } else {
-    $list_param = "(address LIKE '%$search%' OR goto LIKE '%$search%')";
-    $sql_domain = db_in_clause("$table_alias.domain", $list_domains);
+    $searchterm = escape_string($search['_']);
+    $list_param = "(address LIKE '%$searchterm%' OR goto LIKE '%$searchterm%')";
 }
 
-$alias_pagebrowser_query = "
-    FROM $table_alias
-    WHERE $sql_domain AND NOT EXISTS(SELECT 1 FROM $table_mailbox WHERE username=$table_alias.address) AND ( $list_param )
-    ORDER BY address 
-";
-
 $handler = new AliasHandler(0, $admin_username);
+$formconf = $handler->webformConfig(); # might change struct
+$alias_data = array(
+    'formconf'  => $formconf,
+    'struct'    => $handler->getStruct(),
+    'msg'       => $handler->getMsg(),
+);
+$alias_data['struct']['goto_mailbox']['display_in_list'] = 0; # not useful/defined for non-mailbox aliases
+$alias_data['struct']['on_vacation']['display_in_list'] = 0;
+$alias_data['msg']['show_simple_search'] = False; # hide search box
+
 $handler->getList($list_param, array(), $page_size, $fDisplay);
+$pagebrowser_alias = $handler->getPagebrowser($list_param, array());
 $tAlias = $handler->result();
 
 
@@ -145,13 +173,14 @@ $sql_where  = " WHERE ";
 $sql_order  = " ORDER BY $table_mailbox.username ";
 $sql_limit  = " LIMIT $page_size OFFSET $fDisplay";
 
-if ($search == "") {
+if (count($search) == 0 || !isset($search['_'])) {
     $sql_where  .= " $table_mailbox.domain='$fDomain' ";
 } else {
+    $searchterm = escape_string($search['_']);
     $sql_where  .=  db_in_clause("$table_mailbox.domain", $list_domains) . " ";
-    $sql_where  .= " AND ( $table_mailbox.username LIKE '%$search%' OR $table_mailbox.name LIKE '%$search%' ";
+    $sql_where  .= " AND ( $table_mailbox.username LIKE '%$searchterm%' OR $table_mailbox.name LIKE '%$searchterm%' ";
     if ($display_mailbox_aliases) {
-        $sql_where  .= " OR $table_alias.goto LIKE '%$search%' ";
+        $sql_where  .= " OR $table_alias.goto LIKE '%$searchterm%' ";
     } 
     $sql_where  .= " ) "; # $search is already escaped
 }
@@ -223,7 +252,7 @@ if ($result['rows'] > 0) {
     }
 }
 
-$tCanAddAlias = false;
+$alias_data['msg']['can_create'] = false;
 $tCanAddMailbox = false;
 
 $tDisplay_back = "";
@@ -250,11 +279,12 @@ if (isset ($limit)) {
     }
 
     if($limit['aliases'] == 0) {
-        $tCanAddAlias = true;
+        $alias_data['msg']['can_create'] = true;
     }
     elseif($limit['alias_count'] < $limit['aliases']) {
-        $tCanAddAlias = true;
+        $alias_data['msg']['can_create'] = true;
     }
+
     if($limit['mailboxes'] == 0) {
         $tCanAddMailbox = true;
     }
@@ -266,16 +296,6 @@ if (isset ($limit)) {
     $limit ['mailboxes']    = eval_size ($limit ['mailboxes']);
     if (Config::bool('quota')) {
         $limit ['maxquota']    = eval_size ($limit ['maxquota']);
-    }
-}
-
-$gen_show_status = array ();
-$check_alias_owner = array ();
-
-if ((is_array ($tAlias) and sizeof ($tAlias) > 0)) {
-    foreach (array_keys($tAlias) as $i) {
-        $gen_show_status [$i] = gen_show_status($tAlias[$i]['address']);
-        $check_alias_owner [$i] = check_alias_owner($admin_username, $tAlias[$i]['address']);
     }
 }
 
@@ -316,10 +336,10 @@ class cNav_bar
         $this->limit = $aLimit;
         $this->page_size = $aPage_size;
         $this->pages = $aPages;
-        if ($aSearch == "") {
-            $this->search = "";
+        if (is_array($aSearch) && isset($aSearch['_']) && $aSearch['_'] != "") {
+            $this->search = "&search[_]=" . htmlentities($aSearch['_']);
         } else {
-            $this->search = "&search=" . htmlentities($aSearch);
+            $this->search = "";
         }
         $this->url = '';
         $this->fInit = false;
@@ -397,7 +417,7 @@ class cNav_bar
     }
 }
 
-$pagebrowser_alias = create_page_browser("$table_alias.address", $alias_pagebrowser_query);
+
 $nav_bar_alias = new cNav_bar ($PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $pagebrowser_alias, $search);
 $nav_bar_alias->url = '&amp;domain='.$fDomain;
 
@@ -413,6 +433,7 @@ $fDomain = htmlentities($fDomain, ENT_QUOTES);
 if(empty($_GET['domain'])) {
     $_GET['domain'] = '';
 }
+$smarty->assign ('admin_list', array());
 $smarty->assign ('select_options', select_options ($list_domains, array ($fDomain)), false);
 $smarty->assign ('nav_bar_alias', array ('top' => $nav_bar_alias->display_top (), 'bottom' => $nav_bar_alias->display_bottom ()), false);
 $smarty->assign ('nav_bar_mailbox', array ('top' => $nav_bar_mailbox->display_top (), 'bottom' => $nav_bar_mailbox->display_bottom ()), false);
@@ -430,11 +451,11 @@ $smarty->assign ('tDisplay_next_show', $tDisplay_next_show);
 $smarty->assign ('tDisplay_next', $tDisplay_next);
 
 $smarty->assign ('tAliasDomains', $tAliasDomains);
-$smarty->assign ('can_create_alias_domain', $can_create_alias_domain);
+$smarty->assign ('aliasdomain_data', $aliasdomain_data);
+
 $smarty->assign ('tAlias', $tAlias);
-$smarty->assign ('gen_show_status', $gen_show_status, false);
-$smarty->assign ('check_alias_owner', $check_alias_owner);
-$smarty->assign ('tCanAddAlias', $tCanAddAlias);
+$smarty->assign ('alias_data', $alias_data);
+
 $smarty->assign ('tMailbox', $tMailbox);
 $smarty->assign ('gen_show_status_mailbox', $gen_show_status_mailbox, false);
 $smarty->assign ('boolconf_used_quotas', Config::bool('used_quotas'));

@@ -1,7 +1,7 @@
 <div id="overview">
 <form name="frmOverview" method="post" action="">
 	<select name="fDomain" onchange="this.form.submit();">{$select_options}</select>
-	<input class="button" type="submit" name="go" value="{$PALANG.go}" />
+	<noscript><input class="button" type="submit" name="go" value="{$PALANG.go}" /></noscript>
 </form>
 </div>
 {if $tLog}
