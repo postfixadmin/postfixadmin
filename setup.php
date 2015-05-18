@@ -363,7 +363,11 @@ else
 
             if ($error != 0) {
                 $tUsername = htmlentities($values['username']);
+            } else {
+                $setupMessage .= "<p>You are done with your basic setup. ";
+                $setupMessage .= "<p><b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b>";
             }
+
         }
     } 
 
