@@ -96,7 +96,7 @@ to
 $CONF['configured'] = true;
 
 
-PostfixAdmin does not require write access to any files except the tempates_c 
+PostfixAdmin does not require write access to any files except the templates_c 
 directory (smarty cache). You can therefore leave the files owned as root (or
 another user); as long as the web server user (e.g. www-data) can read them, it
 will be fine.
