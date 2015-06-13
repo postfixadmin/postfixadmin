@@ -207,18 +207,31 @@ function check_domain ($domain) {
         // Look for an AAAA, A, or MX record for the domain
 
         if(function_exists('checkdnsrr')) {
+            $start = microtime(true); # check for slow nameservers, part 1
+
             // AAAA (IPv6) is only available in PHP v. >= 5
-            if (version_compare(phpversion(), "5.0.0", ">=")) {
-                if (checkdnsrr($domain,'AAAA')) return '';
+            if (version_compare(phpversion(), "5.0.0", ">=") && checkdnsrr($domain,'AAAA')) {
+                $retval = '';
+            } elseif (checkdnsrr($domain,'A')) {
+                $retval = '';
+            } elseif (checkdnsrr($domain,'MX')) {
+                $retval = '';
+            } else {
+                $retval = sprintf(Config::lang('pInvalidDomainDNS'), htmlentities($domain));
             }
-            if (checkdnsrr($domain,'A')) return '';
-            if (checkdnsrr($domain,'MX')) return '';
-            return sprintf(Config::lang('pInvalidDomainDNS'), htmlentities($domain));
+
+            $end = microtime(true); # check for slow nameservers, part 2
+            $time_needed = $end - $start;
+            if ($time_needed > 2) {
+                error_log("Warning: slow nameserver - lookup for $domain took $time_needed seconds");
+            }
+
+            return $retval;
         } else {
             return 'emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!';
         }
     }
-    
+
     return '';
 }
 
