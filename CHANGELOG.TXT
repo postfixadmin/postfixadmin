@@ -9,22 +9,131 @@
 # Last update:
 # $Id$
 
+Version 3.0 beta3 (2.93) - 2015/09/** - SVN r****
+-------------------------------------------------
+
+  Summary of major changes:
+  - add list.php and list.tpl for displaying lists
+    - based on *Handler $struct, which means list view can now be customized with
+      $CONF[*_struct_hook] functions (columns with display_in_list and non-empty
+      label will be displayed)
+    - add CSV export
+    - replaces list-domain.php, list-admin.php and fetchmail.php (including their
+      *.tpl files) and the alias and alias domain lists in list-virtual
+    - improved / more detailed search support by using URL parameters
+      (list.php?search[field]=value, optionally also ?searchmode[field]=< -
+      no pretty search form yet, limited to fields the user/admin can access)
+    - only display search input box if search fields are specified in *handler
+      (that effectively means no search box for admin, domain and fetchmail listings)
+    - can also be used for users (non-admins)
+  - add FetchmailHandler (replaces fetchmail.php and its template), which also
+    means postfixadmin-cli can configure fetchmail jobs now
+  - add $CONF['fetchmail_struct_hook']
+  - remove unused $CONF['users_domain_controle']
+
+  PFAHandler:
+  - new field types:
+    - enma - associative array (value => displayed value), must be specified in
+      the "options" column
+    - html - raw HTML, used for mailbox status markers which include HTML tags
+    - b64p - passwords stored as base64, used by FetchmailHandler
+    - vtxt, vnum - "virtual", read-only text/integer
+    - quot - formatted quota ("5/10", read-only)
+  - automatically skip quot, vtxt and vnum fields in store()
+  - add handling of users (non-admins), including permission checks
+  - add and use $this->label_field and $this->label for nicer messages
+  - add $this->order_by to allow ordering by any field(s)
+  - add getMsg() function (needed by list.php)
+  - add $msg['can_create'] (true by default, false will hide the 'create' button)
+  - add $is_superadmin to make admin vs. superadmin easier to handle
+  - add $can_edit and $can_delete (only available in edit/delete mode, set by
+    init() based on the '_can_edit' and '_can_delete' from database query)
+  - add $searchfields[] (list of fields to search by default, $search[_])
+  - add $this->msg['show_simple_search'] (true if $searchfields is non-empty)
+  - split off build_select_query() (also used for pagebrowser) from read_from_db()
+    and add support for $search['_'] (searching in $searchfields[])
+  - read_from_db(), getList(): add $searchmode parameter (_before_ $limit and
+    $offset!) to be able to use query different query modes, not only "="
+  - add getPagebrowser() (returns an array of pagebrowser keys)
+
+  AdminHandler:
+  - switch to using list.php (replaces list-admin.php)
+
+  DomainHandler:
+  - reduce required permissions to 'admin', restrict write operations to superadmins
+  - add optical quota indicators for aliases, mailboxes and domain quota
+  - fix counting of aliases for domains without any mailbox
+  - use list.php for displaying domain list (replaces list-domain.php)
+
+  MailboxHandler:
+  - check_quota(): deny creating an unlimited mailbox if domain quota is set
+  - storemore(): store maildir in the correct variable to fix running
+    mailbox_postedit script (bug#342)
+
+  AliasHandler:
+  - read_from_db_postprocess(): disable _can_edit and _can_delete for default
+    aliases if special_alias_control is off and not superadmin
+  - add 'status' column, move gen_show_status handling for aliases from
+    list-virtual into AliasHandler db_read_from_db_potprocess()
+  - change getList() to work with empty $condition
+  - add getPagebrowser() to filter out mailboxes
+
+  edit.php:
+  - Newer PHP versions (noticed with 5.6.6) don't include empty fields in
+    $_POST, which broke changing a field to empty. Make sure all !isset()
+    fields are set to ''.
+  - for not-set bool values, set $values instead of the (wrong) $inp_values
+  - add user (non-admin) mode
+
+  delete.php:
+  - allow users (non-admins) to use delete.php (not used in PostfixAdmin yet)
+
+  list-virtual:
+  - use AliasHandler, AliasdomainHandler and list.tpl for aliases and alias
+    domains (the mailbox list still uses the old code)
+  - replace $alias_pagebrowser_query and the create_page_browser() call
+    with $handler->getPagebrowser()
+  - adjust search to use ?search[_]=...
+  - drop $check_alias_owner variable and check_alias_owner() call
+    (replaced by the code added in AliasHandler)
+
+  misc:
+  - translation updates: cs (patch#126), pl (by marcin-github), sv (patch#128)
+  - add CliScheme.php to display the database scheme (for usage in upgrade.php)
+  - error_log() a warning if nameserver queries in check_domain() take more than 2
+    seconds in total
+  - add functions db_quota_text() and db_quota_percent() to generate SQL queries
+    for used quota ("x/y" and percentage)
+  - pacol(): replace $not_in_db with $multiopt - the remaining parameters can be
+    specified as associative array (backwards-compatible). Also add $linkto parameter
+  - db_where_clause(): add $additional_raw_where and $searchmode parameters,
+    split query into WHERE and HAVING
+  - delete no longer used check_alias_owner() function
+  - display "view log" menu entry only if logging is enabled (patch#127)
+  - smarty.inc.php assign(): additionally provide the unsanitized values as RAW_$key
+  - setup.php: after creating a superadmin, display a note that the setup is done
+    and it's possible to login now
+  - setup.php: stop relying on subversion keyword for database upgrades
+  - explictly set session_cache_limiter to nocache (bug#347)
+  - fetchmail.pl: honor the (newly added) active column
+  - several small changes and fixes at various places - too many to list them here
+
 Version 3.0 beta2 (2.92) - 2014/10/28 - SVN r1706
 -------------------------------------------------
 
-- AliasHandler: don't clean goto field when making alias inactive (bug#316)
-- list-virtual: display quota even if $CONF[used_quotas] == NO (bug#307)
-- vacation.pl: fix postgresql queries in vacation.pl (bug#315)
-- fix query in AliasHandler getList() which caused an empty list and breaks
-  deletion of aliases in MariaDB (bug#313, bug#325)
-- fetchmail.pl: fix ssl extra options (cert check, cert path, fingerprint)
-- fix logging (run setup.php to fix old log entries) (bug#317)
-- fetchmail.php: change error_reporting() to exclude E_NOTICE (bug#322)
-- translation updates: fr (patch#123), nl (patch#122)
-- $CONF[default_aliases] can now use the new domain as alias target (patch#124)
-- check that vacation start/end date are not in the past (patch#122) 
-- update vacation INSTALL.TXT with more secure locations
-- update Smarty to 3.1.21
+  - AliasHandler: don't clean goto field when making alias inactive (bug#316)
+  - list-virtual: display quota even if $CONF[used_quotas] == NO (bug#307)
+  - vacation.pl: fix postgresql queries in vacation.pl (bug#315)
+  - fix query in AliasHandler getList() which caused an empty list and breaks
+    deletion of aliases in MariaDB (bug#313, bug#325)
+  - fetchmail.pl: fix ssl extra options (cert check, cert path, fingerprint)
+  - fix logging (run setup.php to fix old log entries) (bug#317)
+  - fetchmail.php: change error_reporting() to exclude E_NOTICE (bug#322)
+  - translation updates: fr (patch#123), nl (patch#122)
+  - $CONF[default_aliases] can now use the new domain as alias target (patch#124)
+  - check that vacation start/end date are not in the past (patch#122)
+  - update vacation INSTALL.TXT with more secure locations
+  - update Smarty to 3.1.21
 
 Version 3.0 beta1 (2.91) - 2014/05/06 - SVN r1670
 -------------------------------------------------

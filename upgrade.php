@@ -1369,10 +1369,21 @@ function upgrade_1685_pgsql() {
     db_query_parsed("UPDATE $table SET domain=SPLIT_PART(domain, '@', 2) WHERE domain=data;");
 }
 
+function upgrade_1761_mysql() {
+    # upgrade_1762 adds the 'modified' column as {DATECURRENT}, therefore we first need to change
+    # 'date' to {DATE} (mysql only allows one {DATECURRENT} column per table)
+    $table_fetchmail = table_by_key('fetchmail');
+    db_query_parsed("ALTER TABLE `$table_fetchmail`  CHANGE `date`  `date` {DATE}");
+}
+
 function upgrade_1762() {
     _db_add_field('fetchmail', 'domain',   "VARCHAR(255) {LATIN1} DEFAULT ''", 'id');
     _db_add_field('fetchmail', 'active',   '{BOOLEAN}',                        'date');
     _db_add_field('fetchmail', 'created',  '{DATE}',                           'date');
+
+    # If you followed SVN and got upgrade failures here, you might need to
+    #    UPDATE config SET value=1760 WHERE name='version';
+    # and run setup.php again (upgrade_1761_mysql was added later).
     _db_add_field('fetchmail', 'modified', '{DATECURRENT}',                    'created');
 }
 
@@ -1391,6 +1402,11 @@ function upgrade_1767() {
     db_query_parsed("UPDATE $table SET active='{BOOL_TRUE}'");
 }
 
+function upgrade_1795_mysql() {
+    # upgrade_1761_mysql() was added later (in r1795) - make sure it runs for everybody
+    # (running it twice doesn't hurt)
+    upgrade_1761_mysql();
+}
 
 # TODO MySQL:
 # - various varchar fields do not have a default value
