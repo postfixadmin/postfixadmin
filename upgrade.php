@@ -71,6 +71,9 @@ function _db_field_exists($table, $field) {
         return _mysql_field_exists($table, $field);
     }
 }
+function _upgrade_filter_function($name) {
+    return preg_match('/upgrade_[\d]+(_mysql|_pgsql)?$/', $name) == 1; 
+}
 
 function _db_add_field($table, $field, $fieldtype, $after) {
     global $CONF;
@@ -141,7 +144,8 @@ function _do_upgrade($current_version) {
     $target_version = 0;
     // Rather than being bound to an svn revision number, just look for the largest function name that matches upgrade_\d+...
     // $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
-    $our_upgrade_functions = array_filter(get_defined_functions()['user'], function($name) { return preg_match('/upgrade_[\d]+(_mysql|_pgsql)?$/', $name) == 1; } );
+    $funclist = get_defined_functions();
+    $our_upgrade_functions = array_filter($funclist['user'], '_upgrade_filter_function');
     foreach($our_upgrade_functions as $function_name) {
         $bits = explode("_", $function_name);
         $function_number = $bits[1];
