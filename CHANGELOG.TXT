@@ -9,7 +9,7 @@
 # Last update:
 # $Id$
 
-Version 3.0 beta3 (2.93) - 2015/09/** - SVN r****
+Version 3.0 beta3 (2.93) - 2015/09/26 - SVN r1799
 -------------------------------------------------
 
   Summary of major changes:
@@ -116,6 +116,7 @@ Version 3.0 beta3 (2.93) - 2015/09/** - SVN r****
   - setup.php: stop relying on subversion keyword for database upgrades
   - explictly set session_cache_limiter to nocache (bug#347)
   - fetchmail.pl: honor the (newly added) active column
+  - change fetchmail.date field to date (no auto-update) (bug#351)
   - several small changes and fixes at various places - too many to list them here
 
 Version 3.0 beta2 (2.92) - 2014/10/28 - SVN r1706
