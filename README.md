@@ -11,9 +11,9 @@ Technically this project is still hosted in SVN/SourceForge. However, we welcome
 
 Useful Links
 ------------
-
+ - [Probably all you need to read (pdf)](http://blog.cboltz.de/uploads/postfixadmin-30-english.pdf) 
  - http://postfixadmin.sf.net - the current homepage for the project
- - [What is it?](/DOCUMENTS/POSTFIXADMIN.txt)
+ - [What is it? (txt)](/DOCUMENTS/POSTFIXADMIN.txt)
  - [Installation instructions](/INSTALL.TXT)
  - [Wiki](http://sourceforge.net/apps/mediawiki/postfixadmin)
  - [Mailing list](https://sourceforge.net/p/postfixadmin/discussion/676076)
