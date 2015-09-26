@@ -9,7 +9,7 @@
 # Last update:
 # $Id$
 
-Version 3.0 beta3 (2.93) - 2015/09/26 - SVN r1799
+Version 3.0 beta3 (2.93) - 2015/09/26 - SVN r1802
 -------------------------------------------------
 
   Summary of major changes:
