@@ -1755,9 +1755,9 @@ function gen_show_status ($show_alias) {
             list(/*NULL*/,$stat_domain) = explode('@',$g);
             $stat_delimiter = "";
 			if (!empty($CONF['recipient_delimiter'])) {
-				$stat_delimiter = "OR address = '" . preg_replace($delimiter_regex, "@", $g) . "'";
+				$stat_delimiter = "OR address = '" . escape_string(preg_replace($delimiter_regex, "@", $g)) . "'";
 			}
-			$stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '$g' OR address = '@$stat_domain' $stat_delimiter");
+			$stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '" . escape_string($g) . "' OR address = '@" . escape_string($stat_domain) . "' $stat_delimiter");
             if ($stat_result['rows'] == 0) {
                 $stat_ok = 0;
             }
