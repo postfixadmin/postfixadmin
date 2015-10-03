@@ -51,7 +51,8 @@
     <td>&nbsp;</td>
 </tr>
 
-{foreach from=$items item=item}
+{foreach from=$RAW_items item=RAW_item}
+    {assign "item" $items.{$RAW_item.$id_field|escape:"html"}} {* array keys in $items are html-escaped *}
     {#tr_hilightoff#}
 
     {foreach key=key item=field from=$struct}
@@ -77,7 +78,7 @@
 *}
                     {elseif $key == 'active'}
                         {if $item._can_edit}
-                            <a href="{#url_editactive#}{$table}&amp;id={$item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$item._active}</a>
+                            <a href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$item._active}</a>
                         {else}
                             {$item._active}
                         {/if}
@@ -109,7 +110,7 @@
                     {elseif $field.type == 'txtl'}
                         {foreach key=key2 item=field2 from=$item.$key}{$field2}<br> {/foreach}
                     {elseif $field.type == 'html'}
-						{$RAW_items.{$item.{$msg.id_field}}.$key}
+                        {$RAW_item.$key}
                     {else}
                         {$linktext}
                     {/if}
@@ -118,8 +119,8 @@
         {/if}
     {/foreach}
 
-    <td>{if $item._can_edit}<a href="edit.php?table={$table|escape:"url"}&amp;edit={$item.$id_field|escape:"url"}">{$PALANG.edit}</a>{else}&nbsp;{/if}</td>
-    <td>{if $item._can_delete}<a href="{#url_delete#}?table={$table}&amp;delete={$item.$id_field|escape:"url"}&amp;token={$smarty.session.PFA_token|escape:"url"}" 
+    <td>{if $item._can_edit}<a href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}">{$PALANG.edit}</a>{else}&nbsp;{/if}</td>
+    <td>{if $item._can_delete}<a href="{#url_delete#}?table={$table}&amp;delete={$RAW_item.$id_field|escape:"url"}&amp;token={$smarty.session.PFA_token|escape:"url"}"
         onclick="return confirm ('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">{$PALANG.del}</a>{else}&nbsp;{/if}</td>
     </tr>
 {/foreach}
