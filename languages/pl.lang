@@ -304,7 +304,7 @@ $PALANG['pUsersMain_edit_alias'] = 'Zmień przekierowania wiadomości.';
 $PALANG['pUsersMain_password'] = 'Zmień aktualne hasło.';
 
 
-$PALANG['pUsersVacation_welcome'] = 'Automatyczną odpowiedź.';
+$PALANG['pUsersVacation_welcome'] = 'Automatyczna odpowiedź.';
 $PALANG['pUsersVacation_welcome_text'] = 'Masz już skonfigurowaną automatyczną odpowiedź! (%s)'; # XXX Text changed to: 'Auto response for %s is active!'
 $PALANG['pUsersVacation_subject_text'] = 'Poza biurem';
 $PALANG['message'] = 'Wiadomość';
