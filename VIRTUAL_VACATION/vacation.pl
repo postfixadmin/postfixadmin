@@ -114,8 +114,10 @@
 # http://dag.wieers.com/home-made/apt/packages.php
 #
 
+use utf8;
 use DBI;
-use MIME::Base64;
+use MIME::Base64 qw(encode_base64);
+use Encode qw(encode);
 use MIME::EncWords qw(:all);
 use Email::Valid;
 use strict;
@@ -550,7 +552,7 @@ sub send_vacation_email {
             'from' => $from,
             'fake_from' => $friendly_from . " <$from>",
             'to' => $to,
-            'msg' => encode_base64($body)
+            'msg' => encode_base64(encode("UTF-8", $body))
         );
         if($test_mode == 1) {
             $logger->info("** TEST MODE ** : Vacation response sent to $to from $from subject $subject (not) sent\n");
