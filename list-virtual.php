@@ -434,7 +434,8 @@ if(empty($_GET['domain'])) {
     $_GET['domain'] = '';
 }
 $smarty->assign ('admin_list', array());
-$smarty->assign ('select_options', select_options ($list_domains, array ($fDomain)), false);
+$smarty->assign ('domain_list', $list_domains);
+$smarty->assign ('domain_selected', $fDomain);
 $smarty->assign ('nav_bar_alias', array ('top' => $nav_bar_alias->display_top (), 'bottom' => $nav_bar_alias->display_bottom ()), false);
 $smarty->assign ('nav_bar_mailbox', array ('top' => $nav_bar_mailbox->display_top (), 'bottom' => $nav_bar_mailbox->display_bottom ()), false);
 

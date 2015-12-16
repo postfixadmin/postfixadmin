@@ -1,9 +1,7 @@
 {assign var="file" value=$smarty.config.url_list_virtual}
 <div id="overview">
 <form name="frmOverview" method="get" action="{$smarty.config.url_list_virtual}">
-	<select name="domain" onchange="this.form.submit();">
-		{$select_options}
-	</select>
+	{html_options name='domain' output=$domain_list values=$domain_list selected=$domain_selected onchange="this.form.submit();"}
 	<input type="hidden" name="limit" value="0" />
 	<noscript><input class="button" type="submit" name="go" value="{$PALANG.go}" /></noscript>
 </form>

@@ -1,6 +1,6 @@
 <div id="overview">
 <form name="frmOverview" method="post" action="">
-	<select name="fDomain" onchange="this.form.submit();">{$select_options}</select>
+	{html_options name='fDomain' output=$domain_list values=$domain_list selected=$domain_selected onchange="this.form.submit();"}
 	<noscript><input class="button" type="submit" name="go" value="{$PALANG.go}" /></noscript>
 </form>
 </div>

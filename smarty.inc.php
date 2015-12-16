@@ -75,16 +75,6 @@ $smarty->assign ('version', $version);
 $smarty->assign ('boolconf_alias_domain', Config::bool('alias_domain'));
 $smarty->assign ('authentication_has_role', array ('global_admin' => authentication_has_role ('global-admin'), 'admin' => authentication_has_role ('admin'), 'user' => authentication_has_role ('user')));
 
-function select_options($aValues, $aSelected) {
-    $ret_val = '';
-    foreach ($aValues as $val) {
-        $ret_val .= '<option value="'.htmlentities($val).'"';
-        if (in_array ($val, $aSelected))
-            $ret_val .= ' selected="selected"';
-        $ret_val .= '>'.htmlentities($val).'</option>';
-    }
-    return $ret_val;
-}
 function eval_size ($aSize) {
 	if ($aSize == 0)	{$ret_val = Config::Lang('pOverview_unlimited'); }
 	elseif ($aSize < 0)	{$ret_val = Config::Lang('pOverview_disabled');  }
