@@ -103,21 +103,6 @@ will be fine.
 For templates_c/, allow write access (only) for the web server user (e. g. www-data).
 The easiest way to do this is   chown -R www-data templates_c
 
-The next 'step', is optional. Only do it, if other non-trusted users have access 
-to your user:
-
-    Depending on your environment, you may want to protect the database username
-    and password stored in config.inc.php - if so, you could move them into the 
-    Apache configuration file (which can be set to be visible only by root) using 
-    something like the following in your VirtualHost definition :
-
-    SetEnv DB_USER "postfix"
-    SetEnv DB_PASS "opensesame"
-
-    config.inc.php would then be able to access these through :
-
-    $CONF['database_user'] = $_SERVER['DB_USER']
-
 
 4. Check settings, and create Admin user
 ----------------------------------------
