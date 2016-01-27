@@ -47,6 +47,7 @@ $f_get_magic_quotes_gpc = function_exists ("get_magic_quotes_gpc");
 $f_mysql_connect = function_exists ("mysql_connect");
 $f_mysqli_connect = function_exists ("mysqli_connect");
 $f_pg_connect = function_exists ("pg_connect");
+$f_sqlite_open = class_exists("SQLite3");
 $f_session_start = function_exists ("session_start");
 $f_preg_match = function_exists ("preg_match");
 $f_mb_encode_mimeheader = function_exists ("mb_encode_mimeheader");
@@ -162,7 +163,7 @@ if (!is_writeable($incpath.'/templates_c'))
 //
 // Check if there is support for at least 1 database
 //
-if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0))
+if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0) and ($f_sqlite_open == 0))
 {
     print "<li><b>Error: There is no database support in your PHP setup</b><br />\n";
     print "To install MySQL 3.23 or 4.0 support on FreeBSD:<br />\n";
@@ -216,6 +217,15 @@ if ($f_pg_connect == 1)
     print "<li>Depends on: PostgreSQL - OK \n";
     if ( !($config_loaded && $CONF['database_type'] == 'pgsql') ) {
         print "<br>(change the database_type to 'pgsql' in config.inc.php if you want to use PostgreSQL)\n";
+    }
+    print "</li>";
+}
+
+if ($f_sqlite_open == 1)
+{
+    print "<li>Depends on: SQLite - OK \n";
+    if ( !($config_loaded && db_sqlite()) ) {
+        print "<br>(change the database_type to 'sqlite' in config.inc.php if you want to use SQLite)\n";
     }
     print "</li>";
 }
