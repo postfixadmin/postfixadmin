@@ -72,7 +72,7 @@ function _db_field_exists($table, $field) {
     }
 }
 function _upgrade_filter_function($name) {
-    return preg_match('/upgrade_[\d]+(_mysql|_pgsql)?$/', $name) == 1; 
+    return preg_match('/upgrade_[\d]+(_mysql|_pgsql|_sqlite|_mysql_pgsql)?$/', $name) == 1; 
 }
 
 function _db_add_field($table, $field, $fieldtype, $after) {
@@ -108,8 +108,18 @@ if($CONF['database_type'] == 'pgsql') {
                     )";
         db_query_parsed($pgsql);
     }
-}
-else {
+} elseif(db_sqlite()) {
+    $enc = 'PRAGMA encoding = "UTF-8"';
+    db_query_parsed($enc);
+    $sql = "
+        CREATE TABLE {IF_NOT_EXISTS} $table (
+        `id` {AUTOINCREMENT},
+        `name` TEXT NOT NULL UNIQUE DEFAULT '',
+        `value` TEXT NOT NULL DEFAULT ''
+        )
+    ";
+    db_query_parsed($sql);
+} else {
     $mysql = "
         CREATE TABLE {IF_NOT_EXISTS} $table (
         `id` {AUTOINCREMENT} {PRIMARY},
@@ -163,19 +173,40 @@ function _do_upgrade($current_version) {
     echo "<p>Updating database:</p><p>- old version: $current_version; target version: $target_version</p>\n";
     echo "<div style='color:#999'>&nbsp;&nbsp;(If the update doesn't work, run setup.php?debug=1 to see the detailed error messages and SQL queries.)</div>";
 
+    if (db_sqlite() && $current_version < 1824) {
+        // Fast forward to the first revision supporting SQLite
+        $current_version = 1823;
+    }
+
     for ($i = $current_version +1; $i <= $target_version; $i++) {
         $function = "upgrade_$i";
+        $function_mysql_pgsql = $function . "_mysql_pgsql";
         $function_mysql = $function . "_mysql";
         $function_pgsql = $function . "_pgsql";
+        $function_sqlite = $function . "_sqlite";
+
         if (function_exists($function)) {
             echo "<p>updating to version $i (all databases)...";
             $function();
             echo " &nbsp; done";
         }
+        if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli' || $CONF['database_type'] == 'pgsql') {
+            if (function_exists($function_mysql_pgsql)) {
+                echo "<p>updating to version $i (MySQL and PgSQL)...";
+                $function_mysql_pgsql();
+                echo " &nbsp; done";
+            }
+        }
         if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli' ) {
             if (function_exists($function_mysql)) {
                 echo "<p>updating to version $i (MySQL)...";
                 $function_mysql();
+                echo " &nbsp; done";
+            }
+        } elseif(db_sqlite()) {
+            if (function_exists($function_sqlite)) {
+                echo "<p>updating to version $i (SQLite)...";
+                $function_sqlite();
                 echo " &nbsp; done";
             }
         } elseif($CONF['database_type'] == 'pgsql') {
@@ -225,6 +256,25 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
         );
         $sql = "$sql $attach_mysql";
 
+    } elseif(db_sqlite()) {
+        $replace = array(
+                '{AUTOINCREMENT}'   => 'integer PRIMARY KEY AUTOINCREMENT NOT NULL',
+                '{PRIMARY}'         => 'PRIMARY KEY',
+                '{UNSIGNED}'        => 'unsigned',
+                '{FULLTEXT}'        => 'text',
+                '{BOOLEAN}'         => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(False) . "'",
+                '{BOOLEAN_TRUE}'    => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(True) . "'",
+                '{UTF-8}'           => '',
+                '{LATIN1}'          => '',
+                '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
+                '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
+                '{MYISAM}'          => '',
+                '{INNODB}'          => '',
+                '{INT}'             => 'int(11) NOT NULL DEFAULT 0',
+                '{BIGINT}'          => 'bigint(20) NOT NULL DEFAULT 0',
+                '{DATE}'            => "datetime NOT NULL default '2000-01-01'",
+                '{DATECURRENT}'     => 'datetime NOT NULL default CURRENT_TIMESTAMP',
+        );
     } elseif($CONF['database_type'] == 'pgsql') {
         $replace = array(
                 '{AUTOINCREMENT}'   => 'SERIAL', 
@@ -274,7 +324,7 @@ function _drop_index ($table, $index) {
 
     if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli' ) {
         return "ALTER TABLE $table DROP INDEX $index";
-    } elseif($CONF['database_type'] == 'pgsql') {
+    } elseif($CONF['database_type'] == 'pgsql' || db_sqlite()) {
         return "DROP INDEX $index"; # Index names are unique with a DB for PostgreSQL
     } else {
         echo "Sorry, unsupported database type " . $conf['database_type'];
@@ -837,7 +887,7 @@ function upgrade_81_mysql() { # MySQL only
 /**
  * Make logging translatable - i.e. create alias => create_alias
  */
-function upgrade_90() {
+function upgrade_90_mysql_pgsql() {
     $result = db_query_parsed("UPDATE " . table_by_key ('log') . " SET action = REPLACE(action,' ','_')", TRUE);
     # change edit_alias_state to edit_alias_active
     $result = db_query_parsed("UPDATE " . table_by_key ('log') . " SET action = 'edit_alias_state' WHERE action = 'edit_alias_active'", TRUE);
@@ -1139,7 +1189,7 @@ function upgrade_504_mysql() {
     db_query_parsed("ALTER TABLE `$table_mailbox` CHANGE `local_part` `local_part` VARCHAR( 255 ) {LATIN1} NOT NULL");
 }
 
-function upgrade_655() {
+function upgrade_655_mysql_pgsql() {
     db_query_parsed(_add_index('mailbox', 'domain', 'domain'));
     db_query_parsed(_add_index('alias',   'domain', 'domain'));
 }
@@ -1206,7 +1256,7 @@ function upgrade_727_mysql() {
 }
 */
 
-function upgrade_729() {
+function upgrade_729_mysql_pgsql() {
     $table_quota = table_by_key('quota');
     $table_quota2 = table_by_key('quota2');
 
@@ -1302,11 +1352,11 @@ function upgrade_730_pgsql() {
     ");
 }
 
-function upgrade_945() {
+function upgrade_945_mysql_pgsql() {
     _db_add_field('vacation', 'modified', '{DATECURRENT}', 'created');
 }
 
-function upgrade_946() {
+function upgrade_946_mysql_pgsql() {
     # taken from upgrade_727_mysql, needs to be done for all databases
     _db_add_field('vacation', 'activefrom',  '{DATE}', 'body');
     _db_add_field('vacation', 'activeuntil', '{DATE}', 'activefrom');
@@ -1320,15 +1370,15 @@ function upgrade_968_pgsql() {
     db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN quota    type bigint");
 }
 
-function upgrade_1050() {
+function upgrade_1050_mysql_pgsql() {
     db_query_parsed(_add_index('log', 'domain_timestamp', 'domain,timestamp'));
 }
 
-function upgrade_1283() {
+function upgrade_1283_mysql_pgsql() {
     _db_add_field('admin', 'superadmin', '{BOOLEAN}', 'password');
 }
 
-function upgrade_1284() {
+function upgrade_1284_mysql_pgsql() {
     # migrate the ALL domain to the superadmin column
     # Note: The ALL domain is not (yet) deleted to stay backwards-compatible for now (will be done in a later upgrade function)
 
@@ -1350,13 +1400,13 @@ function upgrade_1345_mysql() {
     # db_query_parsed("ALTER TABLE `$table_vacation` ADD `interval_time` INT NOT NULL DEFAULT '0' AFTER `reply_type` ");
 }
 
-function upgrade_1519() {
+function upgrade_1519_mysql_pgsql() {
     _db_add_field('fetchmail', 'sslcertck',      '{BOOLEAN}',                        'usessl'     );
     _db_add_field('fetchmail', 'sslcertpath',    "VARCHAR(255) {UTF-8}  DEFAULT ''", 'sslcertck'  );
     _db_add_field('fetchmail', 'sslfingerprint', "VARCHAR(255) {LATIN1} DEFAULT ''", 'sslcertpath');
 }
 
-function upgrade_1610() {
+function upgrade_1610_mysql_pgsql() {
     # obsoletes upgrade_1345_mysql() - which means debug mode could print "field already exists"
     _db_add_field('vacation', 'interval_time', '{INT}', 'domain');
 }
@@ -1380,7 +1430,7 @@ function upgrade_1761_mysql() {
     db_query_parsed("ALTER TABLE `$table_fetchmail`  CHANGE `date`  `date` {DATE}");
 }
 
-function upgrade_1762() {
+function upgrade_1762_mysql_pgsql() {
     _db_add_field('fetchmail', 'domain',   "VARCHAR(255) {LATIN1} DEFAULT ''", 'id');
     _db_add_field('fetchmail', 'active',   '{BOOLEAN}',                        'date');
     _db_add_field('fetchmail', 'created',  '{DATE}',                           'date');
@@ -1400,7 +1450,7 @@ function upgrade_1763_pgsql() {
     db_query_parsed("UPDATE $table SET domain=SPLIT_PART(mailbox, '@', 2) WHERE domain='';");
 }
 
-function upgrade_1767() {
+function upgrade_1767_mysql_pgsql() {
     # 'active' was just added, so make sure all existing jobs stay active
     $table = table_by_key('fetchmail');
     db_query_parsed("UPDATE $table SET active='{BOOL_TRUE}'");
@@ -1410,6 +1460,170 @@ function upgrade_1795_mysql() {
     # upgrade_1761_mysql() was added later (in r1795) - make sure it runs for everybody
     # (running it twice doesn't hurt)
     upgrade_1761_mysql();
+}
+
+function upgrade_1824_sqlite() {
+    $admin_table = table_by_key('admin');
+    $alias_table = table_by_key('alias');
+    $alias_domain_table = table_by_key('alias_domain');
+    $domain_table = table_by_key('domain');
+    $domain_admins_table = table_by_key('domain_admins');
+    $fetchmail_table = table_by_key('fetchmail');
+    $log_table = table_by_key('log');
+    $mailbox_table = table_by_key('mailbox');
+    $quota_table = table_by_key('quota');
+    $quota2_table = table_by_key('quota2');
+    $vacation_table = table_by_key('vacation');
+    $vacation_notification_table = table_by_key('vacation_notification');
+
+    db_query_parsed("
+      CREATE TABLE $admin_table (
+          `username` varchar(255) NOT NULL,
+          `password` varchar(255) NOT NULL,
+          `superadmin` {BOOLEAN},
+          `created` {DATE},
+          `modified` {DATE},
+          `active` {BOOLEAN_TRUE},
+          {PRIMARY} (`username`));
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $alias_table (
+          `address` varchar(255) NOT NULL,
+          `goto` {FULLTEXT} NOT NULL,
+          `domain` varchar(255) NOT NULL,
+          `created` {DATE},
+          `modified` {DATE},
+          `active` {BOOLEAN_TRUE},
+          {PRIMARY} (`address`));
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $alias_domain_table (
+          `alias_domain` varchar(255) NOT NULL,
+          `target_domain` varchar(255) NOT NULL,
+          `created` {DATE},
+          `modified` {DATE},
+          `active` {BOOLEAN_TRUE},
+          {PRIMARY} (`alias_domain`));
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $domain_table (
+          `domain` varchar(255) NOT NULL,
+          `description` varchar(255) NOT NULL,
+          `aliases` {INT},
+          `mailboxes` {INT},
+          `maxquota` {BIGINT},
+          `quota` {BIGINT},
+          `transport` varchar(255) NOT NULL,
+          `backupmx` {BOOLEAN},
+          `created` {DATE},
+          `modified` {DATE},
+          `active` {BOOLEAN_TRUE},
+          {PRIMARY} (`domain`));
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $domain_admins_table (
+          `username` varchar(255) NOT NULL,
+          `domain` varchar(255) NOT NULL,
+          `created` {DATE},
+          `active` {BOOLEAN_TRUE});
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $fetchmail_table (
+          `id` {AUTOINCREMENT},
+          `domain` varchar(255) DEFAULT '',
+          `mailbox` varchar(255) NOT NULL,
+          `src_server` varchar(255) NOT NULL,
+          `src_auth` varchar(255) DEFAULT NULL,
+          `src_user` varchar(255) NOT NULL,
+          `src_password` varchar(255) NOT NULL,
+          `src_folder` varchar(255) NOT NULL,
+          `poll_time` int(11)  NOT NULL DEFAULT '10',
+          `fetchall` {BOOLEAN},
+          `keep` {BOOLEAN},
+          `protocol` {FULLTEXT} DEFAULT NULL,
+          `usessl` {BOOLEAN},
+          `sslcertck` {BOOLEAN},
+          `sslcertpath` varchar(255) DEFAULT '',
+          `sslfingerprint` varchar(255) DEFAULT '',
+          `extra_options` {FULLTEXT},
+          `returned_text` {FULLTEXT},
+          `mda` varchar(255) NOT NULL,
+          `date` {DATE},
+          `created` {DATE},
+          `modified` {DATECURRENT},
+          `active` {BOOLEAN});
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $log_table (
+          `timestamp` {DATE},
+          `username` varchar(255) NOT NULL,
+          `domain` varchar(255) NOT NULL,
+          `action` varchar(255) NOT NULL,
+          `data` {FULLTEXT} NOT NULL);
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $mailbox_table (
+          `username` varchar(255) NOT NULL,
+          `password` varchar(255) NOT NULL,
+          `name` varchar(255) NOT NULL,
+          `maildir` varchar(255) NOT NULL,
+          `quota` {BIGINT},
+          `local_part` varchar(255) NOT NULL,
+          `domain` varchar(255) NOT NULL,
+          `created` {DATE},
+          `modified` {DATE},
+          `active` {BOOLEAN_TRUE},
+          {PRIMARY} (`username`));
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $quota_table (
+          `username` varchar(255) NOT NULL,
+          `path` varchar(100) NOT NULL,
+          `current` {BIGINT},
+          {PRIMARY} (`username`,`path`));
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $quota2_table (
+          `username` varchar(255) NOT NULL,
+          `bytes` {BIGINT},
+          `messages` {INT},
+          {PRIMARY} (`username`));
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $vacation_table (
+          `email` varchar(255) NOT NULL,
+          `subject` varchar(255) NOT NULL,
+          `body` {FULLTEXT} NOT NULL,
+          `activefrom` {DATE},
+          `activeuntil` {DATE},
+          `cache` {FULLTEXT} NOT NULL DEFAULT '',
+          `domain` varchar(255) NOT NULL,
+          `interval_time` {INT},
+          `created` {DATE},
+          `modified` {DATECURRENT},
+          `active` {BOOLEAN_TRUE},
+          {PRIMARY} (`email`));
+    ");
+
+    db_query_parsed("
+      CREATE TABLE $vacation_notification_table (
+          `on_vacation` varchar(255) NOT NULL,
+          `notified` varchar(255) NOT NULL,
+          `notified_at` {DATECURRENT},
+          {PRIMARY} (`on_vacation`,`notified`),
+          CONSTRAINT `vacation_notification_pkey` FOREIGN KEY (`on_vacation`) REFERENCES `vacation` (`email`) ON DELETE CASCADE);
+    ");
+
 }
 
 # TODO MySQL:

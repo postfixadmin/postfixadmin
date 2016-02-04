@@ -80,6 +80,7 @@ function language_hook($PALANG, $language) {
 // mysql = MySQL 3.23 and 4.0, 4.1 or 5
 // mysqli = MySQL 4.1+ or MariaDB
 // pgsql = PostgreSQL
+// sqlite = SQLite 3
 $CONF['database_type'] = 'mysqli';
 $CONF['database_host'] = 'localhost';
 $CONF['database_user'] = 'postfix';
@@ -90,6 +91,8 @@ $CONF['database_name'] = 'postfix';
 // If you need to specify a different port for POSTGRESQL database connection
 //   uncomment and change the following
 // $CONF['database_port'] = '5432';
+// If sqlite is used, specify the database file path:
+//   $CONF['database_name'] = '/etc/postfix/sqlite/postfixadmin.db'
 
 // Here, if you need, you can customize table names.
 $CONF['database_prefix'] = '';
