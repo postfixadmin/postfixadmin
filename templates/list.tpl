@@ -52,7 +52,7 @@
 </tr>
 
 {foreach key=itemkey from=$RAW_items item=RAW_item}
-    {assign "item" $items.${itemkey|escape:"html"}} {* array keys in $items are html-escaped *}
+    {assign "item" $items.{htmlentities($itemkey, $smarty.const.ENT_QUOTES, 'UTF-8', false)}} {* array keys in $items are escaped using htmlentities(), see smarty.inc.php *}
     {#tr_hilightoff#}
 
     {foreach key=key item=field from=$struct}
