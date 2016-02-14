@@ -51,8 +51,8 @@
     <td>&nbsp;</td>
 </tr>
 
-{foreach from=$RAW_items item=RAW_item}
-    {assign "item" $items.{$RAW_item.$id_field|escape:"html"}} {* array keys in $items are html-escaped *}
+{foreach key=itemkey from=$RAW_items item=RAW_item}
+    {assign "item" $items.${itemkey|escape:"html"}} {* array keys in $items are html-escaped *}
     {#tr_hilightoff#}
 
     {foreach key=key item=field from=$struct}
@@ -66,7 +66,7 @@
             {/if}
 
             {if $table == 'foo' && $key == 'bar'}
-                <td>Special handling (complete table row) for {$table} / {$key}</td></tr>
+                <td>Special handling (complete table row) for {$table} / {$key}</td>
             {else}
                 <td>
                     {if $table == 'foo' && $key == 'bar'}
