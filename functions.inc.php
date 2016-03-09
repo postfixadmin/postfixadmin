@@ -1136,7 +1136,10 @@ function smtp_mail ($to, $from, $data, $body = "") {
     $smtpd_server = $CONF['smtp_server'];
     $smtpd_port = $CONF['smtp_port'];
     //$smtp_server = $_SERVER["SERVER_NAME"];
-    $smtp_server = php_uname("n");
+    $smtp_server = php_uname('n');
+    if(!empty($CONF['smtp_client'])) {
+        $smtp_server = $CONF['smtp_client'];
+    }
     $errno = "0";
     $errstr = "0";
     $timeout = "30";

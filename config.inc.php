@@ -125,6 +125,11 @@ $CONF['admin_email'] = '';
 $CONF['smtp_server'] = 'localhost';
 $CONF['smtp_port'] = '25';
 
+// SMTP Client
+// Hostname (FQDN) of the server hosting Postfix Admin
+// Used in the HELO when sending emails from Postfix Admin
+$CONF['smtp_client'] = '';
+
 // Encrypt
 // In what way do you want the passwords to be crypted?
 // md5crypt = internal postfix admin md5
