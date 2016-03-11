@@ -55,7 +55,13 @@
 					{/if}
 				{/if}	
 				</td>
-				<td>{$field.desc}</td>
+				<td>
+					{if $table == 'foo' && $key == 'bar'}
+						Special handling (td content) for {$table} / {$key}
+					{else}
+						{$field.desc}
+					{/if}
+				</td>
 				<td class="error_msg">{$fielderror.{$key}}</td>
 			</tr>
 		{/if}
