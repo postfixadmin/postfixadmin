@@ -574,7 +574,7 @@ $CONF['xmlrpc_enabled'] = false;
 // file (config.local.php) instead of editing this file and override some
 // settings there.
 if (file_exists(dirname(__FILE__) . '/config.local.php')) {
-    include(dirname(__FILE__) . '/config.local.php');
+    include_once(dirname(__FILE__) . '/config.local.php');
 }
 
 //
