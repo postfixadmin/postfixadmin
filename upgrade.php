@@ -251,6 +251,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{INNODB}'          => 'ENGINE=InnoDB',
                 '{INT}'             => 'integer NOT NULL DEFAULT 0',
                 '{BIGINT}'          => 'bigint NOT NULL DEFAULT 0',
+                '{DATETIME}'        => "datetime NOT NULL default '2000-01-01 00:00:00'", # different from {DATE} only for MySQL
                 '{DATE}'            => "timestamp NOT NULL default '2000-01-01'", # MySQL needs a sane default (no default is interpreted as CURRENT_TIMESTAMP, which is ...
                 '{DATECURRENT}'     => 'timestamp NOT NULL default CURRENT_TIMESTAMP', # only allowed once per table in MySQL
         );
@@ -272,6 +273,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{INNODB}'          => '',
                 '{INT}'             => 'int(11) NOT NULL DEFAULT 0',
                 '{BIGINT}'          => 'bigint(20) NOT NULL DEFAULT 0',
+                '{DATETIME}'        => "datetime NOT NULL default '2000-01-01'",
                 '{DATE}'            => "datetime NOT NULL default '2000-01-01'",
                 '{DATECURRENT}'     => 'datetime NOT NULL default CURRENT_TIMESTAMP',
         );
@@ -294,6 +296,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 'int(10)'           => 'int', 
                 'int(11)'           => 'int', 
                 'int(4)'            => 'int', 
+                '{DATETIME}'        => "timestamp with time zone default '2000-01-01'", # stay in sync with MySQL
                 '{DATE}'            => "timestamp with time zone default '2000-01-01'", # stay in sync with MySQL
                 '{DATECURRENT}'     => 'timestamp with time zone default now()',
         );
@@ -364,8 +367,8 @@ function upgrade_1_mysql() {
     CREATE TABLE {IF_NOT_EXISTS} $admin (
       `username` varchar(255) NOT NULL default '',
       `password` varchar(255) NOT NULL default '',
-      `created` datetime NOT NULL default '0000-00-00 00:00:00',
-      `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+      `created` {DATETIME},
+      `modified` {DATETIME},
       `active` tinyint(1) NOT NULL default '1',
       PRIMARY KEY  (`username`)
   ) {MYISAM} COMMENT='Postfix Admin - Virtual Admins';";
@@ -375,8 +378,8 @@ function upgrade_1_mysql() {
       `address` varchar(255) NOT NULL default '',
       `goto` text NOT NULL,
       `domain` varchar(255) NOT NULL default '',
-      `created` datetime NOT NULL default '0000-00-00 00:00:00',
-      `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+      `created` {DATETIME},
+      `modified` {DATETIME},
       `active` tinyint(1) NOT NULL default '1',
       PRIMARY KEY  (`address`)
     ) {MYISAM} COMMENT='Postfix Admin - Virtual Aliases'; ";
@@ -391,8 +394,8 @@ function upgrade_1_mysql() {
       `quota` bigint(20) NOT NULL default '0',
       `transport` varchar(255) default NULL,
       `backupmx` tinyint(1) NOT NULL default '0',
-      `created` datetime NOT NULL default '0000-00-00 00:00:00',
-      `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+      `created` {DATETIME},
+      `modified` {DATETIME},
       `active` tinyint(1) NOT NULL default '1',
       PRIMARY KEY  (`domain`)
     ) {MYISAM} COMMENT='Postfix Admin - Virtual Domains'; ";
@@ -401,14 +404,14 @@ function upgrade_1_mysql() {
     CREATE TABLE {IF_NOT_EXISTS} $domain_admins (
       `username` varchar(255) NOT NULL default '',
       `domain` varchar(255) NOT NULL default '',
-      `created` datetime NOT NULL default '0000-00-00 00:00:00',
+      `created` {DATETIME},
       `active` tinyint(1) NOT NULL default '1',
       KEY username (`username`)
     ) {MYISAM} COMMENT='Postfix Admin - Domain Admins';";
 
     $sql[] = "
     CREATE TABLE {IF_NOT_EXISTS} $log (
-      `timestamp` datetime NOT NULL default '0000-00-00 00:00:00',
+      `timestamp` {DATETIME},
       `username` varchar(255) NOT NULL default '',
       `domain` varchar(255) NOT NULL default '',
       `action` varchar(255) NOT NULL default '',
@@ -424,8 +427,8 @@ function upgrade_1_mysql() {
       `maildir` varchar(255) NOT NULL default '',
       `quota` bigint(20) NOT NULL default '0',
       `domain` varchar(255) NOT NULL default '',
-      `created` datetime NOT NULL default '0000-00-00 00:00:00',
-      `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+      `created` {DATETIME},
+      `modified` {DATETIME},
       `active` tinyint(1) NOT NULL default '1',
       PRIMARY KEY  (`username`)
     ) {MYISAM} COMMENT='Postfix Admin - Virtual Mailboxes';";
@@ -437,7 +440,7 @@ function upgrade_1_mysql() {
         body text NOT NULL, 
         cache text NOT NULL, 
         domain varchar(255) NOT NULL , 
-        created datetime NOT NULL default '0000-00-00 00:00:00', 
+        created {DATETIME},
         active tinyint(4) NOT NULL default '1', 
         PRIMARY KEY (email), 
         KEY email (email) 
@@ -596,22 +599,22 @@ function upgrade_3_mysql() {
     $table_vacation = table_by_key ('vacation');
 
     if(!_mysql_field_exists($table_admin, 'created')) {
-        db_query_parsed("ALTER TABLE $table_admin {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+        db_query_parsed("ALTER TABLE $table_admin {RENAME_COLUMN} create_date created {DATETIME};");
     }
     if(!_mysql_field_exists($table_admin, 'modified')) {
-        db_query_parsed("ALTER TABLE $table_admin {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+        db_query_parsed("ALTER TABLE $table_admin {RENAME_COLUMN} change_date modified {DATETIME};");
     }
     if(!_mysql_field_exists($table_alias, 'created')) {
-        db_query_parsed("ALTER TABLE $table_alias {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+        db_query_parsed("ALTER TABLE $table_alias {RENAME_COLUMN} create_date created {DATETIME};");
     }
     if(!_mysql_field_exists($table_alias, 'modified')) {
-        db_query_parsed("ALTER TABLE $table_alias {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+        db_query_parsed("ALTER TABLE $table_alias {RENAME_COLUMN} change_date modified {DATETIME};");
     }
     if(!_mysql_field_exists($table_domain, 'created')) {
-        db_query_parsed("ALTER TABLE $table_domain {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+        db_query_parsed("ALTER TABLE $table_domain {RENAME_COLUMN} create_date created {DATETIME};");
     }
     if(!_mysql_field_exists($table_domain, 'modified')) {
-        db_query_parsed("ALTER TABLE $table_domain {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+        db_query_parsed("ALTER TABLE $table_domain {RENAME_COLUMN} change_date modified {DATETIME};");
     }
     if(!_mysql_field_exists($table_domain, 'aliases')) {
         db_query_parsed("ALTER TABLE $table_domain ADD COLUMN aliases INT(10) DEFAULT '-1' NOT NULL AFTER description;");
@@ -629,10 +632,10 @@ function upgrade_3_mysql() {
         db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx TINYINT(1) DEFAULT '0' NOT NULL AFTER transport;");
     }
     if(!_mysql_field_exists($table_mailbox, 'created')) {
-        db_query_parsed("ALTER TABLE $table_mailbox {RENAME_COLUMN} create_date created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+        db_query_parsed("ALTER TABLE $table_mailbox {RENAME_COLUMN} create_date created {DATETIME};");
     }
     if(!_mysql_field_exists($table_mailbox, 'modified')) {
-        db_query_parsed("ALTER TABLE $table_mailbox {RENAME_COLUMN} change_date modified DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL;");
+        db_query_parsed("ALTER TABLE $table_mailbox {RENAME_COLUMN} change_date modified {DATETIME};");
     }
     if(!_mysql_field_exists($table_mailbox, 'quota')) {
         db_query_parsed("ALTER TABLE $table_mailbox ADD COLUMN quota INT(10) DEFAULT '-1' NOT NULL AFTER maildir;");
@@ -641,7 +644,7 @@ function upgrade_3_mysql() {
         db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN domain VARCHAR(255) DEFAULT '' NOT NULL AFTER cache;");
     }
     if(!_mysql_field_exists($table_vacation, 'created')) {
-        db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN created DATETIME DEFAULT '0000-00-00 00:00:00' NOT NULL AFTER domain;");
+        db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN created {DATETIME} AFTER domain;");
     }
     if(!_mysql_field_exists($table_vacation, 'active')) {
         db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN active TINYINT(1) DEFAULT '1' NOT NULL AFTER created;");
@@ -763,8 +766,8 @@ function upgrade_5_mysql() {
         CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('admin') . "` (
             `username` varchar(255) NOT NULL default '',
             `password` varchar(255) NOT NULL default '',
-            `created` datetime NOT NULL default '0000-00-00 00:00:00',
-            `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+            `created` {DATETIME},
+            `modified` {DATETIME},
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`username`),
     KEY username (`username`)
@@ -775,8 +778,8 @@ function upgrade_5_mysql() {
             `address` varchar(255) NOT NULL default '',
             `goto` text NOT NULL,
             `domain` varchar(255) NOT NULL default '',
-            `created` datetime NOT NULL default '0000-00-00 00:00:00',
-            `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+            `created` {DATETIME},
+            `modified` {DATETIME},
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`address`),
     KEY address (`address`)
@@ -793,8 +796,8 @@ function upgrade_5_mysql() {
             `quota` int(10) NOT NULL default '0',
             `transport` varchar(255) default NULL,
             `backupmx` tinyint(1) NOT NULL default '0',
-            `created` datetime NOT NULL default '0000-00-00 00:00:00',
-            `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+            `created` {DATETIME},
+            `modified` {DATETIME},
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`domain`),
     KEY domain (`domain`)
@@ -805,7 +808,7 @@ function upgrade_5_mysql() {
         CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('domain_admins') . "` (
             `username` varchar(255) NOT NULL default '',
             `domain` varchar(255) NOT NULL default '',
-            `created` datetime NOT NULL default '0000-00-00 00:00:00',
+            `created` {DATETIME},
             `active` tinyint(1) NOT NULL default '1',
             KEY username (`username`)
         ) {MYISAM} DEFAULT {LATIN1} COMMENT='Postfix Admin - Domain Admins';
@@ -813,7 +816,7 @@ function upgrade_5_mysql() {
 
     $result = db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} `" . table_by_key('log') . "` (
-            `timestamp` datetime NOT NULL default '0000-00-00 00:00:00',
+            `timestamp` {DATETIME},
             `username` varchar(255) NOT NULL default '',
             `domain` varchar(255) NOT NULL default '',
             `action` varchar(255) NOT NULL default '',
@@ -830,8 +833,8 @@ function upgrade_5_mysql() {
             `maildir` varchar(255) NOT NULL default '',
             `quota` int(10) NOT NULL default '0',
             `domain` varchar(255) NOT NULL default '',
-            `created` datetime NOT NULL default '0000-00-00 00:00:00',
-            `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+            `created` {DATETIME},
+            `modified` {DATETIME},
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`username`),
     KEY username (`username`)
@@ -845,7 +848,7 @@ function upgrade_5_mysql() {
             `body` text NOT NULL,
             `cache` text NOT NULL,
             `domain` varchar(255) NOT NULL,
-            `created` datetime NOT NULL default '0000-00-00 00:00:00',
+            `created` {DATETIME},
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`email`),
     KEY email (`email`)
@@ -1022,8 +1025,8 @@ function upgrade_438_mysql() {
         CREATE TABLE IF NOT EXISTS $table_alias_domain (
             `alias_domain` varchar(255) NOT NULL default '',
             `target_domain` varchar(255) NOT NULL default '',
-            `created` datetime NOT NULL default '0000-00-00 00:00:00',
-            `modified` datetime NOT NULL default '0000-00-00 00:00:00',
+            `created` {DATETIME},
+            `modified` {DATETIME},
             `active` tinyint(1) NOT NULL default '1',
             PRIMARY KEY  (`alias_domain`),
             KEY `active` (`active`),
@@ -1624,6 +1627,24 @@ function upgrade_1824_sqlite() {
           CONSTRAINT `vacation_notification_pkey` FOREIGN KEY (`on_vacation`) REFERENCES `vacation` (`email`) ON DELETE CASCADE);
     ");
 
+}
+
+
+function upgrade_1835_mysql() {
+    # change default values for existing datetime fields with a 0000-00-00 default to {DATETIME}
+
+    foreach (array('admin', 'alias', 'alias_domain', 'domain', 'mailbox', 'domain_admins', 'vacation') as $table_to_change) {
+        $table = table_by_key($table_to_change);
+        db_query_parsed("ALTER TABLE `$table` CHANGE `created` `created` {DATETIME}");
+    }
+
+    foreach (array('admin', 'alias', 'alias_domain', 'domain', 'mailbox') as $table_to_change) {
+        $table = table_by_key($table_to_change);
+        db_query_parsed("ALTER TABLE `$table` CHANGE `modified` `modified` {DATETIME}");
+    }
+
+    $table = table_by_key('log');
+    db_query_parsed("ALTER TABLE `$table` CHANGE `timestamp` `timestamp` {DATETIME}");
 }
 
 # TODO MySQL:
