@@ -1345,8 +1345,8 @@ function db_get_boolean($bool) {
  * @return string
  */
 function db_quota_text($count, $quota, $fieldname) {
-    if (db_sqlite()) {
-        // SQLite uses || to concatenate strings
+    if (db_pgsql() || db_sqlite()) {
+        // SQLite and PostgreSQL use || to concatenate strings
         return " CASE $quota
             WHEN '-1' THEN (coalesce($count,0) || ' / -')
             WHEN '0' THEN (coalesce($count,0) || ' / " . escape_string(html_entity_decode('&infin;')) . "')
