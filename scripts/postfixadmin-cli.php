@@ -413,8 +413,9 @@ class PostfixAdmin {
                                         $this->params[$key] = true;
                                         unset($params[$i]);
                                         if (isset($params[++$i])) {
-                                                if ($params[$i]{0} !== '-') {
-                                                        $this->params[$key] = str_replace('"', '', $params[$i]);
+                                                # TODO: ideally we should know if a parameter can / must have a value instead of whitelisting known valid values starting with '-' (probably only bool doesn't need a value)
+                                                if ($params[$i]{0} !== '-' or $params[$i] != '-1') {
+                                                        $this->params[$key] = $params[$i];
                                                         unset($params[$i]);
                                                 } else {
                                                         $i--;
