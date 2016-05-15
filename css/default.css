@@ -170,6 +170,7 @@ ul.flash-error {
 	color: #999999;
 	border:2px solid white;
 	border-top:none;
+	z-index:101;
 }
 
 #menu li:hover ul, #menu li.sfhover ul, #tabbar li:hover ul, #tabbar li.sfhover ul {
