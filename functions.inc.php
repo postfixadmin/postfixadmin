@@ -866,7 +866,6 @@ function validate_password($password) {
  */
 function pacrypt ($pw, $pw_db="") {
     global $CONF;
-    $pw = stripslashes($pw);
     $password = "";
     $salt = "";
 
