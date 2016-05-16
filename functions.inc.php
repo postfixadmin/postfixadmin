@@ -198,7 +198,7 @@ function language_selector() {
  * TODO: skip DNS check if the domain exists in PostfixAdmin?
  */
 function check_domain ($domain) {
-    if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,13}$/i', ($domain))) {
+    if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([-0-9A-Z]){2,13}$/i', ($domain))) {
         return sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
     }
 
