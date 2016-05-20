@@ -93,6 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (safepost('token') != $_SESSION['PFA_token']) die('Invalid token!');
     $inp_values = safepost('value', array() );
 
     foreach($form_fields as $key => $field) {

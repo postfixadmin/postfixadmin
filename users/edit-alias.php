@@ -52,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
+    if (safepost('token') != $_SESSION['PFA_token']) die('Invalid token!');
+
     // user clicked on cancel button
     if(isset($_POST['fCancel'])) {
         header("Location: main.php");

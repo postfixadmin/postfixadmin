@@ -1,5 +1,6 @@
 <div id="edit_form">
 <form name="password" method="post" action="">
+<input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}" />
 <table>
 	<tr>
 		<th colspan="3">{$PALANG.pPassword_welcome}</th>
