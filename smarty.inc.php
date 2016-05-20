@@ -1,5 +1,7 @@
 <?php
-require_once ("$incpath/smarty/libs/Smarty.class.php");
+
+require_once(dirname(__FILE__) . '/smarty/libs/Autoloader.php');
+Smarty_Autoloader::register();
 
 /**
  * Turn on sanitisation of all data by default so it's not possible for XSS flaws to occur in PFA
@@ -11,9 +13,9 @@ class PFASmarty {
 
         //$this->template->debugging = true;
         $incpath = dirname(__FILE__);
-        $this->template->template_dir = $incpath.'/templates';
-        $this->template->compile_dir  = $incpath.'/templates_c';
-        $this->template->config_dir   = $incpath.'/'.$this->template->config_dir[0];
+        $this->template->setTemplateDir(dirname(__FILE__) . '/templates');
+        $this->template->setCompileDir(dirname(__FILE__) . '/templates_c');
+        $this->template->setConfigDir(dirname(__FILE__) . '/configs');
     }
 
     public function assign($key, $value, $sanitise = true) {

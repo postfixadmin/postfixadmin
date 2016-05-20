@@ -1,6 +1,7 @@
 $Id$
 
-Smarty version: 3.1.21
+Smarty version: 3.1.29
+    ( https://github.com/smarty-php/smarty/archive/v3.1.29.tar.gz )
 
 Additional files (not part of the official Smarty release):
 - libs/plugins/modifier.needle.php
