@@ -30,238 +30,238 @@
  */
 
 class Shell {
-/**
- * An instance of the ShellDispatcher object that loaded this script
- *
- * @var object
- * @access public
- */
-        var $Dispatch = null;
-/**
- * If true, the script will ask for permission to perform actions.
- *
- * @var boolean
- * @access public
- */
-        var $interactive = true;
-/**
- * Contains command switches parsed from the command line.
- *
- * @var array
- * @access public
- */
-        var $params = array();
-/**
- * Contains arguments parsed from the command line.
- *
- * @var array
- * @access public
- */
-        var $args = array();
-/**
- * The file name of the shell that was invoked.
- *
- * @var string
- * @access public
- */
-        var $shell = null;
-/**
- * The class name of the shell that was invoked.
- *
- * @var string
- * @access public
- */
-        var $className = null;
-/**
- * The command called if public methods are available.
- *
- * @var string
- * @access public
- */
-        var $command = null;
-/**
- * The name of the shell in camelized.
- *
- * @var string
- * @access public
- */
-        var $name = null;
+    /**
+     * An instance of the ShellDispatcher object that loaded this script
+     *
+     * @var object
+     * @access public
+     */
+    var $Dispatch = null;
+    /**
+     * If true, the script will ask for permission to perform actions.
+     *
+     * @var boolean
+     * @access public
+     */
+    var $interactive = true;
+    /**
+     * Contains command switches parsed from the command line.
+     *
+     * @var array
+     * @access public
+     */
+    var $params = array();
+    /**
+     * Contains arguments parsed from the command line.
+     *
+     * @var array
+     * @access public
+     */
+    var $args = array();
+    /**
+     * The file name of the shell that was invoked.
+     *
+     * @var string
+     * @access public
+     */
+    var $shell = null;
+    /**
+     * The class name of the shell that was invoked.
+     *
+     * @var string
+     * @access public
+     */
+    var $className = null;
+    /**
+     * The command called if public methods are available.
+     *
+     * @var string
+     * @access public
+     */
+    var $command = null;
+    /**
+     * The name of the shell in camelized.
+     *
+     * @var string
+     * @access public
+     */
+    var $name = null;
 
-/**
- *  Constructs this Shell instance.
- *
- */
-        function __construct(&$dispatch) {
-                $vars = array('params', 'args', 'shell', 'shellCommand'=> 'command');
-                foreach ($vars as $key => $var) {
-                        if (is_string($key)) {
-                                $this->{$var} =& $dispatch->{$key};
-                        } else {
-                                $this->{$var} =& $dispatch->{$var};
-                        }
-                }
+    /**
+     *  Constructs this Shell instance.
+     *
+     */
+    function __construct(&$dispatch) {
+        $vars = array('params', 'args', 'shell', 'shellCommand'=> 'command');
+        foreach ($vars as $key => $var) {
+            if (is_string($key)) {
+                $this->{$var} =& $dispatch->{$key};
+            } else {
+                $this->{$var} =& $dispatch->{$var};
+            }
+        }
 
-                $this->className = get_class($this);
+        $this->className = get_class($this);
 
-                if ($this->name == null) {
-                        $this->name = str_replace(array('shell', 'Shell', 'task', 'Task'), '', $this->className);
-                }
+        if ($this->name == null) {
+            $this->name = str_replace(array('shell', 'Shell', 'task', 'Task'), '', $this->className);
+        }
 
-                $this->Dispatch =& $dispatch;
+        $this->Dispatch =& $dispatch;
+    }
+
+    /**
+     * Initializes the Shell
+     * acts as constructor for subclasses
+     * allows configuration of tasks prior to shell execution
+     *
+     * @access public
+     */
+    function initialize() {
+    }
+    /**
+     * Starts up the the Shell
+     * allows for checking and configuring prior to command or main execution
+     * can be overriden in subclasses
+     *
+     * @access public
+     */
+    function startup() {
+        #CHECK!
+        if ( empty($this->params['q'] ) ) {
+            $this->_welcome();
         }
-        
-/**
- * Initializes the Shell
- * acts as constructor for subclasses
- * allows configuration of tasks prior to shell execution
- *
- * @access public
- */
-        function initialize() {
+        $CONF = Config::read('all');
+    }
+    /**
+     * Displays a header for the shell
+     *
+     * @access protected
+     */
+    function _welcome() {
+        $this->out("\nWelcome to Postfixadmin-CLI v" . $this->Dispatch->version);
+        $this->hr();
+    }
+
+    /**
+     * Prompts the user for input, and returns it.
+     *
+     * @param string $prompt Prompt text.
+     * @param mixed $options Array or string of options.
+     * @param string $default Default input value.
+     * @return Either the default value, or the user-provided input.
+     * @access public
+     */
+    function in($prompt, $options = null, $default = null) {
+        if (!$this->interactive) {
+            return $default;
         }
-/**
- * Starts up the the Shell
- * allows for checking and configuring prior to command or main execution
- * can be overriden in subclasses
- *
- * @access public
- */
-        function startup() {
-#CHECK!
-if ( empty($this->params['q'] ) ) {
-                $this->_welcome();
-}
-                $CONF = Config::read('all');
+        if ($prompt != '') $this->out("");
+        $in = $this->Dispatch->getInput($prompt, $options, $default);
+
+        if ($options && is_string($options)) {
+            if (strpos($options, ',')) {
+                $options = explode(',', $options);
+            } elseif (strpos($options, '/')) {
+                $options = explode('/', $options);
+            } else {
+                $options = array($options);
+            }
         }
-/**
- * Displays a header for the shell
- *
- * @access protected
- */
-        function _welcome() {
-                $this->out("\nWelcome to Postfixadmin-CLI v" . $this->Dispatch->version);
-                $this->hr();
-        }
-        
-/**
- * Prompts the user for input, and returns it.
- *
- * @param string $prompt Prompt text.
- * @param mixed $options Array or string of options.
- * @param string $default Default input value.
- * @return Either the default value, or the user-provided input.
- * @access public
- */
-        function in($prompt, $options = null, $default = null) {
-                if (!$this->interactive) {
-                        return $default;
-                }
-                if ($prompt != '') $this->out("");
+        if (is_array($options)) {
+            while ($in == '' || ($in && (!in_array(strtolower($in), $options) && !in_array(strtoupper($in), $options)) && !in_array($in, $options))) {
+                $this->err("Invalid input"); # TODO: make translateable
                 $in = $this->Dispatch->getInput($prompt, $options, $default);
+            }
+        }
 
-                if ($options && is_string($options)) {
-                        if (strpos($options, ',')) {
-                                $options = explode(',', $options);
-                        } elseif (strpos($options, '/')) {
-                                $options = explode('/', $options);
-                        } else {
-                                $options = array($options);
-                        }
-                }
-                if (is_array($options)) {
-                        while ($in == '' || ($in && (!in_array(strtolower($in), $options) && !in_array(strtoupper($in), $options)) && !in_array($in, $options))) {
-                                $this->err("Invalid input"); # TODO: make translateable
-                                $in = $this->Dispatch->getInput($prompt, $options, $default);
-                        }
-                }
+        return $in;
+    }
+    /**
+     * Outputs to the stdout filehandle.
+     *
+     * @param string $string String to output.
+     * @param boolean $newline If true, the outputs gets an added newline.
+     * @access public
+     */
+    function out($string, $newline = true) {
+        if (is_array($string)) {
+            $str = '';
+            foreach($string as $message) {
+                $str .= $message ."\n";
+            }
+            $string = $str;
+        }
+        return $this->Dispatch->stdout($string, $newline);
+    }
+    /**
+     * Outputs to the stderr filehandle.
+     *
+     * @param string $string Error text to output.
+     * @access public
+     */
+    function err($string) {
+        if (is_array($string)) {
+            $str = '';
+            foreach($string as $message) {
+                $str .= $message ."\n";
+            }
+            $string = $str;
+        }
+        return $this->Dispatch->stderr($string."\n");
+    }
+    /**
+     * Outputs a series of minus characters to the standard output, acts as a visual separator.
+     *
+     * @param boolean $newline If true, the outputs gets an added newline.
+     * @access public
+     */
+    function hr($newline = false) {
+        if ($newline) {
+            $this->out("\n");
+        }
+        $this->out('---------------------------------------------------------------');
+        if ($newline) {
+            $this->out("\n");
+        }
+    }
+    /**
+     * Displays a formatted error message and exits the application
+     *
+     * @param string $title Title of the error message
+     * @param string $msg Error message
+     * @access public
+     */
+    function error($title, $msg) {
+        $out  = "$title\n";
+        $out .= "$msg\n";
+        $out .= "\n";
+        $this->err($out);
+        $this->_stop(1);
+    }
+    /**
+     * Outputs usage text on the standard output. Implement it in subclasses.
+     *
+     * @access public
+     */
+    function help() {
+        if ($this->command != null) {
+            $this->err("Unknown {$this->name} command '$this->command'.\nFor usage, try 'postfixadmin-cli {$this->shell} help'.\n\n");
+        } else {
+            $this->Dispatch->help();
+        }
+    }
+    /**
+     * Stop execution of the current script
+     *
+     * @param $status see http://php.net/exit for values
+     * @return void
+     * @access public
+     */
+    function _stop($status = 0) {
+        exit($status);
+    }
 
-                return $in;
-        }
-/**
- * Outputs to the stdout filehandle.
- *
- * @param string $string String to output.
- * @param boolean $newline If true, the outputs gets an added newline.
- * @access public
- */
-        function out($string, $newline = true) {
-                if (is_array($string)) {
-                        $str = '';
-                        foreach($string as $message) {
-                                $str .= $message ."\n";
-                        }
-                        $string = $str;
-                }
-                return $this->Dispatch->stdout($string, $newline);
-        }
-/**
- * Outputs to the stderr filehandle.
- *
- * @param string $string Error text to output.
- * @access public
- */
-        function err($string) {
-                if (is_array($string)) {
-                        $str = '';
-                        foreach($string as $message) {
-                                $str .= $message ."\n";
-                        }
-                        $string = $str;
-                }
-                return $this->Dispatch->stderr($string."\n");
-        }
-/**
- * Outputs a series of minus characters to the standard output, acts as a visual separator.
- *
- * @param boolean $newline If true, the outputs gets an added newline.
- * @access public
- */
-        function hr($newline = false) {
-                if ($newline) {
-                        $this->out("\n");
-                }
-                $this->out('---------------------------------------------------------------');
-                if ($newline) {
-                        $this->out("\n");
-                }
-        }
-/**
- * Displays a formatted error message and exits the application
- *
- * @param string $title Title of the error message
- * @param string $msg Error message
- * @access public
- */
-        function error($title, $msg) {
-                $out  = "$title\n";
-                $out .= "$msg\n";
-                $out .= "\n";
-                $this->err($out);
-                $this->_stop(1);
-        }
-        /**
- * Outputs usage text on the standard output. Implement it in subclasses.
- *
- * @access public
- */
-        function help() {
-                if ($this->command != null) {
-                        $this->err("Unknown {$this->name} command '$this->command'.\nFor usage, try 'postfixadmin-cli {$this->shell} help'.\n\n");
-                } else {
-                        $this->Dispatch->help();
-                }
-        }
- /**
- * Stop execution of the current script
- *
- * @param $status see http://php.net/exit for values
- * @return void
- * @access public
- */
-        function _stop($status = 0) {
-                exit($status);
-        }
-        
-        
- 
- }
+
+
+}
