@@ -34,7 +34,7 @@
 
 class PostfixAdmin {
     /**
-     * Version 
+     * Version
      *
      * @var string
      */
@@ -170,7 +170,7 @@ class PostfixAdmin {
             define('PATH', $this->params['webroot'] );
         } else {
             define('PATH', CORE_PATH);
-        }            
+        }
 
         if (!file_exists(PATH)) {
             $this->stderr( PATH . " don't exists");
