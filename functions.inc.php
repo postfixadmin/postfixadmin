@@ -198,7 +198,7 @@ function language_selector() {
  * TODO: skip DNS check if the domain exists in PostfixAdmin?
  */
 function check_domain ($domain) {
-    if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([0-9A-Z]){2,13}$/i', ($domain))) {
+    if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([-0-9A-Z]){2,13}$/i', ($domain))) {
         return sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
     }
 
@@ -866,7 +866,6 @@ function validate_password($password) {
  */
 function pacrypt ($pw, $pw_db="") {
     global $CONF;
-    $pw = stripslashes($pw);
     $password = "";
     $salt = "";
 
@@ -1345,8 +1344,8 @@ function db_get_boolean($bool) {
  * @return string
  */
 function db_quota_text($count, $quota, $fieldname) {
-    if (db_sqlite()) {
-        // SQLite uses || to concatenate strings
+    if (db_pgsql() || db_sqlite()) {
+        // SQLite and PostgreSQL use || to concatenate strings
         return " CASE $quota
             WHEN '-1' THEN (coalesce($count,0) || ' / -')
             WHEN '0' THEN (coalesce($count,0) || ' / " . escape_string(html_entity_decode('&infin;')) . "')
