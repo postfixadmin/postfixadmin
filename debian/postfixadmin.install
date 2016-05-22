@@ -1,5 +1,4 @@
 *.php		usr/share/postfixadmin
-admin		usr/share/postfixadmin
 css		usr/share/postfixadmin
 images		usr/share/postfixadmin
 languages	usr/share/postfixadmin
