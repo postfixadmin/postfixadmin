@@ -1,14 +1,9 @@
 *.php		usr/share/postfixadmin
-*.js		usr/share/postfixadmin
-configs		usr/share/postfixadmin
+admin		usr/share/postfixadmin
 css		usr/share/postfixadmin
 images		usr/share/postfixadmin
 languages	usr/share/postfixadmin
 model		usr/share/postfixadmin
-scripts		usr/share/postfixadmin
-smarty		usr/share/postfixadmin
 templates	usr/share/postfixadmin
-templates_c	usr/share/postfixadmin
 users		usr/share/postfixadmin
-debian/apache.conf	etc/postfixadmin
-debian/lighttpd.conf	etc/postfixadmin
+debian/lighttpd/90-postfixadmin.conf	etc/lighttpd/conf-available

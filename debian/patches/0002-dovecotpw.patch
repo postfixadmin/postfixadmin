@@ -1,0 +1,21 @@
+Description: Use doveadm pw instead of dovecotpw by default
+ Newer versions of dovecot no longer have the dovecotpw command.
+Author: Gaudenz Steinlin <gaudenz@debian.org>
+Forwarded: not-needed
+Applied-Upstream: fixed upstream in version 2.91
+Last-Update: 2014-10-03
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+Index: postfixadmin/config.inc.php
+===================================================================
+--- postfixadmin.orig/config.inc.php	2014-10-02 17:21:08.000000000 +0200
++++ postfixadmin/config.inc.php	2014-10-03 10:40:32.836919086 +0200
+@@ -111,7 +111,7 @@
+ $CONF['authlib_default_flavor'] = 'md5raw';
+ 
+ // If you use the dovecot encryption method: where is the dovecotpw binary located?
+-$CONF['dovecotpw'] = "/usr/sbin/dovecotpw";
++$CONF['dovecotpw'] = "/usr/bin/doveadm pw";
+ 
+ // Minimum length required for passwords. Postfixadmin will not
+ // allow users to set passwords which are shorter than this value.

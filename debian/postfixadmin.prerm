@@ -8,17 +8,4 @@ if [ -f /usr/share/dbconfig-common/dpkg/prerm ]; then
         dbc_go postfixadmin $@
 fi
 
-if [ -f /usr/share/debconf/confmodule ]; then
-	. /usr/share/debconf/confmodule
-	db_version 2.0
-	db_get postfixadmin/reconfigure-webserver
-	servers="$RET"
-	linkname="postfixadmin"
-	if [ -e /usr/share/wwwconfig-common/confd-link.sh ]; then
-		. /usr/share/wwwconfig-common/confd-link.sh
-	else
-		. /usr/share/postfixadmin/confd-link.sh
-	fi
-fi
-
 #DEBHELPER#

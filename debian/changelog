@@ -1,3 +1,10 @@
+postfixadmin (2.93-2) unstable; urgency=low
+
+  * Replace debian/ using Debian v2.3.7-2. See Debian's #821643
+  * This adds : PHP7 and Apache 2.4 support.
+
+ -- David Goodwin <david@palepurple.co.uk>  Sun, 22 May 2016 19:41:01 +0100
+
 postfixadmin (2.93-1) unstable; urgency=low
 
   * New upstream release (effectively beta3 for v3.0)

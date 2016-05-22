@@ -2,4 +2,3 @@ usr/share/postfixadmin
 usr/share/postfixadmin/css
 usr/share/doc/postfixadmin
 etc/postfixadmin
-etc/apache2/conf.d

@@ -1,0 +1,3 @@
+# move webserver configuration files
+mv_conffile /etc/postfixadmin/apache.conf /etc/apache2/conf-available/postfixadmin.conf 2.3.7-1~
+mv_conffile /etc/postfixadmin/lighttpd.conf /etc/lighttpd/conf-available/postfixadmin.conf 2.3.7-1~

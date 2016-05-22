@@ -7,6 +7,7 @@
 export VERSION 		= $(shell grep -E "version = '.*';" functions.inc.php |sed -e "s/.version = '//" |sed -e "s/';.*//" |sed -e "s/ /-/g")
 export DEBVERSION	= $(shell grep -E "postfixadmin .([0-9]+|\.)+" debian/changelog |head -1 |sed -e "s/postfixadmin .//" |sed -e "s/-.*//")
 
+
 build: build-arch build-indep
 build-arch: build-stamp
 build-indep: build-stamp
@@ -14,16 +15,10 @@ build-stamp:
 	dh_testdir
 	touch build-stamp
 
-# Create a needed tar.gz file to build a non-nativ .dpkg
-prep:
-	rm -f ../postfixadmin_*orig.tar.gz
-	cd ..; tar --exclude-vcs --exclude=$(notdir ${CURDIR})/debian  --exclude=$(notdir ${CURDIR})/.pc -cvzf postfixadmin_${DEBVERSION}.orig.tar.gz $(notdir ${CURDIR}) 
-
 clean:
 	dh_testdir
 	dh_testroot
 	dh_clean
-	debconf-updatepo
 
 install: build
 	dh_testdir
@@ -31,12 +26,9 @@ install: build
 	dh_prep
 	dh_installdirs
 	dh_install
+	dh_apache2
 	mv debian/postfixadmin/usr/share/postfixadmin/config.inc.php debian/postfixadmin/etc/postfixadmin/config.inc.php
 	find debian/postfixadmin -name .svn | xargs -r rm -r
-	chmod +x debian/postfixadmin/usr/share/postfixadmin/scripts/postfixadmin-cli
-	chmod +x debian/postfixadmin/usr/share/postfixadmin/scripts/postfixadmin-cli.php
-	chown www-data debian/postfixadmin/usr/share/postfixadmin/templates_c
-
 
 # Build architecture-independent files here.
 binary-indep: build install
