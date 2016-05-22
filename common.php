@@ -22,6 +22,7 @@ if(!defined('POSTFIXADMIN')) { # already defined if called from setup.php
     if (!defined('POSTFIXADMIN_CLI')) {
         // this is the default; see also https://sourceforge.net/p/postfixadmin/bugs/347/
         session_cache_limiter('nocache'); 
+        session_name('postfixadmin_session');
         session_start();
 
         if (defined('POSTFIXADMIN_LOGOUT')) {
