@@ -131,21 +131,7 @@ if($CONF['database_type'] == 'pgsql') {
     db_query_parsed($mysql, 0, " ENGINE = MYISAM COMMENT = 'PostfixAdmin settings'");
 }
 
-$sql = "SELECT * FROM $table WHERE name = 'version'";
-
-// insert into config('version', '01');
-
-$r = db_query($sql);
-
-if($r['rows'] == 1) {
-    $rs = $r['result'];
-    $row = db_array($rs);
-    $version = $row['value'];
-} else {
-    db_query_parsed("INSERT INTO $table (name, value) VALUES ('version', '0')", 0, '');
-    $version = 0;
-}
-
+$version = check_db_version(False);
 _do_upgrade($version);
 
 function _do_upgrade($current_version) {

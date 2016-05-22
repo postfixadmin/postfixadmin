@@ -177,6 +177,9 @@ class PostfixAdmin {
             return false;
         }
 
+        # make sure global variables fron functions.inc.php end up in the global namespace, instead of being local to this function
+        global $version, $min_db_version;
+
         if (!require_once(PATH . '/common.php')) {
             $this->stderr("Failed to load " . PATH . '/common.php');
             return false;
@@ -189,6 +192,8 @@ class PostfixAdmin {
      */
     public function dispatch() {
         $CONF = Config::read('all');
+
+        check_db_version(); # ensure the database layout is up to date
 
         if (!isset($this->args[0])) {
             $this->help();

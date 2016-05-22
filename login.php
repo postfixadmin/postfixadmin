@@ -34,6 +34,7 @@ if($CONF['configured'] !== true) {
     exit;
 }
 
+check_db_version(); # check if the database layout is up to date (and error out if not)
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
