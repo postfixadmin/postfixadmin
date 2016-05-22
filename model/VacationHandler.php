@@ -21,7 +21,7 @@ class VacationHandler extends PFAHandler {
             'body'          => pacol(   1,          1,      0,      'text', 'pUsersVacation_body'           , ''                                , '' ),
             'activefrom'    => pacol(   1,          1,      1,      'text', 'pUsersVacation_activefrom'     , ''                                , '' ),
             'activeuntil'   => pacol(   1,          1,      1,      'text', 'pUsersVacation_activeuntil'    , ''                                , '' ),
-#           'cache'         => pacol(   0,          0,      0,      'text', ''                              , ''                                , '' ), # leftover from 2.2
+            'cache'         => pacol(   0,          0,      0,      'text', ''                              , ''                                , '' ), # leftover from 2.2
             'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
             'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                 ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
@@ -180,6 +180,7 @@ class VacationHandler extends PFAHandler {
             'active' => db_get_boolean(true),
             'activefrom' => $activeFrom,
             'activeuntil' => $activeUntil,
+            'cache' => '',
         );
 
         // is there an entry in the vacaton table for the user, or do we need to insert?
