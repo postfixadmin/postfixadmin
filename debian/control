@@ -11,8 +11,8 @@ Homepage: http://postfixadmin.sourceforge.net
 
 Package: postfixadmin
 Architecture: all
-Depends: debconf (>= 0.5), dbconfig-common, wwwconfig-common, apache2 | lighttpd | httpd, libapache2-mod-php | php-cgi | php, php-imap, php-mysql | php-pgsql, mysql-client | postgresql-client, ${misc:Depends}
-Recommends: postfix-mysql | postfix-pgsql, mysql-server | postgresql, zendframework, dovecot-core | courier-authlib-mysql | courier-authlib-postgresql
+Depends: debconf (>= 0.5), dbconfig-common, wwwconfig-common, apache2 | lighttpd | httpd, libapache2-mod-php | php-cgi | php, php-imap, php-mysql | php-pgsql | php-mysqlnd | php-sqlite3, mysql-client | postgresql-client, ${misc:Depends}
+Recommends: postfix-mysql | postfix-pgsql, virtual-mysql-server | postgresql | sqlite, zendframework, dovecot-core | courier-authlib-mysql | courier-authlib-postgresql, php-cli
 Description: Virtual mail hosting interface for Postfix
  Postfixadmin is a web interface to manage virtual users and domains
  for a Postfix mail transport agent. It supports Virtual mailboxes,
