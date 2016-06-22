@@ -8,24 +8,17 @@ if [ "$1" = "configure" ]; then
 	. /usr/share/debconf/confmodule
 	. /usr/share/dbconfig-common/dpkg/postinst
 	dbc_go postfixadmin $@
-	
-	# configure webserver stuff
-	db_get postfixadmin/reconfigure-webserver
-	servers="$RET"
-	restart="$servers"
-	linkdestination_apache="../../postfixadmin/apache.conf"
-	linkdestination_lighttpd="../../postfixadmin/lighttpd.conf"
-	linkname="postfixadmin"
-	if [ -e /usr/share/wwwconfig-common/confd-link.sh ]; then
-		. /usr/share/wwwconfig-common/confd-link.sh
-	else
-		. /usr/share/postfixadmin/confd-link.sh
-	fi
-	. /usr/share/wwwconfig-common/restart.sh
+fi
+
+# remove legacy apache and lighthttpd configuration symlink,
+# conf.d is no longer supported with Apache 2.4
+if [ "$(readlink /etc/apache2/conf.d/postfixadmin)" = "../../postfixadmin/apache.conf" ]; then
+    rm -f /etc/apache2/conf.d/postfixadmin
+fi
+if [ "$(readlink /etc/lighttpd/conf-available/postfixadmin)" = "../../postfixadmin/lighttpd.conf" ]; then
+    rm -f /etc/lighttpd/conf-available/postfixadmin
 fi
 
 #DEBHELPER#
-
-chown www-data /usr/share/postfixadmin/templates_c
 
 exit 0

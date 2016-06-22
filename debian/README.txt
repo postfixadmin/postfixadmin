@@ -12,8 +12,10 @@ postfixadmin project), do the following :
 1. Update debian/changelog; include your email address in the last change 
                 (this is used to determine a gpg key to use)
 
-2. dpkg-buildpackage -rfakeroot 
+2. debian/rules prep
 
-3. Look in ../ at the shiny .deb / .tar.gz
+3. dpkg-buildpackage -rfakeroot 
 
-4. Profit.
+4. Look in ../ at the shiny .deb / .tar.gz
+
+5. Profit.

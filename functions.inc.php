@@ -16,6 +16,7 @@
  */
 
 $version = '2.93';
+$min_db_version = 1835;  # update (at least) before a release with the latest function numbrer in upgrade.php
 
 /**
  * check_session
@@ -1754,7 +1755,34 @@ function table_by_key ($table_key) {
     return $CONF['database_prefix'].$table;
 }
 
+/*
+ * check if the database layout is up to date
+ * returns the current 'version' value from the config table
+ * if $error_out is True (default), die() with a message that recommends to run setup.php.
+ */
+function check_db_version($error_out = True) {
+    global $min_db_version;
 
+    $table = table_by_key('config');
+
+    $sql = "SELECT value FROM $table WHERE name = 'version'";
+    $r = db_query($sql);
+
+    if($r['rows'] == 1) {
+        $row = db_assoc($r['result']);
+        $dbversion = $row['value'];
+    } else {
+        $dbversion = 0;
+        db_query("INSERT INTO $table (name, value) VALUES ('version', '0')", 0, '');
+    }
+
+    if ( ($dbversion < $min_db_version) && $error_out == True) {
+        echo "ERROR: The PostfixAdmin database layout is outdated (you have r$dbversion, but r$min_db_version is expected).\nPlease run setup.php to upgrade the database.\n";
+        exit(1);
+    }
+
+    return $dbversion;
+}
 
 /*
    Called after an alias_domain has been deleted in the DBMS.

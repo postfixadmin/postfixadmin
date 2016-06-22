@@ -30,6 +30,7 @@ $rel_path = '../';
 define('POSTFIXADMIN_LOGOUT', 1);
 require_once("../common.php");
 
+check_db_version(); # check if the database layout is up to date (and error out if not)
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {

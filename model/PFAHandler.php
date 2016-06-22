@@ -228,7 +228,7 @@ abstract class PFAHandler {
      *   *vtxt  "virtual" line of text, coming from JOINs etc.
      *    html  raw html (use carefully, won't get auto-escaped by smarty! Don't use with user input!)
      *    pass  password (will be encrypted with pacrypt())
-     *    b64p  password (will be stored with base64_encode())
+     *    b64p  password (will be stored with base64_encode() - but will NOT be decoded automatically)
      *    num   number
      *    txtl  text "list" - array of one line texts
      *   *vnum  "virtual" number, coming from JOINs etc.
@@ -566,14 +566,14 @@ abstract class PFAHandler {
 
         if (db_pgsql()) {
             $formatted_date = "TO_DATE(text(###KEY###), '" . escape_string(Config::Lang('dateformat_pgsql')) . "')";
-            $base64_decode = "DECODE(###KEY###, 'base64')";
+            # $base64_decode = "DECODE(###KEY###, 'base64')";
         } elseif (db_sqlite()) {
             $formatted_date = "strftime(###KEY###, '" . escape_string(Config::Lang('dateformat_mysql')) . "')";
-            $base64_decode = "base64_decode(###KEY###)";
+            # $base64_decode = "base64_decode(###KEY###)";
 
         } else {
             $formatted_date = "DATE_FORMAT(###KEY###, '"   . escape_string(Config::Lang('dateformat_mysql')) . "')";
-            $base64_decode = "FROM_BASE64(###KEY###)";
+            # $base64_decode = "FROM_BASE64(###KEY###)"; # requires MySQL >= 5.6
         }
 
         $colformat = array(
@@ -582,7 +582,7 @@ abstract class PFAHandler {
             # 'bool' fields are always returned as 0/1, additonally _$field contains yes/no (already translated)
             'bool' => "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '1'    WHEN '" . db_get_boolean(false) . "' THEN '0'   END as ###KEY###," .
                       "CASE ###KEY### WHEN '" . db_get_boolean(true) . "' THEN '$yes' WHEN '" . db_get_boolean(false) . "' THEN '$no' END as _###KEY###",
-            'b64p' => "$base64_decode AS ###KEY###",
+            # 'b64p' => "$base64_decode AS ###KEY###",  # not available in MySQL < 5.6, therefore not decoding for any database
         );
 
         # get list of fields to display

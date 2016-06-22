@@ -39,6 +39,8 @@ $smtp_from_email = smtp_get_admin_email();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
+   if (safepost('token') != $_SESSION['PFA_token']) die('Invalid token!');
+
    $fTo = safepost('fTo');
    $fFrom = $smtp_from_email;
    $fSubject = safepost('fSubject');

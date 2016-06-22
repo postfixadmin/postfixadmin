@@ -37,6 +37,8 @@ $pPassword_password_current_text = "";
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
+    if (safepost('token') != $_SESSION['PFA_token']) die('Invalid token!');
+
     if(isset($_POST['fCancel'])) {
         header("Location: main.php");
         exit(0);
