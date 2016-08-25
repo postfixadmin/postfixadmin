@@ -117,7 +117,7 @@
 use utf8;
 use DBI;
 use MIME::Base64 qw(encode_base64);
-use Encode qw(encode);
+use Encode qw(encode decode);
 use MIME::EncWords qw(:all);
 use Email::Valid;
 use strict;
@@ -522,6 +522,7 @@ sub send_vacation_email {
         $logger->debug("Will send vacation response for $orig_messageid: FROM: $email (orig_to: $orig_to), TO: $orig_from; VACATION SUBJECT: $row[0] ; VACATION BODY: $row[1]");
 
         my $subject = $row[0];
+        $orig_subject = decode("mime-header", $orig_subject);
         $subject =~ s/\$SUBJECT/$orig_subject/g;
         if ($subject ne $row[0]) {
           $logger->debug("Patched Subject of vacation message to: $subject");
