@@ -30,6 +30,7 @@ $supported_languages = array(
     'nn'    => 'Norsk (nynorsk) - Norwegian (nynorsk)',
     'pl'    => 'Polski - Polish',
     'pt-br' => 'Portugu&ecirc;s - Brazilian portuguese',
+    'ro'    => 'Limba Rom&acirc;n&#259; - Romanian',
     'ru'    => '&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081; - Russian',
     'sk'    => 'Sloven&#269;ina - Slovak',
     'sl'    => 'Sloven&scaron;&#269;ina - Slovenian',

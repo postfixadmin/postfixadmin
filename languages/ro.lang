@@ -1,0 +1,396 @@
+<?php
+//
+// Language file Romanian
+// by Dan < dmarican at gmail dot com>
+//
+
+
+$PALANG['YES'] = 'DA';
+$PALANG['NO'] = 'NU';
+$PALANG['edit'] = 'edit';
+$PALANG['del'] = 'sterg';
+$PALANG['exit'] = 'Iesire';
+$PALANG['cancel'] = 'Renunt';
+$PALANG['save'] = 'Salvare schimbari';
+$PALANG['confirm'] = 'Sunteti sigur ca doriti stergerea?\n';
+$PALANG['confirm_delete_admin'] = 'Doriti stergerea contului de administrator %s?';
+$PALANG['confirm_delete_alias'] = 'Doriti stergerea contului de alias %s?';
+$PALANG['confirm_delete_aliasdomain'] = 'Doriti stergerea domeniului alias %s?';
+$PALANG['confirm_delete_domain'] = 'Doriti stergerea tuturor inregistrarilor din domeniul %s? Operatia este ireversibila!';
+$PALANG['confirm_delete_fetchmail'] = 'Doriti stergerea job-ului de fetchmail %s?';
+$PALANG['confirm_delete_mailbox'] = 'Doriti stergerea casutei %s?';
+$PALANG['confirm_delete_vacation'] = 'Doriti stergerea mesajului de vacanta pentru %s?';
+$PALANG['no_delete_permissions'] = 'Nu sunteti autorizat sa stergeti %s!';
+$PALANG['check_update'] = 'Verificare actualizari';
+$PALANG['invalid_parameter'] = 'Parametru invalid!';
+$PALANG['show'] = 'Arata:';
+$PALANG['all'] = 'Toate';
+$PALANG['created'] = 'Creat';
+$PALANG['unknown'] = 'necunoscut';
+$PALANG['download_csv'] = 'Descarca lista ca fisier CSV';
+$PALANG['missing_field'] = 'Campul %s lipseste';
+$PALANG['must_be_numeric'] = '%s trebuie sa fie numeric';
+$PALANG['must_be_numeric_bigger_than_null'] = '%s trebuie sa fie numeric si mai mare decat 0';
+$PALANG['must_be_boolean'] = '%s trebuie sa fie boolean';
+$PALANG['invalid_value_given'] = 'Valoare gresita pentru %s';
+$PALANG['edit_not_allowed'] = 'Nu sunteti autorizat sa editati %s';
+$PALANG['searchparams'] = 'Parametri de cautare:';
+
+$PALANG['pFooter_logged_as'] = 'Logat ca %s';
+
+$PALANG['pLogin_welcome'] = 'Conectare pentru administratorii de domeniu';
+$PALANG['pLogin_username'] = 'Login (email)';
+$PALANG['password'] = 'Parola';
+$PALANG['pLogin_language'] = 'Limba';
+$PALANG['pLogin_button'] = 'Login';
+$PALANG['pLogin_failed'] = 'Adresa de email sau parola nu sunt corecte';
+$PALANG['pLogin_login_users'] = 'Sectiunea de login pentru utilizatori';
+
+$PALANG['pMenu_main'] = 'Principal';
+$PALANG['pMenu_overview'] = 'Vizualizare';
+$PALANG['add_alias'] = 'Adauga Alias';
+$PALANG['add_alias_domain'] = 'Adauga Alias Domain';
+$PALANG['add_mailbox'] = 'Adauga Mailbox';
+$PALANG['pMenu_fetchmail'] = 'Fetch Email';
+$PALANG['pMenu_sendmail'] = 'Trimite Email';
+$PALANG['pMenu_password'] = 'Parola';
+$PALANG['pMenu_viewlog'] = 'Vizualizare Log';
+$PALANG['pMenu_logout'] = 'Deconectare';
+
+$PALANG['pMain_welcome'] = 'Bine ati venit la Postfix Admin!';
+$PALANG['pMain_overview'] = 'Lista alias-uri si casute de mail. De aici le puteti edita / sterge';
+$PALANG['pMain_create_alias'] = 'Creati un alias';
+$PALANG['pMain_create_mailbox'] = 'Creati o casuta de mail';
+$PALANG['pMain_sendmail'] = 'Trimiteti un email catre o casuta nou creata.';
+$PALANG['pMain_password'] = 'Schimbati parola contului de administrare.';
+$PALANG['pMain_viewlog'] = 'Vizualizati log-uri.';
+$PALANG['pMain_logout'] = 'Deconectare';
+
+$PALANG['pOverview_disabled'] = 'Dezactivat';
+$PALANG['pOverview_unlimited'] = 'Nelimitat';
+$PALANG['pOverview_title'] = ':: Domenii definite';
+$PALANG['pOverview_up_arrow'] = 'Mergi sus';
+$PALANG['pOverview_right_arrow'] = 'Pagina urmatoare';
+$PALANG['pOverview_left_arrow'] = 'Pagina anterioara';
+$PALANG['pOverview_alias_domain_title'] = ':: alias-urile domeniului';
+$PALANG['pOverview_alias_title'] = ':: Alias-uri';
+$PALANG['pOverview_mailbox_title'] = ':: Casute';
+$PALANG['go'] = 'Mergi';
+$PALANG['pOverview_welcome'] = 'Vizualizare pentru ';
+$PALANG['pOverview_alias_domain_aliases'] = 'Domenii alias';
+$PALANG['pOverview_alias_address'] = 'De la';
+$PALANG['active'] = 'Activ';
+$PALANG['and_x_more'] = '[inca %s ...]';
+$PALANG['pOverview_mailbox_username'] = 'Email';
+$PALANG['name'] = 'Nume';
+$PALANG['pOverview_mailbox_quota'] = 'dimensiune (MB)';
+$PALANG['pOverview_vacation_edit'] = 'Mod vacanta pornit';
+$PALANG['pOverview_vacation_option'] = 'Setare mod vacanta';
+$PALANG['no_domains_for_this_admin'] = 'Nu aveti permisiuni pentru nici un domeniu';
+$PALANG['no_domains_exist'] = 'Trebuie sa creati cel putin un domeniu inainte sa puteti utiliza virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual']
+
+$PALANG['domain'] = 'Domeniu';
+$PALANG['pOverview_get_alias_domains'] = 'Aliasuri domeniu';
+$PALANG['mailboxes'] = 'Casute email';
+$PALANG['pOverview_get_quota'] = 'Marime casute (MB)';
+
+$PALANG['pDelete_delete_error'] = 'Nu pot sterge inregistrarea ';
+$PALANG['pDelete_delete_success'] = '%s a fost sters.';
+$PALANG['pDelete_domain_error'] = 'Domeniul nu este al dvs ';
+$PALANG['pDelete_alias_error'] = 'Nu pot sterge aliasul ';
+
+$PALANG['pCreate_alias_domain_welcome'] = 'Redirectionati adresele unui domeniu catre altul.';
+$PALANG['pCreate_alias_domain_alias'] = 'Domeniu alias';
+$PALANG['pCreate_alias_domain_alias_text'] = 'Domeniul care receptioneaza mailurile.';
+$PALANG['pCreate_alias_domain_target'] = 'Domeniul destinatie';
+$PALANG['pCreate_alias_domain_target_text'] = 'Domeniul unde ar trebui redirectionate mailurile.';
+$PALANG['pCreate_alias_domain_error1'] = 'Nu puteti crea configuratia.';
+$PALANG['pCreate_alias_domain_error2'] = 'Configuratia aleasa este gresita, alegeti alta!';
+$PALANG['alias_domain_already_exists'] = 'Acest domeniu este deja domeniu alias!';
+$PALANG['alias_domain_does_not_exist'] = 'Acest domeniu nu este domeniu alias!';
+$PALANG['alias_domain_create_failed'] = 'Crearea domeniului alias %s a esuat!';
+$PALANG['alias_domain_change_failed'] = 'Schimbarea domeniului alias %s a esuat!';
+$PALANG['pCreate_alias_domain_error4'] = 'Toate domeniile au fost deja setate ca alias.';
+$PALANG['pCreate_alias_domain_success'] = 'Domeniul alias %s a fost creat.';
+$PALANG['alias_domain_changed'] = 'Domeniul alias %s a fost schimbat.';
+$PALANG['alias_domain_to_itsself'] = 'Domeniul nu poate fi domeniu alias pentru el insusi!';
+$PALANG['delete_domain_aliasdomain_target'] = 'Domeniul %s este destinatia unuia sau mai multor domenii alias si nu poate fi sters! (Stergeti intai domeniile alias.)';
+
+$PALANG['pCreate_alias_address_text_error1'] = 'ALIAS nu este corect!';
+$PALANG['alias_does_not_exist'] = 'Acest alias nu exista!';
+$PALANG['email_address_already_exists'] = 'Aceasta adresa exista deja, alegeti alta!';
+$PALANG['pCreate_alias_address_text_error3'] = 'Ati atins limita pentru creare aliasuri!';
+$PALANG['pCreate_alias_goto_text'] = 'Unde trebuie trimis mailul.';
+$PALANG['pCreate_alias_goto_text_error'] = 'Campul Catre: nu este valid!';
+$PALANG['pCreate_alias_result_error'] = 'Crearea aliasului %s a esuat!';
+$PALANG['pCreate_alias_result_success'] = 'Aliasul %s a fost creat!';
+$PALANG['alias_updated'] = 'Aliasul %s a fost modificat!';
+$PALANG['pCreate_alias_catchall_text'] = 'Puteti crea un alias pentru adrese multiple prin folosirea "*".'; # XXX don't propagate usage of *@target-domain.com for domain-aliasing any longer
+$PALANG['mailbox_alias_cant_be_deleted'] = 'Acest alias apartine unei casute si nu poate fi sters!';
+
+$PALANG['pEdit_alias_welcome'] = 'Editeaza setarile de redirectionare';
+$PALANG['pEdit_alias_help'] = 'Se accepta inregistrari multiple, cate una pe linie.';
+$PALANG['alias'] = 'Alias';
+$PALANG['to'] = 'Catre';
+$PALANG['pEdit_alias_goto_text_error1'] = 'Nu ati completat campul Catre:';
+$PALANG['pEdit_alias_goto_text_error2'] = 'Adresa de mail introdusa nu este valida: ';
+$PALANG['pEdit_alias_domain_result_error'] = 'Nu pot modifica domeniul alias!';
+$PALANG['pEdit_alias_forward_and_store'] = 'Livreaza catre casuta de mail locala.';
+$PALANG['pEdit_alias_forward_only'] = 'Redirectioneaza numai catre adresa de mail specificata.';
+$PALANG['pEdit_alias_result_error'] = 'Modificarea aliasului %s a esuat!';
+
+$PALANG['pCreate_mailbox_welcome'] = 'Creaza o noua casuta de mail.';
+$PALANG['pCreate_mailbox_username_text_error1'] = 'EMAIL nu este valid!';
+$PALANG['pCreate_mailbox_username_text_error3'] = 'Ati atins limita pentru creare de noi casute de mail!';
+$PALANG['pCreate_mailbox_password_text'] = 'Parola de la POP3/IMAP';
+$PALANG['pCreate_mailbox_name_text'] = 'Numele complet';
+$PALANG['pCreate_mailbox_mail'] = 'Trimite mesaj de intampinare';
+$PALANG['pCreate_mailbox_result_error'] = 'Crearea casutei de mail %s a esuat!';
+$PALANG['pCreate_mailbox_result_success'] = 'Casuta de mail %s a fost adaugata cu succes.';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Casuta de mail %s a fost adaugata, dar niciunul (sau cateva) din sub-foldere n-au putut fi create.';
+$PALANG['mailbox_updated'] = "Casuta de mail %s a fost actualizata."; 
+$PALANG['mailbox_update_failed'] = "Actualizarea casutei de mail %s a esuat!";
+
+$PALANG['pEdit_mailbox_welcome'] = 'Editeaza casuta de email.';
+$PALANG['pEdit_mailbox_username'] = 'Nume utilizator';
+$PALANG['pEdit_mailbox_password_text_error'] = 'Parolele nu sunt identice!';
+$PALANG['pEdit_mailbox_quota'] = 'Marime';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['mb_max'] = 'MB (max: %s)';
+$PALANG['pEdit_mailbox_quota_text_error'] = 'Marimea specificata este prea mare!';
+$PALANG['pEdit_mailbox_domain_error'] = 'Acest domeniu nu este al dvs: ';
+$PALANG['pEdit_mailbox_result_error'] = 'Nu se poate actualiza casuta de mail!';
+
+$PALANG['pPassword_welcome'] = 'Schimbati parola de conectare';
+$PALANG['pPassword_admin'] = 'Login';
+$PALANG['pPassword_password_current'] = 'Parola curenta';
+$PALANG['pPassword_password_current_text_error'] = 'Nu ati specificat parola curenta!';
+$PALANG['pPassword_password'] = 'Parola noua';
+$PALANG['pPassword_password2'] = 'Parola noua (din nou)';
+$PALANG['pPassword_password_text_error'] = 'Parolele nu sunt identice sau nu le-ati introdus!';
+$PALANG['change_password'] = 'Schimbare parola';
+$PALANG['pPassword_result_error'] = 'Schimbarea parolei pentru %s a esuat!';
+$PALANG['pPassword_result_success'] = 'Parola pentru %s a fost schimbata.';
+
+$PALANG['pEdit_vacation_set'] = 'Schimbare / Setare mesaj vacanta';
+$PALANG['pEdit_vacation_remove'] = 'Stergere mesaj vacanta';
+
+$PALANG['pVacation_result_error'] = 'Modificarea setarilor autoraspuns pentru %s a esuat';
+$PALANG['pVacation_result_removed'] = 'Raspuns automat pentru %s a fost dezactivat!';
+$PALANG['pVacation_result_added'] = 'Raspuns automat pentru %s a fost activat!';
+$PALANG['pVacation_reply_type'] = 'Raspuns';
+$PALANG['pVacation_reply_delay_time'] = 'Timp interval';
+$PALANG['pVacation_reply_delay_time_text'] = 'Timp in secunde';
+$PALANG['pVacation_until_before_today'] = 'Data [Active until] este setata inaintea datei de azi';
+$PALANG['pVacation_until_before_from'] = 'Data [Active until] este setata inaintea datei [Active from]';
+$PALANG['reply_once'] = 'Raspunde odata';
+$PALANG['reply_every_mail'] = 'Raspunde la fiecare mail';
+$PALANG['reply_once_per_day'] = 'Raspunde odata pe zi';
+$PALANG['reply_once_per_week'] = 'Raspunde odata pe saptamana';
+
+$PALANG['pViewlog_welcome'] = 'Vizualizati ultimele 100 operatii pentru ';
+$PALANG['pViewlog_timestamp'] = 'Data si ora';
+$PALANG['pViewlog_action'] = 'Operatie';
+$PALANG['pViewlog_data'] = 'Detalii';
+
+$PALANG['pViewlog_action_create_domain'] = 'creare domeniu';
+$PALANG['pViewlog_action_delete_domain'] = 'stergere domeniu';
+$PALANG['pViewlog_action_edit_domain'] = 'editare domeniu';
+$PALANG['pViewlog_action_create_mailbox'] = 'creare casuta mail';
+$PALANG['pViewlog_action_delete_mailbox'] = 'stergere casuta mail';
+$PALANG['pViewlog_action_edit_mailbox'] = 'editare casuta mail';
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'editare stare casuta mail';
+$PALANG['pViewlog_action_create_alias'] = 'creare alias';
+$PALANG['pViewlog_action_create_alias_domain'] = 'creare domeniu alias';
+$PALANG['pViewlog_action_edit_alias_domain'] = 'editare domeniu alias';
+$PALANG['pViewlog_action_delete_alias'] = 'stergere alias';
+$PALANG['pViewlog_action_delete_alias_domain'] = 'stergere domeniu alias';
+$PALANG['pViewlog_action_edit_alias'] = 'editare alias';
+$PALANG['pViewlog_action_edit_alias_state'] = 'editare stare alias';
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'editare stare domeniu alias';
+$PALANG['pViewlog_action_edit_password'] = 'schimbare parola';
+$PALANG['pViewlog_action_create_admin'] = 'creare administrator';
+$PALANG['pViewlog_action_edit_admin'] = 'editare administrator';
+$PALANG['pViewlog_action_delete_admin'] = 'stergere administrator';
+$PALANG['pViewlog_action_edit_vacation'] = 'editare mod vacanta';
+$PALANG['pViewlog_action_create_fetchmail'] = 'creare job fetchmail';
+$PALANG['pViewlog_action_edit_fetchmail'] = 'editare job fetchmail';
+$PALANG['pViewlog_action_delete_fetchmail'] = 'stergere job fetchmail';
+ 
+$PALANG['pViewlog_result_error'] = 'Nu pot gasi logurile!';
+
+$PALANG['pSendmail_welcome'] = 'Trimite un mesaj.';
+$PALANG['from'] = 'De la';
+$PALANG['pSendmail_to'] = 'Catre';
+$PALANG['pSendmail_to_text_error'] = 'Camp destinatar gol sau adresa de email nu este corecta!';
+$PALANG['subject'] = 'Subiect';
+$PALANG['pSendmail_subject_text'] = 'Bine ati venit';
+$PALANG['pSendmail_body'] = 'Mesaj';
+$PALANG['pSendmail_button'] = 'Trimite mesaj';
+$PALANG['pSendmail_result_error'] = 'Nu pot trimite mesaj catre %s!';
+$PALANG['pSendmail_result_success'] = 'Mesaj trimis catre %s.';
+
+$PALANG['pAdminMenu_list_admin'] = 'Lista administratori';
+$PALANG['pAdminMenu_list_domain'] = 'Lista domenii';
+$PALANG['pAdminMenu_list_virtual'] = 'Lista virtuala';
+$PALANG['pAdminMenu_backup'] = 'Salvare';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Administratori domeniu';
+$PALANG['pAdminMenu_create_admin'] = 'Administrator nou';
+$PALANG['pAdminMenu_create_domain'] = 'Domeniu nou';
+
+$PALANG['pAdminList_admin_count'] = 'Domenii';
+
+$PALANG['description'] = 'Descriere';
+$PALANG['aliases'] = 'Aliasuri';
+$PALANG['pAdminList_domain_quota'] = 'Marime implicita (MB)';
+$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['last_modified'] = 'Ultima modificare';
+
+
+$PALANG['pAdminCreate_domain_welcome'] = 'Adauga domeniu nou';
+$PALANG['pAdminCreate_domain_domain_text_error'] = 'Domeniul exista deja!';
+$PALANG['domain_does_not_exist'] = 'acest domeniu nu exista!';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = 'domeniu incorect!';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Adauga aliasurile de mail implicite';
+$PALANG['pAdminCreate_domain_button'] = 'Adauga domeniu';
+$PALANG['pAdminCreate_domain_result_error'] = 'Adaugarea domeniului %s nereusita!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Domeniul %s a fost adaugat.';
+$PALANG['domain_updated'] = 'Domeniul %s a fost actualizat.';
+
+$PALANG['pAdminDelete_admin_error'] = 'Nu pot sterge administratorul!';
+$PALANG['domain_postdel_failed'] = 'Scripturile poststergere ale domeniului au esuat, verificati logurile pentru detalii!';
+$PALANG['domain_postcreate_failed'] = 'Scripturile postcreare ale domeniului au esuat, verificati logurile pentru detalii!';
+$PALANG['mailbox_postdel_failed'] = 'Scripturile poststergere ale casutei de email au esuat, verificati logurile pentru detalii!';
+$PALANG['mailbox_postedit_failed'] = 'Scripturile posteditare ale casutei de mail au esuat, verificati logurile pentru detalii!';
+$PALANG['mailbox_postcreate_failed'] = 'Scripturile postcreare ale casutei de email au esuat, verificati logurile pentru detalii!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Nu pot sterge domeniul alias!';
+$PALANG['domain_conflict_vacation_domain'] = 'Nu puteti folosi domeniul vacanta ca domeniu de mail!';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'Modifica domeniul';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = dezactivat | 0 = nelimitat';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Dimensiune maxima casuta email'; # TODO: add change comment in translation - or drop and use pAdminCreate_domain_maxquota
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = dezactivat | 0 = nelimitat';
+$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota';
+$PALANG['transport'] = 'Transport';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Serverul este backup MX';
+$PALANG['pAdminEdit_domain_result_error'] = 'Modificarea domeniului %s nereusita!';
+
+$PALANG['pAdminCreate_admin_welcome'] = 'Adauga un nou administrator de domeniu';
+$PALANG['email_address'] = 'Adresa email';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'Numele nu este o adresa de email valida!';
+$PALANG['admin_already_exists'] = 'Administratorul exista deja!';
+$PALANG['admin_does_not_exist'] = 'Administratorul nu exista!';
+$PALANG['pAdminCreate_admin_button'] = 'Adauga administrator';
+$PALANG['pAdminCreate_admin_result_error'] = 'Nu s-a reusit adaugarea administratorului %s !';
+$PALANG['pAdminCreate_admin_result_success'] = 'Administratorul %s a fost adaugat!';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'Modifica un administrator de domeniu';
+$PALANG['admin'] = 'Administrator';
+$PALANG['password_again'] = 'Parola (din nou)';
+$PALANG['super_admin'] = 'Super administrator';
+$PALANG['super_admin_desc'] = 'Super administratorii au acces la toate domeniile, pot modifica domenii si conturi de administratori.';
+$PALANG['pAdminEdit_admin_result_error'] = 'Modificarea administratorului %s nereusita!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Contul de administrator %s a fost modificat.';
+
+$PALANG['pUsersLogin_welcome'] = 'Schimbare parola si alias-uri utilizatori';
+$PALANG['pUsersLogin_username_incorrect'] = 'Nume cont incorect. Verificati introducerea corecta a adresei de email!';
+$PALANG['pUsersLogin_password_incorrect'] = 'Parola incorecta!';
+
+$PALANG['pUsersMenu_vacation'] = 'Raspuns automat';
+$PALANG['pUsersMenu_edit_alias'] = 'Redirectionare';
+
+$PALANG['pUsersMain_vacation'] = 'Seteaza un mesaj autoraspuns sau mod vacanta.';
+$PALANG['pUsersMain_vacationSet'] = 'Autoraspuns este PORNIT, click \'Autoraspuns\' pentru editare/stergere';
+$PALANG['pUsersMain_edit_alias'] = 'Modificare redirectionare email.';
+$PALANG['pUsersMain_password'] = 'Schimbare parola curenta.';
+
+$PALANG['pUsersVacation_welcome'] = 'Autoraspuns.';
+$PALANG['pUsersVacation_welcome_text'] = 'Autoraspuns pentru %s este activ!';
+$PALANG['pUsersVacation_subject_text'] = 'In vacanta';
+$PALANG['message'] = 'Mesaj';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+I will be away from <date> until <date>.
+For urgent matters you can contact <contact person>.
+EOM;
+$PALANG['pUsersVacation_activefrom'] = 'Activ de la';
+$PALANG['pUsersVacation_activeuntil'] = 'Activ pana la';
+
+
+$PALANG['pEdit_dbLog_editactive'] = 'schimba status activ';
+
+$PALANG['pSearch'] = 'cauta';
+$PALANG['pSearch_welcome'] = 'Cauta: ';
+
+$PALANG['pReturn_to'] = 'Intoarcere la';
+
+$PALANG['pBroadcast_title'] = 'Trimite mesaj pentru toti';
+$PALANG['pBroadcast_name'] = 'Numele';
+$PALANG['pBroadcast_success'] = 'A fost trimis mesajul la toti utilizatorii.';
+$PALANG['pAdminMenu_broadcast_message'] = 'Mesaj general';
+$PALANG['pBroadcast_error_empty'] = 'Campurile Nume, Subiect si Mesaj nu pot fi goale!';
+
+$PALANG['pStatus_undeliverable'] = 'probabil UNDELIVERABLE ';
+$PALANG['pStatus_custom'] = 'Livreaza la ';
+$PALANG['pStatus_popimap'] = 'POP/IMAP ';
+
+$PALANG['password_too_short'] = "Parola prea scurta - minim %s caractere";
+$PALANG['password_no_characters'] = "Parola trebuie sa contina cel putin %s litere.";
+$PALANG['password_no_digits'] = "Parola trebuie sa contina cel putin %s cifre.";
+$PALANG['pInvalidDomainRegex'] = "Nume domeniu incorect %s, verificare regexp esuata";
+$PALANG['pInvalidDomainDNS'] = "Nume domeniu incorect %s, si/sau nu se poate rezolva in DNS";
+$PALANG['pInvalidMailRegex'] = "Adresa de mail incorecta %s, verificare regexp esuata";
+
+$PALANG['pFetchmail_welcome'] = 'Importa mail pentru:';
+$PALANG['pFetchmail_new_entry'] = 'Inregistrare noua';
+$PALANG['fetchmail_already_exists']         = 'Acest serviciu de importare mail exista deja!';
+$PALANG['fetchmail_does_not_exist']         = 'Acest serviciu de importare mail nu exista!';
+$PALANG['pFetchmail_database_save_error'] = 'Nu se poate salva inregistrarea in baza de date!';
+$PALANG['pFetchmail_database_save_success'] = 'Inregistrare salvata in baza de date.';
+$PALANG['pFetchmail_error_invalid_id'] = 'Nu am gasit nici o integistrare cu ID %s !';
+$PALANG['pFetchmail_invalid_mailbox'] = 'Casuta de mail incorecta!';
+$PALANG['pFetchmail_server_missing'] = 'Introduceti numele serverului la distanta!';
+$PALANG['pFetchmail_user_missing'] = 'Introduceti numele de utilizator la distanta!';
+$PALANG['pFetchmail_password_missing'] = 'Introduceti parola la distanta!';
+$PALANG['pFetchmail_field_id']              = 'ID';
+$PALANG['pFetchmail_field_mailbox']         = 'Casuta de mail';
+$PALANG['pFetchmail_field_src_server']      = 'Server';
+$PALANG['pFetchmail_field_src_auth']        = 'Tip de autentificare';
+$PALANG['pFetchmail_field_src_user']        = 'User';
+$PALANG['pFetchmail_field_src_password']    = $PALANG['password']; # needed until fetchmail is migrated into FetchmailHandler
+$PALANG['pFetchmail_field_src_folder']      = 'Folder';
+$PALANG['pFetchmail_field_poll_time']       = 'Poll';
+$PALANG['pFetchmail_field_fetchall']        = 'Importa toate';
+$PALANG['pFetchmail_field_keep']            = 'Retine';
+$PALANG['pFetchmail_field_protocol']        = 'Protocol';
+$PALANG['pFetchmail_field_usessl']          = 'SSL activ';
+$PALANG['pFetchmail_field_sslcertck']       = 'Verificare certificat SSL';
+$PALANG['pFetchmail_field_sslcertpath']     = 'Calea catre certificatele SSL';
+$PALANG['pFetchmail_field_sslfingerprint']  = 'suma de control SSL (md5)';
+$PALANG['pFetchmail_field_extra_options']   = 'Extra Optiuni';
+$PALANG['pFetchmail_field_mda']             = 'MDA';
+$PALANG['pFetchmail_field_date']            = 'Data';
+$PALANG['pFetchmail_field_returned_text']   = 'Text returnat';
+$PALANG['pFetchmail_desc_id']               = 'Inregistrare ID';
+$PALANG['pFetchmail_desc_mailbox']          = 'Casuta email locala';
+$PALANG['pFetchmail_desc_src_server']       = 'Server la distanta';
+$PALANG['pFetchmail_desc_src_auth']         = 'Mostly \'password\''; # Translators: Please do NOT translate 'password' here
+$PALANG['pFetchmail_desc_src_user']         = 'Utilizator la distanta';
+$PALANG['pFetchmail_desc_src_password']     = 'Parola la distanta';
+$PALANG['pFetchmail_desc_src_folder']       = 'Folder la distanta';
+$PALANG['pFetchmail_desc_poll_time']        = 'Poll la fiecare ... minute';
+$PALANG['pFetchmail_desc_fetchall']         = 'Importa toate mesajele vechi(vazute) si noi';
+$PALANG['pFetchmail_desc_keep']             = 'Retine mesajele importate si pe serverul la distanta';
+$PALANG['pFetchmail_desc_protocol']         = 'Protocol';
+$PALANG['pFetchmail_desc_usessl']           = 'Criptare SSL';
+$PALANG['pFetchmail_desc_extra_options']    = 'Extra optiuni';
+$PALANG['pFetchmail_desc_mda']              = 'Mail Delivery Agent';
+$PALANG['pFetchmail_desc_date']             = 'Data ultimei schimbari a configuratiei';
+$PALANG['pFetchmail_desc_returned_text']    = 'Mesaj text';
+
+$PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format
+$PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
+
+$PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
+/* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
+?>
