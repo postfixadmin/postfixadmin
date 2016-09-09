@@ -152,10 +152,17 @@ else
 
 if (!is_writeable($incpath.'/templates_c'))
 {
-    print "<li><b>Error: Smarty template compile directory templates_c is not writable.</b><br />\n";
-	print "<b>Please make it writable.</b><br />\n";
-	print "<b>If you are using SELinux or AppArmor, you might need to adjust their setup to allow write access.</b><br />\n";
-    $error =+ 1;
+    if(!is_dir($incpath . '/templates_c')) {
+        print "<li><b>Error: Smarty template compile directory templates_c not found.</b><br />\n";
+        echo "<b>Please <code>mkdir -p $incpath/templates_c</code> and make it writeable by the web server</b>\n";
+        $error =+ 1;
+    }
+    else {
+        print "<li><b>Error: Smarty template compile directory templates_c is not writable.</b><br />\n";
+        print "<b>Please make it writable.</b><br />\n";
+        print "<b>If you are using SELinux or AppArmor, you might need to adjust their setup to allow write access.</b><br />\n";
+        $error =+ 1;
+    }
 } else {
 	print "<li>Smarty template compile directory is writable - OK<br />\n";
 }

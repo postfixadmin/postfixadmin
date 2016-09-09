@@ -81,9 +81,9 @@ $lockmgr->lock($lock_file) || log_and_die "can't lock ${lock_file}";
 $dbh = DBI->connect($dsn, $db_username, $db_password) || log_and_die "cannot connect the database";
 
 if($db_type eq "Pg") {
-	$sql_cond = "active = 1 AND date_part('epoch',now())-date_part('epoch',date)";
+	$sql_cond = "active = 't' AND date_part('epoch',now())-date_part('epoch',date)";
 } elsif($db_type eq "mysql") {
-	$sql_cond = "active = 't' AND unix_timestamp(now())-unix_timestamp(date)";
+	$sql_cond = "active = 1 AND unix_timestamp(now())-unix_timestamp(date)";
 }
 
 $sql = "
