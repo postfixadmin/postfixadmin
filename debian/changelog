@@ -1,3 +1,9 @@
+postfixadmin (3.0-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- David Goodwin <david@palepurple.co.uk>  Sun, 11 Sep 2016 18:42:00 +0100
+
 postfixadmin (2.93-2) unstable; urgency=low
 
   * Replace debian/ using Debian v2.3.7-2. See Debian's #821643
