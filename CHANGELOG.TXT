@@ -9,7 +9,7 @@
 # Last update:
 # $Id$
 
-Changes since 3.0 beta3
+Version 3.0 - 2016/09/11 - SVN r1861
 -------------------------------------------------
 
   - add sqlite backend option
