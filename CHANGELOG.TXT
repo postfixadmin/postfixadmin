@@ -9,6 +9,12 @@
 # Last update:
 # $Id$
 
+Version 3.0.1 - 2016/09/19 - SVN r1870
+-------------------------------------------------
+
+  - add missing Smarty files to Debian package
+    (no changes to PostfixAdmin, therefore only released as Debian packages)
+
 Version 3.0 - 2016/09/11 - SVN r1861
 -------------------------------------------------
 
@@ -452,8 +458,21 @@ Version 3.0 beta1 (2.91) - 2014/05/06 - SVN r1670
   - postfixadmin.docs: removed redundant changelog file
   - debian/postfixadmin.postrm: Call wwwconfig scripts only if they are existing
 
+Version 2.3.8 - 2015/10/07 - SVN r1814 (postfixadmin-2.3 branch)
+----------------------------------------------------------------
+
+  - fix query to enable/disable alias in edit-mailbox for PostgreSQL (#311)
+  - don't prefill username in users/ login on failed logins - fixes (probably
+    harmless) XSS
+  - fix show_gen_status() to properly escape mail addresses in query (#356)
+  - fix escaping in create-admin, create-mailbox and fetchmail templates -
+    fixes (harmless) XSS on form validation errors
+  - don't echo the password back to the browser in the fetchmail form
+  - allow MariaDB in Debian package dependencies
+
 Version 2.3.7 - 2014/02/20 - SVN r1651 (postfixadmin-2.3 branch)
 ----------------------------------------------------------------
+
   - SECURITY: fix SQL injection in show_gen_status()
   - lt.lang, da.lang translation update
   - when enabling/disabling a mailbox, also update the corresponding alias
