@@ -6,4 +6,5 @@ model		usr/share/postfixadmin
 templates	usr/share/postfixadmin
 users		usr/share/postfixadmin
 smarty		usr/share/postfixadmin
+configs     usr/share/postfixadmin
 debian/lighttpd/90-postfixadmin.conf	etc/lighttpd/conf-available
