@@ -1672,6 +1672,19 @@ function upgrade_1836_mysql() {
     }
 
 }
+
+function upgrade_1837_mysql() {
+    # alternative contact means to reset a forgotten password
+    foreach(array('admin', 'mailbox') as $table_to_change) {
+        $table = table_by_key($table_to_change);
+        if(!_mysql_field_exists($table, 'phone')) {
+            db_query_parsed("ALTER TABLE `$table` ADD COLUMN `phone` varchar(30) NOT NULL DEFAULT ''");
+        }
+        if(!_mysql_field_exists($table, 'email_other')) {
+            db_query_parsed("ALTER TABLE `$table` ADD COLUMN `email_other` varchar(255) NOT NULL DEFAULT ''");
+        }
+    }
+}
 # TODO MySQL:
 # - various varchar fields do not have a default value
 #   https://sourceforge.net/projects/postfixadmin/forums/forum/676076/topic/3419725

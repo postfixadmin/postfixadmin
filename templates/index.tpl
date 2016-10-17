@@ -1,7 +1,7 @@
 <!-- {$smarty.template} -->
 {strip}
 {include file="header.tpl"}
-{if $smarty_template != 'login'}
+{if $smarty_template !== 'login' && $smarty_template !== 'password-recover' && $smarty_template !== 'password-change'}
 	{config_load file="menu.conf" section=$smarty_template}
 	{if $authentication_has_role.user}
 		{include file='users_menu.tpl'}

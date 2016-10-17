@@ -145,6 +145,10 @@ $PALANG['pCreate_mailbox_username_text_error1'] = 'L\'adresse courriel est inval
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Vous avez atteint le nombre maximum de comptes courriel !';
 $PALANG['pCreate_mailbox_password_text'] = 'Mot de passe pour le compte POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Nom complet';
+$PALANG['pCreate_mailbox_phone'] = 'Téléphone mobile';
+$PALANG['pCreate_mailbox_phone_desc'] = "Utilisé pour l'envoi de SMS en cas d'oubli du mot de passe";
+$PALANG['pCreate_mailbox_email'] = 'E-mail secondaire';
+$PALANG['pCreate_mailbox_email_desc'] = "Utilisé en cas d'oubli du mot de passe";
 $PALANG['pCreate_mailbox_mail'] = 'Envoyer le message de bienvenue';
 $PALANG['pCreate_mailbox_result_error'] = 'Échec de la création du compte courriel %s !';
 $PALANG['pCreate_mailbox_result_success'] = 'Le compte courriel %s a été ajouté à la table des comptes !';
@@ -172,6 +176,17 @@ $PALANG['pPassword_password_text_error'] = 'Le mot de passe fourni ne correspond
 $PALANG['change_password'] = 'Changer le mot de passe';
 $PALANG['pPassword_result_error'] = 'Impossible de changer le mot de passe de %s !';
 $PALANG['pPassword_result_success'] = 'Le mot de passe de %s a été changé !';
+$PALANG['pPassword_recovery_title'] = 'Suivez les instructions pour réinitialiser votre mot de passe.';
+$PALANG['pPassword_recovery_button'] = 'Envoyez-moi le code';
+$PALANG['pPassword_recovery_email_body'] = "Bonjour,\n\nUtilisez le lien suivant pour modifier votre mot de passe :\n%s\n\nSalutations,\n\n" . $CONF['admin_name'];
+$PALANG['pPassword_recovery_email_sent'] = 'Un code a été envoyé à :';
+$PALANG['pPassword_recovery_sms_body'] = "Bonjour,\nLe code pour modifier votre mot de passe: %s\n" . $CONF['admin_name'];
+$PALANG['pPassword_recovery_sms_sent'] = 'Un code a été envoyé par SMS à :';
+$PALANG['pPassword_recovery_no_alternative'] = "Aucun moyen de contact alternatif n'a été trouvé. Contactez le support à " . $CONF['admin_email'] . ' ou par téléphone ' . $CONF['admin_phone'];
+$PALANG['pPassword_password_code'] = 'Code reçu par email/SMS';
+$PALANG['pPassword_code_text_error'] = 'Code invalide';
+
+>>>>>>> Allows a user or admin to reset his/her forgotten password with a code sent by email/SMS #18
 $PALANG['pEdit_vacation_set'] = 'Activer le répondeur';
 $PALANG['pEdit_vacation_remove'] = 'Désactiver le répondeur';
 $PALANG['pVacation_result_error'] = 'Impossible de mettre à jour les réglages du répondeur de %s !';
@@ -294,6 +309,7 @@ $PALANG['pAdminEdit_admin_result_success'] = 'L\'administrateur %s a été ajout
 $PALANG['pUsersLogin_welcome'] = 'Entrer votre adresse courriel pour modifier votre mot de passe et vos transferts.';
 $PALANG['pUsersLogin_username_incorrect'] = 'L\'adresse courriel est invalide. Assurez-vous d\'avoir correctement saisi votre adresse courriel !';
 $PALANG['pUsersLogin_password_incorrect'] = 'Votre mot de passe est invalide !';
+$PALANG['pUsersLogin_password_recover'] = 'J\'ai oublié mon mot de passe';
 
 $PALANG['pUsersMenu_vacation'] = 'Réponse Automatique';
 $PALANG['pUsersMenu_edit_alias'] = 'Modifier votre transfert';
