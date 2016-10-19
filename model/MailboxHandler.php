@@ -13,6 +13,7 @@ class MailboxHandler extends PFAHandler {
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
+        $passwordReset = Config::read('forgotten_user_password_reset');
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
@@ -35,11 +36,13 @@ class MailboxHandler extends PFAHandler {
             # read_from_db_postprocess() also sets 'quotabytes' for use in init()
             # TODO: read used quota from quota/quota2 table
             'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
-            'phone'         => pacol(   1,          1,      0,      'text', 'pCreate_mailbox_phone'         , 'pCreate_mailbox_phone_desc'       , ''),
-            'email_other'   => pacol(   1,          1,      0,      'mail', 'pCreate_mailbox_email'         , 'pCreate_mailbox_email_desc'       , ''),
             'welcome_mail'  => pacol(   $this->new, $this->new, 0,  'bool', 'pCreate_mailbox_mail'          , ''                                 , 1, 
                 /*options*/ '',
                 /*not_in_db*/ 1             ),
+            'phone'         => pacol(   1,  $passwordReset, 0,      'text', 'pCreate_mailbox_phone'         , 'pCreate_mailbox_phone_desc'       , ''),
+            'email_other'   => pacol(   1,  $passwordReset, 0,      'mail', 'pCreate_mailbox_email'         , 'pCreate_mailbox_email_desc'       , ''),
+            'token'         => pacol(   1,          0,      0,      'text', ''                              , ''                                 ),
+            'token_validity'=> pacol(   1,          0,      0,      'ts',   ''                              , ''                                 ),
             'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                 ),
             'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?

@@ -16,7 +16,7 @@
  */
 
 $version = '3.1';
-$min_db_version = 1836;  # update (at least) before a release with the latest function numbrer in upgrade.php
+$min_db_version = 1837;  # update (at least) before a release with the latest function numbrer in upgrade.php
 
 /**
  * check_session
@@ -89,6 +89,23 @@ function authentication_require_role($role) {
     exit(0);
 }
 
+/**
+ * Initialize a user or admin session
+ *
+ * @param String $username the user or admin name
+ * @param boolean $is_admin true if the user is an admin, false otherwise
+ * @return boolean true on success
+ */
+function init_session($username, $is_admin = false) {
+    $status = session_regenerate_id(true);
+    $_SESSION['sessid'] = array();
+    $_SESSION['sessid']['roles'] = array();
+    $_SESSION['sessid']['roles'][] = $is_admin ? 'admin' : 'user';
+    $_SESSION['sessid']['username'] = $username;
+    $_SESSION['PFA_token'] = md5(uniqid(rand(), true));
+
+    return $status;
+}
 
 /**
  * Add an error message for display on the next page that is rendered.
@@ -806,7 +823,7 @@ function encode_header ($string, $default_charset = "utf-8") {
 //
 function generate_password () {
     // length of the generated password
-    $length = 8;
+    $length = 12;
 
     // define possible characters
     $possible = "2345678923456789abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ"; # skip 0 and 1 to avoid confusion with O and l
@@ -1940,23 +1957,6 @@ function getRemoteAddr() {
     if (isset($_SERVER['REMOTE_ADDR']))
         $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
     return $REMOTE_ADDR;
-}
-
-
-/**
- * Returns a hash for a username valid for one day
- *
- * @param String $username user name
- * @return String password recovery code
- */
-function getPasswordRecoveryCode($username)
-{
-    $username = trim(strtolower($username));
-    $date = date('Y-m-d');
-
-    $code = substr(strtoupper(md5('SECRET SALTING PHRASE' . $username . $date)), 0, 6);
-
-    return $code;
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

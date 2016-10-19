@@ -52,13 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     $h = new AdminHandler;
     if ( $h->login($fUsername, $fPassword) ) {
-        session_regenerate_id(true);
-        $_SESSION['sessid'] = array();
-        $_SESSION['sessid']['roles'] = array();
-        $_SESSION['sessid']['roles'][] = 'admin';
-        $_SESSION['sessid']['username'] = $fUsername;
 
-        $_SESSION['PFA_token'] = md5(uniqid(rand(), true));
+        init_session($fUsername, true);
 
         # they've logged in, so see if they are a domain admin, as well.
 

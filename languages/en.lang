@@ -154,7 +154,7 @@ $PALANG['pCreate_mailbox_mail'] = 'Send Welcome mail';
 $PALANG['pCreate_mailbox_result_error'] = 'Creating the mailbox %s failed!';
 $PALANG['pCreate_mailbox_result_success'] = 'The mailbox %s has been added to the mailbox table.';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.';
-$PALANG['mailbox_updated'] = "The mailbox %s has been updated."; 
+$PALANG['mailbox_updated'] = "The mailbox %s has been updated.";
 $PALANG['mailbox_update_failed'] = "Updating the mailbox %s failed!";
 
 $PALANG['pEdit_mailbox_welcome'] = 'Edit a mailbox for your domain.';
@@ -180,11 +180,9 @@ $PALANG['pPassword_result_success'] = 'The password for %s has been changed.';
 
 $PALANG['pPassword_recovery_title'] = 'Follow the instructions to reset your password.';
 $PALANG['pPassword_recovery_button'] = 'Send me the code';
-$PALANG['pPassword_recovery_email_body'] = "Hello,\n\nUse the following link to change your email password:\n%s\n\nRegards,\n\n" . $CONF['admin_name'];
-$PALANG['pPassword_recovery_email_sent'] = 'An email was sent to:';
+$PALANG['pPassword_recovery_email_body'] = "Hello,\n\nUse the following link to change your email password :\n%s\n\nRegards,\n\n" . $CONF['admin_name'];
 $PALANG['pPassword_recovery_sms_body'] = "Hello,\nThe code to change your password is: %s\n" . $CONF['admin_name'];
-$PALANG['pPassword_recovery_sms_sent'] = 'An SMS was sent to:';
-$PALANG['pPassword_recovery_no_alternative'] = 'No alternative contact info were found. Please contact the support at ' . $CONF['admin_email'] . 'or by phone to ' . $CONF['admin_phone'];
+$PALANG['pPassword_recovery_processed'] = "We processed your request. If you entered a valid username, you'll receive an email/SMS with a password code.";
 $PALANG['pPassword_password_code'] = 'Code sent by email/SMS';
 $PALANG['pPassword_code_text_error'] = 'Invalid code';
 
