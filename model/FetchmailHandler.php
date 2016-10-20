@@ -39,7 +39,7 @@ class FetchmailHandler extends PFAHandler {
             'sslfingerprint'=> pacol(   $extra,     $extra, $extra, 'text', 'pFetchmail_field_sslfingerprint',''                                ),
             'extra_options' => pacol(   $extra,     $extra, $extra, 'text', 'pFetchmail_field_extra_options', 'pFetchmail_desc_extra_options'   ),
             'mda'           => pacol(   $extra,     $extra, $extra, 'text', 'pFetchmail_field_mda'          , 'pFetchmail_desc_mda'             ),
-            'date'          => pacol(   0,          0,      1,      'text', 'pFetchmail_field_date'         , 'pFetchmail_desc_date'            , 1 ),
+            'date'          => pacol(   0,          0,      1,      'text', 'pFetchmail_field_date'         , 'pFetchmail_desc_date'            , '2000-01-01' ),
             'returned_text' => pacol(   0,          0,      1,      'text', 'pFetchmail_field_returned_text', 'pFetchmail_desc_returned_text'   ),
             'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                , 1 ),
             'created'       => pacol(   0,          0,      0,      'ts',   'created'                       , ''                                ),
