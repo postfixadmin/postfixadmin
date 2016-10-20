@@ -22,7 +22,7 @@ If you need to setup Postfix to be able to handle Virtual Domains and Virtual
 Users check out:
 
   - the PostfixAdmin documentation in the DOCUMENTS/ directory
-  - our wiki at http://sourceforge.net/apps/mediawiki/postfixadmin/
+  - our wiki at https://sourceforge.net/p/postfixadmin/wiki/
 
 There are also lots of HOWTOs around the web. Be warned that many of them 
 (even those listed below) may be outdated or incomplete. 
