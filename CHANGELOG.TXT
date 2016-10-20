@@ -9,6 +9,13 @@
 # Last update:
 # $Id$
 
+Changes since the 3.0.1 release
+-------------------------------------------------
+
+  - allow switching between dovecot:* password schemes while still accepting
+    passwords hashed using the previous dovecot:* scheme
+  - FetchmailHandler: use a valid date as default for 'date'
+
 Version 3.0.1 - 2016/09/19 - SVN r1870
 -------------------------------------------------
 

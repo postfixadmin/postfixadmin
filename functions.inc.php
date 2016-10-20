@@ -933,7 +933,9 @@ function pacrypt ($pw, $pw_db="") {
     
     elseif (preg_match("/^dovecot:/", $CONF['encrypt'])) {
         $split_method = preg_split ('/:/', $CONF['encrypt']);
-        $method       = strtoupper($split_method[1]); # TODO: if $pw_db starts with {method}, change $method accordingly
+        $method       = strtoupper($split_method[1]);
+        # If $pw_db starts with {method}, change $method accordingly
+        if (!empty($pw_db) && preg_match('/^\{([A-Z0-9.-]+)\}.+/', $pw_db, $method_matches)) { $method = $method_matches[1]; }
         if (! preg_match("/^[A-Z0-9.-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
         # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
         # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
