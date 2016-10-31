@@ -48,6 +48,7 @@ class AliasHandler extends PFAHandler {
                     ' SELECT 1 as __is_mailbox, username as __mailbox_username ' .
                     ' FROM ' . table_by_key('mailbox') .
                     ' WHERE username IS NOT NULL ' .
+                    ' AND ' . db_in_clause($this->domain_field, $this->allowed_domains) .
                     ' ) AS __mailbox ON __mailbox_username = address' ),
             'goto_mailbox'  => pacol(   $mbgoto,    $mbgoto,$mbgoto,'bool', 'pEdit_alias_forward_and_store' , ''                                , 0,
                 /*options*/ '',
