@@ -42,7 +42,7 @@ class AliasHandler extends PFAHandler {
                 /*options*/ '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
-                /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox, __mailbox_username', 
+                /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox',
                            # __mailbox_username is unused, but needed as workaround for a MariaDB bug
                 /*extrafrom*/ 'LEFT JOIN ( ' .
                     ' SELECT 1 as __is_mailbox, username as __mailbox_username ' .
@@ -50,6 +50,7 @@ class AliasHandler extends PFAHandler {
                     ' WHERE username IS NOT NULL ' .
                     ' AND ' . db_in_clause($this->domain_field, $this->allowed_domains) .
                     ' ) AS __mailbox ON __mailbox_username = address' ),
+            '__mailbox_username' => pacol( 0,       0,      1,      'vtxt', ''                              , ''                                , 0),  # filled via is_mailbox
             'goto_mailbox'  => pacol(   $mbgoto,    $mbgoto,$mbgoto,'bool', 'pEdit_alias_forward_and_store' , ''                                , 0,
                 /*options*/ '',
                 /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value
@@ -304,22 +305,28 @@ class AliasHandler extends PFAHandler {
         return $db_result;
     }
 
-    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+    private function condition_ignore_mailboxes($condition, $searchmode) {
         # only list aliases that do not belong to mailboxes
-        # TODO: breaks if $condition is an array
-        if ($condition != '') {
-            $condition = "  AND ( $condition ) ";
+        if (is_array($condition)) {
+            $condition['__mailbox_username'] = 1;
+            $searchmode['__mailbox_username'] = 'NULL';
+        } else {
+            if ($condition != '') {
+               $condition = " ( $condition ) AND ";
+            }
+            $condition = " $condition __mailbox_username IS NULL ";
         }
-        return parent::getList( "__mailbox_username IS NULL $condition", $searchmode, $limit, $offset);
+        return array($condition, $searchmode);
+    }
+
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+        list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
+        return parent::getList($condition, $searchmode, $limit, $offset);
     }
 
     public function getPagebrowser($condition, $searchmode = array()) {
-        # only list aliases that do not belong to mailboxes
-        # TODO: breaks if $condition is an array
-        if ($condition != '') {
-            $condition = "  AND ( $condition ) ";
-        }
-        return parent::getPagebrowser( "__mailbox_username IS NULL $condition", $searchmode);
+        list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
+        return parent::getPagebrowser($condition, $searchmode);
     }
 
 
