@@ -12,8 +12,8 @@
 Changes since the 3.0.1 release
 -------------------------------------------------
 
-  - AliasHandler: restrict mailbox subquery to allowed domains to improve
-    performance (except for superadmins ;-) on setups with lots of mailboxes
+  - AliasHandler: restrict mailbox subquery to allowed and specified domains
+    to improve performance on setups with lots of mailboxes
   - allow switching between dovecot:* password schemes while still accepting
     passwords hashed using the previous dovecot:* scheme
   - FetchmailHandler: use a valid date as default for 'date'

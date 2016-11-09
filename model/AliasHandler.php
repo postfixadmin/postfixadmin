@@ -42,14 +42,8 @@ class AliasHandler extends PFAHandler {
                 /*options*/ '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
-                /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox',
-                           # __mailbox_username is unused, but needed as workaround for a MariaDB bug
-                /*extrafrom*/ 'LEFT JOIN ( ' .
-                    ' SELECT 1 as __is_mailbox, username as __mailbox_username ' .
-                    ' FROM ' . table_by_key('mailbox') .
-                    ' WHERE username IS NOT NULL ' .
-                    ' AND ' . db_in_clause($this->domain_field, $this->allowed_domains) .
-                    ' ) AS __mailbox ON __mailbox_username = address' ),
+                /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox' ),
+                /*extrafrom set via set_is_mailbox_extrafrom() */
             '__mailbox_username' => pacol( 0,       0,      1,      'vtxt', ''                              , ''                                , 0),  # filled via is_mailbox
             'goto_mailbox'  => pacol(   $mbgoto,    $mbgoto,$mbgoto,'bool', 'pEdit_alias_forward_and_store' , ''                                , 0,
                 /*options*/ '',
@@ -66,7 +60,36 @@ class AliasHandler extends PFAHandler {
                 array('select' => '1 as _can_delete')  ), # read_from_db_postprocess() updates the value
                 # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
         );
+
+        $this->set_is_mailbox_extrafrom();
     }
+
+    /*
+     * set $this->struct['is_mailbox']['extrafrom'] based on the search conditions.
+     * If a listing for a specific domain is requested, optimize the subquery to only return mailboxes from that domain.
+     * This doesn't change the result of the main query, but improves the performance a lot on setups with lots of mailboxes.
+     * When using this function to optimize the is_mailbox extrafrom, don't forget to reset it to the default value
+     * (all domains for this admin) afterwards.
+     */
+    private function set_is_mailbox_extrafrom($condition=array(), $searchmode=array()) {
+        $extrafrom = 'LEFT JOIN ( ' .
+            ' SELECT 1 as __is_mailbox, username as __mailbox_username ' .
+            ' FROM ' . table_by_key('mailbox') .
+            ' WHERE username IS NOT NULL ';
+
+        if(isset($condition['domain']) && !isset($searchmode['domain']) && in_array($condition['domain'], $this->allowed_domains)) {
+            # listing for a specific domain, so restrict subquery to that domain
+            $extrafrom .= ' AND ' . db_in_clause($this->domain_field, array($condition['domain']));
+        } else {
+            # restrict subquery to all domains accessible to this admin
+            $extrafrom .= ' AND ' . db_in_clause($this->domain_field, $this->allowed_domains);
+        }
+
+        $extrafrom .= ' ) AS __mailbox ON __mailbox_username = address';
+
+        $this->struct['is_mailbox']['extrafrom'] = $extrafrom;
+    }
+
 
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'email_address_already_exists';
@@ -321,12 +344,18 @@ class AliasHandler extends PFAHandler {
 
     public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) {
         list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
-        return parent::getList($condition, $searchmode, $limit, $offset);
+        $this->set_is_mailbox_extrafrom($condition, $searchmode);
+        $result = parent::getList($condition, $searchmode, $limit, $offset);
+        $this->set_is_mailbox_extrafrom(); # reset to default
+        return $result;
     }
 
     public function getPagebrowser($condition, $searchmode = array()) {
         list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
-        return parent::getPagebrowser($condition, $searchmode);
+        $this->set_is_mailbox_extrafrom($condition, $searchmode);
+        $result = parent::getPagebrowser($condition, $searchmode);
+        $this->set_is_mailbox_extrafrom(); # reset to default
+        return $result;
     }
 
 
