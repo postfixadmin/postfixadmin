@@ -19,6 +19,10 @@ if [ "$(readlink /etc/lighttpd/conf-available/postfixadmin)" = "../../postfixadm
     rm -f /etc/lighttpd/conf-available/postfixadmin
 fi
 
+# See : https://sourceforge.net/p/postfixadmin/bugs/376/ - remove any existing templates_c files on upgrade.
+if [ -d /usr/share/postfixadmin/templates_c ]; then
+    find /usr/share/postfixadmin/templates_c -type f -exec rm -r {} \;
+fi
 #DEBHELPER#
 
 exit 0
