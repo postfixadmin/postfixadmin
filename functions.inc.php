@@ -933,7 +933,9 @@ function pacrypt ($pw, $pw_db="") {
     
     elseif (preg_match("/^dovecot:/", $CONF['encrypt'])) {
         $split_method = preg_split ('/:/', $CONF['encrypt']);
-        $method       = strtoupper($split_method[1]); # TODO: if $pw_db starts with {method}, change $method accordingly
+        $method       = strtoupper($split_method[1]);
+        # If $pw_db starts with {method}, change $method accordingly
+        if (!empty($pw_db) && preg_match('/^\{([A-Z0-9.-]+)\}.+/', $pw_db, $method_matches)) { $method = $method_matches[1]; }
         if (! preg_match("/^[A-Z0-9.-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
         # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
         # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
@@ -1686,11 +1688,13 @@ function db_in_clause($field, $values) {
  * db_where_clause
  * Action: builds and returns a WHERE clause for database queries. All given conditions will be AND'ed.
  * Call: db_where_clause (array $conditions, array $struct)
- * param array $conditios: array('field' => 'value', 'field2' => 'value2, ...)
+ * param array $condition: array('field' => 'value', 'field2' => 'value2, ...)
  * param array $struct - field structure, used for automatic bool conversion
  * param string $additional_raw_where - raw sniplet to include in the WHERE part - typically needs to start with AND
  * param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see 
  *                           $allowed_operators for available operators)
+ *                           Note: the $searchmode operator will only be used if a $condition for that field is set.
+ *                                 This also means you'll need to set a (dummy) condition for NULL and NOTNULL.
  */
 function db_where_clause($condition, $struct, $additional_raw_where = '', $searchmode = array()) {
     if (!is_array($condition)) {
@@ -1703,7 +1707,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
         die('db_where_cond: parameter $struct is not an array!');
     }
 
-    $allowed_operators = explode(' ', '< > >= <= = != <> CONT LIKE');
+    $allowed_operators = explode(' ', '< > >= <= = != <> CONT LIKE NULL NOTNULL');
     $where_parts = array();
     $having_parts = array();
 
@@ -1724,7 +1728,15 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
                 die('db_where_clause: Invalid searchmode for ' . $field);
             }
         }
-        $querypart = $field . $operator . "'" . escape_string($value) . "'";
+
+        if ($operator == "NULL") {
+            $querypart = $field . ' IS NULL';
+        } elseif ($operator == "NOTNULL") {
+            $querypart = $field . ' IS NOT NULL';
+        } else {
+            $querypart = $field . $operator . "'" . escape_string($value) . "'";
+        }
+
         if($struct[$field]['select'] != '') {
             $having_parts[$field] = $querypart;
         } else {

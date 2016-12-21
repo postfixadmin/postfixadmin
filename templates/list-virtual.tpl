@@ -64,6 +64,7 @@
 	{if $tCanAddMailbox}
 		<br /><a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" class="button">{$PALANG.add_mailbox}</a><br />
 	{/if}
+	<br /><br /><a href="list.php?table=mailbox&amp;output=csv">{$PALANG.download_csv}</a>
 {/if}
 {if $CONF.show_status===YES && $CONF.show_status_key===YES}
 	<br/><br/>

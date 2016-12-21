@@ -262,7 +262,7 @@ function maildir_name_hook($domain, $user) {
     PostfixAdmin, but it does not create it in the database. You have to do
     that yourself. 
     Please follow the naming policy for custom database fields and tables on
-    http://sourceforge.net/apps/mediawiki/postfixadmin/index.php?title=Custom_fields
+    https://sourceforge.net/p/postfixadmin/wiki/Custom_fields/
     to avoid clashes with future versions of PostfixAdmin.
 
     See initStruct() in the *Handler class for the default $struct.

@@ -136,10 +136,9 @@ $table_alias = table_by_key('alias');
 $table_mailbox = table_by_key('mailbox');
 
 if (count($search) == 0 || !isset($search['_'])) {
-    $list_param = "domain='$fDomain'";
+    $search_alias = array('domain' => $fDomain);
 } else {
-    $searchterm = escape_string($search['_']);
-    $list_param = "(address LIKE '%$searchterm%' OR goto LIKE '%$searchterm%')";
+    $search_alias = array('_' => $search['_']);
 }
 
 $handler = new AliasHandler(0, $admin_username);
@@ -153,8 +152,8 @@ $alias_data['struct']['goto_mailbox']['display_in_list'] = 0; # not useful/defin
 $alias_data['struct']['on_vacation']['display_in_list'] = 0;
 $alias_data['msg']['show_simple_search'] = False; # hide search box
 
-$handler->getList($list_param, array(), $page_size, $fDisplay);
-$pagebrowser_alias = $handler->getPagebrowser($list_param, array());
+$handler->getList($search_alias, array(), $page_size, $fDisplay);
+$pagebrowser_alias = $handler->getPagebrowser($search_alias, array());
 $tAlias = $handler->result();
 
 
