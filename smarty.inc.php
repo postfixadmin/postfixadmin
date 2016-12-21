@@ -14,7 +14,13 @@ class PFASmarty {
         //$this->template->debugging = true;
         $incpath = dirname(__FILE__);
         $this->template->setTemplateDir(dirname(__FILE__) . '/templates');
-        $this->template->setCompileDir(dirname(__FILE__) . '/templates_c');
+
+        // if it's not present or writeable, smarty should just not cache.
+        $templates_c = dirname(__FILE__) . '/templates_c';
+        if(is_dir($templates_c) && is_writeable($templates_c)) {
+            $this->template->setCompileDir($templates_c);
+        }
+
         $this->template->setConfigDir(dirname(__FILE__) . '/configs');
     }
 
