@@ -565,7 +565,7 @@ abstract class PFAHandler {
         $no  = escape_string(Config::lang('NO'));
 
         if (db_pgsql()) {
-            $formatted_date = "TO_DATE(text(###KEY###), '" . escape_string(Config::Lang('dateformat_pgsql')) . "')";
+            $formatted_date = "TO_CHAR(###KEY###, '" . escape_string(Config::Lang('dateformat_pgsql')) . "')";
             # $base64_decode = "DECODE(###KEY###, 'base64')";
         } elseif (db_sqlite()) {
             $formatted_date = "strftime(###KEY###, '" . escape_string(Config::Lang('dateformat_mysql')) . "')";
