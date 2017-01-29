@@ -450,8 +450,10 @@ $smarty->assign ('tDisplay_up_show', $tDisplay_up_show);
 $smarty->assign ('tDisplay_next_show', $tDisplay_next_show);
 $smarty->assign ('tDisplay_next', $tDisplay_next);
 
-$smarty->assign ('tAliasDomains', $tAliasDomains);
-$smarty->assign ('aliasdomain_data', $aliasdomain_data);
+if (Config::bool('alias_domain')) {
+    $smarty->assign ('tAliasDomains', $tAliasDomains);
+    $smarty->assign ('aliasdomain_data', $aliasdomain_data);
+}
 
 $smarty->assign ('tAlias', $tAlias);
 $smarty->assign ('alias_data', $alias_data);
