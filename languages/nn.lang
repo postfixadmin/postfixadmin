@@ -125,6 +125,7 @@ $PALANG['pCreate_alias_result_success'] = 'Aliaset er lagt til i alias-tabellen!
 $PALANG['alias_updated'] = 'The alias %s has been updated!'; # XXX
 $PALANG['pCreate_alias_catchall_text'] = 'For å opprette et alias som "mottar alt" bruk "*" som alias. For domene-til-domene videresending bruk "*@domene.tld" som mottaker.';  # XXX check/beautify - was split in two lines before
 $PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!'; # XXX
+$PALANG['protected_alias_cant_be_deleted'] = 'The alias %s is protected and can only be deleted by a superadmin'; # XXX
 $PALANG['pEdit_alias_welcome'] = 'Endre et alias.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'En mottaker per linje.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['alias'] = 'Alias';

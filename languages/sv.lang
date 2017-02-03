@@ -128,6 +128,7 @@ $PALANG['pCreate_alias_result_success'] = 'Aliaset har skapats i aliastabellen! 
 $PALANG['alias_updated'] = 'Aliaset %s är uppdaterat!';
 $PALANG['pCreate_alias_catchall_text'] = 'För att skapa en catch-all anges ett "*" som alias.';
 $PALANG['mailbox_alias_cant_be_deleted'] = 'Detta alias tillhör en brevlåda och kan inte tas bort!';
+$PALANG['protected_alias_cant_be_deleted'] = 'The alias %s is protected and can only be deleted by a superadmin'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = 'Inställningar för vidarebefordring.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Ett alias per rad.'; # XXX Text change to: 'Accepts multiple targets, one entry per line.'
