@@ -128,6 +128,7 @@ $PALANG['pCreate_alias_result_success'] = 'The alias %s has been created!';
 $PALANG['alias_updated'] = 'The alias %s has been updated!';
 $PALANG['pCreate_alias_catchall_text'] = 'To create a catch-all use an "*" as alias.'; # XXX don't propagate usage of *@target-domain.com for domain-aliasing any longer
 $PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!';
+$PALANG['protected_alias_cant_be_deleted'] = 'The alias %s is protected and can only be deleted by a superadmin';
 
 $PALANG['pEdit_alias_welcome'] = 'Edit forwarding settings';
 $PALANG['pEdit_alias_help'] = 'Accepts multiple targets, one entry per line.';
