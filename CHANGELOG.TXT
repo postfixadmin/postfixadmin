@@ -9,7 +9,7 @@
 # Last update:
 # $Id$
 
-Changes since the 3.0.1 release
+Version 3.0.2 - 2017/02/08 - SVN r1893
 -------------------------------------------------
 
   - SECURITY: don't allow to delete protected aliases (CVE-2017-5930, PR#23)
