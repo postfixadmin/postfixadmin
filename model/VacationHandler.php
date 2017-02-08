@@ -26,6 +26,11 @@ class VacationHandler extends PFAHandler {
             'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
+
+        if ( ! db_pgsql() ) {
+            $this->struct['cache'] = pacol( 0,      0,      0,      'text', ''                              , ''                                , '' );  # leftover from 2.2
+        }
+
     }
 
     protected function initMsg() {
@@ -180,6 +185,10 @@ class VacationHandler extends PFAHandler {
             'activefrom' => $activeFrom,
             'activeuntil' => $activeUntil,
         );
+
+        if ( ! db_pgsql() ) {
+            $vacation_data['cache'] = '';  # leftover from 2.2
+        }
 
         // is there an entry in the vacaton table for the user, or do we need to insert?
         $table_vacation = table_by_key('vacation');
