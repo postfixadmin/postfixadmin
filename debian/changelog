@@ -1,3 +1,16 @@
+postfixadmin (3.0.2-1) unstable; urgency=low
+
+  * Security fix (don't delete protected aliases, CVE-2017-5930)
+  * Fix MySQL vacation.cache column (regression fix)
+
+ -- David Goodwin <david@palepurple.co.uk>  Wed, 08 Feb 2017 19:30:00 +0000
+
+postfixadmin (3.0.1-2) unstable; urgency=low
+
+  * Try and make dependencies less strict (and perhaps work for Ubuntu Precise as well)
+
+ -- David Goodwin <david@palepurple.co.uk>  Mon, 10 Oct 2016 20:00:00 +0100
+
 postfixadmin (3.0.1-1) unstable; urgency=low
 
   * Fix packaging issues (missing: smarty/ and configs/)
