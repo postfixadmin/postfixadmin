@@ -128,6 +128,7 @@ $PALANG['pCreate_alias_result_success'] = 'Alias został dodany do tabeli alias�
 $PALANG['alias_updated'] = 'Alias %s został zaktualizowany!';
 $PALANG['pCreate_alias_catchall_text'] = 'Aby utworzyć domyślne konto dla domeny (catch-all) podaj "*" (gwiazdkę) jako alias. Jeśli chcesz przekazywać całość poczty do innej domeny, wpisz jako alias "*@domena.tld".'; # XXX check/beautify - was split in two lines before
 $PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!'; # XXX
+$PALANG['protected_alias_cant_be_deleted'] = 'The alias %s is protected and can only be deleted by a superadmin'; # XXX
 $PALANG['pEdit_alias_welcome'] = 'Edytuj alias dla Twojej domeny.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Jeden wpis na linię.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['alias'] = 'Alias';

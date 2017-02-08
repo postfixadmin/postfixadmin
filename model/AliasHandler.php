@@ -441,6 +441,11 @@ class AliasHandler extends PFAHandler {
             return false;
         }
 
+        if (!$this->can_delete) {
+            $this->errormsg[] = Config::Lang_f('protected_alias_cant_be_deleted', $this->id);
+            return false;
+        }
+
         db_delete('alias', 'address', $this->id);
 
         list(/*NULL*/,$domain) = explode('@', $this->id);

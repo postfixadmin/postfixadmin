@@ -126,6 +126,7 @@ $PALANG['pCreate_alias_result_success'] = '添加別名成功!'; # XXX text chan
 $PALANG['alias_updated'] = 'The alias %s has been updated!'; # XXX
 $PALANG['pCreate_alias_catchall_text'] = '要將所有的郵件全部轉發請使用"*"作為別名. 網域到網域的轉發請使用"*@domain.tld".'; # XXX check/beautify - was split in two lines before
 $PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!'; # XXX
+$PALANG['protected_alias_cant_be_deleted'] = 'The alias %s is protected and can only be deleted by a superadmin'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = '編輯你網域中的別名.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = '每行一條記錄.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'

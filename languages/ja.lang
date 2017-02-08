@@ -127,6 +127,7 @@ $PALANG['pCreate_alias_result_success'] = '転送先を追加しました。'; #
 $PALANG['alias_updated'] = 'The alias %s has been updated!'; # XXX
 $PALANG['pCreate_alias_catchall_text'] = 'すべてのメールを受け取るには、転送元に "*" を使います。 別のドメインにすべて転送するには、転送先に "*.domain.tld" を使います。'; # XXX check/beautify - was split in two lines before
 $PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!'; # XXX
+$PALANG['protected_alias_cant_be_deleted'] = 'The alias %s is protected and can only be deleted by a superadmin'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = '転送先アドレスの編集'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = '1行に1エントリです。'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'

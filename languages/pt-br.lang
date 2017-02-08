@@ -129,6 +129,7 @@ $PALANG['pCreate_alias_result_success'] = 'Alias criado!'; # XXX text change: 'T
 $PALANG['alias_updated'] = 'The alias %s has been updated!'; # XXX
 $PALANG['pCreate_alias_catchall_text'] = 'Para criar um alias global, use "*" no campo Alias. Para encaminhar de um domínio para outro, use "*@dominio.tld" no campo Para.'; # XXX check/beautify - was split in two lines before
 $PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!'; # XXX
+$PALANG['protected_alias_cant_be_deleted'] = 'The alias %s is protected and can only be deleted by a superadmin'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = 'Edição de alias do domínio.'; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Uma entrada por linha.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'

@@ -127,6 +127,7 @@ $PALANG['pCreate_alias_result_success'] = 'Der Alias %s wurde erstellt!';
 $PALANG['alias_updated'] = 'Der Alias %s wurde geändert.';
 $PALANG['pCreate_alias_catchall_text'] = 'Um alle Adressen abzudecken benutzen Sie einen "*" als Alias. Um ganze Domains an andere Domains weiterzuleiten benutzen Sie "*@domain.tld" im "An"-Feld.';
 $PALANG['mailbox_alias_cant_be_deleted'] = 'Dieser Alias gehört zu einer Mailbox und kann nicht gelöscht werden!';
+$PALANG['protected_alias_cant_be_deleted'] = 'Der Alias %s ist geschützt und kann nur von einem Superadmin gelöscht werden.';
 
 $PALANG['pEdit_alias_welcome'] = 'Weiterleitungs-Einstellungen ändern';
 $PALANG['pEdit_alias_help'] = 'Angabe mehrerer Ziele möglich, ein Eintrag pro Zeile.';

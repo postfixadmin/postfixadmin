@@ -126,6 +126,7 @@ $PALANG['pCreate_alias_result_success'] = 'De alias %s is toegevoegd.'; # XXX te
 $PALANG['alias_updated'] = 'De alias %s is bijgewerkt!'; # XXX
 $PALANG['pCreate_alias_catchall_text'] = 'Om een catch-all te gebruiken, dient u een "*" (asteric) in te vullen als alias. Voor domein naar domein forwarding gebruik "*@domein.tld" als naar.';
 $PALANG['mailbox_alias_cant_be_deleted'] = 'De alias maakt onderdeel uit van mailbox en kan niet worden verwijderd!'; # XXX
+$PALANG['protected_alias_cant_be_deleted'] = 'The alias %s is protected and can only be deleted by a superadmin'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = 'Bewerk een alias voor uw domein.';
 $PALANG['pEdit_alias_help'] = 'Meerdere e-mailadressen toegestaan. Slechts één alias per regel.';
