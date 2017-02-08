@@ -12,11 +12,16 @@
 Changes since the 3.0.1 release
 -------------------------------------------------
 
+  - SECURITY: don't allow to delete protected aliases (CVE-2017-5930, PR#23)
+  - fix VacationHandler for PostgreSQL
   - AliasHandler: restrict mailbox subquery to allowed and specified domains
     to improve performance on setups with lots of mailboxes
   - allow switching between dovecot:* password schemes while still accepting
     passwords hashed using the previous dovecot:* scheme
   - FetchmailHandler: use a valid date as default for 'date'
+  - fix date formatting in non-english languages when using PostgreSQL
+  - debian packaging: improve dependencies, remove old templates_c/ files
+  - various small fixes
 
 Version 3.0.1 - 2016/09/19 - SVN r1870
 -------------------------------------------------
