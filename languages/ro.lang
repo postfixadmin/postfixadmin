@@ -330,6 +330,8 @@ $PALANG['pBroadcast_name'] = 'Numele';
 $PALANG['pBroadcast_success'] = 'A fost trimis mesajul la toti utilizatorii.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Mesaj general';
 $PALANG['pBroadcast_error_empty'] = 'Campurile Nume, Subiect si Mesaj nu pot fi goale!';
+$PALANG['broadcast_mailboxes_only'] = 'Only send to mailboxes'; # XXX
+$PALANG['broadcast_to_domains'] = 'Send to domains:'; # XXX
 
 $PALANG['pStatus_undeliverable'] = 'probabil UNDELIVERABLE ';
 $PALANG['pStatus_custom'] = 'Livreaza la ';
