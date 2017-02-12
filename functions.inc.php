@@ -1007,6 +1007,85 @@ function pacrypt ($pw, $pw_db="") {
         }
     }
 
+    elseif (preg_match("/^mkpasswd:/", $CONF['encrypt'])) {
+        $split_method = preg_split ('/:/', $CONF['encrypt']);
+        $method       = strtolower($split_method[1]);
+
+        if (!empty($pw_db)) {
+            // If we are verifying the password, try to figure out the old method
+            if (substr($pw_db, 0, 3) == '$1$') {
+                $method = 'md5';
+            } elseif (substr($pw_db, 0, 3) == '$5$') {
+                $method = 'sha-256';
+            } elseif (substr($pw_db, 0, 3) == '$6$') {
+                $method = 'sha-512';
+            } elseif (strlen($pw_db) == 13) {
+                $method = 'des';
+            } else {
+                error_log('Could not detect a compatible password hashing method for mkpasswd');
+                die("can't encrypt password with mkpasswd, see error log for details");
+            }
+        }
+        if (!in_array($method, ['des', 'md5', 'sha-256', 'sha-512'])) { die("invalid mkpasswd encryption method"); }
+
+        # Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
+        $spec = array(
+            0 => array("pipe", "r"), // stdin
+            1 => array("pipe", "w"), // stdout
+            2 => array("pipe", "w"), // stderr
+        );
+
+        $mkpasswd = empty($CONF['mkpasswd']) ? "mkpasswd" : $CONF['mkpasswd'];
+        $rounds = " '-R' " . (empty($CONF['mkpasswd_rounds']) ? 30000 : $CONF['mkpasswd_rounds']);
+
+        if (!empty($pw_db)) {
+            if ($method == 'des') {
+                // des
+                $rounds = '';
+                $salt = " '-S' " . substr($pw_db, 0, 2);
+            } else {
+                // md5, sha-256, sha-512
+                $split_salt = preg_split('/\$/', $pw_db);
+                if (isset ($split_salt[4])) {
+                    // Rounds set
+                    $rounds = " '-R' " . str_replace('rounds=', '', $split_salt[2]);
+                    $salt = " '-S' $split_salt[3]";
+                } elseif (isset ($split_salt[3])) {
+                    // Rounds not set
+                    $rounds = '';
+                    $salt = " '-S' $split_salt[2]";
+                } else {
+                    error_log('Failed to detect encryption method');
+                    die("can't encrypt password with mkpasswd, see error log for details");
+                }
+            }
+        }
+
+        $pipe = proc_open("$mkpasswd$rounds '-m' $method$salt", $spec, $pipes);
+
+        if (!$pipe) {
+            die("can't proc_open $mkpasswd");
+        } else {
+            fwrite($pipes[0], $pw . "\n", 1+strlen($pw)); usleep(1000);
+            fclose($pipes[0]);
+
+            // Read hash from pipe stdout
+            $password = fread($pipes[1], "200");
+            $password = rtrim($password);
+
+            if (!preg_match('/^\$/', $password) && strlen($password) != 13) {
+                $stderr_output = stream_get_contents($pipes[2]);
+                error_log('mkpasswd password encryption failed.');
+                error_log('STDERR output: ' . $stderr_output);
+                die("can't encrypt password with mkpasswd, see error log for details");
+            }
+
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+            proc_close($pipe);
+        }
+    }
+
     else {
         die ('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
     }
