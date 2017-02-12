@@ -27,10 +27,10 @@
 
 require_once('common.php');
 
-if ($CONF['sendmail_only_global_admin'] == 'YES' ) {
-   authentication_require_role('global-admin');
-} else {
+if (Config::bool('sendmail_all_admins'])) {
    authentication_require_role('admin');
+} else {
+   authentication_require_role('global-admin');
 }
 
 if ($CONF['sendmail'] != 'YES') {
