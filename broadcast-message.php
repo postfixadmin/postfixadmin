@@ -27,7 +27,7 @@
 
 require_once('common.php');
 
-if (Config::bool('sendmail_all_admins'])) {
+if (Config::bool('sendmail_all_admins')) {
    authentication_require_role('admin');
 } else {
    authentication_require_role('global-admin');
