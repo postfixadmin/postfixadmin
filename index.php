@@ -6,7 +6,7 @@
  * This source file is subject to the GPL license that is bundled with  
  * this package in the file LICENSE.TXT. 
  * 
- * Further details on the project are available at http://postfixadmin.sf.net 
+ * Further details on the project are available at http://postfixadmin.sf.net or https://github.com/postfixadmin/postfixadmin
  * 
  * @version $Id$ 
  * @license GNU GPL v2 or later. 
@@ -20,8 +20,12 @@
  * Form POST \ GET Variables: -none-
  */
 
-$CONF['configured'] = FALSE;
-@include_once('config.inc.php'); # hide error message because only $CONF['configured'] is checked here
+$CONF = array('configured' => FALSE);
+
+if(file_exists(dirname(__FILE__) . '/config.inc.php')) {
+    require_once('config.inc.php');
+}
+
 if ( $CONF['configured'] === TRUE )
 {
     header ("Location: login.php");
