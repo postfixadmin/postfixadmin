@@ -1,16 +1,16 @@
 <?php
-/** 
- * Postfix Admin 
- * 
- * LICENSE 
- * This source file is subject to the GPL license that is bundled with  
- * this package in the file LICENSE.TXT. 
- * 
- * Further details on the project are available at http://postfixadmin.sf.net 
- * 
- * @version $Id$ 
- * @license GNU GPL v2 or later. 
- * 
+/**
+ * Postfix Admin
+ *
+ * LICENSE
+ * This source file is subject to the GPL license that is bundled with
+ * this package in the file LICENSE.TXT.
+ *
+ * Further details on the project are available at http://postfixadmin.sf.net
+ *
+ * @version $Id$
+ * @license GNU GPL v2 or later.
+ *
  * File: setup.php
  * Used to help ensure a server is setup appropriately during installation/setup.
  * After setup, it should be renamed or removed.
@@ -60,10 +60,12 @@ $error = 0;
 //
 // Check for PHP version
 //
+$phpversion = 'unknown-version';
+
 if ($f_phpversion == 1)
 {
     if (phpversion() < 5) {
-        print "<li><b>Error: Depends on: PHP v5</b><br /></li>\n";
+        print "<li><b>Error: Depends on: PHP v5+</b><br /></li>\n";
         $error += 1;
     } elseif (version_compare(phpversion(), '5.2.3') < 0) {
         # smarty uses htmlentities() with 4 parameters, the 4th parameter was introduced in PHP 5.2.3
@@ -110,7 +112,7 @@ if ($f_get_magic_quotes_gpc == 1)
     }
     else
     {
-        print "<li><b>Warning: Magic Quotes: ON (internal workaround used)</b></li>\n";   
+        print "<li><b>Warning: Magic Quotes: ON (internal workaround used)</b></li>\n";
     }
 }
 else
@@ -146,26 +148,6 @@ else
     $error =+ 1;
 }
 
-//
-// Check if templates directory is writable
-//
-
-if (!is_writeable($incpath.'/templates_c'))
-{
-    if(!is_dir($incpath . '/templates_c')) {
-        print "<li><b>Error: Smarty template compile directory templates_c not found.</b><br />\n";
-        echo "<b>Please <code>mkdir -p $incpath/templates_c</code> and make it writeable by the web server</b>\n";
-        $error =+ 1;
-    }
-    else {
-        print "<li><b>Error: Smarty template compile directory templates_c is not writable.</b><br />\n";
-        print "<b>Please make it writable.</b><br />\n";
-        print "<b>If you are using SELinux or AppArmor, you might need to adjust their setup to allow write access.</b><br />\n";
-        $error =+ 1;
-    }
-} else {
-	print "<li>Smarty template compile directory is writable - OK<br />\n";
-}
 
 //
 // Check if there is support for at least 1 database
@@ -174,10 +156,10 @@ if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0
 {
     print "<li><b>Error: There is no database support in your PHP setup</b><br />\n";
     print "To install MySQL 3.23 or 4.0 support on FreeBSD:<br />\n";
-    print "<pre>% cd /usr/ports/databases/php$phpversion-mysql/\n";
+    print "<pre>% cd /usr/ports/databases/php{$phpversion}-mysql/\n";
     print "% make clean install\n";
     print " - or with portupgrade -\n";
-    print "% portinstall php$phpversion-mysql</pre>\n";
+    print "% portinstall php{$phpversion}-mysql</pre>\n";
     if ($phpversion >= 5)
     {
         print "To install MySQL 4.1 support on FreeBSD:<br />\n";
@@ -187,10 +169,10 @@ if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0
         print "% portinstall php5-mysqli</pre>\n";
     }
     print "To install PostgreSQL support on FreeBSD:<br />\n";
-    print "<pre>% cd /usr/ports/databases/php$phpversion-pgsql/\n";
+    print "<pre>% cd /usr/ports/databases/php{$phpversion}-pgsql/\n";
     print "% make clean install\n";
     print " - or with portupgrade -\n";
-    print "% portinstall php$phpversion-pgsql</pre></li>\n";
+    print "% portinstall php{$phpversion}-pgsql</pre></li>\n";
     $error =+ 1;
 }
 //
@@ -249,7 +231,7 @@ if ($config_loaded) {
         print "Please edit the \$CONF['database_*'] parameters in config.inc.php.\n";
         print "$error_text</li>\n";
         $error ++;
-    } 
+    }
 }
 
 //
@@ -386,7 +368,7 @@ else
             }
 
         }
-    } 
+    }
 
     if ( ($setuppw == "" || $setuppw == "changeme" || safeget("lostpw") == 1 || $lostpw_error != 0) /* && $_SERVER['REQUEST_METHOD'] != "POST" */ ) {
 # show "create setup password" form
@@ -397,15 +379,16 @@ else
 <form name="setuppw" method="post" action="setup.php">
 <input type="hidden" name="form" value="setuppw" />
 <table>
+   <tr>
       <td colspan="3"><h3>Change setup password</h3></td>
    </tr>
    <tr>
-      <td>Setup password</td>
+      <td><label for="setup_password">Setup password</label></td>
       <td><input class="flat" type="password" name="setup_password" value="" /></td>
       <td></td>
    </tr>
    <tr>
-      <td>Setup password (again)</td>
+      <td><label for="setup_password2">Setup password (again)</label></td>
       <td><input class="flat" type="password" name="setup_password2" value="" /></td>
       <td></td>
    </tr>
@@ -429,24 +412,24 @@ else
       <td colspan="3"><h3>Create superadmin account</h3></td>
    </tr>
    <tr>
-      <td>Setup password</td>
-      <td><input class="flat" type="password" name="setup_password" value="" /></td>
+       <td><label for="setup_password">Setup password</label></td>
+      <td><input id=setup_password class="flat" type="password" name="setup_password" value="" /></td>
       <td><a href="setup.php?lostpw=1">Lost password?</a></td>
    </tr>
    <tr>
-      <td><?php print $PALANG['admin'] . ":"; ?></td>
-      <td><input class="flat" type="text" name="username" value="<?php print $tUsername; ?>" /></td>
-      <td><?php if (isset($errormsg['username'])) print $errormsg['username']; ?><?php print $PALANG['email_address'] ?></td>
+      <td><label for="username"><?php print $PALANG['admin'] . ":"; ?></label></td>
+      <td><input id="username" class="flat" type="text" name="username" value="<?php print $tUsername; ?>" /></td>
+      <td><?= _error_field($errormsg, 'username'); ?> <?php print $PALANG['email_address'] ?></td>
    </tr>
    <tr>
-      <td><?php print $PALANG['password'] . ":"; ?></td>
-      <td><input class="flat" type="password" name="password" /></td>
-      <td><?php if (isset($errormsg['password'])) print $errormsg['password']; ?></td>
+       <td><label for="password"><?php print $PALANG['password'] . ":"; ?></label></td>
+      <td><input id="password" class="flat" type="password" name="password" /></td>
+      <td><?= _error_field($errormsg, 'password'); ?></td>
    </tr>
    <tr>
-      <td><?php print $PALANG['password_again'] . ":"; ?></td>
-      <td><input class="flat" type="password" name="password2" /></td>
-      <td><?php if (isset($errormsg['password2'])) print $errormsg['password2']; ?></td>
+       <td><label for="password2"><?php print $PALANG['password_again'] . ":"; ?></label></td>
+      <td><input id="password2" class="flat" type="password" name="password2" /></td>
+      <td><?= _error_field($errormsg, 'password2'); ?></td>
    </tr>
    <tr>
       <td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="<?php print $PALANG['pAdminCreate_admin_button']; ?>" /></td>
@@ -457,15 +440,23 @@ else
 
 <?php
     }
-
-    print "<b>Since version 2.3 there is no requirement to delete setup.php!</b><br />\n";
-    print "<b>Check the config.inc.php file for any other settings that you might need to change!<br />\n";
+?>
+    <b>Since version 2.3 there is no requirement to delete setup.php!</b><br />
+    <b>Check the config.inc.php file for any other settings that you might need to change!<br />
+<?php
 }
 ?>
 </div>
 </body>
 </html>
 <?php
+
+function _error_field($errors, $key) {
+    if(!isset($errors[$key])) {
+        return '';
+    }
+    return "<span style='color: red'>{$errors[$key]}</span>";
+}
 
 function generate_setup_password_salt() {
     $salt = time() . '*' . $_SERVER['REMOTE_ADDR'] . '*' . mt_rand(0,60000);
@@ -526,7 +517,7 @@ function create_admin($values) {
 
     if (!$handler->init($values['username'])) {
         return array(1, "", $handler->errormsg);
-    } 
+    }
 
     if (!$handler->set($values)) {
         return array(1, "", $handler->errormsg);
