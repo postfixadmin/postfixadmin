@@ -277,18 +277,24 @@ function check_email ($email) {
  * Clean a string, escaping any meta characters that could be
  * used to disrupt an SQL string. i.e. "'" => "\'" etc.
  *
- * @param String (or Array) 
+ * @param mixed string|array
+ * @param resource $db_conn optional (default null)
  * @return String (or Array) of cleaned data, suitable for use within an SQL
  *    statement.
  */
-function escape_string ($string) {
+function escape_string ($string, $db_conn = null) {
     global $CONF;
+
+    if($db_conn == null) {
+        $db_conn = db_connect();
+    }
+
     // if the string is actually an array, do a recursive cleaning.
     // Note, the array keys are not cleaned.
     if(is_array($string)) {
         $clean = array();
         foreach(array_keys($string) as $row) {
-            $clean[$row] = escape_string($string[$row]);  
+            $clean[$row] = escape_string($string[$row], $db_conn);
         }
         return $clean;
     }
@@ -296,12 +302,13 @@ function escape_string ($string) {
         $string = stripslashes($string);
     }
     if (!is_numeric($string)) {
-        $link = db_connect();
+
+
         if ($CONF['database_type'] == "mysql") {
-            $escaped_string = mysql_real_escape_string($string, $link);
+            $escaped_string = mysql_real_escape_string($string, $db_conn);
         }
         if ($CONF['database_type'] == "mysqli") {
-            $escaped_string = mysqli_real_escape_string($link, $string);
+            $escaped_string = mysqli_real_escape_string($db_conn, $string);
         }
         if (db_sqlite()) {
             $escaped_string = SQLite3::escapeString($string);
@@ -309,7 +316,7 @@ function escape_string ($string) {
         if (db_pgsql()) {
             // php 5.2+ allows for $link to be specified.
             if (version_compare(phpversion(), "5.2.0", ">=")) {
-                $escaped_string = pg_escape_string($link, $string);
+                $escaped_string = pg_escape_string($db_conn, $string);
             } else {
                 $escaped_string = pg_escape_string($string);
             }
@@ -1238,8 +1245,10 @@ $DEBUG_TEXT = "\n
  *    - call die() in case of connection problems
  * b) with $ignore_errors == TRUE
  *    array($link, $error_text);
+ *
+ * @return resource connection to db (normally)
  */
-function db_connect ($ignore_errors = 0) {
+function db_connect ($ignore_errors = false) {
     global $CONF;
     global $DEBUG_TEXT;
     if ($ignore_errors != 0) $DEBUG_TEXT = '';
@@ -1737,7 +1746,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
             $querypart = $field . $operator . "'" . escape_string($value) . "'";
         }
 
-        if($struct[$field]['select'] != '') {
+        if(!empty($struct[$field]['select'])) {
             $having_parts[$field] = $querypart;
         } else {
             $where_parts[$field] = $querypart;
