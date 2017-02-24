@@ -57,6 +57,8 @@ $file_config = file_exists (realpath ("./config.inc.php"));
 
 $error = 0;
 
+$errormsg = [];
+
 //
 // Check for PHP version
 //
