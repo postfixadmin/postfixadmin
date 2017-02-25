@@ -1657,6 +1657,21 @@ function upgrade_1835_mysql() {
     db_query_parsed("ALTER TABLE `$table` CHANGE `timestamp` `timestamp` {DATETIME}");
 }
 
+function upgrade_1836_mysql() {
+    $table_alias_domain = table_by_key ('alias_domain');
+    $table_vacation_notification = table_by_key('vacation_notification');
+
+    $all_sql = explode("\n", trim("
+        ALTER TABLE `$table_alias_domain`          CHANGE `alias_domain`    `alias_domain`  VARCHAR(255) {LATIN1} NOT NULL default ''
+        ALTER TABLE `$table_alias_domain`          CHANGE `target_domain`   `target_domain` VARCHAR(255) {LATIN1} NOT NULL default ''
+        ALTER TABLE `$table_vacation_notification` CHANGE `notified`        `notified`      VARCHAR(255) {LATIN1} NOT NULL default ''
+    "));
+
+    foreach ($all_sql as $sql) {
+        $result = db_query_parsed($sql, TRUE);
+    }
+
+}
 # TODO MySQL:
 # - various varchar fields do not have a default value
 #   https://sourceforge.net/projects/postfixadmin/forums/forum/676076/topic/3419725
