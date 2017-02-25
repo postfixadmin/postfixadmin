@@ -339,6 +339,14 @@ function _add_index($table, $indexname, $fieldlist) {
 }
 
 function upgrade_1_mysql() {
+    #
+    # creating the tables in this very old layout (pre 2.1) causes trouble if the MySQL charset is not latin1 (multibyte vs. index length)
+    # therefore:
+
+        return; # <-- skip running this function at all.
+
+    # (remove the above "return" if you really want to start with a pre-2.1 database layout)
+
     // CREATE MYSQL DATABASE TABLES.
     $admin = table_by_key('admin');
     $alias = table_by_key('alias');
@@ -438,6 +446,14 @@ function upgrade_1_mysql() {
 }
 
 function upgrade_2_mysql() {
+    #
+    # updating the tables in this very old layout (pre 2.1) causes trouble if the MySQL charset is not latin1 (multibyte vs. index length)
+    # therefore:
+
+        return; # <-- skip running this function at all.
+
+    # (remove the above "return" if you really want to update a pre-2.1 database)
+
     # upgrade pre-2.1 database
     # from TABLE_BACKUP_MX.TXT
     $table_domain = table_by_key ('domain');
@@ -576,6 +592,14 @@ function upgrade_2_pgsql() {
 }
 
 function upgrade_3_mysql() {
+    #
+    # updating the tables in this very old layout (pre 2.1) causes trouble if the MySQL charset is not latin1 (multibyte vs. index length)
+    # therefore:
+
+        return; # <-- skip running this function at all.
+
+    # (remove the above "return" if you really want to update a pre-2.1 database)
+
     # upgrade pre-2.1 database
     # from TABLE_CHANGES.TXT
     $table_admin = table_by_key ('admin');
@@ -907,7 +931,7 @@ function upgrade_318_mysql() {
     db_query_parsed( "
         CREATE TABLE {IF_NOT_EXISTS} $table_vacation_notification (
             on_vacation varchar(255) {LATIN1} NOT NULL,
-            notified varchar(255) NOT NULL,
+            notified varchar(255) {LATIN1} NOT NULL,
             notified_at timestamp NOT NULL default CURRENT_TIMESTAMP,
             PRIMARY KEY on_vacation (`on_vacation`, `notified`),
         CONSTRAINT `vacation_notification_pkey` 
@@ -919,7 +943,7 @@ function upgrade_318_mysql() {
 
     # in case someone has manually created the table with utf8 fields before:
     $all_sql = explode("\n", trim("
-        ALTER TABLE `$table_vacation_notification` CHANGE `notified`    `notified`    VARCHAR( 255 ) NOT NULL
+        ALTER TABLE `$table_vacation_notification` CHANGE `notified`    `notified`    VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE `$table_vacation_notification` DEFAULT CHARACTER SET utf8
     "));
     # Possible errors that can be ignored:
@@ -1009,8 +1033,8 @@ function upgrade_438_mysql() {
     $table_alias_domain = table_by_key('alias_domain');
     db_query_parsed("
         CREATE TABLE IF NOT EXISTS $table_alias_domain (
-            `alias_domain` varchar(255) NOT NULL default '',
-            `target_domain` varchar(255) NOT NULL default '',
+            `alias_domain` varchar(255) {LATIN1} NOT NULL default '',
+            `target_domain` varchar(255) {LATIN1} NOT NULL default '',
             `created` {DATETIME},
             `modified` {DATETIME},
             `active` tinyint(1) NOT NULL default '1',
