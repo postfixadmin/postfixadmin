@@ -185,7 +185,7 @@ $PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
 $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
-$PALANG['pViewlog_welcome'] = 'Vís seinastu 10 hendingarnar fyri ';
+$PALANG['pViewlog_welcome'] = 'Vís seinastu %s hendingarnar fyri ';
 $PALANG['pViewlog_timestamp'] = 'Tíðarstempul';
 $PALANG['pViewlog_action'] = 'Hending';
 $PALANG['pViewlog_data'] = 'Dáta';

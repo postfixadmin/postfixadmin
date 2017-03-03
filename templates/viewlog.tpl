@@ -7,7 +7,7 @@
 {if $tLog}
 <table id="log_table">
 	<tr>
-		<th colspan="5">{$PALANG.pViewlog_welcome} {$fDomain}</th>
+	    <th colspan="5">{$PALANG.pViewlog_welcome|replace:"%s":$CONF.page_size} {$fDomain} </th>
 	</tr>
 	{#tr_header#}
 		<td>{$PALANG.pViewlog_timestamp}</td>

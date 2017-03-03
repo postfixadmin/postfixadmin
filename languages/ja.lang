@@ -189,7 +189,7 @@ $PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
 $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
-$PALANG['pViewlog_welcome'] = '過去10個のアクション ';
+$PALANG['pViewlog_welcome'] = '過去%s個のアクション ';
 $PALANG['pViewlog_timestamp'] = 'タイムスタンプ';
 $PALANG['pViewlog_action'] = 'アクション';
 $PALANG['pViewlog_data'] = 'データ';
