@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $recipients = [];
 
       $q = "SELECT username from $table_mailbox WHERE ".db_in_clause("domain", $wanted_domains);
-      if(!isset($_POST['bailboxes_only']) || $_POST['mailboxes_only'] != "on") {
+      if(!isset($_POST['mailboxes_only']) || $_POST['mailboxes_only'] != "on") {
          $q .= " UNION SELECT goto FROM $table_alias WHERE ".db_in_clause("domain", $wanted_domains)."AND goto NOT IN ($q)";
       }
       $result = db_query($q);
