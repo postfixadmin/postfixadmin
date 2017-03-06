@@ -59,17 +59,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
       $recipients = [];
 
-      foreach( $wanted_domains as $domain) {
-         $q = "SELECT username from $table_mailbox WHERE domain = '$domain'";
-         if(!isset($_POST['mailboxes_only']) || $_POST['mailboxes_only'] != "on") {
-            $q .= " UNION SELECT GOTO FROM $table_alias WHERE domain = '$domain' " .
-                  " AND goto NOT IN ($q)";
-         }
-         $result = db_query ($q);
-         if($result['rows'] > 0) {
-            while($row = db_array($result['result'])) {
-               $recipients[] = $row[0];
-            }
+      $q = "SELECT username from $table_mailbox WHERE ".db_in_clause("domain", $wanted_domains);
+      if(!isset($_POST['bailboxes_only']) || $_POST['mailboxes_only'] != "on") {
+         $q .= " UNION SELECT goto FROM $table_alias WHERE ".db_in_clause("domain", $wanted_domains)."AND goto NOT IN ($q)";
+      }
+      $result = db_query($q);
+      if($result['rows'] > 0) {
+         while($row = db_array($result['result'])) {
+            $recipients[] = $row[0];
          }
       }
 
