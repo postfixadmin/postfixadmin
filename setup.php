@@ -318,7 +318,11 @@ else
     print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
     require_once($incpath.'/upgrade.php');
 
-    $tUsername = '';
+    if ( isset($_SERVER['REMOTE_USER']) ) {
+        $tUsername = strtolower($_SERVER['REMOTE_USER']);
+    } else {
+        $tUsername = '';
+    }
     $setupMessage = '';
     $lostpw_error = 0;
 
@@ -351,14 +355,26 @@ else
                 db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => '') ); // all other fields should default through the schema.
             }
 
-            $values = array(
-                'username'      => safepost('username'),
-                'password'      => safepost('password'),
-                'password2'     => safepost('password2'),
-                'superadmin'    => 1,
-                'domains'       => array(),
-                'active'        => 1,
-            );
+
+            if ( isset($_SERVER['REMOTE_USER']) ) {
+                $values = array(
+                    'username'      => strtolower($_SERVER['REMOTE_USER']),
+                    'password'      => safepost('password'),
+                    'password2'     => safepost('password2'),
+                    'superadmin'    => 1,
+                    'domains'       => array(),
+                    'active'        => 1,
+                );
+            } else {
+                $values = array(
+                    'username'      => safepost('username'),
+                    'password'      => safepost('password'),
+                    'password2'     => safepost('password2'),
+                    'superadmin'    => 1,
+                    'domains'       => array(),
+                    'active'        => 1,
+                );
+            }
 
             list ($error, $setupMessage, $errormsg) = create_admin($values);
 

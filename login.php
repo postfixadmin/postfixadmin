@@ -36,10 +36,14 @@ if($CONF['configured'] !== true) {
 
 check_db_version(); # check if the database layout is up to date (and error out if not)
 
-if ($_SERVER['REQUEST_METHOD'] == "POST")
+if ( $_SERVER['REQUEST_METHOD'] == "POST" || isset($_SERVER['REMOTE_USER']) )
 {
     $lang = safepost('lang');
-    $fUsername = trim(safepost('fUsername'));
+    if ( isset($_SERVER['REMOTE_USER']) ) {
+        $fUsername = strtolower($_SERVER['REMOTE_USER']);
+    } else {
+        $fUsername = trim(safepost('fUsername'));
+    }
     $fPassword = safepost('fPassword');
 
     if ( $lang != check_language(0) ) { # only set cookie if language selection was changed

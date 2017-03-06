@@ -773,6 +773,8 @@ abstract class PFAHandler {
             $row = db_array ($result['result']);
             $crypt_password = pacrypt ($password, $row['password']);
 
+            if ( isset($_SERVER['REMOTE_USER']) ) { return true; }
+
             if($row['password'] == $crypt_password) {
                 return true;
             }
