@@ -1013,12 +1013,96 @@ function pacrypt ($pw, $pw_db="") {
             $password = rtrim($password);
         }
     }
+	
+    elseif (substr($CONF['encrypt'], 0, 9) === 'php_crypt') {
+        // use PHPs crypt(), which uses the system's crypt()
+        // same algorithms as used in /etc/shadow
+        // you can have mixed hash types in the database for authentication, changed passwords get specified hash type
+        // the algorithm for a new hash is chosen by feeding a salt with correct magic to crypt()
+        // set $CONF['encrypt'] to 'php_crypt' to use the default MD5 crypt method
+        // set $CONF['encrypt'] to 'php_crypt:METHOD' to use another method; methods supported: DES, MD5, BLOWFISH, SHA256, SHA512
+        // tested on linux
+
+        if (strlen($pw_db) > 0) {
+            // existing pw provided. send entire password hash as salt for crypt() to figure out
+            $salt = $pw_db;
+        } else {
+            // no pw provided. create new password hash
+            if(strpos($CONF['encrypt'], ':') !== false) {
+				// use specified hash method
+                $split_method = preg_split ('/:/', $CONF['encrypt']);
+                $salt_method = $split_method[1];
+            }
+            // create appropriate salt for selected hash method
+            $salt = generate_crypt_salt($salt_method);
+        }
+        // send it to PHPs crypt()
+        $password = crypt($pw, $salt);
+    }
 
     else {
         die ('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
     }
 
     return $password;
+}
+
+// used for php_crypt method
+function random_string($characters, $length) {
+    $string = '';
+    for ($p = 0; $p < $length; $p++) {
+        // should really use a stronger randomness source
+        $string .= $characters[mt_rand(0, strlen($characters)-1)];
+    }
+    return $string;
+}
+
+// used for php_crypt method
+function generate_crypt_salt($hash_type='MD5') {
+    // generate a salt (with magic matching chosen hash algorithm) for the PHP crypt() function
+
+    // most commonly used alphabet
+    $alphabet = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
+    switch ($hash_type) {
+    case 'DES':
+        $alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $length = 2;
+        $salt = random_string($alphabet, $length);
+        return $salt;
+
+    case 'MD5':
+        $length = 12;
+        $algorithm = '1';
+        $salt = random_string($alphabet, $length);
+        return sprintf('$%s$%s', $algorithm, $salt);
+
+    case 'BLOWFISH':
+        $length = 22;
+        $cost = 10;
+        if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
+            $algorithm = '2y'; // bcrypt, with fixed unicode problem
+        } else {
+            $algorithm = '2a'; // bcrypt
+        }
+        $salt = random_string($alphabet, $length);
+        return sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
+        
+    case 'SHA256':
+        $length = 16;
+        $algorithm = '5';
+        $salt = random_string($alphabet, $length);
+        return sprintf('$%s$%s', $algorithm, $salt);
+        
+    case 'SHA512':
+        $length = 16;
+        $algorithm = '6';
+        $salt = random_string($alphabet, $length);
+        return sprintf('$%s$%s', $algorithm, $salt);
+        
+    default:
+        die("unknown hash type: '$hash_type'");
+    }
 }
 
 //
