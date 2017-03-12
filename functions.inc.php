@@ -1268,7 +1268,7 @@ function db_connect ($ignore_errors = false) {
         }
     } elseif ($CONF['database_type'] == "mysqli") {
         if (function_exists ("mysqli_connect")) {
-            $link = @mysqli_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysqli_connect_error () . "$DEBUG_TEXT");
+            $link = @mysqli_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_port']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysqli_connect_error () . "$DEBUG_TEXT");
             if ($link) {
                 @mysqli_query($link,"SET CHARACTER SET utf8");
                 @mysqli_query($link,"SET COLLATION_CONNECTION='utf8_general_ci'");
