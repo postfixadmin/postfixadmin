@@ -1254,6 +1254,15 @@ function db_connect ($ignore_errors = false) {
     if ($ignore_errors != 0) $DEBUG_TEXT = '';
     $error_text = '';
 
+    static $link;
+    if (isset($link) && $link) {
+        if ($ignore_errors) {
+            return array($link, $error_text);
+        }
+        return $link;
+    }
+    $link = 0;
+
     if ($CONF['database_type'] == "mysql") {
         if (function_exists ("mysql_connect")) {
             $link = @mysql_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysql_error () . "$DEBUG_TEXT");
