@@ -561,7 +561,7 @@ $CONF['new_quota_table'] = 'YES';
 // $CONF['create_mailbox_subdirs_hostoptions']=array('novalidate-cert','norsh');
 // See also the "Optional flags for names" table at
 // http://www.php.net/manual/en/function.imap-open.php
-$CONF['create_mailbox_subdirs_hostoptions'] = array('');
+$CONF['create_mailbox_subdirs_hostoptions'] = array();
 
 
 // Theme Config
