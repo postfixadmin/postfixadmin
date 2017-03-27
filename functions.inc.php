@@ -1429,12 +1429,9 @@ function db_query ($query, $ignore_errors = 0) {
     global $DEBUG_TEXT;
     $result = "";
     $number_rows = "";
-    static $link;
+    $link = db_connect ();
     $error_text = "";
     if ($ignore_errors) $DEBUG_TEXT = "";
-
-    # mysql and pgsql $link are resources, mysqli $link is an object
-    if (! (is_resource($link) || is_object($link) ) ) $link = db_connect ();
 
     if ($CONF['database_type'] == "mysql") $result = @mysql_query ($query, $link)
         or $error_text = "Invalid query: " . mysql_error($link);
