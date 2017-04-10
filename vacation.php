@@ -67,6 +67,8 @@ if($CONF['vacation'] == 'NO') {
 
 date_default_timezone_set(@date_default_timezone_get()); # Suppress date.timezone warnings
 
+$error = 0;
+
 $vh = new VacationHandler($fUsername);
 
 $choice_of_reply = Config::read('vacation_choice_of_reply');

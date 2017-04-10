@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $tBody = stripslashes($tBody); # TODO: check for get_magic_quotes_gpc inside safepost/safeget
    }
 
+   $error = 0;
    $email_check = check_email ($fTo);
    if (empty ($fTo) or ($email_check != ''))
    {

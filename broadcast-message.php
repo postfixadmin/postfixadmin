@@ -34,6 +34,8 @@ if ($CONF['sendmail'] != 'YES') {
    exit;
 }
 
+$error = 0;
+
 $smtp_from_email = smtp_get_admin_email();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")

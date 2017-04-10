@@ -212,17 +212,18 @@ $query = "$sql_select\n$mailbox_pagebrowser_query\n$sql_limit";
 
 $result = db_query ($query);
 
+$tMailbox = array();
+
 if ($result['rows'] > 0) {
     $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
     $goto_single_rec_del = "";
 
-    $tMailbox = array();
     while ($row = db_array ($result['result'])) {
         if ($display_mailbox_aliases) {
             $goto_split = explode(",", $row['goto']);
             $row['goto_mailbox'] = 0;
             $row['goto_other'] = array();
-            
+
             foreach ($goto_split as $goto_single) {
                 if (!empty($CONF['recipient_delimiter'])) {
                     $goto_single_rec_del = preg_replace('/' .$delimiter. '[^' .$delimiter. '@]*@/', "@", $goto_single);
