@@ -36,6 +36,7 @@ else {
    $list_domains = list_domains_for_admin ($SESSID_USERNAME);
 }
 
+$fDomain = '';
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
    if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) $fDomain = $list_domains[0];

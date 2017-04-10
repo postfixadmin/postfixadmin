@@ -20,7 +20,6 @@
  */
 
 $error = "";
-$fDomain = "";
 $fPassword = "";
 $fWhere = "";
 $tAlias = "";
