@@ -15,55 +15,17 @@
  * Contains varoius pre-defined variables. 
  *
  * XXX Probably a hack to save having to declare variables before using them in pages.
+ *
+ * TODO: get rid of the remaining variables declared here!
  */
 
 $error = "";
-$quota = "";
-$vacation = "";
-$fActive = "";
-$fAddress = "";
-$fAliases = "";
-$fBackupmx = "";
-$fDelete = "";
-$fDescription = "";
 $fDomain = "";
-$fFrom = "";
-$fGoto = "";
-$fHeaders = "";
-$fMail = "";
-$fMailboxes = "";
-$fMaxquota = "";
-$fName = "";
 $fPassword = "";
-$fPassword2 = "";
-$fQuota = "";
-$fSearch = "";
-$fTable = "";
-$fTransport = "";
-$fTo = "";
-$fUsername = "";
-$fVacation = "";
 $fWhere = "";
-$tActive = "";
-$tActive = "";
-$tAddress = "";
 $tAlias = "";
-$tAliases = "";
-$tBody = "";
 $tDescription = "";
-$tDomain = "";
-$tDomains = "";
-$tFrom = "";
-$tGoto = "";
-$tLog = "";
 $tMailbox = "";
-$tMailboxes = "";
-$tMaxquota = "";
-$tName = "";
-$tQuota = "";
-$tSubject = "";
-$tUsername = "";
-$tTransport = "";
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>
