@@ -278,23 +278,17 @@ function check_email ($email) {
  * used to disrupt an SQL string. i.e. "'" => "\'" etc.
  *
  * @param mixed string|array
- * @param resource $db_conn optional (default null)
  * @return String (or Array) of cleaned data, suitable for use within an SQL
  *    statement.
  */
-function escape_string ($string, $db_conn = null) {
+function escape_string ($string) {
     global $CONF;
-
-    if($db_conn == null) {
-        $db_conn = db_connect();
-    }
-
     // if the string is actually an array, do a recursive cleaning.
     // Note, the array keys are not cleaned.
     if(is_array($string)) {
         $clean = array();
         foreach(array_keys($string) as $row) {
-            $clean[$row] = escape_string($string[$row], $db_conn);
+            $clean[$row] = escape_string($string[$row]);
         }
         return $clean;
     }
@@ -303,12 +297,13 @@ function escape_string ($string, $db_conn = null) {
     }
     if (!is_numeric($string)) {
 
+        $link = db_connect();
 
         if ($CONF['database_type'] == "mysql") {
-            $escaped_string = mysql_real_escape_string($string, $db_conn);
+            $escaped_string = mysql_real_escape_string($string, $link);
         }
         if ($CONF['database_type'] == "mysqli") {
-            $escaped_string = mysqli_real_escape_string($db_conn, $string);
+            $escaped_string = mysqli_real_escape_string($link, $string);
         }
         if (db_sqlite()) {
             $escaped_string = SQLite3::escapeString($string);
@@ -316,7 +311,7 @@ function escape_string ($string, $db_conn = null) {
         if (db_pgsql()) {
             // php 5.2+ allows for $link to be specified.
             if (version_compare(phpversion(), "5.2.0", ">=")) {
-                $escaped_string = pg_escape_string($db_conn, $string);
+                $escaped_string = pg_escape_string($link, $string);
             } else {
                 $escaped_string = pg_escape_string($string);
             }
