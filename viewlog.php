@@ -36,6 +36,9 @@ else {
    $list_domains = list_domains_for_admin ($SESSID_USERNAME);
 }
 
+$fDomain = '';
+$error = 0;
+
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
    if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) $fDomain = $list_domains[0];
@@ -57,9 +60,9 @@ $tLog = array();
 if ($error != 1)
 {
    $table_log = table_by_key('log');
-   $query = "SELECT timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT 10";
+   $query = "SELECT timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT " . intval($CONF[page_size]);
    if (db_pgsql()) {
-      $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT 10";
+      $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT " . intval($CONF[page_size]);
    }
    $result=db_query($query);
    if ($result['rows'] > 0)

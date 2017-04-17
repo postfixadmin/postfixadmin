@@ -38,6 +38,8 @@ if ($CONF['sendmail'] != 'YES') {
    exit;
 }
 
+$error = 0;
+
 $smtp_from_email = smtp_get_admin_email();
 $allowed_domains = list_domains_for_admin(authentication_get_username());
 

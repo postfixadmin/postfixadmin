@@ -185,7 +185,7 @@ $PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
 $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
-$PALANG['pViewlog_welcome'] = 'Skoða síðustu 10 aðgerðir fyrir ';
+$PALANG['pViewlog_welcome'] = 'Skoða síðustu %s aðgerðir fyrir ';
 $PALANG['pViewlog_timestamp'] = 'Tími';
 $PALANG['pViewlog_action'] = 'aðgerð';
 $PALANG['pViewlog_data'] = 'gögn';

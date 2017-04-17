@@ -60,8 +60,6 @@ function postfixadmin_autoload($class) {
 }
 spl_autoload_register('postfixadmin_autoload');
 
-require_once("$incpath/variables.inc.php");
-
 if(!is_file("$incpath/config.inc.php")) {
     die("config.inc.php is missing!");
 }

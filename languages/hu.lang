@@ -189,7 +189,7 @@ $PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
 $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
-$PALANG['pViewlog_welcome'] = 'Az utolsó 10 esemény megtekintése: ';
+$PALANG['pViewlog_welcome'] = 'Az utolsó %s esemény megtekintése: ';
 $PALANG['pViewlog_timestamp'] = 'Idõbélyeg';
 $PALANG['pViewlog_action'] = 'Akció';
 $PALANG['pViewlog_data'] = 'Adat';

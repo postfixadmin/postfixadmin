@@ -193,7 +193,7 @@ $PALANG['reply_every_mail'] = 'Odpovědět na každý mail';
 $PALANG['reply_once_per_day'] = 'Odpovědět jednou za den';
 $PALANG['reply_once_per_week'] = 'Odpovědět jednou za týden';
 
-$PALANG['pViewlog_welcome'] = 'Prohlížet 10 posledních akcí pro ';
+$PALANG['pViewlog_welcome'] = 'Prohlížet %s posledních akcí pro ';
 $PALANG['pViewlog_timestamp'] = 'Časová značka';
 $PALANG['pViewlog_action'] = 'Akce';
 $PALANG['pViewlog_data'] = 'Poznámka';

@@ -192,7 +192,7 @@ $PALANG['reply_every_mail'] = 'Reply on every mail'; # XXX
 $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
-$PALANG['pViewlog_welcome'] = 'Vis de sidste 10 poster for ';
+$PALANG['pViewlog_welcome'] = 'Vis de sidste %s poster for ';
 $PALANG['pViewlog_timestamp'] = 'Tidsstempel';
 $PALANG['pViewlog_action'] = 'Handling';
 $PALANG['pViewlog_data'] = 'Data';

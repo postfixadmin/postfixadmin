@@ -1,16 +1,16 @@
 <?php
-/** 
- * Postfix Admin 
- * 
- * LICENSE 
- * This source file is subject to the GPL license that is bundled with  
- * this package in the file LICENSE.TXT. 
- * 
- * Further details on the project are available at http://postfixadmin.sf.net 
- * 
- * @version $Id$ 
- * @license GNU GPL v2 or later. 
- * 
+/**
+ * Postfix Admin
+ *
+ * LICENSE
+ * This source file is subject to the GPL license that is bundled with
+ * this package in the file LICENSE.TXT.
+ *
+ * Further details on the project are available at http://postfixadmin.sf.net
+ *
+ * @version $Id$
+ * @license GNU GPL v2 or later.
+ *
  * File: functions.inc.php
  * Contains re-usable code.
  */
@@ -42,7 +42,7 @@ function authentication_get_username() {
 }
 
 /**
- * Returns the type of user - either 'user' or 'admin' 
+ * Returns the type of user - either 'user' or 'admin'
  * Returns false if neither (E.g. if not logged in)
  * @return String admin or user or (boolean) false.
  */
@@ -73,7 +73,7 @@ function authentication_has_role($role) {
 }
 
 /**
- * Used to enforce that $user has a particular role when 
+ * Used to enforce that $user has a particular role when
  * viewing a page.
  * If they are lacking a role, redirect them to login.php
  *
@@ -92,7 +92,7 @@ function authentication_require_role($role) {
 
 /**
  * Add an error message for display on the next page that is rendered.
- * @param String/Array message(s) to show. 
+ * @param String/Array message(s) to show.
  *
  * Stores string in session. Flushed through header template.
  * @see _flash_string()
@@ -103,7 +103,7 @@ function flash_error($string) {
 
 /**
  * Used to display an info message on successful update.
- * @param String/Array message(s) to show. 
+ * @param String/Array message(s) to show.
  * Stores data in session.
  * @see _flash_string()
  */
@@ -191,7 +191,7 @@ function language_selector() {
 
 
 /**
- * Checks if a domain is valid 
+ * Checks if a domain is valid
  * @param string $domain
  * @return empty string if the domain is valid, otherwise string with the errormessage
  *
@@ -249,7 +249,7 @@ function check_email ($email) {
 
     //strip the vacation domain out if we are using it
     //and change from blah#foo.com@autoreply.foo.com to blah@foo.com
-    if (Config::bool('vacation')) { 
+    if (Config::bool('vacation')) {
         $vacation_domain = Config::read('vacation_domain');
         $ce_email = preg_replace("/@$vacation_domain\$/", '', $ce_email);
         $ce_email = preg_replace("/#/", '@', $ce_email);
@@ -277,7 +277,7 @@ function check_email ($email) {
  * Clean a string, escaping any meta characters that could be
  * used to disrupt an SQL string. i.e. "'" => "\'" etc.
  *
- * @param String (or Array) 
+ * @param mixed string|array
  * @return String (or Array) of cleaned data, suitable for use within an SQL
  *    statement.
  */
@@ -288,7 +288,7 @@ function escape_string ($string) {
     if(is_array($string)) {
         $clean = array();
         foreach(array_keys($string) as $row) {
-            $clean[$row] = escape_string($string[$row]);  
+            $clean[$row] = escape_string($string[$row]);
         }
         return $clean;
     }
@@ -296,7 +296,9 @@ function escape_string ($string) {
         $string = stripslashes($string);
     }
     if (!is_numeric($string)) {
+
         $link = db_connect();
+
         if ($CONF['database_type'] == "mysql") {
             $escaped_string = mysql_real_escape_string($string, $link);
         }
@@ -330,7 +332,7 @@ function escape_string ($string) {
  *
  *  @param String parameter name.
  *  @param String (optional) - default value if key is not set.
- *  @return String 
+ *  @return String
  */
 function safeget ($param, $default="") {
     $retval=$default;
@@ -355,7 +357,7 @@ function safepost ($param, $default="") {
 /**
  * safeserver
  * @see safeget()
- * @param String $param 
+ * @param String $param
  * @param String $default (optional)
  * @return String value from $_SERVER[$param] or $default
  */
@@ -368,7 +370,7 @@ function safeserver ($param, $default="") {
 /**
  * safecookie
  * @see safeget()
- * @param String $param 
+ * @param String $param
  * @param String $default (optional)
  * @return String value from $_COOKIE[$param] or $default
  */
@@ -381,7 +383,7 @@ function safecookie ($param, $default="") {
 /**
  * safesession
  * @see safeget()
- * @param String $param 
+ * @param String $param
  * @param String $default (optional)
  * @return String value from $_SESSION[$param] or $default
  */
@@ -464,7 +466,7 @@ function get_domain_properties ($domain) {
  *
  *  @param String idxfield - database field name to use as title
  *  @param String query - core part of the query (starting at "FROM")
- *  @return String 
+ *  @return String
  */
 function create_page_browser($idxfield, $querypart) {
     global $CONF;
@@ -502,16 +504,16 @@ function create_page_browser($idxfield, $querypart) {
     $page_size_zerobase = $page_size - 1;
     $query = "
         SELECT * FROM (
-            SELECT $idxfield AS label, @row := @row + 1 AS row $querypart 
+            SELECT $idxfield AS label, @row := @row + 1 AS row $querypart
         ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
-    "; 
+    ";
 
     if (db_pgsql()) {
         $query = "
             SELECT * FROM (
-                SELECT $idxfield AS label, nextval('rowcount') AS row $querypart 
+                SELECT $idxfield AS label, nextval('rowcount') AS row $querypart
             ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
-        "; 
+        ";
     }
 
     if (db_sqlite()) {
@@ -526,7 +528,7 @@ function create_page_browser($idxfield, $querypart) {
 
 # TODO: $query is MySQL-specific
 
-# PostgreSQL: 
+# PostgreSQL:
 # http://www.postgresql.org/docs/8.1/static/sql-createsequence.html
 # http://www.postgresonline.com/journal/archives/79-Simulating-Row-Number-in-PostgreSQL-Pre-8.4.html
 # http://www.pg-forum.de/sql/1518-nummerierung-der-abfrageergebnisse.html
@@ -597,7 +599,7 @@ function check_owner ($username, $domain) {
 
 
 /**
- * List domains for an admin user. 
+ * List domains for an admin user.
  * @param String $username
  * @return array of domain names.
  */
@@ -856,8 +858,8 @@ function validate_password($password) {
 
 
 /**
- * Encrypt a password, using the apparopriate hashing mechanism as defined in 
- * config.inc.php ($CONF['encrypt']). 
+ * Encrypt a password, using the apparopriate hashing mechanism as defined in
+ * config.inc.php ($CONF['encrypt']).
  * When wanting to compare one pw to another, it's necessary to provide the salt used - hence
  * the second parameter ($pw_db), which is the existing hash from the DB.
  *
@@ -907,17 +909,17 @@ function pacrypt ($pw, $pw_db="") {
         $l = db_row($res["result"]);
         $password = $l[0];
     }
-    
+
     elseif ($CONF['encrypt'] == 'authlib') {
         $flavor = $CONF['authlib_default_flavor'];
         $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
         if(preg_match('/^{.*}/', $pw_db)) {
             // we have a flavor in the db -> use it instead of default flavor
             $result = preg_split('/[{}]/', $pw_db, 3); # split at { and/or }
-            $flavor = $result[1];  
+            $flavor = $result[1];
             $salt = substr($result[2], 0, 2);
         }
- 
+
         if(stripos($flavor, 'md5raw') === 0) {
             $password = '{' . $flavor . '}' . md5($pw);
         } elseif(stripos($flavor, 'md5') === 0) {
@@ -930,14 +932,14 @@ function pacrypt ($pw, $pw_db="") {
             die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5', 'SHA' and 'crypt'");
         }
     }
-    
+
     elseif (preg_match("/^dovecot:/", $CONF['encrypt'])) {
         $split_method = preg_split ('/:/', $CONF['encrypt']);
         $method       = strtoupper($split_method[1]);
         # If $pw_db starts with {method}, change $method accordingly
         if (!empty($pw_db) && preg_match('/^\{([A-Z0-9.-]+)\}.+/', $pw_db, $method_matches)) { $method = $method_matches[1]; }
         if (! preg_match("/^[A-Z0-9.-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
-        # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
+        # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead.");
         # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
 
         # digest-md5 and SCRAM-SHA-1 hashes include the username - until someone implements it, let's declare it as unsupported
@@ -1147,7 +1149,7 @@ function smtp_mail ($to, $from, $data, $body = "") {
     $timeout = "30";
 
     if ($body != "") {
-        $maildata = 
+        $maildata =
             "To: " . $to . "\n"
             . "From: " . $from . "\n"
             . "Subject: " . encode_header ($data) . "\n"
@@ -1238,12 +1240,22 @@ $DEBUG_TEXT = "\n
  *    - call die() in case of connection problems
  * b) with $ignore_errors == TRUE
  *    array($link, $error_text);
+ *
+ * @return resource connection to db (normally)
  */
-function db_connect ($ignore_errors = 0) {
+function db_connect ($ignore_errors = false) {
     global $CONF;
     global $DEBUG_TEXT;
     if ($ignore_errors != 0) $DEBUG_TEXT = '';
     $error_text = '';
+
+    static $link;
+    if (isset($link) && $link) {
+        if ($ignore_errors) {
+            return array($link, $error_text);
+        }
+        return $link;
+    }
     $link = 0;
 
     if ($CONF['database_type'] == "mysql") {
@@ -1327,12 +1339,12 @@ function db_get_boolean($bool) {
         // return either true or false (unquoted strings)
         if($bool) {
             return 't';
-        }  
+        }
         return 'f';
     } elseif(Config::Read('database_type') == 'mysql' || Config::Read('database_type') == 'mysqli' || db_sqlite()) {
         if($bool) {
-            return 1;  
-        } 
+            return 1;
+        }
         return 0;
     } else {
         die('Unknown value in $CONF[database_type]');
@@ -1412,21 +1424,18 @@ function db_query ($query, $ignore_errors = 0) {
     global $DEBUG_TEXT;
     $result = "";
     $number_rows = "";
-    static $link;
+    $link = db_connect ();
     $error_text = "";
     if ($ignore_errors) $DEBUG_TEXT = "";
 
-    # mysql and pgsql $link are resources, mysqli $link is an object
-    if (! (is_resource($link) || is_object($link) ) ) $link = db_connect ();
-
-    if ($CONF['database_type'] == "mysql") $result = @mysql_query ($query, $link) 
+    if ($CONF['database_type'] == "mysql") $result = @mysql_query ($query, $link)
         or $error_text = "Invalid query: " . mysql_error($link);
-    if ($CONF['database_type'] == "mysqli") $result = @mysqli_query ($link, $query) 
+    if ($CONF['database_type'] == "mysqli") $result = @mysqli_query ($link, $query)
         or $error_text = "Invalid query: " . mysqli_error($link);
     if (db_sqlite()) $result = @$link->query($query)
         or $error_text = "Invalid query: " . $link->lastErrorMsg();
     if (db_pgsql()) {
-        $result = @pg_query ($link, $query) 
+        $result = @pg_query ($link, $query)
             or $error_text = "Invalid query: " . pg_last_error();
     }
     if ($error_text != "" && $ignore_errors == 0) {
@@ -1691,7 +1700,7 @@ function db_in_clause($field, $values) {
  * param array $condition: array('field' => 'value', 'field2' => 'value2, ...)
  * param array $struct - field structure, used for automatic bool conversion
  * param string $additional_raw_where - raw sniplet to include in the WHERE part - typically needs to start with AND
- * param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see 
+ * param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see
  *                           $allowed_operators for available operators)
  *                           Note: the $searchmode operator will only be used if a $condition for that field is set.
  *                                 This also means you'll need to set a (dummy) condition for NULL and NOTNULL.
@@ -1702,7 +1711,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
     } elseif(!is_array($searchmode)) {
         die('db_where_cond: parameter $searchmode is not an array!');
     } elseif (count($condition) == 0 && trim($additional_raw_where) == '') {
-        die("db_where_cond: parameter is an empty array!"); # die() might sound harsh, but can prevent information leaks 
+        die("db_where_cond: parameter is an empty array!"); # die() might sound harsh, but can prevent information leaks
     } elseif(!is_array($struct)) {
         die('db_where_cond: parameter $struct is not an array!');
     }
@@ -1737,7 +1746,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
             $querypart = $field . $operator . "'" . escape_string($value) . "'";
         }
 
-        if($struct[$field]['select'] != '') {
+        if(!empty($struct[$field]['select'])) {
             $having_parts[$field] = $querypart;
         } else {
             $where_parts[$field] = $querypart;
@@ -1831,9 +1840,9 @@ function alias_domain_postdeletion($alias_domain) {
 
 //
 // gen_show_status
-// Action: Return a string of colored &nbsp;'s that indicate 
+// Action: Return a string of colored &nbsp;'s that indicate
 //         the if an alias goto has an error or is sent to
-//         addresses list in show_custom_domains 
+//         addresses list in show_custom_domains
 // Call: gen_show_status (string alias_address)
 //
 function gen_show_status ($show_alias) {
@@ -1884,7 +1893,7 @@ function gen_show_status ($show_alias) {
                 "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
-        } 
+        }
     }
 
     // POP/IMAP CHECK
@@ -1901,7 +1910,7 @@ function gen_show_status ($show_alias) {
                 "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
-        } 
+        }
     }
 
     // CUSTOM DESTINATION CHECK
@@ -1912,11 +1921,11 @@ function gen_show_status ($show_alias) {
                     "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
             } else {
                 $stat_string .= $CONF['show_status_text'] . "&nbsp;";
-            } 
-        } 
+            }
+        }
     } else {
         $stat_string .= ";&nbsp;";
-    } 
+    }
 
     //   $stat_string .= "<span style='background-color:green'> &nbsp; </span> &nbsp;" .
     //                  "<span style='background-color:blue'> &nbsp; </span> &nbsp;";
@@ -1925,7 +1934,7 @@ function gen_show_status ($show_alias) {
 
 function getRemoteAddr() {
     $REMOTE_ADDR = 'localhost';
-    if (isset($_SERVER['REMOTE_ADDR'])) 
+    if (isset($_SERVER['REMOTE_ADDR']))
         $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
     return $REMOTE_ADDR;
 }

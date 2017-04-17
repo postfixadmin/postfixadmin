@@ -20,6 +20,11 @@ class PFASmarty {
         if(is_dir($templates_c) && is_writeable($templates_c)) {
             $this->template->setCompileDir($templates_c);
         }
+        else {
+            $this->template->compile_check = false;
+            $this->template->caching = false;
+            $this->template->setCompileDir(sys_get_temp_dir());
+        }
 
         $this->template->setConfigDir(dirname(__FILE__) . '/configs');
     }
