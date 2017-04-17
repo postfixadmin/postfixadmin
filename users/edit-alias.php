@@ -22,14 +22,14 @@ $rel_path = '../';
 require_once('../common.php');
 $smarty->assign ('smarty_template', 'users_edit-alias');
 
-// is edit-alias support enabled in $CONF ?
-if($CONF['edit_alias'] == 'NO') {
-  header ("Location: $Return_url");
-  exit(0);
-}
-
 authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
+
+// is edit-alias support enabled in $CONF ?
+if (! Config::bool('edit_alias')) {  
+  header ("Location: main.php");
+  exit(0);
+}
 
 $ah = new AliasHandler();
 $ah->init($USERID_USERNAME);
