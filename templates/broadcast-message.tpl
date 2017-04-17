@@ -23,7 +23,7 @@
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.broadcast_mailboxes_only}</label></td>
-		<td><input type="checkbox" name="mailboxes_only"/></td>
+		<td><input type="checkbox" value="1" name="mailboxes_only"/></td>
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.broadcast_to_domains}</label></td>
