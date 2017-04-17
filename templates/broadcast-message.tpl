@@ -22,6 +22,18 @@
 		<td><textarea class="flat" cols="40" rows="6" name="message"></textarea></td>
 	</tr>
 	<tr>
+		<td class="label"><label>{$PALANG.broadcast_mailboxes_only}</label></td>
+		<td><input type="checkbox" value="1" name="mailboxes_only"/></td>
+	</tr>
+	<tr>
+		<td class="label"><label>{$PALANG.broadcast_to_domains}</label></td>
+		<td>
+			<select multiple="multiple" name="domains[]">
+				{html_options output=$allowed_domains values=$allowed_domains selected=$allowed_domains}
+			</select>
+		</td>
+	</tr>
+	<tr>
 		<td>&nbsp;</td>
 		<td>
 		<input class="button" type="submit" name="submit" value="{$PALANG.pSendmail_button}" />

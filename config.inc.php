@@ -396,6 +396,9 @@ $CONF['backup'] = 'NO';
 // Send Mail
 // If you don't want sendmail tab set this to 'NO';
 $CONF['sendmail'] = 'YES';
+// Set this to YES if you want to allow non-super-admins to
+// send mails to their users
+$CONF['sendmail_all_admins'] = 'NO';
 
 // Logging
 // If you don't want logging set this to 'NO';

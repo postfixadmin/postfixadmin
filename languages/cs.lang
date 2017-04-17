@@ -334,7 +334,8 @@ $PALANG['pBroadcast_name'] = 'Vaše jméno';
 $PALANG['pBroadcast_success'] = 'Zpráva pro všechny schránky byla odeslána.';
 $PALANG['pAdminMenu_broadcast_message'] = 'Poslat email všem';
 $PALANG['pBroadcast_error_empty'] = 'Pole Od, Předmět a Zpráva by neměly být prázdné !';
-
+$PALANG['broadcast_mailboxes_only'] = 'Only send to mailboxes'; # XXX
+$PALANG['broadcast_to_domains'] = 'Send to domains:'; # XXX
 $PALANG['pStatus_undeliverable'] = 'možná NEDORUČITELNÉ ';
 $PALANG['pStatus_custom'] = 'Doručeno do ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';

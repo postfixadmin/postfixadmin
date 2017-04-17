@@ -27,7 +27,11 @@
 
 require_once('common.php');
 
-authentication_require_role('global-admin');
+if (Config::bool('sendmail_all_admins')) {
+   authentication_require_role('admin');
+} else {
+   authentication_require_role('global-admin');
+}
 
 if ($CONF['sendmail'] != 'YES') {
    header("Location: main.php");
@@ -37,6 +41,7 @@ if ($CONF['sendmail'] != 'YES') {
 $error = 0;
 
 $smtp_from_email = smtp_get_admin_email();
+$allowed_domains = list_domains_for_admin(authentication_get_username());
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
@@ -49,23 +54,35 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
    }
    else
    {
-      $table_mailbox = table_by_key('mailbox');
-	  $table_alias = table_by_key('alias');
-      
-	  $q = "select username from $table_mailbox union select goto from $table_alias " .
-		   "where goto not in (select username from $table_mailbox)";
+      $wanted_domains = array_intersect($allowed_domains, $_POST['domains']);
 
-      $result = db_query ($q);
-      if ($result['rows'] > 0)
-      {
+      $table_mailbox = table_by_key('mailbox');
+      $table_alias = table_by_key('alias');
+
+      $recipients = [];
+
+      $q = "SELECT username from $table_mailbox WHERE ".db_in_clause("domain", $wanted_domains);
+      if (intval(safepost('mailboxes_only')) == 0) {
+         $q .= " UNION SELECT goto FROM $table_alias WHERE ".db_in_clause("domain", $wanted_domains)."AND goto NOT IN ($q)";
+      }
+      $result = db_query($q);
+      if($result['rows'] > 0) {
+         while($row = db_array($result['result'])) {
+            $recipients[] = $row[0];
+         }
+      }
+
+      $recipients = array_unique($recipients);
+
+      if(count($recipients)>0) {
          mb_internal_encoding("UTF-8");
          $b_name = mb_encode_mimeheader( $_POST['name'], 'UTF-8', 'Q');
          $b_subject = mb_encode_mimeheader( $_POST['subject'], 'UTF-8', 'Q');
          $b_message = base64_encode($_POST['message']);
 
          $i = 0;
-         while ($row = db_array ($result['result'])) {
-            $fTo = $row[0];
+         foreach ($recipients as $rcpt) {
+            $fTo = $rcpt;
             $fHeaders  = 'To: ' . $fTo . "\n";
             $fHeaders .= 'From: ' . $b_name . ' <' . $smtp_from_email . ">\n";
             $fHeaders .= 'Subject: ' . $b_subject . "\n";
@@ -94,6 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 if ($_SERVER['REQUEST_METHOD'] == "GET" || $error == 1)
 {
+	$smarty->assign ('allowed_domains', $allowed_domains);
 	$smarty->assign ('smtp_from_email', $smtp_from_email);
 	$smarty->assign ('error', $error);
 	$smarty->assign ('smarty_template', 'broadcast-message');
