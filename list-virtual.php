@@ -325,12 +325,16 @@ if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0)) {
 
 class cNav_bar
 {
-    var $count, $title, $limit, $page_size, $pages, $search; //* arguments
-    var $url; //* manually
-    var $fInit, $arr_prev, $arr_next, $arr_top; //* internal
-    var $anchor;
+    protected $count, $title, $limit, $page_size, $pages, $search; //* arguments
 
-    function cNav_bar ($aTitle, $aLimit, $aPage_size, $aPages, $aSearch) {
+    /* @var string - appended to page link href */
+    public $append_to_url = '';
+
+    protected $have_run_init = false;
+    protected $arr_prev, $arr_next, $arr_top; //* internal
+    protected $anchor;
+
+    public function __construct ($aTitle, $aLimit, $aPage_size, $aPages, $aSearch) {
         $this->count = count($aPages);
         $this->title = $aTitle;
         $this->limit = $aLimit;
@@ -341,20 +345,18 @@ class cNav_bar
         } else {
             $this->search = "";
         }
-        $this->url = '';
-        $this->fInit = false;
     }
 
-    function init () {
+    private function init () {
         $this->anchor = 'a'.substr ($this->title, 3);
-        $this->url .= '#'.$this->anchor;
-        ($this->limit >= $this->page_size) ? $this->arr_prev = '&nbsp;<a href="?limit='.($this->limit - $this->page_size).$this->search.$this->url.'"><img border="0" src="images/arrow-l.png" title="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'"/></a>&nbsp;' : $this->arr_prev = '';
-        ($this->limit > 0) ? $this->arr_top = '&nbsp;<a href="?limit=0' .$this->search.$this->url.'"><img border="0" src="images/arrow-u.png" title="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'"/></a>&nbsp;' : $this->arr_top = '';
-        (($this->limit + $this->page_size) < ($this->count * $this->page_size)) ? $this->arr_next = '&nbsp;<a href="?limit='.($this->limit + $this->page_size).$this->search.$this->url.'"><img border="0" src="images/arrow-r.png" title="'.$GLOBALS ['PALANG']['pOverview_right_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_right_arrow'].'"/></a>&nbsp;' : $this->arr_next = '';
-        $this->fInit = true;
+        $this->append_to_url .= '#'.$this->anchor;
+        ($this->limit >= $this->page_size) ? $this->arr_prev = '&nbsp;<a href="?limit='.($this->limit - $this->page_size).$this->search.$this->append_to_url.'"><img border="0" src="images/arrow-l.png" title="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'"/></a>&nbsp;' : $this->arr_prev = '';
+        ($this->limit > 0) ? $this->arr_top = '&nbsp;<a href="?limit=0' .$this->search.$this->append_to_url.'"><img border="0" src="images/arrow-u.png" title="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'"/></a>&nbsp;' : $this->arr_top = '';
+        (($this->limit + $this->page_size) < ($this->count * $this->page_size)) ? $this->arr_next = '&nbsp;<a href="?limit='.($this->limit + $this->page_size).$this->search.$this->append_to_url.'"><img border="0" src="images/arrow-r.png" title="'.$GLOBALS ['PALANG']['pOverview_right_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_right_arrow'].'"/></a>&nbsp;' : $this->arr_next = '';
+        $this->have_run_init = true;
     }
 
-    function display_pre () {
+    private function display_pre() {
         $ret_val = '<div class="nav_bar"';
         //$ret_val .= ' style="background-color:#ffa;"';
         $ret_val .= '>';
@@ -363,16 +365,16 @@ class cNav_bar
         return $ret_val;
     }
 
-    function display_post () {
+    private function display_post() {
         $ret_val = '</td></tr></table></div>';
         return $ret_val;
     }
 
-    function display_top () {
+    public function display_top() {
         $ret_val = '';
         if ($this->count < 1)
             return $ret_val;
-        if (!$this->fInit)
+        if (!$this->have_run_init)
             $this->init ();
             
         $ret_val .= '<a name="'.$this->anchor.'"></a>';
@@ -386,7 +388,7 @@ class cNav_bar
             if ($i == $highlight_at) {
                 $ret_val .= '<b>'.$lPage.'</b>'."\n";
             } else {
-                $ret_val .= '<a href="?limit='.($i * $this->page_size).$this->search.$this->url.'">'.$lPage.'</a>'."\n";
+                $ret_val .= '<a href="?limit='.($i * $this->page_size).$this->search.$this->append_to_url.'">'.$lPage.'</a>'."\n";
             }
         }
         $ret_val .= '</td><td valign="middle" align="right">';
@@ -395,15 +397,15 @@ class cNav_bar
         $ret_val .= $this->arr_top;
         $ret_val .= $this->arr_next;
 
-        $ret_val .= $this->display_post ();
+        $ret_val .= $this->display_post();
         return $ret_val;
     }
 
-    function display_bottom () {
+    public function display_bottom() {
         $ret_val = '';
         if ($this->count < 1)
             return $ret_val;
-        if (!$this->fInit)
+        if (!$this->have_run_init)
             $this->init ();
         $ret_val .= $this->display_pre ();
         $ret_val .= '</td><td valign="middle" align="right">';
@@ -419,12 +421,11 @@ class cNav_bar
 
 
 $nav_bar_alias = new cNav_bar ($PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $pagebrowser_alias, $search);
-$nav_bar_alias->url = '&amp;domain='.$fDomain;
+$nav_bar_alias->append_to_url = '&amp;domain='.$fDomain;
 
 $pagebrowser_mailbox = create_page_browser("$table_mailbox.username", $mailbox_pagebrowser_query);
 $nav_bar_mailbox = new cNav_bar ($PALANG['pOverview_mailbox_title'], $fDisplay, $CONF['page_size'], $pagebrowser_mailbox, $search);
-$nav_bar_mailbox->url = '&amp;domain='.$fDomain;
-//print $nav_bar_alias->display_top ();
+$nav_bar_mailbox->append_to_url = '&amp;domain='.$fDomain;
 
 
 // this is why we need a proper template layer.
