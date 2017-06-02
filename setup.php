@@ -52,6 +52,7 @@ $f_session_start = function_exists ("session_start");
 $f_preg_match = function_exists ("preg_match");
 $f_mb_encode_mimeheader = function_exists ("mb_encode_mimeheader");
 $f_imap_open = function_exists ("imap_open");
+$f_intl_exists = function_exists('idn_to_ascii');
 
 $file_config = file_exists (realpath ("./config.inc.php"));
 
@@ -221,6 +222,7 @@ if ($f_sqlite_open == 1)
     print "</li>";
 }
 
+
 //
 // Database connection
 //
@@ -303,6 +305,13 @@ else
 }
 
 
+if($f_intl_exists == 1) {
+    print "<li>Optional: Unicode domain name support - OK</li>";
+}
+else {
+    // see inc.functions.php -> check_domain()
+    print "<li><b>Notice: php intl module - NOT FOUND</b><br/>Optional, to support unicode domain names, install php$phpversion-intl </li>";
+}
 
 
 

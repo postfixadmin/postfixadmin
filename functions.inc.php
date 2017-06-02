@@ -199,6 +199,13 @@ function language_selector() {
  * TODO: skip DNS check if the domain exists in PostfixAdmin?
  */
 function check_domain ($domain) {
+
+    $orig = $domain;
+
+    if(function_exists('idn_to_ascii')) {
+        $domain = idn_to_ascii($domain, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46);
+    }
+    
     if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([-0-9A-Z]){2,13}$/i', ($domain))) {
         return sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
     }
