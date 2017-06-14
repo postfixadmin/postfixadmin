@@ -90,7 +90,7 @@ Define the transport type in the Postfix master file:
 
 #/etc/postfix/master.cf:
 vacation    unix  -       n       n       -       -       pipe
-  flags=Rq user=vacation argv=/usr/lib/postfixadmin/vacation.pl -f ${sender} -- ${recipient}
+  flags=Rq user=vacation argv=/usr/lib/postfixadmin/vacation.pl -f ${sender} -d ${recipient}
 
 5. Setup the transport maps file
 --------------------------------
