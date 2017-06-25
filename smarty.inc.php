@@ -21,9 +21,9 @@ class PFASmarty {
             $this->template->setCompileDir($templates_c);
         }
         else {
-            $this->template->compile_check = false;
-            $this->template->caching = false;
-            $this->template->setCompileDir(sys_get_temp_dir());
+            # unfortunately there's no sane way to just disable compiling of templates
+            error_log("ERROR: directory $templates_c doesn't exist or isn't writeable for the webserver");
+            die("ERROR: the templates_c directory doesn't exist or isn't writeable for the webserver");
         }
 
         $this->template->setConfigDir(dirname(__FILE__) . '/configs');
