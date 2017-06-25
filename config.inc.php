@@ -158,6 +158,9 @@ $CONF['authlib_default_flavor'] = 'md5raw';
 // $CONF['dovecotpw'] = "/usr/sbin/dovecotpw";
 // for dovecot 2.x (dovecot 2.0.0 - 2.0.7 is not supported!)
 $CONF['dovecotpw'] = "/usr/sbin/doveadm pw";
+if(file_exists('/usr/bin/doveadm')) {
+    $CONF['dovecotpw'] = "/usr/bin/doveadm pw"; # debian
+}
 
 // Password validation
 // New/changed passwords will be validated using all regular expressions in the array.
