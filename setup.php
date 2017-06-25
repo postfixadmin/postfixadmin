@@ -54,6 +54,7 @@ $f_mb_encode_mimeheader = function_exists ("mb_encode_mimeheader");
 $f_imap_open = function_exists ("imap_open");
 
 $file_config = file_exists (realpath ("./config.inc.php"));
+$file_local_config = file_exists (realpath ("./config.local.php"));
 
 $error = 0;
 
@@ -137,7 +138,7 @@ if ($file_config == 1)
             print "<li>Checking \$CONF['configured'] - OK\n";
         } else {
             print "<li><b>Warning: \$CONF['configured'] is 'false'.<br>\n";
-            print "You must edit your config.inc.php and change this to true (this indicates you've created the database and user)</b>\n";
+            print "You must edit your config.local.php and change this to true (this indicates you've created the database and user)</b>\n";
         }
     }
 }
@@ -150,6 +151,16 @@ else
     $error =+ 1;
 }
 
+//
+// Check for config.local.php
+//
+if ($file_local_config == 1) {
+    print "<li>Depends on: presence config.local.php - OK</li>\n";
+} else {
+    print "<li><b>Warning: config.local.php - NOT FOUND</b><br /></li>\n";
+    print "It's Recommended to store your own settings in config.local.php instead of editing config.inc.php<br />";
+    print "Create the file, and edit as appropriate (e.g. select database type etc)<br />";
+}
 
 //
 // Check if there is support for at least 1 database
@@ -194,7 +205,7 @@ if ($phpversion >= 5)
     {
         print "<li>Depends on: MySQL 4.1 - OK\n";
         if ( !($config_loaded && $CONF['database_type'] == 'mysqli') ) {
-            print "<br>(change the database_type to 'mysqli' in config.inc.php if you want to use MySQL)\n";
+            print "<br>(change the database_type to 'mysqli' in config.local.php if you want to use MySQL)\n";
         }
         print "</li>";
     }
@@ -207,7 +218,7 @@ if ($f_pg_connect == 1)
 {
     print "<li>Depends on: PostgreSQL - OK \n";
     if ( !($config_loaded && $CONF['database_type'] == 'pgsql') ) {
-        print "<br>(change the database_type to 'pgsql' in config.inc.php if you want to use PostgreSQL)\n";
+        print "<br>(change the database_type to 'pgsql' in config.local.php if you want to use PostgreSQL)\n";
     }
     print "</li>";
 }
@@ -216,7 +227,7 @@ if ($f_sqlite_open == 1)
 {
     print "<li>Depends on: SQLite - OK \n";
     if ( !($config_loaded && db_sqlite()) ) {
-        print "<br>(change the database_type to 'sqlite' in config.inc.php if you want to use SQLite)\n";
+        print "<br>(change the database_type to 'sqlite' in config.local.php if you want to use SQLite)\n";
     }
     print "</li>";
 }
@@ -230,7 +241,7 @@ if ($config_loaded) {
         print "<li>Testing database connection - OK - {$CONF['database_type']}://{$CONF['database_user']}:xxxxx@{$CONF['database_host']}/{$CONF['database_name']}</li>";
     } else {
         print "<li><b>Error: Can't connect to database</b><br />\n";
-        print "Please edit the \$CONF['database_*'] parameters in config.inc.php.\n";
+        print "Please edit the \$CONF['database_*'] parameters in config.local.php.\n";
         print "$error_text</li>\n";
         $error ++;
     }
