@@ -187,8 +187,6 @@ class DomainHandler extends PFAHandler {
      *  @return true on success false on failure
      */
     public function delete() {
-        global $PALANG;
-
         # TODO: check for _can_delete instead
         if (! $this->is_superadmin) {
             $this->errormsg[] = Config::Lang_f('no_delete_permissions', $this->id);
@@ -235,7 +233,7 @@ class DomainHandler extends PFAHandler {
         db_delete($this->db_table,         $this->id_field, $this->id);
 
         if ( !$this->domain_postdeletion() ) {
-            $this->error_msg[] = $PALANG['domain_postdel_failed'];
+            $this->error_msg[] = Config::Lang('domain_postdel_failed');
         }
 
         db_log ($this->id, 'delete_domain', $this->id); # TODO delete_domain is not a valid db_log keyword yet
