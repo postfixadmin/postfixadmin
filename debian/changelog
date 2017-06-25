@@ -1,3 +1,7 @@
+postfixadmin (3.1-1) unstable; urgency=low
+
+  * New upstream release
+
 postfixadmin (3.0.2-1) unstable; urgency=low
 
   * Security fix (don't delete protected aliases, CVE-2017-5930)
