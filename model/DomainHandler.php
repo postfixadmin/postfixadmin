@@ -187,6 +187,8 @@ class DomainHandler extends PFAHandler {
      *  @return true on success false on failure
      */
     public function delete() {
+        global $PALANG;
+
         # TODO: check for _can_delete instead
         if (! $this->is_superadmin) {
             $this->errormsg[] = Config::Lang_f('no_delete_permissions', $this->id);
