@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       $table_mailbox = table_by_key('mailbox');
       $table_alias = table_by_key('alias');
 
-      $recipients = [];
+      $recipients = array();
 
       $q = "SELECT username from $table_mailbox WHERE active='" . db_get_boolean(true) . "' AND ".db_in_clause("domain", $wanted_domains);
       if (intval(safepost('mailboxes_only')) == 0) {

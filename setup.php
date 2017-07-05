@@ -58,7 +58,7 @@ $file_local_config = file_exists (realpath ("./config.local.php"));
 
 $error = 0;
 
-$errormsg = [];
+$errormsg = array();
 
 //
 // Check for PHP version
