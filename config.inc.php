@@ -367,6 +367,9 @@ $CONF['vacation_choice_of_reply'] = array (
 // to work you need to have the mailbox replicated in the alias table.
 // If you want to take control of these aliases as well set this to 'YES'.
 
+// If you don't want edit alias tab (user mode) set this to 'NO';
+$CONF['edit_alias'] = 'YES';
+
 // Alias control for superadmins
 $CONF['alias_control'] = 'YES';
 
@@ -415,10 +418,6 @@ $CONF['fetchmail'] = 'YES';
 // (it will even accept 'rm -rf /' as MDA!)
 // This should be set to NO, except if you *really* trust *all* your users.
 $CONF['fetchmail_extra_options'] = 'NO';
-
-// Edit alias
-// If you don't want edit alias tab (user mode) set this to 'NO';
-$CONF['edit_alias'] = 'YES';
 
 // Header
 $CONF['show_header_text'] = 'NO';
