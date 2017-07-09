@@ -6,10 +6,12 @@
 		<td>{$tummVacationtext}</td>
 	</tr>
 {/if}
+{if $CONF.edit_alias===YES}
 	<tr>
 		<td nowrap="nowrap"><a target="_top" href="edit-alias.php">{$PALANG.pUsersMenu_edit_alias}</a></td>
 		<td>{$PALANG.pUsersMain_edit_alias}</td>
 	</tr>
+{/if}
 	<tr>
 		<td nowrap="nowrap"><a target="_top" href="password.php">{$PALANG.change_password}</a></td>
 		<td>{$PALANG.pUsersMain_password}</td>

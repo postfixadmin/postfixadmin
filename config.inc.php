@@ -416,6 +416,10 @@ $CONF['fetchmail'] = 'YES';
 // This should be set to NO, except if you *really* trust *all* your users.
 $CONF['fetchmail_extra_options'] = 'NO';
 
+// Edit alias
+// If you don't want edit alias tab (user mode) set this to 'NO';
+$CONF['edit_alias'] = 'YES';
+
 // Header
 $CONF['show_header_text'] = 'NO';
 $CONF['header_text'] = ':: Postfix Admin ::';
