@@ -1,4 +1,4 @@
-#!/usr/bin/perl -X
+#!/usr/bin/perl
 # Note  - 2017/02/08 DG :
 # Yes - I know -X (^) is not ideal.
 #       Patches are welcome to remove the dependency on Mail::Sender. 
@@ -86,6 +86,11 @@
 #             Add capability to include the subject of the original mail in the subject of the vacation message.
 #             A good vacation subject could be: 'Re: $SUBJECT'
 #             Also corrected log entry about "Already informed ..." to show the $orig_from, not $email
+# 
+# 2017-07-14  Thomas Kempf <tkempf@hueper.de>
+#			  Add configuration parameter $novacation_pattern in order to exlude specific alias-recipients from 
+# 			  sending vacation mails, even if one or multiple of the recipients the alias points to has vacation
+#             currently active
 #
 
 # Requirements - the following perl modules are required:
@@ -206,6 +211,13 @@ our $interval = 0;
 # default = 0
 our $custom_noreply_pattern = 0;
 our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter'; 
+
+# Never send vacation mails for the following recipient email addresses.
+# Useful e.g. aliases pointing to multiple recipients which have vacation
+# which should not trigger vacation messages.
+# By default vacation email addresses will be sent for all recipients.
+# default = ''
+our $novacation_pattern = ''; 
 
 
 # instead of changing this script, you can put your settings to /etc/mail/postfixadmin/vacation.conf
@@ -695,6 +707,12 @@ if(!$from || !$to || !$messageid || !$smtp_sender || !$smtp_recipient) {
     exit(0);
 }
 $logger->debug("Email headers have to: '$to' and From: '$from'");
+
+if ($to =~ ~ /^.*($novacation_pattern).*/i) { 
+   $logger->debug("Will not send vacation reply for messages to $to");
+   exit(0); 
+}
+
 $to = strip_address($to);
 $cc = strip_address($cc);
 $from = check_and_clean_from_address($from);
