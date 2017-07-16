@@ -148,7 +148,7 @@ else
     print "Create the file, and edit as appropriate (e.g. select database type etc)<br />";
     print "For example:<br />\n";
     print "<code><pre>cp config.inc.php.sample config.inc.php</pre></code>\n";
-    $error =+ 1;
+    $error += 1;
 }
 
 //
@@ -186,7 +186,7 @@ if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0
     print "% make clean install\n";
     print " - or with portupgrade -\n";
     print "% portinstall php{$phpversion}-pgsql</pre></li>\n";
-    $error =+ 1;
+    $error += 1;
 }
 //
 // MySQL 3.23, 4.0 functions
@@ -262,7 +262,7 @@ else
     print "% make clean install\n";
     print " - or with portupgrade -\n";
     print "% portinstall php$phpversion-session</pre></li>\n";
-    $error =+ 1;
+    $error += 1;
 }
 
 //
@@ -280,7 +280,7 @@ else
     print "% make clean install\n";
     print " - or with portupgrade -\n";
     print "% portinstall php$phpversion-pcre</pre></li>\n";
-    $error =+ 1;
+    $error += 1;
 }
 
 //
@@ -294,7 +294,7 @@ else
 {
     print "<li><b>Error: Depends on: multibyte string - NOT FOUND</b><br />\n";
     print "To install multibyte string support, install php$phpversion-mbstring</li>\n";
-    $error =+ 1;
+    $error += 1;
 }
 
 
@@ -310,7 +310,7 @@ else
     print "<li><b>Warning: Depends on: IMAP functions - NOT FOUND</b><br />\n";
     print "To install IMAP support, install php$phpversion-imap<br />\n";
     print "Without IMAP support, you won't be able to create subfolders when creating mailboxes.</li>\n";
-    #   $error =+ 1;
+    #   $error += 1;
 }
 
 
