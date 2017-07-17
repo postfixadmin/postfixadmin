@@ -23,6 +23,7 @@
  *
  *  fUsername
  *  fPassword
+ *  token
  *  lang
  */
 
