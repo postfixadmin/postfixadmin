@@ -95,7 +95,7 @@
 
 # Requirements - the following perl modules are required:
 # DBD::Pg or DBD::mysql
-# Mail::Sender, Email::Valid MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords and GetOpt::Std
+# EMail::Sender, Email::Valid MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords and GetOpt::Std
 #
 # You may install these via CPAN, or through your package tool.
 # CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
@@ -131,10 +131,14 @@ use Encode qw(encode decode);
 use MIME::EncWords qw(:all);
 use Email::Valid;
 use strict;
-use Mail::Sender;
 use Getopt::Std;
 use Log::Log4perl qw(get_logger :levels);
 use File::Basename;
+use Email::Sender::Simple qw(sendmail);
+use Email::Sender::Transport::SMTPS;
+use Email::Simple;
+use Email::Simple::Creator;
+use Try::Tiny;
 
 # ========== begin configuration ==========
 
@@ -164,11 +168,22 @@ our $smtp_server_port = 25;
 # depending upon what smtp helo restrictions you have in place within Postfix. 
 our $smtp_client = 'localhost';
 
-# SMTP authentication protocol used for sending.
-# Can be 'PLAIN', 'LOGIN', 'CRAM-MD5' or 'NTLM'
-# see "perldoc Mail::Sender" (search for "auth") for more options and details
+# SMTP encryption protocol used for sending.
+# Can be '', 'starttls' or 'ssl'
+# see "perldoc Email::Sender" (search for "ssl") for details
 # Leave it blank if you don't use authentication
-our $smtp_auth = undef;
+our $smtp_ssl = '';
+
+# Options passed to Net::SMTPS constructor for 'ssl' connections or to starttls for 'starttls' connections; should contain extra options for IO::Socket::SSL
+# see "perldoc Email::Sender" (search for "ssl_options") for details
+
+our $smtp_ssl_options = '';
+
+# Maximum time in secs to wait for server; default is 120
+# see "perldoc Email::Sender" (search for "timeout") for details
+
+our $smtp_timeout = '120';
+
 # username used to login to the server
 our $smtp_authid = 'someuser';
 # password used to login to the server
@@ -181,9 +196,6 @@ our $smtp_authpwd = 'somepass';
 # From: Some Friendly Name <original@recipient.domain>
 our $friendly_from = '';
 
-# use TLS for the SMTP connection?
-# while in general this would be a good idea, TLS with Mail::Sender 0.8.22 is buggy - https://rt.cpan.org/Public/Bug/Display.html?id=85438
-our $smtp_tls_allowed = 0;
 
 # Set to 1 to enable logging to syslog.
 our $syslog = 0;
@@ -213,8 +225,8 @@ our $custom_noreply_pattern = 0;
 our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter'; 
 
 # Never send vacation mails for the following recipient email addresses.
-# Useful e.g. aliases pointing to multiple recipients which have vacation
-# which should not trigger vacation messages.
+# Useful for e.g. aliases pointing to multiple recipients which have vacation active
+# hence an email to the alias should not trigger vacation messages.
 # By default vacation email addresses will be sent for all recipients.
 # default = ''
 our $novacation_pattern = ''; 
@@ -228,6 +240,8 @@ if (-f '/etc/mail/postfixadmin/vacation.conf') {
     require '/etc/mail/postfixadmin/vacation.conf';
 } elsif (-f '/etc/postfixadmin/vacation.conf') {
     require '/etc/postfixadmin/vacation.conf';
+} elsif (-f './vacation.conf') {
+    require './vacation.conf';
 }
 
 # =========== end configuration ===========
@@ -548,47 +562,47 @@ sub send_vacation_email {
         my $body = $row[1];
         my $from = $email;
         my $to = $orig_from;
-        my %smtp_connection;
-        %smtp_connection = (
-            'smtp' => $smtp_server,
-            'port' => $smtp_server_port,
-            'auth' => $smtp_auth,
-            'authid' => $smtp_authid,
-            'authpwd' => $smtp_authpwd,
-            'tls_allowed' => $smtp_tls_allowed,
-            'smtp_client' => $smtp_client,
-            'skip_bad_recipients' => 'true',
-            'encoding' => 'Base64',
-            'ctype' => 'text/plain; charset=UTF-8',
-            'headers' => 'Precedence: junk',
-            'headers' => 'X-Loop: Postfix Admin Virtual Vacation',
-            'on_errors' => 'die', # raise exception on error
+
+        my $transport = Email::Sender::Transport::SMTPS->new({
+            host => $smtp_server,
+            ssl  => $smtp_ssl,
+            ssl_options  => $smtp_ssl_options,
+            timeout => $smtp_timeout,
+            port => $smtp_server_port,
+            sasl_username => $smtp_authid,
+            sasl_password => $smtp_authpwd,
+
+            localaddr => $smtp_client,
+            debug => 1,
+		});
+		
+		my $email = Email::Simple->create(
+            header => [
+                To      => $to,
+                From    => $from,
+                Subject => encode_mimewords($subject, 'Charset', 'UTF-8'),
+                Precedence => 'junk',
+                'X-Loop' => 'Postfix Admin Virtual Vacation',
+            ],
+            body => encode("UTF-8", $body),
         );
-        my %mail;
-        %mail = (
-            'subject' => encode_mimewords($subject, 'Charset', 'UTF-8'),
-            'from' => $from,
-            'fake_from' => $friendly_from . " <$from>",
-            'to' => $to,
-            'msg' => encode_base64(encode("UTF-8", $body))
-        );
+		
         if($test_mode == 1) {
             $logger->info("** TEST MODE ** : Vacation response sent to $to from $from subject $subject (not) sent\n");
-            $logger->info(%mail);
+            $logger->info($email);
             return 0;
         }
-        eval {
-            $Mail::Sender::NO_X_MAILER = 1;
-            my $sender = new Mail::Sender({%smtp_connection});
-            $sender->Open({%mail});
-            $sender->SendLineEnc($body);
-            $sender->Close();
-            $logger->debug("Vacation response sent to $to, from $from");
-        };
-        if ($@) {
-            $logger->error("Failed to send vacation response: $@ / " . $Mail::Sender::Error);
-        }
-    }
+
+        try {
+            sendmail($email, { transport => $transport });
+        } finally {
+            if (@_) {
+                $logger->error("Failed to send vacation response: @_");
+            } else {
+            	$logger->debug("Vacation response sent to $to, from $from");
+        	}
+    	}
+	}
 }
 
 # Convert a (list of) email address(es) from RFC 822 style addressing to
