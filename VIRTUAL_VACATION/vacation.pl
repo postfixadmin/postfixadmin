@@ -1,11 +1,6 @@
 #!/usr/bin/perl
-# Note  - 2017/02/08 DG :
-# Yes - I know -X (^) is not ideal.
-#       Patches are welcome to remove the dependency on Mail::Sender. 
-#       Until then, we need -X to stop it failing with warnings like 
-#       defined(@array) is deprecated at .../perl5/Mail/Sender.pm line 318. 
 #
-# Virtual Vacation 4.0
+# Virtual Vacation 4.1
 #
 # $Revision$
 # Originally by Mischa Peters <mischa at high5 dot net>
@@ -88,28 +83,31 @@
 #             Also corrected log entry about "Already informed ..." to show the $orig_from, not $email
 # 
 # 2017-07-14  Thomas Kempf <tkempf@hueper.de>
+#			  Replacing deprecated Mail::Sender by Email::Sender
 #			  Add configuration parameter $novacation_pattern in order to exlude specific alias-recipients from 
 # 			  sending vacation mails, even if one or multiple of the recipients the alias points to has vacation
-#             currently active
+#             currently active. 
 #
 
 # Requirements - the following perl modules are required:
 # DBD::Pg or DBD::mysql
-# EMail::Sender, Email::Valid MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords and GetOpt::Std
+# EMail::Sender,Email::Simple,Email::Valid,Try::Tiny,MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords and GetOpt::Std
 #
 # You may install these via CPAN, or through your package tool.
 # CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
 #
 # On Debian based systems :
-#   libmail-sender-perl
-#   libdbd-pg-perl
+#   libemail-sender-perl
+#   libemail-simple-perl
 #   libemail-valid-perl
+#	libtry-tiny-perl
+#   libdbd-pg-perl
 #   libmime-perl
 #   liblog-log4perl-perl
 #   liblog-dispatch-perl
 #   libgetopt-argvfile-perl
-#   libmime-charset-perl (currently in testing, see instructions below)
-#   libmime-encwords-perl (currently in testing, see instructions below)
+#   libmime-charset-perl
+#   libmime-encwords-perl 
 #
 # Note: When you use this module, you may start seeing error messages
 # like "Cannot insert a duplicate key into unique index
@@ -123,7 +121,6 @@
 # One such package collection (for Linux) is:
 # http://dag.wieers.com/home-made/apt/packages.php
 #
-
 use utf8;
 use DBI;
 use MIME::Base64 qw(encode_base64);
@@ -132,13 +129,13 @@ use MIME::EncWords qw(:all);
 use Email::Valid;
 use strict;
 use Getopt::Std;
-use Log::Log4perl qw(get_logger :levels);
-use File::Basename;
 use Email::Sender::Simple qw(sendmail);
-use Email::Sender::Transport::SMTPS;
+use Email::Sender::Transport::SMTP;
 use Email::Simple;
 use Email::Simple::Creator;
 use Try::Tiny;
+use Log::Log4perl qw(get_logger :levels);
+use File::Basename;
 
 # ========== begin configuration ==========
 
@@ -162,32 +159,24 @@ our $vacation_domain = 'autoreply.example.org';
 
 # smtp server used to send vacation e-mails
 our $smtp_server = 'localhost';
+# port to connect to; defaults to 25 for non-SSL, 465 for 'ssl', 587 for 'starttls'
 our $smtp_server_port = 25;
 
 # this is the helo we [the vacation script] use on connection; you may need to change this to your hostname or something,
 # depending upon what smtp helo restrictions you have in place within Postfix. 
 our $smtp_client = 'localhost';
 
-# SMTP encryption protocol used for sending.
-# Can be '', 'starttls' or 'ssl'
-# see "perldoc Email::Sender" (search for "ssl") for details
-# Leave it blank if you don't use authentication
+# send mail encrypted or plaintext
+# if 'starttls', use STARTTLS; if 'ssl' (or 1), connect securely; otherwise, no security
 our $smtp_ssl = '';
 
-# Options passed to Net::SMTPS constructor for 'ssl' connections or to starttls for 'starttls' connections; should contain extra options for IO::Socket::SSL
-# see "perldoc Email::Sender" (search for "ssl_options") for details
-
-our $smtp_ssl_options = '';
-
-# Maximum time in secs to wait for server; default is 120
-# see "perldoc Email::Sender" (search for "timeout") for details
-
+# maximum time in secs to wait for server; default is 120
 our $smtp_timeout = '120';
 
-# username used to login to the server
-our $smtp_authid = 'someuser';
-# password used to login to the server
-our $smtp_authpwd = 'somepass';
+# sasl_username: the username to use for auth; optional
+our $smtp_authid = '';
+# sasl_password: the password to use for auth; required if username is provided
+our $smtp_authpwd = '';
 
 # This specifies the mail 'from' name which is shown to recipients of vacation replies.
 # If you leave it empty, the vacation mail will contain: 
@@ -275,6 +264,7 @@ if($test_mode == 1) {
     $appender->layout($log_layout);
     $logger->add_appender($appender);
     $logger->debug('Test mode enabled');
+    
 } else {
     $logger = get_logger();
     if($log_to_file == 1) {
@@ -563,20 +553,24 @@ sub send_vacation_email {
         my $from = $email;
         my $to = $orig_from;
 
-        my $transport = Email::Sender::Transport::SMTPS->new({
-            host => $smtp_server,
-            ssl  => $smtp_ssl,
-            ssl_options  => $smtp_ssl_options,
-            timeout => $smtp_timeout,
+		my $smtp_params = {
+			host => $smtp_server,
             port => $smtp_server_port,
-            sasl_username => $smtp_authid,
-            sasl_password => $smtp_authpwd,
+			ssl  => $smtp_ssl,
+			timeout => $smtp_timeout,
+			localaddr => $smtp_client,
+            debug => 0,
+		};
 
-            localaddr => $smtp_client,
-            debug => 1,
-		});
+		if($smtp_authid ne ''){
+			$smtp_params->{sasl_username}=$smtp_authid;
+			$smtp_params->{sasl_password}=$smtp_authpwd;
+            $logger->info("Doing SASL Authentication with user $smtp_params->{sasl_username}\n");
+		};
 		
-		my $email = Email::Simple->create(
+        my $transport = Email::Sender::Transport::SMTP->new($smtp_params);
+		
+		$email = Email::Simple->create(
             header => [
                 To      => $to,
                 From    => $from,
@@ -597,9 +591,9 @@ sub send_vacation_email {
             sendmail($email, { transport => $transport });
         } finally {
             if (@_) {
-                $logger->error("Failed to send vacation response: @_");
+                $logger->error("Failed to send vacation response to $to from $from subject $subject: @_");
             } else {
-            	$logger->debug("Vacation response sent to $to, from $from");
+            	$logger->debug("Vacation response sent to $to from $from subject $subject sent\n");
         	}
     	}
 	}
@@ -681,6 +675,7 @@ $cc = '';
 $replyto = '';
 
 $logger->debug("Script argument SMTP recipient is : '$smtp_recipient' and smtp_sender : '$smtp_sender'");
+
 while (<STDIN>) {
     last if (/^$/);
     if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; next; }
@@ -722,7 +717,7 @@ if(!$from || !$to || !$messageid || !$smtp_sender || !$smtp_recipient) {
 }
 $logger->debug("Email headers have to: '$to' and From: '$from'");
 
-if ($to =~ ~ /^.*($novacation_pattern).*/i) { 
+if ($to =~ /^.*($novacation_pattern).*/i) { 
    $logger->debug("Will not send vacation reply for messages to $to");
    exit(0); 
 }
