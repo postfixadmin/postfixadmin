@@ -223,6 +223,8 @@ our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twit
 # hence an email to the alias should not trigger vacation messages.
 # By default vacation email addresses will be sent for all recipients.
 # default = ''
+# preventing vacation notifications for recipient info@example.org would look like this:
+# our $novacation_pattern = 'info\@example\.org';
 our $novacation_pattern = ''; 
 
 
