@@ -47,9 +47,12 @@ class FetchmailHandler extends PFAHandler {
         );
 
         # get list of mailboxes (for currently logged in user)
-        $handler = new MailboxHandler(0, $this->admin_username);
-        $handler->getList('1=1');
-        $this->struct['mailbox']['options'] = array_keys($handler->result);
+        # Added instance to show list of active alias (for currently logged in user)
+        $handler_mailbox = new MailboxHandler(0, $this->admin_username);
+        $handler_alias = new AliasHandler(0, $this->admin_username);
+        $handler_mailbox->getList('1=1');
+        $handler_alias->getList('1=1');
+        $this->struct['mailbox']['options'] = array_merge(array_keys($handler_mailbox->result),array_keys($handler_alias->result));
     }
 
     protected function initMsg() {
