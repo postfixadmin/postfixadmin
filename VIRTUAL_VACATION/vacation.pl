@@ -582,11 +582,12 @@ sub send_vacation_email {
             header => [
                 To      => $to,
                 From    => $from,
-                Subject => encode_mimewords($subject, 'Charset', 'UTF-8'),
+                Subject => $subject,
                 Precedence => 'junk',
+                'Content-Type' => "text/plain; charset=utf-8",
                 'X-Loop' => 'Postfix Admin Virtual Vacation',
             ],
-            body => encode("UTF-8", $body),
+            body => $body,
         );
 		
         if($test_mode == 1) {
