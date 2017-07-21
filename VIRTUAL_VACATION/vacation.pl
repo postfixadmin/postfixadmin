@@ -91,7 +91,7 @@
 
 # Requirements - the following perl modules are required:
 # DBD::Pg or DBD::mysql
-# EMail::Sender,Email::Simple,Email::Valid,Try::Tiny,MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords and GetOpt::Std
+# EMail::Sender,Email::Simple,Email::Valid,Try::Tiny,MIME::Charset, Log::Log4perl, Log::Dispatch, and GetOpt::Std
 #
 # You may install these via CPAN, or through your package tool.
 # CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
@@ -107,7 +107,6 @@
 #   liblog-dispatch-perl
 #   libgetopt-argvfile-perl
 #   libmime-charset-perl
-#   libmime-encwords-perl 
 #
 # Note: When you use this module, you may start seeing error messages
 # like "Cannot insert a duplicate key into unique index
@@ -123,9 +122,7 @@
 #
 use utf8;
 use DBI;
-use MIME::Base64 qw(encode_base64);
-use Encode qw(encode decode);
-use MIME::EncWords qw(:all);
+use Encode qw(decode);
 use Email::Valid;
 use strict;
 use Getopt::Std;
