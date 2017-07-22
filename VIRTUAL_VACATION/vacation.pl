@@ -1,4 +1,39 @@
-#!/usr/bin/perl -X
+#!/usr/bin/perl
+
+# Virtual Vacation 5.0
+#
+# $Revision: 1 $
+#
+# Updates:
+# 2017/06/13  Gianluca Giacometti <php at gianlucagiacometti dot it>
+#             Updated the usage syntax implementing GetOpt::Long
+#             Removed deprecated Mail::Sender and implemented Email::Sender
+#
+
+#
+# >> NEW <<
+# usage syntax:  vacation.pl [-t] -f {sender} -d {recipient}
+# -t is the optional flag for testing purposes
+#
+
+#
+# Requirements - the following perl modules are required:
+# DBD::Pg or DBD::mysql
+# Email::Sender, Email::Valid MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords, Try::Tiny, Net::SMTPS and GetOpt::Long
+#
+# On Debian based systems (tested on Ubuntu 16.04):
+#   apt-get install libdbi-perl liblog-log4perl-perl liblog-dispatch-perl libdbd-pg-perl libemail-valid-perl libmime-tools-perl liblog-log4perl-perl liblog-dispatch-perl libgetopt-argvfile-perl libmime-charset-perl libmime-encwords-perl libjson-pp-perl libjson-xs-perl libtext-csv-perl libtext-csv-xs-perl libencode-hanextra-perl libyaml-libyaml-perl
+#   cpan Email::Sender
+#   cpan Try::Tiny
+#   cpan Email::Sender::Transport::SMTPS
+#   cpan Net::SMTPS
+#
+
+#
+# END OF UPDATE NOTES
+#
+
+#
 # Note  - 2017/02/08 DG :
 # Yes - I know -X (^) is not ideal.
 #       Patches are welcome to remove the dependency on Mail::Sender. 
@@ -7,7 +42,7 @@
 #
 # Virtual Vacation 4.0
 #
-# $Revision$
+# $Revision: 1893 $
 # Originally by Mischa Peters <mischa at high5 dot net>
 #
 # Copyright (c) 2002 - 2005 High5!
@@ -88,23 +123,6 @@
 #             Also corrected log entry about "Already informed ..." to show the $orig_from, not $email
 #
 
-# Requirements - the following perl modules are required:
-# DBD::Pg or DBD::mysql
-# Mail::Sender, Email::Valid MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords and GetOpt::Std
-#
-# You may install these via CPAN, or through your package tool.
-# CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
-#
-# On Debian based systems :
-#   libmail-sender-perl
-#   libdbd-pg-perl
-#   libemail-valid-perl
-#   libmime-perl
-#   liblog-log4perl-perl
-#   liblog-dispatch-perl
-#   libgetopt-argvfile-perl
-#   libmime-charset-perl (currently in testing, see instructions below)
-#   libmime-encwords-perl (currently in testing, see instructions below)
 #
 # Note: When you use this module, you may start seeing error messages
 # like "Cannot insert a duplicate key into unique index
@@ -126,9 +144,18 @@ use Encode qw(encode decode);
 use MIME::EncWords qw(:all);
 use Email::Valid;
 use strict;
-use Mail::Sender;
-use Getopt::Std;
-use Log::Log4perl qw(get_logger :levels);
+
+# Modified by Gianluca on 2017, June 13 - START #
+use Email::Sender::Simple qw(sendmail);
+use Email::Sender::Transport::SMTPS;
+use Email::Simple;
+use Email::Simple::Creator;
+use Try::Tiny;
+use Getopt::Long qw(GetOptions);
+# Modified by Gianluca on 2017, June 13 - END #
+
+use Log::Log4perl qw(:levels get_logger);
+
 use File::Basename;
 
 # ========== begin configuration ==========
@@ -153,44 +180,43 @@ our $vacation_domain = 'autoreply.example.org';
 
 # smtp server used to send vacation e-mails
 our $smtp_server = 'localhost';
-our $smtp_server_port = 25;
+
+#our $smtp_server_port = 25;
 
 # this is the helo we [the vacation script] use on connection; you may need to change this to your hostname or something,
 # depending upon what smtp helo restrictions you have in place within Postfix. 
 our $smtp_client = 'localhost';
 
-# SMTP authentication protocol used for sending.
-# Can be 'PLAIN', 'LOGIN', 'CRAM-MD5' or 'NTLM'
-# see "perldoc Mail::Sender" (search for "auth") for more options and details
+# SMTP encryption protocol used for sending.
+# Can be '', 'starttls' or 'ssl'
+# see "perldoc Email::Sender" (search for "ssl") for details
 # Leave it blank if you don't use authentication
-our $smtp_auth = undef;
+our $smtp_ssl = '';
+
+# Options passed to Net::SMTPS constructor for 'ssl' connections or to starttls for 'starttls' connections; should contain extra options for IO::Socket::SSL
+# see "perldoc Email::Sender" (search for "ssl_options") for details
+
+# OPTIONAL
+#our $smtp_ssl_options = '';
+
+# Maximum time in secs to wait for server; default is 120
+# see "perldoc Email::Sender" (search for "timeout") for details
+
+# OPTIONAL
+#our $smtp_timeout = '120';
+
 # username used to login to the server
-our $smtp_authid = 'someuser';
+
+# OPTIONAL
+#our $smtp_authid = 'someuser';
+
 # password used to login to the server
-our $smtp_authpwd = 'somepass';
 
-# This specifies the mail 'from' name which is shown to recipients of vacation replies.
-# If you leave it empty, the vacation mail will contain: 
-# From: <original@recipient.domain>
-# If you specify something here you'd instead see something like :
-# From: Some Friendly Name <original@recipient.domain>
-our $friendly_from = '';
-
-# use TLS for the SMTP connection?
-# while in general this would be a good idea, TLS with Mail::Sender 0.8.22 is buggy - https://rt.cpan.org/Public/Bug/Display.html?id=85438
-our $smtp_tls_allowed = 0;
+# OPTIONAL (mandatory if $smtp_authid is defined)
+#our $smtp_authpwd = 'somepass';
 
 # Set to 1 to enable logging to syslog.
 our $syslog = 0;
-
-# path to logfile, when empty logging is suppressed
-# change to e.g. /dev/null if you want nothing logged.
-# if we can't write to this, and $log_to_file is 1 (below) the script will abort.
-our $logfile='/var/log/vacation.log';
-# 2 = debug + info, 1 = info only, 0 = error only
-our $log_level = 2;
-# Whether to log to file or not, 0 = do not write to a log file
-our $log_to_file = 0;
 
 # notification interval, in seconds
 # set to 0 to notify only once
@@ -218,50 +244,48 @@ if (-f '/etc/mail/postfixadmin/vacation.conf') {
     require '/etc/postfixadmin/vacation.conf';
 }
 
+# Define logger configuration
+# change to ERROR|FATAL|WARN|OFF|TRACE|DEBUG|INFO|ALL depending on how much logging you want.
+my $conf = q(
+    log4perl.logger                    = ALL, FileApp
+    log4perl.appender.FileApp          = Log::Log4perl::Appender::File
+    log4perl.appender.FileApp.filename = /var/log/vacation/vacation.log
+    log4perl.appender.FileApp.layout   = PatternLayout
+    log4perl.appender.FileApp.layout.ConversionPattern = %d %p> %F:%L %M - %m%n
+);
+
 # =========== end configuration ===========
 
-if($log_to_file == 1) {
-    if (( ! -w $logfile ) && (! -w dirname($logfile))) {
-        # Cannot log; no where to write to.
-        die("Cannot create logfile : $logfile");
-    }
-}
-
-my ($from, $to, $cc, $replyto , $subject, $messageid, $lastheader, $smtp_sender, $smtp_recipient, %opts, $test_mode, $logger);
+my ($from, $to, $cc, $replyto , $subject, $messageid, $lastheader, $smtp_sender, $smtp_recipient, $test_mode, $logger);
 
 $subject='';
 $messageid='unknown';
 
 # Setup a logger...
-#
-getopts('f:t:', \%opts) or die "Usage: $0 [-t yes] -f sender -- recipient\n\t-t for testing only\n";
-$opts{f} and $smtp_sender = $opts{f} or die '-f sender not present on command line';
-$test_mode = 0;
-$opts{t} and $test_mode = 1;
-$smtp_recipient = shift or die 'recipient not given on command line';
+Log::Log4perl->init( \$conf );
 
-my $log_layout = Log::Log4perl::Layout::PatternLayout->new('%d %p> %F:%L %M - %m%n');
+Getopt::Long::GetOptions(
+    't' => \$test_mode,
+    'f=s' => \$smtp_sender,
+    'd=s' => \$smtp_recipient,
+);
 
-if($test_mode == 1) {
+if($test_mode) {
     $logger = get_logger();
     # log to stdout
     my $appender = Log::Log4perl::Appender->new('Log::Dispatch::Screen');
+    my $log_layout = Log::Log4perl::Layout::PatternLayout->new('%d %p> %F:%L %M - %m%n');
     $appender->layout($log_layout);
     $logger->add_appender($appender);
     $logger->debug('Test mode enabled');
+    if(!defined $smtp_sender) {
+        die("\n-f sender not present on command line\nUsage: $0 [-t] -f sender -d recipient\n\t(-t for testing only)\n");
+    }
+    if(!defined $smtp_recipient) {
+        die("\n-d recipient not present on command line\nUsage: $0 [-t] -f sender -d recipient\n\t(-t for testing only)\n");
+    }
 } else {
     $logger = get_logger();
-    if($log_to_file == 1) {
-        # log to file
-        my $appender = Log::Log4perl::Appender->new(
-            'Log::Dispatch::File',
-            filename => $logfile,
-            mode => 'append');
-
-        $appender->layout($log_layout);
-        $logger->add_appender($appender);
-    }
-
     if($syslog == 1) {
         my $syslog_appender = Log::Log4perl::Appender->new(
             'Log::Dispatch::Syslog',
@@ -269,15 +293,12 @@ if($test_mode == 1) {
         );
         $logger->add_appender($syslog_appender);
     }
-}
-
-# change to $DEBUG, $INFO or $ERROR depending on how much logging you want.
-$logger->level($ERROR);
-if($log_level == 1) {
-    $logger->level($INFO);
-}
-if($log_level == 2) {
-    $logger->level($DEBUG);
+    if(!defined $smtp_sender) {
+        $logger->error("\n-f sender not present on command line\nUsage: $0 [-t] -f sender -d recipient\n\t(-t for testing only)\n");
+    }
+    if(!defined $smtp_recipient) {
+        $logger->error("\n-d recipient not present on command line\nUsage: $0 [-t] -f sender -d recipient\n\t(-t for testing only)\n");
+    }
 }
 
 binmode (STDIN,':encoding(UTF-8)');
@@ -410,7 +431,6 @@ sub check_for_vacation {
     return $rv;
 }
 
-
 # try and determine if email address has vacation turned on; we
 # have to do alias searching, and domain aliasing resolution for this.
 # If found, return ($num_matches, $real_email);
@@ -536,45 +556,49 @@ sub send_vacation_email {
         my $body = $row[1];
         my $from = $email;
         my $to = $orig_from;
-        my %smtp_connection;
-        %smtp_connection = (
-            'smtp' => $smtp_server,
-            'port' => $smtp_server_port,
-            'auth' => $smtp_auth,
-            'authid' => $smtp_authid,
-            'authpwd' => $smtp_authpwd,
-            'tls_allowed' => $smtp_tls_allowed,
-            'smtp_client' => $smtp_client,
-            'skip_bad_recipients' => 'true',
-            'encoding' => 'Base64',
-            'ctype' => 'text/plain; charset=UTF-8',
-            'headers' => 'Precedence: junk',
-            'headers' => 'X-Loop: Postfix Admin Virtual Vacation',
-            'on_errors' => 'die', # raise exception on error
+
+        my $transport = Email::Sender::Transport::SMTPS->new({
+            host => $smtp_server,
+
+# Uncomment as needed
+# See http://search.cpan.org/~fayland/Email-Sender-Transport-SMTPS-0.03/lib/Email/Sender/Transport/SMTPS.pm for more details
+#
+#            ssl  => $smtp_ssl,
+#            ssl_options  => $smtp_ssl_options,
+#            timeout => $smtp_timeout,
+#            port => $smtp_server_port,
+#            sasl_username => $smtp_authid,
+#            sasl_password => $smtp_authpwd,
+
+            localaddr => $smtp_client,
+            debug => 1,
+        });
+
+        my $email = Email::Simple->create(
+            header => [
+                To      => $to,
+                From    => $from,
+                Subject => encode_mimewords($subject, 'Charset', 'UTF-8'),
+                Precedence => 'junk',
+                'X-Loop' => 'Postfix Admin Virtual Vacation',
+            ],
+            body => encode("UTF-8", $body),
         );
-        my %mail;
-        %mail = (
-            'subject' => encode_mimewords($subject, 'Charset', 'UTF-8'),
-            'from' => $from,
-            'fake_from' => $friendly_from . " <$from>",
-            'to' => $to,
-            'msg' => encode_base64(encode("UTF-8", $body))
-        );
-        if($test_mode == 1) {
+
+        if($test_mode) {
             $logger->info("** TEST MODE ** : Vacation response sent to $to from $from subject $subject (not) sent\n");
-            $logger->info(%mail);
+            $logger->info($email);
             return 0;
         }
-        eval {
-            $Mail::Sender::NO_X_MAILER = 1;
-            my $sender = new Mail::Sender({%smtp_connection});
-            $sender->Open({%mail});
-            $sender->SendLineEnc($body);
-            $sender->Close();
-            $logger->debug("Vacation response sent to $to, from $from");
-        };
-        if ($@) {
-            $logger->error("Failed to send vacation response: $@ / " . $Mail::Sender::Error);
+
+        try {
+            sendmail($email, { transport => $transport });
+        } finally {
+            if (@_) {
+                $logger->error("Failed to send vacation response: @_");
+            } else {
+                $logger->debug("Vacation response sent to $to, from $from");
+            }
         }
     }
 }
@@ -720,7 +744,11 @@ for (split(/,\s*/, lc($to)), split(/,\s*/, lc($cc))) {
 
 my ($rv, $email) = find_real_address($smtp_recipient);
 if ($rv == 1) {
-    $logger->debug("Attempting to send vacation response for: $messageid to: $smtp_sender, $smtp_recipient, $email (test_mode = $test_mode)");
+    my $test = '';
+    if (defined $test_mode) {
+        $test = '(test mode)';
+    }
+    $logger->debug("Attempting to send vacation response for: $messageid to: $smtp_sender, $smtp_recipient, $email $test");
     send_vacation_email($email, $smtp_sender, $smtp_recipient, $messageid, $subject, $test_mode);
 } else {
     $logger->debug("SMTP recipient $smtp_recipient which resolves to $email does not have an active vacation (rv: $rv, email: $email)");
