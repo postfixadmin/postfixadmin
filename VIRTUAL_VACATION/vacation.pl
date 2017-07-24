@@ -124,6 +124,7 @@
 use utf8;
 use DBI;
 use Encode qw(decode);
+use MIME::EncWords qw(:all);
 use Email::Valid;
 use strict;
 use Getopt::Std;
