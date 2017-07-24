@@ -222,7 +222,7 @@ our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twit
 # default = ''
 # preventing vacation notifications for recipient info@example.org would look like this:
 # our $no_vacation_pattern = 'info\@example\.org';
-our $no_vacation_pattern = ''; 
+our $no_vacation_pattern = 'info\@example\.org'; 
 
 
 # instead of changing this script, you can put your settings to /etc/mail/postfixadmin/vacation.conf
