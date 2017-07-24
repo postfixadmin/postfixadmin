@@ -91,7 +91,7 @@
 
 # Requirements - the following perl modules are required:
 # DBD::Pg or DBD::mysql
-# EMail::Sender,Email::Simple,Email::Valid,Try::Tiny,MIME::Charset, Log::Log4perl, Log::Dispatch, and GetOpt::Std
+# EMail::Sender,Email::Simple,Email::Valid,Try::Tiny,MIME::Charset, MIME::EncWords, Log::Log4perl, Log::Dispatch, and GetOpt::Std
 #
 # You may install these via CPAN, or through your package tool.
 # CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
@@ -107,6 +107,7 @@
 #   liblog-dispatch-perl
 #   libgetopt-argvfile-perl
 #   libmime-charset-perl
+#   libmime-encwords-perl
 #
 # Note: When you use this module, you may start seeing error messages
 # like "Cannot insert a duplicate key into unique index
@@ -579,7 +580,7 @@ sub send_vacation_email {
             header => [
                 To      => $to,
                 From    => $from,
-                Subject => $subject,
+                Subject => encode_mimewords($subject, 'Charset', 'UTF-8'),
                 Precedence => 'junk',
                 'Content-Type' => "text/plain; charset=utf-8",
                 'X-Loop' => 'Postfix Admin Virtual Vacation',
