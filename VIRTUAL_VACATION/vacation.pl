@@ -83,9 +83,9 @@
 #             Also corrected log entry about "Already informed ..." to show the $orig_from, not $email
 # 
 # 2017-07-14  Thomas Kempf <tkempf@hueper.de>
-#			  Replacing deprecated Mail::Sender by Email::Sender
-#			  Add configuration parameter $novacation_pattern in order to exlude specific alias-recipients from 
-# 			  sending vacation mails, even if one or multiple of the recipients the alias points to has vacation
+#             Replacing deprecated Mail::Sender by Email::Sender
+#             Add configuration parameter $no_vacation_pattern in order to exlude specific alias-recipients from 
+#             sending vacation mails, even if one or multiple of the recipients the alias points to has vacation
 #             currently active. 
 #
 
@@ -100,7 +100,7 @@
 #   libemail-sender-perl
 #   libemail-simple-perl
 #   libemail-valid-perl
-#	libtry-tiny-perl
+#   libtry-tiny-perl
 #   libdbd-pg-perl
 #   libmime-perl
 #   liblog-log4perl-perl
@@ -169,7 +169,7 @@ our $smtp_ssl = 'starttls';
 
 # passed to Net::SMTP constructor for 'ssl' connections or to starttls for 'starttls' connections; should contain extra options for IO::Socket::SSL
 our $ssl_options = {
-	SSL_verifycn_name => $smtp_server
+    SSL_verifycn_name => $smtp_server
 };
 
 # maximum time in secs to wait for server; default is 120
@@ -221,8 +221,8 @@ our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twit
 # By default vacation email addresses will be sent for all recipients.
 # default = ''
 # preventing vacation notifications for recipient info@example.org would look like this:
-# our $novacation_pattern = 'info\@example\.org';
-our $novacation_pattern = ''; 
+# our $no_vacation_pattern = 'info\@example\.org';
+our $no_vacation_pattern = ''; 
 
 
 # instead of changing this script, you can put your settings to /etc/mail/postfixadmin/vacation.conf
@@ -557,25 +557,25 @@ sub send_vacation_email {
         my $from = $email;
         my $to = $orig_from;
 
-		my $smtp_params = {
-			host => $smtp_server,
+        my $smtp_params = {
+            host => $smtp_server,
             port => $smtp_server_port,
             ssl_options => $ssl_options,
-			ssl  => $smtp_ssl,
-			timeout => $smtp_timeout,
-			localaddr => $smtp_client,
+            ssl  => $smtp_ssl,
+            timeout => $smtp_timeout,
+            localaddr => $smtp_client,
             debug => 0,
-		};
+        };
 
-		if($smtp_authid ne ''){
-			$smtp_params->{sasl_username}=$smtp_authid;
-			$smtp_params->{sasl_password}=$smtp_authpwd;
+        if($smtp_authid ne ''){
+            $smtp_params->{sasl_username}=$smtp_authid;
+            $smtp_params->{sasl_password}=$smtp_authpwd;
             $logger->info("Doing SASL Authentication with user $smtp_params->{sasl_username}\n");
-		};
-		
+        };
+
         my $transport = Email::Sender::Transport::SMTP->new($smtp_params);
-		
-		$email = Email::Simple->create(
+
+        $email = Email::Simple->create(
             header => [
                 To      => $to,
                 From    => $from,
@@ -586,7 +586,7 @@ sub send_vacation_email {
             ],
             body => $body,
         );
-		
+
         if($test_mode == 1) {
             $logger->info("** TEST MODE ** : Vacation response sent to $to from $from subject $subject (not) sent\n");
             $logger->info($email);
@@ -599,10 +599,10 @@ sub send_vacation_email {
             if (@_) {
                 $logger->error("Failed to send vacation response to $to from $from subject $subject: @_");
             } else {
-            	$logger->debug("Vacation response sent to $to from $from subject $subject sent\n");
-        	}
-    	}
-	}
+             $logger->debug("Vacation response sent to $to from $from subject $subject sent\n");
+            }
+        }
+    }
 }
 
 # Convert a (list of) email address(es) from RFC 822 style addressing to
@@ -723,7 +723,7 @@ if(!$from || !$to || !$messageid || !$smtp_sender || !$smtp_recipient) {
 }
 $logger->debug("Email headers have to: '$to' and From: '$from'");
 
-if ($to =~ /^.*($novacation_pattern).*/i) { 
+if ($to =~ /^.*($no_vacation_pattern).*/i) { 
    $logger->debug("Will not send vacation reply for messages to $to");
    exit(0); 
 }
