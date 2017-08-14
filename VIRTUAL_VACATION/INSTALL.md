@@ -139,7 +139,8 @@ autoreply.yourdomain.com	vacation:
 
 (You may need to create an entry in /etc/hosts for your non-existant domain)
 
-Execute ```bash
+Execute 
+```bash
 postmap /etc/postfix/transport
 ```
 
