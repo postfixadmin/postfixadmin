@@ -144,7 +144,8 @@ Execute
 postmap /etc/postfix/transport
 ```
 
-Execute ```
+Execute 
+```bash
 postfix reload
 ```
  to complete the change.
