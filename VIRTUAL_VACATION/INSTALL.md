@@ -8,8 +8,9 @@ When users mark themselves as away on vacation, an alias is added to their accou
 sending a copy of all mail to them to the vacation service.
 
 e.g. mail to billy@goat.com will be delivered to 
-    billy@goat.com AND 
-    billy#goat.com@autoreply.goat.com
+
+ * billy@goat.com AND 
+ * billy#goat.com@autoreply.goat.com
 
 Mail to @autoreply.goat.com is caught by the vacation.pl script and a reply 
 will be sent based on various settings. By default a reply is only sent once.
@@ -47,7 +48,8 @@ CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
 
 and one of : 
 ```bash
-libdbd-pg-perl  or libdbd-mysql-perl ```
+libdbd-pg-perl  or libdbd-mysql-perl 
+```
 
 
 # Installing Virtual Vacation
