@@ -14,9 +14,34 @@ There are a bunch of Perl modules which need installing, depending on your
 distribution these may be available through your package management tool, or
 will need installing through CPAN.
 
-A full list of required modules can be found in the source of vacation.pl.
 
-It obviously relies on Perl
+Perl dependencies
+-----------------
+
+Email::Valid
+Email::Sender
+Email::Simple
+Email::Valid
+Try::Tiny
+MIME::Charset
+MIME::EncWords
+Log::Log4perl
+Log::Dispatch
+GetOpt::Std
+
+You may install these via CPAN, or through your package tool.
+
+CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
+
+
+
+On Debian based systems, you probably want these packages :
+
+  apt-get install libemail-sender-perl libemail-simple-perl libemail-valid-perl libtry-tiny-perl libdbd-pg-perl libmime-perl liblog-log4perl-perl liblog-dispatch-perl libgetopt-argvfile-perl libmime-charset-perl libmime-encwords-perl libmime-encwords-perl 
+
+and one of : libdbd-pg-perl  or libdbd-mysql-perl
+
+
 
 About Virtual Vacation
 ----------------------
