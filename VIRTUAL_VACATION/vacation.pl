@@ -6,7 +6,7 @@
 # https://github.com/postfixadmin/postfixadmin/blob/master/VIRTUAL_VACATION/Contributions.txt
 
 # See INSTALL.txt for help installing (and lists of dependent packages etc)
-# https://github.com/postfixadmin/postfixadmin/blob/master/VIRTUAL_VACATION/INSTALL.txt
+# https://github.com/postfixadmin/postfixadmin/blob/master/VIRTUAL_VACATION/INSTALL.md
 
 #
 # Note: When you use this module, you may start seeing error messages
