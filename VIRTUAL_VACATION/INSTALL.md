@@ -20,6 +20,7 @@ There are a bunch of Perl modules which need installing, depending on your
 distribution these may be available through your package management tool, or
 will need installing through CPAN.
 
+```
 Email::Valid
 Email::Sender
 Email::Simple
@@ -30,6 +31,7 @@ MIME::EncWords
 Log::Log4perl
 Log::Dispatch
 GetOpt::Std
+```
 
 You may install these via CPAN, or through your package tool.
 
@@ -39,9 +41,13 @@ CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
 ## Debian Systems 
 
 
+```bash
   apt-get install libemail-sender-perl libemail-simple-perl libemail-valid-perl libtry-tiny-perl libdbd-pg-perl libmime-perl liblog-log4perl-perl liblog-dispatch-perl libgetopt-argvfile-perl libmime-charset-perl libmime-encwords-perl libmime-encwords-perl 
+```
 
-and one of : libdbd-pg-perl  or libdbd-mysql-perl
+and one of : 
+```bash
+libdbd-pg-perl  or libdbd-mysql-perl ```
 
 
 # Installing Virtual Vacation
@@ -60,16 +66,19 @@ Also create a separate "vacation" group.
 
 This should look like this:
 
+```raw
 #/etc/passwd
 vacation:*:65501:65501:Virtual Vacation:/nonexistent:/sbin/nologin
+```
 
+```raw
 #/etc/group
 vacation:*:65501:
-
+```
 
 ## 2. Create a log directory or log file
 
-If you want to log to a file ($log_to_file), create a log directory or an 
+If you want to log to a file ($log\_to\_file), create a log directory or an 
 empty log file.
 
 This file or directory needs to be writeable for the "vacation" user.
@@ -81,46 +90,61 @@ Note: If you are logging to syslog, you can skip this step.
 
 Create a directory /usr/lib/postfixadmin/ and copy the vacation.pl file to it:
 
-  $ mkdir /usr/lib/postfixadmin
-  $ cp vacation.pl /usr/lib/postfixadmin/vacation.pl
-  $ chown -R root:vacation /usr/lib/postfixadmin
-  $ chmod 750 /usr/lib/postfixadmin/ /usr/lib/postfixadmin/vacation.pl
+```bash
+  mkdir /usr/lib/postfixadmin
+  cp vacation.pl /usr/lib/postfixadmin/vacation.pl
+  chown -R root:vacation /usr/lib/postfixadmin
+  chmod 750 /usr/lib/postfixadmin/ /usr/lib/postfixadmin/vacation.pl
+```
 
 Which will then look something like:
 
+```raw
 -rwxr-x---   1 root  vacation  3356 Dec 21 00:00 vacation.pl*
+```
 
 
 ## 4. Setup the transport type
 
 Define the transport type in the Postfix master file:
 
+```raw
 #/etc/postfix/master.cf:
 vacation    unix  -       n       n       -       -       pipe
   flags=Rq user=vacation argv=/usr/lib/postfixadmin/vacation.pl -f ${sender} -- ${recipient}
-
+```
 
 ## 5. Setup the transport maps file
 
 Tell Postfix to use a transport maps file, so add the following to your
 Postfix main.cf:
 
+```raw
 #/etc/postfix/main.cf:
 transport_maps = hash:/etc/postfix/transport
+```
 
 Then add the transport definition to the newly created transport file.
 Obviously, change yourdomain.com to your own domain. This can be any
 arbitrary domain, and it is easiest if you just choose one that will be used
 for all your domains.
 
+```raw
 #/etc/postfix/transport
 autoreply.yourdomain.com	vacation:
+```
+
 
 (You may need to create an entry in /etc/hosts for your non-existant domain)
 
-Execute "postmap /etc/postfix/transport" to build the hashed database.
+Execute ```bash
+postmap /etc/postfix/transport
+```
 
-Execute "postfix reload" to complete the change.
+Execute ```
+postfix reload
+```
+ to complete the change.
 
 
 ## 6. Configure vacation.pl
@@ -130,9 +154,9 @@ how to connect to the database.
 
 Namely :
 
-Change any variables starting with '$db_' and '$db_type' to either 'mysql' or 'pgsql'.
+Change any variables starting with '$db\_' and '$db\_type' to either 'mysql' or 'pgsql'.
 
-Change the $vacation_domain variable to match what you entered in your /etc/postfix/transport 
+Change the $vacation\_domain variable to match what you entered in your /etc/postfix/transport 
 file.
 
 You can do this in two ways:
@@ -143,13 +167,17 @@ b) create /etc/postfixadmin/vacation.conf and enter your settings there
 
    Just use perl syntax there to fill the config variables listed in vacation.pl
    (without the "our" keyword). Example:
-   $db_username = 'mail';
+```perl
+$db_username = 'mail';
+```
 
    To make sure nobody except vacation.pl can read your vacation.conf (including the
    database password), run
 
-   $ chown root:vacation /etc/postfixadmin/vacation.conf
-   $ chmod 640 /etc/postfixadmin/vacation.conf
+```bash
+chown root:vacation /etc/postfixadmin/vacation.conf
+chmod 640 /etc/postfixadmin/vacation.conf
+```
 
 
 ## 7. Check the alias expansion
@@ -161,10 +189,14 @@ another content filtering system when mail is re-injected into Postfix using the
 If you are, it's likely that alias expansion may happen more than once, in which case you 
 may see vacation-style responses duplicated. To suppress this behaviour, you need to add:
 
+```raw
   -o receive_override_options=no_address_mappings
+```
+
 
 For example :
 
+```raw
 smtp      inet  n       -       -       -       12       smtpd
     -o content_filter=amavis:[127.0.0.50]:10024
     -o receive_override_options=no_address_mappings
@@ -177,6 +209,8 @@ smtp      inet  n       -       -       -       12       smtpd
     -o smtpd_recipient_restrictions=permit_mynetworks,reject
     -o mynetworks=127.0.0.0/8
     -o receive_override_options=no_header_body_checks
+
+```
 
 	^^^ Alias expansion occurs here, so we don't want it to happen again for the
 		first smtpd daemon (above). If you have per-user settings in amavis,
