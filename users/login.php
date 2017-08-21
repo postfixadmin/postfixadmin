@@ -62,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 $smarty->assign ('language_selector', language_selector(), false);
 $smarty->assign ('smarty_template', 'login');
 $smarty->assign ('logintype', 'user');
+$smarty->assign ('forgotten_password_reset', Config::read('forgotten_user_password_reset'));
 $smarty->display ('index.tpl');
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

@@ -1939,4 +1939,21 @@ function getRemoteAddr() {
     return $REMOTE_ADDR;
 }
 
+
+/**
+ * Returns a hash for a username valid for one day
+ *
+ * @param String $username user name
+ * @return String password recovery code
+ */
+function getPasswordRecoveryCode($username)
+{
+    $username = trim(strtolower($username));
+    $date = date('Y-m-d');
+
+    $code = substr(strtoupper(md5('SECRET SALTING PHRASE' . $username . $date)), 0, 6);
+
+    return $code;
+}
+
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

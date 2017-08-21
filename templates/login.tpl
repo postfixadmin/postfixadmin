@@ -14,7 +14,8 @@
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.password}:</label></td>
-		<td><input class="flat" type="password" name="fPassword" /></td>
+		<td><input class="flat" type="password" name="fPassword" />{if $forgotten_password_reset}<br/>
+		<a href="password-recover.php">{$PALANG.pUsersLogin_password_recover}</a>{/if}</td>
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pLogin_language}:</label></td>

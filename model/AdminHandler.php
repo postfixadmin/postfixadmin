@@ -47,6 +47,10 @@ class AdminHandler extends PFAHandler {
                 /*select*/ 'password as password2'
             ),
 
+            'phone'           => pacol( 1,          1,      0,      'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
+
+            'email_other'     => pacol( 1,          1,      0,      'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
+
             'superadmin'      => pacol( 1,          1,      0,      'bool', 'super_admin'        , 'super_admin_desc'  , 0
 # TODO: (finally) replace the ALL domain with a column in the admin table
 # TODO: current status: 'superadmin' column exists and is written when storing an admin with AdminHandler,

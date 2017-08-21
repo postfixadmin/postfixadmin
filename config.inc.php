@@ -119,6 +119,14 @@ $CONF['database_tables'] = array (
 // Leave blank to send email from the logged-in Admin's Email address.
 $CONF['admin_email'] = '';
 
+// Site admin name
+// This will be used as signature in notification messages
+$CONF['admin_name'] = 'Postmaster';
+
+// Site admin phone number
+// This will be used if a user cannot access his/her email and needs support
+$CONF['admin_phone'] = '';
+
 // Mail Server
 // Hostname (FQDN) of your mail server.
 // This is used to send email to Postfix in order to create mailboxes.
@@ -572,6 +580,18 @@ $CONF['new_quota_table'] = 'YES';
 // http://www.php.net/manual/en/function.imap-open.php
 $CONF['create_mailbox_subdirs_hostoptions'] = array();
 
+// Optional:
+// Allows a user to reset his forgotten password with a code sent by email/SMS
+$CONF['forgotten_user_password_reset'] = true;
+// Allows an admin to reset his forgotten password with a code sent by email/SMS
+$CONF['forgotten_admin_password_reset'] = true;
+
+// Clickatell gateway to send SMS code for password reset
+// API type: HTTP
+$CONF['clickatell_api_id'] = '';
+$CONF['clickatell_user'] = '';
+$CONF['clickatell_password'] = '';
+$CONF['clickatell_sender'] = '';
 
 // Theme Config
 // Specify your own logo and CSS file
