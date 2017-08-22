@@ -582,9 +582,9 @@ $CONF['create_mailbox_subdirs_hostoptions'] = array();
 
 // Optional:
 // Allows a user to reset his forgotten password with a code sent by email/SMS
-$CONF['forgotten_user_password_reset'] = true;
+$CONF['forgotten_user_password_reset'] = false;  # INSECURE, DO NOT ENABLE! See https://github.com/postfixadmin/postfixadmin/pull/18 for details
 // Allows an admin to reset his forgotten password with a code sent by email/SMS
-$CONF['forgotten_admin_password_reset'] = true;
+$CONF['forgotten_admin_password_reset'] = false;  # INSECURE, DO NOT ENABLE! see https://github.com/postfixadmin/postfixadmin/pull/18 for details
 
 // Clickatell gateway to send SMS code for password reset
 // API type: HTTP
