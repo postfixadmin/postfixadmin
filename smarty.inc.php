@@ -22,6 +22,7 @@ class PFASmarty {
         }
         else {
             # unfortunately there's no sane way to just disable compiling of templates
+            clearstatcache(); // just incase someone just fixed it; on their next refresh it should work.
             error_log("ERROR: directory $templates_c doesn't exist or isn't writeable for the webserver");
             die("ERROR: the templates_c directory doesn't exist or isn't writeable for the webserver");
         }
