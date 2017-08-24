@@ -1,7 +1,11 @@
 FROM php:7.0-apache
 
 # Install required PHP extensions
-RUN docker-php-ext-install mysqli
+RUN buildDeps='libpq-dev' \
+	&& apt-get update && apt-get install -y --no-install-recommends $buildDeps \
+	&& docker-php-ext-install mysqli pgsql \
+	&& apt-get purge -y --auto-remove $buildDeps \
+	&& apt-get clean && rm -rf /var/lib/apt/lists/* \
 
 VOLUME /var/www/html
 

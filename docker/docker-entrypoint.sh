@@ -12,6 +12,14 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		echo >&2 "Complete! Postfixadmin has been successfully copied to $PWD"
 	fi
 
+	if [ -n "${!POSTGRES_ENV_POSTGRES_*}" ]; then
+		: "${POSTFIXADMIN_DB_TYPE:=pgsql}"
+		: "${POSTFIXADMIN_DB_HOST:=postgres}"
+		: "${POSTFIXADMIN_DB_USER:=${POSTGRES_ENV_POSTGRES_USER}}"
+		: "${POSTFIXADMIN_DB_PASSWORD:=${POSTGRES_ENV_POSTGRES_PASSWORD:-}}"
+		: "${POSTFIXADMIN_DB_NAME:=${POSTGRES_ENV_POSTGRES_DB:-}}"
+	fi
+
 	if [ -n "${!MYSQL_ENV_MYSQL_*}" ]; then
 		: "${POSTFIXADMIN_DB_TYPE:=mysqli}"
 		: "${POSTFIXADMIN_DB_HOST:=mysql}"
