@@ -6,6 +6,9 @@
 // You can run this from your crontab with something like
 //
 // 0 4 * * * *    vmail    php -q virtualmaildel.php >/dev/null
+//
+// 2017.08.31 updated to use PHP mysqli extension.
+//   Tadas Ustianvičius <tadas at ring dot lt>
 
 	//
 	// Setup location of postfixadmin config files. Needed to login to mysql
@@ -97,7 +100,7 @@
 	//
 	// OK, got an array of accounts from the dir, Now connect to the DB and check them
 	//
-	$conx = mysql_connect( $CONF['database_host'],$CONF['database_user'],$CONF['database_password'] );
+	$conx = mysqli_connect( $CONF['database_host'],$CONF['database_user'],$CONF['database_password'] );
 	//
 	// Is there a problem connecting?
 	//
@@ -106,13 +109,13 @@
 		//
 		// Select the database
 		//
-		mysql_select_db( $CONF['database_name'] , $conx) or die ("Can't access database postfix : " . mysql_error()); 
+		mysqli_select_db( $conx, $CONF['database_name'] ) or die ("Can't access database postfix : " . mysql_error()); 
 
 		//
 		// Select all mailboxes to verify against dirs listed in array
 		//
 		$query = "SELECT * FROM mailbox";
-		$result = mysql_query( $query );
+		$result = mysqli_query( $conx, $query );
 
 		//
 		// Query the mailbox table
@@ -122,7 +125,7 @@
 			//
 			// Fetch the list of results
 			//
-			while ( $row = mysql_fetch_assoc( $result ) )
+			while ( $row = mysqli_fetch_assoc( $result ) )
 			{
 				//
 				// Pull apart the maildir field, needed to figure out the directory structure to compare
@@ -136,7 +139,7 @@
 			//
 			// If there are results. unset the domain too.
 			//
-			if ( count($dir[$strip[0]])==0 and mysql_num_rows($result)>0 )
+			if ( count($dir[$strip[0]])==0 and mysqli_num_rows($result)>0 )
 				unset( $dir[$strip[0]] );
 		}
 		else
