@@ -7,7 +7,9 @@
 
  0 4 * * * *    vmail    php -q virtualmaildel.php >/dev/null
 
- 2017.08.31 updated to use PHP mysqli extension.  Tadas Ustianvičius <tadas at ring dot lt> ( https://github.com/postfixadmin/postfixadmin/pull/70 )
+ Changes:
+    2017.08.31 updated to use PHP mysqli extension.  
+        Tadas Ustianvičius <tadas at ring dot lt> ( https://github.com/postfixadmin/postfixadmin/pull/70 )
 
 */
 
@@ -69,6 +71,9 @@ $dir = [];
 // Get list of directories
 //
 $fr = opendir( $homedir );
+
+// TODO: Would glob($homedir . '/**/*/new') be somewhat quicker/shorter/less effort?
+
 while ( ($domain = readdir($fr)) !== false)
 {
     //
