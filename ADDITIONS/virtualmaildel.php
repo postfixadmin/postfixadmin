@@ -9,7 +9,7 @@
 
  Changes:
     2017.08.31 updated to use PHP mysqli extension.  
-        Tadas Ustianvičius <tadas at ring dot lt> ( https://github.com/postfixadmin/postfixadmin/pull/70 )
+        Tadas Ustinavičius <tadas at ring dot lt> ( https://github.com/postfixadmin/postfixadmin/pull/70 )
 
 */
 
