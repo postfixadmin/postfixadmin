@@ -1,5 +1,6 @@
 <div id="login">
 <form name="frmLogin" method="post" action="">
+<input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}" />
 <table id="login_table" cellspacing="10">
 	<tr>
 		<th colspan="2">
