@@ -28,7 +28,6 @@
  */
 
 $rel_path = '../';
-//define('POSTFIXADMIN_LOGOUT', 1);
 require_once("../common.php");
 
 check_db_version(); # check if the database layout is up to date (and error out if not)
@@ -49,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    $h = new MailboxHandler();
    if($h->login($fUsername, $fPassword)) {
-      session_regenerate_id();
+      session_regenerate_id(true);
       $_SESSION['sessid'] = array();
       $_SESSION['sessid']['roles'] = array();
       $_SESSION['sessid']['roles'][] = 'user';
