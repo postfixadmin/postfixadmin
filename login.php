@@ -27,7 +27,6 @@
  *  lang
  */
 
-//define('POSTFIXADMIN_LOGOUT', 1);
 require_once('common.php');
 
 if($CONF['configured'] !== true) {
@@ -53,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
     $h = new AdminHandler;
     if ( $h->login($fUsername, $fPassword) ) {
-        session_regenerate_id();
+        session_regenerate_id(true);
         $_SESSION['sessid'] = array();
         $_SESSION['sessid']['roles'] = array();
         $_SESSION['sessid']['roles'][] = 'admin';
