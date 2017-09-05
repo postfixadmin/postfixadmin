@@ -1271,14 +1271,17 @@ function db_connect ($ignore_errors = false) {
         }
     } elseif ($CONF['database_type'] == "mysqli") {
         if (function_exists ("mysqli_connect")) {
-            $link = @mysqli_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysqli_connect_error () . "$DEBUG_TEXT");
+
+            $CONF['database_socket'] = isset($CONF['database_socket']) ? $CONF['database_socket'] : ini_get('mysqli.default_socket');
+            $CONF['database_port'] = isset($CONF['database_port']) ? $CONF['database_socket'] : ini_get('mysqli.default_port');
+
+            $link = @mysqli_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port'], $CONF['database_socket']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysqli_connect_error () . "$DEBUG_TEXT");
             if ($link) {
                 @mysqli_query($link,"SET CHARACTER SET utf8");
                 @mysqli_query($link,"SET COLLATION_CONNECTION='utf8_general_ci'");
-                @mysqli_select_db ($link, $CONF['database_name']) or $error_text .= ("<p />DEBUG INFORMATION:<br />MySQLi Select Database: " .  mysqli_error ($link) . "$DEBUG_TEXT");
             }
         } else {
-            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            $error_text .= "<p />DEBUG INFORMATION:<br />MySQLi functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     } elseif (db_sqlite()) {
         if (class_exists ("SQLite3")) {

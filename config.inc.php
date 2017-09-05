@@ -86,11 +86,17 @@ $CONF['database_host'] = 'localhost';
 $CONF['database_user'] = 'postfix';
 $CONF['database_password'] = 'postfixadmin';
 $CONF['database_name'] = 'postfix';
+
 // If you need to specify a different port for a MYSQL database connection, use e.g.
 //   $CONF['database_host'] = '172.30.33.66:3308';
-// If you need to specify a different port for POSTGRESQL database connection
+//
+// If you need to specify a different port for MySQLi(3306)/POSTGRESQL(5432) database connection
 //   uncomment and change the following
 // $CONF['database_port'] = '5432';
+//
+// If you wish to connect using a local socket file (e.g /var/run/mysql.sock) uncomment the below.
+// $CONF['database_socket'] = '/var/run/mysql/mysqld.sock';
+//
 // If sqlite is used, specify the database file path:
 //   $CONF['database_name'] = '/etc/postfix/sqlite/postfixadmin.db'
 
