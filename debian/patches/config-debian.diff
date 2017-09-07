@@ -7,7 +7,7 @@ Index: postfixadmin/config.inc.php
   */
  
 +// Debian: This loads the automatic generated DB credentials from /etc/postfixadmin/dbconfig.inc.php
-+require_once('dbconfig.inc.php');
++require_once(dirname(__FILE__) . '/dbconfig.inc.php');
 +if (!isset($dbserver) || empty($dbserver)) {
 +    $dbserver = 'localhost';
 +}
