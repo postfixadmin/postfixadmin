@@ -1,1 +1,2 @@
 etc/postfixadmin/config.inc.php usr/share/postfixadmin/config.inc.php
+usr/bin/postfixadmin-cli usr/share/postfixadmin/scripts/postfixadmin-cli.php
