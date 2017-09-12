@@ -1,0 +1,13 @@
+From: ZioSEM s.r.l. <info@ziosemc.om>
+Date: Tue, 12 Sep 2017 10:27:30 CEST 2017
+Subject: config.local.php
+
+--- /dev/null
++++ postfixadmin-3.1/config.local.php
+@@ -0,0 +1,6 @@
++<?php
++
++// Please, instead of editing config.inc.php, add your settings here
++// to ensure that future updates work without problems.
++
++
