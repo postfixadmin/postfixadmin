@@ -1,2 +1,5 @@
 etc/postfixadmin/config.inc.php usr/share/postfixadmin/config.inc.php
+etc/postfixadmin/config.local.php usr/share/postfixadmin/config.local.php
 var/cache/postfixadmin usr/share/postfixadmin/templates_c
+usr/share/postfixadmin-cli/scripts/postfixadmin-cli usr/bin/postfixadmin-cli
+usr/share/postfixadmin/common.php usr/share/postfixadmin-cli/common.php

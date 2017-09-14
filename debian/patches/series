@@ -1,1 +1,2 @@
-config-debian.diff
+0001-db_credentials.diff
+0002-add_local_config_file.diff

@@ -7,5 +7,5 @@ templates	usr/share/postfixadmin
 users		usr/share/postfixadmin
 smarty		usr/share/postfixadmin
 configs		usr/share/postfixadmin
-scripts		usr/share/postfixadmin
+scripts		usr/share/postfixadmin-cli
 debian/lighttpd/90-postfixadmin.conf	etc/lighttpd/conf-available
