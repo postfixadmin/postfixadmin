@@ -4,6 +4,7 @@ FROM php:7.0-apache
 RUN buildDeps='libpq-dev' \
 	&& apt-get update && apt-get install -y --no-install-recommends $buildDeps \
 	&& docker-php-ext-install mysqli pgsql \
+	&& apt-mark manual libpq5 \
 	&& apt-get purge -y --auto-remove $buildDeps \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* \
 
