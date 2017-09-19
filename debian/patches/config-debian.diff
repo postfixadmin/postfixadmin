@@ -1,13 +1,16 @@
-Index: postfixadmin/config.inc.php
-===================================================================
---- postfixadmin.orig/config.inc.php
-+++ postfixadmin/config.inc.php
-@@ -15,6 +15,12 @@
+--- a/config.inc.php
++++ b/config.inc.php
+@@ -15,6 +15,17 @@
   * Contains configuration options.
   */
  
 +// Debian: This loads the automatic generated DB credentials from /etc/postfixadmin/dbconfig.inc.php
-+require_once(dirname(__FILE__) . '/dbconfig.inc.php');
++$db_config = dirname(__FILE__) . '/dbconfig.inc.php';
++if (file_exists($db_config) && !is_readable($db_config)) {
++    die("Could not read: $db_config\n");
++}
++require_once($db_config);
++
 +if (!isset($dbserver) || empty($dbserver)) {
 +    $dbserver = 'localhost';
 +}
@@ -15,7 +18,7 @@ Index: postfixadmin/config.inc.php
  /*****************************************************************
   *  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
   * You have to set $CONF['configured'] = true; before the
-@@ -22,7 +28,7 @@
+@@ -22,7 +33,7 @@
   * Doing this implies you have changed this file as required.
   * i.e. configuring database etc; specifying setup.php password etc.
   */
@@ -24,7 +27,7 @@ Index: postfixadmin/config.inc.php
  
  // In order to setup Postfixadmin, you MUST specify a hashed password here.
  // To create the hash, visit setup.php in a browser and type a password into the field,
-@@ -81,11 +87,11 @@ function language_hook($PALANG, $languag
+@@ -81,11 +92,11 @@
  // mysqli = MySQL 4.1+ or MariaDB
  // pgsql = PostgreSQL
  // sqlite = SQLite 3
