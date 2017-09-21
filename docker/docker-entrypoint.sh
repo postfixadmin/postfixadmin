@@ -32,6 +32,14 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		: "${POSTFIXADMIN_DB_NAME:=${MYSQL_ENV_MYSQL_DATABASE:postfix}}"
 	fi
 
+	if [ "$POSTFIXADMIN_DB_TYPE" = 'sqlite' ]; then
+		: "${POSTFIXADMIN_DB_NAME:=/var/local/postfixadmin.db}"
+
+		if [ ! -e "$POSTFIXADMIN_DB_NAME" ]; then
+			touch $POSTFIXADMIN_DB_NAME
+		fi
+	fi
+
 	if [ ! -e config.local.php ]; then
 		touch config.local.php
 		echo "Write config to $PWD/config.local.php"
