@@ -63,6 +63,17 @@ function _mysql_field_exists($table, $field) {
     return false;
 }
 
+function _sqlite_field_exists($table, $field) {
+    $sql = "PRAGMA table_info($table)";
+    $r = db_query($sql);
+    while($row = db_row($r['result'])) {
+        if ($row[1] == $field) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function _db_field_exists($table, $field) {
     global $CONF;
     if($CONF['database_type'] == 'pgsql') {
@@ -1693,3 +1704,23 @@ function upgrade_1837_mysql() {
 #   including vacation.modified - should be {DATE}, not {DATECURRENT}
 #   https://sourceforge.net/tracker/?func=detail&aid=1699218&group_id=191583&atid=937964
 # @todo vacation.email has 2 indizes
+
+
+# Upgrading to v1835 & v1836 in sqlite have a couple of peculiarities:
+# - DATE and DATETIME are the same type internally (NUMERIC)
+# - SQLite does not support ALTER COLUMN. At all.
+# TODO: Rename/create anew/migrate/drop tables for v1836... If it matters?
+
+function upgrade_1837_sqlite() {
+    # Add columns for the alternative contact to reset a forgotten password.
+    foreach(array('admin', 'mailbox') as $table_to_change) {
+        $table = table_by_key($table_to_change);
+        if(!_sqlite_field_exists($table, 'phone')) {
+            db_query_parsed("ALTER TABLE `$table` ADD COLUMN `phone` varchar(30) NOT NULL DEFAULT ''");
+        }
+        if(!_sqlite_field_exists($table, 'email_other')) {
+            db_query_parsed("ALTER TABLE `$table` ADD COLUMN `email_other` varchar(255) NOT NULL DEFAULT ''");
+        }
+    }
+
+}
