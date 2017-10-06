@@ -23,17 +23,20 @@
  *
  *  fUsername
  *  fPassword
+ *  token
  *  lang
  */
 
 $rel_path = '../';
-define('POSTFIXADMIN_LOGOUT', 1);
 require_once("../common.php");
 
 check_db_version(); # check if the database layout is up to date (and error out if not)
 
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
+
+   if (safepost('token') != $_SESSION['PFA_token']) die('Invalid token!');
+
    $lang = safepost('lang');
    $fUsername = trim(safepost('fUsername'));
    $fPassword = safepost('fPassword');
@@ -45,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
    $h = new MailboxHandler();
    if($h->login($fUsername, $fPassword)) {
-      session_regenerate_id();
+      session_regenerate_id(true);
       $_SESSION['sessid'] = array();
       $_SESSION['sessid']['roles'] = array();
       $_SESSION['sessid']['roles'][] = 'user';
@@ -58,6 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
       flash_error($PALANG['pLogin_failed']);
    }
 }
+
+$_SESSION['PFA_token'] = md5(uniqid(rand(), true));
 
 $smarty->assign ('language_selector', language_selector(), false);
 $smarty->assign ('smarty_template', 'login');
