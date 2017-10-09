@@ -788,8 +788,7 @@ abstract class PFAHandler {
     function getPasswordRecoveryCode($username) {
         if ($this->init($username)) {
             $token = generate_password();
-            $table = table_by_key($this->db_table);
-            $updatedRows = db_update($table, $this->id_field, $username, array(
+            $updatedRows = db_update($this->db_table, $this->id_field, $username, array(
                 'token' => pacrypt($token),
                 'token_validity' => date("Y-m-d H:i:s", strtotime('+ 1 hour')),
             ));
@@ -820,7 +819,7 @@ abstract class PFAHandler {
             $crypt_token = pacrypt($token, $row['token']);
 
             if($row['token'] == $crypt_token) {
-                db_update($table, $this->id_field, $username, array(
+                db_update($this->db_table, $this->id_field, $username, array(
                     'token' => '',
                     'token_validity' => '2000-01-01 00:00:00',
                 ));
