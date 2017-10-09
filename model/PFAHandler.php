@@ -780,6 +780,55 @@ abstract class PFAHandler {
         return false;
     }
 
+    /**
+     * Generate and store a unique password reset token valid for one hour
+     * @param string $username
+     * @return false|string
+     */
+    function getPasswordRecoveryCode($username) {
+        if ($this->init($username)) {
+            $token = generate_password();
+            $table = table_by_key($this->db_table);
+            $updatedRows = db_update($table, $this->id_field, $username, array(
+                'token' => pacrypt($token),
+                'token_validity' => date("Y-m-d H:i:s", strtotime('+ 1 hour')),
+            ));
+
+            if ($updatedRows == 1) {
+                return $token;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Verify user's one time password reset token
+     * @param string $username
+     * @param string $token
+     * @return boolean true on success (i.e. code matches etc)
+     */
+    public function checkPasswordRecoveryCode($username, $token) {
+        $username = escape_string($username);
+
+        $table = table_by_key($this->db_table);
+        $active = db_get_boolean(True);
+        $query = "SELECT token FROM $table WHERE " . $this->id_field . "='$username' AND token <> '' AND active='$active' AND NOW() < token_validity";
+
+        $result = db_query ($query);
+        if ($result['rows'] == 1) {
+            $row = db_array($result['result']);
+            $crypt_token = pacrypt($token, $row['token']);
+
+            if($row['token'] == $crypt_token) {
+                db_update($table, $this->id_field, $username, array(
+                    'token' => '',
+                    'token_validity' => '2000-01-01 00:00:00',
+                ));
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**************************************************************************
      * functions to read protected variables

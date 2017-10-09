@@ -129,10 +129,6 @@ $CONF['admin_email'] = '';
 // This will be used as signature in notification messages
 $CONF['admin_name'] = 'Postmaster';
 
-// Site admin phone number
-// This will be used if a user cannot access his/her email and needs support
-$CONF['admin_phone'] = '';
-
 // Mail Server
 // Hostname (FQDN) of your mail server.
 // This is used to send email to Postfix in order to create mailboxes.
@@ -588,16 +584,34 @@ $CONF['create_mailbox_subdirs_hostoptions'] = array();
 
 // Optional:
 // Allows a user to reset his forgotten password with a code sent by email/SMS
-$CONF['forgotten_user_password_reset'] = false;  # INSECURE, DO NOT ENABLE! See https://github.com/postfixadmin/postfixadmin/pull/18 for details
+$CONF['forgotten_user_password_reset'] = true;
 // Allows an admin to reset his forgotten password with a code sent by email/SMS
-$CONF['forgotten_admin_password_reset'] = false;  # INSECURE, DO NOT ENABLE! see https://github.com/postfixadmin/postfixadmin/pull/18 for details
+$CONF['forgotten_admin_password_reset'] = false;
 
-// Clickatell gateway to send SMS code for password reset
-// API type: HTTP
-$CONF['clickatell_api_id'] = '';
-$CONF['clickatell_user'] = '';
-$CONF['clickatell_password'] = '';
-$CONF['clickatell_sender'] = '';
+// Name of the function to send a SMS
+// Please use a name that begins with "x_" to prevent collisions
+// This function must accept 2 parameters: phone number and message,
+// and return true on success or false on failure
+$CONF['sms_send_function'] = '';
+
+/*
+// Example of send SMS function using Clickatell HTTP API
+function x_send_sms_clickatell($to, $message) {
+
+    $clickatell_api_id = 'CHANGEME';
+    $clickatell_user = 'CHANGEME';
+    $clickatell_password = 'CHANGEME';
+    $clickatell_sender = 'CHANGEME';
+
+    $url = 'https://api.clickatell.com/http/sendmsg?api_id=%s&user=%s&password=%s&to=%s&from=%s&text=%s';
+
+    $url = sprintf($url, $clickatell_api_id, $clickatell_user, $clickatell_password, $to, $clickatell_sender, urlencode($message));
+
+    $result = file_get_contents($url);
+
+    return $result !== false;
+}
+*/
 
 // Theme Config
 // Specify your own logo and CSS file
