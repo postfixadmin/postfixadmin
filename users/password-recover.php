@@ -56,7 +56,7 @@ function sendCodebySMS($to, $username, $code) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    $start_time = microtime();
+    $start_time = microtime(true);
     $tUsername = escape_string (safepost('fUsername'));
     $handler = $context === 'admin' ? new AdminHandler : new MailboxHandler;
     $token = $handler->getPasswordRecoveryCode($tUsername);
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     }
 
     // throttle password reset requests to prevent brute force attack
-    $elapsed_time = microtime() - $start_time;
+    $elapsed_time = microtime(true) - $start_time;
     if ($elapsed_time < 2 * pow(10, 6)) {
         usleep(2 * pow(10, 6) - $elapsed_time);
     }
