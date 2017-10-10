@@ -1,16 +1,14 @@
 <?php
-# $Id$ 
+
+# $Id$
 /**
  * class to handle 'view' in Cli
  */
-
 class CliView extends Shell {
-
     /**
      * Execution method always used for tasks
      */
     public function execute() {
-
         if (empty($this->args)) {
             $this->__interactive();
         }
@@ -34,27 +32,29 @@ class CliView extends Shell {
     }
 
     /**
-    * actually view something
-    *
-    * @param string address to view
-    */
+     * actually view something
+     *
+     * @param string address to view
+     */
     protected function __handle($address) {
-        $handler =  new $this->handler_to_use($this->new);
+        $handler = new $this->handler_to_use($this->new);
 
         if (!$handler->init($address)) {
             $this->err($handler->errormsg);
+
             return;
-        } 
+        }
 
         if (!$handler->view()) {
             $this->err($handler->errormsg);
+
             return;
         }
 
         $result = $handler->result();
         $struct = $handler->getStruct();
 
-        foreach(array_keys($struct) as $field) {
+        foreach (array_keys($struct) as $field) {
             if (isset($struct[$field]) && empty($struct[$field]['label'])) {
                 # $struct[$field]['label'] = "--- $field ---";
                 $struct[$field]['display_in_list'] = 0;
@@ -65,30 +65,27 @@ class CliView extends Shell {
             } else {
                 $value = $result[$field];
 
-                $func="_formatted_".$field;
-                if (method_exists($handler, $func) ) {
+                $func = '_formatted_' . $field;
+                if (method_exists($handler, $func)) {
                     $value = $handler->{$func}($result); # call _formatted_$fieldname()
-                } 
+                }
 
 
                 if ($struct[$field]['type'] == 'txtl') {
-                # $value = join("\n" . str_repeat(" ", 20 + 2), $value); # multiline, one item per line
-                $value = join(", ", $value); # one line, comma-separated
+                    # $value = join("\n" . str_repeat(" ", 20 + 2), $value); # multiline, one item per line
+                $value = join(', ', $value); # one line, comma-separated
                 } elseif ($struct[$field]['type'] == 'bool') {
                     $value = Config::Lang($value ? 'YES' : 'NO');
                 }
 
-                $this->out(sprintf("%20s: %s", $struct[$field]['label'], $value));
+                $this->out(sprintf('%20s: %s', $struct[$field]['label'], $value));
             }
         }
-
     }
 
     /**
-    * Display help contents
-    *
-    * @access public
-    */
+     * Display help contents
+     */
     public function help() {
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
@@ -108,7 +105,6 @@ class CliView extends Shell {
 ");
         $this->_stop();
     }
-
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

@@ -1,8 +1,8 @@
 <?php
+
 # $Id$
 
 class AdminpasswordHandler extends PFAHandler {
-
     protected $db_table = 'admin';
     protected $id_field = 'username';
 
@@ -21,14 +21,14 @@ class AdminpasswordHandler extends PFAHandler {
     protected function initStruct() {
         # TODO: shorter PALANG labels ;-)
 
-        $this->struct=array(
+        $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'username'        => pacol( 0,          1,      1,      'text', 'admin'                        , ''                                 ),
-            'oldpass'         => pacol( 1,          1,      0,      'pass', 'pPassword_password_current'   , '', '', '', 
-                /*not_in_db*/ 1  ),
-            'password'        => pacol( 1,          1,      0,      'pass', 'pPassword_password'           , ''                                 ),
-            'password2'       => pacol( 1,          1,      0,      'pass', 'pPassword_password2'          , ''                                 , '', '',
+            'username'        => pacol(0,          1,      1,      'text', 'admin'                        , ''),
+            'oldpass'         => pacol(1,          1,      0,      'pass', 'pPassword_password_current'   , '', '', '',
+                /*not_in_db*/ 1),
+            'password'        => pacol(1,          1,      0,      'pass', 'pPassword_password'           , ''),
+            'password2'       => pacol(1,          1,      0,      'pass', 'pPassword_password2'          , ''                                 , '', '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
@@ -38,7 +38,9 @@ class AdminpasswordHandler extends PFAHandler {
 
     public function init($id) {
         # hardcode to logged in admin
-        if ($this->admin_username == '') die("No admin logged in");
+        if ($this->admin_username == '') {
+            die('No admin logged in');
+        }
         $this->id = $this->admin_username;
         $this->values['username'] = $this->id;
         $this->struct['username']['default'] = $this->id;
@@ -79,11 +81,12 @@ class AdminpasswordHandler extends PFAHandler {
      * check if old password is correct
      */
     protected function _validate_oldpass($field, $val) {
-        if ( $this->login($this->id, $val) ) {
+        if ($this->login($this->id, $val)) {
             return true;
         }
 
         $this->errormsg[$field] = Config::lang('pPassword_password_current_text_error');
+
         return false;
     }
 
@@ -91,7 +94,9 @@ class AdminpasswordHandler extends PFAHandler {
      * skip default validation (check if password is good enough) for old password
      */
     protected function _inp_pass($field, $val) {
-        if ($field == 'oldpass') return true;
+        if ($field == 'oldpass') {
+            return true;
+        }
 
         return parent::_inp_pass($field, $val);
     }
@@ -103,7 +108,6 @@ class AdminpasswordHandler extends PFAHandler {
     protected function _validate_password2($field, $val) {
         return $this->compare_password_fields('password', 'password2');
     }
-
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

@@ -20,25 +20,25 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @filesource
+ *
  * @copyright           Copyright 2005-2008, Cake Software Foundation, Inc.
- * @link                                http://postfixadmin.sourceforge.net/ Postfixadmin on Sourceforge
- * @package                     postfixadmin
- * @subpackage          -
+ *
+ * @see                                http://postfixadmin.sourceforge.net/ Postfixadmin on Sourceforge
  * @since                       -
+ *
  * @version                     $Revision$
  * @modifiedby          $LastChangedBy$
  * @lastmodified        $Date$
+ *
  * @license                     http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-
-
 class PostfixAdmin {
     /**
      * Version
      *
      * @var string
      */
-    public $version ='0.2';
+    public $version = '0.2';
 
     /**
      * Standard input stream.
@@ -106,7 +106,7 @@ class PostfixAdmin {
     /**
      * Constructor
      *
-     * @param array $args the argv.
+     * @param array $args the argv
      */
     public function __construct($args = array()) {
         set_time_limit(0);
@@ -127,9 +127,9 @@ class PostfixAdmin {
 
         define('DS', DIRECTORY_SEPARATOR);
         define('CORE_INCLUDE_PATH', dirname(__FILE__));
-        define('CORE_PATH', dirname(CORE_INCLUDE_PATH) ); # CORE_INCLUDE_PATH/../
+        define('CORE_PATH', dirname(CORE_INCLUDE_PATH)); # CORE_INCLUDE_PATH/../
 
-        if(!defined('POSTFIXADMIN')) { # already defined if called from setup.php
+        if (!defined('POSTFIXADMIN')) { # already defined if called from setup.php
             define('POSTFIXADMIN', 1); # checked in included files
         }
     }
@@ -143,14 +143,14 @@ class PostfixAdmin {
         $this->stderr = fopen('php://stderr', 'w');
 
         if (!$this->__bootstrap()) {
-            $this->stderr("");
-            $this->stderr("Unable to load.");
+            $this->stderr('');
+            $this->stderr('Unable to load.');
             $this->stderr("\tMake sure /config.inc.php exists in " . PATH);
             exit(1);
         }
 
 
-        if (basename(__FILE__) !=  basename($this->args[0])) {
+        if (basename(__FILE__) != basename($this->args[0])) {
             $this->stderr('Warning: the dispatcher may have been loaded incorrectly, which could lead to unexpected results...');
             if ($this->getInput('Continue anyway?', array('y', 'n'), 'y') == 'n') {
                 exit(1);
@@ -163,17 +163,18 @@ class PostfixAdmin {
     /**
      * Initializes the environment and loads the Cake core.
      *
-     * @return boolean Success.
+     * @return bool success
      */
     private function __bootstrap() {
-        if ($this->params['webroot'] != '' ) {
-            define('PATH', $this->params['webroot'] );
+        if ($this->params['webroot'] != '') {
+            define('PATH', $this->params['webroot']);
         } else {
             define('PATH', CORE_PATH);
         }
 
         if (!file_exists(PATH)) {
-            $this->stderr( PATH . " don't exists");
+            $this->stderr(PATH . " don't exists");
+
             return false;
         }
 
@@ -181,9 +182,11 @@ class PostfixAdmin {
         global $version, $min_db_version;
 
         if (!require_once(PATH . '/common.php')) {
-            $this->stderr("Failed to load " . PATH . '/common.php');
+            $this->stderr('Failed to load ' . PATH . '/common.php');
+
             return false;
         }
+
         return true;
     }
 
@@ -197,6 +200,7 @@ class PostfixAdmin {
 
         if (!isset($this->args[0])) {
             $this->help();
+
             return;
         }
 
@@ -208,11 +212,12 @@ class PostfixAdmin {
 
         if ($this->shell == 'help') {
             $this->help();
+
             return;
         }
         # TODO: move shells/shell.php to model/ to enable autoloading
         if (!class_exists('Shell')) {
-            require CORE_INCLUDE_PATH . DS . "shells" . DS . 'shell.php';
+            require CORE_INCLUDE_PATH . DS . 'shells' . DS . 'shell.php';
         }
         $command = 'help'; # not the worst default ;-)
         if (isset($this->args[0])) {
@@ -228,6 +233,7 @@ class PostfixAdmin {
 
         if (!class_exists($this->shellClass)) {
             $this->stderr('Unknown task ' . $this->shellCommand);
+
             return;
         }
 
@@ -237,6 +243,7 @@ class PostfixAdmin {
 
         if (!class_exists($shell->handler_to_use)) {
             $this->stderr('Unknown module ' . $this->shell);
+
             return;
         }
 
@@ -252,7 +259,7 @@ class PostfixAdmin {
         if (strtolower(get_parent_class($shell)) == 'shell') {
             $shell->initialize();
 
-            $handler = new $shell->handler_to_use;
+            $handler = new $shell->handler_to_use();
             if (in_array($task, $handler->taskNames)) {
                 $this->shiftArgs();
                 $shell->startup();
@@ -267,6 +274,7 @@ class PostfixAdmin {
                 }
 
                 $shell->execute();
+
                 return;
             }
         }
@@ -283,11 +291,11 @@ class PostfixAdmin {
         }
 
         $protectedCommands = array(
-            'initialize','in','out','err','hr',
-            'createfile', 'isdir','copydir','object','tostring',
-            'requestaction','log','cakeerror', 'shelldispatcher',
-            '__initconstants','__initenvironment','__construct',
-            'dispatch','__bootstrap','getinput','stdout','stderr','parseparams','shiftargs'
+            'initialize', 'in', 'out', 'err', 'hr',
+            'createfile', 'isdir', 'copydir', 'object', 'tostring',
+            'requestaction', 'log', 'cakeerror', 'shelldispatcher',
+            '__initconstants', '__initenvironment', '__construct',
+            'dispatch', '__bootstrap', 'getinput', 'stdout', 'stderr', 'parseparams', 'shiftargs',
         );
 
         if (in_array(strtolower($command), $protectedCommands)) {
@@ -309,10 +317,11 @@ class PostfixAdmin {
     /**
      * Prompts the user for input, and returns it.
      *
-     * @param string $prompt Prompt text.
-     * @param mixed $options Array or string of options.
-     * @param string $default Default input value.
-     * @return Either the default value, or the user-provided input.
+     * @param string $prompt prompt text
+     * @param mixed $options array or string of options
+     * @param string $default default input value
+     *
+     * @return Either the default value, or the user-provided input
      */
     public function getInput($prompt, $options = null, $default = null) {
         if (!is_array($options)) {
@@ -328,7 +337,7 @@ class PostfixAdmin {
         }
         $result = fgets($this->stdin);
 
-        if ($result === false){
+        if ($result === false) {
             exit(1);
         }
         $result = trim($result);
@@ -336,14 +345,15 @@ class PostfixAdmin {
         if ($default != null && empty($result)) {
             return $default;
         }
+
         return $result;
     }
 
     /**
      * Outputs to the stdout filehandle.
      *
-     * @param string $string String to output.
-     * @param boolean $newline If true, the outputs gets an added newline.
+     * @param string $string string to output
+     * @param bool $newline if true, the outputs gets an added newline
      */
     public function stdout($string, $newline = true) {
         if ($newline) {
@@ -356,10 +366,10 @@ class PostfixAdmin {
     /**
      * Outputs to the stderr filehandle.
      *
-     * @param string $string Error text to output.
+     * @param string $string error text to output
      */
     public function stderr($string) {
-        fwrite($this->stderr, 'Error: '. $string . "\n");
+        fwrite($this->stderr, 'Error: ' . $string . "\n");
     }
 
     /**
@@ -393,19 +403,19 @@ class PostfixAdmin {
      */
     private function __parseParams($params) {
         $count = count($params);
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             if (isset($params[$i])) {
-                if ($params[$i] != '' && $params[$i]{0} === '-') {
+                if ($params[$i] != '' && $params[$i][0] === '-') {
                     $key = substr($params[$i], 1);
                     $this->params[$key] = true;
                     unset($params[$i]);
                     if (isset($params[++$i])) {
                         # TODO: ideally we should know if a parameter can / must have a value instead of whitelisting known valid values starting with '-' (probably only bool doesn't need a value)
-                        if ($params[$i]{0} !== '-' or $params[$i] != '-1') {
+                        if ($params[$i][0] !== '-' or $params[$i] != '-1') {
                             $this->params[$key] = $params[$i];
                             unset($params[$i]);
                         } else {
-                            $i--;
+                            --$i;
                             $this->__parseParams($params);
                         }
                     }
@@ -420,7 +430,7 @@ class PostfixAdmin {
     /**
      * Removes first argument and shifts other arguments up
      *
-     * @return boolean False if there are no arguments
+     * @return bool False if there are no arguments
      */
     public function shiftArgs() {
         if (empty($this->args)) {
@@ -428,6 +438,7 @@ class PostfixAdmin {
         }
         unset($this->args[0]);
         $this->args = array_values($this->args);
+
         return true;
     }
 
@@ -436,42 +447,41 @@ class PostfixAdmin {
      */
     public function help() {
         $this->stdout("\nWelcome to Postfixadmin-CLI v" . $this->version);
-        $this->stdout("---------------------------------------------------------------");
-        $this->stdout("Usage:");
-        $this->stdout("    postfixadmin-cli <module> <task> [--option value --option2 value]");
-        $this->stdout("");
-        $this->stdout("Available modules:");
+        $this->stdout('---------------------------------------------------------------');
+        $this->stdout('Usage:');
+        $this->stdout('    postfixadmin-cli <module> <task> [--option value --option2 value]');
+        $this->stdout('');
+        $this->stdout('Available modules:');
 
         $modules = explode(',','admin,domain,mailbox,alias,aliasdomain,fetchmail');
         foreach ($modules as $module) {
             $this->stdout("    $module");
         }
-        $this->stdout("");
-        $this->stdout("Most modules support the following tasks:");
-        $this->stdout("    view      View an item");
-        $this->stdout("    add       Add an item");
-        $this->stdout("    update    Update an item");
-        $this->stdout("    delete    Delete an item");
-        $this->stdout("    scheme    Print database scheme (useful for developers only)");
-        $this->stdout("    help      Print help output");
-        $this->stdout("");
-        $this->stdout("");
-        $this->stdout("For module-specific help, see:");
-        $this->stdout("");
-        $this->stdout("    postfixadmin-cli <module> help");
-        $this->stdout("        print a detailed list of available commands");
-        $this->stdout("");
-        $this->stdout("    postfixadmin-cli <module> <task> help");
-        $this->stdout("        print a list of available options.");
-        $this->stdout("");
+        $this->stdout('');
+        $this->stdout('Most modules support the following tasks:');
+        $this->stdout('    view      View an item');
+        $this->stdout('    add       Add an item');
+        $this->stdout('    update    Update an item');
+        $this->stdout('    delete    Delete an item');
+        $this->stdout('    scheme    Print database scheme (useful for developers only)');
+        $this->stdout('    help      Print help output');
+        $this->stdout('');
+        $this->stdout('');
+        $this->stdout('For module-specific help, see:');
+        $this->stdout('');
+        $this->stdout('    postfixadmin-cli <module> help');
+        $this->stdout('        print a detailed list of available commands');
+        $this->stdout('');
+        $this->stdout('    postfixadmin-cli <module> <task> help');
+        $this->stdout('        print a list of available options.');
+        $this->stdout('');
 
         exit();
-
     }
 }
 
 
-define ("POSTFIXADMIN_CLI", 1);
+define('POSTFIXADMIN_CLI', 1);
 
 $dispatcher = new PostfixAdmin($argv);
 

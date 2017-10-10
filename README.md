@@ -1,4 +1,4 @@
-postfixadmin
+postfixadmin [![Build Status](https://travis-ci.org/postfixadmin/postfixadmin.svg?branch=master)](https://travis-ci.org/postfixadmin/postfixadmin)
 ============
 
 PostfixAdmin - web based administration interface for Postfix mail servers

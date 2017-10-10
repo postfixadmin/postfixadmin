@@ -1,36 +1,35 @@
 <?php
-# $Id$ 
+
+# $Id$
 
 class VacationHandler extends PFAHandler {
-
     protected $db_table = 'vacation';
     protected $id_field = 'email';
     protected $domain_field = 'domain';
 
-    function init($id) {
-        die('VacationHandler is not yet ready to be used with *Handler methods'); # obvious TODO: remove when it's ready ;-) 
+    public function init($id) {
+        die('VacationHandler is not yet ready to be used with *Handler methods'); # obvious TODO: remove when it's ready ;-)
     }
 
     protected function initStruct() {
-        $this->struct=array(
+        $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'email'         => pacol(   $this->new, 1,      1,      'text', 'pLogin_username'               , ''                                , '' ),
-            'domain'        => pacol(   1,          0,      0,      'text', ''                              , ''                                , '' ),
-            'subject'       => pacol(   1,          1,      0,      'text', 'pUsersVacation_subject'        , ''                                , '' ),
-            'body'          => pacol(   1,          1,      0,      'text', 'pUsersVacation_body'           , ''                                , '' ),
-            'activefrom'    => pacol(   1,          1,      1,      'text', 'pUsersVacation_activefrom'     , ''                                , '' ),
-            'activeuntil'   => pacol(   1,          1,      1,      'text', 'pUsersVacation_activeuntil'    , ''                                , '' ),
-            'active'        => pacol(   1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
-            'created'       => pacol(   0,          0,      1,      'ts',   'created'                       , ''                                 ),
-            'modified'      => pacol(   0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
+            'email'         => pacol($this->new, 1,      1,      'text', 'pLogin_username'               , ''                                , ''),
+            'domain'        => pacol(1,          0,      0,      'text', ''                              , ''                                , ''),
+            'subject'       => pacol(1,          1,      0,      'text', 'pUsersVacation_subject'        , ''                                , ''),
+            'body'          => pacol(1,          1,      0,      'text', 'pUsersVacation_body'           , ''                                , ''),
+            'activefrom'    => pacol(1,          1,      1,      'text', 'pUsersVacation_activefrom'     , ''                                , ''),
+            'activeuntil'   => pacol(1,          1,      1,      'text', 'pUsersVacation_activeuntil'    , ''                                , ''),
+            'active'        => pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1),
+            'created'       => pacol(0,          0,      1,      'ts',   'created'                       , ''),
+            'modified'      => pacol(0,          0,      1,      'ts',   'last_modified'                 , ''),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 
-        if ( ! db_pgsql() ) {
-            $this->struct['cache'] = pacol( 0,      0,      0,      'text', ''                              , ''                                , '' );  # leftover from 2.2
+        if (!db_pgsql()) {
+            $this->struct['cache'] = pacol(0,      0,      0,      'text', ''                              , ''                                , '');  # leftover from 2.2
         }
-
     }
 
     protected function initMsg() {
@@ -66,31 +65,33 @@ class VacationHandler extends PFAHandler {
     protected function validate_new_id() {
         # vacation can only be enabled if a mailbox with this name exists
         $handler = new MailboxHandler();
-        return $handler->init($address);                                                                                                                       
+
+        return $handler->init($address);
     }
 
     public function delete() {
         $this->errormsg[] = '*** deletion not implemented yet ***';
-        return false; # XXX function aborts here! XXX
 
+        return false; # XXX function aborts here! XXX
     }
 
-
-
-
     protected $username = null;
-    function __construct($username) {
+
+    public function __construct($username) {
         $this->username = $username;
         $this->id = $username;
     }
 
     /**
-     * Removes the autoreply alias etc for this user; namely, if they're away we remove their vacation alias and 
+     * Removes the autoreply alias etc for this user; namely, if they're away we remove their vacation alias and
      * set the vacation table record to false.
-     * @return boolean true on success.
+     *
+     * @return bool true on success
      */
-    function remove() {
-        if (!$this->updateAlias(0)) return false;
+    public function remove() {
+        if (!$this->updateAlias(0)) {
+            return false;
+        }
 
         // tidy up vacation table.
         $vacation_data = array(
@@ -104,17 +105,17 @@ class VacationHandler extends PFAHandler {
     }
 
     /**
-     * @return boolean true indicates this server supports vacation messages, and users are able to change their own.
+     * @return bool true indicates this server supports vacation messages, and users are able to change their own
      */
-    function vacation_supported() {
+    public function vacation_supported() {
         return Config::bool('vacation') && Config::bool('vacation_control');
     }
 
     /**
-     * @return boolean true if on vacation, otherwise false
+     * @return bool true if on vacation, otherwise false
      * Why do we bother storing true/false in the vacation table if the alias dictates it anyway?
      */
-    function check_vacation() {
+    public function check_vacation() {
         $handler = new AliasHandler();
 
         if (!$handler->init($this->id)) {
@@ -129,29 +130,33 @@ class VacationHandler extends PFAHandler {
 
         $result = $handler->result();
 
-        if ($result['on_vacation']) return true;
+        if ($result['on_vacation']) {
+            return true;
+        }
+
         return false;
     }
 
     /**
      * Retrieve information on someone who is on vacation
-     * @return struct|boolean stored information on vacation - array(subject - string, message - string, active - boolean, activeFrom - date, activeUntil - date) 
-     * will return false if no existing data 
+     *
+     * @return bool|struct stored information on vacation - array(subject - string, message - string, active - boolean, activeFrom - date, activeUntil - date)
+     * will return false if no existing data
      */
-    function get_details() {
+    public function get_details() {
         $table_vacation = table_by_key('vacation');
         $E_username = escape_string($this->username);
 
         $sql = "SELECT * FROM $table_vacation WHERE email = '$E_username'";
         $result = db_query($sql);
-        if($result['rows'] != 1) {
+        if ($result['rows'] != 1) {
             return false;
         }
 
         $row = db_array($result['result']);
         $boolean = ($row['active'] == db_get_boolean(true));
         # TODO: only return true and store the db result array in $this->whatever for consistency with the other classes
-        return array( 
+        return array(
             'subject' => $row['subject'],
             'body' => $row['body'],
             'active'  => $boolean ,
@@ -160,6 +165,7 @@ class VacationHandler extends PFAHandler {
             'activeUntil' => $row['activeuntil'],
         );
     }
+
     /**
      * @param string $subject
      * @param string $body
@@ -167,12 +173,12 @@ class VacationHandler extends PFAHandler {
      * @param date $activeFrom
      * @param date $activeUntil
      */
-    function set_away($subject, $body, $interval_time, $activeFrom, $activeUntil) {
+    public function set_away($subject, $body, $interval_time, $activeFrom, $activeUntil) {
         $this->remove(); // clean out any notifications that might already have been sent.
 
         $E_username = escape_string($this->username);
-        $activeFrom = date ("Y-m-d 00:00:00", strtotime ($activeFrom)); # TODO check if result looks like a valid date
-        $activeUntil = date ("Y-m-d 23:59:59", strtotime ($activeUntil)); # TODO check if result looks like a valid date
+        $activeFrom = date('Y-m-d 00:00:00', strtotime($activeFrom)); # TODO check if result looks like a valid date
+        $activeUntil = date('Y-m-d 23:59:59', strtotime($activeUntil)); # TODO check if result looks like a valid date
         list(/*NULL*/,$domain) = explode('@', $this->username);
 
         $vacation_data = array(
@@ -186,14 +192,14 @@ class VacationHandler extends PFAHandler {
             'activeuntil' => $activeUntil,
         );
 
-        if ( ! db_pgsql() ) {
+        if (!db_pgsql()) {
             $vacation_data['cache'] = '';  # leftover from 2.2
         }
 
         // is there an entry in the vacaton table for the user, or do we need to insert?
         $table_vacation = table_by_key('vacation');
         $result = db_query("SELECT * FROM $table_vacation WHERE email = '$E_username'");
-        if($result['rows'] == 1) {
+        if ($result['rows'] == 1) {
             $result = db_update('vacation', 'email', $this->username, $vacation_data);
         } else {
             $result = db_insert('vacation', $vacation_data);
@@ -206,6 +212,7 @@ class VacationHandler extends PFAHandler {
 
     /**
      * add/remove the vacation alias
+     *
      * @param int $vacationActive
      */
     protected function updateAlias($vacationActive) {
@@ -216,7 +223,7 @@ class VacationHandler extends PFAHandler {
             return false;
         }
 
-        $values = array (
+        $values = array(
             'on_vacation' => $vacationActive,
         );
 
@@ -235,6 +242,5 @@ class VacationHandler extends PFAHandler {
         # still here? then everything worked
         return true;
     }
-
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

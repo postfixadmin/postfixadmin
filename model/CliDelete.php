@@ -1,16 +1,14 @@
 <?php
-# $Id$ 
+
+# $Id$
 /**
  * class to handle 'delete' in Cli
  */
-
 class CliDelete extends Shell {
-
     /**
      * Execution method always used for tasks
      */
     public function execute() {
-
         if (empty($this->args)) {
             $this->__interactive();
         }
@@ -31,23 +29,26 @@ class CliDelete extends Shell {
         $address = $this->in($question);
 
         $question = "Do you really want to delete '$address'?";
-        $create = $this->in($question, array('y','n'));
+        $create = $this->in($question, array('y', 'n'));
 
-        if ($create == 'y') $this->__handle($address);
+        if ($create == 'y') {
+            $this->__handle($address);
+        }
     }
 
     /**
-    * actually delete something
-    *
-    * @param string address to delete
-    */
+     * actually delete something
+     *
+     * @param string address to delete
+     */
     protected function __handle($address) {
-        $handler =  new $this->handler_to_use($this->new);
+        $handler = new $this->handler_to_use($this->new);
 
         if (!$handler->init($address)) {
             $this->err($handler->errormsg);
+
             return;
-        } 
+        }
 
         if (!$handler->delete()) {
             $this->err($handler->errormsg);
@@ -57,10 +58,8 @@ class CliDelete extends Shell {
     }
 
     /**
-    * Display help contents
-    *
-    * @access public
-    */
+     * Display help contents
+     */
     public function help() {
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
@@ -80,7 +79,6 @@ class CliDelete extends Shell {
 ");
         $this->_stop();
     }
-
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
