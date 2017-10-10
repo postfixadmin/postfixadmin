@@ -1,0 +1,177 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->exclude('smarty')
+    ->exclude('vendor')
+    ->exclude('templates')
+    ->exclude('templates_c')
+    ->exclude('debian')
+    ->files()->notName('config.inc.php')
+    ->in(__DIR__);
+
+return PhpCsFixer\Config::create()
+    ->setFinder($finder)
+    ->setRules(array(
+        'align_multiline_comment' => true,
+        'array_syntax' => array('syntax' => 'long'), # We still support PHP 5.3
+        'binary_operator_spaces' => array(
+            'operators' => array(
+                '=>' => null,
+            ),
+        ),
+        'blank_line_after_namespace' => true,
+        'blank_line_after_opening_tag' => true,
+        'blank_line_before_return' => true,
+        'blank_line_before_statement' => true,
+        'braces' => array(
+            'allow_single_line_closure' => false,
+            'position_after_functions_and_oop_constructs' => 'same',
+            'position_after_control_structures' => 'same',
+            'position_after_anonymous_constructs' => 'same',
+        ),
+        'cast_spaces' => true,
+        'class_definition' => true,
+        'class_keyword_remove' => true, # We still support PHP 5.3
+        'combine_consecutive_issets' => true,
+        'combine_consecutive_unsets' => true,
+        'concat_space' => array('spacing' => 'one'),
+        'declare_equal_normalize' => true,
+        'declare_strict_types' => false, # Too early to adopt strict types
+        'dir_constant' => false, # Risky
+        'doctrine_annotation_array_assignment' => true,
+        'doctrine_annotation_braces' => true,
+        'doctrine_annotation_indentation' => true,
+        'doctrine_annotation_spaces' => true,
+        'elseif' => true,
+        'encoding' => true,
+        'ereg_to_preg' => false, # Risky
+        'full_opening_tag' => true,
+        'function_declaration' => true,
+        'function_to_constant' => false, # Risky
+        'function_typehint_space' => true,
+        'general_phpdoc_annotation_remove' => false, # No use for that
+        'header_comment' => false, # We don't use common header in all our files
+        'heredoc_to_nowdoc' => false, # Not sure about this one
+        'include' => true,
+        'indentation_type' => true,
+        'is_null' => false, # Risky
+        'linebreak_after_opening_tag' => true,
+        'line_ending' => true,
+        'list_syntax' => array('syntax' => 'long'),
+        'lowercase_cast' => true,
+        'lowercase_constants' => true,
+        'lowercase_keywords' => true,
+        'magic_constant_casing' => true,
+        'mb_str_functions' => false, # Risky
+        'method_argument_space' => false, # @cboltz wants to keep manual formatting
+        'method_separation' => true,
+        'modernize_types_casting' => false, # Risky
+        'native_function_casing' => true,
+        'native_function_invocation' => false, # I suppose this would be best, but I am still unconvinced about the visual aspect of it
+        'new_with_braces' => true,
+        'no_alias_functions' => false, # Risky
+        'no_blank_lines_after_class_opening' => true,
+        'no_blank_lines_after_phpdoc' => true,
+        'no_blank_lines_before_namespace' => false, # we want 1 blank line before namespace
+        'no_break_comment' => true,
+        'no_closing_tag' => true,
+        'no_empty_comment' => true,
+        'no_empty_phpdoc' => true,
+        'no_empty_statement' => true,
+        'no_extra_consecutive_blank_lines' => false, # @cboltz prefers to keep some freedom to separated blocks
+        'no_homoglyph_names' => false, # Risky
+        'no_leading_import_slash' => true,
+        'no_leading_namespace_whitespace' => true,
+        'no_mixed_echo_print' => true,
+        'no_multiline_whitespace_around_double_arrow' => true,
+        'no_multiline_whitespace_before_semicolons' => true,
+        'non_printable_character' => false, # Risky
+        'no_null_property_initialization' => false, # @cboltz prefers to be explicit about it
+        'no_php4_constructor' => false, # Risky
+        'normalize_index_brace' => true,
+        'no_short_bool_cast' => true,
+        'no_short_echo_tag' => true,
+        'no_singleline_whitespace_before_semicolons' => true,
+        'no_spaces_after_function_name' => true,
+        'no_spaces_around_offset' => true,
+        'no_spaces_inside_parenthesis' => true,
+        'no_superfluous_elseif' => true,
+        'not_operator_with_space' => false, # No we prefer to keep '!' without spaces
+        'not_operator_with_successor_space' => false, # idem
+        'no_trailing_comma_in_list_call' => true,
+        'no_trailing_comma_in_singleline_array' => true,
+        'no_trailing_whitespace_in_comment' => true,
+        'no_trailing_whitespace' => true,
+        'no_unneeded_control_parentheses' => true,
+        'no_unneeded_curly_braces' => true,
+        'no_unneeded_final_method' => true,
+        'no_unreachable_default_argument_value' => false, # Risky
+        'no_unused_imports' => true,
+        'no_useless_else' => false, # @cboltz prefers to keep those conditions as safety net
+        'no_useless_return' => true,
+        'no_whitespace_before_comma_in_array' => false, # @cboltz wants to keep manual formatting
+        'no_whitespace_in_blank_line' => true,
+        'object_operator_without_whitespace' => true,
+        'ordered_class_elements' => false, # We prefer to keep some freedom
+        'ordered_imports' => true,
+        'phpdoc_add_missing_param_annotation' => false, # This need manual check to be sure that params are not duplicated
+        'phpdoc_align' => false, # Waste of time
+        'phpdoc_annotation_without_dot' => true,
+        'phpdoc_indent' => true,
+        'phpdoc_inline_tag' => true,
+        'phpdoc_no_access' => true,
+        'phpdoc_no_alias_tag' => true,
+        'phpdoc_no_empty_return' => true,
+        'phpdoc_no_package' => true,
+        'phpdoc_no_useless_inheritdoc' => true,
+        'phpdoc_order' => true,
+        'phpdoc_return_self_reference' => true,
+        'phpdoc_scalar' => true,
+        'phpdoc_separation' => true,
+        'phpdoc_single_line_var_spacing' => true,
+        'phpdoc_summary' => false, # We usually don't generate documentation so punctuation is not important
+        'phpdoc_to_comment' => true,
+        'phpdoc_trim' => true,
+        'phpdoc_types_order' => true,
+        'phpdoc_types' => true,
+        'phpdoc_var_without_name' => true,
+        'php_unit_construct' => false, # Risky
+        'php_unit_dedicate_assert' => false, # Risky
+        'php_unit_fqcn_annotation' => true,
+        'php_unit_strict' => false, # We sometime actually need assertEquals
+        'php_unit_test_class_requires_covers' => false, # We don't care as much as we should about coverage
+        'pow_to_exponentiation' => false, # Risky
+        'pre_increment' => true,
+        'protected_to_private' => true,
+        'psr0' => false, # We unfortunately cannot be entirely PSR-0 compliant
+        'psr4' => false, # Risky
+        'random_api_migration' => false, # Risky
+        'return_type_declaration' => true,
+        'self_accessor' => true,
+        'semicolon_after_instruction' => false, # We prefer to keep .phtml files without semicolon
+        'short_scalar_cast' => true,
+        'silenced_deprecation_error' => false, # Risky
+        'simplified_null_return' => false, # Even if technically correct we prefer to be explicit
+        'single_blank_line_at_eof' => true,
+        'single_blank_line_before_namespace' => true,
+        'single_class_element_per_statement' => true,
+        'single_import_per_statement' => true,
+        'single_line_after_imports' => true,
+        'single_line_comment_style' => false, # @cboltz prefers `#`
+        'single_quote' => true,
+        'space_after_semicolon' => true,
+        'standardize_not_equals' => true,
+        'strict_comparison' => false, # We sometimes need to compare DateTime objects with non-strict operator
+        'strict_param' => false,  # No, too dangerous to change that
+        'switch_case_semicolon_to_colon' => true,
+        'switch_case_space' => true,
+        'ternary_operator_spaces' => true,
+        'ternary_to_null_coalescing' => false, # We need to support PHP 5.6 and less
+        'trailing_comma_in_multiline_array' => true,
+        'trim_array_spaces' => false,
+        'unary_operator_spaces' => true,
+        'visibility_required' => true,
+        'void_return' => false, # Risky
+        'whitespace_after_comma_in_array' => true,
+        'yoda_style' => false,
+    ));
