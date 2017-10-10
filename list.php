@@ -1,21 +1,21 @@
-<?php /**
- * Postfix Admin 
- * 
- * LICENSE 
- * This source file is subject to the GPL license that is bundled with  
- * this package in the file LICENSE.TXT. 
- * 
- * Further details on the project are available at http://postfixadmin.sf.net 
- * 
- * @version $Id$ 
- * @license GNU GPL v2 or later. 
- * 
+<?php
+/**
+ * Postfix Admin
+ *
+ * LICENSE
+ * This source file is subject to the GPL license that is bundled with
+ * this package in the file LICENSE.TXT.
+ *
+ * Further details on the project are available at http://postfixadmin.sf.net
+ *
+ * @version $Id$
+ *
+ * @license GNU GPL v2 or later.
+ *
  * File: list.php
  * List all items as a quick overview.
- *
  */
-
-require_once('common.php');
+require_once 'common.php';
 
 # if (safeget('token') != $_SESSION['PFA_token']) die('Invalid token!');
 
@@ -25,8 +25,8 @@ $table = safeget('table');
 
 $handlerclass = ucfirst($table) . 'Handler';
 
-if ( !preg_match('/^[a-z]+$/', $table) || !file_exists("model/$handlerclass.php")) { # validate $table
-     die ("Invalid table name given!");
+if (!preg_match('/^[a-z]+$/', $table) || !file_exists("model/$handlerclass.php")) { # validate $table
+    die('Invalid table name given!');
 }
 
 # default: domain admin restrictions
@@ -56,12 +56,12 @@ if ($is_admin) {
     }
 }
 
-$search     = safeget('search', safesession("search_$table", array()));
+$search = safeget('search', safesession("search_$table", array()));
 $searchmode = safeget('searchmode', safesession("searchmode_$table", array()));
 
 if (!is_array($search) || !is_array($searchmode)) {
     # avoid injection of raw SQL if $search is a string instead of an array
-    die("Invalid parameter");
+    die('Invalid parameter');
 }
 
 if (safeget('reset_search', 0)) {
@@ -78,19 +78,22 @@ if (count($search)) {
 }
 $items = $handler->result();
 
-if (count($handler->errormsg)) flash_error($handler->errormsg);
-if (count($handler->infomsg))  flash_error($handler->infomsg);
+if (count($handler->errormsg)) {
+    flash_error($handler->errormsg);
+}
+if (count($handler->infomsg)) {
+    flash_error($handler->infomsg);
+}
 
 
 if (safeget('output') == 'csv') {
-
     $out = fopen('php://output', 'w');
-    header( 'Content-Type: text/csv; charset=utf-8' );
-    header( 'Content-Disposition: attachment;filename='.$table.'.csv');
-    
-    print "\xEF\xBB\xBF"; # utf8 byte-order to indicate the file is utf8 encoded
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment;filename=' . $table . '.csv');
+
+    echo "\xEF\xBB\xBF"; # utf8 byte-order to indicate the file is utf8 encoded
     # print "sep=;"; # hint that ; is used as seperator - breaks the utf8 flag in excel import!
-    print "\n";
+    echo "\n";
 
     if (!defined('ENT_HTML401')) { # for compability for PHP < 5.4.0
         define('ENT_HTML401', 0);
@@ -101,8 +104,8 @@ if (safeget('output') == 'csv') {
     $columns = array();
     foreach ($handler->getStruct() as $key => $field) {
         if ($field['display_in_list'] && $field['label'] != '') { # don't show fields without a label
-                $header[] = html_entity_decode ( $field['label'], ENT_COMPAT | ENT_HTML401, 'UTF-8' );
-                $columns[] = $key;
+            $header[] = html_entity_decode($field['label'], ENT_COMPAT | ENT_HTML401, 'UTF-8');
+            $columns[] = $key;
         }
     }
     fputcsv($out, $header, ';');
@@ -117,7 +120,6 @@ if (safeget('output') == 'csv') {
     }
 
     fclose($out);
-
 } else { # HTML output
 
     $smarty->assign('admin_list', $list_admins);
@@ -132,9 +134,7 @@ if (safeget('output') == 'csv') {
     $smarty->assign('search', $search);
     $smarty->assign('searchmode', $searchmode);
 
-    $smarty->display ('index.tpl');
-
+    $smarty->display('index.tpl');
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
-?>
