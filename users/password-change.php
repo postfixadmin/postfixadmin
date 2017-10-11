@@ -26,11 +26,11 @@
  */
 
 if (preg_match('/\/users\//', $_SERVER['REQUEST_URI'])) {
-  $rel_path = '../';
-  $context = 'users';
+    $rel_path = '../';
+    $context = 'users';
 } else {
-  $rel_path = './';
-  $context = 'admin';
+    $rel_path = './';
+    $context = 'admin';
 }
 require_once($rel_path . 'common.php');
 
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(safepost('fCancel')) {
+    if (safepost('fCancel')) {
         header('Location: main.php');
         exit(0);
     }
@@ -59,12 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = true;
         flash_error(Config::lang('pPassword_password_text_error'));
     } else {
-
         $handler = $context === 'admin' ? new AdminHandler : new MailboxHandler;
         if (!$handler->checkPasswordRecoveryCode($tUsername, $tCode)) {
             flash_error(Config::lang('pPassword_code_text_error'));
         } else {
-
             init_session($tUsername, $context === 'admin');
             if (!$handler->init($tUsername)) {
                 flash_error($handler->errormsg);
@@ -77,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     header('Location: main.php');
                     exit(0);
                 } else {
-                    foreach($handler->errormsg as $msg) {
+                    foreach ($handler->errormsg as $msg) {
                         flash_error($msg);
                     }
                 }
@@ -86,11 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$smarty->assign ('language_selector', language_selector(), false);
+$smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('tUsername', @$tUsername);
 $smarty->assign('tCode', @$tCode);
-$smarty->assign ('smarty_template', 'password-change');
-$smarty->display ('index.tpl');
+$smarty->assign('smarty_template', 'password-change');
+$smarty->display('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
-?>

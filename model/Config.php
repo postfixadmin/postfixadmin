@@ -1,10 +1,9 @@
 <?php
 # $Id$
 
-# This class is too static - if you inherit a class from it, it will share the static $instance and all its contents 
+# This class is too static - if you inherit a class from it, it will share the static $instance and all its contents
 # Therefore the class is marked as final to prevent someone accidently does this ;-)
 final class Config {
-
     private static $instance = null;
 
     # do not error_log() 'undefined config option' for deprecated options
@@ -20,7 +19,7 @@ final class Config {
      */
 
     public static function getInstance() {
-        if(self::$instance == null) {
+        if (self::$instance == null) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -62,7 +61,6 @@ final class Config {
                 break;
             }
         }
-
     }
 
     /**
@@ -81,7 +79,7 @@ final class Config {
 
         if ($var === 'all') {
             $return = array();
-            foreach ($_this AS $key =>$var) {
+            foreach ($_this as $key =>$var) {
                 $return[$key] = $var;
             }
             return $return;
@@ -107,14 +105,14 @@ final class Config {
             break;
         }
 
-        if ( !in_array(join('.', $name), self::$deprecated_options) ) {
+        if (!in_array(join('.', $name), self::$deprecated_options)) {
             error_log('Config::read(): attempt to read undefined config option "' . join('.', $name) . '", returning null');
         }
 
         return null;
     }
 
-    /** 
+    /**
      * read Config::$var and apply sprintf on it
      * also checks if $var is changed by sprintf - if not, it writes a warning to error_log
      *
@@ -130,7 +128,9 @@ final class Config {
 
         # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
         if ($text == $newtext) {
-            if (is_array($var)) $var = join('.', $var);
+            if (is_array($var)) {
+                $var = join('.', $var);
+            }
             error_log("$var used via read_f, but nothing replaced (value $value)");
         }
 
@@ -175,19 +175,19 @@ final class Config {
 
 
 
-/**
-     * Get translated text from $PALANG
-     * (wrapper for self::read(), see also the comments there)
-     *
-     * @param string $var Variable to obtain
-     * @return string value of $PALANG[$var]
-     * @access public
-     */
+    /**
+         * Get translated text from $PALANG
+         * (wrapper for self::read(), see also the comments there)
+         *
+         * @param string $var Variable to obtain
+         * @return string value of $PALANG[$var]
+         * @access public
+         */
     public static function lang($var) {
         return self::read(array('__LANG', $var));
     }
 
-    /** 
+    /**
      * Get translated text from $PALANG and apply sprintf on it
      * (wrapper for self::read_f(), see also the comments there)
      *
@@ -201,7 +201,7 @@ final class Config {
     }
 
 
-    function getAll() {
+    public function getAll() {
         $output = $this->config;
         return $output;
     }
@@ -221,7 +221,6 @@ final class Config {
         }
         return $name;
     }
-
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

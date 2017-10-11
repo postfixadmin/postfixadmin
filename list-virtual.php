@@ -1,16 +1,16 @@
 <?php
-/** 
- * Postfix Admin 
- * 
- * LICENSE 
- * This source file is subject to the GPL license that is bundled with  
- * this package in the file LICENSE.TXT. 
- * 
- * Further details on the project are available at http://postfixadmin.sf.net 
- * 
- * @version $Id$ 
- * @license GNU GPL v2 or later. 
- * 
+/**
+ * Postfix Admin
+ *
+ * LICENSE
+ * This source file is subject to the GPL license that is bundled with
+ * this package in the file LICENSE.TXT.
+ *
+ * Further details on the project are available at http://postfixadmin.sf.net
+ *
+ * @version $Id$
+ * @license GNU GPL v2 or later.
+ *
  * File: list-virtual.php
  * List virtual users for a domain.
  *
@@ -38,7 +38,7 @@ if (safesession('list-virtual:domain') != $fDomain) {
     unset($_SESSION['list-virtual:limit']);
 }
 $fDisplay = (int) safepost('limit', safeget('limit', safesession('list-virtual:limit')));
-$search   = safepost('search',  safeget('search', array())); # not remembered in the session
+$search   = safepost('search', safeget('search', array())); # not remembered in the session
 if (!is_array($search)) {
     die(Config::Lang('invalid_parameter'));
 }
@@ -53,21 +53,21 @@ if (count($list_domains) == 0) {
     exit;
 }
 
-if ((is_array ($list_domains) and sizeof ($list_domains) > 0)) {
-    if (empty ($fDomain)) {
+if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
+    if (empty($fDomain)) {
         $fDomain = escape_string($list_domains[0]);
     }
 }
 
-if(!in_array($fDomain, $list_domains)) {
-    flash_error( $PALANG['invalid_parameter'] );
+if (!in_array($fDomain, $list_domains)) {
+    flash_error($PALANG['invalid_parameter']);
     unset($_SESSION['list-virtual:domain']);
     header("Location: list.php?table=domain"); # invalid domain, or not owned by this admin
     exit;
 }
 
-if (!check_owner(authentication_get_username(), $fDomain)) { 
-    flash_error( $PALANG['invalid_parameter'] . " If you see this message, please open a bugreport"); # this check is most probably obsoleted by the in_array() check above
+if (!check_owner(authentication_get_username(), $fDomain)) {
+    flash_error($PALANG['invalid_parameter'] . " If you see this message, please open a bugreport"); # this check is most probably obsoleted by the in_array() check above
     unset($_SESSION['list-virtual:domain']);
     header("Location: list.php?table=domain"); # domain not owned by this admin
     exit(0);
@@ -95,13 +95,15 @@ if (Config::bool('alias_domain')) {
         'msg'       => $handler->getMsg(),
         'formconf'  => $formconf,
     );
-    $aliasdomain_data['msg']['show_simple_search'] = False; # hide search box
+    $aliasdomain_data['msg']['show_simple_search'] = false; # hide search box
 
     $aliasdomain_data['msg']['can_create'] = 1;
 
     # hide create button if all domains (of this admin) are already used as alias domains
     $handler->getList("");
-    if ( count($handler->result()) + 1 >= count($list_domains) ) $aliasdomain_data['msg']['can_create'] = 0; # all domains (of this admin) are already alias domains
+    if (count($handler->result()) + 1 >= count($list_domains)) {
+        $aliasdomain_data['msg']['can_create'] = 0;
+    } # all domains (of this admin) are already alias domains
 
     # get the really requested list
     if (count($search) == 0) {
@@ -150,7 +152,7 @@ $alias_data = array(
 );
 $alias_data['struct']['goto_mailbox']['display_in_list'] = 0; # not useful/defined for non-mailbox aliases
 $alias_data['struct']['on_vacation']['display_in_list'] = 0;
-$alias_data['msg']['show_simple_search'] = False; # hide search box
+$alias_data['msg']['show_simple_search'] = false; # hide search box
 
 $handler->getList($search_alias, array(), $page_size, $fDisplay);
 $pagebrowser_alias = $handler->getPagebrowser($search_alias, array());
@@ -180,7 +182,7 @@ if (count($search) == 0 || !isset($search['_'])) {
     $sql_where  .= " AND ( $table_mailbox.username LIKE '%$searchterm%' OR $table_mailbox.name LIKE '%$searchterm%' ";
     if ($display_mailbox_aliases) {
         $sql_where  .= " OR $table_alias.goto LIKE '%$searchterm%' ";
-    } 
+    }
     $sql_where  .= " ) "; # $search is already escaped
 }
 if ($display_mailbox_aliases) {
@@ -200,7 +202,7 @@ if (Config::bool('used_quotas') && Config::bool('new_quota_table')) {
     $sql_join   .= " LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username ";
 }
 
-if (Config::bool('used_quotas') && ( ! Config::bool('new_quota_table') ) ) {
+if (Config::bool('used_quotas') && (! Config::bool('new_quota_table'))) {
     $table_quota = table_by_key('quota');
     $sql_select .= ", $table_quota.current ";
     $sql_join   .= " LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username ";
@@ -210,7 +212,7 @@ if (Config::bool('used_quotas') && ( ! Config::bool('new_quota_table') ) ) {
 $mailbox_pagebrowser_query = "$sql_from\n$sql_join\n$sql_where\n$sql_order" ;
 $query = "$sql_select\n$mailbox_pagebrowser_query\n$sql_limit";
 
-$result = db_query ($query);
+$result = db_query($query);
 
 $tMailbox = array();
 
@@ -218,7 +220,7 @@ if ($result['rows'] > 0) {
     $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
     $goto_single_rec_del = "";
 
-    while ($row = db_array ($result['result'])) {
+    while ($row = db_array($result['result'])) {
         if ($display_mailbox_aliases) {
             $goto_split = explode(",", $row['goto']);
             $row['goto_mailbox'] = 0;
@@ -231,7 +233,7 @@ if ($result['rows'] > 0) {
 
                 if ($goto_single == $row['username'] || $goto_single_rec_del == $row['username']) { # delivers to mailbox
                     $row['goto_mailbox'] = 1;
-                } elseif (Config::bool('vacation') && strstr($goto_single, '@' . $CONF['vacation_domain']) ) { # vacation alias - TODO: check for full vacation alias
+                } elseif (Config::bool('vacation') && strstr($goto_single, '@' . $CONF['vacation_domain'])) { # vacation alias - TODO: check for full vacation alias
                     # skip the vacation alias, vacation status is detected otherwise
                 } else { # forwarding to other alias
                     $row['goto_other'][] = $goto_single;
@@ -243,10 +245,10 @@ if ($result['rows'] > 0) {
             $row['modified'] = date('Y-m-d H:i', strtotime($row['modified']));
             $row['created'] = date('Y-m-d H:i', strtotime($row['created']));
             $row['active']=('t'==$row['active']) ? 1 : 0;
-            if($row['v_active'] == NULL) { 
+            if ($row['v_active'] == null) {
                 $row['v_active'] = 'f';
             }
-            $row['v_active']=('t'==$row['v_active']) ? 1 : 0; 
+            $row['v_active']=('t'==$row['v_active']) ? 1 : 0;
         }
         $tMailbox[] = $row;
     }
@@ -262,7 +264,7 @@ $tDisplay_next = "";
 $tDisplay_next_show = "";
 
 $limit = get_domain_properties($fDomain);
-if (isset ($limit)) {
+if (isset($limit)) {
     if ($fDisplay >= $page_size) {
         $tDisplay_back_show = 1;
         $tDisplay_back = $fDisplay - $page_size;
@@ -271,70 +273,73 @@ if (isset ($limit)) {
         $tDisplay_up_show = 1;
     }
     if (
-        (($fDisplay + $page_size) < $limit['alias_count']) or 
+        (($fDisplay + $page_size) < $limit['alias_count']) or
         (($fDisplay + $page_size) < $limit['mailbox_count'])
     ) {
         $tDisplay_next_show = 1;
         $tDisplay_next = $fDisplay + $page_size;
     }
 
-    if($limit['aliases'] == 0) {
+    if ($limit['aliases'] == 0) {
         $alias_data['msg']['can_create'] = true;
-    }
-    elseif($limit['alias_count'] < $limit['aliases']) {
+    } elseif ($limit['alias_count'] < $limit['aliases']) {
         $alias_data['msg']['can_create'] = true;
     }
 
-    if($limit['mailboxes'] == 0) {
+    if ($limit['mailboxes'] == 0) {
         $tCanAddMailbox = true;
-    }
-    elseif($limit['mailbox_count'] < $limit['mailboxes']) {
+    } elseif ($limit['mailbox_count'] < $limit['mailboxes']) {
         $tCanAddMailbox = true;
     }
 
-    $limit ['aliases']    = eval_size ($limit ['aliases']);
-    $limit ['mailboxes']    = eval_size ($limit ['mailboxes']);
+    $limit ['aliases']    = eval_size($limit ['aliases']);
+    $limit ['mailboxes']    = eval_size($limit ['mailboxes']);
     if (Config::bool('quota')) {
-        $limit ['maxquota']    = eval_size ($limit ['maxquota']);
+        $limit ['maxquota']    = eval_size($limit ['maxquota']);
     }
 }
 
-$gen_show_status_mailbox = array ();
-$divide_quota = array ('current' => array(), 'quota' => array());
-if ((is_array ($tMailbox) and sizeof ($tMailbox) > 0)) {
-    for ($i = 0; $i < sizeof ($tMailbox); $i++) { 
+$gen_show_status_mailbox = array();
+$divide_quota = array('current' => array(), 'quota' => array());
+if ((is_array($tMailbox) and sizeof($tMailbox) > 0)) {
+    for ($i = 0; $i < sizeof($tMailbox); $i++) {
         $gen_show_status_mailbox [$i] = gen_show_status($tMailbox[$i]['username']);
 
-        if(isset($tMailbox[$i]['current'])) {
-            $divide_quota ['current'][$i] = divide_quota ($tMailbox[$i]['current']);
+        if (isset($tMailbox[$i]['current'])) {
+            $divide_quota ['current'][$i] = divide_quota($tMailbox[$i]['current']);
         }
-        if(isset($tMailbox[$i]['quota'])) {
-            $divide_quota ['quota'][$i] = divide_quota ($tMailbox[$i]['quota']);
+        if (isset($tMailbox[$i]['quota'])) {
+            $divide_quota ['quota'][$i] = divide_quota($tMailbox[$i]['quota']);
         }
-        if(isset($tMailbox[$i]['quota']) && isset($tMailbox[$i]['current']))
-        {
-          $divide_quota ['percent'][$i] = min(100, round(($divide_quota ['current'][$i]/max(1,$divide_quota ['quota'][$i]))*100));
-          $divide_quota ['quota_width'][$i] = ($divide_quota ['percent'][$i] / 100 * 120);
+        if (isset($tMailbox[$i]['quota']) && isset($tMailbox[$i]['current'])) {
+            $divide_quota ['percent'][$i] = min(100, round(($divide_quota ['current'][$i]/max(1, $divide_quota ['quota'][$i]))*100));
+            $divide_quota ['quota_width'][$i] = ($divide_quota ['percent'][$i] / 100 * 120);
         } else {
-          $divide_quota ['current'][$i] = Config::Lang('unknown');
-          $divide_quota ['quota_width'][$i] = 0; # TODO: use special value?
+            $divide_quota ['current'][$i] = Config::Lang('unknown');
+            $divide_quota ['quota_width'][$i] = 0; # TODO: use special value?
         }
     }
-}    
+}
 
 
-class cNav_bar
-{
-    protected $count, $title, $limit, $page_size, $pages, $search; //* arguments
+class cNav_bar {
+    protected $count;
+    protected $title;
+    protected $limit;
+    protected $page_size;
+    protected $pages;
+    protected $search; //* arguments
 
     /* @var string - appended to page link href */
     public $append_to_url = '';
 
     protected $have_run_init = false;
-    protected $arr_prev, $arr_next, $arr_top; //* internal
+    protected $arr_prev;
+    protected $arr_next;
+    protected $arr_top; //* internal
     protected $anchor;
 
-    public function __construct ($aTitle, $aLimit, $aPage_size, $aPages, $aSearch) {
+    public function __construct($aTitle, $aLimit, $aPage_size, $aPages, $aSearch) {
         $this->count = count($aPages);
         $this->title = $aTitle;
         $this->limit = $aLimit;
@@ -347,8 +352,8 @@ class cNav_bar
         }
     }
 
-    private function init () {
-        $this->anchor = 'a'.substr ($this->title, 3);
+    private function init() {
+        $this->anchor = 'a'.substr($this->title, 3);
         $this->append_to_url .= '#'.$this->anchor;
         ($this->limit >= $this->page_size) ? $this->arr_prev = '&nbsp;<a href="?limit='.($this->limit - $this->page_size).$this->search.$this->append_to_url.'"><img border="0" src="images/arrow-l.png" title="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'"/></a>&nbsp;' : $this->arr_prev = '';
         ($this->limit > 0) ? $this->arr_top = '&nbsp;<a href="?limit=0' .$this->search.$this->append_to_url.'"><img border="0" src="images/arrow-u.png" title="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'"/></a>&nbsp;' : $this->arr_top = '';
@@ -372,18 +377,19 @@ class cNav_bar
 
     public function display_top() {
         $ret_val = '';
-        if ($this->count < 1)
+        if ($this->count < 1) {
             return $ret_val;
-        if (!$this->have_run_init)
-            $this->init ();
+        }
+        if (!$this->have_run_init) {
+            $this->init();
+        }
             
         $ret_val .= '<a name="'.$this->anchor.'"></a>';
-        $ret_val .= $this->display_pre ();
+        $ret_val .= $this->display_pre();
         $ret_val .= '<b>'.$this->title.'</b>&nbsp;&nbsp;';
         ($this->limit >= $this->page_size) ? $highlight_at = $this->limit / $this->page_size : $highlight_at = 0;
 
-        for ($i = 0; $i < count ($this->pages); $i++)
-        {
+        for ($i = 0; $i < count($this->pages); $i++) {
             $lPage = $this->pages [$i];
             if ($i == $highlight_at) {
                 $ret_val .= '<b>'.$lPage.'</b>'."\n";
@@ -403,78 +409,81 @@ class cNav_bar
 
     public function display_bottom() {
         $ret_val = '';
-        if ($this->count < 1)
+        if ($this->count < 1) {
             return $ret_val;
-        if (!$this->have_run_init)
-            $this->init ();
-        $ret_val .= $this->display_pre ();
+        }
+        if (!$this->have_run_init) {
+            $this->init();
+        }
+        $ret_val .= $this->display_pre();
         $ret_val .= '</td><td valign="middle" align="right">';
 
         $ret_val .= $this->arr_prev;
         $ret_val .= $this->arr_top;
         $ret_val .= $this->arr_next;
 
-        $ret_val .= $this->display_post ();
+        $ret_val .= $this->display_post();
         return $ret_val;
     }
 }
 
 
-$nav_bar_alias = new cNav_bar ($PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $pagebrowser_alias, $search);
+$nav_bar_alias = new cNav_bar($PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $pagebrowser_alias, $search);
 $nav_bar_alias->append_to_url = '&amp;domain='.$fDomain;
 
 $pagebrowser_mailbox = create_page_browser("$table_mailbox.username", $mailbox_pagebrowser_query);
-$nav_bar_mailbox = new cNav_bar ($PALANG['pOverview_mailbox_title'], $fDisplay, $CONF['page_size'], $pagebrowser_mailbox, $search);
+$nav_bar_mailbox = new cNav_bar($PALANG['pOverview_mailbox_title'], $fDisplay, $CONF['page_size'], $pagebrowser_mailbox, $search);
 $nav_bar_mailbox->append_to_url = '&amp;domain='.$fDomain;
 
 
 // this is why we need a proper template layer.
 $fDomain = htmlentities($fDomain, ENT_QUOTES);
 
-if(empty($_GET['domain'])) {
+if (empty($_GET['domain'])) {
     $_GET['domain'] = '';
 }
-$smarty->assign ('admin_list', array());
-$smarty->assign ('domain_list', $list_domains);
-$smarty->assign ('domain_selected', $fDomain);
-$smarty->assign ('nav_bar_alias', array ('top' => $nav_bar_alias->display_top (), 'bottom' => $nav_bar_alias->display_bottom ()), false);
-$smarty->assign ('nav_bar_mailbox', array ('top' => $nav_bar_mailbox->display_top (), 'bottom' => $nav_bar_mailbox->display_bottom ()), false);
+$smarty->assign('admin_list', array());
+$smarty->assign('domain_list', $list_domains);
+$smarty->assign('domain_selected', $fDomain);
+$smarty->assign('nav_bar_alias', array('top' => $nav_bar_alias->display_top(), 'bottom' => $nav_bar_alias->display_bottom()), false);
+$smarty->assign('nav_bar_mailbox', array('top' => $nav_bar_mailbox->display_top(), 'bottom' => $nav_bar_mailbox->display_bottom()), false);
 
-$smarty->assign ('fDomain', $fDomain, false);
+$smarty->assign('fDomain', $fDomain, false);
 
-$smarty->assign ('search', $search);
+$smarty->assign('search', $search);
 
-$smarty->assign ('list_domains', $list_domains);
-$smarty->assign ('limit', $limit);
-$smarty->assign ('tDisplay_back_show', $tDisplay_back_show);
-$smarty->assign ('tDisplay_back', $tDisplay_back);
-$smarty->assign ('tDisplay_up_show', $tDisplay_up_show);
-$smarty->assign ('tDisplay_next_show', $tDisplay_next_show);
-$smarty->assign ('tDisplay_next', $tDisplay_next);
+$smarty->assign('list_domains', $list_domains);
+$smarty->assign('limit', $limit);
+$smarty->assign('tDisplay_back_show', $tDisplay_back_show);
+$smarty->assign('tDisplay_back', $tDisplay_back);
+$smarty->assign('tDisplay_up_show', $tDisplay_up_show);
+$smarty->assign('tDisplay_next_show', $tDisplay_next_show);
+$smarty->assign('tDisplay_next', $tDisplay_next);
 
 if (Config::bool('alias_domain')) {
-    $smarty->assign ('tAliasDomains', $tAliasDomains);
-    $smarty->assign ('aliasdomain_data', $aliasdomain_data);
+    $smarty->assign('tAliasDomains', $tAliasDomains);
+    $smarty->assign('aliasdomain_data', $aliasdomain_data);
 }
 
-$smarty->assign ('tAlias', $tAlias);
-$smarty->assign ('alias_data', $alias_data);
+$smarty->assign('tAlias', $tAlias);
+$smarty->assign('alias_data', $alias_data);
 
-$smarty->assign ('tMailbox', $tMailbox);
-$smarty->assign ('gen_show_status_mailbox', $gen_show_status_mailbox, false);
-$smarty->assign ('boolconf_used_quotas', Config::bool('used_quotas'));
-$smarty->assign ('divide_quota', $divide_quota);
-$smarty->assign ('tCanAddMailbox', $tCanAddMailbox);
-$smarty->assign ('display_mailbox_aliases', $display_mailbox_aliases);
-if (isset ($_GET ['tab']))
+$smarty->assign('tMailbox', $tMailbox);
+$smarty->assign('gen_show_status_mailbox', $gen_show_status_mailbox, false);
+$smarty->assign('boolconf_used_quotas', Config::bool('used_quotas'));
+$smarty->assign('divide_quota', $divide_quota);
+$smarty->assign('tCanAddMailbox', $tCanAddMailbox);
+$smarty->assign('display_mailbox_aliases', $display_mailbox_aliases);
+if (isset($_GET ['tab'])) {
     $_SESSION ['tab'] = $_GET ['tab'];
+}
 //if (empty ($_GET ['tab']))
 // unset ($_SESSION ['tab']);
-if (!isset ($_SESSION ['tab']))
+if (!isset($_SESSION ['tab'])) {
     $_SESSION ['tab'] = 'all';
-$smarty->assign ('tab', $_SESSION ['tab']);
-$smarty->assign ('smarty_template', 'list-virtual');
-$smarty->display ('index.tpl');
+}
+$smarty->assign('tab', $_SESSION ['tab']);
+$smarty->assign('smarty_template', 'list-virtual');
+$smarty->display('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
-?>
