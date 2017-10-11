@@ -4,8 +4,8 @@
     "type": "project",
     "license": "GPL-2.0",
     "scripts": {
-        "check": "php-cs-fixer fix --ansi --dry-run --diff",
-        "fix": "php-cs-fixer fix --ansi",
+        "check-format": "php-cs-fixer fix --ansi --dry-run --diff",
+        "format": "php-cs-fixer fix --ansi",
         "lint": "@php ./vendor/bin/parallel-lint --exclude vendor/ ."
     },
     "require": {
