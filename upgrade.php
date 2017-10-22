@@ -163,7 +163,7 @@ function _do_upgrade($current_version) {
 
     if ($current_version >= $target_version) {
         # already up to date
-        echo "<p>Database is up to date</p>";
+        echo "<p>Database is up to date: $current_version/$target_version </p>";
         return true;
     }
 
