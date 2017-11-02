@@ -85,8 +85,6 @@ passdb {
 #        user = postfix
 #        group = postfix
 #    }
-#    user = postfix
-#    group = postfix
 #}
 
 # Needs to match Postfix virtual_uid_maps
