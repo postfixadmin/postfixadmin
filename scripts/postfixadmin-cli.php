@@ -127,9 +127,9 @@ class PostfixAdmin {
 
         define('DS', DIRECTORY_SEPARATOR);
         define('CORE_INCLUDE_PATH', dirname(__FILE__));
-        define('CORE_PATH', dirname(CORE_INCLUDE_PATH) ); # CORE_INCLUDE_PATH/../
+        define('CORE_PATH', dirname(CORE_INCLUDE_PATH)); # CORE_INCLUDE_PATH/../
 
-        if(!defined('POSTFIXADMIN')) { # already defined if called from setup.php
+        if (!defined('POSTFIXADMIN')) { # already defined if called from setup.php
             define('POSTFIXADMIN', 1); # checked in included files
         }
     }
@@ -166,14 +166,14 @@ class PostfixAdmin {
      * @return boolean Success.
      */
     private function __bootstrap() {
-        if ($this->params['webroot'] != '' ) {
-            define('PATH', $this->params['webroot'] );
+        if ($this->params['webroot'] != '') {
+            define('PATH', $this->params['webroot']);
         } else {
             define('PATH', CORE_PATH);
         }
 
         if (!file_exists(PATH)) {
-            $this->stderr( PATH . " don't exists");
+            $this->stderr(PATH . " don't exists");
             return false;
         }
 
@@ -328,7 +328,7 @@ class PostfixAdmin {
         }
         $result = fgets($this->stdin);
 
-        if ($result === false){
+        if ($result === false) {
             exit(1);
         }
         $result = trim($result);
@@ -442,7 +442,7 @@ class PostfixAdmin {
         $this->stdout("");
         $this->stdout("Available modules:");
 
-        $modules = explode(',','admin,domain,mailbox,alias,aliasdomain,fetchmail');
+        $modules = explode(',', 'admin,domain,mailbox,alias,aliasdomain,fetchmail');
         foreach ($modules as $module) {
             $this->stdout("    $module");
         }
@@ -466,12 +466,11 @@ class PostfixAdmin {
         $this->stdout("");
 
         exit();
-
     }
 }
 
 
-define ("POSTFIXADMIN_CLI", 1);
+define("POSTFIXADMIN_CLI", 1);
 
 $dispatcher = new PostfixAdmin($argv);
 

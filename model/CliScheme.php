@@ -1,5 +1,5 @@
 <?php
-# $Id$ 
+# $Id$
 /**
  * class to display the database scheme (for usage in upgrade.php) in Cli
  *
@@ -7,7 +7,6 @@
  */
 
 class CliScheme extends Shell {
-
     public $handler_to_use = "";
     public $new = 0;
 
@@ -16,7 +15,6 @@ class CliScheme extends Shell {
     * Execution method always used for tasks
     */
     public function execute() {
-
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
 
@@ -95,10 +93,10 @@ class CliScheme extends Shell {
         Print the $module database scheme in a way that can be 
         pasted into upgrade.php.
 
-");
+"
+        );
 
         $this->_stop();
     }
-
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

@@ -22,7 +22,7 @@ function _display_password_form() {
     echo _('The PostfixAdmin plugin needs your current mailbox password');
     echo "<form action='' method='post'>";
     echo _('Password for');
-    echo " " . $_SESSION['username'] . " :"; 
+    echo " " . $_SESSION['username'] . " :";
     echo "<input type='password' name='password' value=''>";
     echo "<input type='submit' value='" . _('Submit') . "'></form>";
     do_footer();
@@ -40,37 +40,33 @@ function get_xmlrpc() {
 
     $login_object = $client->getProxy('login');
 
-    if(empty($_SESSION['password'])) {
-        if(empty($_POST['password'])) {
+    if (empty($_SESSION['password'])) {
+        if (empty($_POST['password'])) {
             _display_password_form();
             exit(0);
-        }
-        else {
+        } else {
             try {
                 $success = $login_object->login($_SESSION['username'], $_POST['password']);
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 //var_dump($client->getHttpClient()->getLastResponse()->getBody());
                 error_log("Failed to login to xmlrpc instance - " . $e->getMessage());
                 die('Failed to login to xmlrpc instance');
             }
-            if($success) {
+            if ($success) {
                 $_SESSION['password'] = $_POST['password'];
                 // reload the current page as a GET request.
                 header("Location: {$_SERVER['REQUEST_URI']}");
                 exit(0);
-            }
-            else {
+            } else {
                 _display_password_form();
                 exit(0);
             }
         }
-    }
-    else {
+    } else {
         $success = $login_object->login($_SESSION['username'], $_SESSION['password']);
     }
 
-    if(!$success) {
+    if (!$success) {
         unset($_SESSION['password']);
         die("Invalid details cached... refresh this page and re-enter your mailbox password");
     }
@@ -78,7 +74,7 @@ function get_xmlrpc() {
 }
 
 function include_if_exists($filename) {
-    if(file_exists($filename)) {
+    if (file_exists($filename)) {
         include_once($filename);
     }
     return;
@@ -93,10 +89,8 @@ $optmode = 'display';
 //
 function check_email($email) {
     $return = filter_var($email, FILTER_VALIDATE_EMAIL);
-    if($return === false) {
+    if ($return === false) {
         return false;
     }
     return true;
 }
-
-

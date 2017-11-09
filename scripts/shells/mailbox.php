@@ -7,29 +7,25 @@ class PasswordTask extends Shell {
      *
      * @access public
      */
-    function execute() {
+    public function execute() {
         $random = false;
         if (empty($this->args)) {
             $this->__interactive();
         }
 
         if (!empty($this->args[0])) {
-
             $address = $this->args[0];
 
-            if (isset($this->params['g']) && $this->params['g'] == true ) {
+            if (isset($this->params['g']) && $this->params['g'] == true) {
                 $random = true;
-                $password = NULL;
-            } elseif  (isset($this->args[1]) && strlen($this->args[1]) > 8) { # TODO use validate_password()
+                $password = null;
+            } elseif (isset($this->args[1]) && strlen($this->args[1]) > 8) { # TODO use validate_password()
                 $password = $this->args[1];
             } else {
-
                 $this->Dispatch->stderr('Missing <newpw> or -g. Falling back to interactive mode.');
                 $this->__interactive();
             }
             $this->__handle($address, $password, $random);
-
-
         }
     }
 
@@ -37,12 +33,11 @@ class PasswordTask extends Shell {
      * Interactive
      */
     private function __interactive() {
-
-        while(true) {
+        while (true) {
             $question = "Which address' password do you want to change?";
             $address = $this->in($question);
 
-            if(filter_var($address, FILTER_VALIDATE_EMAIL)) {
+            if (filter_var($address, FILTER_VALIDATE_EMAIL)) {
                 break;
             }
             $this->err("Invalid emailaddress");
@@ -54,7 +49,7 @@ class PasswordTask extends Shell {
         $sure = $this->in(join("\n", $question2), array('y','n'));
 
 
-        if ($sure == 'n' ) {
+        if ($sure == 'n') {
             $this->out('You\'re not sure.');
             $this->_stop();
         }
@@ -65,14 +60,13 @@ class PasswordTask extends Shell {
         $random == 'y' ? $random = true : $random = false;
 
 
-        $password = NULL;
+        $password = null;
         if ($random == false) {
             $question = "Pleas enter the new password?";
             $password = $this->in($question);
         }
 
         $this->__handle($address, $password, $random);
-
     }
 
     /**
@@ -80,20 +74,19 @@ class PasswordTask extends Shell {
      * @param string $password optional
      * @param boolean $random optional - true to generate random pw.
      */
-    private function __handle($address, $password = NULL, $random = false) {
-
+    private function __handle($address, $password = null, $random = false) {
         if ($random == true) {
             $password = generate_password();
         }
-        if ($password != NULL) {
+        if ($password != null) {
             $handler =  new MailboxHandler();
 
             if (!$handler->init($address)) {
-                $this->error("Change Password",join("\n", $handler->errormsg));
+                $this->error("Change Password", join("\n", $handler->errormsg));
             }
 
-            if ( ! $handler->change_pw($password, NULL, false) ){
-                $this->error("Change Password",join("\n", $handler->errormsg));
+            if (! $handler->change_pw($password, null, false)) {
+                $this->error("Change Password", join("\n", $handler->errormsg));
             }
         }
 
@@ -101,7 +94,7 @@ class PasswordTask extends Shell {
         $this->out("Password updated.");
         $this->hr();
         $this->out(sprintf('The Mail address is  %20s', $address));
-        $this->out(sprintf('The new password is %20s',$password));
+        $this->out(sprintf('The new password is %20s', $password));
         $this->hr();
 
         return ;

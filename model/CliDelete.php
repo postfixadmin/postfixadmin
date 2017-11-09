@@ -1,5 +1,5 @@
 <?php
-# $Id$ 
+# $Id$
 /**
  * class to handle 'delete' in Cli
  */
@@ -10,7 +10,6 @@ class CliDelete extends Shell {
      * Execution method always used for tasks
      */
     public function execute() {
-
         if (empty($this->args)) {
             $this->__interactive();
         }
@@ -33,7 +32,9 @@ class CliDelete extends Shell {
         $question = "Do you really want to delete '$address'?";
         $create = $this->in($question, array('y','n'));
 
-        if ($create == 'y') $this->__handle($address);
+        if ($create == 'y') {
+            $this->__handle($address);
+        }
     }
 
     /**
@@ -47,7 +48,7 @@ class CliDelete extends Shell {
         if (!$handler->init($address)) {
             $this->err($handler->errormsg);
             return;
-        } 
+        }
 
         if (!$handler->delete()) {
             $this->err($handler->errormsg);
@@ -77,10 +78,10 @@ class CliDelete extends Shell {
     postfixadmin-cli $module delete <address>
 
         Deletes $module <address> in non-interactive mode.
-");
+"
+        );
         $this->_stop();
     }
-
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
