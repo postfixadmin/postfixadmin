@@ -1722,3 +1722,8 @@ function upgrade_1837_sqlite() {
     }
 
 }
+
+/* https://github.com/postfixadmin/postfixadmin/issues/89 */
+function upgrade_1838_mysql() {
+    _db_add_field('log', 'id', '{AUTOINCREMENT} {PRIMARY}' , 'data');
+}
