@@ -1686,8 +1686,7 @@ function upgrade_1836_mysql() {
 
 function upgrade_1837() {
     # alternative contact means to reset a forgotten password
-    foreach(array('admin', 'mailbox') as $table_to_change) {
-        $table = table_by_key($table_to_change);
+    foreach(array('admin', 'mailbox') as $table) {
         _db_add_field($table, 'phone', "varchar(30) {UTF-8} NOT NULL DEFAULT ''", 'active');
         _db_add_field($table, 'email_other', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'phone');
         _db_add_field($table, 'token', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'email_other');
