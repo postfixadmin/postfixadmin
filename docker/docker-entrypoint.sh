@@ -1,6 +1,8 @@
 #!/bin/bash
 set -ex
 
+POSTFIXADMIN_DB_TYPE=sqlite
+
 if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	if ! [ -e index.php -a -e scripts/postfixadmin-cli.php ]; then
 		echo >&2 "Postfixadmin not found in $PWD - copying now..."
@@ -57,6 +59,11 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	else
 		echo "WARNING: $PWD/config.local.php already exists."
 		echo "Postfixadmin related environment variables have been ignored."
+	fi
+
+	if [ -f setup.php ]; then
+		echo " ** Running database / environment setup.php "
+		php setup.php
 	fi
 fi
 
