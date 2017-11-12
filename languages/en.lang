@@ -44,7 +44,7 @@ $PALANG['pLogin_username'] = 'Login (email)';
 $PALANG['password'] = 'Password';
 $PALANG['pLogin_language'] = 'Language';
 $PALANG['pLogin_button'] = 'Login';
-$PALANG['pLogin_failed'] = 'Your email address or password are not correct.';
+$PALANG['pLogin_failed'] = 'Your email address or password is not correct.';
 $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.';
 
 $PALANG['pMenu_main'] = 'Main';
