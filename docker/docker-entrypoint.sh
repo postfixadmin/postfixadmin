@@ -1,7 +1,10 @@
 #!/bin/bash
 set -ex
 
-POSTFIXADMIN_DB_TYPE=sqlite
+POSTFIXADMIN_DB_TYPE=${POSTFIXADMIN_DB_TYPE:=sqlite}
+POSTFIXADMIN_DB_HOST=${POSTFIXADMIN_DB_HOST:=""}
+POSTFIXADMIN_DB_USER=${POSTFIXADMIN_DB_USER:=""}
+POSTFIXADMIN_DB_PASSWORD=${POSTFIXADMIN_DB_PASSWORD:=""}
 
 if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 	if ! [ -e index.php -a -e scripts/postfixadmin-cli.php ]; then
@@ -14,24 +17,27 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		echo >&2 "Complete! Postfixadmin has been successfully copied to $PWD"
 	fi
 
-	if [ -n "${!POSTGRES_ENV_POSTGRES_*}" ]; then
-		: "${POSTFIXADMIN_DB_TYPE:=pgsql}"
-		: "${POSTFIXADMIN_DB_HOST:=postgres}"
-		: "${POSTFIXADMIN_DB_USER:=${POSTGRES_ENV_POSTGRES_USER}}"
-		: "${POSTFIXADMIN_DB_PASSWORD:=${POSTGRES_ENV_POSTGRES_PASSWORD:-}}"
-		: "${POSTFIXADMIN_DB_NAME:=${POSTGRES_ENV_POSTGRES_DB:-}}"
-	fi
+	case "${POSTFIXADMIN_DB_TYPE}" in
+		sqlite)
+			;;
+		mysqli)
+			: "${POSTFIXADMIN_DB_PORT:=3306}"
+			;;
+		pgsql)
+			: "${POSTFIXADMIN_DB_PORT:=5432}"
+		;;
+		*)
+		echo >&2 "${POSTFIXADMIN_DB_TYPE} is not a supported value."
+		exit 1
+		;;
+	esac
 
-	if [ -n "${!MYSQL_ENV_MYSQL_*}" ]; then
-		: "${POSTFIXADMIN_DB_TYPE:=mysqli}"
-		: "${POSTFIXADMIN_DB_HOST:=mysql}"
-		: "${POSTFIXADMIN_DB_USER:=${MYSQL_ENV_MYSQL_USER:-root}}"
-		if [ "$POSTFIXADMIN_DB_USER" = 'root' ]; then
-			: "${POSTFIXADMIN_DB_PASSWORD:=${MYSQL_ENV_MYSQL_ROOT_PASSWORD}}"
-		else
-			: "${POSTFIXADMIN_DB_PASSWORD:=${MYSQL_ENV_MYSQL_PASSWORD}}"
+	if [ "${POSTFIXADMIN_DB_TYPE}" != "sqlite" ]; then
+		if [ -z "${POSTFIXADMIN_DB_USER}" -o -z "${POSTFIXADMIN_DB_PASSWORD}" ]; then
+			echo >&2 'Error: POSTFIXADMIN_DB_USER and POSTFIXADMIN_DB_PASSWORD must be specified. '
+			exit 1
 		fi
-		: "${POSTFIXADMIN_DB_NAME:=${MYSQL_ENV_MYSQL_DATABASE:postfix}}"
+		timeout 15 bash -c "until echo > /dev/tcp/${POSTFIXADMIN_HOST}/${POSTFIXADMIN_DB_PORT}; do sleep 0.5; done"
 	fi
 
 	if [ "$POSTFIXADMIN_DB_TYPE" = 'sqlite' ]; then
@@ -51,9 +57,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		\$CONF['database_user'] = '${POSTFIXADMIN_DB_USER}';
 		\$CONF['database_password'] = '${POSTFIXADMIN_DB_PASSWORD}';
 		\$CONF['database_name'] = '${POSTFIXADMIN_DB_NAME}';
-
 		\$CONF['setup_password'] = '${POSTFIXADMIN_SETUP_PASSWORD}';
-
 		\$CONF['configured'] = true;
 		?>" | tee config.local.php
 	else
@@ -61,9 +65,9 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 		echo "Postfixadmin related environment variables have been ignored."
 	fi
 
-	if [ -f setup.php ]; then
-		echo " ** Running database / environment setup.php "
-		php setup.php
+	if [ -f upgrade.php ]; then
+		echo " ** Running database / environment upgrade.php "
+		php upgrade.php
 	fi
 fi
 
