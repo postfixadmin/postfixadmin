@@ -14,7 +14,6 @@ POSTFIXADMIN\_DB\_TYPE can be one of :
  * pgsql
  * sqlite
 
-
 ```bash
 docker run -e POSTFIXADMIN_DB_TYPE=mysqli \
            -e POSTFIXADMIN_DB_HOST=whatever \
@@ -29,14 +28,42 @@ docker run -e POSTFIXADMIN_DB_TYPE=mysqli \
 Note: An sqlite database is used as a fallback if you do not have a config.local.php and do not specify the above variables.
 
 
-
 ## Existing config.local.php 
 
 ```bash
 docker run --name postfixadmin -p 8080:80 postfixadmin-image
 ```
 
-## Linking to a MySQL or PostgreSQL container
+# Docker Compose
 
-If you link the container to a MySQL or PostgreSQL container, then we attempt to generate a valid config.local.php from it. 
+Try something like the below; changing the usernames/passwords as required.
+
+
+```
+version: '3'
+
+services:
+   db:
+     image: mysql:5.7
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: notSecureChangeMe
+       MYSQL_DATABASE: postfixadmin
+       MYSQL_USER: postfixadmin
+       MYSQL_PASSWORD: postfixadminPassword
+
+   postfixadmin:
+     depends_on:
+       - db
+     image: postfixadmin-image:latest
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       POSTFIXADMIN_DB_TYPE: mysqli
+       POSTFIXADMIN_DB_HOST: db
+       POSTFIXADMIN_DB_USER: postfixadmin
+       POSTFIXADMIN_DB_NAME: postfixadmin
+       POSTFIXADMIN_DB_PASSWORD: postfixadminPassword
+```
 
