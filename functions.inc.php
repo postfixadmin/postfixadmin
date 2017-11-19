@@ -1287,18 +1287,27 @@ function db_connect ($ignore_errors = false) {
             $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available! (php5-mysql installed?)<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     } elseif ($CONF['database_type'] == "mysqli") {
-        if (function_exists ("mysqli_connect")) {
-
-            $CONF['database_socket'] = isset($CONF['database_socket']) ? $CONF['database_socket'] : ini_get('mysqli.default_socket');
-            $CONF['database_port'] = isset($CONF['database_port']) ? $CONF['database_socket'] : ini_get('mysqli.default_port');
-
-            $link = @mysqli_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port'], $CONF['database_socket']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysqli_connect_error () . "$DEBUG_TEXT");
-            if ($link) {
-                @mysqli_query($link,"SET CHARACTER SET utf8");
-                @mysqli_query($link,"SET COLLATION_CONNECTION='utf8_general_ci'");
+        $is_connected = false;
+        if ($CONF['database_use_ssl']) {
+            if (function_exists ("mysqli_real_connect")) {
+                $link = mysqli_init();
+                $link->ssl_set($CONF['database_ssl_key'], $CONF['database_ssl_cert'], $CONF['database_ssl_ca'], $CONF['database_ssl_ca_path'], $CONF['database_ssl_cipher']);
+                $connected = mysqli_real_connect($link, $CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port']);
+                $is_connected = $connected;
+            } else {
+                $error_text .= "<p />DEBUG INFORMATION:<br />MySQLi 5 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
             }
         } else {
-            $error_text .= "<p />DEBUG INFORMATION:<br />MySQLi functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            if (function_exists ("mysqli_connect")) {
+                $link = @mysqli_connect($CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port'], $CONF['database_socket']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " . mysqli_connect_error() . "$DEBUG_TEXT");
+                $is_connected = $link;
+            } else {
+                $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            }
+        }
+        if ($is_connected) {
+            @mysqli_query($link,"SET CHARACTER SET utf8");
+            @mysqli_query($link,"SET COLLATION_CONNECTION='utf8_general_ci'");
         }
     } elseif (db_sqlite()) {
         if (class_exists ("SQLite3")) {
