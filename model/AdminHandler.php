@@ -79,7 +79,7 @@ class AdminHandler extends PFAHandler {
             'phone'           => pacol( 1,  $passwordReset, 0,      'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
             'email_other'     => pacol( 1,  $passwordReset, 0,      'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
             'token'           => pacol( 1,          0,      0,      'text', ''                   , ''                  ),
-            'token_validity'  => pacol( 1,          0,      0,      'ts',   ''                   , ''                  ),
+            'token_validity'  => pacol( 1,          0,      0,      'ts',   ''                   , '', date("Y-m-d H:i:s",time())),
             'created'         => pacol( 0,          0,      0,      'ts',   'created'            , ''                  ),
             'modified'        => pacol( 0,          0,      1,      'ts',   'last_modified'      , ''                  ),
         );
