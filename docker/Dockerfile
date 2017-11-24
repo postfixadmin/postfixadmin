@@ -1,4 +1,8 @@
 FROM php:7.0-apache
+MAINTAINER David Goodwin <david@codepoets.co.uk>
+
+ARG POSTFIXADMIN_VERSION=3.1
+ARG POSTFIXADMIN_SHA512=3bda4e9d4a7308d22edca30d181af76b7153e57b19bda878e32f5eeeb49127f46581c966706bcca13cd31740cadacc584e15830aa157b4655e60d44d66f45ddd
 
 # Install required PHP extensions
 RUN buildDeps='libpq-dev libsqlite3-dev' \
@@ -10,8 +14,8 @@ RUN buildDeps='libpq-dev libsqlite3-dev' \
 
 VOLUME /var/www/html
 
-ENV POSTFIXADMIN_VERSION 3.1
-ENV POSTFIXADMIN_SHA512 3bda4e9d4a7308d22edca30d181af76b7153e57b19bda878e32f5eeeb49127f46581c966706bcca13cd31740cadacc584e15830aa157b4655e60d44d66f45ddd
+ENV POSTFIXADMIN_VERSION $POSTFIXADMIN_VERSION
+ENV POSTFIXADMIN_SHA512 $POSTFIXADMIN_SHA512
 
 RUN set -eu; \
 	curl -o postfixadmin.tar.gz -SL "https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-${POSTFIXADMIN_VERSION}.tar.gz"; \
