@@ -38,13 +38,13 @@ $PALANG['edit_not_allowed'] = 'You are not allowed to edit %s'; # XXX
 $PALANG['searchparams'] = 'Search parameters:'; # XXX
 $PALANG['pFooter_logged_as'] = 'Потребител %s'; # XXX # XXX Text change: 'logged in as %s' (the 'in' was missing)
 
-$PALANG['pLogin_welcome'] = 'Администратора може да се логне оттук за администриране на домейн.';
-$PALANG['pLogin_username'] = 'Логин (е-мейл)';
+$PALANG['pLogin_welcome'] = 'Администраторът може да се логне оттук, за администриране на домейн.';
+$PALANG['pLogin_username'] = "&nbsp;Логин (е-мейл)";
 $PALANG['password'] = 'Парола';
 $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Изход'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
-$PALANG['pLogin_login_users'] = 'Ако сте потребител натиснете тук за логване в потребителската част.';
+$PALANG['pLogin_login_users'] = 'Ако сте потребител, натиснете тук, за логване в потребителската част.';
 
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Преглед';
