@@ -4,11 +4,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Postfix Admin - {$smarty.server.HTTP_HOST}</title>
+		<link rel="shortcut icon" href="images/favicon.ico">
 		<link rel="stylesheet" type="text/css" href="{$CONF.theme_css}" />
 {if $CONF.theme_custom_css}
 		<link rel="stylesheet" type="text/css" href="{$CONF.theme_custom_css}" />
 {/if}
-		<title>Postfix Admin - {$smarty.server.HTTP_HOST}</title>
 	</head>
 	<body class="lang-{$smarty.session.lang} page-{$smarty_template} {if isset($table)}page-{$smarty_template}-{$table}{/if}">
 		<div id="container">
