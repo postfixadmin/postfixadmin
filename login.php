@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         exit(0);
 
     } else { # $h->login failed
-        error_log("PostfixAdmin login failed (username: $fUsername)");
+        error_log("PostfixAdmin login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
         flash_error($PALANG['pLogin_failed']);
     }
 }
