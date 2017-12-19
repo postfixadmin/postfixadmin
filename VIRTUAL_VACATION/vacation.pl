@@ -183,6 +183,7 @@ if($test_mode == 1) {
         my $syslog_appender = Log::Log4perl::Appender->new(
             'Log::Dispatch::Syslog',
             facility => 'mail',
+            ident => 'vacation',
         );
         $logger->add_appender($syslog_appender);
     }
