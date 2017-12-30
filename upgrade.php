@@ -1723,6 +1723,7 @@ function upgrade_1837_sqlite() {
 }
 
 /* https://github.com/postfixadmin/postfixadmin/issues/89 */
-function upgrade_1838_mysql() {
+# upgrade_1838_mysql() renamed to upgrade_1839() to keep all databases in sync
+function upgrade_1839() {
     _db_add_field('log', 'id', '{AUTOINCREMENT} {PRIMARY}' , 'data');
 }
