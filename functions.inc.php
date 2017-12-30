@@ -1802,7 +1802,7 @@ function table_by_key ($table_key) {
         $table = $CONF['database_tables'][$table_key];
     }
 
-    return $CONF['database_prefix']."`".$table."`";
+    return "`".$CONF['database_prefix'].$table."`";
 }
 
 /*
