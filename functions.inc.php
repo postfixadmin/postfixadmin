@@ -1421,14 +1421,25 @@ function db_quota_percent($count, $quota, $fieldname) {
 }
 
 /**
+ * @return boolean true if it's a MySQL database variant.
+ */
+function db_mysql() {
+    $type = Config::Read('database_type');
+
+    if($type == 'mysql' || $type == 'mysqli') {
+        return true;
+    }
+    return false;
+}
+
+/**
  * returns true if PostgreSQL is used, false otherwise
  */
 function db_pgsql() {
     if(Config::Read('database_type')=='pgsql') {
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 /**
@@ -1789,21 +1800,34 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
 	return $query;
 }
 
-//
-// table_by_key
-// Action: Return table name for given key
-// Call: table_by_key (string table_key)
-//
+/**
+ * Convert a programmatic db table name into what may be the actual name. 
+ *
+ * Takes into consideration any CONF database_prefix or database_tables map
+ *
+ * If it's a MySQL database, then we return the name with backticks around it (`).
+ *
+ * @param string database table name.
+ * @return string - database table name with appropriate prefix
+ */
 function table_by_key ($table_key) {
     global $CONF;
-    if (empty($CONF['database_tables'][$table_key])) {
-        $table = $table_key;
-    } else {
+
+    $table = $table_key;
+
+    if (!empty($CONF['database_tables'][$table_key])) {
         $table = $CONF['database_tables'][$table_key];
     }
 
-    return "`".$CONF['database_prefix'].$table."`";
+    $table = $CONF['database_prefix'] . $table;
+
+    if(db_mysql()) {
+        return "`" . $table . "`";
+    }
+
+    return $table;
 }
+
 
 /*
  * check if the database layout is up to date
