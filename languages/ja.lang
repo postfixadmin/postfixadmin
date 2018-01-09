@@ -14,28 +14,28 @@ $PALANG['exit'] = '終了';
 $PALANG['cancel'] = 'キャンセル';
 $PALANG['save'] = '変更を保存';
 $PALANG['confirm'] = '本当に削除してもよろしいですか？\n';
-$PALANG['confirm_delete_admin'] = 'Do you really want to delete the admin %s?'; # XXX
-$PALANG['confirm_delete_alias'] = 'Do you really want to delete the alias %s?'; # XXX
-$PALANG['confirm_delete_aliasdomain'] = 'Do you really want to delete the alias domain %s?'; # XXX
+$PALANG['confirm_delete_admin'] = '本当に管理者 %s を削除してもよろしいですか?'; # XXX
+$PALANG['confirm_delete_alias'] = '本当にエイリアス %s を削除してもよろしいですか?'; # XXX
+$PALANG['confirm_delete_aliasdomain'] = '本当にエイリアスドメイン %s を削除してもよろしいですか?'; # XXX
 $PALANG['confirm_delete_domain'] = '本当にこのドメインのすべての情報を削除してもよろしいですか？これを元に戻すことはできません。\n (%s)'; # XXX text changed to: 'Do you really want to delete all records for the domain %s? This can not be undone'
-$PALANG['confirm_delete_fetchmail'] = 'Do you really want to delete the fetchmail job %s?'; # XXX
-$PALANG['confirm_delete_mailbox'] = 'Do you really want to delete the mailbox %s?'; # XXX
-$PALANG['confirm_delete_vacation'] = 'Do you really want to delete the vacation message for %s?'; # XXX
-$PALANG['no_delete_permissions'] = 'You are not allowed to delete %s!'; # XXX
+$PALANG['confirm_delete_fetchmail'] = '本当に fetchmail ジョブ %s を削除してもよろしいですか?'; # XXX
+$PALANG['confirm_delete_mailbox'] = '本当にメールボックス %s を削除してもよろしいですか?'; # XXX
+$PALANG['confirm_delete_vacation'] = '本当に、%s のバケーションメッセージを削除してもよろしいですか?'; # XXX
+$PALANG['no_delete_permissions'] = 'あなたには、%s を削除する権限がありません!'; # XXX
 $PALANG['check_update'] = '更新の確認';
 $PALANG['invalid_parameter'] = '無効なパラメータです。';
 $PALANG['show'] = '閲覧:';
 $PALANG['all'] = '全て';
 $PALANG['created'] = 'Created'; # XXX
-$PALANG['unknown'] = 'unknown'; # XXX
-$PALANG['download_csv'] = 'Download this list as CSV file'; # XXX
-$PALANG['missing_field'] = 'Field %s is missing'; # XXX
-$PALANG['must_be_numeric'] = '%s must be numeric'; # XXX
-$PALANG['must_be_numeric_bigger_than_null'] = '%s must be numeric and bigger than 0'; # XXX
-$PALANG['must_be_boolean'] = '%s must be boolean'; # XXX
-$PALANG['invalid_value_given'] = 'Invalid value given for %s'; # XXX
-$PALANG['edit_not_allowed'] = 'You are not allowed to edit %s'; # XXX
-$PALANG['searchparams'] = 'Search parameters:'; # XXX
+$PALANG['unknown'] = '不明'; # XXX
+$PALANG['download_csv'] = 'このリストを CSV ファイルとしてダウンロード'; # XXX
+$PALANG['missing_field'] = 'フィールド %s がありません'; # XXX
+$PALANG['must_be_numeric'] = '%s は数字でなくてはなりません'; # XXX
+$PALANG['must_be_numeric_bigger_than_null'] = '%s は、数字かつ 0 より大きくなくてはなりません'; # XXX
+$PALANG['must_be_boolean'] = '%s は真偽値でなくてはなりません'; # XXX
+$PALANG['invalid_value_given'] = '%s に与えられた値が不正です'; # XXX
+$PALANG['edit_not_allowed'] = 'あなたには、%s を編集する権限がありません'; # XXX
+$PALANG['searchparams'] = '検索パラメータ:'; # XXX
 
 $PALANG['pFooter_logged_as'] = 'ログイン名 %s';
 
@@ -88,7 +88,7 @@ $PALANG['pOverview_mailbox_quota'] = '容量制限 (MB)';
 $PALANG['pOverview_vacation_edit'] = '自動応答 利用中';
 $PALANG['pOverview_vacation_option'] = '自動応答';
 $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any domains.'; # XXX
-$PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
+$PALANG['no_domains_exist'] = 'アドレス一覧を使えるようにする前に、少なくともひとつはドメインを作成しなくてはなりません。' # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 
 $PALANG['domain'] = 'ドメイン';
@@ -239,8 +239,8 @@ $PALANG['subject'] = '件名';
 $PALANG['pSendmail_subject_text'] = 'ようこそ';
 $PALANG['pSendmail_body'] = '本文';
 $PALANG['pSendmail_button'] = 'メッセージ送信';
-$PALANG['pSendmail_result_error'] = 'メールが送信できません！ (%s)'; # XXX text change - new: Unable to send email to %s!
-$PALANG['pSendmail_result_success'] = 'メールが送信されました。 (%s)'; # XXX text change - new: Email sent to %s.
+$PALANG['pSendmail_result_error'] = '%s へメールが送信できません！'; # XXX text change - new: Unable to send email to %s!
+$PALANG['pSendmail_result_success'] = '%s へメールが送信されました。'; # XXX text change - new: Email sent to %s.
 
 $PALANG['pAdminMenu_list_admin'] = '管理者一覧';
 $PALANG['pAdminMenu_list_domain'] = 'ドメイン一覧';
@@ -254,23 +254,23 @@ $PALANG['pAdminList_admin_count'] = 'ドメイン数';
 
 $PALANG['description'] = '説明';
 $PALANG['aliases'] = '転送数'; # XXX check text - should be 'Aliases'
-$PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)'; # XXX
+$PALANG['pAdminList_domain_quota'] = 'ドメインクオータ (MB)'; # XXX
 $PALANG['pAdminList_domain_backupmx'] = 'バックアップ MX';
 $PALANG['last_modified'] = '最終更新日';
 
 
 $PALANG['pAdminCreate_domain_welcome'] = '新しいドメインの追加';
 $PALANG['pAdminCreate_domain_domain_text_error'] = 'ドメインが既に存在します。';
-$PALANG['domain_does_not_exist'] = 'This domain does not exist!'; # XXX
+$PALANG['domain_does_not_exist'] = 'このドメインは存在しません!'; # XXX
 $PALANG['pAdminCreate_domain_domain_text_error2'] = 'ドメインが無効です。';
 $PALANG['pAdminCreate_domain_defaultaliases'] = 'デフォルト転送先の追加';
 $PALANG['pAdminCreate_domain_button'] = 'ドメイン追加';
-$PALANG['pAdminCreate_domain_result_error'] = 'ドメインを追加できません！ (%s)'; # XXX Text changed to: Adding the domain %s failed!
-$PALANG['pAdminCreate_domain_result_success'] = 'ドメインを追加しました。 (%s)'; # XXX Text changed to: The domain %s has been added.
-$PALANG['domain_updated'] = 'The domain %s has been updated.'; # XXX
+$PALANG['pAdminCreate_domain_result_error'] = 'ドメイン %s を追加できません！'; # XXX Text changed to: Adding the domain %s failed!
+$PALANG['pAdminCreate_domain_result_success'] = 'ドメイン %s を追加しました。'; # XXX Text changed to: The domain %s has been added.
+$PALANG['domain_updated'] = 'ドメイン %s を更新しました。'; # XXX
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!'; # XXX
 
-$PALANG['domain_postdel_failed'] = 'ドメインが削除できません！'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
+$PALANG['domain_postdel_failed'] = 'ドメインの削除後、スクリプトの実行に失敗しました！ 詳しくはエラーログを参照して下さい。'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
 $PALANG['domain_postcreate_failed'] = 'The domain postcreate script failed, check the error log for details!'; # XXX
 $PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, check the error log for details!'; # XXX
 $PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!'; # XXX
@@ -282,7 +282,7 @@ $PALANG['pAdminEdit_domain_welcome'] = 'ドメインの修正';
 $PALANG['pAdminEdit_domain_aliases_text'] = '-1 = 無効 | 0 = 無制限';
 $PALANG['pAdminEdit_domain_maxquota'] = '最大容量制限';
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = 無効 | 0 = 無制限';
-$PALANG['pAdminEdit_domain_quota'] = 'Domain Quota'; # XXX
+$PALANG['pAdminEdit_domain_quota'] = 'ドメインクオータ'; # XXX
 $PALANG['transport'] = '配送方法';
 $PALANG['pAdminEdit_domain_transport_text'] = '配送方法の定義';
 $PALANG['pAdminEdit_domain_backupmx'] = 'バックアップ MXサーバ';
@@ -291,8 +291,8 @@ $PALANG['pAdminEdit_domain_result_error'] = 'ドメインが修正できませ�
 $PALANG['pAdminCreate_admin_welcome'] = '新しいドメイン管理者の追加';
 $PALANG['email_address'] = 'メールアドレス';
 $PALANG['pAdminCreate_admin_username_text_error1'] = '管理者は有効なメールアドレスではありません。';
-$PALANG['admin_already_exists'] = '管理者は存在するか無効です。'; # XXX Text changed to: The admin already exists!
-$PALANG['admin_does_not_exist'] = 'The admin does not exist!'; # XXX
+$PALANG['admin_already_exists'] = '管理者は存在しません!'; # XXX Text changed to: The admin already exists!
+$PALANG['admin_does_not_exist'] = '管理者が存在しません!'; # XXX
 $PALANG['pAdminCreate_admin_button'] = '管理者追加';
 $PALANG['pAdminCreate_admin_result_error'] = '管理者を追加できません！ (%s)'; # XXX Text changed to: Adding the admin %s failed!
 $PALANG['pAdminCreate_admin_result_success'] = '管理者を追加しました。 (%s)'; # XXX Text changed to: The admin %s has been added.
@@ -301,14 +301,14 @@ $PALANG['pAdminEdit_admin_welcome'] = 'ドメイン管理者の編集';
 $PALANG['admin'] = '管理者'; # XXX check / compare with pAdminCreate_admin_username - should be "admin"
 $PALANG['password_again'] = 'パスワード (確認)';
 $PALANG['super_admin'] = '特権管理者';
-$PALANG['super_admin_desc'] = 'Super admins have access to all domains, can manage domains and admin accounts.'; # XXX
+$PALANG['super_admin_desc'] = '特権管理者はすべてのドメインにアクセスが可能で、ドメインと管理者アカウントを管理できます。'; # XXX
 $PALANG['pAdminEdit_admin_result_error'] = '管理者を修正できません！ (%s)'; # XXX Text changed to: Modifying the admin %s failed!
 $PALANG['pAdminEdit_admin_result_success'] = '管理者を修正しました。 (%s)'; # XXX Text changed to: The admin %s has been modified.
 
 $PALANG['pUsersLogin_welcome'] = 'あなたのパスワードと転送先が変更できます。';
 $PALANG['pUsersLogin_username_incorrect'] = 'ログインが違います。正しいメールアドレスを入力してください。';
 $PALANG['pUsersLogin_password_incorrect'] = 'パスワードが違います。';
-$PALANG['pUsersLogin_password_recover'] = 'I forgot my password'; # XXX
+$PALANG['pUsersLogin_password_recover'] = 'パスワードを忘れました'; # XXX
 
 $PALANG['pUsersMenu_vacation'] = '自動応答';
 $PALANG['pUsersMenu_edit_alias'] = '転送先変更';
@@ -326,11 +326,11 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 私は <date> から <date> まで不在です。
 緊急事項は <contact person> まで連絡してください。
 EOM;
-$PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
-$PALANG['pUsersVacation_activeuntil'] = 'Active until'; # XXX
+$PALANG['pUsersVacation_activefrom'] = '次の日時から有効'; # XXX
+$PALANG['pUsersVacation_activeuntil'] = '次に日時まで有効'; # XXX
 
 
-$PALANG['pEdit_dbLog_editactive'] = 'change active state'; # XXX
+$PALANG['pEdit_dbLog_editactive'] = '有効／無効を変更'; # XXX
 
 $PALANG['pSearch'] = '検索';
 $PALANG['pSearch_welcome'] = '検索文字列: ';
@@ -342,24 +342,24 @@ $PALANG['pBroadcast_name'] = '名前';
 $PALANG['pBroadcast_success'] = 'ブロードキャストメッセージは送信されました。';
 $PALANG['pAdminMenu_broadcast_message'] = 'ブロードキャスト';
 $PALANG['pBroadcast_error_empty'] = '名前、件名、メッセージは入力が必要です。';
-$PALANG['broadcast_mailboxes_only'] = 'Only send to mailboxes'; # XXX
-$PALANG['broadcast_to_domains'] = 'Send to domains:'; # XXX
+$PALANG['broadcast_mailboxes_only'] = 'メールボックスに送信するだけ'; # XXX
+$PALANG['broadcast_to_domains'] = '送信先のドメイン:'; # XXX
 
 $PALANG['pStatus_undeliverable'] = 'おそらく配送不可能 ';
 $PALANG['pStatus_custom'] = '配送先 ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
 $PALANG['password_too_short'] = "パスワードが短すぎます。最低 %s 文字必要です。";
-$PALANG['password_no_characters'] = "Your password must contain at least %s character(s)."; # XXX
-$PALANG['password_no_digits'] = "Your password must contain at least %s digit(s)."; # XXX
-$PALANG['pInvalidDomainRegex'] = "Invalid domain name %s, fails regexp check"; # XXX
-$PALANG['pInvalidDomainDNS'] = "Invalid domain %s, and/or not discoverable in DNS"; # XXX
-$PALANG['pInvalidMailRegex'] = "Invalid email address %s, fails regexp check"; # XXX
+$PALANG['password_no_characters'] = "パスワードには、少なくとも %s 個の文字がなくてはなりません。"; # XXX
+$PALANG['password_no_digits'] = "パスワードには、少なくとも %s 個の数字がなくてはなりません。"; # XXX
+$PALANG['pInvalidDomainRegex'] = "不正なドメイン名です[%s]。正規表現チェックで失敗"; # XXX
+$PALANG['pInvalidDomainDNS'] = "不正なドメイン[%s]か、もしくは DNS に見当たりません"; # XXX
+$PALANG['pInvalidMailRegex'] = "不正なメールアドレスです[%s]。正規表現チェックで失敗"; # XXX
 
 $PALANG['pFetchmail_welcome'] = 'メール取得:';
 $PALANG['pFetchmail_new_entry'] = '新しいエントリ';
-$PALANG['fetchmail_already_exists']         = 'This fetchmail job already exists!'; # XXX
-$PALANG['fetchmail_does_not_exist']         = 'This fetchmail job does not exist!'; # XXX
+$PALANG['fetchmail_already_exists']         = 'この fetchmail ジョブは既に存在します!'; # XXX
+$PALANG['fetchmail_does_not_exist']         = 'この fetchmail ジョブは存在しません!'; # XXX
 $PALANG['pFetchmail_database_save_error'] = 'このエントリをデータベースに保存できませんでした。';
 $PALANG['pFetchmail_database_save_success'] = 'エントリをデータベースに保存しました。';
 $PALANG['pFetchmail_error_invalid_id'] = 'ID %s のエントリが見つかりません。';
@@ -378,10 +378,10 @@ $PALANG['pFetchmail_field_poll_time']       = '間隔';
 $PALANG['pFetchmail_field_fetchall']        = 'すべて取得';
 $PALANG['pFetchmail_field_keep']            = '残す';
 $PALANG['pFetchmail_field_protocol']        = 'プロトコル';
-$PALANG['pFetchmail_field_usessl']          = 'SSL active'; # XXX
-$PALANG['pFetchmail_field_sslcertck']       = 'SSL certificate check'; # XXX
-$PALANG['pFetchmail_field_sslcertpath']     = 'SSL path to certificates'; # XXX
-$PALANG['pFetchmail_field_sslfingerprint']  = 'SSL fingerprint (md5)'; # XXX
+$PALANG['pFetchmail_field_usessl']          = 'SSL 有効'; # XXX
+$PALANG['pFetchmail_field_sslcertck']       = 'SSL 証明書チェック'; # XXX
+$PALANG['pFetchmail_field_sslcertpath']     = 'SSL 証明書へのパス'; # XXX
+$PALANG['pFetchmail_field_sslfingerprint']  = 'SSL フィンガープリント (md5)'; # XXX
 $PALANG['pFetchmail_field_extra_options']   = '追加オプション';
 $PALANG['pFetchmail_field_mda']             = 'MDA';
 $PALANG['pFetchmail_field_date']            = '日付';
@@ -397,7 +397,7 @@ $PALANG['pFetchmail_desc_poll_time']        = '分単位の確認間隔';
 $PALANG['pFetchmail_desc_fetchall']         = '既読と新着メッセージを取得するか';
 $PALANG['pFetchmail_desc_keep']             = 'リモートサーバに取得済メッセージを残すか';
 $PALANG['pFetchmail_desc_protocol']         = '利用するプロトコル';
-$PALANG['pFetchmail_desc_usessl']           = 'SSL encryption'; # XXX
+$PALANG['pFetchmail_desc_usessl']           = 'SSL 暗号化'; # XXX
 $PALANG['pFetchmail_desc_extra_options']    = '追加の fetchmail オプション';
 $PALANG['pFetchmail_desc_mda']              = 'メール配送エージェント (Mail Delivery Agent)';
 $PALANG['pFetchmail_desc_date']             = '最終取得確認／設定変更日時';
