@@ -58,13 +58,18 @@ to have change the permissions for Postfix Admin.
 
 (the last command assumes your Apache is running with group "www-data")
 
-Since version 2.4 we use smarty templates. That means the templates_c directory
+Since version 3.0 we use smarty templates. That means the templates_c directory
 needs to be writeable for your webserver.
 
   $ cd /usr/local/www/postfixadmin
-  $ mkdir templates_c && chmod 640 templates && chown -R www-data templates_c
+  $ mkdir templates_c && chmod 750 templates_c && chown -R www-data templates_c
 
 (if your Apache runs as user "www-data")
+
+If you have SELinux enabled, also run (adust the path to match your setup)
+
+  $ sudo semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/utils/pfadmin/public/templates_c(/.*)?"
+  $ sudo restorecon -Rv /var/www/utils/pfadmin/
 
 
 4. Configure
