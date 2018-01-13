@@ -243,10 +243,13 @@ if ($result['rows'] > 0) {
             $row['modified'] = date('Y-m-d H:i', strtotime($row['modified']));
             $row['created'] = date('Y-m-d H:i', strtotime($row['created']));
             $row['active']=('t'==$row['active']) ? 1 : 0;
-            if($row['v_active'] == NULL) { 
-                $row['v_active'] = 'f';
+
+            if (Config::bool('vacation_control_admin')) {
+                if($row['v_active'] == NULL) {
+                    $row['v_active'] = 'f';
+                }
+                $row['v_active']=('t'==$row['v_active']) ? 1 : 0;
             }
-            $row['v_active']=('t'==$row['v_active']) ? 1 : 0; 
         }
         $tMailbox[] = $row;
     }
