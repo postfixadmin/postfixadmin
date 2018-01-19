@@ -37,7 +37,7 @@ if [[ "$1" == apache2* ]] || [ "$1" == php-fpm ]; then
 			echo >&2 'Error: POSTFIXADMIN_DB_USER and POSTFIXADMIN_DB_PASSWORD must be specified. '
 			exit 1
 		fi
-		timeout 15 bash -c "until echo > /dev/tcp/${POSTFIXADMIN_HOST}/${POSTFIXADMIN_DB_PORT}; do sleep 0.5; done"
+		timeout 15 bash -c "until echo > /dev/tcp/${POSTFIXADMIN_DB_HOST}/${POSTFIXADMIN_DB_PORT}; do sleep 0.5; done"
 	fi
 
 	if [ "$POSTFIXADMIN_DB_TYPE" = 'sqlite' ]; then
