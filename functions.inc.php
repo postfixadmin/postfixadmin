@@ -1026,6 +1026,28 @@ function pacrypt ($pw, $pw_db="") {
         }
     }
 
+    elseif (preg_match("/^bcrypt:/", Config::read('encrypt'))) {
+        //$CONF['encrypt'] = 'bcrypt:14:{BLF-CRYPT}:2y:2a';
+        //name=bcrypt, cost, {method} prefix, php_notify_key, dovecot_notify_key
+        $bcrypt_parameters = explode(':', Config::read('encrypt'));	
+	$options = [
+            'cost' => $bcrypt_parameters[1],
+        ];
+        if ((!empty($pw_db)) && (preg_match('/^(\{[A-Z0-9.-]+\})?(\$[^\$]+).+/', $pw_db, $matches))) {
+            //split up database password informations
+            //first match (if defined): {BLF-CRYPT}
+            //second match: bcrypt notify key p.e. $2a
+            $password_start = strlen($matches[1]) + strlen($matches[2]);
+            $vrf_storedPassword = '$'. $bcrypt_parameters[3] . substr($pw_db, $password_start);
+            if (password_verify($pw, $vrf_storedPassword)) {
+                $password = $pw_db;		
+            }
+        } else {
+            //password_hash uses $2y as bcrypt notifiy key, dovecot currently uses $2a
+            $password = $bcrypt_parameters[2] . '$'. $bcrypt_parameters[4] . substr(password_hash($pw, PASSWORD_BCRYPT, $options),3);
+        }
+    }	
+	
     else {
         die ('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
     }

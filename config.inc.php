@@ -161,6 +161,8 @@ $CONF['smtp_client'] = '';
 //     - don't use dovecot:* methods that include the username in the hash - you won't be able to login to PostfixAdmin in this case
 //     - you'll need at least dovecot 2.1 for salted passwords ('doveadm pw' 2.0.x doesn't support the '-t' option)
 //     - dovecot 2.0.0 - 2.0.7 is not supported
+// bcrypt = blowfish encrypted through php's password_hash(). Example: bcrypt:14:{BLF-CRYPT}:2y:2a
+//	Parameters: cost, {method} prefix, php_notify_key, dovecot_notify_key 
 $CONF['encrypt'] = 'md5crypt';
 
 // In what flavor should courier-authlib style passwords be encrypted?
