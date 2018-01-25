@@ -6,7 +6,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('templates')
     ->exclude('templates_c')
     ->exclude('debian')
-    ->files()->notName('config.inc.php')
+    ->files()->notName('config.inc.php')->notName('config.local.php')
     ->in(__DIR__);
 
 return PhpCsFixer\Config::create()
