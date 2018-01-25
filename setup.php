@@ -414,7 +414,10 @@ else
 
 <?php
 
-    } elseif ($_SERVER['REQUEST_METHOD'] == "GET" || $error != 0 || $lostpw_error == 0) {
+    } elseif (
+        (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "GET") || 
+        $error != 0 || 
+        $lostpw_error == 0 ) {
         ?>
 
 <div class="standout"><?php print $setupMessage; ?></div>
