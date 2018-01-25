@@ -250,7 +250,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{BIGINT}'          => 'bigint NOT NULL DEFAULT 0',
                 '{DATETIME}'        => "datetime NOT NULL default '2000-01-01 00:00:00'", # different from {DATE} only for MySQL
                 '{DATE}'            => "timestamp NOT NULL default '2000-01-01'", # MySQL needs a sane default (no default is interpreted as CURRENT_TIMESTAMP, which is ...
-                '{DATEFUTURE}'      => "timestamp NOT NULL default '2038-01-19'", # different default timestamp for vacation.activeuntil
+                '{DATEFUTURE}'      => "timestamp NOT NULL default '2038-01-18'", # different default timestamp for vacation.activeuntil
                 '{DATECURRENT}'     => 'timestamp NOT NULL default CURRENT_TIMESTAMP', # only allowed once per table in MySQL
         );
         $sql = "$sql $attach_mysql";
@@ -273,7 +273,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{BIGINT}'          => 'bigint(20) NOT NULL DEFAULT 0',
                 '{DATETIME}'        => "datetime NOT NULL default '2000-01-01'",
                 '{DATE}'            => "datetime NOT NULL default '2000-01-01'",
-                '{DATEFUTURE}'      => "datetime NOT NULL default '2038-01-19'", # different default timestamp for vacation.activeuntil
+                '{DATEFUTURE}'      => "datetime NOT NULL default '2038-01-18'", # different default timestamp for vacation.activeuntil
                 '{DATECURRENT}'     => 'datetime NOT NULL default CURRENT_TIMESTAMP',
         );
     } elseif($CONF['database_type'] == 'pgsql') {
@@ -297,7 +297,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 'int(4)'            => 'int', 
                 '{DATETIME}'        => "timestamp with time zone default '2000-01-01'", # stay in sync with MySQL
                 '{DATE}'            => "timestamp with time zone default '2000-01-01'", # stay in sync with MySQL
-                '{DATEFUTURE}'      => "timestamp with time zone default '2038-01-19'", # stay in sync with MySQL
+                '{DATEFUTURE}'      => "timestamp with time zone default '2038-01-18'", # stay in sync with MySQL
                 '{DATECURRENT}'     => 'timestamp with time zone default now()',
         );
 
