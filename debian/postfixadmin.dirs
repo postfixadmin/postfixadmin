@@ -1,8 +1,6 @@
 usr/share/postfixadmin
-usr/share/postfixadmin/templates_c
 usr/share/postfixadmin/scripts
 usr/share/postfixadmin/public
-usr/share/postfixadmin/public/css
 usr/share/doc/postfixadmin
 var/cache/postfixadmin
 usr/bin

@@ -41,6 +41,6 @@
 +$CONF['database_user'] = $dbuser;
 +$CONF['database_password'] = $dbpass;
 +$CONF['database_name'] = $dbname;
- 
- // If you need to specify a different port for a MYSQL database connection, use e.g.
- //   $CONF['database_host'] = '172.30.33.66:3308';
+
+ // Database SSL Config
+ $CONF['database_use_ssl'] = false;
