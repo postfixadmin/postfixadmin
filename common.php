@@ -95,10 +95,10 @@ Config::write('__LANG', $PALANG);
 unset($incpath);
 
 if (!defined('POSTFIXADMIN_CLI')) {
-    if(!is_file("$incpath/smarty.inc.php")) {
+    if(!is_file(dirname(__FILE__) . "/smarty.inc.php")) {
         die("smarty.inc.php is missing! Something is wrong...");
     }
-    require_once ("$incpath/smarty.inc.php");
+    require_once (dirname(__FILE__) . "/smarty.inc.php");
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
