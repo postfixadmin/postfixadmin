@@ -12,7 +12,6 @@ class PFASmarty {
         $this->template = new Smarty();
 
         //$this->template->debugging = true;
-        $incpath = dirname(__FILE__);
         $this->template->setTemplateDir(dirname(__FILE__) . '/templates');
 
         // if it's not present or writeable, smarty should just not cache.

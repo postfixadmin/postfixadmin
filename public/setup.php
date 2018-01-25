@@ -29,7 +29,7 @@ require_once(dirname(__FILE__).'/common.php'); # make sure correct common.php is
 $CONF['show_header_text'] = 'NO';
 $CONF['theme_logo'] = 'images/logo-default.png';
 $CONF['theme_css'] = 'css/default.css';
-require($incpath.'/templates/header.php');
+require(dirname(__FILE__) . '/../templates/header.php');
 ?>
 
 <div class='setup'>
@@ -53,8 +53,8 @@ $f_preg_match = function_exists ("preg_match");
 $f_mb_encode_mimeheader = function_exists ("mb_encode_mimeheader");
 $f_imap_open = function_exists ("imap_open");
 
-$file_config = file_exists (realpath ("./config.inc.php"));
-$file_local_config = file_exists (realpath ("./config.local.php"));
+$file_config = file_exists (realpath ("./../config.inc.php"));
+$file_local_config = file_exists (realpath ("./../config.local.php"));
 
 $error = 0;
 
@@ -130,7 +130,7 @@ $config_loaded = 0;
 if ($file_config == 1)
 {
     print "<li>Depends on: presence config.inc.php - OK</li>\n";
-    require_once($incpath.'/config.inc.php');
+    require_once(dirname(__FILE__) .'/../config.inc.php');
     $config_loaded = 1;
 
     if(isset($CONF['configured'])) {
@@ -327,7 +327,7 @@ if ($error != 0)
 else
 {
     print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
-    require_once($incpath.'/upgrade.php');
+    require_once(dirname(__FILE__) .'/upgrade.php');
 
     $tUsername = '';
     $setupMessage = '';

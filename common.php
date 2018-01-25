@@ -92,6 +92,7 @@ if(!empty($CONF['language_hook']) && function_exists($CONF['language_hook'])) {
 
 Config::write('__LANG', $PALANG);
 
+unset($incpath);
 
 if (!defined('POSTFIXADMIN_CLI')) {
     if(!is_file("$incpath/smarty.inc.php")) {
@@ -99,5 +100,6 @@ if (!defined('POSTFIXADMIN_CLI')) {
     }
     require_once ("$incpath/smarty.inc.php");
 }
+
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 ?>

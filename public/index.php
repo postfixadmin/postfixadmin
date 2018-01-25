@@ -22,8 +22,8 @@
 
 $CONF = array('configured' => FALSE);
 
-if(file_exists(dirname(__FILE__) . '/config.inc.php')) {
-    require_once('config.inc.php');
+if(file_exists(dirname(__FILE__) . '/../config.inc.php')) {
+    require_once(dirname(__FILE__) . '/../config.inc.php');
 }
 
 if ( $CONF['configured'] === TRUE )
@@ -67,9 +67,9 @@ if ( $CONF['configured'] === TRUE )
         <h2>What now?</h2>
 
         <ol>
-            <li>Read the <a href='INSTALL.TXT'>INSTALL.txt</a> file</li>
+            <li>Read the <a href='https://raw.githubusercontent.com/postfixadmin/postfixadmin/master/INSTALL.TXT'>INSTALL.TXT</a> file</li>
             <li>Configure Postfix to use your chosen database - see (for example) the following pages :
-            <ul>
+            <ul><!-- TODO: get newer URLs ... -->
                 <li><a href="http://codepoets.co.uk/postfixadmin-postgresql-courier-squirrelmail-debian-etch-howto-tutorial">Postfix/PostgreSQL/Postfixadmin/Courier</a></li>
                 <li><a href="http://bliki.rimuhosting.com/space/knowledgebase/linux/mail/postfixadmin+on+debian+sarge">Postfix/MySQL/Postfixadmin/Dovecot</a></li>
                 <li><a href="http://gentoo-wiki.com/HOWTO_Setup_a_Virtual_Postfix/Courier_Mail_System_with_PostfixAdmin">Postfix/MySQL/Postfixamdin/Courier</a></li>
@@ -80,10 +80,14 @@ if ( $CONF['configured'] === TRUE )
         <p><b>When you have configured Postfixadmin, this page will be replaced with a login page.</b></p>
         <p>You can now run <a href="setup.php">setup</a> to make sure that all the PHP functions are available for Postfix Admin to run.<br />
         <p> If you still encounter any problems, please check the documentation and website for more information.</p>
+
         <h2>Postfix Admin Web sites</h2>
         <p>For further help, or documentation please check out -
-        <a href="http://postfixadmin.org">Postfix Admin</a> web site<br />
-        <a href="http://sourceforge.net/forum/forum.php?forum_id=676076">Knowledge Base</a>
+        <ul>
+            <li><a href="http://github.com/postfixadmin/postfixadmin">GitHub - Postfix Admin</a> web site</li>
+            <li><a href="http://postfixadmin.org">Postfix Admin</a> web site<br /></li>
+            <li><a href="http://sourceforge.net/forum/forum.php?forum_id=676076">Knowledge Base</a></li>
+        </ul>
         </p>
         </p>
     </body>

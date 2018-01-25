@@ -29,7 +29,7 @@ $username = authentication_get_username(); # enforce login
 $table = safepost('table', safeget('table'));
 $handlerclass = ucfirst($table) . 'Handler';
 
-if ( !preg_match('/^[a-z]+$/', $table) || !file_exists("model/$handlerclass.php")) { # validate $table
+if ( !preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../model/$handlerclass.php")) { # validate $table
     die ("Invalid table name given!");
 }
 
