@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . '/common.php');
 
 
 $USERID_USERNAME = $username;
-$tmp = preg_split ('/@/', $USERID_USERNAME);
+$tmp = preg_split('/@/', $USERID_USERNAME);
 $USERID_LOCALPART = $tmp[0];
 $USERID_DOMAIN = $tmp[1];
 
@@ -13,10 +13,9 @@ $xmlrpc = get_xmlrpc();
 $alias = $xmlrpc->getProxy('alias');
 do_header();
 // Normal page request (GET)
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $row = $alias->get();
-    if($row === false) {
+    if ($row === false) {
         bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
         textdomain('postfixadmin');
         $tMessage = _("Unable to locate alias!");
@@ -26,29 +25,25 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST")
-{
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $pEdit_alias_goto = _("To");
 
     $fGoto = $_POST['fGoto'];
 
     // reform string into a list...
-    $goto = preg_replace ('/\r\n/', ',', $fGoto);
-    $goto = preg_replace ('/[\s]+/i', '', $goto);
-    $goto = preg_replace ('/\,*$/', '', $goto);
-    $array = preg_split ('/,/', $goto);
+    $goto = preg_replace('/\r\n/', ',', $fGoto);
+    $goto = preg_replace('/[\s]+/i', '', $goto);
+    $goto = preg_replace('/\,*$/', '', $goto);
+    $array = preg_split('/,/', $goto);
     $error = 0;
     // check that we have valid addresses in the list
 
-    foreach($array as $key => $email_address) 
-    {
-        if (empty($email_address))
-        {
-            unset($array[$key]);	
+    foreach ($array as $key => $email_address) {
+        if (empty($email_address)) {
+            unset($array[$key]);
             continue;
         }
-        if (!check_email($email_address)) 
-        {
+        if (!check_email($email_address)) {
             $error = 1;
             $tGoto = $goto;
             bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
@@ -61,15 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
     if ($error != 1) {
         $flag = 'forward_and_store'; // goto = $USERID_USERNAME;
         $success = $alias->update($array, $flag);
-        if(!$success) {
+        if (!$success) {
             bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
             textdomain('postfixadmin');
             $tMessage = _("Unable to modify the alias!");
             bindtextdomain('squirrelmail', SM_PATH . 'locale');
             textdomain('squirrelmail');
-        }
-        else {
-
+        } else {
             bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
             textdomain('postfixadmin');
             echo "<p align=center><b>". _("Alias successfully changed!"). "\n</b></p>";
@@ -83,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
 textdomain('postfixadmin');
 
-if(!isset($tMessage)) {
+if (!isset($tMessage)) {
     $tMessage = '';
 }
 echo "<table bgcolor=\"$color[0]\" align=\"center\" width=\"95%\" cellpadding=\"1\" cellspacing=\"0\" border=\"0\">
@@ -129,8 +122,10 @@ echo "<table bgcolor=\"$color[0]\" align=\"center\" width=\"95%\" cellpadding=\"
 bindtextdomain('squirrelmail', SM_PATH . 'locale');
 textdomain('squirrelmail');
 $aliases = $alias->get();
-foreach($aliases as $address) {
-    if ($address == "" || $address == NULL) { continue; }
+foreach ($aliases as $address) {
+    if ($address == "" || $address == null) {
+        continue;
+    }
     print "$address\n";
 }
 bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
@@ -162,4 +157,3 @@ echo "
 ";
 bindtextdomain('squirrelmail', SM_PATH . 'locale');
 textdomain('squirrelmail');
-?>

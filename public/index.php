@@ -1,16 +1,16 @@
 <?php
-/** 
- * Postfix Admin 
- * 
- * LICENSE 
- * This source file is subject to the GPL license that is bundled with  
- * this package in the file LICENSE.TXT. 
- * 
+/**
+ * Postfix Admin
+ *
+ * LICENSE
+ * This source file is subject to the GPL license that is bundled with
+ * this package in the file LICENSE.TXT.
+ *
  * Further details on the project are available at http://postfixadmin.sf.net or https://github.com/postfixadmin/postfixadmin
- * 
- * @version $Id$ 
- * @license GNU GPL v2 or later. 
- * 
+ *
+ * @version $Id$
+ * @license GNU GPL v2 or later.
+ *
  * File: index.php
  * Shows a sort-of welcome page.
  * Template File: -none-
@@ -20,15 +20,14 @@
  * Form POST \ GET Variables: -none-
  */
 
-$CONF = array('configured' => FALSE);
+$CONF = array('configured' => false);
 
-if(file_exists(dirname(__FILE__) . '/../config.inc.php')) {
+if (file_exists(dirname(__FILE__) . '/../config.inc.php')) {
     require_once(dirname(__FILE__) . '/../config.inc.php');
 }
 
-if ( $CONF['configured'] === TRUE )
-{
-    header ("Location: login.php");
+if ($CONF['configured'] === true) {
+    header("Location: login.php");
     exit;
 }
 ?>

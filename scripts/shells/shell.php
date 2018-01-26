@@ -36,62 +36,62 @@ class Shell {
      * @var object
      * @access public
      */
-    var $Dispatch = null;
+    public $Dispatch = null;
     /**
      * If true, the script will ask for permission to perform actions.
      *
      * @var boolean
      * @access public
      */
-    var $interactive = true;
+    public $interactive = true;
     /**
      * Contains command switches parsed from the command line.
      *
      * @var array
      * @access public
      */
-    var $params = array();
+    public $params = array();
     /**
      * Contains arguments parsed from the command line.
      *
      * @var array
      * @access public
      */
-    var $args = array();
+    public $args = array();
     /**
      * The file name of the shell that was invoked.
      *
      * @var string
      * @access public
      */
-    var $shell = null;
+    public $shell = null;
     /**
      * The class name of the shell that was invoked.
      *
      * @var string
      * @access public
      */
-    var $className = null;
+    public $className = null;
     /**
      * The command called if public methods are available.
      *
      * @var string
      * @access public
      */
-    var $command = null;
+    public $command = null;
     /**
      * The name of the shell in camelized.
      *
      * @var string
      * @access public
      */
-    var $name = null;
+    public $name = null;
 
     /**
      *  Constructs this Shell instance.
      *
      */
-    function __construct(&$dispatch) {
+    public function __construct(&$dispatch) {
         $vars = array('params', 'args', 'shell', 'shellCommand'=> 'command');
         foreach ($vars as $key => $var) {
             if (is_string($key)) {
@@ -117,7 +117,7 @@ class Shell {
      *
      * @access public
      */
-    function initialize() {
+    public function initialize() {
     }
     /**
      * Starts up the the Shell
@@ -126,9 +126,9 @@ class Shell {
      *
      * @access public
      */
-    function startup() {
+    public function startup() {
         #CHECK!
-        if ( empty($this->params['q'] ) ) {
+        if (empty($this->params['q'])) {
             $this->_welcome();
         }
         $CONF = Config::read('all');
@@ -138,7 +138,7 @@ class Shell {
      *
      * @access protected
      */
-    function _welcome() {
+    public function _welcome() {
         $this->out("\nWelcome to Postfixadmin-CLI v" . $this->Dispatch->version);
         $this->hr();
     }
@@ -152,11 +152,13 @@ class Shell {
      * @return Either the default value, or the user-provided input.
      * @access public
      */
-    function in($prompt, $options = null, $default = null) {
+    public function in($prompt, $options = null, $default = null) {
         if (!$this->interactive) {
             return $default;
         }
-        if ($prompt != '') $this->out("");
+        if ($prompt != '') {
+            $this->out("");
+        }
         $in = $this->Dispatch->getInput($prompt, $options, $default);
 
         if ($options && is_string($options)) {
@@ -184,10 +186,10 @@ class Shell {
      * @param boolean $newline If true, the outputs gets an added newline.
      * @access public
      */
-    function out($string, $newline = true) {
+    public function out($string, $newline = true) {
         if (is_array($string)) {
             $str = '';
-            foreach($string as $message) {
+            foreach ($string as $message) {
                 $str .= $message ."\n";
             }
             $string = $str;
@@ -200,10 +202,10 @@ class Shell {
      * @param string $string Error text to output.
      * @access public
      */
-    function err($string) {
+    public function err($string) {
         if (is_array($string)) {
             $str = '';
-            foreach($string as $message) {
+            foreach ($string as $message) {
                 $str .= $message ."\n";
             }
             $string = $str;
@@ -216,7 +218,7 @@ class Shell {
      * @param boolean $newline If true, the outputs gets an added newline.
      * @access public
      */
-    function hr($newline = false) {
+    public function hr($newline = false) {
         if ($newline) {
             $this->out("\n");
         }
@@ -232,7 +234,7 @@ class Shell {
      * @param string $msg Error message
      * @access public
      */
-    function error($title, $msg) {
+    public function error($title, $msg) {
         $out  = "$title\n";
         $out .= "$msg\n";
         $out .= "\n";
@@ -244,7 +246,7 @@ class Shell {
      *
      * @access public
      */
-    function help() {
+    public function help() {
         if ($this->command != null) {
             $this->err("Unknown {$this->name} command '$this->command'.\nFor usage, try 'postfixadmin-cli {$this->shell} help'.\n\n");
         } else {
@@ -258,10 +260,7 @@ class Shell {
      * @return void
      * @access public
      */
-    function _stop($status = 0) {
+    public function _stop($status = 0) {
         exit($status);
     }
-
-
-
 }

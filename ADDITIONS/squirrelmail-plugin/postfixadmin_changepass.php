@@ -9,7 +9,7 @@ global $username;
 do_header();
 
 $USERID_USERNAME = $username;
-$tmp = preg_split ('/@/', $USERID_USERNAME);
+$tmp = preg_split('/@/', $USERID_USERNAME);
 $USERID_DOMAIN = $tmp[1];
 
 
@@ -20,15 +20,14 @@ $pPassword_password_current_text = '';
 $pPassword_password_text = '';
 $error = 0;
 
-if ($_SERVER['REQUEST_METHOD'] == "POST")
-{
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     //$pPassword_password_text = _("pPassword_password_text");
     $fPassword_current = $_POST['fPassword_current'];
     $fPassword = $_POST['fPassword'];
     $fPassword2 = $_POST['fPassword2'];
     $username = $USERID_USERNAME;
 
-    if(!$user->login($_SESSION['username'], $_POST['fPassword_current'])) {
+    if (!$user->login($_SESSION['username'], $_POST['fPassword_current'])) {
         $error = 1;
         bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
         textdomain('postfixadmin');
@@ -37,20 +36,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
         textdomain('squirrelmail');
     }
     $min_length = 0;
-    if(isset($CONF['min_password_length'])) {
+    if (isset($CONF['min_password_length'])) {
         $min_length = $CONF['min_password_length'];
     }
-    if (empty ($fPassword) or ($fPassword != $fPassword2) or ($min_length > 0 && strlen($fPassword) < $min_length)) {
+    if (empty($fPassword) or ($fPassword != $fPassword2) or ($min_length > 0 && strlen($fPassword) < $min_length)) {
         $error = 1;
         bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
         textdomain('postfixadmin');
-        if(empty($fPassword)) {
+        if (empty($fPassword)) {
             $pPassword_password_text .= _("The passwords that you supplied are empty!");
         }
-        if($fPassword != $fPassword2) {
+        if ($fPassword != $fPassword2) {
             $pPassword_password_text .= _("The passwords that you supplied don't match!");
         }
-        if($min_length > 0 && strlen($fPassword) < $min_length) {
+        if ($min_length > 0 && strlen($fPassword) < $min_length) {
             $pPassword_password_text .= _("The password you supplied is too short!");
         }
         bindtextdomain('squirrelmail', SM_PATH . 'locale');
@@ -67,8 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
             $stMessage = _("Please sign out and log back again with your new password!");
             bindtextdomain('squirrelmail', SM_PATH . 'locale');
             textdomain('squirrelmail');
-        }
-        else {
+        } else {
             bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
             textdomain('postfixadmin');
             $tMessage = _("Unable to change your password!");
@@ -125,4 +123,3 @@ echo "<table bgcolor=\"$color[0]\" align=\"center\" width=\"95%\" cellpadding=\"
     </tr></table></td></tr></table>";
 bindtextdomain('squirrelmail', SM_PATH . 'locale');
 textdomain('squirrelmail');
-?>

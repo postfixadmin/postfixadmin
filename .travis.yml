@@ -13,5 +13,5 @@ before_script:
   - composer install
 
 script:
-  - composer check
+  - composer check-format
 
