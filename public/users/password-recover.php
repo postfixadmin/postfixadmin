@@ -1,16 +1,16 @@
 <?php
-/** 
- * Postfix Admin 
- * 
- * LICENSE 
- * This source file is subject to the GPL license that is bundled with  
- * this package in the file LICENSE.TXT. 
- * 
- * Further details on the project are available at http://postfixadmin.sf.net 
- * 
- * @version $Id$ 
- * @license GNU GPL v2 or later. 
- * 
+/**
+ * Postfix Admin
+ *
+ * LICENSE
+ * This source file is subject to the GPL license that is bundled with
+ * this package in the file LICENSE.TXT.
+ *
+ * Further details on the project are available at http://postfixadmin.sf.net
+ *
+ * @version $Id$
+ * @license GNU GPL v2 or later.
+ *
  * File: password-recover.php
  * Used by users and admins to recover their forgotten login password.
  * Template File: password-recover.tpl
@@ -26,11 +26,11 @@
 
 
 if (preg_match('/\/users\//', $_SERVER['REQUEST_URI'])) {
-  $rel_path = '../';
-  $context = 'users';
+    $rel_path = '../';
+    $context = 'users';
 } else {
-  $rel_path = './';
-  $context = 'admin';
+    $rel_path = './';
+    $context = 'admin';
 }
 require_once($rel_path . 'common.php');
 
@@ -57,11 +57,10 @@ function sendCodebySMS($to, $username, $code) {
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $start_time = microtime(true);
-    $tUsername = escape_string (safepost('fUsername'));
+    $tUsername = escape_string(safepost('fUsername'));
     $handler = $context === 'admin' ? new AdminHandler : new MailboxHandler;
     $token = $handler->getPasswordRecoveryCode($tUsername);
     if ($token !== false) {
-
         $table = table_by_key($context === 'users' ? 'mailbox' : 'admin');
         $result = db_query("SELECT * FROM $table WHERE username='$tUsername'");
         $row = db_array($result['result']);
@@ -92,9 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     flash_info(Config::Lang('pPassword_recovery_processed'));
 }
 
-$smarty->assign ('language_selector', language_selector(), false);
-$smarty->assign ('smarty_template', 'password-recover');
-$smarty->display ('index.tpl');
+$smarty->assign('language_selector', language_selector(), false);
+$smarty->assign('smarty_template', 'password-recover');
+$smarty->display('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
-?>
