@@ -27,12 +27,12 @@
  * }
  *
  * Note, the requirement that your XmlRpc client provides cookies with each request.
- * If it does not do this, then your authentication details will not persist across requests, and 
+ * If it does not do this, then your authentication details will not persist across requests, and
  * this XMLRPC interface will not work.
  */
 require_once(dirname(__FILE__) . '/common.php');
 
-if($CONF['xmlrpc_enabled'] == false) {
+if ($CONF['xmlrpc_enabled'] == false) {
     die("xmlrpc support disabled");
 }
 
@@ -45,9 +45,8 @@ $server = new Zend_XmlRpc_Server();
  * @return boolean true on success, else false.
  */
 function login($username, $password) {
-
     $h = new MailboxHandler();
-    if($h->login($username, $password)) {
+    if ($h->login($username, $password)) {
         session_regenerate_id();
         $_SESSION['authenticated'] = true;
         $_SESSION['sessid'] = array();
@@ -57,10 +56,9 @@ function login($username, $password) {
     return false;
 }
 
-if(!isset($_SESSION['authenticated'])) {
+if (!isset($_SESSION['authenticated'])) {
     $server->addFunction('login', 'login');
-}
-else {
+} else {
     $server->setClass('UserProxy', 'user');
     $server->setClass('VacationProxy', 'vacation');
     $server->setClass('AliasProxy', 'alias');
@@ -77,15 +75,17 @@ class UserProxy {
      */
     public function changePassword($old_password, $new_password) {
         $uh = new MailboxHandler();
-        if (!$uh->init($_SESSION['sessid']['username'])) return false;
+        if (!$uh->init($_SESSION['sessid']['username'])) {
+            return false;
+        }
         return $uh->change_pw($new_password, $old_password);
     }
 
-   /**
-     * @param string $username
-     * @param string $password
-     * @return boolean true if successful.
-     */
+    /**
+      * @param string $username
+      * @param string $password
+      * @return boolean true if successful.
+      */
     public function login($username, $password) {
         $uh = new MailboxHandler(); # $_SESSION['sessid']['username']);
         return $uh->login($username, $password);
@@ -139,8 +139,6 @@ class VacationProxy {
         $vh = new VacationHandler($_SESSION['sessid']['username']);
         return $vh->set_away($subject, $body, $interval_time, $activeFrom, $activeUntil);
     }
-
-
 }
 class AliasProxy {
     /**

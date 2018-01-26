@@ -9,12 +9,11 @@ require_once('Zend/Http/Client.php');
 require_once('Zend/Registry.php');
 
 abstract class RemoteTest extends PHPUnit_Framework_TestCase {
-
     protected $server_url = 'http://orange/david/postfixadmin/xmlrpc.php';
     protected $username = 'roger@example.com';
     protected $password = 'patchthedog';
 
-    /* xmlrpc objects... */    
+    /* xmlrpc objects... */
     protected $user;
     protected $vacation;
     protected $alias;
@@ -28,7 +27,7 @@ abstract class RemoteTest extends PHPUnit_Framework_TestCase {
         $login_object = $this->xmlrpc_client->getProxy('login');
         $success = $login_object->login($this->username, $this->password);
 
-        if(!$success) {
+        if (!$success) {
             var_dump($success);
             die("Failed to login to xmlrpc interface");
         }

@@ -15,14 +15,12 @@ EOM;
 do_header();
 
 $USERID_USERNAME = $username;
-$tmp = preg_split ('/@/', $USERID_USERNAME);
+$tmp = preg_split('/@/', $USERID_USERNAME);
 $USERID_DOMAIN = $tmp[1];
 
-if ($_SERVER['REQUEST_METHOD'] == "GET")
-{
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $details = $vacation->getDetails();
-    if($vacation->checkVacation()) {
-
+    if ($vacation->checkVacation()) {
         bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
         textdomain('postfixadmin');
         $tMessage = _("You already have an auto response configured!");
@@ -54,9 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
             </tr></table><BR></td></tr></table></td></tr></table>";
         bindtextdomain('squirrelmail', SM_PATH . 'locale');
         textdomain('squirrelmail');
-    }
-    else
-    {
+    } else {
         $tSubject = "Out of Office";
         $tSubject = $details['subject'];
         $VACCONF = $details['body'];
@@ -94,64 +90,52 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST")
-{
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $fBack = null;
     $fAway = null;
-    foreach(array('fBack', 'fAway', 'fSubject', 'fBody') as $key) {
+    foreach (array('fBack', 'fAway', 'fSubject', 'fBody') as $key) {
         $$key = null;
-        if(isset($_POST[$key])) {
+        if (isset($_POST[$key])) {
             $$key = $_POST[$key];
         }
     }
     
-    if (!empty($fBack))
-    {
+    if (!empty($fBack)) {
         $success = $vacation->remove();
 
-        if(!$success)
-        {
+        if (!$success) {
             bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
             textdomain('postfixadmin');
             $tMessage = _("Unable to update your auto response settings!");
             echo "<p>This may signify an error; please contact support (1)</p>";
             bindtextdomain('squirrelmail', SM_PATH . 'locale');
             textdomain('squirrelmail');
-        }
-        else
-        {
+        } else {
             bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
             textdomain('postfixadmin');
             echo "<p align=center><b>". _("Your auto response has been removed!") ."</b></p>";
             bindtextdomain('squirrelmail', SM_PATH . 'locale');
             textdomain('squirrelmail');
-
         }
     }
 
-    if (!empty ($fAway))
-    {
+    if (!empty($fAway)) {
         // add record into vacation
         $success = $vacation->setAway($fSubject, $fBody);
 
-        if(!$success) {
+        if (!$success) {
             $error = 1;
             bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
             textdomain('postfixadmin');
             $tMessage = _("Unable to update your auto response settings!");
             bindtextdomain('squirrelmail', SM_PATH . 'locale');
             textdomain('squirrelmail');
-        }
-        else
-        {
+        } else {
             bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');
             textdomain('postfixadmin');
             echo "<p align=center><b>". _("Your auto response has been set!") ."</b></p>";
             bindtextdomain('squirrelmail', SM_PATH . 'locale');
             textdomain('squirrelmail');
-
         }
     }
 }
-
-?>
