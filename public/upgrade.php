@@ -1724,5 +1724,5 @@ function upgrade_1839() {
 function upgrade_1840_mysql_pgsql() {
     # sqlite doesn't support changing the default value
     $vacation = table_by_key('vacation');
-    db_query_parsed("ALTER TABLE $vacation ALTER COLUMN activeuntil SET DEFAULT '2038-01-19'");
+    db_query_parsed("ALTER TABLE $vacation ALTER COLUMN activeuntil SET DEFAULT '2038-01-18'");
 }
