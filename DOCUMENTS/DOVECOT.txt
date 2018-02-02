@@ -29,7 +29,7 @@ changing to talk to a PostgreSQL or MySQL database.
 
 # BEGIN /etc/dovecot/dovecot.conf:
 # Change this to where your mail root is, this needs to match whatever structure postfix expects....
-
+# See also: https://wiki.dovecot.org/MailLocation - %d domain, %u full username, %n user part (%u with no domain)
 mail_location = maildir:/var/mail/vmail/%u/
 
 namespace inbox {
