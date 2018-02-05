@@ -1,8 +1,8 @@
 <!-- {$smarty.template} -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html lang="{if isset($smarty.session.lang)}{$smarty.session.lang}{/if}">
 	<head>
+        <meta charset="utf-8">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Postfix Admin - {$smarty.server.HTTP_HOST}</title>
 		<link rel="shortcut icon" href="images/favicon.ico">
@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="{$CONF.theme_custom_css}" />
 {/if}
 	</head>
-	<body class="lang-{$smarty.session.lang} page-{$smarty_template} {if isset($table)}page-{$smarty_template}-{$table}{/if}">
+	<body class="lang-{if isset($smarty.session.lang)}{$smarty.session.lang}{/if} page-{$smarty_template} {if isset($table)}page-{$smarty_template}-{$table}{/if}">
 		<div id="container">
 		<div id="login_header">
 		<a href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo" /></a>
