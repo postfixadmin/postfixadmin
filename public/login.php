@@ -78,6 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
+
+session_unset();
+session_destroy();
+session_start();
+
 $_SESSION['PFA_token'] = md5(uniqid(rand(), true));
 
 $smarty->assign('language_selector', language_selector(), false);

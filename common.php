@@ -25,12 +25,6 @@ if (!defined('POSTFIXADMIN')) { # already defined if called from setup.php
         session_name('postfixadmin_session');
         session_start();
 
-        if (defined('POSTFIXADMIN_LOGOUT')) {
-            session_unset();
-            session_destroy();
-            session_start();
-        }
-
         if (empty($_SESSION['flash'])) {
             $_SESSION['flash'] = array();
         }
