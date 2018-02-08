@@ -76,7 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             mb_internal_encoding("UTF-8");
             $b_name = mb_encode_mimeheader($_POST['name'], 'UTF-8', 'Q');
             $b_subject = mb_encode_mimeheader($_POST['subject'], 'UTF-8', 'Q');
-            $b_message = base64_encode($_POST['message']);
+            $b_message = chunk_split(base64_encode($_POST['message']));
+
+            $serverName = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : php_uname('n'); // ??
 
             $i = 0;
             foreach ($recipients as $rcpt) {
@@ -87,6 +89,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $fHeaders .= 'MIME-Version: 1.0' . "\n";
                 $fHeaders .= 'Content-Type: text/plain; charset=UTF-8' . "\n";
                 $fHeaders .= 'Content-Transfer-Encoding: base64' . "\n";
+                $fHeaders .= 'Date: ' . date('r', time()) . "\n";
+                $fHeaders .= 'Message-ID: <' . microtime(true) . '-' . md5($smtp_from_email . $fTo) . "@{$serverName}>\n\n";
 
                 $fHeaders .= $b_message;
 
