@@ -2007,8 +2007,16 @@ function gen_show_status($show_alias) {
 
         //make sure this alias goes somewhere known
         $stat_ok = 1;
-        while (($g=array_pop($gotos)) && $stat_ok) {
-            list(/*NULL*/, $stat_domain) = explode('@', $g);
+        foreach($gotos as $g) {
+            if(!$stat_ok) {
+                break;
+            }
+            if(strpos($g, '@') === false) { 
+                continue;
+            }
+
+            list($local_part, $stat_domain) = explode('@', $g);
+
             $stat_delimiter = "";
             if (!empty($CONF['recipient_delimiter'])) {
                 $stat_delimiter = "OR address = '" . escape_string(preg_replace($delimiter_regex, "@", $g)) . "'";
@@ -2024,8 +2032,7 @@ function gen_show_status($show_alias) {
             }
         } // while
         if ($stat_ok == 0) {
-            $stat_string .= "<span style='background-color:" . $CONF['show_undeliverable_color'] .
-                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+            $stat_string .= "<span style='background-color:" . $CONF['show_undeliverable_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
         }
