@@ -1932,39 +1932,6 @@ function check_db_version($error_out = true) {
     return $dbversion;
 }
 
-/*
-   Called after an alias_domain has been deleted in the DBMS.
-   Returns: boolean.
- */
-# TODO: This function is never called
-function alias_domain_postdeletion($alias_domain) {
-    global $CONF;
-    $confpar='alias_domain_postdeletion_script';
-
-    if (!isset($CONF[$confpar]) || empty($CONF[$confpar])) {
-        return true;
-    }
-
-    if (empty($alias_domain)) {
-        print '<p>Warning: empty alias_domain parameter.</p>';
-        return false;
-    }
-
-    $cmdarg1=escapeshellarg($alias_domain);
-    $command=$CONF[$confpar]." $cmdarg1";
-    $retval=0;
-    $output=array();
-    $firstline='';
-    $firstline=exec($command, $output, $retval);
-    if (0!=$retval) {
-        error_log("Running $command yielded return value=$retval, first line of output=$firstline");
-        print '<p>WARNING: Problems running alias_domain postdeletion script!</p>';
-        return false;
-    }
-
-    return true;
-}
-
 //
 // gen_show_status
 // Action: Return a string of colored &nbsp;'s that indicate
