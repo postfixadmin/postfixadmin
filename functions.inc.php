@@ -277,6 +277,12 @@ function check_email($email) {
         return Config::lang_f('pInvalidMailRegex', $email);
     }
 
+    if(function_exists('filter_var')) {
+        $check = filter_var($email, FILTER_VALIDATE_EMAIL);
+        if(!$check) {
+            return Config::lang_f('pInvalidMailRegex', $email);
+        }
+    }
     // Determine domain name
     $matches=array();
     if (!preg_match('|@(.+)$|', $ce_email, $matches)) {
