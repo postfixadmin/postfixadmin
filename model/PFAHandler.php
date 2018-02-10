@@ -808,7 +808,7 @@ abstract class PFAHandler {
 
         $result = db_query($query);
         if ($result['rows'] == 1) {
-            $row = db_array($result['result']);
+            $row = db_assoc($result['result']);
             $crypt_password = pacrypt($password, $row['password']);
 
             if ($row['password'] == $crypt_password) {
@@ -853,7 +853,7 @@ abstract class PFAHandler {
 
         $result = db_query($query);
         if ($result['rows'] == 1) {
-            $row = db_array($result['result']);
+            $row = db_assoc($result['result']);
             $crypt_token = pacrypt($token, $row['token']);
 
             if ($row['token'] == $crypt_token) {
