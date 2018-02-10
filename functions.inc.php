@@ -515,7 +515,7 @@ function create_page_browser($idxfield, $querypart) {
     $query = "SELECT count(*) as counter FROM (SELECT $idxfield $querypart) AS tmp";
     $result = db_query($query);
     if ($result['rows'] > 0) {
-        $row = db_array($result['result']);
+        $row = db_assoc($result['result']);
         $count_results = $row['counter'] -1; # we start counting at 0, not 1
     }
     #    echo "<p>rows: " . ($count_results +1) . " --- $query";
@@ -570,8 +570,8 @@ function create_page_browser($idxfield, $querypart) {
 
     $result = db_query($query);
     if ($result['rows'] > 0) {
-        while ($row = db_array($result['result'])) {
-            if ($row2 = db_array($result['result'])) {
+        while ($row = db_assoc($result['result'])) {
+            if ($row2 = db_assoc($result['result'])) {
                 $label = substr($row['label'], 0, $label_len) . '-' . substr($row2['label'], 0, $label_len);
                 $pagebrowser[] = $label;
             } else { # only one row remaining
@@ -662,7 +662,7 @@ function list_domains_for_admin($username) {
     $result = db_query($query);
     if ($result['rows'] > 0) {
         $i = 0;
-        while ($row = db_array($result['result'])) {
+        while ($row = db_assoc($result['result'])) {
             $list[$i] = $row['domain'];
             $i++;
         }
@@ -684,7 +684,7 @@ function list_domains() {
     $result = db_query("SELECT domain FROM $table_domain WHERE domain!='ALL' ORDER BY domain");
     if ($result['rows'] > 0) {
         $i = 0;
-        while ($row = db_array($result['result'])) {
+        while ($row = db_assoc($result['result'])) {
             $list[$i] = $row['domain'];
             $i++;
         }
