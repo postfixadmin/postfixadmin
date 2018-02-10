@@ -1660,7 +1660,8 @@ function db_assoc($result) {
  */
 function db_delete($table, $where, $delete, $additionalwhere='') {
     $table = table_by_key($table);
-    $query = "DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "' " . $additionalwhere;
+
+    $query = "DELETE FROM $table WHERE $where ='" . escape_string($delete) . "' " . $additionalwhere;
     $result = db_query($query);
 
     if ($result['rows'] >= 1) {
