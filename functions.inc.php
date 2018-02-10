@@ -1745,37 +1745,11 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
         }
     }
 
-    $sql="UPDATE $table SET ".implode(",", $sql_values)." WHERE $where";
+    $sql="UPDATE $table SET " . implode(",", $sql_values) . " WHERE $where";
 
     $result = db_query($sql);
     return $result['rows'];
 }
-
-/**
- * db_begin / db_commit / db_rollback
- * Action: BEGIN / COMMIT / ROLLBACK transaction (PostgreSQL only!)
- * Call: db_begin()
- */
-function db_begin() {
-    if (db_pgsql()) { # TODO: also enable for mysql? (not supported by MyISAM, which is used for most tables)
-        db_query('BEGIN');
-    }
-}
-
-function db_commit() {
-    if (db_pgsql()) {
-        db_query('COMMIT');
-    }
-}
-
-function db_rollback() {
-    if (db_pgsql()) {
-        db_query('ROLLBACK');
-    }
-}
-
-
-
 
 
 /**
