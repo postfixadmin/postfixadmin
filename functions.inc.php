@@ -309,12 +309,12 @@ function escape_string($string) {
     // Note, the array keys are not cleaned.
     if (is_array($string)) {
         $clean = array();
-        foreach (array_keys($string) as $row) {
-            $clean[$row] = escape_string($string[$row]);
+        foreach($string as $k => $v) {
+            $clean[$k] = escape_string($v);
         }
         return $clean;
     }
-    if (get_magic_quotes_gpc()) {
+    if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
         $string = stripslashes($string);
     }
     if (!is_numeric($string)) {
@@ -1732,8 +1732,8 @@ function db_update($table, $where_col, $where_value, $values, $timestamp = array
 function db_update_q($table, $where, $values, $timestamp = array('modified')) {
     $table = table_by_key($table);
 
-    foreach (array_keys($values) as $key) {
-        $sql_values[$key] = escape_string($key) . "='" . escape_string($values[$key]) . "'";
+    foreach ($values as $key => $value) {
+        $sql_values[$key] = $key . "='" . escape_string($values) . "'";
     }
 
     foreach ($timestamp as $key) {
