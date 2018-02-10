@@ -300,9 +300,8 @@ function check_email($email) {
  * Clean a string, escaping any meta characters that could be
  * used to disrupt an SQL string. i.e. "'" => "\'" etc.
  *
- * @param mixed string|array
- * @return String (or Array) of cleaned data, suitable for use within an SQL
- *    statement.
+ * @param string|array parameters to escape
+ * @return string|array of cleaned data, suitable for use within an SQL statement.
  */
 function escape_string($string) {
     global $CONF;
@@ -352,9 +351,9 @@ function escape_string($string) {
  *       - or -
  *  $param = safeget('param', 'default')
  *
- *  @param String parameter name.
- *  @param String (optional) - default value if key is not set.
- *  @return String
+ *  @param string $param parameter name.
+ *  @param string $default (optional) - default value if key is not set.
+ *  @return string
  */
 function safeget($param, $default="") {
     $retval=$default;
@@ -365,12 +364,11 @@ function safeget($param, $default="") {
 }
 
 /**
- * safepost - similar to safeget()
+ * safepost - similar to safeget() but for $_POST
  * @see safeget()
- * @param String parameter name
- * @param String (optional) default value (defaults to "")
- * @return String - value in $_POST[$param] or $default
- * same as safeget, but for $_POST
+ * @param string $param parameter name
+ * @param string $default (optional) default value (defaults to "")
+ * @return string - value in $_POST[$param] or $default
  */
 function safepost($param, $default="") {
     $retval=$default;
@@ -383,9 +381,9 @@ function safepost($param, $default="") {
 /**
  * safeserver
  * @see safeget()
- * @param String $param
- * @param String $default (optional)
- * @return String value from $_SERVER[$param] or $default
+ * @param string $param
+ * @param string $default (optional)
+ * @return string value from $_SERVER[$param] or $default
  */
 function safeserver($param, $default="") {
     $retval=$default;
@@ -398,9 +396,9 @@ function safeserver($param, $default="") {
 /**
  * safecookie
  * @see safeget()
- * @param String $param
- * @param String $default (optional)
- * @return String value from $_COOKIE[$param] or $default
+ * @param string $param
+ * @param string $default (optional)
+ * @return string value from $_COOKIE[$param] or $default
  */
 function safecookie($param, $default="") {
     $retval=$default;
@@ -413,9 +411,9 @@ function safecookie($param, $default="") {
 /**
  * safesession
  * @see safeget()
- * @param String $param
- * @param String $default (optional)
- * @return String value from $_SESSION[$param] or $default
+ * @param string $param
+ * @param string $default (optional)
+ * @return string value from $_SESSION[$param] or $default
  */
 function safesession($param, $default="") {
     $retval=$default;
@@ -431,11 +429,11 @@ function safesession($param, $default="") {
  * @param int $allow_editing
  * @param int $display_in_form
  * @param int display_in_list
- * @param String $type
- * @param String PALANG_label
- * @param String PALANG_desc
+ * @param string $type
+ * @param string PALANG_label
+ * @param string PALANG_desc
  * @param any optional $default
- * @param array optional $options
+ * @param array $options optional options
  * @param int or $not_in_db - if array, can contain the remaining parameters as associated array
  * @param ...
  * @return array for $struct
@@ -1489,12 +1487,11 @@ function db_sqlite() {
     }
 }
 
-//
-// db_query
-// Action: Sends a query to the database and returns query result and number of rows
-// Call: db_query (string query)
-// Optional parameter: $ignore_errors = TRUE, used by upgrade.php
-//
+/**
+ * @param string $query SQL to execute
+ * @param int $ignore_errors (default 0 aka do not ignore errors)
+ * @return array ['result' => resource, 'rows' => int ,'error' => string]
+ */
 function db_query($query, $ignore_errors = 0) {
     global $CONF;
     global $DEBUG_TEXT;
@@ -1601,11 +1598,11 @@ function db_row($result) {
 }
 
 
-
-// db_array
-// Action: Returns a row from a table
-// Call: db_array (int result)
-//
+/**
+ * Return array from a db resource (presumably not associative).
+ * @param resource $result
+ * @return array|null|string
+ */
 function db_array($result) {
     global $CONF;
     $row = "";
@@ -1625,11 +1622,12 @@ function db_array($result) {
 }
 
 
-
-// db_assoc
-// Action: Returns a row from a table
-// Call: db_assoc(int result)
-//
+/**
+ * Get an associative array from a DB query resource.
+ *
+ * @param resource $result
+ * @return array|null|string
+ */
 function db_assoc($result) {
     global $CONF;
     $row = "";
@@ -1649,12 +1647,17 @@ function db_assoc($result) {
 }
 
 
-
-//
-// db_delete
-// Action: Deletes a row from a specified table
-// Call: db_delete (string table, string where, string delete)
-//
+/**
+ * Delete a row from the specified table.
+ *
+ * DELETE FROM $table WHERE $where = $delete $aditionalWhere
+ *
+ * @param string $table
+ * @param string $where - should never be a user supplied value
+ * @param string $delete
+ * @param string $additionalwhere (default '').
+ * @return int|mixed rows deleted.
+ */
 function db_delete($table, $where, $delete, $additionalwhere='') {
     $table = table_by_key($table);
     $query = "DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "' " . $additionalwhere;
@@ -1672,7 +1675,8 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
  * db_insert
  * Action: Inserts a row from a specified table
  * Call: db_insert (string table, array values [, array timestamp])
- * @param String - table name
+ *
+ * @param string - table name
  * @param array  - key/value map of data to insert into the table.
  * @param array (optional) - array of fields to set to now() - default: array('created', 'modified')
  * @return int - number of inserted rows
@@ -1703,11 +1707,11 @@ function db_insert($table, $values, $timestamp = array('created', 'modified')) {
  * db_update
  * Action: Updates a specified table
  * Call: db_update (string table, string where_col, string where_value, array values [, array timestamp])
- * @param String - table name
- * @param String - column of WHERE condition
- * @param String - value of WHERE condition
- * @param array - key/value map of data to insert into the table.
- * @param array (optional) - array of fields to set to now() - default: array('modified')
+ * @param string $table - table name
+ * @param string $where_col - column of WHERE condition
+ * @param string $where_value - value of WHERE condition
+ * @param array $values - key/value map of data to insert into the table.
+ * @param array $timestamp (optional) - array of fields to set to now() - default: array('modified')
  * @return int - number of updated rows
  */
 function db_update($table, $where_col, $where_value, $values, $timestamp = array('modified')) {
@@ -1719,10 +1723,10 @@ function db_update($table, $where_col, $where_value, $values, $timestamp = array
  * db_update_q
  * Action: Updates a specified table
  * Call: db_update_q (string table, string where, array values [, array timestamp])
- * @param String - table name
- * @param String - WHERE condition (as SQL)
- * @param array - key/value map of data to insert into the table.
- * @param array (optional) - array of fields to set to now() - default: array('modified')
+ * @param string $table - table name
+ * @param string $where - WHERE condition (as SQL)
+ * @param array $values - key/value map of data to insert into the table.
+ * @param array $timestamp (optional) - array of fields to set to now() - default: array('modified')
  * @return int - number of updated rows
  */
 function db_update_q($table, $where, $values, $timestamp = array('modified')) {
@@ -1808,6 +1812,8 @@ function db_log($domain, $action, $data) {
  * db_in_clause
  * Action: builds and returns the "field in(x, y)" clause for database queries
  * Call: db_in_clause (string field, array values)
+ * @param string $field
+ * @param array $values
  */
 function db_in_clause($field, $values) {
     return " $field IN ('"
@@ -1819,10 +1825,10 @@ function db_in_clause($field, $values) {
  * db_where_clause
  * Action: builds and returns a WHERE clause for database queries. All given conditions will be AND'ed.
  * Call: db_where_clause (array $conditions, array $struct)
- * param array $condition: array('field' => 'value', 'field2' => 'value2, ...)
- * param array $struct - field structure, used for automatic bool conversion
- * param string $additional_raw_where - raw sniplet to include in the WHERE part - typically needs to start with AND
- * param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see
+ * @param array $condition - array('field' => 'value', 'field2' => 'value2, ...)
+ * @param array $struct - field structure, used for automatic bool conversion
+ * @param string $additional_raw_where - raw sniplet to include in the WHERE part - typically needs to start with AND
+ * @param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see
  *                           $allowed_operators for available operators)
  *                           Note: the $searchmode operator will only be used if a $condition for that field is set.
  *                                 This also means you'll need to set a (dummy) condition for NULL and NOTNULL.
@@ -1896,7 +1902,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
  * If it's a MySQL database, then we return the name with backticks around it (`).
  *
  * @param string database table name.
- * @return string - database table name with appropriate prefix
+ * @return string - database table name with appropriate prefix (and quoting if MySQL)
  */
 function table_by_key($table_key) {
     global $CONF;
@@ -2080,11 +2086,15 @@ function gen_show_status($show_alias) {
     return $stat_string;
 }
 
+/**
+ * @return string
+ */
 function getRemoteAddr() {
     $REMOTE_ADDR = 'localhost';
     if (isset($_SERVER['REMOTE_ADDR'])) {
         $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
     }
+
     return $REMOTE_ADDR;
 }
 
