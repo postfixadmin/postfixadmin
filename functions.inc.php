@@ -1759,6 +1759,11 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
  * Possible actions are defined in $LANG["pViewlog_action_$action"]
  */
 function db_log($domain, $action, $data) {
+
+    if (!Config::bool('logging')) {
+        return true;
+    }
+
     $REMOTE_ADDR = getRemoteAddr();
 
     $username = authentication_get_username();
@@ -1767,20 +1772,20 @@ function db_log($domain, $action, $data) {
         die("Invalid log action : $action");   // could do with something better?
     }
 
-    if (Config::bool('logging')) {
-        $logdata = array(
-            'username'  => "$username ($REMOTE_ADDR)",
-            'domain'    => $domain,
-            'action'    => $action,
-            'data'      => $data,
-        );
-        $result = db_insert('log', $logdata, array('timestamp'));
-        if ($result != 1) {
-            return false;
-        } else {
-            return true;
-        }
+
+    $logdata = array(
+        'username'  => "$username ($REMOTE_ADDR)",
+        'domain'    => $domain,
+        'action'    => $action,
+        'data'      => $data,
+    );
+    $result = db_insert('log', $logdata, array('timestamp'));
+    if ($result != 1) {
+        return false;
+    } else {
+        return true;
     }
+
 }
 
 /**
