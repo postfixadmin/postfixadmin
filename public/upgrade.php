@@ -1405,7 +1405,7 @@ function upgrade_1284_mysql_pgsql() {
     $result = db_query("SELECT username FROM " . table_by_key('domain_admins') . " where domain='ALL'");
 
     if ($result['rows'] > 0) {
-        while ($row = db_array($result['result'])) {
+        while ($row = db_assoc($result['result'])) {
             printdebug("Setting superadmin flag for " . $row['username']);
             db_update('admin', 'username', $row['username'], array('superadmin' => db_get_boolean(true)));
         }

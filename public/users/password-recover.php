@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if ($token !== false) {
         $table = table_by_key($context === 'users' ? 'mailbox' : 'admin');
         $result = db_query("SELECT * FROM $table WHERE username='$tUsername'");
-        $row = db_array($result['result']);
+        $row = db_assoc($result['result']);
 
         $email_other = trim($row['email_other']);
         $phone = trim($row['phone']);

@@ -68,7 +68,7 @@ if ($error != 1) {
     }
     $result=db_query($query);
     if ($result['rows'] > 0) {
-        while ($row = db_array($result['result'])) {
+        while ($row = db_assoc($result['result'])) {
             if (db_pgsql()) {
                 $row['timestamp']=gmstrftime('%c %Z', $row['timestamp']);
             }

@@ -220,7 +220,7 @@ if ($result['rows'] > 0) {
     $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
     $goto_single_rec_del = "";
 
-    while ($row = db_array($result['result'])) {
+    while ($row = db_assoc($result['result'])) {
         if ($display_mailbox_aliases) {
             $goto_split = explode(",", $row['goto']);
             $row['goto_mailbox'] = 0;
