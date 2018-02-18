@@ -899,7 +899,7 @@ function validate_password($password) {
  * the second parameter ($pw_db), which is the existing hash from the DB.
  *
  * @param string $pw
- * @param string $encrypted password
+ * @param string $pw_db optional encrypted password
  * @return string encrypted password.
  */
 function pacrypt($pw, $pw_db="") {
