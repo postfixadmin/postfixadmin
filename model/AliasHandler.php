@@ -460,7 +460,7 @@ class AliasHandler extends PFAHandler {
             } else {
                 $email_check = check_email($singlegoto);
                 // preg_match -> allows for redirect to a local system account.
-                if ($email_check != '' && !preg_match( '/^[a-z0-9]+$/', $singlegoto)) {
+                if ($email_check != '' && !preg_match('/^[a-z0-9]+$/', $singlegoto)) {
                     $errors[] = "$singlegoto: $email_check";
                 }
             }

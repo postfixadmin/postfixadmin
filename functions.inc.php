@@ -277,9 +277,9 @@ function check_email($email) {
         return Config::lang_f('pInvalidMailRegex', $email);
     }
 
-    if(function_exists('filter_var')) {
+    if (function_exists('filter_var')) {
         $check = filter_var($email, FILTER_VALIDATE_EMAIL);
-        if(!$check) {
+        if (!$check) {
             return Config::lang_f('pInvalidMailRegex', $email);
         }
     }
@@ -309,7 +309,7 @@ function escape_string($string) {
     // Note, the array keys are not cleaned.
     if (is_array($string)) {
         $clean = array();
-        foreach($string as $k => $v) {
+        foreach ($string as $k => $v) {
             $clean[$k] = escape_string($v);
         }
         return $clean;
@@ -1759,7 +1759,6 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
  * Possible actions are defined in $LANG["pViewlog_action_$action"]
  */
 function db_log($domain, $action, $data) {
-
     if (!Config::bool('logging')) {
         return true;
     }
@@ -1785,7 +1784,6 @@ function db_log($domain, $action, $data) {
     } else {
         return true;
     }
-
 }
 
 /**
@@ -1966,11 +1964,11 @@ function gen_show_status($show_alias) {
 
         //make sure this alias goes somewhere known
         $stat_ok = 1;
-        foreach($gotos as $g) {
-            if(!$stat_ok) {
+        foreach ($gotos as $g) {
+            if (!$stat_ok) {
                 break;
             }
-            if(strpos($g, '@') === false) { 
+            if (strpos($g, '@') === false) {
                 continue;
             }
 
