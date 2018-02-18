@@ -8,28 +8,21 @@
 require_once('RemoteTest.php');
 
 class RemoteVacationTest extends RemoteTest {
-    public function __construct() {
-        parent::__construct();
-        global $CONF;
-
-        // Ensure config.inc.php is vaguely correct.
-        if ($CONF['vacation'] != 'YES' || $CONF['vacation_control'] != "YES") {
-            die("Cannot run tests; vacation not enabled - see config.inc.php");
-        }
-        if ($CONF['vacation_domain'] != 'autoreply.example.com') {
-            die("Cannot run tests; vacation_domain is not set to autoreply.example.com - see config.inc.php");
-        }
-    }
 
 
     /**
      * Adds the test recipient data to the database.
      */
     public function setUp() {
+        // Ensure config.inc.php is vaguely correct.
+        global $CONF;
+        if ($CONF['vacation'] != 'YES' || $CONF['vacation_control'] != "YES") {
+            $this->markTestSkipped("Cannot run tests; vacation not enabled - see config.inc.php");
+        }
+        if ($CONF['vacation_domain'] != 'autoreply.example.com') {
+            $this->markTestSkipped("Cannot run tests; vacation_domain is not set to autoreply.example.com - see config.inc.php");
+        }
         parent::setUp();
-    }
-    public function tearDown() {
-        parent::tearDown();
     }
 
     public function testIsVacationSupported() {

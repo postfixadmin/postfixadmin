@@ -8,21 +8,7 @@
 require_once('RemoteTest.php');
 
 class RemoteUserTest extends RemoteTest {
-    public function __construct() {
-        parent::__construct();
-        global $CONF;
-    }
 
-
-    /**
-     * Adds the test recipient data to the database.
-     */
-    public function setUp() {
-        parent::setUp();
-    }
-    public function tearDown() {
-        parent::tearDown();
-    }
 
     public function testChangePassword() {
         try {
