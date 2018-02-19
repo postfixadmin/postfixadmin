@@ -8,8 +8,6 @@
 require_once('RemoteTest.php');
 
 class RemoteUserTest extends RemoteTest {
-
-
     public function testChangePassword() {
         try {
             $this->assertTrue($this->user->login($this->username, $this->password));
