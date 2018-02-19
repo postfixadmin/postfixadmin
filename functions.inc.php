@@ -891,6 +891,155 @@ function validate_password($password) {
     return $result;
 }
 
+function _pacrypt_md5crypt($pw, $pw_db) {
+        $split_salt = preg_split('/\$/', $pw_db);
+        if (isset($split_salt[2])) {
+            $salt = $split_salt[2];
+            return md5crypt($pw, $salt);
+        }
+
+        return md5crypt($pw);
+}
+
+function _pacrypt_crypt($pw, $pw_db) {
+
+        if ($pw_db) {
+            return crypt($pw, $pw_db);
+        } 
+        return crypt($pw);
+}
+
+function _pacrypt_mysql_encrypt($pw, $pw_db) {
+    // See https://sourceforge.net/tracker/?func=detail&atid=937966&aid=1793352&group_id=191583
+    // this is apparently useful for pam_mysql etc.
+	$pw = escape_string($pw);
+	if ($pw_db!="") {
+		$salt=escape_string(substr($pw_db, 0, 2));
+		$res=db_query("SELECT ENCRYPT('".$pw."','".$salt."');");
+	} else {
+		$res=db_query("SELECT ENCRYPT('".$pw."');");
+	}
+	$l = db_row($res["result"]);
+	$password = $l[0];
+	return $password;
+}
+
+function _pacrypt_authlib($pw, $pw_db) {
+    global $CONF;
+    $flavor = $CONF['authlib_default_flavor'];
+	$salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
+	if (preg_match('/^{.*}/', $pw_db)) {
+		// we have a flavor in the db -> use it instead of default flavor
+		$result = preg_split('/[{}]/', $pw_db, 3); # split at { and/or }
+		$flavor = $result[1];
+		$salt = substr($result[2], 0, 2);
+	}
+
+	if (stripos($flavor, 'md5raw') === 0) {
+		$password = '{' . $flavor . '}' . md5($pw);
+	} elseif (stripos($flavor, 'md5') === 0) {
+		$password = '{' . $flavor . '}' . base64_encode(md5($pw, true));
+	} elseif (stripos($flavor, 'crypt') === 0) {
+		$password = '{' . $flavor . '}' . crypt($pw, $salt);
+	} elseif (stripos($flavor, 'SHA') === 0) {
+		$password = '{' . $flavor . '}' . base64_encode(sha1($pw, true));
+	} else {
+		die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5', 'SHA' and 'crypt'");
+	}
+	return $password;
+}
+
+function _pacrypt_dovecot($pw, $pw_db) {
+    global $CONF;
+
+	$split_method = preg_split('/:/', $CONF['encrypt']);
+	$method       = strtoupper($split_method[1]);
+	# If $pw_db starts with {method}, change $method accordingly
+	if (!empty($pw_db) && preg_match('/^\{([A-Z0-9.-]+)\}.+/', $pw_db, $method_matches)) {
+		$method = $method_matches[1];
+	}
+	if (! preg_match("/^[A-Z0-9.-]+$/", $method)) {
+		die("invalid dovecot encryption method");
+	}  
+
+	# TODO: check against a fixed list?
+	# if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead.");
+	# $crypt_method = preg_match ("/.*-CRYPT$/", $method);
+
+	# digest-md5 and SCRAM-SHA-1 hashes include the username - until someone implements it, let's declare it as unsupported
+	if (strtolower($method) == 'digest-md5') {
+		die("Sorry, \$CONF['encrypt'] = 'dovecot:digest-md5' is not supported by PostfixAdmin.");
+	}
+	if (strtoupper($method) == 'SCRAM-SHA-1') {
+		die("Sorry, \$CONF['encrypt'] = 'dovecot:scram-sha-1' is not supported by PostfixAdmin.");
+	}
+	# TODO: add -u option for those hashes, or for everything that is salted (-u was available before dovecot 2.1 -> no problem with backward compability)
+
+	$dovecotpw = "doveadm pw";
+	if (!empty($CONF['dovecotpw'])) {
+		$dovecotpw = $CONF['dovecotpw'];
+	}
+
+	# Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
+	$spec = array(
+		0 => array("pipe", "r"), // stdin
+		1 => array("pipe", "w"), // stdout
+		2 => array("pipe", "w"), // stderr
+	);
+
+	$nonsaltedtypes = "SHA|SHA1|SHA256|SHA512|CLEAR|CLEARTEXT|PLAIN|PLAIN-TRUNC|CRAM-MD5|HMAC-MD5|PLAIN-MD4|PLAIN-MD5|LDAP-MD5|LANMAN|NTLM|RPA";
+	$salted = ! preg_match("/^($nonsaltedtypes)(\.B64|\.BASE64|\.HEX)?$/", strtoupper($method));
+
+	$dovepasstest = '';
+	if ($salted && (!empty($pw_db))) {
+		# only use -t for salted passwords to be backward compatible with dovecot < 2.1
+		$dovepasstest = " -t " . escapeshellarg($pw_db);
+	}
+	$pipe = proc_open("$dovecotpw '-s' $method$dovepasstest", $spec, $pipes);
+
+	if (!$pipe) {
+		die("can't proc_open $dovecotpw");
+	} 
+
+	// use dovecot's stdin, it uses getpass() twice (except when using -t)
+	// Write pass in pipe stdin
+	if (empty($dovepasstest)) {
+		fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
+		usleep(1000);
+	}
+	fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
+	fclose($pipes[0]);
+
+	// Read hash from pipe stdout
+	$password = fread($pipes[1], "200");
+
+	if (empty($dovepasstest)) {
+		if (!preg_match('/^\{' . $method . '\}/', $password)) {
+			$stderr_output = stream_get_contents($pipes[2]);
+			error_log('dovecotpw password encryption failed.');
+			error_log('STDERR output: ' . $stderr_output);
+			die("can't encrypt password with dovecotpw, see error log for details");
+		}
+	} else {
+		if (!preg_match('(verified)', $password)) {
+			$password="Thepasswordcannotbeverified";
+		} else {
+			$password = rtrim(str_replace('(verified)', '', $password));
+		}
+	}
+
+	fclose($pipes[1]);
+	fclose($pipes[2]);
+	proc_close($pipe);
+
+	if ((!empty($pw_db)) && (substr($pw_db, 0, 1) != '{')) {
+		# for backward compability with "old" dovecot passwords that don't have the {method} prefix
+		$password = str_replace('{' . $method . '}', '', $password);
+	}
+
+	return rtrim($password);
+}
+
 
 /**
  * Encrypt a password, using the apparopriate hashing mechanism as defined in
@@ -907,147 +1056,27 @@ function pacrypt($pw, $pw_db="") {
     $password = "";
     $salt = "";
 
-    if ($CONF['encrypt'] == 'md5crypt') {
-        $split_salt = preg_split('/\$/', $pw_db);
-        if (isset($split_salt[2])) {
-            $salt = $split_salt[2];
-        }
-        $password = md5crypt($pw, $salt);
-    } elseif ($CONF['encrypt'] == 'md5') {
-        $password = md5($pw);
-    } elseif ($CONF['encrypt'] == 'system') {
-        if ($pw_db) {
-            $password = crypt($pw, $pw_db);
-        } else {
-            $password = crypt($pw);
-        }
-    } elseif ($CONF['encrypt'] == 'cleartext') {
-        $password = $pw;
+    switch ($CONF['encrypt']) {
+        case 'md5crypt':
+            return _pacrypt_md5crypt($pw, $pw_db);
+        case 'md5': 
+            return md5($pw);
+        case 'system' :
+            return _pacrypt_crypt($pw, $pw_db);
+        case 'cleartext' :
+            return $pw;
+        case 'mysql_encrypt' :
+            return _pacrypt_mysql_encrypt($pw, $pw_db);
+		case 'authlib':
+			return _pacrypt_authlib($pw, $pw_db);
     }
 
-    // See https://sourceforge.net/tracker/?func=detail&atid=937966&aid=1793352&group_id=191583
-    // this is apparently useful for pam_mysql etc.
-    elseif ($CONF['encrypt'] == 'mysql_encrypt') {
-        $pw = escape_string($pw);
-        if ($pw_db!="") {
-            $salt=escape_string(substr($pw_db, 0, 2));
-            $res=db_query("SELECT ENCRYPT('".$pw."','".$salt."');");
-        } else {
-            $res=db_query("SELECT ENCRYPT('".$pw."');");
-        }
-        $l = db_row($res["result"]);
-        $password = $l[0];
-    } elseif ($CONF['encrypt'] == 'authlib') {
-        $flavor = $CONF['authlib_default_flavor'];
-        $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
-        if (preg_match('/^{.*}/', $pw_db)) {
-            // we have a flavor in the db -> use it instead of default flavor
-            $result = preg_split('/[{}]/', $pw_db, 3); # split at { and/or }
-            $flavor = $result[1];
-            $salt = substr($result[2], 0, 2);
-        }
+    if (preg_match("/^dovecot:/", $CONF['encrypt'])) {
+		return _pacrypt_dovecot($pw, $pw_db);
+	}
 
-        if (stripos($flavor, 'md5raw') === 0) {
-            $password = '{' . $flavor . '}' . md5($pw);
-        } elseif (stripos($flavor, 'md5') === 0) {
-            $password = '{' . $flavor . '}' . base64_encode(md5($pw, true));
-        } elseif (stripos($flavor, 'crypt') === 0) {
-            $password = '{' . $flavor . '}' . crypt($pw, $salt);
-        } elseif (stripos($flavor, 'SHA') === 0) {
-            $password = '{' . $flavor . '}' . base64_encode(sha1($pw, true));
-        } else {
-            die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5', 'SHA' and 'crypt'");
-        }
-    } elseif (preg_match("/^dovecot:/", $CONF['encrypt'])) {
-        $split_method = preg_split('/:/', $CONF['encrypt']);
-        $method       = strtoupper($split_method[1]);
-        # If $pw_db starts with {method}, change $method accordingly
-        if (!empty($pw_db) && preg_match('/^\{([A-Z0-9.-]+)\}.+/', $pw_db, $method_matches)) {
-            $method = $method_matches[1];
-        }
-        if (! preg_match("/^[A-Z0-9.-]+$/", $method)) {
-            die("invalid dovecot encryption method");
-        }  # TODO: check against a fixed list?
-        # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead.");
-        # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
+    die('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
 
-        # digest-md5 and SCRAM-SHA-1 hashes include the username - until someone implements it, let's declare it as unsupported
-        if (strtolower($method) == 'digest-md5') {
-            die("Sorry, \$CONF['encrypt'] = 'dovecot:digest-md5' is not supported by PostfixAdmin.");
-        }
-        if (strtoupper($method) == 'SCRAM-SHA-1') {
-            die("Sorry, \$CONF['encrypt'] = 'dovecot:scram-sha-1' is not supported by PostfixAdmin.");
-        }
-        # TODO: add -u option for those hashes, or for everything that is salted (-u was available before dovecot 2.1 -> no problem with backward compability)
-
-        $dovecotpw = "doveadm pw";
-        if (!empty($CONF['dovecotpw'])) {
-            $dovecotpw = $CONF['dovecotpw'];
-        }
-
-        # Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-        $spec = array(
-            0 => array("pipe", "r"), // stdin
-            1 => array("pipe", "w"), // stdout
-            2 => array("pipe", "w"), // stderr
-        );
-
-        $nonsaltedtypes = "SHA|SHA1|SHA256|SHA512|CLEAR|CLEARTEXT|PLAIN|PLAIN-TRUNC|CRAM-MD5|HMAC-MD5|PLAIN-MD4|PLAIN-MD5|LDAP-MD5|LANMAN|NTLM|RPA";
-        $salted = ! preg_match("/^($nonsaltedtypes)(\.B64|\.BASE64|\.HEX)?$/", strtoupper($method));
-
-        $dovepasstest = '';
-        if ($salted && (!empty($pw_db))) {
-            # only use -t for salted passwords to be backward compatible with dovecot < 2.1
-            $dovepasstest = " -t " . escapeshellarg($pw_db);
-        }
-        $pipe = proc_open("$dovecotpw '-s' $method$dovepasstest", $spec, $pipes);
-
-        if (!$pipe) {
-            die("can't proc_open $dovecotpw");
-        } else {
-            // use dovecot's stdin, it uses getpass() twice (except when using -t)
-            // Write pass in pipe stdin
-            if (empty($dovepasstest)) {
-                fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
-                usleep(1000);
-            }
-            fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
-            fclose($pipes[0]);
-
-            // Read hash from pipe stdout
-            $password = fread($pipes[1], "200");
-
-            if (empty($dovepasstest)) {
-                if (!preg_match('/^\{' . $method . '\}/', $password)) {
-                    $stderr_output = stream_get_contents($pipes[2]);
-                    error_log('dovecotpw password encryption failed.');
-                    error_log('STDERR output: ' . $stderr_output);
-                    die("can't encrypt password with dovecotpw, see error log for details");
-                }
-            } else {
-                if (!preg_match('(verified)', $password)) {
-                    $password="Thepasswordcannotbeverified";
-                } else {
-                    $password = rtrim(str_replace('(verified)', '', $password));
-                }
-            }
-
-            fclose($pipes[1]);
-            fclose($pipes[2]);
-            proc_close($pipe);
-
-            if ((!empty($pw_db)) && (substr($pw_db, 0, 1) != '{')) {
-                # for backward compability with "old" dovecot passwords that don't have the {method} prefix
-                $password = str_replace('{' . $method . '}', '', $password);
-            }
-
-            $password = rtrim($password);
-        }
-    } else {
-        die('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
-    }
-
-    return $password;
 }
 
 //
