@@ -1052,8 +1052,6 @@ function _pacrypt_dovecot($pw, $pw_db) {
  */
 function pacrypt($pw, $pw_db="") {
     global $CONF;
-    $password = "";
-    $salt = "";
 
     switch ($CONF['encrypt']) {
         case 'md5crypt':
