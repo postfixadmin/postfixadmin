@@ -1847,7 +1847,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
         die('db_where_cond: parameter $struct is not an array!');
     }
 
-    $allowed_operators = explode(' ', '< > >= <= = != <> CONT LIKE NULL NOTNULL');
+    $allowed_operators = array('<', '>', '>=', '<=', '=', '!=', '<>', 'CONT', 'LIKE', 'NULL', 'NOTNULL');
     $where_parts = array();
     $having_parts = array();
 
