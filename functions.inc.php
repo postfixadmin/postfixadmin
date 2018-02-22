@@ -1759,7 +1759,7 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
     $table = table_by_key($table);
 
     foreach ($values as $key => $value) {
-        $sql_values[$key] = $key . "='" . escape_string($values) . "'";
+        $sql_values[$key] = $key . "='" . escape_string($value) . "'";
     }
 
     foreach ($timestamp as $key) {
