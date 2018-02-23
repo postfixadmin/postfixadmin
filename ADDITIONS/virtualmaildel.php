@@ -74,28 +74,31 @@ while (($domain = readdir($fr)) !== false) {
     //
     // Check if it's a dir
     //
-    if ($domain != "." and $domain != ".." and filetype($homedir .'/'. $domain) == "dir") {
+    if ($domain == "." || $domain == ".." || filetype($homedir .'/'. $domain) != "dir") {
+        continue;
+    }
+    //
+    // Open the (assumed) DOMAIN directory
+    //
+    $ff = opendir($homedir .'/'. $domain);
+    while (($user = readdir($ff)) !== false) {
         //
-        // Open the (assumed) DOMAIN directory
+        // Check for directories assuming it's a user account
         //
-        $ff = opendir($homedir .'/'. $domain);
-        while (($user = readdir($ff)) !== false) {
+        if ($user == "." || $user == ".." || filetype($homedir .'/'. $domain .'/'. $user) != "dir") {
+            continue;
+        }
+
+        //
+        // if the dir 'new' exists inside then it's an account
+        //
+        if (file_exists($homedir .'/'. $domain .'/'. $user .'/'. "new")) {
+            $dir[$domain][$user] = "";
+        } else {
             //
-            // Check for directories assuming it's a user account
+            // Alert that the dir doesn't have a 'new' dir, possibly not an account. Leave it.
             //
-            if ($user!="." and $user!=".." and filetype($homedir .'/'. $domain .'/'. $user) == "dir") {
-                //
-                // if the dir 'new' exists inside then it's an account
-                //
-                if (file_exists($homedir .'/'. $domain .'/'. $user .'/'. "new")) {
-                    $dir[$domain][$user] = "";
-                } else {
-                    //
-                    // Alert that the dir doesn't have a 'new' dir, possibly not an account. Leave it.
-                    //
-                    echo "UNKNOWN  : " . $homedir ."/". $domain ."/". $user ."/new NOT FOUND. Possibly not an account. Leaving untouched\n";
-                }
-            }
+            echo "UNKNOWN  : " . $homedir ."/". $domain ."/". $user ."/new NOT FOUND. Possibly not an account. Leaving untouched\n";
         }
     }
 }
@@ -159,29 +162,28 @@ if (is_array($dir)) {
         //
         // Is this a user array?
         //
-        if (is_array($value)) {
-            //
-            // Go through and nuke the folders
-            //
-            foreach ($value as $user => $value2) {
-                // Nuke.. need any more explanations?
-                $path = $homedir . '/' . $key . '/' . $user;
-                $sieve_path = $homedir . '/.sieve/' . $key . '/' . $user;
-                $sieve_exists = false;
-                // check if user has Sieve filters created
-                if (file_exists($sieve_path)) {
-                    $sieve_exists = true;
+        if (!is_array($value)) {
+            continue;
+        }
+
+        //
+        // Go through and nuke the folders
+        //
+        foreach ($value as $user => $value2) {
+            // Nuke.. need any more explanations?
+            $path = $homedir . '/' . $key . '/' . $user;
+            $sieve_path = $homedir . '/.sieve/' . $key . '/' . $user;
+            $sieve_exists = file_exists($sieve_path);
+            // check if user has Sieve filters created
+            if ($MAKE_CHANGES) {
+                deldir($path);
+                if ($sieve_exists) {
+                    deldir($sieve_path);
                 }
-                if ($MAKE_CHANGES) {
-                    deldir($path);
-                    if ($sieve_exists) {
-                        deldir($sieve_path);
-                    }
-                } else {
-                    echo " - Would recursively delete : $path \n";
-                    if ($sieve_exists) {
-                        echo " - Would recursively delete Sieve filters : $sieve_path \n";
-                    }
+            } else {
+                echo " - Would recursively delete : $path \n";
+                if ($sieve_exists) {
+                    echo " - Would recursively delete Sieve filters : $sieve_path \n";
                 }
             }
         }
