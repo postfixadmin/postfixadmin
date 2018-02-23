@@ -9,6 +9,7 @@
 
  Changes:
     2017.08.31 updated to use PHP mysqli extension.
+    2018.02.23 removing Sieve filters if exists.
         Tadas Ustinavičius <tadas at ring dot lt> ( https://github.com/postfixadmin/postfixadmin/pull/70 )
 
 */
@@ -165,10 +166,20 @@ if (is_array($dir)) {
             foreach ($value as $user => $value2) {
                 // Nuke.. need any more explanations?
                 $path = $homedir . '/' . $key . '/' . $user;
+                $sieve_path = $homedir . '/.sieve/' . $key . '/' . $user;
+                $sieve_exists = false;
+                // check if user has Sieve filters created
+                if (file_exists($sieve_path)) {
+                    $sieve_exists = true;
+                }
                 if ($MAKE_CHANGES) {
                     deldir($path);
+                    deldir($sieve_path);
                 } else {
                     echo " - Would recursively delete : $path \n";
+                    if ($sieve_exists) {
+                        echo " - Would recursively delete Sieve filters : $sieve_path \n";
+                    }
                 }
             }
         }
