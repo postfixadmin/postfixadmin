@@ -174,7 +174,9 @@ if (is_array($dir)) {
                 }
                 if ($MAKE_CHANGES) {
                     deldir($path);
-                    deldir($sieve_path);
+                    if ($sieve_exists) {
+                        deldir($sieve_path);
+                    }
                 } else {
                     echo " - Would recursively delete : $path \n";
                     if ($sieve_exists) {
