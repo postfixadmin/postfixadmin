@@ -1,5 +1,10 @@
 #!/usr/bin/php
 <?php
+
+if(file_exists(dirname(__FILE__) . '/../common.php')) {
+    require_once(dirname(__FILE__) . '/../common.php');
+}
+
 /**
  * Command-line code generation utility to automate administrator tasks.
  *
@@ -191,7 +196,6 @@ class PostfixAdmin {
      * Dispatches a CLI request
      */
     public function dispatch() {
-        $CONF = Config::read('all');
 
         check_db_version(); # ensure the database layout is up to date
 
@@ -473,9 +477,6 @@ class PostfixAdmin {
 define("POSTFIXADMIN_CLI", 1);
 
 $dispatcher = new PostfixAdmin($argv);
-
-$CONF = Config::read('all');
-
 $dispatcher->dispatch();
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
