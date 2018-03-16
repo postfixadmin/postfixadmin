@@ -2,14 +2,32 @@
 # $Id$
 
 class VacationHandler extends PFAHandler {
+
+    /**
+     * @var string
+     */
     protected $db_table = 'vacation';
+
+    /**
+     * @var string
+     */
     protected $id_field = 'email';
+
+    /**
+     * @var string
+     */
     protected $domain_field = 'domain';
 
+    /**
+     * @return void
+     */
     public function init($id) {
         die('VacationHandler is not yet ready to be used with *Handler methods'); # obvious TODO: remove when it's ready ;-)
     }
 
+    /**
+     * @return void
+     */
     protected function initStruct() {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
@@ -31,6 +49,9 @@ class VacationHandler extends PFAHandler {
         }
     }
 
+    /**
+     * @return void
+     */
     protected function initMsg() {
         $this->msg['error_already_exists'] = 'pCreate_mailbox_username_text_error1'; # TODO: better error message
         $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1'; # TODO: better error message
@@ -47,6 +68,9 @@ class VacationHandler extends PFAHandler {
         }
     }
 
+    /**
+     * @return array
+     */
     public function webformConfig() {
         return array(
             # $PALANG labels
@@ -63,10 +87,14 @@ class VacationHandler extends PFAHandler {
 
     protected function validate_new_id() {
         # vacation can only be enabled if a mailbox with this name exists
-        $handler = new MailboxHandler();
-        return $handler->init($address);
+        //$handler = new MailboxHandler();
+        //return $handler->init(); // was: ...init($address); but $address is not defined.
+        return false;
     }
 
+    /**
+     * @return bool
+     */
     public function delete() {
         $this->errormsg[] = '*** deletion not implemented yet ***';
         return false; # XXX function aborts here! XXX
@@ -75,7 +103,14 @@ class VacationHandler extends PFAHandler {
 
 
 
-    protected $username = null;
+    /**
+     * @var string
+     */
+    protected $username;
+
+    /**
+     * @param string $username
+     */
     public function __construct($username) {
         $this->username = $username;
         $this->id = $username;
@@ -136,7 +171,7 @@ class VacationHandler extends PFAHandler {
 
     /**
      * Retrieve information on someone who is on vacation
-     * @return struct|boolean stored information on vacation - array(subject - string, message - string, active - boolean, activeFrom - date, activeUntil - date)
+     * @return array|boolean stored information on vacation - array(subject - string, message - string, active - boolean, activeFrom - date, activeUntil - date)
      * will return false if no existing data
      */
     public function get_details() {
@@ -165,8 +200,9 @@ class VacationHandler extends PFAHandler {
      * @param string $subject
      * @param string $body
      * @param string $interval_time
-     * @param date $activeFrom
-     * @param date $activeUntil
+     * @param string $activeFrom - something strtotime understands
+     * @param string $activeUntil - something strtotime understands
+     * @return boolean
      */
     public function set_away($subject, $body, $interval_time, $activeFrom, $activeUntil) {
         $this->remove(); // clean out any notifications that might already have been sent.
@@ -208,6 +244,7 @@ class VacationHandler extends PFAHandler {
     /**
      * add/remove the vacation alias
      * @param int $vacationActive
+     * @return boolean
      */
     protected function updateAlias($vacationActive) {
         $handler = new AliasHandler();
