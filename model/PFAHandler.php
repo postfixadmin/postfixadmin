@@ -5,50 +5,76 @@ abstract class PFAHandler {
      * public variables
      */
 
-    # array of error messages - if a method returns false, you'll find the error message(s) here
+    /**
+     * @var array of error messages - if a method returns false, you'll find the error message(s) here
+     */
     public $errormsg = array();
 
-    # array of info messages (for example success messages)
+    /**
+     * @var array of info messages (for example success messages)
+     */
     public $infomsg = array();
 
-    # array of tasks available in CLI
+    /**
+     * @var array
+     */
     public $taskNames = array('Help', 'Add', 'Update', 'Delete', 'View', 'Scheme');
 
     /**
      * variables that must be defined in all *Handler classes
      */
 
-    # (default) name of the database table
-    # (can be overridden by $CONF[database_prefix] and $CONF[database_tables][*] via table_by_key())
+    /**
+     * @var string (default) name of the database table
+     * (can be overridden by $CONF[database_prefix] and $CONF[database_tables][*] via table_by_key())
+     */
     protected $db_table = null;
 
-    # field containing the ID
+    /**
+     * @var string field containing the ID
+     */
     protected $id_field = null;
 
-    # field containing the label
-    # defaults to $id_field if not set
+    /**
+     * @var string  field containing the label
+     * defaults to $id_field if not set
+     */
     protected $label_field = null;
 
-    # field(s) to use in the ORDER BY clause
-    # can contain multiple comma-separated fields
-    # defaults to $id_field if not set
+    /**
+     * field(s) to use in the ORDER BY clause
+     * can contain multiple comma-separated fields
+     * defaults to $id_field if not set
+     * @var string
+     */
     protected $order_by = null;
 
-    # column containing the domain
-    # if a table does not contain a domain column, leave empty and override no_domain_field())
+    /**
+     * @var string
+     * column containing the domain
+     * if a table does not contain a domain column, leave empty and override no_domain_field())
+     */
     protected $domain_field = "";
 
-    # column containing the username (if logged in as non-admin)
+    /**
+     * column containing the username (if logged in as non-admin)
+     * @var string
+     */
     protected $user_field = '';
 
-    # skip empty password fields in edit mode
-    # enabled by default to allow changing an admin, mailbox etc. without changing the password
-    # disable for "edit password" forms
+    /**
+     * skip empty password fields in edit mode
+     * enabled by default to allow changing an admin, mailbox etc. without changing the password
+     * disable for "edit password" forms
+     * @var boolean
+     */
     protected $skip_empty_pass = true;
 
-    # fields to search when using simple search ("?search[_]=...")
-    # array with one or more fields to search (all fields will be OR'ed in the query)
-    # searchmode is always 'contains' (using LIKE "%searchterm%")
+    /**
+     * @var array fields to search when using simple search ("?search[_]=...")
+     * array with one or more fields to search (all fields will be OR'ed in the query)
+     * searchmode is always 'contains' (using LIKE "%searchterm%")
+     */
     protected $searchfields = array();
 
     /**
@@ -320,8 +346,6 @@ abstract class PFAHandler {
             } elseif (!$this->validate_new_id()) {
                 # errormsg filled by validate_new_id()
                 return false;
-                #            } else {
-#                return true;
             }
         } else { # view or edit mode
             if (!$exists) {
@@ -366,8 +390,8 @@ abstract class PFAHandler {
     /**
      * web interface can prefill some fields
      * if a _prefill_$field method exists, call it (it can for example modify $struct)
-     * @param string - field
-     * @param string - prefill value
+     * @param string $field - field
+     * @param string $val - prefill value
      */
     public function prefill($field, $val) {
         $func="_prefill_".$field;
@@ -909,6 +933,7 @@ abstract class PFAHandler {
     /**
      * set field to default value
      * @param string $field - fieldname
+     * @return void
      */
     protected function set_default_value($field) {
         if (isset($this->struct[$field]['default'])) {
@@ -925,7 +950,10 @@ abstract class PFAHandler {
       */
 
     /**
-      * check if value is numeric and >= -1 (= minimum value for quota)
+     * check if value is numeric and >= -1 (= minimum value for quota)
+     * @param string $field
+     * @param string $val
+     * @return boolean
      */
     protected function _inp_num($field, $val) {
         $valid = is_numeric($val);
@@ -940,7 +968,10 @@ abstract class PFAHandler {
     }
 
     /**
-      * check if value is (numeric) boolean - in other words: 0 or 1
+     * check if value is (numeric) boolean - in other words: 0 or 1
+     * @param string $field
+     * @param string $val
+     * @return boolean
      */
     protected function _inp_bool($field, $val) {
         if ($val == "0" || $val == "1") {
@@ -952,7 +983,10 @@ abstract class PFAHandler {
     }
 
     /**
-      * check if value of an enum field is in the list of allowed values
+     * check if value of an enum field is in the list of allowed values
+     * @param string $field
+     * @param string $val
+     * @return boolean
      */
     protected function _inp_enum($field, $val) {
         if (in_array($val, $this->struct[$field]['options'])) {
@@ -963,7 +997,10 @@ abstract class PFAHandler {
     }
 
     /**
-      * check if value of an enum field is in the list of allowed values
+     * check if value of an enum field is in the list of allowed values
+     * @param string $field
+     * @param string $val
+     * @return boolean
      */
     protected function _inp_enma($field, $val) {
         if (array_key_exists($val, $this->struct[$field]['options'])) {
@@ -974,7 +1011,10 @@ abstract class PFAHandler {
     }
 
     /**
-      * check if a password is secure enough
+     * check if a password is secure enough
+     * @param string $field
+     * @param string $val
+     * @return boolean
      */
     protected function _inp_pass($field, $val) {
         $validpass = validate_password($val); # returns array of error messages, or empty array on success
