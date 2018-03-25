@@ -1,10 +1,6 @@
 #!/usr/bin/php
 <?php
 
-if(file_exists(dirname(__FILE__) . '/../common.php')) {
-    require_once(dirname(__FILE__) . '/../common.php');
-}
-
 /**
  * Command-line code generation utility to automate administrator tasks.
  *
@@ -132,11 +128,6 @@ class PostfixAdmin {
 
         define('DS', DIRECTORY_SEPARATOR);
         define('CORE_INCLUDE_PATH', dirname(__FILE__));
-        define('CORE_PATH', dirname(CORE_INCLUDE_PATH)); # CORE_INCLUDE_PATH/../
-
-        if (!defined('POSTFIXADMIN')) { # already defined if called from setup.php
-            define('POSTFIXADMIN', 1); # checked in included files
-        }
     }
 
     /**
@@ -147,14 +138,6 @@ class PostfixAdmin {
         $this->stdout = fopen('php://stdout', 'w');
         $this->stderr = fopen('php://stderr', 'w');
 
-        if (!$this->__bootstrap()) {
-            $this->stderr("");
-            $this->stderr("Unable to load.");
-            $this->stderr("\tMake sure /config.inc.php exists in " . PATH);
-            exit(1);
-        }
-
-
         if (basename(__FILE__) !=  basename($this->args[0])) {
             $this->stderr('Warning: the dispatcher may have been loaded incorrectly, which could lead to unexpected results...');
             if ($this->getInput('Continue anyway?', array('y', 'n'), 'y') == 'n') {
@@ -163,33 +146,6 @@ class PostfixAdmin {
         }
 
         $this->shiftArgs();
-    }
-
-    /**
-     * Initializes the environment and loads the Cake core.
-     *
-     * @return boolean Success.
-     */
-    private function __bootstrap() {
-        if ($this->params['webroot'] != '') {
-            define('PATH', $this->params['webroot']);
-        } else {
-            define('PATH', CORE_PATH);
-        }
-
-        if (!file_exists(PATH)) {
-            $this->stderr(PATH . " don't exists");
-            return false;
-        }
-
-        # make sure global variables fron functions.inc.php end up in the global namespace, instead of being local to this function
-        global $version, $min_db_version;
-
-        if (!require_once(PATH . '/common.php')) {
-            $this->stderr("Failed to load " . PATH . '/common.php');
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -374,10 +330,6 @@ class PostfixAdmin {
     public function parseParams($params) {
         $this->__parseParams($params);
 
-        $defaults = array('webroot' => CORE_PATH);
-
-        $params = array_merge($defaults, array_intersect_key($this->params, $defaults));
-
         $isWin = array_filter(array_map('strpos', $params, array('\\')));
 
         $params = str_replace('\\', '/', $params);
@@ -475,6 +427,8 @@ class PostfixAdmin {
 
 
 define("POSTFIXADMIN_CLI", 1);
+
+require_once(dirname(__FILE__) . '/../common.php');
 
 $dispatcher = new PostfixAdmin($argv);
 $dispatcher->dispatch();
