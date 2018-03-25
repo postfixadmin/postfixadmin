@@ -111,15 +111,6 @@ class Shell {
     }
 
     /**
-     * Initializes the Shell
-     * acts as constructor for subclasses
-     * allows configuration of tasks prior to shell execution
-     *
-     * @access public
-     */
-    public function initialize() {
-    }
-    /**
      * Starts up the the Shell
      * allows for checking and configuring prior to command or main execution
      * can be overriden in subclasses

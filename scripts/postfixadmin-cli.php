@@ -210,8 +210,6 @@ class PostfixAdmin {
         # TODO: add a way to Cli* to signal if the selected handler is supported (for example, not all *Handler support changing the password)
 
         if (strtolower(get_parent_class($shell)) == 'shell') {
-            $shell->initialize();
-
             $handler = new $shell->handler_to_use;
             if (in_array($task, $handler->taskNames)) {
                 $this->shiftArgs();
@@ -243,7 +241,7 @@ class PostfixAdmin {
         }
 
         $protectedCommands = array(
-            'initialize', 'in', 'out', 'err', 'hr', 'log',
+            'in', 'out', 'err', 'hr', 'log',
             '__construct', 'dispatch', 'stdout', 'stderr'
         );
 
