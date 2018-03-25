@@ -87,8 +87,19 @@ class VacationHandler extends PFAHandler {
 
     protected function validate_new_id() {
         # vacation can only be enabled if a mailbox with this name exists
-        //$handler = new MailboxHandler();
-        //return $handler->init(); // was: ...init($address); but $address is not defined.
+        if ($this->is_admin) {
+            $handler = new MailboxHandler(0, $this->admin_username);
+            if ($handler->init($this->id)) {
+                return true;
+            }
+        } else {
+            if ($this->id == $this->username) {
+                return true;
+            }
+        }
+
+        # still here? This means the mailbox doesn't exist or the admin/user doesn't have permissions to view it
+        $this->errormsg[] = Config::Lang('invalid_parameter');
         return false;
     }
 
