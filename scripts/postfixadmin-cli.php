@@ -243,11 +243,8 @@ class PostfixAdmin {
         }
 
         $protectedCommands = array(
-            'initialize','in','out','err','hr',
-            'createfile', 'isdir','copydir','object','tostring',
-            'requestaction','log','cakeerror', 'shelldispatcher',
-            '__initconstants','__initenvironment','__construct',
-            'dispatch','__bootstrap','getinput','stdout','stderr','parseparams','shiftargs'
+            'initialize', 'in', 'out', 'err', 'hr', 'log',
+            '__construct', 'dispatch', 'stdout', 'stderr'
         );
 
         if (in_array(strtolower($command), $protectedCommands)) {
