@@ -125,9 +125,6 @@ class PostfixAdmin {
         ini_set('html_errors', false);
         ini_set('implicit_flush', true);
         ini_set('max_execution_time', 0);
-
-        define('DS', DIRECTORY_SEPARATOR);
-        define('CORE_INCLUDE_PATH', dirname(__FILE__));
     }
 
     /**
@@ -170,10 +167,7 @@ class PostfixAdmin {
             $this->help();
             return;
         }
-        # TODO: move shells/shell.php to model/ to enable autoloading
-        if (!class_exists('Shell')) {
-            require CORE_INCLUDE_PATH . DS . "shells" . DS . 'shell.php';
-        }
+
         $command = 'help'; # not the worst default ;-)
         if (isset($this->args[0])) {
             $command = $this->args[0];
