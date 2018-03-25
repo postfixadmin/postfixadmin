@@ -118,11 +118,9 @@ class Shell {
      * @access public
      */
     public function startup() {
-        #CHECK!
         if (empty($this->params['q'])) {
             $this->_welcome();
         }
-        $CONF = Config::read('all');
     }
     /**
      * Displays a header for the shell
