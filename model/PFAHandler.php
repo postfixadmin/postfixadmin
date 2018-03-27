@@ -824,6 +824,13 @@ abstract class PFAHandler {
      * @return boolean true on successful login (i.e. password matches etc)
      */
     public function login($username, $password) {
+
+        $login_hook = Config::read('login_hook');
+
+        if ($login_hook != 'NO' && function_exists($login_hook)) {
+            return $login_hook($username, $password);
+        }
+
         $username = escape_string($username);
 
         $table = table_by_key($this->db_table);

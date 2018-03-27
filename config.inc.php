@@ -180,6 +180,27 @@ if(file_exists('/usr/bin/doveadm')) {
     $CONF['dovecotpw'] = "/usr/bin/doveadm pw"; # debian
 }
 
+// If you want to define your own function to verify the login set this to the name of the function.
+// Notes: 
+//   - this configuration directive will override PFAHandler.login
+//   - the login_hook() function example is present below, commented out
+//   - if the function does not exist the program will default to the normal login function
+$CONF['login_hook'] = 'NO'
+
+/*
+    login_hook example function
+ 
+    Called when login is needed if $CONF['login_hook'] == '<name_of_the_function>'
+    - allows you to use customized login validation like PAM with OTP or 2FA
+    - the example below will use PAM, to use it you must configure PAM (e. g. create /etc/pam.d/php) first
+*/
+/*
+function login_hook($username, $password) {
+    return pam_auth( $username, $password);
+}
+*/
+
+
 // Password validation
 // New/changed passwords will be validated using all regular expressions in the array.
 // If a password doesn't match one of the regular expressions, the corresponding
