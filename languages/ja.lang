@@ -88,7 +88,7 @@ $PALANG['pOverview_mailbox_quota'] = '容量制限 (MB)';
 $PALANG['pOverview_vacation_edit'] = '自動応答 利用中';
 $PALANG['pOverview_vacation_option'] = '自動応答';
 $PALANG['no_domains_for_this_admin'] = 'あなたにはドメインにアクセスする権限がありません。';
-$PALANG['no_domains_exist'] = 'アドレス一覧を使えるようにする前に、少なくともひとつはドメインを作成しなくてはなりません。' # "virtual list" should match $PALANG['pAdminMenu_list_virtual']
+$PALANG['no_domains_exist'] = 'アドレス一覧を使えるようにする前に、少なくともひとつはドメインを作成しなくてはなりません。'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual']
 
 
 $PALANG['domain'] = 'ドメイン';
