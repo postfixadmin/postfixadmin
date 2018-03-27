@@ -321,6 +321,8 @@ $CONF['quota'] = 'NO';
 $CONF['domain_quota'] = 'YES';
 // You can either use '1024000' or '1048576'
 $CONF['quota_multiplier'] = '1024000';
+// Quota for create mailbox page
+$CONF['mailbox_default_quota'] = '';
 
 // Transport
 // If you want to define additional transport options for a domain set this to 'YES'.

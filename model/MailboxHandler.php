@@ -46,7 +46,7 @@ class MailboxHandler extends PFAHandler {
                 /*select*/ 'password as password2'
             ),
             'name'          => pacol(1, 1, 1, 'text', 'name', 'pCreate_mailbox_name_text', ''),
-            'quota'         => pacol(1, 1, 1, 'int', 'pEdit_mailbox_quota', 'pEdit_mailbox_quota_text', ''), # in MB
+            'quota'         => pacol(1, 1, 1, 'int', 'pEdit_mailbox_quota', 'pEdit_mailbox_quota_text', Config::read('mailbox_default_quota')), # in MB
             # read_from_db_postprocess() also sets 'quotabytes' for use in init()
             # TODO: read used quota from quota/quota2 table
             'active'        => pacol(1, 1, 1, 'bool', 'active', '', 1),
