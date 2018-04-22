@@ -600,6 +600,8 @@ $CONF['forgotten_admin_password_reset'] = false;
 // Please use a name that begins with "x_" to prevent collisions
 // This function must accept 2 parameters: phone number and message,
 // and return true on success or false on failure
+// Note: if no sms_send_function is defined, the input field for the mobile
+// number won't be displayed
 $CONF['sms_send_function'] = '';
 
 /*
