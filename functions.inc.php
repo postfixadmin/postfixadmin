@@ -434,7 +434,7 @@ function safesession($param, $default="") {
  * @param string PALANG_desc
  * @param any optional $default
  * @param array $options optional options
- * @param int or $not_in_db - if array, can contain the remaining parameters as associated array
+ * @param int or $not_in_db - if array, can contain the remaining parameters as associated array. Otherwise counts as $not_in_db
  * @param ...
  * @return array for $struct
  */
