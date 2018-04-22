@@ -32,20 +32,20 @@ class VacationHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'email'         => pacol($this->new, 1, 1, 'text', 'pLogin_username', '', ''),
-            'domain'        => pacol(1, 0, 0, 'text', '', '', ''),
-            'subject'       => pacol(1, 1, 0, 'text', 'pUsersVacation_subject', '', ''),
-            'body'          => pacol(1, 1, 0, 'text', 'pUsersVacation_body', '', ''),
-            'activefrom'    => pacol(1, 1, 1, 'text', 'pUsersVacation_activefrom', '', ''),
-            'activeuntil'   => pacol(1, 1, 1, 'text', 'pUsersVacation_activeuntil', '', ''),
-            'active'        => pacol(1, 1, 1, 'bool', 'active', '', 1),
-            'created'       => pacol(0, 0, 1, 'ts', 'created', ''),
-            'modified'      => pacol(0, 0, 1, 'ts', 'last_modified', ''),
+            'email'            => pacol($this->new, 1,      1,      'text', 'pLogin_username'               , ''                                , '' ),
+            'domain'           => pacol(1,          0,      0,      'text', ''                              , ''                                , '' ),
+            'subject'          => pacol(1,          1,      0,      'text', 'pUsersVacation_subject'        , ''                                , '' ),
+            'body'             => pacol(1,          1,      0,      'text', 'pUsersVacation_body'           , ''                                , '' ),
+            'activefrom'       => pacol(1,          1,      1,      'text', 'pUsersVacation_activefrom'     , ''                                , '' ),
+            'activeuntil'      => pacol(1,          1,      1,      'text', 'pUsersVacation_activeuntil'    , ''                                , '' ),
+            'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
+            'created'          => pacol(0,          0,      1,      'ts',   'created'                       , ''                                 ),
+            'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 
-        if (! db_pgsql()) {
-            $this->struct['cache'] = pacol(0, 0, 0, 'text', '', '', '');  # leftover from 2.2
+        if ( ! db_pgsql() ) {
+            $this->struct['cache'] = pacol(0,       0,      0,      'text', ''                              , ''                                , '' );  # leftover from 2.2
         }
     }
 

@@ -26,104 +26,37 @@ class AliasHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / ...
             #                           editing?    form    list
-            'status'        => pacol(
-                0,
-                0,
-                0,
-                'html',
-                '',
-                '',
-                '',
-                '',
-                array('not_in_db' => 1)
-            ),
-            'address'       => pacol($this->new, 1, 1, 'mail', 'alias', 'pCreate_alias_catchall_text'),
-            'localpart'     => pacol(
-                $this->new,
-                0,
-                0,
-                'text',
-                'alias',
-                'pCreate_alias_catchall_text',
-                '',
+            'status'           => pacol(0,          0,      0,      'html', ''                              , ''                                , '', '',
+                array('not_in_db' => 1)  ),
+            'address'          => pacol($this->new, 1,      1,      'mail', 'alias'                         , 'pCreate_alias_catchall_text'     ),
+            'localpart'        => pacol($this->new, 0,      0,      'text', 'alias'                         , 'pCreate_alias_catchall_text'     , '',
                 /*options*/ '',
-                /*not_in_db*/ 1
-            ),
-            'domain'        => pacol(
-                $this->new,
-                0,
-                1,
-                'enum',
-                '',
-                '',
-                '',
-                /*options*/ $this->allowed_domains
-            ),
-            'goto'          => pacol(1, 1, 1, 'txtl', 'to', 'pEdit_alias_help', array()),
-            'is_mailbox'    => pacol(
-                0,
-                0,
-                1,
-                'int',
-                '',
-                '',
-                0,
+                /*not_in_db*/ 1                         ),
+            'domain'           => pacol($this->new, 0,      1,      'enum', ''                              , ''                                , '',
+                /*options*/ $this->allowed_domains      ),
+            'goto'             => pacol(1,          1,      1,      'txtl', 'to'                            , 'pEdit_alias_help'                , array() ),
+            'is_mailbox'       => pacol(0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 # technically 'is_mailbox' is bool, but the automatic bool conversion breaks the query. Flagging it as int avoids this problem.
                 # Maybe having a vbool type (without the automatic conversion) would be cleaner - we'll see if we need it.
                 /*options*/ '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
-                /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox'
-            ),
+                /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox' ),
                 /*extrafrom set via set_is_mailbox_extrafrom() */
-            '__mailbox_username' => pacol(0, 0, 1, 'vtxt', '', '', 0),  # filled via is_mailbox
-            'goto_mailbox'  => pacol(
-                $mbgoto,
-                $mbgoto,
-                $mbgoto,
-                'bool',
-                'pEdit_alias_forward_and_store',
-                '',
-                0,
+            '__mailbox_username' => pacol( 0,       0,      1,      'vtxt', ''                              , ''                                , 0),  # filled via is_mailbox
+            'goto_mailbox'     => pacol($mbgoto,    $mbgoto,$mbgoto,'bool', 'pEdit_alias_forward_and_store' , ''                                , 0,
                 /*options*/ '',
-                /*not_in_db*/ 1
-            ), # read_from_db_postprocess() sets the value
-            'on_vacation'   => pacol(
-                1,
-                0,
-                1,
-                'bool',
-                'pUsersMenu_vacation',
-                '',
-                0,
+                /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value
+            'on_vacation'      => pacol(1,          0,      1,      'bool', 'pUsersMenu_vacation'           , ''                                , 0 ,
                 /*options*/ '',
-                /*not_in_db*/ 1
-            ), # read_from_db_postprocess() sets the value - TODO: read active flag from vacation table instead?
-            'created'       => pacol(0, 0, 0, 'ts', 'created', ''),
-            'modified'      => pacol(0, 0, 1, 'ts', 'last_modified', ''),
-            'active'        => pacol(1, 1, 1, 'bool', 'active', '', 1),
-            '_can_edit'     => pacol(
-                0,
-                0,
-                1,
-                'vnum',
-                '',
-                '',
-                0,
-                '',
-                array('select' => '1 as _can_edit')
-            ),
-            '_can_delete'   => pacol(
-                0,
-                0,
-                1,
-                'vnum',
-                '',
-                '',
-                0,
-                '',
-                array('select' => '1 as _can_delete')
-            ), # read_from_db_postprocess() updates the value
+                /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value - TODO: read active flag from vacation table instead?
+            'created'          => pacol(0,          0,      0,      'ts',   'created'                       , ''                                ),
+            'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'                 , ''                                ),
+            'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                , 1     ),
+            '_can_edit'        => pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , '',
+                array('select' => '1 as _can_edit')  ),
+            '_can_delete'      => pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , '',
+                array('select' => '1 as _can_delete')  ), # read_from_db_postprocess() updates the value
                 # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
         );
 

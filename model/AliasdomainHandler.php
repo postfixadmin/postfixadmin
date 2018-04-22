@@ -14,30 +14,14 @@ class AliasdomainHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'alias_domain'  => pacol(
-                $this->new,
-                1,
-                1,
-                'enum',
-                'pCreate_alias_domain_alias',
-                'pCreate_alias_domain_alias_text',
-                '',
+            'alias_domain'     => pacol($this->new, 1,      1,      'enum', 'pCreate_alias_domain_alias'    , 'pCreate_alias_domain_alias_text' , '',
                 /*options, filled below*/ array(),
-                /* multiopt */ array('linkto' => 'list-virtual.php?domain=%s')
-            ),
-            'target_domain' => pacol(
-                1,
-                1,
-                1,
-                'enum',
-                'pCreate_alias_domain_target',
-                'pCreate_alias_domain_target_text',
-                '',
-                /*options*/ array() /* filled below */
-            ),
-            'created'       => pacol(0, 0, 0, 'ts', 'created', ''),
-            'modified'      => pacol(0, 0, 1, 'ts', 'last_modified', ''),
-            'active'        => pacol(1, 1, 1, 'bool', 'active', '', 1),
+                /* multiopt */ array('linkto' => 'list-virtual.php?domain=%s') ),
+            'target_domain'    => pacol(1,          1,      1,      'enum', 'pCreate_alias_domain_target'   , 'pCreate_alias_domain_target_text', '',
+                /*options*/ array() /* filled below */  ),
+            'created'          => pacol(0,          0,      0,      'ts',   'created'                       , ''                                 ),
+            'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
+            'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1   ),
         );
 
 
@@ -56,8 +40,9 @@ class AliasdomainHandler extends PFAHandler {
 
         foreach ($this->struct['alias_domain']['options'] as $dom) {
             if (isset($used_targets[$dom])) {
+                # don't allow chained domain aliases (domain1 -> domain2 -> domain3)
                 unset($this->struct['alias_domain']['options'][$dom]);
-            } # don't allow chained domain aliases (domain1 -> domain2 -> domain3)
+            }
         }
 
         if (count($this->struct['alias_domain']['options']) == 1) { # only one alias_domain available - filter it out from target_domain list

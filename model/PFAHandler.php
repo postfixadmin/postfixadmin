@@ -202,15 +202,7 @@ abstract class PFAHandler {
         $this->initStruct();
 
         if (!isset($this->struct['_can_edit'])) {
-            $this->struct['_can_edit'] = pacol(
-                0,
-                0,
-                1,
-                'vnum',
-                '',
-                '',
-                '',
-                '',
+            $this->struct['_can_edit'] = pacol(0,           0,      1,      'vnum', ''                   , ''                  , '', '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ '1 as _can_edit'
@@ -218,15 +210,7 @@ abstract class PFAHandler {
         }
 
         if (!isset($this->struct['_can_delete'])) {
-            $this->struct['_can_delete'] = pacol(
-                0,
-                0,
-                1,
-                'vnum',
-                '',
-                '',
-                '',
-                '',
+            $this->struct['_can_delete'] = pacol(0,         0,      1,      'vnum', ''                   , ''                  , '', '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ '1 as _can_delete'

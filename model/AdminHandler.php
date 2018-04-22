@@ -39,40 +39,16 @@ class AdminHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label          $PALANG description   default / options / ...
             #                           editing?    form    list
-            'username'        => pacol(
-                $this->new,
-                1,
-                1,
-                'text',
-                'admin',
-                'email_address',
-                '',
-                '',
-                array('linkto' => 'list.php?table=domain&username=%s')
-            ),
-            'password'        => pacol(1, 1, 0, 'pass', 'password', ''),
-            'password2'       => pacol(
-                1,
-                1,
-                0,
-                'pass',
-                'password_again',
-                '',
-                '',
-                '',
+            'username'         => pacol($this->new, 1,      1,      'text', 'admin'              , 'email_address'     , '', '',
+                array('linkto' => 'list.php?table=domain&username=%s') ),
+            'password'         => pacol(1,          1,      0,      'pass', 'password'           , ''                  ),
+            'password2'        => pacol(1,          1,      0,      'pass', 'password_again'     , ''                  , '', '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
             ),
 
-            'superadmin'      => pacol(
-                1,
-                1,
-                0,
-                'bool',
-                'super_admin',
-                'super_admin_desc',
-                0
+            'superadmin'       => pacol(1,          1,      0,      'bool', 'super_admin'        , 'super_admin_desc'  , 0
 # TODO: (finally) replace the ALL domain with a column in the admin table
 # TODO: current status: 'superadmin' column exists and is written when storing an admin with AdminHandler,
 # TODO: but the superadmin status is still (additionally) stored in the domain_admins table ("ALL" dummy domain)
@@ -81,30 +57,14 @@ class AdminHandler extends PFAHandler {
 # TODO: Create them with the trunk version to avoid this problem.
             ),
 
-            'domains'         => pacol(
-                1,
-                1,
-                0,
-                'list',
-                'domain',
-                '',
-                array(),
-                list_domains(),
+            'domains'          => pacol(1,          1,      0,      'list', 'domain'             , ''                  , array(), list_domains(),
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ "coalesce(domains,'') as domains"
                /*extrafrom set in domain_count*/
             ),
 
-            'domain_count'    => pacol(
-                0,
-                0,
-                1,
-                'vnum',
-                'pAdminList_admin_count',
-                '',
-                '',
-                '',
+            'domain_count'     => pacol(0,          0,      1,      'vnum', 'pAdminList_admin_count', ''               , '', '',
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ 'coalesce(__domain_count,0) as domain_count',
@@ -112,16 +72,15 @@ class AdminHandler extends PFAHandler {
                                 ' SELECT count(*) AS __domain_count, ' . $domains_grouped . ' AS domains, username AS __domain_username ' .
                                 ' FROM ' . table_by_key('domain_admins') .
                                 " WHERE domain != 'ALL' GROUP BY username " .
-                             ' ) AS __domain on username = __domain_username'
-            ),
+                             ' ) AS __domain on username = __domain_username'),
 
-            'active'          => pacol(1, 1, 1, 'bool', 'active', '', 1),
-            'phone'           => pacol(1, $passwordReset, 0, 'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
-            'email_other'     => pacol(1, $passwordReset, 0, 'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
-            'token'           => pacol(1, 0, 0, 'text', '', ''),
-            'token_validity'  => pacol(1, 0, 0, 'ts', '', '', date("Y-m-d H:i:s", time())),
-            'created'         => pacol(0, 0, 0, 'ts', 'created', ''),
-            'modified'        => pacol(0, 0, 1, 'ts', 'last_modified', ''),
+            'active'           => pacol(1,          1,      1,      'bool', 'active'             , ''                  , 1     ),
+            'phone'            => pacol(1,  $passwordReset, 0,      'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
+            'email_other'      => pacol(1,  $passwordReset, 0,      'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
+            'token'            => pacol(1,          0,      0,      'text', ''                   , ''                  ),
+            'token_validity'   => pacol(1,          0,      0,      'ts',   ''                   , '', date("Y-m-d H:i:s",time())),
+            'created'          => pacol(0,          0,      0,      'ts',   'created'            , ''                  ),
+            'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'      , ''                  ),
         );
     }
 

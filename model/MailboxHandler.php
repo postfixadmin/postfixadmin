@@ -16,57 +16,34 @@ class MailboxHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'username'      => pacol($this->new, 1, 1, 'mail', 'pEdit_mailbox_username', '', ''),
-            'local_part'    => pacol($this->new, 0, 0, 'text', 'pEdit_mailbox_username', '', ''),
-            'domain'        => pacol(
-                $this->new,
-                0,
-                1,
-                'enum',
-                '',
-                '',
-                '',
-                /*options*/ $this->allowed_domains
-            ),
+            'username'         => pacol($this->new, 1,      1,      'mail', 'pEdit_mailbox_username'        , ''                                , '' ),
+            'local_part'       => pacol($this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '' ),
+            'domain'           => pacol($this->new, 0,      1,      'enum', ''                              , ''                                , '',
+                /*options*/ $this->allowed_domains      ),
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
-            'maildir'       => pacol($this->new, 0, 1, 'text', '', '', ''),
-            'password'      => pacol(1, 1, 0, 'pass', 'password', 'pCreate_mailbox_password_text', ''),
-            'password2'     => pacol(
-                1,
-                1,
-                0,
-                'pass',
-                'password_again',
-                '',
-                '',
+            'maildir'          => pacol($this->new, 0,      1,      'text', ''                              , ''                                , '' ),
+            'password'         => pacol(1,          1,      0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
+            'password2'        => pacol(1,          1,      0,      'pass', 'password_again'                , ''                                 , '',
                 /*options*/ '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
             ),
-            'name'          => pacol(1, 1, 1, 'text', 'name', 'pCreate_mailbox_name_text', ''),
-            'quota'         => pacol(1, 1, 1, 'int', 'pEdit_mailbox_quota', 'pEdit_mailbox_quota_text', ''), # in MB
+            'name'             => pacol(1,          1,      1,      'text', 'name'                          , 'pCreate_mailbox_name_text'       , '' ),
+            'quota'            => pacol(1,          1,      1,      'int' , 'pEdit_mailbox_quota'           , 'pEdit_mailbox_quota_text'        , '' ), # in MB
             # read_from_db_postprocess() also sets 'quotabytes' for use in init()
             # TODO: read used quota from quota/quota2 table
-            'active'        => pacol(1, 1, 1, 'bool', 'active', '', 1),
-            'welcome_mail'  => pacol(
-                $this->new,
-                $this->new,
-                0,
-                'bool',
-                'pCreate_mailbox_mail',
-                '',
-                1,
+            'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
+            'welcome_mail'     => pacol($this->new, $this->new, 0,  'bool', 'pCreate_mailbox_mail'          , ''                                 , 1,
                 /*options*/ '',
-                /*not_in_db*/ 1
-            ),
-            'phone'         => pacol(1, $passwordReset, 0, 'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
-            'email_other'   => pacol(1, $passwordReset, 0, 'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
-            'token'         => pacol(1, 0, 0, 'text', '', ''),
-            'token_validity'=> pacol(1, 0, 0, 'ts', '', '', date("Y-m-d H:i:s", time())),
-            'created'       => pacol(0, 0, 1, 'ts', 'created', ''),
-            'modified'      => pacol(0, 0, 1, 'ts', 'last_modified', ''),
+                /*not_in_db*/ 1             ),
+            'phone'            => pacol(1,  $passwordReset, 0,      'text', 'pCreate_mailbox_phone'         , 'pCreate_mailbox_phone_desc'       , ''),
+            'email_other'      => pacol(1,  $passwordReset, 0,      'mail', 'pCreate_mailbox_email'         , 'pCreate_mailbox_email_desc'       , ''),
+            'token'            => pacol(1,          0,      0,      'text', ''                              , ''                                 ),
+            'token_validity'   => pacol(1,          0,      0,      'ts',   ''                              , '', date("Y-m-d H:i:s",time())),
+            'created'          => pacol(0,          0,      1,      'ts',   'created'                       , ''                                 ),
+            'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 
@@ -270,7 +247,7 @@ class MailboxHandler extends PFAHandler {
 
         return true; # still here? good!
     }
-    
+
     protected function storemore() {
         if ($this->new) {
             if (!$this->mailbox_post_script()) {
@@ -327,13 +304,13 @@ class MailboxHandler extends PFAHandler {
         # deleting the mailbox, but it's easier and a bit faster to do it on the database level.
         # cleaning up all tables doesn't hurt, even if vacation or displaying the quota is disabled
 
-        db_delete('fetchmail', 'mailbox', $this->id);
-        db_delete('vacation', 'email', $this->id);
-        db_delete('vacation_notification', 'on_vacation', $this->id); # should be caught by cascade, if PgSQL
-        db_delete('quota', 'username', $this->id);
-        db_delete('quota2', 'username', $this->id);
-        db_delete('alias', 'address', $this->id);
-        db_delete($this->db_table, $this->id_field, $this->id); # finally delete the mailbox
+        db_delete('fetchmail',              'mailbox',       $this->id);
+        db_delete('vacation',               'email',         $this->id);
+        db_delete('vacation_notification',  'on_vacation',   $this->id); # should be caught by cascade, if PgSQL
+        db_delete('quota',                  'username',      $this->id);
+        db_delete('quota2',                 'username',      $this->id);
+        db_delete('alias',                  'address',       $this->id);
+        db_delete($this->db_table,          $this->id_field, $this->id); # finally delete the mailbox
 
         if (!$this->mailbox_postdeletion()) {
             $this->error_msg[] = Config::Lang('mailbox_postdel_failed');

@@ -111,11 +111,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             } elseif ($field['type'] == 'txtl') {
                 $values[$key] = $inp_values[$key];
                 $values[$key] = preg_replace('/\\\r\\\n/', ',', $values[$key]);
-                $values[$key] = preg_replace('/\r\n/', ',', $values[$key]);
-                $values[$key] = preg_replace('/,[\s]+/i', ',', $values[$key]);
-                $values[$key] = preg_replace('/[\s]+,/i', ',', $values[$key]);
-                $values[$key] = preg_replace('/,,*/', ',', $values[$key]);
-                $values[$key] = preg_replace('/,*$|^,*/', '', $values[$key]);
+                $values[$key] = preg_replace('/\r\n/',     ',', $values[$key]);
+                $values[$key] = preg_replace('/,[\s]+/i',  ',', $values[$key]);
+                $values[$key] = preg_replace('/[\s]+,/i',  ',', $values[$key]);
+                $values[$key] = preg_replace('/,,*/',      ',', $values[$key]);
+                $values[$key] = preg_replace('/,*$|^,*/',  '',  $values[$key]);
                 if ($values[$key] == '') {
                     $values[$key] = array();
                 } else {
