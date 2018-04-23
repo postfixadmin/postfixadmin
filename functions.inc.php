@@ -557,8 +557,6 @@ function create_page_browser($idxfield, $querypart) {
                 WHERE (row % $page_size) IN (0,$page_size_zerobase) OR row = $count_results";
     }
 
-    #   echo "<p>$query";
-
     # TODO: $query is MySQL-specific
 
     # PostgreSQL:
