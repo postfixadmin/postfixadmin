@@ -5,27 +5,27 @@
  * @package    Smarty
  * @subpackage PluginsModifierCompiler
  */
-
 /**
  * Smarty escape modifier plugin
- * Type:     modifier<br>
- * Name:     escape<br>
+ * Type:     modifier
+ * Name:     escape
  * Purpose:  escape string for output
  *
  * @link   http://www.smarty.net/docsv2/en/language.modifier.escape count_characters (Smarty online manual)
  * @author Rodney Rehm
  *
- * @param array $params parameters
- * @param       $compiler
+ * @param array                                 $params parameters
+ * @param  Smarty_Internal_TemplateCompilerBase $compiler
  *
  * @return string with compiled code
+ * @throws \SmartyException
  */
-function smarty_modifiercompiler_escape($params, $compiler)
+function smarty_modifiercompiler_escape($params, Smarty_Internal_TemplateCompilerBase $compiler)
 {
     static $_double_encode = null;
-    if (!is_callable('smarty_literal_compiler_param')) {
-        require_once(SMARTY_PLUGINS_DIR . 'shared.literal_compiler_param.php');
-    }
+    static $is_loaded = false;
+    $compiler->template->_checkPlugins(array(array('function' => 'smarty_literal_compiler_param',
+                                         'file' => SMARTY_PLUGINS_DIR . 'shared.literal_compiler_param.php')));
     if ($_double_encode === null) {
         $_double_encode = version_compare(PHP_VERSION, '5.2.3', '>=');
     }
@@ -100,14 +100,14 @@ function smarty_modifiercompiler_escape($params, $compiler)
 
     // could not optimize |escape call, so fallback to regular plugin
     if ($compiler->template->caching && ($compiler->tag_nocache | $compiler->nocache)) {
-        $compiler->parent_compiler->template->compiled->required_plugins[ 'nocache' ][ 'escape' ][ 'modifier' ][ 'file' ] =
+        $compiler->required_plugins[ 'nocache' ][ 'escape' ][ 'modifier' ][ 'file' ] =
             SMARTY_PLUGINS_DIR . 'modifier.escape.php';
-        $compiler->parent_compiler->template->compiled->required_plugins[ 'nocache' ][ 'escape' ][ 'modifier' ][ 'function' ] =
+        $compiler->required_plugins[ 'nocache' ][ 'escape' ][ 'modifier' ][ 'function' ] =
             'smarty_modifier_escape';
     } else {
-        $compiler->parent_compiler->template->compiled->required_plugins[ 'compiled' ][ 'escape' ][ 'modifier' ][ 'file' ] =
+        $compiler->required_plugins[ 'compiled' ][ 'escape' ][ 'modifier' ][ 'file' ] =
             SMARTY_PLUGINS_DIR . 'modifier.escape.php';
-        $compiler->parent_compiler->template->compiled->required_plugins[ 'compiled' ][ 'escape' ][ 'modifier' ][ 'function' ] =
+        $compiler->required_plugins[ 'compiled' ][ 'escape' ][ 'modifier' ][ 'function' ] =
             'smarty_modifier_escape';
     }
 

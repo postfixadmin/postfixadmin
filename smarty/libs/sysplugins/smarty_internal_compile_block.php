@@ -22,7 +22,6 @@ class Smarty_Internal_Compile_Block extends Smarty_Internal_Compile_Shared_Inher
      * @see Smarty_Internal_CompileBase
      */
     public $required_attributes = array('name');
-
     /**
      * Attribute definition: Overwrites base class.
      *
@@ -30,7 +29,6 @@ class Smarty_Internal_Compile_Block extends Smarty_Internal_Compile_Shared_Inher
      * @see Smarty_Internal_CompileBase
      */
     public $shorttag_order = array('name');
-
     /**
      * Attribute definition: Overwrites base class.
      *
@@ -38,7 +36,6 @@ class Smarty_Internal_Compile_Block extends Smarty_Internal_Compile_Shared_Inher
      * @see Smarty_Internal_CompileBase
      */
     public $option_flags = array('hide', 'nocache');
-
     /**
      * Attribute definition: Overwrites base class.
      *
@@ -48,27 +45,19 @@ class Smarty_Internal_Compile_Block extends Smarty_Internal_Compile_Shared_Inher
     public $optional_attributes = array('assign');
 
     /**
-     * Saved compiler object
-     *
-     * @var Smarty_Internal_TemplateCompilerBase
-     */
-    public $compiler = null;
-
-    /**
      * Compiles code for the {block} tag
      *
      * @param  array                                 $args      array with attributes from parser
      * @param  \Smarty_Internal_TemplateCompilerBase $compiler  compiler object
      * @param  array                                 $parameter array with compilation parameter
      *
-     * @return bool true
      */
     public function compile($args, Smarty_Internal_TemplateCompilerBase $compiler, $parameter)
     {
         if (!isset($compiler->_cache[ 'blockNesting' ])) {
             $compiler->_cache[ 'blockNesting' ] = 0;
         }
-        if ($compiler->_cache[ 'blockNesting' ] == 0) {
+        if ($compiler->_cache[ 'blockNesting' ] === 0) {
             // make sure that inheritance gets initialized in template code
             $this->registerInit($compiler);
             $this->option_flags = array('hide', 'nocache', 'append', 'prepend');
@@ -77,30 +66,24 @@ class Smarty_Internal_Compile_Block extends Smarty_Internal_Compile_Shared_Inher
         }
         // check and get attributes
         $_attr = $this->getAttributes($compiler, $args);
-        $compiler->_cache[ 'blockNesting' ] ++;
+        ++$compiler->_cache[ 'blockNesting' ];
         $_className = 'Block_' . preg_replace('![^\w]+!', '_', uniqid(rand(), true));
         $compiler->_cache[ 'blockName' ][ $compiler->_cache[ 'blockNesting' ] ] = $_attr[ 'name' ];
         $compiler->_cache[ 'blockClass' ][ $compiler->_cache[ 'blockNesting' ] ] = $_className;
         $compiler->_cache[ 'blockParams' ][ $compiler->_cache[ 'blockNesting' ] ] = array();
         $compiler->_cache[ 'blockParams' ][ 1 ][ 'subBlocks' ][ trim($_attr[ 'name' ], '"\'') ][] = $_className;
-        $this->openTag($compiler, 'block', array($_attr, $compiler->nocache, $compiler->parser->current_buffer,
-                                                 $compiler->template->compiled->has_nocache_code,
-                                                 $compiler->template->caching));
-        // must whole block be nocache ?
-        if ($compiler->tag_nocache) {
-            $i = 0;
-        }
+        $this->openTag($compiler,
+                       'block',
+                       array($_attr, $compiler->nocache, $compiler->parser->current_buffer,
+                             $compiler->template->compiled->has_nocache_code,
+                             $compiler->template->caching));
+        $compiler->saveRequiredPlugins(true);
         $compiler->nocache = $compiler->nocache | $compiler->tag_nocache;
-        // $compiler->suppressNocacheProcessing = true;
-        if ($_attr[ 'nocache' ] === true) {
-            //$compiler->trigger_template_error('nocache option not allowed', $compiler->parser->lex->taglineno);
-        }
         $compiler->parser->current_buffer = new Smarty_Internal_ParseTree_Template();
         $compiler->template->compiled->has_nocache_code = false;
         $compiler->suppressNocacheProcessing = true;
     }
 }
-
 /**
  * Smarty Internal Plugin Compile BlockClose Class
  *
@@ -126,7 +109,7 @@ class Smarty_Internal_Compile_Blockclose extends Smarty_Internal_Compile_Shared_
         $_assign = isset($_attr[ 'assign' ]) ? $_attr[ 'assign' ] : null;
         unset($_attr[ 'assign' ], $_attr[ 'name' ]);
         foreach ($_attr as $name => $stat) {
-            if ((is_bool($stat) && $stat !== false) || (!is_bool($stat) && $stat != 'false')) {
+            if ((is_bool($stat) && $stat !== false) || (!is_bool($stat) && $stat !== 'false')) {
                 $_block[ $name ] = 'true';
             }
         }
@@ -144,7 +127,8 @@ class Smarty_Internal_Compile_Blockclose extends Smarty_Internal_Compile_Shared_
             $output .= "public \${$property} = " . var_export($value,true) .";\n";
         }
         $output .= "public function callBlock(Smarty_Internal_Template \$_smarty_tpl) {\n";
-        //$output .= "/*/%%SmartyNocache:{$compiler->template->compiled->nocache_hash}%%*/\n";
+        $output .= $compiler->compileRequiredPlugins();
+        $compiler->restoreRequiredPlugins();
         if ($compiler->template->compiled->has_nocache_code) {
             $output .= "\$_smarty_tpl->cached->hashes['{$compiler->template->compiled->nocache_hash}'] = true;\n";
         }
@@ -167,32 +151,22 @@ class Smarty_Internal_Compile_Blockclose extends Smarty_Internal_Compile_Shared_
         $compiler->parser->current_buffer->append_subtree($compiler->parser,
                                                           new Smarty_Internal_ParseTree_Tag($compiler->parser,
                                                                                             $output));
-        $compiler->blockOrFunctionCode .= $f = $compiler->parser->current_buffer->to_smarty_php($compiler->parser);
+        $compiler->blockOrFunctionCode .= $compiler->parser->current_buffer->to_smarty_php($compiler->parser);
         $compiler->parser->current_buffer = new Smarty_Internal_ParseTree_Template();
-        // nocache plugins must be copied
-        if (!empty($compiler->template->compiled->required_plugins[ 'nocache' ])) {
-            foreach ($compiler->template->compiled->required_plugins[ 'nocache' ] as $plugin => $tmp) {
-                foreach ($tmp as $type => $data) {
-                    $compiler->parent_compiler->template->compiled->required_plugins[ 'compiled' ][ $plugin ][ $type ] =
-                        $data;
-                }
-            }
-        }
-
         // restore old status
         $compiler->template->compiled->has_nocache_code = $_has_nocache_code;
         $compiler->tag_nocache = $compiler->nocache;
         $compiler->nocache = $_nocache;
         $compiler->parser->current_buffer = $_buffer;
         $output = "<?php \n";
-        if ($compiler->_cache[ 'blockNesting' ] == 1) {
+        if ($compiler->_cache[ 'blockNesting' ] === 1) {
             $output .= "\$_smarty_tpl->inheritance->instanceBlock(\$_smarty_tpl, '$_className', $_name);\n";
         } else {
             $output .= "\$_smarty_tpl->inheritance->instanceBlock(\$_smarty_tpl, '$_className', $_name, \$this->tplIndex);\n";
         }
         $output .= "?>\n";
-        $compiler->_cache[ 'blockNesting' ] --;
-        if ($compiler->_cache[ 'blockNesting' ] == 0) {
+        --$compiler->_cache[ 'blockNesting' ];
+        if ($compiler->_cache[ 'blockNesting' ] === 0) {
             unset($compiler->_cache[ 'blockNesting' ]);
         }
         $compiler->has_code = true;
