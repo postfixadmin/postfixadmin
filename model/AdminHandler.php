@@ -36,11 +36,9 @@ class AdminHandler extends PFAHandler {
 
         $passwordReset = Config::read('forgotten_admin_password_reset');
 
-        if ($passwordReset) {
-            $reset_by_sms = 0;
-            if (Config::read('sms_send_function')) {
-                $reset_by_sms = 1;
-            }
+        $reset_by_sms = 0;
+        if ($passwordReset && Config::read('sms_send_function')) {
+            $reset_by_sms = 1;
         }
 
         $this->struct=array(
