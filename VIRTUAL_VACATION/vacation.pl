@@ -51,6 +51,8 @@ our $db_name     = 'postfix';
 
 our $vacation_domain = 'autoreply.example.org';
 
+our $recipient_delimiter = '+';
+
 # smtp server used to send vacation e-mails
 our $smtp_server = 'localhost';
 # port to connect to; defaults to 25 for non-SSL, 465 for 'ssl', 587 for 'starttls'
@@ -611,6 +613,9 @@ if($smtp_recipient =~ /\@$vacation_domain/) {
     my $tmp = $smtp_recipient;
     $tmp =~ s/\@$vacation_domain//;
     $tmp =~ s/#/\@/;
+    if ($recipient_delimiter) {
+        $tmp =~ s/[\Q$recipient_delimiter\E].+$//;
+    }
     $logger->debug("Converted autoreply mailbox back to normal style - from $smtp_recipient to $tmp");
     $smtp_recipient = $tmp;
     undef $tmp;
