@@ -1116,10 +1116,20 @@ function _php_crypt_generate_crypt_salt($hash_type='MD5') {
 
 // used for php_crypt method
 function _php_crypt_random_string($characters, $length) {
+
+    $random_int_exists = true;
+    if(!function_exists('random_int')) {
+        $random_int_exists = false;
+    }
     $string = '';
     for ($p = 0; $p < $length; $p++) {
-        // should really use a stronger randomness source
-        $string .= $characters[mt_rand(0, strlen($characters)-1)];
+        if($random_int_exists) {
+            $string .= $characters[random_int(0, strlen($characters) -1)];
+        }
+        else {
+            // should really use a stronger randomness source
+            $string .= $characters[mt_rand(0, strlen($characters) - 1)];
+        }
     }
     return $string;
 }
