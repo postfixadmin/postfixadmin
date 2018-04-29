@@ -847,8 +847,14 @@ function generate_password() {
     // add random characters to $password until $length is reached
     $password = "";
     while (strlen($password) < $length) {
-        // pick a random character from the possible ones
-        $char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
+
+        if(function_exists('random_int')) {
+            $random = random_int(0, strlen($possible) -1);
+        }
+        else {
+            $random = mt_rand(0, strlen($possible) - 1);
+        }
+        $char = substr($possible, $random, 1);
 
         // we don't want this character if it's already in the password
         if (!strstr($password, $char)) {
@@ -863,7 +869,7 @@ function generate_password() {
 
 /**
  * Check if a password is strong enough based on the conditions in $CONF['password_validation']
- * @param String $password
+ * @param string $password
  * @return array of error messages, or empty array if the password is ok
  */
 function validate_password($password) {
@@ -946,6 +952,11 @@ function _pacrypt_authlib($pw, $pw_db) {
     return $password;
 }
 
+/**
+ * @param string $pw - plain text password
+ * @param string $pw_db - encrypted password, or '' for generation.
+ * @return string
+ */
 function _pacrypt_dovecot($pw, $pw_db) {
     global $CONF;
 
@@ -1013,8 +1024,7 @@ function _pacrypt_dovecot($pw, $pw_db) {
     if (empty($dovepasstest)) {
         if (!preg_match('/^\{' . $method . '\}/', $password)) {
             $stderr_output = stream_get_contents($pipes[2]);
-            error_log('dovecotpw password encryption failed.');
-            error_log('STDERR output: ' . $stderr_output);
+            error_log('dovecotpw password encryption failed. STDERR output: '. $stderr_output);
             die("can't encrypt password with dovecotpw, see error log for details");
         }
     } else {
@@ -1052,6 +1062,7 @@ function _pacrypt_php_crypt($pw, $pw_db) {
         // existing pw provided. send entire password hash as salt for crypt() to figure out
         $salt = $pw_db;
     } else {
+        $salt_method = 'missing-from-config';
         // no pw provided. create new password hash
         if(strpos($CONF['encrypt'], ':') !== false) {
             // use specified hash method
