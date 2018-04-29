@@ -4,7 +4,13 @@
 # This class is too static - if you inherit a class from it, it will share the static $instance and all its contents
 # Therefore the class is marked as final to prevent someone accidently does this ;-)
 final class Config {
+
     private static $instance = null;
+
+    /**
+     * @var array
+     */
+    private $config;
 
     # do not error_log() 'undefined config option' for deprecated options
     private static $deprecated_options = array(
@@ -12,10 +18,8 @@ final class Config {
     );
 
     /**
-     * Return a singleton instance of Configure.
-     *
-     * @return Configure instance
-     * @access public
+     * Return a singleton instance of Config
+     * @return Config
      */
 
     public static function getInstance() {
@@ -34,10 +38,9 @@ final class Config {
      * Configure::write('One', array('key1'=>'value of the Configure::One[key1]', 'key2'=>'value of the Configure::One[key2]');
      * Configure::write(array('One.key1' => 'value of the Configure::One[key1]', 'One.key2' => 'value of the Configure::One[key2]'));
      *
-     * @param array $config Name of var to write
-     * @param mixed $value Value to set for var
+     * @param mixed $config string or array of var to write
+     * @param mixed $value to set for key.
      * @return void
-     * @access public
      */
     public static function write($config, $value = null) {
         $_this = self::getInstance();
@@ -46,21 +49,25 @@ final class Config {
             $config = array($config => $value);
         }
 
+        $newConfig = $_this->getAll();
+
         foreach ($config as $names => $value) {
             $name = $_this->__configVarNames($names);
 
             switch (count($name)) {
             case 3:
-                $_this->{$name[0]}[$name[1]][$name[2]] = $value;
+                $newConfig[$name[0]][$name[1]][$name[2]] = $value;
                 break;
             case 2:
-                $_this->{$name[0]}[$name[1]] = $value;
+                $newConfig[$name[0]][$name[1]] = $value;
                 break;
             case 1:
-                $_this->{$name[0]} = $value;
+                $newConfig[$name[0]] = $value;
                 break;
             }
         }
+        $_this->setAll($newConfig);
+
     }
 
     /**
@@ -77,30 +84,34 @@ final class Config {
     public static function read($var) {
         $_this = self::getInstance();
 
+        $config = $_this->getAll();
+
         if ($var === 'all') {
-            $return = array();
-            foreach ($_this as $key =>$var) {
-                $return[$key] = $var;
-            }
-            return $return;
+            return $config;
         }
 
         $name = $_this->__configVarNames($var);
 
         switch (count($name)) {
         case 3:
-            if (isset($_this->{$name[0]}[$name[1]][$name[2]])) {
-                return $_this->{$name[0]}[$name[1]][$name[2]];
+            $zero = $name[0];
+            $one = $name[1];
+            $two = $name[2];
+            if(isset($config[$zero], $config[$zero][$one], $config[$zero][$one][$two])) {
+                return $config[$zero][$one][$two];
             }
             break;
         case 2:
-            if (isset($_this->{$name[0]}[$name[1]])) {
-                return $_this->{$name[0]}[$name[1]];
+            $zero = $name[0];
+            $one = $name[1];
+            if (isset($config[$zero], $config[$zero][$one])) {
+                return $config[$zero][$one];
             }
             break;
         case 1:
-            if (isset($_this->{$name[0]})) {
-                return $_this->{$name[0]};
+            $zero = $name[0];
+            if (isset($config[$zero])) {
+                return $config[$zero];
             }
             break;
         }
@@ -200,11 +211,21 @@ final class Config {
         return self::read_f(array('__LANG', $var), $value);
     }
 
-
+    /**
+     * @return array
+     */
     public function getAll() {
         $output = $this->config;
         return $output;
     }
+
+    /**
+     * @param array $config
+     */
+    public function setAll(array $config) {
+        $this->config = $config;
+    }
+
     /**
      * Checks $name for dot notation to create dynamic Configure::$var as an array when needed.
      *
