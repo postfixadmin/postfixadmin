@@ -1,0 +1,4 @@
+Downloaded on 2018/04/29.
+
+https://github.com/paragonie/random_compat/releases/download/v2.0.12/random_compat.phar.pubkey
+https://github.com/paragonie/random_compat/releases/download/v2.0.12/random_compat.phar

@@ -12,10 +12,10 @@ class PFASmarty {
         $this->template = new Smarty();
 
         //$this->template->debugging = true;
-        $this->template->setTemplateDir(dirname(__FILE__) . '/templates');
+        $this->template->setTemplateDir(dirname(__FILE__) . '/../templates');
 
         // if it's not present or writeable, smarty should just not cache.
-        $templates_c = dirname(__FILE__) . '/templates_c';
+        $templates_c = dirname(__FILE__) . '/../templates_c';
         if (is_dir($templates_c) && is_writeable($templates_c)) {
             $this->template->setCompileDir($templates_c);
         } else {
@@ -25,7 +25,7 @@ class PFASmarty {
             die("ERROR: the templates_c directory doesn't exist or isn't writeable for the webserver");
         }
 
-        $this->template->setConfigDir(dirname(__FILE__) . '/configs');
+        $this->template->setConfigDir(dirname(__FILE__) . '/../configs');
     }
 
     public function assign($key, $value, $sanitise = true) {
