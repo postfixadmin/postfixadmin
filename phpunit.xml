@@ -1,0 +1,34 @@
+<phpunit>
+    <php>
+        <const name="PHPUNIT_TEST" value="yes"/>
+    </php>
+    <testsuites>
+        <testsuite name="default">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <const name="PHP_UNIT_TEST" value="true" />
+    </php>
+
+    <logging>
+        <log type="coverage-html" target="./coverage" charset="UTF-8" highlight="false" lowUpperBound="35" highLowerBound="70"/>
+    </logging>
+
+    <filter>
+        <whitelist>
+            <directory>./model</directory>
+            <directory>./public</directory>
+            <file>./functions.inc.php</file>
+        </whitelist>
+        <blacklist>
+            <!-- no point in doing coverage for the tests themselves -->
+            <directory>./tests/</directory>
+            <!-- we have no control over code from these directories -->
+            <directory>./vendor/</directory>
+            <directory>./lib/</directory>
+        </blacklist>
+    </filter>
+
+</phpunit>
