@@ -2,21 +2,20 @@
 # $Id$
 
 class AdminHandler extends PFAHandler {
-
     protected $db_table = 'admin';
     protected $id_field = 'username';
 
-   protected function validate_new_id() {
-       $email_check = check_email($this->id);
+    protected function validate_new_id() {
+        $email_check = check_email($this->id);
 
-       if ($email_check == '') {
+        if ($email_check == '') {
             return true;
-       } else {
+        } else {
             $this->errormsg[] = $email_check;
             $this->errormsg[$this->id_field] = Config::lang('pAdminCreate_admin_username_text_error1');
             return false;
-       }
-   }
+        }
+    }
 
     protected function no_domain_field() {
         # PFAHandler die()s if domain field is not set. Disable this behaviour for AdminHandler.
@@ -35,35 +34,42 @@ class AdminHandler extends PFAHandler {
             $domains_grouped = 'group_concat(domain)';
         }
 
+        $passwordReset = Config::read('forgotten_admin_password_reset');
+
+        $reset_by_sms = 0;
+        if ($passwordReset && Config::read('sms_send_function')) {
+            $reset_by_sms = 1;
+        }
+
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label          $PALANG description   default / options / ...
             #                           editing?    form    list
-            'username'        => pacol( $this->new, 1,      1,      'text', 'admin'              , 'email_address'     , '', '',
+            'username'         => pacol($this->new, 1,      1,      'text', 'admin'              , 'email_address'     , '', '',
                 array('linkto' => 'list.php?table=domain&username=%s') ),
-            'password'        => pacol( 1,          1,      0,      'pass', 'password'           , ''                  ),
-            'password2'       => pacol( 1,          1,      0,      'pass', 'password_again'     , ''                  , '', '',
+            'password'         => pacol(1,          1,      0,      'pass', 'password'           , ''                  ),
+            'password2'        => pacol(1,          1,      0,      'pass', 'password_again'     , ''                  , '', '',
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
             ),
 
-            'superadmin'      => pacol( 1,          1,      0,      'bool', 'super_admin'        , 'super_admin_desc'  , 0
+            'superadmin'       => pacol(1,          1,      0,      'bool', 'super_admin'        , 'super_admin_desc'  , 0
 # TODO: (finally) replace the ALL domain with a column in the admin table
 # TODO: current status: 'superadmin' column exists and is written when storing an admin with AdminHandler,
 # TODO: but the superadmin status is still (additionally) stored in the domain_admins table ("ALL" dummy domain)
-# TODO: to keep the database backwards-compatible with 2.3.x. 
+# TODO: to keep the database backwards-compatible with 2.3.x.
 # TODO: Note: superadmins created with 2.3.x after running upgrade_1284() will not work until you re-run upgrade_1284()
 # TODO: Create them with the trunk version to avoid this problem.
             ),
 
-            'domains'         => pacol( 1,          1,      0,      'list', 'domain'             , ''                  , array(), list_domains(),
+            'domains'          => pacol(1,          1,      0,      'list', 'domain'             , ''                  , array(), list_domains(),
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ "coalesce(domains,'') as domains"
                /*extrafrom set in domain_count*/
             ),
 
-            'domain_count'    => pacol( 0,          0,      1,      'vnum', 'pAdminList_admin_count', ''               , '', '',
+            'domain_count'     => pacol(0,          0,      1,      'vnum', 'pAdminList_admin_count', ''               , '', '',
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ 'coalesce(__domain_count,0) as domain_count',
@@ -73,9 +79,13 @@ class AdminHandler extends PFAHandler {
                                 " WHERE domain != 'ALL' GROUP BY username " .
                              ' ) AS __domain on username = __domain_username'),
 
-            'active'          => pacol( 1,          1,      1,      'bool', 'active'             , ''                  , 1     ),
-            'created'         => pacol( 0,          0,      0,      'ts',   'created'            , ''                  ),
-            'modified'        => pacol( 0,          0,      1,      'ts',   'last_modified'      , ''                  ),
+            'active'           => pacol(1,          1,      1,      'bool', 'active'             , ''                  , 1     ),
+            'phone'            => pacol(1,  $reset_by_sms,  0,      'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
+            'email_other'      => pacol(1,  $passwordReset, 0,      'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
+            'token'            => pacol(1,          0,      0,      'text', ''                   , ''                  ),
+            'token_validity'   => pacol(1,          0,      0,      'ts',   ''                   , '', date("Y-m-d H:i:s",time())),
+            'created'          => pacol(0,          0,      0,      'ts',   'created'            , ''                  ),
+            'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'      , ''                  ),
         );
     }
 
@@ -148,7 +158,7 @@ class AdminHandler extends PFAHandler {
                 if ($result['rows'] == 0) {
                     db_insert('domain_admins', $values, array('created'));
                     # TODO: check for errors
-                } 
+                }
             } else {
                 db_delete('domain_admins', 'username', $this->id, "AND domain = 'ALL'");
             }
@@ -176,7 +186,7 @@ class AdminHandler extends PFAHandler {
      *  @return true on success false on failure
      */
     public function delete() {
-        if ( ! $this->view() ) {
+        if (! $this->view()) {
             $this->errormsg[] = Config::Lang($this->msg['error_does_not_exist']);
             return false;
         }
@@ -184,14 +194,14 @@ class AdminHandler extends PFAHandler {
         db_delete('domain_admins', $this->id_field, $this->id);
         db_delete($this->db_table, $this->id_field, $this->id);
 
-        db_log ('admin', 'delete_admin', $this->id); # TODO delete_admin is not a valid db_log keyword yet, and 'admin' is not displayed in viewlog.php
+        db_log('admin', 'delete_admin', $this->id); # TODO delete_admin is not a valid db_log keyword yet, and 'admin' is not displayed in viewlog.php
         $this->infomsg[] = Config::Lang_f('pDelete_delete_success', $this->id);
         return true;
     }
 
 
-# TODO: generate password if $new, no password specified and $CONF['generate_password'] is set
-# TODO: except if $this->admin_username == setup.php --- this exception should be handled directly in setup.php ("if $values['password'] == '' error_out")
+    # TODO: generate password if $new, no password specified and $CONF['generate_password'] is set
+    # TODO: except if $this->admin_username == setup.php --- this exception should be handled directly in setup.php ("if $values['password'] == '' error_out")
 
     /**
      * compare password / password2 field
@@ -200,7 +210,6 @@ class AdminHandler extends PFAHandler {
     protected function _validate_password2($field, $val) {
         return $this->compare_password_fields('password', 'password2');
     }
-
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

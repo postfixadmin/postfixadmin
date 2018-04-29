@@ -1,0 +1,93 @@
+This file is not exhaustive. 
+
+Please feel free to add yourself and a summary of changes to this file at the bottom if creating a pull request.
+
+
+Postfixadmin was originally written by Mischa Peters <mischa at high5 dot net>
+
+Copyright (c) 2002 - 2005 High5!
+Licensed under GPL for more info check GPL-LICENSE.TXT
+
+
+
+Additional authors:
+
+2004/07/13  David Osborn <ossdev at daocon.com>
+            strict, processes domain level aliases, more
+            subroutines, send reply from original to address
+
+2004/11/09  David Osborn <ossdev at daocon.com>
+            Added syslog support
+            Slightly better logging which includes messageid
+            Avoid infinite loops with domain aliases
+
+2005-01-19  Troels Arvin <troels at arvin.dk>
+            PostgreSQL-version.
+            Normalized DB schema from one vacation table ("vacation")
+            to two ("vacation", "vacation_notification"). Uses
+            referential integrity CASCADE action to simplify cleanup
+            when a user is no longer on vacation.
+            Inserting variables into queries stricly by prepare()
+            to try to avoid SQL injection.
+            International characters are now handled well.
+
+2005-01-21  Troels Arvin <troels at arvin.dk>
+            Uses the Email::Valid package to avoid sending notices
+            to obviously invalid addresses.
+
+2007-08-15  David Goodwin <david at palepurple.co.uk>
+            Use the Perl Mail::Sendmail module for sending mail
+            Check for headers that start with blank lines (patch from forum)
+
+2007-08-20  Martin Ambroz <amsys at trustica.cz>
+            Added initial Unicode support
+
+2008-05-09  Fabio Bonelli <fabiobonelli at libero.it>
+            Properly handle failed queries to vacation_notification.
+            Fixed log reporting.
+
+2008-07-29  Patch from Luxten to add repeat notification after timeout. See:
+            https://sourceforge.net/tracker/index.php?func=detail&aid=2031631&group_id=191583&atid=937966
+
+2008-08-01  Luigi Iotti <luigi at iotti dot biz>
+            Use envelope sender/recipient instead of using
+            From: and To: header fields;
+            Support to good vacation behavior as in
+            http://www.irbs.net/internet/postfix/0707/0954.html
+            (needs to be tested);
+
+2008-08-04  David Goodwin <david at palepurple dot co dot uk>
+            Use Log4Perl
+            Added better testing (and -t option)
+
+2009-06-29  Stevan Bajic <stevan at bajic.ch>
+            Add Mail::Sender for SMTP auth + more flexibility
+
+2009-07-07  Stevan Bajic <stevan at bajic.ch>
+            Add better alias lookups
+            Check for more heades from Anti-Virus/Anti-Spam solutions
+
+2009-08-10  Sebastian <reg9009 at yahoo dot de>
+            Adjust SQL query for vacation timeframe. It is now possible to set from/until date for vacation message.
+
+2012-04-1   Nikolaos Topp <info at ichier.de>
+            Add configuration parameter $smtp_client in order to get mails through
+            postfix helo-checks, using check_helo_access whitelist without permitting 'localhost' default style stuff
+
+2012-04-19  Jan Kruis <jan at crossreference dot nl>
+            change SQL query for vacation into function.
+            Add sub get_interval()
+            Gives the user the option to set the interval time ( 0 = one reply, 1 = autoreply, > 1 = Delay reply ) 
+            See https://sourceforge.net/tracker/?func=detail&aid=3508083&group_id=191583&atid=937966
+
+2012-06-18  Christoph Lechleitner <christoph.lechleitner@iteg.at>
+            Add capability to include the subject of the original mail in the subject of the vacation message.
+            A good vacation subject could be: 'Re: $SUBJECT'
+            Also corrected log entry about "Already informed ..." to show the $orig_from, not $email
+
+2017-07-14  Thomas Kempf <tkempf@hueper.de>
+            Replacing deprecated Mail::Sender by Email::Sender
+            Add configuration parameter $no_vacation_pattern in order to exlude specific alias-recipients from 
+            sending vacation mails, even if one or multiple of the recipients the alias points to has vacation
+            currently active. 
+

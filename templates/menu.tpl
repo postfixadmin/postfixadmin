@@ -62,7 +62,7 @@
 	<li><a target="_top" href="{#url_sendmail#}">{$PALANG.pMenu_sendmail}</a>
 		<ul>
 			<li><a target="_top" href="{#url_sendmail#}">{$PALANG.pMenu_sendmail}</a></li>
-{if $authentication_has_role.global_admin || $CONF.sendmail_all_admins === 'YES'}
+{if $authentication_has_role.global_admin || (isset($CONF.sendmail_all_admins) && $CONF.sendmail_all_admins === 'YES') }
 			<li><a target="_top" href="{#url_broadcast_message#}">{$PALANG.pAdminMenu_broadcast_message}</a></li>
 {/if}
 		</ul>

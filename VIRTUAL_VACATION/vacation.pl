@@ -1,110 +1,13 @@
-#!/usr/bin/perl -X
-# Note  - 2017/02/08 DG :
-# Yes - I know -X (^) is not ideal.
-#       Patches are welcome to remove the dependency on Mail::Sender. 
-#       Until then, we need -X to stop it failing with warnings like 
-#       defined(@array) is deprecated at .../perl5/Mail/Sender.pm line 318. 
+#!/usr/bin/perl
 #
-# Virtual Vacation 4.0
+# Virtual Vacation 4.2
 #
-# $Revision$
-# Originally by Mischa Peters <mischa at high5 dot net>
-#
-# Copyright (c) 2002 - 2005 High5!
-# Licensed under GPL for more info check GPL-LICENSE.TXT
-#
-# Additions:
-# 2004/07/13  David Osborn <ossdev at daocon.com>
-#             strict, processes domain level aliases, more
-#             subroutines, send reply from original to address
-#
-# 2004/11/09  David Osborn <ossdev at daocon.com>
-#             Added syslog support
-#             Slightly better logging which includes messageid
-#             Avoid infinite loops with domain aliases
-#
-# 2005-01-19  Troels Arvin <troels at arvin.dk>
-#             PostgreSQL-version.
-#             Normalized DB schema from one vacation table ("vacation")
-#             to two ("vacation", "vacation_notification"). Uses
-#             referential integrity CASCADE action to simplify cleanup
-#             when a user is no longer on vacation.
-#             Inserting variables into queries stricly by prepare()
-#             to try to avoid SQL injection.
-#             International characters are now handled well.
-#
-# 2005-01-21  Troels Arvin <troels at arvin.dk>
-#             Uses the Email::Valid package to avoid sending notices
-#             to obviously invalid addresses.
-#
-# 2007-08-15  David Goodwin <david at palepurple.co.uk>
-#             Use the Perl Mail::Sendmail module for sending mail
-#             Check for headers that start with blank lines (patch from forum)
-#
-# 2007-08-20  Martin Ambroz <amsys at trustica.cz>
-#             Added initial Unicode support
-#
-# 2008-05-09  Fabio Bonelli <fabiobonelli at libero.it>
-#             Properly handle failed queries to vacation_notification.
-#             Fixed log reporting.
-#
-# 2008-07-29  Patch from Luxten to add repeat notification after timeout. See:
-#             https://sourceforge.net/tracker/index.php?func=detail&aid=2031631&group_id=191583&atid=937966
-#
-# 2008-08-01  Luigi Iotti <luigi at iotti dot biz>
-#             Use envelope sender/recipient instead of using
-#             From: and To: header fields;
-#             Support to good vacation behavior as in
-#             http://www.irbs.net/internet/postfix/0707/0954.html
-#             (needs to be tested);
-#
-# 2008-08-04  David Goodwin <david at palepurple dot co dot uk>
-#             Use Log4Perl
-#             Added better testing (and -t option)
-#
-# 2009-06-29  Stevan Bajic <stevan at bajic.ch>
-#             Add Mail::Sender for SMTP auth + more flexibility
-#
-# 2009-07-07  Stevan Bajic <stevan at bajic.ch>
-#             Add better alias lookups
-#             Check for more heades from Anti-Virus/Anti-Spam solutions
-#
-# 2009-08-10  Sebastian <reg9009 at yahoo dot de>
-#             Adjust SQL query for vacation timeframe. It is now possible to set from/until date for vacation message.
-#
-# 2012-04-1   Nikolaos Topp <info at ichier.de>
-#             Add configuration parameter $smtp_client in order to get mails through
-#             postfix helo-checks, using check_helo_access whitelist without permitting 'localhost' default style stuff
-#
-# 2012-04-19  Jan Kruis <jan at crossreference dot nl>
-#             change SQL query for vacation into function.
-#             Add sub get_interval()
-#             Gives the user the option to set the interval time ( 0 = one reply, 1 = autoreply, > 1 = Delay reply ) 
-#             See https://sourceforge.net/tracker/?func=detail&aid=3508083&group_id=191583&atid=937966
-#
-# 2012-06-18  Christoph Lechleitner <christoph.lechleitner@iteg.at>
-#             Add capability to include the subject of the original mail in the subject of the vacation message.
-#             A good vacation subject could be: 'Re: $SUBJECT'
-#             Also corrected log entry about "Already informed ..." to show the $orig_from, not $email
-#
+# See Contributions.txt for a list of contributions.
+# https://github.com/postfixadmin/postfixadmin/blob/master/VIRTUAL_VACATION/Contributions.txt
 
-# Requirements - the following perl modules are required:
-# DBD::Pg or DBD::mysql
-# Mail::Sender, Email::Valid MIME::Charset, Log::Log4perl, Log::Dispatch, MIME::EncWords and GetOpt::Std
-#
-# You may install these via CPAN, or through your package tool.
-# CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
-#
-# On Debian based systems :
-#   libmail-sender-perl
-#   libdbd-pg-perl
-#   libemail-valid-perl
-#   libmime-perl
-#   liblog-log4perl-perl
-#   liblog-dispatch-perl
-#   libgetopt-argvfile-perl
-#   libmime-charset-perl (currently in testing, see instructions below)
-#   libmime-encwords-perl (currently in testing, see instructions below)
+# See INSTALL.txt for help installing (and lists of dependent packages etc)
+# https://github.com/postfixadmin/postfixadmin/blob/master/VIRTUAL_VACATION/INSTALL.md
+
 #
 # Note: When you use this module, you may start seeing error messages
 # like "Cannot insert a duplicate key into unique index
@@ -112,22 +15,19 @@
 # behavior, and not an indication of trouble (see the "already_notified"
 # subroutine for an explanation).
 #
-# You must also have the Email::Valid and MIME-tools perl-packages
-# installed. They are available in some package collections, under the
-# names 'perl-Email-Valid' and 'perl-MIME-tools', respectively.
-# One such package collection (for Linux) is:
-# http://dag.wieers.com/home-made/apt/packages.php
-#
 
 use utf8;
 use DBI;
-use MIME::Base64 qw(encode_base64);
-use Encode qw(encode decode);
+use Encode qw(decode);
 use MIME::EncWords qw(:all);
 use Email::Valid;
 use strict;
-use Mail::Sender;
 use Getopt::Std;
+use Email::Sender::Simple qw(sendmail);
+use Email::Sender::Transport::SMTP;
+use Email::Simple;
+use Email::Simple::Creator;
+use Try::Tiny;
 use Log::Log4perl qw(get_logger :levels);
 use File::Basename;
 
@@ -153,21 +53,29 @@ our $vacation_domain = 'autoreply.example.org';
 
 # smtp server used to send vacation e-mails
 our $smtp_server = 'localhost';
+# port to connect to; defaults to 25 for non-SSL, 465 for 'ssl', 587 for 'starttls'
 our $smtp_server_port = 25;
 
 # this is the helo we [the vacation script] use on connection; you may need to change this to your hostname or something,
 # depending upon what smtp helo restrictions you have in place within Postfix. 
 our $smtp_client = 'localhost';
 
-# SMTP authentication protocol used for sending.
-# Can be 'PLAIN', 'LOGIN', 'CRAM-MD5' or 'NTLM'
-# see "perldoc Mail::Sender" (search for "auth") for more options and details
-# Leave it blank if you don't use authentication
-our $smtp_auth = undef;
-# username used to login to the server
-our $smtp_authid = 'someuser';
-# password used to login to the server
-our $smtp_authpwd = 'somepass';
+# send mail encrypted or plaintext
+# if 'starttls', use STARTTLS; if 'ssl' (or 1), connect securely; otherwise, no security
+our $smtp_ssl = 'starttls';
+
+# passed to Net::SMTP constructor for 'ssl' connections or to starttls for 'starttls' connections; should contain extra options for IO::Socket::SSL
+our $ssl_options = {
+    SSL_verifycn_name => $smtp_server
+};
+
+# maximum time in secs to wait for server; default is 120
+our $smtp_timeout = '120';
+
+# sasl_username: the username to use for auth; optional
+our $smtp_authid = '';
+# sasl_password: the password to use for auth; required if username is provided
+our $smtp_authpwd = '';
 
 # This specifies the mail 'from' name which is shown to recipients of vacation replies.
 # If you leave it empty, the vacation mail will contain: 
@@ -176,9 +84,6 @@ our $smtp_authpwd = 'somepass';
 # From: Some Friendly Name <original@recipient.domain>
 our $friendly_from = '';
 
-# use TLS for the SMTP connection?
-# while in general this would be a good idea, TLS with Mail::Sender 0.8.22 is buggy - https://rt.cpan.org/Public/Bug/Display.html?id=85438
-our $smtp_tls_allowed = 0;
 
 # Set to 1 to enable logging to syslog.
 our $syslog = 0;
@@ -207,6 +112,15 @@ our $interval = 0;
 our $custom_noreply_pattern = 0;
 our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter'; 
 
+# Never send vacation mails for the following recipient email addresses.
+# Useful for e.g. aliases pointing to multiple recipients which have vacation active
+# hence an email to the alias should not trigger vacation messages.
+# By default vacation email addresses will be sent for all recipients.
+# default = ''
+# preventing vacation notifications for recipient info@example.org would look like this:
+# our $no_vacation_pattern = 'info\@example\.org';
+our $no_vacation_pattern = 'info\@example\.org'; 
+
 
 # instead of changing this script, you can put your settings to /etc/mail/postfixadmin/vacation.conf
 # or /etc/postfixadmin/vacation.conf just use Perl syntax there to fill the variables listed above
@@ -216,6 +130,8 @@ if (-f '/etc/mail/postfixadmin/vacation.conf') {
     require '/etc/mail/postfixadmin/vacation.conf';
 } elsif (-f '/etc/postfixadmin/vacation.conf') {
     require '/etc/postfixadmin/vacation.conf';
+} elsif (-f './vacation.conf') {
+    require './vacation.conf';
 }
 
 # =========== end configuration ===========
@@ -249,6 +165,7 @@ if($test_mode == 1) {
     $appender->layout($log_layout);
     $logger->add_appender($appender);
     $logger->debug('Test mode enabled');
+    
 } else {
     $logger = get_logger();
     if($log_to_file == 1) {
@@ -266,6 +183,7 @@ if($test_mode == 1) {
         my $syslog_appender = Log::Log4perl::Appender->new(
             'Log::Dispatch::Syslog',
             facility => 'mail',
+            ident => 'vacation',
         );
         $logger->add_appender($syslog_appender);
     }
@@ -536,45 +454,51 @@ sub send_vacation_email {
         my $body = $row[1];
         my $from = $email;
         my $to = $orig_from;
-        my %smtp_connection;
-        %smtp_connection = (
-            'smtp' => $smtp_server,
-            'port' => $smtp_server_port,
-            'auth' => $smtp_auth,
-            'authid' => $smtp_authid,
-            'authpwd' => $smtp_authpwd,
-            'tls_allowed' => $smtp_tls_allowed,
-            'smtp_client' => $smtp_client,
-            'skip_bad_recipients' => 'true',
-            'encoding' => 'Base64',
-            'ctype' => 'text/plain; charset=UTF-8',
-            'headers' => 'Precedence: junk',
-            'headers' => 'X-Loop: Postfix Admin Virtual Vacation',
-            'on_errors' => 'die', # raise exception on error
+
+        my $smtp_params = {
+            host => $smtp_server,
+            port => $smtp_server_port,
+            ssl_options => $ssl_options,
+            ssl  => $smtp_ssl,
+            timeout => $smtp_timeout,
+            localaddr => $smtp_client,
+            debug => 0,
+        };
+
+        if($smtp_authid ne ''){
+            $smtp_params->{sasl_username}=$smtp_authid;
+            $smtp_params->{sasl_password}=$smtp_authpwd;
+            $logger->info("Doing SASL Authentication with user $smtp_params->{sasl_username}\n");
+        };
+
+        my $transport = Email::Sender::Transport::SMTP->new($smtp_params);
+
+        $email = Email::Simple->create(
+            header => [
+                To      => $to,
+                From    => $from,
+                Subject => encode_mimewords($subject, 'Charset', 'UTF-8'),
+                Precedence => 'junk',
+                'Content-Type' => "text/plain; charset=utf-8",
+                'X-Loop' => 'Postfix Admin Virtual Vacation',
+            ],
+            body => $body,
         );
-        my %mail;
-        %mail = (
-            'subject' => encode_mimewords($subject, 'Charset', 'UTF-8'),
-            'from' => $from,
-            'fake_from' => $friendly_from . " <$from>",
-            'to' => $to,
-            'msg' => encode_base64(encode("UTF-8", $body))
-        );
+
         if($test_mode == 1) {
             $logger->info("** TEST MODE ** : Vacation response sent to $to from $from subject $subject (not) sent\n");
-            $logger->info(%mail);
+            $logger->info($email);
             return 0;
         }
-        eval {
-            $Mail::Sender::NO_X_MAILER = 1;
-            my $sender = new Mail::Sender({%smtp_connection});
-            $sender->Open({%mail});
-            $sender->SendLineEnc($body);
-            $sender->Close();
-            $logger->debug("Vacation response sent to $to, from $from");
-        };
-        if ($@) {
-            $logger->error("Failed to send vacation response: $@ / " . $Mail::Sender::Error);
+
+        try {
+            sendmail($email, { transport => $transport });
+        } finally {
+            if (@_) {
+                $logger->error("Failed to send vacation response to $to from $from subject $subject: @_");
+            } else {
+             $logger->debug("Vacation response sent to $to from $from subject $subject sent\n");
+            }
         }
     }
 }
@@ -655,6 +579,7 @@ $cc = '';
 $replyto = '';
 
 $logger->debug("Script argument SMTP recipient is : '$smtp_recipient' and smtp_sender : '$smtp_sender'");
+
 while (<STDIN>) {
     last if (/^$/);
     if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; next; }
@@ -676,6 +601,8 @@ while (<STDIN>) {
     elsif (/^(x\-(anti|avas\-)?virus\-status):\s+(infected)/i) { $logger->debug("$1: $3 found; exiting"); exit (0); }
     elsif (/^(x\-(avas\-spam|spamtest|crm114|razor|pyzor)\-status):\s+(spam)/i) { $logger->debug("$1: $3 found; exiting"); exit (0); }
     elsif (/^(x\-osbf\-lua\-score):\s+[0-9\/\.\-\+]+\s+\[([-S])\]/i) { $logger->debug("$1: $2 found; exiting"); exit (0); }
+    elsif (/^x\-autogenerated:\s*reply/i) { $logger->debug('x-autogenerated found; exiting'); exit (0); }
+    elsif (/^x\-auto\-response\-suppress:\s*oof/i) { $logger->debug('x-auto-response-suppress: oof found; exiting'); exit (0); }
     else {$lastheader = '' ; }
 }
 
@@ -695,6 +622,12 @@ if(!$from || !$to || !$messageid || !$smtp_sender || !$smtp_recipient) {
     exit(0);
 }
 $logger->debug("Email headers have to: '$to' and From: '$from'");
+
+if ($to =~ /^.*($no_vacation_pattern).*/i) { 
+   $logger->debug("Will not send vacation reply for messages to $to");
+   exit(0); 
+}
+
 $to = strip_address($to);
 $cc = strip_address($cc);
 $from = check_and_clean_from_address($from);

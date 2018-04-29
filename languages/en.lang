@@ -44,7 +44,7 @@ $PALANG['pLogin_username'] = 'Login (email)';
 $PALANG['password'] = 'Password';
 $PALANG['pLogin_language'] = 'Language';
 $PALANG['pLogin_button'] = 'Login';
-$PALANG['pLogin_failed'] = 'Your email address or password are not correct.';
+$PALANG['pLogin_failed'] = 'Your email address or password is not correct.';
 $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.';
 
 $PALANG['pMenu_main'] = 'Main';
@@ -146,11 +146,15 @@ $PALANG['pCreate_mailbox_username_text_error1'] = 'The EMAIL is not valid!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'You have reached your limit to create mailboxes!';
 $PALANG['pCreate_mailbox_password_text'] = 'Password for POP3/IMAP';
 $PALANG['pCreate_mailbox_name_text'] = 'Full name';
+$PALANG['pCreate_mailbox_phone'] = 'Mobile phone';
+$PALANG['pCreate_mailbox_phone_desc'] = "Used to send a SMS if the password is forgotten";
+$PALANG['pCreate_mailbox_email'] = 'Other e-mail';
+$PALANG['pCreate_mailbox_email_desc'] = "Used if the password is forgotten";
 $PALANG['pCreate_mailbox_mail'] = 'Send Welcome mail';
 $PALANG['pCreate_mailbox_result_error'] = 'Creating the mailbox %s failed!';
 $PALANG['pCreate_mailbox_result_success'] = 'The mailbox %s has been added to the mailbox table.';
 $PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'The mailbox %s has been added to the mailbox table, but none (or only some) of the predefined sub-folders could be created.';
-$PALANG['mailbox_updated'] = "The mailbox %s has been updated."; 
+$PALANG['mailbox_updated'] = "The mailbox %s has been updated.";
 $PALANG['mailbox_update_failed'] = "Updating the mailbox %s failed!";
 
 $PALANG['pEdit_mailbox_welcome'] = 'Edit a mailbox for your domain.';
@@ -173,6 +177,14 @@ $PALANG['pPassword_password_text_error'] = 'The passwords that you supplied don\
 $PALANG['change_password'] = 'Change Password';
 $PALANG['pPassword_result_error'] = 'Changing the password for %s failed!';
 $PALANG['pPassword_result_success'] = 'The password for %s has been changed.';
+
+$PALANG['pPassword_recovery_title'] = 'Follow the instructions to reset your password.';
+$PALANG['pPassword_recovery_button'] = 'Send me the code';
+$PALANG['pPassword_recovery_email_body'] = "Hello,\n\nUse the following link to change your email password :\n%s\n\nRegards,\n\n" . $CONF['admin_name'];
+$PALANG['pPassword_recovery_sms_body'] = "Hello,\nThe code to change your password is: %s\n" . $CONF['admin_name'];
+$PALANG['pPassword_recovery_processed'] = "We processed your request. If you entered a valid username, you'll receive an email/SMS with a password code.";
+$PALANG['pPassword_password_code'] = 'Code sent by email/SMS';
+$PALANG['pPassword_code_text_error'] = 'Invalid code';
 
 $PALANG['pEdit_vacation_set'] = 'Change / Set away message';
 $PALANG['pEdit_vacation_remove'] = 'Remove away message';
@@ -298,6 +310,7 @@ $PALANG['pAdminEdit_admin_result_success'] = 'The admin %s has been modified.';
 $PALANG['pUsersLogin_welcome'] = 'Mailbox users login to change your password and aliases.';
 $PALANG['pUsersLogin_username_incorrect'] = 'Your login is not correct. Make sure that you login with your email address!';
 $PALANG['pUsersLogin_password_incorrect'] = 'Your password is not correct!';
+$PALANG['pUsersLogin_password_recover'] = 'I forgot my password';
 
 $PALANG['pUsersMenu_vacation'] = 'Auto Response';
 $PALANG['pUsersMenu_edit_alias'] = 'Change your forward';

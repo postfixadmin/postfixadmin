@@ -1,5 +1,6 @@
 #!/usr/bin/php
 <?php
+
 /**
  * Command-line code generation utility to automate administrator tasks.
  *
@@ -124,14 +125,6 @@ class PostfixAdmin {
         ini_set('html_errors', false);
         ini_set('implicit_flush', true);
         ini_set('max_execution_time', 0);
-
-        define('DS', DIRECTORY_SEPARATOR);
-        define('CORE_INCLUDE_PATH', dirname(__FILE__));
-        define('CORE_PATH', dirname(CORE_INCLUDE_PATH) ); # CORE_INCLUDE_PATH/../
-
-        if(!defined('POSTFIXADMIN')) { # already defined if called from setup.php
-            define('POSTFIXADMIN', 1); # checked in included files
-        }
     }
 
     /**
@@ -141,14 +134,6 @@ class PostfixAdmin {
         $this->stdin = fopen('php://stdin', 'r');
         $this->stdout = fopen('php://stdout', 'w');
         $this->stderr = fopen('php://stderr', 'w');
-
-        if (!$this->__bootstrap()) {
-            $this->stderr("");
-            $this->stderr("Unable to load.");
-            $this->stderr("\tMake sure /config.inc.php exists in " . PATH);
-            exit(1);
-        }
-
 
         if (basename(__FILE__) !=  basename($this->args[0])) {
             $this->stderr('Warning: the dispatcher may have been loaded incorrectly, which could lead to unexpected results...');
@@ -161,37 +146,9 @@ class PostfixAdmin {
     }
 
     /**
-     * Initializes the environment and loads the Cake core.
-     *
-     * @return boolean Success.
-     */
-    private function __bootstrap() {
-        if ($this->params['webroot'] != '' ) {
-            define('PATH', $this->params['webroot'] );
-        } else {
-            define('PATH', CORE_PATH);
-        }
-
-        if (!file_exists(PATH)) {
-            $this->stderr( PATH . " don't exists");
-            return false;
-        }
-
-        # make sure global variables fron functions.inc.php end up in the global namespace, instead of being local to this function
-        global $version, $min_db_version;
-
-        if (!require_once(PATH . '/common.php')) {
-            $this->stderr("Failed to load " . PATH . '/common.php');
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Dispatches a CLI request
      */
     public function dispatch() {
-        $CONF = Config::read('all');
 
         check_db_version(); # ensure the database layout is up to date
 
@@ -210,10 +167,7 @@ class PostfixAdmin {
             $this->help();
             return;
         }
-        # TODO: move shells/shell.php to model/ to enable autoloading
-        if (!class_exists('Shell')) {
-            require CORE_INCLUDE_PATH . DS . "shells" . DS . 'shell.php';
-        }
+
         $command = 'help'; # not the worst default ;-)
         if (isset($this->args[0])) {
             $command = $this->args[0];
@@ -250,8 +204,6 @@ class PostfixAdmin {
         # TODO: add a way to Cli* to signal if the selected handler is supported (for example, not all *Handler support changing the password)
 
         if (strtolower(get_parent_class($shell)) == 'shell') {
-            $shell->initialize();
-
             $handler = new $shell->handler_to_use;
             if (in_array($task, $handler->taskNames)) {
                 $this->shiftArgs();
@@ -283,11 +235,8 @@ class PostfixAdmin {
         }
 
         $protectedCommands = array(
-            'initialize','in','out','err','hr',
-            'createfile', 'isdir','copydir','object','tostring',
-            'requestaction','log','cakeerror', 'shelldispatcher',
-            '__initconstants','__initenvironment','__construct',
-            'dispatch','__bootstrap','getinput','stdout','stderr','parseparams','shiftargs'
+            'in', 'out', 'err', 'hr', 'log',
+            '__construct', 'dispatch', 'stdout', 'stderr'
         );
 
         if (in_array(strtolower($command), $protectedCommands)) {
@@ -328,7 +277,7 @@ class PostfixAdmin {
         }
         $result = fgets($this->stdin);
 
-        if ($result === false){
+        if ($result === false) {
             exit(1);
         }
         $result = trim($result);
@@ -369,10 +318,6 @@ class PostfixAdmin {
      */
     public function parseParams($params) {
         $this->__parseParams($params);
-
-        $defaults = array('webroot' => CORE_PATH);
-
-        $params = array_merge($defaults, array_intersect_key($this->params, $defaults));
 
         $isWin = array_filter(array_map('strpos', $params, array('\\')));
 
@@ -442,7 +387,7 @@ class PostfixAdmin {
         $this->stdout("");
         $this->stdout("Available modules:");
 
-        $modules = explode(',','admin,domain,mailbox,alias,aliasdomain,fetchmail');
+        $modules = explode(',', 'admin,domain,mailbox,alias,aliasdomain,fetchmail');
         foreach ($modules as $module) {
             $this->stdout("    $module");
         }
@@ -466,17 +411,15 @@ class PostfixAdmin {
         $this->stdout("");
 
         exit();
-
     }
 }
 
 
-define ("POSTFIXADMIN_CLI", 1);
+define("POSTFIXADMIN_CLI", 1);
+
+require_once(dirname(__FILE__) . '/../common.php');
 
 $dispatcher = new PostfixAdmin($argv);
-
-$CONF = Config::read('all');
-
 $dispatcher->dispatch();
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

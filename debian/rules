@@ -33,7 +33,7 @@ install: build
 	dh_install
 	dh_apache2
 	mv debian/postfixadmin/usr/share/postfixadmin/config.inc.php debian/postfixadmin/etc/postfixadmin/config.inc.php
-	find debian/postfixadmin -name .svn | xargs -r rm -r
+	ln -s /usr/share/postfixadmin/scripts/postfixadmin-cli debian/postfixadmin/usr/bin/postfixadmin-cli
 
 # Build architecture-independent files here.
 binary-indep: build install

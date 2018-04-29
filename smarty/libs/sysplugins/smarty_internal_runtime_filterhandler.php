@@ -33,8 +33,8 @@ class Smarty_Internal_Runtime_FilterHandler
     public function runFilter($type, $content, Smarty_Internal_Template $template)
     {
         // loop over autoload filters of specified type
-        if (!empty($template->smarty->autoload_filters[$type])) {
-            foreach ((array) $template->smarty->autoload_filters[$type] as $name) {
+        if (!empty($template->smarty->autoload_filters[ $type ])) {
+            foreach ((array) $template->smarty->autoload_filters[ $type ] as $name) {
                 $plugin_name = "Smarty_{$type}filter_{$name}";
                 if (function_exists($plugin_name)) {
                     $callback = $plugin_name;
@@ -48,19 +48,19 @@ class Smarty_Internal_Runtime_FilterHandler
                         // loaded class of filter plugin
                         $callback = array($plugin_name, 'execute');
                     } else {
-                        throw new SmartyException("Auto load {$type}-filter plugin method \"{$plugin_name}::execute\" not callable");
+                        throw new SmartyException("Auto load {$type}-filter plugin method '{$plugin_name}::execute' not callable");
                     }
                 } else {
                     // nothing found, throw exception
-                    throw new SmartyException("Unable to auto load {$type}-filter plugin \"{$plugin_name}\"");
+                    throw new SmartyException("Unable to auto load {$type}-filter plugin '{$plugin_name}'");
                 }
                 $content = call_user_func($callback, $content, $template);
             }
         }
         // loop over registered filters of specified type
-        if (!empty($template->smarty->registered_filters[$type])) {
-            foreach ($template->smarty->registered_filters[$type] as $key => $name) {
-                $content = call_user_func($template->smarty->registered_filters[$type][$key], $content, $template);
+        if (!empty($template->smarty->registered_filters[ $type ])) {
+            foreach ($template->smarty->registered_filters[ $type ] as $key => $name) {
+                $content = call_user_func($template->smarty->registered_filters[ $type ][ $key ], $content, $template);
             }
         }
         // return filtered output

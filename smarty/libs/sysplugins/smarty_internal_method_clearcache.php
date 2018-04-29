@@ -31,13 +31,15 @@ class Smarty_Internal_Method_ClearCache
      * @param  integer $exp_time      expiration time
      * @param  string  $type          resource type
      *
-     * @return integer number of cache files deleted
+     * @return int number of cache files deleted
+     * @throws \SmartyException
      */
-    public function clearCache(Smarty $smarty, $template_name, $cache_id = null, $compile_id = null, $exp_time = null, $type = null)
+    public function clearCache(Smarty $smarty, $template_name, $cache_id = null, $compile_id = null, $exp_time = null,
+                               $type = null)
     {
+        $smarty->_clearTemplateCache();
         // load cache resource and call clear
         $_cache_resource = Smarty_CacheResource::load($smarty, $type);
-        $_cache_resource->invalidLoadedCache($smarty);
         return $_cache_resource->clear($smarty, $template_name, $cache_id, $compile_id, $exp_time);
     }
 }

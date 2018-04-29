@@ -29,7 +29,7 @@ changing to talk to a PostgreSQL or MySQL database.
 
 # BEGIN /etc/dovecot/dovecot.conf:
 # Change this to where your mail root is, this needs to match whatever structure postfix expects....
-
+# See also: https://wiki.dovecot.org/MailLocation - %d domain, %u full username, %n user part (%u with no domain)
 mail_location = maildir:/var/mail/vmail/%u/
 
 namespace inbox {
@@ -85,8 +85,6 @@ passdb {
 #        user = postfix
 #        group = postfix
 #    }
-#    user = postfix
-#    group = postfix
 #}
 
 # Needs to match Postfix virtual_uid_maps
@@ -132,7 +130,7 @@ user_query = SELECT maildir, 1001 AS uid, 1001 AS gid FROM mailbox WHERE usernam
 
 
 # MYSQL :
-user_query = SELECT CONCAT('/var/vmail/mail/', maildir) AS home, 1001 AS uid, 1001 AS gid, 
+user_query = SELECT CONCAT('/var/mail/vmail/', maildir) AS home, 1001 AS uid, 1001 AS gid, 
 	CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE username = '%u' AND active='1'
 # PostgreSQL : (no Quota though) :
 # user_query = SELECT '/var/vmail/mail/' || maildir AS home, 1001 as uid, 1001 as gid FROM mailbox WHERE username = '%u' AND active = '1'

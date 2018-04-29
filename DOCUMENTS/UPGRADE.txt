@@ -33,10 +33,11 @@ When you install from a previous version make sure you backup your database
 first. There are a lot of changes in the database structure since Postfix Admin
 1.5.4.
 
-  $ mysqldump -a -u root -p > /tmp/postfixadmin-backup.sql
+  $ mysqldump -u root -p postfixdb > /tmp/postfixadmin-backup.sql
 or
-  $ pg_dump -ad -u postfix postfix > /tmp/postfixadmin-backup.sql
+  $ pg_dump -ad -u postfix postfixdb > /tmp/postfixadmin-backup.sql
 
+(Replace postfixdb with your Postfixadmin database's name)
 
 2. Unarchive new Postfix Admin
 ------------------------------
@@ -53,28 +54,35 @@ to have change the permissions for Postfix Admin.
 
   $ cd /usr/local/www/postfixadmin
   $ find -type f -print0 | xargs -0 chmod 640
-  $ find -type f -print0 | xargs -0 chown root:www
+  $ find -type f -print0 | xargs -0 chown root:www-data
 
-(the last command assumes your Apache is running with group "www")
+(the last command assumes your Apache is running with group "www-data")
 
-Since version 2.4 we use smarty templates. That means the templates_c directory
+Since version 3.0 we use smarty templates. That means the templates_c directory
 needs to be writeable for your webserver.
 
-  $ chown -R www-data templates_c/
+  $ cd /usr/local/www/postfixadmin
+  $ mkdir templates_c && chmod 750 templates_c && chown -R www-data templates_c
 
 (if your Apache runs as user "www-data")
+
+If you have SELinux enabled, also run (adust the path to match your setup)
+
+  $ sudo semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/utils/pfadmin/public/templates_c(/.*)?"
+  $ sudo restorecon -Rv /var/www/utils/pfadmin/
 
 
 4. Configure
 ------------
+
 Check the config.inc.php file. There you can specify settings that are
 relevant to your setup.
 
 Comparing config.inc.php with your previous using "diff" might save you some
 time.
 
-You can use a config.local.php file to contain your local settings. These will override any 
-defined in config.inc.php - and save some time when upgrading to a new version of PostfixAdmin ;-)
+You can use a config.local.php file to contain your local settings. 
+These will override any defined in config.inc.php - and save some time when upgrading to a new version of PostfixAdmin ;-)
 
 5. Run setup.php
 ----------------------------------------

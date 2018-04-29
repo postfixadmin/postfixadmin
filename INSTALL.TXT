@@ -5,12 +5,16 @@
 # Licensed under GPL for more info check GPL-LICENSE.TXT
 #
 
-REQUIRED!!
-----------
-- You are using Postfix 2.0 or higher.
-- You are using Apache 1.3.27 / Lighttpd 1.3.15 or higher.
-- You are using PHP 5.1.2 or higher.
-- You are using MySQL 3.23 or higher (5.x recommended) OR PostgreSQL 7.4 (or higher)
+REQUIREMENTS
+------------
+- Postfix 2.0 or higher.
+- Apache 1.3.27 / Lighttpd 1.3.15 or higher.
+- PHP 5.1.2 or higher.
+- one of the following databases:
+  - MySQL 3.23 or higher (5.x recommended)
+  - MariaDB (counts as MySQL ;-)
+  - PostgreSQL 7.4 (or higher)
+  - SQLite 3.12 (or higher)
 
 
 READ THIS FIRST!
@@ -36,13 +40,26 @@ DOCUMENTS/ folder.
 
 1. Unarchive new Postfix Admin
 ------------------------------
-Make sure that you are in your WWW directory and then unarchive the
-Postfix Admin archive (whatever the filename is):
 
-  $ tar -zxvf postfixadmin-$version.tgz
+(if you installed PostfixAdmin as RPM or DEB package, you can obviously skip this step.)
+
+Assuming we are installing Postfixadmin into /srv/postfixadmin, then something like this should work :
+
+  $ mkdir -p /srv/postfixadmin
+  $ cd /srv/postfixadmin 
+  $ wget -O https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-3.1.tar.gz postfixadmin-3.1.tar.gz
+  $ tar -zxvf postfixadmin-version.tgz
 
 
-2. Setup a Database
+2. Setup Web Server
+-------------------
+
+Assuming /var/www/html is where your webserver reads from :
+
+  $ ln -s /srv/postfixadmin/public /var/www/html/postfixadmin 
+
+
+3. Setup a Database
 -------------------
 
 With your chosen/preferred database server (i.e. MySQL or PostgreSQL), 
@@ -66,10 +83,10 @@ For PostgreSQL:
   CREATE DATABASE postfix OWNER postfix ENCODING 'unicode';
 
 
-3. Configure PostfixAdmin so it can find the database
+4. Configure PostfixAdmin so it can find the database
 -----------------------------------------------------
 
-Create a config.local.php file for your local configuration:
+Create /srv/postfixadmin/config.local.php file for your local configuration:
 
 <?php
 $CONF['database_type'] = 'mysqli';
@@ -97,14 +114,16 @@ $CONF['configured'] = true;
 
 
 PostfixAdmin does not require write access to any files except the templates_c 
-directory (smarty cache). You can therefore leave the files owned as root (or
+directory (smarty cache). You can therefore leave the files owned by root (or
 another user); as long as the web server user (e.g. www-data) can read them, it
 will be fine.
 For templates_c/, allow write access (only) for the web server user (e. g. www-data).
-The easiest way to do this is   chown -R www-data templates_c
+The easiest way to do this is   
+
+ $ chown -R www-data /srv/postfixadmin/templates_c
 
 
-4. Check settings, and create Admin user
+5. Check settings, and create Admin user
 ----------------------------------------
 
 Hit http://yourserver.tld/postfixadmin/setup.php in a web browser.
@@ -121,13 +140,13 @@ out - with appropriate instructions on what to do with it).
 
 create the admin user using the form displayed.
 
-5. Use PostfixAdmin
+6. Use PostfixAdmin
 -------------------
 
 This is all that is needed. Fire up your browser and go to the site that you
 specified to host Postfix Admin.
 
-6. Integration with Postfix, Dovecot etc.
+7. Integration with Postfix, Dovecot etc.
 -----------------------------------------
 
 Now that PostfixAdmin is working, you need to do some configuration in Postfix,
@@ -151,9 +170,13 @@ You'll need to enable the xmlrpc link (see config.inc.php)
 
 8. More information
 -------------------
-As of March 2007, PostfixAdmin moved to SourceForge.  For the
-forum posts and source updates, see:
 
-https://sourceforge.net/projects/postfixadmin
+The code and issue tracker is on GitHub:
+    https://github.com/postfixadmin/postfixadmin
 
-There is also #postfixadmin on irc.freenode.net.
+IRC - a community of people may be able to help in #postfixadmin on irc.freenode.net. 
+    See http://webchat.freenode.net/
+
+Legacy forum posts are on SourceForce at 
+    https://sourceforge.net/projects/postfixadmin
+

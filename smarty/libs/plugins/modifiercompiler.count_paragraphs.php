@@ -8,8 +8,8 @@
 
 /**
  * Smarty count_paragraphs modifier plugin
- * Type:     modifier<br>
- * Name:     count_paragraphs<br>
+ * Type:     modifier
+ * Name:     count_paragraphs
  * Purpose:  count the number of paragraphs in a text
  *
  * @link    http://www.smarty.net/manual/en/language.modifier.count.paragraphs.php
@@ -23,5 +23,5 @@
 function smarty_modifiercompiler_count_paragraphs($params)
 {
     // count \r or \n characters
-    return '(preg_match_all(\'#[\r\n]+#\', ' . $params[0] . ', $tmp)+1)';
+    return '(preg_match_all(\'#[\r\n]+#\', ' . $params[ 0 ] . ', $tmp)+1)';
 }

@@ -26,6 +26,7 @@ class Smarty_Internal_Resource_Stream extends Smarty_Resource_Recompiled
      * @param Smarty_Internal_Template $_template template object
      *
      * @return void
+     * @throws \SmartyException
      */
     public function populate(Smarty_Template_Source $source, Smarty_Internal_Template $_template = null)
     {
@@ -36,8 +37,7 @@ class Smarty_Internal_Resource_Stream extends Smarty_Resource_Recompiled
         }
         $source->uid = false;
         $source->content = $this->getContent($source);
-        $source->timestamp = false;
-        $source->exists = !!$source->content;
+        $source->timestamp = $source->exists = !!$source->content;
     }
 
     /**

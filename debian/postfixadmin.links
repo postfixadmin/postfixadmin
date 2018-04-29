@@ -1,1 +1,2 @@
 etc/postfixadmin/config.inc.php usr/share/postfixadmin/config.inc.php
+var/cache/postfixadmin usr/share/postfixadmin/templates_c

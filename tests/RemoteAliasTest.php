@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for Postfixadmin  
+ * Test for Postfixadmin
  *
  * @package tests
  */
@@ -8,7 +8,6 @@
 require_once('RemoteTest.php');
 
 class RemoteAliasTest extends RemoteTest {
-    
     public function __construct() {
         parent::__construct();
         global $CONF;
@@ -29,8 +28,7 @@ class RemoteAliasTest extends RemoteTest {
         try {
             /* although we created an alias record, for users, this isn't returned... */
             $this->assertEqual($this->alias->get(), array());
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             var_dump($this->xmlrpc_client->getHttpClient()->getLastResponse()->getBody());
         }
     }
@@ -47,9 +45,9 @@ class RemoteAliasTest extends RemoteTest {
         $this->assertFalse($this->alias->hasStoreAndForward());
     }
 
-    public function testUpdateForwardandStore() { 
+    public function testUpdateForwardandStore() {
         $orig_aliases = $this->alias->get();
-        if(!is_array($orig_aliases)) {
+        if (!is_array($orig_aliases)) {
             $orig_aliases = array();
         }
         $orig_aliases[] = 'roger@robbit.com';

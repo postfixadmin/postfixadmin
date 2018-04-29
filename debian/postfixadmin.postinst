@@ -23,6 +23,15 @@ fi
 if [ -d /usr/share/postfixadmin/templates_c ]; then
     find /usr/share/postfixadmin/templates_c -type f -exec rm -r {} \;
 fi
+if [ -d /usr/share/postfixadmin/templates_c ]; then
+    chown www-data /usr/share/postfixadmin/templates_c
+fi
+
+if [ -d /var/cache/postfixadmin ]; then
+    find /var/cache/postfixadmin -type f -exec rm -r {} \;
+    chown www-data /var/cache/postfixadmin
+fi
+
 #DEBHELPER#
 
 exit 0

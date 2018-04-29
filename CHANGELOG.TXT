@@ -6,6 +6,34 @@
 #
 # Further details on the project are available at http://postfixadmin.sf.net
 
+Version 3.2 - 2018/04_23
+-------------------------------------------------
+
+  - move public facing stuff into public/, this allows us to stop exposing
+    templates_c/ etc. to the world (but also means you'll need to adjust your
+    webserver config)
+  - enable users to reset their passwords by mail or SMS
+    ($CONF['forgotten_user_password_reset'],
+    $CONF['forgotten_admin_password_reset'], $CONF['sms_send_function'])
+  - allow local alias targets (without @domain) - see #134
+  - add $CONF['edit_alias'] to disable "edit_alias" function for users
+  - add support for MySQL connections over SSL
+  - language updates: sk, ja, nl, bg, fr, cz
+  - split up pacrypt() into different functions; add some minimal test coverage
+  - add id autoincrement field to log table (#89)
+  - add token to login.php to prevent CSRF
+  - lots of bugfixes and code cleanup
+  - drop unused code in postfixadmin-cli
+  - introduce PHP-CS-Fixer to enforce code style
+  - vacation.pl:
+    - avoid answering to more known autoresponders
+    - add $no_vacation_pattern to avoid sending autoresponders based on the To:
+      address
+    - replace Deprecated Mail::Sender by Email::Sender
+    - use MIME:EncWords
+    - remove unused MIME::Base64
+  - add docker repo, see https://github.com/postfixadmin/docker
+
 Version 3.1 - 2017/06/25
 -------------------------------------------------
 

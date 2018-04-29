@@ -1,0 +1,17 @@
+language: php
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+
+before_script:
+  - composer install
+
+script:
+  - composer check-format
+

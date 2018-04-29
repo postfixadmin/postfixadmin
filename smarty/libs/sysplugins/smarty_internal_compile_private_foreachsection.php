@@ -76,6 +76,8 @@ class Smarty_Internal_Compile_Private_ForeachSection extends Smarty_Internal_Com
      *
      * @param  array                                $attributes
      * @param \Smarty_Internal_TemplateCompilerBase $compiler
+     *
+     * @throws \SmartyException
      */
     public function scanForProperties($attributes, Smarty_Internal_TemplateCompilerBase $compiler)
     {
@@ -110,11 +112,12 @@ class Smarty_Internal_Compile_Private_ForeachSection extends Smarty_Internal_Com
     public function buildPropertyPreg($named, $attributes)
     {
         if ($named) {
-            $this->resultOffsets['named'] = $this->startOffset + 3;
-            $this->propertyPreg .= "([\$]smarty[.]{$this->tagName}[.]{$attributes['name']}[.](";
+            $this->resultOffsets[ 'named' ] = $this->startOffset + 4;
+            $this->propertyPreg .= "(([\$]smarty[.]{$this->tagName}[.]" . ($this->tagName === 'section' ? "|[\[]\s*" : '')
+                                   . "){$attributes['name']}[.](";
             $properties = $this->nameProperties;
         } else {
-            $this->resultOffsets['item'] = $this->startOffset + 3;
+            $this->resultOffsets[ 'item' ] = $this->startOffset + 3;
             $this->propertyPreg .= "([\$]{$attributes['item']}[@](";
             $properties = $this->itemProperties;
         }
@@ -140,8 +143,8 @@ class Smarty_Internal_Compile_Private_ForeachSection extends Smarty_Internal_Com
         preg_match_all($this->propertyPreg, $source, $match, PREG_SET_ORDER);
         foreach ($this->resultOffsets as $key => $offset) {
             foreach ($match as $m) {
-                if (isset($m[$offset]) && !empty($m[$offset])) {
-                    $this->matchResults[$key][strtolower($m[$offset])] = true;
+                if (isset($m[ $offset ]) && !empty($m[ $offset ])) {
+                    $this->matchResults[ $key ][ strtolower($m[ $offset ]) ] = true;
                 }
             }
         }
@@ -161,6 +164,8 @@ class Smarty_Internal_Compile_Private_ForeachSection extends Smarty_Internal_Com
      * Find matches in all parent template source
      *
      * @param \Smarty_Internal_TemplateCompilerBase $compiler
+     *
+     * @throws \SmartyException
      */
     public function matchParentTemplateSource(Smarty_Internal_TemplateCompilerBase $compiler)
     {
@@ -171,11 +176,13 @@ class Smarty_Internal_Compile_Private_ForeachSection extends Smarty_Internal_Com
             if ($compiler !== $nextCompiler) {
                 // get template source
                 $_content = $nextCompiler->template->source->getContent();
-                if ($_content != '') {
+                if ($_content !== '') {
                     // run pre filter if required
-                    if ((isset($nextCompiler->smarty->autoload_filters['pre']) ||
-                            isset($nextCompiler->smarty->registered_filters['pre']))) {
-                        $_content = $nextCompiler->smarty->ext->_filter_Handler->runFilter('pre', $_content, $nextCompiler->template);
+                    if ((isset($nextCompiler->smarty->autoload_filters[ 'pre' ]) ||
+                         isset($nextCompiler->smarty->registered_filters[ 'pre' ]))
+                    ) {
+                        $_content = $nextCompiler->smarty->ext->_filterHandler->runFilter('pre', $_content,
+                                                                                          $nextCompiler->template);
                     }
                     $this->matchProperty($_content);
                 }
@@ -190,7 +197,6 @@ class Smarty_Internal_Compile_Private_ForeachSection extends Smarty_Internal_Com
      */
     public function matchBlockSource(Smarty_Internal_TemplateCompilerBase $compiler)
     {
-
     }
 
     /**

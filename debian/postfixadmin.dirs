@@ -1,4 +1,7 @@
 usr/share/postfixadmin
-usr/share/postfixadmin/css
+usr/share/postfixadmin/scripts
+usr/share/postfixadmin/public
 usr/share/doc/postfixadmin
+var/cache/postfixadmin
+usr/bin
 etc/postfixadmin

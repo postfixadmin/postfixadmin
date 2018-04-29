@@ -1,5 +1,6 @@
 <div id="login">
 <form name="frmLogin" method="post" action="">
+<input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}" />
 <table id="login_table" cellspacing="10">
 	<tr>
 		<th colspan="2">
@@ -14,7 +15,11 @@
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.password}:</label></td>
-		<td><input class="flat" type="password" name="fPassword" /></td>
+		<td><input class="flat" type="password" name="fPassword" />
+{if $forgotten_password_reset}
+	<br/><a href="password-recover.php">{$PALANG.pUsersLogin_password_recover}</a>
+{/if}
+		</td>
 	</tr>
 	<tr>
 		<td class="label"><label>{$PALANG.pLogin_language}:</label></td>

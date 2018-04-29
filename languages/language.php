@@ -1,4 +1,6 @@
-<?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
+<?php if (!defined('POSTFIXADMIN')) {
+    die("This file cannot be used standalone.");
+} ?>
 <?php
 # List of supported languages
 $supported_languages = array(
