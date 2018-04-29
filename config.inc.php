@@ -193,7 +193,7 @@ $CONF['authlib_default_flavor'] = 'md5raw';
 // $CONF['dovecotpw'] = "/usr/sbin/dovecotpw";
 // for dovecot 2.x (dovecot 2.0.0 - 2.0.7 is not supported!)
 $CONF['dovecotpw'] = "/usr/sbin/doveadm pw";
-if(file_exists('/usr/bin/doveadm')) {
+if(@file_exists('/usr/bin/doveadm')) { // @ to silence openbase_dir stuff; see https://github.com/postfixadmin/postfixadmin/issues/171
     $CONF['dovecotpw'] = "/usr/bin/doveadm pw"; # debian
 }
 
