@@ -1060,7 +1060,7 @@ function _pacrypt_php_crypt($pw, $pw_db) {
         // existing pw provided. send entire password hash as salt for crypt() to figure out
         $salt = $pw_db;
     } else {
-        $salt_method = 'MD5'; // default.
+        $salt_method = 'SHA512'; // default.
         // no pw provided. create new password hash
         if (strpos($CONF['encrypt'], ':') !== false) {
             // use specified hash method
@@ -1076,7 +1076,7 @@ function _pacrypt_php_crypt($pw, $pw_db) {
 }
 
 // used for php_crypt method
-function _php_crypt_generate_crypt_salt($hash_type='MD5') {
+function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
     // generate a salt (with magic matching chosen hash algorithm) for the PHP crypt() function
 
     // most commonly used alphabet
@@ -1105,19 +1105,19 @@ function _php_crypt_generate_crypt_salt($hash_type='MD5') {
         }
         $salt = _php_crypt_random_string($alphabet, $length);
         return sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
-        
+
     case 'SHA256':
         $length = 16;
         $algorithm = '5';
         $salt = _php_crypt_random_string($alphabet, $length);
         return sprintf('$%s$%s', $algorithm, $salt);
-        
+
     case 'SHA512':
         $length = 16;
         $algorithm = '6';
         $salt = _php_crypt_random_string($alphabet, $length);
         return sprintf('$%s$%s', $algorithm, $salt);
-        
+
     default:
         die("unknown hash type: '$hash_type'");
     }
