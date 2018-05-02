@@ -832,14 +832,13 @@ function encode_header($string, $default_charset = "utf-8") {
 
 
 
-//
-// generate_password
-// Action: Generates a random password
-// Call: generate_password ()
-//
-function generate_password() {
-    // length of the generated password
-    $length = 12;
+/**
+ * Generate a random password of $length characters.
+ * @param int $length (optional, default: 12)
+ * @return string
+ *
+ */
+function generate_password($length = 12) {
 
     // define possible characters
     $possible = "2345678923456789abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ"; # skip 0 and 1 to avoid confusion with O and l
