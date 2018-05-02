@@ -3,5 +3,3 @@ $Id$
 Smarty version: 3.1.32
     ( https://github.com/smarty-php/smarty/archive/v3.1.32.tar.gz )
 
-Additional files (not part of the official Smarty release):
-- libs/plugins/modifier.needle.php
