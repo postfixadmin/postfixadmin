@@ -1044,6 +1044,11 @@ function _pacrypt_dovecot($pw, $pw_db) {
     return rtrim($password);
 }
 
+/**
+ * @param string $pw
+ * @param string $pw_db (can be empty if setting a new password)
+ * @return string
+ */
 function _pacrypt_php_crypt($pw, $pw_db) {
     global $CONF;
 
@@ -1051,7 +1056,7 @@ function _pacrypt_php_crypt($pw, $pw_db) {
     // same algorithms as used in /etc/shadow
     // you can have mixed hash types in the database for authentication, changed passwords get specified hash type
     // the algorithm for a new hash is chosen by feeding a salt with correct magic to crypt()
-    // set $CONF['encrypt'] to 'php_crypt' to use the default MD5 crypt method
+    // set $CONF['encrypt'] to 'php_crypt' to use the default SHA512 crypt method
     // set $CONF['encrypt'] to 'php_crypt:METHOD' to use another method; methods supported: DES, MD5, BLOWFISH, SHA256, SHA512
     // tested on linux
 
@@ -1059,7 +1064,7 @@ function _pacrypt_php_crypt($pw, $pw_db) {
         // existing pw provided. send entire password hash as salt for crypt() to figure out
         $salt = $pw_db;
     } else {
-        $salt_method = 'SHA512'; // default.
+        $salt_method = 'SHA512'; // hopefully a reasonable default (better than MD5)
         // no pw provided. create new password hash
         if (strpos($CONF['encrypt'], ':') !== false) {
             // use specified hash method
@@ -1074,7 +1079,10 @@ function _pacrypt_php_crypt($pw, $pw_db) {
     return $password;
 }
 
-// used for php_crypt method
+/**
+ * @param string $hash_type must be one of: MD5, DES, BLOWFISH, SHA256 or SHA512  (default)
+ * @return string
+ */
 function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
     // generate a salt (with magic matching chosen hash algorithm) for the PHP crypt() function
 
@@ -1122,7 +1130,12 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
     }
 }
 
-// used for php_crypt method
+/**
+ * Generates a random string of specified $length from $characters.
+ * @param string $characters
+ * @param int $length
+ * @return string of given $length
+ */
 function _php_crypt_random_string($characters, $length) {
     $random_int_exists = true;
     if (!function_exists('random_int')) {
