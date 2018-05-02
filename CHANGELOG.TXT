@@ -9,6 +9,10 @@
 Version 3.2 - 2018/04_23
 -------------------------------------------------
 
+  - add random_compat phar (see: https://github.com/paragonie/random_compat) to 
+    support random_int()/random_string() in older PHP versions.
+  - update bundled smarty library (lib/smarty to 3.1.32; includes security fixes)
+  - add php_crypt $CONF["encrypt"] option (see #170 for examples)
   - move public facing stuff into public/, this allows us to stop exposing
     templates_c/ etc. to the world (but also means you'll need to adjust your
     webserver config)
