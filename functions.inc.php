@@ -847,11 +847,9 @@ function generate_password() {
     // add random characters to $password until $length is reached
     $password = "";
     while (strlen($password) < $length) {
-
-        if(function_exists('random_int')) {
+        if (function_exists('random_int')) {
             $random = random_int(0, strlen($possible) -1);
-        }
-        else {
+        } else {
             $random = mt_rand(0, strlen($possible) - 1);
         }
         $char = substr($possible, $random, 1);
@@ -1064,7 +1062,7 @@ function _pacrypt_php_crypt($pw, $pw_db) {
     } else {
         $salt_method = 'MD5'; // default.
         // no pw provided. create new password hash
-        if(strpos($CONF['encrypt'], ':') !== false) {
+        if (strpos($CONF['encrypt'], ':') !== false) {
             // use specified hash method
             $split_method = explode(':', $CONF['encrypt']);
             $salt_method = $split_method[1];
@@ -1127,17 +1125,15 @@ function _php_crypt_generate_crypt_salt($hash_type='MD5') {
 
 // used for php_crypt method
 function _php_crypt_random_string($characters, $length) {
-
     $random_int_exists = true;
-    if(!function_exists('random_int')) {
+    if (!function_exists('random_int')) {
         $random_int_exists = false;
     }
     $string = '';
     for ($p = 0; $p < $length; $p++) {
-        if($random_int_exists) {
+        if ($random_int_exists) {
             $string .= $characters[random_int(0, strlen($characters) -1)];
-        }
-        else {
+        } else {
             // should really use a stronger randomness source
             $string .= $characters[mt_rand(0, strlen($characters) - 1)];
         }

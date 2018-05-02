@@ -2,14 +2,11 @@
 
 require_once('common.php');
 
-class ValidatePasswordTest extends PHPUnit_Framework_TestCase
-{
-    public function testBasic()
-    {
-
+class ValidatePasswordTest extends PHPUnit_Framework_TestCase {
+    public function testBasic() {
         $config = Config::getInstance();
 
-       // Set to the defaults, just to make sure.
+        // Set to the defaults, just to make sure.
         Config::write('password_validation', array(
 #    '/regular expression/' => '$PALANG key (optional: + parameter)',
             '/.{5}/' => 'password_too_short 5',      # minimum length 5 characters

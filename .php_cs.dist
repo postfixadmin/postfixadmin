@@ -1,7 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('smarty')
+    ->exclude('lib')
     ->exclude('vendor')
     ->exclude('templates')
     ->exclude('templates_c')

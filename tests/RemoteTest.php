@@ -15,11 +15,11 @@ abstract class RemoteTest extends PHPUnit_Framework_TestCase {
     public function setUp() {
         parent::setUp();
 
-        if($this->server_url == 'http://change.me/to/work') {
+        if ($this->server_url == 'http://change.me/to/work') {
             $this->markTestSkipped("Test skipped; Configuration change to \$this->server_url required");
         }
 
-        if(!class_exists('Zend_XmlRpc_Client', true)) {
+        if (!class_exists('Zend_XmlRpc_Client', true)) {
             $this->markTestSkipped("Test skipped; Zend_XmlRpc_Client not found");
         }
 

@@ -4,7 +4,6 @@
 # This class is too static - if you inherit a class from it, it will share the static $instance and all its contents
 # Therefore the class is marked as final to prevent someone accidently does this ;-)
 final class Config {
-
     private static $instance = null;
 
     /**
@@ -67,7 +66,6 @@ final class Config {
             }
         }
         $_this->setAll($newConfig);
-
     }
 
     /**
@@ -97,7 +95,7 @@ final class Config {
             $zero = $name[0];
             $one = $name[1];
             $two = $name[2];
-            if(isset($config[$zero], $config[$zero][$one], $config[$zero][$one][$two])) {
+            if (isset($config[$zero], $config[$zero][$one], $config[$zero][$one][$two])) {
                 return $config[$zero][$one][$two];
             }
             break;

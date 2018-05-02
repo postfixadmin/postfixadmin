@@ -2,12 +2,8 @@
 
 require_once('common.php');
 
-class GeneratePasswordTest extends PHPUnit_Framework_TestCase
-{
-    public function testBasic()
-    {
-
-
+class GeneratePasswordTest extends PHPUnit_Framework_TestCase {
+    public function testBasic() {
         $one = generate_password();
 
         $two = generate_password();
@@ -15,7 +11,5 @@ class GeneratePasswordTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($one, $two);
         $this->assertNotEmpty($one);
         $this->assertNotEmpty($two);
-
-
     }
 }

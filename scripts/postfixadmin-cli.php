@@ -149,7 +149,6 @@ class PostfixAdmin {
      * Dispatches a CLI request
      */
     public function dispatch() {
-
         check_db_version(); # ensure the database layout is up to date
 
         if (!isset($this->args[0])) {
