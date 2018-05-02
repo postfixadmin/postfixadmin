@@ -1,3 +1,9 @@
+postfixadmin (3.2-1) unstable; urgency=low
+
+  * New upstream release - PostfixAdmin v3.2
+
+ -- David Goodwin <david@palepurple.co.uk>  Wed, 02 May 2018 21:36:01 +0100
+
 postfixadmin (3.1-1) unstable; urgency=low
 
   * New upstream release
