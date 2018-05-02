@@ -1062,7 +1062,7 @@ function _pacrypt_php_crypt($pw, $pw_db) {
         // existing pw provided. send entire password hash as salt for crypt() to figure out
         $salt = $pw_db;
     } else {
-        $salt_method = 'missing-from-config';
+        $salt_method = 'MD5'; // default.
         // no pw provided. create new password hash
         if(strpos($CONF['encrypt'], ':') !== false) {
             // use specified hash method
