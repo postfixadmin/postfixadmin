@@ -6,13 +6,9 @@
 #
 # Further details on the project are available at http://postfixadmin.sf.net
 
-Version 3.2 - 2018/04_23
+Version 3.2 - 2018/05/02
 -------------------------------------------------
 
-  - add random_compat phar (see: https://github.com/paragonie/random_compat) to 
-    support random_int()/random_string() in older PHP versions.
-  - update bundled smarty library (lib/smarty to 3.1.32; includes security fixes)
-  - add php_crypt $CONF["encrypt"] option (see #170 for examples)
   - move public facing stuff into public/, this allows us to stop exposing
     templates_c/ etc. to the world (but also means you'll need to adjust your
     webserver config)
@@ -21,8 +17,12 @@ Version 3.2 - 2018/04_23
     $CONF['forgotten_admin_password_reset'], $CONF['sms_send_function'])
   - allow local alias targets (without @domain) - see #134
   - add $CONF['edit_alias'] to disable "edit_alias" function for users
+  - add php_crypt $CONF["encrypt"] option (see #170 for examples)
+  - add random_compat phar (see: https://github.com/paragonie/random_compat) to
+    support random_int()/random_string() in older PHP versions.
   - add support for MySQL connections over SSL
   - language updates: sk, ja, nl, bg, fr, cz
+  - update bundled smarty library (lib/smarty to 3.1.32; includes security fixes)
   - split up pacrypt() into different functions; add some minimal test coverage
   - add id autoincrement field to log table (#89)
   - add token to login.php to prevent CSRF
