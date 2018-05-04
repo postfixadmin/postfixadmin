@@ -10,19 +10,21 @@
                 </div>
 		{/if}
                 <div class="form-group">
-			<label class="col-md-4 col-sm-4 control-label" for="fActiveFrom">{$PALANG.pUsersVacation_activefrom}:</label>
+			<label class="col-md-4 col-sm-4 control-label" for="fActiveFromForm">{$PALANG.pUsersVacation_activefrom}:</label>
 			<div class="col-md-6 col-sm-8">
+				<input type='hidden' name="fActiveFrom" id="fActiveFrom" value="{$tActiveFrom}" class="form-control hidden" />
 				<div class="input-group date" id="datetimepicker-fActiveFrom">
-				<input type='text' name="fActiveFrom" id="fActiveFrom" value="{$tActiveFrom}" class="form-control" readonly="readonly" />
+				<input type='text' name="fActiveFromForm" id="fActiveFromForm" value="{$tActiveFrom}" class="form-control" readonly="readonly" />
 				<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 				</div>
 			</div>
                 </div>
                 <div class="form-group">
-			<label class="col-md-4 col-sm-4 control-label" for="fActiveUntil">{$PALANG.pUsersVacation_activeuntil}:</label>
+			<label class="col-md-4 col-sm-4 control-label" for="fActiveUntilForm">{$PALANG.pUsersVacation_activeuntil}:</label>
 			<div class="col-md-6 col-sm-8">
+				<input type='hidden' name="fActiveUntil" id="fActiveUntil" value="{$tActiveUntil}" class="form-control hidden" />
 				<div class="input-group date" id="datetimepicker-fActiveUntil">
-				<input type='text' name="fActiveUntil" id="fActiveUntil" value="{$tActiveUntil}" class="form-control" readonly="readonly" />
+				<input type='text' name="fActiveUntilForm" id="fActiveUntilForm" value="{$tActiveUntil}" class="form-control" readonly="readonly" />
 				<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 				</div>
 			</div>
@@ -72,6 +74,7 @@
 		showClear: true,
 		showClose: true,
 		allowInputToggle: true,
+		format: 'L',
 	});
         $('#datetimepicker-fActiveUntil').datetimepicker({
 		ignoreReadonly: true,
@@ -80,14 +83,18 @@
 		showClear: true,
 		showClose: true,
 		allowInputToggle: true,
+		format: 'L',
 		useCurrent: false //Important! See issue #1075
         });
         $("#datetimepicker-fActiveFrom").on("dp.change", function (e) {
-            $('#datetimepicker-fActiveUntil').data("DateTimePicker").minDate(e.date);
+		$('#datetimepicker-fActiveUntil').data("DateTimePicker").minDate(e.date);
+		$('#fActiveFrom').val( ( e.date ) ? e.date.format('YYYY-MM-DD') : '' ).trigger("change");
         });
         $("#datetimepicker-fActiveUntil").on("dp.change", function (e) {
-            $('#datetimepicker-fActiveFrom').data("DateTimePicker").maxDate(e.date);
+		$('#datetimepicker-fActiveFrom').data("DateTimePicker").maxDate(e.date);
+		$('#fActiveUntil').val( ( e.date ) ? e.date.format('YYYY-MM-DD') : '' ).trigger("change");
         });
+
     });
 </script>
 {/literal}
