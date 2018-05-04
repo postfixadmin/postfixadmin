@@ -8,11 +8,13 @@ Smarty_Autoloader::register();
  */
 class PFASmarty {
     protected $template = null;
-    public function __construct() {
+    public function __construct($template='default') {
         $this->template = new Smarty();
 
         //$this->template->debugging = true;
-        $this->template->setTemplateDir(dirname(__FILE__) . '/../templates');
+	if($template=='default')
+		$this->template->setTemplateDir(dirname(__FILE__) . '/../templates');
+	else 	$this->template->setTemplateDir(dirname(__FILE__) . '/../templates/'.$template);
 
         // if it's not present or writeable, smarty should just not cache.
         $templates_c = dirname(__FILE__) . '/../templates_c';
@@ -69,7 +71,8 @@ class PFASmarty {
         }
     }
 }
-$smarty = new PFASmarty();
+if(isset($CONF['theme']) && is_dir(dirname(__FILE__) ."/../templates/".$CONF['theme'])) $smarty = new PFASmarty($CONF['theme']);
+else $smarty = new PFASmarty();
 
 if (!isset($rel_path)) {
     $rel_path = '';
