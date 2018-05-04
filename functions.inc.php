@@ -832,6 +832,12 @@ function encode_header($string, $default_charset = "utf-8") {
 
 
 
+/**/ if (!function_exists('random_int')) { # random_int() is available since PHP 7, compat wrapper for PHP 5.x
+    function random_int($min, $max) {
+        return mt_rand($min, $max);
+    }
+/**/ }
+
 /**
  * Generate a random password of $length characters.
  * @param int $length (optional, default: 12)
@@ -846,11 +852,7 @@ function generate_password($length = 12) {
     // add random characters to $password until $length is reached
     $password = "";
     while (strlen($password) < $length) {
-        if (function_exists('random_int')) {
-            $random = random_int(0, strlen($possible) -1);
-        } else {
-            $random = mt_rand(0, strlen($possible) - 1);
-        }
+        $random = random_int(0, strlen($possible) -1);
         $char = substr($possible, $random, 1);
 
         // we don't want this character if it's already in the password
@@ -1137,18 +1139,9 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
  * @return string of given $length
  */
 function _php_crypt_random_string($characters, $length) {
-    $random_int_exists = true;
-    if (!function_exists('random_int')) {
-        $random_int_exists = false;
-    }
     $string = '';
     for ($p = 0; $p < $length; $p++) {
-        if ($random_int_exists) {
-            $string .= $characters[random_int(0, strlen($characters) -1)];
-        } else {
-            // should really use a stronger randomness source
-            $string .= $characters[mt_rand(0, strlen($characters) - 1)];
-        }
+        $string .= $characters[random_int(0, strlen($characters) -1)];
     }
     return $string;
 }
