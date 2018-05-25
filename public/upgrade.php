@@ -1750,3 +1750,13 @@ function upgrade_1840_mysql_pgsql() {
     $vacation = table_by_key('vacation');
     db_query_parsed("ALTER TABLE $vacation ALTER COLUMN activeuntil SET DEFAULT '2038-01-18'");
 }
+
+/* try and fix: https://github.com/postfixadmin/postfixadmin/issues/177 - sqlite missing columns */
+function upgrade_1841_sqlite() {
+    foreach (array('admin', 'mailbox') as $table) {
+        _db_add_field($table, 'phone', "varchar(30) {UTF-8} NOT NULL DEFAULT ''", 'active');
+        _db_add_field($table, 'email_other', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'phone');
+        _db_add_field($table, 'token', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'email_other');
+        _db_add_field($table, 'token_validity', '{DATETIME}', 'token');
+    }
+}
