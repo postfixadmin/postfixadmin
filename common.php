@@ -69,7 +69,9 @@ Config::write($CONF);
 
 require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
-require_once("$incpath/lib/random_compat.phar");
+if(extension_loaded('Phar')) {
+    require_once("$incpath/lib/random_compat.phar");
+}
 
 if (defined('POSTFIXADMIN_CLI')) {
     $language = 'en'; # TODO: make configurable or autodetect from locale settings
