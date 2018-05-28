@@ -1086,6 +1086,8 @@ function _pacrypt_php_crypt($pw, $pw_db) {
  * @return string
  */
 function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
+    global $CONF;
+
     // generate a salt (with magic matching chosen hash algorithm) for the PHP crypt() function
 
     // most commonly used alphabet
