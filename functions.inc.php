@@ -1106,9 +1106,13 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
 
     case 'BLOWFISH':
         $length = 22;
-        $cost = (int)$CONF['php_crypt_difficulty'];
-        if ($cost < 4 || $cost > 31) {
-            die('invalid $CONF["php_crypt_difficulty"] setting: ' . $CONF['php_crypt_difficulty'] . ', for ' . $hash_type . ' the valid range is 4-31');
+        if (empty($CONF['encrypt_difficulty'])) {
+            $cost = 10;
+        } else {
+            $cost = (int)$CONF['encrypt_difficulty'];
+            if ($cost < 4 || $cost > 31) {
+                die('invalid $CONF["encrypt_difficulty"] setting: ' . $CONF['encrypt_difficulty'] . ', for ' . $hash_type . ' the valid range is 4-31');
+            }
         }
         if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
             $algorithm = '2y'; // bcrypt, with fixed unicode problem
@@ -1121,9 +1125,13 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
     case 'SHA256':
         $length = 16;
         $algorithm = '5';
-        $rounds = (int)$CONF['php_crypt_difficulty'];
-        if ($rounds < 1000 || $rounds > 999999999) {
-            die('invalid $CONF["php_crypt_difficulty"] setting: ' . $CONF['php_crypt_difficulty'] . ', for ' . $hash_type . ' the valid range is 1000-999999999');
+        if (empty($CONF['encrypt_difficulty'])) {
+            $rounds = 5000;
+        } else {
+            $rounds = (int)$CONF['encrypt_difficulty'];
+            if ($rounds < 1000 || $rounds > 999999999) {
+                die('invalid $CONF["encrypt_difficulty"] setting: ' . $CONF['encrypt_difficulty'] . ', for ' . $hash_type . ' the valid range is 1000-999999999');
+            }
         }
         $salt = _php_crypt_random_string($alphabet, $length);
         return sprintf('$%s$rounds=%d$%s', $algorithm, $rounds, $salt);
@@ -1131,9 +1139,13 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
     case 'SHA512':
         $length = 16;
         $algorithm = '6';
-        $rounds = (int)$CONF['php_crypt_difficulty'];
-        if ($rounds < 1000 || $rounds > 999999999) {
-            die('invalid $CONF["php_crypt_difficulty"] setting: ' . $CONF['php_crypt_difficulty'] . ', for ' . $hash_type . ' the valid range is 1000-999999999');
+        if (empty($CONF['encrypt_difficulty'])) {
+            $rounds = 5000;
+        } else {
+            $rounds = (int)$CONF['encrypt_difficulty'];
+            if ($rounds < 1000 || $rounds > 999999999) {
+                die('invalid $CONF["encrypt_difficulty"] setting: ' . $CONF['encrypt_difficulty'] . ', for ' . $hash_type . ' the valid range is 1000-999999999');
+            }
         }
         $salt = _php_crypt_random_string($alphabet, $length);
         return sprintf('$%s$rounds=%d$%s', $algorithm, $rounds, $salt);
