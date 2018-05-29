@@ -1067,14 +1067,18 @@ function _pacrypt_php_crypt($pw, $pw_db) {
         $salt = $pw_db;
     } else {
         $salt_method = 'SHA512'; // hopefully a reasonable default (better than MD5)
+        $difficulty = '';
         // no pw provided. create new password hash
         if (strpos($CONF['encrypt'], ':') !== false) {
             // use specified hash method
             $split_method = explode(':', $CONF['encrypt']);
             $salt_method = $split_method[1];
+            if (count($split_method) >= 3) {
+                $hash_difficulty = $split_method[2];
+            }
         }
         // create appropriate salt for selected hash method
-        $salt = _php_crypt_generate_crypt_salt($salt_method);
+        $salt = _php_crypt_generate_crypt_salt($salt_method, $hash_difficulty);
     }
     // send it to PHPs crypt()
     $password = crypt($pw, $salt);
@@ -1085,9 +1089,7 @@ function _pacrypt_php_crypt($pw, $pw_db) {
  * @param string $hash_type must be one of: MD5, DES, BLOWFISH, SHA256 or SHA512  (default)
  * @return string
  */
-function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
-    global $CONF;
-
+function _php_crypt_generate_crypt_salt($hash_type='SHA512', $hash_difficulty=null) {
     // generate a salt (with magic matching chosen hash algorithm) for the PHP crypt() function
 
     // most commonly used alphabet
@@ -1108,12 +1110,12 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
 
     case 'BLOWFISH':
         $length = 22;
-        if (empty($CONF['encrypt_difficulty'])) {
+        if (empty($hash_difficulty)) {
             $cost = 10;
         } else {
-            $cost = (int)$CONF['encrypt_difficulty'];
+            $cost = (int)$hash_difficulty;
             if ($cost < 4 || $cost > 31) {
-                die('invalid $CONF["encrypt_difficulty"] setting: ' . $CONF['encrypt_difficulty'] . ', for ' . $hash_type . ' the valid range is 4-31');
+                die('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 4-31');
             }
         }
         if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
@@ -1127,30 +1129,36 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512') {
     case 'SHA256':
         $length = 16;
         $algorithm = '5';
-        if (empty($CONF['encrypt_difficulty'])) {
-            $rounds = 5000;
+        if (empty($hash_difficulty)) {
+            $rounds = '';
         } else {
-            $rounds = (int)$CONF['encrypt_difficulty'];
+            $rounds = (int)$hash_difficulty;
             if ($rounds < 1000 || $rounds > 999999999) {
-                die('invalid $CONF["encrypt_difficulty"] setting: ' . $CONF['encrypt_difficulty'] . ', for ' . $hash_type . ' the valid range is 1000-999999999');
+                die('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
             }
         }
         $salt = _php_crypt_random_string($alphabet, $length);
-        return sprintf('$%s$rounds=%d$%s', $algorithm, $rounds, $salt);
+        if (!empty($rounds)) {
+            $rounds = sprintf('rounds=%d$', $rounds);
+        }
+        return sprintf('$%s$%s%s', $algorithm, $rounds, $salt);
 
     case 'SHA512':
         $length = 16;
         $algorithm = '6';
-        if (empty($CONF['encrypt_difficulty'])) {
-            $rounds = 5000;
+        if (empty($hash_difficulty)) {
+            $rounds = '';
         } else {
-            $rounds = (int)$CONF['encrypt_difficulty'];
+            $rounds = (int)$hash_difficulty;
             if ($rounds < 1000 || $rounds > 999999999) {
-                die('invalid $CONF["encrypt_difficulty"] setting: ' . $CONF['encrypt_difficulty'] . ', for ' . $hash_type . ' the valid range is 1000-999999999');
+                die('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
             }
         }
         $salt = _php_crypt_random_string($alphabet, $length);
-        return sprintf('$%s$rounds=%d$%s', $algorithm, $rounds, $salt);
+        if (!empty($rounds)) {
+            $rounds = sprintf('rounds=%d$', $rounds);
+        }
+        return sprintf('$%s$%s%s', $algorithm, $rounds, $salt);
 
     default:
         die("unknown hash type: '$hash_type'");
