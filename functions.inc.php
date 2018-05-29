@@ -1067,7 +1067,7 @@ function _pacrypt_php_crypt($pw, $pw_db) {
         $salt = $pw_db;
     } else {
         $salt_method = 'SHA512'; // hopefully a reasonable default (better than MD5)
-        $difficulty = '';
+        $hash_difficulty = '';
         // no pw provided. create new password hash
         if (strpos($CONF['encrypt'], ':') !== false) {
             // use specified hash method
