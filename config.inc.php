@@ -174,6 +174,12 @@ $CONF['smtp_client'] = '';
 // mysql_encrypt = useful for PAM integration
 // authlib = support for courier-authlib style passwords - also set $CONF['authlib_default_flavor']
 // dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. Example: dovecot:CRAM-MD5
+// php_crypt:CRYPT-METHOD:DIFFICULTY = use PHP built in crypt()-function. Example: php_crypt:SHA512:50000
+// - php_crypt CRYPT-METHOD: Supported values are DES, MD5, BLOWFISH, SHA256, SHA512
+// - php_crypt DIFFICULTY: Larger value is more secure, but uses more CPU and time for each login.
+// - php_crypt DIFFICULTY: Set this according to your CPU processing power.
+// - php_crypt DIFFICULTY: Supported values are BLOWFISH:4-31, SHA256:1000-999999999, SHA512:1000-999999999
+// - php_crypt DIFFICULTY: leave empty to use default values (BLOWFISH:10, SHA256:5000, SHA512:5000). Example: php_crypt:SHA512
 //     IMPORTANT:
 //     - don't use dovecot:* methods that include the username in the hash - you won't be able to login to PostfixAdmin in this case
 //     - you'll need at least dovecot 2.1 for salted passwords ('doveadm pw' 2.0.x doesn't support the '-t' option)
