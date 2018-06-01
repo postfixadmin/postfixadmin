@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         # (language preference cookie is processed even if username and/or password are invalid)
     }
 
-    $h = new AdminHandler;
+    $h = new AdminHandler();
     if ($h->login($fUsername, $fPassword)) {
         init_session($fUsername, true);
 
@@ -77,11 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         flash_error($PALANG['pLogin_failed']);
     }
 }
-
-
-session_unset();
-session_destroy();
-session_start();
+else {
+    session_unset();
+    session_destroy();
+    session_start();
+}
 
 $_SESSION['PFA_token'] = md5(uniqid(rand(), true));
 
