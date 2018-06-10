@@ -13,13 +13,6 @@
  *
  * File: setup.php
  * Used to help ensure a server is setup appropriately during installation/setup.
- * After setup, it should be renamed or removed.
- *
- * Template File: -none-
- *
- * Template Variables: -none-
- *
- * Form POST \ GET Variables: -none-
  */
 
 define('POSTFIXADMIN', 1); # by defining it here, common.php will not start a session.
@@ -276,11 +269,23 @@ if ($f_imap_open == 1) {
     print "<li><b>Warning: Depends on: IMAP functions - NOT FOUND</b><br />\n";
     print "To install IMAP support, install php$phpversion-imap<br />\n";
     print "Without IMAP support, you won't be able to create subfolders when creating mailboxes.</li>\n";
-    #   $error += 1;
 }
 
 
+//
+// If PHP <7.0, require random_compat works. Currently we bundle it via the Phar extension.
+//
 
+if (version_compare($phpversion, "7.0", '<')
+    && !extension_loaded('Phar')
+    && $config_loaded
+    && $CONF['configured']
+    && $CONF['encrypt'] == 'php_crypt') {
+    print "<li>Requires 'Phar' extension support for <strong>secure</strong> random_int() function fallback";
+    print "<br/>Either enable the 'Phar' extension, or install the random_compat library files from <a href='https://github.com/paragonie/random_compat'>https://github.com/paragonie/random_compat</a> and include/require them from functions.inc.php";
+    print "<br/>PostfixAdmin has bundled lib/random_compat.phar but it's not usable on your installation due to the missing Phar extension.</li>";
+    $error += 1;
+}
 
 
 
@@ -360,12 +365,12 @@ if ($error != 0) {
    </tr>
    <tr>
       <td><label for="setup_password">Setup password</label></td>
-      <td><input class="flat" type="password" name="setup_password" value="" /></td>
+      <td><input class="flat" type="password" name="setup_password" id="setup_password" value="" /></td>
       <td></td>
    </tr>
    <tr>
       <td><label for="setup_password2">Setup password (again)</label></td>
-      <td><input class="flat" type="password" name="setup_password2" value="" /></td>
+      <td><input class="flat" type="password" name="setup_password2" id="setup_password2" value="" /></td>
       <td></td>
    </tr>
    <tr>
@@ -387,6 +392,7 @@ if ($error != 0) {
 <form name="create_admin" method="post">
 <input type="hidden" name="form" value="createadmin" />
 <table>
+    <tr>
       <td colspan="3"><h3>Create superadmin account</h3></td>
    </tr>
    <tr>
