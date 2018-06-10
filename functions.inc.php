@@ -210,7 +210,7 @@ function language_selector() {
 /**
  * Checks if a domain is valid
  * @param string $domain
- * @return empty string if the domain is valid, otherwise string with the errormessage
+ * @return string empty if the domain is valid, otherwise string with the errormessage
  *
  * TODO: make check_domain able to handle as example .local domains
  * TODO: skip DNS check if the domain exists in PostfixAdmin?
@@ -257,8 +257,8 @@ function check_domain($domain) {
 /**
  * check_email
  * Checks if an email is valid - if it is, return true, else false.
- * @param String $email - a string that may be an email address.
- * @return empty string if it's a valid email address, otherwise string with the errormessage
+ * @param string $email - a string that may be an email address.
+ * @return string empty if it's a valid email address, otherwise string with the errormessage
  * TODO: make check_email able to handle already added domains
  */
 function check_email($email) {
@@ -498,8 +498,8 @@ function get_domain_properties($domain) {
  * Call: $pagebrowser = create_page_browser('table.field', 'query', 50)   # replaces $param = $_GET['param']
  *
  *  @param String idxfield - database field name to use as title
- *  @param String query - core part of the query (starting at "FROM")
- *  @return String
+ *  @param string query - core part of the query (starting at "FROM")
+ *  @return array
  */
 function create_page_browser($idxfield, $querypart) {
     global $CONF;
@@ -530,7 +530,7 @@ function create_page_browser($idxfield, $querypart) {
         $initcount = "CREATE TEMPORARY SEQUENCE rowcount MINVALUE 0";
     }
     if (!db_sqlite()) {
-        $result = db_query($initcount);
+        db_query($initcount);
     }
 
     # get labels for relevant rows (first and last of each page)
@@ -556,8 +556,6 @@ function create_page_browser($idxfield, $querypart) {
                 FROM idx t2
                 WHERE (row % $page_size) IN (0,$page_size_zerobase) OR row = $count_results";
     }
-
-    # TODO: $query is MySQL-specific
 
     # PostgreSQL:
     # http://www.postgresql.org/docs/8.1/static/sql-createsequence.html
@@ -587,15 +585,11 @@ function create_page_browser($idxfield, $querypart) {
 }
 
 
-
-
-
-
-//
-// divide_quota
-// Action: Recalculates the quota from MBs to bytes (divide, /)
-// Call: divide_quota (string $quota)
-//
+/**
+ * Recalculates the quota from MBs to bytes (divide, /)
+ * @param int $quota
+ * @return float
+ */
 function divide_quota($quota) {
     if ($quota == -1) {
         return $quota;
@@ -605,12 +599,12 @@ function divide_quota($quota) {
 }
 
 
-
-//
-// check_owner
-// Action: Checks if the admin is the owner of the domain (or global-admin)
-// Call: check_owner (string admin, string domain)
-//
+/**
+ * Checks if the admin is the owner of the domain (or global-admin)
+ * @param string $username
+ * @param string $domain
+ * @return bool
+ */
 function check_owner($username, $domain) {
     $table_domain_admins = table_by_key('domain_admins');
     $E_username = escape_string($username);
@@ -669,12 +663,11 @@ function list_domains_for_admin($username) {
 }
 
 
-
-//
-// list_domains
-// Action: List all available domains.
-// Call: list_domains ()
-//
+/**
+ * List all available domains.
+ *
+ * @return array
+ */
 function list_domains() {
     $list = array();
 
@@ -831,12 +824,11 @@ function encode_header($string, $default_charset = "utf-8") {
 }
 
 
-
-/**/ if (!function_exists('random_int')) { # random_int() is available since PHP 7, compat wrapper for PHP 5.x
-    function random_int($min, $max) {
-        return mt_rand($min, $max);
+if (!function_exists('random_int')) { // PHP version < 7.0
+    function random_int() { // someone might not be using php_crypt or ask for password generation, in which case random_int() won't be called
+        die(__FILE__ . " Postfixadmin security: Please install https://github.com/paragonie/random_compat OR enable the 'Phar' extension.");
     }
-/**/ }
+}
 
 /**
  * Generate a random password of $length characters.
@@ -980,7 +972,7 @@ function _pacrypt_dovecot($pw, $pw_db) {
     if (strtoupper($method) == 'SCRAM-SHA-1') {
         die("Sorry, \$CONF['encrypt'] = 'dovecot:scram-sha-1' is not supported by PostfixAdmin.");
     }
-    # TODO: add -u option for those hashes, or for everything that is salted (-u was available before dovecot 2.1 -> no problem with backward compability)
+    # TODO: add -u option for those hashes, or for everything that is salted (-u was available before dovecot 2.1 -> no problem with backward compatibility )
 
     $dovecotpw = "doveadm pw";
     if (!empty($CONF['dovecotpw'])) {
@@ -1087,6 +1079,7 @@ function _pacrypt_php_crypt($pw, $pw_db) {
 
 /**
  * @param string $hash_type must be one of: MD5, DES, BLOWFISH, SHA256 or SHA512  (default)
+ * @param int hash difficulty
  * @return string
  */
 function _php_crypt_generate_crypt_salt($hash_type='SHA512', $hash_difficulty=null) {
@@ -1386,19 +1379,19 @@ function smtp_mail($to, $from, $data, $body = "") {
         error_log("fsockopen failed - errno: $errno - errstr: $errstr");
         return false;
     } else {
-        $res = smtp_get_response($fh);
+        smtp_get_response($fh);
         fputs($fh, "EHLO $smtp_server\r\n");
-        $res = smtp_get_response($fh);
+        smtp_get_response($fh);
         fputs($fh, "MAIL FROM:<$from>\r\n");
-        $res = smtp_get_response($fh);
+        smtp_get_response($fh);
         fputs($fh, "RCPT TO:<$to>\r\n");
-        $res = smtp_get_response($fh);
+        smtp_get_response($fh);
         fputs($fh, "DATA\r\n");
-        $res = smtp_get_response($fh);
+        smtp_get_response($fh);
         fputs($fh, "$maildata\r\n.\r\n");
-        $res = smtp_get_response($fh);
+        smtp_get_response($fh);
         fputs($fh, "QUIT\r\n");
-        $res = smtp_get_response($fh);
+        smtp_get_response($fh);
         fclose($fh);
     }
     return true;
@@ -1458,6 +1451,7 @@ $DEBUG_TEXT = "\n
  * b) with $ignore_errors == TRUE
  *    array($link, $error_text);
  *
+ * @param bool $ignore_errors
  * @return resource connection to db (normally)
  */
 function db_connect($ignore_errors = false) {
@@ -1673,18 +1667,22 @@ function db_query($query, $ignore_errors = 0) {
     }
 
     if ($CONF['database_type'] == "mysql") {
+        /* @var resource $link */
         $result = @mysql_query($query, $link)
         or $error_text = "Invalid query: " . mysql_error($link);
     }
     if ($CONF['database_type'] == "mysqli") {
+        /* @var resource $link */
         $result = @mysqli_query($link, $query)
         or $error_text = "Invalid query: " . mysqli_error($link);
     }
     if (db_sqlite()) {
+        /* @var SQLite3 $link */
         $result = @$link->query($query)
         or $error_text = "Invalid query: " . $link->lastErrorMsg();
     }
     if (db_pgsql()) {
+        /* @var resource $link */
         $result = @pg_query($link, $query)
             or $error_text = "Invalid query: " . pg_last_error();
     }
@@ -1696,6 +1694,7 @@ function db_query($query, $ignore_errors = 0) {
 
     if ($error_text == "") {
         if (db_sqlite()) {
+            /* @var SQLite3Result $result */
             if ($result->numColumns()) {
                 // Query returned something
                 $num_rows = 0;
@@ -1709,6 +1708,7 @@ function db_query($query, $ignore_errors = 0) {
                 $number_rows = $link->changes();
             }
         } elseif (preg_match("/^SELECT/i", trim($query))) {
+            /* @var resource $result */
             // if $query was a SELECT statement check the number of rows with [database_type]_num_rows ().
             if ($CONF['database_type'] == "mysql") {
                 $number_rows = mysql_num_rows($result);
@@ -1720,6 +1720,7 @@ function db_query($query, $ignore_errors = 0) {
                 $number_rows = pg_num_rows($result);
             }
         } else {
+            /* @var resource $result */
             // if $query was something else, UPDATE, DELETE or INSERT check the number of rows with
             // [database_type]_affected_rows ().
             if ($CONF['database_type'] == "mysql") {
@@ -1758,9 +1759,11 @@ function db_row($result) {
         $row = mysqli_fetch_row($result);
     }
     if (db_sqlite()) {
+        /* @var SQLite3Result $result */
         $row = $result->fetchArray(SQLITE3_NUM);
     }
     if (db_pgsql()) {
+        /* @var resource $result */
         $row = pg_fetch_row($result);
     }
     return $row;
@@ -1782,9 +1785,11 @@ function db_array($result) {
         $row = mysqli_fetch_array($result);
     }
     if (db_sqlite()) {
+        /* @var SQLite3Result $result */
         $row = $result->fetchArray();
     }
     if (db_pgsql()) {
+        /* @var resource $result */
         $row = pg_fetch_array($result);
     }
     return $row;
@@ -1794,19 +1799,22 @@ function db_array($result) {
 /**
  * Get an associative array from a DB query resource.
  *
- * @param resource $result
+ * @param mixed $result - either resource or SQLite3Result depending on DB type chosen.
  * @return array|null|string
  */
 function db_assoc($result) {
     global $CONF;
     $row = "";
     if ($CONF['database_type'] == "mysql") {
+        /* @var resource $result */
         $row = mysql_fetch_assoc($result);
     }
     if ($CONF['database_type'] == "mysqli") {
+        /* @var resource $result */
         $row = mysqli_fetch_assoc($result);
     }
     if (db_sqlite()) {
+        /* @var SQLite3Result $result */
         $row = $result->fetchArray(SQLITE3_ASSOC);
     }
     if (db_pgsql()) {
@@ -2088,7 +2096,7 @@ function check_db_version($error_out = true) {
         $dbversion = $row['value'];
     } else {
         $dbversion = 0;
-        db_query("INSERT INTO $table (name, value) VALUES ('version', '0')", 0, '');
+        db_query("INSERT INTO $table (name, value) VALUES ('version', '0')", 0);
     }
 
     if (($dbversion < $min_db_version) && $error_out == true) {
