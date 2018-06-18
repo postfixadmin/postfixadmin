@@ -390,7 +390,12 @@ class cNav_bar {
         $ret_val .= '<a name="'.$this->anchor.'"></a>';
         $ret_val .= $this->display_pre();
         $ret_val .= '<b>'.$this->title.'</b>&nbsp;&nbsp;';
-        ($this->limit >= $this->page_size) ? $highlight_at = $this->limit / $this->page_size : $highlight_at = 0;
+        
+        $highlight_at = 0;
+
+        if ($this->limit >= $this->page_size) { 
+            $highlight_at = $this->limit / $this->page_size ;
+        }
 
         for ($i = 0; $i < count($this->pages); $i++) {
             $lPage = $this->pages [$i];
