@@ -138,8 +138,7 @@ class Shell {
      * @param string $prompt Prompt text.
      * @param mixed $options Array or string of options.
      * @param string $default Default input value.
-     * @return Either the default value, or the user-provided input.
-     * @access public
+     * @return string either the default value, or the user-provided input.
      */
     public function in($prompt, $options = null, $default = null) {
         if (!$this->interactive) {
