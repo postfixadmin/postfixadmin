@@ -6,6 +6,11 @@ abstract class PFAHandler {
      */
 
     /**
+     * @var array
+     */
+    public $result = array();
+
+    /**
      * @var array of error messages - if a method returns false, you'll find the error message(s) here
      */
     public $errormsg = array();
