@@ -44,7 +44,7 @@ function authentication_get_username() {
 /**
  * Returns the type of user - either 'user' or 'admin'
  * Returns false if neither (E.g. if not logged in)
- * @return String admin or user or (boolean) false.
+ * @return string|bool admin or user or (boolean) false.
  */
 function authentication_get_usertype() {
     if (isset($_SESSION['sessid'])) {
@@ -57,7 +57,7 @@ function authentication_get_usertype() {
 /**
  *
  * Used to determine whether a user has a particular role.
- * @param String role-name. (E.g. admin, global-admin or user)
+ * @param string $role role-name. (E.g. admin, global-admin or user)
  * @return boolean True if they have the requested role in their session.
  * Note, user < admin < global-admin
  */
@@ -78,6 +78,8 @@ function authentication_has_role($role) {
  * If they are lacking a role, redirect them to login.php
  *
  * Note, user < admin < global-admin
+ * @param string $role
+ * @return bool
  */
 function authentication_require_role($role) {
     // redirect to appropriate page?
@@ -102,17 +104,18 @@ function init_session($username, $is_admin = false) {
     $_SESSION['sessid']['roles'] = array();
     $_SESSION['sessid']['roles'][] = $is_admin ? 'admin' : 'user';
     $_SESSION['sessid']['username'] = $username;
-    $_SESSION['PFA_token'] = md5(uniqid(rand(), true));
+    $_SESSION['PFA_token'] = md5(uniqid("", true));
 
     return $status;
 }
 
 /**
  * Add an error message for display on the next page that is rendered.
- * @param String/Array message(s) to show.
+ * @param string|array $string message(s) to show.
  *
  * Stores string in session. Flushed through header template.
  * @see _flash_string()
+ * @return void
  */
 function flash_error($string) {
     _flash_string('error', $string);
@@ -120,15 +123,19 @@ function flash_error($string) {
 
 /**
  * Used to display an info message on successful update.
- * @param String/Array message(s) to show.
+ * @param string|array $string message(s) to show.
  * Stores data in session.
  * @see _flash_string()
+ * @return void
  */
 function flash_info($string) {
     _flash_string('info', $string);
 }
 /**
  * 'Private' method used for flash_info() and flash_error().
+ * @param string $type
+ * @param array|string $string
+ * @retrn void
  */
 function _flash_string($type, $string) {
     if (is_array($string)) {
@@ -147,12 +154,11 @@ function _flash_string($type, $string) {
     $_SESSION['flash'][$type][] = $string;
 }
 
-//
-// check_language
-// Action: checks what language the browser uses
-// Call: check_language
-// Parameter: $use_post - set to 0 if $_POST should NOT be read
-//
+/**
+ * @param int $use_post - set to 0 if $_POST should NOT be read
+ * @return string e.g en
+ * Try to figure out what language the user wants based on browser / cookie
+ */
 function check_language($use_post = 1) {
     global $supported_languages; # from languages/languages.php
 
@@ -180,11 +186,12 @@ function check_language($use_post = 1) {
     return $lang;
 }
 
-//
-// language_selector
-// Action: returns a language selector dropdown with the browser (or cookie) language preselected
-// Call: language_selector()
-//
+/**
+ * Action: returns a language selector dropdown with the browser (or cookie) language preselected
+ * @return string
+ *
+ *
+ */
 function language_selector() {
     global $supported_languages; # from languages/languages.php
 
@@ -300,7 +307,7 @@ function check_email($email) {
  * Clean a string, escaping any meta characters that could be
  * used to disrupt an SQL string. i.e. "'" => "\'" etc.
  *
- * @param string|array parameters to escape
+ * @param string|array $string parameters to escape
  * @return string|array of cleaned data, suitable for use within an SQL statement.
  */
 function escape_string($string) {
@@ -351,9 +358,9 @@ function escape_string($string) {
  *       - or -
  *  $param = safeget('param', 'default')
  *
- *  @param string $param parameter name.
- *  @param string $default (optional) - default value if key is not set.
- *  @return string
+ * @param string $param parameter name.
+ * @param string $default (optional) - default value if key is not set.
+ * @return string
  */
 function safeget($param, $default="") {
     $retval=$default;
@@ -435,7 +442,6 @@ function safesession($param, $default="") {
  * @param any optional $default
  * @param array $options optional options
  * @param int or $not_in_db - if array, can contain the remaining parameters as associated array. Otherwise counts as $not_in_db
- * @param ...
  * @return array for $struct
  */
 function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $multiopt=0, $dont_write_to_db=0, $select="", $extrafrom="", $linkto="") {
@@ -472,11 +478,11 @@ function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALAN
     );
 }
 
-//
-// get_domain_properties
-// Action: Get all the properties of a domain.
-// Call: get_domain_properties (string domain)
-//
+/**
+ * Action: Get all the properties of a domain.
+ * @param string $domain
+ * @return array
+ */
 function get_domain_properties($domain) {
     $handler = new DomainHandler();
     if (!$handler->init($domain)) {
@@ -497,9 +503,9 @@ function get_domain_properties($domain) {
  * Action: Get page browser for a long list of mailboxes, aliases etc.
  * Call: $pagebrowser = create_page_browser('table.field', 'query', 50)   # replaces $param = $_GET['param']
  *
- *  @param String idxfield - database field name to use as title
- *  @param string query - core part of the query (starting at "FROM")
- *  @return array
+ * @param string $idxfield - database field name to use as title
+ * @param string $querypart - core part of the query (starting at "FROM")
+ * @return array
  */
 function create_page_browser($idxfield, $querypart) {
     global $CONF;
