@@ -44,21 +44,21 @@ class PostfixAdmin {
     /**
      * Standard input stream.
      *
-     * @var filehandle
+     * @var resource
      */
     public $stdin;
 
     /**
      * Standard output stream.
      *
-     * @var filehandle
+     * @var resource
      */
     public $stdout;
 
     /**
      * Standard error stream.
      *
-     * @var filehandle
+     * @var resource
      */
     public $stderr;
 
@@ -131,7 +131,7 @@ class PostfixAdmin {
      * Defines current working environment.
      */
     private function __initEnvironment() {
-        $this->stdin = fopen('php://stdin', 'r');
+        $this->stdin  = fopen('php://stdin', 'r');
         $this->stdout = fopen('php://stdout', 'w');
         $this->stderr = fopen('php://stderr', 'w');
 
@@ -260,7 +260,7 @@ class PostfixAdmin {
      * @param string $prompt Prompt text.
      * @param mixed $options Array or string of options.
      * @param string $default Default input value.
-     * @return Either the default value, or the user-provided input.
+     * @return string Either the default value, or the user-provided input.
      */
     public function getInput($prompt, $options = null, $default = null) {
         if (!is_array($options)) {
