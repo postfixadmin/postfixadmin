@@ -119,7 +119,7 @@ class VacationProxy {
     }
 
     /**
-     * @return struct|boolean - either array of vacation details or boolean false if the user has none.
+     * @return array|bool - either array of vacation details or boolean false if the user has none.
      */
     public function getDetails() {
         $vh = new VacationHandler($_SESSION['sessid']['username']);
@@ -129,7 +129,7 @@ class VacationProxy {
     /**
      * @param string $subject
      * @param string $body
-     * @param string $interval_time
+     * @param int $interval_time
      * @param string $activeFrom
      * @param string $activeUntil
      * @return boolean true on success.
