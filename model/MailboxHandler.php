@@ -445,8 +445,8 @@ class MailboxHandler extends PFAHandler {
     /**
      * Check if the user is creating a mailbox within the quota limits of the domain
      *
-     * @param Integer $quota - quota wanted for the mailbox
-     * @return Boolean - true if requested quota is OK, otherwise false
+     * @param int $quota - quota wanted for the mailbox
+     * @return boolean - true if requested quota is OK, otherwise false
      */
     # TODO: merge with allowed_quota?
     protected function check_quota($quota) {
@@ -509,9 +509,9 @@ class MailboxHandler extends PFAHandler {
     /**
      * Get allowed maximum quota for a mailbox
      *
-     * @param String $domain
-     * @param Integer $current_user_quota (in bytes)
-     * @return Integer allowed maximum quota (in MB)
+     * @param string $domain
+     * @param int $current_user_quota (in bytes)
+     * @return int allowed maximum quota (in MB)
      */
     protected function allowed_quota($domain, $current_user_quota) {
         if (!Config::bool('quota')) {
@@ -539,7 +539,7 @@ class MailboxHandler extends PFAHandler {
     /**
      * Called after a mailbox has been created or edited in the DBMS.
      *
-     * @return Boolean success/failure status
+     * @return boolean success/failure status
      */
     protected function mailbox_post_script() {
         if ($this->new) {
@@ -635,7 +635,7 @@ class MailboxHandler extends PFAHandler {
      * Doesn't clean up, if only some of the folders could be
      * created.
      *
-     * @return Boolean TRUE if everything succeeds, FALSE on all errors
+     * @return boolean TRUE if everything succeeds, FALSE on all errors
      */
     protected function create_mailbox_subfolders() {
         $create_mailbox_subdirs = Config::read('create_mailbox_subdirs');
