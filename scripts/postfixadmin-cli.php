@@ -317,17 +317,6 @@ class PostfixAdmin {
      */
     public function parseParams($params) {
         $this->__parseParams($params);
-
-        $isWin = array_filter(array_map('strpos', $params, array('\\')));
-
-        $params = str_replace('\\', '/', $params);
-
-
-        if (!empty($matches[0]) || !empty($isWin)) {
-            $params = str_replace('/', '\\', $params);
-        }
-
-        $this->params = array_merge($this->params, $params);
     }
 
     /**
