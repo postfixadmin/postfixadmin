@@ -33,7 +33,6 @@ There are also lots of HOWTOs around the web. Be warned that many of them
 Please stick to the PostfixAdmin documentation, and use those HOWTOs only if
 you need some additional information that is missing in the PostfixAdmin 
 DOCUMENTS/ folder.
-  - http://codepoets.co.uk/postfixadmin-postgresql-courier-squirrelmail-debian-etch-howto-tutorial (Debian+Courier+PostgreSQL+Postfix+Postfixadmin)
   - http://bliki.rimuhosting.com/space/knowledgebase/linux/mail/postfixadmin+on+debian+sarge (Postfix+MySQL+Postfixadmin+Dovecot)
   - http://en.gentoo-wiki.com/wiki/Virtual_mail_server_using_Postfix,_Courier_and_PostfixAdmin (Postfix+MySQL+Postfixadmin+Courier)
 
@@ -45,11 +44,16 @@ DOCUMENTS/ folder.
 
 Assuming we are installing Postfixadmin into /srv/postfixadmin, then something like this should work :
 
-  $ mkdir -p /srv/postfixadmin
-  $ cd /srv/postfixadmin 
-  $ wget -O https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-3.1.tar.gz postfixadmin-3.1.tar.gz
-  $ tar -zxvf postfixadmin-version.tgz
+  $ cd /srv/
+  $ wget -O postfixadmin.tgz https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-3.2.tar.gz
+  $ tar -zxvf postfixadmin.tgz
+  $ mv postfixadmin-postfixadmin-3.2 postfixadmin
 
+Alternatively :
+
+  $ cd /srv
+  $ git clone https://github.com/postfixadmin/postfixadmin.git
+  $ git checkout postfixadmin-3.2
 
 2. Setup Web Server
 -------------------
@@ -57,7 +61,6 @@ Assuming we are installing Postfixadmin into /srv/postfixadmin, then something l
 Assuming /var/www/html is where your webserver reads from :
 
   $ ln -s /srv/postfixadmin/public /var/www/html/postfixadmin 
-
 
 3. Setup a Database
 -------------------
@@ -117,9 +120,11 @@ PostfixAdmin does not require write access to any files except the templates_c
 directory (smarty cache). You can therefore leave the files owned by root (or
 another user); as long as the web server user (e.g. www-data) can read them, it
 will be fine.
+
 For templates_c/, allow write access (only) for the web server user (e. g. www-data).
 The easiest way to do this is   
 
+ $ mkdir -p /srv/postfixadmin/templates_c
  $ chown -R www-data /srv/postfixadmin/templates_c
 
 
