@@ -92,7 +92,6 @@ if (safeget('output') == 'csv') {
     header('Content-Disposition: attachment;filename='.$table.'.csv');
     
     print "\xEF\xBB\xBF"; # utf8 byte-order to indicate the file is utf8 encoded
-    # print "sep=;"; # hint that ; is used as seperator - breaks the utf8 flag in excel import!
     print "\n";
 
     if (!defined('ENT_HTML401')) { # for compability for PHP < 5.4.0
@@ -108,7 +107,7 @@ if (safeget('output') == 'csv') {
             $columns[] = $key;
         }
     }
-    fputcsv($out, $header, ';');
+    fputcsv($out, $header); 
 
     # print items as csv
     foreach ($items as $item) {
@@ -116,7 +115,7 @@ if (safeget('output') == 'csv') {
         foreach ($columns as $column) {
             $fields[] = $item[$column];
         }
-        fputcsv($out, $fields, ';');
+        fputcsv($out, $fields);
     }
 
     fclose($out);
