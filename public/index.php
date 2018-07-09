@@ -65,16 +65,7 @@ if ($CONF['configured'] === true) {
 
         <h2>What now?</h2>
 
-        <ol>
-            <li>Read the <a href='https://raw.githubusercontent.com/postfixadmin/postfixadmin/master/INSTALL.TXT'>INSTALL.TXT</a> file</li>
-            <li>Configure Postfix to use your chosen database - see (for example) the following pages :
-            <ul><!-- TODO: get newer URLs ... -->
-                <li><a href="http://codepoets.co.uk/postfixadmin-postgresql-courier-squirrelmail-debian-etch-howto-tutorial">Postfix/PostgreSQL/Postfixadmin/Courier</a></li>
-                <li><a href="http://bliki.rimuhosting.com/space/knowledgebase/linux/mail/postfixadmin+on+debian+sarge">Postfix/MySQL/Postfixadmin/Dovecot</a></li>
-                <li><a href="http://gentoo-wiki.com/HOWTO_Setup_a_Virtual_Postfix/Courier_Mail_System_with_PostfixAdmin">Postfix/MySQL/Postfixamdin/Courier</a></li>
-            </ul>
-            <li>Use it</li>
-        </ol>
+        <p>Read the <a href='https://raw.githubusercontent.com/postfixadmin/postfixadmin/master/INSTALL.TXT'>INSTALL.TXT</a> file</p>
         
         <p><b>When you have configured Postfixadmin, this page will be replaced with a login page.</b></p>
         <p>You can now run <a href="setup.php">setup</a> to make sure that all the PHP functions are available for Postfix Admin to run.<br />
