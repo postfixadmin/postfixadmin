@@ -307,7 +307,7 @@ $PALANG['pAdminEdit_admin_result_success'] = 'L\'administrateur %s a été ajout
 $PALANG['pUsersLogin_welcome'] = 'Entrer votre adresse email pour modifier votre mot de passe et vos transferts.';
 $PALANG['pUsersLogin_username_incorrect'] = 'L\'adresse email est invalide. Assurez-vous d\'avoir correctement saisi votre adresse email !';
 $PALANG['pUsersLogin_password_incorrect'] = 'Votre mot de passe est invalide !';
-$PALANG['pUsersLogin_password_recover'] = 'J\'ai oublié mon mot de passe';
+$PALANG['pUsersLogin_password_recover'] = 'Mot de passe oublié';
 
 $PALANG['pUsersMenu_vacation'] = 'Réponse Automatique';
 $PALANG['pUsersMenu_edit_alias'] = 'Modifier votre transfert';

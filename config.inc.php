@@ -647,6 +647,7 @@ function x_send_sms_clickatell($to, $message) {
 */
 
 // Theme Config
+$conf['theme'] = 'default';
 // Specify your own logo and CSS file
 $CONF['theme_logo'] = 'images/logo-default.png';
 $CONF['theme_css'] = 'css/default.css';
