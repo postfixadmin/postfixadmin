@@ -87,10 +87,10 @@ if (count($handler->infomsg)) {
 
 
 if (safeget('output') == 'csv') {
+
     $out = fopen('php://output', 'w');
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment;filename='.$table.'.csv');
-    
     print "\xEF\xBB\xBF"; # utf8 byte-order to indicate the file is utf8 encoded
     print "\n";
 
@@ -102,22 +102,26 @@ if (safeget('output') == 'csv') {
     $header = array();
     $columns = array();
     foreach ($handler->getStruct() as $key => $field) {
-        if ($field['display_in_list'] && $field['label'] != '') { # don't show fields without a label
-            $header[] = html_entity_decode($field['label'], ENT_COMPAT | ENT_HTML401, 'UTF-8');
+        $label = trim($field['label']);
+        if ($field['display_in_list'] && $label != '') { # don't show fields without a label
+            $header[] = html_entity_decode($label, ENT_COMPAT | ENT_HTML401, 'UTF-8');
             $columns[] = $key;
         }
     }
-    fputcsv($out, $header, ';');
+    fputcsv($out, $header);
 
     # print items as csv
     foreach ($items as $item) {
         $fields = array();
         foreach ($columns as $column) {
-            $fields[] = $item[$column];
+            $values = $item[$column];
+            if(is_array($values)) {
+                $values = implode(',', $values);
+            }
+            $fields[] = $values;
         }
-        fputcsv($out, $fields, ';');
+        fputcsv($out, $fields);
     }
-
     fclose($out);
 } else { # HTML output
 
