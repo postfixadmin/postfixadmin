@@ -43,7 +43,7 @@ CPAN: 'perl -MCPAN -e shell', then 'install Module::Whatever'
 
 
 ```bash
-  apt-get install libemail-sender-perl libemail-simple-perl libemail-valid-perl libtry-tiny-perl libdbd-pg-perl libmime-perl liblog-log4perl-perl liblog-dispatch-perl libgetopt-argvfile-perl libmime-charset-perl libmime-encwords-perl libmime-encwords-perl 
+  apt-get install libemail-sender-perl libemail-simple-perl libemail-valid-perl libtry-tiny-perl libdbd-pg-perl libemail-mime-perl liblog-log4perl-perl liblog-dispatch-perl libgetopt-argvfile-perl libmime-charset-perl libmime-encwords-perl libmime-encwords-perl 
 ```
 
 and one of : 
