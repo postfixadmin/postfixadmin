@@ -1865,7 +1865,7 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
  * @param array (optional) - array of fields to set to now() - default: array('created', 'modified')
  * @return int - number of inserted rows
  */
-function db_insert($table, $values, $timestamp = array('created', 'modified')) {
+function db_insert ($table, $values, $timestamp = array('created', 'modified'), $timestamp_expiration = array('pw_expires_on') ) {
     $table = table_by_key($table);
 
     foreach (array_keys($values) as $key) {
@@ -1877,6 +1877,18 @@ function db_insert($table, $values, $timestamp = array('created', 'modified')) {
             $values[$key] = "datetime('now')";
         } else {
             $values[$key] = "now()";
+        }
+    }
+    if ($table == 'mailbox') {
+        global $CONF;
+        if ($CONF['password_expiration_enabled'] == 'YES') {
+            $expires_warning_values = array('thirty', 'fourteen', 'seven');
+            foreach($expires_warning_values as $key) {
+                $values[$key] = escape_string($key) . "=0";
+            }
+            foreach($timestamp_expiration as $key) {
+                    $values[$key] = "now() + interval " . $CONF['password_expiration_value'] . " day";
+            }
         }
     }
 
@@ -1925,6 +1937,17 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
             $sql_values[$key] = escape_string($key) . "=datetime('now')";
         } else {
             $sql_values[$key] = escape_string($key) . "=now()";
+        }
+    }
+    if ($table == 'mailbox') {
+        global $CONF;
+        if ($CONF['password_expiration_enabled'] == 'YES') {
+            $key = 'pw_expires_on';
+            $sql_values[$key] = escape_string($key) . "=now() + interval " . $CONF['password_expiration_value'] . " day";
+            $expires_warning_values = array('thirty', 'fourteen', 'seven');
+            foreach($expires_warning_values as $key) {
+                $sql_values[$key] = escape_string($key) . "=0";
+            }
         }
     }
 
