@@ -1,0 +1,3 @@
+[client]
+user=postfix_read_write_account
+password=strong_password
