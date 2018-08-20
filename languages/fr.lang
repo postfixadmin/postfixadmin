@@ -398,6 +398,7 @@ $PALANG['pFetchmail_desc_date'] = 'Date de la dernière vérification/changement
 $PALANG['pFetchmail_desc_returned_text'] = 'Message de la dernière vérification';
 $PALANG['dateformat_pgsql'] = 'dd-mm-YYYY';
 $PALANG['dateformat_mysql'] = '%d-%m-%Y';
+$PALANG['password_expiration'] = 'Expiration du mot de passe';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

@@ -49,6 +49,7 @@ class MailboxHandler extends PFAHandler {
             'token_validity'   => pacol(1,          0,      0,      'ts',   ''                              , '', date("Y-m-d H:i:s",time())),
             'created'          => pacol(0,          0,      1,      'ts',   'created'                       , ''                                 ),
             'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
+            'pw_expires_on'      => pacol(   0,          0,      1,      'ts',   'password_expiration'                 , ''                                 ),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 

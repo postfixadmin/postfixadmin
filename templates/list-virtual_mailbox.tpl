@@ -13,6 +13,9 @@
 		<td>{$PALANG.name}</td>
 		{if $CONF.quota===YES}<td>{$PALANG.pOverview_mailbox_quota}</td>{/if}
 		<td>{$PALANG.last_modified}</td>
+		{if $CONF.password_expiration===YES}
+			<td>{$PALANG.password_expiration}</td>
+		{/if}
 		<td>{$PALANG.active}</td>
 		{assign var="colspan" value="`$colspan-6`"}
 		<td colspan="{$colspan}">&nbsp;</td>
@@ -74,6 +77,9 @@
 				</td>
 			{/if}
 			<td>{$item.modified}</td>
+			{if $CONF.password_expiration===YES}
+				<td>{$item.password_expiration}</td>
+			{/if}
 			<td><a href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
 				>{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
 			{if $CONF.vacation_control_admin===YES && $CONF.vacation===YES}

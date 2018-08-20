@@ -94,6 +94,7 @@ class DomainHandler extends PFAHandler {
            'default_aliases'   => pacol($this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,'', /*not in db*/ 1     ),
            'created'           => pacol(0,          0,      0,      'ts',   'created'                      , ''                                 ),
            'modified'          => pacol(0,          0,      $super, 'ts',   'last_modified'                , ''                                 ),
+           'password_expiration_value'     => pacol($super,$super,$super,'num','password_expiration', 'password_expiration_desc', ''),
             '_can_edit'        => pacol(0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 /*options*/ '',
                 /*not_in_db*/ 0,
