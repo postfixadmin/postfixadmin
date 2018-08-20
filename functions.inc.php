@@ -260,6 +260,20 @@ function check_domain($domain) {
     return '';
 }
 
+/**
+ * get_password_expiration_value
+ * Get password expiration value for a domain
+ * @param String $domain - a string that may be a domain
+ * @return password expiration value for this domain
+ * TODO: return specific value for invalid (not existing) domain
+ */
+function get_password_expiration_value ($domain) {
+        $table_domain = table_by_key('domain');
+        $query = "SELECT password_expiration_value FROM $table_domain WHERE domain='$domain'";
+        $result = db_query ($query);
+        $password_expiration_value = db_array ($result['result']);
+        return $password_expiration_value[0];
+}
 
 /**
  * check_email
@@ -1879,15 +1893,15 @@ function db_insert ($table, $values, $timestamp = array('created', 'modified'), 
             $values[$key] = "now()";
         }
     }
-    if ($table == 'mailbox') {
-        global $CONF;
-        if ($CONF['password_expiration_enabled'] == 'YES') {
-            $expires_warning_values = array('thirty', 'fourteen', 'seven');
-            foreach($expires_warning_values as $key) {
-                $values[$key] = escape_string($key) . "=0";
-            }
+
+    global $CONF;
+    if ($CONF['password_expiration_enabled'] == 'YES') {
+        if ($table == 'mailbox') {
+            $domain_dirty = $values['domain'];
+            $domain = substr($domain_dirty, 1, -1);
+            $password_expiration_value = get_password_expiration_value($domain);
             foreach($timestamp_expiration as $key) {
-                    $values[$key] = "now() + interval " . $CONF['password_expiration_value'] . " day";
+                    $values[$key] = "now() + interval " . $password_expiration_value . " day";
             }
         }
     }
@@ -1939,15 +1953,17 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
             $sql_values[$key] = escape_string($key) . "=now()";
         }
     }
-    if ($table == 'mailbox') {
-        global $CONF;
-        if ($CONF['password_expiration_enabled'] == 'YES') {
+
+    global $CONF;
+    if ($CONF['password_expiration_enabled'] == 'YES') {
+        $where_type = explode('=',$where);
+        $email = ($where_type[1]);
+        $domain_dirty = explode('@',$email)[1]; //Please do it nicer
+        $domain = substr($domain_dirty, 0, -1);
+        if ($table == 'mailbox') {
+            $password_expiration_value = get_password_expiration_value($domain);
             $key = 'pw_expires_on';
-            $sql_values[$key] = escape_string($key) . "=now() + interval " . $CONF['password_expiration_value'] . " day";
-            $expires_warning_values = array('thirty', 'fourteen', 'seven');
-            foreach($expires_warning_values as $key) {
-                $sql_values[$key] = escape_string($key) . "=0";
-            }
+            $sql_values[$key] = escape_string($key) . "=now() + interval " . $password_expiration_value . " day";
         }
     }
 
