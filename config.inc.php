@@ -525,7 +525,11 @@ $CONF['show_vacation_color']='turquoise';
 // show disabled accounts
 $CONF['show_disabled']='YES';
 $CONF['show_disabled_color']='grey';
+<<<<<<< HEAD
 // show POP/IMAP mailboxes
+=======
+// show IMAP/POP capabilities
+>>>>>>> 72dddbc93be15cb6f975343524a15103763acf89
 $CONF['show_popimap']='YES';
 $CONF['show_popimap_color']='darkgrey';
 // you can assign special colors to some domains. To do this,

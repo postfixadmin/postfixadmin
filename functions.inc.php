@@ -1,22 +1,22 @@
 <?php
-/**
- * Postfix Admin
- *
- * LICENSE
- * This source file is subject to the GPL license that is bundled with
- * this package in the file LICENSE.TXT.
- *
- * Further details on the project are available at http://postfixadmin.sf.net
- *
- * @version $Id$
- * @license GNU GPL v2 or later.
- *
+/** 
+ * Postfix Admin 
+ * 
+ * LICENSE 
+ * This source file is subject to the GPL license that is bundled with  
+ * this package in the file LICENSE.TXT. 
+ * 
+ * Further details on the project are available at http://postfixadmin.sf.net 
+ * 
+ * @version $Id: functions.inc.php 1894 2017-02-08 20:45:26Z christian_boltz $ 
+ * @license GNU GPL v2 or later. 
+ * 
  * File: functions.inc.php
  * Contains re-usable code.
  */
 
-$version = '3.2';
-$min_db_version = 1840;  # update (at least) before a release with the latest function numbrer in upgrade.php
+$version = '3.0.2';
+$min_db_version = 1835;  # update (at least) before a release with the latest function numbrer in upgrade.php
 
 /**
  * check_session
@@ -34,7 +34,7 @@ function authentication_get_username() {
     }
 
     if (!isset($_SESSION['sessid'])) {
-        header("Location: login.php");
+        header ("Location: login.php");
         exit(0);
     }
     $SESSID_USERNAME = $_SESSION['sessid']['username'];
@@ -42,13 +42,13 @@ function authentication_get_username() {
 }
 
 /**
- * Returns the type of user - either 'user' or 'admin'
+ * Returns the type of user - either 'user' or 'admin' 
  * Returns false if neither (E.g. if not logged in)
- * @return string|bool admin or user or (boolean) false.
+ * @return String admin or user or (boolean) false.
  */
 function authentication_get_usertype() {
-    if (isset($_SESSION['sessid'])) {
-        if (isset($_SESSION['sessid']['type'])) {
+    if(isset($_SESSION['sessid'])) {
+        if(isset($_SESSION['sessid']['type'])) {
             return $_SESSION['sessid']['type'];
         }
     }
@@ -57,14 +57,14 @@ function authentication_get_usertype() {
 /**
  *
  * Used to determine whether a user has a particular role.
- * @param string $role role-name. (E.g. admin, global-admin or user)
+ * @param String role-name. (E.g. admin, global-admin or user)
  * @return boolean True if they have the requested role in their session.
  * Note, user < admin < global-admin
  */
 function authentication_has_role($role) {
-    if (isset($_SESSION['sessid'])) {
-        if (isset($_SESSION['sessid']['roles'])) {
-            if (in_array($role, $_SESSION['sessid']['roles'])) {
+    if(isset($_SESSION['sessid'])) {
+        if(isset($_SESSION['sessid']['roles'])) {
+            if(in_array($role, $_SESSION['sessid']['roles'])) {
                 return true;
             }
         }
@@ -73,49 +73,29 @@ function authentication_has_role($role) {
 }
 
 /**
- * Used to enforce that $user has a particular role when
+ * Used to enforce that $user has a particular role when 
  * viewing a page.
  * If they are lacking a role, redirect them to login.php
  *
  * Note, user < admin < global-admin
- * @param string $role
- * @return bool
  */
 function authentication_require_role($role) {
     // redirect to appropriate page?
-    if (authentication_has_role($role)) {
-        return true;
+    if(authentication_has_role($role)) {
+        return True;
     }
 
     header("Location: login.php");
     exit(0);
 }
 
-/**
- * Initialize a user or admin session
- *
- * @param String $username the user or admin name
- * @param boolean $is_admin true if the user is an admin, false otherwise
- * @return boolean true on success
- */
-function init_session($username, $is_admin = false) {
-    $status = session_regenerate_id(true);
-    $_SESSION['sessid'] = array();
-    $_SESSION['sessid']['roles'] = array();
-    $_SESSION['sessid']['roles'][] = $is_admin ? 'admin' : 'user';
-    $_SESSION['sessid']['username'] = $username;
-    $_SESSION['PFA_token'] = md5(uniqid("", true));
-
-    return $status;
-}
 
 /**
  * Add an error message for display on the next page that is rendered.
- * @param string|array $string message(s) to show.
+ * @param String/Array message(s) to show. 
  *
  * Stores string in session. Flushed through header template.
  * @see _flash_string()
- * @return void
  */
 function flash_error($string) {
     _flash_string('error', $string);
@@ -123,19 +103,15 @@ function flash_error($string) {
 
 /**
  * Used to display an info message on successful update.
- * @param string|array $string message(s) to show.
+ * @param String/Array message(s) to show. 
  * Stores data in session.
  * @see _flash_string()
- * @return void
  */
 function flash_info($string) {
     _flash_string('info', $string);
 }
 /**
  * 'Private' method used for flash_info() and flash_error().
- * @param string $type
- * @param array|string $string
- * @retrn void
  */
 function _flash_string($type, $string) {
     if (is_array($string)) {
@@ -145,39 +121,40 @@ function _flash_string($type, $string) {
         return;
     }
 
-    if (!isset($_SESSION['flash'])) {
+    if(!isset($_SESSION['flash'])) {
         $_SESSION['flash'] = array();
     }
-    if (!isset($_SESSION['flash'][$type])) {
+    if(!isset($_SESSION['flash'][$type])) {
         $_SESSION['flash'][$type] = array();
     }
     $_SESSION['flash'][$type][] = $string;
 }
 
-/**
- * @param int $use_post - set to 0 if $_POST should NOT be read
- * @return string e.g en
- * Try to figure out what language the user wants based on browser / cookie
- */
-function check_language($use_post = 1) {
+//
+// check_language
+// Action: checks what language the browser uses
+// Call: check_language
+// Parameter: $use_post - set to 0 if $_POST should NOT be read
+//
+function check_language ($use_post = 1) {
     global $supported_languages; # from languages/languages.php
 
     $lang = Config::read('default_language');
 
-    if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-        $lang_array = preg_split('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+    if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        $lang_array = preg_split ('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         if (safecookie('lang')) {
             array_unshift($lang_array, safecookie('lang')); # prefer language from cookie
         }
-        if ($use_post && safepost('lang')) {
+        if ( $use_post && safepost('lang')) {
             array_unshift($lang_array, safepost('lang')); # but prefer $_POST['lang'] even more
         }
 
-        for ($i = 0; $i < count($lang_array); $i++) {
+        for($i = 0; $i < count($lang_array); $i++) {
             $lang_next = $lang_array[$i];
             $lang_next = strtolower(trim($lang_next));
             $lang_next = preg_replace('/;.*$/', '', $lang_next); # remove things like ";q=0.8"
-            if (array_key_exists($lang_next, $supported_languages)) {
+            if(array_key_exists($lang_next, $supported_languages)) {
                 $lang = $lang_next;
                 break;
             }
@@ -186,12 +163,11 @@ function check_language($use_post = 1) {
     return $lang;
 }
 
-/**
- * Action: returns a language selector dropdown with the browser (or cookie) language preselected
- * @return string
- *
- *
- */
+//
+// language_selector
+// Action: returns a language selector dropdown with the browser (or cookie) language preselected
+// Call: language_selector()
+//
 function language_selector() {
     global $supported_languages; # from languages/languages.php
 
@@ -199,7 +175,7 @@ function language_selector() {
 
     $selector = '<select name="lang" xml:lang="en" dir="ltr">';
 
-    foreach ($supported_languages as $lang => $lang_name) {
+    foreach($supported_languages as $lang => $lang_name) {
         if ($lang == $current_lang) {
             $selected = ' selected="selected"';
         } else {
@@ -215,15 +191,15 @@ function language_selector() {
 
 
 /**
- * Checks if a domain is valid
+ * Checks if a domain is valid 
  * @param string $domain
- * @return string empty if the domain is valid, otherwise string with the errormessage
+ * @return empty string if the domain is valid, otherwise string with the errormessage
  *
  * TODO: make check_domain able to handle as example .local domains
  * TODO: skip DNS check if the domain exists in PostfixAdmin?
  */
-function check_domain($domain) {
-    if (!preg_match('/^([-0-9A-Z]+\.)+' . '([-0-9A-Z]){2,13}$/i', ($domain))) {
+function check_domain ($domain) {
+    if (!preg_match ('/^([-0-9A-Z]+\.)+' . '([-0-9A-Z]){2,13}$/i', ($domain))) {
         return sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
     }
 
@@ -231,15 +207,15 @@ function check_domain($domain) {
 
         // Look for an AAAA, A, or MX record for the domain
 
-        if (function_exists('checkdnsrr')) {
+        if(function_exists('checkdnsrr')) {
             $start = microtime(true); # check for slow nameservers, part 1
 
             // AAAA (IPv6) is only available in PHP v. >= 5
-            if (version_compare(phpversion(), "5.0.0", ">=") && checkdnsrr($domain, 'AAAA')) {
+            if (version_compare(phpversion(), "5.0.0", ">=") && checkdnsrr($domain,'AAAA')) {
                 $retval = '';
-            } elseif (checkdnsrr($domain, 'A')) {
+            } elseif (checkdnsrr($domain,'A')) {
                 $retval = '';
-            } elseif (checkdnsrr($domain, 'MX')) {
+            } elseif (checkdnsrr($domain,'MX')) {
                 $retval = '';
             } else {
                 $retval = sprintf(Config::lang('pInvalidDomainDNS'), htmlentities($domain));
@@ -260,39 +236,47 @@ function check_domain($domain) {
     return '';
 }
 
+/**
+ * get_password_expiration_value
+ * Get password expiration value for a domain
+ * @param String $domain - a string that may be a domain
+ * @return password expiration value for this domain
+ * TODO: return specific value for invalid (not existing) domain
+ */
+function get_password_expiration_value ($domain) {
+	$table_domain = table_by_key('domain');
+	$query = "SELECT password_expiration_value FROM $table_domain WHERE domain='$domain'";
+	$result = db_query ($query);
+        $password_expiration_value = db_array ($result['result']);
+	return $password_expiration_value[0];
+}
 
 /**
  * check_email
  * Checks if an email is valid - if it is, return true, else false.
- * @param string $email - a string that may be an email address.
- * @return string empty if it's a valid email address, otherwise string with the errormessage
+ * @param String $email - a string that may be an email address.
+ * @return empty string if it's a valid email address, otherwise string with the errormessage
  * TODO: make check_email able to handle already added domains
  */
-function check_email($email) {
+function check_email ($email) {
     $ce_email=$email;
 
     //strip the vacation domain out if we are using it
     //and change from blah#foo.com@autoreply.foo.com to blah@foo.com
-    if (Config::bool('vacation')) {
+    if (Config::bool('vacation')) { 
         $vacation_domain = Config::read('vacation_domain');
         $ce_email = preg_replace("/@$vacation_domain\$/", '', $ce_email);
         $ce_email = preg_replace("/#/", '@', $ce_email);
     }
 
     // Perform non-domain-part sanity checks
-    if (!preg_match('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', $ce_email)) {
+    if (!preg_match ('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', $ce_email)) {
         return Config::lang_f('pInvalidMailRegex', $email);
     }
 
-    if (function_exists('filter_var')) {
-        $check = filter_var($email, FILTER_VALIDATE_EMAIL);
-        if (!$check) {
-            return Config::lang_f('pInvalidMailRegex', $email);
-        }
-    }
     // Determine domain name
     $matches=array();
-    if (!preg_match('|@(.+)$|', $ce_email, $matches)) {
+    if (!preg_match('|@(.+)$|',$ce_email,$matches)) {
         return Config::lang_f('pInvalidMailRegex', $email);
     }
     $domain=$matches[1];
@@ -307,26 +291,26 @@ function check_email($email) {
  * Clean a string, escaping any meta characters that could be
  * used to disrupt an SQL string. i.e. "'" => "\'" etc.
  *
- * @param string|array $string parameters to escape
- * @return string|array of cleaned data, suitable for use within an SQL statement.
+ * @param String (or Array) 
+ * @return String (or Array) of cleaned data, suitable for use within an SQL
+ *    statement.
  */
-function escape_string($string) {
+function escape_string ($string) {
     global $CONF;
     // if the string is actually an array, do a recursive cleaning.
     // Note, the array keys are not cleaned.
-    if (is_array($string)) {
+    if(is_array($string)) {
         $clean = array();
-        foreach ($string as $k => $v) {
-            $clean[$k] = escape_string($v);
+        foreach(array_keys($string) as $row) {
+            $clean[$row] = escape_string($string[$row]);  
         }
         return $clean;
     }
-    if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+    if (get_magic_quotes_gpc ()) {
         $string = stripslashes($string);
     }
     if (!is_numeric($string)) {
         $link = db_connect();
-
         if ($CONF['database_type'] == "mysql") {
             $escaped_string = mysql_real_escape_string($string, $link);
         }
@@ -358,75 +342,66 @@ function escape_string($string) {
  *       - or -
  *  $param = safeget('param', 'default')
  *
- * @param string $param parameter name.
- * @param string $default (optional) - default value if key is not set.
- * @return string
+ *  @param String parameter name.
+ *  @param String (optional) - default value if key is not set.
+ *  @return String 
  */
-function safeget($param, $default="") {
+function safeget ($param, $default="") {
     $retval=$default;
-    if (isset($_GET[$param])) {
-        $retval=$_GET[$param];
-    }
+    if (isset($_GET[$param])) $retval=$_GET[$param];
     return $retval;
 }
 
 /**
- * safepost - similar to safeget() but for $_POST
+ * safepost - similar to safeget()
  * @see safeget()
- * @param string $param parameter name
- * @param string $default (optional) default value (defaults to "")
- * @return string - value in $_POST[$param] or $default
+ * @param String parameter name
+ * @param String (optional) default value (defaults to "")
+ * @return String - value in $_POST[$param] or $default
+ * same as safeget, but for $_POST
  */
-function safepost($param, $default="") {
+function safepost ($param, $default="") {
     $retval=$default;
-    if (isset($_POST[$param])) {
-        $retval=$_POST[$param];
-    }
+    if (isset($_POST[$param])) $retval=$_POST[$param];
     return $retval;
 }
 
 /**
  * safeserver
  * @see safeget()
- * @param string $param
- * @param string $default (optional)
- * @return string value from $_SERVER[$param] or $default
+ * @param String $param 
+ * @param String $default (optional)
+ * @return String value from $_SERVER[$param] or $default
  */
-function safeserver($param, $default="") {
+function safeserver ($param, $default="") {
     $retval=$default;
-    if (isset($_SERVER[$param])) {
-        $retval=$_SERVER[$param];
-    }
+    if (isset($_SERVER[$param])) $retval=$_SERVER[$param];
     return $retval;
 }
 
 /**
  * safecookie
  * @see safeget()
- * @param string $param
- * @param string $default (optional)
- * @return string value from $_COOKIE[$param] or $default
+ * @param String $param 
+ * @param String $default (optional)
+ * @return String value from $_COOKIE[$param] or $default
  */
-function safecookie($param, $default="") {
+function safecookie ($param, $default="") {
     $retval=$default;
-    if (isset($_COOKIE[$param])) {
-        $retval=$_COOKIE[$param];
-    }
+    if (isset($_COOKIE[$param])) $retval=$_COOKIE[$param];
     return $retval;
 }
 
 /**
  * safesession
  * @see safeget()
- * @param string $param
- * @param string $default (optional)
- * @return string value from $_SESSION[$param] or $default
+ * @param String $param 
+ * @param String $default (optional)
+ * @return String value from $_SESSION[$param] or $default
  */
-function safesession($param, $default="") {
+function safesession ($param, $default="") {
     $retval=$default;
-    if (isset($_SESSION[$param])) {
-        $retval=$_SESSION[$param];
-    }
+    if (isset($_SESSION[$param])) $retval=$_SESSION[$param];
     return $retval;
 }
 
@@ -436,21 +411,18 @@ function safesession($param, $default="") {
  * @param int $allow_editing
  * @param int $display_in_form
  * @param int display_in_list
- * @param string $type
- * @param string PALANG_label
- * @param string PALANG_desc
+ * @param String $type
+ * @param String PALANG_label
+ * @param String PALANG_desc
  * @param any optional $default
- * @param array $options optional options
- * @param int or $not_in_db - if array, can contain the remaining parameters as associated array. Otherwise counts as $not_in_db
+ * @param array optional $options
+ * @param int or $not_in_db - if array, can contain the remaining parameters as associated array
+ * @param ...
  * @return array for $struct
  */
 function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $multiopt=0, $dont_write_to_db=0, $select="", $extrafrom="", $linkto="") {
-    if ($PALANG_label != '') {
-        $PALANG_label = Config::lang($PALANG_label);
-    }
-    if ($PALANG_desc  != '') {
-        $PALANG_desc  = Config::lang($PALANG_desc);
-    }
+    if ($PALANG_label != '') $PALANG_label = Config::lang($PALANG_label);
+    if ($PALANG_desc  != '') $PALANG_desc  = Config::lang($PALANG_desc );
 
     if (is_array($multiopt)) { # remaining parameters provided in named array
         $not_in_db = 0; # keep default value
@@ -478,12 +450,13 @@ function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALAN
     );
 }
 
-/**
- * Action: Get all the properties of a domain.
- * @param string $domain
- * @return array
- */
-function get_domain_properties($domain) {
+//
+// get_domain_properties
+// Action: Get all the properties of a domain.
+// Call: get_domain_properties (string domain)
+//
+function get_domain_properties ($domain) {
+
     $handler = new DomainHandler();
     if (!$handler->init($domain)) {
         die("Error: " . join("\n", $handler->errormsg));
@@ -503,9 +476,9 @@ function get_domain_properties($domain) {
  * Action: Get page browser for a long list of mailboxes, aliases etc.
  * Call: $pagebrowser = create_page_browser('table.field', 'query', 50)   # replaces $param = $_GET['param']
  *
- * @param string $idxfield - database field name to use as title
- * @param string $querypart - core part of the query (starting at "FROM")
- * @return array
+ *  @param String idxfield - database field name to use as title
+ *  @param String query - core part of the query (starting at "FROM")
+ *  @return String 
  */
 function create_page_browser($idxfield, $querypart) {
     global $CONF;
@@ -519,12 +492,12 @@ function create_page_browser($idxfield, $querypart) {
 
     # get number of rows
     $query = "SELECT count(*) as counter FROM (SELECT $idxfield $querypart) AS tmp";
-    $result = db_query($query);
+    $result = db_query ($query);
     if ($result['rows'] > 0) {
-        $row = db_assoc($result['result']);
+        $row = db_array ($result['result']);
         $count_results = $row['counter'] -1; # we start counting at 0, not 1
     }
-    #    echo "<p>rows: " . ($count_results +1) . " --- $query";
+#    echo "<p>rows: " . ($count_results +1) . " --- $query";
 
     if ($count_results < $page_size) {
         return array(); # only one page - no pagebrowser required
@@ -536,23 +509,23 @@ function create_page_browser($idxfield, $querypart) {
         $initcount = "CREATE TEMPORARY SEQUENCE rowcount MINVALUE 0";
     }
     if (!db_sqlite()) {
-        db_query($initcount);
+        $result = db_query($initcount);
     }
 
     # get labels for relevant rows (first and last of each page)
     $page_size_zerobase = $page_size - 1;
     $query = "
         SELECT * FROM (
-            SELECT $idxfield AS label, @row := @row + 1 AS 'row' $querypart
+            SELECT $idxfield AS label, @row := @row + 1 AS row $querypart 
         ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
-    ";
+    "; 
 
     if (db_pgsql()) {
         $query = "
             SELECT * FROM (
-                SELECT $idxfield AS label, nextval('rowcount') AS row $querypart
+                SELECT $idxfield AS label, nextval('rowcount') AS row $querypart 
             ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
-        ";
+        "; 
     }
 
     if (db_sqlite()) {
@@ -563,59 +536,65 @@ function create_page_browser($idxfield, $querypart) {
                 WHERE (row % $page_size) IN (0,$page_size_zerobase) OR row = $count_results";
     }
 
-    # PostgreSQL:
-    # http://www.postgresql.org/docs/8.1/static/sql-createsequence.html
-    # http://www.postgresonline.com/journal/archives/79-Simulating-Row-Number-in-PostgreSQL-Pre-8.4.html
-    # http://www.pg-forum.de/sql/1518-nummerierung-der-abfrageergebnisse.html
-    # CREATE TEMPORARY SEQUENCE foo MINVALUE 0 MAXVALUE $page_size_zerobase CYCLE
-    # afterwards: DROP SEQUENCE foo
+#   echo "<p>$query";
 
-    $result = db_query($query);
+# TODO: $query is MySQL-specific
+
+# PostgreSQL: 
+# http://www.postgresql.org/docs/8.1/static/sql-createsequence.html
+# http://www.postgresonline.com/journal/archives/79-Simulating-Row-Number-in-PostgreSQL-Pre-8.4.html
+# http://www.pg-forum.de/sql/1518-nummerierung-der-abfrageergebnisse.html
+# CREATE TEMPORARY SEQUENCE foo MINVALUE 0 MAXVALUE $page_size_zerobase CYCLE
+# afterwards: DROP SEQUENCE foo
+
+    $result = db_query ($query);
     if ($result['rows'] > 0) {
-        while ($row = db_assoc($result['result'])) {
-            if ($row2 = db_assoc($result['result'])) {
-                $label = substr($row['label'], 0, $label_len) . '-' . substr($row2['label'], 0, $label_len);
+        while ($row = db_array ($result['result'])) {
+            if ($row2 = db_array ($result['result'])) {
+                $label = substr($row['label'],0,$label_len) . '-' . substr($row2['label'],0,$label_len);
                 $pagebrowser[] = $label;
             } else { # only one row remaining
-                $label = substr($row['label'], 0, $label_len);
+                $label = substr($row['label'],0,$label_len);
                 $pagebrowser[] = $label;
             }
         }
     }
 
     if (db_pgsql()) {
-        db_query("DROP SEQUENCE rowcount");
+        db_query ("DROP SEQUENCE rowcount");
     }
 
     return $pagebrowser;
 }
 
 
-/**
- * Recalculates the quota from MBs to bytes (divide, /)
- * @param int $quota
- * @return float
- */
-function divide_quota($quota) {
-    if ($quota == -1) {
-        return $quota;
-    }
-    $value = round($quota / Config::read('quota_multiplier'), 2);
+
+
+
+
+//
+// divide_quota
+// Action: Recalculates the quota from MBs to bytes (divide, /)
+// Call: divide_quota (string $quota)
+//
+function divide_quota ($quota) {
+    if ($quota == -1) return $quota;
+    $value = round($quota / Config::read('quota_multiplier'),2);
     return $value;
 }
 
 
-/**
- * Checks if the admin is the owner of the domain (or global-admin)
- * @param string $username
- * @param string $domain
- * @return bool
- */
-function check_owner($username, $domain) {
+
+//
+// check_owner
+// Action: Checks if the admin is the owner of the domain (or global-admin)
+// Call: check_owner (string admin, string domain)
+//
+function check_owner ($username, $domain) {
     $table_domain_admins = table_by_key('domain_admins');
     $E_username = escape_string($username);
     $E_domain = escape_string($domain);
-    $result = db_query("SELECT 1 FROM $table_domain_admins WHERE username='$E_username' AND (domain='$E_domain' OR domain='ALL') AND active='1'");
+    $result = db_query ("SELECT 1 FROM $table_domain_admins WHERE username='$E_username' AND (domain='$E_domain' OR domain='ALL') AND active='1'");
 
     if ($result['rows'] == 1 || $result['rows'] == 2) { # "ALL" + specific domain permissions is possible
         # TODO: if superadmin, check if given domain exists in the database
@@ -632,11 +611,11 @@ function check_owner($username, $domain) {
 
 
 /**
- * List domains for an admin user.
+ * List domains for an admin user. 
  * @param String $username
  * @return array of domain names.
  */
-function list_domains_for_admin($username) {
+function list_domains_for_admin ($username) {
     $table_domain = table_by_key('domain');
     $table_domain_admins = table_by_key('domain_admins');
 
@@ -645,22 +624,22 @@ function list_domains_for_admin($username) {
     $query = "SELECT $table_domain.domain FROM $table_domain ";
     $condition[] = "$table_domain.domain != 'ALL'";
 
-    $result = db_query("SELECT username FROM $table_domain_admins WHERE username='$E_username' AND domain='ALL'");
+    $result = db_query ("SELECT username FROM $table_domain_admins WHERE username='$E_username' AND domain='ALL'");
     if ($result['rows'] < 1) { # not a superadmin
         $query .= " LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain ";
         $condition[] = "$table_domain_admins.username='$E_username' ";
         $condition[] = "$table_domain.active='"   . db_get_boolean(true)  . "'"; # TODO: does it really make sense to exclude inactive...
-        $condition[] = "$table_domain.backupmx='" . db_get_boolean(false) . "'"; # TODO: ... and backupmx domains for non-superadmins?
+        $condition[] = "$table_domain.backupmx='" . db_get_boolean(False) . "'"; # TODO: ... and backupmx domains for non-superadmins?
     }
 
     $query .= " WHERE " . join(' AND ', $condition);
     $query .= " ORDER BY $table_domain.domain";
 
-    $list = array();
-    $result = db_query($query);
+    $list = array ();
+    $result = db_query ($query);
     if ($result['rows'] > 0) {
         $i = 0;
-        while ($row = db_assoc($result['result'])) {
+        while ($row = db_array ($result['result'])) {
             $list[$i] = $row['domain'];
             $i++;
         }
@@ -669,19 +648,20 @@ function list_domains_for_admin($username) {
 }
 
 
-/**
- * List all available domains.
- *
- * @return array
- */
-function list_domains() {
+
+//
+// list_domains
+// Action: List all available domains.
+// Call: list_domains ()
+//
+function list_domains () {
     $list = array();
 
     $table_domain = table_by_key('domain');
-    $result = db_query("SELECT domain FROM $table_domain WHERE domain!='ALL' ORDER BY domain");
+    $result = db_query ("SELECT domain FROM $table_domain WHERE domain!='ALL' ORDER BY domain");
     if ($result['rows'] > 0) {
         $i = 0;
-        while ($row = db_assoc($result['result'])) {
+        while ($row = db_array ($result['result'])) {
             $list[$i] = $row['domain'];
             $i++;
         }
@@ -699,7 +679,7 @@ function list_domains() {
 //
 // was admin_list_admins
 //
-function list_admins() {
+function list_admins () {
     $handler = new AdminHandler();
 
     $handler->getList('');
@@ -713,14 +693,14 @@ function list_admins() {
 // Action: Encode a string according to RFC 1522 for use in headers if it contains 8-bit characters.
 // Call: encode_header (string header, string charset)
 //
-function encode_header($string, $default_charset = "utf-8") {
-    if (strtolower($default_charset) == 'iso-8859-1') {
-        $string = str_replace("\240", ' ', $string);
+function encode_header ($string, $default_charset = "utf-8") {
+    if (strtolower ($default_charset) == 'iso-8859-1') {
+        $string = str_replace ("\240",' ',$string);
     }
 
-    $j = strlen($string);
-    $max_l = 75 - strlen($default_charset) - 7;
-    $aRet = array();
+    $j = strlen ($string);
+    $max_l = 75 - strlen ($default_charset) - 7;
+    $aRet = array ();
     $ret = '';
     $iEncStart = $enc_init = false;
     $cur_l = $iOffset = 0;
@@ -738,20 +718,20 @@ function encode_header($string, $default_charset = "utf-8") {
                 }
                 $cur_l+=3;
                 if ($cur_l > ($max_l-2)) {
-                    $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+                    $aRet[] = substr ($string,$iOffset,$iEncStart-$iOffset);
                     $aRet[] = "=?$default_charset?Q?$ret?=";
                     $iOffset = $i;
                     $cur_l = 0;
                     $ret = '';
                     $iEncStart = false;
                 } else {
-                    $ret .= sprintf("=%02X", ord($string{$i}));
+                    $ret .= sprintf ("=%02X",ord($string{$i}));
                 }
                 break;
             case '(':
             case ')':
                 if ($iEncStart !== false) {
-                    $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+                    $aRet[] = substr ($string,$iOffset,$iEncStart-$iOffset);
                     $aRet[] = "=?$default_charset?Q?$ret?=";
                     $iOffset = $i;
                     $cur_l = 0;
@@ -763,7 +743,7 @@ function encode_header($string, $default_charset = "utf-8") {
                 if ($iEncStart !== false) {
                     $cur_l++;
                     if ($cur_l > $max_l) {
-                        $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+                        $aRet[] = substr ($string,$iOffset,$iEncStart-$iOffset);
                         $aRet[] = "=?$default_charset?Q?$ret?=";
                         $iOffset = $i;
                         $cur_l = 0;
@@ -775,21 +755,21 @@ function encode_header($string, $default_charset = "utf-8") {
                 }
                 break;
             default:
-                $k = ord($string{$i});
+                $k = ord ($string{$i});
                 if ($k > 126) {
                     if ($iEncStart === false) {
                         // do not start encoding in the middle of a string, also take the rest of the word.
-                        $sLeadString = substr($string, 0, $i);
-                        $aLeadString = explode(' ', $sLeadString);
-                        $sToBeEncoded = array_pop($aLeadString);
-                        $iEncStart = $i - strlen($sToBeEncoded);
+                        $sLeadString = substr ($string,0,$i);
+                        $aLeadString = explode (' ',$sLeadString);
+                        $sToBeEncoded = array_pop ($aLeadString);
+                        $iEncStart = $i - strlen ($sToBeEncoded);
                         $ret .= $sToBeEncoded;
-                        $cur_l += strlen($sToBeEncoded);
+                        $cur_l += strlen ($sToBeEncoded);
                     }
                     $cur_l += 3;
                     // first we add the encoded string that reached it's max size
                     if ($cur_l > ($max_l-2)) {
-                        $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+                        $aRet[] = substr ($string,$iOffset,$iEncStart-$iOffset);
                         $aRet[] = "=?$default_charset?Q?$ret?= ";
                         $cur_l = 3;
                         $ret = '';
@@ -797,12 +777,12 @@ function encode_header($string, $default_charset = "utf-8") {
                         $iEncStart = $i;
                     }
                     $enc_init = true;
-                    $ret .= sprintf("=%02X", $k);
+                    $ret .= sprintf ("=%02X", $k);
                 } else {
                     if ($iEncStart !== false) {
                         $cur_l++;
                         if ($cur_l > $max_l) {
-                            $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+                            $aRet[] = substr ($string,$iOffset,$iEncStart-$iOffset);
                             $aRet[] = "=?$default_charset?Q?$ret?=";
                             $iEncStart = false;
                             $iOffset = $i;
@@ -819,30 +799,26 @@ function encode_header($string, $default_charset = "utf-8") {
     }
     if ($enc_init) {
         if ($iEncStart !== false) {
-            $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+            $aRet[] = substr ($string,$iOffset,$iEncStart-$iOffset);
             $aRet[] = "=?$default_charset?Q?$ret?=";
         } else {
-            $aRet[] = substr($string, $iOffset);
+            $aRet[] = substr ($string,$iOffset);
         }
-        $string = implode('', $aRet);
+        $string = implode ('',$aRet);
     }
     return $string;
 }
 
 
-if (!function_exists('random_int')) { // PHP version < 7.0
-    function random_int() { // someone might not be using php_crypt or ask for password generation, in which case random_int() won't be called
-        die(__FILE__ . " Postfixadmin security: Please install https://github.com/paragonie/random_compat OR enable the 'Phar' extension.");
-    }
-}
 
-/**
- * Generate a random password of $length characters.
- * @param int $length (optional, default: 12)
- * @return string
- *
- */
-function generate_password($length = 12) {
+//
+// generate_password
+// Action: Generates a random password
+// Call: generate_password ()
+//
+function generate_password () {
+    // length of the generated password
+    $length = 8;
 
     // define possible characters
     $possible = "2345678923456789abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ"; # skip 0 and 1 to avoid confusion with O and l
@@ -850,8 +826,8 @@ function generate_password($length = 12) {
     // add random characters to $password until $length is reached
     $password = "";
     while (strlen($password) < $length) {
-        $random = random_int(0, strlen($possible) -1);
-        $char = substr($possible, $random, 1);
+        // pick a random character from the possible ones
+        $char = substr($possible, mt_rand(0, strlen($possible)-1), 1);
 
         // we don't want this character if it's already in the password
         if (!strstr($password, $char)) {
@@ -866,7 +842,7 @@ function generate_password($length = 12) {
 
 /**
  * Check if a password is strong enough based on the conditions in $CONF['password_validation']
- * @param string $password
+ * @param String $password
  * @return array of error messages, or empty array if the password is ok
  */
 function validate_password($password) {
@@ -892,330 +868,164 @@ function validate_password($password) {
     return $result;
 }
 
-function _pacrypt_md5crypt($pw, $pw_db) {
-    $split_salt = preg_split('/\$/', $pw_db);
-    if (isset($split_salt[2])) {
-        $salt = $split_salt[2];
-        return md5crypt($pw, $salt);
-    }
-
-    return md5crypt($pw);
-}
-
-function _pacrypt_crypt($pw, $pw_db) {
-    if ($pw_db) {
-        return crypt($pw, $pw_db);
-    }
-    return crypt($pw);
-}
-
-function _pacrypt_mysql_encrypt($pw, $pw_db) {
-    // See https://sourceforge.net/tracker/?func=detail&atid=937966&aid=1793352&group_id=191583
-    // this is apparently useful for pam_mysql etc.
-    $pw = escape_string($pw);
-    if ($pw_db!="") {
-        $salt=escape_string(substr($pw_db, 0, 2));
-        $res=db_query("SELECT ENCRYPT('".$pw."','".$salt."');");
-    } else {
-        $res=db_query("SELECT ENCRYPT('".$pw."');");
-    }
-    $l = db_row($res["result"]);
-    $password = $l[0];
-    return $password;
-}
-
-function _pacrypt_authlib($pw, $pw_db) {
-    global $CONF;
-    $flavor = $CONF['authlib_default_flavor'];
-    $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
-    if (preg_match('/^{.*}/', $pw_db)) {
-        // we have a flavor in the db -> use it instead of default flavor
-        $result = preg_split('/[{}]/', $pw_db, 3); # split at { and/or }
-        $flavor = $result[1];
-        $salt = substr($result[2], 0, 2);
-    }
-
-    if (stripos($flavor, 'md5raw') === 0) {
-        $password = '{' . $flavor . '}' . md5($pw);
-    } elseif (stripos($flavor, 'md5') === 0) {
-        $password = '{' . $flavor . '}' . base64_encode(md5($pw, true));
-    } elseif (stripos($flavor, 'crypt') === 0) {
-        $password = '{' . $flavor . '}' . crypt($pw, $salt);
-    } elseif (stripos($flavor, 'SHA') === 0) {
-        $password = '{' . $flavor . '}' . base64_encode(sha1($pw, true));
-    } else {
-        die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5', 'SHA' and 'crypt'");
-    }
-    return $password;
-}
 
 /**
- * @param string $pw - plain text password
- * @param string $pw_db - encrypted password, or '' for generation.
- * @return string
- */
-function _pacrypt_dovecot($pw, $pw_db) {
-    global $CONF;
-
-    $split_method = preg_split('/:/', $CONF['encrypt']);
-    $method       = strtoupper($split_method[1]);
-    # If $pw_db starts with {method}, change $method accordingly
-    if (!empty($pw_db) && preg_match('/^\{([A-Z0-9.-]+)\}.+/', $pw_db, $method_matches)) {
-        $method = $method_matches[1];
-    }
-    if (! preg_match("/^[A-Z0-9.-]+$/", $method)) {
-        die("invalid dovecot encryption method");
-    }
-
-    # TODO: check against a fixed list?
-    # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead.");
-    # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
-
-    # digest-md5 and SCRAM-SHA-1 hashes include the username - until someone implements it, let's declare it as unsupported
-    if (strtolower($method) == 'digest-md5') {
-        die("Sorry, \$CONF['encrypt'] = 'dovecot:digest-md5' is not supported by PostfixAdmin.");
-    }
-    if (strtoupper($method) == 'SCRAM-SHA-1') {
-        die("Sorry, \$CONF['encrypt'] = 'dovecot:scram-sha-1' is not supported by PostfixAdmin.");
-    }
-    # TODO: add -u option for those hashes, or for everything that is salted (-u was available before dovecot 2.1 -> no problem with backward compatibility )
-
-    $dovecotpw = "doveadm pw";
-    if (!empty($CONF['dovecotpw'])) {
-        $dovecotpw = $CONF['dovecotpw'];
-    }
-
-    # Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-    $spec = array(
-        0 => array("pipe", "r"), // stdin
-        1 => array("pipe", "w"), // stdout
-        2 => array("pipe", "w"), // stderr
-    );
-
-    $nonsaltedtypes = "SHA|SHA1|SHA256|SHA512|CLEAR|CLEARTEXT|PLAIN|PLAIN-TRUNC|CRAM-MD5|HMAC-MD5|PLAIN-MD4|PLAIN-MD5|LDAP-MD5|LANMAN|NTLM|RPA";
-    $salted = ! preg_match("/^($nonsaltedtypes)(\.B64|\.BASE64|\.HEX)?$/", strtoupper($method));
-
-    $dovepasstest = '';
-    if ($salted && (!empty($pw_db))) {
-        # only use -t for salted passwords to be backward compatible with dovecot < 2.1
-        $dovepasstest = " -t " . escapeshellarg($pw_db);
-    }
-    $pipe = proc_open("$dovecotpw '-s' $method$dovepasstest", $spec, $pipes);
-
-    if (!$pipe) {
-        die("can't proc_open $dovecotpw");
-    }
-
-    // use dovecot's stdin, it uses getpass() twice (except when using -t)
-    // Write pass in pipe stdin
-    if (empty($dovepasstest)) {
-        fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
-        usleep(1000);
-    }
-    fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
-    fclose($pipes[0]);
-
-    // Read hash from pipe stdout
-    $password = fread($pipes[1], "200");
-
-    if (empty($dovepasstest)) {
-        if (!preg_match('/^\{' . $method . '\}/', $password)) {
-            $stderr_output = stream_get_contents($pipes[2]);
-            error_log('dovecotpw password encryption failed. STDERR output: '. $stderr_output);
-            die("can't encrypt password with dovecotpw, see error log for details");
-        }
-    } else {
-        if (!preg_match('(verified)', $password)) {
-            $password="Thepasswordcannotbeverified";
-        } else {
-            $password = rtrim(str_replace('(verified)', '', $password));
-        }
-    }
-
-    fclose($pipes[1]);
-    fclose($pipes[2]);
-    proc_close($pipe);
-
-    if ((!empty($pw_db)) && (substr($pw_db, 0, 1) != '{')) {
-        # for backward compability with "old" dovecot passwords that don't have the {method} prefix
-        $password = str_replace('{' . $method . '}', '', $password);
-    }
-
-    return rtrim($password);
-}
-
-/**
- * @param string $pw
- * @param string $pw_db (can be empty if setting a new password)
- * @return string
- */
-function _pacrypt_php_crypt($pw, $pw_db) {
-    global $CONF;
-
-    // use PHPs crypt(), which uses the system's crypt()
-    // same algorithms as used in /etc/shadow
-    // you can have mixed hash types in the database for authentication, changed passwords get specified hash type
-    // the algorithm for a new hash is chosen by feeding a salt with correct magic to crypt()
-    // set $CONF['encrypt'] to 'php_crypt' to use the default SHA512 crypt method
-    // set $CONF['encrypt'] to 'php_crypt:METHOD' to use another method; methods supported: DES, MD5, BLOWFISH, SHA256, SHA512
-    // tested on linux
-
-    if (strlen($pw_db) > 0) {
-        // existing pw provided. send entire password hash as salt for crypt() to figure out
-        $salt = $pw_db;
-    } else {
-        $salt_method = 'SHA512'; // hopefully a reasonable default (better than MD5)
-        $hash_difficulty = '';
-        // no pw provided. create new password hash
-        if (strpos($CONF['encrypt'], ':') !== false) {
-            // use specified hash method
-            $split_method = explode(':', $CONF['encrypt']);
-            $salt_method = $split_method[1];
-            if (count($split_method) >= 3) {
-                $hash_difficulty = $split_method[2];
-            }
-        }
-        // create appropriate salt for selected hash method
-        $salt = _php_crypt_generate_crypt_salt($salt_method, $hash_difficulty);
-    }
-    // send it to PHPs crypt()
-    $password = crypt($pw, $salt);
-    return $password;
-}
-
-/**
- * @param string $hash_type must be one of: MD5, DES, BLOWFISH, SHA256 or SHA512  (default)
- * @param int hash difficulty
- * @return string
- */
-function _php_crypt_generate_crypt_salt($hash_type='SHA512', $hash_difficulty=null) {
-    // generate a salt (with magic matching chosen hash algorithm) for the PHP crypt() function
-
-    // most commonly used alphabet
-    $alphabet = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-
-    switch ($hash_type) {
-    case 'DES':
-        $alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        $length = 2;
-        $salt = _php_crypt_random_string($alphabet, $length);
-        return $salt;
-
-    case 'MD5':
-        $length = 12;
-        $algorithm = '1';
-        $salt = _php_crypt_random_string($alphabet, $length);
-        return sprintf('$%s$%s', $algorithm, $salt);
-
-    case 'BLOWFISH':
-        $length = 22;
-        if (empty($hash_difficulty)) {
-            $cost = 10;
-        } else {
-            $cost = (int)$hash_difficulty;
-            if ($cost < 4 || $cost > 31) {
-                die('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 4-31');
-            }
-        }
-        if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
-            $algorithm = '2y'; // bcrypt, with fixed unicode problem
-        } else {
-            $algorithm = '2a'; // bcrypt
-        }
-        $salt = _php_crypt_random_string($alphabet, $length);
-        return sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
-
-    case 'SHA256':
-        $length = 16;
-        $algorithm = '5';
-        if (empty($hash_difficulty)) {
-            $rounds = '';
-        } else {
-            $rounds = (int)$hash_difficulty;
-            if ($rounds < 1000 || $rounds > 999999999) {
-                die('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
-            }
-        }
-        $salt = _php_crypt_random_string($alphabet, $length);
-        if (!empty($rounds)) {
-            $rounds = sprintf('rounds=%d$', $rounds);
-        }
-        return sprintf('$%s$%s%s', $algorithm, $rounds, $salt);
-
-    case 'SHA512':
-        $length = 16;
-        $algorithm = '6';
-        if (empty($hash_difficulty)) {
-            $rounds = '';
-        } else {
-            $rounds = (int)$hash_difficulty;
-            if ($rounds < 1000 || $rounds > 999999999) {
-                die('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
-            }
-        }
-        $salt = _php_crypt_random_string($alphabet, $length);
-        if (!empty($rounds)) {
-            $rounds = sprintf('rounds=%d$', $rounds);
-        }
-        return sprintf('$%s$%s%s', $algorithm, $rounds, $salt);
-
-    default:
-        die("unknown hash type: '$hash_type'");
-    }
-}
-
-/**
- * Generates a random string of specified $length from $characters.
- * @param string $characters
- * @param int $length
- * @return string of given $length
- */
-function _php_crypt_random_string($characters, $length) {
-    $string = '';
-    for ($p = 0; $p < $length; $p++) {
-        $string .= $characters[random_int(0, strlen($characters) -1)];
-    }
-    return $string;
-}
-
-
-/**
- * Encrypt a password, using the apparopriate hashing mechanism as defined in
- * config.inc.php ($CONF['encrypt']).
+ * Encrypt a password, using the apparopriate hashing mechanism as defined in 
+ * config.inc.php ($CONF['encrypt']). 
  * When wanting to compare one pw to another, it's necessary to provide the salt used - hence
  * the second parameter ($pw_db), which is the existing hash from the DB.
  *
  * @param string $pw
- * @param string $pw_db optional encrypted password
+ * @param string $encrypted password
  * @return string encrypted password.
  */
-function pacrypt($pw, $pw_db="") {
+function pacrypt ($pw, $pw_db="") {
     global $CONF;
+    $password = "";
+    $salt = "";
 
-    switch ($CONF['encrypt']) {
-        case 'md5crypt':
-            return _pacrypt_md5crypt($pw, $pw_db);
-        case 'md5':
-            return md5($pw);
-        case 'system':
-            return _pacrypt_crypt($pw, $pw_db);
-        case 'cleartext':
-            return $pw;
-        case 'mysql_encrypt':
-            return _pacrypt_mysql_encrypt($pw, $pw_db);
-        case 'authlib':
-            return _pacrypt_authlib($pw, $pw_db);
+    if ($CONF['encrypt'] == 'md5crypt') {
+        $split_salt = preg_split ('/\$/', $pw_db);
+        if (isset ($split_salt[2])) {
+            $salt = $split_salt[2];
+        }
+        $password = md5crypt ($pw, $salt);
     }
 
-    if (preg_match("/^dovecot:/", $CONF['encrypt'])) {
-        return _pacrypt_dovecot($pw, $pw_db);
+    elseif ($CONF['encrypt'] == 'md5') {
+        $password = md5($pw);
     }
 
-    if (substr($CONF['encrypt'], 0, 9) === 'php_crypt') {
-        return _pacrypt_php_crypt($pw, $pw_db);
+    elseif ($CONF['encrypt'] == 'system') {
+        if ($pw_db) {
+            $password = crypt($pw, $pw_db);
+        } else {
+            $password = crypt($pw);
+        }
     }
 
-    die('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
+    elseif ($CONF['encrypt'] == 'cleartext') {
+        $password = $pw;
+    }
+
+    // See https://sourceforge.net/tracker/?func=detail&atid=937966&aid=1793352&group_id=191583
+    // this is apparently useful for pam_mysql etc.
+    elseif ($CONF['encrypt'] == 'mysql_encrypt') {
+        $pw = escape_string($pw);
+        if ($pw_db!="") {
+            $salt=escape_string(substr($pw_db,0,2));
+            $res=db_query("SELECT ENCRYPT('".$pw."','".$salt."');");
+        } else {
+            $res=db_query("SELECT ENCRYPT('".$pw."');");
+        }
+        $l = db_row($res["result"]);
+        $password = $l[0];
+    }
+    
+    elseif ($CONF['encrypt'] == 'authlib') {
+        $flavor = $CONF['authlib_default_flavor'];
+        $salt = substr(create_salt(), 0, 2); # courier-authlib supports only two-character salts
+        if(preg_match('/^{.*}/', $pw_db)) {
+            // we have a flavor in the db -> use it instead of default flavor
+            $result = preg_split('/[{}]/', $pw_db, 3); # split at { and/or }
+            $flavor = $result[1];  
+            $salt = substr($result[2], 0, 2);
+        }
+ 
+        if(stripos($flavor, 'md5raw') === 0) {
+            $password = '{' . $flavor . '}' . md5($pw);
+        } elseif(stripos($flavor, 'md5') === 0) {
+            $password = '{' . $flavor . '}' . base64_encode(md5($pw, TRUE));
+        } elseif(stripos($flavor, 'crypt') === 0) {
+            $password = '{' . $flavor . '}' . crypt($pw, $salt);
+		} elseif(stripos($flavor, 'SHA') === 0) {
+			$password = '{' . $flavor . '}' . base64_encode(sha1($pw, TRUE));
+        } else {
+            die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5', 'SHA' and 'crypt'");
+        }
+    }
+    
+    elseif (preg_match("/^dovecot:/", $CONF['encrypt'])) {
+        $split_method = preg_split ('/:/', $CONF['encrypt']);
+        $method       = strtoupper($split_method[1]);
+        # If $pw_db starts with {method}, change $method accordingly
+        if (!empty($pw_db) && preg_match('/^\{([A-Z0-9.-]+)\}.+/', $pw_db, $method_matches)) { $method = $method_matches[1]; }
+        if (! preg_match("/^[A-Z0-9.-]+$/", $method)) { die("invalid dovecot encryption method"); }  # TODO: check against a fixed list?
+        # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead."); 
+        # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
+
+        # digest-md5 and SCRAM-SHA-1 hashes include the username - until someone implements it, let's declare it as unsupported
+        if (strtolower($method) == 'digest-md5') die("Sorry, \$CONF['encrypt'] = 'dovecot:digest-md5' is not supported by PostfixAdmin.");
+        if (strtoupper($method) == 'SCRAM-SHA-1') die("Sorry, \$CONF['encrypt'] = 'dovecot:scram-sha-1' is not supported by PostfixAdmin.");
+        # TODO: add -u option for those hashes, or for everything that is salted (-u was available before dovecot 2.1 -> no problem with backward compability)
+
+        $dovecotpw = "doveadm pw";
+        if (!empty($CONF['dovecotpw'])) $dovecotpw = $CONF['dovecotpw'];
+
+        # Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
+        $spec = array(
+			0 => array("pipe", "r"), // stdin
+			1 => array("pipe", "w"), // stdout
+			2 => array("pipe", "w"), // stderr
+		);
+
+        $nonsaltedtypes = "SHA|SHA1|SHA256|SHA512|CLEAR|CLEARTEXT|PLAIN|PLAIN-TRUNC|CRAM-MD5|HMAC-MD5|PLAIN-MD4|PLAIN-MD5|LDAP-MD5|LANMAN|NTLM|RPA";
+        $salted = ! preg_match("/^($nonsaltedtypes)(\.B64|\.BASE64|\.HEX)?$/", strtoupper($method) );
+
+        $dovepasstest = '';
+        if ( $salted && (!empty($pw_db)) ) {
+            # only use -t for salted passwords to be backward compatible with dovecot < 2.1
+            $dovepasstest = " -t " . escapeshellarg($pw_db);
+        }
+        $pipe = proc_open("$dovecotpw '-s' $method$dovepasstest", $spec, $pipes);
+
+        if (!$pipe) {
+            die("can't proc_open $dovecotpw");
+        } else {
+            // use dovecot's stdin, it uses getpass() twice (except when using -t)
+			// Write pass in pipe stdin
+            if (empty($dovepasstest)) {
+                fwrite($pipes[0], $pw . "\n", 1+strlen($pw)); usleep(1000);
+            }
+			fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
+			fclose($pipes[0]);
+
+			// Read hash from pipe stdout
+			$password = fread($pipes[1], "200");
+
+            if (empty($dovepasstest)) {
+                if ( !preg_match('/^\{' . $method . '\}/', $password)) {
+                    $stderr_output = stream_get_contents($pipes[2]);
+                    error_log('dovecotpw password encryption failed.');
+                    error_log('STDERR output: ' . $stderr_output);
+                    die("can't encrypt password with dovecotpw, see error log for details");
+                }
+            } else {
+                if ( !preg_match('(verified)', $password)) {
+                    $password="Thepasswordcannotbeverified";
+                } else {
+                    $password = rtrim(str_replace('(verified)', '', $password));
+                }
+            }
+
+			fclose($pipes[1]);
+			fclose($pipes[2]);
+			proc_close($pipe);
+
+            if ( (!empty($pw_db)) && (substr($pw_db,0,1) != '{') ) {
+                # for backward compability with "old" dovecot passwords that don't have the {method} prefix
+                $password = str_replace('{' . $method . '}', '', $password);
+            }
+
+            $password = rtrim($password);
+        }
+    }
+
+    else {
+        die ('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
+    }
+
+    return $password;
 }
 
 //
@@ -1224,91 +1034,77 @@ function pacrypt($pw, $pw_db="") {
 // Call: md5crypt (string cleartextpassword)
 //
 
-function md5crypt($pw, $salt="", $magic="") {
+function md5crypt ($pw, $salt="", $magic="") {
     $MAGIC = "$1$";
 
-    if ($magic == "") {
-        $magic = $MAGIC;
-    }
-    if ($salt == "") {
-        $salt = create_salt();
-    }
-    $slist = explode("$", $salt);
-    if ($slist[0] == "1") {
-        $salt = $slist[1];
-    }
+    if ($magic == "") $magic = $MAGIC;
+    if ($salt == "") $salt = create_salt ();
+    $slist = explode ("$", $salt);
+    if ($slist[0] == "1") $salt = $slist[1];
 
-    $salt = substr($salt, 0, 8);
+    $salt = substr ($salt, 0, 8);
     $ctx = $pw . $magic . $salt;
-    $final = hex2bin(md5($pw . $salt . $pw));
+    $final = hex2bin (md5 ($pw . $salt . $pw));
 
-    for ($i=strlen($pw); $i>0; $i-=16) {
+    for ($i=strlen ($pw); $i>0; $i-=16) {
         if ($i > 16) {
-            $ctx .= substr($final, 0, 16);
+            $ctx .= substr ($final,0,16);
         } else {
-            $ctx .= substr($final, 0, $i);
+            $ctx .= substr ($final,0,$i);
         }
     }
-    $i = strlen($pw);
+    $i = strlen ($pw);
 
     while ($i > 0) {
-        if ($i & 1) {
-            $ctx .= chr(0);
-        } else {
-            $ctx .= $pw[0];
-        }
+        if ($i & 1) $ctx .= chr (0);
+        else $ctx .= $pw[0];
         $i = $i >> 1;
     }
-    $final = hex2bin(md5($ctx));
+    $final = hex2bin (md5 ($ctx));
 
     for ($i=0;$i<1000;$i++) {
         $ctx1 = "";
         if ($i & 1) {
             $ctx1 .= $pw;
         } else {
-            $ctx1 .= substr($final, 0, 16);
+            $ctx1 .= substr ($final,0,16);
         }
-        if ($i % 3) {
-            $ctx1 .= $salt;
-        }
-        if ($i % 7) {
-            $ctx1 .= $pw;
-        }
+        if ($i % 3) $ctx1 .= $salt;
+        if ($i % 7) $ctx1 .= $pw;
         if ($i & 1) {
-            $ctx1 .= substr($final, 0, 16);
+            $ctx1 .= substr ($final,0,16);
         } else {
             $ctx1 .= $pw;
         }
-        $final = hex2bin(md5($ctx1));
+        $final = hex2bin (md5 ($ctx1));
     }
     $passwd = "";
-    $passwd .= to64(((ord($final[0]) << 16) | (ord($final[6]) << 8) | (ord($final[12]))), 4);
-    $passwd .= to64(((ord($final[1]) << 16) | (ord($final[7]) << 8) | (ord($final[13]))), 4);
-    $passwd .= to64(((ord($final[2]) << 16) | (ord($final[8]) << 8) | (ord($final[14]))), 4);
-    $passwd .= to64(((ord($final[3]) << 16) | (ord($final[9]) << 8) | (ord($final[15]))), 4);
-    $passwd .= to64(((ord($final[4]) << 16) | (ord($final[10]) << 8) | (ord($final[5]))), 4);
-    $passwd .= to64(ord($final[11]), 2);
+    $passwd .= to64 (((ord ($final[0]) << 16) | (ord ($final[6]) << 8) | (ord ($final[12]))), 4);
+    $passwd .= to64 (((ord ($final[1]) << 16) | (ord ($final[7]) << 8) | (ord ($final[13]))), 4);
+    $passwd .= to64 (((ord ($final[2]) << 16) | (ord ($final[8]) << 8) | (ord ($final[14]))), 4);
+    $passwd .= to64 (((ord ($final[3]) << 16) | (ord ($final[9]) << 8) | (ord ($final[15]))), 4);
+    $passwd .= to64 (((ord ($final[4]) << 16) | (ord ($final[10]) << 8) | (ord ($final[5]))), 4);
+    $passwd .= to64 (ord ($final[11]), 2);
     return "$magic$salt\$$passwd";
 }
 
-function create_salt() {
-    srand((double) microtime()*1000000);
-    $salt = substr(md5(rand(0, 9999999)), 0, 8);
+function create_salt () {
+    srand ((double) microtime ()*1000000);
+    $salt = substr (md5 (rand (0,9999999)), 0, 8);
     return $salt;
 }
 
 /**/ if (!function_exists('hex2bin')) { # PHP around 5.3.8 includes hex2bin as native function - http://php.net/hex2bin
-    function hex2bin($str) {
-        $len = strlen($str);
-        $nstr = "";
-        for ($i=0;$i<$len;$i+=2) {
-            $num = sscanf(substr($str, $i, 2), "%x");
-            $nstr.=chr($num[0]);
-        }
-        return $nstr;
+function hex2bin ($str) {
+    $len = strlen ($str);
+    $nstr = "";
+    for ($i=0;$i<$len;$i+=2) {
+        $num = sscanf (substr ($str,$i,2), "%x");
+        $nstr.=chr ($num[0]);
     }
-    /**/
+    return $nstr;
 }
+/**/ }
 
 /*
  * remove item $item from array $array
@@ -1321,12 +1117,12 @@ function remove_from_array($array, $item) {
         $found = 0;
     } else {
         $found = 1;
-        unset($array[$ret]);
+        unset ($array[$ret]);
     }
     return array($found, $array);
 }
 
-function to64($v, $n) {
+function to64 ($v, $n) {
     $ITOA64 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     $ret = "";
     while (($n - 1) >= 0) {
@@ -1351,13 +1147,13 @@ function to64($v, $n) {
  * @return bool - true on success, otherwise false
  * TODO: Replace this with something decent like PEAR::Mail or Zend_Mail.
  */
-function smtp_mail($to, $from, $data, $body = "") {
+function smtp_mail ($to, $from, $data, $body = "") {
     global $CONF;
     $smtpd_server = $CONF['smtp_server'];
     $smtpd_port = $CONF['smtp_port'];
     //$smtp_server = $_SERVER["SERVER_NAME"];
     $smtp_server = php_uname('n');
-    if (!empty($CONF['smtp_client'])) {
+    if(!empty($CONF['smtp_client'])) {
         $smtp_server = $CONF['smtp_client'];
     }
     $errno = "0";
@@ -1365,10 +1161,10 @@ function smtp_mail($to, $from, $data, $body = "") {
     $timeout = "30";
 
     if ($body != "") {
-        $maildata =
+        $maildata = 
             "To: " . $to . "\n"
             . "From: " . $from . "\n"
-            . "Subject: " . encode_header($data) . "\n"
+            . "Subject: " . encode_header ($data) . "\n"
             . "MIME-Version: 1.0\n"
             . "Content-Type: text/plain; charset=utf-8\n"
             . "Content-Transfer-Encoding: 8bit\n"
@@ -1379,26 +1175,26 @@ function smtp_mail($to, $from, $data, $body = "") {
         $maildata = $data;
     }
 
-    $fh = @fsockopen($smtpd_server, $smtpd_port, $errno, $errstr, $timeout);
+    $fh = @fsockopen ($smtpd_server, $smtpd_port, $errno, $errstr, $timeout);
 
     if (!$fh) {
         error_log("fsockopen failed - errno: $errno - errstr: $errstr");
         return false;
     } else {
-        smtp_get_response($fh);
-        fputs($fh, "EHLO $smtp_server\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "MAIL FROM:<$from>\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "RCPT TO:<$to>\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "DATA\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "$maildata\r\n.\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "QUIT\r\n");
-        smtp_get_response($fh);
-        fclose($fh);
+        $res = smtp_get_response($fh);
+        fputs ($fh, "EHLO $smtp_server\r\n");
+        $res = smtp_get_response($fh);
+        fputs ($fh, "MAIL FROM:<$from>\r\n");
+        $res = smtp_get_response($fh);
+        fputs ($fh, "RCPT TO:<$to>\r\n");
+        $res = smtp_get_response($fh);
+        fputs ($fh, "DATA\r\n");
+        $res = smtp_get_response($fh);
+        fputs ($fh, "$maildata\r\n.\r\n");
+        $res = smtp_get_response($fh);
+        fputs ($fh, "QUIT\r\n");
+        $res = smtp_get_response($fh);
+        fclose ($fh);
     }
     return true;
 }
@@ -1411,11 +1207,10 @@ function smtp_mail($to, $from, $data, $body = "") {
  */
 function smtp_get_admin_email() {
     $admin_email = Config::read('admin_email');
-    if (!empty($admin_email)) {
-        return $admin_email;
-    } else {
-        return authentication_get_username();
-    }
+	if(!empty($admin_email))
+		return $admin_email;
+	else
+		return authentication_get_username();
 }
 
 
@@ -1424,12 +1219,13 @@ function smtp_get_admin_email() {
 // Action: Get response from mail server
 // Call: smtp_get_response (string FileHandle)
 //
-function smtp_get_response($fh) {
+function smtp_get_response ($fh) {
     $res ='';
     do {
         $line = fgets($fh, 256);
         $res .= $line;
-    } while (preg_match("/^\d\d\d\-/", $line));
+    }
+    while (preg_match("/^\d\d\d\-/", $line));
     return $res;
 }
 
@@ -1456,16 +1252,11 @@ $DEBUG_TEXT = "\n
  *    - call die() in case of connection problems
  * b) with $ignore_errors == TRUE
  *    array($link, $error_text);
- *
- * @param bool $ignore_errors
- * @return resource connection to db (normally)
  */
-function db_connect($ignore_errors = false) {
+function db_connect ($ignore_errors = 0) {
     global $CONF;
     global $DEBUG_TEXT;
-    if ($ignore_errors != 0) {
-        $DEBUG_TEXT = '';
-    }
+    if ($ignore_errors != 0) $DEBUG_TEXT = '';
     $error_text = '';
 
     static $link;
@@ -1474,45 +1265,32 @@ function db_connect($ignore_errors = false) {
             return array($link, $error_text);
         }
         return $link;
-    }
-    $link = 0;
+    }    $link = 0;
 
     if ($CONF['database_type'] == "mysql") {
-        if (function_exists("mysql_connect")) {
-            $link = @mysql_connect($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysql_error() . "$DEBUG_TEXT");
+        if (function_exists ("mysql_connect")) {
+            $link = @mysql_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysql_error () . "$DEBUG_TEXT");
             if ($link) {
-                @mysql_query("SET CHARACTER SET utf8", $link);
-                @mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'", $link);
-                @mysql_select_db($CONF['database_name'], $link) or $error_text .= ("<p />DEBUG INFORMATION:<br />MySQL Select Database: " .  mysql_error() . "$DEBUG_TEXT");
+                @mysql_query("SET CHARACTER SET utf8",$link);
+                @mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'",$link);
+                @mysql_select_db ($CONF['database_name'], $link) or $error_text .= ("<p />DEBUG INFORMATION:<br />MySQL Select Database: " .  mysql_error () . "$DEBUG_TEXT");
             }
         } else {
             $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available! (php5-mysql installed?)<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     } elseif ($CONF['database_type'] == "mysqli") {
-        $is_connected = false;
-        if ($CONF['database_use_ssl']) {
-            if (function_exists("mysqli_real_connect")) {
-                $link = mysqli_init();
-                $link->ssl_set($CONF['database_ssl_key'], $CONF['database_ssl_cert'], $CONF['database_ssl_ca'], $CONF['database_ssl_ca_path'], $CONF['database_ssl_cipher']);
-                $connected = mysqli_real_connect($link, $CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port']);
-                $is_connected = $connected;
-            } else {
-                $error_text .= "<p />DEBUG INFORMATION:<br />MySQLi 5 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+        if (function_exists ("mysqli_connect")) {
+            $link = @mysqli_connect ($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysqli_connect_error () . "$DEBUG_TEXT");
+            if ($link) {
+                @mysqli_query($link,"SET CHARACTER SET utf8");
+                @mysqli_query($link,"SET COLLATION_CONNECTION='utf8_general_ci'");
+                @mysqli_select_db ($link, $CONF['database_name']) or $error_text .= ("<p />DEBUG INFORMATION:<br />MySQLi Select Database: " .  mysqli_error ($link) . "$DEBUG_TEXT");
             }
         } else {
-            if (function_exists("mysqli_connect")) {
-                $link = @mysqli_connect($CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port'], $CONF['database_socket']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " . mysqli_connect_error() . "$DEBUG_TEXT");
-                $is_connected = $link;
-            } else {
-                $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
-            }
-        }
-        if ($is_connected) {
-            @mysqli_query($link, "SET CHARACTER SET utf8");
-            @mysqli_query($link, "SET COLLATION_CONNECTION='utf8_general_ci'");
+            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     } elseif (db_sqlite()) {
-        if (class_exists("SQLite3")) {
+        if (class_exists ("SQLite3")) {
             if ($CONF['database_name'] == '' || !is_dir(dirname($CONF['database_name'])) || !is_writable(dirname($CONF['database_name']))) {
                 $error_text .= ("<p />DEBUG INFORMATION<br />Connect: given database path does not exist, is not writable, or \$CONF['database_name'] is empty.");
             } else {
@@ -1523,15 +1301,13 @@ function db_connect($ignore_errors = false) {
             $error_text .= "<p />DEBUG INFORMATION:<br />SQLite functions not available! (php5-sqlite installed?)<br />database_type = 'sqlite' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     } elseif (db_pgsql()) {
-        if (function_exists("pg_pconnect")) {
-            if (!isset($CONF['database_port'])) {
-                $CONF['database_port'] = '5432';
-            }
+        if (function_exists ("pg_pconnect")) {
+			if(!isset($CONF['database_port'])) {
+				$CONF['database_port'] = '5432';
+			}
             $connect_string = "host=" . $CONF['database_host'] . " port=" . $CONF['database_port'] . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
-            $link = @pg_pconnect($connect_string) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: failed to connect to database. $DEBUG_TEXT");
-            if ($link) {
-                pg_set_client_encoding($link, 'UNICODE');
-            }
+            $link = @pg_pconnect ($connect_string) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: failed to connect to database. $DEBUG_TEXT");
+            if ($link) pg_set_client_encoding($link, 'UNICODE');
         } else {
             $error_text .= "<p />DEBUG INFORMATION:<br />PostgreSQL functions not available! (php5-pgsql installed?)<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
@@ -1563,21 +1339,21 @@ function db_connect($ignore_errors = false) {
  * @return String or int as appropriate.
  */
 function db_get_boolean($bool) {
-    if (! (is_bool($bool) || $bool == '0' || $bool == '1')) {
+    if(! (is_bool($bool) || $bool == '0' || $bool == '1') ) {
         error_log("Invalid usage of 'db_get_boolean($bool)'");
         die("Invalid usage of 'db_get_boolean($bool)'");
     }
 
-    if (db_pgsql()) {
+    if(db_pgsql()) {
         // return either true or false (unquoted strings)
-        if ($bool) {
+        if($bool) {
             return 't';
-        }
+        }  
         return 'f';
-    } elseif (Config::Read('database_type') == 'mysql' || Config::Read('database_type') == 'mysqli' || db_sqlite()) {
-        if ($bool) {
-            return 1;
-        }
+    } elseif(Config::Read('database_type') == 'mysql' || Config::Read('database_type') == 'mysqli' || db_sqlite()) {
+        if($bool) {
+            return 1;  
+        } 
         return 0;
     } else {
         die('Unknown value in $CONF[database_type]');
@@ -1599,7 +1375,8 @@ function db_quota_text($count, $quota, $fieldname) {
             WHEN '0' THEN (coalesce($count,0) || ' / " . escape_string(html_entity_decode('&infin;')) . "')
             ELSE (coalesce($count,0) || ' / ' || $quota)
         END AS $fieldname";
-    } else {
+    }
+    else {
         return " CASE $quota
             WHEN '-1' THEN CONCAT(coalesce($count,0), ' / -')
             WHEN '0' THEN CONCAT(coalesce($count,0), ' / ', '" . escape_string(html_entity_decode('&infin;')) . "')
@@ -1624,32 +1401,10 @@ function db_quota_percent($count, $quota, $fieldname) {
 }
 
 /**
- * @return boolean true if it's a MySQL database variant.
- */
-function db_mysql() {
-    $type = Config::Read('database_type');
-
-    if ($type == 'mysql' || $type == 'mysqli') {
-        return true;
-    }
-    return false;
-}
-
-/**
  * returns true if PostgreSQL is used, false otherwise
  */
 function db_pgsql() {
-    if (Config::Read('database_type')=='pgsql') {
-        return true;
-    }
-    return false;
-}
-
-/**
- * returns true if SQLite is used, false otherwise
- */
-function db_sqlite() {
-    if (Config::Read('database_type')=='sqlite') {
+    if(Config::Read('database_type')=='pgsql') {
         return true;
     } else {
         return false;
@@ -1657,39 +1412,39 @@ function db_sqlite() {
 }
 
 /**
- * @param string $query SQL to execute
- * @param int $ignore_errors (default 0 aka do not ignore errors)
- * @return array ['result' => resource, 'rows' => int ,'error' => string]
+ * returns true if SQLite is used, false otherwise
  */
-function db_query($query, $ignore_errors = 0) {
+function db_sqlite() {
+    if(Config::Read('database_type')=='sqlite') {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//
+// db_query
+// Action: Sends a query to the database and returns query result and number of rows
+// Call: db_query (string query)
+// Optional parameter: $ignore_errors = TRUE, used by upgrade.php
+//
+function db_query ($query, $ignore_errors = 0) {
     global $CONF;
     global $DEBUG_TEXT;
     $result = "";
     $number_rows = "";
-    $link = db_connect();
+    $link = db_connect ();
     $error_text = "";
-    if ($ignore_errors) {
-        $DEBUG_TEXT = "";
-    }
+    if ($ignore_errors) $DEBUG_TEXT = "";
 
-    if ($CONF['database_type'] == "mysql") {
-        /* @var resource $link */
-        $result = @mysql_query($query, $link)
+    if ($CONF['database_type'] == "mysql") $result = @mysql_query ($query, $link)
         or $error_text = "Invalid query: " . mysql_error($link);
-    }
-    if ($CONF['database_type'] == "mysqli") {
-        /* @var resource $link */
-        $result = @mysqli_query($link, $query)
+    if ($CONF['database_type'] == "mysqli") $result = @mysqli_query ($link, $query) 
         or $error_text = "Invalid query: " . mysqli_error($link);
-    }
-    if (db_sqlite()) {
-        /* @var SQLite3 $link */
-        $result = @$link->query($query)
+    if (db_sqlite()) $result = @$link->query($query)
         or $error_text = "Invalid query: " . $link->lastErrorMsg();
-    }
     if (db_pgsql()) {
-        /* @var resource $link */
-        $result = @pg_query($link, $query)
+        $result = @pg_query ($link, $query) 
             or $error_text = "Invalid query: " . pg_last_error();
     }
     if ($error_text != "" && $ignore_errors == 0) {
@@ -1700,13 +1455,10 @@ function db_query($query, $ignore_errors = 0) {
 
     if ($error_text == "") {
         if (db_sqlite()) {
-            /* @var SQLite3Result $result */
-            if ($result->numColumns()) {
+            if($result->numColumns()) {
                 // Query returned something
                 $num_rows = 0;
-                while (@$result->fetchArray(SQLITE3_ASSOC)) {
-                    $num_rows++;
-                }
+                while(@$result->fetchArray(SQLITE3_ASSOC)) $num_rows++;
                 $result->reset();
                 $number_rows = $num_rows;
             } else {
@@ -1714,34 +1466,20 @@ function db_query($query, $ignore_errors = 0) {
                 $number_rows = $link->changes();
             }
         } elseif (preg_match("/^SELECT/i", trim($query))) {
-            /* @var resource $result */
             // if $query was a SELECT statement check the number of rows with [database_type]_num_rows ().
-            if ($CONF['database_type'] == "mysql") {
-                $number_rows = mysql_num_rows($result);
-            }
-            if ($CONF['database_type'] == "mysqli") {
-                $number_rows = mysqli_num_rows($result);
-            }
-            if (db_pgsql()) {
-                $number_rows = pg_num_rows($result);
-            }
+            if ($CONF['database_type'] == "mysql") $number_rows = mysql_num_rows ($result);
+            if ($CONF['database_type'] == "mysqli") $number_rows = mysqli_num_rows ($result);
+            if (db_pgsql()                        ) $number_rows = pg_num_rows ($result);
         } else {
-            /* @var resource $result */
             // if $query was something else, UPDATE, DELETE or INSERT check the number of rows with
             // [database_type]_affected_rows ().
-            if ($CONF['database_type'] == "mysql") {
-                $number_rows = mysql_affected_rows($link);
-            }
-            if ($CONF['database_type'] == "mysqli") {
-                $number_rows = mysqli_affected_rows($link);
-            }
-            if (db_pgsql()) {
-                $number_rows = pg_affected_rows($result);
-            }
+            if ($CONF['database_type'] == "mysql") $number_rows = mysql_affected_rows ($link);
+            if ($CONF['database_type'] == "mysqli") $number_rows = mysqli_affected_rows ($link);
+            if (db_pgsql()                        ) $number_rows = pg_affected_rows ($result);
         }
     }
 
-    $return = array(
+    $return = array (
         "result" => $result,
         "rows" => $number_rows,
         "error" => $error_text
@@ -1755,97 +1493,59 @@ function db_query($query, $ignore_errors = 0) {
 // Action: Returns a row from a table
 // Call: db_row (int result)
 
-function db_row($result) {
+function db_row ($result) {
     global $CONF;
     $row = "";
-    if ($CONF['database_type'] == "mysql") {
-        $row = mysql_fetch_row($result);
-    }
-    if ($CONF['database_type'] == "mysqli") {
-        $row = mysqli_fetch_row($result);
-    }
-    if (db_sqlite()) {
-        /* @var SQLite3Result $result */
-        $row = $result->fetchArray(SQLITE3_NUM);
-    }
-    if (db_pgsql()) {
-        /* @var resource $result */
-        $row = pg_fetch_row($result);
-    }
+    if ($CONF['database_type'] == "mysql") $row = mysql_fetch_row ($result);
+    if ($CONF['database_type'] == "mysqli") $row = mysqli_fetch_row ($result);
+    if (db_sqlite()                       ) $row = $result->fetchArray(SQLITE3_NUM);
+    if (db_pgsql()                        ) $row = pg_fetch_row ($result);
     return $row;
 }
 
 
-/**
- * Return array from a db resource (presumably not associative).
- * @param resource $result
- * @return array|null|string
- */
-function db_array($result) {
+
+// db_array
+// Action: Returns a row from a table
+// Call: db_array (int result)
+//
+function db_array ($result) {
     global $CONF;
     $row = "";
-    if ($CONF['database_type'] == "mysql") {
-        $row = mysql_fetch_array($result);
-    }
-    if ($CONF['database_type'] == "mysqli") {
-        $row = mysqli_fetch_array($result);
-    }
-    if (db_sqlite()) {
-        /* @var SQLite3Result $result */
-        $row = $result->fetchArray();
-    }
-    if (db_pgsql()) {
-        /* @var resource $result */
-        $row = pg_fetch_array($result);
-    }
+    if ($CONF['database_type'] == "mysql") $row = mysql_fetch_array ($result);
+    if ($CONF['database_type'] == "mysqli") $row = mysqli_fetch_array ($result);
+    if (db_sqlite()                       ) $row = $result->fetchArray();
+    if (db_pgsql()                        ) $row = pg_fetch_array ($result);
     return $row;
 }
 
 
-/**
- * Get an associative array from a DB query resource.
- *
- * @param mixed $result - either resource or SQLite3Result depending on DB type chosen.
- * @return array|null|string
- */
-function db_assoc($result) {
+
+// db_assoc
+// Action: Returns a row from a table
+// Call: db_assoc(int result)
+//
+function db_assoc ($result) {
     global $CONF;
     $row = "";
-    if ($CONF['database_type'] == "mysql") {
-        /* @var resource $result */
-        $row = mysql_fetch_assoc($result);
-    }
-    if ($CONF['database_type'] == "mysqli") {
-        /* @var resource $result */
-        $row = mysqli_fetch_assoc($result);
-    }
-    if (db_sqlite()) {
-        /* @var SQLite3Result $result */
-        $row = $result->fetchArray(SQLITE3_ASSOC);
-    }
-    if (db_pgsql()) {
-        $row = pg_fetch_assoc($result);
-    }
+    if ($CONF['database_type'] == "mysql") $row = mysql_fetch_assoc ($result);
+    if ($CONF['database_type'] == "mysqli") $row = mysqli_fetch_assoc ($result);
+    if (db_sqlite()                       ) $row = $result->fetchArray(SQLITE3_ASSOC);
+    if (db_pgsql()                        ) $row = pg_fetch_assoc ($result);
     return $row;
 }
 
 
-/**
- * Delete a row from the specified table.
- *
- * DELETE FROM $table WHERE $where = $delete $aditionalWhere
- *
- * @param string $table
- * @param string $where - should never be a user supplied value
- * @param string $delete
- * @param string $additionalwhere (default '').
- * @return int|mixed rows deleted.
- */
-function db_delete($table, $where, $delete, $additionalwhere='') {
+
+//
+// db_delete
+// Action: Deletes a row from a specified table
+// Call: db_delete (string table, string where, string delete)
+//
+function db_delete ($table,$where,$delete,$additionalwhere='') {
     $table = table_by_key($table);
-
-    $query = "DELETE FROM $table WHERE $where ='" . escape_string($delete) . "' " . $additionalwhere;
-    $result = db_query($query);
+    $query = "DELETE FROM $table WHERE " . escape_string($where) . "='" . escape_string($delete) . "' " . $additionalwhere;
+    $result = db_query ($query);
 
     if ($result['rows'] >= 1) {
         return $result['rows'];
@@ -1857,105 +1557,125 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
 
 /**
  * db_insert
- * Action: Inserts a row from a specified table
+ * Action: Inserts a row into a specified table
  * Call: db_insert (string table, array values [, array timestamp])
- *
- * @param string - table name
+ * @param String - table name
  * @param array  - key/value map of data to insert into the table.
  * @param array (optional) - array of fields to set to now() - default: array('created', 'modified')
  * @return int - number of inserted rows
  */
 function db_insert ($table, $values, $timestamp = array('created', 'modified'), $timestamp_expiration = array('pw_expires_on') ) {
-    $table = table_by_key($table);
+    $table = table_by_key ($table);
 
-    foreach (array_keys($values) as $key) {
+    foreach(array_keys($values) as $key) {
         $values[$key] = "'" . escape_string($values[$key]) . "'";
     }
 
-    foreach ($timestamp as $key) {
+    foreach($timestamp as $key) {
         if (db_sqlite()) {
             $values[$key] = "datetime('now')";
         } else {
             $values[$key] = "now()";
         }
     }
-    if ($table == 'mailbox') {
-        global $CONF;
-        if ($CONF['password_expiration_enabled'] == 'YES') {
-            $expires_warning_values = array('thirty', 'fourteen', 'seven');
-            foreach($expires_warning_values as $key) {
-                $values[$key] = escape_string($key) . "=0";
-            }
+    global $CONF;
+    if ($CONF['password_expiration_enabled'] == 'YES') {
+        if ($table == 'mailbox') {
+            $domain_dirty = $values['domain'];
+            $domain = substr($domain_dirty, 1, -1);
+            $password_expiration_value = get_password_expiration_value($domain);
             foreach($timestamp_expiration as $key) {
-                    $values[$key] = "now() + interval " . $CONF['password_expiration_value'] . " day";
+                    $values[$key] = "now() + interval " . $password_expiration_value . " day";
             }
         }
     }
-
-    $sql_values = "(" . implode(",", escape_string(array_keys($values))).") VALUES (".implode(",", $values).")";
-
-    $result = db_query("INSERT INTO $table $sql_values");
+    $sql_values = "(" . implode(",",escape_string(array_keys($values))).") VALUES (".implode(",",$values).")";
+    $result = db_query ("INSERT INTO $table $sql_values");
     return $result['rows'];
 }
-
 
 /**
  * db_update
  * Action: Updates a specified table
  * Call: db_update (string table, string where_col, string where_value, array values [, array timestamp])
- * @param string $table - table name
- * @param string $where_col - column of WHERE condition
- * @param string $where_value - value of WHERE condition
- * @param array $values - key/value map of data to insert into the table.
- * @param array $timestamp (optional) - array of fields to set to now() - default: array('modified')
+ * @param String - table name
+ * @param String - column of WHERE condition
+ * @param String - value of WHERE condition
+ * @param array - key/value map of data to insert into the table.
+ * @param array (optional) - array of fields to set to now() - default: array('modified')
  * @return int - number of updated rows
  */
-function db_update($table, $where_col, $where_value, $values, $timestamp = array('modified')) {
+function db_update ($table, $where_col, $where_value, $values, $timestamp = array('modified') ) {
     $where = $where_col . " = '" . escape_string($where_value) . "'";
-    return db_update_q($table, $where, $values, $timestamp);
+    return db_update_q ($table, $where, $values, $timestamp );
 }
 
 /**
  * db_update_q
  * Action: Updates a specified table
  * Call: db_update_q (string table, string where, array values [, array timestamp])
- * @param string $table - table name
- * @param string $where - WHERE condition (as SQL)
- * @param array $values - key/value map of data to insert into the table.
- * @param array $timestamp (optional) - array of fields to set to now() - default: array('modified')
+ * @param String - table name
+ * @param String - WHERE condition (as SQL)
+ * @param array - key/value map of data to insert into the table.
+ * @param array (optional) - array of fields to set to now() - default: array('modified')
  * @return int - number of updated rows
  */
-function db_update_q($table, $where, $values, $timestamp = array('modified')) {
-    $table = table_by_key($table);
-
-    foreach ($values as $key => $value) {
-        $sql_values[$key] = $key . "='" . escape_string($value) . "'";
+function db_update_q ($table, $where, $values, $timestamp = array('modified') ) {
+    $table = table_by_key ($table);
+    foreach(array_keys($values) as $key) {
+        $sql_values[$key] = escape_string($key) . "='" . escape_string($values[$key]) . "'";
     }
 
-    foreach ($timestamp as $key) {
+    foreach($timestamp as $key) {
         if (db_sqlite()) {
             $sql_values[$key] = escape_string($key) . "=datetime('now')";
         } else {
             $sql_values[$key] = escape_string($key) . "=now()";
         }
     }
-    if ($table == 'mailbox') {
-        global $CONF;
-        if ($CONF['password_expiration_enabled'] == 'YES') {
+    global $CONF;
+    if ($CONF['password_expiration_enabled'] == 'YES') {
+	$where_type = explode('=',$where);
+	$email = ($where_type[1]);
+	$domain_dirty = explode('@',$email)[1];
+	$domain = substr($domain_dirty, 0, -1);
+	if ($table == 'mailbox') {
+	    $password_expiration_value = get_password_expiration_value($domain);
             $key = 'pw_expires_on';
-            $sql_values[$key] = escape_string($key) . "=now() + interval " . $CONF['password_expiration_value'] . " day";
-            $expires_warning_values = array('thirty', 'fourteen', 'seven');
-            foreach($expires_warning_values as $key) {
-                $sql_values[$key] = escape_string($key) . "=0";
-            }
+            $sql_values[$key] = escape_string($key) . "=now() + interval " . $password_expiration_value . " day";
         }
     }
+    $sql="UPDATE $table SET ".implode(",",$sql_values)." WHERE $where";
 
-    $sql="UPDATE $table SET " . implode(",", $sql_values) . " WHERE $where";
-
-    $result = db_query($sql);
+    $result = db_query ($sql);
     return $result['rows'];
 }
+
+/**
+ * db_begin / db_commit / db_rollback
+ * Action: BEGIN / COMMIT / ROLLBACK transaction (PostgreSQL only!)
+ * Call: db_begin()
+ */
+function db_begin () {
+    if (db_pgsql()) { # TODO: also enable for mysql? (not supported by MyISAM, which is used for most tables)
+        db_query('BEGIN');
+    }
+}
+
+function db_commit () {
+    if (db_pgsql()) {
+        db_query('COMMIT');
+    }
+}
+
+function db_rollback () {
+    if (db_pgsql()) {
+        db_query('ROLLBACK');
+    }
+}
+
+
+
 
 
 /**
@@ -1964,11 +1684,7 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
  * Call: db_log (string domain, string action, string data)
  * Possible actions are defined in $LANG["pViewlog_action_$action"]
  */
-function db_log($domain, $action, $data) {
-    if (!Config::bool('logging')) {
-        return true;
-    }
-
+function db_log ($domain,$action,$data) {
     $REMOTE_ADDR = getRemoteAddr();
 
     $username = authentication_get_username();
@@ -1977,18 +1693,19 @@ function db_log($domain, $action, $data) {
         die("Invalid log action : $action");   // could do with something better?
     }
 
-
-    $logdata = array(
-        'username'  => "$username ($REMOTE_ADDR)",
-        'domain'    => $domain,
-        'action'    => $action,
-        'data'      => $data,
-    );
-    $result = db_insert('log', $logdata, array('timestamp'));
-    if ($result != 1) {
-        return false;
-    } else {
-        return true;
+    if (Config::bool('logging')) {
+        $logdata = array(
+            'username'  => "$username ($REMOTE_ADDR)",
+            'domain'    => $domain,
+            'action'    => $action,
+            'data'      => $data,
+        );
+        $result = db_insert('log', $logdata, array('timestamp') );
+        if ($result != 1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
 
@@ -1996,23 +1713,21 @@ function db_log($domain, $action, $data) {
  * db_in_clause
  * Action: builds and returns the "field in(x, y)" clause for database queries
  * Call: db_in_clause (string field, array values)
- * @param string $field
- * @param array $values
  */
 function db_in_clause($field, $values) {
-    return " $field IN ('"
-    . implode("','", escape_string(array_values($values)))
-    . "') ";
+	return " $field IN ('"
+	. implode("','",escape_string(array_values($values)))
+	. "') ";
 }
 
 /**
  * db_where_clause
  * Action: builds and returns a WHERE clause for database queries. All given conditions will be AND'ed.
  * Call: db_where_clause (array $conditions, array $struct)
- * @param array $condition - array('field' => 'value', 'field2' => 'value2, ...)
- * @param array $struct - field structure, used for automatic bool conversion
- * @param string $additional_raw_where - raw sniplet to include in the WHERE part - typically needs to start with AND
- * @param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see
+ * param array $condition: array('field' => 'value', 'field2' => 'value2, ...)
+ * param array $struct - field structure, used for automatic bool conversion
+ * param string $additional_raw_where - raw sniplet to include in the WHERE part - typically needs to start with AND
+ * param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see 
  *                           $allowed_operators for available operators)
  *                           Note: the $searchmode operator will only be used if a $condition for that field is set.
  *                                 This also means you'll need to set a (dummy) condition for NULL and NOTNULL.
@@ -2020,22 +1735,20 @@ function db_in_clause($field, $values) {
 function db_where_clause($condition, $struct, $additional_raw_where = '', $searchmode = array()) {
     if (!is_array($condition)) {
         die('db_where_cond: parameter $cond is not an array!');
-    } elseif (!is_array($searchmode)) {
+    } elseif(!is_array($searchmode)) {
         die('db_where_cond: parameter $searchmode is not an array!');
     } elseif (count($condition) == 0 && trim($additional_raw_where) == '') {
-        die("db_where_cond: parameter is an empty array!"); # die() might sound harsh, but can prevent information leaks
-    } elseif (!is_array($struct)) {
+        die("db_where_cond: parameter is an empty array!"); # die() might sound harsh, but can prevent information leaks 
+    } elseif(!is_array($struct)) {
         die('db_where_cond: parameter $struct is not an array!');
     }
 
-    $allowed_operators = array('<', '>', '>=', '<=', '=', '!=', '<>', 'CONT', 'LIKE', 'NULL', 'NOTNULL');
+    $allowed_operators = explode(' ', '< > >= <= = != <> CONT LIKE NULL NOTNULL');
     $where_parts = array();
     $having_parts = array();
 
-    foreach ($condition as $field => $value) {
-        if (isset($struct[$field]) && $struct[$field]['type'] == 'bool') {
-            $value = db_get_boolean($value);
-        }
+    foreach($condition as $field => $value) {
+        if (isset($struct[$field]) && $struct[$field]['type'] == 'bool') $value = db_get_boolean($value);
         $operator = '=';
         if (isset($searchmode[$field])) {
             if (in_array($searchmode[$field], $allowed_operators)) {
@@ -2060,7 +1773,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
             $querypart = $field . $operator . "'" . escape_string($value) . "'";
         }
 
-        if (!empty($struct[$field]['select'])) {
+        if($struct[$field]['select'] != '') {
             $having_parts[$field] = $querypart;
         } else {
             $where_parts[$field] = $querypart;
@@ -2068,51 +1781,34 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
     }
     $query = ' WHERE 1=1 ';
     $query .= " $additional_raw_where ";
-    if (count($where_parts)  > 0) {
-        $query .= " AND    ( " . join(" AND ", $where_parts)  . " ) ";
-    }
-    if (count($having_parts) > 0) {
-        $query .= " HAVING ( " . join(" AND ", $having_parts) . " ) ";
-    }
+    if (count($where_parts)  > 0) $query .= " AND    ( " . join(" AND ", $where_parts)  . " ) ";
+    if (count($having_parts) > 0) $query .= " HAVING ( " . join(" AND ", $having_parts) . " ) ";
 
-    return $query;
+	return $query;
 }
 
-/**
- * Convert a programmatic db table name into what may be the actual name.
- *
- * Takes into consideration any CONF database_prefix or database_tables map
- *
- * If it's a MySQL database, then we return the name with backticks around it (`).
- *
- * @param string database table name.
- * @return string - database table name with appropriate prefix (and quoting if MySQL)
- */
-function table_by_key($table_key) {
+//
+// table_by_key
+// Action: Return table name for given key
+// Call: table_by_key (string table_key)
+//
+function table_by_key ($table_key) {
     global $CONF;
-
-    $table = $table_key;
-
-    if (!empty($CONF['database_tables'][$table_key])) {
+    if (empty($CONF['database_tables'][$table_key])) {
+        $table = $table_key;
+    } else {
         $table = $CONF['database_tables'][$table_key];
     }
 
-    $table = $CONF['database_prefix'] . $table;
-
-    if (db_mysql()) {
-        return "`" . $table . "`";
-    }
-
-    return $table;
+    return $CONF['database_prefix'].$table;
 }
-
 
 /*
  * check if the database layout is up to date
  * returns the current 'version' value from the config table
  * if $error_out is True (default), die() with a message that recommends to run setup.php.
  */
-function check_db_version($error_out = true) {
+function check_db_version($error_out = True) {
     global $min_db_version;
 
     $table = table_by_key('config');
@@ -2120,15 +1816,15 @@ function check_db_version($error_out = true) {
     $sql = "SELECT value FROM $table WHERE name = 'version'";
     $r = db_query($sql);
 
-    if ($r['rows'] == 1) {
+    if($r['rows'] == 1) {
         $row = db_assoc($r['result']);
         $dbversion = $row['value'];
     } else {
         $dbversion = 0;
-        db_query("INSERT INTO $table (name, value) VALUES ('version', '0')", 0);
+        db_query("INSERT INTO $table (name, value) VALUES ('version', '0')", 0, '');
     }
 
-    if (($dbversion < $min_db_version) && $error_out == true) {
+    if ( ($dbversion < $min_db_version) && $error_out == True) {
         echo "ERROR: The PostfixAdmin database layout is outdated (you have r$dbversion, but r$min_db_version is expected).\nPlease run setup.php to upgrade the database.\n";
         exit(1);
     }
@@ -2136,14 +1832,47 @@ function check_db_version($error_out = true) {
     return $dbversion;
 }
 
+/*
+   Called after an alias_domain has been deleted in the DBMS.
+   Returns: boolean.
+ */
+# TODO: This function is never called
+function alias_domain_postdeletion($alias_domain) {
+    global $CONF;
+    $confpar='alias_domain_postdeletion_script';
+
+    if (!isset($CONF[$confpar]) || empty($CONF[$confpar])) {
+        return true;
+    }
+
+    if (empty($alias_domain)) {
+        print '<p>Warning: empty alias_domain parameter.</p>';
+        return false;
+    }
+
+    $cmdarg1=escapeshellarg($alias_domain);
+    $command=$CONF[$confpar]." $cmdarg1";
+    $retval=0;
+    $output=array();
+    $firstline='';
+    $firstline=exec($command,$output,$retval);
+    if (0!=$retval) {
+        error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+        print '<p>WARNING: Problems running alias_domain postdeletion script!</p>';
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
 //
 // gen_show_status
-// Action: Return a string of colored &nbsp;'s that indicate
+// Action: Return a string of colored &nbsp;'s that indicate 
 //         the if an alias goto has an error or is sent to
-//         addresses list in show_custom_domains
+//         addresses list in show_custom_domains 
 // Call: gen_show_status (string alias_address)
 //
-function gen_show_status($show_alias) {
+function gen_show_status ($show_alias) {
     global $CONF;
     $table_alias = table_by_key('alias');
     $stat_string = "";
@@ -2151,9 +1880,9 @@ function gen_show_status($show_alias) {
     $show_alias = escape_string($show_alias);
 
     $stat_goto = "";
-    $stat_result = db_query("SELECT goto FROM $table_alias WHERE address='$show_alias'");
+    $stat_result = db_query ("SELECT goto FROM $table_alias WHERE address='$show_alias'");
     if ($stat_result['rows'] > 0) {
-        $row = db_row($stat_result['result']);
+        $row = db_row ($stat_result['result']);
         $stat_goto = $row[0];
     }
 
@@ -2163,42 +1892,68 @@ function gen_show_status($show_alias) {
     }
 
     // UNDELIVERABLE CHECK
-    if ($CONF['show_undeliverable'] == 'YES') {
+    if ( $CONF['show_undeliverable'] == 'YES' ) {
         $gotos=array();
-        $gotos=explode(',', $stat_goto);
+        $gotos=explode(',',$stat_goto);
         $undel_string="";
 
         //make sure this alias goes somewhere known
         $stat_ok = 1;
-        foreach ($gotos as $g) {
-            if (!$stat_ok) {
-                break;
-            }
-            if (strpos($g, '@') === false) {
-                continue;
-            }
-
-            list($local_part, $stat_domain) = explode('@', $g);
-
+        while ( ($g=array_pop($gotos)) && $stat_ok ) {
+            list(/*NULL*/,$stat_domain) = explode('@',$g);
             $stat_delimiter = "";
-            if (!empty($CONF['recipient_delimiter'])) {
-                $stat_delimiter = "OR address = '" . escape_string(preg_replace($delimiter_regex, "@", $g)) . "'";
-            }
-            $stat_result = db_query("SELECT address FROM $table_alias WHERE address = '" . escape_string($g) . "' OR address = '@" . escape_string($stat_domain) . "' $stat_delimiter");
+			if (!empty($CONF['recipient_delimiter'])) {
+				$stat_delimiter = "OR address = '" . escape_string(preg_replace($delimiter_regex, "@", $g)) . "'";
+			}
+			$stat_result = db_query ("SELECT address FROM $table_alias WHERE address = '" . escape_string($g) . "' OR address = '@" . escape_string($stat_domain) . "' $stat_delimiter");
             if ($stat_result['rows'] == 0) {
                 $stat_ok = 0;
             }
-            if ($stat_ok == 0) {
-                if ($stat_domain == $CONF['vacation_domain'] || in_array($stat_domain, $CONF['show_undeliverable_exceptions'])) {
+            if ( $stat_ok == 0 ) {
+                if ( $stat_domain == $CONF['vacation_domain'] || in_array($stat_domain, $CONF['show_undeliverable_exceptions']) ) {
                     $stat_ok = 1;
                 }
             }
         } // while
-        if ($stat_ok == 0) {
-            $stat_string .= "<span style='background-color:" . $CONF['show_undeliverable_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        if ( $stat_ok == 0 ) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_undeliverable_color'] .
+                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
-        }
+        } 
+    }
+ 
+   // Vacation CHECK
+    if ( $CONF['show_vacation'] == 'YES' ) {
+		$stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = 1");
+            if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] .
+                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        } else {
+            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+        } 
+    }
+
+// Disabled CHECK
+    if ( $CONF['show_disabled'] == 'YES' ) {
+		$stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = 0");
+            if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] .
+                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        } else {
+            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+        } 
+    }
+
+    // Expired CHECK
+    if ( $CONF['show_expired'] == 'YES' ) {
+		$stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND pw_expires_on <= now()");
+            if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] .
+                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        } else {
+            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+        } 
     }
 
     // Vacation CHECK
@@ -2235,50 +1990,45 @@ function gen_show_status($show_alias) {
     }
 
     // POP/IMAP CHECK
-    if ($CONF['show_popimap'] == 'YES') {
-        $stat_delimiter = "";
-        if (!empty($CONF['recipient_delimiter'])) {
-            $stat_delimiter = ',' . preg_replace($delimiter_regex, "@", $stat_goto);
-        }
+    if ( $CONF['show_popimap'] == 'YES' ) {
+		 $stat_delimiter = "";
+		 if (!empty($CONF['recipient_delimiter'])) {
+			 $stat_delimiter = ',' . preg_replace($delimiter_regex, "@", $stat_goto);
+		 }
 
         //if the address passed in appears in its own goto field, its POP/IMAP
         # TODO: or not (might also be an alias loop) -> check mailbox table!
-        if (preg_match('/,' . $show_alias . ',/', ',' . $stat_goto . $stat_delimiter . ',')) {
+        if ( preg_match ('/,' . $show_alias . ',/', ',' . $stat_goto . $stat_delimiter . ',') ) {
             $stat_string .= "<span  style='background-color:" . $CONF['show_popimap_color'] .
                 "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
-        }
+        } 
     }
 
     // CUSTOM DESTINATION CHECK
-    if (count($CONF['show_custom_domains']) > 0) {
-        for ($i = 0; $i < sizeof($CONF['show_custom_domains']); $i++) {
-            if (preg_match('/^.*' . $CONF['show_custom_domains'][$i] . '.*$/', $stat_goto)) {
+    if ( count($CONF['show_custom_domains']) > 0 ) {
+        for ($i = 0; $i < sizeof ($CONF['show_custom_domains']); $i++) {
+            if (preg_match ('/^.*' . $CONF['show_custom_domains'][$i] . '.*$/', $stat_goto)) {
                 $stat_string .= "<span  style='background-color:" . $CONF['show_custom_colors'][$i] .
                     "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
             } else {
                 $stat_string .= $CONF['show_status_text'] . "&nbsp;";
-            }
-        }
+            } 
+        } 
     } else {
         $stat_string .= ";&nbsp;";
-    }
+    } 
 
     //   $stat_string .= "<span style='background-color:green'> &nbsp; </span> &nbsp;" .
     //                  "<span style='background-color:blue'> &nbsp; </span> &nbsp;";
     return $stat_string;
 }
 
-/**
- * @return string
- */
 function getRemoteAddr() {
     $REMOTE_ADDR = 'localhost';
-    if (isset($_SERVER['REMOTE_ADDR'])) {
+    if (isset($_SERVER['REMOTE_ADDR'])) 
         $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
-    }
-
     return $REMOTE_ADDR;
 }
 
