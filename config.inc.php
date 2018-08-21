@@ -516,6 +516,16 @@ $CONF['show_undeliverable']='YES';
 $CONF['show_undeliverable_color']='tomato';
 // mails to these domains will never be flagged as undeliverable
 $CONF['show_undeliverable_exceptions']=array("unixmail.domain.ext","exchangeserver.domain.ext");
+// show mailboxes with expired password
+$CONF['show_expired']='YES';
+$CONF['show_expired_color']='orange';
+// show vacation enabled mailboxes
+$CONF['show_vacation']='YES';
+$CONF['show_vacation_color']='turquoise';
+// show disabled accounts
+$CONF['show_disabled']='YES';
+$CONF['show_disabled_color']='grey';
+// show POP/IMAP mailboxes
 $CONF['show_popimap']='YES';
 $CONF['show_popimap_color']='darkgrey';
 // you can assign special colors to some domains. To do this,

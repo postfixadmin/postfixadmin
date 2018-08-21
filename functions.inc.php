@@ -2201,6 +2201,39 @@ function gen_show_status($show_alias) {
         }
     }
 
+    // Vacation CHECK
+    if ( $CONF['show_vacation'] == 'YES' ) {
+                $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = 1");
+            if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] .
+                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        } else {
+            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+        }
+    }
+
+    // Disabled CHECK
+    if ( $CONF['show_disabled'] == 'YES' ) {
+                $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = 0");
+            if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] .
+                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        } else {
+            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+        }
+    }
+
+    // Expired CHECK
+    if ( $CONF['show_expired'] == 'YES' ) {
+                $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND pw_expires_on <= now()");
+            if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] .
+                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        } else {
+            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+        }
+    }
+
     // POP/IMAP CHECK
     if ($CONF['show_popimap'] == 'YES') {
         $stat_delimiter = "";

@@ -348,6 +348,10 @@ $PALANG['broadcast_mailboxes_only'] = 'Only send to mailboxes';
 $PALANG['broadcast_to_domains'] = 'Send to domains:';
 
 $PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE ';
+$PALANG['pStatus_disabled'] = 'Account disabled ';
+$PALANG['pStatus_expired'] = 'Password expired ';
+$PALANG['pStatus_vacation'] = 'Vacation enabled ';
+
 $PALANG['pStatus_custom'] = 'Delivers to ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
