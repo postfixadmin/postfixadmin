@@ -72,7 +72,6 @@
 		&nbsp;<span style='background-color:{$CONF.show_undeliverable_color};'>{$CONF.show_status_text}</span>={$PALANG.pStatus_undeliverable}
 	{/if}
 	{if $CONF.show_vacation===YES}
-<<<<<<< HEAD
                 &nbsp;<span style='background-color:{$CONF.show_vacation_color};'>{$CONF.show_status_text}</span>={$PALANG.pStatus_vacation}
         {/if}
         {if $CONF.show_disabled===YES}
@@ -82,16 +81,6 @@
                 &nbsp;<span style='background-color:{$CONF.show_expired_color};'>{$CONF.show_status_text}</span>={$PALANG.pStatus_expired}
         {/if}
 
-=======
-		&nbsp;<span style='background-color:{$CONF.show_vacation_color};'>{$CONF.show_status_text}</span>={$PALANG.pStatus_vacation}
-	{/if}
-	{if $CONF.show_disabled===YES}
-		&nbsp;<span style='background-color:{$CONF.show_disabled_color};'>{$CONF.show_status_text}</span>={$PALANG.pStatus_disabled}
-	{/if}
-	{if $CONF.show_expired===YES}
-		&nbsp;<span style='background-color:{$CONF.show_expired_color};'>{$CONF.show_status_text}</span>={$PALANG.pStatus_expired}
-	{/if}
->>>>>>> 72dddbc93be15cb6f975343524a15103763acf89
 	{if $CONF.show_popimap===YES}
 		&nbsp;<span style='background-color:{$CONF.show_popimap_color};'>{$CONF.show_status_text}</span>={$PALANG.pStatus_popimap}
 	{/if}
