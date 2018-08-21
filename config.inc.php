@@ -675,7 +675,6 @@ $CONF['xmlrpc_enabled'] = false;
 //If you want to display the password expiracy status of the accounts (read-only)
 //More details in README.password_expiration
 $CONF['password_expiration_enable'] = 'YES';
-$CONF['password_expiration_value'] = '90';
 
 // If you want to keep most settings at default values and/or want to ensure 
 // that future updates work without problems, you can use a separate config 
