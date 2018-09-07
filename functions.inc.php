@@ -1866,8 +1866,8 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
  * Call: db_insert (string table, array values [, array timestamp])
  *
  * @param string - table name
- * @param array  - key/value map of data to insert into the table.
- * @param array (optional) - array of fields to set to now() - default: array('created', 'modified')
+ * @param array $values - key/value map of data to insert into the table.
+ * @param array $timestamp (optional) - array of fields to set to now() - default: array('created', 'modified')
  * @return int - number of inserted rows
  */
 function db_insert($table, $values, $timestamp = array('created', 'modified')) {
