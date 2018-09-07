@@ -216,6 +216,7 @@ class MailboxHandler extends PFAHandler {
 
 
     protected function beforestore() {
+
         if (isset($this->values['quota']) && $this->values['quota'] != -1) {
             $this->values['quota'] = $this->values['quota'] * Config::read('quota_multiplier'); # convert quota from MB to bytes
         }
@@ -250,7 +251,7 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-        return true; # still here? good!
+        return true;
     }
 
     protected function storemore() {
