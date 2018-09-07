@@ -1988,7 +1988,13 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
         } elseif ($operator == "NOTNULL") {
             $querypart = $field . ' IS NOT NULL';
         } else {
+
             $querypart = $field . $operator . "'" . escape_string($value) . "'";
+
+            // might need other types adding here.
+            if (db_pgsql() && in_array($struct[$field]['type'], array('ts', 'num')) && $value === '') {
+                    $querypart = $field . $operator . " NULL";
+            }
         }
 
         if (!empty($struct[$field]['select'])) {
