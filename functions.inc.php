@@ -362,10 +362,11 @@ function escape_string($string) {
  * @param string $default (optional) - default value if key is not set.
  * @return string
  */
-function safeget($param, $default="") {
-    $retval=$default;
+function safeget($param, $default = "")
+{
+    $retval = $default;
     if (isset($_GET[$param])) {
-        $retval=$_GET[$param];
+        $retval = $_GET[$param];
     }
     return $retval;
 }
@@ -377,10 +378,11 @@ function safeget($param, $default="") {
  * @param string $default (optional) default value (defaults to "")
  * @return string - value in $_POST[$param] or $default
  */
-function safepost($param, $default="") {
-    $retval=$default;
+function safepost($param, $default = "")
+{
+    $retval = $default;
     if (isset($_POST[$param])) {
-        $retval=$_POST[$param];
+        $retval = $_POST[$param];
     }
     return $retval;
 }
@@ -392,10 +394,11 @@ function safepost($param, $default="") {
  * @param string $default (optional)
  * @return string value from $_SERVER[$param] or $default
  */
-function safeserver($param, $default="") {
-    $retval=$default;
+function safeserver($param, $default = "")
+{
+    $retval = $default;
     if (isset($_SERVER[$param])) {
-        $retval=$_SERVER[$param];
+        $retval = $_SERVER[$param];
     }
     return $retval;
 }
@@ -407,10 +410,11 @@ function safeserver($param, $default="") {
  * @param string $default (optional)
  * @return string value from $_COOKIE[$param] or $default
  */
-function safecookie($param, $default="") {
-    $retval=$default;
+function safecookie($param, $default = "")
+{
+    $retval = $default;
     if (isset($_COOKIE[$param])) {
-        $retval=$_COOKIE[$param];
+        $retval = $_COOKIE[$param];
     }
     return $retval;
 }
@@ -422,10 +426,11 @@ function safecookie($param, $default="") {
  * @param string $default (optional)
  * @return string value from $_SESSION[$param] or $default
  */
-function safesession($param, $default="") {
-    $retval=$default;
+function safesession($param, $default = "")
+{
+    $retval = $default;
     if (isset($_SESSION[$param])) {
-        $retval=$_SESSION[$param];
+        $retval = $_SESSION[$param];
     }
     return $retval;
 }
