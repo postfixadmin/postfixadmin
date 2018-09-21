@@ -1375,6 +1375,7 @@ function smtp_mail($to, $from, $data, $body = "") {
             . "From: " . $from . "\n"
             . "Subject: " . encode_header($data) . "\n"
             . "MIME-Version: 1.0\n"
+            . "Date: " . date('r') . "\n"
             . "Content-Type: text/plain; charset=utf-8\n"
             . "Content-Transfer-Encoding: 8bit\n"
             . "\n"
