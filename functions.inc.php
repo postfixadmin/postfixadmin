@@ -261,15 +261,13 @@ function check_domain($domain) {
 }
 
 /**
- * get_password_expiration_value
  * Get password expiration value for a domain
- * @param String $domain - a string that may be a domain
- * @return password expiration value for this domain
- * TODO: return specific value for invalid (not existing) domain
+ * @param string $domain - a string that may be a domain
+ * @return int password expiration value for this domain (DAYS, or zero if not enabled)
  */
 function get_password_expiration_value ($domain) {
         $table_domain = table_by_key('domain');
-        $query = "SELECT password_expiration_value FROM $table_domain WHERE domain='$domain'";
+        $query = "SELECT password_expiry FROM $table_domain WHERE domain='$domain'";
         $result = db_query ($query);
         $password_expiration_value = db_array ($result['result']);
         return $password_expiration_value[0];
@@ -1879,7 +1877,7 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
  * @param array (optional) - array of fields to set to now() - default: array('created', 'modified')
  * @return int - number of inserted rows
  */
-function db_insert ($table, $values, $timestamp = array('created', 'modified'), $timestamp_expiration = array('pw_expires_on') ) {
+function db_insert ($table, $values, $timestamp = array('created', 'modified'), $timestamp_expiration = array('password_expiry') ) {
     $table = table_by_key($table);
 
     foreach (array_keys($values) as $key) {
@@ -1898,7 +1896,8 @@ function db_insert ($table, $values, $timestamp = array('created', 'modified'), 
     if ($CONF['password_expiration_enabled'] == 'YES') {
         if ($table == 'mailbox') {
             $domain_dirty = $values['domain'];
-            $domain = substr($domain_dirty, 1, -1);
+            $domain = substr($domain_dirty, 1, -1); // really the update to the mailbox password_expiry should be based on a trigger, or a query like :
+                                                    // .... NOW() + INTERVAL domain.password_expiry DAY 
             $password_expiration_value = get_password_expiration_value($domain);
             foreach($timestamp_expiration as $key) {
                     $values[$key] = "now() + interval " . $password_expiration_value . " day";
@@ -1962,8 +1961,8 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
         $domain = substr($domain_dirty, 0, -1);
         if ($table == 'mailbox') {
             $password_expiration_value = get_password_expiration_value($domain);
-            $key = 'pw_expires_on';
-            $sql_values[$key] = escape_string($key) . "=now() + interval " . $password_expiration_value . " day";
+            $key = 'password_expiry';
+            $sql_values[$key] = $key . " = now() + interval " . $password_expiration_value . " day";
         }
     }
 
@@ -2219,10 +2218,9 @@ function gen_show_status($show_alias) {
 
     // Vacation CHECK
     if ( $CONF['show_vacation'] == 'YES' ) {
-                $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = 1");
-            if ($stat_result['rows'] == 1) {
-            $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] .
-                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = 1");
+        if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
         }
@@ -2230,10 +2228,9 @@ function gen_show_status($show_alias) {
 
     // Disabled CHECK
     if ( $CONF['show_disabled'] == 'YES' ) {
-                $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = 0");
-            if ($stat_result['rows'] == 1) {
-            $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] .
-                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = 0");
+        if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
         }
@@ -2241,10 +2238,9 @@ function gen_show_status($show_alias) {
 
     // Expired CHECK
     if ( $CONF['show_expired'] == 'YES' ) {
-                $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND pw_expires_on <= now()");
-            if ($stat_result['rows'] == 1) {
-            $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] .
-                "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= now()");
+        if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
         }

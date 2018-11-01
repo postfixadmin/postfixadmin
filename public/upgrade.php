@@ -88,11 +88,11 @@ function _upgrade_filter_function($name) {
     return preg_match('/upgrade_[\d]+(_mysql|_pgsql|_sqlite|_mysql_pgsql)?$/', $name) == 1;
 }
 
-function _db_add_field($table, $field, $fieldtype, $after) {
+function _db_add_field($table, $field, $fieldtype, $after = '') {
     global $CONF;
 
     $query = "ALTER TABLE " . table_by_key($table) . " ADD COLUMN $field $fieldtype";
-    if ($CONF['database_type'] == 'mysql') {
+    if ($CONF['database_type'] == 'mysql' && !empty($after)) {
         $query .= " AFTER $after "; # PgSQL does not support to specify where to add the column, MySQL does
     }
 
@@ -1759,4 +1759,9 @@ function upgrade_1841_sqlite() {
         _db_add_field($table, 'token', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'email_other');
         _db_add_field($table, 'token_validity', '{DATETIME}', 'token');
     }
+}
+
+function upgrade_1842() {
+    _db_add_field('mailbox', 'password_expiry', "{DATETIME}"); // when a specific mailbox password expires
+    _db_add_field('domain',  'password_expiry', 'int DEFAULT 0'); // expiry applied to mailboxes within that domain
 }

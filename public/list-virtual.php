@@ -192,7 +192,7 @@ if ($display_mailbox_aliases) {
 }
 
 if ($password_expiration) {
-    $sql_select .= ", $table_mailbox.pw_expires_on as password_expiration ";
+    $sql_select .= ", $table_mailbox.password_expiry as password_expiration ";
 }
 
 if (Config::bool('vacation_control_admin')) {
