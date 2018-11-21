@@ -52,7 +52,16 @@ if [ -e "$maildir" ]; then
     exit 1
 fi
 
-maildirmake "$maildir"
+
+# try looking for maildirmake ...
+MDM=`which maildirmake || which courier-maildirmake`
+
+if [ "x${MDM}" = "x" ]; then
+    echo "Couldn't find maildirmake or courier-maildirmake in your PATH etc (via which)" >/dev/stderr
+    exit 1
+fi
+
+$MDM "$maildir"
 if [ ! -d "$maildir" ]; then
     echo "$0: maildirmake didn't produce a directory; bailing out."
     exit 1
