@@ -61,7 +61,8 @@ if [ "x${MDM}" = "x" ]; then
     exit 1
 fi
 
-$MDM "$maildir"
+"${MDM}" "${maildir}"
+
 if [ ! -d "$maildir" ]; then
     echo "$0: maildirmake didn't produce a directory; bailing out."
     exit 1
