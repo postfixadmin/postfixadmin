@@ -516,6 +516,16 @@ $CONF['show_undeliverable']='YES';
 $CONF['show_undeliverable_color']='tomato';
 // mails to these domains will never be flagged as undeliverable
 $CONF['show_undeliverable_exceptions']=array("unixmail.domain.ext","exchangeserver.domain.ext");
+// show mailboxes with expired password
+$CONF['show_expired']='YES';
+$CONF['show_expired_color']='orange';
+// show vacation enabled mailboxes
+$CONF['show_vacation']='YES';
+$CONF['show_vacation_color']='turquoise';
+// show disabled accounts
+$CONF['show_disabled']='YES';
+$CONF['show_disabled_color']='grey';
+// show POP/IMAP mailboxes
 $CONF['show_popimap']='YES';
 $CONF['show_popimap_color']='darkgrey';
 // you can assign special colors to some domains. To do this,
@@ -660,6 +670,11 @@ $CONF['theme_custom_css'] = '';
 // Postfixadmin-Squirrelmail package
 //  change to boolean true to enable xmlrpc
 $CONF['xmlrpc_enabled'] = false;
+
+//Account expiration info
+//If you want to display the password expiracy status of the accounts (read-only)
+//More details in README.password_expiration
+$CONF['password_expiration_enable'] = 'YES';
 
 // If you want to keep most settings at default values and/or want to ensure 
 // that future updates work without problems, you can use a separate config 

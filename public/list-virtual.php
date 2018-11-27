@@ -165,6 +165,7 @@ $tAlias = $handler->result();
 #
 
 $display_mailbox_aliases = Config::bool('alias_control_admin');
+$password_expiration = Config::bool('password_expiration');
 
 # build the sql query
 $sql_select = "SELECT $table_mailbox.* ";
@@ -188,6 +189,10 @@ if (count($search) == 0 || !isset($search['_'])) {
 if ($display_mailbox_aliases) {
     $sql_select .= ", $table_alias.goto ";
     $sql_join   .= " LEFT JOIN $table_alias ON $table_mailbox.username=$table_alias.address ";
+}
+
+if ($password_expiration) {
+    $sql_select .= ", $table_mailbox.password_expiry as password_expiration ";
 }
 
 if (Config::bool('vacation_control_admin')) {
