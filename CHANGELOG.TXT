@@ -6,6 +6,22 @@
 #
 # Further details on the project are available at http://postfixadmin.sf.net
 
+Version X.X - master
+-------------------------------------------------
+
+   - Add support for password expiration (see https://github.com/postfixadmin/postfixadmin/pull/200 and README.password_expiration )
+   - Improve ADDITIONS/postfxiadmin-mailbox-postcreate.sh
+   - Add Date header into smtp_from() (see https://github.com/postfixadmin/postfixadmin/issues/203 )
+   - PostgreSQL fixes ( 1e158245d613fd1d8d5c1d59e26e940eb71f5b32 )
+   - vacation.pl fixes (perl libraries; see https://github.com/postfixadmin/postfixadmin/pull/194 )
+   - Add bootstrap theme (default not changed yet) ( see https://github.com/postfixadmin/postfixadmin/pull/172 )
+   - Improve CSV export from list.php
+   - Various misc. changes from static analysis (psalm)
+   - Update installation instructions. (see: https://github.com/postfixadmin/postfixadmin/issues/189 https://github.com/postfixadmin/postfixadmin/issues/188 )
+   - Encryption improvements (see: php_crypt / encrypt_difficulty in sample config)
+   - Sqlite improvements (see https://github.com/postfixadmin/postfixadmin/issues/177 and https://github.com/postfixadmin/postfixadmin/issues/176 )
+   - MySQL 8 compatability (see https://github.com/postfixadmin/postfixadmin/pull/175 )
+
 Version 3.2 - 2018/05/02
 -------------------------------------------------
 
