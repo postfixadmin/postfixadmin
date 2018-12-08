@@ -53,6 +53,7 @@ Alternatively :
 
   $ cd /srv
   $ git clone https://github.com/postfixadmin/postfixadmin.git
+  $ cd postfixadmin
   $ git checkout postfixadmin-3.2
 
 2. Setup Web Server
