@@ -120,10 +120,11 @@ set no spambounce
 set properties ""
 set syslog
 
-poll ${src_server} with proto ${protocol}
-	$cmd
-
 TXT
+    $text.="poll ${src_server} with proto ${protocol}";
+    $text.=" service ${src_service}" if ($src_service);
+    $text.="\n	$cmd";
+
 
   ($file_handler, $filename) = mkstemp( "/tmp/fetchmail-all-XXXXX" ) or log_and_die "cannot open/create fetchmail temp file";
   print $file_handler $text;
