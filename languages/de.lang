@@ -308,7 +308,7 @@ $PALANG['pAdminEdit_admin_result_success'] = 'Der Admin %s wurde geändert.';
 $PALANG['pUsersLogin_welcome'] = 'Benutzer bitte hier einloggen, um Weiterleitungen bzw. das Passwort zu ändern.';
 $PALANG['pUsersLogin_username_incorrect'] = 'Falscher Login! Bitte benutzen Sie ihre Email-Adresse als Login';
 $PALANG['pUsersLogin_password_incorrect'] = 'Falsches Passwort!';
-$PALANG['pUsersLogin_password_recover'] = 'I habe mein Passwort vergessen';
+$PALANG['pUsersLogin_password_recover'] = 'Ich habe mein Passwort vergessen';
 
 $PALANG['pUsersMenu_vacation'] = 'Automatische Antwort';
 $PALANG['pUsersMenu_edit_alias'] = 'Weiterleitung ändern';
@@ -349,7 +349,7 @@ $PALANG['broadcast_to_domains'] = "Senden an Domains:";
 $PALANG['pStatus_undeliverable'] = 'möglicherweise UNZUSTELLBAR ';
 $PALANG['pStatus_disabled'] = 'Konto deaktiviert ';
 $PALANG['pStatus_expired'] = 'Passwort abgelaufen ';
-$PALANG['pStatus_vacation'] = 'Abwesenheit aktiviert ';
+$PALANG['pStatus_vacation'] = 'Automatische Antwort aktiviert ';
 $PALANG['pStatus_custom'] = 'Zustellung an ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
