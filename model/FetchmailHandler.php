@@ -25,6 +25,7 @@ class FetchmailHandler extends PFAHandler {
             'domain'           => pacol(0,          0,      1,      'text', ''                              , ''                                ),
             'mailbox'          => pacol(1,          1,      1,      'enum', 'pFetchmail_field_mailbox'      , 'pFetchmail_desc_mailbox'         ), # mailbox list
             'src_server'       => pacol(1,          1,      1,      'text', 'pFetchmail_field_src_server'   , 'pFetchmail_desc_src_server'      ),
+            'src_port'         => pacol(1,          1,      1,      'num',  'pFetchmail_field_src_port'     , 'pFetchmail_desc_src_port'        , 0 ),
             'src_auth'         => pacol(1,          1,      1,      'enum', 'pFetchmail_field_src_auth'     , 'pFetchmail_desc_src_auth'        , '', $src_auth_options),
             'src_user'         => pacol(1,          1,      1,      'text', 'pFetchmail_field_src_user'     , 'pFetchmail_desc_src_user'        ),
             'src_password'     => pacol(1,          1,      0,      'b64p', 'pFetchmail_field_src_password' , 'pFetchmail_desc_src_password'    ),
