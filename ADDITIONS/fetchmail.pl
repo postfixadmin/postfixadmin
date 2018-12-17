@@ -122,7 +122,7 @@ set syslog
 
 TXT
     $text.="poll ${src_server} with proto ${protocol}";
-    $text.=" service ${src_service}" if ($src_service);
+    $text.=" service ${src_port}" if ($src_port);
     $text.="\n	$cmd";
 
 
