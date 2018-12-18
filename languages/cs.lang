@@ -351,6 +351,9 @@ $PALANG['pBroadcast_error_empty'] = 'Pole Od, Předmět a Zpráva by neměly bý
 $PALANG['broadcast_mailboxes_only'] = 'Pouze poslat do schránek';
 $PALANG['broadcast_to_domains'] = 'Poslat na domény:';
 $PALANG['pStatus_undeliverable'] = 'možná NEDORUČITELNÉ ';
+$PALANG['pStatus_disabled'] = 'Account disabled '; # XXX
+$PALANG['pStatus_expired'] = 'Password expired '; # XXX
+$PALANG['pStatus_vacation'] = 'Vacation enabled '; # XXX
 $PALANG['pStatus_custom'] = 'Doručeno do ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "Heslo je příliš krátké - je vyžadováno minimálně %s znaků";
@@ -407,6 +410,7 @@ $PALANG['pFetchmail_desc_date']             = 'Datum posledního stažení pošt
 $PALANG['pFetchmail_desc_returned_text']    = 'Výstupní textový záznam posledního stahování pošty';
 $PALANG['dateformat_pgsql'] = 'dd-mm-YYYY'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format
 $PALANG['dateformat_mysql'] = '%d.%m.%Y';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
+$PALANG['password_expiration'] = 'Pass expires'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

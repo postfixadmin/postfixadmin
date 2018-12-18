@@ -339,6 +339,9 @@ $PALANG['pBroadcast_error_empty'] = 'De velden Naam, Onderwerp en Bericht mogen 
 $PALANG['broadcast_mailboxes_only'] = 'Verstuur alleen aan mailboxen';
 $PALANG['broadcast_to_domains'] = 'Verstuur aan de domeinen:';
 $PALANG['pStatus_undeliverable'] = 'Misschien niet af te leveren ';
+$PALANG['pStatus_disabled'] = 'Account disabled '; # XXX
+$PALANG['pStatus_expired'] = 'Password expired '; # XXX
+$PALANG['pStatus_vacation'] = 'Vacation enabled '; # XXX
 $PALANG['pStatus_custom'] = 'Bezorgen op ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "Wachtwoord is te kort - moet minimaal %s karakters bevatten";
@@ -395,6 +398,7 @@ $PALANG['pFetchmail_desc_date']             = 'datum van de laatste berichtencon
 $PALANG['pFetchmail_desc_returned_text']    = 'text bericht van de laatste berichtencontrole.';
 $PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format # XXX
 $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format # XXX
+$PALANG['password_expiration'] = 'Pass expires'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

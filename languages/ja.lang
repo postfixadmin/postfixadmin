@@ -346,6 +346,9 @@ $PALANG['broadcast_mailboxes_only'] = 'メールアドレスだけに送信';
 $PALANG['broadcast_to_domains'] = '送信先のドメイン:';
 
 $PALANG['pStatus_undeliverable'] = 'おそらく配送不可能 ';
+$PALANG['pStatus_disabled'] = 'Account disabled '; # XXX
+$PALANG['pStatus_expired'] = 'Password expired '; # XXX
+$PALANG['pStatus_vacation'] = 'Vacation enabled '; # XXX
 $PALANG['pStatus_custom'] = '配送先 ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 
@@ -404,6 +407,7 @@ $PALANG['pFetchmail_desc_date']             = '最終取得確認／設定変更
 $PALANG['pFetchmail_desc_returned_text']    = '新着確認の戻りテキストメッセージ';
 $PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format
 $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
+$PALANG['password_expiration'] = 'Pass expires'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

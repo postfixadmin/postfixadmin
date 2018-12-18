@@ -339,6 +339,9 @@ $PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should
 $PALANG['broadcast_mailboxes_only'] = 'Only send to mailboxes'; # XXX
 $PALANG['broadcast_to_domains'] = 'Send to domains:'; # XXX
 $PALANG['pStatus_undeliverable'] = '可能無法送遞 ';
+$PALANG['pStatus_disabled'] = 'Account disabled '; # XXX
+$PALANG['pStatus_expired'] = 'Password expired '; # XXX
+$PALANG['pStatus_vacation'] = 'Vacation enabled '; # XXX
 $PALANG['pStatus_custom'] = '送遞至 ';
 $PALANG['pStatus_popimap'] = 'POP/IMAP '; # XXX
 $PALANG['password_too_short'] = "密碼太短 - 需要 %s 個字附";
@@ -395,6 +398,7 @@ $PALANG['pFetchmail_desc_date']             = 'Date of last polling/configuratio
 $PALANG['pFetchmail_desc_returned_text']    = 'Text message from last polling'; # XXX
 $PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format # XXX
 $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format # XXX
+$PALANG['password_expiration'] = 'Pass expires'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
