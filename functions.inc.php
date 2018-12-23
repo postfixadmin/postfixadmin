@@ -2306,4 +2306,21 @@ function getRemoteAddr() {
     return $REMOTE_ADDR;
 }
 
+function validate_recaptcha()
+{
+    global $CONF;
+    $response = $_POST['g-recaptcha-response'];
+    $recaptcha_check_url = 'https://www.google.com/recaptcha/api/siteverify?secret=';
+
+    // Add the site private key to config.local.php
+    $verifyResponse = file_get_contents($recaptcha_check_url.$CONF['recaptcha_secret'].'&response='.$response);
+
+    // Enable recaptchav2 in config.local.php
+    if ($CONF['recaptcha_enabled']) {
+            if (json_decode($verifyResponse)->success) return TRUE;
+            else return FALSE;
+    } else return TRUE;
+}
+
+
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
