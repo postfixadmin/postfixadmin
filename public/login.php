@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     $h = new AdminHandler();
-    if ($h->login($fUsername, $fPassword)) {
+    if ($h->login($fUsername, $fPassword) && validate_recaptcha()) {
         init_session($fUsername, true);
 
         # they've logged in, so see if they are a domain admin, as well.
