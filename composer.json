@@ -15,10 +15,15 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.7",
-        "vimeo/psalm":"^1.0",
+        "vimeo/psalm":"^3.0",
         "jakub-onderka/php-parallel-lint": "^1.0",
         "phpunit/phpunit": "^6.0",
         "zendframework/zendframework1": "^1.12.0"
+    },
+    "autoload": {
+        "files": [
+            "config.inc.php",
+            "functions.inc.php"
+        ]
     }
-
 }
