@@ -36,7 +36,8 @@ class Shell {
      * @var object
      * @access public
      */
-    public $Dispatch = null;
+    public $Dispatch;
+
     /**
      * If true, the script will ask for permission to perform actions.
      *
@@ -64,28 +65,28 @@ class Shell {
      * @var string
      * @access public
      */
-    public $shell = null;
+    public $shell;
     /**
      * The class name of the shell that was invoked.
      *
      * @var string
      * @access public
      */
-    public $className = null;
+    public $className;
     /**
      * The command called if public methods are available.
      *
      * @var string
      * @access public
      */
-    public $command = null;
+    public $command;
     /**
      * The name of the shell in camelized.
      *
      * @var string
      * @access public
      */
-    public $name = null;
+    public $name;
 
     /**
      *  Constructs this Shell instance.

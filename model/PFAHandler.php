@@ -33,18 +33,18 @@ abstract class PFAHandler {
      * @var string (default) name of the database table
      * (can be overridden by $CONF[database_prefix] and $CONF[database_tables][*] via table_by_key())
      */
-    protected $db_table = null;
+    protected $db_table;
 
     /**
      * @var string field containing the ID
      */
-    protected $id_field = null;
+    protected $id_field;
 
     /**
      * @var string  field containing the label
      * defaults to $id_field if not set
      */
-    protected $label_field = null;
+    protected $label_field;
 
     /**
      * field(s) to use in the ORDER BY clause
@@ -52,7 +52,7 @@ abstract class PFAHandler {
      * defaults to $id_field if not set
      * @var string
      */
-    protected $order_by = null;
+    protected $order_by;
 
     /**
      * @var string
@@ -896,7 +896,7 @@ abstract class PFAHandler {
     }
 
     /**
-     * @return return value of previously called method
+     * @return mixed return value of previously called method
      */
     public function result() {
         return $this->result;

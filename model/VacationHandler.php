@@ -199,18 +199,18 @@ class VacationHandler extends PFAHandler {
         $boolean = ($row['active'] == db_get_boolean(true));
         # TODO: only return true and store the db result array in $this->whatever for consistency with the other classes
         return array(
-            'subject' => $row['subject'],
-            'body' => $row['body'],
-            'active'  => $boolean ,
-            'interval_time' => $row['interval_time'],
-            'activeFrom' => $row['activefrom'],
-            'activeUntil' => $row['activeuntil'],
+            'subject' => isset($row['subject']) ? $row['subject'] : null,
+            'body' => isset($row['body']) ? $row['body'] : null,
+            'active'  => $boolean,
+            'interval_time' => isset($row['interval_time']) ? $row['interval_time'] : null,
+            'activeFrom' => isset($row['activefrom']) ? $row['activefrom'] : null,
+            'activeUntil' => isset($row['activeuntil']) ? $row['activeuntil'] : null
         );
     }
     /**
      * @param string $subject
      * @param string $body
-     * @param string $interval_time
+     * @param int $interval_time
      * @param string $activeFrom - something strtotime understands
      * @param string $activeUntil - something strtotime understands
      * @return boolean
