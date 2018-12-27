@@ -81,28 +81,28 @@ class PostfixAdmin {
      *
      * @var string
      */
-    public $shell = null;
+    public $shell;
 
     /**
      * The class name of the shell that was invoked.
      *
      * @var string
      */
-    public $shellClass = null;
+    public $shellClass;
 
     /**
      * The command called if public methods are available.
      *
      * @var string
      */
-    public $shellCommand = null;
+    public $shellCommand;
 
     /**
      * The name of the shell in camelized.
      *
      * @var string
      */
-    public $shellName = null;
+    public $shellName;
 
     /**
      * Constructor
@@ -121,10 +121,10 @@ class PostfixAdmin {
      */
     private function __initConstants() {
         ini_set('display_errors', '1');
-        ini_set('error_reporting', E_ALL);
-        ini_set('html_errors', false);
-        ini_set('implicit_flush', true);
-        ini_set('max_execution_time', 0);
+        ini_set('error_reporting', '' . E_ALL);
+        ini_set('html_errors', "0");
+        ini_set('implicit_flush', "1");
+        ini_set('max_execution_time', "0");
     }
 
     /**
@@ -321,8 +321,6 @@ class PostfixAdmin {
 
     /**
      * Helper for recursively paraing params
-     *
-     * @return array params
      */
     private function __parseParams($params) {
         $count = count($params);
