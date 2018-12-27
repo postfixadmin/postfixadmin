@@ -49,6 +49,11 @@ $f_imap_open = function_exists("imap_open");
 $file_config = file_exists(realpath("./../config.inc.php"));
 $file_local_config = file_exists(realpath("./../config.local.php"));
 
+// Fall back to looking in /etc/postfixadmin for config.local.php (Debian etc)
+if(!$file_local_config && is_dir('/etc/postfixadmin')) {
+    $file_local_config = file_exists('/etc/postfixadmin/config.local.php');
+}
+
 $error = 0;
 
 $errormsg = array();
