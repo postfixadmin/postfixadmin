@@ -94,14 +94,4 @@ $smarty->assign('version', $version);
 $smarty->assign('boolconf_alias_domain', Config::bool('alias_domain'));
 $smarty->assign('authentication_has_role', array('global_admin' => authentication_has_role('global-admin'), 'admin' => authentication_has_role('admin'), 'user' => authentication_has_role('user')));
 
-function eval_size($aSize) {
-    if ($aSize == 0) {
-        $ret_val = Config::Lang('pOverview_unlimited');
-    } elseif ($aSize < 0) {
-        $ret_val = Config::Lang('pOverview_disabled');
-    } else {
-        $ret_val = $aSize;
-    }
-    return $ret_val;
-}
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
