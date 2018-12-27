@@ -388,7 +388,7 @@ function safeget($param, $default = "")
  * @see safeget()
  * @param string $param parameter name
  * @param string $default (optional) default value (defaults to "")
- * @return string - value in $_POST[$param] or $default
+ * @return string|array - value in $_POST[$param] or $default 
  */
 function safepost($param, $default = "")
 {
@@ -852,6 +852,7 @@ if (!function_exists('random_int')) { // PHP version < 7.0
         die(__FILE__ . " Postfixadmin security: Please install https://github.com/paragonie/random_compat OR enable the 'Phar' extension.");
     }
 }
+
 
 /**
  * Generate a random password of $length characters.
