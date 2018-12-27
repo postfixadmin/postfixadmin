@@ -88,7 +88,7 @@ $_SESSION['PFA_token'] = md5(uniqid(rand(), true));
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');
 $smarty->assign('logintype', 'admin');
-$smarty->assign('forgotten_password_reset', Config::read('forgotten_admin_password_reset'));
+$smarty->assign('forgotten_password_reset', Config::bool('forgotten_admin_password_reset'));
 $smarty->display('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

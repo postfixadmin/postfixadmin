@@ -34,7 +34,7 @@ class AdminHandler extends PFAHandler {
             $domains_grouped = 'group_concat(domain)';
         }
 
-        $passwordReset = Config::read('forgotten_admin_password_reset');
+        $passwordReset = (int) Config::bool('forgotten_admin_password_reset');
 
         $reset_by_sms = 0;
         if ($passwordReset && Config::read('sms_send_function')) {
@@ -44,10 +44,10 @@ class AdminHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label          $PALANG description   default / options / ...
             #                           editing?    form    list
-            'username'         => pacol($this->new, 1,      1,      'text', 'admin'              , 'email_address'     , '', '',
+            'username'         => pacol($this->new, 1,      1,      'text', 'admin'              , 'email_address'     , '', array(),
                 array('linkto' => 'list.php?table=domain&username=%s') ),
             'password'         => pacol(1,          1,      0,      'pass', 'password'           , ''                  ),
-            'password2'        => pacol(1,          1,      0,      'pass', 'password_again'     , ''                  , '', '',
+            'password2'        => pacol(1,          1,      0,      'pass', 'password_again'     , ''                  , '', array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
@@ -69,7 +69,7 @@ class AdminHandler extends PFAHandler {
                /*extrafrom set in domain_count*/
             ),
 
-            'domain_count'     => pacol(0,          0,      1,      'vnum', 'pAdminList_admin_count', ''               , '', '',
+            'domain_count'     => pacol(0,          0,      1,      'vnum', 'pAdminList_admin_count', ''               , '', array(),
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
                /*select*/ 'coalesce(__domain_count,0) as domain_count',

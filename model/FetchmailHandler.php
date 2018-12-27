@@ -83,9 +83,6 @@ class FetchmailHandler extends PFAHandler {
         );
     }
 
-    protected function domain_from_id() {
-        # do nothing, setmore() does the work
-    }
 
     protected function setmore($values) {
         # set domain based on the target mailbox

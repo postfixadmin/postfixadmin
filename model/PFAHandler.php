@@ -97,7 +97,10 @@ abstract class PFAHandler {
     # will be set to 0 if $admin_username is set and is not a superadmin
     protected $is_superadmin = 1;
 
-    # if set, switch to user (non-admin) mode
+    /**
+     * @var string $username
+     * if set, switch to user (non-admin) mode
+     */
     protected $username = '';
 
     # will be set to 0 if a user (non-admin) is logged in
@@ -159,9 +162,9 @@ abstract class PFAHandler {
 
     /**
      * Constructor: fill $struct etc.
-     * @param integer - 0 is edit mode, set to 1 to switch to create mode
-     * @param string - if an admin_username is specified, permissions will be restricted to the domains this admin may manage
-     * @param integer - 0 if logged in as user, 1 if logged in as admin or superadmin
+     * @param int $new - 0 is edit mode, set to 1 to switch to create mode
+     * @param string $username - if an admin_username is specified, permissions will be restricted to the domains this admin may manage
+     * @param int $is_admin - 0 if logged in as user, 1 if logged in as admin or superadmin
      */
     public function __construct($new = 0, $username = "", $is_admin = 1) {
         # set label_field if not explicitely set
@@ -207,7 +210,7 @@ abstract class PFAHandler {
         $this->initStruct();
 
         if (!isset($this->struct['_can_edit'])) {
-            $this->struct['_can_edit'] = pacol(0,           0,      1,      'vnum', ''                   , ''                  , '', '',
+            $this->struct['_can_edit'] = pacol(0,           0,      1,      'vnum', ''                   , ''                  , '', array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ '1 as _can_edit'
@@ -215,7 +218,7 @@ abstract class PFAHandler {
         }
 
         if (!isset($this->struct['_can_delete'])) {
-            $this->struct['_can_delete'] = pacol(0,         0,      1,      'vnum', ''                   , ''                  , '', '',
+            $this->struct['_can_delete'] = pacol(0,         0,      1,      'vnum', ''                   , ''                  , '', array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ '1 as _can_delete'
@@ -223,7 +226,7 @@ abstract class PFAHandler {
         }
 
         $struct_hook = Config::read($this->db_table . '_struct_hook');
-        if ($struct_hook != 'NO' && function_exists($struct_hook)) {
+        if (!empty($struct_hook) && is_string($struct_hook) && $struct_hook != 'NO' && function_exists($struct_hook)) {
             $this->struct = $struct_hook($this->struct);
         }
 
@@ -727,7 +730,9 @@ abstract class PFAHandler {
         $db_result = array();
         if ($result['rows'] != 0) {
             while ($row = db_assoc($result['result'])) {
-                $db_result[$row[$this->id_field]] = $row;
+                if(is_array($row)) {
+                    $db_result[$row[$this->id_field]] = $row;
+                }
             }
         }
 
@@ -822,6 +827,9 @@ abstract class PFAHandler {
         $result = db_query($query);
         if ($result['rows'] == 1) {
             $row = db_assoc($result['result']);
+            if(!is_array($row)) {
+                return false;
+            }
             $crypt_password = pacrypt($password, $row['password']);
 
             if ($row['password'] == $crypt_password) {
@@ -867,6 +875,10 @@ abstract class PFAHandler {
         $result = db_query($query);
         if ($result['rows'] == 1) {
             $row = db_assoc($result['result']);
+
+            if(!is_array($row)) {
+                return false;
+            }
             $crypt_token = pacrypt($token, $row['token']);
 
             if ($row['token'] == $crypt_token) {

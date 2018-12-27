@@ -69,6 +69,39 @@ final class Config {
     }
 
     /**
+     * @return array
+     * @param string $var
+     */
+    public static function read_array($var) {
+        $stuff = self::read($var);
+
+        if(!is_array($stuff)) {
+            trigger_error('In '.__FUNCTION__.": expected config $var to be a boolean, but received a " . gettype($stuff), E_USER_ERROR);
+        }
+
+        return $stuff;
+    }
+
+    /**
+     * @param string $var
+     * @return string
+     */
+    public static function read_string($var) {
+        $stuff = self::read($var);
+
+        if($stuff === null) {
+            return '';
+        }
+
+        if(!is_string($stuff)) {
+            trigger_error('In '.__FUNCTION__.": expected config $var to be a string, but received a " . gettype($stuff), E_USER_ERROR);
+            return '';
+        }
+
+        return $stuff;
+    }
+
+    /**
      * Used to read Configure::$var
      *
      * Usage
@@ -76,7 +109,7 @@ final class Config {
      * Configure::read('Name.key'); will return only the value of Configure::Name[key]
      *
      * @param string $var Variable to obtain
-     * @return array|string string value of Configure::$var
+     * @return array|string|null string value of Configure::$var
      * @access public
      */
     public static function read($var) {
@@ -131,7 +164,7 @@ final class Config {
      * @access public
      */
     public static function read_f($var, $value) {
-        $text = self::read($var);
+        $text = self::read_string($var);
 
         $newtext = sprintf($text, $value);
 
@@ -148,18 +181,27 @@ final class Config {
 
     /**
      * Used to read Config::$var, converted to boolean
-     * (obviously only useful for settings that can be YES or NO)
+     * (obviously only useful for settings that can be YES or NO, or boolean like values)
      *
      * Usage
      * Configure::read('Name'); will return the value for Name, converted to boolean
      *
      * @param string $var Variable to obtain
      * @return bool value of Configure::$var (TRUE (on YES/yes) or FALSE (on NO/no/not set/unknown value)
-     * @access public
      */
 
     public static function bool($var) {
         $value = self::read($var);
+
+        if(is_bool($value)) {
+            return $value;
+        }
+
+        if(!is_string($value)) {
+            trigger_error('In '.__FUNCTION__.": expected config $var to be a string, but received a " . gettype($value), E_USER_ERROR);
+            error_log("config $var should be a string, found: " . json_encode($value));
+            return false;
+        }
 
         if (strtoupper($value) == 'YES') { # YES
             return true;
@@ -185,15 +227,19 @@ final class Config {
 
 
     /**
-         * Get translated text from $PALANG
-         * (wrapper for self::read(), see also the comments there)
-         *
-         * @param string $var Variable to obtain
-         * @return string value of $PALANG[$var]
-         * @access public
-         */
+     * Get translated text from $PALANG
+     * (wrapper for self::read(), see also the comments there)
+     *
+     * @param string $var Variable to obtain
+     * @return string value of $PALANG[$var]
+     * @access public
+     */
     public static function lang($var) {
-        return self::read(array('__LANG', $var));
+        $value = self::read("__LANG.{$var}");
+        if(!is_string($value)) {
+            throw new InvalidArgumentException("Expected string value for $var ");
+        }
+        return $value;
     }
 
     /**
@@ -206,7 +252,7 @@ final class Config {
      * @access public
      */
     public static function lang_f($var, $value) {
-        return self::read_f(array('__LANG', $var), $value);
+        return self::read_f('__LANG'. $var, $value);
     }
 
     /**

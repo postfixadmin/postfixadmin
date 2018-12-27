@@ -319,11 +319,12 @@ function check_email($email) {
  * Clean a string, escaping any meta characters that could be
  * used to disrupt an SQL string. i.e. "'" => "\'" etc.
  *
- * @param string|array $string parameters to escape
- * @return string|array of cleaned data, suitable for use within an SQL statement.
+ * @param string $string parameters to escape
+ * @return string cleaned data, suitable for use within an SQL statement.
  */
 function escape_string($string) {
     global $CONF;
+
     // if the string is actually an array, do a recursive cleaning.
     // Note, the array keys are not cleaned.
     if (is_array($string)) {
@@ -846,13 +847,13 @@ function encode_header($string, $default_charset = "utf-8") {
     return $string;
 }
 
-
+/*
 if (!function_exists('random_int')) { // PHP version < 7.0
     function random_int() { // someone might not be using php_crypt or ask for password generation, in which case random_int() won't be called
         die(__FILE__ . " Postfixadmin security: Please install https://github.com/paragonie/random_compat OR enable the 'Phar' extension.");
     }
 }
-
+ */
 
 /**
  * Generate a random password of $length characters.
@@ -1313,19 +1314,6 @@ function create_salt() {
     srand((double) microtime()*1000000);
     $salt = substr(md5(rand(0, 9999999)), 0, 8);
     return $salt;
-}
-
-/**/ if (!function_exists('hex2bin')) { # PHP around 5.3.8 includes hex2bin as native function - http://php.net/hex2bin
-    function hex2bin($str) {
-        $len = strlen($str);
-        $nstr = "";
-        for ($i=0;$i<$len;$i+=2) {
-            $num = sscanf(substr($str, $i, 2), "%x");
-            $nstr.=chr($num[0]);
-        }
-        return $nstr;
-    }
-    /**/
 }
 
 /*
@@ -1829,7 +1817,7 @@ function db_array($result) {
  */
 function db_assoc($result) {
     global $CONF;
-    $row = "";
+    $row = [];
     if ($CONF['database_type'] == "mysql") {
         /* @var resource $result */
         $row = mysql_fetch_assoc($result);

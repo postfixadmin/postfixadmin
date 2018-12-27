@@ -55,7 +55,6 @@ if (! (check_owner($SESSID_USERNAME, $fDomain) || authentication_has_role('globa
     flash_error($PALANG['pViewlog_result_error']);
 }
 
-// we need to initialize $tLog as an array!
 $tLog = array();
 
 if ($error != 1) {
@@ -66,19 +65,22 @@ if ($error != 1) {
     if (db_pgsql()) {
         $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT $page_size";
     }
-    $result=db_query($query);
+    $result = db_query($query);
     if ($result['rows'] > 0) {
         while ($row = db_assoc($result['result'])) {
-            if (db_pgsql()) {
-                $row['timestamp']=gmstrftime('%c %Z', $row['timestamp']);
+            if (is_array($row) && db_pgsql()) {
+                $row['timestamp'] = gmstrftime('%c %Z', $row['timestamp']);
             }
             $tLog[] = $row;
         }
     }
 }
 
-for ($i = 0; $i < count($tLog); $i++) {
-    $tLog[$i]['action'] = $PALANG ['pViewlog_action_'.$tLog [$i]['action']];
+foreach($tLog as $k => $v) {
+    if(isset($v['action'])) {
+        $v['action'] = $PALANG['pViewlog_action_' . $v['action']];
+        $tLog[$k] = $v;
+    }
 }
 
 $smarty->assign('domain_list', $list_domains);

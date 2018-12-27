@@ -6,6 +6,8 @@
 
 class CliDelete extends Shell {
 
+    protected $handler_to_use = '';
+
     /**
      * Execution method always used for tasks
      */

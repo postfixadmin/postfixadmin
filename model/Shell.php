@@ -141,7 +141,7 @@ class Shell {
      * @param string $default Default input value.
      * @return string either the default value, or the user-provided input.
      */
-    public function in($prompt, $options = null, $default = null) {
+    public function in($prompt, $options = null, $default = '') {
         if (!$this->interactive) {
             return $default;
         }

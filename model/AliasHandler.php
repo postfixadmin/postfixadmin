@@ -26,11 +26,11 @@ class AliasHandler extends PFAHandler {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / ...
             #                           editing?    form    list
-            'status'           => pacol(0,          0,      0,      'html', ''                              , ''                                , '', '',
+            'status'           => pacol(0,          0,      0,      'html', ''                              , ''                                , '', array(),
                 array('not_in_db' => 1)  ),
             'address'          => pacol($this->new, 1,      1,      'mail', 'alias'                         , 'pCreate_alias_catchall_text'     ),
             'localpart'        => pacol($this->new, 0,      0,      'text', 'alias'                         , 'pCreate_alias_catchall_text'     , '',
-                /*options*/ '',
+                /*options*/ array(),
                 /*not_in_db*/ 1                         ),
             'domain'           => pacol($this->new, 0,      1,      'enum', ''                              , ''                                , '',
                 /*options*/ $this->allowed_domains      ),
@@ -38,24 +38,24 @@ class AliasHandler extends PFAHandler {
             'is_mailbox'       => pacol(0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 # technically 'is_mailbox' is bool, but the automatic bool conversion breaks the query. Flagging it as int avoids this problem.
                 # Maybe having a vbool type (without the automatic conversion) would be cleaner - we'll see if we need it.
-                /*options*/ '',
+                /*options*/ array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'coalesce(__is_mailbox,0) as is_mailbox' ),
                 /*extrafrom set via set_is_mailbox_extrafrom() */
             '__mailbox_username' => pacol( 0,       0,      1,      'vtxt', ''                              , ''                                , 0),  # filled via is_mailbox
             'goto_mailbox'     => pacol($mbgoto,    $mbgoto,$mbgoto,'bool', 'pEdit_alias_forward_and_store' , ''                                , 0,
-                /*options*/ '',
+                /*options*/ array(),
                 /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value
             'on_vacation'      => pacol(1,          0,      1,      'bool', 'pUsersMenu_vacation'           , ''                                , 0 ,
-                /*options*/ '',
+                /*options*/ array(),
                 /*not_in_db*/ 1                         ), # read_from_db_postprocess() sets the value - TODO: read active flag from vacation table instead?
             'created'          => pacol(0,          0,      0,      'ts',   'created'                       , ''                                ),
             'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'                 , ''                                ),
             'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                , 1     ),
-            '_can_edit'        => pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , '',
+            '_can_edit'        => pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , array(),
                 array('select' => '1 as _can_edit')  ),
-            '_can_delete'      => pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , '',
+            '_can_delete'      => pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , array(),
                 array('select' => '1 as _can_delete')  ), # read_from_db_postprocess() updates the value
                 # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
         );
@@ -326,12 +326,12 @@ class AliasHandler extends PFAHandler {
 
             # editing a default alias (postmaster@ etc.) is only allowed if special_alias_control is allowed or if the user is a superadmin
             $tmp = preg_split('/\@/', $db_result[$key]['address']);
-            if (!$this->is_superadmin && !Config::bool('special_alias_control') && array_key_exists($tmp[0], Config::Read('default_aliases'))) {
+            if (!$this->is_superadmin && !Config::bool('special_alias_control') && array_key_exists($tmp[0], Config::read_array('default_aliases'))) {
                 $db_result[$key]['_can_edit'] = 0;
                 $db_result[$key]['_can_delete'] = 0;
             }
 
-            if ($this->struct['status']['display_in_list'] && Config::Bool('show_status')) {
+            if ($this->struct['status']['display_in_list'] && Config::bool('show_status')) {
                 $db_result[$key]['status'] = gen_show_status($db_result[$key]['address']);
             }
         }
@@ -440,7 +440,7 @@ class AliasHandler extends PFAHandler {
     */
     protected function getVacationAlias() {
         $vacation_goto = str_replace('@', '#', $this->id);
-        return $vacation_goto . '@' . Config::read('vacation_domain');
+        return $vacation_goto . '@' . Config::read_string('vacation_domain');
     }
  
     /**

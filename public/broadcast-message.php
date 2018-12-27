@@ -66,7 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $result = db_query($q);
         if ($result['rows'] > 0) {
             while ($row = db_assoc($result['result'])) {
-                $recipients[] = $row['username'];
+                if(is_array($row)) {
+                    $recipients[] = $row['username'];
+                }
             }
         }
 

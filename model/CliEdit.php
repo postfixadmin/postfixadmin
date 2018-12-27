@@ -77,7 +77,8 @@ class CliEdit extends Shell {
         $form_fields = $handler->getStruct();
         $id_field    = $handler->getId_field();
 
-        $values[$id_field] = '';
+
+        $values = array($id_field => '');
         while ($form_fields[$id_field]['editable'] != 0) { # endlees loop - except if input is valid or id_field is not editable (like auto_increment)
             $question = $form_fields[$id_field]['label'] . ":";
             if ($form_fields[$id_field]['desc'] != '') {

@@ -59,6 +59,10 @@ if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
     }
 }
 
+if (!is_string($fDomain)) {
+    die(Config::Lang('invalid_parameter'));
+}
+
 if (!in_array($fDomain, $list_domains)) {
     flash_error($PALANG['invalid_parameter']);
     unset($_SESSION['list-virtual:domain']);
@@ -226,6 +230,9 @@ if ($result['rows'] > 0) {
     $goto_single_rec_del = "";
 
     while ($row = db_assoc($result['result'])) {
+        if(!is_array($row)) {
+            continue;
+        }
         if ($display_mailbox_aliases) {
             $goto_split = explode(",", $row['goto']);
             $row['goto_mailbox'] = 0;

@@ -1,5 +1,9 @@
-<?php if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); ?>
-<?php
+<?php 
+if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); 
+
+if( !isset($CONF) || !is_array($CONF) ) {
+    die("Configuration not loaded. Check " . __FILE__);
+}
 @header ("Expires: Sun, 16 Mar 2003 05:00:00 GMT");
 @header ("Last-Modified: " . gmdate ("D, d M Y H:i:s") . " GMT");
 @header ("Cache-Control: no-store, no-cache, must-revalidate");

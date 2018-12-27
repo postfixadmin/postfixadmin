@@ -162,7 +162,7 @@ class AliasProxy {
         $ah = new AliasHandler();
         $ah->init($_SESSION['sessid']['username']);
         
-        $values['goto'] = $addresses;
+        $values = ['goto' => $addresses];
 
         if ($flags == 'forward_and_store') {
             $values['goto_mailbox'] = 1;

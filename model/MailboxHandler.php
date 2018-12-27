@@ -12,9 +12,9 @@ class MailboxHandler extends PFAHandler {
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
-        $passwordReset = Config::read('forgotten_user_password_reset');
+        $passwordReset = (int) Config::bool('forgotten_user_password_reset');
         $reset_by_sms = 0;
-        if ($passwordReset && Config::read('sms_send_function')) {
+        if ($passwordReset && Config::read_string('sms_send_function')) {
             $reset_by_sms = 1;
         }
 
@@ -30,7 +30,7 @@ class MailboxHandler extends PFAHandler {
             'maildir'          => pacol($this->new, 0,      1,      'text', ''                              , ''                                , '' ),
             'password'         => pacol(1,          1,      0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
             'password2'        => pacol(1,          1,      0,      'pass', 'password_again'                , ''                                 , '',
-                /*options*/ '',
+                /*options*/ array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
@@ -41,7 +41,7 @@ class MailboxHandler extends PFAHandler {
             # TODO: read used quota from quota/quota2 table
             'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
             'welcome_mail'     => pacol($this->new, $this->new, 0,  'bool', 'pCreate_mailbox_mail'          , ''                                 , 1,
-                /*options*/ '',
+                /*options*/ array(),
                 /*not_in_db*/ 1             ),
             'phone'            => pacol(1,  $reset_by_sms,  0,      'text', 'pCreate_mailbox_phone'         , 'pCreate_mailbox_phone_desc'       , ''),
             'email_other'      => pacol(1,  $passwordReset, 0,      'mail', 'pCreate_mailbox_email'         , 'pCreate_mailbox_email_desc'       , ''),
@@ -97,7 +97,7 @@ class MailboxHandler extends PFAHandler {
         # } elseif ($maxquota < 0) {
             # TODO: show 'disabled' - at the moment, just shows '-1'
         } else {
-            $this->struct['quota']['desc'] = Config::lang_f('mb_max', $maxquota);
+            $this->struct['quota']['desc'] = Config::lang_f('mb_max', "" . $maxquota);
         }
     }
 
@@ -219,7 +219,7 @@ class MailboxHandler extends PFAHandler {
     protected function beforestore() {
 
         if (isset($this->values['quota']) && $this->values['quota'] != -1) {
-            $this->values['quota'] = $this->values['quota'] * Config::read('quota_multiplier'); # convert quota from MB to bytes
+            $this->values['quota'] = $this->values['quota'] * Config::read_string('quota_multiplier'); # convert quota from MB to bytes
         }
 
         $ah = new AliasHandler($this->new, $this->admin_username);
@@ -320,7 +320,7 @@ class MailboxHandler extends PFAHandler {
         db_delete($this->db_table,          $this->id_field, $this->id); # finally delete the mailbox
 
         if (!$this->mailbox_postdeletion()) {
-            $this->error_msg[] = Config::Lang('mailbox_postdel_failed');
+            $this->errormsg[] = Config::Lang('mailbox_postdel_failed');
         }
 
         list(/*NULL*/, $domain) = explode('@', $this->id);
@@ -408,9 +408,9 @@ class MailboxHandler extends PFAHandler {
     protected function _missing_maildir($field) {
         list($local_part, $domain) = explode('@', $this->id);
 
-        $maildir_name_hook = Config::read('maildir_name_hook');
+        $maildir_name_hook = Config::read_string('maildir_name_hook');
 
-        if ($maildir_name_hook != 'NO' && function_exists($maildir_name_hook)) {
+        if (is_string($maildir_name_hook) && $maildir_name_hook != 'NO' && function_exists($maildir_name_hook)) {
             $maildir = $maildir_name_hook($domain, $this->id);
         } elseif (Config::bool('domain_path')) {
             if (Config::bool('domain_in_mailbox')) {
@@ -650,7 +650,7 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-        $s_host = Config::read('create_mailbox_subdirs_host');
+        $s_host = Config::read_string('create_mailbox_subdirs_host');
         if (empty($s_host)) {
             trigger_error('An IMAP/POP server host ($CONF["create_mailbox_subdirs_host"]) must be configured, if sub-folders are to be created', E_USER_ERROR);
             return false;
@@ -670,7 +670,7 @@ class MailboxHandler extends PFAHandler {
         }
 
         $s_port='';
-        $create_mailbox_subdirs_hostport = Config::read('create_mailbox_subdirs_hostport');
+        $create_mailbox_subdirs_hostport = Config::read_string('create_mailbox_subdirs_hostport');
         if (!empty($create_mailbox_subdirs_hostport)) {
             $s_port = $create_mailbox_subdirs_hostport;
             if (intval($s_port)!=$s_port) {
@@ -690,7 +690,7 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-        $s_prefix = Config::read('create_mailbox_subdirs_prefix');
+        $s_prefix = Config::read_string('create_mailbox_subdirs_prefix');
         foreach ($create_mailbox_subdirs as $f) {
             $f='{'.$s_host.'}'.$s_prefix.$f;
             $res=imap_createmailbox($i, $f);

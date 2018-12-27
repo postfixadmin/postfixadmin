@@ -3,6 +3,9 @@ if (!defined('POSTFIXADMIN')) {
     require_once('common.php');
 }
 
+if(!isset($CONF) || !is_array($CONF)) {
+    die("config.inc.php seems invalid");
+}
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 # @version $Id$
 
@@ -12,7 +15,7 @@ if (!defined('POSTFIXADMIN')) {
 /**
  * Use this to check whether an object (Table, index etc) exists within a
  * PostgreSQL database.
- * @param String the object name
+ * @param string the object name
  * @return boolean true if it exists
  */
 function _pgsql_object_exists($name) {
@@ -24,6 +27,11 @@ function _pgsql_object_exists($name) {
     return false;
 }
 
+/**
+ * @param string $table
+ * @param string $field
+ * @return bool
+ */
 function _pgsql_field_exists($table, $field) {
     # $table = table_by_key($table); # _pgsql_field_exists is always called with the expanded table name - don't expand it twice
     $sql = '
@@ -97,7 +105,7 @@ function _db_add_field($table, $field, $fieldtype, $after = '') {
     }
 
     if (! _db_field_exists(table_by_key($table), $field)) {
-        $result = db_query_parsed($query);
+        db_query_parsed($query);
     } else {
         printdebug("field already exists: $table.$field");
     }
@@ -218,7 +226,6 @@ function _do_upgrade($current_version) {
             }
         }
         // Update config table so we don't run the same query twice in the future.
-        $i = (int) $i;
         $table = table_by_key('config');
         $sql = "UPDATE $table SET value = $i WHERE name = 'version'";
         db_query($sql);
@@ -227,10 +234,10 @@ function _do_upgrade($current_version) {
 
 /**
  * Replaces database specific parts in a query
- * @param String sql query with placeholders
+ * @param string sql query with placeholders
  * @param int (optional) whether errors should be ignored (0=false)
- * @param String (optional) MySQL specific code to attach, useful for COMMENT= on CREATE TABLE
- * @return String sql query
+ * @param string (optional) MySQL specific code to attach, useful for COMMENT= on CREATE TABLE
+ * @return void
  */
 
 function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
@@ -303,7 +310,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{DATECURRENT}'     => 'timestamp with time zone default now()',
         );
     } else {
-        echo "Sorry, unsupported database type " . $conf['database_type'];
+        echo "Sorry, unsupported database type " . $CONF['database_type'];
         exit;
     }
 
@@ -312,14 +319,15 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
 
     $query = trim(str_replace(array_keys($replace), $replace, $sql));
 
-    if (safeget('debug') != "") {
+    $debug = safeget('debug', '') != '';
+
+    if ($debug) {
         printdebug($query);
     }
     $result = db_query($query, $ignore_errors);
-    if (safeget('debug') != "") {
+    if ($debug) {
         print "<div style='color:#f00'>" . $result['error'] . "</div>";
     }
-    return $result;
 }
 
 function _drop_index($table, $index) {
@@ -331,7 +339,7 @@ function _drop_index($table, $index) {
     } elseif ($CONF['database_type'] == 'pgsql' || db_sqlite()) {
         return "DROP INDEX $index"; # Index names are unique with a DB for PostgreSQL
     } else {
-        echo "Sorry, unsupported database type " . $conf['database_type'];
+        echo "Sorry, unsupported database type " . $CONF['database_type'];
         exit;
     }
 }
@@ -347,7 +355,7 @@ function _add_index($table, $indexname, $fieldlist) {
         $pgindexname = $table . "_" . $indexname . '_idx';
         return "CREATE INDEX $pgindexname ON $table($fieldlist);"; # Index names are unique with a DB for PostgreSQL
     } else {
-        echo "Sorry, unsupported database type " . $conf['database_type'];
+        echo "Sorry, unsupported database type " . $CONF['database_type'];
         exit;
     }
 }
@@ -472,10 +480,10 @@ function upgrade_2_mysql() {
     # from TABLE_BACKUP_MX.TXT
     $table_domain = table_by_key('domain');
     if (!_mysql_field_exists($table_domain, 'transport')) {
-        $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;", true);
+        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;", true);
     }
     if (!_mysql_field_exists($table_domain, 'backupmx')) {
-        $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx {BOOLEAN} AFTER transport;", true);
+        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx {BOOLEAN} AFTER transport;", true);
     }
 }
 
@@ -600,8 +608,8 @@ function upgrade_2_pgsql() {
 
     // this handles anyone who is upgrading... (and should have no impact on new installees)
     $table_domain = table_by_key('domain');
-    $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255)", true);
-    $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx BOOLEAN DEFAULT false", true);
+    db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255)", true);
+    db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx BOOLEAN DEFAULT false", true);
 }
 
 function upgrade_3_mysql() {
@@ -680,7 +688,7 @@ function upgrade_3_mysql() {
 function upgrade_4_mysql() { # MySQL only
     # changes between 2.1 and moving to sourceforge
     $table_domain = table_by_key('domain');
-    $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN quota int(10) NOT NULL default '0' AFTER maxquota", true);
+    db_query_parsed("ALTER TABLE $table_domain ADD COLUMN quota int(10) NOT NULL default '0' AFTER maxquota", true);
     # Possible errors that can be ignored:
     # - Invalid query: Table 'postfix.domain' doesn't exist
 }
@@ -699,25 +707,25 @@ function upgrade_4_pgsql() {
     $table_vacation_notification = table_by_key('vacation_notification');
 
     if (!_pgsql_field_exists($table_domain, 'quota')) {
-        $result = db_query_parsed("ALTER TABLE $table_domain ADD COLUMN quota int NOT NULL default '0'");
+        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN quota int NOT NULL default '0'");
     }
 
-    $result = db_query_parsed("ALTER TABLE $table_domain ALTER COLUMN domain DROP DEFAULT");
+    db_query_parsed("ALTER TABLE $table_domain ALTER COLUMN domain DROP DEFAULT");
     if (!_pgsql_object_exists('domain_domain_active')) {
-        $result = db_query_parsed("CREATE INDEX domain_domain_active ON $table_domain(domain,active)");
+        db_query_parsed("CREATE INDEX domain_domain_active ON $table_domain(domain,active)");
     }
 
-    $result = db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN domain DROP DEFAULT");
-    $result = db_query_parsed("ALTER TABLE $table_alias ALTER COLUMN address DROP DEFAULT");
-    $result = db_query_parsed("ALTER TABLE $table_alias ALTER COLUMN domain DROP DEFAULT");
+    db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN domain DROP DEFAULT");
+    db_query_parsed("ALTER TABLE $table_alias ALTER COLUMN address DROP DEFAULT");
+    db_query_parsed("ALTER TABLE $table_alias ALTER COLUMN domain DROP DEFAULT");
     if (!_pgsql_object_exists('alias_address_active')) {
-        $result = db_query_parsed("CREATE INDEX alias_address_active ON $table_alias(address,active)");
+        db_query_parsed("CREATE INDEX alias_address_active ON $table_alias(address,active)");
     }
 
-    $result = db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN username DROP DEFAULT");
-    $result = db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN domain DROP DEFAULT");
+    db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN username DROP DEFAULT");
+    db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN domain DROP DEFAULT");
 
-    $result = db_query_parsed("
+    db_query_parsed("
         BEGIN;
             ALTER TABLE $table_log RENAME COLUMN data TO data_old;
             ALTER TABLE $table_log ADD COLUMN data text NOT NULL default '';
@@ -725,10 +733,10 @@ function upgrade_4_pgsql() {
             ALTER TABLE $table_log DROP COLUMN data_old;
         COMMIT;");
 
-    $result = db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN username DROP DEFAULT");
-    $result = db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN domain DROP DEFAULT");
+    db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN username DROP DEFAULT");
+    db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN domain DROP DEFAULT");
 
-    $result = db_query_parsed(
+    db_query_parsed(
         "
         BEGIN;
             ALTER TABLE $table_mailbox RENAME COLUMN domain TO domain_old;
@@ -742,12 +750,12 @@ function upgrade_4_pgsql() {
     }
 
 
-    $result = db_query_parsed("ALTER TABLE $table_vacation ALTER COLUMN body SET DEFAULT ''");
+    db_query_parsed("ALTER TABLE $table_vacation ALTER COLUMN body SET DEFAULT ''");
     if (_pgsql_field_exists($table_vacation, 'cache')) {
-        $result = db_query_parsed("ALTER TABLE $table_vacation DROP COLUMN cache");
+        db_query_parsed("ALTER TABLE $table_vacation DROP COLUMN cache");
     }
 
-    $result = db_query_parsed("
+    db_query_parsed("
         BEGIN;
             ALTER TABLE $table_vacation RENAME COLUMN domain to domain_old;
             ALTER TABLE $table_vacation ADD COLUMN domain varchar(255) REFERENCES $table_domain;
@@ -757,11 +765,11 @@ function upgrade_4_pgsql() {
     ");
 
     if (!_pgsql_object_exists('vacation_email_active')) {
-        $result = db_query_parsed("CREATE INDEX vacation_email_active ON $table_vacation(email,active)");
+        db_query_parsed("CREATE INDEX vacation_email_active ON $table_vacation(email,active)");
     }
 
     if (!_pgsql_object_exists($table_vacation_notification)) {
-        $result = db_query_parsed("
+        db_query_parsed("
             CREATE TABLE $table_vacation_notification (
                 on_vacation character varying(255) NOT NULL REFERENCES $table_vacation(email) ON DELETE CASCADE,
                 notified character varying(255) NOT NULL,
@@ -785,7 +793,7 @@ function upgrade_4_pgsql() {
  * - removed creation of default superadmin
  */
 function upgrade_5_mysql() {
-    $result = db_query_parsed("
+    db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} " . table_by_key('admin') . " (
             `username` varchar(255) NOT NULL default '',
             `password` varchar(255) NOT NULL default '',
@@ -796,7 +804,7 @@ function upgrade_5_mysql() {
     KEY username (`username`)
 ) DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Admins'; ");
 
-    $result = db_query_parsed("
+    db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} " . table_by_key('alias') . " (
             `address` varchar(255) NOT NULL default '',
             `goto` text NOT NULL,
@@ -809,7 +817,7 @@ function upgrade_5_mysql() {
             ) DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Aliases';
     ");
 
-    $result = db_query_parsed("
+    db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} " . table_by_key('domain') . " (
             `domain` varchar(255) NOT NULL default '',
             `description` varchar(255) NOT NULL default '',
@@ -827,7 +835,7 @@ function upgrade_5_mysql() {
             ) DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Domains';
     ");
 
-    $result = db_query_parsed("
+    db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} " . table_by_key('domain_admins') . " (
             `username` varchar(255) NOT NULL default '',
             `domain` varchar(255) NOT NULL default '',
@@ -837,7 +845,7 @@ function upgrade_5_mysql() {
         ) DEFAULT {LATIN1} COMMENT='Postfix Admin - Domain Admins';
     ");
 
-    $result = db_query_parsed("
+    db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} " . table_by_key('log') . " (
             `timestamp` {DATETIME},
             `username` varchar(255) NOT NULL default '',
@@ -848,7 +856,7 @@ function upgrade_5_mysql() {
         ) DEFAULT {LATIN1} COMMENT='Postfix Admin - Log';
     ");
 
-    $result = db_query_parsed("
+    db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} " . table_by_key('mailbox') . " (
             `username` varchar(255) NOT NULL default '',
             `password` varchar(255) NOT NULL default '',
@@ -864,7 +872,7 @@ function upgrade_5_mysql() {
             ) DEFAULT {LATIN1} COMMENT='Postfix Admin - Virtual Mailboxes';
     ");
 
-    $result = db_query_parsed("
+    db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} " . table_by_key('vacation') . " (
             `email` varchar(255) NOT NULL ,
             `subject` varchar(255) NOT NULL,
@@ -883,10 +891,10 @@ function upgrade_5_mysql() {
  * drop useless indicies (already available as primary key)
  */
 function upgrade_79_mysql() { # MySQL only
-    $result = db_query_parsed(_drop_index('admin', 'username'), true);
-    $result = db_query_parsed(_drop_index('alias', 'address'), true);
-    $result = db_query_parsed(_drop_index('domain', 'domain'), true);
-    $result = db_query_parsed(_drop_index('mailbox', 'username'), true);
+    db_query_parsed(_drop_index('admin', 'username'), true);
+    db_query_parsed(_drop_index('alias', 'address'), true);
+    db_query_parsed(_drop_index('domain', 'domain'), true);
+    db_query_parsed(_drop_index('mailbox', 'username'), true);
 }
 
 function upgrade_81_mysql() { # MySQL only
@@ -905,7 +913,7 @@ function upgrade_81_mysql() { # MySQL only
     "));
 
     foreach ($all_sql as $sql) {
-        $result = db_query_parsed($sql, true);
+        db_query_parsed($sql, true);
     }
 }
 
@@ -913,9 +921,9 @@ function upgrade_81_mysql() { # MySQL only
  * Make logging translatable - i.e. create alias => create_alias
  */
 function upgrade_90_mysql_pgsql() {
-    $result = db_query_parsed("UPDATE " . table_by_key('log') . " SET action = REPLACE(action,' ','_')", true);
+    db_query_parsed("UPDATE " . table_by_key('log') . " SET action = REPLACE(action,' ','_')", true);
     # change edit_alias_state to edit_alias_active
-    $result = db_query_parsed("UPDATE " . table_by_key('log') . " SET action = 'edit_alias_state' WHERE action = 'edit_alias_active'", true);
+    db_query_parsed("UPDATE " . table_by_key('log') . " SET action = 'edit_alias_state' WHERE action = 'edit_alias_active'", true);
 }
 
 /**
@@ -924,9 +932,9 @@ function upgrade_90_mysql_pgsql() {
 function upgrade_169_mysql() {
     $table_domain = table_by_key('domain');
     $table_mailbox = table_by_key('mailbox');
-    $result = db_query_parsed("ALTER TABLE $table_domain MODIFY COLUMN `quota` bigint(20) NOT NULL default '0'", true);
-    $result = db_query_parsed("ALTER TABLE $table_domain MODIFY COLUMN `maxquota` bigint(20) NOT NULL default '0'", true);
-    $result = db_query_parsed("ALTER TABLE $table_mailbox MODIFY COLUMN `quota` bigint(20) NOT NULL default '0'", true);
+    db_query_parsed("ALTER TABLE $table_domain MODIFY COLUMN `quota` bigint(20) NOT NULL default '0'", true);
+    db_query_parsed("ALTER TABLE $table_domain MODIFY COLUMN `maxquota` bigint(20) NOT NULL default '0'", true);
+    db_query_parsed("ALTER TABLE $table_mailbox MODIFY COLUMN `quota` bigint(20) NOT NULL default '0'", true);
 }
 
 
@@ -963,7 +971,7 @@ function upgrade_318_mysql() {
     # (not a great loss) and re-create it using this function.
 
     foreach ($all_sql as $sql) {
-        $result = db_query_parsed($sql);
+        db_query_parsed($sql);
     }
 }
 
@@ -1090,7 +1098,7 @@ function upgrade_373_mysql() { # MySQL only
     "));
 
     foreach ($all_sql as $sql) {
-        $result = db_query_parsed($sql);
+        db_query_parsed($sql);
     }
 }
 
@@ -1162,7 +1170,7 @@ function upgrade_473_mysql() {
         "));
 
     foreach ($all_sql as $sql) {
-        $result = db_query_parsed($sql);
+        db_query_parsed($sql);
     }
 }
 
@@ -1408,6 +1416,10 @@ function upgrade_1284_mysql_pgsql() {
 
     if ($result['rows'] > 0) {
         while ($row = db_assoc($result['result'])) {
+            if(!is_array($row)) {
+                break;
+            } 
+
             printdebug("Setting superadmin flag for " . $row['username']);
             db_update('admin', 'username', $row['username'], array('superadmin' => db_get_boolean(true)));
         }
@@ -1676,7 +1688,7 @@ function upgrade_1836_mysql() {
     "));
 
     foreach ($all_sql as $sql) {
-        $result = db_query_parsed($sql, true);
+        db_query_parsed($sql, true);
     }
 }
 
