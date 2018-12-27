@@ -12,6 +12,8 @@ abstract class RemoteTest extends \PHPUnit\Framework\TestCase {
     protected $vacation;
     protected $alias;
 
+    protected $xmlrpc_client;
+
     public function setUp() {
         parent::setUp();
 

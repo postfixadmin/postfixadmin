@@ -25,13 +25,10 @@ class RemoteAliasTest extends RemoteTest {
     }
 
     public function testGet() {
-        try {
-            /* although we created an alias record, for users, this isn't returned... */
-            $this->assertEqual($this->alias->get(), array());
-        } catch (Exception $e) {
-            var_dump($this->xmlrpc_client->getHttpClient()->getLastResponse()->getBody());
-        }
+        /* although we created an alias record, for users, this isn't returned... */
+        $this->assertEquals($this->alias->get(), array());
     }
+
     public function testHasStoreAndForward() {
         $this->assertTrue($this->alias->hasStoreAndForward());
     }
@@ -41,7 +38,7 @@ class RemoteAliasTest extends RemoteTest {
         $this->assertFalse($this->alias->hasStoreAndForward());
         $this->assertTrue($this->alias->update(array('roger@rabbit.com'), 'remote_only'));
         $this->assertTrue($this->alias->update(array('roger@rabbit.com', 'fish@fish.net', 'road@runner.com'), 'remote_only'));
-        $this->assertEqual($this->alias->get(), array('roger@rabbit.com', 'fish@fish.net', 'road@runner.com'));
+        $this->assertEquals($this->alias->get(), array('roger@rabbit.com', 'fish@fish.net', 'road@runner.com'));
         $this->assertFalse($this->alias->hasStoreAndForward());
     }
 
@@ -52,9 +49,9 @@ class RemoteAliasTest extends RemoteTest {
         }
         $orig_aliases[] = 'roger@robbit.com';
         $this->assertTrue($this->alias->update($orig_aliases, 'forward_and_store'));
-        $this->assertEqual($this->alias->get(), $orig_aliases);
+        $this->assertEquals($this->alias->get(), $orig_aliases);
         $this->assertTrue($this->alias->update(array($this->username), 'forward_and_store'));
-        $this->assertEqual($this->alias->get(), array());
+        $this->assertEquals($this->alias->get(), array());
     }
 }
 

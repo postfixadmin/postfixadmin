@@ -26,13 +26,7 @@ class RemoteVacationTest extends RemoteTest {
     }
 
     public function testIsVacationSupported() {
-        try {
-            $this->assertTrue($this->vacation->isVacationSupported());
-        } catch (Exception $e) {
-            var_dump($e);
-            var_dump($this->xmlrpc_client->getHttpClient()->getLastResponse()->getBody());
-            die("fail..");
-        }
+        $this->assertTrue($this->vacation->isVacationSupported());
     }
 
     public function testCheckVacation() {
@@ -46,26 +40,23 @@ class RemoteVacationTest extends RemoteTest {
     }
 
     public function testSetAway() {
-        try {
-            $this->assertFalse($this->vacation->checkVacation());
-            $this->assertTrue($this->vacation->setAway('zzzz', 'aaaa'));
-            $this->assertTrue($this->vacation->checkVacation());
-        } catch (Exception $e) {
-            var_dump($this->xmlrpc_client->getHttpClient()->getLastResponse()->getBody());
-        }
+        $this->assertFalse($this->vacation->checkVacation());
+        $this->assertTrue($this->vacation->setAway('zzzz', 'aaaa'));
+        $this->assertTrue($this->vacation->checkVacation());
+
         $details = $this->vacation->getDetails();
-        $this->assertEqual($details['subject'], 'zzzz');
-        $this->assertEqual($details['body'], 'aaaa');
+        $this->assertEquals($details['subject'], 'zzzz');
+        $this->assertEquals($details['body'], 'aaaa');
 
         $this->vacation->remove();
         $details = $this->vacation->getDetails();
-        $this->assertEqual($details['subject'], 'zzzz');
-        $this->assertEqual($details['body'], 'aaaa');
+        $this->assertEquals($details['subject'], 'zzzz');
+        $this->assertEquals($details['body'], 'aaaa');
 
         $this->vacation->setAway('subject', 'body');
         $details = $this->vacation->getDetails();
-        $this->assertEqual($details['subject'], 'subject');
-        $this->assertEqual($details['body'], 'body');
+        $this->assertEquals($details['subject'], 'subject');
+        $this->assertEquals($details['body'], 'body');
     }
 }
 
