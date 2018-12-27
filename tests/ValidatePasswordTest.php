@@ -2,7 +2,7 @@
 
 require_once('common.php');
 
-class ValidatePasswordTest extends PHPUnit_Framework_TestCase {
+class ValidatePasswordTest extends \PHPUnit\Framework\TestCase {
     public function testBasic() {
         $config = Config::getInstance();
 

@@ -2,7 +2,7 @@
 
 require_once('common.php');
 
-class PaCryptTest extends PHPUnit_Framework_TestCase {
+class PaCryptTest extends \PHPUnit\Framework\TestCase {
     public function testMd5Crypt() {
         $hash = _pacrypt_md5crypt('test', '');
 

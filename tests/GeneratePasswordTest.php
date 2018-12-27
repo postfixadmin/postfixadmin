@@ -2,7 +2,7 @@
 
 require_once('common.php');
 
-class GeneratePasswordTest extends PHPUnit_Framework_TestCase {
+class GeneratePasswordTest extends \PHPUnit\Framework\TestCase {
     public function testBasic() {
         $one = generate_password();
 
