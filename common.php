@@ -57,7 +57,11 @@ spl_autoload_register('postfixadmin_autoload');
 if (!is_file("$incpath/config.inc.php")) {
     die("config.inc.php is missing!");
 }
+
+global $CONF;
+
 require_once("$incpath/config.inc.php");
+
 
 if (isset($CONF['configured'])) {
     if ($CONF['configured'] == false) {
@@ -79,8 +83,9 @@ if (defined('POSTFIXADMIN_CLI')) {
     $language = check_language(); # TODO: storing the language only at login instead of calling check_language() on every page would save some processor cycles ;-)
     $_SESSION['lang'] = $language;
 }
-
-require_once("$incpath/languages/" . $language . ".lang");
+if(!empty($language)) {
+    require_once("$incpath/languages/" . $language . ".lang");
+}
 
 if (!empty($CONF['language_hook']) && function_exists($CONF['language_hook'])) {
     $hook_func = $CONF['language_hook'];
