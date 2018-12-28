@@ -161,7 +161,6 @@ final class Config {
      * @param string $var Variable to obtain
      * @param string $value Value to use as sprintf parameter
      * @return string value of Config::$var, parsed by sprintf
-     * @access public
      */
     public static function read_f($var, $value) {
         $text = self::read_string($var);
@@ -170,9 +169,6 @@ final class Config {
 
         # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
         if ($text == $newtext) {
-            if (is_array($var)) {
-                $var = join('.', $var);
-            }
             error_log("$var used via read_f, but nothing replaced (value $value)");
         }
 
@@ -236,8 +232,13 @@ final class Config {
      */
     public static function lang($var) {
         $value = self::read("__LANG.{$var}");
+
+        if(is_null($value)) {
+            return '';
+        }
+
         if(!is_string($value)) {
-            throw new InvalidArgumentException("Expected string value for $var ");
+            trigger_error('In '.__FUNCTION__.": expected config $var to be a string , but received a " . gettype($value), E_USER_ERROR);
         }
         return $value;
     }
@@ -249,10 +250,9 @@ final class Config {
      * @param string $var Text (from $PALANG) to obtain
      * @param string $value Value to use as sprintf parameter
      * @return string value of $PALANG[$var], parsed by sprintf
-     * @access public
      */
     public static function lang_f($var, $value) {
-        return self::read_f('__LANG'. $var, $value);
+        return self::read_f('__LANG.'. $var, $value);
     }
 
     /**

@@ -155,14 +155,14 @@ function _flash_string($type, $string) {
 }
 
 /**
- * @param int $use_post - set to 0 if $_POST should NOT be read
+ * @param bool $use_post - set to 0 if $_POST should NOT be read
  * @return string e.g en
  * Try to figure out what language the user wants based on browser / cookie
  */
-function check_language($use_post = 1) {
+function check_language($use_post = true) {
     global $supported_languages; # from languages/languages.php
 
-    $lang = Config::read('default_language');
+    $lang = Config::read_string('default_language');
 
     if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
         $lang_array = preg_split('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
@@ -173,13 +173,14 @@ function check_language($use_post = 1) {
             array_unshift($lang_array, safepost('lang')); # but prefer $_POST['lang'] even more
         }
 
-        for ($i = 0; $i < count($lang_array); $i++) {
-            $lang_next = $lang_array[$i];
-            $lang_next = strtolower(trim($lang_next));
+        foreach($lang_array as $value) {
+            if(!is_string($value)) {
+                continue;
+            }
+            $lang_next = strtolower(trim($value));
             $lang_next = preg_replace('/;.*$/', '', $lang_next); # remove things like ";q=0.8"
             if (array_key_exists($lang_next, $supported_languages)) {
-                $lang = $lang_next;
-                break;
+                return $lang_next;
             }
         }
     }
@@ -219,8 +220,8 @@ function language_selector() {
  * @param string $domain
  * @return string empty if the domain is valid, otherwise string with the errormessage
  *
- * TODO: make check_domain able to handle as example .local domains
- * TODO: skip DNS check if the domain exists in PostfixAdmin?
+ * @todo make check_domain able to handle as example .local domains
+ * @todo skip DNS check if the domain exists in PostfixAdmin?
  */
 function check_domain($domain) {
     if (!preg_match('/^([-0-9A-Z]+\.)+' . '([-0-9A-Z]){2,13}$/i', ($domain))) {
@@ -266,51 +267,53 @@ function check_domain($domain) {
  * @return int password expiration value for this domain (DAYS, or zero if not enabled)
  */
 function get_password_expiration_value ($domain) {
-        $table_domain = table_by_key('domain');
-        $query = "SELECT password_expiry FROM $table_domain WHERE domain='$domain'";
-        $result = db_query ($query);
-        $password_expiration_value = db_array ($result['result']);
-        return $password_expiration_value[0];
+    $table_domain = table_by_key('domain');
+    $domain = escape_string($domain);
+    $query = "SELECT password_expiry FROM $table_domain WHERE domain='$domain'";
+    $result = db_query($query);
+    $password_expiration_value = db_assoc($result['result']);
+    return $password_expiration_value['password_expiry'];
 }
 
 /**
  * check_email
  * Checks if an email is valid - if it is, return true, else false.
+ * @todo make check_email able to handle already added domains
  * @param string $email - a string that may be an email address.
  * @return string empty if it's a valid email address, otherwise string with the errormessage
- * TODO: make check_email able to handle already added domains
  */
 function check_email($email) {
+
     $ce_email=$email;
 
     //strip the vacation domain out if we are using it
     //and change from blah#foo.com@autoreply.foo.com to blah@foo.com
     if (Config::bool('vacation')) {
-        $vacation_domain = Config::read('vacation_domain');
+        $vacation_domain = Config::read_string('vacation_domain');
         $ce_email = preg_replace("/@$vacation_domain\$/", '', $ce_email);
         $ce_email = preg_replace("/#/", '@', $ce_email);
     }
 
     // Perform non-domain-part sanity checks
     if (!preg_match('/^[-!#$%&\'*+\\.\/0-9=?A-Z^_{|}~]+' . '@' . '[^@]+$/i', $ce_email)) {
-        return Config::lang_f('pInvalidMailRegex', $email);
+        return "" . Config::lang_f('pInvalidMailRegex', $email);
     }
 
     if (function_exists('filter_var')) {
         $check = filter_var($email, FILTER_VALIDATE_EMAIL);
         if (!$check) {
-            return Config::lang_f('pInvalidMailRegex', $email);
+            return "" . Config::lang_f('pInvalidMailRegex', $email);
         }
     }
     // Determine domain name
-    $matches=array();
-    if (!preg_match('|@(.+)$|', $ce_email, $matches)) {
-        return Config::lang_f('pInvalidMailRegex', $email);
+    $matches = array();
+    if (preg_match('|@(.+)$|', $ce_email, $matches)) {
+        $domain=$matches[1];
+        # check domain name
+        return "" . check_domain($domain);
     }
-    $domain=$matches[1];
 
-    # check domain name
-    return check_domain($domain);
+    return "" . Config::lang_f('pInvalidMailRegex', $email);
 }
 
 
@@ -325,31 +328,25 @@ function check_email($email) {
 function escape_string($string) {
     global $CONF;
 
-    // if the string is actually an array, do a recursive cleaning.
-    // Note, the array keys are not cleaned.
-    if (is_array($string)) {
-        $clean = array();
-        foreach ($string as $k => $v) {
-            $clean[$k] = escape_string($v);
-        }
-        return $clean;
-    }
     if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
         $string = stripslashes($string);
     }
+
+    $escaped_string = '';
+
     if (!is_numeric($string)) {
         $link = db_connect();
 
-        if ($CONF['database_type'] == "mysql") {
+        if ($CONF['database_type'] == "mysql" && is_resource($link)) {
             $escaped_string = mysql_real_escape_string($string, $link);
         }
-        if ($CONF['database_type'] == "mysqli") {
+        if ($CONF['database_type'] == "mysqli" && $link instanceof mysqli) {
             $escaped_string = mysqli_real_escape_string($link, $string);
         }
         if (db_sqlite()) {
             $escaped_string = SQLite3::escapeString($string);
         }
-        if (db_pgsql()) {
+        if (db_pgsql() && is_resource($link)) {
             // php 5.2+ allows for $link to be specified.
             if (version_compare(phpversion(), "5.2.0", ">=")) {
                 $escaped_string = pg_escape_string($link, $string);
@@ -360,6 +357,7 @@ function escape_string($string) {
     } else {
         $escaped_string = $string;
     }
+
     return $escaped_string;
 }
 
@@ -389,7 +387,7 @@ function safeget($param, $default = "")
  * @see safeget()
  * @param string $param parameter name
  * @param string $default (optional) default value (defaults to "")
- * @return string|array - value in $_POST[$param] or $default 
+ * @return string|array - value in $_POST[$param] or $default
  */
 function safepost($param, $default = "")
 {
@@ -531,6 +529,8 @@ function create_page_browser($idxfield, $querypart) {
     $label_len = 2;
     $pagebrowser = array();
 
+    $count_results = 0;
+
     if ($page_size < 2) { # will break the page browser
         die('$CONF[\'page_size\'] must be 2 or more!');
     }
@@ -618,7 +618,7 @@ function divide_quota($quota) {
     if ($quota == -1) {
         return $quota;
     }
-    $value = round($quota / Config::read('quota_multiplier'), 2);
+    $value = round($quota / (int) Config::read_string('quota_multiplier'), 2);
     return $value;
 }
 
@@ -657,6 +657,8 @@ function check_owner($username, $domain) {
 function list_domains_for_admin($username) {
     $table_domain = table_by_key('domain');
     $table_domain_admins = table_by_key('domain_admins');
+
+    $condition = array();
 
     $E_username = escape_string($username);
 
@@ -700,8 +702,10 @@ function list_domains() {
     if ($result['rows'] > 0) {
         $i = 0;
         while ($row = db_assoc($result['result'])) {
-            $list[$i] = $row['domain'];
-            $i++;
+            if(is_array($row)) {
+                $list[$i] = $row['domain'];
+                $i++;
+            }
         }
     }
     return $list;
@@ -889,10 +893,11 @@ function generate_password($length = 12) {
  * @return array of error messages, or empty array if the password is ok
  */
 function validate_password($password) {
-    $val_conf = Config::read('password_validation');
-    $result = array();
 
-    $minlen = (int) Config::read('min_password_length'); # used up to 2.3.x - check it for backward compatibility
+    $result = array();
+    $val_conf = Config::read_array('password_validation');
+
+    $minlen = (int) Config::read_string('min_password_length'); # used up to 2.3.x - check it for backward compatibility
     if ($minlen > 0) {
         $val_conf['/.{' . $minlen . '}/'] = "password_too_short $minlen";
     }
@@ -1035,7 +1040,7 @@ function _pacrypt_dovecot($pw, $pw_db) {
     fclose($pipes[0]);
 
     // Read hash from pipe stdout
-    $password = fread($pipes[1], "200");
+    $password = fread($pipes[1], 200);
 
     if (empty($dovepasstest)) {
         if (!preg_match('/^\{' . $method . '\}/', $password)) {
@@ -1311,8 +1316,8 @@ function md5crypt($pw, $salt="", $magic="") {
 }
 
 function create_salt() {
-    srand((double) microtime()*1000000);
-    $salt = substr(md5(rand(0, 9999999)), 0, 8);
+    srand((int) microtime()*1000000);
+    $salt = substr(md5("" . rand(0, 9999999)), 0, 8);
     return $salt;
 }
 
@@ -1366,9 +1371,9 @@ function smtp_mail($to, $from, $data, $body = "") {
     if (!empty($CONF['smtp_client'])) {
         $smtp_server = $CONF['smtp_client'];
     }
-    $errno = "0";
+    $errno = 0;
     $errstr = "0";
-    $timeout = "30";
+    $timeout = 30;
 
     if ($body != "") {
         $maildata =
@@ -1414,10 +1419,10 @@ function smtp_mail($to, $from, $data, $body = "") {
  * smtp_get_admin_email
  * Action: Get configured email address or current user if nothing configured
  * Call: smtp_get_admin_email
- * @return String - username/mail address
+ * @return string - username/mail address
  */
 function smtp_get_admin_email() {
-    $admin_email = Config::read('admin_email');
+    $admin_email = Config::read_string('admin_email');
     if (!empty($admin_email)) {
         return $admin_email;
     } else {
@@ -1442,14 +1447,13 @@ function smtp_get_response($fh) {
 
 
 
-$DEBUG_TEXT = "\n
-    <p />\n
-    Please check the documentation and website for more information.\n
-    <p />\n
-    <a href=\"http://postfixadmin.sf.net/\">Postfix Admin</a><br />\n
-    <a href='https://sourceforge.net/p/postfixadmin/discussion/676076'>Forums</a>
-    ";
-
+$DEBUG_TEXT = <<<EOF
+    <p>Please check the documentation and website for more information.</p>
+    <ul>
+        <li><a href="http://postfixadmin.sf.net">PostfixAdmin - Project website</a></li>
+        <li><a href='https://sourceforge.net/p/postfixadmin/discussion/676076'>Forums</a></li>
+    </ul>
+EOF;
 
 /**
  * db_connect
@@ -1465,22 +1469,29 @@ $DEBUG_TEXT = "\n
  *    array($link, $error_text);
  *
  * @param bool $ignore_errors
- * @return resource connection to db (normally)
+ * @return resource|mysqli|SQLite3 connection to db
  */
-function db_connect($ignore_errors = false) {
+function db_connect() {
+    list($link, $_) = db_connect_with_errors();
+    unset($_);
+    return $link;
+}
+
+/**
+ * @param bool $ignore_errors
+ * @return array
+ */
+function db_connect_with_errors() {
     global $CONF;
     global $DEBUG_TEXT;
-    if ($ignore_errors != 0) {
-        $DEBUG_TEXT = '';
-    }
+
+    $DEBUG_TEXT = '';
     $error_text = '';
 
     static $link;
     if (isset($link) && $link) {
-        if ($ignore_errors) {
             return array($link, $error_text);
-        }
-        return $link;
+
     }
     $link = 0;
 
@@ -1514,7 +1525,7 @@ function db_connect($ignore_errors = false) {
                 $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
             }
         }
-        if ($is_connected) {
+        if ($is_connected && $link instanceof mysqli) {
             @mysqli_query($link, "SET CHARACTER SET utf8");
             @mysqli_query($link, "SET COLLATION_CONNECTION='utf8_general_ci'");
         }
@@ -1524,7 +1535,9 @@ function db_connect($ignore_errors = false) {
                 $error_text .= ("<p />DEBUG INFORMATION<br />Connect: given database path does not exist, is not writable, or \$CONF['database_name'] is empty.");
             } else {
                 $link = new SQLite3($CONF['database_name']) or $error_text .= ("<p />DEBUG INFORMATION<br />Connect: failed to connect to database. $DEBUG_TEXT");
-                $link->createFunction('base64_decode', 'base64_decode');
+                if($link instanceof SQLite3) {
+                    $link->createFunction('base64_decode', 'base64_decode');
+                }
             }
         } else {
             $error_text .= "<p />DEBUG INFORMATION:<br />SQLite functions not available! (php5-sqlite installed?)<br />database_type = 'sqlite' in config.inc.php, are you using a different database? $DEBUG_TEXT";
@@ -1546,28 +1559,14 @@ function db_connect($ignore_errors = false) {
         $error_text = "<p />DEBUG INFORMATION:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php! $DEBUG_TEXT";
     }
 
-    if ($ignore_errors) {
-        return array($link, $error_text);
-    } elseif ($error_text != "") {
-        print $error_text;
-        die();
-    } elseif ($link) {
-        return $link;
-    } else {
-        print "DEBUG INFORMATION:<br />\n";
-        print "Connect: Unable to connect to database<br />\n";
-        print "<br />\n";
-        print "Make sure that you have set the correct database type in the config.inc.php file<br />\n";
-        print $DEBUG_TEXT;
-        die();
-    }
+    return array($link, $error_text);
 }
 
 /**
  * Returns the appropriate boolean value for the database.
  * Currently only PostgreSQL and MySQL are supported.
- * @param boolean $bool (REQUIRED)
- * @return String or int as appropriate.
+ * @param bool $bool
+ * @return string|int as appropriate for underlying db platform
  */
 function db_get_boolean($bool) {
     if (! (is_bool($bool) || $bool == '0' || $bool == '1')) {
@@ -1679,25 +1678,18 @@ function db_query($query, $ignore_errors = 0) {
         $DEBUG_TEXT = "";
     }
 
-    if ($CONF['database_type'] == "mysql") {
-        /* @var resource $link */
-        $result = @mysql_query($query, $link)
-        or $error_text = "Invalid query: " . mysql_error($link);
+    if ($CONF['database_type'] == "mysql" && is_resource($link)) {
+        $result = @mysql_query($query, $link) or $error_text = "Invalid query: " . mysql_error($link);
     }
-    if ($CONF['database_type'] == "mysqli") {
-        /* @var resource $link */
-        $result = @mysqli_query($link, $query)
-        or $error_text = "Invalid query: " . mysqli_error($link);
+    if ($CONF['database_type'] == "mysqli" && $link instanceof mysqli) {
+        $result = @mysqli_query($link, $query) or $error_text = "Invalid query: " . mysqli_error($link);
     }
-    if (db_sqlite()) {
-        /* @var SQLite3 $link */
-        $result = @$link->query($query)
-        or $error_text = "Invalid query: " . $link->lastErrorMsg();
+    if (db_sqlite() && $link instanceof SQLite3) {
+        $result = @$link->query($query) or $error_text = "Invalid query: " . $link->lastErrorMsg();
     }
-    if (db_pgsql()) {
+    if (db_pgsql() && is_resource($link)) {
         /* @var resource $link */
-        $result = @pg_query($link, $query)
-            or $error_text = "Invalid query: " . pg_last_error();
+        $result = @pg_query($link, $query) or $error_text = "Invalid query: " . pg_last_error();
     }
     if ($error_text != "" && $ignore_errors == 0) {
         error_log($error_text);
@@ -1706,8 +1698,9 @@ function db_query($query, $ignore_errors = 0) {
     }
 
     if ($error_text == "") {
-        if (db_sqlite()) {
+        if (db_sqlite() && $result instanceof SQLite3Result && $link instanceof SQLite3) {
             /* @var SQLite3Result $result */
+            /* @var SQLite3 $link */
             if ($result->numColumns()) {
                 // Query returned something
                 $num_rows = 0;
@@ -1723,26 +1716,26 @@ function db_query($query, $ignore_errors = 0) {
         } elseif (preg_match("/^SELECT/i", trim($query))) {
             /* @var resource $result */
             // if $query was a SELECT statement check the number of rows with [database_type]_num_rows ().
-            if ($CONF['database_type'] == "mysql") {
+            if ($CONF['database_type'] == "mysql" && is_resource($result)) {
                 $number_rows = mysql_num_rows($result);
             }
-            if ($CONF['database_type'] == "mysqli") {
+            if ($CONF['database_type'] == "mysqli" && $result instanceof mysqli_result) {
                 $number_rows = mysqli_num_rows($result);
             }
-            if (db_pgsql()) {
+            if (db_pgsql() && is_resource($result)) {
                 $number_rows = pg_num_rows($result);
             }
         } else {
             /* @var resource $result */
             // if $query was something else, UPDATE, DELETE or INSERT check the number of rows with
             // [database_type]_affected_rows ().
-            if ($CONF['database_type'] == "mysql") {
+            if ($CONF['database_type'] == "mysql" && is_resource($link)) {
                 $number_rows = mysql_affected_rows($link);
             }
-            if ($CONF['database_type'] == "mysqli") {
+            if ($CONF['database_type'] == "mysqli" && $link instanceof mysqli) {
                 $number_rows = mysqli_affected_rows($link);
             }
-            if (db_pgsql()) {
+            if (db_pgsql() && is_resource($result)) {
                 $number_rows = pg_affected_rows($result);
             }
         }
@@ -1762,22 +1755,28 @@ function db_query($query, $ignore_errors = 0) {
 // Action: Returns a row from a table
 // Call: db_row (int result)
 
+/**
+ * @param resource|mysqli_result|SQLite3Result $result
+ * @return array
+ */
 function db_row($result) {
     global $CONF;
     $row = "";
-    if ($CONF['database_type'] == "mysql") {
+    if ($CONF['database_type'] == "mysql" && is_resource($result)) {
         $row = mysql_fetch_row($result);
     }
-    if ($CONF['database_type'] == "mysqli") {
+    if ($CONF['database_type'] == "mysqli" && $result instanceof mysqli_result) {
         $row = mysqli_fetch_row($result);
     }
-    if (db_sqlite()) {
-        /* @var SQLite3Result $result */
+    if (db_sqlite() && $result instanceof SQLite3Result) {
         $row = $result->fetchArray(SQLITE3_NUM);
     }
-    if (db_pgsql()) {
-        /* @var resource $result */
+    if (db_pgsql() && is_resource($result)) {
         $row = pg_fetch_row($result);
+    }
+
+    if(!is_array($row)) {
+        return array();
     }
     return $row;
 }
@@ -1785,26 +1784,29 @@ function db_row($result) {
 
 /**
  * Return array from a db resource (presumably not associative).
- * @param resource $result
- * @return array|null|string
+ * @param resource|SQLite3Result|mysqli_result $result
+ * @return array
  */
 function db_array($result) {
     global $CONF;
     $row = "";
-    if ($CONF['database_type'] == "mysql") {
+    if ($CONF['database_type'] == "mysql" && is_resource($result)) {
         $row = mysql_fetch_array($result);
     }
-    if ($CONF['database_type'] == "mysqli") {
+    if ($CONF['database_type'] == "mysqli" && $result instanceof mysqli_result) {
         $row = mysqli_fetch_array($result);
     }
-    if (db_sqlite()) {
-        /* @var SQLite3Result $result */
+    if (db_sqlite() && $result instanceof SQLite3Result) {
         $row = $result->fetchArray();
     }
-    if (db_pgsql()) {
-        /* @var resource $result */
+    if (db_pgsql() && is_resource($result)) {
         $row = pg_fetch_array($result);
     }
+
+    if(!is_array($row)) {
+        return [];
+    }
+
     return $row;
 }
 
@@ -1813,25 +1815,27 @@ function db_array($result) {
  * Get an associative array from a DB query resource.
  *
  * @param mixed $result - either resource or SQLite3Result depending on DB type chosen.
- * @return array|null|string
+ * @return array
  */
 function db_assoc($result) {
     global $CONF;
     $row = [];
-    if ($CONF['database_type'] == "mysql") {
-        /* @var resource $result */
+    if ($CONF['database_type'] == "mysql" && is_resource($result)) {
         $row = mysql_fetch_assoc($result);
     }
-    if ($CONF['database_type'] == "mysqli") {
-        /* @var resource $result */
+    if ($CONF['database_type'] == "mysqli" && $result instanceof mysqli_result) {
         $row = mysqli_fetch_assoc($result);
+
     }
-    if (db_sqlite()) {
-        /* @var SQLite3Result $result */
+    if (db_sqlite() && $result instanceof SQLite3Result) {
         $row = $result->fetchArray(SQLITE3_ASSOC);
     }
-    if (db_pgsql()) {
+    if (db_pgsql() && is_resource($result)) {
         $row = pg_fetch_assoc($result);
+    }
+
+    if(!is_array($row)) {
+        $row = [];
     }
     return $row;
 }
@@ -1872,7 +1876,7 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
  * @param array $timestamp (optional) - array of fields to set to now() - default: array('created', 'modified')
  * @return int - number of inserted rows
  */
-function db_insert ($table, $values, $timestamp = array('created', 'modified'), $timestamp_expiration = array('password_expiry') ) {
+function db_insert ($table, array $values, $timestamp = array('created', 'modified') ) {
     $table = table_by_key($table);
 
     foreach (array_keys($values) as $key) {
@@ -1887,21 +1891,22 @@ function db_insert ($table, $values, $timestamp = array('created', 'modified'), 
         }
     }
 
-    global $CONF;
-    if ($CONF['password_expiration_enabled'] == 'YES') {
-        if ($table == 'mailbox') {
+    $_table = trim($table, "`'");
+    if (Config::bool('password_expiration')) {
+        if ($_table == 'mailbox') {
             $domain_dirty = $values['domain'];
-            $domain = substr($domain_dirty, 1, -1); // really the update to the mailbox password_expiry should be based on a trigger, or a query like :
-                                                    // .... NOW() + INTERVAL domain.password_expiry DAY 
-            $password_expiration_value = get_password_expiration_value($domain);
-            foreach($timestamp_expiration as $key) {
-                    $values[$key] = "now() + interval " . $password_expiration_value . " day";
-            }
+            $domain = trim($domain_dirty, "`'"); // naive assumption it is ' escaping.
+            $password_expiration_value = (int) get_password_expiration_value($domain);
+            $values['password_expiry'] = "now() + interval " . $password_expiration_value . " day";
+        }
+    }
+    else {
+        if($_table == 'mailbox') {
+            unset($values['password_expiry']);
         }
     }
 
-    $sql_values = "(" . implode(",", escape_string(array_keys($values))).") VALUES (".implode(",", $values).")";
-
+    $sql_values = "(" . implode(",", array_keys($values)) .") VALUES (". implode(",", $values).")";
     $result = db_query("INSERT INTO $table $sql_values");
     return $result['rows'];
 }
@@ -1934,7 +1939,10 @@ function db_update($table, $where_col, $where_value, $values, $timestamp = array
  * @return int - number of updated rows
  */
 function db_update_q($table, $where, $values, $timestamp = array('modified')) {
-    $table = table_by_key($table);
+    global $CONF;
+
+    $table_key = table_by_key($table);
+    $sql_values = array();
 
     foreach ($values as $key => $value) {
         $sql_values[$key] = $key . "='" . escape_string($value) . "'";
@@ -1948,23 +1956,26 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
         }
     }
 
-    global $CONF;
-    if ($CONF['password_expiration_enabled'] == 'YES') {
-        $where_type = explode('=',$where);
-        $email = ($where_type[1]);
-        $domain_dirty = explode('@',$email)[1];
-        $domain = substr($domain_dirty, 0, -1);
+    if (Config::bool('password_expiration')) {
         if ($table == 'mailbox') {
+
+            error_log("db_update_q : " . json_Encode($where));
+            $where_type = explode('=', $where);
+            $email = ($where_type[1]);
+            $domain_dirty = explode('@',$email)[1];
+            $domain = substr($domain_dirty, 0, -1);
             $password_expiration_value = get_password_expiration_value($domain);
             $key = 'password_expiry';
             $sql_values[$key] = $key . " = now() + interval " . $password_expiration_value . " day";
         }
     }
 
-    $sql="UPDATE $table SET " . implode(",", $sql_values) . " WHERE $where";
-
+    $sql="UPDATE $table_key SET " . implode(",", $sql_values) . " WHERE $where";
     $result = db_query($sql);
-    return $result['rows'];
+    if(array_key_exists('rows', $result)) {
+        return $result['rows'];
+    }
+    return 0;
 }
 
 
@@ -2008,11 +2019,12 @@ function db_log($domain, $action, $data) {
  * Call: db_in_clause (string field, array values)
  * @param string $field
  * @param array $values
+ * @return string
  */
-function db_in_clause($field, $values) {
-    return " $field IN ('"
-    . implode("','", escape_string(array_values($values)))
-    . "') ";
+function db_in_clause($field, array $values) {
+
+    $v = array_map('escape_string', array_values($values));
+    return " $field IN ('" . implode("','", $v) . "') ";
 }
 
 /**
@@ -2123,10 +2135,12 @@ function table_by_key($table_key) {
 }
 
 
-/*
+/**
  * check if the database layout is up to date
  * returns the current 'version' value from the config table
  * if $error_out is True (default), die() with a message that recommends to run setup.php.
+ * @param bool $error_out
+ * @return int
  */
 function check_db_version($error_out = true) {
     global $min_db_version;
@@ -2136,11 +2150,14 @@ function check_db_version($error_out = true) {
     $sql = "SELECT value FROM $table WHERE name = 'version'";
     $r = db_query($sql);
 
+    $dbversion = 0;
+
     if ($r['rows'] == 1) {
         $row = db_assoc($r['result']);
-        $dbversion = $row['value'];
+        if(isset($row['value'])) {
+            $dbversion = (int) $row['value'];
+        }
     } else {
-        $dbversion = 0;
         db_query("INSERT INTO $table (name, value) VALUES ('version', '0')", 0);
     }
 
@@ -2152,13 +2169,16 @@ function check_db_version($error_out = true) {
     return $dbversion;
 }
 
-//
-// gen_show_status
-// Action: Return a string of colored &nbsp;'s that indicate
-//         the if an alias goto has an error or is sent to
-//         addresses list in show_custom_domains
-// Call: gen_show_status (string alias_address)
-//
+
+/**
+ *
+ * Action: Return a string of colored &nbsp;'s that indicate
+ *        the if an alias goto has an error or is sent to
+ *        addresses list in show_custom_domains
+ *
+ * @param string $show_alias
+ * @return string
+ */
 function gen_show_status($show_alias) {
     global $CONF;
     $table_alias = table_by_key('alias');
@@ -2172,6 +2192,8 @@ function gen_show_status($show_alias) {
         $row = db_row($stat_result['result']);
         $stat_goto = $row[0];
     }
+
+    $delimiter_regex = null;
 
     if (!empty($CONF['recipient_delimiter'])) {
         $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
@@ -2197,11 +2219,11 @@ function gen_show_status($show_alias) {
             list($local_part, $stat_domain) = explode('@', $g);
 
             $stat_delimiter = "";
-            if (!empty($CONF['recipient_delimiter'])) {
+            if (!empty($CONF['recipient_delimiter']) && isset($delimiter_regex)) {
                 $stat_delimiter = "OR address = '" . escape_string(preg_replace($delimiter_regex, "@", $g)) . "'";
             }
             $stat_result = db_query("SELECT address FROM $table_alias WHERE address = '" . escape_string($g) . "' OR address = '@" . escape_string($stat_domain) . "' $stat_delimiter");
-            if ($stat_result['rows'] == 0) {
+            if (array_key_exists('rows', $stat_result) && $stat_result['rows'] == 0) {
                 $stat_ok = 0;
             }
             if ($stat_ok == 0) {
@@ -2250,7 +2272,7 @@ function gen_show_status($show_alias) {
     // POP/IMAP CHECK
     if ($CONF['show_popimap'] == 'YES') {
         $stat_delimiter = "";
-        if (!empty($CONF['recipient_delimiter'])) {
+        if (!empty($CONF['recipient_delimiter']) && isset($delimiter_regex)) {
             $stat_delimiter = ',' . preg_replace($delimiter_regex, "@", $stat_goto);
         }
 

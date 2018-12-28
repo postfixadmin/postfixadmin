@@ -449,10 +449,9 @@ class MailboxHandler extends PFAHandler {
      *
      * @param int $quota - quota wanted for the mailbox
      * @return boolean - true if requested quota is OK, otherwise false
+     * @todo merge with allowed_quota?
      */
-    # TODO: merge with allowed_quota?
     protected function check_quota($quota) {
-        $rval = false;
 
         if (!Config::bool('quota')) {
             return true; # enforcing quotas is disabled - just allow it
@@ -460,10 +459,6 @@ class MailboxHandler extends PFAHandler {
 
         list(/*NULL*/, $domain) = explode('@', $this->id);
         $limit = get_domain_properties($domain);
-
-        if ($limit['maxquota'] == 0) {
-            $rval = true; # maxquota unlimited -> OK, but domain level quota could still be hit
-        }
 
         if (($limit['maxquota'] < 0) and ($quota < 0)) {
             return true; # maxquota and $quota are both disabled -> OK, no need for more checks
@@ -475,12 +470,6 @@ class MailboxHandler extends PFAHandler {
 
         if ($limit['maxquota'] != 0 && $quota > $limit['maxquota']) {
             return false; # mailbox bigger than maxquota restriction (and maxquota != unlimited) -> not allowed, no more checks needed
-        } else {
-            $rval = true; # mailbox size looks OK, but domain level quota could still be hit
-        }
-
-        if (!$rval) {
-            return false; # over quota - no need to check domain_quota
         }
 
         # TODO: detailed error message ("domain quota exceeded", "mailbox quota too big" etc.) via flash_error? Or "available quota: xxx MB"?

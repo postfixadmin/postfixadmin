@@ -59,6 +59,7 @@ class Shell {
      * @access public
      */
     public $args = array();
+
     /**
      * The file name of the shell that was invoked.
      *
@@ -66,6 +67,7 @@ class Shell {
      * @access public
      */
     public $shell;
+
     /**
      * The class name of the shell that was invoked.
      *
@@ -73,12 +75,14 @@ class Shell {
      * @access public
      */
     public $className;
+
     /**
      * The command called if public methods are available.
      *
      * @var string
      * @access public
      */
+
     public $command;
     /**
      * The name of the shell in camelized.

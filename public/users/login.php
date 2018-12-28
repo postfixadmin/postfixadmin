@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $fUsername = trim(safepost('fUsername'));
     $fPassword = safepost('fPassword');
 
-    if ($lang != check_language(0)) { # only set cookie if language selection was changed
+    if ($lang != check_language(false)) { # only set cookie if language selection was changed
       setcookie('lang', $lang, time() + 60*60*24*30); # language cookie, lifetime 30 days
       # (language preference cookie is processed even if username and/or password are invalid)
     }

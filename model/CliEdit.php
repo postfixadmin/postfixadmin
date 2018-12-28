@@ -1,20 +1,22 @@
 <?php
 # $Id$
+
 /**
  * class to handle add and edit in Cli
  *
  * extends the "Shell" class
  */
-
-class CliEdit extends Shell {
+class CliEdit extends Shell
+{
     public $handler_to_use = "";
     public $new = 0;
 
 
     /**
-    * Execution method always used for tasks
-    */
-    public function execute() {
+     * Execution method always used for tasks
+     */
+    public function execute()
+    {
         if (empty($this->args)) {
             $this->__interactive();
         } else {
@@ -27,12 +29,13 @@ class CliEdit extends Shell {
      * read, check and handle all --* parameters
      * The list of allowed params is based on $handler->struct
      */
-    private function __handle_params() {
-        $handler     = new $this->handler_to_use($this->new);
+    private function __handle_params()
+    {
+        $handler = new $this->handler_to_use($this->new);
         $form_fields = $handler->getStruct();
-        $id_field    = $handler->getId_field();
+        $id_field = $handler->getId_field();
 
-        $values      = array();
+        $values = array();
         $param_error = 0;
 
         foreach ($this->params as $key => $val) {
@@ -69,13 +72,14 @@ class CliEdit extends Shell {
     }
 
     /**
-    * Interactive mode
-    */
-    private function __interactive() {
+     * Interactive mode
+     */
+    private function __interactive()
+    {
         $handler = new $this->handler_to_use($this->new);
 
         $form_fields = $handler->getStruct();
-        $id_field    = $handler->getId_field();
+        $id_field = $handler->getId_field();
 
 
         $values = array($id_field => '');
@@ -103,7 +107,7 @@ class CliEdit extends Shell {
 
         foreach ($form_fields as $key => $field) {
             if ($field['editable'] && $field['display_in_form'] && $key != $id_field) {
-                while (0==0) { # endlees loop - except if input is valid
+                while (0 == 0) { # endlees loop - except if input is valid
                     $question = $field['label'] . ':';
                     if ($field['desc'] != '') {
                         $question .= "\n(" . $field['desc'] . ')';
@@ -124,15 +128,15 @@ class CliEdit extends Shell {
                         foreach ($field['options'] as $optionkey => $optionval) {
                             // $this->in hates number 0
                             $optionkey = $optionkey + 1;
-                            $optiontxt[] = '['.$optionkey.'] - '.$optionval;
+                            $optiontxt[] = '[' . $optionkey . '] - ' . $optionval;
                             $optionlist[] = $optionkey;
                         }
 
                         $question .= "\n" . join("\n", $optiontxt) . "\n";
 
-                        $values[$key] = $this->in($question, $optionlist);
+                        $selected = (int) $this->in($question, $optionlist);
 
-                        $values[$key] = $field['options'][$values[$key]-1]; # convert int to option name
+                        $values[$key] = $field['options'][$selected - 1]; # convert int to option name
                     } elseif ($field['type'] == 'txtl') {
                         $values[$key] = array();
                         $nextval = $this->in($question);
@@ -173,10 +177,11 @@ class CliEdit extends Shell {
     }
 
     /**
-    * (try to) store values
-    */
-    private function __handle($id, $values) {
-        $handler =  new $this->handler_to_use($this->new);
+     * (try to) store values
+     */
+    private function __handle($id, $values)
+    {
+        $handler = new $this->handler_to_use($this->new);
         if (!$handler->init($id)) {
             $this->err($handler->errormsg);
             return;
@@ -198,9 +203,10 @@ class CliEdit extends Shell {
     }
 
     /**
-    * Displays help contents
-    */
-    public function help() {
+     * Displays help contents
+     */
+    public function help()
+    {
         if ($this->new) {
             $cmd = 'add';
             $cmdtext = 'Adds';
@@ -213,7 +219,7 @@ class CliEdit extends Shell {
         $module = strtolower($module);
 
         $this->out(
-"Usage:
+            "Usage:
 
     postfixadmin-cli $module $cmd
 
@@ -232,7 +238,7 @@ class CliEdit extends Shell {
         $handler = new $this->handler_to_use($this->new);
 
         $form_fields = $handler->getStruct();
-        $id_field    = $handler->getId_field();
+        $id_field = $handler->getId_field();
 
         foreach ($form_fields as $key => $field) {
             if ($field['editable'] && $field['display_in_form'] && $key != $id_field) {
@@ -245,7 +251,6 @@ class CliEdit extends Shell {
                 $this->out("");
             }
         }
-
 
 
         $this->_stop();

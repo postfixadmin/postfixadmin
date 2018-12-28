@@ -9,11 +9,11 @@ class AdminpasswordHandler extends PFAHandler {
     protected $skip_empty_pass = false;
 
     protected function no_domain_field() {
-        # PFAHandler die()s if domain field is not set. Disable this behaviour for AdminHandler.
+        return true;
     }
 
     protected function validate_new_id() {
-        # unused in AdminpasswordHandler, but must be defined
+        return true;
     }
 
     # init $this->struct, $this->db_table and $this->id_field
