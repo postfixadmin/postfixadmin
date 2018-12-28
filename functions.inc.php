@@ -2248,7 +2248,12 @@ function gen_show_status($show_alias) {
 
     // Expired CHECK
     if ( $CONF['show_expired'] == 'YES' ) {
-        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= now()");
+       $now = ' now() ';
+       if (db_sqlite()) {
+           $now = "datetime('now')";
+       }
+
+        $stat_result = db_query("SELECT /* crapquery */ * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= $now ");
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
