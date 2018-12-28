@@ -30,7 +30,6 @@
 #                                                                              #
 ################################################################################
 
-
 global $CONF;
 
 /*****************************************************************
@@ -658,7 +657,7 @@ function x_send_sms_clickatell($to, $message) {
 */
 
 // Theme Config
-$conf['theme'] = 'default';
+$CONF['theme'] = 'default';
 // Specify your own logo and CSS file
 $CONF['theme_logo'] = 'images/logo-default.png';
 $CONF['theme_css'] = 'css/default.css';
@@ -673,9 +672,9 @@ $CONF['theme_custom_css'] = '';
 $CONF['xmlrpc_enabled'] = false;
 
 //Account expiration info
-//If you want to display the password expiracy status of the accounts (read-only)
+//If enabled, mailbox passwords have a password_expiry field set, which is updated each time the password is changed, based on the parent domain's password_expiry (days) value.
 //More details in README.password_expiration
-$CONF['password_expiration_enable'] = 'YES';
+$CONF['password_expiration'] = 'YES';
 
 // If you want to keep most settings at default values and/or want to ensure 
 // that future updates work without problems, you can use a separate config 
