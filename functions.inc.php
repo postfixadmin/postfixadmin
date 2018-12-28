@@ -2247,12 +2247,12 @@ function gen_show_status($show_alias) {
 
     // Expired CHECK
     if ( Config::bool('password_expiration') && Config::bool('show_expired') ) {
-       $now = 'now()';
-       if (db_sqlite()) {
-           $now = "datetime('now')";
-       }
+        $now = 'now()';
+        if (db_sqlite()) {
+            $now = "datetime('now')";
+        }
 
-       $stat_result = db_query("SELECT /* crapquery */ * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= $now ");
+        $stat_result = db_query("SELECT /* crapquery */ * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= $now ");
 
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
