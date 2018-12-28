@@ -14,6 +14,9 @@
         "php": ">=5.2"
     },
     "require-dev": {
+        "ext-sqlite3": "*",
+        "ext-mysqli":  "*",
+        "php":  ">7.2.0",
         "friendsofphp/php-cs-fixer": "^2.7",
         "vimeo/psalm":"^3.0",
         "jakub-onderka/php-parallel-lint": "^1.0",
@@ -23,7 +26,8 @@
     "autoload": {
         "files": [
             "config.inc.php",
-            "functions.inc.php"
+            "functions.inc.php",
+            "lib/smarty/libs/bootstrap.php"
         ]
     }
 }
