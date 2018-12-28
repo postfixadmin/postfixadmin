@@ -212,12 +212,13 @@ if ($f_sqlite_open == 1) {
 // Database connection
 //
 if ($config_loaded) {
-    list($link, $error_text) = db_connect(true);
-    if ($error_text == "") {
+    list($link, $error_text) = db_connect_with_errors();
+
+    if (!empty($link) && $error_text == "") {
         print "<li>Testing database connection (using {$CONF['database_type']}) - OK</li>";
     } else {
         print "<li><b>Error: Can't connect to database</b><br />\n";
-        print "Please edit the \$CONF['database_*'] parameters in config.local.php.\n";
+        print "Please check the \$CONF['database_*'] parameters in config.local.php.\n";
         print "$error_text</li>\n";
         $error ++;
     }
