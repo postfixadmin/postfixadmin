@@ -50,13 +50,13 @@ function deldir($dir) {
     $current_dir = opendir($dir);
     while ($entryname = readdir($current_dir)) {
         if (is_dir("$dir/$entryname") and ($entryname != "." and $entryname!="..")) {
-            deldir("${dir}/${entryname}");
+            deldir("{$dir}/{$entryname}");
         } elseif ($entryname != "." and $entryname!="..") {
-            unlink("${dir}/${entryname}");
+            unlink("{$dir}/{$entryname}");
         }
     }
     closedir($current_dir);
-    @rmdir(${dir});
+    @rmdir($dir);
 }
 
 // --- Main Start ---
@@ -110,7 +110,7 @@ $conx = mysqli_connect($CONF['database_host'], $CONF['database_user'], $CONF['da
 // Is there a problem connecting?
 //
 if (! $conx || mysqli_connect_errno()) {
-    var_dump("DB connection failed." . mysqli_connect_error());
+    echo "DB connection failed." . mysqli_connect_error() . "\n";
     die("Problem connecting to the database. ");
 }
 

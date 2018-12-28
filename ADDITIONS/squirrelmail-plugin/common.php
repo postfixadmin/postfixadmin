@@ -12,14 +12,28 @@ chdir("..");
 if (!defined('SM_PATH')) {
     define('SM_PATH', '../');
 }
-include_once(dirname(__FILE__)  . '/config.php');
-include_once(dirname(__FILE__) . '/functions.inc.php');
-include_if_exists(dirname(__FILE__) . '/../include/validate.php');
-if (file_exists(dirname(__FILE__) . '/../include/validate.php')) {
-    include_once(dirname(__FILE__) . '/include/validate.php');
-} else {
-    include_if_exists(SM_PATH . 'src/validate.php');
+
+$config_file = dirname(__FILE__ ) . '/config.php';
+$validate_file = dirname(__FILE__) . '/../include/validate.php';
+
+if(!file_exists($config_file)) {
+    die("$config_file is missing");
 }
+
+include_once($config_file);
+include_once(dirname(__FILE__) . '/functions.inc.php');
+
+if(file_exists($validate_file)) {
+    include_once($validate_file);
+}
+else {
+    $validate_file = SM_PATH . '/src/validate.php';
+    if(file_exists($validate_file)) {
+        include_once($validate_file);
+    }
+}
+
+
 include_once(SM_PATH . 'functions/page_header.php');
 include_once(SM_PATH . 'functions/display_messages.php');
 include_once(SM_PATH . 'functions/imap.php');

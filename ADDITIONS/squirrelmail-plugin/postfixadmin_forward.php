@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             unset($array[$key]);
             continue;
         }
-        if (!check_email($email_address)) {
+        if (check_email($email_address) != "") {
             $error = 1;
             $tGoto = $goto;
             bindtextdomain('postfixadmin', SM_PATH . 'plugins/postfixadmin/locale');

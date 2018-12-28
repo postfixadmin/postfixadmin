@@ -1,5 +1,8 @@
 <?php
 // vim:ts=4:sw=4:et
+if(!defined('SM_PATH')) {
+    die("Invalid internal state (don't access file directly)");
+}
 include_once(SM_PATH . 'functions/i18n.php');
 
 function squirrelmail_plugin_init_postfixadmin() {
