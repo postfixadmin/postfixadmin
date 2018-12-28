@@ -217,7 +217,6 @@ class MailboxHandler extends PFAHandler {
 
 
     protected function beforestore() {
-
         if (isset($this->values['quota']) && $this->values['quota'] != -1) {
             $this->values['quota'] = $this->values['quota'] * Config::read_string('quota_multiplier'); # convert quota from MB to bytes
         }
@@ -452,7 +451,6 @@ class MailboxHandler extends PFAHandler {
      * @todo merge with allowed_quota?
      */
     protected function check_quota($quota) {
-
         if (!Config::bool('quota')) {
             return true; # enforcing quotas is disabled - just allow it
         }

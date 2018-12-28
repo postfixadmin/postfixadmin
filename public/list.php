@@ -87,7 +87,6 @@ if (count($handler->infomsg)) {
 
 
 if (safeget('output') == 'csv') {
-
     $out = fopen('php://output', 'w');
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment;filename='.$table.'.csv');
@@ -115,7 +114,7 @@ if (safeget('output') == 'csv') {
         $fields = array();
         foreach ($columns as $column) {
             $values = $item[$column];
-            if(is_array($values)) {
+            if (is_array($values)) {
                 $values = implode(',', $values);
             }
             $fields[] = $values;

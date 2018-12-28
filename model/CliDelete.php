@@ -5,7 +5,6 @@
  */
 
 class CliDelete extends Shell {
-
     protected $handler_to_use = '';
 
     /**

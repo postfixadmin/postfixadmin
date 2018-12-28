@@ -3,7 +3,7 @@ if (!defined('POSTFIXADMIN')) {
     require_once('common.php');
 }
 
-if(!isset($CONF) || !is_array($CONF)) {
+if (!isset($CONF) || !is_array($CONF)) {
     die("config.inc.php seems invalid");
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
@@ -1416,7 +1416,7 @@ function upgrade_1284_mysql_pgsql() {
 
     if ($result['rows'] > 0) {
         while ($row = db_assoc($result['result'])) {
-            if(!is_array($row)) {
+            if (!is_array($row)) {
                 break;
             }
 
@@ -1737,7 +1737,7 @@ function upgrade_1837_sqlite() {
 /* https://github.com/postfixadmin/postfixadmin/issues/89 */
 # upgrade_1838_mysql() renamed to upgrade_1839() to keep all databases in sync
 function upgrade_1839() {
-    if(!db_sqlite()) {
+    if (!db_sqlite()) {
         return _db_add_field('log', 'id', '{AUTOINCREMENT} {PRIMARY}', 'data');
     }
 

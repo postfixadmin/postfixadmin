@@ -10,8 +10,6 @@ define('NTLMSSP_HASH_SIZE', 16);
 
 
 class DovecotCrypt extends Crypt {
-
-
     private $errormsg = [];
 
     private $salt_chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -109,7 +107,7 @@ class DovecotCrypt extends Crypt {
 
     /**
      * @return string
-     */ 
+     */
     public function custom_hmac($algo, $data, $key, $raw_output = false) {
         $algo = strtolower($algo);
         $pack = 'H'.strlen($algo('test'));

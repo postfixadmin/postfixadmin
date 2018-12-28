@@ -75,7 +75,7 @@ final class Config {
     public static function read_array($var) {
         $stuff = self::read($var);
 
-        if(!is_array($stuff)) {
+        if (!is_array($stuff)) {
             trigger_error('In '.__FUNCTION__.": expected config $var to be a boolean, but received a " . gettype($stuff), E_USER_ERROR);
         }
 
@@ -89,11 +89,11 @@ final class Config {
     public static function read_string($var) {
         $stuff = self::read($var);
 
-        if($stuff === null) {
+        if ($stuff === null) {
             return '';
         }
 
-        if(!is_string($stuff)) {
+        if (!is_string($stuff)) {
             trigger_error('In '.__FUNCTION__.": expected config $var to be a string, but received a " . gettype($stuff), E_USER_ERROR);
             return '';
         }
@@ -189,11 +189,11 @@ final class Config {
     public static function bool($var) {
         $value = self::read($var);
 
-        if(is_bool($value)) {
+        if (is_bool($value)) {
             return $value;
         }
 
-        if(!is_string($value)) {
+        if (!is_string($value)) {
             trigger_error('In '.__FUNCTION__.": expected config $var to be a string, but received a " . gettype($value), E_USER_ERROR);
             error_log("config $var should be a string, found: " . json_encode($value));
             return false;
@@ -233,11 +233,11 @@ final class Config {
     public static function lang($var) {
         $value = self::read("__LANG.{$var}");
 
-        if(is_null($value)) {
+        if (is_null($value)) {
             return '';
         }
 
-        if(!is_string($value)) {
+        if (!is_string($value)) {
             trigger_error('In '.__FUNCTION__.": expected config $var to be a string , but received a " . gettype($value), E_USER_ERROR);
         }
         return $value;

@@ -16,19 +16,18 @@ if (!defined('SM_PATH')) {
 $config_file = dirname(__FILE__ ) . '/config.php';
 $validate_file = dirname(__FILE__) . '/../include/validate.php';
 
-if(!file_exists($config_file)) {
+if (!file_exists($config_file)) {
     die("$config_file is missing");
 }
 
 include_once($config_file);
 include_once(dirname(__FILE__) . '/functions.inc.php');
 
-if(file_exists($validate_file)) {
+if (file_exists($validate_file)) {
     include_once($validate_file);
-}
-else {
+} else {
     $validate_file = SM_PATH . '/src/validate.php';
-    if(file_exists($validate_file)) {
+    if (file_exists($validate_file)) {
         include_once($validate_file);
     }
 }

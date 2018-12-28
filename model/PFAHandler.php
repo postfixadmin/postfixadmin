@@ -730,7 +730,7 @@ abstract class PFAHandler {
         $db_result = array();
         if ($result['rows'] != 0) {
             while ($row = db_assoc($result['result'])) {
-                if(is_array($row)) {
+                if (is_array($row)) {
                     $db_result[$row[$this->id_field]] = $row;
                 }
             }
@@ -827,7 +827,7 @@ abstract class PFAHandler {
         $result = db_query($query);
         if ($result['rows'] == 1) {
             $row = db_assoc($result['result']);
-            if(!is_array($row)) {
+            if (!is_array($row)) {
                 return false;
             }
             $crypt_password = pacrypt($password, $row['password']);
@@ -876,7 +876,7 @@ abstract class PFAHandler {
         if ($result['rows'] == 1) {
             $row = db_assoc($result['result']);
 
-            if(!is_array($row)) {
+            if (!is_array($row)) {
                 return false;
             }
             $crypt_token = pacrypt($token, $row['token']);

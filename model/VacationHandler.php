@@ -197,7 +197,7 @@ class VacationHandler extends PFAHandler {
 
         $row = db_assoc($result['result']);
 
-        if(!is_array($row)) {
+        if (!is_array($row)) {
             return false;
         }
         $boolean = ($row['active'] == db_get_boolean(true));

@@ -73,7 +73,7 @@ Config::write($CONF);
 
 require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
-if(extension_loaded('Phar')) {
+if (extension_loaded('Phar')) {
     require_once("$incpath/lib/random_compat.phar");
 }
 
@@ -83,7 +83,7 @@ if (defined('POSTFIXADMIN_CLI')) {
     $language = check_language(); # TODO: storing the language only at login instead of calling check_language() on every page would save some processor cycles ;-)
     $_SESSION['lang'] = $language;
 }
-if(!empty($language)) {
+if (!empty($language)) {
     require_once("$incpath/languages/" . $language . ".lang");
 }
 

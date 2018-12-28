@@ -108,7 +108,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                 while ($row = db_assoc($result['result'])) {
                     $fields = array_keys($row);
                     $values = array_values($row);
-                    $values = array_map(function($str) { return escape_string($str); }, $values);
+                    $values = array_map(function ($str) {
+                        return escape_string($str);
+                    }, $values);
 
                     fwrite($fh, "INSERT INTO ". $tables[$i] . " (". implode(',', $fields) . ") VALUES ('" . implode('\',\'', $values) . "');\n");
                     $fields = "";

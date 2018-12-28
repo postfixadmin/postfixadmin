@@ -230,7 +230,7 @@ if ($result['rows'] > 0) {
     $goto_single_rec_del = "";
 
     while ($row = db_assoc($result['result'])) {
-        if(!is_array($row)) {
+        if (!is_array($row)) {
             continue;
         }
         if ($display_mailbox_aliases) {
@@ -405,7 +405,7 @@ class cNav_bar {
         
         $highlight_at = 0;
 
-        if ($this->limit >= $this->page_size) { 
+        if ($this->limit >= $this->page_size) {
             $highlight_at = $this->limit / $this->page_size ;
         }
 

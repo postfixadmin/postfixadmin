@@ -52,7 +52,6 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase {
                 'md5' => 'CY9rzUYh03PK3k6DJie09g==',
                 // crypt requires salt ...
                 'SHA' => 'qUqP5cyxm6YcTAhz05Hph5gvu9M='] as $flavour => $hash) {
-
             $CONF['authlib_default_flavour'] = $flavour;
 
             $stored = "{" . $flavour . "}$hash";

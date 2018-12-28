@@ -5,7 +5,6 @@
  */
 
 class CliView extends Shell {
-
     protected $handler_to_use = 'invalid';
 
     /**

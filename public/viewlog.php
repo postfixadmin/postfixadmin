@@ -76,8 +76,8 @@ if ($error != 1) {
     }
 }
 
-foreach($tLog as $k => $v) {
-    if(isset($v['action'])) {
+foreach ($tLog as $k => $v) {
+    if (isset($v['action'])) {
         $v['action'] = $PALANG['pViewlog_action_' . $v['action']];
         $tLog[$k] = $v;
     }

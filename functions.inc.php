@@ -173,8 +173,8 @@ function check_language($use_post = true) {
             array_unshift($lang_array, safepost('lang')); # but prefer $_POST['lang'] even more
         }
 
-        foreach($lang_array as $value) {
-            if(!is_string($value)) {
+        foreach ($lang_array as $value) {
+            if (!is_string($value)) {
                 continue;
             }
             $lang_next = strtolower(trim($value));
@@ -266,7 +266,7 @@ function check_domain($domain) {
  * @param string $domain - a string that may be a domain
  * @return int password expiration value for this domain (DAYS, or zero if not enabled)
  */
-function get_password_expiration_value ($domain) {
+function get_password_expiration_value($domain) {
     $table_domain = table_by_key('domain');
     $domain = escape_string($domain);
     $query = "SELECT password_expiry FROM $table_domain WHERE domain='$domain'";
@@ -283,7 +283,6 @@ function get_password_expiration_value ($domain) {
  * @return string empty if it's a valid email address, otherwise string with the errormessage
  */
 function check_email($email) {
-
     $ce_email=$email;
 
     //strip the vacation domain out if we are using it
@@ -373,8 +372,7 @@ function escape_string($string) {
  * @param string $default (optional) - default value if key is not set.
  * @return string
  */
-function safeget($param, $default = "")
-{
+function safeget($param, $default = "") {
     $retval = $default;
     if (isset($_GET[$param])) {
         $retval = $_GET[$param];
@@ -389,8 +387,7 @@ function safeget($param, $default = "")
  * @param string $default (optional) default value (defaults to "")
  * @return string|array - value in $_POST[$param] or $default
  */
-function safepost($param, $default = "")
-{
+function safepost($param, $default = "") {
     $retval = $default;
     if (isset($_POST[$param])) {
         $retval = $_POST[$param];
@@ -405,8 +402,7 @@ function safepost($param, $default = "")
  * @param string $default (optional)
  * @return string value from $_SERVER[$param] or $default
  */
-function safeserver($param, $default = "")
-{
+function safeserver($param, $default = "") {
     $retval = $default;
     if (isset($_SERVER[$param])) {
         $retval = $_SERVER[$param];
@@ -421,8 +417,7 @@ function safeserver($param, $default = "")
  * @param string $default (optional)
  * @return string value from $_COOKIE[$param] or $default
  */
-function safecookie($param, $default = "")
-{
+function safecookie($param, $default = "") {
     $retval = $default;
     if (isset($_COOKIE[$param])) {
         $retval = $_COOKIE[$param];
@@ -437,8 +432,7 @@ function safecookie($param, $default = "")
  * @param string $default (optional)
  * @return string value from $_SESSION[$param] or $default
  */
-function safesession($param, $default = "")
-{
+function safesession($param, $default = "") {
     $retval = $default;
     if (isset($_SESSION[$param])) {
         $retval = $_SESSION[$param];
@@ -702,7 +696,7 @@ function list_domains() {
     if ($result['rows'] > 0) {
         $i = 0;
         while ($row = db_assoc($result['result'])) {
-            if(is_array($row)) {
+            if (is_array($row)) {
                 $list[$i] = $row['domain'];
                 $i++;
             }
@@ -893,7 +887,6 @@ function generate_password($length = 12) {
  * @return array of error messages, or empty array if the password is ok
  */
 function validate_password($password) {
-
     $result = array();
     $val_conf = Config::read_array('password_validation');
 
@@ -1490,8 +1483,7 @@ function db_connect_with_errors() {
 
     static $link;
     if (isset($link) && $link) {
-            return array($link, $error_text);
-
+        return array($link, $error_text);
     }
     $link = 0;
 
@@ -1535,7 +1527,7 @@ function db_connect_with_errors() {
                 $error_text .= ("<p />DEBUG INFORMATION<br />Connect: given database path does not exist, is not writable, or \$CONF['database_name'] is empty.");
             } else {
                 $link = new SQLite3($CONF['database_name']) or $error_text .= ("<p />DEBUG INFORMATION<br />Connect: failed to connect to database. $DEBUG_TEXT");
-                if($link instanceof SQLite3) {
+                if ($link instanceof SQLite3) {
                     $link->createFunction('base64_decode', 'base64_decode');
                 }
             }
@@ -1775,7 +1767,7 @@ function db_row($result) {
         $row = pg_fetch_row($result);
     }
 
-    if(!is_array($row)) {
+    if (!is_array($row)) {
         return array();
     }
     return $row;
@@ -1803,7 +1795,7 @@ function db_array($result) {
         $row = pg_fetch_array($result);
     }
 
-    if(!is_array($row)) {
+    if (!is_array($row)) {
         return [];
     }
 
@@ -1825,7 +1817,6 @@ function db_assoc($result) {
     }
     if ($CONF['database_type'] == "mysqli" && $result instanceof mysqli_result) {
         $row = mysqli_fetch_assoc($result);
-
     }
     if (db_sqlite() && $result instanceof SQLite3Result) {
         $row = $result->fetchArray(SQLITE3_ASSOC);
@@ -1834,7 +1825,7 @@ function db_assoc($result) {
         $row = pg_fetch_assoc($result);
     }
 
-    if(!is_array($row)) {
+    if (!is_array($row)) {
         $row = [];
     }
     return $row;
@@ -1876,7 +1867,7 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
  * @param array $timestamp (optional) - array of fields to set to now() - default: array('created', 'modified')
  * @return int - number of inserted rows
  */
-function db_insert ($table, array $values, $timestamp = array('created', 'modified') ) {
+function db_insert($table, array $values, $timestamp = array('created', 'modified')) {
     $table = table_by_key($table);
 
     foreach (array_keys($values) as $key) {
@@ -1899,9 +1890,8 @@ function db_insert ($table, array $values, $timestamp = array('created', 'modifi
             $password_expiration_value = (int) get_password_expiration_value($domain);
             $values['password_expiry'] = "now() + interval " . $password_expiration_value . " day";
         }
-    }
-    else {
-        if($_table == 'mailbox') {
+    } else {
+        if ($_table == 'mailbox') {
             unset($values['password_expiry']);
         }
     }
@@ -1958,7 +1948,6 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
 
     if (Config::bool('password_expiration')) {
         if ($table == 'mailbox') {
-
             error_log("db_update_q : " . json_Encode($where));
             $where_type = explode('=', $where);
             $email = ($where_type[1]);
@@ -1972,7 +1961,7 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
 
     $sql="UPDATE $table_key SET " . implode(",", $sql_values) . " WHERE $where";
     $result = db_query($sql);
-    if(array_key_exists('rows', $result)) {
+    if (array_key_exists('rows', $result)) {
         return $result['rows'];
     }
     return 0;
@@ -2022,7 +2011,6 @@ function db_log($domain, $action, $data) {
  * @return string
  */
 function db_in_clause($field, array $values) {
-
     $v = array_map('escape_string', array_values($values));
     return " $field IN ('" . implode("','", $v) . "') ";
 }
@@ -2079,12 +2067,11 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
         } elseif ($operator == "NOTNULL") {
             $querypart = $field . ' IS NOT NULL';
         } else {
-
             $querypart = $field . $operator . "'" . escape_string($value) . "'";
 
             // might need other types adding here.
             if (db_pgsql() && in_array($struct[$field]['type'], array('ts', 'num')) && $value === '') {
-                    $querypart = $field . $operator . " NULL";
+                $querypart = $field . $operator . " NULL";
             }
         }
 
@@ -2154,7 +2141,7 @@ function check_db_version($error_out = true) {
 
     if ($r['rows'] == 1) {
         $row = db_assoc($r['result']);
-        if(isset($row['value'])) {
+        if (isset($row['value'])) {
             $dbversion = (int) $row['value'];
         }
     } else {
@@ -2241,7 +2228,7 @@ function gen_show_status($show_alias) {
 
     // Vacation CHECK
     if ( $CONF['show_vacation'] == 'YES' ) {
-        $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = 1");
+        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = 1");
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2251,7 +2238,7 @@ function gen_show_status($show_alias) {
 
     // Disabled CHECK
     if ( $CONF['show_disabled'] == 'YES' ) {
-        $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = 0");
+        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = 0");
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2261,7 +2248,7 @@ function gen_show_status($show_alias) {
 
     // Expired CHECK
     if ( $CONF['show_expired'] == 'YES' ) {
-        $stat_result = db_query ("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= now()");
+        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= now()");
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
