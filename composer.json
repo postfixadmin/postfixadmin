@@ -5,6 +5,7 @@
     "license": "GPL-2.0",
     "scripts": {
         "build" : [
+            "@check-format",
             "@lint",
             "@psalm",
             "@test"
