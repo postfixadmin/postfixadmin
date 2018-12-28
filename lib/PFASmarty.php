@@ -8,7 +8,7 @@ class PFASmarty {
     /**
      * @var Smarty
      */
-    protected $template = null;
+    protected $template;
 
     /**
      * @param string $template_theme 
