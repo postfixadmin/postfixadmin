@@ -516,7 +516,7 @@ $CONF['show_undeliverable']='YES';
 $CONF['show_undeliverable_color']='tomato';
 // mails to these domains will never be flagged as undeliverable
 $CONF['show_undeliverable_exceptions']=array("unixmail.domain.ext","exchangeserver.domain.ext");
-// show mailboxes with expired password
+// show mailboxes with expired password; requires password_expiration to be enabled
 $CONF['show_expired']='YES';
 $CONF['show_expired_color']='orange';
 // show vacation enabled mailboxes

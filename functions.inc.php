@@ -1948,7 +1948,6 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
 
     if (Config::bool('password_expiration')) {
         if ($table == 'mailbox') {
-            error_log("db_update_q : " . json_Encode($where));
             $where_type = explode('=', $where);
             $email = ($where_type[1]);
             $domain_dirty = explode('@',$email)[1];
@@ -2247,13 +2246,14 @@ function gen_show_status($show_alias) {
     }
 
     // Expired CHECK
-    if ( $CONF['show_expired'] == 'YES' ) {
-       $now = ' now() ';
+    if ( Config::bool('password_expiration') && Config::bool('show_expired') ) {
+       $now = 'now()';
        if (db_sqlite()) {
            $now = "datetime('now')";
        }
 
-        $stat_result = db_query("SELECT /* crapquery */ * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= $now ");
+       $stat_result = db_query("SELECT /* crapquery */ * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= $now ");
+
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {

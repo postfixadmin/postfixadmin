@@ -163,7 +163,6 @@ $pagebrowser_alias = $handler->getPagebrowser($search_alias, array());
 $tAlias = $handler->result();
 
 
-
 #
 # mailboxes
 #
