@@ -549,7 +549,7 @@ function upgrade_2_pgsql() {
         COMMENT ON TABLE ' . table_by_key('domain_admins') . ' IS \'Postfix Admin - Domain Admins\';
         ');
     }
-    
+
     if (!_pgsql_object_exists(table_by_key('log'))) {
         db_query_parsed('
             CREATE TABLE ' . table_by_key('log') . ' (
@@ -1418,7 +1418,7 @@ function upgrade_1284_mysql_pgsql() {
         while ($row = db_assoc($result['result'])) {
             if(!is_array($row)) {
                 break;
-            } 
+            }
 
             printdebug("Setting superadmin flag for " . $row['username']);
             db_update('admin', 'username', $row['username'], array('superadmin' => db_get_boolean(true)));
@@ -1511,7 +1511,7 @@ function upgrade_1824_sqlite() {
     $vacation_notification_table = table_by_key('vacation_notification');
 
     db_query_parsed("
-      CREATE TABLE $admin_table (
+      CREATE TABLE {IF_NOT_EXISTS} $admin_table (
           `username` varchar(255) NOT NULL,
           `password` varchar(255) NOT NULL,
           `superadmin` {BOOLEAN},
@@ -1522,7 +1522,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $alias_table (
+      CREATE TABLE {IF_NOT_EXISTS} $alias_table (
           `address` varchar(255) NOT NULL,
           `goto` {FULLTEXT} NOT NULL,
           `domain` varchar(255) NOT NULL,
@@ -1533,7 +1533,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $alias_domain_table (
+      CREATE TABLE {IF_NOT_EXISTS} $alias_domain_table (
           `alias_domain` varchar(255) NOT NULL,
           `target_domain` varchar(255) NOT NULL,
           `created` {DATE},
@@ -1543,7 +1543,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $domain_table (
+      CREATE TABLE {IF_NOT_EXISTS} $domain_table (
           `domain` varchar(255) NOT NULL,
           `description` varchar(255) NOT NULL,
           `aliases` {INT},
@@ -1559,7 +1559,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $domain_admins_table (
+      CREATE TABLE {IF_NOT_EXISTS}  $domain_admins_table (
           `username` varchar(255) NOT NULL,
           `domain` varchar(255) NOT NULL,
           `created` {DATE},
@@ -1567,7 +1567,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $fetchmail_table (
+      CREATE TABLE {IF_NOT_EXISTS} $fetchmail_table (
           `id` {AUTOINCREMENT},
           `domain` varchar(255) DEFAULT '',
           `mailbox` varchar(255) NOT NULL,
@@ -1594,7 +1594,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $log_table (
+      CREATE TABLE {IF_NOT_EXISTS} $log_table (
           `timestamp` {DATE},
           `username` varchar(255) NOT NULL,
           `domain` varchar(255) NOT NULL,
@@ -1603,7 +1603,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $mailbox_table (
+      CREATE TABLE {IF_NOT_EXISTS} $mailbox_table (
           `username` varchar(255) NOT NULL,
           `password` varchar(255) NOT NULL,
           `name` varchar(255) NOT NULL,
@@ -1618,7 +1618,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $quota_table (
+      CREATE TABLE {IF_NOT_EXISTS} $quota_table (
           `username` varchar(255) NOT NULL,
           `path` varchar(100) NOT NULL,
           `current` {BIGINT},
@@ -1626,7 +1626,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $quota2_table (
+      CREATE TABLE {IF_NOT_EXISTS} $quota2_table (
           `username` varchar(255) NOT NULL,
           `bytes` {BIGINT},
           `messages` {INT},
@@ -1634,7 +1634,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $vacation_table (
+      CREATE TABLE {IF_NOT_EXISTS} $vacation_table (
           `email` varchar(255) NOT NULL,
           `subject` varchar(255) NOT NULL,
           `body` {FULLTEXT} NOT NULL,
@@ -1650,7 +1650,7 @@ function upgrade_1824_sqlite() {
     ");
 
     db_query_parsed("
-      CREATE TABLE $vacation_notification_table (
+      CREATE TABLE {IF_NOT_EXISTS} $vacation_notification_table (
           `on_vacation` varchar(255) NOT NULL,
           `notified` varchar(255) NOT NULL,
           `notified_at` {DATECURRENT},
