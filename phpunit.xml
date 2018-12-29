@@ -1,7 +1,6 @@
-<phpunit>
-    <php>
-        <const name="PHPUNIT_TEST" value="yes"/>
-    </php>
+<phpunit
+    bootstrap="tests/bootstrap.php"
+    >
     <testsuites>
         <testsuite name="default">
             <directory>./tests</directory>
@@ -9,7 +8,7 @@
     </testsuites>
 
     <php>
-        <const name="PHP_UNIT_TEST" value="true" />
+        <const name="PHPUNIT_TEST" value="true" />
     </php>
 
     <logging>

@@ -1886,7 +1886,11 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
             $domain_dirty = $values['domain'];
             $domain = trim($domain_dirty, "`'"); // naive assumption it is ' escaping.
             $password_expiration_value = (int) get_password_expiration_value($domain);
-            $values['password_expiry'] = "now() + interval " . $password_expiration_value . " day";
+            if (db_sqlite()) {
+                $values['password_expiry'] = "datetime('now', '$password_expiration_value day')";
+            } else {
+                $values['password_expiry'] = "now() + interval " . $password_expiration_value . " day";
+            }
         }
     } else {
         if ($_table == 'mailbox') {

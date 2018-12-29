@@ -111,9 +111,17 @@ function _db_add_field($table, $field, $fieldtype, $after = '') {
     }
 }
 
+function echo_out($text) {
+    if (defined('PHPUNIT_TEST')) {
+        error_log("ErrorLog" . $text);
+    } else {
+        echo $text;
+    }
+}
+
 function printdebug($text) {
     if (safeget('debug') != "") {
-        print "<p style='color:#999'>$text</p>";
+        echo_out("<p style='color:#999'>$text</p>");
     }
 }
 
@@ -175,12 +183,12 @@ function _do_upgrade($current_version) {
 
     if ($current_version >= $target_version) {
         # already up to date
-        echo "<p>Database is up to date: $current_version/$target_version </p>";
+        echo_out("<p>Database is up to date: $current_version/$target_version </p>");
         return true;
     }
 
-    echo "<p>Updating database:</p><p>- old version: $current_version; target version: $target_version</p>\n";
-    echo "<div style='color:#999'>&nbsp;&nbsp;(If the update doesn't work, run setup.php?debug=1 to see the detailed error messages and SQL queries.)</div>";
+    echo_out("<p>Updating database:</p><p>- old version: $current_version; target version: $target_version</p>\n");
+    echo_out("<div style='color:#999'>&nbsp;&nbsp;(If the update doesn't work, run setup.php?debug=1 to see the detailed error messages and SQL queries.)</div>");
 
     if (db_sqlite() && $current_version < 1824) {
         // Fast forward to the first revision supporting SQLite
@@ -195,34 +203,34 @@ function _do_upgrade($current_version) {
         $function_sqlite = $function . "_sqlite";
 
         if (function_exists($function)) {
-            echo "<p>updating to version $i (all databases)...";
+            echo_out("<p>updating to version $i (all databases)...");
             $function();
-            echo " &nbsp; done";
+            echo_out(" &nbsp; done");
         }
         if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli' || $CONF['database_type'] == 'pgsql') {
             if (function_exists($function_mysql_pgsql)) {
-                echo "<p>updating to version $i (MySQL and PgSQL)...";
+                echo_out("<p>updating to version $i (MySQL and PgSQL)...");
                 $function_mysql_pgsql();
-                echo " &nbsp; done";
+                echo_out(" &nbsp; done");
             }
         }
         if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli') {
             if (function_exists($function_mysql)) {
-                echo "<p>updating to version $i (MySQL)...";
+                echo_out("<p>updating to version $i (MySQL)...");
                 $function_mysql();
-                echo " &nbsp; done";
+                echo_out(" &nbsp; done");
             }
         } elseif (db_sqlite()) {
             if (function_exists($function_sqlite)) {
-                echo "<p>updating to version $i (SQLite)...";
+                echo_out("<p>updating to version $i (SQLite)...");
                 $function_sqlite();
-                echo " &nbsp; done";
+                echo_out(" &nbsp; done");
             }
         } elseif ($CONF['database_type'] == 'pgsql') {
             if (function_exists($function_pgsql)) {
-                echo "<p>updating to version $i (PgSQL)...";
+                echo_out("<p>updating to version $i (PgSQL)...");
                 $function_pgsql();
-                echo " &nbsp; done";
+                echo_out(" &nbsp; done");
             }
         }
         // Update config table so we don't run the same query twice in the future.
@@ -310,7 +318,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{DATECURRENT}'     => 'timestamp with time zone default now()',
         );
     } else {
-        echo "Sorry, unsupported database type " . $CONF['database_type'];
+        echo_out("Sorry, unsupported database type " . $CONF['database_type']);
         exit;
     }
 
@@ -326,7 +334,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
     }
     $result = db_query($query, $ignore_errors);
     if ($debug) {
-        print "<div style='color:#f00'>" . $result['error'] . "</div>";
+        echo_out("<div style='color:#f00'>" . $result['error'] . "</div>");
     }
 }
 
@@ -339,7 +347,7 @@ function _drop_index($table, $index) {
     } elseif ($CONF['database_type'] == 'pgsql' || db_sqlite()) {
         return "DROP INDEX $index"; # Index names are unique with a DB for PostgreSQL
     } else {
-        echo "Sorry, unsupported database type " . $CONF['database_type'];
+        echo_out("Sorry, unsupported database type " . $CONF['database_type']);
         exit;
     }
 }
@@ -355,7 +363,7 @@ function _add_index($table, $indexname, $fieldlist) {
         $pgindexname = $table . "_" . $indexname . '_idx';
         return "CREATE INDEX $pgindexname ON $table($fieldlist);"; # Index names are unique with a DB for PostgreSQL
     } else {
-        echo "Sorry, unsupported database type " . $CONF['database_type'];
+        echo_out("Sorry, unsupported database type " . $CONF['database_type']);
         exit;
     }
 }
