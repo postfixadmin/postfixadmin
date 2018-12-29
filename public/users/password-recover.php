@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $start_time = microtime(true);
     $tUsername = escape_string(safepost('fUsername'));
 
-    if(empty($tUsername) || !is_string($tUsername)) {
+    if (empty($tUsername) || !is_string($tUsername)) {
         die("fUsername field required");
     }
 
