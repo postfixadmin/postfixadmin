@@ -845,13 +845,11 @@ function encode_header($string, $default_charset = "utf-8") {
     return $string;
 }
 
-/*
+
 if (!function_exists('random_int')) { // PHP version < 7.0
-    function random_int() { // someone might not be using php_crypt or ask for password generation, in which case random_int() won't be called
-        die(__FILE__ . " Postfixadmin security: Please install https://github.com/paragonie/random_compat OR enable the 'Phar' extension.");
-    }
+    require_once(dirname(__FILE__) . '/lib/block_random_int.php');
 }
- */
+
 
 /**
  * Generate a random password of $length characters.
@@ -1946,8 +1944,9 @@ function db_update_q($table, $where, $values, $timestamp = array('modified')) {
         }
     }
 
+    /* @todo this needs refactoring/moving out from here */
     if (Config::bool('password_expiration')) {
-        if ($table == 'mailbox') {
+        if ($table == 'mailbox' && preg_match('/@/', $where)) {
             $where_type = explode('=', $where);
             $email = ($where_type[1]);
             $domain_dirty = explode('@',$email)[1];

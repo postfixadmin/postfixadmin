@@ -12,7 +12,7 @@
         ],
         "check-format": "php-cs-fixer fix --ansi --dry-run --diff",
         "format": "php-cs-fixer fix --ansi",
-        "lint": "@php ./vendor/bin/parallel-lint --exclude vendor/ .",
+        "lint": "@php ./vendor/bin/parallel-lint --exclude vendor/ --exclude lib/block_random_int.php .",
         "test": "@php ./vendor/bin/phpunit tests/",
         "psalm": "@php ./vendor/bin/psalm --show-info=false "
     },
