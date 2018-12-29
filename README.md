@@ -1,13 +1,32 @@
-postfixadmin [![Build Status](https://travis-ci.org/postfixadmin/postfixadmin.svg?branch=master)](https://travis-ci.org/postfixadmin/postfixadmin)
+[![Build Status](https://travis-ci.org/postfixadmin/postfixadmin.svg?branch=master)](https://travis-ci.org/postfixadmin/postfixadmin)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/postfixadmin/Lobby)
 
-============
+# PostfixAdmin 
 
-PostfixAdmin - web based administration interface for Postfix mail servers
+An open source, web based interface for managing domains/mailboxes/aliases etc on a Postfix based mail server.
 
+Integrates with :
 
-Useful Links
-------------
+ - Postfix
+ - IMAP/POP3 server (e.g. Dovecot or Courier)
+ - Database backend (choose one of: sqlite, mysql, postgresql)
+ - Fetchmail (optional)
+
+## Features
+
+ - Unlimited domains/aliases/mailboxes 
+ - Optional storage quota support
+ - Optional password expiry (beta)
+ - Multiple password hashing formats 
+ - Supports PostgreSQL, MySQL, MariaDB, SQLite database backends (choose one)
+ - Supports retrieval of mail from a remote POP3 server (via fetchmail)
+ - Vacation / Autoresponder / Out Of Office support
+ - Users have the ability to login, change their password or vacation (out of office) status.
+ - Integration with Squirrelmail / Roundcube (via plugins)
+ - Optional XMLRPC based API 
+
+## Useful Links
+
  - [Probably all you need to read (pdf)](http://blog.cboltz.de/uploads/postfixadmin-30-english.pdf)
  - http://postfixadmin.sf.net - the current homepage for the project
  - [Docker Images](https://github.com/postfixadmin/docker)
