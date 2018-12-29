@@ -7,7 +7,7 @@
         "build" : [
             "@check-format",
             "@lint",
-            "@templates_c",
+            "@test-fixup",
             "@psalm",
             "@test"
         ],
@@ -15,7 +15,7 @@
         "format": "php-cs-fixer fix --ansi",
         "lint": "@php ./vendor/bin/parallel-lint --exclude vendor/ --exclude lib/block_random_int.php .",
         "test": "@php ./vendor/bin/phpunit tests/",
-        "templates_c": "mkdir -p templates_c",
+        "test-fixup": "mkdir -p templates_c ; test -f config.local.php || touch config.local.php",
         "psalm": "@php ./vendor/bin/psalm --show-info=false "
     },
     "require": {
