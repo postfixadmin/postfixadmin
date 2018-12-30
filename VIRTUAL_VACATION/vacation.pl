@@ -288,7 +288,7 @@ sub already_notified {
             if ($db_type eq 'Pg') {
                 $query = qq{SELECT extract( epoch from (NOW()-notified_at))::int FROM vacation_notification WHERE on_vacation=? AND notified=?};
             } else { # mysql
-                $query = qq{SELECT NOW()-notified_at FROM vacation_notification WHERE on_vacation=? AND notified=?};
+                $query = qq{SELECT UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(notified_at) FROM vacation_notification WHERE on_vacation=? AND notified=?};
             }
             $stm = $dbh->prepare($query) or panic_prepare($query);
             $stm->execute($to,$from) or panic_execute($query,"on_vacation='$to', notified='$from'");
