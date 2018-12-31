@@ -1554,7 +1554,7 @@ function db_connect_with_errors() {
 
 /**
  * Returns the appropriate boolean value for the database.
- * Currently only PostgreSQL and MySQL are supported.
+ *
  * @param bool $bool
  * @return string|int as appropriate for underlying db platform
  */
@@ -2072,7 +2072,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
             $querypart = $field . $operator . "'" . escape_string($value) . "'";
 
             // might need other types adding here.
-            if (db_pgsql() && in_array($struct[$field]['type'], array('ts', 'num')) && $value === '') {
+            if (db_pgsql() && isset($struct[$field]) && in_array($struct[$field]['type'], array('ts', 'num')) && $value === '') {
                 $querypart = $field . $operator . " NULL";
             }
         }
@@ -2230,7 +2230,7 @@ function gen_show_status($show_alias) {
 
     // Vacation CHECK
     if ( $CONF['show_vacation'] == 'YES' ) {
-        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = 1");
+        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = '" . db_get_boolean(true) . "'") ;
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2240,7 +2240,7 @@ function gen_show_status($show_alias) {
 
     // Disabled CHECK
     if ( $CONF['show_disabled'] == 'YES' ) {
-        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = 0");
+        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = '" . db_get_boolean(false) . "'");
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2255,7 +2255,7 @@ function gen_show_status($show_alias) {
             $now = "datetime('now')";
         }
 
-        $stat_result = db_query("SELECT /* crapquery */ * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= $now ");
+        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= $now AND active = '" . db_get_boolean(true) . "'");
 
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
