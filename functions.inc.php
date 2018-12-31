@@ -1526,9 +1526,8 @@ function db_connect($ignore_errors = false) {
 
 /**
  * Returns the appropriate boolean value for the database.
- * Currently only PostgreSQL and MySQL are supported.
  * @param boolean $bool (REQUIRED)
- * @return String or int as appropriate.
+ * @return string|int as appropriate for underlying db platform
  */
 function db_get_boolean($bool) {
     if (! (is_bool($bool) || $bool == '0' || $bool == '1')) {
@@ -1992,8 +1991,8 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
             $querypart = $field . $operator . "'" . escape_string($value) . "'";
 
             // might need other types adding here.
-            if (db_pgsql() && in_array($struct[$field]['type'], array('ts', 'num')) && $value === '') {
-                    $querypart = $field . $operator . " NULL";
+            if (db_pgsql() && isset($struct[$field]) && in_array($struct[$field]['type'], array('ts', 'num')) && $value === '') {
+                $querypart = $field . $operator . " NULL";
             }
         }
 
@@ -2133,6 +2132,42 @@ function gen_show_status($show_alias) {
         } // while
         if ($stat_ok == 0) {
             $stat_string .= "<span style='background-color:" . $CONF['show_undeliverable_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        } else {
+            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+        }
+    }
+
+    // Vacation CHECK
+    if ( $CONF['show_vacation'] == 'YES' ) {
+        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = '" . db_get_boolean(true) . "'") ;
+        if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        } else {
+            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+        }
+    }
+
+    // Disabled CHECK
+    if ( $CONF['show_disabled'] == 'YES' ) {
+        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = '" . db_get_boolean(false) . "'");
+        if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+        } else {
+            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
+        }
+    }
+
+    // Expired CHECK
+    if ( Config::bool('password_expiration') && Config::bool('show_expired') ) {
+        $now = 'now()';
+        if (db_sqlite()) {
+            $now = "datetime('now')";
+        }
+
+        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= $now AND active = '" . db_get_boolean(true) . "'");
+
+        if ($stat_result['rows'] == 1) {
+            $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
         }
