@@ -65,7 +65,7 @@ require_once("$incpath/config.inc.php");
 
 if (isset($CONF['configured'])) {
     if ($CONF['configured'] == false) {
-        die("Please edit config.local.php - change \$CONF['configured'] to true after setting your database settings");
+        die("Please edit config.local.php - change \$CONF['configured'] to true after specifying appropriate local settings (database_type etc)");
     }
 }
 
