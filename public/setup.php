@@ -147,13 +147,12 @@ if ($f_mysqli_connect == 1) {
         print "<br>(change the database_type to 'mysqli' in config.local.php if you want to use MySQL)\n";
     }
     print "</li>";
-}
-else {
+} else {
     print "<li>Database - MySQL (mysqli_ functions) - Not found</li>";
 }
 
 
-if(Config::read_string('database_type') == 'mysql') {
+if (Config::read_string('database_type') == 'mysql') {
     print "<li><strong><span style='color: red'>Warning:</span> your configured database_type 'mysql' is deprecated; you must move to use 'mysqli'</strong> in your config.local.php.</li>\n";
     $error++;
 }
@@ -167,8 +166,7 @@ if ($f_pg_connect == 1) {
         print "<br>(change the database_type to 'pgsql' in config.local.php if you want to use PostgreSQL)\n";
     }
     print "</li>";
-}
-else {
+} else {
     print "<li>Database - PostgreSQL (pg_ functions) - Not found</li>";
 }
 
@@ -178,8 +176,7 @@ if ($f_sqlite_open == 1) {
         print "<br>(change the database_type to 'sqlite' in config.local.php if you want to use SQLite)\n";
     }
     print "</li>";
-}
-else {
+} else {
     print "<li>Database - SQLite (SQLite3) - Not found</li>";
 }
 
