@@ -64,21 +64,18 @@ $errormsg = array();
 $phpversion = 'unknown-version';
 
 if ($f_phpversion == 1) {
-    if (phpversion() < 5) {
+    if (version_compare(phpversion(), '5', '<')) {
         print "<li><b>Error: Depends on: PHP v5+</b><br /></li>\n";
         $error += 1;
-    } elseif (version_compare(phpversion(), '5.2.3') < 0) {
-        # smarty uses htmlentities() with 4 parameters, the 4th parameter was introduced in PHP 5.2.3
-        # older PHP versions will cause warnings
+    } elseif (version_compare(phpversion(), '7.0') < 0) {
         $phpversion = 5;
-        print "<li><b>Recommended PHP version: >= 5.2.3, you have " . phpversion() . "</b></li>\n";
+        print "<li><b>Recommended PHP version: >= 7.0, you have " . phpversion() . "; you should upgrade.</b></li>\n";
     } else {
-        $phpversion = 5;
-        print "<li>PHP version " . phpversion() . "</li>\n";
+        print "<li>PHP version " . phpversion() . " - Good</li>\n";
     }
-    # TODO: check for PHP >= 5.2.3 - smarty uses htmlentities with 4 parameters. The forth parameter was added in PHP 5.2.3, older versions will give a warning
 } else {
-    print "<li><b>Unable to check for PHP version. (missing function: phpversion())</b></li>\n";
+    print "<li><b style='color: red'>DANGER</b> Unable to check for PHP version. (missing function: phpversion())</b></li>\n";
+    $error++;
 }
 
 //
@@ -93,7 +90,7 @@ if ($f_apache_get_version == 1) {
 }
 
 print "</ul>";
-print "<p>Checking for dependencies:\n";
+print "<p>Checking environment:\n";
 print "<ul>\n";
 
 //
@@ -103,42 +100,16 @@ if ($f_get_magic_quotes_gpc == 1) {
     if (get_magic_quotes_gpc() == 0) {
         print "<li>Magic Quotes: Disabled - OK</li>\n";
     } else {
-        print "<li><b>Warning: Magic Quotes: ON (internal workaround used)</b></li>\n";
+        print "<li><b>Warning: Magic Quotes: ON (internal work around to disable is in place)</b></li>\n";
     }
-} else {
-    print "<li><b>Unable to check for Magic Quotes. (missing function: get_magic_quotes_gpc())</b></li>\n";
 }
 
-//
-// Check for config.inc.php
-//
-$config_loaded = 0;
-if ($file_config == 1) {
-    print "<li>Depends on: presence config.inc.php - OK</li>\n";
-    require_once(dirname(__FILE__) .'/../config.inc.php');
-    $config_loaded = 1;
-
-    if (isset($CONF['configured'])) {
-        if ($CONF['configured'] === true) {
-            print "<li>Checking \$CONF['configured'] - OK\n";
-        } else {
-            print "<li><b>Warning: \$CONF['configured'] is 'false'.<br>\n";
-            print "You must edit your config.local.php and change this to true (this indicates you've created the database and user)</b>\n";
-        }
-    }
-} else {
-    print "<li><b>Error: Depends on: presence config.inc.php - NOT FOUND</b><br /></li>\n";
-    print "Create the file, and edit as appropriate (e.g. select database type etc)<br />";
-    print "For example:<br />\n";
-    print "<code><pre>cp config.inc.php.sample config.inc.php</pre></code>\n";
-    $error += 1;
-}
 
 //
 // Check for config.local.php
 //
 if ($file_local_config == 1) {
-    print "<li>Depends on: presence config.local.php - OK</li>\n";
+    print "<li>Depends on: presence config.local.php - Found</li>\n";
 } else {
     print "<li><b>Warning: config.local.php - NOT FOUND</b><br /></li>\n";
     print "It's Recommended to store your own settings in config.local.php instead of editing config.inc.php<br />";
@@ -169,59 +140,61 @@ if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0
     print "% portinstall php{$phpversion}-pgsql</pre></li>\n";
     $error += 1;
 }
-//
-// MySQL 3.23, 4.0 functions
-//
-if ($f_mysql_connect == 1) {
-    print "<li>Depends on: MySQL 3.23, 4.0 - OK</li>\n";
+
+if ($f_mysqli_connect == 1) {
+    print "<li>Database - MySQL (mysqli_ functions) - Found\n";
+    if (Config::read_string('database_type') != 'mysqli') {
+        print "<br>(change the database_type to 'mysqli' in config.local.php if you want to use MySQL)\n";
+    }
+    print "</li>";
+}
+else {
+    print "<li>Database - MySQL (mysqli_ functions) - Not found</li>";
 }
 
-//
-// MySQL 4.1 functions
-//
-if ($phpversion >= 5) {
-    if ($f_mysqli_connect == 1) {
-        print "<li>Depends on: MySQL 4.1 - OK\n";
-        if (!($config_loaded && $CONF['database_type'] == 'mysqli')) {
-            print "<br>(change the database_type to 'mysqli' in config.local.php if you want to use MySQL)\n";
-        }
-        print "</li>";
-    }
+
+if(Config::read_string('database_type') == 'mysql') {
+    print "<li><strong><span style='color: red'>Warning:</span> your configured database_type 'mysql' is deprecated; you must move to use 'mysqli'</strong> in your config.local.php.</li>\n";
+    $error++;
 }
 
 //
 // PostgreSQL functions
 //
 if ($f_pg_connect == 1) {
-    print "<li>Depends on: PostgreSQL - OK \n";
-    if (!($config_loaded && $CONF['database_type'] == 'pgsql')) {
+    print "<li>Database : PostgreSQL support (pg_ functions) - Found\n";
+    if (Config::read_string('database_type') != 'pgsql') {
         print "<br>(change the database_type to 'pgsql' in config.local.php if you want to use PostgreSQL)\n";
     }
     print "</li>";
 }
+else {
+    print "<li>Database - PostgreSQL (pg_ functions) - Not found</li>";
+}
 
 if ($f_sqlite_open == 1) {
-    print "<li>Depends on: SQLite - OK \n";
-    if (!($config_loaded && db_sqlite())) {
+    print "<li>Database : SQLite support (SQLite3) - Found \n";
+    if (Config::read_string('database_type') != 'sqlite') {
         print "<br>(change the database_type to 'sqlite' in config.local.php if you want to use SQLite)\n";
     }
     print "</li>";
+}
+else {
+    print "<li>Database - SQLite (SQLite3) - Not found</li>";
 }
 
 //
 // Database connection
 //
-if ($config_loaded) {
-    list($link, $error_text) = db_connect_with_errors();
+list($link, $error_text) = db_connect_with_errors();
 
-    if (!empty($link) && $error_text == "") {
-        print "<li>Testing database connection (using {$CONF['database_type']}) - OK</li>";
-    } else {
-        print "<li><b>Error: Can't connect to database</b><br />\n";
-        print "Please check the \$CONF['database_*'] parameters in config.local.php.\n";
-        print "$error_text</li>\n";
-        $error ++;
-    }
+if (!empty($link) && $error_text == "") {
+    print "<li>Testing database connection (using {$CONF['database_type']}) - Success</li>";
+} else {
+    print "<li><b style='color: red'>Error: Can't connect to database</b><br />\n";
+    print "Please check the \$CONF['database_*'] parameters in config.local.php.\n";
+    print "$error_text</li>\n";
+    $error ++;
 }
 
 //
@@ -243,7 +216,7 @@ if ($f_session_start == 1) {
 // PCRE functions
 //
 if ($f_preg_match == 1) {
-    print "<li>Depends on: pcre - OK</li>\n";
+    print "<li>Depends on: pcre - Found</li>\n";
 } else {
     print "<li><b>Error: Depends on: pcre - NOT FOUND</b><br />\n";
     print "To install pcre support on FreeBSD:<br />\n";
@@ -258,7 +231,7 @@ if ($f_preg_match == 1) {
 // Multibyte functions
 //
 if ($f_mb_encode_mimeheader == 1) {
-    print "<li>Depends on: multibyte string - OK</li>\n";
+    print "<li>Depends on: multibyte string - Found</li>\n";
 } else {
     print "<li><b>Error: Depends on: multibyte string - NOT FOUND</b><br />\n";
     print "To install multibyte string support, install php$phpversion-mbstring</li>\n";
@@ -270,9 +243,9 @@ if ($f_mb_encode_mimeheader == 1) {
 // Imap functions
 //
 if ($f_imap_open == 1) {
-    print "<li>Depends on: IMAP functions - OK</li>\n";
+    print "<li>IMAP functions - Found</li>\n";
 } else {
-    print "<li><b>Warning: Depends on: IMAP functions - NOT FOUND</b><br />\n";
+    print "<li><b>Warning: May depend on: IMAP functions - Not Found</b><br />\n";
     print "To install IMAP support, install php$phpversion-imap<br />\n";
     print "Without IMAP support, you won't be able to create subfolders when creating mailboxes.</li>\n";
 }
@@ -282,12 +255,11 @@ if ($f_imap_open == 1) {
 // If PHP <7.0, require random_compat works. Currently we bundle it via the Phar extension.
 //
 
-if (version_compare($phpversion, "7.0", '<')
+if (version_compare(phpversion(), "7.0", '<')
     && !extension_loaded('Phar')
-    && $config_loaded
     && $CONF['configured']
     && $CONF['encrypt'] == 'php_crypt') {
-    print "<li>Requires 'Phar' extension support for <strong>secure</strong> random_int() function fallback";
+    print "<li>PHP before 7.0 requires 'Phar' extension support for <strong>secure</strong> random_int() function fallback";
     print "<br/>Either enable the 'Phar' extension, or install the random_compat library files from <a href='https://github.com/paragonie/random_compat'>https://github.com/paragonie/random_compat</a> and include/require them from functions.inc.php";
     print "<br/>PostfixAdmin has bundled lib/random_compat.phar but it's not usable on your installation due to the missing Phar extension.</li>";
     $error += 1;
@@ -430,8 +402,8 @@ if ($error != 0) {
 
 <?php
     } ?>
-    <b>Since version 2.3 there is no requirement to delete setup.php!</b><br />
-    <b>Check the config.inc.php file for any other settings that you might need to change!<br />
+    <p>Since version 2.3 there is no requirement to delete setup.php</p>
+    <p>Check the config.inc.php file for any other settings that you may need to change.</p>
 <?php
 }
 ?>
