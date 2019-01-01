@@ -1494,7 +1494,7 @@ function db_connect_with_errors() {
                 @mysql_select_db($CONF['database_name'], $link) or $error_text .= ("<p />DEBUG INFORMATION:<br />MySQL Select Database: " .  mysql_error() . "$DEBUG_TEXT");
             }
         } else {
-            $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available! (php5-mysql installed?)<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            $error_text .= "<p>DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available! (php5-mysql installed?)<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     } elseif ($CONF['database_type'] == "mysqli") {
         $is_connected = false;
@@ -1505,14 +1505,14 @@ function db_connect_with_errors() {
                 $connected = mysqli_real_connect($link, $CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port']);
                 $is_connected = $connected;
             } else {
-                $error_text .= "<p />DEBUG INFORMATION:<br />MySQLi 5 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+                $error_text .= "<p>DEBUG INFORMATION:<br />MySQLi 5 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
             }
         } else {
             if (function_exists("mysqli_connect")) {
                 $link = @mysqli_connect($CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port'], $CONF['database_socket']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " . mysqli_connect_error() . "$DEBUG_TEXT");
                 $is_connected = $link;
             } else {
-                $error_text .= "<p />DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+                $error_text .= "<p>DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
             }
         }
         if ($is_connected && $link instanceof mysqli) {
@@ -1522,7 +1522,7 @@ function db_connect_with_errors() {
     } elseif (db_sqlite()) {
         if (class_exists("SQLite3")) {
             if ($CONF['database_name'] == '' || !is_dir(dirname($CONF['database_name'])) || !is_writable(dirname($CONF['database_name']))) {
-                $error_text .= ("<p />DEBUG INFORMATION<br />Connect: given database path does not exist, is not writable, or \$CONF['database_name'] is empty.");
+                $error_text .= ("<p>DEBUG INFORMATION<br />Connect: given database path does not exist, is not writable, or \$CONF['database_name'] is empty.");
             } else {
                 $link = new SQLite3($CONF['database_name']) or $error_text .= ("<p />DEBUG INFORMATION<br />Connect: failed to connect to database. $DEBUG_TEXT");
                 if ($link instanceof SQLite3) {
@@ -1530,7 +1530,7 @@ function db_connect_with_errors() {
                 }
             }
         } else {
-            $error_text .= "<p />DEBUG INFORMATION:<br />SQLite functions not available! (php5-sqlite installed?)<br />database_type = 'sqlite' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            $error_text .= "<p>DEBUG INFORMATION:<br />SQLite functions not available! (php5-sqlite installed?)<br />database_type = 'sqlite' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     } elseif (db_pgsql()) {
         if (function_exists("pg_pconnect")) {
@@ -1632,7 +1632,7 @@ function db_mysql() {
 }
 
 /**
- * returns true if PostgreSQL is used, false otherwise
+ * @return bool true if PostgreSQL is used, false otherwise
  */
 function db_pgsql() {
     if (Config::Read('database_type')=='pgsql') {

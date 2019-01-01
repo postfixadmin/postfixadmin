@@ -96,8 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         for ($i = 0 ; $i < sizeof($tables) ; ++$i) {
             $result = db_query("SHOW CREATE TABLE " . table_by_key($tables[$i]));
             if ($result['rows'] > 0) {
-                while ($row = db_array($result['result'])) {
-                    fwrite($fh, "$row[1];\n\n");
+                while ($row = db_row($result['result'])) {
+                    fwrite($fh, "{$row[1]};\n\n");
                 }
             }
         }
