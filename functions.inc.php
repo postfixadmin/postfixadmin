@@ -1538,15 +1538,15 @@ function db_connect_with_errors() {
                 $CONF['database_port'] = '5432';
             }
             $connect_string = "host=" . $CONF['database_host'] . " port=" . $CONF['database_port'] . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
-            $link = @pg_pconnect($connect_string) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: failed to connect to database. $DEBUG_TEXT");
+            $link = @pg_pconnect($connect_string) or $error_text .= ("<p>DEBUG INFORMATION:<br />Connect: failed to connect to database. $DEBUG_TEXT");
             if ($link) {
                 pg_set_client_encoding($link, 'UNICODE');
             }
         } else {
-            $error_text .= "<p />DEBUG INFORMATION:<br />PostgreSQL functions not available! (php5-pgsql installed?)<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+            $error_text .= "<p>DEBUG INFORMATION:<br />PostgreSQL functions not available! (php5-pgsql installed?)<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
         }
     } else {
-        $error_text = "<p />DEBUG INFORMATION:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php! $DEBUG_TEXT";
+        $error_text = "<p>DEBUG INFORMATION:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php! $DEBUG_TEXT";
     }
 
     return array($link, $error_text);
@@ -1570,7 +1570,7 @@ function db_get_boolean($bool) {
             return 't';
         }
         return 'f';
-    } elseif (Config::Read('database_type') == 'mysql' || Config::Read('database_type') == 'mysqli' || db_sqlite()) {
+    } elseif (db_mysql() || db_sqlite()) {
         if ($bool) {
             return 1;
         }
@@ -1635,10 +1635,7 @@ function db_mysql() {
  * @return bool true if PostgreSQL is used, false otherwise
  */
 function db_pgsql() {
-    if (Config::Read('database_type')=='pgsql') {
-        return true;
-    }
-    return false;
+    return Config::read_string('database_type') == 'pgsql';
 }
 
 /**
@@ -1684,7 +1681,7 @@ function db_query($query, $ignore_errors = 0) {
     if ($error_text != "" && $ignore_errors == 0) {
         error_log($error_text);
         error_log("caused by query: $query");
-        die("<p />DEBUG INFORMATION:<br />$error_text <p>Check your error_log for the failed query. $DEBUG_TEXT");
+        die("<p>DEBUG INFORMATION:<br />$error_text <p>Check your error_log for the failed query. $DEBUG_TEXT");
     }
 
     if ($error_text == "") {
@@ -1746,6 +1743,8 @@ function db_query($query, $ignore_errors = 0) {
 // Call: db_row (int result)
 
 /**
+ * Returns numerically indexed array.
+ *
  * @param resource|mysqli_result|SQLite3Result $result
  * @return array
  */
@@ -1764,39 +1763,9 @@ function db_row($result) {
     if (db_pgsql() && is_resource($result)) {
         $row = pg_fetch_row($result);
     }
-
     if (!is_array($row)) {
         return array();
     }
-    return $row;
-}
-
-
-/**
- * Return array from a db resource (presumably not associative).
- * @param resource|SQLite3Result|mysqli_result $result
- * @return array
- */
-function db_array($result) {
-    global $CONF;
-    $row = "";
-    if ($CONF['database_type'] == "mysql" && is_resource($result)) {
-        $row = mysql_fetch_array($result);
-    }
-    if ($CONF['database_type'] == "mysqli" && $result instanceof mysqli_result) {
-        $row = mysqli_fetch_array($result);
-    }
-    if (db_sqlite() && $result instanceof SQLite3Result) {
-        $row = $result->fetchArray();
-    }
-    if (db_pgsql() && is_resource($result)) {
-        $row = pg_fetch_array($result);
-    }
-
-    if (!is_array($row)) {
-        return [];
-    }
-
     return $row;
 }
 
@@ -1822,7 +1791,6 @@ function db_assoc($result) {
     if (db_pgsql() && is_resource($result)) {
         $row = pg_fetch_assoc($result);
     }
-
     if (!is_array($row)) {
         $row = [];
     }
