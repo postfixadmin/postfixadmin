@@ -113,9 +113,9 @@ function _db_add_field($table, $field, $fieldtype, $after = '') {
 
 function echo_out($text) {
     if (defined('PHPUNIT_TEST')) {
-        error_log("ErrorLog" . $text);
+        error_log("" . $text);
     } else {
-        echo $text;
+        echo $text . "\n";
     }
 }
 
@@ -251,7 +251,7 @@ function _do_upgrade($current_version) {
 function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
     global $CONF;
 
-    if ($CONF['database_type'] == 'mysql' || $CONF['database_type'] == 'mysqli') {
+    if (db_mysql()) {
         $replace = array(
                 '{AUTOINCREMENT}'   => 'int(11) not null auto_increment',
                 '{PRIMARY}'         => 'primary key',
