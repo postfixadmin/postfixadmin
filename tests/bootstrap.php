@@ -19,7 +19,7 @@ Config::write('database_name', $db_file);
 
 clearstatcache();
 if (file_exists($db_file)) {
-	unlink($db_file);
+    unlink($db_file);
 }
 
 
