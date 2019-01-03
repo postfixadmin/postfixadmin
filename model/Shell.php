@@ -93,6 +93,11 @@ class Shell {
     public $name;
 
     /**
+     * @param string
+     */
+    public $handler_to_use;
+
+    /**
      *  Constructs this Shell instance.
      *
      */
