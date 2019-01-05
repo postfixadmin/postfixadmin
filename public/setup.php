@@ -338,6 +338,15 @@ if ($error != 0) {
    <tr>
       <td colspan="3"><h3>Change setup password</h3></td>
    </tr>
+<?php
+   if (!isset($_SERVER['HTTPS'])) :
+?>
+   <tr>
+      <td colspan="3"><h4>Warning: connection not secure, switch to https if possible</h4></td>
+   </tr>
+<?php
+   endif;
+?>
    <tr>
       <td><label for="setup_password">Setup password</label></td>
       <td><input class="flat" type="password" name="setup_password" id="setup_password" value="" /></td>
@@ -370,6 +379,15 @@ if ($error != 0) {
     <tr>
       <td colspan="3"><h3>Create superadmin account</h3></td>
    </tr>
+<?php
+   if (!isset($_SERVER['HTTPS'])) :
+?>
+   <tr>
+      <td colspan="3"><h4>Warning: connection not secure, switch to https if possible</h4></td>
+   </tr>
+<?php
+   endif;
+?>
    <tr>
        <td><label for="setup_password">Setup password</label></td>
       <td><input id=setup_password class="flat" type="password" name="setup_password" value="" /></td>
