@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (intval(safepost('mailboxes_only')) == 0) {
             $q .= " UNION SELECT goto FROM $table_alias WHERE active='" . db_get_boolean(true) . "' AND ".db_in_clause("domain", $wanted_domains)."AND goto NOT IN ($q)";
         }
-        $result = db_prepared_fetch_all($q);
+        $result = db_query_all($q);
         $recipients = array_column($result, 'username');
 
         $recipients = array_unique($recipients);

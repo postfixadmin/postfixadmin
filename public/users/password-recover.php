@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $token = $handler->getPasswordRecoveryCode($tUsername);
     if ($token !== false) {
         $table = table_by_key($context === 'users' ? 'mailbox' : 'admin');
-        $row = db_prepared_fetch_one("SELECT * FROM $table WHERE username= :username", array('username' => $username));
+        $row = db_query_one("SELECT * FROM $table WHERE username= :username", array('username' => $username));
 
         // $row must exist unless there's a race condition?
 

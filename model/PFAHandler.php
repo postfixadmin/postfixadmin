@@ -728,7 +728,7 @@ abstract class PFAHandler {
         $db_result = array();
 
 
-        $result = db_prepared_fetch_all($query);
+        $result = db_query_all($query);
 
         foreach ($result as $row) {
             $db_result[$row[$this->id_field]] = $row;
@@ -822,7 +822,7 @@ abstract class PFAHandler {
 
         $values = array('username' => $username, 'active' => $active);
 
-        $result = db_prepared_fetch_all($query,$values);
+        $result = db_query_all($query,$values);
         if (sizeof($result) == 1) {
             $row = $result[0];
 
@@ -868,7 +868,7 @@ abstract class PFAHandler {
         $query = "SELECT token FROM $table WHERE {$this->id_field} = :username AND token <> '' AND active = :active AND NOW() < token_validity";
         $values = array('username' => $username, 'active' => $active);
 
-        $result = db_prepared_fetch_all($query, $values);
+        $result = db_query_all($query, $values);
         if (sizeof($result) == 1) {
             $row = $result[0];
 

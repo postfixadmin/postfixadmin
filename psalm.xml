@@ -17,6 +17,13 @@
 
     <issueHandlers>
 
+        <PossiblyUndefinedGlobalVariable>
+            <errorLevel type="suppress">
+                <file name="config.inc.php" />
+                <file name="config.local.php" />
+            </errorLevel>
+        </PossiblyUndefinedGlobalVariable>
+
         <InvalidGlobal>
             <errorLevel type="suppress">
                 <file name="config.inc.php" />

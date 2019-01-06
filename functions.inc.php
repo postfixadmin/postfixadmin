@@ -270,11 +270,11 @@ function get_password_expiration_value($domain) {
     $table_domain = table_by_key('domain');
     $query = "SELECT password_expiry FROM $table_domain WHERE domain= :domain";
 
-    $result = db_prepared_fetch_one($query, array('domain' => $domain));
+    $result = db_query_one($query, array('domain' => $domain));
     if (is_array($result) && isset($result['password_expiry'])) {
         return $result['password_expiry'];
     }
-    return null;
+    return 0;
 }
 
 /**
@@ -507,7 +507,7 @@ function create_page_browser($idxfield, $querypart) {
 
     # get number of rows
     $query = "SELECT count(*) as counter FROM (SELECT $idxfield $querypart) AS tmp";
-    $result = db_prepared_fetch_one($query);
+    $result = db_query_one($query);
     if ($result && isset($result['counter'])) {
         $count_results = $result['counter'] -1; # we start counting at 0, not 1
     }
@@ -522,7 +522,7 @@ function create_page_browser($idxfield, $querypart) {
         $initcount = "CREATE TEMPORARY SEQUENCE rowcount MINVALUE 0";
     }
     if (!db_sqlite()) {
-        db_query($initcount);
+        db_execute($initcount);
     }
 
     # get labels for relevant rows (first and last of each page)
@@ -556,8 +556,7 @@ function create_page_browser($idxfield, $querypart) {
     # CREATE TEMPORARY SEQUENCE foo MINVALUE 0 MAXVALUE $page_size_zerobase CYCLE
     # afterwards: DROP SEQUENCE foo
 
-    $result = db_query($query);
-    $result = db_prepared_fetch_all($query);
+    $result = db_query_all($query);
     foreach ($result as $k => $row) {
         if (isset($result[$k + 1])) {
             $row2 = $result[$k + 1];
@@ -569,7 +568,7 @@ function create_page_browser($idxfield, $querypart) {
     }
 
     if (db_pgsql()) {
-        db_query("DROP SEQUENCE rowcount");
+        db_execute("DROP SEQUENCE rowcount");
     }
 
     return $pagebrowser;
@@ -599,7 +598,7 @@ function divide_quota($quota) {
 function check_owner($username, $domain) {
     $table_domain_admins = table_by_key('domain_admins');
 
-    $result = db_prepared_fetch_all(
+    $result = db_query_all(
         "SELECT 1 FROM $table_domain_admins WHERE username= ? AND (domain = ? OR domain = 'ALL') AND active = ?" ,
         array($username, $domain, db_get_boolean(true))
     );
@@ -636,7 +635,7 @@ function list_domains_for_admin($username) {
 
     $pvalues = array();
 
-    $result = db_prepared_fetch_one("SELECT username FROM $table_domain_admins WHERE username= :username AND domain='ALL'", array('username' => $username));
+    $result = db_query_one("SELECT username FROM $table_domain_admins WHERE username= :username AND domain='ALL'", array('username' => $username));
     if (empty($result)) { # not a superadmin
         $pvalues['username'] = $username;
         $pvalues['active'] = db_get_boolean(true);
@@ -651,20 +650,14 @@ function list_domains_for_admin($username) {
     $query .= " WHERE " . join(' AND ', $condition);
     $query .= " ORDER BY $table_domain.domain";
 
-    $result = db_prepared_fetch_all($query, $pvalues);
+    $result = db_query_all($query, $pvalues);
 
     return array_column($result, 'domain');
 }
 
 
 if (!function_exists('array_column')) {
-    function array_column(array $array, $column) {
-        $retval = array();
-        foreach ($array as $row) {
-            $retval[] = $row[$column];
-        }
-        return $retval;
-    }
+    require_once(dirname(__FILE__) . '/lib/array_column.php');
 }
 
 /**
@@ -676,7 +669,7 @@ function list_domains() {
     $list = array();
 
     $table_domain = table_by_key('domain');
-    $result = db_prepared_fetch_all("SELECT domain FROM $table_domain WHERE domain!='ALL' ORDER BY domain");
+    $result = db_query_all("SELECT domain FROM $table_domain WHERE domain!='ALL' ORDER BY domain");
     $i = 0;
     foreach ($result as $row) {
         $list[$i] = $row['domain'];
@@ -911,9 +904,9 @@ function _pacrypt_mysql_encrypt($pw, $pw_db) {
     $pw = escape_string($pw);
     if ($pw_db!="") {
         $values = array('pw' => $pw_db, 'salt' => substr($pw_db, 0, 2));
-        $res = db_prepared_fetch_one("SELECT ENCRYPT(:pw,:salt) as result", $values);
+        $res = db_query_one("SELECT ENCRYPT(:pw,:salt) as result", $values);
     } else {
-        $res= db_prepared_fetch_one("SELECT ENCRYPT(:pw) as result", array('pw' => $pw));
+        $res= db_query_one("SELECT ENCRYPT(:pw) as result", array('pw' => $pw));
     }
 
     return $res['result'];
@@ -1456,7 +1449,6 @@ function db_connect_with_errors() {
     global $CONF;
     global $DEBUG_TEXT;
 
-    $DEBUG_TEXT = '';
     $error_text = '';
 
     static $link;
@@ -1465,10 +1457,14 @@ function db_connect_with_errors() {
     }
     $link = 0;
 
-    $options = [
+    $options = array(
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    ];
+    );
     $username_password = true;
+
+    $queries = array();
+
+    $dsn = null;
 
     if (db_mysql()) {
         $dsn = "mysql:host={$CONF['database_host']};dbname={$CONF['database_name']};charset=UTF8";
@@ -1489,13 +1485,19 @@ function db_connect_with_errors() {
         }
         $dsn = "pgsql:host={$CONF['database_host']};port={$CONF['database_port']};dbname={$CONF['database_name']};charset=UTF8";
     } else {
-        $error_text = "<p>DEBUG INFORMATION:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php! $DEBUG_TEXT";
+        die("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php!</p>");
     }
 
     if ($username_password) {
         $link = new PDO($dsn, Config::read_string('database_user'), Config::read_string('database_password'), $options);
     } else {
         $link = new PDO($dsn, null, null, $options);
+    }
+
+    if (!empty($queries)) {
+        foreach ($queries as $q) {
+            $link->exec($q);
+        }
     }
 
 
@@ -1604,8 +1606,8 @@ function db_sqlite() {
  * @param array $values
  * @return array
  */
-function db_prepared_fetch_all($sql, array $values = array()) {
-    $r = db_prepared_query($sql, $values);
+function db_query_all($sql, array $values = array()) {
+    $r = db_query($sql, $values);
     return $r['result']->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -1614,15 +1616,14 @@ function db_prepared_fetch_all($sql, array $values = array()) {
  * @param array $values
  * @return array
  */
-function db_prepared_fetch_one($sql, array $values = array()) {
-    $r = db_prepared_query($sql, $values);
+function db_query_one($sql, array $values = array()) {
+    $r = db_query($sql, $values);
     return $r['result']->fetch(PDO::FETCH_ASSOC);
 }
 
 
-function db_prepared_insert($sql, array $values = array()) {
+function db_execute($sql, array $values = array(), $throw_errors = false) {
     $link = db_connect();
-    $error_text = '';
 
     try {
         $stmt = $link->prepare($sql);
@@ -1630,6 +1631,9 @@ function db_prepared_insert($sql, array $values = array()) {
     } catch (PDOException $e) {
         $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql ;
         error_log($error_text);
+        if ($throw_errors) {
+            throw $e;
+        }
     }
     return $stmt->rowCount();
 }
@@ -1640,7 +1644,7 @@ function db_prepared_insert($sql, array $values = array()) {
  * @param bool $ignore_errors - set to true to ignore errors.
  * @return array e.g. ['result' => PDOStatement, 'error' => string ]
  */
-function db_prepared_query($sql, array $values = array(), $ignore_errors = false) {
+function db_query($sql, array $values = array(), $ignore_errors = false) {
     $link = db_connect();
     $error_text = '';
 
@@ -1655,21 +1659,13 @@ function db_prepared_query($sql, array $values = array(), $ignore_errors = false
         }
     }
 
-
     return array(
         "result" => $stmt,
         "error" => $error_text,
     );
 }
 
-/**
- * @param string $query SQL to execute
- * @param int $ignore_errors (default 0 aka do not ignore errors)
- * @return array ['result' => resource, 'rows' => int ,'error' => string]
- */
-function db_query($query, $ignore_errors = 0) {
-    return db_prepared_query($query, array(), $ignore_errors == 0);
-}
+
 
 
 
@@ -1689,7 +1685,7 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
 
     $query = "DELETE FROM $table WHERE $where = ? $additionalwhere";
 
-    return db_prepared_insert($query, [$delete]);
+    return db_execute($query, array($delete));
 }
 
 
@@ -1749,7 +1745,7 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
     }
 
 
-    return db_prepared_insert(
+    return db_execute(
         "INSERT INTO $table (" . implode(",", array_keys($values)) .") VALUES ($value_string)",
         $prepared_statment_values);
 }
@@ -1771,6 +1767,8 @@ function db_update($table, $where_col, $where_value, $values, $timestamp = array
     $sql_values = array();
 
     $sql = "UPDATE $table_key SET ";
+
+    $pvalues = array();
 
     $set = array();
     foreach ($values as $key => $value) {
@@ -1803,7 +1801,7 @@ function db_update($table, $where_col, $where_value, $values, $timestamp = array
 
     $sql="UPDATE $table_key SET " . implode(",", $set) . " WHERE $where_col = :where";
 
-    return db_prepared_insert($sql, $pvalues);
+    return db_execute($sql, $pvalues);
 }
 
 
@@ -1974,12 +1972,12 @@ function check_db_version($error_out = true) {
     $table = table_by_key('config');
 
     $sql = "SELECT value FROM $table WHERE name = 'version'";
-    $row = db_prepared_fetch_one($sql);
-
+    $row = db_query_one($sql);
     if (isset($row['value'])) {
         $dbversion = (int) $row['value'];
     } else {
-        db_query("INSERT INTO $table (name, value) VALUES ('version', '0')", 0);
+        db_execute("INSERT INTO $table (name, value) VALUES ('version', '0')");
+        $dbversion = 0;
     }
 
     if (($dbversion < $min_db_version) && $error_out == true) {
@@ -2006,7 +2004,7 @@ function gen_show_status($show_alias) {
     $stat_string = "";
 
     $stat_goto = "";
-    $stat_result = db_prepared_fetch_one("SELECT goto FROM $table_alias WHERE address=?", array($show_alias));
+    $stat_result = db_query_one("SELECT goto FROM $table_alias WHERE address=?", array($show_alias));
 
     if ($stat_result) {
         $stat_goto = $stat_result['goto'];
@@ -2050,7 +2048,7 @@ function gen_show_status($show_alias) {
                 $sql .= " OR address = ? ";
             }
 
-            $stat_result = db_prepared_fetch_one($sql, $v);
+            $stat_result = db_query_one($sql, $v);
 
             if (empty($stat_result)) {
                 $stat_ok = 0;
@@ -2071,7 +2069,7 @@ function gen_show_status($show_alias) {
 
     // Vacation CHECK
     if ( $CONF['show_vacation'] == 'YES' ) {
-        $stat_result = db_prepared_fetch_one("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = ? AND active = ? ", array($show_alias, db_get_boolean(true) )) ;
+        $stat_result = db_query_one("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = ? AND active = ? ", array($show_alias, db_get_boolean(true) )) ;
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2081,7 +2079,7 @@ function gen_show_status($show_alias) {
 
     // Disabled CHECK
     if ( $CONF['show_disabled'] == 'YES' ) {
-        $stat_result = db_prepared_fetch_one(
+        $stat_result = db_query_one(
             "SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = ? AND active = ?",
             array($show_alias, db_get_boolean(false))
         );
@@ -2099,7 +2097,7 @@ function gen_show_status($show_alias) {
             $now = "datetime('now')";
         }
 
-        $stat_result = db_prepared_fetch_one("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = ? AND password_expiry <= ? AND active = ?", array( $show_alias , $now , db_get_boolean(true) ));
+        $stat_result = db_query_one("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = ? AND password_expiry <= ? AND active = ?", array( $show_alias , $now , db_get_boolean(true) ));
 
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";

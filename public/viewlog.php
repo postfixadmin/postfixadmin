@@ -66,7 +66,7 @@ if ($error != 1) {
     if (db_pgsql()) {
         $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,data FROM $table_log WHERE domain= :domain ORDER BY timestamp DESC LIMIT $page_size";
     }
-    $result = db_prepared_fetch_all($query, array('domain' => $fDomain));
+    $result = db_query_all($query, array('domain' => $fDomain));
     foreach ($result as $row) {
         if (is_array($row) && db_pgsql()) {
             $row['timestamp'] = gmstrftime('%c %Z', $row['timestamp']);

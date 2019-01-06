@@ -220,7 +220,7 @@ if (Config::bool('used_quotas') && (! Config::bool('new_quota_table'))) {
 $mailbox_pagebrowser_query = "$sql_from\n$sql_join\n$sql_where\n$sql_order" ;
 $query = "$sql_select\n$mailbox_pagebrowser_query\n$sql_limit";
 
-$result = db_prepared_fetch_all($query);
+$result = db_query_all($query);
 
 $tMailbox = array();
 

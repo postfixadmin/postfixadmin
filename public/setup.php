@@ -303,7 +303,7 @@ if ($error != 0) {
         if ($error == 0 && $pw_check_result == 'pass_OK') {
             // XXX need to ensure domains table includes an 'ALL' entry.
             $table_domain = table_by_key('domain');
-            $rows = db_prepared_fetch_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
+            $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
             if (empty($rows)) {
                 db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => '')); // all other fields should default through the schema.
             }

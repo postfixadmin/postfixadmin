@@ -20,7 +20,7 @@ if (!isset($CONF) || !is_array($CONF)) {
  */
 function _pgsql_object_exists($name) {
     $sql = "select relname from pg_class where relname = '$name'";
-    $r = db_prepared_fetch_one($sql);
+    $r = db_query_one($sql);
     return !empty($r);
 }
 
@@ -48,7 +48,7 @@ function _pgsql_field_exists($table, $field) {
                 AND pg_catalog.pg_table_is_visible(c.oid)
         )
         AND a.attname = '$field' ";
-    $r = db_prepared_fetch_all($sql);
+    $r = db_query_all($sql);
 
     return !empty($r);
 }
@@ -56,14 +56,14 @@ function _pgsql_field_exists($table, $field) {
 function _mysql_field_exists($table, $field) {
     # $table = table_by_key($table); # _mysql_field_exists is always called with the expanded table name - don't expand it twice
     $sql = "SHOW COLUMNS FROM $table LIKE ?";
-    $r = db_prepared_fetch_all($sql, array( $field));
+    $r = db_query_all($sql, array( $field));
 
     return !empty($r);
 }
 
 function _sqlite_field_exists($table, $field) {
     $sql = "PRAGMA table_info($table)";
-    $r = db_prepared_fetch_all($sql);
+    $r = db_query_all($sql);
 
     foreach ($r as $row) {
         if ($row[1] == $field) {
@@ -225,8 +225,8 @@ function _do_upgrade($current_version) {
         }
         // Update config table so we don't run the same query twice in the future.
         $table = table_by_key('config');
-        $sql = "UPDATE $table SET value = $i WHERE name = 'version'";
-        db_query($sql);
+        $sql = "UPDATE $table SET value = :value WHERE name = 'version'";
+        db_execute($sql, array('value' => $i));
     };
 }
 
@@ -322,9 +322,13 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
     if ($debug) {
         printdebug($query);
     }
-    $result = db_query($query, $ignore_errors);
-    if ($debug) {
-        echo_out("<div style='color:#f00'>" . $result['error'] . "</div>");
+
+    try {
+        $result = db_execute($query, array(), true);
+    } catch (PDOException $e) {
+        if ($debug) {
+            echo_out("<div style='color:#f00'>" . $e->getMessage() . "</div>");
+        }
     }
 }
 
@@ -1410,7 +1414,7 @@ function upgrade_1284_mysql_pgsql() {
     # migrate the ALL domain to the superadmin column
     # Note: The ALL domain is not (yet) deleted to stay backwards-compatible for now (will be done in a later upgrade function)
 
-    $result = db_prepared_fetch_all("SELECT username FROM " . table_by_key('domain_admins') . " where domain='ALL'");
+    $result = db_query_all("SELECT username FROM " . table_by_key('domain_admins') . " where domain='ALL'");
 
     foreach ($result as $row) {
         printdebug("Setting superadmin flag for " . $row['username']);

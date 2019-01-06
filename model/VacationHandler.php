@@ -189,7 +189,7 @@ class VacationHandler extends PFAHandler {
         $table_vacation = table_by_key('vacation');
 
         $sql = "SELECT * FROM $table_vacation WHERE email = :username";
-        $result = db_prepared_fetch_all($sql, array('username' => $this->username));
+        $result = db_query_all($sql, array('username' => $this->username));
         if (sizeof($result) != 1) {
             return false;
         }
@@ -243,8 +243,8 @@ class VacationHandler extends PFAHandler {
 
         // is there an entry in the vacaton table for the user, or do we need to insert?
         $table_vacation = table_by_key('vacation');
-        $result = db_prepared_fetch_one("SELECT * FROM $table_vacation WHERE email = ?", array($this->username));
-        if(!empty($result)) {
+        $result = db_query_one("SELECT * FROM $table_vacation WHERE email = ?", array($this->username));
+        if (!empty($result)) {
             $result = db_update('vacation', 'email', $this->username, $vacation_data);
         } else {
             $result = db_insert('vacation', $vacation_data);

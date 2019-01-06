@@ -42,7 +42,7 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase {
             )
         );
 
-        $ret = db_prepared_fetch_one("SELECT * FROM mailbox WHERE username = :username", array('username' => $username));
+        $ret = db_query_one("SELECT * FROM mailbox WHERE username = :username", array('username' => $username));
 
 
         $this->assertTrue(!empty($ret));

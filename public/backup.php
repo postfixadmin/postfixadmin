@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
       );
 
         for ($i = 0 ; $i < sizeof($tables) ; ++$i) {
-            $result = db_prepared_fetch_all("SHOW CREATE TABLE " . table_by_key($tables[$i]));
+            $result = db_query_all("SHOW CREATE TABLE " . table_by_key($tables[$i]));
             foreach ($result as $row) {
                 fwrite($fh, array_pop($row));
             }

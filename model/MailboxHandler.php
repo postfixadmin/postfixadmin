@@ -481,7 +481,7 @@ class MailboxHandler extends PFAHandler {
             $table_mailbox = table_by_key('mailbox');
             $query = "SELECT SUM(quota) as sum FROM $table_mailbox WHERE domain = ? AND username != ?";
 
-            $rows = db_prepared_fetch_all($query, array($domain, $this->id));
+            $rows = db_query_all($query, array($domain, $this->id));
 
             $cur_quota_total = divide_quota($rows[0]['sum']); # convert to MB
             if (($quota + $cur_quota_total) > $limit['quota']) {
