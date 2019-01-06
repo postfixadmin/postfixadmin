@@ -98,10 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
         for ($i = 0 ; $i < sizeof($tables) ; ++$i) {
             $result = db_prepared_fetch_all("SHOW CREATE TABLE " . table_by_key($tables[$i]));
-            foreach($result as $row) {
+            foreach ($result as $row) {
                 fwrite($fh, array_pop($row));
             }
-
         }
 
         for ($i = 0 ; $i < sizeof($tables) ; ++$i) {
@@ -109,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $pdo = db_connect();
             $stmt = $pdo->prepare('SELECT * FROM ' . table_by_key($tables[$i]));
             $stmt->execute();
-            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $fields = array_keys($row);
                 $values = array_values($row);
                 $values = array_map(function ($str) {
@@ -120,7 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                 $fields = "";
                 $values = "";
             }
-
         }
     }
     header("Content-Type: text/plain");

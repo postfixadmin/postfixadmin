@@ -65,7 +65,7 @@ function _sqlite_field_exists($table, $field) {
     $sql = "PRAGMA table_info($table)";
     $r = db_prepared_fetch_all($sql);
 
-    foreach($r as $row) {
+    foreach ($r as $row) {
         if ($row[1] == $field) {
             return true;
         }
@@ -119,7 +119,7 @@ function printdebug($text) {
 $table = table_by_key('config');
 if ($CONF['database_type'] == 'pgsql') {
     // check if table already exists, if so, don't recreate it
-    if(!_pgsql_object_exists($table)) {
+    if (!_pgsql_object_exists($table)) {
         $pgsql = "
             CREATE TABLE  $table ( 
                     id SERIAL,
@@ -1412,11 +1412,10 @@ function upgrade_1284_mysql_pgsql() {
 
     $result = db_prepared_fetch_all("SELECT username FROM " . table_by_key('domain_admins') . " where domain='ALL'");
 
-    foreach($result as $row) {
+    foreach ($result as $row) {
         printdebug("Setting superadmin flag for " . $row['username']);
         db_update('admin', 'username', $row['username'], array('superadmin' => db_get_boolean(true)));
     }
-
 }
 
 function upgrade_1345_mysql() {

@@ -76,6 +76,7 @@ if (count($search)) {
 } else {
     $handler->getList('');
 }
+
 $items = $handler->result();
 
 if (count($handler->errormsg)) {

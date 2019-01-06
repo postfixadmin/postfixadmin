@@ -228,8 +228,7 @@ $tMailbox = array();
 $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
 $goto_single_rec_del = "";
 
-foreach($result as $row) {
-
+foreach ($result as $row) {
     if ($display_mailbox_aliases) {
         $goto_split = explode(",", $row['goto']);
         $row['goto_mailbox'] = 0;

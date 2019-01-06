@@ -3,7 +3,6 @@
 require_once('common.php');
 
 class DbBasicTest extends \PHPUnit\Framework\TestCase {
-
     private $test_domain;
 
     public function setUp() {
@@ -12,11 +11,9 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase {
         $this->test_domain = $test_domain;
 
         $db->exec("DELETE FROM domain WHERE domain = '$test_domain'");
-
     }
     public function testInsertDeleteDomain() {
-
-$domain = $this->test_domain;
+        $domain = $this->test_domain;
 
         $username = 'testusername' . uniqid();
 

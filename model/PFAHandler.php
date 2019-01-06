@@ -727,8 +727,10 @@ abstract class PFAHandler {
 
         $db_result = array();
 
+
         $result = db_prepared_fetch_all($query);
-        foreach($result as $row) {
+
+        foreach ($result as $row) {
             $db_result[$row[$this->id_field]] = $row;
         }
 
@@ -814,7 +816,6 @@ abstract class PFAHandler {
      * @return boolean true on successful login (i.e. password matches etc)
      */
     public function login($username, $password) {
-
         $table = table_by_key($this->db_table);
         $active = db_get_boolean(true);
         $query = "SELECT password FROM $table WHERE {$this->id_field} = :username AND active = :active";
@@ -861,7 +862,6 @@ abstract class PFAHandler {
      * @return boolean true on success (i.e. code matches etc)
      */
     public function checkPasswordRecoveryCode($username, $token) {
-
         $table = table_by_key($this->db_table);
         $active = db_get_boolean(true);
 
@@ -869,7 +869,7 @@ abstract class PFAHandler {
         $values = array('username' => $username, 'active' => $active);
 
         $result = db_prepared_fetch_all($query, $values);
-        if(sizeof($result) == 1) {
+        if (sizeof($result) == 1) {
             $row = $result[0];
 
             $crypt_token = pacrypt($token, $row['token']);
