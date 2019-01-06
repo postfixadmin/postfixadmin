@@ -18,9 +18,10 @@ Config::write('database_type', 'sqlite');
 Config::write('database_name', $db_file);
 
 clearstatcache();
-//if (file_exists($db_file)) {
-//    unlink($db_file);
-//}
+
+if (file_exists($db_file)) {
+    unlink($db_file);
+}
 
 
 require_once(dirname(__FILE__) . '/../public/upgrade.php');

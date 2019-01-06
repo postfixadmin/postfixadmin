@@ -66,7 +66,7 @@ function _sqlite_field_exists($table, $field) {
     $r = db_query_all($sql);
 
     foreach ($r as $row) {
-        if ($row[1] == $field) {
+        if ($row['name'] == $field) {
             return true;
         }
     }

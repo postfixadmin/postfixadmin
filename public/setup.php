@@ -346,8 +346,7 @@ if ($error != 0) {
       <td colspan="3"><h4>Warning: connection not secure, switch to https if possible</h4></td>
    </tr>
 <?php
-   endif;
-?>
+   endif; ?>
    <tr>
       <td><label for="setup_password">Setup password</label></td>
       <td><input class="flat" type="password" name="setup_password" id="setup_password" value="" /></td>
@@ -387,8 +386,7 @@ if ($error != 0) {
       <td colspan="3"><h4>Warning: connection not secure, switch to https if possible</h4></td>
    </tr>
 <?php
-   endif;
-?>
+   endif; ?>
    <tr>
        <td><label for="setup_password">Setup password</label></td>
       <td><input id=setup_password class="flat" type="password" name="setup_password" value="" /></td>
