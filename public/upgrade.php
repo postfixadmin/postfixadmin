@@ -13,18 +13,15 @@ if (!isset($CONF) || !is_array($CONF)) {
 
 
 /**
- * Use this to check whether an object (Table, index etc) exists within a
+ * Use this to check whether an object (table, index etc) exists within a
  * PostgreSQL database.
  * @param string the object name
  * @return boolean true if it exists
  */
 function _pgsql_object_exists($name) {
     $sql = "select relname from pg_class where relname = '$name'";
-    $r = db_query($sql);
-    if ($r['rows'] == 1) {
-        return true;
-    }
-    return false;
+    $r = db_prepared_fetch_one($sql);
+    return !empty($r);
 }
 
 /**
@@ -51,30 +48,24 @@ function _pgsql_field_exists($table, $field) {
                 AND pg_catalog.pg_table_is_visible(c.oid)
         )
         AND a.attname = '$field' ";
-    $r = db_query($sql);
-    $row = db_row($r['result']);
-    if ($row) {
-        return true;
-    }
-    return false;
+    $r = db_prepared_fetch_all($sql);
+
+    return !empty($r);
 }
 
 function _mysql_field_exists($table, $field) {
     # $table = table_by_key($table); # _mysql_field_exists is always called with the expanded table name - don't expand it twice
-    $sql = "SHOW COLUMNS FROM $table LIKE '$field'";
-    $r = db_query($sql);
-    $row = db_row($r['result']);
+    $sql = "SHOW COLUMNS FROM $table LIKE ?";
+    $r = db_prepared_fetch_all($sql, array( $field));
 
-    if ($row) {
-        return true;
-    }
-    return false;
+    return !empty($r);
 }
 
 function _sqlite_field_exists($table, $field) {
     $sql = "PRAGMA table_info($table)";
-    $r = db_query($sql);
-    while ($row = db_row($r['result'])) {
+    $r = db_prepared_fetch_all($sql);
+
+    foreach($r as $row) {
         if ($row[1] == $field) {
             return true;
         }
@@ -128,8 +119,7 @@ function printdebug($text) {
 $table = table_by_key('config');
 if ($CONF['database_type'] == 'pgsql') {
     // check if table already exists, if so, don't recreate it
-    $r = db_query("SELECT relname FROM pg_class WHERE relname = '$table'");
-    if ($r['rows'] == 0) {
+    if(!_pgsql_object_exists($table)) {
         $pgsql = "
             CREATE TABLE  $table ( 
                     id SERIAL,
@@ -1420,18 +1410,13 @@ function upgrade_1284_mysql_pgsql() {
     # migrate the ALL domain to the superadmin column
     # Note: The ALL domain is not (yet) deleted to stay backwards-compatible for now (will be done in a later upgrade function)
 
-    $result = db_query("SELECT username FROM " . table_by_key('domain_admins') . " where domain='ALL'");
+    $result = db_prepared_fetch_all("SELECT username FROM " . table_by_key('domain_admins') . " where domain='ALL'");
 
-    if ($result['rows'] > 0) {
-        while ($row = db_assoc($result['result'])) {
-            if (!is_array($row)) {
-                break;
-            }
-
-            printdebug("Setting superadmin flag for " . $row['username']);
-            db_update('admin', 'username', $row['username'], array('superadmin' => db_get_boolean(true)));
-        }
+    foreach($result as $row) {
+        printdebug("Setting superadmin flag for " . $row['username']);
+        db_update('admin', 'username', $row['username'], array('superadmin' => db_get_boolean(true)));
     }
+
 }
 
 function upgrade_1345_mysql() {

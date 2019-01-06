@@ -268,11 +268,13 @@ function check_domain($domain) {
  */
 function get_password_expiration_value($domain) {
     $table_domain = table_by_key('domain');
-    $domain = escape_string($domain);
-    $query = "SELECT password_expiry FROM $table_domain WHERE domain='$domain'";
-    $result = db_query($query);
-    $password_expiration_value = db_assoc($result['result']);
-    return $password_expiration_value['password_expiry'];
+    $query = "SELECT password_expiry FROM $table_domain WHERE domain= :domain";
+
+    $result = db_prepared_fetch_one($query, array('domain' => $domain));
+    if(is_array($result) && isset($result['password_expiry'])) {
+        return $result['password_expiry'];
+    }
+    return null;
 }
 
 /**
@@ -531,12 +533,10 @@ function create_page_browser($idxfield, $querypart) {
 
     # get number of rows
     $query = "SELECT count(*) as counter FROM (SELECT $idxfield $querypart) AS tmp";
-    $result = db_query($query);
-    if ($result['rows'] > 0) {
-        $row = db_assoc($result['result']);
-        $count_results = $row['counter'] -1; # we start counting at 0, not 1
+    $result = db_prepared_fetch_one($query);
+    if ($result && isset($result['counter'])) {
+        $count_results = $result['counter'] -1; # we start counting at 0, not 1
     }
-    #    echo "<p>rows: " . ($count_results +1) . " --- $query";
 
     if ($count_results < $page_size) {
         return array(); # only one page - no pagebrowser required
@@ -583,16 +583,17 @@ function create_page_browser($idxfield, $querypart) {
     # afterwards: DROP SEQUENCE foo
 
     $result = db_query($query);
-    if ($result['rows'] > 0) {
-        while ($row = db_assoc($result['result'])) {
-            if ($row2 = db_assoc($result['result'])) {
-                $label = substr($row['label'], 0, $label_len) . '-' . substr($row2['label'], 0, $label_len);
-                $pagebrowser[] = $label;
-            } else { # only one row remaining
-                $label = substr($row['label'], 0, $label_len);
-                $pagebrowser[] = $label;
-            }
+    $result = db_prepared_fetch_all($query);
+    foreach($result as $k => $row) {
+        if(isset($result[$k + 1])) {
+            $row2 = $result[$k + 1];
+            $label = substr($row['label'], 0, $label_len) . '-' . substr($row2['label'], 0, $label_len);
         }
+        else {
+            $label = substr($row['label'], 0, $label_len);
+        }
+        $pagebrowser[] = $label;
+
     }
 
     if (db_pgsql()) {
@@ -625,15 +626,17 @@ function divide_quota($quota) {
  */
 function check_owner($username, $domain) {
     $table_domain_admins = table_by_key('domain_admins');
-    $E_username = escape_string($username);
-    $E_domain = escape_string($domain);
-    $result = db_query("SELECT 1 FROM $table_domain_admins WHERE username='$E_username' AND (domain='$E_domain' OR domain='ALL') AND active='1'");
 
-    if ($result['rows'] == 1 || $result['rows'] == 2) { # "ALL" + specific domain permissions is possible
+    $result = db_prepared_fetch_all(
+        "SELECT 1 FROM $table_domain_admins WHERE username= ? AND (domain = ? OR domain = 'ALL') AND active = ?" ,
+        array($username, $domain, db_get_boolean(true))
+    );
+
+    if(sizeof($result) == 1 || sizeof($result) == 2) { # "ALL" + specific domain permissions is possible
         # TODO: if superadmin, check if given domain exists in the database
         return true;
     } else {
-        if ($result['rows'] > 2) { # more than 2 results means something really strange happened...
+        if (sizeof($result) > 2) { # more than 2 results means something really strange happened...
             flash_error("Permission check returned multiple results. Please go to 'edit admin' for your username and press the save "
              . "button once to fix the database. If this doesn't help, open a bugreport.");
         }
@@ -649,6 +652,7 @@ function check_owner($username, $domain) {
  * @return array of domain names.
  */
 function list_domains_for_admin($username) {
+
     $table_domain = table_by_key('domain');
     $table_domain_admins = table_by_key('domain_admins');
 
@@ -659,29 +663,39 @@ function list_domains_for_admin($username) {
     $query = "SELECT $table_domain.domain FROM $table_domain ";
     $condition[] = "$table_domain.domain != 'ALL'";
 
-    $result = db_query("SELECT username FROM $table_domain_admins WHERE username='$E_username' AND domain='ALL'");
-    if ($result['rows'] < 1) { # not a superadmin
+    $pvalues = array();
+
+    $result = db_prepared_fetch_one("SELECT username FROM $table_domain_admins WHERE username= :username AND domain='ALL'", array('username' => $username));
+    if (empty($result)) { # not a superadmin
+        $pvalues['username'] = $username;
+        $pvalues['active'] = db_get_boolean(true);
+        $pvalues['backupmx'] = db_get_boolean(false);
+
         $query .= " LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain ";
-        $condition[] = "$table_domain_admins.username='$E_username' ";
-        $condition[] = "$table_domain.active='"   . db_get_boolean(true)  . "'"; # TODO: does it really make sense to exclude inactive...
-        $condition[] = "$table_domain.backupmx='" . db_get_boolean(false) . "'"; # TODO: ... and backupmx domains for non-superadmins?
+        $condition[] = "$table_domain_admins.username = :username  ";
+        $condition[] = "$table_domain.active = :active "; # TODO: does it really make sense to exclude inactive...
+        $condition[] = "$table_domain.backupmx = :backupmx" ; # TODO: ... and backupmx domains for non-superadmins?
     }
 
     $query .= " WHERE " . join(' AND ', $condition);
     $query .= " ORDER BY $table_domain.domain";
 
-    $list = array();
-    $result = db_query($query);
-    if ($result['rows'] > 0) {
-        $i = 0;
-        while ($row = db_assoc($result['result'])) {
-            $list[$i] = $row['domain'];
-            $i++;
-        }
-    }
-    return $list;
+    $result = db_prepared_fetch_all($query, $pvalues);
+
+    return array_column($result, 'domain');
+
 }
 
+
+if(!function_exists('array_column')) {
+    function array_column(array $array, $column) {
+        $retval = array();
+        foreach($array as $row) {
+            $retval[] = $row[$column];
+        }
+        return $retval;
+    }
+}
 
 /**
  * List all available domains.
@@ -692,15 +706,11 @@ function list_domains() {
     $list = array();
 
     $table_domain = table_by_key('domain');
-    $result = db_query("SELECT domain FROM $table_domain WHERE domain!='ALL' ORDER BY domain");
-    if ($result['rows'] > 0) {
-        $i = 0;
-        while ($row = db_assoc($result['result'])) {
-            if (is_array($row)) {
-                $list[$i] = $row['domain'];
-                $i++;
-            }
-        }
+    $result = db_prepared_fetch_all("SELECT domain FROM $table_domain WHERE domain!='ALL' ORDER BY domain");
+    $i = 0;
+    foreach($result as $row) {
+        $list[$i] = $row['domain'];
+        $i++;
     }
     return $list;
 }
@@ -929,14 +939,13 @@ function _pacrypt_mysql_encrypt($pw, $pw_db) {
     // this is apparently useful for pam_mysql etc.
     $pw = escape_string($pw);
     if ($pw_db!="") {
-        $salt=escape_string(substr($pw_db, 0, 2));
-        $res=db_query("SELECT ENCRYPT('".$pw."','".$salt."');");
+        $values = array('pw' => $pw_db, 'salt' => substr($pw_db, 0, 2));
+        $res = db_prepared_fetch_one("SELECT ENCRYPT(:pw,:salt) as result", $values);
     } else {
-        $res=db_query("SELECT ENCRYPT('".$pw."');");
+        $res= db_prepared_fetch_one("SELECT ENCRYPT(:pw) as result", array('pw' => $pw));
     }
-    $l = db_row($res["result"]);
-    $password = $l[0];
-    return $password;
+
+    return $res['result'];
 }
 
 function _pacrypt_authlib($pw, $pw_db) {
@@ -1460,7 +1469,7 @@ EOF;
  *    array($link, $error_text);
  *
  * @param bool $ignore_errors
- * @return resource|mysqli|SQLite3 connection to db
+ * @return PDO
  */
 function db_connect() {
     list($link, $_) = db_connect_with_errors();
@@ -1485,69 +1494,41 @@ function db_connect_with_errors() {
     }
     $link = 0;
 
-    if ($CONF['database_type'] == "mysql") {
-        if (function_exists("mysql_connect")) {
-            $link = @mysql_connect($CONF['database_host'], $CONF['database_user'], $CONF['database_password']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " .  mysql_error() . "$DEBUG_TEXT");
-            if ($link) {
-                @mysql_query("SET CHARACTER SET utf8", $link);
-                @mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'", $link);
-                @mysql_select_db($CONF['database_name'], $link) or $error_text .= ("<p />DEBUG INFORMATION:<br />MySQL Select Database: " .  mysql_error() . "$DEBUG_TEXT");
-            }
-        } else {
-            $error_text .= "<p>DEBUG INFORMATION:<br />MySQL 3.x / 4.0 functions not available! (php5-mysql installed?)<br />database_type = 'mysql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    ];
+    $username_password = true;
+
+    if (db_mysql()) {
+        $dsn = "mysql:host={$CONF['database_host']};dbname={$CONF['database_name']};charset=UTF8";
+        if (Config::bool('database_use_ssl')) {
+            $options[PDO::MYSQL_ATTR_SSL_CA] = Config::read_string('database_ssl_ca');
+            $options[PDO::MYSQL_ATTR_SSL_CAPATH] = Config::read_string('database_ssl_ca_path');
+            $options[PDO::MYSQL_ATTR_SSL_CERT] = Config::read_string('database_ssl_cert');
+            $options[PDO::MYSQL_ATTR_SSL_CIPHER] = Config::read_string('database_ssl_cipher');
         }
-    } elseif ($CONF['database_type'] == "mysqli") {
-        $is_connected = false;
-        if ($CONF['database_use_ssl']) {
-            if (function_exists("mysqli_real_connect")) {
-                $link = mysqli_init();
-                $link->ssl_set($CONF['database_ssl_key'], $CONF['database_ssl_cert'], $CONF['database_ssl_ca'], $CONF['database_ssl_ca_path'], $CONF['database_ssl_cipher']);
-                $connected = mysqli_real_connect($link, $CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port']);
-                $is_connected = $connected;
-            } else {
-                $error_text .= "<p>DEBUG INFORMATION:<br />MySQLi 5 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
-            }
-        } else {
-            if (function_exists("mysqli_connect")) {
-                $link = @mysqli_connect($CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port'], $CONF['database_socket']) or $error_text .= ("<p />DEBUG INFORMATION:<br />Connect: " . mysqli_connect_error() . "$DEBUG_TEXT");
-                $is_connected = $link;
-            } else {
-                $error_text .= "<p>DEBUG INFORMATION:<br />MySQL 4.1 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
-            }
-        }
-        if ($is_connected && $link instanceof mysqli) {
-            @mysqli_query($link, "SET CHARACTER SET utf8");
-            @mysqli_query($link, "SET COLLATION_CONNECTION='utf8_general_ci'");
-        }
-    } elseif (db_sqlite()) {
-        if (class_exists("SQLite3")) {
-            if ($CONF['database_name'] == '' || !is_dir(dirname($CONF['database_name'])) || !is_writable(dirname($CONF['database_name']))) {
-                $error_text .= ("<p>DEBUG INFORMATION<br />Connect: given database path does not exist, is not writable, or \$CONF['database_name'] is empty.");
-            } else {
-                $link = new SQLite3($CONF['database_name']) or $error_text .= ("<p />DEBUG INFORMATION<br />Connect: failed to connect to database. $DEBUG_TEXT");
-                if ($link instanceof SQLite3) {
-                    $link->createFunction('base64_decode', 'base64_decode');
-                }
-            }
-        } else {
-            $error_text .= "<p>DEBUG INFORMATION:<br />SQLite functions not available! (php5-sqlite installed?)<br />database_type = 'sqlite' in config.inc.php, are you using a different database? $DEBUG_TEXT";
-        }
+        $queries[] = 'SET CHARACTER SET utf8';
+        $queries[] = "SET COLLATION_CONNECTION='utf8_general_ci'";
+    }
+     elseif (db_sqlite()) {
+        $dsn = "sqlite:{$CONF['database_name']}";
+        $username_password = false;
     } elseif (db_pgsql()) {
-        if (function_exists("pg_pconnect")) {
-            if (!isset($CONF['database_port'])) {
-                $CONF['database_port'] = '5432';
-            }
-            $connect_string = "host=" . $CONF['database_host'] . " port=" . $CONF['database_port'] . " dbname=" . $CONF['database_name'] . " user=" . $CONF['database_user'] . " password=" . $CONF['database_password'];
-            $link = @pg_pconnect($connect_string) or $error_text .= ("<p>DEBUG INFORMATION:<br />Connect: failed to connect to database. $DEBUG_TEXT");
-            if ($link) {
-                pg_set_client_encoding($link, 'UNICODE');
-            }
-        } else {
-            $error_text .= "<p>DEBUG INFORMATION:<br />PostgreSQL functions not available! (php5-pgsql installed?)<br />database_type = 'pgsql' in config.inc.php, are you using a different database? $DEBUG_TEXT";
+        if (!isset($CONF['database_port'])) {
+            $CONF['database_port'] = '5432';
         }
+        $dsn = "pgsql:host={$CONF['database_host']};port={$CONF['database_port']};dbname={$CONF['database_name']};charset=UTF8";
     } else {
         $error_text = "<p>DEBUG INFORMATION:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php! $DEBUG_TEXT";
     }
+
+    if($username_password) {
+        $link = new PDO($dsn, Config::read_string('database_user'), Config::read_string('database_pass'), $options);
+    }
+    else {
+        $link = new PDO($dsn, null, null, $options);
+    }
+
 
     return array($link, $error_text);
 }
@@ -1650,147 +1631,97 @@ function db_sqlite() {
 }
 
 /**
+ * @param string $sql
+ * @param array $values
+ * @return array
+ */
+function db_prepared_fetch_all($sql, array $values = array()) {
+    $r = db_prepared_query($sql, $values);
+    return $r['result']->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/**
+ * @param string $sql
+ * @param array $values
+ * @return array
+ */
+function db_prepared_fetch_one($sql, array $values = array()) {
+    $r = db_prepared_query($sql, $values);
+    return $r['result']->fetch(PDO::FETCH_ASSOC);
+}
+
+
+function db_prepared_insert($sql, array $values = array()) {
+    $link = db_connect();
+    $error_text = '';
+
+    try {
+        $stmt = $link->prepare($sql);
+        $stmt->execute($values);
+    }
+    catch(PDOException $e) {
+        $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql ;
+        error_log($error_text);
+    }
+    return $stmt->rowCount();
+}
+
+/**
+ * @param string $sql
+ * @param array $values
+ * @param bool $ignore_errors - set to true to ignore errors.
+ * @return array e.g. ['result' => PDOStatement, 'error' => string ]
+ */
+function db_prepared_query($sql, array $values = array(), $ignore_errors = false) {
+
+    $link = db_connect();
+    $error_text = '';
+
+    try {
+        $stmt = $link->prepare($sql);
+        $stmt->execute($values);
+    }
+    catch(PDOException $e) {
+        $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql ;
+        error_log($error_text);
+        if(!$ignore_errors) {
+            die("DEBUG INFORMATION: " . $e->getMessage() . "<br/> Check your error_log for the failed query");
+        }
+    }
+
+
+    return array(
+        "result" => $stmt,
+        "error" => $error_text,
+    );
+}
+
+/**
  * @param string $query SQL to execute
  * @param int $ignore_errors (default 0 aka do not ignore errors)
  * @return array ['result' => resource, 'rows' => int ,'error' => string]
  */
-function db_query($query, $ignore_errors = 0) {
-    global $CONF;
-    global $DEBUG_TEXT;
-    $result = "";
-    $number_rows = "";
-    $link = db_connect();
-    $error_text = "";
-    if ($ignore_errors) {
-        $DEBUG_TEXT = "";
-    }
-
-    if ($CONF['database_type'] == "mysql" && is_resource($link)) {
-        $result = @mysql_query($query, $link) or $error_text = "Invalid query: " . mysql_error($link);
-    }
-    if ($CONF['database_type'] == "mysqli" && $link instanceof mysqli) {
-        $result = @mysqli_query($link, $query) or $error_text = "Invalid query: " . mysqli_error($link);
-    }
-    if (db_sqlite() && $link instanceof SQLite3) {
-        $result = @$link->query($query) or $error_text = "Invalid query: " . $link->lastErrorMsg();
-    }
-    if (db_pgsql() && is_resource($link)) {
-        /* @var resource $link */
-        $result = @pg_query($link, $query) or $error_text = "Invalid query: " . pg_last_error();
-    }
-    if ($error_text != "" && $ignore_errors == 0) {
-        error_log($error_text);
-        error_log("caused by query: $query");
-        die("<p>DEBUG INFORMATION:<br />$error_text <p>Check your error_log for the failed query. $DEBUG_TEXT");
-    }
-
-    if ($error_text == "") {
-        if (db_sqlite() && $result instanceof SQLite3Result && $link instanceof SQLite3) {
-            /* @var SQLite3Result $result */
-            /* @var SQLite3 $link */
-            if ($result->numColumns()) {
-                // Query returned something
-                $num_rows = 0;
-                while (@$result->fetchArray(SQLITE3_ASSOC)) {
-                    $num_rows++;
-                }
-                $result->reset();
-                $number_rows = $num_rows;
-            } else {
-                // Query was UPDATE, DELETE or INSERT
-                $number_rows = $link->changes();
-            }
-        } elseif (preg_match("/^SELECT/i", trim($query))) {
-            /* @var resource $result */
-            // if $query was a SELECT statement check the number of rows with [database_type]_num_rows ().
-            if ($CONF['database_type'] == "mysql" && is_resource($result)) {
-                $number_rows = mysql_num_rows($result);
-            }
-            if ($CONF['database_type'] == "mysqli" && $result instanceof mysqli_result) {
-                $number_rows = mysqli_num_rows($result);
-            }
-            if (db_pgsql() && is_resource($result)) {
-                $number_rows = pg_num_rows($result);
-            }
-        } else {
-            /* @var resource $result */
-            // if $query was something else, UPDATE, DELETE or INSERT check the number of rows with
-            // [database_type]_affected_rows ().
-            if ($CONF['database_type'] == "mysql" && is_resource($link)) {
-                $number_rows = mysql_affected_rows($link);
-            }
-            if ($CONF['database_type'] == "mysqli" && $link instanceof mysqli) {
-                $number_rows = mysqli_affected_rows($link);
-            }
-            if (db_pgsql() && is_resource($result)) {
-                $number_rows = pg_affected_rows($result);
-            }
-        }
-    }
-
-    $return = array(
-        "result" => $result,
-        "rows" => $number_rows,
-        "error" => $error_text
-    );
-    return $return;
+function db_query($query, $ignore_errors = 0)
+{
+    return db_prepared_query($query, array(), $ignore_errors == 0);
 }
-
-
 
 // db_row
 // Action: Returns a row from a table
 // Call: db_row (int result)
 
-/**
- * Returns numerically indexed array.
- *
- * @param resource|mysqli_result|SQLite3Result $result
- * @return array
- */
-function db_row($result) {
-    global $CONF;
-    $row = "";
-    if ($CONF['database_type'] == "mysql" && is_resource($result)) {
-        $row = mysql_fetch_row($result);
-    }
-    if ($CONF['database_type'] == "mysqli" && $result instanceof mysqli_result) {
-        $row = mysqli_fetch_row($result);
-    }
-    if (db_sqlite() && $result instanceof SQLite3Result) {
-        $row = $result->fetchArray(SQLITE3_NUM);
-    }
-    if (db_pgsql() && is_resource($result)) {
-        $row = pg_fetch_row($result);
-    }
-    if (!is_array($row)) {
-        return array();
-    }
-    return $row;
-}
 
 
 /**
  * Get an associative array from a DB query resource.
  *
- * @param mixed $result - either resource or SQLite3Result depending on DB type chosen.
+ * @param PDOStatement $result
  * @return array
  */
-function db_assoc($result) {
-    global $CONF;
-    $row = [];
-    if ($CONF['database_type'] == "mysql" && is_resource($result)) {
-        $row = mysql_fetch_assoc($result);
-    }
-    if ($CONF['database_type'] == "mysqli" && $result instanceof mysqli_result) {
-        $row = mysqli_fetch_assoc($result);
-    }
-    if (db_sqlite() && $result instanceof SQLite3Result) {
-        $row = $result->fetchArray(SQLITE3_ASSOC);
-    }
-    if (db_pgsql() && is_resource($result)) {
-        $row = pg_fetch_assoc($result);
-    }
+function db_assoc(PDOStatement $result) {
+
+    $row = $result->fetch(PDO::FETCH_ASSOC);
+
     if (!is_array($row)) {
         $row = [];
     }
@@ -1812,15 +1743,12 @@ function db_assoc($result) {
 function db_delete($table, $where, $delete, $additionalwhere='') {
     $table = table_by_key($table);
 
-    $query = "DELETE FROM $table WHERE $where ='" . escape_string($delete) . "' " . $additionalwhere;
-    $result = db_query($query);
+    $query = "DELETE FROM $table WHERE $where = ? $additionalwhere";
 
-    if ($result['rows'] >= 1) {
-        return $result['rows'];
-    } else {
-        return 0;
-    }
+    return db_prepared_insert($query, [$delete]);
+
 }
+
 
 
 /**
@@ -1835,10 +1763,6 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
  */
 function db_insert($table, array $values, $timestamp = array('created', 'modified')) {
     $table = table_by_key($table);
-
-    foreach (array_keys($values) as $key) {
-        $values[$key] = "'" . escape_string($values[$key]) . "'";
-    }
 
     foreach ($timestamp as $key) {
         if (db_sqlite()) {
@@ -1866,9 +1790,27 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
         }
     }
 
-    $sql_values = "(" . implode(",", array_keys($values)) .") VALUES (". implode(",", $values).")";
-    $result = db_query("INSERT INTO $table $sql_values");
-    return $result['rows'];
+
+    $value_string = '';
+    $comma = '';
+    $prepared_statment_values = $values;
+
+    foreach($values as $field => $value) {
+        if(in_array($field, $timestamp)) {
+            $value_string .= $comma . $value; // see above.
+            unset($prepared_statment_values[$field]);
+        }
+        else {
+            $value_string .= $comma . ":{$field}";
+        }
+        $comma = ',';
+    }
+
+
+    return db_prepared_insert(
+        "INSERT INTO $table (" . implode(",", array_keys($values)) .") VALUES ($value_string)",
+        $prepared_statment_values);
+
 }
 
 
@@ -1884,57 +1826,48 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
  * @return int - number of updated rows
  */
 function db_update($table, $where_col, $where_value, $values, $timestamp = array('modified')) {
-    $where = $where_col . " = '" . escape_string($where_value) . "'";
-    return db_update_q($table, $where, $values, $timestamp);
-}
-
-/**
- * db_update_q
- * Action: Updates a specified table
- * Call: db_update_q (string table, string where, array values [, array timestamp])
- * @param string $table - table name
- * @param string $where - WHERE condition (as SQL)
- * @param array $values - key/value map of data to insert into the table.
- * @param array $timestamp (optional) - array of fields to set to now() - default: array('modified')
- * @return int - number of updated rows
- */
-function db_update_q($table, $where, $values, $timestamp = array('modified')) {
-    global $CONF;
 
     $table_key = table_by_key($table);
     $sql_values = array();
 
-    foreach ($values as $key => $value) {
-        $sql_values[$key] = $key . "='" . escape_string($value) . "'";
-    }
+    $sql = "UPDATE $table_key SET ";
 
-    foreach ($timestamp as $key) {
-        if (db_sqlite()) {
-            $sql_values[$key] = escape_string($key) . "=datetime('now')";
-        } else {
-            $sql_values[$key] = escape_string($key) . "=now()";
+    $set = array();
+    foreach ($values as $key => $value) {
+        if(in_array($key, $timestamp)) {
+            if(db_sqlite()) {
+                $set[] = " $key = datetime('now') ";
+            }
+            else {
+                $set[] = " $key = now() ";
+            }
         }
-    }
+        else {
+            $set[] = " $key = :$key ";
+            $pvalues[$key] = $value;
+        }
+
+     }
 
     /* @todo this needs refactoring/moving out from here */
     if (Config::bool('password_expiration')) {
-        if ($table == 'mailbox' && preg_match('/@/', $where)) {
-            $where_type = explode('=', $where);
-            $email = ($where_type[1]);
+        if ($table == 'mailbox' && preg_match('/@/', $where_value)) {
+            $email = $where_value;
             $domain_dirty = explode('@',$email)[1];
             $domain = substr($domain_dirty, 0, -1);
             $password_expiration_value = get_password_expiration_value($domain);
             $key = 'password_expiry';
-            $sql_values[$key] = $key . " = now() + interval " . $password_expiration_value . " day";
+            $set[] = " $key = now() + interval {$password_expiration_value} day";
         }
     }
 
-    $sql="UPDATE $table_key SET " . implode(",", $sql_values) . " WHERE $where";
-    $result = db_query($sql);
-    if (array_key_exists('rows', $result)) {
-        return $result['rows'];
-    }
-    return 0;
+    $pvalues['where'] = $where_value;
+
+
+    $sql="UPDATE $table_key SET " . implode(",", $set) . " WHERE $where_col = :where";
+
+    return db_prepared_insert($sql, $pvalues);
+
 }
 
 
@@ -2105,16 +2038,12 @@ function check_db_version($error_out = true) {
     $table = table_by_key('config');
 
     $sql = "SELECT value FROM $table WHERE name = 'version'";
-    $r = db_query($sql);
+    $row = db_prepared_fetch_one($sql);
 
-    $dbversion = 0;
-
-    if ($r['rows'] == 1) {
-        $row = db_assoc($r['result']);
-        if (isset($row['value'])) {
-            $dbversion = (int) $row['value'];
-        }
-    } else {
+    if (isset($row['value'])) {
+        $dbversion = (int) $row['value'];
+    }
+    else {
         db_query("INSERT INTO $table (name, value) VALUES ('version', '0')", 0);
     }
 
@@ -2141,13 +2070,11 @@ function gen_show_status($show_alias) {
     $table_alias = table_by_key('alias');
     $stat_string = "";
 
-    $show_alias = escape_string($show_alias);
-
     $stat_goto = "";
-    $stat_result = db_query("SELECT goto FROM $table_alias WHERE address='$show_alias'");
-    if ($stat_result['rows'] > 0) {
-        $row = db_row($stat_result['result']);
-        $stat_goto = $row[0];
+    $stat_result = db_prepared_fetch_all("SELECT goto FROM $table_alias WHERE address=?", [$show_alias]);
+
+    if (sizeof($stat_result) > 0) {
+        $stat_goto = $stat_result[0]['goto'];
     }
 
     $delimiter_regex = null;
@@ -2175,11 +2102,21 @@ function gen_show_status($show_alias) {
 
             list($local_part, $stat_domain) = explode('@', $g);
 
+            $v = array();
+
             $stat_delimiter = "";
+
+            $sql = "SELECT address FROM $table_alias WHERE address = ? OR address = ?";
+            $v[] = $g;
+            $v[] = '@' . $stat_domain;
+
             if (!empty($CONF['recipient_delimiter']) && isset($delimiter_regex)) {
-                $stat_delimiter = "OR address = '" . escape_string(preg_replace($delimiter_regex, "@", $g)) . "'";
+                $v[] = preg_replace($delimiter_regex, "@", $g);
+                $sql .= " OR address = ? ";
             }
-            $stat_result = db_query("SELECT address FROM $table_alias WHERE address = '" . escape_string($g) . "' OR address = '@" . escape_string($stat_domain) . "' $stat_delimiter");
+
+            $stat_result = db_prepared_query($sql, $v);
+
             if (array_key_exists('rows', $stat_result) && $stat_result['rows'] == 0) {
                 $stat_ok = 0;
             }
@@ -2198,7 +2135,7 @@ function gen_show_status($show_alias) {
 
     // Vacation CHECK
     if ( $CONF['show_vacation'] == 'YES' ) {
-        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = '" . db_get_boolean(true) . "'") ;
+        $stat_result = db_prepared_query("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = ? AND active = ? ", array($show_alias, db_get_boolean(true) )) ;
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2208,7 +2145,10 @@ function gen_show_status($show_alias) {
 
     // Disabled CHECK
     if ( $CONF['show_disabled'] == 'YES' ) {
-        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = '" . db_get_boolean(false) . "'");
+        $stat_result = db_prepared_query(
+            "SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = ? AND active = ?",
+            array($show_alias, db_get_boolean(false))
+        );
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2223,7 +2163,7 @@ function gen_show_status($show_alias) {
             $now = "datetime('now')";
         }
 
-        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= $now AND active = '" . db_get_boolean(true) . "'");
+        $stat_result = db_prepared_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = ? AND password_expiry <= ? AND active = ?", array( $show_alias , $now , db_get_boolean(true) ));
 
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";

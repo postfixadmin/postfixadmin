@@ -725,15 +725,11 @@ abstract class PFAHandler {
             $query .= " LIMIT $limit OFFSET $offset ";
         }
 
-        $result = db_query($query);
-
         $db_result = array();
-        if ($result['rows'] != 0) {
-            while ($row = db_assoc($result['result'])) {
-                if (is_array($row)) {
-                    $db_result[$row[$this->id_field]] = $row;
-                }
-            }
+
+        $result = db_prepared_fetch_all($query);
+        foreach($result as $row) {
+            $db_result[$row[$this->id_field]] = $row;
         }
 
         $db_result = $this->read_from_db_postprocess($db_result);
@@ -818,18 +814,17 @@ abstract class PFAHandler {
      * @return boolean true on successful login (i.e. password matches etc)
      */
     public function login($username, $password) {
-        $username = escape_string($username);
 
         $table = table_by_key($this->db_table);
         $active = db_get_boolean(true);
-        $query = "SELECT password FROM $table WHERE " . $this->id_field . "='$username' AND active='$active'";
+        $query = "SELECT password FROM $table WHERE {$this->id_field} = :username AND active = :active";
 
-        $result = db_query($query);
-        if ($result['rows'] == 1) {
-            $row = db_assoc($result['result']);
-            if (!is_array($row)) {
-                return false;
-            }
+        $values = array('username' => $username, 'active' => $active);
+
+        $result = db_prepared_fetch_all($query,$values);
+        if (sizeof($result) == 1) {
+            $row = $result[0];
+
             $crypt_password = pacrypt($password, $row['password']);
 
             if ($row['password'] == $crypt_password) {
@@ -866,19 +861,17 @@ abstract class PFAHandler {
      * @return boolean true on success (i.e. code matches etc)
      */
     public function checkPasswordRecoveryCode($username, $token) {
-        $username = escape_string($username);
 
         $table = table_by_key($this->db_table);
         $active = db_get_boolean(true);
-        $query = "SELECT token FROM $table WHERE " . $this->id_field . "='$username' AND token <> '' AND active='$active' AND NOW() < token_validity";
 
-        $result = db_query($query);
-        if ($result['rows'] == 1) {
-            $row = db_assoc($result['result']);
+        $query = "SELECT token FROM $table WHERE {$this->id_field} = :username AND token <> '' AND active = :active AND NOW() < token_validity";
+        $values = array('username' => $username, 'active' => $active);
 
-            if (!is_array($row)) {
-                return false;
-            }
+        $result = db_prepared_fetch_all($query, $values);
+        if(sizeof($result) == 1) {
+            $row = $result[0];
+
             $crypt_token = pacrypt($token, $row['token']);
 
             if ($row['token'] == $crypt_token) {

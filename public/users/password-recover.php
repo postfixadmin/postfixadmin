@@ -57,18 +57,22 @@ function sendCodebySMS($to, $username, $code) {
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $start_time = microtime(true);
-    $tUsername = escape_string(safepost('fUsername'));
 
-    if (empty($tUsername) || !is_string($tUsername)) {
+    $username = safepost('fUsername', null);
+    if (empty($sername) || !is_string($username)) {
         die("fUsername field required");
     }
+
+    $tUsername = escape_string($username);
+
 
     $handler = $context === 'admin' ? new AdminHandler : new MailboxHandler;
     $token = $handler->getPasswordRecoveryCode($tUsername);
     if ($token !== false) {
         $table = table_by_key($context === 'users' ? 'mailbox' : 'admin');
-        $result = db_query("SELECT * FROM $table WHERE username='$tUsername'");
-        $row = db_assoc($result['result']);
+        $row = db_prepared_fetch_one("SELECT * FROM $table WHERE username= :username", array('username' => $username));
+
+        // $row must exist unless there's a race condition?
 
         $email_other = isset($row['email_other']) ? trim($row['email_other']) : null;
         $phone = isset($row['phone']) ? trim($row['phone']) : null;

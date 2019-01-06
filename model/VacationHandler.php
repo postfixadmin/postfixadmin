@@ -186,16 +186,16 @@ class VacationHandler extends PFAHandler {
      * will return false if no existing data
      */
     public function get_details() {
-        $table_vacation = table_by_key('vacation');
-        $E_username = escape_string($this->username);
 
-        $sql = "SELECT * FROM $table_vacation WHERE email = '$E_username'";
-        $result = db_query($sql);
-        if ($result['rows'] != 1) {
+        $table_vacation = table_by_key('vacation');
+
+        $sql = "SELECT * FROM $table_vacation WHERE email = :username";
+        $result = db_prepared_fetch_all($sql, array('username' => $this->username));
+        if(sizeof($result) != 1) {
             return false;
         }
 
-        $row = db_assoc($result['result']);
+        $row = $result[0];
 
         if (!is_array($row)) {
             return false;

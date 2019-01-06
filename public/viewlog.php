@@ -61,18 +61,17 @@ if ($error != 1) {
     $table_log = table_by_key('log');
     $page_size = isset($CONF['page_size']) ? intval($CONF['page_size']) : 35;
 
-    $query = "SELECT timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT $page_size";
+    $query = "SELECT timestamp,username,domain,action,data FROM $table_log WHERE domain= :domain ORDER BY timestamp DESC LIMIT $page_size";
+
     if (db_pgsql()) {
-        $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,data FROM $table_log WHERE domain='$fDomain' ORDER BY timestamp DESC LIMIT $page_size";
+        $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,data FROM $table_log WHERE domain= :domain ORDER BY timestamp DESC LIMIT $page_size";
     }
-    $result = db_query($query);
-    if ($result['rows'] > 0) {
-        while ($row = db_assoc($result['result'])) {
-            if (is_array($row) && db_pgsql()) {
-                $row['timestamp'] = gmstrftime('%c %Z', $row['timestamp']);
-            }
-            $tLog[] = $row;
+    $result = db_prepared_fetch_all($query, array('domain' => $fDomain));
+    foreach($result as $row) {
+        if (is_array($row) && db_pgsql()) {
+            $row['timestamp'] = gmstrftime('%c %Z', $row['timestamp']);
         }
+        $tLog[] = $row;
     }
 }
 

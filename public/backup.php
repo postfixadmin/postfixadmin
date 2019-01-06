@@ -65,8 +65,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     umask(077);
     $path = (ini_get('upload_tmp_dir') != '') ? ini_get('upload_tmp_dir') : '/tmp';
     date_default_timezone_set(@date_default_timezone_get()); # Suppress date.timezone warnings
-    $filename = "postfixadmin-" . date("Ymd") . "-" . getmypid() . ".sql";
-    $backup = $path . DIRECTORY_SEPARATOR . $filename;
+
+    // Should use mktemp() or similar.
+    $backup = tempnam($path, 'postfixadmin-' . date('Ymd'));
+
+    $filename = basename($backup) . '.sql';
 
     $header = "#\n# Postfix Admin $version\n# Date: " . date("D M j G:i:s T Y") . "\n#\n";
 
@@ -94,38 +97,39 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
       );
 
         for ($i = 0 ; $i < sizeof($tables) ; ++$i) {
-            $result = db_query("SHOW CREATE TABLE " . table_by_key($tables[$i]));
-            if ($result['rows'] > 0) {
-                while ($row = db_row($result['result'])) {
-                    fwrite($fh, "{$row[1]};\n\n");
-                }
+            $result = db_prepared_fetch_all("SHOW CREATE TABLE " . table_by_key($tables[$i]));
+            foreach($result as $row) {
+                fwrite($fh, array_pop($row));
             }
+
         }
 
         for ($i = 0 ; $i < sizeof($tables) ; ++$i) {
-            $result = db_query("SELECT * FROM " . table_by_key($tables[$i]));
-            if ($result['rows'] > 0) {
-                while ($row = db_assoc($result['result'])) {
-                    $fields = array_keys($row);
-                    $values = array_values($row);
-                    $values = array_map(function ($str) {
-                        return escape_string($str);
-                    }, $values);
+            // may be a large resultset?
+            $pdo = db_connect();
+            $stmt = $pdo->prepare('SELECT * FROM ' . table_by_key($tables[$i]));
+            $stmt->execute();
+            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $fields = array_keys($row);
+                $values = array_values($row);
+                $values = array_map(function ($str) {
+                    return escape_string($str);
+                }, $values);
 
-                    fwrite($fh, "INSERT INTO ". $tables[$i] . " (". implode(',', $fields) . ") VALUES ('" . implode('\',\'', $values) . "');\n");
-                    $fields = "";
-                    $values = "";
-                }
+                fwrite($fh, "INSERT INTO ". $tables[$i] . " (". implode(',', $fields) . ") VALUES ('" . implode('\',\'', $values) . "');\n");
+                $fields = "";
+                $values = "";
             }
+
         }
     }
     header("Content-Type: text/plain");
     header("Content-Disposition: attachment; filename=\"$filename\"");
     header("Content-Transfer-Encoding: binary");
-    header("Content-Length: " . filesize("$backup"));
+    header("Content-Length: " . filesize($backup));
     header("Content-Description: Postfix Admin");
-    $download_backup = fopen("$backup", "r");
-    unlink("$backup");
+    $download_backup = fopen($backup, "r");
+    unlink($backup);
     fpassthru($download_backup);
 }
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

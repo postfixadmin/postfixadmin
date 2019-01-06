@@ -220,53 +220,51 @@ if (Config::bool('used_quotas') && (! Config::bool('new_quota_table'))) {
 $mailbox_pagebrowser_query = "$sql_from\n$sql_join\n$sql_where\n$sql_order" ;
 $query = "$sql_select\n$mailbox_pagebrowser_query\n$sql_limit";
 
-$result = db_query($query);
+$result = db_prepared_fetch_all($query);
 
 $tMailbox = array();
 
-if ($result['rows'] > 0) {
-    $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
-    $goto_single_rec_del = "";
 
-    while ($row = db_assoc($result['result'])) {
-        if (!is_array($row)) {
-            continue;
-        }
-        if ($display_mailbox_aliases) {
-            $goto_split = explode(",", $row['goto']);
-            $row['goto_mailbox'] = 0;
-            $row['goto_other'] = array();
+$delimiter = preg_quote($CONF['recipient_delimiter'], "/");
+$goto_single_rec_del = "";
 
-            foreach ($goto_split as $goto_single) {
-                if (!empty($CONF['recipient_delimiter'])) {
-                    $goto_single_rec_del = preg_replace('/' .$delimiter. '[^' .$delimiter. '@]*@/', "@", $goto_single);
-                }
+foreach($result as $row) {
 
-                if ($goto_single == $row['username'] || $goto_single_rec_del == $row['username']) { # delivers to mailbox
-                    $row['goto_mailbox'] = 1;
-                } elseif (Config::bool('vacation') && strstr($goto_single, '@' . $CONF['vacation_domain'])) { # vacation alias - TODO: check for full vacation alias
-                    # skip the vacation alias, vacation status is detected otherwise
-                } else { # forwarding to other alias
-                    $row['goto_other'][] = $goto_single;
-                }
+    if ($display_mailbox_aliases) {
+        $goto_split = explode(",", $row['goto']);
+        $row['goto_mailbox'] = 0;
+        $row['goto_other'] = array();
+
+        foreach ($goto_split as $goto_single) {
+            if (!empty($CONF['recipient_delimiter'])) {
+                $goto_single_rec_del = preg_replace('/' .$delimiter. '[^' .$delimiter. '@]*@/', "@", $goto_single);
+            }
+
+            if ($goto_single == $row['username'] || $goto_single_rec_del == $row['username']) { # delivers to mailbox
+                $row['goto_mailbox'] = 1;
+            } elseif (Config::bool('vacation') && strstr($goto_single, '@' . $CONF['vacation_domain'])) { # vacation alias - TODO: check for full vacation alias
+                # skip the vacation alias, vacation status is detected otherwise
+            } else { # forwarding to other alias
+                $row['goto_other'][] = $goto_single;
             }
         }
-        if (db_pgsql()) {
-            // XXX
-            $row['modified'] = date('Y-m-d H:i', strtotime($row['modified']));
-            $row['created'] = date('Y-m-d H:i', strtotime($row['created']));
-            $row['active']=('t'==$row['active']) ? 1 : 0;
-
-            if (Config::bool('vacation_control_admin')) {
-                if ($row['v_active'] == null) {
-                    $row['v_active'] = 'f';
-                }
-                $row['v_active']=('t'==$row['v_active']) ? 1 : 0;
-            }
-        }
-        $tMailbox[] = $row;
     }
+    if (db_pgsql()) {
+        // XXX
+        $row['modified'] = date('Y-m-d H:i', strtotime($row['modified']));
+        $row['created'] = date('Y-m-d H:i', strtotime($row['created']));
+        $row['active']=('t'==$row['active']) ? 1 : 0;
+
+        if (Config::bool('vacation_control_admin')) {
+            if ($row['v_active'] == null) {
+                $row['v_active'] = 'f';
+            }
+            $row['v_active']=('t'==$row['v_active']) ? 1 : 0;
+        }
+    }
+    $tMailbox[] = $row;
 }
+
 
 $alias_data['msg']['can_create'] = false;
 $tCanAddMailbox = false;

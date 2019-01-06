@@ -3,8 +3,20 @@
 require_once('common.php');
 
 class DbBasicTest extends \PHPUnit\Framework\TestCase {
+
+    private $test_domain;
+
+    public function setUp() {
+        $db = db_connect();
+        $test_domain = 'test' . uniqid() . '.com';
+        $this->test_domain = $test_domain;
+
+        $db->exec("DELETE FROM domain WHERE domain = '$test_domain'");
+
+    }
     public function testInsertDeleteDomain() {
-        $domain = "test". uniqid() . '.com';
+
+$domain = $this->test_domain;
 
         $username = 'testusername' . uniqid();
 
@@ -12,7 +24,7 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase {
             1,
             db_insert(
                 'domain',
-                array('domain' => $domain, 'description' => '', 'transport' => '', 'password_expiry' => 99)
+                array('domain' => $domain, 'description' => 'test', 'transport' => '', 'password_expiry' => 99)
             )
         );
 
@@ -33,12 +45,16 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase {
             )
         );
 
-        $ret = db_query("SELECT * FROM mailbox WHERE username = '$username'");
+        $ret = db_prepared_fetch_one("SELECT * FROM mailbox WHERE username = :username", array('username' => $username));
 
-        $this->assertEquals(1, $ret['rows']);
-        $data = db_assoc($ret['result']);
 
-        $this->assertEquals($data['name'], 'blah updated');
+        $this->assertTrue(!empty($ret));
+        $this->assertTrue(is_array($ret));
+
+
+        $this->assertEquals($ret['name'], 'blah updated');
+
+        $this->assertEquals(0, db_delete('mailbox', 'username', 'blahblahinvalid'));
 
         $this->assertEquals(1, db_delete('mailbox', 'username', $username));
         $this->assertEquals(1, db_delete('domain', 'domain', $domain));

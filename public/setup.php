@@ -41,6 +41,7 @@ $f_mysql_connect = function_exists("mysql_connect");
 $f_mysqli_connect = function_exists("mysqli_connect");
 $f_pg_connect = function_exists("pg_connect");
 $f_sqlite_open = class_exists("SQLite3");
+$f_pdo = class_exists('PDO');
 $f_session_start = function_exists("session_start");
 $f_preg_match = function_exists("preg_match");
 $f_mb_encode_mimeheader = function_exists("mb_encode_mimeheader");
@@ -302,8 +303,8 @@ if ($error != 0) {
         if ($error == 0 && $pw_check_result == 'pass_OK') {
             // XXX need to ensure domains table includes an 'ALL' entry.
             $table_domain = table_by_key('domain');
-            $r = db_query("SELECT * FROM $table_domain WHERE domain = 'ALL'");
-            if ($r['rows'] == 0) {
+            $rows = db_prepared_fetch_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
+            if(empty($rows)) {
                 db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => '')); // all other fields should default through the schema.
             }
 

@@ -479,11 +479,11 @@ class MailboxHandler extends PFAHandler {
             return false;
         } else {
             $table_mailbox = table_by_key('mailbox');
-            $query = "SELECT SUM(quota) FROM $table_mailbox WHERE domain = '" . escape_string($domain) . "'";
-            $query .= " AND username != '" . escape_string($this->id) . "'";
-            $result = db_query($query);
-            $row = db_row($result['result']);
-            $cur_quota_total = divide_quota($row[0]); # convert to MB
+            $query = "SELECT SUM(quota) as sum FROM $table_mailbox WHERE domain = ? AND username != ?";
+
+            $rows = db_prepared_fetch_all($query, array($domain, $this->id));
+
+            $cur_quota_total = divide_quota($rows[0]['sum']); # convert to MB
             if (($quota + $cur_quota_total) > $limit['quota']) {
                 $rval = false;
             } else {
