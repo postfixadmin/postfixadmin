@@ -1787,6 +1787,6 @@ function upgrade_1842() {
 }
 
 function upgrade_1843() {
-   # Additional field for fetchmail to allow server with non-standard port number
+    # Additional field for fetchmail to allow server with non-standard port number
     _db_add_field('fetchmail', 'src_port', "{INT}", 'src_server');
 }
