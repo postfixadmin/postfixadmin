@@ -26,7 +26,7 @@
         "ext-mysqli":  "*",
         "php":  ">7.2.0",
         "friendsofphp/php-cs-fixer": "^2.7",
-        "vimeo/psalm":"^3.0",
+        "vimeo/psalm":"3.0.8",
         "jakub-onderka/php-parallel-lint": "^1.0",
         "phpunit/phpunit": "^6.0",
         "zendframework/zendframework1": "^1.12.0"
