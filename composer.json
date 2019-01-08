@@ -16,7 +16,7 @@
         "lint": "@php ./vendor/bin/parallel-lint --exclude vendor/ --exclude lib/block_random_int.php --exclude lib/array_column.php .",
         "test": "@php ./vendor/bin/phpunit tests/",
         "test-fixup": "mkdir -p templates_c ; test -f config.local.php || touch config.local.php",
-        "psalm": "@php ./vendor/bin/psalm --show-info=false "
+        "psalm": "@php ./vendor/bin/psalm --no-cache --show-info=false "
     },
     "require": {
         "php": ">=5.2"
@@ -26,7 +26,7 @@
         "ext-mysqli":  "*",
         "php":  ">7.2.0",
         "friendsofphp/php-cs-fixer": "^2.7",
-        "vimeo/psalm":"^3.0",
+        "vimeo/psalm":"3.0.8",
         "jakub-onderka/php-parallel-lint": "^1.0",
         "phpunit/phpunit": "^6.0",
         "zendframework/zendframework1": "^1.12.0"

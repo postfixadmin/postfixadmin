@@ -1773,3 +1773,8 @@ function upgrade_1842() {
     _db_add_field('mailbox', 'password_expiry', "{DATETIME}"); // when a specific mailbox password expires
     _db_add_field('domain',  'password_expiry', 'int DEFAULT 0'); // expiry applied to mailboxes within that domain
 }
+
+function upgrade_1843() {
+    # Additional field for fetchmail to allow server with non-standard port number
+    _db_add_field('fetchmail', 'src_port', "{INT}", 'src_server');
+}
