@@ -543,7 +543,7 @@ function create_page_browser($idxfield, $querypart) {
     }
 
     # init row counter
-    $initcount = "SET @row=-1";
+    $initcount = "SET @r=-1";
     if (db_pgsql()) {
         $initcount = "CREATE TEMPORARY SEQUENCE rowcount MINVALUE 0";
     }
@@ -555,8 +555,8 @@ function create_page_browser($idxfield, $querypart) {
     $page_size_zerobase = $page_size - 1;
     $query = "
         SELECT * FROM (
-            SELECT $idxfield AS label, @row := @row + 1 AS 'row' $querypart
-        ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
+            SELECT $idxfield AS label, @r := @r + 1 AS 'r' $querypart
+        ) idx WHERE MOD(idx.r, $page_size) IN (0,$page_size_zerobase) OR idx.r = $count_results
     ";
 
     if (db_pgsql()) {
