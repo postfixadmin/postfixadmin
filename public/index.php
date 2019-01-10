@@ -67,10 +67,14 @@ if ($CONF['configured']) {
 
         <h2>What now?</h2>
 
-        <p>Read the <a href='https://raw.githubusercontent.com/postfixadmin/postfixadmin/master/INSTALL.TXT'>INSTALL.TXT</a> file</p>
+        <ol>
+            <li>Read the <a href='https://raw.githubusercontent.com/postfixadmin/postfixadmin/master/INSTALL.TXT'>INSTALL.TXT</a> file</li>
+            <li>Under section 4 of the INSTALL.TXT file it shows how to create a config.local.php file (in: <code><?php echo dirname(dirname(__FILE__)) ; ?>/config.local.php</code>). </li>
+            <li>Then visit <a href="setup.php">setup.php</a> to check all requirements are met, and to create a superadmin account.</li>
+        </ol>
         
-        <p><b>When you have configured Postfixadmin, this page will be replaced with a login page.</b></p>
-        <p>You can now run <a href="setup.php">setup</a> to make sure that all the PHP functions are available for Postfix Admin to run.<br />
+        <p><b>Once you have configured Postfixadmin, this page will be replaced with a login page.</b></p>
+
         <p> If you still encounter any problems, please check the documentation and website for more information.</p>
 
         <h2>Postfix Admin Web sites</h2>
