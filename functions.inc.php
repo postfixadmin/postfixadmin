@@ -321,8 +321,8 @@ function check_email($email) {
 
 /**
  * Clean a string, escaping any meta characters that could be
- * used to disrupt an SQL string. The method of the escaping is dependent on the underlying DB 
- * and MAY NOT be just \' ing. (e.g. sqlite and PgSQL change "it's" to "it''s". 
+ * used to disrupt an SQL string. The method of the escaping is dependent on the underlying DB
+ * and MAY NOT be just \' ing. (e.g. sqlite and PgSQL change "it's" to "it''s".
  *
  * The PDO quote function surrounds what you pass in with quote marks; for legacy reasons we remove these,
  * but assume the caller will actually add them back in (!).
