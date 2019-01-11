@@ -321,19 +321,25 @@ function check_email($email) {
 
 /**
  * Clean a string, escaping any meta characters that could be
- * used to disrupt an SQL string. i.e. "'" => "\'" etc.
+ * used to disrupt an SQL string. The method of the escaping is dependent on the underlying DB 
+ * and MAY NOT be just \' ing. (e.g. sqlite and PgSQL change "it's" to "it''s". 
  *
- * @param string $string parameters to escape
+ * The PDO quote function surrounds what you pass in with quote marks; for legacy reasons we remove these,
+ * but assume the caller will actually add them back in (!).
+ *
+ * e.g. caller code looks like :
+ *
+ * <code>
+ * $sql = "SELECT * FROM foo WHERE x = '" . escape_string('fish') . "'";
+ * </code>
+ *
+ * @param int|string $string parameters to escape
  * @return string cleaned data, suitable for use within an SQL statement.
  */
 function escape_string($string) {
-    if (is_numeric($string)) {
-        return $string;
-    }
-
     $link = db_connect();
-
-    return trim($link->quote($string), "'");
+    $quoted = $link->quote($string);
+    return trim($quoted, "'");
 }
 
 
