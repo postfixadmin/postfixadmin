@@ -6,6 +6,15 @@
 #
 # Further details on the project are available at http://postfixadmin.sf.net
 
+Version 3.2.1 - 2019/01/12
+-------------------------------------------------
+
+  - Merge fix for notification resend (vacation.pl) - see https://github.com/postfixadmin/postfixadmin/issues/226
+  - Improve PostgreSQL compatability - see https://github.com/postfixadmin/postfixadmin/issues/228
+  - Improve MySQL 8 support - see https://github.com/postfixadmin/postfixadmin/pull/232 and https://github.com/postfixadmin/postfixadmin/pull/175 
+  - Improve SQLite support - see https://github.com/postfixadmin/postfixadmin/issues/176 and https://github.com/postfixadmin/postfixadmin/issues/177
+  - Remove hard dependency on Phar support ( see https://github.com/postfixadmin/postfixadmin/commit/57714adc00661a81d42287f07d7bbcf8caa44336 )
+
 Version 3.2 - 2018/05/02
 -------------------------------------------------
 
