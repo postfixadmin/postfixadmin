@@ -354,7 +354,7 @@ function _drop_index($table, $index) {
  * @return string
  * @param string $table
  * @param string $indexname
- * @param string $fieldlist 
+ * @param string $fieldlist
  */
 function _add_index($table, $indexname, $fieldlist) {
     global $CONF;
@@ -1256,7 +1256,7 @@ function upgrade_483_mysql() {
     db_query_parsed("ALTER TABLE $table_log CHANGE `data` `data` TEXT {LATIN1} NOT NULL");
 }
 
-/** 
+/**
  * Add a local_part field to the mailbox table, and populate it with the local part of the user's address.
  * This is to make it easier (hopefully) to change the filesystem location of a mailbox in the future
  * See https://sourceforge.net/forum/message.php?msg_id=5394663
@@ -1881,7 +1881,7 @@ function upgrade_1837_sqlite() {
 }
 
 /**
- * https://github.com/postfixadmin/postfixadmin/issues/89 
+ * https://github.com/postfixadmin/postfixadmin/issues/89
  * upgrade_1838_mysql() renamed to upgrade_1839() to keep all databases in sync
  * @return void
  */
@@ -1917,7 +1917,7 @@ function upgrade_1840_mysql_pgsql() {
 }
 
 /**
- * try and fix: https://github.com/postfixadmin/postfixadmin/issues/177 - sqlite missing columns 
+ * try and fix: https://github.com/postfixadmin/postfixadmin/issues/177 - sqlite missing columns
  * @return void
  */
 function upgrade_1841_sqlite() {
