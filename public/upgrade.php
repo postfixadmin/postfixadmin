@@ -1889,7 +1889,8 @@ function upgrade_1837_sqlite() {
  */
 function upgrade_1839() {
     if (!db_sqlite()) {
-        return _db_add_field('log', 'id', '{AUTOINCREMENT} {PRIMARY}', 'data');
+        _db_add_field('log', 'id', '{AUTOINCREMENT} {PRIMARY}', 'data');
+        return;
     }
 
     /* ONLY FOR Sqlite */
