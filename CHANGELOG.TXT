@@ -21,6 +21,7 @@ Version X.X - master
    - Encryption improvements (see: php_crypt / encrypt_difficulty in sample config)
    - Sqlite improvements (see https://github.com/postfixadmin/postfixadmin/issues/177 and https://github.com/postfixadmin/postfixadmin/issues/176 )
    - MySQL 8 compatability (see https://github.com/postfixadmin/postfixadmin/pull/175 )
+   - Internally the database functions have been refactored to use PDO rather than the lower level mysql_, mysqli_, pg_ etc functions. ( see: https://github.com/postfixadmin/postfixadmin/pull/231 )
 
 Version 3.2 - 2018/05/02
 -------------------------------------------------
