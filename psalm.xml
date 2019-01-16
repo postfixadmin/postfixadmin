@@ -9,6 +9,7 @@
         <directory name="." />
         <ignoreFiles>
             <directory name="vendor" />
+            <directory name="tests" />
             <directory name="templates_c" />
             <directory name="lib/smarty" />
             <directory name="ADDITIONS/" />

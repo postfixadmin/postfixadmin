@@ -337,7 +337,11 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
         echo_out("<div style='color:#f00'>" . $result['error'] . "</div>");
     }
 }
-
+/**
+ * @param string $table
+ * @param string $index
+ * @return string
+ */
 function _drop_index($table, $index) {
     global $CONF;
     $table = table_by_key($table);
@@ -352,6 +356,12 @@ function _drop_index($table, $index) {
     }
 }
 
+/**
+ * @return string
+ * @param string $table
+ * @param string $indexname
+ * @param string $fieldlist 
+ */
 function _add_index($table, $indexname, $fieldlist) {
     global $CONF;
     $table = table_by_key($table);
