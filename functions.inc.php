@@ -336,9 +336,10 @@ function check_email($email) {
  * @param int|string $string parameters to escape
  * @return string cleaned data, suitable for use within an SQL statement.
  */
-function escape_string($string) {
+function escape_string($string_or_int) {
     $link = db_connect();
-    $quoted = $link->quote($string);
+    $string_or_int = (string) $string_or_int;
+    $quoted = $link->quote($string_or_int);
     return trim($quoted, "'");
 }
 
