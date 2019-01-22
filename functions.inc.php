@@ -2157,22 +2157,6 @@ function gen_show_status($show_alias) {
         }
     }
 
-    // Expired CHECK
-    if ( Config::bool('password_expiration') && Config::bool('show_expired') ) {
-        $now = 'now()';
-        if (db_sqlite()) {
-            $now = "datetime('now')";
-        }
-
-        $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND password_expiry <= $now AND active = '" . db_get_boolean(true) . "'");
-
-        if ($stat_result['rows'] == 1) {
-            $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
-        } else {
-            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
-        }
-    }
-
     // POP/IMAP CHECK
     if ($CONF['show_popimap'] == 'YES') {
         $stat_delimiter = "";
