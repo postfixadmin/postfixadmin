@@ -2138,7 +2138,7 @@ function gen_show_status($show_alias) {
     }
 
     // Vacation CHECK
-    if ( $CONF['show_vacation'] == 'YES' ) {
+    if ( isset($CONF['show_vacation']) && $CONF['show_vacation'] == 'YES' ) {
         $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = '" . $show_alias . "' AND active = '" . db_get_boolean(true) . "'") ;
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
@@ -2148,7 +2148,7 @@ function gen_show_status($show_alias) {
     }
 
     // Disabled CHECK
-    if ( $CONF['show_disabled'] == 'YES' ) {
+    if ( isset($CONF['show_disabled']) && $CONF['show_disabled'] == 'YES' ) {
         $stat_result = db_query("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = '" . $show_alias . "' AND active = '" . db_get_boolean(false) . "'");
         if ($stat_result['rows'] == 1) {
             $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
