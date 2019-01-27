@@ -76,7 +76,7 @@ final class Config {
         $stuff = self::read($var);
 
         if (!is_array($stuff)) {
-            trigger_error('In '.__FUNCTION__.": expected config $var to be a boolean, but received a " . gettype($stuff), E_USER_ERROR);
+            trigger_error('In '.__FUNCTION__.": expected config $var to be an array, but received a " . gettype($stuff), E_USER_ERROR);
         }
 
         return $stuff;
