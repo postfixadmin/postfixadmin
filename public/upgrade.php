@@ -1,4 +1,8 @@
 <?php
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
+
+# Note: run with upgrade.php?debug=1 to see all SQL error messages
+
 if (!defined('POSTFIXADMIN')) {
     require_once('common.php');
 }
@@ -6,11 +10,6 @@ if (!defined('POSTFIXADMIN')) {
 if (!isset($CONF) || !is_array($CONF)) {
     die("config.inc.php seems invalid");
 }
-/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
-# @version $Id$
-
-# Note: run with upgrade.php?debug=1 to see all SQL error messages
-
 
 /**
  * Use this to check whether an object (table, index etc) exists within a
