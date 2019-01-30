@@ -74,7 +74,7 @@ function forcepatch() {
 	for i in `seq 1 5` ; do 
 		for file in $filelist ; do
 			test "$file" = "en.lang" && { echo "*** skipping en.lang ***"; continue ; } >&2
-			"$0" "$file" | sed -n '1,3 p ; 5 s/^./-/p ; 5s/^./+/p ;  6p'  | recountdiff | patch "$file"
+			/bin/bash "$0" "$file" | sed -n '1,3 p ; 5 s/^./-/p ; 5s/^./+/p ;  6p'  | recountdiff | patch "$file"
 		done
 	done
 } # end forcepatch
