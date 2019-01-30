@@ -173,6 +173,7 @@ b) create /etc/postfixadmin/vacation.conf and enter your settings there
    (without the "our" keyword). Example:
 ```perl
 $db_username = 'mail';
+1; # required final line - keeps perl happy.
 ```
 
    To make sure nobody except vacation.pl can read your vacation.conf (including the
