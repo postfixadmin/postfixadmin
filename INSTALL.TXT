@@ -128,6 +128,9 @@ The easiest way to do this is
  $ mkdir -p /srv/postfixadmin/templates_c
  $ chown -R www-data /srv/postfixadmin/templates_c
 
+(If you're using e.g. CentOS or another distribution which enables SELinux, something like the following may be necessary as well :
+```chcon -R -t httpd_sys_content_rw_t /usr/share/postfixadmin/templates_c```
+)
 
 5. Check settings, and create Admin user
 ----------------------------------------
