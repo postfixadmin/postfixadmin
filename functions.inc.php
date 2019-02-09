@@ -1495,18 +1495,22 @@ function db_connect_with_errors() {
         die("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php!</p>");
     }
 
-    if ($username_password) {
-        $link = new PDO($dsn, Config::read_string('database_user'), Config::read_string('database_password'), $options);
-    } else {
-        $link = new PDO($dsn, null, null, $options);
-    }
-
-    if (!empty($queries)) {
-        foreach ($queries as $q) {
-            $link->exec($q);
+    try {
+        if ($username_password) {
+            $link = new PDO($dsn, Config::read_string('database_user'), Config::read_string('database_password'), $options);
+        } else {
+            $link = new PDO($dsn, null, null, $options);
         }
-    }
 
+        if (!empty($queries)) {
+            foreach ($queries as $q) {
+                $link->exec($q);
+            }
+        }
+    } catch (PDOException $e) {
+        $error_text = 'PDO exception: '. $e->getMessage();
+        error_log($error_text);
+    }
 
     return array($link, $error_text);
 }
