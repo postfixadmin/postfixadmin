@@ -1462,7 +1462,7 @@ function db_connect($ignore_errors = false) {
             if (function_exists("mysqli_real_connect")) {
                 $link = mysqli_init();
                 $link->ssl_set($CONF['database_ssl_key'], $CONF['database_ssl_cert'], $CONF['database_ssl_ca'], $CONF['database_ssl_ca_path'], $CONF['database_ssl_cipher']);
-                $connected = mysqli_real_connect($link, $CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port']);
+                $connected = mysqli_real_connect($link, $CONF['database_host'], $CONF['database_user'], $CONF['database_password'], $CONF['database_name'], $CONF['database_port'], null, constant('MYSQLI_CLIENT_SSL'));
                 $is_connected = $connected;
             } else {
                 $error_text .= "<p />DEBUG INFORMATION:<br />MySQLi 5 functions not available! (php5-mysqli installed?)<br />database_type = 'mysqli' in config.inc.php, are you using a different database? $DEBUG_TEXT";
