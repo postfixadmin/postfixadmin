@@ -1490,7 +1490,7 @@ function db_connect_with_errors() {
         if (!isset($CONF['database_port'])) {
             $CONF['database_port'] = '5432';
         }
-        $dsn = "pgsql:host={$CONF['database_host']};port={$CONF['database_port']};dbname={$CONF['database_name']};charset=UTF8";
+        $dsn = "pgsql:host={$CONF['database_host']};port={$CONF['database_port']};dbname={$CONF['database_name']};options='-c client_encoding=utf8'";
     } else {
         die("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php!</p>");
     }
