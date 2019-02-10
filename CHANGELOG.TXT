@@ -10,7 +10,7 @@ Version X.X - master
 -------------------------------------------------
 
    - Add support for password expiration (see https://github.com/postfixadmin/postfixadmin/pull/200 and README.password_expiration )
-   - Improve ADDITIONS/postfxiadmin-mailbox-postcreate.sh
+   - Improve ADDITIONS/postfixadmin-mailbox-postcreate.sh
    - Add Date header into smtp_from() (see https://github.com/postfixadmin/postfixadmin/issues/203 )
    - PostgreSQL fixes ( 1e158245d613fd1d8d5c1d59e26e940eb71f5b32 )
    - vacation.pl fixes (perl libraries; see https://github.com/postfixadmin/postfixadmin/pull/194 )
@@ -20,7 +20,7 @@ Version X.X - master
    - Update installation instructions. (see: https://github.com/postfixadmin/postfixadmin/issues/189 https://github.com/postfixadmin/postfixadmin/issues/188 )
    - Encryption improvements (see: php_crypt / encrypt_difficulty in sample config)
    - Sqlite improvements (see https://github.com/postfixadmin/postfixadmin/issues/177 and https://github.com/postfixadmin/postfixadmin/issues/176 )
-   - MySQL 8 compatability (see https://github.com/postfixadmin/postfixadmin/pull/175 )
+   - MySQL 8 compatibility (see https://github.com/postfixadmin/postfixadmin/pull/175 )
    - Internally the database functions have been refactored to use PDO rather than the lower level mysql_, mysqli_, pg_ etc functions. ( see: https://github.com/postfixadmin/postfixadmin/pull/231 )
 
 Version 3.2 - 2018/05/02
