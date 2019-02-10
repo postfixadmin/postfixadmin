@@ -1430,17 +1430,10 @@ EOF;
  * db_connect
  * Action: Makes a connection to the database if it doesn't exist
  * Call: db_connect ()
- * Optional parameter: $ignore_errors = TRUE, used by setup.php
  *
  * Return value:
- * a) without $ignore_errors or $ignore_errors == 0
- *    - $link - the database connection -OR-
- *    - call die() in case of connection problems
- * b) with $ignore_errors == TRUE
- *    array($link, $error_text);
  *
- * @param bool $ignore_errors
- * @return PDO
+ * @return \PDO|false 
  */
 function db_connect() {
     list($link, $_) = db_connect_with_errors();
@@ -1450,7 +1443,7 @@ function db_connect() {
 
 /**
  * @param bool $ignore_errors
- * @return array
+ * @return array [PDO link | false, string $error_text];
  */
 function db_connect_with_errors() {
     global $CONF;
@@ -1462,7 +1455,7 @@ function db_connect_with_errors() {
     if (isset($link) && $link) {
         return array($link, $error_text);
     }
-    $link = 0;
+    $link = false;
 
     $options = array(
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -1649,6 +1642,12 @@ function db_query_one($sql, array $values = array()) {
 }
 
 
+/**
+ * @param string $sql e.g. UPDATE foo SET bar = :baz
+ * @param array $values - parameters for the prepared statement e.g. ['baz' => 1234]
+ * @param bool $throw_errors 
+ * @return int number of rows affected by the query
+ */
 function db_execute($sql, array $values = array(), $throw_errors = false) {
     $link = db_connect();
 

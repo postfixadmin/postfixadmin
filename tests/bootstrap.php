@@ -11,6 +11,9 @@ $CONF['default_language'] = 'en';
 $CONF['language_hook'] = '';
 
 $db_file = dirname(__FILE__) . '/postfixadmin.sqlite.test';
+
+touch($db_file);
+
 $CONF['database_type'] = 'sqlite';
 $CONF['database_name'] = $db_file;
 
