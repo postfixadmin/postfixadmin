@@ -32,7 +32,7 @@ require(dirname(__FILE__) . '/../templates/header.php');
 <ul>
 <?php
 //
-// Check for availablilty functions
+// Check for availability functions
 //
 $f_phpversion = function_exists("phpversion");
 $f_apache_get_version = function_exists("apache_get_version");
@@ -190,7 +190,7 @@ if (!empty($link) && $error_text == "") {
     print "<li>Testing database connection (using {$CONF['database_type']}) - Success</li>";
 } else {
     print "<li><b style='color: red'>Error: Can't connect to database</b><br />\n";
-    print "Please check the \$CONF['database_*'] parameters in config.local.php.\n";
+    print "Please check the \$CONF['database_*'] parameters in config.local.php.<br />\n";
     print "$error_text</li>\n";
     $error ++;
 }

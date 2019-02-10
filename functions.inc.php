@@ -1484,7 +1484,24 @@ function db_connect_with_errors() {
         $queries[] = 'SET CHARACTER SET utf8';
         $queries[] = "SET COLLATION_CONNECTION='utf8_general_ci'";
     } elseif (db_sqlite()) {
-        $dsn = "sqlite:{$CONF['database_name']}";
+        $db = $CONF['database_name'];
+
+        if (!file_exists($db)) {
+            $error_text = 'SQLite database missing: '. $db;
+            return array($link, $error_text);
+        }
+
+        if (!is_writeable($db)) {
+            $error_text = 'SQLite database not writeable: '. $db;
+            return array($link, $error_text);
+        }
+
+        if (!is_writeable(dirname($db))) {
+            $error_text = 'The directory the SQLite database is in is not writeable: '. dirname($db);
+            return array($link, $error_text);
+        }
+
+        $dsn = "sqlite:{$db}";
         $username_password = false;
     } elseif (db_pgsql()) {
         if (!isset($CONF['database_port'])) {
@@ -1509,7 +1526,6 @@ function db_connect_with_errors() {
         }
     } catch (PDOException $e) {
         $error_text = 'PDO exception: '. $e->getMessage();
-        error_log($error_text);
     }
 
     return array($link, $error_text);
