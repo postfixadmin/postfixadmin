@@ -1433,11 +1433,16 @@ EOF;
  *
  * Return value:
  *
- * @return \PDO|false 
+ * @return \PDO
  */
 function db_connect() {
     list($link, $_) = db_connect_with_errors();
     unset($_);
+
+    if(!$link instanceof PDO) {
+        throw new Exception("Database connection failed");
+    }
+
     return $link;
 }
 
