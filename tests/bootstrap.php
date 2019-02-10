@@ -28,7 +28,7 @@ touch($db_file);
 
 list($db, $error_text) = db_connect_with_errors();
 
-if($db === false) {
+if ($db === false) {
     echo "failed to connect to database\n";
     echo $error_text;
     exit(1);

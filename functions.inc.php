@@ -1439,7 +1439,7 @@ function db_connect() {
     list($link, $_) = db_connect_with_errors();
     unset($_);
 
-    if(!$link instanceof PDO) {
+    if (!$link instanceof PDO) {
         throw new Exception("Database connection failed");
     }
 
@@ -1650,7 +1650,7 @@ function db_query_one($sql, array $values = array()) {
 /**
  * @param string $sql e.g. UPDATE foo SET bar = :baz
  * @param array $values - parameters for the prepared statement e.g. ['baz' => 1234]
- * @param bool $throw_errors 
+ * @param bool $throw_errors
  * @return int number of rows affected by the query
  */
 function db_execute($sql, array $values = array(), $throw_errors = false) {
