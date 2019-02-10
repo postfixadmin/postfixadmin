@@ -1496,6 +1496,11 @@ function db_connect_with_errors() {
             return array($link, $error_text);
         }
 
+        if (!is_writeable(dirname($db))) {
+            $error_text = 'The directory the SQLite database is in is not writeable: '. dirname($db);
+            return array($link, $error_text);
+        }
+
         $dsn = "sqlite:{$db}";
         $username_password = false;
     } elseif (db_pgsql()) {
