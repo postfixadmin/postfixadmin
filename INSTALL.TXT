@@ -54,7 +54,7 @@ Alternatively :
   $ cd /srv
   $ git clone https://github.com/postfixadmin/postfixadmin.git
   $ cd postfixadmin
-  $ git checkout postfixadmin-3.2
+  $ git checkout postfixadmin-3.2.1
 
 2. Setup Web Server
 -------------------
@@ -86,6 +86,11 @@ For PostgreSQL:
   CREATE USER postfix WITH PASSWORD 'whatever';
   CREATE DATABASE postfix OWNER postfix ENCODING 'unicode';
 
+For SQLite:
+  $mkdir /srv/postfixadmin/database
+  $touch /srv/postfixadmin/database/postfixadmin.db
+  $sudo chown -R www-data:www-data /srv/postfixadmin/database
+  (both the directory and the database need to be writeable)
 
 4. Configure PostfixAdmin so it can find the database
 -----------------------------------------------------
@@ -188,4 +193,3 @@ IRC - a community of people may be able to help in #postfixadmin on irc.freenode
 
 Legacy forum posts are on SourceForce at 
     https://sourceforge.net/projects/postfixadmin
-
