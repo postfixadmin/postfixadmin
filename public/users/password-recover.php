@@ -59,12 +59,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $start_time = microtime(true);
 
     $username = safepost('fUsername', null);
-    if (empty($sername) || !is_string($username)) {
+    if (empty($username) || !is_string($username)) {
         die("fUsername field required");
     }
 
     $tUsername = escape_string($username);
-
 
     $handler = $context === 'admin' ? new AdminHandler : new MailboxHandler;
     $token = $handler->getPasswordRecoveryCode($tUsername);
