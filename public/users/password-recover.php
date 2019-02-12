@@ -68,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $handler = $context === 'admin' ? new AdminHandler : new MailboxHandler;
     $token = $handler->getPasswordRecoveryCode($tUsername);
     if ($token !== false) {
-
         $table = table_by_key($context === 'users' ? 'mailbox' : 'admin');
         $row = db_query_one("SELECT * FROM $table WHERE username= :username", array('username' => $username));
 
@@ -79,11 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         if ($email_other) {
             sendCodeByEmail($email_other, $tUsername, $token);
-        }
-        elseif ($phone) {
+        } elseif ($phone) {
             sendCodeBySMS($phone, $tUsername, $token);
-        }
-        else {
+        } else {
             error_log(__FILE__ . " - No mechanism configured for password-recovery.");
         }
 
