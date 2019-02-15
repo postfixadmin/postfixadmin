@@ -21,7 +21,12 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase {
             1,
             db_insert(
                 'domain',
-                array('domain' => $domain, 'description' => 'test', 'transport' => '', 'password_expiry' => 99)
+                array(
+                    'domain' => $domain,
+                    'description' => 'test',
+                    'transport' => '',
+                    'password_expiry' => 99
+                )
             )
         );
 
@@ -29,7 +34,14 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(1,
             db_insert(
                 'mailbox',
-                array('username' => $username, 'password' => 'blah', 'name' => 'blah', 'maildir' => 'blah', 'local_part' => 'blah', 'domain' => $domain,)
+                array(
+                    'username' => $username,
+                    'password' => 'blah',
+                    'name' => 'blah',
+                    'maildir' => 'blah',
+                    'local_part' => 'blah',
+                    'domain' => $domain
+                )
             )
         );
 
