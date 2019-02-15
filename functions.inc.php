@@ -1782,7 +1782,7 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
             if (db_sqlite()) {
                 $values['password_expiry'] = "datetime('now', '$password_expiration_value day')";
             } else {
-                $values['password_expiry'] = "now() + interval " . $password_expiration_value . " day";
+                $values['password_expiry'] = date('Y-m-d H:i', strtotime("+$password_expiration_value day"));
             }
         }
     } else {
