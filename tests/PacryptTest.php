@@ -28,19 +28,23 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase {
             $this->markTestSkipped('Not using MySQL');
         }
 
-        $hash = _pacrypt_mysql_encrypt('test', '');
+        $hash = _pacrypt_mysql_encrypt('test');
+
+        sleep(1);
+
+        $hash2 = _pacrypt_mysql_encrypt('test');
+
+        $this->assertNotEquals($hash, $hash2);
 
         $this->assertNotEmpty($hash);
         $this->assertNotEquals('test', $hash);
+        $this->assertNotEquals('test', $hash2);
 
-        $this->assertEquals($hash, _pacrypt_mysql_encrypt('test', $hash));
-
-        $hash2 = _pacrypt_mysql_encrypt('test', 'salt');
-
-        $this->assertNotEmpty($hash2);
-        $this->assertNotEquals($hash, $hash2);
-
-        $this->assertEquals($hash2, _pacrypt_mysql_encrypt('test', 'salt'));
+        $this->assertEquals(
+            $hash,
+            _pacrypt_mysql_encrypt('test', $hash),
+            "test should encrypt to : $hash ..."
+        );
     }
 
     public function testAuthlib() {
@@ -48,10 +52,12 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase {
 
         // too many options!
         foreach (
-            ['md5raw' => '098f6bcd4621d373cade4e832627b4f6',
+            [
+                'md5raw' => '098f6bcd4621d373cade4e832627b4f6',
                 'md5' => 'CY9rzUYh03PK3k6DJie09g==',
                 // crypt requires salt ...
-                'SHA' => 'qUqP5cyxm6YcTAhz05Hph5gvu9M='] as $flavour => $hash) {
+                'SHA' => 'qUqP5cyxm6YcTAhz05Hph5gvu9M='
+            ] as $flavour => $hash) {
             $CONF['authlib_default_flavour'] = $flavour;
 
             $stored = "{" . $flavour . "}$hash";
@@ -102,10 +108,15 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase {
     public function testPhpCryptRandomString() {
         $str1 = _php_crypt_random_string('abcdefg123456789', 2);
         $str2 = _php_crypt_random_string('abcdefg123456789', 2);
+        $str3 = _php_crypt_random_string('abcdefg123456789', 2);
 
         $this->assertNotEmpty($str1);
         $this->assertNotEmpty($str2);
-        $this->assertNotEquals($str1, $str2);
+        $this->assertNotEmpty($str3);
+
+        // it should be difficult for us to get three salts of the same value back...
+        // not impossible though.
+        $this->assertFalse( strcmp($str1, $str2) == 0 && strcmp($str1, $str3) == 0 );
     }
 }
 
