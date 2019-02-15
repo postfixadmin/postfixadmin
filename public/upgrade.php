@@ -523,10 +523,9 @@ function upgrade_2_pgsql() {
                 modified timestamp with time zone default now(),
                 active boolean NOT NULL default true,
                 Constraint \"domain_key\" Primary Key (\"domain\")
-            ); 
-            CREATE INDEX domain_domain_active ON " . table_by_key('domain') . "(domain,active);
-            COMMENT ON TABLE " . table_by_key('domain') . " IS 'Postfix Admin - Virtual Domains';
-        ");
+            ); ");
+        db_query_parsed("CREATE INDEX domain_domain_active ON " . table_by_key('domain') . "(domain,active);");
+        db_query_parsed("COMMENT ON TABLE " . table_by_key('domain') . " IS 'Postfix Admin - Virtual Domains'");
     }
     if (!_pgsql_object_exists(table_by_key('admin'))) {
         db_query_parsed('
@@ -537,9 +536,8 @@ function upgrade_2_pgsql() {
               "modified" timestamp with time zone default now(),
               "active" boolean NOT NULL default true,
             Constraint "admin_key" Primary Key ("username")
-        );' . "
-        COMMENT ON TABLE " . table_by_key('admin') . " IS 'Postfix Admin - Virtual Admins';
-        ");
+        )');
+        db_query_parsed("COMMENT ON TABLE " . table_by_key('admin') . " IS 'Postfix Admin - Virtual Admins'");
     }
 
     if (!_pgsql_object_exists(table_by_key('alias'))) {
@@ -552,10 +550,9 @@ function upgrade_2_pgsql() {
              modified timestamp with time zone default now(),
              active boolean NOT NULL default true,
              Constraint "alias_key" Primary Key ("address")
-            );
-            CREATE INDEX alias_address_active ON ' . table_by_key("alias") . '(address,active);
-            COMMENT ON TABLE ' . table_by_key("alias") . ' IS \'Postfix Admin - Virtual Aliases\';
-        ');
+            );');
+        db_query_parsed('CREATE INDEX alias_address_active ON ' . table_by_key("alias") . '(address,active)');
+        db_query_parsed('COMMENT ON TABLE ' . table_by_key("alias") . ' IS \'Postfix Admin - Virtual Aliases\'');
     }
 
     if (!_pgsql_object_exists(table_by_key('domain_admins'))) {
@@ -565,9 +562,8 @@ function upgrade_2_pgsql() {
              domain character varying(255) NOT NULL REFERENCES "' . table_by_key('domain') . '",
              created timestamp with time zone default now(),
              active boolean NOT NULL default true
-            );
-        COMMENT ON TABLE ' . table_by_key('domain_admins') . ' IS \'Postfix Admin - Domain Admins\';
-        ');
+            );');
+        db_query_parsed('COMMENT ON TABLE ' . table_by_key('domain_admins') . ' IS \'Postfix Admin - Domain Admins\'');
     }
 
     if (!_pgsql_object_exists(table_by_key('log'))) {
@@ -578,9 +574,8 @@ function upgrade_2_pgsql() {
              domain character varying(255) NOT NULL default \'\',
              action character varying(255) NOT NULL default \'\',
              data text NOT NULL default \'\'
-            );
-            COMMENT ON TABLE ' . table_by_key('log') . ' IS \'Postfix Admin - Log\';
-        ');
+            );');
+        db_query_parsed('COMMENT ON TABLE ' . table_by_key('log') . ' IS \'Postfix Admin - Log\'');
     }
     if (!_pgsql_object_exists(table_by_key('mailbox'))) {
         db_query_parsed('
@@ -595,10 +590,9 @@ function upgrade_2_pgsql() {
                  modified timestamp with time zone default now(),
                  active boolean NOT NULL default true,
                  Constraint "mailbox_key" Primary Key ("username")
-                );
-                CREATE INDEX mailbox_username_active ON ' . table_by_key('mailbox') . '(username,active);
-                COMMENT ON TABLE ' . table_by_key('mailbox') . ' IS \'Postfix Admin - Virtual Mailboxes\';
-        ');
+                );');
+        db_query_parsed('CREATE INDEX mailbox_username_active ON ' . table_by_key('mailbox') . '(username,active);');
+        db_query_parsed('COMMENT ON TABLE ' . table_by_key('mailbox') . ' IS \'Postfix Admin - Virtual Mailboxes\'');
     }
 
     if (!_pgsql_object_exists(table_by_key('vacation'))) {
@@ -611,8 +605,8 @@ function upgrade_2_pgsql() {
                 "domain" character varying(255) NOT NULL REFERENCES "' . table_by_key('domain') . '",
                 created timestamp with time zone DEFAULT now(),
                 active boolean DEFAULT true NOT NULL
-            );
-            CREATE INDEX vacation_email_active ON ' . table_by_key('vacation') . '(email,active);');
+            );');
+        db_query_parsed('CREATE INDEX vacation_email_active ON ' . table_by_key('vacation') . '(email,active);');
     }
 
     if (!_pgsql_object_exists(table_by_key('vacation_notification'))) {
@@ -625,11 +619,6 @@ function upgrade_2_pgsql() {
             );
         ');
     }
-
-    // this handles anyone who is upgrading... (and should have no impact on new installees)
-    $table_domain = table_by_key('domain');
-    db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255)", true);
-    db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx BOOLEAN DEFAULT false", true);
 }
 
 /**
@@ -752,26 +741,23 @@ function upgrade_4_pgsql() {
     db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN username DROP DEFAULT");
     db_query_parsed("ALTER TABLE $table_domain_admins ALTER COLUMN domain DROP DEFAULT");
 
-    db_query_parsed("
-        BEGIN;
-            ALTER TABLE $table_log RENAME COLUMN data TO data_old;
-            ALTER TABLE $table_log ADD COLUMN data text NOT NULL default '';
-            UPDATE $table_log SET data = CAST(data_old AS text);
-            ALTER TABLE $table_log DROP COLUMN data_old;
-        COMMIT;");
+    db_query_parsed("BEGIN ");
+    db_query_parsed("ALTER TABLE $table_log RENAME COLUMN data TO data_old;");
+    db_query_parsed("ALTER TABLE $table_log ADD COLUMN data text NOT NULL default '';");
+    db_query_parsed("UPDATE $table_log SET data = CAST(data_old AS text);");
+    db_query_parsed("ALTER TABLE $table_log DROP COLUMN data_old;");
+    db_query_parsed("COMMIT");
 
     db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN username DROP DEFAULT");
     db_query_parsed("ALTER TABLE $table_mailbox ALTER COLUMN domain DROP DEFAULT");
 
-    db_query_parsed(
-        "
-        BEGIN;
-            ALTER TABLE $table_mailbox RENAME COLUMN domain TO domain_old;
-            ALTER TABLE $table_mailbox ADD COLUMN domain varchar(255) REFERENCES $table_domain (domain);
-            UPDATE $table_mailbox SET domain = domain_old;
-            ALTER TABLE $table_mailbox DROP COLUMN domain_old;
-        COMMIT;"
-    );
+    db_query_parsed("BEGIN;");
+    db_query_parsed("ALTER TABLE $table_mailbox RENAME COLUMN domain TO domain_old;");
+    db_query_parsed("ALTER TABLE $table_mailbox ADD COLUMN domain varchar(255) REFERENCES $table_domain (domain);");
+    db_query_parsed("UPDATE $table_mailbox SET domain = domain_old;");
+    db_query_parsed("ALTER TABLE $table_mailbox DROP COLUMN domain_old;");
+    db_query_parsed("COMMIT;");
+
     if (!_pgsql_object_exists('mailbox_username_active')) {
         db_query_parsed("CREATE INDEX mailbox_username_active ON $table_mailbox(username,active)");
     }
@@ -782,14 +768,12 @@ function upgrade_4_pgsql() {
         db_query_parsed("ALTER TABLE $table_vacation DROP COLUMN cache");
     }
 
-    db_query_parsed("
-        BEGIN;
-            ALTER TABLE $table_vacation RENAME COLUMN domain to domain_old;
-            ALTER TABLE $table_vacation ADD COLUMN domain varchar(255) REFERENCES $table_domain;
-            UPDATE $table_vacation SET domain = domain_old;
-            ALTER TABLE $table_vacation DROP COLUMN domain_old;
-        COMMIT;
-    ");
+    db_query_parsed(" BEGIN; ");
+    db_query_parsed("ALTER TABLE $table_vacation RENAME COLUMN domain to domain_old;");
+    db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN domain varchar(255) REFERENCES $table_domain;");
+    db_query_parsed("UPDATE $table_vacation SET domain = domain_old;");
+    db_query_parsed("ALTER TABLE $table_vacation DROP COLUMN domain_old;");
+    db_query_parsed("COMMIT;");
 
     if (!_pgsql_object_exists('vacation_email_active')) {
         db_query_parsed("CREATE INDEX vacation_email_active ON $table_vacation(email,active)");
