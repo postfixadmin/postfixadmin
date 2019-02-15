@@ -55,6 +55,8 @@ if (getenv('DATABASE') == 'mysql') {
 
     $config = parse_ini_file($expand_tilde('~/.my.cnf'));
 
+    var_dump($config);
+
     if (empty($config)) {
         $config = ['user'=>'root', 'host' => '127.0.0.1', 'password' => ''];
     }
