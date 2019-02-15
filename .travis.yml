@@ -2,13 +2,25 @@ language: php
 php:
   - 7.2
 
+services:
+  - mysql
+  - postgresql
+
 cache:
   directories:
     - $HOME/.composer/cache
+
+before_install:
+  - mysql -e 'CREATE DATABASE postfixadmin;'
+  - psql -c 'create database postfixadmin;' -U postgres
+
 
 before_script:
   - composer install
 
 script:
   - composer build
+  - composer test-sqlite
+  - composer test-mysql
+  - composer test-postgresql
 
