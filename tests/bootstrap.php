@@ -21,7 +21,8 @@ if (getenv('DATABASE') == 'sqlite' || getenv('DATABASE') == false) {
         unlink($db_file);
     }
     touch($db_file);
-    var_dump('sqlite');
+
+    echo "Using: SQLite database for tests\n";
 }
 if (getenv('DATABASE') == 'postgresql') {
     $user = getenv('PGUSER') ?: 'postgres';
@@ -38,7 +39,8 @@ if (getenv('DATABASE') == 'postgresql') {
     Config::write('database_pass', $pass);
     Config::write('database_name', 'postfixadmin');
     Config::write('database_host', $host);
-    var_dump('postgresql');
+
+    echo "Using: PostgreSQL database for tests\n";
 }
 
 if (getenv('DATABASE') == 'mysql') {
@@ -54,7 +56,7 @@ if (getenv('DATABASE') == 'mysql') {
     $config = parse_ini_file($expand_tilde('~/.my.cnf'));
 
     if (empty($config)) {
-        $config = ['user'=>'root', 'host' => 'localhost', 'password' => ''];
+        $config = ['user'=>'root', 'host' => '127.0.0.1', 'password' => ''];
     }
     $CONF['database_type'] = 'mysql';
     $CONF['database_user'] = $config['user'];
@@ -64,7 +66,8 @@ if (getenv('DATABASE') == 'mysql') {
     Config::write('database_user', $config['user']);
     Config::write('database_pass', $config['password']);
     Config::write('database_name', 'postfixadmin');
-    var_dump('mysql');
+
+    echo "Using: MySQL database for tests\n";
 }
 
 
