@@ -55,11 +55,18 @@ if (getenv('DATABASE') == 'mysql') {
 
     $config = parse_ini_file($expand_tilde('~/.my.cnf'));
 
-    var_dump($config);
-
     if (empty($config)) {
         $config = ['user'=>'root', 'host' => '127.0.0.1', 'password' => ''];
     }
+
+    if (isset($config['socket'])) {
+        $CONF['database_socket'] = $config['socket'];
+        Config::write('database_socket', $config['socket']);
+    } else {
+        $CONF['database_host'] = $config['host'];
+        Config::write('database_host', $config['host']);
+    }
+
     $CONF['database_type'] = 'mysql';
     $CONF['database_user'] = $config['user'];
     $CONF['database_pass'] = $config['password'];
