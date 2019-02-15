@@ -500,7 +500,7 @@ function get_domain_properties($domain) {
  * @param string $querypart - core part of the query (starting at "FROM")
  * @return array
  */
-function create_page_browser($idxfield, $querypart) {
+function create_page_browser($idxfield, $querypart, $sql_params = []) {
     global $CONF;
     $page_size = (int) $CONF['page_size'];
     $label_len = 2;
@@ -514,7 +514,7 @@ function create_page_browser($idxfield, $querypart) {
 
     # get number of rows
     $query = "SELECT count(*) as counter FROM (SELECT $idxfield $querypart) AS tmp";
-    $result = db_query_one($query);
+    $result = db_query_one($query, $sql_params);
     if ($result && isset($result['counter'])) {
         $count_results = $result['counter'] -1; # we start counting at 0, not 1
     }
@@ -563,7 +563,7 @@ function create_page_browser($idxfield, $querypart) {
     # CREATE TEMPORARY SEQUENCE foo MINVALUE 0 MAXVALUE $page_size_zerobase CYCLE
     # afterwards: DROP SEQUENCE foo
 
-    $result = db_query_all($query);
+    $result = db_query_all($query, $sql_params);
     foreach ($result as $k => $row) {
         if (isset($result[$k + 1])) {
             $row2 = $result[$k + 1];

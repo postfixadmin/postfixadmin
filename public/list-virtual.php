@@ -177,17 +177,21 @@ $sql_join   = "";
 $sql_where  = " WHERE ";
 $sql_order  = " ORDER BY $table_mailbox.username ";
 $sql_limit  = " LIMIT $page_size OFFSET $fDisplay";
+$sql_params = [];
 
 if (count($search) == 0 || !isset($search['_'])) {
-    $sql_where  .= " $table_mailbox.domain='$fDomain' ";
+    $sql_where .= " $table_mailbox.domain= :domain ";
+    $sql_params['domain'] = $fDomain;
 } else {
     $searchterm = escape_string($search['_']);
     $sql_where  .=  db_in_clause("$table_mailbox.domain", $list_domains) . " ";
-    $sql_where  .= " AND ( $table_mailbox.username LIKE '%$searchterm%' OR $table_mailbox.name LIKE '%$searchterm%' ";
+    $sql_where  .= " AND ( $table_mailbox.username LIKE :searchterm OR $table_mailbox.name LIKE :searchterm ";
+    $sql_params['searchterm'] = "%$searchterm%";
+
     if ($display_mailbox_aliases) {
-        $sql_where  .= " OR $table_alias.goto LIKE '%$searchterm%' ";
+        $sql_where  .= " OR $table_alias.goto LIKE :searchterm ";
     }
-    $sql_where  .= " ) "; # $search is already escaped
+    $sql_where  .= " ) ";
 }
 if ($display_mailbox_aliases) {
     $sql_select .= ", $table_alias.goto ";
@@ -218,9 +222,10 @@ if (Config::bool('used_quotas') && (! Config::bool('new_quota_table'))) {
 }
 
 $mailbox_pagebrowser_query = "$sql_from\n$sql_join\n$sql_where\n$sql_order" ;
+
 $query = "$sql_select\n$mailbox_pagebrowser_query\n$sql_limit";
 
-$result = db_query_all($query);
+$result = db_query_all($query, $sql_params);
 
 $tMailbox = array();
 
@@ -249,7 +254,6 @@ foreach ($result as $row) {
         }
     }
     if (db_pgsql()) {
-        // XXX
         $row['modified'] = date('Y-m-d H:i', strtotime($row['modified']));
         $row['created'] = date('Y-m-d H:i', strtotime($row['created']));
         $row['active']=('t'==$row['active']) ? 1 : 0;
@@ -275,6 +279,7 @@ $tDisplay_next = "";
 $tDisplay_next_show = "";
 
 $limit = get_domain_properties($fDomain);
+
 if (isset($limit)) {
     if ($fDisplay >= $page_size) {
         $tDisplay_back_show = 1;
@@ -447,7 +452,7 @@ class cNav_bar {
 $nav_bar_alias = new cNav_bar($PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $pagebrowser_alias, $search);
 $nav_bar_alias->append_to_url = '&amp;domain='.$fDomain;
 
-$pagebrowser_mailbox = create_page_browser("$table_mailbox.username", $mailbox_pagebrowser_query);
+$pagebrowser_mailbox = create_page_browser("$table_mailbox.username", $mailbox_pagebrowser_query, $sql_params);
 $nav_bar_mailbox = new cNav_bar($PALANG['pOverview_mailbox_title'], $fDisplay, $CONF['page_size'], $pagebrowser_mailbox, $search);
 $nav_bar_mailbox->append_to_url = '&amp;domain='.$fDomain;
 
