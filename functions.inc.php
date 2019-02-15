@@ -1503,7 +1503,14 @@ function db_connect_with_errors() {
     $dsn = null;
 
     if (db_mysql()) {
-        $dsn = "mysql:host={$CONF['database_host']};dbname={$CONF['database_name']};charset=UTF8";
+        $socket = Config::read_string('database_socket');
+        $database_name = Config::read_string('database_name');
+
+        if ($socket) {
+            $dsn = "mysql:unix_socket={$socket};dbname={$database_name};charset=UTF8";
+        } else {
+            $dsn = "mysql:host={$CONF['database_host']};dbname={$database_name};charset=UTF8";
+        }
         if (Config::bool('database_use_ssl')) {
             $options[PDO::MYSQL_ATTR_SSL_CA] = Config::read_string('database_ssl_ca');
             $options[PDO::MYSQL_ATTR_SSL_CAPATH] = Config::read_string('database_ssl_ca_path');
