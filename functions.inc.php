@@ -888,37 +888,57 @@ function validate_password($password) {
     return $result;
 }
 
-function _pacrypt_md5crypt($pw, $pw_db) {
-    $split_salt = preg_split('/\$/', $pw_db);
-    if (isset($split_salt[2])) {
-        $salt = $split_salt[2];
-        return md5crypt($pw, $salt);
+/**
+ * @param string $pw
+ * @param string $pw_db - encrypted hash
+ * @return string crypt'ed password, should equal $pw_db if $pw matches the original
+ */
+function _pacrypt_md5crypt($pw, $pw_db = '') {
+    if ($pw_db) {
+        $split_salt = preg_split('/\$/', $pw_db);
+        if (isset($split_salt[2])) {
+            $salt = $split_salt[2];
+            return md5crypt($pw, $salt);
+        }
     }
 
     return md5crypt($pw);
 }
 
-function _pacrypt_crypt($pw, $pw_db) {
+function _pacrypt_crypt($pw, $pw_db = '') {
     if ($pw_db) {
         return crypt($pw, $pw_db);
     }
     return crypt($pw);
 }
 
-function _pacrypt_mysql_encrypt($pw, $pw_db) {
+/**
+ * Crypt with MySQL's ENCRYPT function
+ *
+ * @param string $pw
+ * @param string $pw_db (hashed password)
+ * @return string if $pw_db and the return value match then $pw matches the original password.
+ */
+function _pacrypt_mysql_encrypt($pw, $pw_db = '') {
     // See https://sourceforge.net/tracker/?func=detail&atid=937966&aid=1793352&group_id=191583
     // this is apparently useful for pam_mysql etc.
-    $pw = escape_string($pw);
-    if ($pw_db!="") {
-        $values = array('pw' => $pw_db, 'salt' => substr($pw_db, 0, 2));
-        $res = db_query_one("SELECT ENCRYPT(:pw,:salt) as result", $values);
+
+    if ( $pw_db ) {
+        $res = db_query_one("SELECT ENCRYPT(:pw,:pw_db) as result", ['pw' => $pw, 'pw_db' => $pw_db]);
     } else {
-        $res= db_query_one("SELECT ENCRYPT(:pw) as result", array('pw' => $pw));
+        $res= db_query_one("SELECT ENCRYPT(:pw) as result", ['pw' => $pw]);
     }
 
     return $res['result'];
 }
 
+/**
+ * Create/Validate courier authlib style crypt'ed passwords. (md5, md5raw, crypt, sha1)
+ *
+ * @param string $pw
+ * @param string $pw_db (optional)
+ * @return string crypted password - contains {xxx} prefix to identify mechanism.
+ */
 function _pacrypt_authlib($pw, $pw_db) {
     global $CONF;
     $flavor = $CONF['authlib_default_flavor'];
@@ -945,11 +965,13 @@ function _pacrypt_authlib($pw, $pw_db) {
 }
 
 /**
+ * Uses the doveadm pw command, crypted passwords have a {...} prefix to identify type.
+ *
  * @param string $pw - plain text password
  * @param string $pw_db - encrypted password, or '' for generation.
- * @return string
+ * @return string crypted password
  */
-function _pacrypt_dovecot($pw, $pw_db) {
+function _pacrypt_dovecot($pw, $pw_db = '') {
     global $CONF;
 
     $split_method = preg_split('/:/', $CONF['encrypt']);
@@ -1040,9 +1062,11 @@ function _pacrypt_dovecot($pw, $pw_db) {
 }
 
 /**
+ * Supports DES, MD5, BLOWFISH, SHA256, SHA512 methods.
+ *
  * @param string $pw
  * @param string $pw_db (can be empty if setting a new password)
- * @return string
+ * @return string crypt'ed password; if it matches $pw_db then $pw is the original password.
  */
 function _pacrypt_php_crypt($pw, $pw_db) {
     global $CONF;
@@ -1177,12 +1201,13 @@ function _php_crypt_random_string($characters, $length) {
 /**
  * Encrypt a password, using the apparopriate hashing mechanism as defined in
  * config.inc.php ($CONF['encrypt']).
+ *
  * When wanting to compare one pw to another, it's necessary to provide the salt used - hence
  * the second parameter ($pw_db), which is the existing hash from the DB.
  *
  * @param string $pw
  * @param string $pw_db optional encrypted password
- * @return string encrypted password.
+ * @return string encrypted password - if this matches $pw_db then the original password is $pw.
  */
 function pacrypt($pw, $pw_db="") {
     global $CONF;
@@ -1213,12 +1238,15 @@ function pacrypt($pw, $pw_db="") {
     die('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
 }
 
-//
-// md5crypt
-// Action: Creates MD5 encrypted password
-// Call: md5crypt (string cleartextpassword)
-//
-
+/**
+ * Creates MD5 based crypt formatted password.
+ * If salt is not provided we generate one.
+ *
+ * @param string $pw plain text password
+ * @param string $salt (optional)
+ * @param string $magic (optional)
+ * @return string hashed password in crypt format.
+ */
 function md5crypt($pw, $salt="", $magic="") {
     $MAGIC = "$1$";
 
@@ -1286,6 +1314,9 @@ function md5crypt($pw, $salt="", $magic="") {
     return "$magic$salt\$$passwd";
 }
 
+/**
+ * @return string - should be random, 8 chars long
+ */
 function create_salt() {
     srand((int) microtime()*1000000);
     $salt = substr(md5("" . rand(0, 9999999)), 0, 8);
@@ -1631,7 +1662,7 @@ function db_sqlite() {
  * @param array $values
  * @return array
  */
-function db_query_all($sql, array $values = array()) {
+function db_query_all($sql, array $values = []) {
     $r = db_query($sql, $values);
     return $r['result']->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -1641,7 +1672,7 @@ function db_query_all($sql, array $values = array()) {
  * @param array $values
  * @return array
  */
-function db_query_one($sql, array $values = array()) {
+function db_query_one($sql, array $values = []) {
     $r = db_query($sql, $values);
     return $r['result']->fetch(PDO::FETCH_ASSOC);
 }
@@ -1653,7 +1684,7 @@ function db_query_one($sql, array $values = array()) {
  * @param bool $throw_errors
  * @return int number of rows affected by the query
  */
-function db_execute($sql, array $values = array(), $throw_errors = false) {
+function db_execute($sql, array $values = [], $throw_errors = false) {
     $link = db_connect();
 
     try {
