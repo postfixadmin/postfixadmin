@@ -24,7 +24,6 @@ if (getenv('DATABASE') == 'sqlite' || getenv('DATABASE') == false) {
     var_dump('sqlite');
 }
 if (getenv('DATABASE') == 'postgresql') {
-
     $user = getenv('PGUSER') ?: 'postgres';
     $pass = getenv('PGPASSWORD') ?: '';
     $host = getenv('PGHOST') ?: 'localhost';
@@ -43,8 +42,7 @@ if (getenv('DATABASE') == 'postgresql') {
 }
 
 if (getenv('DATABASE') == 'mysql') {
-
-    $expand_tilde = function($path) { 
+    $expand_tilde = function ($path) {
         if (function_exists('posix_getuid') && strpos($path, '~') !== false) {
             $info = posix_getpwuid(posix_getuid());
             $path = str_replace('~', $info['dir'], $path);
@@ -55,7 +53,7 @@ if (getenv('DATABASE') == 'mysql') {
 
     $config = parse_ini_file($expand_tilde('~/.my.cnf'));
 
-    if(empty($config)) {
+    if (empty($config)) {
         $config = ['user'=>'root', 'host' => 'localhost', 'password' => ''];
     }
     $CONF['database_type'] = 'mysql';
