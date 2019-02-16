@@ -31,12 +31,12 @@ if (getenv('DATABASE') == 'postgresql') {
     
     $CONF['database_type'] = 'pgsql';
     $CONF['database_user'] = $user;
-    $CONF['database_pass'] = $pass;
+    $CONF['database_password'] = $pass;
     $CONF['database_host'] = $host;
     $CONF['database_name'] = 'postfixadmin';
     Config::write('database_type', 'pgsql');
     Config::write('database_user', $user);
-    Config::write('database_pass', $pass);
+    Config::write('database_password', $pass);
     Config::write('database_name', 'postfixadmin');
     Config::write('database_host', $host);
 
@@ -72,11 +72,11 @@ if (getenv('DATABASE') == 'mysql') {
 
     $CONF['database_type'] = 'mysql';
     $CONF['database_user'] = $config['user'];
-    $CONF['database_pass'] = $config['password'];
+    $CONF['database_password'] = $config['password'];
     $CONF['database_name'] = 'postfixadmin';
     Config::write('database_type', 'mysql');
     Config::write('database_user', $config['user']);
-    Config::write('database_pass', $config['password']);
+    Config::write('database_password', $config['password']);
     Config::write('database_name', 'postfixadmin');
 
     echo "Using: MySQL database for tests\n";
