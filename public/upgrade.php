@@ -894,14 +894,14 @@ function upgrade_81_mysql() { # MySQL only
     $table_vacation_notification = table_by_key('vacation_notification');
 
     $all_sql = explode("\n", trim("
-        ALTER TABLE `$table_vacation` CHANGE `email`    `email`   VARCHAR( 255 ) {LATIN1} NOT NULL
-        ALTER TABLE `$table_vacation` CHANGE `subject`  `subject` VARCHAR( 255 ) {UTF-8}  NOT NULL
-        ALTER TABLE `$table_vacation` CHANGE `body`     `body`    TEXT           {UTF-8}  NOT NULL
-        ALTER TABLE `$table_vacation` CHANGE `cache`    `cache`   TEXT           {LATIN1} NOT NULL
-        ALTER TABLE `$table_vacation` CHANGE `domain`   `domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
-        ALTER TABLE `$table_vacation` CHANGE `active`   `active`  TINYINT( 1 )            NOT NULL DEFAULT '1'
-        ALTER TABLE `$table_vacation` DEFAULT  {LATIN1}
-        ALTER TABLE `$table_vacation` {INNODB}
+        ALTER TABLE $table_vacation CHANGE `email`    `email`   VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE $table_vacation CHANGE `subject`  `subject` VARCHAR( 255 ) {UTF-8}  NOT NULL
+        ALTER TABLE $table_vacation CHANGE `body`     `body`    TEXT           {UTF-8}  NOT NULL
+        ALTER TABLE $table_vacation CHANGE `cache`    `cache`   TEXT           {LATIN1} NOT NULL
+        ALTER TABLE $table_vacation CHANGE `domain`   `domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
+        ALTER TABLE $table_vacation CHANGE `active`   `active`  TINYINT( 1 )            NOT NULL DEFAULT '1'
+        ALTER TABLE $table_vacation DEFAULT  {LATIN1}
+        ALTER TABLE $table_vacation {INNODB}
     "));
 
     foreach ($all_sql as $sql) {
