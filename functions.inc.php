@@ -1561,6 +1561,9 @@ function db_connect_with_errors() {
             }
         }
     } catch (PDOException $e) {
+        if (defined('PHPUNIT_TEST')) {
+            echo json_encode(['dsn' => $dsn, 'db_user' => Config::read_string('database_user'), 'db_pass' => Config::read_string('database_password'), 'options' => $options, 'exception_message' => $e->getMessage()], JSON_PRETTY_PRINT);
+        }
         $error_text = 'PDO exception: '. $e->getMessage();
     }
 
