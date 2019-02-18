@@ -1,7 +1,5 @@
 <?php
 
-require_once('common.php');
-
 /**
  * Obviously relies on working DNS service etc.
  */

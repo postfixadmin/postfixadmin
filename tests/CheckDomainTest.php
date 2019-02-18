@@ -1,6 +1,5 @@
 <?php
 
-require_once('common.php');
 
 /**
  * Obviously replies on working DNS service

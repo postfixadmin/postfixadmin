@@ -1,7 +1,5 @@
 <?php
 
-require_once('common.php');
-
 class PaCryptTest extends \PHPUnit\Framework\TestCase {
     public function testMd5Crypt() {
         $hash = _pacrypt_md5crypt('test', '');
@@ -119,5 +117,3 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse( strcmp($str1, $str2) == 0 && strcmp($str1, $str3) == 0 );
     }
 }
-
-/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

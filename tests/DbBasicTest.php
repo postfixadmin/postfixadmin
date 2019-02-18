@@ -1,7 +1,5 @@
 <?php
 
-require_once('common.php');
-
 class DbBasicTest extends \PHPUnit\Framework\TestCase {
     private $test_domain;
 

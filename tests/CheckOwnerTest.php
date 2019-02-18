@@ -1,7 +1,5 @@
 <?php
 
-require_once('common.php');
-
 class CheckOwnerTest extends \PHPUnit\Framework\TestCase {
     public function testBasic() {
         $check = check_owner('random@example.com', 'test.com');

@@ -1,7 +1,5 @@
 <?php
 
-require_once('common.php');
-
 class CheckLanguageTest extends \PHPUnit\Framework\TestCase {
     public function testBasic() {
         global $supported_languages;

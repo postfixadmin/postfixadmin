@@ -1,7 +1,5 @@
 <?php
 
-require_once('common.php');
-
 class ListDomainsTest extends \PHPUnit\Framework\TestCase {
     public function testBasic() {
         $domains = list_domains();

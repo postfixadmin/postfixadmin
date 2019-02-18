@@ -1,7 +1,5 @@
 <?php
 
-require_once('common.php');
-
 class GeneratePasswordTest extends \PHPUnit\Framework\TestCase {
     public function testBasic() {
         $one = generate_password();

@@ -1,7 +1,5 @@
 <?php
 
-require_once('common.php');
-
 class RemoveFromArrayTest extends \PHPUnit\Framework\TestCase {
     public function testBasic() {
         $list = array('a','b','c','d');
