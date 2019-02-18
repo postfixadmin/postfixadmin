@@ -13,9 +13,7 @@
         "check-format": "php-cs-fixer fix --ansi --dry-run --diff",
         "format": "php-cs-fixer fix --ansi",
         "lint": "@php ./vendor/bin/parallel-lint --exclude vendor/ --exclude lib/block_random_int.php --exclude lib/array_column.php .",
-        "test-sqlite": "DATABASE=sqlite ./vendor/bin/phpunit tests/",
-        "test-mysql": "DATABASE=mysql ./vendor/bin/phpunit tests/",
-        "test-postgresql": "DATABASE=postgresql ./vendor/bin/phpunit tests/",
+        "test": "DATABASE=sqlite ./vendor/bin/phpunit tests/",
         "test-fixup": "mkdir -p templates_c ; test -f config.local.php || touch config.local.php",
         "psalm": "@php ./vendor/bin/psalm --no-cache --show-info=false "
     },
@@ -23,13 +21,14 @@
         "php": ">=5.2"
     },
     "require-dev": {
-        "ext-sqlite3": "*",
         "ext-mysqli":  "*",
-        "php":  ">7.2.0",
+        "ext-sqlite3": "*",
         "friendsofphp/php-cs-fixer": "*",
-        "vimeo/psalm":"3.0.8",
         "jakub-onderka/php-parallel-lint": "^1.0",
+        "php":  ">7.2.0",
+        "php-coveralls/php-coveralls" : "*",
         "phpunit/phpunit": "^6.0",
+        "vimeo/psalm":"3.0.8",
         "zendframework/zendframework1": "^1.12.0"
     },
     "autoload": {
