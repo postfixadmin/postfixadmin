@@ -865,8 +865,10 @@ abstract class PFAHandler {
         $table = table_by_key($this->db_table);
         $active = db_get_boolean(true);
 
-        $query = "SELECT token FROM $table WHERE {$this->id_field} = :username AND token <> '' AND active = :active AND NOW() < token_validity";
-        $values = array('username' => $username, 'active' => $active);
+        $now = date('Y-m-d H:i:s');
+
+        $query = "SELECT token FROM $table WHERE {$this->id_field} = :username AND token <> '' AND active = :active AND token_validity > :now ";
+        $values = array('username' => $username, 'active' => $active, 'now' => $now);
 
         $result = db_query_all($query, $values);
         if (sizeof($result) == 1) {
