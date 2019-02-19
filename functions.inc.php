@@ -988,12 +988,9 @@ function _pacrypt_dovecot($pw, $pw_db = '') {
     # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead.");
     # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
 
-    # digest-md5 and SCRAM-SHA-1 hashes include the username - until someone implements it, let's declare it as unsupported
+    # digest-md5 hashes include the username - until someone implements it, let's declare it as unsupported
     if (strtolower($method) == 'digest-md5') {
         die("Sorry, \$CONF['encrypt'] = 'dovecot:digest-md5' is not supported by PostfixAdmin.");
-    }
-    if (strtoupper($method) == 'SCRAM-SHA-1') {
-        die("Sorry, \$CONF['encrypt'] = 'dovecot:scram-sha-1' is not supported by PostfixAdmin.");
     }
     # TODO: add -u option for those hashes, or for everything that is salted (-u was available before dovecot 2.1 -> no problem with backward compatibility )
 
