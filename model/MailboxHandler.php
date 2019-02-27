@@ -219,7 +219,7 @@ class MailboxHandler extends PFAHandler {
     protected function beforestore() {
         if (isset($this->values['quota']) && $this->values['quota'] != -1) {
             $multiplier = Config::read_string('quota_multiplier');
-            if($multiplier == 0) { // or empty string, or null, or false...
+            if ($multiplier == 0) { // or empty string, or null, or false...
                 $multiplier = 1;
             }
             $this->values['quota'] = $this->values['quota'] * $multiplier; # convert quota from MB to bytes
@@ -257,7 +257,7 @@ class MailboxHandler extends PFAHandler {
 
 
         if (Config::bool('password_expiration')) {
-            if(!empty($this->values['password']) && !empty($this->values['password2']) && $this->values['password'] == $this->values['password2']) {
+            if (!empty($this->values['password']) && !empty($this->values['password2']) && $this->values['password'] == $this->values['password2']) {
                 $domain_dirty = $this->domain_from_id();
                 $domain = trim($domain_dirty, "`'"); // naive assumption it is ' escaping.
                 $password_expiration_value = (int)get_password_expiration_value($domain);

@@ -559,8 +559,7 @@ abstract class PFAHandler {
             } else {
                 $result = db_update($this->db_table, $this->id_field, $this->id, $db_values, array('created', 'modified'), true);
             }
-        }
-        catch(PDOException $e) {
+        } catch (PDOException $e) {
             $this->errormsg[] = Config::lang_f($this->msg['store_error'], $this->label);
             return false;
         }
