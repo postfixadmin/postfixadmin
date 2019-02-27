@@ -1781,25 +1781,6 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
         }
     }
 
-    $_table = trim($table, "`'");
-    if (Config::bool('password_expiration')) {
-        if ($_table == 'mailbox') {
-            $domain_dirty = $values['domain'];
-            $domain = trim($domain_dirty, "`'"); // naive assumption it is ' escaping.
-            $password_expiration_value = (int) get_password_expiration_value($domain);
-            if (db_sqlite()) {
-                $values['password_expiry'] = "datetime('now', '$password_expiration_value day')";
-            } else {
-                $values['password_expiry'] = date('Y-m-d H:i', strtotime("+$password_expiration_value day"));
-            }
-        }
-    } else {
-        if ($_table == 'mailbox') {
-            unset($values['password_expiry']);
-        }
-    }
-
-
     $value_string = '';
     $comma = '';
     $prepared_statment_values = $values;
