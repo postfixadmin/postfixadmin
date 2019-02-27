@@ -514,7 +514,7 @@ abstract class PFAHandler {
      *
      * calls $this->storemore() where additional things can be done
      * @return bool - true if all values were stored in the database, otherwise false
-     * error messages (if any) are stored in $this->errormsg
+     *     error messages (if any) are stored in $this->errormsg
      */
     public function store() {
         if ($this->values_valid == false) {
@@ -553,12 +553,14 @@ abstract class PFAHandler {
             } # remove 'dont_write_to_db' columns
         }
 
-        if ($this->new) {
-            $result = db_insert($this->db_table, $db_values);
-        } else {
-            $result = db_update($this->db_table, $this->id_field, $this->id, $db_values);
+        try {
+            if ($this->new) {
+                $result = db_insert($this->db_table, $db_values,  array('created', 'modified'),true);
+            } else {
+                $result = db_update($this->db_table, $this->id_field, $this->id, $db_values, array('created', 'modified'), true);
+            }
         }
-        if ($result != 1) {
+        catch(PDOException $e) {
             $this->errormsg[] = Config::lang_f($this->msg['store_error'], $this->label);
             return false;
         }
