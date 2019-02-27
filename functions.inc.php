@@ -1685,10 +1685,10 @@ function db_query_one($sql, array $values = []) {
 /**
  * @param string $sql e.g. UPDATE foo SET bar = :baz
  * @param array $values - parameters for the prepared statement e.g. ['baz' => 1234]
- * @param bool $throw_errors
+ * @param bool $throw_exceptions
  * @return int number of rows affected by the query
  */
-function db_execute($sql, array $values = [], $throw_errors = false) {
+function db_execute($sql, array $values = [], $throw_exceptions = false) {
     $link = db_connect();
 
     try {
@@ -1697,10 +1697,13 @@ function db_execute($sql, array $values = [], $throw_errors = false) {
     } catch (PDOException $e) {
         $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql ;
         error_log($error_text);
-        if ($throw_errors) {
+        if ($throw_exceptions) {
             throw $e;
         }
+
+        return 0;
     }
+
     return $stmt->rowCount();
 }
 
@@ -1764,9 +1767,10 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
  * @param string - table name
  * @param array $values - key/value map of data to insert into the table.
  * @param array $timestamp (optional) - array of fields to set to now() - default: array('created', 'modified')
+ * @param boolean $throw_errors
  * @return int - number of inserted rows
  */
-function db_insert($table, array $values, $timestamp = array('created', 'modified')) {
+function db_insert($table, array $values, $timestamp = array('created', 'modified'), $throw_exceptions = false) {
     $table = table_by_key($table);
 
     foreach ($timestamp as $key) {
@@ -1813,7 +1817,8 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
 
     return db_execute(
         "INSERT INTO $table (" . implode(",", array_keys($values)) .") VALUES ($value_string)",
-        $prepared_statment_values);
+        $prepared_statment_values,
+        $throw_exceptions);
 }
 
 
@@ -1828,9 +1833,8 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
  * @param array $timestamp (optional) - array of fields to set to now() - default: array('modified')
  * @return int - number of updated rows
  */
-function db_update($table, $where_col, $where_value, $values, $timestamp = array('modified')) {
+function db_update($table, $where_col, $where_value, $values, $timestamp = array('modified'), $throw_exceptions = false) {
     $table_key = table_by_key($table);
-    $sql_values = array();
 
     $sql = "UPDATE $table_key SET ";
 
@@ -1867,7 +1871,7 @@ function db_update($table, $where_col, $where_value, $values, $timestamp = array
 
     $sql="UPDATE $table_key SET " . implode(",", $set) . " WHERE $where_col = :where";
 
-    return db_execute($sql, $pvalues);
+    return db_execute($sql, $pvalues, $throw_exceptions);
 }
 
 
