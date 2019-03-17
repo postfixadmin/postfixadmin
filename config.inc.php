@@ -344,6 +344,10 @@ $CONF['quota'] = 'NO';
 $CONF['domain_quota'] = 'YES';
 // You can either use '1024000' or '1048576'
 $CONF['quota_multiplier'] = '1024000';
+// fill state threshold (in per cent) for medium level (displayed as orange)
+$CONF['quota_level_med_pct'] = 55;
+// fill state threshold (in per cent) for high level (displayed as red)
+$CONF['quota_level_high_pct'] = 90;
 
 // Transport
 // If you want to define additional transport options for a domain set this to 'YES'.
