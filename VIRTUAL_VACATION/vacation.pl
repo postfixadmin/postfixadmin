@@ -30,7 +30,7 @@ use Email::Simple::Creator;
 use Try::Tiny;
 use Log::Log4perl qw(get_logger :levels);
 use File::Basename;
-
+use Net::DNS;
 # ========== begin configuration ==========
 
 # IMPORTANT: If you put passwords into this script, then remember
@@ -53,23 +53,16 @@ our $vacation_domain = 'autoreply.example.org';
 
 our $recipient_delimiter = '+';
 
-# smtp server used to send vacation e-mails
-our $smtp_server = 'localhost';
 # port to connect to; defaults to 25 for non-SSL, 465 for 'ssl', 587 for 'starttls'
 our $smtp_server_port = 25;
 
 # this is the helo we [the vacation script] use on connection; you may need to change this to your hostname or something,
-# depending upon what smtp helo restrictions you have in place within Postfix. 
+# depending upon what smtp helo restrictions you have in place within Postfix.
 our $smtp_client = 'localhost';
 
 # send mail encrypted or plaintext
 # if 'starttls', use STARTTLS; if 'ssl' (or 1), connect securely; otherwise, no security
 our $smtp_ssl = 'starttls';
-
-# passed to Net::SMTP constructor for 'ssl' connections or to starttls for 'starttls' connections; should contain extra options for IO::Socket::SSL
-our $ssl_options = {
-    SSL_verifycn_name => $smtp_server
-};
 
 # maximum time in secs to wait for server; default is 120
 our $smtp_timeout = '120';
@@ -85,7 +78,6 @@ our $smtp_authpwd = '';
 # If you specify something here you'd instead see something like :
 # From: Some Friendly Name <original@recipient.domain>
 our $friendly_from = '';
-
 
 # Set to 1 to enable logging to syslog.
 our $syslog = 0;
@@ -457,10 +449,26 @@ sub send_vacation_email {
         my $from = $email;
         my $to = $orig_from;
 
+        # part of the username in the email && part of the domain in the email
+        my ($email_username_part, $email_domain_part) = split(/@/, $email);
+
+        my $resolver  = Net::DNS::Resolver->new;
+        my @mx   = mx($resolver, $email_domain_part);
+        my $smtp_server; 
+        if (@mx) {
+            $smtp_server = @mx[0]->exchange;
+            $logger->debug("Found MX record <$smtp_server> for user <$email>!");
+        } else {
+            $logger->error("Unable to find MX record for user <$email>, error message: ".$resolver->errorstring);
+            exit(0); 
+        }
+
         my $smtp_params = {
             host => $smtp_server,
             port => $smtp_server_port,
-            ssl_options => $ssl_options,
+            ssl_options => {
+                SSL_verifycn_name => $smtp_server
+            },
             ssl  => $smtp_ssl,
             timeout => $smtp_timeout,
             localaddr => $smtp_client,
