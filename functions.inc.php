@@ -1835,18 +1835,6 @@ function db_update($table, $where_col, $where_value, $values, $timestamp = array
         }
     }
 
-    /* @todo this needs refactoring/moving out from here */
-    if (Config::bool('password_expiration')) {
-        if ($table == 'mailbox' && preg_match('/@/', $where_value)) {
-            $email = $where_value;
-            $domain_dirty = explode('@',$email)[1];
-            $domain = substr($domain_dirty, 0, -1);
-            $password_expiration_value = get_password_expiration_value($domain);
-            $key = 'password_expiry';
-            $set[] = " $key = now() + interval {$password_expiration_value} day";
-        }
-    }
-
     $pvalues['where'] = $where_value;
 
 
