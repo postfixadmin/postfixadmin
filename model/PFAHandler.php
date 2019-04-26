@@ -326,6 +326,12 @@ abstract class PFAHandler {
      * @param string $id
      */
     public function init($id) {
+
+        // postfix treats address lookups (aliases, mailboxes) as if they were lowercase.
+        // MySQL is normally case insenstive, PostgreSQL is case sensitive.
+        // http://www.postfix.org/aliases.5.html
+        // http://www.postfix.org/virtual.8.html
+
         $this->id = strtolower($id);
         $this->label = $this->id;
 
