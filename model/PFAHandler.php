@@ -857,7 +857,11 @@ abstract class PFAHandler {
 
         $table = table_by_key($this->db_table);
         $active = db_get_boolean(true);
-        $query = "SELECT token FROM $table WHERE " . $this->id_field . "='$username' AND token <> '' AND active='$active' AND NOW() < token_validity";
+
+        // Use PHP date for token check; this avoids a timezone issue between MySQL and PHP producing different dates.
+        $now = escape_string(date('Y-m-d H:i:s'));
+
+        $query = "SELECT token FROM $table WHERE " . $this->id_field . "='$username' AND token <> '' AND active='$active' AND '$now' < token_validity";
 
         $result = db_query($query);
         if ($result['rows'] == 1) {
