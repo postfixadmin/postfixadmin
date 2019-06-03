@@ -91,9 +91,9 @@
                     {elseif $field.type == 'quot'}
                         {assign "tmpkey" "_{$key}_percent"}
 
-                        {if $item[$tmpkey] > $conf.quota_level_high_pct}
+                        {if $item[$tmpkey] > $CONF.quota_level_high_pct}
                             {assign var="quota_level" value="high"}
-                        {elseif $item[$tmpkey] > $conf.quota_level_med_pct}
+                        {elseif $item[$tmpkey] > $CONF.quota_level_med_pct}
                             {assign var="quota_level" value="mid"}
                         {else} 
                             {assign var="quota_level" value="low"}
