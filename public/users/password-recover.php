@@ -39,6 +39,11 @@ if ($context === 'admin' && !Config::read('forgotten_admin_password_reset') || $
 }
 
 function sendCodebyEmail($to, $username, $code) {
+
+    $https = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
+
+    $_SERVER['REQUEST_SCHEME'] = isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : $https;
+
     $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['REQUEST_URI']) . '/password-change.php?username=' . urlencode($username) . '&code=' . $code;
 
     return smtp_mail($to, Config::read('admin_email'), Config::Lang('pPassword_welcome'), Config::lang_f('pPassword_recovery_email_body', $url));
