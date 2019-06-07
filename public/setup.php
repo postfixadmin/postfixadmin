@@ -184,7 +184,15 @@ if ($f_sqlite_open == 1) {
 //
 // Database connection
 //
-list($link, $error_text) = db_connect_with_errors();
+$link = null;
+$error_text = null;
+
+try {
+    $link = db_connect();
+}
+catch(Exception $e) {
+    $error_text = $e->getMessage();
+}
 
 if (!empty($link) && $error_text == "") {
     print "<li>Testing database connection (using {$CONF['database_type']}) - Success</li>";

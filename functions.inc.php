@@ -1464,29 +1464,14 @@ EOF;
  * @return \PDO
  */
 function db_connect() {
-    list($link, $error_text) = db_connect_with_errors();
-
-    if (!$link instanceof PDO) {
-        throw new Exception("Database connection failed: $error_text");
-    }
-
-    return $link;
-}
-
-/**
- * @param bool $ignore_errors
- * @return array [PDO link | false, string $error_text];
- */
-function db_connect_with_errors() {
     global $CONF;
-    global $DEBUG_TEXT;
 
-    $error_text = '';
-
+    /* some attempt at not reopening an existing connection */
     static $link;
     if (isset($link) && $link) {
-        return array($link, $error_text);
+        return $link;
     }
+
     $link = false;
 
     $options = array(
@@ -1520,17 +1505,17 @@ function db_connect_with_errors() {
 
         if (!file_exists($db)) {
             $error_text = 'SQLite database missing: '. $db;
-            return array($link, $error_text);
+            throw new Exception($error_text);
         }
 
         if (!is_writeable($db)) {
             $error_text = 'SQLite database not writeable: '. $db;
-            return array($link, $error_text);
+            throw new Exception($error_text);
         }
 
         if (!is_writeable(dirname($db))) {
             $error_text = 'The directory the SQLite database is in is not writeable: '. dirname($db);
-            return array($link, $error_text);
+            throw new Exception($error_text);
         }
 
         $dsn = "sqlite:{$db}";
@@ -1556,7 +1541,8 @@ function db_connect_with_errors() {
         }
     }
 
-    return array($link, $error_text);
+    return $link;
+
 }
 
 /**

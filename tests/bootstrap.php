@@ -28,7 +28,7 @@ if (getenv('DATABASE') == 'postgresql') {
     $user = getenv('PGUSER') ?: 'postgres';
     $pass = getenv('PGPASSWORD') ?: '';
     $host = getenv('PGHOST') ?: 'localhost';
-    
+
     $CONF['database_type'] = 'pgsql';
     $CONF['database_user'] = $user;
     $CONF['database_password'] = $pass;
@@ -56,7 +56,7 @@ if (getenv('DATABASE') == 'mysql') {
     $config = parse_ini_file($expand_tilde('~/.my.cnf'));
 
     if (empty($config)) {
-        $config = ['user'=>'root', 'host' => '127.0.0.1', 'password' => ''];
+        $config = ['user' => 'root', 'host' => '127.0.0.1', 'password' => ''];
     }
 
     if (isset($config['socket'])) {
@@ -79,13 +79,13 @@ if (getenv('DATABASE') == 'mysql') {
     echo "Using: MySQL database for tests\n";
 }
 
-
-list($db, $error_text) = db_connect_with_errors();
-
-if ($db === false) {
+try {
+    $db = db_connect();
+} catch (Exception $e) {
     echo "failed to connect to database\n";
-    echo $error_text;
+    echo $e->getMessage();
     exit(1);
+
 }
 
 require_once(dirname(__FILE__) . '/../public/upgrade.php');
