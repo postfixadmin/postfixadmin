@@ -1464,11 +1464,10 @@ EOF;
  * @return \PDO
  */
 function db_connect() {
-    list($link, $_) = db_connect_with_errors();
-    unset($_);
+    list($link, $error_text) = db_connect_with_errors();
 
     if (!$link instanceof PDO) {
-        throw new Exception("Database connection failed");
+        throw new Exception("Database connection failed: $error_text");
     }
 
     return $link;
@@ -1545,20 +1544,16 @@ function db_connect_with_errors() {
         die("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php!</p>");
     }
 
-    try {
-        if ($username_password) {
-            $link = new PDO($dsn, Config::read_string('database_user'), Config::read_string('database_password'), $options);
-        } else {
-            $link = new PDO($dsn, null, null, $options);
-        }
+    if ($username_password) {
+        $link = new PDO($dsn, Config::read_string('database_user'), Config::read_string('database_password'), $options);
+    } else {
+        $link = new PDO($dsn, null, null, $options);
+    }
 
-        if (!empty($queries)) {
-            foreach ($queries as $q) {
-                $link->exec($q);
-            }
+    if (!empty($queries)) {
+        foreach ($queries as $q) {
+            $link->exec($q);
         }
-    } catch (PDOException $e) {
-        $error_text = 'PDO exception: '. $e->getMessage();
     }
 
     return array($link, $error_text);
