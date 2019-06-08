@@ -257,8 +257,10 @@ class MailboxHandler extends PFAHandler {
         }
 
 
-        if (Config::bool('password_expiration')) {
-            if (!empty($this->values['password']) && !empty($this->values['password2']) && $this->values['password'] == $this->values['password2']) {
+        if (!empty($this->values['password']) && !empty($this->values['password2']) && $this->values['password'] == $this->values['password2']) {
+            // some default value, meaningless unless the server is configured to check it.
+            $this->values['password_expiry'] = date('Y-m-d H:i', strtotime("+365 days"));
+            if (Config::bool('password_expiration')) {
                 $domain_dirty = $this->domain_from_id();
                 $domain = trim($domain_dirty, "`'"); // naive assumption it is ' escaping.
                 $password_expiration_value = (int)get_password_expiration_value($domain);
@@ -269,6 +271,8 @@ class MailboxHandler extends PFAHandler {
         return true;
     }
 
+
+    // Could perhaps also use _validate_local_part($new_value) { .... }
     public function set($values) {
         // See: https://github.com/postfixadmin/postfixadmin/issues/282 - ensure the 'local_part' does not contain an @ sign.
         $ok = true;
