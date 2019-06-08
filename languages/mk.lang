@@ -139,6 +139,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; 
 $PALANG['pEdit_alias_result_error'] = 'Не можам да го променам алијасот! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Креирање на ново поштенско сандаче.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'EMAIL не е валиден!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Достигнат е лимитот на поштенски сандачиња!';
 $PALANG['pCreate_mailbox_password_text'] = 'Лозинка за POP3/IMAP';

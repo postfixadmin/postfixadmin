@@ -138,6 +138,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; 
 $PALANG['pEdit_alias_result_error'] = 'Alias nije bilo moguče promjeniti! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Stvori novi potanski ormarić za izbranu domenu.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Adresa e-pote nije pravilna!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Dostigli ste va limit potanskih ormarića!';
 $PALANG['pCreate_mailbox_password_text'] = 'Lozinka za POP3/IMAP';

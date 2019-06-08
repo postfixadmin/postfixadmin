@@ -140,6 +140,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Persiųsti nurodytiems el. pašto adresam
 $PALANG['pEdit_alias_result_error'] = 'Sinonimo pakeisti nepavyko! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Nauja pašto dėžutė.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Šis el.pašto adresas neteisingas!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Išnaudota srities pašto dėžučių kvota!';
 $PALANG['pCreate_mailbox_password_text'] = 'Slaptažodis jungtis prie POP3/IMAP';

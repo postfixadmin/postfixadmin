@@ -140,6 +140,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; 
 $PALANG['pEdit_alias_result_error'] = 'Не мога да модифицирам този alias! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Създаване на нова пощенска кутия за вашия домейн.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Е-мейл-а не е валиден!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Вие сте достигнали своя лимит за създаване на пощенски кутии!';
 $PALANG['pCreate_mailbox_password_text'] = 'Парола за POP3/IMAP';

@@ -139,6 +139,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; 
 $PALANG['pEdit_alias_result_error'] = 'Aliase muutmine ebaõnnestus! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Loo uus postkast domeenis.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-posti aadress pole kehtiv!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Oled kasutanud kogu postkastide arvu!';
 $PALANG['pCreate_mailbox_password_text'] = 'Parool POP3/IMAP\'le';

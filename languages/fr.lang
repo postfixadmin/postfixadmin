@@ -142,6 +142,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Transférer les messages sans conserver d
 $PALANG['pEdit_alias_result_error'] = 'Échec de la modification de l\'alias %s !';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Ajouter un nouveau compte courriel à votre domaine.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'L\'adresse email est invalide !';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Vous avez atteint le nombre maximum de comptes courriel !';
 $PALANG['pCreate_mailbox_password_text'] = 'Mot de passe pour le compte POP3/IMAP';

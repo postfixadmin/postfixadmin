@@ -139,6 +139,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Edelleenlähetä ainoastaan annettuun sä
 $PALANG['pEdit_alias_result_error'] = 'Aliasta ei voi muokata! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Luo uusi paikallinen postilaatikko.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Sähköpostiosoite ei ole oikean muotoinen!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Postilaatikoiden maksimimäärä saavutettu!';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP salasana';

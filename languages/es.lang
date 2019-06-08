@@ -139,6 +139,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Reenviar sólo al email especificado.';
 $PALANG['pEdit_alias_result_error'] = '¡Imposible modificar el alias! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Crear un nuevo buzón para su dominio.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = '¡El e-mail no es válido!';
 $PALANG['pCreate_mailbox_username_text_error3'] = '¡Ha llegado al límite de creación de buzones!';
 $PALANG['pCreate_mailbox_password_text'] = 'Contraseña para POP3/IMAP';

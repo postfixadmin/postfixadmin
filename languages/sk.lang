@@ -140,6 +140,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Len presmerovať na zadané emailové adr
 $PALANG['pEdit_alias_result_error'] = 'Nepodarilo se upraviť alias %s!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Vytvoriť novú schránku v doméne';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Adresa nie je platná!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Dosiahli ste limit, nemôžete vytvárať ďalšie schránky!';
 $PALANG['pCreate_mailbox_password_text'] = 'Heslo pre POP3/IMAP/SMTP';

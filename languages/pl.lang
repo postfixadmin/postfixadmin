@@ -141,6 +141,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Prześlij jedynie na podane adresy.';
 $PALANG['pEdit_alias_result_error'] = 'Nie można zmodyfikować aliasu! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Utwórz lokalne konto pocztowe dla Twojej domeny.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Adres EMAIL jest niepoprawny!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Twój limit kont pocztowych został osiągniety!';
 $PALANG['pCreate_mailbox_password_text'] = 'Hasło do POP3/IMAP';

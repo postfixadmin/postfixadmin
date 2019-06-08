@@ -143,6 +143,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Только пересылать на у
 $PALANG['pEdit_alias_result_error'] = 'Невозможно изменить алиас! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Создание нового почтового ящика для вашего домена.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Неверное имя!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Вы достигли лимита по созданию почтовых ящиков!';
 $PALANG['pCreate_mailbox_password_text'] = 'Пароль для POP3/IMAP';

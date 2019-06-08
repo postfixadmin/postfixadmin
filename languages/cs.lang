@@ -147,6 +147,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Přesměrovat pouze na dané adresy.';
 $PALANG['pEdit_alias_result_error'] = 'Nepodařilo se upravit přesměrování! (%s)';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Vytvořit novou lokální schránku v doméně.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Adresa není platná!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Dosáhli jste limitu, nemů&cedil;ete vytvářet další schránky!';
 $PALANG['pCreate_mailbox_password_text'] = 'Heslo pro POP3/IMAP/SMTP';

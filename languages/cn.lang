@@ -139,6 +139,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; 
 $PALANG['pEdit_alias_result_error'] = '不能修改该别名! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = '在你的域中新建一个本地邮箱.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = '邮件非法!';
 $PALANG['pCreate_mailbox_username_text_error3'] = '邮箱地址已经达到上限!';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP 密码';

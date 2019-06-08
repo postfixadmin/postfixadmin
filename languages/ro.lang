@@ -141,6 +141,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Redirectioneaza numai catre adresa de mai
 $PALANG['pEdit_alias_result_error'] = 'Modificarea aliasului %s a esuat!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Creaza o noua casuta de mail.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'EMAIL nu este valid!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Ati atins limita pentru creare de noi casute de mail!';
 $PALANG['pCreate_mailbox_password_text'] = 'Parola de la POP3/IMAP';

@@ -141,6 +141,7 @@ $PALANG['pEdit_alias_forward_only'] = '指定された転送アドレスのみ';
 $PALANG['pEdit_alias_result_error'] = '別名 %s を更新できませんでした!';
 
 $PALANG['pCreate_mailbox_welcome'] = '新しいメールアドレスの作成';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'メールアドレスが無効です。';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'メールアドレスの制限数に達しました。';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAPのパスワード';

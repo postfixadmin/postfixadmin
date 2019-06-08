@@ -138,6 +138,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; 
 $PALANG['pEdit_alias_result_error'] = 'Kan ikke endre Aliaset! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Opprett en ny epostkonto.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'E-postadressen er ugyldig!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Du er over grensen for antall e-postkontoer!';
 $PALANG['pCreate_mailbox_password_text'] = 'Passord for POP3/IMAP';

@@ -140,6 +140,7 @@ $PALANG['pEdit_alias_forward_only'] = '只轉寄到以上電郵地址';
 $PALANG['pEdit_alias_result_error'] = '不能修改該別名! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = '在你的網域中新建一個本地郵箱.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = '郵件非法!';
 $PALANG['pCreate_mailbox_username_text_error3'] = '郵箱地址已經達到上限!';
 $PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP 密碼';

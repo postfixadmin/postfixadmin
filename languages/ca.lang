@@ -138,6 +138,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; 
 $PALANG['pEdit_alias_result_error'] = 'Imposible modificar l\'àlies! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Crear una nova bústia pel seu domini.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'L\'e-mail no és vàlido!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Has arribat al límit de creació de bústies!';
 $PALANG['pCreate_mailbox_password_text'] = 'Contrasenya per a POP3/IMAP';

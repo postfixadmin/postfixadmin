@@ -141,6 +141,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Alleen op opgegeven email adres afleveren
 $PALANG['pEdit_alias_result_error'] = 'Bewerken van de alias %s is mislukt!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Maak een nieuw lokale mailbox voor uw domein.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Het e-mail adres is niet geldig.';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'U bezit het maximum aantal mailboxen.';
 $PALANG['pCreate_mailbox_password_text'] = 'Wachtwoord voor POP3/IMAP';

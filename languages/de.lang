@@ -141,6 +141,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Nur zur angegebenen Adresse weiterleiten.
 $PALANG['pEdit_alias_result_error'] = 'Ändern des Aliases %s ist fehlgeschlagen!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Legen Sie eine neue Mailbox für Ihre Domain an.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Die EMAIL ist nicht korrekt!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Sie dürfen leider nicht mehr Mailboxen für diese Domain anlegen!';
 $PALANG['pCreate_mailbox_password_text'] = 'Passwort für POP3/IMAP';

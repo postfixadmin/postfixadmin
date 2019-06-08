@@ -142,6 +142,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.';
 $PALANG['pEdit_alias_result_error'] = 'Modifying the alias %s failed!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Create a new mailbox for your domain.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'The EMAIL is not valid!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'You have reached your limit to create mailboxes!';
 $PALANG['pCreate_mailbox_password_text'] = 'Password for POP3/IMAP';

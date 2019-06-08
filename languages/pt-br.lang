@@ -143,6 +143,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Apenas redirecionar as mensagens para os 
 $PALANG['pEdit_alias_result_error'] = 'Não foi possível editar o alias! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Criação de uma nova conta de email para o domínio.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Email inválido!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Você alcançou o limite de contas de email!';
 $PALANG['pCreate_mailbox_password_text'] = 'Senha para POP3/IMAP';

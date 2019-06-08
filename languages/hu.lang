@@ -141,6 +141,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Továbbítás csak az adott email címre.
 $PALANG['pEdit_alias_result_error'] = 'Nemsikerült módosítani az Aliast! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Új postafiók létrehozása az adott domainhez.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Érvénytelen EMAIL !';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Elérted a maximális postafiók számot!';
 $PALANG['pCreate_mailbox_password_text'] = 'Jelszó a POP3/IMAP -hoz';

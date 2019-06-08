@@ -139,6 +139,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Forward to given email addresses only.'; 
 $PALANG['pEdit_alias_result_error'] = 'Get ekki breytt alias! (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Create a new local mailbox for your domain.'; # XXX
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Netfangið er ekki til!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Þú hefur stofnað þau póstholf sem þú hefur heimild til!';
 $PALANG['pCreate_mailbox_password_text'] = 'Lykilorð til að opna POP3/IMAP';

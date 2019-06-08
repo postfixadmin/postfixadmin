@@ -144,6 +144,7 @@ $PALANG['pEdit_alias_forward_only']        = 'Videresend til angivene emailadres
 $PALANG['pEdit_alias_result_error']        = 'Kan ikke redigere aliaset. (%s)'; # XXX Text changed to: Modifying the alias %s failed!
 
 $PALANG['pCreate_mailbox_welcome'] = 'Tilføj en ny lokal postboks til domænet.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Emailadressen er ikke gyldig!';
 $PALANG['pCreate_mailbox_username_text_error3']       = 'Du har nået grænsen for antallet af postbokse til domæne!';
 $PALANG['pCreate_mailbox_password_text'] = 'Adgangskode til POP3/IMAP';
