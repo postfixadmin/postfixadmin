@@ -217,6 +217,7 @@ class MailboxHandler extends PFAHandler {
 
 
     protected function beforestore() {
+
         if (isset($this->values['quota']) && $this->values['quota'] != -1) {
             $multiplier = Config::read_string('quota_multiplier');
             if ($multiplier == 0) { // or empty string, or null, or false...
@@ -266,6 +267,16 @@ class MailboxHandler extends PFAHandler {
         }
 
         return true;
+    }
+
+    public function set($values) {
+        // See: https://github.com/postfixadmin/postfixadmin/issues/282 - ensure the 'local_part' does not contain an @ sign.
+        $ok = true;
+        if(isset($values['local_part']) && strpos($values['local_part'], '@')) {
+            $this->errormsg['local_part'] = Config::lang('pCreate_mailbox_local_part_error');
+            $ok = false;
+        }
+        return $ok && parent::set($values);
     }
 
     protected function storemore() {
