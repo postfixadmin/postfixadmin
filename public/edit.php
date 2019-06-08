@@ -36,14 +36,14 @@ if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../m
 $error = 0;
 
 $edit = safepost('edit', safeget('edit'));
-$new  = 0;
+$new = 0;
 if ($edit == "") {
     $new = 1;
 }
 
 $is_admin = authentication_has_role('admin');
 
-$handler  = new $handlerclass($new, $username, $is_admin);
+$handler = new $handlerclass($new, $username, $is_admin);
 $formconf = $handler->webformConfig();
 
 if ($is_admin) {
@@ -67,7 +67,7 @@ if ($new == 0 || $formconf['early_init']) {
 }
 
 $form_fields = $handler->getStruct();
-$id_field    = $handler->getId_field();
+$id_field = $handler->getId_field();
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if ($new) { # new - prefill fields from URL parameters if allowed in $formconf['prefill']
@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     foreach ($form_fields as $key => $field) {
         if ($field['editable'] && $field['display_in_form']) {
             if (!isset($inp_values[$key])) {
-                $inp_values[$key] = ''; # newer PHP versions don't include empty fields in $_POST (noticed with PHP 5.6.6)
+                $inp_values[$key] = '';
             }
 
             if ($field['type'] == 'bool' && $inp_values[$key] == '') {
@@ -111,11 +111,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             } elseif ($field['type'] == 'txtl') {
                 $values[$key] = $inp_values[$key];
                 $values[$key] = preg_replace('/\\\r\\\n/', ',', $values[$key]);
-                $values[$key] = preg_replace('/\r\n/',     ',', $values[$key]);
-                $values[$key] = preg_replace('/,[\s]+/i',  ',', $values[$key]);
-                $values[$key] = preg_replace('/[\s]+,/i',  ',', $values[$key]);
-                $values[$key] = preg_replace('/,,*/',      ',', $values[$key]);
-                $values[$key] = preg_replace('/,*$|^,*/',  '',  $values[$key]);
+                $values[$key] = preg_replace('/\r\n/', ',', $values[$key]);
+                $values[$key] = preg_replace('/,[\s]+/i', ',', $values[$key]);
+                $values[$key] = preg_replace('/[\s]+,/i', ',', $values[$key]);
+                $values[$key] = preg_replace('/,,*/', ',', $values[$key]);
+                $values[$key] = preg_replace('/,*$|^,*/', '', $values[$key]);
                 if ($values[$key] == '') {
                     $values[$key] = array();
                 } else {
