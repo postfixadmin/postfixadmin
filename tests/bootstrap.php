@@ -85,7 +85,6 @@ try {
     echo "failed to connect to database\n";
     echo $e->getMessage();
     exit(1);
-
 }
 
 require_once(dirname(__FILE__) . '/../public/upgrade.php');

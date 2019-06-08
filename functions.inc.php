@@ -1542,7 +1542,6 @@ function db_connect() {
     }
 
     return $link;
-
 }
 
 /**

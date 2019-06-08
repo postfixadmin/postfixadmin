@@ -39,7 +39,6 @@ if ($context === 'admin' && !Config::read('forgotten_admin_password_reset') || $
 }
 
 function sendCodebyEmail($to, $username, $code) {
-
     $https = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
 
     $_SERVER['REQUEST_SCHEME'] = isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : $https;

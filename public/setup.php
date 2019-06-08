@@ -189,8 +189,7 @@ $error_text = null;
 
 try {
     $link = db_connect();
-}
-catch(Exception $e) {
+} catch (Exception $e) {
     $error_text = $e->getMessage();
 }
 
