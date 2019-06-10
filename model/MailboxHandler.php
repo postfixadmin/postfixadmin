@@ -217,7 +217,10 @@ class MailboxHandler extends PFAHandler {
 
     protected function beforestore() {
         if (isset($this->values['quota']) && $this->values['quota'] != -1) {
-            $this->values['quota'] = $this->values['quota'] * Config::read('quota_multiplier'); # convert quota from MB to bytes
+            if ($multiplier == 0 || !is_numeric($multiplier)) { // or empty string, or null, or false...
+                $multiplier = 1;
+            }
+            $this->values['quota'] = $this->values['quota'] * $multiplier; # convert quota from MB to bytes
         }
 
         $ah = new AliasHandler($this->new, $this->admin_username);
