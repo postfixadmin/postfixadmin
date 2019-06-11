@@ -257,9 +257,8 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-
-        if (!empty($this->values['password']) && !empty($this->values['password2']) && $this->values['password'] == $this->values['password2']) {
-            // some default value, meaningless unless the server is configured to check it.
+        if (!empty($this->values['password'])) {
+            // provide some default value to keep MySQL etc happy.
             $this->values['password_expiry'] = date('Y-m-d H:i', strtotime("+365 days"));
             if (Config::bool('password_expiration')) {
                 $domain_dirty = $this->domain_from_id();
