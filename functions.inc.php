@@ -2088,7 +2088,7 @@ function gen_show_status($show_alias) {
 
     // Vacation CHECK
     if ( $CONF['show_vacation'] == 'YES' ) {
-        $stat_result = db_query_one("SELECT * FROM ". $CONF['database_tables']['vacation'] ." WHERE email = ? AND active = ? ", array($show_alias, db_get_boolean(true) )) ;
+        $stat_result = db_query_one("SELECT * FROM ". table_by_key('vacation') ." WHERE email = ? AND active = ? ", array($show_alias, db_get_boolean(true) )) ;
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2099,7 +2099,7 @@ function gen_show_status($show_alias) {
     // Disabled CHECK
     if ( $CONF['show_disabled'] == 'YES' ) {
         $stat_result = db_query_one(
-            "SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = ? AND active = ?",
+            "SELECT * FROM ". table_by_key('mailbox') ." WHERE username = ? AND active = ?",
             array($show_alias, db_get_boolean(false))
         );
         if (!empty($stat_result)) {
@@ -2116,7 +2116,7 @@ function gen_show_status($show_alias) {
             $now = "datetime('now')";
         }
 
-        $stat_result = db_query_one("SELECT * FROM ". $CONF['database_tables']['mailbox'] ." WHERE username = ? AND password_expiry <= ? AND active = ?", array( $show_alias , $now , db_get_boolean(true) ));
+        $stat_result = db_query_one("SELECT * FROM ". table_by_key('mailbox') ." WHERE username = ? AND password_expiry <= ? AND active = ?", array( $show_alias , $now , db_get_boolean(true) ));
 
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
