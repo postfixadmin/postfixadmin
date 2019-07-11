@@ -1357,11 +1357,12 @@ function to64($v, $n) {
  * @param String - To:
  * @param String - From:
  * @param String - Subject: (if called with 4 parameters) or full mail body (if called with 3 parameters)
+ * @param String (optional) - Password
  * @param String (optional, but recommended) - mail body
  * @return bool - true on success, otherwise false
  * TODO: Replace this with something decent like PEAR::Mail or Zend_Mail.
  */
-function smtp_mail($to, $from, $data, $body = "") {
+function smtp_mail($to, $from, $data, $password = "", $body = "") {
     global $CONF;
     $smtpd_server = $CONF['smtp_server'];
     $smtpd_port = $CONF['smtp_port'];
@@ -1399,6 +1400,16 @@ function smtp_mail($to, $from, $data, $body = "") {
         smtp_get_response($fh);
         fputs($fh, "EHLO $smtp_server\r\n");
         smtp_get_response($fh);
+
+        if (!empty($password)) {
+            fputs($fh,"AUTH LOGIN\r\n");
+            smtp_get_response($fh);
+            fputs($fh, base64_encode($from) . "\r\n");
+            smtp_get_response($fh);
+            fputs($fh, base64_encode($password) . "\r\n");
+            smtp_get_response($fh);
+        }
+
         fputs($fh, "MAIL FROM:<$from>\r\n");
         smtp_get_response($fh);
         fputs($fh, "RCPT TO:<$to>\r\n");
@@ -1427,6 +1438,16 @@ function smtp_get_admin_email() {
     } else {
         return authentication_get_username();
     }
+}
+
+/**
+ * smtp_get_admin_password
+ * Action: Get smtp password for admin email
+ * Call: smtp_get_admin_password
+ * @return string - admin smtp password
+ */
+function smtp_get_admin_password() {
+    return Config::read_string('admin_smtp_password');
 }
 
 

@@ -150,6 +150,12 @@ $CONF['database_tables'] = array (
 // Leave blank to send email from the logged-in Admin's Email address.
 $CONF['admin_email'] = '';
 
+// Define the smtp password for admin_email.
+// This will be used to send emails from to create mailboxes and
+// from Send Email / Broadcast message pages.
+// Leave blank to send emails without authentification
+$CONF['admin_smtp_password'] = '';
+
 // Site admin name
 // This will be used as signature in notification messages
 $CONF['admin_name'] = 'Postmaster';

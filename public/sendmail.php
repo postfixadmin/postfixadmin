@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     if ($error != 1) {
-        if (!smtp_mail($fTo, $fFrom, $fSubject, $tBody)) {
+        if (!smtp_mail($fTo, $fFrom, $fSubject, smtp_get_admin_password(), $tBody)) {
             flash_error(Config::lang_f('pSendmail_result_error', $fTo));
         } else {
             flash_info(Config::lang_f('pSendmail_result_success', $fTo));
