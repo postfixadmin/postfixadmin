@@ -1398,12 +1398,15 @@ function smtp_mail($to, $from, $data, $password = "", $body = "") {
         return false;
     } else {
         smtp_get_response($fh);
-        fputs($fh, "STARTTLS\r\n");
-        smtp_get_response($fh);
 
-        stream_set_blocking ($fh, true);
-        stream_socket_enable_crypto($fh, true, STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT);
-        stream_set_blocking ($fh, true);
+        if (Config::read_string('smtp_sendmail_tls') === 'YES') {
+            fputs($fh, "STARTTLS\r\n");
+            smtp_get_response($fh);
+
+            stream_set_blocking ($fh, true);
+            stream_socket_enable_crypto($fh, true, STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT);
+            stream_set_blocking ($fh, true);
+        }
 
         fputs($fh, "EHLO $smtp_server\r\n");
         smtp_get_response($fh);

@@ -171,6 +171,9 @@ $CONF['smtp_port'] = '25';
 // Used in the HELO when sending emails from Postfix Admin
 $CONF['smtp_client'] = '';
 
+// Set 'YES' to use TLS when sending emails.
+$CONF['smtp_sendmail_tls'] = 'NO';
+
 // Encrypt
 // In what way do you want the passwords to be crypted?
 // md5crypt = internal postfix admin md5
