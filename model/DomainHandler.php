@@ -94,7 +94,7 @@ class DomainHandler extends PFAHandler {
            'default_aliases'   => pacol($this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,array(), /*not in db*/ 1     ),
            'created'           => pacol(0,          0,      0,      'ts',   'created'                      , ''                                 ),
            'modified'          => pacol(0,          0,      $super, 'ts',   'last_modified'                , ''                                 ),
-           'password_expiry'   => pacol($super,		$super,	$super,	'num',	'password_expiration'	       , 'password_expiration_desc', 	    ''),
+           'password_expiry'   => pacol($super,		$super,	$super,	'num',	'password_expiration'	       , 'password_expiration_desc', 	    365),
             '_can_edit'        => pacol(0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 /*options*/ array(),
                 /*not_in_db*/ 0,
@@ -145,7 +145,6 @@ class DomainHandler extends PFAHandler {
         if ($this->is_superadmin) {
             return true;
         }
-
         $this->errormsg[] = Config::Lang_f('edit_not_allowed', $this->id);
         return false;
     }
