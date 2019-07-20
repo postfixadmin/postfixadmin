@@ -59,12 +59,12 @@
 				{else}
 					{if $boolconf_used_quotas}
 
-						
-						{if $divide_quota.quota_width[$i] > $CONF.quota_level_high_pct}
+
+						{if $divide_quota.percent[$i] > $CONF.quota_level_high_pct}
 							{assign var="quota_level" value="high"}
-						{elseif $divide_quota.quota_width[$i] > $CONF.quota_level_med_pct}
+						{elseif $divide_quota.percent[$i] > $CONF.quota_level_med_pct}
 							{assign var="quota_level" value="mid"}
-						{else} 
+						{else}
 							{assign var="quota_level" value="low"}
 						{/if}
 						<div class="quota quota_{$quota_level}" style="width:{$divide_quota.quota_width[$i]}px;"></div>
