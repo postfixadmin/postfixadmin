@@ -1399,7 +1399,7 @@ function smtp_mail($to, $from, $data, $password = "", $body = "") {
     } else {
         smtp_get_response($fh);
 
-        if (Config::read_string('smtp_sendmail_tls') === 'YES') {
+        if (Config::bool('smtp_sendmail_tls')) {
             fputs($fh, "STARTTLS\r\n");
             smtp_get_response($fh);
 
