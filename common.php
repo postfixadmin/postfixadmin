@@ -73,7 +73,7 @@ Config::write($CONF);
 
 require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
-if (extension_loaded('Phar')) {
+if (extension_loaded('Phar') && ( version_compare(PHP_VERSION, '7.0.0') < 0)) {
     require_once("$incpath/lib/random_compat.phar");
 }
 
