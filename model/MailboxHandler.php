@@ -18,9 +18,9 @@ class MailboxHandler extends PFAHandler {
             $reset_by_sms = 1;
         }
 
-        $show_password_fields = !Config::bool('generate_password');
+        $show_password_fields = (int) !Config::bool('generate_password');
 
-        $this->struct=array(
+        $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
             'username'         => pacol($this->new, 1,      1,      'mail', 'pEdit_mailbox_username'        , ''                                , '' ),
