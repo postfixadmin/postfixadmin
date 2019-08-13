@@ -276,91 +276,99 @@ require(dirname(__FILE__) . '/../templates/header.php');
             if ($error != 0) {
                 print "<p><b>Please fix the errors listed above.</b></p>";
             } else {
-            print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
-            require_once(dirname(__FILE__) . '/upgrade.php');
+                print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
+                require_once(dirname(__FILE__) . '/upgrade.php');
 
-            $tUsername = '';
-            $setupMessage = '';
-            $lostpw_error = 0;
+                $tUsername = '';
+                $setupMessage = '';
+                $lostpw_error = 0;
 
-            $setuppw = "";
-            if (isset($CONF['setup_password'])) {
-                $setuppw = $CONF['setup_password'];
-            }
-
-            if (safepost("form") == "setuppw") {
-                # "setup password" form submitted
-                if (safepost('setup_password') != safepost('setup_password2')) {
-                    $setupMessage = "The two passwords differ!";
-                    $lostpw_error = 1;
-                } else {
-                    list($lostpw_error, $lostpw_result) = check_setup_password(safepost('setup_password'), 1);
-                    $setupMessage = $lostpw_result;
-                    $setuppw = "changed";
-                }
-            } elseif (safepost("form") == "createadmin") {
-                # "create admin" form submitted
-                list($pw_check_error, $pw_check_result) = check_setup_password(safepost('setup_password'));
-                if ($pw_check_result != 'pass_OK') {
-                    $error += 1;
-                    $setupMessage = $pw_check_result;
+                $setuppw = "";
+                if (isset($CONF['setup_password'])) {
+                    $setuppw = $CONF['setup_password'];
                 }
 
-                if ($error == 0 && $pw_check_result == 'pass_OK') {
-                    // XXX need to ensure domains table includes an 'ALL' entry.
-                    $table_domain = table_by_key('domain');
-                    $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
-                    if (empty($rows)) {
-                        db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => '')); // all other fields should default through the schema.
-                    }
-
-                    $values = array(
-                        'username' => safepost('username'),
-                        'password' => safepost('password'),
-                        'password2' => safepost('password2'),
-                        'superadmin' => 1,
-                        'domains' => array(),
-                        'active' => 1,
-                    );
-
-                    list($error, $setupMessage, $errormsg) = create_admin($values);
-
-                    if ($error != 0) {
-                        $tUsername = htmlentities($values['username']);
+                if (safepost("form") == "setuppw") {
+                    # "setup password" form submitted
+                    if (safepost('setup_password') != safepost('setup_password2')) {
+                        $setupMessage = "The two passwords differ!";
+                        $lostpw_error = 1;
                     } else {
-                        $setupMessage .= "<p>You are done with your basic setup. ";
-                        $setupMessage .= "<p><b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b>";
+                        list($lostpw_error, $lostpw_result) = check_setup_password(safepost('setup_password'), 1);
+                        $setupMessage = $lostpw_result;
+                        $setuppw = "changed";
+                    }
+                } elseif (safepost("form") == "createadmin") {
+                    # "create admin" form submitted
+                    list($pw_check_error, $pw_check_result) = check_setup_password(safepost('setup_password'));
+                    if ($pw_check_result != 'pass_OK') {
+                        $error += 1;
+                        $setupMessage = $pw_check_result;
+                    }
+
+                    if ($error == 0 && $pw_check_result == 'pass_OK') {
+                        // XXX need to ensure domains table includes an 'ALL' entry.
+                        $table_domain = table_by_key('domain');
+                        $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
+                        if (empty($rows)) {
+                            db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => '')); // all other fields should default through the schema.
+                        }
+
+                        $values = array(
+                            'username' => safepost('username'),
+                            'password' => safepost('password'),
+                            'password2' => safepost('password2'),
+                            'superadmin' => 1,
+                            'domains' => array(),
+                            'active' => 1,
+                        );
+
+                        list($error, $setupMessage, $errormsg) = create_admin($values);
+
+                        if ($error != 0) {
+                            $tUsername = htmlentities($values['username']);
+                        } else {
+                            $setupMessage .= "<p>You are done with your basic setup. ";
+                            $setupMessage .= "<p><b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b>";
+                        }
                     }
                 }
-            }
 
-            if (($setuppw == "" || $setuppw == "changeme" || safeget("lostpw") == 1 || $lostpw_error != 0) /* && $_SERVER['REQUEST_METHOD'] != "POST" */) {
-                # show "create setup password" form?>
+
+                if (!isset($_SERVER['HTTPS'])) {
+                    echo "<h2>Warning: connection not secure, switch to https if possible</h2>";
+                }
+
+                ?>
 
                 <div class="standout"><?php print $setupMessage; ?></div>
+
+                <?php
+                $change = "Change";
+
+                if (Config::read_string('setup_password') == '' || Config::read_string('setup_password') == 'changeme') {
+                    echo <<<EOF
+                    <p><strong>For a new installation, you need to generate a 'setup_password' to go into your config.local.php file.</strong></p>
+                    <p>You can use the form below, or run something like <pre>php -r 'echo "somesalt:" . sha1("somesalt:" . "password");'</pre> in a shell, after changing the salt.<p>
+EOF;
+                    $change = "Generate";
+                }
+                ?>
+
+                <h2><?= $change ?> $CONF['setup_password']</h2>
+
                 <div id="edit_form">
                     <form name="setuppw" method="post" action="setup.php">
                         <input type="hidden" name="form" value="setuppw"/>
                         <table>
                             <tr>
-                                <td colspan="3"><h3>Change setup password</h3></td>
-                            </tr>
-                            <?php
-                            if (!isset($_SERVER['HTTPS'])) :
-                                ?>
-                                <tr>
-                                    <td colspan="3"><h4>Warning: connection not secure, switch to https if possible</h4></td>
-                                </tr>
-                            <?php
-                            endif; ?>
-                            <tr>
                                 <td><label for="setup_password">Setup password</label></td>
-                                <td><input class="flat" type="password" name="setup_password" id="setup_password" value=""/></td>
+                                <td><input class="flat" type="password" name="setup_password" minlength=5 id="setup_password" value=""/></td>
                                 <td></td>
                             </tr>
                             <tr>
                                 <td><label for="setup_password2">Setup password (again)</label></td>
-                                <td><input class="flat" type="password" name="setup_password2" id="setup_password2" value=""/></td>
+                                <td><input class="flat" type="password" name="setup_password2" minlength=5 id="setup_password2" value=""/></td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -371,62 +379,47 @@ require(dirname(__FILE__) . '/../templates/header.php');
                 </div>
 
                 <?php
-            } elseif (
-                (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "GET") ||
-                $error != 0 ||
-                $lostpw_error == 0) {
-                ?>
+                if ($change != 'Generate') { ?>
 
-                <div class="standout"><?php print $setupMessage; ?></div>
-                <div id="edit_form">
-                    <form name="create_admin" method="post">
-                        <input type="hidden" name="form" value="createadmin"/>
-                        <table>
-                            <tr>
-                                <td colspan="3"><h3>Create superadmin account</h3></td>
-                            </tr>
-                            <?php
-                            if (!isset($_SERVER['HTTPS'])) :
-                                ?>
+                    <h2>Add a SuperAdmin Account</h2>
+
+                    <div id="edit_form">
+                        <form name="create_admin" method="post">
+                            <input type="hidden" name="form" value="createadmin"/>
+                            <table>
                                 <tr>
-                                    <td colspan="3"><h4>Warning: connection not secure, switch to https if possible</h4></td>
+                                    <td><label for="setup_password">Setup password</label></td>
+                                    <td><input id=setup_password class="flat" type="password" name="setup_password" value=""/></td>
+                                    <td><?= _error_field($errormsg, 'setup_password'); ?><?php print $PALANG['setup_password'] ?></td>
                                 </tr>
-                            <?php
-                            endif; ?>
-                            <tr>
-                                <td><label for="setup_password">Setup password</label></td>
-                                <td><input id=setup_password class="flat" type="password" name="setup_password" value=""/></td>
-                                <td><a href="setup.php?lostpw=1">Lost password?</a></td>
-                            </tr>
-                            <tr>
-                                <td><label for="username"><?php print $PALANG['admin'] . ":"; ?></label></td>
-                                <td><input id="username" class="flat" type="text" name="username" value="<?php print $tUsername; ?>"/></td>
-                                <td><?= _error_field($errormsg, 'username'); ?><?php print $PALANG['email_address'] ?></td>
-                            </tr>
-                            <tr>
-                                <td><label for="password"><?php print $PALANG['password'] . ":"; ?></label></td>
-                                <td><input id="password" class="flat" type="password" name="password"/></td>
-                                <td><?= _error_field($errormsg, 'password'); ?></td>
-                            </tr>
-                            <tr>
-                                <td><label for="password2"><?php print $PALANG['password_again'] . ":"; ?></label></td>
-                                <td><input id="password2" class="flat" type="password" name="password2"/></td>
-                                <td><?= _error_field($errormsg, 'password2'); ?></td>
-                            </tr>
-                            <tr>
-                                <td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="<?php print $PALANG['pAdminCreate_admin_button']; ?>"/></td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
+                                <tr>
+                                    <td><label for="username"><?php print $PALANG['admin'] . ":"; ?></label></td>
+                                    <td><input id="username" class="flat" type="text" name="username" value="<?php print $tUsername; ?>"/></td>
+                                    <td><?= _error_field($errormsg, 'username'); ?><?php print $PALANG['email_address'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="password"><?php print $PALANG['password'] . ":"; ?></label></td>
+                                    <td><input id="password" class="flat" type="password" name="password"/></td>
+                                    <td><?= _error_field($errormsg, 'password'); ?></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="password2"><?php print $PALANG['password_again'] . ":"; ?></label></td>
+                                    <td><input id="password2" class="flat" type="password" name="password2"/></td>
+                                    <td><?= _error_field($errormsg, 'password2'); ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="hlp_center"><input class="button" type="submit" name="submit" value="<?php print $PALANG['pAdminCreate_admin_button']; ?>"/></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
 
-                <?php
+                    <?php
+                }
             } ?>
     <p>Since version 2.3 there is no requirement to delete setup.php</p>
     <p>Check the config.inc.php file for any other settings that you may need to change.</p>
-    <?php
-    }
-    ?>
+
 </div>
 </body>
 </html>
