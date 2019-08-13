@@ -337,9 +337,7 @@ require(dirname(__FILE__) . '/../templates/header.php');
 
                 if (!isset($_SERVER['HTTPS'])) {
                     echo "<h2>Warning: connection not secure, switch to https if possible</h2>";
-                }
-
-                ?>
+                } ?>
 
                 <div class="standout"><?php print $setupMessage; ?></div>
 
@@ -352,8 +350,7 @@ require(dirname(__FILE__) . '/../templates/header.php');
                     <p>You can use the form below, or run something like <pre>php -r 'echo "somesalt:" . sha1("somesalt:" . "password");'</pre> in a shell, after changing the salt.<p>
 EOF;
                     $change = "Generate";
-                }
-                ?>
+                } ?>
 
                 <h2><?= $change ?> $CONF['setup_password']</h2>
 
@@ -425,23 +422,20 @@ EOF;
 </html>
 <?php
 
-function _error_field($errors, $key)
-{
+function _error_field($errors, $key) {
     if (!isset($errors[$key])) {
         return '';
     }
     return "<span style='color: red'>{$errors[$key]}</span>";
 }
 
-function generate_setup_password_salt()
-{
+function generate_setup_password_salt() {
     $salt = time() . '*' . $_SERVER['REMOTE_ADDR'] . '*' . mt_rand(0, 60000);
     $salt = md5($salt);
     return $salt;
 }
 
-function encrypt_setup_password($password, $salt)
-{
+function encrypt_setup_password($password, $salt) {
     return $salt . ':' . sha1($salt . ':' . $password);
 }
 
@@ -452,8 +446,7 @@ function encrypt_setup_password($password, $salt)
         'message => text
     )
 */
-function check_setup_password($password, $lostpw_mode = 0)
-{
+function check_setup_password($password, $lostpw_mode = 0) {
     global $CONF;
     $error = 1; # be pessimistic
 
@@ -488,8 +481,7 @@ function check_setup_password($password, $lostpw_mode = 0)
     return array($error, $result);
 }
 
-function create_admin($values)
-{
+function create_admin($values) {
     DEFINE('POSTFIXADMIN_SETUP', 1); # avoids instant redirect to login.php after creating the admin
 
     $handler = new AdminHandler(1, 'setup.php');

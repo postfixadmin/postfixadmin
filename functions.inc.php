@@ -564,7 +564,7 @@ function create_page_browser($idxfield, $querypart, $sql_params = []) {
     # afterwards: DROP SEQUENCE foo
 
     $result = db_query_all($query, $sql_params);
-    for($k = 0; $k < count($result); $k+=2) {
+    for ($k = 0; $k < count($result); $k+=2) {
         if (isset($result[$k + 1])) {
             $label = substr($result[$k]['label'], 0, $label_len) . '-' . substr($result[$k+1]['label'], 0, $label_len);
         } else {
@@ -1402,9 +1402,9 @@ function smtp_mail($to, $from, $data, $password = "", $body = "") {
             fputs($fh, "STARTTLS\r\n");
             smtp_get_response($fh);
 
-            stream_set_blocking ($fh, true);
+            stream_set_blocking($fh, true);
             stream_socket_enable_crypto($fh, true, STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT);
-            stream_set_blocking ($fh, true);
+            stream_set_blocking($fh, true);
         }
 
         fputs($fh, "EHLO $smtp_server\r\n");
