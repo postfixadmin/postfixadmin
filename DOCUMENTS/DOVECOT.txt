@@ -152,7 +152,7 @@ Add to dovecot.conf:
 
 ## IMAP quota
 protocol imap {
-  quota = dict:storage=200000 proxy::quota
+  mail_plugins = quota
 }
 
 ## POP quota
