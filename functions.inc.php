@@ -564,12 +564,11 @@ function create_page_browser($idxfield, $querypart, $sql_params = []) {
     # afterwards: DROP SEQUENCE foo
 
     $result = db_query_all($query, $sql_params);
-    foreach ($result as $k => $row) {
+    for($k = 0; $k < count($result); $k+=2) {
         if (isset($result[$k + 1])) {
-            $row2 = $result[$k + 1];
-            $label = substr($row['label'], 0, $label_len) . '-' . substr($row2['label'], 0, $label_len);
+            $label = substr($result[$k]['label'], 0, $label_len) . '-' . substr($result[$k+1]['label'], 0, $label_len);
         } else {
-            $label = substr($row['label'], 0, $label_len);
+            $label = substr($result[$k]['label'], 0, $label_len);
         }
         $pagebrowser[] = $label;
     }
