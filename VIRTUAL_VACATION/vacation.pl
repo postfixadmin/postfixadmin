@@ -18,7 +18,7 @@
 
 use utf8;
 use DBI;
-use Encode qw(decode encode);
+use Encode qw(decode);
 use MIME::EncWords qw(:all);
 use Email::Valid;
 use strict;
@@ -30,6 +30,7 @@ use Email::Simple::Creator;
 use Try::Tiny;
 use Log::Log4perl qw(get_logger :levels);
 use File::Basename;
+
 # ========== begin configuration ==========
 
 # IMPORTANT: If you put passwords into this script, then remember
@@ -483,7 +484,7 @@ sub send_vacation_email {
                 'Content-Type' => "text/plain; charset=utf-8",
                 'X-Loop' => 'Postfix Admin Virtual Vacation',
             ],
-            body => encode('UTF-8', $body),
+            body => $body,
         );
 
         if($test_mode == 1) {
