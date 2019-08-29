@@ -2,6 +2,7 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/postfixadmin/Lobby)
 [![codecov](https://codecov.io/gh/postfixadmin/postfixadmin/branch/master/graph/badge.svg)](https://codecov.io/gh/postfixadmin/postfixadmin)
 [![Coverage Status](https://coveralls.io/repos/github/postfixadmin/postfixadmin/badge.svg?branch=master)](https://coveralls.io/github/postfixadmin/postfixadmin?branch=master)
+![GitHub repo size](https://img.shields.io/github/repo-size/postfixadmin/postfixadmin)
 
 # PostfixAdmin 
 
