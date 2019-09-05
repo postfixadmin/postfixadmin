@@ -661,6 +661,11 @@ class MailboxHandler extends PFAHandler {
             return true;
         }
 
+        if(!function_exists('imap_open')) {
+            trigger_error('imap_open function not present; cannot create_mailbox_subdirs');
+            return false;
+        }
+
         if (!is_array($create_mailbox_subdirs)) {
             trigger_error('create_mailbox_subdirs must be an array', E_USER_ERROR);
             return false;
