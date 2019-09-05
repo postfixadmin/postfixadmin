@@ -603,7 +603,7 @@ $CONF['domain_postdeletion_script'] = '';
 // Will not work with POP3.
 // If you define create_mailbox_subdirs, then the
 // create_mailbox_subdirs_host must also be defined.
-//
+// Note: requires imap extension within PHP
 // $CONF['create_mailbox_subdirs']=array('Spam');
 $CONF['create_mailbox_subdirs'] = array();
 $CONF['create_mailbox_subdirs_host']='localhost';
