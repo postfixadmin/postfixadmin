@@ -26,6 +26,9 @@ our $db_username="mail";
 # database password
 our $db_password="CHANGE_ME!";
 
+# Where to create a lockfile; please ensure path exists.
+our $run_dir="/var/run/fetchmail";
+
 # instead of changing this script, you can put your settings to /etc/mail/postfixadmin/fetchmail.conf
 # just use perl syntax there to fill the variables listed above (without the "our" keyword). Example:
 # $db_username = 'mail';
@@ -40,7 +43,7 @@ if (-f "/etc/mail/postfixadmin/fetchmail.conf") {
 openlog("fetchmail-all", "pid", "mail");
 
 sub log_and_die {
-	my($message) = @_;
+  my($message) = @_;
   syslog("err", $message);
   die $message;
 }
@@ -59,8 +62,6 @@ while ($_ = shift @ARGS1) {
     }
 }
 
-$run_dir="/var/run/fetchmail";
-
 # use specified config file
 if (-e $configfile) {
     do $configfile;
@@ -70,6 +71,10 @@ if($db_type eq "Pg" || $db_type eq "mysql") {
 	$dsn = "DBI:$db_type:database=$db_name;host=$db_host";
 } else {
 	log_and_die "unsupported db_type $db_type";
+}
+
+if(!-d $run_dir) {
+    log_and_die("Please create: $run_dir");
 }
 
 $lock_file=$run_dir . "/fetchmail-all.lock";
