@@ -11,11 +11,11 @@ class CliView extends Shell {
      */
     public function execute() {
         if (empty($this->args)) {
-            $this->__interactive();
+            return $this->__interactive();
         }
 
         if (!empty($this->args[0])) {
-            $this->__handle($this->args[0]);
+            return $this->__handle($this->args[0]);
         }
     }
 
@@ -29,7 +29,7 @@ class CliView extends Shell {
         $question = "Which $module do you want to view?";
         $address = $this->in($question);
 
-        $this->__handle($address);
+        return $this->__handle($address);
     }
 
     /**
@@ -42,12 +42,12 @@ class CliView extends Shell {
 
         if (!$handler->init($address)) {
             $this->err($handler->errormsg);
-            return;
+            return 1;
         }
 
         if (!$handler->view()) {
             $this->err($handler->errormsg);
-            return;
+            return 1;
         }
 
         $result = $handler->result();

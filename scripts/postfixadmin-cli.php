@@ -153,7 +153,7 @@ class PostfixAdmin {
 
         if (!isset($this->args[0])) {
             $this->help();
-            return;
+            return 1;
         }
 
         $this->shell = $this->args[0];
@@ -164,7 +164,7 @@ class PostfixAdmin {
 
         if ($this->shell == 'help') {
             $this->help();
-            return;
+            return 1;
         }
 
         $command = 'help'; # not the worst default ;-)
@@ -181,7 +181,7 @@ class PostfixAdmin {
 
         if (!class_exists($this->shellClass)) {
             $this->stderr('Unknown task ' . $this->shellCommand);
-            return;
+            return 1;
         }
 
         $shell = new $this->shellClass($this);
@@ -190,7 +190,7 @@ class PostfixAdmin {
 
         if (!class_exists($shell->handler_to_use)) {
             $this->stderr('Unknown module ' . $this->shell);
-            return;
+            return 1;
         }
 
         $task = ucfirst($command);
@@ -211,14 +211,14 @@ class PostfixAdmin {
                 if (isset($this->args[0]) && $this->args[0] == 'help') {
                     if (method_exists($shell, 'help')) {
                         $shell->help();
-                        exit();
+                        return 1;
                     } else {
                         $this->help();
+                        return 1;
                     }
                 }
 
-                $shell->execute();
-                return;
+                return $shell->execute();
             }
         }
 
@@ -244,13 +244,14 @@ class PostfixAdmin {
 
         if ($missingCommand && method_exists($shell, 'main')) {
             $shell->startup();
-            $shell->main();
+            return $shell->main();
         } elseif (!$privateMethod && method_exists($shell, $command)) {
             $this->shiftArgs();
             $shell->startup();
-            $shell->{$command}();
+            return $shell->{$command}();
         } else {
             $this->stderr("Unknown {$this->shellName} command '$command'.\nFor usage, try 'postfixadmin-cli {$this->shell} help'.\n\n");
+            return 1;
         }
     }
 
@@ -406,6 +407,8 @@ define("POSTFIXADMIN_CLI", 1);
 require_once(dirname(__FILE__) . '/../common.php');
 
 $dispatcher = new PostfixAdmin($argv);
-$dispatcher->dispatch();
+$retval = $dispatcher->dispatch();
+
+exit($retval);
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

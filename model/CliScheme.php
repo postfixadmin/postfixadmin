@@ -75,7 +75,7 @@ class CliScheme extends Shell {
         $this->hr();
         $this->out('Note that the above is only a template.');
         $this->out('You might need to adjust some parts.');
-        return;
+        return 0;
     }
 
     /**
@@ -96,7 +96,7 @@ class CliScheme extends Shell {
 "
         );
 
-        $this->_stop();
+        $this->_stop(1);
     }
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

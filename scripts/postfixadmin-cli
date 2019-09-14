@@ -33,4 +33,4 @@ LIB="${self/%postfixadmin-cli/}"
 
 exec php -q "${LIB}postfixadmin-cli.php" "$@"
 
-exit;
+exit $?

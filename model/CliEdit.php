@@ -16,9 +16,9 @@ class CliEdit extends Shell {
      */
     public function execute() {
         if (empty($this->args)) {
-            $this->__interactive();
+            return $this->__interactive();
         } else {
-            $this->__handle_params();
+            return $this->__handle_params();
         }
     }
 
@@ -58,14 +58,11 @@ class CliEdit extends Shell {
             } else { # not editable, unknown field etc.
                 $param_error = 1;
                 $this->err("invalid parameter --$key => $val");
+                return 1;
             }
         }
 
-        if ($param_error) {
-            $this->_stop(1);
-        }
-
-        $this->__handle($this->args[0], $values);
+        return $this->__handle($this->args[0], $values);
     }
 
     /**
@@ -103,7 +100,7 @@ class CliEdit extends Shell {
 
         foreach ($form_fields as $key => $field) {
             if ($field['editable'] && $field['display_in_form'] && $key != $id_field) {
-                while (0 == 0) { # endlees loop - except if input is valid
+                while (true) { # endlees loop - except if input is valid
                     $question = $field['label'] . ':';
                     if ($field['desc'] != '') {
                         $question .= "\n(" . $field['desc'] . ')';
@@ -147,7 +144,8 @@ class CliEdit extends Shell {
                     }
 
                     if (is_null($values[$key])) { # TODO: insull() is probably obsoleted by change in Shell class
-                        echo "*** value of $key is NULL - this should not happen! ***";
+                        $this->err("*** value of $key is NULL - this should not happen! ***");
+                        return 1;
                     }
 
                     if ($values[$key] == '' && (!$this->new)) { # edit mode
@@ -162,6 +160,7 @@ class CliEdit extends Shell {
 
                     if (isset($handler->errormsg[$key])) { # only check the errormessage for this field
                         $this->err($handler->errormsg[$key]);
+                        return 1;
                     } else {
                         break;
                     }
@@ -169,7 +168,7 @@ class CliEdit extends Shell {
             } # end if $field[editable] etc.
         } # end foreach
 
-        $this->__handle($values[$id_field], $values);
+        return $this->__handle($values[$id_field], $values);
     }
 
     /**
@@ -179,22 +178,23 @@ class CliEdit extends Shell {
         $handler = new $this->handler_to_use($this->new);
         if (!$handler->init($id)) {
             $this->err($handler->errormsg);
-            return;
+            return 1;
         }
 
         if (!$handler->set($values)) {
             $this->err($handler->errormsg);
-            return;
+            return 1;
         }
 
         if (!$handler->store()) {
             $this->err($handler->errormsg);
-        } else {
-            $this->out("");
-            $this->out($handler->infomsg);
-            $this->hr();
-        }
-        return;
+            return 1;
+        } 
+
+        $this->out("");
+        $this->out($handler->infomsg);
+        $this->hr();
+        return 0;
     }
 
     /**
@@ -247,7 +247,7 @@ class CliEdit extends Shell {
         }
 
 
-        $this->_stop();
+        $this->_stop(1);
     }
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

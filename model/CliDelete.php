@@ -11,11 +11,11 @@ class CliDelete extends Shell {
      */
     public function execute() {
         if (empty($this->args)) {
-            $this->__interactive();
+            return $this->__interactive();
         }
 
         if (!empty($this->args[0])) {
-            $this->__handle($this->args[0]);
+            return $this->__handle($this->args[0]);
         }
     }
 
@@ -33,7 +33,7 @@ class CliDelete extends Shell {
         $create = $this->in($question, array('y','n'));
 
         if ($create == 'y') {
-            $this->__handle($address);
+            return $this->__handle($address);
         }
     }
 
@@ -47,14 +47,15 @@ class CliDelete extends Shell {
 
         if (!$handler->init($address)) {
             $this->err($handler->errormsg);
-            return;
+            return 1;
         }
 
         if (!$handler->delete()) {
             $this->err($handler->errormsg);
-        } else {
-            $this->out($handler->infomsg);
-        }
+            return 1;
+        } 
+        $this->out($handler->infomsg);
+        return 0;
     }
 
     /**
@@ -80,7 +81,7 @@ class CliDelete extends Shell {
         Deletes $module <address> in non-interactive mode.
 "
         );
-        $this->_stop();
+        $this->_stop(1);
     }
 }
 
