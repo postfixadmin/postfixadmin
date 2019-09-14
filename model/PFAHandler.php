@@ -749,7 +749,7 @@ abstract class PFAHandler {
     public function view($errors=true) {
         $result = $this->read_from_db(array($this->id_field => $this->id));
         if (count($result) == 1) {
-            $this->result = $result[$this->id];
+            $this->result = reset($result);
             return true;
         }
 
