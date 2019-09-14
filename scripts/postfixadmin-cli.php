@@ -321,7 +321,7 @@ class PostfixAdmin {
     }
 
     /**
-     * Helper for recursively paraing params
+     * Helper for recursively parsing params
      */
     private function __parseParams($params) {
         $count = count($params);
