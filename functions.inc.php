@@ -479,11 +479,11 @@ function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALAN
 function get_domain_properties($domain) {
     $handler = new DomainHandler();
     if (!$handler->init($domain)) {
-        die("Error: " . join("\n", $handler->errormsg));
+        throw new Exception("Error: " . join("\n", $handler->errormsg));
     }
 
     if (!$handler->view()) {
-        die("Error: " . join("\n", $handler->errormsg));
+        throw new Exception("Error: " . join("\n", $handler->errormsg));
     }
 
     $result = $handler->result();
@@ -509,7 +509,7 @@ function create_page_browser($idxfield, $querypart, $sql_params = []) {
     $count_results = 0;
 
     if ($page_size < 2) { # will break the page browser
-        die('$CONF[\'page_size\'] must be 2 or more!');
+        throw new Exception('$CONF[\'page_size\'] must be 2 or more!');
     }
 
     # get number of rows
@@ -958,7 +958,7 @@ function _pacrypt_authlib($pw, $pw_db) {
     } elseif (stripos($flavor, 'SHA') === 0) {
         $password = '{' . $flavor . '}' . base64_encode(sha1($pw, true));
     } else {
-        die("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5', 'SHA' and 'crypt'");
+        throw new Exception("authlib_default_flavor '" . $flavor . "' unknown. Valid flavors are 'md5raw', 'md5', 'SHA' and 'crypt'");
     }
     return $password;
 }
@@ -980,16 +980,12 @@ function _pacrypt_dovecot($pw, $pw_db = '') {
         $method = $method_matches[1];
     }
     if (! preg_match("/^[A-Z0-9.-]+$/", $method)) {
-        die("invalid dovecot encryption method");
+        throw new Exception("invalid dovecot encryption method");
     }
-
-    # TODO: check against a fixed list?
-    # if (strtolower($method) == 'md5-crypt') die("\$CONF['encrypt'] = 'dovecot:md5-crypt' will not work because dovecotpw generates a random salt each time. Please use \$CONF['encrypt'] = 'md5crypt' instead.");
-    # $crypt_method = preg_match ("/.*-CRYPT$/", $method);
 
     # digest-md5 hashes include the username - until someone implements it, let's declare it as unsupported
     if (strtolower($method) == 'digest-md5') {
-        die("Sorry, \$CONF['encrypt'] = 'dovecot:digest-md5' is not supported by PostfixAdmin.");
+        throw new Exception("Sorry, \$CONF['encrypt'] = 'dovecot:digest-md5' is not supported by PostfixAdmin.");
     }
     # TODO: add -u option for those hashes, or for everything that is salted (-u was available before dovecot 2.1 -> no problem with backward compatibility )
 
@@ -1016,7 +1012,7 @@ function _pacrypt_dovecot($pw, $pw_db = '') {
     $pipe = proc_open("$dovecotpw '-s' $method$dovepasstest", $spec, $pipes);
 
     if (!$pipe) {
-        die("can't proc_open $dovecotpw");
+        throw new Exception("can't proc_open $dovecotpw");
     }
 
     // use dovecot's stdin, it uses getpass() twice (except when using -t)
@@ -1035,7 +1031,7 @@ function _pacrypt_dovecot($pw, $pw_db = '') {
         if (!preg_match('/^\{' . $method . '\}/', $password)) {
             $stderr_output = stream_get_contents($pipes[2]);
             error_log('dovecotpw password encryption failed. STDERR output: '. $stderr_output);
-            die("can't encrypt password with dovecotpw, see error log for details");
+            throw new Exception("can't encrypt password with dovecotpw, see error log for details");
         }
     } else {
         if (!preg_match('(verified)', $password)) {
@@ -1129,7 +1125,7 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512', $hash_difficulty=nu
         } else {
             $cost = (int)$hash_difficulty;
             if ($cost < 4 || $cost > 31) {
-                die('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 4-31');
+                throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 4-31');
             }
         }
         if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
@@ -1148,7 +1144,7 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512', $hash_difficulty=nu
         } else {
             $rounds = (int)$hash_difficulty;
             if ($rounds < 1000 || $rounds > 999999999) {
-                die('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
+                throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
             }
         }
         $salt = _php_crypt_random_string($alphabet, $length);
@@ -1165,7 +1161,7 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512', $hash_difficulty=nu
         } else {
             $rounds = (int)$hash_difficulty;
             if ($rounds < 1000 || $rounds > 999999999) {
-                die('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
+                throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
             }
         }
         $salt = _php_crypt_random_string($alphabet, $length);
@@ -1175,7 +1171,7 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512', $hash_difficulty=nu
         return sprintf('$%s$%s%s', $algorithm, $rounds, $salt);
 
     default:
-        die("unknown hash type: '$hash_type'");
+        throw new Exception("unknown hash type: '$hash_type'");
     }
 }
 
@@ -1231,7 +1227,7 @@ function pacrypt($pw, $pw_db="") {
         return _pacrypt_php_crypt($pw, $pw_db);
     }
 
-    die('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
+    throw new Exception('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
 }
 
 /**
@@ -1556,7 +1552,7 @@ function db_connect() {
         }
         $dsn = "pgsql:host={$CONF['database_host']};port={$CONF['database_port']};dbname={$CONF['database_name']};options='-c client_encoding=utf8'";
     } else {
-        die("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php!</p>");
+        throw new Exception("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php!</p>");
     }
 
     if ($username_password) {
@@ -1583,7 +1579,7 @@ function db_connect() {
 function db_get_boolean($bool) {
     if (! (is_bool($bool) || $bool == '0' || $bool == '1')) {
         error_log("Invalid usage of 'db_get_boolean($bool)'");
-        die("Invalid usage of 'db_get_boolean($bool)'");
+        throw new Exception("Invalid usage of 'db_get_boolean($bool)'");
     }
 
     if (db_pgsql()) {
@@ -1598,7 +1594,7 @@ function db_get_boolean($bool) {
         }
         return 0;
     } else {
-        die('Unknown value in $CONF[database_type]');
+        throw new Exception('Unknown value in $CONF[database_type]');
     }
 }
 
@@ -1734,7 +1730,7 @@ function db_query($sql, array $values = array(), $ignore_errors = false) {
         $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql ;
         error_log($error_text);
         if (!$ignore_errors) {
-            die("DEBUG INFORMATION: " . $e->getMessage() . "<br/> Check your error_log for the failed query");
+            throw new Exception("DEBUG INFORMATION: " . $e->getMessage() . "<br/> Check your error_log for the failed query");
         }
     }
 
@@ -1870,7 +1866,7 @@ function db_log($domain, $action, $data) {
     $username = authentication_get_username();
 
     if (Config::Lang("pViewlog_action_$action") == '') {
-        die("Invalid log action : $action");   // could do with something better?
+        throw new Exception("Invalid log action : $action");   // could do with something better?
     }
 
 
@@ -1915,13 +1911,13 @@ function db_in_clause($field, array $values) {
  */
 function db_where_clause($condition, $struct, $additional_raw_where = '', $searchmode = array()) {
     if (!is_array($condition)) {
-        die('db_where_cond: parameter $cond is not an array!');
+        throw new Exception('db_where_cond: parameter $cond is not an array!');
     } elseif (!is_array($searchmode)) {
-        die('db_where_cond: parameter $searchmode is not an array!');
+        throw new Exception('db_where_cond: parameter $searchmode is not an array!');
     } elseif (count($condition) == 0 && trim($additional_raw_where) == '') {
-        die("db_where_cond: parameter is an empty array!"); # die() might sound harsh, but can prevent information leaks
+        throw new Exception("db_where_cond: parameter is an empty array!"); 
     } elseif (!is_array($struct)) {
-        die('db_where_cond: parameter $struct is not an array!');
+        throw new Exception('db_where_cond: parameter $struct is not an array!');
     }
 
     $allowed_operators = array('<', '>', '>=', '<=', '=', '!=', '<>', 'CONT', 'LIKE', 'NULL', 'NOTNULL');
@@ -1944,7 +1940,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
                     $operator = ' LIKE '; # add spaces
                 }
             } else {
-                die('db_where_clause: Invalid searchmode for ' . $field);
+                throw new Exception('db_where_clause: Invalid searchmode for ' . $field);
             }
         }
 
@@ -2011,7 +2007,7 @@ function table_by_key($table_key) {
 /**
  * check if the database layout is up to date
  * returns the current 'version' value from the config table
- * if $error_out is True (default), die() with a message that recommends to run setup.php.
+ * if $error_out is True (default), exit(1) with a message that recommends to run setup.php.
  * @param bool $error_out
  * @return int
  */

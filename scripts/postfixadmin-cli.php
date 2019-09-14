@@ -39,7 +39,7 @@ class PostfixAdmin {
      *
      * @var string
      */
-    public $version ='0.2';
+    public $version ='0.3';
 
     /**
      * Standard input stream.
@@ -407,8 +407,13 @@ define("POSTFIXADMIN_CLI", 1);
 require_once(dirname(__FILE__) . '/../common.php');
 
 $dispatcher = new PostfixAdmin($argv);
-$retval = $dispatcher->dispatch();
-
+try {
+    $retval = $dispatcher->dispatch();
+}
+catch(Exception $e) {
+    $dispatcher->stderr("Execution Exception: " . $e->getMessage());
+    $retval = 1;
+}
 exit($retval);
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
