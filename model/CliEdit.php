@@ -189,7 +189,7 @@ class CliEdit extends Shell {
         if (!$handler->store()) {
             $this->err($handler->errormsg);
             return 1;
-        } 
+        }
 
         $this->out("");
         $this->out($handler->infomsg);

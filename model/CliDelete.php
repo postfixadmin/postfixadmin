@@ -53,7 +53,7 @@ class CliDelete extends Shell {
         if (!$handler->delete()) {
             $this->err($handler->errormsg);
             return 1;
-        } 
+        }
         $this->out($handler->infomsg);
         return 0;
     }

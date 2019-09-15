@@ -409,8 +409,7 @@ require_once(dirname(__FILE__) . '/../common.php');
 $dispatcher = new PostfixAdmin($argv);
 try {
     $retval = $dispatcher->dispatch();
-}
-catch(Exception $e) {
+} catch (Exception $e) {
     $dispatcher->stderr("Execution Exception: " . $e->getMessage());
     $retval = 1;
 }

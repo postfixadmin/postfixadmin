@@ -1915,7 +1915,7 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
     } elseif (!is_array($searchmode)) {
         throw new Exception('db_where_cond: parameter $searchmode is not an array!');
     } elseif (count($condition) == 0 && trim($additional_raw_where) == '') {
-        throw new Exception("db_where_cond: parameter is an empty array!"); 
+        throw new Exception("db_where_cond: parameter is an empty array!");
     } elseif (!is_array($struct)) {
         throw new Exception('db_where_cond: parameter $struct is not an array!');
     }
