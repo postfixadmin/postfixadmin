@@ -22,7 +22,7 @@ if (getenv('DATABASE') == 'sqlite' || getenv('DATABASE') == false) {
     }
     touch($db_file);
 
-    echo "Using: SQLite database for tests\n";
+    echo "Using: SQLite database for tests - $db_file \n";
 }
 if (getenv('DATABASE') == 'postgresql') {
     $user = getenv('PGUSER') ?: 'postgres';
