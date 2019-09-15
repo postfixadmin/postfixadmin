@@ -1728,7 +1728,7 @@ function db_query($sql, array $values = array(), $ignore_errors = false) {
     } catch (PDOException $e) {
         $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql ;
         error_log($error_text);
-        if(defined('PHPUNIT_TEST')) {
+        if (defined('PHPUNIT_TEST')) {
             throw new Exception("SQL query failed: {{{$sql}}} with " . json_encode($values) . ". Error message: " . $e->getMessage());
         }
         if (!$ignore_errors) {
