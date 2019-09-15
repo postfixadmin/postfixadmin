@@ -494,10 +494,9 @@ function get_domain_properties($domain) {
 /**
  * create_page_browser
  * Action: Get page browser for a long list of mailboxes, aliases etc.
- * Call: $pagebrowser = create_page_browser('table.field', 'query', 50)   # replaces $param = $_GET['param']
  *
- * @param string $idxfield - database field name to use as title
- * @param string $querypart - core part of the query (starting at "FROM")
+ * @param string $idxfield - database field name to use as title e.g. alias.address
+ * @param string $querypart - core part of the query (starting at "FROM") e.g. FROM alias WHERE address like ...
  * @return array
  */
 function create_page_browser($idxfield, $querypart, $sql_params = []) {
@@ -1729,6 +1728,9 @@ function db_query($sql, array $values = array(), $ignore_errors = false) {
     } catch (PDOException $e) {
         $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql ;
         error_log($error_text);
+        if(defined('PHPUNIT_TEST')) {
+            throw new Exception("SQL query failed: {{{$sql}}} with " . json_encode($values) . ". Error message: " . $e->getMessage());
+        }
         if (!$ignore_errors) {
             throw new Exception("DEBUG INFORMATION: " . $e->getMessage() . "<br/> Check your error_log for the failed query");
         }
