@@ -28,5 +28,4 @@ script:
   - DATABASE=postgresql vendor/bin/phpunit tests/
 
 after_success: 
-  - travis_retry bash <(curl -s https://codecov.io/bash) -f build/logs/clover.xml
   - travis_retry php vendor/bin/php-coveralls 
