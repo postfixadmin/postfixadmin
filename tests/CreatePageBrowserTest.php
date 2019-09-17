@@ -5,6 +5,10 @@ class CreatePageBrowserTest extends \PHPUnit\Framework\TestCase {
         global $CONF;
         $CONF['page_size'] = 10;
 
+        db_query('DELETE FROM domain WHERE domain = :domain', array('domain' => 'example.com'));
+
+        db_insert('domain', array('domain' => 'example.com', 'description' => 'test ' . __FILE__, 'transport' => 'foo', ));
+
         // insert some data.
         foreach (range(1,100) as $i) {
             $username = md5(random_int(0, 999999));
