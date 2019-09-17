@@ -1,11 +1,16 @@
 <?php
 
 class CreatePageBrowserTest extends \PHPUnit\Framework\TestCase {
+    public function tearDown() {
+        $this->cleanup();
+    }
+
+    private function cleanup() {
+        db_query('DELETE FROM domain WHERE domain = :domain', array('domain' => 'example.com'));
+    }
     public function testBasic() {
         global $CONF;
         $CONF['page_size'] = 10;
-
-        db_query('DELETE FROM domain WHERE domain = :domain', array('domain' => 'example.com'));
 
         db_insert('domain', array('domain' => 'example.com', 'description' => 'test ' . __FILE__, 'transport' => 'foo', ));
 
