@@ -167,10 +167,7 @@ class PostfixAdmin {
             return 1;
         }
 
-        $command = 'help'; # not the worst default ;-)
-        if (isset($this->args[0])) {
-            $command = $this->args[0];
-        }
+        $command = $this->args[0];
 
         $this->shellCommand = $command;
         $this->shellClass = 'Cli' . ucfirst($command);

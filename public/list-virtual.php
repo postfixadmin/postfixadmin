@@ -317,25 +317,25 @@ if (isset($limit)) {
 
 $gen_show_status_mailbox = array();
 $divide_quota = array('current' => array(), 'quota' => array());
-if ((is_array($tMailbox) and sizeof($tMailbox) > 0)) {
-    for ($i = 0; $i < sizeof($tMailbox); $i++) {
-        $gen_show_status_mailbox [$i] = gen_show_status($tMailbox[$i]['username']);
 
-        if (isset($tMailbox[$i]['current'])) {
-            $divide_quota ['current'][$i] = divide_quota($tMailbox[$i]['current']);
-        }
-        if (isset($tMailbox[$i]['quota'])) {
-            $divide_quota ['quota'][$i] = divide_quota($tMailbox[$i]['quota']);
-        }
-        if (isset($tMailbox[$i]['quota']) && isset($tMailbox[$i]['current'])) {
-            $divide_quota ['percent'][$i] = min(100, round(($divide_quota ['current'][$i]/max(1, $divide_quota ['quota'][$i]))*100));
-            $divide_quota ['quota_width'][$i] = ($divide_quota ['percent'][$i] / 100 * 120);
-        } else {
-            $divide_quota ['current'][$i] = Config::Lang('unknown');
-            $divide_quota ['quota_width'][$i] = 0; # TODO: use special value?
-        }
+for ($i = 0; $i < sizeof($tMailbox); $i++) {
+    $gen_show_status_mailbox [$i] = gen_show_status($tMailbox[$i]['username']);
+
+    if (isset($tMailbox[$i]['current'])) {
+        $divide_quota ['current'][$i] = divide_quota($tMailbox[$i]['current']);
+    }
+    if (isset($tMailbox[$i]['quota'])) {
+        $divide_quota ['quota'][$i] = divide_quota($tMailbox[$i]['quota']);
+    }
+    if (isset($tMailbox[$i]['quota']) && isset($tMailbox[$i]['current'])) {
+        $divide_quota ['percent'][$i] = min(100, round(($divide_quota ['current'][$i]/max(1, $divide_quota ['quota'][$i]))*100));
+        $divide_quota ['quota_width'][$i] = ($divide_quota ['percent'][$i] / 100 * 120);
+    } else {
+        $divide_quota ['current'][$i] = Config::Lang('unknown');
+        $divide_quota ['quota_width'][$i] = 0; # TODO: use special value?
     }
 }
+
 
 
 class cNav_bar {

@@ -78,14 +78,12 @@ class PFASmarty {
         if (!is_array($data)) {
             return htmlentities($data, ENT_QUOTES, 'UTF-8', false);
         }
-        if (is_array($data)) {
-            $clean = array();
-            foreach ($data as $key => $value) {
-                /* as this is a nested data structure it's more likely we'll output the key too (at least in my opinion, so we'll sanitise it too */
-                $clean[$this->sanitise($key)] = $this->sanitise($value);
-            }
-            return $clean;
+        $clean = array();
+        foreach ($data as $key => $value) {
+            /* as this is a nested data structure it's more likely we'll output the key too (at least in my opinion, so we'll sanitise it too */
+            $clean[$this->sanitise($key)] = $this->sanitise($value);
         }
+        return $clean;
     }
 }
 
