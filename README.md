@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/postfixadmin/postfixadmin.svg?branch=master)](https://travis-ci.org/postfixadmin/postfixadmin)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/postfixadmin/Lobby)
-[![codecov](https://codecov.io/gh/postfixadmin/postfixadmin/branch/master/graph/badge.svg)](https://codecov.io/gh/postfixadmin/postfixadmin)
 [![Coverage Status](https://coveralls.io/repos/github/postfixadmin/postfixadmin/badge.svg?branch=master)](https://coveralls.io/github/postfixadmin/postfixadmin?branch=master)
 ![GitHub repo size](https://img.shields.io/github/repo-size/postfixadmin/postfixadmin)
 [![Chat](https://img.shields.io/badge/chat-on%20freenode-brightgreen.svg)](https://kiwiirc.com/nextclient/irc.freenode.net/#postfixadmin)
