@@ -548,9 +548,11 @@ function create_page_browser($idxfield, $querypart, $sql_params = []) {
     }
 
     if (db_sqlite()) {
+        $bits = explode('.', $idxfield);
+        $end = $bits[1];
         $query = "
             WITH idx AS (SELECT * $querypart)
-                SELECT $idxfield AS label, (SELECT (COUNT(*) - 1) FROM idx t1 WHERE t1.$idxfield <= t2.$idxfield) AS row
+                SELECT $end AS label, (SELECT (COUNT(*) - 1) FROM idx t1 WHERE t1.$end <= t2.$end ) AS row
                 FROM idx t2
                 WHERE (row % $page_size) IN (0,$page_size_zerobase) OR row = $count_results";
     }
