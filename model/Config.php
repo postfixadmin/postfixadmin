@@ -109,7 +109,7 @@ final class Config {
      * Configure::read('Name.key'); will return only the value of Configure::Name[key]
      *
      * @param string $var Variable to obtain
-     * @return array|string|null string value of Configure::$var
+     * @return array|string|null|bool some value
      * @access public
      */
     public static function read($var) {

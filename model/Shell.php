@@ -180,9 +180,8 @@ class Shell {
     /**
      * Outputs to the stdout filehandle.
      *
-     * @param string $string String to output.
+     * @param string|array $string String to output.
      * @param boolean $newline If true, the outputs gets an added newline.
-     * @access public
      */
     public function out($string, $newline = true) {
         if (is_array($string)) {
@@ -197,7 +196,7 @@ class Shell {
     /**
      * Outputs to the stderr filehandle.
      *
-     * @param string $string Error text to output.
+     * @param string|array $string Error text to output.
      * @access public
      */
     public function err($string) {

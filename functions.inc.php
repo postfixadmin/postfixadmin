@@ -352,8 +352,8 @@ function escape_string($string_or_int) {
  *  $param = safeget('param', 'default')
  *
  * @param string $param parameter name.
- * @param string $default (optional) - default value if key is not set.
- * @return string
+ * @param string|array $default (optional) - default value if key is not set.
+ * @return string|array 
  */
 function safeget($param, $default = "") {
     $retval = $default;
@@ -1574,7 +1574,7 @@ function db_connect() {
 /**
  * Returns the appropriate boolean value for the database.
  *
- * @param bool $bool
+ * @param bool|string $bool
  * @return string|int as appropriate for underlying db platform
  */
 function db_get_boolean($bool) {
