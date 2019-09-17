@@ -6,8 +6,10 @@ class CreatePageBrowserTest extends \PHPUnit\Framework\TestCase {
     }
 
     private function cleanup() {
+        db_query('DELETE FROM mailbox WHERE domain = :domain', array('domain' => 'example.com'));
         db_query('DELETE FROM domain WHERE domain = :domain', array('domain' => 'example.com'));
     }
+
     public function testBasic() {
         global $CONF;
         $CONF['page_size'] = 10;
