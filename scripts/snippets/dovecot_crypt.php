@@ -58,6 +58,7 @@ class DovecotCrypt extends Crypt {
 
         $this->password = $this->$func($this->plain);
         //$this->plain = '';
+        return true;
     }
 
     public function verify($algorithm, $password) {

@@ -20,7 +20,7 @@ class Crypt {
     }
   
     /**
-     * @return true/false boolean
+     * @return bool 
      */
     public function crypt($algorithm) {
         return true;
