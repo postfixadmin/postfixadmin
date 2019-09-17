@@ -353,7 +353,7 @@ function escape_string($string_or_int) {
  *
  * @param string $param parameter name.
  * @param string|array $default (optional) - default value if key is not set.
- * @return string|array 
+ * @return string|array
  */
 function safeget($param, $default = "") {
     $retval = $default;

@@ -23,7 +23,7 @@ $username = authentication_get_username(); # enforce login
 
 $table = safeget('table');
 
-if(!is_string($table)) {
+if (!is_string($table)) {
     die("table parameter must be a string");
 }
 $handlerclass = ucfirst($table) . 'Handler';
