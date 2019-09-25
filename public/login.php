@@ -37,8 +37,12 @@ if ($CONF['configured'] !== true) {
 check_db_version(); # check if the database layout is up to date (and error out if not)
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (!isset($_SESSION['PFA_token'])) {
+        die("Invalid token (session timeout; refresh the page and try again?)");
+    }
+
     if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
+        die('Invalid token! (CSRF check failed)');
     }
 
     $lang = safepost('lang');
