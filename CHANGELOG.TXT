@@ -6,6 +6,18 @@
 #
 # Further details on the project are available at http://postfixadmin.sf.net
 
+Version 3.2.3 - 2019/09/26
+-------------------------------------------------
+
+  - Upgrade Smarty (v3.1.33, upstream security fix), see https://github.com/postfixadmin/postfixadmin/commit/907bd7ee4632f87aec723e709e198bbf48ab6fbe
+  - Fix SQLite paging issues, see https://github.com/postfixadmin/postfixadmin/issues/161 and https://github.com/postfixadmin/postfixadmin/issues/87
+  - Fix postfixadmin-cli, see https://github.com/postfixadmin/postfixadmin/issues/296
+
+Version 3.2.2 - 2019/02/09
+-------------------------------------------------
+
+  - Fix MySQLi + SSL support ( ae37943ca42b4cc77b53d6e76cc88dd85c45cc17 )
+
 Version 3.2.1 - 2019/01/12
 -------------------------------------------------
 
