@@ -1,4 +1,4 @@
-postfixadmin [![Build Status](https://travis-ci.org/postfixadmin/postfixadmin.svg?branch=master)](https://travis-ci.org/postfixadmin/postfixadmin)
+postfixadmin [![Build Status](https://travis-ci.org/postfixadmin/postfixadmin.svg?branch=postfixadmin_3.2)](https://travis-ci.org/postfixadmin/postfixadmin)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/postfixadmin/Lobby)
 
 ============
