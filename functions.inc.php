@@ -548,8 +548,11 @@ function create_page_browser($idxfield, $querypart, $sql_params = []) {
     }
 
     if (db_sqlite()) {
-        $bits = explode('.', $idxfield);
-        $end = $bits[1];
+        $end = $idxfield;
+        if(strpos($idxfield, '.') !== false) {
+            $bits = explode('.', $idxfield);
+            $end = $bits[1];
+        }
         $query = "
             WITH idx AS (SELECT * $querypart)
                 SELECT $end AS label, (SELECT (COUNT(*) - 1) FROM idx t1 WHERE t1.$end <= t2.$end ) AS row
