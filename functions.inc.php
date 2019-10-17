@@ -333,7 +333,7 @@ function check_email($email) {
  * $sql = "SELECT * FROM foo WHERE x = '" . escape_string('fish') . "'";
  * </code>
  *
- * @param int|string $string parameters to escape
+ * @param int|string $string_or_int parameters to escape
  * @return string cleaned data, suitable for use within an SQL statement.
  */
 function escape_string($string_or_int) {
@@ -1780,7 +1780,7 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
  * @param string - table name
  * @param array $values - key/value map of data to insert into the table.
  * @param array $timestamp (optional) - array of fields to set to now() - default: array('created', 'modified')
- * @param boolean $throw_errors
+ * @param boolean $throw_exceptions
  * @return int - number of inserted rows
  */
 function db_insert($table, array $values, $timestamp = array('created', 'modified'), $throw_exceptions = false) {
