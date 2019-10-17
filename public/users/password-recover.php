@@ -51,11 +51,11 @@ function sendCodebyEmail($to, $username, $code) {
 function sendCodebySMS($to, $username, $code) {
     $text = Config::lang_f('pPassword_recovery_sms_body', $code);
 
-    if (Config::read('sms_send_function') && is_callable(Config::read('sms_send_function'))) {
-        $result = call_user_func(Config::read('sms_send_function'), $to, $text);
+    $function = Config::read('sms_send_function');
+    if($function && is_callable($function)) {
+        $result = $function($to, $text);
         return $result !== false;
     }
-
     return false;
 }
 
