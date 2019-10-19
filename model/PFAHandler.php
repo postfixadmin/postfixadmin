@@ -168,6 +168,12 @@ abstract class PFAHandler {
      */
     public function __construct($new = 0, $username = "", $is_admin = 1) {
         # set label_field if not explicitely set
+        if(!isset($this->id_field)) {
+            throw new \InvalidArgumentException("id_field must be defined");
+        }
+        if(!isset($this->db_table)) {
+            throw new \InvalidArgumentException("db_table must be defined");
+        }
         if (empty($this->label_field)) {
             $this->label_field = $this->id_field;
         }
@@ -715,10 +721,10 @@ abstract class PFAHandler {
      *
      * calls $this->read_from_db_postprocess() to postprocess the result
      *
-     * @param array or string condition -see build_select_query() for details
-     * @param array searchmode - see build_select_query() for details
-     * @param integer limit - maximum number of rows to return
-     * @param integer offset - number of first row to return
+     * @param array|string $condition -see build_select_query() for details
+     * @param array $searchmode - see build_select_query() for details
+     * @param int $limit - maximum number of rows to return
+     * @param int $offset - number of first row to return
      * @return array - rows (as associative array, with the ID as key)
      */
     protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) {
@@ -741,13 +747,14 @@ abstract class PFAHandler {
             $db_result[$row[$this->id_field]] = $row;
         }
 
-        $db_result = $this->read_from_db_postprocess($db_result);
-        return $db_result;
+        return $this->read_from_db_postprocess($db_result);
     }
 
     /**
      * allows to postprocess the database result
      * called by read_from_db()
+     * @param array $db_result
+     * @return array
      */
     protected function read_from_db_postprocess($db_result) {
         return $db_result;
