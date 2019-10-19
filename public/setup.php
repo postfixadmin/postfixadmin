@@ -20,6 +20,7 @@ define('POSTFIXADMIN', 1); # by defining it here, common.php will not start a se
 require_once(dirname(__FILE__) . '/common.php'); # make sure correct common.php is used.
 
 $CONF['show_header_text'] = 'NO';
+$CONF['theme_favicon'] = 'images/favicon.ico';
 $CONF['theme_logo'] = 'images/logo-default.png';
 $CONF['theme_css'] = 'css/default.css';
 require(dirname(__FILE__) . '/../templates/header.php');

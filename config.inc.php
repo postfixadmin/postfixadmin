@@ -671,7 +671,8 @@ function x_send_sms_clickatell($to, $message) {
 
 // Theme Config
 $CONF['theme'] = 'default';
-// Specify your own logo and CSS file
+// Specify your own favicon, logo and CSS file
+$CONF['theme_favicon'] = 'images/favicon.ico';
 $CONF['theme_logo'] = 'images/logo-default.png';
 $CONF['theme_css'] = 'css/default.css';
 // If you want to customize some styles without editing the $CONF['theme_css'] file,
@@ -689,7 +690,7 @@ $CONF['xmlrpc_enabled'] = false;
 //More details in README.password_expiration
 $CONF['password_expiration'] = 'YES';
 
-// If you want to keep most settings at default values and/or want to ensure 
+// If you want to keep most settings at default values and/or want to ensure
 // that future updates work without problems, you can use a separate config 
 // file (config.local.php) instead of editing this file and override some
 // settings there.
