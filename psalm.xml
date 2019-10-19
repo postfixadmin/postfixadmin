@@ -12,6 +12,7 @@
             <directory name="tests" />
             <directory name="templates_c" />
             <directory name="lib/smarty" />
+            <file name="lib/block_random_int.php" />
             <directory name="ADDITIONS/" />
         </ignoreFiles>
     </projectFiles>

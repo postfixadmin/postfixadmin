@@ -7,7 +7,7 @@ if (!defined('POSTFIXADMIN')) {
     require_once('common.php');
 }
 
-if (!isset($CONF) || !is_array($CONF)) {
+if (empty($CONF)) {
     die("config.inc.php seems invalid");
 }
 

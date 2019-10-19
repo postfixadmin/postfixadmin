@@ -561,10 +561,10 @@ class MailboxHandler extends PFAHandler {
      */
     protected function mailbox_post_script() {
         if ($this->new) {
-            $cmd = Config::read('mailbox_postcreation_script');
+            $cmd = Config::read_string('mailbox_postcreation_script');
             $warnmsg = Config::Lang('mailbox_postcreate_failed');
         } else {
-            $cmd = Config::read('mailbox_postedit_script');
+            $cmd = Config::read_string('mailbox_postedit_script');
             $warnmsg = Config::Lang('mailbox_postedit_failed');
         }
 
@@ -608,7 +608,7 @@ class MailboxHandler extends PFAHandler {
      * also adds a detailed error message to $this->errormsg[]
      */
     protected function mailbox_postdeletion() {
-        $cmd = Config::read('mailbox_postdeletion_script');
+        $cmd = Config::read_string('mailbox_postdeletion_script');
 
         if (empty($cmd)) {
             return true;
@@ -735,8 +735,8 @@ class MailboxHandler extends PFAHandler {
 
     /**
      * @return boolean true on success; false on failure
+     * @param string $new_password
      * @param string $old_password
-     * @param string $new_passwords
      * @param bool $match = true
      *
      * All passwords need to be plain text; they'll be hashed appropriately

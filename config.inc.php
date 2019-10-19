@@ -8,7 +8,6 @@
  * 
  * Further details on the project are available at http://postfixadmin.sf.net 
  * 
- * @version $Id$ 
  * @license GNU GPL v2 or later. 
  * 
  * File: config.inc.php

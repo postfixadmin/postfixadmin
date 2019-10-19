@@ -263,7 +263,7 @@ class DomainHandler extends PFAHandler {
      * @return boolean
      */
     protected function domain_postcreation() {
-        $script=Config::read('domain_postcreation_script');
+        $script=Config::read_string('domain_postcreation_script');
 
         if (empty($script)) {
             return true;
@@ -295,7 +295,7 @@ class DomainHandler extends PFAHandler {
      * @return boolean
      */
     protected function domain_postdeletion() {
-        $script=Config::read('domain_postdeletion_script');
+        $script=Config::read_string('domain_postdeletion_script');
 
         if (empty($script)) {
             return true;

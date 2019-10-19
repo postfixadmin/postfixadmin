@@ -8,7 +8,6 @@
  *
  * Further details on the project are available at http://postfixadmin.sf.net
  *
- * @version $Id$
  * @license GNU GPL v2 or later.
  *
  * File: functions.inc.php
@@ -663,11 +662,6 @@ function list_domains_for_admin($username) {
     $result = db_query_all($query, $pvalues);
 
     return array_column($result, 'domain');
-}
-
-
-if (!function_exists('array_column')) {
-    require_once(dirname(__FILE__) . '/lib/array_column.php');
 }
 
 /**
@@ -1916,15 +1910,10 @@ function db_in_clause($field, array $values) {
  *                           Note: the $searchmode operator will only be used if a $condition for that field is set.
  *                                 This also means you'll need to set a (dummy) condition for NULL and NOTNULL.
  */
-function db_where_clause($condition, $struct, $additional_raw_where = '', $searchmode = array()) {
-    if (!is_array($condition)) {
-        throw new Exception('db_where_cond: parameter $cond is not an array!');
-    } elseif (!is_array($searchmode)) {
-        throw new Exception('db_where_cond: parameter $searchmode is not an array!');
-    } elseif (count($condition) == 0 && trim($additional_raw_where) == '') {
+function db_where_clause(array $condition, array $struct, $additional_raw_where = '', array $searchmode = array()) {
+
+    if (count($condition) == 0 && trim($additional_raw_where) == '') {
         throw new Exception("db_where_cond: parameter is an empty array!");
-    } elseif (!is_array($struct)) {
-        throw new Exception('db_where_cond: parameter $struct is not an array!');
     }
 
     $allowed_operators = array('<', '>', '>=', '<=', '=', '!=', '<>', 'CONT', 'LIKE', 'NULL', 'NOTNULL');
