@@ -1,5 +1,5 @@
-<?php 
-if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." ); 
+<?php
+if( !defined('POSTFIXADMIN') ) die( "This file cannot be used standalone." );
 
 if( !isset($CONF) || !is_array($CONF) ) {
     die("Configuration not loaded. Check " . __FILE__);
@@ -17,6 +17,11 @@ if( !isset($CONF) || !is_array($CONF) ) {
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
+if (file_exists (realpath ("../".$CONF['theme_favicon']))) {
+    print "<link rel=\"shortcut icon\" href=\"../".htmlentities($CONF['theme_favicon'])."\" />\n";
+} else {
+    print "<link rel=\"shortcut icon\" href=\"".htmlentities($CONF['theme_favicon'])."\" />\n";
+}
 if (file_exists (realpath ("../".$CONF['theme_css']))) {
     print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../".htmlentities($CONF['theme_css'])."\" />\n";
 } else {
