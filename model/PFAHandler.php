@@ -168,10 +168,10 @@ abstract class PFAHandler {
      */
     public function __construct($new = 0, $username = "", $is_admin = 1) {
         # set label_field if not explicitely set
-        if(!isset($this->id_field)) {
+        if (!isset($this->id_field)) {
             throw new \InvalidArgumentException("id_field must be defined");
         }
-        if(!isset($this->db_table)) {
+        if (!isset($this->db_table)) {
             throw new \InvalidArgumentException("db_table must be defined");
         }
         if (empty($this->label_field)) {
@@ -237,7 +237,7 @@ abstract class PFAHandler {
                 );
         }
 
-        if(empty($this->db_table)) {
+        if (empty($this->db_table)) {
             throw new Exception("db_table not defined");
         }
         $struct_hook = Config::read_string($this->db_table . '_struct_hook');

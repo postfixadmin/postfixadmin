@@ -548,7 +548,7 @@ function create_page_browser($idxfield, $querypart, $sql_params = []) {
 
     if (db_sqlite()) {
         $end = $idxfield;
-        if(strpos($idxfield, '.') !== false) {
+        if (strpos($idxfield, '.') !== false) {
             $bits = explode('.', $idxfield);
             $end = $bits[1];
         }
@@ -1911,7 +1911,6 @@ function db_in_clause($field, array $values) {
  *                                 This also means you'll need to set a (dummy) condition for NULL and NOTNULL.
  */
 function db_where_clause(array $condition, array $struct, $additional_raw_where = '', array $searchmode = array()) {
-
     if (count($condition) == 0 && trim($additional_raw_where) == '') {
         throw new Exception("db_where_cond: parameter is an empty array!");
     }

@@ -27,7 +27,7 @@ require_once('common.php');
 $username = authentication_get_username(); # enforce login
 
 $table = safepost('table', safeget('table'));
-if(!is_string($table)) {
+if (!is_string($table)) {
     die("Invalid table name given!");
 }
 $handlerclass = ucfirst($table) . 'Handler';
