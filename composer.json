@@ -34,7 +34,8 @@
     "autoload": {
         "files": [
             "config.inc.php",
-            "functions.inc.php"
+            "functions.inc.php",
+            "lib/smarty/libs/bootstrap.php"
         ]
     }
 }
