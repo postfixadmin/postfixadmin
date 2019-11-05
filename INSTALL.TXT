@@ -59,9 +59,13 @@ Alternatively :
 2. Setup Web Server
 -------------------
 
-Assuming /var/www/html is where your webserver reads from :
+Assuming /var/www/html is where your webserver reads from, either create a symlink:
 
-  $ ln -s /srv/postfixadmin/public /var/www/html/postfixadmin 
+  $ ln -s /srv/postfixadmin/public /var/www/html/postfixadmin
+
+or setup an alias in your webserver config. For Apache, use:
+
+  Alias /postfixadmin /srv/postfixadmin/public
 
 3. Setup a Database
 -------------------
