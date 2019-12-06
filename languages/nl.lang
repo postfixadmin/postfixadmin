@@ -167,7 +167,7 @@ $PALANG['pEdit_mailbox_quota_text_error'] = 'De quota die opgaf is te hoog.';
 $PALANG['pEdit_mailbox_domain_error'] = 'Dit domein is niet van nu: ';
 $PALANG['pEdit_mailbox_result_error'] = 'Mislukt om het wachtwoord te wijzigen.';
 
-$PALANG['pPassword_welcome'] = 'Bewerk u login wachtwoord.';
+$PALANG['pPassword_welcome'] = 'Bewerk uw login wachtwoord.';
 $PALANG['pPassword_admin'] = 'Login';
 $PALANG['pPassword_password_current'] = 'Huidig wachtwoord';
 $PALANG['pPassword_password_current_text_error'] = 'U heeft uw huidige wachtwoord niet opgegeven.';
