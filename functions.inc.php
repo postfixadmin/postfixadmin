@@ -544,8 +544,8 @@ function create_page_browser($idxfield, $querypart) {
     if (db_pgsql()) {
         $query = "
             SELECT * FROM (
-                SELECT $idxfield AS label, nextval('rowcount') AS row $querypart
-            ) idx WHERE MOD(idx.row, $page_size) IN (0,$page_size_zerobase) OR idx.row = $count_results
+                SELECT $idxfield AS label, nextval('rowcount') AS r $querypart
+            ) idx WHERE MOD(idx.r, $page_size) IN (0,$page_size_zerobase) OR idx.r = $count_results
         ";
     }
 
@@ -554,9 +554,9 @@ function create_page_browser($idxfield, $querypart) {
         $end = $bits[1];
         $query = "
             WITH idx AS (SELECT * $querypart)
-                SELECT $end AS label, (SELECT (COUNT(*) - 1) FROM idx t1 WHERE t1.$end <= t2.$end ) AS row
+                SELECT $end AS label, (SELECT (COUNT(*) - 1) FROM idx t1 WHERE t1.$end <= t2.$end ) AS r
                 FROM idx t2
-                WHERE (row % $page_size) IN (0,$page_size_zerobase) OR row = $count_results";
+                WHERE (r % $page_size) IN (0,$page_size_zerobase) OR r = $count_results";
     }
 
     # TODO: $query is MySQL-specific
