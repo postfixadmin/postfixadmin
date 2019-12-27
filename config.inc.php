@@ -214,7 +214,7 @@ if(@file_exists('/usr/bin/doveadm')) { // @ to silence openbase_dir stuff; see h
 // Password validation
 // New/changed passwords will be validated using all regular expressions in the array.
 // If a password doesn't match one of the regular expressions, the corresponding
-// error message from $PALANG (see languages/*) will be displayed.
+// error message from $PALANG (see languages/*.lang) will be displayed.
 // See http://de3.php.net/manual/en/reference.pcre.pattern.syntax.php for details
 // about the regular expression syntax.
 // If you need custom error messages, you can add them using $CONF['language_hook'].
