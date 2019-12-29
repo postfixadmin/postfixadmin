@@ -20,6 +20,14 @@ virtual_mailbox_maps =
    proxy:mysql:/etc/postfix/sql/mysql_virtual_mailbox_maps.cf,
    proxy:mysql:/etc/postfix/sql/mysql_virtual_alias_domain_mailbox_maps.cf
 
+# For transport map support, also use the following configuration:
+
+relay_domains = proxy:mysql:/etc/postfix/sql/mysql_relay_domains.cf
+transport_maps = proxy:mysql:/etc/postfix/sql/mysql_transport_maps.cf
+
+# Also set the config.inc.php setting transport=YES
+# and add the transport choices to transport_options.
+
 # if you let postfix store your mails directly (without using maildrop, dovecot deliver etc.)
 virtual_mailbox_base = /var/mail/vmail
 # or whereever you want to store the mails
@@ -86,6 +94,8 @@ query          = SELECT domain FROM domain WHERE domain='%s' AND active = '1'
 #query          = SELECT domain FROM domain WHERE domain='%s'
 #optional query to use when relaying for backup MX
 #query           = SELECT domain FROM domain WHERE domain='%s' AND backupmx = '0' AND active = '1'
+#optional query to use for transport map support
+#query           = SELECT domain FROM domain WHERE domain='%s' AND active = '1' AND NOT (transport LIKE 'smtp%%' OR transport LIKE 'relay%%')
 #expansion_limit = 100
 
 mysql_virtual_mailbox_maps.cf:
@@ -102,6 +112,20 @@ password = password
 hosts = localhost
 dbname = postfix
 query = SELECT maildir FROM mailbox,alias_domain WHERE alias_domain.alias_domain = '%d' and mailbox.username = CONCAT('%u', '@', alias_domain.target_domain) AND mailbox.active='1' AND alias_domain.active='1'
+
+mysql_relay_domains.cf:
+user = postfix
+password = password
+hosts = localhost
+dbname = postfix
+query = SELECT domain FROM domain WHERE domain='%s' AND active = '1' AND (transport LIKE 'smtp%%' OR transport LIKE 'relay%%')
+
+mysql_transport_maps.cf:
+user = postfix
+password = password
+hosts = localhost
+dbname = postfix
+query = SELECT transport FROM domain WHERE domain='%s' AND active = '1'
 
 
 (See above note re Concat + PostgreSQL)
