@@ -27,7 +27,7 @@ function x_struct_admin_modify($struct) {
         return $struct;
     }
 
-     $struct['x_2fa_secret'] = pacol(1, 1, 1, 'pass', '2FA_secret', '2FA_secret_desc', '', array(), 
+     $struct['x_2fa_secret'] = pacol(1, 1, 0, 'pass', '2FA_secret', '2FA_secret_desc', '', array(), 
     /*not_in_db*/ 0,
     /*dont_write_to_db*/ 0,
     /*select*/ 'x_2fa_secret'
@@ -45,7 +45,7 @@ function x_struct_admin_modify($struct) {
     $struct['x_2fa_qrcode'] = pacol(0, 0, 1, 'html', '2FA_qr_code', '2FA_qr_code_onthefly', '', array(), 
         /*not_in_db*/ 0,
         /*dont_write_to_db*/ 0,
-        'CONCAT("<img src=\"'.$urlQRCode[0].'", REPLACE(username, "@", "%40"), "'.$urlQRCode[1].'", x_2fa_secret, "'.$urlQRCode[2].$urlQRCode[3].'\">") AS x_2fa_qrcode'
+        'IF(x_2fa_secret > "", CONCAT("<img src=\"'.$urlQRCode[0].'", REPLACE(username, "@", "%40"), "'.$urlQRCode[1].'", x_2fa_secret, "'.$urlQRCode[2].$urlQRCode[3].'\">"), "") AS x_2fa_qrcode'
     );
 
     return $struct;
