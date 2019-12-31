@@ -1,0 +1,53 @@
+<?php
+require __DIR__ . '/vendor/autoload.php';
+
+$CONF['database_type'] = '';
+$CONF['database_user'] = '';
+$CONF['database_password'] = '';
+$CONF['database_name'] = '';
+
+$CONF['configured'] = true;
+
+$CONF['setup_password'] = 'xxxxxxxxxxxxxxxxx';
+
+
+$CONF['default_language'] = 'gl';
+
+
+
+// to enable Two-factor authentication
+$CONF['2fa_enabled'] = true;
+
+
+function x_struct_admin_modify($struct) {
+    global $CONF;
+
+    // if we don't have 2fa enabled, we have nothing to do here
+    if(!$CONF['2fa_enabled']) {
+        return $struct;
+    }
+
+     $struct['x_2fa_secret'] = pacol(1, 1, 1, 'pass', '2FA_secret', '2FA_secret_desc', '', array(), 
+    /*not_in_db*/ 0,
+    /*dont_write_to_db*/ 0,
+    /*select*/ 'x_2fa_secret'
+);
+    $struct['x_2fa_active'] = pacol(1, 1, 1, 'bool', '2FA_active', '', 1, array(), 0, 0, 'x_2fa_active');
+
+
+    // url to use QR-Code ("best" method creating on the fly the fields)
+    // all params are HTMLT-ENCODED (EMAIL, for example)
+    //https://api.qrserver.com/v1/create-qr-code/?data=otpauth%3A%2F%2Ftotp%2EMAIL%3Fsecret%3DSECRET%26issuer%3Dpostfix.admin&size=200x200&ecc=M
+
+    $urlQRCode = array('https://api.qrserver.com/v1/create-qr-code/?data=otpauth%3A%2F%2Ftotp%2F', '%3Fsecret%3D', '%26issuer%3Dpostfix.admin',
+                        '&size=200x200&ecc=M');
+
+    $struct['x_2fa_qrcode'] = pacol(0, 0, 1, 'html', '2FA_qr_code', '2FA_qr_code_onthefly', '', array(), 
+        /*not_in_db*/ 0,
+        /*dont_write_to_db*/ 0,
+        'CONCAT("<img src=\"'.$urlQRCode[0].'", REPLACE(username, "@", "%40"), "'.$urlQRCode[1].'", x_2fa_secret, "'.$urlQRCode[2].$urlQRCode[3].'\">") AS x_2fa_qrcode'
+    );
+
+    return $struct;
+}
+$CONF['admin_struct_hook'] = 'x_struct_admin_modify';

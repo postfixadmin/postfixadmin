@@ -417,6 +417,19 @@ $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your loc
 $PALANG['password_expiration'] = 'Pass expires';
 $PALANG['password_expiration_desc'] = 'Date when password will expire';
 
+
+// 2FA strings
+$PALANG['2FA_secret'] = '2FA secret';
+$PALANG['2FA_secret_desc'] = 'Secret to Two-factor authentication';
+$PALANG['2FA_active'] = '2FA activated';
+$PALANG['2FA_qr_code'] = '2FA QR code';
+$PALANG['2FA_qr_code_onthefly'] = '2FA QR code generated on the fly';
+$PALANG['2FA_form_welcome'] = 'Two-factor authentication';
+$PALANG['2FA_form_code'] = 'Two-factor authentication code';
+$PALANG['2FA_form_30days_authentication'] = 'Don\'t ask me codes again on this computer for 30 days';
+$PALANG['2FA_form_submit'] = 'Send';
+$PALANG['2fa_auth_failed'] = 'Incorrect code!';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

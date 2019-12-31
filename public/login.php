@@ -36,6 +36,11 @@ if ($CONF['configured'] !== true) {
 
 check_db_version(); # check if the database layout is up to date (and error out if not)
 
+// to show error after destroy session
+if($_SESSION['2fa_error']) {
+    $error2fa = $_SESSION['2fa_error'];
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (!isset($_SESSION['PFA_token'])) {
         die("Invalid token (session timeout; refresh the page and try again?)");
@@ -56,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $h = new AdminHandler();
     if ($h->login($fUsername, $fPassword)) {
-        init_session($fUsername, true);
+        init_session($fUsername, true);      
 
         # they've logged in, so see if they are a domain admin, as well.
 
@@ -74,6 +79,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $_SESSION['sessid']['roles'][] = 'global-admin';
         }
 
+
+        if($CONF['2fa_enabled'] === true) {
+            $row = db_query_one("SELECT * FROM ".table_by_key("admin")." WHERE username= :username", array('username' => $fUsername));
+            $is_active_2fa = isset($row['x_2fa_active']) ? (bool)$row['x_2fa_active'] : null;
+
+            if($is_active_2fa) {
+                header("Location: 2fa.php");
+                exit(0);
+            }
+        }         
+
         header("Location: main.php");
         exit(0);
     } else { # $h->login failed
@@ -87,6 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 
 $_SESSION['PFA_token'] = md5(uniqid(rand(), true));
+
+// 2fa auth error (usually)
+if($error2fa && $CONF['2fa_enabled']) flash_error($error2fa);
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');

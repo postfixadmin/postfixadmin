@@ -23,13 +23,20 @@ $min_db_version = 1840;  # update (at least) before a release with the latest fu
  * Call: check_session ()
  * @return String username (e.g. foo@example.com)
  */
-function authentication_get_username() {
+function authentication_get_username($checking_2fa_code = false) {
     if (defined('POSTFIXADMIN_CLI')) {
         return 'CLI';
     }
 
     if (defined('POSTFIXADMIN_SETUP')) {
         return 'SETUP.PHP';
+    }
+
+    // we need to prevent user don't change manually url before to check 2fa auth form
+    global $CONF;
+    if($CONF['2fa_enabled'] && $_SESSION['2fa_logged'] !== true && !$checking_2fa_code) {
+        header("Location: login.php");
+        exit(0);
     }
 
     if (!isset($_SESSION['sessid'])) {
