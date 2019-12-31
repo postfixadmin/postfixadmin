@@ -32,18 +32,25 @@ function authentication_get_username($checking_2fa_code = false) {
         return 'SETUP.PHP';
     }
 
-    // we need to prevent user don't change manually url before to check 2fa auth form
-    global $CONF;
-    if($CONF['2fa_enabled'] && $_SESSION['2fa_logged'] !== true && !$checking_2fa_code) {
-        header("Location: login.php");
-        exit(0);
-    }
-
     if (!isset($_SESSION['sessid'])) {
         header("Location: login.php");
         exit(0);
     }
     $SESSID_USERNAME = $_SESSION['sessid']['username'];
+
+
+    // we need to prevent user don't change manually url before to check 2fa auth form
+    global $CONF;
+    if($CONF['2fa_enabled']) {
+        $row = db_query_one("SELECT * FROM ".table_by_key("admin")." WHERE username= :username", array('username' => $SESSID_USERNAME));
+        $is_active_2fa = isset($row['x_2fa_active']) ? (bool)$row['x_2fa_active'] : null;
+
+        if($_SESSION['2fa_logged'] !== true && !$checking_2fa_code && $is_active_2fa) {
+            header("Location: login.php");
+            exit(0);
+        }
+    }
+
     return $SESSID_USERNAME;
 }
 
