@@ -44,11 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $is_active_2fa) {
     // we check code here
     $fCode = safepost('fCode');
 
-    if(!$is_active_2fa) {
-        header("Location: 2fa.php");
-        exit(0);
-    }
-
     $ga = new PHPGangsta_GoogleAuthenticator();
     if($ga->verifyCode( $row['x_2fa_secret'], $fCode, 2)) {     // 2 = 2*30sec clock tolerance
 
