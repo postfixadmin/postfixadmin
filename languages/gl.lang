@@ -402,6 +402,21 @@ $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your loc
 $PALANG['password_expiration'] = 'Expiración de contrasinal'; # XXX
 $PALANG['password_expiration_desc'] = 'Data na que expirará o contrasinal'; # XXX
 
+// 2FA strings
+$PALANG['2FA_secret'] = '2FA secreto';
+$PALANG['2FA_secret_desc'] = 'Secreto para a autenticación en 2 pasos';
+$PALANG['2FA_active'] = '2FA activado';
+$PALANG['2FA_qr_code'] = '2FA QR code';
+$PALANG['2FA_qr_code_onthefly'] = '2FA QR code generated on the fly';
+$PALANG['2FA_form_welcome'] = 'Autenticación en 2 pasos';
+$PALANG['2FA_form_code'] = 'Código de autenticación';
+$PALANG['2FA_form_30days_authentication'] = 'Non pedir código de dobre autenticación durante 30 días';
+$PALANG['2FA_form_submit'] = 'Enviar';
+$PALANG['2fa_auth_failed'] = 'Autenticación incorrecta!';
+
+
+
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

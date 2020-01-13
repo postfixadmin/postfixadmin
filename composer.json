@@ -29,7 +29,8 @@
         "php-coveralls/php-coveralls" : "*",
         "phpunit/phpunit": "^6.0",
         "vimeo/psalm":"^3.0",
-        "zendframework/zendframework1": "^1.12.0"
+        "zendframework/zendframework1": "^1.12.0",
+        "phpgangsta/googleauthenticator": "dev-master"
     },
     "autoload": {
         "files": [
