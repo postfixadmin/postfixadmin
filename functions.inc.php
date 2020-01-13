@@ -720,7 +720,7 @@ function encode_header($string, $default_charset = "utf-8") {
     $cur_l = $iOffset = 0;
 
     for ($i = 0; $i < $j; ++$i) {
-        switch ($string{$i}) {
+        switch ($string[$i]) {
             case '=':
             case '<':
             case '>':
@@ -2137,7 +2137,7 @@ function gen_show_status($show_alias) {
             $now = "datetime('now')";
         }
 
-        $stat_result = db_query_one("SELECT * FROM ". table_by_key('mailbox') ." WHERE username = ? AND password_expiry <= ? AND active = ?", array( $show_alias , $now , db_get_boolean(true) ));
+        $stat_result = db_query_one("SELECT * FROM ". table_by_key('mailbox') ." WHERE username = ? AND password_expiry <= $now AND active = ?", array( $show_alias , db_get_boolean(true) ));
 
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
