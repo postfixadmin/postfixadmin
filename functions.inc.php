@@ -739,7 +739,7 @@ function encode_header($string, $default_charset = "utf-8") {
                     $ret = '';
                     $iEncStart = false;
                 } else {
-                    $ret .= sprintf("=%02X", ord($string{$i}));
+                    $ret .= sprintf("=%02X", ord($string[$i]));
                 }
                 break;
             case '(':
@@ -769,7 +769,7 @@ function encode_header($string, $default_charset = "utf-8") {
                 }
                 break;
             default:
-                $k = ord($string{$i});
+                $k = ord($string[$i]);
                 if ($k > 126) {
                     if ($iEncStart === false) {
                         // do not start encoding in the middle of a string, also take the rest of the word.
