@@ -17,7 +17,7 @@ jobs:
       run: mkdir templates_c || true
 
     - name: touch config.local.php
-      run: touch config.local.php
+      run: touch config.local.php && php -v
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
