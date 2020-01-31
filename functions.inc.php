@@ -803,7 +803,7 @@ function encode_header($string, $default_charset = "utf-8") {
                             $cur_l = 0;
                             $ret = '';
                         } else {
-                            $ret .= $string{$i};
+                            $ret .= $string[$i];
                         }
                     }
                 }
