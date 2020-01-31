@@ -1721,6 +1721,7 @@ function db_query($sql, array $values = array(), $ignore_errors = false) {
     $link = db_connect();
     $error_text = '';
 
+    $stmt = null;
     try {
         $stmt = $link->prepare($sql);
         $stmt->execute($values);

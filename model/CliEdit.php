@@ -46,7 +46,7 @@ class CliEdit extends Shell {
                     if (strtolower($val) == 'y') {
                         $val = 1;
                     } # convert y to 1
-                    if (strtolower($val) == 'n') {
+                    elseif (strtolower($val) == 'n') {
                         $val = 0;
                     } # convert n to 0
                     $values[$key] = $val; # don't modify any other value - *Handler will complain if it's invalid ;-)

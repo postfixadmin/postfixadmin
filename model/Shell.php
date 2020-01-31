@@ -97,6 +97,7 @@ class Shell {
      */
     public $handler_to_use;
 
+    public $new;
     /**
      *  Constructs this Shell instance.
      *

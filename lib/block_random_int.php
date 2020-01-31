@@ -12,6 +12,6 @@ if(function_exists('random_int')) {
     return;
 }
 
-function random_int() { // someone might not be using php_crypt or ask for password generation, in which case random_int() won't be called
+function random_int($a, $b) { // someone might not be using php_crypt or ask for password generation, in which case random_int() won't be called
         die(__FILE__ . " Postfixadmin security: Please install https://github.com/paragonie/random_compat OR enable the 'Phar' extension.");
 }

@@ -139,7 +139,7 @@ class AliasHandler extends PFAHandler {
     public function init($id) {
         @list($local_part, $domain) = explode('@', $id); # supress error message if $id doesn't contain '@'
 
-        if ($local_part == '*') { # catchall - postfix expects '@domain', not '*@domain'
+        if ($local_part == '*' && !is_null($domain)) { # catchall - postfix expects '@domain', not '*@domain'
             $id = '@' . $domain;
         }
 

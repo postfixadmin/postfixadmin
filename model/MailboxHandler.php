@@ -586,7 +586,7 @@ class MailboxHandler extends PFAHandler {
         if ($quota <= 0) {
             $quota = 0;
         } # TODO: check if this is correct behaviour
-        $cmdarg4=escapeshellarg($quota);
+        $cmdarg4 = escapeshellarg("" . $quota);
         $command= "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
         $retval=0;
         $output=array();

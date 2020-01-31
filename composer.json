@@ -27,7 +27,7 @@
         "jakub-onderka/php-parallel-lint": "^1.0",
         "php":  ">7.2.0",
         "php-coveralls/php-coveralls" : "*",
-        "phpunit/phpunit": "^6.0",
+        "phpunit/phpunit": "^6|^7",
         "vimeo/psalm":"^3.0",
         "zendframework/zendframework1": "^1.12.0"
     },
