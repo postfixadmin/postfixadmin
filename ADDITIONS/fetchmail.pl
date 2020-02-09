@@ -105,7 +105,14 @@ map{
 
 	$cmd="user '${src_user}' there with password '".decode_base64($src_password)."'";
 	$cmd.=" folder '${src_folder}'" if ($src_folder);
-	$cmd.=" mda ".$mda if ($mda);
+
+	if ($mda) {
+		if ($mda eq "dovecot") {
+			$cmd.=" mda \"/usr/lib/dovecot/deliver -d ${mailbox}\" ";
+		} else {
+			$cmd.=" mda ".$mda 
+		}
+	}
 
 #	$cmd.=" mda \"/usr/local/libexec/dovecot/deliver -m ${mailbox}\"";
 	$cmd.=" is '${mailbox}' here";
