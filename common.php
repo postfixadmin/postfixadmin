@@ -31,12 +31,6 @@ if (!defined('POSTFIXADMIN')) { # already defined if called from setup.php
 }
 
 $incpath = dirname(__FILE__);
-(ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_runtime', '0') : '1');
-(ini_get('magic_quotes_gpc') ? ini_set('magic_quotes_sybase', '0') : '1');
-
-if (ini_get('register_globals') == 'on') {
-    die("Please turn off register_globals; edit your php.ini");
-}
 
 /**
  * @param string $class

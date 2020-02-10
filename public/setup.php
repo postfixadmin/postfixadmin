@@ -37,7 +37,6 @@ require(dirname(__FILE__) . '/../templates/header.php');
             //
             $f_phpversion = function_exists("phpversion");
             $f_apache_get_version = function_exists("apache_get_version");
-            $f_get_magic_quotes_gpc = function_exists("get_magic_quotes_gpc");
             $f_mysql_connect = function_exists("mysql_connect");
             $f_mysqli_connect = function_exists("mysqli_connect");
             $f_pg_connect = function_exists("pg_connect");
@@ -94,18 +93,6 @@ require(dirname(__FILE__) . '/../templates/header.php');
             print "</ul>";
             print "<p>Checking environment:\n";
             print "<ul>\n";
-
-            //
-            // Check for Magic Quotes
-            //
-            if ($f_get_magic_quotes_gpc == 1) {
-                if (get_magic_quotes_gpc() == 0) {
-                    print "<li>Magic Quotes: Disabled - OK</li>\n";
-                } else {
-                    print "<li><b>Warning: Magic Quotes: ON (internal work around to disable is in place)</b></li>\n";
-                }
-            }
-
 
             //
             // Check for config.local.php

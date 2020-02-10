@@ -47,9 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $fSubject = safepost('fSubject');
 
     $tBody = $_POST['fBody'];
-    if (get_magic_quotes_gpc()) {
-        $tBody = stripslashes($tBody); # TODO: check for get_magic_quotes_gpc inside safepost/safeget
-    }
 
     $error = 0;
     $email_check = check_email($fTo);
