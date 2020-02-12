@@ -706,7 +706,10 @@ function upgrade_3_mysql() {
  */
 function upgrade_4_mysql() { # MySQL only
     # changes between 2.1 and moving to sourceforge
+
+    return; // as the above _mysql functions are disabled; this one will just error for a new db.
     $table_domain = table_by_key('domain');
+
     db_query_parsed("ALTER TABLE $table_domain ADD COLUMN quota int(10) NOT NULL default '0' AFTER maxquota", true);
     # Possible errors that can be ignored:
     # - Invalid query: Table 'postfix.domain' doesn't exist
