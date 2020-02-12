@@ -36,6 +36,7 @@ class DomainHandler extends PFAHandler {
         $quota  = Config::intbool('quota');
         $edit_dom_q  = min($super, Config::intbool('domain_quota'), $quota);
         $dom_q  = min(Config::intbool('domain_quota'), $quota);
+        $pwexp = min($super, Config::intbool('password_expiration'));
 
         $query_used_domainquota = 'round(coalesce(__total_quota/' . intval(Config::read('quota_multiplier')) . ',0))';
 
@@ -94,7 +95,7 @@ class DomainHandler extends PFAHandler {
            'default_aliases'   => pacol($this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,array(), /*not in db*/ 1     ),
            'created'           => pacol(0,          0,      0,      'ts',   'created'                      , ''                                 ),
            'modified'          => pacol(0,          0,      $super, 'ts',   'last_modified'                , ''                                 ),
-           'password_expiry'   => pacol($super,		$super,	$super,	'num',	'password_expiration'	       , 'password_expiration_desc', 	    365),
+           'password_expiry'   => pacol($super,     $pwexp, $pwexp, 'num',  'password_expiration'          , 'password_expiration_desc'         , 365),
             '_can_edit'        => pacol(0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 /*options*/ array(),
                 /*not_in_db*/ 0,
