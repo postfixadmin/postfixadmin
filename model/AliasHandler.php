@@ -137,10 +137,14 @@ class AliasHandler extends PFAHandler {
      * It also calls parent::init()
      */
     public function init($id) {
-        @list($local_part, $domain) = explode('@', $id); # supress error message if $id doesn't contain '@'
 
-        if ($local_part == '*' && !is_null($domain)) { # catchall - postfix expects '@domain', not '*@domain'
-            $id = '@' . $domain;
+        $bits = explode('@', $id);
+        if(sizeof($bits) == 2) {
+            $local_part = $bits[0];
+            $domain = $bits[1];
+            if ($local_part == '*') { # catchall - postfix expects '@domain', not '*@domain'
+                $id = '@' . $domain;
+            }
         }
 
         $retval = parent::init($id);
