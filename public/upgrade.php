@@ -248,7 +248,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
                 '{FULLTEXT}'        => 'FULLTEXT',
                 '{BOOLEAN}'         => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
                 '{UTF-8}'           => '/*!40100 CHARACTER SET utf8 */',
-                '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 */',
+                '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 COLLATE latin1_general_ci */',
                 '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
                 '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
                 '{MYISAM}'          => '',
@@ -928,7 +928,7 @@ function upgrade_81_mysql() { # MySQL only
         ALTER TABLE $table_vacation CHANGE `cache`    `cache`   TEXT           {LATIN1} NOT NULL
         ALTER TABLE $table_vacation CHANGE `domain`   `domain`  VARCHAR( 255 ) {LATIN1} NOT NULL
         ALTER TABLE $table_vacation CHANGE `active`   `active`  TINYINT( 1 )            NOT NULL DEFAULT '1'
-        ALTER TABLE $table_vacation DEFAULT  {LATIN1}
+        ALTER TABLE $table_vacation DEFAULT  {COLLATE}
         ALTER TABLE $table_vacation {INNODB}
     "));
 
@@ -978,9 +978,7 @@ function upgrade_318_mysql() {
             PRIMARY KEY on_vacation (`on_vacation`, `notified`),
         CONSTRAINT `vacation_notification_pkey` 
         FOREIGN KEY (`on_vacation`) REFERENCES $table_vacation(`email`) ON DELETE CASCADE
-    )
-    {COLLATE}
-    COMMENT='Postfix Admin - Virtual Vacation Notifications'
+    ) {INNODB} {COLLATE} COMMENT='Postfix Admin - Virtual Vacation Notifications'
     ");
 
     # in case someone has manually created the table with utf8 fields before:
