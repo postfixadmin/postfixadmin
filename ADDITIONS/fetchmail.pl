@@ -29,6 +29,12 @@ our $db_password="CHANGE_ME!";
 # Where to create a lockfile; please ensure path exists.
 our $run_dir="/var/run/fetchmail";
 
+# in case you want to use dovecot deliver to put the mail directly into the users mailbox,
+# set "mda" in the fetchmail table to the keyword "dovecot".
+
+# Where the delivery binary is located
+$dovecot_deliver = "/usr/lib/dovecot/deliver";
+
 # instead of changing this script, you can put your settings to /etc/mail/postfixadmin/fetchmail.conf
 # just use perl syntax there to fill the variables listed above (without the "our" keyword). Example:
 # $db_username = 'mail';
@@ -105,7 +111,14 @@ map{
 
 	$cmd="user '${src_user}' there with password '".decode_base64($src_password)."'";
 	$cmd.=" folder '${src_folder}'" if ($src_folder);
-	$cmd.=" mda ".$mda if ($mda);
+
+	if ($mda) {
+		if ($mda eq "dovecot") {
+			$cmd.=" mda \"${dovecot_deliver} -d ${mailbox}\" ";
+		} else {
+			$cmd.=" mda ".$mda 
+		}
+	}
 
 #	$cmd.=" mda \"/usr/local/libexec/dovecot/deliver -m ${mailbox}\"";
 	$cmd.=" is '${mailbox}' here";
