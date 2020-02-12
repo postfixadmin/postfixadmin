@@ -118,9 +118,10 @@ $CONF['database_ssl_cipher'] = NULL;
 //   uncomment and change the following
 // $CONF['database_port'] = '5432';
 //
-// If you wish to connect using a local socket file (e.g /var/run/mysql.sock) uncomment the below.
+// If you wish to connect using a local socket file (e.g /var/run/mysql.sock) set this to the socket path.
 // $CONF['database_socket'] = '/var/run/mysql/mysqld.sock';
-//
+$CONF['database_socket'] = '';
+
 // If sqlite is used, specify the database file path:
 //   $CONF['database_name'] = '/etc/postfix/sqlite/postfixadmin.db'
 
