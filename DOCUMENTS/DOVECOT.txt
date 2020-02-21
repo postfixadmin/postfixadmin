@@ -183,7 +183,9 @@ for PostgreSQL:
 user_query = SELECT maildir, 1001 AS uid, 1001 AS gid, 'dict:storage=' || floor(quota/1000) || '::proxy::quota' as quota FROM mailbox WHERE username = '%u' AND active='1'
 
 
-Create file dovecot-dict-quota.conf:
+Create file dovecot-dict-quota.conf.
+
+For dovecot 1.0 & 1.1, use this as a template:
 
 driver = mysql
 connect = host=localhost dbname=postfix user=postfix password=postfix
@@ -192,6 +194,22 @@ table = quota
 select_field = current
 where_field = path
 username_field = username
+
+If you use dovecot 1.2 or newer, use this:
+
+connect = host=localhost dbname=postfix user=postfix password=postfix
+map {
+  pattern = priv/quota/storage
+  table = quota2
+  username_field = username
+  value_field = bytes
+}
+map {
+  pattern = priv/quota/messages
+  table = quota2
+  username_field = username
+  value_field = messages
+}
 
 
 Create database in Mysql:
