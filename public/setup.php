@@ -108,7 +108,7 @@ require(dirname(__FILE__) . '/../templates/header.php');
             //
             // Check if there is support for at least 1 database
             //
-            if (($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0) and ($f_sqlite_open == 0)) {
+            if (($f_pdo == 0) and ($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0) and ($f_sqlite_open == 0)) {
                 print "<li><b>Error: There is no database support in your PHP setup</b><br />\n";
                 print "To install MySQL 3.23 or 4.0 support on FreeBSD:<br />\n";
                 print "<pre>% cd /usr/ports/databases/php{$phpversion}-mysql/\n";
