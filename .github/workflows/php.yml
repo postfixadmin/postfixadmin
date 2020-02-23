@@ -22,6 +22,6 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
-    - name: Run psalm (static analysis)
-      run: composer psalm
-    
+    - name: Build/test
+      run: composer build
+
