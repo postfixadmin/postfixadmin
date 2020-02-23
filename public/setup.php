@@ -276,7 +276,7 @@ require(dirname(__FILE__) . '/../templates/header.php');
                     $setuppw = $CONF['setup_password'];
                 }
 
-                if (safepost("form") == "setuppw") {
+                if (safepost("form") === "setuppw") {
                     # "setup password" form submitted
                     if (safepost('setup_password') != safepost('setup_password2')) {
                         $setupMessage = "The two passwords differ!";
@@ -384,12 +384,12 @@ EOF;
                                 </tr>
                                 <tr>
                                     <td><label for="password"><?php print $PALANG['password'] . ":"; ?></label></td>
-                                    <td><input id="password" class="flat" type="password" name="password"/></td>
+                                    <td><input id="password" class="flat" type="password" name="password" autocomplete="new-password" /></td>
                                     <td><?= _error_field($errormsg, 'password'); ?></td>
                                 </tr>
                                 <tr>
                                     <td><label for="password2"><?php print $PALANG['password_again'] . ":"; ?></label></td>
-                                    <td><input id="password2" class="flat" type="password" name="password2"/></td>
+                                    <td><input id="password2" class="flat" type="password" name="password2" autocomplete="new-password"/></td>
                                     <td><?= _error_field($errormsg, 'password2'); ?></td>
                                 </tr>
                                 <tr>
