@@ -1517,10 +1517,12 @@ function db_connect() {
             $dsn = "mysql:host={$CONF['database_host']};dbname={$database_name};charset=UTF8";
         }
         if (Config::bool('database_use_ssl')) {
+            $options[PDO::MYSQL_ATTR_SSL_KEY] = Config::read_string('database_ssl_key');
             $options[PDO::MYSQL_ATTR_SSL_CA] = Config::read_string('database_ssl_ca');
             $options[PDO::MYSQL_ATTR_SSL_CAPATH] = Config::read_string('database_ssl_ca_path');
             $options[PDO::MYSQL_ATTR_SSL_CERT] = Config::read_string('database_ssl_cert');
             $options[PDO::MYSQL_ATTR_SSL_CIPHER] = Config::read_string('database_ssl_cipher');
+            $options = array_filter($options); // remove empty settings.
         }
         $queries[] = 'SET CHARACTER SET utf8';
         $queries[] = "SET COLLATION_CONNECTION='utf8_general_ci'";
