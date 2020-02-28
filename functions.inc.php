@@ -1523,6 +1523,13 @@ function db_connect() {
             $options[PDO::MYSQL_ATTR_SSL_CERT] = Config::read_string('database_ssl_cert');
             $options[PDO::MYSQL_ATTR_SSL_CIPHER] = Config::read_string('database_ssl_cipher');
             $options = array_filter($options); // remove empty settings.
+
+            $verify = Config::read('database_ssl_verify_server_cert');
+            if ($verify === null) { // undefined
+                $verify = true;
+            }
+
+            $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = (bool)$verify;
         }
         $queries[] = 'SET CHARACTER SET utf8';
         $queries[] = "SET COLLATION_CONNECTION='utf8_general_ci'";
