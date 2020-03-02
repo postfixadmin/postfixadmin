@@ -25,3 +25,8 @@ jobs:
     - name: Build/test
       run: composer build
 
+    - name: Coveralls
+      run: php vendor/bin/php-coveralls -v
+      env:
+          COVERALLS_RUN_LOCALLY: 1
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
