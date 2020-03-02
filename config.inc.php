@@ -110,6 +110,7 @@ $CONF['database_ssl_cert'] = NULL;
 $CONF['database_ssl_ca'] = NULL;
 $CONF['database_ssl_ca_path'] = NULL;
 $CONF['database_ssl_cipher'] = NULL;
+$CONF['database_ssl_verify_server_cert'] = true;
 
 // If you need to specify a different port for a MYSQL database connection, use e.g.
 //   $CONF['database_host'] = '172.30.33.66:3308';
