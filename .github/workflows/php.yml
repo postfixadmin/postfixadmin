@@ -25,8 +25,11 @@ jobs:
     - name: Build/test
       run: composer build
 
+    - name: setup coveralls
+      run: mkdir -p build/logs || true
+
     - name: Coveralls
-      run: php vendor/bin/php-coveralls -v --coverage_clover=coverage.xml --json_path=/tmp
+      run: php vendor/bin/php-coveralls -v --coverage_clover=coverage.xml 
       env:
           COVERALLS_RUN_LOCALLY: 1
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
