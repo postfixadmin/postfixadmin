@@ -206,7 +206,7 @@ class MailboxHandler extends PFAHandler {
 
     protected function read_from_db_postprocess($db_result) {
         foreach ($db_result as $key => $row) {
-            if (isset($row['quota'])) { # quota could be disabled in $struct
+            if (isset($row['quota']) && !empty($row['quota'])) { # quota could be disabled in $struct
                 $db_result[$key]['quotabytes'] = $row['quota'];
                 $db_result[$key]['quota'] = divide_quota($row['quota']); # convert quota to MB
             } else {
@@ -219,7 +219,7 @@ class MailboxHandler extends PFAHandler {
 
 
     protected function beforestore() {
-        if (isset($this->values['quota']) && $this->values['quota'] != -1) {
+        if (isset($this->values['quota']) && $this->values['quota'] != -1 && is_numeric($this->values['quota'])) {
             $multiplier = Config::read_string('quota_multiplier');
             if ($multiplier == 0 || !is_numeric($multiplier)) { // or empty string, or null, or false...
                 $multiplier = 1;
