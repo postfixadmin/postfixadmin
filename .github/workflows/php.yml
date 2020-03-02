@@ -26,7 +26,7 @@ jobs:
       run: composer build
 
     - name: Coveralls
-      run: php vendor/bin/php-coveralls -v --coverage-clover=coverage.xml
+      run: php vendor/bin/php-coveralls -v --coverage_clover=coverage.xml
       env:
           COVERALLS_RUN_LOCALLY: 1
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
