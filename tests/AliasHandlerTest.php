@@ -1,9 +1,7 @@
 <?php
 
-class AliasHandlerTest extends \PHPUnit\Framework\TestCase
-{
-    public function testBasic()
-    {
+class AliasHandlerTest extends \PHPUnit\Framework\TestCase {
+    public function testBasic() {
         $x = new AliasHandler();
         $list = $x->getList("");
         $this->assertTrue($list);
@@ -11,14 +9,12 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($results);
     }
 
-    public function tearDown()
-    {
+    public function tearDown() {
         $_SESSION = [];
         parent::tearDown();
     }
 
-    public function testCannotAddAliasUntilDomainIsThere()
-    {
+    public function testCannotAddAliasUntilDomainIsThere() {
 
         // Fake us being an admin.
 
@@ -46,12 +42,10 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         } catch (\Exception $e) {
             $this->assertEquals('Error: This domain does not exist!', $e->getMessage());
         }
-
     }
 
 
-    public function testAddingDataEtc()
-    {
+    public function testAddingDataEtc() {
         // Fake being an admin.
         $_SESSION = [
             'sessid' => [
