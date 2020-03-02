@@ -25,6 +25,3 @@ jobs:
     - name: Build/test
       run: composer build
 
-    - name: Submit Coveralls.
-      run: vendor/bin/php-coveralls
-
