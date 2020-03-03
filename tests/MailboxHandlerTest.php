@@ -117,9 +117,8 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
 
         $found = false;
 
-        foreach ($list as $alias => $details) {
-            if ($alias == 'david.test@example.com') {
-                // Found!
+        foreach ($list as $key => $details) {
+            if ($key == 'david.test@example.com') {
                 $this->assertEquals('example.com', $details['domain']);
                 $this->assertEquals('david.test@example.com', $details['username']);
                 $this->assertEquals('test person', $details['name']);
@@ -129,6 +128,45 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         }
 
         $this->assertTrue($found, "check output : " . json_encode($list));
+
+
+        // Try and edit.
+
+        $h = new MailboxHandler(0, 'admin', true);
+        $h->init('david.test@example.com');
+
+        $r = $h->set([
+            'password' => '',
+            'password2' => '',
+            'name' => 'test person 1234',
+            'quota' => 123456,
+            'active' => 1,
+            'email_other' => 'fred@example.com',
+            'username' => 'david.test@example.com'
+        ]);
+
+        $this->assertEmpty($h->errormsg);
+        $this->assertEmpty($h->infomsg);
+        $this->assertTrue($r);
+        $this->assertTrue($h->store());
+        
+        $h->getList('');
+        $list = $h->result();
+        $this->assertEquals(1, count($list));
+        $found = false;
+        foreach ($list as $key => $details) {
+            if ($key == 'david.test@example.com') {
+                // Found!
+                $this->assertEquals('example.com', $details['domain']);
+                $this->assertEquals('david.test@example.com', $details['username']);
+                $this->assertEquals(123456, $details['quota']);
+                $this->assertEquals('test person 1234', $details['name']);
+                $found = true;
+                break;
+            }
+        }
+
+        $this->assertTrue($found);
     }
 }
 
