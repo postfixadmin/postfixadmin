@@ -212,6 +212,7 @@ if ($db_type eq 'mysql') {
     $db_true = '1';
 } else { # Pg
     $dbh->do("SET CLIENT_ENCODING TO 'UTF8'");
+    $dbh->{pg_enable_utf8} = 1;
     $db_true = 'True';
 }
 
@@ -437,8 +438,9 @@ sub send_vacation_email {
         }
 
         $logger->debug("Will send vacation response for $orig_messageid: FROM: $email (orig_to: $orig_to), TO: $orig_from; VACATION SUBJECT: $row[0] ; VACATION BODY: $row[1]");
-
+	
         my $subject = $row[0];
+	$subject = Encode::decode_utf8( $subject ) if( !Encode::is_utf8( $subject ) );
         $orig_subject = decode("mime-header", $orig_subject);
         $subject =~ s/\$SUBJECT/$orig_subject/g;
         if ($subject ne $row[0]) {
@@ -446,6 +448,7 @@ sub send_vacation_email {
         }
 
         my $body = $row[1];
+	$body = Encode::decode_utf8( $body ) if( !Encode::is_utf8( $body ) );
         my $from = $email;
         my $to = $orig_from;
 
@@ -483,6 +486,8 @@ sub send_vacation_email {
 
         my $transport = Email::Sender::Transport::SMTP->new($smtp_params);
 
+	$subject = Encode::encode_utf8( $subject ) if( Encode::is_utf8( $subject ) );
+	$body = Encode::encode_utf8( $body ) if( Encode::is_utf8( $body ) );
         $email = Email::Simple->create(
             header => [
                 To      => $to,
