@@ -505,6 +505,10 @@ EOM;
 // address is legal by performing a name server look-up.
 $CONF['emailcheck_resolve_domain']='YES';
 
+// When creating mailboxes or aliases, check that the domain-part of the
+// address is local and managed by postfixadmin, preventing remote domains
+// from being the destination for an alias
+$CONF['emailcheck_localonly_domain']='NO';
 
 // Optional:
 // Analyze alias gotos and display a colored block in the first column
