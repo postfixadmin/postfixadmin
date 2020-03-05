@@ -391,9 +391,9 @@ class AliasHandler extends PFAHandler {
                 if ($domain_check != '') {
                     $errors[] = "$singlegoto: $domain_check";
                 }
-                $localonlydomain_check = check_localonlydomain($domain);
-                if ($localonlydomain_check != '') {
-                    $errors[] = "$singlegoto: $localonlydomain_check";
+                $localaliasonly_check = check_localaliasonly($domain);
+                if ($localaliasonly_check != '') {
+                    $errors[] = "$singlegoto: $localaliasonly_check";
                 }
             } else {
                 $email_check = check_email($singlegoto);
@@ -401,9 +401,9 @@ class AliasHandler extends PFAHandler {
                 if ($email_check != '' && !preg_match('/^[a-z0-9]+$/', $singlegoto)) {
                     $errors[] = "$singlegoto: $email_check";
                 }
-                $localonlydomain_check = check_localonlydomain($domain);
-                if ($localonlydomain_check != '') {
-                    $errors[] = "$singlegoto: $localonlydomain_check";
+                $localaliasonly_check = check_localaliasonly($singlegoto);
+                if ($localaliasonly_check != '') {
+                    $errors[] = "$singlegoto: $localaliasonly_check";
                 }
             }
         }
