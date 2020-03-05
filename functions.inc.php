@@ -266,7 +266,7 @@ function check_domain($domain) {
  * @return string empty if the domain is valid, otherwise string with the errormessage
  */
 function check_localaliasonly($domain) {
-    // If emailcheck_localonly_domain is set to 'YES', disallow aliases to remote servers (but allow aliases on this server)
+    // If emailcheck_localaliasonly is set to 'YES', disallow aliases to remote servers (but allow aliases on this server)
     if (Config::bool('emailcheck_localaliasonly')) {
         // get the domain part of the e-mail
         list(/*NULL*/, $domain) = explode('@', $domain);
