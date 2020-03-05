@@ -391,11 +391,19 @@ class AliasHandler extends PFAHandler {
                 if ($domain_check != '') {
                     $errors[] = "$singlegoto: $domain_check";
                 }
+                $localonlydomain_check = check_localonlydomain($domain);
+                if ($localonlydomain_check != '') {
+                    $errors[] = "$singlegoto: $localonlydomain_check";
+                }
             } else {
                 $email_check = check_email($singlegoto);
                 // preg_match -> allows for redirect to a local system account.
                 if ($email_check != '' && !preg_match('/^[a-z0-9]+$/', $singlegoto)) {
                     $errors[] = "$singlegoto: $email_check";
+                }
+                $localonlydomain_check = check_localonlydomain($domain);
+                if ($localonlydomain_check != '') {
+                    $errors[] = "$singlegoto: $localonlydomain_check";
                 }
             }
         }
