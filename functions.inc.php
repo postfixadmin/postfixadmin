@@ -877,6 +877,10 @@ function validate_password($password) {
     $val_conf = Config::read('password_validation');
     $result = array();
 
+    if (!is_array($val_conf)) {
+        $val_conf = [];
+    }
+
     $minlen = (int) Config::read('min_password_length'); # used up to 2.3.x - check it for backward compatibility
     if ($minlen > 0) {
         $val_conf['/.{' . $minlen . '}/'] = "password_too_short $minlen";
