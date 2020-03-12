@@ -53,6 +53,7 @@ if (!is_file("$incpath/config.inc.php")) {
 
 global $CONF;
 
+
 require_once("$incpath/config.inc.php");
 
 
@@ -64,6 +65,7 @@ if (isset($CONF['configured']) && !defined('PHPUNIT_TEST')) {
 
 Config::write($CONF);
 
+$PALANG = [];
 require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
 if (extension_loaded('Phar') && ( version_compare(PHP_VERSION, '7.0.0') < 0)) {

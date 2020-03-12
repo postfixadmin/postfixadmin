@@ -37,7 +37,7 @@ if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../m
 }
 
 $error = 0;
-
+$values = [];
 $edit = safepost('edit', safeget('edit'));
 $new = 0;
 if ($edit == "") {

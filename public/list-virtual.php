@@ -86,6 +86,8 @@ $_SESSION['prefill:aliasdomain:target_domain'] = $fDomain;
 
 $_SESSION['list-virtual:limit'] = $fDisplay;
 
+$tAliasDomains = [];
+$aliasdomain_data = [];
 
 #
 # alias domain

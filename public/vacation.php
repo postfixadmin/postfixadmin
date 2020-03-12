@@ -75,6 +75,11 @@ foreach (array_keys($choice_of_reply) as $key) {
     $choice_of_reply[$key] = Config::Lang($choice_of_reply[$key]);
 }
 
+$tUseremail = null;
+$tInterval_Time = null;
+$tBody = null;
+$tSubject = null;
+
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $tSubject = '';
     $tBody = '';
