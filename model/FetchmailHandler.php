@@ -173,6 +173,10 @@ class FetchmailHandler extends PFAHandler {
         }
         return true;
     }
+
+    public function domain_from_id() {
+        return '';
+    }
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
