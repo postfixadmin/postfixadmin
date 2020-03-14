@@ -8,7 +8,9 @@
 
 Version X.X - master
 -------------------------------------------------
-
+   - Improve vacation.pl (better utf-8 support)
+   - Improve DB connections (PDO, SSL)
+   - Add sha512.b64 password hash support (see https://github.com/postfixadmin/postfixadmin/issues/58)
    - Add support for password expiration (see https://github.com/postfixadmin/postfixadmin/pull/200 and README.password_expiration )
    - Improve ADDITIONS/postfixadmin-mailbox-postcreate.sh
    - Add Date header into smtp_from() (see https://github.com/postfixadmin/postfixadmin/issues/203 )
