@@ -840,11 +840,11 @@ abstract class PFAHandler {
 
             $crypt_password = pacrypt($password, $row['password']);
 
-            if ($row['password'] == $crypt_password) {
-                return true;
-            }
+            return hash_equals($row['password'], $crypt_password);
         }
-        return false;
+        // try and be near constant time regardless of whether the db user exists or not
+        $x = pacrypt('abc', 'def');
+        return hash_equals('not', 'comparable');
     }
 
     /**
