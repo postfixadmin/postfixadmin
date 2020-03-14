@@ -43,6 +43,13 @@ class DomainHandler extends PFAHandler {
         # NOTE: There are dependencies between alias_count, mailbox_count and total_quota.
         # NOTE: If you disable "display in list" for one of them, the SQL query for the others might break.
         # NOTE: (Disabling all of them shouldn't be a problem.)
+        #
+
+        // https://github.com/postfixadmin/postfixadmin/issues/299
+        $domain_quota_default = Config::read('domain_quota_default');
+        if ($domain_quota_default === null) {
+            $domain_quota_default = -1;
+        }
 
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
@@ -80,7 +87,7 @@ class DomainHandler extends PFAHandler {
            'maxquota'          => pacol($editquota,$editquota,$quota, 'num', 'pOverview_get_quota'          , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')  ),
 
             # Domain quota
-            'quota'            => pacol($edit_dom_q,$edit_dom_q, 0, 'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
+            'quota'            => pacol($edit_dom_q,$edit_dom_q, 0, 'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , $domain_quota_default ),
             'total_quota'      => pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(),
                 array('select' => "$query_used_domainquota AS total_quota") /*extrafrom*//* already in mailbox_count */ ),
             'total_quot'     => pacol( 0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, array(),
