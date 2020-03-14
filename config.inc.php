@@ -194,6 +194,7 @@ $CONF['smtp_sendmail_tls'] = 'NO';
 //     - don't use dovecot:* methods that include the username in the hash - you won't be able to login to PostfixAdmin in this case
 //     - you'll need at least dovecot 2.1 for salted passwords ('doveadm pw' 2.0.x doesn't support the '-t' option)
 //     - dovecot 2.0.0 - 2.0.7 is not supported
+// sha512.b64 - {SHA512-CRYPT.B64} (base64 encoded sha512) (no dovecot dependency; should support migration from md5crypt)
 $CONF['encrypt'] = 'md5crypt';
 
 // In what flavor should courier-authlib style passwords be encrypted?

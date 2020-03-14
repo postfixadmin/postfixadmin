@@ -1232,6 +1232,8 @@ function pacrypt($pw, $pw_db="") {
             return _pacrypt_mysql_encrypt($pw, $pw_db);
         case 'authlib':
             return _pacrypt_authlib($pw, $pw_db);
+        case 'sha512.b64':
+            return _pacrypt_sha512_b64($pw, $pw_db);
     }
 
     if (preg_match("/^dovecot:/", $CONF['encrypt'])) {
@@ -1243,6 +1245,35 @@ function pacrypt($pw, $pw_db="") {
     }
 
     throw new Exception('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
+}
+
+/**
+ * @see https://github.com/postfixadmin/postfixadmin/issues/58
+ */
+function _pacrypt_sha512_b64($pw, $pw_db="") {
+    if (!function_exists('random_bytes') || !function_exists('crypt') || !defined('CRYPT_SHA512') || !function_exists('mb_substr')) {
+        throw new Exception("sha512.b64 not supported!");
+    }
+    if (!$pw_db) {
+        $salt = mb_substr(rtrim(base64_encode(random_bytes(16)),'='),0,16,'8bit');
+        return '{SHA512-CRYPT.B64}'.base64_encode(crypt($pw,'$6$'.$salt));
+    } 
+
+
+    $password="#Thepasswordcannotbeverified";
+    if (strncmp($pw_db,'{SHA512-CRYPT.B64}',18)==0) {
+        $dcpwd = base64_decode(mb_substr($pw_db,18,NULL,'8bit'),true);
+        if ($dcpwd !== false && !empty($dcpwd) && strncmp($dcpwd,'$6$',3)==0) {
+            $password = '{SHA512-CRYPT.B64}'.base64_encode(crypt($pw,$dcpwd));
+        }
+    }
+    elseif (strncmp($pw_db,'{MD5-CRYPT}',11)==0) {
+        $dcpwd = mb_substr($pw_db,11,NULL,'8bit');
+        if (!empty($dcpwd) && strncmp($dcpwd,'$1$',3)==0) {
+            $password = '{MD5-CRYPT}'.crypt($pw,$dcpwd);
+        }
+    }
+    return $password;
 }
 
 /**

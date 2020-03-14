@@ -116,4 +116,29 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase {
         // not impossible though.
         $this->assertFalse( strcmp($str1, $str2) == 0 && strcmp($str1, $str3) == 0 );
     }
+
+    public function testSha512B64() {
+        $str1 = _pacrypt_sha512_b64('test', '');
+        $str2 = _pacrypt_sha512_b64('test', '');
+
+        $this->assertNotEmpty($str1);
+        $this->assertNotEmpty($str2);
+        $this->assertNotEquals($str1, $str2); // should have different salts
+
+
+        $actualHash = '{SHA512-CRYPT.B64}JDYkM2NWcFM1WFNlUHl5MzdwSiRZWW80d0FmeWg5MXpxcS4uY3dtYUR1Y1RodTJGTDY1NHpXNUNvRU0wT3hXVFFzZkxIZ1JJSTZmT281OVpDUWJOTTF2L0JXajloME0vVjJNbENNMUdwLg==';
+
+        $check = _pacrypt_sha512_b64('test', $actualHash);
+
+        $this->assertTrue(hash_equals($check, $actualHash));
+
+        $str3 = _pacrypt_sha512_b64('foo', '');
+
+        $this->assertNotEmpty($str3);
+
+        $this->assertFalse(hash_equals('test', $str3));
+
+        $this->assertTrue(hash_equals(_pacrypt_sha512_b64('foo',$str3), $str3));
+
+    }
 }
