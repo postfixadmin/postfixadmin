@@ -161,10 +161,10 @@ function _flash_string($type, $string) {
 function check_language($use_post = true) {
     global $supported_languages; # from languages/languages.php
 
-    // prefer a $_POST['lang'] if present 
+    // prefer a $_POST['lang'] if present
     if ($use_post && safepost('lang')) {
         $lang = safepost('lang');
-        if(is_string($lang) && array_key_exists($lang, $supported_languages)) {
+        if (is_string($lang) && array_key_exists($lang, $supported_languages)) {
             return $lang;
         }
     }
@@ -172,14 +172,14 @@ function check_language($use_post = true) {
     // Failing that, is there a $_COOKIE['lang'] ?
     if (safecookie('lang')) {
         $lang = safecookie('lang');
-        if(is_string($lang) && array_key_exists($lang, $supported_languages)) {
+        if (is_string($lang) && array_key_exists($lang, $supported_languages)) {
             return $lang;
         }
     }
 
     $lang = Config::read_string('default_language');
 
-	// If not, did the browser give us any hint(s)? 
+    // If not, did the browser give us any hint(s)?
     if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
         $lang_array = preg_split('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         if (safecookie('lang')) {
@@ -1257,18 +1257,17 @@ function _pacrypt_sha512_b64($pw, $pw_db="") {
     if (!$pw_db) {
         $salt = mb_substr(rtrim(base64_encode(random_bytes(16)),'='),0,16,'8bit');
         return '{SHA512-CRYPT.B64}'.base64_encode(crypt($pw,'$6$'.$salt));
-    } 
+    }
 
 
     $password="#Thepasswordcannotbeverified";
     if (strncmp($pw_db,'{SHA512-CRYPT.B64}',18)==0) {
-        $dcpwd = base64_decode(mb_substr($pw_db,18,NULL,'8bit'),true);
+        $dcpwd = base64_decode(mb_substr($pw_db,18,null,'8bit'),true);
         if ($dcpwd !== false && !empty($dcpwd) && strncmp($dcpwd,'$6$',3)==0) {
             $password = '{SHA512-CRYPT.B64}'.base64_encode(crypt($pw,$dcpwd));
         }
-    }
-    elseif (strncmp($pw_db,'{MD5-CRYPT}',11)==0) {
-        $dcpwd = mb_substr($pw_db,11,NULL,'8bit');
+    } elseif (strncmp($pw_db,'{MD5-CRYPT}',11)==0) {
+        $dcpwd = mb_substr($pw_db,11,null,'8bit');
         if (!empty($dcpwd) && strncmp($dcpwd,'$1$',3)==0) {
             $password = '{MD5-CRYPT}'.crypt($pw,$dcpwd);
         }

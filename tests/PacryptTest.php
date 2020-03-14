@@ -139,6 +139,5 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse(hash_equals('test', $str3));
 
         $this->assertTrue(hash_equals(_pacrypt_sha512_b64('foo',$str3), $str3));
-
     }
 }
