@@ -27,7 +27,7 @@ our $db_username="mail";
 our $db_password="CHANGE_ME!";
 
 # Where to create a lockfile; please ensure path exists.
-our $run_dir="/var/run/fetchmail";
+our $run_dir="/var/lock/fetchmail";
 
 # in case you want to use dovecot deliver to put the mail directly into the users mailbox,
 # set "mda" in the fetchmail table to the keyword "dovecot".
