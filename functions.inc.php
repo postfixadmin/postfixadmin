@@ -161,8 +161,25 @@ function _flash_string($type, $string) {
 function check_language($use_post = true) {
     global $supported_languages; # from languages/languages.php
 
+    // prefer a $_POST['lang'] if present 
+    if ($use_post && safepost('lang')) {
+        $lang = safepost('lang');
+        if(is_string($lang) && array_key_exists($lang, $supported_languages)) {
+            return $lang;
+        }
+    }
+
+    // Failing that, is there a $_COOKIE['lang'] ?
+    if (safecookie('lang')) {
+        $lang = safecookie('lang');
+        if(is_string($lang) && array_key_exists($lang, $supported_languages)) {
+            return $lang;
+        }
+    }
+
     $lang = Config::read_string('default_language');
 
+	// If not, did the browser give us any hint(s)? 
     if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
         $lang_array = preg_split('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         if (safecookie('lang')) {
