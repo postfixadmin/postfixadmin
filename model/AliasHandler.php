@@ -254,7 +254,7 @@ class AliasHandler extends PFAHandler {
         }
     }
 
-    protected function setmore($values) {
+    protected function setmore(array $values) {
         if ($this->new) {
             if ($this->struct['address']['display_in_form'] == 1) { # default mode - split off 'domain' field from 'address' # TODO: do this unconditional?
                 list(/*NULL*/, $domain) = explode('@', $values['address']);

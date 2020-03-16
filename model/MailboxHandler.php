@@ -273,7 +273,7 @@ class MailboxHandler extends PFAHandler {
 
 
     // Could perhaps also use _validate_local_part($new_value) { .... }
-    public function set($values) {
+    public function set(array $values) {
         // See: https://github.com/postfixadmin/postfixadmin/issues/282 - ensure the 'local_part' does not contain an @ sign.
         $ok = true;
         if (isset($values['local_part']) && strpos($values['local_part'], '@')) {
