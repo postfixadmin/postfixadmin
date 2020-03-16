@@ -272,7 +272,7 @@ class MailboxHandler extends PFAHandler {
     }
 
     protected function setmore(array $values) {
-        if(array_key_exists('quota', $this->values)) {
+        if (array_key_exists('quota', $this->values)) {
             $this->values['quota'] = (int)$this->values['quota'];
         }
     }
