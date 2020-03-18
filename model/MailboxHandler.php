@@ -208,7 +208,7 @@ class MailboxHandler extends PFAHandler {
         foreach ($db_result as $key => $row) {
             if (isset($row['quota']) && is_numeric($row['quota']) && $row['quota'] > -1) { # quota could be disabled in $struct
                 $db_result[$key]['quotabytes'] = $row['quota'];
-                $db_result[$key]['quota'] = divide_quota($row['quota']); # convert quota to MB
+                $db_result[$key]['quota'] = divide_quota( (int) $row['quota']); # convert quota to MB
             } else {
                 $db_result[$key]['quotabytes'] = -1;
                 $db_result[$key]['quota'] = -1;
