@@ -190,4 +190,3 @@ $languages = array(
 'za' => "Zhuang, Chuang",
 'zu' => "Zulu",
 );
-?>

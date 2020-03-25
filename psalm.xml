@@ -3,7 +3,7 @@
     totallyTyped="false"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
-    xsi:schemaLocation="https://getpsalm.org/schema/config file:///home/david/src/postfixadmin-stuff/postfixadmin.trunk/vendor/vimeo/psalm/config.xsd"
+    xsi:schemaLocation="https://getpsalm.org/schema/config"
 >
     <projectFiles>
         <directory name="." />
