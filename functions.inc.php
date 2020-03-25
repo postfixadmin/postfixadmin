@@ -2027,6 +2027,21 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
     return $query;
 }
 
+function db_begin() 
+{
+	return( db_query( "BEGIN" ) );
+}
+
+function db_commit()
+{
+	return( db_query( "COMMIT" ) );
+}
+
+function db_rollback()
+{
+	return( db_query( "ROLLBACK" ) );
+}
+
 /**
  * Convert a programmatic db table name into what may be the actual name.
  *
