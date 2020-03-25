@@ -16,9 +16,9 @@ See this page from Mozilla for more information: <https://wiki.mozilla.org/Thund
 
 If a DNS record exist
 
-For Outlook, the mail client will attempt a POST request to: <https://www.example.com/autodiscover/autodiscover.xml> and submit a xml-based request
+For Outlook, the mail client will attempt a POST request to: <https://www.example.com/autodiscover/autodiscover.xml> and submit a XML-based request
 
-For Mac mail and iOS, the user needs to download a `mobileconfig` file, which is basically an xml file, that can be signed.
+For Mac mail and iOS, the user needs to download a `mobileconfig` file, which is basically an XML file, that can be signed.
 
 Unfortunately, there is no auto discovery system for Mac/iOS mail, so you need to redirect your users to the `autoconfig.pl` cgi script under the Postfix Admin web root. You need to pass a `emailaddress` parameter for example <https://www.example.com/postfixadmin/autoconfig.pl?mac_mail=1&emailaddress=joe@example.com>
 
@@ -30,7 +30,7 @@ Unfortunately, there is no auto discovery system for Mac/iOS mail, so you need t
 
 You need to activate the `uuid-ossp` PostgreSQL extension to use the UUID_V4. You can do that, as an admin logged on PostgreSQL, with `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
 
-If you cannot or do not want to do that, edit the sql script for PostgreSQL and comment line 9 and uncomment line 11, comment line 72 and uncoment line 74, comment line 84 and uncomment line 86, comment line 107 and uncomment line 109
+If you cannot or do not want to do that, edit the SQL script for PostgreSQL and comment line 9 and uncomment line 11, comment line 72 and uncoment line 74, comment line 84 and uncomment line 86, comment line 107 and uncomment line 109
 
 #### Perl
 
@@ -76,13 +76,13 @@ You need to have `openssl` installed. I used version 1.0.2g. You would also need
 
 ### SQL
 
-Load the sql script `autoconfig.sql` into your Postfix Admin database. For exaple:
+Load the SQL script `autoconfig.sql` into your Postfix Admin database. For exaple:
 
-* PostgreSQL : psql -U postfixadmin postfixadmin < autoconfig.sql
+* PostgreSQL : `psql -U postfixadmin postfixadmin < autoconfig.sql`
 
-* MySQL : mysql -u postfixadmin postfixadmin < autoconfig.sql
+* MySQL : `mysql -u postfixadmin postfixadmin < autoconfig.sql`
 
-* SQLite : sqlite3 /path/to/database.sqlite < autoconfig.sql
+* SQLite : `sqlite3 /path/to/database.sqlite < autoconfig.sql`
 
 This will create 4 new standalone tables, and does not alter other areas of the PostfixAdmin database.
 
