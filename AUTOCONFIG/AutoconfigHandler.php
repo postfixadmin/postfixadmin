@@ -261,7 +261,7 @@ class AutoconfigHandler extends PFAHandler {
     
     public function db_assoc($sth) {
         if ( empty( $sth ) ) {
-            throw( "No statement handler was provided." );
+            throw new Exception( "No statement handler was provided." );
         }
         try {
             return( $sth->fetch( PDO::FETCH_ASSOC ) );
@@ -273,7 +273,7 @@ class AutoconfigHandler extends PFAHandler {
     
     public function db_fetchall($sth) {
         if ( empty( $sth ) ) {
-            throw( "No statement handler was provided." );
+            throw new Exception( "No statement handler was provided." );
         }
 
         try {
@@ -286,7 +286,7 @@ class AutoconfigHandler extends PFAHandler {
     
     public function db_rows($sth) {
         if ( empty( $sth ) ) {
-            throw( "No statement handler was provided." );
+            throw new Exception( "No statement handler was provided." );
         }
         try {
             return( $sth->rowCount() );
