@@ -6,7 +6,7 @@ Installation procedure for Autodiscovery configuration tool
 
 ## Quick background & overview
 
-Autodiscovery is a somewhat standardised features that makes it possible for mail client to find out the proper configuration for a mail account, and to prevent the every day user from guessing the right parameters.
+Autodiscovery is a somewhat standardised feature that makes it possible for mail client to find out the proper configuration for a mail account, and to prevent the every day user from guessing the right parameters.
 
 Let's take the example of joe@example.com.
 
@@ -14,7 +14,7 @@ When creating an account on Thurderbird and other who use the same configuration
 
 See this page from Mozilla for more information: <https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat>
 
-If a dns record exist
+If a DNS record exist
 
 For Outlook, the mail client will attempt a POST request to: <https://www.example.com/autodiscover/autodiscover.xml> and submit a xml-based request
 
@@ -84,7 +84,7 @@ Load the sql script `autoconfig.sql` into your Postfix Admin database. For exapl
 
 * SQLite : sqlite3 /path/to/database.sqlite < autoconfig.sql
 
-This will create 4 separate tables. Rest assured that `autoconfig` does not alter in any way other areas of Postfix Admin database.
+This will create 4 new standalone tables, and does not alter other areas of the PostfixAdmin database.
 
 ### PHP, perl and other web files
 
@@ -101,9 +101,9 @@ mv ./AUTOCONFIG/*.tpl ./templates/
 
 `autoconfig.js` is a small file containing event handlers to make the use of the admin interface smooth, and also makes use of Ajax with jQuery 3.3.1. jQuery 3.3.1 is used, and not the latest 3.3.2, because the pseudo selector `:first` and `:last` have been deprecated and are needed here, at least until I can find an alternative solution. If you have one, please let me know!
 
-The general use of javascript is light and only to support workflow, nothing more. Pure css is used whenever possible (such as the switch button). No other framework is used to keep things light.
+The general use of Javascript is light and only to support workflow, nothing more. Pure CSS is used whenever possible (such as the switch button). No other framework is used to keep things light.
 
-FontAwesome version 5.12.1 is loaded as import in the css file
+FontAwesome version 5.12.1 is loaded as import in the CSS file
 
 `autoconfig.pl` will guess the location of the `config.inc.php` based on the file path. You can change that, such as by specifiying `config.local.php` instead by editing the perl script and change the line `our $POSTFIXADMIN_CONF_FILE = File::Basename::dirname( __FILE__ ) . '/../config.inc.php';` for example into `our $POSTFIXADMIN_CONF_FILE = '/var/www/postfix/config.inc.php';`
 
@@ -111,7 +111,7 @@ FontAwesome version 5.12.1 is loaded as import in the css file
 
 ### DNS
 
-Not required, but to take full advaantage of the idea of auto discovery, you should set up the following dns record in your domain name zones:
+Not required, but to take full advaantage of the idea of auto discovery, you should set up the following DNS records in your domain name zones:
 
 ```bind
 _submission._tcp    IN  SRV 0 1 587 mail.example.com.
@@ -120,7 +120,7 @@ _imaps._tcp         IN  SRV 0 0 993 mail.example.com.
 _pop3._tcp          IN  SRV 0 0 110 mail.example.com.
 ```
 
-If you want to use a dedicated autodisvoer sub domain, you could set up yoru dns zone with the following record:
+If you want to use a dedicated autodiscover sub domain, you could set up your DNS zone with the following record:
 
 ```bind
 _autodiscover._tcp  IN  SRV 0 10 443 autoconfig.example.com.
@@ -128,7 +128,7 @@ _autodiscover._tcp  IN  SRV 0 10 443 autoconfig.example.com.
 
 ### Apache
 
-Add the following tp the general config file or to the relevant Vitual Hosts. You can also add it as a conf file under `/etc/apache2/conf-available` if it exists and then issue `a2enconf autoconfig.conf` to activate it (assuming the file name was `autoconfig.conf`)
+Add the following to the general config file or to the relevant Vitual Hosts. You can also add it as a conf file under `/etc/apache2/conf-available` if it exists and then issue `a2enconf autoconfig.conf` to activate it (assuming the file name was `autoconfig.conf`)
 
 (Here I presumed Postfix Admin is installed under /var/www/postfixadmin)
 
@@ -150,7 +150,7 @@ RewriteRule "^/.well-known/autoconfig/mail/config-v1.1.xml" "/autoconfig/autocon
 # For Outlook; POST request
 RewriteRule "^/autodiscover/autodiscover.xml" "/autoconfig/autoconfig.pl?outlook=1" [PT,L]
 
-# For autodiscovery settings in dns
+# For autodiscovery settings in DNS
 RewriteRule "^/mail/config-v1\.1\.xml(.*)$" "/autoconfig/autoconfig.pl" [PT,L]
 ```
 
