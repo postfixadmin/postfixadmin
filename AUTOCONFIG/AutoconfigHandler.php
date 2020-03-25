@@ -159,7 +159,7 @@ class AutoconfigHandler extends PFAHandler {
             return( false );
         }
         $sth = $res['result'];
-        if ( DEBUG ) {
+        if ( $this->debug ) {
             error_log( "get_config_ids_for_user() \$sth = " . print_r( $sth, true ) );
         }
         $all = $this->db_fetchall( $sth );
@@ -275,7 +275,7 @@ class AutoconfigHandler extends PFAHandler {
         if ( empty( $sth ) ) {
             throw( "No statement handler was provided." );
         }
-        // if( DEBUG ) error_log( "db_fetchall() \$sth = " . print_r( $sth, true ) );
+
         try {
             return( $sth->fetchAll(PDO::FETCH_ASSOC) );
         } catch ( Exception $e ) {
@@ -658,7 +658,7 @@ class AutoconfigHandler extends PFAHandler {
             // I need this to throw an exception so I can report the issue
             $ok = db_execute( "DELETE FROM $table_autoconfig WHERE config_id = ?", array($id), true );
         } catch ( Exception $e ) {
-            if ( DEBUG ) {
+            if ( $this->debug ) {
                 error_log( "remove_config(): An error occurred while trying to remove config id $id: " . $e->getMessage() );
             }
             $this->error = $e->getMessage();
@@ -740,7 +740,7 @@ class AutoconfigHandler extends PFAHandler {
         }
         // For the rest, there could be no imap, pop3 or smtp declared. That's up to the user who is always right
         // Likewise, there could be no login enable instruction or support documentation, so we don't make them mandatory
-        if ( DEBUG ) {
+        if ( $this->debug ) {
             error_log( "Base config data are: " . print_r( $config_data, true ) );
         }
         
@@ -1259,11 +1259,9 @@ class AutoconfigHandler extends PFAHandler {
 
     private function decode_boolean(&$data, $booleanProperties) {
         foreach ( $booleanProperties as $prop ) {
-            // if( DEBUG ) error_log( "decode_boolean() checking property '$prop' with value \"" . $data[ $prop ] . "\"." );
+
             if ( strlen( $data[ $prop ] ) > 0 ) {
-                // if( DEBUG ) error_log( "decode_boolean() is property '$prop' value equal to 1 ? " . ( $data[ $prop ] == 1 ? true : false ) );
                 $data[ $prop ] = db_get_boolean( $data[ $prop ] == 1 ? true : false );
-            // if( DEBUG ) error_log( "decode_boolean() property '$prop' now has value \"" . $data[ $prop ] . "\"." );
             }
             // Remove the boolean field since it is null. Null is different from false
             else {
