@@ -25,8 +25,17 @@
 
 require_once( 'common.php' );
 require_once( 'autoconfig_languages.php' );
-const DEBUG = false;
 
+$DEBUG = false;
+if (isset($_GET['debug'])) {
+    $DEBUG=true;
+}
+function debug($msg) {
+    global $DEBUG;
+    if ($DEBUG) {
+        error_log($msg);
+    }
+}
 authentication_require_role('admin');
 $fUsername = authentication_get_username(); # enforce login
 $Return_url = "list.php?table=domain";
@@ -66,7 +75,7 @@ $error = 0;
 
 $fDomain = safeget('domain');
 $ah = new AutoconfigHandler( $fUsername );
-$ah->debug = DEBUG;
+$ah->debug = $DEBUG;
 $config_id = safeget('config_id');
 if ( !empty( $fDomain ) && empty( $config_id ) ) {
     $config_id = $ah->get_id_by_domain( $fDomain );
@@ -91,17 +100,12 @@ if ( count( $ah->all_domains ) == 0 ) {
 }
 
 if ( $_SERVER['REQUEST_METHOD'] == "GET" || empty( $_SERVER['REQUEST_METHOD'] ) ) {
-    if ( DEBUG ) {
-        error_log( "config id submitted is: '$config_id'." );
-    }
+    debug( "config id submitted is: " . json_encode($config_id) );
+
     if ( !empty( $config_id ) ) {
-        if ( DEBUG ) {
-            error_log( "Getting configuration details with get_details()" );
-        }
+        debug( "Getting configuration details with get_details()" );
         $form = $ah->get_details( $config_id );
-        if ( DEBUG ) {
-            error_log( "get_details() returned: " . json_encode( $form ) );
-        }
+        debug( "get_details() returned: " . json_encode( $form ) );
     }
     if ( empty( $form['account_type'] ) ) {
         $form['account_type'] = 'imap';
@@ -117,14 +121,10 @@ if ( $_SERVER['REQUEST_METHOD'] == "GET" || empty( $_SERVER['REQUEST_METHOD'] ) 
         'provider_name'		=> $PALANG['pAutoconfig_placeholder_provider_name'],
     );
     $form['config_options'] = $ah->get_config_ids();
-    if ( DEBUG ) {
-        error_log( "config_options is: " . json_encode( $form['config_options'] ) );
-    }
+    debug( "config_options is: " . json_encode( $form['config_options'] ) );
     // $config_id could be null
     $form['provider_domain_disabled'] = $ah->get_other_config_domains( $config_id );
-    if ( DEBUG ) {
-        error_log( "provider_domain_disabled is: " . json_encode( $form ));
-    }
+    debug( "provider_domain_disabled is: " . json_encode( $form ));
     // Get defaults
     if ( count( $form['enable']['instruction'] ) == 0 ) {
         $form['enable']['instruction'] = array(
@@ -158,17 +158,14 @@ if ( $_SERVER['REQUEST_METHOD'] == "GET" || empty( $_SERVER['REQUEST_METHOD'] ) 
     }
     if ( !isset( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) ||
         strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) != 'xmlhttprequest' ) {
-        if ( DEBUG ) {
-            error_log( "This request is not using Ajax." );
-        }
+        debug( "This request is not using Ajax." );
         flash_error( "Request is not using Ajax" );
         showAutoconfigForm( $_POST );
         exit( 0 );
     }
     if ( isset( $_POST['config_id'] ) && !empty( $_POST['config_id'] ) ) {
-        if ( DEBUG ) {
-            error_log( "Got config_id: " . $_POST['config_id'] );
-        }
+        debug( "Got config_id: " . $_POST['config_id'] );
+
         if ( !$ah->config_id( $_POST['config_id'] ) ) {
             json_reply( array( 'error' => sprintf( $PALANG['pAutoconfig_config_id_not_found'], $_POST['config_id'] ) ) );
             exit( 0 );
@@ -180,31 +177,22 @@ if ( $_SERVER['REQUEST_METHOD'] == "GET" || empty( $_SERVER['REQUEST_METHOD'] ) 
         if ( preg_match( '/^[a-z][a-z_]+$/', $_POST['handler'] ) ) {
             $handler = $_POST['handler'];
         } else {
-            if ( DEBUG ) {
-                error_log( "Illegal character provided in handler \"" . $_POST['handler'] . "\"." );
-            }
+            debug( "Illegal character provided in handler \"" . $_POST['handler'] . "\"." );
             json_reply( array( 'error' => "Bad handler provided." ) );
             exit( 0 );
         }
     }
     
-    if ( DEBUG ) {
-        error_log( "handler is \"$handler\"." );
-    }
+    debug( "handler is '$handler'" );
     
     if ( $handler == 'autoconfig_save' ) {
-        if ( DEBUG ) {
-            error_log( "Got here saving configuration." );
-        }
+        debug( "Got here saving configuration." . json_encode($_POST));
         if ( !( $form = $ah->save_config( $_POST ) ) ) {
-            if ( DEBUG ) {
-                error_log( "Failed to save config: " . $ah->error_as_string() );
-            }
+            debug( "Failed to save config: " . $ah->error_as_string() );
             json_reply( array( 'error' => sprintf( $PALANG['pAutoconfig_server_side_error'], $ah->error_as_string() ) ) );
         } else {
-            if ( DEBUG ) {
-                error_log( "Ok, config saved." );
-            }
+            debug( "Ok, config saved." );
+           
             // We return the newly created ids so the user can perform a follow-on update
             // The Ajax script will take care of setting those values in the hidden fields
             json_reply( array(
@@ -217,22 +205,17 @@ if ( $_SERVER['REQUEST_METHOD'] == "GET" || empty( $_SERVER['REQUEST_METHOD'] ) 
             ) );
         }
     } elseif ( $handler == 'autoconfig_remove' ) {
-        if ( DEBUG ) {
-            error_log( "Got here removing configuration id " . $_POST['config_id'] );
-        }
+        debug( "Got here removing configuration id " . $_POST['config_id'] );
+
         if ( empty( $_POST['config_id'] ) ) {
             json_reply( array( 'error' => $PALANG['pAutoconfig_no_config_yet_to_remove'] ) );
             exit( 0 );
         }
         if ( !$ah->remove_config( $_POST['config_id'] ) ) {
-            if ( DEBUG ) {
-                error_log( "Failed to remove config: " . $ah->error_as_string() );
-            }
+            debug( "Failed to remove config: " . $ah->error_as_string() );
             json_reply( array( 'error' => sprintf( $PALANG['pAutoconfig_server_side_error'], $ah->error_as_string() ) ) );
         } else {
-            if ( DEBUG ) {
-                error_log( "Ok, config removed." );
-            }
+            debug( "Ok, config removed." );
             json_reply( array( 'success' => $PALANG['pAutoconfig_config_removed'] ) );
         }
         exit( 0 );
@@ -258,18 +241,17 @@ function json_reply($data) {
         . '://' . $_SERVER[ 'HTTP_HOST' ];
     header( "Access-Control-Allow-Origin: $allowed_domain" );
     header( 'Content-Type: application/json;charset=utf-8' );
-    if ( DEBUG ) {
-        error_log( "Returning to client the payload: " . json_encode( $data ) );
-    }
+    
+    debug( "Returning to client the payload: " . json_encode( $data ) );
+    
     echo json_encode( $data );
     return( true );
 }
 
 function showAutoconfigForm(&$form) {
-    global $PALANG, $CONF, $languages, $smarty;
-    if ( DEBUG ) {
-        error_log( "showAutoconfigForm() received form data: " . json_encode( $form ) );
-    }
+    global $PALANG, $CONF, $languages, $smarty, $DEBUG;
+    debug( "showAutoconfigForm() received form data: " . json_encode( $form ) );
+
     if ( $form == null ) {
         $form = array();
     }
