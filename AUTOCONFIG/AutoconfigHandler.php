@@ -855,8 +855,10 @@ class AutoconfigHandler extends PFAHandler {
                     $current_servers = $this->get_hosts( $this_type, $this->config_id );
                     // There must be at least one host for each type, even if blank
                     if ( !array_key_exists( 'host_id', $data ) ) {
-                        error_log( "No host id could be found at all from the web data submitted for config id \"" . $this->config_id . "\" which is" . ( $is_new ? '' : ' not' ) . " new." );
-                        $this->error = "No host id could be found at all from the web data submitted for config id \"" . $this->config_id . "\" which is" . ( $is_new ? '' : ' not' ) . " new.";
+                        $msg = "No host id could be found at all from the web data submitted for config id '{$this->config_id}' which is not new.";
+
+                        error_log($msg);
+                        $this->error = $msg;
                         db_rollback();
                         return( false );
                     }
@@ -881,19 +883,21 @@ class AutoconfigHandler extends PFAHandler {
                 // To check for duplicates
                 $processed = [];
                 for ( $i = 0; $i < count( $data['hostname'] ); $i++ ) {
+                    $counter[$data['type']] = $counter[$data['type']] ?? 0;
+
                     $host_data = array(
-                        'host_id'				=> @$data['host_id'][$i],
-                        'type'					=> @$data['type'][$i],
-                        'hostname'				=> @$data['hostname'][$i],
-                        'port'					=> @$data['port'][$i],
-                        'socket_type'			=> @$data['socket_type'][$i],
-                        'auth'					=> @$data['auth'][$i],
-                        'username'				=> @$data['username'][$i],
-                        'leave_messages_on_server'	=> @$data['leave_messages_on_server'][$i],
-                        'download_on_biff'		=> @$data['download_on_biff'][$i],
-                        'days_to_leave_messages_on_server'	=> @$data['days_to_leave_messages_on_server'][$i],
-                        'check_interval'		=> @$data['check_interval'][$i],
-                        'priority'				=> ++$counter[$data['type'][$i]],
+                        'host_id'                  => $data['host_id'][$i],
+                        'type'                     => $data['type'][$i],
+                        'hostname'                 => $data['hostname'][$i],
+                        'port'                     => $data['port'][$i],
+                        'socket_type'              => $data['socket_type'][$i],
+                        'auth'                     => $data['auth'][$i],
+                        'username'                 => $data['username'][$i],
+                        'leave_messages_on_server' => $data['leave_messages_on_server'][$i],
+                        'download_on_biff'         => $data['download_on_biff'][$i],
+                        'days_to_leave_messages_on_server' => $data['days_to_leave_messages_on_server'][$i],
+                        'check_interval'           => $data['check_interval'][$i],
+                        'priority'                 => ++$counter[$data['type'][$i]],
                     );
                     if ( ( $dataError = $this->check_autoconfig_host_data( $host_data ) ) != null ) {
                         $this->error = $dataError;
@@ -1102,6 +1106,11 @@ class AutoconfigHandler extends PFAHandler {
         }
 
         $data = PHP_MAJOR_VERSION < 7 ? openssl_random_pseudo_bytes(16) : random_bytes(16);
+
+
+        if (!is_string($data) || strlen($data) < 9) {
+            throw new \Exception("random bytes too short?");
+        }
         $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
         $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
@@ -1258,7 +1267,6 @@ class AutoconfigHandler extends PFAHandler {
 
     private function decode_boolean(&$data, $booleanProperties) {
         foreach ( $booleanProperties as $prop ) {
-
             if ( strlen( $data[ $prop ] ) > 0 ) {
                 $data[ $prop ] = db_get_boolean( $data[ $prop ] == 1 ? true : false );
             }
