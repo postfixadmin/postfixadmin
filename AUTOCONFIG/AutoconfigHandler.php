@@ -37,7 +37,6 @@ class AutoconfigHandler extends PFAHandler {
             'provider_short'            => pacol( 1, 		1,      1,      'text', 'Autoconfig_provider_short'				, ''                                , '' ),
             'incoming_server'			=> pacol( 1, 		1,      1,      'text', 'Autoconfig_incoming_server'				, ''                                , '' ),
             'outgoing_server'			=> pacol( 1, 		1,      1,      'text', 'Autoconfig_outgoing_server'				, ''                                , '' ),
-            'type'						=> pacol( 1, 		1,      1,      'text', 'Autoconfig_type'				, ''                                , '' ),
             'hostname'					=> pacol( 1, 		1,      1,      'text', 'Autoconfig_hostname'				, ''                                , '' ),
             'port'						=> pacol( 1, 		1,      1,      'integer', 'Autoconfig_port'				, ''                                , '' ),
             'socket_type'				=> pacol( 1, 		1,      1,      'text', 'Autoconfig_socket_type'				, ''                                , '' ),
