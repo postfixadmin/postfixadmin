@@ -141,16 +141,16 @@ class AutoconfigHandler extends PFAHandler {
         $table_autoconfig_domains = table_by_key('autoconfig_domains');
         $table_domain_admins = table_by_key('domain_admins');
         $table_domain = table_by_key('domain');
+
+        // This is a per-domain admin, so we use the table domain_admis to cross check which configuration he/she has access
+        $E_username = escape_string( $user );
+        $sql = "SELECT DISTINCT ad.config_id FROM $table_domain d INNER JOIN $table_autoconfig_domains ad ON ad.domain = d.domain WHERE d.active IS TRUE AND d.username='$E_username'";
+
         // This is a super admin, so he/she has access to all configs
         if ( authentication_has_role( 'global-admin' ) ) {
             // $sql = "SELECT DISTINCT ad.config_id FROM $table_autoconfig_domains ad LEFT JOIN $table_domain d ON ad.domain = d.domain WHERE d.domain != 'ALL AND d.active IS TRUE'";
             // global admin has access to all config
             $sql = "SELECT c.config_id FROM $table_autoconfig c";
-        }
-        // This is a per-domain admin, so we use the table domain_admis to cross check which configuration he/she has access
-        elseif ( authentication_has_role( 'admin' ) ) {
-            $E_username = escape_string( $user );
-            $sql = "SELECT DISTINCT ad.config_id FROM $table_domain d LEFT JOIN $table_autoconfig_domains ad ON ad.domain = d.domain WHERE d.active IS TUE AND d.username='$E_username'";
         }
         $res = db_query( $sql );
         if ( !empty( $res['error'] ) ) {
