@@ -100,7 +100,7 @@ if ( $_SERVER['REQUEST_METHOD'] == "GET" || empty( $_SERVER['REQUEST_METHOD'] ) 
         }
         $form = $ah->get_details( $config_id );
         if ( DEBUG ) {
-            error_log( "get_details() returned: " . print_r( $form, true ) );
+            error_log( "get_details() returned: " . json_encode( $form ) );
         }
     }
     if ( empty( $form['account_type'] ) ) {
@@ -118,12 +118,12 @@ if ( $_SERVER['REQUEST_METHOD'] == "GET" || empty( $_SERVER['REQUEST_METHOD'] ) 
     );
     $form['config_options'] = $ah->get_config_ids();
     if ( DEBUG ) {
-        error_log( "config_options is: " . print_r( $form['config_options'], true ) );
+        error_log( "config_options is: " . json_encode( $form['config_options'] ) );
     }
     // $config_id could be null
     $form['provider_domain_disabled'] = $ah->get_other_config_domains( $config_id );
     if ( DEBUG ) {
-        error_log( "provider_domain_disabled is: " . print_r( $form['provider_domain_disabled'], true ) );
+        error_log( "provider_domain_disabled is: " . json_encode( $form ));
     }
     // Get defaults
     if ( count( $form['enable']['instruction'] ) == 0 ) {
@@ -268,7 +268,7 @@ function json_reply($data) {
 function showAutoconfigForm(&$form) {
     global $PALANG, $CONF, $languages, $smarty;
     if ( DEBUG ) {
-        error_log( "showAutoconfigForm() received form data: " + print_r( $form, true ) );
+        error_log( "showAutoconfigForm() received form data: " . json_encode( $form ) );
     }
     if ( $form == null ) {
         $form = array();
