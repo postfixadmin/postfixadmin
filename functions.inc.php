@@ -180,13 +180,9 @@ function check_language($use_post = true) {
     $lang = Config::read_string('default_language');
 
     // If not, did the browser give us any hint(s)?
-    if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
         $lang_array = preg_split('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-
         foreach ($lang_array as $value) {
-            if (!is_string($value)) {
-                continue;
-            }
             $lang_next = strtolower(trim($value));
             $lang_next = preg_replace('/;.*$/', '', $lang_next); # remove things like ";q=0.8"
             if (array_key_exists($lang_next, $supported_languages)) {
