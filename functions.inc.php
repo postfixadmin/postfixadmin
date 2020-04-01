@@ -1078,12 +1078,15 @@ function _pacrypt_dovecot($pw, $pw_db = '') {
 /**
  * Supports DES, MD5, BLOWFISH, SHA256, SHA512 methods.
  *
+ * Via config we support an optional prefix (e.g. if you need hashes to start with {SHA256-CRYPT} and optional rounds (hardness) setting.
+ *
  * @param string $pw
  * @param string $pw_db (can be empty if setting a new password)
  * @return string crypt'ed password; if it matches $pw_db then $pw is the original password.
  */
-function _pacrypt_php_crypt($pw, $pw_db) {
-    global $CONF;
+function _pacrypt_php_crypt($pw, $pw_db)
+{
+    $configEncrypt = Config::read_string('encrypt');
 
     // use PHPs crypt(), which uses the system's crypt()
     // same algorithms as used in /etc/shadow
@@ -1091,30 +1094,47 @@ function _pacrypt_php_crypt($pw, $pw_db) {
     // the algorithm for a new hash is chosen by feeding a salt with correct magic to crypt()
     // set $CONF['encrypt'] to 'php_crypt' to use the default SHA512 crypt method
     // set $CONF['encrypt'] to 'php_crypt:METHOD' to use another method; methods supported: DES, MD5, BLOWFISH, SHA256, SHA512
+    // set $CONF['encrypt'] to 'php_crypt:METHOD:difficulty' where difficulty is between 1000-999999999
+    // set $CONF['encrypt'] to 'php_crypt:METHOD:difficulty:PREFIX' to prefix the hash with the {PREFIX} etc.
     // tested on linux
+
+    $prefix = '';
 
     if (strlen($pw_db) > 0) {
         // existing pw provided. send entire password hash as salt for crypt() to figure out
         $salt = $pw_db;
+
+        // if there was a prefix in the password, use this (override anything given in the config).
+
+        if (preg_match('/^\{([-A-Z0-9]+)\}(.+)$/', $pw_db, $method_matches)) {
+            $salt = $method_matches[2];
+            $prefix = "{" . $method_matches[1] . "}";
+        }
+
     } else {
         $salt_method = 'SHA512'; // hopefully a reasonable default (better than MD5)
         $hash_difficulty = '';
         // no pw provided. create new password hash
-        if (strpos($CONF['encrypt'], ':') !== false) {
+        if (strpos($configEncrypt, ':') !== false) {
             // use specified hash method
-            $split_method = explode(':', $CONF['encrypt']);
-            $salt_method = $split_method[1];
-            if (count($split_method) >= 3) {
-                $hash_difficulty = $split_method[2];
+            $spec = explode(':', $configEncrypt);
+            $salt_method = $spec[1];
+            if (isset($spec[2])) {
+                $hash_difficulty = $spec[2];
+            }
+            if (isset($spec[3])) {
+                $prefix = $spec[3]; // hopefully something like {SHA256-CRYPT}
             }
         }
         // create appropriate salt for selected hash method
         $salt = _php_crypt_generate_crypt_salt($salt_method, $hash_difficulty);
     }
-    // send it to PHPs crypt()
+
     $password = crypt($pw, $salt);
-    return $password;
+
+    return "{$prefix}{$password}";
 }
+
 
 /**
  * @param string $hash_type must be one of: MD5, DES, BLOWFISH, SHA256 or SHA512  (default)
