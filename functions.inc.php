@@ -182,12 +182,6 @@ function check_language($use_post = true) {
     // If not, did the browser give us any hint(s)?
     if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
         $lang_array = preg_split('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-        if (safecookie('lang')) {
-            array_unshift($lang_array, safecookie('lang')); # prefer language from cookie
-        }
-        if ($use_post && safepost('lang')) {
-            array_unshift($lang_array, safepost('lang')); # but prefer $_POST['lang'] even more
-        }
 
         foreach ($lang_array as $value) {
             if (!is_string($value)) {
