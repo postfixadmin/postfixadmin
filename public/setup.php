@@ -37,11 +37,12 @@ require(dirname(__FILE__) . '/../templates/header.php');
             //
             $f_phpversion = function_exists("phpversion");
             $f_apache_get_version = function_exists("apache_get_version");
-            $f_mysql_connect = function_exists("mysql_connect");
-            $f_mysqli_connect = function_exists("mysqli_connect");
-            $f_pg_connect = function_exists("pg_connect");
-            $f_sqlite_open = class_exists("SQLite3");
-            $f_pdo = class_exists('PDO');
+
+            $m_pdo       = extension_loaded("PDO");
+            $m_pdo_mysql = extension_loaded("pdo_mysql");
+            $m_pdo_pgsql = extension_loaded('pdo_pgsql');
+            $m_pdo_sqlite= extension_loaded("pdo_sqlite");
+
             $f_session_start = function_exists("session_start");
             $f_preg_match = function_exists("preg_match");
             $f_mb_encode_mimeheader = function_exists("mb_encode_mimeheader");
@@ -105,68 +106,42 @@ require(dirname(__FILE__) . '/../templates/header.php');
                 print "Create the file, and edit as appropriate (e.g. select database type etc)<br />";
             }
 
-            //
             // Check if there is support for at least 1 database
-            //
-            if (($f_pdo == 0) and ($f_mysql_connect == 0) and ($f_mysqli_connect == 0) and ($f_pg_connect == 0) and ($f_sqlite_open == 0)) {
-                print "<li><b>Error: There is no database support in your PHP setup</b><br />\n";
-                print "To install MySQL 3.23 or 4.0 support on FreeBSD:<br />\n";
-                print "<pre>% cd /usr/ports/databases/php{$phpversion}-mysql/\n";
-                print "% make clean install\n";
-                print " - or with portupgrade -\n";
-                print "% portinstall php{$phpversion}-mysql</pre>\n";
-                if ($phpversion >= 5) {
-                    print "To install MySQL 4.1 support on FreeBSD:<br />\n";
-                    print "<pre>% cd /usr/ports/databases/php5-mysqli/\n";
-                    print "% make clean install\n";
-                    print " - or with portupgrade -\n";
-                    print "% portinstall php5-mysqli</pre>\n";
-                }
-                print "To install PostgreSQL support on FreeBSD:<br />\n";
-                print "<pre>% cd /usr/ports/databases/php{$phpversion}-pgsql/\n";
-                print "% make clean install\n";
-                print " - or with portupgrade -\n";
-                print "% portinstall php{$phpversion}-pgsql</pre></li>\n";
+            if (($m_pdo == 0) and ($m_pdo_mysql == 0) and ($m_pdo_sqlite == 0) and ($m_pdo_psql == 0) ) {
+                print "<li><b>Error: There is no database (PDO) support in your PHP setup</b><br />\n";
+                print "<span style='color: red'>
+                    You MUST install a suitable PHP PDO extension (e.g. pdo_pgsql, pdo_mysql or pdo_sqlite).
+                    </span>\n</li>";
                 $error += 1;
             }
 
-            if ($f_mysqli_connect == 1) {
-                print "<li>Database - MySQL (mysqli_ functions) - Found\n";
-                if (Config::read_string('database_type') != 'mysqli') {
-                    print "<br>(change the database_type to 'mysqli' in config.local.php if you want to use MySQL)\n";
-                }
-                print "</li>";
+            if ($m_pdo_mysql == 1) {
+                print "<li>Database - PDO MySQL - Found</li>";
             } else {
-                print "<li>Database - MySQL (mysqli_ functions) - Not found</li>";
-            }
-
-
-            if (Config::read_string('database_type') == 'mysql') {
-                print "<li><strong><span style='color: red'>Warning:</span> your configured database_type 'mysql' is deprecated; you must move to use 'mysqli'</strong> in your config.local.php.</li>\n";
-                $error++;
+                print "<li>Database - MySQL (pdo_mysql) extension not found</li>";
             }
 
             //
             // PostgreSQL functions
             //
-            if ($f_pg_connect == 1) {
-                print "<li>Database : PostgreSQL support (pg_ functions) - Found\n";
+            if ($m_pdo_pgsql == 1) {
+                print "<li>Database : PDO PostgreSQL - Found \n";
                 if (Config::read_string('database_type') != 'pgsql') {
                     print "<br>(change the database_type to 'pgsql' in config.local.php if you want to use PostgreSQL)\n";
                 }
                 print "</li>";
             } else {
-                print "<li>Database - PostgreSQL (pg_ functions) - Not found</li>";
+                print "<li>Database - PostgreSQL (pdo_pgsql) extension not found</li>";
             }
 
-            if ($f_sqlite_open == 1) {
-                print "<li>Database : SQLite support (SQLite3) - Found \n";
+            if ($m_pdo_sqlite == 1) {
+                print "<li>Database : PDO SQLite - Found \n";
                 if (Config::read_string('database_type') != 'sqlite') {
                     print "<br>(change the database_type to 'sqlite' in config.local.php if you want to use SQLite)\n";
                 }
                 print "</li>";
             } else {
-                print "<li>Database - SQLite (SQLite3) - Not found</li>";
+                print "<li>Database - SQLite (pdo_sqlite) extension not found</li>";
             }
 
             //
@@ -226,8 +201,8 @@ require(dirname(__FILE__) . '/../templates/header.php');
             if ($f_mb_encode_mimeheader == 1) {
                 print "<li>Depends on: multibyte string - Found</li>\n";
             } else {
-                print "<li><b>Error: Depends on: multibyte string - NOT FOUND</b><br />\n";
-                print "To install multibyte string support, install php$phpversion-mbstring</li>\n";
+                print "<li><b>Error: Depends on: multibyte string - mbstring extension missing.</b><br />\n";
+                print "To install multibyte string support, perhaps install php$phpversion-mbstring</li>\n";
                 $error += 1;
             }
 
@@ -238,8 +213,8 @@ require(dirname(__FILE__) . '/../templates/header.php');
             if ($f_imap_open == 1) {
                 print "<li>IMAP functions - Found</li>\n";
             } else {
-                print "<li><b>Warning: May depend on: IMAP functions - Not Found</b><br />\n";
-                print "To install IMAP support, install php$phpversion-imap<br />\n";
+                print "<li><b>Warning: Optional dependency 'imap' extension missing</b><br />\n";
+                print "To install IMAP support, perhaps install php$phpversion-imap<br />\n";
                 print "Without IMAP support, you won't be able to create subfolders when creating mailboxes.</li>\n";
             }
 
