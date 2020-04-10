@@ -117,10 +117,10 @@ require(dirname(__FILE__) . '/../templates/header.php');
                 print "% portinstall php{$phpversion}-mysql</pre>\n";
                 if ($phpversion >= 5) {
                     print "To install MySQL 4.1 support on FreeBSD:<br />\n";
-                    print "<pre>% cd /usr/ports/databases/php5-mysqli/\n";
+                    print "<pre>% cd /usr/ports/databases/php7-mysqli/\n";
                     print "% make clean install\n";
                     print " - or with portupgrade -\n";
-                    print "% portinstall php5-mysqli</pre>\n";
+                    print "% portinstall php7-mysqli</pre>\n";
                 }
                 print "To install PostgreSQL support on FreeBSD:<br />\n";
                 print "<pre>% cd /usr/ports/databases/php{$phpversion}-pgsql/\n";
