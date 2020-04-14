@@ -309,11 +309,10 @@ class AliasHandler extends PFAHandler {
     }
 
     protected function read_from_db_postprocess($db_result) {
-
         foreach ($db_result as $key => $value) {
             # split comma-separated 'goto' into an array
             $goto = $db_result[$key]['goto'] ?? null;
-            if(is_string($goto)) {
+            if (is_string($goto)) {
                 $db_result[$key]['goto'] = explode(',', $goto);
             }
 
