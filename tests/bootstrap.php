@@ -22,7 +22,7 @@ if (getenv('DATABASE') == 'sqlite' || getenv('DATABASE') == false) {
     }
     touch($db_file);
 
-    echo "Using: SQLite database for tests - $db_file \n";
+    error_log("Using: SQLite database for tests - $db_file");
 }
 if (getenv('DATABASE') == 'postgresql') {
     $user = getenv('PGUSER') ?: 'postgres';
@@ -40,7 +40,7 @@ if (getenv('DATABASE') == 'postgresql') {
     Config::write('database_name', 'postfixadmin');
     Config::write('database_host', $host);
 
-    echo "Using: PostgreSQL database for tests\n";
+    error_log("Using: PostgreSQL database for tests\n");
 }
 
 if (getenv('DATABASE') == 'mysql') {
@@ -76,7 +76,7 @@ if (getenv('DATABASE') == 'mysql') {
     Config::write('database_password', $config['password']);
     Config::write('database_name', 'postfixadmin');
 
-    echo "Using: MySQL database for tests\n";
+    error_log("Using: MySQL database for tests");
 }
 
 try {

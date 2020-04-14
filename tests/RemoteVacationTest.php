@@ -13,7 +13,7 @@ class RemoteVacationTest extends RemoteTest {
     /**
      * Adds the test recipient data to the database.
      */
-    public function setUp() {
+    public function setUp() : void {
         // Ensure config.inc.php is vaguely correct.
         global $CONF;
         if ($CONF['vacation'] != 'YES' || $CONF['vacation_control'] != "YES") {
@@ -36,7 +36,7 @@ class RemoteVacationTest extends RemoteTest {
 
     public function testGetDetails() {
         $details = $this->vacation->getDetails();
-        $this->assertFalse($details); // empty by default (thansk to tearDown/setUp);
+        $this->assertFalse($details); // empty by default (thanks to tearDown/setUp);
     }
 
     public function testSetAway() {

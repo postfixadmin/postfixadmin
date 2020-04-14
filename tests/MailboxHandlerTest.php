@@ -1,7 +1,7 @@
 <?php
 
 class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
-    public function tearDown() {
+    public function tearDown() : void {
         db_query('DELETE FROM mailbox');
         db_query('DELETE FROM domain');
         db_query('DELETE FROM domain_admins');

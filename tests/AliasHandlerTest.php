@@ -9,7 +9,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEmpty($results);
     }
 
-    public function tearDown() {
+    public function tearDown() : void {
         $_SESSION = [];
         db_query('DELETE FROM alias');
         db_query('DELETE FROM domain');

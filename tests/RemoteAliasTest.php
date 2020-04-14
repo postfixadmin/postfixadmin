@@ -13,17 +13,6 @@ class RemoteAliasTest extends RemoteTest {
         global $CONF;
     }
 
-
-    /**
-     * Adds the test recipient data to the database.
-     */
-    public function setUp() {
-        parent::setUp();
-    }
-    public function tearDown() {
-        parent::tearDown();
-    }
-
     public function testGet() {
         /* although we created an alias record, for users, this isn't returned... */
         $this->assertEquals($this->alias->get(), array());
