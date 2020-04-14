@@ -309,9 +309,13 @@ class AliasHandler extends PFAHandler {
     }
 
     protected function read_from_db_postprocess($db_result) {
+
         foreach ($db_result as $key => $value) {
             # split comma-separated 'goto' into an array
-            $db_result[$key]['goto'] = explode(',', $db_result[$key]['goto']);
+            $goto = $db_result[$key]['goto'] ?? null;
+            if(is_string($goto)) {
+                $db_result[$key]['goto'] = explode(',', $goto);
+            }
 
             # Vacation enabled?
             list($db_result[$key]['on_vacation'], $db_result[$key]['goto']) = remove_from_array($db_result[$key]['goto'], $this->getVacationAlias());
