@@ -50,33 +50,22 @@ final class Config {
 
         $newConfig = $_this->getAll();
 
-        foreach ($config as $names => $value) {
-            $name = $_this->__configVarNames($names);
-
-            switch (count($name)) {
-            case 3:
-                $newConfig[$name[0]][$name[1]][$name[2]] = $value;
-                break;
-            case 2:
-                $newConfig[$name[0]][$name[1]] = $value;
-                break;
-            case 1:
-                $newConfig[$name[0]] = $value;
-                break;
-            }
+        foreach ($config as $name => $value) {
+            $newConfig[$name] = $value;
         }
+
         $_this->setAll($newConfig);
     }
 
     /**
-     * @return array
      * @param string $var
+     * @return array
      */
     public static function read_array($var) {
         $stuff = self::read($var);
 
         if (!is_array($stuff)) {
-            trigger_error('In '.__FUNCTION__.": expected config $var to be an array, but received a " . gettype($stuff), E_USER_ERROR);
+            trigger_error('In ' . __FUNCTION__ . ": expected config $var to be an array, but received a " . gettype($stuff), E_USER_ERROR);
         }
 
         return $stuff;
@@ -94,7 +83,7 @@ final class Config {
         }
 
         if (!is_string($stuff)) {
-            trigger_error('In '.__FUNCTION__.": expected config $var to be a string, but received a " . gettype($stuff), E_USER_ERROR);
+            trigger_error('In ' . __FUNCTION__ . ": expected config $var to be a string, but received a " . gettype($stuff), E_USER_ERROR);
             return '';
         }
 
@@ -121,34 +110,12 @@ final class Config {
             return $config;
         }
 
-        $name = $_this->__configVarNames($var);
-
-        switch (count($name)) {
-        case 3:
-            $zero = $name[0];
-            $one = $name[1];
-            $two = $name[2];
-            if (isset($config[$zero], $config[$zero][$one], $config[$zero][$one][$two])) {
-                return $config[$zero][$one][$two];
-            }
-            break;
-        case 2:
-            $zero = $name[0];
-            $one = $name[1];
-            if (isset($config[$zero], $config[$zero][$one])) {
-                return $config[$zero][$one];
-            }
-            break;
-        case 1:
-            $zero = $name[0];
-            if (isset($config[$zero])) {
-                return $config[$zero];
-            }
-            break;
+        if (isset($config[$var])) {
+            return $config[$var];
         }
 
-        if (!in_array(join('.', $name), self::$deprecated_options)) {
-            error_log('Config::read(): attempt to read undefined config option "' . join('.', $name) . '", returning null');
+        if (!in_array($var, self::$deprecated_options)) {
+            error_log('Config::read(): attempt to read undefined config option "' . $var . '", returning null');
         }
 
         return null;
@@ -194,7 +161,7 @@ final class Config {
         }
 
         if (!is_string($value)) {
-            trigger_error('In '.__FUNCTION__.": expected config $var to be a string, but received a " . gettype($value), E_USER_ERROR);
+            trigger_error('In ' . __FUNCTION__ . ": expected config $var to be a string, but received a " . gettype($value), E_USER_ERROR);
             error_log("config $var should be a string, found: " . json_encode($value));
             return false;
         }
@@ -222,7 +189,6 @@ final class Config {
     }
 
 
-
     /**
      * Get translated text from $PALANG
      * (wrapper for self::read(), see also the comments there)
@@ -239,7 +205,7 @@ final class Config {
         }
 
         if (!is_string($value)) {
-            trigger_error('In '.__FUNCTION__.": expected config $var to be a string , but received a " . gettype($value), E_USER_ERROR);
+            trigger_error('In ' . __FUNCTION__ . ": expected config $var to be a string , but received a " . gettype($value), E_USER_ERROR);
         }
         return $value;
     }
@@ -253,7 +219,7 @@ final class Config {
      * @return string value of $PALANG[$var], parsed by sprintf
      */
     public static function lang_f($var, $value) {
-        return self::read_f('__LANG.'. $var, $value);
+        return self::read_f('__LANG.' . $var, $value);
     }
 
     /**
@@ -269,23 +235,6 @@ final class Config {
      */
     public function setAll(array $config) {
         $this->config = $config;
-    }
-
-    /**
-     * Checks $name for dot notation to create dynamic Configure::$var as an array when needed.
-     *
-     * @param mixed $name Name to split
-     * @return array Name separated in items through dot notation
-     * @access private
-     */
-    private function __configVarNames($name) {
-        if (is_string($name)) {
-            if (strpos($name, ".")) {
-                return explode(".", $name);
-            }
-            return array($name);
-        }
-        return $name;
     }
 }
 
