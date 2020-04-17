@@ -6,6 +6,13 @@
 #
 # Further details on the project are available at http://postfixadmin.sf.net
 
+Version 3.2.4 - 2020/04/17
+-------------------------------------------------
+
+  - Upgrade Smarty (v3.1.35), see https://github.com/smarty-php/smarty/releases/tag/v3.1.35
+  - Fix issues with quota (cli mailbox creation)
+  - Improve database compatability (row->r).
+
 Version 3.2.3 - 2019/09/26
 -------------------------------------------------
 
