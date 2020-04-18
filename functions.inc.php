@@ -838,7 +838,8 @@ function encode_header($string, $default_charset = "utf-8") {
     function random_int($min, $max) {
         return mt_rand($min, $max);
     }
-/**/ }
+    /**/
+}
 
 /**
  * Generate a random password of $length characters.
@@ -1993,7 +1994,6 @@ function db_where_clause($condition, $struct, $additional_raw_where = '', $searc
         } elseif ($operator == "NOTNULL") {
             $querypart = $field . ' IS NOT NULL';
         } else {
-
             $querypart = $field . $operator . "'" . escape_string($value) . "'";
 
             // might need other types adding here.
