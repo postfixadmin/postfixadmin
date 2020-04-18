@@ -85,6 +85,7 @@ For MySQL:
   CREATE DATABASE postfix;
   CREATE USER 'postfix'@'localhost' IDENTIFIED BY 'choose_a_password';
   GRANT ALL PRIVILEGES ON `postfix` . * TO 'postfix'@'localhost';
+  FLUSH PRIVILEGES;
 
 For PostgreSQL:
   CREATE USER postfix WITH PASSWORD 'whatever';
