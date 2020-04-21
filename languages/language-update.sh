@@ -21,7 +21,7 @@
 
 function update_string_list() {
 	for file in en.lang $filelist ; do
-		echo "<?php include('$file'); print join(\"\\n\", array_keys(\$PALANG)) . \"\\n\"; ?>" | php > $file.strings
+		echo "<?php \$CONF['admin_name'] = ''; include('$file'); print join(\"\\n\", array_keys(\$PALANG)) . \"\\n\"; ?>" | php > $file.strings
 	done
 
 	for file in $filelist ; do
