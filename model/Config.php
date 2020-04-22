@@ -115,7 +115,7 @@ final class Config {
         }
 
         if (!in_array($var, self::$deprecated_options)) {
-            error_log('Config::read(): attempt to read undefined config option "' . $var . '", returning null');
+            error_log('Config::read(): attempt to read undefined config option "' . $var . '", returning null' . json_encode(debug_backtrace(), true));
         }
 
         return null;
@@ -198,15 +198,15 @@ final class Config {
      * @access public
      */
     public static function lang($var) {
-        $value = self::read("__LANG.{$var}");
 
-        if (is_null($value)) {
-            return '';
-        }
+        $languages = self::read_array('__LANG');
+
+        $value = $languages[$var] ?? '';
 
         if (!is_string($value)) {
             trigger_error('In ' . __FUNCTION__ . ": expected config $var to be a string , but received a " . gettype($value), E_USER_ERROR);
         }
+
         return $value;
     }
 
