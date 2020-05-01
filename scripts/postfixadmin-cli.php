@@ -314,13 +314,6 @@ class PostfixAdmin {
      * @param array $params Parameters to parse
      */
     public function parseParams($params) {
-        $this->__parseParams($params);
-    }
-
-    /**
-     * Helper for recursively parsing params
-     */
-    private function __parseParams($params) {
         $count = count($params);
         for ($i = 0; $i < $count; $i++) {
             if ($params[$i] != '' && $params[$i]{0} === '-' && $params[$i] != '-1') {
