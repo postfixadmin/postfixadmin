@@ -323,26 +323,22 @@ class PostfixAdmin {
     private function __parseParams($params) {
         $count = count($params);
         for ($i = 0; $i < $count; $i++) {
-            if (isset($params[$i])) {
-                if ($params[$i] != '' && $params[$i]{0} === '-') {
+#            if (isset($params[$i])) {
+                if ($params[$i] != '' && $params[$i]{0} === '-' && $params[$i] != '-1') {
                     $key = substr($params[$i], 1);
-                    $this->params[$key] = true;
-                    unset($params[$i]);
-                    if (isset($params[++$i])) {
+                    if (isset($params[$i+1])) {
                         # TODO: ideally we should know if a parameter can / must have a value instead of whitelisting known valid values starting with '-' (probably only bool doesn't need a value)
-                        if ($params[$i]{0} !== '-' or $params[$i] != '-1') {
-                            $this->params[$key] = $params[$i];
-                            unset($params[$i]);
+                        if ($params[$i+1]{0} === '-' && $params[$i+1] != '-1') {
+                            $this->params[$key] = true;
                         } else {
-                            $i--;
-                            $this->__parseParams($params);
+                            $this->params[$key] = $params[$i+1];
+                            $i++;
                         }
                     }
                 } else {
                     $this->args[] = $params[$i];
-                    unset($params[$i]);
                 }
-            }
+#            }
         }
     }
 
