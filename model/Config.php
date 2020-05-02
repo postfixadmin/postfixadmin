@@ -218,7 +218,18 @@ final class Config {
      * @return string value of $PALANG[$var], parsed by sprintf
      */
     public static function lang_f($var, $value) {
-        return self::read_f('__LANG.' . $var, $value);
+        $all = self::read_array('__LANG');
+
+        $text = $all[$var] ?? '';
+
+        $newtext = sprintf($text, $value);
+
+        # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
+        if ($text == $newtext) {
+            error_log("$var used via read_f, but nothing replaced (value $value)");
+        }
+
+        return $newtext;
     }
 
     /**
