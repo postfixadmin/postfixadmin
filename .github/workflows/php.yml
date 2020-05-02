@@ -29,6 +29,6 @@ jobs:
       run: mkdir -p build/logs || true
 
     - name: Coveralls
-      run: vendor/bin/coveralls ./clover.xml
+      run: vendor/bin/coveralls ./clover.xml || true
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
