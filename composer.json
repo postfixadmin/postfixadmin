@@ -38,5 +38,10 @@
             "functions.inc.php",
             "lib/smarty/libs/bootstrap.php"
         ]
+    },
+    "support": {
+        "irc": "irc://irc.freenode.org/postfixadmin",
+        "issues": "https://github.com/postfixadmin/postfixadmin/issues",
+        "chat": "https://gitter.im/postfixadmin/Lobby"
     }
 }
