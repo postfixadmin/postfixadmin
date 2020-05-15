@@ -248,6 +248,8 @@ function check_domain($domain) {
                 $retval = '';
             } elseif (checkdnsrr($domain, 'MX')) {
                 $retval = '';
+            } elseif (checkdnsrr($domain, 'NS')) {
+                $retval = '';
             } else {
                 $retval = sprintf(Config::lang('pInvalidDomainDNS'), htmlentities($domain));
             }
