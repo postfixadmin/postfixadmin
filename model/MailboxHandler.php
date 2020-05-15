@@ -224,6 +224,11 @@ class MailboxHandler extends PFAHandler {
             $this->values['quota'] = $this->values['quota'] * $multiplier; # convert quota from MB to bytes
         }
 
+        // Avoid trying to store '' in an integer field
+        if($this->values['quota'] === '') {
+            $this->values['quota'] = 0;
+        }
+
         $ah = new AliasHandler($this->new, $this->admin_username);
 
         $ah->calledBy('MailboxHandler');
