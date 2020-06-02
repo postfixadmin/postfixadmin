@@ -249,6 +249,7 @@ function check_domain($domain) {
             } elseif (checkdnsrr($domain, 'MX')) {
                 $retval = '';
             } elseif (checkdnsrr($domain, 'NS')) {
+                error_log("DNS is not correctly configured for $domain to send or receive email");
                 $retval = '';
             } else {
                 $retval = sprintf(Config::lang('pInvalidDomainDNS'), htmlentities($domain));
