@@ -454,7 +454,7 @@ sub send_vacation_email {
         my $to = $orig_from;
 
         # part of the username in the email && part of the domain in the email
-        my ($email_username_part, $email_domain_part) = split(/@/, $orig_from);
+        my ($email_username_part, $email_domain_part) = split(/@/, $email);
 
         my $resolver  = Net::DNS::Resolver->new;
         my @mx   = mx($resolver, $email_domain_part);
