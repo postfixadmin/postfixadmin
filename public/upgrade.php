@@ -329,6 +329,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
     try {
         $result = db_execute($query, array(), true);
     } catch (PDOException $e) {
+        error_log("Exception running PostfixAdmin query: $query " . $e);
         if ($debug) {
             echo_out("<div style='color:#f00'>" . $e->getMessage() . "</div>");
         }
