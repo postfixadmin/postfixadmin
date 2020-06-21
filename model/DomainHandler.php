@@ -191,7 +191,7 @@ class DomainHandler extends PFAHandler {
     }
 
     /**
-     *  @return true on success false on failure
+     *  @return bool
      */
     public function delete() {
         # TODO: check for _can_delete instead

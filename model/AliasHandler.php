@@ -440,6 +440,7 @@ class AliasHandler extends PFAHandler {
     * Returns the vacation alias for this user.
     * i.e. if this user's username was roger@example.com, and the autoreply domain was set to
     * autoreply.fish.net in config.inc.php we'd return roger#example.com@autoreply.fish.net
+    *
     * @return string an email alias.
     */
     protected function getVacationAlias() {
@@ -448,7 +449,7 @@ class AliasHandler extends PFAHandler {
     }
  
     /**
-     *  @return true on success false on failure
+     *  @return boolean
      */
     public function delete() {
         if (! $this->view()) {

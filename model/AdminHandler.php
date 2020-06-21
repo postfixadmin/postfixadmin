@@ -183,7 +183,7 @@ class AdminHandler extends PFAHandler {
     }
 
     /**
-     *  @return true on success false on failure
+     *  @return bool
      */
     public function delete() {
         if (! $this->view()) {

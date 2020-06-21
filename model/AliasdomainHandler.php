@@ -100,7 +100,7 @@ class AliasdomainHandler extends PFAHandler {
 
 
     /**
-     *  @return true on success false on failure
+     *  @return boolean
      */
     public function delete() {
         if (! $this->view()) {
@@ -118,6 +118,7 @@ class AliasdomainHandler extends PFAHandler {
 
     /**
      * validate target_domain field - it must be != $this->id to avoid a loop
+     * @return boolean
      */
     protected function _validate_target_domain($field, $val) {
         if ($val == $this->id) {

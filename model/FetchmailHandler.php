@@ -107,7 +107,7 @@ class FetchmailHandler extends PFAHandler {
 
 
     /**
-     *  @return true on success false on failure
+     *  @return boolean
      */
     public function delete() {
         if (! $this->view()) {
@@ -124,7 +124,7 @@ class FetchmailHandler extends PFAHandler {
     }
 
 
-    /*
+    /**
      * validate src_server - must be non-empty and survive check_domain()
      */
     protected function _validate_src_server($field, $val) {
@@ -142,7 +142,7 @@ class FetchmailHandler extends PFAHandler {
         }
     }
 
-    /*
+    /**
      * validate src_user and src_password - must be non-empty
      * (we can't assume anything about valid usernames and passwords on remote
      * servers, so the validation can't be more strict)
@@ -154,6 +154,7 @@ class FetchmailHandler extends PFAHandler {
         }
         return true;
     }
+
     protected function _validate_src_password($field, $val) {
         if ($val == '') {
             $this->errormsg[$field] = Config::lang('pFetchmail_password_missing');
@@ -162,7 +163,7 @@ class FetchmailHandler extends PFAHandler {
         return true;
     }
 
-    /*
+    /**
      * validate poll interval - must be numeri and > 0
      */
     protected function _validate_poll_time($field, $val) {

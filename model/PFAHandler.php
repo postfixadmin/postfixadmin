@@ -790,11 +790,11 @@ abstract class PFAHandler {
 
     /**
      * get a list of one or more items with all values
-     * @param array or string $condition - see read_from_db for details
+     * @param array|string $condition - see read_from_db for details
      *        WARNING: will be changed to array only in the future, with an option to include a raw string inside the array
-     * @param array - modes to use if $condition is an array - see read_from_db for details
-     * @param integer limit - maximum number of rows to return
-     * @param integer offset - number of first row to return
+     * @param array $searchmode - modes to use if $condition is an array - see read_from_db for details
+     * @param int $limit - maximum number of rows to return
+     * @param int $offset - number of first row to return
      * @return bool - always true, no need to check ;-) (if $result is not an array, getList die()s)
      * The data is stored in $this->result (as array of rows, each row is an associative array of column => value)
      */
