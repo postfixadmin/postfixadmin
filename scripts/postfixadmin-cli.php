@@ -146,7 +146,10 @@ class PostfixAdmin {
     }
 
     /**
-     * Dispatches a CLI request
+     * postfixadmin-cli admin view admin@example.com
+     *              - Create AdminHandler.
+     *              - and then a CliView object (Shell class)
+     *              - call CliView->view() ... which under the covers uses AdminHandler*
      */
     public function dispatch() {
         check_db_version(); # ensure the database layout is up to date
