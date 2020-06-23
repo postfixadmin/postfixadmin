@@ -12,8 +12,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase {
     public function tearDown() : void {
         $_SESSION = [];
         db_query('DELETE FROM alias');
-        db_query('DELETE FROM domain');
         db_query('DELETE FROM domain_admins');
+        db_query('DELETE FROM domain');
 
         parent::tearDown();
     }
