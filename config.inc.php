@@ -138,6 +138,7 @@ $CONF['database_tables'] = array (
     'fetchmail' => 'fetchmail',
     'log' => 'log',
     'mailbox' => 'mailbox',
+    'server' => 'server',
     'vacation' => 'vacation',
     'vacation_notification' => 'vacation_notification',
     'quota' => 'quota',
@@ -334,6 +335,7 @@ function maildir_name_hook($domain, $user) {
     $CONF['admin_struct_hook'] = 'x_struct_admin_modify';
 */
 $CONF['admin_struct_hook']          = '';
+$CONF['server_struct_hook']         = '';
 $CONF['domain_struct_hook']         = '';
 $CONF['alias_struct_hook']          = '';
 $CONF['mailbox_struct_hook']        = '';
@@ -375,6 +377,9 @@ $CONF['transport_options'] = array (
 // You should define default transport. It must be in array above.
 $CONF['transport_default'] = 'virtual';
 
+// Support for multiple servers
+// If you want to enable support for multiple servers set this to 'YES'
+$CONF['multiple_servers'] = 'NO';
 
 //
 //
@@ -597,6 +602,22 @@ $CONF['domain_postcreation_script'] = '';
 // Parameters: (1) domain
 // $CONF['domain_postdeletion_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postdeletion.sh';
 $CONF['domain_postdeletion_script'] = '';
+
+// Optional:
+// Script to run after creation of servers.
+// Note that this may fail if PHP is run in "safe mode", or if
+// operating system features (such as SELinux) or limitations
+// prevent the web-server from executing external scripts.
+// Parameters: (1) server
+$CONF['server_postcreation_script'] = '';
+
+// Optional:
+// Script to run after deletion of servers.
+// Note that this may fail if PHP is run in "safe mode", or if
+// operating system features (such as SELinux) or limitations
+// prevent the web-server from executing external scripts.
+// Parameters: (1) server
+$CONF['server_postdeletion_script'] = '';
 
 // Optional:
 // Sub-folders which should automatically be created for new users.

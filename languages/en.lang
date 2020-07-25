@@ -211,6 +211,9 @@ $PALANG['pViewlog_data'] = 'Data';
 $PALANG['pViewlog_action_create_domain'] = 'create domain';
 $PALANG['pViewlog_action_delete_domain'] = 'delete domain';
 $PALANG['pViewlog_action_edit_domain'] = 'edit domain';
+$PALANG['pViewlog_action_create_server'] = 'create server';
+$PALANG['pViewlog_action_delete_server'] = 'delete server';
+$PALANG['pViewlog_action_edit_server'] = 'edit server';
 $PALANG['pViewlog_action_create_mailbox'] = 'create mailbox';
 $PALANG['pViewlog_action_delete_mailbox'] = 'delete mailbox';
 $PALANG['pViewlog_action_edit_mailbox'] = 'edit mailbox';
@@ -246,10 +249,12 @@ $PALANG['pSendmail_result_error'] = 'Unable to send email to %s!';
 $PALANG['pSendmail_result_success'] = 'Email sent to %s.';
 
 $PALANG['pAdminMenu_list_admin'] = 'Admin List';
+$PALANG['pAdminMenu_list_server'] = 'Server List';
 $PALANG['pAdminMenu_list_domain'] = 'Domain List';
 $PALANG['pAdminMenu_list_virtual'] = 'Virtual List';
 $PALANG['pAdminMenu_backup'] = 'Backup';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Domain Admins';
+$PALANG['pAdminMenu_create_server'] = 'New Server';
 $PALANG['pAdminMenu_create_admin'] = 'New Admin';
 $PALANG['pAdminMenu_create_domain'] = 'New Domain';
 
@@ -287,6 +292,7 @@ $PALANG['pAdminEdit_domain_maxquota'] = 'Max Mailbox Quota'; # TODO: add change 
 $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = disable | 0 = unlimited';
 $PALANG['pAdminEdit_domain_quota'] = 'Domain Quota';
 $PALANG['transport'] = 'Transport';
+$PALANG['pAdminEdit_domain_primarymx_text'] = 'Define the primary MX';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Define transport';
 $PALANG['pAdminEdit_domain_backupmx'] = 'Mail server is backup MX';
 $PALANG['pAdminEdit_domain_result_error'] = 'Modifying the domain %s failed!';
@@ -416,6 +422,25 @@ $PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your loc
 $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
 $PALANG['password_expiration'] = 'Pass expires';
 $PALANG['password_expiration_desc'] = 'Date when password will expire';
+
+$PALANG['server'] = 'Server';
+$PALANG['smtpaddress'] = 'SMTP-Address';
+$PALANG['server_address_description'] = 'smtp address of the remote server for relaying (e.g. smtp:[10.0.0.5]:25 )';
+$PALANG['server_creation'] = 'Add a server';
+$PALANG['server_edit'] = 'Edit a server';
+$PALANG['server_button'] = 'Add server';
+$PALANG['server_create_error'] = 'Creating server %s failed';
+$PALANG['server_edit_error'] = 'Modifying server %s failed';
+$PALANG['server_store_success'] = 'The Server %s has successfully been added.';
+$PALANG['server_already_exists'] = 'The server already exists';
+$PALANG['server_does_not_exist'] = 'The server %s does not exist.';
+$PALANG['confirm_delete_server'] = 'Do you really want to delete the server %s?';
+$PALANG['delete_server_domain_target'] = 'There are still domains, where this server is the primary one. Change them first';
+$PALANG['server_updated'] = 'The Server %s was updated';
+$PALANG['primarymx'] = 'Primary MX';
+$PALANG['server_postcreate_failed'] = 'The server postcreate script failed, check the error log for details!';
+$PALANG['server_postdel_failed'] = 'The server postdeletion script failed, check the error log for details!';
+$PALANG['server_must_not_be_empty'] = 'The server name must not be empty.';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
