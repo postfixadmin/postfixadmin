@@ -1040,7 +1040,7 @@ function _pacrypt_dovecot($pw, $pw_db = '') {
 
     if (!empty($stderr_output) || empty($password)) {
         error_log("Failed to read password from $dovecotpw ... stderr: $stderr_output, password: $password ");
-	throw new Exception("$dovecotpw failed, see error log for details");
+        throw new Exception("$dovecotpw failed, see error log for details");
     }
 
     if (empty($dovepasstest)) {
