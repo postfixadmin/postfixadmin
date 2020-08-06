@@ -1032,13 +1032,19 @@ function _pacrypt_dovecot($pw, $pw_db = '') {
     fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
     fclose($pipes[0]);
 
+    $stderr_output = stream_get_contents($pipes[2]);
+
     // Read hash from pipe stdout
     $password = fread($pipes[1], 200);
 
+    if (empty($password)) {
+        error_log("Failed to read password from $dovecotpw ... stderr: $stderr_output ");
+	throw new Exception("$dovecotpw failed, see error log for details");
+    }
+
     if (empty($dovepasstest)) {
         if (!preg_match('/^\{' . $method . '\}/', $password)) {
-            $stderr_output = stream_get_contents($pipes[2]);
-            error_log('dovecotpw password encryption failed. STDERR output: '. $stderr_output);
+            error_log("dovecotpw password encryption failed (method: $method) . stderr: $stderr_output");
             throw new Exception("can't encrypt password with dovecotpw, see error log for details");
         }
     } else {
