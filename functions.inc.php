@@ -1029,6 +1029,7 @@ function _pacrypt_dovecot($pw, $pw_db = '') {
         fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
         usleep(1000);
     }
+
     fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
     fclose($pipes[0]);
 
@@ -1037,8 +1038,8 @@ function _pacrypt_dovecot($pw, $pw_db = '') {
     // Read hash from pipe stdout
     $password = fread($pipes[1], 200);
 
-    if (empty($password)) {
-        error_log("Failed to read password from $dovecotpw ... stderr: $stderr_output ");
+    if (!empty($stderr_output) || empty($password)) {
+        error_log("Failed to read password from $dovecotpw ... stderr: $stderr_output, password: $password ");
 	throw new Exception("$dovecotpw failed, see error log for details");
     }
 
