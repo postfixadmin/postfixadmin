@@ -390,41 +390,16 @@ class AliasHandler extends PFAHandler {
                 # Note: alias domains are better, but we should keep this way supported for backward compatibility
                 #       and because alias domains can't forward to external domains
                 list(/*NULL*/, $domain) = explode('@', $singlegoto);
-
                 $domain_check = check_domain($domain);
                 if ($domain_check != '') {
                     $errors[] = "$singlegoto: $domain_check";
                 }
-
-                $localaliasonly_check = check_localaliasonly($domain);
-                if ($localaliasonly_check != '') {
-                    $errors[] = "$singlegoto: $localaliasonly_check";
-                }
-
-                if($this->called_by != "MailboxHandler" && $this->id == $singlegoto) {
-                    // The MailboxHandler needs to create an alias that is points to itself (for the mailbox)
-                    // Otherwise, disallow such aliases as they cause severe trouble in the mail system
-                    $errors[] = "$singlegoto: Alias may not point to itself";
-                }
-
             } else {
                 $email_check = check_email($singlegoto);
                 // preg_match -> allows for redirect to a local system account.
                 if ($email_check != '' && !preg_match('/^[a-z0-9]+$/', $singlegoto)) {
                     $errors[] = "$singlegoto: $email_check";
                 }
-
-                $localaliasonly_check = check_localaliasonly($singlegoto);
-                if ($localaliasonly_check != '') {
-                    $errors[] = "$singlegoto: $localaliasonly_check";
-                }
-
-                if($this->called_by != "MailboxHandler" && $this->id == $singlegoto) {
-                    // The MailboxHandler needs to create an alias that is points to itself (for the mailbox)
-                    // Otherwise, disallow such aliases as they cause severe trouble in the mail system
-                    $errors[] = "$singlegoto: Alias may not point to itself";
-                }
-
             }
         }
 
