@@ -546,16 +546,18 @@ abstract class PFAHandler {
 
         $db_values = $this->values;
 
-        foreach (array_keys($db_values) as $key) {
+        foreach ($db_values as $key => $val) {
             switch ($this->struct[$key]['type']) { # modify field content for some types
                 case 'bool':
-                    $db_values[$key] = db_get_boolean($db_values[$key]);
+                    $val = (string) $val;
+                    $db_values[$key] = db_get_boolean($val);
                     break;
                 case 'pass':
-                    $db_values[$key] = pacrypt($db_values[$key]);
+                    $val = (string) $val;
+                    $db_values[$key] = pacrypt($val);
                     break;
                 case 'b64p':
-                    $db_values[$key] = base64_encode($db_values[$key]);
+                    $db_values[$key] = base64_encode($val);
                     break;
                 case 'quot':
                 case 'vnum':
