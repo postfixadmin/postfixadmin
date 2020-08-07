@@ -134,6 +134,7 @@ $PALANG['alias_updated'] = 'Přesměrování %s bylo upraveno!';
 $PALANG['pCreate_alias_catchall_text'] = 'Pro vytvoření doménového koše použijte * jako alias. Pro přesměrování doména -> doména použijte *@domain.tld jako cíl.';
 $PALANG['mailbox_alias_cant_be_deleted'] = 'Toto přesměrování je svázáno s emailem a nemůže být proto vymazáno!';
 $PALANG['protected_alias_cant_be_deleted'] = 'Tento alias %s je chráněný a může být odstraněn pouze superadministrátorem';
+$PALANG['alias_points_to_itself'] = 'Alias may not point to itself'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = 'Upravit nastavení přesměrování.';
 $PALANG['pEdit_alias_help'] = 'Je možné zadat více cílových adres, jeden záznam na řádek.';

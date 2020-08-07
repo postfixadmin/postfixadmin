@@ -128,6 +128,7 @@ $PALANG['alias_updated'] = 'Aliasul %s a fost modificat!';
 $PALANG['pCreate_alias_catchall_text'] = 'Puteti crea un alias pentru adrese multiple prin folosirea "*".'; # XXX don't propagate usage of *@target-domain.com for domain-aliasing any longer
 $PALANG['mailbox_alias_cant_be_deleted'] = 'Acest alias apartine unei casute si nu poate fi sters!';
 $PALANG['protected_alias_cant_be_deleted'] = 'The alias %s is protected and can only be deleted by a superadmin'; # XXX
+$PALANG['alias_points_to_itself'] = 'Alias may not point to itself'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = 'Editeaza setarile de redirectionare';
 $PALANG['pEdit_alias_help'] = 'Se accepta inregistrari multiple, cate una pe linie.';

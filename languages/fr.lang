@@ -129,6 +129,7 @@ $PALANG['alias_updated'] = 'L\'alias %s a été mis à jour !';
 $PALANG['pCreate_alias_catchall_text'] = 'Pour ajouter un alias global, utilisez "*". Pour un transfert de domaine à domaine, utilisez "*@domain.tld" dans le champ À.';
 $PALANG['mailbox_alias_cant_be_deleted'] = 'Cet alias appartient à un compte courriel et ne peut donc pas être supprimé !';
 $PALANG['protected_alias_cant_be_deleted'] = 'L\'alias %s est protégé et ne peut être supprimé que par un Super Administrateur.';
+$PALANG['alias_points_to_itself'] = 'Alias may not point to itself'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = 'Modifier les paramètres de transfert.';
 $PALANG['pEdit_alias_help'] = 'Destinataires multiples acceptés, une entrée par ligne.';

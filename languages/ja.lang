@@ -128,6 +128,7 @@ $PALANG['alias_updated'] = '転送先 %s を更新しました!';
 $PALANG['pCreate_alias_catchall_text'] = 'すべてのメールを受け取るには、転送元に "*" を使います。 別のドメインにすべて転送するには、転送先に "*.domain.tld" を使います。';
 $PALANG['mailbox_alias_cant_be_deleted'] = 'この転送先は、メールアドレスに紐付いているので、削除することはできません!';
 $PALANG['protected_alias_cant_be_deleted'] = '転送先 %s は保護されており、特権管理者だけが削除できます';
+$PALANG['alias_points_to_itself'] = 'Alias may not point to itself'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = '転送先設定の編集';
 $PALANG['pEdit_alias_help'] = '複数の転送先を設定できます。1行に1エントリです。';
