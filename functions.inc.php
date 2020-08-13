@@ -1017,6 +1017,9 @@ function _pacrypt_dovecot($pw, $pw_db = '') {
         # only use -t for salted passwords to be backward compatible with dovecot < 2.1
         $dovepasstest = " -t " . escapeshellarg($pw_db);
     }
+
+    $pipes = [];
+
     $pipe = proc_open("$dovecotpw '-s' $method$dovepasstest", $spec, $pipes);
 
     if (!$pipe) {
