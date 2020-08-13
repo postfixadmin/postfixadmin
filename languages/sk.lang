@@ -127,6 +127,7 @@ $PALANG['alias_updated'] = 'Alias %s bol aktualizovaný.';
 $PALANG['pCreate_alias_catchall_text'] = 'Pre vytvorenie doménového koša použite * ako alias. Pre alias doména-doména použite *@domain.tld ako cieľ.';
 $PALANG['mailbox_alias_cant_be_deleted'] = 'Tento alias patrí k schránke a nemôže byť zmazaný!';
 $PALANG['protected_alias_cant_be_deleted'] = 'Alias %s je chránený a môže ho zmazať len superadmin';
+$PALANG['alias_points_to_itself'] = 'Alias may not point to itself'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = 'Upraviť alias';
 $PALANG['pEdit_alias_help'] = 'Jeden záznam na riadok.';

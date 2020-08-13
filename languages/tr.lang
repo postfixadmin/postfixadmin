@@ -126,6 +126,7 @@ $PALANG['alias_updated'] = '%s aliasınız güncellendi!';
 $PALANG['pCreate_alias_catchall_text'] = 'Tümünü-yakala oluşturmak için alias olarak "*" kullanın. Domain yönlendirme domaini için kime kısmında "*@domain.tld" kullanın.'; # XXX check/beautify - was split in two lines before
 $PALANG['mailbox_alias_cant_be_deleted'] = 'Bu alias, sistemde kayıtlı bir e-posta hesabına ait ve silinemez!';
 $PALANG['protected_alias_cant_be_deleted'] = '%s isimli alias korumalı olarak ayarlı ve ancak bir süper yönetici tarafından silinebilir';
+$PALANG['alias_points_to_itself'] = 'Alias may not point to itself'; # XXX
 
 $PALANG['pEdit_alias_welcome'] = 'Yönlendirme ayarlarını düzenleyin. '; # XXX Text change to: 'Edit forwarding settings'
 $PALANG['pEdit_alias_help'] = 'Her bir satıra bir giriş şeklinde, çoklu hedefler kabul edilir.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
