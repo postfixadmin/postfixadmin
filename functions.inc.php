@@ -1601,10 +1601,14 @@ function db_connect() {
         $dsn = "sqlite:{$db}";
         $username_password = false;
     } elseif (db_pgsql()) {
-        if (!isset($CONF['database_port'])) {
-            $CONF['database_port'] = '5432';
+        $dsn = "pgsql:dbname={$CONF['database_name']}";
+        if (isset($CONF['database_host'])) {
+            $dsn .= ";host={$CONF['database_host']}";
         }
-        $dsn = "pgsql:host={$CONF['database_host']};port={$CONF['database_port']};dbname={$CONF['database_name']};options='-c client_encoding=utf8'";
+        if (isset($CONF['database_port'])) {
+            $dsn .= ";port={$CONF['database_port']}";
+        }
+        $dsn .= ";options='-c client_encoding=utf8'";
     } else {
         throw new Exception("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php!</p>");
     }
