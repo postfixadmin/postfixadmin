@@ -1,9 +1,7 @@
 <?php
 
-class AliasHandlerTest extends \PHPUnit\Framework\TestCase
-{
-    public function testBasic()
-    {
+class AliasHandlerTest extends \PHPUnit\Framework\TestCase {
+    public function testBasic() {
         $x = new AliasHandler();
         $list = $x->getList("");
         $this->assertTrue($list);
@@ -11,8 +9,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($results);
     }
 
-    public function tearDown(): void
-    {
+    public function tearDown(): void {
         $_SESSION = [];
         db_query('DELETE FROM alias');
         db_query('DELETE FROM domain_admins');
@@ -21,8 +18,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    public function testCannotAddAliasUntilDomainIsThere()
-    {
+    public function testCannotAddAliasUntilDomainIsThere() {
 
         // Fake us being an admin.
 
@@ -56,8 +52,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/postfixadmin/postfixadmin/pull/375 and https://github.com/postfixadmin/postfixadmin/issues/358
      */
-    public function testCannotAddAliasThatPointsToItself()
-    {
+    public function testCannotAddAliasThatPointsToItself() {
         // Fake being an admin.
         $_SESSION = [
             'sessid' => [
@@ -140,8 +135,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
             ], $x->errormsg);
     }
 
-    public function testAddingDataEtc()
-    {
+    public function testAddingDataEtc() {
         // Fake being an admin.
         $_SESSION = [
             'sessid' => [

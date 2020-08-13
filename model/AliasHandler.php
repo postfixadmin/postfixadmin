@@ -401,7 +401,7 @@ class AliasHandler extends PFAHandler {
                     $errors[] = "$singlegoto: $email_check";
                 }
             }
-            if($this->called_by != "MailboxHandler" && $this->id == $singlegoto) {
+            if ($this->called_by != "MailboxHandler" && $this->id == $singlegoto) {
                 // The MailboxHandler needs to create an alias that points to itself (for the mailbox)
                 // Otherwise, disallow such aliases as they cause severe trouble in the mail system
                 $errors[] = "$singlegoto: " . Config::Lang('alias_points_to_itself');
