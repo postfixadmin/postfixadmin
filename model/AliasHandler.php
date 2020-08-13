@@ -21,7 +21,7 @@ class AliasHandler extends PFAHandler {
         # (for existing aliases, init() hides it for non-mailbox aliases)
         $mbgoto = 1 - $this->new;
 
-        $this->struct=array(
+        $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / ...
             #                           editing?    form    list
             'status'           => pacol(0,          0,      0,      'html', ''                              , ''                                , '', array(),

@@ -1,7 +1,9 @@
 <?php
 
-class AliasHandlerTest extends \PHPUnit\Framework\TestCase {
-    public function testBasic() {
+class AliasHandlerTest extends \PHPUnit\Framework\TestCase
+{
+    public function testBasic()
+    {
         $x = new AliasHandler();
         $list = $x->getList("");
         $this->assertTrue($list);
@@ -9,7 +11,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEmpty($results);
     }
 
-    public function tearDown() : void {
+    public function tearDown(): void
+    {
         $_SESSION = [];
         db_query('DELETE FROM alias');
         db_query('DELETE FROM domain_admins');
@@ -18,7 +21,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase {
         parent::tearDown();
     }
 
-    public function testCannotAddAliasUntilDomainIsThere() {
+    public function testCannotAddAliasUntilDomainIsThere()
+    {
 
         // Fake us being an admin.
 
@@ -49,7 +53,95 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase {
     }
 
 
-    public function testAddingDataEtc() {
+    /**
+     * @see https://github.com/postfixadmin/postfixadmin/pull/375 and https://github.com/postfixadmin/postfixadmin/issues/358
+     */
+    public function testCannotAddAliasThatPointsToItself()
+    {
+        // Fake being an admin.
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['global-admin']
+            ]
+        ];
+        // Add example.com
+        $dh = new DomainHandler(1, 'admin', true);
+
+        $dh->init('example.com');
+
+        $ret = $dh->set(
+            [
+                'domain' => 'example.com',
+                'description' => 'test domain',
+                'aliases' => 11,
+                'mailboxes' => 12,
+                'active' => 1,
+                'backupmx' => 0,
+                'default_aliases' => 1
+            ]
+        );
+
+
+        $this->assertEmpty($dh->errormsg);
+        $this->assertEmpty($dh->infomsg);
+
+        $this->assertTrue($ret);
+
+        $ret = $dh->store();
+
+        $this->assertTrue($ret);
+
+        // Need to add 'admin' as a domain_admin
+        db_insert('domain_admins', ['username' => 'admin', 'domain' => 'example.com', 'created' => '2020-01-01', 'active' => 1], ['created'], true);
+
+        $dh = new DomainHandler(0, 'admin', true);
+        $dh->getList('');
+        $result = $dh->result();
+
+        $this->assertEmpty($dh->infomsg);
+        $this->assertEmpty($dh->errormsg);
+
+        $this->assertNotEmpty($result);
+
+        $this->assertEquals('example.com', $result['example.com']['domain']);
+        $this->assertEquals('test domain', $result['example.com']['description']);
+
+        $this->assertEquals(11, $result['example.com']['aliases']);
+        $this->assertEquals(12, $result['example.com']['mailboxes']); // default aliases.
+
+        $this->assertEquals(4, $result['example.com']['alias_count']); // default aliases.
+        $this->assertEquals(0, $result['example.com']['mailbox_count']);
+        $this->assertEquals(1, $result['example.com']['active']);
+
+        $x = new AliasHandler(1, 'admin', true);
+
+        $values = [
+            'localpart' => 'david.test',
+            'domain' => 'example.com',
+            'active' => 1,
+            'address' => 'david.test@example.com',
+            'goto' => ['david.test@example.com']
+        ];
+
+        $r = $x->init('david.test@example.com');
+        $this->assertTrue($r);
+        $x->getList('');
+        $list = $x->result();
+        $this->assertEquals(4, count($list)); // default aliases.
+
+        $x->set($values);
+        $x->store();
+
+        $this->assertNotEmpty($x->errormsg);
+        $this->assertEquals(
+            [
+                'goto' => "david.test@example.com: Alias may not point to itself",
+                0 => "one or more values are invalid!"
+            ], $x->errormsg);
+    }
+
+    public function testAddingDataEtc()
+    {
         // Fake being an admin.
         $_SESSION = [
             'sessid' => [
