@@ -18,9 +18,8 @@ class MailboxHandler extends PFAHandler {
             $reset_by_sms = 1;
         }
 
-        $show_password_fields = (int) !Config::bool('generate_password');
-
         $this->struct = array(
+
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
             'username'         => pacol($this->new, 1,      1,      'mail', 'pEdit_mailbox_username'        , ''                                , '' ),
@@ -30,8 +29,8 @@ class MailboxHandler extends PFAHandler {
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
             'maildir'          => pacol($this->new, 0,      1,      'text', ''                              , ''                                , '' ),
-            'password'         => pacol(1,          $show_password_fields,      0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
-            'password2'        => pacol(1,          $show_password_fields,      0,      'pass', 'password_again'                , ''                                 , '',
+            'password'         => pacol(1,          1,      0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
+            'password2'        => pacol(1,          1,      0,      'pass', 'password_again'                , ''                                 , '',
                 /*options*/ array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
