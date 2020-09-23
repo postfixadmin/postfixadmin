@@ -314,7 +314,8 @@ function escape_string($string) {
         }
         return $clean;
     }
-    if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+    // @ due to https://github.com/postfixadmin/postfixadmin/issues/385
+    if (function_exists('get_magic_quotes_gpc') && @get_magic_quotes_gpc()) {
         $string = stripslashes($string);
     }
     if (!is_numeric($string)) {
