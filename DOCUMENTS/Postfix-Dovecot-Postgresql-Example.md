@@ -217,5 +217,5 @@ default_pass_scheme = MD5-CRYPT
 password_query = SELECT username AS user,password FROM mailbox WHERE username = '%u' AND active='1'
 
 # Query to retrieve user information, note uid matches dovecot.conf AND Postfix virtual_uid_maps parameter.
-user_query = SELECT '/var/vmail/mail/' || maildir AS home, 8 as uid, 8 as gid FROM mailbox WHERE username = '%u' AND active = '1'
+user_query = SELECT '/var/mail/mail/' || maildir AS home, 8 as uid, 8 as gid FROM mailbox WHERE username = '%u' AND active = '1'
 ```
