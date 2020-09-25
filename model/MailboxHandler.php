@@ -60,7 +60,7 @@ class MailboxHandler extends PFAHandler {
         }
     }
 
-    public function init($id) {
+    public function init($id) : bool {
         if (!parent::init($id)) {
             return false;
         }
@@ -217,7 +217,7 @@ class MailboxHandler extends PFAHandler {
     }
 
 
-    protected function beforestore() {
+    protected function preSave() : bool {
         if (isset($this->values['quota']) && $this->values['quota'] != -1 && is_numeric($this->values['quota'])) {
             $multiplier = Config::read_string('quota_multiplier');
             if ($multiplier == 0 || !is_numeric($multiplier)) { // or empty string, or null, or false...
@@ -256,7 +256,7 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-        if (!$ah->store()) {
+        if (!$ah->save()) {
             $this->errormsg[] = $ah->errormsg[0];
             return false;
         }
@@ -292,7 +292,7 @@ class MailboxHandler extends PFAHandler {
         return $ok && parent::set($values);
     }
 
-    protected function storemore() {
+    protected function postSave() : bool {
         if ($this->new) {
             if (!$this->mailbox_post_script()) {
                 # return false; # TODO: should this be fatal?
@@ -649,7 +649,7 @@ class MailboxHandler extends PFAHandler {
 
 
     /**
-     * Called by storemore() after a mailbox has been created.
+     * Called by postSave() after a mailbox has been created.
      * Immediately returns, unless configuration indicates
      * that one or more sub-folders should be created.
      *

@@ -458,7 +458,7 @@ function create_admin($values) {
         return array(1, "", $handler->errormsg);
     }
 
-    if (!$handler->store()) {
+    if (!$handler->save()) {
         return array(1, "", $handler->errormsg);
     }
 

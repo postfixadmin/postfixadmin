@@ -279,7 +279,7 @@ class VacationHandler extends PFAHandler {
 
         # TODO: supress logging in AliasHandler if called from VacationHandler (VacationHandler should log itsself)
 
-        if (!$handler->store()) {
+        if (!$handler->save()) {
             print_r($handler->errormsg); # TODO: error handling
             return false;
         }

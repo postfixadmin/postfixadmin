@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $values = $handler->result;
                 $values['password'] = $fPassword;
                 $values['password2'] = $fPassword2;
-                if ($handler->set($values) && $handler->store()) {
+                if ($handler->set($values) && $handler->save()) {
                     flash_info(Config::lang_f('pPassword_result_success', $tUsername));
                     header('Location: main.php');
                     exit(0);

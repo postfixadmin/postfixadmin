@@ -176,7 +176,7 @@ class AliasProxy {
             //error_log('ah->set failed' . print_r($values, true));
             return false;
         }
-        $store = $ah->store();
+        $store = $ah->save();
         return $store;
     }
 

@@ -337,7 +337,7 @@ abstract class PFAHandler {
      * initialize with $id and check if it is valid
      * @param string $id
      */
-    public function init($id) {
+    public function init(string $id) : bool {
 
         // postfix treats address lookups (aliases, mailboxes) as if they were lowercase.
         // MySQL is normally case insenstive, PostgreSQL is case sensitive.
@@ -526,7 +526,7 @@ abstract class PFAHandler {
     }
 
     /**
-     * store $this->values in the database
+     * save $this->values to the database
      *
      * converts values based on $this->struct[*][type] (boolean, password encryption)
      *
@@ -534,13 +534,13 @@ abstract class PFAHandler {
      * @return bool - true if all values were stored in the database, otherwise false
      *     error messages (if any) are stored in $this->errormsg
      */
-    public function store() {
+    public function save() : bool {
         if ($this->values_valid == false) {
             $this->errormsg[] = "one or more values are invalid!";
             return false;
         }
 
-        if (!$this->beforestore()) {
+        if (!$this->preSave()) {
             return false;
         }
 
@@ -584,9 +584,9 @@ abstract class PFAHandler {
             return false;
         }
 
-        $result = $this->storemore();
+        $result = $this->postSave();
 
-        # db_log() even if storemore() failed
+        # db_log() even if postSave() failed
         db_log($this->domain, $this->msg['logname'], $this->id);
 
         if ($result) {
@@ -600,17 +600,17 @@ abstract class PFAHandler {
 
     /**
      * called by $this->store() before storing the values in the database
-     * @return bool - if false, store() will abort
+     * @return bool - if false, save() will abort
      */
-    protected function beforestore() {
+    protected function preSave() : bool {
         return true; # do nothing, successfully ;-)
     }
 
     /**
-     * called by $this->store() after storing $this->values in the database
+     * called by $this->save() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.
      */
-    protected function storemore() {
+    protected function postSave() : bool {
         return true; # do nothing, successfully ;-)
     }
 
@@ -735,7 +735,7 @@ abstract class PFAHandler {
      * @param int $offset - number of first row to return
      * @return array - rows (as associative array, with the ID as key)
      */
-    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) : array {
         $queryparts = $this->build_select_query($condition, $searchmode);
 
         $query = $queryparts['select_cols'] . $queryparts['from_where_order'];
@@ -800,7 +800,7 @@ abstract class PFAHandler {
      * @return bool - always true, no need to check ;-) (if $result is not an array, getList die()s)
      * The data is stored in $this->result (as array of rows, each row is an associative array of column => value)
      */
-    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) : bool {
         if (is_array($condition)) {
             $real_condition = array();
             foreach ($condition as $key => $value) {

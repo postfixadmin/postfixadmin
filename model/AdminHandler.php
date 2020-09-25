@@ -123,7 +123,7 @@ class AdminHandler extends PFAHandler {
      * called by $this->store() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.
      */
-    protected function storemore() {
+    protected function postSave() : bool {
         # store list of allowed domains in the domain_admins table
         if (isset($this->values['domains'])) {
             if (is_array($this->values['domains'])) {

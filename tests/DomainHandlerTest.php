@@ -48,7 +48,7 @@ class DomainHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($dh->errormsg);
         $this->assertEmpty($dh->infomsg);
         $this->assertTrue($ret);
-        $ret = $dh->store();
+        $ret = $dh->save();
         $this->assertTrue($ret);
 
         // Need to add 'admin' as a domain_admin
@@ -93,7 +93,7 @@ class DomainHandlerTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertTrue($ret);
-        $this->assertTrue($dh->store());
+        $this->assertTrue($dh->save());
         $this->assertEmpty($dh->errormsg);
 
         $dh->getList('');
