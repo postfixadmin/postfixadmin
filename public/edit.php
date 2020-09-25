@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $form_fields = $handler->getStruct(); # refresh $form_fields - set() might have changed something
 
     if ($error != 1) {
-        if (!$handler->store()) {
+        if (!$handler->save()) {
             $errormsg = $handler->errormsg;
         } else {
             flash_info($handler->infomsg);
