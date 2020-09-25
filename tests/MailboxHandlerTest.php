@@ -20,7 +20,6 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         $results = $x->result();
 
         $this->assertEmpty($results);
-
     }
 
 

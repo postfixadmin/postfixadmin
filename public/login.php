@@ -57,8 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $h = new AdminHandler();
 
     $login = new Login('admin', $h->getId_field());
-    if($login->login($fUsername, $fPassword)) {
-
+    if ($login->login($fUsername, $fPassword)) {
         init_session($fUsername, true);
 
         # they've logged in, so see if they are a domain admin, as well.

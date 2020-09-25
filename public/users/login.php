@@ -48,7 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $h = new MailboxHandler();
 
-    $login = new Login('mailbox', 'username');;
+    $login = new Login('mailbox', 'username');
+    ;
     if ($login->login($fUsername, $fPassword)) {
         init_session($fUsername, false);
         header("Location: main.php");

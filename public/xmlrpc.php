@@ -44,8 +44,7 @@ $server = new Zend_XmlRpc_Server();
  * @param string $password
  * @return boolean true on success, else false.
  */
-function login($username, $password)
-{
+function login($username, $password) {
     $h = new MailboxHandler();
     $login = new Login('mailbox', 'username');
     if ($login->login($username, $password)) {
@@ -68,16 +67,14 @@ if (!isset($_SESSION['authenticated'])) {
 echo $server->handle();
 
 
-class UserProxy
-{
+class UserProxy {
 
     /**
      * @param string $old_password
      * @param string $new_password
      * @return boolean true on success
      */
-    public function changePassword($old_password, $new_password)
-    {
+    public function changePassword($old_password, $new_password) {
         $uh = new MailboxHandler();
         $username = $_SESSION['sessid']['username'] ?? '';
 
@@ -96,7 +93,6 @@ class UserProxy
         } catch (\Exception $e) {
             return false;
         }
-
     }
 
     /**
@@ -104,20 +100,17 @@ class UserProxy
      * @param string $password
      * @return boolean true if successful.
      */
-    public function login($username, $password)
-    {
+    public function login($username, $password) {
         $login = new Login('mailbox', 'username');
         return $login->login($username, $password);
     }
 }
 
-class VacationProxy
-{
+class VacationProxy {
     /**
      * @return boolean true if the vacation is removed successfully. Else false.
      */
-    public function remove()
-    {
+    public function remove() {
         $vh = new VacationHandler($_SESSION['sessid']['username']);
         return $vh->remove();
     }
@@ -126,8 +119,7 @@ class VacationProxy
      * @return boolean true if vacation stuff is enabled in this instance of postfixadmin
      * and the user has the ability to make changes to it.
      */
-    public function isVacationSupported()
-    {
+    public function isVacationSupported() {
         $vh = new VacationHandler($_SESSION['sessid']['username']);
         return $vh->vacation_supported();
     }
@@ -135,8 +127,7 @@ class VacationProxy
     /**
      * @return boolean true if the user has an active vacation record etc.
      */
-    public function checkVacation()
-    {
+    public function checkVacation() {
         $vh = new VacationHandler($_SESSION['sessid']['username']);
         return $vh->check_vacation();
     }
@@ -144,8 +135,7 @@ class VacationProxy
     /**
      * @return array|bool - either array of vacation details or boolean false if the user has none.
      */
-    public function getDetails()
-    {
+    public function getDetails() {
         $vh = new VacationHandler($_SESSION['sessid']['username']);
         return $vh->get_details();
     }
@@ -159,20 +149,17 @@ class VacationProxy
      * @return boolean true on success.
      * Whatiis @replyType?? for
      */
-    public function setAway($subject, $body, $interval_time = 0, $activeFrom = '2000-01-01', $activeUntil = '2099-12-31')
-    {
+    public function setAway($subject, $body, $interval_time = 0, $activeFrom = '2000-01-01', $activeUntil = '2099-12-31') {
         $vh = new VacationHandler($_SESSION['sessid']['username']);
         return $vh->set_away($subject, $body, $interval_time, $activeFrom, $activeUntil);
     }
 }
 
-class AliasProxy
-{
+class AliasProxy {
     /**
      * @return array - array of aliases this user has. Array may be empty.
      */
-    public function get()
-    {
+    public function get() {
         $ah = new AliasHandler();
         $ah->init($_SESSION['sessid']['username']);
         /* I see no point in returning special addresses to the user. */
@@ -186,8 +173,7 @@ class AliasProxy
      * @param string flag to set ('forward_and_store' or 'remote_only')
      * @return boolean true
      */
-    public function update($addresses, $flags)
-    {
+    public function update($addresses, $flags) {
         $ah = new AliasHandler();
         $ah->init($_SESSION['sessid']['username']);
 
@@ -213,8 +199,7 @@ class AliasProxy
      * @return boolean true if the user has 'store_and_forward' set.
      * (i.e. their email address is also in the alias table). IF it returns false, then it's 'remote_only'
      */
-    public function hasStoreAndForward()
-    {
+    public function hasStoreAndForward() {
         $ah = new AliasHandler();
         $ah->init($_SESSION['sessid']['username']);
         $ah->view();

@@ -1,13 +1,11 @@
 <?php
 
 
-class Login
-{
+class Login {
     private $table;
     private $id_field;
 
-    public function __construct(string $tableName, string $idField)
-    {
+    public function __construct(string $tableName, string $idField) {
         $this->table = table_by_key($tableName);
         $this->id_field = $idField;
     }
@@ -19,9 +17,7 @@ class Login
      * @param string $password
      * @return boolean true on successful login (i.e. password matches etc)
      */
-    public function login($username, $password): bool
-    {
-
+    public function login($username, $password): bool {
         $active = db_get_boolean(true);
         $query = "SELECT password FROM {$this->table} WHERE {$this->id_field} = :username AND active = :active";
 
@@ -48,9 +44,7 @@ class Login
      * @return false|string
      * @throws Exception
      */
-    public function generatePasswordRecoveryCode(string $username)
-    {
-
+    public function generatePasswordRecoveryCode(string $username) {
         $sql = "SELECT count(1) FROM {$this->table} WHERE {$this->id_field} = :username AND active = :active";
 
         $active = db_get_boolean(true);
@@ -88,9 +82,7 @@ class Login
      * @return boolean true on success; false on failure
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function changePassword($username, $new_password, $old_password): bool
-    {
-
+    public function changePassword($username, $new_password, $old_password): bool {
         list(/*NULL*/, $domain) = explode('@', $username);
 
         $login = new Login($this->table, $this->id_field);
