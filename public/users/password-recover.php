@@ -38,7 +38,8 @@ if ($context === 'admin' && !Config::read('forgotten_admin_password_reset') || $
     die('Password reset is disabled by configuration option: forgotten_admin_password_reset');
 }
 
-function sendCodebyEmail($to, $username, $code) {
+function sendCodebyEmail($to, $username, $code)
+{
     $https = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http';
 
     $_SERVER['REQUEST_SCHEME'] = isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : $https;
@@ -48,7 +49,8 @@ function sendCodebyEmail($to, $username, $code) {
     return smtp_mail($to, Config::read('admin_email'), Config::Lang('pPassword_welcome'), Config::read('admin_smtp_password'), Config::lang_f('pPassword_recovery_email_body', $url));
 }
 
-function sendCodebySMS($to, $username, $code) {
+function sendCodebySMS($to, $username, $code)
+{
     $text = Config::lang_f('pPassword_recovery_sms_body', $code);
 
     $function = Config::read('sms_send_function');
@@ -69,8 +71,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     $tUsername = escape_string($username);
 
+    $table = $context === 'admin' ? 'admin' : 'mailbox';
+    $login = new Login($table, 'username');
+
+    $token = $login->generatePasswordRecoveryCode($tUsername);
+
     $handler = $context === 'admin' ? new AdminHandler : new MailboxHandler;
-    $token = $handler->getPasswordRecoveryCode($tUsername);
+    
     if ($token !== false) {
         $table = table_by_key($context === 'users' ? 'mailbox' : 'admin');
         $row = db_query_one("SELECT * FROM $table WHERE username= :username", array('username' => $username));

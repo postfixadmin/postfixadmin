@@ -18,11 +18,8 @@ class VacationHandler extends PFAHandler {
      */
     protected $domain_field = 'domain';
 
-    /**
-     * @return void
-     */
-    public function init($id) {
-        die('VacationHandler is not yet ready to be used with *Handler methods'); # obvious TODO: remove when it's ready ;-)
+    public function init($id) : bool {
+        throw new \Exception('VacationHandler is not yet ready to be used with *Handler methods');
     }
 
     /**

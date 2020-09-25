@@ -21,11 +21,6 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEmpty($results);
 
-        $this->assertFalse($x->checkPasswordRecoveryCode('test', 'fake'));
-
-        $token = $x->getPasswordRecoveryCode('test.person.does.not.exist@example.com');
-
-        $this->assertFalse($token);
     }
 
 

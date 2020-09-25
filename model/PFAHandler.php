@@ -822,53 +822,6 @@ abstract class PFAHandler {
         return true;
     }
 
-
-    /**
-     * Attempt to log a user in.
-     * @param string $username
-     * @param string $password
-     * @return boolean true on successful login (i.e. password matches etc)
-     */
-    public function login($username, $password) {
-        $table = table_by_key($this->db_table);
-        $active = db_get_boolean(true);
-        $query = "SELECT password FROM $table WHERE {$this->id_field} = :username AND active = :active";
-
-        $values = array('username' => $username, 'active' => $active);
-
-        $result = db_query_all($query,$values);
-        if (sizeof($result) == 1) {
-            $row = $result[0];
-
-            $crypt_password = pacrypt($password, $row['password']);
-
-            return hash_equals($row['password'], $crypt_password);
-        }
-        // try and be near constant time regardless of whether the db user exists or not
-        $x = pacrypt('abc', 'def');
-        return hash_equals('not', 'comparable');
-    }
-
-    /**
-     * Generate and store a unique password reset token valid for one hour
-     * @param string $username
-     * @return false|string
-     */
-    public function getPasswordRecoveryCode($username) {
-        if ($this->init($username)) {
-            $token = generate_password();
-            $updatedRows = db_update($this->db_table, $this->id_field, $username, array(
-                'token' => pacrypt($token),
-                'token_validity' => date("Y-m-d H:i:s", strtotime('+ 1 hour')),
-            ));
-
-            if ($updatedRows == 1) {
-                return $token;
-            }
-        }
-        return false;
-    }
-
     /**
      * Verify user's one time password reset token
      * @param string $username

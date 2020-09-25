@@ -736,49 +736,6 @@ class MailboxHandler extends PFAHandler {
         return true;
     }
 
-
-    /********************************************************************************************************************
-         old functions - we'll see what happens to them
-         (at least they should use the *Handler functions instead of doing SQL)
-    /********************************************************************************************************************/
-
-    /**
-     * @return boolean true on success; false on failure
-     * @param string $new_password
-     * @param string $old_password
-     * @param bool $match = true
-     *
-     * All passwords need to be plain text; they'll be hashed appropriately
-     * as per the configuration in config.inc.php
-     */
-    public function change_pw($new_password, $old_password, $match = true) {
-        list(/*NULL*/, $domain) = explode('@', $this->id);
-
-        if ($match == true) {
-            if (!$this->login($this->id, $old_password)) {
-                db_log($domain, 'edit_password', "MATCH FAILURE: " . $this->id);
-                $this->errormsg[] = Config::Lang('pPassword_password_current_text_error');
-                return false;
-            }
-        }
-
-        $set = array(
-            'password' => pacrypt($new_password) ,
-        );
-
-        $result = db_update('mailbox', 'username', $this->id, $set);
-
-        if ($result != 1) {
-            db_log($domain, 'edit_password', "FAILURE: " . $this->id);
-            $this->errormsg[] = Config::lang('pEdit_mailbox_result_error');
-            return false;
-        }
-
-        db_log($domain, 'edit_password', $this->id);
-        return true;
-    }
-
-
     #TODO: more self explaining language strings!
 }
 
