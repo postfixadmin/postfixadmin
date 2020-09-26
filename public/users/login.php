@@ -46,9 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       # (language preference cookie is processed even if username and/or password are invalid)
     }
 
-    $h = new MailboxHandler();
-
-    $login = new Login('mailbox', 'username');
+    $login = new Login('mailbox');
     ;
     if ($login->login($fUsername, $fPassword)) {
         init_session($fUsername, false);

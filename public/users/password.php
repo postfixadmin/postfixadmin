@@ -57,9 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $error += 1;
     }
 
-    $mh = new MailboxHandler();
-
-    $login = new Login('mailbox', 'username');
+    $login = new Login('mailbox');
 
     if (!$login->login($username, $fPassword_current)) {
         $error += 1;

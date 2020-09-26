@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $h = new AdminHandler();
 
-    $login = new Login('admin', $h->getId_field());
+    $login = new Login('admin');
     if ($login->login($fUsername, $fPassword)) {
         init_session($fUsername, true);
 

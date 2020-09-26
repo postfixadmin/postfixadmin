@@ -70,12 +70,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $tUsername = escape_string($username);
 
     $table = $context === 'admin' ? 'admin' : 'mailbox';
-    $login = new Login($table, 'username');
+    $login = new Login($table);
 
     $token = $login->generatePasswordRecoveryCode($tUsername);
 
-    $handler = $context === 'admin' ? new AdminHandler : new MailboxHandler;
-    
     if ($token !== false) {
         $table = table_by_key($context === 'users' ? 'mailbox' : 'admin');
         $row = db_query_one("SELECT * FROM $table WHERE username= :username", array('username' => $username));

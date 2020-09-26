@@ -3,11 +3,14 @@
 
 class Login {
     private $table;
-    private $id_field;
 
-    public function __construct(string $tableName, string $idField) {
+    public function __construct(string $tableName) {
+        $ok = ['mailbox', 'admin'];
+
+        if(!in_array($tableName, $ok)) {
+            throw new \InvalidArgumentException("Unsupported tableName for login: " . $tableName);
+        }
         $this->table = table_by_key($tableName);
-        $this->id_field = $idField;
     }
 
     /**
@@ -19,7 +22,7 @@ class Login {
      */
     public function login($username, $password): bool {
         $active = db_get_boolean(true);
-        $query = "SELECT password FROM {$this->table} WHERE {$this->id_field} = :username AND active = :active";
+        $query = "SELECT password FROM {$this->table} WHERE username = :username AND active = :active";
 
         $values = array('username' => $username, 'active' => $active);
 
@@ -45,7 +48,7 @@ class Login {
      * @throws Exception
      */
     public function generatePasswordRecoveryCode(string $username) {
-        $sql = "SELECT count(1) FROM {$this->table} WHERE {$this->id_field} = :username AND active = :active";
+        $sql = "SELECT count(1) FROM {$this->table} WHERE username = :username AND active = :active";
 
         $active = db_get_boolean(true);
 
@@ -58,7 +61,7 @@ class Login {
 
         if ($result) {
             $token = generate_password();
-            $updatedRows = db_update($this->table, $this->id_field, $username, array(
+            $updatedRows = db_update($this->table, 'username', $username, array(
                 'token' => pacrypt($token),
                 'token_validity' => date("Y-m-d H:i:s", strtotime('+ 1 hour')),
             ));
@@ -85,9 +88,7 @@ class Login {
     public function changePassword($username, $new_password, $old_password): bool {
         list(/*NULL*/, $domain) = explode('@', $username);
 
-        $login = new Login($this->table, $this->id_field);
-
-        if (!$login->login($username, $old_password)) {
+        if (!$this->login($username, $old_password)) {
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
         }
 

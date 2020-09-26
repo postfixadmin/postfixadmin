@@ -80,7 +80,7 @@ class AdminpasswordHandler extends PFAHandler {
      * check if old password is correct
      */
     protected function _validate_oldpass($field, $val) {
-        $l = new Login('admin', 'username');
+        $l = new Login('admin');
         if ($l->login($this->id, $val)) {
             return true;
         }

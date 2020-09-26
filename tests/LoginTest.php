@@ -32,7 +32,7 @@ VALUES(:username, :password, :name, :maildir, :local_part, :domain)",
     }
 
     public function testInvalidUsers() {
-        $login = new Login('mailbox', 'username');
+        $login = new Login('mailbox');
 
         $this->assertFalse($login->login('test', 'password'));
         $this->assertFalse($login->login('test', ''));
@@ -41,7 +41,7 @@ VALUES(:username, :password, :name, :maildir, :local_part, :domain)",
 
 
     public function testValidLogin() {
-        $login = new Login('mailbox', 'username');
+        $login = new Login('mailbox');
 
         $this->assertFalse($login->login('test', 'password'));
         $this->assertFalse($login->login('test', 'foobar'));
@@ -49,7 +49,7 @@ VALUES(:username, :password, :name, :maildir, :local_part, :domain)",
     }
 
     public function testPasswordRecovery() {
-        $login = new Login('mailbox', 'username');
+        $login = new Login('mailbox');
         $this->assertFalse($login->generatePasswordRecoveryCode(''));
         $this->assertFalse($login->generatePasswordRecoveryCode('doesnotexist'));
         $this->assertNotEmpty($login->generatePasswordRecoveryCode('test@example.com'));
