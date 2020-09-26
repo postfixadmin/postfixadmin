@@ -7,7 +7,7 @@ class Login {
     public function __construct(string $tableName) {
         $ok = ['mailbox', 'admin'];
 
-        if(!in_array($tableName, $ok)) {
+        if (!in_array($tableName, $ok)) {
             throw new \InvalidArgumentException("Unsupported tableName for login: " . $tableName);
         }
         $this->table = table_by_key($tableName);
