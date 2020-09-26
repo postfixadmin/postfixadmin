@@ -1,9 +1,7 @@
 <?php
 
-class DomainHandlerTest extends \PHPUnit\Framework\TestCase
-{
-    public function testBasic()
-    {
+class DomainHandlerTest extends \PHPUnit\Framework\TestCase {
+    public function testBasic() {
         $x = new DomainHandler();
 
         $list = $x->getList("");
@@ -15,8 +13,7 @@ class DomainHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($results);
     }
 
-    public function testAddAndUpdate()
-    {
+    public function testAddAndUpdate() {
         // Fake being an admin.
         $_SESSION = [
             'sessid' => [
@@ -101,7 +98,5 @@ class DomainHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(99, $d['aliases']);
         $this->assertEquals(88, $d['mailboxes']);
-
-
     }
 }
