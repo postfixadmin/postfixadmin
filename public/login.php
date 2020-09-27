@@ -29,6 +29,9 @@
 
 require_once('common.php');
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 if ($CONF['configured'] !== true) {
     print "Installation not yet configured; please edit config.inc.php or write your settings to config.local.php";
     exit;

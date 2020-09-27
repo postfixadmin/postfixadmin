@@ -21,6 +21,9 @@ require_once('common.php');
 
 $username = authentication_get_username(); # enforce login
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 $table = safeget('table');
 
 if (!is_string($table)) {
