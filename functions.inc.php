@@ -14,7 +14,7 @@
  * Contains re-usable code.
  */
 
-$version = '3.2';
+
 $min_db_version = 1840;  # update (at least) before a release with the latest function numbrer in upgrade.php
 
 /**
