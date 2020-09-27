@@ -24,6 +24,8 @@
 
 require_once('common.php');
 
+$smarty = PFASmarty::getInstance();
+
 $username = authentication_get_username(); # enforce login
 
 $table = safepost('table', safeget('table'));
