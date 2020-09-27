@@ -834,10 +834,6 @@ function encode_header($string, $default_charset = "utf-8") {
 }
 
 
-if (!function_exists('random_int')) { // PHP version < 7.0
-    require_once(dirname(__FILE__) . '/lib/block_random_int.php');
-}
-
 
 /**
  * Generate a random password of $length characters.
