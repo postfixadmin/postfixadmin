@@ -82,7 +82,7 @@
 *}
                     {elseif $key == 'active'}
                         {if $item._can_edit}
-                            <a href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$item._active}</a>
+                            <a class="btn btn-warning" href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$item._active}</a>
                         {else}
                             {$item._active}
                         {/if}
@@ -99,7 +99,7 @@
                             {assign var="quota_level" value="high"}
                         {elseif $item[$tmpkey]>55}
                             {assign var="quota_level" value="mid"}
-                        {else} 
+                        {else}
                             {assign var="quota_level" value="low"}
                         {/if}
                         {if $item[$tmpkey] > -1}
@@ -123,9 +123,23 @@
         {/if}
     {/foreach}
 
-    <td>{if $item._can_edit}<a href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}">{$PALANG.edit}</a>{else}&nbsp;{/if}</td>
-    <td>{if $item._can_delete}<a href="{#url_delete#}?table={$table}&amp;delete={$RAW_item.$id_field|escape:"url"}&amp;token={$smarty.session.PFA_token|escape:"url"}"
-        onclick="return confirm ('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">{$PALANG.del}</a>{else}&nbsp;{/if}</td>
+    <td>{if $item._can_edit}
+            <a class="btn btn-primary" href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}">{$PALANG.edit}</a>
+        {else}&nbsp;
+        {/if}
+    </td>
+    <td>{if $item._can_delete}
+        <form method="post" action="{#url_delete#}">
+            <input type="hidden" name="table" value="{$table}">
+            <input type="hidden" name="delete" value="{$RAW_item.$id_field|escape:"quotes"}">
+            <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
+
+            <button class="btn btn-danger" onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
+                {$PALANG.del}
+            </button>
+        </form>
+    {else}&nbsp;{/if}
+</td>
     </tr>
 {/foreach}
 
