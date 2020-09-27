@@ -98,8 +98,16 @@
 				<td><a href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}">{$PALANG.alias}</a></td>
 			{/if}
 			<td><a href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}">{$PALANG.edit}</a></td>
-			<td><a href="delete.php?table=mailbox&amp;delete={$item.username|escape:"url"}&amp;token={$smarty.session.PFA_token|escape:"url"}"
-				onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$item.username}');">{$PALANG.del}</a></td>
+			<td>
+				<form method="post" action="delete.php">
+					<input type="hidden" name="table" value="mailbox">
+					<input type="hidden" name="delete" value="{$item.username|escape:"quotes"}">
+					<input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
+					<button type="submit" class="btn btn-danger" onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$item.username}');">
+						{$PALANG.del}
+					</button>
+				</form>
+			</td>
 		</tr>
 	{/foreach}
 	</tbody>
