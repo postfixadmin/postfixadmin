@@ -5,37 +5,53 @@
  */
 class PFASmarty {
     public static $instance = null;
+    /**
+     * @var Smarty
+     */
+    protected $template;
 
     public static function getInstance() {
         if (self::$instance) {
             return self::$instance;
         }
 
-        self::$instance = self::build();
+        self::$instance = new PFASmarty();
         return self::$instance;
     }
 
-    private static function build() {
+
+
+    private function __construct() {
         $CONF = Config::getInstance()->getAll();
 
+        $theme = '';
         if (isset($CONF['theme']) && is_dir(dirname(__FILE__) . "/../templates/" . $CONF['theme'])) {
-            $smarty = new PFASmarty($CONF['theme']);
-        } else {
-            $smarty = new PFASmarty();
+            $theme = $CONF['theme'];
         }
 
-        $smarty->configureTheme('');// default to something.
+        $this->template = new Smarty();
 
-        $smarty->assign('CONF', $CONF);
-        $smarty->assign('PALANG', $CONF['__PALANG'] ?? []);
-        $smarty->assign('url_domain', '');
 
-        $smarty->assign('version', $CONF['version'] ?? 'unknown');
+        $template_dir = __DIR__ . '/../templates/' . $theme;
 
-        $smarty->assign('boolconf_alias_domain', Config::bool('alias_domain'));
-        $smarty->assign('authentication_has_role', array('global_admin' => authentication_has_role('global-admin'), 'admin' => authentication_has_role('admin'), 'user' => authentication_has_role('user')));
+        if (!is_dir($template_dir)) {
+            $template_dir = __DIR__ . '/../templates/';
+        }
 
-        return $smarty;
+        $this->template->setTemplateDir($template_dir);
+
+        // if it's not present or writeable, smarty should just not cache.
+        $templates_c = dirname(__FILE__) . '/../templates_c';
+        if (is_dir($templates_c) && is_writeable($templates_c)) {
+            $this->template->setCompileDir($templates_c);
+        } else {
+            # unfortunately there's no sane way to just disable compiling of templates
+            clearstatcache(); // just incase someone just fixed it; on their next refresh it should work.
+            error_log("ERROR: directory $templates_c doesn't exist or isn't writeable for the webserver");
+            die("ERROR: the templates_c directory doesn't exist or isn't writeable for the webserver");
+        }
+
+        $this->configureTheme('');// default to something.
     }
 
     /**
@@ -54,37 +70,8 @@ class PFASmarty {
         $this->assign('CONF', $CONF);
     }
 
-    /**
-     * @var Smarty
-     */
-    protected $template;
 
-    /**
-     * @param string $template_theme
-     */
-    public function __construct($template_theme = 'default') {
-        $this->template = new Smarty();
 
-        //$this->template->debugging = true;
-        if ($template_theme == 'default') {
-            $this->template->setTemplateDir(dirname(__FILE__) . '/../templates');
-        } else {
-            $this->template->setTemplateDir(dirname(__FILE__) . '/../templates/' . $template_theme);
-        }
-
-        // if it's not present or writeable, smarty should just not cache.
-        $templates_c = dirname(__FILE__) . '/../templates_c';
-        if (is_dir($templates_c) && is_writeable($templates_c)) {
-            $this->template->setCompileDir($templates_c);
-        } else {
-            # unfortunately there's no sane way to just disable compiling of templates
-            clearstatcache(); // just incase someone just fixed it; on their next refresh it should work.
-            error_log("ERROR: directory $templates_c doesn't exist or isn't writeable for the webserver");
-            die("ERROR: the templates_c directory doesn't exist or isn't writeable for the webserver");
-        }
-
-        $this->template->setConfigDir(dirname(__FILE__) . '/../configs');
-    }
 
     /**
      * @param string $key
@@ -106,6 +93,16 @@ class PFASmarty {
      * @return void
      */
     public function display($template) {
+        $CONF = Config::getInstance()->getAll();
+        
+
+        $this->assign('CONF', $CONF);
+        $this->assign('PALANG', $CONF['__LANG'] ?? []);
+        $this->assign('url_domain', '');
+        $this->assign('version', $CONF['version'] ?? 'unknown');
+        $this->assign('boolconf_alias_domain', Config::bool('alias_domain'));
+        $this->assign('authentication_has_role', array('global_admin' => authentication_has_role('global-admin'), 'admin' => authentication_has_role('admin'), 'user' => authentication_has_role('user')));
+
         header("Expires: Sun, 16 Mar 2003 05:00:00 GMT");
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
         header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -113,7 +110,9 @@ class PFASmarty {
         header("Pragma: no-cache");
         header("Content-Type: text/html; charset=UTF-8");
 
+        $this->template->setConfigDir(__DIR__ . '/../configs');
         $this->template->display($template);
+
         unset($_SESSION['flash']); # cleanup flash messages
     }
 
