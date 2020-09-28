@@ -1,6 +1,5 @@
 <?php
 
-
 class Login {
     private $table;
 

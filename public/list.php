@@ -85,6 +85,7 @@ if (count($search)) {
 
 $items = $handler->result();
 
+
 if (count($handler->errormsg)) {
     flash_error($handler->errormsg);
 }

@@ -672,7 +672,7 @@ function x_send_sms_clickatell($to, $message) {
 */
 
 // Theme Config
-$CONF['theme'] = 'bootstrap';
+$CONF['theme'] = 'default';
 // Specify your own favicon, logo and CSS file
 $CONF['theme_favicon'] = 'images/favicon.ico';
 $CONF['theme_logo'] = 'images/logo-default.png';

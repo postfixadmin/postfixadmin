@@ -20,7 +20,7 @@
  * Form POST \ GET Variables: -none-
  */
 
-require_once('common.php');
+require_once(__DIR__ . '/common.php');
 
 $SESSID_USERNAME = authentication_get_username();
 

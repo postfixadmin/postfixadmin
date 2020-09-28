@@ -445,7 +445,7 @@ class MailboxHandler extends PFAHandler {
     protected function _missing_maildir($field) {
         list($local_part, $domain) = explode('@', $this->id);
 
-        $maildir_name_hook = Config::read_string('maildir_name_hook');
+        $maildir_name_hook = Config::read('maildir_name_hook');
 
         if (is_string($maildir_name_hook) && $maildir_name_hook != 'NO' && function_exists($maildir_name_hook)) {
             $maildir = $maildir_name_hook($domain, $this->id);
