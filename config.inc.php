@@ -692,6 +692,17 @@ $CONF['xmlrpc_enabled'] = false;
 //More details in README.password_expiration
 $CONF['password_expiration'] = 'YES';
 
+// Autodiscovery configuration (autoconfig)
+// You can leave it blank to not sign the Mac Mail mobileconfig system setting, or
+// You can provide default values here and override them with each configuration specific values
+// You can set this to true or false to simply activate or deactivate signing the mobileconfig file
+// This will apply to all, including per configuration settings
+$CONF['autoconfig'] = 'YES';
+$CONF['autoconfig_sign'] = true;
+$CONF['autoconfig_cert'] = null;
+$CONF['autoconfig_privkey'] = null;
+$CONF['autoconfig_chain'] = null;
+
 // If you want to keep most settings at default values and/or want to ensure
 // that future updates work without problems, you can use a separate config 
 // file (config.local.php) instead of editing this file and override some
