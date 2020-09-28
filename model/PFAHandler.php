@@ -525,6 +525,10 @@ abstract class PFAHandler {
         # do nothing
     }
 
+    public function store() : bool {
+        return $this->save();
+    }
+
     /**
      * save $this->values to the database
      *
@@ -598,8 +602,16 @@ abstract class PFAHandler {
         return $result;
     }
 
+    public function beforeStore() : bool {
+        return $this->beforeStore();
+    }
+
+    public function storeMore() : bool {
+        return $this->storeMore();
+    }
+
     /**
-     * called by $this->store() before storing the values in the database
+     * called by $this->save() before storing the values in the database
      * @return bool - if false, save() will abort
      */
     protected function preSave() : bool {
