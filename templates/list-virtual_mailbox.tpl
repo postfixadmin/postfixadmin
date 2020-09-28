@@ -4,24 +4,24 @@
     {assign var="search" value=''}
 {/if}
 
+	<thead>
 	{#tr_header#}
-		{if $CONF.show_status===YES}<td></td>{/if}
-		<td>{$PALANG.pOverview_mailbox_username}</td>
+		{if $CONF.show_status===YES}<th></th>{/if}
+		<th>{$PALANG.pOverview_mailbox_username}</th>
 		{if $display_mailbox_aliases==true}
-			<td>{$PALANG.to}</td>
+			<th>{$PALANG.to}</th>
 		{/if}
-		<td>{$PALANG.name}</td>
-		{if $CONF.quota===YES}<td>{$PALANG.pOverview_mailbox_quota}</td>{/if}
-		<td>{$PALANG.last_modified}</td>
-		{if $CONF.password_expiration===YES}
-			<td>{$PALANG.password_expiration}</td>
-		{/if}
-		<td>{$PALANG.active}</td>
+		<th>{$PALANG.name}</th>
+		{if $CONF.quota===YES}<th>{$PALANG.pOverview_mailbox_quota}</th>{/if}
+		<th>{$PALANG.last_modified}</th>
+		<th>{$PALANG.active}</th>
 		{assign var="colspan" value="`$colspan-6`"}
-		<td colspan="{$colspan}">&nbsp;</td>
+		<th colspan="{$colspan}">&nbsp;</th>
 	</tr>
+	</thead>
+	<tbody>
 	{foreach from=$tMailbox item=item key=i}
-		{#tr_hilightoff#}
+		<tr>
 			{if $CONF.show_status===YES}
 				<td>{$gen_show_status_mailbox[$i]}</td>
 			{/if}
@@ -77,9 +77,6 @@
 				</td>
 			{/if}
 			<td>{$item.modified}</td>
-			{if $CONF.password_expiration===YES}
-				<td>{$item.password_expiration}</td>
-			{/if}
 			<td><a href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
 				>{if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}</a></td>
 			{if $CONF.vacation_control_admin===YES && $CONF.vacation===YES}
@@ -101,8 +98,17 @@
 				<td><a href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}">{$PALANG.alias}</a></td>
 			{/if}
 			<td><a href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}">{$PALANG.edit}</a></td>
-			<td><a href="delete.php?table=mailbox&amp;delete={$item.username|escape:"url"}&amp;token={$smarty.session.PFA_token|escape:"url"}"
-				onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$item.username}');">{$PALANG.del}</a></td>
+			<td>
+				<form method="post" action="delete.php">
+					<input type="hidden" name="table" value="mailbox">
+					<input type="hidden" name="delete" value="{$item.username|escape:"quotes"}">
+					<input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
+					<button type="submit" class="btn btn-danger" onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$item.username}');">
+						{$PALANG.del}
+					</button>
+				</form>
+			</td>
 		</tr>
 	{/foreach}
+	</tbody>
 </table>
