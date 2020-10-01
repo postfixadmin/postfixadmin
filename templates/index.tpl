@@ -9,7 +9,7 @@
             {include file='menu.tpl'}
         {/if}
     {/if}
-    <div class="container" role="main">
+    <div class="container" style="min-width: 1140px" role="main">
         {if $authentication_has_role.user && $CONF.motd_user}
             <div id="motd">{$CONF.motd_user}</div>
         {elseif $authentication_has_role.global_admin && $CONF.motd_superadmin}
