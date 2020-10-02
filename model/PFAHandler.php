@@ -602,10 +602,16 @@ abstract class PFAHandler {
         return $result;
     }
 
+    /**
+     * @deprecated use preSave() instead.
+     */
     public function beforeStore() : bool {
         return $this->preSave();
     }
 
+    /**
+     * @deprecated use postSave() instead.
+     */
     public function storeMore() : bool {
         return $this->postSave();
     }
