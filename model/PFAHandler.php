@@ -603,11 +603,11 @@ abstract class PFAHandler {
     }
 
     public function beforeStore() : bool {
-        return $this->beforeStore();
+        return $this->preSave();
     }
 
     public function storeMore() : bool {
-        return $this->storeMore();
+        return $this->postSave();
     }
 
     /**
