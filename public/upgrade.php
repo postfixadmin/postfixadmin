@@ -1933,3 +1933,35 @@ function upgrade_1843() {
     # Additional field for fetchmail to allow server with non-standard port number
     _db_add_field('fetchmail', 'src_port', "{INT}", 'src_server');
 }
+
+function upgrade_1844_mysql_pgsql() {
+    # Add support for multiple servers
+    $server = table_by_key('server');
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $server (
+            server VARCHAR(100) {LATIN1} NOT NULL,
+            description VARCHAR(255) {UTF-8} NOT NULL,
+            address VARCHAR(100) {LATIN1} NOT NULL,
+            created {DATE},
+            modified {DATECURRENT},
+            {PRIMARY} (server)
+        );
+    ");
+}
+
+function upgrade_1844_sqlite() {
+    $server = table_by_key('server');
+    db_query_parsed("
+        CREATE TABLE $server (
+            `server` varchar(100) NOT NULL,
+            `description` varchar(255) NOT NULL,
+            `address` varchar(100) NOT NULL,
+            `created` {DATE},
+            `modified` {DATECURRENT},
+            {PRIMARY} (`server`)
+        );
+    ");
+}
+function upgrade_1845() {
+    _db_add_field('domain', 'primarymx', "VARCHAR(100) {LATIN1} NOT NULL DEFAULT ''", 'transport');
+}

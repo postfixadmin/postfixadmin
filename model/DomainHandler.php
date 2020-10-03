@@ -40,6 +40,14 @@ class DomainHandler extends PFAHandler {
 
         $query_used_domainquota = 'round(coalesce(__total_quota/' . intval(Config::read('quota_multiplier')) . ',0))';
 
+        $server = (Config::bool('multiple_servers') && $super) ? 1 : 0;
+        if ($server) {
+            $server_handler = new ServerHandler();
+            $server_handler -> getList('');
+            $this->allowed_servers = array_keys($server_handler->result());
+            $this->allowed_servers[] = "";
+        }
+
         # NOTE: There are dependencies between alias_count, mailbox_count and total_quota.
         # NOTE: If you disable "display in list" for one of them, the SQL query for the others might break.
         # NOTE: (Disabling all of them shouldn't be a problem.)
@@ -94,7 +102,7 @@ class DomainHandler extends PFAHandler {
                 array('select' => db_quota_text(   $query_used_domainquota, 'quota', 'total_quot'))   ),
             '_total_quot_percent'=> pacol( 0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, array(),
                 array('select' => db_quota_percent($query_used_domainquota, 'quota', '_total_quot_percent'))   ),
-
+           'primarymx'         => pacol($server,    $server,1,      'enum', 'primarymx'                    , 'pAdminEdit_domain_primarymx_text', '', $this->allowed_servers),
            'transport'         => pacol($transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
                /*options*/ Config::read_array('transport_options')    ),
            'backupmx'          => pacol($super,     $super, 1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 , 0),

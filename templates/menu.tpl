@@ -21,6 +21,17 @@
 {else}
 	<li><a target="_top" href="{#url_main#}">{$PALANG.pMenu_main}</a></li>
 {/if}
+{* list-server *}
+{if $authentication_has_role.global_admin && Config::bool('multiple_servers')}
+{strip}
+	<li><a target="_top" href="{#url_list_server#}">{$PALANG.pAdminMenu_list_server}</a>
+		<ul>
+			<li><a target="_top" href="{#url_list_server#}">{$PALANG.pAdminMenu_list_server}</a></li>
+			<li><a target="_top" href="{#url_create_server#}">{$PALANG.pAdminMenu_create_server}</a></li>
+		</ul>
+	</li>
+{/strip}
+{/if}
 {* list-domain *}
 {strip}
 	<li><a target="_top" href="{#url_list_domain#}">{$PALANG.pAdminMenu_list_domain}</a>

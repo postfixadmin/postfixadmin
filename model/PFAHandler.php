@@ -90,6 +90,9 @@ abstract class PFAHandler {
     # set in __construct()
     protected $allowed_domains = false;
 
+    # array with the server list set in __construct()
+    protected $allowed_servers = false;
+
     # if set, restrict $allowed_domains to this admin
     # set in __construct()
     protected $admin_username = "";
