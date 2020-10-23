@@ -34,6 +34,16 @@
 		<td colspan="2"><a href="users/">{$PALANG.pLogin_login_users}</a></td>
 	</tr>
 {/if}
+<!-- Enable recaptchav2 in config.local.php -->
+{if $CONF['recaptcha_enabled']}
+        <tr>
+                <td><form action="" method="POST"></td>
+		<!-- Add the site public key to config.local.php -->
+                <td><div class="g-recaptcha" data-sitekey="{$CONF['recaptcha_sitekey']}"></div></td>
+                <td><script src="https://www.google.com/recaptcha/api.js" async defer></script></td>
+                <td></form></td>
+        </tr>
+{/if}
 </table>
 </form>
 {literal}
