@@ -60,7 +60,7 @@ class MailboxHandler extends PFAHandler {
         }
     }
 
-    public function init($id) {
+    public function init($id) : bool {
         if (!parent::init($id)) {
             return false;
         }
@@ -217,7 +217,7 @@ class MailboxHandler extends PFAHandler {
     }
 
 
-    protected function beforestore() {
+    protected function preSave() : bool {
         if (isset($this->values['quota']) && $this->values['quota'] != -1 && is_numeric($this->values['quota'])) {
             $multiplier = Config::read_string('quota_multiplier');
             if ($multiplier == 0 || !is_numeric($multiplier)) { // or empty string, or null, or false...
@@ -256,7 +256,7 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-        if (!$ah->store()) {
+        if (!$ah->save()) {
             $this->errormsg[] = $ah->errormsg[0];
             return false;
         }
@@ -292,7 +292,7 @@ class MailboxHandler extends PFAHandler {
         return $ok && parent::set($values);
     }
 
-    protected function storemore() {
+    protected function postSave() : bool {
         if ($this->new) {
             if (!$this->mailbox_post_script()) {
                 # return false; # TODO: should this be fatal?
@@ -445,7 +445,7 @@ class MailboxHandler extends PFAHandler {
     protected function _missing_maildir($field) {
         list($local_part, $domain) = explode('@', $this->id);
 
-        $maildir_name_hook = Config::read_string('maildir_name_hook');
+        $maildir_name_hook = Config::read('maildir_name_hook');
 
         if (is_string($maildir_name_hook) && $maildir_name_hook != 'NO' && function_exists($maildir_name_hook)) {
             $maildir = $maildir_name_hook($domain, $this->id);
@@ -649,7 +649,7 @@ class MailboxHandler extends PFAHandler {
 
 
     /**
-     * Called by storemore() after a mailbox has been created.
+     * Called by postSave() after a mailbox has been created.
      * Immediately returns, unless configuration indicates
      * that one or more sub-folders should be created.
      *
@@ -735,49 +735,6 @@ class MailboxHandler extends PFAHandler {
         @imap_close($i);
         return true;
     }
-
-
-    /********************************************************************************************************************
-         old functions - we'll see what happens to them
-         (at least they should use the *Handler functions instead of doing SQL)
-    /********************************************************************************************************************/
-
-    /**
-     * @return boolean true on success; false on failure
-     * @param string $new_password
-     * @param string $old_password
-     * @param bool $match = true
-     *
-     * All passwords need to be plain text; they'll be hashed appropriately
-     * as per the configuration in config.inc.php
-     */
-    public function change_pw($new_password, $old_password, $match = true) {
-        list(/*NULL*/, $domain) = explode('@', $this->id);
-
-        if ($match == true) {
-            if (!$this->login($this->id, $old_password)) {
-                db_log($domain, 'edit_password', "MATCH FAILURE: " . $this->id);
-                $this->errormsg[] = Config::Lang('pPassword_password_current_text_error');
-                return false;
-            }
-        }
-
-        $set = array(
-            'password' => pacrypt($new_password) ,
-        );
-
-        $result = db_update('mailbox', 'username', $this->id, $set);
-
-        if ($result != 1) {
-            db_log($domain, 'edit_password', "FAILURE: " . $this->id);
-            $this->errormsg[] = Config::lang('pEdit_mailbox_result_error');
-            return false;
-        }
-
-        db_log($domain, 'edit_password', $this->id);
-        return true;
-    }
-
 
     #TODO: more self explaining language strings!
 }

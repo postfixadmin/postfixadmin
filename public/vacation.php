@@ -39,6 +39,9 @@
 
 require_once('common.php');
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 // only allow admins to change someone else's 'stuff'
 if (authentication_has_role('admin')) {
     $Admin_role = 1 ;

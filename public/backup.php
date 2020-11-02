@@ -24,6 +24,9 @@ require_once('common.php');
 
 authentication_require_role('global-admin');
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 (($CONF['backup'] == 'NO') ? header("Location: main.php") && exit : '1');
 
 // TODO: make backup supported for postgres

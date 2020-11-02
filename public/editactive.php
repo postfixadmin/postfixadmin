@@ -47,7 +47,7 @@ if ($handler->init($id)) { # errors will be displayed as last step anyway, no ne
     }
 
     if ($handler->set(array('active' => $active))) {
-        $handler->store();
+        $handler->save();
     }
 }
 

@@ -14,7 +14,7 @@
  * Contains re-usable code.
  */
 
-$version = '3.2';
+
 $min_db_version = 1840;  # update (at least) before a release with the latest function numbrer in upgrade.php
 
 /**
@@ -833,10 +833,6 @@ function encode_header($string, $default_charset = "utf-8") {
     return $string;
 }
 
-
-if (!function_exists('random_int')) { // PHP version < 7.0
-    require_once(dirname(__FILE__) . '/lib/block_random_int.php');
-}
 
 
 /**

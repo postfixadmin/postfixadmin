@@ -18,11 +18,8 @@ class VacationHandler extends PFAHandler {
      */
     protected $domain_field = 'domain';
 
-    /**
-     * @return void
-     */
-    public function init($id) {
-        die('VacationHandler is not yet ready to be used with *Handler methods'); # obvious TODO: remove when it's ready ;-)
+    public function init($id) : bool {
+        throw new \Exception('VacationHandler is not yet ready to be used with *Handler methods');
     }
 
     /**
@@ -279,7 +276,7 @@ class VacationHandler extends PFAHandler {
 
         # TODO: supress logging in AliasHandler if called from VacationHandler (VacationHandler should log itsself)
 
-        if (!$handler->store()) {
+        if (!$handler->save()) {
             print_r($handler->errormsg); # TODO: error handling
             return false;
         }

@@ -4,25 +4,41 @@
  * Turn on sanitisation of all data by default so it's not possible for XSS flaws to occur in PFA
  */
 class PFASmarty {
-
+    public static $instance = null;
     /**
      * @var Smarty
      */
     protected $template;
 
-    /**
-     * @param string $template_theme 
-     */
-    public function __construct($template_theme = 'default') {
+    public static function getInstance() {
+        if (self::$instance) {
+            return self::$instance;
+        }
+
+        self::$instance = new PFASmarty();
+        return self::$instance;
+    }
+
+
+
+    private function __construct() {
+        $CONF = Config::getInstance()->getAll();
+
+        $theme = '';
+        if (isset($CONF['theme']) && is_dir(dirname(__FILE__) . "/../templates/" . $CONF['theme'])) {
+            $theme = $CONF['theme'];
+        }
+
         $this->template = new Smarty();
 
-        //$this->template->debugging = true;
-        if($template_theme == 'default') {
-            $this->template->setTemplateDir(dirname(__FILE__) . '/../templates');
+
+        $template_dir = __DIR__ . '/../templates/' . $theme;
+
+        if (!is_dir($template_dir)) {
+            $template_dir = __DIR__ . '/../templates/';
         }
-        else {
-            $this->template->setTemplateDir(dirname(__FILE__) . '/../templates/'. $template_theme);
-        }
+
+        $this->template->setTemplateDir($template_dir);
 
         // if it's not present or writeable, smarty should just not cache.
         $templates_c = dirname(__FILE__) . '/../templates_c';
@@ -35,8 +51,27 @@ class PFASmarty {
             die("ERROR: the templates_c directory doesn't exist or isn't writeable for the webserver");
         }
 
-        $this->template->setConfigDir(dirname(__FILE__) . '/../configs');
+        $this->configureTheme('');// default to something.
     }
+
+    /**
+     * @param string $rel_path - relative path for referenced css etc dependencies - e.g. users/edit.php needs '../' else, it's ''.
+     */
+    public function configureTheme(string $rel_path = '') {
+        $CONF = Config::getInstance()->getAll();
+
+        $CONF['theme_css'] = $rel_path . htmlentities($CONF['theme_css']);
+        if (!empty($CONF['theme_custom_css'])) {
+            $CONF['theme_custom_css'] = $rel_path . htmlentities($CONF['theme_custom_css']);
+        }
+        $CONF['theme_favicon'] = $rel_path . htmlentities($CONF['theme_favicon']);
+        $CONF['theme_logo'] = $rel_path . htmlentities($CONF['theme_logo']);
+
+        $this->assign('CONF', $CONF);
+    }
+
+
+
 
     /**
      * @param string $key
@@ -54,10 +89,20 @@ class PFASmarty {
     }
 
     /**
-     * @return void
      * @param string $template
+     * @return void
      */
     public function display($template) {
+        $CONF = Config::getInstance()->getAll();
+        
+
+        $this->assign('CONF', $CONF);
+        $this->assign('PALANG', $CONF['__LANG'] ?? []);
+        $this->assign('url_domain', '');
+        $this->assign('version', $CONF['version'] ?? 'unknown');
+        $this->assign('boolconf_alias_domain', Config::bool('alias_domain'));
+        $this->assign('authentication_has_role', array('global_admin' => authentication_has_role('global-admin'), 'admin' => authentication_has_role('admin'), 'user' => authentication_has_role('user')));
+
         header("Expires: Sun, 16 Mar 2003 05:00:00 GMT");
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
         header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -65,9 +110,12 @@ class PFASmarty {
         header("Pragma: no-cache");
         header("Content-Type: text/html; charset=UTF-8");
 
+        $this->template->setConfigDir(__DIR__ . '/../configs');
         $this->template->display($template);
+
         unset($_SESSION['flash']); # cleanup flash messages
     }
+
     /**
      * Recursive cleaning of data, using htmlentities - this assumes we only ever output to HTML and we're outputting in UTF-8 charset
      *
@@ -86,4 +134,3 @@ class PFASmarty {
         return $clean;
     }
 }
-

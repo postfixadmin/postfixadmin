@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             flash_error($errormsg[0]);
         }
 
-        $updated = $ah->store();
+        $updated = $ah->save();
 
         if ($updated) {
             header("Location: main.php");

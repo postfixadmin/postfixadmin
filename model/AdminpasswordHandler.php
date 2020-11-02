@@ -35,7 +35,7 @@ class AdminpasswordHandler extends PFAHandler {
         );
     }
 
-    public function init($id) {
+    public function init($id) :bool {
         # hardcode to logged in admin
         if ($this->admin_username == '') {
             die("No admin logged in");
@@ -80,7 +80,8 @@ class AdminpasswordHandler extends PFAHandler {
      * check if old password is correct
      */
     protected function _validate_oldpass($field, $val) {
-        if ($this->login($this->id, $val)) {
+        $l = new Login('admin');
+        if ($l->login($this->id, $val)) {
             return true;
         }
 

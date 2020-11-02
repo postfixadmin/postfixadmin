@@ -20,12 +20,6 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         $results = $x->result();
 
         $this->assertEmpty($results);
-
-        $this->assertFalse($x->checkPasswordRecoveryCode('test', 'fake'));
-
-        $token = $x->getPasswordRecoveryCode('test.person.does.not.exist@example.com');
-
-        $this->assertFalse($token);
     }
 
 
@@ -60,7 +54,7 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertTrue($ret);
 
-        $ret = $dh->store();
+        $ret = $dh->save();
 
         $this->assertTrue($ret);
 
@@ -109,7 +103,7 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(0, count($list));
 
         $x->set($values);
-        $x->store();
+        $x->save();
 
         $x->getList('');
 
@@ -149,7 +143,7 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEmpty($h->errormsg);
         $this->assertEmpty($h->infomsg);
         $this->assertTrue($r);
-        $this->assertTrue($h->store());
+        $this->assertTrue($h->save());
         
         $h->getList('');
         $list = $h->result();

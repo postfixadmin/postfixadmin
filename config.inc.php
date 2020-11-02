@@ -676,7 +676,7 @@ $CONF['theme'] = 'default';
 // Specify your own favicon, logo and CSS file
 $CONF['theme_favicon'] = 'images/favicon.ico';
 $CONF['theme_logo'] = 'images/logo-default.png';
-$CONF['theme_css'] = 'css/default.css';
+$CONF['theme_css'] = 'css/bootstrap.css';
 // If you want to customize some styles without editing the $CONF['theme_css'] file,
 // you can add a custom CSS file. It will be included after $CONF['theme_css'].
 $CONF['theme_custom_css'] = '';
@@ -691,6 +691,8 @@ $CONF['xmlrpc_enabled'] = false;
 //If enabled, mailbox passwords have a password_expiry field set, which is updated each time the password is changed, based on the parent domain's password_expiry (days) value.
 //More details in README.password_expiration
 $CONF['password_expiration'] = 'YES';
+
+$CONF['version'] = '3.3-dev';
 
 // If you want to keep most settings at default values and/or want to ensure
 // that future updates work without problems, you can use a separate config 

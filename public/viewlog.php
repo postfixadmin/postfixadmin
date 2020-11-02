@@ -28,6 +28,12 @@
 require_once('common.php');
 
 authentication_require_role('admin');
+
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
+$PALANG = $CONF['__LANG'];
+
 $SESSID_USERNAME = authentication_get_username();
 if (authentication_has_role('global-admin')) {
     $list_domains = list_domains();

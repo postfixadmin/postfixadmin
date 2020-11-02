@@ -33,6 +33,9 @@ if (Config::bool('sendmail_all_admins')) {
     authentication_require_role('global-admin');
 }
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 if ($CONF['sendmail'] != 'YES') {
     header("Location: main.php");
     exit;

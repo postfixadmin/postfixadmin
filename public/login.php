@@ -29,6 +29,9 @@
 
 require_once('common.php');
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 if ($CONF['configured'] !== true) {
     print "Installation not yet configured; please edit config.inc.php or write your settings to config.local.php";
     exit;
@@ -55,7 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     $h = new AdminHandler();
-    if ($h->login($fUsername, $fPassword)) {
+
+    $login = new Login('admin');
+    if ($login->login($fUsername, $fPassword)) {
         init_session($fUsername, true);
 
         # they've logged in, so see if they are a domain admin, as well.

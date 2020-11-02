@@ -31,6 +31,9 @@ $admin_username = authentication_get_username();
 
 $list_domains = list_domains_for_admin($admin_username);
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 $page_size = $CONF['page_size'];
 
 $fDomain = safepost('fDomain', safeget('domain', safesession('list-virtual:domain')));

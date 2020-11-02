@@ -237,7 +237,7 @@ abstract class PFAHandler {
                 );
         }
 
-        $struct_hook = Config::read_string($this->db_table . '_struct_hook');
+        $struct_hook = Config::read($this->db_table . '_struct_hook');
         if (!empty($struct_hook) && is_string($struct_hook) && $struct_hook != 'NO' && function_exists($struct_hook)) {
             $this->struct = $struct_hook($this->struct);
         }
@@ -337,7 +337,7 @@ abstract class PFAHandler {
      * initialize with $id and check if it is valid
      * @param string $id
      */
-    public function init($id) {
+    public function init(string $id) : bool {
 
         // postfix treats address lookups (aliases, mailboxes) as if they were lowercase.
         // MySQL is normally case insenstive, PostgreSQL is case sensitive.
@@ -525,8 +525,12 @@ abstract class PFAHandler {
         # do nothing
     }
 
+    public function store() : bool {
+        return $this->save();
+    }
+
     /**
-     * store $this->values in the database
+     * save $this->values to the database
      *
      * converts values based on $this->struct[*][type] (boolean, password encryption)
      *
@@ -534,13 +538,13 @@ abstract class PFAHandler {
      * @return bool - true if all values were stored in the database, otherwise false
      *     error messages (if any) are stored in $this->errormsg
      */
-    public function store() {
+    public function save() : bool {
         if ($this->values_valid == false) {
             $this->errormsg[] = "one or more values are invalid!";
             return false;
         }
 
-        if (!$this->beforestore()) {
+        if (!$this->preSave()) {
             return false;
         }
 
@@ -584,9 +588,9 @@ abstract class PFAHandler {
             return false;
         }
 
-        $result = $this->storemore();
+        $result = $this->postSave();
 
-        # db_log() even if storemore() failed
+        # db_log() even if postSave() failed
         db_log($this->domain, $this->msg['logname'], $this->id);
 
         if ($result) {
@@ -599,18 +603,32 @@ abstract class PFAHandler {
     }
 
     /**
-     * called by $this->store() before storing the values in the database
-     * @return bool - if false, store() will abort
+     * @deprecated use preSave() instead.
      */
-    protected function beforestore() {
+    public function beforeStore() : bool {
+        return $this->preSave();
+    }
+
+    /**
+     * @deprecated use postSave() instead.
+     */
+    public function storeMore() : bool {
+        return $this->postSave();
+    }
+
+    /**
+     * called by $this->save() before storing the values in the database
+     * @return bool - if false, save() will abort
+     */
+    protected function preSave() : bool {
         return true; # do nothing, successfully ;-)
     }
 
     /**
-     * called by $this->store() after storing $this->values in the database
+     * called by $this->save() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.
      */
-    protected function storemore() {
+    protected function postSave() : bool {
         return true; # do nothing, successfully ;-)
     }
 
@@ -735,7 +753,7 @@ abstract class PFAHandler {
      * @param int $offset - number of first row to return
      * @return array - rows (as associative array, with the ID as key)
      */
-    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) : array {
         $queryparts = $this->build_select_query($condition, $searchmode);
 
         $query = $queryparts['select_cols'] . $queryparts['from_where_order'];
@@ -800,7 +818,7 @@ abstract class PFAHandler {
      * @return bool - always true, no need to check ;-) (if $result is not an array, getList die()s)
      * The data is stored in $this->result (as array of rows, each row is an associative array of column => value)
      */
-    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) : bool {
         if (is_array($condition)) {
             $real_condition = array();
             foreach ($condition as $key => $value) {
@@ -820,53 +838,6 @@ abstract class PFAHandler {
 
         $this->result = $this->read_from_db($real_condition, $searchmode, $limit, $offset);
         return true;
-    }
-
-
-    /**
-     * Attempt to log a user in.
-     * @param string $username
-     * @param string $password
-     * @return boolean true on successful login (i.e. password matches etc)
-     */
-    public function login($username, $password) {
-        $table = table_by_key($this->db_table);
-        $active = db_get_boolean(true);
-        $query = "SELECT password FROM $table WHERE {$this->id_field} = :username AND active = :active";
-
-        $values = array('username' => $username, 'active' => $active);
-
-        $result = db_query_all($query,$values);
-        if (sizeof($result) == 1) {
-            $row = $result[0];
-
-            $crypt_password = pacrypt($password, $row['password']);
-
-            return hash_equals($row['password'], $crypt_password);
-        }
-        // try and be near constant time regardless of whether the db user exists or not
-        $x = pacrypt('abc', 'def');
-        return hash_equals('not', 'comparable');
-    }
-
-    /**
-     * Generate and store a unique password reset token valid for one hour
-     * @param string $username
-     * @return false|string
-     */
-    public function getPasswordRecoveryCode($username) {
-        if ($this->init($username)) {
-            $token = generate_password();
-            $updatedRows = db_update($this->db_table, $this->id_field, $username, array(
-                'token' => pacrypt($token),
-                'token_validity' => date("Y-m-d H:i:s", strtotime('+ 1 hour')),
-            ));
-
-            if ($updatedRows == 1) {
-                return $token;
-            }
-        }
-        return false;
     }
 
     /**

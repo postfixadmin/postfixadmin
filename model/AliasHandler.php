@@ -136,7 +136,7 @@ class AliasHandler extends PFAHandler {
      * AliasHandler needs some special handling in init() and therefore overloads the function.
      * It also calls parent::init()
      */
-    public function init($id) {
+    public function init(string $id) : bool {
         $bits = explode('@', $id);
         if (sizeof($bits) == 2) {
             $local_part = $bits[0];
@@ -303,7 +303,7 @@ class AliasHandler extends PFAHandler {
         $this->values['goto'] = join(',', $values['goto']);
     }
 
-    protected function storemore() {
+    protected function postSave() : bool {
         # TODO: if alias belongs to a mailbox, update mailbox active status
         return true;
     }
@@ -357,7 +357,7 @@ class AliasHandler extends PFAHandler {
         return array($condition, $searchmode);
     }
 
-    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) {
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) : bool {
         list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
         $this->set_is_mailbox_extrafrom($condition, $searchmode);
         $result = parent::getList($condition, $searchmode, $limit, $offset);

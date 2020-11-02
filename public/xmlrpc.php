@@ -45,8 +45,8 @@ $server = new Zend_XmlRpc_Server();
  * @return boolean true on success, else false.
  */
 function login($username, $password) {
-    $h = new MailboxHandler();
-    if ($h->login($username, $password)) {
+    $login = new Login('mailbox');
+    if ($login->login($username, $password)) {
         session_regenerate_id();
         $_SESSION['authenticated'] = true;
         $_SESSION['sessid'] = array();
@@ -75,20 +75,33 @@ class UserProxy {
      */
     public function changePassword($old_password, $new_password) {
         $uh = new MailboxHandler();
-        if (!$uh->init($_SESSION['sessid']['username'])) {
+        $username = $_SESSION['sessid']['username'] ?? '';
+
+        if (empty($username)) {
+            throw new \Exception("not logged in? invalid session");
+        }
+
+        if (!$uh->init($username)) {
+            return false; // user doesn't exist.
+        }
+
+        $login = new Login('mailbox');
+
+        try {
+            return $login->changePassword($username, $new_password, $old_password);
+        } catch (\Exception $e) {
             return false;
         }
-        return $uh->change_pw($new_password, $old_password);
     }
 
     /**
-      * @param string $username
-      * @param string $password
-      * @return boolean true if successful.
-      */
+     * @param string $username
+     * @param string $password
+     * @return boolean true if successful.
+     */
     public function login($username, $password) {
-        $uh = new MailboxHandler(); # $_SESSION['sessid']['username']);
-        return $uh->login($username, $password);
+        $login = new Login('mailbox');
+        return $login->login($username, $password);
     }
 }
 
@@ -140,6 +153,7 @@ class VacationProxy {
         return $vh->set_away($subject, $body, $interval_time, $activeFrom, $activeUntil);
     }
 }
+
 class AliasProxy {
     /**
      * @return array - array of aliases this user has. Array may be empty.
@@ -161,7 +175,7 @@ class AliasProxy {
     public function update($addresses, $flags) {
         $ah = new AliasHandler();
         $ah->init($_SESSION['sessid']['username']);
-        
+
         $values = ['goto' => $addresses];
 
         if ($flags == 'forward_and_store') {
@@ -176,7 +190,7 @@ class AliasProxy {
             //error_log('ah->set failed' . print_r($values, true));
             return false;
         }
-        $store = $ah->store();
+        $store = $ah->save();
         return $store;
     }
 

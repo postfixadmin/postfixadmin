@@ -1,14 +1,17 @@
-<div id="overview">
+<div class="panel panel-default">
+
+{if ($admin_list|count > 1)}
+<div class="panel-heading">
 <form name="frmOverview" method="post" action="">
-    {if ($admin_list|count > 1)}
         {html_options name='username' output=$admin_list values=$admin_list selected=$admin_selected onchange="this.form.submit();"}
         <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}" /></noscript>
-    {/if}
 </form>
+</div>
+{/if}
+
 {if $msg.show_simple_search}
     {#form_search#}
 {/if}
-</div>
 
 {if $msg.show_simple_search}
     {if ($search|count > 0)}
@@ -24,36 +27,37 @@
     {/if}
 {/if}
 
-
-
-<div id="list">
-<table border=0 id='admin_table'><!-- TODO: 'admin_table' needed because of CSS for table header -->
+<table class="table table-hover" border=0 id='admin_table'><!-- TODO: 'admin_table' needed because of CSS for table header -->
 
 {if $msg.list_header}
 	{assign var="colcount" value=2}
-    {foreach key=key item=field from=$struct}
-        {if $field.display_in_list == 1 && $field.label}{* don't show fields without a label *}
+	{foreach key=key item=field from=$struct}
+		{if $field.display_in_list == 1 && $field.label}{* don't show fields without a label *}
 			{assign var="colcount" value=$colcount+1}
-        {/if}
-    {/foreach}
+		{/if}
+	{/foreach}
+	<thead>
 	<tr>
-		<th colspan="{$colcount}">{$PALANG.{$msg.list_header}}</th>
+		<th style="text-align:center;" colspan="{$colcount}">{$PALANG.{$msg.list_header}}</th>
 	</tr>
+	</thead>
 {/if}
 
+<thead>
 <tr class="header">
     {foreach key=key item=field from=$struct}
         {if $field.display_in_list == 1 && $field.label}{* don't show fields without a label *}
-            <td>{$field.label}</td>
+            <th>{$field.label}</th>
         {/if}
     {/foreach}
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
 </tr>
+</thead>
 
 {foreach key=itemkey from=$RAW_items item=RAW_item}
     {assign "item" $items.{htmlentities($itemkey, $smarty.const.ENT_QUOTES, 'UTF-8', false)}} {* array keys in $items are escaped using htmlentities(), see smarty.inc.php *}
-    {#tr_hilightoff#}
+    <tr>
 
     {foreach key=key item=field from=$struct}
         {if $field.display_in_list == 1 && $field.label}
@@ -78,7 +82,7 @@
 *}
                     {elseif $key == 'active'}
                         {if $item._can_edit}
-                            <a href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$item._active}</a>
+                            <a class="btn btn-warning" href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$item._active}</a>
                         {else}
                             {$item._active}
                         {/if}
@@ -91,11 +95,11 @@
                     {elseif $field.type == 'quot'}
                         {assign "tmpkey" "_{$key}_percent"}
 
-                        {if $item[$tmpkey] > $CONF.quota_level_high_pct}
+                        {if $item[$tmpkey]>90}
                             {assign var="quota_level" value="high"}
-                        {elseif $item[$tmpkey] > $CONF.quota_level_med_pct}
+                        {elseif $item[$tmpkey]>55}
                             {assign var="quota_level" value="mid"}
-                        {else} 
+                        {else}
                             {assign var="quota_level" value="low"}
                         {/if}
                         {if $item[$tmpkey] > -1}
@@ -119,18 +123,37 @@
         {/if}
     {/foreach}
 
-    <td>{if $item._can_edit}<a href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}">{$PALANG.edit}</a>{else}&nbsp;{/if}</td>
-    <td>{if $item._can_delete}<a href="{#url_delete#}?table={$table}&amp;delete={$RAW_item.$id_field|escape:"url"}&amp;token={$smarty.session.PFA_token|escape:"url"}"
-        onclick="return confirm ('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">{$PALANG.del}</a>{else}&nbsp;{/if}</td>
+    <td>{if $item._can_edit}
+            <a class="btn btn-primary" href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}">{$PALANG.edit}</a>
+        {else}&nbsp;
+        {/if}
+    </td>
+    <td>{if $item._can_delete}
+        <form method="post" action="{#url_delete#}">
+            <input type="hidden" name="table" value="{$table}">
+            <input type="hidden" name="delete" value="{$RAW_item.$id_field|escape:"quotes"}">
+            <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
+
+            <button class="btn btn-danger" onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
+                {$PALANG.del}
+            </button>
+        </form>
+    {else}&nbsp;{/if}
+</td>
     </tr>
 {/foreach}
 
 </table>
 
-{if $msg.can_create}
-<br /><a href="edit.php?table={$table|escape:"url"}" class="button">{$PALANG.{$formconf.create_button}}</a><br />
-<br />
-{/if}
-<br /><a href="list.php?table={$table|escape:"url"}&amp;output=csv">{$PALANG.download_csv}</a>
+<div class="panel-footer">
+	<div class="btn-toolbar" role="toolbar">
+		<div class="btn-group pull-right">
+		{if $msg.can_create}
+		<a href="edit.php?table={$table|escape:"url"}" role="button" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> {$PALANG.{$formconf.create_button}}</a>
+		{/if}
+		<a href="list.php?table={$table|escape:"url"}&amp;output=csv" role="button" class="btn btn-default"><span class="glyphicon glyphicon-export" aria-hidden="true"></span> {$PALANG.download_csv}</a>
+		</div>
+	</div>
+</div>
 
 </div>

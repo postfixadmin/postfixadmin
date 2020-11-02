@@ -24,6 +24,8 @@
 
 require_once('common.php');
 
+$smarty = PFASmarty::getInstance();
+
 $username = authentication_get_username(); # enforce login
 
 $table = safepost('table', safeget('table'));
@@ -157,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $form_fields = $handler->getStruct(); # refresh $form_fields - set() might have changed something
 
     if ($error != 1) {
-        if (!$handler->store()) {
+        if (!$handler->save()) {
             $errormsg = $handler->errormsg;
         } else {
             flash_info($handler->infomsg);
