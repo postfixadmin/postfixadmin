@@ -361,12 +361,12 @@ function escape_string($string_or_int) {
  *  $param = safeget('param', 'default')
  *
  * @param string $param parameter name.
- * @param string|array $default (optional) - default value if key is not set.
- * @return string|array
+ * @param string $default (optional) - default value if key is not set.
+ * @return string
  */
 function safeget($param, $default = "") {
     $retval = $default;
-    if (isset($_GET[$param])) {
+    if (isset($_GET[$param]) && is_string($_GET[$param])) {
         $retval = $_GET[$param];
     }
     return $retval;
@@ -377,11 +377,11 @@ function safeget($param, $default = "") {
  * @see safeget()
  * @param string $param parameter name
  * @param string $default (optional) default value (defaults to "")
- * @return string|array - value in $_POST[$param] or $default
+ * @return string - value in $_POST[$param] or $default
  */
 function safepost($param, $default = "") {
     $retval = $default;
-    if (isset($_POST[$param])) {
+    if (isset($_POST[$param]) && is_string($_POST[$param])) {
         $retval = $_POST[$param];
     }
     return $retval;
@@ -411,7 +411,7 @@ function safeserver($param, $default = "") {
  */
 function safecookie($param, $default = "") {
     $retval = $default;
-    if (isset($_COOKIE[$param])) {
+    if (isset($_COOKIE[$param]) && is_string($_COOKIE[$param])) {
         $retval = $_COOKIE[$param];
     }
     return $retval;
@@ -426,7 +426,7 @@ function safecookie($param, $default = "") {
  */
 function safesession($param, $default = "") {
     $retval = $default;
-    if (isset($_SESSION[$param])) {
+    if (isset($_SESSION[$param]) && is_string($_SESSION[$param])) {
         $retval = $_SESSION[$param];
     }
     return $retval;

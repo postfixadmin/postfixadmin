@@ -27,6 +27,8 @@ require_once('../common.php');
 authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
 
+$smarty = PFASmarty::getInstance();
+
 $vh = new VacationHandler($USERID_USERNAME);
 if ($vh->check_vacation()) {
     $tummVacationtext = $PALANG['pUsersMain_vacationSet'];

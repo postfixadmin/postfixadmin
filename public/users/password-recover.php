@@ -25,6 +25,8 @@
  */
 
 
+$smarty = PFASmarty::getInstance();
+
 /* if in .../users, we need to load a different common.php; not this file is symlinked with public/ */
 if (preg_match('/\/users\//', $_SERVER['REQUEST_URI'])) {
     $rel_path = '../';
@@ -65,8 +67,8 @@ function sendCodebySMS($to, $username, $code) {
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $start_time = microtime(true);
 
-    $username = safepost('fUsername', null);
-    if (empty($username) || !is_string($username)) {
+    $username = safepost('fUsername');
+    if (empty($username)) {
         die("fUsername field required");
     }
 

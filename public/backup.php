@@ -29,6 +29,8 @@ $smarty = PFASmarty::getInstance();
 
 (($CONF['backup'] == 'NO') ? header("Location: main.php") && exit : '1');
 
+$version = Config::read_string('version');
+
 // TODO: make backup supported for postgres
 if (db_pgsql()) {
     flash_error('Sorry: Backup is currently not supported for your DBMS ('.$CONF['database_type'].').');
@@ -115,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                 $fields = array_keys($row);
                 $values = array_values($row);
                 $values = array_map(function ($str) {
-                    return escape_string($str);
+                    return escape_string((string) $str);
                 }, $values);
 
                 fwrite($fh, "INSERT INTO ". $tables[$i] . " (". implode(',', $fields) . ") VALUES ('" . implode('\',\'', $values) . "');\n");

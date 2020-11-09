@@ -73,7 +73,7 @@ $error = 0;
 
 $vh = new VacationHandler($fUsername);
 
-$choice_of_reply = Config::read('vacation_choice_of_reply');
+$choice_of_reply = Config::read_array('vacation_choice_of_reply');
 foreach (array_keys($choice_of_reply) as $key) {
     $choice_of_reply[$key] = Config::Lang($choice_of_reply[$key]);
 }
@@ -82,6 +82,7 @@ $tUseremail = null;
 $tInterval_Time = null;
 $tBody = null;
 $tSubject = null;
+$details = ['active' => 0];
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $tSubject = '';
@@ -92,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $tInterval_Time = '';
 
     $details = $vh->get_details();
-    if ($details != false) {
+    if (is_array($details )) {
         $tSubject = $details['subject'];
         $tBody = $details['body'];
         $tInterval_Time = $details['interval_time'];

@@ -26,9 +26,10 @@ $smarty = PFASmarty::getInstance();
 
 $table = safeget('table');
 
-if (!is_string($table)) {
-    die("table parameter must be a string");
+if (empty($table)) {
+    die("table parameter missing or invalid.");
 }
+
 $handlerclass = ucfirst($table) . 'Handler';
 
 if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../model/$handlerclass.php")) { # validate $table
@@ -62,18 +63,25 @@ if ($is_admin) {
     }
 }
 
-$search     = safeget('search', safesession("search_$table", array()));
-$searchmode = safeget('searchmode', safesession("searchmode_$table", array()));
-
-if (!is_array($search) || !is_array($searchmode)) {
-    # avoid injection of raw SQL if $search is a string instead of an array
-    die("Invalid parameter");
+$search = [];
+$searchmode = [];
+if (isset($_GET['search']) && is_array($_GET['search'])) {
+    $search = $_GET['search'];
+} elseif (isset($_SESSION["search_$table"]) && is_array($_SESSION["search_$table"])) {
+    $search = $_SESSION["search_$table"];
 }
 
-if (safeget('reset_search', 0)) {
+if (isset($_GET['searchmode']) && is_array($_GET['searchmode'])) {
+    $searchmode = $_GET['searchmode'];
+} elseif (isset($_SESSION["searchmode_$table"]) && is_array($_SESSION["searchmode_$table"])) {
+    $searchmode = $_SESSION["searchmode_$table"];
+}
+
+if (array_key_exists('reset_search', $_GET)) {
     $search = array();
     $searchmode = array();
 }
+
 $_SESSION["search_$table"] = $search;
 $_SESSION["searchmode_$table"] = $searchmode;
 
@@ -97,7 +105,7 @@ if (count($handler->infomsg)) {
 if (safeget('output') == 'csv') {
     $out = fopen('php://output', 'w');
     header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment;filename='.$table.'.csv');
+    header('Content-Disposition: attachment;filename=' . $table . '.csv');
     print "\xEF\xBB\xBF"; # utf8 byte-order to indicate the file is utf8 encoded
     print "\n";
 

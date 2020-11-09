@@ -35,6 +35,8 @@ $username = authentication_get_username();
 $pPassword_password_text = "";
 $pPassword_password_current_text = "";
 
+$smarty = PFASmarty::getInstance();
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
         die('Invalid token!');

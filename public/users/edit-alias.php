@@ -20,6 +20,9 @@
 
 $rel_path = '../';
 require_once('../common.php');
+
+$smarty = PFASmarty::getInstance();
+
 $smarty->assign('smarty_template', 'users_edit-alias');
 
 authentication_require_role('user');

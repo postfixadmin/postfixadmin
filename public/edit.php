@@ -29,9 +29,11 @@ $smarty = PFASmarty::getInstance();
 $username = authentication_get_username(); # enforce login
 
 $table = safepost('table', safeget('table'));
-if (!is_string($table)) {
+
+if (empty($table)) {
     die("Invalid table name given!");
 }
+
 $handlerclass = ucfirst($table) . 'Handler';
 
 if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../model/$handlerclass.php")) { # validate $table
@@ -103,7 +105,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
         die('Invalid token!');
     }
-    $inp_values = safepost('value', array());
+
+    $inp_values = [];
+
+    if (isset($_POST['value']) && is_array($_POST['value'])) {
+        $inp_values = $_POST['value'];
+    }
 
     foreach ($form_fields as $key => $field) {
         if ($field['editable'] && $field['display_in_form']) {
