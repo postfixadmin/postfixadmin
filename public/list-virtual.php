@@ -41,7 +41,7 @@ if (safesession('list-virtual:domain') != $fDomain) {
     unset($_SESSION['list-virtual:limit']);
 }
 $fDisplay = (int) safepost('limit', safeget('limit', safesession('list-virtual:limit')));
-$search   = null;
+$search   = [];
 
 if (isset($_POST['search']) && is_array($_POST['search'])) {
     $search = $_POST['search'];
@@ -69,7 +69,7 @@ if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
     }
 }
 
-if (empty($fDomain)) {
+if (!is_string($fDomain)) {
     die(Config::Lang('invalid_parameter'));
 }
 
