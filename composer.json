@@ -29,7 +29,7 @@
         "php":  ">7.2.0",
         "cedx/coveralls": "^11.0",
         "phpunit/phpunit": "8.*",
-        "vimeo/psalm":"^3.0",
+        "vimeo/psalm":"^4.0",
         "shardj/zf1-future" : "^1.12"
     },
     "autoload": {
