@@ -3,9 +3,7 @@
 
 # Note: run with upgrade.php?debug=1 to see all SQL error messages
 
-if (!defined('POSTFIXADMIN')) {
-    require_once('common.php');
-}
+require_once('common.php');
 
 if (empty($CONF)) {
     die("config.inc.php seems invalid");
