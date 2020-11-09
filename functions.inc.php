@@ -878,6 +878,14 @@ function validate_password($password) {
     }
 
     foreach ($val_conf as $regex => $message) {
+        if (is_callable($message)) {
+            $ret = $message($password);
+            if (!empty($ret)) {
+                $result[] = $ret;
+            }
+            continue;
+        }
+       
         if (!preg_match($regex, $password)) {
             $msgparts = preg_split("/ /", $message, 2);
             if (count($msgparts) == 1) {
