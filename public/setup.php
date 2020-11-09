@@ -107,7 +107,7 @@ require(dirname(__FILE__) . '/../templates/header.php');
             }
 
             // Check if there is support for at least 1 database
-            if (($m_pdo == 0) and ($m_pdo_mysql == 0) and ($m_pdo_sqlite == 0) and ($m_pdo_psql == 0) ) {
+            if (($m_pdo == 0) and ($m_pdo_mysql == 0) and ($m_pdo_sqlite == 0) and ($m_pdo_pgsql == 0) ) {
                 print "<li><b>Error: There is no database (PDO) support in your PHP setup</b><br />\n";
                 print "<span style='color: red'>
                     You MUST install a suitable PHP PDO extension (e.g. pdo_pgsql, pdo_mysql or pdo_sqlite).
