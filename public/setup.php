@@ -113,19 +113,7 @@ if ($configSetupDone) {
                 <li>Create / update your database of choice</li>
                 <li>and Add a new super user account</li>
             </ul>
-
-
-            <p>
-                If we do have a setup_password configured; show the form to generate a new one, as well as a form to
-                allow
-                someone
-                to authenticate as setup-admin
-            </p>
-            <p>
-                If someone has submitted the setup form to login, then set $_SESSION['setupadmin'] = true and display
-                setup/env
-                check stuff as well as allowing them to add a new super-admin account.
-            </p>
+            
         </div>
 
     </div>
