@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: Validate composer.json and composer.lock
-      run: composer validate
+      run: php7.4 $(which composer) validate
 
     - name: setup templates_c
       run: mkdir templates_c || true
@@ -20,10 +20,10 @@ jobs:
       run: touch config.local.php && php -v
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: php7.4 $(which composer) install --prefer-dist -n
 
     - name: Build/test
-      run: composer build
+      run: php7.4 $(which composer) build
 
     - name: setup coveralls
       run: mkdir -p build/logs || true
