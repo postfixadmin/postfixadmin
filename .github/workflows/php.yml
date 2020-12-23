@@ -20,7 +20,7 @@ jobs:
       run: touch config.local.php && php -v
 
     - name: Install dependencies
-      run: php7.4 $(which composer) install --prefer-dist --no-progress --no-suggest
+      run: php7.4 $(which composer) install --prefer-dist -n
 
     - name: Build/test
       run: php7.4 $(which composer) build
