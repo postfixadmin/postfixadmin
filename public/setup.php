@@ -160,7 +160,6 @@ if ($configSetupDone) {
         <?php
 
         if (!$configSetupDone) {
-
             echo <<<EOF
                     <p><strong>For a new installation, you must generate a 'setup_password' to go into your config.local.php file.</strong></p>
                     <p>You can use the form below, or run something like the following in a shell - <code>php -r 'echo password_hash("password", PASSWORD_DEFAULT);'</code><p>
@@ -247,7 +246,7 @@ EOF;
 
     </div>
 
-<?php }  // end if(!$authenticated) ?>
+<?php }  // end if(!$authenticated)?>
 
     <div class="row">
 
@@ -380,16 +379,17 @@ EOF;
             </form>
         </div>
 
-    <?php }
+    <?php
+    }
 
     if (safepost("form") === "createadmin" && $authenticated) {
-# "create admin" form submitted, make sure the correct setup password was specified.
+        # "create admin" form submitted, make sure the correct setup password was specified.
 
-// XXX need to ensure domains table includes an 'ALL' entry.
+        // XXX need to ensure domains table includes an 'ALL' entry.
         $table_domain = table_by_key('domain');
         $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
         if (empty($rows)) {
-// all other fields should default through the schema.
+            // all other fields should default through the schema.
             db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => ''));
         }
 
@@ -407,11 +407,10 @@ EOF;
         if ($error == 1) {
             $tUsername = htmlentities($values['username']);
         } else {
-// all good!.
+            // all good!.
             $setupMessage .= "<p>You are done with your basic setup. ";
             $setupMessage .= "<p><b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b>";
         }
-
     }
     ?>
 </div>
@@ -431,16 +430,14 @@ EOF;
 
 <?php
 
-function _error_field($errors, $key)
-{
+function _error_field($errors, $key) {
     if (!isset($errors[$key])) {
         return '';
     }
     return "<span style='color: #ff0000'>{$errors[$key]}</span>";
 }
 
-function create_admin($values)
-{
+function create_admin($values) {
     define('POSTFIXADMIN_SETUP', 1); # avoids instant redirect to login.php after creating the admin
 
     $handler = new AdminHandler(1, 'setup.php');
@@ -468,8 +465,7 @@ function create_admin($values)
 /**
  * @return array['info' => string[], 'warn' => string[], 'error' => string[] ]
  */
-function do_software_environment_check()
-{
+function do_software_environment_check() {
     $CONF = Config::getInstance()->getAll();
 
     $warn = [];
@@ -478,7 +474,7 @@ function do_software_environment_check()
 
 
 //
-// Check for availability functions
+    // Check for availability functions
 //
     $f_phpversion = function_exists("phpversion");
     $f_apache_get_version = function_exists("apache_get_version");
@@ -495,13 +491,13 @@ function do_software_environment_check()
 
     $file_local_config = file_exists(realpath("./../config.local.php"));
 
-// Fall back to looking in /etc/postfixadmin for config.local.php (Debian etc)
+    // Fall back to looking in /etc/postfixadmin for config.local.php (Debian etc)
     if (!$file_local_config && is_dir('/etc/postfixadmin')) {
         $file_local_config = file_exists('/etc/postfixadmin/config.local.php');
     }
 
 //
-// Check for PHP version
+    // Check for PHP version
 //
     $phpversion = 'unknown-version';
 
@@ -519,14 +515,14 @@ function do_software_environment_check()
     }
 
 //
-// Check for Apache version
+    // Check for Apache version
 //
     if ($f_apache_get_version == 1) {
         $info[] = apache_get_version();
     }
 
 //
-// Check for config.local.php
+    // Check for config.local.php
 //
     if ($file_local_config == 1) {
         $info[] = "Depends on: presence config.local.php - Found";
@@ -534,7 +530,7 @@ function do_software_environment_check()
         $warn[] = "<b>Warning: config.local.php - NOT FOUND - It's Recommended to store your own settings in config.local.php instead of editing config.inc.php";
     }
 
-// Check if there is support for at least 1 database
+    // Check if there is support for at least 1 database
     if (($m_pdo == 0) and ($m_pdo_mysql == 0) and ($m_pdo_sqlite == 0) and ($m_pdo_pgsql == 0)) {
         $error[] = "There is no database (PDO) support in your PHP setup, you MUST install a suitable PHP PDO extension (e.g. pdo_pgsql, pdo_mysql or pdo_sqlite).";
     }
@@ -546,7 +542,7 @@ function do_software_environment_check()
     }
 
 //
-// PostgreSQL functions
+    // PostgreSQL functions
 //
     if ($m_pdo_pgsql == 1) {
         $info[] = "Database support : PDO PostgreSQL - Found ";
@@ -583,7 +579,7 @@ function do_software_environment_check()
     }
 
 //
-// Session functions
+    // Session functions
 //
     if ($f_session_start == 1) {
         $info[] = "Depends on: session - OK";
@@ -592,7 +588,7 @@ function do_software_environment_check()
     }
 
 //
-// PCRE functions
+    // PCRE functions
 //
     if ($f_preg_match == 1) {
         $info[] = "Depends on: pcre - Found";
@@ -601,7 +597,7 @@ function do_software_environment_check()
     }
 
 //
-// Multibyte functions
+    // Multibyte functions
 //
     if ($f_mb_encode_mimeheader == 1) {
         $info[] = "Depends on: multibyte string - Found";
@@ -611,7 +607,7 @@ function do_software_environment_check()
 
 
 //
-// Imap functions
+    // Imap functions
 //
     if ($f_imap_open == 1) {
         $info[] = "IMAP functions - Found";
@@ -620,7 +616,7 @@ function do_software_environment_check()
     }
 
 //
-// If PHP <7.0, require random_compat works. Currently we bundle it via the Phar extension.
+    // If PHP <7.0, require random_compat works. Currently we bundle it via the Phar extension.
 //
     if (version_compare(phpversion(), "7.0", '<')
         && !extension_loaded('Phar')

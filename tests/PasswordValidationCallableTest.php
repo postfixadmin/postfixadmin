@@ -1,10 +1,7 @@
 <?php
 
-class PasswordValidationCallableTEst extends \PHPUnit\Framework\TestCase
-{
-
-    public function setUp(): void
-    {
+class PasswordValidationCallableTEst extends \PHPUnit\Framework\TestCase {
+    public function setUp(): void {
         $c = Config::getInstance();
 
         $all = $c->getAll();
@@ -22,8 +19,7 @@ class PasswordValidationCallableTEst extends \PHPUnit\Framework\TestCase
         parent::setUp();
     }
 
-    public function testBasic()
-    {
+    public function testBasic() {
         // anything except 'fail' should work.
         $this->assertEmpty(validate_password('str'));
         $this->assertEquals([], validate_password('1234asdf'));
