@@ -14,7 +14,7 @@
         "check-format": "@php vendor/bin/php-cs-fixer fix --ansi --dry-run --diff",
         "format": "@php vendor/bin/php-cs-fixer fix --ansi",
         "lint": "@php ./vendor/bin/parallel-lint --exclude vendor/ --exclude lib/block_random_int.php --exclude lib/array_column.php .",
-        "test": "DATABASE=sqlite @php ./vendor/bin/phpunit --coverage-clover ./clover.xml tests/",
+        "test": "@php ./vendor/bin/phpunit --coverage-clover ./clover.xml tests/",
         "test-fixup": "mkdir -p templates_c ; test -f config.local.php || touch config.local.php",
         "psalm": "@php ./vendor/bin/psalm --show-info=false "
     },
