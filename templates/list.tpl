@@ -151,7 +151,7 @@
 		{if $msg.can_create}
 		<a href="edit.php?table={$table|escape:"url"}" role="button" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> {$PALANG.{$formconf.create_button}}</a>
 		{/if}
-		<a href="list.php?table={$table|escape:"url"}&amp;output=csv" role="button" class="btn btn-default"><span class="glyphicon glyphicon-export" aria-hidden="true"></span> {$PALANG.download_csv}</a>
+		<a href="list.php?table={$table|escape:"url"}&amp;output=csv&amp;domain={$domain_selected}" role="button" class="btn btn-default"><span class="glyphicon glyphicon-export" aria-hidden="true"></span> {$PALANG.download_csv}</a>
 		</div>
 	</div>
 </div>

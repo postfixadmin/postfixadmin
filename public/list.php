@@ -101,6 +101,7 @@ if (count($handler->infomsg)) {
     flash_error($handler->infomsg);
 }
 
+$fDomain = safepost('fDomain', safeget('domain', safesession('list-virtual:domain')));
 
 if (safeget('output') == 'csv') {
     $out = fopen('php://output', 'w');
@@ -128,6 +129,11 @@ if (safeget('output') == 'csv') {
     # print items as csv
     foreach ($items as $item) {
         $fields = array();
+
+        // skip domains that do not match selected domain (see: https://github.com/postfixadmin/postfixadmin/issues/404)
+        if (!empty($fDomain) && $item['domain'] != $fDomain) {
+            continue;
+        }
         foreach ($columns as $column) {
             $values = $item[$column];
             if (is_array($values)) {

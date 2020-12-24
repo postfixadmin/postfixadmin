@@ -96,7 +96,7 @@
                            class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"
                                                          aria-hidden="true"></span> {$PALANG.add_mailbox}</a>
                     {/if}
-                    <a role="button" class="btn btn-default" href="list.php?table=mailbox&amp;output=csv"><span
+                    <a role="button" class="btn btn-default" href="list.php?table=mailbox&amp;output=csv&amp;domain={$domain_selected}"><span
                                 class="glyphicon glyphicon-export" aria-hidden="true"></span> {$PALANG.download_csv}</a>
                 </div>
             </div>
