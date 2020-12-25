@@ -127,8 +127,7 @@ password_query = SELECT username AS user,password FROM mailbox WHERE username = 
 
 # Query to retrieve user information, note uid matches dovecot.conf AND Postfix virtual_uid_maps parameter.
 # MYSQL:
-user_query = SELECT CONCAT('/var/mail/vmail/', maildir) AS home, 1001 AS uid, 1001 AS gid, 
-	CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE username = '%u' AND active='1'
+user_query = SELECT CONCAT('/var/mail/vmail/', maildir) AS home, 1001 AS uid, 1001 AS gid, CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE username = '%u' AND active='1'
 # PostgreSQL:
 # user_query =   SELECT '/var/mail/vmail/' || maildir AS home, 1001 AS uid, 1001 AS gid,
 #   '*:bytes=' || quota AS quota_rule FROM mailbox WHERE username = '%u' AND active = '1'
