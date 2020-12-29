@@ -108,11 +108,16 @@ if (safeget('output') == 'csv') {
             $columns[] = $key;
         }
     }
+
+    $fDomain = safepost('fDomain', safeget('domain', safesession('list-virtual:domain')));
+
     fputcsv($out, $header, ';');
 
     # print items as csv
     foreach ($items as $item) {
         $fields = array();
+        if (!empty($fDomain) && $item["domain"] != $fDomain) continue;
+
         foreach ($columns as $column) {
             $fields[] = $item[$column];
         }
