@@ -584,7 +584,7 @@ function do_software_environment_check() {
     if ($f_session_start == 1) {
         $info[] = "Depends on: session - OK";
     } else {
-        $error[] = "Error: Depends on: session - NOT FOUND. (FreeBSD: portinstall php$phpversion-session ?).";
+        $error[] = "Error: Depends on: session - NOT FOUND. (FreeBSD: portinstall php$phpversion-session ?)";
     }
 
 //
@@ -612,7 +612,7 @@ function do_software_environment_check() {
     if ($f_imap_open == 1) {
         $info[] = "IMAP functions - Found";
     } else {
-        $warn[] = "Warning: Optional dependency 'imap' extension missing, without this you may not be able to automcate creation of subfolders for new mailboxes)";
+        $warn[] = "Warning: Optional dependency 'imap' extension missing, without this you may not be able to automcate creation of subfolders for new mailboxes";
     }
 
 //
