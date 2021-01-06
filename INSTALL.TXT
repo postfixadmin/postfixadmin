@@ -32,7 +32,7 @@ There are also lots of HOWTOs around the web. Be warned that many of them
 Please stick to the PostfixAdmin documentation, and use those HOWTOs only if
 you need some additional information that is missing in the PostfixAdmin 
 DOCUMENTS/ folder.
-  - http://bliki.rimuhosting.com/space/knowledgebase/linux/mail/postfixadmin+on+debian+sarge (Postfix+MySQL+Postfixadmin+Dovecot)
+  - https://www.linuxbabe.com/redhat/postfixadmin-create-virtual-mailboxes-centos-mail-server (Postfix+MySQL+Postfixadmin+Dovecot)
   - http://en.gentoo-wiki.com/wiki/Virtual_mail_server_using_Postfix,_Courier_and_PostfixAdmin (Postfix+MySQL+Postfixadmin+Courier)
 
 
