@@ -525,20 +525,22 @@ abstract class PFAHandler {
         # do nothing
     }
 
-    public function store() : bool {
-        return $this->save();
-    }
-
     /**
      * save $this->values to the database
      *
      * converts values based on $this->struct[*][type] (boolean, password encryption)
      *
-     * calls $this->storemore() where additional things can be done
+     * calls $this->postSave() where additional things can be done
      * @return bool - true if all values were stored in the database, otherwise false
      *     error messages (if any) are stored in $this->errormsg
      */
     public function save() : bool {
+        # backwards compability: save() was once (up to 3.2.x) named store(). If a child class still uses the old name, let it override save().
+        if (method_exists($this, 'store')) {
+            error_log('store() is deprecated, please rename it to save()');
+            return $this->store();
+        }
+
         if ($this->values_valid == false) {
             $this->errormsg[] = "one or more values are invalid!";
             return false;
@@ -603,24 +605,17 @@ abstract class PFAHandler {
     }
 
     /**
-     * @deprecated use preSave() instead.
-     */
-    public function beforeStore() : bool {
-        return $this->preSave();
-    }
-
-    /**
-     * @deprecated use postSave() instead.
-     */
-    public function storeMore() : bool {
-        return $this->postSave();
-    }
-
-    /**
      * called by $this->save() before storing the values in the database
      * @return bool - if false, save() will abort
      */
     protected function preSave() : bool {
+        # backwards compability: preSave() was once (up to 3.2.x) named beforestore(). If a child class still uses the old name, let it override preSave().
+        # Note: if a child class also has preSave(), it will override this function and obviously also the compability code.
+        if (method_exists($this, 'beforestore')) {
+            error_log('beforestore() is deprecated, please rename it to preSave()');
+            return $this->beforestore();
+        }
+
         return true; # do nothing, successfully ;-)
     }
 
@@ -629,6 +624,13 @@ abstract class PFAHandler {
      * can be used to update additional tables, call scripts etc.
      */
     protected function postSave() : bool {
+        # backwards compability: postSave() was once (up to 3.2.x) named storemore(). If a child class still uses the old name, let it override postSave().
+        # Note: if a child class also has postSave(), it will override this function and obviously also the compability code.
+        if (method_exists($this, 'storemore')) {
+            error_log('storemore() is deprecated, please rename it to postSave()');
+            return $this->storemore();
+        }
+
         return true; # do nothing, successfully ;-)
     }
 
