@@ -1,4 +1,3 @@
-<!-- {$smarty.template} -->
 <!doctype html>
 <html lang="{if isset($smarty.session.lang)}{$smarty.session.lang}{/if}">
 <head>
@@ -14,9 +13,9 @@
         <link rel="stylesheet" type="text/css" href="{$CONF.theme_custom_css}"/>
     {/if}
 
-    <script src="jquery-1.12.4.min.js"></script>
-    <script src="css/bootstrap-3.4.1-dist/js/moment-with-locales.min.js"></script>
-    <script src="css/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
-    <script src="css/bootstrap-3.4.1-dist/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="{$rel_path}jquery-1.12.4.min.js"></script>
+    <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/moment-with-locales.min.js"></script>
+    <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+    <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/bootstrap-datetimepicker.min.js"></script>
 </head>
 <body class="lang-{if isset($smarty.session.lang)}{$smarty.session.lang}{/if} page-{$smarty_template} {if isset($table)}page-{$smarty_template}-{$table}{/if}">

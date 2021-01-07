@@ -18,10 +18,10 @@
  *
  */
 
-$rel_path = '../';
 require_once('../common.php');
 
 $smarty = PFASmarty::getInstance();
+$smarty->configureTheme('../');
 
 $smarty->assign('smarty_template', 'users_edit-alias');
 
