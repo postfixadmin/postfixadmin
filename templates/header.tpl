@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="{$CONF.theme_custom_css}"/>
     {/if}
 
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="jquery-1.12.4.min.js"></script>
     <script src="css/bootstrap-3.4.1-dist/js/moment-with-locales.min.js"></script>
     <script src="css/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
     <script src="css/bootstrap-3.4.1-dist/js/bootstrap-datetimepicker.min.js"></script>

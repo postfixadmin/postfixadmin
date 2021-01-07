@@ -53,7 +53,7 @@ if ($configSetupPassword != 'changeme' && $configSetupPassword != '') {
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!-- https://www.srihash.org/ -->
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+    <script src="jquery-1.12.4.min.js"
             integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"
     ></script>
 
