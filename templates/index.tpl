@@ -1,4 +1,3 @@
-<!-- {$smarty.template} -->
 {strip}
     {include file="header.tpl"}
     {if $smarty_template !== 'login' && $smarty_template !== 'password-recover' && $smarty_template !== 'password-change'}

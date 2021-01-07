@@ -60,12 +60,13 @@
         </div>
         <div class="panel-footer">
             <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group pull-right">
-                    <input class="btn btn-primary m-3" type="submit" name="fChange"
-                           value="{$PALANG.pEdit_vacation_set}"/>
-                    <input class="btn btn-primary" type="submit" name="fBack"
-                           value="{$PALANG.pEdit_vacation_remove}"/>
-                    <input class="btn btn-primary" type="submit" name="fCancel" value="{$PALANG.exit}"/>
+                <div class="pull-right">
+                    <button class="btn btn-secondary" type="submit" name="fCancel">{$PALANG.exit}</button>
+
+                    <button class="btn btn-primary" type="submit" name="fChange">{$PALANG.pEdit_vacation_set}</button>
+
+                    <button class="btn btn-primary" type="submit" name="fBack">{$PALANG.pEdit_vacation_remove}</button>
+
                 </div>
             </div>
         </div>

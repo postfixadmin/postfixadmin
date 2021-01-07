@@ -31,6 +31,7 @@ $rel_path = '../';
 require_once("../common.php");
 
 $smarty = PFASmarty::getInstance();
+$smarty->configureTheme('../');
 
 check_db_version(); # check if the database layout is up to date (and error out if not)
 

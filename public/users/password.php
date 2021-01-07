@@ -26,16 +26,16 @@
  * fPassword2
  */
 
-$rel_path = '../';
 require_once('../common.php');
 
+$smarty = PFASmarty::getInstance();
+$smarty->configureTheme('../');
 authentication_require_role('user');
 $username = authentication_get_username();
 
 $pPassword_password_text = "";
 $pPassword_password_current_text = "";
 
-$smarty = PFASmarty::getInstance();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {

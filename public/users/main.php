@@ -28,6 +28,7 @@ authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
 
 $smarty = PFASmarty::getInstance();
+$smarty->configureTheme('../');
 
 $vh = new VacationHandler($USERID_USERNAME);
 if ($vh->check_vacation()) {

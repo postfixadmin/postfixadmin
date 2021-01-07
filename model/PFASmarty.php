@@ -67,6 +67,7 @@ class PFASmarty {
         $CONF['theme_favicon'] = $rel_path . htmlentities($CONF['theme_favicon']);
         $CONF['theme_logo'] = $rel_path . htmlentities($CONF['theme_logo']);
 
+        $this->assign('rel_path', $rel_path);
         $this->assign('CONF', $CONF);
     }
 
@@ -92,11 +93,10 @@ class PFASmarty {
      * @param string $template
      * @return void
      */
-    public function display($template) {
+    public function display($template)
+    {
         $CONF = Config::getInstance()->getAll();
-        
 
-        $this->assign('CONF', $CONF);
         $this->assign('PALANG', $CONF['__LANG'] ?? []);
         $this->assign('url_domain', '');
         $this->assign('version', $CONF['version'] ?? 'unknown');
