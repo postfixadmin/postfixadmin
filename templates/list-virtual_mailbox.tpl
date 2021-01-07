@@ -86,7 +86,7 @@
 					{else}
 						{assign var="v_active" value=$PALANG.pOverview_vacation_option}
 					{/if}
-					<td><a href="vacation.php?username={$item.username|escape:"url"}">{$v_active}</a></td>
+					<td><a class="btn btn-warning" href="vacation.php?username={$item.username|escape:"url"}">{$v_active}</a></td>
 				{/if}
 			{else}
 					<td>&nbsp;</td>
@@ -95,9 +95,9 @@
 			{if $authentication_has_role.global_admin!==true && $CONF.alias_control_admin===YES}{assign var="edit_aliases" value=1}{/if}
 			{if $authentication_has_role.global_admin==true && $CONF.alias_control===YES}{assign var="edit_aliases" value=1}{/if}
 			{if $edit_aliases==1}
-				<td><a href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}">{$PALANG.alias}</a></td>
+				<td><a class="btn btn-primary" href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}">{$PALANG.alias}</a></td>
 			{/if}
-			<td><a href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}">{$PALANG.edit}</a></td>
+			<td><a class="btn btn-primary" href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}">{$PALANG.edit}</a></td>
 			<td>
 				<form method="post" action="delete.php">
 					<input type="hidden" name="table" value="mailbox">
