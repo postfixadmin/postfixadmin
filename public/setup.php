@@ -49,8 +49,7 @@ if ($configSetupPassword != 'changeme' && $configSetupPassword != '') {
 
     <title>Postfix Admin - Setup</title>
     <link rel="shortcut icon" href="images/favicon.ico"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
 
     <!-- https://www.srihash.org/ -->
     <script src="jquery-1.12.4.min.js"
