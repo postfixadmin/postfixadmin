@@ -93,8 +93,7 @@ class PFASmarty {
      * @param string $template
      * @return void
      */
-    public function display($template)
-    {
+    public function display($template) {
         $CONF = Config::getInstance()->getAll();
 
         $this->assign('PALANG', $CONF['__LANG'] ?? []);
