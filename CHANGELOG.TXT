@@ -6,8 +6,11 @@
 #
 # Further details on the project are available at http://postfixadmin.sf.net
 
-Version X.X - master
+Version 3.3 - 2020/01/09
 -------------------------------------------------
+   - Change setup.php to use PHP's password_hash() for the config setup_password . (breaking change, existing setup passwords will fail to work and need regenerating) 
+   - Change setup.php to not reveal system paths etc until a setup_password is configured and provided (see: https://github.com/postfixadmin/postfixadmin/issues/402 )
+   - Move to bootstrap theme ( see https://github.com/postfixadmin/postfixadmin/pull/172 )
    - Improve vacation.pl (better utf-8 support)
    - Improve DB connections (PDO, SSL)
    - Add sha512.b64 password hash support (see https://github.com/postfixadmin/postfixadmin/issues/58)
@@ -16,7 +19,6 @@ Version X.X - master
    - Add Date header into smtp_from() (see https://github.com/postfixadmin/postfixadmin/issues/203 )
    - PostgreSQL fixes ( 1e158245d613fd1d8d5c1d59e26e940eb71f5b32 )
    - vacation.pl fixes (perl libraries; see https://github.com/postfixadmin/postfixadmin/pull/194 )
-   - Add bootstrap theme (default not changed yet) ( see https://github.com/postfixadmin/postfixadmin/pull/172 )
    - Improve CSV export from list.php
    - Various misc. changes from static analysis (psalm)
    - Update installation instructions. (see: https://github.com/postfixadmin/postfixadmin/issues/189 https://github.com/postfixadmin/postfixadmin/issues/188 )
