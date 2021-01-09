@@ -20,7 +20,6 @@ class PFASmarty {
     }
 
 
-
     private function __construct() {
         $CONF = Config::getInstance()->getAll();
 
@@ -60,6 +59,13 @@ class PFASmarty {
     public function configureTheme(string $rel_path = '') {
         $CONF = Config::getInstance()->getAll();
 
+        // see: https://github.com/postfixadmin/postfixadmin/issues/410
+        // ignore $CONF['theme_css'] if it points to css/default.css and we have css/bootstrap.css.
+        if ($CONF['theme_css'] == 'css/default.css' && is_file(__DIR__ . '/../public/css/bootstrap.css')) {
+            // silently upgrade to bootstrap, css/default.css does not exist.
+            $CONF['theme_css'] = 'css/bootstrap.css';
+        }
+
         $CONF['theme_css'] = $rel_path . htmlentities($CONF['theme_css']);
         if (!empty($CONF['theme_custom_css'])) {
             $CONF['theme_custom_css'] = $rel_path . htmlentities($CONF['theme_custom_css']);
@@ -70,8 +76,6 @@ class PFASmarty {
         $this->assign('rel_path', $rel_path);
         $this->assign('CONF', $CONF);
     }
-
-
 
 
     /**
