@@ -6,7 +6,7 @@
 #
 # Further details on the project are available at http://postfixadmin.sf.net
 
-Version 3.3 - 2020/01/09
+Version 3.3 - 2021/01/09
 -------------------------------------------------
    - Change setup.php to use PHP's password_hash() for the config setup_password . (breaking change, existing setup passwords will fail to work and need regenerating) 
    - Change setup.php to not reveal system paths etc until a setup_password is configured and provided (see: https://github.com/postfixadmin/postfixadmin/issues/402 )
@@ -27,6 +27,7 @@ Version 3.3 - 2020/01/09
    - MySQL 8 compatibility (see https://github.com/postfixadmin/postfixadmin/pull/175 )
    - Internally the database functions have been refactored to use PDO rather than the lower level mysql_, mysqli_, pg_ etc functions. ( see: https://github.com/postfixadmin/postfixadmin/pull/231 )
    - Usage of dovecot deliver as fetchmail mda
+   - Corrupted Turkish language file fixed and missing translations are added.
 
 Version 3.2 - 2018/05/02
 -------------------------------------------------
