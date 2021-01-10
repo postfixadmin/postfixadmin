@@ -186,7 +186,7 @@ class CliEdit extends Shell {
             return 1;
         }
 
-        if (!$handler->store()) {
+        if (!$handler->save()) {
             $this->err($handler->errormsg);
             return 1;
         }
