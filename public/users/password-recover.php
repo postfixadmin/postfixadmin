@@ -39,8 +39,8 @@ require_once($rel_path . 'common.php');
 
 
 
-if ($context === 'admin' && !Config::read('forgotten_admin_password_reset') || $context === 'users' && !Config::read('forgotten_user_password_reset')) {
-    die('Password reset is disabled by configuration option: forgotten_admin_password_reset');
+if ($context === 'admin' && !Config::read('forgotten_admin_password_reset') || $context === 'users' && (!Config::read('forgotten_user_password_reset') || Config::read('mailbox_postpassword_script'))) {
+    die('Password reset is disabled by configuration option: forgotten_admin_password_reset or mailbox_postpassword_script');
 }
 
 function sendCodebyEmail($to, $username, $code) {
