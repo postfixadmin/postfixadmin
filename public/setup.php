@@ -436,6 +436,7 @@ function _error_field($errors, $key) {
     return "<span style='color: #ff0000'>{$errors[$key]}</span>";
 }
 
+
 function create_admin($values) {
     define('POSTFIXADMIN_SETUP', 1); # avoids instant redirect to login.php after creating the admin
 
@@ -569,7 +570,7 @@ function do_software_environment_check() {
 
 
     if (!empty($link) && $error_text == "") {
-        $info[] = "Testing database connection (using {$CONF['database_type']}) - Success";
+        $info[] = "Testing database connection (using config) - Success";
     } else {
         $error[] = "Error: Can't connect to database - please check the \$CONF['database_*'] parameters in config.local.php : $error_text";
     }
