@@ -322,7 +322,7 @@ EOF;
                 <div class="form-group">
                     <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
                     <div class="col-sm-4">
-                        <input class="form-control" type="text" required="required" name="setup_password" minlength=5
+                        <input class="form-control" type="password" required="required" name="setup_password" minlength=5
                                value=""/>
 
                     </div>
