@@ -501,16 +501,13 @@ function do_software_environment_check() {
     $phpversion = 'unknown-version';
 
     if ($f_phpversion == 1) {
-        if (version_compare(phpversion(), '5', '<')) {
-            $error[] = "Error: Depends on: PHP v5+";
-        } elseif (version_compare(phpversion(), '7.0') < 0) {
-            $phpversion = 5;
-            $info[] = "Recommended PHP version: >= 7.0, you have " . phpversion() . "; you should upgrade.";
+        if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+            $error[] = "Error: Depends on: PHP v7.0+. You must upgrade.";
         } else {
             $info[] = "PHP version " . phpversion();
         }
     } else {
-        $error[] = "Unable to check for PHP version. (missing function: phpversion())";
+        $error[] = "Unable to check for PHP version. (PHP_VERSION not found?)";
     }
 
 //
@@ -614,16 +611,6 @@ function do_software_environment_check() {
         $warn[] = "Warning: Optional dependency 'imap' extension missing, without this you may not be able to automcate creation of subfolders for new mailboxes";
     }
 
-//
-    // If PHP <7.0, require random_compat works. Currently we bundle it via the Phar extension.
-//
-    if (version_compare(phpversion(), "7.0", '<')
-        && !extension_loaded('Phar')
-        && $CONF['configured']
-        && $CONF['encrypt'] == 'php_crypt') {
-        $error[] = "PHP before 7.0 requires 'Phar' extension support for <strong>secure</strong> random_int() function fallback. Either enable the 'Phar' extension, or install the random_compat library files from <a href='https://github.com/paragonie/random_compat'>https://github.com/paragonie/random_compat</a> and include/require them from functions.inc.php";
-        $error[] = "PostfixAdmin has bundled lib/random_compat.phar but it's not usable on your installation due to the missing Phar extension.";
-    }
 
 
     return ['error' => $error, 'warn' => $warn, 'info' => $info];
