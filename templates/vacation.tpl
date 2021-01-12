@@ -29,7 +29,8 @@
                     <input type='hidden' name="fActiveUntil" id="fActiveUntil" value="{$tActiveUntil}"
                            class="form-control hidden"/>
                     <div class="input-group date" id="datetimepicker-fActiveUntil">
-                        <input type='text' name="fActiveUntilForm" id="fActiveUntilForm" value="{$tActiveUntil}"
+                        <input type='text'
+                               name="fActiveUntilForm" id="fActiveUntilForm" value="{$tActiveUntil}"
                                class="form-control" readonly="readonly"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
@@ -60,52 +61,58 @@
         </div>
         <div class="panel-footer">
             <div class="btn-toolbar" role="toolbar">
-                <div class="pull-right">
-                    <button class="btn btn-secondary" type="submit" name="fCancel">{$PALANG.exit}</button>
 
-                    <button class="btn btn-primary" type="submit" name="fChange">{$PALANG.pEdit_vacation_set}</button>
+                <a href="{$return_url}" class="btn btn-secondary bg-info" title="Go back">{$PALANG.exit}</a>
 
-                    <button class="btn btn-primary" type="submit" name="fBack">{$PALANG.pEdit_vacation_remove}</button>
+                <button class="btn btn-primary " type="submit" name="action"
+                        value="fChange">{$PALANG.pEdit_vacation_set}</button>
 
-                </div>
+                <button class="btn btn-danger " type="submit" name="action"
+                        value="fBack">{$PALANG.pEdit_vacation_remove}</button>
+
             </div>
         </div>
     </div>
+    </div>
 </form>
-{literal}
 <script type="text/javascript">
-    {/literal}
-    {if isset($smarty.session.lang)}var locale = '{$smarty.session.lang}';{/if}
+
     {literal}
     $(function () {
+        // See: https://momentjs.com/docs/#/displaying/format/ for format spec.
+        // See: https://getdatepicker.com/4/Options/ for docs
         $('#datetimepicker-fActiveFrom').datetimepicker({
             ignoreReadonly: true,
-            locale: locale,
+            //     locale: locale,
             showTodayButton: true,
             showClear: true,
             showClose: true,
             allowInputToggle: true,
-            format: 'L',
+            format: 'YYYY/MM/DD HH:mm',  // should use 'L' but it's crappy mm/dd/YYYY format for me in the U.K.
+            date: $('#fActiveFrom').val(),
+
         });
         $('#datetimepicker-fActiveUntil').datetimepicker({
             ignoreReadonly: true,
-            locale: locale,
+            //   locale: locale,
             showTodayButton: true,
             showClear: true,
             showClose: true,
             allowInputToggle: true,
-            format: 'L',
+            format: 'YYYY/MM/DD HH:mm', // should use 'L' but it's crappy mm/dd/YYYY format for me in the U.K.
+            date: $('#fActiveUntil').val(),
             useCurrent: false //Important! See issue #1075
         });
+
         $("#datetimepicker-fActiveFrom").on("dp.change", function (e) {
             $('#datetimepicker-fActiveUntil').data("DateTimePicker").minDate(e.date);
-            $('#fActiveFrom').val((e.date) ? e.date.format('YYYY-MM-DD') : '').trigger("change");
+            $('#fActiveFrom').val((e.date) ? e.date.format() : '').trigger("change");
         });
         $("#datetimepicker-fActiveUntil").on("dp.change", function (e) {
             $('#datetimepicker-fActiveFrom').data("DateTimePicker").maxDate(e.date);
-            $('#fActiveUntil').val((e.date) ? e.date.format('YYYY-MM-DD') : '').trigger("change");
+            $('#fActiveUntil').val((e.date) ? e.date.format() : '').trigger("change");
         });
-
     });
+    {/literal}
+
 </script>
-{/literal}

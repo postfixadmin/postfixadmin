@@ -41,10 +41,12 @@ require_once('common.php');
 
 $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
+$now = new \DateTime();
+
 
 // only allow admins to change someone else's 'stuff'
 if (authentication_has_role('admin')) {
-    $Admin_role = 1 ;
+    $Admin_role = 1;
     $fUsername = safeget('username');
     list(/*NULL*/, $fDomain) = explode('@', $fUsername);
     $Return_url = "list-virtual.php?domain=" . urlencode($fDomain);
@@ -55,11 +57,13 @@ if (authentication_has_role('admin')) {
         die("Invalid username!"); # TODO: better error message
     }
 } else {
-    $Admin_role = 0 ;
+    $Admin_role = 0;
     $Return_url = "main.php";
     authentication_require_role('user');
     $fUsername = authentication_get_username();
 }
+
+$smarty->assign('return_url', $Return_url);
 
 // is vacation support enabled in $CONF ?
 if ($CONF['vacation'] == 'NO') {
@@ -78,28 +82,27 @@ foreach (array_keys($choice_of_reply) as $key) {
     $choice_of_reply[$key] = Config::Lang($choice_of_reply[$key]);
 }
 
-$tUseremail = null;
+$tUseremail = $fUsername;
 $tInterval_Time = null;
 $tBody = null;
 $tSubject = null;
-$details = ['active' => 0];
+$tActiveFrom = new DateTime();
+$tActiveUntil = new DateTime();
+
+$details = $vh->get_details();
+
+if (is_array($details)) {
+
+    $tSubject = $details['subject'];
+    $tBody = $details['body'];
+    $tInterval_Time = $details['interval_time'];
+    $tActiveFrom = new \DateTime($details['activeFrom']);
+    $tActiveUntil = new \DateTime($details['activeUntil']);
+} else {
+    $details = ['active' => 0];
+}
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    $tSubject = '';
-    $tBody = '';
-    $tActiveFrom = '';
-    $tActiveUntil = '';
-    $tUseremail = $fUsername;
-    $tInterval_Time = '';
-
-    $details = $vh->get_details();
-    if (is_array($details )) {
-        $tSubject = $details['subject'];
-        $tBody = $details['body'];
-        $tInterval_Time = $details['interval_time'];
-        $tActiveFrom = $details['activeFrom'];
-        $tActiveUntil = $details['activeUntil'];
-    }
 
     if ($vh->check_vacation()) {
         flash_info(sprintf($PALANG['pUsersVacation_welcome_text'], htmlentities($tUseremail)));
@@ -119,25 +122,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die('Invalid token!');
     }
 
-    if (isset($_POST['fCancel'])) {
-        header("Location: $Return_url");
-        exit(0);
-    }
 
-    $tActiveFrom = date("Y-m-d 00:00:00", strtotime(safepost('fActiveFrom')));
-    $tActiveUntil = date("Y-m-d 23:59:59", strtotime(safepost('fActiveUntil')));
+    $tActiveFrom = (new \DateTime(safepost('fActiveFrom')));
+    $tActiveUntil = (new \DateTime(safepost('fActiveUntil')));
 
-    $tSubject   = safepost('fSubject');
-    $fSubject   = $tSubject;
-    $tBody      = safepost('fBody');
-    $fBody      = $tBody;
+    $tSubject = safepost('fSubject');
+    $fSubject = $tSubject;
+    $tBody = safepost('fBody');
+    $fBody = $tBody;
 
     $tInterval_Time = safepost('fInterval_Time');
 
-    $fChange    = escape_string(safepost('fChange'));
-    $fBack      = escape_string(safepost('fBack'));
-
-    $tUseremail = $fUsername;
+    $action = safepost('action');
 
     //set a default, reset fields for coming back selection
     if ($tSubject == '') {
@@ -158,18 +154,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     //Set the vacation data for $fUsername
 
-    if (!empty($fChange)) {
+    if ($action == 'fChange') {
 
-      ## check if ActiveUnitl is not  back in time,
+        ## check if ActiveUnitl is not  back in time,
         ## because vacation.pl will report SMTP recipient $smtp_recipient which resolves to $email does not have an active vacation (rv: $rv, email: $email)"
         ## and will not send message
 
-        if (($tActiveUntil >= date("Y-m-d")) and  ($tActiveUntil >= $tActiveFrom)) {
-            if (!$vh->set_away($fSubject, $fBody, $fInterval_Time, $tActiveFrom, $tActiveUntil)) {
+
+
+        if (($tActiveUntil >= $now && ($tActiveUntil >= $tActiveFrom))) {
+            if (!$vh->set_away($fSubject, $fBody, $fInterval_Time, $tActiveFrom->format('Y-m-d H:i'), $tActiveUntil->format('Y-m-d H:i'))) {
                 $error = 1;
             }
         } else {
-            if ($tActiveUntil < date("Y-m-d")) {
+            if ($tActiveUntil < $now) {
                 flash_error($PALANG['pVacation_until_before_today']);
             } else {
                 flash_error($PALANG['pVacation_until_before_from']);
@@ -179,54 +177,49 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     //if change, remove old one, then perhaps set new one
-    if (!empty($fBack)) {
+    if ($action == 'fBack') {
         if (!$vh->remove()) {
             $error = 1;
         }
     }
-}
 
-// If NO error then diplay flash message  and  go back to right url where we came from
-if ($error == 0) {
-    if (!empty($fBack)) {
-        flash_info(sprintf($PALANG['pVacation_result_removed'], htmlentities($tUseremail)));
-        header("Location: $Return_url");
-        exit;
+
+    // If NO error then diplay flash message  and  go back to right url where we came from
+    if ($error == 0) {
+        if ($action == 'fBack') {
+            flash_info(sprintf($PALANG['pVacation_result_removed'], htmlentities($tUseremail)));
+            header("Location: $Return_url");
+            exit;
+        }
+        if ($action == 'fChange') {
+            flash_info(sprintf($PALANG['pVacation_result_added'], htmlentities($tUseremail)));
+            header("Location: $Return_url");
+            exit;
+        }
+    } else {
+        flash_error(sprintf($PALANG['pVacation_result_error'], htmlentities($fUsername)));
     }
-    if (!empty($fChange)) {
-        flash_info(sprintf($PALANG['pVacation_result_added'], htmlentities($tUseremail)));
-        header("Location: $Return_url");
-        exit;
-    }
-} else {
-    flash_error(sprintf($PALANG['pVacation_result_error'], htmlentities($fUsername)));
 }
 
-$today = date("Y-m-d");
-if (empty($tActiveFrom)) {
-    $tActiveFrom = $today;
-}
-if (empty($tActiveUntil)) {
-    $tActiveUntil = $today;
-}
+if (!$details['active']) {
 
-if (! $details['active']) {
     # if vacation is disabled, there's no point in displaying the date of the last vacation ;-)
     # (which also means users would have to scroll in the calendar a lot)
     # so let's be user-friendly and set today's date (but only if the last vacation is in the past)
-    if ($tActiveFrom  < $today) {
-        $tActiveFrom  = $today;
+    if ($tActiveFrom < $now) {
+        $tActiveFrom = $now;
     }
-    if ($tActiveUntil < $today) {
-        $tActiveUntil = $today;
+    
+    if ($tActiveUntil < $now) {
+        $tActiveUntil = $now;
     }
 }
 
 $smarty->assign('tUseremail', $tUseremail);
 $smarty->assign('tSubject', $tSubject);
 $smarty->assign('tBody', $tBody);
-$smarty->assign('tActiveFrom', date("d.m.Y", strtotime($tActiveFrom)));
-$smarty->assign('tActiveUntil', date("d.m.Y", strtotime($tActiveUntil)));
+$smarty->assign('tActiveFrom', $tActiveFrom->format(DateTime::ISO8601));
+$smarty->assign('tActiveUntil', $tActiveUntil->format(DateTime::ISO8601));
 $smarty->assign('select_options', $choice_of_reply);
 $smarty->assign('tInterval_Time', $tInterval_Time);
 $smarty->assign('smarty_template', 'vacation');
