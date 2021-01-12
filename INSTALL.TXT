@@ -91,9 +91,12 @@ For PostgreSQL:
   CREATE DATABASE postfix OWNER postfix ENCODING 'unicode';
 
 For SQLite:
-  $mkdir /srv/postfixadmin/database
-  $touch /srv/postfixadmin/database/postfixadmin.db
-  $sudo chown -R www-data:www-data /srv/postfixadmin/database
+
+```bash
+  mkdir /srv/postfixadmin/database
+  touch /srv/postfixadmin/database/postfixadmin.db
+  sudo chown -R www-data:www-data /srv/postfixadmin/database
+```
   (both the directory and the database need to be writeable)
 
 4. Configure PostfixAdmin so it can find the database
@@ -138,7 +141,10 @@ The easiest way to do this is
  $ chown -R www-data /srv/postfixadmin/templates_c
 
 (If you're using e.g. CentOS or another distribution which enables SELinux, something like the following may be necessary as well :
-```chcon -R -t httpd_sys_content_rw_t /usr/share/postfixadmin/templates_c```
+
+```bash
+    chcon -R -t httpd_sys_content_rw_t /usr/share/postfixadmin/templates_c
+```
 )
 
 5. Check settings, and create Admin user
@@ -146,17 +152,26 @@ The easiest way to do this is
 
 Hit http://yourserver.tld/postfixadmin/setup.php in a web browser.
 
-You should see a list of 'OK' messages. 
+You need to generate a 'setup_password' which is your way of proving you are the 'admin' responsible for this install. Alternatively, run :
+
+```bash
+    php -r "echo password_hash('some password here', PASSWORD_DEFAULT);"
+```
+
+and put the output of that into your config.local.php file - e.g. 
+
+```PHP
+$CONF['setup_password'] = '$2y$10$3ybxsh278eAlZKlLf8Zp9e4hmuDaW/TCYd5IZagV7coeAfzBW/GzC';
+```
+
+You need to specify that same password in the setup.php page, and click 'Login with setup_password'
+
+You should then see a list of 'OK' messages. 
 
 The setup.php script will attempt to create the database structure 
 (or upgrade it if you're coming from a previous version). 
 
-Assuming everything is OK you can specify a password (which you'll 
-need to use setup.php again in the future); when you submit the form, 
-the hashed value (which you need to enter into config.inc.php is echoed 
-out - with appropriate instructions on what to do with it).
-
-create the admin user using the form displayed.
+You can then create an Superadmin user (or add another), using the form displayed (you'll need to re-enter the your setup password).
 
 6. Use PostfixAdmin
 -------------------
