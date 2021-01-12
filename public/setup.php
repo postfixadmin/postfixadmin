@@ -23,8 +23,12 @@ $errors = [];
 
 $configSetupDone = false;
 $authenticated = false;
+$old_setup_password = false;
 
-if ($configSetupPassword != 'changeme' && $configSetupPassword != '') {
+
+if (strpos($configSetupPassword, ':') > 0) {
+    $old_setup_password = true;
+} elseif ($configSetupPassword != 'changeme' && $configSetupPassword != '') {
     $configSetupDone = true;
 
     $pass = safepost('setup_password', 'invalid');
@@ -112,7 +116,7 @@ if ($configSetupDone) {
                 <li>Create / update your database of choice</li>
                 <li>and Add a new super user account</li>
             </ul>
-            
+
         </div>
 
     </div>
@@ -164,9 +168,11 @@ if ($configSetupDone) {
                     <p>You can use the form below, or run something like the following in a shell - <code>php -r 'echo password_hash("password", PASSWORD_DEFAULT);'</code><p>
 EOF;
         }
-        ?>
 
-        <?php
+        if ($old_setup_password) {
+            echo '<p class="text-danger"><strong>Your setup_password is in an obsolete. As of PostfixAdmin 3.3 it needs regenerating. </strong>';
+        }
+
         if (!$authenticated || !$configSetupDone) { ?>
 
         <h2>Generate setup_password hash</h2>
@@ -322,7 +328,8 @@ EOF;
                 <div class="form-group">
                     <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
                     <div class="col-sm-4">
-                        <input class="form-control" type="password" required="required" name="setup_password" minlength=5
+                        <input class="form-control" type="password" required="required" name="setup_password"
+                               minlength=5
                                value=""/>
 
                     </div>
@@ -378,7 +385,7 @@ EOF;
             </form>
         </div>
 
-    <?php
+        <?php
     }
 
     if (safepost("form") === "createadmin" && $authenticated) {
@@ -611,7 +618,6 @@ function do_software_environment_check() {
     } else {
         $warn[] = "Warning: Optional dependency 'imap' extension missing, without this you may not be able to automcate creation of subfolders for new mailboxes";
     }
-
 
 
     return ['error' => $error, 'warn' => $warn, 'info' => $info];
