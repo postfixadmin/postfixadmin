@@ -92,7 +92,6 @@ $tActiveUntil = new DateTime();
 $details = $vh->get_details();
 
 if (is_array($details)) {
-
     $tSubject = $details['subject'];
     $tBody = $details['body'];
     $tInterval_Time = $details['interval_time'];
@@ -103,7 +102,6 @@ if (is_array($details)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-
     if ($vh->check_vacation()) {
         flash_info(sprintf($PALANG['pUsersVacation_welcome_text'], htmlentities($tUseremail)));
     }
