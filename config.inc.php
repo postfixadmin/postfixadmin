@@ -702,7 +702,7 @@ $CONF['xmlrpc_enabled'] = false;
 //More details in README.password_expiration
 $CONF['password_expiration'] = 'YES';
 
-$CONF['version'] = '3.3.1';
+$CONF['version'] = '3.3.2';
 
 // If you want to keep most settings at default values and/or want to ensure
 // that future updates work without problems, you can use a separate config 
