@@ -916,10 +916,14 @@ function _pacrypt_md5crypt($pw, $pw_db = '') {
     return md5crypt($pw);
 }
 
+/**
+ * @todo fix this to not throw an E_NOTICE or deprecate/remove.
+ */
 function _pacrypt_crypt($pw, $pw_db = '') {
     if ($pw_db) {
         return crypt($pw, $pw_db);
     }
+    // Throws E_NOTICE as salt is not specified.
     return crypt($pw);
 }
 
@@ -937,7 +941,9 @@ function _pacrypt_mysql_encrypt($pw, $pw_db = '') {
     if ( $pw_db ) {
         $res = db_query_one("SELECT ENCRYPT(:pw,:pw_db) as result", ['pw' => $pw, 'pw_db' => $pw_db]);
     } else {
-        $res= db_query_one("SELECT ENCRYPT(:pw) as result", ['pw' => $pw]);
+        // see https://security.stackexchange.com/questions/150687/is-it-safe-to-use-the-encrypt-function-in-mysql-to-hash-passwords
+        // if no existing password, use a random SHA512 salt.
+        $res= db_query_one("SELECT ENCRYPT(:pw, CONCAT('$6$', SHA2(RANDOM_BYTES(64), '256'))) as result", ['pw' => $pw]);
     }
 
     return $res['result'];
