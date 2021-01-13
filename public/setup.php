@@ -26,7 +26,7 @@ $authenticated = false;
 $old_setup_password = false;
 
 
-if (strpos($configSetupPassword, ':') > 0) {
+if (strlen($configSetupPassword) == 73 && strpos($configSetupPassword, ':') == 32) {
     $old_setup_password = true;
 } elseif ($configSetupPassword != 'changeme' && $configSetupPassword != '') {
     $configSetupDone = true;
@@ -170,7 +170,7 @@ EOF;
         }
 
         if ($old_setup_password) {
-            echo '<p class="text-danger"><strong>Your setup_password is in an obsolete. As of PostfixAdmin 3.3 it needs regenerating. </strong>';
+            echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
         }
 
         if (!$authenticated || !$configSetupDone) { ?>
