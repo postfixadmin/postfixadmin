@@ -377,7 +377,7 @@ EOF;
                 <div class="form-group">
                     <div class="col-sm-offset-4 col-sm-4">
                         <button class="btn btn-primary" type="submit" name="submit"
-                                value="setuppw"><?= $PALANG['pAdminCreate_admin_button'] ?>
+                                value="createadmin"><?= $PALANG['pAdminCreate_admin_button'] ?>
                         </button>
                     </div>
                 </div>
@@ -388,7 +388,7 @@ EOF;
         <?php
     }
 
-    if (safepost("form") === "createadmin" && $authenticated) {
+    if (safepost("submit") === "createadmin" && $authenticated) {
         # "create admin" form submitted, make sure the correct setup password was specified.
 
         // XXX need to ensure domains table includes an 'ALL' entry.
