@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
             </button>
             {*** <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo" /></a> ***}
-            <a class="navbar-brand" href="{#url_user_main#}{#url_user_main#}"><img id="login_header_logo"
+            <a class="navbar-brand" href="{#url_user_main#}"><img id="login_header_logo"
                                                                                    src="../images/postbox.png"
                                                                                    alt="Logo"/></a>
         </div>
