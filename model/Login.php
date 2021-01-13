@@ -29,8 +29,13 @@ class Login {
         if (sizeof($result) == 1) {
             $row = $result[0];
 
-            $crypt_password = pacrypt($password, $row['password']);
-
+            try {
+                $crypt_password = pacrypt($password, $row['password']);
+            } catch (\Exception $e) {
+                error_log("Error while trying to call pacrypt()");
+                error_log($e);
+                return false; // just refuse to login?
+            }
             return hash_equals($row['password'], $crypt_password);
         }
 
