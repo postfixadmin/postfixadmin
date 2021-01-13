@@ -6,11 +6,11 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version 3.3.2 - 2021/01/12
+Version 3.3.2 - 2021/01/13
 -------------------------------------------------
    - Add in the ability to specify a hash prefix with php_crypt password format, useful for Dovecot replacement. ( https://github.com/postfixadmin/postfixadmin/issues/344 )
    - Add documentation (DOCUMENTS/HASHING.md)
-   - Fix issue with vacation form not saving; vacation start/end is now stored with time. ( https://github.com/postfixadmin/postfixadmin/issues/416 )
+   - Fix issue with vacation form not saving; vacation start/end is now stored with time, and users/ nav links ( https://github.com/postfixadmin/postfixadmin/issues/416 )
 
 Version 3.3.1 - 2021/01/11
 -------------------------------------------------
