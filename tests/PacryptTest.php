@@ -11,7 +11,6 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testCrypt() {
-
         // E_NOTICE if we pass in '' for the salt
         $hash = _pacrypt_crypt('test', 'sa');
 
@@ -55,7 +54,8 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase {
                 'md5' => 'CY9rzUYh03PK3k6DJie09g==',
                 // crypt requires salt ...
                 'SHA' => 'qUqP5cyxm6YcTAhz05Hph5gvu9M='
-            ] as $flavour => $hash) {
+            ] as $flavour => $hash
+        ) {
             $CONF['authlib_default_flavour'] = $flavour;
 
             $stored = "{" . $flavour . "}$hash";
@@ -80,6 +80,13 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($expected_hash, _pacrypt_dovecot('test', ''));
 
         $this->assertEquals($expected_hash, _pacrypt_dovecot('test', $expected_hash));
+
+        // This should also work.
+        $sha512 = '{SHA512}ClAmHr0aOQ/tK/Mm8mc8FFWCpjQtUjIElz0CGTN/gWFqgGmwElh89WNfaSXxtWw2AjDBmyc1AO4BPgMGAb8kJQ=='; // foobar
+        $this->assertEquals($sha512, _pacrypt_dovecot('foobar', $sha512));
+
+        $sha512 = '{SHA512}ClAmHr0aOQ/tK/Mm8mc8FFWCpjQtUjIElz0CGTN/gWFqgGmwElh89WNfaSXxtWw2AjDBmyc1AO4BPgMGAb8kJQ=='; // foobar
+        $this->assertNotEquals($sha512, _pacrypt_dovecot('foobarbaz', $sha512));
     }
 
     public function testPhpCrypt() {

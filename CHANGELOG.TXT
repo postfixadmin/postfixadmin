@@ -6,6 +6,11 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.3 - 2021/01/14
+-------------------------------------------------
+   - Improve error handling around login (require non-empty password; cope with pacrypt() throwing an exception; see https://github.com/postfixadmin/postfixadmin/issues/420)
+   - Improve setup.php (show error messages in admin creation form, fix unable to create admin - see https://github.com/postfixadmin/postfixadmin/issues/418)
+
 Version 3.3.2 - 2021/01/13
 -------------------------------------------------
    - Add in the ability to specify a hash prefix with php_crypt password format, useful for Dovecot replacement. ( https://github.com/postfixadmin/postfixadmin/issues/344 )
