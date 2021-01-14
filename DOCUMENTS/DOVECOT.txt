@@ -157,10 +157,11 @@ account, like www-data or http or nobody) will need ...
 Postfixadmin does not need to run on the same server as the Dovecot server. 
 If it's not, you may find it easiest to disable Dovecot's ssl configuration.
 
-see also :
+see also the following tickets which contain discussions and solutions :
 
- * https://github.com/postfixadmin/postfixadmin/issues/381
-    - discussion and various solutions
+ * https://github.com/postfixadmin/postfixadmin/issues/381 (Unable to login after Dovecot upgrade)
+ * https://github.com/postfixadmin/postfixadmin/issues/398 (Dovecotpw needs to read my TLS cert and private key)
+
 
 4. Dovecot v1.0 quota support (optional)
 ----------------------------------------
