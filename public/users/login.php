@@ -67,7 +67,7 @@ session_unset();
 session_destroy();
 session_start();
 
-if($error) {
+if ($error) {
     flash_error($error);
 }
 
