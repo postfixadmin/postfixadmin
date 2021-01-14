@@ -122,6 +122,7 @@ class Login {
             return true;
         } # nothing to do
 
+/* what's going on here ? 
         $cmdarg1=escapeshellarg($this->id);
         $cmdarg2=escapeshellarg($domain);
         $cmdarg3=escapeshellarg($old_password);
@@ -136,7 +137,7 @@ class Login {
             $this->errormsg[] = $warnmsg_pw;
             return false;
         }
-
+ */
         return true;
     }
 }
