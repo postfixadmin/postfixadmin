@@ -2,7 +2,11 @@
 
 class LoginTest extends \PHPUnit\Framework\TestCase {
     public function setUp(): void {
+        global $CONF;
+
         $this->cleanUp();
+
+        $CONF['pacrypt'] = 'md5'; // crap
 
         db_execute("INSERT INTO domain(`domain`, description, transport) values ('example.com', 'test', 'foo')", [], true);
 
@@ -39,6 +43,32 @@ VALUES(:username, :password, :name, :maildir, :local_part, :domain)",
         $this->assertFalse($login->login('', ''));
     }
 
+
+    public function testEmptyStringWithDovecot() {
+        global $CONF;
+
+        if (!file_exists('/usr/bin/doveadm')) {
+            $this->markTestSkipped("/usr/bin/doveadm doesn't exist.");
+        }
+
+        $CONF['encrypt'] = 'dovecot:sha512';
+
+
+        db_execute(
+            "UPDATE mailbox SET password = :password WHERE username = :username",
+            [
+                'username' => 'test@example.com',
+                'password' => '{SHA512}ClAmHr0aOQ/tK/Mm8mc8FFWCpjQtUjIElz0CGTN/gWFqgGmwElh89WNfaSXxtWw2AjDBmyc1AO4BPgMGAb8kJQ==', // pacrypt('foobar'),
+            ]
+        );
+
+        $l = new Login('mailbox');
+        $this->assertFalse($l->login('test@example.com', ''));
+
+        $this->assertTrue($l->login('test@example.com', 'foobar'));
+
+        $this->assertFalse($l->login('test@fails.com', 'foobar'));
+    }
 
     public function testValidLogin() {
         $login = new Login('mailbox');

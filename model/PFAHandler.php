@@ -560,7 +560,7 @@ abstract class PFAHandler {
                     break;
                 case 'pass':
                     $val = (string) $val;
-                    $db_values[$key] = pacrypt($val);
+                    $db_values[$key] = pacrypt($val); // throws Exception
                     break;
                 case 'b64p':
                     $db_values[$key] = base64_encode($val);
