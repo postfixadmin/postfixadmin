@@ -122,7 +122,8 @@ if ($configSetupDone) {
     </div>
 
 
-    <?php if ($configSetupDone && !$authenticated) { ?>
+    <?php
+    if ($configSetupDone && !$authenticated) { ?>
 
         <div class="row">
 
@@ -156,7 +157,8 @@ if ($configSetupDone) {
 
             </form>
         </div>
-    <?php } ?>
+        <?php
+    } ?>
 
 
     <div class="row">
@@ -197,7 +199,7 @@ EOF;
                     $hash = password_hash(safepost('setup_password'), PASSWORD_DEFAULT);
 
                     $result = '<p>If you want to use the password you entered as setup password, edit config.inc.php or config.local.php and set</p>';
-                    $result .= "<pre>\$CONF['setup_password'] = '$hash';</pre>";
+                    $result .= "<pre>\$CONF['setup_password'] = '$hash';</pre><p>After adding, refresh this page and login using it.</p>";
                 } else {
                     $form_error = 'has-error';
                     $errors['setup_password'] = implode(', ', $msgs);
@@ -240,8 +242,7 @@ EOF;
 
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
-                    <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Generate setup_password
-                        hash
+                    <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Generate setup_password hash
                     </button>
                 </div>
             </div>
@@ -251,7 +252,8 @@ EOF;
 
     </div>
 
-<?php }  // end if(!$authenticated)?>
+<?php
+}  // end if(!$authenticated)?>
 
     <div class="row">
 
@@ -316,15 +318,46 @@ EOF;
     </div>
 
     <?php
+
+
     if ($authenticated) {
-        ?>
+        $setupMessage = '';
+
+        if (safepost("submit") === "createadmin") {
+            # "create admin" form submitted, make sure the correct setup password was specified.
+
+            // XXX need to ensure domains table includes an 'ALL' entry.
+            $table_domain = table_by_key('domain');
+            $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
+            if (empty($rows)) {
+                // all other fields should default through the schema.
+                db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => ''));
+            }
+
+            $values = array(
+                'username' => safepost('username'),
+                'password' => safepost('password'),
+                'password2' => safepost('password2'),
+                'superadmin' => 1,
+                'domains' => array(),
+                'active' => 1,
+            );
+
+            list($error, $setupMessage, $errors) = create_admin($values);
+
+            if ($error == 1) {
+                $tUsername = htmlentities($values['username']);
+                error_log("failed to add admin - " . json_encode([$error, $setupMessage, $errors]));
+                echo "<p class='text-danger'>Admin addition failed; check field error messages or server logs.</p>";
+            } else {
+                // all good!.
+                $setupMessage .= "<p>You are done with your basic setup. <b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b></p>";
+            }
+        } ?>
         <div class="row">
             <h2>Add Superadmin Account</h2>
 
-
             <form name="create_admin" class="form-horizontal" method="post">
-
-
                 <div class="form-group">
                     <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
                     <div class="col-sm-4">
@@ -385,39 +418,10 @@ EOF;
             </form>
         </div>
 
+        <p class="text-success"><?= $setupMessage ?></p>
         <?php
     }
 
-    if (safepost("submit") === "createadmin" && $authenticated) {
-        # "create admin" form submitted, make sure the correct setup password was specified.
-
-        // XXX need to ensure domains table includes an 'ALL' entry.
-        $table_domain = table_by_key('domain');
-        $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
-        if (empty($rows)) {
-            // all other fields should default through the schema.
-            db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => ''));
-        }
-
-        $values = array(
-            'username' => safepost('username'),
-            'password' => safepost('password'),
-            'password2' => safepost('password2'),
-            'superadmin' => 1,
-            'domains' => array(),
-            'active' => 1,
-        );
-
-        list($error, $setupMessage, $errormsg) = create_admin($values);
-
-        if ($error == 1) {
-            $tUsername = htmlentities($values['username']);
-        } else {
-            // all good!.
-            $setupMessage .= "<p>You are done with your basic setup. ";
-            $setupMessage .= "<p><b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b>";
-        }
-    }
     ?>
 </div>
 
