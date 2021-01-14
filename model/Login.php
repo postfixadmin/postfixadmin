@@ -34,7 +34,8 @@ class Login {
             } catch (\Exception $e) {
                 error_log("Error while trying to call pacrypt()");
                 error_log($e);
-                return false; // just refuse to login?
+                hash_equals("not", "comparable");
+                return false; // just refuse to login? 
             }
             return hash_equals($row['password'], $crypt_password);
         }
