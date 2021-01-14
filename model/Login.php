@@ -40,7 +40,13 @@ class Login {
         }
 
         // try and be near constant time regardless of whether the db user exists or not
-        $x = pacrypt('abc', 'def');
+        try {
+            $x = pacrypt('abc', 'def');
+        }
+        catch(\Exception $e) {
+            error_log("Error trying to call pacrypt()");
+            error_log($e);
+        }
 
         return hash_equals('not', 'comparable');
     }
