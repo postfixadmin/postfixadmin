@@ -35,6 +35,8 @@ $smarty->configureTheme('../');
 
 check_db_version(); # check if the database layout is up to date (and error out if not)
 
+$error = null;
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
         die('Invalid token!');
@@ -57,14 +59,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit;
     } else {
         error_log("PostfixAdmin user login failed (username: $fUsername)");
-        flash_error($PALANG['pLogin_failed']);
+        $error = $PALANG['pLogin_failed'];
     }
 }
-
 
 session_unset();
 session_destroy();
 session_start();
+
+if($error) {
+    flash_error($error);
+}
 
 $_SESSION['PFA_token'] = md5(uniqid('pfa'  . rand(), true));
 
