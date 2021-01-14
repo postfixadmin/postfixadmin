@@ -591,6 +591,16 @@ $CONF['mailbox_postedit_script'] = '';
 $CONF['mailbox_postdeletion_script'] = '';
 
 // Optional:
+// Script to run after setting a mailbox password. (New mailbox [$4 = empty] or change existing password)
+// Disables changing password without entering old password.
+// Note that this may fail if PHP is run in "safe mode", or if
+// operating system features (such as SELinux) or limitations
+// prevent the web-server from executing external scripts.
+// Parameters: (1) username (2) domain (3) old password (4) new password
+// $CONF['mailbox_postpassword_script']='/usr/local/bin/postfixadmin-mailbox-postpassword.sh';
+$CONF['mailbox_postpassword_script'] = '';
+
+// Optional:
 // Script to run after creation of domains.
 // Note that this may fail if PHP is run in "safe mode", or if
 // operating system features (such as SELinux) or limitations

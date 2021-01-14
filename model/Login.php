@@ -114,6 +114,29 @@ class Login {
         }
 
         db_log($domain, 'edit_password', $username);
+
+        $cmd_pw = Config::read('mailbox_postpassword_script');
+        $warnmsg_pw = Config::Lang('mailbox_postpassword_failed');
+
+        if (empty($cmd_pw)) {
+            return true;
+        } # nothing to do
+
+        $cmdarg1=escapeshellarg($this->id);
+        $cmdarg2=escapeshellarg($domain);
+        $cmdarg3=escapeshellarg($old_password);
+        $cmdarg4=escapeshellarg($new_password);
+        $command= "$cmd_pw $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
+        $retval=0;
+        $output=array();
+        $firstline='';
+        $firstline=exec($command, $output, $retval);
+        if (0!=$retval) {
+            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+            $this->errormsg[] = $warnmsg_pw;
+            return false;
+        }
+
         return true;
     }
 }

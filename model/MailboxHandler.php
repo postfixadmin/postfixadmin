@@ -12,10 +12,14 @@ class MailboxHandler extends PFAHandler {
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
-        $passwordReset = (int) Config::bool('forgotten_user_password_reset');
+        $passwordReset = (int) Config::bool('forgotten_user_password_reset') && !Config::read('mailbox_postpassword_script');
         $reset_by_sms = 0;
         if ($passwordReset && Config::read_string('sms_send_function')) {
             $reset_by_sms = 1;
+        }
+        $editPw = 1;
+        if (!$this->new && Config::read('mailbox_postpassword_script')) {
+            $editPw = 0;
         }
 
         $this->struct = array(
@@ -29,8 +33,8 @@ class MailboxHandler extends PFAHandler {
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
             'maildir'          => pacol($this->new, 0,      1,      'text', ''                              , ''                                , '' ),
-            'password'         => pacol(1,          1,      0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
-            'password2'        => pacol(1,          1,      0,      'pass', 'password_again'                , ''                                 , '',
+            'password'         => pacol($editPw,    $editPw,0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
+            'password2'        => pacol($editPw,    $editPw,0,      'pass', 'password_again'                , ''                                 , '',
                 /*options*/ array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
@@ -577,7 +581,12 @@ class MailboxHandler extends PFAHandler {
             $warnmsg = Config::Lang('mailbox_postedit_failed');
         }
 
-        if (empty($cmd)) {
+        if ($this->new) {
+            $cmd_pw = Config::read('mailbox_postpassword_script');
+            $warnmsg_pw = Config::Lang('mailbox_postpassword_failed');
+        }
+
+        if (empty($cmd) && empty($cmd_pw)) {
             return true;
         } # nothing to do
 
@@ -591,23 +600,42 @@ class MailboxHandler extends PFAHandler {
 
         $cmdarg1=escapeshellarg($this->id);
         $cmdarg2=escapeshellarg($domain);
-        $cmdarg3=escapeshellarg($this->values['maildir']);
-        if ($quota <= 0) {
-            $quota = 0;
-        } # TODO: check if this is correct behaviour
-        $cmdarg4 = escapeshellarg("" . $quota);
-        $command= "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
-        $retval=0;
-        $output=array();
-        $firstline='';
-        $firstline=exec($command, $output, $retval);
-        if (0!=$retval) {
-            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
-            $this->errormsg[] = $warnmsg;
-            return false;
+        $status = true;
+
+        if (!empty($cmd)) {
+            $cmdarg3=escapeshellarg($this->values['maildir']);
+            if ($quota <= 0) {
+                $quota = 0;
+            } # TODO: check if this is correct behaviour
+            $cmdarg4 = escapeshellarg("" . $quota);
+            $command= "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
+            $retval=0;
+            $output=array();
+            $firstline='';
+            $firstline=exec($command, $output, $retval);
+            if (0!=$retval) {
+                error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+                $this->errormsg[] .= $warnmsg;
+                $status = false;
+            }
         }
 
-        return true;
+        if (!empty($cmd_pw)) {
+            $cmdarg3='""';
+            $cmdarg4=escapeshellarg($this->values['password']);
+            $command= "$cmd_pw $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
+            $retval=0;
+            $output=array();
+            $firstline='';
+            $firstline=exec($command, $output, $retval);
+            if (0!=$retval) {
+                error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+                $this->errormsg[] .= $warnmsg_pw;
+                $status = false;
+            }
+        }
+
+        return $status;
     }
 
     /**
