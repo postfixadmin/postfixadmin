@@ -116,14 +116,16 @@ class Login {
         db_log($domain, 'edit_password', $username);
 
         $cmd_pw = Config::read('mailbox_postpassword_script');
-        $warnmsg_pw = Config::Lang('mailbox_postpassword_failed');
 
         if (empty($cmd_pw)) {
             return true;
-        } # nothing to do
+        }
 
-/* what's going on here ? 
-        $cmdarg1=escapeshellarg($this->id);
+        $warnmsg_pw = Config::Lang('mailbox_postpassword_failed');
+
+        // If we have a mailbox_postpassword_script (dovecot only?)
+
+        $cmdarg1=escapeshellarg($username);
         $cmdarg2=escapeshellarg($domain);
         $cmdarg3=escapeshellarg($old_password);
         $cmdarg4=escapeshellarg($new_password);
@@ -132,12 +134,11 @@ class Login {
         $output=array();
         $firstline='';
         $firstline=exec($command, $output, $retval);
-        if (0!=$retval) {
+        if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
-            $this->errormsg[] = $warnmsg_pw;
-            return false;
+            throw new \Exception($warnmsg_pw);
         }
- */
+ 
         return true;
     }
 }
