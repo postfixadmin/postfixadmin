@@ -943,7 +943,8 @@ function _pacrypt_mysql_encrypt($pw, $pw_db = '') {
     } else {
         // see https://security.stackexchange.com/questions/150687/is-it-safe-to-use-the-encrypt-function-in-mysql-to-hash-passwords
         // if no existing password, use a random SHA512 salt.
-        $res= db_query_one("SELECT ENCRYPT(:pw, CONCAT('$6$', SHA2(RANDOM_BYTES(64), '256'))) as result", ['pw' => $pw]);
+        $salt = _php_crypt_generate_crypt_salt();
+        $res= db_query_one("SELECT ENCRYPT(:pw, CONCAT('$6$', '$salt')) as result", ['pw' => $pw]);
     }
 
     return $res['result'];
