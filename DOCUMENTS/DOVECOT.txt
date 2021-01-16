@@ -56,6 +56,7 @@ namespace inbox {
 protocols = "imap pop3"
 # change to 'no' if you don't have ssl cert/keys, and comment out ssl_cert/ssl_key
 ssl = yes 
+
 ssl_cert = </etc/dovecot/private/dovecot.pem
 ssl_key = </etc/dovecot/private/dovecot.pem
 
@@ -136,9 +137,33 @@ user_query = SELECT CONCAT('/var/mail/vmail/', maildir) AS home, 1001 AS uid, 10
 
 
 
+3. Permissions
+--------------
+
+With Dovecot 2.3.11 (ish?), if you are using the Postfixadmin dovecot password hashing
+backend - so your Postfixadmin configuration matches :
+
+    `$CONF['encrypt'] = 'dovecot:something';`
+
+then the system user account running the PostfixAdmin code (normally the webserver user
+account, like www-data or http or nobody) will need ...
+
+ * read access to any SSL certificate files defined in /etc/dovecot/dovecot.conf 
+    (check: ssl_key, ssl_cert)
+   
+ * read/write access to /run/dovecot/stats-writer 
+   * Fixable with: `usermod -aG dovecot www-data``
+
+Postfixadmin does not need to run on the same server as the Dovecot server. 
+If it's not, you may find it easiest to disable Dovecot's ssl configuration.
+
+see also the following tickets which contain discussions and solutions :
+
+ * https://github.com/postfixadmin/postfixadmin/issues/381 (Unable to login after Dovecot upgrade)
+ * https://github.com/postfixadmin/postfixadmin/issues/398 (Dovecotpw needs to read my TLS cert and private key)
 
 
-3. Dovecot v1.0 quota support (optional)
+4. Dovecot v1.0 quota support (optional)
 ----------------------------------------
 
 Please note that you need to use Dovecot's own local delivery agent to
