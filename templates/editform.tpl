@@ -44,7 +44,7 @@
                                     {elseif $field.type == 'pass' || $field.type == 'b64p'}
                                         <input class="form-control" type="password" name="value[{$key}]"/>
                                     {elseif $field.type == 'txtl'}
-                                        <textarea class="form-control" rows="10" cols="35" name="value[{$key}]">{foreach key=key2 item=field2 from=$value_{$key}}{$field2}{/foreach}</textarea>
+                                        <textarea class="form-control" rows="10" cols="35" name="value[{$key}]">{foreach key=key2 item=field2 from=$value_{$key}}{$field2}&#10;{/foreach}</textarea>
                                     {else}
                                         <input class="form-control" type="text" name="value[{$key}]"
                                                value="{$value_{$key}}"/>
