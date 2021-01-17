@@ -325,7 +325,9 @@ function maildir_name_hook($domain, $user) {
 
     Note: Adding a field to $struct adds the handling of this field in
     PostfixAdmin, but it does not create it in the database. You have to do
-    that yourself. 
+    that yourself.
+    Note: If you add fields here and you want them to be displayed in the
+    virtual lists, you must also modify the corresponding virtual-list template.
     Please follow the naming policy for custom database fields and tables on
     https://sourceforge.net/p/postfixadmin/wiki/Custom_fields/
     to avoid clashes with future versions of PostfixAdmin.
