@@ -497,6 +497,8 @@ class MailboxHandler extends PFAHandler {
             return true; # enforcing quotas is disabled - just allow it
         }
 
+        $quota = (int) $quota;
+
         list(/*NULL*/, $domain) = explode('@', $this->id);
         $limit = get_domain_properties($domain);
 
