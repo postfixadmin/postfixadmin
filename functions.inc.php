@@ -2085,6 +2085,8 @@ function table_by_key($table_key) {
     $table = $CONF['database_prefix'] . $table;
 
     if (db_mysql()) {
+        // try and ensure we don't get ``table`` ?
+        $table = preg_replace('/`/', '', $table);
         return "`" . $table . "`";
     }
 
