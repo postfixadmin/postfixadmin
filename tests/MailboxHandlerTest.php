@@ -10,6 +10,13 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         parent::tearDown();
     }
 
+    public function setUp() : void {
+        global $CONF;
+        parent::setUp();
+
+        $CONF['quota'] = 'YES';
+    }
+
     public function testBasic() {
         $x = new MailboxHandler();
 
@@ -43,6 +50,8 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
                 'aliases' => 11,
                 'mailboxes' => 12,
                 'active' => 1,
+                'quota' => 99999911111,
+                'maxquota' => 99999999999,
                 'backupmx' => 0,
                 'default_aliases' => 1
             ]
@@ -89,7 +98,7 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
             'password' => 'test1234',
             'password2' => 'test1234',
             'name' => 'test person',
-            'quota' => '',
+            'quota' => 1,
             'welcome_mail' => 0,
             'email_other' => '',
             'username' => 'david.test@example.com',
@@ -108,7 +117,8 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         $x->getList('');
 
         $list = $x->result();
-        $this->assertEquals(1, count($list));
+
+        $this->assertEquals(1, count($list), json_encode($x->errormsg));
 
         $found = false;
 
@@ -140,7 +150,7 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
             'username' => 'david.test@example.com'
         ]);
 
-        $this->assertEmpty($h->errormsg);
+        $this->assertEmpty($h->errormsg, json_Encode($h->errormsg));
         $this->assertEmpty($h->infomsg);
         $this->assertTrue($r);
         $this->assertTrue($h->save());
