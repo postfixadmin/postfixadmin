@@ -31,6 +31,7 @@ VALUES(:username, :password, :name, :maildir, :local_part, :domain)",
     }
 
     private function cleanUp() {
+        db_querY('DELETE FROM alias');
         db_query('DELETE FROM mailbox');
         db_query('DELETE FROM domain');
     }
