@@ -6,6 +6,14 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.4 - 2021/01/19
+-------------------------------------------------
+   - Fix forgot-password (theme + trying to use class before autoload registered) (see //github.com/postfixadmin/postfixadmin/issues/427)
+   - Fix PHP 8.0 issues (string{} offset in CLI, psalm warning about string + int in MailboxHandler)
+   - Add PHP 8.0 to travis build + hopefully fix build
+   - Fix editform to add linefeeds on for e.g. alias editing (see https://github.com/postfixadmin/postfixadmin/pull/424)
+   - Fix mysql_crypt password hash - not all MySQL variants have RANDOM_BYTES function, so use our PHP based salt instead. (see https://github.com/postfixadmin/postfixadmin/issues/422)
+
 Version 3.3.3 - 2021/01/14
 -------------------------------------------------
    - Improve error handling around login (require non-empty password; cope with pacrypt() throwing an exception; see https://github.com/postfixadmin/postfixadmin/issues/420)
