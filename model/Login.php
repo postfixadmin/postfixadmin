@@ -26,6 +26,7 @@ class Login {
         $values = array('username' => $username, 'active' => $active);
 
         $result = db_query_all($query, $values);
+
         if (sizeof($result) == 1 && strlen($password) > 0) {
             $row = $result[0];
 

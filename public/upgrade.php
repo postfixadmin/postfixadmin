@@ -1386,7 +1386,11 @@ function upgrade_730_pgsql() {
     $table_quota = table_by_key('quota');
     $table_quota2 = table_by_key('quota2');
 
-    db_query_parsed('CREATE LANGUAGE plpgsql', 1); /* will error if plpgsql is already installed */
+    try {
+        db_query_parsed('CREATE LANGUAGE plpgsql', 1); /* will error if plpgsql is already installed */
+    } catch (\Exception $e) {
+        error_log("ignoring exception that's probably : plpgsql is probably already installed; " . $e);
+    }
 
     # trigger for dovecot v1.0 & 1.1 quota table
     # taken from http://wiki.dovecot.org/Quota/Dict
