@@ -8,11 +8,10 @@ class LoginTest extends \PHPUnit\Framework\TestCase {
 
         $CONF['pacrypt'] = 'md5'; // crap
 
-        db_execute("INSERT INTO domain(`domain`, description, transport) values ('example.com', 'test', 'foo')", [], true);
+        db_execute("INSERT INTO domain(domain, description, transport) values ('example.com', 'test', 'foo')", [], true);
 
         db_execute(
-            "INSERT INTO mailbox(username, password, `name`, maildir, local_part, `domain`) 
-VALUES(:username, :password, :name, :maildir, :local_part, :domain)",
+            "INSERT INTO mailbox(username, password, name, maildir, local_part, domain) VALUES(:username, :password, :name, :maildir, :local_part, :domain)",
             [
                 'username' => 'test@example.com',
                 'password' => pacrypt('foobar'),
@@ -21,6 +20,8 @@ VALUES(:username, :password, :name, :maildir, :local_part, :domain)",
                 'local_part' => 'test',
                 'domain' => 'example.com',
             ]);
+
+
         parent::setUp();
     }
 
@@ -31,7 +32,10 @@ VALUES(:username, :password, :name, :maildir, :local_part, :domain)",
     }
 
     private function cleanUp() {
+        db_query('DELETE FROM alias');
+        db_query('DELETE FROM alias_domain');
         db_query('DELETE FROM mailbox');
+        db_query('DELETE FROM domain_admins');
         db_query('DELETE FROM domain');
     }
 
