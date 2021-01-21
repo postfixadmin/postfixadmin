@@ -27,7 +27,7 @@ Integrates with :
  - Users have the ability to login, change their password or vacation (out of office) status.
  - Integration with Squirrelmail / Roundcube (via plugins)
  - Optional XMLRPC based API 
- - Supports PHP5.6+
+ - Supports PHP7.0+
 
 ## Useful Links
 

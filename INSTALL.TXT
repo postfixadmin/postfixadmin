@@ -9,7 +9,7 @@ REQUIREMENTS
 ------------
 - Postfix
 - Apache / Lighttpd 
-- PHP (for web server)
+- PHP 7.0 or greater (for web server)
 - one of the following databases:
   - MariaDB/MySQL
   - PostgreSQL
