@@ -25,7 +25,6 @@
  * fUsername
  */
 
-$smarty = PFASmarty::getInstance();
 
 if (preg_match('/\/users\//', $_SERVER['REQUEST_URI'])) {
     $rel_path = '../';
@@ -36,6 +35,7 @@ if (preg_match('/\/users\//', $_SERVER['REQUEST_URI'])) {
 }
 require_once($rel_path . 'common.php');
 
+$smarty = PFASmarty::getInstance();
 $CONF = Config::getInstance()->getAll();
 
 $smarty->configureTheme($rel_path);
