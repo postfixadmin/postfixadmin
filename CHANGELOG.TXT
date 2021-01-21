@@ -26,6 +26,7 @@ Version 3.3.1 - 2021/01/11
 
 Version 3.3 - 2021/01/09
 -------------------------------------------------
+   - PostfixAdmin requires PHP 7.0 or greater.
    - Change setup.php to use PHP's password_hash() for the config setup_password . (breaking change, existing setup passwords will fail to work and need regenerating) 
    - Change setup.php to not reveal system paths etc until a setup_password is configured and provided (see: https://github.com/postfixadmin/postfixadmin/issues/402 )
    - Move to bootstrap theme ( see https://github.com/postfixadmin/postfixadmin/pull/172 )
