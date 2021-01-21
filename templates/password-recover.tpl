@@ -1,3 +1,15 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}"
+                                                         alt="Logo"/></a>
+            {if $CONF.show_header_text==='YES' && $CONF.header_text}
+                <h2>{$CONF.header_text}</h2>
+            {/if}
+        </div>
+    </div>
+</nav>
+ 
 <div id="edit_form">
     <form name="frmPassword" method="post" action="">
         <table>
