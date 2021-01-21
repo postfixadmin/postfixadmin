@@ -227,7 +227,7 @@ if(@file_exists('/usr/bin/doveadm')) { // @ to silence openbase_dir stuff; see h
 $CONF['password_validation'] = array(
 #    '/regular expression/' => '$PALANG key (optional: + parameter)',
     '/.{5}/'                => 'password_too_short 5',      # minimum length 5 characters
-    '/([a-zA-Z].*){3}/'     => 'password_no_characters 3',  # must contain at least 3 characters
+    '/([a-zA-Z].*){3}/'     => 'password_no_characters 3',  # must contain at least 3 consecutive characters
     '/([0-9].*){2}/'        => 'password_no_digits 2',      # must contain at least 2 digits
 
     /*  support a 'callable' value which if it returns a non-empty string will be assumed to have failed. */
@@ -714,7 +714,7 @@ $CONF['xmlrpc_enabled'] = false;
 //More details in README.password_expiration
 $CONF['password_expiration'] = 'YES';
 
-$CONF['version'] = '3.3.3';
+$CONF['version'] = '3.3.4';
 
 // If you want to keep most settings at default values and/or want to ensure
 // that future updates work without problems, you can use a separate config 

@@ -25,8 +25,6 @@
  * fUsername
  */
 
-
-
 /* if in .../users, we need to load a different common.php; not this file is symlinked with public/ */
 if (preg_match('/\/users\//', $_SERVER['REQUEST_URI'])) {
     $rel_path = '../';
