@@ -6,6 +6,11 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.5 - 2021/xx/xx
+-------------------------------------------------
+   - Fix include path for password-change and improve UI for password-recover / password-change (nav bar was missing) (see https://github.com/postfixadmin/postfixadmin/issues/430
+   - ???
+
 Version 3.3.4 - 2021/01/19
 -------------------------------------------------
    - Fix forgot-password (theme + trying to use class before autoload registered) (see //github.com/postfixadmin/postfixadmin/issues/427)
