@@ -1587,7 +1587,11 @@ function db_connect() {
     $dsn = null;
 
     if (db_mysql()) {
-        $socket = Config::read_string('database_socket');
+        $socket = false;
+        if (Config::has('database_socket')) {
+            $socket = Config::read_string('database_socket');
+        }
+
         $database_name = Config::read_string('database_name');
 
         if ($socket) {
@@ -2226,13 +2230,13 @@ function gen_show_status($show_alias) {
     }
 
     // Expired CHECK
-    if ( Config::bool('password_expiration') && Config::bool('show_expired') ) {
+    if (Config::has('password_expiration') && Config::bool('password_expiration') && Config::bool('show_expired')) {
         $now = 'now()';
         if (db_sqlite()) {
             $now = "datetime('now')";
         }
 
-        $stat_result = db_query_one("SELECT * FROM ". table_by_key('mailbox') ." WHERE username = ? AND password_expiry <= $now AND active = ?", array( $show_alias , db_get_boolean(true) ));
+        $stat_result = db_query_one("SELECT * FROM " . table_by_key('mailbox') . " WHERE username = ? AND password_expiry <= $now AND active = ?", array($show_alias, db_get_boolean(true)));
 
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
