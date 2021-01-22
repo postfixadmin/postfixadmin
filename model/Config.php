@@ -55,6 +55,10 @@ final class Config {
         return $stuff;
     }
 
+    public static function has(string $var) : bool {
+        $x = self::getInstance()->getAll();
+        return array_key_exists($var, $x);
+    }
     /**
      * @param string $var
      * @return string
