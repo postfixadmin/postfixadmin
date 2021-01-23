@@ -70,7 +70,10 @@ class PFASmarty {
         if (!empty($CONF['theme_custom_css'])) {
             $CONF['theme_custom_css'] = $rel_path . htmlentities($CONF['theme_custom_css']);
         }
-        $CONF['theme_favicon'] = $rel_path . htmlentities($CONF['theme_favicon']);
+        if (array_key_exists('theme_favicon', $CONF)) {
+            $CONF['theme_favicon'] = $rel_path . htmlentities($CONF['theme_favicon']);
+        }
+
         $CONF['theme_logo'] = $rel_path . htmlentities($CONF['theme_logo']);
 
         $this->assign('rel_path', $rel_path);
