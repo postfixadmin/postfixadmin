@@ -43,6 +43,7 @@ class Login {
 
         // try and be near constant time regardless of whether the db user exists or not
         try {
+            // this causes errors with e.g. dovecot as there is no prefix.
             $x = pacrypt('abc', 'def');
         } catch (\Exception $e) {
             error_log("Error trying to call pacrypt()");
