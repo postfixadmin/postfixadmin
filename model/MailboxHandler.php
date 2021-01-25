@@ -730,14 +730,16 @@ class MailboxHandler extends PFAHandler {
         }
 
         $s_port='';
-        $create_mailbox_subdirs_hostport = Config::read_string('create_mailbox_subdirs_hostport');
-        if (!empty($create_mailbox_subdirs_hostport)) {
-            $s_port = $create_mailbox_subdirs_hostport;
-            if (intval($s_port)!=$s_port) {
-                trigger_error('The $CONF["create_mailbox_subdirs_hostport"] parameter must be an integer', E_USER_ERROR);
-                return false;
+        if (Config::has('create_mailbox_subdirs_hostport')) {
+            $create_mailbox_subdirs_hostport = Config::read('create_mailbox_subdirs_hostport');
+            if (!empty($create_mailbox_subdirs_hostport)) {
+                $s_port = $create_mailbox_subdirs_hostport;
+                if (intval($s_port)!=$s_port) {
+                    trigger_error('The $CONF["create_mailbox_subdirs_hostport"] parameter must be an integer', E_USER_ERROR);
+                    return false;
+                }
+                $s_port=':'.$s_port;
             }
-            $s_port=':'.$s_port;
         }
 
         $s='{'.$s_host.$s_port.$s_options.'}';

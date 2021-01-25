@@ -86,7 +86,11 @@ sub list_quota_usage {
                 $usage = $usage + 500;
                 $usage = int $usage / 1000;
             }
-            if($insert_db == 1){execSql("UPDATE mailbox set quota_usage = $usage, quota_usage_date = CAST(NOW() AS DATE) WHERE username = '$email'");}
+
+            if($insert_db == 1)
+            {
+                execSql("INSERT INTO quota2 (username, bytes) values ('$email', $usage) ON DUPLICATE KEY UPDATE bytes = VALUES(bytes)"); 
+            }
             print_list() if ($list == 1);
 
         }
@@ -144,8 +148,4 @@ sub help {
     print "$0 [options...]\n";
     print "-l|--list                     List quota used\n";
     print "-i|--addmysql                 For insert quota used in database mysql\n";
-
 }
-
-
-
