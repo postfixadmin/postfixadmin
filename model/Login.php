@@ -137,7 +137,7 @@ class Login {
         $firstline='';
         $firstline=exec($command, $output, $retval);
         if (0 != $retval) {
-            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
             throw new \Exception($warnmsg_pw);
         }
  
