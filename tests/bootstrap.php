@@ -11,7 +11,8 @@ $CONF['default_language'] = 'en';
 $CONF['language_hook'] = '';
 
 if (getenv('DATABASE') == 'sqlite' || getenv('DATABASE') == false) {
-    $db_file = dirname(__FILE__) . '/postfixadmin.sqlite.test';
+    $version = PHP_VERSION_ID; // try and stop different tests running at the same trying to use the same sqlite db at once
+    $db_file = dirname(__FILE__) . '/postfixadmin.sqlite.' . $version . '.test';
     $CONF['database_type'] = 'sqlite';
     $CONF['database_name'] = $db_file;
     Config::write('database_type', 'sqlite');
