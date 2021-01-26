@@ -1,6 +1,7 @@
 <?php
 
 class Login {
+    private $key_table;
     private $table;
 
     public function __construct(string $tableName) {
@@ -9,7 +10,8 @@ class Login {
         if (!in_array($tableName, $ok)) {
             throw new \InvalidArgumentException("Unsupported tableName for login: " . $tableName);
         }
-        $this->table = table_by_key($tableName);
+        $this->table = $tableName;
+        $this->key_table = table_by_key($tableName);
     }
 
     /**
@@ -21,7 +23,7 @@ class Login {
      */
     public function login($username, $password): bool {
         $active = db_get_boolean(true);
-        $query = "SELECT password FROM {$this->table} WHERE username = :username AND active = :active";
+        $query = "SELECT password FROM {$this->key_table} WHERE username = :username AND active = :active";
 
         $values = array('username' => $username, 'active' => $active);
 
@@ -60,7 +62,7 @@ class Login {
      * @throws Exception
      */
     public function generatePasswordRecoveryCode(string $username) {
-        $sql = "SELECT count(1) FROM {$this->table} WHERE username = :username AND active = :active";
+        $sql = "SELECT count(1) FROM {$this->key_table} WHERE username = :username AND active = :active";
 
         $active = db_get_boolean(true);
 
@@ -108,7 +110,7 @@ class Login {
             'password' => pacrypt($new_password),
         );
 
-        $result = db_update('mailbox', 'username', $username, $set);
+        $result = db_update($this->key_table, 'username', $username, $set);
 
         if ($result != 1) {
             db_log($domain, 'edit_password', "FAILURE: " . $username);
