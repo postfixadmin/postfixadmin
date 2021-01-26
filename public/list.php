@@ -157,7 +157,7 @@ if (safeget('output') == 'csv') {
     $smarty->assign('formconf', $formconf);
     $smarty->assign('search', $search);
     $smarty->assign('searchmode', $searchmode);
-    $smarty->assign('domain_selected', 'invalid'); /* stop list-virtual.tpl triggering a PHP notice */
+    $smarty->assign('domain_selected', ''); /* stop list-virtual.tpl triggering a PHP notice */
 
     $smarty->display('index.tpl');
 }
