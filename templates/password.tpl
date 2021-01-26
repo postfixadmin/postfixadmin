@@ -28,11 +28,14 @@
         </div>
         <div class="panel-footer">
             <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group pull-right">
-                    <input class="btn btn-primary" type="submit" name="submit" value="{$PALANG.change_password}"/>
+
+                <div class="pull-right">
                     {if $authentication_has_role.user}
-                        <input class="btn btn-primary" type="submit" name="fCancel" value="{$PALANG.exit}"/>
+                        <a href="main.php" class="btn mr btn-secondary">{$PALANG.exit}</a>
                     {/if}
+
+                    <button class="btn ml btn-lg btn-primary" type="submit" name="submit" value="{$PALANG.change_password}">{$PALANG.change_password}</button>
+
                 </div>
             </div>
         </div>
