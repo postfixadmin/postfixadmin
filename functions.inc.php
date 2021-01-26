@@ -872,9 +872,11 @@ function validate_password($password) {
     $result = array();
     $val_conf = Config::read_array('password_validation');
 
-    $minlen = (int) Config::read_string('min_password_length'); # used up to 2.3.x - check it for backward compatibility
-    if ($minlen > 0) {
-        $val_conf['/.{' . $minlen . '}/'] = "password_too_short $minlen";
+    if (Config::has('min_password_length')) {
+        $minlen = (int)Config::read_string('min_password_length'); # used up to 2.3.x - check it for backward compatibility
+        if ($minlen > 0) {
+            $val_conf['/.{' . $minlen . '}/'] = "password_too_short $minlen";
+        }
     }
 
     foreach ($val_conf as $regex => $message) {
