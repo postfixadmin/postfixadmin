@@ -20,6 +20,13 @@ body {
   background-color: #f5f5f5;
 }
 
+.mr {
+  margin-right: 5px;
+}
+
+.ml {
+  margin-left: 5px;
+}
 
 /* Custom page CSS
 -------------------------------------------------- */
