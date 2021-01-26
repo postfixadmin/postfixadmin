@@ -9,32 +9,37 @@
         </div>
     </div>
 </nav>
-<div id="edit_form">
-    <form name="mailbox" method="post">
-        <table>
-            <tr>
-                <td colspan="3"><h3>{$PALANG.pPassword_welcome}</h3></td>
-            </tr>
-            <tr>
-                <td>{$PALANG.pLogin_username} :</td>
-                <td><input class="flat" type="text" name="fUsername" value="{$tUsername}"/></td>
-            </tr>
-            <tr>
-                <td>{$PALANG.pPassword_password_code} :</td>
-                <td><input class="flat" type="text" name="fCode" value="{$tCode}"/></td>
-            </tr>
-            <tr>
-                <td>{$PALANG.pPassword_password} :</td>
-                <td><input class="flat" type="password" name="fPassword"/></td>
-            </tr>
-            <tr>
-                <td>{$PALANG.pPassword_password2} :</td>
-                <td><input class="flat" type="password" name="fPassword2"/></td>
-            </tr>
-            <tr>
-                <td colspan="2" class="hlp_center"><input class="button" type="submit" name="submit"
-                                                          value="{$PALANG.change_password}"/></td>
-            </tr>
-        </table>
-    </form>
-</div>
+
+<h3 class="h3">{$PALANG.pPassword_welcome}</h3>
+
+
+<form name="mailbox" method="post" class="form">
+
+    <div class="form-group">
+        <label for="fUsername">{$PALANG.pLogin_username}</label>
+        <input class="form-control" type="email" name="fUsername" value="{$tUsername}"/>
+    </div>
+
+    <div class="form-group">
+        <label for="fCode">{$PALANG.pPassword_password_code}</label>
+        <input class="form-control" type="text" name="fCode" value="{$tCode}"/>
+    </div>
+
+    <div class="form-group">
+        <label for="fPassword">
+            {$PALANG.pPassword_password}
+        </label>
+        <input class="form-control" type="password" name="fPassword"/>
+    </div>
+
+    <div class="form-group">
+        <label for="fPassword2">
+            {$PALANG.pPassword_password2}
+        </label>
+        <input class="form-control" type="password" name="fPassword2"/>
+    </div>
+
+    <button class="btn btn-primary" type="submit" name="submit"
+            value="submit">{$PALANG.change_password}</button>
+</form>
+
