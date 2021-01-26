@@ -62,14 +62,15 @@
         <div class="panel-footer">
             <div class="btn-toolbar" role="toolbar">
 
-                <a href="{$return_url}" class="btn btn-secondary bg-info" title="Go back">{$PALANG.exit}</a>
+                <div class="pull-right">
+                    <a href="{$return_url}" class="btn mr btn-secondary bg-info" title="Go back">{$PALANG.exit}</a>
 
-                <button class="btn btn-primary " type="submit" name="action"
-                        value="fChange">{$PALANG.pEdit_vacation_set}</button>
+                    <button class="mr btn mr-5 btn-danger " type="submit" name="action"
+                            value="fBack">{$PALANG.pEdit_vacation_remove}</button>
 
-                <button class="btn btn-danger " type="submit" name="action"
-                        value="fBack">{$PALANG.pEdit_vacation_remove}</button>
-
+                    <button class="ml btn btn-lg btn-primary" type="submit" name="action"
+                            value="fChange">{$PALANG.pEdit_vacation_set}</button>
+                </div>
             </div>
         </div>
     </div>
