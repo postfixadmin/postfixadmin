@@ -36,12 +36,15 @@
             </div>
         </div>
         <div class="panel-footer">
-            <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group pull-right">
-                    <input class="btn btn-primary" type="submit" name="submit" value="{$PALANG.save}"/>
-                    <input class="btn btn-primary" type="submit" name="fCancel" value="{$PALANG.exit}"/>
+
+            <div class="btn-toolbar">
+                <div class="pull-right">
+                    <a href="main.php" class="mr btn btn-secondary">{$PALANG.exit}</a>
+
+                    <button class="ml btn btn-lg btn-primary" type="submit" name="submit" value="{$PALANG.save}">{$PALANG.save}</button>
                 </div>
             </div>
+
         </div>
     </div>
 </form>
