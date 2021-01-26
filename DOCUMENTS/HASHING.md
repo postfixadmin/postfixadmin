@@ -8,7 +8,7 @@ Whatever format you choose will need to be supported by your IMAP server (and wh
 
 ## Configuration
 
-See config.inc.php - look for
+See config.inc.php (or config.local.php) and look for
 
 ```php
 $CONF['encrypt'] = 'something';
