@@ -129,8 +129,7 @@ class PFASmarty {
      * @return mixed $data
      * */
     public function sanitise($data) {
-
-        if(is_object($data)) {
+        if (is_object($data)) {
             return $data; // can't handle
         }
 
