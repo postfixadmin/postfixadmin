@@ -227,18 +227,11 @@ if(@file_exists('/usr/bin/doveadm')) { // @ to silence openbase_dir stuff; see h
 $CONF['password_validation'] = array(
 #    '/regular expression/' => '$PALANG key (optional: + parameter)',
     '/.{5}/'                => 'password_too_short 5',      # minimum length 5 characters
-    // '/([a-zA-Z].*){3}/'     => 'password_no_characters 3',  # must contain at least 3 consecutive characters
+    '/([a-zA-Z].*){3}/'     => 'password_no_characters 3',  # must contain at least 3 characters
     '/([0-9].*){2}/'        => 'password_no_digits 2',      # must contain at least 2 digits
 
     /*  support a 'callable' value which if it returns a non-empty string will be assumed to have failed, non-empty string should be a PALANG key */
-    'length_check'          => function($password) { if (strlen(trim($password)) < 3) { return 'password_too_short'; } }, // not unicode safe.
-
-    /**
-     * 'any-key' =>  function($password) {
-     *                   if ( rand(0, 5) == 0 ) { return 'password_too_short'; }
-     *                   // add some remote api check here ... or whatever
-     *               },
-     */
+    // 'length_check'          => function($password) { if (strlen(trim($password)) < 3) { return 'password_too_short'; } },
 );
 
 // Generate Password
