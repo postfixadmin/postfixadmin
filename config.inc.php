@@ -231,14 +231,7 @@ $CONF['password_validation'] = array(
     '/([0-9].*){2}/'        => 'password_no_digits 2',      # must contain at least 2 digits
 
     /*  support a 'callable' value which if it returns a non-empty string will be assumed to have failed, non-empty string should be a PALANG key */
-    'length_check'          => function($password) { if (strlen(trim($password)) < 3) { return 'password_too_short'; } }, // not unicode safe.
-
-    /**
-     * 'any-key' =>  function($password) {
-     *                   if ( rand(0, 5) == 0 ) { return 'password_too_short'; }
-     *                   // add some remote api check here ... or whatever
-     *               },
-     */
+    // 'length_check'          => function($password) { if (strlen(trim($password)) < 3) { return 'password_too_short'; } },
 );
 
 // Generate Password
