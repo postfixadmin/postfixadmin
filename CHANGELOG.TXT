@@ -6,6 +6,11 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+MASTER
+------
+
+   - Add optional Dovecot mail-crypt plugin support - see https://github.com/postfixadmin/postfixadmin/issues/408
+
 Version 3.3.5 - 2021/01/27
 -------------------------------------------------
    - Fix include path for password-change.php and improve UI for password-recover / password-change (nav bar was missing, remove table layout, fix labels not visible) (see https://github.com/postfixadmin/postfixadmin/issues/430
