@@ -129,6 +129,10 @@ class PFASmarty {
      * @return mixed $data
      * */
     public function sanitise($data) {
+        if (is_object($data)) {
+            return $data; // can't handle
+        }
+
         if (!is_array($data)) {
             return htmlentities($data, ENT_QUOTES, 'UTF-8', false);
         }
