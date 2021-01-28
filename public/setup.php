@@ -15,6 +15,8 @@
  * Used to help ensure a server is setup appropriately during installation/setup.
  */
 
+$PALANG = [];
+
 require_once(dirname(__FILE__) . '/common.php'); # make sure correct common.php is used.
 
 $configSetupPassword = Config::read_string('setup_password');
@@ -242,7 +244,8 @@ EOF;
 
             <div class="form-group">
                 <div class="col-sm-offset-4 col-sm-4">
-                    <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Generate setup_password hash
+                    <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Generate setup_password
+                        hash
                     </button>
                 </div>
             </div>
@@ -289,6 +292,8 @@ EOF;
                 }
                 echo "</ul>";
             }
+
+            $php_error_log = ini_get('error_log');
         } else {
             if (!empty($check['error'])) {
                 echo '<h3 class="text-danger">Hosting Environment errors found. Login to see details.</h3>';
@@ -304,14 +309,25 @@ EOF;
 
     <div class="row">
 
-        <h2>Database Update</h2>
+        <h2 class="h2">Database Update</h2>
 
         <?php
         if ($authenticated) {
-            print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
-            require_once(dirname(__FILE__) . '/upgrade.php');
+            $db = false;
+            try {
+                $db = db_connect();
+            } catch (\Exception $e) {
+                error_log("Couldn't perform PostfixAdmin database update - " . $e->getMessage());
+            }
+
+            if ($db) {
+                print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
+                require_once(dirname(__FILE__) . '/upgrade.php');
+            } else {
+                echo "<h3 class='h3 text-danger'>Could not connect to database to perform updates; check PHP error log.</h3>";
+            }
         } else {
-            echo "<h3 class='text-warning'>Please login to see perform database update.</h3>";
+            echo "<h3 class='h3 text-warning'>Please login to see perform database update.</h3>";
         }
         ?>
 
@@ -500,40 +516,49 @@ function do_software_environment_check() {
     $f_mb_encode_mimeheader = function_exists("mb_encode_mimeheader");
     $f_imap_open = function_exists("imap_open");
 
-    $file_local_config = file_exists(realpath("./../config.local.php"));
+    $file_local_config = file_exists(realpath(__DIR__ . "/../config.local.php"));
 
     // Fall back to looking in /etc/postfixadmin for config.local.php (Debian etc)
+    // this check might produce a false positive if someone has a legacy PostfixAdmin installation.
     if (!$file_local_config && is_dir('/etc/postfixadmin')) {
         $file_local_config = file_exists('/etc/postfixadmin/config.local.php');
     }
 
-//
     // Check for PHP version
-//
     $phpversion = 'unknown-version';
 
     if ($f_phpversion == 1) {
         if (version_compare(PHP_VERSION, '7.0.0', '<')) {
             $error[] = "Error: Depends on: PHP v7.0+. You must upgrade.";
         } else {
-            $info[] = "PHP version " . phpversion();
+            $info[] = "PHP version - " . phpversion();
         }
     } else {
         $error[] = "Unable to check for PHP version. (PHP_VERSION not found?)";
     }
 
-//
     // Check for Apache version
-//
     if ($f_apache_get_version == 1) {
-        $info[] = apache_get_version();
+        $info[] = "Webserver - " . apache_get_version();
     }
 
-//
-    // Check for config.local.php
-//
-    if ($file_local_config == 1) {
-        $info[] = "Depends on: presence config.local.php - Found";
+
+
+    $info[] = "Postfixadmin installed at - " . realpath(__DIR__);
+
+    $error_log_file = ini_get('error_log');
+
+    if (file_exists($error_log_file) && is_writable($error_log_file)) {
+        $info[] = "PHP Error log (error_log) is - $error_log_file";
+    }
+
+    if (file_exists($error_log_file) && !is_writeable($error_log_file)) {
+        $warn[] = "PHP Error log (error_log) is - $error_log_file, but is not writeable. Postfixadmin will be unable to log error(s)";
+    }
+
+
+    if (file_exists($file_local_config)) {
+        $info[] = "config.local.php file found : " . realpath($file_local_config);
     } else {
         $warn[] = "<b>Warning: config.local.php - NOT FOUND - It's Recommended to store your own settings in config.local.php instead of editing config.inc.php";
     }
@@ -544,25 +569,21 @@ function do_software_environment_check() {
     }
 
     if ($m_pdo_mysql == 1) {
-        $info[] = "Database - PDO MySQL - Found";
+        $info[] = "Database - MySQL support available";
     } else {
         $info[] = "Database - MySQL (pdo_mysql) extension not found";
     }
 
-//
+
     // PostgreSQL functions
-//
     if ($m_pdo_pgsql == 1) {
-        $info[] = "Database support : PDO PostgreSQL - Found ";
-        if (Config::read_string('database_type') != 'pgsql') {
-            $warn[] = "Change the database_type to 'pgsql' in config.local.php if you want to use PostgreSQL";
-        }
+        $info[] = "Database - PostgreSQL support available ";
     } else {
         $warn[] = "Database - PostgreSQL (pdo_pgsql) extension not found";
     }
 
     if ($m_pdo_sqlite == 1) {
-        $info[] = "Database support : PDO SQLite - Found";
+        $info[] = "Database - SQLite support available";
         if (Config::read_string('database_type') != 'sqlite') {
             $warn[] = "Change the database_type to 'sqlite' in config.local.php if you want to use SQLite";
         }
@@ -570,43 +591,72 @@ function do_software_environment_check() {
         $warn[] = "Database support - SQLite (pdo_sqlite) extension not found";
     }
 
+    if (empty($CONF['encrypt'])) {
+        $error[] = 'Password hashing - $CONF["encrypt"] is empty. Please check your config.inc.php / config.local.php file.';
+    } else {
+        $info[] = 'Password hashing - $CONF["encrypt"] = ' . $CONF['encrypt'];
+
+        try {
+            $output = pacrypt('foobar');
+            if ($output == 'foobar') {
+                $warn[] = "You appear to be using a cleartext \$CONF['encrypt'] setting. This is insecure. You have been warned. Your users deserve better";
+            }
+            $info[] = 'Password hashing - $CONF["encrypt"] password hash generated OK';
+        } catch (\Exception $e) {
+            $error[] = "Password Hashing - attempted to use configured encrypt backend ({$CONF['encrypt']}) triggered exception " . $e->getMessage();
+
+            if (is_writeable($error_log_file)) {
+                $err = "Possibly helpful error_log messages - " . htmlspecialchars(
+                        implode("",
+                            array_slice(file($error_log_file), -4, 3)  // last three lines, might fail miserably if error_log is large.
+                        )
+                    );
+
+                $error[] = nl2br($err);
+            }
+
+            $error[] = "You will have problems logging into PostfixAdmin.";
+
+            if (preg_match('/^dovecot:/', $CONF['encrypt'])) {
+                $error[] = "Check out our Dovecot documentation at https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/DOVECOT.txt, specifically around '3. Permissions'.";
+            }
+        }
+    }
+
     $link = null;
     $error_text = null;
 
+    $dsn = 'Could not generate';
+
     try {
+        $dsn = db_connection_string();
+
+        $info[] = "Database connection configured OK (using PDO $dsn)";
         $link = db_connect();
+        $info[] = "Database connection OK (connected)";
     } catch (Exception $e) {
-        $error_text = $e->getMessage();
+        $error[] = "Database connection string : " . $dsn;
+        $error[] = "Problem connecting to database, check database configuration (\$CONF['database_*'] entries in config.local.php)";
+        $error[] = $e->getMessage();
     }
 
 
-    if (!empty($link) && $error_text == "") {
-        $info[] = "Testing database connection (using config) - Success";
-    } else {
-        $error[] = "Error: Can't connect to database - please check the \$CONF['database_*'] parameters in config.local.php : $error_text";
-    }
-
-//
     // Session functions
-//
     if ($f_session_start == 1) {
         $info[] = "Depends on: session - OK";
     } else {
         $error[] = "Error: Depends on: session - NOT FOUND. (FreeBSD: portinstall php$phpversion-session ?)";
     }
 
-//
+
     // PCRE functions
-//
     if ($f_preg_match == 1) {
         $info[] = "Depends on: pcre - Found";
     } else {
         $error[] = "Error: Depends on: pcre - NOT FOUND. (FreeBSD: portinstall php$phpversion-pcre)";
     }
 
-//
     // Multibyte functions
-//
     if ($f_mb_encode_mimeheader == 1) {
         $info[] = "Depends on: multibyte string - Found";
     } else {
@@ -614,9 +664,8 @@ function do_software_environment_check() {
     }
 
 
-//
+
     // Imap functions
-//
     if ($f_imap_open == 1) {
         $info[] = "IMAP functions - Found";
     } else {
@@ -626,5 +675,3 @@ function do_software_environment_check() {
 
     return ['error' => $error, 'warn' => $warn, 'info' => $info];
 }
-
-?>
