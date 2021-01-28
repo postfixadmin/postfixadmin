@@ -266,9 +266,6 @@ EOF;
         $check = do_software_environment_check();
 
         if ($authenticated) {
-            if (!empty($check['error'])) {
-                echo "<p><p>Errors were found with your environment. These will be displayed once you've configured a setup_password and confirmed it.</p>";
-            }
 
             if (!empty($check['info'])) {
                 echo "<h3>Information</h3><ul>";
