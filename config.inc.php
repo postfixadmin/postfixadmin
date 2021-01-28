@@ -176,7 +176,9 @@ $CONF['smtp_client'] = '';
 $CONF['smtp_sendmail_tls'] = 'NO';
 
 // Encrypt
-// In what way do you want the passwords to be crypted?
+// See: https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/HASHING.md
+// In what way do you want the passwords to be stored in the database, needs to be compatabile with Postfix/MTAs etc.
+//
 // md5crypt = internal postfix admin md5
 // md5 = md5 sum of the password
 // system = whatever you have set as your PHP system default
@@ -196,7 +198,7 @@ $CONF['smtp_sendmail_tls'] = 'NO';
 //     - dovecot 2.0.0 - 2.0.7 is not supported
 // - php_crypt PREFIX: hash has specified prefix - example: php_crypt:SHA512::{SHA256-CRYPT}
 // sha512.b64 - {SHA512-CRYPT.B64} (base64 encoded sha512) (no dovecot dependency; should support migration from md5crypt)
-$CONF['encrypt'] = 'md5crypt';
+$CONF['encrypt'] = 'php_crypt';
 
 // In what flavor should courier-authlib style passwords be encrypted?
 // (only used if $CONF['encrypt'] == 'authlib')
