@@ -1559,6 +1559,47 @@ $DEBUG_TEXT = <<<EOF
     </ul>
 EOF;
 
+
+/**
+ * @return string - PDO DSN for PHP.
+ * @throws Exception
+ */
+function db_connection_string() {
+    global $CONF;
+    $dsn = null;
+    if (db_mysql()) {
+        $socket = false;
+        if (Config::has('database_socket')) {
+            $socket = Config::read_string('database_socket');
+        }
+
+        $database_name = Config::read_string('database_name');
+
+        if ($socket) {
+            $dsn = "mysql:unix_socket={$socket};dbname={$database_name};charset=UTF8";
+        } else {
+            $dsn = "mysql:host={$CONF['database_host']};dbname={$database_name};charset=UTF8";
+        }
+    } elseif (db_sqlite()) {
+        $db = $CONF['database_name'];
+
+        $dsn = "sqlite:{$db}";
+    } elseif (db_pgsql()) {
+        $dsn = "pgsql:dbname={$CONF['database_name']}";
+        if (isset($CONF['database_host'])) {
+            $dsn .= ";host={$CONF['database_host']}";
+        }
+        if (isset($CONF['database_port'])) {
+            $dsn .= ";port={$CONF['database_port']}";
+        }
+        $dsn .= ";options='-c client_encoding=utf8'";
+    } else {
+        throw new Exception("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type'] <br/>'pgsql', 'mysql' or 'sqlite' supported. <br/> Please fix your config.inc.php!</p>");
+    }
+
+    return $dsn;
+}
+
 /**
  * db_connect
  * Action: Makes a connection to the database if it doesn't exist
@@ -1579,28 +1620,19 @@ function db_connect() {
 
     $link = false;
 
+    // throws.
+    $dsn = db_connection_string();
+
     $options = array(
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_TIMEOUT => 5,
     );
     $username_password = true;
 
     $queries = array();
 
-    $dsn = null;
 
     if (db_mysql()) {
-        $socket = false;
-        if (Config::has('database_socket')) {
-            $socket = Config::read_string('database_socket');
-        }
-
-        $database_name = Config::read_string('database_name');
-
-        if ($socket) {
-            $dsn = "mysql:unix_socket={$socket};dbname={$database_name};charset=UTF8";
-        } else {
-            $dsn = "mysql:host={$CONF['database_host']};dbname={$database_name};charset=UTF8";
-        }
         if (Config::bool('database_use_ssl')) {
             $options[PDO::MYSQL_ATTR_SSL_KEY] = Config::read_string('database_ssl_key');
             $options[PDO::MYSQL_ATTR_SSL_CA] = Config::read_string('database_ssl_ca');
@@ -1622,31 +1654,23 @@ function db_connect() {
         $db = $CONF['database_name'];
 
         if (!file_exists($db)) {
-            $error_text = 'SQLite database missing: '. $db;
+            $error_text = 'SQLite database missing: ' . $db;
             throw new Exception($error_text);
         }
 
         if (!is_writeable($db)) {
-            $error_text = 'SQLite database not writeable: '. $db;
+            $error_text = 'SQLite database not writeable: ' . $db;
             throw new Exception($error_text);
         }
 
         if (!is_writeable(dirname($db))) {
-            $error_text = 'The directory the SQLite database is in is not writeable: '. dirname($db);
+            $error_text = 'The directory the SQLite database is in is not writeable: ' . dirname($db);
             throw new Exception($error_text);
         }
 
-        $dsn = "sqlite:{$db}";
         $username_password = false;
     } elseif (db_pgsql()) {
-        $dsn = "pgsql:dbname={$CONF['database_name']}";
-        if (isset($CONF['database_host'])) {
-            $dsn .= ";host={$CONF['database_host']}";
-        }
-        if (isset($CONF['database_port'])) {
-            $dsn .= ";port={$CONF['database_port']}";
-        }
-        $dsn .= ";options='-c client_encoding=utf8'";
+        // nothing to do.
     } else {
         throw new Exception("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php!</p>");
     }
