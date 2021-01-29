@@ -1,23 +1,13 @@
-#
-# Postfix Admin
-# by Mischa Peters <mischa at high5 dot net>
-# Copyright (c) 2002 - 2005 High5!
-# Licensed under GPL for more info check GPL-LICENSE.TXT
-#
 
 REQUIRED!!
 ----------
 - You are using Postfix 2.0 or higher.
 - You are using Apache 1.3.27 / Lighttpd 1.3.15 or higher.
-- You are using PHP 5.1.2 or higher.
-- You are using MySQL 3.23 or higher OR PostgreSQL v7.4+
-
+- You are using PHP 7.0 or higher.
+- You are using MySQL 5.6 or higher OR PostgreSQL v8+
 
 READ THIS FIRST!
 ----------------
-
-This document describes upgrading from an older PostfixAdmin version
-(>= v1.5x)
 
 It's recommend that you install Postfix Admin in a new folder and not
 on-top of the old install!! (At the very least, make sure you have backups of 
@@ -25,7 +15,6 @@ the database and relevant filesystem!)
 
 When upgrading Postfix Admin, make sure you backup your database before
 running upgrade.php.
-
 
 1. Backup the Database
 ----------------------
