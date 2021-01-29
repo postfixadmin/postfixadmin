@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
         flash_info($PALANG['pBroadcast_success']);
-        $smarty->assign('smarty_template', 'message');
+        $smarty->assign('smarty_template', 'broadcast-message');
         $smarty->display('index.tpl');
         //		echo '<p>'.$PALANG['pBroadcast_success'].'</p>';
     }
