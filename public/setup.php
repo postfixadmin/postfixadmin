@@ -511,8 +511,7 @@ EOF;
 
 <?php
 
-function _error_field($errors, $key)
-{
+function _error_field($errors, $key) {
     if (!isset($errors[$key])) {
         return '';
     }
@@ -520,8 +519,7 @@ function _error_field($errors, $key)
 }
 
 
-function create_admin($values)
-{
+function create_admin($values) {
     define('POSTFIXADMIN_SETUP', 1); # avoids instant redirect to login.php after creating the admin
 
     $handler = new AdminHandler(1, 'setup.php');
@@ -549,8 +547,7 @@ function create_admin($values)
 /**
  * @return array['info' => string[], 'warn' => string[], 'error' => string[] ]
  */
-function do_software_environment_check()
-{
+function do_software_environment_check() {
     $CONF = Config::getInstance()->getAll();
 
     $warn = [];
