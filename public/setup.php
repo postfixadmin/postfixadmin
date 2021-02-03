@@ -88,20 +88,8 @@ if (strlen($configSetupPassword) == 73 && strpos($configSetupPassword, ':') == 3
 ?>
 
 <?php
-$todo = '<span class="font-weight-bold text-primary">TODO</span>';
-$authenticatedLabel = $todo;
-
-$configSetupLabel = $todo;
+$todo = '<span class="font-weight-bold text-warning">TODO</span>';
 $tick = ' ✅ ';
-
-
-if ($configSetupDone) {
-    $configSetupLabel = $tick;
-
-    if ($authenticated) {
-        $authenticatedLabel = $tick;
-    }
-}
 ?>
 
 
@@ -122,16 +110,38 @@ if ($configSetupDone) {
         <div class="col-12">
 
             <ul>
-                <li><?= $configSetupLabel ?> You need to have a setup_password configured in a
-                    <code>config.local.php</code> file.
+                <li>
+                    <?php
+
+                    if ($configSetupDone) {
+                        echo $tick . " setup_password configured";
+                    } else {
+                        echo $todo . " You need to have a setup_pasword hash configured in a <code>config.local.php</code> file";
+                    }
+                    ?>
                 </li>
-                <li><?= $authenticatedLabel ?> Login using your setup password.</li>
-                <li>Then you can run some self tests to check compatability with
-                    Postfixadmin
+                <li>
+                    <?php
+                    if ($authenticated) {
+                        echo $tick . " You are logged in with the setup_password, some environment and hosting checks are displayed below.";
+                    } else {
+                        echo $todo . " You need to authenticate using the setup_password before you can perform some environment and hosting checks.";
+                    }
+                    ?>
                 </li>
-                <li>Create / update your database of choice</li>
-                <li>and Add a new super user account</li>
             </ul>
+
+            <?php if (!$authenticated) { ?>
+                <p> One you have logged in with the setup_password, this page will ... </p>
+                <ul>
+                    <li> run some simple hosting/environment checks which may help identify problems with your
+                        environment
+                    </li>
+                    <li> create/update your database of choice,</li>
+                    <li> allow you to list / add super user accounts</li>
+
+                </ul>
+            <?php } ?>
 
         </div>
 
@@ -501,7 +511,8 @@ EOF;
 
 <?php
 
-function _error_field($errors, $key) {
+function _error_field($errors, $key)
+{
     if (!isset($errors[$key])) {
         return '';
     }
@@ -509,7 +520,8 @@ function _error_field($errors, $key) {
 }
 
 
-function create_admin($values) {
+function create_admin($values)
+{
     define('POSTFIXADMIN_SETUP', 1); # avoids instant redirect to login.php after creating the admin
 
     $handler = new AdminHandler(1, 'setup.php');
@@ -537,7 +549,8 @@ function create_admin($values) {
 /**
  * @return array['info' => string[], 'warn' => string[], 'error' => string[] ]
  */
-function do_software_environment_check() {
+function do_software_environment_check()
+{
     $CONF = Config::getInstance()->getAll();
 
     $warn = [];
@@ -647,9 +660,9 @@ function do_software_environment_check() {
             if ($output == 'foobar') {
                 $warn[] = "You appear to be using a cleartext \$CONF['encrypt'] setting. This is insecure. You have been warned. Your users deserve better";
             }
-            $info[] = 'Password hashing - $CONF["encrypt"] password hash generated OK';
+            $info[] = 'Password hashing - $CONF["encrypt"] - hash generation OK';
         } catch (\Exception $e) {
-            $error[] = "Password Hashing - attempted to use configured encrypt backend ({$CONF['encrypt']}) triggered exception " . $e->getMessage();
+            $error[] = "Password Hashing - attempted to use configured encrypt backend ({$CONF['encrypt']}) triggered an error: " . $e->getMessage();
 
             if (is_writeable($error_log_file)) {
                 $err = "Possibly helpful error_log messages - " . htmlspecialchars(
@@ -679,7 +692,7 @@ function do_software_environment_check() {
 
         $info[] = "Database connection configured OK (using PDO $dsn)";
         $link = db_connect();
-        $info[] = "Database connection OK (connected)";
+        $info[] = "Database connection - Connected OK";
     } catch (Exception $e) {
         $error[] = "Database connection string : " . $dsn;
         $error[] = "Problem connecting to database, check database configuration (\$CONF['database_*'] entries in config.local.php)";
@@ -689,32 +702,32 @@ function do_software_environment_check() {
 
     // Session functions
     if ($f_session_start == 1) {
-        $info[] = "Depends on: session - OK";
+        $info[] = "Depends on: PHP session support - OK";
     } else {
-        $error[] = "Error: Depends on: session - NOT FOUND. (FreeBSD: portinstall php$phpversion-session ?)";
+        $error[] = "Error: Depends on: PHP session support - NOT FOUND. (FreeBSD: portinstall php$phpversion-session ?)";
     }
 
 
     // PCRE functions
     if ($f_preg_match == 1) {
-        $info[] = "Depends on: pcre - Found";
+        $info[] = "Depends on: PHP pcre support - OK";
     } else {
-        $error[] = "Error: Depends on: pcre - NOT FOUND. (FreeBSD: portinstall php$phpversion-pcre)";
+        $error[] = "Error: Depends on: PHP pcre support - NOT FOUND. (FreeBSD: portinstall php$phpversion-pcre)";
     }
 
     // Multibyte functions
     if ($f_mb_encode_mimeheader == 1) {
-        $info[] = "Depends on: multibyte string - Found";
+        $info[] = "Depends on: PHP mbstring support - OK";
     } else {
-        $error[] = "Error: Depends on: multibyte string - mbstring extension missing. (FreeBSD: portinstall php$phpversion-mbstring?)";
+        $error[] = "Error: Depends on: PHP mbstring support - NOT FOUND. (FreeBSD: portinstall php$phpversion-mbstring?)";
     }
 
 
     // Imap functions
     if ($f_imap_open == 1) {
-        $info[] = "IMAP functions - Found";
+        $info[] = "Optional - PHP IMAP functions - OK";
     } else {
-        $warn[] = "Warning: Optional dependency 'imap' extension missing, without this you may not be able to automcate creation of subfolders for new mailboxes";
+        $warn[] = "Warning: Optional dependency 'imap' extension missing, without this you may not be able to automate creation of sub-folders for new mailboxes";
     }
 
 
