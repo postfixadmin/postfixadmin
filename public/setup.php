@@ -311,8 +311,6 @@ EOF;
                     }
                     echo "</ul>";
                 }
-
-                $php_error_log = ini_get('error_log');
             } else {
                 if (!empty($check['error'])) {
                     echo '<h3 class="text-danger">Hosting Environment errors found. Login to see details.</h3>';
