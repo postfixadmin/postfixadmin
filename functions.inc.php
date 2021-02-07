@@ -1821,7 +1821,7 @@ function db_execute($sql, array $values = [], $throw_exceptions = false) {
         $stmt = $link->prepare($sql);
         $stmt->execute($values);
     } catch (PDOException $e) {
-        $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql ;
+        $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql . ' ' . json_encode($values);
         error_log($error_text);
         if ($throw_exceptions) {
             throw $e;
