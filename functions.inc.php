@@ -2317,4 +2317,46 @@ function getRemoteAddr() {
     return $REMOTE_ADDR;
 }
 
+
+/**
+ * @param array $server
+ * @return string URL to Postfixadmin - will always end in a '/'
+ */
+function getSiteUrl(array $server = []): string {
+    if (Config::has('site_url')) {
+        $url = Config::read_string('site_url');
+        if (!empty($url)) {
+            return $url;
+        }
+    }
+
+    if (empty($server)) {
+        $server = $_SERVER;
+    }
+
+    // ideally need to support installation unnder a random prefix
+    // - https://example.com/my-postfixadmin-3.1.2/index.php
+    // - https://example.com/my-postfixadmin-3.1.2/users/password-recover.php
+    // in either case, we want https://example.com/my-postfixadmin-3.1.2/
+
+    $uri = dirname($server['REQUEST_URI']);
+    if (preg_match('!/users/.*.php!', $uri)) {
+        $uri = dirname($uri);
+    }
+
+    // ensure it ends with a /
+    if (substr($uri, -1, 1) !== '/') {
+        $uri = $uri . '/';
+    }
+
+
+    $https = isset($server['HTTPS']) && $server['HTTPS'] == 'on' ? 'https' : 'http';
+
+    if (isset($server['REQUEST_SCHEME'])) {
+        $https = $server['REQUEST_SCHEME'];
+    }
+
+    return $https . '://' . $server['HTTP_HOST'] . $uri;
+}
+
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

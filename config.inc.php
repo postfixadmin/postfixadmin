@@ -712,6 +712,10 @@ $CONF['xmlrpc_enabled'] = false;
 //More details in Password_Expiration.md
 $CONF['password_expiration'] = 'YES';
 
+// If defined, use this rather than trying to construct it from  $_SERVER parameters.
+// used in (at least) password-recover.php.
+$CONF['site_url'] = null;
+
 $CONF['version'] = '3.3.5';
 
 // If you want to keep most settings at default values and/or want to ensure

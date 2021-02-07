@@ -600,6 +600,8 @@ function do_software_environment_check() {
     }
 
 
+    $info[] = "Postfixadmin public url detected as " . getSiteUrl($_SERVER) . " use \$CONF['site_url'] to override";
+
     $info[] = "Postfixadmin installed at - " . realpath(__DIR__);
 
     $error_log_file = ini_get('error_log');
