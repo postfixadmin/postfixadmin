@@ -10,6 +10,8 @@ MASTER
 ------
 
    - Add optional Dovecot mail-crypt plugin support - see https://github.com/postfixadmin/postfixadmin/issues/408
+   - Add $CONF['site_url'] to allow administrators to override a detected site url (e.g. used in password recovery emails; see https://github.com/postfixadmin/postfixadmin/issues/446 )
+
 
 Version 3.3.5 - 2021/01/27
 -------------------------------------------------
