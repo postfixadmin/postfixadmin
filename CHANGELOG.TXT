@@ -6,7 +6,11 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version 3.3.6 - 2021/01/17
+Version 3.3.7 - 2021/01/17
+-------------------------------------------------
+   - Fix missing db_connection_string() function from master; see https://github.com/postfixadmin/postfixadmin/issues/454
+
+Version 3.3.6 - 2021/01/17 - Do not use (setup.php broken)
 -------------------------------------------------
    - Improve setup.php - output error_log location, try and detect if there is a problem calling pacrypt() (dovecot).
 
