@@ -6,6 +6,10 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.6 - 2021/01/17
+-------------------------------------------------
+   - Improve setup.php - output error_log location, try and detect if there is a problem calling pacrypt() (dovecot).
+
 Version 3.3.5 - 2021/01/27
 -------------------------------------------------
    - Fix include path for password-change.php and improve UI for password-recover / password-change (nav bar was missing, remove table layout, fix labels not visible) (see https://github.com/postfixadmin/postfixadmin/issues/430
