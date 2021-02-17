@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     if (isset($choice_of_reply[$tInterval_Time])) {
-        $fInterval_Time = $tInterval_Time;
+        $fInterval_Time = (int) $tInterval_Time;
     } else {
         $fInterval_Time = 0;
     }

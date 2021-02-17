@@ -545,7 +545,7 @@ function create_admin($values) {
 }
 
 /**
- * @return array['info' => string[], 'warn' => string[], 'error' => string[] ]
+ * @return array like: ['info' => string[], 'warn' => string[], 'error' => string[] ]
  */
 function do_software_environment_check() {
     $CONF = Config::getInstance()->getAll();

@@ -49,10 +49,6 @@ if (isset($_POST['search']) && is_array($_POST['search'])) {
     $search = $_GET['search'];
 }
 
-if (!is_array($search)) {
-    die(Config::Lang('invalid_parameter'));
-}
-
 if (count($list_domains) == 0) {
     if (authentication_has_role('global-admin')) {
         flash_error($PALANG['no_domains_exist']);

@@ -16,7 +16,7 @@
         "lint": "@php ./vendor/bin/parallel-lint --exclude vendor/ --exclude lib/block_random_int.php --exclude lib/array_column.php .",
         "test": "@php ./vendor/bin/phpunit --coverage-clover ./clover.xml tests/",
         "test-fixup": "mkdir -p templates_c ; test -f config.local.php || touch config.local.php",
-        "psalm": "@php ./vendor/bin/psalm --show-info=false "
+        "psalm": "@php ./vendor/bin/psalm --no-cache --show-info=false "
     },
     "require": {
         "php": ">=7.0"
