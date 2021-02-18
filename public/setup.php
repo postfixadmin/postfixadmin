@@ -311,10 +311,13 @@ EOF;
                     }
                     echo "</ul>";
                 }
+
+                $php_error_log = ini_get('error_log');
             } else {
                 if (!empty($check['error'])) {
                     echo '<h3 class="text-danger">Hosting Environment errors found. Login to see details.</h3>';
                 }
+
                 if (!empty($check['warn'])) {
                     echo '<h3 class="text-warning">Hosting Environment warnings found. Login to see details.</h3>';
                 }
@@ -543,7 +546,7 @@ function create_admin($values) {
 }
 
 /**
- * @return array['info' => string[], 'warn' => string[], 'error' => string[] ]
+ * @return array like: ['info' => string[], 'warn' => string[], 'error' => string[] ]
  */
 function do_software_environment_check() {
     $CONF = Config::getInstance()->getAll();

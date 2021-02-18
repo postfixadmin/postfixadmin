@@ -716,7 +716,7 @@ $CONF['password_expiration'] = 'YES';
 // used in (at least) password-recover.php.
 $CONF['site_url'] = null;
 
-$CONF['version'] = '3.3.5';
+$CONF['version'] = '3.4-dev';
 
 // If you want to keep most settings at default values and/or want to ensure
 // that future updates work without problems, you can use a separate config 

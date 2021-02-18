@@ -88,7 +88,7 @@ if (!empty($CONF['language_hook']) && function_exists($CONF['language_hook'])) {
 Config::write('__LANG', $PALANG);
 
 if (!defined('POSTFIXADMIN_CLI')) {
-    if (!isset($CONF) || !isset($PALANG)) {
+    if (!isset($PALANG)) {
         die("environment not setup correctly");
     }
     require_once(__DIR__  . '/lib/smarty/libs/Autoloader.php');
