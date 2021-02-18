@@ -12,7 +12,7 @@ class MailboxHandler extends PFAHandler {
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct() {
-        $passwordReset = (int) Config::bool('forgotten_user_password_reset') && !Config::read('mailbox_postpassword_script');
+        $passwordReset = (int) ( Config::bool('forgotten_user_password_reset') && !Config::read('mailbox_postpassword_script') );
         $reset_by_sms = 0;
         if ($passwordReset && Config::read_string('sms_send_function')) {
             $reset_by_sms = 1;
