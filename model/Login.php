@@ -110,7 +110,7 @@ class Login {
             'password' => pacrypt($new_password),
         );
 
-        $result = db_update($this->key_table, 'username', $username, $set);
+        $result = db_update($this->table, 'username', $username, $set);
 
         if ($result != 1) {
             db_log($domain, 'edit_password', "FAILURE: " . $username);
