@@ -1594,7 +1594,6 @@ function db_connection_string() {
         }
         $dsn .= ";options='-c client_encoding=utf8'";
     } else {
-
         throw new Exception("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type'] <br/>Only: 'pgsql', 'mysql' or 'sqlite' supported. <br/> Please fix your config.inc.php!</p>");
     }
 
