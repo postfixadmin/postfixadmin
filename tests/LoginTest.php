@@ -39,6 +39,31 @@ class LoginTest extends \PHPUnit\Framework\TestCase {
         db_query('DELETE FROM domain');
     }
 
+    public function testPasswordchange() {
+        $login = new Login('mailbox');
+
+        $this->assertTrue($login->login('test@example.com', 'foobar'));
+
+        // Can't change - current password wrong.
+        try {
+            $login->changePassword('test@example.com', 'foobar2', 'foobar2');
+            $this->fail("Exception should have been thrown");
+        } catch (\Exception $e) {
+            $this->assertEquals("You didn't supply your current password!", $e->getMessage());
+        }
+
+
+        // Should change, current password correct.
+        $this->assertTrue($login->changePassword('test@example.com', 'foobar2', 'foobar'));
+
+        // Can't now login with the old password
+        $this->assertFalse($login->login('test@example.com', 'foobar'));
+
+        // Can login with the new one...
+        $this->assertTrue($login->login('test@example.com', 'foobar2'));
+    }
+
+
     public function testInvalidUsers() {
         $login = new Login('mailbox');
 
