@@ -395,7 +395,8 @@ EOF;
         }
 
         $table_admin = table_by_key('admin');
-        $admins = db_query_all("SELECT * FROM $table_admin WHERE superadmin = 1 AND active = 1");
+        $bool = db_get_boolean(true);
+        $admins = db_query_all("SELECT * FROM $table_admin WHERE superadmin = $bool AND active = $bool");
 
         if (!empty($admins)) { ?>
 
