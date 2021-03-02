@@ -638,7 +638,7 @@ function check_owner($username, $domain) {
 
 /**
  * List domains for an admin user.
- * @param String $username
+ * @param string $username
  * @return array of domain names.
  */
 function list_domains_for_admin($username) {
@@ -887,7 +887,7 @@ function validate_password($password) {
             }
             continue;
         }
-       
+
         if (!preg_match($regex, $password)) {
             $msgparts = preg_split("/ /", $message, 2);
             if (count($msgparts) == 1) {
@@ -1428,19 +1428,20 @@ function to64($v, $n) {
  * Action: Send email
  * Call: smtp_mail (string to, string from, string subject, string body]) - or -
  * Call: smtp_mail (string to, string from, string data) - DEPRECATED
- * @param String - To:
- * @param String - From:
- * @param String - Subject: (if called with 4 parameters) or full mail body (if called with 3 parameters)
- * @param String (optional) - Password
- * @param String (optional, but recommended) - mail body
+ * @param string $to
+ * @param string $from
+ * @param string $subject  (if called with 4 parameters) or full mail body (if called with 3 parameters)
+ * @param string $password (optional) - Password
+ * @param string $body (optional, but recommended) - mail body
  * @return bool - true on success, otherwise false
  * TODO: Replace this with something decent like PEAR::Mail or Zend_Mail.
  */
 function smtp_mail($to, $from, $data, $password = "", $body = "") {
     global $CONF;
+
     $smtpd_server = $CONF['smtp_server'];
     $smtpd_port = $CONF['smtp_port'];
-    //$smtp_server = $_SERVER["SERVER_NAME"];
+
     $smtp_server = php_uname('n');
     if (!empty($CONF['smtp_client'])) {
         $smtp_server = $CONF['smtp_client'];
