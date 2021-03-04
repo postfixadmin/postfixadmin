@@ -6,6 +6,14 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.8 - 2021/03/04
+-------------------------------------------------
+   - Fix invalid template referenced in broadcast-message.php; see https://github.com/postfixadmin/postfixadmin/issues/465
+   - Fix PostgreSQL boolean issue in setup (unable to add superuser); see https://github.com/postfixadmin/postfixadmin/issues/461 
+   - Fix SQL error on password change; see https://github.com/postfixadmin/postfixadmin/issues/456
+   - Add Ukrainian language (thanks: andrew.kudrinov)
+
+
 Version 3.3.7 - 2021/01/17
 -------------------------------------------------
    - Fix missing db_connection_string() function from master; see https://github.com/postfixadmin/postfixadmin/issues/454
