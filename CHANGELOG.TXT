@@ -6,6 +6,10 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.9 - ??????????
+-------------------------------------------------
+   - Improve Ukrainian language (thanks: andrew.kudrinov) (forgot to cherry-pick 4a960a0ce06b0754fa7b39aed0d5c57a88b20720 from master)
+
 Version 3.3.8 - 2021/03/04
 -------------------------------------------------
    - Fix invalid template referenced in broadcast-message.php; see https://github.com/postfixadmin/postfixadmin/issues/465
