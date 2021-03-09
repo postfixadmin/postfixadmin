@@ -1,3 +1,7 @@
+<?php
+$PALANG = [];
+require_once('common.php');
+?>
 <html lang="">
 <head>
     <meta charset="utf-8">
@@ -56,9 +60,6 @@
  * File: setup.php
  * Used to help ensure a server is setup appropriately during installation/setup.
  */
-$PALANG = [];
-
-require_once(dirname(__FILE__) . '/common.php'); # make sure correct common.php is used.
 
 $configSetupPassword = Config::read_string('setup_password');
 
