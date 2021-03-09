@@ -30,7 +30,7 @@
  * If it does not do this, then your authentication details will not persist across requests, and
  * this XMLRPC interface will not work.
  */
-require_once(dirname(__FILE__) . '/common.php');
+require_once('common.php');
 
 if ($CONF['xmlrpc_enabled'] == false) {
     die("xmlrpc support disabled");

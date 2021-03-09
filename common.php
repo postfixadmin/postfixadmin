@@ -15,10 +15,10 @@
  * environment and ensures other functions are loaded.
  */
 
-if (!defined('POSTFIXADMIN')) { # already defined if called from setup.php
-    define('POSTFIXADMIN', 1); # checked in included files
+if (!defined('POSTFIXADMIN')) {
+    define('POSTFIXADMIN', 1);
 
-    if (!defined('POSTFIXADMIN_CLI')) {
+    if (!defined('POSTFIXADMIN_CLI')) { // postfixadmin-cli
         // this is the default; see also https://sourceforge.net/p/postfixadmin/bugs/347/
         session_cache_limiter('nocache');
         session_name('postfixadmin_session');
