@@ -324,23 +324,25 @@ if (isset($limit)) {
 }
 
 $gen_show_status_mailbox = array();
-$divide_quota = array('current' => array(), 'quota' => array());
+$divide_quota = array('current' => [], 'quota' => [], 'percent' => [], 'quota_width' => []);
 
 for ($i = 0; $i < sizeof($tMailbox); $i++) {
-    $gen_show_status_mailbox [$i] = gen_show_status($tMailbox[$i]['username']);
+    $gen_show_status_mailbox[$i] = gen_show_status($tMailbox[$i]['username']);
+
+    $divide_quota['current'][$i] = Config::Lang('unknown');
+    $divide_quota['quota_width'][$i] = 0;
+    $divide_quota['percent'][$i] = null;
+    $divide_quota['quota'][$i] = Config::Lang('unknown');
 
     if (isset($tMailbox[$i]['current'])) {
-        $divide_quota ['current'][$i] = divide_quota($tMailbox[$i]['current']);
+        $divide_quota['current'][$i] = divide_quota($tMailbox[$i]['current']);
     }
     if (isset($tMailbox[$i]['quota'])) {
-        $divide_quota ['quota'][$i] = divide_quota($tMailbox[$i]['quota']);
+        $divide_quota['quota'][$i] = divide_quota($tMailbox[$i]['quota']);
     }
     if (isset($tMailbox[$i]['quota']) && isset($tMailbox[$i]['current'])) {
-        $divide_quota ['percent'][$i] = min(100, round(($divide_quota ['current'][$i]/max(1, $divide_quota ['quota'][$i]))*100));
-        $divide_quota ['quota_width'][$i] = ($divide_quota ['percent'][$i] / 100 * 120);
-    } else {
-        $divide_quota ['current'][$i] = Config::Lang('unknown');
-        $divide_quota ['quota_width'][$i] = 0; # TODO: use special value?
+        $divide_quota['percent'][$i] = min(100, round(($divide_quota ['current'][$i]/max(1, $divide_quota ['quota'][$i]))*100));
+        $divide_quota['quota_width'][$i] = ($divide_quota['percent'][$i] / 100 ) * 120; // because 100px wasn't wide enough?
     }
 }
 
@@ -407,11 +409,11 @@ class cNav_bar {
         if (!$this->have_run_init) {
             $this->init();
         }
-            
+
         $ret_val .= '<a name="'.$this->anchor.'"></a>';
         $ret_val .= $this->display_pre();
         $ret_val .= '<b>'.$this->title.'</b>&nbsp;&nbsp;';
-        
+
         $highlight_at = 0;
 
         if ($this->limit >= $this->page_size) {
