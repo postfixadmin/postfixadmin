@@ -1,6 +1,7 @@
 <?php
 
-class AliasHandlerTest extends \PHPUnit\Framework\TestCase {
+class AliasHandlerTest extends \PHPUnit\Framework\TestCase
+{
     protected function setUp(): void {
         // Fake being an admin.
         $_SESSION = [

@@ -7,7 +7,8 @@
 
 require_once('RemoteTest.php');
 
-class RemoteVacationTest extends RemoteTest {
+class RemoteVacationTest extends RemoteTest
+{
 
 
     /**

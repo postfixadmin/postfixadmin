@@ -4,7 +4,8 @@
 /**
  * Handler for fetchmail jobs
  */
-class FetchmailHandler extends PFAHandler {
+class FetchmailHandler extends PFAHandler
+{
     protected $db_table = 'fetchmail';
     protected $id_field = 'id';
     protected $domain_field = 'domain';

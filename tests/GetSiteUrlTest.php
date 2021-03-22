@@ -1,6 +1,7 @@
 <?php
 
-class GetSiteUrlTest extends \PHPUnit\Framework\TestCase {
+class GetSiteUrlTest extends \PHPUnit\Framework\TestCase
+{
     public function testControlViaConfig() {
         $server = [];
         $orig = Config::getInstance()->getAll();

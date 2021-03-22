@@ -1,6 +1,7 @@
 <?php
 
-class PasswordValidationCallableTEst extends \PHPUnit\Framework\TestCase {
+class PasswordValidationCallableTEst extends \PHPUnit\Framework\TestCase
+{
     public function setUp(): void {
         $c = Config::getInstance();
 

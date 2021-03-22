@@ -1,6 +1,7 @@
 <?php
 
-class AdminHandlerTest extends \PHPUnit\Framework\TestCase {
+class AdminHandlerTest extends \PHPUnit\Framework\TestCase
+{
     public function setUp() : void {
         parent::setUp();
 

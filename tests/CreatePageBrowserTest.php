@@ -1,6 +1,7 @@
 <?php
 
-class CreatePageBrowserTest extends \PHPUnit\Framework\TestCase {
+class CreatePageBrowserTest extends \PHPUnit\Framework\TestCase
+{
     public function tearDown() : void {
         $this->cleanup();
     }

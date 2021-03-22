@@ -1,7 +1,8 @@
 <?php
 # $Id$
 
-class AdminHandler extends PFAHandler {
+class AdminHandler extends PFAHandler
+{
     protected $db_table = 'admin';
     protected $id_field = 'username';
 

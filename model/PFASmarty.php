@@ -3,7 +3,8 @@
 /**
  * Turn on sanitisation of all data by default so it's not possible for XSS flaws to occur in PFA
  */
-class PFASmarty {
+class PFASmarty
+{
     public static $instance = null;
     /**
      * @var Smarty

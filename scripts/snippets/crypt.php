@@ -1,6 +1,7 @@
 <?php
 
-class Crypt {
+class Crypt
+{
 
   /**
    * @access private

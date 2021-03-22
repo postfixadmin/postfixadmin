@@ -1,6 +1,7 @@
 <?php
 
-class ConfigTest extends \PHPUnit\Framework\TestCase {
+class ConfigTest extends \PHPUnit\Framework\TestCase
+{
     public function setUp() : void {
         $c = Config::getInstance();
 

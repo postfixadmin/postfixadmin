@@ -6,7 +6,8 @@
  *
  * extends the "Shell" class
  */
-class CliEdit extends Shell {
+class CliEdit extends Shell
+{
     public $handler_to_use = "";
     public $new = 0;
 

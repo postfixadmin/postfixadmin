@@ -4,7 +4,8 @@
  * class to handle 'delete' in Cli
  */
 
-class CliDelete extends Shell {
+class CliDelete extends Shell
+{
 
     /**
      * Execution method always used for tasks

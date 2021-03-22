@@ -6,7 +6,8 @@
  * extends the "Shell" class
  */
 
-class CliScheme extends Shell {
+class CliScheme extends Shell
+{
     public $handler_to_use = "";
     public $new = 0;
 

@@ -1,6 +1,7 @@
 <?php
 
-class Login {
+class Login
+{
     private $key_table;
     private $table;
 

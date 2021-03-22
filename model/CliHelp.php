@@ -1,7 +1,8 @@
 <?php
 # $Id$
 
-class CliHelp extends Shell {
+class CliHelp extends Shell
+{
     public $handler_to_use = "__not_set__";
 
     /**

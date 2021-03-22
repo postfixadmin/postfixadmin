@@ -1,6 +1,7 @@
 <?php
 
-class GeneratePasswordTest extends \PHPUnit\Framework\TestCase {
+class GeneratePasswordTest extends \PHPUnit\Framework\TestCase
+{
     public function testBasic() {
         $one = generate_password();
 

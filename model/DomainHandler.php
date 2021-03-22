@@ -4,7 +4,8 @@
 /**
  * Handlers User level alias actions - e.g. add alias, get aliases, update etc.
  */
-class DomainHandler extends PFAHandler {
+class DomainHandler extends PFAHandler
+{
     protected $db_table = 'domain';
     protected $id_field = 'domain';
     protected $domain_field = 'domain';

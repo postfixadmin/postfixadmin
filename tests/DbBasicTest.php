@@ -1,6 +1,7 @@
 <?php
 
-class DbBasicTest extends \PHPUnit\Framework\TestCase {
+class DbBasicTest extends \PHPUnit\Framework\TestCase
+{
     private $test_domain;
 
     public function setUp() : void {

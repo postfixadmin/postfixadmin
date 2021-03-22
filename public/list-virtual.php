@@ -348,7 +348,8 @@ for ($i = 0; $i < sizeof($tMailbox); $i++) {
 
 
 
-class cNav_bar {
+class cNav_bar
+{
     protected $count;
     protected $title;
     protected $limit;

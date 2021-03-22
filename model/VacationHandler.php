@@ -1,7 +1,8 @@
 <?php
 # $Id$
 
-class VacationHandler extends PFAHandler {
+class VacationHandler extends PFAHandler
+{
 
     /**
      * @var string

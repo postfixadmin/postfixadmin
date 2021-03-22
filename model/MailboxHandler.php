@@ -4,7 +4,8 @@
 /**
  * Simple class to represent a user.
  */
-class MailboxHandler extends PFAHandler {
+class MailboxHandler extends PFAHandler
+{
     protected $db_table = 'mailbox';
     protected $id_field = 'username';
     protected $domain_field = 'domain';

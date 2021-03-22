@@ -1,6 +1,7 @@
 <?php
 
-class LoginTest extends \PHPUnit\Framework\TestCase {
+class LoginTest extends \PHPUnit\Framework\TestCase
+{
     public function setUp(): void {
         global $CONF;
 

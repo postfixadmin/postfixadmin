@@ -66,7 +66,8 @@ if (!isset($_SESSION['authenticated'])) {
 echo $server->handle();
 
 
-class UserProxy {
+class UserProxy
+{
 
     /**
      * @param string $old_password
@@ -105,7 +106,8 @@ class UserProxy {
     }
 }
 
-class VacationProxy {
+class VacationProxy
+{
     /**
      * @return boolean true if the vacation is removed successfully. Else false.
      */
@@ -154,7 +156,8 @@ class VacationProxy {
     }
 }
 
-class AliasProxy {
+class AliasProxy
+{
     /**
      * @return array - array of aliases this user has. Array may be empty.
      */

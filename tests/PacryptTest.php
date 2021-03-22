@@ -1,6 +1,7 @@
 <?php
 
-class PaCryptTest extends \PHPUnit\Framework\TestCase {
+class PaCryptTest extends \PHPUnit\Framework\TestCase
+{
     public function testMd5Crypt() {
         $hash = _pacrypt_md5crypt('test', '');
 

@@ -3,7 +3,8 @@
 
 # This class is too static - if you inherit a class from it, it will share the static $instance and all its contents
 # Therefore the class is marked as final to prevent someone accidently does this ;-)
-final class Config {
+final class Config
+{
     private static $instance = null;
 
     /**

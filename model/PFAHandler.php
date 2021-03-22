@@ -1,5 +1,6 @@
 <?php
-abstract class PFAHandler {
+abstract class PFAHandler
+{
 
     /**
      * public variables

@@ -7,7 +7,8 @@
 
 require_once('RemoteTest.php');
 
-class RemoteAliasTest extends RemoteTest {
+class RemoteAliasTest extends RemoteTest
+{
     public function __construct() {
         parent::__construct();
         global $CONF;

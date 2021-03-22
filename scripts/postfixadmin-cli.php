@@ -33,7 +33,8 @@
  */
 
 
-class PostfixAdmin {
+class PostfixAdmin
+{
     /**
      * Version
      *

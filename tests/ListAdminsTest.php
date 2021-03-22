@@ -1,6 +1,7 @@
 <?php
 
-class ListAdminsTest extends \PHPUnit\Framework\TestCase {
+class ListAdminsTest extends \PHPUnit\Framework\TestCase
+{
     public function testBasic() {
         $list= list_admins();
 

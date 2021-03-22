@@ -1,6 +1,7 @@
 <?php
 
-class AdminpasswordHandlerTest extends \PHPUnit\Framework\TestCase {
+class AdminpasswordHandlerTest extends \PHPUnit\Framework\TestCase
+{
     public function testBasic() {
         $x = new AdminpasswordHandler();
 

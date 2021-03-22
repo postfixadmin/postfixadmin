@@ -9,7 +9,8 @@ define('LM_HASH_SIZE', 16);
 define('NTLMSSP_HASH_SIZE', 16);
 
 
-class DovecotCrypt extends Crypt {
+class DovecotCrypt extends Crypt
+{
     private $errormsg = [];
 
     private $salt_chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

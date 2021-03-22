@@ -1,6 +1,7 @@
 <?php
 
-class ListDomainsTest extends \PHPUnit\Framework\TestCase {
+class ListDomainsTest extends \PHPUnit\Framework\TestCase
+{
     public function testBasic() {
         $domains = list_domains();
 
