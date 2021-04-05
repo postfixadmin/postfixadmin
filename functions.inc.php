@@ -1901,7 +1901,7 @@ function db_delete($table, $where, $delete, $additionalwhere='') {
  * @param boolean $throw_exceptions
  * @return int - number of inserted rows
  */
-function db_insert($table, array $values, $timestamp = array('created', 'modified'), $throw_exceptions = false) {
+function db_insert(string $table, array $values, array $timestamp = array('created', 'modified'), bool $throw_exceptions = false) : int {
     $table = table_by_key($table);
 
     foreach ($timestamp as $key) {
@@ -1925,7 +1925,6 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
         }
         $comma = ',';
     }
-
 
     return db_execute(
         "INSERT INTO $table (" . implode(",", array_keys($values)) .") VALUES ($value_string)",
