@@ -173,6 +173,9 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
                 $this->assertEquals(123456, $details['quota']);
                 $this->assertEquals('test person 1234', $details['name']);
 
+                $this->assertNotEmpty($details['_modified']);
+                $this->assertNotEmpty($details['_created']);
+
                 $this->assertNotEquals($details['_modified'], $details['_created']);
 
                 $found = true;
