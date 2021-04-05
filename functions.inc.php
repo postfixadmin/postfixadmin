@@ -1945,14 +1945,19 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
  * @param array $timestamp (optional) - array of fields to set to now() - default: array('modified')
  * @return int - number of updated rows
  */
-function db_update($table, $where_col, $where_value, $values, $timestamp = array('modified'), $throw_exceptions = false) {
+function db_update(string $table, string $where_col, string $where_value, array $values, array $timestamp = array('modified'), bool $throw_exceptions = false):int {
     $table_key = table_by_key($table);
-
-    $sql = "UPDATE $table_key SET ";
 
     $pvalues = array();
 
     $set = array();
+
+    foreach($timestamp as $k) {
+        if(!isset($values[$k])) {
+            $values[$k] = 'x'; // timestamp field not in the values list, add it in so we set it to now() see #469
+        }
+    }
+
     foreach ($values as $key => $value) {
         if (in_array($key, $timestamp)) {
             if (db_sqlite()) {
@@ -1960,10 +1965,12 @@ function db_update($table, $where_col, $where_value, $values, $timestamp = array
             } else {
                 $set[] = " $key = now() ";
             }
-        } else {
-            $set[] = " $key = :$key ";
-            $pvalues[$key] = $value;
+            continue;
         }
+
+        $set[] = " $key = :$key ";
+        $pvalues[$key] = $value;
+
     }
 
     $pvalues['where'] = $where_value;
