@@ -115,7 +115,6 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         $x->save();
 
         $x->getList('');
-
         $list = $x->result();
 
         $this->assertEquals(1, count($list), json_encode($x->errormsg));
@@ -127,6 +126,11 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
                 $this->assertEquals('example.com', $details['domain']);
                 $this->assertEquals('david.test@example.com', $details['username']);
                 $this->assertEquals('test person', $details['name']);
+
+                $this->assertNotEmpty($details['_modified']);
+                $this->assertNotEmpty($details['_created']);
+
+                $this->assertEquals($details['_modified'], $details['_created']); // new data should have them equal.
                 $found = true;
                 break;
             }
@@ -134,6 +138,8 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertTrue($found, "check output : " . json_encode($list));
 
+        // need to make updated != created.
+        sleep(1);
 
         // Try and edit.
 
@@ -150,7 +156,7 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
             'username' => 'david.test@example.com'
         ]);
 
-        $this->assertEmpty($h->errormsg, json_Encode($h->errormsg));
+        $this->assertEmpty($h->errormsg, json_encode($h->errormsg));
         $this->assertEmpty($h->infomsg);
         $this->assertTrue($r);
         $this->assertTrue($h->save());
@@ -166,6 +172,9 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
                 $this->assertEquals('david.test@example.com', $details['username']);
                 $this->assertEquals(123456, $details['quota']);
                 $this->assertEquals('test person 1234', $details['name']);
+
+                $this->assertNotEquals($details['_modified'], $details['_created']);
+
                 $found = true;
                 break;
             }
