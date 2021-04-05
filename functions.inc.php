@@ -1951,8 +1951,8 @@ function db_update(string $table, string $where_col, string $where_value, array 
 
     $set = array();
 
-    foreach($timestamp as $k) {
-        if(!isset($values[$k])) {
+    foreach ($timestamp as $k) {
+        if (!isset($values[$k])) {
             $values[$k] = 'x'; // timestamp field not in the values list, add it in so we set it to now() see #469
         }
     }
@@ -1969,7 +1969,6 @@ function db_update(string $table, string $where_col, string $where_value, array 
 
         $set[] = " $key = :$key ";
         $pvalues[$key] = $value;
-
     }
 
     $pvalues['where'] = $where_value;
