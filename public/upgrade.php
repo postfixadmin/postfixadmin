@@ -1935,3 +1935,12 @@ function upgrade_1843() {
     # Additional field for fetchmail to allow server with non-standard port number
     _db_add_field('fetchmail', 'src_port', "{INT}", 'src_server');
 }
+
+
+/**
+ * @return void
+ */
+function upgrade_1844() {
+    # See:https://github.com/postfixadmin/postfixadmin/issues/475 - add pkey to domain_admins.
+    _db_add_field('domain_admins', 'id', '{AUTOINCREMENT} {PRIMARY}');
+}
