@@ -2,7 +2,8 @@
 
 class FetchmailHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testBasic() {
+    public function testBasic()
+    {
         $x = new FetchmailHandler();
 
         $list = $x->getList("");

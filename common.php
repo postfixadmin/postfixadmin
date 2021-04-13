@@ -36,7 +36,8 @@ $incpath = dirname(__FILE__);
  * @param string $class
  * __autoload implementation, for use with spl_autoload_register().
  */
-function postfixadmin_autoload($class) {
+function postfixadmin_autoload($class)
+{
     $PATH = dirname(__FILE__) . '/model/' . $class . '.php';
 
     if (is_file($PATH)) {

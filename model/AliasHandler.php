@@ -17,7 +17,8 @@ class AliasHandler extends PFAHandler
      */
     public $return = null;
 
-    protected function initStruct() {
+    protected function initStruct()
+    {
         # hide 'goto_mailbox' if $this->new
         # (for existing aliases, init() hides it for non-mailbox aliases)
         $mbgoto = 1 - $this->new;
@@ -69,7 +70,8 @@ class AliasHandler extends PFAHandler
      * When using this function to optimize the is_mailbox extrafrom, don't forget to reset it to the default value
      * (all domains for this admin) afterwards.
      */
-    private function set_is_mailbox_extrafrom($condition=array(), $searchmode=array()) {
+    private function set_is_mailbox_extrafrom($condition=array(), $searchmode=array())
+    {
         $extrafrom = 'LEFT JOIN ( ' .
             ' SELECT 1 as __is_mailbox, username as __mailbox_username ' .
             ' FROM ' . table_by_key('mailbox') .
@@ -89,7 +91,8 @@ class AliasHandler extends PFAHandler
     }
 
 
-    protected function initMsg() {
+    protected function initMsg()
+    {
         $this->msg['error_already_exists'] = 'email_address_already_exists';
         $this->msg['error_does_not_exist'] = 'alias_does_not_exist';
         $this->msg['confirm_delete'] = 'confirm_delete_alias';
@@ -107,7 +110,8 @@ class AliasHandler extends PFAHandler
     }
 
 
-    public function webformConfig() {
+    public function webformConfig()
+    {
         if ($this->new) { # the webform will display a localpart field + domain dropdown on $new
             $this->struct['address']['display_in_form'] = 0;
             $this->struct['localpart']['display_in_form'] = 1;
@@ -137,7 +141,8 @@ class AliasHandler extends PFAHandler
      * AliasHandler needs some special handling in init() and therefore overloads the function.
      * It also calls parent::init()
      */
-    public function init(string $id) : bool {
+    public function init(string $id) : bool
+    {
         $bits = explode('@', $id);
         if (sizeof($bits) == 2) {
             $local_part = $bits[0];
@@ -175,12 +180,14 @@ class AliasHandler extends PFAHandler
         return $retval;
     }
 
-    protected function domain_from_id() {
+    protected function domain_from_id()
+    {
         list(/*NULL*/, $domain) = explode('@', $this->id);
         return $domain;
     }
 
-    protected function validate_new_id() {
+    protected function validate_new_id()
+    {
         if ($this->id == '') {
             $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error1');
             return false;
@@ -217,7 +224,8 @@ class AliasHandler extends PFAHandler
     /**
      * check number of existing aliases for this domain - is one more allowed?
      */
-    private function create_allowed($domain) {
+    private function create_allowed($domain)
+    {
         if ($this->called_by == 'MailboxHandler') {
             return true;
         } # always allow creating an alias for a mailbox
@@ -241,7 +249,8 @@ class AliasHandler extends PFAHandler
      * merge localpart and domain to address
      * called by edit.php (if id_field is editable and hidden in editform) _before_ ->init
      */
-    public function mergeId($values) {
+    public function mergeId($values)
+    {
         if ($this->struct['localpart']['display_in_form'] == 1 && $this->struct['domain']['display_in_form']) { # webform mode - combine to 'address' field
             if (empty($values['localpart']) || empty($values['domain'])) { # localpart or domain not set
                 return "";
@@ -255,7 +264,8 @@ class AliasHandler extends PFAHandler
         }
     }
 
-    protected function setmore(array $values) {
+    protected function setmore(array $values)
+    {
         if ($this->new) {
             if ($this->struct['address']['display_in_form'] == 1) { # default mode - split off 'domain' field from 'address' # TODO: do this unconditional?
                 list(/*NULL*/, $domain) = explode('@', $values['address']);
@@ -304,12 +314,14 @@ class AliasHandler extends PFAHandler
         $this->values['goto'] = join(',', $values['goto']);
     }
 
-    protected function postSave() : bool {
+    protected function postSave() : bool
+    {
         # TODO: if alias belongs to a mailbox, update mailbox active status
         return true;
     }
 
-    protected function read_from_db_postprocess($db_result) {
+    protected function read_from_db_postprocess($db_result)
+    {
         foreach ($db_result as $key => $value) {
             # split comma-separated 'goto' into an array
             $goto = $db_result[$key]['goto'] ?? null;
@@ -344,7 +356,8 @@ class AliasHandler extends PFAHandler
         return $db_result;
     }
 
-    private function condition_ignore_mailboxes($condition, $searchmode) {
+    private function condition_ignore_mailboxes($condition, $searchmode)
+    {
         # only list aliases that do not belong to mailboxes
         if (is_array($condition)) {
             $condition['__mailbox_username'] = 1;
@@ -358,7 +371,8 @@ class AliasHandler extends PFAHandler
         return array($condition, $searchmode);
     }
 
-    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) : bool {
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) : bool
+    {
         list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
         $this->set_is_mailbox_extrafrom($condition, $searchmode);
         $result = parent::getList($condition, $searchmode, $limit, $offset);
@@ -366,7 +380,8 @@ class AliasHandler extends PFAHandler
         return $result;
     }
 
-    public function getPagebrowser($condition, $searchmode = array()) {
+    public function getPagebrowser($condition, $searchmode = array())
+    {
         list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
         $this->set_is_mailbox_extrafrom($condition, $searchmode);
         $result = parent::getPagebrowser($condition, $searchmode);
@@ -376,7 +391,8 @@ class AliasHandler extends PFAHandler
 
 
 
-    protected function _validate_goto($field, $val) {
+    protected function _validate_goto($field, $val)
+    {
         if (count($val) == 0) {
             # empty is ok for mailboxes - this is checked in setmore() which can clear the error message
             $this->errormsg[$field] = Config::lang('pEdit_alias_goto_text_error1');
@@ -420,7 +436,8 @@ class AliasHandler extends PFAHandler
     /**
      * on $this->new, set localpart based on address
      */
-    protected function _missing_localpart($field) {
+    protected function _missing_localpart($field)
+    {
         if (isset($this->RAWvalues['address'])) {
             $parts = explode('@', $this->RAWvalues['address']);
             if (count($parts) == 2) {
@@ -432,7 +449,8 @@ class AliasHandler extends PFAHandler
     /**
      * on $this->new, set domain based on address
      */
-    protected function _missing_domain($field) {
+    protected function _missing_domain($field)
+    {
         if (isset($this->RAWvalues['address'])) {
             $parts = explode('@', $this->RAWvalues['address']);
             if (count($parts) == 2) {
@@ -449,7 +467,8 @@ class AliasHandler extends PFAHandler
     *
     * @return string an email alias.
     */
-    protected function getVacationAlias() {
+    protected function getVacationAlias()
+    {
         $vacation_goto = str_replace('@', '#', $this->id);
         return $vacation_goto . '@' . Config::read_string('vacation_domain');
     }
@@ -457,7 +476,8 @@ class AliasHandler extends PFAHandler
     /**
      *  @return boolean
      */
-    public function delete() {
+    public function delete()
+    {
         if (! $this->view()) {
             $this->errormsg[] = Config::Lang('alias_does_not_exist');
             return false;

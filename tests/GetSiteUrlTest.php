@@ -2,7 +2,8 @@
 
 class GetSiteUrlTest extends \PHPUnit\Framework\TestCase
 {
-    public function testControlViaConfig() {
+    public function testControlViaConfig()
+    {
         $server = [];
         $orig = Config::getInstance()->getAll();
         $orig['site_url'] = 'https://example.com/postfixadmin-1.2.3.4/';
@@ -11,7 +12,8 @@ class GetSiteUrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('https://example.com/postfixadmin-1.2.3.4/', getSiteUrl($server));
     }
 
-    public function testViaDiscovery() {
+    public function testViaDiscovery()
+    {
         $server = [
             'HTTP_HOST' => 'example.org',
             'REQUEST_SCHEME' => 'https',
@@ -25,7 +27,8 @@ class GetSiteUrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('https://example.org/postfixadmin-1.2.3.4/', getSiteUrl($server));
     }
 
-    public function testViaDiscoveryNoPrefix() {
+    public function testViaDiscoveryNoPrefix()
+    {
         $server = [
             'HTTP_HOST' => 'example.org',
             'REQUEST_SCHEME' => 'https',
@@ -39,7 +42,8 @@ class GetSiteUrlTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('https://example.org/', getSiteUrl($server));
     }
 
-    public function testViaDiscoveryhttp() {
+    public function testViaDiscoveryhttp()
+    {
         $server = [
             'HTTP_HOST' => 'example.org',
             'REQUEST_SCHEME' => 'http',

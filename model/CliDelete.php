@@ -10,7 +10,8 @@ class CliDelete extends Shell
     /**
      * Execution method always used for tasks
      */
-    public function execute() {
+    public function execute()
+    {
         if (empty($this->args)) {
             return $this->__interactive();
         }
@@ -23,7 +24,8 @@ class CliDelete extends Shell
     /**
      * Interactive mode
      */
-    protected function __interactive() {
+    protected function __interactive()
+    {
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
 
@@ -43,7 +45,8 @@ class CliDelete extends Shell
     *
     * @param string address to delete
     */
-    protected function __handle($address) {
+    protected function __handle($address)
+    {
         $handler =  new $this->handler_to_use($this->new);
 
         if (!$handler->init($address)) {
@@ -64,7 +67,8 @@ class CliDelete extends Shell
     *
     * @access public
     */
-    public function help() {
+    public function help()
+    {
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
 

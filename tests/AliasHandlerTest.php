@@ -2,7 +2,8 @@
 
 class AliasHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
         // Fake being an admin.
         $_SESSION = [
             'sessid' => [
@@ -12,7 +13,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
     }
 
-    protected function tearDown(): void {
+    protected function tearDown(): void
+    {
         $_SESSION = [];
         db_query('DELETE FROM alias');
         db_query('DELETE FROM domain_admins');
@@ -21,7 +23,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         parent::tearDown();
     }
 
-    public function testBasic() {
+    public function testBasic()
+    {
         $x = new AliasHandler();
         $list = $x->getList("");
         $this->assertTrue($list);
@@ -30,7 +33,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    public function testCannotAddAliasUntilDomainIsThere() {
+    public function testCannotAddAliasUntilDomainIsThere()
+    {
 
         // Fake us being an admin.
 
@@ -64,7 +68,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
     /**
      * @see https://github.com/postfixadmin/postfixadmin/pull/375 and https://github.com/postfixadmin/postfixadmin/issues/358
      */
-    public function testCannotAddAliasThatPointsToItself() {
+    public function testCannotAddAliasThatPointsToItself()
+    {
         // Fake being an admin.
         $_SESSION = [
             'sessid' => [
@@ -147,7 +152,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
             ], $x->errormsg);
     }
 
-    public function testAddingDataEtc() {
+    public function testAddingDataEtc()
+    {
 
         // Fake being an admin.
         $_SESSION = [
@@ -200,7 +206,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    private function addDomain(string $domain, string $username): void {
+    private function addDomain(string $domain, string $username): void
+    {
         // Fake being an admin.
         $_SESSION = [
             'sessid' => [
@@ -259,7 +266,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testYouCannotAddMoreAliasesThanTheDomainLimit() {
+    public function testYouCannotAddMoreAliasesThanTheDomainLimit()
+    {
         $this->addDomain('example.com', 'admin');
 
         // default limit is 11 aliases.... so it should exit once we get past that.
@@ -326,7 +334,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    public function testLoadsOfAliasesGetHandledByPager() {
+    public function testLoadsOfAliasesGetHandledByPager()
+    {
         $this->addDomain('example.com', 'admin');
 
         // default limit is 11 aliases.... so it should exit once we get past that.

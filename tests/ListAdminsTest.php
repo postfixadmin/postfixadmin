@@ -2,7 +2,8 @@
 
 class ListAdminsTest extends \PHPUnit\Framework\TestCase
 {
-    public function testBasic() {
+    public function testBasic()
+    {
         $list= list_admins();
 
         // may be empty, depending on db.

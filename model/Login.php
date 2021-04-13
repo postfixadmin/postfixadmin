@@ -5,7 +5,8 @@ class Login
     private $key_table;
     private $table;
 
-    public function __construct(string $tableName) {
+    public function __construct(string $tableName)
+    {
         $ok = ['mailbox', 'admin'];
 
         if (!in_array($tableName, $ok)) {
@@ -22,7 +23,8 @@ class Login
      * @param string $password
      * @return boolean true on successful login (i.e. password matches etc)
      */
-    public function login($username, $password): bool {
+    public function login($username, $password): bool
+    {
         $active = db_get_boolean(true);
         $query = "SELECT password FROM {$this->key_table} WHERE username = :username AND active = :active";
 
@@ -62,7 +64,8 @@ class Login
      * @return false|string
      * @throws Exception
      */
-    public function generatePasswordRecoveryCode(string $username) {
+    public function generatePasswordRecoveryCode(string $username)
+    {
         $sql = "SELECT count(1) FROM {$this->key_table} WHERE username = :username AND active = :active";
 
         $active = db_get_boolean(true);
@@ -100,7 +103,8 @@ class Login
      * @return boolean true on success; false on failure
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function changePassword($username, $new_password, $old_password): bool {
+    public function changePassword($username, $new_password, $old_password): bool
+    {
         list(/*NULL*/, $domain) = explode('@', $username);
 
         if (!$this->login($username, $old_password)) {

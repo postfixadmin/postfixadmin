@@ -10,11 +10,13 @@ class CliHelp extends Shell
      *
      * @access public
      */
-    public function execute() {
+    public function execute()
+    {
         $this->help();
     }
 
-    public function help() {
+    public function help()
+    {
         $handler = new $this->handler_to_use;
         # TODO: adjust help text according to $handler->taskNames
 

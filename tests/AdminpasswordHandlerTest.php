@@ -2,7 +2,8 @@
 
 class AdminpasswordHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testBasic() {
+    public function testBasic()
+    {
         $x = new AdminpasswordHandler();
 
         $list = $x->getList("");

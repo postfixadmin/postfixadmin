@@ -6,7 +6,8 @@ class AdminHandler extends PFAHandler
     protected $db_table = 'admin';
     protected $id_field = 'username';
 
-    protected function validate_new_id() {
+    protected function validate_new_id()
+    {
         $email_check = check_email($this->id);
 
         if ($email_check == '') {
@@ -18,12 +19,14 @@ class AdminHandler extends PFAHandler
         }
     }
 
-    protected function no_domain_field() {
+    protected function no_domain_field()
+    {
         # PFAHandler die()s if domain field is not set. Disable this behaviour for AdminHandler.
     }
 
     # init $this->struct, $this->db_table and $this->id_field
-    protected function initStruct() {
+    protected function initStruct()
+    {
         # NOTE: There are dependencies between domains and domain_count
         # NOTE: If you disable "display in list" for domain_count, the SQL query for domains might break.
         # NOTE: (Disabling both shouldn't be a problem.)
@@ -90,7 +93,8 @@ class AdminHandler extends PFAHandler
         );
     }
 
-    protected function initMsg() {
+    protected function initMsg()
+    {
         $this->msg['error_already_exists'] = 'admin_already_exists';
         $this->msg['error_does_not_exist'] = 'admin_does_not_exist';
         $this->msg['confirm_delete'] = 'confirm_delete_admin';
@@ -106,7 +110,8 @@ class AdminHandler extends PFAHandler
         }
     }
 
-    public function webformConfig() {
+    public function webformConfig()
+    {
         return array(
             # $PALANG labels
             'formtitle_create' => 'pAdminCreate_admin_welcome',
@@ -124,7 +129,8 @@ class AdminHandler extends PFAHandler
      * called by $this->store() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.
      */
-    protected function postSave() : bool {
+    protected function postSave() : bool
+    {
         # store list of allowed domains in the domain_admins table
         if (isset($this->values['domains'])) {
             if (is_array($this->values['domains'])) {
@@ -168,7 +174,8 @@ class AdminHandler extends PFAHandler
         return true; # TODO: don't hardcode
     }
 
-    protected function read_from_db_postprocess($db_result) {
+    protected function read_from_db_postprocess($db_result)
+    {
         foreach ($db_result as $key => $row) {
             # convert 'domains' field to an array
             if ($row['domains'] == '') {
@@ -186,7 +193,8 @@ class AdminHandler extends PFAHandler
     /**
      *  @return bool
      */
-    public function delete() {
+    public function delete()
+    {
         if (! $this->view()) {
             $this->errormsg[] = Config::Lang($this->msg['error_does_not_exist']);
             return false;
@@ -208,7 +216,8 @@ class AdminHandler extends PFAHandler
      * compare password / password2 field
      * error message will be displayed at the password2 field
      */
-    protected function _validate_password2($field, $val) {
+    protected function _validate_password2($field, $val)
+    {
         return $this->compare_password_fields('password', 'password2');
     }
 }

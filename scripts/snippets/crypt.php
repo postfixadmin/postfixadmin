@@ -16,18 +16,21 @@ class Crypt
     protected $size;
 
   
-    public function __construct($plaintext) {
+    public function __construct($plaintext)
+    {
         $this->plain = $plaintext;
     }
   
     /**
      * @return bool
      */
-    public function crypt($algorithm) {
+    public function crypt($algorithm)
+    {
         return true;
     }
 
-    public function get() {
+    public function get()
+    {
         return $this->password;
     }
 }

@@ -2,7 +2,8 @@
 
 class ListDomainsForAdminTest extends \PHPUnit\Framework\TestCase
 {
-    public function testBasic() {
+    public function testBasic()
+    {
         $this->assertEquals([], list_domains_for_admin('test@test.com'));
     }
 }

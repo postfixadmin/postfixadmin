@@ -13,7 +13,8 @@ abstract class RemoteTest extends \PHPUnit\Framework\TestCase
 
     protected $xmlrpc_client;
 
-    public function setUp() : void {
+    public function setUp() : void
+    {
         parent::setUp();
 
         if ($this->server_url == 'http://change.me/to/work') {

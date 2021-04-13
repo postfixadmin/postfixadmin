@@ -2,16 +2,19 @@
 
 class CreatePageBrowserTest extends \PHPUnit\Framework\TestCase
 {
-    public function tearDown() : void {
+    public function tearDown() : void
+    {
         $this->cleanup();
     }
 
-    private function cleanup() {
+    private function cleanup()
+    {
         db_query('DELETE FROM mailbox WHERE domain = :domain', array('domain' => 'example.com'));
         db_query('DELETE FROM domain WHERE domain = :domain', array('domain' => 'example.com'));
     }
 
-    public function testBasic() {
+    public function testBasic()
+    {
         global $CONF;
         $CONF['page_size'] = 10;
 

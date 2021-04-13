@@ -2,7 +2,8 @@
 
 class ValidatePasswordTest extends \PHPUnit\Framework\TestCase
 {
-    public function testBasic() {
+    public function testBasic()
+    {
         $config = Config::getInstance();
 
         // Set to the defaults, just to make sure.

@@ -44,7 +44,8 @@ if ($context === 'admin' && !Config::read('forgotten_admin_password_reset') ||
     die('Password reset is disabled by configuration option: forgotten_admin_password_reset or mailbox_postpassword_script');
 }
 
-function sendCodebyEmail($to, $username, $code) {
+function sendCodebyEmail($to, $username, $code)
+{
     $url = getSiteUrl($_SERVER) . 'password-change.php?username=' . urlencode($username) . '&code=' . $code;
 
     return smtp_mail($to,
@@ -54,7 +55,8 @@ function sendCodebyEmail($to, $username, $code) {
         Config::lang_f('pPassword_recovery_email_body', $url));
 }
 
-function sendCodebySMS($to, $username, $code) {
+function sendCodebySMS($to, $username, $code)
+{
     $text = Config::lang_f('pPassword_recovery_sms_body', $code);
 
     $function = Config::read('sms_send_function');

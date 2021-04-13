@@ -167,7 +167,8 @@ abstract class PFAHandler
      * @param string $username - if an admin_username is specified, permissions will be restricted to the domains this admin may manage
      * @param int $is_admin - 0 if logged in as user, 1 if logged in as admin or superadmin
      */
-    public function __construct($new = 0, $username = "", $is_admin = 1) {
+    public function __construct($new = 0, $username = "", $is_admin = 1)
+    {
         # set label_field if not explicitely set
         if (empty($this->id_field)) {
             throw new \InvalidArgumentException("id_field must be defined");
@@ -253,7 +254,8 @@ abstract class PFAHandler
      *
      * to intentionally disable the check if $this->domain_field is empty, override this function
      */
-    protected function no_domain_field() {
+    protected function no_domain_field()
+    {
         if ($this->admin_username != "") {
             die('Attemp to restrict domains without setting $this->domain_field!');
         }
@@ -264,7 +266,8 @@ abstract class PFAHandler
      *
      * to intentionally disable the check if $this->user_field is empty, override this function
      */
-    protected function no_user_field() {
+    protected function no_user_field()
+    {
         if ($this->username != '') {
             die('Attemp to restrict users without setting $this->user_field!');
         }
@@ -330,7 +333,8 @@ abstract class PFAHandler
      *
      * @param string calling class
      */
-    public function calledBy($calling_class) {
+    public function calledBy($calling_class)
+    {
         $this->called_by = $calling_class;
     }
 
@@ -338,7 +342,8 @@ abstract class PFAHandler
      * initialize with $id and check if it is valid
      * @param string $id
      */
-    public function init(string $id) : bool {
+    public function init(string $id) : bool
+    {
 
         // postfix treats address lookups (aliases, mailboxes) as if they were lowercase.
         // MySQL is normally case insenstive, PostgreSQL is case sensitive.
@@ -388,7 +393,8 @@ abstract class PFAHandler
      * must be overridden if $id_field != $domain_field
      * @return string the domain to use for logging
      */
-    protected function domain_from_id() {
+    protected function domain_from_id()
+    {
         if ($this->id_field == $this->domain_field) {
             return $this->id;
         } elseif ($this->domain_field == "") {
@@ -404,7 +410,8 @@ abstract class PFAHandler
      * @param string $field - field
      * @param string $val - prefill value
      */
-    public function prefill($field, $val) {
+    public function prefill($field, $val)
+    {
         $func="_prefill_".$field;
         if (method_exists($this, $func)) {
             $this->{$func}($field, $val); # call _missing_$fieldname()
@@ -419,7 +426,8 @@ abstract class PFAHandler
      * @return bool - true if all values are valid, otherwise false
      * error messages (if any) are stored in $this->errormsg
      */
-    public function set(array $values) {
+    public function set(array $values)
+    {
         if (!$this->can_edit) {
             $this->errormsg[] = Config::Lang_f('edit_not_allowed', $this->label);
             return false;
@@ -522,7 +530,8 @@ abstract class PFAHandler
      * can be used to update additional columns etc.
      * hint: modify $this->values and $this->errormsg directly as needed
      */
-    protected function setmore(array $values) {
+    protected function setmore(array $values)
+    {
         # do nothing
     }
 
@@ -535,7 +544,8 @@ abstract class PFAHandler
      * @return bool - true if all values were stored in the database, otherwise false
      *     error messages (if any) are stored in $this->errormsg
      */
-    public function save() : bool {
+    public function save() : bool
+    {
         # backwards compability: save() was once (up to 3.2.x) named store(). If a child class still uses the old name, let it override save().
         if (method_exists($this, 'store')) {
             error_log('store() is deprecated, please rename it to save()');
@@ -609,7 +619,8 @@ abstract class PFAHandler
      * called by $this->save() before storing the values in the database
      * @return bool - if false, save() will abort
      */
-    protected function preSave() : bool {
+    protected function preSave() : bool
+    {
         # backwards compability: preSave() was once (up to 3.2.x) named beforestore(). If a child class still uses the old name, let it override preSave().
         # Note: if a child class also has preSave(), it will override this function and obviously also the compability code.
         if (method_exists($this, 'beforestore')) {
@@ -624,7 +635,8 @@ abstract class PFAHandler
      * called by $this->save() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.
      */
-    protected function postSave() : bool {
+    protected function postSave() : bool
+    {
         # backwards compability: postSave() was once (up to 3.2.x) named storemore(). If a child class still uses the old name, let it override postSave().
         # Note: if a child class also has postSave(), it will override this function and obviously also the compability code.
         if (method_exists($this, 'storemore')) {
@@ -648,7 +660,8 @@ abstract class PFAHandler
      * @param array searchmode - operators to use (=, <, >) if $condition is an array. Defaults to = if not specified for a field.
      * @return array - contains query parts
      */
-    protected function build_select_query($condition, $searchmode) {
+    protected function build_select_query($condition, $searchmode)
+    {
         $select_cols = array();
 
         $yes = escape_string(Config::lang('YES'));
@@ -737,7 +750,8 @@ abstract class PFAHandler
      * @param array searchmode - (see build_select_query() for details)
      * @return array - pagebrowser keys ("aa-cz", "de-pf", ...)
      */
-    public function getPagebrowser($condition, $searchmode) {
+    public function getPagebrowser($condition, $searchmode)
+    {
         $queryparts = $this->build_select_query($condition, $searchmode);
         return create_page_browser($this->label_field, $queryparts['from_where_order']);
     }
@@ -756,7 +770,8 @@ abstract class PFAHandler
      * @param int $offset - number of first row to return
      * @return array - rows (as associative array, with the ID as key)
      */
-    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) : array {
+    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) : array
+    {
         $queryparts = $this->build_select_query($condition, $searchmode);
 
         $query = $queryparts['select_cols'] . $queryparts['from_where_order'];
@@ -785,7 +800,8 @@ abstract class PFAHandler
      * @param array $db_result
      * @return array
      */
-    protected function read_from_db_postprocess($db_result) {
+    protected function read_from_db_postprocess($db_result)
+    {
         return $db_result;
     }
 
@@ -797,7 +813,8 @@ abstract class PFAHandler
      * The data is stored in $this->result (as associative array of column => value)
      * error messages (if any) are stored in $this->errormsg
      */
-    public function view($errors=true) {
+    public function view($errors=true)
+    {
         $result = $this->read_from_db(array($this->id_field => $this->id));
         if (count($result) == 1) {
             $this->result = reset($result);
@@ -821,7 +838,8 @@ abstract class PFAHandler
      * @return bool - always true, no need to check ;-) (if $result is not an array, getList die()s)
      * The data is stored in $this->result (as array of rows, each row is an associative array of column => value)
      */
-    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) : bool {
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) : bool
+    {
         if (is_array($condition)) {
             $real_condition = array();
             foreach ($condition as $key => $value) {
@@ -849,7 +867,8 @@ abstract class PFAHandler
      * @param string $token
      * @return boolean true on success (i.e. code matches etc)
      */
-    public function checkPasswordRecoveryCode($username, $token) {
+    public function checkPasswordRecoveryCode($username, $token)
+    {
         $table = table_by_key($this->db_table);
         $active = db_get_boolean(true);
 
@@ -878,22 +897,26 @@ abstract class PFAHandler
     /**************************************************************************
      * functions to read protected variables
      */
-    public function getStruct() {
+    public function getStruct()
+    {
         return $this->struct;
     }
 
-    public function getMsg() {
+    public function getMsg()
+    {
         return $this->msg;
     }
 
-    public function getId_field() {
+    public function getId_field()
+    {
         return $this->id_field;
     }
 
     /**
      * @return mixed return value of previously called method
      */
-    public function result() {
+    public function result()
+    {
         return $this->result;
     }
 
@@ -904,7 +927,8 @@ abstract class PFAHandler
      * @param string $field1 - "password" field
      * @param string $field2 - "repeat password" field
      */
-    protected function compare_password_fields($field1, $field2) {
+    protected function compare_password_fields($field1, $field2)
+    {
         if ($this->RAWvalues[$field1] == $this->RAWvalues[$field2]) {
             unset($this->errormsg[$field2]); # no need to warn about too short etc. passwords - it's enough to display this message at the 'password' field
             return true;
@@ -919,7 +943,8 @@ abstract class PFAHandler
      * @param string $field - fieldname
      * @return void
      */
-    protected function set_default_value($field) {
+    protected function set_default_value($field)
+    {
         if (isset($this->struct[$field]['default'])) {
             $this->RAWvalues[$field] = $this->struct[$field]['default'];
         }
@@ -939,7 +964,8 @@ abstract class PFAHandler
      * @param string $val
      * @return boolean
      */
-    protected function _inp_num($field, $val) {
+    protected function _inp_num($field, $val)
+    {
         $valid = is_numeric($val);
         if ($val < -1) {
             $valid = false;
@@ -957,7 +983,8 @@ abstract class PFAHandler
      * @param string $val
      * @return boolean
      */
-    protected function _inp_bool($field, $val) {
+    protected function _inp_bool($field, $val)
+    {
         if ($val == "0" || $val == "1") {
             return true;
         }
@@ -972,7 +999,8 @@ abstract class PFAHandler
      * @param string $val
      * @return boolean
      */
-    protected function _inp_enum($field, $val) {
+    protected function _inp_enum($field, $val)
+    {
         if (in_array($val, $this->struct[$field]['options'])) {
             return true;
         }
@@ -986,7 +1014,8 @@ abstract class PFAHandler
      * @param string $val
      * @return boolean
      */
-    protected function _inp_enma($field, $val) {
+    protected function _inp_enma($field, $val)
+    {
         if (array_key_exists($val, $this->struct[$field]['options'])) {
             return true;
         }
@@ -1000,7 +1029,8 @@ abstract class PFAHandler
      * @param string $val
      * @return boolean
      */
-    protected function _inp_pass($field, $val) {
+    protected function _inp_pass($field, $val)
+    {
         $validpass = validate_password($val); # returns array of error messages, or empty array on success
 
         if (count($validpass) == 0) {

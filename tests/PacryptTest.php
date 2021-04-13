@@ -2,7 +2,8 @@
 
 class PaCryptTest extends \PHPUnit\Framework\TestCase
 {
-    public function testMd5Crypt() {
+    public function testMd5Crypt()
+    {
         $hash = _pacrypt_md5crypt('test', '');
 
         $this->assertNotEmpty($hash);
@@ -11,7 +12,8 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($hash, _pacrypt_md5crypt('test', $hash));
     }
 
-    public function testCrypt() {
+    public function testCrypt()
+    {
         // E_NOTICE if we pass in '' for the salt
         $hash = _pacrypt_crypt('test', 'sa');
 
@@ -21,7 +23,8 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($hash, _pacrypt_crypt('test', $hash));
     }
 
-    public function testMySQLEncrypt() {
+    public function testMySQLEncrypt()
+    {
         if (!db_mysql()) {
             $this->markTestSkipped('Not using MySQL');
         }
@@ -39,7 +42,8 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue( hash_equals($hash, _pacrypt_mysql_encrypt('test1', $hash) ), "hashes should equal....");
     }
 
-    public function testAuthlib() {
+    public function testAuthlib()
+    {
         global $CONF;
 
         // too many options!
@@ -61,7 +65,8 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testPacryptDovecot() {
+    public function testPacryptDovecot()
+    {
         global $CONF;
         if (!file_exists('/usr/bin/doveadm')) {
             $this->markTestSkipped("No /usr/bin/doveadm");
@@ -84,7 +89,8 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEquals($sha512, _pacrypt_dovecot('foobarbaz', $sha512));
     }
 
-    public function testPhpCrypt() {
+    public function testPhpCrypt()
+    {
         $config = Config::getInstance();
         Config::write('encrypt', 'php_crypt:MD5');
 
@@ -100,7 +106,8 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         $fail = _pacrypt_php_crypt('bar', $expected);
     }
 
-    public function testPhpCryptHandlesPrefixAndOrRounds() {
+    public function testPhpCryptHandlesPrefixAndOrRounds()
+    {
         // try with 1000 rounds
         Config::write('encrypt', 'php_crypt:SHA256:1000');
         $password = 'hello';
@@ -133,7 +140,8 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         $this->assertGreaterThan(20, strlen($enc));
     }
 
-    public function testPhpCryptRandomString() {
+    public function testPhpCryptRandomString()
+    {
         $str1 = _php_crypt_random_string('abcdefg123456789', 2);
         $str2 = _php_crypt_random_string('abcdefg123456789', 2);
         $str3 = _php_crypt_random_string('abcdefg123456789', 2);
@@ -147,7 +155,8 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(strcmp($str1, $str2) == 0 && strcmp($str1, $str3) == 0);
     }
 
-    public function testSha512B64() {
+    public function testSha512B64()
+    {
         $str1 = _pacrypt_sha512_b64('test', '');
         $str2 = _pacrypt_sha512_b64('test', '');
 

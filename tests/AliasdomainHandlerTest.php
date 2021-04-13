@@ -2,7 +2,8 @@
 
 class AliasdomainHandlerTest extends \PHPUnit\Framework\TestCase
 {
-    public function testBasic() {
+    public function testBasic()
+    {
         $x = new AliasdomainHandler();
 
         $list = $x->getList("");

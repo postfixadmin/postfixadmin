@@ -21,7 +21,8 @@ final class Config
      * Return a singleton instance of Config
      * @return Config
      */
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$instance == null) {
             self::$instance = new self();
         }
@@ -35,7 +36,8 @@ final class Config
      * @param mixed $value to set for key.
      * @return void
      */
-    public static function write(string $key, $value = null) {
+    public static function write(string $key, $value = null)
+    {
         $_this = self::getInstance();
         $newConfig = $_this->getAll();
         $newConfig[$key] = $value;
@@ -46,7 +48,8 @@ final class Config
      * @param string $var
      * @return array
      */
-    public static function read_array(string $var) : array {
+    public static function read_array(string $var) : array
+    {
         $stuff = self::read($var);
 
         if (!is_array($stuff)) {
@@ -56,7 +59,8 @@ final class Config
         return $stuff;
     }
 
-    public static function has(string $var) : bool {
+    public static function has(string $var) : bool
+    {
         $x = self::getInstance()->getAll();
         return array_key_exists($var, $x);
     }
@@ -64,7 +68,8 @@ final class Config
      * @param string $var
      * @return string
      */
-    public static function read_string(string $var) : string {
+    public static function read_string(string $var) : string
+    {
         $stuff = self::read($var);
 
         if ($stuff === null) {
@@ -83,7 +88,8 @@ final class Config
      * @param string $var Variable to obtain
      * @return callable|array|string|null|bool some value
      */
-    public static function read(string $var) {
+    public static function read(string $var)
+    {
         $_this = self::getInstance();
 
         $config = $_this->getAll();
@@ -111,7 +117,8 @@ final class Config
      * @param string $value Value to use as sprintf parameter
      * @return string value of Config::$var, parsed by sprintf
      */
-    public static function read_f(string $var, string $value) : string {
+    public static function read_f(string $var, string $value) : string
+    {
         $text = self::read_string($var);
 
         $newtext = sprintf($text, $value);
@@ -134,7 +141,8 @@ final class Config
      * @param string $var Variable to obtain
      * @return bool value of Configure::$var (TRUE (on YES/yes) or FALSE (on NO/no/not set/unknown value)
      */
-    public static function bool(string $var) : bool {
+    public static function bool(string $var) : bool
+    {
         $value = self::read($var);
 
         if (is_bool($value)) {
@@ -165,7 +173,8 @@ final class Config
      * Used to read Config::$var, converted to bool, returned as integer (0 or 1)
      * @see bool()
      */
-    public static function intbool($var) : int {
+    public static function intbool($var) : int
+    {
         return Config::bool($var) ? 1 : 0;
     }
 
@@ -178,7 +187,8 @@ final class Config
      * @return string value of $PALANG[$var]
      * @access public
      */
-    public static function lang(string $var) : string {
+    public static function lang(string $var) : string
+    {
         $languages = self::read_array('__LANG');
 
         $value = $languages[$var] ?? '';
@@ -198,7 +208,8 @@ final class Config
      * @param string $value Value to use as sprintf parameter
      * @return string value of $PALANG[$var], parsed by sprintf
      */
-    public static function lang_f(string $var, $value) : string {
+    public static function lang_f(string $var, $value) : string
+    {
         $all = self::read_array('__LANG');
 
         $text = $all[$var] ?? '';
@@ -216,14 +227,16 @@ final class Config
     /**
      * @return array
      */
-    public function getAll() : array {
+    public function getAll() : array
+    {
         return $this->config;
     }
 
     /**
      * @param array $config
      */
-    public function setAll(array $config) {
+    public function setAll(array $config)
+    {
         $this->config = $config;
     }
 }

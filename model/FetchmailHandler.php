@@ -12,7 +12,8 @@ class FetchmailHandler extends PFAHandler
     protected $order_by = 'domain, mailbox';
 
 
-    protected function initStruct() {
+    protected function initStruct()
+    {
         $src_auth_options = array('password','kerberos_v5','kerberos','kerberos_v4','gssapi','cram-md5','otp','ntlm','msn','ssh','any');
         $src_protocol_options = array('POP3','IMAP','POP2','ETRN','AUTO');
 
@@ -54,7 +55,8 @@ class FetchmailHandler extends PFAHandler
         $this->struct['mailbox']['options'] = array_keys($handler->result);
     }
 
-    protected function initMsg() {
+    protected function initMsg()
+    {
         $this->msg['error_already_exists'] = 'fetchmail_already_exists';
         $this->msg['error_does_not_exist'] = 'fetchmail_does_not_exist';
         $this->msg['confirm_delete'] = 'confirm_delete_fetchmail';
@@ -70,7 +72,8 @@ class FetchmailHandler extends PFAHandler
         }
     }
 
-    public function webformConfig() {
+    public function webformConfig()
+    {
         return array(
             # $PALANG labels
             'formtitle_create' => 'pMenu_fetchmail',
@@ -86,7 +89,8 @@ class FetchmailHandler extends PFAHandler
     }
 
 
-    protected function setmore(array $values) {
+    protected function setmore(array $values)
+    {
         # set domain based on the target mailbox
         if ($this->new || isset($values['mailbox'])) {
             list(/*NULL*/, $domain) = explode('@', $values['mailbox']);
@@ -95,7 +99,8 @@ class FetchmailHandler extends PFAHandler
         }
     }
 
-    protected function validate_new_id() {
+    protected function validate_new_id()
+    {
         # auto_increment - any non-empty ID is an error
         if ($this->id != '') {
             $this->errormsg[$this->id_field] = 'auto_increment value, you must pass an empty string!';
@@ -110,7 +115,8 @@ class FetchmailHandler extends PFAHandler
     /**
      *  @return boolean
      */
-    public function delete() {
+    public function delete()
+    {
         if (! $this->view()) {
             $this->errormsg[] = Config::lang($this->msg['error_does_not_exist']);
             return false;
@@ -128,7 +134,8 @@ class FetchmailHandler extends PFAHandler
     /**
      * validate src_server - must be non-empty and survive check_domain()
      */
-    protected function _validate_src_server($field, $val) {
+    protected function _validate_src_server($field, $val)
+    {
         if ($val == '') {
             $msg = Config::Lang('pFetchmail_server_missing');
         } else {
@@ -148,7 +155,8 @@ class FetchmailHandler extends PFAHandler
      * (we can't assume anything about valid usernames and passwords on remote
      * servers, so the validation can't be more strict)
      */
-    protected function _validate_src_user($field, $val) {
+    protected function _validate_src_user($field, $val)
+    {
         if ($val == '') {
             $this->errormsg[$field] = Config::lang('pFetchmail_user_missing');
             return false;
@@ -156,7 +164,8 @@ class FetchmailHandler extends PFAHandler
         return true;
     }
 
-    protected function _validate_src_password($field, $val) {
+    protected function _validate_src_password($field, $val)
+    {
         if ($val == '') {
             $this->errormsg[$field] = Config::lang('pFetchmail_password_missing');
             return false;
@@ -167,7 +176,8 @@ class FetchmailHandler extends PFAHandler
     /**
      * validate poll interval - must be numeri and > 0
      */
-    protected function _validate_poll_time($field, $val) {
+    protected function _validate_poll_time($field, $val)
+    {
         # must be > 0
         if ($val < 1) {
             $this->errormsg[$field] = Config::Lang_f('must_be_numeric_bigger_than_null', $field);
@@ -176,7 +186,8 @@ class FetchmailHandler extends PFAHandler
         return true;
     }
 
-    public function domain_from_id() {
+    public function domain_from_id()
+    {
         return '';
     }
 }

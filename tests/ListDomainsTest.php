@@ -2,7 +2,8 @@
 
 class ListDomainsTest extends \PHPUnit\Framework\TestCase
 {
-    public function testBasic() {
+    public function testBasic()
+    {
         $domains = list_domains();
 
         $this->assertTrue(is_array($domains));
