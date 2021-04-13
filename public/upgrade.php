@@ -1890,9 +1890,7 @@ function upgrade_1836_mysql()
  */
 function upgrade_1837()
 {
-    global $CONF;
-
-    if ($CONF['database_type'] == 'sqlite') {
+    if (db_sqlite()) {
         return;
     }
     # alternative contact means to reset a forgotten password
@@ -2012,5 +2010,10 @@ function upgrade_1843()
 function upgrade_1844()
 {
     # See:https://github.com/postfixadmin/postfixadmin/issues/475 - add pkey to domain_admins.
+
+    if (db_sqlite()) {
+        return;
+    }
+    
     _db_add_field('domain_admins', 'id', '{AUTOINCREMENT} {PRIMARY}');
 }
