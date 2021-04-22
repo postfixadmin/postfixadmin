@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         header("Location: main.php");
         exit;
     } else {
-        error_log("PostfixAdmin user login failed (username: $fUsername)");
+        error_log("PostfixAdmin user login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
         $error = $PALANG['pLogin_failed'];
     }
 }
