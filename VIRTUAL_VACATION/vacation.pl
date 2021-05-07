@@ -497,6 +497,7 @@ sub send_vacation_email {
                 Precedence => 'junk',
                 'Content-Type' => "text/plain; charset=utf-8",
                 'X-Loop' => 'Postfix Admin Virtual Vacation',
+                'Auto-Submitted' => 'auto-replied',
             ],
             body => $body,
         );
