@@ -607,6 +607,7 @@ while (<STDIN>) {
     elsif (/^message\-id:\s*(.*)\s*\n$/i) { $messageid = $1; $lastheader = \$messageid; }
     elsif (/^x\-spam\-(flag|status):\s+yes/i) { $logger->debug("x-spam-$1: yes found; exiting"); exit (0); }
     elsif (/^x\-facebook\-notify:/i) { $logger->debug('Mail from facebook, ignoring'); exit(0); }
+    elsif (/^x\-amazon\-mail\-relay\-type:\s*notification/i) { $logger->debug('Notificatiom mail from Amazon, ignoring'); exit(0); }
     elsif (/^precedence:\s+(bulk|list|junk)/i) { $logger->debug("precedence: $1 found; exiting"); exit (0); }
     elsif (/^x\-loop:\s+postfix\ admin\ virtual\ vacation/i) { $logger->debug('x-loop: postfix admin virtual vacation found; exiting'); exit (0); }
     elsif (/^Auto\-Submitted:\s*no/i) { next; }
