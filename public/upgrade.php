@@ -2017,3 +2017,17 @@ function upgrade_1844()
     
     _db_add_field('domain_admins', 'id', '{AUTOINCREMENT} {PRIMARY}');
 }
+
+function upgrade_1845() 
+{
+    # See: https://github.com/postfixadmin/postfixadmin/pull/484
+    #
+    if(!db_mysql()) {
+        return;
+    }
+
+    $vacation = table_by_key('vacation');
+    db_query("alter table $vacation change body body text charset utf8mb4 not null");
+    db_query("alter table $vacation change subject subject varchar(255) charset utf8mb4 not null");
+
+}
