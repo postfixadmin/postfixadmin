@@ -1626,9 +1626,9 @@ function db_connection_string()
         $database_name = Config::read_string('database_name');
 
         if ($socket) {
-            $dsn = "mysql:unix_socket={$socket};dbname={$database_name};charset=UTF8";
+            $dsn = "mysql:unix_socket={$socket};dbname={$database_name};charset=utf8mb4";
         } else {
-            $dsn = "mysql:host={$CONF['database_host']};dbname={$database_name};charset=UTF8";
+            $dsn = "mysql:host={$CONF['database_host']};dbname={$database_name};charset=utf8mb4";
         }
     } elseif (db_sqlite()) {
         $db = $CONF['database_name'];
@@ -1699,8 +1699,8 @@ function db_connect()
 
             $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = (bool)$verify;
         }
-        $queries[] = 'SET CHARACTER SET utf8';
-        $queries[] = "SET COLLATION_CONNECTION='utf8_general_ci'";
+        $queries[] = 'SET CHARACTER SET utf8mb4';
+        $queries[] = "SET COLLATION_CONNECTION='utf8mb4_general_ci'";
     } elseif (db_sqlite()) {
         $db = $CONF['database_name'];
 
