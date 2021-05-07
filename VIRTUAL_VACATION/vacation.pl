@@ -53,6 +53,8 @@ our $vacation_domain = 'autoreply.example.org';
 
 our $recipient_delimiter = '+';
 
+# smtp server used to send vacation e-mails, leave empty to look up the MX of the sending domain and deliver it directly (might break DKIM signatures, mail archiving etc.)
+our $smtp_server = 'localhost';
 # port to connect to; defaults to 25 for non-SSL, 465 for 'ssl', 587 for 'starttls'
 our $smtp_server_port = 25;
 
@@ -453,18 +455,19 @@ sub send_vacation_email {
         my $from = $email;
         my $to = $orig_from;
 
-        # part of the username in the email && part of the domain in the email
-        my ($email_username_part, $email_domain_part) = split(/@/, $email);
+        if ($smtp_server eq '') {
+            # part of the username in the email && part of the domain in the email
+            my (undef, $email_domain_part) = split(/@/, $email);
 
-        my $resolver  = Net::DNS::Resolver->new;
-        my @mx   = mx($resolver, $email_domain_part);
-        my $smtp_server;
-        if (@mx) {
-            $smtp_server = @mx[0]->exchange;
-            $logger->debug("Found MX record <$smtp_server> for user <$email>!");
-        } else {
-            $logger->error("Unable to find MX record for user <$email>, error message: ".$resolver->errorstring);
-            exit(0);
+            my $resolver = Net::DNS::Resolver->new;
+            my @mx = mx($resolver, $email_domain_part);
+            if (@mx) {
+                $smtp_server = @mx[0]->exchange;
+                $logger->debug("Found MX record <$smtp_server> for user <$email>!");
+            } else {
+                $logger->error("Unable to find MX record for user <$email>, error message: ".$resolver->errorstring);
+                exit(0);
+            }
         }
 
         my $smtp_params = {
