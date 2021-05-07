@@ -12,6 +12,11 @@ MASTER (should have all changes from 3.3.9 plus)
    - Add optional Dovecot mail-crypt plugin support - see https://github.com/postfixadmin/postfixadmin/issues/408
    - Add $CONF['site_url'] to allow administrators to override a detected site url (e.g. used in password recovery emails; see https://github.com/postfixadmin/postfixadmin/issues/446 )
    - Code reformat as PHPCS has a mind of it's own (function/method opening brace change of position)
+   - Improved UTF8 support in vacation (see https://github.com/postfixadmin/postfixadmin/pull/484)
+   - Fix quota levels losing config control (see bfc7af5c8efe2a68c47286cc870b56cb4f929a3f)
+   - Improve vacation.pl's autoreply detection (see https://github.com/postfixadmin/postfixadmin/pull/482 
+   - Improve vacation.pl's headers in auto-reply mails (add: "Auto-Submitted: auto-replied") see https://github.com/postfixadmin/postfixadmin/pull/483
+
 
 Version 3.3.9 - ??????????
 -------------------------------------------------
