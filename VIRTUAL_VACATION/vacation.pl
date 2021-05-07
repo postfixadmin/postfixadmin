@@ -73,7 +73,7 @@ our $smtp_authid = '';
 our $smtp_authpwd = '';
 
 # This specifies the mail 'from' name which is shown to recipients of vacation replies.
-# If you leave it empty, the vacation mail will contain: 
+# If you leave it empty, the vacation mail will contain:
 # From: <original@recipient.domain>
 # If you specify something here you'd instead see something like :
 # From: Some Friendly Name <original@recipient.domain>
@@ -104,7 +104,7 @@ our $interval = 0;
 # be answered when $custom_noreply_pattern is set to 1.
 # default = 0
 our $custom_noreply_pattern = 0;
-our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter'; 
+our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter';
 
 # Never send vacation mails for the following recipient email addresses.
 # Useful for e.g. aliases pointing to multiple recipients which have vacation active
@@ -113,7 +113,7 @@ our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twit
 # default = ''
 # preventing vacation notifications for recipient info@example.org would look like this:
 # our $no_vacation_pattern = 'info\@example\.org';
-our $no_vacation_pattern = 'info\@example\.org'; 
+our $no_vacation_pattern = 'info\@example\.org';
 
 
 # instead of changing this script, you can put your settings to /etc/mail/postfixadmin/vacation.conf
@@ -159,7 +159,7 @@ if($test_mode == 1) {
     $appender->layout($log_layout);
     $logger->add_appender($appender);
     $logger->debug('Test mode enabled');
-    
+
 } else {
     $logger = get_logger();
     if($log_to_file == 1) {
@@ -220,7 +220,7 @@ if ($db_type eq 'mysql') {
 my $loopcount=0;
 
 #
-# Get interval_time for email user from the vacation table 
+# Get interval_time for email user from the vacation table
 #
 sub get_interval {
     my ($to) = @_;
@@ -312,7 +312,7 @@ sub already_notified {
 }
 
 #
-# Check to see if there is a vacation record against a specific email address. 
+# Check to see if there is a vacation record against a specific email address.
 #
 sub check_for_vacation {
     my ($email_to_check) =@_;
@@ -438,9 +438,9 @@ sub send_vacation_email {
         }
 
         $logger->debug("Will send vacation response for $orig_messageid: FROM: $email (orig_to: $orig_to), TO: $orig_from; VACATION SUBJECT: $row[0] ; VACATION BODY: $row[1]");
-	
+
         my $subject = $row[0];
-        $subject = Encode::decode_utf8( $subject ) if( !Encode::is_utf8( $subject ) );
+        $subject = Encode::decode_utf8($subject) if (!Encode::is_utf8($subject));
         $orig_subject = decode("mime-header", $orig_subject);
         $subject =~ s/\$SUBJECT/$orig_subject/g;
         if ($subject ne $row[0]) {
@@ -448,7 +448,7 @@ sub send_vacation_email {
         }
 
         my $body = $row[1];
-        $body = Encode::decode_utf8( $body ) if( !Encode::is_utf8( $body ) );
+        $body = Encode::decode_utf8($body) if (!Encode::is_utf8($body));
 
         my $from = $email;
         my $to = $orig_from;
@@ -458,13 +458,13 @@ sub send_vacation_email {
 
         my $resolver  = Net::DNS::Resolver->new;
         my @mx   = mx($resolver, $email_domain_part);
-        my $smtp_server; 
+        my $smtp_server;
         if (@mx) {
             $smtp_server = @mx[0]->exchange;
             $logger->debug("Found MX record <$smtp_server> for user <$email>!");
         } else {
             $logger->error("Unable to find MX record for user <$email>, error message: ".$resolver->errorstring);
-            exit(0); 
+            exit(0);
         }
 
         my $smtp_params = {
@@ -487,8 +487,8 @@ sub send_vacation_email {
 
         my $transport = Email::Sender::Transport::SMTP->new($smtp_params);
 
-	$subject = Encode::encode_utf8( $subject ) if( Encode::is_utf8( $subject ) );
-	$body = Encode::encode_utf8( $body ) if( Encode::is_utf8( $body ) );
+        $subject = Encode::encode_utf8($subject) if(Encode::is_utf8($subject));
+        $body = Encode::encode_utf8($body) if(Encode::is_utf8($body));
         $email = Email::Simple->create(
             header => [
                 To      => $to,
@@ -644,9 +644,9 @@ if(!$from || !$to || !$messageid || !$smtp_sender || !$smtp_recipient) {
 }
 $logger->debug("Email headers have to: '$to' and From: '$from'");
 
-if ($to =~ /^.*($no_vacation_pattern).*/i) { 
+if ($to =~ /^.*($no_vacation_pattern).*/i) {
    $logger->debug("Will not send vacation reply for messages to $to");
-   exit(0); 
+   exit(0);
 }
 
 $to = strip_address($to);
