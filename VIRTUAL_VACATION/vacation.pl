@@ -574,7 +574,7 @@ sub check_and_clean_from_address {
     my ($address) = @_;
     my $logger = get_logger();
 
-    if($address =~ /^(noreply|postmaster|mailer\-daemon|listserv|majordomo|owner\-|request\-|bounces\-)/i ||
+    if($address =~ /^(noreply|no\-reply|do_not_reply|no_reply|postmaster|mailer\-daemon|listserv|majordomo|owner\-|request\-|bounces\-)/i ||
         $address =~ /\-(owner|request|bounces)\@/i ||
         ($custom_noreply_pattern == 1 && $address =~ /^.*($noreply_pattern).*/i) ) {
             $logger->debug("sender $address contains $1 - will not send vacation message");
