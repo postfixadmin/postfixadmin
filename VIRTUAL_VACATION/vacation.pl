@@ -210,7 +210,7 @@ if (!$dbh) {
 
 my $db_true; # MySQL and PgSQL use different values for TRUE, and unicode support...
 if ($db_type eq 'mysql') {
-    $dbh->do('SET CHARACTER SET utf8;');
+    $dbh->do('SET CHARACTER SET utf8mb4;');
     $db_true = '1';
 } else { # Pg
     $dbh->do("SET CLIENT_ENCODING TO 'UTF8'");
