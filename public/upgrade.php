@@ -2027,6 +2027,8 @@ function upgrade_1845()
     }
 
     $vacation = table_by_key('vacation');
+    $mailbox = table_by_key('mailbox');
     db_query("alter table $vacation change body body text charset utf8mb4 not null");
     db_query("alter table $vacation change subject subject varchar(255) charset utf8mb4 not null");
+    db_query("alter table $mailbox change name name varchar(255) charset utf8mb4 not null");
 }
