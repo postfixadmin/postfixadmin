@@ -331,6 +331,8 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "") {
         if ($debug) {
             echo_out("<div style='color:#f00'>" . $e->getMessage() . "</div>");
         }
+
+        throw new \Exception("Postfixadmin DB update failed. Please check your PHP error_log");
     }
 }
 /**
@@ -1922,6 +1924,15 @@ function upgrade_1841_sqlite() {
  * @return void
  */
 function upgrade_1842() {
+
+    $domain = table_by_key('domain');
+
+    // See: https://github.com/postfixadmin/postfixadmin/issues/489
+    // Avoid : ERROR 1292 (22007): Incorrect datetime value: '0000-00-00 00:00:00' for column 'created' at row 1
+    if (db_mysql()) {
+        db_execute("UPDATE $domain SET created='2000-01-01 00:00:00', modified='2000-01-01 00:00:00' WHERE domain='ALL'", [], true);
+    }
+
     _db_add_field('mailbox', 'password_expiry', "{DATETIME}"); // when a specific mailbox password expires
     _db_add_field('domain',  'password_expiry', 'int DEFAULT 0'); // expiry applied to mailboxes within that domain
 }
@@ -1944,6 +1955,6 @@ function upgrade_1844() {
     if (db_sqlite()) {
         return;
     }
-    
+
     _db_add_field('domain_admins', 'id', '{AUTOINCREMENT} {PRIMARY}');
 }
