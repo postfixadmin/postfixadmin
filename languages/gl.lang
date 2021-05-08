@@ -266,10 +266,12 @@ $PALANG['pAdminCreate_domain_result_success'] = 'O dominio foi añadido! (%s)'; 
 $PALANG['domain_updated'] = 'O dominio %s foi actualizado.'; # XXX
 $PALANG['pAdminDelete_admin_error'] = 'Non se puido borrar admin!'; # XXX
 $PALANG['domain_postdel_failed'] = 'Non se puido borrar o dominio!';  # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
+$PALANG['domain_postedit_failed'] = 'The domain postedit script failed, check the error log for details!'; # XXX
 $PALANG['domain_postcreate_failed'] = 'Fallou o script executado despois da creación do dominio, revise o log!'; # XXX
 $PALANG['mailbox_postdel_failed'] = 'Fallou o script executado despois do borrado do buzón, revise o log!'; # XXX
 $PALANG['mailbox_postedit_failed'] = 'Fallou o script executado despois da edición do buzón, revise o log!'; # XXX
 $PALANG['mailbox_postcreate_failed'] = 'Fallou o script executado despois da creación do buzón, revise o log!'; # XXX
+$PALANG['mailbox_postpassword_failed'] = 'The mailbox postpassword script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Non se puido eliminar o alias do dominio!'; 
 $PALANG['domain_conflict_vacation_domain'] = 'Non pode usar o dominio de ausencia como dominio de correo!'; # XXX
 

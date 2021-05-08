@@ -192,7 +192,9 @@ class DomainHandler extends PFAHandler
                 $this->errormsg[] = Config::lang('domain_postcreate_failed');
             }
         } else {
-            # we don't have domain_postedit()
+            if (!$this->domain_postedit()) {
+                $this->errormsg[] = Config::lang('domain_postedit_failed');
+            }
         }
         return true; # TODO: don't hardcode
     }
@@ -303,6 +305,39 @@ class DomainHandler extends PFAHandler
         if (0!=$retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
             $this->errormsg[] = 'Problems running domain postcreation script!';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Called after a domain has been edited
+     *
+     * @return boolean
+     */
+    protected function domain_postedit()
+    {
+        $script=Config::read_string('domain_postedit_script');
+
+        if (empty($script)) {
+            return true;
+        }
+
+        if (empty($this->id)) {
+            $this->errormsg[] = 'Empty domain parameter in domain_postedit';
+            return false;
+        }
+
+        $cmdarg1=escapeshellarg($this->id);
+        $command= "$script $cmdarg1";
+        $retval=0;
+        $output=array();
+        $firstline='';
+        $firstline=exec($command, $output, $retval);
+        if (0!=$retval) {
+            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+            $this->errormsg[] = 'Problems running domain postedit script!';
             return false;
         }
 

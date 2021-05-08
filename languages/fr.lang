@@ -272,10 +272,12 @@ $PALANG['domain_updated'] = 'Le domaine %s a été mis à jour.';
 $PALANG['pAdminDelete_admin_error'] = 'Impossible de supprimer l\'administrateur !';
 
 $PALANG['domain_postdel_failed'] = 'Le script "postdeletion" du domaine a échoué, consultez le journal !';
+$PALANG['domain_postedit_failed'] = 'The domain postedit script failed, check the error log for details!'; # XXX
 $PALANG['domain_postcreate_failed'] = 'Le script "postcreate" du domaine a échoué, consultez le journal !';
 $PALANG['mailbox_postdel_failed'] = 'Le script "postdeletion" du compte courriel a échoué, consultez le journal !';
 $PALANG['mailbox_postedit_failed'] = 'Le script "postedit" du compte courriel a échoué, consultez le journal !';
 $PALANG['mailbox_postcreate_failed'] = 'Le script "postcreate" du compte courriel a échoué, consultez le journal !';
+$PALANG['mailbox_postpassword_failed'] = 'The mailbox postpassword script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Impossible de supprimer cet alias de domaine !';
 $PALANG['domain_conflict_vacation_domain'] = 'Vous ne pouvez pas utiliser le domaine configuré pour les réponses automatiques !';
 
