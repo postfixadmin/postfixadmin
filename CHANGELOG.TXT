@@ -12,6 +12,7 @@ Version 3.3.9 - ??????????
    - Ensure we update timestamp fields (created / modified) when performing db operations, see: https://github.com/postfixadmin/postfixadmin/issues/469 
    - Add domain_admins.id pk column for non-sqlite users, see: https://github.com/postfixadmin/postfixadmin/issues/475
    - Add fix for MySQL error where a default datetime value in the domain field breaks the upgrade.php db schema update, see https://github.com/postfixadmin/postfixadmin/issues/489
+   - Bug fix quota levels (now user configurable again; thanks @csware, see https://github.com/postfixadmin/postfixadmin/commit/bfc7af5c8efe2a68c47286cc870b56cb4f929a3f
 
 Version 3.3.8 - 2021/03/04
 -------------------------------------------------
