@@ -1288,65 +1288,12 @@ function _php_crypt_random_string($characters, $length)
  * @param string $pw_db optional encrypted password
  * @return string encrypted password - if this matches $pw_db then the original password is $pw.
  */
-function pacrypt($pw, $pw_db="")
+function pacrypt($pw, $pw_db = "")
 {
     global $CONF;
 
-    switch ($CONF['encrypt']) {
-        case 'md5crypt':
-            return _pacrypt_md5crypt($pw, $pw_db);
-        case 'md5':
-            return md5($pw);
-        case 'system':
-            return _pacrypt_crypt($pw, $pw_db);
-        case 'cleartext':
-            return $pw;
-        case 'mysql_encrypt':
-            return _pacrypt_mysql_encrypt($pw, $pw_db);
-        case 'authlib':
-            return _pacrypt_authlib($pw, $pw_db);
-        case 'sha512.b64':
-            return _pacrypt_sha512_b64($pw, $pw_db);
-    }
-
-    if (preg_match("/^dovecot:/", $CONF['encrypt'])) {
-        return _pacrypt_dovecot($pw, $pw_db);
-    }
-
-    if (substr($CONF['encrypt'], 0, 9) === 'php_crypt') {
-        return _pacrypt_php_crypt($pw, $pw_db);
-    }
-
-    throw new Exception('unknown/invalid $CONF["encrypt"] setting: ' . $CONF['encrypt']);
-}
-
-/**
- * @see https://github.com/postfixadmin/postfixadmin/issues/58
- */
-function _pacrypt_sha512_b64($pw, $pw_db="")
-{
-    if (!function_exists('random_bytes') || !function_exists('crypt') || !defined('CRYPT_SHA512') || !function_exists('mb_substr')) {
-        throw new Exception("sha512.b64 not supported!");
-    }
-    if (!$pw_db) {
-        $salt = mb_substr(rtrim(base64_encode(random_bytes(16)),'='),0,16,'8bit');
-        return '{SHA512-CRYPT.B64}'.base64_encode(crypt($pw,'$6$'.$salt));
-    }
-
-
-    $password="#Thepasswordcannotbeverified";
-    if (strncmp($pw_db,'{SHA512-CRYPT.B64}',18)==0) {
-        $dcpwd = base64_decode(mb_substr($pw_db,18,null,'8bit'),true);
-        if ($dcpwd !== false && !empty($dcpwd) && strncmp($dcpwd,'$6$',3)==0) {
-            $password = '{SHA512-CRYPT.B64}'.base64_encode(crypt($pw,$dcpwd));
-        }
-    } elseif (strncmp($pw_db,'{MD5-CRYPT}',11)==0) {
-        $dcpwd = mb_substr($pw_db,11,null,'8bit');
-        if (!empty($dcpwd) && strncmp($dcpwd,'$1$',3)==0) {
-            $password = '{MD5-CRYPT}'.crypt($pw,$dcpwd);
-        }
-    }
-    return $password;
+    $hasher = new PFACrypt($CONF['encrypt']);
+    return $hasher->hash($pw, $pw_db);
 }
 
 /**
