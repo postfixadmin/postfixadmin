@@ -1924,7 +1924,6 @@ function upgrade_1841_sqlite() {
  * @return void
  */
 function upgrade_1842() {
-
     $domain = table_by_key('domain');
 
     // See: https://github.com/postfixadmin/postfixadmin/issues/489
