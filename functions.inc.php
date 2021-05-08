@@ -935,6 +935,7 @@ function validate_password($password)
  * @param string $pw
  * @param string $pw_db - encrypted hash
  * @return string crypt'ed password, should equal $pw_db if $pw matches the original
+ * @deprecated
  */
 function _pacrypt_md5crypt($pw, $pw_db = '')
 {
@@ -951,6 +952,7 @@ function _pacrypt_md5crypt($pw, $pw_db = '')
 
 /**
  * @todo fix this to not throw an E_NOTICE or deprecate/remove.
+ * @deprecated
  */
 function _pacrypt_crypt($pw, $pw_db = '')
 {
@@ -1304,6 +1306,7 @@ function pacrypt($pw, $pw_db = "")
  * @param string $salt (optional)
  * @param string $magic (optional)
  * @return string hashed password in crypt format.
+ * @deprecated see PFACrypt::cryptMd5() (note this returns {MD5} prefix
  */
 function md5crypt($pw, $salt="", $magic="")
 {

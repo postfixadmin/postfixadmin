@@ -9,7 +9,7 @@ class PFACrypt
         $this->algorithm = $algorithm;
     }
 
-    public function hash(string $pw, $pw_db)
+    public function hash(string $pw, string $pw_db = ''): string
     {
         $algorithm = $this->algorithm;
 
@@ -94,7 +94,8 @@ class PFACrypt
                 return '{CRYPT}' . crypt($pw, $pw_db);
 
             case 'system':
-                return _pacrypt_crypt($pw, $pw_db);
+                return crypt($pw, $pw_db);
+
             case 'cleartext':
                 return $pw;
             case 'CLEAR':
