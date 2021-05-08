@@ -275,10 +275,12 @@ $PALANG['domain_updated'] = 'O domínio %s foi actualizado.'; # XXX
 $PALANG['pAdminDelete_admin_error'] = 'Não foi possível remover o admin!'; # XXX
 
 $PALANG['domain_postdel_failed'] = 'Não foi possível remover o domínio!'; # XXX Text changed to: The domain postdeletion script failed, check the error log for details!
+$PALANG['domain_postedit_failed'] = 'The domain postedit script failed, check the error log for details!'; # XXX
 $PALANG['domain_postcreate_failed'] = 'O script de pós-criação do domínio falhou, verifique o ficheiro de log de erros para mais detalhes!'; # XXX
 $PALANG['mailbox_postdel_failed'] = 'O script de pós-remoção da mailbox falhou, verifique o ficheiro de log de erros para mais detalhes!'; # XXX
 $PALANG['mailbox_postedit_failed'] = 'O script de pós-edição da mailbox falhou, verifique o ficheiro de log de erros para mais detalhes!'; # XXX
 $PALANG['mailbox_postcreate_failed'] = 'O script de pós-criação da mailbox falhou, verifique o ficheiro de log de erros para mais detalhes!'; # XXX
+$PALANG['mailbox_postpassword_failed'] = 'The mailbox postpassword script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Não foi possível remover o alias de domínio!';
 $PALANG['domain_conflict_vacation_domain'] = 'Não pode usar o domínio de férias como domínio de mail!'; # XXX
 

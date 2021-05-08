@@ -279,10 +279,12 @@ $PALANG['domain_updated'] = 'Doména %s byla aktualizována.';
 $PALANG['pAdminDelete_admin_error'] = 'Nepodařilo se odstranit admin uživatele!';
 
 $PALANG['domain_postdel_failed'] = 'Spuštění skriptu po smazání domény selhalo, zkontrolujte log soubor!';
+$PALANG['domain_postedit_failed'] = 'The domain postedit script failed, check the error log for details!'; # XXX
 $PALANG['domain_postcreate_failed'] = 'Spuštění skriptu po vytvoření domény selhalo, zkontrolujte log soubor!';
 $PALANG['mailbox_postdel_failed'] = 'Spuštění skriptu po smazání schránky selhalo, zkontrolujte log soubor!';
 $PALANG['mailbox_postedit_failed'] = 'Spuštení skriptu po úpravě schránky selhalo, zkontrolujte log soubor!';
 $PALANG['mailbox_postcreate_failed'] = 'Spuštení skriptu po vytvoření schránky selhalo, zkontrolujte log soubor!';
+$PALANG['mailbox_postpassword_failed'] = 'The mailbox postpassword script failed, check the error log for details!'; # XXX
 $PALANG['pAdminDelete_alias_domain_error'] = 'Nepodařilo se odstranit přesměrování domény!';
 $PALANG['domain_conflict_vacation_domain'] = 'Doménu využitou pro zprávy o nepřítomnosti nelze použít jako mailovou doménu!';
 
