@@ -4,6 +4,22 @@ class PFACrypt
 {
     private $algorithm;
 
+    const DOVECOT_NATIVE = [
+        'SHA1', 'SHA1.HEX', 'SHA1.B64',
+        'SSHA',
+        'BLF-CRYPT', 'BLF-CRYPT.B64',
+        'SHA512-CRYPT', 'SHA512-CRYPT.B64',
+        'ARGON2I',
+        'ARGON2I.B64',
+        'ARGON2ID',
+        'ARGON2ID.B64',
+        'SHA256', 'SHA256-CRYPT', 'SHA256-CRYPT.B64',
+        'SHA512', 'SHA512.B64',
+        'MD5',
+        'PLAIN-MD5',
+        'CRYPT',
+    ];
+
     public function __construct(string $algorithm)
     {
         $this->algorithm = $algorithm;
@@ -16,26 +32,10 @@ class PFACrypt
         // try and 'upgrade' some dovecot commands to use local algorithms (rather tnan a dependency on the dovecot binary).
         if (preg_match('/^dovecot:/', $algorithm)) {
             $tmp = preg_replace('/^dovecot:/', '', $algorithm);
-
-            $supported = [
-                'SHA1', 'SHA1,HEX', 'SHA1.B64',
-                'BLF-CRYPT', 'BLF-CRYPT.B64',
-                'SHA512-CRYPT', 'SHA512-CRYPT.B64',
-                'ARGON2I',
-                'ARGON2I.B64',
-                'ARGON2ID',
-                'ARGON2ID.B64',
-                'SHA256', 'SHA256-CRYPT', 'SHA256-CRYPT.B64',
-                'SHA512', 'SHA512.B64',
-                'MD5',
-                'PLAIN-MD5',
-                'CRYPT',
-            ];
-
-            if (in_array($tmp, $supported)) {
+            if (in_array($tmp, self::DOVECOT_NATIVE)) {
                 $algorithm = $tmp;
             } else {
-                error_log("Warning: using alogrithm that requires proc_open: $algorithm, consider using one of : " . implode(', ', $supported));
+                error_log("Warning: using algorithm that requires proc_open: $algorithm, consider using one of : " . implode(', ', self::DOVECOT_NATIVE));
             }
         }
 
@@ -62,8 +62,13 @@ class PFACrypt
             case 'ARGON2ID.B64':
                 return $this->argon2idCrypt($pw, $pw_db, $algorithm);
 
+            case 'SSHA':
+            case 'courier:ssha':
+                return $this->hashSha1Salted($pw, $pw_db);
+
             case 'SHA256':
-                return '{SHA256}' . base64_encode(hash('sha256', $pw, true));
+            case 'courier:sha256':
+                return $this->hashSha256($pw);
 
             case 'SHA256-CRYPT':
             case 'SHA256-CRYPT.B64':
@@ -78,6 +83,12 @@ class PFACrypt
             case 'md5':
             case 'PLAIN-MD5':
                 return $this->hashMd5($pw, $algorithm);
+
+            case 'courier:md5':
+                return '{MD5}' . base64_encode(md5($pw, true));
+
+            case 'courier:md5raw':
+                return '{MD5RAW}' . bin2hex(md5($pw, true));
 
             case 'MD5':
             case 'MD5-CRYPT':
@@ -118,6 +129,7 @@ class PFACrypt
             case 'sha512crypt.b64':
                 return $this->pacrypt_sha512crypt_b64($pw, $pw_db);
 
+
         }
 
         if (preg_match("/^dovecot:/", $algorithm)) {
@@ -144,6 +156,16 @@ class PFACrypt
         return "{{$algorithm}}{$hash}";
     }
 
+    public function hashSha1Salted(string $pw, string $pw_db = ''): string
+    {
+        if (empty($pw_db)) {
+            $salt = base64_encode(random_bytes(3)); // 4 char salt.
+        } else {
+            $salt = substr(base64_decode(substr($pw_db, 6)), 20);
+        }
+        return '{SSHA}' . base64_encode(sha1($pw . $salt, true) . $salt);
+    }
+
     public function hashSha512(string $pw, string $algorithm = 'SHA512')
     {
         $prefix = '{SHA512}';
@@ -160,8 +182,12 @@ class PFACrypt
         if ($algorithm == 'PLAIN-MD5') {
             return '{PLAIN-MD5}' . md5($pw);
         }
-
         return md5($pw);
+    }
+
+    public function hashSha256(string $pw): string
+    {
+        return '{SHA256}' . base64_encode(hash('sha256', $pw, true));
     }
 
     public function cryptMd5(string $pw, string $pw_db = '', $algorithm = 'MD5-CRYPT')

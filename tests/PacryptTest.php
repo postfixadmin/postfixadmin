@@ -1,10 +1,14 @@
 <?php
 
+require_once(__DIR__ . '/../model/PFACrypt.php');
+
 class PaCryptTest extends \PHPUnit\Framework\TestCase
 {
     public function testMd5Crypt()
     {
         $hash = _pacrypt_md5crypt('test', '');
+
+        $h = new PFACrypt('MD5-CRYPT');
 
         $this->assertNotEmpty($hash);
         $this->assertNotEquals('test', $hash);
@@ -204,6 +208,7 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
     "CRYPT": "{CRYPT}$2y$05$ORqzr0AagWr25v3ixHD5QuMXympIoNTbipEFZz6aAmovGNoij2vDO",
     "MD5-CRYPT": "{MD5-CRYPT}$1$AIjpWveQ$2s3eEAbZiqkJhMYUIVR240",
     "PLAIN-MD5": "{PLAIN-MD5}cc03e747a6afbbcbf8be7668acfebee5",
+    "SSHA": "{SSHA}ZkqrSEAhvd0FTHaK1IxAQCRa5LWbxGQY",
     "PLAIN": "{PLAIN}test123",
     "CLEAR": "{CLEAR}test123",
     "CLEARTEXT": "{CLEARTEXT}test123",
@@ -233,6 +238,46 @@ EOF;
             $new_new = pacrypt('test123', $pfa_new_hash);
 
             $this->assertEquals($pfa_new_hash, $new_new, "Trying: $algorithm => gave: $new_new with $pfa_new_hash ... ");
+        }
+    }
+
+    public function testSomeCourierHashes()
+    {
+        global $CONF;
+
+        $options = [
+            'courier:md5'    => '{MD5}zAPnR6avu8v4vnZorP6+5Q==',
+            'courier:md5raw' => '{MD5RAW}cc03e747a6afbbcbf8be7668acfebee5',
+            'courier:ssha'   => '{SSHA}pJTac1QSIHoi0qBPdqnBvgPdjfFtDRVY',
+            'courier:sha256' => '{SHA256}7NcYcNGWMxapfjrDQIyYNa2M8PPBvHA1J8MCZVNPda4=',
+        ];
+
+        foreach ($options as $algorithm => $example_hash) {
+            $CONF['encrypt'] = $algorithm;
+
+            $pacrypt_check = pacrypt('test123', $example_hash);
+            $pacrypt_sanity = pacrypt('zzzzz', $example_hash);
+            $pfa_new_hash = pacrypt('test123');
+
+            $this->assertNotEquals($pacrypt_sanity, $pfa_new_hash);
+            $this->assertNotEquals($pacrypt_sanity, $example_hash);
+
+            $this->assertEquals($pacrypt_check, $example_hash, "Should match, algorithm: $algorithm generated:{$pacrypt_check} vs example:{$example_hash}");
+
+            $new = pacrypt('test123', $pfa_new_hash);
+
+            $this->assertEquals($pfa_new_hash, $new, "Trying: $algorithm => gave: $new with $pfa_new_hash");
+        }
+    }
+
+    public function testWeSupportWhatWeSayWeDo()
+    {
+        foreach (PFACrypt::DOVECOT_NATIVE as $algorithm) {
+            $c = new PFACrypt($algorithm);
+            $hash1 = $c->hash('test123');
+
+            $this->assertEquals($hash1, $c->hash('test123', $hash1));
+            $this->assertNotEquals($hash1, $c->hash('9999test9999', $hash1));
         }
     }
 }
