@@ -150,11 +150,11 @@ class PFACrypt
 
         }
 
-        if (preg_match("/^dovecot:/", $algorithm)) {
+        if (preg_match("/^DOVECOT:/", $algorithm)) {
             return _pacrypt_dovecot($pw, $pw_db);
         }
 
-        if (substr($algorithm, 0, 9) === 'php_crypt') {
+        if (substr($algorithm, 0, 9) === 'PHP_CRYPT') {
             return _pacrypt_php_crypt($pw, $pw_db);
         }
 
