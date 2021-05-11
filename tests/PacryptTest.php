@@ -82,9 +82,7 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
 
         $expected_hash = '{SHA1}qUqP5cyxm6YcTAhz05Hph5gvu9M=';
 
-
         $this->assertEquals($expected_hash, _pacrypt_dovecot('test', ''));
-
         $this->assertEquals($expected_hash, _pacrypt_dovecot('test', $expected_hash));
 
         // This should also work.
@@ -188,7 +186,7 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
             'CLEARTEXT',
             'ARGON2I',
             "ARGON2ID",
-            'MD5',
+            //'MD5', // seems to be identical to MD5-CRYPT and clashes with {MD5} form courier. Avoid?
             'SHA256',
             'SHA256-CRYPT',
             'SHA256-CRYPT.B64',
@@ -215,7 +213,6 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
     "ARGON2I": "{ARGON2I}$argon2i$v=19$m=32768,t=4,p=1$xoOcAGa27k0Sr6ZPbA9ODw$wl\/KAZVmJooD\/35IFG5oGwyQiAREXrLss5BPS1PDKfA",
     "ARGON2ID": "{ARGON2ID}$argon2id$v=19$m=65536,t=3,p=1$eaXP376O9/VxleLw9OQIxg$jOoDyECeRRV4eta3eSN/j0RdBgqaA1VBGAA/pbviI20",
     "ARGON2ID.B64" : "{ARGON2ID.B64}JGFyZ29uMmlkJHY9MTkkbT02NTUzNix0PTMscD0xJEljdG9DWko1T04zWlYzM3I0TVMrNEEkMUVtNTJRWkdsRlJzNnBsRXpwVmtMeVd4dVNPRUZ2dUZnaVNhTmNlb08rOA==",
-    "MD5": "{MD5}$1$q7P.FNm9$\/W8EtauGkrxlhQep80T8..",
     "SHA256": "{SHA256}7NcYcNGWMxapfjrDQIyYNa2M8PPBvHA1J8MCZVNPda4=",
     "SHA256-CRYPT": "{SHA256-CRYPT}$5$CFly6wzfn2az3U8j$EhfQPTdjpMGAisfCjCKektLke5GGEmtdLVaCZSmsKw2",
     "SHA256-CRYPT.B64": "{SHA256-CRYPT.B64}JDUkUTZZS1ZzZS5sSVJoLndodCR6TWNOUVFVVkhtTmM1ME1SQk9TR3BEeGpRY2M1TzJTQ1lkbWhPN1YxeHlD"
@@ -241,14 +238,39 @@ EOF;
         }
     }
 
+    public function testSha512CryptB64()
+    {
+        $c = new PFACrypt('SHA512CRYPT.B64');
+
+        //    "SHA512-CRYPT.B64": "{SHA512-CRYPT.B64}JDYkR2JwY3NiZXNMWk9DdERXbiRYdXlhdEZTdy9oa3lyUFE0d24wenpGQTZrSlpTUE9QVWdPcjVRUC40bTRMTjEzdy81aWMvWTdDZllRMWVqSWlhNkd3Q2Z0ZnNjZEFpam9OWjl3OU5tLw==",
+        $crypt = '{SHA512-CRYPT.B64}JDYkR2JwY3NiZXNMWk9DdERXbiRYdXlhdEZTdy9oa3lyUFE0d24wenpGQTZrSlpTUE9QVWdPcjVRUC40bTRMTjEzdy81aWMvWTdDZllRMWVqSWlhNkd3Q2Z0ZnNjZEFpam9OWjl3OU5tLw==';
+        $this->assertEquals($crypt, $c->pacrypt('test123', $crypt));
+    }
+
+    public function testWeCopeWithDifferentMethodThanConfigured()
+    {
+        $c = new PFACrypt('MD5-CRYPT');
+        $md5Crypt = '{MD5-CRYPT}$1$AIjpWveQ$2s3eEAbZiqkJhMYUIVR240';
+
+        $this->assertEquals($md5Crypt, $c->pacrypt('test123', $md5Crypt));
+
+        $c = new PFACrypt('SHA1');
+
+        $this->assertEquals($md5Crypt, $c->pacrypt('test123', $md5Crypt));
+
+        $sha1Crypt = '{SHA1}cojt0Pw//L6ToM8G41aOKFIWh7w=';
+
+        $this->assertEquals($sha1Crypt, $c->pacrypt('test123', $sha1Crypt));
+    }
+
     public function testSomeCourierHashes()
     {
         global $CONF;
 
         $options = [
-            'courier:md5'    => '{MD5}zAPnR6avu8v4vnZorP6+5Q==',
+            'courier:md5' => '{MD5}zAPnR6avu8v4vnZorP6+5Q==',
             'courier:md5raw' => '{MD5RAW}cc03e747a6afbbcbf8be7668acfebee5',
-            'courier:ssha'   => '{SSHA}pJTac1QSIHoi0qBPdqnBvgPdjfFtDRVY',
+            'courier:ssha' => '{SSHA}pJTac1QSIHoi0qBPdqnBvgPdjfFtDRVY',
             'courier:sha256' => '{SHA256}7NcYcNGWMxapfjrDQIyYNa2M8PPBvHA1J8MCZVNPda4=',
         ];
 
@@ -262,11 +284,11 @@ EOF;
             $this->assertNotEquals($pacrypt_sanity, $pfa_new_hash);
             $this->assertNotEquals($pacrypt_sanity, $example_hash);
 
-            $this->assertEquals($pacrypt_check, $example_hash, "Should match, algorithm: $algorithm generated:{$pacrypt_check} vs example:{$example_hash}");
+            $this->assertEquals($example_hash, $pacrypt_check, "Should match, algorithm: $algorithm generated:{$pacrypt_check} vs example:{$example_hash}");
 
             $new = pacrypt('test123', $pfa_new_hash);
 
-            $this->assertEquals($pfa_new_hash, $new, "Trying: $algorithm => gave: $new with $pfa_new_hash");
+            $this->assertEquals($new, $pfa_new_hash, "Trying: $algorithm => gave: $new with $pfa_new_hash");
         }
     }
 
@@ -274,10 +296,10 @@ EOF;
     {
         foreach (PFACrypt::DOVECOT_NATIVE as $algorithm) {
             $c = new PFACrypt($algorithm);
-            $hash1 = $c->hash('test123');
+            $hash1 = $c->pacrypt('test123');
 
-            $this->assertEquals($hash1, $c->hash('test123', $hash1));
-            $this->assertNotEquals($hash1, $c->hash('9999test9999', $hash1));
+            $this->assertEquals($hash1, $c->pacrypt('test123', $hash1));
+            $this->assertNotEquals($hash1, $c->pacrypt('9999test9999', $hash1));
         }
     }
 }

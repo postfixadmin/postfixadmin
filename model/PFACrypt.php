@@ -15,7 +15,7 @@ class PFACrypt
         'ARGON2ID.B64',
         'SHA256', 'SHA256-CRYPT', 'SHA256-CRYPT.B64',
         'SHA512', 'SHA512.B64',
-        'MD5',
+        'MD5-CRYPT',
         'PLAIN-MD5',
         'CRYPT',
     ];
@@ -25,19 +25,44 @@ class PFACrypt
         $this->algorithm = $algorithm;
     }
 
-    public function hash(string $pw, string $pw_db = ''): string
+    /**
+     * When called with a 'pw' and a 'pw_db' (hash from e.g. database).
+     *
+     * If the return value matches $pw_db, then the plain text password ('pw') is correct.
+     *
+     * @param string $pw - plain text password
+     * @param string $pw_db - hash from e.g. database (what we're comparing $pw to).
+     * @return string if $pw is correct (hashes to $pw_db) then we return $pw_db. Else we return a new hash.
+     *
+     * @throws Exception
+     */
+    public function pacrypt(string $pw, string $pw_db = ''): string
     {
-        $algorithm = $this->algorithm;
+        $algorithm = strtoupper($this->algorithm);
 
         // try and 'upgrade' some dovecot commands to use local algorithms (rather tnan a dependency on the dovecot binary).
-        if (preg_match('/^dovecot:/', $algorithm)) {
-            $tmp = preg_replace('/^dovecot:/', '', $algorithm);
+        if (preg_match('/^DOVECOT:/i', $algorithm)) {
+            $tmp = preg_replace('/^DOVECOT:/i', '', $algorithm);
             if (in_array($tmp, self::DOVECOT_NATIVE)) {
                 $algorithm = $tmp;
             } else {
                 error_log("Warning: using algorithm that requires proc_open: $algorithm, consider using one of : " . implode(', ', self::DOVECOT_NATIVE));
             }
         }
+
+        if (!empty($pw_db) && preg_match('/^{([0-9a-z-\.]+)}/i', $pw_db, $matches)) {
+            $method_in_hash = $matches[1];
+            if ('COURIER:' . strtoupper($method_in_hash) == $algorithm) {
+                // don't try and be clever.
+            } elseif ($algorithm != $method_in_hash) {
+                error_log("Hey, you fed me a password using {$method_in_hash}, but the system is configured to use {$algorithm}");
+                $algorithm = $method_in_hash;
+            }
+        }
+        if ($algorithm == 'SHA512CRYPT.B64') {
+            $algorithm = 'SHA512-CRYPT.B64';
+        }
+
 
         switch ($algorithm) {
 
@@ -63,11 +88,11 @@ class PFACrypt
                 return $this->argon2idCrypt($pw, $pw_db, $algorithm);
 
             case 'SSHA':
-            case 'courier:ssha':
+            case 'COURIER:SSHA':
                 return $this->hashSha1Salted($pw, $pw_db);
 
             case 'SHA256':
-            case 'courier:sha256':
+            case 'COURIER:SHA256':
                 return $this->hashSha256($pw);
 
             case 'SHA256-CRYPT':
@@ -75,25 +100,22 @@ class PFACrypt
                 return $this->sha256Crypt($pw, $pw_db, $algorithm);
 
             case 'SHA512':
-            case 'sha512':
-            case 'sha512b.b64':
+            case 'SHA512B.b64':
             case 'SHA512.B64':
                 return $this->hashSha512($pw, $algorithm);
 
-            case 'md5':
-            case 'PLAIN-MD5':
-                return $this->hashMd5($pw, $algorithm);
+            case 'PLAIN-MD5': // {PLAIN-MD5} prefix
+            case 'MD5':       // no prefix
+                return $this->hashMd5($pw, $algorithm); // this is hex encoded.
 
-            case 'courier:md5':
-                return '{MD5}' . base64_encode(md5($pw, true));
+            case 'COURIER:MD5':
+                return '{MD5}' . base64_encode(md5($pw, true)); // seems to need to be base64 encoded.
 
-            case 'courier:md5raw':
-                return '{MD5RAW}' . bin2hex(md5($pw, true));
+            case 'COURIER:MD5RAW':
+                return '{MD5RAW}' . md5($pw);
 
-            case 'MD5':
             case 'MD5-CRYPT':
                 return $this->cryptMd5($pw, $pw_db, $algorithm);
-
 
             case 'CRYPT':
                 if (!empty($pw_db)) {
@@ -104,30 +126,26 @@ class PFACrypt
                 }
                 return '{CRYPT}' . crypt($pw, $pw_db);
 
-            case 'system':
+            case 'SYSTEM':
                 return crypt($pw, $pw_db);
 
-            case 'cleartext':
-                return $pw;
             case 'CLEAR':
             case 'PLAIN':
             case 'CLEARTEXT':
                 if (!empty($pw_db)) {
-                    $pw_db = preg_replace('/^{.*}}/', '', $pw_db);
-                    if (password_verify($pw, $pw_db)) {
-                        return '{' . $algorithm . '}' . $pw;
+                    if ($pw_db == "{{$algorithm}}$pw") {
+                        return $pw_db;
                     }
+                    return $pw;
                 }
                 return '{' . $algorithm . '}' . $pw;
-            case 'mysql_encrypt':
+            case 'MYSQL_ENCRYPT':
                 return _pacrypt_mysql_encrypt($pw, $pw_db);
 
             // these are all supported by the above (SHA,
-            case 'authlib':
+            case 'AUTHLIB':
                 return _pacrypt_authlib($pw, $pw_db);
 
-            case 'sha512crypt.b64':
-                return $this->pacrypt_sha512crypt_b64($pw, $pw_db);
 
 
         }
@@ -337,37 +355,5 @@ class PFACrypt
             return '{ARGON2ID}' . $hash;
         }
         return '{ARGON2ID.B64}' . base64_encode($hash);
-    }
-
-
-    /**
-     * @see https://github.com/postfixadmin/postfixadmin/issues/58
-     *
-     * Note, this is really a base64 encoded CRYPT formatted hash; this isn't the same as a
-     * sha512 hash that's been base64 encoded.
-     */
-    public function pacrypt_sha512crypt_b64($pw, $pw_db = "")
-    {
-        if (!function_exists('random_bytes') || !function_exists('crypt') || !defined('CRYPT_SHA512') || !function_exists('mb_substr')) {
-            throw new Exception("sha512.b64 not supported!");
-        }
-        if (!$pw_db) {
-            $salt = mb_substr(rtrim(base64_encode(random_bytes(16)), '='), 0, 16, '8bit');
-            return '{SHA512-CRYPT.B64}' . base64_encode(crypt($pw, '$6$' . $salt));
-        }
-
-        $password = "#Thepasswordcannotbeverified";
-        if (strncmp($pw_db, '{SHA512-CRYPT.B64}', 18) == 0) {
-            $dcpwd = base64_decode(mb_substr($pw_db, 18, null, '8bit'), true);
-            if ($dcpwd !== false && !empty($dcpwd) && strncmp($dcpwd, '$6$', 3) == 0) {
-                $password = '{SHA512-CRYPT.B64}' . base64_encode(crypt($pw, $dcpwd));
-            }
-        } elseif (strncmp($pw_db, '{MD5-CRYPT}', 11) == 0) {
-            $dcpwd = mb_substr($pw_db, 11, null, '8bit');
-            if (!empty($dcpwd) && strncmp($dcpwd, '$1$', 3) == 0) {
-                $password = '{MD5-CRYPT}' . crypt($pw, $dcpwd);
-            }
-        }
-        return $password;
     }
 }

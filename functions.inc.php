@@ -1295,7 +1295,7 @@ function pacrypt($pw, $pw_db = "")
     global $CONF;
 
     $hasher = new PFACrypt($CONF['encrypt']);
-    return $hasher->hash($pw, $pw_db);
+    return $hasher->pacrypt($pw, $pw_db);
 }
 
 /**
