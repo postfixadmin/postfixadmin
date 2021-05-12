@@ -87,6 +87,32 @@ class Login {
         return false;
     }
 
+    /**
+     * returns user's domain name
+     * @param $username
+     * @return mixed|null
+     * @throws Exception
+     */
+    protected function getUserDomain($username)
+    {
+        $sql = "SELECT domain FROM {$this->table} WHERE username = :username AND active = :active";
+
+        $active = db_get_boolean(true);
+
+        $values = [
+            'username' => $username,
+            'active' => $active,
+        ];
+
+        // Fetch the domain
+        $result = db_query_one($sql, $values);
+
+        if (is_array($result) && isset($result['domain'])) {
+            return $result['domain'];
+        } else {
+            return NULL;
+        }
+    }
 
     /**
      * @param string $username
@@ -109,6 +135,14 @@ class Login {
         $set = array(
             'password' => pacrypt($new_password),
         );
+
+        if (Config::bool('password_expiration')) {
+            $domain = $this->getUserDomain($username);
+            if (!is_null($domain)) {
+                $password_expiration_value = (int)get_password_expiration_value($domain);
+                $set['password_expiry'] = date('Y-m-d H:i', strtotime("+$password_expiration_value day"));
+            }
+        }
 
         $result = db_update($this->table, 'username', $username, $set);
 
