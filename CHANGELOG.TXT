@@ -9,7 +9,7 @@
 Version 3.3.10 - ???
 -------------------------------------------------
    - Merge password expiration fixes from https://github.com/postfixadmin/postfixadmin/pull/493
-
+   - Remove html readonly attribute from user's vacation page to/from selectors.
 
 
 Version 3.3.9 - 2021/05/12
