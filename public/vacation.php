@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($action == 'fChange') {
 
-        ## check if ActiveUnitl is not  back in time,
+        ## check if ActiveUntil is not  back in time,
         ## because vacation.pl will report SMTP recipient $smtp_recipient which resolves to $email does not have an active vacation (rv: $rv, email: $email)"
         ## and will not send message
 

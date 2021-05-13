@@ -231,9 +231,15 @@ class VacationHandler extends PFAHandler
     {
         $this->remove(); // clean out any notifications that might already have been sent.
 
-        $E_username = escape_string($this->username);
-        $activeFrom = date("Y-m-d 00:00:00", strtotime($activeFrom)); # TODO check if result looks like a valid date
-        $activeUntil = date("Y-m-d 23:59:59", strtotime($activeUntil)); # TODO check if result looks like a valid date
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $activeFrom)) {
+            $activeFrom .= ' 00:00:00';
+        }
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $activeUntil)) {
+            $activeUntil .= ' 23:59:59';
+        }
+
+        $activeFrom = date("Y-m-d H:i", strtotime($activeFrom)); # TODO check if result looks like a valid date
+        $activeUntil = date("Y-m-d H:i", strtotime($activeUntil)); # TODO check if result looks like a valid date
         list(/*NULL*/, $domain) = explode('@', $this->username);
 
         $vacation_data = array(
