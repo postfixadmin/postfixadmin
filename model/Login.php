@@ -112,7 +112,7 @@ class Login
         if (is_array($result) && isset($result['domain'])) {
             return $result['domain'];
         } else {
-            return NULL;
+            return null;
         }
     }
 

@@ -275,12 +275,14 @@ $PALANG['domain_updated'] = 'Домен %s успішно оновлено.';
 
 $PALANG['pAdminDelete_admin_error'] = 'Неможливо видалити адміністратора!';
 $PALANG['domain_postdel_failed'] = 'Не вдалося коректно виконати скрипт після видалення домену, подробиці дивіться у журналі помилок!';
-$PALANG['domain_postedit_failed'] = 'The domain postedit script failed, check the error log for details!'; # XXX
+$PALANG['domain_postedit_failed'] = 'Не вдалося коректно виконати скрипт після редагування домену, подробиці дивіться у журналі помилок!';
+
 $PALANG['domain_postcreate_failed'] = 'Не вдалося коректно виконати скрипт після створення домену, подробиці дивіться у журналі помилок!';
 $PALANG['mailbox_postdel_failed'] = 'Не вдалося коректно виконати скрипт після видалення поштової скриньки, подробиці дивіться у журналі помилок!';
 $PALANG['mailbox_postedit_failed'] = 'Не вдалося коректно виконати скрипт після редагування поштової скриньки, подробиці дивіться у журналі помилок!';
 $PALANG['mailbox_postcreate_failed'] = 'Не вдалося коректно виконати скрипт після створення поштової скриньки, подробиці дивіться у журналі помилок!';
-$PALANG['mailbox_postpassword_failed'] = 'The mailbox postpassword script failed, check the error log for details!'; # XXX
+$PALANG['mailbox_postpassword_failed'] = 'Не вдалося коректно виконати скрипт після зміни пароля поштової скриньки, подробиці дивіться у журналі помилок!';
+
 $PALANG['pAdminDelete_alias_domain_error'] = 'Неможливо видалити псевдоним (аліас) домену!';
 $PALANG['domain_conflict_vacation_domain'] = 'Ви не можете використовувати домен автовідповідача у якості поштового домену!';
 
