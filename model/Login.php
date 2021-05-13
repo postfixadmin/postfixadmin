@@ -93,8 +93,7 @@ class Login {
      * @return mixed|null
      * @throws Exception
      */
-    protected function getUserDomain($username)
-    {
+    protected function getUserDomain($username) {
         $sql = "SELECT domain FROM {$this->table} WHERE username = :username AND active = :active";
 
         $active = db_get_boolean(true);
@@ -110,7 +109,7 @@ class Login {
         if (is_array($result) && isset($result['domain'])) {
             return $result['domain'];
         } else {
-            return NULL;
+            return null;
         }
     }
 
