@@ -1890,7 +1890,7 @@ function upgrade_1836_mysql()
 /**
  * @return void
  */
-function upgrade_1837() 
+function upgrade_1837()
 {
     if (db_sqlite()) {
         return;
