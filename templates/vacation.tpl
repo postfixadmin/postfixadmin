@@ -17,7 +17,7 @@
                            class="form-control hidden"/>
                     <div class="input-group date" id="datetimepicker-fActiveFrom">
                         <input type='text' name="fActiveFromForm" id="fActiveFromForm" value="{$tActiveFrom}"
-                               class="form-control" readonly="readonly"/>
+                               class="form-control" />
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                     <div class="input-group date" id="datetimepicker-fActiveUntil">
                         <input type='text'
                                name="fActiveUntilForm" id="fActiveUntilForm" value="{$tActiveUntil}"
-                               class="form-control" readonly="readonly"/>
+                               class="form-control" />
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
