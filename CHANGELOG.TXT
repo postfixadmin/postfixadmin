@@ -6,6 +6,12 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.10 - ???
+-------------------------------------------------
+   - Merge password expiration fixes from https://github.com/postfixadmin/postfixadmin/pull/493
+
+
+
 Version 3.3.9 - 2021/05/12
 -------------------------------------------------
    - Improve Ukrainian language (ua.lang) (thanks: andrew.kudrinov) 
