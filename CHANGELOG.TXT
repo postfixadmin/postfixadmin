@@ -6,18 +6,31 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-MASTER (should have all changes from 3.3.9 plus)
+MASTER (should have all changes from 3.3.10 plus)
 ------
 
    - Add optional Dovecot mail-crypt plugin support - see https://github.com/postfixadmin/postfixadmin/issues/408
    - Add $CONF['site_url'] to allow administrators to override a detected site url (e.g. used in password recovery emails; see https://github.com/postfixadmin/postfixadmin/issues/446 )
    - Code reformat as PHPCS has a mind of it's own (function/method opening brace change of position)
+   - Improved UTF8 support in vacation (see https://github.com/postfixadmin/postfixadmin/pull/484)
+   - Fix quota levels losing config control (see bfc7af5c8efe2a68c47286cc870b56cb4f929a3f)
+   - vacation.pl: improve autoreply detection (see https://github.com/postfixadmin/postfixadmin/pull/482 
+   - vacation.pl: improve headers in auto-reply mails (add: "Auto-Submitted: auto-replied") see https://github.com/postfixadmin/postfixadmin/pull/483
+   - vacation.pl: allow smtp helo to be customised; see https://github.com/postfixadmin/postfixadmin/pull/495
 
-Version 3.3.9 - ??????????
+Version 3.3.10 - ???
 -------------------------------------------------
-   - Improve Ukrainian language (thanks: andrew.kudrinov) (forgot to cherry-pick 4a960a0ce06b0754fa7b39aed0d5c57a88b20720 from master)
+   - Merge password expiration fixes from https://github.com/postfixadmin/postfixadmin/pull/493
+   - Remove html readonly attribute from user's vacation page to/from selectors.
+
+
+Version 3.3.9 - 2021/05/12
+-------------------------------------------------
+   - Improve Ukrainian language (ua.lang) (thanks: andrew.kudrinov) 
    - Ensure we update timestamp fields (created / modified) when performing db operations, see: https://github.com/postfixadmin/postfixadmin/issues/469 
    - Add domain_admins.id pk column for non-sqlite users, see: https://github.com/postfixadmin/postfixadmin/issues/475
+   - Add fix for MySQL error where a default datetime value in the domain field breaks the upgrade.php db schema update, see https://github.com/postfixadmin/postfixadmin/issues/489
+   - Bug fix quota levels (now user configurable again; thanks @csware, see https://github.com/postfixadmin/postfixadmin/commit/bfc7af5c8efe2a68c47286cc870b56cb4f929a3f
 
 Version 3.3.8 - 2021/03/04
 -------------------------------------------------

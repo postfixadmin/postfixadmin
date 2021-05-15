@@ -334,23 +334,28 @@ EOF;
             <h2 class="h2">Database Update</h2>
 
             <?php
-            if ($authenticated) {
                 $db = false;
                 try {
                     $db = db_connect();
                 } catch (\Exception $e) {
-                    error_log("Couldn't perform PostfixAdmin database update - " . $e->getMessage());
+                    echo "<p class='h3 text-danger'>Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>\n';
+                    error_log("Couldn't perform PostfixAdmin database update - failed to connect to db? " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
                 }
 
                 if ($db) {
-                    print "<p>Everything seems fine... attempting to create/update database structure</p>\n";
-                    require_once(dirname(__FILE__) . '/upgrade.php');
+                    echo "<p>Everything seems fine... attempting to create/update database structure</p>\n";
+                    try {
+                        require_once(dirname(__FILE__) . '/upgrade.php');
+                    } catch (\Exception $e) {
+                        if ($authenticated) {
+                            echo "<p class='h3 text-danger'>Exception message: {$e->getMessage()} - check logs!</p>";
+                        }
+                        echo "<p class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>\n';
+                        error_log("Couldn't perform PostfixAdmin database update via upgrade.php - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
+                    }
                 } else {
                     echo "<h3 class='h3 text-danger'>Could not connect to database to perform updates; check PHP error log.</h3>";
                 }
-            } else {
-                echo "<h3 class='h3 text-warning'>Please login to see perform database update.</h3>";
-            }
             ?>
 
         </div>

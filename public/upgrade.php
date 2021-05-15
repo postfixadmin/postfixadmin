@@ -256,7 +256,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "")
                 '{UNSIGNED}'        => 'unsigned'  ,
                 '{FULLTEXT}'        => 'FULLTEXT',
                 '{BOOLEAN}'         => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
-                '{UTF-8}'           => '/*!40100 CHARACTER SET utf8 */',
+                '{UTF-8}'           => '/*!40100 CHARACTER SET utf8mb4 */',
                 '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 COLLATE latin1_general_ci */',
                 '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
                 '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
@@ -1903,6 +1903,7 @@ function upgrade_1837()
         _db_add_field($table, 'token_validity', '{DATETIME}', 'token');
     }
 }
+
 # TODO MySQL:
 # - various varchar fields do not have a default value
 #   https://sourceforge.net/projects/postfixadmin/forums/forum/676076/topic/3419725
