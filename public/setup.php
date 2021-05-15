@@ -346,9 +346,8 @@ EOF;
                     echo "<p>Everything seems fine... attempting to create/update database structure</p>\n";
                     try {
                         require_once(dirname(__FILE__) . '/upgrade.php');
-                    }
-                    catch(\Exception $e) {
-                        if($authenticated) {
+                    } catch (\Exception $e) {
+                        if ($authenticated) {
                             echo "<p class='h3 text-danger'>Exception message: {$e->getMessage()} - check logs!</p>";
                         }
                         echo "<p class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>\n';
