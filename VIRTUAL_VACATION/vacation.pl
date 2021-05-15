@@ -56,9 +56,12 @@ our $recipient_delimiter = '+';
 # port to connect to; defaults to 25 for non-SSL, 465 for 'ssl', 587 for 'starttls'
 our $smtp_server_port = 25;
 
+# this is the local address from which to connect
+our $smtp_client = 'localhost';
+
 # this is the helo we [the vacation script] use on connection; you may need to change this to your hostname or something,
 # depending upon what smtp helo restrictions you have in place within Postfix.
-our $smtp_client = 'localhost';
+our $smtp_helo = 'localhost.localdomain';
 
 # send mail encrypted or plaintext
 # if 'starttls', use STARTTLS; if 'ssl' (or 1), connect securely; otherwise, no security
@@ -476,6 +479,7 @@ sub send_vacation_email {
             ssl  => $smtp_ssl,
             timeout => $smtp_timeout,
             localaddr => $smtp_client,
+            helo => $smtp_helo,
             debug => 0,
         };
 
