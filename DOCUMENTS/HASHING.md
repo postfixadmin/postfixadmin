@@ -39,7 +39,7 @@ Supported hash formats include :
  * PLAIN-MD5 (aka md5)
  * CRYPT
 
-Historically PostfixAdmin has supported all dovecot algorithms (methods) by using the 'doveadm' system binary. As of XXXXXXX, we attempt to use a native/PHP implementation for a number of these to remove issues caused by use of proc_open / dovecot file permissions etc (see #379).
+Historically PostfixAdmin has supported all dovecot algorithms (methods) by using the 'doveadm' system binary. As of XXXXXXX, we attempted to use a native/PHP implementation for a number of these to remove issues caused by use of proc_open / dovecot file permissions etc (see e.g. #379).
 
 It's recommended you use the algorithm/mechanism from your MTA, and configure PostfixAdmin with the same value prefixed by the MTA name -
 
@@ -47,23 +47,23 @@ For example, if dovecot has `default_pass_scheme = SHA256` use `$CONF['encrypt']
 
 
 | Dovecot pass scheme | PostfixAdmin `$CONF['encrypt']` setting |
-|------|------|
-| SHA256 | dovecot:SHA256 |
-| SHA256-CRYPT.B64 | dovecot:SHA256-CRYPT.B64 |
-| SHA256-CRYPT | dovecot:SHA256-CRYPT |
-| SHA512-CRYPT | dovecot:SHA512-CRYPT |
-| ARGON2I | dovecot:ARGON2I |
-| ARGON2ID | dovecot:ARGON2ID |
+|---------------------|-----------------------------------------|
+| SHA256              | dovecot:SHA256                          |
+| SHA256-CRYPT.B64    | dovecot:SHA256-CRYPT.B64                |
+| SHA256-CRYPT        | dovecot:SHA256-CRYPT                    |
+| SHA512-CRYPT        | dovecot:SHA512-CRYPT                    |
+| ARGON2I             | dovecot:ARGON2I                         |
+| ARGON2ID            | dovecot:ARGON2ID                        |
 
 
 
 | Courier Example | PostfixAdmin |
-|-------|-------|
-|  md5 | courier:md5 | 
-| md5raw | courier:md5raw |
-| sha1 | courier:sha1 |
-| ssha | courier:ssha |
-| sha256 | courier:sha256 |
+|-----------------|--------------|
+|  md5            | courier:md5  | 
+| md5raw          | courier:md5raw |
+| sha1            | courier:sha1 |
+| ssha            | courier:ssha |
+| sha256          | courier:sha256 |
 
 
 ### cleartext
