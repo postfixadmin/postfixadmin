@@ -141,12 +141,34 @@ The easiest way to do this is
  $ mkdir -p /srv/postfixadmin/templates_c
  $ chown -R www-data /srv/postfixadmin/templates_c
 
-(If you're using e.g. CentOS or another distribution which enables SELinux, something like the following may be necessary as well :
+
+4a. SELinux (CentOS/Fedora etc)
+-------------------------------
+
+If you're using e.g. CentOS (or another distribution) which enables SELinux, something like the following will be necessary :
+
 
 ```bash
-    chcon -R -t httpd_sys_content_rw_t /srv/postfixadmin/templates_c
+    semanage fcontext -a -t httpd_sys_content_t "/srv/postfixadmin(/.*)?"
+    semanage fcontext -a -t httpd_sys_rw_content_t "/srv/postfixadmin/templates_c(.*)?"
+    restorecon -R /srv/postfixadmin
 ```
-)
+
+(Allow the webserver to read /srv/postfixadmin/* and write to /srv/postfixadmin/templates_c/*)
+
+
+And if the webserver (PHP) needs to make network connections out to a database server, you'll probably need this :
+
+```bash
+    semanage boolean -m --on httpd_can_network_connect_db
+````
+
+If additionally need the webserve (PHP) to talk to an imap server, then you'll probably also need :
+
+```bash
+    semanage boolean -m --on httpd_can_network_connect
+````
+
 
 5. Check settings, and create Admin user
 ----------------------------------------
