@@ -150,7 +150,7 @@ If you're using e.g. CentOS (or another distribution) which enables SELinux, som
 
 ```bash
     semanage fcontext -a -t httpd_sys_content_t "/srv/postfixadmin(/.*)?"
-    semanage fcontext -a -t httpd_sys_rw_content_t "/srv/postfixadmin/templates_c(.*)?"
+    semanage fcontext -a -t httpd_sys_rw_content_t "/srv/postfixadmin/templates_c(/.*)?"
     restorecon -R /srv/postfixadmin
 ```
 
