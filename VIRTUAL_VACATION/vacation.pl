@@ -66,8 +66,8 @@ our $smtp_client = 'localhost';
 our $smtp_helo = 'localhost.localdomain';
 
 # send mail encrypted or plaintext
-# if 'starttls', use STARTTLS; if 'ssl' (or 1), connect securely; otherwise, no security
-our $smtp_ssl = 'starttls';
+# if 1, connect securely via ssl; otherwise, no security
+our $smtp_ssl = 0;
 
 # maximum time in secs to wait for server; default is 120
 our $smtp_timeout = '120';
