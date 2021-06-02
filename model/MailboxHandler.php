@@ -66,7 +66,7 @@ class MailboxHandler extends PFAHandler
         }
     }
 
-    public function init($id) : bool
+    public function init(string $id) : bool
     {
         if (!parent::init($id)) {
             return false;
