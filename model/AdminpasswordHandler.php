@@ -39,7 +39,7 @@ class AdminpasswordHandler extends PFAHandler
         );
     }
 
-    public function init($id) :bool
+    public function init(string $id) :bool
     {
         # hardcode to logged in admin
         if ($this->admin_username == '') {
