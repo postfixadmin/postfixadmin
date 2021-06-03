@@ -84,7 +84,6 @@ if ($CONF['configured']) {
         <p>For further help, or documentation please check out -
         <ul>
             <li><a href="https://github.com/postfixadmin/postfixadmin">GitHub - Postfix Admin</a> web site</li>
-            <li><a href="https://postfixadmin.org">Postfix Admin</a> web site<br /></li>
             <li><a href="https://sourceforge.net/forum/forum.php?forum_id=676076">Knowledge Base</a></li>
         </ul>
         </p>
