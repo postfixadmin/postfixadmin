@@ -63,7 +63,7 @@ jobs:
       run: composer install --prefer-dist -n
 
     - name: build coveralls coverage
-      run: php -m xdebug.mode=coverage vendor/bin/phpunit tests
+      run: php -d xdebug.mode=coverage vendor/bin/phpunit tests
 
     - name: Coveralls
       run: vendor/bin/php-coveralls  || true
