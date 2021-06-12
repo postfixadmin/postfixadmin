@@ -29,6 +29,9 @@ Integrates with :
  - Optional XMLRPC based API 
  - Supports PHP7.0+
 
+[Some screenshots of Postfixadmin in action (as admin and user)](DOCUMENTS/screenshots/README.md)
+
+
 ## Useful Links
 
  - [Probably all you need to read (pdf)](http://blog.cboltz.de/uploads/postfixadmin-30-english.pdf)
