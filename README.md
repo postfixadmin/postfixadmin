@@ -27,7 +27,7 @@ Integrates with :
  - Users have the ability to login, change their password or vacation (out of office) status.
  - Integration with Squirrelmail / Roundcube (via plugins)
  - Optional XMLRPC based API 
- - Supports PHP7.0+
+ - Supports PHP7.2+ (older versions of PHP should work with older releases)
 
 [Some screenshots of Postfixadmin in action (as admin and user)](DOCUMENTS/screenshots/README.md)
 
