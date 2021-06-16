@@ -42,7 +42,7 @@
                                             {html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
                                         </select>
                                     {elseif $field.type == 'pass' || $field.type == 'b64p'}
-                                        <input class="form-control" type="password" name="value[{$key}]"/>
+                                        <input class="form-control" type="password" name="value[{$key}]" {if $key == 'password' || $key == 'password2'}autocomplete="new-password"{/if}/>
                                     {elseif $field.type == 'txtl'}
                                         <textarea class="form-control" rows="10" cols="35" name="value[{$key}]">{foreach key=key2 item=field2 from=$value_{$key}}{$field2}&#10;{/foreach}</textarea>
                                     {else}
