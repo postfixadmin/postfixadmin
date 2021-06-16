@@ -17,13 +17,13 @@
             <div class="form-group {if $pPassword_password_text}has-error{/if}">
                 <label class="col-md-4 col-sm-4 control-label" for="fPassword">{$PALANG.pPassword_password}:</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="password" name="fPassword"
-                                                      id="fPassword"/></div>
+                                                      id="fPassword" autocomplete="new-password"/></div>
                 <span class="help-block">{$pPassword_password_text}</span>
             </div>
             <div class="form-group">
                 <label class="col-md-4 col-sm-4 control-label" for="fPassword2">{$PALANG.pPassword_password2}:</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="password" name="fPassword2"
-                                                      id="fPassword2"/></div>
+                                                      id="fPassword2" autocomplete="new-password"/></div>
             </div>
         </div>
         <div class="panel-footer">
