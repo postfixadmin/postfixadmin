@@ -29,14 +29,14 @@
         <label for="fPassword">
             {$PALANG.pPassword_password}
         </label>
-        <input class="form-control" type="password" name="fPassword"/>
+        <input class="form-control" type="password" name="fPassword" autocomplete="new-password"/>
     </div>
 
     <div class="form-group">
         <label for="fPassword2">
             {$PALANG.pPassword_password2}
         </label>
-        <input class="form-control" type="password" name="fPassword2"/>
+        <input class="form-control" type="password" name="fPassword2" autocomplete="new-password"/>
     </div>
 
     <button class="btn btn-primary" type="submit" name="submit"
