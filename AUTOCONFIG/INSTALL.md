@@ -10,15 +10,15 @@ Autodiscovery is a somewhat standardised feature that makes it possible for mail
 
 Let's take the example of joe@example.com.
 
-When creating an account on Thurderbird and other who use the same configuration, the mail client will make a http query to <https://www.example.com/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=joe%2540example.com>
+When creating an account within **Thunderbird** (or another client, with similar support), the mail client will make a http query to <https://www.example.com/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=joe%2540example.com>
 
 See this page from Mozilla for more information: <https://wiki.mozilla.org/Thunderbird:Autoconfiguration:ConfigFileFormat>
 
 If a DNS record exist
 
-For Outlook, the mail client will attempt a POST request to: <https://www.example.com/autodiscover/autodiscover.xml> and submit a XML-based request
+For **Outlook**, the mail client will attempt a POST request to: <https://www.example.com/autodiscover/autodiscover.xml> and submit a XML-based request
 
-For Mac mail and iOS, the user needs to download a `mobileconfig` file, which is basically an XML file, that can be signed.
+For **Mac mail and iOS**, the user needs to download a `mobileconfig` file, which is basically an XML file, that can be signed.
 
 Unfortunately, there is no auto discovery system for Mac/iOS mail, so you need to redirect your users to the `autoconfig.pl` cgi script under the Postfix Admin web root. You need to pass a `emailaddress` parameter for example <https://www.example.com/postfixadmin/autoconfig.pl?mac_mail=1&emailaddress=joe@example.com>
 
@@ -31,6 +31,7 @@ Unfortunately, there is no auto discovery system for Mac/iOS mail, so you need t
 You need to activate the `uuid-ossp` PostgreSQL extension to use the UUID_V4. You can do that, as an admin logged on PostgreSQL, with `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
 
 If you cannot or do not want to do that, edit the SQL script for PostgreSQL and comment line 9 and uncomment line 11, comment line 72 and uncoment line 74, comment line 84 and uncomment line 86, comment line 107 and uncomment line 109
+
 
 #### Perl
 
