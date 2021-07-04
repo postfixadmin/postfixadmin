@@ -42,7 +42,7 @@ if ($CONF['configured']) {
         <title>Welcome to Postfix Admin</title>
     </head>
     <body>
-        <img id="login_header_logo" src="{$rel_path}images/logo-default.png" />
+        <img id="login_header_logo" src="images/logo-default.png" />
         <h1>Welcome to Postfix Admin</h1>
         <h2>What is it?</h2>
         <p>Postfix Admin is a web based interface to configure and manage a Postfix based email server for many users.</p>
