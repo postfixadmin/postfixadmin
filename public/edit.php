@@ -184,13 +184,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 }
             }
 
-            if ($new == 0) {
-                header("Location: " . $formconf['listview']);
-                exit;
-            } else {
-                header("Location: edit.php?table=$table");
-                exit;
-            }
+            header("Location: " . $formconf['listview']);
+            exit;
         }
     }
 }
