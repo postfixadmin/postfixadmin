@@ -205,6 +205,7 @@ $PALANG['reply_once_per_day'] = 'Reply once a day';
 $PALANG['reply_once_per_week'] = 'Reply once a week';
 
 $PALANG['pViewlog_welcome'] = 'View the last %s actions for ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions ';
 $PALANG['pViewlog_timestamp'] = 'Timestamp';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Data';

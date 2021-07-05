@@ -204,6 +204,7 @@ $PALANG['reply_once_per_day'] = 'Svara en gång om dagen';
 $PALANG['reply_once_per_week'] = 'Svara en gång i veckan';
 
 $PALANG['pViewlog_welcome'] = 'Visa de senaste %s åtgärderna för ';
+$PALANG['pViewlog_welcome_all'] = 'Visa de senaste %s åtgärderna ';
 $PALANG['pViewlog_timestamp'] = 'Tidpunkt';
 $PALANG['pViewlog_action'] = 'Åtgärd';
 $PALANG['pViewlog_data'] = 'Data';

@@ -203,6 +203,7 @@ $PALANG['reply_once_per_day'] = '毎日返信';
 $PALANG['reply_once_per_week'] = '週に一度返信';
 
 $PALANG['pViewlog_welcome'] = '過去 %s 個のアクション ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = 'タイムスタンプ';
 $PALANG['pViewlog_action'] = 'アクション';
 $PALANG['pViewlog_data'] = 'データ';

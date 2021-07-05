@@ -203,6 +203,7 @@ $PALANG['reply_once_per_day'] = 'Répondre une fois par jour';
 $PALANG['reply_once_per_week'] = 'Répondre une fois par semaine';
 
 $PALANG['pViewlog_welcome'] = 'Visualiser les %s dernières actions pour ';
+$PALANG['pViewlog_welcome_all'] = 'Visualiser les %s dernières actions ';
 $PALANG['pViewlog_timestamp'] = 'Date/Heure';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Information';

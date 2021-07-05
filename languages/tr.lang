@@ -199,6 +199,7 @@ $PALANG['reply_once_per_day'] = 'Günde bir kez yanıtla';
 $PALANG['reply_once_per_week'] = 'Haftada bir kez yanıtla';
 
 $PALANG['pViewlog_welcome'] = 'Son %s hareketi:';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = 'Timestamp'; # XXX
 $PALANG['pViewlog_action'] = 'Hareket';
 $PALANG['pViewlog_data'] = 'Veri';
