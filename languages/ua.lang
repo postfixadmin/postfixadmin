@@ -205,6 +205,7 @@ $PALANG['reply_once_per_day'] = 'Відповідати один раз на д�
 $PALANG['reply_once_per_week'] = 'Відповідати один раз на тиждень';
 
 $PALANG['pViewlog_welcome'] = 'Перегляд %s останніх дій для ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = 'Час створення/модифікації';
 $PALANG['pViewlog_action'] = 'Дія';
 $PALANG['pViewlog_data'] = 'Данні';

@@ -200,6 +200,7 @@ $PALANG['reply_once_per_day'] = 'Odpovedať raz za deň';
 $PALANG['reply_once_per_week'] = 'Odpovedať raz za týždeň';
 
 $PALANG['pViewlog_welcome'] = 'Prehľad %s posledných akcií pre ';
+$PALANG['pViewlog_welcome_all'] = 'Prehľad %s posledných akcií ';
 $PALANG['pViewlog_timestamp'] = 'Časová značka';
 $PALANG['pViewlog_action'] = 'Akcia';
 $PALANG['pViewlog_data'] = 'Podrobnosti';
