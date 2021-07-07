@@ -19,7 +19,8 @@
         "psalm": "@php ./vendor/bin/psalm --no-cache --show-info=false "
     },
     "require": {
-        "php": ">=7.2"
+        "php": ">=7.2",
+        "postfixadmin/password-hashing": "dev-main"
     },
     "require-dev": {
         "ext-mysqli":  "*",

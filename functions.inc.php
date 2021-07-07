@@ -1294,8 +1294,22 @@ function pacrypt($pw, $pw_db = "")
 {
     global $CONF;
 
-    $hasher = new PFACrypt($CONF['encrypt']);
-    return $hasher->pacrypt($pw, $pw_db);
+    $mechanism = $CONF['encrypt'] ?? 'CRYPT';
+
+    if ($mechanism == 'php_crypt') {
+        $mechanism = 'CRYPT';
+    }
+    if ($mechanism == 'php_crypt:SHA512') {
+        $mechanism = 'SHA512-CRYPT';
+    }
+
+    if (empty($pw_db)) {
+        $pw_db = null;
+    }
+
+    $hasher = new \PostfixAdmin\PasswordHashing\Crypt($mechanism);
+    return $hasher->crypt($pw, $pw_db);
+
 }
 
 /**
