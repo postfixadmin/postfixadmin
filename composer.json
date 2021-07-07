@@ -33,6 +33,7 @@
         "shardj/zf1-future" : "^1.12"
     },
     "autoload": {
+        "classmap" : [ "model/" ],
         "files": [
             "config.inc.php",
             "functions.inc.php",
