@@ -147,7 +147,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($x->errormsg);
         $this->assertEquals(
             [
-                'goto' => "david.test@example.com: Alias may not point to itself",
+                'goto' => "david.test@example.com: Forward may not point to itself",
                 0 => "one or more values are invalid!"
             ], $x->errormsg);
     }
