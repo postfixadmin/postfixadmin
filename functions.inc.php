@@ -1309,7 +1309,6 @@ function pacrypt($pw, $pw_db = "")
 
     $hasher = new \PostfixAdmin\PasswordHashing\Crypt($mechanism);
     return $hasher->crypt($pw, $pw_db);
-
 }
 
 /**
