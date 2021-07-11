@@ -1303,6 +1303,13 @@ function pacrypt($pw, $pw_db = "")
         $mechanism = 'SHA512-CRYPT';
     }
 
+    if(preg_match('/^dovecot:(.*)$/i', $mechanism, $matches)) {
+        $mechanism = strtoupper($matches[1]);
+    }
+
+    if(preg_match('/^courier:(.*)$/i', $mechanism, $matches)) {
+        $mechanism = strtoupper($mechanism);
+    }
     if (empty($pw_db)) {
         $pw_db = null;
     }
