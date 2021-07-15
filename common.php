@@ -38,7 +38,7 @@ $incpath = dirname(__FILE__);
  */
 function postfixadmin_autoload($class)
 {
-    $PATH = dirname(__FILE__) . '/model/' . $class . '.php';
+    $PATH = "$incpath/model/" . $class . '.php';
 
     if (is_file($PATH)) {
         require_once($PATH);
