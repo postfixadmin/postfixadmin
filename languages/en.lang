@@ -59,9 +59,9 @@ $PALANG['pMenu_viewlog'] = 'View Log';
 $PALANG['pMenu_logout'] = 'Logout';
 
 $PALANG['pMain_welcome'] = 'Welcome to Postfix Admin!';
-$PALANG['pMain_overview'] = 'List your aliases and mailboxes. You can edit / delete them from here.';
-$PALANG['pMain_create_alias'] = 'Create a new forward for your domain.';
-$PALANG['pMain_create_mailbox'] = 'Create a new mailbox for your domain.';
+$PALANG['pMain_overview'] = 'List your domains. You can edit / delete them from here.';
+$PALANG['pMain_create_alias'] = 'Create a new email forward.';
+$PALANG['pMain_create_mailbox'] = 'Create a new mailbox.';
 $PALANG['pMain_sendmail'] = 'Send an email to one of your newly created mailboxes.';
 $PALANG['pMain_password'] = 'Change the password for your admin account.';
 $PALANG['pMain_viewlog'] = 'View the log files.';
