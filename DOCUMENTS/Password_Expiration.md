@@ -86,7 +86,7 @@ do
     QUERY="SELECT username,password_expiry FROM mailbox WHERE password_expiry > now() + interval $LOWER DAY AND password_expiry < NOW() + interval $INTERVAL DAY"
 
     mysql --defaults-extra-file="$MYSQL_CREDENTIALS_FILE" "$POSTFIX_DB" -B -N -e "$QUERY" | while IFS=$'\t' read -a RESULT ; do
-        echo -e "Dear User, \n Your password will expire on ${RESULT[1]}" | mail -s "Password 30 days before expiration notication" -r $REPLY_ADDRESS  ${RESULT[0]} 
+        echo -e "Dear User, \n Your password will expire on ${RESULT[1]}" | mail -s "Password $INTERVAL days before expiration notication" -r $REPLY_ADDRESS  ${RESULT[0]} 
     done
 done
 
