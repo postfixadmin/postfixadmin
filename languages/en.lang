@@ -48,7 +48,7 @@ $PALANG['pLogin_failed'] = 'Your email address or password is not correct.';
 $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.';
 
 $PALANG['pMenu_main'] = 'Main';
-$PALANG['pMenu_overview'] = 'Domain List';
+$PALANG['pMenu_overview'] = 'Overview';
 $PALANG['add_alias'] = 'Add Forward';
 $PALANG['add_alias_domain'] = 'Add Alias Domain';
 $PALANG['add_mailbox'] = 'Add Mailbox';
