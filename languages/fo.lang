@@ -57,9 +57,9 @@ $PALANG['pMenu_viewlog'] = 'Vís Logg';
 $PALANG['pMenu_logout'] = 'Logga út';
 
 $PALANG['pMain_welcome'] = 'Vælkomin til Postfix Admin!';
-$PALANG['pMain_overview'] = 'Vís tíni dulnevni og postkassar. Tú kanst broyta / strika tey her.';
-$PALANG['pMain_create_alias'] = 'Stovna eitt nýtt dulnevni á tínum navnaøki.';
-$PALANG['pMain_create_mailbox'] = 'Stovna ein nýggjan postkassa á tínum navnaøki.';
+$PALANG['pMain_overview'] = 'Vís tíni dulnevni og postkassar. Tú kanst broyta / strika tey her.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Stovna eitt nýtt dulnevni á tínum navnaøki.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Stovna ein nýggjan postkassa á tínum navnaøki.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Send ein e-post til ein av tínum nýstovnaðu postkassum.';
 $PALANG['pMain_password'] = 'Broyt loyniorðið á tíni umsitara konto.';
 $PALANG['pMain_viewlog'] = 'Vís logg fílurnar.';

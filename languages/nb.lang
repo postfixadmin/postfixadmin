@@ -59,9 +59,9 @@ $PALANG['pMenu_viewlog'] = 'Vis logg';
 $PALANG['pMenu_logout'] = 'Logg ut';
 
 $PALANG['pMain_welcome'] = 'Velkommen til Postfix Admin!';
-$PALANG['pMain_overview'] = 'Viser alle alias og epostkontoer. Du kan endre dem herfra.';
-$PALANG['pMain_create_alias'] = 'Opprett et nytt alias.';
-$PALANG['pMain_create_mailbox'] = 'Opprett en ny e-postkonto.';
+$PALANG['pMain_overview'] = 'Viser alle alias og epostkontoer. Du kan endre dem herfra.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Opprett et nytt alias.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Opprett en ny e-postkonto.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Send en e-postmelding til en av dine nylig opprettede e-postkontoer.';
 $PALANG['pMain_password'] = 'Forandre passordet til din administratorkonto.';
 $PALANG['pMain_viewlog'] = 'Vis logg.';

@@ -58,9 +58,9 @@ $PALANG['pMenu_viewlog'] = 'Vizualizare Log';
 $PALANG['pMenu_logout'] = 'Deconectare';
 
 $PALANG['pMain_welcome'] = 'Bine ati venit la Postfix Admin!';
-$PALANG['pMain_overview'] = 'Lista alias-uri si casute de mail. De aici le puteti edita / sterge';
-$PALANG['pMain_create_alias'] = 'Creati un alias';
-$PALANG['pMain_create_mailbox'] = 'Creati o casuta de mail';
+$PALANG['pMain_overview'] = 'Lista alias-uri si casute de mail. De aici le puteti edita / sterge'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Creati un alias'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Creati o casuta de mail'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Trimiteti un email catre o casuta nou creata.';
 $PALANG['pMain_password'] = 'Schimbati parola contului de administrare.';
 $PALANG['pMain_viewlog'] = 'Vizualizati log-uri.';

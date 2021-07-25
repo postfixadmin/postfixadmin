@@ -58,9 +58,9 @@ $PALANG['pMenu_viewlog'] = 'Napló megtekintése';
 $PALANG['pMenu_logout'] = 'Kilépés';
 
 $PALANG['pMain_welcome'] = 'Üdvözöllek a Postfix Adminisztrációs rendszerben!';
-$PALANG['pMain_overview'] = 'Listázd az alias-okat és a postafiókokat. Innen tudod õket törölni / módosítani.';
-$PALANG['pMain_create_alias'] = 'Új alias készítése az adott domainhez.'; # XXX check text - should be 'Create a new alias for your domain.'
-$PALANG['pMain_create_mailbox'] = 'Új felhasználó felvétele az adott domainhez.';
+$PALANG['pMain_overview'] = 'Listázd az alias-okat és a postafiókokat. Innen tudod õket törölni / módosítani.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Új alias készítése az adott domainhez.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Új felhasználó felvétele az adott domainhez.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Küldjön a rendszer emailt minden egyes új felhasználónak.';
 $PALANG['pMain_password'] = 'Admin jelszó megváltoztatása.';
 $PALANG['pMain_viewlog'] = 'Naplófájlok megtekintése.';

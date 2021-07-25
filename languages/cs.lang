@@ -65,9 +65,9 @@ $PALANG['pMenu_viewlog'] = 'Prohlížet log';
 $PALANG['pMenu_logout'] = 'Odhlásit';
 
 $PALANG['pMain_welcome'] = 'Vítejte v Postfix Adminu!';
-$PALANG['pMain_overview'] = 'Výpis přesměrování a schránek. Můžete je zde upravovat a mazat.';
-$PALANG['pMain_create_alias'] = 'Vytvořit nové přesměrování pro vaši doménu.';
-$PALANG['pMain_create_mailbox'] = 'Vytvořit schránku v této doméně.';
+$PALANG['pMain_overview'] = 'Výpis přesměrování a schránek. Můžete je zde upravovat a mazat.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Vytvořit nové přesměrování pro vaši doménu.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Vytvořit schránku v této doméně.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Poslat email do jedné z nově vytvořených schránek.';
 $PALANG['pMain_password'] = 'Změnit heslo administrátorského účtu.';
 $PALANG['pMain_viewlog'] = 'Prohlížet záznamy změn v doméně.';

@@ -56,9 +56,9 @@ $PALANG['pMenu_viewlog'] = 'Logak ikusi';
 $PALANG['pMenu_logout'] = 'Irten';
 
 $PALANG['pMain_welcome'] = 'Ongietorri Postfix Adminera!';
-$PALANG['pMain_overview'] = 'Alias eta postontzien zerrenda. Hemendik aldatu / ezabatu ditzakezu.';
-$PALANG['pMain_create_alias'] = 'Zure domeinuarentzako alias berri baten sorkuntza.'; # XXX check text - should be 'Create a new alias for your domain.'
-$PALANG['pMain_create_mailbox'] = 'Zure domeinuarentzako postontzi berri baten sorkuntza.';
+$PALANG['pMain_overview'] = 'Alias eta postontzien zerrenda. Hemendik aldatu / ezabatu ditzakezu.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Zure domeinuarentzako alias berri baten sorkuntza.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Zure domeinuarentzako postontzi berri baten sorkuntza.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Duela gutxi sorturiko postontziren batera e-mail bat bidali.';
 $PALANG['pMain_password'] = 'Kudeatzaile konturako pasahitza aldatu.';
 $PALANG['pMain_viewlog'] = 'Logak ikusi.';

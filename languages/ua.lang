@@ -59,9 +59,9 @@ $PALANG['pMenu_viewlog'] = 'Переглянути журнал';
 $PALANG['pMenu_logout'] = 'Вихід';
 
 $PALANG['pMain_welcome'] = 'Ласкаво просимо в Postfix Admin!';
-$PALANG['pMain_overview'] = 'Список Ваших доменів. Звідси Ви маєте можливість додавати, редагувати та видаляти їх.';
-$PALANG['pMain_create_alias'] = 'Створення нової переадресації у Вашому домені.';
-$PALANG['pMain_create_mailbox'] = 'Створення нової поштової скриньки у Вашому домені.';
+$PALANG['pMain_overview'] = 'Список Ваших доменів. Звідси Ви маєте можливість додавати, редагувати та видаляти їх.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Створення нової переадресації у Вашому домені.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Створення нової поштової скриньки у Вашому домені.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Відправка листа на одну зі створених Вами поштових скриньок.';
 $PALANG['pMain_password'] = 'Зміна пароля для Вашого облікового запису адміністратора.';
 $PALANG['pMain_viewlog'] = 'Перегляд журналу роботи з системою.';
