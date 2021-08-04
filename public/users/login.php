@@ -70,8 +70,7 @@ session_start();
 if ($error) {
     flash_error($error);
 }
-
-$_SESSION['PFA_token'] = md5(uniqid('pfa'  . rand(), true));
+$_SESSION['PFA_token'] = md5(random_bytes(8) . uniqid('pfa', true));
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');
