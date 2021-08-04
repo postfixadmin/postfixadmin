@@ -27,6 +27,9 @@ if (!defined('POSTFIXADMIN')) { # already defined if called from setup.php
         if (empty($_SESSION['flash'])) {
             $_SESSION['flash'] = array();
         }
+
+        // avoid clickjacking attacks?
+        header('X-Frame-Options: DENY');
     }
 }
 
