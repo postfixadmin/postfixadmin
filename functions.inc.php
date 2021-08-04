@@ -103,7 +103,8 @@ function init_session($username, $is_admin = false) {
     $_SESSION['sessid']['roles'] = array();
     $_SESSION['sessid']['roles'][] = $is_admin ? 'admin' : 'user';
     $_SESSION['sessid']['username'] = $username;
-    $_SESSION['PFA_token'] = md5(uniqid("", true));
+
+    $_SESSION['PFA_token'] = md5(random_bytes(8) . uniqid('pfa', true));
 
     return $status;
 }
