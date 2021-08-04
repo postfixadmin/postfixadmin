@@ -47,12 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $fPassword = safepost('fPassword');
 
     if ($lang != check_language(false)) { # only set cookie if language selection was changed
-      setcookie('lang', $lang, time() + 60*60*24*30); # language cookie, lifetime 30 days
-      # (language preference cookie is processed even if username and/or password are invalid)
+        setcookie('lang', $lang, time() + 60 * 60 * 24 * 30); # language cookie, lifetime 30 days
+        # (language preference cookie is processed even if username and/or password are invalid)
     }
 
     $login = new Login('mailbox');
-    ;
     if ($login->login($fUsername, $fPassword)) {
         init_session($fUsername, false);
         header("Location: main.php");
