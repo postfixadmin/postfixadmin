@@ -2305,7 +2305,7 @@ function gen_show_status($show_alias) {
             }
         }
     } else {
-        $stat_string .= ";&nbsp;";
+        $stat_string .= "&nbsp;";
     }
 
     //   $stat_string .= "<span style='background-color:green'> &nbsp; </span> &nbsp;" .
