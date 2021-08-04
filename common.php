@@ -27,6 +27,9 @@ if (!defined('POSTFIXADMIN')) {
         if (empty($_SESSION['flash'])) {
             $_SESSION['flash'] = array();
         }
+
+        // avoid clickjacking attacks?
+        header('X-Frame-Options: DENY');
     }
 }
 
