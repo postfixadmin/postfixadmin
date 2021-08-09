@@ -13,7 +13,8 @@ Version 3.3.10 - 2021/08/09
    - vacation.pl - allow smtp helo to be specified (see https://github.com/postfixadmin/postfixadmin/pull/495)
    - Security fix - ClickJacking protection (thanks @huntr-helper / @ranjit-git) (see https://github.com/postfixadmin/postfixadmin/issues/523)
    - Security fix (low risk) - Improve randomness with PFA_token for CSRF protection (thanks @michaellrowley)
-   - Fix viewlog to allow admins to see all domains (https://github.com/postfixadmin/postfixadmin/issues/516)
+   - Fix viewlog to allow admins to see all domains (thanks @pgimalac, https://github.com/postfixadmin/postfixadmin/issues/516)
+   - Disable password autocompletion in edit forms (thanks @gabrielfin, see https://github.com/postfixadmin/postfixadmin/pull/510)
 
 Version 3.3.9 - 2021/05/12
 -------------------------------------------------
