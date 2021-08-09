@@ -69,15 +69,15 @@ if ($error != 1) {
 
     $where = [];
     $params = [];
-    if($fDomain) {
+    if ($fDomain) {
         $where[] = 'domain = :domain' ;
         $params['domain'] = $fDomain;
     }
 
     $where_sql = '';
-    if(!empty($where)) {
+    if (!empty($where)) {
         $where_sql = 'WHERE ' . implode(' AND ', $where);
-    } 
+    }
 
     $query = "SELECT timestamp,username,domain,action,data FROM $table_log $where_sql ORDER BY timestamp DESC LIMIT $page_size";
 
