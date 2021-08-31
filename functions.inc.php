@@ -1629,7 +1629,7 @@ function db_connection_string()
         if ($socket) {
             $dsn = "mysql:unix_socket={$socket};dbname={$database_name}";
         } else {
-            $dsn = "mysql:host={$CONF['database_host']};dbname={$database_name}";
+            $dsn = "mysql:host={$CONF['database_host']};port={$CONF['database_port']};dbname={$database_name}";
         }
     } elseif (db_sqlite()) {
         $db = $CONF['database_name'];
