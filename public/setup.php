@@ -647,9 +647,6 @@ function do_software_environment_check() {
 
     if ($m_pdo_sqlite == 1) {
         $info[] = "Database - SQLite support available";
-        if (Config::read_string('database_type') != 'sqlite') {
-            $warn[] = "Change the database_type to 'sqlite' in config.local.php if you want to use SQLite";
-        }
     } else {
         $warn[] = "Database support - SQLite (pdo_sqlite) extension not found";
     }
