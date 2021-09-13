@@ -14,6 +14,7 @@
  * @package    Smarty
  * @subpackage Compiler
  */
+//require_once SMARTY_SYSPLUGINS_DIR . 'smarty_internal_compilebase.php';
 class Smarty_Internal_Compile_Assign extends Smarty_Internal_CompileBase
 {
     /**

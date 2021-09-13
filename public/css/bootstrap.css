@@ -33,7 +33,7 @@ body {
 /* Not required for template or sticky footer method. */
 
 body > .container {
-  padding: 100px 15px 0;
+  padding: 60px 15px 0;
 }
 
 .footer > .container {

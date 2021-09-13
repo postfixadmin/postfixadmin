@@ -93,6 +93,7 @@ require_once SMARTY_SYSPLUGINS_DIR . 'smarty_template_source.php';
 require_once SMARTY_SYSPLUGINS_DIR . 'smarty_template_resource_base.php';
 require_once SMARTY_SYSPLUGINS_DIR . 'smarty_internal_resource_file.php';
 
+
 /**
  * This is the main Smarty class
  *

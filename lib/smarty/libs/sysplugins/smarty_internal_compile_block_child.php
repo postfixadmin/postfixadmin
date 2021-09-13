@@ -13,6 +13,7 @@
  *
  * @author Uwe Tews <uwe.tews@googlemail.com>
  */
+//require_once SMARTY_SYSPLUGINS_DIR . 'smarty_internal_compile_child.php';
 class Smarty_Internal_Compile_Block_Child extends Smarty_Internal_Compile_Child
 {
     /**

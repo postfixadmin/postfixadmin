@@ -14,6 +14,7 @@
  * @package    Smarty
  * @subpackage Compiler
  */
+//require_once SMARTY_SYSPLUGINS_DIR . 'smarty_internal_compile_private_foreachsection.php';
 class Smarty_Internal_Compile_Foreach extends Smarty_Internal_Compile_Private_ForeachSection
 {
     /**

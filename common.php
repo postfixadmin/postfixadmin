@@ -14,7 +14,7 @@
  * All pages should include this file - which itself sets up the necessary
  * environment and ensures other functions are loaded.
  */
-
+setlocale(LC_ALL, 'en_US.UTF-8', 'en_US', 'en', 'english');
 if (!defined('POSTFIXADMIN')) {
     define('POSTFIXADMIN', 1);
 
