@@ -496,10 +496,16 @@ sub send_vacation_email {
 
         $subject = Encode::encode_utf8($subject) if(Encode::is_utf8($subject));
         $body = Encode::encode_utf8($body) if(Encode::is_utf8($body));
+
+        $email_from = $from;
+        if($friendly_from ne '') {
+            $email_from = encode_mimewords($friendly_from, 'Charset', 'UTF-8') . " $from <$from>";
+        }
+
         $email = Email::Simple->create(
             header => [
                 To      => $to,
-                From    => $from,
+                From    => $email_from,
                 Subject => encode_mimewords($subject, 'Charset', 'UTF-8'),
                 Precedence => 'junk',
                 'Content-Type' => "text/plain; charset=utf-8",
