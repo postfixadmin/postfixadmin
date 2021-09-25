@@ -182,7 +182,6 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
 
     public function testObviousMechs()
     {
-
         global $CONF;
 
         $mechs = [
@@ -199,7 +198,6 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         ];
         
         foreach ($mechs as $mech => $example_hash) {
-
             if ($mech == 'mysql_encrypt' && Config::read_string('database_type') != 'mysql') {
                 continue;
             }
@@ -217,7 +215,6 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
             $x = pacrypt('test123', $example_hash);
 
             $this->assertEquals($example_hash, $x);
-
         }
     }
 }
