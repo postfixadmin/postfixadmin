@@ -9,7 +9,9 @@ $finder = PhpCsFixer\Finder::create()
     ->files()->notName('config.inc.php')->notName('config.local.php')
     ->in(__DIR__);
 
-return PhpCsFixer\Config::create()
+$config = new PhpCsFixer\Config();
+
+return $config
     ->setFinder($finder)
     ->setRules(array(
         '@PSR2' => true,
