@@ -313,7 +313,7 @@ EOF;
             'cleartext' => 'test123',
             'mysql_encrypt' => '$6$$KMCDSuWNoVgNrK5P1zDS12ZZt.LV4z9v9NtD0AG0T5Rv/n0wWVvZmHMSKKZQciP7lrqrlbrBrBd4lhBSGy1BU0',
             'authlib' => '{md5raw}cc03e747a6afbbcbf8be7668acfebee5',
-            'php_crypt:SHA512' => '$6$IeqpXtDIXF09ADdc$IsE.SSK3zuwtS9fdWZ0oVxXQjPDj834xqxTiv3Qfidq3AbAjPb0DNyI28JyzmDVlbfC9uSfNxD9RUyeO1.7FV/',
+            'php_crypt:SHA512' => '{SHA512-CRYPT}$6$IeqpXtDIXF09ADdc$IsE.SSK3zuwtS9fdWZ0oVxXQjPDj834xqxTiv3Qfidq3AbAjPb0DNyI28JyzmDVlbfC9uSfNxD9RUyeO1.7FV/',
             'php_crypt:DES' => 'VXAXutUnpVYg6',
             'php_crypt:MD5' => '$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.',
             'php_crypt:SHA256' => '$5$UaZs6ZuaLkVPx3bM$4JwAqdphXVutFYw7COgAkp/vj09S1DfjIftxtjqDrr/',

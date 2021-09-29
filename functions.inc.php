@@ -1299,24 +1299,35 @@ function pacrypt($pw, $pw_db = "")
 
     $mechanism = $CONF['encrypt'] ?? 'CRYPT';
 
-    if ($mechanism == 'php_crypt') {
+    $mechanism = strtoupper($mechanism);
+
+    $crypts = ['PHP_CRYPT', 'MD5CRYPT', 'PHP_CRYPT:DES', 'PHP_CRYPT:MD5', 'PHP_CRYPT:SHA256'];
+
+    if (in_array($mechanism, $crypts)) {
         $mechanism = 'CRYPT';
     }
-    if ($mechanism == 'php_crypt:SHA512') {
+    if ($mechanism == 'PHP_CRYPT:SHA512') {
         $mechanism = 'SHA512-CRYPT';
     }
 
-    if(preg_match('/^dovecot:(.*)$/i', $mechanism, $matches)) {
+    if($mechanism == 'SHA512.B64') {
+        $mechanism = 'SHA512-CRYPT.B64';
+    }
+
+    if(preg_match('/^DOVECOT:(.*)$/i', $mechanism, $matches)) {
         $mechanism = strtoupper($matches[1]);
     }
 
-    if(preg_match('/^courier:(.*)$/i', $mechanism, $matches)) {
+    if(preg_match('/^COURIER:(.*)$/i', $mechanism, $matches)) {
         $mechanism = strtoupper($mechanism);
     }
     if (empty($pw_db)) {
         $pw_db = null;
     }
 
+    if($mechanism == 'AUTHLIB') {
+        return _pacrypt_authlib($pw, $pw_db);
+    }
     $hasher = new \PostfixAdmin\PasswordHashing\Crypt($mechanism);
     return $hasher->crypt($pw, $pw_db);
 }
