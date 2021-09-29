@@ -1310,22 +1310,22 @@ function pacrypt($pw, $pw_db = "")
         $mechanism = 'SHA512-CRYPT';
     }
 
-    if($mechanism == 'SHA512.B64') {
+    if ($mechanism == 'SHA512.B64') {
         $mechanism = 'SHA512-CRYPT.B64';
     }
 
-    if(preg_match('/^DOVECOT:(.*)$/i', $mechanism, $matches)) {
+    if (preg_match('/^DOVECOT:(.*)$/i', $mechanism, $matches)) {
         $mechanism = strtoupper($matches[1]);
     }
 
-    if(preg_match('/^COURIER:(.*)$/i', $mechanism, $matches)) {
+    if (preg_match('/^COURIER:(.*)$/i', $mechanism, $matches)) {
         $mechanism = strtoupper($mechanism);
     }
     if (empty($pw_db)) {
         $pw_db = null;
     }
 
-    if($mechanism == 'AUTHLIB') {
+    if ($mechanism == 'AUTHLIB') {
         return _pacrypt_authlib($pw, $pw_db);
     }
     $hasher = new \PostfixAdmin\PasswordHashing\Crypt($mechanism);
