@@ -111,7 +111,6 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         $fail = _pacrypt_php_crypt('bar', $sha512_crypt);
 
         $this->assertNotEquals($fail, $sha512_crypt);
-
     }
 
     public function testPhpCryptMd5()
