@@ -926,8 +926,10 @@ function _pacrypt_crypt($pw, $pw_db = '') {
     if ($pw_db) {
         return crypt($pw, $pw_db);
     }
-    // Throws E_NOTICE as salt is not specified.
-    return crypt($pw);
+    // PHP8 - we have to specify a salt here....
+    $salt = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 2);
+
+    return crypt($pw, $salt);
 }
 
 /**
