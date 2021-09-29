@@ -58,9 +58,9 @@ $PALANG['pMenu_viewlog'] = 'Преглед на Log';
 $PALANG['pMenu_logout'] = 'Изход';
 
 $PALANG['pMain_welcome'] = 'Добре дошли!';
-$PALANG['pMain_overview'] = 'Преглед на alias-ите и пощенските кутии. Оттук можете да редактирате/триете.';
-$PALANG['pMain_create_alias'] = 'Създаване на нов alias за вашият домейн.'; # XXX check text - should be 'Create a new alias for your domain.'
-$PALANG['pMain_create_mailbox'] = 'Създаване на нова пощенска кутия за вашия домейн.';
+$PALANG['pMain_overview'] = 'Преглед на alias-ите и пощенските кутии. Оттук можете да редактирате/триете.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Създаване на нов alias за вашият домейн.'; # # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Създаване на нова пощенска кутия за вашия домейн.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Изпрати е-мейл до един от новосъздадени пощенски кутии.';
 $PALANG['pMain_password'] = 'Смяна на паролата за администраторския акаунт.';
 $PALANG['pMain_viewlog'] = 'Преглед на log файла.';
@@ -200,6 +200,7 @@ $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Разглеждане на последните %s действия за ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = 'Дата';
 $PALANG['pViewlog_action'] = 'Действие';
 $PALANG['pViewlog_data'] = 'Данни';

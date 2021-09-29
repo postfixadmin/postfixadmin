@@ -3,7 +3,7 @@
 
     <table class="table">
         <tr>
-            <td nowrap="nowrap"><a class="btn btn-primary" href="{#url_list_domain#}">{$PALANG.pMenu_overview}</a></td>
+            <td nowrap="nowrap"><a class="btn btn-primary" href="{#url_list_domain#}">{$PALANG.pAdminMenu_list_domain}</a></td>
             <td>{$PALANG.pMain_overview}</td>
         </tr>
         <tr>

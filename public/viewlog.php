@@ -45,7 +45,7 @@ $fDomain = '';
 $error = 0;
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
+    if ((is_array($list_domains) and sizeof($list_domains) > 0) and !authentication_has_role('global-admin')) {
         $fDomain = $list_domains[0];
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -67,12 +67,24 @@ if ($error != 1) {
     $table_log = table_by_key('log');
     $page_size = isset($CONF['page_size']) ? intval($CONF['page_size']) : 35;
 
-    $query = "SELECT timestamp,username,domain,action,data FROM $table_log WHERE domain= :domain ORDER BY timestamp DESC LIMIT $page_size";
+    $where = [];
+    $params = [];
+    if ($fDomain) {
+        $where[] = 'domain = :domain' ;
+        $params['domain'] = $fDomain;
+    }
+
+    $where_sql = '';
+    if (!empty($where)) {
+        $where_sql = 'WHERE ' . implode(' AND ', $where);
+    }
+
+    $query = "SELECT timestamp,username,domain,action,data FROM $table_log $where_sql ORDER BY timestamp DESC LIMIT $page_size";
 
     if (db_pgsql()) {
-        $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,data FROM $table_log WHERE domain= :domain ORDER BY timestamp DESC LIMIT $page_size";
+        $query = "SELECT extract(epoch from timestamp) as timestamp,username,domain,action,data FROM $table_log $where_sql ORDER BY timestamp DESC LIMIT $page_size";
     }
-    $result = db_query_all($query, array('domain' => $fDomain));
+    $result = db_query_all($query, $params);
     foreach ($result as $row) {
         if (is_array($row) && db_pgsql()) {
             $row['timestamp'] = gmstrftime('%c %Z', $row['timestamp']);
@@ -88,7 +100,13 @@ foreach ($tLog as $k => $v) {
     }
 }
 
-$smarty->assign('domain_list', $list_domains);
+$domain_options = array();
+if (authentication_has_role('global-admin')) {
+    $domain_options = array('' => '');
+}
+$domain_options = array_merge($domain_options, array_combine($list_domains, $list_domains));
+
+$smarty->assign('domain_options', $domain_options);
 $smarty->assign('domain_selected', $fDomain);
 $smarty->assign('tLog', $tLog, false);
 $smarty->assign('fDomain', $fDomain);

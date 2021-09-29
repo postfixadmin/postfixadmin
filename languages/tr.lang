@@ -57,9 +57,9 @@ $PALANG['pMenu_viewlog'] = 'Logları İncele';
 $PALANG['pMenu_logout'] = 'Çıkış';
 
 $PALANG['pMain_welcome'] = 'Postfix Admin\'e Hoş Geldiniz!';
-$PALANG['pMain_overview'] = 'E-posta kutularınızın ve aliaslarınızın listesi. Buradan silip düzenleyebilirsiniz.';
-$PALANG['pMain_create_alias'] = 'Domaininiz için yeni bir alias yaratın.'; # XXX check text - should be 'Create a new alias for your domain.'
-$PALANG['pMain_create_mailbox'] = 'Domaininiz için yeni bir e-posta kutusu yaratın.';
+$PALANG['pMain_overview'] = 'E-posta kutularınızın ve aliaslarınızın listesi. Buradan silip düzenleyebilirsiniz.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Domaininiz için yeni bir alias yaratın.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Domaininiz için yeni bir e-posta kutusu yaratın.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Yeni yaratmış olduğunuz e-posta kutularından birine e-posta gönderin.';
 $PALANG['pMain_password'] = 'Yönetici hesabınızın şifresini değiştirin.';
 $PALANG['pMain_viewlog'] = 'log dosyalarını inceleyin.';
@@ -199,6 +199,7 @@ $PALANG['reply_once_per_day'] = 'Günde bir kez yanıtla';
 $PALANG['reply_once_per_week'] = 'Haftada bir kez yanıtla';
 
 $PALANG['pViewlog_welcome'] = 'Son %s hareketi:';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = 'Timestamp'; # XXX
 $PALANG['pViewlog_action'] = 'Hareket';
 $PALANG['pViewlog_data'] = 'Veri';

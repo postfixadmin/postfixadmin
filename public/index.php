@@ -42,7 +42,7 @@ if ($CONF['configured']) {
         <title>Welcome to Postfix Admin</title>
     </head>
     <body>
-        <img id="login_header_logo" src="{$rel_path}images/logo-default.png" />
+        <img id="login_header_logo" src="images/logo-default.png" />
         <h1>Welcome to Postfix Admin</h1>
         <h2>What is it?</h2>
         <p>Postfix Admin is a web based interface to configure and manage a Postfix based email server for many users.</p>
@@ -84,7 +84,6 @@ if ($CONF['configured']) {
         <p>For further help, or documentation please check out -
         <ul>
             <li><a href="https://github.com/postfixadmin/postfixadmin">GitHub - Postfix Admin</a> web site</li>
-            <li><a href="https://postfixadmin.org">Postfix Admin</a> web site<br /></li>
             <li><a href="https://sourceforge.net/forum/forum.php?forum_id=676076">Knowledge Base</a></li>
         </ul>
         </p>

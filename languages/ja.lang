@@ -59,9 +59,9 @@ $PALANG['pMenu_viewlog'] = 'ログ表示';
 $PALANG['pMenu_logout'] = 'ログアウト';
 
 $PALANG['pMain_welcome'] = 'Postfix Admin へようこそ！';
-$PALANG['pMain_overview'] = '転送アドレスとメールアドレスの一覧を表示します。ここから編集と削除ができます。';
-$PALANG['pMain_create_alias'] = '新しい転送アドレスを作成します。';
-$PALANG['pMain_create_mailbox'] = '新しいメールアドレスを作成します。';
+$PALANG['pMain_overview'] = '転送アドレスとメールアドレスの一覧を表示します。ここから編集と削除ができます。'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = '新しい転送アドレスを作成します。'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = '新しいメールアドレスを作成します。'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = '新しいメールアドレスにメールを送信します。';
 $PALANG['pMain_password'] = 'パスワードを変更します。';
 $PALANG['pMain_viewlog'] = 'ログファイルを表示します。';
@@ -203,6 +203,7 @@ $PALANG['reply_once_per_day'] = '毎日返信';
 $PALANG['reply_once_per_week'] = '週に一度返信';
 
 $PALANG['pViewlog_welcome'] = '過去 %s 個のアクション ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = 'タイムスタンプ';
 $PALANG['pViewlog_action'] = 'アクション';
 $PALANG['pViewlog_data'] = 'データ';

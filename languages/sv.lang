@@ -60,9 +60,9 @@ $PALANG['pMenu_viewlog'] = 'Visa logg';
 $PALANG['pMenu_logout'] = 'Logga ut';
 
 $PALANG['pMain_welcome'] = 'Välkommen till Postfix Admin!';
-$PALANG['pMain_overview'] = 'Lista alias och brevlådor. Du kan ändra / ta bort dem här.';
-$PALANG['pMain_create_alias'] = 'Skapa nytt alias i din domän.'; # XXX check text - should be 'Create a new alias for your domain.'
-$PALANG['pMain_create_mailbox'] = 'Skapa ny brevlåda i din domän.';
+$PALANG['pMain_overview'] = 'Lista alias och brevlådor. Du kan ändra / ta bort dem här.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Skapa nytt alias i din domän.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Skapa ny brevlåda i din domän.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Skicka ett meddelande till en av e-postadresserna.';
 $PALANG['pMain_password'] = 'Ändra lösenord för adminkontot.';
 $PALANG['pMain_viewlog'] = 'Visa loggfiler.';
@@ -204,6 +204,7 @@ $PALANG['reply_once_per_day'] = 'Svara en gång om dagen';
 $PALANG['reply_once_per_week'] = 'Svara en gång i veckan';
 
 $PALANG['pViewlog_welcome'] = 'Visa de senaste %s åtgärderna för ';
+$PALANG['pViewlog_welcome_all'] = 'Visa de senaste %s åtgärderna ';
 $PALANG['pViewlog_timestamp'] = 'Tidpunkt';
 $PALANG['pViewlog_action'] = 'Åtgärd';
 $PALANG['pViewlog_data'] = 'Data';

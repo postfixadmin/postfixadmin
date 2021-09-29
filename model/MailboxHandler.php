@@ -66,7 +66,7 @@ class MailboxHandler extends PFAHandler
         }
     }
 
-    public function init($id) : bool
+    public function init(string $id) : bool
     {
         if (!parent::init($id)) {
             return false;
@@ -650,17 +650,35 @@ class MailboxHandler extends PFAHandler
         }
 
         if (!empty($cmd_pw)) {
-            $cmdarg3='""';
-            $cmdarg4=escapeshellarg($this->values['password']);
-            $command= "$cmd_pw $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
-            $retval=0;
-            $output=array();
-            $firstline='';
-            $firstline=exec($command, $output, $retval);
-            if (0!=$retval) {
-                error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+            // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
+            $spec = array(
+                0 => array("pipe", "r"), // stdin
+                1 => array("pipe", "w"), // stdout
+            );
+
+            $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
+
+            $proc = proc_open($command, $spec, $pipes);
+
+            if (!$proc) {
+                error_log("can't proc_open $cmd_pw");
                 $this->errormsg[] .= $warnmsg_pw;
                 $status = false;
+            } else {
+                // Write passwords through pipe to command stdin -- provide old password, then new password.
+                fwrite($pipes[0], "\0", 1);
+                fwrite($pipes[0], $this->values['password'] . "\0", 1+strlen($this->values['password']));
+                $output = stream_get_contents($pipes[1]);
+                fclose($pipes[0]);
+                fclose($pipes[1]);
+
+                $retval = proc_close($proc);
+
+                if (0!=$retval) {
+                    error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+                    $this->errormsg[] .= $warnmsg_pw;
+                    $status = false;
+                }
             }
         }
 

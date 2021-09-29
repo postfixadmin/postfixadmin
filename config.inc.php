@@ -600,9 +600,10 @@ $CONF['mailbox_postedit_script'] = '';
 $CONF['mailbox_postdeletion_script'] = '';
 
 // Optional: See NOTE above.
-// Script to run after setting a mailbox password. (New mailbox [$4 = empty] or change existing password)
+// Script to run after setting a mailbox password. (New mailbox [old password = empty] or change existing password)
 // Disables changing password without entering old password.
-// Parameters: (1) username (2) domain (3) old password (4) new password
+// Parameters: (1) username (2) domain
+// STDIN: old password + \0 + new password
 // $CONF['mailbox_postpassword_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
 $CONF['mailbox_postpassword_script'] = '';
 

@@ -57,9 +57,9 @@ $PALANG['pMenu_viewlog'] = 'Preglej log';
 $PALANG['pMenu_logout'] = 'Odjavi';
 
 $PALANG['pMain_welcome'] = 'Dobrodošli v Postfix Adminu!';
-$PALANG['pMain_overview'] = 'Seznam aliasov in predalov. Tukaj jih lahko urejate in/ali brišete.';
-$PALANG['pMain_create_alias'] = 'Ustvari nov alias za določeno domeno.';
-$PALANG['pMain_create_mailbox'] = 'Ustvari nov predal za določeno domeno.';
+$PALANG['pMain_overview'] = 'Seznam aliasov in predalov. Tukaj jih lahko urejate in/ali brišete.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Ustvari nov alias za določeno domeno.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Ustvari nov predal za določeno domeno.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Pošlji e-pošto v enega izmed novoustvarjenih predalov.';
 $PALANG['pMain_password'] = 'Spremeni geslo za administratorja.';
 $PALANG['pMain_viewlog'] = 'Pregled dnevniških datotek.';
@@ -199,6 +199,7 @@ $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Seznam zadnjih %s operacij za ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = 'Čas';
 $PALANG['pViewlog_action'] = 'Operacija';
 $PALANG['pViewlog_data'] = 'Podatki';

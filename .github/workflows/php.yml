@@ -4,14 +4,22 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['7.2', '7.3', '7.4', '8.0' ]
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        tools: composer
 
     - name: Validate composer.json and composer.lock
-      run: php7.4 $(which composer) validate
+      run: composer validate
 
     - name: setup templates_c
       run: mkdir templates_c || true
@@ -20,15 +28,45 @@ jobs:
       run: touch config.local.php && php -v
 
     - name: Install dependencies
-      run: php7.4 $(which composer) install --prefer-dist -n
+      run: composer install --prefer-dist -n
 
     - name: Build/test
-      run: php7.4 $(which composer) build
+      run: composer build
 
-    - name: setup coveralls
-      run: mkdir -p build/logs || true
+    - name: build coveralls coverage
+      run: php -m xdebug.mode=coverage vendor/bin/phpunit tests
 
     - name: Coveralls
-      run: vendor/bin/coveralls ./clover.xml || true
+      run: vendor/bin/php-coveralls ./clover.xml || true
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+
+  post_build:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        tools: composer
+
+    - name: setup templates_c
+      run: mkdir templates_c || true
+
+    - name: touch config.local.php
+      run: touch config.local.php && php -v
+
+    - name: Install dependencies
+      run: composer install --prefer-dist -n
+
+    - name: build coveralls coverage
+      run: php -d xdebug.mode=coverage vendor/bin/phpunit tests
+
+    - name: Coveralls
+      run: vendor/bin/php-coveralls  || true
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+

@@ -58,9 +58,9 @@ $PALANG['pMenu_viewlog'] = 'Näytä loki';
 $PALANG['pMenu_logout'] = 'Kirjaudu ulos';
 
 $PALANG['pMain_welcome'] = 'Tervetuloa sähköpostin hallintaan.';
-$PALANG['pMain_overview'] = 'Listaa aliakset ja postilaatikot. Voit muokata ja poistaa niitä tästä.';
-$PALANG['pMain_create_alias'] = 'Luo uusi alias domainiin.'; # XXX check text - should be 'Create a new alias for your domain.'
-$PALANG['pMain_create_mailbox'] = 'Luo uusi postilaatikko domainiin.';
+$PALANG['pMain_overview'] = 'Listaa aliakset ja postilaatikot. Voit muokata ja poistaa niitä tästä.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Luo uusi alias domainiin.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Luo uusi postilaatikko domainiin.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Lähetä sähköpostia juuri luotuun postilaatikkoon.';
 $PALANG['pMain_password'] = 'Vaihda hallintatunnuksen salasanaa.';
 $PALANG['pMain_viewlog'] = 'Näytä lokitiedostot.';
@@ -199,6 +199,7 @@ $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Näytä viimeiset kymmenen tapahtumaa domainille ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = 'Aikaleima';
 $PALANG['pViewlog_action'] = 'Tapahtuma';
 $PALANG['pViewlog_data'] = 'Tiedot';

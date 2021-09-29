@@ -66,8 +66,8 @@ our $smtp_client = 'localhost';
 our $smtp_helo = 'localhost.localdomain';
 
 # send mail encrypted or plaintext
-# if 'starttls', use STARTTLS; if 'ssl' (or 1), connect securely; otherwise, no security
-our $smtp_ssl = 'starttls';
+# if 1, connect securely via ssl; otherwise, no security
+our $smtp_ssl = 0;
 
 # maximum time in secs to wait for server; default is 120
 our $smtp_timeout = '120';
@@ -496,10 +496,16 @@ sub send_vacation_email {
 
         $subject = Encode::encode_utf8($subject) if(Encode::is_utf8($subject));
         $body = Encode::encode_utf8($body) if(Encode::is_utf8($body));
+
+        my $email_from = $from;
+        if($friendly_from ne '') {
+            $email_from = encode_mimewords($friendly_from, 'Charset', 'UTF-8') . " $from <$from>";
+        }
+
         $email = Email::Simple->create(
             header => [
                 To      => $to,
-                From    => $from,
+                From    => $email_from,
                 Subject => encode_mimewords($subject, 'Charset', 'UTF-8'),
                 Precedence => 'junk',
                 'Content-Type' => "text/plain; charset=utf-8",

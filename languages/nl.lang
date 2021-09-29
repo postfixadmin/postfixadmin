@@ -59,9 +59,9 @@ $PALANG['pMenu_viewlog'] = 'Laat log zien';
 $PALANG['pMenu_logout'] = 'Uitloggen';
 
 $PALANG['pMain_welcome'] = 'Welkom bij Postfix Admin!';
-$PALANG['pMain_overview'] = 'Laat uw aliassen en mailboxen zien. U kunt ze vanaf hier bewerken / verwijderen.';
-$PALANG['pMain_create_alias'] = 'Maak een nieuwe alias aan voor uw domein.';
-$PALANG['pMain_create_mailbox'] = 'Maak een nieuwe mailbox aan voor uw domein.';
+$PALANG['pMain_overview'] = 'Laat uw aliassen en mailboxen zien. U kunt ze vanaf hier bewerken / verwijderen.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Maak een nieuwe alias aan voor uw domein.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Maak een nieuwe mailbox aan voor uw domein.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Verstuur een e-mail naar een van de nieuwe mailboxen.';
 $PALANG['pMain_password'] = 'Wijzig uw wachtwoord.';
 $PALANG['pMain_viewlog'] = 'Laat de log files zien';
@@ -202,6 +202,7 @@ $PALANG['reply_once_per_day'] = 'Beantwoord een keer per dag';
 $PALANG['reply_once_per_week'] = 'Beantwoord een keer per week';
 
 $PALANG['pViewlog_welcome'] = 'Laat de laatste %s actie\'s zien van ';
+$PALANG['pViewlog_welcome_all'] = 'Laat de laatste %s actie\'s zien ';
 $PALANG['pViewlog_timestamp'] = 'Tijd';
 $PALANG['pViewlog_action'] = 'Actie';
 $PALANG['pViewlog_data'] = 'Aanpassing';

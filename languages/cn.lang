@@ -57,9 +57,9 @@ $PALANG['pMenu_viewlog'] = '查看日志';
 $PALANG['pMenu_logout'] = '退出';
 
 $PALANG['pMain_welcome'] = '欢迎来到Postfix Admin!';
-$PALANG['pMain_overview'] = '显示你的邮件别名和邮箱. 你可以在这儿进行编辑/删除操作.';
-$PALANG['pMain_create_alias'] = '在您的域中新建一个别名.'; # XXX check text - should be 'Create a new alias for your domain.'
-$PALANG['pMain_create_mailbox'] = '在您的域中新建一个邮箱.';
+$PALANG['pMain_overview'] = '显示你的邮件别名和邮箱. 你可以在这儿进行编辑/删除操作.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = '在您的域中新建一个别名.'; # # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = '在您的域中新建一个邮箱.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = '发一封邮件到你新建的一个邮箱中.';
 $PALANG['pMain_password'] = '修改你的管理员密码.';
 $PALANG['pMain_viewlog'] = '查看日志文件.';
@@ -199,6 +199,7 @@ $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = '查看最新的%s项操作日志 域名: ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = '时间';
 $PALANG['pViewlog_action'] = '操作';
 $PALANG['pViewlog_data'] = '内容';

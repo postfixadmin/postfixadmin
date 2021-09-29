@@ -108,7 +108,8 @@ function init_session($username, $is_admin = false)
     $_SESSION['sessid']['roles'] = array();
     $_SESSION['sessid']['roles'][] = $is_admin ? 'admin' : 'user';
     $_SESSION['sessid']['username'] = $username;
-    $_SESSION['PFA_token'] = md5(uniqid("", true));
+
+    $_SESSION['PFA_token'] = md5(random_bytes(8) . uniqid('pfa', true));
 
     return $status;
 }
@@ -959,8 +960,10 @@ function _pacrypt_crypt($pw, $pw_db = '')
     if ($pw_db) {
         return crypt($pw, $pw_db);
     }
-    // Throws E_NOTICE as salt is not specified.
-    return crypt($pw);
+    // PHP8 - we have to specify a salt here....
+    $salt = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 2);
+
+    return crypt($pw, $salt);
 }
 
 /**
@@ -1597,6 +1600,8 @@ function db_connection_string()
 
         if ($socket) {
             $dsn = "mysql:unix_socket={$socket};dbname={$database_name}";
+        } elseif ($CONF['database_port'] != null) {
+            $dsn = "mysql:host={$CONF['database_host']};port={$CONF['database_port']};dbname={$database_name}";
         } else {
             $dsn = "mysql:host={$CONF['database_host']};dbname={$database_name}";
         }
@@ -2342,7 +2347,7 @@ function gen_show_status($show_alias)
             }
         }
     } else {
-        $stat_string .= ";&nbsp;";
+        $stat_string .= "&nbsp;";
     }
 
     //   $stat_string .= "<span style='background-color:green'> &nbsp; </span> &nbsp;" .

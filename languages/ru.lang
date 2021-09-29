@@ -61,9 +61,9 @@ $PALANG['pMenu_viewlog'] = 'Просмотреть журнал';
 $PALANG['pMenu_logout'] = 'Выход';
 
 $PALANG['pMain_welcome'] = 'Добро пожаловать в Postfix Admin!';
-$PALANG['pMain_overview'] = 'Список ваших почтовых ящиков и алиасов. Вы можете редактировать и удалять их отсюда.';
-$PALANG['pMain_create_alias'] = 'Создание нового алиаса в вашем домене.';
-$PALANG['pMain_create_mailbox'] = 'Создание нового почтового ящика в вашем домене.';
+$PALANG['pMain_overview'] = 'Список ваших почтовых ящиков и алиасов. Вы можете редактировать и удалять их отсюда.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Создание нового алиаса в вашем домене.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Создание нового почтового ящика в вашем домене.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Отправка письма на один из созданных вами почтовых ящиков.';
 $PALANG['pMain_password'] = 'Смена пароля для вашей учетной записи администратора.';
 $PALANG['pMain_viewlog'] = 'Просмотр журнала работы с системой.';
@@ -206,6 +206,7 @@ $PALANG['reply_once_per_day'] = 'Отвечать один раз в день';
 $PALANG['reply_once_per_week'] = 'Отвечать один раз в неделю';
 
 $PALANG['pViewlog_welcome'] = 'Просмотр %s последних действий для ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = 'Время создания/модификации';
 $PALANG['pViewlog_action'] = 'Действие';
 $PALANG['pViewlog_data'] = 'Данные';

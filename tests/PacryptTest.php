@@ -302,4 +302,42 @@ EOF;
             $this->assertNotEquals($hash1, $c->pacrypt('9999test9999', $hash1));
         }
     }
+
+    public function testObviousMechs()
+    {
+        global $CONF;
+
+        $mechs = [
+            'md5crypt' => '$1$c9809462$fC8eUPU2lq7arWRvxChMu1',
+            'md5' => 'cc03e747a6afbbcbf8be7668acfebee5',
+            'cleartext' => 'test123',
+            'mysql_encrypt' => '$6$$KMCDSuWNoVgNrK5P1zDS12ZZt.LV4z9v9NtD0AG0T5Rv/n0wWVvZmHMSKKZQciP7lrqrlbrBrBd4lhBSGy1BU0',
+            'authlib' => '{md5raw}cc03e747a6afbbcbf8be7668acfebee5',
+            'php_crypt:SHA512' => '$6$IeqpXtDIXF09ADdc$IsE.SSK3zuwtS9fdWZ0oVxXQjPDj834xqxTiv3Qfidq3AbAjPb0DNyI28JyzmDVlbfC9uSfNxD9RUyeO1.7FV/',
+            'php_crypt:DES' => 'VXAXutUnpVYg6',
+            'php_crypt:MD5' => '$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.',
+            'php_crypt:SHA256' => '$5$UaZs6ZuaLkVPx3bM$4JwAqdphXVutFYw7COgAkp/vj09S1DfjIftxtjqDrr/',
+            'sha512.b64' => '{SHA512-CRYPT.B64}JDYkMDBpOFJXQ0JwMlFMMDlobCRFMVFWLzJjbENPbEo4OTg0SjJyY1oxeXNTaFJIYVhJeVdFTDdHRGl3aHliYkhQUHBUQjZTM0lFMlYya2ZXczZWbHY0aDVNa3N0anpud0xuRTBWZVRELw==',
+        ];
+        
+        foreach ($mechs as $mech => $example_hash) {
+            if ($mech == 'mysql_encrypt' && Config::read_string('database_type') != 'mysql') {
+                continue;
+            }
+
+            Config::write('encrypt', $mech);
+
+            $CONF['encrypt'] = $mech;
+            $x = pacrypt('test123');
+            $this->assertNotEmpty($x);
+
+            $y = pacrypt('test123', $x);
+            $this->assertEquals($x, $y); // $y == %x if the password was correct.
+
+            // should be valid against what's in the lookup array above
+            $x = pacrypt('test123', $example_hash);
+
+            $this->assertEquals($example_hash, $x);
+        }
+    }
 }

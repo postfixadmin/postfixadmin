@@ -106,10 +106,11 @@ Create /srv/postfixadmin/config.local.php file for your local configuration:
 
 <?php
 $CONF['database_type'] = 'mysqli';
+$CONF['database_host'] = 'some-server.domain.com';
 $CONF['database_user'] = 'postfix';
 $CONF['database_password'] = 'postfixadmin';
 $CONF['database_name'] = 'postfix';
-
+$CONF['encrypt'] = 'dovecot:SHA512';
 $CONF['configured'] = true;
 ?>
 
@@ -118,7 +119,7 @@ See config.inc.php for all available config options and their default value.
 You can also edit config.inc.php instead of creating a config.local.php,
 but this will make updates harder and is therefore not recommended.
 
-The most important settings are those for your database server.
+The most important settings are those for your database server, and the hashing mechanism to be used to store passwords in your database.
 
 You must also change the line that says :
 
@@ -140,12 +141,34 @@ The easiest way to do this is
  $ mkdir -p /srv/postfixadmin/templates_c
  $ chown -R www-data /srv/postfixadmin/templates_c
 
-(If you're using e.g. CentOS or another distribution which enables SELinux, something like the following may be necessary as well :
+
+4a. SELinux (CentOS/Fedora etc)
+-------------------------------
+
+If you're using e.g. CentOS (or another distribution) which enables SELinux, something like the following will be necessary :
+
 
 ```bash
-    chcon -R -t httpd_sys_content_rw_t /usr/share/postfixadmin/templates_c
+    semanage fcontext -a -t httpd_sys_content_t "/srv/postfixadmin(/.*)?"
+    semanage fcontext -a -t httpd_sys_rw_content_t "/srv/postfixadmin/templates_c(/.*)?"
+    restorecon -R /srv/postfixadmin
 ```
-)
+
+(Allow the webserver to read /srv/postfixadmin/* and write to /srv/postfixadmin/templates_c/*)
+
+
+And if the webserver (PHP) needs to make network connections out to a database server, you'll probably need this :
+
+```bash
+    semanage boolean -m --on httpd_can_network_connect_db
+````
+
+If additionally need the webserve (PHP) to talk to an imap server, then you'll probably also need :
+
+```bash
+    semanage boolean -m --on httpd_can_network_connect
+````
+
 
 5. Check settings, and create Admin user
 ----------------------------------------
@@ -168,16 +191,14 @@ You need to specify that same password in the setup.php page, and click 'Login w
 
 You should then see a list of 'OK' messages. 
 
-The setup.php script will attempt to create the database structure 
-(or upgrade it if you're coming from a previous version). 
+The setup.php script will attempt to create the database structure (or upgrade it if you're coming from a previous version). 
 
 You can then create an Superadmin user (or add another), using the form displayed (you'll need to re-enter the your setup password).
 
 6. Use PostfixAdmin
 -------------------
 
-This is all that is needed. Fire up your browser and go to the site that you
-specified to host Postfix Admin.
+This is all that is needed. Fire up your browser and go to the site that you specified to host Postfix Admin. Login with the Superadmin user you've just created.
 
 7. Integration with Postfix, Dovecot etc.
 -----------------------------------------

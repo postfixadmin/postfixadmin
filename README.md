@@ -2,7 +2,7 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/postfixadmin/Lobby)
 [![Coverage Status](https://coveralls.io/repos/github/postfixadmin/postfixadmin/badge.svg?branch=master)](https://coveralls.io/github/postfixadmin/postfixadmin?branch=master)
 ![GitHub repo size](https://img.shields.io/github/repo-size/postfixadmin/postfixadmin)
-[![Chat](https://img.shields.io/badge/chat-on%20freenode-brightgreen.svg)](https://kiwiirc.com/nextclient/irc.freenode.net/#postfixadmin)
+[![IRC Chat - #postfixadmin](https://img.shields.io/badge/IRC%20libera-brightgreen.svg)](https://web.libera.chat/#postfixadmin)
 
 # PostfixAdmin 
 
@@ -27,7 +27,10 @@ Integrates with :
  - Users have the ability to login, change their password or vacation (out of office) status.
  - Integration with Squirrelmail / Roundcube (via plugins)
  - Optional XMLRPC based API 
- - Supports PHP7.0+
+ - Supports PHP7.2+ (older versions of PHP should work with older releases)
+
+[Some screenshots of Postfixadmin in action (as admin and user)](DOCUMENTS/screenshots/README.md)
+
 
 ## Useful Links
 
@@ -38,4 +41,4 @@ Integrates with :
  - [Installation instructions](/INSTALL.TXT)
  - [Wiki](https://sourceforge.net/p/postfixadmin/wiki/)
  - [Mailing list](https://sourceforge.net/p/postfixadmin/discussion/676076)
- - [IRC channel](irc://irc.freenode.net/postfixadmin) (#postfixadmin on irc.freenode.net).
+ - [IRC channel](irc://irc.libera.chat/#postfixadmin) (#postfixadmin on Libera.chat).

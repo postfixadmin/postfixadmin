@@ -59,9 +59,9 @@ $PALANG['pMenu_viewlog'] = 'Histórico';
 $PALANG['pMenu_logout'] = 'Sair';
 
 $PALANG['pMain_welcome'] = 'Bem-vindo ao Postfix Admin!';
-$PALANG['pMain_overview'] = 'Liste os seus aliases (redireccionamentos) e contas de email. Pode editá-los / Removê-los aqui.';
-$PALANG['pMain_create_alias'] = 'Crie um novo alias (redireccionamento) para o seu domínio.'; # XXX check text - should be 'Create a new alias for your domain.'
-$PALANG['pMain_create_mailbox'] = 'Crie uma nova conta de email para o seu domínio.';
+$PALANG['pMain_overview'] = 'Liste os seus aliases (redireccionamentos) e contas de email. Pode editá-los / Removê-los aqui.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Crie um novo alias (redireccionamento) para o seu domínio.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Crie uma nova conta de email para o seu domínio.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Envie uma mensagem para uma conta recém-criada.';
 $PALANG['pMain_password'] = 'Altere a password da sua conta de administrador.';
 $PALANG['pMain_viewlog'] = 'Veja o histórico de administração.';
@@ -205,6 +205,7 @@ $PALANG['reply_once_per_day'] = 'Reesponder uma vez por dia'; # XXX
 $PALANG['reply_once_per_week'] = 'Responder uma vez por semana'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Últimas %s acções para ';
+$PALANG['pViewlog_welcome_all'] = 'Últimas %s acções ';
 $PALANG['pViewlog_timestamp'] = 'Data/Hora';
 $PALANG['pViewlog_action'] = 'Acção';
 $PALANG['pViewlog_data'] = 'Descrição';

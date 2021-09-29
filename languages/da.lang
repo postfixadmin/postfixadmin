@@ -61,9 +61,9 @@ $PALANG['pMenu_viewlog'] = 'Vis log';
 $PALANG['pMenu_logout'] = 'Log ud';
 
 $PALANG['pMain_welcome'] = 'Velkommen til PostfixAdmin!';
-$PALANG['pMain_overview'] = 'Vis alle aliases og postbokse. Du kan redigere/slette dem herfra.';
-$PALANG['pMain_create_alias']   = 'Tilføj et nyt alias til et domæne.'; # XXX check text - should be 'Create a new alias for your domain.'
-$PALANG['pMain_create_mailbox'] = 'Tilføj en ny postboks til et domæne.';
+$PALANG['pMain_overview'] = 'Vis alle aliases og postbokse. Du kan redigere/slette dem herfra.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias']   = 'Tilføj et nyt alias til et domæne.'; # # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Tilføj en ny postboks til et domæne.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail']       = 'Send en email til en eksisterende postboks.';
 $PALANG['pMain_password'] = 'Ændre adgangskoden til din administratorkonto.';
 $PALANG['pMain_viewlog'] = 'Vis logfiler.';
@@ -206,6 +206,7 @@ $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Vis de sidste %s poster for ';
+$PALANG['pViewlog_welcome_all'] = 'Vis de sidste %s poster ';
 $PALANG['pViewlog_timestamp'] = 'Tidsstempel';
 $PALANG['pViewlog_action'] = 'Handling';
 $PALANG['pViewlog_data'] = 'Data';

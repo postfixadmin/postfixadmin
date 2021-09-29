@@ -57,9 +57,9 @@ $PALANG['pMenu_viewlog'] = 'Skoða Log';
 $PALANG['pMenu_logout'] = 'Aftengjast';
 
 $PALANG['pMain_welcome'] = 'Velkomin í Postfix Kerfistólin!';
-$PALANG['pMain_overview'] = 'Lista út aliasa og póstföng. Þú getur breytt / eytt og lagað hérna.';
-$PALANG['pMain_create_alias'] = 'Stofna nýjan alias fyrir lénið þitt.'; # XXX check text - should be 'Create a new alias for your domain.'
-$PALANG['pMain_create_mailbox'] = 'Stofna nýtt póstfang fyrir lénið þitt.';
+$PALANG['pMain_overview'] = 'Lista út aliasa og póstföng. Þú getur breytt / eytt og lagað hérna.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Stofna nýjan alias fyrir lénið þitt.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Stofna nýtt póstfang fyrir lénið þitt.'; # XXX Text changed to "Create a new mailbox."
 $PALANG['pMain_sendmail'] = 'Senda tölvupóst til eins af nýju pósthólfin.';
 $PALANG['pMain_password'] = 'Breyta lykilorðinu fyrir kerfisstjóra aðganginn.';
 $PALANG['pMain_viewlog'] = 'Skoða log skrárnar.';
@@ -199,6 +199,7 @@ $PALANG['reply_once_per_day'] = 'Reply once a day'; # XXX
 $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Skoða síðustu %s aðgerðir fyrir ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_timestamp'] = 'Tími';
 $PALANG['pViewlog_action'] = 'aðgerð';
 $PALANG['pViewlog_data'] = 'gögn';
