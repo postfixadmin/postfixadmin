@@ -293,6 +293,9 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
     public function testWeSupportWhatWeSayWeDo()
     {
         foreach (PFACrypt::DOVECOT_NATIVE as $algorithm) {
+            if (phpversion() < 7.3 && ($algorithm == 'ARGON2ID' || $algorithm == 'ARGON2ID.B64')) {
+                continue; // needs PHP7.3+
+            }
             $c = new PFACrypt($algorithm);
             $hash1 = $c->pacrypt('test123');
 
@@ -317,7 +320,7 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
             'php_crypt:SHA256' => '$5$UaZs6ZuaLkVPx3bM$4JwAqdphXVutFYw7COgAkp/vj09S1DfjIftxtjqDrr/',
             'sha512.b64' => '{SHA512-CRYPT.B64}JDYkMDBpOFJXQ0JwMlFMMDlobCRFMVFWLzJjbENPbEo4OTg0SjJyY1oxeXNTaFJIYVhJeVdFTDdHRGl3aHliYkhQUHBUQjZTM0lFMlYya2ZXczZWbHY0aDVNa3N0anpud0xuRTBWZVRELw==',
         ];
-        
+
         foreach ($mechs as $mech => $example_hash) {
             if ($mech == 'mysql_encrypt' && Config::read_string('database_type') != 'mysql') {
                 continue;
