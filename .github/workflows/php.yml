@@ -23,6 +23,9 @@ jobs:
     - name: check formatting
       run: composer check-format
 
+    - name: setup templates_c
+      run: mkdir templates_c || true
+
     - name: psalm static analysis
       run: composer psalm
 
