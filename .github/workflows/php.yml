@@ -26,6 +26,9 @@ jobs:
     - name: setup templates_c
       run: mkdir templates_c || true
 
+    - name: touch config.local.php
+      run: touch config.local.php 
+
     - name: psalm static analysis
       run: composer psalm
 
