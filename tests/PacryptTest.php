@@ -213,6 +213,11 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
             'SHA256-CRYPT.B64' => '{SHA256-CRYPT.B64}JDUkUTZZS1ZzZS5sSVJoLndodCR6TWNOUVFVVkhtTmM1ME1SQk9TR3BEeGpRY2M1TzJTQ1lkbWhPN1YxeHlD',
         ];
 
+        // php 7.3 and below do not support these.
+        if (phpversion() < '7.3') {
+            unset($algo_to_example['ARGON2ID']);
+            unset($algo_to_example['ARGON2ID.B64']);
+        }
 
         foreach ($algo_to_example as $algorithm => $example_hash) {
             $CONF['encrypt'] = $algorithm;
