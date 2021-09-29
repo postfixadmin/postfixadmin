@@ -1311,9 +1311,10 @@ function pacrypt($pw, $pw_db = "")
     }
 
     if ($mechanism == 'SHA512.B64') {
+        // postfixadmin incorrectly uses this as a SHA512-CRYPT.B64
         $mechanism = 'SHA512-CRYPT.B64';
     }
-
+    
     if (preg_match('/^DOVECOT:(.*)$/i', $mechanism, $matches)) {
         $mechanism = strtoupper($matches[1]);
     }
