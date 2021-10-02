@@ -20,7 +20,7 @@
     },
     "require": {
         "php": ">=7.2",
-        "postfixadmin/password-hashing": "dev-main"
+        "postfixadmin/password-hashing": "^0.0.1"
     },
     "require-dev": {
         "ext-mysqli":  "*",
