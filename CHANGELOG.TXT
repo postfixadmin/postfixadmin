@@ -6,6 +6,12 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.11 - ???
+-------------------------------------------------
+   - Fix PHP 8 compatability for crypt() usage (see https://github.com/postfixadmin/postfixadmin/issues/547)
+
+
+
 Version 3.3.10 - 2021/08/09
 -------------------------------------------------
    - Merge password expiration fixes from https://github.com/postfixadmin/postfixadmin/pull/493
