@@ -107,25 +107,25 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {* password *}
-                    <li><a class="btn btn-default navbar-btn btn-sm" type="button"
+                    <li><a class="btn btn-default btn-sm" type="button"
                            href="{#url_password#}">{$PALANG.pMenu_password}</a></li>
                     {* backup *}
                     {if $authentication_has_role.global_admin && $CONF.database_type!=='pgsql' && $CONF.backup === 'YES'}
-                        <li><a class="btn btn-default navbar-btn btn-sm" type="button"
+                        <li><a class="btn btn-default btn-sm" type="button"
                                href="{#url_backup#}">{$PALANG.pAdminMenu_backup}</a></li>
                     {/if}
                     {* viewlog *}
                     {if $CONF.logging==='YES'}
-                        <li><a class="btn btn-default navbar-btn btn-sm" type="button"
+                        <li><a class="btn btn-default btn-sm" type="button"
                                href="{#url_viewlog#}">{$PALANG.pMenu_viewlog}</a></li>
                     {/if}
 
 
-                        <li><a class="btn btn-default navbar-btn btn-sm" type="button" href="setup.php">Setup / Diagnostics</a></li>
+                        <li><a class="btn btn-default btn-sm" type="button" href="setup.php">Setup / Diagnostics</a></li>
 
 
                     {* logout *}
-                    <li><a class="btn btn-default navbar-btn btn-sm" type="button"
+                    <li><a class="btn btn-default btn-sm" type="button"
                            href="{#url_logout#}">{$PALANG.pMenu_logout}</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
