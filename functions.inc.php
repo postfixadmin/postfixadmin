@@ -1583,7 +1583,7 @@ function db_connection_string() {
         if ($socket) {
             $dsn .= "unix_socket={$socket}";
         } else {
-            $dsn .= "mysql:host={$CONF['database_host']}"; 
+            $dsn .= "mysql:host={$CONF['database_host']}";
         }
 
         if (isset($CONF['database_port'])) {
@@ -1591,7 +1591,6 @@ function db_connection_string() {
         }
 
         $dsn .= ";dbname={$database_name};charset=UTF8";
-
     } elseif (db_sqlite()) {
         $db = $CONF['database_name'];
 
