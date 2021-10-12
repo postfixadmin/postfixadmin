@@ -1579,11 +1579,19 @@ function db_connection_string() {
 
         $database_name = Config::read_string('database_name');
 
+        $dsn = 'mysql:';
         if ($socket) {
-            $dsn = "mysql:unix_socket={$socket};dbname={$database_name};charset=UTF8";
+            $dsn .= "unix_socket={$socket}";
         } else {
-            $dsn = "mysql:host={$CONF['database_host']};dbname={$database_name};charset=UTF8";
+            $dsn .= "mysql:host={$CONF['database_host']}"; 
         }
+
+        if (isset($CONF['database_port'])) {
+            $dsn .= ";port={$CONF['database_port']}";
+        }
+
+        $dsn .= ";dbname={$database_name};charset=UTF8";
+
     } elseif (db_sqlite()) {
         $db = $CONF['database_name'];
 
