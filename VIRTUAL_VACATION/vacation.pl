@@ -66,7 +66,11 @@ our $smtp_client = 'localhost';
 our $smtp_helo = 'localhost.localdomain';
 
 # send mail encrypted or plaintext
-# if 1, connect securely via ssl; otherwise, no security
+# if 1, connect securely via ssl
+# if 'starttls', connect using starttls (plaintext+neg tls)
+# if 'maybestarttls' - try starttls, otherwise plaintext.
+# if 0 (default), plain text, no security
+# See also : https://metacpan.org/pod/Email::Sender::Transport::SMTP
 our $smtp_ssl = 0;
 
 # maximum time in secs to wait for server; default is 120
