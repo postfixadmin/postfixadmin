@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
+    {* see https://github.com/postfixadmin/postfixadmin/issues/497 *}
+    <meta http-equiv='Content-Security-Policy' content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; "/>
+
     <title>Postfix Admin - {$smarty.server.HTTP_HOST}</title>
     <link rel="shortcut icon" href="{$CONF.theme_favicon}"/>
     <link rel="stylesheet" type="text/css" href="{$CONF.theme_css}"/>
