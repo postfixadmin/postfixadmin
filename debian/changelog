@@ -1,25 +1,153 @@
-postfixadmin (3.2-1) unstable; urgency=low
+postfixadmin (3.3.10-2) unstable; urgency=medium
 
-  * New upstream release - PostfixAdmin v3.2
+  * remove unnessesary fix for mysqli instead of mysql
+  * fix permissions of templates_c directory
 
- -- David Goodwin <david@palepurple.co.uk>  Wed, 02 May 2018 21:36:01 +0100
+ -- Christoph Martin <martin@uni-mainz.de>  Thu, 19 Aug 2021 23:30:30 +0200
 
-postfixadmin (3.1-1) unstable; urgency=low
+postfixadmin (3.3.10-1) unstable; urgency=medium
 
-  * New upstream release
+  * update watch file
+  * New upstream version 3.3.10
+  * fix lighttpd config (closes: #987998)
+  * include templates_c directory in /var/cache (closes: #926253)
+  * offer mysqli instead mysql as PHP database type (closes: #857791)
+  * symlink /etc/postfixadmin/config.local.php to
+    /usr/share/postfixadmin/config.local.php (closes: #926354)
 
- -- David Goodwin <david@palepurple.co.uk>  Sun, 25 Jun 2017 16:27:01 +0000
+ -- Christoph Martin <martin@uni-mainz.de>  Mon, 16 Aug 2021 19:05:26 +0200
 
-postfixadmin (3.0.2-1) unstable; urgency=low
+postfixadmin (3.3.7-1) unstable; urgency=medium
 
-  * Security fix (don't delete protected aliases, CVE-2017-5930)
+  * New upstream version 3.3.7
+  * recommend sqlite3 instead of sqlite (closes: #905726)
+  * fix alias in apache config (closes: #965075)
+  * fix dependency on mariadb-server (closes: #968931)
+
+ -- Christoph Martin <martin@uni-mainz.de>  Wed, 03 Mar 2021 14:57:26 +0100
+
+postfixadmin (3.3.5-1) unstable; urgency=medium
+
+  * New upstream version 3.3.5
+
+ -- Christoph Martin <martin@uni-mainz.de>  Thu, 28 Jan 2021 08:23:28 +0100
+
+postfixadmin (3.3.4-1) unstable; urgency=medium
+
+  * New upstream version 3.3.4
+
+ -- Christoph Martin <martin@uni-mainz.de>  Mon, 25 Jan 2021 10:46:01 +0100
+
+postfixadmin (3.3.3-1) unstable; urgency=medium
+
+  * New upstream version 3.3.3
+
+ -- Christoph Martin <martin@uni-mainz.de>  Mon, 18 Jan 2021 16:23:33 +0100
+
+postfixadmin (3.3.1-1) unstable; urgency=medium
+
+  * New upstream version 3.3.1
+
+ -- Christoph Martin <martin@uni-mainz.de>  Tue, 12 Jan 2021 11:44:54 +0100
+
+postfixadmin (3.2.4-1) unstable; urgency=medium
+
+  * New upstream version 3.2.4
+
+ -- Christoph Martin <martin@uni-mainz.de>  Mon, 21 Sep 2020 11:13:46 +0200
+
+postfixadmin (3.2.1-4) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Trim trailing whitespace.
+  * Wrap long lines in changelog entries: 3.0.2-2, 3.0.2-1, 3.0.1-2.
+  * Bump debhelper from deprecated 7 to 12.
+  * Set debhelper-compat version in Build-Depends.
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
+    Repository-Browse.
+
+ -- Christoph Martin <martin@uni-mainz.de>  Mon, 14 Sep 2020 16:10:16 +0200
+
+postfixadmin (3.2.1-3) unstable; urgency=medium
+
+  [ Jean-Michel Vourgère ]
+  * Update apache2 configuration (closes: #926252)
+
+  [ Christian Schrötter ]
+  * Fix missing SSL at persistent MySQLi reconnect
+
+ -- Christoph Martin <martin@uni-mainz.de>  Mon, 10 Feb 2020 15:50:48 +0100
+
+postfixadmin (3.2.1-2) unstable; urgency=medium
+
+  * remove backported code which results in errors (closes: #920564)
+  * link /usr/share/postfixadmin/scripts/postfixadmin-cli to /usr/bin
+    closes: #920264)
+
+ -- Christoph Martin <martin@uni-mainz.de>  Mon, 28 Jan 2019 14:16:05 +0100
+
+postfixadmin (3.2.1-1) unstable; urgency=medium
+
+  * fix debian/changelog
+  * New upstream version 3.2.1
+
+ -- Christoph Martin <martin@uni-mainz.de>  Mon, 14 Jan 2019 11:44:58 +0100
+
+postfixadmin (3.2-4) unstable; urgency=medium
+
+  [ Christoph Martin ]
+  * fix sqlite database upgrade (closes: #909263)
+
+  [ Ondřej Nový ]
+  * d/rules: Remove trailing whitespaces
+
+ -- Christoph Martin <martin@uni-mainz.de>  Fri, 28 Sep 2018 11:19:19 +0200
+
+postfixadmin (3.2-3) unstable; urgency=medium
+
+  * include missing lib folder (closes: #908605)
+
+ -- Christoph Martin <martin@uni-mainz.de>  Wed, 12 Sep 2018 09:17:27 +0200
+
+postfixadmin (3.2-2) unstable; urgency=medium
+
+  * reupload with missing public folder included (closes: #908317)
+
+ -- Christoph Martin <martin@uni-mainz.de>  Mon, 10 Sep 2018 11:40:37 +0200
+
+postfixadmin (3.2-1) unstable; urgency=medium
+
+  [ Christoph Martin ]
+  * Move watch target to github
+  * Move Vcs-* to Salsa
+  * New upstream version 3.2
+
+ -- Christoph Martin <martin@uni-mainz.de>  Fri, 04 May 2018 11:39:57 +0200
+
+postfixadmin (3.0.2-2) unstable; urgency=medium
+
+  * fix mysql connection problems (closes: #861260) see:
+    https://github.com/postfixadmin/postfixadmin/issues/38 and
+    https://github.com/postfixadmin/postfixadmin/commit/6ee85ac6cc427392a1d37339e45a5dbb4b96461c
+
+ -- Christoph Martin <martin@uni-mainz.de>  Thu, 27 Apr 2017 12:43:15 +0200
+
+postfixadmin (3.0.2-1) unstable; urgency=high
+
+  [ David Goodwin ]
+  * Security fix (don't delete protected aliases, CVE-2017-5930) (closes:
+    #854742)
   * Fix MySQL vacation.cache column (regression fix)
 
- -- David Goodwin <david@palepurple.co.uk>  Wed, 08 Feb 2017 19:30:00 +0000
+  [ Christoph Martin ]
+  * remove recommends zendframework (closes: #780418)
+
+ -- Christoph Martin <martin@uni-mainz.de>  Fri, 10 Feb 2017 15:08:46 +0100
 
 postfixadmin (3.0.1-2) unstable; urgency=low
 
-  * Try and make dependencies less strict (and perhaps work for Ubuntu Precise as well)
+  * Try and make dependencies less strict (and perhaps work for Ubuntu Precise
+    as well)
 
  -- David Goodwin <david@palepurple.co.uk>  Mon, 10 Oct 2016 20:00:00 +0100
 
@@ -29,42 +157,101 @@ postfixadmin (3.0.1-1) unstable; urgency=low
 
  -- David Goodwin <david@palepurple.co.uk>  Mon, 19 Sep 2016 10:08:00 +0100
 
+postfixadmin (3.0-2) unstable; urgency=medium
+
+  * include missing files (closes: #847074)
+
+ -- Christoph Martin <martin@uni-mainz.de>  Thu, 08 Dec 2016 15:06:27 +0100
+
 postfixadmin (3.0-1) unstable; urgency=low
 
+  [ David Goodwin ]
   * New upstream release
 
- -- David Goodwin <david@palepurple.co.uk>  Sun, 11 Sep 2016 18:42:00 +0100
+  [ Christoph Martin ]
+  * merge Debian changes
 
-postfixadmin (2.93-2) unstable; urgency=low
+ -- Christoph Martin <martin@uni-mainz.de>  Wed, 09 Nov 2016 15:43:41 +0100
 
+postfixadmin (2.93-2) unstable; urgency=medium
+
+  [ Christoph Martin ]
+  * add fix for missing token bug (closes: #825151)
+  * add depend on php-mbstring
+
+  [ David Goodwin ]
   * Replace debian/ using Debian v2.3.7-2. See Debian's #821643
   * This adds : PHP7 and Apache 2.4 support.
 
- -- David Goodwin <david@palepurple.co.uk>  Sun, 22 May 2016 19:41:01 +0100
+ -- Christoph Martin <christoph.martin@uni-mainz.de>  Thu, 07 Jul 2016 16:36:08 +0200
 
 postfixadmin (2.93-1) unstable; urgency=low
 
-  * New upstream release (effectively beta3 for v3.0)
-  * update dependencies to allow mariadb as database
+  [ David Goodwin ]
+  * New upstream release (closes: #819218)
+  * update dependencies to allow mariadb as database (closes: #778794)
 
- -- David Goodwin <david@palepurple.co.uk>  Sat, 26 Sep 2015 15:05:00 +0100
+  [ Christoph Martin ]
+  * merge to Debian build
+  * include patch remove code which needs mysql >= 5.6
+  * update standards version to 3.9.6
 
-postfixadmin (2.92-1) unstable; urgency=low
+ -- Christoph Martin <martin@uni-mainz.de>  Mon, 27 Jun 2016 17:59:10 +0200
 
-  * New upstream release (effectively beta2 for v3.0)
+postfixadmin (2.3.7-2) unstable; urgency=medium
 
- -- David Goodwin <david@palepurple.co.uk>  Wed, 28 Oct 2014 21:02:00 +0100
+  * depend on php instead of php7 (closes: #821643)
 
-postfixadmin (2.91-1) unstable; urgency=low
+ -- Christoph Martin <martin@uni-mainz.de>  Fri, 20 May 2016 15:34:04 +0200
 
-  * New upstream release (effectively beta for v3.0)
+postfixadmin (2.3.7-1) unstable; urgency=medium
 
- -- David Goodwin <david@palepurple.co.uk>  Tue, 06 May 2014 21:36:00 +0100
+  [ Norman Meßtorff ]
+  * [76ef] change recommends of postgresql-server (not existing) to postgresql.
+    Thanks to Michael Neuffer (Closes: 699602)
+  * [4bb5] Change suggestion of transitional package dovecot-common
+    to dovecot-core
+  * [f06f] Add new recommended package 'zendframework'
+    Thanks to Benedikt Trefzer (Closes: 684080)
+  * [d25a] rules: remove not needed target 'prep'
+  * [47f7] control: update standards-version to 3.9.5 without changes
+  * [6f51] Imported Upstream version 2.3.7 (Closes: #741969)
+  * [4256] Remove patch 0002-fix-sql-injection_show_alias
+  * [0e04] Update Vcs-* tags in control file
+  * [4f90] remove legacy apache configuration in prerm, if existing
+
+  [ Gaudenz Steinlin ]
+  * [a5a3] Apache 2.4 transition (Closes: #669834)
+  * [68fe] Use doveadm pw instead of dovecotpw by default (Closes: #706698)
+  * [1da4] Remove wwwconfig-common support (Closes: #691936, #719933)
+  * [b509] Add myself as uploader
+  * [f628] Rename lighttpd config to 90-postfixadmin.conf
+  * [a0e6] Remove config symlink for lighttpd in postinst
+
+ -- Gaudenz Steinlin <gaudenz@debian.org>  Mon, 06 Oct 2014 13:27:25 +0200
+
+postfixadmin (2.3.5-3) unstable; urgency=high
+
+  [ Norman Messtorff ]
+  * [a620b76] fix possible SQL injection of $show_alias in function
+    gen_show status()
+
+ -- Norman Messtorff <normes@normes.org>  Sun, 23 Mar 2014 19:07:23 +0100
+
+postfixadmin (2.3.5-2+deb7u1) wheezy-security; urgency=high
+
+  * Non-maintainer upload
+  * SECURITY: fix SQL injection in show_gen_status()
+    This is only exploitable by authenticated users able
+    to create new aliases.
+    Upstream commit: http://sourceforge.net/p/postfixadmin/code/1650
+
+ -- Gaudenz Steinlin <gaudenz@debian.org>  Thu, 20 Mar 2014 10:41:47 +0100
 
 postfixadmin (2.3.5-2) unstable; urgency=low
 
-  * Added .po translation files (Closes: 667951, #667962, #668202, #668288)
-  * Closes: #668298, #668301, #668405, #668635
+  * Added .po translation files (Closes: #667951, #667962, #668202, #668288,
+    #668298, #668301, #668405, #668635)
   * Updated standards version to 3.9.3 without changes.
 
  -- Norman Messtorff <normes@normes.org>  Thu, 26 Apr 2012 20:55:57 +0200
@@ -74,4 +261,3 @@ postfixadmin (2.3.5-1) unstable; urgency=low
   * Initial Debian release (Closes: #247225)
 
  -- Norman Messtorff <normes@normes.org>  Sun, 15 Jan 2012 12:27:28 +0100
-

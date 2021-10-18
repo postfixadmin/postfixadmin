@@ -3,16 +3,16 @@ Section: admin
 Priority: optional
 Maintainer: Norman Messtorff <normes@normes.org>
 Uploaders: Gaudenz Steinlin <gaudenz@debian.org>, Christoph Martin <martin@uni-mainz.de>
-Build-Depends: debhelper (>= 7), po-debconf, dh-apache2
-Standards-Version: 3.9.5
-Vcs-Git: git://anonscm.debian.org/collab-maint/postfixadmin.git
-Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/postfixadmin.git
+Build-Depends: debhelper-compat (= 12), po-debconf, dh-apache2
+Standards-Version: 3.9.6
+Vcs-Browser: https://salsa.debian.org/debian/postfixadmin
+Vcs-Git: https://salsa.debian.org/debian/postfixadmin.git
 Homepage: http://postfixadmin.sourceforge.net
 
 Package: postfixadmin
 Architecture: all
-Depends: debconf (>= 0.5), dbconfig-common, wwwconfig-common, apache2 | lighttpd | httpd, libapache2-mod-php | php-cgi | php-fpm | php, php-mysql | php-mysqlnd | php-pgsql | php-pgsql | php-sqlite3, php-mbstring, default-mysql-client | mysql-client | postgresql-client | mariadb-client
-Recommends: postfix-mysql | postfix-pgsql, virtual-mysql-server | postgresql | sqlite3 | mariadb-server, zendframework, php-imap, dovecot-core | courier-authlib-mysql | courier-authlib-postgresql, php-cli
+Depends: debconf (>= 0.5), dbconfig-common, wwwconfig-common, apache2 | lighttpd | httpd, libapache2-mod-php | php-cgi | php-fpm | php, php-imap, php-mysql | php-mysqlnd | php-pgsql | php-sqlite3, php-mbstring, default-mysql-client | postgresql-client | mariadb-client, ${misc:Depends}
+Recommends: postfix-mysql | postfix-pgsql, virtual-mysql-server | postgresql | sqlite3 (>= 3.12.0) | mariadb-server, zendframework, dovecot-core | courier-authlib-mysql | courier-authlib-postgresql, php-cli
 Description: Virtual mail hosting interface for Postfix
  Postfixadmin is a web interface to manage virtual users and domains
  for a Postfix mail transport agent. It supports Virtual mailboxes,

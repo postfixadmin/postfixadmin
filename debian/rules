@@ -11,7 +11,7 @@ export DEBVERSION	= $(shell grep -E "postfixadmin .([0-9]+|\.)+" debian/changelo
 # Create a needed tar.gz file to build a non-nativ .dpkg
 prep:
 	rm -f ../postfixadmin_*orig.tar.gz
-	cd ..; tar --exclude-vcs --exclude=$(notdir ${CURDIR})/debian  --exclude=$(notdir ${CURDIR})/.pc -cvzf postfixadmin_${DEBVERSION}.orig.tar.gz $(notdir ${CURDIR}) 
+	cd ..; tar --exclude-vcs --exclude=$(notdir ${CURDIR})/debian  --exclude=$(notdir ${CURDIR})/.pc -cvzf postfixadmin_${DEBVERSION}.orig.tar.gz $(notdir ${CURDIR})
 
 build: build-arch build-indep
 build-arch: build-stamp
@@ -33,7 +33,10 @@ install: build
 	dh_install
 	dh_apache2
 	mv debian/postfixadmin/usr/share/postfixadmin/config.inc.php debian/postfixadmin/etc/postfixadmin/config.inc.php
-	ln -s /usr/share/postfixadmin/scripts/postfixadmin-cli debian/postfixadmin/usr/bin/postfixadmin-cli
+	ln -s /etc/postfixadmin/config.local.php debian/postfixadmin/usr/share/postfixadmin/config.local.php
+	find debian/postfixadmin -name .svn | xargs -r rm -r
+	ln -s ../share/postfixadmin/scripts/postfixadmin-cli debian/postfixadmin/usr/bin/
+	ln -s /var/cache/postfixadmin/templates_c debian/postfixadmin/usr/share/postfixadmin/
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -46,6 +49,8 @@ binary-indep: build install
 	dh_link
 	dh_compress
 	dh_fixperms
+	chown www-data debian/postfixadmin/var/cache/postfixadmin/templates_c -R
+	chmod 700 debian/postfixadmin/var/cache/postfixadmin/templates_c
 	dh_installdeb
 	dh_gencontrol
 	dh_md5sums
