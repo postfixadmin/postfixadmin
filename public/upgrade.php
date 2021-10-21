@@ -2043,7 +2043,8 @@ function upgrade_1845()
     db_query("alter table $mailbox change name name varchar(255) charset utf8mb4 not null");
 }
 
-function upgrade_1846_mysql() {
+function upgrade_1846_mysql()
+{
     # See https://github.com/postfixadmin/postfixadmin/issues/327
 
     $alias = table_by_key('alias');
@@ -2063,7 +2064,6 @@ function upgrade_1846_mysql() {
     db_query("ALTER TABLE $mailbox MODIFY local_part varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $mailbox MODIFY domain varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $vacation MODIFY domain varchar(255)  COLLATE latin1_general_ci NOT NULL");
-    db_query("ALTER TABLE $alias_domain MODIFY alias_domain varchar(255)  COLLATE latin1_general_ci NOT NULL DEFAULT ''"); 
+    db_query("ALTER TABLE $alias_domain MODIFY alias_domain varchar(255)  COLLATE latin1_general_ci NOT NULL DEFAULT ''");
     db_query("ALTER TABLE $alias_domain MODIFY target_domain varchar(255)  COLLATE latin1_general_ci NOT NULL DEFAULT ''");
-
 }
