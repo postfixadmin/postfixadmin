@@ -3,7 +3,9 @@
     "description": "web based administration interface for Postfix mail servers",
     "type": "project",
     "license": "GPL-2.0",
-    "preferred-install":"dist",
+    "config": {
+        "preferred-install":"dist"
+    },
     "scripts": {
         "build" : [
             "@check-format",
