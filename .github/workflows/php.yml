@@ -3,7 +3,7 @@ name: GitHubBuild
 on: [push]
 
 jobs:
-  lintetc:
+  lint_etc:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
       run: composer psalm
 
   testsuite:
-    needs: [lintetc]
+    needs: [lint_etc]
     runs-on: ubuntu-latest
     strategy:
       matrix:
