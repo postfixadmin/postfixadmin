@@ -17,8 +17,9 @@ jobs:
     - name: check composer 
       run: composer validate
 
+# Needing to 'update' here isn't ideal, but we need to cope with tests that run under different PHP versions :-/
     - name: Install dependencies
-      run: composer install --prefer-dist -n
+      run: composer update --prefer-dist -n
 
     - name: check formatting
       run: composer check-format
@@ -79,7 +80,7 @@ jobs:
       run: touch config.local.php && php -v
 
     - name: Install dependencies
-      run: composer install --prefer-dist -n
+      run: composer update --prefer-dist -n
 
     - name: build coveralls coverage
       run: php -d xdebug.mode=coverage vendor/bin/phpunit tests

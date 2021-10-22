@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '598f7db2e7efaff2f22d581acc4e9447abce2cea',
+    'reference' => '192ef87378c9271488a4a5317ba868387d2c3a94',
     'name' => 'postfixadmin/postfixadmin',
   ),
   'versions' => 
@@ -51,7 +51,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '598f7db2e7efaff2f22d581acc4e9447abce2cea',
+      'reference' => '192ef87378c9271488a4a5317ba868387d2c3a94',
     ),
   ),
 );
