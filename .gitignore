@@ -3,3 +3,5 @@
 /templates_c/*menu.conf.php
 /.php_cs.cache
 /.idea
+/vendor
+/composer.lock
