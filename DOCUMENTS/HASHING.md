@@ -6,6 +6,9 @@ They should not be stored in plain text.
 
 Whatever format you choose will need to be supported by your IMAP server (and whatever provides SASL auth for Postfix)
 
+If you can, use a format that includes a different salt per password (e.g. one of the crypt variants, like Blowfish (BLF-CRYPT) or Argon2I/Argon2ID). 
+Try and avoid formats that are unsalted hashes (md5, SHA1) as these offer minimal protection in the event of a data leak.
+
 ## Configuration
 
 See config.inc.php (or config.local.php) and look for
@@ -19,6 +22,49 @@ $CONF['encrypt'] = 'something';
 This document is probably not complete.
 
 It possibly provides better documentation than was present before. This may not say much.
+
+Supported hash formats include :
+
+ * MD5-CRYPT (aka MD5),
+ * SHA1, 
+ * SHA1-CRYPT,
+ * SSHA (4 char salted sha1),  
+ * BLF-CRYPT (Blowfish),
+ * SHA512,
+ * SHA512-CRYPT,
+ * ARGON2I,
+ * ARGON2ID,
+ * SHA256, 
+ * SHA256-CRYPT,
+ * PLAIN-MD5 (aka md5)
+ * CRYPT
+
+Historically PostfixAdmin has supported all dovecot algorithms (methods) by using the 'doveadm' system binary. As of XXXXXXX, we attempted to use a native/PHP implementation for a number of these to remove issues caused by use of proc_open / dovecot file permissions etc (see e.g. #379).
+
+It's recommended you use the algorithm/mechanism from your MTA, and configure PostfixAdmin with the same value prefixed by the MTA name -
+
+For example, if dovecot has `default_pass_scheme = SHA256` use `$CONF['encrypt'] = 'dovecot:SHA256'; ` in PostfixAdmin.
+
+
+| Dovecot pass scheme | PostfixAdmin `$CONF['encrypt']` setting |
+|---------------------|-----------------------------------------|
+| SHA256              | dovecot:SHA256                          |
+| SHA256-CRYPT.B64    | dovecot:SHA256-CRYPT.B64                |
+| SHA256-CRYPT        | dovecot:SHA256-CRYPT                    |
+| SHA512-CRYPT        | dovecot:SHA512-CRYPT                    |
+| ARGON2I             | dovecot:ARGON2I                         |
+| ARGON2ID            | dovecot:ARGON2ID                        |
+
+
+
+| Courier Example | PostfixAdmin |
+|-----------------|--------------|
+|  md5            | courier:md5  | 
+| md5raw          | courier:md5raw |
+| sha1            | courier:sha1 |
+| ssha            | courier:ssha |
+| sha256          | courier:sha256 |
+
 
 ### cleartext
 
@@ -58,9 +104,9 @@ You should not use this (it does not offer a high level of security), but is pro
 
 Uses PHP's crypt function.
 
-Probably throws an E_NOTICE. Avoid?
+Probably throws an E_NOTICE. 
 
-example : `$1$tWgqTIuF$1HFciCXrhVpACGjBMxNr/0`
+Example : `$1$tWgqTIuF$1HFciCXrhVpACGjBMxNr/0`
 
 ### authlib
 
@@ -86,16 +132,18 @@ Presumably weak.
 
 Uses sha1, base64 encoded. Unsalted. Avoid.
 
-### dovecot:CRYPT-METHOD
+### dovecot:METHOD
 
-Uses dovecot binary to produce hash.
+May use dovecot binary to produce hash, if the format you request isn't in PFACrypt::DOVECOT_NATIVE
 
-Pros -
+Using a format that PostfixAdmin doesn't support natively has the following pros/cons : 
+
+#### Pros
 
 * Minimal dependency on PostfixAdmin / PHP code.
 * Hash should definitely work with dovecot!
 
-Cons -
+#### Cons
 
 * file permissions and/or execution of doveadm by the web server may be problematic.
 * requires: proc_open(...) - which might be blocked by e.g. safemode.
