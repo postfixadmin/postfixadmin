@@ -3,6 +3,9 @@
     "description": "web based administration interface for Postfix mail servers",
     "type": "project",
     "license": "GPL-2.0",
+    "config": {
+        "preferred-install":"dist"
+    },
     "scripts": {
         "build" : [
             "@check-format",
@@ -19,7 +22,8 @@
         "psalm": "@php ./vendor/bin/psalm --no-cache --show-info=false "
     },
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.2",
+        "postfixadmin/password-hashing": "^0.0.1"
     },
     "require-dev": {
         "ext-mysqli":  "*",
@@ -33,6 +37,7 @@
         "shardj/zf1-future" : "^1.12"
     },
     "autoload": {
+        "classmap" : [ "model/" ],
         "files": [
             "config.inc.php",
             "functions.inc.php",

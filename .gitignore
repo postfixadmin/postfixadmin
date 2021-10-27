@@ -1,7 +1,7 @@
 /config.local.php
 /templates_c/*.tpl.php
 /templates_c/*menu.conf.php
-/vendor/
 /.php_cs.cache
 /.idea
+/vendor
 /composer.lock

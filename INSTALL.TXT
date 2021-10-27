@@ -41,10 +41,10 @@ DOCUMENTS/ folder.
 
 (if you installed PostfixAdmin as RPM or DEB package, you can obviously skip this step.)
 
-Assuming we are installing Postfixadmin into /srv/postfixadmin, then something like this should work. Please check https://github.com/postfixadmin/postfixadmin/releases to get the latest stable release first (the 3.2.4 version/url below is probably stale)
+Assuming we are installing Postfixadmin into /srv/postfixadmin, then something like this should work. Please check https://github.com/postfixadmin/postfixadmin/releases to get the latest stable release first (the 3.2.10 version/url below is probably stale)
 
   $ cd /srv/
-  $ wget -O postfixadmin.tgz https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-3.2.4.tar.gz
+  $ wget -O postfixadmin.tgz https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-3.2.10.tar.gz
   $ tar -zxvf postfixadmin.tgz
   $ mv postfixadmin-postfixadmin-3.2 postfixadmin
 
@@ -53,7 +53,20 @@ Alternatively :
   $ cd /srv
   $ git clone https://github.com/postfixadmin/postfixadmin.git
   $ cd postfixadmin
-  $ git checkout postfixadmin-3.2.4
+  $ git checkout postfixadmin-3.2.10
+
+If you're happy to try out newer functionality and perhaps hit unfixed bugs, you can try the 'master' branch by a `git checkout master` (or don't run the final git checkout in the above list).
+
+If you're using the 'master' branch, you'll need to also run : 
+
+```bash
+/bin/bash install.sh
+```
+
+Which will
+ * install the 'composer' tool locally (composer.phar) and
+ * download dependent PHP libraries.
+ * create a templates_c directory if one does not exist.
 
 2. Setup Web Server
 -------------------
