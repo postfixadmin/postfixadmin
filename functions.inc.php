@@ -1614,7 +1614,7 @@ function db_connection_string()
         if ($socket) {
             $dsn .= "unix_socket={$socket}";
         } else {
-            $dsn .= "mysql:host={$CONF['database_host']}";
+            $dsn .= "host={$CONF['database_host']}";
         }
 
         if (isset($CONF['database_port'])) {
