@@ -9,6 +9,10 @@
 MASTER (should have all changes from 3.3.10 plus)
 ------
 
+   - Require 'composer' for library installation (see install.sh)
+   - Remove the dependency on 'doveadm pw' and support more hash mechanisms (see: #491)
+   - Update debian/ patch (see #529)
+   - Support $CONF['database_port'] when connecting to MySQL (see #549)
    - Add optional Dovecot mail-crypt plugin support - see https://github.com/postfixadmin/postfixadmin/issues/408
    - Add $CONF['site_url'] to allow administrators to override a detected site url (e.g. used in password recovery emails; see https://github.com/postfixadmin/postfixadmin/issues/446 )
    - Code reformat as PHPCS has a mind of it's own (function/method opening brace change of position)
@@ -18,11 +22,20 @@ MASTER (should have all changes from 3.3.10 plus)
    - vacation.pl: improve headers in auto-reply mails (add: "Auto-Submitted: auto-replied") see https://github.com/postfixadmin/postfixadmin/pull/483
    - vacation.pl: allow smtp helo to be customised; see https://github.com/postfixadmin/postfixadmin/pull/495
 
-Version 3.3.10 - ???
+Version 3.3.11 - ???
+-------------------------------------------------
+   - Fix PHP 8 compatability for crypt() usage (see https://github.com/postfixadmin/postfixadmin/issues/547)
+   - Support $CONF['database_port'] when connecting to MySQL (see #549)
+
+Version 3.3.10 - 2021/08/09
 -------------------------------------------------
    - Merge password expiration fixes from https://github.com/postfixadmin/postfixadmin/pull/493
    - Remove html readonly attribute from user's vacation page to/from selectors.
-
+   - vacation.pl - allow smtp helo to be specified (see https://github.com/postfixadmin/postfixadmin/pull/495)
+   - Security fix - ClickJacking protection (thanks @huntr-helper / @ranjit-git) (see https://github.com/postfixadmin/postfixadmin/issues/523)
+   - Security fix (low risk) - Improve randomness with PFA_token for CSRF protection (thanks @michaellrowley)
+   - Fix viewlog to allow admins to see all domains (thanks @pgimalac, https://github.com/postfixadmin/postfixadmin/issues/516)
+   - Disable password autocompletion in edit forms (thanks @gabrielfin, see https://github.com/postfixadmin/postfixadmin/pull/510)
 
 Version 3.3.9 - 2021/05/12
 -------------------------------------------------
