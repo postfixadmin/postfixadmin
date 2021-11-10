@@ -2392,7 +2392,7 @@ function getRemoteAddr()
  */
 function getSiteUrl(array $server = []): string
 {
-    if (Config::has('site_url')) {
+    if (is_string(Config::read('site_url'))) {
         $url = Config::read_string('site_url');
         if (!empty($url)) {
             return $url;
