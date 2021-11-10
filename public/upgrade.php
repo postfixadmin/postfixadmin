@@ -2073,6 +2073,4 @@ function upgrade_1846_mysql()
     db_query("ALTER TABLE $vacation_notification MODIFY on_vacation VARCHAR(255) COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $vacation MODIFY email VARCHAR(255) COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $vacation_notification ADD CONSTRAINT vacation_notification_pkey FOREIGN KEY (`on_vacation`) REFERENCES $vacation(email) ON DELETE CASCADE");
-
-
 }
