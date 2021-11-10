@@ -2392,8 +2392,10 @@ function getRemoteAddr()
  */
 function getSiteUrl(array $server = []): string
 {
-    if (is_string(Config::read('site_url'))) {
-        $url = Config::read_string('site_url');
+    $config = Config::getInstance()->getAll();
+
+    if (isset($config['site_url']) && is_string($config['site_url'])) {
+        $url = $config['site_url'];
         if (!empty($url)) {
             return $url;
         }
