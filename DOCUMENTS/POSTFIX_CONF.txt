@@ -125,7 +125,7 @@ user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query = SELECT transport FROM domain WHERE domain='%s' AND active = '1'
+query = SELECT transport FROM domain WHERE domain='%s' AND active = '1' AND transport != 'virtual'
 
 
 (See above note re Concat + PostgreSQL)
