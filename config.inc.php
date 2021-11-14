@@ -175,30 +175,35 @@ $CONF['smtp_client'] = '';
 // Set 'YES' to use TLS when sending emails.
 $CONF['smtp_sendmail_tls'] = 'NO';
 
-// Encrypt
-// See: https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/HASHING.md
-// In what way do you want the passwords to be stored in the database, needs to be compatabile with Postfix/MTAs etc.
+// Encrypt - how passwords are stored/hashed in the database.
 //
-// md5crypt = internal postfix admin md5
-// md5 = md5 sum of the password
-// system = whatever you have set as your PHP system default
-// cleartext = clear text passwords (ouch!)
-// mysql_encrypt = useful for PAM integration
-// authlib = support for courier-authlib style passwords - also set $CONF['authlib_default_flavor']
-// dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. Example: dovecot:CRAM-MD5
-// php_crypt:CRYPT-METHOD:DIFFICULTY:PREFIX = use PHP built in crypt()-function. Example: php_crypt:SHA512:50000
+// See: https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/HASHING.md
+//
+// - PLAIN, CLEAR or CLEARTEXT - plain text variants, may be useful for testing. 
+//
+// - ARGON2ID, ARGON2I, SHA512-CRYPT, SHA256-CRYPT or BLF-CRYPT might be good options.
+//
+// - other, older variants are : 
+//   - md5crypt, 
+//   - md5, 
+//   - system, 
+//   - mysql_encrypt - mysql's password()
+//   - dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. 
+//     - Note: dovecot relies on doveadm binary, and suitable permissions on config files - see https://github.com/postfixadmin/postfixadmin/issues/398
+//
+// - authlib = support for courier-authlib style passwords - also set $CONF['authlib_default_flavor']
+//
+// - php_crypt:CRYPT-METHOD:DIFFICULTY:PREFIX = use PHP built in crypt()-function. Example: php_crypt:SHA512:50000
 // - php_crypt CRYPT-METHOD: Supported values are DES, MD5, BLOWFISH, SHA256, SHA512 (default)
-// - php_crypt DIFFICULTY: Larger value is more secure, but uses more CPU and time for each login.
-// - php_crypt DIFFICULTY: Set this according to your CPU processing power.
-// - php_crypt DIFFICULTY: Supported values are BLOWFISH:4-31, SHA256:1000-999999999, SHA512:1000-999999999
-// - php_crypt DIFFICULTY: leave empty to use default values (BLOWFISH:10, SHA256:5000, SHA512:5000). Example: php_crypt:SHA512
-//     IMPORTANT:
-//     - don't use dovecot:* methods that include the username in the hash - you won't be able to login to PostfixAdmin in this case
-//     - you'll need at least dovecot 2.1 for salted passwords ('doveadm pw' 2.0.x doesn't support the '-t' option)
-//     - dovecot 2.0.0 - 2.0.7 is not supported
-// - php_crypt PREFIX: hash has specified prefix - example: php_crypt:SHA512::{SHA256-CRYPT}
-// sha512.b64 - {SHA512-CRYPT.B64} (base64 encoded sha512 crypt) (no dovecot dependency; should support migration from md5crypt)
-$CONF['encrypt'] = 'php_crypt';
+// - php_crypt - DIFFICULTY: Larger value is more secure, but uses more CPU and time for each login.
+// - php_crypt - DIFFICULTY: Set this according to your CPU processing power.
+// - php_crypt - DIFFICULTY: Supported values are BLOWFISH:4-31, SHA256:1000-999999999, SHA512:1000-999999999
+// - php_crypt - DIFFICULTY: leave empty to use default values (BLOWFISH:10, SHA256:5000, SHA512:5000). Example: php_crypt:SHA512
+// - php_crypt - PREFIX: hash has specified prefix - example: php_crypt:SHA512::{SHA256-CRYPT}
+//
+// - sha512.b64 - {SHA512-CRYPT.B64} (base64 encoded sha512 crypt) (no dovecot dependency; should support migration from md5crypt)
+
+$CONF['encrypt'] = 'php_crypt'; // SHA512
 
 // In what flavor should courier-authlib style passwords be encrypted?
 // (only used if $CONF['encrypt'] == 'authlib')
