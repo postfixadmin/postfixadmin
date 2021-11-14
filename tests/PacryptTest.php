@@ -304,7 +304,7 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testObviousMechs()
+    public function testObviousMechanisms()
     {
         global $CONF;
 
@@ -318,8 +318,11 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
             'php_crypt:DES' => 'VXAXutUnpVYg6',
             'php_crypt:MD5' => '$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.',
             'php_crypt:SHA256' => '$5$UaZs6ZuaLkVPx3bM$4JwAqdphXVutFYw7COgAkp/vj09S1DfjIftxtjqDrr/',
+            'php_crypt:BLOWFISH' => '$2y$10$4gbwQMAoJPcg.mWnENYNg.syH9mZNsbQu6KN7skK92g3tlPnvvBDW',
             'sha512.b64' => '{SHA512-CRYPT.B64}JDYkMDBpOFJXQ0JwMlFMMDlobCRFMVFWLzJjbENPbEo4OTg0SjJyY1oxeXNTaFJIYVhJeVdFTDdHRGl3aHliYkhQUHBUQjZTM0lFMlYya2ZXczZWbHY0aDVNa3N0anpud0xuRTBWZVRELw==',
         ];
+
+
 
         foreach ($mechs as $mech => $example_hash) {
             if ($mech == 'mysql_encrypt' && Config::read_string('database_type') != 'mysql') {
@@ -329,6 +332,7 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
             Config::write('encrypt', $mech);
 
             $CONF['encrypt'] = $mech;
+
             $x = pacrypt('test123');
             $this->assertNotEmpty($x);
 
