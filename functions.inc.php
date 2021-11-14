@@ -1306,15 +1306,16 @@ function pacrypt($pw, $pw_db = "")
     if (in_array($mechanism, $crypts)) {
         $mechanism = 'CRYPT';
     }
-    if ($mechanism == 'PHP_CRYPT:SHA512') {
-        $mechanism = 'SHA512-CRYPT';
+
+    if (preg_match('/^PHP_CRYPT:(DES|MD5|BLOWFISH|SHA256|SHA512):?/', $mechanism, $matches)) {
+        return _pacrypt_php_crypt($pw, $pw_db);
     }
 
     if ($mechanism == 'SHA512.B64') {
         // postfixadmin incorrectly uses this as a SHA512-CRYPT.B64
         $mechanism = 'SHA512-CRYPT.B64';
     }
-    
+
     if (preg_match('/^DOVECOT:(.*)$/i', $mechanism, $matches)) {
         $mechanism = strtoupper($matches[1]);
     }
