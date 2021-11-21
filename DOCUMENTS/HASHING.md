@@ -43,17 +43,17 @@ Historically PostfixAdmin has supported all dovecot algorithms (methods) by usin
 
 It's recommended you use the algorithm/mechanism from your MTA, and configure PostfixAdmin with the same value prefixed by the MTA name -
 
-For example, if dovecot has `default_pass_scheme = SHA256` use `$CONF['encrypt'] = 'dovecot:SHA256'; ` in PostfixAdmin.
+For example, if dovecot has `default_pass_scheme = SHA256` use `$CONF['encrypt'] = 'SHA256'; ` in PostfixAdmin.
 
 
 | Dovecot pass scheme | PostfixAdmin `$CONF['encrypt']` setting |
 |---------------------|-----------------------------------------|
-| SHA256              | dovecot:SHA256                          |
-| SHA256-CRYPT.B64    | dovecot:SHA256-CRYPT.B64                |
-| SHA256-CRYPT        | dovecot:SHA256-CRYPT                    |
-| SHA512-CRYPT        | dovecot:SHA512-CRYPT                    |
-| ARGON2I             | dovecot:ARGON2I                         |
-| ARGON2ID            | dovecot:ARGON2ID                        |
+| SHA256              | SHA256                          |
+| SHA256-CRYPT.B64    | SHA256-CRYPT.B64                |
+| SHA256-CRYPT        | SHA256-CRYPT                    |
+| SHA512-CRYPT        | SHA512-CRYPT                    |
+| ARGON2I             | ARGON2I                         |
+| ARGON2ID            | ARGON2ID                        |
 
 
 
