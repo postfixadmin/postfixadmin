@@ -167,13 +167,17 @@ $CONF['admin_name'] = 'Postmaster';
 $CONF['smtp_server'] = 'localhost';
 $CONF['smtp_port'] = '25';
 
+// The communication layer used.
+//
+// 'plain'    Everything in plain text (standard port: 25).
+// 'tls'      TLS/SSL from the very beginning (standard port: 465).
+// 'starttls' "STARTTLS" in plain text and then TLS/SSL (standard port: 587).
+$CONF['smtp_type'] = 'plain';
+
 // SMTP Client
 // Hostname (FQDN) of the server hosting Postfix Admin
 // Used in the HELO when sending emails from Postfix Admin
 $CONF['smtp_client'] = '';
-
-// Set 'YES' to use TLS when sending emails.
-$CONF['smtp_sendmail_tls'] = 'NO';
 
 // Encrypt - how passwords are stored/hashed in the database.
 //
