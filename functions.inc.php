@@ -1451,7 +1451,12 @@ function to64($v, $n)
     return $ret;
 }
 
-
+function enable_socket_crypto($fh)
+{
+    stream_set_blocking($fh, true);
+    stream_socket_enable_crypto($fh, true, STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT);
+    stream_set_blocking($fh, true);
+}
 
 /**
  * smtp_mail
@@ -1472,6 +1477,7 @@ function smtp_mail($to, $from, $data, $password = "", $body = "")
 
     $smtpd_server = $CONF['smtp_server'];
     $smtpd_port = $CONF['smtp_port'];
+    $smtpd_type = $CONF['smtp_type'];
 
     $smtp_server = php_uname('n');
     if (!empty($CONF['smtp_client'])) {
@@ -1503,15 +1509,16 @@ function smtp_mail($to, $from, $data, $password = "", $body = "")
         error_log("fsockopen failed - errno: $errno - errstr: $errstr");
         return false;
     } else {
+        if ($smtpd_type === "tls") {
+            enable_socket_crypto($fh);
+        }
+
         smtp_get_response($fh);
 
-        if (Config::bool('smtp_sendmail_tls')) {
+        if ($smtpd_type === "starttls") {
             fputs($fh, "STARTTLS\r\n");
             smtp_get_response($fh);
-
-            stream_set_blocking($fh, true);
-            stream_socket_enable_crypto($fh, true, STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT);
-            stream_set_blocking($fh, true);
+            enable_socket_crypto($fh);
         }
 
         fputs($fh, "EHLO $smtp_server\r\n");
