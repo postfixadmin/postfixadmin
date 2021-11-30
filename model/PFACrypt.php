@@ -14,6 +14,7 @@ class PFACrypt
         'ARGON2ID',
         'ARGON2ID.B64',
         'SHA256', 'SHA256-CRYPT', 'SHA256-CRYPT.B64',
+        'SHA512-CRYPT',
         'SHA512', 'SHA512.B64',
         'MD5-CRYPT',
         'PLAIN-MD5',
