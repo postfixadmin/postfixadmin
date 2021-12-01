@@ -1,0 +1,203 @@
+@import url(bootstrap-3.4.1-dist/css/bootstrap.min.css);
+@import url(bootstrap-3.4.1-dist/css/bootstrap-datetimepicker.min.css);
+
+:root{
+	--c1:#333;
+	--c11:#222;
+	--c2:#ccc;
+	--c3:#555;
+	--c31:#777;
+	--c4:#ba1bd0;
+	--c5:#dfgfgd;
+	--c6:#111;
+}
+
+body {
+	background-color: var(--c1);
+	color: var(--c11)
+}
+
+.navbar-default {
+	background-color: var(--c1);
+	border-color: var(--c3);
+}
+
+.navbar-default .navbar-nav > li a{
+    color: var(--c2);
+}
+
+.navbar-default .navbar-nav > li a:hover{
+	color: var(--c31);
+}
+
+.btn-default {
+	color: var(--c2);
+	background-color: var(--c11);
+	border-color: var(--c31);
+}
+
+.btn-default:hover {
+	color: var(--c31);
+	background-color: var(--c2);
+	border-color: var(--c31);
+}
+
+.panel, .panel-default{
+	background-color:var(--c11)
+}
+
+.panel-default {
+	border-color: var(--c3);
+}
+
+.panel-default .btn-primary {
+	width: 15em;
+}
+
+.panel-default > .panel-heading {
+	color: var(--c11);
+	background-color: var(--c3);
+	border-color: var(--c1);
+}
+
+.panel-footer {
+	background-color: var(--c11);
+}
+
+.control-label{
+	color: var(--c1);
+}
+
+.dropdown-menu{
+	background-color:var(--c31);
+}
+
+.navbar-nav > li > .dropdown-menu {
+	background-color: var(--c1);
+}
+
+.dropdown-menu > li:hover{
+	background-color: var(--c6);
+}
+
+.btn-warning{
+	color: var(--11);
+}
+
+td{
+	color: var(--c31);
+}
+
+#admin_table tr:hover{
+	background-color:var(--c1);
+}
+
+#admin_table tr{
+	color:var(--c31);
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
+	color: var(--c11);
+	background-color: var(--c31);
+}
+
+.form-control{
+	background-color: var(--c31)
+}
+
+.mr {
+	margin-right: 5px;
+}
+
+.ml {
+	margin-left: 5px;
+}
+
+body > .container {
+	padding: 10px 15px 0;
+}
+
+.well{
+	max-width: 35em;
+	background-color: var(--c5);
+}
+
+button, input, select, textarea {
+    border-color: transparent;
+}
+
+.table > tr > td > btn-primary{
+	min-width: 10em;
+}
+
+.panel-body > .text-center{
+	color:var(--c3);
+}
+
+.panel-body > .text-center li{
+	list-style:none;
+}
+
+.footer > .container {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+.footer { font-size: 10px; line-height: 30px; }
+@media (min-width: 768px) {
+.footer { font-size: 12px; line-height: 60px; }
+}
+
+code {
+	font-size: 80%;
+}
+
+.navbar-header a.navbar-brand { padding-top: 0; padding-bottom: 0; }
+@media (min-width: 768px) {
+.navbar-fixed-top .container-fluid .navbar-collapse { font-size: 12px; }
+.navbar-fixed-top .container-fluid .navbar-collapse li a { padding-left: 5px; padding-right: 5px; }
+.navbar-fixed-top .container-fluid .navbar-right { font-size: 11px; }
+.navbar-fixed-top .container-fluid .navbar-right .navbar-btn { padding: 5px; }
+.navbar-header a.navbar-brand { padding: 0; }
+}
+@media (min-width: 992px) {
+.navbar-header a.navbar-brand { padding: 0 15px; }
+.navbar-fixed-top .container-fluid .navbar-collapse { font-size: 14px; }
+.navbar-fixed-top .container-fluid .navbar-right { font-size: 12px; }
+.navbar-fixed-top .container-fluid .navbar-collapse li a { padding-left: 10px; padding-right: 10px; }
+.navbar-fixed-top .container-fluid .navbar-right { padding-right: 5px; }
+.navbar-fixed-top .container-fluid .navbar-right .navbar-btn { margin-right: 5px; padding: 5px 10px; }
+}
+@media (min-width: 1200px) {
+.navbar-fixed-top .container-fluid .navbar-right a { font-size: 14px; }
+.navbar-fixed-top .container-fluid .navbar-right .navbar-btn { margin-right: 15px; }
+.navbar-fixed-top .container-fluid .navbar-collapse li a { padding-left: 15px; padding-right: 15px; }
+}
+
+
+span.active { font-weight: bold; }
+
+.quota {
+z-index:99;
+height:14px;
+position: absolute;
+}
+.quota_text {
+	z-index:100;
+	text-align: center;
+	font-size: 12px;
+	color: #666;
+	cursor: default;
+	position: absolute;
+	width:120px;
+	height:16px;
+	margin-top:-17px;
+padding-top: -1px;
+}
+.quota_bg { background-color: white; z-index:98; width:122px; height:16px;margin-top:-1px;margin-left:-1px;   border: 1px solid #999;}
+.quota_no_border { border:none; margin:0; }
+.quota_high { background: url(../images/quota-colors.png) repeat-x 0 -28px #f90509; }
+.quota_mid  { background: url(../images/quota-colors.png) repeat-x 0 -14px #e3e909; }
+.quota_low  { background: url(../images/quota-colors.png) repeat-x 0 0px #05f905; }
+.quota_text_high { color: white; }
+.quota_text_mid { color: #666; }
+.quota_text_low { color: #666; }
