@@ -21,6 +21,10 @@ MASTER (should have all changes from 3.3.10 plus)
    - vacation.pl: improve autoreply detection (see https://github.com/postfixadmin/postfixadmin/pull/482 
    - vacation.pl: improve headers in auto-reply mails (add: "Auto-Submitted: auto-replied") see https://github.com/postfixadmin/postfixadmin/pull/483
    - vacation.pl: allow smtp helo to be customised; see https://github.com/postfixadmin/postfixadmin/pull/495
+   - dark theme - use `$CONF['theme_css'] = 'css/dark-theme.css';` to enable - see https://github.com/postfixadmin/postfixadmin/issues/569, thanks @polymeer
+   - support 'send email' using smtp+ssl, smtp+starttls or smtp - see https://github.com/postfixadmin/postfixadmin/pull/566, thanks @davidebeatrici
+   - support smtpd_sender_login_maps via documents - see https://github.com/postfixadmin/postfixadmin/pull/565, thanks @davidebeatrici
+   - fix database collation issues (try and use latin1_general_ci everywhere)
 
 Version 3.3.11 - ???
 -------------------------------------------------
