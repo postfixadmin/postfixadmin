@@ -177,24 +177,28 @@ $CONF['smtp_sendmail_tls'] = 'NO';
 
 // Encrypt
 // In what way do you want the passwords to be crypted?
+//
 // md5crypt = internal postfix admin md5
 // md5 = md5 sum of the password
 // system = whatever you have set as your PHP system default
 // cleartext = clear text passwords (ouch!)
 // mysql_encrypt = useful for PAM integration
 // authlib = support for courier-authlib style passwords - also set $CONF['authlib_default_flavor']
+//
 // dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. Example: dovecot:CRAM-MD5
+//    IMPORTANT:
+//    - don't use dovecot:* methods that include the username in the hash - you won't be able to login to PostfixAdmin in this case
+//    - you'll need at least dovecot 2.1 for salted passwords ('doveadm pw' 2.0.x doesn't support the '-t' option)
+//    - dovecot 2.0.0 - 2.0.7 is not supported
+//
 // php_crypt:CRYPT-METHOD:DIFFICULTY:PREFIX = use PHP built in crypt()-function. Example: php_crypt:SHA512:50000
 // - php_crypt CRYPT-METHOD: Supported values are DES, MD5, BLOWFISH, SHA256, SHA512
 // - php_crypt DIFFICULTY: Larger value is more secure, but uses more CPU and time for each login.
 // - php_crypt DIFFICULTY: Set this according to your CPU processing power.
 // - php_crypt DIFFICULTY: Supported values are BLOWFISH:4-31, SHA256:1000-999999999, SHA512:1000-999999999
 // - php_crypt DIFFICULTY: leave empty to use default values (BLOWFISH:10, SHA256:5000, SHA512:5000). Example: php_crypt:SHA512
-//     IMPORTANT:
-//     - don't use dovecot:* methods that include the username in the hash - you won't be able to login to PostfixAdmin in this case
-//     - you'll need at least dovecot 2.1 for salted passwords ('doveadm pw' 2.0.x doesn't support the '-t' option)
-//     - dovecot 2.0.0 - 2.0.7 is not supported
-// - php_crypt PREFIX: hash has specified prefix - example: php_crypt:SHA512::{SHA256-CRYPT}
+// - php_crypt PREFIX: hash has specified prefix - example: php_crypt:SHA512::{SHA512-CRYPT}
+//
 // sha512.b64 - {SHA512-CRYPT.B64} (base64 encoded sha512) (no dovecot dependency; should support migration from md5crypt)
 $CONF['encrypt'] = 'md5crypt';
 
