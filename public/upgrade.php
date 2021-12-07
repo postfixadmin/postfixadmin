@@ -2053,6 +2053,7 @@ function upgrade_1846_mysql()
     $vacation = table_by_key('vacation');
     $vacation_notification = table_by_key('vacation_notification');
     $alias_domain = table_by_key('alias_domain');
+    $domain_admins = table_by_key('domain_admins');
 
     db_query("ALTER TABLE $alias MODIFY address varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $alias MODIFY goto text  COLLATE latin1_general_ci NOT NULL");
@@ -2072,4 +2073,6 @@ function upgrade_1846_mysql()
 
     db_query("ALTER TABLE $vacation_notification MODIFY on_vacation VARCHAR(255) COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $vacation_notification ADD CONSTRAINT vacation_notification_pkey FOREIGN KEY (`on_vacation`) REFERENCES $vacation(email) ON DELETE CASCADE");
+
+    db_query("ALTER TABLE $domain_admins MODIFY `domain` varchar(255) COLLATE latin1_general_ci NOT NULL");
 }
