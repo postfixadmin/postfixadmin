@@ -42,3 +42,8 @@ Integrates with :
  - [Wiki](https://sourceforge.net/p/postfixadmin/wiki/)
  - [Mailing list](https://sourceforge.net/p/postfixadmin/discussion/676076)
  - [IRC channel](irc://irc.libera.chat/#postfixadmin) (#postfixadmin on Libera.chat).
+
+
+## Related Projects
+
+ - https://github.com/aqeltech/Dockerised-GUI-Mailserver 
