@@ -47,4 +47,11 @@ Integrates with :
 ## Related Projects
 
  - https://github.com/aqeltech/Dockerised-GUI-Mailserver 
- - https://github.com/mailserver2/mailserver
+ - https://github.com/mailserver2/mailserver 
+   mailserver2/mailserver is a simple and full-featured mail server build as a set of multiple docker images. Features:
+   Postfix, PostfixAdmin, Dovecot, Rspamd, Clamav, Zeyple, Sieve, Fetchmail, Rainloop, Unbound/NSD, Træfik, {Let's Encrypt,custom,Self-signed Certificate} SSL, Supports PostgeSQL, MySQL, (beta) LDAP backends. Automated builds on DockerHub and Integration tests with Travis CI
+
+
+
+
+
