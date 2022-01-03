@@ -47,3 +47,4 @@ Integrates with :
 ## Related Projects
 
  - https://github.com/aqeltech/Dockerised-GUI-Mailserver 
+ - https://github.com/mailserver2/mailserver
