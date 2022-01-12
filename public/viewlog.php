@@ -46,33 +46,32 @@ $error = 0;
 
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    if (isset($_GET['page']) && $_GET['fDomain']){
-	$fDomain_aux = escape_string($_GET['fDomain']);		
-	$flag_fDomain = 0;
-	if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
-		foreach ($list_domains as $domain){
-			if ($domain == $fDomain_aux){
-				$fDomain=$domain;
-				$flag_fDomain=1;
-				break;
-			}
-		}
-	}
-	
-	if ($flag_fDomain == 0 ){
-		die('Unknown domain');
-	}	
-
-	$page_number = (int) ($_GET['page'] ?? 0);
-        if ($page_number == 0){
-                die('Unknown page number');
+    if (isset($_GET['page']) && $_GET['fDomain']) {
+        $fDomain_aux = escape_string($_GET['fDomain']);
+        $flag_fDomain = 0;
+        if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
+            foreach ($list_domains as $domain) {
+                if ($domain == $fDomain_aux) {
+                    $fDomain=$domain;
+                    $flag_fDomain=1;
+                    break;
+                }
+            }
+        }
+    
+        if ($flag_fDomain == 0 ) {
+            die('Unknown domain');
         }
 
-    }else{
-	$page_number=1;
-    	if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
-        	$fDomain = $list_domains[0];
-    	}
+        $page_number = (int) ($_GET['page'] ?? 0);
+        if ($page_number == 0) {
+            die('Unknown page number');
+        }
+    } else {
+        $page_number=1;
+        if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
+            $fDomain = $list_domains[0];
+        }
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
     $page_number=1;
@@ -105,7 +104,7 @@ if ($error != 1) {
     $where_sql = '';
     if (!empty($where)) {
         $where_sql = 'WHERE ' . implode(' AND ', $where);
-    } 
+    }
 
   
 
@@ -116,19 +115,19 @@ if ($error != 1) {
 
   
     $result = db_query_all($query, $params);
-    foreach ($result as $r ){    
-		$number_of_logs=$r['number_of_logs'];
+    foreach ($result as $r ) {
+        $number_of_logs=$r['number_of_logs'];
     }
     $number_of_pages = ceil($number_of_logs/$page_size);
-	
-    if ($page_number > $number_of_pages){
-        die('Unknown page number');     
+    
+    if ($page_number > $number_of_pages) {
+        die('Unknown page number');
     }
-	
-    if($page_number == 1 ){
-	$offset=0;	
-    }else{
-	$offset=($page_number-1)*$page_size;
+    
+    if ($page_number == 1 ) {
+        $offset=0;
+    } else {
+        $offset=($page_number-1)*$page_size;
     }
 
     $query = "SELECT timestamp,username,domain,action,data FROM $table_log $where_sql ORDER BY timestamp DESC LIMIT $page_size OFFSET $offset";
