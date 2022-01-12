@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <form name="frmOverview" method="post" action="">
-            {html_options name='fDomain' output=$domain_list values=$domain_list selected=$domain_selected onchange="this.form.submit();"}
+            {html_options name='fDomain' options=$domain_options selected=$domain_selected onchange="this.form.submit();"}
             <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}"/></noscript>
         </form>
     </div>
