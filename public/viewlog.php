@@ -63,12 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 		die('Unknown domain');
 	}	
 
-	$page_number_aux=escape_string($_GET['page']);
-	if ( is_numeric($page_number_aux)){
-		$page_number=$page_number_aux;
-	}else{
-		die('Unknown page number');
-	}
+	$page_number = (int) ($_GET['page'] ?? 0);
+        if ($page_number == 0){
+                die('Unknown page number');
+        }
 
     }else{
 	$page_number=1;
