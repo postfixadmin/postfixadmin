@@ -99,13 +99,13 @@ if ($error != 1) {
 
     $where = [];
     $params = [];
-    if($fDomain) {
+    if ($fDomain) {
         $where[] = 'domain = :domain' ;
         $params['domain'] = $fDomain;
     }
 
     $where_sql = '';
-    if(!empty($where)) {
+    if (!empty($where)) {
         $where_sql = 'WHERE ' . implode(' AND ', $where);
     } 
 
