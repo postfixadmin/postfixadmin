@@ -120,7 +120,11 @@ if ($error != 1) {
 		$number_of_logs=$r['number_of_logs'];
     }
     $number_of_pages = ceil($number_of_logs/$page_size);
-    
+	
+    if ($page_number > $number_of_pages){
+        die('Unknown page number');     
+    }
+	
     if($page_number == 1 ){
 	$offset=0;	
     }else{
