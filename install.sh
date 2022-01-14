@@ -36,9 +36,9 @@ if [ ! -f composer.phar ]; then
     fi
 fi
 
-echo " * Running composer install --no-dev"
+echo " * Running composer install"
 
-php composer.phar install --prefer-dist -n --no-dev
+php composer.phar install --prefer-dist
 
 
 if [ ! -d templates_c ]; then
@@ -59,4 +59,3 @@ fi
 echo
 echo "Please continue configuration / setup within your web browser. "
 echo "See also : https://github.com/postfixadmin/postfixadmin/blob/master/INSTALL.TXT#L58 "
-echo
