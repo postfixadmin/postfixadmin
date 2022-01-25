@@ -2065,7 +2065,7 @@ function upgrade_1846_mysql()
     db_query("ALTER TABLE $mailbox MODIFY maildir varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $mailbox MODIFY local_part varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $mailbox MODIFY domain varchar(255)  COLLATE latin1_general_ci NOT NULL");
-    db_query("ALTER TABLE $vacation_notification DROP CONSTRAINT vacation_notification_pkey");
+    db_query("ALTER TABLE $vacation_notification DROP FOREIGN KEY vacation_notification_pkey");
     db_query("ALTER TABLE $vacation MODIFY domain varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $vacation MODIFY email varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $alias_domain MODIFY alias_domain varchar(255)  COLLATE latin1_general_ci NOT NULL DEFAULT ''");
