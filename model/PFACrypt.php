@@ -60,6 +60,17 @@ class PFACrypt
                 $algorithm = $method_in_hash;
             }
         }
+ 
+        if (!empty($pw_db) && preg_match('/^\$[0-9]\$/i', $pw_db, $matches)) {
+            $method_in_hash = $matches[0];
+            switch ($method_in_hash){
+                case '$1$':
+                case '$6$':
+                        $algorithm='SYSTEM';                       
+                }
+        }
+
+        
         if ($algorithm == 'SHA512CRYPT.B64') {
             $algorithm = 'SHA512-CRYPT.B64';
         }
