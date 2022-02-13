@@ -350,6 +350,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "Passordet er for kort - det må inneholde minst %s tegn";
 $PALANG['password_no_characters'] = "Your password must contain at least %s letters (A-Z, a-z)."; # XXX
 $PALANG['password_no_digits'] = "Your password must contain at least %s digit(s)."; # XXX
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Ugyldig domenenavn %s, regexp-validering feilet";
 $PALANG['pInvalidDomainDNS'] = "Ugyldig domene %s, og/eller finnes ikke i DNS";
 $PALANG['pInvalidMailRegex'] = "Ugyldig e-postadresse, regexp-validering feilet (%s)"; # XXX %s added - but it should be in the text, not at the end

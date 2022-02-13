@@ -361,6 +361,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "För kort lösenord - ett lösenord på %s tecken krävs";
 $PALANG['password_no_characters'] = "Lösenordet måste innehålla minst %s tecken."; # XXX text changed to "Your password must contain at least %s letters (A-Z, a-z)."
 $PALANG['password_no_digits'] = "Lösenordet måste innehålla minst %s siffra/siffror.";
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Regexp-kollen misslyckas på domänen %s";
 $PALANG['pInvalidDomainDNS'] = "Domänen %s finns inte i DNS";
 $PALANG['pInvalidMailRegex'] = "Regexp-kollen misslyckas på e-postadressen %s";

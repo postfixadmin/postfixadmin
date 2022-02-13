@@ -350,6 +350,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "Salasana on liian lyhyt, vaaditaan %s merkkiä";
 $PALANG['password_no_characters'] = "Your password must contain at least %s letters (A-Z, a-z)."; # XXX
 $PALANG['password_no_digits'] = "Your password must contain at least %s digit(s)."; # XXX
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Virheellinen domain nimi %s, ei läpäise regexp testiä";
 $PALANG['pInvalidDomainDNS'] = "Virheellinen domain %s ja/tai ei löydy nimipalvelimista";
 $PALANG['pInvalidMailRegex'] = "Virheellinen sähköpostiosoite, ei läpäise regexp testiä (%s)"; # XXX %s added - but it should be in the text, not at the end

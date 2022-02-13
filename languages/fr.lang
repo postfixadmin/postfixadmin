@@ -355,6 +355,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = 'Mot de passe trop court. - %s caractères minimum';
 $PALANG['password_no_characters'] = 'Votre mot de passe doit contenir au moins %s lettres (A-Z, a-z).'; 
 $PALANG['password_no_digits'] = 'Votre mot de passe doit contenir au moins %s chiffres.';
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = 'Nom de domaine invalide %s, vérification "regexp" impossible';
 $PALANG['pInvalidDomainDNS'] = 'Le domaine %s est invalide et/ou non résolvable via les DNS';
 $PALANG['pInvalidMailRegex'] = 'L\'adresse email %s est invalide, vérification "regexp" impossible';
