@@ -595,7 +595,7 @@ function do_software_environment_check()
     // Check for PHP version
     $phpversion = 'unknown-version';
 
-    if ($f_phpversion == 1) {
+    if ($f_phpversion) {
         if (version_compare(PHP_VERSION, '7.0.0', '<')) {
             $error[] = "Error: Depends on: PHP v7.0+. You must upgrade.";
         } else {
@@ -606,7 +606,7 @@ function do_software_environment_check()
     }
 
     // Check for Apache version
-    if ($f_apache_get_version == 1) {
+    if ($f_apache_get_version) {
         $info[] = "Webserver - " . apache_get_version();
     }
 
@@ -633,11 +633,11 @@ function do_software_environment_check()
     }
 
     // Check if there is support for at least 1 database
-    if (($m_pdo == 0) and ($m_pdo_mysql == 0) and ($m_pdo_sqlite == 0) and ($m_pdo_pgsql == 0)) {
+    if (!$m_pdo || !$m_pdo_mysql || !$m_pdo_sqlite || !$m_pdo_pgsql) {
         $error[] = "There is no database (PDO) support in your PHP setup, you MUST install a suitable PHP PDO extension (e.g. pdo_pgsql, pdo_mysql or pdo_sqlite).";
     }
 
-    if ($m_pdo_mysql == 1) {
+    if ($m_pdo_mysql) {
         $info[] = "Database - MySQL support available";
     } else {
         $info[] = "Database - MySQL (pdo_mysql) extension not found";
@@ -645,13 +645,13 @@ function do_software_environment_check()
 
 
     // PostgreSQL functions
-    if ($m_pdo_pgsql == 1) {
+    if ($m_pdo_pgsql) {
         $info[] = "Database - PostgreSQL support available ";
     } else {
         $warn[] = "Database - PostgreSQL (pdo_pgsql) extension not found";
     }
 
-    if ($m_pdo_sqlite == 1) {
+    if ($m_pdo_sqlite) {
         $info[] = "Database - SQLite support available";
     } else {
         $warn[] = "Database support - SQLite (pdo_sqlite) extension not found";
@@ -708,7 +708,7 @@ function do_software_environment_check()
 
 
     // Session functions
-    if ($f_session_start == 1) {
+    if ($f_session_start) {
         $info[] = "Depends on: PHP session support - OK";
     } else {
         $error[] = "Error: Depends on: PHP session support - NOT FOUND. (FreeBSD: portinstall php$phpversion-session ?)";
@@ -716,14 +716,14 @@ function do_software_environment_check()
 
 
     // PCRE functions
-    if ($f_preg_match == 1) {
+    if ($f_preg_match) {
         $info[] = "Depends on: PHP pcre support - OK";
     } else {
         $error[] = "Error: Depends on: PHP pcre support - NOT FOUND. (FreeBSD: portinstall php$phpversion-pcre)";
     }
 
     // Multibyte functions
-    if ($f_mb_encode_mimeheader == 1) {
+    if ($f_mb_encode_mimeheader) {
         $info[] = "Depends on: PHP mbstring support - OK";
     } else {
         $error[] = "Error: Depends on: PHP mbstring support - NOT FOUND. (FreeBSD: portinstall php$phpversion-mbstring?)";
@@ -731,7 +731,7 @@ function do_software_environment_check()
 
 
     // Imap functions
-    if ($f_imap_open == 1) {
+    if ($f_imap_open) {
         $info[] = "Optional - PHP IMAP functions - OK";
     } else {
         $warn[] = "Warning: Optional dependency 'imap' extension missing, without this you may not be able to automate creation of sub-folders for new mailboxes";
