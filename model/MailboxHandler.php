@@ -103,9 +103,9 @@ class MailboxHandler extends PFAHandler
         $maxquota = $this->allowed_quota($domain, $currentquota);
 
         if ($maxquota == 0) {
-            # TODO: show 'unlimited'
-        # } elseif ($maxquota < 0) {
-            # TODO: show 'disabled' - at the moment, just shows '-1'
+            $this->struct['quota']['desc'] = Config::lang('mb_max_unlimited');
+        } elseif ($maxquota < 0) {
+            $this->struct['quota']['desc'] = Config::lang('mb_max_disabled');
         } else {
             $this->struct['quota']['desc'] = Config::lang_f('mb_max', "" . $maxquota);
         }
