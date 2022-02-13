@@ -63,10 +63,10 @@ class PFACrypt
  
         if (!empty($pw_db) && preg_match('/^\$[0-9]\$/i', $pw_db, $matches)) {
             $method_in_hash = $matches[0];
-            switch ($method_in_hash){
+            switch ($method_in_hash) {
                 case '$1$':
                 case '$6$':
-                        $algorithm='SYSTEM';                       
+                        $algorithm='SYSTEM';
                 }
         }
 
