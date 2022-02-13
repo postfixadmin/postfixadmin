@@ -240,7 +240,7 @@ $CONF['password_validation'] = array(
     '/.{5}/'                => 'password_too_short 5',      # minimum length 5 characters
     '/([a-zA-Z].*){3}/'     => 'password_no_characters 3',  # must contain at least 3 characters
     '/([0-9].*){2}/'        => 'password_no_digits 2',      # must contain at least 2 digits
-#    '/([!\".,*&^%$£)(_+=\-`\'#@~\[\]\\<>\/].*){1}/' => 'password_no_special 1', # must contain at least 1 special character
+#    '/([!\".,*&^%$£)(_+=\-`\'#@~\[\]\\<>\/].*){1,}/' => 'password_no_special 1', # must contain at least 1 special character
 
     /*  support a 'callable' value which if it returns a non-empty string will be assumed to have failed, non-empty string should be a PALANG key */
     // 'length_check'          => function($password) { if (strlen(trim($password)) < 3) { return 'password_too_short'; } },

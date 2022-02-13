@@ -27,12 +27,13 @@ class ValidatePasswordTest extends \PHPUnit\Framework\TestCase
 
         // Set to the defaults, just to make sure.
         Config::write('password_validation', array(
-            '/([!\".,*&^%$£)(_+=\-`\'#@~\[\]\\<>\/].*){2}/' => 'password_no_special 1', # must contain at least 1 special character
+            '/([!\".,*&^%$£)(_+=\-`\'#@~\[\]\\<>\/].*){1,}/' => 'password_no_special 1', # must contain at least 1 special character
         ));
 
         $this->assertEmpty(validate_password('fish^Sh$$p01'));
         $this->assertEmpty(validate_password(']/>'));
-        $this->assertEmpty(validate_password("P'55w\ord"));
-        $this->assertNotEmpty(validate_password("fish'Sheep01"));
+        $this->assertEmpty(validate_password("P'55w\\ord"));
+        $this->assertEmpty(validate_password("P'55word"), "should contain 1 special char");
+        $this->assertNotEmpty(validate_password("fishSheep01"), "does not contain any special chars...");
     }
 }
