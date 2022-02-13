@@ -364,6 +364,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "Heslo je příliš krátké - je vyžadováno minimálně %s znaků";
 $PALANG['password_no_characters'] = "Heslo musí obsahovat alespoň %s písmen/a (A-Z, a-z).";
 $PALANG['password_no_digits'] = "Heslo musí obsahovat alespoň %s číslici(-ce).";
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Neplatné doménové jméno %s, nevyhovělo regulárnímu výrazu";
 $PALANG['pInvalidDomainDNS'] = "Neplatná doména %s, a/nebo nezjištěn DNS záznam.";
 $PALANG['pInvalidMailRegex'] = "Neplatná emailová adresa %s, nevyhověla regulárnímu výrazu.";

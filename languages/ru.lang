@@ -363,6 +363,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "Пароль слишком короткий: требуется %s символов";
 $PALANG['password_no_characters'] = "Ваш пароль должен содержать не менее %s символов.";
 $PALANG['password_no_digits'] = "Ваш пароль должен содержать не менее %s цифр(ы).";
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Некорректное имя домена %s, не соответствует регулярному выражению";
 $PALANG['pInvalidDomainDNS'] = "Некорректный домен %s, и/или не обнаруживается в DNS";
 $PALANG['pInvalidMailRegex'] = "Некорректный email %s, не соответствует регулярному выражению";

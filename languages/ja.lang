@@ -360,6 +360,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "パスワードが短すぎます。最低 %s 文字必要です。";
 $PALANG['password_no_characters'] = "パスワードには、少なくとも %s 個の英字がなくてはなりません。"; # XXX text changed to "Your password must contain at least %s letters (A-Z, a-z)."
 $PALANG['password_no_digits'] = "パスワードには、少なくとも %s 個の数字がなくてはなりません。";
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "不正なドメイン名です[%s]。正規表現チェックで失敗";
 $PALANG['pInvalidDomainDNS'] = "不正なドメイン[%s]であるか、もしくは DNS に見当たりません";
 $PALANG['pInvalidMailRegex'] = "不正なメールアドレスです[%s]。正規表現チェックで失敗";

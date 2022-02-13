@@ -362,6 +362,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "Password muito curta - requer %s caracteres";
 $PALANG['password_no_characters'] = "A password tem de conter pelo menos %s letras (A-Z, a-z)."; # XXX
 $PALANG['password_no_digits'] = "A password tem de conter pelo menos %s digito(s)."; # XXX
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Nome de domínio inválido %s, falhou a verificação por expressão regular";
 $PALANG['pInvalidDomainDNS'] = "Domínio inválido %s, e/ou não pode ser resolvido por DNS";
 $PALANG['pInvalidMailRegex'] = "Endereço de email inválido, falhou a verificação por expressão regular (%s)"; # XXX %s added - but it should be in the text, not at the end

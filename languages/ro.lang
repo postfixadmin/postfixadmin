@@ -360,6 +360,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "Parola prea scurta - minim %s caractere";
 $PALANG['password_no_characters'] = "Parola trebuie sa contina cel putin %s litere."; # XXX text changed to "Your password must contain at least %s letters (A-Z, a-z)."
 $PALANG['password_no_digits'] = "Parola trebuie sa contina cel putin %s cifre.";
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Nume domeniu incorect %s, verificare regexp esuata";
 $PALANG['pInvalidDomainDNS'] = "Nume domeniu incorect %s, si/sau nu se poate rezolva in DNS";
 $PALANG['pInvalidMailRegex'] = "Adresa de mail incorecta %s, verificare regexp esuata";

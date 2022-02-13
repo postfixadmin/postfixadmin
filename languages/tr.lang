@@ -350,6 +350,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP '; # XXX
 $PALANG['password_too_short'] = "Şifre çok kısa - en az %s karakter gerekli";
 $PALANG['password_no_characters'] = "Şifreniz en az %s karakter içermeli (A-Z, a-z).";
 $PALANG['password_no_digits'] = "Şifreniz en az %s rakam içermeli.";
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
 $PALANG['pInvalidDomainRegex'] = "Geçersiz domain ismi: %s, kontrol edilemedi";
 $PALANG['pInvalidDomainDNS'] = "Geçersiz domain: %s, ve/veya DNS tarafından çözümlenemedi";
 $PALANG['pInvalidMailRegex'] = "Geçersiz e-posta adresi: %s, kontrol edilemedi";
