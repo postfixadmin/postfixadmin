@@ -1,4 +1,6 @@
 /config.local.php
+/config.inc.php
+/dbconfig.inc.php
 /templates_c/*.tpl.php
 /templates_c/*menu.conf.php
 /.php_cs.cache
