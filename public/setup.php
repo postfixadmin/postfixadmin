@@ -633,7 +633,7 @@ function do_software_environment_check()
     }
 
     // Check if there is support for at least 1 database
-    if (!$m_pdo || !$m_pdo_mysql || !$m_pdo_sqlite || !$m_pdo_pgsql) {
+    if ( !$m_pdo || ( !$m_pdo_mysql && !$m_pdo_sqlite && !$m_pdo_pgsql )) {
         $error[] = "There is no database (PDO) support in your PHP setup, you MUST install a suitable PHP PDO extension (e.g. pdo_pgsql, pdo_mysql or pdo_sqlite).";
     }
 
