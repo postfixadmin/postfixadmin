@@ -31,14 +31,13 @@ require_once('common.php');
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
                     aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="sr-only"><?=_("Toggle navigation");?></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="images/postbox.png"
-                                                         alt="Logo"/></a>
+            <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="images/postbox.png" alt="Logo"/></a>
 
         </div>
     </div>
@@ -70,7 +69,7 @@ $authenticated = false;
 $old_setup_password = false;
 
 
-if (strlen($configSetupPassword) == 73 && strpos($configSetupPassword, ':') == 32) {
+if (strlen($configSetupPassword) === 73 && strpos($configSetupPassword, ':') === 32) {
     $old_setup_password = true;
 } elseif ($configSetupPassword != 'changeme' && $configSetupPassword != '') {
     $configSetupDone = true;
@@ -81,7 +80,7 @@ if (strlen($configSetupPassword) == 73 && strpos($configSetupPassword, ':') == 3
         if (password_verify(safepost('setup_password', 'invalid'), $configSetupPassword)) {
             $authenticated = true;
         } else {
-            $errors['setup_login_password'] = "Password verification failed.";
+            $errors['setup_login_password'] = _("Password verification failed.");
         }
     }
 }
@@ -89,7 +88,7 @@ if (strlen($configSetupPassword) == 73 && strpos($configSetupPassword, ':') == 3
 ?>
 
 <?php
-$todo = '<span class="font-weight-bold text-warning">TODO</span>';
+$todo = '<span class="font-weight-bold text-warning">'. _("TODO") . '</span>';
 $tick = ' ✅ ';
 ?>
 
@@ -97,15 +96,15 @@ $tick = ' ✅ ';
 <div class="container">
 
     <div class="row">
-        <h1 class="h1">Configure and Setup Postfixadmin</h1>
+        <h1 class="h1"><?=_("Configure and Setup Postfixadmin");?></h1>
 
-        <p>This page helps you setup PostfixAdmin. For further help see <a
-                    href="https://github.com/postfixadmin/postfixadmin/tree/master/DOCUMENTS">the documentation</a>.</p>
+        <p><?=_("This page helps you setup PostfixAdmin. For further help see");?> <a
+                    href="https://github.com/postfixadmin/postfixadmin/tree/master/DOCUMENTS"><?=_("the documentation");?></a>.</p>
 
         <?php
 
         if (!isset($_SERVER['HTTPS'])) {
-            echo "<h2 class='h2 text-danger'>Warning: connection not secure, switch to https if possible</h2>";
+            echo "<h2 class='h2 text-danger'>"._("Warning: connection not secure, switch to https if possible")."</h2>";
         } ?>
 
         <div class="col-12">
@@ -115,31 +114,29 @@ $tick = ' ✅ ';
                     <?php
 
                     if ($configSetupDone) {
-                        echo $tick . " setup_password configured";
+                        echo $tick . _(" setup_password configured");
                     } else {
-                        echo $todo . " You need to have a setup_pasword hash configured in a <code>config.local.php</code> file";
+                        echo $todo . _(" You need to have a setup_pasword hash configured in a <code>config.local.php</code> file");
                     }
                     ?>
                 </li>
                 <li>
                     <?php
                     if ($authenticated) {
-                        echo $tick . " You are logged in with the setup_password, some environment and hosting checks are displayed below.";
+                        echo $tick . _(" You are logged in with the setup_password, some environment and hosting checks are displayed below.");
                     } else {
-                        echo $todo . " You need to authenticate using the setup_password before you can perform some environment and hosting checks.";
+                        echo $todo . _(" You need to authenticate using the setup_password before you can perform some environment and hosting checks.");
                     }
                     ?>
                 </li>
             </ul>
 
             <?php if (!$authenticated) { ?>
-                <p> One you have logged in with the setup_password, this page will ... </p>
+                <p><?=_(" Once you have logged in with the setup_password, this page will ... ");?></p>
                 <ul>
-                    <li> run some simple hosting/environment checks which may help identify problems with your
-                        environment
-                    </li>
-                    <li> create/update your database of choice,</li>
-                    <li> allow you to list / add super user accounts</li>
+                    <li><?=_(" run some simple hosting/environment checks which may help identify problems with your environment");?></li>
+                    <li><?=_(" create/update your database of choice,");?></li>
+                    <li><?=_(" allow you to list / add super user accounts");?></li>
 
                 </ul>
             <?php } ?>
@@ -153,31 +150,26 @@ $tick = ' ✅ ';
 
         <div class="row">
             <div class="col-12">
-                <h2 class="h2">Login with setup_password</h2>
+                <h2 class="h2"><?=_("Login with setup_password");?></h2>
 
-                <form name="authenticate" class="col-2 form-horizontal" method="post">
+                <form id="authenticate" name="authenticate" class="col-2 form-horizontal" method="post"></form>
                     <div class="form-group">
-                        <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
+                        <label for="setup_password" class="col-sm-4 control-label"><?=_("Setup password");?></label>
                         <div class="col-sm-4">
-                            <input class="form-control" type="password" name="setup_password" minlength=5
-                                   id="setup_password"
-                                   value=""/>
+                            <input form="authenticate" class="form-control" type="password" name="setup_password" minlength=5 id="setup_password" value=""/>
                             <?= _error_field($errors, 'setup_login_password'); ?>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-4">
-                            <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Login with
-                                setup_password.
-                            </button>
+                            <button form="authenticate" class="btn btn-primary" type="submit" name="submit" value="setuppw"><?=_("Login with setup_password.");?></button>
                         </div>
                     </div>
-                </form>
+                
 
-                <p>If you've forgotten your super-admin password, you can generate a new one using the
-                    <em>Generate</em>
-                    form and update your <code>config.local.php</code></p>
+                <p><?=_("If you've forgotten your super-admin password, you can generate a new one using the
+                    <em>Generate</em> form and update your <code>config.local.php</code>");?></p>
 
             </div>
         </div>
@@ -189,19 +181,18 @@ $tick = ' ✅ ';
             <?php
 
             if (!$configSetupDone) {
-                echo <<<EOF
-                    <p><strong>For a new installation, you must generate a 'setup_password' to go into your config.local.php file.</strong></p>
-                    <p>You can use the form below, or run something like the following in a shell - <code>php -r 'echo password_hash("password", PASSWORD_DEFAULT);'</code><p>
-EOF;
+                $code_example = "php -r 'echo password_hash(\"password\", PASSWORD_DEFAULT);'"; // will not translate
+                echo '<p><strong>'. _("For a new installation, you must generate a 'setup_password' to go into your config.local.php file.").'</strong></p>' . PHP_EOL.
+                '<p>'._("You can use the form below, or run something like the following in a shell").' - <code>' . $code_example . '</code><p>' . PHP_EOL;
             }
 
             if ($old_setup_password) {
-                echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
+                echo '<p class="text-danger"><strong>'._("Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.").'</strong>';
             }
 
             if (!$authenticated || !$configSetupDone) { ?>
 
-                <h2>Generate setup_password</h2>
+                <h2><?=_("Generate setup_password");?></h2>
 
                 <?php
 
@@ -213,7 +204,7 @@ EOF;
 
                     # "setup password" form submitted
                     if (safepost('setup_password', 'abc') != safepost('setup_password2')) {
-                        $errors['setup_password'] = "The two passwords differ!";
+                        $errors['setup_password'] = _("The two passwords differ!");
                         $form_error = 'has-error';
                     } else {
                         $msgs = validate_password(safepost('setup_password'));
@@ -222,8 +213,8 @@ EOF;
                             // form has been submitted; both fields filled in, so generate a new setup password.
                             $hash = password_hash(safepost('setup_password'), PASSWORD_DEFAULT);
 
-                            $result = '<p>If you want to use the password you entered as setup password, edit config.inc.php or config.local.php and set</p>';
-                            $result .= "<pre>\$CONF['setup_password'] = '$hash';</pre><p>After adding, refresh this page and log in using it.</p>";
+                            $result = '<p>'._("If you want to use the password you entered as setup password, edit config.inc.php or config.local.php and set").'</p>';
+                            $result .= "<pre>\$CONF['setup_password'] = '$hash';</pre><p>"._("After adding, refresh this page and log in using it.").'</p>';
                         } else {
                             $form_error = 'has-error';
                             $errors['setup_password'] = implode(', ', $msgs);
@@ -233,17 +224,15 @@ EOF;
 
                 ?>
 
-                <form name="setuppw" method="post" class="form-horizontal" action="setup.php">
-                    <input type="hidden" name="form" value="setuppw"/>
+                <form name="setuppw" id="setuppw" method="post" class="form-horizontal" action="setup.php"></form>
+                    <input form="setuppw" type="hidden" name="form" value="setuppw"/>
 
                     <div class="form-group <?= $form_error ?>">
 
-                        <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
+                        <label for="setup_password" class="col-sm-4 control-label"><?=_("Setup password");?></label>
                         <div class="col-sm-4">
-                            <input class="form-control" type="password" name="setup_password" minlength=5
-                                   id="setup_password"
-                                   autocomplete="new-password"
-                                   value=""/>
+                            <input class="form-control" form="setuppw" type="password" name="setup_password" minlength=5
+                                   id="setup_password" autocomplete="new-password" value=""/>
 
                             <?= _error_field($errors, 'setup_password'); ?>
 
@@ -252,12 +241,10 @@ EOF;
                     </div>
 
                     <div class="form-group <?= $form_error ?>">
-                        <label for="setup_password2" class="col-sm-4 control-label">Setup password (again)</label>
+                        <label for="setup_password2" class="col-sm-4 control-label"><?=_("Setup password (again)");?></label>
                         <div class="col-sm-4">
-                            <input class="form-control" type="password" name="setup_password2"
-                                   minlength=5 id="setup_password2"
-                                   autocomplete="new-password"
-                                   value=""/>
+                            <input class="form-control" form="setuppw" type="password" name="setup_password2"
+                                   minlength=5 id="setup_password2" autocomplete="new-password" value=""/>
 
                             <?= _error_field($errors, 'setup_password2'); ?>
 
@@ -266,13 +253,11 @@ EOF;
 
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-4">
-                            <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Generate
-                                setup_password
-                                hash
-                            </button>
+                            <button class="btn btn-primary" form="setuppw" type="submit" name="submit" 
+                                    value="setuppw"><?=_("Generate setup_password hash");?></button>
                         </div>
                     </div>
-                </form>
+                
 
                 <?= $result ?>
 
@@ -284,14 +269,14 @@ EOF;
 
     <div class="row">
         <div clas="col-12">
-            <h2 class="h2">Hosting Environment Check</h2>
+            <h2 class="h2"><?=_("Hosting Environment Check");?></h2>
 
             <?php
             $check = do_software_environment_check();
 
             if ($authenticated) {
                 if (!empty($check['info'])) {
-                    echo "<h3>Information</h3><ul>";
+                    echo "<h3>"._("Information")."</h3><ul>";
                     foreach ($check['info'] as $msg) {
                         echo "<li>{$tick} {$msg}</li>";
                     }
@@ -299,14 +284,14 @@ EOF;
                 }
 
                 if (!empty($check['warn'])) {
-                    echo "<h3>Warnings</h3><ul>";
+                    echo "<h3>"._("Warnings")."</h3><ul>";
                     foreach ($check['warn'] as $msg) {
                         echo "<li class='text-warning'>⚠ {$msg}</li>";
                     }
                     echo "</ul>";
                 }
                 if (!empty($check['error'])) {
-                    echo "<h3>Errors (MUST be fixed)</h3><ul>";
+                    echo "<h3>"._("Errors (MUST be fixed)")."</h3><ul>";
                     foreach ($check['error'] as $msg) {
                         echo "<li class='text-danger'>⛔{$msg}</li>";
                     }
@@ -316,11 +301,11 @@ EOF;
                 $php_error_log = ini_get('error_log');
             } else {
                 if (!empty($check['error'])) {
-                    echo '<h3 class="text-danger">Hosting Environment errors found. Login to see details.</h3>';
+                    echo '<h3 class="text-danger">'._("Hosting Environment errors found. Login to see details.").'</h3>';
                 }
 
                 if (!empty($check['warn'])) {
-                    echo '<h3 class="text-warning">Hosting Environment warnings found. Login to see details.</h3>';
+                    echo '<h3 class="text-warning">'._("Hosting Environment warnings found. Login to see details.").'</h3>';
                 }
             }
 
@@ -331,30 +316,30 @@ EOF;
 
     <div class="row">
         <div class="col-12">
-            <h2 class="h2">Database Update</h2>
+            <h2 class="h2"><?=_("Database Update");?></h2>
 
             <?php
                 $db = false;
                 try {
                     $db = db_connect();
                 } catch (\Exception $e) {
-                    echo "<p class='h3 text-danger'>Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>\n';
-                    error_log("Couldn't perform PostfixAdmin database update - failed to connect to db? " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
+                    echo "<p class='h3 text-danger'>"._("Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log ")."(" . ini_get('error_log') . ')</p>'.PHP_EOL;
+                    error_log( _("Couldn't perform PostfixAdmin database update - failed to connect to db? ") . $e->getMessage() . " Trace: " . $e->getTraceAsString());
                 }
 
                 if ($db) {
-                    echo "<p>Everything seems fine... attempting to create/update database structure</p>\n";
+                    echo '<p>'._("Everything seems fine... attempting to create/update database structure").'</p>'.PHP_EOL;
                     try {
                         require_once(dirname(__FILE__) . '/upgrade.php');
                     } catch (\Exception $e) {
                         if ($authenticated) {
                             echo "<p class='h3 text-danger'>Exception message: {$e->getMessage()} - check logs!</p>";
                         }
-                        echo "<p class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>\n';
-                        error_log("Couldn't perform PostfixAdmin database update via upgrade.php - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
+                        echo "<p class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>'.PHP_EOL;
+                        error_log( _("Couldn't perform PostfixAdmin database update via upgrade.php - ") . $e->getMessage() . " Trace: " . $e->getTraceAsString());
                     }
                 } else {
-                    echo "<h3 class='h3 text-danger'>Could not connect to database to perform updates; check PHP error log.</h3>";
+                    echo '<h3 class="h3 text-danger">' . _("Could not connect to database to perform updates; check PHP error log."). '</h3>';
                 }
             ?>
 
@@ -389,13 +374,18 @@ EOF;
 
             list($error, $setupMessage, $errors) = create_admin($values);
 
-            if ($error == 1) {
+            if ($error === 1) {
                 $tUsername = htmlentities($values['username']);
                 error_log("failed to add admin - " . json_encode([$error, $setupMessage, $errors]));
-                echo "<p class='text-danger'>Admin addition failed; check field error messages or server logs.</p>";
+                echo '<p class="text-danger">'._("Admin addition failed; check field error messages or server logs.").'</p>';
             } else {
                 // all good!.
-                $setupMessage .= "<p>You are done with your basic setup. <b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b></p>";
+                $setupMessage .= 
+                    sprintf(
+                        '<p> %s <b><a href="login.php"> %s </a> %s </b></p>', 
+                        _("You are done with your basic setup."),
+                        _("You can now login to PostfixAdmin"),
+                        _("using the account you just created."));
             }
 
             echo "</div>";
@@ -410,8 +400,8 @@ EOF;
             <div class="row">
                 <div class="col-12">
 
-                    <h2 class="h2">Super admins</h2>
-                    <p>The following 'super-admin' accounts have already been added to the database.</p>
+                    <h2 class="h2"><?=_("Super admins");?></h2>
+                    <p><?=_("The following 'super-admin' accounts have already been added to the database.");?></p>
                     <ul>
                         <?php
                         foreach ($admins as $row) {
@@ -429,7 +419,7 @@ EOF;
 
                 <form name="create_admin" class="form-horizontal" method="post">
                     <div class="form-group">
-                        <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
+                        <label for="setup_password" class="col-sm-4 control-label"><?=_("Setup password");?></label>
                         <div class="col-sm-4">
                             <input class="form-control" type="password" required="required"
                                    name="setup_password"
@@ -507,10 +497,10 @@ EOF;
 
 <footer class="footer mt-5 bg-dark">
     <div class="container text-center">
-        <a target="_blank" rel="noopener" href="https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/">Documentation</a>
+        <a target="_blank" rel="noopener" href="https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/"><?=_("Documentation");?></a>
         //
         <a target="_blank" rel="noopener"
-           href="https://github.com/postfixadmin/postfixadmin/">Postfix Admin</a>
+           href="https://github.com/postfixadmin/postfixadmin/"><?=_("Postfix Admin");?></a>
     </div>
 </footer>
 
@@ -593,86 +583,86 @@ function do_software_environment_check()
     }
 
     // Check for PHP version
-    $phpversion = 'unknown-version';
+    $phpversion = _("unknown-version");
 
     if ($f_phpversion) {
         if (version_compare(PHP_VERSION, '7.0.0', '<')) {
-            $error[] = "Error: Depends on: PHP v7.0+. You must upgrade.";
+            $error[] = _("Error: Depends on: PHP v7.0+. You must upgrade.");
         } else {
-            $info[] = "PHP version - " . phpversion();
+            $info[] = _("PHP version - ") . phpversion();
         }
     } else {
-        $error[] = "Unable to check for PHP version. (PHP_VERSION not found?)";
+        $error[] = _("Unable to check for PHP version. (PHP_VERSION not found?)");
     }
 
     // Check for Apache version
     if ($f_apache_get_version) {
-        $info[] = "Webserver - " . apache_get_version();
+        $info[] = _("Webserver - ") . apache_get_version();
     }
 
 
-    $info[] = "Postfixadmin public url detected as " . getSiteUrl($_SERVER) . " use \$CONF['site_url'] to override";
+    $info[] = _("Postfixadmin public url detected as ") . getSiteUrl($_SERVER) . _(" use \$CONF['site_url'] to override");
 
-    $info[] = "Postfixadmin installed at - " . realpath(__DIR__);
+    $info[] = _("Postfixadmin installed at - ") . realpath(__DIR__);
 
     $error_log_file = ini_get('error_log');
 
     if (file_exists($error_log_file) && is_writable($error_log_file)) {
-        $info[] = "PHP Error log (error_log) is - $error_log_file";
+        $info[] = _("PHP Error log (error_log) is - $error_log_file");
     }
 
     if (file_exists($error_log_file) && !is_writeable($error_log_file)) {
-        $warn[] = "PHP Error log (error_log) is - $error_log_file, but is not writeable. Postfixadmin will be unable to log error(s)";
+        $warn[] = _("PHP Error log (error_log) is - $error_log_file, but is not writeable. Postfixadmin will be unable to log error(s)");
     }
 
 
     if (file_exists($file_local_config)) {
-        $info[] = "config.local.php file found : " . realpath($file_local_config);
+        $info[] = _("config.local.php file found : ") . realpath($file_local_config);
     } else {
-        $warn[] = "Warning: config.local.php - NOT FOUND - It's Recommended to store your own settings in config.local.php instead of editing config.inc.php";
+        $warn[] = _("Warning: config.local.php - NOT FOUND - It's Recommended to store your own settings in config.local.php instead of editing config.inc.php");
     }
 
     // Check if there is support for at least 1 database
     if ( !$m_pdo || ( !$m_pdo_mysql && !$m_pdo_sqlite && !$m_pdo_pgsql )) {
-        $error[] = "There is no database (PDO) support in your PHP setup, you MUST install a suitable PHP PDO extension (e.g. pdo_pgsql, pdo_mysql or pdo_sqlite).";
+        $error[] = _("There is no database (PDO) support in your PHP setup, you MUST install a suitable PHP PDO extension (e.g. pdo_pgsql, pdo_mysql or pdo_sqlite).");
     }
 
     if ($m_pdo_mysql) {
-        $info[] = "Database - MySQL support available";
+        $info[] = _("Database - MySQL support available");
     } else {
-        $info[] = "Database - MySQL (pdo_mysql) extension not found";
+        $info[] = _("Database - MySQL (pdo_mysql) extension not found");
     }
 
 
     // PostgreSQL functions
     if ($m_pdo_pgsql) {
-        $info[] = "Database - PostgreSQL support available ";
+        $info[] = _("Database - PostgreSQL support available ");
     } else {
-        $warn[] = "Database - PostgreSQL (pdo_pgsql) extension not found";
+        $warn[] = _("Database - PostgreSQL (pdo_pgsql) extension not found");
     }
 
     if ($m_pdo_sqlite) {
-        $info[] = "Database - SQLite support available";
+        $info[] = _("Database - SQLite support available");
     } else {
-        $warn[] = "Database support - SQLite (pdo_sqlite) extension not found";
+        $warn[] = _("Database support - SQLite (pdo_sqlite) extension not found");
     }
 
     if (empty($CONF['encrypt'])) {
-        $error[] = 'Password hashing - $CONF["encrypt"] is empty. Please check your config.inc.php / config.local.php file.';
+        $error[] = _("Password hashing - \$CONF['encrypt'] is empty. Please check your config.inc.php / config.local.php file.");
     } else {
-        $info[] = 'Password hashing - $CONF["encrypt"] = ' . $CONF['encrypt'];
+        $info[]  = _("Password hashing - \$CONF['encrypt'] = ") . $CONF['encrypt'];
 
         try {
             $output = pacrypt('foobar');
-            if ($output == 'foobar') {
-                $warn[] = "You appear to be using a cleartext \$CONF['encrypt'] setting. This is insecure. You have been warned. Your users deserve better";
+            if ($output === 'foobar') {
+                $warn[] = _("You appear to be using a cleartext \$CONF['encrypt'] setting. This is insecure. You have been warned. Your users deserve better");
             }
-            $info[] = 'Password hashing - $CONF["encrypt"] - hash generation OK';
+            $info[] = _("Password hashing - \$CONF['encrypt'] - hash generation OK");
         } catch (\Exception $e) {
-            $error[] = "Password Hashing - attempted to use configured encrypt backend ({$CONF['encrypt']}) triggered an error: " . $e->getMessage();
+            $error[] = _("Password Hashing - attempted to use configured encrypt backend ({$CONF['encrypt']}) triggered an error: ") . $e->getMessage();
 
             if (is_writeable($error_log_file)) {
-                $err = "Possibly helpful error_log messages - " . htmlspecialchars(
+                $err = _("Possibly helpful error_log messages - ") . htmlspecialchars(
                         implode("",
                             array_slice(file($error_log_file), -4, 3)  // last three lines, might fail miserably if error_log is large.
                         )
@@ -681,10 +671,10 @@ function do_software_environment_check()
                 $error[] = nl2br($err);
             }
 
-            $error[] = "You will have problems logging into PostfixAdmin.";
+            $error[] = _("You will have problems logging into PostfixAdmin.");
 
             if (preg_match('/^dovecot:/', $CONF['encrypt'])) {
-                $error[] = "Check out our Dovecot documentation at https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/DOVECOT.txt, specifically around '3. Permissions'.";
+                $error[] = _("Check out our Dovecot documentation at https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/DOVECOT.txt, specifically around '3. Permissions'.");
             }
         }
     }
@@ -692,49 +682,49 @@ function do_software_environment_check()
     $link = null;
     $error_text = null;
 
-    $dsn = 'Could not generate';
+    $dsn = _('Could not generate');
 
     try {
         $dsn = db_connection_string();
 
-        $info[] = "Database connection configured OK (using PDO $dsn)";
+        $info[]  = _("Database connection configured OK (using PDO $dsn)");
         $link = db_connect();
-        $info[] = "Database connection - Connected OK";
+        $info[]  = _("Database connection - Connected OK");
     } catch (Exception $e) {
-        $error[] = "Database connection string : " . $dsn;
-        $error[] = "Problem connecting to database, check database configuration (\$CONF['database_*'] entries in config.local.php)";
+        $error[] = _("Database connection string : ") . $dsn;
+        $error[] = _("Problem connecting to database, check database configuration (\$CONF['database_*'] entries in config.local.php)");
         $error[] = $e->getMessage();
     }
 
 
     // Session functions
     if ($f_session_start) {
-        $info[] = "Depends on: PHP session support - OK";
+        $info[]  = _("Depends on: PHP session support - OK");
     } else {
-        $error[] = "Error: Depends on: PHP session support - NOT FOUND. (FreeBSD: portinstall php$phpversion-session ?)";
+        $error[] = _("Error: Depends on: PHP session support - NOT FOUND. (FreeBSD: portinstall php$phpversion-session ?)");
     }
 
 
     // PCRE functions
     if ($f_preg_match) {
-        $info[] = "Depends on: PHP pcre support - OK";
+        $info[]  = _("Depends on: PHP pcre support - OK");
     } else {
-        $error[] = "Error: Depends on: PHP pcre support - NOT FOUND. (FreeBSD: portinstall php$phpversion-pcre)";
+        $error[] = _("Error: Depends on: PHP pcre support - NOT FOUND. (FreeBSD: portinstall php$phpversion-pcre)");
     }
 
     // Multibyte functions
     if ($f_mb_encode_mimeheader) {
-        $info[] = "Depends on: PHP mbstring support - OK";
+        $info[]  = _("Depends on: PHP mbstring support - OK");
     } else {
-        $error[] = "Error: Depends on: PHP mbstring support - NOT FOUND. (FreeBSD: portinstall php$phpversion-mbstring?)";
+        $error[] = _("Error: Depends on: PHP mbstring support - NOT FOUND. (FreeBSD: portinstall php$phpversion-mbstring?)");
     }
 
 
     // Imap functions
     if ($f_imap_open) {
-        $info[] = "Optional - PHP IMAP functions - OK";
+        $info[] = _("Optional - PHP IMAP functions - OK");
     } else {
-        $warn[] = "Warning: Optional dependency 'imap' extension missing, without this you may not be able to automate creation of sub-folders for new mailboxes";
+        $warn[] = _("Warning: Optional dependency 'imap' extension missing, without this you may not be able to automate creation of sub-folders for new mailboxes");
     }
 
 
