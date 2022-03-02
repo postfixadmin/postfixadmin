@@ -6,10 +6,10 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version 3.3.11 - ???
+Version 3.3.11 - 2022/03/02
 -------------------------------------------------
    - Fix PHP 8 compatability for crypt() usage (see https://github.com/postfixadmin/postfixadmin/issues/547)
-
+   - Support $CONF['database_port'] for MySQL databases (see https://github.com/postfixadmin/postfixadmin/issues/549 and https://github.com/postfixadmin/postfixadmin/issues/553)
 
 
 Version 3.3.10 - 2021/08/09
