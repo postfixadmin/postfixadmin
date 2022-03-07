@@ -114,6 +114,12 @@
                         <li><a class="btn btn-default btn-sm" type="button"
                                href="{#url_backup#}">{$PALANG.pAdminMenu_backup}</a></li>
                     {/if}
+                    {* maillog *}
+		            {* to do - add to palang *}
+		            {if $CONF.maillogging==='YES'}
+		    	    <li><a class="btn btn-default navbar-btn btn-sm" type="button"
+                               href="maillog.php">Mail Log</a></li>
+		            {/if}
                     {* viewlog *}
                     {if $CONF.logging==='YES'}
                         <li><a class="btn btn-default btn-sm" type="button"
