@@ -125,8 +125,9 @@ user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query = SELECT transport FROM domain WHERE domain='%s' AND active = '1' AND transport != 'virtual'
-
+#query = SELECT transport FROM domain WHERE domain='%s' AND active = '1' AND transport != 'virtual'
+# Enforce virtual transport (catches internal virtual domains and avoid mails being lost in other transport maps)
+query = SELECT REPLACE(transport, 'virtual', ':') AS transport FROM domain WHERE domain='%s' AND active = '1'
 
 (See above note re Concat + PostgreSQL)
 
