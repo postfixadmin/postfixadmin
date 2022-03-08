@@ -118,7 +118,7 @@
 		            {* to do - add to palang *}
 		            {if $CONF.maillogging==='YES'}
 		    	    <li><a class="btn btn-default navbar-btn btn-sm" type="button"
-                               href="maillog.php">Mail Log</a></li>
+                               href="{#url_maillog#}">Mail Log</a></li>
 		            {/if}
                     {* viewlog *}
                     {if $CONF.logging==='YES'}
