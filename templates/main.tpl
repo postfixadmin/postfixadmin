@@ -24,10 +24,14 @@
             <td nowrap="nowrap"><a class="btn btn-primary btn-block" href="{#url_password#}">{$PALANG.pMenu_password}</a></td>
             <td>{$PALANG.pMain_password}</td>
         </tr>
-        <tr>
-            <td nowrap="nowrap"><a class="btn btn-primary btn-block" href="{#url_viewlog#}">{$PALANG.pMenu_viewlog}</a></td>
-            <td>{$PALANG.pMain_viewlog}</td>
-        </tr>
+        {* viewlog *}
+        {if $CONF.logging==='YES'}
+            <tr>
+                <td nowrap="nowrap"><a class="btn btn-primary btn-block" href="{#url_viewlog#}">{$PALANG.pMenu_viewlog}</a></td>
+                <td>{$PALANG.pMain_viewlog}</td>
+            </tr>
+        {/if}
+            
         <tr>
             <td nowrap="nowrap"><a class="btn btn-primary btn-block" href="{#url_logout#}">{$PALANG.pMenu_logout}</a></td>
             <td>{$PALANG.pMain_logout}</td>
