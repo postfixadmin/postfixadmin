@@ -480,8 +480,8 @@ $CONF['sendmail'] = 'YES';
 $CONF['sendmail_all_admins'] = 'NO';
 
 // Mail Logging
-// If you don't want mail logging set this to 'NO';
-$CONF['maillogging'] = 'YES';
+// If you want mail logging set this to 'YES';
+$CONF['maillogging'] = 'NO';
 
 // Logging
 // If you don't want logging set this to 'NO';
