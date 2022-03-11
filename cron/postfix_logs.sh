@@ -1,7 +1,8 @@
 #!/bin/bash
-
 #TO DO 
 #	- Delete old logs
+
+cd $(dirname $0)
 
 #check if maillog directory exists
 if [ ! -d ../maillog ]
