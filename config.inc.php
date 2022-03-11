@@ -482,7 +482,7 @@ $CONF['sendmail_all_admins'] = 'NO';
 // Mail Logging
 // If you want mail logging set this to 'YES';
 // The logs are in the mailog/ direcory.
-// You need to execute (add in the crontab) postfix_logs.sh script 
+// You need to execute (add in the crontab) postfix_logs.sh script from cron/ directory
 $CONF['maillogging'] = 'NO';
 
 // Logging
