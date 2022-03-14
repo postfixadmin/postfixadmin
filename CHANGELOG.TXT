@@ -6,6 +6,10 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.12 - TBC
+-------------------------------------------------
+   - MySQL collation setting change, see https://github.com/postfixadmin/postfixadmin/issues/595 (and #327 and #552)
+
 Version 3.3.11 - 2022/03/02
 -------------------------------------------------
    - Fix PHP 8 compatability for crypt() usage (see https://github.com/postfixadmin/postfixadmin/issues/547)

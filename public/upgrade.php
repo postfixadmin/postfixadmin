@@ -1958,8 +1958,7 @@ function upgrade_1844() {
     _db_add_field('domain_admins', 'id', '{AUTOINCREMENT} {PRIMARY}');
 }
 
-function upgrade_1845()
-{
+function upgrade_1845() {
     # See: https://github.com/postfixadmin/postfixadmin/pull/484
     #
     if (!db_mysql()) {
@@ -1973,8 +1972,7 @@ function upgrade_1845()
     db_query("alter table $mailbox change name name varchar(255) charset utf8mb4 not null");
 }
 
-function upgrade_1846_mysql()
-{
+function upgrade_1846_mysql() {
     # See https://github.com/postfixadmin/postfixadmin/issues/327
 
     $alias = table_by_key('alias');
