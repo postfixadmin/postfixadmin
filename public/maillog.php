@@ -124,7 +124,7 @@ if (file_exists($path)){
    $log_list = array_diff( $logs,array('.', '..') );	
 
    //first 50 files
-   $log_list=array_slice($log_list, 0, 50);
+   $log_list=array_slice($log_list, 0, 90);
 	
    $i=0;
    foreach ($log_list as $log){
