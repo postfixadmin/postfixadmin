@@ -119,10 +119,13 @@ $log_list='';
 $log_size_list=array();
 if (file_exists($path)){
    //read logs from path
-   $logs=scandir($path);
+   $logs=scandir($path, 1);
    //remove . and ..  from result
    $log_list = array_diff( $logs,array('.', '..') );	
 
+   //first 50 files
+   $log_list=array_slice($log_list, 0, 50);
+	
    $i=0;
    foreach ($log_list as $log){
 	$log_size_list[$i++] = round ( filesize($path.'/'.$log)/ 1024, 3);	
