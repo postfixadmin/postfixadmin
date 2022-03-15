@@ -4,12 +4,10 @@
 # The logs are in the mailog/ direcory.
 # You need to execute (add in the crontab) this script and set the $CONF['maillogging'] to 'YES' in the config.inc.php
 # 
-
-
-#TO DO 
-#	- Delete old logs
-
 cd $(dirname $0)
+
+#delete logs older than 30 days
+find ../maillog/ -type f -mtime +30 -delete
 
 #check if maillog directory exists
 if [ ! -d ../maillog ]
