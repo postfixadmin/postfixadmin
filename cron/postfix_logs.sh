@@ -39,7 +39,4 @@ mysql -u root --skip-column-names --execute="USE postfix; SELECT username,domain
 		gzip ../maillog/$domain/$data-failed-auth.log
 		echo $domain
 		
-#		rm ../maillog/$domain/$data-bulk.log 
-#		rm ../maillog/$domain/$data-pflogsum.log 
-#		rm ../maillog/$domain/$data-failed-auth.log
 	    done
