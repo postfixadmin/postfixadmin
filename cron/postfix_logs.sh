@@ -9,6 +9,7 @@
 #TO DO 
 #	- Delete old logs
 
+
 cd $(dirname $0)
 
 #check if maillog directory exists
