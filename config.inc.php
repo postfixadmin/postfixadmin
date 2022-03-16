@@ -479,7 +479,6 @@ $CONF['sendmail'] = 'YES';
 // send mails to their users
 $CONF['sendmail_all_admins'] = 'NO';
 
-
 // Logging
 // If you don't want logging set this to 'NO';
 $CONF['logging'] = 'YES';
