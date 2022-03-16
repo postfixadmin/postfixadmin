@@ -120,14 +120,6 @@
 				<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
 				{$PALANG.pAdminMenu_backup}</a></li>
                     {/if}
-		    {* maillog *}
-		    {* to do - add to palang *}
-		    {if $CONF.maillogging==='YES'}
-		    	<li><a class="btn navbar-btn" type="button"
-                               href="maillog.php">
-				<span class="glyphicon glyphicon-save-file" aria-hidden="true"></span>
-				Mail Log</a></li>
-		    {/if}
                     {* viewlog *}
                     {if $CONF.logging==='YES'}
                         <li><a class="btn navbar-btn" type="button"
