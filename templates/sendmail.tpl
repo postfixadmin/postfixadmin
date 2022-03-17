@@ -25,7 +25,9 @@
         <div class="panel-footer">
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group pull-right">
-                    <input class="btn btn-primary" type="submit" name="submit" value="{$PALANG.pSendmail_button}"/>
+		    <button class="btn btn-primary" type="submit" name="submit">
+                        <span class="glyphicon glyphicon-send" aria-hidden="true"></span> {$PALANG.pSendmail_button}
+		    </button>
                 </div>
             </div>
         </div>
