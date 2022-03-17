@@ -70,9 +70,12 @@
         </div>
         <div class="panel-footer">
             <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group pull-right">
-                    <input class="btn btn-primary" type="submit" name="submit" value="{$submitbutton}"/>
-                </div>
+		<div class="btn-group pull-right">
+		    <button class="btn btn-primary" type="submit" name="submit">
+				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$submitbutton}
+		    </button>
+                    
+		</div>
             </div>
         </div>
 
