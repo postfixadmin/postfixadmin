@@ -41,7 +41,7 @@
             </div>
             <div class="text-center">
                 <button class="btn btn-primary btn-lg" type="submit" name="submit" value="{$PALANG.pLogin_button}"><span class="glyphicon glyphicon-log-in"
-                                                                aria-hidden="true"></span> {$PALANG.pLogin_button}</button>
+                                                    		aria-hidden="true"></span> {$PALANG.pLogin_button}</button>
             </div>
         </form>
         {if $logintype == 'admin'}
@@ -55,4 +55,3 @@
         document.frmLogin.fUsername.focus();
     </script>
 </div>
-
