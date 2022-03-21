@@ -92,7 +92,7 @@
         function searchDomains(){
                 input = document.getElementById("id_searchDomains").value.toLowerCase();
                 ul = document.getElementById("domainsList");
-                li = ul.getElementsByTagName("li")
+                li = ul.getElementsByTagName("li");
                 for (i=0; i< li. length; i++){
                         //get domain
                         domain = li[i].innerHTML.split('<label')[1].split('>')[1].split('</label')[0];
