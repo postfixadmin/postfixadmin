@@ -41,10 +41,22 @@
                                         <ul id="domainsList" name="value[{$key}][]" style="max-height : 250px; overflow: auto;">
                                         {foreach from=$struct.{$key}.options item=domain}
                                                 <li>
-                                                        <input type="checkbox" name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
-                                                        <label for="{$domain}_id">{$domain}</label>
+                                                        {assign var=flag value=0}
+                                                        {foreach from=$value_{$key} item=selectedDomain}
+                                                                {if $domain == $selectedDomain }
+                                                                        <input type="checkbox" checked name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
+                                                                        <label for="{$domain}_id">{$domain}</label>                                                           
+                                                                        {assign var=flag value=$flag+1}
+                                                                {/if}
+                                                        {/foreach}
+
+                                                        {if $flag == 0 }
+                                                                   <input type="checkbox" name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
+                                                                   <label for="{$domain}_id">{$domain}</label>
+                                                         {/if}
                                                 </li>
                                         {/foreach}
+
                                         </ul>
                                     {elseif $field.type == 'pass' || $field.type == 'b64p'}
                                         <input class="form-control" type="password" name="value[{$key}]" {if $key == 'password' || $key == 'password2'}autocomplete="new-password"{/if}/>
