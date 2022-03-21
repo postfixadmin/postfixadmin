@@ -37,7 +37,8 @@
                                             {html_options options=$struct.{$key}.options selected=$value_{$key}}
                                         </select>
                                     {elseif $field.type == 'list'}
-					<ul  name="value[{$key}][]" style="max-height : 250px; overflow: auto;">
+				    	<input type="text" class="form-control" style="margin-bottom : 25px;" id="id_searchDomains" onkeyup="searchDomains()" placeholder="Search for domai$
+                                        <ul id="domainsList" name="value[{$key}][]" style="max-height : 250px; overflow: auto;">
                                         {foreach from=$struct.{$key}.options item=domain}
                                                 <li>
                                                         <input type="checkbox" name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
@@ -85,3 +86,25 @@
 
     </div>
 </form>
+
+<script type="text/javascript">
+        
+        function searchDomains(){
+                input = document.getElementById("id_searchDomains").value.toLowerCase();
+                ul = document.getElementById("domainsList");
+                li = ul.getElementsByTagName("li");
+                for (i=0; i< li. length; i++){
+                        //get domain
+                        domain = li[i].innerHTML.split('<label')[1].split('>')[1].split('</label')[0];
+
+                        //if domain = input
+                        if (domain.indexOf(input) > -1) {
+                                li[i].style.display = "";
+                        }else{
+                                li[i].style.display = "none";
+                        }
+
+                }
+        }
+
+</script>
