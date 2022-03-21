@@ -38,23 +38,25 @@
                                         </select>
                                     {elseif $field.type == 'list'}
 				    	<input type="text" class="form-control" style="margin-bottom : 25px;" id="id_searchDomains" onkeyup="searchDomains()" placeholder="Search for domains..." title="search domains">
-                                        {assign var=numberOfDomains value=$value_{$key}|@count}
-                                        {assign var=indexCheckedDomain value=0}
                                         <ul id="domainsList" name="value[{$key}][]" style="max-height : 250px; overflow: auto;">
                                         {foreach from=$struct.{$key}.options item=domain}
                                                 <li>
+                                                        {assign var=flag value=0}
+                                                        {foreach from=$value_{$key} item=selectedDomain}
+                                                                {if $domain == $selectedDomain }
+                                                                        <input type="checkbox" checked name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
+                                                                        <label for="{$domain}_id">{$domain}</label>                                                           
+                                                                        {assign var=flag value=$flag+1}
+                                                                {/if}
+                                                        {/foreach}
 
-                                                        {if $numberOfDomains > 0 && $domain == $value_{$key}[$indexCheckedDomain]}
-                                                                <input type="checkbox" checked name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
-                                                                <label for="{$domain}_id">{$domain}</label>
-                                                                {assign var=indexCheckedDomain value=$indexCheckedDomain+1}
-                                                        {else}
-                                                                <input type="checkbox"  name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
-                                                                <label for="{$domain}_id">{$domain}</label>
-                                                        {/if}
-
+                                                        {if $flag == 0 }
+                                                                   <input type="checkbox" name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
+                                                                   <label for="{$domain}_id">{$domain}</label>
+                                                         {/if}
                                                 </li>
                                         {/foreach}
+
                                         </ul>
                                     {elseif $field.type == 'pass' || $field.type == 'b64p'}
                                         <input class="form-control" type="password" name="value[{$key}]" {if $key == 'password' || $key == 'password2'}autocomplete="new-password"{/if}/>
