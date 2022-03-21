@@ -37,10 +37,14 @@
                                             {html_options options=$struct.{$key}.options selected=$value_{$key}}
                                         </select>
                                     {elseif $field.type == 'list'}
-                                        <select class="form-control" name="value[{$key}][]" size="10"
-                                                multiple="multiple">
-                                            {html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
-                                        </select>
+					<ul  name="value[{$key}][]" style="max-height : 250px; overflow: auto;">
+                                        {foreach from=$struct.{$key}.options item=domain}
+                                                <li>
+                                                        <input type="checkbox" name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
+                                                        <label for="{$domain}_id">{$domain}</label>
+                                                </li>
+                                        {/foreach}
+                                        </ul>
                                     {elseif $field.type == 'pass' || $field.type == 'b64p'}
                                         <input class="form-control" type="password" name="value[{$key}]" {if $key == 'password' || $key == 'password2'}autocomplete="new-password"{/if}/>
                                     {elseif $field.type == 'txtl'}
