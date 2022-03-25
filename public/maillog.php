@@ -123,8 +123,8 @@ if (file_exists($path)){
    //remove . and ..  from result
    $log_list = array_diff( $logs,array('.', '..') );	
 
-   //first 50 files
-   $log_list=array_slice($log_list, 0, 90);
+   //first 60 files -30 days
+   $log_list=array_slice($log_list, 0, 60);
 	
    $i=0;
    foreach ($log_list as $log){
