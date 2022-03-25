@@ -31,11 +31,11 @@ mysql -u root --skip-column-names --execute="USE postfix; SELECT username,domain
 		fi
 
 		grep @$domain /var/log/mail.log.1 | grep -v "postfix-policyd" | grep -v postgrey > ../maillog/$domain/$data-bulk.log
-		pflogsumm -i --problems_first --detail 5 ../maillog/$domain/$data-bulk.log > ../maillog/$domain/$data-pflogsum.log 
+		#pflogsumm -i --problems_first --detail 5 ../maillog/$domain/$data-bulk.log > ../maillog/$domain/$data-pflogsum.log 
 		grep @$domain /var/log/mail.log.1 | grep "Password mismatch" > ../maillog/$domain/$data-failed-auth.log
 
 		gzip ../maillog/$domain/$data-bulk.log
-		gzip ../maillog/$domain/$data-pflogsum.log
+		#gzip ../maillog/$domain/$data-pflogsum.log
 		gzip ../maillog/$domain/$data-failed-auth.log
 		echo $domain
 		
