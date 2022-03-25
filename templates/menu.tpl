@@ -78,7 +78,7 @@
                     {if $CONF.fetchmail==='YES'}
                         {strip}
                             <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                    aria-expanded="false" href="{#url_fetchmail#}">{$PALANG.pMenu_fetchmail} <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
