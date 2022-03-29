@@ -19,7 +19,7 @@ fi
 
 data=`date --date='1 day ago' +%F`
 
-mysql -u root --skip-column-names --execute="USE postfix; SELECT username,domain FROM domain_admins WHERE active=1 AND domain <> 'ALL';" | while read username domain
+mysql -u root --skip-column-names --execute="USE postfix; select domain from domain;" | while read domain
 	    do
 
 		#check if folder for domain doesn t exists
