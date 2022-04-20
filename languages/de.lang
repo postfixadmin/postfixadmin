@@ -128,7 +128,7 @@ $PALANG['alias_updated'] = 'Der Alias %s wurde geändert.';
 $PALANG['pCreate_alias_catchall_text'] = 'Um alle Adressen abzudecken benutzen Sie einen "*" als Alias. Um ganze Domains an andere Domains weiterzuleiten benutzen Sie "*@domain.tld" im "An"-Feld.';
 $PALANG['mailbox_alias_cant_be_deleted'] = 'Dieser Alias gehört zu einer Mailbox und kann nicht gelöscht werden!';
 $PALANG['protected_alias_cant_be_deleted'] = 'Der Alias %s ist geschützt und kann nur von einem Superadmin gelöscht werden.';
-$PALANG['alias_points_to_itself'] = 'Alias may not point to itself'; # XXX
+$PALANG['alias_points_to_itself'] = 'Der Alias zeigt auf sich selbst';
 
 $PALANG['pEdit_alias_welcome'] = 'Weiterleitungs-Einstellungen ändern';
 $PALANG['pEdit_alias_help'] = 'Angabe mehrerer Ziele möglich, ein Eintrag pro Zeile.';
@@ -142,7 +142,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Nur zur angegebenen Adresse weiterleiten.
 $PALANG['pEdit_alias_result_error'] = 'Ändern des Aliases %s ist fehlgeschlagen!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Legen Sie eine neue Mailbox für Ihre Domain an.';
-$PALANG['pCreate_mailbox_local_part_error'] = 'Should be the bit before the @ sign.'; # XXX
+$PALANG['pCreate_mailbox_local_part_error'] = 'Sollte der Teil vor dem @ Zeichen sein.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Die EMAIL ist nicht korrekt!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Sie dürfen leider nicht mehr Mailboxen für diese Domain anlegen!';
 $PALANG['pCreate_mailbox_password_text'] = 'Passwort für POP3/IMAP';
@@ -164,8 +164,8 @@ $PALANG['pEdit_mailbox_password_text_error'] = 'Die beiden Passwörter sind nich
 $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['mb_max'] = 'MB (max: %s)';
-$PALANG['mb_max_unlimited'] = 'MB (max: unlimited)'; # XXX
-$PALANG['mb_max_disabled'] = 'MB (max: disabled)'; # XXX
+$PALANG['mb_max_unlimited'] = 'MB (max: unbegrenzt)';
+$PALANG['mb_max_disabled'] = 'MB (max: deaktiviert)';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Das angegebene Quota ist zu hoch!';
 $PALANG['pEdit_mailbox_domain_error'] = 'Diese Domain gehört nicht Ihnen: ';
 $PALANG['pEdit_mailbox_result_error'] = 'Mailbox kann nicht geändert werden!';
@@ -275,13 +275,13 @@ $PALANG['pAdminCreate_domain_result_success'] = 'Die Domain %s wurde angelegt.';
 $PALANG['domain_updated'] = 'Die Domain %s wurde geändert.';
 $PALANG['pAdminDelete_admin_error'] = 'Admin kann nicht gelöscht werden!';
 
-$PALANG['domain_postdel_failed'] = 'Fehler beim Ausführen des domain postdeletion-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['domain_postedit_failed'] = 'Fehler beim Ausführen des domain postedit-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['domain_postcreate_failed'] = 'Fehler beim Ausführen des domain postcreation-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['mailbox_postdel_failed'] = 'Fehler beim Ausführen des mailbox postdeletion-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['mailbox_postedit_failed'] = 'Fehler beim Ausführen des mailbox postedit-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['mailbox_postcreate_failed'] = 'Fehler beim Ausführen des mailbox postcreate-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['mailbox_postpassword_failed'] = 'The mailbox postpassword script failed, check the error log for details!'; # XXX
+$PALANG['domain_postdel_failed'] = 'Fehler beim Ausführen des domain postdeletion-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['domain_postedit_failed'] = 'Fehler beim Ausführen des domain postedit-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['domain_postcreate_failed'] = 'Fehler beim Ausführen des domain postcreation-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['mailbox_postdel_failed'] = 'Fehler beim Ausführen des mailbox postdeletion-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['mailbox_postedit_failed'] = 'Fehler beim Ausführen des mailbox postedit-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['mailbox_postcreate_failed'] = 'Fehler beim Ausführen des mailbox postcreate-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['mailbox_postpassword_failed'] = 'Fehler beim Ausführen des mailbox postpassword-Scripts. Für Details überprüfen Sie das Error-Log!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Alias-Domain konnte nicht gelöscht werden!';
 $PALANG['domain_conflict_vacation_domain'] = 'Sie können die Vacation-Domain nicht als Maildomain benutzen!';
 
@@ -363,7 +363,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "Das Passwort ist zu kurz - mindestens %s Zeichen benötigt";
 $PALANG['password_no_characters'] = "Ihr Passwort muss mindestens %s Buchstaben (A-Z, a-z) enthalten.";
 $PALANG['password_no_digits'] = "Ihr Passwort muss mindestens %s Ziffer(n) enthalten.";
-$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
+$PALANG['password_no_special'] = "Ihr Passwort muss mindestens %s Sonderzeichen enthalten.";
 $PALANG['pInvalidDomainRegex'] = "Ungültiger Domainname %s - Überprüfung per RegEx fehlgeschlagen";
 $PALANG['pInvalidDomainDNS'] = "Ungültige Domain %s - nicht per DNS auflösbar";
 $PALANG['pInvalidMailRegex'] = "Ungültige Mailadresse %s - Überprüfung per RegEx fehlgeschlagen";
@@ -419,7 +419,7 @@ $PALANG['pFetchmail_desc_returned_text']    = 'Textausgabe des letzten Mailabruf
 $PALANG['dateformat_pgsql'] = 'dd.mm.YYYY'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format
 $PALANG['dateformat_mysql'] = '%d.%m.%Y';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
 $PALANG['password_expiration'] = 'Password läuft ab';
-$PALANG['password_expiration_desc'] = 'Date when password will expire'; # XXX
+$PALANG['password_expiration_desc'] = 'Datum, an dem das Passwort abläuft';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
