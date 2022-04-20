@@ -142,7 +142,7 @@ $PALANG['pEdit_alias_forward_only'] = 'Nur zur angegebenen Adresse weiterleiten.
 $PALANG['pEdit_alias_result_error'] = 'Ändern des Aliases %s ist fehlgeschlagen!';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Legen Sie eine neue Mailbox für Ihre Domain an.';
-$PALANG['pCreate_mailbox_local_part_error'] = 'Sollte der Teil vor dem @ sein.';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Sollte der Teil vor dem @ Zeichen sein.';
 $PALANG['pCreate_mailbox_username_text_error1'] = 'Die EMAIL ist nicht korrekt!';
 $PALANG['pCreate_mailbox_username_text_error3'] = 'Sie dürfen leider nicht mehr Mailboxen für diese Domain anlegen!';
 $PALANG['pCreate_mailbox_password_text'] = 'Passwort für POP3/IMAP';
@@ -275,13 +275,13 @@ $PALANG['pAdminCreate_domain_result_success'] = 'Die Domain %s wurde angelegt.';
 $PALANG['domain_updated'] = 'Die Domain %s wurde geändert.';
 $PALANG['pAdminDelete_admin_error'] = 'Admin kann nicht gelöscht werden!';
 
-$PALANG['domain_postdel_failed'] = 'Fehler beim Ausführen des domain postdeletion-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['domain_postedit_failed'] = 'Fehler beim Ausführen des domain postedit-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['domain_postcreate_failed'] = 'Fehler beim Ausführen des domain postcreation-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['mailbox_postdel_failed'] = 'Fehler beim Ausführen des mailbox postdeletion-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['mailbox_postedit_failed'] = 'Fehler beim Ausführen des mailbox postedit-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['mailbox_postcreate_failed'] = 'Fehler beim Ausführen des mailbox postcreate-Scripts, überprüfen Sie das Error-Log für Details!';
-$PALANG['mailbox_postpassword_failed'] = 'Fehler beim Ausführen des mailbox postpassword-Scripts, überprüfen Sie das Error-Log für Details!';
+$PALANG['domain_postdel_failed'] = 'Fehler beim Ausführen des domain postdeletion-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['domain_postedit_failed'] = 'Fehler beim Ausführen des domain postedit-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['domain_postcreate_failed'] = 'Fehler beim Ausführen des domain postcreation-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['mailbox_postdel_failed'] = 'Fehler beim Ausführen des mailbox postdeletion-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['mailbox_postedit_failed'] = 'Fehler beim Ausführen des mailbox postedit-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['mailbox_postcreate_failed'] = 'Fehler beim Ausführen des mailbox postcreate-Scripts. Für Details überprüfen Sie das Error-Log!';
+$PALANG['mailbox_postpassword_failed'] = 'Fehler beim Ausführen des mailbox postpassword-Scripts. Für Details überprüfen Sie das Error-Log!';
 $PALANG['pAdminDelete_alias_domain_error'] = 'Alias-Domain konnte nicht gelöscht werden!';
 $PALANG['domain_conflict_vacation_domain'] = 'Sie können die Vacation-Domain nicht als Maildomain benutzen!';
 
@@ -419,7 +419,7 @@ $PALANG['pFetchmail_desc_returned_text']    = 'Textausgabe des letzten Mailabruf
 $PALANG['dateformat_pgsql'] = 'dd.mm.YYYY'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format
 $PALANG['dateformat_mysql'] = '%d.%m.%Y';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
 $PALANG['password_expiration'] = 'Password läuft ab';
-$PALANG['password_expiration_desc'] = 'Datum, an der das Passwort abläuft';
+$PALANG['password_expiration_desc'] = 'Datum, an dem das Passwort abläuft';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
