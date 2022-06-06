@@ -1330,6 +1330,9 @@ function pacrypt($pw, $pw_db = "")
     if ($mechanism == 'AUTHLIB') {
         return _pacrypt_authlib($pw, $pw_db);
     }
+
+    var_dump($mechanism, $pw_db);
+
     $hasher = new \PostfixAdmin\PasswordHashing\Crypt($mechanism);
     return $hasher->crypt($pw, $pw_db);
 }

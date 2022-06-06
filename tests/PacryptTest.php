@@ -1,14 +1,10 @@
 <?php
 
-require_once(__DIR__ . '/../model/PFACrypt.php');
-
 class PaCryptTest extends \PHPUnit\Framework\TestCase
 {
     public function testMd5Crypt()
     {
         $hash = _pacrypt_md5crypt('test', '');
-
-        $h = new PFACrypt('MD5-CRYPT');
 
         $this->assertNotEmpty($hash);
         $this->assertNotEquals('test', $hash);
@@ -98,7 +94,6 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
     {
         $config = Config::getInstance();
         Config::write('encrypt', 'php_crypt');
-
 
         $CONF = Config::getInstance()->getAll();
 
@@ -236,29 +231,20 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testSha512CryptB64()
-    {
-        $c = new PFACrypt('SHA512CRYPT.B64');
-
-        //    "SHA512-CRYPT.B64": "{SHA512-CRYPT.B64}JDYkR2JwY3NiZXNMWk9DdERXbiRYdXlhdEZTdy9oa3lyUFE0d24wenpGQTZrSlpTUE9QVWdPcjVRUC40bTRMTjEzdy81aWMvWTdDZllRMWVqSWlhNkd3Q2Z0ZnNjZEFpam9OWjl3OU5tLw==",
-        $crypt = '{SHA512-CRYPT.B64}JDYkR2JwY3NiZXNMWk9DdERXbiRYdXlhdEZTdy9oa3lyUFE0d24wenpGQTZrSlpTUE9QVWdPcjVRUC40bTRMTjEzdy81aWMvWTdDZllRMWVqSWlhNkd3Q2Z0ZnNjZEFpam9OWjl3OU5tLw==';
-        $this->assertEquals($crypt, $c->pacrypt('test123', $crypt));
-    }
-
     public function testWeCopeWithDifferentMethodThanConfigured()
     {
-        $c = new PFACrypt('MD5-CRYPT');
+        global $CONF;
+        $CONF['encrypt'] = 'MD5-CRYPT';
+
         $md5Crypt = '{MD5-CRYPT}$1$AIjpWveQ$2s3eEAbZiqkJhMYUIVR240';
 
-        $this->assertEquals($md5Crypt, $c->pacrypt('test123', $md5Crypt));
+        $this->assertEquals($md5Crypt, pacrypt('test123', $md5Crypt));
+        $CONF['encrypt'] = 'MD5-CRYPT';
 
-        $c = new PFACrypt('SHA1');
-
-        $this->assertEquals($md5Crypt, $c->pacrypt('test123', $md5Crypt));
-
+        $this->assertEquals($md5Crypt, pacrypt('test123', $md5Crypt));
         $sha1Crypt = '{SHA1}cojt0Pw//L6ToM8G41aOKFIWh7w=';
 
-        $this->assertEquals($sha1Crypt, $c->pacrypt('test123', $sha1Crypt));
+        $this->assertEquals($sha1Crypt, pacrypt('test123', $sha1Crypt));
     }
 
     public function testSomeCourierHashes()
@@ -287,20 +273,6 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
             $new = pacrypt('test123', $pfa_new_hash);
 
             $this->assertEquals($new, $pfa_new_hash, "Trying: $algorithm => gave: $new with $pfa_new_hash");
-        }
-    }
-
-    public function testWeSupportWhatWeSayWeDo()
-    {
-        foreach (PFACrypt::DOVECOT_NATIVE as $algorithm) {
-            if (phpversion() < 7.3 && ($algorithm == 'ARGON2ID' || $algorithm == 'ARGON2ID.B64')) {
-                continue; // needs PHP7.3+
-            }
-            $c = new PFACrypt($algorithm);
-            $hash1 = $c->pacrypt('test123');
-
-            $this->assertEquals($hash1, $c->pacrypt('test123', $hash1));
-            $this->assertNotEquals($hash1, $c->pacrypt('9999test9999', $hash1));
         }
     }
 
