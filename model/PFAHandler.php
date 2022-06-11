@@ -589,20 +589,29 @@ abstract class PFAHandler
                 unset($db_values[$key]);
             } # remove 'dont_write_to_db' columns
         }
-
+        $pdo = db_connect();
         try {
+            // start db transaction
+            $pdo->beginTransaction();
             if ($this->new) {
                 $result = db_insert($this->db_table, $db_values,  array('created', 'modified'),true);
             } else {
                 $result = db_update($this->db_table, $this->id_field, $this->id, $db_values, array('modified'), true);
             }
+
+            // problems with this -> postSave, if it executes a db query, will not see the updated db values until this
+            // transaction has been committed.
+            $result = $this->postSave();
+
+            // commit db transaction
+            $pdo->commit();
+
         } catch (PDOException $e) {
+            // rollback
+            $pdo->rollBack();
             $this->errormsg[] = Config::lang_f($this->msg['store_error'], $this->label);
             return false;
         }
-
-        $result = $this->postSave();
-
         # db_log() even if postSave() failed
         db_log($this->domain, $this->msg['logname'], $this->id);
 
