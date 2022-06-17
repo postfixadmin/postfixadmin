@@ -729,6 +729,30 @@ $CONF['xmlrpc_enabled'] = false;
 //More details in Password_Expiration.md
 $CONF['password_expiration'] = 'YES';
 
+
+/**
+ * If either of these are callables, then they will be used to perform authentication in /login.php or /users/login.php.
+ * If they return null, then it's assumed authentication failed.
+ * IF they authentication succeeds they should return the id of a user in the postfixadmin database.
+ */
+$CONF['postfixadmin_auth_admin_callback'] = null;
+$CONF['postfixadmin_auth_user_callback'] = null;
+
+/*
+$CONF['postfixadmin_auth_admin_callback'] = function () {
+    if (!isset($_SERVER['REMOTE_USER'])) {
+        return null;
+    }
+
+    $map = [
+        "david" => "root@example.com"
+    ];
+    $oauth_user = $_SERVER['REMOTE_USER'];
+    return $map[$oauth_user] ?? null;
+};
+*/
+
+
 // If defined, use this rather than trying to construct it from  $_SERVER parameters.
 // used in (at least) password-recover.php.
 $CONF['site_url'] = null;

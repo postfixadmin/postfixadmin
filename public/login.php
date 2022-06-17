@@ -59,8 +59,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $h = new AdminHandler();
 
-    $login = new Login('admin');
-    if ($login->login($fUsername, $fPassword)) {
+
+    $config = Config::getInstance()->getAll();
+    $authenticated = false;
+
+    if (is_callable($config['postfixadmin_auth_admin_callback'])) {
+        $fUsername = $config['postfixadmin_auth_admin_callback']();
+        $authenticated = is_string($fUsername);
+    } else {
+        $login = new Login('admin');
+        $authenticated = $login->login($fUsername, $fPassword);
+    }
+
+
+    if ($authenticated) {
+
         init_session($fUsername, true);
 
         # they've logged in, so see if they are a domain admin, as well.
