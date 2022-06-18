@@ -735,11 +735,11 @@ $CONF['password_expiration'] = 'YES';
  * If they return null, then it's assumed authentication failed.
  * IF they authentication succeeds they should return the id of a user in the postfixadmin database.
  */
-$CONF['postfixadmin_auth_admin_callback'] = null;
-$CONF['postfixadmin_auth_user_callback'] = null;
+$CONF['auth_admin_callback'] = null;
+$CONF['auth_user_callback'] = null;
 
 /*
-$CONF['postfixadmin_auth_admin_callback'] = function () {
+$CONF['auth_admin_callback'] = function () {
     if (!isset($_SERVER['REMOTE_USER'])) {
         return null;
     }

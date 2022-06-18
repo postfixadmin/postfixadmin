@@ -63,8 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $config = Config::getInstance()->getAll();
     $authenticated = false;
 
-    if (is_callable($config['postfixadmin_auth_admin_callback'])) {
-        $fUsername = $config['postfixadmin_auth_admin_callback']();
+    $callable = $config['auth_admin_callback'] ?? null;
+
+    if (is_callable($callable)) {
+        $fUsername = $callable();
         $authenticated = is_string($fUsername);
     } else {
         $login = new Login('admin');
