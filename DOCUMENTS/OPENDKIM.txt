@@ -1,0 +1,37 @@
+#
+# OpenDKIM configuration for Postfix Admin
+# Originally written by: Fredrik <Freddo> Falk
+#
+
+More complete OpenDKIM documentation:
+
+http://www.opendkim.org/opendkim.8.html
+http://www.opendkim.org/opendkim.conf.5.html
+http://www.opendkim.org/opendkim-genkey.8.html
+https://github.com/trusteddomainproject/OpenDKIM/blob/master/opendkim/README.SQL
+
+Here are the relevant parts of OpenDKIM v2.11.x configuration for Postfixadmin setup.
+
+Please refer to OpenDKIM documentation for complete information.
+
+The setup gets KeyTable and SigningTable info from MySQL, allowing domain admins to edit and add domain keys as well as
+assign which authors will use them.
+
+
+1. PostfixAdmin Setup
+-----------------
+
+Add `$CONF['dkim'] = 'YES';` to your `config.local.php`, and optionally ``$CONF['dkim_all_admins'] = 'YES';` to allow
+non-super-admins to add domain keys and signtable entries.
+
+
+2. OpenDKIM setup
+-----------------
+
+Ensure that the version of OpenDKIM supports databases/OpenDBX.
+After that, simply add the following to your /etc/opendkim.conf:
+```
+SigningTable dsn:mysql://{USER}:{PASSWORD}@{HOST}/{DATABASE}/table=dkim_signing?keycol=author?datacol=dkim_id
+KeyTable     dsn:mysql://{USER}:{PASSWORD}@{HOST}/{DATABASE}/table=dkim?keycol=id?datacol=domain_name,selector,private_key
+```
+Replace {USER}, {PASSWORD}, {HOST}, and {DATABASE} with your values.

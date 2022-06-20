@@ -2130,3 +2130,81 @@ function upgrade_1846_mysql()
     db_query("ALTER TABLE $domain_admins MODIFY `domain` varchar(255) COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $domain_admins MODIFY username varchar(255) COLLATE latin1_general_ci NOT NULL");
 }
+
+/**
+ * Add DKIM tables
+ * @return void
+ */
+function upgrade_1847_mysql_pgsql()
+{
+    $dkim_key_table = table_by_key('dkim');
+    $dkim_signing_table = table_by_key('dkim_signing');
+    $domain_table = table_by_key('domain');
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_key_table (
+        `id` {AUTOINCREMENT} {PRIMARY},
+        `domain_name` varchar(255) NOT NULL,
+        `description` varchar(255) DEFAULT '',
+        `selector` varchar(63) NOT NULL DEFAULT 'default',
+        `private_key` text,
+        `public_key` text,
+        `created` {DATETIME},
+        `modified` {DATETIME},
+        INDEX(domain_name, description),
+        FOREIGN KEY (`domain_name`) 
+            REFERENCES $domain_table(`domain`)
+            ON DELETE CASCADE) {COLLATE} COMMENT='Postfix Admin - OpenDKIM Key Table';
+    ");
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_signing_table (
+        `id` {AUTOINCREMENT} {PRIMARY},
+        `author` varchar(255) NOT NULL DEFAULT '',
+        `dkim_id` integer NOT NULL,
+        `created` {DATETIME},
+        `modified` {DATETIME},
+        INDEX(author),
+        FOREIGN KEY (`dkim_id`) 
+            REFERENCES $dkim_key_table(`id`)
+            ON DELETE CASCADE) {COLLATE} COMMENT='Postfix Admin - OpenDKIM Signing Table';
+    ");
+}
+
+/**
+ * Add DKIM tables
+ * @return void
+ */
+function upgrade_1847_sqlite()
+{
+    $dkim_key_table = table_by_key('dkim');
+    $dkim_signing_table = table_by_key('dkim_signing');
+    $domain_table = table_by_key('domain');
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_key_table (
+        `id` {AUTOINCREMENT},
+        `domain_name` varchar(255) NOT NULL,
+        `description` varchar(255) DEFAULT '',
+        `selector` varchar(63) NOT NULL DEFAULT 'default',
+        `private_key` text,
+        `public_key` text,
+        `created` {DATETIME},
+        `modified` {DATETIME},
+        FOREIGN KEY (`domain_name`) 
+            REFERENCES $domain_table(`domain`)
+            ON DELETE CASCADE) {COLLATE};
+    ");
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_signing_table (
+        `id` {AUTOINCREMENT},
+        `author` varchar(255) NOT NULL DEFAULT '',
+        `dkim_id` integer NOT NULL,
+        `created` {DATETIME},
+        `modified` {DATETIME},
+        FOREIGN KEY (`dkim_id`) 
+            REFERENCES $dkim_key_table(`id`)
+            ON DELETE CASCADE) {COLLATE};
+    ");
+}
