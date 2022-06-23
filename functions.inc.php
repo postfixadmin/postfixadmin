@@ -1297,9 +1297,7 @@ function pacrypt($pw, $pw_db = "")
 {
     global $CONF;
 
-    $mechanism = $CONF['encrypt'] ?? 'CRYPT';
-
-    $mechanism = strtoupper($mechanism);
+    $mechanism = strtoupper($CONF['encrypt'] ?? 'CRYPT');
 
     $crypts = ['PHP_CRYPT', 'MD5CRYPT', 'PHP_CRYPT:DES', 'PHP_CRYPT:MD5', 'PHP_CRYPT:SHA256'];
 
@@ -1311,6 +1309,33 @@ function pacrypt($pw, $pw_db = "")
         return _pacrypt_php_crypt($pw, $pw_db);
     }
 
+    if ($mechanism == 'AUTHLIB') {
+        return _pacrypt_authlib($pw, $pw_db);
+    }
+
+    if (!empty($pw_db) && preg_match('/^{([0-9a-z-\.]+)}/i', $pw_db, $matches)) {
+        $method_in_hash = $matches[1];
+        if ('COURIER:' . strtoupper($method_in_hash) == $mechanism) {
+            // don't try and be clever.
+        } elseif ($mechanism != $method_in_hash) {
+            error_log("PostfixAdmin: configured to use $mechanism, but asked to crypt password using {$method_in_hash}; are you migrating algorithm/mechanism or is something wrong?");
+            $mechanism = $method_in_hash;
+        }
+    }
+
+    if ($mechanism == 'MD5RAW') {
+        $mechanism = 'COURIER:MD5RAW';
+    }
+
+    if (!empty($pw_db) && preg_match('/^\$[0-9]\$/i', $pw_db, $matches)) {
+        $method_in_hash = $matches[0];
+        switch ($method_in_hash) {
+            case '$1$':
+            case '$6$':
+                $algorithm = 'SYSTEM';
+        }
+    }
+
     if ($mechanism == 'SHA512.B64') {
         // postfixadmin incorrectly uses this as a SHA512-CRYPT.B64
         $mechanism = 'SHA512-CRYPT.B64';
@@ -1320,16 +1345,11 @@ function pacrypt($pw, $pw_db = "")
         $mechanism = strtoupper($matches[1]);
     }
 
-    if (preg_match('/^COURIER:(.*)$/i', $mechanism, $matches)) {
-        $mechanism = strtoupper($mechanism);
-    }
     if (empty($pw_db)) {
         $pw_db = null;
     }
 
-    if ($mechanism == 'AUTHLIB') {
-        return _pacrypt_authlib($pw, $pw_db);
-    }
+
 
     $hasher = new \PostfixAdmin\PasswordHashing\Crypt($mechanism);
     return $hasher->crypt($pw, $pw_db);
@@ -1345,7 +1365,7 @@ function pacrypt($pw, $pw_db = "")
  * @return string hashed password in crypt format.
  * @deprecated see PFACrypt::cryptMd5() (note this returns {MD5} prefix
  */
-function md5crypt($pw, $salt="", $magic="")
+function md5crypt($pw, $salt = "", $magic = "")
 {
     $MAGIC = "$1$";
 
