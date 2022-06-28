@@ -129,13 +129,14 @@ class PFASmarty {
      * @return mixed $data
      * */
     public function sanitise($data) {
-        if (is_object($data)) {
+        if (is_object($data) || is_null($data)) {
             return $data; // can't handle
         }
 
         if (!is_array($data)) {
             return htmlentities($data, ENT_QUOTES, 'UTF-8', false);
         }
+
         $clean = array();
         foreach ($data as $key => $value) {
             /* as this is a nested data structure it's more likely we'll output the key too (at least in my opinion, so we'll sanitise it too */
