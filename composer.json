@@ -2,7 +2,7 @@
     "name": "postfixadmin/postfixadmin",
     "description": "web based administration interface for Postfix mail servers",
     "type": "project",
-    "license": "GPL-2.0",
+    "license": "GPL-2.0-ONLY",
     "scripts": {
         "build" : [
             "@check-format",
@@ -26,8 +26,8 @@
         "ext-sqlite3": "*",
         "friendsofphp/php-cs-fixer": "^2.19",
         "php-parallel-lint/php-parallel-lint": "^1.0",
+        "php-coveralls/php-coveralls" : "*",
         "php":  ">7.2.0",
-        "cedx/coveralls": "^11.0",
         "phpunit/phpunit": "8.*",
         "vimeo/psalm":"^4.0",
         "shardj/zf1-future" : "^1.12"
