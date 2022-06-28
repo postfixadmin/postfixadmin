@@ -1,11 +1,11 @@
 <?php
+
 # $Id$
 /**
  * class to handle 'view' in Cli
  */
 
 class CliView extends Shell {
-
     /**
      * Execution method always used for tasks
      */

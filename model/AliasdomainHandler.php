@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 
 /**
@@ -51,7 +52,7 @@ class AliasdomainHandler extends PFAHandler {
         }
     }
 
-    public function init(string $id) : bool {
+    public function init(string $id): bool {
         $success = parent::init($id);
         if ($success) {
             if (count($this->struct['alias_domain']['options']) == 0 && $this->new) {

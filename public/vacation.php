@@ -207,7 +207,7 @@ if (!$details['active']) {
     if ($tActiveFrom < $now) {
         $tActiveFrom = $now;
     }
-    
+
     if ($tActiveUntil < $now) {
         $tActiveUntil = $now;
     }

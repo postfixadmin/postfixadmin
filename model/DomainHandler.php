@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 
 /**
@@ -148,7 +149,7 @@ class DomainHandler extends PFAHandler {
     }
 
 
-    protected function preSave() : bool {
+    protected function preSave(): bool {
         # TODO: is this function superfluous? _can_edit should already cover this
         if ($this->is_superadmin) {
             return true;
@@ -161,7 +162,7 @@ class DomainHandler extends PFAHandler {
      * called by $this->store() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.
      */
-    protected function postSave() : bool {
+    protected function postSave(): bool {
         if ($this->new && $this->values['default_aliases']) {
             foreach (Config::read_array('default_aliases') as $address=>$goto) {
                 $address = $address . "@" . $this->id;

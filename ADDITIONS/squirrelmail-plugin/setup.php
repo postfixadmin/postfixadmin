@@ -1,4 +1,5 @@
 <?php
+
 // vim:ts=4:sw=4:et
 if (!defined('SM_PATH')) {
     die("Invalid internal state (don't access file directly)");

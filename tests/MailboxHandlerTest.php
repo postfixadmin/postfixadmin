@@ -1,7 +1,7 @@
 <?php
 
 class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
-    public function tearDown() : void {
+    public function tearDown(): void {
         db_query('DELETE FROM mailbox');
         db_query('DELETE FROM alias');
         db_query('DELETE FROM domain_admins');
@@ -10,7 +10,7 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         parent::tearDown();
     }
 
-    public function setUp() : void {
+    public function setUp(): void {
         global $CONF;
         parent::setUp();
 
@@ -160,7 +160,7 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEmpty($h->infomsg);
         $this->assertTrue($r);
         $this->assertTrue($h->save());
-        
+
         $h->getList('');
         $list = $h->result();
         $this->assertEquals(1, count($list));

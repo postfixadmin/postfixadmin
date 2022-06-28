@@ -1955,7 +1955,7 @@ function db_insert($table, array $values, $timestamp = array('created', 'modifie
  * @param array $timestamp (optional) - array of fields to set to now() - default: array('modified')
  * @return int - number of updated rows
  */
-function db_update(string $table, string $where_col, string $where_value, array $values, array $timestamp = array('modified'), bool $throw_exceptions = false):int {
+function db_update(string $table, string $where_col, string $where_value, array $values, array $timestamp = array('modified'), bool $throw_exceptions = false): int {
     $table_key = table_by_key($table);
 
     $pvalues = array();

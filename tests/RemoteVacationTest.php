@@ -8,12 +8,10 @@
 require_once('RemoteTest.php');
 
 class RemoteVacationTest extends RemoteTest {
-
-
     /**
      * Adds the test recipient data to the database.
      */
-    public function setUp() : void {
+    public function setUp(): void {
         // Ensure config.inc.php is vaguely correct.
         global $CONF;
         if ($CONF['vacation'] != 'YES' || $CONF['vacation_control'] != "YES") {

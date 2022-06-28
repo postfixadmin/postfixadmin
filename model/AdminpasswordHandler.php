@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 
 class AdminpasswordHandler extends PFAHandler {
@@ -35,7 +36,7 @@ class AdminpasswordHandler extends PFAHandler {
         );
     }
 
-    public function init(string $id) :bool {
+    public function init(string $id): bool {
         # hardcode to logged in admin
         if ($this->admin_username == '') {
             die("No admin logged in");
