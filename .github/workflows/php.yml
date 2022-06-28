@@ -7,11 +7,20 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        php-versions: ['7.0', '7.2', '7.4', '8.0', '8.1']
+
     steps:
     - uses: actions/checkout@v1
+    - name: setup php
+      uses: shivammathur/setup-php@v2
+      with:
+         php-version: ${{ matrix.php-versions }}
+         extensions: sqlite3
 
     - name: Validate composer.json and composer.lock
-      run: php7.4 $(which composer) validate
+      run: php $(which composer) validate
 
     - name: setup templates_c
       run: mkdir templates_c || true
@@ -20,15 +29,15 @@ jobs:
       run: touch config.local.php && php -v
 
     - name: Install dependencies
-      run: php7.4 $(which composer) install --prefer-dist -n
+      run: php $(which composer) install --prefer-dist -n
 
     - name: Build/test
-      run: php7.4 $(which composer) build
+      run: php $(which composer) build
 
     - name: setup coveralls
       run: mkdir -p build/logs || true
 
     - name: Coveralls
-      run: vendor/bin/coveralls ./clover.xml || true
+      run: vendor/bin/php-coveralls -x clover.xml || true
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
