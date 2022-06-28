@@ -4,7 +4,7 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
 {
     private $test_domain;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $db = db_connect();
         $test_domain = 'test' . uniqid() . '.com';

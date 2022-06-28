@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 /**
  * class to display the database scheme (for usage in upgrade.php) in Cli
@@ -59,7 +60,7 @@ class CliScheme extends Shell
         $this->out("        PRIMARY KEY (" . $handler->getId_field() . ")");
         $this->out('    ) {MYISAM} ');
         $this->out('");');
-       
+
         $this->out('');
         $this->hr();
         $this->out('For adding fields with upgrade.php:');

@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 
 /**
@@ -141,7 +142,7 @@ class AliasHandler extends PFAHandler
      * AliasHandler needs some special handling in init() and therefore overloads the function.
      * It also calls parent::init()
      */
-    public function init(string $id) : bool
+    public function init(string $id): bool
     {
         $bits = explode('@', $id);
         if (sizeof($bits) == 2) {
@@ -157,7 +158,7 @@ class AliasHandler extends PFAHandler
         if (!$retval) {
             return false;
         } # parent::init() failed, no need to continue
-        
+
         # hide 'goto_mailbox' for non-mailbox aliases
         # parent::init called view() before, so we can rely on having $this->result filled
         # (only validate_new_id() is called from parent::init and could in theory change $this->result)
@@ -199,7 +200,7 @@ class AliasHandler extends PFAHandler
             $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error3');
             return false;
         }
- 
+
         # TODO: already checked in set() - does it make sense to check it here also? Only advantage: it's an early check
         #        if (!in_array($domain, $this->allowed_domains)) {
         #            $this->errormsg[] = Config::lang('pCreate_alias_address_text_error1');
@@ -314,7 +315,7 @@ class AliasHandler extends PFAHandler
         $this->values['goto'] = join(',', $values['goto']);
     }
 
-    protected function postSave() : bool
+    protected function postSave(): bool
     {
         # TODO: if alias belongs to a mailbox, update mailbox active status
         return true;
@@ -371,7 +372,7 @@ class AliasHandler extends PFAHandler
         return array($condition, $searchmode);
     }
 
-    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) : bool
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1): bool
     {
         list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
         $this->set_is_mailbox_extrafrom($condition, $searchmode);
@@ -472,7 +473,7 @@ class AliasHandler extends PFAHandler
         $vacation_goto = str_replace('@', '#', $this->id);
         return $vacation_goto . '@' . Config::read_string('vacation_domain');
     }
- 
+
     /**
      *  @return boolean
      */

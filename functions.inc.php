@@ -1983,7 +1983,7 @@ function db_delete($table, $where, $delete, $additionalwhere='')
  * @param boolean $throw_exceptions
  * @return int - number of inserted rows
  */
-function db_insert(string $table, array $values, array $timestamp = array('created', 'modified'), bool $throw_exceptions = false) : int
+function db_insert(string $table, array $values, array $timestamp = array('created', 'modified'), bool $throw_exceptions = false): int
 {
     $table = table_by_key($table);
 
@@ -2027,7 +2027,7 @@ function db_insert(string $table, array $values, array $timestamp = array('creat
  * @param array $timestamp (optional) - array of fields to set to now() - default: array('modified')
  * @return int - number of updated rows
  */
-function db_update(string $table, string $where_col, string $where_value, array $values, array $timestamp = array('modified'), bool $throw_exceptions = false):int
+function db_update(string $table, string $where_col, string $where_value, array $values, array $timestamp = array('modified'), bool $throw_exceptions = false): int
 {
     $table_key = table_by_key($table);
 

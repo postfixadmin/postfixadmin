@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 
 # Note: run with upgrade.php?debug=1 to see all SQL error messages

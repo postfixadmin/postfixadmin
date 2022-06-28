@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $$key = $_POST[$key];
         }
     }
-    
+
     if (!empty($fBack)) {
         $success = $vacation->remove();
 

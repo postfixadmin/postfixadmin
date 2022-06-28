@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 
 /**
@@ -66,7 +67,7 @@ class MailboxHandler extends PFAHandler
         }
     }
 
-    public function init(string $id) : bool
+    public function init(string $id): bool
     {
         if (!parent::init($id)) {
             return false;
@@ -232,7 +233,7 @@ class MailboxHandler extends PFAHandler
     }
 
 
-    protected function preSave() : bool
+    protected function preSave(): bool
     {
         if (isset($this->values['quota']) && $this->values['quota'] != -1 && is_numeric($this->values['quota'])) {
             $multiplier = Config::read_string('quota_multiplier');
@@ -310,7 +311,7 @@ class MailboxHandler extends PFAHandler
         return $ok && parent::set($values);
     }
 
-    protected function postSave() : bool
+    protected function postSave(): bool
     {
         if ($this->new) {
             if (!$this->mailbox_post_script()) {

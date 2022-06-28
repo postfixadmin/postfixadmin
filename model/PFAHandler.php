@@ -1,7 +1,7 @@
 <?php
+
 abstract class PFAHandler
 {
-
     /**
      * public variables
      */
@@ -342,7 +342,7 @@ abstract class PFAHandler
      * initialize with $id and check if it is valid
      * @param string $id
      */
-    public function init(string $id) : bool
+    public function init(string $id): bool
     {
 
         // postfix treats address lookups (aliases, mailboxes) as if they were lowercase.
@@ -544,7 +544,7 @@ abstract class PFAHandler
      * @return bool - true if all values were stored in the database, otherwise false
      *     error messages (if any) are stored in $this->errormsg
      */
-    public function save() : bool
+    public function save(): bool
     {
         # backwards compability: save() was once (up to 3.2.x) named store(). If a child class still uses the old name, let it override save().
         if (method_exists($this, 'store')) {
@@ -619,7 +619,7 @@ abstract class PFAHandler
      * called by $this->save() before storing the values in the database
      * @return bool - if false, save() will abort
      */
-    protected function preSave() : bool
+    protected function preSave(): bool
     {
         # backwards compability: preSave() was once (up to 3.2.x) named beforestore(). If a child class still uses the old name, let it override preSave().
         # Note: if a child class also has preSave(), it will override this function and obviously also the compability code.
@@ -635,7 +635,7 @@ abstract class PFAHandler
      * called by $this->save() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.
      */
-    protected function postSave() : bool
+    protected function postSave(): bool
     {
         # backwards compability: postSave() was once (up to 3.2.x) named storemore(). If a child class still uses the old name, let it override postSave().
         # Note: if a child class also has postSave(), it will override this function and obviously also the compability code.
@@ -770,7 +770,7 @@ abstract class PFAHandler
      * @param int $offset - number of first row to return
      * @return array - rows (as associative array, with the ID as key)
      */
-    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1) : array
+    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1): array
     {
         $queryparts = $this->build_select_query($condition, $searchmode);
 
@@ -838,7 +838,7 @@ abstract class PFAHandler
      * @return bool - always true, no need to check ;-) (if $result is not an array, getList die()s)
      * The data is stored in $this->result (as array of rows, each row is an associative array of column => value)
      */
-    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1) : bool
+    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1): bool
     {
         if (is_array($condition)) {
             $real_condition = array();
