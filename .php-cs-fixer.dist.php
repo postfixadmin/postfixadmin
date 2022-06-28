@@ -9,10 +9,10 @@ $finder = PhpCsFixer\Finder::create()
     ->files()->notName('config.inc.php')->notName('config.local.php')
     ->in(__DIR__);
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setFinder($finder)
     ->setRules(array(
-        '@PSR2' => true,
+        '@PSR12' => true,
         'braces' => array(
             'position_after_functions_and_oop_constructs' => 'same',
         ),
