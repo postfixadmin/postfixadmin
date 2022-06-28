@@ -2,9 +2,9 @@
 
 class Crypt
 {
-  /**
-   * @access private
-   */
+    /**
+     * @access private
+     */
     protected $plain = '';
 
     /**
