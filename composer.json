@@ -2,7 +2,7 @@
     "name": "postfixadmin/postfixadmin",
     "description": "web based administration interface for Postfix mail servers",
     "type": "project",
-    "license": "GPL-2.0",
+    "license": "GPL-2.0-only",
     "config": {
         "preferred-install":"dist"
     },
