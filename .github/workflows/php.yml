@@ -17,7 +17,7 @@ jobs:
     - name: run install.sh
       run: /bin/bash install.sh
 
-    - name: check composer 
+    - name: check composer
       run: composer validate
 
 # Needing to 'update' here isn't ideal, but we need to cope with tests that run under different PHP versions :-/
@@ -28,7 +28,7 @@ jobs:
       run: composer check-format
 
     - name: touch config.local.php
-      run: touch config.local.php 
+      run: touch config.local.php
 
     - name: psalm static analysis
       run: composer psalm
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.2', '7.3', '7.4', '8.0' ]
+        php-versions: ['7.2', '7.3', '7.4', '8.0', '8.1' ]
 
     steps:
     - uses: actions/checkout@v2
@@ -49,7 +49,7 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         tools: composer
 
-    - name: run insall.sh
+    - name: run install.sh
       run: /bin/bash install.sh
 
     - name: touch config.local.php
@@ -73,7 +73,7 @@ jobs:
         php-version: '7.4'
         tools: composer
 
-    - name: run insall.sh
+    - name: run install.sh
       run: /bin/bash install.sh
 
     - name: touch config.local.php

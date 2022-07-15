@@ -1197,72 +1197,72 @@ function _php_crypt_generate_crypt_salt($hash_type='SHA512', $hash_difficulty=nu
     $alphabet = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
     switch ($hash_type) {
-    case 'DES':
-        $alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        $length = 2;
-        $salt = _php_crypt_random_string($alphabet, $length);
-        return $salt;
+        case 'DES':
+            $alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            $length = 2;
+            $salt = _php_crypt_random_string($alphabet, $length);
+            return $salt;
 
-    case 'MD5':
-        $length = 12;
-        $algorithm = '1';
-        $salt = _php_crypt_random_string($alphabet, $length);
-        return sprintf('$%s$%s', $algorithm, $salt);
+        case 'MD5':
+            $length = 12;
+            $algorithm = '1';
+            $salt = _php_crypt_random_string($alphabet, $length);
+            return sprintf('$%s$%s', $algorithm, $salt);
 
-    case 'BLOWFISH':
-        $length = 22;
-        if (empty($hash_difficulty)) {
-            $cost = 10;
-        } else {
-            $cost = (int)$hash_difficulty;
-            if ($cost < 4 || $cost > 31) {
-                throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 4-31');
+        case 'BLOWFISH':
+            $length = 22;
+            if (empty($hash_difficulty)) {
+                $cost = 10;
+            } else {
+                $cost = (int)$hash_difficulty;
+                if ($cost < 4 || $cost > 31) {
+                    throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 4-31');
+                }
             }
-        }
-        if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
-            $algorithm = '2y'; // bcrypt, with fixed unicode problem
-        } else {
-            $algorithm = '2a'; // bcrypt
-        }
-        $salt = _php_crypt_random_string($alphabet, $length);
-        return sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
-
-    case 'SHA256':
-        $length = 16;
-        $algorithm = '5';
-        if (empty($hash_difficulty)) {
-            $rounds = '';
-        } else {
-            $rounds = (int)$hash_difficulty;
-            if ($rounds < 1000 || $rounds > 999999999) {
-                throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
+            if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
+                $algorithm = '2y'; // bcrypt, with fixed unicode problem
+            } else {
+                $algorithm = '2a'; // bcrypt
             }
-        }
-        $salt = _php_crypt_random_string($alphabet, $length);
-        if (!empty($rounds)) {
-            $rounds = sprintf('rounds=%d$', $rounds);
-        }
-        return sprintf('$%s$%s%s', $algorithm, $rounds, $salt);
+            $salt = _php_crypt_random_string($alphabet, $length);
+            return sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
 
-    case 'SHA512':
-        $length = 16;
-        $algorithm = '6';
-        if (empty($hash_difficulty)) {
-            $rounds = '';
-        } else {
-            $rounds = (int)$hash_difficulty;
-            if ($rounds < 1000 || $rounds > 999999999) {
-                throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
+        case 'SHA256':
+            $length = 16;
+            $algorithm = '5';
+            if (empty($hash_difficulty)) {
+                $rounds = '';
+            } else {
+                $rounds = (int)$hash_difficulty;
+                if ($rounds < 1000 || $rounds > 999999999) {
+                    throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
+                }
             }
-        }
-        $salt = _php_crypt_random_string($alphabet, $length);
-        if (!empty($rounds)) {
-            $rounds = sprintf('rounds=%d$', $rounds);
-        }
-        return sprintf('$%s$%s%s', $algorithm, $rounds, $salt);
+            $salt = _php_crypt_random_string($alphabet, $length);
+            if (!empty($rounds)) {
+                $rounds = sprintf('rounds=%d$', $rounds);
+            }
+            return sprintf('$%s$%s%s', $algorithm, $rounds, $salt);
 
-    default:
-        throw new Exception("unknown hash type: '$hash_type'");
+        case 'SHA512':
+            $length = 16;
+            $algorithm = '6';
+            if (empty($hash_difficulty)) {
+                $rounds = '';
+            } else {
+                $rounds = (int)$hash_difficulty;
+                if ($rounds < 1000 || $rounds > 999999999) {
+                    throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 1000-999999999');
+                }
+            }
+            $salt = _php_crypt_random_string($alphabet, $length);
+            if (!empty($rounds)) {
+                $rounds = sprintf('rounds=%d$', $rounds);
+            }
+            return sprintf('$%s$%s%s', $algorithm, $rounds, $salt);
+
+        default:
+            throw new Exception("unknown hash type: '$hash_type'");
     }
 }
 
@@ -1316,7 +1316,7 @@ function pacrypt($pw, $pw_db = "")
     if (!empty($pw_db) && preg_match('/^{([0-9a-z-\.]+)}/i', $pw_db, $matches)) {
         $method_in_hash = $matches[1];
         if ('COURIER:' . strtoupper($method_in_hash) == $mechanism) {
-            // don't try and be clever.
+        // don't try and be clever.
         } elseif ($mechanism != $method_in_hash) {
             error_log("PostfixAdmin: configured to use $mechanism, but asked to crypt password using {$method_in_hash}; are you migrating algorithm/mechanism or is something wrong?");
             $mechanism = $method_in_hash;
@@ -1742,7 +1742,7 @@ function db_connect()
 
         $username_password = false;
     } elseif (db_pgsql()) {
-        // nothing to do.
+    // nothing to do.
     } else {
         throw new Exception("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php!</p>");
     }

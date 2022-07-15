@@ -225,7 +225,7 @@ abstract class PFAHandler
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ '1 as _can_edit'
-                );
+            );
         }
 
         /**
@@ -236,7 +236,7 @@ abstract class PFAHandler
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ '1 as _can_delete'
-                );
+            );
         }
 
         $struct_hook = Config::read($this->db_table . '_struct_hook');

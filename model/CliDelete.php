@@ -73,7 +73,7 @@ class CliDelete extends Shell
         $module = strtolower($module);
 
         $this->out(
-"Usage:
+            "Usage:
 
     postfixadmin-cli $module delete
 

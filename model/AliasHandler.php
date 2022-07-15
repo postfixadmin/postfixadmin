@@ -470,7 +470,7 @@ class AliasHandler extends PFAHandler
     */
     protected function getVacationAlias()
     {
-        $vacation_goto = str_replace('@', '#', $this->id);
+        $vacation_goto = str_replace('@', '#', $this->id ?? '');
         return $vacation_goto . '@' . Config::read_string('vacation_domain');
     }
 
