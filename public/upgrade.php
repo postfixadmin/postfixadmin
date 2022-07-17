@@ -2135,7 +2135,7 @@ function upgrade_1846_mysql()
  * Add DKIM tables
  * @return void
  */
-function upgrade_1847_mysql_pgsql()
+function upgrade_1847_mysql()
 {
     $dkim_key_table = table_by_key('dkim');
     $dkim_signing_table = table_by_key('dkim_signing');
@@ -2169,6 +2169,48 @@ function upgrade_1847_mysql_pgsql()
             REFERENCES $dkim_key_table(`id`)
             ON DELETE CASCADE) {COLLATE} COMMENT='Postfix Admin - OpenDKIM Signing Table';
     ");
+}
+
+/**
+ * Add DKIM tables
+ * @return void
+ */
+function upgrade_1847_pgsql()
+{
+    $dkim_key_table = table_by_key('dkim');
+    $dkim_signing_table = table_by_key('dkim_signing');
+    $domain_table = table_by_key('domain');
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_key_table (
+        id {AUTOINCREMENT} {PRIMARY},
+        domain_name varchar(255) NOT NULL,
+        description varchar(255) DEFAULT '',
+        selector varchar(63) NOT NULL DEFAULT 'default',
+        private_key text,
+        public_key text,
+        created {DATETIME},
+        modified {DATETIME},
+        FOREIGN KEY (domain_name) 
+            REFERENCES $domain_table(domain)
+            ON DELETE CASCADE) {COLLATE} ;
+    ");
+
+    db_query_parsed("CREATE INDEX domain_desc_idx ON $dkim_key_table(domain_name, description)");
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_signing_table (
+        id {AUTOINCREMENT} {PRIMARY},
+        author varchar(255) NOT NULL DEFAULT '',
+        dkim_id integer NOT NULL,
+        created {DATETIME},
+        modified  {DATETIME},
+        FOREIGN KEY (dkim_id) 
+            REFERENCES $dkim_key_table(id)
+            ON DELETE CASCADE) {COLLATE} ;
+    ");
+
+    db_query_parsed("CREATE INDEX author_idx ON $dkim_signing_table(author)");
 }
 
 /**
