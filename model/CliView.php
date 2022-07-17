@@ -64,7 +64,7 @@ class CliView extends Shell
             }
 
             if ($struct[$field]['display_in_list'] == 0) {
-            # do nothing
+                # do nothing
             } else {
                 $value = $result[$field];
 

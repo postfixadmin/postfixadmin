@@ -110,7 +110,7 @@ function _db_add_field($table, $field, $fieldtype, $after = '')
 function echo_out($text)
 {
     if (defined('PHPUNIT_TEST')) {
-    //error_log("" . $text);
+        //error_log("" . $text);
     } else {
         echo $text . "\n";
     }

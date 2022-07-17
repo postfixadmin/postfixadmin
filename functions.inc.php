@@ -1316,7 +1316,7 @@ function pacrypt($pw, $pw_db = "")
     if (!empty($pw_db) && preg_match('/^{([0-9a-z-\.]+)}/i', $pw_db, $matches)) {
         $method_in_hash = $matches[1];
         if ('COURIER:' . strtoupper($method_in_hash) == $mechanism) {
-        // don't try and be clever.
+            // don't try and be clever.
         } elseif ($mechanism != $method_in_hash) {
             error_log("PostfixAdmin: configured to use $mechanism, but asked to crypt password using {$method_in_hash}; are you migrating algorithm/mechanism or is something wrong?");
             $mechanism = $method_in_hash;
@@ -1742,7 +1742,7 @@ function db_connect()
 
         $username_password = false;
     } elseif (db_pgsql()) {
-    // nothing to do.
+        // nothing to do.
     } else {
         throw new Exception("<p style='color: red'>FATAL Error:<br />Invalid \$CONF['database_type']! Please fix your config.inc.php!</p>");
     }
