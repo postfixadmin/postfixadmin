@@ -113,6 +113,8 @@ class PFASmarty
         $this->assign('url_domain', '');
         $this->assign('version', $CONF['version'] ?? 'unknown');
         $this->assign('boolconf_alias_domain', Config::bool('alias_domain'));
+        $this->assign('boolconf_dkim', Config::bool('dkim'));
+        $this->assign('boolconf_dkim_all_admins', Config::bool('dkim_all_admins'));
         $this->assign('authentication_has_role', array('global_admin' => authentication_has_role('global-admin'), 'admin' => authentication_has_role('admin'), 'user' => authentication_has_role('user')));
 
         header("Expires: Sun, 16 Mar 2003 05:00:00 GMT");

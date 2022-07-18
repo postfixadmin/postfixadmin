@@ -48,6 +48,15 @@ You can create as many mailboxes as you want ...
 
 ![Setup Fetchmail](fetchmail-new-config.png?raw=true "Fetchmail settings")
 
+### Add a Domain Key for use with OpenDKIM
+
+![Add Domain Key](dkim-add-domain-key.png?raw=true "Fetchmail settings")
+
+### Add a Sign Table Entry for use with OpenDKIM
+
+![Add Sign Table Entry](dkim-add-sign-table-entry.png?raw=true "Fetchmail settings")
+
+
 ## 3. As a User
 
 ### Login
