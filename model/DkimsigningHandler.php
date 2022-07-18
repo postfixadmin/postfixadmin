@@ -97,7 +97,6 @@ class DkimsigningHandler extends PFAHandler
             return false;
         }
 
-        db_delete('dkim_signing', $this->id_field, $this->id);
         db_delete($this->db_table, $this->id_field, $this->id);
 
         db_log($this->result['author'], 'delete_dkim_signing_entry', $this->result['id']);

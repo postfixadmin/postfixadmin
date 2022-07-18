@@ -85,7 +85,6 @@ class DkimHandler extends PFAHandler
             return false;
         }
 
-        db_delete('dkim', $this->id_field, $this->id);
         db_delete($this->db_table, $this->id_field, $this->id);
 
         db_log($this->result['domain_name'], 'delete_dkim_entry', $this->result['label']);
