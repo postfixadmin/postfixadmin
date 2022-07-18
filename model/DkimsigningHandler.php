@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 
 /**
@@ -62,8 +63,9 @@ class DkimsigningHandler extends PFAHandler
     public function webformConfig()
     {
         $required_role = 'global-admin';
-        if (Config::bool('dkim_all_admins'))
+        if (Config::bool('dkim_all_admins')) {
             $required_role = 'admin';
+        }
 
         return array(
             # $PALANG labels
@@ -111,7 +113,8 @@ class DkimsigningHandler extends PFAHandler
         return '';
     }
 
-    protected function no_domain_field() {
+    protected function no_domain_field()
+    {
         $domain_handler = new DomainHandler(0, $this->admin_username);
         $domain_handler->getList('1=1');
 
@@ -125,12 +128,13 @@ class DkimsigningHandler extends PFAHandler
      */
     protected function read_from_db_postprocess($db_result)
     {
-        return array_filter($db_result, function($row) {
+        return array_filter($db_result, function ($row) {
             $domain = $row['author'];
             $at_pos = strpos($domain, '@');
 
-            if ($at_pos)
+            if ($at_pos) {
                 $domain = preg_split('/@/', $domain)[1];
+            }
 
             return in_array($domain, $this->allowed_domains);
         });

@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 
 /**
@@ -49,8 +50,9 @@ class DkimHandler extends PFAHandler
     public function webformConfig()
     {
         $required_role = 'global-admin';
-        if (Config::bool('dkim_all_admins'))
+        if (Config::bool('dkim_all_admins')) {
             $required_role = 'admin';
+        }
 
         return array(
             # $PALANG labels
