@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $smarty->display('index.tpl');
     } else {
         fwrite($fh, $header);
-      
+
         $tables = array(
             'admin',
             'alias',

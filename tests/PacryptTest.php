@@ -285,15 +285,15 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
             'md5' => 'cc03e747a6afbbcbf8be7668acfebee5',
             'cleartext' => 'test123',
             'mysql_encrypt' => '$6$$KMCDSuWNoVgNrK5P1zDS12ZZt.LV4z9v9NtD0AG0T5Rv/n0wWVvZmHMSKKZQciP7lrqrlbrBrBd4lhBSGy1BU0',
-            'authlib' => '{md5raw}cc03e747a6afbbcbf8be7668acfebee5',
+            'authlib' => '{MD5RAW}cc03e747a6afbbcbf8be7668acfebee5', // authpasswd md5raw (via courier-authdaemon package)
             'php_crypt:SHA512' => '{SHA512-CRYPT}$6$IeqpXtDIXF09ADdc$IsE.SSK3zuwtS9fdWZ0oVxXQjPDj834xqxTiv3Qfidq3AbAjPb0DNyI28JyzmDVlbfC9uSfNxD9RUyeO1.7FV/',
             'php_crypt:DES' => 'VXAXutUnpVYg6',
             'php_crypt:MD5' => '$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.',
             'php_crypt:SHA256' => '$5$UaZs6ZuaLkVPx3bM$4JwAqdphXVutFYw7COgAkp/vj09S1DfjIftxtjqDrr/',
             'php_crypt:BLOWFISH' => '$2y$10$4gbwQMAoJPcg.mWnENYNg.syH9mZNsbQu6KN7skK92g3tlPnvvBDW',
             'sha512.b64' => '{SHA512-CRYPT.B64}JDYkMDBpOFJXQ0JwMlFMMDlobCRFMVFWLzJjbENPbEo4OTg0SjJyY1oxeXNTaFJIYVhJeVdFTDdHRGl3aHliYkhQUHBUQjZTM0lFMlYya2ZXczZWbHY0aDVNa3N0anpud0xuRTBWZVRELw==',
-        ];
 
+        ];
 
 
         foreach ($mechs as $mech => $example_hash) {

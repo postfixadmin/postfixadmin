@@ -69,7 +69,6 @@ echo $server->handle();
 
 class UserProxy
 {
-
     /**
      * @param string $old_password
      * @param string $new_password

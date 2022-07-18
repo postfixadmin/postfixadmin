@@ -18,7 +18,7 @@ class CheckLanguageTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('test', $lang);
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
-           
+
         $lang = check_language(false);
         $this->assertEquals('en', $lang);
     }

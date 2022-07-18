@@ -2,25 +2,24 @@
 
 class Crypt
 {
-
-  /**
-   * @access private
-   */
+    /**
+     * @access private
+     */
     protected $plain = '';
-  
+
     /**
      * @access private
      */
     protected $password;
-  
+
     protected $size;
 
-  
+
     public function __construct($plaintext)
     {
         $this->plain = $plaintext;
     }
-  
+
     /**
      * @return bool
      */

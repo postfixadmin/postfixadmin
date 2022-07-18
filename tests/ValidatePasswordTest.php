@@ -20,7 +20,7 @@ class ValidatePasswordTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty(validate_password('pas')); // notEmpty == fail
         $this->assertNotEmpty(validate_password('pa1'));
     }
-    
+
     public function testSpecial()
     {
         $config = Config::getInstance();
