@@ -141,7 +141,7 @@ $CONF['database_tables'] = array (
     'vacation' => 'vacation',
     'vacation_notification' => 'vacation_notification',
     'quota' => 'quota',
-	'quota2' => 'quota2',
+    'quota2' => 'quota2',
     'dkim' => 'dkim',
     'dkim_signing' => 'dkim_signing',
 );
@@ -359,8 +359,8 @@ $CONF['alias_struct_hook']          = '';
 $CONF['mailbox_struct_hook']        = '';
 $CONF['alias_domain_struct_hook']   = '';
 $CONF['fetchmail_struct_hook']      = '';
-$CONF['dkim_struct_hook']      = '';
-$CONF['dkim_signing_struct_hook']      = '';
+$CONF['dkim_struct_hook']           = '';
+$CONF['dkim_signing_struct_hook']   = '';
 
 
 // Default Domain Values
