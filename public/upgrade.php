@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
 
 # Note: run with upgrade.php?debug=1 to see all SQL error messages
@@ -2048,31 +2049,205 @@ function upgrade_1846_mysql()
     # See https://github.com/postfixadmin/postfixadmin/issues/327
 
     $alias = table_by_key('alias');
+    $admin = table_by_key('admin');
     $domain = table_by_key('domain');
+    $fetchmail = table_by_key('fetchmail');
     $mailbox = table_by_key('mailbox');
+    $quota2 = table_by_key('quota2');
+    $quota = table_by_key('quota');
+    $log = table_by_key('log');
     $vacation = table_by_key('vacation');
     $vacation_notification = table_by_key('vacation_notification');
     $alias_domain = table_by_key('alias_domain');
     $domain_admins = table_by_key('domain_admins');
 
+    // ALTER DATABASE postfix DEFAULT COLLATE latin1_general_ci;
+
+    db_query("alter table $admin collate latin1_general_ci");
+    db_query("alter table $alias collate latin1_general_ci");
+    db_query("alter table $alias_domain collate latin1_general_ci");
+
+    db_query("alter table $domain collate latin1_general_ci");
+    db_query("alter table $domain_admins collate latin1_general_ci");
+    db_query("alter table $log collate latin1_general_ci");
+    db_query("alter table $mailbox collate latin1_general_ci");
+    db_query("alter table $quota collate latin1_general_ci");
+    db_query("alter table $quota2 collate latin1_general_ci");
+
+
+    db_query("ALTER TABLE $admin MODIFY username varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $admin MODIFY password varchar(255) COLLATE latin1_general_ci NOT NULL");
+
     db_query("ALTER TABLE $alias MODIFY address varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $alias MODIFY goto text  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $alias MODIFY domain varchar(255)  COLLATE latin1_general_ci NOT NULL");
+
     db_query("ALTER TABLE $domain MODIFY domain varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $domain MODIFY transport varchar(255)  COLLATE latin1_general_ci NOT NULL");
+
+    db_query("ALTER TABLE $fetchmail MODIFY domain varchar(255) COLLATE latin1_general_ci DEFAULT ''");
+    db_query("ALTER TABLE $fetchmail MODIFY mailbox varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $fetchmail MODIFY src_server varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $fetchmail MODIFY src_auth enum('password','kerberos_v5','kerberos','kerberos_v4','gssapi','cram-md5','otp','ntlm','msn','ssh','any') COLLATE latin1_general_ci DEFAULT NULL");
+    db_query("ALTER TABLE $fetchmail MODIFY src_user varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $fetchmail MODIFY src_password varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $fetchmail MODIFY src_folder varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_Query("ALTER TABLE $fetchmail MODIFY protocol enum('POP3','IMAP','POP2','ETRN','AUTO') COLLATE latin1_general_ci DEFAULT NULL");
+    db_query("ALTER TABLE $fetchmail MODIFY sslfingerprint varchar(255) COLLATE latin1_general_ci DEFAULT ''");
+    db_query("ALTER TABLE $fetchmail MODIFY extra_options text COLLATE latin1_general_ci DEFAULT NULL");
+    db_query("ALTER TABLE $fetchmail MODIFY returned_text text COLLATE latin1_general_ci DEFAULT NULL");
+    db_query("ALTER TABLE $fetchmail MODIFY mda varchar(255) COLLATE latin1_general_ci");
+
     db_query("ALTER TABLE $mailbox MODIFY username varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $mailbox MODIFY password varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $mailbox MODIFY maildir varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $mailbox MODIFY local_part varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $mailbox MODIFY domain varchar(255)  COLLATE latin1_general_ci NOT NULL");
-    db_query("ALTER TABLE $vacation_notification DROP CONSTRAINT vacation_notification_pkey");
+
+    db_query("ALTER TABLE $quota MODIFY username varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $quota MODIFY path varchar(100) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $quota2 MODIFY username varchar(100) COLLATE latin1_general_ci NOT NULL");
+
+    db_query("ALTER TABLE $vacation_notification DROP FOREIGN KEY vacation_notification_pkey");
+
     db_query("ALTER TABLE $vacation MODIFY domain varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $vacation MODIFY email varchar(255)  COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $vacation MODIFY cache text COLLATE latin1_general_ci NOT NULL");
+
+    db_query("ALTER TABLE $log MODIFY username varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $log MODIFY domain varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $log MODIFY action varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_Query("ALTER TABLE $log MODIFY data text COLLATE latin1_general_ci NOT NULL");
+
     db_query("ALTER TABLE $alias_domain MODIFY alias_domain varchar(255)  COLLATE latin1_general_ci NOT NULL DEFAULT ''");
     db_query("ALTER TABLE $alias_domain MODIFY target_domain varchar(255)  COLLATE latin1_general_ci NOT NULL DEFAULT ''");
 
     db_query("ALTER TABLE $vacation_notification MODIFY on_vacation VARCHAR(255) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $vacation_notification MODIFY notified VARCHAR(255) COLLATE latin1_general_ci NOT NULL DEFAULT ''");
+
+
     db_query("ALTER TABLE $vacation_notification ADD CONSTRAINT vacation_notification_pkey FOREIGN KEY (`on_vacation`) REFERENCES $vacation(email) ON DELETE CASCADE");
 
     db_query("ALTER TABLE $domain_admins MODIFY `domain` varchar(255) COLLATE latin1_general_ci NOT NULL");
+    db_query("ALTER TABLE $domain_admins MODIFY username varchar(255) COLLATE latin1_general_ci NOT NULL");
+}
+
+/**
+ * Add DKIM tables
+ * @return void
+ */
+function upgrade_1847_mysql()
+{
+    $dkim_key_table = table_by_key('dkim');
+    $dkim_signing_table = table_by_key('dkim_signing');
+    $domain_table = table_by_key('domain');
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_key_table (
+        `id` {AUTOINCREMENT} {PRIMARY},
+        `domain_name` varchar(255) NOT NULL,
+        `description` varchar(255) DEFAULT '',
+        `selector` varchar(63) NOT NULL DEFAULT 'default',
+        `private_key` text,
+        `public_key` text,
+        `created` {DATETIME},
+        `modified` {DATETIME},
+        INDEX(domain_name, description),
+        FOREIGN KEY (`domain_name`) 
+            REFERENCES $domain_table(`domain`)
+            ON DELETE CASCADE) {COLLATE} COMMENT='Postfix Admin - OpenDKIM Key Table';
+    ");
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_signing_table (
+        `id` {AUTOINCREMENT} {PRIMARY},
+        `author` varchar(255) NOT NULL DEFAULT '',
+        `dkim_id` integer NOT NULL,
+        `created` {DATETIME},
+        `modified` {DATETIME},
+        INDEX(author),
+        FOREIGN KEY (`dkim_id`) 
+            REFERENCES $dkim_key_table(`id`)
+            ON DELETE CASCADE) {COLLATE} COMMENT='Postfix Admin - OpenDKIM Signing Table';
+    ");
+}
+
+/**
+ * Add DKIM tables
+ * @return void
+ */
+function upgrade_1847_pgsql()
+{
+    $dkim_key_table = table_by_key('dkim');
+    $dkim_signing_table = table_by_key('dkim_signing');
+    $domain_table = table_by_key('domain');
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_key_table (
+        id {AUTOINCREMENT} {PRIMARY},
+        domain_name varchar(255) NOT NULL,
+        description varchar(255) DEFAULT '',
+        selector varchar(63) NOT NULL DEFAULT 'default',
+        private_key text,
+        public_key text,
+        created {DATETIME},
+        modified {DATETIME},
+        FOREIGN KEY (domain_name) 
+            REFERENCES $domain_table(domain)
+            ON DELETE CASCADE) {COLLATE} ;
+    ");
+
+    db_query_parsed("CREATE INDEX domain_desc_idx ON $dkim_key_table(domain_name, description)");
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_signing_table (
+        id {AUTOINCREMENT} {PRIMARY},
+        author varchar(255) NOT NULL DEFAULT '',
+        dkim_id integer NOT NULL,
+        created {DATETIME},
+        modified  {DATETIME},
+        FOREIGN KEY (dkim_id) 
+            REFERENCES $dkim_key_table(id)
+            ON DELETE CASCADE) {COLLATE} ;
+    ");
+
+    db_query_parsed("CREATE INDEX author_idx ON $dkim_signing_table(author)");
+}
+
+/**
+ * Add DKIM tables
+ * @return void
+ */
+function upgrade_1847_sqlite()
+{
+    $dkim_key_table = table_by_key('dkim');
+    $dkim_signing_table = table_by_key('dkim_signing');
+    $domain_table = table_by_key('domain');
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_key_table (
+        `id` {AUTOINCREMENT},
+        `domain_name` varchar(255) NOT NULL,
+        `description` varchar(255) DEFAULT '',
+        `selector` varchar(63) NOT NULL DEFAULT 'default',
+        `private_key` text,
+        `public_key` text,
+        `created` {DATETIME},
+        `modified` {DATETIME},
+        FOREIGN KEY (`domain_name`) 
+            REFERENCES $domain_table(`domain`)
+            ON DELETE CASCADE) {COLLATE};
+    ");
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $dkim_signing_table (
+        `id` {AUTOINCREMENT},
+        `author` varchar(255) NOT NULL DEFAULT '',
+        `dkim_id` integer NOT NULL,
+        `created` {DATETIME},
+        `modified` {DATETIME},
+        FOREIGN KEY (`dkim_id`) 
+            REFERENCES $dkim_key_table(`id`)
+            ON DELETE CASCADE) {COLLATE};
+    ");
 }

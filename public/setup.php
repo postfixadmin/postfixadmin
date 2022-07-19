@@ -119,16 +119,16 @@ $tick = ' ✅ ';
                     } else {
                         echo $todo . " You need to have a setup_pasword hash configured in a <code>config.local.php</code> file";
                     }
-                    ?>
+?>
                 </li>
                 <li>
                     <?php
-                    if ($authenticated) {
-                        echo $tick . " You are logged in with the setup_password, some environment and hosting checks are displayed below.";
-                    } else {
-                        echo $todo . " You need to authenticate using the setup_password before you can perform some environment and hosting checks.";
-                    }
-                    ?>
+if ($authenticated) {
+    echo $tick . " You are logged in with the setup_password, some environment and hosting checks are displayed below.";
+} else {
+    echo $todo . " You need to authenticate using the setup_password before you can perform some environment and hosting checks.";
+}
+?>
                 </li>
             </ul>
 
@@ -289,42 +289,42 @@ EOF;
             <?php
             $check = do_software_environment_check();
 
-            if ($authenticated) {
-                if (!empty($check['info'])) {
-                    echo "<h3>Information</h3><ul>";
-                    foreach ($check['info'] as $msg) {
-                        echo "<li>{$tick} {$msg}</li>";
-                    }
-                    echo "</ul>";
-                }
+if ($authenticated) {
+    if (!empty($check['info'])) {
+        echo "<h3>Information</h3><ul>";
+        foreach ($check['info'] as $msg) {
+            echo "<li>{$tick} {$msg}</li>";
+        }
+        echo "</ul>";
+    }
 
-                if (!empty($check['warn'])) {
-                    echo "<h3>Warnings</h3><ul>";
-                    foreach ($check['warn'] as $msg) {
-                        echo "<li class='text-warning'>⚠ {$msg}</li>";
-                    }
-                    echo "</ul>";
-                }
-                if (!empty($check['error'])) {
-                    echo "<h3>Errors (MUST be fixed)</h3><ul>";
-                    foreach ($check['error'] as $msg) {
-                        echo "<li class='text-danger'>⛔{$msg}</li>";
-                    }
-                    echo "</ul>";
-                }
+    if (!empty($check['warn'])) {
+        echo "<h3>Warnings</h3><ul>";
+        foreach ($check['warn'] as $msg) {
+            echo "<li class='text-warning'>⚠ {$msg}</li>";
+        }
+        echo "</ul>";
+    }
+    if (!empty($check['error'])) {
+        echo "<h3>Errors (MUST be fixed)</h3><ul>";
+        foreach ($check['error'] as $msg) {
+            echo "<li class='text-danger'>⛔{$msg}</li>";
+        }
+        echo "</ul>";
+    }
 
-                $php_error_log = ini_get('error_log');
-            } else {
-                if (!empty($check['error'])) {
-                    echo '<h3 class="text-danger">Hosting Environment errors found. Login to see details.</h3>';
-                }
+    $php_error_log = ini_get('error_log');
+} else {
+    if (!empty($check['error'])) {
+        echo '<h3 class="text-danger">Hosting Environment errors found. Login to see details.</h3>';
+    }
 
-                if (!empty($check['warn'])) {
-                    echo '<h3 class="text-warning">Hosting Environment warnings found. Login to see details.</h3>';
-                }
-            }
+    if (!empty($check['warn'])) {
+        echo '<h3 class="text-warning">Hosting Environment warnings found. Login to see details.</h3>';
+    }
+}
 
-            ?>
+?>
 
         </div>
     </div>
@@ -334,29 +334,29 @@ EOF;
             <h2 class="h2">Database Update</h2>
 
             <?php
-                $db = false;
-                try {
-                    $db = db_connect();
-                } catch (\Exception $e) {
-                    echo "<p class='h3 text-danger'>Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>\n';
-                    error_log("Couldn't perform PostfixAdmin database update - failed to connect to db? " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
-                }
+    $db = false;
+try {
+    $db = db_connect();
+} catch (\Exception $e) {
+    echo "<p class='h3 text-danger'>Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>';
+    error_log("Couldn't perform PostfixAdmin database update - failed to connect to db? " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
+}
 
-                if ($db) {
-                    echo "<p>Everything seems fine... attempting to create/update database structure</p>\n";
-                    try {
-                        require_once(dirname(__FILE__) . '/upgrade.php');
-                    } catch (\Exception $e) {
-                        if ($authenticated) {
-                            echo "<p class='h3 text-danger'>Exception message: {$e->getMessage()} - check logs!</p>";
-                        }
-                        echo "<p class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>\n';
-                        error_log("Couldn't perform PostfixAdmin database update via upgrade.php - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
-                    }
-                } else {
-                    echo "<h3 class='h3 text-danger'>Could not connect to database to perform updates; check PHP error log.</h3>";
-                }
-            ?>
+if ($db) {
+    echo "<p>Everything seems fine... attempting to create/update database structure</p>\n";
+    try {
+        require_once(dirname(__FILE__) . '/upgrade.php');
+    } catch (\Exception $e) {
+        if ($authenticated) {
+            echo "<p class='h3 text-danger'>Exception message: {$e->getMessage()} - check logs!</p>";
+        }
+        echo "<p class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>';
+        error_log("Couldn't perform PostfixAdmin database update via upgrade.php - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
+    }
+} else {
+    echo "<h3 class='h3 text-danger'>Could not connect to database to perform updates; check PHP error log.</h3>";
+}
+?>
 
         </div>
     </div>
@@ -417,7 +417,7 @@ EOF;
                         foreach ($admins as $row) {
                             echo "<li>{$row['username']}</li>";
                         }
-                        ?>
+            ?>
                     </ul>
                 </div>
             </div>
@@ -500,7 +500,7 @@ EOF;
         <?php
     }
 
-    ?>
+?>
 
 
 </div>
@@ -595,7 +595,7 @@ function do_software_environment_check()
     // Check for PHP version
     $phpversion = 'unknown-version';
 
-    if ($f_phpversion == 1) {
+    if ($f_phpversion) {
         if (version_compare(PHP_VERSION, '7.0.0', '<')) {
             $error[] = "Error: Depends on: PHP v7.0+. You must upgrade.";
         } else {
@@ -606,7 +606,7 @@ function do_software_environment_check()
     }
 
     // Check for Apache version
-    if ($f_apache_get_version == 1) {
+    if ($f_apache_get_version) {
         $info[] = "Webserver - " . apache_get_version();
     }
 
@@ -633,11 +633,11 @@ function do_software_environment_check()
     }
 
     // Check if there is support for at least 1 database
-    if (($m_pdo == 0) and ($m_pdo_mysql == 0) and ($m_pdo_sqlite == 0) and ($m_pdo_pgsql == 0)) {
+    if (!($m_pdo && ($m_pdo_mysql || $m_pdo_sqlite || $m_pdo_pgsql))) {
         $error[] = "There is no database (PDO) support in your PHP setup, you MUST install a suitable PHP PDO extension (e.g. pdo_pgsql, pdo_mysql or pdo_sqlite).";
     }
 
-    if ($m_pdo_mysql == 1) {
+    if ($m_pdo_mysql) {
         $info[] = "Database - MySQL support available";
     } else {
         $info[] = "Database - MySQL (pdo_mysql) extension not found";
@@ -645,13 +645,13 @@ function do_software_environment_check()
 
 
     // PostgreSQL functions
-    if ($m_pdo_pgsql == 1) {
+    if ($m_pdo_pgsql) {
         $info[] = "Database - PostgreSQL support available ";
     } else {
         $warn[] = "Database - PostgreSQL (pdo_pgsql) extension not found";
     }
 
-    if ($m_pdo_sqlite == 1) {
+    if ($m_pdo_sqlite) {
         $info[] = "Database - SQLite support available";
     } else {
         $warn[] = "Database support - SQLite (pdo_sqlite) extension not found";
@@ -673,10 +673,10 @@ function do_software_environment_check()
 
             if (is_writeable($error_log_file)) {
                 $err = "Possibly helpful error_log messages - " . htmlspecialchars(
-                        implode("",
-                            array_slice(file($error_log_file), -4, 3)  // last three lines, might fail miserably if error_log is large.
-                        )
-                    );
+                    implode("",
+                        array_slice(file($error_log_file), -4, 3)  // last three lines, might fail miserably if error_log is large.
+                    )
+                );
 
                 $error[] = nl2br($err);
             }
@@ -708,7 +708,7 @@ function do_software_environment_check()
 
 
     // Session functions
-    if ($f_session_start == 1) {
+    if ($f_session_start) {
         $info[] = "Depends on: PHP session support - OK";
     } else {
         $error[] = "Error: Depends on: PHP session support - NOT FOUND. (FreeBSD: portinstall php$phpversion-session ?)";
@@ -716,14 +716,14 @@ function do_software_environment_check()
 
 
     // PCRE functions
-    if ($f_preg_match == 1) {
+    if ($f_preg_match) {
         $info[] = "Depends on: PHP pcre support - OK";
     } else {
         $error[] = "Error: Depends on: PHP pcre support - NOT FOUND. (FreeBSD: portinstall php$phpversion-pcre)";
     }
 
     // Multibyte functions
-    if ($f_mb_encode_mimeheader == 1) {
+    if ($f_mb_encode_mimeheader) {
         $info[] = "Depends on: PHP mbstring support - OK";
     } else {
         $error[] = "Error: Depends on: PHP mbstring support - NOT FOUND. (FreeBSD: portinstall php$phpversion-mbstring?)";
@@ -731,7 +731,7 @@ function do_software_environment_check()
 
 
     // Imap functions
-    if ($f_imap_open == 1) {
+    if ($f_imap_open) {
         $info[] = "Optional - PHP IMAP functions - OK";
     } else {
         $warn[] = "Warning: Optional dependency 'imap' extension missing, without this you may not be able to automate creation of sub-folders for new mailboxes";

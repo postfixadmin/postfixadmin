@@ -18,6 +18,15 @@ require_once(dirname(__FILE__) . '/vendor/autoload.php');
  * environment and ensures other functions are loaded.
  */
 
+// See: https://github.com/postfixadmin/postfixadmin/pull/541 - try and check if the user has a turkish locale and warn?
+$old = setlocale(LC_ALL, 'C');
+if (preg_match('/_TR/i', $old)) {
+    error_log("WARNING: You may have a Turkish locale set; this breaks the loading of some libraries (Smarty) we depend upon.");
+// don't revert back to $old?
+} else {
+    setlocale(LC_ALL, $old); // revert back.
+}
+
 if (!defined('POSTFIXADMIN')) {
     define('POSTFIXADMIN', 1);
 

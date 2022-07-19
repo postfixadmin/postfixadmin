@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 /**
  * class to handle 'view' in Cli
@@ -6,7 +7,6 @@
 
 class CliView extends Shell
 {
-
     /**
      * Execution method always used for tasks
      */
@@ -76,7 +76,7 @@ class CliView extends Shell
 
                 if ($struct[$field]['type'] == 'txtl') {
                     # $value = join("\n" . str_repeat(" ", 20 + 2), $value); # multiline, one item per line
-                $value = join(", ", $value); # one line, comma-separated
+                    $value = join(", ", $value); # one line, comma-separated
                 } elseif ($struct[$field]['type'] == 'bool') {
                     $value = Config::Lang($value ? 'YES' : 'NO');
                 }
@@ -97,7 +97,7 @@ class CliView extends Shell
         $module = strtolower($module);
 
         $this->out(
-"Usage:
+            "Usage:
 
     postfixadmin-cli $module view
 

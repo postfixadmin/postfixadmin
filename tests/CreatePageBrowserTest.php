@@ -2,7 +2,7 @@
 
 class CreatePageBrowserTest extends \PHPUnit\Framework\TestCase
 {
-    public function tearDown() : void
+    public function tearDown(): void
     {
         $this->cleanup();
     }

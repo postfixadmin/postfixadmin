@@ -141,7 +141,9 @@ $CONF['database_tables'] = array (
     'vacation' => 'vacation',
     'vacation_notification' => 'vacation_notification',
     'quota' => 'quota',
-	'quota2' => 'quota2',
+    'quota2' => 'quota2',
+    'dkim' => 'dkim',
+    'dkim_signing' => 'dkim_signing',
 );
 
 // Site Admin
@@ -240,6 +242,7 @@ $CONF['password_validation'] = array(
     '/.{5}/'                => 'password_too_short 5',      # minimum length 5 characters
     '/([a-zA-Z].*){3}/'     => 'password_no_characters 3',  # must contain at least 3 characters
     '/([0-9].*){2}/'        => 'password_no_digits 2',      # must contain at least 2 digits
+#    '/([!\".,*&^%$£)(_+=\-`\'#@~\[\]\\<>\/].*){1,}/' => 'password_no_special 1', # must contain at least 1 special character
 
     /*  support a 'callable' value which if it returns a non-empty string will be assumed to have failed, non-empty string should be a PALANG key */
     // 'length_check'          => function($password) { if (strlen(trim($password)) < 3) { return 'password_too_short'; } },
@@ -356,6 +359,8 @@ $CONF['alias_struct_hook']          = '';
 $CONF['mailbox_struct_hook']        = '';
 $CONF['alias_domain_struct_hook']   = '';
 $CONF['fetchmail_struct_hook']      = '';
+$CONF['dkim_struct_hook']           = '';
+$CONF['dkim_signing_struct_hook']   = '';
 
 
 // Default Domain Values
@@ -479,12 +484,6 @@ $CONF['sendmail'] = 'YES';
 // send mails to their users
 $CONF['sendmail_all_admins'] = 'NO';
 
-// Mail Logging
-// If you want mail logging set this to 'YES';
-// The logs are in the mailog/ direcory.
-// You need to execute (add in the crontab) postfix_logs.sh script from cron/ directory
-$CONF['maillogging'] = 'NO';
-
 // Logging
 // If you don't want logging set this to 'NO';
 $CONF['logging'] = 'YES';
@@ -529,6 +528,21 @@ EOM;
 // address is legal by performing a name server look-up.
 $CONF['emailcheck_resolve_domain']='YES';
 
+//
+//
+// OpenDKIM stuff
+//
+//
+
+// Enable the dkim database component
+$CONF['dkim'] = 'NO';
+
+// Allow regular admins to add/edit/remove dkim entries
+$CONF['dkim_all_admins'] = 'NO';
+
+//
+// End OpenDKIM stuff
+//
 
 // Optional:
 // Analyze alias gotos and display a colored block in the first column

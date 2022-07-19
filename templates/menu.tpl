@@ -78,7 +78,7 @@
                     {if $CONF.fetchmail==='YES'}
                         {strip}
                             <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                    aria-expanded="false" href="{#url_fetchmail#}">{$PALANG.pMenu_fetchmail} <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
@@ -106,6 +106,25 @@
                             </li>
                         {/strip}
                     {/if}
+                    {* dkim *}
+                    {if $CONF.dkim==='YES' && (
+                        $authentication_has_role.global_admin ||
+                        (isset($CONF.dkim_all_admins) && $CONF.dkim_all_admins === 'YES') )
+                    }
+                        {strip}
+                            <li class="dropdown">
+                                <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false" href="{#url_dkim#}"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span> {$PALANG.pMenu_dkim} <span
+                                            class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{#url_dkim#}"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span> {$PALANG.pMenu_dkim}</a></li>
+                                    <li><a href="{#url_dkim_signing#}"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> {$PALANG.pMenu_dkim_signing}</a></li>
+                                    <li><a href="{#url_dkim_newkey#}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {$PALANG.pDkim_new_key}</a></li>
+                                    <li><a href="{#url_dkim_newsign#}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {$PALANG.pDkim_new_sign}</a></li>
+                                </ul>
+                            </li>
+                        {/strip}
+                    {/if}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {* password *}
@@ -120,14 +139,6 @@
 				<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
 				{$PALANG.pAdminMenu_backup}</a></li>
                     {/if}
-		    {* maillog *}
-		    {* to do - add to palang *}
-		    {if $CONF.maillogging==='YES'}
-		    	<li><a class="btn navbar-btn" type="button"
-                               href="maillog.php">
-				<span class="glyphicon glyphicon-save-file" aria-hidden="true"></span>
-				Mail Log</a></li>
-		    {/if}
                     {* viewlog *}
                     {if $CONF.logging==='YES'}
                         <li><a class="btn navbar-btn" type="button"

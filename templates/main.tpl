@@ -24,19 +24,33 @@
                 <td style="padding-top: 15px;">{$PALANG.pMain_sendmail}</td>
             </tr>
         {/if}
-        <tr>
-            <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary btn-block" href="{#url_password#}"><span class="glyphicon glyphicon-lock"
-                                                         aria-hidden="true"></span> {$PALANG.pMenu_password}</a></td>
-            <td style="padding-top: 15px;">{$PALANG.pMain_password}</td>
-        </tr>
-	{* viewlog *}
+
+        {if $CONF.dkim==='YES' && (
+        $authentication_has_role.global_admin ||
+        (isset($CONF.dkim_all_admins) && $CONF.dkim_all_admins === 'YES') )
+        }
+            <tr>
+                <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary btn-block" href="{#url_dkim#}"><span class="glyphicon glyphicon-certificate"
+                                                                                                                                                  aria-hidden="true"></span> {$PALANG.pMenu_dkim}</a></td>
+                <td style="padding-top: 15px;">{$PALANG.pMain_dkim}</td>
+            </tr>
+        {/if}
+
+	    {* viewlog *}
         {if $CONF.logging==='YES'}
         	<tr>
             		<td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary btn-block" href="{#url_viewlog#}"><span class="glyphicon glyphicon-file"
                                                          aria-hidden="true"></span> {$PALANG.pMenu_viewlog}</a></td>
             		<td style="padding-top: 15px;">{$PALANG.pMain_viewlog}</td>
         	</tr>
-	{/if}
+	    {/if}
+
+        <tr>
+            <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary btn-block" href="{#url_password#}"><span class="glyphicon glyphicon-lock"
+                                                         aria-hidden="true"></span> {$PALANG.pMenu_password}</a></td>
+            <td style="padding-top: 15px;">{$PALANG.pMain_password}</td>
+        </tr>
+
         <tr>
             <td  style="width: 150px;" nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary btn-block" href="{#url_logout#}"><span style="padding-left: 5px;"class="glyphicon glyphicon-log-out"
                                                          aria-hidden="true"></span> {$PALANG.pMenu_logout}</a></td>

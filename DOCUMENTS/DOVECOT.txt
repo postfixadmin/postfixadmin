@@ -133,6 +133,9 @@ user_query = SELECT CONCAT('/var/mail/vmail/', maildir) AS home, 1001 AS uid, 10
 # user_query =   SELECT '/var/mail/vmail/' || maildir AS home, 1001 AS uid, 1001 AS gid,
 #   '*:bytes=' || quota AS quota_rule FROM mailbox WHERE username = '%u' AND active = '1'
 
+# see: https://doc.dovecot.org/configuration_manual/authentication/sql/#id6
+iterate_query = SELECT username as user FROM mailbox WHERE active = '1'
+
 #END /etc/dovecot/dovecot-sql.conf
 
 

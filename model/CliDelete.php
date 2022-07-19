@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 /**
  * class to handle 'delete' in Cli
@@ -6,7 +7,6 @@
 
 class CliDelete extends Shell
 {
-
     /**
      * Execution method always used for tasks
      */
@@ -73,7 +73,7 @@ class CliDelete extends Shell
         $module = strtolower($module);
 
         $this->out(
-"Usage:
+            "Usage:
 
     postfixadmin-cli $module delete
 

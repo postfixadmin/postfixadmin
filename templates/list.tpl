@@ -82,7 +82,14 @@
 *}
                     {elseif $key == 'active'}
                         {if $item._can_edit}
-                            <a class="btn btn-warning" href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">{$item._active}</a>
+                            <a class="btn btn-warning" href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">
+				{if $item._active == 'YES'}
+					<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+				{else}
+					<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+				{/if}
+				{$item._active}
+			    </a>
                         {else}
                             {$item._active}
                         {/if}
@@ -124,7 +131,7 @@
     {/foreach}
 
     <td>{if $item._can_edit}
-            <a class="btn btn-primary" href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}">{$PALANG.edit}</a>
+            <a class="btn btn-primary" href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$PALANG.edit}</a>
         {else}&nbsp;
         {/if}
     </td>
@@ -135,7 +142,7 @@
             <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
 
             <button class="btn btn-danger" onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
-                {$PALANG.del}
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {$PALANG.del}
             </button>
         </form>
     {else}&nbsp;{/if}
