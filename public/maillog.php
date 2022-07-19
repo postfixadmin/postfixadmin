@@ -29,52 +29,56 @@ if (empty($list_domains) || !is_array($list_domains)) {
 // Some sort of default
 $fDomain = $list_domains[0];
 
+function assert_domain_is_ok($string, array $domains)
+{
+    if (!in_array($string, $domains)) {
+        die("Unknown domain");
+    }
+
+    // should not be able to contain a /
+    if (strpos($string, '/') !== false) {
+        die("Unknown domain");
+    }
+}
+
+/* if downloading log */
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    if (!empty($_GET['fDomain'])) {
-        $fDomain = $_GET['fDomain'];
 
-        if (!in_array($fDomain, $list_domains)) {
-            die("Unknown domain");
+    $fDomain = $_GET['fDomain'] ?? $fDomain;
+
+    assert_domain_is_ok($fDomain, $list_domains);
+
+    //check if file exists
+    if (isset($_GET['get_log'])) {
+        // do not allow $_GET['get_log'] to contain a /
+        if (strpos($_GET['get_log'], '/') !== false) {
+            die("Unknown file");
         }
 
-        //check if file exists
-        if (isset($_GET['get_log'])) {
-            // do not allow $_GET['get_log'] to contain a /
-            if (strpos($_GET['get_log'], '/') !== false) {
-                die("Unknown file");
-            }
+        $file = __DIR__ . '/../maillog/' . $fDomain . '/' . $_GET['get_log'];
 
-            $file = __DIR__ . '../maillog/' . $fDomain . '/' . $_GET['get_log'];
-
-            if (!file_exists($file)) {
-                die("The file does not exists");
-            }
-
-            header('Content-Description: File Transfer');
-            header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=' . basename($file));
-            header('Content-Transfer-Encoding: binary');
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($file));
-            ob_clean();
-            flush();
-            readfile($file);
+        if (!file_exists($file)) {
+            die("The file does not exists");
         }
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . basename($file));
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file));
+        ob_clean();
+        flush();
+        readfile($file);
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($_POST['fDomain'])) {
         $fDomain = $_POST['fDomain'];
 
-        if (!in_array($fDomain, $list_domains)) {
-            die("Unknown domain");
-        }
+        assert_domain_is_ok($fDomain, $list_domains);
 
-        // should not be able to contain a /
-        if (strpos($fDomain, '/') !== false) {
-            die("Unknown domain");
-        }
     }
 } else {
     die('Unknown request method');
@@ -88,24 +92,27 @@ $logs = [];
 if (is_dir($path)) {
 
     //read logs from path
-    $logs = scandir($path, 1);
+    $files = scandir($path, 1);
     //remove . and ..  from result
 
-    $log_list = array_diff($logs, array('.', '..'));
-
-    //first 60 files -30 days
-    $log_list = array_slice($log_list, 0, 60);
+    // limit the number returned to the last 60.
+    $files = array_slice($files, 0, 60);
 
     $i = 0;
-    foreach ($log_list as $k => $log) {
+
+    foreach ($files as $file) {
+        if ($file === '.' || $file === '..') {
+            continue;
+        }
+
+        $i++;
         $logs[] = [
-            'name' => basename($log),
-            'size' => round(filesize($path . '/' . $log) / 1024, 3),
-            'number' => $i++,
+            'name' => basename($file),
+            'size' => round(filesize($path . '/' . $file) / 1024, 3),
+            'number' => $i
         ];
     }
 }
-
 
 $smarty->assign("domain_list", $list_domains);
 $smarty->assign('domain_selected', $fDomain);

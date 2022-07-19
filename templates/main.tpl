@@ -45,6 +45,17 @@
         	</tr>
 	    {/if}
 
+        {* maillog *}
+        {* to do - add to palang *}
+        {if $CONF.maillogging==='YES'}
+
+            <tr>
+                <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary btn-block" href="{#url_maillog#}"><span class="glyphicon glyphicon-save-file" aria-hidden="true"></span> {$PALANG.pMenu_maillogs}</a></td>
+                <td style="padding-top: 15px;">{$PALANG.pMain_maillogging}</td>
+            </tr>
+
+        {/if}
+
         <tr>
             <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary btn-block" href="{#url_password#}"><span class="glyphicon glyphicon-lock"
                                                          aria-hidden="true"></span> {$PALANG.pMenu_password}</a></td>
