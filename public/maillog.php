@@ -43,7 +43,6 @@ function assert_domain_is_ok($string, array $domains)
 
 /* if downloading log */
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-
     $fDomain = $_GET['fDomain'] ?? $fDomain;
 
     assert_domain_is_ok($fDomain, $list_domains);
@@ -78,7 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $fDomain = $_POST['fDomain'];
 
         assert_domain_is_ok($fDomain, $list_domains);
-
     }
 } else {
     die('Unknown request method');
