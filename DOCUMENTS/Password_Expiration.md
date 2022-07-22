@@ -64,7 +64,11 @@ password = secret
 host = hostname
 ```
 
-Edit this file to enter a DB user that is allowed to access (read-write) your database. This file should be protected from any user (chmod 400).
+Edit this file to enter a DB user that is allowed to access (read only) your database. 
+
+You could create a new MySQL user with only SELECT permission on mailbox.username and mailbox.password_expiry.
+
+This file should be protected from other users (e.g. chmod 400).
 
 ### Expiration Script 
 
@@ -75,6 +79,7 @@ Edit this file to enter a DB user that is allowed to access (read-write) your da
 
 # Be careful who you run this script as; other system users may be able to write to the postfixadmin database, inject 
 # malicious data into e.g. mailbox.username and then be able to execute commands as the user running this script.
+
 # So, please try to avoid running this script as root.
 
 POSTFIX_DB="postfixadmin"
