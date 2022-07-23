@@ -286,7 +286,7 @@ abstract class PFAHandler
      *    pass  password (will be encrypted with pacrypt())
      *    b64p  password (will be stored with base64_encode() - but will NOT be decoded automatically)
      *    num   number
-     *    txtlarge  Large text input field
+     *    txta  Large text input field (textarea)
      *    txtl  text "list" - array of one line texts
      *   *vnum  "virtual" number, coming from JOINs etc.
      *    bool  boolean (converted to 0/1, additional column _$field with yes/no)
