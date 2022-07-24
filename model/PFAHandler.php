@@ -606,7 +606,6 @@ abstract class PFAHandler
 
             // commit db transaction
             $pdo->commit();
-
         } catch (PDOException $e) {
             // rollback
             $pdo->rollBack();
