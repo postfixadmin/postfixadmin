@@ -64,19 +64,28 @@ password = secret
 host = hostname
 ```
 
-Edit this file to enter a DB user that is allowed to access (read-write) your database. This file should be protected from any user (chmod 400).
+Edit this file to enter a DB user that is allowed to access (read only) your database. 
+
+You could create a new MySQL user with only SELECT permission on mailbox.username and mailbox.password_expiry.
+
+This file should be protected from other users (e.g. chmod 400).
 
 ### Expiration Script 
 
 ```bash
 #!/bin/bash
 
-#Adapt to your setup
+# Adapt to your setup
+
+# Be careful who you run this script as; other system users may be able to write to the postfixadmin database, inject 
+# malicious data into e.g. mailbox.username and then be able to execute commands as the user running this script.
+
+# So, please try to avoid running this script as root.
 
 POSTFIX_DB="postfixadmin"
 MYSQL_CREDENTIALS_FILE="postfixadmin.my.cnf"
 
-REPLY_ADDRESS=noreply@example.com
+REPLY_ADDRESS="noreply@example.com"
 
 # Change this list to change notification times and when ...
 for INTERVAL in 30 14 7
@@ -86,7 +95,15 @@ do
     QUERY="SELECT username,password_expiry FROM mailbox WHERE password_expiry > now() + interval $LOWER DAY AND password_expiry < NOW() + interval $INTERVAL DAY"
 
     mysql --defaults-extra-file="$MYSQL_CREDENTIALS_FILE" "$POSTFIX_DB" -B -N -e "$QUERY" | while IFS=$'\t' read -a RESULT ; do
-        echo -e "Dear User, \n Your password will expire on ${RESULT[1]}" | mail -s "Password $INTERVAL days before expiration notification" -r $REPLY_ADDRESS  ${RESULT[0]} 
+
+        EMAIL_TO=${RESULT[0]}
+        PASSWORD_EXPIRE=${RESULT[1]}
+
+        # basic attempt at validating email address looks legit.
+        if [[ "$EMAIL_TO" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$ ]]
+        then
+            echo -e "Dear User, \n Your password will expire on ${PASSWORD_EXPIRE}" | mail -s "Password $INTERVAL days before expiration notification" -r $REPLY_ADDRESS  "${EMAIL_TO}"
+        fi
     done
 done
 

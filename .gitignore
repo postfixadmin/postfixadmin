@@ -5,3 +5,11 @@
 /.idea
 /vendor
 /composer.lock
+/coverage
+/composer.phar
+/composer_2.phar
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+/build
+/tests/postfixadmin.sqlite.*.test
+/phpstorm-docker-dev/

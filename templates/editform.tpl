@@ -62,6 +62,8 @@
                                         <input class="form-control" type="password" name="value[{$key}]" {if $key == 'password' || $key == 'password2'}autocomplete="new-password"{/if}/>
                                     {elseif $field.type == 'txtl'}
                                         <textarea class="form-control" rows="10" cols="35" name="value[{$key}]">{foreach key=key2 item=field2 from=$value_{$key}}{$field2}&#10;{/foreach}</textarea>
+                                    {elseif $field.type == 'txta'}
+                                        <textarea class="form-control" rows="10" cols="35" name="value[{$key}]">{$value_{$key}}</textarea>
                                     {else}
                                         <input class="form-control" type="text" name="value[{$key}]"
                                                value="{$value_{$key}}"/>

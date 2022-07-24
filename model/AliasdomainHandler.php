@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 
 /**
@@ -53,7 +54,7 @@ class AliasdomainHandler extends PFAHandler
         }
     }
 
-    public function init(string $id) : bool
+    public function init(string $id): bool
     {
         $success = parent::init($id);
         if ($success) {

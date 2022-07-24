@@ -195,7 +195,7 @@ class Login
             error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
             throw new \Exception($warnmsg_pw);
         }
- 
+
         return true;
     }
 }

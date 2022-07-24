@@ -14,7 +14,7 @@ $config = new PhpCsFixer\Config();
 return $config
     ->setFinder($finder)
     ->setRules(array(
-        '@PSR2' => true,
+        '@PSR12' => true,
         'method_argument_space' => false,           # don't break formatting in initStruct()
         'no_spaces_inside_parenthesis' => false,    # don't break formatting in initStruct()
     ));

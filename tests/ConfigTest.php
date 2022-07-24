@@ -2,7 +2,7 @@
 
 class ConfigTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp() : void
+    public function setUp(): void
     {
         $c = Config::getInstance();
 

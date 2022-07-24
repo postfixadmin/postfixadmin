@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = true;
         flash_error(Config::lang('pPassword_password_text_error'));
     } else {
-        $handler = $context === 'admin' ? new AdminHandler : new MailboxHandler;
+        $handler = $context === 'admin' ? new AdminHandler() : new MailboxHandler();
         if (!$handler->checkPasswordRecoveryCode($tUsername, $tCode)) {
             flash_error(Config::lang('pPassword_code_text_error'));
         } else {

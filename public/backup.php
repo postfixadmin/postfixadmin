@@ -84,22 +84,24 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $smarty->display('index.tpl');
     } else {
         fwrite($fh, $header);
-      
+
         $tables = array(
-         'admin',
-         'alias',
-         'alias_domain',
-         'config',
-         'domain',
-         'domain_admins',
-         'fetchmail',
-         'log',
-         'mailbox',
-         'quota',
-         'quota2',
-         'vacation',
-         'vacation_notification'
-      );
+            'admin',
+            'alias',
+            'alias_domain',
+            'config',
+            'domain',
+            'domain_admins',
+            'fetchmail',
+            'log',
+            'mailbox',
+            'quota',
+            'quota2',
+            'vacation',
+            'vacation_notification',
+            'dkim',
+            'dkim_signing'
+        );
 
         for ($i = 0 ; $i < sizeof($tables) ; ++$i) {
             $result = db_query_all("SHOW CREATE TABLE " . table_by_key($tables[$i]));
