@@ -184,6 +184,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 }
             }
 
+            if ($formconf['listview'] == 'list-virtual.php') {
+                $bits = [];
+                $bits['domain'] = $_SESSION['list-virtual:domain'] ?? null;
+                $bits['limit'] = $_SESSION['list-virtual:limit'] ?? null;
+                header("Location: " . $formconf['listview'] . '?' . http_build_query(array_filter($bits)));
+                exit(0);
+            }
+
             header("Location: " . $formconf['listview']);
             exit;
         }
