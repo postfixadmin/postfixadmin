@@ -58,6 +58,14 @@ if ($handler->init($id)) { # errors will be displayed as last step anyway, no ne
 flash_error($handler->errormsg);
 flash_info($handler->infomsg);
 
+if ($formconf['listview'] == 'list-virtual.php') {
+    $bits = [];
+    $bits['domain'] = $_SESSION['list-virtual:domain'] ?? null;
+    $bits['limit'] = $_SESSION['list-virtual:limit'] ?? null;
+    header("Location: " . $formconf['listview'] . '?' . http_build_query(array_filter($bits)));
+    exit(0);
+}
+
 header("Location: " . $formconf['listview']);
 exit;
 
