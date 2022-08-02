@@ -3,7 +3,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/postfixadmin/postfixadmin/badge.svg?branch=master)](https://coveralls.io/github/postfixadmin/postfixadmin?branch=master)
 ![GitHub repo size](https://img.shields.io/github/repo-size/postfixadmin/postfixadmin)
 [![IRC Chat - #postfixadmin](https://img.shields.io/badge/IRC%20libera-brightgreen.svg)](https://web.libera.chat/#postfixadmin)
-
+  <a href="https://github.com/postfixadmin/postfixadmin/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/postfixadmin/postfixadmin" /></a>
+        
 # PostfixAdmin 
 
 An open source, web based interface for managing domains/mailboxes/aliases etc on a Postfix based mail server.
