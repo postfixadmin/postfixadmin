@@ -55,6 +55,7 @@ function authentication_get_usertype()
     }
     return false;
 }
+
 /**
  *
  * Used to determine whether a user has a particular role.
@@ -119,8 +120,8 @@ function init_session($username, $is_admin = false)
  * @param string|array $string message(s) to show.
  *
  * Stores string in session. Flushed through header template.
- * @see _flash_string()
  * @return void
+ * @see _flash_string()
  */
 function flash_error($string)
 {
@@ -131,13 +132,14 @@ function flash_error($string)
  * Used to display an info message on successful update.
  * @param string|array $string message(s) to show.
  * Stores data in session.
- * @see _flash_string()
  * @return void
+ * @see _flash_string()
  */
 function flash_info($string)
 {
     _flash_string('info', $string);
 }
+
 /**
  * 'Private' method used for flash_info() and flash_error().
  * @param string $type
@@ -230,8 +232,6 @@ function language_selector()
 }
 
 
-
-
 /**
  * Checks if a domain is valid
  * @param string $domain
@@ -246,7 +246,7 @@ function check_domain($domain)
         return sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
     }
 
-    if (Config::bool('emailcheck_resolve_domain') && 'WINDOWS'!=(strtoupper(substr(php_uname('s'), 0, 7)))) {
+    if (Config::bool('emailcheck_resolve_domain') && 'WINDOWS' != (strtoupper(substr(php_uname('s'), 0, 7)))) {
 
         // Look for an AAAA, A, or MX record for the domain
 
@@ -302,13 +302,13 @@ function get_password_expiration_value($domain)
 /**
  * check_email
  * Checks if an email is valid - if it is, return true, else false.
- * @todo make check_email able to handle already added domains
  * @param string $email - a string that may be an email address.
  * @return string empty if it's a valid email address, otherwise string with the errormessage
+ * @todo make check_email able to handle already added domains
  */
 function check_email($email)
 {
-    $ce_email=$email;
+    $ce_email = $email;
 
     //strip the vacation domain out if we are using it
     //and change from blah#foo.com@autoreply.foo.com to blah@foo.com
@@ -332,14 +332,13 @@ function check_email($email)
     // Determine domain name
     $matches = array();
     if (preg_match('|@(.+)$|', $ce_email, $matches)) {
-        $domain=$matches[1];
+        $domain = $matches[1];
         # check domain name
         return "" . check_domain($domain);
     }
 
     return "" . Config::lang_f('pInvalidMailRegex', $email);
 }
-
 
 
 /**
@@ -362,7 +361,7 @@ function check_email($email)
 function escape_string($string_or_int)
 {
     $link = db_connect();
-    $string_or_int = (string) $string_or_int;
+    $string_or_int = (string)$string_or_int;
     $quoted = $link->quote($string_or_int);
     return trim($quoted, "'");
 }
@@ -390,10 +389,10 @@ function safeget($param, $default = "")
 
 /**
  * safepost - similar to safeget() but for $_POST
- * @see safeget()
  * @param string $param parameter name
  * @param string $default (optional) default value (defaults to "")
  * @return string - value in $_POST[$param] or $default
+ * @see safeget()
  */
 function safepost($param, $default = "")
 {
@@ -406,10 +405,10 @@ function safepost($param, $default = "")
 
 /**
  * safeserver
- * @see safeget()
  * @param string $param
  * @param string $default (optional)
  * @return string value from $_SERVER[$param] or $default
+ * @see safeget()
  */
 function safeserver($param, $default = "")
 {
@@ -422,10 +421,10 @@ function safeserver($param, $default = "")
 
 /**
  * safecookie
- * @see safeget()
  * @param string $param
  * @param string $default (optional)
  * @return string value from $_COOKIE[$param] or $default
+ * @see safeget()
  */
 function safecookie($param, $default = "")
 {
@@ -438,10 +437,10 @@ function safecookie($param, $default = "")
 
 /**
  * safesession
- * @see safeget()
  * @param string $param
  * @param string $default (optional)
  * @return string value from $_SESSION[$param] or $default
+ * @see safeget()
  */
 function safesession($param, $default = "")
 {
@@ -466,13 +465,13 @@ function safesession($param, $default = "")
  * @param int or $not_in_db - if array, can contain the remaining parameters as associated array. Otherwise counts as $not_in_db
  * @return array for $struct
  */
-function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $multiopt=0, $dont_write_to_db=0, $select="", $extrafrom="", $linkto="")
+function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALANG_label, $PALANG_desc, $default = "", $options = array(), $multiopt = 0, $dont_write_to_db = 0, $select = "", $extrafrom = "", $linkto = "")
 {
     if ($PALANG_label != '') {
         $PALANG_label = Config::lang($PALANG_label);
     }
-    if ($PALANG_desc  != '') {
-        $PALANG_desc  = Config::lang($PALANG_desc);
+    if ($PALANG_desc != '') {
+        $PALANG_desc = Config::lang($PALANG_desc);
     }
 
     if (is_array($multiopt)) { # remaining parameters provided in named array
@@ -533,7 +532,7 @@ function get_domain_properties($domain)
 function create_page_browser($idxfield, $querypart, $sql_params = [])
 {
     global $CONF;
-    $page_size = (int) $CONF['page_size'];
+    $page_size = (int)$CONF['page_size'];
     $label_len = 2;
     $pagebrowser = array();
 
@@ -547,7 +546,7 @@ function create_page_browser($idxfield, $querypart, $sql_params = [])
     $query = "SELECT count(*) as counter FROM (SELECT $idxfield $querypart) AS tmp";
     $result = db_query_one($query, $sql_params);
     if ($result && isset($result['counter'])) {
-        $count_results = $result['counter'] -1; # we start counting at 0, not 1
+        $count_results = $result['counter'] - 1; # we start counting at 0, not 1
     }
 
     if ($count_results < $page_size) {
@@ -600,9 +599,9 @@ function create_page_browser($idxfield, $querypart, $sql_params = [])
     # afterwards: DROP SEQUENCE foo
 
     $result = db_query_all($query, $sql_params);
-    for ($k = 0; $k < count($result); $k+=2) {
+    for ($k = 0; $k < count($result); $k += 2) {
         if (isset($result[$k + 1])) {
-            $label = substr($result[$k]['label'], 0, $label_len) . '-' . substr($result[$k+1]['label'], 0, $label_len);
+            $label = substr($result[$k]['label'], 0, $label_len) . '-' . substr($result[$k + 1]['label'], 0, $label_len);
         } else {
             $label = substr($result[$k]['label'], 0, $label_len);
         }
@@ -627,7 +626,7 @@ function divide_quota($quota)
     if ($quota == -1) {
         return $quota;
     }
-    $value = round($quota / (int) Config::read_string('quota_multiplier'), 2);
+    $value = round($quota / (int)Config::read_string('quota_multiplier'), 2);
     return $value;
 }
 
@@ -643,7 +642,7 @@ function check_owner($username, $domain)
     $table_domain_admins = table_by_key('domain_admins');
 
     $result = db_query_all(
-        "SELECT 1 FROM $table_domain_admins WHERE username= ? AND (domain = ? OR domain = 'ALL') AND active = ?" ,
+        "SELECT 1 FROM $table_domain_admins WHERE username= ? AND (domain = ? OR domain = 'ALL') AND active = ?",
         array($username, $domain, db_get_boolean(true))
     );
 
@@ -653,12 +652,11 @@ function check_owner($username, $domain)
     } else {
         if (sizeof($result) > 2) { # more than 2 results means something really strange happened...
             flash_error("Permission check returned multiple results. Please go to 'edit admin' for your username and press the save "
-             . "button once to fix the database. If this doesn't help, open a bugreport.");
+                . "button once to fix the database. If this doesn't help, open a bugreport.");
         }
         return false;
     }
 }
-
 
 
 /**
@@ -689,7 +687,7 @@ function list_domains_for_admin($username)
         $query .= " LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain ";
         $condition[] = "$table_domain_admins.username = :username  ";
         $condition[] = "$table_domain.active = :active "; # TODO: does it really make sense to exclude inactive...
-        $condition[] = "$table_domain.backupmx = :backupmx" ; # TODO: ... and backupmx domains for non-superadmins?
+        $condition[] = "$table_domain.backupmx = :backupmx"; # TODO: ... and backupmx domains for non-superadmins?
     }
 
     $query .= " WHERE " . join(' AND ', $condition);
@@ -720,8 +718,6 @@ function list_domains()
 }
 
 
-
-
 //
 // list_admins
 // Action: Lists all the admins
@@ -737,7 +733,6 @@ function list_admins()
 
     return $handler->result();
 }
-
 
 
 //
@@ -769,9 +764,9 @@ function encode_header($string, $default_charset = "utf-8")
                 if ($iEncStart === false) {
                     $iEncStart = $i;
                 }
-                $cur_l+=3;
-                if ($cur_l > ($max_l-2)) {
-                    $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+                $cur_l += 3;
+                if ($cur_l > ($max_l - 2)) {
+                    $aRet[] = substr($string, $iOffset, $iEncStart - $iOffset);
                     $aRet[] = "=?$default_charset?Q?$ret?=";
                     $iOffset = $i;
                     $cur_l = 0;
@@ -784,7 +779,7 @@ function encode_header($string, $default_charset = "utf-8")
             case '(':
             case ')':
                 if ($iEncStart !== false) {
-                    $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+                    $aRet[] = substr($string, $iOffset, $iEncStart - $iOffset);
                     $aRet[] = "=?$default_charset?Q?$ret?=";
                     $iOffset = $i;
                     $cur_l = 0;
@@ -796,7 +791,7 @@ function encode_header($string, $default_charset = "utf-8")
                 if ($iEncStart !== false) {
                     $cur_l++;
                     if ($cur_l > $max_l) {
-                        $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+                        $aRet[] = substr($string, $iOffset, $iEncStart - $iOffset);
                         $aRet[] = "=?$default_charset?Q?$ret?=";
                         $iOffset = $i;
                         $cur_l = 0;
@@ -821,8 +816,8 @@ function encode_header($string, $default_charset = "utf-8")
                     }
                     $cur_l += 3;
                     // first we add the encoded string that reached it's max size
-                    if ($cur_l > ($max_l-2)) {
-                        $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+                    if ($cur_l > ($max_l - 2)) {
+                        $aRet[] = substr($string, $iOffset, $iEncStart - $iOffset);
                         $aRet[] = "=?$default_charset?Q?$ret?= ";
                         $cur_l = 3;
                         $ret = '';
@@ -835,7 +830,7 @@ function encode_header($string, $default_charset = "utf-8")
                     if ($iEncStart !== false) {
                         $cur_l++;
                         if ($cur_l > $max_l) {
-                            $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+                            $aRet[] = substr($string, $iOffset, $iEncStart - $iOffset);
                             $aRet[] = "=?$default_charset?Q?$ret?=";
                             $iEncStart = false;
                             $iOffset = $i;
@@ -852,7 +847,7 @@ function encode_header($string, $default_charset = "utf-8")
     }
     if ($enc_init) {
         if ($iEncStart !== false) {
-            $aRet[] = substr($string, $iOffset, $iEncStart-$iOffset);
+            $aRet[] = substr($string, $iOffset, $iEncStart - $iOffset);
             $aRet[] = "=?$default_charset?Q?$ret?=";
         } else {
             $aRet[] = substr($string, $iOffset);
@@ -861,7 +856,6 @@ function encode_header($string, $default_charset = "utf-8")
     }
     return $string;
 }
-
 
 
 /**
@@ -879,7 +873,7 @@ function generate_password($length = 12)
     // add random characters to $password until $length is reached
     $password = "";
     while (strlen($password) < $length) {
-        $random = random_int(0, strlen($possible) -1);
+        $random = random_int(0, strlen($possible) - 1);
         $char = substr($possible, $random, 1);
 
         // we don't want this character if it's already in the password
@@ -890,7 +884,6 @@ function generate_password($length = 12)
 
     return $password;
 }
-
 
 
 /**
@@ -978,13 +971,13 @@ function _pacrypt_mysql_encrypt($pw, $pw_db = '')
     // See https://sourceforge.net/tracker/?func=detail&atid=937966&aid=1793352&group_id=191583
     // this is apparently useful for pam_mysql etc.
 
-    if ( $pw_db ) {
+    if ($pw_db) {
         $res = db_query_one("SELECT ENCRYPT(:pw,:pw_db) as result", ['pw' => $pw, 'pw_db' => $pw_db]);
     } else {
         // see https://security.stackexchange.com/questions/150687/is-it-safe-to-use-the-encrypt-function-in-mysql-to-hash-passwords
         // if no existing password, use a random SHA512 salt.
         $salt = _php_crypt_generate_crypt_salt();
-        $res= db_query_one("SELECT ENCRYPT(:pw, CONCAT('$6$', '$salt')) as result", ['pw' => $pw]);
+        $res = db_query_one("SELECT ENCRYPT(:pw, CONCAT('$6$', '$salt')) as result", ['pw' => $pw]);
     }
 
     return $res['result'];
@@ -1035,12 +1028,12 @@ function _pacrypt_dovecot($pw, $pw_db = '')
     global $CONF;
 
     $split_method = preg_split('/:/', $CONF['encrypt']);
-    $method       = strtoupper($split_method[1]);
+    $method = strtoupper($split_method[1]);
     # If $pw_db starts with {method}, change $method accordingly
     if (!empty($pw_db) && preg_match('/^\{([A-Z0-9.-]+)\}.+/', $pw_db, $method_matches)) {
         $method = $method_matches[1];
     }
-    if (! preg_match("/^[A-Z0-9.-]+$/", $method)) {
+    if (!preg_match("/^[A-Z0-9.-]+$/", $method)) {
         throw new Exception("invalid dovecot encryption method");
     }
 
@@ -1063,7 +1056,7 @@ function _pacrypt_dovecot($pw, $pw_db = '')
     );
 
     $nonsaltedtypes = "SHA|SHA1|SHA256|SHA512|CLEAR|CLEARTEXT|PLAIN|PLAIN-TRUNC|CRAM-MD5|HMAC-MD5|PLAIN-MD4|PLAIN-MD5|LDAP-MD5|LANMAN|NTLM|RPA";
-    $salted = ! preg_match("/^($nonsaltedtypes)(\.B64|\.BASE64|\.HEX)?$/", strtoupper($method));
+    $salted = !preg_match("/^($nonsaltedtypes)(\.B64|\.BASE64|\.HEX)?$/", strtoupper($method));
 
     $dovepasstest = '';
     if ($salted && (!empty($pw_db))) {
@@ -1082,11 +1075,11 @@ function _pacrypt_dovecot($pw, $pw_db = '')
     // use dovecot's stdin, it uses getpass() twice (except when using -t)
     // Write pass in pipe stdin
     if (empty($dovepasstest)) {
-        fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
+        fwrite($pipes[0], $pw . "\n", 1 + strlen($pw));
         usleep(1000);
     }
 
-    fwrite($pipes[0], $pw . "\n", 1+strlen($pw));
+    fwrite($pipes[0], $pw . "\n", 1 + strlen($pw));
     fclose($pipes[0]);
 
     $stderr_output = stream_get_contents($pipes[2]);
@@ -1106,7 +1099,7 @@ function _pacrypt_dovecot($pw, $pw_db = '')
         }
     } else {
         if (!preg_match('(verified)', $password)) {
-            $password="Thepasswordcannotbeverified";
+            $password = "Thepasswordcannotbeverified";
         } else {
             $password = rtrim(str_replace('(verified)', '', $password));
         }
@@ -1189,7 +1182,7 @@ function _pacrypt_php_crypt($pw, $pw_db)
  * @param int hash difficulty
  * @return string
  */
-function _php_crypt_generate_crypt_salt($hash_type='SHA512', $hash_difficulty=null)
+function _php_crypt_generate_crypt_salt($hash_type = 'SHA512', $hash_difficulty = null)
 {
     // generate a salt (with magic matching chosen hash algorithm) for the PHP crypt() function
 
@@ -1276,7 +1269,7 @@ function _php_crypt_random_string($characters, $length)
 {
     $string = '';
     for ($p = 0; $p < $length; $p++) {
-        $string .= $characters[random_int(0, strlen($characters) -1)];
+        $string .= $characters[random_int(0, strlen($characters) - 1)];
     }
     return $string;
 }
@@ -1349,8 +1342,6 @@ function pacrypt($pw, $pw_db = "")
         $pw_db = null;
     }
 
-
-
     $hasher = new \PostfixAdmin\PasswordHashing\Crypt($mechanism);
     return $hasher->crypt($pw, $pw_db);
 }
@@ -1384,7 +1375,7 @@ function md5crypt($pw, $salt = "", $magic = "")
     $ctx = $pw . $magic . $salt;
     $final = hex2bin(md5($pw . $salt . $pw));
 
-    for ($i=strlen($pw); $i>0; $i-=16) {
+    for ($i = strlen($pw); $i > 0; $i -= 16) {
         if ($i > 16) {
             $ctx .= substr($final, 0, 16);
         } else {
@@ -1403,7 +1394,7 @@ function md5crypt($pw, $salt = "", $magic = "")
     }
     $final = hex2bin(md5($ctx));
 
-    for ($i=0;$i<1000;$i++) {
+    for ($i = 0; $i < 1000; $i++) {
         $ctx1 = "";
         if ($i & 1) {
             $ctx1 .= $pw;
@@ -1438,7 +1429,7 @@ function md5crypt($pw, $salt = "", $magic = "")
  */
 function create_salt()
 {
-    srand((int) microtime()*1000000);
+    srand((int)microtime() * 1000000);
     $salt = substr(md5("" . rand(0, 9999999)), 0, 8);
     return $salt;
 }
@@ -1486,7 +1477,7 @@ function enable_socket_crypto($fh)
  * Call: smtp_mail (string to, string from, string data) - DEPRECATED
  * @param string $to
  * @param string $from
- * @param string $subject  (if called with 4 parameters) or full mail body (if called with 3 parameters)
+ * @param string $subject (if called with 4 parameters) or full mail body (if called with 3 parameters)
  * @param string $password (optional) - Password
  * @param string $body (optional, but recommended) - mail body
  * @return bool - true on success, otherwise false
@@ -1518,8 +1509,7 @@ function smtp_mail($to, $from, $data, $password = "", $body = "")
             . "Content-Type: text/plain; charset=utf-8\n"
             . "Content-Transfer-Encoding: 8bit\n"
             . "\n"
-            . $body
-        ;
+            . $body;
     } else {
         $maildata = $data;
     }
@@ -1546,7 +1536,7 @@ function smtp_mail($to, $from, $data, $password = "", $body = "")
         smtp_get_response($fh);
 
         if (!empty($password)) {
-            fputs($fh,"AUTH LOGIN\r\n");
+            fputs($fh, "AUTH LOGIN\r\n");
             smtp_get_response($fh);
             fputs($fh, base64_encode($from) . "\r\n");
             smtp_get_response($fh);
@@ -1604,14 +1594,13 @@ function smtp_get_admin_password()
 //
 function smtp_get_response($fh)
 {
-    $res ='';
+    $res = '';
     do {
         $line = fgets($fh, 256);
         $res .= $line;
     } while (preg_match("/^\d\d\d\-/", $line));
     return $res;
 }
-
 
 
 $DEBUG_TEXT = <<<EOF
@@ -1770,7 +1759,7 @@ function db_connect()
  */
 function db_get_boolean($bool)
 {
-    if (! (is_bool($bool) || $bool == '0' || $bool == '1')) {
+    if (!(is_bool($bool) || $bool == '0' || $bool == '1')) {
         error_log("Invalid usage of 'db_get_boolean($bool)'");
         throw new Exception("Invalid usage of 'db_get_boolean($bool)'");
     }
@@ -1858,7 +1847,7 @@ function db_pgsql()
  */
 function db_sqlite()
 {
-    if (Config::Read('database_type')=='sqlite') {
+    if (Config::Read('database_type') == 'sqlite') {
         return true;
     } else {
         return false;
@@ -1902,7 +1891,7 @@ function db_execute($sql, array $values = [], $throw_exceptions = false)
         $stmt = $link->prepare($sql);
         $stmt->execute($values);
     } catch (PDOException $e) {
-        $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql . ' ' . json_encode($values);
+        $error_text = "Invalid query: " . $e->getMessage() . " caused by " . $sql . ' ' . json_encode($values);
         error_log($error_text);
         if ($throw_exceptions) {
             throw $e;
@@ -1930,7 +1919,7 @@ function db_query($sql, array $values = array(), $ignore_errors = false)
         $stmt = $link->prepare($sql);
         $stmt->execute($values);
     } catch (PDOException $e) {
-        $error_text = "Invalid query: " . $e->getMessage() .  " caused by " . $sql ;
+        $error_text = "Invalid query: " . $e->getMessage() . " caused by " . $sql;
         error_log($error_text);
         if (defined('PHPUNIT_TEST')) {
             throw new Exception("SQL query failed: {{{$sql}}} with " . json_encode($values) . ". Error message: " . $e->getMessage());
@@ -1947,9 +1936,6 @@ function db_query($sql, array $values = array(), $ignore_errors = false)
 }
 
 
-
-
-
 /**
  * Delete a row from the specified table.
  *
@@ -1961,7 +1947,7 @@ function db_query($sql, array $values = array(), $ignore_errors = false)
  * @param string $additionalwhere (default '').
  * @return int|mixed rows deleted.
  */
-function db_delete($table, $where, $delete, $additionalwhere='')
+function db_delete($table, $where, $delete, $additionalwhere = '')
 {
     $table = table_by_key($table);
 
@@ -1969,7 +1955,6 @@ function db_delete($table, $where, $delete, $additionalwhere='')
 
     return db_execute($query, array($delete));
 }
-
 
 
 /**
@@ -2010,7 +1995,7 @@ function db_insert(string $table, array $values, array $timestamp = array('creat
     }
 
     return db_execute(
-        "INSERT INTO $table (" . implode(",", array_keys($values)) .") VALUES ($value_string)",
+        "INSERT INTO $table (" . implode(",", array_keys($values)) . ") VALUES ($value_string)",
         $prepared_statment_values,
         $throw_exceptions);
 }
@@ -2058,7 +2043,7 @@ function db_update(string $table, string $where_col, string $where_value, array 
     $pvalues['where'] = $where_value;
 
 
-    $sql="UPDATE $table_key SET " . implode(",", $set) . " WHERE $where_col = :where";
+    $sql = "UPDATE $table_key SET " . implode(",", $set) . " WHERE $where_col = :where";
 
     return db_execute($sql, $pvalues, $throw_exceptions);
 }
@@ -2086,10 +2071,10 @@ function db_log($domain, $action, $data)
 
 
     $logdata = array(
-        'username'  => "$username ($REMOTE_ADDR)",
-        'domain'    => $domain,
-        'action'    => $action,
-        'data'      => $data,
+        'username' => "$username ($REMOTE_ADDR)",
+        'domain' => $domain,
+        'action' => $action,
+        'data' => $data,
     );
     $result = db_insert('log', $logdata, array('timestamp'));
     if ($result != 1) {
@@ -2176,8 +2161,8 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
     }
     $query = ' WHERE 1=1 ';
     $query .= " $additional_raw_where ";
-    if (count($where_parts)  > 0) {
-        $query .= " AND    ( " . join(" AND ", $where_parts)  . " ) ";
+    if (count($where_parts) > 0) {
+        $query .= " AND    ( " . join(" AND ", $where_parts) . " ) ";
     }
     if (count($having_parts) > 0) {
         $query .= " HAVING ( " . join(" AND ", $having_parts) . " ) ";
@@ -2232,7 +2217,7 @@ function check_db_version($error_out = true)
     $sql = "SELECT value FROM $table WHERE name = 'version'";
     $row = db_query_one($sql);
     if (isset($row['value'])) {
-        $dbversion = (int) $row['value'];
+        $dbversion = (int)$row['value'];
     } else {
         db_execute("INSERT INTO $table (name, value) VALUES ('version', '0')");
         $dbversion = 0;
@@ -2273,14 +2258,14 @@ function gen_show_status($show_alias)
 
     if (!empty($CONF['recipient_delimiter'])) {
         $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
-        $delimiter_regex = '/' .$delimiter. '[^' .$delimiter. '@]*@/';
+        $delimiter_regex = '/' . $delimiter . '[^' . $delimiter . '@]*@/';
     }
 
     // UNDELIVERABLE CHECK
     if ($CONF['show_undeliverable'] == 'YES') {
-        $gotos=array();
-        $gotos=explode(',', $stat_goto);
-        $undel_string="";
+        $gotos = array();
+        $gotos = explode(',', $stat_goto);
+        $undel_string = "";
 
         //make sure this alias goes somewhere known
         $stat_ok = 1;
@@ -2327,8 +2312,8 @@ function gen_show_status($show_alias)
     }
 
     // Vacation CHECK
-    if ( array_key_exists('show_vacation', $CONF) && $CONF['show_vacation'] == 'YES' ) {
-        $stat_result = db_query_one("SELECT * FROM ". table_by_key('vacation') ." WHERE email = ? AND active = ? ", array($show_alias, db_get_boolean(true) )) ;
+    if (array_key_exists('show_vacation', $CONF) && $CONF['show_vacation'] == 'YES') {
+        $stat_result = db_query_one("SELECT * FROM " . table_by_key('vacation') . " WHERE email = ? AND active = ? ", array($show_alias, db_get_boolean(true)));
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2337,9 +2322,9 @@ function gen_show_status($show_alias)
     }
 
     // Disabled CHECK
-    if ( array_key_exists('show_disabled', $CONF) &&  $CONF['show_disabled'] == 'YES' ) {
+    if (array_key_exists('show_disabled', $CONF) && $CONF['show_disabled'] == 'YES') {
         $stat_result = db_query_one(
-            "SELECT * FROM ". table_by_key('mailbox') ." WHERE username = ? AND active = ?",
+            "SELECT * FROM " . table_by_key('mailbox') . " WHERE username = ? AND active = ?",
             array($show_alias, db_get_boolean(false))
         );
         if (!empty($stat_result)) {
