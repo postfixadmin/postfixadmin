@@ -1332,6 +1332,12 @@ function pacrypt($pw, $pw_db = "")
     if ($mechanism == 'SHA512.B64') {
         // postfixadmin incorrectly uses this as a SHA512-CRYPT.B64
         $mechanism = 'SHA512-CRYPT.B64';
+
+        // backwards compatability - see https://github.com/postfixadmin/postfixadmin/issues/58 and https://github.com/postfixadmin/postfixadmin/issues/647
+        // if we are configured for SHA512.B64, support existing passwords in MD5-CRYPT format.
+        if ($pw_db && strncmp($pw_db, '{MD5-CRYPT}', 11) == 0) {
+            $mechanism = 'MD5-CRYPT';
+        }
     }
 
     if (preg_match('/^DOVECOT:(.*)$/i', $mechanism, $matches)) {
