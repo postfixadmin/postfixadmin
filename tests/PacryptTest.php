@@ -276,6 +276,30 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * @see https://github.com/postfixadmin/postfixadmin/issues/647
+     */
+    public function testSha512B64SupportsMd5CryptMigration()
+    {
+        global $CONF;
+
+        Config::write('encrypt', 'sha512.b64');
+        $CONF['encrypt'] = 'sha512.b64';
+
+        $x = pacrypt('test123');
+
+        $this->assertRegExp('/^\{SHA512-CRYPT\.B64/', $x);
+        $this->assertTrue(strlen($x) > 50);
+
+        $this->assertEquals($x, pacrypt('test123', $x));
+
+        // while we're configured for SHA512-CRYPT.B64, we still support MD5-CRYPT format ...
+        $md5crypt = '{MD5-CRYPT}$1$c9809462$fC8eUPU2lq7arWRvxChMu1';
+
+        $x = pacrypt('test123', $md5crypt);
+        $this->assertEquals($x, $md5crypt);
+    }
+
     public function testObviousMechanisms()
     {
         global $CONF;
