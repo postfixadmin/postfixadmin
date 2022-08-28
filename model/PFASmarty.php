@@ -138,7 +138,7 @@ class PFASmarty
      * */
     public function sanitise($data)
     {
-        if (is_object($data)) {
+        if (is_object($data) || is_null($data)) {
             return $data; // can't handle
         }
 
