@@ -138,13 +138,14 @@ class PFASmarty
      * */
     public function sanitise($data)
     {
-        if (is_object($data) || is_null($data)) {
-            return $data; // can't handle
+        if (!is_array($data) && !is_string($data)) {
+            return $data; // bool, int, null, object etc - can't sanitise.
         }
 
-        if (!is_array($data)) {
+        if (is_string($data)) {
             return htmlentities($data, ENT_QUOTES, 'UTF-8', false);
         }
+
         $clean = array();
         foreach ($data as $key => $value) {
             /* as this is a nested data structure it's more likely we'll output the key too (at least in my opinion, so we'll sanitise it too */
