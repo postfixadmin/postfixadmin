@@ -143,8 +143,9 @@ iterate_query = SELECT username as user FROM mailbox WHERE active = '1'
 3. Permissions
 --------------
 
-With Dovecot 2.3.11 (ish?), if you are using the Postfixadmin dovecot password hashing
-backend - so your Postfixadmin configuration matches :
+Applicable to those older versions of Postfixadmin (before v 3.4) (see also https://github.com/postfixadmin/postfixadmin/pull/491)
+
+With Dovecot 2.3.11 (ish?), if you are using the Postfixadmin dovecot password hashing backend - so your Postfixadmin configuration looks like
 
     `$CONF['encrypt'] = 'dovecot:something';`
 
@@ -157,10 +158,9 @@ account, like www-data or http or nobody) will need ...
  * read/write access to /run/dovecot/stats-writer 
    * Fixable with: `usermod -aG dovecot www-data``
 
-Postfixadmin does not need to run on the same server as the Dovecot server. 
-If it's not, you may find it easiest to disable Dovecot's ssl configuration.
+Please note, Postfixadmin does not need to run on the same server as the Dovecot server.
 
-see also the following tickets which contain discussions and solutions :
+See also the following tickets which contain discussions and solutions :
 
  * https://github.com/postfixadmin/postfixadmin/issues/381 (Unable to login after Dovecot upgrade)
  * https://github.com/postfixadmin/postfixadmin/issues/398 (Dovecotpw needs to read my TLS cert and private key)
