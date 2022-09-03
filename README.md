@@ -37,12 +37,10 @@ Integrates with :
 ## Useful Links
 
  - [Probably all you need to read (pdf)](http://blog.cboltz.de/uploads/postfixadmin-30-english.pdf)
- - http://postfixadmin.sf.net - the current homepage for the project
  - [Docker Images](https://github.com/postfixadmin/docker)
  - [What is it? (txt)](/DOCUMENTS/POSTFIXADMIN.txt)
  - [Installation instructions](/INSTALL.TXT)
  - [Wiki](https://sourceforge.net/p/postfixadmin/wiki/)
- - [Mailing list](https://sourceforge.net/p/postfixadmin/discussion/676076)
  - [IRC channel](irc://irc.libera.chat/#postfixadmin) (#postfixadmin on Libera.chat).
 
 
