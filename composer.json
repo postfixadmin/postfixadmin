@@ -23,6 +23,7 @@
     },
     "require": {
         "php": ">=7.2",
+        "smarty/smarty": "^3|^4",
         "postfixadmin/password-hashing": "^0.0.1"
     },
     "require-dev": {
@@ -41,8 +42,7 @@
         "classmap" : [ "model/" ],
         "files": [
             "config.inc.php",
-            "functions.inc.php",
-            "lib/smarty/libs/bootstrap.php"
+            "functions.inc.php"
         ]
     },
     "support": {
