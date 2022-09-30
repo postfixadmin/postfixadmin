@@ -90,7 +90,6 @@ if (!defined('POSTFIXADMIN_CLI')) {
     if (!isset($PALANG)) {
         die("environment not setup correctly");
     }
-    require_once(__DIR__  . '/lib/smarty/libs/Autoloader.php');
     Smarty_Autoloader::register();
 }
 
