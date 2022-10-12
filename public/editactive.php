@@ -11,10 +11,14 @@
  * @version $Id$
  * @license GNU GPL v2 or later.
  *
- * File: delete.php
- * Used to delete admins, domains, mailboxes, aliases etc.
+ * File: editactive.php
+ * Used to switch active status for  admins, domains, mailboxes, aliases and aliasdomains, etc.
  *
- * Template File: none
+ * Template File: 
+ *		  list-virutal.tpl
+ *		  list-virutal-alias.tpl		which incl list-virutal.tpl
+ *		  list-virutal-alias_domains.tpl	which incl list-virutal.tpl
+ *		  list-virutal_mailbox.tpl
  */
 
 require_once('common.php');

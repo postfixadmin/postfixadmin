@@ -26,11 +26,11 @@
 				<td>{$gen_show_status_mailbox[$i]}</td>
 			{/if}
 			<td>
-				{if $search eq ""}
-					{$item.username}
-				{else}
-					{$item.username|replace:$search:"<span class='searchresult'>$search</span>"}
-				{/if}
+			{if $search eq ""}
+				{$item.username}
+			{else}
+				{$item.username|replace:$search:"<span class='searchresult'>$search</span>"}
+			{/if}
 			</td>
 			{if $display_mailbox_aliases==true}
 				<td>

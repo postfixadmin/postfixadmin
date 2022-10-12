@@ -238,8 +238,8 @@ class VacationHandler extends PFAHandler
             $activeUntil .= ' 23:59:59';
         }
 
-        $activeFrom = date("Y-m-d H:i", strtotime($activeFrom)); # TODO check if result looks like a valid date
-        $activeUntil = date("Y-m-d H:i", strtotime($activeUntil)); # TODO check if result looks like a valid date
+        $activeFrom = date("Y-m-d H:i:s", strtotime($activeFrom)); # TODO check if result looks like a valid date
+        $activeUntil = date("Y-m-d H:i:s", strtotime($activeUntil)); # TODO check if result looks like a valid date
         list(/*NULL*/, $domain) = explode('@', $this->username);
 
         $vacation_data = array(
