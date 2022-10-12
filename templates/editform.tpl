@@ -45,7 +45,7 @@
                                                         {foreach from=$value_{$key} item=selectedDomain}
                                                                 {if $domain == $selectedDomain }
                                                                         <input type="checkbox" checked name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
-                                                                        <label for="{$domain}_id">{$domain}</label>                                                           
+                                                                        <label for="{$domain}_id">{$domain}</label>
                                                                         {assign var=flag value=$flag+1}
                                                                 {/if}
                                                         {/foreach}
@@ -93,7 +93,6 @@
 		    <button class="btn btn-primary" type="submit" name="submit">
 				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$submitbutton}
 		    </button>
-                    
 		</div>
             </div>
         </div>
@@ -102,7 +101,6 @@
 </form>
 
 <script type="text/javascript">
-        
         function searchDomains(){
                 input = document.getElementById("id_searchDomains").value.toLowerCase();
                 ul = document.getElementById("domainsList");

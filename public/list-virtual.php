@@ -14,7 +14,11 @@
  * File: list-virtual.php
  * List virtual users for a domain.
  *
- * Template File: list-virtual.php
+ * Template File: 
+ *		  list-virutal.tpl
+ *                list-virutal-alias.tpl                which incl list-virutal.tpl
+ *                list-virutal-alias_domains.tpl        which incl list-virutal.tpl
+ *                list-virutal_mailbox.tpl
  *
  * Form POST \ GET Variables:
  *
@@ -355,7 +359,7 @@ class cNav_bar
     protected $limit;
     protected $page_size;
     protected $pages;
-    protected $search; //* arguments
+    protected $search; // arguments
 
     /* @var string - appended to page link href */
     public $append_to_url = '';
@@ -363,7 +367,7 @@ class cNav_bar
     protected $have_run_init = false;
     protected $arr_prev;
     protected $arr_next;
-    protected $arr_top; //* internal
+    protected $arr_top; // internal
     protected $anchor;
 
     public function __construct($aTitle, $aLimit, $aPage_size, $aPages, $aSearch)
