@@ -740,6 +740,8 @@ class MailboxHandler extends PFAHandler
      * created.
      *
      * @return boolean TRUE if everything succeeds, FALSE on all errors
+     *
+     * @todo rewrite/remove dependency on php-imap and use instead something like : https://www.php-imap.com/api/client
      */
     protected function create_mailbox_subfolders()
     {
