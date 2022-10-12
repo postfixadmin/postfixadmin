@@ -14,7 +14,7 @@
  * File: list-virtual.php
  * List virtual users for a domain.
  *
- * Template File: 
+ * Template File:
  *		  list-virutal.tpl
  *                list-virutal-alias.tpl                which incl list-virutal.tpl
  *                list-virutal-alias_domains.tpl        which incl list-virutal.tpl
