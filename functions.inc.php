@@ -404,22 +404,6 @@ function safepost($param, $default = "")
 }
 
 /**
- * safeserver
- * @param string $param
- * @param string $default (optional)
- * @return string value from $_SERVER[$param] or $default
- * @see safeget()
- */
-function safeserver($param, $default = "")
-{
-    $retval = $default;
-    if (isset($_SERVER[$param])) {
-        $retval = $_SERVER[$param];
-    }
-    return $retval;
-}
-
-/**
  * safecookie
  * @param string $param
  * @param string $default (optional)
@@ -429,7 +413,7 @@ function safeserver($param, $default = "")
 function safecookie($param, $default = "")
 {
     $retval = $default;
-    if (isset($_COOKIE[$param]) && is_string($_COOKIE[$param])) {
+    if (isset($_COOKIE[$param])) {
         $retval = $_COOKIE[$param];
     }
     return $retval;
@@ -894,13 +878,16 @@ function generate_password($length = 12)
 function validate_password($password)
 {
     $result = array();
-    $val_conf = Config::read_array('password_validation');
 
-    if (Config::has('min_password_length')) {
-        $minlen = (int)Config::read('min_password_length'); # used up to 2.3.x - check it for backward compatibility
-        if ($minlen > 0) {
-            $val_conf['/.{' . $minlen . '}/'] = "password_too_short $minlen";
-        }
+    $config = Config::getInstance()->getAll();
+
+    $val_conf = $config['password_validation'] ?? [];
+
+    $minlen = $config['min_password_length'] ?? null;
+
+    if (is_numeric($minlen) && $minlen > 0) {
+        $minlen = (int)$minlen; # used up to 2.3.x -
+        $val_conf['/.{' . $minlen . '}/'] = "password_too_short $minlen";
     }
 
     foreach ($val_conf as $regex => $message) {
