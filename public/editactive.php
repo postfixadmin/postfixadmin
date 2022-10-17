@@ -14,7 +14,7 @@
  * File: editactive.php
  * Used to switch active status for  admins, domains, mailboxes, aliases and aliasdomains, etc.
  *
- * Template File: 
+ * Template File:
  *		  list-virutal.tpl
  *		  list-virutal-alias.tpl		which incl list-virutal.tpl
  *		  list-virutal-alias_domains.tpl	which incl list-virutal.tpl
