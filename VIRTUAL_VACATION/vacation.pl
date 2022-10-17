@@ -391,8 +391,8 @@ sub replace_string {
     my $rv = $stm->rows;
 
     my $vacation_body = $row[0];
-    my $f_date = substr($row[1],0,10);
-    my $u_date = substr($row[2],0,10);
+    my $f_date = $row[1];
+    my $u_date = $row[2];
 #
 # Note !!  do not  replace '%Y-%m-%d' with date_format because this is the format that f_date and u_date are are filled with date in this format
 # $date_formart is used to diplay the dates in your choice of format.
@@ -400,7 +400,7 @@ sub replace_string {
     my $date_f = Time::Piece->strptime($f_date,'%Y-%m-%d');
     $f_date = $date_f->strftime($date_format);
     my $date_u = Time::Piece->strptime($u_date,'%Y-%m-%d');
-    $u_date = $date_u->strftime('$date_format');
+    $u_date = $date_u->strftime($date_format);
 
     $vacation_body = replace_a_string($vacation_body,$replace_from,$f_date);
     $vacation_body = replace_a_string($vacation_body,$replace_until,$u_date);
