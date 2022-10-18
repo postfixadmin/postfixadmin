@@ -15,10 +15,7 @@
  * Used to switch active status for  admins, domains, mailboxes, aliases and aliasdomains, etc.
  *
  * Template File:
- *		  list-virutal.tpl
- *		  list-virutal-alias.tpl		which incl list-virutal.tpl
- *		  list-virutal-alias_domains.tpl	which incl list-virutal.tpl
- *		  list-virutal_mailbox.tpl
+ *		  none - redirects to $formconf['listview']
  */
 
 require_once('common.php');
