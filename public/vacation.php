@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         ## because vacation.pl will report SMTP recipient $smtp_recipient which resolves to $email does not have an active vacation (rv: $rv, email: $email)"
         ## and will not send message
 
-        ## set $tActtiveFrom to the begin of the day (00:00:00) and  $tActiveUntil to the end of de day (23:59:59)
+        ## set $tActiveFrom to the begin of the day (00:00:00) and  $tActiveUntil to the end of the day (23:59:59)
         ## time part is now set to entry time
         date_modify($tActiveFrom,"00:00:00") ;
         date_modify($tActiveUntil,"23:59:59") ;

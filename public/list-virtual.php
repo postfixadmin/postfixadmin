@@ -16,9 +16,9 @@
  *
  * Template File:
  *		  list-virutal.tpl
- *                list-virutal-alias.tpl                which incl list-virutal.tpl
- *                list-virutal-alias_domains.tpl        which incl list-virutal.tpl
- *                list-virutal_mailbox.tpl
+ *                list-virtual-alias.tpl                which incl list-virtual.tpl
+ *                list-virtual-alias_domains.tpl        which incl list-virtual.tpl
+ *                list-virtual_mailbox.tpl
  *
  * Form POST \ GET Variables:
  *
