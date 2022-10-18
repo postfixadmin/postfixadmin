@@ -95,5 +95,5 @@ Additional authors:
             Add configuration parameter $replace_from ,$replace_until and $date_format for the subroutine replace_string
             the subroutine replace_string replaces in the bodytext the text defined at $replace_from and $replace_until with the date of active from and active until in the format specified at $date_format.
 
-	    Add configuration parameter $account_check and $account_name if account_check is set it wil add de value of name of the mailbox in front of de email and it is shown as sender,
+	    Add configuration parameter $account_check and $account_name if account_check is set it will add the value of name of the mailbox in front of the email and it is shown as sender,
 	    if no name is specified at the mailbox, the variable friendly-name is placed in front of the email and it is shown as sender otherwise the email will show as sender.
