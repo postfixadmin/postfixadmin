@@ -134,7 +134,7 @@ our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twit
 our $no_vacation_pattern = 'info\@example\.org';
 
 #
-# The subroutine repalce_string replaces in the body text the text defined at $replace_from and $replace_until with the date of activefrom and activeunitul in the format specified at $date_format.
+# The subroutine replace_string replaces in the body text the text defined at $replace_from and $replace_until with the date of activefrom and activeunitul in the format specified at $date_format.
 #
 # Like :
 #
@@ -378,7 +378,7 @@ sub get_accountname {
 # Replace <%From_Date>   with date part of activefrom out the vacation table on base of email
 # Replace <%Until_Date>  with date part of activeuntil out the vacation table on base of email
 #
-# The varibale $replace_form and $replace_until will have the <%From_Date> and <%Until_Date> replace text
+# The varibale $replace_from and $replace_until will have the <%From_Date> and <%Until_Date> replace text
 
 sub replace_string {
     my ($to) =@_;
@@ -395,7 +395,7 @@ sub replace_string {
     my $u_date = $row[2];
 #
 # Note !!  do not  replace '%Y-%m-%d' with date_format because this is the format that f_date and u_date are are filled with date in this format
-# $date_formart is used to diplay the dates in your choice of format.
+# $date_format is used to diplay the dates in your choice of format.
 #
     my $date_f = Time::Piece->strptime($f_date,'%Y-%m-%d');
     $f_date = $date_f->strftime($date_format);
