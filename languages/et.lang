@@ -353,10 +353,10 @@ $PALANG['pUsersVacation_welcome_text'] = 'Automaatne vastus on juba seadistatud!
 $PALANG['pUsersVacation_subject_text'] = 'Kontorist väljas';
 $PALANG['message'] = 'Põhitekst'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Olen kontorist eemal alates <date> kuni <date>.
+Olen kontorist eemal alates <%From_Date> kuni <%Until_Date>.
 Kiireloomuliste asjade korral palun kontakteeru <kontakt isik>.
 
-I will be away from <date> until <date>.
+I will be away from <%From_Date> until <%Until_Date>.
 For urgent matters you can contact <contact person>.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX

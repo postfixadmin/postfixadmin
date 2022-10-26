@@ -353,7 +353,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Þú hefur nú þegar skilgreint sjál
 $PALANG['pUsersVacation_subject_text'] = 'Er ekki við - Out of Office';
 $PALANG['message'] = 'Meginmál'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Ég er ekki við frá <date> og til <date>.  I will be away from <date> until <date>.
+Ég er ekki við frá <%From_Date> og til <%Until_Date>.  I will be away from <%From_Date> until <%Until_Date>.
 Ef mikið liggur við, geturðu haft samaband við <contact person>. For urgent matters you can contact <contact person>.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX

@@ -359,7 +359,7 @@ $PALANG['pUsersVacation_subject_text'] = 'Poza biurem';
 $PALANG['message'] = 'Wiadomość';
 
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Będę nieobecny od <date> do <date>.
+Będę nieobecny od <%From_Date> do <%Until_Date>.
 W pilnych sprawach proszę się kontaktować z <contact person>.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Aktywna od';

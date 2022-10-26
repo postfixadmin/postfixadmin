@@ -354,7 +354,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Вие вече си имате кон
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office'; # XXX
 $PALANG['message'] = 'Текст'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Няма да бъда на разположение от <date> до <date>.
+Няма да бъда на разположение от <%From_Date> до <%Until_Date>.
 При спешност можете да се свържете с <contact person>.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX

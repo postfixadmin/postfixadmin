@@ -353,7 +353,7 @@ $PALANG['pUsersVacation_welcome_text'] = '你已经设置了自动回复! (%s)';
 $PALANG['pUsersVacation_subject_text'] = '我现在无法回信';
 $PALANG['message'] = '内容'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-    我在 <date> 到 <date> 这段时间内暂时无法回信.
+    我在 <%From_Date> 到 <%Until_Date> 这段时间内暂时无法回信.
 如果你有急事请与 <contact person> 联系.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX

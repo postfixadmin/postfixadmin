@@ -354,7 +354,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Automatická odpoveď pre %s je zapnut
 $PALANG['pUsersVacation_subject_text'] = 'Dovolenka';
 $PALANG['message'] = 'Správa';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Som na dovolenke od <date> od <date>.
+Som na dovolenke od <%From_Date> od <%Until_Date>.
 S neodkladnými vecami kontaktujte <contact person>.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Aktívna od';

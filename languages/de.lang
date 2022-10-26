@@ -359,7 +359,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Automatische Antwort für %s ist aktiv
 $PALANG['pUsersVacation_subject_text'] = 'Ich bin weg...';
 $PALANG['message'] = 'Nachricht';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Ich bin vom <date> bis <date> nicht zu Hause / im Büro.
+Ich bin vom <%From_Date> bis <%Until_Date> nicht zu Hause / im Büro.
 In dringenden Fällen setzen Sie sich bitte mit <contact person> in Verbindung.
 Vielen Dank für Ihr Verständnis.
 EOM;

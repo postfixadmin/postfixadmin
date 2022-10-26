@@ -357,7 +357,7 @@ $PALANG['pUsersVacation_body_text'] = <<<EOM
 Esu išvykęs nuo <data> iki <data>.
 Esant neatidėliotiniems reikalams, kreipkitės į <kontaktinis asmuo>.
 
-I will be away from <date> until <date>.
+I will be away from <%From_Date> until <%Until_Date>.
 For urgent matters you can contact <contact person>.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Įjungtas nuo';

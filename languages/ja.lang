@@ -359,7 +359,7 @@ $PALANG['pUsersVacation_welcome_text'] = '%s の自動応答は有効です!';
 $PALANG['pUsersVacation_subject_text'] = '不在';
 $PALANG['message'] = '本文';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-私は <date> から <date> まで不在です。
+私は <%From_Date> から <%Until_Date> まで不在です。
 緊急事項は <contact person> まで連絡してください。
 EOM;
 $PALANG['pUsersVacation_activefrom'] = '右の日時から有効';

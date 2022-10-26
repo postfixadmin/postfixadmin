@@ -353,7 +353,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Xa dispón dunha resposta automática 
 $PALANG['pUsersVacation_subject_text'] = 'Fóra do traballo';
 $PALANG['message'] = 'Mensaxe'; 
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Estarei fóra desde <date> ata <date>.
+Estarei fóra desde <%From_Date> ata <%Until_Date>.
 Para asuntos urxentes, pode contactar comigo en <contact person>.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Activo desde'; # XXX

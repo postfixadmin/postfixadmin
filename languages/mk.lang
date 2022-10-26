@@ -354,7 +354,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Веќе имате конфигури
 $PALANG['pUsersVacation_subject_text'] = 'Отсутен';
 $PALANG['message'] = 'Содржина'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Ќе бидам отсутен од <date> до <date>.
+Ќе бидам отсутен од <%From_Date> до <%Until_Date>.
 За итни случаи контактирајте со <contact person>.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX

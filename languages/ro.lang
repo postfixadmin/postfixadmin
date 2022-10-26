@@ -359,7 +359,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Autoraspuns pentru %s este activ!';
 $PALANG['pUsersVacation_subject_text'] = 'In vacanta';
 $PALANG['message'] = 'Mesaj';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-I will be away from <date> until <date>.
+I will be away from <%From_Date> until <%Until_Date>.
 For urgent matters you can contact <contact person>.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Activ de la';

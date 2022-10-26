@@ -352,7 +352,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Erantzun automatiko bat konfiguratuta 
 $PALANG['pUsersVacation_subject_text'] = 'Lanetik kanpo';
 $PALANG['message'] = 'Gorputza'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-<date>-tik <date> arte kanpoan egongo naiz.
+<%From_Date>-tik <%Until_Date> arte kanpoan egongo naiz.
 Larrialdiko gaientzat, hemen <contact person> kontakta dezakezu nirekin.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX

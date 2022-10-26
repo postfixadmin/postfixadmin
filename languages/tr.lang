@@ -353,7 +353,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Zaten bir otomatik cevaplamanız bulun
 $PALANG['pUsersVacation_subject_text'] = 'Ofis dışında';
 $PALANG['message'] = 'Metin'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-<date> ile <date> tarihleri arası burada bulunmayacağım.
+<%From_Date> ile <%Until_Date> tarihleri arası burada bulunmayacağım.
 Acil durumlarda lütfen  <contact person> adresli yetkiliye başvurunuz.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Aktif olma tarih başlangıç';

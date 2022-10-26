@@ -353,7 +353,7 @@ $PALANG['pUsersVacation_welcome_text'] = 'Du har allerede autosvar! (%s)'; # XXX
 $PALANG['pUsersVacation_subject_text'] = 'Ikke tilstede';
 $PALANG['message'] = 'Melding'; # XXX text changed to 'Message'
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-Jeg vil være utilgjengelig fra <date> til <date>.
+Jeg vil være utilgjengelig fra <%From_Date> til <%Until_Date>.
 For viktige henvendelser kan du kontakte <contact person>.
 EOM;
 $PALANG['pUsersVacation_activefrom'] = 'Active from'; # XXX
