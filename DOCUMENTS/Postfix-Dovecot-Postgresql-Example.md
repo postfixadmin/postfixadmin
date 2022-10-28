@@ -113,7 +113,7 @@ user = postfix
 password = whatever
 hosts = localhost
 dbname = postfix
-query = SELECT username FROM mailbox WHERE username='%s' AND active = true
+query = SELECT username FROM mailbox WHERE username='%s' AND active = true AND sendonly = false
 ```
 
 
@@ -234,5 +234,5 @@ default_pass_scheme = MD5-CRYPT
 password_query = SELECT username AS user,password FROM mailbox WHERE username = '%u' AND active='1'
 
 # Query to retrieve user information, note uid matches dovecot.conf AND Postfix virtual_uid_maps parameter.
-user_query = SELECT '/var/mail/vmail/' || maildir AS home, 8 as uid, 8 as gid FROM mailbox WHERE username = '%u' AND active = '1'
+user_query = SELECT '/var/mail/vmail/' || maildir AS home, 8 as uid, 8 as gid FROM mailbox WHERE username = '%u' AND active = '1' AND sendonly ='0'
 ```
