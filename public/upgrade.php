@@ -2153,7 +2153,7 @@ function upgrade_1847_mysql()
         `created` {DATETIME},
         `modified` {DATETIME},
         INDEX(domain_name, description),
-        FOREIGN KEY (`domain_name`) 
+        FOREIGN KEY (`domain_name`)
             REFERENCES $domain_table(`domain`)
             ON DELETE CASCADE) {COLLATE} COMMENT='Postfix Admin - OpenDKIM Key Table';
     ");
@@ -2166,7 +2166,7 @@ function upgrade_1847_mysql()
         `created` {DATETIME},
         `modified` {DATETIME},
         INDEX(author),
-        FOREIGN KEY (`dkim_id`) 
+        FOREIGN KEY (`dkim_id`)
             REFERENCES $dkim_key_table(`id`)
             ON DELETE CASCADE) {COLLATE} COMMENT='Postfix Admin - OpenDKIM Signing Table';
     ");
@@ -2206,7 +2206,7 @@ function upgrade_1847_pgsql()
         dkim_id integer NOT NULL,
         created {DATETIME},
         modified  {DATETIME},
-        FOREIGN KEY (dkim_id) 
+        FOREIGN KEY (dkim_id)
             REFERENCES $dkim_key_table(id)
             ON DELETE CASCADE) {COLLATE} ;
     ");
@@ -2234,7 +2234,7 @@ function upgrade_1847_sqlite()
         `public_key` text,
         `created` {DATETIME},
         `modified` {DATETIME},
-        FOREIGN KEY (`domain_name`) 
+        FOREIGN KEY (`domain_name`)
             REFERENCES $domain_table(`domain`)
             ON DELETE CASCADE) {COLLATE};
     ");
@@ -2246,8 +2246,41 @@ function upgrade_1847_sqlite()
         `dkim_id` integer NOT NULL,
         `created` {DATETIME},
         `modified` {DATETIME},
-        FOREIGN KEY (`dkim_id`) 
+        FOREIGN KEY (`dkim_id`)
             REFERENCES $dkim_key_table(`id`)
             ON DELETE CASCADE) {COLLATE};
     ");
+}
+
+#
+# add record for sendony to mailbox
+# Recoord is a boolean and MUST be set ddefault to 0 ( false)
+# otherwise all mailboxes are set to sendonly and we don't want that
+#
+
+function upgrade_1848() {
+    global $CONF;
+
+    if ($CONF['database_type'] == 'sqlite') {
+        return;
+    }
+    # alternative contact means to reset a forgotten password
+    _db_add_field(,mailbox', 'sendonly',  '{BOOLEAN}', 'active');
+}
+
+/**
+ * @return void
+ */
+
+
+##
+## Need to add record for SQlite database as well
+##
+
+function upgrade_1848_sqlite() {
+    # Add columns for the  sendonly
+            db_query_parsed("ALTER TABLE `$table` ADD COLUMN `sendonly` BOOLEAN ''");
+        _db_add_field('mailbox', 'sendonly', 'BOOLEAN', 'active');
+        }
+    }
 }

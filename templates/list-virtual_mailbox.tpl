@@ -15,6 +15,7 @@
 		{if $CONF.quota===YES}<th>{$PALANG.pOverview_mailbox_quota}</th>{/if}
 		<th>{$PALANG.last_modified}</th>
 		<th>{$PALANG.active}</th>
+		{if $CONF.sendonly_control===YES}<th>{$PALANG.sendonly}</th>{/if}
 		{assign var="colspan" value="`$colspan-6`"}
 		<th colspan="{$colspan}">&nbsp;</th>
 	</tr>
@@ -76,6 +77,10 @@
 			<td>{$item.modified}</td>
 			<td><a class="btn btn-warning" href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
 				>{if $item.active==1}<span class="glyphicon glyphicon-check" aria-hidden="true"></span> {$PALANG.YES}{else}<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> {$PALANG.NO}{/if}</a></td>
+                        {if $CONF.sendonly_control===YES}
+			<td><a class="btn btn-warning" href="{#url_editsendonly#}mailbox&amp;id={$item.username|escape:"url"}&amp;sendonly={if ($item.sendonly==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
+				>{if $item.sendonly==1}<span class="glyphicon glyphicon-check" aria-hidden="true"></span> {$PALANG.YES}{else}<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> {$PALANG.NO}{/if}</a></td>
+			{/if}
 			{if $CONF.vacation_control_admin===YES && $CONF.vacation===YES}
 				{if $item.v_active!==-1}
 					{if $item.v_active==1}

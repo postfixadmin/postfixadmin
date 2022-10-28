@@ -3,6 +3,7 @@
 # Originally written by: Massimo <AndyCapp> Danieli
 # Revised by: Sampsa Hario <shario> for Dovecot v1.0
 # Revised by: David Goodwin <david@palepurple.co.uk> for Dovecot 2.1.x  (2014/01/02)
+# Small adjustment by: Jan Kruis < jan@crossreference.nl> in the sql question regarding sendonly (2022/10/28)
 #
 
 More complete Dovecot documentation:
@@ -128,13 +129,13 @@ password_query = SELECT username AS user,password FROM mailbox WHERE username = 
 
 # Query to retrieve user information, note uid matches dovecot.conf AND Postfix virtual_uid_maps parameter.
 # MYSQL:
-user_query = SELECT CONCAT('/var/mail/vmail/', maildir) AS home, 1001 AS uid, 1001 AS gid, CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE username = '%u' AND active='1'
+user_query = SELECT CONCAT('/var/mail/vmail/', maildir) AS home, 1001 AS uid, 1001 AS gid, CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE username = '%u' AND active='1' AND sendonly='0'
 # PostgreSQL:
 # user_query =   SELECT '/var/mail/vmail/' || maildir AS home, 1001 AS uid, 1001 AS gid,
-#   '*:bytes=' || quota AS quota_rule FROM mailbox WHERE username = '%u' AND active = '1'
+#   '*:bytes=' || quota AS quota_rule FROM mailbox WHERE username = '%u' AND active = '1' AND sendonly = '0'
 
 # see: https://doc.dovecot.org/configuration_manual/authentication/sql/#id6
-iterate_query = SELECT username as user FROM mailbox WHERE active = '1'
+iterate_query = SELECT username as user FROM mailbox WHERE active = '1'  AND sendonly='0'
 
 #END /etc/dovecot/dovecot-sql.conf
 

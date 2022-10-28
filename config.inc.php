@@ -185,16 +185,16 @@ $CONF['smtp_client'] = '';
 //
 // See: https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/HASHING.md
 //
-// - PLAIN, CLEAR or CLEARTEXT - plain text variants, may be useful for testing. 
+// - PLAIN, CLEAR or CLEARTEXT - plain text variants, may be useful for testing.
 //
 // - ARGON2ID, ARGON2I, SHA512-CRYPT, SHA256-CRYPT or BLF-CRYPT might be good options.
 //
-// - other, older variants are : 
-//   - md5crypt, 
-//   - md5, 
-//   - system, 
+// - other, older variants are :
+//   - md5crypt,
+//   - md5,
+//   - system,
 //   - mysql_encrypt - mysql's password()
-//   - dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. 
+//   - dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'.
 //     - Note: dovecot relies on doveadm binary, and suitable permissions on config files - see https://github.com/postfixadmin/postfixadmin/issues/398
 //
 // - authlib = support for courier-authlib style passwords - also set $CONF['authlib_default_flavor']
@@ -397,6 +397,15 @@ $CONF['transport_options'] = array (
 // You should define default transport. It must be in array above.
 $CONF['transport_default'] = 'virtual';
 
+// Sendonly Controle
+// If you want to define additional funktion sendonly for a mailbox set sendonly_control to 'YES'.
+// The sendonly_contole will enable you to set and change the value of the sendonly record in de mailbox table.
+// to use this function you need to add sendonly  to the sql query SEE
+//       <POSTFIXADMIN_ROOT_DIR>/DOCUMENTS/POSTFIX_CONF.txt and/or
+//       <POSTFIXADMIN_ROOT_DIR>/DOCUMENTS/Postfix-Dovecot-Postgresql-Example.md section "/etc/postfix/pgsql/virtual_sender_maps.cf"
+// By default the value of sendonly  will be set to '0', or 'false' so if you don't have postfixadmin setup with   $CONF['sendonly_control'] = 'YES'
+// on your mailserver for this funktion but use the query's as described above on harm is done.
+$CONF['sendonly_control'] = 'NO';
 
 //
 //
@@ -425,8 +434,8 @@ $CONF['vacation_control_admin'] = 'YES';
 // ReplyType options
 // If you want to define additional reply options put them in array below.
 // The array has the format   seconds between replies => $PALANG text
-// Special values for seconds are: 
-// 0 => only reply to the first mail while on vacation 
+// Special values for seconds are:
+// 0 => only reply to the first mail while on vacation
 // 1 => reply on every mail
 $CONF['vacation_choice_of_reply'] = array (
    0 => 'reply_once',        // Sends only Once the message during Out of Office
