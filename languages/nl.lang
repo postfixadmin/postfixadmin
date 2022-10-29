@@ -288,7 +288,6 @@ $PALANG['description'] = 'Omschrijving';
 $PALANG['aliases'] = 'Aliassen';
 $PALANG['pAdminList_domain_quota'] = 'Domein quota (MB)';
 $PALANG['pAdminList_domain_backupmx'] = 'Back-up MX';
-$PALANG['pAdminList-tls_policy'] = 'TLS Policy';
 $PALANG['last_modified'] = 'Laatst bewerkt';
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Voeg een nieuw domein toe';
@@ -319,7 +318,7 @@ $PALANG['pAdminEdit_domain_quota'] = 'Domein Quota';
 $PALANG['transport'] = 'Transport';
 $PALANG['backupmx'] = 'Backup-MX';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definieer transport';
-$PALANG['pAdminEdit_domain_backupmx'] = 'Definieer of deze Mailserver een Backup MX is voor het domain';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Mailserver is Backup MX';
 $PALANG['pAdminEdit_domain_result_error'] = 'Het bewerken van domein %s is mislukt!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Voeg een nieuw domein beheerder toe';
