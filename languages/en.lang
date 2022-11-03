@@ -364,7 +364,7 @@ $PALANG['message'] = 'Message';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 I will be away from <%From_Date> until <%Until_Date>.
 For urgent matters you can contact <contact person>.
-EOM
+EOM;
 # *** for explanation about <%From_Date> en <%Until_Date> look at vaction.pl [ replace_string ] ***
 $PALANG['pUsersVacation_activefrom'] = 'Active from';
 $PALANG['pUsersVacation_activeuntil'] = 'Active until';
