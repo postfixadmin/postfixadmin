@@ -442,6 +442,9 @@ $PALANG['dateformat_mysql']		    = '%d-%m-%Y';   # translators: rearrange to you
 $PALANG['password_expiration']              = 'Wachwoord vervalt';
 $PALANG['password_expiration_desc']         = 'Aantal dagen waarnaar het wachtwoord vervalt';
 
+$PALANG['To_Mailbox']                       = 'Mailbox'; # XXX
+$PALANG['To_Forward_Only']                  = 'Alleen Doorsturen'; # XXX
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
