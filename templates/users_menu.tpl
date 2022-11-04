@@ -20,7 +20,7 @@
                     <li><a target="_top" href="{#url_user_vacation#}">{$PALANG.pUsersMenu_vacation}</a></li>
                 {/if}
                 {if $CONF.edit_alias===YES}
-                    <li><a target="_top" href="{#url_user_edit_alias#}">{$PALANG.pUsersMenu_edit_alias}</a></li>
+                    <li><a target="_top" href="{#url_user_edit_forward#}">{$PALANG.pUsersMenu_edit_forward}</a></li>
                 {/if}
                 <li><a target="_top" href="{#url_user_password#}">{$PALANG.change_password}</a></li>
                 <li class="logout"><a target="_top" href="{#url_user_logout#}">{$PALANG.pMenu_logout}</a></li>
