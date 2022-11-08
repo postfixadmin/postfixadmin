@@ -364,7 +364,8 @@ $PALANG['message'] = 'Message';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
 I will be away from <%From_Date> until <%Until_Date>.
 For urgent matters you can contact <contact person>.
-EOM; # *** for explanation about <%From_Date> en <%Until_Date> look at vaction.pl [ replace_string ] ***
+EOM;
+# *** for explanation about <%From_Date> en <%Until_Date> look at vaction.pl [ replace_string ] ***
 $PALANG['pUsersVacation_activefrom'] = 'Active from';
 $PALANG['pUsersVacation_activeuntil'] = 'Active until';
 
@@ -453,6 +454,10 @@ $PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your loc
 $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
 $PALANG['password_expiration'] = 'Pass expires';
 $PALANG['password_expiration_desc'] = 'Date when password will expire';
+
+$PALANG['To_Mailbox']                       = 'Mailbox'; # XXX
+$PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX
+
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

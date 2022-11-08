@@ -449,6 +449,8 @@ $PALANG['dateformat_pgsql'] = 'dd.mm.YYYY'; # translators: rearrange to your loc
 $PALANG['dateformat_mysql'] = '%d.%m.%Y';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
 $PALANG['password_expiration'] = 'Password läuft ab';
 $PALANG['password_expiration_desc'] = 'Datum, an dem das Passwort abläuft';
+$PALANG['To_Mailbox']                       = 'Mailbox'; # XXX # XXX
+$PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
