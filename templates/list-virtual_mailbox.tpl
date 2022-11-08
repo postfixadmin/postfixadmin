@@ -35,9 +35,9 @@
 			{if $display_mailbox_aliases==true}
 				<td>
 				{if $item.goto_mailbox == 1}
-					{PALANG.To_Mailbox}<br/>
+					{$PALANG.To_Mailbox}<br/>
 				{else}
-					{PALANG.To_Forward_Only}<br/>
+					{$PALANG.To_Forward_Only}<br/>
 				{/if}
 				{foreach from=$item.goto_other item=item2 key=j}
 					{if $search eq ""}
