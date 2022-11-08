@@ -9,9 +9,9 @@
         {/if}
         {if $CONF.edit_alias===YES}
             <tr>
-                <td nowrap="nowrap"><a class="btn btn-primary" href="edit-alias.php">{$PALANG.pUsersMenu_edit_alias}</a>
+                <td nowrap="nowrap"><a class="btn btn-primary" href="edit-forward.php">{$PALANG.pUsersMenu_edit_forward}</a>
                 </td>
-                <td>{$PALANG.pUsersMain_edit_alias}</td>
+                <td>{$PALANG.pUsersMain_edit_forward}</td>
             </tr>
         {/if}
         <tr>

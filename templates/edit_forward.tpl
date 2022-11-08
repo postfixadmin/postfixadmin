@@ -41,7 +41,7 @@
                 <div class="pull-right">
                     <a href="main.php" class="mr btn btn-secondary">{$PALANG.exit}</a>
 
-                    <button class="ml btn btn-lg btn-primary" type="submit" name="submit" value="{$PALANG.save}">{$PALANG.save}</butt>
+                    <button class="ml btn btn-lg btn-primary" type="submit" name="submit" value="{$PALANG.save}">{$PALANG.save}</button>
                 </div>
             </div>
 
