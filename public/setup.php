@@ -81,6 +81,7 @@ if (strlen($configSetupPassword) == 73 && strpos($configSetupPassword, ':') == 3
         if (password_verify(safepost('setup_password', 'invalid'), $configSetupPassword)) {
             $authenticated = true;
         } else {
+            error_log("PostfixAdmin setup login failed (ip_address: {$_SERVER['REMOTE_ADDR']})");
             $errors['setup_login_password'] = "Password verification failed.";
         }
     }
