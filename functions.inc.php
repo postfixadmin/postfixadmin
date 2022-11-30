@@ -1558,14 +1558,19 @@ function smtp_mail($to, $from, $data, $password = "", $body = "")
  * Call: smtp_get_admin_email
  * @return string - username/mail address
  */
-function smtp_get_admin_email()
+function smtp_get_admin_email(bool $fallback_to_loggedin_user = true)
 {
     $admin_email = Config::read_string('admin_email');
     if (!empty($admin_email)) {
         return $admin_email;
-    } else {
+    }
+
+    if ($fallback_to_loggedin_user) {
+        /* may do a redirect to login */
         return authentication_get_username();
     }
+    error_log(__FILE__ . " WARNING : Please set a PostfixAdmin admin_email setting in your config.local.php file");
+    return "PasswordReset <noreply@example.com>"; // this isn't good.
 }
 
 /**

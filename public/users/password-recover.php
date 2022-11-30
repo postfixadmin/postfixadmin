@@ -49,7 +49,7 @@ function sendCodebyEmail($to, $username, $code)
     $url = getSiteUrl($_SERVER) . 'password-change.php?username=' . urlencode($username) . '&code=' . $code;
 
     return smtp_mail($to,
-        Config::read('admin_email'),
+        smtp_get_admin_email(false),
         Config::Lang('pPassword_welcome'),
         Config::read('admin_smtp_password'),
         Config::lang_f('pPassword_recovery_email_body', $url));
