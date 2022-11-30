@@ -148,8 +148,11 @@ $CONF['database_tables'] = array (
 
 // Site Admin
 // Define the Site Admin's email address below.
-// This will be used to send emails from to create mailboxes and
-// from Send Email / Broadcast message pages.
+// This will be used to send emails from to 
+//  * create mailboxes and
+//  * Send Email / Broadcast message pages and 
+//  * In password reset emails.
+//
 // Leave blank to send email from the logged-in Admin's Email address.
 $CONF['admin_email'] = '';
 
