@@ -450,8 +450,11 @@ class AliasHandler extends PFAHandler {
     * @return string an email alias.
     */
     protected function getVacationAlias() {
-        $vacation_goto = str_replace('@', '#', $this->id);
-        return $vacation_goto . '@' . Config::read_string('vacation_domain');
+        if ($this->id !== null) {
+            $vacation_goto = str_replace('@', '#', $this->id);
+            return $vacation_goto . '@' . Config::read_string('vacation_domain');
+        }
+        return "unknown@" . Config::read_string('vacation_domain');
     }
 
     /**
