@@ -24,7 +24,7 @@
     "require-dev": {
         "ext-mysqli":  "*",
         "ext-sqlite3": "*",
-        "friendsofphp/php-cs-fixer": "^3.0",
+        "friendsofphp/php-cs-fixer": "^2.19.0",
         "php-parallel-lint/php-parallel-lint": "^1.0",
         "php-coveralls/php-coveralls" : "*",
         "php":  ">7.0",
