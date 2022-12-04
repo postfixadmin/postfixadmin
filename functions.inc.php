@@ -400,6 +400,10 @@ function safeserver($param, $default = "") {
     if (isset($_SERVER[$param])) {
         $retval = $_SERVER[$param];
     }
+
+    if (!is_string($retval)) {
+        throw new \InvalidArgumentException("\%_SERVER should only contain string value(s)");
+    }
     return $retval;
 }
 
@@ -412,7 +416,7 @@ function safeserver($param, $default = "") {
  */
 function safecookie($param, $default = "") {
     $retval = $default;
-    if (isset($_COOKIE[$param]) && is_string($_COOKIE[$param])) {
+    if (isset($_COOKIE[$param])) {
         $retval = $_COOKIE[$param];
     }
     return $retval;
