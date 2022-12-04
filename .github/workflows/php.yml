@@ -32,7 +32,7 @@ jobs:
       run: php $(which composer) install --prefer-dist -n
 
     - name: Build/test
-      run: php $(which composer) build
+      run: PHP_CS_FIXER_IGNORE_ENV=1 php $(which composer) build
 
     - name: setup coveralls
       run: mkdir -p build/logs || true
