@@ -2007,12 +2007,12 @@ function upgrade_1846_mysql() {
 }
 
 function upgrade_1847_mysql() {
-    # See https://github.com/postfixadmin/postfixadmin/issues/327 
+    # See https://github.com/postfixadmin/postfixadmin/issues/327
     # See https://github.com/postfixadmin/postfixadmin/issues/690
     #
     #
 
-    foreach(['quota','quota2'] as $table) {    
+    foreach (['quota','quota2'] as $table) {
         $table = table_by_key($table);
         db_query("ALTER TABLE $table MODIFY username varchar(255)  COLLATE latin1_general_ci NOT NULL");
     }
