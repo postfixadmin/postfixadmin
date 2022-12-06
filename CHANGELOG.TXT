@@ -6,9 +6,15 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version 3.3.12 - TBC
+Version 3.3.13 - ??? (not released)
+-------------------------------------------------
+   - MySQL collation fix for quota/quota2 tables ( see https://github.com/postfixadmin/postfixadmin/issues/690 )
+
+Version 3.3.12 - 2022/12/04
 -------------------------------------------------
    - MySQL collation setting change, see https://github.com/postfixadmin/postfixadmin/issues/595 (and #327 and #552)
+   - Upgrade Smarty to 4.3.0 (see also #541)
+   - Improve PHP 8.1/8.2 compatability (see #632)
 
 Version 3.3.11 - 2022/03/02
 -------------------------------------------------
