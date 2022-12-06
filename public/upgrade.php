@@ -164,8 +164,8 @@ function _do_upgrade($current_version) {
     foreach ($our_upgrade_functions as $function_name) {
         $bits = explode("_", $function_name);
         $function_number = $bits[1];
-        if ($function_number > $current_version && $function_number > $target_version) {
-            $target_version = $function_number;
+        if (is_numeric($function_number)) {
+            $target_version = max($target_version, $function_number);
         }
     }
 
