@@ -27,10 +27,21 @@ MASTER (should have all changes from 3.3.10 plus)
    - support smtpd_sender_login_maps via documents - see https://github.com/postfixadmin/postfixadmin/pull/565, thanks @davidebeatrici
    - fix database collation issues (try and use latin1_general_ci everywhere)
 
-Version 3.3.11 - ???
+Version 3.3.13 - 2022/12/08
+-------------------------------------------------
+   - MySQL collation fix for quota/quota2 tables ( see https://github.com/postfixadmin/postfixadmin/issues/690 )
+   - Fix MySQL not liking "alter table drop constraint ..." which seems to be MariaDB only (see #561 and #687) (thank you @stefanomarty)
+
+Version 3.3.12 - 2022/12/04
+-------------------------------------------------
+   - MySQL collation setting change, see https://github.com/postfixadmin/postfixadmin/issues/595 (and #327 and #552)
+   - Upgrade Smarty to 4.3.0 (see also #541)
+   - Improve PHP 8.1/8.2 compatability (see #632)
+
+Version 3.3.11 - 2022/03/02
 -------------------------------------------------
    - Fix PHP 8 compatability for crypt() usage (see https://github.com/postfixadmin/postfixadmin/issues/547)
-   - Support $CONF['database_port'] when connecting to MySQL (see #549)
+   - Support $CONF['database_port'] for MySQL databases (see https://github.com/postfixadmin/postfixadmin/issues/549 and https://github.com/postfixadmin/postfixadmin/issues/553)
 
 Version 3.3.10 - 2021/08/09
 -------------------------------------------------
