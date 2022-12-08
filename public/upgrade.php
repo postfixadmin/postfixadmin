@@ -2044,6 +2044,7 @@ function upgrade_1845()
     db_query("alter table $mailbox change name name varchar(255) charset utf8mb4 not null");
 }
 
+
 function upgrade_1846_mysql()
 {
     # See https://github.com/postfixadmin/postfixadmin/issues/327
@@ -2132,11 +2133,16 @@ function upgrade_1846_mysql()
     db_query("ALTER TABLE $domain_admins MODIFY username varchar(255) COLLATE latin1_general_ci NOT NULL");
 }
 
+function upgrade_1847()
+{
+    // no op, function exists in the postfixadmin_3.3 branch doing some collation fixes.
+}
+
 /**
  * Add DKIM tables
  * @return void
  */
-function upgrade_1847_mysql()
+function upgrade_1848_mysql()
 {
     $dkim_key_table = table_by_key('dkim');
     $dkim_signing_table = table_by_key('dkim_signing');
@@ -2176,12 +2182,15 @@ function upgrade_1847_mysql()
  * Add DKIM tables
  * @return void
  */
-function upgrade_1847_pgsql()
+function upgrade_1848_pgsql()
 {
     $dkim_key_table = table_by_key('dkim');
     $dkim_signing_table = table_by_key('dkim_signing');
     $domain_table = table_by_key('domain');
 
+    if (_pgsql_object_exists($dkim_key_table)) {
+        return;
+    }
     db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} $dkim_key_table (
         id {AUTOINCREMENT} {PRIMARY},
@@ -2218,7 +2227,7 @@ function upgrade_1847_pgsql()
  * Add DKIM tables
  * @return void
  */
-function upgrade_1847_sqlite()
+function upgrade_1848_sqlite()
 {
     $dkim_key_table = table_by_key('dkim');
     $dkim_signing_table = table_by_key('dkim_signing');
