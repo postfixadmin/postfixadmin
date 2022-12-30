@@ -877,10 +877,14 @@ function validate_password($password) {
     $result = array();
     $val_conf = Config::read_array('password_validation');
 
+    # legacy, used up to 2.3.x - check for backwards compatability.
     if (Config::has('min_password_length')) {
-        $minlen = (int)Config::read_string('min_password_length'); # used up to 2.3.x - check it for backward compatibility
-        if ($minlen > 0) {
-            $val_conf['/.{' . $minlen . '}/'] = "password_too_short $minlen";
+        $val = Config::read('min_password_length');
+        if (is_numeric($val)) {
+            $minlen = (int) $val;
+            if ($minlen > 0) {
+                $val_conf['/.{' . $minlen . '}/'] = "password_too_short $minlen";
+            }
         }
     }
 
