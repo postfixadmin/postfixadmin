@@ -120,7 +120,7 @@ if (safeget('output') == 'csv') {
     $columns = array();
     foreach ($handler->getStruct() as $key => $field) {
         $label = trim($field['label']);
-        if ($field['display_in_list'] && $label != '') { # don't show fields without a label
+        if ($field['display_in_list'] && $label != '' && $label != ' ') { # don't show fields without a label and those with a whitespace
             $header[] = html_entity_decode($label, ENT_COMPAT | ENT_HTML401, 'UTF-8');
             $columns[] = $key;
         }
