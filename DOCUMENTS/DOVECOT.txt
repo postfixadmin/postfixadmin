@@ -57,6 +57,15 @@ protocols = "imap pop3"
 # change to 'no' if you don't have ssl cert/keys, and comment out ssl_cert/ssl_key
 ssl = yes 
 
+# If you're using LetsEncrypt/certbot see e.g. /etc/letsencrypt/live/MyDomain/fullchain.pem.
+#
+# cat server.crt server.key > dovecot.pem 
+#
+# Make sure dovecot can read these file(s)
+#
+# If you use doveadm for your PostfixAdmin hashing, the webserver will also need read access to these files 
+# See also : https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/HASHING.md#dovecotmethod
+
 ssl_cert = </etc/dovecot/private/dovecot.pem
 ssl_key = </etc/dovecot/private/dovecot.pem
 
