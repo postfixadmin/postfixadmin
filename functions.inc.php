@@ -1295,7 +1295,7 @@ function pacrypt($pw, $pw_db = "")
 
     if (!empty($pw_db) && preg_match('/^{([0-9a-z-\.]+)}/i', $pw_db, $matches)) {
         $method_in_hash = $matches[1];
-        if ('COURIER:' . strtoupper($method_in_hash) == $mechanism) {
+        if ( 'DOVECOT:' . strtoupper($method_in_hash) == $mechanism || 'COURIER:' . strtoupper($method_in_hash) == $mechanism) {
             // don't try and be clever.
         } elseif ($mechanism != $method_in_hash) {
             error_log("PostfixAdmin: configured to use $mechanism, but asked to crypt password using {$method_in_hash}; are you migrating algorithm/mechanism or is something wrong?");
@@ -1328,7 +1328,7 @@ function pacrypt($pw, $pw_db = "")
     }
 
     if (preg_match('/^DOVECOT:(.*)$/i', $mechanism, $matches)) {
-        $mechanism = strtoupper($matches[1]);
+        return _pacrypt_dovecot($pw, $pw_db);
     }
 
     if (empty($pw_db)) {
