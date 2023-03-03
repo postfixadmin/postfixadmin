@@ -83,7 +83,7 @@
                     {elseif $key == 'active'}
                         {if $item._can_edit}
                             <a class="btn btn-warning" href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">
-				{if $item._active == 'YES'}
+				{if $item._active == $PALANG['YES']}
 					<span class="glyphicon glyphicon-check" aria-hidden="true"></span>
 				{else}
 					<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
