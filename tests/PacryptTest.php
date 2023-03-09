@@ -110,9 +110,18 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
 
     public function testPhpCryptMd5()
     {
+        global $CONF;
+
         $config = Config::getInstance();
         Config::write('encrypt', 'php_crypt:MD5');
+        $CONF['encrypt'] = 'php_crypt:MD5';
 
+        $new = _pacrypt_php_crypt('foo', '');
+        $pac = pacrypt('foo', '');
+
+        $this->assertEquals(1, preg_match('!^\$1\$!', $new), $new);
+
+        $this->assertEquals(1, preg_match('!^\$1\$!', $pac), $pac);
 
         $CONF = Config::getInstance()->getAll();
 
