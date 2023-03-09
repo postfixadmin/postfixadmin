@@ -1279,15 +1279,18 @@ function pacrypt($pw, $pw_db = "")
 
     $mechanism = strtoupper($CONF['encrypt'] ?? 'CRYPT');
 
-    $crypts = ['PHP_CRYPT', 'MD5CRYPT', 'PHP_CRYPT:DES', 'PHP_CRYPT:MD5', 'PHP_CRYPT:SHA256'];
-
-    if (in_array($mechanism, $crypts)) {
-        $mechanism = 'CRYPT';
-    }
 
     if (preg_match('/^PHP_CRYPT:(DES|MD5|BLOWFISH|SHA256|SHA512):?/', $mechanism, $matches)) {
         return _pacrypt_php_crypt($pw, $pw_db);
     }
+
+
+    $crypts = ['PHP_CRYPT', 'MD5CRYPT'];
+    if (in_array($mechanism, $crypts)) {
+        $mechanism = 'CRYPT';
+    }
+
+
 
     if ($mechanism == 'AUTHLIB') {
         return _pacrypt_authlib($pw, $pw_db);
