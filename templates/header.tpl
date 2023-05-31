@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     {* see https://github.com/postfixadmin/postfixadmin/issues/497 *}
-    <meta http-equiv='Content-Security-Policy' content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; "/>
+    <meta http-equiv='Content-Security-Policy' content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "/>
 
     <title>Postfix Admin - {$smarty.server.HTTP_HOST}</title>
     <link rel="shortcut icon" href="{$CONF.theme_favicon}"/>
