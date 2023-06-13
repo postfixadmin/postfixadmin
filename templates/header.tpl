@@ -13,7 +13,8 @@
         <link rel="stylesheet" type="text/css" href="{$CONF.theme_custom_css}"/>
     {/if}
 
-    <script src="{$rel_path}jquery-1.12.4.min.js"></script>
+    <!-- needed for datetimepicker -->
+    <script src="{$rel_path}jquery-3.7.0.min.js"></script>
     <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/moment-with-locales.min.js"></script>
     <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
     <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/bootstrap-datetimepicker.min.js"></script>
