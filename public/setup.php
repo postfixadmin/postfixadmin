@@ -14,14 +14,6 @@ require_once('common.php');
     <link rel="stylesheet" href="css/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
 
-    <!-- https://www.srihash.org/ -->
-    <script src="jquery-3.7.0.min.js"
-            integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
-            crossorigin="anonymous"></script>
-
-    <script src="css/bootstrap-3.4.1-dist/js/moment-with-locales.min.js"></script>
-    <script src="css/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
-    <script src="css/bootstrap-3.4.1-dist/js/bootstrap-datetimepicker.min.js"></script>
 </head>
 
 <body>
