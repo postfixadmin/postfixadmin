@@ -39,7 +39,7 @@ Supported hash formats include :
  * PLAIN-MD5 (aka md5)
  * CRYPT
 
-Historically PostfixAdmin has supported all dovecot algorithms (methods) by using the 'doveadm' system binary. As of XXXXXXX, we attempted to use a native/PHP implementation for a number of these to remove issues caused by use of proc_open / dovecot file permissions etc (see e.g. #379).
+Historically PostfixAdmin has supported all dovecot algorithms (methods) by using the 'doveadm' system binary. As of early 2023 (?), we attempted to use a native/PHP implementation for a number of these to remove issues caused by use of proc_open / dovecot file permissions etc (see e.g. #379).
 
 It's recommended you use the algorithm/mechanism from your MTA, and configure PostfixAdmin with the same value prefixed by the MTA name -
 
@@ -169,7 +169,7 @@ Dovecot generated passwords in your database should look a bit like :
 
 `{SHA256}JMQi5oHxwb0IKGx6r10jpfCI3NsLIZgGs6nleSRPAMU=`
 
-If you have problems, start by checking you can generate one on the command line using e..g
+If you have problems, start by checking you can generate one on the command line using e.g
 
 `doveadm pw -s SHA256`
 
