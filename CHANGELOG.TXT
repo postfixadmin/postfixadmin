@@ -6,6 +6,12 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.14 - XXXXXXXXXX
+-------------------------------------------------
+   - Update jQuery (used for datetime widget when setting vacation etc) (see https://github.com/postfixadmin/postfixadmin/issues/734 - thanks @tibor-banfalvi)
+   - Fix issue with password validation check (see https://github.com/postfixadmin/postfixadmin/issues/697 - thanks @bmatthewshea)
+   - Remember to bump version number ;-) (see #694)
+
 Version 3.3.13 - 2022/12/08
 -------------------------------------------------
    - MySQL collation fix for quota/quota2 tables ( see https://github.com/postfixadmin/postfixadmin/issues/690 )
