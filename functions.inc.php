@@ -205,7 +205,7 @@ function language_selector() {
 
     $current_lang = check_language();
 
-    $selector = '<select name="lang" xml:lang="en" dir="ltr">';
+    $selector = '<select id="lang" name="lang" xml:lang="en" dir="ltr">';
 
     foreach ($supported_languages as $lang => $lang_name) {
         if ($lang == $current_lang) {
