@@ -8,7 +8,7 @@
 # "somedomain.com". If $basedir/somedomain.com exists, it will
 # be removed.
 
-# The script will not actually delete the directory. I moves it
+# The script will not actually delete the directory. It moves it
 # to a special directory which may once in a while be cleaned up
 # by the system administrator.
 
