@@ -74,7 +74,7 @@
 				</td>
 			{/if}
 			<td>{$item.modified}</td>
-			<td><a class="btn btn-warning" href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
+			<td><a class="btn btn-{if ($item.active==0)}info{else}warning{/if}" href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
 				>{if $item.active==1}<span class="glyphicon glyphicon-check" aria-hidden="true"></span> {$PALANG.YES}{else}<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> {$PALANG.NO}{/if}</a></td>
 			{if $CONF.vacation_control_admin===YES && $CONF.vacation===YES}
 				{if $item.v_active!==-1}
