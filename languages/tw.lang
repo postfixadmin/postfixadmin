@@ -442,6 +442,7 @@ $PALANG['password_expiration_desc'] = 'Date when password will expire'; # XXX
 $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
 
+<<<<<<< HEAD
 $PALANG['copy'] = '页: 1';
 $PALANG['generate'] = '基因';
 $PALANG['pMenu_security'] = '安全';
