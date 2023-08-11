@@ -262,3 +262,13 @@ If you use dovecot 1.2 or newer,
 - use the 'quota2' table (also created by setup.php)
 - set $CONF['new_quota_table'] = 'YES'
 
+5. Dovecot Allowed IPs and App Password support (optional)
+----------------------------------------------------------
+
+To enhance end user security, Postfixadmin supports a set of features that
+need implementation in the Dovecot login SQL queries.
+
+The following features are available:
+
+* Restrict login to a list of allowed remote IP addresses.
+* Allow login with app passwords.

@@ -2260,3 +2260,36 @@ function upgrade_1848_sqlite()
             ON DELETE CASCADE) {COLLATE};
     ");
 }
+
+/**
+ * Add TOTP fields
+ * @return void
+ */
+function upgrade_1849_mysql_pgsql()
+{
+    _db_add_field('mailbox', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'password_expiry');
+    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'vacation_notification');
+
+    $totp_exception_table = table_by_key('totp_exception_address');
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $totp_exception_table (
+            `id` {AUTOINCREMENT} {PRIMARY},
+            `ip` varchar(46) NOT NULL,
+            `username` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            UNIQUE KEY ip_user (`ip`,`username`)
+        )
+    ");
+
+    $app_password_table = 'mailbox_app_password';
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $app_password_table (
+            `id` {AUTOINCREMENT} {PRIMARY},
+            `username` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `password_hash` varchar(255) DEFAULT NULL
+        )
+    ");
+
+}
+

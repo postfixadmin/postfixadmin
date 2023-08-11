@@ -1,6 +1,7 @@
 {strip}
     {include file="header.tpl"}
-    {if $smarty_template !== 'login' && $smarty_template !== 'password-recover' && $smarty_template !== 'password-change'}
+    {* Hide menu for some templates *}
+    {if !in_array($smarty_template, ["login", "login-mfa", "password-recover", "password-change"])}
     {config_load file="menu.conf" section=$smarty_template}
         {if $authentication_has_role.user}
             {include file='users_menu.tpl'}

@@ -24,7 +24,9 @@
     "require": {
         "php": ">=7.2",
         "smarty/smarty": "^3|^4",
-        "postfixadmin/password-hashing": "^0.0.1"
+        "postfixadmin/password-hashing": "^0.0.1",
+        "endroid/qr-code": "^4.6",
+        "spomky-labs/otphp": "^10.0"
     },
     "require-dev": {
         "ext-mysqli":  "*",

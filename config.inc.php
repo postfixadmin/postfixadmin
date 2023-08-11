@@ -531,6 +531,16 @@ EOM;
 // address is legal by performing a name server look-up.
 $CONF['emailcheck_resolve_domain']='YES';
 
+// Use TOTP for logging into Postfixadmin, can be overridden for listed
+// IPs to allow access by software that provide their own checking.
+// Exceptions can be of user, domain or global scope.
+// This also bundles several menu items in a "security" dropdown.
+$CONF['totp'] = 'NO';
+
+// Use revokable application passwords to limit the risk of storing a
+// password in another system. These passwords can not access Postfixadmin.
+$CONF['app_passwords'] = 'NO';
+
 //
 //
 // OpenDKIM stuff
@@ -638,6 +648,27 @@ $CONF['mailbox_postdeletion_script'] = '';
 // STDIN: old password + \0 + new password
 // $CONF['mailbox_postpassword_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
 $CONF['mailbox_postpassword_script'] = '';
+
+// Optional: See NOTE above.
+// Script to run after setting a mailbox TOTP secret.
+// Parameters: (1) username (2) domain
+// STDIN: TOTP secret + \0
+// $CONF['mailbox_post_TOTP_change_secret_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
+$CONF['mailbox_post_TOTP_change_secret_script'] = '';
+
+// Optional: See NOTE above.
+// Script to run after adding an exception address (disable TOTP).
+// Parameters: (1) username (2) ip
+// STDIN: TOTP secret + \0
+// $CONF['mailbox_post_exception_add_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
+$CONF['mailbox_post_totp_exception_add_script'] = '';
+
+// Optional: See NOTE above.
+// Script to run after deleting an exception address (disable TOTP).
+// Parameters: (1) username (2) ip
+// STDIN: TOTP secret + \0
+// $CONF['mailbox_post_totp_exception_delete_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
+$CONF['mailbox_post_totp_exception_delete_script'] = '';
 
 // Optional: See NOTE above.
 // Script to run after creation of domains.

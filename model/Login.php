@@ -198,4 +198,95 @@ class Login
 
         return true;
     }
+
+    /**
+     * @param string $username
+     * @param string $new_password
+     * @param string $old_password
+     *
+     * All passwords need to be plain text; they'll be hashed appropriately
+     * as per the configuration in config.inc.php
+     *
+     * @return boolean true on success; false on failure
+     * @throws \Exception if invalid user, or db update fails.
+     */
+    public function addAppPassword($username, $password, $app_desc, $app_pass): bool
+    {
+        list(/*NULL*/, $domain) = explode('@', $username);
+
+        if (!$app_pass) {
+            throw new \Exception(Config::Lang('pAppPassAdd_pass_empty_error'));
+        }
+        if (!$app_desc) {
+            throw new \Exception(Config::Lang('pException_desc_empty_error'));
+        }
+
+        if (!$this->login($username, $password)) {
+            throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
+        }
+
+        $app_pass = pacrypt($app_pass);
+
+        $fields    = "username, description, password_hash";
+        $values    = "\"$username\", \"$app_desc\", \"$app_pass\"";
+
+/* maybe we want this
+        if (Config::bool('password_expiration')) {
+            $domain = $this->getUserDomain($username);
+            if (!is_null($domain)) {
+                $password_expiration_value = (int)get_password_expiration_value($domain);
+                $set['password_expiry'] = date('Y-m-d H:i', strtotime("+$password_expiration_value day"));
+            }
+        }
+*/
+        $result = db_execute("REPLACE INTO mailbox_app_password($fields) VALUES($values)");
+
+        if ($result != 1) {
+            db_log($domain, 'edit_password', "FAILURE: " . $username);
+            throw new \Exception(Config::lang('pAdd_app_password_result_error'));
+        }
+
+        db_log($domain, 'add_app_password', $username);
+
+        $cmd_pw = Config::read('mailbox_postapppassword_script');
+
+        if (empty($cmd_pw)) {
+            return true;
+        }
+
+        $warnmsg_pw = Config::Lang('mailbox_postapppassword_failed');
+
+        // If we have a mailbox_postpppassword_script
+
+        // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
+        $spec = array(
+            0 => array("pipe", "r"), // stdin
+            1 => array("pipe", "w"), // stdout
+        );
+
+        $cmdarg1 = escapeshellarg($username);
+        $cmdarg2 = escapeshellarg($app_desc);
+
+        $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
+
+        $proc = proc_open($command, $spec, $pipes);
+
+        if (!$proc) {
+            throw new \Exception("can't proc_open $cmd_pw");
+        }
+
+        // Write passwords through pipe to command stdin -- provide old password, then new password.
+        fwrite($pipes[0], $app_pass . "\0", 1+strlen($app_pass));
+        fclose($pipes[0]);
+
+        $retval = proc_close($proc);
+
+        if (0 != $retval) {
+            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+            throw new \Exception($warnmsg_pw);
+        }
+
+        return true;
+    }
+
 }

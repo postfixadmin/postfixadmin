@@ -124,13 +124,27 @@
                             </li>
                         {/strip}
                     {/if}
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    {* password *}
-                    <li><a class="btn navbar-btn" type="button"
-                           href="{#url_password#}">
-				<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
-				{$PALANG.pMenu_password}</a></li>
+                    {* TOTP *}
+                    {if $CONF.totp==='YES'}
+                        {strip}
+                            <li class="dropdown">
+                                <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false" href="{#url_dkim#}"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> {$PALANG.pMenu_security} <span
+                                            class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{#url_password#}"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> {$PALANG.pMenu_password}</a></li>
+                                    <li><a href="{#url_totp#}"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> {$PALANG.pMenu_totp}</a></li>
+                                    <li><a href="{#url_totp_exceptions#}"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> {$PALANG.pMenu_totp_exceptions}</a></li>
+                                    <li><a href="{#url_app_passwords#}"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> {$PALANG.pMenu_app_passwords}</a></li>
+                                </ul>
+                            </li>
+                        {/strip}
+                    {else}
+                        {* password *}
+                        <li><a class="btn navbar-btn" type="button" href="{#url_password#}">
+            				<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+			            	{$PALANG.pMenu_password}</a></li>
+	                {/if}	
                     {* backup *}
                     {if $authentication_has_role.global_admin && $CONF.database_type!=='pgsql' && $CONF.backup === 'YES'}
                         <li><a class="btn btn-default navbar-btn btn-sm" type="button"
