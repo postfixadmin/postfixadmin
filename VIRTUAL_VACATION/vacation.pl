@@ -98,7 +98,7 @@ our $accountname_check = 0;
 our $account_name = '';  # leave this blank it wil be filled with 'name' field form tabel 'mailbox'
 
 # Set to 1 to enable logging to syslog.
-our $syslog = 0;
+our $syslog = 1;
 
 # path to logfile, when empty logging is suppressed
 # change to e.g. /dev/null if you want nothing logged.
