@@ -28,7 +28,7 @@ use Email::Sender::Transport::SMTP;
 use Email::Simple;
 use Email::Simple::Creator;
 use Try::Tiny;
-use Log::Log4perl qw(get_logger :levels);
+use Log::Log4perl qw(get_logger :levels :nowarn);
 use File::Basename;
 use Net::DNS;
 use Time::Piece;
