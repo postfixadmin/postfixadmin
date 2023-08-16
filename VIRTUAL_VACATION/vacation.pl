@@ -163,6 +163,15 @@ if (-f '/etc/mail/postfixadmin/vacation.conf') {
 
 # =========== end configuration ===========
 
+# Try and enable log_to_file if syslog is disabled
+if ($syslog == 0 && $log_to_file == 0 && (
+        (-f $logfile   && -w $logfile)
+        ||
+        (! -f $logfile && -w dirname($logfile)))
+   ) {
+    $log_to_file=1;
+}
+
 if($log_to_file == 1) {
     if (( ! -w $logfile ) && (! -w dirname($logfile))) {
         # Cannot log; no where to write to.
