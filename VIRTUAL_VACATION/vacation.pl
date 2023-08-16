@@ -28,7 +28,7 @@ use Email::Sender::Transport::SMTP;
 use Email::Simple;
 use Email::Simple::Creator;
 use Try::Tiny;
-use Log::Log4perl qw(get_logger :levels);
+use Log::Log4perl qw(get_logger :levels :nowarn);
 use File::Basename;
 use Net::DNS;
 use Time::Piece;
@@ -55,21 +55,21 @@ our $vacation_domain = 'autoreply.example.org';
 
 our $recipient_delimiter = '+';
 
-# smtp server used to send vacation e-mails, leave empty to look up the MX of the sending domain and deliver it directly (might break DKIM signatures, mail archiving etc.)
+# SMTP server used to send vacation e-mails, leave empty to look up the MX of the sending domain and deliver it directly (might break DKIM signatures, mail archiving etc.)
 our $smtp_server = 'localhost';
 # port to connect to; defaults to 25 for non-SSL, 465 for 'ssl', 587 for 'starttls'
 our $smtp_server_port = 25;
 
-# this is the local address from which to connect
+# this is the local address to connect from
 our $smtp_client = 'localhost';
 
 # this is the helo we [the vacation script] use on connection; you may need to change this to your hostname or something,
-# depending upon what smtp helo restrictions you have in place within Postfix.
+# depending upon what SMTP helo restrictions you have in place within Postfix.
 our $smtp_helo = 'localhost.localdomain';
 
 # send mail encrypted or plaintext
-# if 1, connect securely via ssl
-# if 'starttls', connect using starttls (plaintext+neg tls)
+# if 1, connect securely via SSL
+# if 'starttls', connect using starttls (plaintext+neg TLS)
 # if 'maybestarttls' - try starttls, otherwise plaintext.
 # if 0 (default), plain text, no security
 # See also : https://metacpan.org/pod/Email::Sender::Transport::SMTP
@@ -92,10 +92,10 @@ our $smtp_authpwd = '';
 # From: Some Friendly Name <original@recipient.domain>
 our $friendly_from = '';
 
-# If accountname_check is set it will add de account name in front of the email "AccountName <original@recipient.domain>" if the accountname is not a empty string
+# If accountname_check is set it will add the account name in front of the email "AccountName <original@recipient.domain>" if the accountname is not a empty string
 # otherwise $friendly_name will be set in front of the email if not empty.
 our $accountname_check = 0;
-our $account_name = '';  # leave this blank it wil be filled with 'name' field form tabel 'mailbox'
+our $account_name = '';  # leave this blank it will be filled with 'name' field from table 'mailbox'
 
 # Set to 1 to enable logging to syslog.
 our $syslog = 1;
@@ -134,7 +134,7 @@ our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twit
 our $no_vacation_pattern = 'info\@example\.org';
 
 #
-# The subroutine replace_string replaces in the body text the text defined at $replace_from and $replace_until with the date of activefrom and activeunitul in the format specified at $date_format.
+# The subroutine replace_string replaces in the body text the text defined at $replace_from and $replace_until with the date of activefrom and activeuntil in the format specified at $date_format.
 #
 # Like :
 #
@@ -162,6 +162,15 @@ if (-f '/etc/mail/postfixadmin/vacation.conf') {
 }
 
 # =========== end configuration ===========
+
+# Try and enable log_to_file if syslog is disabled
+if ($syslog == 0 && $log_to_file == 0 && (
+        (-f $logfile   && -w $logfile)
+        ||
+        (! -f $logfile && -w dirname($logfile)))
+   ) {
+    $log_to_file=1;
+}
 
 if($log_to_file == 1) {
     if (( ! -w $logfile ) && (! -w dirname($logfile))) {
@@ -375,10 +384,10 @@ sub get_accountname {
 }
 
 #
-# Replace <%From_Date>   with date part of activefrom out the vacation table on base of email
-# Replace <%Until_Date>  with date part of activeuntil out the vacation table on base of email
+# Replace <%From_Date>   with date part of activefrom from the vacation table on base of email
+# Replace <%Until_Date>  with date part of activeuntil from the vacation table on base of email
 #
-# The varibale $replace_from and $replace_until will have the <%From_Date> and <%Until_Date> replace text
+# The variable $replace_from and $replace_until will have the <%From_Date> and <%Until_Date> replacement text
 
 sub replace_string {
     my ($to) =@_;
@@ -395,7 +404,7 @@ sub replace_string {
     my $u_date = $row[2];
 #
 # Note !!  do not  replace '%Y-%m-%d' with date_format because this is the format that f_date and u_date are are filled with date in this format
-# $date_format is used to diplay the dates in your choice of format.
+# $date_format is used to display the dates in your choice of format.
 #
     my $date_f = Time::Piece->strptime($f_date,'%Y-%m-%d');
     $f_date = $date_f->strftime($date_format);
@@ -671,14 +680,14 @@ sub strip_address {
 sub panic_prepare {
     my ($arg) = @_;
     my $logger = get_logger();
-    $logger->error("Could not prepare sql statement: '$arg'");
+    $logger->error("Could not prepare SQL statement: '$arg'");
     exit(0);
 }
 
 sub panic_execute {
     my ($arg,$param) = @_;
     my $logger = get_logger();
-    $logger->error("Could not execute sql statement - '$arg' with parameters '$param'");
+    $logger->error("Could not execute SQL statement - '$arg' with parameters '$param'");
     exit(0);
 }
 
@@ -722,7 +731,7 @@ while (<STDIN>) {
     elsif (/^message\-id:\s*(.*)\s*\n$/i) { $messageid = $1; $lastheader = \$messageid; }
     elsif (/^x\-spam\-(flag|status):\s+yes/i) { $logger->debug("x-spam-$1: yes found; exiting"); exit (0); }
     elsif (/^x\-facebook\-notify:/i) { $logger->debug('Mail from facebook, ignoring'); exit(0); }
-    elsif (/^x\-amazon\-mail\-relay\-type:\s*notification/i) { $logger->debug('Notificatiom mail from Amazon, ignoring'); exit(0); }
+    elsif (/^x\-amazon\-mail\-relay\-type:\s*notification/i) { $logger->debug('Notification mail from Amazon, ignoring'); exit(0); }
     elsif (/^precedence:\s+(bulk|list|junk)/i) { $logger->debug("precedence: $1 found; exiting"); exit (0); }
     elsif (/^x\-loop:\s+postfix\ admin\ virtual\ vacation/i) { $logger->debug('x-loop: postfix admin virtual vacation found; exiting'); exit (0); }
     elsif (/^Auto\-Submitted:\s*no/i) { next; }
