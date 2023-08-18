@@ -571,6 +571,13 @@ sub send_vacation_email {
             }
         }
 
+        # We can't use localhost as the local bind interface if we're trying
+        # to connect to an SMTP server that isn't on localhost, we won't be
+        # able to route to that server.
+        if ($smtp_server ne 'localhost' && $smtp_client eq 'localhost') {
+            $smtp_client = undef;
+        };
+
         my $smtp_params = {
             host => $smtp_server,
             port => $smtp_server_port,

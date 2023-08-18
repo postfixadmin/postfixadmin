@@ -97,3 +97,9 @@ Additional authors:
 
 	    Add configuration parameter $account_check and $account_name if account_check is set it will add the value of name of the mailbox in front of the email and it is shown as sender,
 	    if no name is specified at the mailbox, the variable friendly-name is placed in front of the email and it is shown as sender otherwise the email will show as sender.
+
+2023-08-18  Andrew Ruthven <andrew@etc.gen.nz>
+            Minor improvements to the use of Log4Perl
+
+            Fix handling of the default $smtp_client setthing of 'localhost'
+            if we aren't connecting to the SMTP server on localhost.
