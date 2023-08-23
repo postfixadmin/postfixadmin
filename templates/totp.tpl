@@ -20,10 +20,10 @@
                     <img src="data:image/png;base64, {$pQR_raw}" />{$pTOTP_secret}
                     <input type="hidden" name="fTOTP_secret" value="{$pTOTP_secret}" />
             </div>
-            <div class="form-group {if $pTOPT_code_text}has-error{/if}">
+            <div class="form-group {if $pTOTP_code_text}has-error{/if}">
                 <label class="col-md-4 col-sm-4 control-label" for="fTOTP_code">{$PALANG.pTOTP_code}:</label>
                 <div class="col-md-6 col-sm-8"><input id="TOTP_code" class="form-control" type="text" name="fTOTP_code" size="6" /></div>
-                <span class="help-block">{$pTOPT_code_text}</span>
+                <span class="help-block">{$pTOTP_code_text}</span>
             </div>
         </div>
         <div class="panel-footer">

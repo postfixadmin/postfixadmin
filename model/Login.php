@@ -227,9 +227,6 @@ class Login
 
         $app_pass = pacrypt($app_pass);
 
-        $fields    = "username, description, password_hash";
-        $values    = "\"$username\", \"$app_desc\", \"$app_pass\"";
-
 /* maybe we want this
         if (Config::bool('password_expiration')) {
             $domain = $this->getUserDomain($username);
@@ -239,7 +236,13 @@ class Login
             }
         }
 */
-        $result = db_execute("REPLACE INTO mailbox_app_password($fields) VALUES($values)");
+
+        // As PostgeSQL lacks REPLACE we first check and delete any previous rows matching this ip and user
+        $exists = db_query_all('SELECT id FROM mailbox_app_password WHERE username = :username AND description = :description',
+            ['username' => $username, 'description' => $app_desc,]);
+        if(isset($exists[0]))
+            foreach($exists as $x) db_delete('mailbox_app_password', 'id', $x['id']);
+        $result = db_insert('mailbox_app_password', ['username' => $username, 'description' => $app_desc, 'password_hash' => $app_pass ], Array());
 
         if ($result != 1) {
             db_log($domain, 'edit_password', "FAILURE: " . $username);

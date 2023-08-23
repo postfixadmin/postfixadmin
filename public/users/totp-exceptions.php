@@ -26,7 +26,7 @@
  * 
  */
 
-require_once('../common.php');
+require_once('common.php');
 
 $smarty = PFASmarty::getInstance();
 $smarty->configureTheme('../');
@@ -63,20 +63,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         header("Location: main.php");
         exit(0);
     }
-
-    $fPass      = $_POST['fPassword_current'];
-    $fIp        = $_POST['fIp'];
-    $fDesc      = $_POST['fDesc'];
-    $fUser      = $_POST['fUser'];
-    $fId        = $_POST['fId'];
-
-    $error      = 0;
     
-    if($fIp)
-        add_exception($username, $fPass, $fIp, $fDesc, $fUser, $admin, $totppf);
-
-    if($fId)
-        revoke_exception($username, $fId, $totppf);
+    if(isset($_POST['fPassword_current']) && $_POST['fPassword_current'] != ''){
+        $fPass      = $_POST['fPassword_current'];
+        $fIp        = $_POST['fIp'];
+        $fDesc      = $_POST['fDesc'];
+        $fUser      = $_POST['fUser'];
+        add_exception($username, $fPass, $fIp, $fDesc, $fUser, $admin, $totppf, $PALANG);
+    }
+    if(isset($_POST['fId']) && $_POST['fId'] != ''){
+        $fId        = $_POST['fId'];
+        revoke_exception($username, $fId, $totppf, $PALANG);
+    }
 }
 
 
@@ -110,24 +108,24 @@ $smarty->display('index.tpl');
 
 
 
-function add_exception($username, $fPassword_current, $fException_ip, $fException_desc, $fException_user, $admin, $totppf){
+function add_exception($username, $fPassword_current, $fException_ip, $fException_desc, $fException_user, $admin, $totppf, $PALANG){
     try {
         if ($totppf->addException($username, $fPassword_current, $fException_ip, $fException_user, $fException_desc)) {
-            flash_info(Config::Lang_f('pTotp_exception_result_success', $username));
+            flash_info($PALANG['pTotp_exception_result_success']);
             header("Location: totp-exceptions.php");
             exit(0);
         } else {
-            flash_error(Config::Lang_f('pTotp_exception_result_error', $username));
+            flash_error($PALANG['pTotp_exception_result_error']);
         }
     } catch (\Exception $e) {
         flash_error($e->getMessage());
     }
 }
 
-function revoke_exception($username, $id, $totppf){
+function revoke_exception($username, $id, $totppf, $PALANG){
     // No extra password check by design, user might be in a hurry
     $result = $totppf->deleteException($username, $id);
-    if($result)flash_info(Config::Lang_f('pTotp_exceptions_revoked', $username));
+    if($result)flash_info($PALANG['pTotp_exceptions_revoked']);
 }
 
 

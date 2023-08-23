@@ -57,16 +57,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit(0);
     }
 
-    $fPass      = $_POST['fPassword_current'];
-    $fAppDesc   = $_POST['fAppDesc'];
-    $fAppPass   = $_POST['fAppPass'];
-    $fAppId     = $_POST['fAppId'];
+    if(isset($_POST['fAppPass'])){
+        $fPass      = $_POST['fPassword_current'];
+        $fAppDesc   = $_POST['fAppDesc'];
+        $fAppPass   = $_POST['fAppPass'];
+        addAppPassword($username, $fPass, $fAppPass, $fAppDesc, $admin, $login, $PALANG);
+    }
+    if(isset($_POST['fAppId'])){
+        $fAppId     = $_POST['fAppId'];
+        revokeAppPassword($username, $fAppId, $login, $PALANG);
+    }
     
-    if($fAppPass)
-        addAppPassword($username, $fPass, $fAppPass, $fAppDesc, $admin, $login);
-
-    if($fAppId)
-        revokeAppPassword($username, $fAppId, $login);
 }
 
 if($admin==2)$passwords    = getAllAppPasswords();
@@ -92,10 +93,10 @@ $smarty->display('index.tpl');
 
 
 
-function addAppPassword($username, $fPass, $fAppPass, $fAppDesc, $admin, $login){
+function addAppPassword($username, $fPass, $fAppPass, $fAppDesc, $admin, $login, $PALANG){
     try {
         if ($login->addAppPassword($username, $fPass, $fAppDesc, $fAppPass)) {
-            flash_info(Config::Lang_f('pAppPassAdd_result_success', $username));
+            flash_info($PALANG['pAppPassAdd_result_success']);
             header("Location: app-passwords.php");
             exit(0);
         } else {
@@ -106,11 +107,11 @@ function addAppPassword($username, $fPass, $fAppPass, $fAppDesc, $admin, $login)
     }
 }
 
-function revokeAppPassword($username, $fAppId, $login){
+function revokeAppPassword($username, $fAppId, $login, $PALANG){
     // No extra password check by design, user might be in a hurry
     $result = db_delete('mailbox_app_password', 'id', $fAppId);
-    if($result == 1)flash_info(Config::Lang_f('pTotp_exceptions_revoked', $username));
-    else flash_error(Config::Lang_f('pPassword_result_error', $username));
+    if($result == 1)flash_info($PALANG['pTotp_exceptions_revoked']);
+    else flash_error($PALANG['pPassword_result_error']);
 }
 
 function getAllAppPasswords(){
@@ -118,7 +119,7 @@ function getAllAppPasswords(){
 }
 
 function getAppPasswordsFor($username){
-    return db_query_all("SELECT * FROM mailbox_app_password WHERE username = \"$username\"");
+    return db_query_all("SELECT * FROM mailbox_app_password WHERE username = :username", ['username' => $username]);
 }
 
 

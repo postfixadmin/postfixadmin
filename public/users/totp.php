@@ -50,7 +50,7 @@ if (authentication_has_role('admin')){
 
 // Create new OTP-object 
 // Generate random secret and resulting QR code
-$pTOTP_secret = $totppf->generate($username, $pQR_raw);
+list($pTOTP_secret, $pQR_raw) = $totppf->generate($username);
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {

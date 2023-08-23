@@ -52,7 +52,7 @@
             <td>{$exception.ip}</td>
             <td>{$exception.description}</td>
             <td>
-                <form name="exception{$exception.n}" method="post" action="" class="form-vertical">
+                <form name="exception{$exception.id}" method="post" action="" class="form-vertical">
                     <input type="hidden" name="fId" value="{$exception.id}">
                     <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
                     <button class="btn ml btn-primary" type="submit" {if !$exception.edit}disabled="disabled"{/if} name="submit" value="{$PALANG.pTotp_exceptions_revoke}">{$PALANG.pTotp_exceptions_revoke}</button>

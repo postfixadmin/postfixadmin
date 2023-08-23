@@ -12,6 +12,7 @@ class TotpPf
 {
 	private $key_table;
 	private $table;
+    private $login;
 
 	public function __construct(string $tableName)
 	{
@@ -26,12 +27,15 @@ class TotpPf
 	}
 
 	/**
-	 * @param string &$qr_code for returning base64-encoded qr-code
+	 * @param string username to generate a code for
 	 *
-	 * @return string TOTP_secret, empty if NULL
+	 * @return Array(
+     *      string TOTP_secret empty if NULL,
+     *      string &$qr_code for returning base64-encoded qr-code
+     *
 	 * @throws \Exception if invalid user, or db update fails.
 	 */
-	public function generate($username, &$qr_code): string
+	public function generate($username): array
 	{
 		$totp = TOTP::create();
 		$totp->setLabel($username);
@@ -53,7 +57,7 @@ class TotpPf
 			->validateResult(false)
 			->build();
 		$qr_code = base64_encode($QRresult->getString());
-        return $pTOTP_secret;
+        return Array($pTOTP_secret, $qr_code);
 	}
 
     /**
@@ -63,7 +67,7 @@ class TotpPf
      */
     public function usesTOTP($username): bool
     {
-        if(!(Config::read('logo_url') == 'YES'))
+        if(!(Config::read('totp') == 'YES'))
             return false;
 
         $sql = "SELECT totp_secret FROM {$this->table} WHERE username = :username AND active = :active";
@@ -235,6 +239,8 @@ class TotpPf
      */
     public function addException($username, $password, $Exception_ip, $Exception_user, $Exception_desc): bool
     {
+        $error = 0;
+
         list($local_part, $domain) = explode('@', $username);
 
         if (!$this->login->login($username, $password)) 
@@ -268,10 +274,17 @@ class TotpPf
         }
  
 
-        $fields    = "ip, username, description";
-        $values    = "\"$Exception_ip\", \"$Exception_user\", \"$Exception_desc\"";
+        $values    = Array('ip' => $Exception_ip, 'username' => $Exception_user, 'description' => $Exception_desc);
 
-        if(!$error)$result = db_execute("REPLACE INTO totp_exception_address($fields) VALUES($values)");
+        if(!$error){
+            // OK to insert/replace.
+            // As PostgeSQL lacks REPLACE we first check and delete any previous rows matching this ip and user
+            $exists = db_query_all('SELECT id FROM totp_exception_address WHERE ip = :ip AND username = :username', 
+                ['ip' => $Exception_ip, 'username' => $Exception_user]);
+            if(isset($exists[0]))
+                foreach($exists as $x) db_delete('totp_exception_address', 'id', $x['id']);
+            $result = db_insert('totp_exception_address', $values, Array());
+        }
 
         if ($result != 1) {
             db_log($domain, 'add_totp_exception', "FAILURE: " . $username);
@@ -324,7 +337,10 @@ class TotpPf
     public function deleteException($username, $Exception_id): bool
     {
         $exception = $this->getException($Exception_id);
-        list($Exception_local_part, $Exception_domain) = explode('@', $exception['username']);
+        if(strpos($exception['username'],'@'))
+            list($Exception_local_part, $Exception_domain) = explode('@', $exception['username']);
+        else
+            $Exception_domain = $exception['username'];
 
         if (authentication_has_role('global-admin'))
             $admin = 2;
@@ -389,7 +405,6 @@ class TotpPf
      */
     public function getAllExceptions(): array
     {
-        list($local_part, $domain) = explode('@', $username);
         return db_query_all("SELECT * FROM totp_exception_address");
     }
 
@@ -401,7 +416,7 @@ class TotpPf
     public function getExceptionsFor($username): array
     {
         list($local_part, $domain) = explode('@', $username);
-        return db_query_all("SELECT * FROM totp_exception_address WHERE username = \"$username\" OR username = \"$domain\" OR username IS NULL");
+        return db_query_all("SELECT * FROM totp_exception_address WHERE username = :username OR username = :domain OR username IS NULL",['username' => $username, 'domain' => $domain]);
     }
 
     /**

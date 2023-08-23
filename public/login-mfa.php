@@ -31,13 +31,14 @@ require_once('common.php');
 
 $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
+$error = '';
 
 if (authentication_has_role("admin")) {
     header("Location: main.php");
     exit(0);
 }
 
-if ($_GET["abort"] == "1" && authentication_mfa_incomplete()){
+if (isset($_GET["abort"]) && $_GET["abort"] == "1" && authentication_mfa_incomplete()){
     session_unset();
     session_destroy();
     session_start();
@@ -66,18 +67,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($h->result()['superadmin'] == 1) {
             $_SESSION['sessid']['roles'][] = 'global-admin';
         }
-
         header("Location: main.php");
         exit(0);
     } else {
         error_log("PostfixAdmin admin second factor login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
+        $error = $PALANG['pTotp_failed'];
         flash_error($PALANG['pTotp_failed']);
     }
 }
 
 $_SESSION['PFA_token'] = md5(uniqid("pfa" . rand(), true));
 
-$smarty->assign('admin', $admin);
+$smarty->assign('pTOPT_code_text', $error);
 $smarty->assign('smarty_template', 'login-mfa');
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('forgotten_password_reset', Config::bool('forgotten_admin_password_reset'));

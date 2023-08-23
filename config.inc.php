@@ -671,6 +671,13 @@ $CONF['mailbox_post_totp_exception_add_script'] = '';
 $CONF['mailbox_post_totp_exception_delete_script'] = '';
 
 // Optional: See NOTE above.
+// Script to run after adding an app password.
+// Parameters: (1) username (2) app description
+// STDIN: password + \0
+// $CONF['mailbox_postapppassword_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
+$CONF['mailbox_postapppassword_script'] = '';
+
+// Optional: See NOTE above.
 // Script to run after creation of domains.
 // Parameters: (1) domain
 //$CONF['domain_postcreation_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postcreation.sh';
