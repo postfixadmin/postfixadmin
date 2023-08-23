@@ -10,55 +10,55 @@ use Endroid\QrCode\Writer\PngWriter;
 
 class TotpPf
 {
-	private $key_table;
-	private $table;
+    private $key_table;
+    private $table;
     private $login;
 
-	public function __construct(string $tableName)
-	{
-		$ok = ['mailbox', 'admin'];
+    public function __construct(string $tableName)
+    {
+        $ok = ['mailbox', 'admin'];
 
-		if (!in_array($tableName, $ok)) {
-			throw new \InvalidArgumentException("Unsupported tableName for TOTP: " . $tableName);
-		}
-		$this->table = $tableName;
-		$this->key_table = table_by_key($tableName);
-		$this->login = new Login($tableName);
-	}
+        if (!in_array($tableName, $ok)) {
+            throw new \InvalidArgumentException("Unsupported tableName for TOTP: " . $tableName);
+        }
+        $this->table = $tableName;
+        $this->key_table = table_by_key($tableName);
+        $this->login = new Login($tableName);
+    }
 
-	/**
-	 * @param string username to generate a code for
-	 *
-	 * @return Array(
+    /**
+     * @param string username to generate a code for
+     *
+     * @return Array(
      *      string TOTP_secret empty if NULL,
      *      string &$qr_code for returning base64-encoded qr-code
      *
-	 * @throws \Exception if invalid user, or db update fails.
-	 */
-	public function generate($username): array
-	{
-		$totp = TOTP::create();
-		$totp->setLabel($username);
-		$totp->setIssuer('Postfix Admin');
-		if(Config::read('logo_url'))
-			$totp->setParameter('image', Config::read('logo_url'));
-		$QR_content = $totp->getProvisioningUri();
-		$pTOTP_secret = $totp->getSecret();
-		unset($totp);
-		$QRresult = Builder::create()
-			->writer(new PngWriter())
-			->writerOptions([])
-			->data($QR_content)
-			->encoding(new Encoding('UTF-8'))
-			->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
-			->size(300)
-			->margin(10)
-			->roundBlockSizeMode(new RoundBlockSizeModeMargin())
-			->validateResult(false)
-			->build();
-		$qr_code = base64_encode($QRresult->getString());
+     * @throws \Exception if invalid user, or db update fails.
+     */
+    public function generate($username): array
+    {
+        $totp = TOTP::create();
+        $totp->setLabel($username);
+        $totp->setIssuer('Postfix Admin');
+        if(Config::read('logo_url'))
+            $totp->setParameter('image', Config::read('logo_url'));
+        $QR_content = $totp->getProvisioningUri();
+        $pTOTP_secret = $totp->getSecret();
+        unset($totp);
+        $QRresult = Builder::create()
+            ->writer(new PngWriter())
+            ->writerOptions([])
+            ->data($QR_content)
+            ->encoding(new Encoding('UTF-8'))
+            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+            ->size(300)
+            ->margin(10)
+            ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
+            ->validateResult(false)
+            ->build();
+        $qr_code = base64_encode($QRresult->getString());
         return Array($pTOTP_secret, $qr_code);
-	}
+    }
 
     /**
      * @param string $username
@@ -126,106 +126,106 @@ class TotpPf
             return false;
     }
 
-	/**
-	 * @param string $username
-	 * @param string $password
-	 *
-	 * @return string TOTP_secret, empty if NULL
-	 * @throws \Exception if invalid user, or db update fails.
-	 */
-	public function getTOTP_secret($username, $password): string
-	{
-		if (!$this->login->login($username, $password)) {
-			throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
-		}
+    /**
+     * @param string $username
+     * @param string $password
+     *
+     * @return string TOTP_secret, empty if NULL
+     * @throws \Exception if invalid user, or db update fails.
+     */
+    public function getTOTP_secret($username, $password): string
+    {
+        if (!$this->login->login($username, $password)) {
+            throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
+        }
 
-		$sql = "SELECT totp_secret FROM {$this->table} WHERE username = :username AND active = :active";
+        $sql = "SELECT totp_secret FROM {$this->table} WHERE username = :username AND active = :active";
 
-		$active = db_get_boolean(true);
+        $active = db_get_boolean(true);
 
-		$values = [
-			'username' => $username,
-			'active' => $active,
-		];
+        $values = [
+            'username' => $username,
+            'active' => $active,
+        ];
 
-		$result = db_query_one($sql, $values);
-		if (is_array($result) && isset($result['totp_secret'])) {
-			return $result['totp_secret'];
-		} else {
-			return '';
-		}
+        $result = db_query_one($sql, $values);
+        if (is_array($result) && isset($result['totp_secret'])) {
+            return $result['totp_secret'];
+        } else {
+            return '';
+        }
 
-	}
+    }
 
-	/**
-	 * @param string $username
-	 * @param string $TOTP_secret
-	 * @param string $password
-	 *
-	 * @return boolean true on success; false on failure
-	 * @throws \Exception if invalid user, or db update fails.
-	 */
-	public function changeTOTP_secret($username, $TOTP_secret, $password): bool
-	{
-		list(/*NULL*/, $domain) = explode('@', $username);
+    /**
+     * @param string $username
+     * @param string $TOTP_secret
+     * @param string $password
+     *
+     * @return boolean true on success; false on failure
+     * @throws \Exception if invalid user, or db update fails.
+     */
+    public function changeTOTP_secret($username, $TOTP_secret, $password): bool
+    {
+        list(/*NULL*/, $domain) = explode('@', $username);
 
-		if (!$this->login->login($username, $password)) {
-			throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
-		}
+        if (!$this->login->login($username, $password)) {
+            throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
+        }
 
-		$set = array(
-				'totp_secret' => $TOTP_secret,
-			    );
+        $set = array(
+                'totp_secret' => $TOTP_secret,
+                );
 
-		$result = db_update($this->table, 'username', $username, $set);
+        $result = db_update($this->table, 'username', $username, $set);
 
-		if ($result != 1) {
-			db_log($domain, 'edit_password', "FAILURE: " . $username);
-			throw new \Exception(Config::lang('pEdit_mailbox_result_error'));
-		}
+        if ($result != 1) {
+            db_log($domain, 'edit_password', "FAILURE: " . $username);
+            throw new \Exception(Config::lang('pEdit_mailbox_result_error'));
+        }
 
 
-		$cmd_pw = Config::read('mailbox_post_TOTP_change_secret_script');
+        $cmd_pw = Config::read('mailbox_post_TOTP_change_secret_script');
 
-		if (empty($cmd_pw)) {
-			return true;
-		}
+        if (empty($cmd_pw)) {
+            return true;
+        }
 
-		$warnmsg_pw = Config::Lang('mailbox_post_TOTP_change_failed');
+        $warnmsg_pw = Config::Lang('mailbox_post_TOTP_change_failed');
 
-		// If we have a mailbox_postpassword_script (dovecot only?)
+        // If we have a mailbox_postpassword_script (dovecot only?)
 
-		// Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-		$spec = array(
-				0 => array("pipe", "r"), // stdin
-				1 => array("pipe", "w"), // stdout
-			     );
+        // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
+        $spec = array(
+                0 => array("pipe", "r"), // stdin
+                1 => array("pipe", "w"), // stdout
+                );
 
-		$cmdarg1 = escapeshellarg($username);
-		$cmdarg2 = escapeshellarg($domain);
-		$command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
+        $cmdarg1 = escapeshellarg($username);
+        $cmdarg2 = escapeshellarg($domain);
+        $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
 
-		$proc = proc_open($command, $spec, $pipes);
+        $proc = proc_open($command, $spec, $pipes);
 
-		if (!$proc) {
-			throw new \Exception("can't proc_open $cmd_pw");
-		}
+        if (!$proc) {
+            throw new \Exception("can't proc_open $cmd_pw");
+        }
 
-		// Write secret through pipe to command stdin.
-		fwrite($pipes[0], $TOTP_secret . "\0", 1+strlen($TOTP_secret));
-		$output = stream_get_contents($pipes[1]);
-		fclose($pipes[0]);
-		fclose($pipes[1]);
+        // Write secret through pipe to command stdin.
+        fwrite($pipes[0], $TOTP_secret . "\0", 1+strlen($TOTP_secret));
+        $output = stream_get_contents($pipes[1]);
+        fclose($pipes[0]);
+        fclose($pipes[1]);
 
-		$retval = proc_close($proc);
+        $retval = proc_close($proc);
 
-		if (0 != $retval) {
-			error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
-			throw new \Exception($warnmsg_pw);
-		}
+        if (0 != $retval) {
+            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+            throw new \Exception($warnmsg_pw);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
     /**
      * @param string $username
@@ -245,14 +245,14 @@ class TotpPf
 
         if (!$this->login->login($username, $password)) 
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
-        
+
         if (authentication_has_role('admin'))
             $admin = 1;
         elseif (authentication_has_role('global-admin'))
             $admin = 2;
         else
             $admin = 0;
-        
+
         if (empty($Exception_ip)) {
             $error += 1;
             flash_error(Config::Lang('pException_ip_empty_error'));
@@ -272,7 +272,7 @@ class TotpPf
             $error += 1;
             flash_error(Config::Lang('pException_user_global_error'));
         }
- 
+
 
         $values    = Array('ip' => $Exception_ip, 'username' => $Exception_user, 'description' => $Exception_desc);
 
@@ -280,7 +280,7 @@ class TotpPf
             // OK to insert/replace.
             // As PostgeSQL lacks REPLACE we first check and delete any previous rows matching this ip and user
             $exists = db_query_all('SELECT id FROM totp_exception_address WHERE ip = :ip AND username = :username', 
-                ['ip' => $Exception_ip, 'username' => $Exception_user]);
+                    ['ip' => $Exception_ip, 'username' => $Exception_user]);
             if(isset($exists[0]))
                 foreach($exists as $x) db_delete('totp_exception_address', 'id', $x['id']);
             $result = db_insert('totp_exception_address', $values, Array());
@@ -302,7 +302,7 @@ class TotpPf
         $spec = array(
                 0 => array("pipe", "r"), // stdin
                 1 => array("pipe", "w"), // stdout
-                 );
+                );
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($Exception_ip);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
@@ -324,7 +324,7 @@ class TotpPf
         return true;
     }
 
-   /**
+    /**
      * @param string $username
      * @param string $password
      * @param string $fException_ip
@@ -378,7 +378,7 @@ class TotpPf
         $spec = array(
                 0 => array("pipe", "r"), // stdin
                 1 => array("pipe", "w"), // stdout
-                 );
+                );
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($exception['ip']);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
