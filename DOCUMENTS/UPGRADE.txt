@@ -55,7 +55,7 @@ needs to be writeable for your webserver.
 
 (if your Apache runs as user "www-data")
 
-If you have SELinux enabled, also run (adust the path to match your setup)
+If you have SELinux enabled, also run (adjust the path to match your setup)
 
   $ sudo semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/utils/pfadmin/public/templates_c(/.*)?"
   $ sudo restorecon -Rv /var/www/utils/pfadmin/
@@ -87,7 +87,7 @@ into the form, and setup.php will echo out the hashed value (which needs to go i
 The setup_password removes the requirement for you to delete setup.php, and also closes a security hole.
 
 Since version 2.2 of Postfixadmin, setup.php can perform the needed database 
-updates automatically .
+updates automatically.
 
 If you update from 2.1 or older, also create a superadmin account using setup.php.
 
