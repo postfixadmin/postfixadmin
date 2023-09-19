@@ -33,13 +33,11 @@ Please stick to the PostfixAdmin documentation, and use those HOWTOs only if
 you need some additional information that is missing in the PostfixAdmin 
 DOCUMENTS/ folder.
   - https://www.linuxbabe.com/redhat/postfixadmin-create-virtual-mailboxes-centos-mail-server (Postfix+MySQL+Postfixadmin+Dovecot)
-  - http://en.gentoo-wiki.com/wiki/Virtual_mail_server_using_Postfix,_Courier_and_PostfixAdmin (Postfix+MySQL+Postfixadmin+Courier)
-
 
 1. Unarchive new Postfix Admin
 ------------------------------
 
-(if you installed PostfixAdmin as RPM or DEB package, you can obviously skip this step.)
+(if you installed PostfixAdmin as RPM or DEB package, you can skip this step.)
 
 Assuming we are installing Postfixadmin into /srv/postfixadmin, then something like this should work. Please check https://github.com/postfixadmin/postfixadmin/releases to get the latest stable release first (the 3.2.10 version/url below is probably stale)
 
@@ -83,7 +81,7 @@ or setup an alias in your webserver config. For Apache, use:
 -------------------
 
 With your chosen/preferred database server (i.e. MySQL or PostgreSQL), 
-you need to create a new database. A good name for this could be :
+you need to create a new database. A good name for this could be:
 
   postfix
 
@@ -91,7 +89,7 @@ The mechanics of creating the database vary depending on which server
 you are using. Most users will find using phpMyAdmin or phpPgAdmin the
 easiest route.
 
-If you wish to use the command line, you'll need to do something like :
+If you wish to use the command line, you'll need to do something like:
 
 For MySQL:
   CREATE DATABASE postfix;
@@ -158,7 +156,7 @@ The easiest way to do this is
 4a. SELinux (CentOS/Fedora etc)
 -------------------------------
 
-If you're using e.g. CentOS (or another distribution) which enables SELinux, something like the following will be necessary :
+If you're using e.g. CentOS (or another distribution) which enables SELinux, something like the following will be necessary:
 
 
 ```bash
@@ -170,13 +168,13 @@ If you're using e.g. CentOS (or another distribution) which enables SELinux, som
 (Allow the webserver to read /srv/postfixadmin/* and write to /srv/postfixadmin/templates_c/*)
 
 
-And if the webserver (PHP) needs to make network connections out to a database server, you'll probably need this :
+And if the webserver (PHP) needs to make network connections out to a database server, you'll probably need this:
 
 ```bash
     semanage boolean -m --on httpd_can_network_connect_db
 ````
 
-If additionally need the webserve (PHP) to talk to an imap server, then you'll probably also need :
+If additionally, needing the webserver (PHP) to talk to an imap server, then you'll probably also need:
 
 ```bash
     semanage boolean -m --on httpd_can_network_connect
@@ -206,7 +204,7 @@ You should then see a list of 'OK' messages.
 
 The setup.php script will attempt to create the database structure (or upgrade it if you're coming from a previous version). 
 
-You can then create an Superadmin user (or add another), using the form displayed (you'll need to re-enter the your setup password).
+You can then create an Superadmin user (or add another), using the form displayed (you'll need to re-enter the setup password).
 
 6. Use PostfixAdmin
 -------------------
@@ -233,7 +231,7 @@ See config.inc.php - see xmlrpc_enabled key (defaults to off).
 You'll need to install a copy of the Zend Framework (version 1.12.x) within Postfixadmin
 or your PHP include_path (see header within xmlrpc.php).
 NOTE: The XMLRPC interface is _not compatible_ with Zend Framework version 2.x.
-You'll need to enable the xmlrpc link (see config.inc.php)
+You'll need to enable the xmlrpc link (see config.inc.php).
 
 8. More information
 -------------------
@@ -241,8 +239,8 @@ You'll need to enable the xmlrpc link (see config.inc.php)
 The code and issue tracker is on GitHub:
     https://github.com/postfixadmin/postfixadmin
 
-IRC - a community of people may be able to help in #postfixadmin on irc.freenode.net. 
-    See http://webchat.freenode.net/
+IRC - a community of people may be able to help in #postfixadmin on Libera.Chat. 
+    See https://web.libera.chat/
 
 Legacy forum posts are on SourceForce at 
     https://sourceforge.net/projects/postfixadmin
