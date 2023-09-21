@@ -58,6 +58,9 @@ function get_auth_logs(){
     }
     $CONF = Config::getInstance()->getAll();
     $url = $CONF['mailLog2MySQL_URL']."?".explode("?", $_SERVER['REQUEST_URI'])[1];
+    if (!isset($_GET["domain"]) && !authentication_has_role('global-admin')){
+        $url.="&domain=".get_domains()[0];
+    }
 
     $response = file_get_contents($url, false);
     if ($response == NULL){
@@ -77,6 +80,10 @@ function get_dovecot_logs(){
     $CONF = Config::getInstance()->getAll();
     $url = $CONF['mailLog2MySQL_URL']."?".explode("?", $_SERVER['REQUEST_URI'])[1];
 
+    if (!isset($_GET["domain"]) && !authentication_has_role('global-admin')){
+        $url.="&domain=".get_domains()[0];
+    }
+
     $response =  file_get_contents($url, false);
     if ($response == NULL){
         die("Error from MailLog2MySQL!");
@@ -95,6 +102,10 @@ function get_postfix_logs(){
     $CONF = Config::getInstance()->getAll();
     $url = $CONF['mailLog2MySQL_URL']."?".explode("?", $_SERVER['REQUEST_URI'])[1];
 
+    if (!isset($_GET["mail_from_domain"]) && !isset($_GET["mail_to_domain"]) && !authentication_has_role('global-admin')){
+        $url.="&mail_to_domain=".get_domains()[0];
+    }
+ 
     $response = file_get_contents($url, false);
     if ($response == NULL){
         die("Error from MailLog2MySQL!");
@@ -104,6 +115,14 @@ function get_postfix_logs(){
     die(); 
 }
 
+
+
+
+
+
+  
+
 $smarty = PFASmarty::getInstance();
+
 $smarty->assign('smarty_template', 'maillog');
 $smarty->display('index.tpl');
