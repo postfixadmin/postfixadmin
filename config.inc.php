@@ -732,7 +732,7 @@ function x_send_sms_clickatell($to, $message) {
 
 //MailLog2MySQL
 //you need to install: https://github.com/bnchdan/MailLog2MySQL
-$CONF["mail_log"]='YES';
+$CONF["mail_log"]='NO';
 
 $CONF['mailLog2MySQL_URL']="http://127.0.0.1:8888/api";
 
