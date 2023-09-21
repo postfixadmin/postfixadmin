@@ -734,6 +734,8 @@ function x_send_sms_clickatell($to, $message) {
 //you need to install: https://github.com/bnchdan/MailLog2MySQL
 $CONF["mail_log"]='YES';
 
+$CONF['mailLog2MySQL_URL']="http://127.0.0.1:8888/api";
+
 // Theme Config
 $CONF['theme'] = 'default';
 // Specify your own favicon, logo and CSS file
