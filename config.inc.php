@@ -730,6 +730,10 @@ function x_send_sms_clickatell($to, $message) {
 }
 */
 
+//MailLog2MySQL
+//you need to install: https://github.com/bnchdan/MailLog2MySQL
+$CONF["mail_log"]='YES';
+
 // Theme Config
 $CONF['theme'] = 'default';
 // Specify your own favicon, logo and CSS file
