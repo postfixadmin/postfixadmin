@@ -10,9 +10,9 @@ use Endroid\QrCode\Writer\PngWriter;
 
 class TotpPf
 {
-    private $key_table;
-    private $table;
-    private $login;
+    private string $key_table;
+    private string $table;
+    private Login $login;
 
     public function __construct(string $tableName)
     {
@@ -35,7 +35,7 @@ class TotpPf
      *
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function generate($username): array
+    public function generate(string $username): array
     {
         $totp = TOTP::create();
         $totp->setLabel($username);
@@ -230,14 +230,14 @@ class TotpPf
     /**
      * @param string $username
      * @param string $password
-     * @param string $fException_ip
-     * @param string $fException_user
-     * @param string $fException_desc
+     * @param string $Exception_ip
+     * @param string $Exception_user
+     * @param string $Exception_desc
      *
      * @return boolean true on success; false on failure
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function addException($username, $password, $Exception_ip, $Exception_user, $Exception_desc): bool
+    public function addException(string $username, string $password, string $Exception_ip, string $Exception_user, string $Exception_desc): bool
     {
         $error = 0;
 

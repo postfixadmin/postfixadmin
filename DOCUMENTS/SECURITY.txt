@@ -80,7 +80,7 @@ To activate those features, run through the following procedure:
    Use the mailbox_post_TOTP_change_secret_script setting in the
    config.inc.php. The mailbox username and domain will be passed
    as parameters, the shared secret via stdin. For Roundcubemail you can
-   have a look at the scripts/sync-roundcubemail-totp.php example. 
+   have a look at the scripts/examples/sync-roundcubemail-totp.php example. 
 3. Activate TOTP and app passwords in the config.inc.php by setting
    $CONF['totp'] = 'YES';
    $CONF['app_passwords'] = 'YES';
