@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         header("Location: main.php");
         exit(0);
     } else { # $h->login failed
-        error_log("PostfixAdmin admin second factor login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
+        error_log("PostfixAdmin admin second factor login failed (username: " . authentication_get_username() . ", ip_address: {$_SERVER['REMOTE_ADDR']})");
         flash_error($PALANG['pTotp_failed']);
     }
 }
