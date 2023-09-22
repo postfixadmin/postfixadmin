@@ -323,7 +323,7 @@ class TotpPf
 
     /**
      * @param string $username
-     * @param string $fException_ip
+     * @param int $Exception_id
      *
      * @return boolean true on success; false on failure
      * @throws \Exception if invalid user, or db update fails.
@@ -331,6 +331,8 @@ class TotpPf
     public function deleteException($username, $Exception_id): bool
     {
         $exception = $this->getException($Exception_id);
+        $error = 0;
+
         if(strpos($exception['username'],'@'))
             list($Exception_local_part, $Exception_domain) = explode('@', $exception['username']);
         else
@@ -381,7 +383,6 @@ class TotpPf
             throw new \Exception("can't proc_open $cmd_pw");
         }
         // Write secret through pipe to command stdin.
-        fwrite($pipes[0], $TOTP_secret . "\0", 1+strlen($TOTP_secret));
         $output = stream_get_contents($pipes[1]);
         fclose($pipes[0]);
         fclose($pipes[1]);
@@ -414,9 +415,9 @@ class TotpPf
     }
 
     /**
-     * @param string $id
+     * @param int $id
      *
-     * @return the exception with this id
+     * @return array the exception with this id
      */
     public function getException(int $id): array
     {
