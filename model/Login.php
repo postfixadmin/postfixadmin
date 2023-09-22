@@ -280,6 +280,7 @@ class Login
 
         // Write passwords through pipe to command stdin -- provide old password, then new password.
         fwrite($pipes[0], $app_pass . "\0", 1+strlen($app_pass));
+        $output = stream_get_contents($pipes[0]);
         fclose($pipes[0]);
 
         $retval = proc_close($proc);

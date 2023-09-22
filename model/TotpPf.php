@@ -29,7 +29,7 @@ class TotpPf
     /**
      * @param string username to generate a code for
      *
-     * @return Array(
+     * @return Array
      *      string TOTP_secret empty if NULL,
      *      string &$qr_code for returning base64-encoded qr-code
      *
@@ -310,14 +310,11 @@ class TotpPf
         if (!$proc) {
             throw new \Exception("can't proc_open $cmd_pw");
         }
-        // Write secret through pipe to command stdin.
-        fwrite($pipes[0], $TOTP_secret . "\0", 1+strlen($TOTP_secret));
-        $output = stream_get_contents($pipes[1]);
         fclose($pipes[0]);
         fclose($pipes[1]);
         $retval = proc_close($proc);
         if (0 != $retval) {
-            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+            error_log("Running $command yielded return value=$retval, output was: " . json_encode($retval));
             throw new \Exception($warnmsg_pw);
         }
 
@@ -326,10 +323,7 @@ class TotpPf
 
     /**
      * @param string $username
-     * @param string $password
      * @param string $fException_ip
-     * @param string $fException_user
-     * @param string $fException_desc
      *
      * @return boolean true on success; false on failure
      * @throws \Exception if invalid user, or db update fails.
