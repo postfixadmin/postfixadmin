@@ -251,6 +251,13 @@ $CONF['password_validation'] = array(
     // 'length_check'          => function($password) { if (strlen(trim($password)) < 3) { return 'password_too_short'; } },
 );
 
+// Username legal characters
+// New/changed usernames will be checked against this regular expression with javascript
+// during entry, offending characters not displaying.
+// For example:
+// $CONF['username_legal_chars'] = '^[a-zA-Z0-9-_.]+$';
+$CONF['username_legal_chars'] = '';
+
 // Generate Password
 // Generate a random password for a mailbox or admin and display it.
 // If you want to automagically generate passwords set this to 'YES'.

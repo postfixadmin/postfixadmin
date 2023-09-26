@@ -118,5 +118,16 @@
 
                 }
         }
-
+        {if $struct.local_part.options.legal_chars }
+                // If set: Check for illegal characters in local part of username
+                const local_part = document.getElementsByName("value[local_part]");
+                local_part[0].tabIndex = -1
+                local_part[0].addEventListener("keydown", function(event){
+                        var regex = new RegExp("{$struct.local_part.options.legal_chars}");
+                        if (!regex.test(event.key)) {
+                                event.preventDefault();
+                                return false;
+                        }
+                });
+        {/if}
 </script>

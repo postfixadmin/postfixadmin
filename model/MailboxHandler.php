@@ -30,7 +30,9 @@ class MailboxHandler extends PFAHandler
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
             'username'         => pacol($this->new, 1,      1,      'mail', 'pEdit_mailbox_username'        , ''                                , '' ),
-            'local_part'       => pacol($this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '' ),
+            'local_part'       => pacol($this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '',
+                /*options*/ array('legal_chars' => Config::read('username_legal_chars'))
+            ),
             'domain'           => pacol($this->new, 0,      1,      'enum', ''                              , ''                                , '',
                 /*options*/ $this->allowed_domains      ),
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
