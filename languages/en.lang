@@ -511,7 +511,7 @@ $PALANG['password_expiration_desc'] = 'Date when password will expire';
 
 $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX
-
+$PALANG['TOTP_already_configured']                  = 'TOTP is already configured for this account, do you want to change your secret?';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

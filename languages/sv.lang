@@ -503,6 +503,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'Post totp undantag bort 
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'Post totp undantag lägg till skript misslyckades, kontrollera felloggen för detaljer!';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'Post totp Secret Change script misslyckades, kontrollera felloggen för detaljer!';
 
+$PALANG['TOTP_already_configured'] = 'TOTP är redan konfigurerat för detta konto, vill du ändra din hemlighet?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

@@ -504,6 +504,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'Исключение и�
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'Добавить в список почтового ящика не удалось, проверьте журнал ошибок для деталей!';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'Почтовый почтовый ящик с секретным сценарием изменения не удалось, проверьте журнал ошибок для деталей!';
 
+$PALANG['TOTP_already_configured'] = 'TOTP уже настроен для этой учетной записи, хотите ли вы изменить свой секрет?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

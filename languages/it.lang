@@ -491,6 +491,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'L\'eccezione di mailbox 
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'L\'eccezione mailbox post totp aggiunge lo script non riuscito, controlla il registro di errore per i dettagli!';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'Il mailbox post totp script di cambiamento segreto fallito, controllare il registro di errore per i dettagli!';
 
+$PALANG['TOTP_already_configured'] = 'TOTP è già configurato per questo account, vuoi cambiare il tuo segreto?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

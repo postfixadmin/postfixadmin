@@ -496,6 +496,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'Wyjątek pocztówki z wy
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'Wyjątek pocztowy dodaje skrypt, sprawdzając błędy dla szczegółów.';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'Scenariusz pocztowy po przeprowadzeniu tajnego scenariusza zmiany zaniechano, sprawdzając błąd dla szczegółów.';
 
+$PALANG['TOTP_already_configured'] = 'TOTP jest już skonfigurowany za to, że chcesz zmienić swój sekret?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

@@ -490,6 +490,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'Postilaatikkopoikkeuspoi
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'Postilaatikkopoikkeuksen lisäosa käsikirjoitus epäonnistui, tarkista virheloki yksityiskohtiin!';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'Postilaatikkopostilaatikko totp salainen muutos käsikirjoitus epäonnistui, tarkista virheloki yksityiskohtiin!';
 
+$PALANG['TOTP_already_configured'] = 'TOTP on jo määritetty tälle tilille, haluatko muuttaa salaisuutesi?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

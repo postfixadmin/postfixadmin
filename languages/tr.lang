@@ -490,6 +490,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'Posta kutusu post totp e
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'Posta kutusu post totp exception add script başarısız oldu, ayrıntıları için hata logunu kontrol edin!';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'Posta kutusu mesajı gizli değişiklik senaryosu başarısız oldu, ayrıntıları için hata logunu kontrol edin!';
 
+$PALANG['TOTP_already_configured'] = 'TOTP zaten bu hesap için yapılandırılmıştır, sırrını değiştirmek ister misiniz?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

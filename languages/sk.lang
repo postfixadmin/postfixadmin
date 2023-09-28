@@ -491,6 +491,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'poštová schránka totp
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'poštová schránka príspevok totp výnimka pridať skript zlyhal, skontrolujte chybový protokol pre detaily!';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'Mail totp tajné zmeny skript zlyhal, skontrolujte chybové protokol pre detaily!';
 
+$PALANG['TOTP_already_configured'] = 'TOTP je už nakonfigurovaný pre tento účet, chcete zmeniť svoje tajomstvo?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

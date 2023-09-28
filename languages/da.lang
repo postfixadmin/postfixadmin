@@ -504,6 +504,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'postkassen post totp und
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'postkassen post totp undtagelse tilføjer script mislykkedes, kontrollere fejlen log for detaljer!';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'postkassen post totp hemmeligt ændring script mislykkedes, kontrollere fejlen log for detaljer!';
 
+$PALANG['TOTP_already_configured'] = 'TOTP er allerede konfigureret til denne konto, ønsker du at ændre din hemmelighed?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

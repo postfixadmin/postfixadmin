@@ -1,5 +1,5 @@
 <form name="password" method="post" action="" class="form-horizontal">
-    <div id="edit_form" class="panel panel-default">
+    <div id="edit_form" class="panel panel-default" style="visibility:{$show_form}">
         <div class="panel-heading"><h4>{$PALANG.pTOTP_welcome}</h4></div>
         <div class="panel-body enable-asterisk">
             <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
@@ -19,6 +19,7 @@
                 <div class="col-md-6 col-sm-8">
                     <img src="data:image/png;base64, {$pQR_raw}" />{$pTOTP_secret}
                     <input type="hidden" name="fTOTP_secret" value="{$pTOTP_secret}" />
+                </div>
             </div>
             <div class="form-group {if $pTOTP_code_text}has-error{/if}">
                 <label class="col-md-4 col-sm-4 control-label" for="fTOTP_code">{$PALANG.pTOTP_code}:</label>
@@ -40,4 +41,28 @@
             </div>
         </div>
     </div>
+    {if $show_form == 'hidden'}
+    <div id="showform" class="panel panel-default"">
+        <div class="panel-footer">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="pull-left">
+                    <h3>{$PALANG.TOTP_already_configured}</h3>
+                </div>
+                <div class="pull-right">
+                    <a href="#" class="btn ml btn-lg btn-primary" id="showbutton">{$PALANG.show}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {/if}
 </form>
+<script>
+document.getElementById("showbutton").addEventListener("click", function(e) {
+  showform()
+});
+
+function showform() {
+  document.getElementById("showform").style.visibility= "hidden";
+  document.getElementById("edit_form").style.visibility= "visible";
+}
+</script>

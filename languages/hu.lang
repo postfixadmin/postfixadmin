@@ -503,6 +503,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'A mailbox post totp kiv�
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'A mailbox poszt totp kivétel hozzáadott script meghiúsult, ellenőrizze a hibanaplót a részletekért!';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'A postaláda post totp titkos változás szkriptje kudarcot vallott, ellenőrizze a hibanaplót a részletekért!';
 
+$PALANG['TOTP_already_configured'] = 'A TOTP már ehhez a fiókhoz van konfigurálva, szeretné megváltoztatni a titkát?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

@@ -455,7 +455,7 @@ $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
 $PALANG['copy'] = 'Kopie';
 $PALANG['generate'] = 'Generieren';
 $PALANG['pMenu_security'] = 'Sicherheit';
-$PALANG['pMenu_totp'] = 'FTP';
+$PALANG['pMenu_totp'] = 'TOTP';
 $PALANG['pMenu_totp_exceptions'] = 'TOTP Ausnahmen';
 $PALANG['pMenu_app_passwords'] = 'Anwendungspasswörter';
 $PALANG['pUsersMain_totp_exceptions'] = 'Erlauben Sie vertrauenswürdige IP-Adressen ohne TOTP auf Ihr Postfach zugreifen';
@@ -501,6 +501,8 @@ $PALANG['mailbox_postapppassword_failed'] = 'Das Postbox Postapppassword-Skript 
 $PALANG['mailbox_post_totp_exception_delete_failed'] = 'Die Mailbox Post totp Ausnahme löschen Skript fehlgeschlagen, überprüfen Sie das Fehlerprotokoll für Details!';
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'Die Postbox Post totp Ausnahme hinzufügen Skript fehlgeschlagen, überprüfen Sie das Fehlerprotokoll für Details!';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'Das Mailbox Post totp Secret Change Skript ist fehlgeschlagen, überprüfen Sie das Fehlerprotokoll für Details!';
+
+$PALANG['TOTP_already_configured'] = 'TOTP ist bereits für dieses Konto konfiguriert, möchten Sie Ihr Geheimnis ändern?';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

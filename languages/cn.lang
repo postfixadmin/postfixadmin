@@ -490,6 +490,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = '邮箱邮箱邮箱破除
 $PALANG['mailbox_post_totp_exception_add_failed'] = '邮箱邮箱的特例添加文字失败,核对错误的标识,以供参考!';
 $PALANG['mailbox_post_TOTP_change_failed'] = '邮箱邮箱贴上秘密变更信稿的工作失败了,核对错误记录的细节!';
 
+$PALANG['TOTP_already_configured'] = '你是否想改变你的秘密?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

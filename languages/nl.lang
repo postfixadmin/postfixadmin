@@ -494,6 +494,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'De postbus uitzondering 
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'De postbus uitzondering van de postbus is gefaald, controleer het foute logboek voor details!';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'De postbus van de postbus is gezakt. Controleer het foute logboek voor details.';
 
+$PALANG['TOTP_already_configured'] = 'ToTP is al in beslag genomen voor deze rekening, wil je je geheim veranderen?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

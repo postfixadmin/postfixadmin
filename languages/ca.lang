@@ -490,6 +490,8 @@ $PALANG['mailbox_post_totp_exception_delete_failed'] = 'L\'escriptura d\'esborra
 $PALANG['mailbox_post_totp_exception_add_failed'] = 'L\'excepció de la bústia de correu a totp ha fallat l\'escriptura, comproveu el registre d\'errors per obtenir més detalls.';
 $PALANG['mailbox_post_TOTP_change_failed'] = 'La bústia de correu ha fallat l\'script de canvi secret, comproveu el registre d\'errors per obtenir més informació.';
 
+$PALANG['TOTP_already_configured'] = 'TOTP ja està configurat per aquest compte, vols canviar el teu secret?';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

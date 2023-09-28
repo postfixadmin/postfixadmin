@@ -96,6 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
    
 }
 
+if( $totppf->usesTOTP($username))   $smarty->assign('show_form', 'hidden');
+else                                $smarty->assign('show_form', 'visible');
 $smarty->assign('SESSID_USERNAME', $username);
 $smarty->assign('admin', $admin);
 $smarty->assign('pPassword_password_current_text', $pPassword_password_current_text, false);
