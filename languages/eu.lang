@@ -439,7 +439,7 @@ $PALANG['password_expiration_desc'] = 'Date when password will expire'; # XXX
 $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
 
-$PALANG['pLegal_char_warning'] = 'Illegal character';
+$PALANG['pLegal_char_warning'] = 'Illegal character'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
