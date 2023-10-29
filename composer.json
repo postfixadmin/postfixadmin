@@ -46,8 +46,7 @@
         ]
     },
     "support": {
-        "irc": "irc://irc.freenode.org/postfixadmin",
-        "issues": "https://github.com/postfixadmin/postfixadmin/issues",
-        "chat": "https://gitter.im/postfixadmin/Lobby"
+        "irc": "https://web.libera.chat/#postfixadmin",
+        "issues": "https://github.com/postfixadmin/postfixadmin/issues"
     }
 }
