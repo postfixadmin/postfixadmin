@@ -506,6 +506,8 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'Почтовый почтовый 
 
 $PALANG['TOTP_already_configured'] = 'TOTP уже настроен для этой учетной записи, хотите ли вы изменить свой секрет?';
 
+$PALANG['pApp_passwords_add'] = 'Добавить пароль для приложения';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

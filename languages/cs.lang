@@ -506,6 +506,8 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'Poštovní schránka post totp taj
 
 $PALANG['TOTP_already_configured'] = 'TOTP je již nakonfigurován pro tento účet, chcete změnit tajemství?';
 
+$PALANG['pApp_passwords_add'] = 'Přidat heslo specifické pro aplikaci';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

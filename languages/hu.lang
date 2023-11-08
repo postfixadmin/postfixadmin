@@ -505,6 +505,8 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'A postaláda post totp titkos vál
 
 $PALANG['TOTP_already_configured'] = 'A TOTP már ehhez a fiókhoz van konfigurálva, szeretné megváltoztatni a titkát?';
 
+$PALANG['pApp_passwords_add'] = 'Adjon alkalmazásspecifikus jelszót';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

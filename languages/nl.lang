@@ -496,6 +496,8 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'De postbus van de postbus is gezak
 
 $PALANG['TOTP_already_configured'] = 'ToTP is al in beslag genomen voor deze rekening, wil je je geheim veranderen?';
 
+$PALANG['pApp_passwords_add'] = 'Voeg een toepassing toe.';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

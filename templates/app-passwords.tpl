@@ -32,7 +32,7 @@
                 <div class="pull-right">
                     <a href="main.php" class="btn mr btn-secondary">{$PALANG.exit}</a>
 
-                    <button class="btn ml btn-lg btn-primary" type="submit" name="submit" value="{$PALANG.pTotp_exceptions_add}">{$PALANG.pTotp_exceptions_add}</button>
+                    <button class="btn ml btn-lg btn-primary" type="submit" name="submit" value="{$PALANG.pApp_passwords_add}">{$PALANG.pApp_passwords_add}</button>
 
                 </div>
             </div>

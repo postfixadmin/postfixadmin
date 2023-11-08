@@ -503,6 +503,8 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'mailbox 投稿 totp シークレ�
 
 $PALANG['TOTP_already_configured'] = 'TOTPは既にこのアカウントで設定されていますが、秘密を変更したいですか?';
 
+$PALANG['pApp_passwords_add'] = 'アプリケーション固有のパスワードを追加する';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

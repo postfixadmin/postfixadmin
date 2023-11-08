@@ -494,6 +494,8 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'El correo postal totp secret chang
 
 $PALANG['TOTP_already_configured'] = 'TOTP ya está configurado para esta cuenta, ¿quieres cambiar tu secreto?';
 
+$PALANG['pApp_passwords_add'] = 'Añadir contraseña específica para aplicaciones';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

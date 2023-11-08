@@ -504,6 +504,8 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'Das Mailbox Post totp Secret Chang
 
 $PALANG['TOTP_already_configured'] = 'TOTP ist bereits für dieses Konto konfiguriert, möchten Sie Ihr Geheimnis ändern?';
 
+$PALANG['pApp_passwords_add'] = 'Anwendungsspezifisches Passwort hinzufügen';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

@@ -492,6 +492,8 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'Posta kutusu mesajı gizli değiş
 
 $PALANG['TOTP_already_configured'] = 'TOTP zaten bu hesap için yapılandırılmıştır, sırrını değiştirmek ister misiniz?';
 
+$PALANG['pApp_passwords_add'] = 'Uygulamaya özel şifre ekleyin';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

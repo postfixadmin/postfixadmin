@@ -73,16 +73,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     // Does entered code from 2FA-app match the secret
-    $code_checks_out = $totppf->checkTOTP($fTOTP_secret,  $username, $fTOTP_code);
+    if($fTOTP_code == '') {
+        $code_checks_out    = true;
+        $fTOTP_secret       = NULL;
+    }
+    else
+        $code_checks_out = $totppf->checkTOTP($fTOTP_secret,  $username, $fTOTP_code);
 
     // Check that user has successfully generated a TOTP with external device
-    if ($fTOTP_code && !$code_checks_out){
+    if (!$code_checks_out){
         $secreterror += 1;
         flash_error($PALANG['pTOTP_code_mismatch']);
     }
 
     // If TOTP checks out -> store secret in DB
-    if ($secreterror == 0 && $fTOTP_code) {
+    if ($secreterror == 0) {
         try {
             if($totppf->changeTOTP_secret($username, $fTOTP_secret, $fPassword_current)){
                 flash_info($PALANG['pTotp_stored']);

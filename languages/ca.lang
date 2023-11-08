@@ -492,6 +492,8 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'La bústia de correu ha fallat l\'
 
 $PALANG['TOTP_already_configured'] = 'TOTP ja està configurat per aquest compte, vols canviar el teu secret?';
 
+$PALANG['pApp_passwords_add'] = 'Afegir la contrasenya específica de l\'aplicació';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

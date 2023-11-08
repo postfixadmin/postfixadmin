@@ -185,7 +185,7 @@ $PALANG['pUsersMenu_totp'] = 'Change TOTP';
 $PALANG['pTOTP_welcome'] = 'Setup your Time-based One-time Password';
 $PALANG['pUsersMain_totp'] = 'Setup your Time-based One-time Password';
 $PALANG['pTOTP_secret'] = 'TOTP secret';
-$PALANG['pTOTP_code'] = 'TOTP code';
+$PALANG['pTOTP_code'] = 'TOTP code (empty to disable)';
 $PALANG['pTOTP_secret_result_error'] = 'Could not change TOTP secret';
 $PALANG['change_TOTP'] = 'Change TOTP settings';
 $PALANG['pTOTP_code_mismatch'] = 'Incorrect one-time-password entered';
@@ -511,7 +511,8 @@ $PALANG['password_expiration_desc'] = 'Date when password will expire';
 
 $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX
-$PALANG['TOTP_already_configured']                  = 'TOTP is already configured for this account, do you want to change your secret?';
+$PALANG['TOTP_already_configured']          = 'TOTP is already configured for this account, do you want to change your secret?';
+$PALANG['pApp_passwords_add']               = 'Add application-specific password';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

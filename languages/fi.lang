@@ -492,6 +492,8 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'Postilaatikkopostilaatikko totp sa
 
 $PALANG['TOTP_already_configured'] = 'TOTP on jo määritetty tälle tilille, haluatko muuttaa salaisuutesi?';
 
+$PALANG['pApp_passwords_add'] = 'Lisää sovelluskohtainen salasana';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
