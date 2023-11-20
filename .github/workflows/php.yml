@@ -13,6 +13,7 @@ jobs:
       with:
         php-version: 7.4
         tools: composer
+        extensions: sqlite3
 
     - name: run install.sh
       run: /bin/bash install.sh
@@ -35,10 +36,10 @@ jobs:
 
   testsuite:
     needs: [lint_etc]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        php-versions: ['7.2', '7.3', '7.4', '8.0', '8.1' ]
+        php-versions: [ '7.2', '7.3', '7.4', '8.0', '8.1', '8.2' ]
 
     steps:
     - uses: actions/checkout@v2
@@ -48,6 +49,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         tools: composer
+        extensons: sqlite3
 
     - name: run install.sh
       run: /bin/bash install.sh
@@ -64,7 +66,7 @@ jobs:
   build_coverage_report:
     needs: [testsuite]
     continue-on-error: true
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v2
 
@@ -73,6 +75,7 @@ jobs:
       with:
         php-version: '7.4'
         tools: composer
+        extensions: sqlite3
 
     - name: run install.sh
       run: /bin/bash install.sh
