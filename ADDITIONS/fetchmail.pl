@@ -54,6 +54,18 @@ sub log_and_die {
   die $message;
 }
 
+sub escape_password {
+    $output = "";
+    for $i (0..length($_[0])-1){
+        $char = substr($_[0], $i, 1);
+        if ($char eq "\\" or $char eq "\"")
+        {
+            $output = $output . "\\";
+        }
+        $output = $output . $char;
+    }
+    return $output;
+}
 # read options and arguments
 
 $configfile = "/etc/fetchmail-all/config";
@@ -109,7 +121,7 @@ map{
 
 	syslog("info","fetch ${src_user}@${src_server} for ${mailbox}");
 
-	$cmd="user '${src_user}' there with password '".decode_base64($src_password)."'";
+	$cmd="user '${src_user}' there with password '".escape_password(decode_base64($src_password))."'";
 	$cmd.=" folder '${src_folder}'" if ($src_folder);
 
 	if ($mda) {
