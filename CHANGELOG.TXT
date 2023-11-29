@@ -9,7 +9,18 @@
 MASTER (should have all changes from 3.3.10 plus)
 ------
 
-   - Add initial support for OpenDKIM domain key handling ( see #631 ; thanks @Freddo3000 )
+   - Make fetchmail.pl respect src_port (thanks @tempixx - see #784)
+   - Improve github action (php 8.2)
+   - Add Javascript username validation to prevent illegal characters (see #765; thanks @verdinago)
+   - Fix typos / broken links etc (see #761; thanks @knofte)
+   - Add initial support for OpenDKIM domain key handling (see #631; thanks @Freddo3000 )
+   - vacation.pl updates - (log4perl warnings, typos etc, logging to file, localhost connection stuff - see https://github.com/postfixadmin/postfixadmin/discussions/648 thanks @puck)
+   - fix display of active buttons in the bootstrap theme (see #749 - thanks @reinks2112)
+   - fix theme logo + config interaction (see #718; thanks @dkatheininge)
+   - fix pacrypt + php_crypt:MD5 
+   - fix dovecot:CRYPT-METHOD (see #708; thanks @Coeur2Boeuf)
+   - fix CSV alias export (see #703; thanks @dennis2society)
+   - upgrade bundled jquery (v1.12.4 to v3.7.0) (fixes jquery ajax security problem, postfixadmin isn't vulnerable, see #734; thanks @tibor-banfalvi)
    - Require 'composer' for library installation (see install.sh)
    - Remove the dependency on 'doveadm pw' and support more hash mechanisms (see: #491)
    - Update debian/ patch (see #529)
