@@ -11,22 +11,49 @@
  * @version $Id$
  * @license GNU GPL v2 or later.
  *
- * File: edit-alias.php
+ * File: edit-forward.php
  * Users can use this to set forwards etc for their mailbox.
+ * Admin can set forwards for there users
  *
- * Template File: users_edit-alias.tpl
+ * Template File: edit_forward.tpl
  *
  */
 
 require_once('../common.php');
 
+$CONF= Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
 $smarty->configureTheme('../');
 
-$smarty->assign('smarty_template', 'users_edit-alias');
+$smarty->assign('smarty_template', 'edit_forward');
 
-authentication_require_role('user');
-$USERID_USERNAME = authentication_get_username();
+// authentication_require_role('user');
+// $USERID_USERNAME = authentication_get_username();
+
+// only allow admins to change someone else's 'stuff'
+if (authentication_has_role('admin')) {
+    $Admin_role = 1;
+    $USERID_USERNAME = safeget('username');
+    list(/*NULL*/, $fDomain) = explode('@', $USERID_USERNAME);
+    $Return_url = "list-virtual.php?domain=" . urlencode($fDomain);
+
+//echo "<pre>" . json_encode($USERID_USERNAME, JSON_PRETTY_PRINT); 
+//die('check ^');
+
+    # TODO: better check for valid username (check if mailbox exists)
+    # TODO: (should be done in VacationHandler)
+    if ($fDomain == '' || !check_owner(authentication_get_username(), $fDomain)) {
+        die("Invalid username!"); # TODO: better error message
+    }
+} else {
+    $Admin_role = 0;
+    $Return_url = "main.php";
+    authentication_require_role('user');
+    $USERID_USERNAME = authentication_get_username();
+}
+
+$smarty->assign('return_url', $Return_url);
+
 
 // is edit-alias support enabled in $CONF ?
 if (! Config::bool('edit_alias')) {

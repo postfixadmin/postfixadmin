@@ -350,11 +350,11 @@ $PALANG['pUsersLogin_password_incorrect'] = 'Your password is not correct!';
 $PALANG['pUsersLogin_password_recover'] = 'I forgot my password';
 
 $PALANG['pUsersMenu_vacation'] = 'Auto Response';
-$PALANG['pUsersMenu_edit_alias'] = 'Change your forward';
+$PALANG['pUsersMenu_edit_forward'] = 'Change your forward'; # XXX
 
 $PALANG['pUsersMain_vacation'] = 'Set an "out of office" message or auto responder for your mail.';
 $PALANG['pUsersMain_vacationSet'] = 'Auto Response is ON, click \'Auto Response\' to edit/remove';
-$PALANG['pUsersMain_edit_alias'] = 'Change your email forwarding.';
+$PALANG['pUsersMain_edit_forward'] = 'Change your email forwarding.'; # XXX
 $PALANG['pUsersMain_password'] = 'Change your current password.';
 
 $PALANG['pUsersVacation_welcome'] = 'Auto Response.';

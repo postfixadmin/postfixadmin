@@ -92,7 +92,7 @@
 			{if $authentication_has_role.global_admin!==true && $CONF.alias_control_admin===YES}{assign var="edit_aliases" value=1}{/if}
 			{if $authentication_has_role.global_admin==true && $CONF.alias_control===YES}{assign var="edit_aliases" value=1}{/if}
 			{if $edit_aliases==1}
-				<td><a class="btn btn-primary" href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {$PALANG.alias}</a></td>
+				<td><a class="btn btn-primary" href="edit-forward.php?username={$item.username|escape:"url"}"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {$PALANG.alias}</a></td>
 			{/if}
 			<td><a class="btn btn-primary" href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$PALANG.edit}</a></td>
 			<td>
