@@ -32,6 +32,10 @@ Integrates with :
 
 [Some screenshots of Postfixadmin in action (as admin and user)](DOCUMENTS/screenshots/README.md)
 
+## Releases / Development note
+
+ - While you can install PostfixAdmin from 'git' using the 'master' branch, 'master' is our main development version. It may work. It may contain funky new exciting stuff. It may "eat your data".
+ - If you want an easy life, use a published release - see: https://github.com/postfixadmin/postfixadmin/releases or it's branch (e.g. postfixadmin_3.3)
 
 ## Useful Links
 
