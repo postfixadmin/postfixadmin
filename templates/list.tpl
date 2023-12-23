@@ -76,7 +76,7 @@
                     {if $table == 'foo' && $key == 'bar'}
                         Special handling (td content) for {$table} / {$key}
                     {elseif $table == 'aliasdomain' && $key == 'target_domain' && $struct.target_domain.linkto == 'target'}
-                        <a href="list-virtual.php?domain={$item.target_domain|escape:"url"}">{$item.target_domain}</a>
+                        <a href="list-virtual.php?domain={$item.target_domain|escape:"quotes"}">{$item.target_domain}</a> {* do we need escape:url or escpae:quotes here? see #705 *}
 {*                    {elseif $table == 'domain' && $key == 'domain'}
                         <a href="list.php?table=domain&domain={$item.domain|escape:"url"}">{$item.domain}</a>
 *}
