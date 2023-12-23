@@ -9,6 +9,7 @@
 MASTER (should have all changes from 3.3.10 plus)
 ------
 
+   - MFA/TOTP support (see https://github.com/postfixadmin/postfixadmin/pull/753 - thank you @svenseeberg and @drunken-sod)
    - Update composer's PHP requirement to PHP 7.4+ (which matches Wordpress etc, PHP project is supporting 8.1<->8.3)
    - Make fetchmail.pl respect src_port (thanks @tempixx - see #784)
    - Improve github action (php 8.2)
