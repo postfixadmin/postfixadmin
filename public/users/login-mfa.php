@@ -35,7 +35,7 @@ if (authentication_has_role("user")) {
     exit(0);
 }
 
-if ($_GET["abort"] == "1" && authentication_mfa_incomplete()){
+if ($_GET["abort"] == "1" && authentication_mfa_incomplete()) {
     session_unset();
     session_destroy();
     session_start();

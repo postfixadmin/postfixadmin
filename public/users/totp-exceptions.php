@@ -23,7 +23,7 @@
  * fDesc
  * fUser
  * fId
- * 
+ *
  */
 
 require_once('common.php');
@@ -39,15 +39,15 @@ $pUser                      = '';
 
 $username   = authentication_get_username();
 
-if (authentication_has_role('global-admin')){
+if (authentication_has_role('global-admin')) {
     $login = new Login('admin');
     $totppf = new TotpPf('admin');
     $admin = 2;
-}elseif (authentication_has_role('admin')){
+} elseif (authentication_has_role('admin')) {
     $login = new Login('admin');
     $totppf = new TotpPf('admin');
     $admin = 1;
-}else{
+} else {
     $login = new Login('mailbox');
     $totppf = new TotpPf('mailbox');
     $admin = 0;
@@ -63,15 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         header("Location: main.php");
         exit(0);
     }
-    
-    if(isset($_POST['fPassword_current']) && $_POST['fPassword_current'] != ''){
+
+    if (isset($_POST['fPassword_current']) && $_POST['fPassword_current'] != '') {
         $fPass      = $_POST['fPassword_current'];
         $fIp        = $_POST['fIp'];
         $fDesc      = $_POST['fDesc'];
         $fUser      = $_POST['fUser'];
         add_exception($username, $fPass, $fIp, $fDesc, $fUser, $admin, $totppf, $PALANG);
     }
-    if(isset($_POST['fId']) && $_POST['fId'] != ''){
+    if (isset($_POST['fId']) && $_POST['fId'] != '') {
         $fId        = $_POST['fId'];
         revoke_exception($username, $fId, $totppf, $PALANG);
     }
@@ -80,19 +80,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 // Generate list of existing exceptions
 
-if($admin==2)$exceptions    = $totppf->getAllExceptions();
-else $exceptions            = $totppf->getExceptionsFor($username);
+if ($admin==2) {
+    $exceptions    = $totppf->getAllExceptions();
+} else {
+    $exceptions            = $totppf->getExceptionsFor($username);
+}
 
 // User can revoke exceptions for own username
 // Admins can revoke exceptions for own domain
 // Global-admin can revoke all exceptions
-foreach($exceptions as $n => $ex){
-    if($ex['username'] == $username)
+foreach ($exceptions as $n => $ex) {
+    if ($ex['username'] == $username) {
         $exceptions[$n]['edit'] = 1;
-    if($admin == 2)
+    }
+    if ($admin == 2) {
         $exceptions[$n]['edit'] = 1;
-    if($admin==1 && $ex['username'] == $domain)
+    }
+    if ($admin==1 && $ex['username'] == $domain) {
         $exceptions[$n]['edit'] = 1;
+    }
 }
 
 
@@ -108,7 +114,8 @@ $smarty->display('index.tpl');
 
 
 
-function add_exception($username, $fPassword_current, $fException_ip, $fException_desc, $fException_user, $admin, $totppf, $PALANG){
+function add_exception($username, $fPassword_current, $fException_ip, $fException_desc, $fException_user, $admin, $totppf, $PALANG)
+{
     try {
         if ($totppf->addException($username, $fPassword_current, $fException_ip, $fException_user, $fException_desc)) {
             flash_info($PALANG['pTotp_exception_result_success']);
@@ -122,10 +129,13 @@ function add_exception($username, $fPassword_current, $fException_ip, $fExceptio
     }
 }
 
-function revoke_exception($username, $id, $totppf, $PALANG){
+function revoke_exception($username, $id, $totppf, $PALANG)
+{
     // No extra password check by design, user might be in a hurry
     $result = $totppf->deleteException($username, $id);
-    if($result)flash_info($PALANG['pTotp_exceptions_revoked']);
+    if ($result) {
+        flash_info($PALANG['pTotp_exceptions_revoked']);
+    }
 }
 
 

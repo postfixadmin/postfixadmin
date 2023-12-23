@@ -37,18 +37,18 @@ $pTOTP_now                                   = "";
 $pPassword_password_text                     = "";
 $pQR_raw               	                     = "";
 
-if (authentication_has_role('admin')){
+if (authentication_has_role('admin')) {
     $totppf = new TotpPf('admin');
     $login  = new Login('admin');
     $admin = true;
-}else{
+} else {
     $totppf = new TotpPf('mailbox');
     $login  = new Login('mailbox');
     $admin = false;
 }
 
 
-// Create new OTP-object 
+// Create new OTP-object
 // Generate random secret and resulting QR code
 list($pTOTP_secret, $pQR_raw) = $totppf->generate($username);
 
@@ -73,15 +73,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     // Does entered code from 2FA-app match the secret
-    if($fTOTP_code == '') {
+    if ($fTOTP_code == '') {
         $code_checks_out    = true;
-        $fTOTP_secret       = NULL;
-    }
-    else
+        $fTOTP_secret       = null;
+    } else {
         $code_checks_out = $totppf->checkTOTP($fTOTP_secret,  $username, $fTOTP_code);
+    }
 
     // Check that user has successfully generated a TOTP with external device
-    if (!$code_checks_out){
+    if (!$code_checks_out) {
         $secreterror += 1;
         flash_error($PALANG['pTOTP_code_mismatch']);
     }
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     // If TOTP checks out -> store secret in DB
     if ($secreterror == 0) {
         try {
-            if($totppf->changeTOTP_secret($username, $fTOTP_secret, $fPassword_current)){
+            if ($totppf->changeTOTP_secret($username, $fTOTP_secret, $fPassword_current)) {
                 flash_info($PALANG['pTotp_stored']);
             } else {
                 flash_error(Config::Lang_f('pTOTP_secret_result_error', $username));
@@ -98,11 +98,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             flash_error($e->getMessage());
         }
     }
-   
 }
 
-if( $totppf->usesTOTP($username))   $smarty->assign('show_form', 'hidden');
-else                                $smarty->assign('show_form', 'visible');
+if ( $totppf->usesTOTP($username)) {
+    $smarty->assign('show_form', 'hidden');
+} else {
+    $smarty->assign('show_form', 'visible');
+}
 $smarty->assign('SESSID_USERNAME', $username);
 $smarty->assign('admin', $admin);
 $smarty->assign('pPassword_password_current_text', $pPassword_password_current_text, false);

@@ -1,4 +1,5 @@
 <?php
+
 use OTPHP\TOTP;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
@@ -40,8 +41,9 @@ class TotpPf
         $totp = TOTP::create();
         $totp->setLabel($username);
         $totp->setIssuer('Postfix Admin');
-        if(Config::read('logo_url'))
+        if (Config::read('logo_url')) {
             $totp->setParameter('image', Config::read('logo_url'));
+        }
         $QR_content = $totp->getProvisioningUri();
         $pTOTP_secret = $totp->getSecret();
         unset($totp);
@@ -57,7 +59,7 @@ class TotpPf
             ->validateResult(false)
             ->build();
         $qr_code = base64_encode($QRresult->getString());
-        return Array($pTOTP_secret, $qr_code);
+        return array($pTOTP_secret, $qr_code);
     }
 
     /**
@@ -67,8 +69,9 @@ class TotpPf
      */
     public function usesTOTP($username): bool
     {
-        if(!(Config::read('totp') == 'YES'))
+        if (!(Config::read('totp') == 'YES')) {
             return false;
+        }
 
         $sql = "SELECT totp_secret FROM {$this->table} WHERE username = :username AND active = :active";
 
@@ -80,8 +83,9 @@ class TotpPf
         ];
 
         $result = db_query_one($sql, $values);
-        if (is_array($result) && isset($result['totp_secret']) && $result['totp_secret'] != '')
+        if (is_array($result) && isset($result['totp_secret']) && $result['totp_secret'] != '') {
             return true;
+        }
         return false;
     }
 
@@ -103,8 +107,9 @@ class TotpPf
         ];
 
         $result = db_query_one($sql, $values);
-        if (!is_array($result) || !isset($result['totp_secret'])) 
+        if (!is_array($result) || !isset($result['totp_secret'])) {
             return false;
+        }
 
         return $this->checkTOTP($result['totp_secret'], $username, $code);
     }
@@ -120,10 +125,11 @@ class TotpPf
     {
         $totp = TOTP::create($secret);
 
-        if ( $totp->now() == $code )
+        if ( $totp->now() == $code ) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -154,7 +160,6 @@ class TotpPf
         } else {
             return '';
         }
-
     }
 
     /**
@@ -243,15 +248,17 @@ class TotpPf
 
         list($local_part, $domain) = explode('@', $username);
 
-        if (!$this->login->login($username, $password)) 
+        if (!$this->login->login($username, $password)) {
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
+        }
 
-        if (authentication_has_role('admin'))
+        if (authentication_has_role('admin')) {
             $admin = 1;
-        elseif (authentication_has_role('global-admin'))
+        } elseif (authentication_has_role('global-admin')) {
             $admin = 2;
-        else
+        } else {
             $admin = 0;
+        }
 
         if (empty($Exception_ip)) {
             $error += 1;
@@ -268,22 +275,25 @@ class TotpPf
             flash_error(Config::Lang('pException_user_entire_domain_error'));
         }
 
-        if ( !($admin==2) && $Exception_user == NULL ) {
+        if ( !($admin==2) && $Exception_user == null ) {
             $error += 1;
             flash_error(Config::Lang('pException_user_global_error'));
         }
 
 
-        $values    = Array('ip' => $Exception_ip, 'username' => $Exception_user, 'description' => $Exception_desc);
+        $values    = array('ip' => $Exception_ip, 'username' => $Exception_user, 'description' => $Exception_desc);
 
-        if(!$error){
+        if (!$error) {
             // OK to insert/replace.
             // As PostgeSQL lacks REPLACE we first check and delete any previous rows matching this ip and user
-            $exists = db_query_all('SELECT id FROM totp_exception_address WHERE ip = :ip AND username = :username', 
-                    ['ip' => $Exception_ip, 'username' => $Exception_user]);
-            if(isset($exists[0]))
-                foreach($exists as $x) db_delete('totp_exception_address', 'id', $x['id']);
-            $result = db_insert('totp_exception_address', $values, Array());
+            $exists = db_query_all('SELECT id FROM totp_exception_address WHERE ip = :ip AND username = :username',
+                ['ip' => $Exception_ip, 'username' => $Exception_user]);
+            if (isset($exists[0])) {
+                foreach ($exists as $x) {
+                    db_delete('totp_exception_address', 'id', $x['id']);
+                }
+            }
+            $result = db_insert('totp_exception_address', $values, array());
         }
 
         if ($result != 1) {
@@ -333,17 +343,19 @@ class TotpPf
         $exception = $this->getException($Exception_id);
         $error = 0;
 
-        if(strpos($exception['username'],'@'))
+        if (strpos($exception['username'],'@')) {
             list($Exception_local_part, $Exception_domain) = explode('@', $exception['username']);
-        else
+        } else {
             $Exception_domain = $exception['username'];
+        }
 
-        if (authentication_has_role('global-admin'))
+        if (authentication_has_role('global-admin')) {
             $admin = 2;
-        elseif (authentication_has_role('admin'))
+        } elseif (authentication_has_role('admin')) {
             $admin = 1;
-        else
+        } else {
             $admin = 0;
+        }
 
 
         if ( !$admin && strpos($exception['username'],'@') !== false ) {
@@ -351,7 +363,7 @@ class TotpPf
             throw new \Exception(Config::Lang('pException_user_entire_domain_error'));
         }
 
-        if ( !($admin==2) && $exception['username'] == NULL ) {
+        if ( !($admin==2) && $exception['username'] == null ) {
             $error += 1;
             throw new \Exception(Config::Lang('pException_user_global_error'));
         }
@@ -396,7 +408,7 @@ class TotpPf
     }
 
     /**
-     * @return array of all exceptions 
+     * @return array of all exceptions
      */
     public function getAllExceptions(): array
     {
@@ -423,7 +435,5 @@ class TotpPf
     {
         return db_query_one("SELECT * FROM totp_exception_address WHERE id=$id");
     }
-
-
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

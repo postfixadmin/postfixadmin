@@ -2324,4 +2324,3 @@ function upgrade_1849_pgsql()
         ");
     }
 }
-

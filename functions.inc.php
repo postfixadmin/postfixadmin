@@ -19,10 +19,11 @@ $min_db_version = 1844;  # update (at least) before a release with the latest fu
 
 
 /**
- * Check if the user already provided a password but not the second factor 
+ * Check if the user already provided a password but not the second factor
  * @return boolean
  */
-function authentication_mfa_incomplete() {
+function authentication_mfa_incomplete()
+{
     if (isset($_SESSION['sessid'])) {
         if (isset($_SESSION['sessid']['mfa_complete'])) {
             if ($_SESSION['sessid']['mfa_complete'] == false) {

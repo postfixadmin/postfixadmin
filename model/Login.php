@@ -183,8 +183,8 @@ class Login
         }
 
         // Write passwords through pipe to command stdin -- provide old password, then new password.
-        fwrite($pipes[0], $old_password . "\0", 1+strlen($old_password));
-        fwrite($pipes[0], $new_password . "\0", 1+strlen($new_password));
+        fwrite($pipes[0], $old_password . "\0", 1 + strlen($old_password));
+        fwrite($pipes[0], $new_password . "\0", 1 + strlen($new_password));
         $output = stream_get_contents($pipes[1]);
         fclose($pipes[0]);
         fclose($pipes[1]);
@@ -200,9 +200,10 @@ class Login
     }
 
     /**
-     * @param string $username
-     * @param string $new_password
-     * @param string $old_password
+     * @param string $username - current user
+     * @param string $password - password for $username
+     * @param string $app_desc - desc. for the app we're adding
+     * @param string $app_pass - password for the app we're adding
      *
      * All passwords need to be plain text; they'll be hashed appropriately
      * as per the configuration in config.inc.php
@@ -210,7 +211,7 @@ class Login
      * @return boolean true on success; false on failure
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function addAppPassword($username, $password, $app_desc, $app_pass): bool
+    public function addAppPassword(string $username, string $password, string $app_desc, string $app_pass): bool
     {
         list(/*NULL*/, $domain) = explode('@', $username);
 
@@ -227,22 +228,26 @@ class Login
 
         $app_pass = pacrypt($app_pass);
 
-/* maybe we want this
-        if (Config::bool('password_expiration')) {
-            $domain = $this->getUserDomain($username);
-            if (!is_null($domain)) {
-                $password_expiration_value = (int)get_password_expiration_value($domain);
-                $set['password_expiry'] = date('Y-m-d H:i', strtotime("+$password_expiration_value day"));
-            }
-        }
-*/
+        /* maybe we want this
+                if (Config::bool('password_expiration')) {
+                    $domain = $this->getUserDomain($username);
+                    if (!is_null($domain)) {
+                        $password_expiration_value = (int)get_password_expiration_value($domain);
+                        $set['password_expiry'] = date('Y-m-d H:i', strtotime("+$password_expiration_value day"));
+                    }
+                }
+        */
 
         // As PostgeSQL lacks REPLACE we first check and delete any previous rows matching this ip and user
         $exists = db_query_all('SELECT id FROM mailbox_app_password WHERE username = :username AND description = :description',
             ['username' => $username, 'description' => $app_desc,]);
-        if(isset($exists[0]))
-            foreach($exists as $x) db_delete('mailbox_app_password', 'id', $x['id']);
-        $result = db_insert('mailbox_app_password', ['username' => $username, 'description' => $app_desc, 'password_hash' => $app_pass ], Array());
+        if (isset($exists[0])) {
+            foreach ($exists as $x) {
+                db_delete('mailbox_app_password', 'id', $x['id']);
+            }
+        }
+
+        $result = db_insert('mailbox_app_password', ['username' => $username, 'description' => $app_desc, 'password_hash' => $app_pass], []);
 
         if ($result != 1) {
             db_log($domain, 'edit_password', "FAILURE: " . $username);
@@ -279,7 +284,7 @@ class Login
         }
 
         // Write passwords through pipe to command stdin -- provide old password, then new password.
-        fwrite($pipes[0], $app_pass . "\0", 1+strlen($app_pass));
+        fwrite($pipes[0], $app_pass . "\0", 1 + strlen($app_pass));
         $output = stream_get_contents($pipes[0]);
         fclose($pipes[0]);
 
@@ -292,5 +297,4 @@ class Login
 
         return true;
     }
-
 }
