@@ -37,6 +37,8 @@ $PALANG['must_be_boolean'] = '%s must be boolean';
 $PALANG['invalid_value_given'] = 'Invalid value given for %s';
 $PALANG['edit_not_allowed'] = 'You are not allowed to edit %s';
 $PALANG['searchparams'] = 'Search parameters:';
+$PALANG['copy'] = 'Copy';
+$PALANG['generate'] = 'Generate';
 
 $PALANG['pFooter_logged_as'] = 'Logged in as %s';
 
@@ -57,7 +59,11 @@ $PALANG['pMenu_fetchmail'] = 'Fetch Email';
 $PALANG['pMenu_sendmail'] = 'Send Email';
 $PALANG['pMenu_dkim'] = 'Domain Keys';
 $PALANG['pMenu_dkim_signing'] = 'Signing Table';
+$PALANG['pMenu_security'] = 'Security';
 $PALANG['pMenu_password'] = 'Password';
+$PALANG['pMenu_totp'] = 'TOTP';
+$PALANG['pMenu_totp_exceptions'] = 'TOTP exceptions';
+$PALANG['pMenu_app_passwords'] = 'Application passwords';
 $PALANG['pMenu_viewlog'] = 'View Log';
 $PALANG['pMenu_logout'] = 'Logout';
 
@@ -174,6 +180,46 @@ $PALANG['pEdit_mailbox_quota_text_error'] = 'The quota that you specified is too
 $PALANG['pEdit_mailbox_domain_error'] = 'This domain is not yours: ';
 $PALANG['pEdit_mailbox_result_error'] = 'Unable to modify the mailbox!';
 
+$PALANG['pUsersMain_totp_exceptions'] = 'Allow trusted IP-addresses to access your mailbox without TOTP';
+$PALANG['pUsersMenu_totp'] = 'Change TOTP';
+$PALANG['pTOTP_welcome'] = 'Setup your Time-based One-time Password';
+$PALANG['pUsersMain_totp'] = 'Setup your Time-based One-time Password';
+$PALANG['pTOTP_secret'] = 'TOTP secret';
+$PALANG['pTOTP_code'] = 'TOTP code (empty to disable)';
+$PALANG['pTOTP_secret_result_error'] = 'Could not change TOTP secret';
+$PALANG['change_TOTP'] = 'Change TOTP settings';
+$PALANG['pTOTP_code_mismatch'] = 'Incorrect one-time-password entered';
+$PALANG['pTOTP_qr'] = 'TOTP QR-code';
+$PALANG['pTOTP_confirm'] = 'Please confirm your login by providing your current TOTP code';
+$PALANG['pTotp_failed'] = 'Your entered code is not valid. Please use a current code.';
+$PALANG['pTotp_stored'] = 'You successfully confirmed your new TOTP secret.';
+$PALANG['pTotp_exceptions_welcome'] = 'Add TOPT-exempt address';
+$PALANG['pTotp_exceptions_user'] = 'Username (or domain for admins)';
+$PALANG['pTotp_exceptions_add'] = 'Add exception';
+$PALANG['pTotp_exceptions_address'] = 'IP-Address';
+$PALANG['pTotp_exceptions_description'] = 'Description';
+$PALANG['pTotp_exceptions_list'] = 'Existing exceptions';
+$PALANG['pTotp_exceptions_revoke'] = 'Revoke';
+$PALANG['pTotp_exceptions_revoked'] = 'Exception revoked';
+$PALANG['pTotp_exception_result_success'] = 'Exception added';
+$PALANG['pTotp_exception_result_error'] = 'Could not add exception';
+$PALANG['pEdit_totp_exception_result_error'] = 'Unable to modify TOTP exceptions';
+$PALANG['pException_ip_empty_error'] = 'IP cannot be empty';
+$PALANG['pException_desc_empty_error'] = 'Description cannot be empty';
+$PALANG['pException_user_entire_domain_error'] = 'Only admins can add exceptions for an entire domain.';
+$PALANG['pException_user_global_error'] = 'Only superadmins can add global exceptions';
+$PALANG['pUsersMain_app_passwords'] = 'Setup revokable app passwords with reduced privileges';
+$PALANG['pApp_passwords_list'] = 'Existing application passwords';
+$PALANG['pApp_password_revoked'] = 'Exception revoked';
+$PALANG['pApp_passwords_welcome'] = 'Add application password';
+$PALANG['pMenu_app_passwords'] = 'Application passwords';
+$PALANG['pAppPassAdd_result_success'] = 'Added an application password';
+$PALANG['pAppPassAdd_pass_empty_error'] = 'Password cannot be empty';
+$PALANG['pAppPassAdd_result_error'] = 'Could not add application password';
+#$PALANG[''] = '';
+
+$PALANG['MFA_submit'] = 'Confirm login';
+
 $PALANG['pPassword_welcome'] = 'Change your login password.';
 $PALANG['pPassword_admin'] = 'Login';
 $PALANG['pPassword_password_current'] = 'Current Password';
@@ -215,6 +261,8 @@ $PALANG['pViewlog_timestamp'] = 'Timestamp';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Data';
 
+$PALANG['pViewlog_action_add_totp_exception'] = 'Add TOTP exception';
+$PALANG['pViewlog_action_delete_totp_exception'] = 'Delete TOTP exception';
 $PALANG['pViewlog_action_create_domain'] = 'create domain';
 $PALANG['pViewlog_action_delete_domain'] = 'delete domain';
 $PALANG['pViewlog_action_edit_domain'] = 'edit domain';
@@ -231,6 +279,7 @@ $PALANG['pViewlog_action_edit_alias'] = 'edit alias';
 $PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active';
 $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password';
+$PALANG['pViewlog_action_add_app_password'] = 'Add application password';
 $PALANG['pViewlog_action_create_admin'] = 'create admin';
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin';
 $PALANG['pViewlog_action_delete_admin'] = 'delete admin';
@@ -314,6 +363,11 @@ $PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, che
 $PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!';
 $PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!';
 $PALANG['mailbox_postpassword_failed'] = 'The mailbox postpassword script failed, check the error log for details!';
+$PALANG['mailbox_postapppassword_failed'] = 'The mailbox postapppassword script failed, check the error log for details!';
+$PALANG['mailbox_post_totp_exception_delete_failed'] = 'The mailbox post totp exception delete script failed, check the error log for details!';
+$PALANG['mailbox_post_totp_exception_add_failed'] = 'The mailbox post totp exception add script failed, check the error log for details!';
+$PALANG['mailbox_post_TOTP_change_failed'] = 'The mailbox post totp secret change script failed, check the error log for details!';
+
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!';
 $PALANG['domain_conflict_vacation_domain'] = 'You can\'t use the vacation domain as mail domain!';
 
@@ -458,6 +512,8 @@ $PALANG['password_expiration_desc'] = 'Date when password will expire';
 $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX
 $PALANG['pLegal_char_warning']              = 'Illegal character';
+$PALANG['TOTP_already_configured']          = 'TOTP is already configured for this account, do you want to change your secret?';
+$PALANG['pApp_passwords_add']               = 'Add application-specific password';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

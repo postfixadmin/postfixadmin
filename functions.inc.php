@@ -17,6 +17,22 @@
 
 $min_db_version = 1844;  # update (at least) before a release with the latest function numbrer in upgrade.php
 
+
+/**
+ * Check if the user already provided a password but not the second factor 
+ * @return boolean
+ */
+function authentication_mfa_incomplete() {
+    if (isset($_SESSION['sessid'])) {
+        if (isset($_SESSION['sessid']['mfa_complete'])) {
+            if ($_SESSION['sessid']['mfa_complete'] == false) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 /**
  * check_session
  *  Action: Check if a session already exists, if not redirect to login.php
@@ -102,14 +118,18 @@ function authentication_require_role($role)
  * @param boolean $is_admin true if the user is an admin, false otherwise
  * @return boolean true on success
  */
-function init_session($username, $is_admin = false)
+function init_session($username, $is_admin = false, $mfa_complete = false)
 {
     $status = session_regenerate_id(true);
     $_SESSION['sessid'] = array();
     $_SESSION['sessid']['roles'] = array();
-    $_SESSION['sessid']['roles'][] = $is_admin ? 'admin' : 'user';
+    if ($mfa_complete) {
+        $_SESSION['sessid']['roles'][] = $is_admin ? 'admin' : 'user';
+        $_SESSION['sessid']['mfa_complete'] = true;
+    } else {
+        $_SESSION['sessid']['mfa_complete'] = false;
+    }
     $_SESSION['sessid']['username'] = $username;
-
     $_SESSION['PFA_token'] = md5(random_bytes(8) . uniqid('pfa', true));
 
     return $status;

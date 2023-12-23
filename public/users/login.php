@@ -37,14 +37,22 @@ check_db_version(); # check if the database layout is up to date (and error out 
 
 $error = null;
 
+if (authentication_mfa_incomplete()) {
+    header("Location: login-mfa.php");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
         die('Invalid token!');
     }
 
+    $totppf = new TotpPf('mailbox');
+
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
     $fPassword = safepost('fPassword');
+
 
     if ($lang != check_language(false)) { # only set cookie if language selection was changed
         setcookie('lang', $lang, time() + 60 * 60 * 24 * 30); # language cookie, lifetime 30 days
@@ -53,7 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $login = new Login('mailbox');
     if ($login->login($fUsername, $fPassword)) {
-        init_session($fUsername, false);
+        if ($totppf->usesTOTP($fUsername)) {
+            init_session($fUsername, false, false);
+            header("Location: login-mfa.php");
+            exit;
+        }
+        init_session($fUsername, false, true);
         header("Location: main.php");
         exit;
     } else {

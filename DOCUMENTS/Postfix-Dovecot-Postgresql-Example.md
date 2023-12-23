@@ -236,3 +236,19 @@ password_query = SELECT username AS user,password FROM mailbox WHERE username = 
 # Query to retrieve user information, note uid matches dovecot.conf AND Postfix virtual_uid_maps parameter.
 user_query = SELECT '/var/mail/vmail/' || maildir AS home, 8 as uid, 8 as gid FROM mailbox WHERE username = '%u' AND active = '1'
 ```
+
+Password query with app password and allowed remote IP support:
+```
+password query = SELECT user, password FROM (\
+  SELECT username AS user, password, '0' AS is_app_password FROM\
+  mailbox\
+  UNION\
+  SELECT username AS user, password, '1' AS is_app_password FROM mailbox_app_password\
+)\
+WHERE user='%u' AND password='%w' AND active=1 AND\
+(\
+  "%r" IN (SELECT ip FROM totp_exception_address WHERE username="%u" OR username IS NULL OR username="@%d")\
+  OR (SELECT totp_secret FROM mailbox WHERE usenamer="%u") IS NULL\
+  OR is_app_password='1'\
+)
+```

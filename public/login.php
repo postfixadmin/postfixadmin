@@ -39,6 +39,11 @@ if ($CONF['configured'] !== true) {
 
 check_db_version(); # check if the database layout is up to date (and error out if not)
 
+if (authentication_mfa_incomplete()) {
+    header("Location: login-mfa.php");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (!isset($_SESSION['PFA_token'])) {
         die("Invalid token (session timeout; refresh the page and try again?)");
@@ -47,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
         die('Invalid token! (CSRF check failed)');
     }
+
+    $totppf = new TotpPf('admin');
 
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
@@ -79,6 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $_SESSION['sessid']['roles'][] = 'global-admin';
         }
 
+        if ($totppf->usesTOTP($fUsername)) {
+            init_session($fUsername, true, false);
+            header("Location: login-mfa.php");
+            exit(0);
+        }
+        init_session($fUsername, true, true);
         header("Location: main.php");
         exit(0);
     } else { # $h->login failed

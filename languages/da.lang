@@ -454,7 +454,62 @@ $PALANG['password_expiration_desc'] = 'Date when password will expire'; # XXX
 $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
   
+
 $PALANG['pLegal_char_warning'] = 'Ulovlig figur';
+
+$PALANG['copy'] = 'Kopiere Kopier';
+$PALANG['generate'] = 'Generer Generer';
+$PALANG['pMenu_security'] = 'Sikkerhed for sikkerhed';
+$PALANG['pMenu_totp'] = 'TOTP';
+$PALANG['pMenu_totp_exceptions'] = 'Undtagelser';
+$PALANG['pMenu_app_passwords'] = 'Ansøgningsadgangskoder';
+$PALANG['pUsersMain_totp_exceptions'] = 'Tillad betroede IP-adresser til at få adgang til din postkasse uden TOTP';
+$PALANG['pUsersMenu_totp'] = 'Ændre TOTP';
+$PALANG['pTOTP_welcome'] = 'Opsætning af din Time-baseret engangsadgangskode';
+$PALANG['pUsersMain_totp'] = 'Opsætning af din Time-baseret engangsadgangskode';
+$PALANG['pTOTP_secret'] = 'TOTP hemmelighed';
+$PALANG['pTOTP_code'] = 'TOTP kode';
+$PALANG['pTOTP_secret_result_error'] = 'Kan ikke ændre TOTP hemmelighed';
+$PALANG['change_TOTP'] = 'Ændre indstillingerne for TOTP';
+$PALANG['pTOTP_code_mismatch'] = 'Forkert et-time-password indtastet';
+$PALANG['pTOTP_qr'] = 'Log ind';
+$PALANG['pTOTP_confirm'] = 'Bekræft venligst dit login ved at give din nuværende TOTP-kode';
+$PALANG['pTotp_failed'] = 'Din indtastede kode er ikke gyldig. Brug venligst en aktuel kode.';
+$PALANG['pTotp_stored'] = 'Du har bekræftet din nye TOTP hemmelighed.';
+$PALANG['pTotp_exceptions_welcome'] = 'Tilføj TOPT-exempt adresse';
+$PALANG['pTotp_exceptions_user'] = 'Brugernavn (eller domæne for administratorer)';
+$PALANG['pTotp_exceptions_add'] = 'Tilføj undtagelse';
+$PALANG['pTotp_exceptions_address'] = 'IP-adresse';
+$PALANG['pTotp_exceptions_description'] = 'Beskrivelse Beskrivelse Beskrivelse Beskrivelse';
+$PALANG['pTotp_exceptions_list'] = 'Eksisterende undtagelser';
+$PALANG['pTotp_exceptions_revoke'] = 'Revoke';
+$PALANG['pTotp_exceptions_revoked'] = 'Undtagelse ophævet';
+$PALANG['pTotp_exception_result_success'] = 'Undtagelse tilføjet';
+$PALANG['pTotp_exception_result_error'] = 'Kan ikke tilføje undtagelse';
+$PALANG['pEdit_totp_exception_result_error'] = 'Kan ikke ændre TOTP undtagelser';
+$PALANG['pException_ip_empty_error'] = 'IP kan ikke være tomt';
+$PALANG['pException_desc_empty_error'] = 'Beskrivelse kan ikke være tomt';
+$PALANG['pException_user_entire_domain_error'] = 'Kun administratorer kan tilføje undtagelser for et helt domæne.';
+$PALANG['pException_user_global_error'] = 'Kun superadmins kan tilføje globale undtagelser';
+$PALANG['pUsersMain_app_passwords'] = 'Opsætning af hemmelige app-adgangskoder med reducerede privilegier';
+$PALANG['pApp_passwords_list'] = 'Eksisterende applikationsadgangskoder';
+$PALANG['pApp_password_revoked'] = 'Undtagelse ophævet';
+$PALANG['pApp_passwords_welcome'] = 'Tilføj adgangskode';
+$PALANG['pAppPassAdd_result_success'] = 'Tilføjet en adgangskode';
+$PALANG['pAppPassAdd_pass_empty_error'] = 'Adgangskode kan ikke være tomt';
+$PALANG['pAppPassAdd_result_error'] = 'Kan ikke tilføje ansøgningsadgangskode';
+$PALANG['MFA_submit'] = 'Bekræft login';
+$PALANG['pViewlog_action_add_totp_exception'] = 'Tilføj TOTP undtagelse';
+$PALANG['pViewlog_action_delete_totp_exception'] = 'Slette TOTP undtagelse';
+$PALANG['pViewlog_action_add_app_password'] = 'Tilføj adgangskode';
+$PALANG['mailbox_postapppassword_failed'] = 'postkassen postapppassword script mislykkedes, kontrollere fejlen log for detaljer!';
+$PALANG['mailbox_post_totp_exception_delete_failed'] = 'postkassen post totp undtagelse slette script mislykkedes, kontrollere fejlen log for detaljer!';
+$PALANG['mailbox_post_totp_exception_add_failed'] = 'postkassen post totp undtagelse tilføjer script mislykkedes, kontrollere fejlen log for detaljer!';
+$PALANG['mailbox_post_TOTP_change_failed'] = 'postkassen post totp hemmeligt ændring script mislykkedes, kontrollere fejlen log for detaljer!';
+
+$PALANG['TOTP_already_configured'] = 'TOTP er allerede konfigureret til denne konto, ønsker du at ændre din hemmelighed?';
+
+$PALANG['pApp_passwords_add'] = 'Tilføj adgangskode';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
