@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $fIp        = $_POST['fIp'];
         $fDesc      = $_POST['fDesc'];
         $fUser      = $_POST['fUser'];
-        add_exception($username, $fPass, $fIp, $fDesc, $fUser, $admin, $totppf, $PALANG);
+        add_exception($username, $fPass, $fIp, $fDesc, $fUser, $totppf, $PALANG);
     }
     if (isset($_POST['fId']) && $_POST['fId'] != '') {
         $fId        = $_POST['fId'];
@@ -113,8 +113,17 @@ $smarty->assign('smarty_template', 'totp-exceptions');
 $smarty->display('index.tpl');
 
 
-
-function add_exception($username, $fPassword_current, $fException_ip, $fException_desc, $fException_user, $admin, $totppf, $PALANG)
+/**
+ * @param string $username - current user from $_SESSION
+ * @param string $fPassword_current - password for current user (to prevent user spoofing?)
+ * @param string $fException_ip - IP address
+ * @param string $fException_desc
+ * @param string $fException_user
+ * @param TotpPf $totppf
+ * @param array $PALANG
+ * @return void
+ */
+function add_exception(string $username, string $fPassword_current, string $fException_ip, string $fException_desc, string $fException_user, TotpPf $totppf,array $PALANG)
 {
     try {
         if ($totppf->addException($username, $fPassword_current, $fException_ip, $fException_user, $fException_desc)) {

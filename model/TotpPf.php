@@ -1,13 +1,11 @@
 <?php
 
-use OTPHP\TOTP;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
-use Endroid\QrCode\Label\Alignment\LabelAlignmentCenter;
-use Endroid\QrCode\Label\Font\NotoSans;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
+use OTPHP\TOTP;
 
 class TotpPf
 {
@@ -67,7 +65,7 @@ class TotpPf
      *
      * @return boolean
      */
-    public function usesTOTP($username): bool
+    public function usesTOTP(string $username): bool
     {
         if (!(Config::read('totp') == 'YES')) {
             return false;
@@ -95,7 +93,7 @@ class TotpPf
      *
      * @return boolean
      */
-    public function checkUserTOTP($username, $code): bool
+    public function checkUserTOTP(string $username, string $code): bool
     {
         $sql = "SELECT totp_secret FROM {$this->table} WHERE username = :username AND active = :active";
 
@@ -121,11 +119,11 @@ class TotpPf
      *
      * @return boolean
      */
-    public function checkTOTP($secret, $username, $code): bool
+    public function checkTOTP(string $secret, string $username, string $code): bool
     {
         $totp = TOTP::create($secret);
 
-        if ( $totp->now() == $code ) {
+        if ($totp->now() == $code) {
             return true;
         } else {
             return false;
@@ -139,7 +137,7 @@ class TotpPf
      * @return string TOTP_secret, empty if NULL
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function getTOTP_secret($username, $password): string
+    public function getTOTP_secret(string $username, string $password): string
     {
         if (!$this->login->login($username, $password)) {
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
@@ -170,7 +168,7 @@ class TotpPf
      * @return boolean true on success; false on failure
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function changeTOTP_secret($username, $TOTP_secret, $password): bool
+    public function changeTOTP_secret(string $username, string $TOTP_secret, string $password): bool
     {
         list(/*NULL*/, $domain) = explode('@', $username);
 
@@ -179,8 +177,8 @@ class TotpPf
         }
 
         $set = array(
-                'totp_secret' => $TOTP_secret,
-                );
+            'totp_secret' => $TOTP_secret,
+        );
 
         $result = db_update($this->table, 'username', $username, $set);
 
@@ -202,9 +200,9 @@ class TotpPf
 
         // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
         $spec = array(
-                0 => array("pipe", "r"), // stdin
-                1 => array("pipe", "w"), // stdout
-                );
+            0 => array("pipe", "r"), // stdin
+            1 => array("pipe", "w"), // stdout
+        );
 
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($domain);
@@ -217,7 +215,7 @@ class TotpPf
         }
 
         // Write secret through pipe to command stdin.
-        fwrite($pipes[0], $TOTP_secret . "\0", 1+strlen($TOTP_secret));
+        fwrite($pipes[0], $TOTP_secret . "\0", 1 + strlen($TOTP_secret));
         $output = stream_get_contents($pipes[1]);
         fclose($pipes[0]);
         fclose($pipes[1]);
@@ -270,18 +268,18 @@ class TotpPf
             flash_error(Config::Lang('pException_desc_empty_error'));
         }
 
-        if ( !$admin && strpos($Exception_user,'@') == false ) {
+        if (!$admin && strpos($Exception_user, '@') == false) {
             $error += 1;
             flash_error(Config::Lang('pException_user_entire_domain_error'));
         }
 
-        if ( !($admin==2) && $Exception_user == null ) {
+        if (!($admin == 2) && $Exception_user == null) {
             $error += 1;
             flash_error(Config::Lang('pException_user_global_error'));
         }
 
 
-        $values    = array('ip' => $Exception_ip, 'username' => $Exception_user, 'description' => $Exception_desc);
+        $values = ['ip' => $Exception_ip, 'username' => $Exception_user, 'description' => $Exception_desc];
 
         if (!$error) {
             // OK to insert/replace.
@@ -310,9 +308,9 @@ class TotpPf
         // If we have a mailbox_postpassword_script (dovecot only?)
         // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
         $spec = array(
-                0 => array("pipe", "r"), // stdin
-                1 => array("pipe", "w"), // stdout
-                );
+            0 => array("pipe", "r"), // stdin
+            1 => array("pipe", "w"), // stdout
+        );
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($Exception_ip);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
@@ -338,12 +336,12 @@ class TotpPf
      * @return boolean true on success; false on failure
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function deleteException($username, $Exception_id): bool
+    public function deleteException(string $username, int $id): bool
     {
-        $exception = $this->getException($Exception_id);
+        $exception = $this->getException($id);
         $error = 0;
 
-        if (strpos($exception['username'],'@')) {
+        if (strpos($exception['username'], '@')) {
             list($Exception_local_part, $Exception_domain) = explode('@', $exception['username']);
         } else {
             $Exception_domain = $exception['username'];
@@ -358,12 +356,12 @@ class TotpPf
         }
 
 
-        if ( !$admin && strpos($exception['username'],'@') !== false ) {
+        if (!$admin && strpos($exception['username'], '@') !== false) {
             $error += 1;
             throw new \Exception(Config::Lang('pException_user_entire_domain_error'));
         }
 
-        if ( !($admin==2) && $exception['username'] == null ) {
+        if (!($admin == 2) && $exception['username'] == null) {
             $error += 1;
             throw new \Exception(Config::Lang('pException_user_global_error'));
         }
@@ -384,9 +382,9 @@ class TotpPf
         // If we have a mailbox_postpassword_script (dovecot only?)
         // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
         $spec = array(
-                0 => array("pipe", "r"), // stdin
-                1 => array("pipe", "w"), // stdout
-                );
+            0 => array("pipe", "r"), // stdin
+            1 => array("pipe", "w"), // stdout
+        );
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($exception['ip']);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
@@ -420,10 +418,10 @@ class TotpPf
      *
      * @return array of exceptions acting on this username
      */
-    public function getExceptionsFor($username): array
+    public function getExceptionsFor(string $username): array
     {
         list($local_part, $domain) = explode('@', $username);
-        return db_query_all("SELECT * FROM totp_exception_address WHERE username = :username OR username = :domain OR username IS NULL",['username' => $username, 'domain' => $domain]);
+        return db_query_all("SELECT * FROM totp_exception_address WHERE username = :username OR username = :domain OR username IS NULL", ['username' => $username, 'domain' => $domain]);
     }
 
     /**
