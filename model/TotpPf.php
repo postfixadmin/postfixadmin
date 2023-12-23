@@ -347,25 +347,28 @@ class TotpPf
             $Exception_domain = $exception['username'];
         }
 
+        $admin = 0;
         if (authentication_has_role('global-admin')) {
             $admin = 2;
         } elseif (authentication_has_role('admin')) {
             $admin = 1;
-        } else {
-            $admin = 0;
         }
 
-
+        /**
+         * @todo rewrite these checks so it's more obvious which is being applied for a global admin, a domain admin or a 'normal' user.
+         *       having $admin = 0|1|2 isn't intuitive, is it?
+         */
         if (!$admin && strpos($exception['username'], '@') !== false) {
-            $error += 1;
             throw new \Exception(Config::Lang('pException_user_entire_domain_error'));
         }
 
         if (!($admin == 2) && $exception['username'] == null) {
-            $error += 1;
             throw new \Exception(Config::Lang('pException_user_global_error'));
         }
 
+        /**
+         * @todo Check we are only allowing someone to delete their own exception, and not someone else's.
+         */
         $result = db_delete('totp_exception_address', 'id', $exception['id']);
 
         if ($result != 1) {

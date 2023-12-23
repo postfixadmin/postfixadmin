@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $fUser      = $_POST['fUser'];
         add_exception($username, $fPass, $fIp, $fDesc, $fUser, $totppf, $PALANG);
     }
-    if (isset($_POST['fId']) && $_POST['fId'] != '') {
+    if (isset($_POST['fId']) && $_POST['fId'] != '' && is_numeric($_POST['fId'])) {
         $fId        = $_POST['fId'];
         revoke_exception($username, $fId, $totppf, $PALANG);
     }
@@ -138,7 +138,7 @@ function add_exception(string $username, string $fPassword_current, string $fExc
     }
 }
 
-function revoke_exception($username, $id, $totppf, $PALANG)
+function revoke_exception(string $username, int $id, TotpPf $totppf, array $PALANG)
 {
     // No extra password check by design, user might be in a hurry
     $result = $totppf->deleteException($username, $id);
