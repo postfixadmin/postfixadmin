@@ -433,7 +433,7 @@ class TotpPf
      */
     public function getException(int $id): array
     {
-        return db_query_one("SELECT * FROM totp_exception_address WHERE id=$id");
+        return db_query_one("SELECT * FROM totp_exception_address WHERE id=:id", ['id' => $id]);
     }
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
