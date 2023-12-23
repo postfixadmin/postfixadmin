@@ -22,7 +22,7 @@
         "psalm": "@php ./vendor/bin/psalm --no-cache --show-info=false "
     },
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.4",
         "smarty/smarty": "^3|^4",
         "postfixadmin/password-hashing": "^0.0.1",
         "endroid/qr-code": "^4.6",
