@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 
 class TotpPfTest extends TestCase
 {
-
     public function testBasic()
     {
         $x = new TotpPf('mailbox');
@@ -14,6 +13,5 @@ class TotpPfTest extends TestCase
         $this->assertIsArray($array);
         $this->assertIsString($array[0]);
         $this->assertIsString($array[1]);
-        
     }
 }
