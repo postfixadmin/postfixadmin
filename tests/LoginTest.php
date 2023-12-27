@@ -43,7 +43,7 @@ class LoginTest extends \PHPUnit\Framework\TestCase
         db_query('DELETE FROM domain');
     }
 
-    public function testPasswordchange()
+    public function testChangePassword()
     {
         $login = new Login('mailbox');
 
@@ -106,7 +106,7 @@ class LoginTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($l->login('test@fails.com', 'foobar'));
     }
 
-    public function testValidLogin()
+    public function testInvalidLogin()
     {
         $login = new Login('mailbox');
 
@@ -121,5 +121,32 @@ class LoginTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($login->generatePasswordRecoveryCode(''));
         $this->assertFalse($login->generatePasswordRecoveryCode('doesnotexist'));
         $this->assertNotEmpty($login->generatePasswordRecoveryCode('test@example.com'));
+    }
+
+    public function testAddAppPasswordIncorrectPassword()
+    {
+        $login = new Login('mailbox');
+        $this->assertTrue($login->login('test@example.com', 'foobar'));
+
+        $this->expectExceptionMessage("You didn't supply your current password!");
+        $this->assertTrue($login->addAppPassword('test@example.com', 'fish', '1st-app-password', 'something'));
+    }
+    public function testAddAppPassword()
+    {
+        $login = new Login('mailbox');
+        $this->assertTrue($login->login('test@example.com', 'foobar'));
+
+        $this->assertTrue($login->addAppPassword('test@example.com', 'foobar', '1st-app-password', 'something'));
+        $this->assertTrue($login->addAppPassword('test@example.com', 'foobar', '1st-app-password', 'something'));
+
+        $rows = db_query_all('SELECT * FROM mailbox_app_password');
+
+        $this->assertEquals(2, count($rows));
+
+        foreach ($rows as $r) {
+            $this->assertEquals('1st-app-password', $r['description']);
+            $this->assertNotEmpty($r['password_hash']);
+            $this->assertEquals('test@example.com', $r['username']);
+        }
     }
 }
