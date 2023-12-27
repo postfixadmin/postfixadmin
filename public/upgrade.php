@@ -2324,3 +2324,28 @@ function upgrade_1849_pgsql()
         ");
     }
 }
+
+function upgrade_1849_sqlite()
+{
+    _db_add_field('mailbox', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'password_expiry');
+    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'vacation_notification');
+    db_query_parsed("
+            CREATE TABLE {IF_NOT_EXISTS} totp_exception_address (
+                id {AUTOINCREMENT},
+                ip varchar(46) NOT NULL,
+                username varchar(255) DEFAULT NULL,
+                description varchar(255) DEFAULT NULL
+            );
+        ");
+    db_query_parsed("
+            CREATE UNIQUE INDEX ip_user ON totp_exception_address (ip,username)
+        ");
+    db_query_parsed("
+            CREATE TABLE {IF_NOT_EXISTS} mailbox_app_password(
+                id {AUTOINCREMENT},
+                username varchar(255) DEFAULT NULL,
+                description varchar(255) DEFAULT NULL,
+                password_hash varchar(255) DEFAULT NULL
+            )
+        ");
+}
