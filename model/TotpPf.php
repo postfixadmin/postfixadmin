@@ -341,6 +341,10 @@ class TotpPf
         $exception = $this->getException($id);
         $error = 0;
 
+        if (!is_array($exception)) {
+            throw new \InvalidArgumentException("Invalid exception - does id: $id exist?");
+        }
+
         if (strpos($exception['username'], '@')) {
             list($Exception_local_part, $Exception_domain) = explode('@', $exception['username']);
         } else {
@@ -432,7 +436,7 @@ class TotpPf
      *
      * @return array the exception with this id
      */
-    public function getException(int $id): array
+    public function getException(int $id): ?array
     {
         return db_query_one("SELECT * FROM totp_exception_address WHERE id=:id", ['id' => $id]);
     }

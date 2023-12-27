@@ -308,7 +308,7 @@ function check_domain($domain)
  * @param string $domain - a string that may be a domain
  * @return int password expiration value for this domain (DAYS, or zero if not enabled)
  */
-function get_password_expiration_value($domain)
+function get_password_expiration_value(string $domain)
 {
     $table_domain = table_by_key('domain');
     $query = "SELECT password_expiry FROM $table_domain WHERE domain= :domain";
@@ -489,19 +489,19 @@ function pacol($allow_editing, $display_in_form, $display_in_list, $type, $PALAN
     }
 
     return array(
-        'editable'          => $allow_editing,
-        'display_in_form'   => $display_in_form,
-        'display_in_list'   => $display_in_list,
-        'type'              => $type,
-        'label'             => $PALANG_label,   # $PALANG field label
-        'desc'              => $PALANG_desc,    # $PALANG field description
-        'default'           => $default,
-        'options'           => $options,
-        'not_in_db'         => $not_in_db,
-        'dont_write_to_db'  => $dont_write_to_db,
-        'select'            => $select,         # replaces the field name after SELECT
-        'extrafrom'         => $extrafrom,      # added after FROM xy - useful for JOINs etc.
-        'linkto'            => $linkto,         # make the value a link - %s will be replaced with the ID
+        'editable' => $allow_editing,
+        'display_in_form' => $display_in_form,
+        'display_in_list' => $display_in_list,
+        'type' => $type,
+        'label' => $PALANG_label,   # $PALANG field label
+        'desc' => $PALANG_desc,    # $PALANG field description
+        'default' => $default,
+        'options' => $options,
+        'not_in_db' => $not_in_db,
+        'dont_write_to_db' => $dont_write_to_db,
+        'select' => $select,         # replaces the field name after SELECT
+        'extrafrom' => $extrafrom,      # added after FROM xy - useful for JOINs etc.
+        'linkto' => $linkto,         # make the value a link - %s will be replaced with the ID
     );
 }
 
@@ -988,6 +988,10 @@ function _pacrypt_mysql_encrypt($pw, $pw_db = '')
         $res = db_query_one("SELECT ENCRYPT(:pw, CONCAT('$6$', '$salt')) as result", ['pw' => $pw]);
     }
 
+    if (!is_string($res['result'])) {
+        throw new \InvalidArgumentException("Unexpected DB result");
+    }
+
     return $res['result'];
 }
 
@@ -1312,14 +1316,13 @@ function pacrypt($pw, $pw_db = "")
     }
 
 
-
     if ($mechanism == 'AUTHLIB') {
         return _pacrypt_authlib($pw, $pw_db);
     }
 
     if (!empty($pw_db) && preg_match('/^{([0-9a-z-\.]+)}/i', $pw_db, $matches)) {
         $method_in_hash = $matches[1];
-        if ( 'DOVECOT:' . strtoupper($method_in_hash) == $mechanism || 'COURIER:' . strtoupper($method_in_hash) == $mechanism) {
+        if ('DOVECOT:' . strtoupper($method_in_hash) == $mechanism || 'COURIER:' . strtoupper($method_in_hash) == $mechanism) {
             // don't try and be clever.
         } elseif ($mechanism != $method_in_hash) {
             error_log("PostfixAdmin: configured to use $mechanism, but asked to crypt password using {$method_in_hash}; are you migrating algorithm/mechanism or is something wrong?");
@@ -1881,7 +1884,7 @@ function db_sqlite()
  * @param array $values
  * @return array
  */
-function db_query_all($sql, array $values = [])
+function db_query_all(string $sql, array $values = []): array
 {
     $r = db_query($sql, $values);
     return $r['result']->fetchAll(PDO::FETCH_ASSOC);
@@ -1892,10 +1895,17 @@ function db_query_all($sql, array $values = [])
  * @param array $values
  * @return array
  */
-function db_query_one($sql, array $values = [])
+function db_query_one(string $sql, array $values = []): ?array
 {
     $r = db_query($sql, $values);
-    return $r['result']->fetch(PDO::FETCH_ASSOC);
+    $stmt = $r['result'];
+    /* @var PDOStatement $stmt */
+    $ret = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (is_array($ret)) {
+        return $ret;
+    }
+    // no row?
+    return null;
 }
 
 
@@ -1905,7 +1915,7 @@ function db_query_one($sql, array $values = [])
  * @param bool $throw_exceptions
  * @return int number of rows affected by the query
  */
-function db_execute($sql, array $values = [], $throw_exceptions = false)
+function db_execute(string $sql, array $values = [], bool $throw_exceptions = false): int
 {
     $link = db_connect();
 
@@ -1931,7 +1941,7 @@ function db_execute($sql, array $values = [], $throw_exceptions = false)
  * @param bool $ignore_errors - set to true to ignore errors.
  * @return array e.g. ['result' => PDOStatement, 'error' => string ]
  */
-function db_query($sql, array $values = array(), $ignore_errors = false)
+function db_query(string $sql, array $values = array(), bool $ignore_errors = false): array
 {
     $link = db_connect();
     $error_text = '';
@@ -2077,7 +2087,7 @@ function db_update(string $table, string $where_col, string $where_value, array 
  * Call: db_log (string domain, string action, string data)
  * Possible actions are defined in $LANG["pViewlog_action_$action"]
  */
-function db_log($domain, $action, $data)
+function db_log(string $domain, string $action, string $data): bool
 {
     if (!Config::bool('logging')) {
         return true;
