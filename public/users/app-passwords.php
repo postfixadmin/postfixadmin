@@ -38,12 +38,15 @@ $pUser = '';
 if (authentication_has_role('global-admin')) {
     $login = new Login('admin');
     $admin = 2;
+    $passwords = getAllAppPasswords();
 } elseif (authentication_has_role('admin')) {
     $login = new Login('admin');
     $admin = 1;
+    $passwords = getAppPasswordsFor($username);
 } else {
     $login = new Login('mailbox');
     $admin = 0;
+    $passwords = getAppPasswordsFor($username);
 }
 
 
@@ -61,19 +64,35 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $fPass = $_POST['fPassword_current'];
         $fAppDesc = $_POST['fAppDesc'];
         $fAppPass = $_POST['fAppPass'];
-        addAppPassword($username, $fPass, $fAppPass, $fAppDesc, $login, $PALANG);
+
+        try {
+            if ($login->addAppPassword($username, $fPass, $fAppDesc, $fAppPass)) {
+                flash_info($PALANG['pAppPassAdd_result_success']);
+                header("Location: app-passwords.php");
+                exit(0);
+            } else {
+                flash_error(Config::Lang_f('pAppPassAdd_result_error', $username));
+            }
+        } catch (\Exception $e) {
+            flash_error($e->getMessage());
+        }
     }
 
     if (isset($_POST['fAppId']) && is_numeric($_POST['fAppId'])) {
         $fAppId = (int)$_POST['fAppId'];
-        revokeAppPassword($username, $fAppId, $PALANG);
+        // $username should be from $_SESSION and not modifiable by the end user
+        // we don't want someone to be able to delete someone else's app password by guessing an id...
+        $row = db_query_one('SELECT id FROM mailbox_app_password WHERE id = :id AND username = :username', ['username' => $username, 'id' => $fAppId]);
+        if (!empty($row)) {
+            $result = db_delete('mailbox_app_password', 'id', $row['id']);
+            if ($result == 1) {
+                flash_info($PALANG['pTotp_exceptions_revoked']);
+                header("Location: app-passwords.php");
+                exit(0);
+            }
+        }
+        flash_error($PALANG['pPassword_result_error']);
     }
-}
-
-if ($admin == 2) {
-    $passwords = getAllAppPasswords();
-} else {
-    $passwords = getAppPasswordsFor($username);
 }
 
 foreach ($passwords as $n => $pass) {
@@ -95,47 +114,6 @@ $smarty->assign('smarty_template', 'app-passwords');
 $smarty->display('index.tpl');
 
 
-/**
- * @param string $username - postfixadmin username
- * @param string $fPass - postfixadmin password for username
- * @param string $fAppPass - application password
- * @param string $fAppDesc - application description
- * @param Login $login
- * @param array $PALANG
- * @return void
- */
-function addAppPassword(string $username, string $fPass, string $fAppPass, string $fAppDesc, Login $login, array $PALANG)
-{
-    try {
-        if ($login->addAppPassword($username, $fPass, $fAppDesc, $fAppPass)) {
-            flash_info($PALANG['pAppPassAdd_result_success']);
-            header("Location: app-passwords.php");
-            exit(0);
-        } else {
-            flash_error(Config::Lang_f('pAppPassAdd_result_error', $username));
-        }
-    } catch (\Exception $e) {
-        flash_error($e->getMessage());
-    }
-}
-
-/**
- * @todo Why pass Login here? it's not used?
- */
-function revokeAppPassword(string $username, int $fAppId, array $PALANG)
-{
-    // $username should be from $_SESSION and not modifiable by the end user
-    // we don't want someone to be able to delete someone else's app password by guessing an id...
-    $row = db_query_one('SELECT id FROM mailbox_app_password WHERE id = :id AND username = :username', ['username' => $username, 'id' => $fAppId]);
-    if (is_array($row) && isset($row['id'])) {
-        $result = db_delete('mailbox_app_password', 'id', $row['id']);
-        if ($result == 1) {
-            flash_info($PALANG['pTotp_exceptions_revoked']);
-            return;
-        }
-    }
-    flash_error($PALANG['pPassword_result_error']);
-}
 
 /**
  * @return array
@@ -148,8 +126,9 @@ function getAllAppPasswords()
 /**
  * @param string $username
  * @return array
+ * @todo if $username is a domain admin, we should return all app passwords for that domain.
  */
-function getAppPasswordsFor($username)
+function getAppPasswordsFor(string $username): array
 {
     return db_query_all("SELECT * FROM mailbox_app_password WHERE username = :username", ['username' => $username]);
 }
