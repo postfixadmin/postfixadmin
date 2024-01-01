@@ -696,21 +696,18 @@ function check_owner($username, $domain)
  * @param string $username
  * @return array of domain names.
  */
-function list_domains_for_admin($username)
+function list_domains_for_admin(string $username) : array
 {
     $table_domain = table_by_key('domain');
     $table_domain_admins = table_by_key('domain_admins');
 
-    $condition = array();
-
-    $E_username = escape_string($username);
+    $condition = [];
+    $pvalues = [];
 
     $query = "SELECT $table_domain.domain FROM $table_domain ";
     $condition[] = "$table_domain.domain != 'ALL'";
 
-    $pvalues = array();
-
-    $result = db_query_one("SELECT username FROM $table_domain_admins WHERE username= :username AND domain='ALL'", array('username' => $username));
+    $result = db_query_one("SELECT username FROM $table_domain_admins WHERE username= :username AND domain='ALL'", ['username' => $username]);
     if (empty($result)) { # not a superadmin
         $pvalues['username'] = $username;
         $pvalues['active'] = db_get_boolean(true);
@@ -2011,7 +2008,7 @@ function db_query(string $sql, array $values = array(), bool $ignore_errors = fa
  * @param string $additionalwhere (default '').
  * @return int|mixed rows deleted.
  */
-function db_delete($table, $where, $delete, $additionalwhere = '')
+function db_delete(string $table, string $where, string $delete,string $additionalwhere = '')
 {
     $table = table_by_key($table);
 
