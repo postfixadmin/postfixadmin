@@ -237,7 +237,12 @@ password_query = SELECT username AS user,password FROM mailbox WHERE username = 
 user_query = SELECT '/var/mail/vmail/' || maildir AS home, 8 as uid, 8 as gid FROM mailbox WHERE username = '%u' AND active = '1'
 ```
 
-Password query with app password and allowed remote IP support:
+### With application password ('app password')
+
+An application password is intended to provide a way of sharing access to a specific account, while maintaining a unique password. In other words: providing multiple passwords for one account.
+
+PostfixAdmin app passwords cannot be used to sign in to PostfixAdmin itself, but can be used by e.g. dovecot with the following password query :
+
 ```
 password query = SELECT user, password FROM (\
   SELECT username AS user, password, '0' AS is_app_password FROM\
