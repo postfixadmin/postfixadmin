@@ -11,9 +11,9 @@
  * @version $Id$
  * @license GNU GPL v2 or later.
  *
- * File: totp-exceptions.php
- * Used by users to view and change their totp exception addresses.
- * Template File: totp-exception.tpl
+ * File: totp-exemptions.php
+ * Used by users to view and change their totp exemption addresses.
+ * Template File: totp-excemtion.tpl
  *
  *
  * Form POST \ GET Variables:
@@ -41,15 +41,15 @@ $username = authentication_get_username();
 
 if (authentication_has_role('global-admin')) {
     $login = new Login('admin');
-    $totppf = new TotpPf('admin');
+    $totppf = new TotpPf('admin', $login);
     $admin = 2;
 } elseif (authentication_has_role('admin')) {
     $login = new Login('admin');
-    $totppf = new TotpPf('admin');
+    $totppf = new TotpPf('admin', $login);
     $admin = 1;
 } else {
     $login = new Login('mailbox');
-    $totppf = new TotpPf('mailbox');
+    $totppf = new TotpPf('mailbox', $login);
     $admin = 0;
 }
 
@@ -85,8 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (isset($_POST['fId']) && $_POST['fId'] != '' && is_numeric($_POST['fId'])) {
         $fId = $_POST['fId'];
-        // No extra password check by design, user might be in a hurry
+
         $result = $totppf->deleteException($username, (int)$fId);
+
         if ($result) {
             flash_info($PALANG['pTotp_exceptions_revoked']);
         }
