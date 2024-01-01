@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die('Invalid token! (CSRF check failed)');
     }
 
-    $totppf = new TotpPf('admin');
+    $totppf = new TotpPf('admin', new Login('admin'));
 
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
