@@ -696,7 +696,7 @@ function check_owner($username, $domain)
  * @param string $username
  * @return array of domain names.
  */
-function list_domains_for_admin(string $username) : array
+function list_domains_for_admin(string $username): array
 {
     $table_domain = table_by_key('domain');
     $table_domain_admins = table_by_key('domain_admins');
