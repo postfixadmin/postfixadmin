@@ -81,7 +81,8 @@ class TotpPf
         ];
 
         $result = db_query_one($sql, $values);
-        if (is_array($result) && isset($result['totp_secret']) && $result['totp_secret'] != '') {
+
+        if (is_array($result) && isset($result['totp_secret']) && !empty($result['totp_secret'])) {
             return true;
         }
         return false;
