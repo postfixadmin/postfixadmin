@@ -257,7 +257,7 @@ abstract class PFAHandler
     protected function no_domain_field()
     {
         if ($this->admin_username != "") {
-            die('Attemp to restrict domains without setting $this->domain_field!');
+            die('Attempt to restrict domains without setting $this->domain_field!');
         }
     }
 
@@ -269,7 +269,7 @@ abstract class PFAHandler
     protected function no_user_field()
     {
         if ($this->username != '') {
-            die('Attemp to restrict users without setting $this->user_field!');
+            die('Attempt to restrict users without setting $this->user_field!');
         }
     }
 
