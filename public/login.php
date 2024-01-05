@@ -82,16 +82,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         $adminproperties = $h->result();
 
-        if ($adminproperties['superadmin'] == 1) {
-            $_SESSION['sessid']['roles'][] = 'global-admin';
-        }
 
         if ($totppf->usesTOTP($fUsername)) {
             init_session($fUsername, true, false);
             header("Location: login-mfa.php");
             exit(0);
         }
+
         init_session($fUsername, true, true);
+
+        if ($adminproperties['superadmin'] == 1) {
+            $_SESSION['sessid']['roles'][] = 'global-admin';
+        }
+
         header("Location: main.php");
         exit(0);
     } else { # $h->login failed
