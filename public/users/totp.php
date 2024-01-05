@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $totppf->removeTotpFromUser($username);
         $error++;
     } else {
-        if(false == $totppf->checkTOTP($fTOTP_secret, $fTOTP_code)) {
+        if (false == $totppf->checkTOTP($fTOTP_secret, $fTOTP_code)) {
             $error++;
             flash_error($PALANG['pTOTP_code_mismatch']);
         }
