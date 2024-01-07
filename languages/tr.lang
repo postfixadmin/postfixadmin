@@ -82,6 +82,7 @@ $PALANG['pOverview_welcome'] = 'Genel Bilgiler: ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domainleri';
 $PALANG['pOverview_alias_address'] = 'Kimden';
 $PALANG['active'] = 'Aktif';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[ve %s daha fazla...]';
 $PALANG['pOverview_mailbox_username'] = 'E-posta';
 $PALANG['name'] = 'İsim';

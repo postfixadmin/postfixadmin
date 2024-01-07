@@ -83,6 +83,7 @@ $PALANG['pOverview_welcome'] = '瀏覽 ';
 $PALANG['pOverview_alias_domain_aliases'] = '網域名';
 $PALANG['pOverview_alias_address'] = '前往';
 $PALANG['active'] = '生效';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = '郵件地址';
 $PALANG['name'] = '姓名';

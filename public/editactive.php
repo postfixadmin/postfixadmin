@@ -28,7 +28,9 @@ $username = authentication_get_username(); # enforce login
 
 $id = safeget('id');
 $table = safeget('table');
+$field = safeget('field');
 $active = safeget('active');
+if ($field === '') $field = 'active';
 
 if (empty($table)) {
     die("Invalid table name given");
@@ -47,11 +49,21 @@ $formconf = $handler->webformConfig();
 authentication_require_role($formconf['required_role']);
 
 if ($handler->init($id)) { # errors will be displayed as last step anyway, no need for duplicated code ;-)
+    if ($table == 'mailbox') {
+        if ($field != 'active' && $field != 'smtp_active') {
+            die(Config::Lang('invalid_parameter'));
+        }
+    } else {
+        if ($field != 'active') {
+            die(Config::Lang('invalid_parameter'));
+        }
+    }
+
     if ($active != '0' && $active != '1') {
         die(Config::Lang('invalid_parameter'));
     }
 
-    if ($handler->set(array('active' => $active))) {
+    if ($handler->set(array($field => $active))) {
         $handler->save();
     }
 }

@@ -81,6 +81,7 @@ $PALANG['pOverview_welcome'] = 'Pregled za ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
 $PALANG['pOverview_alias_address'] = 'Od';
 $PALANG['active'] = 'Aktivan';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'E-pota';
 $PALANG['name'] = 'Ime';

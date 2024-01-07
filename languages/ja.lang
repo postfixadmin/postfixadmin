@@ -84,6 +84,7 @@ $PALANG['pOverview_welcome'] = '概要 ';
 $PALANG['pOverview_alias_domain_aliases'] = 'エイリアスドメイン';
 $PALANG['pOverview_alias_address'] = '転送元';
 $PALANG['active'] = 'アクティブ';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[その他 %s 個]';
 $PALANG['pOverview_mailbox_username'] = 'メールアドレス';
 $PALANG['name'] = '名前';

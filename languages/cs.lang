@@ -90,6 +90,7 @@ $PALANG['pOverview_welcome'] = 'Přehled domény ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Přesměrované domény';
 $PALANG['pOverview_alias_address'] = 'Od';
 $PALANG['active'] = 'Aktivní';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[a %s dalších...]';
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['name'] = 'Jméno';

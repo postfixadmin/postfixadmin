@@ -82,6 +82,7 @@ $PALANG['pOverview_welcome'] = 'Yfirlit fyrir ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
 $PALANG['pOverview_alias_address'] = 'Póstur fyrir';
 $PALANG['active'] = 'Virkt';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'Póstfang';
 $PALANG['name'] = 'Nafn notanda'; # XXX check text - should be 'Name'
