@@ -16,6 +16,7 @@ class MailboxHandler extends PFAHandler
     protected function initStruct()
     {
         $passwordReset = (int) ( Config::bool('forgotten_user_password_reset') && !Config::read('mailbox_postpassword_script') );
+        $smtpActiveFlag = (int) ( Config::bool('smtp_active_flag') );
         $reset_by_sms = 0;
         if ($passwordReset && Config::read_string('sms_send_function')) {
             $reset_by_sms = 1;
@@ -50,6 +51,7 @@ class MailboxHandler extends PFAHandler
             # read_from_db_postprocess() also sets 'quotabytes' for use in init()
             # TODO: read used quota from quota/quota2 table
             'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
+            'smtp_active'      => pacol($smtpActiveFlag, $smtpActiveFlag,0,      'bool', 'smtp_active'                   , ''                                 , 1 ),
             'welcome_mail'     => pacol($this->new, $this->new, 0,  'bool', 'pCreate_mailbox_mail'          , ''                                 , 1,
                 /*options*/ array(),
                 /*not_in_db*/ 1             ),

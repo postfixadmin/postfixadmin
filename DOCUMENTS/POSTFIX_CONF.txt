@@ -32,6 +32,36 @@ transport_maps = proxy:mysql:/etc/postfix/sql/mysql_transport_maps.cf
 virtual_mailbox_base = /var/mail/vmail
 # or whereever you want to store the mails
 
+If you are using dovecot sasl for authentication you can configure Postfix main.cf:
+
+smtpd_sasl_path = private/auth
+smtpd_sasl_type = dovecot
+smtpd_sasl_authenticated_header = yes
+
+If using the Postfix submission service you could configure as follows in master.cf
+
+submission inet n      -       n       -       -       smtpd
+        -o syslog_name=postfix/submission
+        -o stress=
+        -o smtpd_sasl_auth_enable=yes
+        -o smtpd_delay_reject=no
+        -o smtpd_etrn_restrictions=reject
+        -o smtpd_helo_restrictions=
+        -o smtpd_client_restrictions=submission_client_checks
+        -o smtpd_sender_restrictions=submission_sender_checks
+        -o smtpd_recipient_restrictions=submission_recipient_checks
+        -o smtpd_tls_security_level=encrypt
+
+and in main.cf:
+
+smtpd_sender_login_maps = proxy:mysql:/etc/postfix/mysql-login_maps_dovecot.cf
+smtpd_sasl_auth_enable = no
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated reject_unauth_destination
+smtpd_restriction_classes = submission_recipient_checks, submission_sender_checks
+submission_recipient_checks = reject_unknown_recipient_domain,permit_sasl_authenticated,reject_unauth_destination
+submission_sender_checks = reject_sender_login_mismatch
+submission_client_checks = permit_sasl_authenticated,reject_unauth_destination
+
 Where you chose to store the .cf files doesn't really matter, but they will
 have database passwords stored in plain text so they should be readable only
 by user postfix, or in a directory only accessible to user postfix.

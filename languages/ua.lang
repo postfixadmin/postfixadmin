@@ -84,6 +84,7 @@ $PALANG['pOverview_welcome'] = 'Огляд для ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Псевдоними (аліаси) доменів';
 $PALANG['pOverview_alias_address'] = 'Від кого';
 $PALANG['active'] = 'Активний';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[та ще %s...]';
 $PALANG['pOverview_mailbox_username'] = 'Поштова адреса (Email)';
 $PALANG['name'] = 'Ім&#0039;я';

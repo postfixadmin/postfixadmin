@@ -83,6 +83,7 @@ $PALANG['pOverview_welcome'] = 'Yleisnäkymä ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domainit';
 $PALANG['pOverview_alias_address'] = 'Keneltä';
 $PALANG['active'] = 'Aktiivinen';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[ja %s lisää...]';
 $PALANG['pOverview_mailbox_username'] = 'Sähköposti';
 $PALANG['name'] = 'Nimi';

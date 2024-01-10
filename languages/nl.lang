@@ -84,6 +84,7 @@ $PALANG['pOverview_welcome'] = 'Overzicht voor ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias domeinen';
 $PALANG['pOverview_alias_address'] = 'Van';
 $PALANG['active'] = 'Actief';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[en %s meer...]';
 $PALANG['pOverview_mailbox_username'] = 'e-mail';
 $PALANG['name'] = 'Naam';

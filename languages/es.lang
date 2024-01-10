@@ -82,6 +82,7 @@ $PALANG['pOverview_welcome'] = 'Resumen de ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias de Dominios'; 
 $PALANG['pOverview_alias_address'] = 'De';
 $PALANG['active'] = 'Activo'; 
+$PALANG['smtp_active'] = 'Smtp'; 
 $PALANG['and_x_more'] = '[y %s más...]'; 
 $PALANG['pOverview_mailbox_username'] = 'E-mail';
 $PALANG['name'] = 'Nombre';

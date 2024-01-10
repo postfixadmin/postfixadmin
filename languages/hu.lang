@@ -83,6 +83,7 @@ $PALANG['pOverview_welcome'] = 'Áttekintés: ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains'; # XXX
 $PALANG['pOverview_alias_address'] = 'Honnan';
 $PALANG['active'] = 'Aktív';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[and %s more...]'; # XXX
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['name'] = 'Név';

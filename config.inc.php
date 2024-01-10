@@ -802,6 +802,17 @@ $CONF['site_url'] = null;
 
 $CONF['version'] = '3.4-dev';
 
+// The smtp_active_flag when set to YES enables editing of the smtp_active 
+// field of the mailbox table. The smtp_active field can be used to enable
+// or disable smtp sending for a mailbox separately to other mailbox functions.  
+// This can be useful if you want the ability to stop a user sending email 
+// while still allowing receipt of new mail and reading existing email. 
+// Please refer to DOCUMENTS/DOVECOT.txt for an example of how to configure this.
+// The default is NO for backwards compatibility. Only enable this if you
+// have also set up the SQL queries that make use of the smtp_active field
+// in your Dovecot SQL configuration.
+$CONF['smtp_active_flag'] = 'NO';
+
 // If you want to keep most settings at default values and/or want to ensure
 // that future updates work without problems, you can use a separate config 
 // file (config.local.php) instead of editing this file and override some
