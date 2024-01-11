@@ -24,7 +24,12 @@ require_once('common.php');
 
 authentication_require_role('global-admin');
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 (($CONF['backup'] == 'NO') ? header("Location: main.php") && exit : '1');
+
+$version = Config::read_string('version');
 
 // TODO: make backup supported for postgres
 if (db_pgsql()) {
@@ -79,22 +84,24 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $smarty->display('index.tpl');
     } else {
         fwrite($fh, $header);
-      
+
         $tables = array(
-         'admin',
-         'alias',
-         'alias_domain',
-         'config',
-         'domain',
-         'domain_admins',
-         'fetchmail',
-         'log',
-         'mailbox',
-         'quota',
-         'quota2',
-         'vacation',
-         'vacation_notification'
-      );
+            'admin',
+            'alias',
+            'alias_domain',
+            'config',
+            'domain',
+            'domain_admins',
+            'fetchmail',
+            'log',
+            'mailbox',
+            'quota',
+            'quota2',
+            'vacation',
+            'vacation_notification',
+            'dkim',
+            'dkim_signing'
+        );
 
         for ($i = 0 ; $i < sizeof($tables) ; ++$i) {
             $result = db_query_all("SHOW CREATE TABLE " . table_by_key($tables[$i]));
@@ -112,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                 $fields = array_keys($row);
                 $values = array_values($row);
                 $values = array_map(function ($str) {
-                    return escape_string($str);
+                    return escape_string((string) $str);
                 }, $values);
 
                 fwrite($fh, "INSERT INTO ". $tables[$i] . " (". implode(',', $fields) . ") VALUES ('" . implode('\',\'', $values) . "');\n");

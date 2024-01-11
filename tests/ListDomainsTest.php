@@ -1,7 +1,9 @@
 <?php
 
-class ListDomainsTest extends \PHPUnit\Framework\TestCase {
-    public function testBasic() {
+class ListDomainsTest extends \PHPUnit\Framework\TestCase
+{
+    public function testBasic()
+    {
         $domains = list_domains();
 
         $this->assertTrue(is_array($domains));

@@ -1,0 +1,516 @@
+<?php
+# $Id$
+//
+// Language file Ukrainian
+// by Andrii Kudrinov < andrew dot kudrinov at google dot com >
+//
+
+
+$PALANG['YES'] = 'ТАК';
+$PALANG['NO'] = 'НІ';
+$PALANG['edit'] = 'Редагувати';
+$PALANG['del'] = 'Видалити';
+$PALANG['exit'] = 'Вийти';
+$PALANG['cancel'] = 'Відмінити';
+$PALANG['save'] = 'Зберігти зміни';
+$PALANG['confirm'] = 'Ви впевнені, що бажаєте видалити це?\n';
+$PALANG['confirm_delete_admin'] = 'Ви дійсно бажаєте видалити адміністратора %s?';
+$PALANG['confirm_delete_alias'] = 'Ви дійсно бажаєте видалити псевдоним (аліас) %s?';
+$PALANG['confirm_delete_aliasdomain'] = 'Ви дійсно бажаєте видалити псевдоним (аліас) домену %s?';
+$PALANG['confirm_delete_domain'] = 'Ви дійсно бажаєте видалити всі записи домену %s? Цю дію не можна буде скасувати!';
+$PALANG['confirm_delete_dkim'] = 'Do you really want to delete the domain key entry %s?'; # XXX
+$PALANG['confirm_delete_fetchmail'] = 'Ви дійсно бажаєте видалити завдання збіру пошти (fetchmail) %s?';
+$PALANG['confirm_delete_mailbox'] = 'Ви дійсно бажаєте видалити поштову скриньку %s?';
+$PALANG['confirm_delete_vacation'] = 'Ви дійсно бажаєте видалити повідомлення автовідповідача для %s?';
+$PALANG['no_delete_permissions'] = 'Ви не можете видалити %s!';
+$PALANG['check_update'] = 'Перевірити оновлення';
+$PALANG['invalid_parameter'] = 'Некоректний параметр!';
+$PALANG['show'] = 'Показати:';
+$PALANG['all'] = 'Усе';
+$PALANG['created'] = 'Створено';
+$PALANG['unknown'] = 'невідомо';
+$PALANG['download_csv'] = 'Скачати цей список у вигляді CSV файлу';
+$PALANG['missing_field'] = 'Поле %s відсутнє';
+$PALANG['must_be_numeric'] = '%s має бути числом';
+$PALANG['must_be_numeric_bigger_than_null'] = '%s має бути числом більше 0';
+$PALANG['must_be_boolean'] = '%s повинно мати тип boolean';
+$PALANG['invalid_value_given'] = 'Вказано некоректне значення для %s';
+$PALANG['edit_not_allowed'] = 'Ви не можете редагувати %s';
+$PALANG['searchparams'] = 'Параметри пошуку:';
+
+$PALANG['pFooter_logged_as'] = 'Логін: %s';
+
+$PALANG['pLogin_welcome'] = 'Вхід для адміністраторів поштових доменів';
+$PALANG['pLogin_username'] = 'Логін (Email)';
+$PALANG['password'] = 'Пароль';
+$PALANG['pLogin_language'] = 'Мова - Language';
+$PALANG['pLogin_button'] = 'УВІЙТИ';
+$PALANG['pLogin_failed'] = 'Ваша електронна адреса або пароль неправильні.';
+$PALANG['pLogin_login_users'] = 'Вхід для звичайних користувачів';
+
+$PALANG['pMenu_main'] = 'Головна';
+$PALANG['pMenu_overview'] = 'Список доменів';
+$PALANG['add_alias'] = 'Створити переадресацію';
+$PALANG['add_alias_domain'] = 'Створити псевдоним (аліас) домена';
+$PALANG['add_mailbox'] = 'Створити скриньку';
+$PALANG['pMenu_fetchmail'] = 'Збір пошти (fetchmail)';
+$PALANG['pMenu_sendmail'] = 'Надіслати листа';
+$PALANG['pMenu_dkim'] = 'Domain Keys'; # XXX
+$PALANG['pMenu_dkim_signing'] = 'Signing Table'; # XXX
+$PALANG['pMenu_password'] = 'Пароль';
+$PALANG['pMenu_viewlog'] = 'Переглянути журнал';
+$PALANG['pMenu_logout'] = 'Вихід';
+
+$PALANG['pMain_welcome'] = 'Ласкаво просимо в Postfix Admin!';
+$PALANG['pMain_overview'] = 'Список Ваших доменів. Звідси Ви маєте можливість додавати, редагувати та видаляти їх.'; # XXX Text changed to "List your domains. You can edit / delete them from here."
+$PALANG['pMain_create_alias'] = 'Створення нової переадресації у Вашому домені.'; # XXX Text changed to "Create a new email forward."
+$PALANG['pMain_create_mailbox'] = 'Створення нової поштової скриньки у Вашому домені.'; # XXX Text changed to "Create a new mailbox."
+$PALANG['pMain_sendmail'] = 'Відправка листа на одну зі створених Вами поштових скриньок.';
+$PALANG['pMain_password'] = 'Зміна пароля для Вашого облікового запису адміністратора.';
+$PALANG['pMain_viewlog'] = 'Перегляд журналу роботи з системою.';
+$PALANG['pMain_logout'] = 'Вихід із системи.';
+
+$PALANG['pOverview_disabled'] = 'Відключено';
+$PALANG['pOverview_unlimited'] = 'Необмежено';
+$PALANG['pOverview_title'] = ':: Завданні домени';
+$PALANG['pOverview_up_arrow'] = 'Вгору';
+$PALANG['pOverview_right_arrow'] = 'Наступна сторінка';
+$PALANG['pOverview_left_arrow'] = 'Попередня сторінка';
+$PALANG['pOverview_alias_domain_title'] = ':: Псевдоними (аліаси) доменів';
+$PALANG['pOverview_alias_title'] = ':: Переадресації ';
+$PALANG['pOverview_mailbox_title'] = ':: Поштові скриньки';
+$PALANG['go'] = 'Обрати';
+$PALANG['pOverview_welcome'] = 'Огляд для ';
+$PALANG['pOverview_alias_domain_aliases'] = 'Псевдоними (аліаси) доменів';
+$PALANG['pOverview_alias_address'] = 'Від кого';
+$PALANG['active'] = 'Активний';
+$PALANG['smtp_active'] = 'Smtp';
+$PALANG['and_x_more'] = '[та ще %s...]';
+$PALANG['pOverview_mailbox_username'] = 'Поштова адреса (Email)';
+$PALANG['name'] = 'Ім&#0039;я';
+$PALANG['pOverview_mailbox_quota'] = 'Квота (МБ)';
+$PALANG['pOverview_vacation_edit'] = 'УВІМКНУТО АВТОВІДПОВІДАЧ';
+$PALANG['pOverview_vacation_option'] = 'Встановити автовідповідач';
+$PALANG['no_domains_for_this_admin'] = 'Ви не маєте дозволу на жоден домен.';
+$PALANG['no_domains_exist'] = 'Вам потрібно створити хоча б один домен перед тим, як Ви зможете використовувати огляд.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual']
+
+$PALANG['domain'] = 'Домен';
+$PALANG['pOverview_get_alias_domains'] = 'Псевдоними (аліаси) доменів';
+$PALANG['mailboxes'] = 'Поштові скриньки';
+$PALANG['pOverview_get_quota'] = 'Квота скриньки (МБ)';
+
+$PALANG['pDelete_delete_error'] = 'Неможливо видалити запис ';
+$PALANG['pDelete_delete_success'] = '%s видалено.';
+$PALANG['pDelete_domain_error'] = 'Цей домен не належить Вам ';
+$PALANG['pDelete_alias_error'] = 'Неможливо видалити псевдоним (аліас) ';
+
+$PALANG['pCreate_alias_domain_welcome'] = 'Створення нового псевдониму (аліасу) для Вашого домену';
+$PALANG['pCreate_alias_domain_alias'] = 'Псевдоним (аліас) домену';
+$PALANG['pCreate_alias_domain_alias_text'] = 'Домен, на який надходить пошта.';
+$PALANG['pCreate_alias_domain_target'] = 'Цільовий домен';
+$PALANG['pCreate_alias_domain_target_text'] = 'Домен, куди повинна направлятися пошта.';
+$PALANG['pCreate_alias_domain_error1'] = 'Вам не дозволено створювати обрану конфігурацію.';
+$PALANG['pCreate_alias_domain_error2'] = 'Обрана конфігурація некоректна, будь ласка, виберіть іншу!';
+$PALANG['alias_domain_already_exists'] = 'Зазначений домен вже є псевдонимом (аліасом) домену!';
+$PALANG['alias_domain_does_not_exist'] = 'Зазначений домен не є псевдонимом (аліасом) домену!';
+$PALANG['alias_domain_create_failed'] = 'Не вдалося створити псевдоним (аліас) домену %s!';
+$PALANG['alias_domain_change_failed'] = 'Не вдалося змінити псевдоним (аліас) домену %s!';
+$PALANG['pCreate_alias_domain_error4'] = 'Всі домени вже задіяні в псевдонимах (аліасах) доменів.';
+$PALANG['pCreate_alias_domain_success'] = 'Псевдоним (аліас) домену %s успішно створено.';
+$PALANG['alias_domain_changed'] = 'Псевдоним (аліас) домену %s успішно змінено.';
+$PALANG['alias_domain_to_itsself'] = 'Домен не може бути псевдонимом (аліасом) для самого себе!';
+$PALANG['delete_domain_aliasdomain_target'] = 'Домен %s є цільовим для одного або декількох псевдонимів (аліасів) доменів и не може бути виділений! (Спочатку видаліть псевдоними (аліаси) доменів.)';
+
+$PALANG['pCreate_alias_address_text_error1'] = 'Неправильне ім&#0039;я псевдониму (аліаса)!';
+$PALANG['alias_does_not_exist'] = 'Зазначений псевдоним (аліас) не існує!';
+$PALANG['email_address_already_exists'] = 'Зазначена поштова адреса вже існує, будь ласка, виберіть іншу!';
+$PALANG['pCreate_alias_address_text_error3'] = 'Ви досягли ліміту по створеним псевдонимам (аліасам)!';
+$PALANG['pCreate_alias_goto_text'] = 'Куди повинна доставлятися пошта.';
+$PALANG['pCreate_alias_goto_text_error'] = 'Неправильне поле &#0039;До&#0039;!';
+$PALANG['pCreate_alias_result_error'] = 'Не вдалося створити псевдоним (аліас) %s!';
+$PALANG['pCreate_alias_result_success'] = 'Псевдоним (аліас) %s успішно створено!';
+$PALANG['alias_updated'] = 'Псевдоним (аліас) %s успішно оновлено!';
+$PALANG['pCreate_alias_catchall_text'] = 'Для створення catch-all поштової скриньки використовуйте &#0039; * &#0039; у якості імені псевдонима (аліаса).'; # XXX don't propagate usage of *@target-domain.com for domain-aliasing any longer
+$PALANG['mailbox_alias_cant_be_deleted'] = 'Зазначений псевдоним (аліас) посилається на поштову скриньку і не може бути вилучений!';
+$PALANG['protected_alias_cant_be_deleted'] = 'Псевдоним (аліас) %s захищений і може бути вилучений тільки суперадміністратором!';
+$PALANG['alias_points_to_itself'] = 'Переадресація не може вказувати на себе саму!';
+
+$PALANG['pEdit_alias_welcome'] = 'Редагування налаштувань пересилання';
+$PALANG['pEdit_alias_help'] = 'Можна вказати декілька цілей, по одному запису на рядок.';
+$PALANG['alias'] = 'Переадресація';
+$PALANG['to'] = 'До';
+$PALANG['pEdit_alias_goto_text_error1'] = 'Ви нічого не ввели в поле &#0039;До&#0039;.';
+$PALANG['pEdit_alias_goto_text_error2'] = 'Ви ввели некоректну поштову адресу: ';
+$PALANG['pEdit_alias_domain_result_error'] = 'Неможливо змінити псевдоним (аліас) домену!';
+$PALANG['pEdit_alias_forward_and_store'] = 'Доставляти у локальну поштову скриньку.';
+$PALANG['pEdit_alias_forward_only'] = 'Тільки пересилати на зазначені адреси.';
+$PALANG['pEdit_alias_result_error'] = 'Не вдалося змінити псевдоним (аліас) %s!';
+
+$PALANG['pCreate_mailbox_welcome'] = 'Створення нової поштової скриньки для Вашого домену';
+$PALANG['pCreate_mailbox_local_part_error'] = 'Не задано значення до знака @.';
+$PALANG['pCreate_mailbox_username_text_error1'] = 'Неправильне ім&#0039;я!';
+$PALANG['pCreate_mailbox_username_text_error3'] = 'Ви досягли ліміту зі створення поштових скриньок!';
+$PALANG['pCreate_mailbox_password_text'] = 'Пароль для POP3/IMAP';
+$PALANG['pCreate_mailbox_name_text'] = 'Повне  ім&#0039;я';
+$PALANG['pCreate_mailbox_phone'] = 'Мобільний телефон';
+$PALANG['pCreate_mailbox_phone_desc'] = 'Використовується для відправки SMS, якщо Ви забули пароль';
+$PALANG['pCreate_mailbox_email'] = 'Інший Email';
+$PALANG['pCreate_mailbox_email_desc'] = 'Використовується, якщо Ви забули пароль';
+$PALANG['pCreate_mailbox_mail'] = 'Надіслати привітальний лист';
+$PALANG['pCreate_mailbox_result_error'] = 'Не вдалося створити поштову скриньку %s!';
+$PALANG['pCreate_mailbox_result_success'] = 'Поштова скринька %s успішно додана у список існуючих скриньок!';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = 'Поштова скринька %s успішно додана у список існуючих скриньок, але в ньому не вдалося створити деякі стандартні папки.';
+$PALANG['mailbox_updated'] = 'Поштову скриньку %s успішно оновлено.';
+$PALANG['mailbox_update_failed'] = 'Неможливо оновити поштову скриньку %s!';
+
+$PALANG['pEdit_mailbox_welcome'] = 'Редагування поштової скриньки Вашого домену';
+$PALANG['pEdit_mailbox_username'] = 'Назва';
+$PALANG['pEdit_mailbox_password_text_error'] = 'Введені Вами паролі не збігаються!';
+$PALANG['pEdit_mailbox_quota'] = 'Квота';
+$PALANG['pEdit_mailbox_quota_text'] = 'МБ';
+$PALANG['mb_max'] = 'МБ (максимум: %s)';
+$PALANG['mb_max_unlimited'] = 'МБ (максимум: unlimited)'; # XXX
+$PALANG['mb_max_disabled'] = 'МБ (максимум: disabled)'; # XXX
+$PALANG['pEdit_mailbox_quota_text_error'] = 'Квота, виставлена Вами, занадто велика!';
+$PALANG['pEdit_mailbox_domain_error'] = 'Зазначений домен не належить Вам: ';
+$PALANG['pEdit_mailbox_result_error'] = 'Неможливо змінити пароль!';
+
+$PALANG['pPassword_welcome'] = 'Зміна Вашого пароля';
+$PALANG['pPassword_admin'] = 'Логін';
+$PALANG['pPassword_password_current'] = 'Поточний пароль';
+$PALANG['pPassword_password_current_text_error'] = 'Ви не вказали Ваш поточний пароль!';
+$PALANG['pPassword_password'] = 'Новий пароль';
+$PALANG['pPassword_password2'] = 'Новий пароль (ще раз)';
+$PALANG['pPassword_password_text_error'] = 'Введені Вами паролі не збігаються або порожні!';
+$PALANG['change_password'] = 'Змінити пароль';
+$PALANG['pPassword_result_error'] = 'Не вдалося змінити пароль для %s!';
+$PALANG['pPassword_result_success'] = 'Пароль для %s успішно змінено.';
+
+$PALANG['pPassword_recovery_title'] = 'Дотримуйтесь інструкцій для скидання Вашого пароля';
+$PALANG['pPassword_recovery_button'] = 'Надіслати мені код';
+$PALANG['pPassword_recovery_email_body'] = 'Вітаємо!\n\nВикористовуйте наступне посилання для зміни Вашого пароля від електронної пошти:\n%s\n\nЗ повагою,\n\n' . $CONF['admin_name'];
+$PALANG['pPassword_recovery_sms_body'] = 'Вітаємо!\nКод для зміни Вашого пароля: %s\n' . $CONF['admin_name'];
+$PALANG['pPassword_recovery_processed'] = 'Ми опрацювали Ваш запит. Якщо Ви ввели коректне ім&#0039;я користувача, Ви отримаєте лист/SMS з кодовим словом.';
+$PALANG['pPassword_password_code'] = 'Код надіслано поштою/SMS';
+$PALANG['pPassword_code_text_error'] = 'Невірний код';
+
+$PALANG['pEdit_vacation_set'] = 'Поміняти/задати повідомлення про відсутність';
+$PALANG['pEdit_vacation_remove'] = 'Прибрати повідомлення про відсутність';
+
+$PALANG['pVacation_result_error'] = 'Не вдалося оновити налаштування автовідповідача для %s!';
+$PALANG['pVacation_result_removed'] = 'Автовідповідач для %s вимкнено!';
+$PALANG['pVacation_result_added'] = 'Автовідповідач для %s увімкнено!';
+$PALANG['pVacation_reply_type'] = 'Вибір відповіді';
+$PALANG['pVacation_reply_delay_time'] = 'Інтервал часу';
+$PALANG['pVacation_reply_delay_time_text'] = 'Час в секундах';
+$PALANG['pVacation_until_before_today'] = 'Дата [Активний по] встановлена до Сьогодні';
+$PALANG['pVacation_until_before_from'] = 'Дата [Активний по] встановлена до [Активний з]';
+$PALANG['reply_once'] = 'Відповідати один раз';
+$PALANG['reply_every_mail'] = 'Відповідати на кожен лист';
+$PALANG['reply_once_per_day'] = 'Відповідати один раз на день';
+$PALANG['reply_once_per_week'] = 'Відповідати один раз на тиждень';
+
+$PALANG['pViewlog_welcome'] = 'Перегляд %s останніх дій для ';
+$PALANG['pViewlog_welcome_all'] = 'Перегляд останніх %s дій ';
+$PALANG['pViewlog_timestamp'] = 'Час створення/модифікації';
+$PALANG['pViewlog_action'] = 'Дія';
+$PALANG['pViewlog_data'] = 'Данні';
+
+$PALANG['pViewlog_action_create_domain'] = 'створення домену';
+$PALANG['pViewlog_action_delete_domain'] = 'видалення домену';
+$PALANG['pViewlog_action_edit_domain'] = 'редагування домену';
+$PALANG['pViewlog_action_create_mailbox'] = 'створення скриньки';
+$PALANG['pViewlog_action_delete_mailbox'] = 'видалення скриньки';
+$PALANG['pViewlog_action_edit_mailbox'] = 'редагування скриньки';
+$PALANG['pViewlog_action_edit_mailbox_state'] = 'зміна активності скриньки';
+$PALANG['pViewlog_action_create_alias'] = 'створення псевдониму (аліаса)';
+$PALANG['pViewlog_action_create_alias_domain'] = 'створення псевдониму (аліаса) домену';
+$PALANG['pViewlog_action_edit_alias_domain'] = 'редагування псевдониму (аліаса) домену';
+$PALANG['pViewlog_action_delete_alias'] = 'видалення псевдониму (аліаса)';
+$PALANG['pViewlog_action_delete_alias_domain'] = 'видалення псевдониму (аліаса) домену';
+$PALANG['pViewlog_action_edit_alias'] = 'редагування псевдониму (аліаса)';
+$PALANG['pViewlog_action_edit_alias_state'] = 'зміна активності псевдониму (аліаса)';
+$PALANG['pViewlog_action_edit_alias_domain_state'] = 'зміна активності псевдониму (аліаса) домену';
+$PALANG['pViewlog_action_edit_password'] = 'зміна пароля';
+$PALANG['pViewlog_action_create_admin'] = 'створення адміністратора';
+$PALANG['pViewlog_action_edit_admin'] = 'редагування адміністратора';
+$PALANG['pViewlog_action_delete_admin'] = 'видалення адміністратора';
+$PALANG['pViewlog_action_edit_vacation'] = 'редагування автовідповідача';
+$PALANG['pViewlog_action_create_fetchmail'] = 'створення завдання fetchmail';
+$PALANG['pViewlog_action_edit_fetchmail'] = 'редагування завдання fetchmail';
+$PALANG['pViewlog_action_delete_fetchmail'] = 'видалення завдання fetchmail';
+
+$PALANG['pViewlog_result_error'] = 'Неможливо знайти журнал!';
+
+$PALANG['pSendmail_welcome'] = 'Відправка листа';
+$PALANG['from'] = 'Від кого';
+$PALANG['pSendmail_to'] = 'Кому';
+$PALANG['pSendmail_to_text_error'] = 'Поле &#0039;Кому&#0039; пусте або містить некоректну адресу!';
+$PALANG['subject'] = 'Тема';
+$PALANG['pSendmail_subject_text'] = 'Ласкаво просимо!';
+$PALANG['pSendmail_body'] = 'Текст';
+$PALANG['pSendmail_button'] = 'Надіслати повідомлення';
+$PALANG['pSendmail_result_error'] = 'Не вдалося відправити повідомлення для %s!';
+$PALANG['pSendmail_result_success'] = 'Повідомлення для %s відправлено.';
+$PALANG['pDkim_new_key'] = 'Add Domain Key'; # XXX
+$PALANG['pDkim_new_sign'] = 'Add Sign Table Entry'; # XXX
+$PALANG['pDkim_edit_key'] = 'Edit Domain Key'; # XXX
+$PALANG['pDkim_edit_sign'] = 'Edit Sign Table Entry'; # XXX
+$PALANG['pDkim_field_selector'] = 'Selector'; # XXX
+$PALANG['pDkim_field_pkey'] = 'Private Key'; # XXX
+$PALANG['pDkim_field_pub'] = 'Public Key'; # XXX
+$PALANG['pDkim_field_author'] = 'Author'; # XXX
+$PALANG['pDkim_field_dkim_id'] = 'Domain Key'; # XXX
+$PALANG['pDkim_field_selector_desc'] = 'Defines the name of the selector to be used when signing messages'; # XXX
+$PALANG['pDkim_field_domain_desc'] = 'Defines the domain which will use this key for signing'; # XXX
+$PALANG['pDkim_field_pkey_desc'] = 'PEM-formatted private key to be used for signing all messages'; # XXX
+$PALANG['pDkim_field_pub_desc'] = 'PEM-formatted public key'; # XXX
+$PALANG['pDkim_field_author_desc'] = 'Author that will use this key for signing. Can be either mailbox or domain, with mailbox taking precedence.'; # XXX
+$PALANG['pDkim_field_dkim_id_desc'] = 'Domain Key that this author will use'; # XXX
+$PALANG['dkim_already_exists'] = 'This Domain Key has already been added!'; # XXX
+$PALANG['dkim_does_not_exist'] = 'This Domain Key does not exist!'; # XXX
+$PALANG['dkim_signing_already_exists'] = 'This Domain Signing Entry already exsits!'; # XXX
+$PALANG['dkim_signing_does_not_exist'] = 'This Domain Signing Entry does not exist!'; # XXX
+$PALANG['pViewlog_action_create_dkim_entry'] = 'create domain key entry'; # XXX
+$PALANG['pViewlog_action_edit_dkim_entry'] = 'edit domain key entry'; # XXX
+$PALANG['pViewlog_action_delete_dkim_entry'] = 'delete domain key entry'; # XXX
+$PALANG['pViewlog_action_create_dkim_signing_entry'] = 'create domain signing entry'; # XXX
+$PALANG['pViewlog_action_edit_dkim_signing_entry'] = 'edit domain signing entry'; # XXX
+$PALANG['pViewlog_action_delete_dkim_signing_entry'] = 'delete domain signing entry'; # XXX
+$PALANG['pMain_dkim'] = 'Add a Domain Key for use with OpenDKIM.'; # XXX
+
+$PALANG['pAdminMenu_list_admin'] = 'Список адміністраторів';
+$PALANG['pAdminMenu_list_domain'] = 'Список доменів';
+$PALANG['pAdminMenu_list_virtual'] = 'Швидкий огляд';
+$PALANG['pAdminMenu_backup'] = 'Резервне копіювання';
+$PALANG['pAdminMenu_create_domain_admins'] = 'Адміністратори доменів';
+$PALANG['pAdminMenu_create_admin'] = 'Новий адміністратор';
+$PALANG['pAdminMenu_create_domain'] = 'Новий домен';
+
+$PALANG['pAdminList_admin_count'] = 'Домени';
+
+$PALANG['description'] = 'Опис';
+$PALANG['aliases'] = 'Переадресації';
+$PALANG['pAdminList_domain_quota'] = 'Квота домену (МБ)';
+$PALANG['pAdminList_domain_backupmx'] = 'Резервний MX';
+$PALANG['last_modified'] = 'Останні зміни';
+
+
+$PALANG['pAdminCreate_domain_welcome'] = 'Додавання нового домену';
+$PALANG['pAdminCreate_domain_domain_text_error'] = 'Домен вже існує!';
+$PALANG['domain_does_not_exist'] = 'Зазначений домен не існує!';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = 'Некоректний домен!';
+$PALANG['pAdminCreate_domain_defaultaliases'] = 'Додати стандартні псевдоними (аліаси) для домену';
+$PALANG['pAdminCreate_domain_button'] = 'Додати домен';
+$PALANG['pAdminCreate_domain_result_error'] = 'Не вдалося додати домен %s!';
+$PALANG['pAdminCreate_domain_result_success'] = 'Домен %s успішно додано.';
+$PALANG['domain_updated'] = 'Домен %s успішно оновлено.';
+
+$PALANG['pAdminDelete_admin_error'] = 'Неможливо видалити адміністратора!';
+$PALANG['domain_postdel_failed'] = 'Не вдалося коректно виконати скрипт після видалення домену, подробиці дивіться у журналі помилок!';
+$PALANG['domain_postedit_failed'] = 'Не вдалося коректно виконати скрипт після редагування домену, подробиці дивіться у журналі помилок!';
+$PALANG['domain_postcreate_failed'] = 'Не вдалося коректно виконати скрипт після створення домену, подробиці дивіться у журналі помилок!';
+$PALANG['mailbox_postdel_failed'] = 'Не вдалося коректно виконати скрипт після видалення поштової скриньки, подробиці дивіться у журналі помилок!';
+$PALANG['mailbox_postedit_failed'] = 'Не вдалося коректно виконати скрипт після редагування поштової скриньки, подробиці дивіться у журналі помилок!';
+$PALANG['mailbox_postcreate_failed'] = 'Не вдалося коректно виконати скрипт після створення поштової скриньки, подробиці дивіться у журналі помилок!';
+$PALANG['mailbox_postpassword_failed'] = 'Не вдалося коректно виконати скрипт після зміни пароля поштової скриньки, подробиці дивіться у журналі помилок!';
+$PALANG['pAdminDelete_alias_domain_error'] = 'Неможливо видалити псевдоним (аліас) домену!';
+$PALANG['domain_conflict_vacation_domain'] = 'Ви не можете використовувати домен автовідповідача у якості поштового домену!';
+
+$PALANG['pAdminEdit_domain_welcome'] = 'Редагування домену';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = вимкнути | 0 = необмежене';
+$PALANG['pAdminEdit_domain_maxquota'] = 'Максимальна квота скриньки'; # TODO: add change comment in translation - or drop and use pAdminCreate_domain_maxquota
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'МБ | -1 = вимкнути | 0 = необмежене';
+$PALANG['pAdminEdit_domain_quota'] = 'Квота домену';
+$PALANG['transport'] = 'Транспорт';
+$PALANG['pAdminEdit_domain_transport_text'] = 'Вкажіть транспорт';
+$PALANG['pAdminEdit_domain_backupmx'] = 'Поштовий сервер є резервним MX';
+$PALANG['pAdminEdit_domain_result_error'] = 'Не вдалося змінити домен %s!';
+
+$PALANG['pAdminCreate_admin_welcome'] = 'Додавання нового адміністратора домену';
+$PALANG['email_address'] = 'Поштова адреса';
+$PALANG['pAdminCreate_admin_username_text_error1'] = 'Некоректна адреса адміністратора!';
+$PALANG['admin_already_exists'] = 'Адміністратор вже існує!';
+$PALANG['admin_does_not_exist'] = 'Адміністратор не існує!';
+$PALANG['pAdminCreate_admin_button'] = 'Додати адміністратора';
+$PALANG['pAdminCreate_admin_result_error'] = 'Не вдалося додати адміністратора %s!';
+$PALANG['pAdminCreate_admin_result_success'] = 'Адміністратора %s успішно додано!';
+
+$PALANG['pAdminEdit_admin_welcome'] = 'Редагування налаштувань адміністратора домену';
+$PALANG['admin'] = 'Адміністратор';
+$PALANG['password_again'] = 'Пароль (ще раз)';
+$PALANG['super_admin'] = 'Суперадміністратор';
+$PALANG['super_admin_desc'] = 'Суперадміністратори мають доступ до всіх доменів, можуть управляти доменами і обліковими записами адміністраторів.';
+$PALANG['pAdminEdit_admin_result_error'] = 'Не вдалося змінити налаштування адміністратора %s!';
+$PALANG['pAdminEdit_admin_result_success'] = 'Налаштування адміністратора %s успішно змінені!';
+
+$PALANG['pUsersLogin_welcome'] = 'Вхід користувачів для зміни пароля та псевдонимів (аліасів)';
+$PALANG['pUsersLogin_username_incorrect'] = 'Введено неправільне і&#0039;мя. Перевірьте, що Ви ввели свій адрес электронної пошти!';
+$PALANG['pUsersLogin_password_incorrect'] = 'Введено невірний пароль!';
+$PALANG['pUsersLogin_password_recover'] = 'Я забув свій пароль';
+
+$PALANG['pUsersMenu_vacation'] = 'Автовідповідач';
+$PALANG['pUsersMenu_edit_alias'] = 'Змінити пересилання пошти';
+
+$PALANG['pUsersMain_vacation'] = 'Налаштувати повідомлення &#0039;поза офісом&#0039; або автовідповідач для Вашої пошти.';
+$PALANG['pUsersMain_vacationSet'] = 'Автовідповідач УВІМКНЕНО, натисніть &#0039;Автовідповідач&#0039; для редагування/видалення';
+$PALANG['pUsersMain_edit_alias'] = 'Змінити перенаправлення пошти.';
+$PALANG['pUsersMain_password'] = 'Змінити поточний пароль.';
+
+$PALANG['pUsersVacation_welcome'] = 'Автовідповідач.';
+$PALANG['pUsersVacation_welcome_text'] = 'Автовідповідач для %s увімкнено!';
+$PALANG['pUsersVacation_subject_text'] = 'Поза офісом';
+$PALANG['message'] = 'Повідомлення';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+Я буду відсутнім з <дати> по <дату>.
+За терміновими питаннями Ви можете звернутися до <контактної особи>.
+EOM;
+$PALANG['pUsersVacation_activefrom'] = 'Активний з';
+$PALANG['pUsersVacation_activeuntil'] = 'Активний по';
+
+
+$PALANG['pEdit_dbLog_editactive'] = 'зміна статусу активності';
+
+$PALANG['pSearch'] = 'пошук';
+$PALANG['pSearch_welcome'] = 'Шукати: ';
+
+$PALANG['pReturn_to'] = 'Повернутися до';
+
+$PALANG['pBroadcast_title'] = 'Відправка широкомовного повідомлення';
+$PALANG['pBroadcast_name'] = 'Ваше им&#0039;я';
+$PALANG['pBroadcast_success'] = 'Ваше широкомовне повідомлення успішно відправлено.';
+$PALANG['pAdminMenu_broadcast_message'] = 'Широкомовне повідомлення';
+$PALANG['pBroadcast_error_empty'] = 'Поля Ім&#0039;я, Тема і Повідомлення не повинні бути порожніми!';
+$PALANG['broadcast_mailboxes_only'] = 'Відправити тільки на поштові скриньки';
+$PALANG['broadcast_to_domains'] = 'Надіслати на домени:';
+
+$PALANG['pStatus_undeliverable'] = 'може бути НЕМОЖЛИВО ДОСТАВИТИ ';
+$PALANG['pStatus_disabled'] = 'Обліковий запис відключений ';
+$PALANG['pStatus_expired'] = 'Термін дії пароля минув ';
+$PALANG['pStatus_vacation'] = 'Автовідповідач увімкнено ';
+
+$PALANG['pStatus_custom'] = 'Доставляється для ';
+$PALANG['pStatus_popimap'] = 'POP/IMAP ';
+
+$PALANG['password_too_short'] = 'Пароль занадто короткий - потрібно %s символів';
+$PALANG['password_no_characters'] = 'Ваш пароль повинен містити не менше ніж %s символів (A-Z, a-z).';
+$PALANG['password_no_digits'] = 'Ваш пароль повинен містити не менше ніж %s цифр(и).';
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s)."; # XXX
+$PALANG['pInvalidDomainRegex'] = 'Некоректне ім&#0039;я домену %s, не відповідає регулярному виразу';
+$PALANG['pInvalidDomainDNS'] = 'Некоректний домен %s, та/або не виявляється в DNS';
+$PALANG['pInvalidMailRegex'] = 'Некоректний Email %s, не відповідає регулярному виразу';
+
+$PALANG['pFetchmail_welcome']               = 'Збирати пошту для:';
+$PALANG['pFetchmail_new_entry']             = 'Нове завдання';
+$PALANG['fetchmail_already_exists']         = 'Зазначене завдання fetchmail вже існує!';
+$PALANG['fetchmail_does_not_exist']         = 'Зазначене завдання fetchmail не існує!';
+$PALANG['pFetchmail_database_save_error']   = 'Не вдалося зберегти запис в базі даних!';
+$PALANG['pFetchmail_database_save_success'] = 'Запис збережено в базі даних.';
+$PALANG['pFetchmail_error_invalid_id']      = 'Не знайдено запис з номером %s!';
+$PALANG['pFetchmail_invalid_mailbox']       = 'Некоректна поштова скринька!';
+$PALANG['pFetchmail_server_missing']        = 'Будь ласка, введіть ім&#0039;я віддаленого сервера!';
+$PALANG['pFetchmail_user_missing']          = 'Будь ласка, введіть ім&#0039;я віддаленого користувача!';
+$PALANG['pFetchmail_password_missing']      = 'Будь ласка, введіть пароль віддаленого користувача!';
+$PALANG['pFetchmail_field_id']              = 'Номер';
+$PALANG['pFetchmail_field_mailbox']         = 'Поштова скринька';
+$PALANG['pFetchmail_field_src_server']      = 'Сервер';
+$PALANG['pFetchmail_field_src_port']        = 'Порт';
+$PALANG['pFetchmail_field_src_auth']        = 'Тип аутентифікації';
+$PALANG['pFetchmail_field_src_user']        = 'Користувач';
+$PALANG['pFetchmail_field_src_password']    = $PALANG['password']; # needed until fetchmail is migrated into FetchmailHandler
+$PALANG['pFetchmail_field_src_folder']      = 'Тека';
+$PALANG['pFetchmail_field_poll_time']       = 'Опитувати';
+$PALANG['pFetchmail_field_fetchall']        = 'Забирати все';
+$PALANG['pFetchmail_field_keep']            = 'Не видаляти';
+$PALANG['pFetchmail_field_protocol']        = 'Протокол';
+$PALANG['pFetchmail_field_usessl']          = 'Увімкнути SSL';
+$PALANG['pFetchmail_field_sslcertck']       = 'Перевірка SSL сертифіката';
+$PALANG['pFetchmail_field_sslcertpath']     = 'Шлях до SSL сертифікатів';
+$PALANG['pFetchmail_field_sslfingerprint']  = 'SSL відбиток (md5)';
+$PALANG['pFetchmail_field_extra_options']   = 'Додаткові параметри';
+$PALANG['pFetchmail_field_mda']             = 'MDA';
+$PALANG['pFetchmail_field_date']            = 'Дата';
+$PALANG['pFetchmail_field_returned_text']   = 'Текст звіту';
+$PALANG['pFetchmail_desc_id']               = 'Номер запису';
+$PALANG['pFetchmail_desc_mailbox']          = 'Локальна скринька';
+$PALANG['pFetchmail_desc_src_server']       = 'Віддалений сервер';
+$PALANG['pFetchmail_desc_src_port']         = 'Номер віддаленого порту, якщо потрібен нестандартний віддалений порт. (0 = використовувати порт за замовчуванням)';
+$PALANG['pFetchmail_desc_src_auth']         = 'Зазвичай &#0039;password&#0039;'; # Translators: Please do NOT translate 'password' here
+$PALANG['pFetchmail_desc_src_user']         = 'Віддалений користувач';
+$PALANG['pFetchmail_desc_src_password']     = 'Віддалений пароль';
+$PALANG['pFetchmail_desc_src_folder']       = 'Віддалена тека';
+$PALANG['pFetchmail_desc_poll_time']        = 'Опитувати кожні ... хвилин';
+$PALANG['pFetchmail_desc_fetchall']         = 'Забирати як старі (переглянуті), так і нові повідомлення';
+$PALANG['pFetchmail_desc_keep']             = 'Не видаляти отримані повідомлення з віддаленого сервера';
+$PALANG['pFetchmail_desc_protocol']         = 'Протокол, що використовується';
+$PALANG['pFetchmail_desc_usessl']           = 'Шифрування SSL';
+$PALANG['pFetchmail_desc_extra_options']    = 'Додаткові параметри fetchmail';
+$PALANG['pFetchmail_desc_mda']              = 'Агент доставки пошти (MDA)';
+$PALANG['pFetchmail_desc_date']             = 'Дата останнього опитування/зміни конфігурації';
+$PALANG['pFetchmail_desc_returned_text']    = 'Текст звіту щодо останнього опитування';
+
+$PALANG['dateformat_pgsql'] = 'dd.mm.YYYY'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format
+$PALANG['dateformat_mysql'] = '%d.%m.%Y';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
+$PALANG['password_expiration'] = 'Термін дії пароля';
+$PALANG['password_expiration_desc'] = 'Кількість днів дії пароля (0 = необмежено)';
+$PALANG['To_Mailbox']                       = 'Mailbox'; # XXX # XXX
+$PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
+
+$PALANG['pLegal_char_warning'] = 'Нелегальний характер';
+$PALANG['copy'] = 'Партнерство';
+$PALANG['generate'] = 'Генерація';
+$PALANG['pMenu_security'] = 'Безпека';
+$PALANG['pMenu_totp'] = 'Твитнуть';
+$PALANG['pMenu_totp_exceptions'] = 'Виняток TOTP';
+$PALANG['pMenu_app_passwords'] = 'Заявка паролів';
+$PALANG['pUsersMain_totp_exceptions'] = 'Довіряємо IP-адресу для доступу до поштової скриньки без TOTP';
+$PALANG['pUsersMenu_totp'] = 'Змінення';
+$PALANG['pTOTP_welcome'] = 'Налаштування пароля на основі часу';
+$PALANG['pUsersMain_totp'] = 'Налаштування пароля на основі часу';
+$PALANG['pTOTP_secret'] = 'Секрет';
+$PALANG['pTOTP_code'] = 'Поштовий індекс';
+$PALANG['pTOTP_secret_result_error'] = 'Не можна змінити секрет TOTP';
+$PALANG['change_TOTP'] = 'Зміна налаштувань TOTP';
+$PALANG['pTOTP_code_mismatch'] = 'Некоректний одноразовий вхід';
+$PALANG['pTOTP_qr'] = 'QR-код';
+$PALANG['pTOTP_confirm'] = 'Будь ласка, підтвердіть свій логін, надавши Ваш поточний код';
+$PALANG['pTotp_failed'] = 'Ваш вхідний код не діє. Введіть номер мобільного, який Ви вказали при укладаннi договору з банком - для ідентифікації.';
+$PALANG['pTotp_stored'] = 'Ви успішно підтвердили свій новий секрет TOTP.';
+$PALANG['pTotp_exceptions_welcome'] = 'Додати адресу електронної пошти';
+$PALANG['pTotp_exceptions_user'] = 'Ім\'я користувача (або домен для адміністраторів)';
+$PALANG['pTotp_exceptions_add'] = 'Додати виключення';
+$PALANG['pTotp_exceptions_address'] = 'IP-додаток';
+$PALANG['pTotp_exceptions_description'] = 'Опис';
+$PALANG['pTotp_exceptions_list'] = 'За винятком';
+$PALANG['pTotp_exceptions_revoke'] = 'Редакція';
+$PALANG['pTotp_exceptions_revoked'] = 'Відкликання';
+$PALANG['pTotp_exception_result_success'] = 'Додатково';
+$PALANG['pTotp_exception_result_error'] = 'Не додавати виключення';
+$PALANG['pEdit_totp_exception_result_error'] = 'Неможливо змінити виключення TOTP';
+$PALANG['pException_ip_empty_error'] = 'IP не може бути порожнім';
+$PALANG['pException_desc_empty_error'] = 'Опис не може бути порожнім';
+$PALANG['pException_user_entire_domain_error'] = 'Тільки адміністратори можуть додати виключення для всього домену.';
+$PALANG['pException_user_global_error'] = 'Тільки суперадміністратори можуть додавати світові винятки';
+$PALANG['pUsersMain_app_passwords'] = 'Налаштування повторюваних паролів додатків з зниженими привілеїв';
+$PALANG['pApp_passwords_list'] = 'Розробка паролів додатків';
+$PALANG['pApp_password_revoked'] = 'Відкликання';
+$PALANG['pApp_passwords_welcome'] = 'Додати пароль';
+$PALANG['pAppPassAdd_result_success'] = 'Додано пароль заявки';
+$PALANG['pAppPassAdd_pass_empty_error'] = 'Пароль не може бути порожнім';
+$PALANG['pAppPassAdd_result_error'] = 'Не додавати пароль заявки';
+$PALANG['MFA_submit'] = 'Підтвердити логін';
+$PALANG['pViewlog_action_add_totp_exception'] = 'Додати виключення TOTP';
+$PALANG['pViewlog_action_delete_totp_exception'] = 'Виняток TOTP';
+$PALANG['pViewlog_action_add_app_password'] = 'Додати пароль';
+$PALANG['mailbox_postapppassword_failed'] = 'Скрипт поштових скриньок не вдалося, перевірте журнал помилки для деталей!';
+$PALANG['mailbox_post_totp_exception_delete_failed'] = 'Після видалення скрипта не вдалося, перевірте журнал помилки для деталей!';
+$PALANG['mailbox_post_totp_exception_add_failed'] = 'Виняток поштових скриньок додайте скрипт не вдалося, перевірте журнал помилки для деталей!';
+$PALANG['mailbox_post_TOTP_change_failed'] = 'Пост поштових скриньок не вдалося, перевірте журнал помилки для деталей!';
+
+$PALANG['TOTP_already_configured'] = 'Щоб змінити секрет?';
+
+$PALANG['pApp_passwords_add'] = 'Додавання пароля електронної пошти';
+
+$PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
+/* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
+?>

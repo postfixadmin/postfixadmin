@@ -1,7 +1,9 @@
 <?php
 
-class CheckLanguageTest extends \PHPUnit\Framework\TestCase {
-    public function testBasic() {
+class CheckLanguageTest extends \PHPUnit\Framework\TestCase
+{
+    public function testBasic()
+    {
         global $supported_languages;
 
         $this->assertNotEmpty($supported_languages);
@@ -16,12 +18,13 @@ class CheckLanguageTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('test', $lang);
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
-           
+
         $lang = check_language(false);
         $this->assertEquals('en', $lang);
     }
 
-    public function testCookie() {
+    public function testCookie()
+    {
         global $supported_languages;
 
         $this->assertNotEmpty($supported_languages);
@@ -39,7 +42,8 @@ class CheckLanguageTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals('en', $lang);
     }
 
-    public function testPost() {
+    public function testPost()
+    {
         global $supported_languages;
 
         $this->assertNotEmpty($supported_languages);

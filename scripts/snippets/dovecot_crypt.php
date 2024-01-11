@@ -9,7 +9,8 @@ define('LM_HASH_SIZE', 16);
 define('NTLMSSP_HASH_SIZE', 16);
 
 
-class DovecotCrypt extends Crypt {
+class DovecotCrypt extends Crypt
+{
     private $errormsg = [];
 
     private $salt_chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -47,7 +48,8 @@ class DovecotCrypt extends Crypt {
 
 
 
-    public function crypt($algorithm) {
+    public function crypt($algorithm)
+    {
         if (!array_key_exists($algorithm, $this->password_schemes)) {
             $this->errormsg[] = "This password scheme isn't supported. Check our Wiki!";
             return false;
@@ -61,7 +63,8 @@ class DovecotCrypt extends Crypt {
         return true;
     }
 
-    public function verify($algorithm, $password) {
+    public function verify($algorithm, $password)
+    {
         if (!array_key_exists($algorithm, $this->password_schemes)) {
             $this->errormsg[] = "This password scheme isn't supported. Check our Wiki!";
             return false;
@@ -77,22 +80,28 @@ class DovecotCrypt extends Crypt {
         return  $this->$func($this->plain, $password);
     }
 
-    private function __crypt_verify($plaintext, $password) {
+    private function __crypt_verify($plaintext, $password)
+    {
         $crypted = crypt($plaintext, $password);
         return strcmp($crypted, $password) == 0;
     }
-    private function __crypt_generate($plaintext) {
+    private function __crypt_generate($plaintext)
+    {
         $password = crypt($plaintext);
         return $password;
     }
-    private function __md5_generate($plaintext) {
+    private function __md5_generate($plaintext)
+    {
         return $plaintext;
     }
-    private function __sha1_generate() {
+    private function __sha1_generate()
+    {
     }
-    private function __plain_generate() {
+    private function __plain_generate()
+    {
     }
-    private function __cram_md5_generate($plaintext) {
+    private function __cram_md5_generate($plaintext)
+    {
 
         #http://hg.dovecot.org/dovecot-1.2/file/84373d238073/src/lib/hmac-md5.c
         #http://hg.dovecot.org/dovecot-1.2/file/84373d238073/src/auth/password-scheme.c cram_md5_generate
@@ -109,7 +118,8 @@ class DovecotCrypt extends Crypt {
     /**
      * @return string
      */
-    public function custom_hmac($algo, $data, $key, $raw_output = false) {
+    public function custom_hmac($algo, $data, $key, $raw_output = false)
+    {
         $algo = strtolower($algo);
         $pack = 'H'.strlen($algo('test'));
         $size = 64;

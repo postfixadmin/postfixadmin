@@ -1,15 +1,27 @@
 <?php
 
-class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
-    public function tearDown() {
+class MailboxHandlerTest extends \PHPUnit\Framework\TestCase
+{
+    public function tearDown(): void
+    {
         db_query('DELETE FROM mailbox');
-        db_query('DELETE FROM domain');
+        db_query('DELETE FROM alias');
         db_query('DELETE FROM domain_admins');
+        db_query('DELETE FROM domain');
 
         parent::tearDown();
     }
 
-    public function testBasic() {
+    public function setUp(): void
+    {
+        global $CONF;
+        parent::setUp();
+
+        $CONF['quota'] = 'YES';
+    }
+
+    public function testBasic()
+    {
         $x = new MailboxHandler();
 
         $list = $x->getList("");
@@ -19,16 +31,11 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         $results = $x->result();
 
         $this->assertEmpty($results);
-
-        $this->assertFalse($x->checkPasswordRecoveryCode('test', 'fake'));
-
-        $token = $x->getPasswordRecoveryCode('test.person.does.not.exist@example.com');
-
-        $this->assertFalse($token);
     }
 
 
-    public function testAddingDataEtc() {
+    public function testAddingDataEtc()
+    {
 
         // Fake being an admin.
         $_SESSION = [
@@ -48,6 +55,8 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
                 'aliases' => 11,
                 'mailboxes' => 12,
                 'active' => 1,
+                'quota' => 99999911111,
+                'maxquota' => 99999999999,
                 'backupmx' => 0,
                 'default_aliases' => 1
             ]
@@ -59,7 +68,7 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertTrue($ret);
 
-        $ret = $dh->store();
+        $ret = $dh->save();
 
         $this->assertTrue($ret);
 
@@ -94,7 +103,7 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
             'password' => 'test1234',
             'password2' => 'test1234',
             'name' => 'test person',
-            'quota' => '',
+            'quota' => 1,
             'welcome_mail' => 0,
             'email_other' => '',
             'username' => 'david.test@example.com',
@@ -108,12 +117,12 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(0, count($list));
 
         $x->set($values);
-        $x->store();
+        $x->save();
 
         $x->getList('');
-
         $list = $x->result();
-        $this->assertEquals(1, count($list));
+
+        $this->assertEquals(1, count($list), json_encode($x->errormsg));
 
         $found = false;
 
@@ -122,6 +131,11 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
                 $this->assertEquals('example.com', $details['domain']);
                 $this->assertEquals('david.test@example.com', $details['username']);
                 $this->assertEquals('test person', $details['name']);
+
+                $this->assertNotEmpty($details['_modified']);
+                $this->assertNotEmpty($details['_created']);
+
+                $this->assertEquals($details['_modified'], $details['_created']); // new data should have them equal.
                 $found = true;
                 break;
             }
@@ -129,6 +143,8 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertTrue($found, "check output : " . json_encode($list));
 
+        // need to make updated != created.
+        sleep(1);
 
         // Try and edit.
 
@@ -145,11 +161,11 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
             'username' => 'david.test@example.com'
         ]);
 
-        $this->assertEmpty($h->errormsg);
+        $this->assertEmpty($h->errormsg, json_encode($h->errormsg));
         $this->assertEmpty($h->infomsg);
         $this->assertTrue($r);
-        $this->assertTrue($h->store());
-        
+        $this->assertTrue($h->save());
+
         $h->getList('');
         $list = $h->result();
         $this->assertEquals(1, count($list));
@@ -161,6 +177,12 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase {
                 $this->assertEquals('david.test@example.com', $details['username']);
                 $this->assertEquals(123456, $details['quota']);
                 $this->assertEquals('test person 1234', $details['name']);
+
+                $this->assertNotEmpty($details['_modified']);
+                $this->assertNotEmpty($details['_created']);
+
+                $this->assertNotEquals($details['_modified'], $details['_created']);
+
                 $found = true;
                 break;
             }

@@ -1,37 +1,46 @@
 <?php
+
 # $Id$
 
 /**
  * Simple class to represent a user.
  */
-class MailboxHandler extends PFAHandler {
+class MailboxHandler extends PFAHandler
+{
     protected $db_table = 'mailbox';
     protected $id_field = 'username';
     protected $domain_field = 'domain';
     protected $searchfields = array('username');
 
     # init $this->struct, $this->db_table and $this->id_field
-    protected function initStruct() {
-        $passwordReset = (int) Config::bool('forgotten_user_password_reset');
+    protected function initStruct()
+    {
+        $passwordReset = (int) ( Config::bool('forgotten_user_password_reset') && !Config::read('mailbox_postpassword_script') );
+        $smtpActiveFlag = (int) ( Config::bool('smtp_active_flag') );
         $reset_by_sms = 0;
         if ($passwordReset && Config::read_string('sms_send_function')) {
             $reset_by_sms = 1;
         }
-
-        $show_password_fields = (int) !Config::bool('generate_password');
+        $editPw = 1;
+        if (!$this->new && Config::read('mailbox_postpassword_script')) {
+            $editPw = 0;
+        }
 
         $this->struct = array(
+
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
             'username'         => pacol($this->new, 1,      1,      'mail', 'pEdit_mailbox_username'        , ''                                , '' ),
-            'local_part'       => pacol($this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '' ),
+            'local_part'       => pacol($this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '',
+                /*options*/ array('legal_chars' => Config::read('username_legal_chars'), 'legal_char_warning' => Config::lang('pLegal_char_warning'))
+            ),
             'domain'           => pacol($this->new, 0,      1,      'enum', ''                              , ''                                , '',
                 /*options*/ $this->allowed_domains      ),
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
             'maildir'          => pacol($this->new, 0,      1,      'text', ''                              , ''                                , '' ),
-            'password'         => pacol(1,          $show_password_fields,      0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
-            'password2'        => pacol(1,          $show_password_fields,      0,      'pass', 'password_again'                , ''                                 , '',
+            'password'         => pacol($editPw,    $editPw,0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
+            'password2'        => pacol($editPw,    $editPw,0,      'pass', 'password_again'                , ''                                 , '',
                 /*options*/ array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
@@ -42,6 +51,7 @@ class MailboxHandler extends PFAHandler {
             # read_from_db_postprocess() also sets 'quotabytes' for use in init()
             # TODO: read used quota from quota/quota2 table
             'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
+            'smtp_active'      => pacol($smtpActiveFlag, $smtpActiveFlag,0,      'bool', 'smtp_active'                   , ''                                 , 1 ),
             'welcome_mail'     => pacol($this->new, $this->new, 0,  'bool', 'pCreate_mailbox_mail'          , ''                                 , 1,
                 /*options*/ array(),
                 /*not_in_db*/ 1             ),
@@ -61,7 +71,8 @@ class MailboxHandler extends PFAHandler {
         }
     }
 
-    public function init($id) {
+    public function init(string $id): bool
+    {
         if (!parent::init($id)) {
             return false;
         }
@@ -77,7 +88,8 @@ class MailboxHandler extends PFAHandler {
         return true; # still here? good.
     }
 
-    protected function domain_from_id() {
+    protected function domain_from_id()
+    {
         list(/*NULL*/, $domain) = explode('@', $this->id);
         return $domain;
     }
@@ -87,7 +99,8 @@ class MailboxHandler extends PFAHandler {
      * @param string - domain
      * @param int - current quota
      */
-    protected function updateMaxquota($domain, $currentquota) {
+    protected function updateMaxquota($domain, $currentquota)
+    {
         if ($domain == '') {
             return false;
         }
@@ -95,15 +108,16 @@ class MailboxHandler extends PFAHandler {
         $maxquota = $this->allowed_quota($domain, $currentquota);
 
         if ($maxquota == 0) {
-            # TODO: show 'unlimited'
-        # } elseif ($maxquota < 0) {
-            # TODO: show 'disabled' - at the moment, just shows '-1'
+            $this->struct['quota']['desc'] = Config::lang('mb_max_unlimited');
+        } elseif ($maxquota < 0) {
+            $this->struct['quota']['desc'] = Config::lang('mb_max_disabled');
         } else {
             $this->struct['quota']['desc'] = Config::lang_f('mb_max', "" . $maxquota);
         }
     }
 
-    protected function initMsg() {
+    protected function initMsg()
+    {
         $this->msg['error_already_exists'] = 'email_address_already_exists';
         $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1';
         $this->msg['confirm_delete'] = 'confirm_delete_mailbox';
@@ -119,7 +133,8 @@ class MailboxHandler extends PFAHandler {
         }
     }
 
-    public function webformConfig() {
+    public function webformConfig()
+    {
         if ($this->new) { # the webform will display a local_part field + domain dropdown on $new
             $this->struct['username']['display_in_form'] = 0;
             $this->struct['local_part']['display_in_form'] = 1;
@@ -141,7 +156,8 @@ class MailboxHandler extends PFAHandler {
     }
 
 
-    protected function validate_new_id() {
+    protected function validate_new_id()
+    {
         if ($this->id == '') {
             $this->errormsg[$this->id_field] = Config::lang('pCreate_mailbox_username_text_error1');
             return false;
@@ -176,7 +192,8 @@ class MailboxHandler extends PFAHandler {
     /**
      * check number of existing mailboxes for this domain - is one more allowed?
      */
-    private function create_allowed($domain) {
+    private function create_allowed($domain)
+    {
         $limit = get_domain_properties($domain);
 
         if ($limit['mailboxes'] == 0) {
@@ -195,7 +212,8 @@ class MailboxHandler extends PFAHandler {
      * merge local_part and domain to address
      * called by edit.php (if id_field is editable and hidden in editform) _before_ ->init
      */
-    public function mergeId($values) {
+    public function mergeId($values)
+    {
         if ($this->struct['local_part']['display_in_form'] == 1 && $this->struct['domain']['display_in_form']) { # webform mode - combine to 'address' field
             return $values['local_part'] . '@' . $values['domain'];
         } else {
@@ -204,11 +222,12 @@ class MailboxHandler extends PFAHandler {
     }
 
 
-    protected function read_from_db_postprocess($db_result) {
+    protected function read_from_db_postprocess($db_result)
+    {
         foreach ($db_result as $key => $row) {
-            if (isset($row['quota']) && !empty($row['quota'])) { # quota could be disabled in $struct
+            if (isset($row['quota']) && is_numeric($row['quota']) && $row['quota'] > -1) { # quota could be disabled in $struct
                 $db_result[$key]['quotabytes'] = $row['quota'];
-                $db_result[$key]['quota'] = divide_quota($row['quota']); # convert quota to MB
+                $db_result[$key]['quota'] = divide_quota( (int) $row['quota']); # convert quota to MB
             } else {
                 $db_result[$key]['quotabytes'] = -1;
                 $db_result[$key]['quota'] = -1;
@@ -218,13 +237,19 @@ class MailboxHandler extends PFAHandler {
     }
 
 
-    protected function beforestore() {
+    protected function preSave(): bool
+    {
         if (isset($this->values['quota']) && $this->values['quota'] != -1 && is_numeric($this->values['quota'])) {
             $multiplier = Config::read_string('quota_multiplier');
             if ($multiplier == 0 || !is_numeric($multiplier)) { // or empty string, or null, or false...
                 $multiplier = 1;
             }
             $this->values['quota'] = $this->values['quota'] * $multiplier; # convert quota from MB to bytes
+        }
+
+        // Avoid trying to store '' in an integer field
+        if ($this->values['quota'] === '') {
+            $this->values['quota'] = 0;
         }
 
         $ah = new AliasHandler($this->new, $this->admin_username);
@@ -252,7 +277,7 @@ class MailboxHandler extends PFAHandler {
             return false;
         }
 
-        if (!$ah->store()) {
+        if (!$ah->save()) {
             $this->errormsg[] = $ah->errormsg[0];
             return false;
         }
@@ -271,9 +296,16 @@ class MailboxHandler extends PFAHandler {
         return true;
     }
 
+    protected function setmore(array $values)
+    {
+        if (array_key_exists('quota', $this->values)) {
+            $this->values['quota'] = (int)$this->values['quota'];
+        }
+    }
 
     // Could perhaps also use _validate_local_part($new_value) { .... }
-    public function set($values) {
+    public function set(array $values)
+    {
         // See: https://github.com/postfixadmin/postfixadmin/issues/282 - ensure the 'local_part' does not contain an @ sign.
         $ok = true;
         if (isset($values['local_part']) && strpos($values['local_part'], '@')) {
@@ -283,7 +315,8 @@ class MailboxHandler extends PFAHandler {
         return $ok && parent::set($values);
     }
 
-    protected function storemore() {
+    protected function postSave(): bool
+    {
         if ($this->new) {
             if (!$this->mailbox_post_script()) {
                 # return false; # TODO: should this be fatal?
@@ -329,7 +362,8 @@ class MailboxHandler extends PFAHandler {
         return true; # even if a hook failed, mark the overall operation as OK
     }
 
-    public function delete() {
+    public function delete()
+    {
         if (! $this->view()) {
             $this->errormsg[] = Config::Lang('pFetchmail_invalid_mailbox'); # TODO: can users hit this message at all? init() should already fail...
             return false;
@@ -359,7 +393,8 @@ class MailboxHandler extends PFAHandler {
 
 
 
-    protected function _prefill_domain($field, $val) {
+    protected function _prefill_domain($field, $val)
+    {
         if (in_array($val, $this->struct[$field]['options'])) {
             $this->struct[$field]['default'] = $val;
             $this->updateMaxquota($val, 0);
@@ -369,7 +404,8 @@ class MailboxHandler extends PFAHandler {
     /**
      * check if quota is allowed
      */
-    protected function _validate_quota($field, $val) {
+    protected function _validate_quota($field, $val)
+    {
         if (!$this->check_quota($val)) {
             $this->errormsg[$field] = Config::lang('pEdit_mailbox_quota_text_error');
             return false;
@@ -382,7 +418,8 @@ class MailboxHandler extends PFAHandler {
      * - autogenerate password if enabled in config and $new
      * - display password on $new if enabled in config or autogenerated
      */
-    protected function _validate_password($field, $val) {
+    protected function _validate_password($field, $val)
+    {
         if (!$this->_validate_password2($field, $val)) {
             return false;
         }
@@ -405,14 +442,16 @@ class MailboxHandler extends PFAHandler {
      * compare password / password2 field
      * error message will be displayed at the password2 field
      */
-    protected function _validate_password2($field, $val) {
+    protected function _validate_password2($field, $val)
+    {
         return $this->compare_password_fields('password', 'password2');
     }
 
     /**
      * on $this->new, set localpart based on address
      */
-    protected function _missing_local_part($field) {
+    protected function _missing_local_part($field)
+    {
         list($local_part, $domain) = explode('@', $this->id);
         $this->RAWvalues['local_part'] = $local_part;
     }
@@ -420,7 +459,8 @@ class MailboxHandler extends PFAHandler {
     /**
      * on $this->new, set domain based on address
      */
-    protected function _missing_domain($field) {
+    protected function _missing_domain($field)
+    {
         list($local_part, $domain) = explode('@', $this->id);
         $this->RAWvalues['domain'] = $domain;
     }
@@ -433,10 +473,11 @@ class MailboxHandler extends PFAHandler {
     /**
     * calculate maildir path for the mailbox
     */
-    protected function _missing_maildir($field) {
+    protected function _missing_maildir($field)
+    {
         list($local_part, $domain) = explode('@', $this->id);
 
-        $maildir_name_hook = Config::read_string('maildir_name_hook');
+        $maildir_name_hook = Config::read('maildir_name_hook');
 
         if (is_string($maildir_name_hook) && $maildir_name_hook != 'NO' && function_exists($maildir_name_hook)) {
             $maildir = $maildir_name_hook($domain, $this->id);
@@ -454,7 +495,8 @@ class MailboxHandler extends PFAHandler {
         $this->RAWvalues['maildir'] = $maildir;
     }
 
-    private function send_welcome_mail() {
+    private function send_welcome_mail()
+    {
         $fTo = $this->id;
         $fFrom = smtp_get_admin_email();
         if (empty($fFrom) || $fFrom == 'CLI') {
@@ -479,10 +521,13 @@ class MailboxHandler extends PFAHandler {
      * @return boolean - true if requested quota is OK, otherwise false
      * @todo merge with allowed_quota?
      */
-    protected function check_quota($quota) {
+    protected function check_quota($quota)
+    {
         if (!Config::bool('quota')) {
             return true; # enforcing quotas is disabled - just allow it
         }
+
+        $quota = (int) $quota;
 
         list(/*NULL*/, $domain) = explode('@', $this->id);
         $limit = get_domain_properties($domain);
@@ -531,7 +576,8 @@ class MailboxHandler extends PFAHandler {
      * @param int $current_user_quota (in bytes)
      * @return int allowed maximum quota (in MB)
      */
-    protected function allowed_quota($domain, $current_user_quota) {
+    protected function allowed_quota($domain, $current_user_quota)
+    {
         if (!Config::bool('quota')) {
             return 0; # quota disabled means no limits - no need for more checks
         }
@@ -559,7 +605,8 @@ class MailboxHandler extends PFAHandler {
      *
      * @return boolean success/failure status
      */
-    protected function mailbox_post_script() {
+    protected function mailbox_post_script()
+    {
         if ($this->new) {
             $cmd = Config::read_string('mailbox_postcreation_script');
             $warnmsg = Config::Lang('mailbox_postcreate_failed');
@@ -568,7 +615,12 @@ class MailboxHandler extends PFAHandler {
             $warnmsg = Config::Lang('mailbox_postedit_failed');
         }
 
-        if (empty($cmd)) {
+        if ($this->new) {
+            $cmd_pw = Config::read('mailbox_postpassword_script');
+            $warnmsg_pw = Config::Lang('mailbox_postpassword_failed');
+        }
+
+        if (empty($cmd) && empty($cmd_pw)) {
             return true;
         } # nothing to do
 
@@ -582,23 +634,60 @@ class MailboxHandler extends PFAHandler {
 
         $cmdarg1=escapeshellarg($this->id);
         $cmdarg2=escapeshellarg($domain);
-        $cmdarg3=escapeshellarg($this->values['maildir']);
-        if ($quota <= 0) {
-            $quota = 0;
-        } # TODO: check if this is correct behaviour
-        $cmdarg4 = escapeshellarg("" . $quota);
-        $command= "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
-        $retval=0;
-        $output=array();
-        $firstline='';
-        $firstline=exec($command, $output, $retval);
-        if (0!=$retval) {
-            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
-            $this->errormsg[] = $warnmsg;
-            return false;
+        $status = true;
+
+        if (!empty($cmd)) {
+            $cmdarg3=escapeshellarg($this->values['maildir']);
+            if ($quota <= 0) {
+                $quota = 0;
+            } # TODO: check if this is correct behaviour
+            $cmdarg4 = escapeshellarg("" . $quota);
+            $command= "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
+            $retval=0;
+            $output=array();
+            $firstline='';
+            $firstline=exec($command, $output, $retval);
+            if (0!=$retval) {
+                error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+                $this->errormsg[] .= $warnmsg;
+                $status = false;
+            }
         }
 
-        return true;
+        if (!empty($cmd_pw)) {
+            // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
+            $spec = array(
+                0 => array("pipe", "r"), // stdin
+                1 => array("pipe", "w"), // stdout
+            );
+
+            $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
+
+            $proc = proc_open($command, $spec, $pipes);
+
+            if (!$proc) {
+                error_log("can't proc_open $cmd_pw");
+                $this->errormsg[] .= $warnmsg_pw;
+                $status = false;
+            } else {
+                // Write passwords through pipe to command stdin -- provide old password, then new password.
+                fwrite($pipes[0], "\0", 1);
+                fwrite($pipes[0], $this->values['password'] . "\0", 1+strlen($this->values['password']));
+                $output = stream_get_contents($pipes[1]);
+                fclose($pipes[0]);
+                fclose($pipes[1]);
+
+                $retval = proc_close($proc);
+
+                if (0!=$retval) {
+                    error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+                    $this->errormsg[] .= $warnmsg_pw;
+                    $status = false;
+                }
+            }
+        }
+
+        return $status;
     }
 
     /**
@@ -607,7 +696,8 @@ class MailboxHandler extends PFAHandler {
      * @return boolean true on success, false on failure
      * also adds a detailed error message to $this->errormsg[]
      */
-    protected function mailbox_postdeletion() {
+    protected function mailbox_postdeletion()
+    {
         $cmd = Config::read_string('mailbox_postdeletion_script');
 
         if (empty($cmd)) {
@@ -640,7 +730,7 @@ class MailboxHandler extends PFAHandler {
 
 
     /**
-     * Called by storemore() after a mailbox has been created.
+     * Called by postSave() after a mailbox has been created.
      * Immediately returns, unless configuration indicates
      * that one or more sub-folders should be created.
      *
@@ -654,8 +744,11 @@ class MailboxHandler extends PFAHandler {
      * created.
      *
      * @return boolean TRUE if everything succeeds, FALSE on all errors
+     *
+     * @todo rewrite/remove dependency on php-imap and use instead something like : https://www.php-imap.com/api/client
      */
-    protected function create_mailbox_subfolders() {
+    protected function create_mailbox_subfolders()
+    {
         $create_mailbox_subdirs = Config::read('create_mailbox_subdirs');
         if (empty($create_mailbox_subdirs)) {
             return true;
@@ -691,14 +784,16 @@ class MailboxHandler extends PFAHandler {
         }
 
         $s_port='';
-        $create_mailbox_subdirs_hostport = Config::read_string('create_mailbox_subdirs_hostport');
-        if (!empty($create_mailbox_subdirs_hostport)) {
-            $s_port = $create_mailbox_subdirs_hostport;
-            if (intval($s_port)!=$s_port) {
-                trigger_error('The $CONF["create_mailbox_subdirs_hostport"] parameter must be an integer', E_USER_ERROR);
-                return false;
+        if (Config::has('create_mailbox_subdirs_hostport')) {
+            $create_mailbox_subdirs_hostport = Config::read('create_mailbox_subdirs_hostport');
+            if (!empty($create_mailbox_subdirs_hostport)) {
+                $s_port = $create_mailbox_subdirs_hostport;
+                if (intval($s_port)!=$s_port) {
+                    trigger_error('The $CONF["create_mailbox_subdirs_hostport"] parameter must be an integer', E_USER_ERROR);
+                    return false;
+                }
+                $s_port=':'.$s_port;
             }
-            $s_port=':'.$s_port;
         }
 
         $s='{'.$s_host.$s_port.$s_options.'}';
@@ -726,49 +821,6 @@ class MailboxHandler extends PFAHandler {
         @imap_close($i);
         return true;
     }
-
-
-    /********************************************************************************************************************
-         old functions - we'll see what happens to them
-         (at least they should use the *Handler functions instead of doing SQL)
-    /********************************************************************************************************************/
-
-    /**
-     * @return boolean true on success; false on failure
-     * @param string $new_password
-     * @param string $old_password
-     * @param bool $match = true
-     *
-     * All passwords need to be plain text; they'll be hashed appropriately
-     * as per the configuration in config.inc.php
-     */
-    public function change_pw($new_password, $old_password, $match = true) {
-        list(/*NULL*/, $domain) = explode('@', $this->id);
-
-        if ($match == true) {
-            if (!$this->login($this->id, $old_password)) {
-                db_log($domain, 'edit_password', "MATCH FAILURE: " . $this->id);
-                $this->errormsg[] = Config::Lang('pPassword_password_current_text_error');
-                return false;
-            }
-        }
-
-        $set = array(
-            'password' => pacrypt($new_password) ,
-        );
-
-        $result = db_update('mailbox', 'username', $this->id, $set);
-
-        if ($result != 1) {
-            db_log($domain, 'edit_password', "FAILURE: " . $this->id);
-            $this->errormsg[] = Config::lang('pEdit_mailbox_result_error');
-            return false;
-        }
-
-        db_log($domain, 'edit_password', $this->id);
-        return true;
-    }
-
 
     #TODO: more self explaining language strings!
 }

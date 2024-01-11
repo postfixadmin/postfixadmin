@@ -24,12 +24,16 @@
 
 require_once('common.php');
 
+$smarty = PFASmarty::getInstance();
+
 $username = authentication_get_username(); # enforce login
 
 $table = safepost('table', safeget('table'));
-if (!is_string($table)) {
+
+if (empty($table)) {
     die("Invalid table name given!");
 }
+
 $handlerclass = ucfirst($table) . 'Handler';
 
 if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../model/$handlerclass.php")) { # validate $table
@@ -37,7 +41,7 @@ if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../m
 }
 
 $error = 0;
-
+$values = [];
 $edit = safepost('edit', safeget('edit'));
 $new = 0;
 if ($edit == "") {
@@ -101,7 +105,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
         die('Invalid token!');
     }
-    $inp_values = safepost('value', array());
+
+    $inp_values = [];
+
+    if (isset($_POST['value']) && is_array($_POST['value'])) {
+        $inp_values = $_POST['value'];
+    }
 
     foreach ($form_fields as $key => $field) {
         if ($field['editable'] && $field['display_in_form']) {
@@ -157,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $form_fields = $handler->getStruct(); # refresh $form_fields - set() might have changed something
 
     if ($error != 1) {
-        if (!$handler->store()) {
+        if (!$handler->save()) {
             $errormsg = $handler->errormsg;
         } else {
             flash_info($handler->infomsg);
@@ -175,13 +184,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 }
             }
 
-            if ($new == 0) {
-                header("Location: " . $formconf['listview']);
-                exit;
-            } else {
-                header("Location: edit.php?table=$table");
-                exit;
+            if ($formconf['listview'] == 'list-virtual.php') {
+                $bits = [];
+                $bits['domain'] = $_SESSION['list-virtual:domain'] ?? null;
+                $bits['limit'] = $_SESSION['list-virtual:limit'] ?? null;
+                header("Location: " . $formconf['listview'] . '?' . http_build_query(array_filter($bits)));
+                exit(0);
             }
+
+            header("Location: " . $formconf['listview']);
+            exit;
         }
     }
 }

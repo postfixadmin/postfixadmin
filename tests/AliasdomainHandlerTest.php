@@ -1,7 +1,9 @@
 <?php
 
-class AliasdomainHandlerTest extends \PHPUnit\Framework\TestCase {
-    public function testBasic() {
+class AliasdomainHandlerTest extends \PHPUnit\Framework\TestCase
+{
+    public function testBasic()
+    {
         $x = new AliasdomainHandler();
 
         $list = $x->getList("");

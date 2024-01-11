@@ -91,3 +91,15 @@ Additional authors:
             sending vacation mails, even if one or multiple of the recipients the alias points to has vacation
             currently active. 
 
+2022-10-20  Jan Kruis <jan@crossreference.nl>
+            Add configuration parameter $replace_from ,$replace_until and $date_format for the subroutine replace_string
+            the subroutine replace_string replaces in the bodytext the text defined at $replace_from and $replace_until with the date of active from and active until in the format specified at $date_format.
+
+	    Add configuration parameter $account_check and $account_name if account_check is set it will add the value of name of the mailbox in front of the email and it is shown as sender,
+	    if no name is specified at the mailbox, the variable friendly-name is placed in front of the email and it is shown as sender otherwise the email will show as sender.
+
+2023-08-18  Andrew Ruthven <andrew@etc.gen.nz>
+            Minor improvements to the use of Log4Perl
+
+            Fix handling of the default $smtp_client setthing of 'localhost'
+            if we aren't connecting to the SMTP server on localhost.

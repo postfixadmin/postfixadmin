@@ -1,9 +1,10 @@
 ![GitHubBuild](https://github.com/postfixadmin/postfixadmin/workflows/GitHubBuild/badge.svg)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/postfixadmin/Lobby)
 [![Coverage Status](https://coveralls.io/repos/github/postfixadmin/postfixadmin/badge.svg?branch=master)](https://coveralls.io/github/postfixadmin/postfixadmin?branch=master)
 ![GitHub repo size](https://img.shields.io/github/repo-size/postfixadmin/postfixadmin)
-[![Chat](https://img.shields.io/badge/chat-on%20freenode-brightgreen.svg)](https://kiwiirc.com/nextclient/irc.freenode.net/#postfixadmin)
-
+[![IRC Chat - #postfixadmin](https://img.shields.io/badge/IRC%20libera-brightgreen.svg)](https://web.libera.chat/#postfixadmin)
+  <a href="https://github.com/postfixadmin/postfixadmin/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/postfixadmin/postfixadmin" /></a>
+        
 # PostfixAdmin 
 
 An open source, web based interface for managing domains/mailboxes/aliases etc on a Postfix based mail server.
@@ -27,15 +28,34 @@ Integrates with :
  - Users have the ability to login, change their password or vacation (out of office) status.
  - Integration with Squirrelmail / Roundcube (via plugins)
  - Optional XMLRPC based API 
- - Supports PHP5.6+
+ - Supports PHP7.2+ (older versions of PHP should work with older releases)
+
+[Some screenshots of Postfixadmin in action (as admin and user)](DOCUMENTS/screenshots/README.md)
+
+## Releases / Development note
+
+ - While you can install PostfixAdmin from 'git' using the 'master' branch, 'master' is our main development version. It may work. It may contain funky new exciting stuff. It may "eat your data".
+ - If you want an easy life, use a published release - see: https://github.com/postfixadmin/postfixadmin/releases or it's branch (e.g. postfixadmin_3.3)
+ - Latest significant changes should be listed in the appropriate CHANGELOG.TXT file.
 
 ## Useful Links
 
  - [Probably all you need to read (pdf)](http://blog.cboltz.de/uploads/postfixadmin-30-english.pdf)
- - http://postfixadmin.sf.net - the current homepage for the project
  - [Docker Images](https://github.com/postfixadmin/docker)
  - [What is it? (txt)](/DOCUMENTS/POSTFIXADMIN.txt)
  - [Installation instructions](/INSTALL.TXT)
  - [Wiki](https://sourceforge.net/p/postfixadmin/wiki/)
- - [Mailing list](https://sourceforge.net/p/postfixadmin/discussion/676076)
- - [IRC channel](irc://irc.freenode.net/postfixadmin) (#postfixadmin on irc.freenode.net).
+ - [IRC channel](irc://irc.libera.chat/#postfixadmin) (#postfixadmin on Libera.chat).
+
+
+## Related Projects
+
+ - https://github.com/aqeltech/Dockerised-GUI-Mailserver 
+ - https://github.com/mailserver2/mailserver 
+   mailserver2/mailserver is a simple and full-featured mail server build as a set of multiple docker images. Features:
+   Postfix, PostfixAdmin, Dovecot, Rspamd, Clamav, Zeyple, Sieve, Fetchmail, Rainloop, Unbound/NSD, Træfik, {Let's Encrypt,custom,Self-signed Certificate} SSL, Supports PostgeSQL, MySQL, (beta) LDAP backends. Automated builds on DockerHub and Integration tests with Travis CI
+
+
+
+
+

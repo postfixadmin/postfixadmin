@@ -19,14 +19,19 @@
 
 require_once('common.php');
 
-if (safeget('token') != $_SESSION['PFA_token']) {
+
+if (safepost('token') != $_SESSION['PFA_token']) {
     die('Invalid token!');
 }
 
 $username = authentication_get_username(); # enforce login
 
-$id    = safeget('delete');
-$table = safeget('table');
+$id    = safepost('delete');
+$table = safepost('table');
+
+if (empty($table)) {
+    die('Invalid call');
+}
 
 $handlerclass = ucfirst($table) . 'Handler';
 

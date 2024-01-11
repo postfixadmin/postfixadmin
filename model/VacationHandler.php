@@ -1,8 +1,9 @@
 <?php
+
 # $Id$
 
-class VacationHandler extends PFAHandler {
-
+class VacationHandler extends PFAHandler
+{
     /**
      * @var string
      */
@@ -18,17 +19,16 @@ class VacationHandler extends PFAHandler {
      */
     protected $domain_field = 'domain';
 
-    /**
-     * @return void
-     */
-    public function init($id) {
-        die('VacationHandler is not yet ready to be used with *Handler methods'); # obvious TODO: remove when it's ready ;-)
+    public function init(string $id): bool
+    {
+        throw new \Exception('VacationHandler is not yet ready to be used with *Handler methods');
     }
 
     /**
      * @return void
      */
-    protected function initStruct() {
+    protected function initStruct()
+    {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
@@ -52,7 +52,8 @@ class VacationHandler extends PFAHandler {
     /**
      * @return void
      */
-    protected function initMsg() {
+    protected function initMsg()
+    {
         $this->msg['error_already_exists'] = 'pCreate_mailbox_username_text_error1'; # TODO: better error message
         $this->msg['error_does_not_exist'] = 'pCreate_mailbox_username_text_error1'; # TODO: better error message
         $this->msg['confirm_delete'] = 'confirm_delete_vacation'; # unused?
@@ -71,7 +72,8 @@ class VacationHandler extends PFAHandler {
     /**
      * @return array
      */
-    public function webformConfig() {
+    public function webformConfig()
+    {
         return array(
             # $PALANG labels
             'formtitle_create' => 'pUsersVacation_welcome',
@@ -85,7 +87,8 @@ class VacationHandler extends PFAHandler {
         );
     }
 
-    protected function validate_new_id() {
+    protected function validate_new_id()
+    {
         # vacation can only be enabled if a mailbox with this name exists
         if ($this->is_admin) {
             $handler = new MailboxHandler(0, $this->admin_username);
@@ -106,7 +109,8 @@ class VacationHandler extends PFAHandler {
     /**
      * @return bool
      */
-    public function delete() {
+    public function delete()
+    {
         $this->errormsg[] = '*** deletion not implemented yet ***';
         return false; # XXX function aborts here! XXX
     }
@@ -122,7 +126,8 @@ class VacationHandler extends PFAHandler {
     /**
      * @param string $username
      */
-    public function __construct($username) {
+    public function __construct($username)
+    {
         $this->username = $username;
         $this->id = $username;
     }
@@ -132,7 +137,8 @@ class VacationHandler extends PFAHandler {
      * set the vacation table record to false.
      * @return boolean true on success.
      */
-    public function remove() {
+    public function remove()
+    {
         if (!$this->updateAlias(0)) {
             return false;
         }
@@ -151,7 +157,8 @@ class VacationHandler extends PFAHandler {
     /**
      * @return boolean true indicates this server supports vacation messages, and users are able to change their own.
      */
-    public function vacation_supported() {
+    public function vacation_supported()
+    {
         return Config::bool('vacation') && Config::bool('vacation_control');
     }
 
@@ -159,7 +166,8 @@ class VacationHandler extends PFAHandler {
      * @return boolean true if on vacation, otherwise false
      * Why do we bother storing true/false in the vacation table if the alias dictates it anyway?
      */
-    public function check_vacation() {
+    public function check_vacation()
+    {
         $handler = new AliasHandler();
 
         if (!$handler->init($this->id)) {
@@ -185,7 +193,8 @@ class VacationHandler extends PFAHandler {
      * @return array|boolean stored information on vacation - array(subject - string, message - string, active - boolean, activeFrom - date, activeUntil - date)
      * will return false if no existing data
      */
-    public function get_details() {
+    public function get_details()
+    {
         $table_vacation = table_by_key('vacation');
 
         $sql = "SELECT * FROM $table_vacation WHERE email = :username";
@@ -218,12 +227,19 @@ class VacationHandler extends PFAHandler {
      * @param string $activeUntil - something strtotime understands
      * @return boolean
      */
-    public function set_away($subject, $body, $interval_time, $activeFrom, $activeUntil) {
+    public function set_away($subject, $body, $interval_time, $activeFrom, $activeUntil)
+    {
         $this->remove(); // clean out any notifications that might already have been sent.
 
-        $E_username = escape_string($this->username);
-        $activeFrom = date("Y-m-d 00:00:00", strtotime($activeFrom)); # TODO check if result looks like a valid date
-        $activeUntil = date("Y-m-d 23:59:59", strtotime($activeUntil)); # TODO check if result looks like a valid date
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $activeFrom)) {
+            $activeFrom .= ' 00:00:00';
+        }
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $activeUntil)) {
+            $activeUntil .= ' 23:59:59';
+        }
+
+        $activeFrom = date("Y-m-d H:i:s", strtotime($activeFrom)); # TODO check if result looks like a valid date
+        $activeUntil = date("Y-m-d H:i:s", strtotime($activeUntil)); # TODO check if result looks like a valid date
         list(/*NULL*/, $domain) = explode('@', $this->username);
 
         $vacation_data = array(
@@ -260,7 +276,8 @@ class VacationHandler extends PFAHandler {
      * @param int $vacationActive
      * @return boolean
      */
-    protected function updateAlias($vacationActive) {
+    protected function updateAlias($vacationActive)
+    {
         $handler = new AliasHandler();
 
         if (!$handler->init($this->id)) {
@@ -279,7 +296,7 @@ class VacationHandler extends PFAHandler {
 
         # TODO: supress logging in AliasHandler if called from VacationHandler (VacationHandler should log itsself)
 
-        if (!$handler->store()) {
+        if (!$handler->save()) {
             print_r($handler->errormsg); # TODO: error handling
             return false;
         }

@@ -32,6 +32,10 @@ require_once('common.php');
 
 authentication_require_role('admin');
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+$PALANG = $CONF['__LANG'];
+
 (($CONF['sendmail'] == 'NO') ? header("Location: main.php") && exit : '1');
 
 $smtp_from_email = smtp_get_admin_email();

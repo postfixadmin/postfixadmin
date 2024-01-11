@@ -1,5 +1,5 @@
-@import url(bootstrap-3.3.7-dist/css/bootstrap.min.css);
-@import url(bootstrap-3.3.7-dist/css/bootstrap-datetimepicker.min.css);
+@import url(bootstrap-3.4.1-dist/css/bootstrap.min.css);
+@import url(bootstrap-3.4.1-dist/css/bootstrap-datetimepicker.min.css);
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -20,13 +20,20 @@ body {
   background-color: #f5f5f5;
 }
 
+.mr {
+  margin-right: 5px;
+}
+
+.ml {
+  margin-left: 5px;
+}
 
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
 body > .container {
-  padding: 60px 15px 0;
+  padding: 100px 15px 0;
 }
 
 .footer > .container {

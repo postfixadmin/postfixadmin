@@ -1,7 +1,9 @@
 <?php
 
-class RemoveFromArrayTest extends \PHPUnit\Framework\TestCase {
-    public function testBasic() {
+class RemoveFromArrayTest extends \PHPUnit\Framework\TestCase
+{
+    public function testBasic()
+    {
         $list = array('a','b','c','d');
 
         list($found, $new) = remove_from_array($list, 'd');

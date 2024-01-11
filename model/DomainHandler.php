@@ -1,15 +1,18 @@
 <?php
+
 # $Id$
 
 /**
  * Handlers User level alias actions - e.g. add alias, get aliases, update etc.
  */
-class DomainHandler extends PFAHandler {
+class DomainHandler extends PFAHandler
+{
     protected $db_table = 'domain';
     protected $id_field = 'domain';
     protected $domain_field = 'domain';
 
-    protected function validate_new_id() {
+    protected function validate_new_id()
+    {
         $domain_check = check_domain($this->id);
 
         if ($domain_check != '') {
@@ -26,7 +29,8 @@ class DomainHandler extends PFAHandler {
         return true;
     }
 
-    protected function initStruct() {
+    protected function initStruct()
+    {
         # TODO: shorter PALANG labels ;-)
 
         $super = $this->is_superadmin;
@@ -43,6 +47,13 @@ class DomainHandler extends PFAHandler {
         # NOTE: There are dependencies between alias_count, mailbox_count and total_quota.
         # NOTE: If you disable "display in list" for one of them, the SQL query for the others might break.
         # NOTE: (Disabling all of them shouldn't be a problem.)
+        #
+
+        // https://github.com/postfixadmin/postfixadmin/issues/299
+        $domain_quota_default = Config::read('domain_quota_default');
+        if ($domain_quota_default === null) {
+            $domain_quota_default = -1;
+        }
 
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
@@ -80,7 +91,7 @@ class DomainHandler extends PFAHandler {
            'maxquota'          => pacol($editquota,$editquota,$quota, 'num', 'pOverview_get_quota'          , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')  ),
 
             # Domain quota
-            'quota'            => pacol($edit_dom_q,$edit_dom_q, 0, 'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , Config::read('domain_quota_default') ),
+            'quota'            => pacol($edit_dom_q,$edit_dom_q, 0, 'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , $domain_quota_default ),
             'total_quota'      => pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(),
                 array('select' => "$query_used_domainquota AS total_quota") /*extrafrom*//* already in mailbox_count */ ),
             'total_quot'     => pacol( 0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, array(),
@@ -109,7 +120,8 @@ class DomainHandler extends PFAHandler {
         );
     }
 
-    protected function initMsg() {
+    protected function initMsg()
+    {
         $this->msg['error_already_exists'] = 'pAdminCreate_domain_domain_text_error';
         $this->msg['error_does_not_exist'] = 'domain_does_not_exist';
         $this->msg['confirm_delete'] = 'confirm_delete_domain';
@@ -126,7 +138,8 @@ class DomainHandler extends PFAHandler {
         $this->msg['can_create'] = $this->is_superadmin;
     }
 
-    public function webformConfig() {
+    public function webformConfig()
+    {
         return array(
             # $PALANG labels
             'formtitle_create' => 'pAdminCreate_domain_welcome',
@@ -141,7 +154,8 @@ class DomainHandler extends PFAHandler {
     }
 
 
-    protected function beforestore() {
+    protected function preSave(): bool
+    {
         # TODO: is this function superfluous? _can_edit should already cover this
         if ($this->is_superadmin) {
             return true;
@@ -154,7 +168,8 @@ class DomainHandler extends PFAHandler {
      * called by $this->store() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.
      */
-    protected function storemore() {
+    protected function postSave(): bool
+    {
         if ($this->new && $this->values['default_aliases']) {
             foreach (Config::read_array('default_aliases') as $address=>$goto) {
                 $address = $address . "@" . $this->id;
@@ -178,15 +193,18 @@ class DomainHandler extends PFAHandler {
                 $this->errormsg[] = Config::lang('domain_postcreate_failed');
             }
         } else {
-            # we don't have domain_postedit()
+            if (!$this->domain_postedit()) {
+                $this->errormsg[] = Config::lang('domain_postedit_failed');
+            }
         }
         return true; # TODO: don't hardcode
     }
 
     /**
-     *  @return true on success false on failure
+     *  @return bool
      */
-    public function delete() {
+    public function delete()
+    {
         # TODO: check for _can_delete instead
         if (! $this->is_superadmin) {
             $this->errormsg[] = Config::Lang_f('no_delete_permissions', $this->id);
@@ -248,13 +266,16 @@ class DomainHandler extends PFAHandler {
      *
      * @param array values of current item
      */
-    public function _formatted_aliases($item) {
+    public function _formatted_aliases($item)
+    {
         return $item['alias_count']   . ' / ' . $item['aliases']  ;
     }
-    public function _formatted_mailboxes($item) {
+    public function _formatted_mailboxes($item)
+    {
         return $item['mailbox_count'] . ' / ' . $item['mailboxes'];
     }
-    public function _formatted_quota($item) {
+    public function _formatted_quota($item)
+    {
         return $item['total_quota']   . ' / ' . $item['quota']    ;
     }
 
@@ -263,7 +284,8 @@ class DomainHandler extends PFAHandler {
      *
      * @return boolean
      */
-    protected function domain_postcreation() {
+    protected function domain_postcreation()
+    {
         $script=Config::read_string('domain_postcreation_script');
 
         if (empty($script)) {
@@ -291,11 +313,45 @@ class DomainHandler extends PFAHandler {
     }
 
     /**
+     * Called after a domain has been edited
+     *
+     * @return boolean
+     */
+    protected function domain_postedit()
+    {
+        $script=Config::read_string('domain_postedit_script');
+
+        if (empty($script)) {
+            return true;
+        }
+
+        if (empty($this->id)) {
+            $this->errormsg[] = 'Empty domain parameter in domain_postedit';
+            return false;
+        }
+
+        $cmdarg1=escapeshellarg($this->id);
+        $command= "$script $cmdarg1";
+        $retval=0;
+        $output=array();
+        $firstline='';
+        $firstline=exec($command, $output, $retval);
+        if (0!=$retval) {
+            error_log("Running $command yielded return value=$retval, first line of output=$firstline");
+            $this->errormsg[] = 'Problems running domain postedit script!';
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Called after a domain has been deleted
      *
      * @return boolean
      */
-    protected function domain_postdeletion() {
+    protected function domain_postdeletion()
+    {
         $script=Config::read_string('domain_postdeletion_script');
 
         if (empty($script)) {

@@ -25,6 +25,7 @@
  * fUsername
  */
 
+
 if (preg_match('/\/users\//', $_SERVER['REQUEST_URI'])) {
     $rel_path = '../';
     $context = 'users';
@@ -34,8 +35,17 @@ if (preg_match('/\/users\//', $_SERVER['REQUEST_URI'])) {
 }
 require_once($rel_path . 'common.php');
 
-if ($context === 'admin' && !Config::read('forgotten_admin_password_reset') || $context === 'users' && !Config::read('forgotten_user_password_reset')) {
-    die('Password reset is disabled by configuration option: forgotten_admin_password_reset');
+$smarty = PFASmarty::getInstance();
+$CONF = Config::getInstance()->getAll();
+
+$smarty->configureTheme($rel_path);
+
+if ($context === 'admin' && !Config::read('forgotten_admin_password_reset')) {
+    die('Password change is disabled by configuration option: forgotten_admin_password_reset or mailbox_postpassword_script');
+}
+
+if ($context === 'users' && (!Config::read('forgotten_user_password_reset') || Config::read('mailbox_postpassword_script'))) {
+    die('Password change is disabled by configuration option: forgotten_user_password_reset or mailbox_postpassword_script');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -59,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = true;
         flash_error(Config::lang('pPassword_password_text_error'));
     } else {
-        $handler = $context === 'admin' ? new AdminHandler : new MailboxHandler;
+        $handler = $context === 'admin' ? new AdminHandler() : new MailboxHandler();
         if (!$handler->checkPasswordRecoveryCode($tUsername, $tCode)) {
             flash_error(Config::lang('pPassword_code_text_error'));
         } else {
@@ -70,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $values = $handler->result;
                 $values['password'] = $fPassword;
                 $values['password2'] = $fPassword2;
-                if ($handler->set($values) && $handler->store()) {
+                if ($handler->set($values) && $handler->save()) {
                     flash_info(Config::lang_f('pPassword_result_success', $tUsername));
                     header('Location: main.php');
                     exit(0);

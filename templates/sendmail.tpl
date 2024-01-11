@@ -1,36 +1,35 @@
-<div id="edit_form">
-<form name="mailbox" method="post" action="">
-<input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}" />
-<table>
-	<tr>
-		<th colspan="3">{$PALANG.pSendmail_welcome}</th>
-	</tr>
-	<tr>
-		<td class="label"><label>{$PALANG.from}:</label></td>
-		<td><em>{$smtp_from_email}</em></td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="label"><label>{$PALANG.pSendmail_to}:</label></td>
-		<td><input class="flat" type="text" name="fTo" /></td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="label"><label>{$PALANG.subject}:</label></td>
-		<td><input class="flat" type="text" name="fSubject" value="{$PALANG.pSendmail_subject_text}" /></td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="label"><label>{$PALANG.pSendmail_body}:</label></td>
-		<td>
-		<textarea class="flat" rows="10" cols="60" name="fBody">{$CONF.welcome_text}</textarea>
-		</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td class="label">&nbsp;</td>
-		<td colspan="2"><input class="button" type="submit" name="submit" value="{$PALANG.pSendmail_button}" /></td>
-	</tr>
-</table>
+<form name="mailbox" method="post" action="" class="form-horizontal">
+    <div id="edit_form" class="panel panel-default">
+        <div class="panel-heading"><h4>{$PALANG.pSendmail_welcome}</h4></div>
+        <div class="panel-body enable-asterisk">
+            <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+            <div class="form-group">
+                <label class="col-md-4 col-sm-4 control-label">{$PALANG.from}:</label>
+                <div class="col-md-6 col-sm-8"><p class="form-control-static"><em>{$smtp_from_email}</em></p></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 col-sm-4 control-label" for="fTo">{$PALANG.pSendmail_to}:</label>
+                <div class="col-md-6 col-sm-8"><input class="form-control" type="text" name="fTo" id="fTo"/></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 col-sm-4 control-label" for="fSubject">{$PALANG.subject}:</label>
+                <div class="col-md-6 col-sm-8"><input class="form-control" type="text" name="fSubject" id="fSubject"
+                                                      value="{$PALANG.pSendmail_subject_text}"/></div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 col-sm-4 control-label" for="fBody">{$PALANG.pSendmail_body}:</label>
+                <div class="col-md-6 col-sm-8"><textarea class="form-control" rows="10" cols="60" name="fBody"
+                                                         id="fBody">{$CONF.welcome_text}</textarea></div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group pull-right">
+		    <button class="btn btn-primary" type="submit" name="submit">
+                        <span class="glyphicon glyphicon-send" aria-hidden="true"></span> {$PALANG.pSendmail_button}
+		    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
-</div>

@@ -117,7 +117,7 @@ foreach my $maildir (keys(%directories)) {
     close(TOUCH);
     print "Archiving $maildir\n";
     @args = ($archcmd, "cvzf", $archive, $maildir);
-	system(@args) == 0 or die "Creating archive for $maildir failed: $?"
+    system(@args) == 0 or die "Creating archive for $maildir failed: $?";
 
     rmtree($maildir);
     print localtime() . " $maildir has been deleted.\n";

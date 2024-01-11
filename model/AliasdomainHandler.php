@@ -1,16 +1,19 @@
 <?php
+
 # $Id$
 
 /**
  * Handlers User level alias actions - e.g. add alias, get aliases, update etc.
  */
-class AliasdomainHandler extends PFAHandler {
+class AliasdomainHandler extends PFAHandler
+{
     protected $db_table = 'alias_domain';
     protected $id_field = 'alias_domain';
     protected $domain_field = 'alias_domain';
     protected $searchfields = array('alias_domain', 'target_domain');
 
-    protected function initStruct() {
+    protected function initStruct()
+    {
         $this->struct=array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
@@ -51,7 +54,8 @@ class AliasdomainHandler extends PFAHandler {
         }
     }
 
-    public function init($id) {
+    public function init(string $id): bool
+    {
         $success = parent::init($id);
         if ($success) {
             if (count($this->struct['alias_domain']['options']) == 0 && $this->new) {
@@ -63,7 +67,8 @@ class AliasdomainHandler extends PFAHandler {
         return $success;
     }
 
-    protected function initMsg() {
+    protected function initMsg()
+    {
         $this->msg['error_already_exists'] = 'alias_domain_already_exists';
         $this->msg['error_does_not_exist'] = 'alias_domain_does_not_exist';
         $this->msg['confirm_delete'] = 'confirm_delete_aliasdomain';
@@ -79,7 +84,8 @@ class AliasdomainHandler extends PFAHandler {
         }
     }
 
-    public function webformConfig() {
+    public function webformConfig()
+    {
         return array(
             # $PALANG labels
             'formtitle_create' => 'pCreate_alias_domain_welcome',
@@ -94,15 +100,17 @@ class AliasdomainHandler extends PFAHandler {
         );
     }
 
-    protected function validate_new_id() {
+    protected function validate_new_id()
+    {
         return true; # alias_domain is enum, so we don't need to check its syntax etc.
     }
 
 
     /**
-     *  @return true on success false on failure
+     *  @return boolean
      */
-    public function delete() {
+    public function delete()
+    {
         if (! $this->view()) {
             $this->errormsg[] = 'An alias domain with that name does not exist!'; # TODO: make translatable? (will a user ever see this?)
             return false;
@@ -118,8 +126,10 @@ class AliasdomainHandler extends PFAHandler {
 
     /**
      * validate target_domain field - it must be != $this->id to avoid a loop
+     * @return boolean
      */
-    protected function _validate_target_domain($field, $val) {
+    protected function _validate_target_domain($field, $val)
+    {
         if ($val == $this->id) {
             $this->errormsg[$field] = Config::lang('alias_domain_to_itsself');
             return false;

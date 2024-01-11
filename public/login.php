@@ -29,12 +29,20 @@
 
 require_once('common.php');
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 if ($CONF['configured'] !== true) {
     print "Installation not yet configured; please edit config.inc.php or write your settings to config.local.php";
     exit;
 }
 
 check_db_version(); # check if the database layout is up to date (and error out if not)
+
+if (authentication_mfa_incomplete()) {
+    header("Location: login-mfa.php");
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (!isset($_SESSION['PFA_token'])) {
@@ -44,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
         die('Invalid token! (CSRF check failed)');
     }
+
+    $totppf = new TotpPf('admin');
 
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
@@ -55,7 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     $h = new AdminHandler();
-    if ($h->login($fUsername, $fPassword)) {
+
+    $login = new Login('admin');
+    if ($login->login($fUsername, $fPassword)) {
         init_session($fUsername, true);
 
         # they've logged in, so see if they are a domain admin, as well.
@@ -69,6 +81,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
 
         $adminproperties = $h->result();
+
+
+        if ($totppf->usesTOTP($fUsername)) {
+            init_session($fUsername, true, false);
+            header("Location: login-mfa.php");
+            exit(0);
+        }
+
+        init_session($fUsername, true, true);
 
         if ($adminproperties['superadmin'] == 1) {
             $_SESSION['sessid']['roles'][] = 'global-admin';
@@ -86,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     session_start();
 }
 
-$_SESSION['PFA_token'] = md5(uniqid(rand(), true));
+$_SESSION['PFA_token'] = md5(uniqid("pfa" . rand(), true));
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');

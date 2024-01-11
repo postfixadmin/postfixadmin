@@ -25,6 +25,10 @@ require_once('common.php');
 $SESSID_USERNAME = authentication_get_username();
 
 authentication_require_role('admin');
+
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 $smarty->assign('smarty_template', 'main');
 $smarty->display('index.tpl');
 

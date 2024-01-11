@@ -1,7 +1,9 @@
 <?php
+
 # $Id$
 
-class CliHelp extends Shell {
+class CliHelp extends Shell
+{
     public $handler_to_use = "__not_set__";
 
     /**
@@ -9,19 +11,21 @@ class CliHelp extends Shell {
      *
      * @access public
      */
-    public function execute() {
+    public function execute()
+    {
         $this->help();
     }
 
-    public function help() {
-        $handler = new $this->handler_to_use;
+    public function help()
+    {
+        $handler = new $this->handler_to_use();
         # TODO: adjust help text according to $handler->taskNames
 
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
 
         $this->out(
-"Usage:
+            "Usage:
 
     postfixadmin-cli $module <task> [<address>] [--option value]
 "
@@ -35,7 +39,7 @@ class CliHelp extends Shell {
 
                 View $module <address> in non-interactive mode.
         "); */
- 
+
 
 
         $head  = "Usage: postfixadmin-cli $module <task> [<address>] [--option value] [--option value]\n";

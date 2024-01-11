@@ -27,13 +27,17 @@ require_once('../common.php');
 authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
 
+$smarty = PFASmarty::getInstance();
+$smarty->configureTheme('../');
+
 $vh = new VacationHandler($USERID_USERNAME);
 if ($vh->check_vacation()) {
     $tummVacationtext = $PALANG['pUsersMain_vacationSet'];
 } else {
     $tummVacationtext = $PALANG['pUsersMain_vacation'];
 }
-    $smarty->assign('tummVacationtext', $tummVacationtext);
-    $smarty->assign('smarty_template', 'users_main');
-    $smarty->display('index.tpl');
+
+$smarty->assign('tummVacationtext', $tummVacationtext);
+$smarty->assign('smarty_template', 'users_main');
+$smarty->display('index.tpl');
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

@@ -33,7 +33,8 @@
  */
 
 
-class PostfixAdmin {
+class PostfixAdmin
+{
     /**
      * Version
      *
@@ -109,7 +110,8 @@ class PostfixAdmin {
      *
      * @param array $args the argv.
      */
-    public function __construct($args = array()) {
+    public function __construct($args = array())
+    {
         set_time_limit(0);
         $this->__initConstants();
         $this->parseParams($args);
@@ -119,7 +121,8 @@ class PostfixAdmin {
     /**
      * Defines core configuration.
      */
-    private function __initConstants() {
+    private function __initConstants()
+    {
         ini_set('display_errors', '1');
         ini_set('error_reporting', '' . E_ALL);
         ini_set('html_errors', "0");
@@ -130,7 +133,8 @@ class PostfixAdmin {
     /**
      * Defines current working environment.
      */
-    private function __initEnvironment() {
+    private function __initEnvironment()
+    {
         $this->stdin  = fopen('php://stdin', 'r');
         $this->stdout = fopen('php://stdout', 'w');
         $this->stderr = fopen('php://stderr', 'w');
@@ -146,9 +150,13 @@ class PostfixAdmin {
     }
 
     /**
-     * Dispatches a CLI request
+     * postfixadmin-cli admin view admin@example.com
+     *              - Create AdminHandler.
+     *              - and then a CliView object (Shell class)
+     *              - call CliView->view() ... which under the covers uses AdminHandler*
      */
-    public function dispatch() {
+    public function dispatch()
+    {
         check_db_version(); # ensure the database layout is up to date
 
         if (!isset($this->args[0])) {
@@ -200,7 +208,7 @@ class PostfixAdmin {
         # TODO: add a way to Cli* to signal if the selected handler is supported (for example, not all *Handler support changing the password)
 
         if (strtolower(get_parent_class($shell)) == 'shell') {
-            $handler = new $shell->handler_to_use;
+            $handler = new $shell->handler_to_use();
             if (in_array($task, $handler->taskNames)) {
                 $this->shiftArgs();
                 $shell->startup();
@@ -260,7 +268,8 @@ class PostfixAdmin {
      * @param string $default Default input value.
      * @return string Either the default value, or the user-provided input.
      */
-    public function getInput($prompt, $options = null, $default = null) {
+    public function getInput($prompt, $options = null, $default = null)
+    {
         if (!is_array($options)) {
             $print_options = '';
         } else {
@@ -291,7 +300,8 @@ class PostfixAdmin {
      * @param string $string String to output.
      * @param boolean $newline If true, the outputs gets an added newline.
      */
-    public function stdout($string, $newline = true) {
+    public function stdout($string, $newline = true)
+    {
         if ($newline) {
             fwrite($this->stdout, $string . "\n");
         } else {
@@ -304,7 +314,8 @@ class PostfixAdmin {
      *
      * @param string $string Error text to output.
      */
-    public function stderr($string) {
+    public function stderr($string)
+    {
         fwrite($this->stderr, 'Error: '. $string . "\n");
     }
 
@@ -313,35 +324,23 @@ class PostfixAdmin {
      *
      * @param array $params Parameters to parse
      */
-    public function parseParams($params) {
-        $this->__parseParams($params);
-    }
-
-    /**
-     * Helper for recursively parsing params
-     */
-    private function __parseParams($params) {
+    public function parseParams($params)
+    {
         $count = count($params);
         for ($i = 0; $i < $count; $i++) {
-            if (isset($params[$i])) {
-                if ($params[$i] != '' && $params[$i]{0} === '-') {
-                    $key = substr($params[$i], 1);
-                    $this->params[$key] = true;
-                    unset($params[$i]);
-                    if (isset($params[++$i])) {
-                        # TODO: ideally we should know if a parameter can / must have a value instead of whitelisting known valid values starting with '-' (probably only bool doesn't need a value)
-                        if ($params[$i]{0} !== '-' or $params[$i] != '-1') {
-                            $this->params[$key] = $params[$i];
-                            unset($params[$i]);
-                        } else {
-                            $i--;
-                            $this->__parseParams($params);
-                        }
+            if ($params[$i] != '' && $params[$i][0] === '-' && $params[$i] != '-1') {
+                $key = substr($params[$i], 1);
+                if (isset($params[$i+1])) {
+                    # TODO: ideally we should know if a parameter can / must have a value instead of whitelisting known valid values starting with '-' (probably only bool doesn't need a value)
+                    if ($params[$i+1][0] === '-' && $params[$i+1] != '-1') {
+                        $this->params[$key] = true;
+                    } else {
+                        $this->params[$key] = $params[$i+1];
+                        $i++;
                     }
-                } else {
-                    $this->args[] = $params[$i];
-                    unset($params[$i]);
                 }
+            } else {
+                $this->args[] = $params[$i];
             }
         }
     }
@@ -351,7 +350,8 @@ class PostfixAdmin {
      *
      * @return boolean False if there are no arguments
      */
-    public function shiftArgs() {
+    public function shiftArgs()
+    {
         if (empty($this->args)) {
             return false;
         }
@@ -363,7 +363,8 @@ class PostfixAdmin {
     /**
      * prints help message and exits.
      */
-    public function help() {
+    public function help()
+    {
         $this->stdout("\nWelcome to Postfixadmin-CLI v" . $this->version);
         $this->stdout("---------------------------------------------------------------");
         $this->stdout("Usage:");

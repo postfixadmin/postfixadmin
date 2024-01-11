@@ -26,14 +26,16 @@
  * fPassword2
  */
 
-$rel_path = '../';
 require_once('../common.php');
 
+$smarty = PFASmarty::getInstance();
+$smarty->configureTheme('../');
 authentication_require_role('user');
 $username = authentication_get_username();
 
 $pPassword_password_text = "";
 $pPassword_password_current_text = "";
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
@@ -56,26 +58,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         flash_error($validpass[0]); # TODO: honor all error messages, not only the first one
         $error += 1;
     }
- 
-    $mh = new MailboxHandler;
 
-    if (!$mh->login($username, $fPassword_current)) {
+    $login = new Login('mailbox');
+
+    if (!$login->login($username, $fPassword_current)) {
         $error += 1;
         $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];
     }
+
     if (empty($fPassword) or ($fPassword != $fPassword2)) {
         $error += 1;
         $pPassword_password_text = $PALANG['pPassword_password_text_error'];
     }
 
     if ($error == 0) {
-        $mh->init($username); # TODO: error handling
-        if ($mh->change_pw($fPassword, $fPassword_current)) {
-            flash_info(Config::Lang_f('pPassword_result_success', $username));
-            header("Location: main.php");
-            exit(0);
-        } else {
-            flash_error(Config::Lang_f('pPassword_result_error', $username));
+        try {
+            if ($login->changePassword($username, $fPassword, $fPassword_current)) {
+                flash_info(Config::Lang_f('pPassword_result_success', $username));
+                header("Location: main.php");
+                exit(0);
+            } else {
+                flash_error(Config::Lang_f('pPassword_result_error', $username));
+            }
+        } catch (\Exception $e) {
+            flash_error($e->getMessage());
         }
     }
 }

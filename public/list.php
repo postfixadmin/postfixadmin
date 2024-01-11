@@ -1,4 +1,5 @@
-<?php /**
+<?php
+/**
  * Postfix Admin
  *
  * LICENSE
@@ -21,11 +22,15 @@ require_once('common.php');
 
 $username = authentication_get_username(); # enforce login
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 $table = safeget('table');
 
-if (!is_string($table)) {
-    die("table parameter must be a string");
+if (empty($table)) {
+    die("table parameter missing or invalid.");
 }
+
 $handlerclass = ucfirst($table) . 'Handler';
 
 if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../model/$handlerclass.php")) { # validate $table
@@ -59,18 +64,25 @@ if ($is_admin) {
     }
 }
 
-$search     = safeget('search', safesession("search_$table", array()));
-$searchmode = safeget('searchmode', safesession("searchmode_$table", array()));
-
-if (!is_array($search) || !is_array($searchmode)) {
-    # avoid injection of raw SQL if $search is a string instead of an array
-    die("Invalid parameter");
+$search = [];
+$searchmode = [];
+if (isset($_GET['search']) && is_array($_GET['search'])) {
+    $search = $_GET['search'];
+} elseif (isset($_SESSION["search_$table"]) && is_array($_SESSION["search_$table"])) {
+    $search = $_SESSION["search_$table"];
 }
 
-if (safeget('reset_search', 0)) {
+if (isset($_GET['searchmode']) && is_array($_GET['searchmode'])) {
+    $searchmode = $_GET['searchmode'];
+} elseif (isset($_SESSION["searchmode_$table"]) && is_array($_SESSION["searchmode_$table"])) {
+    $searchmode = $_SESSION["searchmode_$table"];
+}
+
+if (array_key_exists('reset_search', $_GET)) {
     $search = array();
     $searchmode = array();
 }
+
 $_SESSION["search_$table"] = $search;
 $_SESSION["searchmode_$table"] = $searchmode;
 
@@ -82,6 +94,7 @@ if (count($search)) {
 
 $items = $handler->result();
 
+
 if (count($handler->errormsg)) {
     flash_error($handler->errormsg);
 }
@@ -89,11 +102,12 @@ if (count($handler->infomsg)) {
     flash_error($handler->infomsg);
 }
 
+$fDomain = safepost('fDomain', safeget('domain', safesession('list-virtual:domain')));
 
 if (safeget('output') == 'csv') {
     $out = fopen('php://output', 'w');
     header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment;filename='.$table.'.csv');
+    header('Content-Disposition: attachment;filename=' . $table . '.csv');
     print "\xEF\xBB\xBF"; # utf8 byte-order to indicate the file is utf8 encoded
     print "\n";
 
@@ -106,7 +120,7 @@ if (safeget('output') == 'csv') {
     $columns = array();
     foreach ($handler->getStruct() as $key => $field) {
         $label = trim($field['label']);
-        if ($field['display_in_list'] && $label != '') { # don't show fields without a label
+        if ($field['display_in_list'] && $label != '' && $label != ' ') { # don't show fields without a label and those with a whitespace
             $header[] = html_entity_decode($label, ENT_COMPAT | ENT_HTML401, 'UTF-8');
             $columns[] = $key;
         }
@@ -116,6 +130,11 @@ if (safeget('output') == 'csv') {
     # print items as csv
     foreach ($items as $item) {
         $fields = array();
+
+        // skip domains that do not match selected domain (see: https://github.com/postfixadmin/postfixadmin/issues/404)
+        if (!empty($fDomain) && $item['domain'] != $fDomain) {
+            continue;
+        }
         foreach ($columns as $column) {
             $values = $item[$column];
             if (is_array($values)) {
@@ -139,6 +158,7 @@ if (safeget('output') == 'csv') {
     $smarty->assign('formconf', $formconf);
     $smarty->assign('search', $search);
     $smarty->assign('searchmode', $searchmode);
+    $smarty->assign('domain_selected', ''); /* stop list-virtual.tpl triggering a PHP notice */
 
     $smarty->display('index.tpl');
 }

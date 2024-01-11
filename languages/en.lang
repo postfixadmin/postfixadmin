@@ -18,6 +18,7 @@ $PALANG['confirm_delete_admin'] = 'Do you really want to delete the admin %s?';
 $PALANG['confirm_delete_alias'] = 'Do you really want to delete the alias %s?';
 $PALANG['confirm_delete_aliasdomain'] = 'Do you really want to delete the alias domain %s?';
 $PALANG['confirm_delete_domain'] = 'Do you really want to delete all records for the domain %s? This can not be undone!';
+$PALANG['confirm_delete_dkim'] = 'Do you really want to delete the domain key entry %s?';
 $PALANG['confirm_delete_fetchmail'] = 'Do you really want to delete the fetchmail job %s?';
 $PALANG['confirm_delete_mailbox'] = 'Do you really want to delete the mailbox %s?';
 $PALANG['confirm_delete_vacation'] = 'Do you really want to delete the vacation message for %s?';
@@ -36,6 +37,8 @@ $PALANG['must_be_boolean'] = '%s must be boolean';
 $PALANG['invalid_value_given'] = 'Invalid value given for %s';
 $PALANG['edit_not_allowed'] = 'You are not allowed to edit %s';
 $PALANG['searchparams'] = 'Search parameters:';
+$PALANG['copy'] = 'Copy';
+$PALANG['generate'] = 'Generate';
 
 $PALANG['pFooter_logged_as'] = 'Logged in as %s';
 
@@ -49,19 +52,25 @@ $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.'
 
 $PALANG['pMenu_main'] = 'Main';
 $PALANG['pMenu_overview'] = 'Overview';
-$PALANG['add_alias'] = 'Add Alias';
+$PALANG['add_alias'] = 'Add Forward';
 $PALANG['add_alias_domain'] = 'Add Alias Domain';
 $PALANG['add_mailbox'] = 'Add Mailbox';
 $PALANG['pMenu_fetchmail'] = 'Fetch Email';
 $PALANG['pMenu_sendmail'] = 'Send Email';
+$PALANG['pMenu_dkim'] = 'Domain Keys';
+$PALANG['pMenu_dkim_signing'] = 'Signing Table';
+$PALANG['pMenu_security'] = 'Security';
 $PALANG['pMenu_password'] = 'Password';
+$PALANG['pMenu_totp'] = 'TOTP';
+$PALANG['pMenu_totp_exceptions'] = 'TOTP exceptions';
+$PALANG['pMenu_app_passwords'] = 'Application passwords';
 $PALANG['pMenu_viewlog'] = 'View Log';
 $PALANG['pMenu_logout'] = 'Logout';
 
 $PALANG['pMain_welcome'] = 'Welcome to Postfix Admin!';
-$PALANG['pMain_overview'] = 'List your aliases and mailboxes. You can edit / delete them from here.';
-$PALANG['pMain_create_alias'] = 'Create a new alias for your domain.';
-$PALANG['pMain_create_mailbox'] = 'Create a new mailbox for your domain.';
+$PALANG['pMain_overview'] = 'List your domains. You can edit / delete them from here.';
+$PALANG['pMain_create_alias'] = 'Create a new email forward.';
+$PALANG['pMain_create_mailbox'] = 'Create a new mailbox.';
 $PALANG['pMain_sendmail'] = 'Send an email to one of your newly created mailboxes.';
 $PALANG['pMain_password'] = 'Change the password for your admin account.';
 $PALANG['pMain_viewlog'] = 'View the log files.';
@@ -74,13 +83,14 @@ $PALANG['pOverview_up_arrow'] = 'Go Top';
 $PALANG['pOverview_right_arrow'] = 'Next Page';
 $PALANG['pOverview_left_arrow'] = 'Previous Page';
 $PALANG['pOverview_alias_domain_title'] = ':: Domain Aliases';
-$PALANG['pOverview_alias_title'] = ':: Aliases';
+$PALANG['pOverview_alias_title'] = ':: Forwards ';
 $PALANG['pOverview_mailbox_title'] = ':: Mailboxes';
 $PALANG['go'] = 'Go';
 $PALANG['pOverview_welcome'] = 'Overview for ';
 $PALANG['pOverview_alias_domain_aliases'] = 'Alias Domains';
 $PALANG['pOverview_alias_address'] = 'From';
 $PALANG['active'] = 'Active';
+$PALANG['smtp_active'] = 'Smtp';
 $PALANG['and_x_more'] = '[and %s more...]';
 $PALANG['pOverview_mailbox_username'] = 'Email';
 $PALANG['name'] = 'Name';
@@ -129,10 +139,11 @@ $PALANG['alias_updated'] = 'The alias %s has been updated!';
 $PALANG['pCreate_alias_catchall_text'] = 'To create a catch-all use an "*" as alias.'; # XXX don't propagate usage of *@target-domain.com for domain-aliasing any longer
 $PALANG['mailbox_alias_cant_be_deleted'] = 'This alias belongs to a mailbox and can\'t be deleted!';
 $PALANG['protected_alias_cant_be_deleted'] = 'The alias %s is protected and can only be deleted by a superadmin';
+$PALANG['alias_points_to_itself'] = 'Forward may not point to itself';
 
 $PALANG['pEdit_alias_welcome'] = 'Edit forwarding settings';
 $PALANG['pEdit_alias_help'] = 'Accepts multiple targets, one entry per line.';
-$PALANG['alias'] = 'Alias';
+$PALANG['alias'] = 'Forward';
 $PALANG['to'] = 'To';
 $PALANG['pEdit_alias_goto_text_error1'] = 'You didn\'t enter anything at To';
 $PALANG['pEdit_alias_goto_text_error2'] = 'The email address that you have entered is not valid: ';
@@ -164,9 +175,51 @@ $PALANG['pEdit_mailbox_password_text_error'] = 'The passwords that you supplied 
 $PALANG['pEdit_mailbox_quota'] = 'Quota';
 $PALANG['pEdit_mailbox_quota_text'] = 'MB';
 $PALANG['mb_max'] = 'MB (max: %s)';
+$PALANG['mb_max_unlimited'] = 'MB (max: unlimited)';
+$PALANG['mb_max_disabled'] = 'MB (max: disabled)';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'The quota that you specified is too high!';
 $PALANG['pEdit_mailbox_domain_error'] = 'This domain is not yours: ';
 $PALANG['pEdit_mailbox_result_error'] = 'Unable to modify the mailbox!';
+
+$PALANG['pUsersMain_totp_exceptions'] = 'Allow trusted IP-addresses to access your mailbox without TOTP';
+$PALANG['pUsersMenu_totp'] = 'Change TOTP';
+$PALANG['pTOTP_welcome'] = 'Setup your Time-based One-time Password';
+$PALANG['pUsersMain_totp'] = 'Setup your Time-based One-time Password';
+$PALANG['pTOTP_secret'] = 'TOTP secret';
+$PALANG['pTOTP_code'] = 'TOTP code (empty to disable)';
+$PALANG['pTOTP_secret_result_error'] = 'Could not change TOTP secret';
+$PALANG['change_TOTP'] = 'Change TOTP settings';
+$PALANG['pTOTP_code_mismatch'] = 'Incorrect one-time-password entered';
+$PALANG['pTOTP_qr'] = 'TOTP QR-code';
+$PALANG['pTOTP_confirm'] = 'Please confirm your login by providing your current TOTP code';
+$PALANG['pTotp_failed'] = 'Your entered code is not valid. Please use a current code.';
+$PALANG['pTotp_stored'] = 'You successfully confirmed your new TOTP secret.';
+$PALANG['pTotp_exceptions_welcome'] = 'Add TOPT-exempt address';
+$PALANG['pTotp_exceptions_user'] = 'Username (or domain for admins)';
+$PALANG['pTotp_exceptions_add'] = 'Add exception';
+$PALANG['pTotp_exceptions_address'] = 'IP-Address';
+$PALANG['pTotp_exceptions_description'] = 'Description';
+$PALANG['pTotp_exceptions_list'] = 'Existing exceptions';
+$PALANG['pTotp_exceptions_revoke'] = 'Revoke';
+$PALANG['pTotp_exceptions_revoked'] = 'Exception revoked';
+$PALANG['pTotp_exception_result_success'] = 'Exception added';
+$PALANG['pTotp_exception_result_error'] = 'Could not add exception';
+$PALANG['pEdit_totp_exception_result_error'] = 'Unable to modify TOTP exceptions';
+$PALANG['pException_ip_empty_error'] = 'IP cannot be empty';
+$PALANG['pException_desc_empty_error'] = 'Description cannot be empty';
+$PALANG['pException_user_entire_domain_error'] = 'Only admins can add exceptions for an entire domain.';
+$PALANG['pException_user_global_error'] = 'Only superadmins can add global exceptions';
+$PALANG['pUsersMain_app_passwords'] = 'Setup revokable app passwords with reduced privileges';
+$PALANG['pApp_passwords_list'] = 'Existing application passwords';
+$PALANG['pApp_password_revoked'] = 'Exception revoked';
+$PALANG['pApp_passwords_welcome'] = 'Add application password';
+$PALANG['pMenu_app_passwords'] = 'Application passwords';
+$PALANG['pAppPassAdd_result_success'] = 'Added an application password';
+$PALANG['pAppPassAdd_pass_empty_error'] = 'Password cannot be empty';
+$PALANG['pAppPassAdd_result_error'] = 'Could not add application password';
+#$PALANG[''] = '';
+
+$PALANG['MFA_submit'] = 'Confirm login';
 
 $PALANG['pPassword_welcome'] = 'Change your login password.';
 $PALANG['pPassword_admin'] = 'Login';
@@ -204,10 +257,13 @@ $PALANG['reply_once_per_day'] = 'Reply once a day';
 $PALANG['reply_once_per_week'] = 'Reply once a week';
 
 $PALANG['pViewlog_welcome'] = 'View the last %s actions for ';
+$PALANG['pViewlog_welcome_all'] = 'View the last %s actions ';
 $PALANG['pViewlog_timestamp'] = 'Timestamp';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Data';
 
+$PALANG['pViewlog_action_add_totp_exception'] = 'Add TOTP exception';
+$PALANG['pViewlog_action_delete_totp_exception'] = 'Delete TOTP exception';
 $PALANG['pViewlog_action_create_domain'] = 'create domain';
 $PALANG['pViewlog_action_delete_domain'] = 'delete domain';
 $PALANG['pViewlog_action_edit_domain'] = 'edit domain';
@@ -224,6 +280,7 @@ $PALANG['pViewlog_action_edit_alias'] = 'edit alias';
 $PALANG['pViewlog_action_edit_alias_state'] = 'edit alias active';
 $PALANG['pViewlog_action_edit_alias_domain_state'] = 'edit alias domain active';
 $PALANG['pViewlog_action_edit_password'] = 'change password';
+$PALANG['pViewlog_action_add_app_password'] = 'Add application password';
 $PALANG['pViewlog_action_create_admin'] = 'create admin';
 $PALANG['pViewlog_action_edit_admin'] = 'edit admin';
 $PALANG['pViewlog_action_delete_admin'] = 'delete admin';
@@ -245,6 +302,33 @@ $PALANG['pSendmail_button'] = 'Send Message';
 $PALANG['pSendmail_result_error'] = 'Unable to send email to %s!';
 $PALANG['pSendmail_result_success'] = 'Email sent to %s.';
 
+$PALANG['pDkim_new_key'] = 'Add Domain Key';
+$PALANG['pDkim_new_sign'] = 'Add Sign Table Entry';
+$PALANG['pDkim_edit_key'] = 'Edit Domain Key';
+$PALANG['pDkim_edit_sign'] = 'Edit Sign Table Entry';
+$PALANG['pDkim_field_selector'] = 'Selector';
+$PALANG['pDkim_field_pkey'] = 'Private Key';
+$PALANG['pDkim_field_pub'] = 'Public Key';
+$PALANG['pDkim_field_author'] = 'Author';
+$PALANG['pDkim_field_dkim_id'] = 'Domain Key';
+$PALANG['pDkim_field_selector_desc'] = 'Defines the name of the selector to be used when signing messages';
+$PALANG['pDkim_field_domain_desc'] = 'Defines the domain which will use this key for signing';
+$PALANG['pDkim_field_pkey_desc'] = 'PEM-formatted private key to be used for signing all messages';
+$PALANG['pDkim_field_pub_desc'] = 'PEM-formatted public key';
+$PALANG['pDkim_field_author_desc'] = 'Author that will use this key for signing. Can be either mailbox or domain, with mailbox taking precedence.';
+$PALANG['pDkim_field_dkim_id_desc'] = 'Domain Key that this author will use';
+$PALANG['dkim_already_exists'] = 'This Domain Key has already been added!';
+$PALANG['dkim_does_not_exist'] = 'This Domain Key does not exist!';
+$PALANG['dkim_signing_already_exists'] = 'This Domain Signing Entry already exsits!';
+$PALANG['dkim_signing_does_not_exist'] = 'This Domain Signing Entry does not exist!';
+$PALANG['pViewlog_action_create_dkim_entry'] = 'create domain key entry';
+$PALANG['pViewlog_action_edit_dkim_entry'] = 'edit domain key entry';
+$PALANG['pViewlog_action_delete_dkim_entry'] = 'delete domain key entry';
+$PALANG['pViewlog_action_create_dkim_signing_entry'] = 'create domain signing entry';
+$PALANG['pViewlog_action_edit_dkim_signing_entry'] = 'edit domain signing entry';
+$PALANG['pViewlog_action_delete_dkim_signing_entry'] = 'delete domain signing entry';
+$PALANG['pMain_dkim'] = 'Add a Domain Key for use with OpenDKIM.';
+
 $PALANG['pAdminMenu_list_admin'] = 'Admin List';
 $PALANG['pAdminMenu_list_domain'] = 'Domain List';
 $PALANG['pAdminMenu_list_virtual'] = 'Virtual List';
@@ -256,7 +340,7 @@ $PALANG['pAdminMenu_create_domain'] = 'New Domain';
 $PALANG['pAdminList_admin_count'] = 'Domains';
 
 $PALANG['description'] = 'Description';
-$PALANG['aliases'] = 'Aliases';
+$PALANG['aliases'] = 'Forwards';
 $PALANG['pAdminList_domain_quota'] = 'Domain quota (MB)';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['last_modified'] = 'Last modified';
@@ -274,10 +358,17 @@ $PALANG['domain_updated'] = 'The domain %s has been updated.';
 
 $PALANG['pAdminDelete_admin_error'] = 'Unable to delete admin!';
 $PALANG['domain_postdel_failed'] = 'The domain postdeletion script failed, check the error log for details!';
+$PALANG['domain_postedit_failed'] = 'The domain postedit script failed, check the error log for details!';
 $PALANG['domain_postcreate_failed'] = 'The domain postcreate script failed, check the error log for details!';
 $PALANG['mailbox_postdel_failed'] = 'The mailbox postdeletion script failed, check the error log for details!';
 $PALANG['mailbox_postedit_failed'] = 'The mailbox postedit script failed, check the error log for details!';
 $PALANG['mailbox_postcreate_failed'] = 'The mailbox postcreate script failed, check the error log for details!';
+$PALANG['mailbox_postpassword_failed'] = 'The mailbox postpassword script failed, check the error log for details!';
+$PALANG['mailbox_postapppassword_failed'] = 'The mailbox postapppassword script failed, check the error log for details!';
+$PALANG['mailbox_post_totp_exception_delete_failed'] = 'The mailbox post totp exception delete script failed, check the error log for details!';
+$PALANG['mailbox_post_totp_exception_add_failed'] = 'The mailbox post totp exception add script failed, check the error log for details!';
+$PALANG['mailbox_post_TOTP_change_failed'] = 'The mailbox post totp secret change script failed, check the error log for details!';
+
 $PALANG['pAdminDelete_alias_domain_error'] = 'Unable to remove domain alias!';
 $PALANG['domain_conflict_vacation_domain'] = 'You can\'t use the vacation domain as mail domain!';
 
@@ -326,9 +417,10 @@ $PALANG['pUsersVacation_welcome_text'] = 'Auto response for %s is active!';
 $PALANG['pUsersVacation_subject_text'] = 'Out of Office';
 $PALANG['message'] = 'Message';
 $PALANG['pUsersVacation_body_text'] = <<<EOM
-I will be away from <date> until <date>.
+I will be away from <%From_Date> until <%Until_Date>.
 For urgent matters you can contact <contact person>.
 EOM;
+# *** for explanation about <%From_Date> en <%Until_Date> look at vaction.pl [ replace_string ] ***
 $PALANG['pUsersVacation_activefrom'] = 'Active from';
 $PALANG['pUsersVacation_activeuntil'] = 'Active until';
 
@@ -359,6 +451,7 @@ $PALANG['pStatus_popimap'] = 'POP/IMAP ';
 $PALANG['password_too_short'] = "Password is too short - requires %s characters";
 $PALANG['password_no_characters'] = "Your password must contain at least %s letters (A-Z, a-z).";
 $PALANG['password_no_digits'] = "Your password must contain at least %s digit(s).";
+$PALANG['password_no_special'] = "Your password must contain at least %s special character(s).";
 $PALANG['pInvalidDomainRegex'] = "Invalid domain name %s, fails regexp check";
 $PALANG['pInvalidDomainDNS'] = "Invalid domain %s, and/or not discoverable in DNS";
 $PALANG['pInvalidMailRegex'] = "Invalid email address %s, fails regexp check";
@@ -416,6 +509,12 @@ $PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your loc
 $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
 $PALANG['password_expiration'] = 'Pass expires';
 $PALANG['password_expiration_desc'] = 'Date when password will expire';
+
+$PALANG['To_Mailbox']                       = 'Mailbox'; # XXX
+$PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX
+$PALANG['pLegal_char_warning']              = 'Illegal character';
+$PALANG['TOTP_already_configured']          = 'TOTP is already configured for this account, do you want to change your secret?';
+$PALANG['pApp_passwords_add']               = 'Add application-specific password';
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

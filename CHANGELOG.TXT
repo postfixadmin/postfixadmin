@@ -4,17 +4,143 @@
 # This source file is subject to the GPL license that is bundled with
 # this package in the file LICENSE.TXT.
 #
-# Further details on the project are available at http://postfixadmin.sf.net
+# Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version X.X - master
+MASTER (should have all changes from 3.3.10 plus)
+------
+
+   - MFA/TOTP support (see https://github.com/postfixadmin/postfixadmin/pull/753 - thank you @svenseeberg and @drunken-sod)
+   - Update composer's PHP requirement to PHP 7.4+ (which matches Wordpress etc, PHP project is supporting 8.1<->8.3)
+   - Make fetchmail.pl respect src_port (thanks @tempixx - see #784)
+   - Improve github action (php 8.2)
+   - Add Javascript username validation to prevent illegal characters (see #765; thanks @verdinago)
+   - Fix typos / broken links etc (see #761; thanks @knofte)
+   - Add initial support for OpenDKIM domain key handling (see #631; thanks @Freddo3000 )
+   - vacation.pl updates - (log4perl warnings, typos etc, logging to file, localhost connection stuff - see https://github.com/postfixadmin/postfixadmin/discussions/648 thanks @puck)
+   - fix display of active buttons in the bootstrap theme (see #749 - thanks @reinks2112)
+   - fix theme logo + config interaction (see #718; thanks @dkatheininge)
+   - fix pacrypt + php_crypt:MD5 
+   - fix dovecot:CRYPT-METHOD (see #708; thanks @Coeur2Boeuf)
+   - fix CSV alias export (see #703; thanks @dennis2society)
+   - upgrade bundled jquery (v1.12.4 to v3.7.0) (fixes jquery ajax security problem, postfixadmin isn't vulnerable, see #734; thanks @tibor-banfalvi)
+   - Require 'composer' for library installation (see install.sh)
+   - Remove the dependency on 'doveadm pw' and support more hash mechanisms (see: #491)
+   - Update debian/ patch (see #529)
+   - Support $CONF['database_port'] when connecting to MySQL (see #549)
+   - Add optional Dovecot mail-crypt plugin support - see https://github.com/postfixadmin/postfixadmin/issues/408
+   - Add $CONF['site_url'] to allow administrators to override a detected site url (e.g. used in password recovery emails; see https://github.com/postfixadmin/postfixadmin/issues/446 )
+   - Code reformat as PHPCS has a mind of it's own (function/method opening brace change of position)
+   - Improved UTF8 support in vacation (see https://github.com/postfixadmin/postfixadmin/pull/484)
+   - Fix quota levels losing config control (see bfc7af5c8efe2a68c47286cc870b56cb4f929a3f)
+   - vacation.pl: improve autoreply detection (see https://github.com/postfixadmin/postfixadmin/pull/482 
+   - vacation.pl: improve headers in auto-reply mails (add: "Auto-Submitted: auto-replied") see https://github.com/postfixadmin/postfixadmin/pull/483
+   - vacation.pl: allow smtp helo to be customised; see https://github.com/postfixadmin/postfixadmin/pull/495
+   - dark theme - use `$CONF['theme_css'] = 'css/dark-theme.css';` to enable - see https://github.com/postfixadmin/postfixadmin/issues/569, thanks @polymeer
+   - support 'send email' using smtp+ssl, smtp+starttls or smtp - see https://github.com/postfixadmin/postfixadmin/pull/566, thanks @davidebeatrici
+   - support smtpd_sender_login_maps via documents - see https://github.com/postfixadmin/postfixadmin/pull/565, thanks @davidebeatrici
+   - fix database collation issues (try and use latin1_general_ci everywhere)
+
+Version 3.3.13 - 2022/12/08
+-------------------------------------------------
+   - MySQL collation fix for quota/quota2 tables ( see https://github.com/postfixadmin/postfixadmin/issues/690 )
+   - Fix MySQL not liking "alter table drop constraint ..." which seems to be MariaDB only (see #561 and #687) (thank you @stefanomarty)
+
+Version 3.3.12 - 2022/12/04
+-------------------------------------------------
+   - MySQL collation setting change, see https://github.com/postfixadmin/postfixadmin/issues/595 (and #327 and #552)
+   - Upgrade Smarty to 4.3.0 (see also #541)
+   - Improve PHP 8.1/8.2 compatability (see #632)
+
+Version 3.3.11 - 2022/03/02
+-------------------------------------------------
+   - Fix PHP 8 compatability for crypt() usage (see https://github.com/postfixadmin/postfixadmin/issues/547)
+   - Support $CONF['database_port'] for MySQL databases (see https://github.com/postfixadmin/postfixadmin/issues/549 and https://github.com/postfixadmin/postfixadmin/issues/553)
+
+Version 3.3.10 - 2021/08/09
+-------------------------------------------------
+   - Merge password expiration fixes from https://github.com/postfixadmin/postfixadmin/pull/493
+   - Remove html readonly attribute from user's vacation page to/from selectors.
+   - vacation.pl - allow smtp helo to be specified (see https://github.com/postfixadmin/postfixadmin/pull/495)
+   - Security fix - ClickJacking protection (thanks @huntr-helper / @ranjit-git) (see https://github.com/postfixadmin/postfixadmin/issues/523)
+   - Security fix (low risk) - Improve randomness with PFA_token for CSRF protection (thanks @michaellrowley)
+   - Fix viewlog to allow admins to see all domains (thanks @pgimalac, https://github.com/postfixadmin/postfixadmin/issues/516)
+   - Disable password autocompletion in edit forms (thanks @gabrielfin, see https://github.com/postfixadmin/postfixadmin/pull/510)
+
+Version 3.3.9 - 2021/05/12
+-------------------------------------------------
+   - Improve Ukrainian language (ua.lang) (thanks: andrew.kudrinov) 
+   - Ensure we update timestamp fields (created / modified) when performing db operations, see: https://github.com/postfixadmin/postfixadmin/issues/469 
+   - Add domain_admins.id pk column for non-sqlite users, see: https://github.com/postfixadmin/postfixadmin/issues/475
+   - Add fix for MySQL error where a default datetime value in the domain field breaks the upgrade.php db schema update, see https://github.com/postfixadmin/postfixadmin/issues/489
+   - Bug fix quota levels (now user configurable again; thanks @csware, see https://github.com/postfixadmin/postfixadmin/commit/bfc7af5c8efe2a68c47286cc870b56cb4f929a3f
+
+Version 3.3.8 - 2021/03/04
+-------------------------------------------------
+   - Fix invalid template referenced in broadcast-message.php; see https://github.com/postfixadmin/postfixadmin/issues/465
+   - Fix PostgreSQL boolean issue in setup (unable to add superuser); see https://github.com/postfixadmin/postfixadmin/issues/461 
+   - Fix SQL error on password change; see https://github.com/postfixadmin/postfixadmin/issues/456
+   - Add Ukrainian language (thanks: andrew.kudrinov)
+
+Version 3.3.7 - 2021/01/17
+-------------------------------------------------
+   - Fix missing db_connection_string() function from master; see https://github.com/postfixadmin/postfixadmin/issues/454
+
+Version 3.3.6 - 2021/01/17 - Do not use (setup.php broken)
+-------------------------------------------------
+   - Improve setup.php - output error_log location, try and detect if there is a problem calling pacrypt() (dovecot).
+
+Version 3.3.5 - 2021/01/27
+-------------------------------------------------
+   - Fix include path for password-change.php and improve UI for password-recover / password-change (nav bar was missing, remove table layout, fix labels not visible) (see https://github.com/postfixadmin/postfixadmin/issues/430
+   - Fix users/edit-alias to remove unnecessary space (see https://github.com/postfixadmin/postfixadmin/issues/442)
+   - Improve documentation
+   - Improve password length check example in config.inc.php (see //github.com/postfixadmin/postfixadmin/issues/423)
+   - Improve ADDITIONS/update_quota.pl (update to use quota2 table)
+   - Check for some config setting, and do not error if they are not set (see https://github.com/postfixadmin/postfixadmin/issues/437)
+   - Add pt-pt (portugese) translation (thanks Numo Carrilho/Nunix)
+   - Fix missing template variable 'domain_selected'
+
+
+Version 3.3.4 - 2021/01/19
+-------------------------------------------------
+   - Fix forgot-password (theme + trying to use class before autoload registered) (see //github.com/postfixadmin/postfixadmin/issues/427)
+   - Fix PHP 8.0 issues (string{} offset in CLI, psalm warning about string + int in MailboxHandler)
+   - Add PHP 8.0 to travis build + hopefully fix build
+   - Fix editform to add linefeeds on for e.g. alias editing (see https://github.com/postfixadmin/postfixadmin/pull/424)
+   - Fix mysql_crypt password hash - not all MySQL variants have RANDOM_BYTES function, so use our PHP based salt instead. (see https://github.com/postfixadmin/postfixadmin/issues/422)
+
+Version 3.3.3 - 2021/01/14
+-------------------------------------------------
+   - Improve error handling around login (require non-empty password; cope with pacrypt() throwing an exception; see https://github.com/postfixadmin/postfixadmin/issues/420)
+   - Improve setup.php (show error messages in admin creation form, fix unable to create admin - see https://github.com/postfixadmin/postfixadmin/issues/418)
+
+Version 3.3.2 - 2021/01/13
+-------------------------------------------------
+   - Add in the ability to specify a hash prefix with php_crypt password format, useful for Dovecot replacement. ( https://github.com/postfixadmin/postfixadmin/issues/344 )
+   - Add documentation (DOCUMENTS/HASHING.md)
+   - Fix issue with vacation form not saving; vacation start/end is now stored with time, and users/ nav links ( https://github.com/postfixadmin/postfixadmin/issues/416 )
+
+Version 3.3.1 - 2021/01/11
 -------------------------------------------------
 
+   - Fix issue with cli not working ( see https://github.com/postfixadmin/postfixadmin/issues/415 )
+   - Fix issue with theme not working (if $CONF['theme_css'] was defined in config). ( see https://github.com/postfixadmin/postfixadmin/issues/410 )
+   - Fix links in footer ( see https://github.com/postfixadmin/postfixadmin/issues/412 )
+
+Version 3.3 - 2021/01/09
+-------------------------------------------------
+   - PostfixAdmin requires PHP 7.0 or greater.
+   - Change setup.php to use PHP's password_hash() for the config setup_password . (breaking change, existing setup passwords will fail to work and need regenerating) 
+   - Change setup.php to not reveal system paths etc until a setup_password is configured and provided (see: https://github.com/postfixadmin/postfixadmin/issues/402 )
+   - Move to bootstrap theme ( see https://github.com/postfixadmin/postfixadmin/pull/172 )
+   - Improve vacation.pl (better utf-8 support)
+   - Improve DB connections (PDO, SSL)
+   - Add sha512.b64 password hash support (see https://github.com/postfixadmin/postfixadmin/issues/58)
    - Add support for password expiration (see https://github.com/postfixadmin/postfixadmin/pull/200 and README.password_expiration )
    - Improve ADDITIONS/postfixadmin-mailbox-postcreate.sh
    - Add Date header into smtp_from() (see https://github.com/postfixadmin/postfixadmin/issues/203 )
    - PostgreSQL fixes ( 1e158245d613fd1d8d5c1d59e26e940eb71f5b32 )
    - vacation.pl fixes (perl libraries; see https://github.com/postfixadmin/postfixadmin/pull/194 )
-   - Add bootstrap theme (default not changed yet) ( see https://github.com/postfixadmin/postfixadmin/pull/172 )
    - Improve CSV export from list.php
    - Various misc. changes from static analysis (psalm)
    - Update installation instructions. (see: https://github.com/postfixadmin/postfixadmin/issues/189 https://github.com/postfixadmin/postfixadmin/issues/188 )
@@ -23,6 +149,7 @@ Version X.X - master
    - MySQL 8 compatibility (see https://github.com/postfixadmin/postfixadmin/pull/175 )
    - Internally the database functions have been refactored to use PDO rather than the lower level mysql_, mysqli_, pg_ etc functions. ( see: https://github.com/postfixadmin/postfixadmin/pull/231 )
    - Usage of dovecot deliver as fetchmail mda
+   - Corrupted Turkish language file fixed and missing translations are added.
 
 Version 3.2 - 2018/05/02
 -------------------------------------------------

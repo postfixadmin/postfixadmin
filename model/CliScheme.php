@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 /**
  * class to display the database scheme (for usage in upgrade.php) in Cli
@@ -6,7 +7,8 @@
  * extends the "Shell" class
  */
 
-class CliScheme extends Shell {
+class CliScheme extends Shell
+{
     public $handler_to_use = "";
     public $new = 0;
 
@@ -14,7 +16,8 @@ class CliScheme extends Shell {
     /**
     * Execution method always used for tasks
     */
-    public function execute() {
+    public function execute()
+    {
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
 
@@ -57,7 +60,7 @@ class CliScheme extends Shell {
         $this->out("        PRIMARY KEY (" . $handler->getId_field() . ")");
         $this->out('    ) {MYISAM} ');
         $this->out('");');
-       
+
         $this->out('');
         $this->hr();
         $this->out('For adding fields with upgrade.php:');
@@ -81,12 +84,13 @@ class CliScheme extends Shell {
     /**
     * Displays help contents
     */
-    public function help() {
+    public function help()
+    {
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
 
         $this->out(
-"Usage:
+            "Usage:
 
     postfixadmin-cli $module scheme
 

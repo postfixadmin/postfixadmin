@@ -33,6 +33,9 @@ if (Config::bool('sendmail_all_admins')) {
     authentication_require_role('global-admin');
 }
 
+$CONF = Config::getInstance()->getAll();
+$smarty = PFASmarty::getInstance();
+
 if ($CONF['sendmail'] != 'YES') {
     header("Location: main.php");
     exit;
@@ -48,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die('Invalid token!');
     }
 
-    if (empty($_POST['subject']) || empty($_POST['message']) || empty($_POST['name'])) {
+    if (empty($_POST['subject']) || empty($_POST['message']) || empty($_POST['name']) || empty($_POST['domains']) || !is_array($_POST['domains'])) {
         $error = 1;
         flash_error($PALANG['pBroadcast_error_empty']);
     } else {
@@ -61,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         $q = "SELECT username from $table_mailbox WHERE active='" . db_get_boolean(true) . "' AND ".db_in_clause("domain", $wanted_domains);
         if (intval(safepost('mailboxes_only')) == 0) {
-            $q .= " UNION SELECT goto FROM $table_alias WHERE active='" . db_get_boolean(true) . "' AND ".db_in_clause("domain", $wanted_domains)."AND goto NOT IN ($q)";
+            $q .= " UNION SELECT goto FROM $table_alias WHERE active='" . db_get_boolean(true) . "' AND ".db_in_clause("domain", $wanted_domains)." AND goto NOT IN ($q)";
         }
         $result = db_query_all($q);
         $recipients = array_column($result, 'username');
@@ -98,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
         flash_info($PALANG['pBroadcast_success']);
-        $smarty->assign('smarty_template', 'message');
+        $smarty->assign('smarty_template', 'broadcast-message');
         $smarty->display('index.tpl');
         //		echo '<p>'.$PALANG['pBroadcast_success'].'</p>';
     }

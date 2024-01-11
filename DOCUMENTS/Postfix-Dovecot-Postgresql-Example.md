@@ -32,6 +32,7 @@ virtual_uid_maps = static:8
 virtual_gid_maps = static:8
 local_transport = virtual
 local_recipient_maps = $virtual_mailbox_maps
+smtpd_sender_login_maps = proxy:pgsql:/etc/postfix/pgsql/virtual_sender_maps.cf
 ```
 
 and for Postfix SASL support :
@@ -45,6 +46,12 @@ smtpd_sasl_auth_enable = yes
 smtpd_sasl_security_options = noanonymous
 broken_sasl_auth_clients = yes
 ```
+
+Please note that `smtpd_sender_login_maps` is only taken into account when a relevant restriction is specified in `smtpd_sender_restrictions`.
+
+By default a client can send emails from any addresses!
+
+For reference: http://www.postfix.org/postconf.5.html#reject_sender_login_mismatch
 
 ## /etc/postfix/pgsql/relay_domains.cf
 
@@ -97,6 +104,16 @@ password = whatever
 hosts = localhost
 dbname = postfix
 query = SELECT maildir FROM mailbox WHERE username='%s' AND active = true
+```
+
+## /etc/postfix/pgsql/virtual_sender_maps.cf
+
+```
+user = postfix
+password = whatever
+hosts = localhost
+dbname = postfix
+query = SELECT username FROM mailbox WHERE username='%s' AND active = true
 ```
 
 
@@ -217,5 +234,21 @@ default_pass_scheme = MD5-CRYPT
 password_query = SELECT username AS user,password FROM mailbox WHERE username = '%u' AND active='1'
 
 # Query to retrieve user information, note uid matches dovecot.conf AND Postfix virtual_uid_maps parameter.
-user_query = SELECT '/var/vmail/mail/' || maildir AS home, 8 as uid, 8 as gid FROM mailbox WHERE username = '%u' AND active = '1'
+user_query = SELECT '/var/mail/vmail/' || maildir AS home, 8 as uid, 8 as gid FROM mailbox WHERE username = '%u' AND active = '1'
+```
+
+Password query with app password and allowed remote IP support:
+```
+password query = SELECT user, password FROM (\
+  SELECT username AS user, password, '0' AS is_app_password FROM\
+  mailbox\
+  UNION\
+  SELECT username AS user, password, '1' AS is_app_password FROM mailbox_app_password\
+)\
+WHERE user='%u' AND password='%w' AND active=1 AND\
+(\
+  "%r" IN (SELECT ip FROM totp_exception_address WHERE username="%u" OR username IS NULL OR username="@%d")\
+  OR (SELECT totp_secret FROM mailbox WHERE usenamer="%u") IS NULL\
+  OR is_app_password='1'\
+)
 ```

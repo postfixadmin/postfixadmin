@@ -30,45 +30,64 @@
 $rel_path = '../';
 require_once("../common.php");
 
+$smarty = PFASmarty::getInstance();
+$smarty->configureTheme('../');
+
 check_db_version(); # check if the database layout is up to date (and error out if not)
+
+$error = null;
+
+if (authentication_mfa_incomplete()) {
+    header("Location: login-mfa.php");
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
         die('Invalid token!');
     }
 
+    $totppf = new TotpPf('mailbox');
+
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
     $fPassword = safepost('fPassword');
 
+
     if ($lang != check_language(false)) { # only set cookie if language selection was changed
-      setcookie('lang', $lang, time() + 60*60*24*30); # language cookie, lifetime 30 days
-      # (language preference cookie is processed even if username and/or password are invalid)
+        setcookie('lang', $lang, time() + 60 * 60 * 24 * 30); # language cookie, lifetime 30 days
+        # (language preference cookie is processed even if username and/or password are invalid)
     }
 
-    $h = new MailboxHandler();
-    if ($h->login($fUsername, $fPassword)) {
-        init_session($fUsername, false);
-
+    $login = new Login('mailbox');
+    if ($login->login($fUsername, $fPassword)) {
+        if ($totppf->usesTOTP($fUsername)) {
+            init_session($fUsername, false, false);
+            header("Location: login-mfa.php");
+            exit;
+        }
+        init_session($fUsername, false, true);
         header("Location: main.php");
         exit;
     } else {
-        error_log("PostfixAdmin user login failed (username: $fUsername)");
-        flash_error($PALANG['pLogin_failed']);
+        error_log("PostfixAdmin user login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
+        $error = $PALANG['pLogin_failed'];
     }
 }
-
 
 session_unset();
 session_destroy();
 session_start();
 
-$_SESSION['PFA_token'] = md5(uniqid(rand(), true));
+if ($error) {
+    flash_error($error);
+}
+$_SESSION['PFA_token'] = md5(random_bytes(8) . uniqid('pfa', true));
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');
 $smarty->assign('logintype', 'user');
-$smarty->assign('forgotten_password_reset', Config::read('forgotten_user_password_reset'));
+$smarty->assign('forgotten_password_reset', Config::read('forgotten_user_password_reset') && !Config::read('mailbox_postpassword_script'));
 $smarty->display('index.tpl');
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

@@ -1,16 +1,20 @@
-------------------------------------
-  Recreating a superadmin account
+# Recreating a superadmin account
 
+Login to setup.php using the setup_password you have setup config.local.php to contain.
 
-When you run setup.php you will be required to enter a super user name and password. 
-This user will be able to login and modify any domain or setting. Hence, superadmin!.
+From setup.php you can add a 'superadmin' account. This account can access any domain or mailboxes defined within Postfixadmin.
 
-With that login you can create new superadmins (and you should delete or change the
-password of  admin@domain.tld). If that user is no longer there or you didn't use
-the .TXT files, you could add another manually from the database. 
+The 'superadmin' account is able to create additional 'admin' users which have their access restricted to domains of your choice.
 
-In case you forgot your superadmin username or password, you can create a new
-superadmin account using setup.php.
+## Forgotten setup_password
 
-If you also have forgotten your setup password, you can use setup.php to configure
-a new setup password.
+In case you forgot your superadmin username or password, you can create a new superadmin account using setup.php.
+
+## Forgotten superadmin username(s)
+
+Once you have authenticated with your setup_password on setup.php, a list of superadmin usernames is printed out.
+
+## Forgotten superadmin password
+
+The easiest approach is to create a new superadmin user, and then using a database tool of your choice update the old
+ user with the password hash to have the password hash of a new user.

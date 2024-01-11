@@ -18,8 +18,11 @@
  *
  */
 
-$rel_path = '../';
 require_once('../common.php');
+
+$smarty = PFASmarty::getInstance();
+$smarty->configureTheme('../');
+
 $smarty->assign('smarty_template', 'users_edit-alias');
 
 authentication_require_role('user');
@@ -121,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             flash_error($errormsg[0]);
         }
 
-        $updated = $ah->store();
+        $updated = $ah->save();
 
         if ($updated) {
             header("Location: main.php");

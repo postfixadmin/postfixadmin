@@ -29,7 +29,8 @@
  * @license                     http://www.opensource.org/licenses/mit-license.php The MIT License
  */
 
-class Shell {
+class Shell
+{
     /**
      * An instance of the ShellDispatcher object that loaded this script
      *
@@ -102,7 +103,8 @@ class Shell {
      *  Constructs this Shell instance.
      *
      */
-    public function __construct(&$dispatch) {
+    public function __construct(&$dispatch)
+    {
         $vars = array('params', 'args', 'shell', 'shellCommand'=> 'command');
         foreach ($vars as $key => $var) {
             if (is_string($key)) {
@@ -128,7 +130,8 @@ class Shell {
      *
      * @access public
      */
-    public function startup() {
+    public function startup()
+    {
         if (empty($this->params['q'])) {
             $this->_welcome();
         }
@@ -138,7 +141,8 @@ class Shell {
      *
      * @access protected
      */
-    public function _welcome() {
+    public function _welcome()
+    {
         $this->out("\nWelcome to Postfixadmin-CLI v" . $this->Dispatch->version);
         $this->hr();
     }
@@ -151,7 +155,8 @@ class Shell {
      * @param string $default Default input value.
      * @return string either the default value, or the user-provided input.
      */
-    public function in($prompt, $options = null, $default = '') {
+    public function in($prompt, $options = null, $default = '')
+    {
         if (!$this->interactive) {
             return $default;
         }
@@ -184,7 +189,8 @@ class Shell {
      * @param string|array $string String to output.
      * @param boolean $newline If true, the outputs gets an added newline.
      */
-    public function out($string, $newline = true) {
+    public function out($string, $newline = true)
+    {
         if (is_array($string)) {
             $str = '';
             foreach ($string as $message) {
@@ -200,7 +206,8 @@ class Shell {
      * @param string|array $string Error text to output.
      * @access public
      */
-    public function err($string) {
+    public function err($string)
+    {
         if (is_array($string)) {
             $str = '';
             foreach ($string as $message) {
@@ -216,7 +223,8 @@ class Shell {
      * @param boolean $newline If true, the outputs gets an added newline.
      * @access public
      */
-    public function hr($newline = false) {
+    public function hr($newline = false)
+    {
         if ($newline) {
             $this->out("\n");
         }
@@ -232,7 +240,8 @@ class Shell {
      * @param string $msg Error message
      * @access public
      */
-    public function error($title, $msg) {
+    public function error($title, $msg)
+    {
         $out  = "$title\n";
         $out .= "$msg\n";
         $out .= "\n";
@@ -244,7 +253,8 @@ class Shell {
      *
      * @access public
      */
-    public function help() {
+    public function help()
+    {
         if ($this->command != null) {
             $this->err("Unknown {$this->name} command '$this->command'.\nFor usage, try 'postfixadmin-cli {$this->shell} help'.\n\n");
         } else {
@@ -258,7 +268,8 @@ class Shell {
      * @return void
      * @access public
      */
-    public function _stop($status = 0) {
+    public function _stop($status = 0)
+    {
         exit($status);
     }
 }

@@ -11,7 +11,8 @@ $CONF['default_language'] = 'en';
 $CONF['language_hook'] = '';
 
 if (getenv('DATABASE') == 'sqlite' || getenv('DATABASE') == false) {
-    $db_file = dirname(__FILE__) . '/postfixadmin.sqlite.test';
+    $version = PHP_VERSION_ID; // try and stop different tests running at the same trying to use the same sqlite db at once
+    $db_file = dirname(__FILE__) . '/postfixadmin.sqlite.' . $version . '.test';
     $CONF['database_type'] = 'sqlite';
     $CONF['database_name'] = $db_file;
     Config::write('database_type', 'sqlite');
@@ -22,7 +23,7 @@ if (getenv('DATABASE') == 'sqlite' || getenv('DATABASE') == false) {
     }
     touch($db_file);
 
-    echo "Using: SQLite database for tests - $db_file \n";
+    error_log("Using: SQLite database for tests - $db_file");
 }
 if (getenv('DATABASE') == 'postgresql') {
     $user = getenv('PGUSER') ?: 'postgres';
@@ -40,7 +41,7 @@ if (getenv('DATABASE') == 'postgresql') {
     Config::write('database_name', 'postfixadmin');
     Config::write('database_host', $host);
 
-    echo "Using: PostgreSQL database for tests\n";
+    error_log("Using: PostgreSQL database for tests\n");
 }
 
 if (getenv('DATABASE') == 'mysql') {
@@ -76,7 +77,7 @@ if (getenv('DATABASE') == 'mysql') {
     Config::write('database_password', $config['password']);
     Config::write('database_name', 'postfixadmin');
 
-    echo "Using: MySQL database for tests\n";
+    error_log("Using: MySQL database for tests");
 }
 
 try {

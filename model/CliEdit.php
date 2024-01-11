@@ -1,4 +1,5 @@
 <?php
+
 # $Id$
 
 /**
@@ -6,7 +7,8 @@
  *
  * extends the "Shell" class
  */
-class CliEdit extends Shell {
+class CliEdit extends Shell
+{
     public $handler_to_use = "";
     public $new = 0;
 
@@ -14,7 +16,8 @@ class CliEdit extends Shell {
     /**
      * Execution method always used for tasks
      */
-    public function execute() {
+    public function execute()
+    {
         if (empty($this->args)) {
             return $this->__interactive();
         } else {
@@ -27,7 +30,8 @@ class CliEdit extends Shell {
      * read, check and handle all --* parameters
      * The list of allowed params is based on $handler->struct
      */
-    private function __handle_params() {
+    private function __handle_params()
+    {
         $handler = new $this->handler_to_use($this->new);
         $form_fields = $handler->getStruct();
         $id_field = $handler->getId_field();
@@ -68,7 +72,8 @@ class CliEdit extends Shell {
     /**
      * Interactive mode
      */
-    private function __interactive() {
+    private function __interactive()
+    {
         $handler = new $this->handler_to_use($this->new);
 
         $form_fields = $handler->getStruct();
@@ -174,7 +179,8 @@ class CliEdit extends Shell {
     /**
      * (try to) store values
      */
-    private function __handle($id, $values) {
+    private function __handle($id, $values)
+    {
         $handler = new $this->handler_to_use($this->new);
         if (!$handler->init($id)) {
             $this->err($handler->errormsg);
@@ -186,7 +192,7 @@ class CliEdit extends Shell {
             return 1;
         }
 
-        if (!$handler->store()) {
+        if (!$handler->save()) {
             $this->err($handler->errormsg);
             return 1;
         }
@@ -200,7 +206,8 @@ class CliEdit extends Shell {
     /**
      * Displays help contents
      */
-    public function help() {
+    public function help()
+    {
         if ($this->new) {
             $cmd = 'add';
             $cmdtext = 'Adds';

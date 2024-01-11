@@ -7,33 +7,27 @@
 
 require_once('RemoteTest.php');
 
-class RemoteAliasTest extends RemoteTest {
-    public function __construct() {
+class RemoteAliasTest extends RemoteTest
+{
+    public function __construct()
+    {
         parent::__construct();
         global $CONF;
     }
 
-
-    /**
-     * Adds the test recipient data to the database.
-     */
-    public function setUp() {
-        parent::setUp();
-    }
-    public function tearDown() {
-        parent::tearDown();
-    }
-
-    public function testGet() {
+    public function testGet()
+    {
         /* although we created an alias record, for users, this isn't returned... */
         $this->assertEquals($this->alias->get(), array());
     }
 
-    public function testHasStoreAndForward() {
+    public function testHasStoreAndForward()
+    {
         $this->assertTrue($this->alias->hasStoreAndForward());
     }
 
-    public function testUpdateRemoteOnly() {
+    public function testUpdateRemoteOnly()
+    {
         $this->assertTrue($this->alias->update(array('roger@rabbit.com'), 'remote_only'));
         $this->assertFalse($this->alias->hasStoreAndForward());
         $this->assertTrue($this->alias->update(array('roger@rabbit.com'), 'remote_only'));
@@ -42,7 +36,8 @@ class RemoteAliasTest extends RemoteTest {
         $this->assertFalse($this->alias->hasStoreAndForward());
     }
 
-    public function testUpdateForwardandStore() {
+    public function testUpdateForwardandStore()
+    {
         $orig_aliases = $this->alias->get();
         if (!is_array($orig_aliases)) {
             $orig_aliases = array();

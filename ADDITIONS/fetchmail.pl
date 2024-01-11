@@ -27,7 +27,7 @@ our $db_username="mail";
 our $db_password="CHANGE_ME!";
 
 # Where to create a lockfile; please ensure path exists.
-our $run_dir="/var/run/fetchmail";
+our $run_dir="/var/lock/fetchmail";
 
 # in case you want to use dovecot deliver to put the mail directly into the users mailbox,
 # set "mda" in the fetchmail table to the keyword "dovecot".
@@ -54,6 +54,18 @@ sub log_and_die {
   die $message;
 }
 
+sub escape_password {
+    $output = "";
+    for $i (0..length($_[0])-1){
+        $char = substr($_[0], $i, 1);
+        if ($char eq "\\" or $char eq "\"")
+        {
+            $output = $output . "\\";
+        }
+        $output = $output . $char;
+    }
+    return $output;
+}
 # read options and arguments
 
 $configfile = "/etc/fetchmail-all/config";
@@ -98,18 +110,18 @@ if($db_type eq "Pg") {
 }
 
 $sql = "
-	SELECT id,mailbox,src_server,src_auth,src_user,src_password,src_folder,fetchall,keep,protocol,mda,extra_options,usessl, sslcertck, sslcertpath, sslfingerprint
+	SELECT id,mailbox,src_server,src_auth,src_user,src_password,src_folder,fetchall,keep,protocol,mda,extra_options,usessl, sslcertck, sslcertpath, sslfingerprint, src_port
 	FROM fetchmail
 	WHERE $sql_cond  > poll_time*60
 	";
 
 my (%config);
 map{
-	my ($id,$mailbox,$src_server,$src_auth,$src_user,$src_password,$src_folder,$fetchall,$keep,$protocol,$mda,$extra_options,$usessl,$sslcertck,$sslcertpath,$sslfingerprint)=@$_;
+	my ($id,$mailbox,$src_server,$src_auth,$src_user,$src_password,$src_folder,$fetchall,$keep,$protocol,$mda,$extra_options,$usessl,$sslcertck,$sslcertpath,$sslfingerprint,$src_port)=@$_;
 
 	syslog("info","fetch ${src_user}@${src_server} for ${mailbox}");
 
-	$cmd="user '${src_user}' there with password '".decode_base64($src_password)."'";
+	$cmd="user '${src_user}' there with password '".escape_password(decode_base64($src_password))."'";
 	$cmd.=" folder '${src_folder}'" if ($src_folder);
 
 	if ($mda) {
@@ -148,7 +160,7 @@ TXT
   print $file_handler $text;
   close $file_handler;
 
-  $ret=`/usr/bin/fetchmail -f $filename -i $run_dir/fetchmail.pid`;
+  $ret=`/usr/bin/fetchmail -f $filename --pidfile $run_dir/fetchmail.pid`;
 
   unlink $filename;
 

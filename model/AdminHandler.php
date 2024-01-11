@@ -1,11 +1,14 @@
 <?php
+
 # $Id$
 
-class AdminHandler extends PFAHandler {
+class AdminHandler extends PFAHandler
+{
     protected $db_table = 'admin';
     protected $id_field = 'username';
 
-    protected function validate_new_id() {
+    protected function validate_new_id()
+    {
         $email_check = check_email($this->id);
 
         if ($email_check == '') {
@@ -17,12 +20,14 @@ class AdminHandler extends PFAHandler {
         }
     }
 
-    protected function no_domain_field() {
+    protected function no_domain_field()
+    {
         # PFAHandler die()s if domain field is not set. Disable this behaviour for AdminHandler.
     }
 
     # init $this->struct, $this->db_table and $this->id_field
-    protected function initStruct() {
+    protected function initStruct()
+    {
         # NOTE: There are dependencies between domains and domain_count
         # NOTE: If you disable "display in list" for domain_count, the SQL query for domains might break.
         # NOTE: (Disabling both shouldn't be a problem.)
@@ -54,30 +59,30 @@ class AdminHandler extends PFAHandler {
             ),
 
             'superadmin'       => pacol(1,          1,      0,      'bool', 'super_admin'        , 'super_admin_desc'  , 0
-# TODO: (finally) replace the ALL domain with a column in the admin table
-# TODO: current status: 'superadmin' column exists and is written when storing an admin with AdminHandler,
-# TODO: but the superadmin status is still (additionally) stored in the domain_admins table ("ALL" dummy domain)
-# TODO: to keep the database backwards-compatible with 2.3.x.
-# TODO: Note: superadmins created with 2.3.x after running upgrade_1284() will not work until you re-run upgrade_1284()
-# TODO: Create them with the trunk version to avoid this problem.
+                # TODO: (finally) replace the ALL domain with a column in the admin table
+                # TODO: current status: 'superadmin' column exists and is written when storing an admin with AdminHandler,
+                # TODO: but the superadmin status is still (additionally) stored in the domain_admins table ("ALL" dummy domain)
+                # TODO: to keep the database backwards-compatible with 2.3.x.
+                # TODO: Note: superadmins created with 2.3.x after running upgrade_1284() will not work until you re-run upgrade_1284()
+                # TODO: Create them with the trunk version to avoid this problem.
             ),
 
             'domains'          => pacol(1,          1,      0,      'list', 'domain'             , ''                  , array(), list_domains(),
-               /*not_in_db*/ 0,
-               /*dont_write_to_db*/ 1,
-               /*select*/ "coalesce(domains,'') as domains"
-               /*extrafrom set in domain_count*/
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ "coalesce(domains,'') as domains"
+                /*extrafrom set in domain_count*/
             ),
 
             'domain_count'     => pacol(0,          0,      1,      'vnum', 'pAdminList_admin_count', ''               , '', array(),
-               /*not_in_db*/ 0,
-               /*dont_write_to_db*/ 1,
-               /*select*/ 'coalesce(__domain_count,0) as domain_count',
-               /*extrafrom*/ 'LEFT JOIN ( ' .
-                                ' SELECT count(*) AS __domain_count, ' . $domains_grouped . ' AS domains, username AS __domain_username ' .
-                                ' FROM ' . table_by_key('domain_admins') .
-                                " WHERE domain != 'ALL' GROUP BY username " .
-                             ' ) AS __domain on username = __domain_username'),
+                /*not_in_db*/ 0,
+                /*dont_write_to_db*/ 1,
+                /*select*/ 'coalesce(__domain_count,0) as domain_count',
+                /*extrafrom*/ 'LEFT JOIN ( ' .
+                                 ' SELECT count(*) AS __domain_count, ' . $domains_grouped . ' AS domains, username AS __domain_username ' .
+                                 ' FROM ' . table_by_key('domain_admins') .
+                                 " WHERE domain != 'ALL' GROUP BY username " .
+                              ' ) AS __domain on username = __domain_username'),
 
             'active'           => pacol(1,          1,      1,      'bool', 'active'             , ''                  , 1     ),
             'phone'            => pacol(1,  $reset_by_sms,  0,      'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
@@ -89,7 +94,8 @@ class AdminHandler extends PFAHandler {
         );
     }
 
-    protected function initMsg() {
+    protected function initMsg()
+    {
         $this->msg['error_already_exists'] = 'admin_already_exists';
         $this->msg['error_does_not_exist'] = 'admin_does_not_exist';
         $this->msg['confirm_delete'] = 'confirm_delete_admin';
@@ -105,7 +111,8 @@ class AdminHandler extends PFAHandler {
         }
     }
 
-    public function webformConfig() {
+    public function webformConfig()
+    {
         return array(
             # $PALANG labels
             'formtitle_create' => 'pAdminCreate_admin_welcome',
@@ -123,7 +130,8 @@ class AdminHandler extends PFAHandler {
      * called by $this->store() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.
      */
-    protected function storemore() {
+    protected function postSave(): bool
+    {
         # store list of allowed domains in the domain_admins table
         if (isset($this->values['domains'])) {
             if (is_array($this->values['domains'])) {
@@ -167,7 +175,8 @@ class AdminHandler extends PFAHandler {
         return true; # TODO: don't hardcode
     }
 
-    protected function read_from_db_postprocess($db_result) {
+    protected function read_from_db_postprocess($db_result)
+    {
         foreach ($db_result as $key => $row) {
             # convert 'domains' field to an array
             if ($row['domains'] == '') {
@@ -183,9 +192,10 @@ class AdminHandler extends PFAHandler {
     }
 
     /**
-     *  @return true on success false on failure
+     *  @return bool
      */
-    public function delete() {
+    public function delete()
+    {
         if (! $this->view()) {
             $this->errormsg[] = Config::Lang($this->msg['error_does_not_exist']);
             return false;
@@ -207,7 +217,8 @@ class AdminHandler extends PFAHandler {
      * compare password / password2 field
      * error message will be displayed at the password2 field
      */
-    protected function _validate_password2($field, $val) {
+    protected function _validate_password2($field, $val)
+    {
         return $this->compare_password_fields('password', 'password2');
     }
 }

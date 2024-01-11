@@ -1,4 +1,5 @@
 <?php
+
 // vim:ts=4:sw=4:et
 ini_set('include_path', get_include_path() . ':' . dirname(__FILE__));
 

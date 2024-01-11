@@ -1,13 +1,13 @@
 Security and PostfixAdmin
 -------------------------
 
-While the developers of PostfixAdmin believe the software to be 
+While the developers of PostfixAdmin believe the software to be
 secure, there is no guarantee that it will continue to do be so
 in the future - especially as new types of exploit are discovered.
 (After all, this software is without warranty!)
 
 In the event you do discover a vulnerability in this software,
-please report it to the development mailing list, or contact 
+please report it to the development mailing list, or contact
 one of the developers directly.
 
 
@@ -19,26 +19,68 @@ DATABASE USER SECURITY
 You may wish to consider the following :
 
  1. Postfix only requires READ access to the database tables.
- 2. The virtual vacation support (if used) only needs to WRITE to 
+ 2. The virtual vacation support (if used) only needs to WRITE to
     the vacation_notification table (and read alias and vacation).
- 3. PostfixAdmin itself needs to be able to READ and WRITE to 
+ 3. PostfixAdmin itself needs to be able to READ and WRITE to
     all the tables.
  4. PostfixAdmin's setup.php additionally needs permissions to CREATE
     and ALTER tables in the PostfixAdmin database. For PostgreSQL, also
-	permissions for CREATE FUNCTION and CREATE TRIGGER are needed.
-	In other words: setup.php needs all permissions on the PostfixAdmin
-	database.
+    permissions for CREATE FUNCTION and CREATE TRIGGER are needed.
+    In other words: setup.php needs all permissions on the PostfixAdmin
+    database.
 
-Using the above, you can improve security by creating separate 
-database user accounts for each of the above roles, and limit 
+Using the above, you can improve security by creating separate
+database user accounts for each of the above roles, and limit
 the permissions available to them as appropriate.
 
 
 FILE SYSTEM SECURITY
 --------------------
 
-PostfixAdmin does not require write support on the underlying 
+PostfixAdmin does not require write support on the underlying
 filesystem with the following exceptions:
 - the templates_c directory where Smarty caches the templates
 - PHP's session.save_path to store session files
 
+
+END USER SECURITY
+-----------------
+
+To enhance the security of admin and mailbox user accounts, Postfixadmin
+supports a set of different features:
+
+1. Multi-factor authentication with TOTP for admin and mailbox users.
+2. Synchronize the TOTP secret with a Mail front end, for example
+   Roundcubemail. This enables TRUSTED mail user clients (MUAs) to
+   implement MFA internally.
+3. Enable MUAs with allowed IP addresses to log in with username and
+   password. Use this feature with care. It basically deactivates MFA
+   for specified IPs. This feature is intended for mail user clients
+   that implement MFA themselves, for example Roundcubemail. However,
+   this can also be used to deactivate MFA when a VPN is used or other
+   use cases.
+4. Allow SMTP, IMAP and POP login with app passwords when a TOTP secret
+   is set. The app passwords cannot be used to log in at Postfixadmin
+   itself. That means only the normal user password plus the TOTP factor
+   allow adding, changing or removing app passwords.
+
+These features are DEACTIVATED by default because they need to be
+supported by your MTA/MDA configuration to become effective. Please
+read carefully through the documentation before activating these
+features.
+
+To activate those features, run through the following procedure:
+1. Change your MDA (and if required MTA) password query. You can
+   take a look at the example query listed in the
+   Postfix-Dovecot-Postgresql-Example.md file. The example should work
+   for Dovecot out of the box. 
+2. Set up synchronization of TOTP secrets with a mail user client
+   application. This is important. Otherwise MFA will not be used to
+   protect access to mails.
+   Use the mailbox_post_TOTP_change_secret_script setting in the
+   config.inc.php. The mailbox username and domain will be passed
+   as parameters, the shared secret via stdin. For Roundcubemail you can
+   have a look at the scripts/examples/sync-roundcubemail-totp.php example. 
+3. Activate TOTP and app passwords in the config.inc.php by setting
+   $CONF['totp'] = 'YES';
+   $CONF['app_passwords'] = 'YES';

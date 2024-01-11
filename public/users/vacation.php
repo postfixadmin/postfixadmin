@@ -16,9 +16,10 @@
  *
  */
 
-$rel_path = '../';
 require_once('../common.php');
 
+$smarty = PFASmarty::getInstance();
+$smarty->configureTheme('../');
 require_once('../vacation.php');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

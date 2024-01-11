@@ -141,13 +141,18 @@ $CONF['database_tables'] = array (
     'vacation' => 'vacation',
     'vacation_notification' => 'vacation_notification',
     'quota' => 'quota',
-	'quota2' => 'quota2',
+    'quota2' => 'quota2',
+    'dkim' => 'dkim',
+    'dkim_signing' => 'dkim_signing',
 );
 
 // Site Admin
 // Define the Site Admin's email address below.
-// This will be used to send emails from to create mailboxes and
-// from Send Email / Broadcast message pages.
+// This will be used to send emails from to 
+//  * create mailboxes and
+//  * Send Email / Broadcast message pages and 
+//  * In password reset emails.
+//
 // Leave blank to send email from the logged-in Admin's Email address.
 $CONF['admin_email'] = '';
 
@@ -167,34 +172,47 @@ $CONF['admin_name'] = 'Postmaster';
 $CONF['smtp_server'] = 'localhost';
 $CONF['smtp_port'] = '25';
 
+// The communication layer used.
+//
+// 'plain'    Everything in plain text (standard port: 25).
+// 'tls'      TLS/SSL from the very beginning (standard port: 465).
+// 'starttls' "STARTTLS" in plain text and then TLS/SSL (standard port: 587).
+$CONF['smtp_type'] = 'plain';
+
 // SMTP Client
 // Hostname (FQDN) of the server hosting Postfix Admin
 // Used in the HELO when sending emails from Postfix Admin
 $CONF['smtp_client'] = '';
 
-// Set 'YES' to use TLS when sending emails.
-$CONF['smtp_sendmail_tls'] = 'NO';
+// Encrypt - how passwords are stored/hashed in the database.
+//
+// See: https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/HASHING.md
+//
+// - PLAIN, CLEAR or CLEARTEXT - plain text variants, may be useful for testing. 
+//
+// - ARGON2ID, ARGON2I, SHA512-CRYPT, SHA256-CRYPT or BLF-CRYPT might be good options.
+//
+// - other, older variants are : 
+//   - md5crypt, 
+//   - md5, 
+//   - system, 
+//   - mysql_encrypt - mysql's password()
+//   - dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. 
+//     - Note: dovecot relies on doveadm binary, and suitable permissions on config files - see https://github.com/postfixadmin/postfixadmin/issues/398
+//
+// - authlib = support for courier-authlib style passwords - also set $CONF['authlib_default_flavor']
+//
+// - php_crypt:CRYPT-METHOD:DIFFICULTY:PREFIX = use PHP built in crypt()-function. Example: php_crypt:SHA512:50000
+// - php_crypt CRYPT-METHOD: Supported values are DES, MD5, BLOWFISH, SHA256, SHA512 (default)
+// - php_crypt - DIFFICULTY: Larger value is more secure, but uses more CPU and time for each login.
+// - php_crypt - DIFFICULTY: Set this according to your CPU processing power.
+// - php_crypt - DIFFICULTY: Supported values are BLOWFISH:4-31, SHA256:1000-999999999, SHA512:1000-999999999
+// - php_crypt - DIFFICULTY: leave empty to use default values (BLOWFISH:10, SHA256:5000, SHA512:5000). Example: php_crypt:SHA512
+// - php_crypt - PREFIX: hash has specified prefix - example: php_crypt:SHA512::{SHA256-CRYPT}
+//
+// - sha512.b64 - {SHA512-CRYPT.B64} (base64 encoded sha512 crypt) (no dovecot dependency; should support migration from md5crypt)
 
-// Encrypt
-// In what way do you want the passwords to be crypted?
-// md5crypt = internal postfix admin md5
-// md5 = md5 sum of the password
-// system = whatever you have set as your PHP system default
-// cleartext = clear text passwords (ouch!)
-// mysql_encrypt = useful for PAM integration
-// authlib = support for courier-authlib style passwords - also set $CONF['authlib_default_flavor']
-// dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. Example: dovecot:CRAM-MD5
-// php_crypt:CRYPT-METHOD:DIFFICULTY = use PHP built in crypt()-function. Example: php_crypt:SHA512:50000
-// - php_crypt CRYPT-METHOD: Supported values are DES, MD5, BLOWFISH, SHA256, SHA512
-// - php_crypt DIFFICULTY: Larger value is more secure, but uses more CPU and time for each login.
-// - php_crypt DIFFICULTY: Set this according to your CPU processing power.
-// - php_crypt DIFFICULTY: Supported values are BLOWFISH:4-31, SHA256:1000-999999999, SHA512:1000-999999999
-// - php_crypt DIFFICULTY: leave empty to use default values (BLOWFISH:10, SHA256:5000, SHA512:5000). Example: php_crypt:SHA512
-//     IMPORTANT:
-//     - don't use dovecot:* methods that include the username in the hash - you won't be able to login to PostfixAdmin in this case
-//     - you'll need at least dovecot 2.1 for salted passwords ('doveadm pw' 2.0.x doesn't support the '-t' option)
-//     - dovecot 2.0.0 - 2.0.7 is not supported
-$CONF['encrypt'] = 'md5crypt';
+$CONF['encrypt'] = 'php_crypt'; // SHA512
 
 // In what flavor should courier-authlib style passwords be encrypted?
 // (only used if $CONF['encrypt'] == 'authlib')
@@ -227,7 +245,18 @@ $CONF['password_validation'] = array(
     '/.{5}/'                => 'password_too_short 5',      # minimum length 5 characters
     '/([a-zA-Z].*){3}/'     => 'password_no_characters 3',  # must contain at least 3 characters
     '/([0-9].*){2}/'        => 'password_no_digits 2',      # must contain at least 2 digits
+#    '/([!\".,*&^%$£)(_+=\-`\'#@~\[\]\\<>\/].*){1,}/' => 'password_no_special 1', # must contain at least 1 special character
+
+    /*  support a 'callable' value which if it returns a non-empty string will be assumed to have failed, non-empty string should be a PALANG key */
+    // 'length_check'          => function($password) { if (strlen(trim($password)) < 3) { return 'password_too_short'; } },
 );
+
+// Username legal characters
+// New/changed usernames will be checked against this regular expression with javascript
+// during entry, offending characters not displaying.
+// For example:
+// $CONF['username_legal_chars'] = '^[a-zA-Z0-9-_.]+$';
+$CONF['username_legal_chars'] = '';
 
 // Generate Password
 // Generate a random password for a mailbox or admin and display it.
@@ -314,7 +343,9 @@ function maildir_name_hook($domain, $user) {
 
     Note: Adding a field to $struct adds the handling of this field in
     PostfixAdmin, but it does not create it in the database. You have to do
-    that yourself. 
+    that yourself.
+    Note: If you add fields here and you want them to be displayed in the
+    virtual lists, you must also modify the corresponding virtual-list template.
     Please follow the naming policy for custom database fields and tables on
     https://sourceforge.net/p/postfixadmin/wiki/Custom_fields/
     to avoid clashes with future versions of PostfixAdmin.
@@ -338,6 +369,8 @@ $CONF['alias_struct_hook']          = '';
 $CONF['mailbox_struct_hook']        = '';
 $CONF['alias_domain_struct_hook']   = '';
 $CONF['fetchmail_struct_hook']      = '';
+$CONF['dkim_struct_hook']           = '';
+$CONF['dkim_signing_struct_hook']   = '';
 
 
 // Default Domain Values
@@ -510,6 +543,25 @@ $CONF['emailcheck_resolve_domain']='YES';
 // from being the destination for an alias
 $CONF['emailcheck_localaliasonly']='NO';
 
+// Use TOTP for logging into Postfixadmin, can be overridden for listed
+// IPs to allow access by software that provide their own checking.
+// Exceptions can be of user, domain or global scope.
+// This also bundles several menu items in a "security" dropdown.
+$CONF['totp'] = 'NO';
+
+// Use revokable application passwords to limit the risk of storing a
+// password in another system. These passwords can not access Postfixadmin.
+$CONF['app_passwords'] = 'NO';
+
+
+// OpenDKIM stuff
+// Enable the dkim database component
+$CONF['dkim'] = 'NO';
+// Allow regular admins to add/edit/remove dkim entries
+$CONF['dkim_all_admins'] = 'NO';
+// End OpenDKIM stuff
+
+
 // Optional:
 // Analyze alias gotos and display a colored block in the first column
 // indicating if an alias or mailbox appears to deliver to a non-existent
@@ -556,47 +608,94 @@ $CONF['show_custom_colors']=array("lightgreen","lightblue");
 // Set to "" to disable this check.
 $CONF['recipient_delimiter'] = "";
 
-// Optional:
+/**
+ * NOTE FOR OPTIONAL SCRIPTS BELOW.
+ *
+ * These scripts will probably be called by your webserver user (typically 'www-data').
+ *
+ * Execution may fail for a number of reasons, perhaps :
+ *  * PHP is running in 'safe mode' 
+ *  * you have operating system features like SELinux or Apparmor
+ *  * Unix file ownership/permission restrictions
+ *
+ * Your mail system probably requires different ownership (e.g. courier, dovecot, mail ...)
+ *
+ * You will probably need to use 'sudo' either within the script, or when calling it, to resolve issues of ownership/permission.
+ *
+ * Details about errors from execution should be logged into PHP's error_log. 
+ *
+ * See also: https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/FAQ.txt
+ *
+ */
+
+// Optional: See NOTE above.
 // Script to run after creation of mailboxes.
-// Note that this may fail if PHP is run in "safe mode", or if
-// operating system features (such as SELinux) or limitations
-// prevent the web-server from executing external scripts.
 // Parameters: (1) username (2) domain (3) maildir (4) quota
 // $CONF['mailbox_postcreation_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postcreation.sh';
 $CONF['mailbox_postcreation_script'] = '';
 
-// Optional:
+// Optional: See NOTE above.
 // Script to run after alteration of mailboxes.
-// Note that this may fail if PHP is run in "safe mode", or if
-// operating system features (such as SELinux) or limitations
-// prevent the web-server from executing external scripts.
 // Parameters: (1) username (2) domain (3) maildir (4) quota
 // $CONF['mailbox_postedit_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postedit.sh';
 $CONF['mailbox_postedit_script'] = '';
 
-// Optional:
+// Optional: See NOTE above.
 // Script to run after deletion of mailboxes.
-// Note that this may fail if PHP is run in "safe mode", or if
-// operating system features (such as SELinux) or limitations
-// prevent the web-server from executing external scripts.
 // Parameters: (1) username (2) domain
 // $CONF['mailbox_postdeletion_script']='sudo -u courier /usr/local/bin/postfixadmin-mailbox-postdeletion.sh';
 $CONF['mailbox_postdeletion_script'] = '';
 
-// Optional:
+// Optional: See NOTE above.
+// Script to run after setting a mailbox password. (New mailbox [old password = empty] or change existing password)
+// Disables changing password without entering old password.
+// Parameters: (1) username (2) domain
+// STDIN: old password + \0 + new password
+// $CONF['mailbox_postpassword_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
+$CONF['mailbox_postpassword_script'] = '';
+
+// Optional: See NOTE above.
+// Script to run after setting a mailbox TOTP secret.
+// Parameters: (1) username (2) domain
+// STDIN: TOTP secret + \0
+// $CONF['mailbox_post_TOTP_change_secret_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
+$CONF['mailbox_post_TOTP_change_secret_script'] = '';
+
+// Optional: See NOTE above.
+// Script to run after adding an exception address (disable TOTP).
+// Parameters: (1) username (2) ip
+// STDIN: TOTP secret + \0
+// $CONF['mailbox_post_exception_add_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
+$CONF['mailbox_post_totp_exception_add_script'] = '';
+
+// Optional: See NOTE above.
+// Script to run after deleting an exception address (disable TOTP).
+// Parameters: (1) username (2) ip
+// STDIN: TOTP secret + \0
+// $CONF['mailbox_post_totp_exception_delete_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
+$CONF['mailbox_post_totp_exception_delete_script'] = '';
+
+// Optional: See NOTE above.
+// Script to run after adding an app password.
+// Parameters: (1) username (2) app description
+// STDIN: password + \0
+// $CONF['mailbox_postapppassword_script']='sudo -u dovecot /usr/local/bin/postfixadmin-mailbox-postpassword.sh';
+$CONF['mailbox_postapppassword_script'] = '';
+
+// Optional: See NOTE above.
 // Script to run after creation of domains.
-// Note that this may fail if PHP is run in "safe mode", or if
-// operating system features (such as SELinux) or limitations
-// prevent the web-server from executing external scripts.
 // Parameters: (1) domain
 //$CONF['domain_postcreation_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postcreation.sh';
 $CONF['domain_postcreation_script'] = '';
 
-// Optional:
+// Optional: See NOTE above.
+// Script to run after alteation of domains.
+// Parameters: (1) domain
+//$CONF['domain_postedit_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postedit.sh';
+$CONF['domain_postedit_script'] = '';
+
+// Optional: See NOTE above.
 // Script to run after deletion of domains.
-// Note that this may fail if PHP is run in "safe mode", or if
-// operating system features (such as SELinux) or limitations
-// prevent the web-server from executing external scripts.
 // Parameters: (1) domain
 // $CONF['domain_postdeletion_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postdeletion.sh';
 $CONF['domain_postdeletion_script'] = '';
@@ -679,7 +778,7 @@ $CONF['theme'] = 'default';
 // Specify your own favicon, logo and CSS file
 $CONF['theme_favicon'] = 'images/favicon.ico';
 $CONF['theme_logo'] = 'images/logo-default.png';
-$CONF['theme_css'] = 'css/default.css';
+$CONF['theme_css'] = 'css/bootstrap.css';
 // If you want to customize some styles without editing the $CONF['theme_css'] file,
 // you can add a custom CSS file. It will be included after $CONF['theme_css'].
 $CONF['theme_custom_css'] = '';
@@ -692,8 +791,25 @@ $CONF['xmlrpc_enabled'] = false;
 
 //Account expiration info
 //If enabled, mailbox passwords have a password_expiry field set, which is updated each time the password is changed, based on the parent domain's password_expiry (days) value.
-//More details in README.password_expiration
+//More details in Password_Expiration.md
 $CONF['password_expiration'] = 'YES';
+
+// If defined, use this rather than trying to construct it from  $_SERVER parameters.
+// used in (at least) password-recover.php.
+$CONF['site_url'] = null;
+
+$CONF['version'] = '3.4-dev';
+
+// The smtp_active_flag when set to YES enables editing of the smtp_active 
+// field of the mailbox table. The smtp_active field can be used to enable
+// or disable smtp sending for a mailbox separately to other mailbox functions.  
+// This can be useful if you want the ability to stop a user sending email 
+// while still allowing receipt of new mail and reading existing email. 
+// Please refer to DOCUMENTS/DOVECOT.txt for an example of how to configure this.
+// The default is NO for backwards compatibility. Only enable this if you
+// have also set up the SQL queries that make use of the smtp_active field
+// in your Dovecot SQL configuration.
+$CONF['smtp_active_flag'] = 'NO';
 
 // If you want to keep most settings at default values and/or want to ensure
 // that future updates work without problems, you can use a separate config 

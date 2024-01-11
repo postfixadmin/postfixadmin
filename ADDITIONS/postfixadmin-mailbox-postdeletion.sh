@@ -6,7 +6,7 @@
 # The script looks at arguments 1 and 2, assuming that they 
 # indicate username and domain, respectively.
 
-# The script will not actually delete the maildir. I moves it
+# The script will not actually delete the maildir. It moves it
 # to a special directory which may once in a while be cleaned up
 # by the system administrator.
 

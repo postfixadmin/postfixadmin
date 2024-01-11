@@ -34,3 +34,24 @@ Frequently Asked Questions:
    if it doesn't for you, try editing $CONF['emailcheck_resolve_domain'] to 'NO' in 
    config.inc.php and try again.
 
+
+5) Postfixadmin is telling me an error occurred, and I should look at the server error logs for more details. Where do I look?
+
+ - This depends on your server setup (distribution, how PHP is executed etc).
+
+ - Postfixadmin typically calls PHP's error_log() function to log some detail about errors. This may write to : 
+
+    * /var/log/syslog
+    * /var/log/apache2/error.log 
+    * /var/log/php7.4-fpm.log (or equivalent for your PHP version)
+    * or somewhere you may have manually configured.
+
+  You can change where it logs by adding something like :
+  
+```PHP
+    ini_set('error_log', '/tmp/postfixadmin.log'); // example only
+```
+
+  into config.local.php, or you can change your PHP configuration.
+
+  See also: https://stackoverflow.com/questions/5127838/where-does-php-store-the-error-log-php5-apache-fastcgi-cpanel

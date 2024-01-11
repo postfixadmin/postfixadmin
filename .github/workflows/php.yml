@@ -3,33 +3,94 @@ name: GitHubBuild
 on: [push]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  lint_etc:
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
 
-    - name: Validate composer.json and composer.lock
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 7.4
+        tools: composer
+        extensions: sqlite3
+
+    - name: run install.sh
+      run: /bin/bash install.sh
+
+    - name: check composer
       run: composer validate
 
-    - name: setup templates_c
-      run: mkdir templates_c || true
+# Needing to 'update' here isn't ideal, but we need to cope with tests that run under different PHP versions :-/
+    - name: Install dependencies
+      run: composer update --prefer-dist -n
+
+    - name: check formatting
+      run: composer check-format
+
+    - name: touch config.local.php
+      run: touch config.local.php
+
+    - name: psalm static analysis
+      run: composer psalm
+
+  testsuite:
+    needs: [lint_etc]
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        php-versions: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        tools: composer
+        extensons: sqlite3
+
+    - name: run install.sh
+      run: /bin/bash install.sh
 
     - name: touch config.local.php
       run: touch config.local.php && php -v
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: composer install --prefer-dist -n
 
     - name: Build/test
-      run: composer build
+      run: composer test
 
-    - name: setup coveralls
-      run: mkdir -p build/logs || true
+  build_coverage_report:
+    needs: [testsuite]
+    continue-on-error: true
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+        tools: composer
+        extensions: sqlite3
+
+    - name: run install.sh
+      run: /bin/bash install.sh
+
+    - name: touch config.local.php
+      run: touch config.local.php && php -v
+
+    - name: Install dependencies
+      run: composer update --prefer-dist -n
+
+    - name: build coveralls coverage
+      run: php -d xdebug.mode=coverage vendor/bin/phpunit tests
 
     - name: Coveralls
-      run: php vendor/bin/php-coveralls -v --coverage_clover=coverage.xml  || true
+      run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v || true
       env:
-          COVERALLS_RUN_LOCALLY: 1
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+

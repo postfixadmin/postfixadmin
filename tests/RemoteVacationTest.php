@@ -7,13 +7,13 @@
 
 require_once('RemoteTest.php');
 
-class RemoteVacationTest extends RemoteTest {
-
-
+class RemoteVacationTest extends RemoteTest
+{
     /**
      * Adds the test recipient data to the database.
      */
-    public function setUp() {
+    public function setUp(): void
+    {
         // Ensure config.inc.php is vaguely correct.
         global $CONF;
         if ($CONF['vacation'] != 'YES' || $CONF['vacation_control'] != "YES") {
@@ -25,21 +25,25 @@ class RemoteVacationTest extends RemoteTest {
         parent::setUp();
     }
 
-    public function testIsVacationSupported() {
+    public function testIsVacationSupported()
+    {
         $this->assertTrue($this->vacation->isVacationSupported());
     }
 
-    public function testCheckVacation() {
+    public function testCheckVacation()
+    {
         $this->assertFalse($this->vacation->checkVacation());
     }
 
 
-    public function testGetDetails() {
+    public function testGetDetails()
+    {
         $details = $this->vacation->getDetails();
-        $this->assertFalse($details); // empty by default (thansk to tearDown/setUp);
+        $this->assertFalse($details); // empty by default (thanks to tearDown/setUp);
     }
 
-    public function testSetAway() {
+    public function testSetAway()
+    {
         $this->assertFalse($this->vacation->checkVacation());
         $this->assertTrue($this->vacation->setAway('zzzz', 'aaaa'));
         $this->assertTrue($this->vacation->checkVacation());

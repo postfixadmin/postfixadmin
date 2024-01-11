@@ -33,12 +33,14 @@ $supported_languages = array(
     'nn'    => 'Norsk (nynorsk) - Norwegian (nynorsk)',
     'pl'    => 'Polski - Polish',
     'pt-br' => 'Portugu&ecirc;s - Brazilian portuguese',
+    'pt-pt' => 'Portugu&ecirc;s - European portuguese',
     'ro'    => 'Limba Rom&acirc;n&#259; - Romanian',
     'ru'    => '&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081; - Russian',
     'sk'    => 'Sloven&#269;ina - Slovak',
     'sl'    => 'Sloven&scaron;&#269;ina - Slovenian',
     'sv'    => 'Svenska - Swedish',
     'tr'    => 'T&uuml;rk&ccedil;e - Turkish',
+    'ua'    => '&#1059;&#1082;&#1088;&#1072;&#1111;&#1085;&#1089;&#1100;&#1082;&#1072; - Ukrainian',
 );
 
 /* vim: set expandtab ft=php softtabstop=4 tabstop=4 shiftwidth=4: */
