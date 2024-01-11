@@ -538,6 +538,11 @@ EOM;
 // address is legal by performing a name server look-up.
 $CONF['emailcheck_resolve_domain']='YES';
 
+// When creating mailboxes or aliases, check that the domain-part of the
+// address is local and managed by postfixadmin, preventing remote domains
+// from being the destination for an alias
+$CONF['emailcheck_localaliasonly']='NO';
+
 // Use TOTP for logging into Postfixadmin, can be overridden for listed
 // IPs to allow access by software that provide their own checking.
 // Exceptions can be of user, domain or global scope.
@@ -548,21 +553,14 @@ $CONF['totp'] = 'NO';
 // password in another system. These passwords can not access Postfixadmin.
 $CONF['app_passwords'] = 'NO';
 
-//
-//
-// OpenDKIM stuff
-//
-//
 
+// OpenDKIM stuff
 // Enable the dkim database component
 $CONF['dkim'] = 'NO';
-
 // Allow regular admins to add/edit/remove dkim entries
 $CONF['dkim_all_admins'] = 'NO';
-
-//
 // End OpenDKIM stuff
-//
+
 
 // Optional:
 // Analyze alias gotos and display a colored block in the first column

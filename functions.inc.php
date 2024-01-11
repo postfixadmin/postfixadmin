@@ -304,6 +304,33 @@ function check_domain($domain)
 }
 
 /**
+ * Checks if a domain is local
+ * @param string $domain
+ * @return string empty if the domain is valid, otherwise string with the errormessage
+ */
+function check_localaliasonly($domain) {
+    // If emailcheck_localaliasonly is set to 'YES', disallow aliases to remote servers (but allow aliases on this server)
+    if (Config::bool('emailcheck_localaliasonly')) {
+        // get the domain part of the e-mail
+        list(/*NULL*/, $domain) = explode('@', $domain);
+        
+        // get all domains managed on this system by postfixadmin
+        $domains = list_domains();
+        
+        // Only allow local domains to be alias destinations
+        if (in_array($domain, $domains)) {
+            return '';
+        } else {
+            // FIXME: Add transaltions
+            return sprintf("You may only make aliases to domains hosted on this server. %s is a remote domain name.", htmlentities($domain));
+        }
+    } else {
+      return '';
+    }
+
+}
+
+/**
  * Get password expiration value for a domain
  * @param string $domain - a string that may be a domain
  * @return int password expiration value for this domain (DAYS, or zero if not enabled)
