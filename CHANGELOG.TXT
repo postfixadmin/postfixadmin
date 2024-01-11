@@ -9,6 +9,8 @@
 MASTER (should have all changes from 3.3.10 plus)
 ------
 
+   - Ability to limit alias destinations to only be for local domains (see https://github.com/postfixadmin/postfixadmin/pull/338/; thanks @michaelkrieger)
+   - Ability to control control smtp access for a mailbox (so limiting outbound email, while still allowing incoming; see https://github.com/postfixadmin/postfixadmin/pull/796; thanks @johnfawcett)
    - MFA/TOTP support (see https://github.com/postfixadmin/postfixadmin/pull/753 - thank you @svenseeberg and @drunken-sod)
    - Update composer's PHP requirement to PHP 7.4+ (which matches Wordpress etc, PHP project is supporting 8.1<->8.3)
    - Make fetchmail.pl respect src_port (thanks @tempixx - see #784)
