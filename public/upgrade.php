@@ -2350,6 +2350,7 @@ function upgrade_1849_sqlite()
         ");
 }
 
-function upgrade_1850() {
+function upgrade_1850()
+{
     _db_add_field('mailbox',  'smtp_active', 'int DEFAULT 1');
 }

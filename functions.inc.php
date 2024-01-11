@@ -308,15 +308,16 @@ function check_domain($domain)
  * @param string $domain
  * @return string empty if the domain is valid, otherwise string with the errormessage
  */
-function check_localaliasonly($domain) {
+function check_localaliasonly($domain)
+{
     // If emailcheck_localaliasonly is set to 'YES', disallow aliases to remote servers (but allow aliases on this server)
     if (Config::bool('emailcheck_localaliasonly')) {
         // get the domain part of the e-mail
         list(/*NULL*/, $domain) = explode('@', $domain);
-        
+
         // get all domains managed on this system by postfixadmin
         $domains = list_domains();
-        
+
         // Only allow local domains to be alias destinations
         if (in_array($domain, $domains)) {
             return '';
@@ -325,9 +326,8 @@ function check_localaliasonly($domain) {
             return sprintf("You may only make aliases to domains hosted on this server. %s is a remote domain name.", htmlentities($domain));
         }
     } else {
-      return '';
+        return '';
     }
-
 }
 
 /**

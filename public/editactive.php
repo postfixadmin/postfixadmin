@@ -30,7 +30,9 @@ $id = safeget('id');
 $table = safeget('table');
 $field = safeget('field');
 $active = safeget('active');
-if ($field === '') $field = 'active';
+if ($field === '') {
+    $field = 'active';
+}
 
 if (empty($table)) {
     die("Invalid table name given");
