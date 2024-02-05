@@ -126,9 +126,9 @@ function revokeAppPassword(string $username, int $fAppId, array $PALANG)
 {
     // $username should be from $_SESSION and not modifiable by the end user
     // we don't want someone to be able to delete someone else's app password by guessing an id...
-    $rows = db_query('SELECT id FROM mailbox_app_password WHERE id = :id AND username = :username', ['username' => $username, 'id' => $fAppId]);
-    if (!empty($rows)) {
-        $result = db_delete('mailbox_app_password', 'id', $rows[0]['id']);
+    $row = db_query_one('SELECT id FROM mailbox_app_password WHERE id = :id AND username = :username', ['username' => $username, 'id' => $fAppId]);
+    if (is_array($row) && isset($row['id'])) {
+        $result = db_delete('mailbox_app_password', 'id', $row['id']);
         if ($result == 1) {
             flash_info($PALANG['pTotp_exceptions_revoked']);
             return;
