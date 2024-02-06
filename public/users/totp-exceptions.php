@@ -26,7 +26,7 @@
  *
  */
 
-require_once('common.php');
+require_once(__DIR__ . '/../common.php');
 
 $smarty = PFASmarty::getInstance();
 $smarty->configureTheme('../');
