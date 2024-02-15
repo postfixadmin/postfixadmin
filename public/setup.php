@@ -110,7 +110,7 @@ $tick = ' ✅ ';
                     if ($configSetupDone) {
                         echo $tick . " setup_password configured";
                     } else {
-                        echo $todo . " You need to have a setup_pasword hash configured in a <code>config.local.php</code> file";
+                        echo $todo . " You need to have a setup_password hash configured in a <code>config.local.php</code> file";
                     }
 ?>
                 </li>
