@@ -15,7 +15,7 @@
  * List virtual users for a domain.
  *
  * Template File:
- *		  list-virutal.tpl
+ *          list-virutal.tpl
  *                list-virtual-alias.tpl                which incl list-virtual.tpl
  *                list-virtual-alias_domains.tpl        which incl list-virtual.tpl
  *                list-virtual_mailbox.tpl
@@ -44,8 +44,8 @@ $fDomain = safepost('fDomain', safeget('domain', safesession('list-virtual:domai
 if (safesession('list-virtual:domain') != $fDomain) {
     unset($_SESSION['list-virtual:limit']);
 }
-$fDisplay = (int) safepost('limit', safeget('limit', safesession('list-virtual:limit')));
-$search   = [];
+$fDisplay = (int)safepost('limit', safeget('limit', safesession('list-virtual:limit')));
+$search = [];
 
 if (isset($_POST['search']) && is_array($_POST['search'])) {
     $search = $_POST['search'];
@@ -63,7 +63,7 @@ if (count($list_domains) == 0) {
     exit;
 }
 
-if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
+if (sizeof($list_domains) > 0) {
     if (empty($fDomain)) {
         $fDomain = escape_string($list_domains[0]);
     }
@@ -107,9 +107,9 @@ if (Config::bool('alias_domain')) {
     $handler = new AliasdomainHandler(0, $admin_username);
     $formconf = $handler->webformConfig(); # might change struct
     $aliasdomain_data = array(
-        'struct'    => $handler->getStruct(),
-        'msg'       => $handler->getMsg(),
-        'formconf'  => $formconf,
+        'struct' => $handler->getStruct(),
+        'msg' => $handler->getMsg(),
+        'formconf' => $formconf,
     );
     $aliasdomain_data['msg']['show_simple_search'] = false; # hide search box
 
@@ -162,9 +162,9 @@ if (count($search) == 0 || !isset($search['_'])) {
 $handler = new AliasHandler(0, $admin_username);
 $formconf = $handler->webformConfig(); # might change struct
 $alias_data = array(
-    'formconf'  => $formconf,
-    'struct'    => $handler->getStruct(),
-    'msg'       => $handler->getMsg(),
+    'formconf' => $formconf,
+    'struct' => $handler->getStruct(),
+    'msg' => $handler->getMsg(),
 );
 $alias_data['struct']['goto_mailbox']['display_in_list'] = 0; # not useful/defined for non-mailbox aliases
 $alias_data['struct']['on_vacation']['display_in_list'] = 0;
@@ -184,11 +184,11 @@ $password_expiration = Config::bool('password_expiration');
 
 # build the sql query
 $sql_select = "SELECT $table_mailbox.* ";
-$sql_from   = " FROM $table_mailbox ";
-$sql_join   = "";
-$sql_where  = " WHERE ";
-$sql_order  = " ORDER BY $table_mailbox.username ";
-$sql_limit  = " LIMIT $page_size OFFSET $fDisplay";
+$sql_from = " FROM $table_mailbox ";
+$sql_join = "";
+$sql_where = " WHERE ";
+$sql_order = " ORDER BY $table_mailbox.username ";
+$sql_limit = " LIMIT $page_size OFFSET $fDisplay";
 $sql_params = [];
 
 if (count($search) == 0 || !isset($search['_'])) {
@@ -196,18 +196,18 @@ if (count($search) == 0 || !isset($search['_'])) {
     $sql_params['domain'] = $fDomain;
 } else {
     $searchterm = escape_string($search['_']);
-    $sql_where  .=  db_in_clause("$table_mailbox.domain", $list_domains) . " ";
-    $sql_where  .= " AND ( $table_mailbox.username LIKE :searchterm OR $table_mailbox.name LIKE :searchterm ";
+    $sql_where .= db_in_clause("$table_mailbox.domain", $list_domains) . " ";
+    $sql_where .= " AND ( $table_mailbox.username LIKE :searchterm OR $table_mailbox.name LIKE :searchterm ";
     $sql_params['searchterm'] = "%$searchterm%";
 
     if ($display_mailbox_aliases) {
-        $sql_where  .= " OR $table_alias.goto LIKE :searchterm ";
+        $sql_where .= " OR $table_alias.goto LIKE :searchterm ";
     }
-    $sql_where  .= " ) ";
+    $sql_where .= " ) ";
 }
 if ($display_mailbox_aliases) {
     $sql_select .= ", $table_alias.goto ";
-    $sql_join   .= " LEFT JOIN $table_alias ON $table_mailbox.username=$table_alias.address ";
+    $sql_join .= " LEFT JOIN $table_alias ON $table_mailbox.username=$table_alias.address ";
 }
 
 if ($password_expiration) {
@@ -217,23 +217,23 @@ if ($password_expiration) {
 if (Config::bool('vacation_control_admin')) {
     $table_vacation = table_by_key('vacation');
     $sql_select .= ", $table_vacation.active AS v_active ";
-    $sql_join   .= " LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email ";
+    $sql_join .= " LEFT JOIN $table_vacation ON $table_mailbox.username=$table_vacation.email ";
 }
 
 if (Config::bool('used_quotas') && Config::bool('new_quota_table')) {
     $table_quota2 = table_by_key('quota2');
     $sql_select .= ", $table_quota2.bytes as current ";
-    $sql_join   .= " LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username ";
+    $sql_join .= " LEFT JOIN $table_quota2 ON $table_mailbox.username=$table_quota2.username ";
 }
 
-if (Config::bool('used_quotas') && (! Config::bool('new_quota_table'))) {
+if (Config::bool('used_quotas') && (!Config::bool('new_quota_table'))) {
     $table_quota = table_by_key('quota');
     $sql_select .= ", $table_quota.current ";
-    $sql_join   .= " LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username ";
-    $sql_where  .= " AND ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";
+    $sql_join .= " LEFT JOIN $table_quota ON $table_mailbox.username=$table_quota.username ";
+    $sql_where .= " AND ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";
 }
 
-$mailbox_pagebrowser_query = "$sql_from\n$sql_join\n$sql_where\n$sql_order" ;
+$mailbox_pagebrowser_query = "$sql_from\n$sql_join\n$sql_where\n$sql_order";
 
 $query = "$sql_select\n$mailbox_pagebrowser_query\n$sql_limit";
 
@@ -253,7 +253,7 @@ foreach ($result as $row) {
 
         foreach ($goto_split as $goto_single) {
             if (!empty($CONF['recipient_delimiter'])) {
-                $goto_single_rec_del = preg_replace('/' .$delimiter. '[^' .$delimiter. '@]*@/', "@", $goto_single);
+                $goto_single_rec_del = preg_replace('/' . $delimiter . '[^' . $delimiter . '@]*@/', "@", $goto_single);
             }
 
             if ($goto_single == $row['username'] || $goto_single_rec_del == $row['username']) { # delivers to mailbox
@@ -268,13 +268,13 @@ foreach ($result as $row) {
     if (db_pgsql()) {
         $row['modified'] = date('Y-m-d H:i', strtotime($row['modified']));
         $row['created'] = date('Y-m-d H:i', strtotime($row['created']));
-        $row['active']=('t'==$row['active']) ? 1 : 0;
+        $row['active'] = ('t' == $row['active']) ? 1 : 0;
 
         if (Config::bool('vacation_control_admin')) {
             if ($row['v_active'] == null) {
                 $row['v_active'] = 'f';
             }
-            $row['v_active']=('t'==$row['v_active']) ? 1 : 0;
+            $row['v_active'] = ('t' == $row['v_active']) ? 1 : 0;
         }
     }
     $tMailbox[] = $row;
@@ -320,10 +320,10 @@ if (isset($limit)) {
         $tCanAddMailbox = true;
     }
 
-    $limit ['aliases']    = eval_size($limit ['aliases']);
-    $limit ['mailboxes']    = eval_size($limit ['mailboxes']);
+    $limit ['aliases'] = eval_size($limit ['aliases']);
+    $limit ['mailboxes'] = eval_size($limit ['mailboxes']);
     if (Config::bool('quota')) {
-        $limit ['maxquota']    = eval_size($limit ['maxquota']);
+        $limit ['maxquota'] = eval_size($limit ['maxquota']);
     }
 }
 
@@ -345,11 +345,10 @@ for ($i = 0; $i < sizeof($tMailbox); $i++) {
         $divide_quota['quota'][$i] = divide_quota($tMailbox[$i]['quota']);
     }
     if (isset($tMailbox[$i]['quota']) && isset($tMailbox[$i]['current'])) {
-        $divide_quota['percent'][$i] = min(100, round(($divide_quota ['current'][$i]/max(1, $divide_quota ['quota'][$i]))*100));
-        $divide_quota['quota_width'][$i] = ($divide_quota['percent'][$i] / 100 ) * 120; // because 100px wasn't wide enough?
+        $divide_quota['percent'][$i] = min(100, round(($divide_quota ['current'][$i] / max(1, $divide_quota ['quota'][$i])) * 100));
+        $divide_quota['quota_width'][$i] = ($divide_quota['percent'][$i] / 100) * 120; // because 100px wasn't wide enough?
     }
 }
-
 
 
 class cNav_bar
@@ -386,11 +385,11 @@ class cNav_bar
 
     private function init()
     {
-        $this->anchor = 'a'.substr($this->title, 3);
-        $this->append_to_url .= '#'.$this->anchor;
-        ($this->limit >= $this->page_size) ? $this->arr_prev = '&nbsp;<a href="?limit='.($this->limit - $this->page_size).$this->search.$this->append_to_url.'"><img border="0" src="images/arrow-l.png" title="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_left_arrow'].'"/></a>&nbsp;' : $this->arr_prev = '';
-        ($this->limit > 0) ? $this->arr_top = '&nbsp;<a href="?limit=0' .$this->search.$this->append_to_url.'"><img border="0" src="images/arrow-u.png" title="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_up_arrow'].'"/></a>&nbsp;' : $this->arr_top = '';
-        (($this->limit + $this->page_size) < ($this->count * $this->page_size)) ? $this->arr_next = '&nbsp;<a href="?limit='.($this->limit + $this->page_size).$this->search.$this->append_to_url.'"><img border="0" src="images/arrow-r.png" title="'.$GLOBALS ['PALANG']['pOverview_right_arrow'].'" alt="'.$GLOBALS ['PALANG']['pOverview_right_arrow'].'"/></a>&nbsp;' : $this->arr_next = '';
+        $this->anchor = 'a' . substr($this->title, 3);
+        $this->append_to_url .= '#' . $this->anchor;
+        ($this->limit >= $this->page_size) ? $this->arr_prev = '&nbsp;<a href="?limit=' . ($this->limit - $this->page_size) . $this->search . $this->append_to_url . '"><img border="0" src="images/arrow-l.png" title="' . $GLOBALS ['PALANG']['pOverview_left_arrow'] . '" alt="' . $GLOBALS ['PALANG']['pOverview_left_arrow'] . '"/></a>&nbsp;' : $this->arr_prev = '';
+        ($this->limit > 0) ? $this->arr_top = '&nbsp;<a href="?limit=0' . $this->search . $this->append_to_url . '"><img border="0" src="images/arrow-u.png" title="' . $GLOBALS ['PALANG']['pOverview_up_arrow'] . '" alt="' . $GLOBALS ['PALANG']['pOverview_up_arrow'] . '"/></a>&nbsp;' : $this->arr_top = '';
+        (($this->limit + $this->page_size) < ($this->count * $this->page_size)) ? $this->arr_next = '&nbsp;<a href="?limit=' . ($this->limit + $this->page_size) . $this->search . $this->append_to_url . '"><img border="0" src="images/arrow-r.png" title="' . $GLOBALS ['PALANG']['pOverview_right_arrow'] . '" alt="' . $GLOBALS ['PALANG']['pOverview_right_arrow'] . '"/></a>&nbsp;' : $this->arr_next = '';
         $this->have_run_init = true;
     }
 
@@ -420,22 +419,22 @@ class cNav_bar
             $this->init();
         }
 
-        $ret_val .= '<a name="'.$this->anchor.'"></a>';
+        $ret_val .= '<a name="' . $this->anchor . '"></a>';
         $ret_val .= $this->display_pre();
-        $ret_val .= '<b>'.$this->title.'</b>&nbsp;&nbsp;';
+        $ret_val .= '<b>' . $this->title . '</b>&nbsp;&nbsp;';
 
         $highlight_at = 0;
 
         if ($this->limit >= $this->page_size) {
-            $highlight_at = $this->limit / $this->page_size ;
+            $highlight_at = $this->limit / $this->page_size;
         }
 
         for ($i = 0; $i < count($this->pages); $i++) {
             $lPage = $this->pages [$i];
             if ($i == $highlight_at) {
-                $ret_val .= '<b>'.$lPage.'</b>'."\n";
+                $ret_val .= '<b>' . $lPage . '</b>' . "\n";
             } else {
-                $ret_val .= '<a href="?limit='.($i * $this->page_size).$this->search.$this->append_to_url.'">'.$lPage.'</a>'."\n";
+                $ret_val .= '<a href="?limit=' . ($i * $this->page_size) . $this->search . $this->append_to_url . '">' . $lPage . '</a>' . "\n";
             }
         }
         $ret_val .= '</td><td valign="middle" align="right">';
@@ -471,11 +470,11 @@ class cNav_bar
 
 
 $nav_bar_alias = new cNav_bar($PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $pagebrowser_alias, $search);
-$nav_bar_alias->append_to_url = '&amp;domain='.$fDomain;
+$nav_bar_alias->append_to_url = '&amp;domain=' . $fDomain;
 
 $pagebrowser_mailbox = create_page_browser("$table_mailbox.username", $mailbox_pagebrowser_query, $sql_params);
 $nav_bar_mailbox = new cNav_bar($PALANG['pOverview_mailbox_title'], $fDisplay, $CONF['page_size'], $pagebrowser_mailbox, $search);
-$nav_bar_mailbox->append_to_url = '&amp;domain='.$fDomain;
+$nav_bar_mailbox->append_to_url = '&amp;domain=' . $fDomain;
 
 
 // this is why we need a proper template layer.

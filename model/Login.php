@@ -18,17 +18,14 @@ class Login
 
     /**
      * Attempt to log a user in.
-     * @param string $tablename
-     * @param string $username
-     * @param string $password
      * @return boolean true on successful login (i.e. password matches etc)
      */
-    public function login($username, $password): bool
+    public function login(string $username, string $password): bool
     {
         $active = db_get_boolean(true);
         $query = "SELECT password FROM {$this->key_table} WHERE username = :username AND active = :active";
 
-        $values = array('username' => $username, 'active' => $active);
+        $values = ['username' => $username, 'active' => $active];
 
         $result = db_query_all($query, $values);
 
@@ -228,6 +225,8 @@ class Login
 
         $app_pass = pacrypt($app_pass);
 
+
+        // @todo - should an admin be able to add an application password for a user? this doesn't allow them to.
 
         $result = db_insert('mailbox_app_password', ['username' => $username, 'description' => $app_desc, 'password_hash' => $app_pass], []);
 

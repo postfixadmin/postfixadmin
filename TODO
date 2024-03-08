@@ -1,0 +1,8 @@
+
+App passwords :
+
+ * app passwords only make sense for corresponding mailbox entries; i.e an admin shouldn't be able to create one for themself.
+ * admins should be able to add them for user(s) (need to check domain permission)
+
+Probably need a Process class to put the various proc_open stuff in?
+

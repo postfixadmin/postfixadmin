@@ -9,11 +9,10 @@ use OTPHP\TOTP;
 
 class TotpPf
 {
-    private string $key_table;
     private string $table;
     private Login $login;
 
-    public function __construct(string $tableName)
+    public function __construct(string $tableName, Login $login)
     {
         $ok = ['mailbox', 'admin'];
 
@@ -21,16 +20,15 @@ class TotpPf
             throw new \InvalidArgumentException("Unsupported tableName for TOTP: " . $tableName);
         }
         $this->table = $tableName;
-        $this->key_table = table_by_key($tableName);
-        $this->login = new Login($tableName);
+        $this->login = $login;
     }
 
     /**
      * @param string username to generate a code for
      *
-     * @return Array
+     * @return array{0: string, 1: string}
      *      string TOTP_secret empty if NULL,
-     *      string &$qr_code for returning base64-encoded qr-code
+     *      string $qr_code for returning base64-encoded qr-code
      *
      * @throws \Exception if invalid user, or db update fails.
      */
@@ -81,7 +79,6 @@ class TotpPf
         ];
 
         $result = db_query_one($sql, $values);
-
         if (is_array($result) && isset($result['totp_secret']) && !empty($result['totp_secret'])) {
             return true;
         }
@@ -110,17 +107,16 @@ class TotpPf
             return false;
         }
 
-        return $this->checkTOTP($result['totp_secret'], $username, $code);
+        return $this->checkTOTP($result['totp_secret'], $code);
     }
 
     /**
      * @param string $secret
-     * @param string $username
      * @param string $code
      *
      * @return boolean
      */
-    public function checkTOTP(string $secret, string $username, string $code): bool
+    public function checkTOTP(string $secret, string $code): bool
     {
         $totp = TOTP::create($secret);
 
@@ -131,14 +127,20 @@ class TotpPf
         }
     }
 
+    public function removeTotpFromUser(string $username): void
+    {
+        $sql = "UPDATE {$this->table} SET totp_secret = NULL WHERE username = :username";
+        db_execute($sql, ['username' => $username]);
+    }
+
     /**
      * @param string $username
      * @param string $password
      *
-     * @return string TOTP_secret, empty if NULL
+     * @return string TOTP_secret or null if no secret set?
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function getTOTP_secret(string $username, string $password): string
+    public function getTOTP_secret(string $username, string $password): ?string
     {
         if (!$this->login->login($username, $password)) {
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
@@ -156,20 +158,19 @@ class TotpPf
         $result = db_query_one($sql, $values);
         if (is_array($result) && isset($result['totp_secret'])) {
             return $result['totp_secret'];
-        } else {
-            return '';
         }
+        return null;
     }
 
     /**
      * @param string $username
-     * @param string $TOTP_secret
+     * @param ?string $TOTP_secret
      * @param string $password
      *
      * @return boolean true on success; false on failure
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function changeTOTP_secret(string $username, string $TOTP_secret, string $password): bool
+    public function changeTOTP_secret(string $username, ?string $TOTP_secret, string $password): bool
     {
         list(/*NULL*/, $domain) = explode('@', $username);
 
@@ -177,9 +178,9 @@ class TotpPf
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
         }
 
-        $set = array(
+        $set = [
             'totp_secret' => $TOTP_secret,
-        );
+        ];
 
         $result = db_update($this->table, 'username', $username, $set);
 
@@ -232,16 +233,16 @@ class TotpPf
     }
 
     /**
-     * @param string $username
-     * @param string $password
-     * @param string $Exception_ip
-     * @param string $Exception_user
-     * @param string $Exception_desc
+     * @param string $username - auth details for user adding the exception
+     * @param string $password - auth details for the user adding the exception
+     * @param string $ip_address - exception ip
+     * @param string $exception_username - exception user (should == username if non-admin user)
+     * @param string $exception_description - text from the end user
      *
      * @return boolean true on success; false on failure
      * @throws \Exception if invalid user, or db update fails.
      */
-    public function addException(string $username, string $password, string $Exception_ip, string $Exception_user, string $Exception_desc): bool
+    public function addException(string $username, string $password, string $ip_address, string $exception_username, string $exception_description): bool
     {
         $error = 0;
 
@@ -253,46 +254,70 @@ class TotpPf
 
         if (authentication_has_role('admin')) {
             $admin = 1;
+            // @todo - ensure the current user is an admin for the domain belonging to @Exception_user
+            // code already semi-duplicated in the below function deleteExemption()
+            $domains = list_domains_for_admin($username);
+
+            if (strpos($exception_username, '@')) {
+                list($local_part, $Exception_domain) = explode('@', $exception_username);
+            } else {
+                $Exception_domain = $exception_username;
+            }
+
+            // if the exemption is not for the current user, then ensure it's for someone belonging to a domain they have access to.
+            if ($exception_username != $username) {
+                if (!in_array($Exception_domain, $domains)) {
+                    throw new \Exception(Config::Lang('pException_user_entire_domain_error'));
+                }
+            }
         } elseif (authentication_has_role('global-admin')) {
             $admin = 2;
+        // can do anything
         } else {
+            // force the current user to also be the exemption username.
+            $exception_username = $username;
             $admin = 0;
         }
 
-        if (empty($Exception_ip)) {
-            $error += 1;
+        if (empty($ip_address)) {
+            $error++;
             flash_error(Config::Lang('pException_ip_empty_error'));
         }
 
-        if (empty($Exception_desc)) {
-            $error += 1;
+        if (!filter_var($ip_address, FILTER_VALIDATE_IP)) {
+            $error++;
+            flash_error(Config::Lang('pException_ip_error'));
+        }
+
+        if (empty($exception_description)) {
+            $error++;
             flash_error(Config::Lang('pException_desc_empty_error'));
         }
 
-        if (!$admin && strpos($Exception_user, '@') == false) {
-            $error += 1;
+        if (!$admin && strpos($exception_username, '@') == false) {
+            $error++;
             flash_error(Config::Lang('pException_user_entire_domain_error'));
         }
 
-        if (!($admin == 2) && $Exception_user == null) {
-            $error += 1;
+        if (!($admin == 2) && $exception_username == null) {
+            $error++;
             flash_error(Config::Lang('pException_user_global_error'));
         }
 
 
-        $values = ['ip' => $Exception_ip, 'username' => $Exception_user, 'description' => $Exception_desc];
+        $values = ['ip' => $ip_address, 'username' => $exception_username, 'description' => $exception_description];
 
-        if (!$error) {
+        if ($error == 0) {
             // OK to insert/replace.
             // As PostgeSQL lacks REPLACE we first check and delete any previous rows matching this ip and user
             $exists = db_query_all('SELECT id FROM totp_exception_address WHERE ip = :ip AND username = :username',
-                ['ip' => $Exception_ip, 'username' => $Exception_user]);
+                ['ip' => $ip_address, 'username' => $exception_username]);
             if (isset($exists[0])) {
                 foreach ($exists as $x) {
                     db_delete('totp_exception_address', 'id', $x['id']);
                 }
             }
-            $result = db_insert('totp_exception_address', $values, array());
+            $result = db_insert('totp_exception_address', $values, []);
         }
 
         if ($result != 1) {
@@ -313,7 +338,7 @@ class TotpPf
             1 => array("pipe", "w"), // stdout
         );
         $cmdarg1 = escapeshellarg($username);
-        $cmdarg2 = escapeshellarg($Exception_ip);
+        $cmdarg2 = escapeshellarg($ip_address);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
         $proc = proc_open($command, $spec, $pipes);
         if (!$proc) {
@@ -331,7 +356,7 @@ class TotpPf
     }
 
     /**
-     * @param string $username
+     * @param string $username - current user (not the totp_exception_Address.username value)
      * @param int $Exception_id
      *
      * @return boolean true on success; false on failure
@@ -340,7 +365,6 @@ class TotpPf
     public function deleteException(string $username, int $id): bool
     {
         $exception = $this->getException($id);
-        $error = 0;
 
         if (!is_array($exception)) {
             throw new \InvalidArgumentException("Invalid exception - does id: $id exist?");
@@ -352,29 +376,36 @@ class TotpPf
             $Exception_domain = $exception['username'];
         }
 
-        $admin = 0;
         if (authentication_has_role('global-admin')) {
-            $admin = 2;
+            // no need to check, they can delete anything.
         } elseif (authentication_has_role('admin')) {
-            $admin = 1;
+            $domains = list_domains_for_admin(authentication_get_username());
+
+            if (strpos($exception['username'], '@')) {
+                list($Exception_local_part, $Exception_domain) = explode('@', $exception['username']);
+            } else {
+                $Exception_domain = $exception['username'];
+            }
+
+            // if the exemption is not for the current user, then ensure it's for someone belonging to a domain they have access to.
+            if ($exception['username'] != $username && !in_array($Exception_domain, $domains)) {
+                throw new \Exception(Config::Lang('pException_user_entire_domain_error'));
+            }
+        } else {
+            // i'm only a boring user, I cannot delete exceptions for a domain (no @) or for someone else,
+            // so ensure the exception.username field matches my own username.
+            if ($exception['username'] != $username) {
+                throw new \Exception(Config::Lang('pException_user_entire_domain_error') . 'x');
+            }
+
+            // and now ensure that our current user owns the exception:
+            if ($exception['username'] != $username) {
+                throw new \Exception(Config::lang('pEdit_totp_exception_result_error') . 'y');
+            }
         }
 
-        /**
-         * @todo rewrite these checks so it's more obvious which is being applied for a global admin, a domain admin or a 'normal' user.
-         *       having $admin = 0|1|2 isn't intuitive, is it?
-         */
-        if (!$admin && strpos($exception['username'], '@') !== false) {
-            throw new \Exception(Config::Lang('pException_user_entire_domain_error'));
-        }
 
-        if (!($admin == 2) && $exception['username'] == null) {
-            throw new \Exception(Config::Lang('pException_user_global_error'));
-        }
-
-        /**
-         * @todo Check we are only allowing someone to delete their own exception, and not someone else's.
-         */
-        $result = db_delete('totp_exception_address', 'id', $exception['id']);
+        $result = db_execute('DELETE FROM totp_exception_address WHERE id = :id', ['id' => $id]);
 
         if ($result != 1) {
             db_log($Exception_domain, 'pViewlog_action_delete_totp_exception', "FAILURE: " . $username);
@@ -439,7 +470,6 @@ class TotpPf
      */
     public function getException(int $id): ?array
     {
-        return db_query_one("SELECT * FROM totp_exception_address WHERE id=:id", ['id' => $id]);
+        return db_query_one("SELECT * FROM totp_exception_address WHERE id = :id", ['id' => $id]);
     }
 }
-/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
