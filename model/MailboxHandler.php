@@ -749,76 +749,17 @@ class MailboxHandler extends PFAHandler
      */
     protected function create_mailbox_subfolders()
     {
+        // no longer implemented; code relied on deprecated PHP imap extension.
+
         $create_mailbox_subdirs = Config::read('create_mailbox_subdirs');
         if (empty($create_mailbox_subdirs)) {
             return true;
         }
 
-        if (!function_exists('imap_open')) {
-            trigger_error('imap_open function not present; cannot create_mailbox_subdirs');
-            return false;
-        }
+        // see https://github.com/postfixadmin/postfixadmin/issues/472
+        // see https://github.com/postfixadmin/postfixadmin/issues/812 etc
+        error_log(__FILE__ . ' WARNING : PostfixAdmin no longer supports the imap folder population via config parameters: create_mailbox_subdirs, create_mailbox_subdirs_host, create_mailbox_subdirs_hostport and create_mailbox_subdirs_hostoptions ');
 
-        if (!is_array($create_mailbox_subdirs)) {
-            trigger_error('create_mailbox_subdirs must be an array', E_USER_ERROR);
-            return false;
-        }
-
-        $s_host = Config::read_string('create_mailbox_subdirs_host');
-        if (empty($s_host)) {
-            trigger_error('An IMAP/POP server host ($CONF["create_mailbox_subdirs_host"]) must be configured, if sub-folders are to be created', E_USER_ERROR);
-            return false;
-        }
-
-        $s_options='';
-
-        $create_mailbox_subdirs_hostoptions = Config::read('create_mailbox_subdirs_hostoptions');
-        if (!empty($create_mailbox_subdirs_hostoptions)) {
-            if (!is_array($create_mailbox_subdirs_hostoptions)) {
-                trigger_error('The $CONF["create_mailbox_subdirs_hostoptions"] parameter must be an array', E_USER_ERROR);
-                return false;
-            }
-            foreach ($create_mailbox_subdirs_hostoptions as $o) {
-                $s_options.='/'.$o;
-            }
-        }
-
-        $s_port='';
-        if (Config::has('create_mailbox_subdirs_hostport')) {
-            $create_mailbox_subdirs_hostport = Config::read('create_mailbox_subdirs_hostport');
-            if (!empty($create_mailbox_subdirs_hostport)) {
-                $s_port = $create_mailbox_subdirs_hostport;
-                if (intval($s_port)!=$s_port) {
-                    trigger_error('The $CONF["create_mailbox_subdirs_hostport"] parameter must be an integer', E_USER_ERROR);
-                    return false;
-                }
-                $s_port=':'.$s_port;
-            }
-        }
-
-        $s='{'.$s_host.$s_port.$s_options.'}';
-
-        sleep(1); # give the mail triggering the mailbox creation a chance to do its job
-
-        $i=@imap_open($s, $this->id, $this->values['password']);
-        if (false==$i) {
-            error_log('Could not log into IMAP/POP server: ' . $this->id . ': ' . imap_last_error());
-            return false;
-        }
-
-        $s_prefix = Config::read_string('create_mailbox_subdirs_prefix');
-        foreach ($create_mailbox_subdirs as $f) {
-            $f='{'.$s_host.'}'.$s_prefix.$f;
-            $res=imap_createmailbox($i, $f);
-            if (!$res) {
-                error_log('Could not create IMAP folder $f: ' . $this->id . ': ' . imap_last_error());
-                @imap_close($i);
-                return false;
-            }
-            @imap_subscribe($i, $f);
-        }
-
-        @imap_close($i);
         return true;
     }
 

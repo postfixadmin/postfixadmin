@@ -174,12 +174,6 @@ And if the webserver (PHP) needs to make network connections out to a database s
     semanage boolean -m --on httpd_can_network_connect_db
 ````
 
-If additionally, needing the webserver (PHP) to talk to an imap server, then you'll probably also need:
-
-```bash
-    semanage boolean -m --on httpd_can_network_connect
-````
-
 
 5. Check settings, and create Admin user
 ----------------------------------------

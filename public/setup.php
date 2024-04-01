@@ -573,7 +573,6 @@ function do_software_environment_check()
     $f_session_start = function_exists("session_start");
     $f_preg_match = function_exists("preg_match");
     $f_mb_encode_mimeheader = function_exists("mb_encode_mimeheader");
-    $f_imap_open = function_exists("imap_open");
 
     $file_local_config = realpath(__DIR__ . "/../config.local.php");
 
@@ -724,14 +723,6 @@ function do_software_environment_check()
         $info[] = "Depends on: PHP mbstring support - OK";
     } else {
         $error[] = "Error: Depends on: PHP mbstring support - NOT FOUND. (FreeBSD: portinstall php$phpversion-mbstring?)";
-    }
-
-
-    // Imap functions
-    if ($f_imap_open) {
-        $info[] = "Optional - PHP IMAP functions - OK";
-    } else {
-        $warn[] = "Warning: Optional dependency - PHP 'imap' extension missing. Without this you may not be able to automate creation of sub-folders for new mailboxes";
     }
 
 
