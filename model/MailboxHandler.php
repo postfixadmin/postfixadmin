@@ -728,38 +728,22 @@ class MailboxHandler extends PFAHandler
     }
 
 
-
     /**
-     * Called by postSave() after a mailbox has been created.
-     * Immediately returns, unless configuration indicates
-     * that one or more sub-folders should be created.
-     *
-     * Triggers E_USER_ERROR if configuration error is detected.
-     *
-     * If IMAP login fails, the problem is logged to the system log
-     * (such as /var/log/httpd/error_log), and the function returns
-     * FALSE.
-     *
-     * Doesn't clean up, if only some of the folders could be
-     * created.
-     *
-     * @return boolean TRUE if everything succeeds, FALSE on all errors
-     *
-     * @todo rewrite/remove dependency on php-imap and use instead something like : https://www.php-imap.com/api/client
+     * Effectively deprecated - see linked issues
+     * @see https://github.com/postfixadmin/postfixadmin/issues/472
+     * @see https://github.com/postfixadmin/postfixadmin/issues/812
      */
     protected function create_mailbox_subfolders()
     {
-        // no longer implemented; code relied on deprecated PHP imap extension.
+        // no longer implemented; code relied on deprecated PHP imap extension, output some sort of error message
+        // if it looks like the installation used to support it.
 
         $create_mailbox_subdirs = Config::read('create_mailbox_subdirs');
         if (empty($create_mailbox_subdirs)) {
             return true;
         }
 
-        // see https://github.com/postfixadmin/postfixadmin/issues/472
-        // see https://github.com/postfixadmin/postfixadmin/issues/812 etc
-        error_log(__FILE__ . ' WARNING : PostfixAdmin no longer supports the imap folder population via config parameters: create_mailbox_subdirs, create_mailbox_subdirs_host, create_mailbox_subdirs_hostport and create_mailbox_subdirs_hostoptions ');
-
+        error_log(__FILE__ . ' WARNING : PostfixAdmin no longer supports the imap folder population via config parameters, see https://github.com/postfixadmin/postfixadmin/issues/812');
         return true;
     }
 

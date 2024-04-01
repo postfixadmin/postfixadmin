@@ -700,20 +700,6 @@ $CONF['domain_postedit_script'] = '';
 // $CONF['domain_postdeletion_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postdeletion.sh';
 $CONF['domain_postdeletion_script'] = '';
 
-// Optional:
-// Sub-folders which should automatically be created for new users.
-// The sub-folders will also be subscribed to automatically.
-// Will only work with IMAP server which implement sub-folders.
-// Will not work with POP3.
-// If you define create_mailbox_subdirs, then the
-// create_mailbox_subdirs_host must also be defined.
-// Note: requires imap extension within PHP
-// $CONF['create_mailbox_subdirs']=array('Spam');
-$CONF['create_mailbox_subdirs'] = array();
-$CONF['create_mailbox_subdirs_host']='localhost';
-//
-// Specify '' for Dovecot and 'INBOX.' for Courier.
-$CONF['create_mailbox_subdirs_prefix']='INBOX.';
 
 // Optional:
 // Show used quotas from Dovecot dictionary backend in virtual
@@ -726,19 +712,6 @@ $CONF['used_quotas'] = 'NO';
 // if you use dovecot >= 1.2, set this to yes.
 // Note about dovecot config: table "quota" is for 1.0 & 1.1, table "quota2" is for dovecot 1.2 and newer
 $CONF['new_quota_table'] = 'YES';
-
-//
-// Normally, the TCP port number does not have to be specified.
-// $CONF['create_mailbox_subdirs_hostport']=143;
-//
-// If you have trouble connecting to the IMAP-server, then specify
-// a value for $CONF['create_mailbox_subdirs_hostoptions']. These
-// are some examples to experiment with:
-// $CONF['create_mailbox_subdirs_hostoptions']=array('notls');
-// $CONF['create_mailbox_subdirs_hostoptions']=array('novalidate-cert','norsh');
-// See also the "Optional flags for names" table at
-// http://www.php.net/manual/en/function.imap-open.php
-$CONF['create_mailbox_subdirs_hostoptions'] = array();
 
 // Optional:
 // Allows a user to reset his forgotten password with a code sent by email/SMS
