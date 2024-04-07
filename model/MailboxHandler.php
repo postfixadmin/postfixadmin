@@ -51,7 +51,7 @@ class MailboxHandler extends PFAHandler
             # read_from_db_postprocess() also sets 'quotabytes' for use in init()
             # TODO: read used quota from quota/quota2 table
             'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
-            'smtp_active'      => pacol($smtpActiveFlag, $smtpActiveFlag,0,      'bool', 'smtp_active'                   , ''                                 , 1 ),
+            'smtp_active'      => pacol($smtpActiveFlag, $smtpActiveFlag,0,      'int', 'smtp_active'                   , ''                                 , 1 ),
             'welcome_mail'     => pacol($this->new, $this->new, 0,  'bool', 'pCreate_mailbox_mail'          , ''                                 , 1,
                 /*options*/ array(),
                 /*not_in_db*/ 1             ),
