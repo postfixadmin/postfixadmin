@@ -36,7 +36,7 @@ class Login
             $row = $result[0];
 
             try {
-                $crypt_password = pacrypt($password, $row['password']);
+                $crypt_password = pacrypt($password, $row['password'], $username);
             } catch (\Exception $e) {
                 error_log("Error while trying to call pacrypt()");
                 error_log("" . $e);
@@ -136,7 +136,7 @@ class Login
         }
 
         $set = array(
-            'password' => pacrypt($new_password),
+            'password' => pacrypt($new_password, '', $username),
         );
 
         if (Config::bool('password_expiration')) {
@@ -226,7 +226,7 @@ class Login
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
         }
 
-        $app_pass = pacrypt($app_pass);
+        $app_pass = pacrypt($app_pass, '', $username);
 
 
         $result = db_insert('mailbox_app_password', ['username' => $username, 'description' => $app_desc, 'password_hash' => $app_pass], []);

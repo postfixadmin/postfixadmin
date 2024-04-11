@@ -73,7 +73,6 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
             $this->markTestSkipped("No /usr/bin/doveadm");
         }
 
-
         $CONF['encrypt'] = 'dovecot:SHA1';
 
         $expected_hash = '{SHA1}qUqP5cyxm6YcTAhz05Hph5gvu9M=';
@@ -87,6 +86,13 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
 
         $sha512 = '{SHA512}ClAmHr0aOQ/tK/Mm8mc8FFWCpjQtUjIElz0CGTN/gWFqgGmwElh89WNfaSXxtWw2AjDBmyc1AO4BPgMGAb8kJQ=='; // foobar
         $this->assertNotEquals($sha512, _pacrypt_dovecot('foobarbaz', $sha512));
+
+        $CONF['encrypt'] = 'dovecot:DIGEST-MD5';
+
+        $expected_hash = '{DIGEST-MD5}dad736686b7d1f1db09f3dc9ff538e03';
+        $username = 'test@mail.com';
+
+        $this->assertEquals($expected_hash, _pacrypt_dovecot('test', '', $username));
     }
 
 

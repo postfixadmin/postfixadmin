@@ -1060,9 +1060,10 @@ function _pacrypt_authlib($pw, $pw_db)
  *
  * @param string $pw - plain text password
  * @param string $pw_db - encrypted password, or '' for generation.
+ * @param string $username
  * @return string crypted password
  */
-function _pacrypt_dovecot($pw, $pw_db = '')
+function _pacrypt_dovecot($pw, $pw_db = '', $username = '')
 {
     global $CONF;
 
@@ -1076,11 +1077,14 @@ function _pacrypt_dovecot($pw, $pw_db = '')
         throw new Exception("invalid dovecot encryption method");
     }
 
-    # digest-md5 hashes include the username - until someone implements it, let's declare it as unsupported
+    $doveadm_options = '';
+
     if (strtolower($method) == 'digest-md5') {
-        throw new Exception("Sorry, \$CONF['encrypt'] = 'dovecot:digest-md5' is not supported by PostfixAdmin.");
+        if (empty($username)) {
+            throw new Exception("\$CONF['encrypt'] = 'dovecot:digest-md5' require username."); 
+        }
+        $doveadm_options = ' -u ' . $username;
     }
-    # TODO: add -u option for those hashes, or for everything that is salted (-u was available before dovecot 2.1 -> no problem with backward compatibility )
 
     $dovecotpw = "doveadm pw";
     if (!empty($CONF['dovecotpw'])) {
@@ -1105,7 +1109,7 @@ function _pacrypt_dovecot($pw, $pw_db = '')
 
     $pipes = [];
 
-    $pipe = proc_open("$dovecotpw '-s' $method$dovepasstest", $spec, $pipes);
+    $pipe = proc_open("$dovecotpw '-s' $method$dovepasstest$doveadm_options", $spec, $pipes);
 
     if (!$pipe) {
         throw new Exception("can't proc_open $dovecotpw");
@@ -1323,9 +1327,10 @@ function _php_crypt_random_string($characters, $length)
  *
  * @param string $pw
  * @param string $pw_db optional encrypted password
+ * @param string $username optional
  * @return string encrypted password - if this matches $pw_db then the original password is $pw.
  */
-function pacrypt($pw, $pw_db = "")
+function pacrypt($pw, $pw_db = "", $username = '')
 {
     global $CONF;
 
@@ -1382,7 +1387,7 @@ function pacrypt($pw, $pw_db = "")
     }
 
     if (preg_match('/^DOVECOT:(.*)$/i', $mechanism, $matches)) {
-        return _pacrypt_dovecot($pw, $pw_db);
+        return _pacrypt_dovecot($pw, $pw_db, $username);
     }
 
     if (empty($pw_db)) {

@@ -882,7 +882,7 @@ abstract class PFAHandler
         if (sizeof($result) == 1) {
             $row = $result[0];
 
-            $crypt_token = pacrypt($token, $row['token']);
+            $crypt_token = pacrypt($token, $row['token'], '', $username);
 
             if ($row['token'] == $crypt_token) {
                 db_update($this->db_table, $this->id_field, $username, array(
