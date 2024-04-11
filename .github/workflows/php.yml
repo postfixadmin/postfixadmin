@@ -48,7 +48,6 @@ jobs:
       run: |
         sudo apt-get update -q
         sudo apt-get install -yq dovecot-core
-        sudo touch /etc/dovecot/local.conf
         sudo echo "service stats {\n" >> /etc/dovecot/local.conf
         sudo echo "  unix_listener stats-reader {\n" >> /etc/dovecot/local.conf
         sudo echo ""   group = dovecot\n>> /etc/dovecot/local.conf
