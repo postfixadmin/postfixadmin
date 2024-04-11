@@ -49,8 +49,8 @@ jobs:
         sudo apt-get update -q
         sudo apt-get install -yq dovecot-core
         doveconf
-        ll /run/
-        ll /run/dovecot/
+        ls -la /run/
+        ls -la /run/dovecot/
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
