@@ -46,6 +46,7 @@ jobs:
 
     - name: Install Dovecot
       run: |
+        set -eux
         sudo apt-get update -q
         sudo apt-get install -yq dovecot-core
         sudo echo "service stats {\n" >> /tmp/local.conf
