@@ -55,6 +55,7 @@ jobs:
         sudo echo "    user = dovecot"             >> /tmp/local.conf
         sudo echo "  }"                            >> /tmp/local.conf
         sudo echo "  unix_listener stats-writer {" >> /tmp/local.conf
+        sudo echo "    mode = 0666"             >> /tmp/local.conf
         sudo echo "    user = dovecot"             >> /tmp/local.conf
         sudo echo "  }"                            >> /tmp/local.conf
         sudo echo "}"                              >> /tmp/local.conf
