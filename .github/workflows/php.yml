@@ -49,16 +49,15 @@ jobs:
         set -eux
         sudo apt-get update -q
         sudo apt-get install -yq dovecot-core
-        sudo echo "service stats {\n" >> /tmp/local.conf
-        sudo echo "  unix_listener stats-reader {\n" >> /tmp/local.conf
-        sudo echo ""   group = dovecot\n>> /tmp/local.conf
-        sudo echo ""   user = dovecot\n>> /tmp/local.conf
-        sudo echo ""   >> /tmp/local.conf
-        sudo echo "  }\n" >> /tmp/local.conf
-        sudo echo "  unix_listener stats-writer {\n" >> /tmp/local.conf
-        sudo echo ""   user = dovecot\n>> /tmp/local.conf
-        sudo echo "  }\n" >> /tmp/local.conf
-        sudo echo "}\n" >> /tmp/local.conf
+        sudo echo "service stats {"                >> /tmp/local.conf
+        sudo echo "  unix_listener stats-reader {" >> /tmp/local.conf
+        sudo echo "    group = dovecot"            >> /tmp/local.conf
+        sudo echo "    user = dovecot"             >> /tmp/local.conf
+        sudo echo "  }"                            >> /tmp/local.conf
+        sudo echo "  unix_listener stats-writer {" >> /tmp/local.conf
+        sudo echo "    user = dovecot"             >> /tmp/local.conf
+        sudo echo "  }"                            >> /tmp/local.conf
+        sudo echo "}"                              >> /tmp/local.conf
         sudo cat /tmp/local.conf
         sudo mv /tmp/local.conf /etc/dovecot/
         doveconf -a
