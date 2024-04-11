@@ -54,7 +54,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         tools: composer
-        extensons: sqlite3
+        extensions: sqlite3
 
     - name: run install.sh
       run: /bin/bash install.sh
@@ -98,4 +98,3 @@ jobs:
       run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v || true
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-
