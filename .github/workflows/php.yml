@@ -44,6 +44,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install Dovecot
+      run: |
+        sudo apt-get update -q
+        sudo apt-get install -yq dovecot-core
+
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
