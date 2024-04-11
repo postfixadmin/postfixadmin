@@ -48,18 +48,18 @@ jobs:
       run: |
         sudo apt-get update -q
         sudo apt-get install -yq dovecot-core
-        touch /etc/dovecot/local.conf
-        echo "service stats {\n" >> /etc/dovecot/local.conf
-        echo "  unix_listener stats-reader {\n" >> /etc/dovecot/local.conf
-        echo ""   group = dovecot\n>> /etc/dovecot/local.conf
-        echo ""   user = dovecot\n>> /etc/dovecot/local.conf
-        echo ""   >> /etc/dovecot/local.conf
-        echo "  }\n" >> /etc/dovecot/local.conf
-        echo "  unix_listener stats-writer {\n" >> /etc/dovecot/local.conf
-        echo ""   user = dovecot\n>> /etc/dovecot/local.conf
-        echo "  }\n" >> /etc/dovecot/local.conf
-        echo "}\n" >> /etc/dovecot/local.conf
-        cat /etc/dovecot/local.conf
+        sudo touch /etc/dovecot/local.conf
+        sudo echo "service stats {\n" >> /etc/dovecot/local.conf
+        sudo echo "  unix_listener stats-reader {\n" >> /etc/dovecot/local.conf
+        sudo echo ""   group = dovecot\n>> /etc/dovecot/local.conf
+        sudo echo ""   user = dovecot\n>> /etc/dovecot/local.conf
+        sudo echo ""   >> /etc/dovecot/local.conf
+        sudo echo "  }\n" >> /etc/dovecot/local.conf
+        sudo echo "  unix_listener stats-writer {\n" >> /etc/dovecot/local.conf
+        sudo echo ""   user = dovecot\n>> /etc/dovecot/local.conf
+        sudo echo "  }\n" >> /etc/dovecot/local.conf
+        sudo echo "}\n" >> /etc/dovecot/local.conf
+        sudo cat /etc/dovecot/local.conf
         doveconf -a
         cat /etc/passwd
         sudo ls -la /run/
