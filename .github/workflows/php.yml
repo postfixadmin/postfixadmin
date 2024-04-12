@@ -49,22 +49,6 @@ jobs:
         set -eux
         sudo apt-get update -q
         sudo apt-get install -yq dovecot-core
-        sudo echo "service stats {"                >> /tmp/local.conf
-        sudo echo "  unix_listener stats-reader {" >> /tmp/local.conf
-        sudo echo "    group = dovecot"            >> /tmp/local.conf
-        sudo echo "    user = dovecot"             >> /tmp/local.conf
-        sudo echo "  }"                            >> /tmp/local.conf
-        sudo echo "  unix_listener stats-writer {" >> /tmp/local.conf
-        sudo echo "    mode = 0666"             >> /tmp/local.conf
-        sudo echo "    user = dovecot"             >> /tmp/local.conf
-        sudo echo "  }"                            >> /tmp/local.conf
-        sudo echo "}"                              >> /tmp/local.conf
-        sudo cat /tmp/local.conf
-        sudo mv /tmp/local.conf /etc/dovecot/
-        doveconf -a
-        cat /etc/passwd
-        sudo ls -la /run/
-        sudo ls -la /run/dovecot/
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
