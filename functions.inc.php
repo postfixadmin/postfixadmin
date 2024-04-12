@@ -1083,7 +1083,7 @@ function _pacrypt_dovecot($pw, $pw_db = '', $username = '')
         if (empty($username)) {
             throw new Exception("\$CONF['encrypt'] = 'dovecot:digest-md5' require username.");
         }
-        $doveadm_options = ' -u ' . $username;
+        $doveadm_options = ' -u ' . escapeshellarg($username);
     }
 
     $dovecotpw = "doveadm pw";
