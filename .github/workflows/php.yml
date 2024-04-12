@@ -49,6 +49,7 @@ jobs:
         set -eux
         sudo apt-get update -q
         sudo apt-get install -yq dovecot-core
+        sudo usermod -aG dovecot runner
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -67,7 +68,7 @@ jobs:
       run: composer install --prefer-dist -n
 
     - name: Build/test
-      run: composer test
+      run: sudo -u runner composer test
 
   build_coverage_report:
     needs: [testsuite]
