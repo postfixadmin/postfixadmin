@@ -1109,7 +1109,7 @@ function _pacrypt_dovecot($pw, $pw_db = '', $username = '')
 
     $pipes = [];
 
-    $pipe = proc_open("$dovecotpw '-s' $method$dovepasstest$doveadm_options", $spec, $pipes);
+    $pipe = proc_open("$dovecotpw -s {$method}{$dovepasstest}{$doveadm_options}", $spec, $pipes);
 
     if (!$pipe) {
         throw new Exception("can't proc_open $dovecotpw");
