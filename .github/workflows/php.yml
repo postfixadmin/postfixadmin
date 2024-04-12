@@ -13,7 +13,7 @@ jobs:
       with:
         php-version: 7.4
         tools: composer
-        extensions: sqlite3
+        extensions: sqlite3, gd
 
     - name: run install.sh
       run: /bin/bash install.sh
@@ -48,15 +48,15 @@ jobs:
       run: |
         set -eux
         sudo apt-get update -q
-        sudo apt-get install -yq dovecot-core
-        sudo usermod -aG dovecot runner
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq dovecot-core
+        sudo sh -c '/sbin/useradd -G dovecot runner || usermod -aG dovecot runner '
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
         tools: composer
-        extensions: sqlite3
+        extensions: sqlite3, gd
 
     - name: run install.sh
       run: /bin/bash install.sh
@@ -82,7 +82,7 @@ jobs:
       with:
         php-version: '7.4'
         tools: composer
-        extensions: sqlite3
+        extensions: sqlite3, gd
 
     - name: run install.sh
       run: /bin/bash install.sh
