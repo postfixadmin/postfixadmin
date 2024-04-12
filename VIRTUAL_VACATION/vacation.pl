@@ -393,7 +393,7 @@ sub replace_string {
     my ($to) =@_;
     my $logger = get_logger();
 
-    my $query = qq{SELECT body,activefrom,activeuntil FROM vacation WHERE email=? };
+    my $query = qq{SELECT body,DATE(activefrom),DATE(activeuntil) FROM vacation WHERE email=? };
     my $stm = $dbh->prepare($query) or panic_prepare($query);
     $stm->execute($to) or panic_execute($query,"email='$to'");
     my @row = $stm->fetchrow_array;
