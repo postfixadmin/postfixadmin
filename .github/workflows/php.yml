@@ -6,14 +6,14 @@ jobs:
   lint_etc:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: 7.4
         tools: composer
-        extensions: sqlite3
+        extensions: sqlite3, gd
 
     - name: run install.sh
       run: /bin/bash install.sh
@@ -42,14 +42,21 @@ jobs:
         php-versions: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+
+    - name: Install Dovecot
+      run: |
+        set -eux
+        sudo apt-get update -q
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq dovecot-core
+        sudo sh -c '/sbin/useradd -G dovecot runner || usermod -aG dovecot runner '
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
         tools: composer
-        extensions: sqlite3
+        extensions: sqlite3, gd
 
     - name: run install.sh
       run: /bin/bash install.sh
@@ -61,21 +68,21 @@ jobs:
       run: composer install --prefer-dist -n
 
     - name: Build/test
-      run: composer test
+      run: sudo -u runner composer test
 
   build_coverage_report:
     needs: [testsuite]
     continue-on-error: true
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '7.4'
         tools: composer
-        extensions: sqlite3
+        extensions: sqlite3, gd
 
     - name: run install.sh
       run: /bin/bash install.sh
@@ -93,4 +100,3 @@ jobs:
       run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v || true
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-

@@ -35,7 +35,7 @@ class DovecotCrypt extends Crypt
         'CLEARTEXT'  => array('NONE', 0, null, 'plain_generate'),
         'CRAM-MD5'   => array('HEX', CRAM_MD5_CONTEXTLEN, null, 'cram_md5_generate'),
         //'HMAC-MD5'   => array('HEX', CRAM_MD5_CONTEXTLEN, NULL, 'cram_md5_generate'),
-        //'DIGEST-MD5' => array('HEX', MD5_RESULTLEN, NULL, 'digest_md5_generate'),
+        'DIGEST-MD5' => array('HEX', MD5_RESULTLEN, null, 'digest_md5_generate'),
         //'PLAIN-MD4'  => array('HEX', MD4_RESULTLEN, NULL, 'plain_md4_generate'),
         //'PLAIN-MD5'  => array('HEX', MD5_RESULTLEN, NULL, 'plain_md5_generate'),
         //'LDAP-MD5'   => array('BASE64', MD5_RESULTLEN, NULL, 'plain_md5_generate'),
