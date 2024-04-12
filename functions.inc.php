@@ -1327,7 +1327,7 @@ function _php_crypt_random_string($characters, $length)
  *
  * @param string $pw
  * @param string $pw_db optional encrypted password
- * @param string $username optional
+ * @param string $username optional, but required when $CONF['encrypt'] = 'dovecot:digest-md5'
  * @return string encrypted password - if this matches $pw_db then the original password is $pw.
  */
 function pacrypt($pw, $pw_db = "", $username = '')
