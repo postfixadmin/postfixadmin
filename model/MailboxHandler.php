@@ -239,17 +239,17 @@ class MailboxHandler extends PFAHandler
 
     protected function preSave(): bool
     {
-        if (isset($this->values['quota']) && $this->values['quota'] != -1 && is_numeric($this->values['quota'])) {
-            $multiplier = Config::read_string('quota_multiplier');
-            if ($multiplier == 0 || !is_numeric($multiplier)) { // or empty string, or null, or false...
-                $multiplier = 1;
+        if (isset($this->values['quota'])) {
+            if ($this->values['quota'] != -1 && is_numeric($this->values['quota'])) {
+                $multiplier = Config::read_string('quota_multiplier');
+                if ($multiplier == 0 || !is_numeric($multiplier)) { // or empty string, or null, or false...
+                    $multiplier = 1;
+                }
+                 $this->values['quota'] = $this->values['quota'] * $multiplier; # convert quota from MB to bytes
+            // Avoid trying to store '' in an integer field
+            if ($this->values['quota'] === '') {
+                $this->values['quota'] = 0;
             }
-            $this->values['quota'] = $this->values['quota'] * $multiplier; # convert quota from MB to bytes
-        }
-
-        // Avoid trying to store '' in an integer field
-        if ($this->values['quota'] === '') {
-            $this->values['quota'] = 0;
         }
 
         $ah = new AliasHandler($this->new, $this->admin_username);
