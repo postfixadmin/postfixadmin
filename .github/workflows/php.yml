@@ -70,33 +70,33 @@ jobs:
     - name: Build/test
       run: sudo -u runner composer test
 
-  build_coverage_report:
-    needs: [testsuite]
-    continue-on-error: true
-    runs-on: ubuntu-22.04
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'
-        tools: composer
-        extensions: sqlite3, gd
-
-    - name: run install.sh
-      run: /bin/bash install.sh
-
-    - name: touch config.local.php
-      run: touch config.local.php && php -v
-
-    - name: Install dependencies
-      run: composer update --prefer-dist -n
-
-    - name: build coveralls coverage
-      run: php -d xdebug.mode=coverage vendor/bin/phpunit tests
-
-    - name: Coveralls
-      run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v || true
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+#  build_coverage_report:
+#    needs: [testsuite]
+#    continue-on-error: true
+#    runs-on: ubuntu-22.04
+#    steps:
+#    - uses: actions/checkout@v4
+#
+#    - name: Setup PHP
+#      uses: shivammathur/setup-php@v2
+#      with:
+#        php-version: '7.4'
+#        tools: composer
+#        extensions: sqlite3, gd
+#
+#    - name: run install.sh
+#      run: /bin/bash install.sh
+#
+#    - name: touch config.local.php
+#      run: touch config.local.php && php -v
+#
+#    - name: Install dependencies
+#      run: composer update --prefer-dist -n
+#
+#    - name: build coveralls coverage
+#      run: php -d xdebug.mode=coverage vendor/bin/phpunit tests
+#
+#    - name: Coveralls
+#      run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v || true
+#      env:
+#        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
