@@ -10,7 +10,7 @@ class CheckDomainTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals('', check_domain('example.com'));
         $this->assertEquals('', check_domain('google.com'));
-        $this->assertRegExp('/ not discoverable in DNS/', check_domain('fishbeansblahblahblah' . uniqid() . '.com'));
+        $this->assertMatchesRegularExpression('/ not discoverable in DNS/', check_domain('fishbeansblahblahblah' . uniqid() . '.com'));
     }
 }
 

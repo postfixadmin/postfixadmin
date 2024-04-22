@@ -170,7 +170,7 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals($enc, _pacrypt_php_crypt($password, $enc));
 
-        $this->assertRegExp('/^\{SHA256-CRYPT\}/', $enc);
+        $this->assertMatchesRegularExpression('/^\{SHA256-CRYPT\}/', $enc);
         $this->assertGreaterThan(20, strlen($enc));
     }
 
@@ -303,7 +303,7 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
 
         $x = pacrypt('test123');
 
-        $this->assertRegExp('/^\{SHA512-CRYPT\.B64/', $x);
+        $this->assertMatchesRegularExpression('/^\{SHA512-CRYPT\.B64/', $x);
         $this->assertTrue(strlen($x) > 50);
 
         $this->assertEquals($x, pacrypt('test123', $x));

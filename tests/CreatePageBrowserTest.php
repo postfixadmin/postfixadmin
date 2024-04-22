@@ -43,7 +43,7 @@ class CreatePageBrowserTest extends \PHPUnit\Framework\TestCase
         $b = create_page_browser('mailbox.username', 'FROM mailbox WHERE 1 = 1');
         $this->assertEquals(10, sizeof($b));
         foreach ($b as $range) {
-            $this->assertRegExp('/[\w]{2}\-[\w]{2}/', $range);
+            $this->assertMatchesRegularExpression('/[\w]{2}\-[\w]{2}/', $range);
         }
         $this->assertNotEmpty($b);
     }
