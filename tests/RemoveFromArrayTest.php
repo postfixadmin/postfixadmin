@@ -12,7 +12,7 @@ class RemoveFromArrayTest extends \PHPUnit\Framework\TestCase
 
         list($found, $new) = remove_from_array($list, 'a');
         $this->assertEquals(1, $found);
-        $this->assertEquals(array(1 => 'b',2 => 'c',3=>'d'), $new);
+        $this->assertEquals(array(1 => 'b',2 => 'c',3 => 'd'), $new);
 
         list($found, $new) = remove_from_array($list, 'x');
         $this->assertEquals(0, $found);

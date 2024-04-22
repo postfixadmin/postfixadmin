@@ -1,8 +1,9 @@
 #!/bin/env php
 <?php
+
 // Get positional arguments
-$USERNAME=$argv[1];
-$DOMAIN=$argv[2];
+$USERNAME = $argv[1];
+$DOMAIN = $argv[2];
 
 // Get TOTP shared secret from stdin
 $SHARED_SECRET = trim(fgets(STDIN));

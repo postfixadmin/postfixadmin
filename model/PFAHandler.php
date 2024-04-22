@@ -413,7 +413,7 @@ abstract class PFAHandler
      */
     public function prefill($field, $val)
     {
-        $func="_prefill_".$field;
+        $func = "_prefill_".$field;
         if (method_exists($this, $func)) {
             $this->{$func}($field, $val); # call _missing_$fieldname()
         } else {
@@ -442,7 +442,7 @@ abstract class PFAHandler
         # Warning: $this->RAWvalues contains unchecked input data - use it carefully!
 
         if ($this->new) {
-            foreach ($this->struct as $key=>$row) {
+            foreach ($this->struct as $key => $row) {
                 if ($row['editable'] && !isset($values[$key])) {
                     /**
                     * when creating a new item:
@@ -452,7 +452,7 @@ abstract class PFAHandler
                     * - otherwise use the default value from $this->struct
                     *   (if you don't want this, create an empty _missing_$fieldname() function)
                     */
-                    $func="_missing_".$key;
+                    $func = "_missing_".$key;
                     if (method_exists($this, $func)) {
                         $this->{$func}($key); # call _missing_$fieldname()
                     } else {
@@ -467,7 +467,7 @@ abstract class PFAHandler
         # base validation
         $this->values = array();
         $this->values_valid = false;
-        foreach ($this->struct as $key=>$row) {
+        foreach ($this->struct as $key => $row) {
             if ($row['editable'] == 0) { # not editable
                 if ($this->new == 1) {
                     # on $new, always set non-editable field to default value on $new (even if input data contains another value)
@@ -485,7 +485,7 @@ abstract class PFAHandler
                         $valid = true; # trust input unless validator objects
 
                         # validate based on field type ($this->_inp_$type)
-                        $func="_inp_".$row['type'];
+                        $func = "_inp_".$row['type'];
                         if (method_exists($this, $func)) {
                             if (!$this->{$func}($key, $values[$key])) {
                                 $valid = false;
@@ -495,7 +495,7 @@ abstract class PFAHandler
                         }
 
                         # validate based on field name (_validate_$fieldname)
-                        $func="_validate_".$key;
+                        $func = "_validate_".$key;
                         if (method_exists($this, $func)) {
                             if (!$this->{$func}($key, $values[$key])) {
                                 $valid = false;
@@ -670,10 +670,10 @@ abstract class PFAHandler
 
         if (db_pgsql()) {
             $formatted_date = "TO_CHAR(###KEY###, '" . escape_string(Config::Lang('dateformat_pgsql')) . "')";
-        # $base64_decode = "DECODE(###KEY###, 'base64')";
+            # $base64_decode = "DECODE(###KEY###, 'base64')";
         } elseif (db_sqlite()) {
             $formatted_date = "strftime(###KEY###, '" . escape_string(Config::Lang('dateformat_mysql')) . "')";
-        # $base64_decode = "base64_decode(###KEY###)";
+            # $base64_decode = "base64_decode(###KEY###)";
         } else {
             $formatted_date = "DATE_FORMAT(###KEY###, '"   . escape_string(Config::Lang('dateformat_mysql')) . "')";
             # $base64_decode = "FROM_BASE64(###KEY###)"; # requires MySQL >= 5.6
@@ -690,7 +690,7 @@ abstract class PFAHandler
 
         # get list of fields to display
         $extrafrom = "";
-        foreach ($this->struct as $key=>$row) {
+        foreach ($this->struct as $key => $row) {
             if (($row['display_in_list'] != 0 || $row['display_in_form'] != 0) && $row['not_in_db'] == 0) {
                 if ($row['select'] != '') {
                     $key = $row['select'];
@@ -771,7 +771,7 @@ abstract class PFAHandler
      * @param int $offset - number of first row to return
      * @return array - rows (as associative array, with the ID as key)
      */
-    protected function read_from_db($condition, $searchmode = array(), $limit=-1, $offset=-1): array
+    protected function read_from_db($condition, $searchmode = array(), $limit = -1, $offset = -1): array
     {
         $queryparts = $this->build_select_query($condition, $searchmode);
 
@@ -814,7 +814,7 @@ abstract class PFAHandler
      * The data is stored in $this->result (as associative array of column => value)
      * error messages (if any) are stored in $this->errormsg
      */
-    public function view($errors=true)
+    public function view($errors = true)
     {
         $result = $this->read_from_db(array($this->id_field => $this->id));
         if (count($result) == 1) {
@@ -839,7 +839,7 @@ abstract class PFAHandler
      * @return bool - always true, no need to check ;-) (if $result is not an array, getList die()s)
      * The data is stored in $this->result (as array of rows, each row is an associative array of column => value)
      */
-    public function getList($condition, $searchmode = array(), $limit=-1, $offset=-1): bool
+    public function getList($condition, $searchmode = array(), $limit = -1, $offset = -1): bool
     {
         if (is_array($condition)) {
             $real_condition = array();

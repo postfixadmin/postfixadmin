@@ -105,12 +105,12 @@ class Shell
      */
     public function __construct(&$dispatch)
     {
-        $vars = array('params', 'args', 'shell', 'shellCommand'=> 'command');
+        $vars = array('params', 'args', 'shell', 'shellCommand' => 'command');
         foreach ($vars as $key => $var) {
             if (is_string($key)) {
-                $this->{$var} =& $dispatch->{$key};
+                $this->{$var} = & $dispatch->{$key};
             } else {
-                $this->{$var} =& $dispatch->{$var};
+                $this->{$var} = & $dispatch->{$var};
             }
         }
 
@@ -120,7 +120,7 @@ class Shell
             $this->name = str_replace(array('shell', 'Shell', 'task', 'Task'), '', $this->className);
         }
 
-        $this->Dispatch =& $dispatch;
+        $this->Dispatch = & $dispatch;
     }
 
     /**

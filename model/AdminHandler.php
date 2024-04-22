@@ -46,12 +46,12 @@ class AdminHandler extends PFAHandler
             $reset_by_sms = 1;
         }
 
-        $this->struct=array(
+        $this->struct = array(
             # field name                allow       display in...   type    $PALANG label          $PALANG description   default / options / ...
             #                           editing?    form    list
             'username'         => pacol($this->new, 1,      1,      'text', 'admin'              , 'email_address'     , '', array(),
-                array('linkto' => 'list.php?table=domain&username=%s') ),
-            'password'         => pacol(1,          1,      0,      'pass', 'password'           , ''                  ),
+                array('linkto' => 'list.php?table=domain&username=%s')),
+            'password'         => pacol(1,          1,      0,      'pass', 'password'           , ''),
             'password2'        => pacol(1,          1,      0,      'pass', 'password_again'     , ''                  , '', array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
@@ -84,13 +84,13 @@ class AdminHandler extends PFAHandler
                                  " WHERE domain != 'ALL' GROUP BY username " .
                               ' ) AS __domain on username = __domain_username'),
 
-            'active'           => pacol(1,          1,      1,      'bool', 'active'             , ''                  , 1     ),
+            'active'           => pacol(1,          1,      1,      'bool', 'active'             , ''                  , 1),
             'phone'            => pacol(1,  $reset_by_sms,  0,      'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
             'email_other'      => pacol(1,  $passwordReset, 0,      'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
-            'token'            => pacol(1,          0,      0,      'text', ''                   , ''                  ),
+            'token'            => pacol(1,          0,      0,      'text', ''                   , ''),
             'token_validity'   => pacol(1,          0,      0,      'ts',   ''                   , '', date("Y-m-d H:i:s",time())),
-            'created'          => pacol(0,          0,      0,      'ts',   'created'            , ''                  ),
-            'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'      , ''                  ),
+            'created'          => pacol(0,          0,      0,      'ts',   'created'            , ''),
+            'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'      , ''),
         );
     }
 

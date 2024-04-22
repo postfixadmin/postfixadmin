@@ -68,7 +68,7 @@ class CliView extends Shell
             } else {
                 $value = $result[$field];
 
-                $func="_formatted_".$field;
+                $func = "_formatted_".$field;
                 if (method_exists($handler, $func)) {
                     $value = $handler->{$func}($result); # call _formatted_$fieldname()
                 }

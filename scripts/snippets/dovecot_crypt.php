@@ -1,10 +1,10 @@
 <?php
 
-define('SHA1_RESULTLEN', (160/8));
+define('SHA1_RESULTLEN', (160 / 8));
 define('SHA256_RESULTLEN', (256 / 8));
 define('CRAM_MD5_CONTEXTLEN', 32);
-define('MD5_RESULTLEN', (128/8));
-define('MD4_RESULTLEN', (128/8));
+define('MD5_RESULTLEN', (128 / 8));
+define('MD4_RESULTLEN', (128 / 8));
 define('LM_HASH_SIZE', 16);
 define('NTLMSSP_HASH_SIZE', 16);
 

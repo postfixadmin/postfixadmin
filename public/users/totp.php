@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
-if ( $totppf->usesTOTP($username)) {
+if ($totppf->usesTOTP($username)) {
     $smarty->assign('show_form', 'hidden');
 } else {
     $smarty->assign('show_form', 'visible');

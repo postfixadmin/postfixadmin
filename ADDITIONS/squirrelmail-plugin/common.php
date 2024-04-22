@@ -14,7 +14,7 @@ if (!defined('SM_PATH')) {
     define('SM_PATH', '../');
 }
 
-$config_file = dirname(__FILE__ ) . '/config.php';
+$config_file = dirname(__FILE__) . '/config.php';
 $validate_file = dirname(__FILE__) . '/../include/validate.php';
 
 if (!file_exists($config_file)) {

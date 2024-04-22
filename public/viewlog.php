@@ -52,14 +52,14 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
             foreach ($list_domains as $domain) {
                 if ($domain == $fDomain_aux) {
-                    $fDomain=$domain;
-                    $flag_fDomain=1;
+                    $fDomain = $domain;
+                    $flag_fDomain = 1;
                     break;
                 }
             }
         }
 
-        if ($flag_fDomain == 0 ) {
+        if ($flag_fDomain == 0) {
             die('Unknown domain');
         }
 
@@ -68,13 +68,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             die('Unknown page number');
         }
     } else {
-        $page_number=1;
+        $page_number = 1;
         if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
             $fDomain = $list_domains[0];
         }
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $page_number=1;
+    $page_number = 1;
     if (isset($_POST['fDomain'])) {
         $fDomain = escape_string($_POST['fDomain']);
     }
@@ -108,26 +108,26 @@ if ($error != 1) {
 
 
 
-    $number_of_logs=0;
-    $number_of_pages=0;
+    $number_of_logs = 0;
+    $number_of_pages = 0;
     //get number of total logs
     $query = "SELECT count(*) as number_of_logs FROM $table_log $where_sql";
 
 
     $result = db_query_all($query, $params);
-    foreach ($result as $r ) {
-        $number_of_logs=$r['number_of_logs'];
+    foreach ($result as $r) {
+        $number_of_logs = $r['number_of_logs'];
     }
-    $number_of_pages = ceil($number_of_logs/$page_size);
+    $number_of_pages = ceil($number_of_logs / $page_size);
 
     if ($page_number > $number_of_pages) {
         die('Unknown page number');
     }
 
-    if ($page_number == 1 ) {
-        $offset=0;
+    if ($page_number == 1) {
+        $offset = 0;
     } else {
-        $offset=($page_number-1)*$page_size;
+        $offset = ($page_number - 1) * $page_size;
     }
 
     $query = "SELECT timestamp,username,domain,action,data FROM $table_log $where_sql ORDER BY timestamp DESC LIMIT $page_size OFFSET $offset";
@@ -153,7 +153,7 @@ foreach ($tLog as $k => $v) {
     }
 }
 //get url
-$url=explode("?",(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]")[0];
+$url = explode("?",(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]")[0];
 
 $smarty->assign('domain_list', $list_domains);
 $smarty->assign('domain_selected', $fDomain);

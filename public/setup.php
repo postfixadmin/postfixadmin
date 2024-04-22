@@ -188,43 +188,43 @@ if ($authenticated) {
 EOF;
             }
 
-            if ($old_setup_password) {
-                echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
-            }
+if ($old_setup_password) {
+    echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
+}
 
-            if (!$authenticated || !$configSetupDone) { ?>
+if (!$authenticated || !$configSetupDone) { ?>
 
                 <h2>Generate setup_password</h2>
 
                 <?php
 
-                $form_error = '';
-                $result = '';
+    $form_error = '';
+    $result = '';
 
-                if (safepost('form') === "setuppw") {
-                    $errors = [];
+    if (safepost('form') === "setuppw") {
+        $errors = [];
 
-                    # "setup password" form submitted
-                    if (safepost('setup_password', 'abc') != safepost('setup_password2')) {
-                        $errors['setup_password'] = "The two passwords differ!";
-                        $form_error = 'has-error';
-                    } else {
-                        $msgs = validate_password(safepost('setup_password'));
+        # "setup password" form submitted
+        if (safepost('setup_password', 'abc') != safepost('setup_password2')) {
+            $errors['setup_password'] = "The two passwords differ!";
+            $form_error = 'has-error';
+        } else {
+            $msgs = validate_password(safepost('setup_password'));
 
-                        if (empty($msgs)) {
-                            // form has been submitted; both fields filled in, so generate a new setup password.
-                            $hash = password_hash(safepost('setup_password'), PASSWORD_DEFAULT);
+            if (empty($msgs)) {
+                // form has been submitted; both fields filled in, so generate a new setup password.
+                $hash = password_hash(safepost('setup_password'), PASSWORD_DEFAULT);
 
-                            $result = '<p>If you want to use the password you entered as setup password, edit config.inc.php or config.local.php and set</p>';
-                            $result .= "<pre>\$CONF['setup_password'] = '$hash';</pre><p>After adding, refresh this page and log in using it.</p>";
-                        } else {
-                            $form_error = 'has-error';
-                            $errors['setup_password'] = implode(', ', $msgs);
-                        }
-                    }
-                }
+                $result = '<p>If you want to use the password you entered as setup password, edit config.inc.php or config.local.php and set</p>';
+                $result .= "<pre>\$CONF['setup_password'] = '$hash';</pre><p>After adding, refresh this page and log in using it.</p>";
+            } else {
+                $form_error = 'has-error';
+                $errors['setup_password'] = implode(', ', $msgs);
+            }
+        }
+    }
 
-                ?>
+    ?>
 
                 <form name="setuppw" method="post" class="form-horizontal" action="setup.php">
                     <input type="hidden" name="form" value="setuppw"/>
@@ -271,7 +271,7 @@ EOF;
 
 
                 <?php
-            }  // end if(!$authenticated)?>
+}  // end if(!$authenticated)?>
         </div>
     </div>
 
@@ -280,7 +280,7 @@ EOF;
             <h2 class="h2">Hosting Environment Check</h2>
 
             <?php
-            $check = do_software_environment_check();
+$check = do_software_environment_check();
 
 if ($authenticated) {
     if (!empty($check['info'])) {
@@ -559,9 +559,9 @@ function do_software_environment_check()
     $info = [];
 
 
-//
+    //
     // Check for availability functions
-//
+    //
     $f_phpversion = function_exists("phpversion");
     $f_apache_get_version = function_exists("apache_get_version");
 

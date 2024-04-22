@@ -55,15 +55,15 @@ class DomainHandler extends PFAHandler
             $domain_quota_default = -1;
         }
 
-        $this->struct=array(
+        $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
            'domain'            => pacol($this->new, 1,      1,      'text', 'domain'                       , ''                                 , '', array(),
-               array('linkto' => 'list-virtual.php?domain=%s') ),
-           'description'       => pacol($super,     $super, $super, 'text', 'description'                  , ''                                 ),
+               array('linkto' => 'list-virtual.php?domain=%s')),
+           'description'       => pacol($super,     $super, $super, 'text', 'description'                  , ''),
 
            # Aliases
-           'aliases'           => pacol($super,     $super, 0,      'num' , 'aliases'                      , 'pAdminEdit_domain_aliases_text'   , Config::read('aliases')   ),
+           'aliases'           => pacol($super,     $super, 0,      'num' , 'aliases'                      , 'pAdminEdit_domain_aliases_text'   , Config::read('aliases')),
            'alias_count'       => pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(),
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
@@ -71,12 +71,12 @@ class DomainHandler extends PFAHandler
                /*extrafrom*/ 'left join ( select count(*) as __alias_count, domain as __alias_domain from ' . table_by_key('alias') .
                              ' group by domain) as __alias on domain = __alias_domain'),
             'aliases_quot'     => pacol(0,          0,      1,      'quot', 'aliases'                      , ''                                  , 0, array(),
-                array('select' => db_quota_text(   '__alias_count - coalesce(__mailbox_count,0)', 'aliases', 'aliases_quot'))   ),
-            '_aliases_quot_percent' => pacol( 0, 0,      1,      'vnum', ''                   ,''                   , 0, array(),
-                array('select' => db_quota_percent('__alias_count - coalesce(__mailbox_count,0)', 'aliases', '_aliases_quot_percent'))   ),
+                array('select' => db_quota_text('__alias_count - coalesce(__mailbox_count,0)', 'aliases', 'aliases_quot'))),
+            '_aliases_quot_percent' => pacol(0, 0,      1,      'vnum', ''                   ,''                   , 0, array(),
+                array('select' => db_quota_percent('__alias_count - coalesce(__mailbox_count,0)', 'aliases', '_aliases_quot_percent'))),
 
             # Mailboxes
-           'mailboxes'         => pacol($super,     $super, 0,      'num' , 'mailboxes'                    , 'pAdminEdit_domain_aliases_text'   , Config::read('mailboxes') ),
+           'mailboxes'         => pacol($super,     $super, 0,      'num' , 'mailboxes'                    , 'pAdminEdit_domain_aliases_text'   , Config::read('mailboxes')),
            'mailbox_count'     => pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(),
                /*not_in_db*/ 0,
                /*dont_write_to_db*/ 1,
@@ -84,39 +84,39 @@ class DomainHandler extends PFAHandler
                /*extrafrom*/ 'left join ( select count(*) as __mailbox_count, sum(quota) as __total_quota, domain as __mailbox_domain from ' . table_by_key('mailbox') .
                              ' group by domain) as __mailbox on domain = __mailbox_domain'),
             'mailboxes_quot'   => pacol(0,          0,      1,       'quot', 'mailboxes'                    , ''                                 , 0, array(),
-                array('select' => db_quota_text(   '__mailbox_count', 'mailboxes', 'mailboxes_quot'))   ),
-            '_mailboxes_quot_percent' => pacol( 0,  0,      1,       'vnum', ''                             , ''                                 , 0, array(),
-                array('select' => db_quota_percent('__mailbox_count', 'mailboxes', '_mailboxes_quot_percent'))   ),
+                array('select' => db_quota_text('__mailbox_count', 'mailboxes', 'mailboxes_quot'))),
+            '_mailboxes_quot_percent' => pacol(0,  0,      1,       'vnum', ''                             , ''                                 , 0, array(),
+                array('select' => db_quota_percent('__mailbox_count', 'mailboxes', '_mailboxes_quot_percent'))),
 
-           'maxquota'          => pacol($editquota,$editquota,$quota, 'num', 'pOverview_get_quota'          , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')  ),
+           'maxquota'          => pacol($editquota,$editquota,$quota, 'num', 'pOverview_get_quota'          , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')),
 
             # Domain quota
-            'quota'            => pacol($edit_dom_q,$edit_dom_q, 0, 'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , $domain_quota_default ),
+            'quota'            => pacol($edit_dom_q,$edit_dom_q, 0, 'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , $domain_quota_default),
             'total_quota'      => pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(),
-                array('select' => "$query_used_domainquota AS total_quota") /*extrafrom*//* already in mailbox_count */ ),
-            'total_quot'     => pacol( 0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, array(),
-                array('select' => db_quota_text(   $query_used_domainquota, 'quota', 'total_quot'))   ),
-            '_total_quot_percent'=> pacol( 0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, array(),
-                array('select' => db_quota_percent($query_used_domainquota, 'quota', '_total_quot_percent'))   ),
+                array('select' => "$query_used_domainquota AS total_quota") /*extrafrom*//* already in mailbox_count */),
+            'total_quot'     => pacol(0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, array(),
+                array('select' => db_quota_text($query_used_domainquota, 'quota', 'total_quot'))),
+            '_total_quot_percent' => pacol(0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, array(),
+                array('select' => db_quota_percent($query_used_domainquota, 'quota', '_total_quot_percent'))),
 
            'transport'         => pacol($transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
-               /*options*/ Config::read_array('transport_options')    ),
+               /*options*/ Config::read_array('transport_options')),
            'backupmx'          => pacol($super,     $super, 1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 , 0),
-           'active'            => pacol($super,     $super, 1,      'bool', 'active'                       , ''                                 , 1                         ),
-           'default_aliases'   => pacol($this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,array(), /*not in db*/ 1     ),
-           'created'           => pacol(0,          0,      0,      'ts',   'created'                      , ''                                 ),
-           'modified'          => pacol(0,          0,      $super, 'ts',   'last_modified'                , ''                                 ),
+           'active'            => pacol($super,     $super, 1,      'bool', 'active'                       , ''                                 , 1),
+           'default_aliases'   => pacol($this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,array(), /*not in db*/ 1),
+           'created'           => pacol(0,          0,      0,      'ts',   'created'                      , ''),
+           'modified'          => pacol(0,          0,      $super, 'ts',   'last_modified'                , ''),
            'password_expiry'   => pacol($super,     $pwexp, $pwexp, 'num',  'password_expiration'          , 'password_expiration_desc'         , 365),
             '_can_edit'        => pacol(0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 /*options*/ array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
-                /*select*/ $this->is_superadmin . ' as _can_edit'              ),
+                /*select*/ $this->is_superadmin . ' as _can_edit'),
             '_can_delete'      => pacol(0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 /*options*/ array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
-                /*select*/ $this->is_superadmin . ' as _can_delete'            ),
+                /*select*/ $this->is_superadmin . ' as _can_delete'),
         );
     }
 
@@ -171,7 +171,7 @@ class DomainHandler extends PFAHandler
     protected function postSave(): bool
     {
         if ($this->new && $this->values['default_aliases']) {
-            foreach (Config::read_array('default_aliases') as $address=>$goto) {
+            foreach (Config::read_array('default_aliases') as $address => $goto) {
                 $address = $address . "@" . $this->id;
                 # if $goto doesn't contain @, let the alias point to the same domain
                 if (!strstr($goto, '@')) {
@@ -286,7 +286,7 @@ class DomainHandler extends PFAHandler
      */
     protected function domain_postcreation()
     {
-        $script=Config::read_string('domain_postcreation_script');
+        $script = Config::read_string('domain_postcreation_script');
 
         if (empty($script)) {
             return true;
@@ -297,13 +297,13 @@ class DomainHandler extends PFAHandler
             return false;
         }
 
-        $cmdarg1=escapeshellarg($this->id);
-        $command= "$script $cmdarg1";
-        $retval=0;
-        $output=array();
-        $firstline='';
-        $firstline=exec($command, $output, $retval);
-        if (0!=$retval) {
+        $cmdarg1 = escapeshellarg($this->id);
+        $command = "$script $cmdarg1";
+        $retval = 0;
+        $output = array();
+        $firstline = '';
+        $firstline = exec($command, $output, $retval);
+        if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
             $this->errormsg[] = 'Problems running domain postcreation script!';
             return false;
@@ -319,7 +319,7 @@ class DomainHandler extends PFAHandler
      */
     protected function domain_postedit()
     {
-        $script=Config::read_string('domain_postedit_script');
+        $script = Config::read_string('domain_postedit_script');
 
         if (empty($script)) {
             return true;
@@ -330,13 +330,13 @@ class DomainHandler extends PFAHandler
             return false;
         }
 
-        $cmdarg1=escapeshellarg($this->id);
-        $command= "$script $cmdarg1";
-        $retval=0;
-        $output=array();
-        $firstline='';
-        $firstline=exec($command, $output, $retval);
-        if (0!=$retval) {
+        $cmdarg1 = escapeshellarg($this->id);
+        $command = "$script $cmdarg1";
+        $retval = 0;
+        $output = array();
+        $firstline = '';
+        $firstline = exec($command, $output, $retval);
+        if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
             $this->errormsg[] = 'Problems running domain postedit script!';
             return false;
@@ -352,7 +352,7 @@ class DomainHandler extends PFAHandler
      */
     protected function domain_postdeletion()
     {
-        $script=Config::read_string('domain_postdeletion_script');
+        $script = Config::read_string('domain_postdeletion_script');
 
         if (empty($script)) {
             return true;
@@ -363,13 +363,13 @@ class DomainHandler extends PFAHandler
             return false;
         }
 
-        $cmdarg1=escapeshellarg($this->id);
-        $command= "$script $cmdarg1";
-        $retval=0;
-        $output=array();
-        $firstline='';
-        $firstline=exec($command, $output, $retval);
-        if (0!=$retval) {
+        $cmdarg1 = escapeshellarg($this->id);
+        $command = "$script $cmdarg1";
+        $retval = 0;
+        $output = array();
+        $firstline = '';
+        $firstline = exec($command, $output, $retval);
+        if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
             $this->errormsg[] = 'Problems running domain postdeletion script!';
             return false;

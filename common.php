@@ -22,7 +22,7 @@ require_once(dirname(__FILE__) . '/vendor/autoload.php');
 $old = setlocale(LC_ALL, 'C');
 if (preg_match('/_TR/i', $old)) {
     error_log("WARNING: You may have a Turkish locale set; this breaks the loading of some libraries (Smarty) we depend upon.");
-// don't revert back to $old?
+    // don't revert back to $old?
 } else {
     setlocale(LC_ALL, $old); // revert back.
 }

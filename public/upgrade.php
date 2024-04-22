@@ -193,7 +193,7 @@ function _do_upgrade($current_version)
         $current_version = 1823;
     }
 
-    for ($i = $current_version +1; $i <= $target_version; $i++) {
+    for ($i = $current_version + 1; $i <= $target_version; $i++) {
         $function = "upgrade_$i";
         $function_mysql_pgsql = $function . "_mysql_pgsql";
         $function_mysql = $function . "_mysql";

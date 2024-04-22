@@ -15,8 +15,8 @@ class MailboxHandler extends PFAHandler
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct()
     {
-        $passwordReset = (int) ( Config::bool('forgotten_user_password_reset') && !Config::read('mailbox_postpassword_script') );
-        $smtpActiveFlag = (int) ( Config::bool('smtp_active_flag') );
+        $passwordReset = (int)(Config::bool('forgotten_user_password_reset') && !Config::read('mailbox_postpassword_script'));
+        $smtpActiveFlag = (int)(Config::bool('smtp_active_flag'));
         $reset_by_sms = 0;
         if ($passwordReset && Config::read_string('sms_send_function')) {
             $reset_by_sms = 1;
@@ -30,38 +30,38 @@ class MailboxHandler extends PFAHandler
 
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'username'         => pacol($this->new, 1,      1,      'mail', 'pEdit_mailbox_username'        , ''                                , '' ),
-            'local_part'       => pacol($this->new, 0,      0,      'text', 'pEdit_mailbox_username'        , ''                                , '',
+            'username' => pacol($this->new, 1, 1, 'mail', 'pEdit_mailbox_username', '', ''),
+            'local_part' => pacol($this->new, 0, 0, 'text', 'pEdit_mailbox_username', '', '',
                 /*options*/ array('legal_chars' => Config::read('username_legal_chars'), 'legal_char_warning' => Config::lang('pLegal_char_warning'))
             ),
-            'domain'           => pacol($this->new, 0,      1,      'enum', ''                              , ''                                , '',
-                /*options*/ $this->allowed_domains      ),
+            'domain' => pacol($this->new, 0, 1, 'enum', '', '', '',
+                /*options*/ $this->allowed_domains),
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
-            'maildir'          => pacol($this->new, 0,      1,      'text', ''                              , ''                                , '' ),
-            'password'         => pacol($editPw,    $editPw,0,      'pass', 'password'                      , 'pCreate_mailbox_password_text'   , '' ),
-            'password2'        => pacol($editPw,    $editPw,0,      'pass', 'password_again'                , ''                                 , '',
+            'maildir' => pacol($this->new, 0, 1, 'text', '', '', ''),
+            'password' => pacol($editPw, $editPw, 0, 'pass', 'password', 'pCreate_mailbox_password_text', ''),
+            'password2' => pacol($editPw, $editPw, 0, 'pass', 'password_again', '', '',
                 /*options*/ array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
             ),
-            'name'             => pacol(1,          1,      1,      'text', 'name'                          , 'pCreate_mailbox_name_text'       , '' ),
-            'quota'            => pacol(1,          1,      1,      'int' , 'pEdit_mailbox_quota'           , 'pEdit_mailbox_quota_text'        , '' ), # in MB
+            'name' => pacol(1, 1, 1, 'text', 'name', 'pCreate_mailbox_name_text', ''),
+            'quota' => pacol(1, 1, 1, 'int', 'pEdit_mailbox_quota', 'pEdit_mailbox_quota_text', ''), # in MB
             # read_from_db_postprocess() also sets 'quotabytes' for use in init()
             # TODO: read used quota from quota/quota2 table
-            'active'           => pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1 ),
-            'smtp_active'      => pacol($smtpActiveFlag, $smtpActiveFlag,0,      'int', 'smtp_active'                   , ''                                 , 1 ),
-            'welcome_mail'     => pacol($this->new, $this->new, 0,  'bool', 'pCreate_mailbox_mail'          , ''                                 , 1,
+            'active' => pacol(1, 1, 1, 'bool', 'active', '', 1),
+            'smtp_active' => pacol($smtpActiveFlag, $smtpActiveFlag, 0, 'int', 'smtp_active', '', 1),
+            'welcome_mail' => pacol($this->new, $this->new, 0, 'bool', 'pCreate_mailbox_mail', '', 1,
                 /*options*/ array(),
-                /*not_in_db*/ 1             ),
-            'phone'            => pacol(1,  $reset_by_sms,  0,      'text', 'pCreate_mailbox_phone'         , 'pCreate_mailbox_phone_desc'       , ''),
-            'email_other'      => pacol(1,  $passwordReset, 0,      'mail', 'pCreate_mailbox_email'         , 'pCreate_mailbox_email_desc'       , ''),
-            'token'            => pacol(1,          0,      0,      'text', ''                              , ''                                 ),
-            'token_validity'   => pacol(1,          0,      0,      'ts',   ''                              , '', date("Y-m-d H:i:s",time())),
-            'created'          => pacol(0,          0,      1,      'ts',   'created'                       , ''                                 ),
-            'modified'         => pacol(0,          0,      1,      'ts',   'last_modified'                 , ''                                 ),
-            'password_expiry'  => pacol(0,          0,      1,      'ts',   'password_expiration'           , ''                                 ),
+                /*not_in_db*/ 1),
+            'phone' => pacol(1, $reset_by_sms, 0, 'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
+            'email_other' => pacol(1, $passwordReset, 0, 'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
+            'token' => pacol(1, 0, 0, 'text', '', ''),
+            'token_validity' => pacol(1, 0, 0, 'ts', '', '', date("Y-m-d H:i:s", time())),
+            'created' => pacol(0, 0, 1, 'ts', 'created', ''),
+            'modified' => pacol(0, 0, 1, 'ts', 'last_modified', ''),
+            'password_expiry' => pacol(0, 0, 1, 'ts', 'password_expiration', ''),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 
@@ -149,9 +149,9 @@ class MailboxHandler extends PFAHandler
 
             # various settings
             'required_role' => 'admin',
-            'listview'      => 'list-virtual.php',
-            'early_init'    => 0,
-            'prefill'       => array('domain'),
+            'listview' => 'list-virtual.php',
+            'early_init' => 0,
+            'prefill' => array('domain'),
         );
     }
 
@@ -227,7 +227,7 @@ class MailboxHandler extends PFAHandler
         foreach ($db_result as $key => $row) {
             if (isset($row['quota']) && is_numeric($row['quota']) && $row['quota'] > -1) { # quota could be disabled in $struct
                 $db_result[$key]['quotabytes'] = $row['quota'];
-                $db_result[$key]['quota'] = divide_quota( (int) $row['quota']); # convert quota to MB
+                $db_result[$key]['quota'] = divide_quota((int)$row['quota']); # convert quota to MB
             } else {
                 $db_result[$key]['quotabytes'] = -1;
                 $db_result[$key]['quota'] = -1;
@@ -364,7 +364,7 @@ class MailboxHandler extends PFAHandler
 
     public function delete()
     {
-        if (! $this->view()) {
+        if (!$this->view()) {
             $this->errormsg[] = Config::Lang('pFetchmail_invalid_mailbox'); # TODO: can users hit this message at all? init() should already fail...
             return false;
         }
@@ -373,13 +373,13 @@ class MailboxHandler extends PFAHandler
         # deleting the mailbox, but it's easier and a bit faster to do it on the database level.
         # cleaning up all tables doesn't hurt, even if vacation or displaying the quota is disabled
 
-        db_delete('fetchmail',              'mailbox',       $this->id);
-        db_delete('vacation',               'email',         $this->id);
-        db_delete('vacation_notification',  'on_vacation',   $this->id); # should be caught by cascade, if PgSQL
-        db_delete('quota',                  'username',      $this->id);
-        db_delete('quota2',                 'username',      $this->id);
-        db_delete('alias',                  'address',       $this->id);
-        db_delete($this->db_table,          $this->id_field, $this->id); # finally delete the mailbox
+        db_delete('fetchmail', 'mailbox', $this->id);
+        db_delete('vacation', 'email', $this->id);
+        db_delete('vacation_notification', 'on_vacation', $this->id); # should be caught by cascade, if PgSQL
+        db_delete('quota', 'username', $this->id);
+        db_delete('quota2', 'username', $this->id);
+        db_delete('alias', 'address', $this->id);
+        db_delete($this->db_table, $this->id_field, $this->id); # finally delete the mailbox
 
         if (!$this->mailbox_postdeletion()) {
             $this->errormsg[] = Config::Lang('mailbox_postdel_failed');
@@ -390,7 +390,6 @@ class MailboxHandler extends PFAHandler
         $this->infomsg[] = Config::Lang_f('pDelete_delete_success', $this->id);
         return true;
     }
-
 
 
     protected function _prefill_domain($field, $val)
@@ -469,10 +468,9 @@ class MailboxHandler extends PFAHandler
     # public function _formatted_quota    ($item) { return $item['used_quota']   . ' / ' . $item['quota']    ; }
 
 
-
     /**
-    * calculate maildir path for the mailbox
-    */
+     * calculate maildir path for the mailbox
+     */
     protected function _missing_maildir($field)
     {
         list($local_part, $domain) = explode('@', $this->id);
@@ -527,7 +525,7 @@ class MailboxHandler extends PFAHandler
             return true; # enforcing quotas is disabled - just allow it
         }
 
-        $quota = (int) $quota;
+        $quota = (int)$quota;
 
         list(/*NULL*/, $domain) = explode('@', $this->id);
         $limit = get_domain_properties($domain);
@@ -628,26 +626,26 @@ class MailboxHandler extends PFAHandler
         $quota = $this->values['quota'];
 
         if (empty($this->id) || empty($domain) || empty($this->values['maildir'])) {
-            trigger_error('In '.__FUNCTION__.': empty username, domain and/or maildir parameter', E_USER_ERROR);
+            trigger_error('In ' . __FUNCTION__ . ': empty username, domain and/or maildir parameter', E_USER_ERROR);
             return false;
         }
 
-        $cmdarg1=escapeshellarg($this->id);
-        $cmdarg2=escapeshellarg($domain);
+        $cmdarg1 = escapeshellarg($this->id);
+        $cmdarg2 = escapeshellarg($domain);
         $status = true;
 
         if (!empty($cmd)) {
-            $cmdarg3=escapeshellarg($this->values['maildir']);
+            $cmdarg3 = escapeshellarg($this->values['maildir']);
             if ($quota <= 0) {
                 $quota = 0;
             } # TODO: check if this is correct behaviour
             $cmdarg4 = escapeshellarg("" . $quota);
-            $command= "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
-            $retval=0;
-            $output=array();
-            $firstline='';
-            $firstline=exec($command, $output, $retval);
-            if (0!=$retval) {
+            $command = "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
+            $retval = 0;
+            $output = array();
+            $firstline = '';
+            $firstline = exec($command, $output, $retval);
+            if (0 != $retval) {
                 error_log("Running $command yielded return value=$retval, first line of output=$firstline");
                 $this->errormsg[] .= $warnmsg;
                 $status = false;
@@ -672,14 +670,14 @@ class MailboxHandler extends PFAHandler
             } else {
                 // Write passwords through pipe to command stdin -- provide old password, then new password.
                 fwrite($pipes[0], "\0", 1);
-                fwrite($pipes[0], $this->values['password'] . "\0", 1+strlen($this->values['password']));
+                fwrite($pipes[0], $this->values['password'] . "\0", 1 + strlen($this->values['password']));
                 $output = stream_get_contents($pipes[1]);
                 fclose($pipes[0]);
                 fclose($pipes[1]);
 
                 $retval = proc_close($proc);
 
-                if (0!=$retval) {
+                if (0 != $retval) {
                     error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
                     $this->errormsg[] .= $warnmsg_pw;
                     $status = false;
@@ -711,14 +709,14 @@ class MailboxHandler extends PFAHandler
             return false;
         }
 
-        $cmdarg1=escapeshellarg($this->id);
-        $cmdarg2=escapeshellarg($domain);
+        $cmdarg1 = escapeshellarg($this->id);
+        $cmdarg2 = escapeshellarg($domain);
         $command = "$cmd $cmdarg1 $cmdarg2";
-        $retval=0;
-        $output=array();
-        $firstline='';
-        $firstline=exec($command, $output, $retval);
-        if (0!=$retval) {
+        $retval = 0;
+        $output = array();
+        $firstline = '';
+        $firstline = exec($command, $output, $retval);
+        if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
             $this->errormsg[] = 'Problems running mailbox postdeletion script!';
             return false;
