@@ -774,7 +774,8 @@ if(!$from || !$to || !$messageid || !$smtp_sender || !$smtp_recipient) {
 }
 $logger->debug("Email headers have to: '$to' and From: '$from'");
 
-if ($to =~ /^.*($no_vacation_pattern).*/i) {
+# See https://github.com/postfixadmin/postfixadmin/issues/826 - an empty string would match anything, probably not desirable.
+if($no_vacation_pattern ne '' && $to =~ /^.*($no_vacation_pattern).*/i) {
    $logger->debug("Will not send vacation reply for messages to $to");
    exit(0);
 }
