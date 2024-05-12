@@ -44,7 +44,7 @@ Assuming we are installing Postfixadmin into /srv/postfixadmin, then something l
   $ cd /srv/
   $ wget -O postfixadmin.tgz https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-3.3.10.tar.gz
   $ tar -zxvf postfixadmin.tgz
-  $ mv postfixadmin-postfixadmin-3.3 postfixadmin
+  $ mv postfixadmin-postfixadmin-3.3.10 postfixadmin
 
 Alternatively :
 
