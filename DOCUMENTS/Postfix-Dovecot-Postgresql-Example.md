@@ -2,6 +2,8 @@
 
 The below covers some default(ish) configuration things for using Postfix, Dovecot with PostgreSQL. 
 
+See also: https://github.com/postfixadmin/postfixadmin/issues/184
+
 # Postfix
 
 Assumptions :
