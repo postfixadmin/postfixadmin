@@ -197,7 +197,7 @@ abstract class PFAHandler
             $this->is_superadmin = 0;
         }
 
-        if ($username != "" && (! authentication_has_role('global-admin'))) {
+        if ($username != "" && (!authentication_has_role('global-admin'))) {
             $this->is_superadmin = 0;
         }
 
@@ -369,9 +369,9 @@ abstract class PFAHandler
                 $this->errormsg[$this->id_field] = Config::lang($this->msg['error_does_not_exist']);
                 return false;
             } else {
-                $this->can_edit   = $this->result['_can_edit'];
+                $this->can_edit = $this->result['_can_edit'];
                 $this->can_delete = $this->result['_can_delete'];
-                $this->label      = $this->result[$this->label_field];
+                $this->label = $this->result[$this->label_field];
                 #                return true;
             }
         }
@@ -413,7 +413,7 @@ abstract class PFAHandler
      */
     public function prefill($field, $val)
     {
-        $func = "_prefill_".$field;
+        $func = "_prefill_" . $field;
         if (method_exists($this, $func)) {
             $this->{$func}($field, $val); # call _missing_$fieldname()
         } else {
@@ -445,14 +445,14 @@ abstract class PFAHandler
             foreach ($this->struct as $key => $row) {
                 if ($row['editable'] && !isset($values[$key])) {
                     /**
-                    * when creating a new item:
-                    * if a field is editable and not set,
-                    * - if $this->_missing_$fieldname() exists, call it
-                    *   (it can set $this->RAWvalues[$fieldname] - or do nothing if it can't set a useful value)
-                    * - otherwise use the default value from $this->struct
-                    *   (if you don't want this, create an empty _missing_$fieldname() function)
-                    */
-                    $func = "_missing_".$key;
+                     * when creating a new item:
+                     * if a field is editable and not set,
+                     * - if $this->_missing_$fieldname() exists, call it
+                     *   (it can set $this->RAWvalues[$fieldname] - or do nothing if it can't set a useful value)
+                     * - otherwise use the default value from $this->struct
+                     *   (if you don't want this, create an empty _missing_$fieldname() function)
+                     */
+                    $func = "_missing_" . $key;
                     if (method_exists($this, $func)) {
                         $this->{$func}($key); # call _missing_$fieldname()
                     } else {
@@ -485,7 +485,7 @@ abstract class PFAHandler
                         $valid = true; # trust input unless validator objects
 
                         # validate based on field type ($this->_inp_$type)
-                        $func = "_inp_".$row['type'];
+                        $func = "_inp_" . $row['type'];
                         if (method_exists($this, $func)) {
                             if (!$this->{$func}($key, $values[$key])) {
                                 $valid = false;
@@ -495,7 +495,7 @@ abstract class PFAHandler
                         }
 
                         # validate based on field name (_validate_$fieldname)
-                        $func = "_validate_".$key;
+                        $func = "_validate_" . $key;
                         if (method_exists($this, $func)) {
                             if (!$this->{$func}($key, $values[$key])) {
                                 $valid = false;
@@ -567,11 +567,11 @@ abstract class PFAHandler
         foreach ($db_values as $key => $val) {
             switch ($this->struct[$key]['type']) { # modify field content for some types
                 case 'bool':
-                    $val = (string) $val;
+                    $val = (string)$val;
                     $db_values[$key] = db_get_boolean($val);
                     break;
                 case 'pass':
-                    $val = (string) $val;
+                    $val = (string)$val;
                     $db_values[$key] = pacrypt($val); // throws Exception
                     break;
                 case 'b64p':
@@ -593,7 +593,7 @@ abstract class PFAHandler
 
         try {
             if ($this->new) {
-                $result = db_insert($this->db_table, $db_values,  array('created', 'modified'),true);
+                $result = db_insert($this->db_table, $db_values, array('created', 'modified'), true);
             } else {
                 $result = db_update($this->db_table, $this->id_field, $this->id, $db_values, array('modified'), true);
             }
@@ -666,7 +666,7 @@ abstract class PFAHandler
         $select_cols = array();
 
         $yes = escape_string(Config::lang('YES'));
-        $no  = escape_string(Config::lang('NO'));
+        $no = escape_string(Config::lang('NO'));
 
         if (db_pgsql()) {
             $formatted_date = "TO_CHAR(###KEY###, '" . escape_string(Config::Lang('dateformat_pgsql')) . "')";
@@ -675,7 +675,7 @@ abstract class PFAHandler
             $formatted_date = "strftime(###KEY###, '" . escape_string(Config::Lang('dateformat_mysql')) . "')";
             # $base64_decode = "base64_decode(###KEY###)";
         } else {
-            $formatted_date = "DATE_FORMAT(###KEY###, '"   . escape_string(Config::Lang('dateformat_mysql')) . "')";
+            $formatted_date = "DATE_FORMAT(###KEY###, '" . escape_string(Config::Lang('dateformat_mysql')) . "')";
             # $base64_decode = "FROM_BASE64(###KEY###)"; # requires MySQL >= 5.6
         }
 
@@ -863,7 +863,7 @@ abstract class PFAHandler
     }
 
     /**
-     * Verify user's one time password reset token
+     * Verify user's one time password reset token.
      * @param string $username
      * @param string $token
      * @return boolean true on success (i.e. code matches etc)
@@ -957,11 +957,11 @@ abstract class PFAHandler
 
 
     /**************************************************************************
-      * _inp_*()
-      * functions for basic input validation
-      * @return boolean - true if the value is valid, otherwise false
-      * also set $this->errormsg[$field] if a value is invalid
-      */
+     * _inp_*()
+     * functions for basic input validation
+     * @return boolean - true if the value is valid, otherwise false
+     * also set $this->errormsg[$field] if a value is invalid
+     */
 
     /**
      * check if value is numeric and >= -1 (= minimum value for quota)
