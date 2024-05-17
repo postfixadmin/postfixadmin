@@ -876,23 +876,27 @@ abstract class PFAHandler
         $now = date('Y-m-d H:i:s');
 
         $query = "SELECT token FROM $table WHERE {$this->id_field} = :username AND token <> '' AND active = :active AND token_validity > :now ";
-        $values = array('username' => $username, 'active' => $active, 'now' => $now);
+        $values = ['username' => $username, 'active' => $active, 'now' => $now];
 
         $result = db_query_all($query, $values);
         if (sizeof($result) == 1) {
             $row = $result[0];
-
             $crypt_token = pacrypt($token, $row['token'], $username);
-
-            if ($row['token'] == $crypt_token) {
-                db_update($this->db_table, $this->id_field, $username, array(
-                    'token' => '',
-                    'token_validity' => '2000-01-01 00:00:00',
-                ));
-                return true;
-            }
+            return $row['token'] == $crypt_token;
         }
         return false;
+    }
+
+    /**
+     * Blindly wipe someone's password recovery token (even if they don't have one set!)
+     * @param string $username
+     * @return bool
+     * @throws Exception
+     */
+    public function wipePasswordRecoveryCode($username)
+    {
+        db_update($this->db_table, $this->id_field, $username, ['token' => '', 'token_validity' => '2000-01-01 00:00:00']);
+        return true;
     }
 
     /**************************************************************************

@@ -424,7 +424,7 @@ function escape_string($string_or_int)
  *
  * @param string $param parameter name.
  * @param string $default (optional) - default value if key is not set.
- * @return string
+ * @return string - can only return a string
  */
 function safeget($param, $default = "")
 {
@@ -439,7 +439,7 @@ function safeget($param, $default = "")
  * safepost - similar to safeget() but for $_POST
  * @param string $param parameter name
  * @param string $default (optional) default value (defaults to "")
- * @return string - value in $_POST[$param] or $default
+ * @return string - value in $_POST[$param] or $default - we do not support array like value(s) etc
  * @see safeget()
  */
 function safepost($param, $default = "")

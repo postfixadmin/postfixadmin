@@ -40,6 +40,9 @@ $CONF = Config::getInstance()->getAll();
 
 $smarty->configureTheme($rel_path);
 
+$tCode = null;
+$tUsername = null;
+
 if ($context === 'admin' && !Config::read('forgotten_admin_password_reset')) {
     die('Password change is disabled by configuration option: forgotten_admin_password_reset or mailbox_postpassword_script');
 }
@@ -82,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $values['password2'] = $fPassword2;
                 if ($handler->set($values) && $handler->save()) {
                     flash_info(Config::lang_f('pPassword_result_success', $tUsername));
+                    $handler->wipePasswordRecoveryCode($tUsername); // so we only wipe the recovery token if they've managed to change their password.
                     header('Location: main.php');
                     exit(0);
                 } else {
@@ -95,8 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $smarty->assign('language_selector', language_selector(), false);
-$smarty->assign('tUsername', @$tUsername);
-$smarty->assign('tCode', @$tCode);
+$smarty->assign('tUsername', $tUsername);
+$smarty->assign('tCode', $tCode);
 $smarty->assign('smarty_template', 'password-change');
 $smarty->display('index.tpl');
 
