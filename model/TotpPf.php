@@ -272,7 +272,7 @@ class TotpPf
             }
         } elseif (authentication_has_role('global-admin')) {
             $admin = 2;
-        // can do anything
+            // can do anything
         } else {
             // force the current user to also be the exemption username.
             $exception_username = $username;

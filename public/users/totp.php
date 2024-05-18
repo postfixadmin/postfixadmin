@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $error = 0;
 
     if (!$login->login($username, $fPassword_current)) {
-        $error ++;
+        $error++;
         $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];
     }
 
