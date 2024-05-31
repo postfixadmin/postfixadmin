@@ -7,7 +7,7 @@
  * finds one that's expired, it should update the alias record to remove the autoreply alias, as well as deactivating the vacation entry.
  * @see https://github.com/postfixadmin/postfixadmin/issues/832
  *
- * How you link it into your cron routine is up to you - you 'could' have an entry in /etc/cron.hourly/postfixadmin that contains something like : 
+ * How you link it into your cron routine is up to you - you 'could' have an entry in /etc/cron.hourly/postfixadmin that contains something like :
  *
  * #!/bin/bash
  * cd /path/to/postfixadmin/scripts/examples
