@@ -21,7 +21,10 @@ require_once(__DIR__ . '/../../public/common.php');
 define('POSTFIXADMIN_CLI', 1);
 
 $table_vacation = table_by_key('vacation');
-$vacations_that_need_deactivating = db_query_all("SELECT * FROM $table_vacation WHERE activeuntil <= NOW() AND active = 1 ");
+
+$active = db_get_boolean(1);
+
+$vacations_that_need_deactivating = db_query_all("SELECT * FROM $table_vacation WHERE activeuntil <= NOW() AND active = :active ", ['active' => $active]);
 
 foreach ($vacations_that_need_deactivating as $row) {
 
