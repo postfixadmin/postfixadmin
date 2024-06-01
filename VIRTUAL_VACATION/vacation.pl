@@ -643,7 +643,7 @@ sub send_vacation_email {
             if (@_) {
                 $logger->error("Failed to send vacation response to $to from $from subject $subject: @_");
             } else {
-             $logger->debug("Vacation response sent to $to from $from subject $subject  Email $email_from sent\n");
+                $logger->info("Vacation response sent to $to from $from subject $subject  Email $email_from sent\n");
             }
         }
     }
