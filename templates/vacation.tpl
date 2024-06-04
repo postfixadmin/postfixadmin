@@ -5,56 +5,56 @@
             <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
             {if !$authentication_has_role.user}
                 <div class="form-group">
-                    <label class="col-md-4 col-sm-4 control-label">{$PALANG.pLogin_username}:</label>
-                    <div class="col-md-6 col-sm-8"><p class="form-control-static"><em>{$tUseremail}</em></p></div>
+                    <label class="col-md-3 col-sm-4 control-label">{$PALANG.pLogin_username}:</label>
+                    <div class="col-md-9 col-sm-8"><p class="form-control-static"><em>{$tUseremail}</em></p></div>
                 </div>
             {/if}
             <div class="form-group">
-                <label class="col-md-4 col-sm-4 control-label" for="fActiveFromForm">{$PALANG.pUsersVacation_activefrom}
+                <label class="col-md-3 col-sm-4 control-label" for="fActiveFromForm">{$PALANG.pUsersVacation_activefrom}
                     :</label>
-                <div class="col-md-6 col-sm-8">
+                <div class="col-md-9 col-sm-8">
                     <input type='hidden' name="fActiveFrom" id="fActiveFrom" value="{$tActiveFrom}"
                            class="form-control hidden"/>
                     <div class="input-group date" id="datetimepicker-fActiveFrom">
                         <input type='text' name="fActiveFromForm" id="fActiveFromForm" value="{$tActiveFrom}"
-                               class="form-control" />
+                               class="form-control"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 col-sm-4 control-label"
+                <label class="col-md-3 col-sm-4 control-label"
                        for="fActiveUntilForm">{$PALANG.pUsersVacation_activeuntil}:</label>
-                <div class="col-md-6 col-sm-8">
+                <div class="col-md-9 col-sm-8">
                     <input type='hidden' name="fActiveUntil" id="fActiveUntil" value="{$tActiveUntil}"
                            class="form-control hidden"/>
                     <div class="input-group date" id="datetimepicker-fActiveUntil">
                         <input type='text'
                                name="fActiveUntilForm" id="fActiveUntilForm" value="{$tActiveUntil}"
-                               class="form-control" />
+                               class="form-control"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 col-sm-4 control-label" for="fInterval_Time">{$PALANG.pVacation_reply_type}
+                <label class="col-md-3 col-sm-4 control-label" for="fInterval_Time">{$PALANG.pVacation_reply_type}
                     :</label>
-                <div class="col-md-6 col-sm-8">
+                <div class="col-md-9 col-sm-8">
                     <select class="form-control" name="fInterval_Time" id="fInterval_Time">
                         {html_options options=$select_options selected=$tInterval_Time}
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 col-sm-4 control-label" for="fSubject">{$PALANG.subject}:</label>
-                <div class="col-md-6 col-sm-8">
+                <label class="col-md-3 col-sm-4 control-label" for="fSubject">{$PALANG.subject}:</label>
+                <div class="col-md-9 col-sm-8">
                     <textarea class="form-control" rows="3" cols="60" name="fSubject"
                               id="fSubject">{$tSubject}</textarea>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 col-sm-4 control-label" for="fBody">{$PALANG.message}:</label>
-                <div class="col-md-6 col-sm-8">
+                <label class="col-md-3 col-sm-4 control-label" for="fBody">{$PALANG.message}:</label>
+                <div class="col-md-9 col-sm-8">
                     <textarea class="form-control" rows="10" cols="60" name="fBody" id="fBody">{$tBody}</textarea>
                 </div>
             </div>
@@ -74,7 +74,7 @@
             </div>
         </div>
     </div>
-    </div>
+
 </form>
 <script type="text/javascript">
 
