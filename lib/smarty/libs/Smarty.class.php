@@ -107,7 +107,7 @@ class Smarty extends Smarty_Internal_TemplateBase
     /**
      * smarty version
      */
-    const SMARTY_VERSION = '4.3.0';
+    const SMARTY_VERSION = '4.5.3';
     /**
      * define variable scopes
      */
@@ -1386,8 +1386,7 @@ class Smarty extends Smarty_Internal_TemplateBase
     }
 
     /**
-     * Activates PHP7 compatibility mode:
-     * - converts E_WARNINGS for "undefined array key" and "trying to read property of null" errors to E_NOTICE
+     * Mutes errors for "undefined index", "undefined array key" and "trying to read property of null".
      *
      * @void
      */
@@ -1396,7 +1395,7 @@ class Smarty extends Smarty_Internal_TemplateBase
     }
 
     /**
-     * Indicates if PHP7 compatibility mode is set.
+     * Indicates if Smarty will mute errors for "undefined index", "undefined array key" and "trying to read property of null".
      * @bool
      */
     public function isMutingUndefinedOrNullWarnings(): bool {
