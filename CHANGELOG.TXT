@@ -6,8 +6,11 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version 3.3.14 - XXXXXXXXXX
+Version 3.3.14 - 2024/06/XX (soon?)
 -------------------------------------------------
+   - Update bundled smarty (4.5.3); PostfixAdmin should not be vulnerable to CVE-2024-35226 mentioned in the release etc.
+   - Improve the layout of the vacation form (https://github.com/postfixadmin/postfixadmin/issues/834 ; thanks to @ariabamdad)
+   - Updates to vacation.pl (around $no_vacation_pattern) (see https://github.com/postfixadmin/postfixadmin/issues/826)
    - Update jQuery (used for datetime widget when setting vacation etc) (see https://github.com/postfixadmin/postfixadmin/issues/734 - thanks @tibor-banfalvi)
    - Fix issue with password validation check (see https://github.com/postfixadmin/postfixadmin/issues/697 - thanks @bmatthewshea)
    - Remember to bump version number ;-) (see #694)
