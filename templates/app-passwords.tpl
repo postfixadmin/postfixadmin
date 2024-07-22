@@ -4,7 +4,7 @@
         <div class="panel-body enable-asterisk">
             <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
             <div class="form-group {if $pPassword_text}has-error{/if}">
-                <label class="col-md-4 col-sm-4 control-label"
+                <label class="col-md-2 col-sm-2 control-label"
                        for="fPassword_current">{$PALANG.pPassword_password_current}:</label>
                 <div class="col-md-6 col-sm-8">
                     <input class="form-control" type="password" name="fPassword_current" id="fPassword_current"/>
@@ -12,18 +12,20 @@
                 <span class="help-block">{$pPassword_text}</span>
             </div>
             <div class="form-group">
-                <label class="col-md-4 col-sm-4 control-label" for="fAppDesc">{$PALANG.pTotp_exceptions_description}:</label>
-                <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fAppDesc" id="fAppDesc"/></div>
+                <label class="col-md-2 col-sm-2 control-label" for="fAppDesc">{$PALANG.pTotp_exceptions_description}
+                    :</label>
+                <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fAppDesc" id="fAppDesc"/>
+                </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 col-sm-4 control-label" for="fAppPass">{$PALANG.password}:</label>
+                <label class="col-md-2 col-sm-2 control-label" for="fAppPass">{$PALANG.password}:</label>
                 <div class="col-md-6 col-sm-8">
                     <input class="form-control" type="input" name="fAppPass" id="fAppPass"/>
                     <div class="pull-right">
                         <a id="genbutton" class="btn btn-primary">{$PALANG.generate}</a>
                         <a id="copybutton" class="btn btn-primary">{$PALANG.copy}</a>
                     </div>
-                 </div>
+                </div>
             </div>
         </div>
         <div class="panel-footer">
@@ -32,7 +34,8 @@
                 <div class="pull-right">
                     <a href="main.php" class="btn mr btn-secondary">{$PALANG.exit}</a>
 
-                    <button class="btn ml btn-lg btn-primary" type="submit" name="submit" value="{$PALANG.pApp_passwords_add}">{$PALANG.pApp_passwords_add}</button>
+                    <button class="btn ml btn-lg btn-primary" type="submit" name="submit"
+                            value="{$PALANG.pApp_passwords_add}">{$PALANG.pApp_passwords_add}</button>
 
                 </div>
             </div>
@@ -49,36 +52,39 @@
             <th>{$PALANG.pTotp_exceptions_revoke}</th>
         </tr>
         {foreach $pPasswords as $p}
-        <tr>
-            <td>{$p.username}</td>
-            <td>{$p.description}</td>
-            <td>
-                <form name="exception{$p.id}" method="post" action="" class="form-vertical">
-                    <input type="hidden" name="fAppId" value="{$p.id}">
-                    <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
-                    <button class="btn ml btn-primary" type="submit" {if !$p.edit}disabled="disabled"{/if} name="submit" value="{$PALANG.pTotp_exceptions_revoke}">{$PALANG.pTotp_exceptions_revoke}</button>
-                </form>
-            </td>
-        </tr>
+            <tr>
+                <td>{$p.username}</td>
+                <td>{$p.description}</td>
+                <td>
+                    <form name="exception{$p.id}" method="post" action="" class="form-vertical">
+                        <input type="hidden" name="fAppId" value="{$p.id}">
+                        <input class="flat" type="hidden" name="token"
+                               value="{$smarty.session.PFA_token|escape:"url"}"/>
+                        <button class="btn ml btn-primary" type="submit" {if !$p.edit}disabled="disabled"{/if}
+                                name="submit"
+                                value="{$PALANG.pTotp_exceptions_revoke}">{$PALANG.pTotp_exceptions_revoke}</button>
+                    </form>
+                </td>
+            </tr>
         {/foreach}
     </table>
 </div>
 
 <script>
 
-const getRandomElement = arr => {
-  const rand = Math.floor(Math.random() * arr.length);
-  return arr[rand];
-}
+    const getRandomElement = arr => {
+      const rand = Math.floor(Math.random() * arr.length);
+      return arr[rand];
+    }
 
-const generateRandomPasswordSelection = (length) => {
-  const uppercase = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  const lowercase = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-  const special = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '-', '=', '{', '}', '[', ']', ':', ';', '?', ', ', '.', '|', '\\'];
-  const numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    const generateRandomPasswordSelection = (length) => {
+      const nonSpecial = [
+      'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+      'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
 
-  const nonSpecial = [...uppercase, ...lowercase, ...numbers];
-
+      const special = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '-', '=', '[', ']', ':', ';', '?', ', ', '.', '|', '\\'];
+  
   let password = '';
 
   for (let i = 0; i < length; i++) {

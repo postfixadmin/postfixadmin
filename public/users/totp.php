@@ -29,28 +29,25 @@ require_once('../common.php');
 $smarty = PFASmarty::getInstance();
 $smarty->configureTheme('../');
 
-$username                                    = authentication_get_username();
-$pPassword_password_current_text             = "";
-$pTOTP_code_text                             = "";
-$pTOTP_secret_text                           = "";
-$pTOTP_now                                   = "";
-$pPassword_password_text                     = "";
-$pQR_raw               	                     = "";
+$username = authentication_get_username();
+$pPassword_password_current_text = "";
+$pTOTP_now = "";
+$pPassword_password_text = "";
+$pQR_raw = "";
+
+// these get shown if there's an error.
+$pTOTP_secret_text = '';
+$pTOTP_code_text = '';
 
 if (authentication_has_role('admin')) {
-    $totppf = new TotpPf('admin');
-    $login  = new Login('admin');
+    $login = new Login('admin');
+    $totppf = new TotpPf('admin', $login);
     $admin = true;
 } else {
-    $totppf = new TotpPf('mailbox');
-    $login  = new Login('mailbox');
+    $login = new Login('mailbox');
+    $totppf = new TotpPf('mailbox', $login);
     $admin = false;
 }
-
-
-// Create new OTP-object
-// Generate random secret and resulting QR code
-list($pTOTP_secret, $pQR_raw) = $totppf->generate($username);
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
@@ -62,32 +59,30 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         exit(0);
     }
 
-    $fPassword_current  = $_POST['fPassword_current'];
-    $fTOTP_secret       = $_POST['fTOTP_secret'];
-    $fTOTP_code         = $_POST['fTOTP_code'];
-    $secreterror        = 0;
+    $fPassword_current = $_POST['fPassword_current'];
+    $fTOTP_secret = $_POST['fTOTP_secret'];
+    $fTOTP_code = $_POST['fTOTP_code'];
+    $error = 0;
 
     if (!$login->login($username, $fPassword_current)) {
-        $secreterror += 1;
+        $error++;
         $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];
     }
 
     // Does entered code from 2FA-app match the secret
-    if ($fTOTP_code == '') {
-        $code_checks_out    = true;
-        $fTOTP_secret       = null;
+    if ($fTOTP_code === '') {
+        // user wishes to remove TOTP code?
+        $totppf->removeTotpFromUser($username);
+        $error++;
     } else {
-        $code_checks_out = $totppf->checkTOTP($fTOTP_secret,  $username, $fTOTP_code);
-    }
-
-    // Check that user has successfully generated a TOTP with external device
-    if (!$code_checks_out) {
-        $secreterror += 1;
-        flash_error($PALANG['pTOTP_code_mismatch']);
+        if (false == $totppf->checkTOTP($fTOTP_secret, $fTOTP_code)) {
+            $error++;
+            flash_error($PALANG['pTOTP_code_mismatch']);
+        }
     }
 
     // If TOTP checks out -> store secret in DB
-    if ($secreterror == 0) {
+    if ($error == 0) {
         try {
             if ($totppf->changeTOTP_secret($username, $fTOTP_secret, $fPassword_current)) {
                 flash_info($PALANG['pTotp_stored']);
@@ -105,6 +100,12 @@ if ($totppf->usesTOTP($username)) {
 } else {
     $smarty->assign('show_form', 'visible');
 }
+
+// Create new OTP-object
+// Generate random secret and resulting QR code
+list($pTOTP_secret, $pQR_raw) = $totppf->generate($username);
+
+
 $smarty->assign('SESSID_USERNAME', $username);
 $smarty->assign('admin', $admin);
 $smarty->assign('pPassword_password_current_text', $pPassword_password_current_text, false);

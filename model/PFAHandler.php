@@ -598,6 +598,7 @@ abstract class PFAHandler
                 $result = db_update($this->db_table, $this->id_field, $this->id, $db_values, array('modified'), true);
             }
         } catch (PDOException $e) {
+            error_log(__FILE__ . " - failed to save mailbox; message : " . $e->getMessage()); // see #780
             $this->errormsg[] = Config::lang_f($this->msg['store_error'], $this->label);
             return false;
         }
