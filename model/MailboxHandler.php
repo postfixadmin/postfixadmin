@@ -228,7 +228,7 @@ class MailboxHandler extends PFAHandler {
         }
 
         // Avoid trying to store '' in an integer field
-        if ($this->values['quota'] === '') {
+        if (array_key_exists('quota', $this->values) && $this->values['quota'] === '') {
             $this->values['quota'] = 0;
         }
 
