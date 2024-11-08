@@ -372,6 +372,15 @@ $CONF['fetchmail_struct_hook']      = '';
 $CONF['dkim_struct_hook']           = '';
 $CONF['dkim_signing_struct_hook']   = '';
 
+/*
+    new_mailbox_hook is a function called right after mailbox is created if $CONF['new_mailbox_hook'] == '<name_of_the_function>' in the form:
+
+        function x_post_mailbox_creation($values) {
+        }
+    
+    where $values contains all values of the db record
+*/
+$CONF['new_mailbox_hook']           = '';
 
 // Default Domain Values
 // Specify your default values below. Quota in MB.
