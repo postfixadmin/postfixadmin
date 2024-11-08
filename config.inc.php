@@ -375,10 +375,12 @@ $CONF['dkim_signing_struct_hook']   = '';
 /*
     new_mailbox_hook is a function called right after mailbox is created if $CONF['new_mailbox_hook'] == '<name_of_the_function>' in the form:
 
-        function x_post_mailbox_creation($values) {
+        function x_post_mailbox_creation($id, $values) {
         }
     
-    where $values contains all values of the db record
+    where:
+    $id is the username
+    $values contains the values of the mailbox record created
 */
 $CONF['new_mailbox_hook']           = '';
 
