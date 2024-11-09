@@ -332,9 +332,9 @@ class MailboxHandler extends PFAHandler
                 $this->infomsg[] = Config::lang_f('pCreate_mailbox_result_succes_nosubfolders', $this->id);
             }
 
-            $new_mailbox_hook = Config::read('new_mailbox_hook');
-            if (!empty($new_mailbox_hook) && is_string($new_mailbox_hook) && function_exists($new_mailbox_hook)) {
-                $new_mailbox_hook($this->id, $this->values);
+            $mailbox_postcreation_hook  = Config::read('mailbox_postcreation_hook ');
+            if (!empty($mailbox_postcreation_hook ) && is_string($mailbox_postcreation_hook ) && function_exists($mailbox_postcreation_hook )) {
+                $mailbox_postcreation_hook($this->id, $this->values);
             }
         } else { # edit mode
             # alias active status is updated in before_store()
