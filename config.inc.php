@@ -372,6 +372,20 @@ $CONF['fetchmail_struct_hook']      = '';
 $CONF['dkim_struct_hook']           = '';
 $CONF['dkim_signing_struct_hook']   = '';
 
+/*
+    mailbox_postcreation_hook example function
+
+    Function called right after mailbox is created if $CONF['mailbox_postcreation_hook'] == '<name_of_the_function>', in the form:
+
+        function x_mailbox_postcreation_action($id, $values) {
+        }
+        $CONF['mailbox_postcreation_hook ']           = 'x_mailbox_postcreation_action';    
+
+    where:
+    $id is the username
+    $values contains the values of the mailbox record created
+*/
+$CONF['mailbox_postcreation_hook ']           = '';
 
 // Default Domain Values
 // Specify your default values below. Quota in MB.
