@@ -373,11 +373,14 @@ $CONF['dkim_struct_hook']           = '';
 $CONF['dkim_signing_struct_hook']   = '';
 
 /*
-    new_mailbox_hook is a function called right after mailbox is created if $CONF['new_mailbox_hook'] == '<name_of_the_function>' in the form:
+    mailbox_postcreation_hook example function
 
-        function x_post_mailbox_creation($id, $values) {
+    Function called right after mailbox is created if $CONF['mailbox_postcreation_hook'] == '<name_of_the_function>', in the form:
+
+        function x_mailbox_postcreation_action($id, $values) {
         }
-    
+        $CONF['mailbox_postcreation_hook ']           = 'x_mailbox_postcreation_action';    
+
     where:
     $id is the username
     $values contains the values of the mailbox record created
