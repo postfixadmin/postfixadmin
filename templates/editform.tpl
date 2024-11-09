@@ -118,7 +118,7 @@
 
                 }
         }
-        {if $struct.local_part.options.legal_chars }
+        {if (isset($struct.local_part) && $struct.local_part.options.legal_chars) }
                 // If set: Check for illegal characters in local part of username
 
                 // decode htmlentities
