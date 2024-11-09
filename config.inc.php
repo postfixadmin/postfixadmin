@@ -382,7 +382,7 @@ $CONF['dkim_signing_struct_hook']   = '';
     $id is the username
     $values contains the values of the mailbox record created
 */
-$CONF['new_mailbox_hook']           = '';
+$CONF['mailbox_postcreation_hook ']           = '';
 
 // Default Domain Values
 // Specify your default values below. Quota in MB.
