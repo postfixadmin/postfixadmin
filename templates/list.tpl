@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div id="{$id_div}" class="panel panel-default">
 
 {if ($admin_list|count > 1)}
 <div class="panel-heading">
