@@ -72,7 +72,7 @@
     <br/>
 {/if}
 {if $tab=='mailbox' || $tab=='all'}
-    <div id="overview" class="panel panel-default">
+    <div id="mailboxes" class="panel panel-default">
         {$nav_bar_mailbox.top}
         {assign var="colspan" value=9}
         {if $CONF.vacation_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}

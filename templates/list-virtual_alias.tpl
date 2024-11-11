@@ -1,3 +1,4 @@
+{assign var="id_div" value='aliases'}
 {assign var="table" value='alias'}
 {assign var="struct" value=$alias_data.struct}
 {assign var="msg" value=$alias_data.msg}

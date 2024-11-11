@@ -1,5 +1,4 @@
-{*** Domain Aliases ***}
-
+{assign var="id_div" value='alias-domains'}
 {assign var="table" value='aliasdomain'}
 {assign var="struct" value=$aliasdomain_data.struct}
 {assign var="msg" value=$aliasdomain_data.msg}
