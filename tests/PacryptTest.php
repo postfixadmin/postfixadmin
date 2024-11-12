@@ -1,6 +1,6 @@
 <?php
 
-class PaCryptTest extends \PHPUnit\Framework\TestCase
+class PacryptTest extends \PHPUnit\Framework\TestCase
 {
     public function testMd5Crypt()
     {
