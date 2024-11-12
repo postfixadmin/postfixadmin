@@ -332,8 +332,8 @@ class MailboxHandler extends PFAHandler
                 $this->infomsg[] = Config::lang_f('pCreate_mailbox_result_succes_nosubfolders', $this->id);
             }
 
-            $mailbox_postcreation_hook  = Config::read('mailbox_postcreation_hook');
-            if (!empty($mailbox_postcreation_hook) && is_string($mailbox_postcreation_hook) && function_exists($mailbox_postcreation_hook)) {
+            $mailbox_postcreation_hook = Config::read('mailbox_postcreation_hook');
+            if (!empty($mailbox_postcreation_hook) && is_callable($mailbox_postcreation_hook)) {
                 $mailbox_postcreation_hook($this->id, $this->values);
             }
         } else { # edit mode
@@ -482,7 +482,7 @@ class MailboxHandler extends PFAHandler
 
         $maildir_name_hook = Config::read('maildir_name_hook');
 
-        if (is_string($maildir_name_hook) && $maildir_name_hook != 'NO' && function_exists($maildir_name_hook)) {
+        if ($maildir_name_hook != 'NO' && is_callable($maildir_name_hook)) {
             $maildir = $maildir_name_hook($domain, $this->id);
         } elseif (Config::bool('domain_path')) {
             if (Config::bool('domain_in_mailbox')) {

@@ -190,6 +190,128 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($found);
     }
+
+    /**
+     * If someone has defined $CONF['mailbox_postcreation_hook'] then this shows an example of the data password in (and that it gets called)
+     */
+    public function testPostCreateHookScript()
+    {
+        $CONF = Config::getInstance()->getAll();
+
+        $args = [];
+
+        $CONF['mailbox_postcreation_hook'] = function () use (&$args) {
+            $args = func_get_args();
+            return true;
+        };
+
+        Config::getInstance()->setAll($CONF);
+
+        // Fake being an admin.
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['global-admin']
+            ]
+        ];
+
+
+        // test domain
+        // Add example.com
+        $dh = new DomainHandler(1, 'admin', true);
+
+        $dh->init('example.com');
+
+        $ret = $dh->set(
+            [
+                'domain' => 'example.com',
+                'description' => 'test domain',
+                'aliases' => 11,
+                'mailboxes' => 12,
+                'active' => 1,
+                'quota' => 99999911111,
+                'maxquota' => 99999999999,
+                'backupmx' => 0,
+                'default_aliases' => 1
+            ]
+        );
+
+
+        $this->assertEmpty($dh->errormsg);
+        $this->assertEmpty($dh->infomsg);
+
+        $this->assertTrue($ret);
+
+        $ret = $dh->save();
+
+        $this->assertTrue($ret);
+
+        // Need to add 'admin' as a domain_admin
+        db_insert('domain_admins', ['username' => 'admin', 'domain' => 'example.com', 'created' => '2020-01-01', 'active' => 1], ['created'], true);
+
+        $x = new MailboxHandler(1, 'admin', true);
+
+        $values = [
+            'localpart' => 'david.postcreation_hook',
+            'domain' => 'example.com',
+            'active' => 1,
+            'password' => 'topsecret12',
+            'password2' => 'topsecret12',
+            'name' => 'test person',
+            'quota' => 1,
+            'welcome_mail' => 0,
+            'email_other' => '',
+            'username' => 'david.hooktest@example.com',
+        ];
+
+        $r = $x->init('david.hooktest@example.com');
+        $this->assertTrue($r);
+        $x->getList('');
+        $list = $x->result();
+        $this->assertEquals(0, count($list));
+
+        $x->set($values);
+        $x->save();
+
+        $x->getList('');
+        $list = $x->result();
+
+        $this->assertEquals(1, count($list), json_encode($x->errormsg));
+
+
+        $args_0 = "david.hooktest@example.com";
+        $args_1 = /* @lang JSON */
+            <<<'EOF'
+{
+    "username": "david.hooktest@example.com",
+    "local_part": "david.hooktest",
+    "domain": "example.com",
+    "maildir": "example.com/david.hooktest/",
+    "password": "topsecret12",
+    "password2": "topsecret12",
+    "name": "test person",
+    "quota": 1024000,
+    "active": 1,
+    "smtp_active": 1,
+    "welcome_mail": 0,
+    "phone": "",
+    "email_other": "",
+    "token": "",
+    "created": "",
+    "modified": "",
+    "_can_edit": "",
+    "_can_delete": ""
+}
+EOF;
+
+        $this->assertNotEmpty($args[1]['token_validity']);
+        $this->assertNotEmpty($args[1]['password_expiry']);
+        unset($args[1]['token_validity']);
+        unset($args[1]['password_expiry']);
+
+        $this->assertEquals($args_0, $args[0]);
+        $this->assertJsonStringEqualsJsonString($args_1, json_encode($args[1]));
+
+    }
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
