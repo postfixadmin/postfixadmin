@@ -16,7 +16,7 @@
         "lint": "@php ./vendor/bin/parallel-lint --exclude vendor/ --exclude lib/block_random_int.php --exclude lib/array_column.php .",
         "test": "@php ./vendor/bin/phpunit --coverage-clover ./clover.xml tests/",
         "test-fixup": "mkdir -p templates_c ; test -f config.local.php || touch config.local.php",
-        "psalm": "@php ./vendor/bin/psalm --no-cache --show-info=false "
+        "psalm": "@php ./vendor/bin/psalm.phar --no-cache --show-info=false "
     },
     "require": {
         "php": ">=7.0 | 8.0 | 8.1 "
@@ -29,7 +29,7 @@
         "php-coveralls/php-coveralls" : "*",
         "php":  ">7.0",
         "phpunit/phpunit": "8.*",
-        "vimeo/psalm":"^4.0",
+        "psalm/phar":"^4.0",
         "shardj/zf1-future" : "^1.12"
     },
     "autoload": {
