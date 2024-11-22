@@ -45,6 +45,9 @@ if (authentication_has_role('global-admin')) { # more permissions? Fine!
     $username = safepost('username', safeget('username', $username)); # prefer POST over GET variable
 }
 
+// some default, see https://github.com/postfixadmin/postfixadmin/pull/868
+$smarty->assign('id_div', 'main_div');
+
 $is_admin = authentication_has_role('admin');
 
 $handler = new $handlerclass(0, $username, $is_admin);
