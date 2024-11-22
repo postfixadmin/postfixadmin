@@ -33,7 +33,6 @@ Create a new admin account using your setup password .... then you can login as 
 ![Domain list](admin-domain-list.png "Domain list")
 
 
-
 ### View mailboxes and aliases for domain
 
 ![Virtual overview](mailboxes-and-forwards-for-domain.png "Viewing aliases and mailboxes for a domain")
