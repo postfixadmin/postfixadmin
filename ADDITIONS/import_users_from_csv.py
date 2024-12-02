@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Script takes a CSV list of users and does a 'bulk' insertion into mysql.
 #
@@ -18,111 +18,89 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+# 2024/12/02 - see https://github.com/postfixadmin/postfixadmin/issues/875 - naive porting to python3 by DavidGoodwin
 
 import csv
-import getopt
+import argparse
 import sys
 import re
 import time
 import random, string
 from datetime import datetime
 from crypt import crypt
+
 try:
     import MySQLdb 
-except ImportError ,e:
-    print 'Cannot import the needed MySQLdb module, you must install it'
-    print 'on Debian systems just use the command'
-    print '   apt-get install python-mysqldb'
+except ImportError:
+    print("""
+Cannot import the needed MySQLdb module, you must install it.
+On Debian systems just use the command: apt-get install python-mysqldb
+""")
 
-def usage():
-    print "Usage: inspostadmusers.py [options] users.csv"
-    print "       -h        print this help"
-    print "       -t        test run, do not insert, just print"
-    print "       -u        DB user"
-    print "       -p        DB password"
-    print "       -D        DB name"
-    print "       -H        DB host"
-    print "       -q        Quota in Mb (0 => no limit)"
-    print "       -n        char in seed"
-    print "       -d        debug info on"
-    print "       -A        create default alias for each domain"
-    print
-    print "the users.csv file must contains the user list with a line"
-    print "for each user, first line should be a title line with at least"
-    print "the following column names: "
-    print " * user     - user part of the email (like user in user@domain.com)"
-    print " * password - cleartext password"
-    print " * domain   - domain name (like 'domain.com')"
-    print " * name     - full user name ('Name Surname')"
-    print
-    print "the 'name' column is optional, other columns will be ignored"
-    print
-    print "Known restrictions:"
-    print "* this script only works with MySQL"
-    print "* mailbox paths are hardcoded to domain/username/"
 
 
 # option parsing
 try:
-    opts, args = getopt.getopt(sys.argv[1:], 'u:p:d:D:H:htdA')
-    optval={}
-    for opt, val in opts:
-        if opt == "-h":
-            usage()
-            sys.exit(0)
-        else:
-            optval[opt]=val
-except getopt.GetoptError:
-    usage()
-    sys.exit(2)
+    epilog = """
 
-#
-# Setup DB connection
-#
-MYSQLDB="postfixadmin"
-MYSQLUSER="postfixadmin"
-MYSQLPASSWORD=""
-MYSQLHOST="localhost"
+The users.csv file must contains the user list with a line
+for each user, first line should be a title line with at least
+the following column names: 
+ * user     - user part of the email (like user in user@domain.com)
+ * password - cleartext password
+ * domain   - domain name (like 'domain.com')
+ * name     - full user name ('Name Surname')
+    
+the 'name' column is optional, other columns will be ignored
 
-# settings by command line options
-if optval.has_key('-u'):
-    MYSQLUSER = optval['-u']
-if optval.has_key('-p'):
-    MYSQLPASSWORD = optval['-p']
-if optval.has_key('-D'):
-    MYSQLDB = optval['-D']
-if optval.has_key('-H'):
-    MYSQLHOST = optval['-H']
+Known restrictions:
+ * this script only works with MySQL
+ * mailbox paths are hardcoded to domain/username/ 
+    """
 
-if optval.has_key('-q'):
-    quota = optval['-q']
-else:
-    quota = 0
+    parser = argparse.ArgumentParser(prog="import_users_from_csv.py", description="import .csv file for PostfixAdmin into a MySQL DB", epilog=epilog)
+    parser.add_argument('filename')
+    parser.add_argument('-t', "--test",   help="test run, do not insert, just print", action="store_true")
+    parser.add_argument('-u', "--dbuser", help="MySQL DB Username", default="postfixadmin")
+    parser.add_argument('-p', "--dbpass", help="MySQL DB Password", default="")
+    parser.add_argument('-D', "--dbname", help="MySQL DB Name", default="postfixadmin")
+    parser.add_argument('-H', "--dbhost", help="MySQL DB Host", default="localhost")
+    parser.add_argument('-q', "--quota",  help="Quota in Mb (0 => no limit)", default=0)
+    parser.add_argument('-n', "--seedchars",   help="number of chars in seed", default=8)
+    parser.add_argument('-d', "--debug",  help="debug info on", action="store_true")
+    parser.add_argument('-A', "--defaultaliases", help="create default alias for each domain", action="store_true")
 
-if optval.has_key('-n'):
-    seed_len = optval['-n']
-else:
-    seed_len = 8
+    args = parser.parse_args()
 
-# check arguments, only the user list file must be present
-if len(args) !=1:
-    print 'Need just one argument'
-    usage()
+    filename = args.filename
+
+    MYSQLUSER = args.u
+    MYSQLPASSWORD = args.p
+    MYSQLDB = args.D
+    MYSQLHOST = args.H
+
+    quota = args.q
+   
+    seed_len = args.n
+
+    test_run = args.t
+    debug = args.d
+    defaultalias = args.A
+
+except Exception as e:
+    print("Failed to parse args?: %s" % e)
     sys.exit(1)
 
-# MySQL connection (skipped in test run)
-if optval.has_key('-t'):
-    print "Test Run"
-else:
-    try:
-        connection = MySQLdb.connect(host=MYSQLHOST, user=MYSQLUSER, 
-                                     db=MYSQLDB, passwd=MYSQLPASSWORD)
-    except MySQLdb.MySQLError, e:
-        print "Database connection error"
-        print e
-        sys.exit(1)
- 
-    cursor = connection.cursor()
+#print("Args parsed? %s %s %s %s %r %r" % ( MYSQLUSER, MYSQLPASSWORD, MYSQLDB, MYSQLHOST, debug, defaultalias))
+
+try:
+    connection = MySQLdb.connect(host=MYSQLHOST, user=MYSQLUSER, 
+                                 db=MYSQLDB, passwd=MYSQLPASSWORD)
+except MySQLdb.MySQLError as e:
+    print("Database connection error, %r" % e)
+    sys.exit(1)
+
+cursor = connection.cursor()
 
 #
 # Main body
@@ -130,24 +108,25 @@ else:
 NOW = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # read and convert CSV data
-lista = csv.DictReader(open(args[0]))
+lista = csv.DictReader(open(filename))
 
 def gen_seed(seed_len, chars):
     return '$1$'+''.join([random.choice(chars) for _ in xrange(seed_len)])+'$'
 
 def insert_record(cursor,table,record):
+
     columns = record.keys()
     query = "INSERT INTO " + table + "(" + ','.join(columns) + ") VALUES (" + ','.join(len(columns)*['%s']) + ")"
+
+    if test_run:
+        print("Would run SQL : %s ... with args: %r" % ( query, record.values() ))
+        return 0
+
     try:
         cursor.execute(query, record.values())
         return 0
-    except MySQLdb.MySQLError, e:
-        print "Database insertion error"
-        print e
-        print "Record was:"
-        print record.values()
-        print "Query was:"
-        print query
+    except MySQLdb.MySQLError as e:
+        print("Database insertion error: %s. Record was: %r, Query was: %s" % (e, record.values, query))
 
 # defining default values for tables (mailbox, alias and domain)
 mailbox = {
@@ -184,23 +163,21 @@ for row in lista:
     # create domain if it does not exists
     if domain_list.has_key(row["domain"]):
         if optval.has_key('-d'):
-            print "Domain " + row["domain"] + "already exixts"
+            print("Domain " + row["domain"] + "already exixts")
     else:
         domain_list[row["domain"]] = 1
         domain['domain'] = row["domain"]
-        if optval.has_key('-t'):
-            print "Inserting domain"
-            print domain
+        if debug:
+            print("Inserting domain: %s" % domain)
         else:
             insert_record(cursor,'domain',domain)
-            if optval.has_key('-A'):
+            if defaultalias:
                 for i in def_alias:
                     aliases['address']= i+'@'+row["domain"]
                     aliases['goto']= aliases['address']
                     aliases['domain'] = row["domain"]
                     if optval.has_key('-t'):
-                        print "Inserting alias"
-                        print aliases
+                        print("Inserting alias: %s" % aliases)
                     else:
                         insert_record(cursor,'alias',aliases)
 
@@ -219,10 +196,8 @@ for row in lista:
     aliases['domain'] = row["domain"]
 
     # inserting data for mailbox (and relate alias)
-    if optval.has_key('-t'):
-        print "Inserting mailbox"
-        print mailbox
-        print aliases
+    if debug:
+        print("Inserting mailbox: %s, %s" % ( mailbox, aliases ))
     else:
         insert_record(cursor,'mailbox',mailbox)
         insert_record(cursor,'alias',aliases)
