@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die('Invalid token! (CSRF check failed)');
     }
 
-    $totppf = new TotpPf('mailbox');
+    $totppf = new TotpPf('mailbox', new Login('mailbox'));
     $fTotp = safepost('fTOTP_code');
 
     if (authentication_mfa_incomplete() && $totppf->checkUserTOTP(authentication_get_username(), $fTotp)) {
