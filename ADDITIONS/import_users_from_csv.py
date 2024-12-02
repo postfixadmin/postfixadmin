@@ -74,24 +74,24 @@ Known restrictions:
 
     filename = args.filename
 
-    MYSQLUSER = args.u
-    MYSQLPASSWORD = args.p
-    MYSQLDB = args.D
-    MYSQLHOST = args.H
+    print("Args: %r" % args)
 
-    quota = args.q
+    MYSQLUSER = args.dbuser
+    MYSQLPASSWORD = args.dbpass
+    MYSQLDB = args.dbname
+    MYSQLHOST = args.dbhost
+
+    quota = args.quota
    
-    seed_len = args.n
+    seed_len = args.seedchars
 
-    test_run = args.t
-    debug = args.d
-    defaultalias = args.A
+    test_run = args.test
+    debug = args.debug
+    defaultalias = args.defaultaliases
 
 except Exception as e:
     print("Failed to parse args?: %s" % e)
     sys.exit(1)
-
-#print("Args parsed? %s %s %s %s %r %r" % ( MYSQLUSER, MYSQLPASSWORD, MYSQLDB, MYSQLHOST, debug, defaultalias))
 
 try:
     connection = MySQLdb.connect(host=MYSQLHOST, user=MYSQLUSER, 
@@ -108,10 +108,10 @@ cursor = connection.cursor()
 NOW = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 # read and convert CSV data
-lista = csv.DictReader(open(filename))
+lista = csv.reader(open(filename))
 
 def gen_seed(seed_len, chars):
-    return '$1$'+''.join([random.choice(chars) for _ in xrange(seed_len)])+'$'
+    return '$1$'+''.join([random.choice(chars) for _ in range(seed_len)])+'$'
 
 def insert_record(cursor,table,record):
 
@@ -156,51 +156,61 @@ domain = {
 def_alias = ['abuse','hostmaster','postmaster','webmaster'] 
 
 domain_list = {}
-chars = string.letters + string.digits
+
+chars = string.ascii_letters + string.digits
 
 # loop over the CSV 
 for row in lista:
+
+    if debug:
+        print("Handling row: %r" % row)
     # create domain if it does not exists
-    if domain_list.has_key(row["domain"]):
-        if optval.has_key('-d'):
-            print("Domain " + row["domain"] + "already exixts")
+
+    csv_user = row[0]
+    csv_pass = row[1]
+    csv_domain = row[2]
+    csv_name =row[3]
+
+    if csv_domain in domain_list:
+        if debug:
+            print("Domain " + csv_domain + " already exixts")
     else:
-        domain_list[row["domain"]] = 1
-        domain['domain'] = row["domain"]
+        # Surely the domain could exist in our db, so this would just fail?
+        domain_list[csv_domain] = 1
+        domain['domain'] = csv_domain
         if debug:
             print("Inserting domain: %s" % domain)
         else:
             insert_record(cursor,'domain',domain)
             if defaultalias:
                 for i in def_alias:
-                    aliases['address']= i+'@'+row["domain"]
+                    aliases['address']= i+'@' + csv_domain
                     aliases['goto']= aliases['address']
-                    aliases['domain'] = row["domain"]
-                    if optval.has_key('-t'):
+                    aliases['domain'] = csv_domain
+                    if debug:
                         print("Inserting alias: %s" % aliases)
-                    else:
-                        insert_record(cursor,'alias',aliases)
+                    insert_record(cursor,'alias',aliases)
 
     # build query data for mailbox table
-    mailbox['username']=row["user"]+'@'+row["domain"]
-    encpass=crypt(row["password"], gen_seed(seed_len,chars))
+    mailbox['username']= csv_user+'@'+csv_domain
+    encpass=crypt(csv_pass, gen_seed(seed_len,chars))
     mailbox['password'] = encpass
-    mailbox['name'] = row["name"]
-    mailbox['maildir'] = row["domain"]+'/'+row["user"]+'/'
-    mailbox['local_part'] =row["user"]
-    mailbox['domain'] = row["domain"]
+    mailbox['name'] = csv_name
+    mailbox['maildir'] = csv_domain + '/' + csv_user +'/'
+    mailbox['local_part'] = csv_user
+    mailbox['domain'] = csv_domain
 
     # build query data for alias table
     aliases['address']= mailbox['username']
     aliases['goto']= mailbox['username']
-    aliases['domain'] = row["domain"]
+    aliases['domain'] = csv_domain
 
     # inserting data for mailbox (and relate alias)
     if debug:
         print("Inserting mailbox: %s, %s" % ( mailbox, aliases ))
-    else:
-        insert_record(cursor,'mailbox',mailbox)
-        insert_record(cursor,'alias',aliases)
+
+    insert_record(cursor,'mailbox',mailbox)
+    insert_record(cursor,'alias',aliases)
 
 
 sys.exit(0)
