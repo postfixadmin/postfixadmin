@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Postfixadmin (http://postfixadmin.sf.net) integration with Squirrelmail.
  * See http://squirrelmail-postfixadmin.palepurple.co.uk
