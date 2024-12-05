@@ -15,6 +15,19 @@ jobs:
         tools: composer
         extensions: sqlite3, gd
 
+    - name: Get composer cache directory
+      if: ${{ !env.ACT }}
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache dependencies
+      if: ${{ !env.ACT }}
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+
     - name: run install.sh
       run: /bin/bash install.sh
 
@@ -57,6 +70,19 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         tools: composer
         extensions: sqlite3, gd
+
+    - name: Get composer cache directory
+      if: ${{ !env.ACT }}
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache dependencies
+      if: ${{ !env.ACT }}
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ matrix.php-versions}}-${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
 
     - name: run install.sh
       run: /bin/bash install.sh
