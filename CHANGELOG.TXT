@@ -6,6 +6,10 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 3.3.16 - XXXX/XX/XX
+-------------------------------------------------
+   - Correct PHP requirement to >= 7.2 - it seems we've managed to lose support for PHP 7.0 somehow (Smarty,PHPUnit), possibly related to https://github.com/postfixadmin/postfixadmin/pull/541. 
+
 Version 3.3.15 - 2024/12/20
 -------------------------------------------------
    - Add postfixadmin-cli man page (thanks @delgh1)
