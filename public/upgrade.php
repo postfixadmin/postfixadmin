@@ -2356,4 +2356,3 @@ function upgrade_1850()
     // see also: https://github.com/postfixadmin/postfixadmin/issues/891
     _db_add_field('mailbox',  'smtp_active', '{BOOLEAN_TRUE}');
 }
-
