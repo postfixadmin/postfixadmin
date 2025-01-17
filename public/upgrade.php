@@ -257,6 +257,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "")
                 '{UNSIGNED}'        => 'unsigned'  ,
                 '{FULLTEXT}'        => 'FULLTEXT',
                 '{BOOLEAN}'         => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
+                '{BOOLEAN_TRUE}'    => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(true) . "'",
                 '{UTF-8}'           => '/*!40100 CHARACTER SET utf8mb4 */',
                 '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 COLLATE latin1_general_ci */',
                 '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
@@ -2352,5 +2353,7 @@ function upgrade_1849_sqlite()
 
 function upgrade_1850()
 {
-    _db_add_field('mailbox',  'smtp_active', 'int DEFAULT 1');
+    // see also: https://github.com/postfixadmin/postfixadmin/issues/891
+    _db_add_field('mailbox',  'smtp_active', '{BOOLEAN_TRUE}');
 }
+
