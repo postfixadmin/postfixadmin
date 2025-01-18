@@ -303,6 +303,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "")
                 '{UNSIGNED}'        => '',
                 '{FULLTEXT}'        => '',
                 '{BOOLEAN}'         => "BOOLEAN NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
+                '{BOOLEAN_TRUE}'    => "BOOLEAN NOT NULL DEFAULT '" . db_get_boolean(true) . "'",
                 '{UTF-8}'           => '', # UTF-8 is simply ignored.
                 '{LATIN1}'          => '', # same for latin1
                 '{IF_NOT_EXISTS}'   => '', # does not work with PgSQL
