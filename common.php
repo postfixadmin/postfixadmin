@@ -21,6 +21,18 @@ if (!defined('POSTFIXADMIN')) { # already defined if called from setup.php
     if (!defined('POSTFIXADMIN_CLI')) {
         // this is the default; see also https://sourceforge.net/p/postfixadmin/bugs/347/
         session_cache_limiter('nocache');
+
+        /**
+         * @see https://github.com/postfixadmin/postfixadmin/issues/903
+         */
+        $cookie_params = session_get_cookie_params();
+        $cookie_params['samesite'] = 'Strict';
+        $cookie_params['httponly'] = true;
+        // Is this worthwhile? a non https request will get a non 'secure' cookie.
+        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+            $cookie_params['secure'] = true;
+        }
+        session_set_cookie_params($cookie_params);
         session_name('postfixadmin_session');
         session_start();
 
