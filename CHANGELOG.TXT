@@ -10,6 +10,7 @@ Version 3.3.16 - XXXX/XX/XX
 -------------------------------------------------
    - Correct PHP requirement to >= 7.2 - it seems we've managed to lose support for PHP 7.0 somehow (Smarty,PHPUnit), possibly related to https://github.com/postfixadmin/postfixadmin/pull/541. 
    - Make PHP session cookies more secure (add samesite, httponly and perhaps secure flags) - see https://github.com/postfixadmin/postfixadmin/issues/903, thanks @gitblacker 
+   - Upgrade moment.js library used by bootstrap - includes fix for Regex DoS issues - see https://github.com/postfixadmin/postfixadmin/issues/902, thanks @gitblacker
 
 Version 3.3.15 - 2024/12/20
 -------------------------------------------------
