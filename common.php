@@ -42,6 +42,8 @@ if (!defined('POSTFIXADMIN')) { # already defined if called from setup.php
 
         // avoid clickjacking attacks?
         header('X-Frame-Options: DENY');
+        // see https://github.com/postfixadmin/postfixadmin/issues/905
+        header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';");
     }
 }
 
