@@ -29,7 +29,7 @@ if (!defined('POSTFIXADMIN')) { # already defined if called from setup.php
         $cookie_params['samesite'] = 'Strict';
         $cookie_params['httponly'] = true;
         // Is this worthwhile? a non https request will get a non 'secure' cookie.
-        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
             $cookie_params['secure'] = true;
         }
         session_set_cookie_params($cookie_params);
