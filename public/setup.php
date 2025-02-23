@@ -112,16 +112,16 @@ $tick = ' ✅ ';
                     } else {
                         echo $todo . " You need to have a setup_password hash configured in a <code>config.local.php</code> file";
                     }
-                    ?>
+?>
                 </li>
                 <li>
                     <?php
-                    if ($authenticated) {
-                        echo $tick . " You are logged in with the setup_password, some environment and hosting checks are displayed below.";
-                    } else {
-                        echo $todo . " You need to authenticate using the setup_password before you can perform some environment and hosting checks.";
-                    }
-                    ?>
+if ($authenticated) {
+    echo $tick . " You are logged in with the setup_password, some environment and hosting checks are displayed below.";
+} else {
+    echo $todo . " You need to authenticate using the setup_password before you can perform some environment and hosting checks.";
+}
+?>
                 </li>
             </ul>
 
@@ -184,43 +184,43 @@ $tick = ' ✅ ';
 EOF;
             }
 
-            if ($old_setup_password) {
-                echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
-            }
+if ($old_setup_password) {
+    echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
+}
 
-            if (!$authenticated || !$configSetupDone) { ?>
+if (!$authenticated || !$configSetupDone) { ?>
 
                 <h2>Generate setup_password</h2>
 
                 <?php
 
-                $form_error = '';
-                $result = '';
+    $form_error = '';
+    $result = '';
 
-                if (safepost('form') === "setuppw") {
-                    $errors = [];
+    if (safepost('form') === "setuppw") {
+        $errors = [];
 
-                    # "setup password" form submitted
-                    if (safepost('setup_password', 'abc') != safepost('setup_password2')) {
-                        $errors['setup_password'] = "The two passwords differ!";
-                        $form_error = 'has-error';
-                    } else {
-                        $msgs = validate_password(safepost('setup_password'));
+        # "setup password" form submitted
+        if (safepost('setup_password', 'abc') != safepost('setup_password2')) {
+            $errors['setup_password'] = "The two passwords differ!";
+            $form_error = 'has-error';
+        } else {
+            $msgs = validate_password(safepost('setup_password'));
 
-                        if (empty($msgs)) {
-                            // form has been submitted; both fields filled in, so generate a new setup password.
-                            $hash = password_hash(safepost('setup_password'), PASSWORD_DEFAULT);
+            if (empty($msgs)) {
+                // form has been submitted; both fields filled in, so generate a new setup password.
+                $hash = password_hash(safepost('setup_password'), PASSWORD_DEFAULT);
 
-                            $result = '<p>If you want to use the password you entered as setup password, edit config.inc.php or config.local.php and set</p>';
-                            $result .= "<pre>\$CONF['setup_password'] = '$hash';</pre><p>After adding, refresh this page and log in using it.</p>";
-                        } else {
-                            $form_error = 'has-error';
-                            $errors['setup_password'] = implode(', ', $msgs);
-                        }
-                    }
-                }
+                $result = '<p>If you want to use the password you entered as setup password, edit config.inc.php or config.local.php and set</p>';
+                $result .= "<pre>\$CONF['setup_password'] = '$hash';</pre><p>After adding, refresh this page and log in using it.</p>";
+            } else {
+                $form_error = 'has-error';
+                $errors['setup_password'] = implode(', ', $msgs);
+            }
+        }
+    }
 
-                ?>
+    ?>
 
                 <form name="setuppw" method="post" class="form-horizontal" action="setup.php">
                     <input type="hidden" name="form" value="setuppw"/>
@@ -263,7 +263,7 @@ EOF;
                 </form>
                 <?= $result ?>
                 <?php
-            }  // end if(!$authenticated)?>
+}  // end if(!$authenticated)?>
         </div>
     </div>
 
@@ -272,44 +272,44 @@ EOF;
             <h2 class="h2">Hosting Environment Check</h2>
 
             <?php
-            $check = do_software_environment_check();
+$check = do_software_environment_check();
 
-            if ($authenticated) {
-                if (!empty($check['info'])) {
-                    echo "<h3>Information</h3><ul>";
-                    foreach ($check['info'] as $msg) {
-                        echo "<li>{$tick} {$msg}</li>";
-                    }
-                    echo "</ul>";
-                }
+if ($authenticated) {
+    if (!empty($check['info'])) {
+        echo "<h3>Information</h3><ul>";
+        foreach ($check['info'] as $msg) {
+            echo "<li>{$tick} {$msg}</li>";
+        }
+        echo "</ul>";
+    }
 
-                if (!empty($check['warn'])) {
-                    echo "<h3>Warnings</h3><ul>";
-                    foreach ($check['warn'] as $msg) {
-                        echo "<li class='text-warning'>⚠ {$msg}</li>";
-                    }
-                    echo "</ul>";
-                }
-                if (!empty($check['error'])) {
-                    echo "<h3>Errors (MUST be fixed)</h3><ul>";
-                    foreach ($check['error'] as $msg) {
-                        echo "<li class='text-danger'>⛔{$msg}</li>";
-                    }
-                    echo "</ul>";
-                }
+    if (!empty($check['warn'])) {
+        echo "<h3>Warnings</h3><ul>";
+        foreach ($check['warn'] as $msg) {
+            echo "<li class='text-warning'>⚠ {$msg}</li>";
+        }
+        echo "</ul>";
+    }
+    if (!empty($check['error'])) {
+        echo "<h3>Errors (MUST be fixed)</h3><ul>";
+        foreach ($check['error'] as $msg) {
+            echo "<li class='text-danger'>⛔{$msg}</li>";
+        }
+        echo "</ul>";
+    }
 
-                $php_error_log = ini_get('error_log');
-            } else {
-                if (!empty($check['error'])) {
-                    echo '<h3 class="text-danger">Hosting Environment errors found. Login to see details.</h3>';
-                }
+    $php_error_log = ini_get('error_log');
+} else {
+    if (!empty($check['error'])) {
+        echo '<h3 class="text-danger">Hosting Environment errors found. Login to see details.</h3>';
+    }
 
-                if (!empty($check['warn'])) {
-                    echo '<h3 class="text-warning">Hosting Environment warnings found. Login to see details.</h3>';
-                }
-            }
+    if (!empty($check['warn'])) {
+        echo '<h3 class="text-warning">Hosting Environment warnings found. Login to see details.</h3>';
+    }
+}
 
-            ?>
+?>
 
         </div>
     </div>
@@ -319,46 +319,46 @@ EOF;
             <h2 class="h2">Database Update</h2>
 
             <?php
-            $db = false;
-            try {
-                $db = db_connect();
-            } catch (\Exception $e) {
-                echo "<p class='h3 text-danger'>Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>';
-                error_log("Couldn't perform PostfixAdmin database update - failed to connect to db? " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
-            }
+$db = false;
+try {
+    $db = db_connect();
+} catch (\Exception $e) {
+    echo "<p class='h3 text-danger'>Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>';
+    error_log("Couldn't perform PostfixAdmin database update - failed to connect to db? " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
+}
 
-            if ($db) {
-                echo "<p>Everything seems fine... attempting to create/update database structure</p>\n";
-                try {
-                    require_once(dirname(__FILE__) . '/upgrade.php');
-                } catch (\Exception $e) {
-                    if ($authenticated) {
-                        echo "<p class='h3 text-danger'>Exception message: {$e->getMessage()} - check logs!</p>";
-                    }
-                    echo "<p class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>';
-                    error_log("Couldn't perform PostfixAdmin database update via upgrade.php - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
-                }
-            } else {
-                echo "<h3 class='h3 text-danger'>Could not connect to database to perform updates; check PHP error log.</h3>";
-            }
-            ?>
+if ($db) {
+    echo "<p>Everything seems fine... attempting to create/update database structure</p>\n";
+    try {
+        require_once(dirname(__FILE__) . '/upgrade.php');
+    } catch (\Exception $e) {
+        if ($authenticated) {
+            echo "<p class='h3 text-danger'>Exception message: {$e->getMessage()} - check logs!</p>";
+        }
+        echo "<p class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</p>';
+        error_log("Couldn't perform PostfixAdmin database update via upgrade.php - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
+    }
+} else {
+    echo "<h3 class='h3 text-danger'>Could not connect to database to perform updates; check PHP error log.</h3>";
+}
+?>
 
         </div>
     </div>
 
     <?php
     if ($authenticated) {
-    $setupMessage = '';
+        $setupMessage = '';
 
-    if (safepost("submit") === "createadmin") {
-    ?>
+        if (safepost("submit") === "createadmin") {
+            ?>
     <div class='row'>
         <div class='col-12'>
             <?php
-            # "create admin" form submitted, make sure the correct setup password was specified.
+                    # "create admin" form submitted, make sure the correct setup password was specified.
 
-            // XXX need to ensure domains table includes an 'ALL' entry.
-            $table_domain = table_by_key('domain');
+                    // XXX need to ensure domains table includes an 'ALL' entry.
+                    $table_domain = table_by_key('domain');
             $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
             if (empty($rows)) {
                 // all other fields should default through the schema.
@@ -386,13 +386,13 @@ EOF;
             }
 
             echo "</div></div>";
-            }
+        }
 
-            $table_admin = table_by_key('admin');
-            $bool = db_get_boolean(true);
-            $admins = db_query_all("SELECT * FROM $table_admin WHERE superadmin = '$bool' AND active = '$bool'");
+        $table_admin = table_by_key('admin');
+        $bool = db_get_boolean(true);
+        $admins = db_query_all("SELECT * FROM $table_admin WHERE superadmin = '$bool' AND active = '$bool'");
 
-            if (!empty($admins)) { ?>
+        if (!empty($admins)) { ?>
 
                 <div class="row">
                     <div class="col-12">
@@ -401,10 +401,10 @@ EOF;
                         <p>The following 'super-admin' accounts have already been added to the database.</p>
                         <ul>
                             <?php
-                            foreach ($admins as $row) {
-                                echo "<li>{$row['username']}</li>";
-                            }
-                            ?>
+                        foreach ($admins as $row) {
+                            echo "<li>{$row['username']}</li>";
+                        }
+            ?>
                         </ul>
                     </div>
                 </div>
@@ -485,9 +485,9 @@ EOF;
                 </div>
             </div>
             <?php
-            }
+    }
 
-            ?>
+?>
         </div>
         <footer class="footer mt-5 bg-dark">
             <div class="container text-center">
@@ -656,10 +656,10 @@ function do_software_environment_check()
 
             if (is_writeable($error_log_file)) {
                 $err = "Possibly helpful error_log messages - " . htmlspecialchars(
-                        implode("",
-                            array_slice(file($error_log_file), -4, 3)  // last three lines, might fail miserably if error_log is large.
-                        )
-                    );
+                    implode("",
+                        array_slice(file($error_log_file), -4, 3)  // last three lines, might fail miserably if error_log is large.
+                    )
+                );
 
                 $error[] = nl2br($err);
             }
