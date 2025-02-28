@@ -1879,6 +1879,10 @@ function upgrade_1837_sqlite() {
  */
 function upgrade_1839() {
     if (!db_sqlite()) {
+        // Note: mysql-8 may have silently added a my_row_id auto increment field
+        // see https://dev.mysql.com/doc/refman/8.4/en/create-table-gipks.html
+        // and https://github.com/postfixadmin/postfixadmin/issues/908
+        // fix: change the sql_generate_invisible_primary_key MySQL parameter to be off / 0
         _db_add_field('log', 'id', '{AUTOINCREMENT} {PRIMARY}', 'data');
         return;
     }
