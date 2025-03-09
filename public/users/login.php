@@ -48,7 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die('Invalid token!');
     }
 
-    $totppf = new TotpPf('mailbox');
+    $login = new Login('mailbox');
+    $totppf = new TotpPf('mailbox', $login);
 
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
@@ -60,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         # (language preference cookie is processed even if username and/or password are invalid)
     }
 
-    $login = new Login('mailbox');
     if ($login->login($fUsername, $fPassword)) {
         if ($totppf->usesTOTP($fUsername)) {
             init_session($fUsername, false, false);
