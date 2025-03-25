@@ -90,12 +90,12 @@ user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query          = SELECT domain FROM domain WHERE domain='%s' AND active = '1'
-#query          = SELECT domain FROM domain WHERE domain='%s'
+query          = SELECT domain FROM domain WHERE domain='%s' AND active = '1' AND domain != 'ALL'
+
 #optional query to use when relaying for backup MX
-#query           = SELECT domain FROM domain WHERE domain='%s' AND backupmx = '0' AND active = '1'
+#query           = SELECT domain FROM domain WHERE domain='%s' AND backupmx = '0' AND active = '1' AND domain != 'ALL'
 #optional query to use for transport map support
-#query           = SELECT domain FROM domain WHERE domain='%s' AND active = '1' AND NOT (transport LIKE 'smtp%%' OR transport LIKE 'relay%%')
+#query           = SELECT domain FROM domain WHERE domain='%s' AND active = '1' AND domain != 'ALL' AND NOT (transport LIKE 'smtp%%' OR transport LIKE 'relay%%')
 #expansion_limit = 100
 
 mysql_virtual_mailbox_maps.cf:
@@ -118,14 +118,14 @@ user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query = SELECT domain FROM domain WHERE domain='%s' AND active = '1' AND (transport LIKE 'smtp%%' OR transport LIKE 'relay%%')
+query = SELECT domain FROM domain WHERE domain='%s' AND active = '1' AND (transport LIKE 'smtp%%' OR transport LIKE 'relay%%') AND domain != 'ALL'
 
 mysql_transport_maps.cf:
 user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query = SELECT transport FROM domain WHERE domain='%s' AND active = '1'
+query = SELECT transport FROM domain WHERE domain='%s' AND active = '1' AND domain != 'ALL'
 
 
 (See above note re Concat + PostgreSQL)

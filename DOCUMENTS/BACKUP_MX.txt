@@ -31,7 +31,7 @@ user = postfix
 password = password
 hosts = localhost
 dbname = postfix
-query = SELECT domain FROM domain WHERE domain = '%s' AND backupmx = '1'
+query = SELECT domain FROM domain WHERE domain = '%s' AND backupmx = '1' AND domain != 'ALL'
 
 
 3. Restart Postfix
