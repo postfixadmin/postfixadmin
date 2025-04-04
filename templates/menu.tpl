@@ -162,7 +162,7 @@
                     {* logout *}
                     <li>
                         <a class="btn navbar-btn theme-toggle" type="button" href="#" id="theme-toggle">
-                            <span class="glyphicon glyphicon-adjust" aria-hidden="true"></span>
+                            <span class="theme-icon-container"></span>
                             <span class="theme-text">Toggle Theme</span>
                         </a>
                     </li>

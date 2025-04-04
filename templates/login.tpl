@@ -42,7 +42,7 @@
             <div class="form-group">
                 <label>{$PALANG.pLogin_theme|default:'Theme'}:</label>
                 <button type="button" class="btn btn-default btn-block theme-toggle" id="theme-toggle">
-                    <span class="glyphicon glyphicon-adjust" aria-hidden="true"></span>
+                    <span class="theme-icon-container"></span>
                     <span class="theme-text">Toggle Theme</span>
                 </button>
             </div>

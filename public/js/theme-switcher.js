@@ -1,3 +1,23 @@
+// Initialize theme before DOM loads to avoid flashing
+(function() {
+    // Apply theme immediately
+    const savedTheme = localStorage.getItem('theme-preference');
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        // Try to disable/enable the stylesheet if it exists
+        const darkThemeCss = document.getElementById('dark-theme-css');
+        if (darkThemeCss) {
+            darkThemeCss.disabled = savedTheme !== 'dark';
+        }
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        const darkThemeCss = document.getElementById('dark-theme-css');
+        if (darkThemeCss) {
+            darkThemeCss.disabled = false;
+        }
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     // Apply theme immediately before page rendering completes
     applyThemeFromStorage();

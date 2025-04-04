@@ -3,6 +3,35 @@
 	color: #eee;
 }
 
+[data-theme="dark"] body {
+	background-color: #111 !important;
+	color: #eee !important;
+}
+
+/* Make sure all background containers get the dark background */
+[data-theme="dark"] .container,
+[data-theme="dark"] .container-fluid,
+[data-theme="dark"] .content-wrapper,
+[data-theme="dark"] .main-content {
+	background-color: #111 !important;
+	color: #eee !important;
+}
+
+/* Ensure text is readable on dark background */
+[data-theme="dark"] p,
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] span,
+[data-theme="dark"] label,
+[data-theme="dark"] td,
+[data-theme="dark"] th {
+	color: #eee !important;
+}
+
 [data-theme="dark"] .bg-light {
 	background-color: #333 !important;
 }
@@ -745,7 +774,7 @@
 [data-theme="dark"] .btn-link[disabled]:focus,
 [data-theme="dark"] fieldset[disabled] .btn-link:focus {
 	color: #999999;
-	text-decoration: none;
+	text-decoration: none; 
 }
 
 [data-theme="dark"] .nav-tabs > li > a {
@@ -796,4 +825,75 @@
 /* Navbar theme toggle */
 [data-theme="dark"] .navbar .theme-toggle {
 	margin: 8px 5px;
+}
+
+[data-theme="dark"] .navbar-default {
+    background-color: #222 !important;
+    border-color: #333 !important;
+}
+
+[data-theme="dark"] .navbar-default .navbar-brand {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .navbar-default .navbar-nav > li > a {
+    color: #ddd !important;
+}
+
+[data-theme="dark"] .navbar-default .navbar-nav > li > a:hover,
+[data-theme="dark"] .navbar-default .navbar-nav > li > a:focus {
+    color: #fff !important;
+    background-color: #444 !important;
+}
+
+[data-theme="dark"] .dropdown-menu {
+    background-color: #222 !important;
+    border-color: #444 !important;
+}
+
+[data-theme="dark"] .dropdown-menu > li > a {
+    color: #ddd !important;
+}
+
+[data-theme="dark"] .dropdown-menu > li > a:hover,
+[data-theme="dark"] .dropdown-menu > li > a:focus {
+    color: #fff !important;
+    background-color: #444 !important;
+}
+
+[data-theme="dark"] input, 
+[data-theme="dark"] select, 
+[data-theme="dark"] textarea {
+    background-color: #333 !important;
+    color: #fff !important;
+    border-color: #555 !important;
+}
+
+[data-theme="dark"] .form-control:focus {
+    border-color: #666 !important;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Fix for admin tables */
+[data-theme="dark"] #admin_table,
+[data-theme="dark"] .table {
+    color: #eee !important;
+}
+
+[data-theme="dark"] #admin_table tr:nth-child(even),
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #222 !important;
+}
+
+[data-theme="dark"] #admin_table tr:hover,
+[data-theme="dark"] .table-hover > tbody > tr:hover {
+    background-color: #333 !important;
+}
+
+[data-theme="dark"] #login_header {
+    background-color: #111 !important;
+}
+
+[data-theme="dark"] #login {
+    background-color: #111 !important;
 }

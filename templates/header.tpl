@@ -9,9 +9,24 @@
     {* see https://github.com/postfixadmin/postfixadmin/issues/497 *}
     <meta http-equiv='Content-Security-Policy' content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "/>
 
+    <!-- Apply theme before page loads to prevent flashing -->
+    <script>
+        (function() {
+            var savedTheme = localStorage.getItem('theme-preference');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+
     <title>Postfix Admin - {$smarty.server.HTTP_HOST}</title>
     <link rel="shortcut icon" href="{$CONF.theme_favicon}"/>
     <link rel="stylesheet" type="text/css" href="{$CONF.theme_css}"/>
+    {if isset($CONF.postfixadmin_css)}
+        <link rel="stylesheet" type="text/css" href="{$CONF.postfixadmin_css}"/>
+    {/if}
     {if $CONF.theme_custom_css}
         <link rel="stylesheet" type="text/css" href="{$CONF.theme_custom_css}"/>
     {/if}

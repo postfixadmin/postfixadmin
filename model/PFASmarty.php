@@ -77,6 +77,9 @@ class PFASmarty
         // Add dark theme CSS
         $CONF['dark_theme_css'] = $rel_path . 'css/dark-theme.css';
         
+        // Add custom PostfixAdmin CSS improvements
+        $CONF['postfixadmin_css'] = $rel_path . 'css/postfixadmin.css';
+        
         if (!empty($CONF['theme_custom_css'])) {
             $CONF['theme_custom_css'] = $rel_path . htmlentities($CONF['theme_custom_css']);
         }

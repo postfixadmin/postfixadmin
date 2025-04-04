@@ -1,0 +1,520 @@
+/**
+ * PostfixAdmin - Custom CSS Improvements
+ * This file contains general improvements for the PostfixAdmin interface
+ */
+
+/* General improvements */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Better spacing and readability */
+.container {
+    padding-top: 20px;
+    padding-bottom: 20px; 
+}
+
+/* Improved form styling */
+.form-control {
+    padding: 8px 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #375a7f;
+    box-shadow: 0 0 0 0.2rem rgba(55, 90, 127, 0.25);
+}
+
+/* Enhanced stylish button styling */
+.btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Primary button styling */
+.btn-primary {
+    background: linear-gradient(135deg, #375a7f 0%, #2c4b6b 100%);
+    border-color: #2b4764;
+    color: white;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background: linear-gradient(135deg, #2c4b6b 0%, #243d57 100%);
+    border-color: #203448;
+}
+
+/* Success button styling */
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+    border-color: #1e7e34;
+    color: white;
+}
+
+.btn-success:hover, .btn-success:focus {
+    background: linear-gradient(135deg, #218838 0%, #1a6d2c 100%);
+    border-color: #1a6d2c;
+}
+
+/* Danger button styling */
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border-color: #bd2130;
+    color: white;
+}
+
+.btn-danger:hover, .btn-danger:focus {
+    background: linear-gradient(135deg, #c82333 0%, #b21f2d 100%);
+    border-color: #a71d2a;
+}
+
+/* Info button styling */
+.btn-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    border-color: #117a8b;
+    color: white;
+}
+
+.btn-info:hover, .btn-info:focus {
+    background: linear-gradient(135deg, #138496 0%, #106e7d 100%);
+    border-color: #0e6471;
+}
+
+/* Warning button styling */
+.btn-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    border-color: #d39e00;
+    color: #212529;
+}
+
+.btn-warning:hover, .btn-warning:focus {
+    background: linear-gradient(135deg, #e0a800 0%, #c69500 100%);
+    border-color: #ba8b00;
+}
+
+/* Default/secondary button styling */
+.btn-default, .btn-secondary {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-color: #dae0e5;
+    color: #212529;
+}
+
+.btn-default:hover, .btn-secondary:hover,
+.btn-default:focus, .btn-secondary:focus {
+    background: linear-gradient(135deg, #e9ecef 0%, #dae0e5 100%);
+    border-color: #cbd3da;
+    color: #212529;
+}
+
+/* Button sizing */
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.btn-lg {
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+/* Button with icon */
+.btn .glyphicon, 
+.btn .fa, 
+.btn .icon {
+    margin-right: 6px;
+    font-size: 0.9em;
+}
+
+/* Button with icon only */
+.btn.icon-only {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn.icon-only.btn-sm {
+    width: 30px;
+    height: 30px;
+}
+
+.btn.icon-only.btn-lg {
+    width: 46px;
+    height: 46px;
+}
+
+.btn.icon-only .glyphicon,
+.btn.icon-only .fa,
+.btn.icon-only .icon {
+    margin-right: 0;
+    font-size: 14px;
+}
+
+/* Button group styling */
+.btn-group {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.btn-group .btn {
+    box-shadow: none;
+    margin: 0;
+}
+
+/* Outline buttons */
+.btn-outline-primary {
+    color: #375a7f;
+    border-color: #375a7f;
+    background: transparent;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+    color: white;
+    background-color: #375a7f;
+}
+
+/* Dark theme compatibility */
+[data-theme="dark"] .btn-default, 
+[data-theme="dark"] .btn-secondary {
+    background: linear-gradient(135deg, #444 0%, #333 100%);
+    border-color: #555;
+    color: #fff;
+}
+
+[data-theme="dark"] .btn-default:hover, 
+[data-theme="dark"] .btn-secondary:hover,
+[data-theme="dark"] .btn-default:focus, 
+[data-theme="dark"] .btn-secondary:focus {
+    background: linear-gradient(135deg, #555 0%, #444 100%);
+    border-color: #666;
+    color: #fff;
+}
+
+[data-theme="dark"] .btn-outline-primary {
+    color: #6c9fd9;
+    border-color: #6c9fd9;
+}
+
+[data-theme="dark"] .btn-outline-primary:hover,
+[data-theme="dark"] .btn-outline-primary:focus {
+    color: #111;
+    background-color: #6c9fd9;
+}
+
+/* Table improvements */
+.table {
+    margin-bottom: 2rem;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.table thead th {
+    border-top: none;
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+/* Login page improvements */
+#login {
+    max-width: 450px;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+
+#login .well {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    border: none;
+}
+
+#login_header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#login_header_logo {
+    width:250px;
+}
+
+/* Navbar logo sizing */
+.navbar-brand img {
+    max-height: 40px;
+    width: auto;
+}
+
+/* Navigation improvements */
+.navbar-default {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    padding: 10px 15px;
+}
+
+.navbar-default .navbar-nav > li > a {
+    padding: 15px 12px;
+    transition: all 0.2s ease;
+}
+
+/* Panel improvements */
+.panel {
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.panel-heading {
+    padding: 15px;
+}
+
+.panel-body {
+    padding: 20px;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .navbar-header {
+        padding: 10px 0;
+    }
+    
+    #login {
+        padding: 20px;
+    }
+    
+    .table-responsive {
+        border: none;
+    }
+}
+
+/* Dark theme compatibility */
+[data-theme="dark"] .table thead th {
+    background-color: #333;
+    color: #eee;
+}
+
+[data-theme="dark"] .panel {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Theme toggle button styling */
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle .theme-icon-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Accessibility improvements */
+:focus {
+    outline: 2px solid #375a7f;
+    outline-offset: 2px;
+}
+
+/* For screen readers only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Enhanced dropdown styling */
+.dropdown-menu {
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+    margin-top: 0;
+    min-width: 200px;
+    animation: dropdown-fade 0.2s ease;
+}
+
+.dropdown-menu > li > a {
+    padding: 8px 20px;
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.dropdown-menu > li > a .glyphicon {
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.dropdown-menu > li > a:hover .glyphicon {
+    opacity: 1;
+}
+
+/* Dropdown divider styling */
+.dropdown-divider,
+.dropdown-menu .divider {
+    margin: 6px 0;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown headers */
+.dropdown-header {
+    color: #666;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 8px 20px 4px;
+}
+
+/* Dropdown animation */
+@keyframes dropdown-fade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Navbar dropdown adjustments */
+.navbar-nav > li > .dropdown-menu {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Dark theme compatibility for dropdowns */
+[data-theme="dark"] .dropdown-menu {
+    background-color: #333;
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .dropdown-menu > li > a {
+    color: #eee;
+}
+
+[data-theme="dark"] .dropdown-menu > li > a:hover,
+[data-theme="dark"] .dropdown-menu > li > a:focus {
+    background-color: #444;
+    color: #fff;
+}
+
+[data-theme="dark"] .dropdown-divider,
+[data-theme="dark"] .dropdown-menu .divider {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .dropdown-header {
+    color: #aaa;
+}
+
+/* Enhanced select element styling */
+select.form-control {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 8px 10px;
+    padding-right: 1.5rem;
+    cursor: pointer;
+}
+
+select.form-control:focus {
+    border-color: #375a7f;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(55, 90, 127, 0.25);
+}
+
+select.form-control option {
+    padding: 8px;
+    font-size: 14px;
+}
+
+/* Styling for select elements outside of .form-control */
+select:not(.form-control) {
+    display: block;
+    width: 100%;
+    padding: 8px 24px 8px 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+select:not(.form-control):focus {
+    border-color: #375a7f;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(55, 90, 127, 0.25);
+}
+
+/* Dark theme compatibility for select elements */
+[data-theme="dark"] select.form-control,
+[data-theme="dark"] select:not(.form-control) {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23ffffff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] select.form-control option,
+[data-theme="dark"] select:not(.form-control) option {
+    background-color: #333;
+    color: #fff;
+}
+
+[data-theme="dark"] select.form-control:focus,
+[data-theme="dark"] select:not(.form-control):focus {
+    border-color: #6c9fd9;
+    box-shadow: 0 0 0 0.2rem rgba(108, 159, 217, 0.25);
+} 
