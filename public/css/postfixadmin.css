@@ -317,7 +317,13 @@ label {
 #login_header_logo {
     width:250px;
 }
+.page-users_main #login_header_logo {
+    width: 30px;
+}
 @media (min-width: 992px) {
+    .page-users_main #login_header_logo {
+        margin-top: 18px;
+    }
     #login_header_logo {
         margin-top: 12px;
     }
