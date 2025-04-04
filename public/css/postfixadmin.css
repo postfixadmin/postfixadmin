@@ -11,30 +11,79 @@ body {
 }
 
 #main_menu {
-    padding: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
 }
 
 /* Better spacing and readability */
 .container {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 30px;
+    padding-bottom: 40px;
 }
 
-/* Improved form styling */
+.container .row {
+    margin-bottom: 20px;
+}
+
+/* Content sections with better spacing */
+section, .section {
+    margin-bottom: 30px;
+    padding: 20px 0;
+}
+
+/* Form padding improvements */
+.form-group {
+    margin-bottom: 20px;
+}
+
 .form-control {
+    padding: 10px 16px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     box-shadow: none;
     border-radius: 8px;
-
+    height: auto;
 }
 
-.form-control:focus {
-    border-color: #375a7f;
-    box-shadow: none;
+textarea.form-control {
+    padding: 12px 16px;
+    min-height: 100px;
 }
 
-/* Enhanced stylish button styling */
+/* Label spacing */
+label {
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* Card and panel padding */
+.panel {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.panel-heading {
+    padding: 18px 24px;
+}
+
+.panel-body {
+    padding: 24px 30px;
+}
+
+.panel-footer {
+    padding: 16px 24px;
+}
+
+/* Form layout improved spacing */
+.form-horizontal .control-label {
+    padding-top: 11px; /* Align with increased form-control padding */
+    padding-bottom: 5px;
+}
+
+/* Buttons with improved padding */
 .btn {
+    padding: 10px 20px;
     border-radius: 8px;
     font-weight: 500;
     text-transform: none;
@@ -43,89 +92,14 @@ body {
     border-color: transparent;
 }
 
-
-/* Primary button styling */
-.btn-primary {
-    background: linear-gradient(135deg, #375a7f 0%, #2c4b6b 100%);
-    border-color: #2b4764;
-    color: white;
-}
-
-.btn-primary:hover, .btn-primary:focus {
-    background: linear-gradient(135deg, #2c4b6b 0%, #243d57 100%);
-    border-color: #203448;
-}
-
-/* Success button styling */
-.btn-success {
-    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
-    border-color: #1e7e34;
-    color: white;
-}
-
-.btn-success:hover, .btn-success:focus {
-    background: linear-gradient(135deg, #218838 0%, #1a6d2c 100%);
-    border-color: #1a6d2c;
-}
-
-/* Danger button styling */
-.btn-danger {
-    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-    border-color: #bd2130;
-    color: white;
-}
-
-.btn-danger:hover, .btn-danger:focus {
-    background: linear-gradient(135deg, #c82333 0%, #b21f2d 100%);
-    border-color: #a71d2a;
-}
-
-/* Info button styling */
-.btn-info {
-    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
-    border-color: #117a8b;
-    color: white;
-}
-
-.btn-info:hover, .btn-info:focus {
-    background: linear-gradient(135deg, #138496 0%, #106e7d 100%);
-    border-color: #0e6471;
-}
-
-/* Warning button styling */
-.btn-warning {
-    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
-    border-color: #d39e00;
-    color: #212529;
-}
-
-.btn-warning:hover, .btn-warning:focus {
-    background: linear-gradient(135deg, #e0a800 0%, #c69500 100%);
-    border-color: #ba8b00;
-}
-
-/* Default/secondary button styling */
-.btn-default, .btn-secondary {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-color: #dae0e5;
-    color: #212529;
-}
-
-.btn-default:hover, .btn-secondary:hover,
-.btn-default:focus, .btn-secondary:focus {
-    background: linear-gradient(135deg, #e9ecef 0%, #dae0e5 100%);
-    border-color: #cbd3da;
-    color: #212529;
-}
-
-/* Button sizing */
+/* Button sizes with improved padding */
 .btn-sm {
-    padding: 5px 10px;
+    padding: 7px 12px;
     font-size: 12px;
 }
 
 .btn-lg {
-    padding: 12px 20px;
+    padding: 14px 24px;
     font-size: 16px;
 }
 
@@ -166,11 +140,14 @@ body {
 
 /* Button group styling */
 .btn-group {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
+    border: 1px solid #ddd !important;
 }
-
+.btn-group .btn:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
 .btn-group .btn {
     box-shadow: none;
     margin: 0;
@@ -219,7 +196,6 @@ body {
 /* Table improvements */
 .table {
     margin-bottom: 2rem;
-    border-radius: 8px;
     overflow: hidden;
     border-collapse: separate;
     border-spacing: 0;
@@ -347,21 +323,23 @@ body {
 .navbar-default .navbar-nav > li > a {
     padding: 15px 12px;
     transition: all 0.2s ease;
+    border-radius: 8px;
 }
 
 /* Panel improvements */
 .panel {
-    border-radius: 6px;
+    border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    margin-bottom: 30px;
 }
 
 .panel-heading {
-    padding: 15px;
+    padding: 18px 24px;
 }
 
 .panel-body {
-    padding: 20px;
+    padding: 24px 30px;
 }
 
 /* Responsive improvements */
@@ -423,17 +401,17 @@ body {
 
 /* Enhanced dropdown styling */
 .dropdown-menu {
-    border-radius: 4px;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 8px 0;
+    padding: 10px 0;
     margin-top: 0;
-    min-width: 200px;
+    min-width: 220px;
     animation: dropdown-fade 0.2s ease;
 }
 
 .dropdown-menu > li > a {
-    padding: 8px 20px;
+    padding: 10px 24px;
     font-weight: 400;
     transition: all 0.2s ease;
 }
@@ -552,7 +530,7 @@ select:not(.form-control) {
     background-position: right 0.75rem center;
     background-size: 8px 10px;
     border: 1px solid #ced4da;
-    border-radius: 4px;
+    border-radius: 8px;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -585,4 +563,123 @@ select:not(.form-control):focus {
 [data-theme="dark"] select:not(.form-control):focus {
     border-color: #6c9fd9;
     box-shadow: 0 0 0 0.2rem rgba(108, 159, 217, 0.25);
+}
+
+/* Alert messages with better padding */
+.alert {
+    padding: 16px 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+}
+
+/* Admin table specific styling */
+#admin_table {
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border:none;
+}
+
+#admin_table thead tr.header {
+    background-color: #f5f7fa;
+    border-bottom: 2px solid #ddd;
+}
+
+#admin_table thead tr.header th {
+    padding:  20px 22px;
+    font-weight: 600;
+    color: #423f3f;
+    white-space: nowrap;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    border-bottom:  none;
+    vertical-align: middle;
+    position: relative;
+    background-color: #f5f5f5;
+}
+
+#admin_table tbody tr {
+    border-bottom: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+#admin_table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+#admin_table tbody tr:last-child {
+    border-bottom: none;
+}
+
+#admin_table tbody td {
+    padding: 16px 20px;
+    vertical-align: middle;
+    color: #333;
+}
+
+#admin_table tbody td:first-child {
+    font-weight: 500;
+}
+
+/* Action links in admin table */
+#admin_table .btn {
+    margin: 0 3px;
+}
+
+#admin_table .actions {
+    white-space: nowrap;
+    text-align: right;
+}
+
+/* Status indicators */
+#admin_table .fa-check,
+#admin_table .yes {
+    color: #28a745;
+}
+
+#admin_table .fa-times,
+#admin_table .no {
+    color: #dc3545;
+}
+
+/* Responsive handling */
+@media (max-width: 992px) {
+    #admin_table {
+        min-width: 800px;
+    }
+    
+    .table-responsive {
+        padding-bottom: 5px;
+    }
+}
+
+/* Dark theme compatibility for admin table */
+[data-theme="dark"] #admin_table {
+    background-color: #222;
+    color: #eee;
+}
+
+[data-theme="dark"] #admin_table thead tr.header {
+    background-color: #333;
+    border-bottom-color: #444;
+}
+
+[data-theme="dark"] #admin_table thead tr.header th {
+    color: #eee;
+    background-color: #333;
+}
+
+[data-theme="dark"] #admin_table tbody tr {
+    border-bottom-color: #3a3a3a;
+}
+
+[data-theme="dark"] #admin_table tbody tr:hover {
+    background-color: #2d2d2d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] #admin_table tbody td {
+    color: #ddd;
 }
