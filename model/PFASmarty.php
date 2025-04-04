@@ -73,6 +73,10 @@ class PFASmarty
         }
 
         $CONF['theme_css'] = $rel_path . htmlentities($CONF['theme_css']);
+        
+        // Add dark theme CSS
+        $CONF['dark_theme_css'] = $rel_path . 'css/dark-theme.css';
+        
         if (!empty($CONF['theme_custom_css'])) {
             $CONF['theme_custom_css'] = $rel_path . htmlentities($CONF['theme_custom_css']);
         }
@@ -81,6 +85,12 @@ class PFASmarty
         }
 
         $CONF['theme_logo'] = $rel_path . htmlentities($CONF['theme_logo']);
+
+        // Add theme preference
+        if (!isset($_SESSION['theme_preference'])) {
+            $_SESSION['theme_preference'] = 'light'; // Default to light theme
+        }
+        $CONF['theme_preference'] = $_SESSION['theme_preference'];
 
         $this->assign('rel_path', $rel_path);
         $this->assign('CONF', $CONF);
