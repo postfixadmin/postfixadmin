@@ -28,7 +28,7 @@
             </div>
             {if $forgotten_password_reset}
                 <div class="form-group row">
-                    <div class="col-sm-6 col-sm-offset-3 reset-button">
+                    <div class="text-center reset-button">
                         <a class="btn btn-default btn-block" role="button" href="password-recover.php">
                             <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                             {$PALANG.pUsersLogin_password_recover}</a>

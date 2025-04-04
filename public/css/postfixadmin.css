@@ -332,6 +332,10 @@ label {
         margin-top: 0px;
     }
 }
+.reset-button {
+    max-width: 250px;
+    margin: 0 auto;
+}
 
 
 .navbar-default .navbar-nav > li > a {
