@@ -22,10 +22,10 @@ body {
 
 /* Improved form styling */
 .form-control {
-    padding: 8px 12px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     box-shadow: none;
     border-radius: 8px;
+
 }
 
 .form-control:focus {
@@ -35,18 +35,12 @@ body {
 
 /* Enhanced stylish button styling */
 .btn {
-    padding: 8px 16px;
     border-radius: 8px;
     font-weight: 500;
     text-transform: none;
     letter-spacing: 0.3px;
     transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
+    border-color: transparent;
 }
 
 
@@ -225,14 +219,106 @@ body {
 /* Table improvements */
 .table {
     margin-bottom: 2rem;
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #e0e0e0;
 }
 
 .table thead th {
     border-top: none;
     background-color: #f2f2f2;
-    font-weight: bold;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    padding: 12px 16px;
+    vertical-align: middle;
+    border-bottom: 2px solid #ddd;
+    color: #444;
+}
+
+.table tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-top: 1px solid #e0e0e0;
+    transition: background-color 0.15s ease;
+}
+
+.table tbody tr:hover td {
+    background-color: #f9f9f9;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f8f9fa;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd):hover td {
+    background-color: #f0f0f0;
+}
+
+/* Responsive tables */
+.table-responsive {
+    border-radius: 8px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.03);
+    margin-bottom: 2rem;
+    border: none;
+}
+
+/* Table actions column */
+.table td.actions {
+    white-space: nowrap;
+    width: 1%;
+    text-align: right;
+}
+
+.table td.actions .btn {
+    margin: 0 2px;
+}
+
+/* Table with card-like styling */
+.table-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: none;
+}
+
+/* Dark theme compatibility for tables */
+[data-theme="dark"] .table {
+    border-color: #444;
+    background-color: #2d2d2d;
+    color: #eee;
+}
+
+[data-theme="dark"] .table thead th {
+    background-color: #333;
+    color: #eee;
+    border-bottom-color: #444;
+}
+
+[data-theme="dark"] .table tbody td {
+    border-top-color: #444;
+}
+
+[data-theme="dark"] .table tbody tr:hover td {
+    background-color: #383838;
+}
+
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #303030;
+}
+
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd):hover td {
+    background-color: #383838;
+}
+
+[data-theme="dark"] .table-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .table-responsive {
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
 }
 
 /* Login page improvements */
@@ -257,8 +343,6 @@ body {
 #login_header_logo {
     width:250px;
 }
-
-
 
 .navbar-default .navbar-nav > li > a {
     padding: 15px 12px;
