@@ -25,11 +25,6 @@ body {
     margin-bottom: 20px;
 }
 
-/* Content sections with better spacing */
-section, .section {
-    margin-bottom: 30px;
-    padding: 20px 0;
-}
 
 /* Form padding improvements */
 .form-group {
