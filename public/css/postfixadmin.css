@@ -17,8 +17,8 @@ body {
 
 /* Better spacing and readability */
 .container {
-    padding-top: 30px;
-    padding-bottom: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .container .row {
@@ -304,11 +304,14 @@ label {
     padding-top: 40px;
 }
 
+#login h2{
+    text-align: center;
+}
 #login .well {
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.11);
+    border: 1px solid rgba(221, 221, 221, 0.57);
     padding: 25px;
-    border: none;
 }
 
 #login_header {
