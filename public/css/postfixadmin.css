@@ -322,6 +322,11 @@ label {
 #login_header_logo {
     width:250px;
 }
+@media (min-width: 992px) {
+    #login_header_logo {
+        margin-top: 12px;
+    }
+}
 
 .navbar-default .navbar-nav > li > a {
     padding: 15px 12px;
