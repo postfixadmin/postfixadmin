@@ -326,7 +326,11 @@ label {
     #login_header_logo {
         margin-top: 12px;
     }
+    .page-login #login_header_logo {
+        margin-top: 0px;
+    }
 }
+
 
 .navbar-default .navbar-nav > li > a {
     padding: 15px 12px;
