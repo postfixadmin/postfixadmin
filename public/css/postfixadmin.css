@@ -89,14 +89,15 @@ label {
 
 /* Button sizes with improved padding */
 .btn-sm {
-    padding: 7px 12px;
-    font-size: 12px;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+.btn-lg {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size:15px;
 }
 
-.btn-lg {
-    padding: 14px 24px;
-    font-size: 16px;
-}
 
 /* Button with icon */
 .btn .glyphicon,
@@ -315,17 +316,17 @@ label {
 }
 
 #login_header_logo {
-    width:250px;
+
 }
 .page-users_main #login_header_logo {
-    width: 30px;
+
 }
 @media (min-width: 992px) {
     .page-users_main #login_header_logo {
-        margin-top: 18px;
+        margin-top: 8px;
     }
     #login_header_logo {
-        margin-top: 12px;
+        margin-top: 8px;
     }
     .page-login #login_header_logo {
         margin-top: 0px;
