@@ -15,11 +15,15 @@
     {if $CONF.theme_custom_css}
         <link rel="stylesheet" type="text/css" href="{$CONF.theme_custom_css}"/>
     {/if}
+    {if isset($CONF.dark_theme_css)}
+        <link rel="stylesheet" type="text/css" href="{$CONF.dark_theme_css}" id="dark-theme-css" disabled/>
+    {/if}
 
     <!-- needed for datetimepicker -->
     <script src="{$rel_path}jquery-3.7.0.min.js"></script>
     <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/moment-with-locales.min.js"></script>
     <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
     <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="{$rel_path}js/theme-switcher.js"></script>
 </head>
 <body class="lang-{if isset($smarty.session.lang)}{$smarty.session.lang}{/if} page-{$smarty_template} {if isset($table)}page-{$smarty_template}-{$table}{/if}">

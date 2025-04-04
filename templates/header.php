@@ -27,6 +27,13 @@ if (file_exists (realpath ("../".$CONF['theme_css']))) {
 } else {
     print "<link rel=\"stylesheet\" type=\"text/css\" href=\"".htmlentities($CONF['theme_css'])."\" />\n";
 }
+if (isset($CONF['dark_theme_css'])) {
+    if (file_exists(realpath("../".$CONF['dark_theme_css']))) {
+        print "<link rel=\"stylesheet\" type=\"text/css\" href=\"../".htmlentities($CONF['dark_theme_css'])."\" id=\"dark-theme-css\" disabled />\n";
+    } else {
+        print "<link rel=\"stylesheet\" type=\"text/css\" href=\"".htmlentities($CONF['dark_theme_css'])."\" id=\"dark-theme-css\" disabled />\n";
+    }
+}
 ?>
 <title>Postfix Admin - <?php print $_SERVER['HTTP_HOST']; ?></title>
 </head>

@@ -1,53 +1,55 @@
 @import url(bootstrap-3.4.1-dist/css/bootstrap.min.css);
 @import url(bootstrap-3.4.1-dist/css/bootstrap-datetimepicker.min.css);
 
-:root{
-	--c1:#333;
-	--c11:#222;
-	--c2:#ccc;
-	--c3:#555;
-	--c31:#777;
-	--c4:#ba1bd0;
-	--c5:#dfgfgd;
-	--c6:#111;
+:root {
+	--dark-bg: #1a1a1a;
+	--dark-bg-secondary: #2d2d2d;
+	--dark-text: #ffffff;
+	--dark-text-secondary: #cccccc;
+	--dark-border: #404040;
+	--dark-hover: #3a3a3a;
+	--dark-accent: #6200ee;
+	--dark-input-bg: #333333;
 }
 
 body {
-	background-color: var(--c1);
-	color: var(--c11)
+	background-color: var(--dark-bg);
+	color: var(--dark-text);
 }
 
 .navbar-default {
-	background-color: var(--c1);
-	border-color: var(--c3);
+	background-color: var(--dark-bg-secondary);
+	border-color: var(--dark-border);
 }
 
-.navbar-default .navbar-nav > li a{
-    color: var(--c2);
+.navbar-default .navbar-nav > li a {
+	color: var(--dark-text);
 }
 
-.navbar-default .navbar-nav > li a:hover{
-	color: var(--c31);
+.navbar-default .navbar-nav > li a:hover {
+	color: var(--dark-text-secondary);
+	background-color: var(--dark-hover);
 }
 
 .btn-default {
-	color: var(--c2);
-	background-color: var(--c11);
-	border-color: var(--c31);
+	color: var(--dark-text);
+	background-color: var(--dark-bg-secondary);
+	border-color: var(--dark-border);
 }
 
 .btn-default:hover {
-	color: var(--c31);
-	background-color: var(--c2);
-	border-color: var(--c31);
+	color: var(--dark-text);
+	background-color: var(--dark-hover);
+	border-color: var(--dark-border);
 }
 
-.panel, .panel-default{
-	background-color:var(--c11)
+.panel, .panel-default {
+	background-color: var(--dark-bg-secondary);
+	border-color: var(--dark-border);
 }
 
 .panel-default {
-	border-color: var(--c3);
+	border-color: var(--dark-border);
 }
 
 .panel-default .btn-primary {
@@ -55,54 +57,56 @@ body {
 }
 
 .panel-default > .panel-heading {
-	color: var(--c11);
-	background-color: var(--c3);
-	border-color: var(--c1);
+	color: var(--dark-text);
+	background-color: var(--dark-bg-secondary);
+	border-color: var(--dark-border);
 }
 
 .panel-footer {
-	background-color: var(--c11);
+	background-color: var(--dark-bg-secondary);
+	border-top-color: var(--dark-border);
 }
 
-.control-label{
-	color: var(--c1);
+.control-label {
+	color: var(--dark-text);
 }
 
-.dropdown-menu{
-	background-color:var(--c31);
+.dropdown-menu {
+	background-color: var(--dark-bg-secondary);
+	border-color: var(--dark-border);
 }
 
 .navbar-nav > li > .dropdown-menu {
-	background-color: var(--c1);
+	background-color: var(--dark-bg-secondary);
 }
 
-.dropdown-menu > li:hover{
-	background-color: var(--c6);
+.dropdown-menu > li:hover {
+	background-color: var(--dark-hover);
 }
 
-.btn-warning{
-	color: var(--11);
+td {
+	color: var(--dark-text);
 }
 
-td{
-	color: var(--c31);
+#admin_table tr:hover {
+	background-color: var(--dark-hover);
 }
 
-#admin_table tr:hover{
-	background-color:var(--c1);
+#admin_table tr {
+	color: var(--dark-text);
 }
 
-#admin_table tr{
-	color:var(--c31);
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:focus,
+.navbar-default .navbar-nav > .open > a:hover {
+	color: var(--dark-text);
+	background-color: var(--dark-hover);
 }
 
-.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
-	color: var(--c11);
-	background-color: var(--c31);
-}
-
-.form-control{
-	background-color: var(--c31)
+.form-control {
+	background-color: var(--dark-input-bg);
+	color: var(--dark-text);
+	border-color: var(--dark-border);
 }
 
 .mr {
@@ -117,25 +121,25 @@ body > .container {
 	padding: 10px 15px 0;
 }
 
-.well{
-	max-width: 35em;
-	background-color: var(--c5);
+.well {
+	background-color: var(--dark-bg-secondary);
+	border-color: var(--dark-border);
 }
 
 button, input, select, textarea {
-    border-color: transparent;
+	border-color: transparent;
 }
 
-.table > tr > td > btn-primary{
+.table > tr > td > btn-primary {
 	min-width: 10em;
 }
 
-.panel-body > .text-center{
-	color:var(--c3);
+.panel-body > .text-center {
+	color: var(--dark-text);
 }
 
-.panel-body > .text-center li{
-	list-style:none;
+.panel-body > .text-center li {
+	list-style: none;
 }
 
 .footer > .container {
@@ -173,31 +177,69 @@ code {
 .navbar-fixed-top .container-fluid .navbar-collapse li a { padding-left: 15px; padding-right: 15px; }
 }
 
-
 span.active { font-weight: bold; }
 
 .quota {
-z-index:99;
-height:14px;
-position: absolute;
+	z-index: 99;
+	height: 14px;
+	position: absolute;
 }
 .quota_text {
-	z-index:100;
+	z-index: 100;
 	text-align: center;
 	font-size: 12px;
 	color: #666;
 	cursor: default;
 	position: absolute;
-	width:120px;
-	height:16px;
-	margin-top:-17px;
-padding-top: -1px;
+	width: 120px;
+	height: 16px;
+	margin-top: -17px;
+	padding-top: -1px;
 }
-.quota_bg { background-color: white; z-index:98; width:122px; height:16px;margin-top:-1px;margin-left:-1px;   border: 1px solid #999;}
-.quota_no_border { border:none; margin:0; }
+.quota_bg { background-color: white; z-index: 98; width: 122px; height: 16px; margin-top: -1px; margin-left: -1px;   border: 1px solid #999; }
+.quota_no_border { border: none; margin: 0; }
 .quota_high { background: url(../images/quota-colors.png) repeat-x 0 -28px #f90509; }
 .quota_mid  { background: url(../images/quota-colors.png) repeat-x 0 -14px #e3e909; }
 .quota_low  { background: url(../images/quota-colors.png) repeat-x 0 0px #05f905; }
 .quota_text_high { color: white; }
 .quota_text_mid { color: #666; }
 .quota_text_low { color: #666; }
+
+.btn-inverse {
+    color: var(--dark-text);
+    background-color: var(--dark-bg-secondary);
+    border-color: var(--dark-border);
+}
+
+.btn-inverse:hover {
+    color: var(--dark-text-secondary);
+    background-color: var(--dark-hover);
+    border-color: var(--dark-border);
+}
+
+/* Login page specific styles */
+#login .theme-toggle {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 14px;
+}
+
+#login .well {
+    background-color: var(--dark-bg-secondary);
+    border-color: var(--dark-border);
+}
+
+#login label {
+    color: var(--dark-text);
+}
+
+#login .form-control {
+    background-color: var(--dark-input-bg);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+#login .form-control:focus {
+    border-color: var(--dark-accent);
+    box-shadow: 0 0 8px rgba(98, 0, 238, 0.25);
+}

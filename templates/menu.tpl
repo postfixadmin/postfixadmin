@@ -160,8 +160,11 @@
 				{$PALANG.pMenu_viewlog}</a></li>
                     {/if}
                     {* logout *}
-                    <li><a class="btn navbar-btn" type="button"
-                           href="{#url_logout#}">
+                    <li><a class="btn navbar-btn theme-toggle" type="button" href="#" id="theme-toggle">
+                        <span class="glyphicon glyphicon-adjust" aria-hidden="true"></span>
+                        <span class="theme-text">{$PALANG.pMenu_toggle_theme|default:'Toggle theme'}</span>
+                    </a></li>
+                    <li><a class="btn navbar-btn" type="button" href="{#url_logout#}">
 				<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
 			 	{$PALANG.pMenu_logout}</a></li>
                 </ul>

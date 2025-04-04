@@ -7,7 +7,7 @@
                 <h2>{$CONF.header_text}</h2>
             {/if}
         </div>
-    </div>
+    </div> 
 </nav>
 
 <div id="login" class="container">
@@ -38,6 +38,13 @@
             <div class="form-group">
                 <label for=lang>{$PALANG.pLogin_language}:</label>
                 {$language_selector}
+            </div>
+            <div class="form-group">
+                <label>{$PALANG.pLogin_theme|default:'Theme'}:</label>
+                <button type="button" class="btn btn-default btn-block theme-toggle" id="theme-toggle">
+                    <span class="glyphicon glyphicon-adjust" aria-hidden="true"></span>
+                    <span class="theme-text">Toggle Theme</span>
+                </button>
             </div>
             <div class="text-center">
                 <button class="btn btn-primary btn-lg" type="submit" name="submit" value="{$PALANG.pLogin_button}"><span class="glyphicon glyphicon-log-in"
