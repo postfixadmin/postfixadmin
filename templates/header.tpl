@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{if isset($smarty.session.lang)}{$smarty.session.lang}{/if}">
+<html lang="{if isset($smarty.session.lang)}{$smarty.session.lang}{/if}" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,6 +18,43 @@
     {if isset($CONF.dark_theme_css)}
         <link rel="stylesheet" type="text/css" href="{$CONF.dark_theme_css}" id="dark-theme-css" disabled/>
     {/if}
+
+    <style>
+        /* Theme toggle button styles */
+        .theme-toggle {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            margin: 8px 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle .glyphicon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        .theme-toggle:hover {
+            background-color: #444;
+            color: #fff;
+        }
+        [data-theme="dark"] .theme-toggle {
+            background-color: #333;
+            color: #fff;
+            border-color: #555;
+        }
+        [data-theme="dark"] .theme-toggle:hover {
+            background-color: #444;
+        }
+        /* Make toggle more prominent on login page */
+        #login .theme-toggle {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+    </style>
 
     <!-- needed for datetimepicker -->
     <script src="{$rel_path}jquery-3.7.0.min.js"></script>
