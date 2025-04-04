@@ -10,27 +10,33 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+#main_menu {
+    padding: 20px;
+}
+
 /* Better spacing and readability */
 .container {
     padding-top: 20px;
-    padding-bottom: 20px; 
+    padding-bottom: 20px;
 }
 
 /* Improved form styling */
 .form-control {
     padding: 8px 12px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: none;
+    border-radius: 8px;
 }
 
 .form-control:focus {
     border-color: #375a7f;
-    box-shadow: 0 0 0 0.2rem rgba(55, 90, 127, 0.25);
+    box-shadow: none;
 }
 
 /* Enhanced stylish button styling */
 .btn {
     padding: 8px 16px;
-    border-radius: 4px;
+    border-radius: 8px;
     font-weight: 500;
     text-transform: none;
     letter-spacing: 0.3px;
@@ -40,18 +46,9 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: none;
 }
 
-.btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
 
 /* Primary button styling */
 .btn-primary {
@@ -139,8 +136,8 @@ body {
 }
 
 /* Button with icon */
-.btn .glyphicon, 
-.btn .fa, 
+.btn .glyphicon,
+.btn .fa,
 .btn .icon {
     margin-right: 6px;
     font-size: 0.9em;
@@ -198,16 +195,16 @@ body {
 }
 
 /* Dark theme compatibility */
-[data-theme="dark"] .btn-default, 
+[data-theme="dark"] .btn-default,
 [data-theme="dark"] .btn-secondary {
     background: linear-gradient(135deg, #444 0%, #333 100%);
     border-color: #555;
     color: #fff;
 }
 
-[data-theme="dark"] .btn-default:hover, 
+[data-theme="dark"] .btn-default:hover,
 [data-theme="dark"] .btn-secondary:hover,
-[data-theme="dark"] .btn-default:focus, 
+[data-theme="dark"] .btn-default:focus,
 [data-theme="dark"] .btn-secondary:focus {
     background: linear-gradient(135deg, #555 0%, #444 100%);
     border-color: #666;
@@ -261,20 +258,7 @@ body {
     width:250px;
 }
 
-/* Navbar logo sizing */
-.navbar-brand img {
-    max-height: 40px;
-    width: auto;
-}
 
-/* Navigation improvements */
-.navbar-default {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-brand {
-    padding: 10px 15px;
-}
 
 .navbar-default .navbar-nav > li > a {
     padding: 15px 12px;
@@ -301,11 +285,11 @@ body {
     .navbar-header {
         padding: 10px 0;
     }
-    
+
     #login {
         padding: 20px;
     }
-    
+
     .table-responsive {
         border: none;
     }
@@ -517,4 +501,4 @@ select:not(.form-control):focus {
 [data-theme="dark"] select:not(.form-control):focus {
     border-color: #6c9fd9;
     box-shadow: 0 0 0 0.2rem rgba(108, 159, 217, 0.25);
-} 
+}

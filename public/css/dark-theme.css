@@ -774,7 +774,7 @@
 [data-theme="dark"] .btn-link[disabled]:focus,
 [data-theme="dark"] fieldset[disabled] .btn-link:focus {
 	color: #999999;
-	text-decoration: none; 
+	text-decoration: none;
 }
 
 [data-theme="dark"] .nav-tabs > li > a {
@@ -861,8 +861,8 @@
     background-color: #444 !important;
 }
 
-[data-theme="dark"] input, 
-[data-theme="dark"] select, 
+[data-theme="dark"] input,
+[data-theme="dark"] select,
 [data-theme="dark"] textarea {
     background-color: #333 !important;
     color: #fff !important;
