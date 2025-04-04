@@ -8,15 +8,6 @@
 	color: #eee !important;
 }
 
-/* Make sure all background containers get the dark background */
-[data-theme="dark"] .container,
-[data-theme="dark"] .container-fluid,
-[data-theme="dark"] .content-wrapper,
-[data-theme="dark"] .main-content {
-	background-color: #111 !important;
-	color: #eee !important;
-}
-
 /* Ensure text is readable on dark background */
 [data-theme="dark"] p,
 [data-theme="dark"] h1,
