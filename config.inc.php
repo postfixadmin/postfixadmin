@@ -483,11 +483,6 @@ $CONF['alias_control_admin'] = 'YES';
 // as defined in $CONF['default_aliases']
 $CONF['special_alias_control'] = 'NO';
 
-// Alias Goto Field Limit
-// Set the max number of entries that you would like to see
-// in one 'goto' field in overview, the rest will be hidden and "[and X more...]" will be added.
-// '0' means no limits.
-$CONF['alias_goto_limit'] = '0';
 
 // Alias Domains
 // Alias domains allow to "mirror" aliases and mailboxes to another domain. This makes 
