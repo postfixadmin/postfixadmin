@@ -32,7 +32,7 @@ class PFASmarty
         }
 
         $this->template = new Smarty();
-
+        $this->template->registerPlugin('function', 'htmlentities', 'htmlentities');
 
         $template_dir = __DIR__ . '/../templates/' . $theme;
 
@@ -52,8 +52,6 @@ class PFASmarty
             error_log("ERROR: directory $templates_c doesn't exist or isn't writeable for the webserver");
             die("ERROR: the templates_c directory doesn't exist or isn't writeable for the webserver");
         }
-
-        $this->template->registerPlugin('function', 'htmlentities', 'htmlentities');
 
         $this->configureTheme('');// default to something.
     }
