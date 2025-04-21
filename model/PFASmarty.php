@@ -31,7 +31,7 @@ class PFASmarty
 
         $this->template = new Smarty();
         $this->template->registerPlugin('function', 'htmlentities', 'htmlentities');
-        $this->template->registerPlugin('modifier', 'htmlentities_no_double_encode', function(string $string) {
+        $this->template->registerPlugin('modifier', 'htmlentities_no_double_encode', function (string $string) {
 
             return htmlentities($string, ENT_QUOTES, 'UTF-8', false);
         });
