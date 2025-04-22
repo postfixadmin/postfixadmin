@@ -34,6 +34,12 @@ $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
 $error = '';
 
+if (Config::bool('totp') === false) {
+    session_destroy();
+    session_start();
+    header("Location: login.php");
+    exit(0); // shouldn't really be here?
+}
 if (authentication_has_role("admin")) {
     header("Location: main.php");
     exit(0);
@@ -56,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die('Invalid token! (CSRF check failed)');
     }
 
-    $totppf = new TotpPf('admin');
+    $totppf = new TotpPf('admin', new Login('admin'));
     $fTotp = safepost('fTOTP_code');
     $h = new AdminHandler();
 

@@ -2,6 +2,8 @@
 
 The below covers some default(ish) configuration things for using Postfix, Dovecot with PostgreSQL. 
 
+See also: https://github.com/postfixadmin/postfixadmin/issues/184
+
 # Postfix
 
 Assumptions :
@@ -237,18 +239,31 @@ password_query = SELECT username AS user,password FROM mailbox WHERE username = 
 user_query = SELECT '/var/mail/vmail/' || maildir AS home, 8 as uid, 8 as gid FROM mailbox WHERE username = '%u' AND active = '1'
 ```
 
-Password query with app password and allowed remote IP support:
+### With application password ('app password')
+
+An application password is intended to provide a way of sharing access to a specific account, while maintaining a unique password. In other words: providing multiple passwords for one account.
+
+PostfixAdmin app passwords cannot be used to sign in to PostfixAdmin itself, but can be used by e.g. dovecot with the following password query :
+
+(FIX: incorrect formatting + add \ on EOLs. Do we care about the auth_type?)
 ```
-password query = SELECT user, password FROM (\
-  SELECT username AS user, password, '0' AS is_app_password FROM\
-  mailbox\
-  UNION\
-  SELECT username AS user, password, '1' AS is_app_password FROM mailbox_app_password\
-)\
-WHERE user='%u' AND password='%w' AND active=1 AND\
-(\
-  "%r" IN (SELECT ip FROM totp_exception_address WHERE username="%u" OR username IS NULL OR username="@%d")\
-  OR (SELECT totp_secret FROM mailbox WHERE usenamer="%u") IS NULL\
-  OR is_app_password='1'\
-)
+password query = SELECT m.username AS user, m.password AS password FROM 
+    (SELECT '%u' AS search_username, '%w' AS search_password, '%r' AS client_ip) AS params
+LEFT JOIN 
+    mailbox m ON m.username = params.search_username AND m.active = 1
+LEFT JOIN 
+    mailbox_app_password app ON app.username = params.search_username AND app.password_hash = params.search_password
+LEFT JOIN 
+    totp_exception_address te ON te.username = params.search_username AND te.ip = params.client_ip
+WHERE 
+    (
+        m.username IS NOT NULL AND 
+        m.password = params.search_password AND 
+        (m.totp_secret IS NULL OR te.username IS NOT NULL)
+    )
+    OR (app.username IS NOT NULL AND app.password_hash = params.search_password)
+LIMIT 1;
+
 ```
+
+See also tests/TotpPfTest.php ??
