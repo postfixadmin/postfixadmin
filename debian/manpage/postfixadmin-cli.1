@@ -1,0 +1,71 @@
+.TH "postfixadmin\-cli" "1" "2024-11-30" "PostfixAdmin" "postfixadmin-cli"
+.SH Name
+postfixadmin-cli \- a CLI tool to manage postfixadmin
+.SH SYNOPSIS
+\fBpostfixadmin-cli\fP \fI<module> <task>\fP \fB[options]\fP
+.P
+\fBpostfixadmin-cli\fP \fI<module>\fP \fBhelp\fP
+.P
+\fBpostfixadmin-cli\fP \fI<module> <task>\fP \fBhelp\fP
+.SH DESCRIPTION
+.B postfixadmin-cli
+is a CLI tool to use postfixadmin like how you use the WebUI. It is a
+shell sciprt wrapped around
+\fI/usr/share/postfixadmin/scripts/postfixadmin-cli.php\fP.
+.SH MODULES
+.IP \fBadmin\fP
+.IP \fBdomain\fP
+.IP \fBmailbox\fP
+.IP \fBalias\fP
+.IP \fBaliasdomain\fP
+.IP \fBfetchmail\fP
+.SH TASKS
+Most modules support the following tasks:
+.IP \fBview\fP
+View an item.
+.IP \fBadd\fP
+Add an item.
+.IP \fBupdate\fP
+Update an item.
+.IP \fBdelete\fP
+Delete an item.
+.IP \fBscheme\fP
+Print database scheme (useful for developers only).
+.IP \fBhelp\fP
+Print help output.
+.SH OPTIONS
+Different combinations of \fBMODULES\fP and \fBTASKS\fP have different
+sets of available options to use. Please see the help messages and
+the examples below.
+.SH EXAMPLES
+To add a mailbox interactively:
+.P
+.B postfixadmin-cli \fImailbox add\fP
+.P
+To add a mailbox non-interactively, with the new mailbox being inactive:
+.P
+.B postfixadmin-cli \fImailbox add\fP \fRnobody@example.com\fP
+.B --password \fRdeadbeef12\fP --password2 \fRdeadbeef12\fP --name
+.B \fR"Nobody Nogroup"\fP --welcome-mail --active \fR0\fP
+.B --email-other \fRbackup@example.com\fP
+.P
+To view the information of a domain:
+.P
+.B postfixadmin-cli \fIdomain view\fP \fRexample.com\fP
+.P
+.SH REPORTING BUGS
+Please report bugs to the Debian BTS, i.e. using \fBreportbug\fP(1).
+.SH SEE ALSO
+\fBpostfix\fP(1),
+\fBpostconf\fP(1),
+\fBpostmap\fP(1),
+\fBmariadb\fP(1),
+\fBpsql\fP(1),
+\fBphp\fP(1)
+.SH AUTHOR
+Copyright 2024 Jing Luo.
+.P
+This manpage was written by Jing Luo, licensed under the terms of GNU
+General Pulic License version 2, or at your option any later version.
+There is absolutely no warranty; see \fI/usr/share/common-licenses/GPL-2\fR
+for the terms of the license.

@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div id="{$id_div}" class="panel panel-default">
 
 {if ($admin_list|count > 1)}
 <div class="panel-heading">
@@ -55,8 +55,10 @@
 </tr>
 </thead>
 
-{foreach key=itemkey from=$RAW_items item=RAW_item}
-    {assign "item" $items.{htmlentities($itemkey, $smarty.const.ENT_QUOTES, 'UTF-8', false)}} {* array keys in $items are escaped using htmlentities(), see smarty.inc.php *}
+{foreach key=raw_itemkey from=$RAW_items item=RAW_item}
+    {assign var="itemkey" value=$raw_itemkey|htmlentities_no_double_encode} {* array keys in $items are escaped by PFASmarty::sanitise()  *}
+    {assign var="item" value=$items[$itemkey]}
+
     <tr>
 
     {foreach key=key item=field from=$struct}

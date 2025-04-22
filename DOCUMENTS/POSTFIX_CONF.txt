@@ -47,9 +47,9 @@ submission inet n      -       n       -       -       smtpd
         -o smtpd_delay_reject=no
         -o smtpd_etrn_restrictions=reject
         -o smtpd_helo_restrictions=
-        -o smtpd_client_restrictions=submission_client_checks
-        -o smtpd_sender_restrictions=submission_sender_checks
-        -o smtpd_recipient_restrictions=submission_recipient_checks
+        -o smtpd_client_restrictions=$submission_client_checks
+        -o smtpd_sender_restrictions=$submission_sender_checks
+        -o smtpd_recipient_restrictions=$submission_recipient_checks
         -o smtpd_tls_security_level=encrypt
 
 and in main.cf:

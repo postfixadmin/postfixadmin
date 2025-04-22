@@ -147,11 +147,20 @@ class VacationHandler extends PFAHandler
         $vacation_data = array(
             'active' => db_get_boolean(false),
         );
+
         $result = db_update('vacation', 'email', $this->username, $vacation_data);
-        $result = db_delete('vacation_notification', 'on_vacation', $this->username);
+        // check for error?
+
+        $this->removeVacationNotifications();
+
         # TODO db_log() call (maybe except if called from set_away?)
         /* crap error handling; oh for exceptions... */
         return true;
+    }
+
+    private function removeVacationNotifications()
+    {
+        $result = db_delete('vacation_notification', 'on_vacation', $this->username);
     }
 
     /**
@@ -213,12 +222,13 @@ class VacationHandler extends PFAHandler
         return array(
             'subject' => isset($row['subject']) ? $row['subject'] : null,
             'body' => isset($row['body']) ? $row['body'] : null,
-            'active'  => $boolean,
+            'active' => $boolean,
             'interval_time' => isset($row['interval_time']) ? $row['interval_time'] : null,
             'activeFrom' => isset($row['activefrom']) ? $row['activefrom'] : null,
             'activeUntil' => isset($row['activeuntil']) ? $row['activeuntil'] : null
         );
     }
+
     /**
      * @param string $subject
      * @param string $body
@@ -229,7 +239,7 @@ class VacationHandler extends PFAHandler
      */
     public function set_away($subject, $body, $interval_time, $activeFrom, $activeUntil)
     {
-        $this->remove(); // clean out any notifications that might already have been sent.
+        $this->removeVacationNotifications(); // clean out any notifications that might already have been sent.
 
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $activeFrom)) {
             $activeFrom .= ' 00:00:00';
@@ -253,7 +263,7 @@ class VacationHandler extends PFAHandler
             'activeuntil' => $activeUntil,
         );
 
-        if (! db_pgsql()) {
+        if (!db_pgsql()) {
             $vacation_data['cache'] = '';  # leftover from 2.2
         }
 
@@ -281,6 +291,7 @@ class VacationHandler extends PFAHandler
         $handler = new AliasHandler();
 
         if (!$handler->init($this->id)) {
+            error_log("failed to initialise AliashHandler for {$this->id} : " . json_encode($handler->errormsg));
             # print_r($handler->errormsg); # TODO: error handling
             return false;
         }
@@ -290,14 +301,14 @@ class VacationHandler extends PFAHandler
         );
 
         if (!$handler->set($values)) {
-            # print_r($handler->errormsg); # TODO: error handling
+            error_log("Failed to set vacation with values " . json_encode($values) . " - error: " . json_encode($handler->errormsg)); # TODO: error handling
             return false;
         }
 
         # TODO: supress logging in AliasHandler if called from VacationHandler (VacationHandler should log itsself)
 
         if (!$handler->save()) {
-            print_r($handler->errormsg); # TODO: error handling
+            error_log("Failed to save vacation record with values " . json_Encode($values) . " - error : " . json_encode($handler->errormsg)); # TODO: error handling
             return false;
         }
 

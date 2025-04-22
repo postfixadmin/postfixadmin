@@ -24,7 +24,7 @@
     "require": {
         "php": ">=7.4",
         "smarty/smarty": "^3|^4",
-        "postfixadmin/password-hashing": "^0.0.1",
+        "postfixadmin/password-hashing": "^0.0.2",
         "endroid/qr-code": "^4.6",
         "spomky-labs/otphp": "^10.0"
     },
@@ -34,7 +34,6 @@
         "ext-mbstring": "*",
         "friendsofphp/php-cs-fixer": "^3.54.0",
         "php-parallel-lint/php-parallel-lint": "^1.0",
-        "php":  ">= 7.4",
         "php-coveralls/php-coveralls": "*",
         "phpunit/phpunit": "8.*|9.*",
 

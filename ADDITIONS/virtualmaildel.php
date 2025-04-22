@@ -1,4 +1,5 @@
 <?php
+
 /*
  Virtual Mail Delete
  by George Vieira <george at citadelcomputer dot com dot au>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Postfix Admin
  *
@@ -38,7 +39,7 @@ function authentication_mfa_incomplete()
  * check_session
  *  Action: Check if a session already exists, if not redirect to login.php
  * Call: check_session ()
- * @return String username (e.g. foo@example.com)
+ * @return string username (e.g. foo@example.com)
  */
 function authentication_get_username()
 {

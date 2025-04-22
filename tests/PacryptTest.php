@@ -1,6 +1,6 @@
 <?php
 
-class PaCryptTest extends \PHPUnit\Framework\TestCase
+class PacryptTest extends \PHPUnit\Framework\TestCase
 {
     public function testMd5Crypt()
     {
@@ -320,18 +320,17 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
         global $CONF;
 
         $mechs = [
-            'md5crypt' => '$1$c9809462$fC8eUPU2lq7arWRvxChMu1',
+            'md5crypt' => ['$1$c9809462$fC8eUPU2lq7arWRvxChMu1', '{MD5-CRYPT}$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.'],
             'md5' => 'cc03e747a6afbbcbf8be7668acfebee5',
             'cleartext' => 'test123',
             'mysql_encrypt' => '$6$$KMCDSuWNoVgNrK5P1zDS12ZZt.LV4z9v9NtD0AG0T5Rv/n0wWVvZmHMSKKZQciP7lrqrlbrBrBd4lhBSGy1BU0',
             'authlib' => '{MD5RAW}cc03e747a6afbbcbf8be7668acfebee5', // authpasswd md5raw (via courier-authdaemon package)
             'php_crypt:SHA512' => '{SHA512-CRYPT}$6$IeqpXtDIXF09ADdc$IsE.SSK3zuwtS9fdWZ0oVxXQjPDj834xqxTiv3Qfidq3AbAjPb0DNyI28JyzmDVlbfC9uSfNxD9RUyeO1.7FV/',
             'php_crypt:DES' => 'VXAXutUnpVYg6',
-            'php_crypt:MD5' => '$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.',
+            'php_crypt:MD5' => ['$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.', '{MD5-CRYPT}$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.'],
             'php_crypt:SHA256' => '$5$UaZs6ZuaLkVPx3bM$4JwAqdphXVutFYw7COgAkp/vj09S1DfjIftxtjqDrr/',
             'php_crypt:BLOWFISH' => '$2y$10$4gbwQMAoJPcg.mWnENYNg.syH9mZNsbQu6KN7skK92g3tlPnvvBDW',
             'sha512.b64' => '{SHA512-CRYPT.B64}JDYkMDBpOFJXQ0JwMlFMMDlobCRFMVFWLzJjbENPbEo4OTg0SjJyY1oxeXNTaFJIYVhJeVdFTDdHRGl3aHliYkhQUHBUQjZTM0lFMlYya2ZXczZWbHY0aDVNa3N0anpud0xuRTBWZVRELw==',
-
         ];
 
 
@@ -340,20 +339,26 @@ class PaCryptTest extends \PHPUnit\Framework\TestCase
                 continue;
             }
 
-            Config::write('encrypt', $mech);
 
-            $CONF['encrypt'] = $mech;
+            if (is_string($example_hash)) {
+                $example_hash = [$example_hash];
+            }
+            foreach ($example_hash as $hash) {
+                Config::write('encrypt', $mech);
 
-            $x = pacrypt('test123');
-            $this->assertNotEmpty($x);
+                $CONF['encrypt'] = $mech;
 
-            $y = pacrypt('test123', $x);
-            $this->assertEquals($x, $y); // $y == %x if the password was correct.
+                $x = pacrypt('test123');
+                $this->assertNotEmpty($x);
 
-            // should be valid against what's in the lookup array above
-            $x = pacrypt('test123', $example_hash);
+                $y = pacrypt('test123', $x);
+                $this->assertEquals($x, $y); // $y == %x if the password was correct.
 
-            $this->assertEquals($example_hash, $x);
+                // should be valid against what's in the lookup array above
+                $x = pacrypt('test123', $hash);
+
+                $this->assertEquals($hash, $x);
+            }
         }
     }
 }

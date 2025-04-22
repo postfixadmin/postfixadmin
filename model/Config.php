@@ -16,6 +16,7 @@ final class Config
     # do not error_log() 'undefined config option' for deprecated options
     private static $deprecated_options = array(
         'min_password_length',
+        'create_mailbox_subdirs',
     );
 
     /**

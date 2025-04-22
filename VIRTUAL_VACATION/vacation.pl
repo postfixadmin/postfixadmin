@@ -42,6 +42,7 @@ use Time::Piece;
 # db_type - uncomment one of these
 our $db_type = 'Pg';
 #our $db_type = 'mysql';
+#our $db_type = 'MariaDB';
 
 # leave empty for connection via UNIX socket
 our $db_host = '';
@@ -249,7 +250,7 @@ if (!$dbh) {
 }
 
 my $db_true; # MySQL and PgSQL use different values for TRUE, and unicode support...
-if ($db_type eq 'mysql') {
+if ($db_type eq 'mysql' || $db_type eq 'MariaDB') {
     $dbh->do('SET CHARACTER SET utf8mb4;');
     $db_true = '1';
 } else { # Pg
@@ -643,7 +644,7 @@ sub send_vacation_email {
             if (@_) {
                 $logger->error("Failed to send vacation response to $to from $from subject $subject: @_");
             } else {
-             $logger->debug("Vacation response sent to $to from $from subject $subject  Email $email_from sent\n");
+                $logger->info("Vacation response sent to $to from $from subject $subject  Email $email_from sent\n");
             }
         }
     }

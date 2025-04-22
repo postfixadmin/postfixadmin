@@ -257,6 +257,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "")
                 '{UNSIGNED}'        => 'unsigned'  ,
                 '{FULLTEXT}'        => 'FULLTEXT',
                 '{BOOLEAN}'         => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
+                '{BOOLEAN_TRUE}'    => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(true) . "'",
                 '{UTF-8}'           => '/*!40100 CHARACTER SET utf8mb4 */',
                 '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 COLLATE latin1_general_ci */',
                 '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
@@ -302,6 +303,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "")
                 '{UNSIGNED}'        => '',
                 '{FULLTEXT}'        => '',
                 '{BOOLEAN}'         => "BOOLEAN NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
+                '{BOOLEAN_TRUE}'    => "BOOLEAN NOT NULL DEFAULT '" . db_get_boolean(true) . "'",
                 '{UTF-8}'           => '', # UTF-8 is simply ignored.
                 '{LATIN1}'          => '', # same for latin1
                 '{IF_NOT_EXISTS}'   => '', # does not work with PgSQL
@@ -2268,7 +2270,7 @@ function upgrade_1848_sqlite()
 function upgrade_1849_mysql()
 {
     _db_add_field('mailbox', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'password_expiry');
-    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'vacation_notification');
+    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'token_validity');
 
     $totp_exception_table = table_by_key('totp_exception_address');
     db_query_parsed("
@@ -2298,7 +2300,7 @@ function upgrade_1849_mysql()
 function upgrade_1849_pgsql()
 {
     _db_add_field('mailbox', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'password_expiry');
-    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'vacation_notification');
+    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'token_validity');
 
     if (!_pgsql_object_exists('totp_exception_address')) {
         db_query_parsed("
@@ -2328,7 +2330,7 @@ function upgrade_1849_pgsql()
 function upgrade_1849_sqlite()
 {
     _db_add_field('mailbox', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'password_expiry');
-    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'vacation_notification');
+    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'token_validity');
     db_query_parsed("
             CREATE TABLE {IF_NOT_EXISTS} totp_exception_address (
                 id {AUTOINCREMENT},
@@ -2352,5 +2354,6 @@ function upgrade_1849_sqlite()
 
 function upgrade_1850()
 {
-    _db_add_field('mailbox',  'smtp_active', 'int DEFAULT 1');
+    // see also: https://github.com/postfixadmin/postfixadmin/issues/891
+    _db_add_field('mailbox',  'smtp_active', '{BOOLEAN_TRUE}');
 }

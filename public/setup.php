@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <?php
 $PALANG = [];
 require_once('common.php');
 ?>
-<html lang="">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -88,12 +89,12 @@ $tick = ' ✅ ';
 
 
 <div class="container">
-
     <div class="row">
         <h1 class="h1">Configure and Setup Postfixadmin</h1>
 
         <p>This page helps you setup PostfixAdmin. For further help see <a
-                    href="https://github.com/postfixadmin/postfixadmin/tree/master/DOCUMENTS">the documentation</a>.</p>
+                    href="https://github.com/postfixadmin/postfixadmin/tree/master/DOCUMENTS">the documentation</a>.
+        </p>
 
         <?php
 
@@ -102,7 +103,6 @@ $tick = ' ✅ ';
         } ?>
 
         <div class="col-12">
-
             <ul>
                 <li>
                     <?php
@@ -136,14 +136,10 @@ if ($authenticated) {
 
                 </ul>
             <?php } ?>
-
         </div>
-
     </div>
 
-    <?php
-    if ($configSetupDone && !$authenticated) { ?>
-
+    <?php if ($configSetupDone && !$authenticated) { ?>
         <div class="row">
             <div class="col-12">
                 <h2 class="h2">Login with setup_password</h2>
@@ -259,24 +255,20 @@ if (!$authenticated || !$configSetupDone) { ?>
 
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-4">
-                            <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Generate
-                                setup_password
-                                hash
+                            <button class="btn btn-primary" type="submit" name="submit" value="setuppw">
+                                Generate setup_password hash
                             </button>
                         </div>
                     </div>
                 </form>
-
                 <?= $result ?>
-
-
                 <?php
 }  // end if(!$authenticated)?>
         </div>
     </div>
 
     <div class="row">
-        <div clas="col-12">
+        <div class="col-12">
             <h2 class="h2">Hosting Environment Check</h2>
 
             <?php
@@ -327,7 +319,7 @@ if ($authenticated) {
             <h2 class="h2">Database Update</h2>
 
             <?php
-    $db = false;
+$db = false;
 try {
     $db = db_connect();
 } catch (\Exception $e) {
@@ -359,12 +351,14 @@ if ($db) {
         $setupMessage = '';
 
         if (safepost("submit") === "createadmin") {
-            echo "<div class=row><div class='col-12'>";
+            ?>
+    <div class='row'>
+        <div class='col-12'>
+            <?php
+                    # "create admin" form submitted, make sure the correct setup password was specified.
 
-            # "create admin" form submitted, make sure the correct setup password was specified.
-
-            // XXX need to ensure domains table includes an 'ALL' entry.
-            $table_domain = table_by_key('domain');
+                    // XXX need to ensure domains table includes an 'ALL' entry.
+                    $table_domain = table_by_key('domain');
             $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
             if (empty($rows)) {
                 // all other fields should default through the schema.
@@ -391,7 +385,7 @@ if ($db) {
                 $setupMessage .= "<p>You are done with your basic setup. <b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b></p>";
             }
 
-            echo "</div>";
+            echo "</div></div>";
         }
 
         $table_admin = table_by_key('admin');
@@ -400,113 +394,110 @@ if ($db) {
 
         if (!empty($admins)) { ?>
 
-            <div class="row">
-                <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
 
-                    <h2 class="h2">Super admins</h2>
-                    <p>The following 'super-admin' accounts have already been added to the database.</p>
-                    <ul>
-                        <?php
+                        <h2 class="h2">Super admins</h2>
+                        <p>The following 'super-admin' accounts have already been added to the database.</p>
+                        <ul>
+                            <?php
                         foreach ($admins as $row) {
                             echo "<li>{$row['username']}</li>";
                         }
             ?>
-                    </ul>
+                        </ul>
+                    </div>
+                </div>
+            <?php } ?>
+
+            <div class="row">
+                <div class="col-12">
+                    <h2>Add Superadmin Account</h2>
+
+                    <form name="create_admin" class="form-horizontal" method="post">
+                        <div class="form-group">
+                            <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="password" required="required"
+                                       name="setup_password"
+                                       minlength=5
+                                       value=""/>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="username" class="col-sm-4 control-label"><?= $PALANG['admin'] ?></label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" required="required" name="username"
+                                       minlength=5
+                                       id="username"
+                                       value=""/>
+
+                                <?= _error_field($errors, 'username'); ?>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="password" class="col-sm-4 control-label"><?= $PALANG['password'] ?></label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="password" required=required
+                                       name="password" minlength=5
+                                       id="password" autocomplete="new-password"
+                                       value=""/>
+                                <?= _error_field($errors, 'password'); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password2"
+                                   class="col-sm-4 control-label"><?= $PALANG['password_again'] ?></label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="password" required=required
+                                       name="password2" minlength=5
+                                       id="password2" autocomplete="new-password"
+                                       value=""/>
+
+                                <?= _error_field($errors, 'password2'); ?>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-4">
+                                <button class="btn btn-primary" type="submit" name="submit"
+                                        value="createadmin"><?= $PALANG['pAdminCreate_admin_button'] ?>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
             </div>
-        <?php } ?>
 
-        <div class="row">
-            <div class="col-12">
-                <h2>Add Superadmin Account</h2>
-
-                <form name="create_admin" class="form-horizontal" method="post">
-                    <div class="form-group">
-                        <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
-                        <div class="col-sm-4">
-                            <input class="form-control" type="password" required="required"
-                                   name="setup_password"
-                                   minlength=5
-                                   value=""/>
-
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="username" class="col-sm-4 control-label"><?= $PALANG['admin'] ?></label>
-                        <div class="col-sm-4">
-                            <input class="form-control" type="text" required="required" name="username"
-                                   minlength=5
-                                   id="username"
-                                   value=""/>
-
-                            <?= _error_field($errors, 'username'); ?>
-
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="password" class="col-sm-4 control-label"><?= $PALANG['password'] ?></label>
-                        <div class="col-sm-4">
-                            <input class="form-control" type="password" required=required
-                                   name="password" minlength=5
-                                   id="password" autocomplete="new-password"
-                                   value=""/>
-                            <?= _error_field($errors, 'password'); ?>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password2"
-                               class="col-sm-4 control-label"><?= $PALANG['password_again'] ?></label>
-                        <div class="col-sm-4">
-                            <input class="form-control" type="password" required=required
-                                   name="password2" minlength=5
-                                   id="password2" autocomplete="new-password"
-                                   value=""/>
-
-                            <?= _error_field($errors, 'password2'); ?>
-
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-4">
-                            <button class="btn btn-primary" type="submit" name="submit"
-                                    value="createadmin"><?= $PALANG['pAdminCreate_admin_button'] ?>
-                            </button>
-                        </div>
-                    </div>
-
-                </form>
+            <div class="row">
+                <div class="col-12">
+                    <p class="text-success"><?= $setupMessage ?></p>
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12">
-                <p class="text-success"><?= $setupMessage ?></p>
-            </div>
-        </div>
-        <?php
+            <?php
     }
 
 ?>
-
-
-</div>
-
-<footer class="footer mt-5 bg-dark">
-    <div class="container text-center">
-        <a target="_blank" rel="noopener" href="https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/">Documentation</a>
-        //
-        <a target="_blank" rel="noopener"
-           href="https://github.com/postfixadmin/postfixadmin/">Postfix Admin</a>
-    </div>
-</footer>
-
+        </div>
+        <footer class="footer mt-5 bg-dark">
+            <div class="container text-center">
+                <a target="_blank" rel="noopener"
+                   href="https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/">Documentation</a>
+                //
+                <a target="_blank" rel="noopener"
+                   href="https://github.com/postfixadmin/postfixadmin/">Postfix Admin</a>
+            </div>
+        </footer>
 </body>
 </html>
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Postfix Admin
  *
@@ -29,6 +30,26 @@ authentication_require_role('admin');
 $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
 
+
+$q = safeget('q');
+
+$smarty->assign('q', '');
+
+if (!empty($q)) {
+
+    $table_alias = table_by_key('alias');
+    $table_domain = table_by_key('domain');
+    $table_mailbox = table_by_key('mailbox');
+
+    $mailboxes = db_query_all("SELECT * FROM $table_mailbox WHERE username LIKE :q ORDER BY username ASC LIMIT 15", ['q' => "%$q%"]);
+    $aliases = db_query_all("SELECT * FROM $table_alias WHERE address LIKE :q ORDER BY address ASC LIMIT 15", ['q' => "%$q%"]);
+    $domains = db_query_all("SELECT * FROM $table_domain WHERE domain LIKE :q AND domain != 'ALL'  ORDER BY domain ASC LIMIT 15", ['q' => "%$q%"]);
+
+    $smarty->assign('q', $q);
+    $smarty->assign('mailboxes', $mailboxes);
+    $smarty->assign('aliases', $aliases);
+    $smarty->assign('domains', $domains);
+}
 $smarty->assign('smarty_template', 'main');
 $smarty->display('index.tpl');
 

@@ -5,11 +5,9 @@
  */
 class PFASmarty
 {
-    public static $instance = null;
-    /**
-     * @var Smarty
-     */
-    protected $template;
+    public static ?self $instance = null;
+
+    protected Smarty $template;
 
     public static function getInstance()
     {
@@ -32,7 +30,11 @@ class PFASmarty
         }
 
         $this->template = new Smarty();
+        $this->template->registerPlugin('function', 'htmlentities', 'htmlentities');
+        $this->template->registerPlugin('modifier', 'htmlentities_no_double_encode', function (string $string) {
 
+            return htmlentities($string, ENT_QUOTES, 'UTF-8', false);
+        });
 
         $template_dir = __DIR__ . '/../templates/' . $theme;
 

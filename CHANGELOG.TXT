@@ -8,6 +8,9 @@
 
 MASTER (should have all changes from 3.3.10 plus)
 ------
+   - Add Content Security Policy in common.php ( see https://github.com/postfixadmin/postfixadmin/issues/905, thanks @gitblacker ) 
+   - Add SameSite, HttpOnly and (perhaps) secure parameters to the PHP session cookie ( see https://github.com/postfixadmin/postfixadmin/issues/903 - thanks @gitblacker)
+   - Update moment.js library - see https://github.com/postfixadmin/postfixadmin/issues/902
    - Remove use of deprecated 'imap' module (see https://github.com/postfixadmin/postfixadmin/issues/812 and https://github.com/postfixadmin/postfixadmin/issues/812). This also removes the config for create_mailbox_subdirs etc.
    - Ability to limit alias destinations to only be for local domains (see https://github.com/postfixadmin/postfixadmin/pull/338/; thanks @michaelkrieger)
    - Ability to control control smtp access for a mailbox (so limiting outbound email, while still allowing incoming; see https://github.com/postfixadmin/postfixadmin/pull/796; thanks @johnfawcett)
