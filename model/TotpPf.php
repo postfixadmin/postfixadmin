@@ -37,8 +37,8 @@ class TotpPf
         $totp = TOTP::create();
         $totp->setLabel($username);
         $totp->setIssuer('Postfix Admin');
-        if (Config::read('logo_url')) {
-            $totp->setParameter('image', Config::read('logo_url'));
+        if (Config::has('logo_url') && is_string(Config::read('logo_url'))) {
+            $totp->setParameter('image', (string) Config::read('logo_url'));
         }
         $QR_content = $totp->getProvisioningUri();
         $pTOTP_secret = $totp->getSecret();
