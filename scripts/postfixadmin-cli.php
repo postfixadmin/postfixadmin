@@ -411,6 +411,6 @@ try {
     $dispatcher->stderr("Execution Exception: " . $e->getMessage());
     $retval = 1;
 }
-exit($retval);
+exit($retval || 0);
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
