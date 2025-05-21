@@ -1,0 +1,703 @@
+/**
+ * PostfixAdmin - Custom CSS Improvements
+ * This file contains general improvements for the PostfixAdmin interface
+ */
+
+/* General improvements */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#main_menu {
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+/* Better spacing and readability */
+.container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.container .row {
+    margin-bottom: 20px;
+}
+
+
+/* Form padding improvements */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    padding: 10px 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: none;
+    border-radius: 8px;
+    height: auto;
+}
+
+textarea.form-control {
+    padding: 12px 16px;
+    min-height: 100px;
+}
+
+/* Label spacing */
+label {
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+/* Card and panel padding */
+.panel {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.panel-heading {
+    padding: 18px 24px;
+}
+
+.panel-body {
+    padding: 24px 30px;
+}
+
+.panel-footer {
+    padding: 16px 24px;
+}
+
+/* Form layout improved spacing */
+.form-horizontal .control-label {
+    padding-top: 11px; /* Align with increased form-control padding */
+    padding-bottom: 5px;
+}
+
+/* Buttons with improved padding */
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+    border-color: transparent;
+}
+
+/* Button sizes with improved padding */
+.btn-sm {
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+.btn-lg {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size:15px;
+}
+
+
+/* Button with icon */
+.btn .glyphicon,
+.btn .fa,
+.btn .icon {
+    margin-right: 6px;
+    font-size: 0.9em;
+}
+
+/* Button with icon only */
+.btn.icon-only {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn.icon-only.btn-sm {
+    width: 30px;
+    height: 30px;
+}
+
+.btn.icon-only.btn-lg {
+    width: 46px;
+    height: 46px;
+}
+
+.btn.icon-only .glyphicon,
+.btn.icon-only .fa,
+.btn.icon-only .icon {
+    margin-right: 0;
+    font-size: 14px;
+}
+
+/* Button group styling */
+.btn-group {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd !important;
+}
+.btn-group .btn:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.btn-group .btn {
+    box-shadow: none;
+    margin: 0;
+}
+
+/* Outline buttons */
+.btn-outline-primary {
+    color: #375a7f;
+    border-color: #375a7f;
+    background: transparent;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+    color: white;
+    background-color: #375a7f;
+}
+
+/* Dark theme compatibility */
+[data-theme="dark"] .btn-default,
+[data-theme="dark"] .btn-secondary {
+    background: linear-gradient(135deg, #444 0%, #333 100%);
+    border-color: #555;
+    color: #fff;
+}
+
+[data-theme="dark"] .btn-default:hover,
+[data-theme="dark"] .btn-secondary:hover,
+[data-theme="dark"] .btn-default:focus,
+[data-theme="dark"] .btn-secondary:focus {
+    background: linear-gradient(135deg, #555 0%, #444 100%);
+    border-color: #666;
+    color: #fff;
+}
+
+[data-theme="dark"] .btn-outline-primary {
+    color: #6c9fd9;
+    border-color: #6c9fd9;
+}
+
+[data-theme="dark"] .btn-outline-primary:hover,
+[data-theme="dark"] .btn-outline-primary:focus {
+    color: #111;
+    background-color: #6c9fd9;
+}
+
+/* Table improvements */
+.table {
+    margin-bottom: 2rem;
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    max-width: 100%;
+    border: 1px solid #e0e0e0;
+}
+
+.table thead th {
+    border-top: none;
+    background-color: #f2f2f2;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    padding: 12px 16px;
+    vertical-align: middle;
+    border-bottom: 2px solid #ddd;
+    color: #444;
+}
+
+.table tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-top: 1px solid #e0e0e0;
+    transition: background-color 0.15s ease;
+}
+
+.table tbody tr:hover td {
+    background-color: #f9f9f9;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f8f9fa;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd):hover td {
+    background-color: #f0f0f0;
+}
+
+/* Responsive tables */
+.table-responsive {
+    border-radius: 8px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.03);
+    margin-bottom: 2rem;
+    border: none;
+}
+
+/* Table actions column */
+.table td.actions {
+    white-space: nowrap;
+    width: 1%;
+    text-align: right;
+}
+
+.table td.actions .btn {
+    margin: 0 2px;
+}
+
+/* Table with card-like styling */
+.table-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: none;
+}
+
+/* Dark theme compatibility for tables */
+[data-theme="dark"] .table {
+    border-color: #444;
+    background-color: #2d2d2d;
+    color: #eee;
+}
+
+[data-theme="dark"] .table thead th {
+    background-color: #333;
+    color: #eee;
+    border-bottom-color: #444;
+}
+
+[data-theme="dark"] .table tbody td {
+    border-top-color: #444;
+}
+
+[data-theme="dark"] .table tbody tr:hover td {
+    background-color: #383838;
+}
+
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #303030;
+}
+
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd):hover td {
+    background-color: #383838;
+}
+
+[data-theme="dark"] .table-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .table-responsive {
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Login page improvements */
+#login {
+    max-width: 450px;
+    margin: 0 auto;
+    padding-top: 40px;
+}
+
+#login h2{
+    text-align: center;
+}
+#login .well {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.11);
+    border: 1px solid rgba(221, 221, 221, 0.57);
+    padding: 25px;
+}
+
+#login_header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#login_header_logo {
+
+}
+.page-users_main #login_header_logo {
+
+}
+@media (min-width: 992px) {
+    .page-users_main #login_header_logo {
+        margin-top: 8px;
+    }
+    #login_header_logo {
+        margin-top: 8px;
+    }
+    .page-login #login_header_logo {
+        margin-top: 0px;
+    }
+}
+.reset-button {
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+
+.navbar-default .navbar-nav > li > a {
+    padding: 15px 12px;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+/* Panel improvements */
+.panel {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.panel-heading {
+    padding: 18px 24px;
+}
+
+.panel-body {
+    padding: 24px 30px;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .navbar-header {
+        padding: 10px 0;
+    }
+
+    #login {
+        padding: 20px;
+    }
+
+    .table-responsive {
+        border: none;
+    }
+}
+
+/* Dark theme compatibility */
+[data-theme="dark"] .table thead th {
+    background-color: #333;
+    color: #eee;
+}
+
+[data-theme="dark"] .panel {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Theme toggle button styling */
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle .theme-icon-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Accessibility improvements */
+:focus {
+    outline: 2px solid #375a7f;
+    outline-offset: 2px;
+}
+
+/* For screen readers only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Enhanced dropdown styling */
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    margin-top: 0;
+    min-width: 220px;
+    animation: dropdown-fade 0.2s ease;
+}
+
+.dropdown-menu > li > a {
+    padding: 10px 24px;
+    font-weight: 400;
+    transition: all 0.2s ease;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.dropdown-menu > li > a .glyphicon {
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.dropdown-menu > li > a:hover .glyphicon {
+    opacity: 1;
+}
+
+/* Dropdown divider styling */
+.dropdown-divider,
+.dropdown-menu .divider {
+    margin: 6px 0;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown headers */
+.dropdown-header {
+    color: #666;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 8px 20px 4px;
+}
+
+/* Dropdown animation */
+@keyframes dropdown-fade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Navbar dropdown adjustments */
+.navbar-nav > li > .dropdown-menu {
+    margin-top: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Dark theme compatibility for dropdowns */
+[data-theme="dark"] .dropdown-menu {
+    background-color: #333;
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .dropdown-menu > li > a {
+    color: #eee;
+}
+
+[data-theme="dark"] .dropdown-menu > li > a:hover,
+[data-theme="dark"] .dropdown-menu > li > a:focus {
+    background-color: #444;
+    color: #fff;
+}
+
+[data-theme="dark"] .dropdown-divider,
+[data-theme="dark"] .dropdown-menu .divider {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .dropdown-header {
+    color: #aaa;
+}
+
+/* Enhanced select element styling */
+select.form-control {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 8px 10px;
+    padding-right: 1.5rem;
+    cursor: pointer;
+}
+
+select.form-control:focus {
+    border-color: #375a7f;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(55, 90, 127, 0.25);
+}
+
+select.form-control option {
+    padding: 8px;
+    font-size: 14px;
+}
+
+/* Styling for select elements outside of .form-control */
+select:not(.form-control) {
+    display: block;
+    width: 100%;
+    padding: 8px 24px 8px 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+select:not(.form-control):focus {
+    border-color: #375a7f;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(55, 90, 127, 0.25);
+}
+
+/* Dark theme compatibility for select elements */
+[data-theme="dark"] select.form-control,
+[data-theme="dark"] select:not(.form-control) {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23ffffff' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"] select.form-control option,
+[data-theme="dark"] select:not(.form-control) option {
+    background-color: #333;
+    color: #fff;
+}
+
+[data-theme="dark"] select.form-control:focus,
+[data-theme="dark"] select:not(.form-control):focus {
+    border-color: #6c9fd9;
+    box-shadow: 0 0 0 0.2rem rgba(108, 159, 217, 0.25);
+}
+
+/* Alert messages with better padding */
+.alert {
+    padding: 16px 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+}
+
+/* Admin table specific styling */
+#admin_table {
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border:none;
+}
+
+#admin_table thead tr.header {
+    background-color: #f5f7fa;
+    border-bottom: 2px solid #ddd;
+}
+
+#admin_table thead tr.header th {
+    padding:  20px 22px;
+    font-weight: 600;
+    color: #423f3f;
+    white-space: nowrap;
+    text-transform: none;
+    letter-spacing: 0.3px;
+    border-bottom:  none;
+    vertical-align: middle;
+    position: relative;
+    background-color: #f5f5f5;
+}
+
+#admin_table tbody tr {
+    border-bottom: 1px solid #e9ecef;
+    transition: all 0.2s ease;
+}
+
+#admin_table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+#admin_table tbody tr:last-child {
+    border-bottom: none;
+}
+
+#admin_table tbody td {
+    padding: 16px 20px;
+    vertical-align: middle;
+    color: #333;
+}
+
+#admin_table tbody td:first-child {
+    font-weight: 500;
+}
+
+/* Action links in admin table */
+#admin_table .btn {
+    margin: 0 3px;
+}
+
+#admin_table .actions {
+    white-space: nowrap;
+    text-align: right;
+}
+
+/* Status indicators */
+#admin_table .fa-check,
+#admin_table .yes {
+    color: #28a745;
+}
+
+#admin_table .fa-times,
+#admin_table .no {
+    color: #dc3545;
+}
+
+/* Responsive handling */
+@media (max-width: 992px) {
+    #admin_table {
+        min-width: 800px;
+    }
+    
+    .table-responsive {
+        padding-bottom: 5px;
+    }
+}
+
+/* Dark theme compatibility for admin table */
+[data-theme="dark"] #admin_table {
+    background-color: #222;
+    color: #eee;
+}
+
+[data-theme="dark"] #admin_table thead tr.header {
+    background-color: #333;
+    border-bottom-color: #444;
+}
+
+[data-theme="dark"] #admin_table thead tr.header th {
+    color: #eee;
+    background-color: #333;
+}
+
+[data-theme="dark"] #admin_table tbody tr {
+    border-bottom-color: #3a3a3a;
+}
+
+[data-theme="dark"] #admin_table tbody tr:hover {
+    background-color: #2d2d2d;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] #admin_table tbody td {
+    color: #ddd;
+}
