@@ -54,7 +54,8 @@ submission inet n      -       n       -       -       smtpd
 
 and in main.cf:
 
-smtpd_sender_login_maps = proxy:mysql:/etc/postfix/mysql-login_maps_dovecot.cf
+# this controls who can use what smtp from address
+smtpd_sender_login_maps = proxy:mysql:/etc/postfix/sql/mysql_mailbox_maps.cf
 smtpd_sasl_auth_enable = no
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated reject_unauth_destination
 smtpd_restriction_classes = submission_recipient_checks, submission_sender_checks
@@ -89,6 +90,14 @@ If you are using PostgreSQL, you'll need to do some changes to the queries:
 - PostgreSQL does not have a concat() function, instead use e.g. 
   .... alias.address = '%u' || '@' || alias_domain.target_domain AND ....
  
+
+mysql_mailbox_maps.cf:
+user = postfix
+password = password
+hosts = localhost
+dbname = postfix
+query = SELECT username FROM mailbox WHERE username = '%s' AND active = '1'
+
 
 mysql_virtual_alias_maps.cf:
 user = postfix
