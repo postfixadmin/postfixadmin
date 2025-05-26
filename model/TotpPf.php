@@ -69,7 +69,8 @@ class TotpPf
             return false;
         }
 
-        $sql = "SELECT totp_secret FROM {$this->table} WHERE username = :username AND active = :active";
+        $table_name = table_by_key($this->table);
+        $sql = "SELECT totp_secret FROM $table_name WHERE username = :username AND active = :active";
 
         $active = db_get_boolean(true);
 
@@ -93,7 +94,8 @@ class TotpPf
      */
     public function checkUserTOTP(string $username, string $code): bool
     {
-        $sql = "SELECT totp_secret FROM {$this->table} WHERE username = :username AND active = :active";
+        $table_name = table_by_key($this->table);
+        $sql = "SELECT totp_secret FROM $tablename WHERE username = :username AND active = :active";
 
         $active = db_get_boolean(true);
 
@@ -129,7 +131,8 @@ class TotpPf
 
     public function removeTotpFromUser(string $username): void
     {
-        $sql = "UPDATE {$this->table} SET totp_secret = NULL WHERE username = :username";
+        $table_name = table_by_key($this->table);
+        $sql = "UPDATE $tablename SET totp_secret = NULL WHERE username = :username";
         db_execute($sql, ['username' => $username]);
     }
 
@@ -146,7 +149,8 @@ class TotpPf
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
         }
 
-        $sql = "SELECT totp_secret FROM {$this->table} WHERE username = :username AND active = :active";
+        $table_name = table_by_key($this->table);
+        $sql = "SELECT totp_secret FROM $tablename WHERE username = :username AND active = :active";
 
         $active = db_get_boolean(true);
 
