@@ -309,8 +309,10 @@ class TotpPf
 
         if ($error == 0) {
             // OK to insert/replace.
+
+            $totp_exception_address = table_by_key('totp_exception_address');
             // As PostgeSQL lacks REPLACE we first check and delete any previous rows matching this ip and user
-            $exists = db_query_all('SELECT id FROM totp_exception_address WHERE ip = :ip AND username = :username',
+            $exists = db_query_all("SELECT id FROM $totp_exception_address WHERE ip = :ip AND username = :username",
                 ['ip' => $ip_address, 'username' => $exception_username]);
             if (isset($exists[0])) {
                 foreach ($exists as $x) {
@@ -405,7 +407,8 @@ class TotpPf
         }
 
 
-        $result = db_execute('DELETE FROM totp_exception_address WHERE id = :id', ['id' => $id]);
+        $totp_exception_address = table_by_key('totp_exception_address');
+        $result = db_execute("DELETE FROM $totp_exception_address WHERE id = :id", ['id' => $id]);
 
         if ($result != 1) {
             db_log($Exception_domain, 'pViewlog_action_delete_totp_exception', "FAILURE: " . $username);
@@ -449,7 +452,8 @@ class TotpPf
      */
     public function getAllExceptions(): array
     {
-        return db_query_all("SELECT * FROM totp_exception_address");
+        $totp_exception_address = table_by_key('totp_exception_address');
+        return db_query_all("SELECT * FROM $totp_exception_address");
     }
 
     /**
@@ -460,7 +464,8 @@ class TotpPf
     public function getExceptionsFor(string $username): array
     {
         list($local_part, $domain) = explode('@', $username);
-        return db_query_all("SELECT * FROM totp_exception_address WHERE username = :username OR username = :domain OR username IS NULL", ['username' => $username, 'domain' => $domain]);
+        $totp_exception_address = table_by_key('totp_exception_address');
+        return db_query_all("SELECT * FROM $totp_exception_address WHERE username = :username OR username = :domain OR username IS NULL", ['username' => $username, 'domain' => $domain]);
     }
 
     /**
@@ -470,6 +475,7 @@ class TotpPf
      */
     public function getException(int $id): ?array
     {
-        return db_query_one("SELECT * FROM totp_exception_address WHERE id = :id", ['id' => $id]);
+        $totp_exception_address = table_by_key('totp_exception_address');
+        return db_query_one("SELECT * FROM $totp_exception_address WHERE id = :id", ['id' => $id]);
     }
 }

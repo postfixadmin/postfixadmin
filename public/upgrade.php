@@ -2300,11 +2300,12 @@ function upgrade_1849_mysql()
 function upgrade_1849_pgsql()
 {
     _db_add_field('mailbox', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'password_expiry');
-    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'token_validity');
+    _db_add_field('admin', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'token_validity');
 
-    if (!_pgsql_object_exists('totp_exception_address')) {
+    $totp_exception_address = table_by_key("totp_exception_address");
+    if (!_pgsql_object_exists($totp_exception_address)) {
         db_query_parsed("
-            CREATE TABLE {IF_NOT_EXISTS} totp_exception_address (
+            CREATE TABLE {IF_NOT_EXISTS} $totp_exception_address (
                 id {AUTOINCREMENT} {PRIMARY},
                 ip varchar(46) NOT NULL,
                 username varchar(255) DEFAULT NULL,
@@ -2312,12 +2313,14 @@ function upgrade_1849_pgsql()
             );
         ");
         db_query_parsed("
-            CREATE UNIQUE INDEX ip_user ON totp_exception_address (ip,username)
+            CREATE UNIQUE INDEX ip_user ON $totp_exception_address (ip,username)
         ");
     }
-    if (!_pgsql_object_exists('mailbox_app_password')) {
+
+    $mailbox_app_password = table_by_key("mailbox_app_password");
+    if (!_pgsql_object_exists($mailbox_app_password)) {
         db_query_parsed("
-            CREATE TABLE {IF_NOT_EXISTS} mailbox_app_password(
+            CREATE TABLE {IF_NOT_EXISTS} $mailbox_app_password (
                 id {AUTOINCREMENT} {PRIMARY},
                 username varchar(255) DEFAULT NULL,
                 description varchar(255) DEFAULT NULL,
@@ -2330,20 +2333,26 @@ function upgrade_1849_pgsql()
 function upgrade_1849_sqlite()
 {
     _db_add_field('mailbox', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'password_expiry');
-    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'token_validity');
+    _db_add_field('admin', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'token_validity');
+
+    $totp_exception_address = table_by_key("totp_exception_address");
+
     db_query_parsed("
-            CREATE TABLE {IF_NOT_EXISTS} totp_exception_address (
+            CREATE TABLE {IF_NOT_EXISTS} $totp_exception_address (
                 id {AUTOINCREMENT},
                 ip varchar(46) NOT NULL,
                 username varchar(255) DEFAULT NULL,
                 description varchar(255) DEFAULT NULL
             );
         ");
+
     db_query_parsed("
-            CREATE UNIQUE INDEX ip_user ON totp_exception_address (ip,username)
+          CREATE UNIQUE INDEX ip_user ON $totp_exception_address (ip,username)
         ");
+
+    $mailbox_app_password = table_by_key("mailbox_app_password");
     db_query_parsed("
-            CREATE TABLE {IF_NOT_EXISTS} mailbox_app_password(
+            CREATE TABLE {IF_NOT_EXISTS} $mailbox_app_password (
                 id {AUTOINCREMENT},
                 username varchar(255) DEFAULT NULL,
                 description varchar(255) DEFAULT NULL,
