@@ -622,22 +622,18 @@ function do_software_environment_check()
 
     if ($m_pdo_mysql) {
         $info[] = "Database - MySQL support available";
-    } else {
-        $info[] = "Database - MySQL (pdo_mysql) extension not found";
     }
 
-
-    // PostgreSQL functions
     if ($m_pdo_pgsql) {
         $info[] = "Database - PostgreSQL support available ";
-    } else {
-        $warn[] = "Database - PostgreSQL (pdo_pgsql) extension not found";
     }
 
     if ($m_pdo_sqlite) {
         $info[] = "Database - SQLite support available";
-    } else {
-        $warn[] = "Database support - SQLite (pdo_sqlite) extension not found";
+    }
+
+    if (!$m_pdo_mysql && !$m_pdo_sqlite && !$m_pdo_pgsql) {
+        $error[] = "No database support available (mysql, sqlite or postgresql)";
     }
 
     if (empty($CONF['encrypt'])) {
