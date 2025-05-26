@@ -95,7 +95,7 @@ function _db_add_field($table, $field, $fieldtype, $after = '')
         $query .= " AFTER $after "; # PgSQL does not support to specify where to add the column, MySQL does
     }
 
-    if (! _db_field_exists(table_by_key($table), $field)) {
+    if (!_db_field_exists(table_by_key($table), $field)) {
         db_query_parsed($query);
     } else {
         printdebug("field already exists: $table.$field");
@@ -155,13 +155,13 @@ if ($CONF['database_type'] == 'pgsql') {
 }
 
 $version = check_db_version(false);
-_do_upgrade($version);
+return _do_upgrade($version);
 
-function _do_upgrade($current_version)
+function _do_upgrade(int $current_version): bool
 {
     global $CONF;
 
-    $target_version = 0;
+    $target_version = $current_version;
     // Rather than being bound to an svn revision number, just look for the largest function name that matches upgrade_\d+...
     // $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
     $funclist = get_defined_functions();
@@ -175,6 +175,7 @@ function _do_upgrade($current_version)
         $filter
     );
 
+
     foreach ($our_upgrade_functions as $function_name) {
         $bits = explode("_", $function_name);
         $function_number = $bits[1];
@@ -184,10 +185,20 @@ function _do_upgrade($current_version)
         }
     }
 
-    if ($current_version >= $target_version) {
-        # already up to date
-        echo_out("<p>Database is up to date: $current_version/$target_version </p>");
+    if ($target_version == 0) {
+        $target_version = $current_version;
+    }
+
+
+    if ($current_version == $target_version) {
+        echo_out("all database updates are applied (version $current_version)");
         return true;
+    }
+
+    if ($current_version > $target_version) {
+        // surely impossible?
+        echo_out("Database - our current version $current_version is more recent than the $target_version - this shouldn't be possible?");
+        return false;
     }
 
     echo_out("<p>Updating database:</p><p>- old version: $current_version; target version: $target_version</p>\n");
@@ -240,7 +251,8 @@ function _do_upgrade($current_version)
         $table = table_by_key('config');
         $sql = "UPDATE $table SET value = :value WHERE name = 'version'";
         db_execute($sql, ['value' => $i]);
-    };
+    }
+    return true;
 }
 
 /**
@@ -257,75 +269,75 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "")
 
     if (db_mysql()) {
         $replace = array(
-                '{AUTOINCREMENT}'   => 'int(11) not null auto_increment',
-                '{PRIMARY}'         => 'primary key',
-                '{UNSIGNED}'        => 'unsigned'  ,
-                '{FULLTEXT}'        => 'FULLTEXT',
-                '{BOOLEAN}'         => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
-                '{BOOLEAN_TRUE}'    => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(true) . "'",
-                '{UTF-8}'           => '/*!40100 CHARACTER SET utf8mb4 */',
-                '{LATIN1}'          => '/*!40100 CHARACTER SET latin1 COLLATE latin1_general_ci */',
-                '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
-                '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
-                '{MYISAM}'          => '',
-                '{INNODB}'          => 'ENGINE=InnoDB',
-                '{INT}'             => 'integer NOT NULL DEFAULT 0',
-                '{BIGINT}'          => 'bigint NOT NULL DEFAULT 0',
-                '{DATETIME}'        => "datetime NOT NULL default '2000-01-01 00:00:00'", # different from {DATE} only for MySQL
-                '{DATE}'            => "timestamp NOT NULL default '2000-01-01'", # MySQL needs a sane default (no default is interpreted as CURRENT_TIMESTAMP, which is ...
-                '{DATEFUTURE}'      => "timestamp NOT NULL default '2038-01-18'", # different default timestamp for vacation.activeuntil
-                '{DATECURRENT}'     => 'timestamp NOT NULL default CURRENT_TIMESTAMP', # only allowed once per table in MySQL
-                '{COLLATE}'         => "CHARACTER SET latin1 COLLATE latin1_general_ci", # just incase someone has a unicode collation set.
+            '{AUTOINCREMENT}' => 'int(11) not null auto_increment',
+            '{PRIMARY}' => 'primary key',
+            '{UNSIGNED}' => 'unsigned',
+            '{FULLTEXT}' => 'FULLTEXT',
+            '{BOOLEAN}' => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
+            '{BOOLEAN_TRUE}' => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(true) . "'",
+            '{UTF-8}' => '/*!40100 CHARACTER SET utf8mb4 */',
+            '{LATIN1}' => '/*!40100 CHARACTER SET latin1 COLLATE latin1_general_ci */',
+            '{IF_NOT_EXISTS}' => 'IF NOT EXISTS',
+            '{RENAME_COLUMN}' => 'CHANGE COLUMN',
+            '{MYISAM}' => '',
+            '{INNODB}' => 'ENGINE=InnoDB',
+            '{INT}' => 'integer NOT NULL DEFAULT 0',
+            '{BIGINT}' => 'bigint NOT NULL DEFAULT 0',
+            '{DATETIME}' => "datetime NOT NULL default '2000-01-01 00:00:00'", # different from {DATE} only for MySQL
+            '{DATE}' => "timestamp NOT NULL default '2000-01-01'", # MySQL needs a sane default (no default is interpreted as CURRENT_TIMESTAMP, which is ...
+            '{DATEFUTURE}' => "timestamp NOT NULL default '2038-01-18'", # different default timestamp for vacation.activeuntil
+            '{DATECURRENT}' => 'timestamp NOT NULL default CURRENT_TIMESTAMP', # only allowed once per table in MySQL
+            '{COLLATE}' => "CHARACTER SET latin1 COLLATE latin1_general_ci", # just incase someone has a unicode collation set.
 
         );
         $sql = "$sql $attach_mysql";
     } elseif (db_sqlite()) {
         $replace = array(
-                '{AUTOINCREMENT}'   => 'integer PRIMARY KEY AUTOINCREMENT NOT NULL',
-                '{PRIMARY}'         => 'PRIMARY KEY',
-                '{UNSIGNED}'        => 'unsigned',
-                '{FULLTEXT}'        => 'text',
-                '{BOOLEAN}'         => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
-                '{BOOLEAN_TRUE}'    => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(true) . "'",
-                '{UTF-8}'           => '',
-                '{LATIN1}'          => '',
-                '{IF_NOT_EXISTS}'   => 'IF NOT EXISTS',
-                '{RENAME_COLUMN}'   => 'CHANGE COLUMN',
-                '{MYISAM}'          => '',
-                '{INNODB}'          => '',
-                '{INT}'             => 'int(11) NOT NULL DEFAULT 0',
-                '{BIGINT}'          => 'bigint(20) NOT NULL DEFAULT 0',
-                '{DATETIME}'        => "datetime NOT NULL default '2000-01-01'",
-                '{DATE}'            => "datetime NOT NULL default '2000-01-01'",
-                '{DATEFUTURE}'      => "datetime NOT NULL default '2038-01-18'", # different default timestamp for vacation.activeuntil
-                '{DATECURRENT}'     => 'datetime NOT NULL default CURRENT_TIMESTAMP',
-                '{COLLATE}'         => ''
+            '{AUTOINCREMENT}' => 'integer PRIMARY KEY AUTOINCREMENT NOT NULL',
+            '{PRIMARY}' => 'PRIMARY KEY',
+            '{UNSIGNED}' => 'unsigned',
+            '{FULLTEXT}' => 'text',
+            '{BOOLEAN}' => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
+            '{BOOLEAN_TRUE}' => "tinyint(1) NOT NULL DEFAULT '" . db_get_boolean(true) . "'",
+            '{UTF-8}' => '',
+            '{LATIN1}' => '',
+            '{IF_NOT_EXISTS}' => 'IF NOT EXISTS',
+            '{RENAME_COLUMN}' => 'CHANGE COLUMN',
+            '{MYISAM}' => '',
+            '{INNODB}' => '',
+            '{INT}' => 'int(11) NOT NULL DEFAULT 0',
+            '{BIGINT}' => 'bigint(20) NOT NULL DEFAULT 0',
+            '{DATETIME}' => "datetime NOT NULL default '2000-01-01'",
+            '{DATE}' => "datetime NOT NULL default '2000-01-01'",
+            '{DATEFUTURE}' => "datetime NOT NULL default '2038-01-18'", # different default timestamp for vacation.activeuntil
+            '{DATECURRENT}' => 'datetime NOT NULL default CURRENT_TIMESTAMP',
+            '{COLLATE}' => ''
         );
     } elseif ($CONF['database_type'] == 'pgsql') {
         $replace = array(
-                '{AUTOINCREMENT}'   => 'SERIAL',
-                '{PRIMARY}'         => 'primary key',
-                '{UNSIGNED}'        => '',
-                '{FULLTEXT}'        => '',
-                '{BOOLEAN}'         => "BOOLEAN NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
-                '{BOOLEAN_TRUE}'    => "BOOLEAN NOT NULL DEFAULT '" . db_get_boolean(true) . "'",
-                '{UTF-8}'           => '', # UTF-8 is simply ignored.
-                '{LATIN1}'          => '', # same for latin1
-                '{IF_NOT_EXISTS}'   => '', # does not work with PgSQL
-                '{RENAME_COLUMN}'   => 'ALTER COLUMN', # PgSQL : ALTER TABLE x RENAME x TO y
-                '{MYISAM}'          => '',
-                '{INNODB}'          => '',
-                '{INT}'             => 'integer NOT NULL DEFAULT 0',
-                '{BIGINT}'          => 'bigint NOT NULL DEFAULT 0',
-                'int(1)'            => 'int',
-                'int(10)'           => 'int',
-                'int(11)'           => 'int',
-                'int(4)'            => 'int',
-                '{DATETIME}'        => "timestamp with time zone default '2000-01-01'", # stay in sync with MySQL
-                '{DATE}'            => "timestamp with time zone default '2000-01-01'", # stay in sync with MySQL
-                '{DATEFUTURE}'      => "timestamp with time zone default '2038-01-18'", # stay in sync with MySQL
-                '{DATECURRENT}'     => 'timestamp with time zone default now()',
-                '{COLLATE}'         => '',
+            '{AUTOINCREMENT}' => 'SERIAL',
+            '{PRIMARY}' => 'primary key',
+            '{UNSIGNED}' => '',
+            '{FULLTEXT}' => '',
+            '{BOOLEAN}' => "BOOLEAN NOT NULL DEFAULT '" . db_get_boolean(false) . "'",
+            '{BOOLEAN_TRUE}' => "BOOLEAN NOT NULL DEFAULT '" . db_get_boolean(true) . "'",
+            '{UTF-8}' => '', # UTF-8 is simply ignored.
+            '{LATIN1}' => '', # same for latin1
+            '{IF_NOT_EXISTS}' => '', # does not work with PgSQL
+            '{RENAME_COLUMN}' => 'ALTER COLUMN', # PgSQL : ALTER TABLE x RENAME x TO y
+            '{MYISAM}' => '',
+            '{INNODB}' => '',
+            '{INT}' => 'integer NOT NULL DEFAULT 0',
+            '{BIGINT}' => 'bigint NOT NULL DEFAULT 0',
+            'int(1)' => 'int',
+            'int(10)' => 'int',
+            'int(11)' => 'int',
+            'int(4)' => 'int',
+            '{DATETIME}' => "timestamp with time zone default '2000-01-01'", # stay in sync with MySQL
+            '{DATE}' => "timestamp with time zone default '2000-01-01'", # stay in sync with MySQL
+            '{DATEFUTURE}' => "timestamp with time zone default '2038-01-18'", # stay in sync with MySQL
+            '{DATECURRENT}' => 'timestamp with time zone default now()',
+            '{COLLATE}' => '',
         );
     } else {
         echo_out("Sorry, unsupported database type " . $CONF['database_type']);
@@ -354,6 +366,7 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "")
         throw new \Exception("Postfixadmin DB update failed. Please check your PHP error_log");
     }
 }
+
 /**
  * @param string $table
  * @param string $index
@@ -375,10 +388,10 @@ function _drop_index($table, $index)
 }
 
 /**
- * @return string
  * @param string $table
  * @param string $indexname
  * @param string $fieldlist
+ * @return string
  */
 function _add_index($table, $indexname, $fieldlist)
 {
@@ -830,7 +843,6 @@ function upgrade_4_pgsql()
 # NO MySQL errors should be ignored below this line!
 
 
-
 /**
  * create tables
  * version: Sourceforge SVN r1 of DATABASE_MYSQL.txt
@@ -1202,14 +1214,14 @@ function upgrade_439_pgsql()
  */
 function upgrade_473_mysql()
 {
-    $table_admin   = table_by_key('admin');
-    $table_alias   = table_by_key('alias');
-    $table_al_dom  = table_by_key('alias_domain');
-    $table_domain  = table_by_key('domain');
+    $table_admin = table_by_key('admin');
+    $table_alias = table_by_key('alias');
+    $table_al_dom = table_by_key('alias_domain');
+    $table_domain = table_by_key('domain');
     $table_dom_adm = table_by_key('domain_admins');
-    $table_fmail   = table_by_key('fetchmail');
+    $table_fmail = table_by_key('fetchmail');
     $table_mailbox = table_by_key('mailbox');
-    $table_log     = table_by_key('log');
+    $table_log = table_by_key('log');
 
     # tables were created without explicit charset before :-(
     $all_sql = explode("\n", trim("
@@ -1262,7 +1274,7 @@ function upgrade_473_mysql()
 function upgrade_479_mysql()
 {
     # ssl is a reserved word in MySQL and causes several problems. Renaming the field...
-    $table_fmail   = table_by_key('fetchmail');
+    $table_fmail = table_by_key('fetchmail');
     if (!_mysql_field_exists($table_fmail, 'usessl')) {
         db_query_parsed("ALTER TABLE $table_fmail CHANGE `ssl` `usessl` TINYINT( 1 ) UNSIGNED NOT NULL DEFAULT '0'");
     }
@@ -1274,7 +1286,7 @@ function upgrade_479_mysql()
  */
 function upgrade_479_pgsql()
 {
-    $table_fmail   = table_by_key('fetchmail');
+    $table_fmail = table_by_key('fetchmail');
     if (!_pgsql_field_exists($table_fmail, 'usessl')) {
         db_query_parsed("alter table $table_fmail rename column ssl to usessl");
     }
@@ -1285,7 +1297,7 @@ function upgrade_479_pgsql()
  */
 function upgrade_483_mysql()
 {
-    $table_log   = table_by_key('log');
+    $table_log = table_by_key('log');
     db_query_parsed("ALTER TABLE $table_log CHANGE `data` `data` TEXT {LATIN1} NOT NULL");
 }
 
@@ -1304,6 +1316,7 @@ function upgrade_495_pgsql()
         db_query_parsed("ALTER TABLE $table_mailbox alter column local_part SET NOT NULL");
     }
 }
+
 /**
  * See https://sourceforge.net/forum/message.php?msg_id=5394663
  * @return void
@@ -2009,7 +2022,7 @@ function upgrade_1842()
         db_execute("UPDATE $domain SET created='2000-01-01 00:00:00', modified='2000-01-01 00:00:00' WHERE domain='ALL'", [], true);
     }
     _db_add_field('mailbox', 'password_expiry', "{DATETIME}"); // when a specific mailbox password expires
-    _db_add_field('domain',  'password_expiry', 'int DEFAULT 0'); // expiry applied to mailboxes within that domain
+    _db_add_field('domain', 'password_expiry', 'int DEFAULT 0'); // expiry applied to mailboxes within that domain
 }
 
 /**
@@ -2288,7 +2301,7 @@ function upgrade_1848_sqlite()
 function upgrade_1849_mysql()
 {
     _db_add_field('mailbox', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'password_expiry');
-    _db_add_field('admin',   'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'token_validity');
+    _db_add_field('admin', 'totp_secret', "VARCHAR(255) {UTF-8}  DEFAULT NULL", 'token_validity');
 
     $totp_exception_table = table_by_key('totp_exception_address');
     db_query_parsed("
@@ -2311,6 +2324,7 @@ function upgrade_1849_mysql()
         )
     ");
 }
+
 /**
  * Add TOTP fields
  * @return void
@@ -2382,5 +2396,5 @@ function upgrade_1849_sqlite()
 function upgrade_1850()
 {
     // see also: https://github.com/postfixadmin/postfixadmin/issues/891
-    _db_add_field('mailbox',  'smtp_active', '{BOOLEAN_TRUE}');
+    _db_add_field('mailbox', 'smtp_active', '{BOOLEAN_TRUE}');
 }
