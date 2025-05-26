@@ -95,7 +95,7 @@ class TotpPf
     public function checkUserTOTP(string $username, string $code): bool
     {
         $table_name = table_by_key($this->table);
-        $sql = "SELECT totp_secret FROM $tablename WHERE username = :username AND active = :active";
+        $sql = "SELECT totp_secret FROM $table_name WHERE username = :username AND active = :active";
 
         $active = db_get_boolean(true);
 
@@ -132,7 +132,7 @@ class TotpPf
     public function removeTotpFromUser(string $username): void
     {
         $table_name = table_by_key($this->table);
-        $sql = "UPDATE $tablename SET totp_secret = NULL WHERE username = :username";
+        $sql = "UPDATE $table_name SET totp_secret = NULL WHERE username = :username";
         db_execute($sql, ['username' => $username]);
     }
 
@@ -150,7 +150,7 @@ class TotpPf
         }
 
         $table_name = table_by_key($this->table);
-        $sql = "SELECT totp_secret FROM $tablename WHERE username = :username AND active = :active";
+        $sql = "SELECT totp_secret FROM $table_name WHERE username = :username AND active = :active";
 
         $active = db_get_boolean(true);
 
