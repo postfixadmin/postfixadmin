@@ -57,8 +57,7 @@ function _mysql_field_exists($table, $field)
 {
     # $table = table_by_key($table); # _mysql_field_exists is always called with the expanded table name - don't expand it twice
     $sql = "SHOW COLUMNS FROM $table LIKE ?";
-    $r = db_query_all($sql, array( $field));
-
+    $r = db_query_all($sql, [$field]);
     return !empty($r);
 }
 
@@ -85,10 +84,6 @@ function _db_field_exists($table, $field)
     } else {
         return _mysql_field_exists($table, $field);
     }
-}
-function _upgrade_filter_function($name)
-{
-    return preg_match('/upgrade_[\d]+(_mysql|_pgsql|_sqlite|_mysql_pgsql)?$/', $name) == 1;
 }
 
 function _db_add_field($table, $field, $fieldtype, $after = '')
@@ -170,10 +165,20 @@ function _do_upgrade($current_version)
     // Rather than being bound to an svn revision number, just look for the largest function name that matches upgrade_\d+...
     // $target_version = preg_replace('/[^0-9]/', '', '$Revision$');
     $funclist = get_defined_functions();
-    $our_upgrade_functions = array_filter($funclist['user'], '_upgrade_filter_function');
+
+    $filter = function (string $name): bool {
+        return preg_match('/upgrade_[\d]+(_mysql|_pgsql|_sqlite|_mysql_pgsql)?$/', $name) == 1;
+    };
+
+    $our_upgrade_functions = array_filter(
+        $funclist['user'],
+        $filter
+    );
+
     foreach ($our_upgrade_functions as $function_name) {
         $bits = explode("_", $function_name);
         $function_number = $bits[1];
+        // just find the highest number we need to go to, later on we go through numerically ascending.
         if ($function_number > $current_version && $function_number > $target_version) {
             $target_version = $function_number;
         }
@@ -234,7 +239,7 @@ function _do_upgrade($current_version)
         // Update config table so we don't run the same query twice in the future.
         $table = table_by_key('config');
         $sql = "UPDATE $table SET value = :value WHERE name = 'version'";
-        db_execute($sql, array('value' => $i));
+        db_execute($sql, ['value' => $i]);
     };
 }
 
