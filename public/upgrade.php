@@ -2140,12 +2140,25 @@ function upgrade_1847()
     // no op, function exists in the postfixadmin_3.3 branch doing some collation fixes.
 }
 
+function move_core_tables_to_innodb()
+{
+    $tables = ['admin', 'alias_domain', 'alias', 'config', 'domain_admins', 'domain', 'fetchmail', 'log', 'mailbox', 'quota', 'quota2'];
+
+    foreach ($tables as $table) {
+        $table_to_modify = table_by_key($table);
+        db_query("ALTER TABLE $table_to_modify Engine=InnoDB");
+    }
+}
+
 /**
  * Add DKIM tables
  * @return void
  */
 function upgrade_1848_mysql()
 {
+
+    move_core_tables_to_innodb();
+
     $dkim_key_table = table_by_key('dkim');
     $dkim_signing_table = table_by_key('dkim_signing');
     $domain_table = table_by_key('domain');
