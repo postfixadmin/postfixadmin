@@ -632,7 +632,7 @@ function do_software_environment_check()
     }
 
     if (!$m_pdo_mysql && $CONF['database_type'] == 'mysql') {
-        $error[] = "Database support - MySQL compatible extension (pdo_pgsql) not found";
+        $error[] = "Database support - MySQL compatible extension (pdo_mysql) not found";
     }
 
     if (!$m_pdo_pgsql && $CONF['database_type'] == 'pgsql') {
