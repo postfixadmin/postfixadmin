@@ -1,13 +1,16 @@
 # PostfixAdmin Password Hash Support.
 
-How are your passwords stored in the database.
+TL;DR How are your passwords stored in the database.
 
 They should not be stored in plain text.
 
-Whatever format you choose will need to be supported by your IMAP server (and whatever provides SASL auth for Postfix)
+Whatever format you choose will need to be supported by other software (e.g. Dovecot/Courier) and whatever provides SASL auth for Postfix.
 
 If you can, use a format that includes a different salt per password (e.g. one of the crypt variants, like Blowfish (BLF-CRYPT) or Argon2I/Argon2ID). 
+
 Try and avoid formats that are unsalted hashes (md5, SHA1) as these offer minimal protection in the event of a data leak.
+
+You may choose to use plain text for testing or experimenting. Please do not use it in production.
 
 ## Configuration
 
@@ -39,9 +42,9 @@ Supported hash formats include :
  * PLAIN-MD5 (aka md5)
  * CRYPT
 
-Historically PostfixAdmin has supported all dovecot algorithms (methods) by using the 'doveadm' system binary. As of early 2023 (?), we attempted to use a native/PHP implementation for a number of these to remove issues caused by use of proc_open / dovecot file permissions etc (see e.g. #379).
+Historically PostfixAdmin has supported all dovecot algorithms (methods) by using the 'doveadm' system binary. 
 
-It's recommended you use the algorithm/mechanism from your MTA, and configure PostfixAdmin with the same value prefixed by the MTA name -
+As of early 2023 (?), we attempted to use a native/PHP implementation for a number of these to remove issues caused by use of proc_open / dovecot file permissions etc (see e.g. https://github.com/postfixadmin/postfixadmin/issues/379).
 
 For example, if dovecot has `default_pass_scheme = SHA256` use `$CONF['encrypt'] = 'SHA256'; ` in PostfixAdmin.
 
@@ -59,7 +62,7 @@ For example, if dovecot has `default_pass_scheme = SHA256` use `$CONF['encrypt']
 
 | Courier Example | PostfixAdmin |
 |-----------------|--------------|
-|  md5            | courier:md5  | 
+| md5             | courier:md5  | 
 | md5raw          | courier:md5raw |
 | sha1            | courier:sha1 |
 | ssha            | courier:ssha |
@@ -74,13 +77,7 @@ Insecure. Try to avoid. May be useful for legacy purposes.
 
 ### mysql_encrypt
 
-Uses the MYSQL ENCRYPT() function (this uses 'crypt' underneath).
-
-Can be secure.
-
-Requires MySQL.
-
-Should use a sha512 salt for new values.
+(No longer available, removed after MySQL 5.7. Try moving to 'system' (see below))
 
 ### md5crypt
 
@@ -90,9 +87,7 @@ e.g.
 
 `$1$c9809462$M0zeLuOvixH61C2csGN.U0`
 
-You should not use this for new installations
-
-(it probably does not offer a high level of security)
+You should not use this for new installations, as it probably does not offer a high level of security.
 
 ### md5
 
