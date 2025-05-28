@@ -993,34 +993,6 @@ function _pacrypt_crypt($pw, $pw_db = '')
 }
 
 /**
- * Crypt with MySQL's ENCRYPT function
- *
- * @param string $pw
- * @param string $pw_db (hashed password)
- * @return string if $pw_db and the return value match then $pw matches the original password.
- */
-function _pacrypt_mysql_encrypt($pw, $pw_db = '')
-{
-    // See https://sourceforge.net/tracker/?func=detail&atid=937966&aid=1793352&group_id=191583
-    // this is apparently useful for pam_mysql etc.
-
-    if ($pw_db) {
-        $res = db_query_one("SELECT ENCRYPT(:pw,:pw_db) as result", ['pw' => $pw, 'pw_db' => $pw_db]);
-    } else {
-        // see https://security.stackexchange.com/questions/150687/is-it-safe-to-use-the-encrypt-function-in-mysql-to-hash-passwords
-        // if no existing password, use a random SHA512 salt.
-        $salt = _php_crypt_generate_crypt_salt();
-        $res = db_query_one("SELECT ENCRYPT(:pw, CONCAT('$6$', '$salt')) as result", ['pw' => $pw]);
-    }
-
-    if (!is_string($res['result'])) {
-        throw new \InvalidArgumentException("Unexpected DB result");
-    }
-
-    return $res['result'];
-}
-
-/**
  * Create/Validate courier authlib style crypt'ed passwords. (md5, md5raw, crypt, sha1)
  *
  * @param string $pw

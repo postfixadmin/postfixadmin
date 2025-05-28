@@ -23,25 +23,6 @@ class PacryptTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($hash, _pacrypt_crypt('test', $hash));
     }
 
-    public function testMySQLEncrypt()
-    {
-        if (!db_mysql()) {
-            $this->markTestSkipped('Not using MySQL');
-        }
-
-        $hash = _pacrypt_mysql_encrypt('test1');
-
-        $hash2 = _pacrypt_mysql_encrypt('test2');
-
-        $this->assertNotEquals($hash, $hash2);
-
-        $this->assertNotEmpty($hash);
-        $this->assertNotEquals('test', $hash);
-        $this->assertNotEquals('test', $hash2);
-
-        $this->assertTrue(hash_equals($hash, _pacrypt_mysql_encrypt('test1', $hash)), "hashes should equal....");
-    }
-
     public function testAuthlib()
     {
         global $CONF;
@@ -335,10 +316,6 @@ class PacryptTest extends \PHPUnit\Framework\TestCase
 
 
         foreach ($mechs as $mech => $example_hash) {
-            if ($mech == 'mysql_encrypt' && Config::read_string('database_type') != 'mysql') {
-                continue;
-            }
-
 
             if (is_string($example_hash)) {
                 $example_hash = [$example_hash];

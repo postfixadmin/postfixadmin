@@ -188,15 +188,13 @@ $CONF['smtp_client'] = '';
 //
 // See: https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/HASHING.md
 //
-// - PLAIN, CLEAR or CLEARTEXT - plain text variants, may be useful for testing. 
-//
+// - PLAIN, CLEAR or CLEARTEXT - plain text variants, may be useful for testing.
 // - ARGON2ID, ARGON2I, SHA512-CRYPT, SHA256-CRYPT or BLF-CRYPT might be good options.
 //
 // - other, older variants are : 
 //   - md5crypt, 
 //   - md5, 
-//   - system, 
-//   - mysql_encrypt - mysql's password()
+//   - system,
 //   - dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. 
 //     - Note: dovecot relies on doveadm binary, and suitable permissions on config files - see https://github.com/postfixadmin/postfixadmin/issues/398
 //
@@ -208,11 +206,13 @@ $CONF['smtp_client'] = '';
 // - php_crypt - DIFFICULTY: Set this according to your CPU processing power.
 // - php_crypt - DIFFICULTY: Supported values are BLOWFISH:4-31, SHA256:1000-999999999, SHA512:1000-999999999
 // - php_crypt - DIFFICULTY: leave empty to use default values (BLOWFISH:10, SHA256:5000, SHA512:5000). Example: php_crypt:SHA512
-// - php_crypt - PREFIX: hash has specified prefix - example: php_crypt:SHA512::{SHA256-CRYPT}
+// - php_crypt - PREFIX: hash has specified prefix - example: php_crypt:SHA512::{SHA512-CRYPT}
 //
 // - sha512.b64 - {SHA512-CRYPT.B64} (base64 encoded sha512 crypt) (no dovecot dependency; should support migration from md5crypt)
+//
+// If in doubt, use php_crypt which will give you a SHA512 style crypt which looks like: $6$ijF8bgunALqnEHTo$LHVa6XQB.....
 
-$CONF['encrypt'] = 'php_crypt'; // SHA512
+$CONF['encrypt'] = 'php_crypt';
 
 // In what flavor should courier-authlib style passwords be encrypted?
 // (only used if $CONF['encrypt'] == 'authlib')
