@@ -37,22 +37,25 @@ if ! command -v composer >/dev/null 2>&1 ; then
             fi
         fi
     fi
+
     COMPOSER="$(pwd)/composer.phar"
 
+    # not sure if we can actually get here, wget/curl failing should kill the script due to 'set -e'
     if [ ! -f "${COMPOSER}" ]; then
         echo "Failed to download composer, download $COMPOSER_URL manually into this directory." > /dev/stderr
         exit 1
     fi
+
 else
     COMPOSER="$(which composer)"
 fi
 
-echo " * Running composer install --no-dev"
+echo " * Using composer ( $COMPOSER )"
+echo " * Installing libraries ( composer install --no-dev ... )"
 
 php "${COMPOSER}" install --prefer-dist -n --no-dev
 
 if [ ! -d templates_c ]; then
-
 
     mkdir -p templates_c && chmod 777 templates_c
 
