@@ -3,8 +3,8 @@
 set -eu
 
 # PostfixAdmin install script.
-# 1. Downloads 'composer.phar' to the current directory.
-# 2. Runs 'php composer.phar install' which should install required runtime libraries for Postfixadmin
+# 1. Downloads 'composer.phar' to the current directory, if 'composer' is not found in your PATH
+# 2. Runs 'php composer install' which should install required runtime libraries for Postfixadmin
 # 3. Runs 'mkdir templates_c && chmod 777 templates_c'
 
 PATH=/bin:/usr/bin:/usr/local/bin
@@ -20,26 +20,36 @@ cd "$(dirname "$0")"
 
 echo " * Checking for composer.phar "
 
-if [ ! -f composer.phar ]; then
+if ! command -v composer >/dev/null 2>&1 ; then
+    # not in path, try and fall back to a local version
+    if [ ! -f composer.phar ]; then
+        echo " * 'composer' not found in your path, will try to download from $COMPOSER_URL "
 
-    echo " * Trying to download composer.phar from $COMPOSER_URL "
-    # try and download it one way or another
-    if [ -x /usr/bin/wget ]; then
-        wget -q -O composer.phar $COMPOSER_URL
-    else
-        if [ -x /usr/bin/curl ]; then
-            curl -o composer.phar $COMPOSER_URL
+        # try and download it one way or another
+        if [ -x /usr/bin/wget ]; then
+            wget -q -O composer.phar $COMPOSER_URL
         else
-            echo " ** Could not find wget or curl; please download $COMPOSER_URL to pwd" >/dev/stderr
-            exit 1
+            if [ -x /usr/bin/curl ]; then
+                curl -o composer.phar $COMPOSER_URL
+            else
+                echo " ** Could not find wget or curl; please download $COMPOSER_URL to pwd" >/dev/stderr
+                exit 1
+            fi
         fi
     fi
+    COMPOSER="$(pwd)/composer.phar"
+
+    if [ ! -f "${COMPOSER}" ]; then
+        echo "Failed to download composer, download $COMPOSER_URL manually into this directory." > /dev/stderr
+        exit 1
+    fi
+else
+    COMPOSER="$(which composer)"
 fi
 
 echo " * Running composer install --no-dev"
 
-php composer.phar install --prefer-dist -n --no-dev
-
+php "${COMPOSER}" install --prefer-dist -n --no-dev
 
 if [ ! -d templates_c ]; then
 
