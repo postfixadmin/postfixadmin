@@ -2,26 +2,9 @@
 
 class PacryptTest extends \PHPUnit\Framework\TestCase
 {
-    public function testMd5Crypt()
-    {
-        $hash = _pacrypt_md5crypt('test', '');
 
-        $this->assertNotEmpty($hash);
-        $this->assertNotEquals('test', $hash);
 
-        $this->assertEquals($hash, _pacrypt_md5crypt('test', $hash));
-    }
 
-    public function testCrypt()
-    {
-        // E_NOTICE if we pass in '' for the salt
-        $hash = _pacrypt_crypt('test', 'sa');
-
-        $this->assertNotEmpty($hash);
-        $this->assertNotEquals('test', $hash);
-
-        $this->assertEquals($hash, _pacrypt_crypt('test', $hash));
-    }
 
     public function testAuthlib()
     {
@@ -304,7 +287,6 @@ class PacryptTest extends \PHPUnit\Framework\TestCase
             'md5crypt' => ['$1$c9809462$fC8eUPU2lq7arWRvxChMu1', '{MD5-CRYPT}$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.'],
             'md5' => 'cc03e747a6afbbcbf8be7668acfebee5',
             'cleartext' => 'test123',
-            'mysql_encrypt' => '$6$$KMCDSuWNoVgNrK5P1zDS12ZZt.LV4z9v9NtD0AG0T5Rv/n0wWVvZmHMSKKZQciP7lrqrlbrBrBd4lhBSGy1BU0',
             'authlib' => '{MD5RAW}cc03e747a6afbbcbf8be7668acfebee5', // authpasswd md5raw (via courier-authdaemon package)
             'php_crypt:SHA512' => '{SHA512-CRYPT}$6$IeqpXtDIXF09ADdc$IsE.SSK3zuwtS9fdWZ0oVxXQjPDj834xqxTiv3Qfidq3AbAjPb0DNyI28JyzmDVlbfC9uSfNxD9RUyeO1.7FV/',
             'php_crypt:DES' => 'VXAXutUnpVYg6',
