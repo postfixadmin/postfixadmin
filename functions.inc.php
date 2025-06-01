@@ -1174,11 +1174,8 @@ function _php_crypt_generate_crypt_salt($hash_type = 'SHA512', $hash_difficulty 
                     throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 4-31');
                 }
             }
-            if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
-                $algorithm = '2y'; // bcrypt, with fixed unicode problem
-            } else {
-                $algorithm = '2a'; // bcrypt
-            }
+
+            $algorithm = '2y'; // bcrypt (2a is a legacy variant with a unicode problem).
             $salt = _php_crypt_random_string($alphabet, $length);
             return sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
 
