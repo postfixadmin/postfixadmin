@@ -58,20 +58,6 @@ function authentication_get_username()
     return $SESSID_USERNAME;
 }
 
-/**
- * Returns the type of user - either 'user' or 'admin'
- * Returns false if neither (E.g. if not logged in)
- * @return string|bool admin or user or (boolean) false.
- */
-function authentication_get_usertype()
-{
-    if (isset($_SESSION['sessid'])) {
-        if (isset($_SESSION['sessid']['type'])) {
-            return $_SESSION['sessid']['type'];
-        }
-    }
-    return false;
-}
 
 /**
  *
@@ -961,39 +947,7 @@ function validate_password(string $password): array
     return $result;
 }
 
-/**
- * @param string $pw
- * @param string $pw_db - encrypted hash
- * @return string crypt'ed password, should equal $pw_db if $pw matches the original
- * @deprecated
- */
-function _pacrypt_md5crypt($pw, $pw_db = '')
-{
-    if ($pw_db) {
-        $split_salt = preg_split('/\$/', $pw_db);
-        if (isset($split_salt[2])) {
-            $salt = $split_salt[2];
-            return md5crypt($pw, $salt);
-        }
-    }
 
-    return md5crypt($pw);
-}
-
-/**
- * @todo fix this to not throw an E_NOTICE or deprecate/remove.
- * @deprecated
- */
-function _pacrypt_crypt($pw, $pw_db = '')
-{
-    if ($pw_db) {
-        return crypt($pw, $pw_db);
-    }
-    // PHP8 - we have to specify a salt here....
-    $salt = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 2);
-
-    return crypt($pw, $salt);
-}
 
 /**
  * Create/Validate courier authlib style crypt'ed passwords. (md5, md5raw, crypt, sha1)
@@ -1371,83 +1325,6 @@ function pacrypt($pw, $pw_db = "", $username = '')
     return $hasher->crypt($pw, $pw_db);
 }
 
-/**
- * Creates MD5 based crypt formatted password.
- * If salt is not provided we generate one.
- *
- * @param string $pw plain text password
- * @param string $salt (optional)
- * @param string $magic (optional)
- * @return string hashed password in crypt format.
- * @deprecated see PFACrypt::cryptMd5() (note this returns {MD5} prefix
- */
-function md5crypt($pw, $salt = "", $magic = "")
-{
-    $MAGIC = "$1$";
-
-    if ($magic == "") {
-        $magic = $MAGIC;
-    }
-    if ($salt == "") {
-        $salt = create_salt();
-    }
-    $slist = explode("$", $salt);
-    if ($slist[0] == "1") {
-        $salt = $slist[1];
-    }
-
-    $salt = substr($salt, 0, 8);
-    $ctx = $pw . $magic . $salt;
-    $final = hex2bin(md5($pw . $salt . $pw));
-
-    for ($i = strlen($pw); $i > 0; $i -= 16) {
-        if ($i > 16) {
-            $ctx .= substr($final, 0, 16);
-        } else {
-            $ctx .= substr($final, 0, $i);
-        }
-    }
-    $i = strlen($pw);
-
-    while ($i > 0) {
-        if ($i & 1) {
-            $ctx .= chr(0);
-        } else {
-            $ctx .= $pw[0];
-        }
-        $i = $i >> 1;
-    }
-    $final = hex2bin(md5($ctx));
-
-    for ($i = 0; $i < 1000; $i++) {
-        $ctx1 = "";
-        if ($i & 1) {
-            $ctx1 .= $pw;
-        } else {
-            $ctx1 .= substr($final, 0, 16);
-        }
-        if ($i % 3) {
-            $ctx1 .= $salt;
-        }
-        if ($i % 7) {
-            $ctx1 .= $pw;
-        }
-        if ($i & 1) {
-            $ctx1 .= substr($final, 0, 16);
-        } else {
-            $ctx1 .= $pw;
-        }
-        $final = hex2bin(md5($ctx1));
-    }
-    $passwd = "";
-    $passwd .= to64(((ord($final[0]) << 16) | (ord($final[6]) << 8) | (ord($final[12]))), 4);
-    $passwd .= to64(((ord($final[1]) << 16) | (ord($final[7]) << 8) | (ord($final[13]))), 4);
-    $passwd .= to64(((ord($final[2]) << 16) | (ord($final[8]) << 8) | (ord($final[14]))), 4);
-    $passwd .= to64(((ord($final[3]) << 16) | (ord($final[9]) << 8) | (ord($final[15]))), 4);
-    $passwd .= to64(((ord($final[4]) << 16) | (ord($final[10]) << 8) | (ord($final[5]))), 4);
-    $passwd .= to64(ord($final[11]), 2);
-    return "$magic$salt\$$passwd";
-}
 
 /**
  * @return string - should be random, 8 chars long
@@ -1474,18 +1351,6 @@ function remove_from_array($array, $item)
         unset($array[$ret]);
     }
     return array($found, $array);
-}
-
-function to64($v, $n)
-{
-    $ITOA64 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    $ret = "";
-    while (($n - 1) >= 0) {
-        $n--;
-        $ret .= $ITOA64[$v & 0x3f];
-        $v = $v >> 6;
-    }
-    return $ret;
 }
 
 function enable_socket_crypto($fh)
