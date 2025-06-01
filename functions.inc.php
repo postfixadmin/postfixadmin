@@ -192,7 +192,7 @@ function check_language($use_post = true)
     // Failing that, is there a $_COOKIE['lang'] ?
     if (safecookie('lang')) {
         $lang = safecookie('lang');
-        if (is_string($lang) && array_key_exists($lang, $supported_languages)) {
+        if (!empty($lang) && array_key_exists($lang, $supported_languages)) {
             return $lang;
         }
     }
@@ -261,12 +261,8 @@ function check_domain($domain)
         if (function_exists('checkdnsrr')) {
             $start = microtime(true); # check for slow nameservers, part 1
 
-            // AAAA (IPv6) is only available in PHP v. >= 5
-            if (version_compare(phpversion(), "5.0.0", ">=") && checkdnsrr($domain, 'AAAA')) {
-                $retval = '';
-            } elseif (checkdnsrr($domain, 'A')) {
-                $retval = '';
-            } elseif (checkdnsrr($domain, 'MX')) {
+            // Check for AAAA (IPv6), A, MX, or NS records
+            if (checkdnsrr($domain, 'AAAA') || checkdnsrr($domain, 'A') || checkdnsrr($domain, 'MX')) {
                 $retval = '';
             } elseif (checkdnsrr($domain, 'NS')) {
                 error_log("DNS is not correctly configured for $domain to send or receive email");
