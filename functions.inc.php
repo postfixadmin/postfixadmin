@@ -882,24 +882,19 @@ function encode_header($string, $default_charset = "utf-8")
  * Generate a random password of $length characters.
  * @param int $length (optional, default: 12)
  * @return string
- *
  */
-function generate_password($length = 12)
+function generate_password(int $length = 12): string
 {
-
     // define possible characters
     $possible = "2345678923456789abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ"; # skip 0 and 1 to avoid confusion with O and l
 
     // add random characters to $password until $length is reached
     $password = "";
-    while (strlen($password) < $length) {
-        $random = random_int(0, strlen($possible) - 1);
-        $char = substr($possible, $random, 1);
 
-        // we don't want this character if it's already in the password
-        if (!strstr($password, $char)) {
-            $password .= $char;
-        }
+    // note this allows for repeated characters (better entropy)
+    for ($i = 0; $i < $length; $i++) {
+        $random = random_int(0, strlen($possible) - 1);
+        $password .= substr($possible, $random, 1);
     }
 
     return $password;
