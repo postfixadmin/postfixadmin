@@ -385,7 +385,7 @@ class TotpPf
         if (authentication_has_role('global-admin')) {
             // no need to check, they can delete anything.
         } elseif (authentication_has_role('admin')) {
-            $domains = list_domains_for_admin(authentication_get_username());
+            $domains = list_domains_for_admin($username);
 
             if (strpos($exception['username'], '@')) {
                 list($Exception_local_part, $Exception_domain) = explode('@', $exception['username']);
@@ -401,15 +401,9 @@ class TotpPf
             // i'm only a boring user, I cannot delete exceptions for a domain (no @) or for someone else,
             // so ensure the exception.username field matches my own username.
             if ($exception['username'] != $username) {
-                throw new \Exception(Config::Lang('pException_user_entire_domain_error') . 'x');
-            }
-
-            // and now ensure that our current user owns the exception:
-            if ($exception['username'] != $username) {
-                throw new \Exception(Config::lang('pEdit_totp_exception_result_error') . 'y');
+                throw new \Exception(Config::lang('pEdit_totp_exception_result_error'));
             }
         }
-
 
         $totp_exception_address = table_by_key('totp_exception_address');
         $result = db_execute("DELETE FROM $totp_exception_address WHERE id = :id", ['id' => $id]);
