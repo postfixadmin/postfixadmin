@@ -2,10 +2,6 @@
 
 class PacryptTest extends \PHPUnit\Framework\TestCase
 {
-
-
-
-
     public function testAuthlib()
     {
         global $CONF;
