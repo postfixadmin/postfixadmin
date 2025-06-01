@@ -7,7 +7,7 @@
  * This source file is subject to the GPL license that is bundled with
  * this package in the file LICENSE.TXT.
  *
- * Further details on the project are available at http://postfixadmin.sf.net
+ * Further details on the project are available at https://github.com/postfixadmin/postfixadmin
  *
  * @license GNU GPL v2 or later.
  *
@@ -16,14 +16,13 @@
  */
 
 
-$min_db_version = 1844;  # update (at least) before a release with the latest function numbrer in upgrade.php
+$min_db_version = 1844;  # update (at least) before a release with the latest function number in upgrade.php
 
 
 /**
  * Check if the user already provided a password but not the second factor
- * @return boolean
  */
-function authentication_mfa_incomplete()
+function authentication_mfa_incomplete(): bool
 {
     if (isset($_SESSION['sessid'])) {
         if (isset($_SESSION['sessid']['mfa_complete'])) {
@@ -39,7 +38,7 @@ function authentication_mfa_incomplete()
  * check_session
  *  Action: Check if a session already exists, if not redirect to login.php
  * Call: check_session ()
- * @return string username (e.g. foo@example.com)
+ * @return string username (e.g. foo@example.com) or CLI or SETUP.PHP
  */
 function authentication_get_username()
 {
@@ -81,7 +80,7 @@ function authentication_get_usertype()
  * @return boolean True if they have the requested role in their session.
  * Note, user < admin < global-admin
  */
-function authentication_has_role($role)
+function authentication_has_role(string $role): bool
 {
     if (isset($_SESSION['sessid'])) {
         if (isset($_SESSION['sessid']['roles'])) {
@@ -100,9 +99,9 @@ function authentication_has_role($role)
  *
  * Note, user < admin < global-admin
  * @param string $role
- * @return bool
+ * @return bool|no-return
  */
-function authentication_require_role($role)
+function authentication_require_role(string $role)
 {
     // redirect to appropriate page?
     if (authentication_has_role($role)) {
@@ -116,11 +115,11 @@ function authentication_require_role($role)
 /**
  * Initialize a user or admin session
  *
- * @param String $username the user or admin name
+ * @param string $username the user or admin name
  * @param boolean $is_admin true if the user is an admin, false otherwise
  * @return boolean true on success
  */
-function init_session($username, $is_admin = false, $mfa_complete = false)
+function init_session(string $username, bool $is_admin = false, bool $mfa_complete = false): bool
 {
     $status = session_regenerate_id(true);
     $_SESSION['sessid'] = array();
@@ -259,8 +258,8 @@ function language_selector()
  * @param string $domain
  * @return string empty if the domain is valid, otherwise string with the errormessage
  *
- * @todo make check_domain able to handle as example .local domains
- * @todo skip DNS check if the domain exists in PostfixAdmin?
+ * Note: This function can be configured to skip DNS checks for local domains
+ * by setting Config::bool('emailcheck_resolve_domain') to false.
  */
 function check_domain($domain)
 {
@@ -353,9 +352,13 @@ function get_password_expiration_value(string $domain)
  * Checks if an email is valid - if it is, return true, else false.
  * @param string $email - a string that may be an email address.
  * @return string empty if it's a valid email address, otherwise string with the errormessage
- * @todo make check_email able to handle already added domains
+ *
+ * Note: This function validates the email format and checks if the domain part
+ * is valid using check_domain(). If the system is configured to support vacations (Config['vacation']) then we'll also support vacation style addresses too.
+ *
+ * @see check_domain()
  */
-function check_email($email)
+function check_email(string $email): string
 {
     $ce_email = $email;
 
@@ -454,12 +457,12 @@ function safepost($param, $default = "")
 
 /**
  * safecookie
- * @param string $param
- * @param string $default (optional)
- * @return string value from $_COOKIE[$param] or $default
+ * @param string $param parameter name
+ * @param string $default (optional) default value (defaults to "")
+ * @return string value from $_COOKIE[$param] or $default - we do not support array like value(s) etc
  * @see safeget()
  */
-function safecookie($param, $default = "")
+function safecookie(string $param, $default = ""): string
 {
     $retval = $default;
     if (isset($_COOKIE[$param])) {
@@ -921,7 +924,7 @@ function generate_password($length = 12)
  * @param string $password
  * @return array of error messages, or empty array if the password is ok
  */
-function validate_password($password)
+function validate_password(string $password): array
 {
     $result = array();
 
@@ -1278,7 +1281,7 @@ function _php_crypt_generate_crypt_salt($hash_type = 'SHA512', $hash_difficulty 
  * @param int $length
  * @return string of given $length
  */
-function _php_crypt_random_string($characters, $length)
+function _php_crypt_random_string(string $characters, int $length): string
 {
     $string = '';
     for ($p = 0; $p < $length; $p++) {
@@ -1981,7 +1984,7 @@ function db_query(string $sql, array $values = array(), bool $ignore_errors = fa
  * @param string $additionalwhere (default '').
  * @return int|mixed rows deleted.
  */
-function db_delete(string $table, string $where, string $delete,string $additionalwhere = '')
+function db_delete(string $table, string $where, string $delete, string $additionalwhere = '')
 {
     $table = table_by_key($table);
 
