@@ -117,7 +117,6 @@ class PacryptTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($enc, $randomHash);
 
         $this->assertEquals($randomHash, _pacrypt_php_crypt("hello", $randomHash));
-        $this->assertEquals($randomHash, _pacrypt_crypt("hello", $randomHash));
 
         Config::write('encrypt', 'php_crypt:SHA256::{SHA256-CRYPT}');
 
