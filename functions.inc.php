@@ -117,7 +117,8 @@ function init_session(string $username, bool $is_admin = false, bool $mfa_comple
         $_SESSION['sessid']['mfa_complete'] = false;
     }
     $_SESSION['sessid']['username'] = $username;
-    $_SESSION['PFA_token'] = md5(random_bytes(8) . uniqid('pfa', true));
+    // Generate a more secure token using random_bytes and bin2hex instead of md5
+    $_SESSION['PFA_token'] = bin2hex(random_bytes(16));
 
     return $status;
 }
