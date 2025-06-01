@@ -58,10 +58,9 @@ Integrates with :
 
 ## Development Notes
 
- * Github actions is configured to run unit tests, once something is appropriately pushed.
+ * Github actions is configured to run unit tests, once something is appropriately pushed, or you can just run `vendor/bin/phpunit tests` (but this will not test against different PHP versions)
  * You should be able to use ACT (https://github.com/nektos/act) to run the tests locally.
  * `composer format` - should fix styling issues (spaces etc in the code)
  * `composer psalm`  - should detect some obvious errors (e.g. a typo in a function name, referencing an invalid class etc)
  
-
 
