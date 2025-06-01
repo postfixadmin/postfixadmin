@@ -56,6 +56,12 @@ Integrates with :
    Postfix, PostfixAdmin, Dovecot, Rspamd, Clamav, Zeyple, Sieve, Fetchmail, Rainloop, Unbound/NSD, Træfik, {Let's Encrypt,custom,Self-signed Certificate} SSL, Supports PostgeSQL, MySQL, (beta) LDAP backends. Automated builds on DockerHub and Integration tests with Travis CI
 
 
+## Development Notes
 
+ * Github actions is configured to run unit tests, once something is appropriately pushed.
+ * You should be able to use ACT (https://github.com/nektos/act) to run the tests locally.
+ * `composer format` - should fix styling issues (spaces etc in the code)
+ * `composer psalm`  - should detect some obvious errors (e.g. a typo in a function name, referencing an invalid class etc)
+ 
 
 
