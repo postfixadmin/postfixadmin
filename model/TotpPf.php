@@ -9,7 +9,6 @@
 
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
-
 use Endroid\QrCode\Writer\PngWriter;
 use OTPHP\TOTP;
 
@@ -83,11 +82,16 @@ class TotpPf
             throw new \InvalidArgumentException("Endroid QR Code library issue - can't figure out Margin.");
         }
 
+        /**
+         * @psalm-suppress TooManyArguments
+         */
+        $encoding = new Encoding('UTF-8');
+
         $QRresult = Builder::create()
             ->writer(new PngWriter())
             ->writerOptions([])
             ->data($QR_content)
-            ->encoding(new Encoding('UTF-8'))
+            ->encoding($encoding)
             ->errorCorrectionLevel($level)
             ->size(300)
             ->margin(10)
