@@ -9,8 +9,7 @@
 
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
-use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+
 use Endroid\QrCode\Writer\PngWriter;
 use OTPHP\TOTP;
 
@@ -52,15 +51,47 @@ class TotpPf
         $pTOTP_secret = $totp->getSecret();
         unset($totp);
 
+        // endroid/qr-code
+        // - v4.6 supports PHP 7.4 || 8.0
+        // - v5 supports PHP ^8.1 and introduces enums ...
+        // Hopefully this code will allow PHP 8.2 to use the newer library (and suppress deprecation warnings)
+        if (class_exists('\Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh')) {
+            /**
+             * @psalm-suppress UndefinedClass
+             */
+            $level = new \Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh();
+        } elseif (class_exists('\Endroid\QrCode\ErrorCorrectionLevel')) {
+            /**
+             * @psalm-suppress UndefinedClass
+             */
+            $level = \Endroid\QrCode\ErrorCorrectionLevel::High;
+        } else {
+            throw new \InvalidArgumentException("Endroid QR Code library issue - can't figure out ErrorCorrectionLevel.");
+        }
+
+        if (class_exists('\Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin')) {
+            /**
+             * @psalm-suppress UndefinedClass
+             */
+            $margin = new \Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin();
+        } elseif (class_exists('\Endroid\QrCode\RoundBlockSizeMode')) {
+            /**
+             * @psalm-suppress UndefinedClass
+             */
+            $margin = \Endroid\QrCode\RoundBlockSizeMode::Margin;
+        } else {
+            throw new \InvalidArgumentException("Endroid QR Code library issue - can't figure out Margin.");
+        }
+
         $QRresult = Builder::create()
             ->writer(new PngWriter())
             ->writerOptions([])
             ->data($QR_content)
             ->encoding(new Encoding('UTF-8'))
-            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+            ->errorCorrectionLevel($level)
             ->size(300)
             ->margin(10)
-            ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
+            ->roundBlockSizeMode($margin)
             ->validateResult(false)
             ->build();
 
