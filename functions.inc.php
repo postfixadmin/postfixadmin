@@ -7,7 +7,7 @@
  * This source file is subject to the GPL license that is bundled with
  * this package in the file LICENSE.TXT.
  *
- * Further details on the project are available at http://postfixadmin.sf.net
+ * Further details on the project are available at https://github.com/postfixadmin/postfixadmin
  *
  * @license GNU GPL v2 or later.
  *
@@ -16,14 +16,13 @@
  */
 
 
-$min_db_version = 1844;  # update (at least) before a release with the latest function numbrer in upgrade.php
+$min_db_version = 1844;  # update (at least) before a release with the latest function number in upgrade.php
 
 
 /**
  * Check if the user already provided a password but not the second factor
- * @return boolean
  */
-function authentication_mfa_incomplete()
+function authentication_mfa_incomplete(): bool
 {
     if (isset($_SESSION['sessid'])) {
         if (isset($_SESSION['sessid']['mfa_complete'])) {
@@ -39,7 +38,7 @@ function authentication_mfa_incomplete()
  * check_session
  *  Action: Check if a session already exists, if not redirect to login.php
  * Call: check_session ()
- * @return string username (e.g. foo@example.com)
+ * @return string username (e.g. foo@example.com) or CLI or SETUP.PHP
  */
 function authentication_get_username()
 {
@@ -59,20 +58,6 @@ function authentication_get_username()
     return $SESSID_USERNAME;
 }
 
-/**
- * Returns the type of user - either 'user' or 'admin'
- * Returns false if neither (E.g. if not logged in)
- * @return string|bool admin or user or (boolean) false.
- */
-function authentication_get_usertype()
-{
-    if (isset($_SESSION['sessid'])) {
-        if (isset($_SESSION['sessid']['type'])) {
-            return $_SESSION['sessid']['type'];
-        }
-    }
-    return false;
-}
 
 /**
  *
@@ -81,7 +66,7 @@ function authentication_get_usertype()
  * @return boolean True if they have the requested role in their session.
  * Note, user < admin < global-admin
  */
-function authentication_has_role($role)
+function authentication_has_role(string $role): bool
 {
     if (isset($_SESSION['sessid'])) {
         if (isset($_SESSION['sessid']['roles'])) {
@@ -100,9 +85,9 @@ function authentication_has_role($role)
  *
  * Note, user < admin < global-admin
  * @param string $role
- * @return bool
+ * @return bool|no-return
  */
-function authentication_require_role($role)
+function authentication_require_role(string $role)
 {
     // redirect to appropriate page?
     if (authentication_has_role($role)) {
@@ -116,11 +101,11 @@ function authentication_require_role($role)
 /**
  * Initialize a user or admin session
  *
- * @param String $username the user or admin name
+ * @param string $username the user or admin name
  * @param boolean $is_admin true if the user is an admin, false otherwise
  * @return boolean true on success
  */
-function init_session($username, $is_admin = false, $mfa_complete = false)
+function init_session(string $username, bool $is_admin = false, bool $mfa_complete = false): bool
 {
     $status = session_regenerate_id(true);
     $_SESSION['sessid'] = array();
@@ -132,7 +117,8 @@ function init_session($username, $is_admin = false, $mfa_complete = false)
         $_SESSION['sessid']['mfa_complete'] = false;
     }
     $_SESSION['sessid']['username'] = $username;
-    $_SESSION['PFA_token'] = md5(random_bytes(8) . uniqid('pfa', true));
+    // Generate a more secure token using random_bytes and bin2hex instead of md5
+    $_SESSION['PFA_token'] = bin2hex(random_bytes(16));
 
     return $status;
 }
@@ -206,7 +192,7 @@ function check_language($use_post = true)
     // Failing that, is there a $_COOKIE['lang'] ?
     if (safecookie('lang')) {
         $lang = safecookie('lang');
-        if (is_string($lang) && array_key_exists($lang, $supported_languages)) {
+        if (!empty($lang) && array_key_exists($lang, $supported_languages)) {
             return $lang;
         }
     }
@@ -259,8 +245,8 @@ function language_selector()
  * @param string $domain
  * @return string empty if the domain is valid, otherwise string with the errormessage
  *
- * @todo make check_domain able to handle as example .local domains
- * @todo skip DNS check if the domain exists in PostfixAdmin?
+ * Note: This function can be configured to skip DNS checks for local domains
+ * by setting Config::bool('emailcheck_resolve_domain') to false.
  */
 function check_domain($domain)
 {
@@ -275,12 +261,8 @@ function check_domain($domain)
         if (function_exists('checkdnsrr')) {
             $start = microtime(true); # check for slow nameservers, part 1
 
-            // AAAA (IPv6) is only available in PHP v. >= 5
-            if (version_compare(phpversion(), "5.0.0", ">=") && checkdnsrr($domain, 'AAAA')) {
-                $retval = '';
-            } elseif (checkdnsrr($domain, 'A')) {
-                $retval = '';
-            } elseif (checkdnsrr($domain, 'MX')) {
+            // Check for AAAA (IPv6), A, MX, or NS records
+            if (checkdnsrr($domain, 'AAAA') || checkdnsrr($domain, 'A') || checkdnsrr($domain, 'MX')) {
                 $retval = '';
             } elseif (checkdnsrr($domain, 'NS')) {
                 error_log("DNS is not correctly configured for $domain to send or receive email");
@@ -353,9 +335,13 @@ function get_password_expiration_value(string $domain)
  * Checks if an email is valid - if it is, return true, else false.
  * @param string $email - a string that may be an email address.
  * @return string empty if it's a valid email address, otherwise string with the errormessage
- * @todo make check_email able to handle already added domains
+ *
+ * Note: This function validates the email format and checks if the domain part
+ * is valid using check_domain(). If the system is configured to support vacations (Config['vacation']) then we'll also support vacation style addresses too.
+ *
+ * @see check_domain()
  */
-function check_email($email)
+function check_email(string $email): string
 {
     $ce_email = $email;
 
@@ -454,12 +440,12 @@ function safepost($param, $default = "")
 
 /**
  * safecookie
- * @param string $param
- * @param string $default (optional)
- * @return string value from $_COOKIE[$param] or $default
+ * @param string $param parameter name
+ * @param string $default (optional) default value (defaults to "")
+ * @return string value from $_COOKIE[$param] or $default - we do not support array like value(s) etc
  * @see safeget()
  */
-function safecookie($param, $default = "")
+function safecookie(string $param, $default = ""): string
 {
     $retval = $default;
     if (isset($_COOKIE[$param])) {
@@ -892,24 +878,19 @@ function encode_header($string, $default_charset = "utf-8")
  * Generate a random password of $length characters.
  * @param int $length (optional, default: 12)
  * @return string
- *
  */
-function generate_password($length = 12)
+function generate_password(int $length = 12): string
 {
-
     // define possible characters
     $possible = "2345678923456789abcdefghijkmnpqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ"; # skip 0 and 1 to avoid confusion with O and l
 
     // add random characters to $password until $length is reached
     $password = "";
-    while (strlen($password) < $length) {
-        $random = random_int(0, strlen($possible) - 1);
-        $char = substr($possible, $random, 1);
 
-        // we don't want this character if it's already in the password
-        if (!strstr($password, $char)) {
-            $password .= $char;
-        }
+    // note this allows for repeated characters (better entropy)
+    for ($i = 0; $i < $length; $i++) {
+        $random = random_int(0, strlen($possible) - 1);
+        $password .= substr($possible, $random, 1);
     }
 
     return $password;
@@ -921,7 +902,7 @@ function generate_password($length = 12)
  * @param string $password
  * @return array of error messages, or empty array if the password is ok
  */
-function validate_password($password)
+function validate_password(string $password): array
 {
     $result = array();
 
@@ -958,67 +939,7 @@ function validate_password($password)
     return $result;
 }
 
-/**
- * @param string $pw
- * @param string $pw_db - encrypted hash
- * @return string crypt'ed password, should equal $pw_db if $pw matches the original
- * @deprecated
- */
-function _pacrypt_md5crypt($pw, $pw_db = '')
-{
-    if ($pw_db) {
-        $split_salt = preg_split('/\$/', $pw_db);
-        if (isset($split_salt[2])) {
-            $salt = $split_salt[2];
-            return md5crypt($pw, $salt);
-        }
-    }
 
-    return md5crypt($pw);
-}
-
-/**
- * @todo fix this to not throw an E_NOTICE or deprecate/remove.
- * @deprecated
- */
-function _pacrypt_crypt($pw, $pw_db = '')
-{
-    if ($pw_db) {
-        return crypt($pw, $pw_db);
-    }
-    // PHP8 - we have to specify a salt here....
-    $salt = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 2);
-
-    return crypt($pw, $salt);
-}
-
-/**
- * Crypt with MySQL's ENCRYPT function
- *
- * @param string $pw
- * @param string $pw_db (hashed password)
- * @return string if $pw_db and the return value match then $pw matches the original password.
- */
-function _pacrypt_mysql_encrypt($pw, $pw_db = '')
-{
-    // See https://sourceforge.net/tracker/?func=detail&atid=937966&aid=1793352&group_id=191583
-    // this is apparently useful for pam_mysql etc.
-
-    if ($pw_db) {
-        $res = db_query_one("SELECT ENCRYPT(:pw,:pw_db) as result", ['pw' => $pw, 'pw_db' => $pw_db]);
-    } else {
-        // see https://security.stackexchange.com/questions/150687/is-it-safe-to-use-the-encrypt-function-in-mysql-to-hash-passwords
-        // if no existing password, use a random SHA512 salt.
-        $salt = _php_crypt_generate_crypt_salt();
-        $res = db_query_one("SELECT ENCRYPT(:pw, CONCAT('$6$', '$salt')) as result", ['pw' => $pw]);
-    }
-
-    if (!is_string($res['result'])) {
-        throw new \InvalidArgumentException("Unexpected DB result");
-    }
-
-    return $res['result'];
-}
 
 /**
  * Create/Validate courier authlib style crypt'ed passwords. (md5, md5raw, crypt, sha1)
@@ -1253,11 +1174,8 @@ function _php_crypt_generate_crypt_salt($hash_type = 'SHA512', $hash_difficulty 
                     throw new Exception('invalid encrypt difficulty setting "' . $hash_difficulty . '" for ' . $hash_type . ', the valid range is 4-31');
                 }
             }
-            if (version_compare(PHP_VERSION, '5.3.7') >= 0) {
-                $algorithm = '2y'; // bcrypt, with fixed unicode problem
-            } else {
-                $algorithm = '2a'; // bcrypt
-            }
+
+            $algorithm = '2y'; // bcrypt (2a is a legacy variant with a unicode problem).
             $salt = _php_crypt_random_string($alphabet, $length);
             return sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
 
@@ -1306,7 +1224,7 @@ function _php_crypt_generate_crypt_salt($hash_type = 'SHA512', $hash_difficulty 
  * @param int $length
  * @return string of given $length
  */
-function _php_crypt_random_string($characters, $length)
+function _php_crypt_random_string(string $characters, int $length): string
 {
     $string = '';
     for ($p = 0; $p < $length; $p++) {
@@ -1396,83 +1314,6 @@ function pacrypt($pw, $pw_db = "", $username = '')
     return $hasher->crypt($pw, $pw_db);
 }
 
-/**
- * Creates MD5 based crypt formatted password.
- * If salt is not provided we generate one.
- *
- * @param string $pw plain text password
- * @param string $salt (optional)
- * @param string $magic (optional)
- * @return string hashed password in crypt format.
- * @deprecated see PFACrypt::cryptMd5() (note this returns {MD5} prefix
- */
-function md5crypt($pw, $salt = "", $magic = "")
-{
-    $MAGIC = "$1$";
-
-    if ($magic == "") {
-        $magic = $MAGIC;
-    }
-    if ($salt == "") {
-        $salt = create_salt();
-    }
-    $slist = explode("$", $salt);
-    if ($slist[0] == "1") {
-        $salt = $slist[1];
-    }
-
-    $salt = substr($salt, 0, 8);
-    $ctx = $pw . $magic . $salt;
-    $final = hex2bin(md5($pw . $salt . $pw));
-
-    for ($i = strlen($pw); $i > 0; $i -= 16) {
-        if ($i > 16) {
-            $ctx .= substr($final, 0, 16);
-        } else {
-            $ctx .= substr($final, 0, $i);
-        }
-    }
-    $i = strlen($pw);
-
-    while ($i > 0) {
-        if ($i & 1) {
-            $ctx .= chr(0);
-        } else {
-            $ctx .= $pw[0];
-        }
-        $i = $i >> 1;
-    }
-    $final = hex2bin(md5($ctx));
-
-    for ($i = 0; $i < 1000; $i++) {
-        $ctx1 = "";
-        if ($i & 1) {
-            $ctx1 .= $pw;
-        } else {
-            $ctx1 .= substr($final, 0, 16);
-        }
-        if ($i % 3) {
-            $ctx1 .= $salt;
-        }
-        if ($i % 7) {
-            $ctx1 .= $pw;
-        }
-        if ($i & 1) {
-            $ctx1 .= substr($final, 0, 16);
-        } else {
-            $ctx1 .= $pw;
-        }
-        $final = hex2bin(md5($ctx1));
-    }
-    $passwd = "";
-    $passwd .= to64(((ord($final[0]) << 16) | (ord($final[6]) << 8) | (ord($final[12]))), 4);
-    $passwd .= to64(((ord($final[1]) << 16) | (ord($final[7]) << 8) | (ord($final[13]))), 4);
-    $passwd .= to64(((ord($final[2]) << 16) | (ord($final[8]) << 8) | (ord($final[14]))), 4);
-    $passwd .= to64(((ord($final[3]) << 16) | (ord($final[9]) << 8) | (ord($final[15]))), 4);
-    $passwd .= to64(((ord($final[4]) << 16) | (ord($final[10]) << 8) | (ord($final[5]))), 4);
-    $passwd .= to64(ord($final[11]), 2);
-    return "$magic$salt\$$passwd";
-}
 
 /**
  * @return string - should be random, 8 chars long
@@ -1499,18 +1340,6 @@ function remove_from_array($array, $item)
         unset($array[$ret]);
     }
     return array($found, $array);
-}
-
-function to64($v, $n)
-{
-    $ITOA64 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    $ret = "";
-    while (($n - 1) >= 0) {
-        $n--;
-        $ret .= $ITOA64[$v & 0x3f];
-        $v = $v >> 6;
-    }
-    return $ret;
 }
 
 function enable_socket_crypto($fh)
@@ -2009,7 +1838,7 @@ function db_query(string $sql, array $values = array(), bool $ignore_errors = fa
  * @param string $additionalwhere (default '').
  * @return int|mixed rows deleted.
  */
-function db_delete(string $table, string $where, string $delete,string $additionalwhere = '')
+function db_delete(string $table, string $where, string $delete, string $additionalwhere = '')
 {
     $table = table_by_key($table);
 

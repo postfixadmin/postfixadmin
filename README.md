@@ -32,11 +32,24 @@ Integrates with :
 
 [Some screenshots of Postfixadmin in action (as admin and user)](DOCUMENTS/screenshots/README.md)
 
-## Releases / Development note
+## Releases 
 
  - While you can install PostfixAdmin from 'git' using the 'master' branch, 'master' is our main development version. It may work. It may contain funky new exciting stuff. It may "eat your data".
  - If you want an easy life, use a published release - see: https://github.com/postfixadmin/postfixadmin/releases or its branch (e.g. postfixadmin_3.3)
  - Latest significant changes should be listed in the appropriate CHANGELOG.TXT file.
+ - From 2025/06 we should be using SemVer releases (e.g. 4.0.1-beta1, and not postfixadmin-4.0.1-beta1 for tags etc)
+ - Before a new release, try to remember to edit `config.inc.php` and change the version variable.
+
+## Development Notes
+
+Github actions is configured to run unit tests, once something is appropriately pushed, or * run `vendor/bin/phpunit tests` (but this will not test against different PHP versions). 
+
+You should be able to use ACT (https://github.com/nektos/act) to run the tests locally, this will require docker etc.
+
+ * `composer format` - should fix styling issues (spaces etc in the code)
+ * `composer psalm`  - should detect some obvious errors (e.g. a typo in a function name, referencing an invalid class etc)
+
+### New releases 
 
 ## Useful Links
 
@@ -54,8 +67,5 @@ Integrates with :
  - https://github.com/mailserver2/mailserver 
    mailserver2/mailserver is a simple and full-featured mail server build as a set of multiple docker images. Features:
    Postfix, PostfixAdmin, Dovecot, Rspamd, Clamav, Zeyple, Sieve, Fetchmail, Rainloop, Unbound/NSD, Træfik, {Let's Encrypt,custom,Self-signed Certificate} SSL, Supports PostgeSQL, MySQL, (beta) LDAP backends. Automated builds on DockerHub and Integration tests with Travis CI
-
-
-
 
 
