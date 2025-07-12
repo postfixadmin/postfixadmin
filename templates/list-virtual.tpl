@@ -19,8 +19,9 @@
             {else}
                 <h4>{$PALANG.pOverview_welcome}{$fDomain} :</h4>
                 <ul>
-                    <li>{$PALANG.aliases}: {$limit.alias_count} / {$limit.aliases}</li>
-                    <li>{$PALANG.mailboxes}: {$limit.mailbox_count} / {$limit.mailboxes}</li>
+                    <li style="list-style-type: none">{$PALANG.aliases}: {$limit.alias_count} / {$limit.aliases}</li>
+                    <li style="list-style-type: none"> {$PALANG.mailboxes}: {$limit.mailbox_count}
+                        / {$limit.mailboxes}</li>
                 </ul>
             {/if}
         </div>
@@ -96,7 +97,8 @@
                            class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"
                                                          aria-hidden="true"></span> {$PALANG.add_mailbox}</a>
                     {/if}
-                    <a role="button" class="btn btn-default" href="list.php?table=mailbox&amp;output=csv&amp;domain={$domain_selected}"><span
+                    <a role="button" class="btn btn-default"
+                       href="list.php?table=mailbox&amp;output=csv&amp;domain={$domain_selected}"><span
                                 class="glyphicon glyphicon-export" aria-hidden="true"></span> {$PALANG.download_csv}</a>
                 </div>
             </div>
