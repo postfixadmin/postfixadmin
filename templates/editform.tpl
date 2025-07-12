@@ -43,7 +43,7 @@
                                         <ul id="domainsList" name="value[{$key}][]"
                                             style="max-height : 250px; overflow: auto;">
                                             {foreach from=$struct.{$key}.options item=domain}
-                                                <li>
+                                                <li style="list-style-type: none">
                                                     {assign var=flag value=0}
                                                     {foreach from=$value_{$key} item=selectedDomain}
                                                         {if $domain == $selectedDomain }
