@@ -780,7 +780,7 @@ $CONF['password_expiration'] = 'YES';
 // used in (at least) password-recover.php.
 $CONF['site_url'] = null;
 
-$CONF['version'] = '4.0-beta1';
+$CONF['version'] = '4.0';
 
 // The smtp_active_flag when set to YES enables editing of the smtp_active 
 // field of the mailbox table. The smtp_active field can be used to enable
