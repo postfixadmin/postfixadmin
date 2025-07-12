@@ -118,7 +118,6 @@ class TotpPf
             return false;
         }
 
-        // Get the table name and prepare the query
         $table_name = table_by_key($this->table);
         $sql = "SELECT totp_secret FROM $table_name WHERE username = :username AND active = :active";
 
@@ -178,6 +177,35 @@ class TotpPf
         db_execute($sql, ['username' => $username]);
     }
 
+    /**
+     * @param string $username
+     * @param string $password
+     *
+     * @return string TOTP_secret or null if no secret set?
+     * @throws \Exception if invalid user, or db update fails.
+     */
+    public function getTOTP_secret(string $username, string $password): ?string
+    {
+        if (!$this->login->login($username, $password)) {
+            throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
+        }
+
+        $table_name = table_by_key($this->table);
+        $sql = "SELECT totp_secret FROM $table_name WHERE username = :username AND active = :active";
+
+        $active = db_get_boolean(true);
+
+        $values = [
+            'username' => $username,
+            'active' => $active,
+        ];
+
+        $result = db_query_one($sql, $values);
+        if (is_array($result) && isset($result['totp_secret'])) {
+            return $result['totp_secret'];
+        }
+        return null;
+    }
 
     /**
      * Change the TOTP secret for a user after verifying their password
