@@ -37,33 +37,40 @@
                                             {html_options options=$struct.{$key}.options selected=$value_{$key}}
                                         </select>
                                     {elseif $field.type == 'list'}
-				    	<input type="text" class="form-control" style="margin-bottom : 25px;" id="id_searchDomains" onkeyup="searchDomains()" placeholder="Search for domains..." title="search domains">
-                                        <ul id="domainsList" name="value[{$key}][]" style="max-height : 250px; overflow: auto;">
-                                        {foreach from=$struct.{$key}.options item=domain}
+                                        <input type="text" class="form-control" style="margin-bottom : 25px;"
+                                               id="id_searchDomains" onkeyup="searchDomains()"
+                                               placeholder="Search for domains..." title="search domains">
+                                        <ul id="domainsList" name="value[{$key}][]"
+                                            style="max-height : 250px; overflow: auto;">
+                                            {foreach from=$struct.{$key}.options item=domain}
                                                 <li>
-                                                        {assign var=flag value=0}
-                                                        {foreach from=$value_{$key} item=selectedDomain}
-                                                                {if $domain == $selectedDomain }
-                                                                        <input type="checkbox" checked name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
-                                                                        <label for="{$domain}_id">{$domain}</label>
-                                                                        {assign var=flag value=$flag+1}
-                                                                {/if}
-                                                        {/foreach}
+                                                    {assign var=flag value=0}
+                                                    {foreach from=$value_{$key} item=selectedDomain}
+                                                        {if $domain == $selectedDomain }
+                                                            <input type="checkbox" checked name="value[{$key}][]"
+                                                                   value="{$domain}" id="{$domain}_id"/>
+                                                            <label for="{$domain}_id">{$domain}</label>
+                                                            {assign var=flag value=$flag+1}
+                                                        {/if}
+                                                    {/foreach}
 
-                                                        {if $flag == 0 }
-                                                                   <input type="checkbox" name="value[{$key}][]" value="{$domain}" id="{$domain}_id" />
-                                                                   <label for="{$domain}_id">{$domain}</label>
-                                                         {/if}
+                                                    {if $flag == 0 }
+                                                        <input type="checkbox" name="value[{$key}][]" value="{$domain}"
+                                                               id="{$domain}_id"/>
+                                                        <label for="{$domain}_id">{$domain}</label>
+                                                    {/if}
                                                 </li>
-                                        {/foreach}
-
+                                            {/foreach}
                                         </ul>
                                     {elseif $field.type == 'pass' || $field.type == 'b64p'}
-                                        <input class="form-control" type="password" name="value[{$key}]" {if $key == 'password' || $key == 'password2'}autocomplete="new-password"{/if}/>
+                                        <input class="form-control" type="password" name="value[{$key}]"
+                                               {if $key == 'password' || $key == 'password2'}autocomplete="new-password"{/if}/>
                                     {elseif $field.type == 'txtl'}
-                                        <textarea class="form-control" rows="10" cols="35" name="value[{$key}]">{foreach key=key2 item=field2 from=$value_{$key}}{$field2}&#10;{/foreach}</textarea>
+                                        <textarea class="form-control" rows="10" cols="35"
+                                                  name="value[{$key}]">{foreach key=key2 item=field2 from=$value_{$key}}{$field2}&#10;{/foreach}</textarea>
                                     {elseif $field.type == 'txta'}
-                                        <textarea class="form-control" rows="10" cols="35" name="value[{$key}]">{$value_{$key}}</textarea>
+                                        <textarea class="form-control" rows="10" cols="35"
+                                                  name="value[{$key}]">{$value_{$key}}</textarea>
                                     {else}
                                         <input class="form-control" type="text" name="value[{$key}]"
                                                value="{$value_{$key}}"/>
@@ -89,11 +96,11 @@
         </div>
         <div class="panel-footer">
             <div class="btn-toolbar" role="toolbar">
-		<div class="btn-group pull-right">
-		    <button class="btn btn-primary" type="submit" name="submit">
-				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$submitbutton}
-		    </button>
-		</div>
+                <div class="btn-group pull-right">
+                    <button class="btn btn-primary" type="submit" name="submit">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$submitbutton}
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -101,42 +108,42 @@
 </form>
 
 <script type="text/javascript">
-        function searchDomains(){
-                input = document.getElementById("id_searchDomains").value.toLowerCase();
-                ul = document.getElementById("domainsList");
-                li = ul.getElementsByTagName("li");
-                for (i=0; i< li. length; i++){
-                        //get domain
-                        domain = li[i].innerHTML.split('<label')[1].split('>')[1].split('</label')[0];
+    function searchDomains() {
+        input = document.getElementById("id_searchDomains").value.toLowerCase();
+        ul = document.getElementById("domainsList");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            //get domain
+            domain = li[i].innerHTML.split('<label')[1].split('>')[1].split('</label')[0];
 
-                        //if domain = input
-                        if (domain.indexOf(input) > -1) {
-                                li[i].style.display = "";
-                        }else{
-                                li[i].style.display = "none";
-                        }
+            //if domain = input
+            if (domain.indexOf(input) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
 
-                }
         }
-        {if (isset($struct.local_part) && $struct.local_part.options.legal_chars) }
-                // If set: Check for illegal characters in local part of username
+    }
+    {if (isset($struct.local_part) && $struct.local_part.options.legal_chars) }
+    // If set: Check for illegal characters in local part of username
 
-                // decode htmlentities
-                var div = document.createElement('div');
-                div.innerHTML = "{$struct.local_part.options.legal_char_warning}";
-                var decoded = div.firstChild.nodeValue;
+    // decode htmlentities
+    var div = document.createElement('div');
+    div.innerHTML = "{$struct.local_part.options.legal_char_warning}";
+    var decoded = div.firstChild.nodeValue;
 
-                const local_part = document.getElementsByName("value[local_part]");
-                if (local_part.length > 0) {
-                        local_part[0].tabIndex = -1
-                        local_part[0].addEventListener("keydown", function(event) {
-                                var regex = new RegExp("{$struct.local_part.options.legal_chars}");
-                                if (!regex.test(event.key)) {
-                                        event.preventDefault();
-                                        alert(decoded + ": " + event.key);
-                                        return false;
-                                }
-                        });
-                }
-        {/if}
+    const local_part = document.getElementsByName("value[local_part]");
+    if (local_part.length > 0) {
+        local_part[0].tabIndex = -1
+        local_part[0].addEventListener("keydown", function (event) {
+            var regex = new RegExp("{$struct.local_part.options.legal_chars}");
+            if (!regex.test(event.key)) {
+                event.preventDefault();
+                alert(decoded + ": " + event.key);
+                return false;
+            }
+        });
+    }
+    {/if}
 </script>
