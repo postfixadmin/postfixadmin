@@ -149,22 +149,24 @@ if (safeget('output') == 'csv') {
         fputcsv($out, $fields);
     }
     fclose($out);
-} else { # HTML output
-
-    $smarty->assign('admin_list', $list_admins);
-    $smarty->assign('admin_selected', $username);
-    $smarty->assign('smarty_template', 'list');
-    $smarty->assign('struct', $handler->getStruct());
-    $smarty->assign('msg', $handler->getMsg());
-    $smarty->assign('table', $table);
-    $smarty->assign('items', $items);
-    $smarty->assign('id_field', $handler->getId_field());
-    $smarty->assign('formconf', $formconf);
-    $smarty->assign('search', $search);
-    $smarty->assign('searchmode', $searchmode);
-    $smarty->assign('domain_selected', ''); /* stop list-virtual.tpl triggering a PHP notice */
-
-    $smarty->display('index.tpl');
+    exit(0);
 }
+# HTML output
+
+$smarty->assign('admin_list', $list_admins);
+$smarty->assign('admin_selected', $username);
+$smarty->assign('smarty_template', 'list');
+$smarty->assign('struct', $handler->getStruct());
+$smarty->assign('msg', $handler->getMsg());
+$smarty->assign('table', $table);
+$smarty->assign('items', $items);
+$smarty->assign('id_field', $handler->getId_field());
+$smarty->assign('formconf', $formconf);
+$smarty->assign('search', $search);
+$smarty->assign('searchmode', $searchmode);
+$smarty->assign('domain_selected', ''); /* stop list-virtual.tpl triggering a PHP notice */
+
+$smarty->display('index.tpl');
+
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
