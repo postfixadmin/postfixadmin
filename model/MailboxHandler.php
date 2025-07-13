@@ -30,38 +30,38 @@ class MailboxHandler extends PFAHandler
 
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'username' => pacol($this->new, 1, 1, 'mail', 'pEdit_mailbox_username', '', ''),
-            'local_part' => pacol($this->new, 0, 0, 'text', 'pEdit_mailbox_username', '', '',
+            'username' => self::pacol($this->new, 1, 1, 'mail', 'pEdit_mailbox_username', '', ''),
+            'local_part' => self::pacol($this->new, 0, 0, 'text', 'pEdit_mailbox_username', '', '',
                 /*options*/ array('legal_chars' => Config::read('username_legal_chars'), 'legal_char_warning' => Config::lang('pLegal_char_warning'))
             ),
-            'domain' => pacol($this->new, 0, 1, 'enum', '', '', '',
+            'domain' => self::pacol($this->new, 0, 1, 'enum', '', '', '',
                 /*options*/ $this->allowed_domains),
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
-            'maildir' => pacol($this->new, 0, 1, 'text', '', '', ''),
-            'password' => pacol($editPw, $editPw, 0, 'pass', 'password', 'pCreate_mailbox_password_text', ''),
-            'password2' => pacol($editPw, $editPw, 0, 'pass', 'password_again', '', '',
+            'maildir' => self::pacol($this->new, 0, 1, 'text', '', '', ''),
+            'password' => self::pacol($editPw, $editPw, 0, 'pass', 'password', 'pCreate_mailbox_password_text', ''),
+            'password2' => self::pacol($editPw, $editPw, 0, 'pass', 'password_again', '', '',
                 /*options*/ array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
             ),
-            'name' => pacol(1, 1, 1, 'text', 'name', 'pCreate_mailbox_name_text', ''),
-            'quota' => pacol(1, 1, 1, 'int', 'pEdit_mailbox_quota', 'pEdit_mailbox_quota_text', ''), # in MB
+            'name' => self::pacol(1, 1, 1, 'text', 'name', 'pCreate_mailbox_name_text', ''),
+            'quota' => self::pacol(1, 1, 1, 'int', 'pEdit_mailbox_quota', 'pEdit_mailbox_quota_text', ''), # in MB
             # read_from_db_postprocess() also sets 'quotabytes' for use in init()
             # TODO: read used quota from quota/quota2 table
-            'active' => pacol(1, 1, 1, 'bool', 'active', '', 1),
-            'smtp_active' => pacol($smtpActiveFlag, $smtpActiveFlag, 0, 'bool', 'smtp_active', '', 1),
-            'welcome_mail' => pacol($this->new, $this->new, 0, 'bool', 'pCreate_mailbox_mail', '', 1,
+            'active' => self::pacol(1, 1, 1, 'bool', 'active', '', 1),
+            'smtp_active' => self::pacol($smtpActiveFlag, $smtpActiveFlag, 0, 'bool', 'smtp_active', '', 1),
+            'welcome_mail' => self::pacol($this->new, $this->new, 0, 'bool', 'pCreate_mailbox_mail', '', 1,
                 /*options*/ array(),
                 /*not_in_db*/ 1),
-            'phone' => pacol(1, $reset_by_sms, 0, 'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
-            'email_other' => pacol(1, $passwordReset, 0, 'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
-            'token' => pacol(1, 0, 0, 'text', '', ''),
-            'token_validity' => pacol(1, 0, 0, 'ts', '', '', date("Y-m-d H:i:s", time())),
-            'created' => pacol(0, 0, 1, 'ts', 'created', ''),
-            'modified' => pacol(0, 0, 1, 'ts', 'last_modified', ''),
-            'password_expiry' => pacol(0, 0, 1, 'ts', 'password_expiration', ''),
+            'phone' => self::pacol(1, $reset_by_sms, 0, 'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
+            'email_other' => self::pacol(1, $passwordReset, 0, 'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
+            'token' => self::pacol(1, 0, 0, 'text', '', ''),
+            'token_validity' => self::pacol(1, 0, 0, 'ts', '', '', date("Y-m-d H:i:s", time())),
+            'created' => self::pacol(0, 0, 1, 'ts', 'created', ''),
+            'modified' => self::pacol(0, 0, 1, 'ts', 'last_modified', ''),
+            'password_expiry' => self::pacol(0, 0, 1, 'ts', 'password_expiration', ''),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 

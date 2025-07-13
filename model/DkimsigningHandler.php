@@ -34,9 +34,9 @@ class DkimsigningHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type        $PALANG label           $PALANG description       default / options / ...
             #                           editing?    form    list
-            'id'               => pacol(0,          0,      1,      'num'     , 'pFetchmail_field_id' , ''                         , '', array(), array('dont_write_to_db' => 1)),
-            'dkim_id'          => pacol(1,          1,      1,      'enum'    , 'pDkim_field_dkim_id' , 'pDkim_field_dkim_id_desc' , '', array_keys($dkim_handler->result)),
-            'author'           => pacol(1,          1,      1,      'enum'    , 'pDkim_field_author'  , 'pDkim_field_author_desc'  , '', $authors),
+            'id'               => self::pacol(0,          0,      1,      'num'     , 'pFetchmail_field_id' , ''                         , '', array(), array('dont_write_to_db' => 1)),
+            'dkim_id'          => self::pacol(1,          1,      1,      'enum'    , 'pDkim_field_dkim_id' , 'pDkim_field_dkim_id_desc' , '', array_keys($dkim_handler->result)),
+            'author'           => self::pacol(1,          1,      1,      'enum'    , 'pDkim_field_author'  , 'pDkim_field_author_desc'  , '', $authors),
         );
     }
 

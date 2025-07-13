@@ -221,7 +221,7 @@ abstract class PFAHandler
          * @psalm-suppress InvalidArrayOffset
          */
         if (!isset($this->struct['_can_edit'])) {
-            $this->struct['_can_edit'] = pacol(0,           0,      1,      'vnum', ''                   , ''                  , '', array(),
+            $this->struct['_can_edit'] = self::pacol(0, 0, 1, 'vnum', '', '', '', array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ '1 as _can_edit'
@@ -232,7 +232,7 @@ abstract class PFAHandler
          * @psalm-suppress InvalidArrayOffset
          */
         if (!isset($this->struct['_can_delete'])) {
-            $this->struct['_can_delete'] = pacol(0,         0,      1,      'vnum', ''                   , ''                  , '', array(),
+            $this->struct['_can_delete'] = self::pacol(0, 0, 1, 'vnum', '', '', '', array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ '1 as _can_delete'
@@ -272,8 +272,6 @@ abstract class PFAHandler
             die('Attempt to restrict users without setting $this->user_field!');
         }
     }
-
-
 
     /**
      * init $this->struct (an array of pacol() results)
@@ -924,6 +922,57 @@ abstract class PFAHandler
     public function result()
     {
         return $this->result;
+    }
+
+    /**
+     * Define a db column, also used to control rendering/editing behaviour.
+     *
+     * @param int $allow_editing
+     * @param int $display_in_form
+     * @param int display_in_list
+     * @param string $type e.g. text|pass|bool|list|vnum|mail|ts - see PFAHandler::initStruct()
+     * @param string PALANG_label
+     * @param string PALANG_desc
+     * @param any optional $default
+     * @param array $options optional options
+     * @param array|int or $multiopt - if array, can contain the remaining parameters as associated array. Otherwise counts as $not_in_db
+     * @return array for $struct
+     *
+     * @see PFAHandler::initStruct() for a list of possible types.
+     */
+    public static function pacol(int $allow_editing, int $display_in_form, int $display_in_list, string $type, string $PALANG_label, string $PALANG_desc, $default = "", array $options = array(), $multiopt = 0, int $dont_write_to_db = 0, string $select = "", string $extrafrom = "", string $linkto = ""): array
+    {
+        if ($PALANG_label != '') {
+            $PALANG_label = Config::lang($PALANG_label);
+        }
+        if ($PALANG_desc != '') {
+            $PALANG_desc = Config::lang($PALANG_desc);
+        }
+
+        if (is_array($multiopt)) { # remaining parameters provided in named array
+            $not_in_db = 0; # keep default value
+            foreach ($multiopt as $key => $value) {
+                $$key = $value; # extract everything to the matching variable
+            }
+        } else {
+            $not_in_db = $multiopt;
+        }
+
+        return array(
+            'editable' => $allow_editing,
+            'display_in_form' => $display_in_form,
+            'display_in_list' => $display_in_list,
+            'type' => $type,
+            'label' => $PALANG_label,   # $PALANG field label
+            'desc' => $PALANG_desc,    # $PALANG field description
+            'default' => $default,
+            'options' => $options,
+            'not_in_db' => $not_in_db,
+            'dont_write_to_db' => $dont_write_to_db,
+            'select' => $select,         # replaces the field name after SELECT
+            'extrafrom' => $extrafrom,      # added after FROM xy - useful for JOINs etc.
+            'linkto' => $linkto,         # make the value a link - %s will be replaced with the ID
+        );
     }
 
 

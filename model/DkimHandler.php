@@ -19,12 +19,12 @@ class DkimHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type     $PALANG label           $PALANG description          default / options / ...
             #                           editing?    form    list
-            'id'               => pacol(0,          0,      1,      'num' , 'pFetchmail_field_id' , ''                         , '', array(), array('dont_write_to_db' => 1)),
-            'description'      => pacol(1,          1,      1,      'text', 'description'         , ''),
-            'selector'         => pacol(1,          1,      1,      'text', 'pDkim_field_selector', 'pDkim_field_selector_desc'),
-            'domain_name'      => pacol(1,          1,      1,      'enum', 'domain'              , 'pDkim_field_domain_desc'  , '', $this->allowed_domains),
-            'private_key'      => pacol(1,          1,      0,      'txta', 'pDkim_field_pkey'    , 'pDkim_field_pkey_desc'),
-            'public_key'       => pacol(1,          1,      0,      'txta', 'pDkim_field_pub'     , 'pDkim_field_pub_desc'),
+            'id'               => self::pacol(0,          0,      1,      'num' , 'pFetchmail_field_id' , ''                         , '', array(), array('dont_write_to_db' => 1)),
+            'description'      => self::pacol(1,          1,      1,      'text', 'description'         , ''),
+            'selector'         => self::pacol(1,          1,      1,      'text', 'pDkim_field_selector', 'pDkim_field_selector_desc'),
+            'domain_name'      => self::pacol(1,          1,      1,      'enum', 'domain'              , 'pDkim_field_domain_desc'  , '', $this->allowed_domains),
+            'private_key'      => self::pacol(1,          1,      0,      'txta', 'pDkim_field_pkey'    , 'pDkim_field_pkey_desc'),
+            'public_key'       => self::pacol(1,          1,      0,      'txta', 'pDkim_field_pub'     , 'pDkim_field_pub_desc'),
         );
     }
 

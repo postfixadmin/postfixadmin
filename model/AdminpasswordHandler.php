@@ -28,11 +28,11 @@ class AdminpasswordHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'username'         => pacol(0,          1,      1,      'text', 'admin'                        , ''),
-            'oldpass'          => pacol(1,          1,      0,      'pass', 'pPassword_password_current'   , '', '', array(),
+            'username'         => self::pacol(0,          1,      1,      'text', 'admin'                        , ''),
+            'oldpass'          => self::pacol(1,          1,      0,      'pass', 'pPassword_password_current'   , '', '', array(),
                 /*not_in_db*/ 1),
-            'password'         => pacol(1,          1,      0,      'pass', 'pPassword_password'           , ''),
-            'password2'        => pacol(1,          1,      0,      'pass', 'pPassword_password2'          , ''                                 , '', array(),
+            'password'         => self::pacol(1,          1,      0,      'pass', 'pPassword_password'           , ''),
+            'password2'        => self::pacol(1,          1,      0,      'pass', 'pPassword_password2'          , ''                                 , '', array(),
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ 'password as password2'
