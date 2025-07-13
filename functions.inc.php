@@ -1441,7 +1441,7 @@ function smtp_get_response($fh)
 $DEBUG_TEXT = <<<EOF
     <p>Please check the documentation and website for more information.</p>
     <ul>
-        <li><a href="http://postfixadmin.sf.net">PostfixAdmin - Project website</a></li>
+        <li><a href="https://github.com/postfixadmin/postfixadmin">PostfixAdmin - Project website</a></li>
         <li><a href='https://sourceforge.net/p/postfixadmin/discussion/676076'>Forums</a></li>
     </ul>
 EOF;

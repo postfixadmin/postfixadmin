@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Postfixadmin (http://postfixadmin.sf.net) integration with Squirrelmail.
+ * Postfixadmin (https://github.com/postfixadmin/postfixadmin) integration with Squirrelmail.
  * See http://squirrelmail-postfixadmin.palepurple.co.uk
  * @author David Goodwin and many others
  */
