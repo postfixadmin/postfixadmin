@@ -8,6 +8,7 @@
 
 Version 4.0 (beta 1) (2025/05/17)
 ---------------------------------
+   - Move the pacol() function into the PFAHandler class, this may break some config customisations using the *_struct_hook behaviour.
    - Add Content Security Policy in common.php ( see https://github.com/postfixadmin/postfixadmin/issues/905, thanks @gitblacker ) 
    - Add SameSite, HttpOnly and (perhaps) secure parameters to the PHP session cookie ( see https://github.com/postfixadmin/postfixadmin/issues/903 - thanks @gitblacker)
    - Update moment.js library - see https://github.com/postfixadmin/postfixadmin/issues/902

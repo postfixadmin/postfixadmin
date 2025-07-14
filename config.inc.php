@@ -351,14 +351,14 @@ function maildir_name_hook($domain, $user) {
     to avoid clashes with future versions of PostfixAdmin.
 
     See initStruct() in the *Handler class for the default $struct.
-    See pacol() in functions.inc.php for the available flags on each column.
+    See pacol() in the PFAHandler class for the available flags on each column.
     
     Example:
 
     function x_struct_admin_modify($struct) {
         $struct['superadmin']['editable'] = 0;          # make the 'superadmin' flag read-only
         $struct['superadmin']['display_in_form'] = 0;   # don't display the 'superadmin' flag in edit form
-        $struct['x_newfield'] = pacol( [...] );        # additional field 'x_newfield'
+        $struct['x_newfield'] = PFAHandler::pacol( [...] );        # additional field 'x_newfield'
         return $struct; # important!
     }
     $CONF['admin_struct_hook'] = 'x_struct_admin_modify';
