@@ -9,9 +9,7 @@
                 Admin {$version}</a>
             <span id="update-check">&nbsp;|&nbsp;
                 <a target="_blank" rel="noopener"
-                   href="http://postfixadmin.sf.net/update-check.php?version={$version|escape:"url"}">
-                    {$PALANG.check_update}
-                </a>
+                   href="https://github.com/postfixadmin/postfixadmin/releases">{$PALANG.check_update}</a>
             </span>
             {if isset($smarty.session.sessid)}
                 {if $smarty.session.sessid.username}
