@@ -60,6 +60,8 @@ our $recipient_delimiter = '+';
 our $smtp_server = 'localhost';
 # port to connect to; defaults to 25 for non-SSL, 465 for 'ssl', 587 for 'starttls'
 our $smtp_server_port = 25;
+# path to sendmail binary if you prefer to deliver rather than TCP, MUST start with / e.g. /usr/sbin/sendmail
+our $sendmail_bin = '';
 
 # this is the local address to connect from
 our $smtp_client = 'localhost';
@@ -639,7 +641,15 @@ sub send_vacation_email {
         }
 
         try {
-            sendmail($email, { transport => $transport });
+            if ($sendmail_bin =~ m|^/| ) {
+                $logger->info("delivering via $sendmail_bin from $email_from to $to");
+                my $pid = open(my $fh, "|-", $sendmail_bin, "-f", $email_from, $to);
+                print $fh $email->as_string;
+                close($fh);
+            }
+            else {
+                sendmail($email, { transport => $transport });
+            }
         } finally {
             if (@_) {
                 $logger->error("Failed to send vacation response to $to from $from subject $subject: @_");
