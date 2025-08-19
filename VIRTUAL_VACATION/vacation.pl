@@ -130,6 +130,9 @@ our $interval = 0;
 our $custom_noreply_pattern = 0;
 our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter';
 
+# Default no-reply pattern, includes common list servers and should seldom be changed
+our $default_noreply_pattern = '^(noreply|no\-reply|do_not_reply|no_reply|postmaster|mailer\-daemon|listserv|majordomo|owner\-|request\-|bounces\-)|(\-(owner|request|bounces)\@)';
+
 # Never send vacation mails for the following recipient email addresses.
 # Useful for e.g. aliases pointing to multiple recipients which have vacation active
 # hence an email to the alias should not trigger vacation messages.
@@ -719,12 +722,10 @@ sub check_and_clean_from_address {
     my ($address) = @_;
     my $logger = get_logger();
 
-    if($address =~ /^(noreply|no\-reply|do_not_reply|no_reply|postmaster|mailer\-daemon|listserv|majordomo|owner\-|request\-|bounces\-)/i ||
-        $address =~ /\-(owner|request|bounces)\@/i ||
-        ($custom_noreply_pattern == 1 && $address =~ /^.*($noreply_pattern).*/i) ) {
-            $logger->debug("sender $address contains $1 - will not send vacation message");
-            exit(0);
-        }
+    if($address =~ /$default_noreply_pattern/ || ($custom_noreply_pattern == 1 && $address =~ /^.*($noreply_pattern).*/i) ) {
+        $logger->debug("sender $address contains $1 - will not send vacation message");
+        exit(0);
+    }
     $address = strip_address($address);
     if($address eq '') {
         $logger->error("Address $address is not valid; exiting");
