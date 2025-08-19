@@ -33,6 +33,9 @@ use File::Basename;
 use Net::DNS;
 use Time::Piece;
 
+use strict;
+use warnings;
+
 # ========== begin configuration ==========
 
 # IMPORTANT: If you put passwords into this script, then remember
@@ -377,7 +380,7 @@ sub get_accountname {
 
     my $query = qq{SELECT name FROM mailbox WHERE username=? };
     my $stm = $dbh->prepare($query) or panic_prepare($query);
-    $stm->execute($to) or panic_execute($query,"username='$from_mailbox'");
+    $stm->execute($from_mailbox) or panic_execute($query,"username='$from_mailbox'");
     my @row = $stm->fetchrow_array;
     my $rv = $stm->rows;
 
@@ -566,7 +569,7 @@ sub send_vacation_email {
             my $resolver = Net::DNS::Resolver->new;
             my @mx = mx($resolver, $email_domain_part);
             if (@mx) {
-                $smtp_server = @mx[0]->exchange;
+                $smtp_server = $mx[0]->exchange;
                 $logger->debug("Found MX record <$smtp_server> for user <$email>!");
             } else {
                 $logger->error("Unable to find MX record for user <$email>, error message: ".$resolver->errorstring);
@@ -658,6 +661,7 @@ sub send_vacation_email {
             }
         }
     }
+    return;
 }
 
 # Convert a (list of) email address(es) from RFC 822 style addressing to
@@ -738,7 +742,7 @@ $replyto = '';
 
 $logger->debug("Script argument SMTP recipient is : '$smtp_recipient' and smtp_sender : '$smtp_sender'");
 
-while (<STDIN>) {
+while (<>) {
     last if (/^$/);
     if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; next; }
     elsif (/^from:\s*(.*)\n$/i) { $from = $1; $lastheader = \$from; }
