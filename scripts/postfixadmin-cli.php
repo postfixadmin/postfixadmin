@@ -124,7 +124,10 @@ class PostfixAdmin
     private function __initConstants()
     {
         ini_set('display_errors', '1');
-        ini_set('error_reporting', '' . E_ALL);
+
+        $error_reporting_orig = error_reporting();
+        error_reporting($error_reporting_orig | E_ERROR | E_WARNING | E_PARSE);
+
         ini_set('html_errors', "0");
         ini_set('implicit_flush', "1");
         ini_set('max_execution_time', "0");
