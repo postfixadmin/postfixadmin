@@ -33,6 +33,9 @@ use File::Basename;
 use Net::DNS;
 use Time::Piece;
 
+use strict;
+use warnings;
+
 # ========== begin configuration ==========
 
 # IMPORTANT: If you put passwords into this script, then remember
@@ -60,6 +63,8 @@ our $recipient_delimiter = '+';
 our $smtp_server = 'localhost';
 # port to connect to; defaults to 25 for non-SSL, 465 for 'ssl', 587 for 'starttls'
 our $smtp_server_port = 25;
+# path to sendmail binary if you prefer to deliver rather than TCP, MUST start with / e.g. /usr/sbin/sendmail
+our $sendmail_bin = '';
 
 # this is the local address to connect from
 our $smtp_client = 'localhost';
@@ -124,6 +129,9 @@ our $interval = 0;
 # default = 0
 our $custom_noreply_pattern = 0;
 our $noreply_pattern = 'bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter';
+
+# Default no-reply pattern, includes common list servers and should seldom be changed
+our $default_noreply_pattern = '^(noreply|no\-reply|do_not_reply|no_reply|postmaster|mailer\-daemon|listserv|majordomo|owner\-|request\-|bounces\-)|(\-(owner|request|bounces)\@)';
 
 # Never send vacation mails for the following recipient email addresses.
 # Useful for e.g. aliases pointing to multiple recipients which have vacation active
@@ -375,7 +383,7 @@ sub get_accountname {
 
     my $query = qq{SELECT name FROM mailbox WHERE username=? };
     my $stm = $dbh->prepare($query) or panic_prepare($query);
-    $stm->execute($to) or panic_execute($query,"username='$from_mailbox'");
+    $stm->execute($from_mailbox) or panic_execute($query,"username='$from_mailbox'");
     my @row = $stm->fetchrow_array;
     my $rv = $stm->rows;
 
@@ -564,7 +572,7 @@ sub send_vacation_email {
             my $resolver = Net::DNS::Resolver->new;
             my @mx = mx($resolver, $email_domain_part);
             if (@mx) {
-                $smtp_server = @mx[0]->exchange;
+                $smtp_server = $mx[0]->exchange;
                 $logger->debug("Found MX record <$smtp_server> for user <$email>!");
             } else {
                 $logger->error("Unable to find MX record for user <$email>, error message: ".$resolver->errorstring);
@@ -639,7 +647,15 @@ sub send_vacation_email {
         }
 
         try {
-            sendmail($email, { transport => $transport });
+            if ($sendmail_bin =~ m|^/| ) {
+                $logger->info("delivering via $sendmail_bin from $email_from to $to");
+                my $pid = open(my $fh, "|-", $sendmail_bin, "-f", $email_from, $to);
+                print $fh $email->as_string;
+                close($fh);
+            }
+            else {
+                sendmail($email, { transport => $transport });
+            }
         } finally {
             if (@_) {
                 $logger->error("Failed to send vacation response to $to from $from subject $subject: @_");
@@ -648,6 +664,7 @@ sub send_vacation_email {
             }
         }
     }
+    return;
 }
 
 # Convert a (list of) email address(es) from RFC 822 style addressing to
@@ -705,12 +722,10 @@ sub check_and_clean_from_address {
     my ($address) = @_;
     my $logger = get_logger();
 
-    if($address =~ /^(noreply|no\-reply|do_not_reply|no_reply|postmaster|mailer\-daemon|listserv|majordomo|owner\-|request\-|bounces\-)/i ||
-        $address =~ /\-(owner|request|bounces)\@/i ||
-        ($custom_noreply_pattern == 1 && $address =~ /^.*($noreply_pattern).*/i) ) {
-            $logger->debug("sender $address contains $1 - will not send vacation message");
-            exit(0);
-        }
+    if($address =~ /$default_noreply_pattern/ || ($custom_noreply_pattern == 1 && $address =~ /^.*($noreply_pattern).*/i) ) {
+        $logger->debug("sender $address contains $1 - will not send vacation message");
+        exit(0);
+    }
     $address = strip_address($address);
     if($address eq '') {
         $logger->error("Address $address is not valid; exiting");
@@ -728,7 +743,7 @@ $replyto = '';
 
 $logger->debug("Script argument SMTP recipient is : '$smtp_recipient' and smtp_sender : '$smtp_sender'");
 
-while (<STDIN>) {
+while (<>) {
     last if (/^$/);
     if (/^\s+(.*)/ and $lastheader) { $$lastheader .= " $1"; next; }
     elsif (/^from:\s*(.*)\n$/i) { $from = $1; $lastheader = \$from; }

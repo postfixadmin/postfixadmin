@@ -103,3 +103,9 @@ Additional authors:
 
             Fix handling of the default $smtp_client setthing of 'localhost'
             if we aren't connecting to the SMTP server on localhost.
+
+2023-08-18  Ed Neville <ed@s5h.net>
+            Optional /usr/sbin/sendmail, some setups benefit from piped delivery
+            PBP stern fixes
+            Minor parameter bugfix in get_accountname
+            Move noreply addresses to our for optional conf override
