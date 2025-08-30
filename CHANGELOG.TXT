@@ -6,6 +6,27 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 4.0 ( 2025/09/xx )
+--------------------------
+   - Enhancements to vacation.pl (thanks @edneville)
+   - Misc documentation updates
+   - Move the 'pacol' function into PFAHandler
+   - Remove update-check.php link from smarty template footer (link to github releases page instead)
+   - Remove more references to sourceforge
+   - Build against PHP 8.4
+   - Add some missing icons into theme
+
+Version 4.0 (beta 2) (2025/06/01)
+---------------------------------
+   - Tidy up some documentation
+   - Remove support for the MySQL ENCRYPT hasing backend (MySQL drops this after v5.7)
+   - Improve docs for smtpd_sender_login_maps
+   - Token improvements to code quality (type hints, dead code removal)
+   - Update 'install.sh' (gets composer, installs dependent libraries, fixes dir permissions)
+   - Fix database table prefix in the new app password/TOTP additions
+   - Improve setup.php (try and hide unnecessary warnings etc)
+   - Try to improve MySQL db migration routine (try and ensure we are using InnoDB etc)
+
 Version 4.0 (beta 1) (2025/05/17)
 ---------------------------------
    - Move the pacol() function into the PFAHandler class, this may break some config customisations using the *_struct_hook behaviour.
