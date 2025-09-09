@@ -6,7 +6,7 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version 4.0 (2025/09/xx)
+Version 4.0 (2025/09/09)
 --------------------------
    - Enhancements to vacation.pl (thanks @edneville)
    - Misc documentation updates
