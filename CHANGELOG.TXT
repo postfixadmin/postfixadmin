@@ -6,12 +6,13 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version 3.3.16 - XXXX/XX/XX
+Version 3.3.16 - 2025/09/09
 -------------------------------------------------
    - Correct PHP requirement to >= 7.2 - it seems we've managed to lose support for PHP 7.0 somehow (Smarty,PHPUnit), possibly related to https://github.com/postfixadmin/postfixadmin/pull/541. 
    - Make PHP session cookies more secure (add samesite, httponly and perhaps secure flags) - see https://github.com/postfixadmin/postfixadmin/issues/903, thanks @gitblacker 
    - Upgrade moment.js library used by bootstrap - includes fix for Regex DoS issues - see https://github.com/postfixadmin/postfixadmin/issues/902, thanks @gitblacker
    - Add (lax) Content-Security-Policy HTTP header (see common.php) - see https://github.com/postfixadmin/postfixadmin/issues/905, thanks @gitblacker
+   - Add sqlite3 to Debian control dependency list - see https://github.com/postfixadmin/postfixadmin/issues/909, thanks @marner2
 
 Version 3.3.15 - 2024/12/20
 -------------------------------------------------
