@@ -16,7 +16,7 @@
  */
 
 
-$min_db_version = 1850;  # update (at least) before a release with the latest function number in upgrade.php
+$min_db_version = 1851;  # update (at least) before a release with the latest function number in upgrade.php
 
 
 /**

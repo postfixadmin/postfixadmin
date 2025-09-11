@@ -454,7 +454,7 @@ $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
 
 $PALANG['pLegal_char_warning'] = 'Illegaler Charakter';
-$PALANG['copy'] = 'Kopie';
+$PALANG['copy'] = 'Kopieren';
 $PALANG['generate'] = 'Generieren';
 $PALANG['pMenu_security'] = 'Sicherheit';
 $PALANG['pMenu_totp'] = 'TOTP';

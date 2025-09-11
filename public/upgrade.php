@@ -2314,7 +2314,7 @@ function upgrade_1849_mysql()
         )
     ");
 
-    $app_password_table = 'mailbox_app_password';
+    $app_password_table = table_by_key('mailbox_app_password');
     db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} $app_password_table (
             `id` {AUTOINCREMENT} {PRIMARY},
@@ -2397,4 +2397,18 @@ function upgrade_1850()
 {
     // see also: https://github.com/postfixadmin/postfixadmin/issues/891
     _db_add_field('mailbox', 'smtp_active', '{BOOLEAN_TRUE}');
+}
+
+function upgrade_1851_mysql()
+{
+    # the original upgrade_1849_mysql() missed table_by_key for mailbox_app_password. Ensure the table exists with the correct name.
+    $app_password_table = table_by_key('mailbox_app_password');
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $app_password_table (
+            `id` {AUTOINCREMENT} {PRIMARY},
+            `username` varchar(255) DEFAULT NULL,
+            `description` varchar(255) DEFAULT NULL,
+            `password_hash` varchar(255) DEFAULT NULL
+        )
+    ");
 }

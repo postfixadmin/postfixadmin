@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $fAppId = (int)$_POST['fAppId'];
         // $username should be from $_SESSION and not modifiable by the end user
         // we don't want someone to be able to delete someone else's app password by guessing an id...
-        $row = db_query_one('SELECT id FROM mailbox_app_password WHERE id = :id AND username = :username', ['username' => $username, 'id' => $fAppId]);
+        $row = db_query_one('SELECT id FROM ' . table_by_key('mailbox_app_password') . ' WHERE id = :id AND username = :username', ['username' => $username, 'id' => $fAppId]);
         if (!empty($row)) {
             $result = db_delete('mailbox_app_password', 'id', $row['id']);
             if ($result == 1) {
@@ -121,7 +121,7 @@ $smarty->display('index.tpl');
  */
 function getAllAppPasswords()
 {
-    return db_query_all("SELECT * FROM mailbox_app_password");
+    return db_query_all("SELECT * FROM " . table_by_key('mailbox_app_password'));
 }
 
 /**
@@ -131,7 +131,7 @@ function getAllAppPasswords()
  */
 function getAppPasswordsFor(string $username): array
 {
-    return db_query_all("SELECT * FROM mailbox_app_password WHERE username = :username", ['username' => $username]);
+    return db_query_all("SELECT * FROM " . table_by_key('mailbox_app_password') . " WHERE username = :username", ['username' => $username]);
 }
 
 
