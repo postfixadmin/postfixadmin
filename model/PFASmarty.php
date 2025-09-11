@@ -58,6 +58,20 @@ class PFASmarty
         $this->configureTheme('');// default to something.
     }
 
+
+    /**
+     * get relative path to css etc. based on permissions (user vs. admin)
+     * Note: this function only works after login
+     */
+    public function getRelPath()
+    {
+        if (authentication_has_role('user')) {
+            return '../';
+        } else {
+            return '';
+        }
+    }
+
     /**
      * @param string $rel_path - relative path for referenced css etc dependencies - e.g. users/edit.php needs '../' else, it's ''.
      */

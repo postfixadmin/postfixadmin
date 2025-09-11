@@ -30,7 +30,7 @@
 require_once(__DIR__ . '/../common.php');
 
 $smarty = PFASmarty::getInstance();
-$smarty->configureTheme('../');
+$smarty->configureTheme($smarty->getRelPath());
 
 $username = authentication_get_username();
 list($local_part, $domain) = explode('@', $username);

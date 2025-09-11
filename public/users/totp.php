@@ -27,7 +27,7 @@
 require_once('../common.php');
 
 $smarty = PFASmarty::getInstance();
-$smarty->configureTheme('../');
+$smarty->configureTheme($smarty->getRelPath());
 
 $username = authentication_get_username();
 $pPassword_password_current_text = "";
