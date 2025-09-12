@@ -6,6 +6,12 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 4.0.1 (2025/09/12)
+--------------------------
+   - Translation fixes (thanks @cboltz)
+   - Fix db setup with table prefix for some of the TOTP tables (thanks @cboltz)
+   - Fix relative path for admins / totp page (thanks @cboltz)
+
 Version 4.0 (2025/09/09)
 --------------------------
    - Enhancements to vacation.pl (thanks @edneville)
