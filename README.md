@@ -13,7 +13,7 @@ Integrates with :
 
  - Postfix
  - IMAP/POP3 server (e.g. Dovecot or Courier)
- - Database backend (choose one of: sqlite, mysql, postgresql)
+ - Database backend (choose one of: sqlite, mysql or postgresql)
  - Fetchmail (optional)
 
 ## Features
@@ -25,12 +25,20 @@ Integrates with :
  - Supports PostgreSQL, MySQL, MariaDB, SQLite database backends (choose one)
  - Supports retrieval of mail from a remote POP3 server (via fetchmail)
  - Vacation / Autoresponder / Out Of Office support
- - Users have the ability to login, change their password or vacation (out of office) status.
- - Integration with Squirrelmail / Roundcube (via plugins)
+ - Users can login, change their password and/or setup a vacation (out of office) auto responder.
+ - Integration with Squirrelmail or Roundcube (via plugins)
  - Optional XMLRPC based API
- - Supports PHP7.2+ (older versions of PHP should work with older releases)
+ - Supports TOTP challenges (and optional IP address based exemptions) for login
+ - Supports Application Specific Passwords (where you can have multiple passwords for a mailbox - e.g. one for your mobile device, and a different one for your desktop)
+ - Supports Domain Key (DKIM) storage
 
 [Some screenshots of Postfixadmin in action (as admin and user)](DOCUMENTS/screenshots/README.md)
+
+## Hosting Requirements
+
+ - Requires PHP 7.4+
+ - Database (MySQL, PostgreSQL or Sqlite)
+ - Requires Apache / Nginx webserver (that's capable of integration with PHP)
 
 ## Releases
 
@@ -49,8 +57,6 @@ You should be able to use ACT (https://github.com/nektos/act) to run the tests l
  * `composer format` - should fix styling issues (spaces etc in the code)
  * `composer psalm`  - should detect some obvious errors (e.g. a typo in a function name, referencing an invalid class etc)
 
-### New releases
-
 ## Useful Links
 
  - [Probably all you need to read (pdf)](http://blog.cboltz.de/uploads/postfixadmin-30-english.pdf)
@@ -59,7 +65,6 @@ You should be able to use ACT (https://github.com/nektos/act) to run the tests l
  - [Installation instructions](/INSTALL.TXT)
  - [Wiki](https://sourceforge.net/p/postfixadmin/wiki/)
  - [IRC channel](irc://irc.libera.chat/#postfixadmin) (#postfixadmin on Libera.chat).
-
 
 ## Related Projects
 
