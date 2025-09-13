@@ -13,7 +13,7 @@ Integrates with :
 
  - Postfix
  - IMAP/POP3 server (e.g. Dovecot or Courier)
- - Database backend (choose one of: sqlite, mysql or postgresql)
+ - Database backend (choose one of: SQLite, MySQL or PostgreSQL)
  - Fetchmail (optional)
 
 ## Features
