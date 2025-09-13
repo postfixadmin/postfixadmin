@@ -26,7 +26,8 @@
         "smarty/smarty": "^3|^4",
         "postfixadmin/password-hashing": "^0.0.2",
         "endroid/qr-code": "^4.6 | ^5.0", 
-        "spomky-labs/otphp": "^10.0"
+        "spomky-labs/otphp": "^10.0",
+        "shardj/zf1-future": "^1.12"
     },
     "require-dev": {
         "ext-mysqli":  "*",
@@ -36,9 +37,7 @@
         "php-parallel-lint/php-parallel-lint": "^1.0",
         "php-coveralls/php-coveralls": "*",
         "phpunit/phpunit": "8.*|9.*",
-
-        "psalm/phar":"^4.0",
-        "shardj/zf1-future" : "^1.12"
+        "psalm/phar":"^4.0"
     },
     "autoload": {
         "classmap" : [ "model/" ],
