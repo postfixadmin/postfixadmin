@@ -51,19 +51,19 @@ Alternatively :
   $ cd /srv
   $ git clone https://github.com/postfixadmin/postfixadmin.git
   $ cd postfixadmin
-  $ git checkout postfixadmin-3.3.10
+  $ git checkout postfixadmin-4.0
 
 If you're happy to try out newer functionality and perhaps hit unfixed bugs, you can try the 'master' branch by a `git checkout master` (or don't run the final git checkout in the above list).
 
-If you're using the 'master' branch, you'll need to also run : 
+Since PostfixAdmin 4.0, you'll need to run the `install.sh` script to install necessary third party libraries. 
 
 ```bash
 /bin/bash install.sh
 ```
 
 Which will
- * install the 'composer' tool locally (composer.phar) and
- * download dependent PHP libraries.
+ * install the 'composer' tool locally (see https://getcomposer.org, creates: composer.phar) and
+ * download dependent PHP libraries (`composer install`)
  * create a templates_c directory if one does not exist.
 
 2. Setup Web Server
