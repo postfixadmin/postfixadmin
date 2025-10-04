@@ -30,14 +30,16 @@
         "shardj/zf1-future": "^1.12"
     },
     "require-dev": {
-        "ext-mysqli":  "*",
-        "ext-sqlite3": "*",
         "ext-mbstring": "*",
         "friendsofphp/php-cs-fixer": "^3.54.0",
         "php-parallel-lint/php-parallel-lint": "^1.0",
         "php-coveralls/php-coveralls": "*",
         "phpunit/phpunit": "8.*|9.*",
         "psalm/phar":"^4.0"
+    },
+    "suggest" : {
+        "ext-mysqli":  "*",
+        "ext-sqlite3": "*"
     },
     "autoload": {
         "classmap" : [ "model/" ],
