@@ -31,14 +31,25 @@ my $maildir_path="/var/mail";
 my $pfadmin_config="/usr/local/www/postfixadmin/config.inc.php";
 
 # database information
+
+# select the database type (mysql or pgsql)
+my $db_type = "mysql";
+#my $db_type = "pgsql";
+
 my $host="localhost";
+# Default mysql port 3306, pgsql port 5432
 my $port="3306";
 my $userid="dbuser";
 my $passwd="dbpw";
 my $db="dbname";
 ############
 
-my $connectionInfo="DBI:mysql:database=$db;$host:$port";
+my $connectionInfo;
+if ($db_type eq "mysql") {
+	$connectionInfo = "DBI:mysql:database=$db;$host:$port";
+	} elsif ($db_type eq "pgsql") {
+	$connectionInfo = "DBI:Pg:dbname=$db;host=$host;port=$port";
+}
 # make connection to database
 my $dbh = DBI->connect($connectionInfo,$userid,$passwd);
 # prepare and execute query
@@ -66,7 +77,7 @@ $dbh->disconnect;
 my $use_subdirs = 0;
 open(CONFIG, "<$pfadmin_config") || die "Can't open '$pfadmin_config': $!\n";
 while(<CONFIG>) {
-    if (/\$CONF\['domain_path'\] *= *'([^']*)'/) {
+    if (/\$CONF\['domain_path'\] *= *'(YES|yes)'/) {
 	$use_subdirs = ($1 =~ /yes/i);
     }
 }
@@ -91,24 +102,31 @@ foreach my $name (readdir(DIR)) {
 	}
 	closedir(SUBDIR);
     } else {
-	# db entry has trailing slash...
-	if (!defined($db_maildirs{"$name/"})) {
-	    print "marking $maildir_path/$name for deletion.\n";
-	    $directories{"$name"} = $name;
-	}
+		# db entry has trailing slash...
+		if (!defined($db_maildirs{"$name/"})) {
+		    print "marking $maildir_path/$name for deletion.\n";
+		    $directories{"$name"} = $name;
+		}
     }
 }
 closedir(DIR);
 
-print "Ctrl-C in 5 seconds to abort before removal starts...\n";
-sleep 5;
+print "\n########################################################################\n";
+print "Warning: If you see only /var/mail/domain path then your \$CONF['domain_path']\n";
+print "is not set in postfixadmin/config.inc.php abort the removal!!!\n";
+print "########################################################################\n\n";
+print "Do you want to continue with removal of above list (Y/N)?\n";
+my $input = <STDIN>;
+
+chomp $input;
+exit 0 if !($input =~ m/[Y]$/i);
 
 my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 # yyyymmddhhmm
 my $tstamp = sprintf("%04d%02d%02d%02d%02d", $year+1900, $mon+1, $mday, $hour, $min);
 
 # compare two arrays and erase maildirs not found in database
-chdir $maildir_path || die "Can't change to maildir '$maildir_path': $!\n";;
+chdir $maildir_path || die "Can't change to maildir '$maildir_path': $!\n";
 my @args;
 foreach my $maildir (keys(%directories)) {
     my $archive = "$archdir/$directories{$maildir}-$tstamp.tgz";
