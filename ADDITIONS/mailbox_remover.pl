@@ -47,7 +47,7 @@ my $db="dbname";
 my $connectionInfo;
 if ($db_type eq "mysql") {
 	$connectionInfo = "DBI:mysql:database=$db;$host:$port";
-	} elsif ($db_type eq "pgsql") {
+} elsif ($db_type eq "pgsql") {
 	$connectionInfo = "DBI:Pg:dbname=$db;host=$host;port=$port";
 }
 # make connection to database
@@ -70,7 +70,7 @@ $sth->finish();
 # disconnect from database
 $dbh->disconnect;
 
-# 
+#
 # find out if we need to check subdirs for mailboxes or just maildir_path
 # $CONF['domain_path'] = 'YES';
 #
