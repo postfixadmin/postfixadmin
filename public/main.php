@@ -23,9 +23,14 @@
 
 require_once('common.php');
 
-$SESSID_USERNAME = authentication_get_username();
-
 authentication_require_role('admin');
+
+$username = authentication_get_username();
+if (authentication_has_role('global-admin')) {
+    $list_domains = [];
+} else {
+    $list_domains = list_domains_for_admin($username);
+}
 
 $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
@@ -37,13 +42,21 @@ $smarty->assign('q', '');
 
 if (!empty($q)) {
 
+    $domain_filter = '';
+    if (!empty($list_domains)) {
+        $domains_sql = implode(',', array_map(function ($domain) {
+            return "'" . escape_string($domain) . "'";
+        }, $list_domains));
+        $domain_filter = " AND domain IN ( $domains_sql ) ";
+    }
+
     $table_alias = table_by_key('alias');
     $table_domain = table_by_key('domain');
     $table_mailbox = table_by_key('mailbox');
 
-    $mailboxes = db_query_all("SELECT * FROM $table_mailbox WHERE username LIKE :q ORDER BY username ASC LIMIT 15", ['q' => "%$q%"]);
-    $aliases = db_query_all("SELECT * FROM $table_alias WHERE address LIKE :q ORDER BY address ASC LIMIT 15", ['q' => "%$q%"]);
-    $domains = db_query_all("SELECT * FROM $table_domain WHERE domain LIKE :q AND domain != 'ALL'  ORDER BY domain ASC LIMIT 15", ['q' => "%$q%"]);
+    $mailboxes = db_query_all("SELECT * FROM $table_mailbox WHERE username LIKE :q $domain_filter ORDER BY username ASC LIMIT 15", ['q' => "%$q%"]);
+    $aliases = db_query_all("SELECT * FROM $table_alias WHERE address LIKE :q $domain_filter ORDER BY address ASC LIMIT 15", ['q' => "%$q%"]);
+    $domains = db_query_all("SELECT * FROM $table_domain WHERE domain LIKE :q $domain_filter AND domain != 'ALL'  ORDER BY domain ASC LIMIT 15", ['q' => "%$q%"]);
 
     $smarty->assign('q', $q);
     $smarty->assign('mailboxes', $mailboxes);
