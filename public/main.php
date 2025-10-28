@@ -27,7 +27,7 @@ authentication_require_role('admin');
 
 $username = authentication_get_username();
 if (authentication_has_role('global-admin')) {
-    $list_domains = [];
+    $list_domains = list_domains();
 } else {
     $list_domains = list_domains_for_admin($username);
 }
@@ -40,15 +40,13 @@ $q = safeget('q');
 
 $smarty->assign('q', '');
 
-if (!empty($q)) {
+// do not run this search stuff for an admin who has no domains associated.
+if (!empty($q) && !empty($list_domains)) {
 
-    $domain_filter = '';
-    if (!empty($list_domains)) {
-        $domains_sql = implode(',', array_map(function ($domain) {
-            return "'" . escape_string($domain) . "'";
-        }, $list_domains));
-        $domain_filter = " AND domain IN ( $domains_sql ) ";
-    }
+    $domains_sql = implode(',', array_map(function ($domain) {
+        return "'" . escape_string($domain) . "'";
+    }, $list_domains));
+    $domain_filter = " AND domain IN ( $domains_sql ) ";
 
     $table_alias = table_by_key('alias');
     $table_domain = table_by_key('domain');
