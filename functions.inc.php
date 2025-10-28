@@ -54,8 +54,7 @@ function authentication_get_username()
         header("Location: login.php");
         exit(0);
     }
-    $SESSID_USERNAME = $_SESSION['sessid']['username'];
-    return $SESSID_USERNAME;
+    return $_SESSION['sessid']['username'];
 }
 
 
