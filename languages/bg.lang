@@ -43,7 +43,7 @@ $PALANG['pLogin_welcome'] = 'Администраторът може да се �
 $PALANG['pLogin_username'] = "&nbsp;Логин (е-мейл)";
 $PALANG['password'] = 'Парола';
 $PALANG['pLogin_language'] = 'Language'; # XXX
-$PALANG['pLogin_button'] = 'Изход'; # XXX compare with pUsersLogin_button - should be "Login"
+$PALANG['pLogin_button'] = 'Вход';
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Ако сте потребител, натиснете тук, за логване в потребителската част.';
 
