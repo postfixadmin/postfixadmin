@@ -54,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die('Invalid token! (CSRF check failed)');
     }
 
-    $totppf = new TotpPf('admin', new Login('admin'));
 
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
@@ -65,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         # (language preference cookie is processed even if username and/or password are invalid)
     }
 
-    $h = new AdminHandler();
+    $adminHandler = new AdminHandler();
 
     $login = new Login('admin');
     if ($login->login($fUsername, $fPassword)) {
@@ -73,17 +72,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         # they've logged in, so see if they are a domain admin, as well.
 
-        if (!$h->init($fUsername)) {
+        if (!$adminHandler->init($fUsername)) {
             flash_error($PALANG['pLogin_failed']);
         }
 
-        if (!$h->view()) {
+        if (!$adminHandler->view()) {
             flash_error($PALANG['pLogin_failed']);
         }
 
-        $adminproperties = $h->result();
+        $adminproperties = $adminHandler->result();
 
-
+        $totppf = new TotpPf('admin', $login);
         if ($totppf->usesTOTP($fUsername)) {
             init_session($fUsername, true, false);
             header("Location: login-mfa.php");
