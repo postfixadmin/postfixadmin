@@ -109,12 +109,13 @@ function init_session(string $username, bool $is_admin = false, bool $mfa_comple
     $status = session_regenerate_id(true);
     $_SESSION['sessid'] = array();
     $_SESSION['sessid']['roles'] = array();
+    $_SESSION['sessid']['mfa_complete'] = false;
+
     if ($mfa_complete) {
         $_SESSION['sessid']['roles'][] = $is_admin ? 'admin' : 'user';
         $_SESSION['sessid']['mfa_complete'] = true;
-    } else {
-        $_SESSION['sessid']['mfa_complete'] = false;
     }
+
     $_SESSION['sessid']['username'] = $username;
     // Generate a more secure token using random_bytes and bin2hex instead of md5
     $_SESSION['PFA_token'] = bin2hex(random_bytes(16));
