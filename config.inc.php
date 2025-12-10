@@ -138,6 +138,7 @@ $CONF['database_tables'] = array (
     'fetchmail' => 'fetchmail',
     'log' => 'log',
     'mailbox' => 'mailbox',
+    'server' => 'server',
     'vacation' => 'vacation',
     'vacation_notification' => 'vacation_notification',
     'quota' => 'quota',
@@ -364,6 +365,7 @@ function maildir_name_hook($domain, $user) {
     $CONF['admin_struct_hook'] = 'x_struct_admin_modify';
 */
 $CONF['admin_struct_hook']          = '';
+$CONF['server_struct_hook']         = '';
 $CONF['domain_struct_hook']         = '';
 $CONF['alias_struct_hook']          = '';
 $CONF['mailbox_struct_hook']        = '';
@@ -421,6 +423,9 @@ $CONF['transport_options'] = array (
 // You should define default transport. It must be in array above.
 $CONF['transport_default'] = 'virtual';
 
+// Support for multiple servers
+// If you want to enable support for multiple servers, set this to 'YES'
+$CONF['multiple_servers'] = 'NO';
 
 //
 //

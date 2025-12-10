@@ -56,6 +56,31 @@
                             </a>
                         </li>
                     {/if}
+                    {* list-server *}
+                    {if $authentication_has_role.global_admin && Config::bool('multiple_servers')}
+                        {strip}
+                            <li class="dropdown">
+                                <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true"
+                                   aria-expanded="false" href="{#url_list_server#}"><span
+                                            class="glyphicon glyphicon-tasks"
+                                            aria-hidden="true"></span> List servers <span
+                                            class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{#url_list_server#}"><span class="glyphicon glyphicon-tasks"
+                                                          aria-hidden="true"></span> List servers
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{#url_create_server#}"><span class="glyphicon glyphicon-plus"
+                                                          aria-hidden="true"></span> Add server
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {/strip}
+                    {/if}
                     {* list-domain *}
                     {strip}
                         <li>
