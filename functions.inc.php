@@ -16,6 +16,8 @@
  */
 
 
+use model\Languages;
+
 $min_db_version = 1851;  # update (at least) before a release with the latest function number in upgrade.php
 
 
@@ -172,46 +174,6 @@ function _flash_string($type, $string)
     $_SESSION['flash'][$type][] = $string;
 }
 
-/**
- * @param bool $use_post - set to 0 if $_POST should NOT be read
- * @return string e.g en
- * Try to figure out what language the user wants based on browser / cookie
- */
-function check_language($use_post = true)
-{
-    global $supported_languages; # from languages/languages.php
-
-    // prefer a $_POST['lang'] if present
-    if ($use_post && safepost('lang')) {
-        $lang = safepost('lang');
-        if (is_string($lang) && array_key_exists($lang, $supported_languages)) {
-            return $lang;
-        }
-    }
-
-    // Failing that, is there a $_COOKIE['lang'] ?
-    if (safecookie('lang')) {
-        $lang = safecookie('lang');
-        if (!empty($lang) && array_key_exists($lang, $supported_languages)) {
-            return $lang;
-        }
-    }
-
-    $lang = Config::read_string('default_language');
-
-    // If not, did the browser give us any hint(s)?
-    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-        $lang_array = preg_split('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-        foreach ($lang_array as $value) {
-            $lang_next = strtolower(trim($value));
-            $lang_next = preg_replace('/;.*$/', '', $lang_next); # remove things like ";q=0.8"
-            if (array_key_exists($lang_next, $supported_languages) && is_string($lang_next)) {
-                return $lang_next;
-            }
-        }
-    }
-    return $lang;
-}
 
 /**
  * Action: returns a language selector dropdown with the browser (or cookie) language preselected
@@ -221,9 +183,9 @@ function check_language($use_post = true)
  */
 function language_selector()
 {
-    global $supported_languages; # from languages/languages.php
+    $supported_languages = Languages::SUPPORTED_LANGUAGES;
 
-    $current_lang = check_language();
+    $current_lang = Languages::check_language();
 
     $selector = '<select id="lang" name="lang" xml:lang="en" dir="ltr">';
 
@@ -282,7 +244,7 @@ function check_domain($domain)
                 error_log("Warning: slow nameserver - lookup for $domain took $time_needed seconds");
             }
 
-            if(!is_string($retval)) {
+            if (!is_string($retval)) {
                 throw new \InvalidArgumentException("could not sprintf()");
             }
             return $retval;
@@ -818,7 +780,7 @@ function encode_header($string, $default_charset = "utf-8")
                     }
                 }
                 break;
-            # end switch
+                # end switch
         }
     }
     if ($enc_init) {
@@ -1138,7 +1100,7 @@ function _php_crypt_generate_crypt_salt($hash_type = 'SHA512', $hash_difficulty 
             $salt = _php_crypt_random_string($alphabet, $length);
 
             $hash = sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
-            if($hash === false) {
+            if ($hash === false) {
                 throw new \InvalidArgumentException("could not sprintf hash");
             }
             return $hash;
@@ -1287,7 +1249,7 @@ function create_salt()
     srand((int)microtime() * 1000000);
     $salt = substr(md5("" . rand(0, 9999999)), 0, 8);
 
-    if($salt===false) {
+    if ($salt === false) {
         throw new InvalidArgumentException("Failed to generate salt");
     }
     return $salt;
@@ -1484,15 +1446,6 @@ function smtp_get_response($fh)
     } while (preg_match("/^\d\d\d\-/", $line));
     return $res;
 }
-
-
-$DEBUG_TEXT = <<<EOF
-    <p>Please check the documentation and website for more information.</p>
-    <ul>
-        <li><a href="https://github.com/postfixadmin/postfixadmin">PostfixAdmin - Project website</a></li>
-        <li><a href='https://sourceforge.net/p/postfixadmin/discussion/676076'>Forums</a></li>
-    </ul>
-EOF;
 
 
 /**

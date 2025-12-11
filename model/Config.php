@@ -125,7 +125,7 @@ final class Config
 
         $newtext = sprintf($text, $value);
 
-        if($newtext === false) {
+        if ($newtext === false) {
             throw new \InvalidArgumentException("Could not sprintf");
         }
         # check if sprintf changed something - if not, there are chances that $text didn't contain a %s

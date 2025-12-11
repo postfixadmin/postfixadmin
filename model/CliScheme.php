@@ -1,4 +1,5 @@
 <?php
+
 /**
  * class to display the database scheme (for usage in upgrade.php) in Cli
  *
@@ -23,7 +24,7 @@ class CliScheme extends Shell
         $handler =  new $class($this->new);
         $struct = $handler->getStruct();
 
-        foreach (array_keys($struct) as $field) {
+        foreach ($struct as $field => $_) {
             if ($field == 'created') {
                 $struct[$field]['db_code'] = '{DATE}';
             } elseif ($field == 'modified') {

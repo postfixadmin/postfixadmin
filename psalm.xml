@@ -20,12 +20,6 @@
 
     <issueHandlers>
 
-        <PossiblyUndefinedGlobalVariable>
-            <errorLevel type="suppress">
-                <file name="config.inc.php" />
-                <file name="config.local.php" />
-            </errorLevel>
-        </PossiblyUndefinedGlobalVariable>
 
         <MissingOverrideAttribute errorLevel="suppress"/>
         <PossiblyUnusedMethod errorLevel="suppress"/>

@@ -28,6 +28,8 @@
  *  lang
  */
 
+use model\Languages;
+
 require_once("../common.php");
 
 $smarty = PFASmarty::getInstance();
@@ -55,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $fPassword = safepost('fPassword');
 
 
-    if ($lang != check_language(false)) { # only set cookie if language selection was changed
+    if ($lang != Languages::check_language(false)) { # only set cookie if language selection was changed
         setcookie('lang', $lang, time() + 60 * 60 * 24 * 30); # language cookie, lifetime 30 days
         # (language preference cookie is processed even if username and/or password are invalid)
     }
