@@ -27,6 +27,12 @@
             </errorLevel>
         </PossiblyUndefinedGlobalVariable>
 
+        <MissingOverrideAttribute errorLevel="suppress"/>
+        <PossiblyUnusedMethod errorLevel="suppress"/>
+        <PossiblyUnusedProperty errorLevel="suppress"/>
+        <PossiblyUnusedReturnValue errorLevel="suppress"/>
+        <UnusedClass errorLevel="suppress"/>
+
         <InvalidGlobal>
             <errorLevel type="suppress">
                 <file name="config.inc.php" />

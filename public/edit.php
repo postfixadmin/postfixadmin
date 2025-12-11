@@ -156,20 +156,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (!$handler->init($values[$id_field])) {
         $error = 1;
-        $errormsg = $handler->errormsg;
     }
 
     if (!$handler->set($values)) {
         $error = 1;
-        $errormsg = $handler->errormsg;
     }
 
     $form_fields = $handler->getStruct(); # refresh $form_fields - set() might have changed something
 
     if ($error != 1) {
-        if (!$handler->save()) {
-            $errormsg = $handler->errormsg;
-        } else {
+        if ($handler->save()) {
             flash_info($handler->infomsg);
 
             if (count($handler->errormsg)) { # might happen if domain_postcreation fails
@@ -209,7 +205,7 @@ if ($error != 1 && $new) { # no error and not in edit mode - reset fields to def
 $errormsg = $handler->errormsg;
 $fielderror = array();
 
-foreach ($form_fields as $key => $field) {
+foreach ($form_fields as $key => $_) {
     if ($form_fields[$key]['display_in_form']) {
         if (isset($errormsg[$key])) {
             $fielderror[$key] = $errormsg[$key];

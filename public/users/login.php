@@ -28,7 +28,6 @@
  *  lang
  */
 
-$rel_path = '../';
 require_once("../common.php");
 
 $smarty = PFASmarty::getInstance();

@@ -148,7 +148,7 @@ class VacationHandler extends PFAHandler
             'active' => db_get_boolean(false),
         );
 
-        $result = db_update('vacation', 'email', $this->username, $vacation_data);
+        db_update('vacation', 'email', $this->username, $vacation_data);
         // check for error?
 
         $this->removeVacationNotifications();
@@ -160,7 +160,7 @@ class VacationHandler extends PFAHandler
 
     private function removeVacationNotifications()
     {
-        $result = db_delete('vacation_notification', 'on_vacation', $this->username);
+        db_delete('vacation_notification', 'on_vacation', $this->username);
     }
 
     /**
@@ -271,9 +271,9 @@ class VacationHandler extends PFAHandler
         $table_vacation = table_by_key('vacation');
         $result = db_query_one("SELECT * FROM $table_vacation WHERE email = ?", array($this->username));
         if (!empty($result)) {
-            $result = db_update('vacation', 'email', $this->username, $vacation_data);
+            db_update('vacation', 'email', $this->username, $vacation_data);
         } else {
-            $result = db_insert('vacation', $vacation_data);
+            db_insert('vacation', $vacation_data);
         }
         # TODO error check
         # TODO wrap whole function in db_begin / db_commit (or rollback)?

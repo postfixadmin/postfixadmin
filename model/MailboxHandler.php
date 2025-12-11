@@ -355,12 +355,6 @@ class MailboxHandler extends PFAHandler
 
                 $this->values['maildir'] = $oldvalues['maildir'];
 
-                if (isset($this->values['quota'])) {
-                    $quota = $this->values['quota'];
-                } else {
-                    $quota = $oldvalues['quota'];
-                }
-
                 if (!$this->mailbox_post_script()) {
                     # TODO: should this be fatal?
                 }
@@ -426,7 +420,7 @@ class MailboxHandler extends PFAHandler
      */
     protected function _validate_password($field, $val)
     {
-        if (!$this->_validate_password2($field, $val)) {
+        if (!$this->_validate_password2()) {
             return false;
         }
 
@@ -448,7 +442,7 @@ class MailboxHandler extends PFAHandler
      * compare password / password2 field
      * error message will be displayed at the password2 field
      */
-    protected function _validate_password2($field, $val)
+    protected function _validate_password2()
     {
         return $this->compare_password_fields('password', 'password2');
     }
@@ -456,18 +450,18 @@ class MailboxHandler extends PFAHandler
     /**
      * on $this->new, set localpart based on address
      */
-    protected function _missing_local_part($field)
+    protected function _missing_local_part()
     {
-        list($local_part, $domain) = explode('@', $this->id);
+        list($local_part, $_) = explode('@', $this->id);
         $this->RAWvalues['local_part'] = $local_part;
     }
 
     /**
      * on $this->new, set domain based on address
      */
-    protected function _missing_domain($field)
+    protected function _missing_domain()
     {
-        list($local_part, $domain) = explode('@', $this->id);
+        list($_, $domain) = explode('@', $this->id);
         $this->RAWvalues['domain'] = $domain;
     }
 
@@ -478,7 +472,7 @@ class MailboxHandler extends PFAHandler
     /**
      * calculate maildir path for the mailbox
      */
-    protected function _missing_maildir($field)
+    protected function _missing_maildir()
     {
         list($local_part, $domain) = explode('@', $this->id);
 
@@ -562,7 +556,7 @@ class MailboxHandler extends PFAHandler
 
             $rows = db_query_all($query, array($domain, $this->id));
 
-            $cur_quota_total = divide_quota($rows[0]['sum']); # convert to MB
+            $cur_quota_total = (int)divide_quota($rows[0]['sum']); # convert to MB
             if (($quota + $cur_quota_total) > $limit['quota']) {
                 $rval = false;
             } else {
@@ -608,7 +602,7 @@ class MailboxHandler extends PFAHandler
     /**
      * Called after a mailbox has been created or edited in the DBMS.
      *
-     * @return boolean success/failure status
+     * @return bool success/failure status
      */
     protected function mailbox_post_script()
     {
@@ -633,8 +627,7 @@ class MailboxHandler extends PFAHandler
         $quota = $this->values['quota'];
 
         if (empty($this->id) || empty($domain) || empty($this->values['maildir'])) {
-            trigger_error('In ' . __FUNCTION__ . ': empty username, domain and/or maildir parameter', E_USER_ERROR);
-            return false;
+            throw new \InvalidArgumentException('Username, domain and/or maildir parameter must all be set');
         }
 
         $cmdarg1 = escapeshellarg($this->id);
@@ -650,7 +643,6 @@ class MailboxHandler extends PFAHandler
             $command = "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
             $retval = 0;
             $output = array();
-            $firstline = '';
             $firstline = exec($command, $output, $retval);
             if (0 != $retval) {
                 error_log("Running $command yielded return value=$retval, first line of output=$firstline");
@@ -721,7 +713,6 @@ class MailboxHandler extends PFAHandler
         $command = "$cmd $cmdarg1 $cmdarg2";
         $retval = 0;
         $output = array();
-        $firstline = '';
         $firstline = exec($command, $output, $retval);
         if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");

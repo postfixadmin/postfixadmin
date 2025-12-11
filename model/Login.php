@@ -35,9 +35,8 @@ class Login
             try {
                 $crypt_password = pacrypt($password, $row['password'], $username);
             } catch (\Exception $e) {
-                error_log("Error while trying to call pacrypt()");
-                error_log("" . $e);
-                hash_equals("not", "comparable");
+                error_log(__FILE__ . " - error while trying to call pacrypt() (1): " . $e->getMessage());
+                $_ = hash_equals("not", "comparable");
                 return false; // just refuse to login?
             }
             return hash_equals($row['password'], $crypt_password);
@@ -46,10 +45,9 @@ class Login
         // try and be near constant time regardless of whether the db user exists or not
         try {
             // this causes errors with e.g. dovecot as there is no prefix.
-            $x = pacrypt('abc', 'def');
+            $_ = pacrypt('abc', 'def');
         } catch (\Exception $e) {
-            error_log("Error trying to call pacrypt()");
-            error_log("" . $e);
+            error_log(__FILE__ . " - error trying to call pacrypt() (2): " . $e->getMessage());
         }
 
         return hash_equals('not', 'comparable');

@@ -114,7 +114,7 @@ class AdminpasswordHandler extends PFAHandler
      * compare password / password2 field
      * error message will be displayed at the password2 field
      */
-    protected function _validate_password2($field, $val)
+    protected function _validate_password2()
     {
         return $this->compare_password_fields('password', 'password2');
     }

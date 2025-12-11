@@ -80,24 +80,15 @@ class Shell
 
     /**
      * The command called if public methods are available.
-     *
-     * @var string
-     * @access public
      */
 
-    public $command;
+    public string $command;
     /**
      * The name of the shell in camelized.
-     *
-     * @var string
-     * @access public
      */
-    public $name;
+    public ?string $name = null;
 
-    /**
-     * @param string
-     */
-    public $handler_to_use;
+    public string $handler_to_use;
 
     public $new;
     /**
@@ -266,7 +257,6 @@ class Shell
      * Stop execution of the current script
      *
      * @param $status see http://php.net/exit for values
-     * @return void
      * @access public
      */
     public function _stop($status = 0)
