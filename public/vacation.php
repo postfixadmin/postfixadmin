@@ -47,7 +47,6 @@ $now = new \DateTime();
 
 // only allow admins to change someone else's 'stuff'
 if (authentication_has_role('admin')) {
-    $Admin_role = 1;
     $fUsername = safeget('username');
     list(/*NULL*/, $fDomain) = explode('@', $fUsername);
     $Return_url = "list-virtual.php?domain=" . urlencode($fDomain);
@@ -58,7 +57,6 @@ if (authentication_has_role('admin')) {
         die("Invalid username!"); # TODO: better error message
     }
 } else {
-    $Admin_role = 0;
     $Return_url = "main.php";
     authentication_require_role('user');
     $fUsername = authentication_get_username();
@@ -143,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     if (isset($choice_of_reply[$tInterval_Time])) {
-        $fInterval_Time = (int) $tInterval_Time;
+        $fInterval_Time = (int)$tInterval_Time;
     } else {
         $fInterval_Time = 0;
     }
@@ -161,8 +159,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         ## set $tActiveFrom to the begin of the day (00:00:00) and  $tActiveUntil to the end of the day (23:59:59)
         ## time part is now set to entry time
-        date_modify($tActiveFrom,"00:00:00") ;
-        date_modify($tActiveUntil,"23:59:59") ;
+        $tActiveFrom = date_modify($tActiveFrom, "00:00:00");
+        $tActiveUntil = date_modify($tActiveUntil, "23:59:59");
 
         if (($tActiveUntil >= $now && ($tActiveUntil >= $tActiveFrom))) {
             if (!$vh->set_away($fSubject, $fBody, $fInterval_Time, $tActiveFrom->format('Y-m-d H:i:s'), $tActiveUntil->format('Y-m-d H:i:s'))) {

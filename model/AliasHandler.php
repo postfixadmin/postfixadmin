@@ -319,7 +319,7 @@ class AliasHandler extends PFAHandler
 
     protected function read_from_db_postprocess($db_result)
     {
-        foreach ($db_result as $key => $value) {
+        foreach ($db_result as $key => $_) {
             # split comma-separated 'goto' into an array
             $goto = $db_result[$key]['goto'] ?? null;
             if (is_string($goto)) {
@@ -441,7 +441,7 @@ class AliasHandler extends PFAHandler
     /**
      * on $this->new, set localpart based on address
      */
-    protected function _missing_localpart($field)
+    protected function _missing_localpart()
     {
         if (isset($this->RAWvalues['address'])) {
             $parts = explode('@', $this->RAWvalues['address']);
@@ -454,7 +454,7 @@ class AliasHandler extends PFAHandler
     /**
      * on $this->new, set domain based on address
      */
-    protected function _missing_domain($field)
+    protected function _missing_domain()
     {
         if (isset($this->RAWvalues['address'])) {
             $parts = explode('@', $this->RAWvalues['address']);

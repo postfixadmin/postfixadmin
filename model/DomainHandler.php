@@ -183,7 +183,7 @@ class DomainHandler extends PFAHandler
                     'goto' => $goto,
                     'domain' => $this->id,
                 );
-                $result = db_insert('alias', $arr);
+                db_insert('alias', $arr);
                 # TODO: error checking
             }
         }
@@ -301,7 +301,6 @@ class DomainHandler extends PFAHandler
         $command = "$script $cmdarg1";
         $retval = 0;
         $output = array();
-        $firstline = '';
         $firstline = exec($command, $output, $retval);
         if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
@@ -334,7 +333,6 @@ class DomainHandler extends PFAHandler
         $command = "$script $cmdarg1";
         $retval = 0;
         $output = array();
-        $firstline = '';
         $firstline = exec($command, $output, $retval);
         if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
@@ -367,7 +365,6 @@ class DomainHandler extends PFAHandler
         $command = "$script $cmdarg1";
         $retval = 0;
         $output = array();
-        $firstline = '';
         $firstline = exec($command, $output, $retval);
         if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");

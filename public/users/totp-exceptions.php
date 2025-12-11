@@ -33,7 +33,7 @@ $smarty = PFASmarty::getInstance();
 $smarty->configureTheme($smarty->getRelPath());
 
 $username = authentication_get_username();
-list($local_part, $domain) = explode('@', $username);
+list($_, $domain) = explode('@', $username);
 $pPassword_text = "";
 $pUser_text = '';
 $pUser = '';

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <?php
-$PALANG = [];
 require_once('common.php');
 ?>
 <html lang="en">
@@ -275,6 +274,9 @@ if (!$authenticated || !$configSetupDone) { ?>
 $check = do_software_environment_check();
 
 if ($authenticated) {
+
+
+
     if (!empty($check['info'])) {
         echo "<h3>Information</h3><ul>";
         foreach ($check['info'] as $msg) {
@@ -298,7 +300,8 @@ if ($authenticated) {
         echo "</ul>";
     }
 
-    $php_error_log = ini_get('error_log');
+
+
 } else {
     if (!empty($check['error'])) {
         echo '<p class="text-danger">Hosting Environment errors found. Login to see details.</p>';
@@ -388,7 +391,6 @@ if ($authenticated) {
         list($error, $setupMessage, $errors) = create_admin($values);
 
         if ($error == 1) {
-            $tUsername = htmlentities($values['username']);
             error_log("failed to add admin - " . json_encode([$error, $setupMessage, $errors]));
             echo "<p class='text-danger'>Admin addition failed; check field error messages or server logs.</p>";
         } else {
@@ -528,7 +530,7 @@ function create_admin($values)
     define('POSTFIXADMIN_SETUP', 1); # avoids instant redirect to login.php after creating the admin
 
     $handler = new AdminHandler(1, 'setup.php');
-    $formconf = $handler->webformConfig();
+
 
     if (!$handler->init($values['username'])) {
         return array(1, "", $handler->errormsg);
@@ -683,16 +685,13 @@ function do_software_environment_check()
         $warn[] = 'Admin Email - From address missing. Please add specify an admin_email in your config.inc.php or config.local.php e.g. <code>$CONF["admin_email"] = "Support Person &lt;support@yourdomain.com&gt;";</code>';
     }
 
-    $link = null;
-    $error_text = null;
-
     $dsn = 'Could not generate';
 
     try {
         $dsn = db_connection_string();
 
         $info[] = "Database connection configured OK (using PDO <code>$dsn</code>)";
-        $link = db_connect();
+        db_connect();
         $info[] = "Database connection - Connected OK";
     } catch (Exception $e) {
         $error[] = "Database connection string : " . $dsn;

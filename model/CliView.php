@@ -55,6 +55,9 @@ class CliView extends Shell
         }
 
         $result = $handler->result();
+        /**
+         * @var array $struct
+         */
         $struct = $handler->getStruct();
 
         foreach (array_keys($struct) as $field) {

@@ -33,7 +33,7 @@ $username = authentication_get_username();
 $pPassword_password_current_text = "";
 $pTOTP_now = "";
 $pPassword_password_text = "";
-$pQR_raw = "";
+
 
 // these get shown if there's an error.
 $pTOTP_secret_text = '';

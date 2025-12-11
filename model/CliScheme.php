@@ -1,6 +1,4 @@
 <?php
-
-# $Id$
 /**
  * class to display the database scheme (for usage in upgrade.php) in Cli
  *
@@ -9,9 +7,8 @@
 
 class CliScheme extends Shell
 {
-    public $handler_to_use = "";
+    public string $handler_to_use = "";
     public $new = 0;
-
 
     /**
     * Execution method always used for tasks
@@ -21,7 +18,9 @@ class CliScheme extends Shell
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
         $module = strtolower($module);
 
-        $handler =  new $this->handler_to_use($this->new);
+        $class = $this->handler_to_use;
+
+        $handler =  new $class($this->new);
         $struct = $handler->getStruct();
 
         foreach (array_keys($struct) as $field) {
@@ -47,7 +46,9 @@ class CliScheme extends Shell
         $this->out("");
 
         $this->out('db_query_parsed("');
-        $this->out('    CREATE TABLE {IF_NOT_EXISTS} " . table_by_key("' . $module . '") . " (');
+        $table = table_by_key($module);
+
+        $this->out("    CREATE TABLE {IF_NOT_EXISTS} $table  (");
         # TODO: $module is not really correct - $handler->db_table would be
 
         foreach (array_keys($struct) as $field) {
