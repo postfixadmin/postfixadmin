@@ -3,6 +3,7 @@
 if (!is_file(dirname(__FILE__) . '/vendor/autoload.php')) {
     die("vendor/autoload.php is missing. Please run 'install.sh' or follow the instructions in INSTALL.TXT");
 }
+
 require_once(dirname(__FILE__) . '/vendor/autoload.php');
 
 /**
