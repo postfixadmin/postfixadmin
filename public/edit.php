@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 if ($error != 1 && $new) { # no error and not in edit mode - reset fields to default for new item
     $values = array();
-    foreach ($form_fields  as $key => $_) {
+    foreach ($form_fields as $key => $_) {
         $values[$key] = $form_fields[$key]['default'];
     }
 }
