@@ -108,14 +108,14 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             'dkim_signing'
         );
 
-        foreach($tables as $table) {
+        foreach ($tables as $table) {
             $result = db_query_all("SHOW CREATE TABLE " . table_by_key($table));
             foreach ($result as $row) {
                 fwrite($fh, array_pop($row));
             }
         }
 
-        foreach($tables as $table) {
+        foreach ($tables as $table) {
             // may be a large resultset?
             $pdo = db_connect();
             $stmt = $pdo->prepare('SELECT * FROM ' . table_by_key($table));
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                 $fields = array_keys($row);
 
                 $values = array_map(function ($str) {
-                    if(is_numeric($str) || is_string($str)) {
+                    if (is_numeric($str) || is_string($str)) {
                         return escape_string($str);
                     }
                     return $str;
@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     header("Content-Transfer-Encoding: binary");
 
     $filesize = filesize($backup);
-    if(is_int($filesize)) {
+    if (is_int($filesize)) {
         header("Content-Length: " . $filesize);
     }
     header("Content-Description: Postfix Admin");

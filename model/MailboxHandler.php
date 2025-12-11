@@ -244,7 +244,7 @@ class MailboxHandler extends PFAHandler
             if ($multiplier == 0 || !is_numeric($multiplier)) { // or empty string, or null, or false...
                 $multiplier = 1;
             }
-            $this->values['quota'] = $this->values['quota'] * $multiplier; # convert quota from MB to bytes
+            $this->values['quota'] = round(floatval($this->values['quota']) * floatval($multiplier), 2); # convert quota from MB to bytes
 
 
         }

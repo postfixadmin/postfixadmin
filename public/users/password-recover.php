@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     }
 
     // throttle password reset requests to prevent brute force attack
-    $elapsed_time = (int) ( microtime(true) - $start_time );
+    $elapsed_time = (int) (microtime(true) - $start_time);
 
     // we try to make sure the entire operation takes 2s
     if ($elapsed_time < 2000000) {

@@ -1,5 +1,7 @@
 <?php
 
+use model\Languages;
+
 if (!is_file(dirname(__FILE__) . '/vendor/autoload.php')) {
     die("vendor/autoload.php is missing. Please run 'install.sh' or follow the instructions in INSTALL.TXT");
 }
@@ -84,13 +86,12 @@ Config::getInstance()->setAll($CONF);
 
 $PALANG = [];
 
-require_once("$incpath/languages/language.php");
 require_once("$incpath/functions.inc.php");
 
 if (defined('POSTFIXADMIN_CLI')) {
     $language = 'en'; # TODO: make configurable or autodetect from locale settings
 } else {
-    $language = check_language(); # TODO: storing the language only at login instead of calling check_language() on every page would save some processor cycles ;-)
+    $language = Languages::check_language();
     $_SESSION['lang'] = $language;
 }
 if (!empty($language)) {

@@ -345,7 +345,13 @@ for ($i = 0; $i < sizeof($tMailbox); $i++) {
         $divide_quota['quota'][$i] = divide_quota($tMailbox[$i]['quota']);
     }
     if (isset($tMailbox[$i]['quota']) && isset($tMailbox[$i]['current'])) {
+        /**
+         * @psalm-suppress InvalidOperand
+         */
         $divide_quota['percent'][$i] = min(100, round(($divide_quota['current'][$i] / max(1, $divide_quota ['quota'][$i])) * 100));
+        /**
+         * @psalm-suppress InvalidOperand
+         */
         $divide_quota['quota_width'][$i] = ($divide_quota['percent'][$i] / 100) * 120; // because 100px wasn't wide enough?
     }
 }

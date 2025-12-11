@@ -1,10 +1,12 @@
 <?php
 
+use model\Languages;
+
 class CheckLanguageTest extends \PHPUnit\Framework\TestCase
 {
     public function testBasic()
     {
-        global $supported_languages;
+        $supported_languages = Languages::SUPPORTED_LANGUAGES;
 
         $this->assertNotEmpty($supported_languages);
 
@@ -13,19 +15,19 @@ class CheckLanguageTest extends \PHPUnit\Framework\TestCase
 
         unset($_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
-        $lang = check_language(false);
+        $lang = Languages::check_language(false);
 
         $this->assertEquals('test', $lang);
 
         $_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en';
 
-        $lang = check_language(false);
+        $lang = Languages::check_language(false);
         $this->assertEquals('en', $lang);
     }
 
     public function testCookie()
     {
-        global $supported_languages;
+        $supported_languages = Languages::SUPPORTED_LANGUAGES;
 
         $this->assertNotEmpty($supported_languages);
 
@@ -37,14 +39,14 @@ class CheckLanguageTest extends \PHPUnit\Framework\TestCase
 
         $_COOKIE['lang'] = 'en';
 
-        $lang = check_language(false);
+        $lang = Languages::check_language(false);
 
         $this->assertEquals('en', $lang);
     }
 
     public function testPost()
     {
-        global $supported_languages;
+        $supported_languages = Languages::SUPPORTED_LANGUAGES;
 
         $this->assertNotEmpty($supported_languages);
 
@@ -56,7 +58,7 @@ class CheckLanguageTest extends \PHPUnit\Framework\TestCase
 
         $_POST['lang'] = 'en';
 
-        $lang = check_language(true);
+        $lang = Languages::check_language(true);
 
         $this->assertEquals('en', $lang);
     }
