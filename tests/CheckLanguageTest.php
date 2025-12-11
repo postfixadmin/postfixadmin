@@ -6,7 +6,7 @@ class CheckLanguageTest extends \PHPUnit\Framework\TestCase
 {
     public function testBasic()
     {
-        $supported_languages = Languages::SUPPORTED_LANGUAGES;
+        $supported_languages = Languages::$SUPPORTED_LANGUAGES;
 
         $this->assertNotEmpty($supported_languages);
 
@@ -27,7 +27,7 @@ class CheckLanguageTest extends \PHPUnit\Framework\TestCase
 
     public function testCookie()
     {
-        $supported_languages = Languages::SUPPORTED_LANGUAGES;
+        $supported_languages = Languages::$SUPPORTED_LANGUAGES;
 
         $this->assertNotEmpty($supported_languages);
 
@@ -46,7 +46,7 @@ class CheckLanguageTest extends \PHPUnit\Framework\TestCase
 
     public function testPost()
     {
-        $supported_languages = Languages::SUPPORTED_LANGUAGES;
+        $supported_languages = Languages::$SUPPORTED_LANGUAGES;
 
         $this->assertNotEmpty($supported_languages);
 

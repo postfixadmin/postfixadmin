@@ -1,12 +1,13 @@
 <?php
 
 namespace model;
+
 use Config;
 
 class Languages
 {
     // we sometimes mess with this in unit tests?
-    public const array SUPPORTED_LANGUAGES = array(
+    public static array $SUPPORTED_LANGUAGES = array(
 #   Format:
 #   'code'  => 'native language name - language name in english'
         'bg' => '&#1041;&#1098;&#1083;&#1075;&#1072;&#1088;&#1089;&#1082;&#1080; - Bulgarian',
@@ -54,7 +55,7 @@ class Languages
      */
     public static function check_language(bool $use_post = true): string
     {
-        $supported_languages = self::SUPPORTED_LANGUAGES;
+        $supported_languages = self::$SUPPORTED_LANGUAGES;
 
         // prefer a $_POST['lang'] if present
         if ($use_post && safepost('lang')) {

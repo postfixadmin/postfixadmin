@@ -183,7 +183,7 @@ function _flash_string($type, $string)
  */
 function language_selector()
 {
-    $supported_languages = Languages::SUPPORTED_LANGUAGES;
+    $supported_languages = Languages::$SUPPORTED_LANGUAGES;
 
     $current_lang = Languages::check_language();
 
