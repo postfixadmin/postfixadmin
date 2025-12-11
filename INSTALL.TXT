@@ -9,7 +9,7 @@ REQUIREMENTS
 ------------
 - Postfix
 - Apache / Lighttpd 
-- PHP 7.0 or greater (for web server)
+- PHP 7.4 or greater (for web server)
 - one of the following databases:
   - MariaDB/MySQL
   - PostgreSQL
@@ -42,9 +42,9 @@ DOCUMENTS/ folder.
 Assuming we are installing Postfixadmin into /srv/postfixadmin, then something like this should work. Please check https://github.com/postfixadmin/postfixadmin/releases to get the latest stable release first (the 3.2.10 version/url below is probably stale)
 
   $ cd /srv/
-  $ wget -O postfixadmin.tgz https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-3.3.10.tar.gz
+  $ wget -O postfixadmin.tgz https://github.com/postfixadmin/postfixadmin/archive/refs/tags/v4.0.1.tar.gz
   $ tar -zxvf postfixadmin.tgz
-  $ mv postfixadmin-postfixadmin-3.3.10 postfixadmin
+  $ mv postfixadmin-4.0.1 postfixadmin
 
 Alternatively :
 
