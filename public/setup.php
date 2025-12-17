@@ -626,8 +626,7 @@ function do_software_environment_check()
 
     if (is_dir($templates_c_dir) && is_writeable($templates_c_dir)) {
         $info[] = "Smarty templates_c (" . realpath($templates_c_dir) . ") directory exists and is writeable.";
-    }
-    else {
+    } else {
         $warn[] = "Warning: Smarty templates directory $templates_c_dir does not exist, or is not writeable. Please create and set permissions to allow PHP to write to it.";
     }
 
