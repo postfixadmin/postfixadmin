@@ -44,15 +44,15 @@ class PFASmarty
 
         $this->template->setTemplateDir($template_dir);
 
-        $compileDir = realpath(dirname(__FILE__) . '/../templates_c');
-
-        if (is_dir($compileDir) && is_writeable($compileDir)) {
-            $this->template->setCompileDir($compileDir);
+        // if it's not present or writeable, smarty should just not cache.
+        $templates_c = dirname(__FILE__) . '/../templates_c';
+        if (is_dir($templates_c) && is_writeable($templates_c)) {
+            $this->template->setCompileDir($templates_c);
         } else {
             # unfortunately there's no sane way to just disable compiling of templates
-            $this->template->setCompileDir($tempdir = sys_get_temp_dir());
             clearstatcache(); // just incase someone just fixed it; on their next refresh it should work.
-            error_log("WARNING: directory $compileDir does not exist, or was not writeable. Resorted to using $tempdir, from: " . __FILE__);
+            error_log("ERROR: directory $templates_c doesn't exist or isn't writeable for the webserver");
+            die("ERROR: the templates_c directory doesn't exist or isn't writeable for the webserver");
         }
 
         $this->configureTheme('');// default to something.
