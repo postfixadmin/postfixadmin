@@ -1311,84 +1311,110 @@ function enable_socket_crypto($fh)
  * @param string $password (optional) - Password
  * @param string $body (optional, but recommended) - mail body
  * @return bool - true on success, otherwise false
- * TODO: Replace this with something decent like PEAR::Mail or Zend_Mail.
+ * I did something that is working with 465 and 587. The previous one doesnt work at all
+ * 
  */
-function smtp_mail($to, $from, $data, $password = "", $body = "")
-{
+function smtp_mail($to, $from, $subject, $body = "") {
     global $CONF;
 
-    $smtpd_server = $CONF['smtp_server'];
-    $smtpd_port = $CONF['smtp_port'];
-    $smtpd_type = $CONF['smtp_type'];
-
-    $smtp_server = php_uname('n');
-    if (!empty($CONF['smtp_client'])) {
-        $smtp_server = $CONF['smtp_client'];
-    }
-    $errno = 0;
-    $errstr = "0";
+    $server  = $CONF['smtp_server'];
+    $port    = (int)$CONF['smtp_port'];
     $timeout = 30;
+    $helo    = !empty($CONF['smtp_client']) ? $CONF['smtp_client'] : php_uname('n');
 
-    if ($body != "") {
-        $maildata =
-            "To: " . $to . "\n"
-            . "From: " . $from . "\n"
-            . "Subject: " . encode_header($data) . "\n"
-            . "MIME-Version: 1.0\n"
-            . "Date: " . date('r') . "\n"
-            . "Content-Type: text/plain; charset=utf-8\n"
-            . "Content-Transfer-Encoding: 8bit\n"
-            . "\n"
-            . $body;
-    } else {
-        $maildata = $data;
+    $username = $CONF['smtp_username'] ?? '';
+    $password = $CONF['admin_smtp_password'] ?? '';
+    $type     = $CONF['smtp_type'] ?? 'starttls'; // default
+
+    if (empty($username) || empty($password)) {
+        error_log("smtp_mail(): smtp_username or admin_smtp_password not defined");
+        return false;
     }
 
-    $fh = @fsockopen($smtpd_server, $smtpd_port, $errno, $errstr, $timeout);
-
-    if (!$fh) {
-        error_log("fsockopen failed - errno: $errno - errstr: $errstr");
-        return false;
+    // Escolhe socket conforme o tipo
+    if ($type === 'tls' || $type === 'ssl') {
+        // SSL implícito (465)
+        $remote = "ssl://{$server}:{$port}";
+        $socket = @stream_socket_client($remote, $errno, $errstr, $timeout, STREAM_CLIENT_CONNECT);
     } else {
-        if ($smtpd_type === "tls") {
-            enable_socket_crypto($fh);
+        // plain socket (25) ou starttls (587)
+        $socket = @fsockopen($server, $port, $errno, $errstr, $timeout);
+    }
+
+    if (!$socket) {
+        error_log("smtp_mail(): socket failed: $errno - $errstr");
+        return false;
+    }
+
+    if (!smtp_expect($socket, 220)) return false;
+
+    fputs($socket, "EHLO $helo\r\n");
+    if (!smtp_expect($socket, 250)) return false;
+
+    if ($type === 'starttls') {
+        fputs($socket, "STARTTLS\r\n");
+        if (!smtp_expect($socket, 220)) return false;
+        if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+            error_log("smtp_mail(): fail to start STARTTLS");
+            return false;
         }
+        // EHLO pos TLS
+        fputs($socket, "EHLO $helo\r\n");
+        if (!smtp_expect($socket, 250)) return false;
+    }
 
-        smtp_get_response($fh);
+    // AUTH LOGIN
+    fputs($socket, "AUTH LOGIN\r\n");
+    if (!smtp_expect($socket, 334)) return false;
+    fputs($socket, base64_encode($username) . "\r\n");
+    if (!smtp_expect($socket, 334)) return false;
+    fputs($socket, base64_encode($password) . "\r\n");
+    if (!smtp_expect($socket, 235)) return false;
 
-        if ($smtpd_type === "starttls") {
-            fputs($fh, "STARTTLS\r\n");
-            smtp_get_response($fh);
-            enable_socket_crypto($fh);
+    // MAIL/RCPT/DATA
+    fputs($socket, "MAIL FROM:<$from>\r\n");
+    if (!smtp_expect($socket, 250)) return false;
+    fputs($socket, "RCPT TO:<$to>\r\n");
+    if (!smtp_expect($socket, 250)) return false;
+    fputs($socket, "DATA\r\n");
+    if (!smtp_expect($socket, 354)) return false;
+
+    $headers =
+        "To: $to\r\n" .
+        "From: $from\r\n" .
+        "Subject: " . encode_header($subject) . "\r\n" .
+        "MIME-Version: 1.0\r\n" .
+        "Date: " . date('r') . "\r\n" .
+        "Content-Type: text/plain; charset=utf-8\r\n" .
+        "Content-Transfer-Encoding: 8bit\r\n\r\n";
+
+    $message = $headers . $body . "\r\n.\r\n";
+    fputs($socket, $message);
+    if (!smtp_expect($socket, 250)) return false;
+
+    fputs($socket, "QUIT\r\n");
+    fclose($socket);
+
+    return true;
+}
+//end
+// auxiliary function 
+function smtp_expect($socket, $code) {
+    $response = '';
+    while ($line = fgets($socket, 515)) {
+        $response .= $line;
+        if (preg_match('/^\d{3}\s/', $line)) {
+            break;
         }
+    }
 
-        fputs($fh, "EHLO $smtp_server\r\n");
-        smtp_get_response($fh);
-
-        if (!empty($password)) {
-            fputs($fh, "AUTH LOGIN\r\n");
-            smtp_get_response($fh);
-            fputs($fh, base64_encode($from) . "\r\n");
-            smtp_get_response($fh);
-            fputs($fh, base64_encode($password) . "\r\n");
-            smtp_get_response($fh);
-        }
-
-        fputs($fh, "MAIL FROM:<$from>\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "RCPT TO:<$to>\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "DATA\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "$maildata\r\n.\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "QUIT\r\n");
-        smtp_get_response($fh);
-        fclose($fh);
+    if ((int)substr($response, 0, 3) !== $code) {
+        error_log("smtp_mail(): esperado $code, recebido: " . trim($response));
+        return false;
     }
     return true;
 }
-
+//end commit
 /**
  * smtp_get_admin_email
  * Action: Get configured email address or current user if nothing configured
