@@ -2,8 +2,8 @@
 
 class Login
 {
-    private $key_table;
-    private $table;
+    private string $key_table;
+    private string $table;
 
     public function __construct(string $tableName)
     {

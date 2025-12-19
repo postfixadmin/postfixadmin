@@ -14,17 +14,17 @@ abstract class PFAHandler
     /**
      * @var array of error messages - if a method returns false, you'll find the error message(s) here
      */
-    public $errormsg = array();
+    public array $errormsg = [];
 
     /**
      * @var array of info messages (for example success messages)
      */
-    public $infomsg = array();
+    public array $infomsg = [];
 
     /**
      * @var array tasks available in CLI
      */
-    public $taskNames = array('Help', 'Add', 'Update', 'Delete', 'View', 'Scheme');
+    public array $taskNames = ['Help', 'Add', 'Update', 'Delete', 'View', 'Scheme'];
 
     /**
      * variables that must be defined in all *Handler classes
@@ -34,18 +34,18 @@ abstract class PFAHandler
      * @var string (default) name of the database table
      * (can be overridden by $CONF[database_prefix] and $CONF[database_tables][*] via table_by_key())
      */
-    protected $db_table = '';
+    protected string $db_table;
 
     /**
      * @var string field containing the ID
      */
-    protected $id_field = '';
+    protected string $id_field;
 
     /**
      * @var string  field containing the label
      * defaults to $id_field if not set
      */
-    protected $label_field;
+    protected string $label_field;
 
     /**
      * field(s) to use in the ORDER BY clause
@@ -53,20 +53,20 @@ abstract class PFAHandler
      * defaults to $id_field if not set
      * @var string
      */
-    protected $order_by = '';
+    protected string $order_by;
 
     /**
      * @var string
      * column containing the domain
      * if a table does not contain a domain column, leave empty and override no_domain_field())
      */
-    protected $domain_field = "";
+    protected ?string $domain_field = null;
 
     /**
      * column containing the username (if logged in as non-admin)
      * @var string
      */
-    protected $user_field = '';
+    protected ?string $user_field = null;
 
     /**
      * skip empty password fields in edit mode
@@ -74,14 +74,14 @@ abstract class PFAHandler
      * disable for "edit password" forms
      * @var boolean
      */
-    protected $skip_empty_pass = true;
+    protected bool $skip_empty_pass = true;
 
     /**
      * @var array fields to search when using simple search ("?search[_]=...")
      * array with one or more fields to search (all fields will be OR'ed in the query)
      * searchmode is always 'contains' (using LIKE "%searchterm%")
      */
-    protected $searchfields = array();
+    protected array $searchfields = [];
 
     /**
      * internal variables - filled by methods of *Handler

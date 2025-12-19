@@ -7,10 +7,10 @@
  */
 class FetchmailHandler extends PFAHandler
 {
-    protected $db_table = 'fetchmail';
-    protected $id_field = 'id';
-    protected $domain_field = 'domain';
-    protected $order_by = 'domain, mailbox';
+    protected string $db_table = 'fetchmail';
+    protected string $id_field = 'id';
+    protected ?string $domain_field = 'domain';
+    protected string $order_by = 'domain, mailbox';
 
 
     protected function initStruct()
