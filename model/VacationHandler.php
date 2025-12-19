@@ -4,20 +4,9 @@
 
 class VacationHandler extends PFAHandler
 {
-    /**
-     * @var string
-     */
-    protected $db_table = 'vacation';
-
-    /**
-     * @var string
-     */
-    protected $id_field = 'email';
-
-    /**
-     * @var string
-     */
-    protected $domain_field = 'domain';
+    protected string $db_table = 'vacation';
+    protected string $id_field = 'email';
+    protected ?string $domain_field = 'domain';
 
     public function init(string $id): bool
     {

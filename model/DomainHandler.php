@@ -7,9 +7,9 @@
  */
 class DomainHandler extends PFAHandler
 {
-    protected $db_table = 'domain';
-    protected $id_field = 'domain';
-    protected $domain_field = 'domain';
+    protected string $db_table = 'domain';
+    protected string $id_field = 'domain';
+    protected ?string $domain_field = 'domain';
 
     protected function validate_new_id()
     {

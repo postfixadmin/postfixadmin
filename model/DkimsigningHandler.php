@@ -7,9 +7,9 @@
  */
 class DkimsigningHandler extends PFAHandler
 {
-    protected $db_table = 'dkim_signing';
-    protected $id_field = 'id';
-    protected $order_by = 'dkim_id, author';
+    protected string $db_table = 'dkim_signing';
+    protected string $id_field = 'id';
+    protected string $order_by = 'dkim_id, author';
 
     protected function initStruct()
     {

@@ -4,8 +4,8 @@
 
 class AdminHandler extends PFAHandler
 {
-    protected $db_table = 'admin';
-    protected $id_field = 'username';
+    protected string $db_table = 'admin';
+    protected string $id_field = 'username';
 
     protected function validate_new_id()
     {
