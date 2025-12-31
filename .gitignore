@@ -14,3 +14,16 @@
 /tests/postfixadmin.sqlite.*.test
 /phpstorm-docker-dev/
 /.pc/
+build-stamp
+debian/postfixadmin/
+
+debian/postfixadmin.postinst.debhelper
+debian/postfixadmin.postrm.debhelper
+debian/postfixadmin.preinst.debhelper
+debian/postfixadmin.prerm.debhelper
+debian/.debhelper/
+debian/files
+debian/postfixadmin.substvars
+
+debian/.pc/
+

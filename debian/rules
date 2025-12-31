@@ -49,7 +49,6 @@ binary-indep: build install
 	dh_link
 	dh_compress
 	dh_fixperms
-	chown www-data debian/postfixadmin/var/cache/postfixadmin/templates_c -R
 	chmod 700 debian/postfixadmin/var/cache/postfixadmin/templates_c
 	dh_installdeb
 	dh_gencontrol
