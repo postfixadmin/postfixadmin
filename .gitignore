@@ -27,3 +27,4 @@ debian/postfixadmin.substvars
 
 debian/.pc/
 
+dbconfig.inc.php
