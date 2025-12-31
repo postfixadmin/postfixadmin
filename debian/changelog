@@ -1,4 +1,4 @@
-postfixadmin (3.3.10-2) unstable; urgency=medium
+postfixadmin (3.3.11) unstable; urgency=medium
 
   * remove unnessesary fix for mysqli instead of mysql
   * fix permissions of templates_c directory
