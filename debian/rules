@@ -23,6 +23,7 @@ build-stamp:
 clean:
 	dh_testdir
 	dh_testroot
+	rm -rf var templates_c
 	dh_clean
 
 install: build
