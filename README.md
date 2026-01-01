@@ -62,7 +62,7 @@ You should be able to use ACT (https://github.com/nektos/act) to run the tests l
  - [Probably all you need to read (pdf)](http://blog.cboltz.de/uploads/postfixadmin-30-english.pdf)
  - [Docker Images](https://github.com/postfixadmin/docker)
  - [What is it? (txt)](/DOCUMENTS/POSTFIXADMIN.txt)
- - [Installation instructions](/INSTALL.TXT)
+ - [Installation instructions](/INSTALL.md)
  - [Wiki](https://sourceforge.net/p/postfixadmin/wiki/)
  - [IRC channel](irc://irc.libera.chat/#postfixadmin) (#postfixadmin on Libera.chat).
 
