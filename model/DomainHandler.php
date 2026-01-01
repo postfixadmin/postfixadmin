@@ -10,6 +10,7 @@ class DomainHandler extends PFAHandler
     protected $db_table = 'domain';
     protected $id_field = 'domain';
     protected $domain_field = 'domain';
+    protected $allowed_servers = [];
 
     protected function validate_new_id()
     {
@@ -43,6 +44,14 @@ class DomainHandler extends PFAHandler
         $pwexp = min($super, Config::intbool('password_expiration'));
 
         $query_used_domainquota = 'round(coalesce(__total_quota/' . intval(Config::read('quota_multiplier')) . ',0))';
+
+        $server = (Config::bool('multiple_servers') && $super) ? 1 : 0;
+        if($server) {
+            $server_handler = new ServerHandler();
+            $server_handler -> getList('');
+            $this->allowed_servers = array_keys($server_handler->result());
+            $this->allowed_servers[] = "";
+        }
 
         # NOTE: There are dependencies between alias_count, mailbox_count and total_quota.
         # NOTE: If you disable "display in list" for one of them, the SQL query for the others might break.
@@ -99,6 +108,7 @@ class DomainHandler extends PFAHandler
             '_total_quot_percent' => self::pacol(0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, array(),
                 array('select' => db_quota_percent($query_used_domainquota, 'quota', '_total_quot_percent'))),
 
+	   'primarymx'         => self::pacol($server,    $server,1,      'enum', 'primarymx'                    , 'pAdminEdit_domain_primarymx_text', '', $this->allowed_servers),
            'transport'         => self::pacol($transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
                /*options*/ Config::read_array('transport_options')),
            'backupmx'          => self::pacol($super,     $super, 1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 , 0),

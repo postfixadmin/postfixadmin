@@ -2412,3 +2412,39 @@ function upgrade_1851_mysql()
         )
     ");
 }
+
+function upgrade_1852_mysql_pgsql()
+{
+    # Add support for multiple servers
+    $server = table_by_key('server');
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $server (
+            `server` varchar(100) NOT NULL,
+            `description` varchar(255) NOT NULL,
+            `address` varchar(100) NOT NULL,
+            `created` {DATE},
+            `modified` {DATECURRENT},
+            {PRIMARY} (server)
+        );
+    ");
+}
+
+function upgrade_1852_sqlite()
+{
+    $server = table_by_key('server');
+    db_query_parsed("
+        CREATE TABLE $server (
+            `server` varchar(100) NOT NULL,
+            `description` varchar(255) NOT NULL,
+            `address` varchar(255) NOT NULL,
+            `created` {DATE},
+            `modified` {DATECURRENT},
+            {PRIMARY} (`server`)
+        );
+    ");
+}
+
+function upgrade_1853()
+{
+    _db_add_field('domain', 'primarymx', "varchar(100) NOT NULL DEFAULT ''", 'transport');
+}
