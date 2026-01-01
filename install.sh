@@ -71,5 +71,5 @@ if [ ! -d templates_c ]; then
 fi
 echo ""
 echo "Please continue configuration / setup within your web browser. "
-echo "See also : https://github.com/postfixadmin/postfixadmin/blob/master/INSTALL.TXT#L58 "
+echo "See also : https://github.com/postfixadmin/postfixadmin/blob/master/INSTALL.md#L78 "
 echo ""
