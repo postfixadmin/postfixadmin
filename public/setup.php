@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <?php
-$PALANG = [];
 require_once('common.php');
 ?>
 <html lang="en">
@@ -275,6 +274,9 @@ if (!$authenticated || !$configSetupDone) { ?>
 $check = do_software_environment_check();
 
 if ($authenticated) {
+
+
+
     if (!empty($check['info'])) {
         echo "<h3>Information</h3><ul>";
         foreach ($check['info'] as $msg) {
@@ -298,7 +300,8 @@ if ($authenticated) {
         echo "</ul>";
     }
 
-    $php_error_log = ini_get('error_log');
+
+
 } else {
     if (!empty($check['error'])) {
         echo '<p class="text-danger">Hosting Environment errors found. Login to see details.</p>';
@@ -366,10 +369,10 @@ if ($authenticated) {
 <div class='row'>
     <div class='col-12'>
         <?php
-                # "create admin" form submitted, make sure the correct setup password was specified.
+        # "create admin" form submitted, make sure the correct setup password was specified.
 
-                // XXX need to ensure domains table includes an 'ALL' entry.
-                $table_domain = table_by_key('domain');
+        // XXX need to ensure domains table includes an 'ALL' entry.
+        $table_domain = table_by_key('domain');
         $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
         if (empty($rows)) {
             // all other fields should default through the schema.
@@ -388,7 +391,6 @@ if ($authenticated) {
         list($error, $setupMessage, $errors) = create_admin($values);
 
         if ($error == 1) {
-            $tUsername = htmlentities($values['username']);
             error_log("failed to add admin - " . json_encode([$error, $setupMessage, $errors]));
             echo "<p class='text-danger'>Admin addition failed; check field error messages or server logs.</p>";
         } else {
@@ -528,7 +530,7 @@ function create_admin($values)
     define('POSTFIXADMIN_SETUP', 1); # avoids instant redirect to login.php after creating the admin
 
     $handler = new AdminHandler(1, 'setup.php');
-    $formconf = $handler->webformConfig();
+
 
     if (!$handler->init($values['username'])) {
         return array(1, "", $handler->errormsg);
@@ -620,8 +622,16 @@ function do_software_environment_check()
     }
 
 
+    $templates_c_dir = __DIR__ . '/../templates_c';
+
+    if (is_dir($templates_c_dir) && is_writeable($templates_c_dir)) {
+        $info[] = "Smarty templates_c (" . realpath($templates_c_dir) . ") directory exists and is writeable.";
+    } else {
+        $warn[] = "Warning: Smarty templates directory $templates_c_dir does not exist, or is not writeable. Please create and set permissions to allow PHP to write to it.";
+    }
+
     if (file_exists($file_local_config)) {
-        $info[] = "config.local.php file found : " . realpath($file_local_config);
+        $info[] = "config.local.php file found (" . realpath($file_local_config). ")";
     } else {
         $warn[] = "Warning: config.local.php - NOT FOUND - It's Recommended to store your own settings in config.local.php instead of editing config.inc.php";
     }
@@ -683,17 +693,14 @@ function do_software_environment_check()
         $warn[] = 'Admin Email - From address missing. Please add specify an admin_email in your config.inc.php or config.local.php e.g. <code>$CONF["admin_email"] = "Support Person &lt;support@yourdomain.com&gt;";</code>';
     }
 
-    $link = null;
-    $error_text = null;
-
     $dsn = 'Could not generate';
 
     try {
         $dsn = db_connection_string();
 
         $info[] = "Database connection configured OK (using PDO <code>$dsn</code>)";
-        $link = db_connect();
-        $info[] = "Database connection - Connected OK";
+        db_connect();
+        $info[] = "Database connection - connected OK";
     } catch (Exception $e) {
         $error[] = "Database connection string : " . $dsn;
         $error[] = "Problem connecting to database, check database configuration (\$CONF['database_*'] entries in config.local.php)";
