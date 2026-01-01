@@ -1315,7 +1315,8 @@ function enable_socket_crypto($fh)
  * Sorry fot that. Had to do a litle tweak do work with broadcast-message.php
  * Sorry for the bad english :D
  */
-function smtp_mail($to, $from, $subject_or_data, $body = null) {
+function smtp_mail($to, $from, $subject_or_data, $body = null)
+{
     global $CONF;
 
     $server  = $CONF['smtp_server'];
@@ -1403,8 +1404,9 @@ function smtp_mail($to, $from, $subject_or_data, $body = null) {
     return true;
 }
 //end
-// auxiliary function 
-function smtp_expect($socket, $code) {
+// auxiliary function
+function smtp_expect($socket, $code)
+{
     $response = '';
     while ($line = fgets($socket, 515)) {
         $response .= $line;
