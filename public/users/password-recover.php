@@ -48,10 +48,10 @@ function sendCodebyEmail($to, $username, $code)
 {
     $url = getSiteUrl($_SERVER) . 'password-change.php?username=' . urlencode($username) . '&code=' . $code;
 
-    return smtp_mail($to,
+    return smtp_mail(
+        $to,
         smtp_get_admin_email(false),
         Config::Lang('pPassword_welcome'),
-        Config::read('admin_smtp_password'),
         Config::lang_f('pPassword_recovery_email_body', $url));
 }
 
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // throttle password reset requests to prevent brute force attack
     $elapsed_time = microtime(true) - $start_time;
     if ($elapsed_time < 2 * pow(10, 6)) {
-        usleep((int) (2 * pow(10, 6) - $elapsed_time));
+        usleep((int)(2 * pow(10, 6) - $elapsed_time));
     }
 
     flash_info(Config::Lang('pPassword_recovery_processed'));

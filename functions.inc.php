@@ -1307,20 +1307,16 @@ function enable_socket_crypto($fh)
  * Call: smtp_mail (string to, string from, string data) - DEPRECATED
  * @param string $to
  * @param string $from
- * @param string $subject (if called with 4 parameters) or full mail body (if called with 3 parameters)
- * @param string $password (optional) - Password
- * @param string $body (optional, but recommended) - mail body
+ * @param string $subject_or_data(if called with 4 parameters) or full mail body (if called with 3 parameters)
+ * @param ?string $body (optional, but recommended) - mail body (if null, assume $subject_or_data is the entire mail body with headers etc)
  * @return bool - true on success, otherwise false
- * I did something that is working with 465 and 587. The previous one doesnt work at all
- * Sorry fot that. Had to do a litle tweak do work with broadcast-message.php
- * Sorry for the bad english :D
  */
-function smtp_mail($to, $from, $subject_or_data, $body = null)
+function smtp_mail(string $to, string $from, string $subject_or_data, ?string $body = null): bool
 {
     global $CONF;
 
-    $server  = $CONF['smtp_server'];
-    $port    = (int)$CONF['smtp_port'];
+    $server = $CONF['smtp_server'];
+    $port = (int)$CONF['smtp_port'];
     $timeout = 30;
 
     $helo = !empty($CONF['smtp_client'])
@@ -1329,7 +1325,7 @@ function smtp_mail($to, $from, $subject_or_data, $body = null)
 
     $username = $CONF['smtp_username'] ?? '';
     $password = $CONF['admin_smtp_password'] ?? '';
-    $type     = $CONF['smtp_type'] ?? 'starttls';
+    $type = $CONF['smtp_type'] ?? 'starttls';
 
     // Building of SMTP payload
     if ($body === null) {
@@ -1403,6 +1399,7 @@ function smtp_mail($to, $from, $subject_or_data, $body = null)
 
     return true;
 }
+
 //end
 // auxiliary function
 function smtp_expect($socket, $code)
@@ -1421,6 +1418,7 @@ function smtp_expect($socket, $code)
     }
     return true;
 }
+
 //end commit
 /**
  * smtp_get_admin_email

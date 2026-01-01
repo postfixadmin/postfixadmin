@@ -510,7 +510,7 @@ class MailboxHandler extends PFAHandler
         $fSubject = Config::lang('pSendmail_subject_text');
         $fBody = Config::read('welcome_text');
 
-        if (!smtp_mail($fTo, $fFrom, $fSubject, smtp_get_admin_password(), $fBody)) {
+        if (!smtp_mail($fTo, $fFrom, $fSubject, $fBody)) {
             $this->errormsg[] = Config::lang_f('pSendmail_result_error', $this->id);
             return false;
         }
