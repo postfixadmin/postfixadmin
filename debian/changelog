@@ -1,9 +1,16 @@
+postfixadmin (4.0.1) UNRELEASED; urgency=medium
+
+  * VitexSoftware repack
+
+ -- vitex <info@vitexsoftware.cz>  Mon, 05 Jan 2026 16:34:17 +0100
+
 postfixadmin (3.3.11) unstable; urgency=medium
 
+  [ Christoph Martin ]
   * remove unnessesary fix for mysqli instead of mysql
   * fix permissions of templates_c directory
 
- -- Christoph Martin <martin@uni-mainz.de>  Thu, 19 Aug 2021 23:30:30 +0200
+ -- vitex <info@vitexsoftware.cz>  Mon, 05 Jan 2026 16:33:50 +0100
 
 postfixadmin (3.3.10-1) unstable; urgency=medium
 
