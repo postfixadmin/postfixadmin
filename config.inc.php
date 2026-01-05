@@ -155,7 +155,8 @@ $CONF['database_tables'] = array (
 //
 // Leave blank to send email from the logged-in Admin's Email address.
 $CONF['admin_email'] = '';
-
+// Defines smtp_username for use with the new function on 587 and 465. Recommended to be the same as admin_amail
+$CONF['smtp_username'] = '';
 // Define the smtp password for admin_email.
 // This will be used to send emails from to create mailboxes and
 // from Send Email / Broadcast message pages.
