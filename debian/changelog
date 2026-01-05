@@ -1,3 +1,11 @@
+postfixadmin (4.0.3) UNRELEASED; urgency=medium
+
+  * Remove untranslated DKIM string markers to enable English fallback
+  * Add debian package domain configuration templates
+  * Automated domain configuration during package installation
+
+ -- vitex <info@vitexsoftware.cz>  Mon, 05 Jan 2026 18:15:00 +0100
+
 postfixadmin (4.0.2) UNRELEASED; urgency=medium
 
   * Fix language array null check in check_language() function

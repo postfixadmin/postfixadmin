@@ -1,0 +1,19 @@
+Template: postfixadmin/configure-domain
+Type: string
+Default: change-this-to-your.domain.tld
+_Description: Domain name for PostfixAdmin configuration:
+ PostfixAdmin needs to be configured with your domain name for various
+ settings including vacation domain, footer links, and system email addresses.
+ .
+ Please enter your domain name (e.g., example.com). This will be used to
+ configure email addresses like abuse@your-domain.tld and vacation domain
+ settings like autoreply.your-domain.tld.
+
+Template: postfixadmin/configure-vacation-subdomain
+Type: string
+Default: autoreply
+_Description: Subdomain for vacation/autoreply functionality:
+ PostfixAdmin uses a subdomain for handling vacation/autoreply messages.
+ .
+ Please enter the subdomain to use (the default 'autoreply' is recommended).
+ This will create vacation addresses like user@autoreply.your-domain.tld.

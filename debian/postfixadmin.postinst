@@ -8,6 +8,43 @@ if [ "$1" = "configure" ]; then
 	. /usr/share/debconf/confmodule
 	. /usr/share/dbconfig-common/dpkg/postinst
 	dbc_go postfixadmin $@
+
+	# Configure domain settings
+	db_get postfixadmin/configure-domain
+	DOMAIN="$RET"
+	db_get postfixadmin/configure-vacation-subdomain  
+	VACATION_SUBDOMAIN="$RET"
+	
+	# Create config.local.php if it doesn't exist
+	if [ ! -f /etc/postfixadmin/config.local.php ]; then
+		cat > /etc/postfixadmin/config.local.php << EOF
+<?php
+// Local configuration for PostfixAdmin
+// This file is managed by the Debian package system
+
+// Domain-specific configuration
+\$CONF['default_aliases'] = array (
+    'abuse' => 'abuse@${DOMAIN}',
+    'hostmaster' => 'hostmaster@${DOMAIN}',
+    'postmaster' => 'postmaster@${DOMAIN}',
+    'webmaster' => 'webmaster@${DOMAIN}'
+);
+
+\$CONF['vacation_domain'] = '${VACATION_SUBDOMAIN}.${DOMAIN}';
+\$CONF['footer_text'] = 'Return to ${DOMAIN}';
+\$CONF['footer_link'] = 'http://${DOMAIN}';
+
+EOF
+		chown root:www-data /etc/postfixadmin/config.local.php
+		chmod 640 /etc/postfixadmin/config.local.php
+	else
+		# Update existing config.local.php with domain settings
+		if [ "$DOMAIN" != "change-this-to-your.domain.tld" ]; then
+			# Use sed to update the domain references
+			sed -i "s/change-this-to-your.domain.tld/${DOMAIN}/g" /etc/postfixadmin/config.local.php
+			sed -i "s/autoreply\.${DOMAIN}/${VACATION_SUBDOMAIN}.${DOMAIN}/g" /etc/postfixadmin/config.local.php
+		fi
+	fi
 fi
 
 composer-debian postfixadmin
