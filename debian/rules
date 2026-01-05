@@ -38,6 +38,7 @@ install: build
 	find debian/postfixadmin -name .svn | xargs -r rm -r
 	ln -s ../share/postfixadmin/scripts/postfixadmin-cli debian/postfixadmin/usr/bin/
 	ln -s /var/cache/postfixadmin/templates_c debian/postfixadmin/usr/share/postfixadmin/
+	sed -i 's/model/\/usr\/share\/postfixadmin\/model/' debian/postfixadmin/usr/lib/postfixadmin/composer.json
 
 # Build architecture-independent files here.
 binary-indep: build install

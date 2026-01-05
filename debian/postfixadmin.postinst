@@ -10,6 +10,8 @@ if [ "$1" = "configure" ]; then
 	dbc_go postfixadmin $@
 fi
 
+composer-debian postfixadmin
+
 # remove legacy apache and lighthttpd configuration symlink,
 # conf.d is no longer supported with Apache 2.4
 if [ "$(readlink /etc/apache2/conf.d/postfixadmin)" = "../../postfixadmin/apache.conf" ]; then
