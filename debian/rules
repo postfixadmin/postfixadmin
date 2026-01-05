@@ -40,6 +40,8 @@ install: build
 	ln -s /var/cache/postfixadmin/templates_c debian/postfixadmin/usr/share/postfixadmin/
 	sed -i 's/model/\/usr\/share\/postfixadmin\/model/' debian/postfixadmin/usr/lib/postfixadmin/composer.json
 	sed -i "/require_once/c\require_once('/var/lib/composer/postfixadmin/autoload.php');"  debian/postfixadmin/usr/share/postfixadmin/common.php
+	sed -i 's/config.inc/\/etc\/postfixadmin\/config.inc/' debian/postfixadmin/usr/lib/postfixadmin/composer.json
+	sed -i 's/functions.inc/\/usr\/share\/postfixadmin\/functions.inc/' debian/postfixadmin/usr/lib/postfixadmin/composer.json
 
 # Build architecture-independent files here.
 binary-indep: build install
