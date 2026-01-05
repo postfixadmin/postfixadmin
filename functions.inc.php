@@ -181,6 +181,11 @@ function check_language($use_post = true)
 {
     global $supported_languages; # from languages/languages.php
 
+    // Check if $supported_languages is loaded
+    if (!is_array($supported_languages)) {
+        return Config::read_string('default_language');
+    }
+
     // prefer a $_POST['lang'] if present
     if ($use_post && safepost('lang')) {
         $lang = safepost('lang');
