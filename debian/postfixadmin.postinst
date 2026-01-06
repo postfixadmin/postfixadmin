@@ -2,69 +2,204 @@
 set -e
 
 if [ "$1" = "configure" ]; then
+	# Remove purge marker if it exists (shouldn't be here but just in case)
+	rm -f /var/lib/postfixadmin/.purged 2>/dev/null || true
+	
 	# configure DB stuff via dbconfig-common
 	dbc_generate_include=php:/etc/postfixadmin/dbconfig.inc.php
 	dbc_generate_include_args="-O root:www-data -m 640 -U"
 	. /usr/share/debconf/confmodule
 	. /usr/share/dbconfig-common/dpkg/postinst
-	dbc_go postfixadmin $@
+	
+	# Run dbconfig-common with better error handling
+	if ! dbc_go postfixadmin $@; then
+		echo "Database configuration failed. You may need to reconfigure the package." >&2
+		echo "Run: sudo dpkg-reconfigure postfixadmin" >&2
+		exit 1
+	fi
 
-	# Configure domain settings
-	db_get postfixadmin/configure-domain
-	DOMAIN="$RET"
-	db_get postfixadmin/configure-vacation-subdomain  
-	VACATION_SUBDOMAIN="$RET"
+	# Make sure Apache2 can read the files
+	chown root:www-data /etc/postfixadmin/dbconfig.inc.php
+	chmod 640 /etc/postfixadmin/dbconfig.inc.php
 	
 	# Create config.local.php if it doesn't exist
 	if [ ! -f /etc/postfixadmin/config.local.php ]; then
-		cat > /etc/postfixadmin/config.local.php << EOF
+		cat > /etc/postfixadmin/config.local.php << 'EOF'
 <?php
-// Local configuration for PostfixAdmin
-// This file is managed by the Debian package system
+/**
+ * PostfixAdmin local configuration
+ * This file contains local overrides for PostfixAdmin configuration
+ */
 
-// Domain-specific configuration
-\$CONF['default_aliases'] = array (
-    'abuse' => 'abuse@${DOMAIN}',
-    'hostmaster' => 'hostmaster@${DOMAIN}',
-    'postmaster' => 'postmaster@${DOMAIN}',
-    'webmaster' => 'webmaster@${DOMAIN}'
-);
-
-\$CONF['vacation_domain'] = '${VACATION_SUBDOMAIN}.${DOMAIN}';
-\$CONF['footer_text'] = 'Return to ${DOMAIN}';
-\$CONF['footer_link'] = 'http://${DOMAIN}';
+// Include database configuration
+if (file_exists('/etc/postfixadmin/dbconfig.inc.php')) {
+    require_once('/etc/postfixadmin/dbconfig.inc.php');
+}
 
 EOF
 		chown root:www-data /etc/postfixadmin/config.local.php
 		chmod 640 /etc/postfixadmin/config.local.php
+	fi
+
+
+	# Get debconf values for setup password generation
+	. /usr/share/debconf/confmodule
+	
+	# Get the domain name
+	db_get postfixadmin/configure-domain || true
+	DOMAIN="$RET"
+	
+	# Get the admin email
+	db_get postfixadmin/admin-email || true
+	ADMIN_EMAIL="$RET"
+	
+	# Get the vacation subdomain
+	db_get postfixadmin/configure-vacation-subdomain || true
+	VACATION_SUBDOMAIN="$RET"
+	
+	# Get the setup password with error handling
+	if db_get postfixadmin/setup-password 2>/dev/null; then
+		SETUP_PASSWORD="$RET"
 	else
-		# Update existing config.local.php with domain settings
-		if [ "$DOMAIN" != "change-this-to-your.domain.tld" ]; then
-			# Use sed to update the domain references
-			sed -i "s/change-this-to-your.domain.tld/${DOMAIN}/g" /etc/postfixadmin/config.local.php
-			sed -i "s/autoreply\.${DOMAIN}/${VACATION_SUBDOMAIN}.${DOMAIN}/g" /etc/postfixadmin/config.local.php
+		SETUP_PASSWORD=""
+	fi
+	
+	# Only proceed with password hashing if we have a password
+	if [ -n "$SETUP_PASSWORD" ] && [ "$SETUP_PASSWORD" != "" ]; then
+		# Generate the setup password hash using PHP - properly escape the password
+		SETUP_HASH=$(php -r "
+			\$password = '$SETUP_PASSWORD';
+			echo password_hash(\$password, PASSWORD_DEFAULT);
+		")
+		
+		if [ -n "$SETUP_HASH" ]; then
+			# Create a temporary file with the configuration line
+			TEMP_CONFIG=$(mktemp)
+			if ! grep -q 'setup_password' /etc/postfixadmin/config.local.php; then
+				cat /etc/postfixadmin/config.local.php > "$TEMP_CONFIG"
+				cat >> "$TEMP_CONFIG" << EOF
+
+// PostfixAdmin configuration generated during package installation
+
+// Admin email configuration
+\$CONF["admin_email"] = "PostfixAdmin <postmaster@${DOMAIN:-example.com}>";
+EOF
+				[ -n "$ADMIN_EMAIL" ] && echo "\$CONF['admin_email'] = '$ADMIN_EMAIL';" >> "$TEMP_CONFIG"
+				
+				# Add domain-specific configurations if domain is provided
+				if [ -n "$DOMAIN" ] && [ "$DOMAIN" != "change-this-to-your.domain.tld" ]; then
+					cat >> "$TEMP_CONFIG" << EOF
+
+// Domain configuration overrides
+\$CONF['emailcheck_resolve_domain'] = 'YES';
+EOF
+					
+					# Configure vacation domain if vacation subdomain is set
+					if [ -n "$VACATION_SUBDOMAIN" ]; then
+						echo "\$CONF['vacation_domain'] = '$VACATION_SUBDOMAIN.$DOMAIN';" >> "$TEMP_CONFIG"
+					fi
+					
+					cat >> "$TEMP_CONFIG" << EOF
+\$CONF['footer_text'] = 'Return to $DOMAIN';
+\$CONF['footer_link'] = 'https://$DOMAIN';
+
+// Default email addresses for the domain
+\$CONF['admin_email_list'] = array(
+    'abuse' => 'abuse@$DOMAIN',
+    'hostmaster' => 'hostmaster@$DOMAIN', 
+    'postmaster' => 'postmaster@$DOMAIN',
+    'webmaster' => 'webmaster@$DOMAIN'
+);
+EOF
+				fi
+				
+				cat >> "$TEMP_CONFIG" << EOF
+
+// Setup password hash (generated during package installation)
+\$CONF['setup_password'] = '$SETUP_HASH';
+
+// Mark configuration as completed
+\$CONF['configured'] = true;
+EOF
+				cp "$TEMP_CONFIG" /etc/postfixadmin/config.local.php
+			else
+				# Create new config without the old setup_password, configured, and admin_email lines
+				# Use a more sophisticated approach to remove multi-line array declarations and duplicate comments
+				awk '
+				BEGIN { in_admin_email_list_array = 0 }
+				/admin_email_list.*array/ { in_admin_email_list_array = 1; next }
+				in_admin_email_list_array && /^\);/ { in_admin_email_list_array = 0; next }
+				in_admin_email_list_array { next }
+				!/setup_password|configured|\$CONF\[.admin_email.\]|vacation_domain|footer_text|footer_link|emailcheck_resolve_domain/ { 
+					# Skip duplicate comment lines
+					if (/^\/\/ (PostfixAdmin configuration generated|Domain configuration overrides|Default email addresses|Setup password hash|Mark configuration as completed)/ && seen[$0]++) {
+						next
+					}
+					print 
+				}
+				' /etc/postfixadmin/config.local.php > "$TEMP_CONFIG"
+				cat >> "$TEMP_CONFIG" << EOF
+
+// PostfixAdmin configuration generated during package installation
+
+// Admin email configuration
+\$CONF["admin_email"] = "PostfixAdmin <postmaster@${DOMAIN:-example.com}>";
+EOF
+				[ -n "$ADMIN_EMAIL" ] && echo "\$CONF['admin_email'] = '$ADMIN_EMAIL';" >> "$TEMP_CONFIG"
+				
+				# Add domain-specific configurations if domain is provided
+				if [ -n "$DOMAIN" ] && [ "$DOMAIN" != "change-this-to-your.domain.tld" ]; then
+					cat >> "$TEMP_CONFIG" << EOF
+
+// Domain configuration overrides
+\$CONF['emailcheck_resolve_domain'] = 'YES';
+EOF
+					
+					# Configure vacation domain if vacation subdomain is set
+					if [ -n "$VACATION_SUBDOMAIN" ]; then
+						echo "\$CONF['vacation_domain'] = '$VACATION_SUBDOMAIN.$DOMAIN';" >> "$TEMP_CONFIG"
+					fi
+					
+					cat >> "$TEMP_CONFIG" << EOF
+\$CONF['footer_text'] = 'Return to $DOMAIN';
+\$CONF['footer_link'] = 'https://$DOMAIN';
+
+// Default email addresses for the domain
+\$CONF['admin_email_list'] = array(
+    'abuse' => 'abuse@$DOMAIN',
+    'hostmaster' => 'hostmaster@$DOMAIN', 
+    'postmaster' => 'postmaster@$DOMAIN',
+    'webmaster' => 'webmaster@$DOMAIN'
+);
+EOF
+				fi
+				
+				cat >> "$TEMP_CONFIG" << EOF
+
+// Setup password hash (generated during package installation)
+\$CONF['setup_password'] = '$SETUP_HASH';
+
+// Mark configuration as completed
+\$CONF['configured'] = true;
+EOF
+				cp "$TEMP_CONFIG" /etc/postfixadmin/config.local.php
+			fi
+			rm -f "$TEMP_CONFIG"
 		fi
 	fi
+	
+	# Ensure proper permissions
+	if [ -f /etc/postfixadmin/config.local.php ]; then
+		chown root:www-data /etc/postfixadmin/config.local.php
+		chmod 640 /etc/postfixadmin/config.local.php
+	fi
+
+	# Make sure templates_c directory exists and has proper permissions
+	mkdir -p /var/cache/postfixadmin/templates_c
+	chown -R www-data:www-data /var/cache/postfixadmin
+	chmod -R 700 /var/cache/postfixadmin/templates_c
 fi
 
-composer-debian postfixadmin
-
-# remove legacy apache and lighthttpd configuration symlink,
-# conf.d is no longer supported with Apache 2.4
-if [ "$(readlink /etc/apache2/conf.d/postfixadmin)" = "../../postfixadmin/apache.conf" ]; then
-    rm -f /etc/apache2/conf.d/postfixadmin
-fi
-if [ "$(readlink /etc/lighttpd/conf-available/postfixadmin)" = "../../postfixadmin/lighttpd.conf" ]; then
-    rm -f /etc/lighttpd/conf-available/postfixadmin
-fi
-
-# See : https://sourceforge.net/p/postfixadmin/bugs/376/ - remove any existing templates_c files on upgrade.
-if [ -d /usr/share/postfixadmin/templates_c ]; then
-    find /usr/share/postfixadmin/templates_c -type f -exec rm -r {} \;
-fi
-if [ -d /var/cache/postfixadmin/templates_c ]; then
-    find /var/cache/postfixadmin/templates_c -type f -exec rm -r {} \;
-fi
 #DEBHELPER#
 
 exit 0

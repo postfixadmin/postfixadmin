@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             if ($totppf->changeTOTP_secret($username, $fTOTP_secret, $fPassword_current)) {
                 flash_info($PALANG['pTotp_stored']);
             } else {
-                flash_error(Config::Lang_f('pTOTP_secret_result_error', $username));
+                flash_error(Config::lang_f('pTOTP_secret_result_error', $username));
             }
         } catch (\Exception $e) {
             flash_error($e->getMessage());

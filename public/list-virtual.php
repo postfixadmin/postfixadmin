@@ -71,7 +71,7 @@ if (sizeof($list_domains) > 0) {
 }
 
 if (!is_string($fDomain)) {
-    die(Config::Lang('invalid_parameter'));
+    die(Config::lang('invalid_parameter'));
 }
 
 if (!in_array($fDomain, $list_domains)) {
@@ -334,10 +334,10 @@ $divide_quota = array('current' => [], 'quota' => [], 'percent' => [], 'quota_wi
 for ($i = 0; $i < sizeof($tMailbox); $i++) {
     $gen_show_status_mailbox[$i] = gen_show_status($tMailbox[$i]['username']);
 
-    $divide_quota['current'][$i] = Config::Lang('unknown');
+    $divide_quota['current'][$i] = Config::lang('unknown');
     $divide_quota['quota_width'][$i] = 0;
     $divide_quota['percent'][$i] = null;
-    $divide_quota['quota'][$i] = Config::Lang('unknown');
+    $divide_quota['quota'][$i] = Config::lang('unknown');
 
     if (isset($tMailbox[$i]['current'])) {
         $divide_quota['current'][$i] = divide_quota($tMailbox[$i]['current']);
@@ -531,9 +531,9 @@ $smarty->display('index.tpl');
 function eval_size($aSize)
 {
     if ($aSize == 0) {
-        $ret_val = Config::Lang('pOverview_unlimited');
+        $ret_val = Config::lang('pOverview_unlimited');
     } elseif ($aSize < 0) {
-        $ret_val = Config::Lang('pOverview_disabled');
+        $ret_val = Config::lang('pOverview_disabled');
     } else {
         $ret_val = $aSize;
     }

@@ -1,0 +1,71 @@
+# Italian translation for postfixadmin debconf templates
+# Copyright (C) 2026 PostfixAdmin Project
+# This file is distributed under the same license as the postfixadmin package.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: postfixadmin\n"
+"Report-Msgid-Bugs-To: postfixadmin@packages.debian.org\n"
+"POT-Creation-Date: 2026-01-05 23:25+0100\n"
+"PO-Revision-Date: 2026-01-05 23:30+0100\n"
+"Last-Translator: PostfixAdmin Project\n"
+"Language-Team: Italian\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:1001
+msgid "Domain name for PostfixAdmin configuration:"
+msgstr "Nome del dominio per la configurazione di PostfixAdmin:"
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:1001
+msgid ""
+"PostfixAdmin needs to be configured with your domain name for various "
+"settings including vacation domain, footer links, and system email addresses."
+msgstr ""
+"PostfixAdmin deve essere configurato con il nome del vostro dominio per varie "
+"impostazioni incluso dominio vacanze, collegamenti a piè di pagina e indirizzi "
+"email di sistema."
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:1001
+msgid ""
+"Please enter your domain name (e.g., example.com). This will be used to "
+"configure email addresses like abuse@your-domain.tld and vacation domain "
+"settings like autoreply.your-domain.tld."
+msgstr ""
+"Inserire il nome del vostro dominio (es., example.com). Questo sarà utilizzato "
+"per configurare indirizzi email come abuse@vostro-dominio.tld e impostazioni "
+"del dominio vacanze come autoreply.vostro-dominio.tld."
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:2001
+msgid "Subdomain for vacation/autoreply functionality:"
+msgstr "Sottodominio per funzionalità vacanze/risposta automatica:"
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:2001
+msgid ""
+"PostfixAdmin uses a subdomain for handling vacation/autoreply messages."
+msgstr ""
+"PostfixAdmin utilizza un sottodominio per gestire messaggi di vacanze/risposta "
+"automatica."
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:2001
+msgid ""
+"Please enter the subdomain to use (the default 'autoreply' is recommended). "
+"This will create vacation addresses like user@autoreply.your-domain.tld."
+msgstr ""
+"Inserire il sottodominio da utilizzare (il valore predefinito 'autoreply' è "
+"consigliato). Questo creerà indirizzi per le vacanze come "
+"utente@autoreply.vostro-dominio.tld."

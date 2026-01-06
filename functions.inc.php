@@ -179,7 +179,7 @@ function _flash_string($type, $string)
  */
 function check_language($use_post = true)
 {
-    global $supported_languages; # from languages/languages.php
+    global $supported_languages; # from languages/language.php
 
     // Check if $supported_languages is loaded
     if (!is_array($supported_languages)) {
@@ -226,7 +226,12 @@ function check_language($use_post = true)
  */
 function language_selector()
 {
-    global $supported_languages; # from languages/languages.php
+    global $supported_languages; # from languages/language.php
+
+    // Check if $supported_languages is loaded
+    if (!is_array($supported_languages)) {
+        return ''; // Return empty selector if languages not loaded
+    }
 
     $current_lang = check_language();
 
@@ -1943,7 +1948,7 @@ function db_log(string $domain, string $action, string $data): bool
 
     $username = authentication_get_username();
 
-    if (Config::Lang("pViewlog_action_$action") == '') {
+    if (Config::lang("pViewlog_action_$action") == '') {
         throw new Exception("Invalid log action : $action");   // could do with something better?
     }
 

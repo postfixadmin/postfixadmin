@@ -75,11 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($error == 0) {
         try {
             if ($login->changePassword($username, $fPassword, $fPassword_current)) {
-                flash_info(Config::Lang_f('pPassword_result_success', $username));
+                flash_info(Config::lang_f('pPassword_result_success', $username));
                 header("Location: main.php");
                 exit(0);
             } else {
-                flash_error(Config::Lang_f('pPassword_result_error', $username));
+                flash_error(Config::lang_f('pPassword_result_error', $username));
             }
         } catch (\Exception $e) {
             flash_error($e->getMessage());

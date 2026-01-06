@@ -1,3 +1,28 @@
+postfixadmin (4.0.5.1) UNRELEASED; urgency=medium
+
+  * Add admin email configuration to debconf templates and postinst
+  * Fixed missing $CONF['configured'] = true setting in config.local.php
+  * Enhanced purge/reinstall functionality with password reset after purge
+
+ -- vitex <info@vitexsoftware.cz>  Mon, 06 Jan 2026 00:40:00 +0100
+
+postfixadmin (4.0.5) UNRELEASED; urgency=medium
+
+  * Fixed PHP deprecation warnings from thecodingmachine/safe library
+  * Added error handler to suppress third-party library deprecation warnings
+  * Improved error handling for better user experience
+
+ -- vitex <info@vitexsoftware.cz>  Sun, 05 Jan 2026 23:15:00 +0100
+
+postfixadmin (4.0.4) UNRELEASED; urgency=medium
+
+  * Complete DKIM localization cleanup - remove all XXX markers
+  * Enable English fallback for all DKIM interface strings
+  * Add debian package domain configuration templates
+  * Automated domain configuration during package installation
+
+ -- vitex <info@vitexsoftware.cz>  Mon, 05 Jan 2026 18:25:00 +0100
+
 postfixadmin (4.0.3) UNRELEASED; urgency=medium
 
   * Remove untranslated DKIM string markers to enable English fallback
