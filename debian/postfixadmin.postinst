@@ -49,6 +49,13 @@ EOF
 	db_get postfixadmin/configure-domain || true
 	DOMAIN="$RET"
 	
+	# Get DKIM configuration
+	db_get postfixadmin/enable-dkim || true
+	ENABLE_DKIM="$RET"
+	
+	db_get postfixadmin/dkim-all-admins || true
+	DKIM_ALL_ADMINS="$RET"
+	
 	# Get the admin email
 	db_get postfixadmin/admin-email || true
 	ADMIN_EMAIL="$RET"
@@ -113,6 +120,28 @@ EOF
 EOF
 				fi
 				
+				# Add DKIM configuration based on debconf settings
+				db_get postfixadmin/enable-dkim
+				RET_ENABLE_DKIM="$RET"
+				db_get postfixadmin/dkim-all-admins  
+				RET_DKIM_ALL_ADMINS="$RET"
+				
+				cat >> "$TEMP_CONFIG" << EOF
+
+// DKIM configuration
+EOF
+				if [ "$RET_ENABLE_DKIM" = "true" ]; then
+					echo "\$CONF['dkim'] = 'YES';" >> "$TEMP_CONFIG"
+					if [ "$RET_DKIM_ALL_ADMINS" = "true" ]; then
+						echo "\$CONF['dkim_all_admins'] = 'YES';" >> "$TEMP_CONFIG"
+					else
+						echo "\$CONF['dkim_all_admins'] = 'NO';" >> "$TEMP_CONFIG"
+					fi
+				else
+					echo "\$CONF['dkim'] = 'NO';" >> "$TEMP_CONFIG"
+					echo "\$CONF['dkim_all_admins'] = 'NO';" >> "$TEMP_CONFIG"
+				fi
+				
 				cat >> "$TEMP_CONFIG" << EOF
 
 // Setup password hash (generated during package installation)
@@ -130,9 +159,9 @@ EOF
 				/admin_email_list.*array/ { in_admin_email_list_array = 1; next }
 				in_admin_email_list_array && /^\);/ { in_admin_email_list_array = 0; next }
 				in_admin_email_list_array { next }
-				!/setup_password|configured|\$CONF\[.admin_email.\]|vacation_domain|footer_text|footer_link|emailcheck_resolve_domain/ { 
+				!/setup_password|configured|\$CONF\[.admin_email.\]|vacation_domain|footer_text|footer_link|emailcheck_resolve_domain|dkim/ { 
 					# Skip duplicate comment lines
-					if (/^\/\/ (PostfixAdmin configuration generated|Domain configuration overrides|Default email addresses|Setup password hash|Mark configuration as completed)/ && seen[$0]++) {
+					if (/^\/\/ (PostfixAdmin configuration generated|Domain configuration overrides|Default email addresses|Setup password hash|Mark configuration as completed|DKIM configuration)/ && seen[$0]++) {
 						next
 					}
 					print 
@@ -172,6 +201,28 @@ EOF
     'webmaster' => 'webmaster@$DOMAIN'
 );
 EOF
+				fi
+				
+				# Add DKIM configuration based on debconf settings
+				db_get postfixadmin/enable-dkim
+				RET_ENABLE_DKIM="$RET"
+				db_get postfixadmin/dkim-all-admins  
+				RET_DKIM_ALL_ADMINS="$RET"
+				
+				cat >> "$TEMP_CONFIG" << EOF
+
+// DKIM configuration
+EOF
+				if [ "$RET_ENABLE_DKIM" = "true" ]; then
+					echo "\$CONF['dkim'] = 'YES';" >> "$TEMP_CONFIG"
+					if [ "$RET_DKIM_ALL_ADMINS" = "true" ]; then
+						echo "\$CONF['dkim_all_admins'] = 'YES';" >> "$TEMP_CONFIG"
+					else
+						echo "\$CONF['dkim_all_admins'] = 'NO';" >> "$TEMP_CONFIG"
+					fi
+				else
+					echo "\$CONF['dkim'] = 'NO';" >> "$TEMP_CONFIG"
+					echo "\$CONF['dkim_all_admins'] = 'NO';" >> "$TEMP_CONFIG"
 				fi
 				
 				cat >> "$TEMP_CONFIG" << EOF
