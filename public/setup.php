@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <?php
-$PALANG = [];
 require_once('common.php');
 ?>
 <html lang="en">
@@ -426,6 +425,13 @@ if ($authenticated) {
                 <h2>Add Superadmin Account</h2>
 
                 <form name="create_admin" class="form-horizontal" method="post">
+                    <?php
+                    // Ensure required language keys exist with fallbacks
+                    if (!isset($PALANG['admin'])) $PALANG['admin'] = 'Admin';
+                    if (!isset($PALANG['password'])) $PALANG['password'] = 'Password';
+                    if (!isset($PALANG['password_again'])) $PALANG['password_again'] = 'Password (again)';
+                    if (!isset($PALANG['pAdminCreate_admin_button'])) $PALANG['pAdminCreate_admin_button'] = 'Add Admin';
+                    ?>
                     <div class="form-group">
                         <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
                         <div class="col-sm-4">

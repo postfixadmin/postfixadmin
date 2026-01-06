@@ -23,6 +23,7 @@ build-stamp:
 clean:
 	dh_testdir
 	dh_testroot
+	rm -rf var templates_c
 	dh_clean
 
 install: build
@@ -37,6 +38,10 @@ install: build
 	find debian/postfixadmin -name .svn | xargs -r rm -r
 	ln -s ../share/postfixadmin/scripts/postfixadmin-cli debian/postfixadmin/usr/bin/
 	ln -s /var/cache/postfixadmin/templates_c debian/postfixadmin/usr/share/postfixadmin/
+	sed -i 's/model/\/usr\/share\/postfixadmin\/model/' debian/postfixadmin/usr/lib/postfixadmin/composer.json
+	sed -i "/require_once/c\require_once('/var/lib/composer/postfixadmin/autoload.php');"  debian/postfixadmin/usr/share/postfixadmin/common.php
+	sed -i 's/config.inc/\/etc\/postfixadmin\/config.inc/' debian/postfixadmin/usr/lib/postfixadmin/composer.json
+	sed -i 's/functions.inc/\/usr\/share\/postfixadmin\/functions.inc/' debian/postfixadmin/usr/lib/postfixadmin/composer.json
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -49,7 +54,6 @@ binary-indep: build install
 	dh_link
 	dh_compress
 	dh_fixperms
-	chown www-data debian/postfixadmin/var/cache/postfixadmin/templates_c -R
 	chmod 700 debian/postfixadmin/var/cache/postfixadmin/templates_c
 	dh_installdeb
 	dh_gencontrol
