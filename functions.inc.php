@@ -1474,7 +1474,7 @@ function db_connection_string()
             $dsn .= ";port={$CONF['database_port']}";
         }
 
-        $dsn .= ";dbname={$database_name};charset=UTF8";
+        $dsn .= ";dbname={$database_name}";
     } elseif (db_sqlite()) {
         $db = $CONF['database_name'];
 
