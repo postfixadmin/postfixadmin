@@ -1598,7 +1598,7 @@ function db_connection_string() {
             $dsn .= ";port={$CONF['database_port']}";
         }
 
-        $dsn .= ";dbname={$database_name};charset=UTF8";
+        $dsn .= ";dbname={$database_name}";
     } elseif (db_sqlite()) {
         $db = $CONF['database_name'];
 
@@ -1667,8 +1667,8 @@ function db_connect() {
 
             $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = (bool)$verify;
         }
-        $queries[] = 'SET CHARACTER SET utf8';
-        $queries[] = "SET COLLATION_CONNECTION='utf8_general_ci'";
+        $queries[] = 'SET NAMES utf8mb4';
+        $queries[] = "SET COLLATION_CONNECTION='utf8mb4_general_ci'";
     } elseif (db_sqlite()) {
         $db = $CONF['database_name'];
 
