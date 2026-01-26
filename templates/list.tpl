@@ -164,7 +164,11 @@
     <div class="btn-toolbar" role="toolbar">
         <div class="btn-group pull-right">
             {if $msg.can_create}
-                <a href="edit.php?table={$table|escape:"url"}&amp;domain={$smarty.get.domain}" role="button" class="btn btn-default"><span
+                {assign var=tmpdomain value=""}
+                {if isset($fDomain)}
+                    {assign var=tmpdomain value="&amp;domain={$fDomain|escape:url}"}
+                {/if}
+                <a href="edit.php?table={$table|escape:"url"}{$tmpdomain}" role="button" class="btn btn-default"><span
                             class="glyphicon glyphicon-plus-sign"
                             aria-hidden="true"></span> {$PALANG.{$formconf.create_button}}</a>
             {/if}
