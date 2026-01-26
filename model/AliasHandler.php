@@ -188,30 +188,26 @@ class AliasHandler extends PFAHandler {
 
         list($local_part, $domain) = explode('@', $this->id);
 
-        if (!$this->create_allowed($domain)) {
-            $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error3');
-            return false;
-        }
-
         # TODO: already checked in set() - does it make sense to check it here also? Only advantage: it's an early check
         #        if (!in_array($domain, $this->allowed_domains)) {
         #            $this->errormsg[] = Config::lang('pCreate_alias_address_text_error1');
         #            return false;
         #        }
 
-        if ($local_part == '') { # catchall
-            $valid = true;
-        } else {
+        if ($local_part != '') { # catchall
             $email_check = check_email($this->id);
-            if ($email_check == '') {
-                $valid = true;
-            } else {
+            if ($email_check != '') {
                 $this->errormsg[$this->id_field] = $email_check;
-                $valid = false;
+                return false;
             }
         }
 
-        return $valid;
+        if (!$this->create_allowed($domain)) {
+            $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error3');
+            return false;
+        }
+
+        return true;
     }
 
     /**
