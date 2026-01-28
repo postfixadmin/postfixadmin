@@ -1,0 +1,157 @@
+#!/bin/bash
+set -e
+
+# Enable debug output
+set -x
+exec 2>&1
+
+echo "DEBUG: postinst script started with argument: $1"
+
+if [ "$1" = "configure" ]; then
+	echo "DEBUG: Entering configure section"
+	# configure DB stuff via dbconfig-common
+	echo "DEBUG: Starting dbconfig-common setup"
+	dbc_generate_include=php:/etc/postfixadmin/dbconfig.inc.php
+	dbc_generate_include_args="-O root:www-data -m 640 -U"
+	. /usr/share/debconf/confmodule
+	echo "DEBUG: Loaded debconf confmodule"
+	. /usr/share/dbconfig-common/dpkg/postinst
+	echo "DEBUG: Loaded dbconfig-common postinst"
+	dbc_go postfixadmin $@
+	echo "DEBUG: dbconfig-common setup completed"
+
+	# Configure domain settings
+	echo "DEBUG: Getting domain configuration from debconf"
+	db_get postfixadmin/configure-domain
+	DOMAIN="$RET"
+	echo "DEBUG: Domain set to: $DOMAIN"
+	db_get postfixadmin/configure-vacation-subdomain  
+	VACATION_SUBDOMAIN="$RET"
+	echo "DEBUG: Vacation subdomain set to: $VACATION_SUBDOMAIN"
+	
+	# Get setup password and generate hash
+	echo "DEBUG: Getting setup password from debconf"
+	db_get postfixadmin/setup-password
+	SETUP_PASSWORD="$RET"
+	echo "DEBUG: Setup password retrieved (length: ${#SETUP_PASSWORD})"
+	
+	# Generate password hash using PHP with safe input
+	echo "DEBUG: Generating password hash"
+	SETUP_PASSWORD_HASH=$(echo -n "$SETUP_PASSWORD" | php -r "echo password_hash(trim(fgets(STDIN)), PASSWORD_DEFAULT);")
+	echo "DEBUG: Password hash generated: ${SETUP_PASSWORD_HASH:0:20}..."
+	
+	# Create config.local.php if it doesn't exist
+	echo "DEBUG: Checking if config.local.php exists"
+	if [ ! -f /etc/postfixadmin/config.local.php ]; then
+		echo "DEBUG: Creating new config.local.php"
+		cat > /etc/postfixadmin/config.local.php << EOF
+<?php
+// Local configuration for PostfixAdmin
+// This file is managed by the Debian package system
+
+// Mark as configured
+\$CONF['configured'] = true;
+
+// Setup password hash
+\$CONF['setup_password'] = '${SETUP_PASSWORD_HASH}';
+
+// Domain-specific configuration
+\$CONF['default_aliases'] = array (
+    'abuse' => 'abuse@${DOMAIN}',
+    'hostmaster' => 'hostmaster@${DOMAIN}',
+    'postmaster' => 'postmaster@${DOMAIN}',
+    'webmaster' => 'webmaster@${DOMAIN}'
+);
+
+\$CONF['vacation_domain'] = '${VACATION_SUBDOMAIN}.${DOMAIN}';
+\$CONF['footer_text'] = 'Return to ${DOMAIN}';
+\$CONF['footer_link'] = 'http://${DOMAIN}';
+
+// Include database configuration
+include('/etc/postfixadmin/dbconfig.inc.php');
+
+EOF
+		echo "DEBUG: Setting permissions on new config.local.php"
+		chown root:www-data /etc/postfixadmin/config.local.php
+		chmod 640 /etc/postfixadmin/config.local.php
+		echo "DEBUG: New config.local.php created successfully"
+	else
+		echo "DEBUG: Updating existing config.local.php"
+		# Update existing config.local.php with current domain settings on every reconfigure
+		# Remove old domain-specific lines and append updated ones
+		echo "DEBUG: Removing old configuration lines"
+		sed -i '/\$CONF\[\x27default_aliases\x27\]/,/);/d' /etc/postfixadmin/config.local.php
+		sed -i "/\$CONF\['vacation_domain'\]/d" /etc/postfixadmin/config.local.php
+		sed -i "/\$CONF\['footer_text'\]/d" /etc/postfixadmin/config.local.php
+		sed -i "/\$CONF\['footer_link'\]/d" /etc/postfixadmin/config.local.php
+		sed -i "/\$CONF\['setup_password'\]/d" /etc/postfixadmin/config.local.php
+		sed -i "/\$CONF\['configured'\]/d" /etc/postfixadmin/config.local.php
+
+		echo "DEBUG: Appending new configuration"
+		cat >> /etc/postfixadmin/config.local.php << EOF
+
+// Mark as configured
+\$CONF['configured'] = true;
+
+// Setup password hash  
+\$CONF['setup_password'] = '${SETUP_PASSWORD_HASH}';
+
+\$CONF['default_aliases'] = array (
+	'abuse' => 'abuse@${DOMAIN}',
+	'hostmaster' => 'hostmaster@${DOMAIN}',
+	'postmaster' => 'postmaster@${DOMAIN}',
+	'webmaster' => 'webmaster@${DOMAIN}'
+);
+
+\$CONF['vacation_domain'] = '${VACATION_SUBDOMAIN}.${DOMAIN}';
+\$CONF['footer_text'] = 'Return to ${DOMAIN}';
+\$CONF['footer_link'] = 'http://${DOMAIN}';
+
+EOF
+		echo "DEBUG: Setting permissions on updated config.local.php"
+		chown root:www-data /etc/postfixadmin/config.local.php
+		chmod 640 /etc/postfixadmin/config.local.php
+		echo "DEBUG: Existing config.local.php updated successfully"
+	fi
+	
+	# Clear password from debconf for security
+	echo "DEBUG: Clearing passwords from debconf"
+	db_reset postfixadmin/setup-password
+	db_reset postfixadmin/setup-password-again
+	echo "DEBUG: Stopping debconf"
+	db_stop
+	echo "DEBUG: Configure section completed"
+fi
+
+echo "DEBUG: Running composer-debian"
+
+echo "DEBUG: Running composer-debian"
+composer-debian postfixadmin
+echo "DEBUG: composer-debian completed"
+
+echo "DEBUG: Cleaning up legacy configurations"
+# remove legacy apache and lighthttpd configuration symlink,
+# conf.d is no longer supported with Apache 2.4
+if [ "$(readlink /etc/apache2/conf.d/postfixadmin)" = "../../postfixadmin/apache.conf" ]; then
+    echo "DEBUG: Removing legacy Apache config symlink"
+    rm -f /etc/apache2/conf.d/postfixadmin
+fi
+if [ "$(readlink /etc/lighttpd/conf-available/postfixadmin)" = "../../postfixadmin/lighttpd.conf" ]; then
+    echo "DEBUG: Removing legacy Lighttpd config symlink"
+    rm -f /etc/lighttpd/conf-available/postfixadmin
+fi
+
+echo "DEBUG: Cleaning up templates_c directories"
+# See : https://sourceforge.net/p/postfixadmin/bugs/376/ - remove any existing templates_c files on upgrade.
+if [ -d /usr/share/postfixadmin/templates_c ]; then
+    echo "DEBUG: Cleaning /usr/share/postfixadmin/templates_c"
+    find /usr/share/postfixadmin/templates_c -type f -exec rm -r {} \;
+fi
+if [ -d /var/cache/postfixadmin/templates_c ]; then
+    echo "DEBUG: Cleaning /var/cache/postfixadmin/templates_c"
+    find /var/cache/postfixadmin/templates_c -type f -exec rm -r {} \;
+fi
+echo "DEBUG: postinst script completed successfully"
+#DEBHELPER#
+
+exit 0
