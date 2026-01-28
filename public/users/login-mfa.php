@@ -28,7 +28,6 @@
  *  lang
  */
 
-$rel_path = '../';
 require_once('../common.php');
 
 if (authentication_has_role("user")) {
