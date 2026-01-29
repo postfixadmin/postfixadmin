@@ -43,9 +43,9 @@ $smarty->assign('q', '');
 // do not run this search stuff for an admin who has no domains associated.
 if (!empty($q) && !empty($list_domains)) {
 
-    $domains_sql = implode(',', array_map(function ($domain) {
-        return "'" . escape_string($domain) . "'";
-    }, $list_domains));
+    $domains_sql = db_in_clause('domain', $list_domains);
+
+
     $domain_filter = " AND domain IN ( $domains_sql ) ";
 
     $table_alias = table_by_key('alias');
