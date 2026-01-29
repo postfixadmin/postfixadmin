@@ -1098,11 +1098,7 @@ function _php_crypt_generate_crypt_salt($hash_type = 'SHA512', $hash_difficulty 
 
             $algorithm = '2y'; // bcrypt (2a is a legacy variant with a unicode problem).
             $salt = _php_crypt_random_string($alphabet, $length);
-
             $hash = sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
-            if ($hash === false) {
-                throw new \InvalidArgumentException("could not sprintf hash");
-            }
             return $hash;
 
         case 'SHA256':
@@ -1246,13 +1242,7 @@ function pacrypt($pw, $pw_db = "", $username = '')
  */
 function create_salt()
 {
-    srand((int)microtime() * 1000000);
-    $salt = substr(md5("" . rand(0, 9999999)), 0, 8);
-
-    if ($salt === false) {
-        throw new InvalidArgumentException("Failed to generate salt");
-    }
-    return $salt;
+    return bin2hex(random_bytes(4));
 }
 
 /*
