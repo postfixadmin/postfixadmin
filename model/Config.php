@@ -125,9 +125,6 @@ final class Config
 
         $newtext = sprintf($text, $value);
 
-        if ($newtext === false) {
-            throw new \InvalidArgumentException("Could not sprintf");
-        }
         # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
         if ($text == $newtext) {
             error_log("$var used via read_f, but nothing replaced (value $value)");
@@ -219,9 +216,6 @@ final class Config
 
         $newtext = sprintf($text, $value);
 
-        if ($newtext === false) {
-            throw new \InvalidArgumentException("Could not sprintf");
-        }
 
         # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
         if ($text == $newtext) {
