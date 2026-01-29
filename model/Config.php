@@ -80,7 +80,7 @@ final class Config
         }
 
         if (!is_string($stuff)) {
-            throw new \InvalidArgumentException("Config::read_string() : var expected to be a string, but got : " . gettype($stuff), E_USER_ERROR);
+            throw new \InvalidArgumentException("Config::read_string() : var expected to be a string, but got : " . gettype($stuff));
         }
 
         return $stuff;
