@@ -106,11 +106,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     }
 
     // throttle password reset requests to prevent brute force attack
-    $elapsed_time = (int) (microtime(true) - $start_time);
+    $elapsed_time = (int)(microtime(true) - $start_time);
 
     // we try to make sure the entire operation takes 2s
-    if ($elapsed_time < 2000000) {
-        usleep(2000000 - $elapsed_time);
+    if ($elapsed_time < 2.0) {
+        // php 7.4+ should support underscores in numeric literals
+        $sleep = 2_000_000 - ($elapsed_time * 1_000_000);
+        if ($sleep > 0) {
+            usleep($sleep);
+        }
     }
 
     flash_info(Config::Lang('pPassword_recovery_processed'));
