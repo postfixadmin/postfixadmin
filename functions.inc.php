@@ -1924,7 +1924,7 @@ function db_log(string $domain, string $action, string $data): bool
  * @param array $values
  * @return string
  */
-function db_in_clause(string $field, array $values) : string
+function db_in_clause(string $field, array $values): string
 {
     $v = array_map('escape_string', array_values($values));
     return " $field IN ('" . implode("','", $v) . "') ";
