@@ -28,6 +28,8 @@
  *  lang
  */
 
+use model\Languages;
+
 require_once('common.php');
 
 $CONF = Config::getInstance()->getAll();
@@ -54,18 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         die('Invalid token! (CSRF check failed)');
     }
 
-    $totppf = new TotpPf('admin', new Login('admin'));
 
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
     $fPassword = safepost('fPassword');
 
-    if ($lang != check_language(false)) { # only set cookie if language selection was changed
+    if ($lang != Languages::check_language(false)) { # only set cookie if language selection was changed
         setcookie('lang', $lang, time() + 60 * 60 * 24 * 30); # language cookie, lifetime 30 days
         # (language preference cookie is processed even if username and/or password are invalid)
     }
 
-    $h = new AdminHandler();
+    $adminHandler = new AdminHandler();
 
     $login = new Login('admin');
     if ($login->login($fUsername, $fPassword)) {
@@ -73,17 +74,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         # they've logged in, so see if they are a domain admin, as well.
 
-        if (!$h->init($fUsername)) {
+        if (!$adminHandler->init($fUsername)) {
             flash_error($PALANG['pLogin_failed']);
         }
 
-        if (!$h->view()) {
+        if (!$adminHandler->view()) {
             flash_error($PALANG['pLogin_failed']);
         }
 
-        $adminproperties = $h->result();
+        $adminproperties = $adminHandler->result();
 
-
+        $totppf = new TotpPf('admin', $login);
         if ($totppf->usesTOTP($fUsername)) {
             init_session($fUsername, true, false);
             header("Location: login-mfa.php");

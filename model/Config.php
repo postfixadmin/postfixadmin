@@ -66,6 +66,7 @@ final class Config
         $x = self::getInstance()->getAll();
         return array_key_exists($var, $x);
     }
+
     /**
      * @param string $var
      * @return string
@@ -79,8 +80,7 @@ final class Config
         }
 
         if (!is_string($stuff)) {
-            trigger_error('In ' . __FUNCTION__ . ": expected config $var to be a string, but received a " . gettype($stuff), E_USER_ERROR);
-            return '';
+            throw new \InvalidArgumentException("Config::read_string() : var expected to be a string, but got : " . gettype($stuff));
         }
 
         return $stuff;
@@ -125,10 +125,15 @@ final class Config
 
         $newtext = sprintf($text, $value);
 
+        if (!is_string($newtext)) {
+            throw new \InvalidArgumentException("Config::read_f() : var expected to be a string, but got : " . gettype($newtext));
+        }
+
         # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
         if ($text == $newtext) {
             error_log("$var used via read_f, but nothing replaced (value $value)");
         }
+
 
         return $newtext;
     }
@@ -152,9 +157,7 @@ final class Config
         }
 
         if (!is_string($value)) {
-            trigger_error('In ' . __FUNCTION__ . ": expected config $var to be a string, but received a " . gettype($value), E_USER_ERROR);
-            error_log("config $var should be a string, found: " . json_encode($value));
-            return false;
+            throw new \InvalidArgumentException("var was expected to be a string, but got : " . gettype($value));
         }
 
         $value = strtoupper($value);
@@ -217,6 +220,10 @@ final class Config
         $text = $all[$var] ?? '';
 
         $newtext = sprintf($text, $value);
+
+        if (!is_string($newtext)) {
+            throw new \InvalidArgumentException("Config::read_f() : var expected to be a string, but got : " . gettype($newtext));
+        }
 
         # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
         if ($text == $newtext) {

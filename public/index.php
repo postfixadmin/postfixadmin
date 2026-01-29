@@ -62,8 +62,8 @@ if ($CONF['configured']) {
 
         <code>
         This program is free software; you can redistribute it and/or modify
-        it under the terms of the GNU General Public License 2 as published by 
-        the Free Software Foundation. 
+        it under the terms of the GNU General Public License 2 as published by
+        the Free Software Foundation.
         </code>
 
         <p>See the following <a href="http://www.fsf.org/licenses/gpl-2.0.txt">FSF GPL2 page</a> for further information on the license.</p>
@@ -71,23 +71,22 @@ if ($CONF['configured']) {
         <h2>What now?</h2>
 
         <ol>
-            <li>Read the <a href='https://raw.githubusercontent.com/postfixadmin/postfixadmin/master/INSTALL.TXT'>INSTALL.TXT</a> file</li>
-            <li>Under section 4 of the INSTALL.TXT file it shows how to create a config.local.php file (in: <code><?php echo dirname(dirname(__FILE__)) ; ?>/config.local.php</code>). </li>
+            <li>Read the <a href='https://raw.githubusercontent.com/postfixadmin/postfixadmin/master/INSTALL.md'>INSTALL.md</a> file</li>
+            <li>Under section 4 of the INSTALL.md file it shows how to create a config.local.php file (in: <code><?php echo dirname(dirname(__FILE__)) ; ?>/config.local.php</code>). </li>
             <li>Then visit <a href="setup.php">setup.php</a> to check all requirements are met, and to create a superadmin account.</li>
         </ol>
-        
+
         <p><b>Once you have configured Postfixadmin, this page will be replaced with a login page.</b></p>
 
         <p> If you still encounter any problems, please check the documentation and website for more information.</p>
 
         <h2>Postfix Admin Web sites</h2>
-        <p>For further help, or documentation please check out -
+
+        <p>For further help, or documentation please check the github issue tracker -</p>
         <ul>
             <li><a href="https://github.com/postfixadmin/postfixadmin">GitHub - Postfix Admin</a> web site</li>
-            <li><a href="https://sourceforge.net/forum/forum.php?forum_id=676076">Knowledge Base</a></li>
         </ul>
-        </p>
-        </p>
+
     </body>
 </html>
 <?php

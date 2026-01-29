@@ -35,11 +35,11 @@ $smarty = PFASmarty::getInstance();
 
 $PALANG = $CONF['__LANG'];
 
-$SESSID_USERNAME = authentication_get_username();
+$username = authentication_get_username();
 if (authentication_has_role('global-admin')) {
     $list_domains = list_domains();
 } else {
-    $list_domains = list_domains_for_admin($SESSID_USERNAME);
+    $list_domains = list_domains_for_admin($username);
 }
 
 $fDomain = '';
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     die('Unknown request method');
 }
 
-if (! (check_owner($SESSID_USERNAME, $fDomain) || authentication_has_role('global-admin'))) {
+if (! (check_owner($username, $fDomain) || authentication_has_role('global-admin'))) {
     $error = 1;
     flash_error($PALANG['pViewlog_result_error']);
 }
