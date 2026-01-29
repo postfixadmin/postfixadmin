@@ -125,10 +125,15 @@ final class Config
 
         $newtext = sprintf($text, $value);
 
+        if (!is_string($newtext)) {
+            throw new \InvalidArgumentException("Config::read_f() : var expected to be a string, but got : " . gettype($newtext));
+        }
+
         # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
         if ($text == $newtext) {
             error_log("$var used via read_f, but nothing replaced (value $value)");
         }
+
 
         return $newtext;
     }
@@ -216,6 +221,9 @@ final class Config
 
         $newtext = sprintf($text, $value);
 
+        if (!is_string($newtext)) {
+            throw new \InvalidArgumentException("Config::read_f() : var expected to be a string, but got : " . gettype($newtext));
+        }
 
         # check if sprintf changed something - if not, there are chances that $text didn't contain a %s
         if ($text == $newtext) {

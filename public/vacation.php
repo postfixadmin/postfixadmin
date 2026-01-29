@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         ## set $tActiveFrom to the begin of the day (00:00:00) and  $tActiveUntil to the end of the day (23:59:59)
         ## time part is now set to entry time
         $tActiveFrom = $tActiveFrom->setTime(0, 0, 0);
-        $tActiveUntil = $tActiveUntil->setTime('23', '59', '59');
+        $tActiveUntil = $tActiveUntil->setTime(23, 59, 59);
 
         if (($tActiveUntil >= $now && ($tActiveUntil >= $tActiveFrom))) {
             if (!$vh->set_away($fSubject, $fBody, $fInterval_Time, $tActiveFrom->format('Y-m-d H:i:s'), $tActiveUntil->format('Y-m-d H:i:s'))) {

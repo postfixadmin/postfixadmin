@@ -1099,6 +1099,9 @@ function _php_crypt_generate_crypt_salt($hash_type = 'SHA512', $hash_difficulty 
             $algorithm = '2y'; // bcrypt (2a is a legacy variant with a unicode problem).
             $salt = _php_crypt_random_string($alphabet, $length);
             $hash = sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
+            if (!is_string($hash)) {
+                throw new \InvalidArgumentException('Failed to generate crypt salt for ' . $hash_type);
+            }
             return $hash;
 
         case 'SHA256':
