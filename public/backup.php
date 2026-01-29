@@ -104,8 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             'totp_exception_address',
             'vacation',
             'vacation_notification',
-            'dkim',
-            'dkim_signing'
         );
 
         foreach ($tables as $table) {
