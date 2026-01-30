@@ -70,7 +70,7 @@ fi
 echo " * Using composer ( $COMPOSER )"
 echo " * Installing libraries ( composer install --no-dev ... )"
 
-php "${COMPOSER}" install --prefer-dist -n --no-dev
+php "${COMPOSER}" install --prefer-dist -n --no-dev --ignore-platform-req=ext-mysqli --ignore-platform-req=ext-sqlite3
 
 if [ ! -d templates_c ]; then
 
