@@ -50,6 +50,23 @@ else
     COMPOSER="$(command -v composer)"
 fi
 
+echo " * checking for PHP database support ... "
+found=0
+for ext in pdo_mysql pdo_sqlite PDO pdo_pgsql
+do
+    if php -m | grep -q $ext 
+    then
+        found=$(( found + 1 ))
+    fi
+done
+
+if [ $found -lt 2 ]; then
+    # we need at least PDO and one of the specific drivers.
+    echo " * Failed to check you have the necessary PHP database libraries installed. "
+    echo " * You are probably missing some of these PHP extensions: PDO, pdo-mysql, pdo-sqlite or pdo-pgsql"
+    exit 1
+fi
+
 echo " * Using composer ( $COMPOSER )"
 echo " * Installing libraries ( composer install --no-dev ... )"
 
