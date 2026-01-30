@@ -6,6 +6,20 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 4.0.2 (XXXX/XX/XX)
+--------------------------
+   - improve install.sh ( see #965, thanks @TigerP)
+   - improve docs ( PHP version requirement consistency )
+   - Include domain in link to create new alias (backport for 4.0, see #977, thanks @csware)
+   - Check for address validity before checking domain existence (backport 4.0) (see #975, thanks @csware)
+   - Remove redundant charset in MySQL connection (see #970, thanks @csware)
+   - Improve error handling if vendor/autoloaderphp doesn't exist
+   - Add build against PHP 8.5
+   - admin global search - restrict to domains the admin type has access to (see #947, thanks @lukasdebaum)
+   - update composer.json (move mysql/sqlite3 extensions to suggest block, see #942, thanks @rimvisit)
+   - update install.sh to be less bash-y (see #940, thanks @kuzmos)
+   - update github actions (remove deprecation warning #983, thanks @csware)
+
 Version 4.0.1 (2025/09/12)
 --------------------------
    - Translation fixes (thanks @cboltz)
