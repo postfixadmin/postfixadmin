@@ -223,10 +223,19 @@ $CONF['encrypt'] = 'php_crypt';
 $CONF['authlib_default_flavor'] = 'md5raw';
 
 // If you use the dovecot encryption method: where is the dovecotpw binary located?
-// for dovecot 1.x
+// For dovecot 1.x
 // $CONF['dovecotpw'] = "/usr/sbin/dovecotpw";
-// for dovecot 2.x (dovecot 2.0.0 - 2.0.7 is not supported!)
+//
+// For dovecot 2.x (dovecot 2.0.0 - 2.0.7 is not supported!)
+// $CONF['dovecotpw'] = "/usr/bin/doveadm pw";
+//
+// From dovecot 2.4, add -O to stop it reading any config files (which solves a common permissions problem)
+// $CONF['dovecotpw'] = "/usr/bin/doveadm -O pw";
+// see https://github.com/postfixadmin/postfixadmin/issues/398 
+// see https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/HASHING.md
+
 $CONF['dovecotpw'] = "/usr/sbin/doveadm pw";
+
 if(@file_exists('/usr/bin/doveadm')) { // @ to silence openbase_dir stuff; see https://github.com/postfixadmin/postfixadmin/issues/171
     $CONF['dovecotpw'] = "/usr/bin/doveadm pw"; # debian
 }
