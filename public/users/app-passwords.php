@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 header("Location: app-passwords.php");
                 exit(0);
             } else {
-                flash_error(Config::Lang_f('pAppPassAdd_result_error', $username));
+                flash_error(Config::lang_f('pAppPassAdd_result_error', $username));
             }
         } catch (\Exception $e) {
             flash_error($e->getMessage());
