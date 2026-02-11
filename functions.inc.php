@@ -99,6 +99,7 @@ function authentication_require_role(string $role)
     exit(0);
 }
 
+
 /**
  * Initialize a user or admin session
  *
@@ -119,8 +120,6 @@ function init_session(string $username, bool $is_admin = false, bool $mfa_comple
     }
 
     $_SESSION['sessid']['username'] = $username;
-    // Generate a more secure token using random_bytes and bin2hex instead of md5
-    $_SESSION['PFA_token'] = bin2hex(random_bytes(16));
 
     return $status;
 }
@@ -780,7 +779,7 @@ function encode_header($string, $default_charset = "utf-8")
                     }
                 }
                 break;
-                # end switch
+            # end switch
         }
     }
     if ($enc_init) {
@@ -1279,7 +1278,7 @@ function enable_socket_crypto($fh)
  * Call: smtp_mail (string to, string from, string data) - DEPRECATED
  * @param string $to
  * @param string $from
- * @param string $subject_or_data(if called with 4 parameters) or full mail body (if called with 3 parameters)
+ * @param string $subject_or_data (if called with 4 parameters) or full mail body (if called with 3 parameters)
  * @param ?string $body (optional, but recommended) - mail body (if null, assume $subject_or_data is the entire mail body with headers etc)
  * @return bool - true on success, otherwise false
  */

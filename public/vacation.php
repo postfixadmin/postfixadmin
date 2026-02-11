@@ -115,10 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
-    }
 
+    (new CsrfToken())->assertValid(safepost('CSRF_Token'));
 
     $tActiveFrom = (new \DateTimeImmutable(safepost('fActiveFrom')));
     $tActiveUntil = (new \DateTimeImmutable(safepost('fActiveUntil')));
@@ -223,6 +221,7 @@ $smarty->assign('tActiveUntil', $tActiveUntil->format(DateTime::ISO8601));
 $smarty->assign('select_options', $choice_of_reply);
 $smarty->assign('tInterval_Time', $tInterval_Time);
 $smarty->assign('smarty_template', 'vacation');
+$smarty->assign('CSRF_Token', (new CsrfToken())->generate());
 $smarty->display('index.tpl');
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

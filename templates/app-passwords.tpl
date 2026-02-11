@@ -2,7 +2,7 @@
     <div id="edit_form" class="panel panel-default">
         <div class="panel-heading"><h4>{$PALANG.pApp_passwords_welcome}</h4></div>
         <div class="panel-body enable-asterisk">
-            <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+            {CSRF_Token}
             <div class="form-group {if $pPassword_text}has-error{/if}">
                 <label class="col-md-2 col-sm-2 control-label"
                        for="fPassword_current">{$PALANG.pPassword_password_current}:</label>
@@ -58,8 +58,9 @@
                 <td>
                     <form name="exception{$p.id}" method="post" action="" class="form-vertical">
                         <input type="hidden" name="fAppId" value="{$p.id}">
-                        <input class="flat" type="hidden" name="token"
-                               value="{$smarty.session.PFA_token|escape:"url"}"/>
+
+                        {CSRF_Token}
+
                         <button class="btn ml btn-primary" type="submit" {if !$p.edit}disabled="disabled"{/if}
                                 name="submit"
                                 value="{$PALANG.pTotp_exceptions_revoke}">{$PALANG.pTotp_exceptions_revoke}</button>
@@ -73,40 +74,40 @@
 <script>
 
     const getRandomElement = arr => {
-      const rand = Math.floor(Math.random() * arr.length);
-      return arr[rand];
+        const rand = Math.floor(Math.random() * arr.length);
+        return arr[rand];
     }
 
     const generateRandomPasswordSelection = (length) => {
-      const nonSpecial = [
-      'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-      'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-      '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
+        const nonSpecial = [
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
-      const special = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '-', '=', '[', ']', ':', ';', '?', ', ', '.', '|', '\\'];
-  
-  let password = '';
+        const special = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '-', '=', '[', ']', ':', ';', '?', ', ', '.', '|', '\\'];
 
-  for (let i = 0; i < length; i++) {
-    // Previous character is a special character
-    if (i !== 0 && special.includes(password[i - 1])) {
-      password += getRandomElement(nonSpecial);
-    } else password += getRandomElement([...nonSpecial, ...special]);
-  }
+        let password = '';
 
-  return password;
-}
+        for (let i = 0; i < length; i++) {
+            // Previous character is a special character
+            if (i !== 0 && special.includes(password[i - 1])) {
+                password += getRandomElement(nonSpecial);
+            } else password += getRandomElement([...nonSpecial, ...special]);
+        }
 
-const passwordInput = document.querySelector("#fAppPass");
+        return password;
+    }
 
-passwordInput.value = generateRandomPasswordSelection(32);
+    const passwordInput = document.querySelector("#fAppPass");
 
-document.querySelector("#genbutton").addEventListener("click", () => {
     passwordInput.value = generateRandomPasswordSelection(32);
-});
 
-document.querySelector("#copybutton").addEventListener("click", () => {
-    navigator.clipboard.writeText(passwordInput.value);
-});
+    document.querySelector("#genbutton").addEventListener("click", () => {
+        passwordInput.value = generateRandomPasswordSelection(32);
+    });
+
+    document.querySelector("#copybutton").addEventListener("click", () => {
+        navigator.clipboard.writeText(passwordInput.value);
+    });
 
 </script>

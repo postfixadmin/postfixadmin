@@ -45,9 +45,8 @@ if (authentication_mfa_incomplete()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
-    }
+
+    (new CsrfToken())->assertValid(safepost('CSRF_Token'));
 
     $login = new Login('mailbox');
     $totppf = new TotpPf('mailbox', $login);
@@ -84,7 +83,6 @@ session_start();
 if ($error) {
     flash_error($error);
 }
-$_SESSION['PFA_token'] = md5(random_bytes(8) . uniqid('pfa', true));
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');

@@ -48,14 +48,8 @@ if (authentication_mfa_incomplete()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (!isset($_SESSION['PFA_token'])) {
-        die("Invalid token (session timeout; refresh the page and try again?)");
-    }
 
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token! (CSRF check failed)');
-    }
-
+    (new CsrfToken())->assertValid(safepost('CSRF_Token'));
 
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
@@ -108,8 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     session_destroy();
     session_start();
 }
-
-$_SESSION['PFA_token'] = md5(uniqid("pfa" . rand(), true));
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');
