@@ -32,8 +32,22 @@ class PFASmarty
         $this->template = new Smarty();
         $this->template->registerPlugin('function', 'htmlentities', 'htmlentities');
         $this->template->registerPlugin('modifier', 'htmlentities_no_double_encode', function (string $string) {
-
             return htmlentities($string, ENT_QUOTES, 'UTF-8', false);
+        });
+
+
+        $this->template->registerPlugin('function', 'CSRF_Token', function (array $args): string {
+            $token = (new CsrfToken())->generate();
+
+            $type = $args['type'] ?? 'html';
+
+            if ($type == 'html') {
+                return "<input type='hidden' name='CSRF_Token' value='{$token}' />";
+            }
+
+            if ($type == 'url') {
+                return $token; // safe for embedding in urls etc.
+            }
         });
 
         $template_dir = __DIR__ . '/../templates/' . $theme;

@@ -1,8 +1,9 @@
 <form name="password" method="post" action="" class="form-horizontal">
+
     <div id="edit_form" class="card">
         <div class="card-header"><h4>{$PALANG.pTotp_exceptions_welcome}</h4></div>
         <div class="card-body enable-asterisk">
-            <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+            {CSRF_Token}
             <div class="mb-3 {if $pPassword_text}is-invalid{/if}">
                 <label class="col-md-2 col-sm-2"
                        for="fPassword_current">{$PALANG.pPassword_password_current}:</label>
@@ -28,13 +29,10 @@
         </div>
         <div class="card-footer">
             <div class="btn-toolbar" role="toolbar">
-
                 <div class="float-end">
                     <a href="main.php" class="btn mr btn-secondary">{$PALANG.exit}</a>
-
                     <button class="btn ml btn-lg btn-primary" type="submit" name="submit"
                             value="{$PALANG.pTotp_exceptions_add}">{$PALANG.pTotp_exceptions_add}</button>
-
                 </div>
             </div>
         </div>
@@ -58,8 +56,7 @@
                 <td>
                     <form name="exception{$exception.id}" method="post" action="" class="form-vertical">
                         <input type="hidden" name="fId" value="{$exception.id}">
-                        <input class="flat" type="hidden" name="token"
-                               value="{$smarty.session.PFA_token|escape:"url"}"/>
+                        {CSRF_Token}
                         <button class="btn ml btn-primary" type="submit" {if !$exception.edit}disabled="disabled"{/if}
                                 name="submit"
                                 value="{$PALANG.pTotp_exceptions_revoke}">{$PALANG.pTotp_exceptions_revoke}</button>

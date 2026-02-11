@@ -89,7 +89,7 @@
             {/if}
             <td>{$item.modified}</td>
             <td><a class="btn btn-{if ($item.active==0)}info{else}warning{/if}"
-                   href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
+                   href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={CSRF_Token type="url"}"
                 >{if $item.active==1}
                         <span class="bi bi-check-lg" aria-hidden="true"></span>
                         {$PALANG.YES}{else}
@@ -97,7 +97,7 @@
                         {$PALANG.NO}{/if}</a></td>
             {if $CONF.smtp_active_flag===YES}
                 <td><a class="btn btn-{if ($item.smtp_active==0)}info{else}warning{/if}"
-                       href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.smtp_active==0)}1{else}0{/if}&amp;field=smtp_active&amp;token={$smarty.session.PFA_token|escape:"url"}"
+                       href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.smtp_active==0)}1{else}0{/if}&amp;field=smtp_active&amp;token={CSRF_Token type="url"}"
                     >{if $item.smtp_active==1}
                             <span class="bi bi-check-lg" aria-hidden="true"></span>
                             {$PALANG.YES}{else}
@@ -130,8 +130,7 @@
                 <form method="post" action="delete.php">
                     <input type="hidden" name="table" value="mailbox">
                     <input type="hidden" name="delete" value="{$item.username|escape:"quotes"}">
-                    <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
-
+                    {CSRF_Token}
                     <button type="submit" class="btn btn-danger"
                             onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$item.username}');">
                         <span class="bi bi-trash" aria-hidden="true"></span> {$PALANG.del}

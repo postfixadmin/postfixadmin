@@ -21,9 +21,7 @@
 
 require_once('common.php');
 
-if (safeget('token') != $_SESSION['PFA_token']) {
-    die('Invalid token!');
-}
+(new CsrfToken())->assertValid(safeget('token')); // in GET 'token', POST 'CSRF_Token'
 
 $username = authentication_get_username(); # enforce login
 

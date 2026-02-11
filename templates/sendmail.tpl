@@ -1,8 +1,10 @@
 <form name="mailbox" method="post" action="" class="form-horizontal">
+
     <div id="edit_form" class="card">
         <div class="card-header"><h4>{$PALANG.pSendmail_welcome}</h4></div>
         <div class="card-body enable-asterisk">
-            <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+            {CSRF_Token}
+
             <div class="mb-3">
                 <label class="col-md-4 col-sm-4 ">{$PALANG.from}:</label>
                 <div class="col-md-6 col-sm-8"><p class="form-control-plaintext"><em>{$smtp_from_email}</em></p></div>

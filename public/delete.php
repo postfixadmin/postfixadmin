@@ -20,14 +20,11 @@
 
 require_once('common.php');
 
-
-if (safepost('token') != $_SESSION['PFA_token']) {
-    die('Invalid token!');
-}
+(new CsrfToken())->assertValid(safeget('CSRF_Token'));
 
 $username = authentication_get_username(); # enforce login
 
-$id    = safepost('delete');
+$id = safepost('delete');
 $table = safepost('table');
 
 if (empty($table)) {
@@ -42,7 +39,7 @@ if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../m
 
 $is_admin = authentication_has_role('admin');
 
-$handler  = new $handlerclass(0, $username, $is_admin);
+$handler = new $handlerclass(0, $username, $is_admin);
 $formconf = $handler->webformConfig();
 
 if ($is_admin) {

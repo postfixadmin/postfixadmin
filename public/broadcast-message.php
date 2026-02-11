@@ -48,9 +48,8 @@ $smtp_from_email = smtp_get_admin_email();
 $allowed_domains = list_domains_for_admin(authentication_get_username());
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
-    }
+
+    (new CsrfToken())->assertValid(safepost('CSRF_Token'));
 
     if (empty($_POST['subject']) || empty($_POST['message']) || empty($_POST['name']) || empty($_POST['domains']) || !is_array($_POST['domains'])) {
         $error = 1;
@@ -61,9 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $table_mailbox = table_by_key('mailbox');
         $table_alias = table_by_key('alias');
 
-        $q = "SELECT username from $table_mailbox WHERE active='" . db_get_boolean(true) . "' AND ".db_in_clause("domain", $wanted_domains);
+        $q = "SELECT username from $table_mailbox WHERE active='" . db_get_boolean(true) . "' AND " . db_in_clause("domain", $wanted_domains);
         if (intval(safepost('mailboxes_only')) == 0) {
-            $q .= " UNION SELECT goto FROM $table_alias WHERE active='" . db_get_boolean(true) . "' AND ".db_in_clause("domain", $wanted_domains)." AND goto NOT IN ($q)";
+            $q .= " UNION SELECT goto FROM $table_alias WHERE active='" . db_get_boolean(true) . "' AND " . db_in_clause("domain", $wanted_domains) . " AND goto NOT IN ($q)";
         }
         $result = db_query_all($q);
         $recipients = array_column($result, 'username');
@@ -80,14 +79,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             foreach ($recipients as $rcpt) {
                 $fTo = $rcpt;
-                $fHeaders  = 'To: ' . $fTo . "\n";
+                $fHeaders = 'To: ' . $fTo . "\n";
                 $fHeaders .= 'From: ' . $b_name . ' <' . $smtp_from_email . ">\n";
                 $fHeaders .= 'Subject: ' . $b_subject . "\n";
                 $fHeaders .= 'MIME-Version: 1.0' . "\n";
                 $fHeaders .= 'Content-Type: text/plain; charset=UTF-8' . "\n";
                 $fHeaders .= 'Content-Transfer-Encoding: base64' . "\n";
                 $fHeaders .= 'Date: ' . date('r', time()) . "\n";
-                $fHeaders .= 'Message-ID: <' . ((string) microtime(true)) . '-' . md5($smtp_from_email . $fTo) . "@{$serverName}>\n\n";
+                $fHeaders .= 'Message-ID: <' . ((string)microtime(true)) . '-' . md5($smtp_from_email . $fTo) . "@{$serverName}>\n\n";
 
                 $fHeaders .= $b_message;
 
@@ -98,6 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 }
             }
         }
+
         flash_info($PALANG['pBroadcast_success']);
         $smarty->assign('smarty_template', 'broadcast-message');
         $smarty->display('index.tpl');

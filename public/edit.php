@@ -25,8 +25,6 @@
 
 require_once('common.php');
 
-
-
 $smarty = PFASmarty::getInstance();
 
 $username = authentication_get_username(); # enforce login
@@ -105,9 +103,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
-    }
+
+  (new CsrfToken())->assertValid(safepost('CSRF_Token'));
+
+
+
     # Reset TOTP secret (mailbox/admin edit by Admin)
     if (safepost('reset_totp') === '1') {
         if (Config::bool('totp') && !$new && ($table === 'mailbox' || $table === 'admin')) {
@@ -131,7 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             exit;
         }
     }
-
 
     $inp_values = [];
 
