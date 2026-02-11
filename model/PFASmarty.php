@@ -48,6 +48,8 @@ class PFASmarty
             if ($type == 'url') {
                 return $token; // safe for embedding in urls etc.
             }
+
+            throw new \InvalidArgumentException("Unknown CSRF_Token type: $type");
         });
 
         $template_dir = __DIR__ . '/../templates/' . $theme;
