@@ -9,7 +9,7 @@
  */
 class CliEdit extends Shell
 {
-    public $handler_to_use = "";
+    public string $handler_to_use = "";
     public $new = 0;
 
 
@@ -37,7 +37,6 @@ class CliEdit extends Shell
         $id_field = $handler->getId_field();
 
         $values = array();
-        $param_error = 0;
 
         foreach ($this->params as $key => $val) {
             $key = preg_replace('/^-/', '', $key); # allow --param, not only -param
@@ -60,7 +59,6 @@ class CliEdit extends Shell
             } elseif ($key == 'webroot') {
                 # always set, ignore
             } else { # not editable, unknown field etc.
-                $param_error = 1;
                 $this->err("invalid parameter --$key => $val");
                 return 1;
             }
@@ -86,6 +84,8 @@ class CliEdit extends Shell
             if ($form_fields[$id_field]['desc'] != '') {
                 $question .= "\n(" . $form_fields[$id_field]['desc'] . ')';
             }
+
+            $this->out($question);
 
             $values[$id_field] = $this->in($form_fields[$id_field]['label'] . ':');
 

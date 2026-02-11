@@ -4,8 +4,8 @@
 
 class AdminHandler extends PFAHandler
 {
-    protected $db_table = 'admin';
-    protected $id_field = 'username';
+    protected string $db_table = 'admin';
+    protected string $id_field = 'username';
 
     protected function validate_new_id()
     {
@@ -217,7 +217,7 @@ class AdminHandler extends PFAHandler
      * compare password / password2 field
      * error message will be displayed at the password2 field
      */
-    protected function _validate_password2($field, $val)
+    protected function _validate_password2()
     {
         return $this->compare_password_fields('password', 'password2');
     }

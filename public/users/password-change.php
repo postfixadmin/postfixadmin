@@ -37,7 +37,6 @@ if (preg_match('/\/users\//', $_SERVER['REQUEST_URI'])) {
 require_once($rel_path . 'common.php');
 
 $smarty = PFASmarty::getInstance();
-$CONF = Config::getInstance()->getAll();
 
 $smarty->configureTheme($rel_path);
 
@@ -70,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tCode = trim(safepost('fCode'));
 
     if (empty($fPassword) or ($fPassword != $fPassword2)) {
-        $error = true;
         flash_error(Config::lang('pPassword_password_text_error'));
     } else {
         $handler = $context === 'admin' ? new AdminHandler() : new MailboxHandler();

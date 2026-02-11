@@ -7,11 +7,11 @@
  */
 class DkimHandler extends PFAHandler
 {
-    protected $db_table = 'dkim';
-    protected $id_field = 'id';
-    protected $label_field = 'description';
-    protected $domain_field = 'domain_name';
-    protected $order_by = 'domain_name, selector';
+    protected string $db_table = 'dkim';
+    protected string $id_field = 'id';
+    protected string $label_field = 'description';
+    protected ?string $domain_field = 'domain_name';
+    protected string $order_by = 'domain_name, selector';
 
 
     protected function initStruct()

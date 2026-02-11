@@ -57,8 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $email_check = check_email($fTo);
     if (empty($fTo) or ($email_check != '')) {
         $error = 1;
-        $tTo = escape_string($_POST['fTo']);
-        $tSubject = escape_string($_POST['fSubject']);
         flash_error($PALANG['pSendmail_to_text_error']); # TODO: superfluous?
         flash_error($email_check);
     }

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -eu
 
@@ -47,7 +47,7 @@ if ! command -v composer >/dev/null 2>&1 ; then
     fi
 
 else
-    COMPOSER="$(which composer)"
+    COMPOSER="$(command -v composer)"
 fi
 
 echo " * checking for PHP database support ... "
@@ -76,17 +76,17 @@ if [ ! -d templates_c ]; then
 
     mkdir -p templates_c && chmod 777 templates_c
 
-    echo
+    echo ""
     echo " Warning: "
     echo "   templates_c directory didn't exist, now created."
-    echo
+    echo ""
     echo "   You should change the ownership and reduce permissions on templates_c to 750. "
     echo "   The ownership needs to match the user used to execute PHP scripts, perhaps 'www-data' or 'httpd'"
-    echo
+    echo ""
     echo "   e.g. chown www-data templates_c && chmod 750 templates_c"
-    echo
+    echo ""
 fi
-echo
+echo ""
 echo "Please continue configuration / setup within your web browser. "
-echo "See also : https://github.com/postfixadmin/postfixadmin/blob/master/INSTALL.TXT#L58 "
-echo
+echo "See also : https://github.com/postfixadmin/postfixadmin/blob/master/INSTALL.md#L78 "
+echo ""

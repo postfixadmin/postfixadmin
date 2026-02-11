@@ -61,8 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $table_mailbox = table_by_key('mailbox');
         $table_alias = table_by_key('alias');
 
-        $recipients = array();
-
         $q = "SELECT username from $table_mailbox WHERE active='" . db_get_boolean(true) . "' AND ".db_in_clause("domain", $wanted_domains);
         if (intval(safepost('mailboxes_only')) == 0) {
             $q .= " UNION SELECT goto FROM $table_alias WHERE active='" . db_get_boolean(true) . "' AND ".db_in_clause("domain", $wanted_domains)." AND goto NOT IN ($q)";
@@ -80,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             $serverName = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : php_uname('n'); // ??
 
-            $i = 0;
             foreach ($recipients as $rcpt) {
                 $fTo = $rcpt;
                 $fHeaders  = 'To: ' . $fTo . "\n";
@@ -90,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $fHeaders .= 'Content-Type: text/plain; charset=UTF-8' . "\n";
                 $fHeaders .= 'Content-Transfer-Encoding: base64' . "\n";
                 $fHeaders .= 'Date: ' . date('r', time()) . "\n";
-                $fHeaders .= 'Message-ID: <' . microtime(true) . '-' . md5($smtp_from_email . $fTo) . "@{$serverName}>\n\n";
+                $fHeaders .= 'Message-ID: <' . ((string) microtime(true)) . '-' . md5($smtp_from_email . $fTo) . "@{$serverName}>\n\n";
 
                 $fHeaders .= $b_message;
 

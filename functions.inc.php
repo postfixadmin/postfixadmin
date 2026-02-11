@@ -16,6 +16,8 @@
  */
 
 
+use model\Languages;
+
 $min_db_version = 1851;  # update (at least) before a release with the latest function number in upgrade.php
 
 
@@ -54,8 +56,7 @@ function authentication_get_username()
         header("Location: login.php");
         exit(0);
     }
-    $SESSID_USERNAME = $_SESSION['sessid']['username'];
-    return $SESSID_USERNAME;
+    return $_SESSION['sessid']['username'];
 }
 
 
@@ -110,12 +111,13 @@ function init_session(string $username, bool $is_admin = false, bool $mfa_comple
     $status = session_regenerate_id(true);
     $_SESSION['sessid'] = array();
     $_SESSION['sessid']['roles'] = array();
+    $_SESSION['sessid']['mfa_complete'] = false;
+
     if ($mfa_complete) {
         $_SESSION['sessid']['roles'][] = $is_admin ? 'admin' : 'user';
         $_SESSION['sessid']['mfa_complete'] = true;
-    } else {
-        $_SESSION['sessid']['mfa_complete'] = false;
     }
+
     $_SESSION['sessid']['username'] = $username;
     // Generate a more secure token using random_bytes and bin2hex instead of md5
     $_SESSION['PFA_token'] = bin2hex(random_bytes(16));
@@ -172,46 +174,6 @@ function _flash_string($type, $string)
     $_SESSION['flash'][$type][] = $string;
 }
 
-/**
- * @param bool $use_post - set to 0 if $_POST should NOT be read
- * @return string e.g en
- * Try to figure out what language the user wants based on browser / cookie
- */
-function check_language($use_post = true)
-{
-    global $supported_languages; # from languages/languages.php
-
-    // prefer a $_POST['lang'] if present
-    if ($use_post && safepost('lang')) {
-        $lang = safepost('lang');
-        if (is_string($lang) && array_key_exists($lang, $supported_languages)) {
-            return $lang;
-        }
-    }
-
-    // Failing that, is there a $_COOKIE['lang'] ?
-    if (safecookie('lang')) {
-        $lang = safecookie('lang');
-        if (!empty($lang) && array_key_exists($lang, $supported_languages)) {
-            return $lang;
-        }
-    }
-
-    $lang = Config::read_string('default_language');
-
-    // If not, did the browser give us any hint(s)?
-    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-        $lang_array = preg_split('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-        foreach ($lang_array as $value) {
-            $lang_next = strtolower(trim($value));
-            $lang_next = preg_replace('/;.*$/', '', $lang_next); # remove things like ";q=0.8"
-            if (array_key_exists($lang_next, $supported_languages)) {
-                return $lang_next;
-            }
-        }
-    }
-    return $lang;
-}
 
 /**
  * Action: returns a language selector dropdown with the browser (or cookie) language preselected
@@ -221,9 +183,9 @@ function check_language($use_post = true)
  */
 function language_selector()
 {
-    global $supported_languages; # from languages/languages.php
+    $supported_languages = Languages::$SUPPORTED_LANGUAGES;
 
-    $current_lang = check_language();
+    $current_lang = Languages::check_language();
 
     $selector = '<select id="lang" name="lang" xml:lang="en" dir="ltr">';
 
@@ -251,7 +213,11 @@ function language_selector()
 function check_domain($domain)
 {
     if (!preg_match('/^([-0-9A-Z]+\.)+' . '([-0-9A-Z]){1,13}$/i', ($domain))) {
-        return sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
+        $str = sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
+        if (is_string($str)) {
+            return $str;
+        }
+        throw new \InvalidArgumentException("Could not sprintf().");
     }
 
     if (Config::bool('emailcheck_resolve_domain') && 'WINDOWS' != (strtoupper(substr(php_uname('s'), 0, 7)))) {
@@ -273,10 +239,14 @@ function check_domain($domain)
 
             $end = microtime(true); # check for slow nameservers, part 2
             $time_needed = $end - $start;
+
             if ($time_needed > 2) {
                 error_log("Warning: slow nameserver - lookup for $domain took $time_needed seconds");
             }
 
+            if (!is_string($retval)) {
+                throw new \InvalidArgumentException("could not sprintf()");
+            }
             return $retval;
         } else {
             return 'emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!';
@@ -588,7 +558,7 @@ function create_page_browser($idxfield, $querypart, $sql_params = [])
 
 
 /**
- * Recalculates the quota from MBs to bytes (divide, /)
+ * Recalculates the quota e.g. from MBs to bytes (divide, /), using config quota_multiplier
  * @param int $quota
  * @return float
  */
@@ -1128,7 +1098,11 @@ function _php_crypt_generate_crypt_salt($hash_type = 'SHA512', $hash_difficulty 
 
             $algorithm = '2y'; // bcrypt (2a is a legacy variant with a unicode problem).
             $salt = _php_crypt_random_string($alphabet, $length);
-            return sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
+            $hash = sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
+            if (!is_string($hash)) {
+                throw new \InvalidArgumentException('Failed to generate crypt salt for ' . $hash_type);
+            }
+            return $hash;
 
         case 'SHA256':
             $length = 16;
@@ -1238,7 +1212,7 @@ function pacrypt($pw, $pw_db = "", $username = '')
         switch ($method_in_hash) {
             case '$1$':
             case '$6$':
-                $algorithm = 'SYSTEM';
+                $mechanism = 'SYSTEM';
         }
     }
 
@@ -1271,9 +1245,7 @@ function pacrypt($pw, $pw_db = "", $username = '')
  */
 function create_salt()
 {
-    srand((int)microtime() * 1000000);
-    $salt = substr(md5("" . rand(0, 9999999)), 0, 8);
-    return $salt;
+    return bin2hex(random_bytes(4));
 }
 
 /*
@@ -1469,15 +1441,6 @@ function smtp_get_response($fh)
 }
 
 
-$DEBUG_TEXT = <<<EOF
-    <p>Please check the documentation and website for more information.</p>
-    <ul>
-        <li><a href="https://github.com/postfixadmin/postfixadmin">PostfixAdmin - Project website</a></li>
-        <li><a href='https://sourceforge.net/p/postfixadmin/discussion/676076'>Forums</a></li>
-    </ul>
-EOF;
-
-
 /**
  * @return string - PDO DSN for PHP.
  * @throws Exception
@@ -1485,7 +1448,6 @@ EOF;
 function db_connection_string()
 {
     global $CONF;
-    $dsn = null;
     if (db_mysql()) {
         $socket = false;
         if (Config::has('database_socket')) {
@@ -1965,7 +1927,7 @@ function db_log(string $domain, string $action, string $data): bool
  * @param array $values
  * @return string
  */
-function db_in_clause($field, array $values)
+function db_in_clause(string $field, array $values): string
 {
     $v = array_map('escape_string', array_values($values));
     return " $field IN ('" . implode("','", $v) . "') ";
@@ -2136,9 +2098,7 @@ function gen_show_status($show_alias)
 
     // UNDELIVERABLE CHECK
     if ($CONF['show_undeliverable'] == 'YES') {
-        $gotos = array();
         $gotos = explode(',', $stat_goto);
-        $undel_string = "";
 
         //make sure this alias goes somewhere known
         $stat_ok = 1;
@@ -2150,15 +2110,11 @@ function gen_show_status($show_alias)
                 continue;
             }
 
-            list($local_part, $stat_domain) = explode('@', $g);
+            list($_, $stat_domain) = explode('@', $g);
 
-            $v = array();
-
-            $stat_delimiter = "";
 
             $sql = "SELECT address FROM $table_alias WHERE address = ? OR address = ?";
-            $v[] = $g;
-            $v[] = '@' . $stat_domain;
+            $v = [$g, '@' . $stat_domain];
 
             if (!empty($CONF['recipient_delimiter']) && isset($delimiter_regex)) {
                 $v[] = preg_replace($delimiter_regex, "@", $g);

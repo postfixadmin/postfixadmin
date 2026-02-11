@@ -306,7 +306,7 @@ class TotpPf
     {
         $error = 0;
 
-        list($local_part, $domain) = explode('@', $username);
+        list($_, $domain) = explode('@', $username);
 
         if (!$this->login->login($username, $password)) {
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
@@ -318,7 +318,7 @@ class TotpPf
             $domains = list_domains_for_admin($username);
 
             if (strpos($exception_username, '@')) {
-                list($local_part, $Exception_domain) = explode('@', $exception_username);
+                list($_, $Exception_domain) = explode('@', $exception_username);
             } else {
                 // assume domain
                 $Exception_domain = $exception_username;
@@ -459,7 +459,7 @@ class TotpPf
 
         // Extract domain from exception username
         if (strpos($exception['username'], '@')) {
-            list($Exception_local_part, $Exception_domain) = explode('@', $exception['username']);
+            list($_, $Exception_domain) = explode('@', $exception['username']);
         } else {
             $Exception_domain = $exception['username'];
         }
@@ -552,7 +552,7 @@ class TotpPf
      */
     public function getExceptionsFor(string $username): array
     {
-        list($local_part, $domain) = explode('@', $username);
+        list($_, $domain) = explode('@', $username);
         $totp_exception_address = table_by_key('totp_exception_address');
 
         return db_query_all(
