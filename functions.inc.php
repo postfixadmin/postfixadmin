@@ -777,7 +777,7 @@ function encode_header($string, $default_charset = "utf-8")
                     }
                 }
                 break;
-            # end switch
+                # end switch
         }
     }
     if ($enc_init) {
