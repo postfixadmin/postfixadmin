@@ -44,7 +44,7 @@ $smtp_from_email = smtp_get_admin_email();
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    (new CsrfToken())->assertValid(safepost('CSRF_Token'));
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     $fTo = safepost('fTo');
     $fFrom = $smtp_from_email;

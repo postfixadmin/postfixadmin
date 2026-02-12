@@ -103,10 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-
-  (new CsrfToken())->assertValid(safepost('CSRF_Token'));
-
-
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     # Reset TOTP secret (mailbox/admin edit by Admin)
     if (safepost('reset_totp') === '1') {
@@ -124,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 flash_info(Config::lang_f('pTOTP_reset_success', $edit));
             } catch (Exception $e) {
                 error_log("TOTP reset failed for $table/$edit: " . $e->getMessage());
-                flash_error(Config::lang_f('pTOTP_reset_failed', $edit).$e->getMessage());
+                flash_error(Config::lang_f('pTOTP_reset_failed', $edit) . $e->getMessage());
             }
 
             header("Location: edit.php?table=" . urlencode($table) . "&edit=" . urlencode($edit));

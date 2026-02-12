@@ -49,7 +49,7 @@ $allowed_domains = list_domains_for_admin(authentication_get_username());
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    (new CsrfToken())->assertValid(safepost('CSRF_Token'));
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     if (empty($_POST['subject']) || empty($_POST['message']) || empty($_POST['name']) || empty($_POST['domains']) || !is_array($_POST['domains'])) {
         $error = 1;

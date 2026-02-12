@@ -49,7 +49,7 @@ $smarty->configureTheme('../');
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    (new CsrfToken())->assertValid(safepost('CSRF_Token'));
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     $totppf = new TotpPf('mailbox', new Login('mailbox'));
     $fTotp = safepost('fTOTP_code');

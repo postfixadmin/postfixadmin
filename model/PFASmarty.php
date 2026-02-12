@@ -37,7 +37,7 @@ class PFASmarty
 
 
         $this->template->registerPlugin('function', 'CSRF_Token', function (array $args): string {
-            $token = (new CsrfToken())->generate();
+            $token = CsrfToken::generate();
 
             $type = $args['type'] ?? 'html';
 

@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    (new CsrfToken())->assertValid(safepost('CSRF_Token'));
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
 
     // user clicked on cancel button
@@ -143,7 +143,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $smarty->assign('forward_only', ' checked="checked"');
     }
 
-    $smarty->assign('CSRF_Token', (new CsrfToken())->generate());
     $smarty->display('index.tpl');
 }
 

@@ -20,7 +20,7 @@
 
 require_once('common.php');
 
-(new CsrfToken())->assertValid(safeget('CSRF_Token'));
+CsrfToken::assertValid(safeget('CSRF_Token'));
 
 $username = authentication_get_username(); # enforce login
 
