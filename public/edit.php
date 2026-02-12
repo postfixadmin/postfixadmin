@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    (new CsrfToken())->assertValid(safepost('CSRF_Token'));
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     $inp_values = [];
 

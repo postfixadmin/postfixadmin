@@ -46,7 +46,7 @@ if (authentication_mfa_incomplete()) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    (new CsrfToken())->assertValid(safepost('CSRF_Token'));
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     $login = new Login('mailbox');
     $totppf = new TotpPf('mailbox', $login);

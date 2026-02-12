@@ -55,7 +55,7 @@ if (isset($_GET["abort"]) && $_GET["abort"] == "1" && authentication_mfa_incompl
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    (new CsrfToken())->assertValid(safepost('token'));
+    CsrfToken::assertValid(safepost('token'));
 
     $totppf = new TotpPf('admin', new Login('admin'));
     $fTotp = safepost('fTOTP_code');
