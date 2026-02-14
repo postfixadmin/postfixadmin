@@ -44,11 +44,11 @@ $tCode = null;
 $tUsername = null;
 
 if ($context === 'admin' && !Config::read('forgotten_admin_password_reset')) {
-    die('Password change is disabled by configuration option: forgotten_admin_password_reset or mailbox_postpassword_script');
+    throw new \InvalidArgumentException('Password change is disabled by configuration option: forgotten_admin_password_reset or mailbox_postpassword_script');
 }
 
 if ($context === 'users' && (!Config::read('forgotten_user_password_reset') || Config::read('mailbox_postpassword_script'))) {
-    die('Password change is disabled by configuration option: forgotten_user_password_reset or mailbox_postpassword_script');
+    throw new \InvalidArgumentException('Password change is disabled by configuration option: forgotten_user_password_reset or mailbox_postpassword_script');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {

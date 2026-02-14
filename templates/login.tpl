@@ -17,7 +17,8 @@
     <div class="well">
 
         <form name="frmLogin" method="post" action="" role="form" class="form-signin">
-            <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+            {CSRF_Token}
+
             <div class="form-group">
                 <label for="fUsername">{$PALANG.pLogin_username}:</label>
                 <input class="form-control" type="text" name="fUsername" id="fUsername"/>

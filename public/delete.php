@@ -20,36 +20,38 @@
 
 require_once('common.php');
 
-
-if (safepost('token') != $_SESSION['PFA_token']) {
-    die('Invalid token!');
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    header('Location: main.php');
+    exit(0);
 }
+
+CsrfToken::assertValid(safepost('CSRF_Token'));
 
 $username = authentication_get_username(); # enforce login
 
-$id    = safepost('delete');
+$id = safepost('delete');
 $table = safepost('table');
 
 if (empty($table)) {
-    die('Invalid call');
+    throw new \InvalidArgumentException('Invalid usage');
 }
 
 $handlerclass = ucfirst($table) . 'Handler';
 
 if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../model/$handlerclass.php")) { # validate $table
-    die("Invalid table name given!");
+    throw new \InvalidArgumentException("Invalid table name given!");
 }
 
 $is_admin = authentication_has_role('admin');
 
-$handler  = new $handlerclass(0, $username, $is_admin);
+$handler = new $handlerclass(0, $username, $is_admin);
 $formconf = $handler->webformConfig();
 
 if ($is_admin) {
     authentication_require_role($formconf['required_role']);
 } else {
     if (empty($formconf['user_hardcoded_field'])) {
-        die($handlerclass . ' is not available for users');
+        throw new \InvalidArgumentException($handlerclass . ' is not available for users');
     }
 }
 

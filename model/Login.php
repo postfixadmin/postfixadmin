@@ -22,10 +22,9 @@ class Login
      */
     public function login(string $username, string $password): bool
     {
-        $active = db_get_boolean(true);
         $query = "SELECT password FROM {$this->key_table} WHERE username = :username AND active = :active";
 
-        $values = ['username' => $username, 'active' => $active];
+        $values = ['username' => $username, 'active' => db_get_boolean(true)];
 
         $result = db_query_all($query, $values);
 

@@ -2,7 +2,7 @@
     <div id="edit_form" class="panel panel-default">
         <div class="panel-heading"><h4>{$PALANG.pTotp_exceptions_welcome}</h4></div>
         <div class="panel-body enable-asterisk">
-            <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+            {CSRF_Token}
             <div class="form-group {if $pPassword_text}has-error{/if}">
                 <label class="col-md-2 col-sm-2 control-label"
                        for="fPassword_current">{$PALANG.pPassword_password_current}:</label>
@@ -57,8 +57,7 @@
                 <td>
                     <form name="exception{$exception.id}" method="post" action="" class="form-vertical">
                         <input type="hidden" name="fId" value="{$exception.id}">
-                        <input class="flat" type="hidden" name="token"
-                               value="{$smarty.session.PFA_token|escape:"url"}"/>
+                        {CSRF_Token}
                         <button class="btn ml btn-primary" type="submit" {if !$exception.edit}disabled="disabled"{/if}
                                 name="submit"
                                 value="{$PALANG.pTotp_exceptions_revoke}">{$PALANG.pTotp_exceptions_revoke}</button>

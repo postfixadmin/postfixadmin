@@ -1,10 +1,9 @@
 <?php
 
-use model\Languages;
-
 if (!is_file(dirname(__FILE__) . '/vendor/autoload.php')) {
     die("vendor/autoload.php is missing. Please run 'install.sh' or follow the instructions in INSTALL.md");
 }
+
 require_once(dirname(__FILE__) . '/vendor/autoload.php');
 
 /**
