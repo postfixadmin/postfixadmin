@@ -42,7 +42,7 @@ $smarty->assign('USERID_USERNAME', $USERID_USERNAME);
 
 
 if (!$ah->view()) {
-    die("Can't get alias details. Invalid alias?");
+    throw new \InvalidArgumentException("Can't get alias details. Invalid alias?");
 } # this can only happen if a admin deleted the user since the user logged in
 $result = $ah->result();
 $tGotoArray = $result['goto'];
