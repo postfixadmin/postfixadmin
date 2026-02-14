@@ -1,6 +1,5 @@
 <?php
 
-class CsrfInvalidException
+class CsrfInvalidException extends \Exception
 {
-
 }
