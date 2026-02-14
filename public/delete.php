@@ -20,7 +20,12 @@
 
 require_once('common.php');
 
-CsrfToken::assertValid(safeget('CSRF_Token'));
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    header('Location: main.php');
+    exit(0);
+}
+
+CsrfToken::assertValid(safepost('CSRF_Token'));
 
 $username = authentication_get_username(); # enforce login
 

@@ -19,8 +19,17 @@ class CsrfToken
         return $token;
     }
 
-    public static function assertValid(string $token): void
+    /**
+     * @param string $token
+     * @return bool
+     * @throws CsrfInvalidException
+     */
+    public static function assertValid(string $token): bool
     {
+        if (!is_array($_SESSION['CSRF_Tokens'])) {
+            $_SESSION['CSRF_Tokens'] = [];
+        }
+
         $value = (int)($_SESSION['CSRF_Tokens'][$token] ?? 0);
 
         // token can only be used once.
