@@ -16,7 +16,7 @@
  * Used to switch active status for  admins, domains, mailboxes, aliases and aliasdomains, etc.
  *
  * Template File:
- *		  none - redirects to $formconf['listview']
+ *          none - redirects to $formconf['listview']
  */
 
 require_once('common.php');

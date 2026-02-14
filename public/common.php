@@ -15,4 +15,3 @@ set_exception_handler(function ($exception) {
     http_response_code(500);
     echo "<p><strong>PostfixAdmin Error:</strong></p><p>PostfixAdmin encountered an error. More details are in the server log files (e.g. /var/log/apache2/error.log).</p>";
 });
-

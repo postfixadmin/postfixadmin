@@ -61,7 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $adminHandler = new AdminHandler();
 
     $login = new Login('admin');
+
     if ($login->login($fUsername, $fPassword)) {
+
         init_session($fUsername, true);
 
         # they've logged in, so see if they are a domain admin, as well.
@@ -91,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         header("Location: main.php");
         exit(0);
-    } else { # $h->login failed
+    } else {
         error_log("PostfixAdmin admin login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
         flash_error($PALANG['pLogin_failed']);
     }

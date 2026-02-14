@@ -5,7 +5,6 @@ use PHPUnit\Framework\TestCase;
 
 class CsrfTokenTest extends TestCase
 {
-
     public function testBasic()
     {
         $token1 = CsrfToken::generate();
