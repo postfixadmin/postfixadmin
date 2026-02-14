@@ -37,10 +37,9 @@ class CsrfToken
 
         // token cannot have expired
         if ($value < time()) {
-            http_response_code(419);
-            die("Invalid CSRF token - expired session or idle timeout. Refresh the page and try again.");
+            throw new CsrfInvalidException("Invalid CSRF token - try refreshing the page and try again?");
         }
-
+        return true;
     }
 
 }
