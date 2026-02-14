@@ -28,8 +28,6 @@
  *  lang
  */
 
-use model\Languages;
-
 require_once('common.php');
 
 $CONF = Config::getInstance()->getAll();

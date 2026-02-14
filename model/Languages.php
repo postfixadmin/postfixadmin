@@ -1,9 +1,5 @@
 <?php
 
-namespace model;
-
-use Config;
-
 class Languages
 {
     // we sometimes mess with this in unit tests?
