@@ -61,12 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         }
 
         if ($flag_fDomain == 0) {
-            die('Unknown domain');
+            throw new InvalidArgumentException('Unknown domain');
         }
 
-        $page_number = (int) ($_GET['page'] ?? 0);
+        $page_number = (int)($_GET['page'] ?? 0);
         if ($page_number == 0) {
-            die('Unknown page number');
+            throw new InvalidArgumentException('Unknown page number');
         }
     } else {
         $page_number = 1;
@@ -80,10 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $fDomain = escape_string($_POST['fDomain']);
     }
 } else {
-    die('Unknown request method');
+    throw new InvalidArgumentException('Unsupported request method');
 }
 
-if (! (check_owner($username, $fDomain) || authentication_has_role('global-admin'))) {
+if (!(check_owner($username, $fDomain) || authentication_has_role('global-admin'))) {
     $error = 1;
     flash_error($PALANG['pViewlog_result_error']);
 }
@@ -122,7 +122,7 @@ if ($error != 1) {
     $number_of_pages = ceil($number_of_logs / $page_size);
 
     if ($page_number > $number_of_pages) {
-        die('Unknown page number');
+        throw new InvalidArgumentException('Unknown page number');
     }
 
     if ($page_number == 1) {

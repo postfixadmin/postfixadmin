@@ -70,14 +70,14 @@ if (empty($fDomain)) {
 
 
 if (!is_string($fDomain)) {
-    die(Config::Lang('invalid_parameter'));
+    throw new InvalidArgumentException(Config::Lang('invalid_parameter'));
 }
 
 if (!in_array($fDomain, $list_domains)) {
     flash_error($PALANG['invalid_parameter']);
     unset($_SESSION['list-virtual:domain']);
     header("Location: list.php?table=domain"); # invalid domain, or not owned by this admin
-    exit;
+    exit(0);
 }
 
 if (!check_owner(authentication_get_username(), $fDomain)) {

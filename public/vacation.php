@@ -54,7 +54,7 @@ if (authentication_has_role('admin')) {
     # TODO: better check for valid username (check if mailbox exists)
     # TODO: (should be done in VacationHandler)
     if ($fDomain == '' || !check_owner(authentication_get_username(), $fDomain)) {
-        die("Invalid username!"); # TODO: better error message
+        throw new \InvalidArgumentException("Invalid username!"); # TODO: better error message
     }
 } else {
     $Return_url = "main.php";

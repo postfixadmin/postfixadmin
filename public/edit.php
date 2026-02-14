@@ -32,13 +32,13 @@ $username = authentication_get_username(); # enforce login
 $table = safepost('table', safeget('table'));
 
 if (empty($table)) {
-    die("Invalid table name given!");
+    throw new \InvalidArgumentException("Invalid table name given!");
 }
 
 $handlerclass = ucfirst($table) . 'Handler';
 
 if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../model/$handlerclass.php")) { # validate $table
-    die("Invalid table name given!");
+    throw new \InvalidArgumentException("Invalid table name given!");
 }
 
 $error = 0;
@@ -58,7 +58,7 @@ if ($is_admin) {
     authentication_require_role($formconf['required_role']);
 } else {
     if (empty($formconf['user_hardcoded_field'])) {
-        die($handlerclass . ' is not available for users');
+        throw new \InvalidArgumentException($handlerclass . ' is not available for users');
     }
 }
 

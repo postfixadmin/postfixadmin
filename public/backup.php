@@ -37,13 +37,13 @@ if (db_pgsql()) {
     flash_error('Sorry: Backup is currently not supported for your DBMS (' . $CONF['database_type'] . ').');
     $smarty->assign('smarty_template', 'message');
     $smarty->display('index.tpl');
-    die;
+    exit(0);
 }
 
 if (safeget('download') == "") {
     $smarty->assign('smarty_template', 'backupwarning');
     $smarty->display('index.tpl');
-    die;
+    exit(0);
 }
 
 # Still here? Then let's create the database dump...
