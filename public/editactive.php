@@ -16,14 +16,12 @@
  * Used to switch active status for  admins, domains, mailboxes, aliases and aliasdomains, etc.
  *
  * Template File:
- *		  none - redirects to $formconf['listview']
+ *          none - redirects to $formconf['listview']
  */
 
 require_once('common.php');
 
-if (safeget('token') != $_SESSION['PFA_token']) {
-    die('Invalid token!');
-}
+CsrfToken::assertValid(safeget('token')); // in GET 'token', POST 'CSRF_Token'
 
 $username = authentication_get_username(); # enforce login
 
@@ -36,13 +34,13 @@ if ($field === '') {
 }
 
 if (empty($table)) {
-    die("Invalid table name given");
+    throw new \InvalidArgumentException("Invalid table name given");
 }
 
 $handlerclass = ucfirst($table) . 'Handler';
 
 if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../model/$handlerclass.php")) { # validate $table
-    die("Invalid table name given!");
+    throw new \InvalidArgumentException("Invalid table name given!");
 }
 
 $handler = new $handlerclass(0, $username);
@@ -54,16 +52,16 @@ authentication_require_role($formconf['required_role']);
 if ($handler->init($id)) { # errors will be displayed as last step anyway, no need for duplicated code ;-)
     if ($table == 'mailbox') {
         if ($field != 'active' && $field != 'smtp_active') {
-            die(Config::Lang('invalid_parameter'));
+            throw new \InvalidArgumentException(Config::Lang('invalid_parameter'));
         }
     } else {
         if ($field != 'active') {
-            die(Config::Lang('invalid_parameter'));
+            throw new \InvalidArgumentException(Config::Lang('invalid_parameter'));
         }
     }
 
     if ($active != '0' && $active != '1') {
-        die(Config::Lang('invalid_parameter'));
+        throw new \InvalidArgumentException(Config::Lang('invalid_parameter'));
     }
 
     if ($handler->set(array($field => $active))) {

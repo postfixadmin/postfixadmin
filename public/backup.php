@@ -34,16 +34,16 @@ $version = Config::read_string('version');
 
 // TODO: make backup supported for postgres
 if (db_pgsql()) {
-    flash_error('Sorry: Backup is currently not supported for your DBMS ('.$CONF['database_type'].').');
+    flash_error('Sorry: Backup is currently not supported for your DBMS (' . $CONF['database_type'] . ').');
     $smarty->assign('smarty_template', 'message');
     $smarty->display('index.tpl');
-    die;
+    exit(0);
 }
 
 if (safeget('download') == "") {
     $smarty->assign('smarty_template', 'backupwarning');
     $smarty->display('index.tpl');
-    die;
+    exit(0);
 }
 
 # Still here? Then let's create the database dump...
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
     $filename = basename($backup) . '.sql';
 
-    $header = "#\n# Postfix Admin $version\n# Date: " . date("D M j G:i:s T Y") . "\n#\n";
+    $header = "--\n-- Postfix Admin $version\n-- Date: " . date("D M j G:i:s T Y") . "\n--\n";
 
     if (!$fh = fopen($backup, 'w')) {
         flash_error("<div class=\"error_msg\">Cannot open file ($backup)</div>");
@@ -88,13 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
         $tables = array(
             'admin',
-            'alias',
-            'alias_domain',
             'config',
-            'dkim',
-            'dkim_signing',
             'domain',
             'domain_admins',
+            'alias_domain',
+            'alias',
+            'dkim',
+            'dkim_signing',
             'fetchmail',
             'log',
             'mailbox',
@@ -110,7 +110,9 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $result = db_query_all("SHOW CREATE TABLE " . table_by_key($table));
             foreach ($result as $row) {
                 fwrite($fh, array_pop($row));
+                fwrite($fh, ";\n");
             }
+            fwrite($fh, "\n");
         }
 
         foreach ($tables as $table) {
@@ -128,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
                     return $str;
                 }, $row);
 
-                fwrite($fh, "INSERT INTO ". $table . " (". implode(',', $fields) . ") VALUES ('" . implode('\',\'', $values) . "');\n");
+                fwrite($fh, "INSERT INTO " . $table . " (" . implode(',', $fields) . ") VALUES ('" . implode('\',\'', $values) . "');\n");
             }
         }
     }

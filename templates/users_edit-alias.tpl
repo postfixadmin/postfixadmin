@@ -2,7 +2,7 @@
     <div id="edit_form" class="panel panel-default">
         <div class="panel-heading"><h4>{$PALANG.pEdit_alias_welcome}</h4></div>
         <div class="panel-body enable-asterisk">
-            <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+            {CSRF_Token}
             <p class="text-center"><em>{$PALANG.pEdit_alias_help}</em></p>
             <div class="form-group">
                 <label class="col-md-4 col-sm-4 control-label">{$PALANG.alias}:</label>

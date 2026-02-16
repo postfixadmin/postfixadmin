@@ -28,8 +28,6 @@
  *  lang
  */
 
-use model\Languages;
-
 require_once('common.php');
 
 $CONF = Config::getInstance()->getAll();
@@ -48,14 +46,8 @@ if (authentication_mfa_incomplete()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (!isset($_SESSION['PFA_token'])) {
-        die("Invalid token (session timeout; refresh the page and try again?)");
-    }
 
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token! (CSRF check failed)');
-    }
-
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
@@ -69,7 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $adminHandler = new AdminHandler();
 
     $login = new Login('admin');
+
     if ($login->login($fUsername, $fPassword)) {
+
         init_session($fUsername, true);
 
         # they've logged in, so see if they are a domain admin, as well.
@@ -99,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         header("Location: main.php");
         exit(0);
-    } else { # $h->login failed
+    } else {
         error_log("PostfixAdmin admin login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
         flash_error($PALANG['pLogin_failed']);
     }
@@ -108,8 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     session_destroy();
     session_start();
 }
-
-$_SESSION['PFA_token'] = md5(uniqid("pfa" . rand(), true));
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');

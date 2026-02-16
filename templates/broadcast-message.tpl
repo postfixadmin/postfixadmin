@@ -2,7 +2,7 @@
 <div id="edit_form" class="panel panel-default">
 	<div class="panel-heading"><h4>{$PALANG.pBroadcast_title}</h4></div>
 	<div class="panel-body">
-		<input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}" />
+        {CSRF_Token}
 		<div class="form-group">
                         <label class="col-md-4 col-sm-4 control-label">{$PALANG.from}:</label>
                         <div class="col-md-6 col-sm-8"><p class="form-control-static"><em>{$smtp_from_email}</em></p></div>

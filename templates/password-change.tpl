@@ -15,6 +15,7 @@
 
 <form name="mailbox" method="post" class="form">
 
+    {CSRF_Token}
     <div class="form-group">
         <label for="fUsername">{$PALANG.pLogin_username}</label>
         <input class="form-control" type="email" name="fUsername" value="{$tUsername}"/>

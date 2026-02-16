@@ -85,8 +85,7 @@
                 *}
                 {elseif $key == 'active'}
                 {if $item._can_edit}
-                    <a class="btn btn-{if ($item.active==0)}info{else}warning{/if}"
-                       href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">
+                    <a class="btn btn-{if ($item.active==0)}info{else}warning{/if}" href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={CSRF_Token type="url"}">
                         {if $item._active == $PALANG['YES']}
                             <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
                         {else}
@@ -146,7 +145,7 @@
         <form method="post" action="{#url_delete#}">
             <input type="hidden" name="table" value="{$table}">
             <input type="hidden" name="delete" value="{$RAW_item.$id_field|escape:"quotes"}">
-            <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
+            {CSRF_Token}
 
             <button class="btn btn-danger"
                     onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">

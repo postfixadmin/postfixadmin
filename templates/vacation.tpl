@@ -2,7 +2,7 @@
     <div id="edit_form" class="panel panel-default">
         <div class="panel-heading"><h4>{$PALANG.pUsersVacation_welcome}</h4></div>
         <div class="panel-body enable-asterisk">
-            <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+            {CSRF_Token}
             {if !$authentication_has_role.user}
                 <div class="form-group">
                     <label class="col-md-4 col-sm-4 control-label">{$PALANG.pLogin_username}:</label>
@@ -17,7 +17,7 @@
                            class="form-control hidden"/>
                     <div class="input-group date" id="datetimepicker-fActiveFrom">
                         <input type='text' name="fActiveFromForm" id="fActiveFromForm" value="{$tActiveFrom}"
-                               class="form-control" />
+                               class="form-control"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                     <div class="input-group date" id="datetimepicker-fActiveUntil">
                         <input type='text'
                                name="fActiveUntilForm" id="fActiveUntilForm" value="{$tActiveUntil}"
-                               class="form-control" />
+                               class="form-control"/>
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
                 </div>

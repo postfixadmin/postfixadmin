@@ -1,6 +1,5 @@
 <?php
 
-use model\Languages;
 
 class CheckLanguageTest extends \PHPUnit\Framework\TestCase
 {
