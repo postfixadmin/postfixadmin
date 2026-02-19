@@ -46,10 +46,6 @@ body > .container {
 .footer { font-size: 12px; line-height: 60px; }
 }
 
-code {
-  font-size: 80%;
-}
-
 .navbar-header a.navbar-brand { padding-top: 0; padding-bottom: 0; }
 @media (min-width: 768px) {
 .navbar-fixed-top .container-fluid .navbar-collapse { font-size: 12px; }
