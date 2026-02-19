@@ -11,28 +11,22 @@ require_once('common.php');
 
     <title>Postfix Admin - Setup</title>
     <link rel="shortcut icon" href="images/favicon.ico"/>
-    <link rel="stylesheet" href="css/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-5.3.0-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
 
 </head>
 
 <body>
 
-<nav class="navbar navbar-default fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="images/postbox.png"
-                                                         alt="Logo"/></a>
-
-        </div>
+        <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="images/postbox.png"
+                                                     alt="Logo"/></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                aria-expanded="false" aria-controls="navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </div>
 </nav>
 
@@ -511,6 +505,7 @@ if ($authenticated) {
                href="https://github.com/postfixadmin/postfixadmin/">Postfix Admin</a>
         </div>
     </footer>
+    <script src="css/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

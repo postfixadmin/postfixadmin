@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PostfixAdmin - Bootstrap 5 Test</title>
+    <link rel="stylesheet" href="css/bootstrap-5.3.0-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href='#'><img src="images/postbox.png" alt="Logo" style="height: 40px;"/></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-list"></i> Menu
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-house"></i> Home</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-envelope"></i> Email</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-lock"></i> Security</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin-top: 100px;">
+    <h1>Bootstrap 5 Migration Test</h1>
+    
+    <div class="card mb-3">
+        <div class="card-header">
+            <h4>Panel → Card Migration</h4>
+        </div>
+        <div class="card-body">
+            <p>Bootstrap 3 panels have been successfully migrated to Bootstrap 5 cards.</p>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-primary"><i class="bi bi-check-lg"></i> Primary</button>
+            <button class="btn btn-secondary"><i class="bi bi-pencil"></i> Secondary</button>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h4>Bootstrap Icons</h4>
+        </div>
+        <div class="card-body">
+            <p>Glyphicons have been replaced with Bootstrap Icons:</p>
+            <ul>
+                <li><i class="bi bi-house"></i> Home</li>
+                <li><i class="bi bi-envelope"></i> Envelope</li>
+                <li><i class="bi bi-lock"></i> Lock</li>
+                <li><i class="bi bi-box-arrow-in-right"></i> Login</li>
+                <li><i class="bi bi-box-arrow-right"></i> Logout</li>
+                <li><i class="bi bi-inbox"></i> Inbox</li>
+                <li><i class="bi bi-trash"></i> Trash</li>
+                <li><i class="bi bi-pencil"></i> Edit</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h4>Form Example</h4>
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="css/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
