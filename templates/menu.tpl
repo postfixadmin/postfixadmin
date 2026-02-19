@@ -11,9 +11,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container-fluid">
             {*** <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo" /></a> ***}
-            <a class="navbar-brand" href='main.php'><img id="login_header_logo"
-                                                         src="{$CONF.theme_logo|default:'images/postbox.png'}"
-                                                         alt="Logo"/></a>
+            <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo|default:'images/postbox.png'}" alt="Logo"/></a>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                     aria-expanded="false" aria-controls="navbar">
                 <span class="navbar-toggler-icon"></span>
