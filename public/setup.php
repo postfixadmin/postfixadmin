@@ -177,7 +177,7 @@ if ($authenticated) {
                         echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
                     }
 
-            if (!$authenticated || !$configSetupDone) { ?>
+            if (!$configSetupDone) { ?>
 
                     <?php
 
