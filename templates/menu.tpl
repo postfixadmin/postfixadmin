@@ -219,6 +219,13 @@
                                 <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
                                 {$PALANG.pAdminMenu_backup}</a></li>
                     {/if}
+		    {* mail log *}
+                    {if $CONF.mail_log==='YES'}
+                        <li><a class="btn navbar-btn" type="button"
+                               href="{#url_maillog#}">
+				<span class="glyphicon glyphicon-file	" aria-hidden="true"></span>
+				Mail log</a></li>
+                    {/if}
                     {* viewlog *}
                     {if $CONF.logging==='YES'}
                         <li><a class="btn navbar-btn" type="button"
