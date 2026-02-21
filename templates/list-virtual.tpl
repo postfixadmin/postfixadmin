@@ -95,7 +95,7 @@
                     {if $tCanAddMailbox}
                         <a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" role="button"
                            class="btn btn-secondary"><span class="bi bi-plus-circle"
-                                                         aria-hidden="true"></span> {$PALANG.add_mailbox}</a>
+                                                           aria-hidden="true"></span> {$PALANG.add_mailbox}</a>
                     {/if}
                     <a role="button" class="btn btn-secondary"
                        href="list.php?table=mailbox&amp;output=csv&amp;domain={$domain_selected}"><span
