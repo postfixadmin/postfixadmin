@@ -1,4 +1,5 @@
-@import url(bootstrap-3.4.1-dist/css/bootstrap.min.css);
+@import url(bootstrap-5.3.0-dist/css/bootstrap.min.css);
+@import url(bootstrap-icons-1.11.3/font/bootstrap-icons.min.css);
 @import url(bootstrap-3.4.1-dist/css/bootstrap-datetimepicker.min.css);
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -43,10 +44,6 @@ body > .container {
 .footer { font-size: 10px; line-height: 30px; }
 @media (min-width: 768px) {
 .footer { font-size: 12px; line-height: 60px; }
-}
-
-code {
-  font-size: 80%;
 }
 
 .navbar-header a.navbar-brand { padding-top: 0; padding-bottom: 0; }

@@ -8,42 +8,37 @@
 {/strip}
 
 {strip}
-    <nav class="navbar navbar-default fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                        aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                {*** <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo" /></a> ***}
-                <a class="navbar-brand" href='main.php'><img id="login_header_logo"
-                                                             src="{$CONF.theme_logo|default:'images/postbox.png'}"
-                                                             alt="Logo"/></a>
-            </div>
+            {*** <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo" /></a> ***}
+            <a class="navbar-brand" href='main.php'><img id="login_header_logo"
+                                                         src="{$CONF.theme_logo|default:'images/postbox.png'}"
+                                                         alt="Logo"/></a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     {* list-admin *}
                     {if $authentication_has_role.global_admin}
                         {strip}
-                            <li class="dropdown">
-                                <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                                    aria-haspopup="true"
-                                   aria-expanded="false" href="{#url_list_admin#}"><span
-                                            class="glyphicon glyphicon-list"
+                                   aria-expanded="false"><span
+                                            class="bi bi-list"
                                             aria-hidden="true"></span> {$PALANG.pAdminMenu_list_admin} <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{#url_list_admin#}"><span class="glyphicon glyphicon-list"
-                                                                           aria-hidden="true"></span> {$PALANG.pAdminMenu_list_admin}
+                                    <li class="nav-item" class="nav-item">
+                                        <a class="dropdown-item" href="{#url_list_admin#}"><span class="bi bi-list"
+                                                                                                 aria-hidden="true"></span> {$PALANG.pAdminMenu_list_admin}
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="{#url_create_admin#}"><span class="glyphicon glyphicon-plus"
-                                                                             aria-hidden="true"></span> {$PALANG.pAdminMenu_create_admin}
+                                    <li class="nav-item" class="nav-item">
+                                        <a class="dropdown-item" href="{#url_create_admin#}"><span class="bi bi-plus"
+                                                                                                   aria-hidden="true"></span> {$PALANG.pAdminMenu_create_admin}
                                         </a>
                                     </li>
                                 </ul>
@@ -51,27 +46,27 @@
                         {/strip}
                     {else}
                         <li>
-                            <a class="btn navbar-btn" href="{#url_main#}">
-                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> {$PALANG.pMenu_main}
+                            <a class="nav-link" href="{#url_main#}">
+                                <span class="bi bi-house" aria-hidden="true"></span> {$PALANG.pMenu_main}
                             </a>
                         </li>
                     {/if}
                     {* list-domain *}
                     {strip}
-                        <li>
-                            <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                        <li class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                                aria-haspopup="true"
-                               aria-expanded="false" href="{#url_list_domain#}"><span
-                                        class="glyphicon glyphicon-th-list"
+                               aria-expanded="false"><span
+                                        class="bi bi-list-task"
                                         aria-hidden="true"></span> {$PALANG.pAdminMenu_list_domain} <span
                                         class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{#url_list_domain#}"><span class="glyphicon glyphicon-th-list"
-                                                                        aria-hidden="true"></span> {$PALANG.pAdminMenu_list_domain}
+                                <li><a class="dropdown-item" href="{#url_list_domain#}"><span class="bi bi-list-task"
+                                                                                              aria-hidden="true"></span> {$PALANG.pAdminMenu_list_domain}
                                     </a></li>
                                 {if $authentication_has_role.global_admin}
-                                    <li><a href="{#url_edit_domain#}"><span class="glyphicon glyphicon-plus"
-                                                                            aria-hidden="true"></span> {$PALANG.pAdminMenu_create_domain}
+                                    <li><a class="dropdown-item" href="{#url_edit_domain#}"><span class="bi bi-plus"
+                                                                                                  aria-hidden="true"></span> {$PALANG.pAdminMenu_create_domain}
                                         </a></li>
                                 {/if}
                             </ul>
@@ -80,26 +75,26 @@
                     {* list-virtual *}
                     {strip}
                         <li class="dropdown">
-                            <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                                aria-haspopup="true"
-                               aria-expanded="false" href="{#url_list_virtual#}"><span
-                                        class="glyphicon glyphicon-list-alt"
+                               aria-expanded="false"><span
+                                        class="bi bi-list-ul"
                                         aria-hidden="true"></span> {$PALANG.pAdminMenu_list_virtual} <span
                                         class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{#url_list_virtual#}"><span class="glyphicon glyphicon-list-alt"
-                                                                         aria-hidden="true"></span> {$PALANG.pAdminMenu_list_virtual}
+                                <li><a class="dropdown-item" href="{#url_list_virtual#}"><span class="bi bi-list-ul"
+                                                                                               aria-hidden="true"></span> {$PALANG.pAdminMenu_list_virtual}
                                     </a></li>
-                                <li><a href="{#url_create_mailbox#}{$url_domain}"><span
-                                                class="glyphicon glyphicon-inbox"
+                                <li><a class="dropdown-item" href="{#url_create_mailbox#}{$url_domain}"><span
+                                                class="bi bi-inbox"
                                                 aria-hidden="true"></span> {$PALANG.add_mailbox}</a></li>
-                                <li><a href="{#url_create_alias#}{$url_domain}"><span
-                                                class="glyphicon glyphicon-plus-sign"
+                                <li><a class="dropdown-item" href="{#url_create_alias#}{$url_domain}"><span
+                                                class="bi bi-plus-circle"
                                                 aria-hidden="true"></span> {$PALANG.add_alias}</a></li>
                                 {if $boolconf_alias_domain}
                                     <li>
-                                        <a href="{#url_create_alias_domain#}{$url_domain}">
-                                            <span class="glyphicon glyphicon-plus-sign"
+                                        <a class="dropdown-item" href="{#url_create_alias_domain#}{$url_domain}">
+                                            <span class="bi bi-plus-circle"
                                                   aria-hidden="true"></span> {$PALANG.add_alias_domain}</a>
                                     </li>
                                 {/if}
@@ -110,16 +105,16 @@
                     {if $CONF.fetchmail==='YES'}
                         {strip}
                             <li class="dropdown">
-                                <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                                    aria-haspopup="true"
-                                   aria-expanded="false" href="{#url_fetchmail#}">{$PALANG.pMenu_fetchmail} <span
+                                   aria-expanded="false">{$PALANG.pMenu_fetchmail} <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{#url_fetchmail#}">
-                                            <span class="glyphicon glyphicon-list-alt"
+                                    <li><a class="dropdown-item" href="{#url_fetchmail#}">
+                                            <span class="bi bi-list-ul"
                                                   aria-hidden="true"></span> {$PALANG.pMenu_fetchmail}</a></li>
-                                    <li><a href="{#url_fetchmail_new_entry#}">
-                                              <span class="glyphicon glyphicon-plus-sign"
+                                    <li><a class="dropdown-item" href="{#url_fetchmail_new_entry#}">
+                                              <span class="bi bi-plus-circle"
                                                     aria-hidden="true"></span> {$PALANG.pFetchmail_new_entry}</a></li>
                                 </ul>
                             </li>
@@ -129,20 +124,21 @@
                     {if $CONF.sendmail==='YES'}
                         {strip}
                             <li class="dropdown">
-                                <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                                    aria-haspopup="true"
-                                   aria-expanded="false" href="{#url_sendmail#}"><span class="glyphicon glyphicon-send"
-                                                                                       aria-hidden="true"></span> {$PALANG.pMenu_sendmail}
+                                   aria-expanded="false"><span class="bi bi-send"
+                                                               aria-hidden="true"></span> {$PALANG.pMenu_sendmail}
                                     <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{#url_sendmail#}"><span class="glyphicon glyphicon-send"
-                                                                         aria-hidden="true"></span> {$PALANG.pMenu_sendmail}
+                                    <li><a class="dropdown-item" href="{#url_sendmail#}"><span class="bi bi-send"
+                                                                                               aria-hidden="true"></span> {$PALANG.pMenu_sendmail}
                                         </a></li>
                                     {if $authentication_has_role.global_admin || (isset($CONF.sendmail_all_admins) && $CONF.sendmail_all_admins === 'YES') }
                                         <li>
-                                            <a href="{#url_broadcast_message#}"><span class="glyphicon glyphicon-share"
-                                                                                      aria-hidden="true"></span> {$PALANG.pAdminMenu_broadcast_message}
+                                            <a class="dropdown-item" href="{#url_broadcast_message#}"><span
+                                                        class="bi bi-share"
+                                                        aria-hidden="true"></span> {$PALANG.pAdminMenu_broadcast_message}
                                             </a>
                                         </li>
                                     {/if}
@@ -157,24 +153,25 @@
                     }
                         {strip}
                             <li class="dropdown">
-                                <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                                    aria-haspopup="true"
-                                   aria-expanded="false" href="{#url_dkim#}"><span
-                                            class="glyphicon glyphicon-certificate"
+                                   aria-expanded="false"><span
+                                            class="bi bi-patch-check"
                                             aria-hidden="true"></span> {$PALANG.pMenu_dkim} <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{#url_dkim#}"><span class="glyphicon glyphicon-certificate"
-                                                                     aria-hidden="true"></span> {$PALANG.pMenu_dkim}</a>
+                                    <li><a class="dropdown-item" href="{#url_dkim#}"><span class="bi bi-patch-check"
+                                                                                           aria-hidden="true"></span> {$PALANG.pMenu_dkim}
+                                        </a>
                                     </li>
-                                    <li><a href="{#url_dkim_signing#}"><span class="glyphicon glyphicon-list"
-                                                                             aria-hidden="true"></span> {$PALANG.pMenu_dkim_signing}
+                                    <li><a class="dropdown-item" href="{#url_dkim_signing#}"><span class="bi bi-list"
+                                                                                                   aria-hidden="true"></span> {$PALANG.pMenu_dkim_signing}
                                         </a></li>
-                                    <li><a href="{#url_dkim_newkey#}"><span class="glyphicon glyphicon-plus"
-                                                                            aria-hidden="true"></span> {$PALANG.pDkim_new_key}
+                                    <li><a class="dropdown-item" href="{#url_dkim_newkey#}"><span class="bi bi-plus"
+                                                                                                  aria-hidden="true"></span> {$PALANG.pDkim_new_key}
                                         </a></li>
-                                    <li><a href="{#url_dkim_newsign#}"><span class="glyphicon glyphicon-plus"
-                                                                             aria-hidden="true"></span> {$PALANG.pDkim_new_sign}
+                                    <li><a class="dropdown-item" href="{#url_dkim_newsign#}"><span class="bi bi-plus"
+                                                                                                   aria-hidden="true"></span> {$PALANG.pDkim_new_sign}
                                         </a></li>
                                 </ul>
                             </li>
@@ -184,52 +181,53 @@
                     {if $CONF.totp==='YES'}
                         {strip}
                             <li class="dropdown">
-                                <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                                    aria-haspopup="true"
-                                   aria-expanded="false" href="{#url_dkim#}"><span class="glyphicon glyphicon-lock"
-                                                                                   aria-hidden="true"></span> {$PALANG.pMenu_security}
+                                   aria-expanded="false"><span class="bi bi-lock"
+                                                               aria-hidden="true"></span> {$PALANG.pMenu_security}
                                     <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{#url_password#}"><span class="glyphicon glyphicon-lock"
-                                                                         aria-hidden="true"></span> {$PALANG.pMenu_password}
+                                    <li><a class="dropdown-item" href="{#url_password#}"><span class="bi bi-lock"
+                                                                                               aria-hidden="true"></span> {$PALANG.pMenu_password}
                                         </a></li>
-                                    <li><a href="{#url_totp#}"><span class="glyphicon glyphicon-lock"
-                                                                     aria-hidden="true"></span> {$PALANG.pMenu_totp}</a>
+                                    <li><a class="dropdown-item" href="{#url_totp#}"><span class="bi bi-lock"
+                                                                                           aria-hidden="true"></span> {$PALANG.pMenu_totp}
+                                        </a>
                                     </li>
-                                    <li><a href="{#url_totp_exceptions#}"><span class="glyphicon glyphicon-lock"
-                                                                                aria-hidden="true"></span> {$PALANG.pMenu_totp_exceptions}
+                                    <li><a class="dropdown-item" href="{#url_totp_exceptions#}"><span class="bi bi-lock"
+                                                                                                      aria-hidden="true"></span> {$PALANG.pMenu_totp_exceptions}
                                         </a></li>
-                                    <li><a href="{#url_app_passwords#}"><span class="glyphicon glyphicon-lock"
-                                                                              aria-hidden="true"></span> {$PALANG.pMenu_app_passwords}
+                                    <li><a class="dropdown-item" href="{#url_app_passwords#}"><span class="bi bi-lock"
+                                                                                                    aria-hidden="true"></span> {$PALANG.pMenu_app_passwords}
                                         </a></li>
                                 </ul>
                             </li>
                         {/strip}
                     {else}
                         {* password *}
-                        <li><a class="btn navbar-btn" type="button" href="{#url_password#}">
-                                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                        <li><a class="nav-link" type="button" href="{#url_password#}">
+                                <span class="bi bi-lock" aria-hidden="true"></span>
                                 {$PALANG.pMenu_password}</a></li>
                     {/if}
                     {* backup *}
                     {if $authentication_has_role.global_admin && $CONF.database_type!=='pgsql' && $CONF.backup === 'YES'}
-                        <li><a class="btn btn-default navbar-btn btn-sm" type="button"
+                        <li><a class="nav-link" type="button"
                                href="{#url_backup#}">
-                                <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                                <span class="bi bi-list" aria-hidden="true"></span>
                                 {$PALANG.pAdminMenu_backup}</a></li>
                     {/if}
                     {* viewlog *}
                     {if $CONF.logging==='YES'}
-                        <li><a class="btn navbar-btn" type="button"
+                        <li><a class="nav-link" type="button"
                                href="{#url_viewlog#}">
-                                <span class="glyphicon glyphicon-file	" aria-hidden="true"></span>
+                                <span class="bi bi-file-text	" aria-hidden="true"></span>
                                 {$PALANG.pMenu_viewlog}</a></li>
                     {/if}
                     {* logout *}
-                    <li><a class="btn navbar-btn" type="button"
+                    <li><a class="nav-link" type="button"
                            href="{#url_logout#}">
-                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                            <span class="bi bi-box-arrow-right" aria-hidden="true"></span>
                             {$PALANG.pMenu_logout}</a></li>
                 </ul>
             </div><!--/.nav-collapse -->

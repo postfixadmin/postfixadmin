@@ -1,37 +1,37 @@
 <form name="password" method="post" action="" class="form-horizontal">
-    <div id="edit_form" class="panel panel-default">
-        <div class="panel-heading"><h4>{$PALANG.pApp_passwords_welcome}</h4></div>
-        <div class="panel-body enable-asterisk">
+    <div id="edit_form" class="card">
+        <div class="card-header"><h4>{$PALANG.pApp_passwords_welcome}</h4></div>
+        <div class="card-body enable-asterisk">
             <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
-            <div class="form-group {if $pPassword_text}has-error{/if}">
+            <div class="mb-3 {if $pPassword_text}is-invalid{/if}">
                 <label class="col-md-2 col-sm-2 control-label"
                        for="fPassword_current">{$PALANG.pPassword_password_current}:</label>
                 <div class="col-md-6 col-sm-8">
                     <input class="form-control" type="password" name="fPassword_current" id="fPassword_current"/>
                 </div>
-                <span class="help-block">{$pPassword_text}</span>
+                <span class="form-text">{$pPassword_text}</span>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <label class="col-md-2 col-sm-2 control-label" for="fAppDesc">{$PALANG.pTotp_exceptions_description}
                     :</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fAppDesc" id="fAppDesc"/>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="mb-3">
                 <label class="col-md-2 col-sm-2 control-label" for="fAppPass">{$PALANG.password}:</label>
                 <div class="col-md-6 col-sm-8">
                     <input class="form-control" type="input" name="fAppPass" id="fAppPass"/>
-                    <div class="pull-right">
+                    <div class="float-end">
                         <a id="genbutton" class="btn btn-primary">{$PALANG.generate}</a>
                         <a id="copybutton" class="btn btn-primary">{$PALANG.copy}</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <div class="btn-toolbar" role="toolbar">
 
-                <div class="pull-right">
+                <div class="float-end">
                     <a href="main.php" class="btn mr btn-secondary">{$PALANG.exit}</a>
 
                     <button class="btn ml btn-lg btn-primary" type="submit" name="submit"
@@ -43,8 +43,8 @@
     </div>
 </form>
 
-<div id="edit_form" class="panel panel-default">
-    <div class="panel-heading"><h4>{$PALANG.pApp_passwords_list}</h4></div>
+<div id="edit_form" class="card">
+    <div class="card-header"><h4>{$PALANG.pApp_passwords_list}</h4></div>
     <table class="table table-hover" id="mailbox_table">
         <tr class="header">
             <th>{$PALANG.pOverview_mailbox_username}</th>

@@ -1,12 +1,12 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         <form name="frmOverview" method="post" action="">
 	    {html_options name='fDomain' output=$domain_list values=$domain_list selected=$domain_selected onchange="this.form.submit();"}
             <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}"/></noscript>
         </form>
     </div>
     {if $tLog}
-        <div class="panel-body">
+        <div class="card-body">
 	    {if $domain_selected}
                 <h4>{$PALANG.pViewlog_welcome|replace:"%s":$CONF.page_size} {$fDomain} </h4>
             {else}
@@ -42,8 +42,8 @@
 	    		<div class="col-md-4">
 	    		</div>
 
-	    		<div class="col-md-4 col-md-offset-4">
-					<div class="pull-right" style="margin: 10px;">
+	    		<div class="col-md-4 offset-md-4">
+					<div class="float-end" style="margin: 10px;">
 
 			   			{if $number_of_pages < 6}
 							<div class="btn-group mr-2" role="group">
@@ -91,7 +91,7 @@
 						{/if}
 
 						<div class="btn-group" role="group"><div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" data-toggle="dropdown">Page <span class="caret"></span></button>
+							<button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">Page <span class="caret"></span></button>
 								<ul class="dropdown-menu" style="max-height: 200px; overflow: auto">
 									{for $i=1 to $number_of_pages}
 										<li><a onclick=go2page({$i}) href="#">{$i}</a></li>

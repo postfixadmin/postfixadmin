@@ -1,6 +1,6 @@
 {assign var="file" value=$smarty.config.url_list_virtual}
-<div id="overview" class="panel panel-default">
-    <div class="panel-heading">
+<div id="overview" class="card">
+    <div class="card-header">
         <div class="row">
             <div class="col-md-5">
                 <form name="frmOverview" method="get" action="{$smarty.config.url_list_virtual}">
@@ -9,10 +9,10 @@
                     <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}"/></noscript>
                 </form>
             </div>
-            <div class="col-md-5 col-md-offset-2 text-right">{#form_search#}</div>
+            <div class="col-md-5 offset-md-2 text-right">{#form_search#}</div>
         </div>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
         <div class="text-center">
             {if isset($search._)}
                 <h4>{$PALANG.pSearch_welcome} {$search._}</h4>
@@ -73,7 +73,7 @@
     <br/>
 {/if}
 {if $tab=='mailbox' || $tab=='all'}
-    <div id="mailboxes" class="panel panel-default">
+    <div id="mailboxes" class="card">
         {$nav_bar_mailbox.top}
         {assign var="colspan" value=9}
         {if $CONF.vacation_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
@@ -88,18 +88,18 @@
             {include file="list-virtual_mailbox.tpl"}
             {else}</table>
         {/if}
-        <div class="panel-footer">
+        <div class="card-footer">
             <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group pull-right">
+                <div class="btn-group float-end">
                     {$nav_bar_mailbox.bottom}
                     {if $tCanAddMailbox}
                         <a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" role="button"
-                           class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"
-                                                         aria-hidden="true"></span> {$PALANG.add_mailbox}</a>
+                           class="btn btn-secondary"><span class="bi bi-plus-circle"
+                                                           aria-hidden="true"></span> {$PALANG.add_mailbox}</a>
                     {/if}
-                    <a role="button" class="btn btn-default"
+                    <a role="button" class="btn btn-secondary"
                        href="list.php?table=mailbox&amp;output=csv&amp;domain={$domain_selected}"><span
-                                class="glyphicon glyphicon-export" aria-hidden="true"></span> {$PALANG.download_csv}</a>
+                                class="bi bi-box-arrow-up-right" aria-hidden="true"></span> {$PALANG.download_csv}</a>
                 </div>
             </div>
         </div>

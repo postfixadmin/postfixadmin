@@ -1,7 +1,7 @@
 <form name="edit_{$table}" method="post" action="" class="form-horizontal">
-    <div id="edit_form" class="panel panel-default">
-        <div class="panel-heading"><h4>{$formtitle}</h4></div>
-        <div class="panel-body enable-asterisk">
+    <div id="edit_form" class="card">
+        <div class="card-header"><h4>{$formtitle}</h4></div>
+        <div class="card-body enable-asterisk">
             <input class="flat" type="hidden" name="table" value="{$table}"/>
             <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
 
@@ -9,9 +9,9 @@
                 {if $field.display_in_form == 1}
 
                     {if $table == 'foo' && $key == 'bar'}
-                        <div class="form-group">Special handling (complete table row) for {$table} / {$key}</div>
+                        <div class="mb-3">Special handling (complete table row) for {$table} / {$key}</div>
                     {else}
-                        <div class="form-group {if $fielderror.{$key}}has-error{/if}">
+                        <div class="mb-3 {if $fielderror.{$key}}is-invalid{/if}">
                             <label class="col-md-4 col-sm-4 control-label" for="{$key}">{$field.label}</label>
                             <div class="col-md-6 col-sm-8">
                                 {if $field.editable == 0}
@@ -78,12 +78,12 @@
                                 {/if}
 
                                 {if $table == 'foo' && $key == 'bar'}
-                                    <span class="help-block">Special handling (td content) for {$table} / {$key}</span>
+                                    <span class="form-text">Special handling (td content) for {$table} / {$key}</span>
                                 {else}
                                     {if $fielderror.{$key}}
-                                        <span class="help-block">{$fielderror.{$key}}</span>
+                                        <span class="form-text">{$fielderror.{$key}}</span>
                                     {else}
-                                        <span class="help-block">{$field.desc}</span>
+                                        <span class="form-text">{$field.desc}</span>
                                     {/if}
                                 {/if}
                             </div>
@@ -94,11 +94,11 @@
             {/foreach}
 
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group pull-right">
+                <div class="btn-group float-end">
                     <button class="btn btn-primary" type="submit" name="submit">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$submitbutton}
+                        <span class="bi bi-pencil" aria-hidden="true"></span> {$submitbutton}
                     </button>
                 </div>
             </div>

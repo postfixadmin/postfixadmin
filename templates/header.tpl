@@ -19,7 +19,7 @@
     <!-- needed for datetimepicker -->
     <script src="{$rel_path}jquery-3.7.0.min.js"></script>
     <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/moment-with-locales.min.js"></script>
-    <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+    <script src="{$rel_path}css/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
     <script src="{$rel_path}css/bootstrap-3.4.1-dist/js/bootstrap-datetimepicker.min.js"></script>
 </head>
 <body class="lang-{if isset($smarty.session.lang)}{$smarty.session.lang}{/if} page-{$smarty_template} {if isset($table)}page-{$smarty_template}-{$table}{/if}">
