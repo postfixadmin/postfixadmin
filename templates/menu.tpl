@@ -51,7 +51,7 @@
                     {/if}
                     {* list-domain *}
                     {strip}
-                        <li>
+                        <li class="dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                                aria-haspopup="true"
                                aria-expanded="false" ><span
