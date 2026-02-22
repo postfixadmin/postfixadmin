@@ -99,9 +99,18 @@ if (is_array($details)) {
     $tInterval_Time = $details['interval_time'];
     $tActiveFrom = new \DateTimeImmutable($details['activeFrom']);
     $tActiveUntil = new \DateTimeImmutable($details['activeUntil']);
+
+    if ($tActiveFrom < $now) {
+        $tActiveFrom = new \DateTimeImmutable("now");
+    }
+    if ($tActiveUntil < $now) {
+        $tActiveUntil = new \DateTimeImmutable("+1 day");
+        $tActiveUntil = $tActiveUntil->setTime(23, 59, 59); // set to the end of the day by default.
+    }
 } else {
     $details = ['active' => 0];
 }
+
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if ($vh->check_vacation()) {
