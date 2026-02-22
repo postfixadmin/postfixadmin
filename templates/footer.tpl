@@ -5,8 +5,7 @@
             {* see: https://github.com/postfixadmin/postfixadmin/issues/517 - only expose version number if logged in *}
             <a target="_blank" rel="noopener" href="https://github.com/postfixadmin/postfixadmin/">PostfixAdmin</a>
         {else}
-            <a target="_blank" rel="noopener" href="https://github.com/postfixadmin/postfixadmin/">Postfix
-                Admin {$version}</a>
+            <a target="_blank" rel="noopener" href="https://github.com/postfixadmin/postfixadmin/">Postfix Admin {$version}</a>
             <span id="update-check">&nbsp;|&nbsp;
                 <a target="_blank" rel="noopener"
                    href="https://github.com/postfixadmin/postfixadmin/releases">{$PALANG.check_update}</a>

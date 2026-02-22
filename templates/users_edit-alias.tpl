@@ -5,18 +5,18 @@
             <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
             <p class="text-center"><em>{$PALANG.pEdit_alias_help}</em></p>
             <div class="mb-3">
-                <label class="col-md-4 col-sm-4 control-label">{$PALANG.alias}:</label>
+                <label class="col-md-4">{$PALANG.alias}:</label>
                 <div class="col-md-6 col-sm-8"><p class="form-control-plaintext"><em>{$USERID_USERNAME}</em></p></div>
             </div>
             <div class="mb-3">
-                <label class="col-md-4 col-sm-4 control-label" for="fGoto">{$PALANG.to}:</label>
+                <label class="col-md-4" for="fGoto">{$PALANG.to}:</label>
                 <div class="col-md-6 col-sm-8">
                     <textarea class="form-control" rows="8" cols="50" name="fGoto"
                               id="fGoto">{foreach key=key2 item=field2 from=$tGotoArray}{$field2}&#10;{/foreach}</textarea>
                 </div>
             </div>
             <div class="mb-3">
-                <label class="col-md-4 col-sm-4 control-label"></label>
+                <label class="col-md-4"></label>
                 <div class="col-md-6 col-sm-8">
                     <div class="radio">
                         <label>

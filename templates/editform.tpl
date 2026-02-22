@@ -12,7 +12,7 @@
                         <div class="mb-3">Special handling (complete table row) for {$table} / {$key}</div>
                     {else}
                         <div class="mb-3 {if $fielderror.{$key}}is-invalid{/if}">
-                            <label class="col-md-4 col-sm-4 control-label" for="{$key}">{$field.label}</label>
+                            <label class="col-md-4" for="{$key}">{$field.label}</label>
                             <div class="col-md-6 col-sm-8">
                                 {if $field.editable == 0}
                                     {if $field.type == 'enma'}

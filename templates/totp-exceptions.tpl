@@ -4,24 +4,25 @@
         <div class="card-body enable-asterisk">
             <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
             <div class="mb-3 {if $pPassword_text}is-invalid{/if}">
-                <label class="col-md-2 col-sm-2 control-label"
+                <label class="col-md-2 col-sm-2"
                        for="fPassword_current">{$PALANG.pPassword_password_current}:</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="password" name="fPassword_current"
                                                       id="fPassword_current"/></div>
                 <span class="form-text">{$pPassword_text}</span>
             </div>
             <div class="mb-3 {if $pUser_text}is-invalid{/if}">
-                <label class="col-md-2 col-sm-2 control-label" for="fUser">{$PALANG.pTotp_exceptions_user}:</label>
+                <label class="col-md-2 col-sm-2" for="fUser">{$PALANG.pTotp_exceptions_user}:</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fUser" id="fUser"
                                                       value="{$pUser}"/></div>
                 <span class="form-text">{$pUser_text}</span>
             </div>
             <div class="mb-3">
-                <label class="col-md-2 col-sm-2 control-label" for="fIp">{$PALANG.pTotp_exceptions_address}:</label>
+                <label class="col-md-2 col-sm-2" for="fIp">{$PALANG.pTotp_exceptions_address}:</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fIp" id="fIp"/></div>
             </div>
             <div class="mb-3">
-                <label class="col-md-2 col-sm-2 control-label" for="fDesc">{$PALANG.pTotp_exceptions_description}:</label>
+                <label class="col-md-2 col-sm-2" for="fDesc">{$PALANG.pTotp_exceptions_description}
+                    :</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fDesc" id="fDesc"/></div>
             </div>
         </div>

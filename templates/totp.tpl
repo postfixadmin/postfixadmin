@@ -4,25 +4,25 @@
         <div class="card-body enable-asterisk">
             <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
             <div class="mb-3">
-                <label class="col-md-2 col-sm-2 control-label">{$PALANG.pLogin_username}:</label>
+                <label class="col-md-2">{$PALANG.pLogin_username}:</label>
                 <div class="col-md-6 col-sm-8"><p class="form-control-plaintext"><em>{$SESSID_USERNAME}</em></p></div>
             </div>
             <div class="mb-3 {if $pPassword_password_current_text}is-invalid{/if}">
-                <label class="col-md-2 col-sm-2 control-label"
+                <label class="col-md-2"
                        for="fPassword_current">{$PALANG.pPassword_password_current}:</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="password" name="fPassword_current"
                                                       id="fPassword_current"/></div>
                 <span class="form-text">{$pPassword_password_current_text}</span>
             </div>
             <div class="mb-3 {if $pTOTP_secret_text}is-invalid{/if}">
-                <label class="col-md-2 col-sm-2 control-label" for="fTOTP_secret">{$PALANG.pTOTP_secret}:</label>
+                <label class="col-md-2" for="fTOTP_secret">{$PALANG.pTOTP_secret}:</label>
                 <div class="col-md-6 col-sm-8">
                     <img src="data:image/png;base64, {$pQR_raw}"/>{$pTOTP_secret}
                     <input type="hidden" name="fTOTP_secret" value="{$pTOTP_secret}"/>
                 </div>
             </div>
             <div class="mb-3 {if $pTOTP_code_text}is-invalid{/if}">
-                <label class="col-md-2 col-sm-2 control-label" for="fTOTP_code">{$PALANG.pTOTP_code}:</label>
+                <label class="col-md-2" for="fTOTP_code">{$PALANG.pTOTP_code}:</label>
                 <div class="col-md-6 col-sm-8"><input id="TOTP_code" class="form-control" type="text" name="fTOTP_code"
                                                       size="6"/>
                     <span class="text-warning">{$pTOTP_code_text}</span> <!-- error text -->
@@ -47,27 +47,26 @@
         </div>
     </div>
     {if $show_form == 'hidden'}
-        <div id="showform" class="card"
-        ">
-        <div class="card-footer">
-            <div class="btn-toolbar" role="toolbar">
-                <div class="float-start">
-                    <h3>{$PALANG.TOTP_already_configured}</h3>
-                </div>
-                <div class="float-end">
-                    <a href="#" class="btn ml btn-lg btn-primary" id="showbutton">{$PALANG.show}</a>
+        <div id="showform" class="card">
+            <div class="card-footer">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="float-start">
+                        <h3>{$PALANG.TOTP_already_configured}</h3>
+                    </div>
+                    <div class="float-end">
+                        <a href="#" class="btn ml btn-lg btn-primary" id="showbutton">{$PALANG.show}</a>
+                    </div>
                 </div>
             </div>
         </div>
-        </div>
         <script>
-            document.getElementById("showbutton").addEventListener("click", function(e) {
-              showform()
+            document.getElementById("showbutton").addEventListener("click", function (e) {
+                showform()
             });
 
             function showform() {
-              document.getElementById("showform").style.visibility= "hidden";
-              document.getElementById("edit_form").style.visibility= "visible";
+                document.getElementById("showform").style.visibility = "hidden";
+                document.getElementById("edit_form").style.visibility = "visible";
             }
         </script>
     {/if}

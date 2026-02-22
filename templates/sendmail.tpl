@@ -4,20 +4,20 @@
         <div class="card-body enable-asterisk">
             <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
             <div class="mb-3">
-                <label class="col-md-4 col-sm-4 control-label">{$PALANG.from}:</label>
+                <label class="col-md-4 col-sm-4 ">{$PALANG.from}:</label>
                 <div class="col-md-6 col-sm-8"><p class="form-control-plaintext"><em>{$smtp_from_email}</em></p></div>
             </div>
             <div class="mb-3">
-                <label class="col-md-4 col-sm-4 control-label" for="fTo">{$PALANG.pSendmail_to}:</label>
+                <label class="col-md-4 col-sm-4 " for="fTo">{$PALANG.pSendmail_to}:</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="text" name="fTo" id="fTo"/></div>
             </div>
             <div class="mb-3">
-                <label class="col-md-4 col-sm-4 control-label" for="fSubject">{$PALANG.subject}:</label>
+                <label class="col-md-4 col-sm-4 " for="fSubject">{$PALANG.subject}:</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="text" name="fSubject" id="fSubject"
                                                       value="{$PALANG.pSendmail_subject_text}"/></div>
             </div>
             <div class="mb-3">
-                <label class="col-md-4 col-sm-4 control-label" for="fBody">{$PALANG.pSendmail_body}:</label>
+                <label class="col-md-4 col-sm-4 " for="fBody">{$PALANG.pSendmail_body}:</label>
                 <div class="col-md-6 col-sm-8"><textarea class="form-control" rows="10" cols="60" name="fBody"
                                                          id="fBody">{$CONF.welcome_text}</textarea></div>
             </div>

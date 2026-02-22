@@ -4,7 +4,7 @@
         <div class="card-body enable-asterisk">
             <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
             <div class="mb-3 {if $pPassword_text}is-invalid{/if}">
-                <label class="col-md-2 col-sm-2 control-label"
+                <label class="col-md-2"
                        for="fPassword_current">{$PALANG.pPassword_password_current}:</label>
                 <div class="col-md-6 col-sm-8">
                     <input class="form-control" type="password" name="fPassword_current" id="fPassword_current"/>
@@ -12,13 +12,13 @@
                 <span class="form-text">{$pPassword_text}</span>
             </div>
             <div class="mb-3">
-                <label class="col-md-2 col-sm-2 control-label" for="fAppDesc">{$PALANG.pTotp_exceptions_description}
+                <label class="col-md-2" for="fAppDesc">{$PALANG.pTotp_exceptions_description}
                     :</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fAppDesc" id="fAppDesc"/>
                 </div>
             </div>
             <div class="mb-3">
-                <label class="col-md-2 col-sm-2 control-label" for="fAppPass">{$PALANG.password}:</label>
+                <label class="col-md-2" for="fAppPass">{$PALANG.password}:</label>
                 <div class="col-md-6 col-sm-8">
                     <input class="form-control" type="input" name="fAppPass" id="fAppPass"/>
                     <div class="float-end">
