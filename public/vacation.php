@@ -42,7 +42,10 @@ require_once('common.php');
 
 $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
-$now = new \DateTime();
+
+date_default_timezone_set(@date_default_timezone_get()); # Suppress date.timezone warnings
+
+$now = new \DateTimeImmutable();
 
 
 // only allow admins to change someone else's 'stuff'
@@ -70,7 +73,6 @@ if ($CONF['vacation'] == 'NO') {
     exit(0);
 }
 
-date_default_timezone_set(@date_default_timezone_get()); # Suppress date.timezone warnings
 
 $error = 0;
 
@@ -85,8 +87,9 @@ $tUseremail = $fUsername;
 $tInterval_Time = null;
 $tBody = null;
 $tSubject = null;
-$tActiveFrom = new DateTime();
-$tActiveUntil = new DateTime();
+$tActiveFrom = new DateTimeImmutable("now");
+$tActiveUntil = new DateTimeImmutable("+1 day");
+$tActiveUntil = $tActiveUntil->setTime(23, 59, 59); // set to the end of the day by default.
 
 $details = $vh->get_details();
 
@@ -94,8 +97,8 @@ if (is_array($details)) {
     $tSubject = $details['subject'];
     $tBody = $details['body'];
     $tInterval_Time = $details['interval_time'];
-    $tActiveFrom = new \DateTime($details['activeFrom']);
-    $tActiveUntil = new \DateTime($details['activeUntil']);
+    $tActiveFrom = new \DateTimeImmutable($details['activeFrom']);
+    $tActiveUntil = new \DateTimeImmutable($details['activeUntil']);
 } else {
     $details = ['active' => 0];
 }
@@ -157,13 +160,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         ## because vacation.pl will report SMTP recipient $smtp_recipient which resolves to $email does not have an active vacation (rv: $rv, email: $email)"
         ## and will not send message
 
-        ## set $tActiveFrom to the begin of the day (00:00:00) and  $tActiveUntil to the end of the day (23:59:59)
-        ## time part is now set to entry time
-        $tActiveFrom = $tActiveFrom->setTime(0, 0, 0);
-        $tActiveUntil = $tActiveUntil->setTime(23, 59, 59);
-
+        # Should really be storing a timezone in the datetime field.
         if (($tActiveUntil >= $now && ($tActiveUntil >= $tActiveFrom))) {
-            if (!$vh->set_away($fSubject, $fBody, $fInterval_Time, $tActiveFrom->format('Y-m-d H:i:s'), $tActiveUntil->format('Y-m-d H:i:s'))) {
+            if (!$vh->set_away($fSubject, $fBody, $fInterval_Time, $tActiveFrom, $tActiveUntil)) {
                 $error = 1;
             }
         } else {
@@ -218,8 +217,8 @@ if (!$details['active']) {
 $smarty->assign('tUseremail', $tUseremail);
 $smarty->assign('tSubject', $tSubject);
 $smarty->assign('tBody', $tBody);
-$smarty->assign('tActiveFrom', $tActiveFrom->format(DateTime::ISO8601));
-$smarty->assign('tActiveUntil', $tActiveUntil->format(DateTime::ISO8601));
+$smarty->assign('tActiveFrom', $tActiveFrom->format('Y-m-d\TH:i'));
+$smarty->assign('tActiveUntil', $tActiveUntil->format('Y-m-d\TH:i'));
 $smarty->assign('select_options', $choice_of_reply);
 $smarty->assign('tInterval_Time', $tInterval_Time);
 $smarty->assign('smarty_template', 'vacation');
