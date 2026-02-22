@@ -8,7 +8,7 @@
 {/strip}
 
 {strip}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
             {*** <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo" /></a> ***}
             <a class="navbar-brand" href='main.php'><img id="login_header_logo"
@@ -31,12 +31,12 @@
                                             aria-hidden="true"></span> {$PALANG.pAdminMenu_list_admin} <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item" class="nav-item">
+                                    <li class="nav-item" >
                                         <a class="dropdown-item" href="{#url_list_admin#}"><span class="bi bi-list"
                                                                                                  aria-hidden="true"></span> {$PALANG.pAdminMenu_list_admin}
                                         </a>
                                     </li>
-                                    <li class="nav-item" class="nav-item">
+                                    <li class="nav-item" >
                                         <a class="dropdown-item" href="{#url_create_admin#}"><span class="bi bi-plus"
                                                                                                    aria-hidden="true"></span> {$PALANG.pAdminMenu_create_admin}
                                         </a>
@@ -231,6 +231,15 @@
                             {$PALANG.pMenu_logout}</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
+        </div>
+
+
+        <!-- darkmode switch -->
+        <div class="col-2">
+            <div class="form-check form-switch">
+                <input class="form-check-input" role="switch" type="checkbox" id="darkModeSwitch" checked>
+                <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+            </div>
         </div>
     </nav>
 {/strip}

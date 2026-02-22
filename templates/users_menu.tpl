@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
         {*** <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo" /></a> ***}
         <a class="navbar-brand" href="{#url_user_main#}"><img id="login_header_logo"
@@ -39,6 +39,14 @@
 
                 <li class="logout"><a class="nav-link" target="_top" href="{#url_user_logout#}">{$PALANG.pMenu_logout}</a></li>
             </ul>
+        </div>
+    </div>
+
+    <!-- darkmode switch -->
+    <div class="col-2">
+        <div class="form-check form-switch">
+            <input class="form-check-input" role="switch" type="checkbox" id="darkModeSwitch" checked>
+            <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
         </div>
     </div>
 </nav>
