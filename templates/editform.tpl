@@ -17,6 +17,9 @@
                                 {if $field.editable == 0}
                                     {if $field.type == 'enma'}
                                         {$struct.{$key}.options.{$value_{$key}}}
+                                    {elseif $field.type == 'html'}
+                                        {assign var=__raw value=$value_{$key}}
+                                        {$__raw|unescape:'html' nofilter}
                                     {else}
                                         {$value_{$key}}
                                     {/if}

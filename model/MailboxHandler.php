@@ -66,6 +66,15 @@ class MailboxHandler extends PFAHandler
         );
 
         # update allowed quota
+    // Admin-side TOTP management
+    if (Config::bool('totp') && !$this->new) {
+        // include totp_secret in SELECT (hidden, not written)
+        $this->struct['totp_secret'] = self::pacol(0, 0, 0, 'text', '', '', '', array(), /*not_in_db*/ 0, /*dont_write_to_db*/ 1);
+        // visible row (button or 'no TOTP set')
+        $this->struct['totp_action'] = self::pacol(0, 1, 0, 'html', 'pUsersMenu_totp', '', '', array(), /*not_in_db*/ 1, /*dont_write_to_db*/ 1);
+    }
+
+
         if (count($this->struct['domain']['options']) > 0) {
             $this->prefill('domain', $this->struct['domain']['options'][0]);
         }
@@ -233,7 +242,24 @@ class MailboxHandler extends PFAHandler
                 $db_result[$key]['quota'] = -1;
             }
         }
+        
+        // Render TOTP action
+        if (isset($this->struct['totp_action'])) {
+            $secret = $row['totp_secret'] ?? null;
+            $has_totp = (!is_null($secret) && $secret !== '');
+
+            if ($has_totp) {
+                $db_result[$key]['totp_action'] =
+                    '<button type="submit" name="reset_totp" value="1" class="btn btn-warning btn-sm">' .
+                    htmlspecialchars(Config::lang('pUsersMenu_reset_totp'), ENT_QUOTES, 'UTF-8') .
+                    '</button>';
+            } else {
+                $db_result[$key]['totp_action'] =
+                    htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
+            }
+        }
         return $db_result;
+
     }
 
 

@@ -106,6 +106,35 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
         die('Invalid token!');
     }
+    # Reset TOTP secret (mailbox/admin edit by Admin)
+    if (safepost('reset_totp') === '1') {
+        if (Config::bool('totp') && !$new && ($table === 'mailbox' || $table === 'admin')) {
+
+            if (!$handler->init($edit)) {
+                flash_error($handler->errormsg);
+                header("Location: " . $formconf['listview']);
+                exit;
+            }
+
+            try {
+                $table_db = table_by_key($table);
+                $sql = "UPDATE $table_db SET totp_secret = :secret, modified = :modified WHERE $id_field = :id";
+                db_execute($sql, array(
+                    'secret'   => null,
+                    'modified' => date('Y-m-d H:i:s'),
+                    'id'       => $edit,
+                ));
+                flash_info(Config::lang_f('pTOTP_reset_success', $edit));
+            } catch (Exception $e) {
+                error_log("TOTP reset failed for $table/$edit: " . $e->getMessage());
+                flash_error(Config::lang_f('pTOTP_reset_failed', $edit));
+            }
+
+            header("Location: edit.php?table=" . urlencode($table) . "&edit=" . urlencode($edit));
+            exit;
+        }
+    }
+
 
     $inp_values = [];
 

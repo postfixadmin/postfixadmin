@@ -183,6 +183,11 @@ $PALANG['pEdit_mailbox_result_error'] = 'Unable to modify the mailbox!';
 
 $PALANG['pUsersMain_totp_exceptions'] = 'Allow trusted IP-addresses to access your mailbox without TOTP';
 $PALANG['pUsersMenu_totp'] = 'Manage TOTP';
+$PALANG['pUsersMenu_reset_totp'] = 'Reset TOTP';
+$PALANG['pUsersMenu_no_totp_set'] = 'no TOTP set';
+$PALANG['pTOTP_reset_success'] = 'TOTP secret cleared for %s';
+$PALANG['pTOTP_reset_failed'] = 'Failed to clear TOTP secret for %s';
+
 $PALANG['pTOTP_welcome'] = 'Setup your Time-based One-time Password';
 $PALANG['pUsersMain_totp'] = 'Setup your Time-based One-time Password';
 $PALANG['pTOTP_secret'] = 'TOTP secret';
