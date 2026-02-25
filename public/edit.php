@@ -243,11 +243,14 @@ foreach ($form_fields as $key => $field) {
         } else {
             $fielderror[$key] = '';
         }
+        $sanitise = true;
+        if (isset($form_fields[$key]['type']) && $form_fields[$key]['type'] == 'html')
+            $sanitise = false;
 
         if (isset($values[$key])) {
-            $smarty->assign("value_$key", $values[$key]);
+            $smarty->assign("value_$key", $values[$key], $sanitise);
         } else {
-            $smarty->assign("value_$key", $form_fields[$key]['default']);
+            $smarty->assign("value_$key", $form_fields[$key]['default'], $sanitise);
         }
     }
 }
