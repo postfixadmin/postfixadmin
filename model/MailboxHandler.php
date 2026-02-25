@@ -65,15 +65,15 @@ class MailboxHandler extends PFAHandler
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 
-        # update allowed quota
-    // Admin-side TOTP management
-    if (Config::bool('totp') && !$this->new) {
-        // include totp_secret in SELECT (hidden, not written)
-        $this->struct['totp_secret'] = self::pacol(0, 0, 0, 'text', '', '', '', array(), /*not_in_db*/ 0, /*dont_write_to_db*/ 1);
-        // visible row (button or 'no TOTP set')
-        $this->struct['totp_action'] = self::pacol(0, 1, 0, 'html', 'pUsersMenu_totp', '', '', array(), /*not_in_db*/ 1, /*dont_write_to_db*/ 1);
-    }
-
+        # Admin-side TOTP management
+        if (Config::bool('totp') && !$this->new) {
+            $this->struct['totp_action'] = self::pacol(
+                0, 1, 0, 'html', 'pUsersMenu_totp', '', '',
+                array(),
+                /*not_in_db*/ 1,
+                /*dont_write_to_db*/ 1
+            );
+        }
 
         if (count($this->struct['domain']['options']) > 0) {
             $this->prefill('domain', $this->struct['domain']['options'][0]);
@@ -243,10 +243,11 @@ class MailboxHandler extends PFAHandler
             }
         }
         
-        // Render TOTP action
-        if (isset($this->struct['totp_action'])) {
-            $secret = $row['totp_secret'] ?? null;
-            $has_totp = (!is_null($secret) && $secret !== '');
+        # Render TOTP action
+        if (isset($this->struct['totp_action']) && is_string($row['username'])) {
+
+            $totp = new TotpPf('mailbox', new Login('mailbox'));
+            $has_totp = $totp->usesTOTP($row['username']);
 
             if ($has_totp) {
                 $db_result[$key]['totp_action'] =
@@ -258,6 +259,7 @@ class MailboxHandler extends PFAHandler
                     htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
             }
         }
+        
         return $db_result;
 
     }

@@ -199,17 +199,10 @@ class AdminHandler extends PFAHandler
         }
 
         # Render TOTP action
-        if (isset($this->struct['totp_action'])) {
-            $table = table_by_key($this->db_table);
+        if (isset($this->struct['totp_action']) && is_string($row['username'])) {
 
-            $sql = "SELECT 1 AS has_totp
-            FROM $table
-            WHERE {$this->id_field} = :id
-              AND totp_secret IS NOT NULL
-              AND length(totp_secret) > 0";
-
-            $r = db_query_one($sql, array('id' => $this->id));
-            $has_totp = (!empty($r) && (int)($r['has_totp'] ?? 0) === 1);
+            $totp = new TotpPf('admin', new Login('admin'));
+            $has_totp = $totp->usesTOTP($row['username']);
 
             if ($has_totp) {
                 $db_result[$key]['totp_action'] =

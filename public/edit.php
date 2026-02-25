@@ -25,6 +25,8 @@
 
 require_once('common.php');
 
+
+
 $smarty = PFASmarty::getInstance();
 
 $username = authentication_get_username(); # enforce login
@@ -117,17 +119,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
 
             try {
-                $table_db = table_by_key($table);
-                $sql = "UPDATE $table_db SET totp_secret = :secret, modified = :modified WHERE $id_field = :id";
-                db_execute($sql, array(
-                    'secret'   => null,
-                    'modified' => date('Y-m-d H:i:s'),
-                    'id'       => $edit,
-                ));
+                $totp = new TotpPf($table, new Login($table));
+                $totp->removeTotpFromUser($edit);
                 flash_info(Config::lang_f('pTOTP_reset_success', $edit));
             } catch (Exception $e) {
                 error_log("TOTP reset failed for $table/$edit: " . $e->getMessage());
-                flash_error(Config::lang_f('pTOTP_reset_failed', $edit));
+                flash_error(Config::lang_f('pTOTP_reset_failed', $edit).$e->getMessage());
             }
 
             header("Location: edit.php?table=" . urlencode($table) . "&edit=" . urlencode($edit));
