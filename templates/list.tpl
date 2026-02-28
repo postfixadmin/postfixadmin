@@ -57,126 +57,128 @@
         </thead>
         <tbody>
         {foreach key=raw_itemkey from=$RAW_items item=RAW_item}
-        {assign var="itemkey" value=$raw_itemkey|htmlentities_no_double_encode} {* array keys in $items are escaped by PFASmarty::sanitise()  *}
-        {assign var="item" value=$items[$itemkey]}
+            {assign var="itemkey" value=$raw_itemkey|htmlentities_no_double_encode} {* array keys in $items are escaped by PFASmarty::sanitise()  *}
+            {assign var="item" value=$items[$itemkey]}
+            <tr>
 
-        <tr>
+                {foreach key=key item=field from=$struct}
+                    {if $field.display_in_list == 1 && $field.label}
 
-            {foreach key=key item=field from=$struct}
-            {if $field.display_in_list == 1 && $field.label}
-
-            {if $field.linkto != '' && ($item.$id_field != '' || $item.$id_field > 0) }
-                {assign "linkto" "{$field.linkto|replace:'%s':{$item.$id_field|escape:url}}"} {* TODO: use label field instead *}
-                {assign "linktext" "<a href='{$linkto}'>{$item.{$key}}</a>"}
-            {else}
-                {assign "linktext" $item.$key}
-            {/if}
-
-            {if $table == 'foo' && $key == 'bar'}
-            <td>Special handling (complete table row) for {$table} / {$key}</td>
-            {else}
-            <td>
-                {if $table == 'foo' && $key == 'bar'}
-                Special handling (td content) for {$table} / {$key}
-                {elseif $table == 'aliasdomain' && $key == 'target_domain' && $struct.target_domain.linkto == 'target'}
-                <a href="list-virtual.php?domain={$item.target_domain|escape:"quotes"}">{$item.target_domain}</a> {* do we need escape:url or escpae:quotes here? see #705 *}
-                {*                    {elseif $table == 'domain' && $key == 'domain'}
-                                        <a href="list.php?table=domain&domain={$item.domain|escape:"url"}">{$item.domain}</a>
-                *}
-                {elseif $key == 'active'}
-                {if $item._can_edit}
-                    <a class="btn btn-{if ($item.active==0)}info{else}warning{/if}"
-                       href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">
-                        {if $item._active == $PALANG['YES']}
-                            <span class="bi bi-check-lg" aria-hidden="true"></span>
+                        {if $field.linkto != '' && ($item.$id_field != '' || $item.$id_field > 0) }
+                            {assign "linkto" "{$field.linkto|replace:'%s':{$item.$id_field|escape:url}}"} {* TODO: use label field instead *}
+                            {assign "linktext" "<a href='{$linkto}'>{$item.{$key}}</a>"}
                         {else}
-                            <span class="bi bi-square" aria-hidden="true"></span>
+                            {assign "linktext" $item.$key}
                         {/if}
-                        {$item._active}
-                    </a>
-                {else}
-                    {$item._active}
+
+                        {if $table == 'foo' && $key == 'bar'}
+                            <td>Special handling (complete table row) for {$table} / {$key}</td>
+                        {else}
+                            <td>
+                                {if $table == 'foo' && $key == 'bar'}
+                                    Special handling (td content) for {$table} / {$key}
+                                {elseif $table == 'aliasdomain' && $key == 'target_domain' && $struct.target_domain.linkto == 'target'}
+                                    <a href="list-virtual.php?domain={$item.target_domain|escape:"quotes"}">{$item.target_domain}</a>
+                                    {* do we need escape:url or escpae:quotes here? see #705 *}
+                                    {*                    {elseif $table == 'domain' && $key == 'domain'}
+                                                            <a href="list.php?table=domain&domain={$item.domain|escape:"url"}">{$item.domain}</a>
+                                    *}
+                                {elseif $key == 'active'}
+                                    {if $item._can_edit}
+                                        <a class="btn btn-sm btn-{if ($item.active==0)}info{else}warning{/if}"
+                                           href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">
+                                            {if $item._active == $PALANG['YES']}
+                                                <span class="bi bi-check-lg" aria-hidden="true"></span>
+                                            {else}
+                                                <span class="bi bi-square" aria-hidden="true"></span>
+                                            {/if}
+                                            {$item._active}
+                                        </a>
+                                    {else}
+                                        {$item._active}
+                                    {/if}
+                                {elseif $field.type == 'bool'}
+                                    {assign "tmpkey" "_{$key}"}{$item.{$tmpkey}}
+                                {elseif $field.type == 'list'}
+                                    {foreach key=key2 item=field2 from=$item.$key}{$field2}<br>{/foreach}
+                                {elseif $field.type == 'pass'}
+                                    (hidden)
+                                {elseif $field.type == 'quot'}
+                                    {assign "tmpkey" "_{$key}_percent"}
+
+                                    {if $item[$tmpkey] > $CONF.quota_level_high_pct}
+                                        {assign var="quota_level" value="high"}
+                                    {elseif $item[$tmpkey] > $CONF.quota_level_med_pct}
+                                        {assign var="quota_level" value="mid"}
+                                    {else}
+                                        {assign var="quota_level" value="low"}
+                                    {/if}
+                                    {if $item[$tmpkey] > -1}
+                                        <div class="quota quota_{$quota_level}"
+                                             style="width:{$item[$tmpkey] *1.2}px;"></div>
+                                        <div class="quota_bg"></div>
+                                        <div class="quota_text quota_text_{$quota_level}">{$linktext}</div>
+                                    {else}
+                                        <div class="quota_bg quota_no_border"></div>
+                                        <div class="quota_text">{$linktext}</div>
+                                    {/if}
+
+                                {elseif $field.type == 'txtl'}
+                                    {foreach key=key2 item=field2 from=$item.$key}{$field2}<br>{/foreach}
+                                {elseif $field.type == 'html'}
+                                    {$RAW_item.$key}
+                                {else}
+                                    {$linktext}
+                                {/if}
+                            </td>
+                        {/if}
+                    {/if}
+                {/foreach}
+
+                <td>{if $item._can_edit}
+                        <a class="btn btn-sm btn-primary"
+                           href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}"><span
+                                    class="bi bi-pencil" aria-hidden="true"></span> {$PALANG.edit}</a>
+                    {else}&nbsp;
+                    {/if}
+                </td>
+                <td>{if $item._can_delete}
+                        <form method="post" action="{#url_delete#}">
+                            <input type="hidden" name="table" value="{$table}">
+                            <input type="hidden" name="delete" value="{$RAW_item.$id_field|escape:"quotes"}">
+                            <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
+
+                            <button class="btn btn-sm btn-danger"
+                                    onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
+                                <span class="bi bi-trash" aria-hidden="true"></span> {$PALANG.del}
+                            </button>
+                        </form>
+                    {else}&nbsp;{/if}
+                </td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+
+    <div class="card-footer">
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group float-end">
+                {if $msg.can_create}
+                    {assign var=tmpdomain value=""}
+                    {if isset($fDomain)}
+                        {assign var=tmpdomain value="&amp;domain={$fDomain|escape:url}"}
+                    {/if}
+                    <a href="edit.php?table={$table|escape:"url"}{$tmpdomain}" role="button"
+                       class="btn btn-secondary"><span
+                                class="bi bi-plus-circle"
+                                aria-hidden="true"></span> {$PALANG.{$formconf.create_button}}</a>
                 {/if}
-                {elseif $field.type == 'bool'}
-                {assign "tmpkey" "_{$key}"}{$item.{$tmpkey}}
-                {elseif $field.type == 'list'}
-                {foreach key=key2 item=field2 from=$item.$key}{$field2}<br>{/foreach}
-                {elseif $field.type == 'pass'}
-                (hidden)
-                {elseif $field.type == 'quot'}
-                {assign "tmpkey" "_{$key}_percent"}
-
-                {if $item[$tmpkey] > $CONF.quota_level_high_pct}
-                    {assign var="quota_level" value="high"}
-                {elseif $item[$tmpkey] > $CONF.quota_level_med_pct}
-                    {assign var="quota_level" value="mid"}
-                {else}
-                    {assign var="quota_level" value="low"}
-                {/if}
-                {if $item[$tmpkey] > -1}
-                <div class="quota quota_{$quota_level}" style="width:{$item[$tmpkey] *1.2}px;"></div>
-                <div class="quota_bg"></div>
-</div>
-<div class="quota_text quota_text_{$quota_level}">{$linktext}</div>
-{else}
-<div class="quota_bg quota_no_border"></div></div>
-<div class="quota_text">{$linktext}</div>
-{/if}
-
-{elseif $field.type == 'txtl'}
-{foreach key=key2 item=field2 from=$item.$key}{$field2}<br>{/foreach}
-{elseif $field.type == 'html'}
-{$RAW_item.$key}
-{else}
-{$linktext}
-{/if}
-</td>
-{/if}
-{/if}
-{/foreach}
-
-<td>{if $item._can_edit}
-        <a class="btn btn-primary"
-           href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}"><span
-                    class="bi bi-pencil" aria-hidden="true"></span> {$PALANG.edit}</a>
-    {else}&nbsp;
-    {/if}
-</td>
-<td>{if $item._can_delete}
-        <form method="post" action="{#url_delete#}">
-            <input type="hidden" name="table" value="{$table}">
-            <input type="hidden" name="delete" value="{$RAW_item.$id_field|escape:"quotes"}">
-            <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
-
-            <button class="btn btn-danger"
-                    onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
-                <span class="bi bi-trash" aria-hidden="true"></span> {$PALANG.del}
-            </button>
-        </form>
-    {else}&nbsp;{/if}
-</td>
-</tr>
-{/foreach}
-</tbody>
-</table>
-
-<div class="card-footer">
-    <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group float-end">
-            {if $msg.can_create}
-                {assign var=tmpdomain value=""}
-                {if isset($fDomain)}
-                    {assign var=tmpdomain value="&amp;domain={$fDomain|escape:url}"}
-                {/if}
-                <a href="edit.php?table={$table|escape:"url"}{$tmpdomain}" role="button" class="btn btn-secondary"><span
-                            class="bi bi-plus-circle"
-                            aria-hidden="true"></span> {$PALANG.{$formconf.create_button}}</a>
-            {/if}
-            <a href="list.php?table={$table|escape:"url"}&amp;output=csv&amp;domain={$domain_selected}" role="button"
-               class="btn btn-secondary"><span class="bi bi-box-arrow-up-right"
-                                             aria-hidden="true"></span> {$PALANG.download_csv}</a>
+                <a href="list.php?table={$table|escape:"url"}&amp;output=csv&amp;domain={$domain_selected}"
+                   role="button"
+                   class="btn btn-secondary"><span class="bi bi-box-arrow-up-right"
+                                                   aria-hidden="true"></span> {$PALANG.download_csv}</a>
+            </div>
         </div>
     </div>
-</div>
 
 </div>
