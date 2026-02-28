@@ -240,8 +240,9 @@ foreach ($form_fields as $key => $_) {
             $fielderror[$key] = '';
         }
         $sanitise = true;
-        if (isset($form_fields[$key]['type']) && $form_fields[$key]['type'] == 'html')
+        if (isset($form_fields[$key]['type']) && $form_fields[$key]['type'] == 'html') {
             $sanitise = false;
+        }
 
         if (isset($values[$key])) {
             $smarty->assign("value_$key", $values[$key], $sanitise);

@@ -101,7 +101,7 @@ class AdminHandler extends PFAHandler
                 /*dont_write_to_db*/ 1
             );
         }
-    } 
+    }
 
     protected function initMsg()
     {
@@ -214,7 +214,7 @@ class AdminHandler extends PFAHandler
                     htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
             }
         }
-        
+
         return $db_result;
 
     }
