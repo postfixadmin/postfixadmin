@@ -76,10 +76,10 @@
 			{/if}
 			<td>{$item.modified}</td>
 			<td><a class="btn btn-{if ($item.active==0)}info{else}warning{/if}" href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
-				>{if $item.active==1}<span class="glyphicon glyphicon-check" aria-hidden="true"></span> {$PALANG.YES}{else}<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> {$PALANG.NO}{/if}</a></td>
+				>{if $item.active==1}<span class="bi bi-check-lg" aria-hidden="true"></span> {$PALANG.YES}{else}<span class="bi bi-square" aria-hidden="true"></span> {$PALANG.NO}{/if}</a></td>
                         {if $CONF.smtp_active_flag===YES}
 				<td><a class="btn btn-{if ($item.smtp_active==0)}info{else}warning{/if}" href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.smtp_active==0)}1{else}0{/if}&amp;field=smtp_active&amp;token={$smarty.session.PFA_token|escape:"url"}"
-				>{if $item.smtp_active==1}<span class="glyphicon glyphicon-check" aria-hidden="true"></span> {$PALANG.YES}{else}<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> {$PALANG.NO}{/if}</a></td>
+				>{if $item.smtp_active==1}<span class="bi bi-check-lg" aria-hidden="true"></span> {$PALANG.YES}{else}<span class="bi bi-square" aria-hidden="true"></span> {$PALANG.NO}{/if}</a></td>
 			{/if}
 			{if $CONF.vacation_control_admin===YES && $CONF.vacation===YES}
 				{if $item.v_active!==-1}
@@ -97,16 +97,16 @@
 			{if $authentication_has_role.global_admin!==true && $CONF.alias_control_admin===YES}{assign var="edit_aliases" value=1}{/if}
 			{if $authentication_has_role.global_admin==true && $CONF.alias_control===YES}{assign var="edit_aliases" value=1}{/if}
 			{if $edit_aliases==1}
-				<td><a class="btn btn-primary" href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> {$PALANG.alias}</a></td>
+				<td><a class="btn btn-primary" href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}"><span class="bi bi-envelope" aria-hidden="true"></span> {$PALANG.alias}</a></td>
 			{/if}
-			<td><a class="btn btn-primary" href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$PALANG.edit}</a></td>
+			<td><a class="btn btn-primary" href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}"><span class="bi bi-pencil" aria-hidden="true"></span> {$PALANG.edit}</a></td>
 			<td>
 				<form method="post" action="delete.php">
 					<input type="hidden" name="table" value="mailbox">
 					<input type="hidden" name="delete" value="{$item.username|escape:"quotes"}">
 					<input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
 					<button type="submit" class="btn btn-danger" onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$item.username}');">
-						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {$PALANG.del}
+						<span class="bi bi-trash" aria-hidden="true"></span> {$PALANG.del}
 					</button>
 				</form>
 			</td>

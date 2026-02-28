@@ -1,4 +1,4 @@
-<div class="panel panel-default" id="main_menu" style="padding-top: 30px">
+<div class="card" id="main_menu" style="padding-top: 30px">
     <table class="table">
         {if $CONF.vacation===YES}
             <tr>

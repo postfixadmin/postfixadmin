@@ -1,7 +1,7 @@
-<div id="{$id_div}" class="panel panel-default">
+<div id="{$id_div}" class="card">
 
     {if ($admin_list|count > 1)}
-        <div class="panel-heading">
+        <div class="card-header">
             <form name="frmOverview" method="post" action="">
                 {html_options name='username' output=$admin_list values=$admin_list selected=$admin_selected onchange="this.form.submit();"}
                 <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}"/></noscript>
@@ -88,9 +88,9 @@
                     <a class="btn btn-{if ($item.active==0)}info{else}warning{/if}"
                        href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">
                         {if $item._active == $PALANG['YES']}
-                            <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                            <span class="bi bi-check-lg" aria-hidden="true"></span>
                         {else}
-                            <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+                            <span class="bi bi-square" aria-hidden="true"></span>
                         {/if}
                         {$item._active}
                     </a>
@@ -138,7 +138,7 @@
 <td>{if $item._can_edit}
         <a class="btn btn-primary"
            href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}"><span
-                    class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$PALANG.edit}</a>
+                    class="bi bi-pencil" aria-hidden="true"></span> {$PALANG.edit}</a>
     {else}&nbsp;
     {/if}
 </td>
@@ -150,7 +150,7 @@
 
             <button class="btn btn-danger"
                     onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {$PALANG.del}
+                <span class="bi bi-trash" aria-hidden="true"></span> {$PALANG.del}
             </button>
         </form>
     {else}&nbsp;{/if}
@@ -160,20 +160,20 @@
 </tbody>
 </table>
 
-<div class="panel-footer">
+<div class="card-footer">
     <div class="btn-toolbar" role="toolbar">
-        <div class="btn-group pull-right">
+        <div class="btn-group float-end">
             {if $msg.can_create}
                 {assign var=tmpdomain value=""}
                 {if isset($fDomain)}
                     {assign var=tmpdomain value="&amp;domain={$fDomain|escape:url}"}
                 {/if}
-                <a href="edit.php?table={$table|escape:"url"}{$tmpdomain}" role="button" class="btn btn-default"><span
-                            class="glyphicon glyphicon-plus-sign"
+                <a href="edit.php?table={$table|escape:"url"}{$tmpdomain}" role="button" class="btn btn-secondary"><span
+                            class="bi bi-plus-circle"
                             aria-hidden="true"></span> {$PALANG.{$formconf.create_button}}</a>
             {/if}
             <a href="list.php?table={$table|escape:"url"}&amp;output=csv&amp;domain={$domain_selected}" role="button"
-               class="btn btn-default"><span class="glyphicon glyphicon-export"
+               class="btn btn-secondary"><span class="bi bi-box-arrow-up-right"
                                              aria-hidden="true"></span> {$PALANG.download_csv}</a>
         </div>
     </div>

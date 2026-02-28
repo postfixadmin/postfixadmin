@@ -222,35 +222,24 @@ class VacationHandler extends PFAHandler
      * @param string $subject
      * @param string $body
      * @param int $interval_time
-     * @param string $activeFrom - something strtotime understands
-     * @param string $activeUntil - something strtotime understands
-     * @return boolean
      */
-    public function set_away($subject, $body, $interval_time, $activeFrom, $activeUntil)
+    public function set_away(string $subject, string $body, int $interval_time, \DateTimeInterface $activeFrom, \DateTimeInterface $activeUntil): bool
     {
         $this->removeVacationNotifications(); // clean out any notifications that might already have been sent.
 
-        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $activeFrom)) {
-            $activeFrom .= ' 00:00:00';
-        }
-        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $activeUntil)) {
-            $activeUntil .= ' 23:59:59';
-        }
-
-        $activeFrom = date("Y-m-d H:i:s", strtotime($activeFrom)); # TODO check if result looks like a valid date
-        $activeUntil = date("Y-m-d H:i:s", strtotime($activeUntil)); # TODO check if result looks like a valid date
         list(/*NULL*/, $domain) = explode('@', $this->username);
 
-        $vacation_data = array(
+        $vacation_data = [
             'email' => $this->username,
             'domain' => $domain,
             'subject' => $subject,
             'body' => $body,
             'interval_time' => $interval_time,
             'active' => db_get_boolean(true),
-            'activefrom' => $activeFrom,
-            'activeuntil' => $activeUntil,
-        );
+            // MySQL 8.x supports a timezone (Y-m-d H:i:sP), but MariaDB doesn't seem to? I'm sure PostgreSQL will.
+            'activefrom' => $activeFrom->format('Y-m-d H:i:s'),
+            'activeuntil' => $activeUntil->format('Y-m-d H:i:s'),
+        ];
 
         if (!db_pgsql()) {
             $vacation_data['cache'] = '';  # leftover from 2.2
@@ -260,20 +249,24 @@ class VacationHandler extends PFAHandler
         $table_vacation = table_by_key('vacation');
         $result = db_query_one("SELECT * FROM $table_vacation WHERE email = ?", array($this->username));
         if (!empty($result)) {
-            db_update('vacation', 'email', $this->username, $vacation_data);
+            $ret = db_update('vacation', 'email', $this->username, $vacation_data);
         } else {
-            db_insert('vacation', $vacation_data);
+            $ret = db_insert('vacation', $vacation_data);
         }
-        # TODO error check
+
+
+        # Can't easily wrap in a transaction, as there could be a hook script being run?
         # TODO wrap whole function in db_begin / db_commit (or rollback)?
 
-        return $this->updateAlias(1);
+        $this->updateAlias(1);
+
+        return $ret == 1;
     }
 
     /**
      * add/remove the vacation alias
      * @param int $vacationActive
-     * @return boolean
+     * @return bool
      */
     protected function updateAlias($vacationActive)
     {

@@ -11,28 +11,21 @@ require_once('common.php');
 
     <title>Postfix Admin - Setup</title>
     <link rel="shortcut icon" href="images/favicon.ico"/>
-    <link rel="stylesheet" href="css/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-5.3.0-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
 
 </head>
 
 <body>
 
-<nav class="navbar navbar-default fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="images/postbox.png"
-                                                         alt="Logo"/></a>
-
-        </div>
+        <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="images/postbox.png" alt="Logo"/></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                aria-expanded="false" aria-controls="navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </div>
 </nav>
 
@@ -98,7 +91,7 @@ $tick = ' ✅ ';
         <?php
 
         if (!isset($_SERVER['HTTPS'])) {
-            echo "<h2 class='h2 text-danger'>Warning: connection not secure, switch to https if possible</h2>";
+            echo "<p class='text-danger'>Warning: browser connection not secure, switch to https if possible</p>";
         } ?>
 
         <div class="col-12">
@@ -138,95 +131,92 @@ if ($authenticated) {
         </div>
     </div>
 
-    <?php if ($configSetupDone && !$authenticated) { ?>
-        <div class="row">
-            <div class="col-12">
+    <div class="row">
+
+        <?php if ($configSetupDone && !$authenticated) { ?>
+
+            <div class="col-12 col-md-6">
                 <h2 class="h2">Login with setup_password</h2>
 
-                <form name="authenticate" class="col-2 form-horizontal" method="post">
+                <form name="authenticate" class="col-12" method="post">
                     <div class="form-group">
                         <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
                         <div class="col-sm-4">
                             <input class="form-control" type="password" name="setup_password" minlength=5
-                                   id="setup_password"
-                                   value=""/>
+                                   required="required"
+                                   id="setup_password" value=""/>
                             <?= _error_field($errors, 'setup_login_password'); ?>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-4">
-                            <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Login with
-                                setup_password.
-                            </button>
-                        </div>
+                        <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Login with
+                            setup_password
+                        </button>
                     </div>
                 </form>
 
-                <p>If you've forgotten your super-admin password, you can generate a new one using the
-                    <em>Generate</em>
-                    form and update your <code>config.local.php</code></p>
 
             </div>
-        </div>
-        <?php
-    } ?>
 
-    <div class="row">
-        <div class="col-12">
             <?php
+        } ?>
 
-            if (!$configSetupDone) {
-                echo <<<EOF
-                    <p><strong>For a new installation, you must generate a 'setup_password' to go into your config.local.php file.</strong></p>
-                    <p>You can use the form below, or run something like the following in a shell - <code>php -r 'echo password_hash("password", PASSWORD_DEFAULT);'</code><p>
-EOF;
-            }
+        <?php
+        if (!$authenticated) {
+            ?>
+            <div class="col-12 col-md-6 bg-light p-3 rounded">
+                <h3 class="h3">Generate setup_password</h3>
 
-if ($old_setup_password) {
-    echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
-}
+                <p><strong>For a new installation, you must generate a 'setup_password' to go into your config.local.php
+                        file.</strong></p>
+                <p>You can use the form below, or run something like the following in a shell - <code>php -r 'echo
+                        password_hash("password", PASSWORD_DEFAULT);'</code>
+                <p>
 
-if (!$authenticated || !$configSetupDone) { ?>
+                    <?php
+                    if ($old_setup_password) {
+                        echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
+                    }
 
-                <h2>Generate setup_password</h2>
+            if (!$configSetupDone) { ?>
 
-                <?php
+                    <?php
 
-    $form_error = '';
-    $result = '';
+            $form_error = '';
+                $result = '';
 
-    if (safepost('form') === "setuppw") {
-        $errors = [];
+                if (safepost('form') === "setuppw") {
+                    $errors = [];
 
-        # "setup password" form submitted
-        if (safepost('setup_password', 'abc') != safepost('setup_password2')) {
-            $errors['setup_password'] = "The two passwords differ!";
-            $form_error = 'has-error';
-        } else {
-            $msgs = validate_password(safepost('setup_password'));
+                    # "setup password" form submitted
 
-            if (empty($msgs)) {
-                // form has been submitted; both fields filled in, so generate a new setup password.
-                $hash = password_hash(safepost('setup_password'), PASSWORD_DEFAULT);
+                    if (safepost('setup_password', 'abc') != safepost('setup_password2')) {
+                        $errors['setup_password'] = "The two passwords differ!";
+                        $form_error = 'has-error';
+                    } else {
+                        $msgs = validate_password(safepost('setup_password'));
 
-                $result = '<p>If you want to use the password you entered as setup password, edit config.inc.php or config.local.php and set</p>';
-                $result .= "<pre>\$CONF['setup_password'] = '$hash';</pre><p>After adding, refresh this page and log in using it.</p>";
-            } else {
-                $form_error = 'has-error';
-                $errors['setup_password'] = implode(', ', $msgs);
-            }
-        }
-    }
+                        if (empty($msgs)) {
+                            // form has been submitted; both fields filled in, so generate a new setup password.
+                            $hash = password_hash(safepost('setup_password'), PASSWORD_DEFAULT);
 
-    ?>
+                            $result = '<p>If you want to use the password you entered as setup password, edit your config file (config.local.php) and set</p>';
+                            $result .= "<code>\$CONF['setup_password'] = '$hash';</code><p>After updating your configuration you should be able to login with the &quot;Login with setup_password&quot; form.</p>";
+                        } else {
+                            $form_error = 'has-error';
+                            $errors['setup_password'] = implode(', ', $msgs);
+                        }
+                    }
+                }
+
+
+                ?>
 
                 <form name="setuppw" method="post" class="form-horizontal" action="setup.php">
                     <input type="hidden" name="form" value="setuppw"/>
 
                     <div class="form-group <?= $form_error ?>">
 
-                        <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
+                        <label for="setup_password" class="col-sm-4">Setup password</label>
                         <div class="col-sm-4">
                             <input class="form-control" type="password" name="setup_password" minlength=5
                                    id="setup_password"
@@ -240,7 +230,7 @@ if (!$authenticated || !$configSetupDone) { ?>
                     </div>
 
                     <div class="form-group <?= $form_error ?>">
-                        <label for="setup_password2" class="col-sm-4 control-label">Setup password (again)</label>
+                        <label for="setup_password2" class="col-sm-4">Setup password (again)</label>
                         <div class="col-sm-4">
                             <input class="form-control" type="password" name="setup_password2"
                                    minlength=5 id="setup_password2"
@@ -262,19 +252,20 @@ if (!$authenticated || !$configSetupDone) { ?>
                 </form>
                 <?= $result ?>
                 <?php
-}  // end if(!$authenticated)?>
-        </div>
+            }  // end if(!$authenticated)?>
+            </div>
+        <?php } ?>
     </div>
+
 
     <div class="row">
         <div class="col-12">
             <h2 class="h2">Hosting Environment Check</h2>
 
             <?php
-$check = do_software_environment_check();
+            $check = do_software_environment_check();
 
 if ($authenticated) {
-
 
 
     if (!empty($check['info'])) {
@@ -299,7 +290,6 @@ if ($authenticated) {
         }
         echo "</ul>";
     }
-
 
 
 } else {
@@ -331,7 +321,11 @@ if ($authenticated) {
 try {
     $db = db_connect();
 } catch (\Exception $e) {
-    echo "<li class='h3 text-danger'>Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</li>';
+    $error_log = ini_get('error_log');
+    if (empty($error_log)) {
+        $error_log = 'maybe /var/log/apache2/error.log';
+    }
+    echo "<li class='text-danger'>Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log ($error_log)</li>";
     error_log("Couldn't perform PostfixAdmin database update - failed to connect to db? " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
 }
 
@@ -356,153 +350,155 @@ if ($db) {
 }
 ?>
             </ul>
-        </div
+        </div>
     </div>
-</div>
 
-<?php
-if ($authenticated) {
-    $setupMessage = '';
 
-    if (safepost("submit") === "createadmin") {
-        ?>
-<div class='row'>
-    <div class='col-12'>
-        <?php
-        # "create admin" form submitted, make sure the correct setup password was specified.
+    <?php
+    if ($authenticated) {
+        $setupMessage = '';
 
-        // XXX need to ensure domains table includes an 'ALL' entry.
-        $table_domain = table_by_key('domain');
-        $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
-        if (empty($rows)) {
-            // all other fields should default through the schema.
-            db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => ''));
+        if (safepost("submit") === "createadmin") {
+            ?>
+    <div class='row'>
+        <div class='col-12'>
+            <?php
+                    # "create admin" form submitted, make sure the correct setup password was specified.
+
+                    // XXX need to ensure domains table includes an 'ALL' entry.
+                    $table_domain = table_by_key('domain');
+            $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
+            if (empty($rows)) {
+                // all other fields should default through the schema.
+                db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => ''));
+            }
+
+            $values = array(
+                    'username' => safepost('username'),
+                    'password' => safepost('password'),
+                    'password2' => safepost('password2'),
+                    'superadmin' => 1,
+                    'domains' => array(),
+                    'active' => 1,
+            );
+
+            list($error, $setupMessage, $errors) = create_admin($values);
+
+            if ($error == 1) {
+                error_log("failed to add admin - " . json_encode([$error, $setupMessage, $errors]));
+                echo "<p class='text-danger'>Admin addition failed; check field error messages or server logs.</p>";
+            } else {
+                // all good!.
+                $setupMessage .= "<p>You are done with your basic setup. <b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b></p>";
+            }
+
+            echo "</div>
+</div>";
         }
 
-        $values = array(
-            'username' => safepost('username'),
-            'password' => safepost('password'),
-            'password2' => safepost('password2'),
-            'superadmin' => 1,
-            'domains' => array(),
-            'active' => 1,
-        );
+        $table_admin = table_by_key('admin');
+        $bool = db_get_boolean(true);
+        $admins = db_query_all("SELECT * FROM $table_admin WHERE superadmin = '$bool' AND active = '$bool'");
 
-        list($error, $setupMessage, $errors) = create_admin($values);
+        if (!empty($admins)) { ?>
 
-        if ($error == 1) {
-            error_log("failed to add admin - " . json_encode([$error, $setupMessage, $errors]));
-            echo "<p class='text-danger'>Admin addition failed; check field error messages or server logs.</p>";
-        } else {
-            // all good!.
-            $setupMessage .= "<p>You are done with your basic setup. <b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b></p>";
-        }
+                <div class="row">
+                    <div class="col-12">
 
-        echo "</div></div>";
-    }
-
-    $table_admin = table_by_key('admin');
-    $bool = db_get_boolean(true);
-    $admins = db_query_all("SELECT * FROM $table_admin WHERE superadmin = '$bool' AND active = '$bool'");
-
-    if (!empty($admins)) { ?>
+                        <h2 class="h2">Super admins</h2>
+                        <p>The following 'super-admin' accounts have already been added to the database.</p>
+                        <ul>
+                            <?php
+                        foreach ($admins as $row) {
+                            echo "<li>{$row['username']}</li>";
+                        }
+            ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php } ?>
 
             <div class="row">
                 <div class="col-12">
+                    <h2>Add Superadmin Account</h2>
 
-                    <h2 class="h2">Super admins</h2>
-                    <p>The following 'super-admin' accounts have already been added to the database.</p>
-                    <ul>
-                        <?php
-                    foreach ($admins as $row) {
-                        echo "<li>{$row['username']}</li>";
-                    }
-        ?>
-                    </ul>
+                    <form name="create_admin" class="form-horizontal" method="post">
+                        <div class="form-group">
+                            <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="password" required="required"
+                                       name="setup_password"
+                                       minlength=5
+                                       value=""/>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="username" class="col-sm-4 control-label"><?= $PALANG['admin'] ?></label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="text" required="required" name="username"
+                                       minlength=5
+                                       id="username"
+                                       value=""/>
+
+                                <?= _error_field($errors, 'username'); ?>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="password" class="col-sm-4 control-label"><?= $PALANG['password'] ?></label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="password" required=required
+                                       name="password" minlength=5
+                                       id="password" autocomplete="new-password"
+                                       value=""/>
+                                <?= _error_field($errors, 'password'); ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password2"
+                                   class="col-sm-4 control-label"><?= $PALANG['password_again'] ?></label>
+                            <div class="col-sm-4">
+                                <input class="form-control" type="password" required=required
+                                       name="password2" minlength=5
+                                       id="password2" autocomplete="new-password"
+                                       value=""/>
+
+                                <?= _error_field($errors, 'password2'); ?>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-4">
+                                <button class="btn btn-primary" type="submit" name="submit"
+                                        value="createadmin"><?= $PALANG['pAdminCreate_admin_button'] ?>
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
             </div>
-        <?php } ?>
 
-        <div class="row">
-            <div class="col-12">
-                <h2>Add Superadmin Account</h2>
-
-                <form name="create_admin" class="form-horizontal" method="post">
-                    <div class="form-group">
-                        <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
-                        <div class="col-sm-4">
-                            <input class="form-control" type="password" required="required"
-                                   name="setup_password"
-                                   minlength=5
-                                   value=""/>
-
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="username" class="col-sm-4 control-label"><?= $PALANG['admin'] ?></label>
-                        <div class="col-sm-4">
-                            <input class="form-control" type="text" required="required" name="username"
-                                   minlength=5
-                                   id="username"
-                                   value=""/>
-
-                            <?= _error_field($errors, 'username'); ?>
-
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="password" class="col-sm-4 control-label"><?= $PALANG['password'] ?></label>
-                        <div class="col-sm-4">
-                            <input class="form-control" type="password" required=required
-                                   name="password" minlength=5
-                                   id="password" autocomplete="new-password"
-                                   value=""/>
-                            <?= _error_field($errors, 'password'); ?>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password2"
-                               class="col-sm-4 control-label"><?= $PALANG['password_again'] ?></label>
-                        <div class="col-sm-4">
-                            <input class="form-control" type="password" required=required
-                                   name="password2" minlength=5
-                                   id="password2" autocomplete="new-password"
-                                   value=""/>
-
-                            <?= _error_field($errors, 'password2'); ?>
-
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-4">
-                            <button class="btn btn-primary" type="submit" name="submit"
-                                    value="createadmin"><?= $PALANG['pAdminCreate_admin_button'] ?>
-                            </button>
-                        </div>
-                    </div>
-
-                </form>
+            <div class="row">
+                <div class="col-12">
+                    <p class="text-success"><?= $setupMessage ?></p>
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12">
-                <p class="text-success"><?= $setupMessage ?></p>
-            </div>
-        </div>
-        <?php
-}
+            <?php
+    }
 
 ?>
+        </div>
     </div>
-    <footer class="footer mt-5 bg-dark">
+    <footer class="footer mt-5">
         <div class="container text-center">
             <a target="_blank" rel="noopener"
                href="https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/">Documentation</a>
@@ -511,6 +507,7 @@ if ($authenticated) {
                href="https://github.com/postfixadmin/postfixadmin/">Postfix Admin</a>
         </div>
     </footer>
+
 </body>
 </html>
 
@@ -545,9 +542,9 @@ function create_admin($values)
     }
 
     return array(
-        0,
-        $handler->infomsg['success'],
-        array(),
+            0,
+            $handler->infomsg['success'],
+            array(),
     );
 }
 
@@ -631,7 +628,7 @@ function do_software_environment_check()
     }
 
     if (file_exists($file_local_config)) {
-        $info[] = "config.local.php file found (" . realpath($file_local_config). ")";
+        $info[] = "config.local.php file found (" . realpath($file_local_config) . ")";
     } else {
         $warn[] = "Warning: config.local.php - NOT FOUND - It's Recommended to store your own settings in config.local.php instead of editing config.inc.php";
     }
