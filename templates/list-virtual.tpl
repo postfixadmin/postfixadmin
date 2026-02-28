@@ -73,21 +73,17 @@
     <br/>
 {/if}
 {if $tab=='mailbox' || $tab=='all'}
-    <div id="mailboxes" class="card">
+    <div id="mailboxes" class="card p-3">
         {$nav_bar_mailbox.top}
         {assign var="colspan" value=9}
         {if $CONF.vacation_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
         {if $CONF.alias_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
-        <table class="table table-hover" id="mailbox_table">
-            <thead>
-            <tr>
-                <th style="text-align:center;" colspan="{$colspan}">{$PALANG.pOverview_mailbox_title}</th>
-            </tr>
-            </thead>
-            {if $tMailbox}
+
+        {if $tMailbox}
             {include file="list-virtual_mailbox.tpl"}
-            {else}</table>
         {/if}
+
+
         <div class="card-footer">
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group float-end">
