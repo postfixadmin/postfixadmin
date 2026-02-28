@@ -1,4 +1,4 @@
-<div id="{$id_div}" class="card">
+<div id="{$id_div}" class="card p-3">
 
     {if ($admin_list|count > 1)}
         <div class="card-header">
@@ -27,9 +27,9 @@
         {/if}
     {/if}
 
-    <table class="table table-hover" id='admin_table'>
+    <table class="table table-hover table-sm table-striped" id='admin_table'>
         <!-- TODO: 'admin_table' needed because of CSS for table header -->
-
+        <thead>
         {if $msg.list_header}
             {assign var="colcount" value=2}
             {foreach key=key item=field from=$struct}
@@ -37,15 +37,12 @@
                     {assign var="colcount" value=$colcount+1}
                 {/if}
             {/foreach}
-            <thead>
             <tr>
                 <th style="text-align:center;" colspan="{$colcount}">{$PALANG.{$msg.list_header}}</th>
             </tr>
-            </thead>
         {/if}
 
-        <thead>
-        <tr class="header">
+        <tr>
             {foreach key=key item=field from=$struct}
                 {if $field.display_in_list == 1 && $field.label}{* don't show fields without a label *}
                     <th>{$field.label}</th>
