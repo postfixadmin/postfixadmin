@@ -35,6 +35,7 @@
         </InvalidGlobal>
         <LessSpecificReturnType errorLevel="info"/>
 
+        <ParadoxicalCondition errorLevel="suppress" />
     </issueHandlers>
 
 </psalm>
