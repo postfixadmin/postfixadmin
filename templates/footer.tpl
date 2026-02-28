@@ -1,9 +1,12 @@
 <!-- {$smarty.template} -->
-<footer class="footer">
-    <div class="container text-center">
+<footer class="footer mt-auto py-3 ">
+    <div class="container text-center small">
+
         {if !isset($smarty.session.sessid.username)}
+
             {* see: https://github.com/postfixadmin/postfixadmin/issues/517 - only expose version number if logged in *}
-            <a target="_blank" rel="noopener" href="https://github.com/postfixadmin/postfixadmin/">PostfixAdmin</a>
+            <a target="_blank" rel="noopener"
+               href="https://github.com/postfixadmin/postfixadmin/">PostfixAdmin</a>
         {else}
             <a target="_blank" rel="noopener" href="https://github.com/postfixadmin/postfixadmin/">Postfix
                 Admin {$version}</a>
@@ -23,6 +26,12 @@
             <a href="{$CONF.footer_link}" rel="noopener">{$CONF.footer_text}</a>
         {/if}
 
+        <div class="float-end">
+            <span class=" form-check form-check-inline form-switch">
+                <input class="form-check-input" type="checkbox" id="darkModeSwitch" checked>
+                <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+            </span>
+        </div>
     </div>
 </footer>
 
