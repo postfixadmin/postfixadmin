@@ -130,7 +130,8 @@
                 <form method="post" action="delete.php">
                     <input type="hidden" name="table" value="mailbox">
                     <input type="hidden" name="delete" value="{$item.username|escape:"quotes"}">
-                    {CSRF_Token}
+                    <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+
                     <button type="submit" class="btn btn-danger"
                             onclick="return confirm ('{$PALANG.confirm}{$PALANG.mailboxes}: {$item.username}');">
                         <span class="bi bi-trash" aria-hidden="true"></span> {$PALANG.del}
