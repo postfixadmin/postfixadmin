@@ -1,56 +1,53 @@
 <!-- {$smarty.template} -->
 <div class="card" id="main_menu">
 
-    <section>
-        <h2>Global Search</h2>
-        <form method=GET class=form action="">
-            <div class="input-group">
-                <input type="text" id=q name=q class="form-control" value="{$q}" autofocus="autofocus"
-                       placeholder="Global search (mailbox, alias ...)"
-                       aria-label="Global Search">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="submit">Search</button>
-                </span>
+    <section class="p-3">
+        <div class="row">
+            <div class="col-12">
+                <h2>Global Search</h2>
+                <form method=GET class=form action="">
+                    <div class="input-group">
+                        <input type="text" id=q name=q class="form-control" value="{$q}" autofocus="autofocus"
+                               placeholder="Global search (mailbox, alias ...)" required="required"
+                               aria-label="Global Search"/>
+                        <button class="btn btn-secondary" type="submit">Search</button>
+                    </div>
+                </form>
+
+                {if !empty($domains)}
+                    <h3>{$PALANG.domain}</h3>
+                    <ul>
+                        {foreach from=$domains item=row}
+                            <li><a href="list-virtual.php?domain={$row['domain']|escape:url}">{$row['domain']}</a></li>
+                        {/foreach}
+                    </ul>
+                {/if}
+
+                {if !empty($mailboxes)}
+                    <h3>{$PALANG.mailboxes}</h3>
+                    <ul>
+                        {foreach from=$mailboxes item=row}
+                            <li>
+                                <a href="edit.php?table=mailbox&edit={$row['username']|escape:url}">{$row['username']}</a>
+                            </li>
+                        {/foreach}
+                    </ul>
+                {/if}
+
+                {if !empty($aliases)}
+                    <h3>{$PALANG.aliases}</h3>
+                    <ul>
+                        {foreach from=$aliases item=row}
+                            <li><a href="edit.php?table=alias&edit={$row['address']|escape:url}">{$row['address']}</a>
+                            </li>
+                        {/foreach}
+                    </ul>
+                {/if}
             </div>
-        </form>
-
-
-        {if !empty($domains)}
-            <h3>Domains</h3>
-            <ul>
-                {foreach from=$domains item=row}
-                    <li>Domain: <a
-                                href="list-virtual.php?domain={$row['domain']|escape:url}">{$row['domain']}</a>
-                    </li>
-                {/foreach}
-            </ul>
-        {/if}
-
-        {if !empty($mailboxes)}
-            <h3>Mailboxes</h3>
-            <ul>
-                {foreach from=$mailboxes item=row}
-                    <li>Mailbox: <a
-                                href="edit.php?table=mailbox&edit={$row['username']|escape:url}">{$row['username']}</a>
-                    </li>
-                {/foreach}
-            </ul>
-        {/if}
-
-
-        {if !empty($aliases)}
-            <h3>Aliases</h3>
-            <ul>
-                {foreach from=$aliases item=row}
-                    <li>Alias: <a
-                                href="edit.php?table=alias&edit={$row['address']|escape:url}">{$row['address']}</a>
-                    </li>
-                {/foreach}
-            </ul>
-        {/if}
+        </div>
     </section>
 
-    <section>
+    <section class="p-3">
         <h2>Dashboard</h2>
         <table class="table">
             <tr>
