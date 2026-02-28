@@ -82,6 +82,10 @@ class AliasdomainHandler extends PFAHandler
             $this->msg['store_error'] = 'alias_domain_change_failed';
             $this->msg['successmessage'] = 'alias_domain_changed';
         }
+
+        $this->msg['list_header'] = 'pOverview_alias_domain_title';
+
+
     }
 
     public function webformConfig()

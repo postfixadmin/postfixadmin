@@ -79,9 +79,9 @@
         {if $CONF.vacation_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
         {if $CONF.alias_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
 
-        {if $tMailbox}
+
             {include file="list-virtual_mailbox.tpl"}
-        {/if}
+      
 
 
         <div class="card-footer">
