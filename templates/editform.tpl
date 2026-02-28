@@ -1,4 +1,5 @@
-<form name="edit_{$table}" method="post" action="" class="form-horizontal">
+<form name="edit_{$table}" method="post" action="" class="form">
+    <!-- could really do with using https://getbootstrap.com/docs/5.3/forms/validation/#server-side here ? -->
     <div id="edit_form" class="card">
         <div class="card-header"><h4>{$formtitle}</h4></div>
         <div class="card-body enable-asterisk">
@@ -81,7 +82,7 @@
                                     <span class="form-text">Special handling (td content) for {$table} / {$key}</span>
                                 {else}
                                     {if $fielderror.{$key}}
-                                        <span class="form-text">{$fielderror.{$key}}</span>
+                                        <span class="form-text text-danger">{$fielderror.{$key}}</span>
                                     {else}
                                         <span class="form-text">{$field.desc}</span>
                                     {/if}
