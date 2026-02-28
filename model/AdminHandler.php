@@ -92,7 +92,16 @@ class AdminHandler extends PFAHandler
             'created'          => self::pacol(0,          0,      0,      'ts',   'created'            , ''),
             'modified'         => self::pacol(0,          0,      1,      'ts',   'last_modified'      , ''),
         );
-    }
+        # Admin-side TOTP management
+        if (Config::bool('totp') && !$this->new) {
+            $this->struct['totp_action'] = self::pacol(
+                0, 1, 0, 'html', 'pUsersMenu_totp', '', '',
+                array(),
+                /*not_in_db*/ 1,
+                /*dont_write_to_db*/ 1
+            );
+        }
+    } 
 
     protected function initMsg()
     {
@@ -188,7 +197,26 @@ class AdminHandler extends PFAHandler
                 $db_result[$key]['domain_count'] = Config::lang('super_admin');
             }
         }
+
+        # Render TOTP action
+        if (isset($this->struct['totp_action']) && is_string($row['username'])) {
+
+            $totp = new TotpPf('admin', new Login('admin'));
+            $has_totp = $totp->usesTOTP($row['username']);
+
+            if ($has_totp) {
+                $db_result[$key]['totp_action'] =
+                    '<button type="submit" name="reset_totp" value="1" class="btn btn-warning btn-sm">' .
+                    htmlspecialchars(Config::lang('pUsersMenu_reset_totp'), ENT_QUOTES, 'UTF-8') .
+                    '</button>';
+            } else {
+                $db_result[$key]['totp_action'] =
+                    htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
+            }
+        }
+        
         return $db_result;
+
     }
 
     /**
