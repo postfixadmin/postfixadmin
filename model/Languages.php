@@ -1,8 +1,5 @@
 <?php
 
-namespace model;
-
-use Config;
 
 class Languages
 {
