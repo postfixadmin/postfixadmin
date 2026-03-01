@@ -17,7 +17,7 @@
         "check-format": "@php vendor/bin/php-cs-fixer fix --ansi --dry-run --diff",
         "format": "@php vendor/bin/php-cs-fixer fix --ansi",
         "lint": "@php ./vendor/bin/parallel-lint --exclude vendor/ .",
-        "test": "@php ./vendor/bin/phpunit --coverage-clover ./clover.xml tests/",
+        "test": "@php ./vendor/bin/phpunit --coverage-clover ./clover.xml --do-not-cache-result tests/",
         "test-fixup": "mkdir -p templates_c ; test -f config.local.php || touch config.local.php",
         "psalm": "@php ./vendor/bin/psalm.phar --no-cache --show-info=false "
     },

@@ -4,7 +4,8 @@
         <div class="card-header"><h4>{$formtitle}</h4></div>
         <div class="card-body enable-asterisk">
             <input class="flat" type="hidden" name="table" value="{$table}"/>
-            <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+
+            {CSRF_Token}
 
             {foreach key=key item=field from=$struct}
                 {if $field.display_in_form == 1}

@@ -2,7 +2,7 @@
     <div id="edit_form" class="card">
         <div class="card-header"><h4>{$PALANG.pEdit_alias_welcome}</h4></div>
         <div class="card-body enable-asterisk">
-            <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+            {CSRF_Token}
             <p class="text-center"><em>{$PALANG.pEdit_alias_help}</em></p>
             <div class="mb-3">
                 <label class="col-md-4">{$PALANG.alias}:</label>
@@ -36,7 +36,6 @@
             </div>
         </div>
         <div class="card-footer">
-
             <div class="btn-toolbar">
                 <div class="float-end">
                     <a href="main.php" class="mr btn btn-secondary">{$PALANG.exit}</a>

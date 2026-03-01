@@ -61,12 +61,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         }
 
         if ($flag_fDomain == 0) {
-            die('Unknown domain');
+            throw new InvalidArgumentException('Unknown domain');
         }
 
-        $page_number = (int) ($_GET['page'] ?? 0);
+        $page_number = (int)($_GET['page'] ?? 0);
         if ($page_number == 0) {
-            die('Unknown page number');
+            throw new InvalidArgumentException('Unknown page number');
         }
     } else {
         $page_number = 1;
@@ -80,10 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $fDomain = escape_string($_POST['fDomain']);
     }
 } else {
-    die('Unknown request method');
+    throw new InvalidArgumentException('Unsupported request method');
 }
 
-if (! (check_owner($username, $fDomain) || authentication_has_role('global-admin'))) {
+if (!(check_owner($username, $fDomain) || authentication_has_role('global-admin'))) {
     $error = 1;
     flash_error($PALANG['pViewlog_result_error']);
 }
@@ -98,7 +98,7 @@ if ($error != 1) {
     $where = [];
     $params = [];
     if ($fDomain) {
-        $where[] = 'domain = :domain' ;
+        $where[] = 'domain = :domain';
         $params['domain'] = $fDomain;
     }
 
@@ -106,7 +106,6 @@ if ($error != 1) {
     if (!empty($where)) {
         $where_sql = 'WHERE ' . implode(' AND ', $where);
     }
-
 
 
     $number_of_logs = 0;
@@ -122,7 +121,7 @@ if ($error != 1) {
     $number_of_pages = ceil($number_of_logs / $page_size);
 
     if ($page_number > $number_of_pages) {
-        die('Unknown page number');
+        throw new InvalidArgumentException('Unknown page number');
     }
 
     if ($page_number == 1) {
@@ -154,7 +153,7 @@ foreach ($tLog as $k => $v) {
     }
 }
 //get url
-$url = explode("?",(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]")[0];
+$url = explode("?", (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]")[0];
 
 $smarty->assign('domain_list', $list_domains);
 $smarty->assign('domain_selected', $fDomain);
@@ -163,11 +162,9 @@ $smarty->assign('fDomain', $fDomain);
 
 $smarty->assign('number_of_pages', $number_of_pages);
 $smarty->assign('page_number', $page_number);
-$smarty->assign('url',$url);
+$smarty->assign('url', $url);
 
 $smarty->assign('smarty_template', 'viewlog');
 $smarty->display('index.tpl');
-
-
 
 /* vim: set expandtab softtabstop=3 tabstop=3 shiftwidth=3: */

@@ -13,8 +13,10 @@
         <h2 class="h2">{if $logintype=='admin'}{$PALANG.pLogin_welcome}{else}{$PALANG.pUsersLogin_welcome}{/if}</h2>
 
         <form name="frmLogin" method="post" action="" role="form" class="form-signin">
-            <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
-            <div class="mb-3">
+
+            {CSRF_Token}
+
+            <div class="form-group">
                 <label for="fUsername">{$PALANG.pLogin_username}:</label>
                 <input class="form-control" type="text" name="fUsername" id="fUsername"/>
             </div>

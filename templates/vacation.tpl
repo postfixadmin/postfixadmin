@@ -2,13 +2,14 @@
     <div id="edit_form" class="card">
         <div class="card-header"><h4>{$PALANG.pUsersVacation_welcome}</h4></div>
         <div class="card-body">
-            <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+            {CSRF_Token}
             {if !$authentication_has_role.user}
                 <div class="p-3">
                     <label class="col-md-6 ">{$PALANG.pLogin_username}:</label>
                     <div class="col-md-6 "><p class="form-control-plaintext"><em>{$tUseremail}</em></p></div>
                 </div>
             {/if}
+
             <div class="p-3">
                 <label class="col-md-6 " for="fActiveFrom">{$PALANG.pUsersVacation_activefrom}:</label>
                 <div class="col-md-6">

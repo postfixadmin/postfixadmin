@@ -30,7 +30,7 @@ authentication_require_role('user');
 $USERID_USERNAME = authentication_get_username();
 
 // is edit-alias support enabled in $CONF ?
-if (! Config::bool('edit_alias')) {
+if (!Config::bool('edit_alias')) {
     header("Location: main.php");
     exit(0);
 }
@@ -41,8 +41,8 @@ $ah->init($USERID_USERNAME);
 $smarty->assign('USERID_USERNAME', $USERID_USERNAME);
 
 
-if (! $ah->view()) {
-    die("Can't get alias details. Invalid alias?");
+if (!$ah->view()) {
+    throw new \InvalidArgumentException("Can't get alias details. Invalid alias?");
 } # this can only happen if a admin deleted the user since the user logged in
 $result = $ah->result();
 $tGotoArray = $result['goto'];
@@ -62,9 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
-    }
+    CsrfToken::assertValid(safepost('CSRF_Token'));
+
 
     // user clicked on cancel button
     if (isset($_POST['fCancel'])) {
@@ -116,8 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if ($error == 0) {
         $values = array(
-            'goto'          => $good_goto,
-            'goto_mailbox'  => $fForward_and_store,
+            'goto' => $good_goto,
+            'goto_mailbox' => $fForward_and_store,
         );
 
         if (!$ah->set($values)) {
@@ -143,6 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $smarty->assign('forward_and_store', '');
         $smarty->assign('forward_only', ' checked="checked"');
     }
+
     $smarty->display('index.tpl');
 }
 

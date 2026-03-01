@@ -1,6 +1,5 @@
 <?php
 
-
 class Languages
 {
     // we sometimes mess with this in unit tests?

@@ -44,7 +44,7 @@ class AdminpasswordHandler extends PFAHandler
     {
         # hardcode to logged in admin
         if ($this->admin_username == '') {
-            die("No admin logged in");
+            throw new \InvalidArgumentException("No admin logged in");
         }
         $this->id = $this->admin_username;
         $this->values['username'] = $this->id;
