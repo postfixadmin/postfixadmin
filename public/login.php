@@ -94,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         header("Location: main.php");
         exit(0);
     } else {
+        // this log message is intended to be used by tools like fail2ban to block brute force attempts.
         error_log("PostfixAdmin admin login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
         flash_error($PALANG['pLogin_failed']);
     }
