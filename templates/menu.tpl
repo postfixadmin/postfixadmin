@@ -196,9 +196,11 @@
                                 <li><a class="dropdown-item" href="{#url_totp_exceptions#}"><span class="bi bi-lock"
                                                                                                   aria-hidden="true"></span> {$PALANG.pMenu_totp_exceptions}
                                     </a></li>
+                                {if $CONF.app_passwords==='YES'}
                                 <li><a class="dropdown-item" href="{#url_app_passwords#}"><span class="bi bi-lock"
                                                                                                 aria-hidden="true"></span> {$PALANG.pMenu_app_passwords}
                                     </a></li>
+                                {/if}
                             </ul>
                         </li>
                     {/strip}
