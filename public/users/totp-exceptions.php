@@ -40,6 +40,12 @@ $pUser = '';
 
 $username = authentication_get_username();
 
+// check if totp is enabled
+if (Config::bool('totp') === false) {
+    header("Location: main.php");
+    exit(0);
+}
+
 if (authentication_has_role('global-admin')) {
     $login = new Login('admin');
     $totppf = new TotpPf('admin', $login);
