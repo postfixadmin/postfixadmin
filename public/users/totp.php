@@ -39,6 +39,12 @@ $pPassword_password_text = "";
 $pTOTP_secret_text = '';
 $pTOTP_code_text = '';
 
+// check if totp is enabled
+if (Config::bool('totp') === false) {
+    header("Location: main.php");
+    exit(0);
+}
+
 if (authentication_has_role('admin')) {
     $login = new Login('admin');
     $totppf = new TotpPf('admin', $login);
