@@ -1779,13 +1779,13 @@ function db_query(string $sql, array $values = array(), bool $ignore_errors = fa
  * @param string $additionalwhere (default '').
  * @return int|mixed rows deleted.
  */
-function db_delete(string $table, string $where, string $delete, string $additionalwhere = '')
+function db_delete(string $table, string $where, string $delete, string $additionalwhere = '', array $additional_params = [])
 {
     $table = table_by_key($table);
 
     $query = "DELETE FROM $table WHERE $where = ? $additionalwhere";
 
-    return db_execute($query, array($delete));
+    return db_execute($query, array_merge(array($delete), $additional_params));
 }
 
 
@@ -1924,10 +1924,15 @@ function db_log(string $domain, string $action, string $data): bool
  * @param array $values
  * @return string
  */
-function db_in_clause(string $field, array $values): string
+function db_in_clause(string $field, array $values, array &$params = []): string
 {
-    $v = array_map('escape_string', array_values($values));
-    return " $field IN ('" . implode("','", $v) . "') ";
+    $placeholders = [];
+    foreach (array_values($values) as $i => $value) {
+        $key = '_in_' . count($params) . '_' . $i;
+        $placeholders[] = ':' . $key;
+        $params[$key] = $value;
+    }
+    return " $field IN (" . implode(",", $placeholders) . ") ";
 }
 
 /**
@@ -1942,7 +1947,7 @@ function db_in_clause(string $field, array $values): string
  *                           Note: the $searchmode operator will only be used if a $condition for that field is set.
  *                                 This also means you'll need to set a (dummy) condition for NULL and NOTNULL.
  */
-function db_where_clause(array $condition, array $struct, $additional_raw_where = '', array $searchmode = array())
+function db_where_clause(array $condition, array $struct, $additional_raw_where = '', array $searchmode = array(), array &$params = [])
 {
     if (count($condition) == 0 && trim($additional_raw_where) == '') {
         throw new Exception("db_where_cond: parameter is an empty array!");
@@ -1977,11 +1982,13 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
         } elseif ($operator == "NOTNULL") {
             $querypart = $field . ' IS NOT NULL';
         } else {
-            $querypart = $field . $operator . "'" . escape_string($value) . "'";
-
             // might need other types adding here.
             if (db_pgsql() && isset($struct[$field]) && in_array($struct[$field]['type'], array('ts', 'num')) && $value === '') {
                 $querypart = $field . $operator . " NULL";
+            } else {
+                $param_key = '_wh_' . preg_replace('/[^a-zA-Z0-9_]/', '_', $field);
+                $querypart = $field . $operator . " :" . $param_key;
+                $params[$param_key] = $value;
             }
         }
 

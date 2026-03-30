@@ -60,11 +60,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $table_mailbox = table_by_key('mailbox');
         $table_alias = table_by_key('alias');
 
-        $q = "SELECT username from $table_mailbox WHERE active='" . db_get_boolean(true) . "' AND " . db_in_clause("domain", $wanted_domains);
+        $params = [];
+        $q = "SELECT username from $table_mailbox WHERE active='" . db_get_boolean(true) . "' AND " . db_in_clause("domain", $wanted_domains, $params);
         if (intval(safepost('mailboxes_only')) == 0) {
-            $q .= " UNION SELECT goto FROM $table_alias WHERE active='" . db_get_boolean(true) . "' AND " . db_in_clause("domain", $wanted_domains) . " AND goto NOT IN ($q)";
+            $q .= " UNION SELECT goto FROM $table_alias WHERE active='" . db_get_boolean(true) . "' AND " . db_in_clause("domain", $wanted_domains, $params) . " AND goto NOT IN ($q)";
         }
-        $result = db_query_all($q);
+        $result = db_query_all($q, $params);
         $recipients = array_column($result, 'username');
 
         $recipients = array_unique($recipients);
