@@ -210,6 +210,13 @@
                             <span class="bi bi-lock" aria-hidden="true"></span>
                             {$PALANG.pMenu_password}</a></li>
                 {/if}
+                {* update check *}
+                {if $authentication_has_role.global_admin}
+                    <li><a class="nav-link" type="button"
+                           href="{#url_update_check#}">
+                            <span class="bi bi-arrow-repeat" aria-hidden="true"></span>
+                            {$PALANG.pUpdate_check_title|default:'Update Check'}</a></li>
+                {/if}
                 {* backup *}
                 {if $authentication_has_role.global_admin && $CONF.database_type!=='pgsql' && $CONF.backup === 'YES'}
                     <li><a class="nav-link" type="button"
