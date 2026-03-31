@@ -243,7 +243,7 @@ if ($authenticated) {
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-4">
+                        <div class="offset-sm-4 col-sm-4">
                             <button class="btn btn-primary" type="submit" name="submit" value="setuppw">
                                 Generate setup_password hash
                             </button>
@@ -476,7 +476,7 @@ if ($db) {
 
 
                         <div class="form-group">
-                            <div class="col-sm-offset-4 col-sm-4">
+                            <div class="offset-sm-4 col-sm-4">
                                 <button class="btn btn-primary" type="submit" name="submit"
                                         value="createadmin"><?= $PALANG['pAdminCreate_admin_button'] ?>
                                 </button>
