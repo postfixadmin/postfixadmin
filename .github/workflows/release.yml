@@ -18,7 +18,6 @@ jobs:
       with:
         php-version: 8.2
         tools: composer
-        extensions: sqlite3, gd
 
     - name: Install production dependencies
       run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
