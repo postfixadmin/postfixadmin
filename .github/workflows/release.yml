@@ -18,7 +18,7 @@ jobs:
       with:
         php-version: 8.2
         tools: composer
-        extensions: sqlite3, gd  # sqlite3 for database support, gd for TOTP QR code generation
+        extensions: sqlite3, gd
 
     - name: Install production dependencies
       run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
@@ -38,11 +38,12 @@ jobs:
           --exclude='.git' \
           --exclude='.github' \
           --exclude='tests' \
-          --exclude='.php-cs-fixer.php' \
+          --exclude='.php-cs-fixer*' \
           --exclude='phpunit.xml' \
           --exclude='psalm.xml' \
           --exclude='composer.phar' \
           --exclude='composer.lock' \
+          --exclude='debian' \
           --transform 's,^\./,${{ steps.archive.outputs.name }}/,' \
           .
 
