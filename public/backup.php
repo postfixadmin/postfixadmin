@@ -28,7 +28,10 @@ authentication_require_role('global-admin');
 $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
 
-(($CONF['backup'] == 'NO') ? header("Location: main.php") && exit : '1');
+if ($CONF['backup'] == 'NO') {
+    header("Location: main.php");
+    exit;
+}
 
 $version = Config::read_string('version');
 
