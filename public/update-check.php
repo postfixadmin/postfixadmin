@@ -77,6 +77,7 @@ function http_fetch(string $url, int $timeout = 10, array $headers = [])
  */
 function normalize_version(string $tag): string
 {
+    // Note: 'postfxadmin-' (missing 'i') is intentional - there is a tag with this typo in the repo
     $result = preg_replace('/^(postfixadmin-|postfxadmin-|v)/i', '', $tag);
     return $result ?? $tag;
 }
@@ -96,7 +97,7 @@ if (!$can_fetch) {
     $error = Config::lang('pUpdate_fetch_error');
 } else {
     $response = http_fetch(
-        'https://api.github.com/repos/postfixadmin/postfixadmin/releases',
+        'https://api.github.com/repos/postfixadmin/postfixadmin/releases?per_page=100',
         10,
         ['Accept: application/vnd.github.v3+json']
     );
@@ -140,3 +141,4 @@ $smarty->assign('latest_release', $latest_release);
 $smarty->assign('newer_releases', $newer_releases);
 $smarty->assign('smarty_template', 'update-check');
 $smarty->display('index.tpl');
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

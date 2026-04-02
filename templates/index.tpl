@@ -62,7 +62,7 @@
                 Admin {$version}</a>
             {if $authentication_has_role.global_admin}
             <span id="update-check">&nbsp;|&nbsp;
-                <a href="update-check.php">{$PALANG.check_update}</a>
+                <a href="{#url_update_check#}">{$PALANG.check_update}</a>
             </span>
             {else}
             <span id="update-check">&nbsp;|&nbsp;
