@@ -523,6 +523,16 @@ $PALANG['pLegal_char_warning']              = 'Illegal character';
 $PALANG['TOTP_already_configured']          = 'TOTP is already configured for this account, do you want to change your secret?';
 $PALANG['pApp_passwords_add']               = 'Add application-specific password';
 
+$PALANG['pUpdate_title'] = 'Update Check';
+$PALANG['pUpdate_current_version'] = 'Current version';
+$PALANG['pUpdate_up_to_date'] = 'You are running the latest version.';
+$PALANG['pUpdate_available'] = 'A newer version is available';
+$PALANG['pUpdate_view_release'] = 'View release on GitHub';
+$PALANG['pUpdate_check_releases'] = 'View releases on GitHub';
+$PALANG['pUpdate_changelog'] = 'Changelog';
+$PALANG['pUpdate_fetch_error'] = 'Neither cURL nor allow_url_fopen is available. Cannot check for updates.';
+$PALANG['pUpdate_network_error'] = 'Could not fetch release information from GitHub. Check that your server can reach api.github.com.';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
