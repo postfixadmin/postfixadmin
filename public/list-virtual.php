@@ -65,7 +65,7 @@ if (count($list_domains) == 0) {
 }
 
 if (empty($fDomain)) {
-    $fDomain = escape_string($list_domains[0]);
+    $fDomain = $list_domains[0];
 }
 
 
@@ -195,8 +195,8 @@ if (count($search) == 0 || !isset($search['_'])) {
     $sql_where .= " $table_mailbox.domain= :domain ";
     $sql_params['domain'] = $fDomain;
 } else {
-    $searchterm = escape_string($search['_']);
-    $sql_where .= db_in_clause("$table_mailbox.domain", $list_domains) . " ";
+    $searchterm = $search['_'];
+    $sql_where .= db_in_clause("$table_mailbox.domain", $list_domains, $sql_params) . " ";
     $sql_where .= " AND ( $table_mailbox.username LIKE :searchterm OR $table_mailbox.name LIKE :searchterm ";
     $sql_params['searchterm'] = "%$searchterm%";
 

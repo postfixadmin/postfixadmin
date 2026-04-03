@@ -75,12 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         throw new \InvalidArgumentException("fUsername field required");
     }
 
-    $tUsername = escape_string($username);
-
     $table = $context === 'admin' ? 'admin' : 'mailbox';
     $login = new Login($table);
 
-    $token = $login->generatePasswordRecoveryCode($tUsername);
+    $token = $login->generatePasswordRecoveryCode($username);
 
     if ($token !== false) {
         $table = table_by_key($context === 'users' ? 'mailbox' : 'admin');
@@ -92,15 +90,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $phone = isset($row['phone']) ? trim($row['phone']) : null;
 
         if ($email_other) {
-            sendCodeByEmail($email_other, $tUsername, $token);
+            sendCodeByEmail($email_other, $username, $token);
         } elseif ($phone) {
-            sendCodeBySMS($phone, $tUsername, $token);
+            sendCodeBySMS($phone, $username, $token);
         } else {
             error_log(__FILE__ . " - No mechanism configured for password-recovery.");
         }
 
         if ($email_other || $phone) {
-            header("Location: password-change.php?username=" . $tUsername);
+            header("Location: password-change.php?username=" . urlencode($username));
             exit(0);
         }
     }

@@ -48,7 +48,7 @@ $error = 0;
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if (isset($_GET['page']) && $_GET['fDomain']) {
-        $fDomain_aux = escape_string($_GET['fDomain']);
+        $fDomain_aux = $_GET['fDomain'];
         $flag_fDomain = 0;
         if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
             foreach ($list_domains as $domain) {
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
     $page_number = 1;
     if (isset($_POST['fDomain'])) {
-        $fDomain = escape_string($_POST['fDomain']);
+        $fDomain = $_POST['fDomain'];
     }
 } else {
     throw new InvalidArgumentException('Unsupported request method');
