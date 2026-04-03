@@ -131,7 +131,7 @@ jobs:
       with:
         php-version: '8.2'
         tools: composer
-        extensions: mysqli, gd
+        extensions: mysqli, pdo_mysql, gd
 
     - name: Get composer cache directory
       if: ${{ !env.ACT }}
