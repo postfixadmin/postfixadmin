@@ -48,7 +48,7 @@ jobs:
       run: composer psalm
 
     - name: phpstan static analysis
-      run: vendor/bin/phpstan analyse model/ public/ functions.inc.php common.php config.inc.php --level=0 --no-progress
+      run: composer phpstan
 
   testsuite:
     needs: [lint_etc]
