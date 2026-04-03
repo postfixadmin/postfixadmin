@@ -60,10 +60,16 @@
         {else}
             <a target="_blank" rel="noopener" href="https://github.com/postfixadmin/postfixadmin/">Postfix
                 Admin {$version}</a>
+            {if $authentication_has_role.global_admin}
+            <span id="update-check">&nbsp;|&nbsp;
+                <a href="{#url_update_check#}">{$PALANG.check_update}</a>
+            </span>
+            {else}
             <span id="update-check">&nbsp;|&nbsp;
                 <a target="_blank" rel="noopener"
                    href="https://github.com/postfixadmin/postfixadmin/releases">{$PALANG.check_update}</a>
             </span>
+            {/if}
             {if isset($smarty.session.sessid)}
                 {if $smarty.session.sessid.username}
                     &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
