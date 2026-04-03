@@ -85,6 +85,8 @@ class TotpPfTest extends TestCase
     {
 
 
+        $bool = db_get_boolean(true);
+        
         $sql = /* @lang SQL */
             <<<EOF
 SELECT 
@@ -98,7 +100,7 @@ SELECT
 FROM 
     (SELECT :username AS search_username, :password_hash AS search_password, :client_ip AS client_ip) AS params
 LEFT JOIN 
-    mailbox m ON m.username = params.search_username AND m.active = 1
+    mailbox m ON m.username = params.search_username AND m.active = $bool
 LEFT JOIN 
     mailbox_app_password app ON app.username = params.search_username AND app.password_hash = params.search_password
 LEFT JOIN 
