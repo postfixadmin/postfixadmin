@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
     $page_number = 1;
-    if (isset($_POST['fDomain'])) {
+    if (isset($_POST['fDomain']) && in_array($_POST['fDomain'], $list_domains)) {
         $fDomain = $_POST['fDomain'];
     }
 } else {
