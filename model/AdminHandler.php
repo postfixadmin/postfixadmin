@@ -170,8 +170,9 @@ class AdminHandler extends PFAHandler
                     'username'  => $this->id,
                     'domain'    => 'ALL',
                 );
-                $where = db_where_clause(array('username' => $this->id, 'domain' => 'ALL'), $this->struct);
-                $result = db_query_one("SELECT username from " . table_by_key('domain_admins') . " " . $where);
+                $params = [];
+                $where = db_where_clause(array('username' => $this->id, 'domain' => 'ALL'), $this->struct, '', array(), $params);
+                $result = db_query_one("SELECT username from " . table_by_key('domain_admins') . " " . $where, $params);
                 if (empty($result)) {
                     db_insert('domain_admins', $values, array('created'));
                     # TODO: check for errors
