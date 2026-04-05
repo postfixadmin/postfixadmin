@@ -48,7 +48,7 @@ jobs:
       run: composer psalm
 
     - name: phpstan static analysis
-      run: vendor/bin/phpstan analyse model/ public/ functions.inc.php common.php config.inc.php --level=0 --no-progress
+      run: composer phpstan
 
   testsuite:
     needs: [lint_etc]
@@ -111,7 +111,7 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -131,7 +131,7 @@ jobs:
       with:
         php-version: '8.2'
         tools: composer
-        extensions: mysqli, gd
+        extensions: mysqli, pdo_mysql, gd
 
     - name: Get composer cache directory
       if: ${{ !env.ACT }}
@@ -143,7 +143,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
-        key: mysql-${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        key: 8.2-${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composer-
 
     - name: run install.sh
@@ -152,21 +152,15 @@ jobs:
     - name: touch config.local.php
       run: touch config.local.php
 
-    - name: Configure MySQL credentials
-      run: |
-        cat > ~/.my.cnf << 'MYCNF'
-        [client]
-        user=root
-        password=root
-        host=127.0.0.1
-        MYCNF
-
     - name: Install dependencies
       run: composer install --prefer-dist -n
 
     - name: Build/test
       env:
         DATABASE: mysql
+        MYSQL_USER: root
+        MYSQL_PASSWORD: root
+        MYSQL_HOST: 127.0.0.1
       run: sudo -E -u runner composer test
 
   testsuite-pgsql:
@@ -214,7 +208,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
-        key: pgsql-${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        key: 8.2-${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
         restore-keys: ${{ runner.os }}-composer-
 
     - name: run install.sh
