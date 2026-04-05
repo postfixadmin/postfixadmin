@@ -1926,6 +1926,9 @@ function db_log(string $domain, string $action, string $data): bool
  */
 function db_in_clause(string $field, array $values, array &$params = []): string
 {
+    if (empty($values)) {
+        return " 1=0 "; // empty IN clause is invalid SQL, return false predicate
+    }
     $placeholders = [];
     foreach (array_values($values) as $i => $value) {
         $key = '_in_' . count($params) . '_' . $i;
