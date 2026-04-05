@@ -78,12 +78,14 @@ class AliasHandler extends PFAHandler
             ' FROM ' . table_by_key('mailbox') .
             ' WHERE username IS NOT NULL ';
 
+        // Note: extrafrom is a raw SQL string stored in struct with no mechanism to attach params.
+        // Values here are internal (allowed_domains from session), not user input, so escape_string is acceptable.
         if (isset($condition['domain']) && !isset($searchmode['domain']) && in_array($condition['domain'], $this->allowed_domains)) {
-            # listing for a specific domain, so restrict subquery to that domain
-            $extrafrom .= ' AND ' . db_in_clause($this->domain_field, array($condition['domain']));
+            $v = array_map('escape_string', array($condition['domain']));
+            $extrafrom .= " AND $this->domain_field IN ('" . implode("','", $v) . "') ";
         } else {
-            # restrict subquery to all domains accessible to this admin
-            $extrafrom .= ' AND ' . db_in_clause($this->domain_field, $this->allowed_domains);
+            $v = array_map('escape_string', $this->allowed_domains);
+            $extrafrom .= " AND $this->domain_field IN ('" . implode("','", $v) . "') ";
         }
 
         $extrafrom .= ' ) AS __mailbox ON __mailbox_username = address';
