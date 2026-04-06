@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Handler for TOTP exception addresses.
+ *
+ * Manages IP addresses that are exempt from TOTP requirements.
+ * Exceptions can be scoped to a specific user, a domain, or global (NULL username).
+ *
+ * Visibility rules:
+ * - Superadmins see all exceptions
+ * - Admins see exceptions for users/domains they manage
+ * - Users see exceptions for their username, domain, and global (NULL)
+ */
 class TotpexceptionHandler extends PFAHandler
 {
     protected string $db_table = 'totp_exception_address';
@@ -9,13 +20,16 @@ class TotpexceptionHandler extends PFAHandler
     protected string $order_by = 'username, ip';
     protected ?string $user_field = 'username';
 
+    /**
+     * TOTP exceptions are not domain-scoped in the traditional sense.
+     * Visibility is handled in read_from_db_postprocess().
+     */
     protected function no_domain_field()
     {
-        // TOTP exceptions are not domain-scoped in the traditional sense.
-        // Visibility is handled in read_from_db_postprocess().
         $this->allowed_domains = [];
     }
 
+    /** @return void */
     protected function initStruct()
     {
         $this->struct = array(
@@ -45,6 +59,7 @@ class TotpexceptionHandler extends PFAHandler
         }
     }
 
+    /** @return array<string, mixed> */
     public function webformConfig()
     {
         return array(
@@ -59,6 +74,7 @@ class TotpexceptionHandler extends PFAHandler
         );
     }
 
+    /** @return bool */
     protected function validate_new_id()
     {
         if ($this->id != '') {
@@ -70,6 +86,10 @@ class TotpexceptionHandler extends PFAHandler
 
     /**
      * Validate IP address field.
+     *
+     * @param string $field field name
+     * @param string $value submitted value
+     * @return bool true if valid
      */
     protected function _validate_ip(string $field, string $value): bool
     {
@@ -85,7 +105,12 @@ class TotpexceptionHandler extends PFAHandler
     }
 
     /**
-     * Validate username field — enforce permissions based on role.
+     * Validate username field and enforce permissions based on role.
+     * Empty username is normalised to NULL (global exception, superadmin only).
+     *
+     * @param string $field field name
+     * @param string $value submitted value
+     * @return bool true if valid
      */
     protected function _validate_username(string $field, string $value): bool
     {
@@ -130,6 +155,9 @@ class TotpexceptionHandler extends PFAHandler
      * - Superadmins see all
      * - Admins see exceptions for their managed domains + own username
      * - Users see exceptions for their username, domain, and global (NULL)
+     *
+     * @param array $db_result rows keyed by ID
+     * @return array filtered rows
      */
     protected function read_from_db_postprocess($db_result)
     {
@@ -169,6 +197,11 @@ class TotpexceptionHandler extends PFAHandler
         return $filtered;
     }
 
+    /**
+     * Run post-creation script if configured.
+     *
+     * @return bool true on success
+     */
     protected function postSave(): bool
     {
         if (!$this->new) {
@@ -187,6 +220,11 @@ class TotpexceptionHandler extends PFAHandler
         return $this->run_post_script($command, Config::Lang('mailbox_post_totp_exception_add_failed'));
     }
 
+    /**
+     * Delete a TOTP exception with role-based permission checks.
+     *
+     * @return bool true on success
+     */
     public function delete()
     {
         if (!$this->view()) {
@@ -237,6 +275,10 @@ class TotpexceptionHandler extends PFAHandler
 
     /**
      * Run a post-save/delete script via proc_open.
+     *
+     * @param string $command full shell command to execute
+     * @param string $warnmsg error message to display on failure
+     * @return bool true on success
      */
     private function run_post_script(string $command, string $warnmsg): bool
     {
@@ -262,6 +304,9 @@ class TotpexceptionHandler extends PFAHandler
         return true;
     }
 
+    /**
+     * @return string empty string, TOTP exceptions are not domain-scoped
+     */
     public function domain_from_id()
     {
         return '';
