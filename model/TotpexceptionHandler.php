@@ -9,6 +9,13 @@ class TotpexceptionHandler extends PFAHandler
     protected string $order_by = 'username, ip';
     protected ?string $user_field = 'username';
 
+    protected function no_domain_field()
+    {
+        // TOTP exceptions are not domain-scoped in the traditional sense.
+        // Visibility is handled in read_from_db_postprocess().
+        $this->allowed_domains = [];
+    }
+
     protected function initStruct()
     {
         $this->struct = array(
@@ -45,15 +52,15 @@ class TotpexceptionHandler extends PFAHandler
             'formtitle_edit' => 'pTotp_exceptions_welcome',
             'create_button' => 'pTotp_exceptions_add',
 
-            'required_role' => 'user',
+            'required_role' => 'admin',
             'listview' => 'list.php?table=totpexception',
             'early_init' => 0,
+            'user_hardcoded_field' => 'username',
         );
     }
 
     protected function validate_new_id()
     {
-        # auto_increment - any non-empty ID is an error
         if ($this->id != '') {
             $this->errormsg[$this->id_field] = 'auto_increment value, you must pass an empty string!';
             return false;
@@ -62,103 +69,181 @@ class TotpexceptionHandler extends PFAHandler
     }
 
     /**
-     * Restrict visibility based on user role:
-     * - Global admins see all exceptions
-     * - Admins see exceptions for domains they manage
-     * - Users see exceptions for their username, domain, and global (NULL) exceptions
+     * Validate IP address field.
      */
-    protected function read_from_db($condition, $searchmode = array(), $limit = -1, $offset = -1): array
+    protected function _validate_ip(string $field, string $value): bool
     {
-        if (authentication_has_role('global-admin')) {
-            return parent::read_from_db($condition, $searchmode, $limit, $offset);
+        if (trim($value) === '') {
+            $this->errormsg[$field] = Config::Lang('pException_ip_empty_error');
+            return false;
         }
-
-        $table = table_by_key($this->db_table);
-        $username = $this->admin_username;
-
-        if (authentication_has_role('admin')) {
-            $domains = list_domains_for_admin($username);
-            $params = ['username' => $username];
-            $domain_conditions = [];
-            foreach ($domains as $i => $domain) {
-                $key = '_domain_' . $i;
-                $domain_conditions[] = "username = :$key";
-                $params[$key] = $domain;
-            }
-            $domain_sql = implode(' OR ', $domain_conditions);
-            $query = "SELECT * FROM $table WHERE username = :username OR $domain_sql ORDER BY $this->order_by";
-        } else {
-            list($_, $domain) = explode('@', $username);
-            $params = ['username' => $username, 'domain' => $domain];
-            $query = "SELECT * FROM $table WHERE username = :username OR username = :domain OR username IS NULL ORDER BY $this->order_by";
+        if (!filter_var($value, FILTER_VALIDATE_IP)) {
+            $this->errormsg[$field] = Config::Lang('pException_ip_error');
+            return false;
         }
-
-        if ($limit > -1 && $offset > -1) {
-            $query .= " LIMIT $limit OFFSET $offset";
-        }
-
-        $db_result = array();
-        $result = db_query_all($query, $params);
-        foreach ($result as $row) {
-            $db_result[$row[$this->id_field]] = $row;
-        }
-        return $db_result;
+        return true;
     }
 
-    protected function preSave(): bool
+    /**
+     * Validate username field — enforce permissions based on role.
+     */
+    protected function _validate_username(string $field, string $value): bool
     {
-        // Validate IP address
-        if (isset($this->values['ip']) && !filter_var($this->values['ip'], FILTER_VALIDATE_IP)) {
-            $this->errormsg['ip'] = Config::Lang('pException_ip_empty_error');
+        // Normalize empty string to NULL for global exceptions
+        if ($value === '') {
+            if ($this->is_superadmin) {
+                $this->values['username'] = null;
+                return true;
+            }
+            $this->errormsg[$field] = Config::Lang('pException_user_global_error');
             return false;
         }
 
-        // Regular users can only add exceptions for their own username
-        if (!authentication_has_role('admin') && !authentication_has_role('global-admin')) {
-            $this->values['username'] = $this->admin_username;
+        // Users can only set exceptions for themselves
+        if (!$this->is_admin) {
+            $this->values['username'] = $this->username;
+            return true;
         }
 
-        // Admins can only add exceptions for domains they manage
-        if (authentication_has_role('admin') && !authentication_has_role('global-admin')) {
-            $exception_username = $this->values['username'] ?? '';
-            if ($exception_username !== $this->admin_username) {
-                if (strpos($exception_username, '@')) {
-                    list($_, $exception_domain) = explode('@', $exception_username);
-                } else {
-                    $exception_domain = $exception_username;
-                }
-                $domains = list_domains_for_admin($this->admin_username);
-                if (!in_array($exception_domain, $domains)) {
-                    $this->errormsg['username'] = Config::Lang('pException_user_entire_domain_error');
-                    return false;
-                }
-            }
+        // Superadmins can set for anyone
+        if ($this->is_superadmin) {
+            return true;
+        }
+
+        // Admins can set for users/domains they manage
+        if (strpos($value, '@')) {
+            list($_, $exception_domain) = explode('@', $value);
+        } else {
+            $exception_domain = $value;
+        }
+
+        if (!in_array($exception_domain, $this->allowed_domains)) {
+            $this->errormsg[$field] = Config::Lang('pException_user_entire_domain_error');
+            return false;
         }
 
         return true;
     }
 
+    /**
+     * Filter results based on user role after reading from DB.
+     * - Superadmins see all
+     * - Admins see exceptions for their managed domains + own username
+     * - Users see exceptions for their username, domain, and global (NULL)
+     */
+    protected function read_from_db_postprocess($db_result)
+    {
+        if ($this->is_superadmin) {
+            return $db_result;
+        }
+
+        $filtered = [];
+
+        if ($this->is_admin) {
+            foreach ($db_result as $key => $row) {
+                $ex_username = $row['username'] ?? '';
+                if ($ex_username === $this->admin_username) {
+                    $filtered[$key] = $row;
+                    continue;
+                }
+                if (strpos($ex_username, '@')) {
+                    list($_, $ex_domain) = explode('@', $ex_username);
+                } else {
+                    $ex_domain = $ex_username;
+                }
+                if (in_array($ex_domain, $this->allowed_domains)) {
+                    $filtered[$key] = $row;
+                }
+            }
+        } else {
+            // User mode
+            list($_, $domain) = explode('@', $this->username);
+            foreach ($db_result as $key => $row) {
+                $ex_username = $row['username'] ?? null;
+                if ($ex_username === $this->username || $ex_username === $domain || $ex_username === null) {
+                    $filtered[$key] = $row;
+                }
+            }
+        }
+
+        return $filtered;
+    }
+
     protected function postSave(): bool
     {
-        if ($this->new) {
-            $cmd = Config::read('mailbox_post_totp_exception_add_script');
-            $warnmsg = Config::Lang('mailbox_post_totp_exception_add_failed');
-        } else {
+        if (!$this->new) {
             return true;
         }
 
+        $cmd = Config::read('mailbox_post_totp_exception_add_script');
         if (empty($cmd)) {
             return true;
         }
 
-        $cmdarg1 = escapeshellarg($this->admin_username);
+        $cmdarg1 = escapeshellarg($this->values['username'] ?? '');
         $cmdarg2 = escapeshellarg($this->values['ip'] ?? '');
         $command = "$cmd $cmdarg1 $cmdarg2 2>&1";
 
+        return $this->run_post_script($command, Config::Lang('mailbox_post_totp_exception_add_failed'));
+    }
+
+    public function delete()
+    {
+        if (!$this->view()) {
+            $this->errormsg[] = Config::Lang($this->msg['error_does_not_exist']);
+            return false;
+        }
+
+        $exception = $this->result;
+        $ex_username = $exception['username'] ?? '';
+
+        // Check permissions
+        if ($this->is_superadmin) {
+            // can delete anything
+        } elseif ($this->is_admin) {
+            if ($ex_username !== $this->admin_username) {
+                if (strpos($ex_username, '@')) {
+                    list($_, $ex_domain) = explode('@', $ex_username);
+                } else {
+                    $ex_domain = $ex_username;
+                }
+                if (!in_array($ex_domain, $this->allowed_domains)) {
+                    $this->errormsg[] = Config::Lang('pException_user_entire_domain_error');
+                    return false;
+                }
+            }
+        } else {
+            if ($ex_username !== $this->username) {
+                $this->errormsg[] = Config::lang('pEdit_totp_exception_result_error');
+                return false;
+            }
+        }
+
+        db_delete($this->db_table, $this->id_field, $this->id);
+
+        // Run post-delete script
+        $cmd = Config::read('mailbox_post_totp_exception_delete_script');
+        if (!empty($cmd)) {
+            $cmdarg1 = escapeshellarg($ex_username);
+            $cmdarg2 = escapeshellarg($exception['ip'] ?? '');
+            $command = "$cmd $cmdarg1 $cmdarg2 2>&1";
+            $this->run_post_script($command, Config::Lang('mailbox_post_totp_exception_delete_failed'));
+        }
+
+        db_log($this->admin_username ?: $this->username, 'delete_totp_exception', $exception['ip'] ?? '');
+        $this->infomsg[] = Config::Lang_f('pDelete_delete_success', $exception['ip'] ?? $this->id);
+        return true;
+    }
+
+    /**
+     * Run a post-save/delete script via proc_open.
+     */
+    private function run_post_script(string $command, string $warnmsg): bool
+    {
         $spec = [0 => ["pipe", "r"], 1 => ["pipe", "w"]];
         $proc = proc_open($command, $spec, $pipes);
         if (!$proc) {
-            error_log("can't proc_open $cmd");
+            error_log("can't proc_open: $command");
             $this->errormsg[] = $warnmsg;
             return false;
         }
@@ -174,68 +259,6 @@ class TotpexceptionHandler extends PFAHandler
             return false;
         }
 
-        return true;
-    }
-
-    public function delete()
-    {
-        if (!$this->view()) {
-            $this->errormsg[] = Config::Lang($this->msg['error_does_not_exist']);
-            return false;
-        }
-
-        // Check permissions
-        $exception = $this->result;
-        $username = $this->admin_username;
-
-        if (!authentication_has_role('global-admin')) {
-            if (authentication_has_role('admin')) {
-                $domains = list_domains_for_admin($username);
-                $exception_username = $exception['username'] ?? '';
-                if ($exception_username !== $username) {
-                    if (strpos($exception_username, '@')) {
-                        list($_, $exception_domain) = explode('@', $exception_username);
-                    } else {
-                        $exception_domain = $exception_username;
-                    }
-                    if (!in_array($exception_domain, $domains)) {
-                        $this->errormsg[] = Config::Lang('pException_user_entire_domain_error');
-                        return false;
-                    }
-                }
-            } else {
-                if ($exception['username'] !== $username) {
-                    $this->errormsg[] = Config::lang('pEdit_totp_exception_result_error');
-                    return false;
-                }
-            }
-        }
-
-        db_delete($this->db_table, $this->id_field, $this->id);
-
-        // Run post-delete script
-        $cmd = Config::read('mailbox_post_totp_exception_delete_script');
-        if (!empty($cmd)) {
-            $cmdarg1 = escapeshellarg($username);
-            $cmdarg2 = escapeshellarg($exception['ip'] ?? '');
-            $command = "$cmd $cmdarg1 $cmdarg2 2>&1";
-
-            $spec = [0 => ["pipe", "r"], 1 => ["pipe", "w"]];
-            $proc = proc_open($command, $spec, $pipes);
-            if ($proc) {
-                fclose($pipes[0]);
-                $output = stream_get_contents($pipes[1]);
-                fclose($pipes[1]);
-                $retval = proc_close($proc);
-                if (0 != $retval) {
-                    error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
-                    $this->errormsg[] = Config::Lang('mailbox_post_totp_exception_delete_failed');
-                }
-            }
-        }
-
-        db_log($this->admin_username, 'delete_totp_exception', $exception['ip'] ?? '');
-        $this->infomsg[] = Config::Lang_f('pDelete_delete_success', $exception['ip'] ?? $this->id);
         return true;
     }
 
