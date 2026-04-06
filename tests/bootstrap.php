@@ -45,36 +45,19 @@ if (getenv('DATABASE') == 'postgresql') {
 }
 
 if (getenv('DATABASE') == 'mysql') {
-    $expand_tilde = function ($path) {
-        if (function_exists('posix_getuid') && strpos($path, '~') !== false) {
-            $info = posix_getpwuid(posix_getuid());
-            $path = str_replace('~', $info['dir'], $path);
-        }
-
-        return $path;
-    };
-
-    $config = parse_ini_file($expand_tilde('~/.my.cnf'));
-
-    if (empty($config)) {
-        $config = ['user' => 'root', 'host' => '127.0.0.1', 'password' => ''];
-    }
-
-    if (isset($config['socket'])) {
-        $CONF['database_socket'] = $config['socket'];
-        Config::write('database_socket', $config['socket']);
-    } else {
-        $CONF['database_host'] = $config['host'];
-        Config::write('database_host', $config['host']);
-    }
+    $user = getenv('MYSQL_USER') ?: 'root';
+    $pass = getenv('MYSQL_PASSWORD') ?: '';
+    $host = getenv('MYSQL_HOST') ?: '127.0.0.1';
 
     $CONF['database_type'] = 'mysql';
-    $CONF['database_user'] = $config['user'];
-    $CONF['database_password'] = $config['password'];
+    $CONF['database_user'] = $user;
+    $CONF['database_password'] = $pass;
+    $CONF['database_host'] = $host;
     $CONF['database_name'] = 'postfixadmin';
     Config::write('database_type', 'mysql');
-    Config::write('database_user', $config['user']);
-    Config::write('database_password', $config['password']);
+    Config::write('database_user', $user);
+    Config::write('database_password', $pass);
+    Config::write('database_host', $host);
     Config::write('database_name', 'postfixadmin');
 
     error_log("Using: MySQL database for tests");

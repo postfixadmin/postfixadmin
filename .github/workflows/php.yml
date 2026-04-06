@@ -47,6 +47,9 @@ jobs:
     - name: psalm static analysis
       run: composer psalm
 
+    - name: phpstan static analysis
+      run: composer phpstan
+
   testsuite:
     needs: [lint_etc]
     runs-on: ubuntu-24.04
@@ -95,6 +98,135 @@ jobs:
 
     - name: Build/test
       run: sudo -u runner composer test
+
+  testsuite-mysql:
+    needs: [lint_etc]
+    runs-on: ubuntu-24.04
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: postfixadmin
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Dovecot
+      run: |
+        set -eux
+        sudo apt-get update -q
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq dovecot-core
+        sudo sh -c '/sbin/useradd -G dovecot runner || usermod -aG dovecot runner '
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        tools: composer
+        extensions: mysqli, pdo_mysql, gd
+
+    - name: Get composer cache directory
+      if: ${{ !env.ACT }}
+      id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache dependencies
+      if: ${{ !env.ACT }}
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: 8.2-${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+
+    - name: run install.sh
+      run: /bin/bash install.sh
+
+    - name: touch config.local.php
+      run: touch config.local.php
+
+    - name: Install dependencies
+      run: composer install --prefer-dist -n
+
+    - name: Build/test
+      env:
+        DATABASE: mysql
+        MYSQL_USER: root
+        MYSQL_PASSWORD: root
+        MYSQL_HOST: 127.0.0.1
+      run: sudo -E -u runner composer test
+
+  testsuite-pgsql:
+    needs: [lint_etc]
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postfixadmin
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Dovecot
+      run: |
+        set -eux
+        sudo apt-get update -q
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -yq dovecot-core
+        sudo sh -c '/sbin/useradd -G dovecot runner || usermod -aG dovecot runner '
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        tools: composer
+        extensions: pgsql, pdo_pgsql, gd
+
+    - name: Get composer cache directory
+      if: ${{ !env.ACT }}
+      id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache dependencies
+      if: ${{ !env.ACT }}
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: 8.2-${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+
+    - name: run install.sh
+      run: /bin/bash install.sh
+
+    - name: touch config.local.php
+      run: touch config.local.php
+
+    - name: Install dependencies
+      run: composer install --prefer-dist -n
+
+    - name: Build/test
+      env:
+        DATABASE: postgresql
+        PGUSER: postgres
+        PGPASSWORD: postgres
+        PGHOST: localhost
+      run: sudo -E -u runner composer test
 
 #  build_coverage_report:
 #    needs: [testsuite]

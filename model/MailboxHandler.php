@@ -674,7 +674,7 @@ class MailboxHandler extends PFAHandler
             $firstline = exec($command, $output, $retval);
             if (0 != $retval) {
                 error_log("Running $command yielded return value=$retval, first line of output=$firstline");
-                $this->errormsg[] .= $warnmsg;
+                $this->errormsg[] = $warnmsg;
                 $status = false;
             }
         }
@@ -692,7 +692,7 @@ class MailboxHandler extends PFAHandler
 
             if (!$proc) {
                 error_log("can't proc_open $cmd_pw");
-                $this->errormsg[] .= $warnmsg_pw;
+                $this->errormsg[] = $warnmsg_pw;
                 $status = false;
             } else {
                 // Write passwords through pipe to command stdin -- provide old password, then new password.
@@ -706,7 +706,7 @@ class MailboxHandler extends PFAHandler
 
                 if (0 != $retval) {
                     error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
-                    $this->errormsg[] .= $warnmsg_pw;
+                    $this->errormsg[] = $warnmsg_pw;
                     $status = false;
                 }
             }
