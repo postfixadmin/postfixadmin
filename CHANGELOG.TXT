@@ -6,6 +6,19 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Changes in 'master' (not in a release yet) (20XX/XX/XX)
+--------------------------
+
+   - Update build environment / github actions (run tests against PostgreSQL and MySQL databases, add phpstan as well as psalm); (thanks @knofte)
+   - Add version check page (integrates with github's API), see #1006; (thanks @knofte)
+   - Add GitHub Actions workflow to build self-contained release archives (see #999/#973, thanks @knofte)
+   - Move from Bootstrap 3 to Bootstrap 5, add dark mode CSS toggle (see #987)
+   - Update CSRF protection to support multiple tokens (see #985 / #967)
+   - Add TOTP reset for lost secrets (see #988, thanks @drunken-sod)
+   - Drop support for PHP 7.4, 8.0 and 8.1 (see #957)
+   - Improve error message if vendor/autoload.php is missing ('composer' needs to run)
+   - Fix global search (unassigned domains) (#947)
+
 Version 4.0.1 (2025/09/12)
 --------------------------
    - Translation fixes (thanks @cboltz)
