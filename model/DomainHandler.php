@@ -219,7 +219,7 @@ class DomainHandler extends PFAHandler
         if (Config::bool('alias_domain')) {
             # check if this domain is an alias domain target - if yes, do not allow to delete it
             $handler = new AliasdomainHandler(0, $this->admin_username);
-            $handler->getList("target_domain = '" . escape_string($this->id) . "'");
+            $handler->getList(array('target_domain' => $this->id));
             $aliasdomains = $handler->result();
 
             if (count($aliasdomains) > 0) {
@@ -234,17 +234,17 @@ class DomainHandler extends PFAHandler
         # cleaning up all tables doesn't hurt, even if vacation or displaying the quota is disabled
 
         # some tables don't have a domain field, so we need a workaround
-        $like_domain = "LIKE '" . escape_string('%@' . $this->id) . "'";
+        $like_domain_value = '%@' . $this->id;
 
         db_delete('domain_admins',         'domain',        $this->id);
         db_delete('alias',                 'domain',        $this->id);
         db_delete('mailbox',               'domain',        $this->id);
         db_delete('alias_domain',          'alias_domain',  $this->id);
         db_delete('vacation',              'domain',        $this->id);
-        db_delete('vacation_notification', 'on_vacation',   $this->id, "OR on_vacation $like_domain");
-        db_delete('quota',                 'username',      $this->id, "OR username    $like_domain");
-        db_delete('quota2',                'username',      $this->id, "OR username    $like_domain");
-        db_delete('fetchmail',             'mailbox',       $this->id, "OR mailbox     $like_domain");
+        db_delete('vacation_notification', 'on_vacation',   $this->id, "OR on_vacation LIKE ?", [$like_domain_value]);
+        db_delete('quota',                 'username',      $this->id, "OR username    LIKE ?", [$like_domain_value]);
+        db_delete('quota2',                'username',      $this->id, "OR username    LIKE ?", [$like_domain_value]);
+        db_delete('fetchmail',             'mailbox',       $this->id, "OR mailbox     LIKE ?", [$like_domain_value]);
         db_delete('log',                   'domain',        $this->id); # TODO: should we really delete the log?
 
         # finally delete the domain

@@ -711,25 +711,29 @@ abstract class PFAHandler
         $table = table_by_key($this->db_table);
 
         $additional_where = '';
+        $params = [];
         if ($this->domain_field != "") {
-            $additional_where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains);
+            $additional_where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains, $params);
         }
 
         # if logged in as user, restrict to the items the user is allowed to see
         if ((!$this->is_admin) && $this->user_field != '') {
-            $additional_where .= " AND " . $this->user_field . " = '" . escape_string($this->username) . "' ";
+            $additional_where .= " AND " . $this->user_field . " = :_user_field ";
+            $params['_user_field'] = $this->username;
         }
 
         if (is_array($condition)) {
             if (isset($condition['_']) && count($this->searchfields) > 0) {
                 $simple_search = array();
                 foreach ($this->searchfields as $field) {
-                    $simple_search[] = "$field LIKE '%" . escape_string($condition['_']) . "%'";
+                    $param_key = '_search_' . preg_replace('/[^a-zA-Z0-9_]/', '_', $field);
+                    $simple_search[] = "$field LIKE :$param_key";
+                    $params[$param_key] = '%' . $condition['_'] . '%';
                 }
                 $additional_where .= " AND ( " . join(" OR ", $simple_search) . " ) ";
                 unset($condition['_']);
             }
-            $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode);
+            $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode, $params);
         } else {
             if ($condition == "") {
                 $condition = '1=1';
@@ -740,6 +744,7 @@ abstract class PFAHandler
         return array(
             'select_cols'       => " SELECT $cols ",
             'from_where_order'  => " FROM $table $extrafrom $where ORDER BY " . $this->order_by,
+            'params'            => $params,
         );
     }
 
@@ -753,7 +758,7 @@ abstract class PFAHandler
     public function getPagebrowser($condition, $searchmode)
     {
         $queryparts = $this->build_select_query($condition, $searchmode);
-        return create_page_browser($this->label_field, $queryparts['from_where_order']);
+        return create_page_browser($this->label_field, $queryparts['from_where_order'], $queryparts['params'] ?? []);
     }
 
     /**
@@ -784,8 +789,9 @@ abstract class PFAHandler
 
         $db_result = array();
 
+        $params = $queryparts['params'] ?? [];
 
-        $result = db_query_all($query);
+        $result = db_query_all($query, $params);
 
         foreach ($result as $row) {
             $db_result[$row[$this->id_field]] = $row;

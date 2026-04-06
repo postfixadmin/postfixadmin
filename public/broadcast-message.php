@@ -60,12 +60,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $table_mailbox = table_by_key('mailbox');
         $table_alias = table_by_key('alias');
 
-        $q = "SELECT username from $table_mailbox WHERE active='" . db_get_boolean(true) . "' AND " . db_in_clause("domain", $wanted_domains);
-        if (intval(safepost('mailboxes_only')) == 0) {
-            $q .= " UNION SELECT goto FROM $table_alias WHERE active='" . db_get_boolean(true) . "' AND " . db_in_clause("domain", $wanted_domains) . " AND goto NOT IN ($q)";
-        }
-        $result = db_query_all($q);
+        $params = [];
+        $q = "SELECT username from $table_mailbox WHERE active='" . db_get_boolean(true) . "' AND " . db_in_clause("domain", $wanted_domains, $params);
+        $result = db_query_all($q, $params);
         $recipients = array_column($result, 'username');
+
+        if (intval(safepost('mailboxes_only')) == 0) {
+            $params2 = [];
+            $q2 = "SELECT goto FROM $table_alias WHERE active='" . db_get_boolean(true) . "' AND " . db_in_clause("domain", $wanted_domains, $params2);
+            $result2 = db_query_all($q2, $params2);
+            $recipients = array_merge($recipients, array_column($result2, 'goto'));
+        }
 
         $recipients = array_unique($recipients);
 
