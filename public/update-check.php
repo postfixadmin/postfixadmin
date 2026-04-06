@@ -106,7 +106,8 @@ if (!$can_fetch) {
         $error = Config::lang('pUpdate_network_error');
     } else {
         $releases = json_decode($response, true);
-        if (!is_array($releases)) {
+        if (!is_array($releases) || isset($releases['message'])) {
+            // GitHub may return {"message": "rate limit exceeded"} or similar
             $error = Config::lang('pUpdate_network_error');
         } else {
             foreach ($releases as $release) {
