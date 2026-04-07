@@ -1106,7 +1106,11 @@ abstract class PFAHandler
      * Run an external hook script via proc_open.
      *
      * Used for post-creation, post-deletion, post-password-change scripts etc.
-     * Handles process creation, optional stdin data, output capture, and error logging.
+     * Handles process creation, optional stdin data, stdout capture, and error logging.
+     *
+     * Note: only stdout is captured. Callers should append 2>&1 to the command
+     * if stderr output is also needed. Sensitive data (passwords, secrets) should
+     * be passed via $stdin_data rather than command arguments.
      *
      * @param string $command full shell command to execute (with arguments already escaped)
      * @param string|null $stdin_data optional data to write to the process stdin
@@ -1139,7 +1143,7 @@ abstract class PFAHandler
             error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
         }
 
-        return ['success' => $retval === 0, 'output' => $output ?: '', 'retval' => $retval];
+        return ['success' => $retval === 0, 'output' => $output === false ? '' : $output, 'retval' => $retval];
     }
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
