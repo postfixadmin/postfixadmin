@@ -158,35 +158,13 @@ class Login
 
         $warnmsg_pw = Config::Lang('mailbox_postpassword_failed');
 
-        // If we have a mailbox_postpassword_script (dovecot only?)
-
-        // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-        $spec = array(
-            0 => array("pipe", "r"), // stdin
-            1 => array("pipe", "w"), // stdout
-        );
-
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($domain);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
+        $stdin = $old_password . "\0" . $new_password . "\0";
 
-        $proc = proc_open($command, $spec, $pipes);
-
-        if (!$proc) {
-            throw new \Exception("can't proc_open $cmd_pw");
-        }
-
-        // Write passwords through pipe to command stdin -- provide old password, then new password.
-        fwrite($pipes[0], $old_password . "\0", 1 + strlen($old_password));
-        fwrite($pipes[0], $new_password . "\0", 1 + strlen($new_password));
-        $output = stream_get_contents($pipes[1]);
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-
-        $retval = proc_close($proc);
-
-        if (0 != $retval) {
-            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+        $result = PFAHandler::run_hook_script($command, $stdin);
+        if (!$result['success']) {
             throw new \Exception($warnmsg_pw);
         }
 
@@ -242,34 +220,13 @@ class Login
 
         $warnmsg_pw = Config::Lang('mailbox_postapppassword_failed');
 
-        // If we have a mailbox_postpppassword_script
-
-        // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-        $spec = array(
-            0 => array("pipe", "r"), // stdin
-            1 => array("pipe", "w"), // stdout
-        );
-
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($app_desc);
-
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
+        $stdin = $app_pass . "\0";
 
-        $proc = proc_open($command, $spec, $pipes);
-
-        if (!$proc) {
-            throw new \Exception("can't proc_open $cmd_pw");
-        }
-
-        // Write passwords through pipe to command stdin -- provide old password, then new password.
-        fwrite($pipes[0], $app_pass . "\0", 1 + strlen($app_pass));
-        $output = stream_get_contents($pipes[0]);
-        fclose($pipes[0]);
-
-        $retval = proc_close($proc);
-
-        if (0 != $retval) {
-            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+        $result = PFAHandler::run_hook_script($command, $stdin);
+        if (!$result['success']) {
             throw new \Exception($warnmsg_pw);
         }
 

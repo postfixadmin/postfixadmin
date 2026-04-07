@@ -680,35 +680,12 @@ class MailboxHandler extends PFAHandler
         }
 
         if (!empty($cmd_pw)) {
-            // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-            $spec = array(
-                0 => array("pipe", "r"), // stdin
-                1 => array("pipe", "w"), // stdout
-            );
-
             $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
-
-            $proc = proc_open($command, $spec, $pipes);
-
-            if (!$proc) {
-                error_log("can't proc_open $cmd_pw");
+            $stdin = "\0" . $this->values['password'] . "\0";
+            $result = self::run_hook_script($command, $stdin);
+            if (!$result['success']) {
                 $this->errormsg[] = $warnmsg_pw;
                 $status = false;
-            } else {
-                // Write passwords through pipe to command stdin -- provide old password, then new password.
-                fwrite($pipes[0], "\0", 1);
-                fwrite($pipes[0], $this->values['password'] . "\0", 1 + strlen($this->values['password']));
-                $output = stream_get_contents($pipes[1]);
-                fclose($pipes[0]);
-                fclose($pipes[1]);
-
-                $retval = proc_close($proc);
-
-                if (0 != $retval) {
-                    error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
-                    $this->errormsg[] = $warnmsg_pw;
-                    $status = false;
-                }
             }
         }
 
