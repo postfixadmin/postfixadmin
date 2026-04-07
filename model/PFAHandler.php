@@ -1101,5 +1101,45 @@ abstract class PFAHandler
         $this->errormsg[$field] = $validpass[0]; # TODO: honor all error messages, not only the first one?
         return false;
     }
+
+    /**
+     * Run an external hook script via proc_open.
+     *
+     * Used for post-creation, post-deletion, post-password-change scripts etc.
+     * Handles process creation, optional stdin data, output capture, and error logging.
+     *
+     * @param string $command full shell command to execute (with arguments already escaped)
+     * @param string|null $stdin_data optional data to write to the process stdin
+     * @return array{success: bool, output: string, retval: int}
+     */
+    public static function run_hook_script(string $command, ?string $stdin_data = null): array
+    {
+        $spec = [
+            0 => ["pipe", "r"], // stdin
+            1 => ["pipe", "w"], // stdout
+        ];
+
+        $proc = proc_open($command, $spec, $pipes);
+        if (!$proc) {
+            error_log("can't proc_open: $command");
+            return ['success' => false, 'output' => '', 'retval' => -1];
+        }
+
+        if ($stdin_data !== null) {
+            fwrite($pipes[0], $stdin_data);
+        }
+        fclose($pipes[0]);
+
+        $output = stream_get_contents($pipes[1]);
+        fclose($pipes[1]);
+
+        $retval = proc_close($proc);
+
+        if (0 != $retval) {
+            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+        }
+
+        return ['success' => $retval === 0, 'output' => $output ?: '', 'retval' => $retval];
+    }
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
