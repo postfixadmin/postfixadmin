@@ -1108,15 +1108,19 @@ abstract class PFAHandler
      * Used for post-creation, post-deletion, post-password-change scripts etc.
      * Handles process creation, optional stdin data, stdout capture, and error logging.
      *
-     * Note: only stdout is captured. Callers should append 2>&1 to the command
-     * if stderr output is also needed. Sensitive data (passwords, secrets) should
-     * be passed via $stdin_data rather than command arguments.
+     * $command can be either:
+     * - a string: full shell command (callers should escapeshellarg() arguments and append 2>&1)
+     * - an array: [script, arg1, arg2, ...] — PHP handles escaping, no shell involved (preferred)
      *
-     * @param string $command full shell command to execute (with arguments already escaped)
+     * Note: only stdout is captured via pipe. When using a string command, append 2>&1
+     * to also capture stderr. When using an array command, stderr goes to the parent process.
+     * Sensitive data (passwords, secrets) should be passed via $stdin_data rather than arguments.
+     *
+     * @param string|array $command shell command string or array of [script, arg1, arg2, ...]
      * @param string|null $stdin_data optional data to write to the process stdin
      * @return array{retval: int, output: string}
      */
-    public static function run_hook_script(string $command, ?string $stdin_data = null): array
+    public static function run_hook_script(string|array $command, ?string $stdin_data = null): array
     {
         $spec = [
             0 => ["pipe", "r"], // stdin
@@ -1125,7 +1129,8 @@ abstract class PFAHandler
 
         $proc = proc_open($command, $spec, $pipes);
         if (!$proc) {
-            error_log("can't proc_open: $command");
+            $cmd_display = is_array($command) ? implode(' ', $command) : $command;
+            error_log("can't proc_open: $cmd_display");
             return ['retval' => -1, 'output' => ''];
         }
 
@@ -1140,7 +1145,8 @@ abstract class PFAHandler
         $retval = proc_close($proc);
 
         if (0 != $retval) {
-            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+            $cmd_display = is_array($command) ? implode(' ', $command) : $command;
+            error_log("Running $cmd_display yielded return value=$retval, output was: " . json_encode($output));
         }
 
         return ['retval' => $retval, 'output' => $output === false ? '' : $output];
