@@ -54,7 +54,7 @@ protected function no_domain_field()
 }
 ```
 
-### 3. User Mode
+### 3. Non-admin user access
 
 If the Handler should be accessible to non-admin users (via `users/`), set
 `$user_field` to the column that identifies the owning user:
@@ -67,34 +67,42 @@ Also add `user_hardcoded_field` to `webformConfig()` (see below). If
 `$user_field` is empty and a user (non-admin) tries to access the Handler,
 the default `no_user_field()` will call `die()`.
 
-### 4. initStruct() - Field Definitions
+### 4. Field Definitions - initStruct() 
 
-Define each field using `pacol()`:
+The `initStruct()` method is used to define the fields that will be rendered in the list / edit forms. 
+
+Generally these will map onto database fields, but you can create virtual fields if necessary.
+
 
 ```php
 protected function initStruct()
 {
-    $this->struct = array(
+    $this->struct = [
         'id'   => self::pacol($allow_editing, $display_in_form, $display_in_list,
                               $type, $PALANG_label, $PALANG_desc, $default,
                               $options, $multiopt),
-    );
+        // other fields here...                      
+    ];
 }
 ```
 
-**pacol() parameters:**
+#### pacol() parameters
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `$allow_editing` | int | 1 = editable, 0 = read-only |
-| `$display_in_form` | int | 1 = show in edit form, 0 = hide |
-| `$display_in_list` | int | 1 = show in list view, 0 = hide |
-| `$type` | string | Field type (see below) |
-| `$PALANG_label` | string | Language key for the field label |
-| `$PALANG_desc` | string | Language key for the help/description text |
-| `$default` | mixed | Default value |
-| `$options` | array | Options for `enum`/`list` types |
-| `$multiopt` | array or int | Named array for additional options, or `$not_in_db` as int |
+| Parameter           | Type | Description                                                                                                            |
+|---------------------|------|------------------------------------------------------------------------------------------------------------------------|
+| `$allow_editing`    | int | 1 = editable, 0 = read-only                                                                                            |
+| `$display_in_form`  | int | 1 = show in edit form, 0 = hide                                                                                        |
+| `$display_in_list`  | int | 1 = show in list view, 0 = hide                                                                                        |
+| `$type`             | string | Field type (see below)                                                                                                 |
+| `$PALANG_label`     | string | Language key for the field label                                                                                       |
+| `$PALANG_desc`      | string | Language key for the help/description text                                                                             |
+| `$default`          | mixed | Default value                                                                                                          |
+| `$options`          | array | Options for `enum`/`list` types                                                                                        |
+| `$not_in_db`        | int | 1 - not in db, 0 - in db. (LEGACY: named array for additional options to this function)                                |
+| `$dont_write_to_db` | int | Do not write field into DB                                                                                             |
+| `$select`           | string | Custom SQL expression replacing the column name in SELECT, see e.g. AdminHandler's domain_count definition for example |
+| `$extrafrom`        | string | SQL fragment added after FROM (for JOINs)                                                                              |
+| `$linkto`           | string | Make the value a link (`%s` replaced with ID)                                                                          |
 
 **Field types:**
 
@@ -119,24 +127,10 @@ This list covers the most common types. Additional types may exist in
 `PFAHandler` and individual Handler classes — check the source for the
 full set.
 
-**Additional options via `$multiopt` array:**
 
-```php
-self::pacol(0, 0, 1, 'num', 'label', '', '', array(),
-    array('dont_write_to_db' => 1))
-```
+### 5. Messages - initMsg() 
 
-| Key | Description |
-|-----|-------------|
-| `not_in_db` | Field doesn't exist in the database table |
-| `dont_write_to_db` | Field exists but should not be written on save |
-| `select` | Custom SQL expression replacing the column name in SELECT |
-| `extrafrom` | SQL fragment added after FROM (for JOINs) |
-| `linkto` | Make the value a link (`%s` replaced with ID) |
-
-### 5. initMsg() - Messages
-
-Define messages used for logging and user feedback:
+This allows you to override the default messages PostfixAdmin will use when various errors occur, replace PALANG_key with an actual key from a language file, e.g alias_domain_already_exists
 
 ```php
 protected function initMsg()
@@ -157,7 +151,7 @@ protected function initMsg()
 }
 ```
 
-### 6. webformConfig() - Form/List Configuration
+### 6. Form/List Configuration - webformConfig() 
 
 Controls how `list.php` and `edit.php` render the Handler:
 
@@ -230,7 +224,7 @@ protected function preSave(): bool
 
 protected function postSave(): bool
 {
-    // Run after successful save (e.g. hook scripts)
+    // Run after a successful save (e.g. hook scripts)
     return true;
 }
 ```
