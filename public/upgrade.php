@@ -2190,15 +2190,22 @@ function upgrade_1851_mysql()
  *
  * domain_admins: composite index for permission checks
  *   queried with WHERE username=? AND (domain=? OR domain='ALL') AND active=?
- * fetchmail: index on mailbox for domain deletion cascades
+ * fetchmail: index on domain for domain-based filtering and deletion cascades
  */
 function upgrade_1852_mysql()
 {
     $domain_admins = table_by_key('domain_admins');
     $fetchmail = table_by_key('fetchmail');
 
-    db_query_parsed("ALTER TABLE $domain_admins ADD INDEX {IF_NOT_EXISTS} idx_domadm_user_domain_active (username, domain, active)");
-    db_query_parsed("ALTER TABLE $fetchmail ADD INDEX {IF_NOT_EXISTS} idx_fetchmail_mailbox (mailbox)");
+    $result = db_query_one("SHOW INDEX FROM $domain_admins WHERE Key_name = 'idx_domadm_user_domain_active'");
+    if (empty($result)) {
+        db_query("ALTER TABLE $domain_admins ADD INDEX idx_domadm_user_domain_active (username, domain, active)");
+    }
+
+    $result = db_query_one("SHOW INDEX FROM $fetchmail WHERE Key_name = 'idx_fetchmail_domain'");
+    if (empty($result)) {
+        db_query("ALTER TABLE $fetchmail ADD INDEX idx_fetchmail_domain (domain)");
+    }
 }
 
 function upgrade_1852_pgsql()
@@ -2209,8 +2216,8 @@ function upgrade_1852_pgsql()
     if (!_pgsql_object_exists('idx_domadm_user_domain_active')) {
         db_query("CREATE INDEX idx_domadm_user_domain_active ON $domain_admins (username, domain, active)");
     }
-    if (!_pgsql_object_exists('idx_fetchmail_mailbox')) {
-        db_query("CREATE INDEX idx_fetchmail_mailbox ON $fetchmail (mailbox)");
+    if (!_pgsql_object_exists('idx_fetchmail_domain')) {
+        db_query("CREATE INDEX idx_fetchmail_domain ON $fetchmail (domain)");
     }
 }
 
@@ -2220,5 +2227,5 @@ function upgrade_1852_sqlite()
     $fetchmail = table_by_key('fetchmail');
 
     db_query("CREATE INDEX IF NOT EXISTS idx_domadm_user_domain_active ON $domain_admins (username, domain, active)");
-    db_query("CREATE INDEX IF NOT EXISTS idx_fetchmail_mailbox ON $fetchmail (mailbox)");
+    db_query("CREATE INDEX IF NOT EXISTS idx_fetchmail_domain ON $fetchmail (domain)");
 }
