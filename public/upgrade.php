@@ -2183,3 +2183,40 @@ function upgrade_1851_mysql()
         )
     ");
 }
+
+/**
+ * Add created/modified columns to totp_exception_address table.
+ * Required for TotpexceptionHandler to work with PFAHandler's save() method.
+ */
+function upgrade_1852_mysql()
+{
+    $table = table_by_key('totp_exception_address');
+    if (!_mysql_field_exists($table, 'created')) {
+        db_query("ALTER TABLE $table ADD COLUMN created datetime DEFAULT NULL");
+    }
+    if (!_mysql_field_exists($table, 'modified')) {
+        db_query("ALTER TABLE $table ADD COLUMN modified datetime DEFAULT NULL");
+    }
+}
+
+function upgrade_1852_pgsql()
+{
+    $table = table_by_key('totp_exception_address');
+    if (!_pgsql_field_exists($table, 'created')) {
+        db_query("ALTER TABLE $table ADD COLUMN created timestamp DEFAULT NULL");
+    }
+    if (!_pgsql_field_exists($table, 'modified')) {
+        db_query("ALTER TABLE $table ADD COLUMN modified timestamp DEFAULT NULL");
+    }
+}
+
+function upgrade_1852_sqlite()
+{
+    $table = table_by_key('totp_exception_address');
+    if (!_sqlite_field_exists($table, 'created')) {
+        db_query("ALTER TABLE $table ADD COLUMN created datetime DEFAULT NULL");
+    }
+    if (!_sqlite_field_exists($table, 'modified')) {
+        db_query("ALTER TABLE $table ADD COLUMN modified datetime DEFAULT NULL");
+    }
+}
