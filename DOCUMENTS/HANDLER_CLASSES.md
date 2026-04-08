@@ -101,7 +101,7 @@ protected function initStruct()
 | Type | Description |
 |------|-------------|
 | `text` | Text input |
-| `mail` | Email address (validated) |
+| `mail` | Email address (treated as text unless handler adds `_validate_*`) |
 | `pass` | Password (hashed via `pacrypt()` before storage) |
 | `b64p` | Base64-encoded password |
 | `num` | Numeric |
@@ -114,6 +114,10 @@ protected function initStruct()
 | `vnum` | Virtual numeric (not stored in DB) |
 | `vtxt` | Virtual text (not stored in DB) |
 | `quot` | Quota display |
+
+This list covers the most common types. Additional types may exist in
+`PFAHandler` and individual Handler classes — check the source for the
+full set.
 
 **Additional options via `$multiopt` array:**
 
@@ -173,8 +177,12 @@ public function webformConfig()
 }
 ```
 
-The `user_hardcoded_field` tells `list.php` / `edit.php` / `delete.php` which
-field to automatically set to the logged-in username when in user mode.
+The `user_hardcoded_field` must be set (non-empty) for `list.php` / `edit.php` /
+`delete.php` to allow user-mode access. It names the field that identifies the
+owning user, but note that the web entry points only check that this key is
+non-empty — they do not automatically set the field value. User scoping for
+SELECT queries is handled by `PFAHandler::$user_field`, and write enforcement
+must be done in the Handler itself (e.g. via `_validate_*` or `preSave()`).
 
 ### 7. Auto-increment IDs
 
@@ -297,7 +305,7 @@ Then reference them in templates using `{#url_foo#}`.
 
 ## Lifecycle
 
-1. `list.php`/`edit.php` instantiates the Handler: `new FooHandler($new, $username)`
+1. `list.php`/`edit.php` instantiates the Handler: `new FooHandler($new, $username, $is_admin)`
 2. Constructor calls `initStruct()`, `initMsg()`, sets up `$allowed_domains`
 3. For edit: `init($id)` loads the item, `set($values)` validates input, `save()` writes to DB
 4. `save()` calls `preSave()`, does the INSERT/UPDATE, then calls `postSave()`
