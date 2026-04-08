@@ -381,6 +381,7 @@ $CONF['alias_domain_struct_hook']   = '';
 $CONF['fetchmail_struct_hook']      = '';
 $CONF['dkim_struct_hook']           = '';
 $CONF['dkim_signing_struct_hook']   = '';
+$CONF['totp_exception_address_struct_hook'] = '';
 
 /*
     mailbox_postcreation_hook example function

@@ -26,7 +26,7 @@
             <td>{$PALANG.pUsersMain_totp}</td>
         </tr>
         <tr>
-            <td nowrap="nowrap"><a class="btn btn-primary" href="{#url_totp_exceptions#}">{$PALANG.pMenu_totp_exceptions}</a></td>
+            <td nowrap="nowrap"><a class="btn btn-primary" href="{#url_user_totp_exceptions#}">{$PALANG.pMenu_totp_exceptions}</a></td>
             <td>{$PALANG.pUsersMain_totp_exceptions}</td>
         </tr>
         {/strip}
