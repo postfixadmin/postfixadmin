@@ -1114,7 +1114,7 @@ abstract class PFAHandler
      *
      * @param string $command full shell command to execute (with arguments already escaped)
      * @param string|null $stdin_data optional data to write to the process stdin
-     * @return array{success: bool, output: string, retval: int}
+     * @return array{retval: int, output: string}
      */
     public static function run_hook_script(string $command, ?string $stdin_data = null): array
     {
@@ -1126,7 +1126,7 @@ abstract class PFAHandler
         $proc = proc_open($command, $spec, $pipes);
         if (!$proc) {
             error_log("can't proc_open: $command");
-            return ['success' => false, 'output' => '', 'retval' => -1];
+            return ['retval' => -1, 'output' => ''];
         }
 
         if ($stdin_data !== null) {
@@ -1143,7 +1143,7 @@ abstract class PFAHandler
             error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
         }
 
-        return ['success' => $retval === 0, 'output' => $output === false ? '' : $output, 'retval' => $retval];
+        return ['retval' => $retval, 'output' => $output === false ? '' : $output];
     }
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

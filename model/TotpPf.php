@@ -252,7 +252,7 @@ class TotpPf
         $stdin = ($TOTP_secret !== null) ? $TOTP_secret . "\0" : "\0";
 
         $result = PFAHandler::run_hook_script($command, $stdin);
-        if (!$result['success']) {
+        if ($result['retval'] !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
@@ -386,7 +386,7 @@ class TotpPf
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
 
         $result = PFAHandler::run_hook_script($command);
-        if (!$result['success']) {
+        if ($result['retval'] !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
@@ -464,7 +464,7 @@ class TotpPf
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
 
         $result = PFAHandler::run_hook_script($command);
-        if (!$result['success']) {
+        if ($result['retval'] !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 

@@ -164,7 +164,7 @@ class Login
         $stdin = $old_password . "\0" . $new_password . "\0";
 
         $result = PFAHandler::run_hook_script($command, $stdin);
-        if (!$result['success']) {
+        if ($result['retval'] !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
@@ -226,7 +226,7 @@ class Login
         $stdin = $app_pass . "\0";
 
         $result = PFAHandler::run_hook_script($command, $stdin);
-        if (!$result['success']) {
+        if ($result['retval'] !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
