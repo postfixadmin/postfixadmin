@@ -58,8 +58,7 @@ class DomainHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
-           'domain'            => self::pacol($this->new, 1,      1,      'text', 'domain'                       , ''                                 , '', array(),
-               array('linkto' => 'list-virtual.php?domain=%s')),
+           'domain'            => self::pacol($this->new, 1,      1,      'text', 'domain'                       , ''                                 ,'', array(), 0, 0, "", "", 'list-virtual.php?domain=%s'),
            'description'       => self::pacol($super,     $super, $super, 'text', 'description'                  , ''),
 
            # Aliases
@@ -70,34 +69,25 @@ class DomainHandler extends PFAHandler
                /*select*/ 'coalesce(__alias_count,0) - coalesce(__mailbox_count,0)  as alias_count',
                /*extrafrom*/ 'left join ( select count(*) as __alias_count, domain as __alias_domain from ' . table_by_key('alias') .
                              ' group by domain) as __alias on domain = __alias_domain'),
-            'aliases_quot'     => self::pacol(0,          0,      1,      'quot', 'aliases'                      , ''                                  , 0, array(),
-                array('select' => db_quota_text('__alias_count - coalesce(__mailbox_count,0)', 'aliases', 'aliases_quot'))),
-            '_aliases_quot_percent' => self::pacol(0, 0,      1,      'vnum', ''                   ,''                   , 0, array(),
-                array('select' => db_quota_percent('__alias_count - coalesce(__mailbox_count,0)', 'aliases', '_aliases_quot_percent'))),
+            'aliases_quot'     => self::pacol(0,          0,      1,      'quot', 'aliases'                      , ''                                  , 0, array(), 0, 0,  db_quota_text('__alias_count - coalesce(__mailbox_count,0)', 'aliases', 'aliases_quot')),
+            '_aliases_quot_percent' => self::pacol(0, 0,      1,      'vnum', ''                   ,''                   , 0, array(), 0, 0, db_quota_percent('__alias_count - coalesce(__mailbox_count,0)', 'aliases', '_aliases_quot_percent')),
 
             # Mailboxes
            'mailboxes'         => self::pacol($super,     $super, 0,      'num' , 'mailboxes'                    , 'pAdminEdit_domain_aliases_text'   , Config::read('mailboxes')),
-           'mailbox_count'     => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(),
-               /*not_in_db*/ 0,
-               /*dont_write_to_db*/ 1,
+           'mailbox_count'     => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(), 0, 1,
                /*select*/ 'coalesce(__mailbox_count,0) as mailbox_count',
                /*extrafrom*/ 'left join ( select count(*) as __mailbox_count, sum(quota) as __total_quota, domain as __mailbox_domain from ' . table_by_key('mailbox') .
                              ' group by domain) as __mailbox on domain = __mailbox_domain'),
-            'mailboxes_quot'   => self::pacol(0,          0,      1,       'quot', 'mailboxes'                    , ''                                 , 0, array(),
-                array('select' => db_quota_text('__mailbox_count', 'mailboxes', 'mailboxes_quot'))),
-            '_mailboxes_quot_percent' => self::pacol(0,  0,      1,       'vnum', ''                             , ''                                 , 0, array(),
-                array('select' => db_quota_percent('__mailbox_count', 'mailboxes', '_mailboxes_quot_percent'))),
+            'mailboxes_quot'   => self::pacol(0,          0,      1,       'quot', 'mailboxes'                    , ''                                 , 0, array(), 0, 0,  db_quota_text('__mailbox_count', 'mailboxes', 'mailboxes_quot')),
+            '_mailboxes_quot_percent' => self::pacol(0,  0,      1,       'vnum', ''                             , ''                                 , 0, array(), 0, 0,   db_quota_percent('__mailbox_count', 'mailboxes', '_mailboxes_quot_percent')),
 
            'maxquota'          => self::pacol($editquota,$editquota,$quota, 'num', 'pOverview_get_quota'          , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')),
 
             # Domain quota
             'quota'            => self::pacol($edit_dom_q,$edit_dom_q, 0, 'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , $domain_quota_default),
-            'total_quota'      => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(),
-                array('select' => "$query_used_domainquota AS total_quota") /*extrafrom*//* already in mailbox_count */),
-            'total_quot'     => self::pacol(0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, array(),
-                array('select' => db_quota_text($query_used_domainquota, 'quota', 'total_quot'))),
-            '_total_quot_percent' => self::pacol(0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, array(),
-                array('select' => db_quota_percent($query_used_domainquota, 'quota', '_total_quot_percent'))),
+            'total_quota'      => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(), 0, 0,  "$query_used_domainquota AS total_quota" /*extrafrom*//* already in mailbox_count */),
+            'total_quot'     => self::pacol(0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, array(), 0, 0,  db_quota_text($query_used_domainquota, 'quota', 'total_quot')),
+            '_total_quot_percent' => self::pacol(0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, array(), 0, 0, db_quota_percent($query_used_domainquota, 'quota', '_total_quot_percent')),
 
            'transport'         => self::pacol($transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
                /*options*/ Config::read_array('transport_options')),

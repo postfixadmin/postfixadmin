@@ -19,7 +19,7 @@ class DkimHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type     $PALANG label           $PALANG description          default / options / ...
             #                           editing?    form    list
-            'id'               => self::pacol(0,          0,      1,      'num' , 'pFetchmail_field_id' , ''                         , '', array(), array('dont_write_to_db' => 1)),
+            'id'               => self::pacol(0,          0,      1,      'num' , 'pFetchmail_field_id' , ''                         , '', array(), 0, 1),
             'description'      => self::pacol(1,          1,      1,      'text', 'description'         , ''),
             'selector'         => self::pacol(1,          1,      1,      'text', 'pDkim_field_selector', 'pDkim_field_selector_desc'),
             'domain_name'      => self::pacol(1,          1,      1,      'enum', 'domain'              , 'pDkim_field_domain_desc'  , '', $this->allowed_domains),
