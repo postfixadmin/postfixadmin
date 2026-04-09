@@ -246,38 +246,13 @@ class TotpPf
 
         $warnmsg_pw = Config::Lang('mailbox_post_TOTP_change_failed');
 
-        // Execute the post-change script
-        // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-        $spec = array(
-            0 => array("pipe", "r"), // stdin
-            1 => array("pipe", "w"), // stdout
-        );
-
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($domain);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
+        $stdin = ($TOTP_secret !== null) ? $TOTP_secret . "\0" : "\0";
 
-        $proc = proc_open($command, $spec, $pipes);
-
-        if (!$proc) {
-            throw new \Exception("can't proc_open $cmd_pw");
-        }
-
-        // Write secret through pipe to command stdin
-        if ($TOTP_secret !== null) {
-            fwrite($pipes[0], $TOTP_secret . "\0", 1 + strlen($TOTP_secret));
-        } else {
-            fwrite($pipes[0], "\0", 1);
-        }
-
-        $output = stream_get_contents($pipes[1]);
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-
-        $retval = proc_close($proc);
-
-        if (0 != $retval) {
-            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+        $result = PFAHandler::run_hook_script($command, $stdin);
+        if ($result['retval'] !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
@@ -406,27 +381,12 @@ class TotpPf
 
         $warnmsg_pw = Config::Lang('mailbox_post_totp_exception_add_failed');
 
-        // Use proc_open call to avoid safe_mode problems and to prevent showing sensitive data in process table
-        $spec = array(
-            0 => array("pipe", "r"), // stdin
-            1 => array("pipe", "w"), // stdout
-        );
-
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($ip_address);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
 
-        $proc = proc_open($command, $spec, $pipes);
-        if (!$proc) {
-            throw new \Exception("can't proc_open $cmd_pw");
-        }
-
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-
-        $retval = proc_close($proc);
-        if (0 != $retval) {
-            error_log("Running $command yielded return value=$retval, output was: " . json_encode($retval));
+        $result = PFAHandler::run_hook_script($command);
+        if ($result['retval'] !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
@@ -499,28 +459,12 @@ class TotpPf
 
         $warnmsg_pw = Config::Lang('mailbox_post_totp_exception_delete_failed');
 
-        // Use proc_open call to avoid safe_mode problems and to prevent showing sensitive data in process table
-        $spec = [
-            0 => ["pipe", "r"], // stdin
-            1 => ["pipe", "w"], // stdout
-        ];
-
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($exception['ip']);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
 
-        $proc = proc_open($command, $spec, $pipes);
-        if (!$proc) {
-            throw new \Exception("can't proc_open $cmd_pw");
-        }
-
-        $output = stream_get_contents($pipes[1]);
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-
-        $retval = proc_close($proc);
-        if (0 != $retval) {
-            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+        $result = PFAHandler::run_hook_script($command);
+        if ($result['retval'] !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
