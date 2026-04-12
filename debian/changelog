@@ -1,3 +1,81 @@
+postfixadmin (4.0.1-1) unstable; urgency=medium
+  * Translation fixes (thanks @cboltz)
+  * Fix db setup with table prefix for some of the TOTP tables (thanks @cboltz)
+  * Fix relative path for admins / totp page (thanks @cboltz)
+
+ -- David Goodwin <david@codepoets.co.uk>  12 Sep 2025 00:00:01 +0200
+
+postfixadmin (4.0.0-1) unstable; urgency=medium
+  * Enhancements to vacation.pl (thanks @edneville)
+  * Misc documentation updates
+  * Move the 'pacol' function into PFAHandler
+  * Remove update-check.php link from smarty template footer (link to github releases page instead)
+  * Remove more references to sourceforge
+  * Build against PHP 8.4
+  * Add some missing icons into theme
+
+postfixadmin (4.0.0-beta2-1) unstable; urgency=medium
+  * Tidy up some documentation
+  * Remove support for the MySQL ENCRYPT hasing backend (MySQL drops this after v5.7)
+  * Improve docs for smtpd_sender_login_maps
+  * Token improvements to code quality (type hints, dead code removal)
+  * Update 'install.sh' (gets composer, installs dependent libraries, fixes dir permissions)
+  * Fix database table prefix in the new app password/TOTP additions
+  * Improve setup.php (try and hide unnecessary warnings etc)
+  * Try to improve MySQL db migration routine (try and ensure we are using InnoDB etc)
+
+postfixadmin (4.0.0-beta1-1) unstable; urgency=medium
+  * Move the pacol() function into the PFAHandler class, this may break some config customisations using the *_struct_hook behaviour.
+  * Add Content Security Policy in common.php ( see https://github.com/postfixadmin/postfixadmin/issues/905, thanks @gitblacker ) 
+  * Add SameSite, HttpOnly and (perhaps) secure parameters to the PHP session cookie ( see https://github.com/postfixadmin/postfixadmin/issues/903 - thanks @gitblacker)
+  * Update moment.js library - see https://github.com/postfixadmin/postfixadmin/issues/902
+  * Remove use of deprecated 'imap' module (see https://github.com/postfixadmin/postfixadmin/issues/812 and https://github.com/postfixadmin/postfixadmin/issues/812). This also removes the config for create_mailbox_subdirs etc.
+  * Ability to limit alias destinations to only be for local domains (see https://github.com/postfixadmin/postfixadmin/pull/338/; thanks @michaelkrieger)
+  * Ability to control control smtp access for a mailbox (so limiting outbound email, while still allowing incoming; see https://github.com/postfixadmin/postfixadmin/pull/796; thanks @johnfawcett)
+  * MFA/TOTP support (see https://github.com/postfixadmin/postfixadmin/pull/753 - thank you @svenseeberg and @drunken-sod); see also https://github.com/postfixadmin/postfixadmin/pull/805 (TOTP fixes)
+  * Update composer's PHP requirement to PHP 7.4+ (which matches Wordpress etc, PHP project is supporting 8.1<->8.3)
+  * Make fetchmail.pl respect src_port (thanks @tempixx - see #784)
+  * Improve github action (php 8.2)
+  * Add Javascript username validation to prevent illegal characters (see #765; thanks @verdinago)
+  * Fix typos / broken links etc (see #761; thanks @knofte)
+  * Add initial support for OpenDKIM domain key handling (see #631; thanks @Freddo3000 )
+  * vacation.pl updates - (log4perl warnings, typos etc, logging to file, localhost connection stuff - see https://github.com/postfixadmin/postfixadmin/discussions/648 thanks @puck)
+  * fix display of active buttons in the bootstrap theme (see #749 - thanks @reinks2112)
+  * fix theme logo + config interaction (see #718; thanks @dkatheininge)
+  * fix pacrypt + php_crypt:MD5 
+  * fix dovecot:CRYPT-METHOD (see #708; thanks @Coeur2Boeuf)
+  * fix CSV alias export (see #703; thanks @dennis2society)
+  * upgrade bundled jquery (v1.12.4 to v3.7.0) (fixes jquery ajax security problem, postfixadmin isn't vulnerable, see #734; thanks @tibor-banfalvi)
+  * Require 'composer' for library installation (see install.sh)
+  * Remove the dependency on 'doveadm pw' and support more hash mechanisms (see: #491)
+  * Update debian/ patch (see #529)
+  * Support $CONF['database_port'] when connecting to MySQL (see #549)
+  * Add optional Dovecot mail-crypt plugin support - see https://github.com/postfixadmin/postfixadmin/issues/408
+  * Add $CONF['site_url'] to allow administrators to override a detected site url (e.g. used in password recovery emails; see https://github.com/postfixadmin/postfixadmin/issues/446 )
+  * Code reformat as PHPCS has a mind of it's own (function/method opening brace change of position)
+  * Improved UTF8 support in vacation (see https://github.com/postfixadmin/postfixadmin/pull/484)
+  * Fix quota levels losing config control (see bfc7af5c8efe2a68c47286cc870b56cb4f929a3f)
+  * vacation.pl: improve autoreply detection (see https://github.com/postfixadmin/postfixadmin/pull/482 
+  * vacation.pl: improve headers in auto-reply mails (add: "Auto-Submitted: auto-replied") see https://github.com/postfixadmin/postfixadmin/pull/483
+  * vacation.pl: allow smtp helo to be customised; see https://github.com/postfixadmin/postfixadmin/pull/495
+  * dark theme - use `$CONF['theme_css'] = 'css/dark-theme.css';` to enable - see https://github.com/postfixadmin/postfixadmin/issues/569, thanks @polymeer
+  * support 'send email' using smtp+ssl, smtp+starttls or smtp - see https://github.com/postfixadmin/postfixadmin/pull/566, thanks @davidebeatrici
+  * support smtpd_sender_login_maps via documents - see https://github.com/postfixadmin/postfixadmin/pull/565, thanks @davidebeatrici
+  * fix database collation issues (try and use latin1_general_ci everywhere)
+
+postfixadmin (3.3.13-1) unstable; urgency=medium
+  * MySQL collation fix for quota/quota2 tables ( see https://github.com/postfixadmin/postfixadmin/issues/690 )
+  * Fix MySQL not liking "alter table drop constraint ..." which seems to be MariaDB only (see #561 and #687) (thank you @stefanomarty)
+
+postfixadmin (3.3.12-1) unstable; urgency=medium
+  * MySQL collation setting change, see https://github.com/postfixadmin/postfixadmin/issues/595 (and #327 and #552)
+  * Upgrade Smarty to 4.3.0 (see also #541)
+  * Improve PHP 8.1/8.2 compatability (see #632)
+
+postfixadmin (3.3.11-1) unstable; urgency=medium
+  * Fix PHP 8 compatability for crypt() usage (see https://github.com/postfixadmin/postfixadmin/issues/547)
+  * Support $CONF['database_port'] for MySQL databases (see https://github.com/postfixadmin/postfixadmin/issues/549 and https://github.com/postfixadmin/postfixadmin/issues/553)
+
 postfixadmin (3.3.10-2) unstable; urgency=medium
 
   * remove unnessesary fix for mysqli instead of mysql
