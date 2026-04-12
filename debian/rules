@@ -8,10 +8,14 @@ export VERSION 		= $(shell grep -E "version = '.*';" functions.inc.php |sed -e "
 export DEBVERSION	= $(shell grep -E "postfixadmin .([0-9]+|\.)+" debian/changelog |head -1 |sed -e "s/postfixadmin .//" |sed -e "s/-.*//")
 
 
-# Create a needed tar.gz file to build a non-nativ .dpkg
+# Create a needed tar.gz file to build a non-native .dpkg
 prep:
 	rm -f ../postfixadmin_*orig.tar.gz
-	cd ..; tar --exclude-vcs --exclude=$(notdir ${CURDIR})/debian  --exclude=$(notdir ${CURDIR})/.pc -cvzf postfixadmin_${DEBVERSION}.orig.tar.gz $(notdir ${CURDIR})
+	cd ..; tar cvzf \
+	  --exclude-vcs \
+	  --exclude=$(notdir ${CURDIR})/debian \
+	  --exclude=$(notdir ${CURDIR})/.pc \
+	  postfixadmin_${DEBVERSION}.orig.tar.gz $(notdir ${CURDIR})
 
 build: build-arch build-indep
 build-arch: build-stamp
