@@ -312,7 +312,10 @@ class TotpPf
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
         }
 
-        if (authentication_has_role('admin')) {
+        if (authentication_has_role('global-admin')) {
+            $admin = 2;
+            // Global admins can do anything
+        } elseif (authentication_has_role('admin')) {
             $admin = 1;
             // Get domains the admin has access to
             $domains = list_domains_for_admin($username);
@@ -328,9 +331,6 @@ class TotpPf
             if ($exception_username != $username && !in_array($Exception_domain, $domains)) {
                 throw new \Exception(Config::Lang('pException_user_entire_domain_error'));
             }
-        } elseif (authentication_has_role('global-admin')) {
-            $admin = 2;
-            // Global admins can do anything
         } else {
             // Regular users can only add exceptions for themselves
             $exception_username = $username;
