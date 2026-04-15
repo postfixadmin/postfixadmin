@@ -40,11 +40,13 @@ class TotpPfTest extends TestCase
         db_query('DELETE FROM alias_domain');
         db_query('DELETE FROM mailbox');
         db_query('DELETE FROM domain_admins');
+        db_query('DELETE FROM admin');
         db_query('DELETE FROM domain');
 
         db_query('DELETE FROM totp_exception_address');
         db_query('DELETE FROM mailbox_app_password');
 
+        unset($_SESSION['sessid']);
     }
 
 
@@ -121,11 +123,6 @@ class TotpPfTest extends TestCase
             $x->addException('admin@example.com', 'adminpass', '10.0.0.1', 'user@other.org', 'cross-domain test'),
             'Global admin should be able to add TOTP exception for any domain'
         );
-
-        // Clean up session
-        unset($_SESSION['sessid']);
-        db_query("DELETE FROM admin WHERE username = 'admin@example.com'");
-        db_query("DELETE FROM domain WHERE domain = 'other.org'");
     }
 
     /**
@@ -163,11 +160,6 @@ class TotpPfTest extends TestCase
         // Regular admin should NOT be able to add exception for unmanaged domain
         $this->expectException(\Exception::class);
         $x->addException('admin@example.com', 'adminpass', '10.0.0.2', 'user@other.org', 'should fail');
-
-        // Clean up session
-        unset($_SESSION['sessid']);
-        db_query("DELETE FROM admin WHERE username = 'admin@example.com'");
-        db_query("DELETE FROM domain WHERE domain = 'other.org'");
     }
 
     public function testDovecotQuery()
