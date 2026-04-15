@@ -40,11 +40,13 @@ class TotpPfTest extends TestCase
         db_query('DELETE FROM alias_domain');
         db_query('DELETE FROM mailbox');
         db_query('DELETE FROM domain_admins');
+        db_query('DELETE FROM admin');
         db_query('DELETE FROM domain');
 
         db_query('DELETE FROM totp_exception_address');
         db_query('DELETE FROM mailbox_app_password');
 
+        unset($_SESSION['sessid']);
     }
 
 
@@ -80,6 +82,84 @@ class TotpPfTest extends TestCase
 
         $this->assertNull($x->getException(1));
         $this->assertTrue($x->addException('test@example.com', 'foobar', '1.2.3.4', 'another.test@example.com', 'test'));
+    }
+
+    /**
+     * Regression test for #1012: global admins with both 'admin' and 'global-admin'
+     * roles must not be downgraded to regular admin permissions.
+     */
+    public function testGlobalAdminNotDowngradedInAddException()
+    {
+        // Set up a second domain that the admin does NOT manage
+        db_execute("INSERT INTO domain(domain, description, transport) values ('other.org', 'other domain', 'foo')", [], true);
+        db_execute(
+            "INSERT INTO admin(username, password, superadmin, active) VALUES(:username, :password, :superadmin, :active)",
+            [
+                'username' => 'admin@example.com',
+                'password' => pacrypt('adminpass'),
+                'superadmin' => db_get_boolean(true),
+                'active' => db_get_boolean(true),
+            ]
+        );
+        db_execute(
+            "INSERT INTO domain_admins(username, domain, active) VALUES(:username, :domain, :active)",
+            [
+                'username' => 'admin@example.com',
+                'domain' => 'example.com',
+                'active' => db_get_boolean(true),
+            ]
+        );
+
+        // Simulate global admin session (has BOTH roles, like real login)
+        $_SESSION['sessid'] = [
+            'username' => 'admin@example.com',
+            'roles' => ['admin', 'global-admin'],
+        ];
+
+        $x = new TotpPf('admin', new Login('admin'));
+
+        // Global admin should be able to add exception for a domain they don't explicitly manage
+        $this->assertTrue(
+            $x->addException('admin@example.com', 'adminpass', '10.0.0.1', 'user@other.org', 'cross-domain test'),
+            'Global admin should be able to add TOTP exception for any domain'
+        );
+    }
+
+    /**
+     * Verify regular admin cannot add exception for domains they don't manage.
+     */
+    public function testRegularAdminRestrictedToDomains()
+    {
+        db_execute("INSERT INTO domain(domain, description, transport) values ('other.org', 'other domain', 'foo')", [], true);
+        db_execute(
+            "INSERT INTO admin(username, password, superadmin, active) VALUES(:username, :password, :superadmin, :active)",
+            [
+                'username' => 'admin@example.com',
+                'password' => pacrypt('adminpass'),
+                'superadmin' => db_get_boolean(false),
+                'active' => db_get_boolean(true),
+            ]
+        );
+        db_execute(
+            "INSERT INTO domain_admins(username, domain, active) VALUES(:username, :domain, :active)",
+            [
+                'username' => 'admin@example.com',
+                'domain' => 'example.com',
+                'active' => db_get_boolean(true),
+            ]
+        );
+
+        // Regular admin - only 'admin' role, NOT 'global-admin'
+        $_SESSION['sessid'] = [
+            'username' => 'admin@example.com',
+            'roles' => ['admin'],
+        ];
+
+        $x = new TotpPf('admin', new Login('admin'));
+
+        // Regular admin should NOT be able to add exception for unmanaged domain
+        $this->expectException(\Exception::class);
+        $x->addException('admin@example.com', 'adminpass', '10.0.0.2', 'user@other.org', 'should fail');
     }
 
     public function testDovecotQuery()
