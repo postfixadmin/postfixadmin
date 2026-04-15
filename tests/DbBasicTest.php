@@ -69,6 +69,69 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, db_delete('mailbox', 'username', $username));
         $this->assertEquals(1, db_delete('domain', 'domain', $domain));
     }
+
+    /**
+     * Test db_in_clause() generates correct placeholders and params.
+     */
+    public function testDbInClause()
+    {
+        $params = [];
+        $sql = db_in_clause('domain', ['example.com', 'test.org'], $params);
+
+        $this->assertStringContainsString('IN (', $sql);
+        $this->assertCount(2, $params);
+        $this->assertContains('example.com', $params);
+        $this->assertContains('test.org', $params);
+    }
+
+    /**
+     * Test db_in_clause() with empty array returns safe false predicate.
+     */
+    public function testDbInClauseEmpty()
+    {
+        $params = [];
+        $sql = db_in_clause('domain', [], $params);
+
+        $this->assertStringContainsString('1=0', $sql);
+        $this->assertCount(0, $params);
+    }
+
+    /**
+     * Test db_in_clause() generates unique param keys when called multiple times.
+     */
+    public function testDbInClauseUniqueKeys()
+    {
+        $params = [];
+        db_in_clause('domain', ['a.com'], $params);
+        db_in_clause('domain', ['b.com'], $params);
+
+        $this->assertCount(2, $params);
+        $values = array_values($params);
+        $this->assertEquals('a.com', $values[0]);
+        $this->assertEquals('b.com', $values[1]);
+        // Keys must be different
+        $keys = array_keys($params);
+        $this->assertNotEquals($keys[0], $keys[1]);
+    }
+
+    /**
+     * Test db_in_clause() actually works in a real query.
+     */
+    public function testDbInClauseInQuery()
+    {
+        $domain = $this->test_domain;
+        db_insert('domain', ['domain' => $domain, 'description' => 'test', 'transport' => '']);
+
+        $params = [];
+        $in = db_in_clause('domain', [$domain, 'nonexistent.com'], $params);
+        $result = db_query_all("SELECT domain FROM " . table_by_key('domain') . " WHERE $in", $params);
+
+        $domains = array_column($result, 'domain');
+        $this->assertContains($domain, $domains);
+        $this->assertNotContains('nonexistent.com', $domains);
+
+        db_delete('domain', 'domain', $domain);
+    }
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
