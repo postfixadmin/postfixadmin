@@ -962,10 +962,16 @@ abstract class PFAHandler
 
         if (is_array($not_in_db)) { # remaining parameters provided in named array
             trigger_error("PFAHandler::pacol() - passing mutiopt as an array is deprecated, please use the remaining parameters", E_USER_DEPRECATED);
+            $found = false;
             foreach ($not_in_db as $key => $value) {
+                if ($key === 'not_in_db') {
+                    $found = true;
+                }
                 $$key = $value; # extract everything to the matching variable
             }
-            $not_in_db = 0; # keep default value
+            if (!$found) {
+                $not_in_db = 0; //
+            }
         }
 
         return [
