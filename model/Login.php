@@ -163,8 +163,9 @@ class Login
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
         $stdin = $old_password . "\0" . $new_password . "\0";
 
-        $result = PFAHandler::run_hook_script($command, $stdin);
-        if ($result['retval'] !== 0) {
+        $exec = Exec::run($command, $stdin);
+
+        if ($exec->retval !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
@@ -225,8 +226,8 @@ class Login
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
         $stdin = $app_pass . "\0";
 
-        $result = PFAHandler::run_hook_script($command, $stdin);
-        if ($result['retval'] !== 0) {
+        $exec = Exec::run($command, $stdin);
+        if ($exec->retval !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 

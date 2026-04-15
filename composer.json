@@ -28,7 +28,8 @@
         "postfixadmin/password-hashing": "^0.0.2",
         "endroid/qr-code": "^4.6 | ^5.0", 
         "spomky-labs/otphp": "^11.0",
-        "shardj/zf1-future": "^1.12"
+        "shardj/zf1-future": "^1.12",
+        "symfony/var-dumper": "^7.4"
     },
     "require-dev": {
         "ext-mbstring": "*",

@@ -682,8 +682,8 @@ class MailboxHandler extends PFAHandler
         if (!empty($cmd_pw)) {
             $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
             $stdin = "\0" . $this->values['password'] . "\0";
-            $result = self::run_hook_script($command, $stdin);
-            if ($result['retval'] !== 0) {
+            $result = Exec::run($command, $stdin);
+            if ($result->retval !== 0) {
                 $this->errormsg[] = $warnmsg_pw;
                 $status = false;
             }

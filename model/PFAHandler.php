@@ -1102,54 +1102,5 @@ abstract class PFAHandler
         return false;
     }
 
-    /**
-     * Run an external hook script via proc_open.
-     *
-     * Used for post-creation, post-deletion, post-password-change scripts etc.
-     * Handles process creation, optional stdin data, stdout capture, and error logging.
-     *
-     * $command can be either:
-     * - a string: full shell command (callers should escapeshellarg() arguments and append 2>&1)
-     * - an array: [script, arg1, arg2, ...] — PHP handles escaping, no shell involved (preferred)
-     *
-     * Note: only stdout is captured via pipe. When using a string command, append 2>&1
-     * to also capture stderr. When using an array command, stderr goes to the parent process.
-     * Sensitive data (passwords, secrets) should be passed via $stdin_data rather than arguments.
-     *
-     * @param string|array $command shell command string or array of [script, arg1, arg2, ...]
-     * @param string|null $stdin_data optional data to write to the process stdin
-     * @return array{retval: int, output: string}
-     */
-    public static function run_hook_script(string|array $command, ?string $stdin_data = null): array
-    {
-        $spec = [
-            0 => ["pipe", "r"], // stdin
-            1 => ["pipe", "w"], // stdout
-        ];
-
-        $proc = proc_open($command, $spec, $pipes);
-        if (!$proc) {
-            $cmd_display = is_array($command) ? implode(' ', $command) : $command;
-            error_log("can't proc_open: $cmd_display");
-            return ['retval' => -1, 'output' => ''];
-        }
-
-        if ($stdin_data !== null) {
-            fwrite($pipes[0], $stdin_data);
-        }
-        fclose($pipes[0]);
-
-        $output = stream_get_contents($pipes[1]);
-        fclose($pipes[1]);
-
-        $retval = proc_close($proc);
-
-        if (0 != $retval) {
-            $cmd_display = is_array($command) ? implode(' ', $command) : $command;
-            error_log("Running $cmd_display yielded return value=$retval, output was: " . json_encode($output));
-        }
-
-        return ['retval' => $retval, 'output' => $output === false ? '' : $output];
-    }
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

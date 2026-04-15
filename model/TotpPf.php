@@ -251,8 +251,9 @@ class TotpPf
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
         $stdin = ($TOTP_secret !== null) ? $TOTP_secret . "\0" : "\0";
 
-        $result = PFAHandler::run_hook_script($command, $stdin);
-        if ($result['retval'] !== 0) {
+        $exec = Exec::run($command, $stdin);
+
+        if ($exec->retval !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
@@ -385,8 +386,8 @@ class TotpPf
         $cmdarg2 = escapeshellarg($ip_address);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
 
-        $result = PFAHandler::run_hook_script($command);
-        if ($result['retval'] !== 0) {
+        $exec = Exec::run($command);
+        if ($exec->retval !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
@@ -463,8 +464,9 @@ class TotpPf
         $cmdarg2 = escapeshellarg($exception['ip']);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
 
-        $result = PFAHandler::run_hook_script($command);
-        if ($result['retval'] !== 0) {
+        $exec = Exec::run($command);
+
+        if ($exec->retval !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
