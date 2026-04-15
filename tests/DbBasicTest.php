@@ -78,10 +78,8 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
         $params = [];
         $sql = db_in_clause('domain', ['example.com', 'test.org'], $params);
 
-        $this->assertStringContainsString('IN (', $sql);
-        $this->assertCount(2, $params);
-        $this->assertContains('example.com', $params);
-        $this->assertContains('test.org', $params);
+        $this->assertEquals(' domain IN (:_in_0_0,:_in_1_1) ', $sql);
+        $this->assertEquals(['_in_0_0' => 'example.com', '_in_1_1' => 'test.org'], $params);
     }
 
     /**
@@ -92,7 +90,7 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
         $params = [];
         $sql = db_in_clause('domain', [], $params);
 
-        $this->assertStringContainsString('1=0', $sql);
+        $this->assertEquals(' 1=0 ', $sql);
         $this->assertCount(0, $params);
     }
 
@@ -102,16 +100,12 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
     public function testDbInClauseUniqueKeys()
     {
         $params = [];
-        db_in_clause('domain', ['a.com'], $params);
-        db_in_clause('domain', ['b.com'], $params);
+        $sql1 = db_in_clause('domain', ['a.com'], $params);
+        $sql2 = db_in_clause('domain', ['b.com'], $params);
 
-        $this->assertCount(2, $params);
-        $values = array_values($params);
-        $this->assertEquals('a.com', $values[0]);
-        $this->assertEquals('b.com', $values[1]);
-        // Keys must be different
-        $keys = array_keys($params);
-        $this->assertNotEquals($keys[0], $keys[1]);
+        $this->assertEquals(' domain IN (:_in_0_0) ', $sql1);
+        $this->assertEquals(' domain IN (:_in_1_0) ', $sql2);
+        $this->assertEquals(['_in_0_0' => 'a.com', '_in_1_0' => 'b.com'], $params);
     }
 
     /**
