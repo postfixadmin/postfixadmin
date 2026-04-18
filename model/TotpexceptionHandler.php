@@ -35,7 +35,7 @@ class TotpexceptionHandler extends PFAHandler
         $this->struct = array(
             # field name              allow       display in...   type    $PALANG label                     $PALANG description  default / options / ...
             #                         editing?    form    list
-            'id'          => self::pacol(0,       0,      1,      'num',  'pFetchmail_field_id',            '', '', array(), array('dont_write_to_db' => 1)),
+            'id'          => self::pacol(0,       0,      1,      'num',  'pFetchmail_field_id',            '', '', array(), 1),
             'username'    => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_user',          ''),
             'ip'          => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_address',       ''),
             'description' => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_description',   ''),
