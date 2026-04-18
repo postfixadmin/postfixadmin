@@ -1,6 +1,6 @@
 <?php
 
-abstract class RemoteTest extends \PHPUnit\Framework\TestCase
+abstract class RemoteTestCase extends \PHPUnit\Framework\TestCase
 {
     protected $server_url = 'http://change.me/to/work';
     protected $username = 'user@example.com';
