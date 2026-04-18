@@ -6,9 +6,9 @@
  * @package tests
  */
 
-require_once('RemoteTest.php');
+require_once('RemoteTestCase.php');
 
-class RemoteAliasTest extends RemoteTest
+class RemoteAliasTest extends RemoteTestCase
 {
     public function testGet()
     {

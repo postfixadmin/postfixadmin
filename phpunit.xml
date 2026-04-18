@@ -11,22 +11,25 @@
         <const name="PHPUNIT_TEST" value="true" />
     </php>
 
-    <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="coverage-html" target="./coverage" lowUpperBound="35" highLowerBound="70"/>
-    </logging>
+    <coverage>
+        <report>
+            <clover outputFile="build/logs/clover.xml"/>
+            <html outputDirectory="html-coverage" lowUpperBound="50" highLowerBound="80"/>
+        </report>
+    </coverage>
 
-    <filter>
-        <whitelist>
+    <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
+        <include>
             <directory>./model/</directory>
             <directory>./public/</directory>
             <directory>./functions.inc.php/</directory>
+        </include>
             <exclude>
                 <directory>./tests/</directory>
                 <directory>./vendor/</directory>
                 <directory>./lib/</directory>
             </exclude>
-        </whitelist>
-    </filter>
+    </source>
+
 
 </phpunit>
