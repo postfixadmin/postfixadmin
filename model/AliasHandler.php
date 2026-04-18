@@ -27,8 +27,7 @@ class AliasHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / ...
             #                           editing?    form    list
-            'status'           => self::pacol(0,          0,      0,      'html', ''                              , ''                                , '', array(),
-                array('not_in_db' => 1)),
+            'status'           => self::pacol(0,          0,      0,      'html', ''                              , ''                                , '', array(), 1),
             'address'          => self::pacol($this->new, 1,      1,      'mail', 'alias'                         , 'pCreate_alias_catchall_text'),
             'localpart'        => self::pacol($this->new, 0,      0,      'text', 'alias'                         , 'pCreate_alias_catchall_text'     , '',
                 /*options*/ array(),
@@ -54,10 +53,8 @@ class AliasHandler extends PFAHandler
             'created'          => self::pacol(0,          0,      0,      'ts',   'created'                       , ''),
             'modified'         => self::pacol(0,          0,      1,      'ts',   'last_modified'                 , ''),
             'active'           => self::pacol(1,          1,      1,      'bool', 'active'                        , ''                                , 1),
-            '_can_edit'        => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , array(),
-                array('select' => '1 as _can_edit')),
-            '_can_delete'      => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , array(),
-                array('select' => '1 as _can_delete')), # read_from_db_postprocess() updates the value
+            '_can_edit'        => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0, array(), 0, 0, '1 as _can_edit'),
+            '_can_delete'      => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0, array(), 0, 0, '1 as _can_delete'), # read_from_db_postprocess() updates the value
                 # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
         );
 

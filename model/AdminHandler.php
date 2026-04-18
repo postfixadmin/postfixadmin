@@ -49,8 +49,7 @@ class AdminHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type    $PALANG label          $PALANG description   default / options / ...
             #                           editing?    form    list
-            'username'         => self::pacol($this->new, 1,      1,      'text', 'admin'              , 'email_address'     , '', array(),
-                array('linkto' => 'list.php?table=domain&username=%s')),
+            'username'         => self::pacol($this->new, 1,      1,      'text', 'admin'              , 'email_address'   , '', array(), 0, 0, "", "", 'list.php?table=domain&username=%s'),
             'password'         => self::pacol(1,          1,      0,      'pass', 'password'           , ''),
             'password2'        => self::pacol(1,          1,      0,      'pass', 'password_again'     , ''                  , '', array(),
                 /*not_in_db*/ 0,

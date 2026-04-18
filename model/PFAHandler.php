@@ -931,22 +931,27 @@ abstract class PFAHandler
     }
 
     /**
+     * @see DOCUMENTS/HANDLER_CLASSES.md
      * Define a db column, also used to control rendering/editing behaviour.
      *
-     * @param int $allow_editing
-     * @param int $display_in_form
-     * @param int display_in_list
+     * @param int $allow_editing (0 - read-only, 1 - editable)
+     * @param int $display_in_form (0 - hide, 1 - show in form)
+     * @param int display_in_list (0 hide, 1 - show in list)
      * @param string $type e.g. text|pass|bool|list|vnum|mail|ts - see PFAHandler::initStruct()
-     * @param string PALANG_label
-     * @param string PALANG_desc
-     * @param any optional $default
-     * @param array $options optional options
-     * @param array|int or $multiopt - if array, can contain the remaining parameters as associated array. Otherwise counts as $not_in_db
+     * @param string PALANG_label (language key for the field label)
+     * @param string PALANG_desc (language key for the help/description text)
+     * @param mixed $default
+     * @param array $options optional options - for enum/list types
+     * @param int $not_in_db (DEPRECATED form: array, can contain the remaining parameters as associated array. Otherwise counts as $not_in_db)
+     * @param int $dont_write_to_db (Skip writing to db)
+     * @param string $select - custom SQL expression replacing the column name in SELECT, see e.g. AdminHandler's domain_count definition for example
+     * @param string $extrafrom
+     * @param string $linkto e.g. list-virtual.php?domain=%s
      * @return array for $struct
      *
      * @see PFAHandler::initStruct() for a list of possible types.
      */
-    public static function pacol(int $allow_editing, int $display_in_form, int $display_in_list, string $type, string $PALANG_label, string $PALANG_desc, $default = "", array $options = array(), $multiopt = 0, int $dont_write_to_db = 0, string $select = "", string $extrafrom = "", string $linkto = ""): array
+    public static function pacol(int $allow_editing, int $display_in_form, int $display_in_list, string $type, string $PALANG_label, string $PALANG_desc, $default = "", array $options = [], $not_in_db = 0, int $dont_write_to_db = 0, string $select = "", string $extrafrom = "", string $linkto = ""): array
     {
         if ($PALANG_label != '') {
             $PALANG_label = Config::lang($PALANG_label);
@@ -955,16 +960,21 @@ abstract class PFAHandler
             $PALANG_desc = Config::lang($PALANG_desc);
         }
 
-        if (is_array($multiopt)) { # remaining parameters provided in named array
-            $not_in_db = 0; # keep default value
-            foreach ($multiopt as $key => $value) {
+        if (is_array($not_in_db)) { # remaining parameters provided in named array
+            trigger_error("PFAHandler::pacol() - passing mutiopt as an array is deprecated, please use the remaining parameters", E_USER_DEPRECATED);
+            $found = false;
+            foreach ($not_in_db as $key => $value) {
+                if ($key === 'not_in_db') {
+                    $found = true;
+                }
                 $$key = $value; # extract everything to the matching variable
             }
-        } else {
-            $not_in_db = $multiopt;
+            if (!$found) {
+                $not_in_db = 0; //
+            }
         }
 
-        return array(
+        return [
             'editable' => $allow_editing,
             'display_in_form' => $display_in_form,
             'display_in_list' => $display_in_list,
@@ -978,7 +988,7 @@ abstract class PFAHandler
             'select' => $select,         # replaces the field name after SELECT
             'extrafrom' => $extrafrom,      # added after FROM xy - useful for JOINs etc.
             'linkto' => $linkto,         # make the value a link - %s will be replaced with the ID
-        );
+        ];
     }
 
 
@@ -1101,5 +1111,6 @@ abstract class PFAHandler
         $this->errormsg[$field] = $validpass[0]; # TODO: honor all error messages, not only the first one?
         return false;
     }
+
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

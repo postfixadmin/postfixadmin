@@ -2185,10 +2185,56 @@ function upgrade_1851_mysql()
 }
 
 /**
+ * Add missing indexes for better performance on larger installations.
+ * See https://github.com/postfixadmin/postfixadmin/issues/972
+ *
+ * domain_admins: composite index for permission checks
+ *   queried with WHERE username=? AND (domain=? OR domain='ALL') AND active=?
+ * fetchmail: index on domain for domain-based filtering and deletion cascades
+ */
+function upgrade_1852_mysql()
+{
+    $domain_admins = table_by_key('domain_admins');
+    $fetchmail = table_by_key('fetchmail');
+
+    $result = db_query_one("SHOW INDEX FROM $domain_admins WHERE Key_name = 'idx_domadm_user_domain_active'");
+    if (empty($result)) {
+        db_query("ALTER TABLE $domain_admins ADD INDEX idx_domadm_user_domain_active (username, domain, active)");
+    }
+
+    $result = db_query_one("SHOW INDEX FROM $fetchmail WHERE Key_name = 'idx_fetchmail_domain'");
+    if (empty($result)) {
+        db_query("ALTER TABLE $fetchmail ADD INDEX idx_fetchmail_domain (domain)");
+    }
+}
+
+function upgrade_1852_pgsql()
+{
+    $domain_admins = table_by_key('domain_admins');
+    $fetchmail = table_by_key('fetchmail');
+
+    if (!_pgsql_object_exists('idx_domadm_user_domain_active')) {
+        db_query("CREATE INDEX idx_domadm_user_domain_active ON $domain_admins (username, domain, active)");
+    }
+    if (!_pgsql_object_exists('idx_fetchmail_domain')) {
+        db_query("CREATE INDEX idx_fetchmail_domain ON $fetchmail (domain)");
+    }
+}
+
+function upgrade_1852_sqlite()
+{
+    $domain_admins = table_by_key('domain_admins');
+    $fetchmail = table_by_key('fetchmail');
+
+    db_query("CREATE INDEX IF NOT EXISTS idx_domadm_user_domain_active ON $domain_admins (username, domain, active)");
+    db_query("CREATE INDEX IF NOT EXISTS idx_fetchmail_domain ON $fetchmail (domain)");
+}
+
+/**
  * Add created/modified columns to totp_exception_address table.
  * Required for TotpexceptionHandler to work with PFAHandler's save() method.
  */
-function upgrade_1852()
+function upgrade_1853()
 {
     _db_add_field('totp_exception_address', 'created', '{DATECURRENT}');
     _db_add_field('totp_exception_address', 'modified', '{DATECURRENT}');
