@@ -9,8 +9,11 @@
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
 
+   - Update TOTP exceptions to use handler class (see #1007, thanks @knofte, @cboltz)
+   - Add documentation on Handler class use, see DOCUMENTS/HANDLER_CLASSES.md (see #1008, thanks @knofte, @cboltz)
+   - Add Exec class to reduce duplication of proc_open calss, updates phpunit (see #1009, thanks @knofte, @cboltz)
    - Update build environment / github actions (run tests against PostgreSQL and MySQL databases, add phpstan as well as psalm); (thanks @knofte)
-   - Add version check page (integrates with github's API), see #1006; (thanks @knofte)
+   - Add version check page (integrates with github's API), (see #1006, thanks @knofte)
    - Add GitHub Actions workflow to build self-contained release archives (see #999/#973, thanks @knofte)
    - Move from Bootstrap 3 to Bootstrap 5, add dark mode CSS toggle (see #987)
    - Update CSRF protection to support multiple tokens (see #985 / #967)
