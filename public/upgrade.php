@@ -2229,3 +2229,13 @@ function upgrade_1852_sqlite()
     db_query("CREATE INDEX IF NOT EXISTS idx_domadm_user_domain_active ON $domain_admins (username, domain, active)");
     db_query("CREATE INDEX IF NOT EXISTS idx_fetchmail_domain ON $fetchmail (domain)");
 }
+
+/**
+ * Add created/modified columns to totp_exception_address table.
+ * Required for TotpexceptionHandler to work with PFAHandler's save() method.
+ */
+function upgrade_1853()
+{
+    _db_add_field('totp_exception_address', 'created', '{DATECURRENT}');
+    _db_add_field('totp_exception_address', 'modified', '{DATECURRENT}');
+}

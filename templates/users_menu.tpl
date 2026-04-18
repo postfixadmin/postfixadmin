@@ -27,7 +27,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="nav-item dropdown-item" href="password.php"><span class="nav-item bi bi-lock" aria-hidden="true"></span> {$PALANG.change_password}</a></li>
                                 <li><a class="nav-item dropdown-item" href="{#url_totp#}"><span class="nav-item bi bi-lock" aria-hidden="true"></span> {$PALANG.pUsersMenu_totp}</a></li>
-                                <li><a class="nav-item dropdown-item" href="{#url_totp_exceptions#}"><span class="nav-item bi bi-lock" aria-hidden="true"></span> {$PALANG.pMenu_totp_exceptions}</a></li>
+                                <li><a class="nav-item dropdown-item" href="{#url_user_totp_exceptions#}"><span class="nav-item bi bi-lock" aria-hidden="true"></span> {$PALANG.pMenu_totp_exceptions}</a></li>
                                 {if $CONF.app_passwords==='YES'}
                                 <li><a class="nav-item dropdown-item" href="{#url_app_passwords#}"><span class="nav-item bi bi-lock" aria-hidden="true"></span> {$PALANG.pMenu_app_passwords}</a></li>
                                 {/if}
