@@ -1101,5 +1101,6 @@ abstract class PFAHandler
         $this->errormsg[$field] = $validpass[0]; # TODO: honor all error messages, not only the first one?
         return false;
     }
+
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
