@@ -1624,8 +1624,9 @@ function db_get_boolean_param($bool): bool
         return false;
     }
 
-    error_log("Invalid usage of 'db_get_boolean_param($bool)'");
-    throw new Exception("Invalid usage of 'db_get_boolean_param($bool)'");
+    $value = var_export($bool, true);
+    error_log("Invalid usage of 'db_get_boolean_param($value)'");
+    throw new Exception("Invalid usage of 'db_get_boolean_param($value)'");
 }
 
 /**
