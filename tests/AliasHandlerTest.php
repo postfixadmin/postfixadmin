@@ -48,14 +48,6 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
 
         $x = new AliasHandler(1, 'admin', true);
 
-        $values = [
-            'localpart' => 'david.test',
-            'domain' => 'example.com',
-            'active' => 1,
-            'address' => 'david.test@example.com',
-            'goto' => ['dest@example.com']
-        ];
-
         try {
             $r = $x->init('david.test@example.com');
             $this->fail("Should not see this - example.com is not present");
@@ -100,6 +92,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($ret);
 
         $ret = $dh->save();
+
 
         $this->assertTrue($ret);
 

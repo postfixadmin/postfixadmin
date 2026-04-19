@@ -565,7 +565,7 @@ abstract class PFAHandler
         foreach ($db_values as $key => $val) {
             switch ($this->struct[$key]['type']) { # modify field content for some types
                 case 'bool':
-                    $db_values[$key] = db_get_boolean_param($val);
+                    $db_values[$key] = (bool) $val;
                     break;
                 case 'pass':
                     $val = (string)$val;

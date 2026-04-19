@@ -571,11 +571,8 @@ function divide_quota($quota)
 
 /**
  * Checks if the admin is the owner of the domain (or global-admin)
- * @param string $username
- * @param string $domain
- * @return bool
  */
-function check_owner($username, $domain)
+function check_owner(string $username, string $domain): bool
 {
     $table_domain_admins = table_by_key('domain_admins');
 
@@ -613,7 +610,7 @@ function list_domains_for_admin(string $username): array
     $query = "SELECT $table_domain.domain FROM $table_domain ";
     $condition[] = "$table_domain.domain != 'ALL'";
 
-    $result = db_query_one("SELECT username FROM $table_domain_admins WHERE username= :username AND domain='ALL'", ['username' => $username]);
+    $result = db_query_one("SELECT username FROM $table_domain_admins WHERE username = :username AND domain = 'ALL'", ['username' => $username]);
     if (empty($result)) { # not a superadmin
         $pvalues['username'] = $username;
         $pvalues['active'] = true;
@@ -622,14 +619,13 @@ function list_domains_for_admin(string $username): array
         $query .= " LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain ";
         $condition[] = "$table_domain_admins.username = :username  ";
         $condition[] = "$table_domain.active = :active "; # TODO: does it really make sense to exclude inactive...
-        $condition[] = "$table_domain.backupmx = :backupmx"; # TODO: ... and backupmx domains for non-superadmins?
+        $condition[] = "$table_domain.backupmx = :backupmx "; # TODO: ... and backupmx domains for non-superadmins?
     }
 
     $query .= " WHERE " . join(' AND ', $condition);
     $query .= " ORDER BY $table_domain.domain";
 
     $result = db_query_all($query, $pvalues);
-
     return array_column($result, 'domain');
 }
 
@@ -1606,30 +1602,6 @@ function db_get_boolean($bool)
 }
 
 /**
- * Returns a native PHP bool for use in prepared statement parameters.
- *
- * @param bool|int|string $bool
- */
-function db_get_boolean_param($bool): bool
-{
-    if (is_bool($bool)) {
-        return $bool;
-    }
-
-    if ($bool === 1 || $bool === '1') {
-        return true;
-    }
-
-    if ($bool === 0 || $bool === '0') {
-        return false;
-    }
-
-    $value = var_export($bool, true);
-    error_log("Invalid usage of 'db_get_boolean_param($value)'");
-    throw new Exception("Invalid usage of 'db_get_boolean_param($value)'");
-}
-
-/**
  * Returns a query that reports the used quota ("x / y")
  * @param string column containing used quota
  * @param string column containing allowed quota
@@ -1745,6 +1717,15 @@ function db_execute(string $sql, array $values = [], bool $throw_exceptions = fa
 
     try {
         $stmt = $link->prepare($sql);
+
+        // PDO and PostgreSQL either require us to explicitly bind values as bools, or it seems to work
+        // if we pass in 0/1 ....  0/1 is easier?
+        foreach ($values as $key => $value) {
+            if (is_bool($value)) {
+                $values[$key] = (int)$value;
+            }
+        }
+
         $stmt->execute($values);
     } catch (PDOException $e) {
         $error_text = "Invalid query: " . $e->getMessage() . " caused by " . $sql . ' ' . json_encode($values);
@@ -1773,8 +1754,17 @@ function db_query(string $sql, array $values = array(), bool $ignore_errors = fa
     $stmt = null;
     try {
         $stmt = $link->prepare($sql);
+
+        // PDO and PostgreSQL either require us to explicitly bind values as bools, or it seems to work
+        // if we pass in 0/1 ....  0/1 is easier?
+        foreach ($values as $key => $value) {
+            if (is_bool($value)) {
+                $values[$key] = (int)$value;
+            }
+        }
         $stmt->execute($values);
     } catch (PDOException $e) {
+
         $error_text = "Invalid query: " . $e->getMessage() . " caused by " . $sql;
         error_log($error_text);
         if (defined('PHPUNIT_TEST')) {
@@ -1986,7 +1976,7 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
 
     foreach ($condition as $field => $value) {
         if (isset($struct[$field]) && $struct[$field]['type'] == 'bool') {
-            $value = db_get_boolean_param($value);
+            $value = (bool)$value;
         }
         $operator = '=';
         if (isset($searchmode[$field])) {
