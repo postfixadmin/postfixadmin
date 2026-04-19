@@ -1749,7 +1749,22 @@ function db_query(string $sql, array $values = array(), bool $ignore_errors = fa
     $stmt = null;
     try {
         $stmt = $link->prepare($sql);
-        $stmt->execute($values);
+        // PostgreSQL needs explicit boolean type binding for 't'/'f' values
+        // from db_get_boolean(), as PDO otherwise sends them as strings which
+        // fail with "invalid input syntax for type integer"
+        if (db_pgsql() && !empty($values)) {
+            foreach ($values as $key => $value) {
+                $param = is_int($key) ? $key + 1 : $key;
+                if ($value === 't' || $value === 'f') {
+                    $stmt->bindValue($param, $value === 't', PDO::PARAM_BOOL);
+                } else {
+                    $stmt->bindValue($param, $value);
+                }
+            }
+            $stmt->execute();
+        } else {
+            $stmt->execute($values);
+        }
     } catch (PDOException $e) {
         $error_text = "Invalid query: " . $e->getMessage() . " caused by " . $sql;
         error_log($error_text);
