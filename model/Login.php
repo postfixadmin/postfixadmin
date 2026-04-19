@@ -24,7 +24,7 @@ class Login
     {
         $query = "SELECT password FROM {$this->key_table} WHERE username = :username AND active = :active";
 
-        $values = ['username' => $username, 'active' => db_get_boolean(true)];
+        $values = ['username' => $username, 'active' => true];
 
         $result = db_query_all($query, $values);
 
@@ -62,7 +62,7 @@ class Login
     {
         $sql = "SELECT count(1) FROM {$this->key_table} WHERE username = :username AND active = :active";
 
-        $active = db_get_boolean(true);
+        $active = true;
 
         $values = [
             'username' => $username,
@@ -97,7 +97,7 @@ class Login
 
         $values = [
             'username' => $username,
-            'active' => db_get_boolean(true),
+            'active' => true,
         ];
 
         // Fetch the domain

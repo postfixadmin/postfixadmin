@@ -121,7 +121,7 @@ class TotpPf
         $table_name = table_by_key($this->table);
         $sql = "SELECT totp_secret FROM $table_name WHERE username = :username AND active = :active";
 
-        $active = db_get_boolean(true);
+        $active = true;
 
         $values = [
             'username' => $username,
@@ -141,7 +141,7 @@ class TotpPf
         $table_name = table_by_key($this->table);
         $sql = "SELECT totp_secret FROM $table_name WHERE username = :username AND active = :active";
 
-        $active = db_get_boolean(true);
+        $active = true;
 
         $values = [
             'username' => $username,
@@ -193,7 +193,7 @@ class TotpPf
         $table_name = table_by_key($this->table);
         $sql = "SELECT totp_secret FROM $table_name WHERE username = :username AND active = :active";
 
-        $active = db_get_boolean(true);
+        $active = true;
 
         $values = [
             'username' => $username,

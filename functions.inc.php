@@ -581,7 +581,7 @@ function check_owner($username, $domain)
 
     $result = db_query_all(
         "SELECT 1 FROM $table_domain_admins WHERE username= ? AND (domain = ? OR domain = 'ALL') AND active = ?",
-        array($username, $domain, db_get_boolean(true))
+        array($username, $domain, true)
     );
 
     if (sizeof($result) == 1 || sizeof($result) == 2) { # "ALL" + specific domain permissions is possible
@@ -616,8 +616,8 @@ function list_domains_for_admin(string $username): array
     $result = db_query_one("SELECT username FROM $table_domain_admins WHERE username= :username AND domain='ALL'", ['username' => $username]);
     if (empty($result)) { # not a superadmin
         $pvalues['username'] = $username;
-        $pvalues['active'] = db_get_boolean(true);
-        $pvalues['backupmx'] = db_get_boolean(false);
+        $pvalues['active'] = true;
+        $pvalues['backupmx'] = false;
 
         $query .= " LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain ";
         $condition[] = "$table_domain_admins.username = :username  ";
@@ -1606,6 +1606,29 @@ function db_get_boolean($bool)
 }
 
 /**
+ * Returns a native PHP bool for use in prepared statement parameters.
+ *
+ * @param bool|int|string $bool
+ */
+function db_get_boolean_param($bool): bool
+{
+    if (is_bool($bool)) {
+        return $bool;
+    }
+
+    if ($bool === 1 || $bool === '1') {
+        return true;
+    }
+
+    if ($bool === 0 || $bool === '0') {
+        return false;
+    }
+
+    error_log("Invalid usage of 'db_get_boolean_param($bool)'");
+    throw new Exception("Invalid usage of 'db_get_boolean_param($bool)'");
+}
+
+/**
  * Returns a query that reports the used quota ("x / y")
  * @param string column containing used quota
  * @param string column containing allowed quota
@@ -1962,7 +1985,7 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
 
     foreach ($condition as $field => $value) {
         if (isset($struct[$field]) && $struct[$field]['type'] == 'bool') {
-            $value = db_get_boolean($value);
+            $value = db_get_boolean_param($value);
         }
         $operator = '=';
         if (isset($searchmode[$field])) {
@@ -2149,7 +2172,7 @@ function gen_show_status($show_alias)
 
     // Vacation CHECK
     if (array_key_exists('show_vacation', $CONF) && $CONF['show_vacation'] == 'YES') {
-        $stat_result = db_query_one("SELECT * FROM " . table_by_key('vacation') . " WHERE email = ? AND active = ? ", array($show_alias, db_get_boolean(true)));
+        $stat_result = db_query_one("SELECT * FROM " . table_by_key('vacation') . " WHERE email = ? AND active = ? ", array($show_alias, true));
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2161,7 +2184,7 @@ function gen_show_status($show_alias)
     if (array_key_exists('show_disabled', $CONF) && $CONF['show_disabled'] == 'YES') {
         $stat_result = db_query_one(
             "SELECT * FROM " . table_by_key('mailbox') . " WHERE username = ? AND active = ?",
-            array($show_alias, db_get_boolean(false))
+            array($show_alias, false)
         );
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
@@ -2177,7 +2200,7 @@ function gen_show_status($show_alias)
             $now = "datetime('now')";
         }
 
-        $stat_result = db_query_one("SELECT * FROM " . table_by_key('mailbox') . " WHERE username = ? AND password_expiry <= $now AND active = ?", array($show_alias, db_get_boolean(true)));
+        $stat_result = db_query_one("SELECT * FROM " . table_by_key('mailbox') . " WHERE username = ? AND password_expiry <= $now AND active = ?", array($show_alias, true));
 
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
