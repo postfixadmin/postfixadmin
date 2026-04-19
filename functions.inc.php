@@ -1606,6 +1606,30 @@ function db_get_boolean($bool)
 }
 
 /**
+ * Convert PostgreSQL boolean strings ('t'/'f') from db_get_boolean() to
+ * PHP native booleans for correct PDO parameter binding.
+ *
+ * PDO sends 't'/'f' as string parameters, which PostgreSQL rejects for
+ * boolean columns with "invalid input syntax for type integer".
+ *
+ * @param array $values parameter values for a prepared statement
+ * @return array values with 't'/'f' converted to true/false on PostgreSQL
+ */
+function _db_fix_pgsql_booleans(array $values): array
+{
+    if (db_pgsql()) {
+        foreach ($values as $key => $value) {
+            if ($value === 't') {
+                $values[$key] = true;
+            } elseif ($value === 'f') {
+                $values[$key] = false;
+            }
+        }
+    }
+    return $values;
+}
+
+/**
  * Returns a query that reports the used quota ("x / y")
  * @param string column containing used quota
  * @param string column containing allowed quota
@@ -1719,6 +1743,8 @@ function db_execute(string $sql, array $values = [], bool $throw_exceptions = fa
 {
     $link = db_connect();
 
+    $values = _db_fix_pgsql_booleans($values);
+
     try {
         $stmt = $link->prepare($sql);
         $stmt->execute($values);
@@ -1746,25 +1772,12 @@ function db_query(string $sql, array $values = array(), bool $ignore_errors = fa
     $link = db_connect();
     $error_text = '';
 
+    $values = _db_fix_pgsql_booleans($values);
+
     $stmt = null;
     try {
         $stmt = $link->prepare($sql);
-        // PostgreSQL needs explicit boolean type binding for 't'/'f' values
-        // from db_get_boolean(), as PDO otherwise sends them as strings which
-        // fail with "invalid input syntax for type integer"
-        if (db_pgsql() && !empty($values)) {
-            foreach ($values as $key => $value) {
-                $param = is_int($key) ? $key + 1 : $key;
-                if ($value === 't' || $value === 'f') {
-                    $stmt->bindValue($param, $value === 't', PDO::PARAM_BOOL);
-                } else {
-                    $stmt->bindValue($param, $value);
-                }
-            }
-            $stmt->execute();
-        } else {
-            $stmt->execute($values);
-        }
+        $stmt->execute($values);
     } catch (PDOException $e) {
         $error_text = "Invalid query: " . $e->getMessage() . " caused by " . $sql;
         error_log($error_text);
