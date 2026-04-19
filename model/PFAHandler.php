@@ -565,8 +565,7 @@ abstract class PFAHandler
         foreach ($db_values as $key => $val) {
             switch ($this->struct[$key]['type']) { # modify field content for some types
                 case 'bool':
-                    $val = (string)$val;
-                    $db_values[$key] = db_get_boolean($val);
+                    $db_values[$key] = (bool) $val;
                     break;
                 case 'pass':
                     $val = (string)$val;
@@ -876,7 +875,7 @@ abstract class PFAHandler
     public function checkPasswordRecoveryCode($username, $token)
     {
         $table = table_by_key($this->db_table);
-        $active = db_get_boolean(true);
+        $active = true;
 
         $now = date('Y-m-d H:i:s');
 
