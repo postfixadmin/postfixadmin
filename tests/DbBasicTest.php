@@ -126,6 +126,145 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
 
         db_delete('domain', 'domain', $domain);
     }
+
+    /**
+     * Test db_where_clause() generates parameterized WHERE with correct placeholders.
+     */
+    public function testDbWhereClause()
+    {
+        $struct = [
+            'domain' => ['type' => 'text', 'select' => ''],
+            'description' => ['type' => 'text', 'select' => ''],
+        ];
+        $params = [];
+        $sql = db_where_clause(['domain' => 'example.com'], $struct, '', [], $params);
+
+        $this->assertStringContainsString('WHERE', $sql);
+        $this->assertStringContainsString(':_wh_domain', $sql);
+        $this->assertEquals('example.com', $params['_wh_domain']);
+    }
+
+    /**
+     * Test db_where_clause() with multiple conditions.
+     */
+    public function testDbWhereClauseMultiple()
+    {
+        $struct = [
+            'domain' => ['type' => 'text', 'select' => ''],
+            'description' => ['type' => 'text', 'select' => ''],
+        ];
+        $params = [];
+        $sql = db_where_clause(
+            ['domain' => 'example.com', 'description' => 'test'],
+            $struct, '', [], $params
+        );
+
+        $this->assertCount(2, $params);
+        $this->assertEquals('example.com', $params['_wh_domain']);
+        $this->assertEquals('test', $params['_wh_description']);
+    }
+
+    /**
+     * Test db_where_clause() with LIKE search mode.
+     */
+    public function testDbWhereClauseLike()
+    {
+        $struct = [
+            'domain' => ['type' => 'text', 'select' => ''],
+        ];
+        $params = [];
+        $sql = db_where_clause(
+            ['domain' => 'example'],
+            $struct, '', ['domain' => 'CONT'], $params
+        );
+
+        $this->assertStringContainsString('LIKE', $sql);
+        $this->assertEquals('%example%', $params['_wh_domain']);
+    }
+
+    /**
+     * Test db_where_clause() with NULL operator.
+     */
+    public function testDbWhereClauseNull()
+    {
+        $struct = [
+            'domain' => ['type' => 'text', 'select' => ''],
+        ];
+        $params = [];
+        $sql = db_where_clause(
+            ['domain' => ''],
+            $struct, '', ['domain' => 'NULL'], $params
+        );
+
+        $this->assertStringContainsString('IS NULL', $sql);
+        $this->assertCount(0, $params);
+    }
+
+    /**
+     * Test db_where_clause() with boolean field conversion.
+     */
+    public function testDbWhereClauseBoolean()
+    {
+        $struct = [
+            'active' => ['type' => 'bool', 'select' => ''],
+        ];
+        $params = [];
+        $sql = db_where_clause(
+            ['active' => true],
+            $struct, '', [], $params
+        );
+
+        $this->assertCount(1, $params);
+        // Value should be converted by db_get_boolean()
+        $this->assertNotNull($params['_wh_active']);
+    }
+
+    /**
+     * Test db_where_clause() with additional_raw_where.
+     */
+    public function testDbWhereClauseAdditionalWhere()
+    {
+        $struct = [
+            'domain' => ['type' => 'text', 'select' => ''],
+        ];
+        $params = [];
+        $sql = db_where_clause(
+            ['domain' => 'example.com'],
+            $struct, "AND extra_field = 'foo'", [], $params
+        );
+
+        $this->assertStringContainsString("extra_field = 'foo'", $sql);
+        $this->assertStringContainsString(':_wh_domain', $sql);
+    }
+
+    /**
+     * Test db_where_clause() throws on empty condition.
+     */
+    public function testDbWhereClauseEmptyThrows()
+    {
+        $this->expectException(Exception::class);
+        db_where_clause([], []);
+    }
+
+    /**
+     * Test db_delete() with additional params.
+     */
+    public function testDbDeleteWithAdditionalParams()
+    {
+        $domain = $this->test_domain;
+        db_insert('domain', ['domain' => $domain, 'description' => 'test', 'transport' => '']);
+        db_insert('domain', ['domain' => $domain . '.extra', 'description' => 'extra test', 'transport' => '']);
+
+        // Delete with additional WHERE clause
+        $result = db_delete('domain', 'domain', $domain . '.extra', "AND description = ?", ['extra test']);
+        $this->assertEquals(1, $result);
+
+        // Original should still exist
+        $row = db_query_one("SELECT domain FROM " . table_by_key('domain') . " WHERE domain = :domain", ['domain' => $domain]);
+        $this->assertNotNull($row);
+
+        db_delete('domain', 'domain', $domain);
+    }
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
