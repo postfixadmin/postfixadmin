@@ -12,6 +12,7 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
 
         $db->exec("DELETE FROM domain WHERE domain = '$test_domain'");
     }
+
     public function testInsertDeleteDomain()
     {
         $domain = $this->test_domain;
@@ -139,8 +140,7 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
         $params = [];
         $sql = db_where_clause(['domain' => 'example.com'], $struct, '', [], $params);
 
-        $this->assertStringContainsString('WHERE', $sql);
-        $this->assertStringContainsString(':_wh_domain', $sql);
+        $this->assertEquals(' WHERE 1=1    AND    ( domain= :_wh_domain ) ', $sql);
         $this->assertEquals('example.com', $params['_wh_domain']);
     }
 
@@ -159,6 +159,7 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
             $struct, '', [], $params
         );
 
+        $this->assertEquals(' WHERE 1=1    AND    ( domain= :_wh_domain AND description= :_wh_description ) ', $sql);
         $this->assertCount(2, $params);
         $this->assertEquals('example.com', $params['_wh_domain']);
         $this->assertEquals('test', $params['_wh_description']);
@@ -178,8 +179,8 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
             $struct, '', ['domain' => 'CONT'], $params
         );
 
-        $this->assertStringContainsString('LIKE', $sql);
-        $this->assertEquals('%example%', $params['_wh_domain']);
+        $this->assertEquals(' WHERE 1=1    AND    ( domain LIKE  :_wh_domain ) ', $sql);
+        $this->assertEquals(['_wh_domain' => '%example%'], $params);
     }
 
     /**
@@ -209,14 +210,11 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
             'active' => ['type' => 'bool', 'select' => ''],
         ];
         $params = [];
-        $sql = db_where_clause(
-            ['active' => true],
-            $struct, '', [], $params
-        );
+        $sql = db_where_clause(['active' => true], $struct, '', [], $params);
 
-        $this->assertCount(1, $params);
-        // Value should be converted by db_get_boolean()
-        $this->assertNotNull($params['_wh_active']);
+        $this->assertEquals(' WHERE 1=1    AND    ( active= :_wh_active ) ', $sql);
+
+        $this->assertEquals(['_wh_active' => true], $params);
     }
 
     /**
@@ -233,8 +231,7 @@ class DbBasicTest extends \PHPUnit\Framework\TestCase
             $struct, "AND extra_field = 'foo'", [], $params
         );
 
-        $this->assertStringContainsString("extra_field = 'foo'", $sql);
-        $this->assertStringContainsString(':_wh_domain', $sql);
+        $this->assertEquals(" WHERE 1=1  AND extra_field = 'foo'  AND    ( domain= :_wh_domain ) ", $sql);
     }
 
     /**
