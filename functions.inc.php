@@ -1944,7 +1944,7 @@ function db_in_clause(string $field, array $values, array &$params = []): string
  * Call: db_where_clause (array $conditions, array $struct)
  * @param array $condition - array('field' => 'value', 'field2' => 'value2, ...)
  * @param array $struct - field structure, used for automatic bool conversion
- * @param string $additional_raw_where - raw sniplet to include in the WHERE part - typically needs to start with AND
+ * @param string $additional_raw_where - raw snippet to include in the WHERE part - typically needs to start with AND
  * @param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see
  *                           $allowed_operators for available operators)
  *                           Note: the $searchmode operator will only be used if a $condition for that field is set.
@@ -1962,7 +1962,7 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
 
     foreach ($condition as $field => $value) {
         if (isset($struct[$field]) && $struct[$field]['type'] == 'bool') {
-            $value = db_get_boolean($value);
+            $value = (bool) $value; # ensure booleans are booleans.
         }
         $operator = '=';
         if (isset($searchmode[$field])) {
@@ -1970,10 +1970,10 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
                 $operator = $searchmode[$field];
 
                 if ($operator == 'CONT') { # CONT - as in "contains"
-                    $operator = ' LIKE '; # add spaces
+                    $operator = ' LIKE ';
                     $value = '%' . $value . '%';
                 } elseif ($operator == 'LIKE') { # LIKE -without adding % wildcards (the search value can contain %)
-                    $operator = ' LIKE '; # add spaces
+                    $operator = ' LIKE ';
                 }
             } else {
                 throw new Exception('db_where_clause: Invalid searchmode for ' . $field);
