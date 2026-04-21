@@ -2,7 +2,6 @@
 
 class PFAHandlerTest extends \PHPUnit\Framework\TestCase
 {
-
     /**
      * Just checking that the rename of the 9th parameter ($options) to become $not_in_db behaves
      * Previously if the param was an array, it trampled on any params in scope.
