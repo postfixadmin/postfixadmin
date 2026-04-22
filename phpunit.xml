@@ -22,7 +22,7 @@
         <include>
             <directory>./model/</directory>
             <directory>./public/</directory>
-            <directory>./functions.inc.php/</directory>
+            <file>./functions.inc.php</file>
         </include>
             <exclude>
                 <directory>./tests/</directory>
