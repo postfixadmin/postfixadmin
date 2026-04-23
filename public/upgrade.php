@@ -1350,7 +1350,7 @@ function upgrade_1284_mysql_pgsql()
 
     foreach ($result as $row) {
         printdebug("Setting superadmin flag for " . $row['username']);
-        db_update('admin', 'username', $row['username'], array('superadmin' => db_get_boolean(true)));
+        db_update('admin', 'username', $row['username'], array('superadmin' => true));
     }
 }
 

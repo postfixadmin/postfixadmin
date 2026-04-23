@@ -134,7 +134,7 @@ class VacationHandler extends PFAHandler
 
         // tidy up vacation table.
         $vacation_data = array(
-            'active' => db_get_boolean(false),
+            'active' => false,
         );
 
         db_update('vacation', 'email', $this->username, $vacation_data);
@@ -206,12 +206,12 @@ class VacationHandler extends PFAHandler
         if (!is_array($row)) {
             return false;
         }
-        $boolean = ($row['active'] == db_get_boolean(true));
+
         # TODO: only return true and store the db result array in $this->whatever for consistency with the other classes
         return array(
             'subject' => isset($row['subject']) ? $row['subject'] : null,
             'body' => isset($row['body']) ? $row['body'] : null,
-            'active' => $boolean,
+            'active' => (bool) $row['active'],
             'interval_time' => isset($row['interval_time']) ? $row['interval_time'] : null,
             'activeFrom' => isset($row['activefrom']) ? $row['activefrom'] : null,
             'activeUntil' => isset($row['activeuntil']) ? $row['activeuntil'] : null
@@ -235,7 +235,7 @@ class VacationHandler extends PFAHandler
             'subject' => $subject,
             'body' => $body,
             'interval_time' => $interval_time,
-            'active' => db_get_boolean(true),
+            'active' => true,
             // MySQL 8.x supports a timezone (Y-m-d H:i:sP), but MariaDB doesn't seem to? I'm sure PostgreSQL will.
             'activefrom' => $activeFrom->format('Y-m-d H:i:s'),
             'activeuntil' => $activeUntil->format('Y-m-d H:i:s'),
