@@ -34,7 +34,7 @@ class DkimsigningHandler extends PFAHandler
         // Build descriptive labels for the DKIM key dropdown: "domain:selector (description) [id]"
         $dkim_options = array_map(
             fn($v) => "{$v['domain_name']}:{$v['selector']} ({$v['description']}) [{$v['id']}]",
-            $dkim_handler->result
+            $dkim_handler->result()
         );
 
         // MySQL uses CONCAT(), SQLite and PostgreSQL use || for string concatenation
