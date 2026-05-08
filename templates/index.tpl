@@ -31,7 +31,7 @@
     {/if}
 {/if}
 
-<div class="container-xl " style="min-width: 80%; " role="main">
+<div class="container-xl" role="main">
     {if $authentication_has_role.user && $CONF.motd_user}
         <div id="motd">{$CONF.motd_user}</div>
     {elseif $authentication_has_role.global_admin && $CONF.motd_superadmin}
