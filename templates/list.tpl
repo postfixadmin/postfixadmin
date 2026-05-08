@@ -34,7 +34,7 @@
     {/if}
 
     <div class="card-body">
-        <table class="table table-hover table-sm table-striped" id='admin_table'>
+        <table class="table table-hover table-sm table-striped align-middle" id='admin_table'>
             <!-- TODO: 'admin_table' needed because of CSS for table header -->
             <thead>
             <tr>

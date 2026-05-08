@@ -9,7 +9,7 @@
 </div>
 
 <div class="card-body">
-    <table class="table table-hover table-sm table-striped" id="mailbox_table">
+    <table class="table table-hover table-sm table-striped align-middle" id="mailbox_table">
         <thead>
         {#tr_header#}
         {if $CONF.show_status===YES}
