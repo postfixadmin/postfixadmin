@@ -21,17 +21,27 @@
 </head>
 <body class="{if isset($smarty.session.lang)}lang-{$smarty.session.lang}{/if} page-{$smarty_template} {if isset($table)}page-{$smarty_template}-{$table}{/if}">
 
-{* Hide menu for some templates *}
-{if !in_array($smarty_template, ["login", "login-mfa", "password-recover", "password-change"])}
-{config_load file="menu.conf" section=$smarty_template}
-    {if $authentication_has_role.user}
-        {include file='users_menu.tpl'}
-    {else}
-        {include file='menu.tpl'}
-    {/if}
-{/if}
+<nav class="navbar navbar-expand-lg bg-body-secondary">
+    <div class="container-fluid">
 
-<div class="container-xl " style="min-width: 80%; " role="main">
+        <a class="navbar-brand" href='main.php'><img id="login_header_logo"
+                                                     src="{$CONF.theme_logo|default:'images/postbox.png'}" alt="Logo"/></a>
+
+        {* Hide menu for some templates *}
+        {if !in_array($smarty_template, ["login", "login-mfa", "password-recover", "password-change"])}
+            {config_load file="menu.conf" section=$smarty_template}
+            {if $authentication_has_role.user}
+                {include file='users_menu.tpl'}
+            {else}
+                {include file='menu.tpl'}
+            {/if}
+        {elseif $CONF.show_header_text==='YES' && $CONF.header_text}
+            <h2>{$CONF.header_text}</h2>
+        {/if}
+    </div>
+</nav>
+
+<div class="container-xl mt-3" role="main">
     {if $authentication_has_role.user && $CONF.motd_user}
         <div id="motd">{$CONF.motd_user}</div>
     {elseif $authentication_has_role.global_admin && $CONF.motd_superadmin}

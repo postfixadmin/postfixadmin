@@ -1,13 +1,3 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}"
-                                                     alt="Logo"/></a>
-        {if $CONF.show_header_text==='YES' && $CONF.header_text}
-            <h2>{$CONF.header_text}</h2>
-        {/if}
-    </div>
-</nav>
-
 <h3 class="h3">{$PALANG.pPassword_welcome}</h3>
 
 <form name="mailbox" method="post" class="form">

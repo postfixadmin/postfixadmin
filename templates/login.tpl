@@ -1,13 +1,3 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light ">
-    <div class="container">
-        <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}"
-                                                     alt="Logo"/></a>
-        {if $CONF.show_header_text==='YES' && $CONF.header_text}
-            <h2>{$CONF.header_text}</h2>
-        {/if}
-    </div>
-</nav>
-
 <div id="login" class="container">
     <div class="card card-body">
         <h2 class="h2">{if $logintype=='admin'}{$PALANG.pLogin_welcome}{else}{$PALANG.pUsersLogin_welcome}{/if}</h2>

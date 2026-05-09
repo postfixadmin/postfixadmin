@@ -73,7 +73,7 @@
     <br/>
 {/if}
 {if $tab=='mailbox' || $tab=='all'}
-    <div id="mailboxes" class="card p-3">
+    <div id="mailboxes" class="card">
         {$nav_bar_mailbox.top}
         {assign var="colspan" value=9}
         {if $CONF.vacation_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
@@ -85,18 +85,16 @@
 
 
         <div class="card-footer">
-            <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group float-end">
-                    {$nav_bar_mailbox.bottom}
-                    {if $tCanAddMailbox}
-                        <a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" role="button"
-                           class="btn btn-secondary"><span class="bi bi-plus-circle"
-                                                           aria-hidden="true"></span> {$PALANG.add_mailbox}</a>
-                    {/if}
-                    <a role="button" class="btn btn-secondary"
-                       href="list.php?table=mailbox&amp;output=csv&amp;domain={$domain_selected}"><span
-                                class="bi bi-box-arrow-up-right" aria-hidden="true"></span> {$PALANG.download_csv}</a>
-                </div>
+            <div class="btn-group">
+                {$nav_bar_mailbox.bottom}
+                {if $tCanAddMailbox}
+                    <a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" role="button"
+                        class="btn btn-secondary"><span class="bi bi-plus-circle"
+                                                        aria-hidden="true"></span> {$PALANG.add_mailbox}</a>
+                {/if}
+                <a role="button" class="btn btn-secondary"
+                    href="list.php?table=mailbox&amp;output=csv&amp;domain={$domain_selected}"><span
+                            class="bi bi-box-arrow-up-right" aria-hidden="true"></span> {$PALANG.download_csv}</a>
             </div>
         </div>
     </div>
