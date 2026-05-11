@@ -19,7 +19,7 @@ class DkimHandler extends PFAHandler
         // Auto-generate RSA keypair as defaults for the create form
         $default_private_key = '';
         $default_public_key = '';
-        if ($this->new) {
+        if ($this->new && function_exists('openssl_pkey_new')) {
             $key = openssl_pkey_new([
                 'digest_alg' => 'sha512',
                 'private_key_bits' => 2048,
