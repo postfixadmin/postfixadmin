@@ -36,7 +36,7 @@ if (authentication_has_role("user")) {
     exit(0);
 }
 
-if ($_GET["abort"] == "1" && authentication_mfa_incomplete()) {
+if (isset($_GET["abort"]) && $_GET["abort"] == "1" && authentication_mfa_incomplete()) {
     session_unset();
     session_destroy();
     session_start();
@@ -47,7 +47,7 @@ if ($_GET["abort"] == "1" && authentication_mfa_incomplete()) {
 $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
 $smarty->configureTheme('../');
-
+ 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (!isset($_SESSION['PFA_token'])) {
         die("Invalid token (session timeout; refresh the page and try again?)");

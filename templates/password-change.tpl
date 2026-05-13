@@ -39,6 +39,15 @@
         <input class="form-control" type="password" name="fPassword2" autocomplete="new-password"/>
     </div>
 
+    {if $tTotpRequired}
+    <div class="form-group">
+        <label for="fTOTP_code">
+            {$PALANG.pTOTP_confirm}:
+        </label>
+        <input class="flat" type="text" name="fTOTP_code" autocomplete="one-time-code" />
+    </div>
+    {/if}
+
     <button class="btn btn-primary" type="submit" name="submit"
             value="submit">{$PALANG.change_password}</button>
 </form>
