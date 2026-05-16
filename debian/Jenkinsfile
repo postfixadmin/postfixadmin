@@ -14,7 +14,13 @@ String vendor = 'vitexsoftware'
 //String distroFamily = ''
 
 properties([
-    copyArtifactPermission('*')
+    copyArtifactPermission('*'),
+    buildBlocker(
+        useBuildBlocker: true,
+        blockLevel: 'GLOBAL',
+        scanQueueFor: 'ALL',
+        blockingJobs: 'RebulidDEBRepoByAnsible'
+    )
 ])
 node() {
     ansiColor('xterm') {
