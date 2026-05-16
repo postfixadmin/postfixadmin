@@ -14,7 +14,13 @@ String vendor = 'vitexsoftware'
 //String distroFamily = ''
 
 properties([
-    copyArtifactPermission('*')
+    copyArtifactPermission('*'),
+    buildBlocker(
+        useBuildBlocker: true,
+        blockLevel: 'GLOBAL',
+        scanQueueFor: 'ALL',
+        blockingJobs: 'RebulidDEBRepoByAnsible'
+    )
 ])
 node() {
     ansiColor('xterm') {
@@ -66,10 +72,6 @@ distributions.each { distro ->
                 }
 
                 stage('Test ' + distroName) {
-                    waitUntil(initialRecurrencePeriod: 30000) {
-                        def color = sh(script: "curl -sf 'https://jenkins.proxy.spojenet.cz/job/RebulidDEBRepoByAnsible/api/json?tree=color' 2>/dev/null | grep -o '"color":"[^"]*"' | cut -d'"' -f4 || echo 'blue'", returnStdout: true).trim()
-                        return !color.endsWith('_anime')
-                    }
                     buildImage.inside {
                         def debconf_debug = 0 //Set to "5" or "developer" to debug debconf
                         sh 'cd $WORKSPACE/dist/debian/ ; dpkg-scanpackages . /dev/null > Packages; gzip -9c Packages > Packages.gz; cd $WORKSPACE'
