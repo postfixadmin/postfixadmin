@@ -16,6 +16,24 @@ class DkimHandler extends PFAHandler
 
     protected function initStruct()
     {
+        // Auto-generate RSA keypair as defaults for the create form
+        $default_private_key = '';
+        $default_public_key = '';
+        if ($this->new && function_exists('openssl_pkey_new')) {
+            $key = openssl_pkey_new([
+                'digest_alg' => 'sha512',
+                'private_key_bits' => 2048,
+                'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            ]);
+            if ($key) {
+                openssl_pkey_export($key, $default_private_key);
+                $details = openssl_pkey_get_details($key);
+                if ($details) {
+                    $default_public_key = $details['key'];
+                }
+            }
+        }
+
         $this->struct = array(
             # field name                allow       display in...   type     $PALANG label           $PALANG description          default / options / ...
             #                           editing?    form    list
@@ -23,8 +41,8 @@ class DkimHandler extends PFAHandler
             'description'      => self::pacol(1,          1,      1,      'text', 'description'         , ''),
             'selector'         => self::pacol(1,          1,      1,      'text', 'pDkim_field_selector', 'pDkim_field_selector_desc'),
             'domain_name'      => self::pacol(1,          1,      1,      'enum', 'domain'              , 'pDkim_field_domain_desc'  , '', $this->allowed_domains),
-            'private_key'      => self::pacol(1,          1,      0,      'txta', 'pDkim_field_pkey'    , 'pDkim_field_pkey_desc'),
-            'public_key'       => self::pacol(1,          1,      0,      'txta', 'pDkim_field_pub'     , 'pDkim_field_pub_desc'),
+            'private_key'      => self::pacol(1,          1,      0,      'txta', 'pDkim_field_pkey'    , 'pDkim_field_pkey_desc'    , trim($default_private_key)),
+            'public_key'       => self::pacol(1,          1,      0,      'txta', 'pDkim_field_pub'     , 'pDkim_field_pub_desc'     , trim($default_public_key)),
         );
     }
 
