@@ -33,7 +33,7 @@ class DkimsigningHandler extends PFAHandler
 
         // Build descriptive labels for the DKIM key dropdown: "domain:selector (description) [id]"
         $dkim_options = array_map(
-            fn($v) => "{$v['domain_name']}:{$v['selector']} ({$v['description']}) [{$v['id']}]",
+            fn ($v) => "{$v['domain_name']}:{$v['selector']} ({$v['description']}) [{$v['id']}]",
             $dkim_handler->result()
         );
 
@@ -51,13 +51,13 @@ class DkimsigningHandler extends PFAHandler
             'id'                      => self::pacol(0, 0, 1, 'num',  'pFetchmail_field_id',            '',                         '', array(), 0, 1),
             'dkim_id'                 => self::pacol(1, 1, 1, 'enma', 'pDkim_field_dkim_id',            'pDkim_field_dkim_id_desc', '', $dkim_options),
             '__dkim_domain_selector'  => self::pacol(0, 0, 1, 'text', 'pDkim_field_domain_and_selector', '',
-                                            dont_write_to_db: 1,
-                                            extrafrom: 'LEFT JOIN ('
-                                                . " SELECT id AS __dkim_id,"
-                                                . " $concat_expr AS __dkim_domain_selector,"
-                                                . " description AS __dkim_description"
-                                                . " FROM $dkim_table"
-                                                . ') AS __dkim ON __dkim_id = dkim_id'),
+                dont_write_to_db: 1,
+                extrafrom: 'LEFT JOIN ('
+                    . " SELECT id AS __dkim_id,"
+                    . " $concat_expr AS __dkim_domain_selector,"
+                    . " description AS __dkim_description"
+                    . " FROM $dkim_table"
+                    . ') AS __dkim ON __dkim_id = dkim_id'),
             '__dkim_description'      => self::pacol(0, 0, 1, 'text', 'pDkim_field_description', '', dont_write_to_db: 1),
             'author'                  => self::pacol(1, 1, 1, 'enum', 'pDkim_field_author',             'pDkim_field_author_desc',  '', $authors),
         );
