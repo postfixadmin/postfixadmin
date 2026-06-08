@@ -1,3 +1,11 @@
+postfixadmin (4.0.1-1) unstable; urgency=medium
+
+  * Remove debian/compat that is no longer needed
+  * Swap unused lib/ for composer's vendor/ path in debian install rules
+  * Update debian/rules to make prep more readable
+
+ -- Justin Warren <justin@eigenmagic.com>  Mon, 13 Apr 2026 06:47:48 +1000
+
 postfixadmin (3.3.10-2) unstable; urgency=medium
 
   * remove unnessesary fix for mysqli instead of mysql
