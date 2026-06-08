@@ -9,6 +9,14 @@
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
 
+   - Improve debian packaging (see #1041, thanks @jpwarren)
+   - Add description field to alias and alias_domain (see #1036, thanks @jpwarren)
+   - Improve password recovery if TOTP is not enabled (thanks @drunken-sod, see #1032)
+   - UI improvements (thanks @lombda, see #1030)
+   - Improve DKIM - auto-generate keypairs, ui improvements (thanks @knofte and @fredkilbourn, see #1029)
+   - Improve boolean handling (thanks @knofte, see #1019, #1018)
+   - Refactor process spawning code (run_hook_script()/proc_open() calls) (thanks @knofte, see #1009)
+   - Fix privilege escapation in TOTP exceptions (thanks @knofte, see #1014)
    - Update TOTP exceptions to use handler class (see #1007, thanks @knofte, @cboltz)
    - Add documentation on Handler class use, see DOCUMENTS/HANDLER_CLASSES.md (see #1008, thanks @knofte, @cboltz)
    - Add Exec class to reduce duplication of proc_open calss, updates phpunit (see #1009, thanks @knofte, @cboltz)
