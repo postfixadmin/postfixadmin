@@ -21,6 +21,7 @@ class AliasdomainHandler extends PFAHandler
                 /*options, filled below*/ array(), 0, 0, "", "", 'list-virtual.php?domain=%s'),
             'target_domain'    => self::pacol(1,          1,      1,      'enum', 'pCreate_alias_domain_target'   , 'pCreate_alias_domain_target_text', '',
                 /*options*/ array() /* filled below */),
+           'description'       => self::pacol(1,          1,      1,      'text', 'description'                   , ''),
             'created'          => self::pacol(0,          0,      0,      'ts',   'created'                       , ''),
             'modified'         => self::pacol(0,          0,      1,      'ts',   'last_modified'                 , ''),
             'active'           => self::pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1),
