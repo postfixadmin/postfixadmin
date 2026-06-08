@@ -2249,5 +2249,5 @@ function upgrade_1854()
     _db_add_field('alias', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'domain');
 
     # add description after 'target_domain' field in alias_domain table
-    _db_add_field('alias_domain', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'domain');
+    _db_add_field('alias_domain', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'target_domain');
 }
