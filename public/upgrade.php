@@ -2239,3 +2239,15 @@ function upgrade_1853()
     _db_add_field('totp_exception_address', 'created', '{DATECURRENT}');
     _db_add_field('totp_exception_address', 'modified', '{DATECURRENT}');
 }
+
+/**
+ * Add 'description' field to alias and domainalist tables
+ */
+function upgrade_1854()
+{
+    # add description after 'domain' field in alias table
+    _db_add_field('alias', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'domain');
+
+    # add description after 'target_domain' field in alias_domain table
+    _db_add_field('alias_domain', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'domain');
+}

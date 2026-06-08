@@ -34,6 +34,7 @@ class AliasHandler extends PFAHandler
                 /*not_in_db*/ 1),
             'domain'           => self::pacol($this->new, 0,      1,      'enum', ''                              , ''                                , '',
                 /*options*/ $this->allowed_domains),
+           'description'       => self::pacol(1,          1,      1,      'text', 'description'                   , ''),
             'goto'             => self::pacol(1,          1,      1,      'txtl', 'to'                            , 'pEdit_alias_help'                , array()),
             'is_mailbox'       => self::pacol(0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 # technically 'is_mailbox' is bool, but the automatic bool conversion breaks the query. Flagging it as int avoids this problem.

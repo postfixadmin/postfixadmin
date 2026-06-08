@@ -165,7 +165,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
             'domain' => 'example.com',
             'active' => 1,
             'address' => 'david.test@example.com',
-            'goto' => ['dest@example.com']
+            'goto' => ['dest@example.com'],
+            'description' => 'A reason this exists.'
         ];
 
         $r = $x->init('david.test@example.com');
@@ -190,6 +191,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
                 $this->assertEquals('example.com', $details['domain']);
                 $this->assertEquals('david.test@example.com', $details['address']);
                 $this->assertEquals(['dest@example.com'], $details['goto']);
+                $this->assertEquals('A reason this exists.', $details['description']);
                 $found = true;
                 break;
             }
