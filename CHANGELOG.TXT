@@ -6,8 +6,9 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version 4.0.2 (XXXX/XX/XX)
+Version 4.0.2 (2026/06/13)
 --------------------------
+   - improve password recovery if TOTP is active (see #1032, thanks @drunken-sod)
    - improve install.sh ( see #965, thanks @TigerP)
    - improve docs ( PHP version requirement consistency )
    - Include domain in link to create new alias (backport for 4.0, see #977, thanks @csware)
