@@ -47,7 +47,7 @@ if (isset($_GET["abort"]) && $_GET["abort"] == "1" && authentication_mfa_incompl
 $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
 $smarty->configureTheme('../');
- 
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (!isset($_SESSION['PFA_token'])) {
         die("Invalid token (session timeout; refresh the page and try again?)");
