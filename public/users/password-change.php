@@ -69,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tUsername = safepost('fUsername');
     $tCode = trim(safepost('fCode'));
 
+    $error = false;
     if (empty($fPassword) or ($fPassword != $fPassword2)) {
         $error = true;
         flash_error(Config::lang('pPassword_password_text_error'));
