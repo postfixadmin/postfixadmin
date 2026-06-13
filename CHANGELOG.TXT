@@ -6,6 +6,11 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+
+Version 4.0.3 (2026/06/13)
+--------------------------
+   - Token build fixes (formatting. static analysis)
+
 Version 4.0.2 (2026/06/13)
 --------------------------
    - improve password recovery if TOTP is active (see #1032, thanks @drunken-sod)
