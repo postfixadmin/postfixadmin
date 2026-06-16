@@ -6,6 +6,9 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 4.0.4 (xxxx/xx/xx)
+--------------------------
+   - Add the github actions workflow to hopefully build a .tar.gz on release, assume PHP 7.4 (see #999 and #1026 see 225a55d5d9ca43d2abce07917e3e201f0d2f5d2b). 
 
 Version 4.0.3 (2026/06/13)
 --------------------------
