@@ -34,17 +34,18 @@
     {/if}
 
     <div class="card-body">
+        {if $table == 'domain'}<div class="domain-list-scroll">{/if}
         <table class="table table-hover table-sm table-striped align-middle" id='admin_table'>
             <!-- TODO: 'admin_table' needed because of CSS for table header -->
             <thead>
             <tr>
                 {foreach key=key item=field from=$struct}
                     {if $field.display_in_list == 1 && $field.label}{* don't show fields without a label *}
-                        <th>{$field.label}</th>
+                        <th class="list-col-{$key}">{$field.label}</th>
                     {/if}
                 {/foreach}
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
+                <th class="list-col-action">&nbsp;</th>
+                <th class="list-col-action">&nbsp;</th>
             </tr>
             </thead>
             <tbody>
@@ -58,7 +59,21 @@
 
                             {if $field.linkto != '' && ($item.$id_field != '' || $item.$id_field > 0) }
                                 {assign "linkto" "{$field.linkto|replace:'%s':{$item.$id_field|escape:url}}"} {* TODO: use label field instead *}
-                                {assign "linktext" "<a href='{$linkto}'>{$item.{$key}}</a>"}
+                                {assign "linktitle" ""}
+                                {if $table == 'domain' && $key == 'domain'}
+                                    {if isset($struct.maxquota) && $struct.maxquota.label == ''}
+                                        {assign "linktitle" "{$PALANG.pOverview_get_quota}: {$item.maxquota} MB"}
+                                    {/if}
+                                    {if isset($struct.password_expiry) && $struct.password_expiry.label == ''}
+                                        {if $linktitle != ''}{assign "linktitle" "{$linktitle}&#10;"}{/if}
+                                        {assign "linktitle" "{$linktitle}{$PALANG.password_expiration}: {$item.password_expiry}"}
+                                    {/if}
+                                {/if}
+                                {if $linktitle != ''}
+                                    {assign "linktext" "<a href='{$linkto}' title='{$linktitle}'>{$item.{$key}}</a>"}
+                                {else}
+                                    {assign "linktext" "<a href='{$linkto}'>{$item.{$key}}</a>"}
+                                {/if}
                             {else}
                                 {assign "linktext" $item.$key}
                             {/if}
@@ -66,25 +81,26 @@
                             {if $table == 'foo' && $key == 'bar'}
                                 <td>Special handling (complete table row) for {$table} / {$key}</td>
                             {else}
-                                <td>
+                                <td class="list-col-{$key}">
                                     {if $table == 'foo' && $key == 'bar'}
                                         Special handling (td content) for {$table} / {$key}
                                     {elseif $table == 'aliasdomain' && $key == 'target_domain' && $struct.target_domain.linkto == 'target'}
                                         <a href="list-virtual.php?domain={$item.target_domain|escape:"quotes"}">{$item.target_domain}</a>
                                         {* do we need escape:url or escpae:quotes here? see #705 *}
+                                    {elseif $table == 'domain' && $key == 'domain'}
+                                        {$linktext} {if $item.full_mailbox_count > 0}<span class="text-danger">({$item.full_mailbox_count})</span>{/if}
                                         {*                    {elseif $table == 'domain' && $key == 'domain'}
                                                                 <a href="list.php?table=domain&domain={$item.domain|escape:"url"}">{$item.domain}</a>
                                         *}
                                     {elseif $key == 'active'}
                                         {if $item._can_edit}
-                                            <a class="btn btn-sm btn-{if ($item.active==0)}info{else}warning{/if}"
+                                            <a class="btn btn-sm btn-{if ($item.active==0)}info{else}warning{/if} list-action-icon" title="{$field.label}: {$item._active}" aria-label="{$field.label}: {$item._active}"
                                             href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={CSRF_Token type="url"}">
                                                 {if $item._active == $PALANG['YES']}
                                                     <span class="bi bi-check-lg" aria-hidden="true"></span>
                                                 {else}
                                                     <span class="bi bi-square" aria-hidden="true"></span>
                                                 {/if}
-                                                {$item._active}
                                             </a>
                                         {else}
                                             {$item._active}
@@ -105,15 +121,14 @@
                                         {else}
                                             {assign var="quota_level" value="low"}
                                         {/if}
-                                        {if $item[$tmpkey] > -1}
-                                            <div class="quota quota_{$quota_level}"
-                                                style="width:{$item[$tmpkey] *1.2}px;"></div>
-                                            <div class="quota_bg"></div>
-                                            <div class="quota_text quota_text_{$quota_level}">{$linktext}</div>
-                                        {else}
-                                            <div class="quota_bg quota_no_border"></div>
-                                            <div class="quota_text">{$linktext}</div>
-                                        {/if}
+                                        <div class="quota_bar{if $item[$tmpkey] <= -1} quota_no_border{/if}">
+                                            {if $item[$tmpkey] > -1}
+                                                <span class="quota_fill quota_{$quota_level}" style="width:{$item[$tmpkey]}%;"></span>
+                                                <span class="quota_label quota_text_{$quota_level}">{$linktext}</span>
+                                            {else}
+                                                <span class="quota_label">{$linktext}</span>
+                                            {/if}
+                                        </div>
 
                                     {elseif $field.type == 'txtl'}
                                         {foreach key=key2 item=field2 from=$item.$key}{$field2}<br>{/foreach}
@@ -127,22 +142,22 @@
                         {/if}
                     {/foreach}
 
-                    <td>{if $item._can_edit}
-                            <a class="btn btn-sm btn-primary"
+                    <td class="list-col-action">{if $item._can_edit}
+                            <a class="btn btn-sm btn-primary list-action-icon" title="{$PALANG.edit}" aria-label="{$PALANG.edit}"
                             href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}"><span
-                                        class="bi bi-pencil" aria-hidden="true"></span> {$PALANG.edit}</a>
+                                        class="bi bi-pencil" aria-hidden="true"></span></a>
                         {else}&nbsp;
                         {/if}
                     </td>
-                    <td>{if $item._can_delete}
+                    <td class="list-col-action">{if $item._can_delete}
                             <form method="post" action="{#url_delete#}">
                                 <input type="hidden" name="table" value="{$table}">
                                 <input type="hidden" name="delete" value="{$RAW_item.$id_field|escape:"quotes"}">
                                 {CSRF_Token}
 
-                                <button class="btn btn-sm btn-danger"
+                                <button class="btn btn-sm btn-danger list-action-icon" title="{$PALANG.del}" aria-label="{$PALANG.del}"
                                         onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
-                                    <span class="bi bi-trash" aria-hidden="true"></span> {$PALANG.del}
+                                    <span class="bi bi-trash" aria-hidden="true"></span>
                                 </button>
                             </form>
                         {else}&nbsp;{/if}
@@ -151,6 +166,7 @@
             {/foreach}
             </tbody>
         </table>
+        {if $table == 'domain'}</div>{/if}
     </div>
 
     <div class="card-footer">

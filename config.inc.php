@@ -804,6 +804,12 @@ $CONF['version'] = '4.0.1';
 // in your Dovecot SQL configuration.
 $CONF['smtp_active_flag'] = 'NO';
 
+// Domain list display.
+// Set these options to YES to hide optional columns in the domain list.
+// Hidden values remain available in the domain tooltip.
+$CONF['domain_list_hide_maxquota'] = 'NO';
+$CONF['domain_list_hide_password_expiry'] = 'NO';
+
 // If you want to keep most settings at default values and/or want to ensure
 // that future updates work without problems, you can use a separate config 
 // file (config.local.php) instead of editing this file and override some
