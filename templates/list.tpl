@@ -61,10 +61,10 @@
                                 {assign "linkto" "{$field.linkto|replace:'%s':{$item.$id_field|escape:url}}"} {* TODO: use label field instead *}
                                 {assign "linktitle" ""}
                                 {if $table == 'domain' && $key == 'domain'}
-                                    {if isset($struct.maxquota) && $struct.maxquota.label == ''}
+                                    {if isset($struct.maxquota) && $struct.maxquota.label == '' && isset($item.maxquota)}
                                         {assign "linktitle" "{$PALANG.pOverview_get_quota}: {$item.maxquota} MB"}
                                     {/if}
-                                    {if isset($struct.password_expiry) && $struct.password_expiry.label == ''}
+                                    {if isset($struct.password_expiry) && $struct.password_expiry.label == '' && isset($item.password_expiry)}
                                         {if $linktitle != ''}{assign "linktitle" "{$linktitle}&#10;"}{/if}
                                         {assign "linktitle" "{$linktitle}{$PALANG.password_expiration}: {$item.password_expiry}"}
                                     {/if}
