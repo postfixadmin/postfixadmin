@@ -21,7 +21,7 @@
                         aria-haspopup="true"
                         aria-expanded="false">
                         <span class="bi bi-list"
-                                aria-hidden="true"></span> {$PALANG.pAdminMenu_list_admin} <span
+                                aria-hidden="true"></span> {$PALANG.pAdminMenu_admin} <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li class="nav-item">
@@ -51,7 +51,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"><span
                             class="bi bi-list-task"
-                            aria-hidden="true"></span> {$PALANG.pAdminMenu_list_domain} <span
+                            aria-hidden="true"></span> {$PALANG.pAdminMenu_domain} <span
                             class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{#url_list_domain#}"><span class="bi bi-list-task"
@@ -72,7 +72,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"><span
                             class="bi bi-list-ul"
-                            aria-hidden="true"></span> {$PALANG.pAdminMenu_list_virtual} <span
+                            aria-hidden="true"></span> {$PALANG.pAdminMenu_virtual} <span
                             class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{#url_list_virtual#}"><span class="bi bi-list-ul"
@@ -100,7 +100,7 @@
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                         aria-haspopup="true"
-                        aria-expanded="false">{$PALANG.pMenu_fetchmail} <span
+                        aria-expanded="false">{$PALANG.pMenu_fetchmail_menu} <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{#url_fetchmail#}">
@@ -120,7 +120,7 @@
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" role="button"
                         aria-haspopup="true"
                         aria-expanded="false"><span class="bi bi-send"
-                                                    aria-hidden="true"></span> {$PALANG.pMenu_sendmail}
+                                                    aria-hidden="true"></span> {$PALANG.pMenu_sendmail_menu}
                         <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -150,7 +150,7 @@
                         aria-haspopup="true"
                         aria-expanded="false"><span
                                 class="bi bi-patch-check"
-                                aria-hidden="true"></span> {$PALANG.pMenu_dkim} <span
+                                aria-hidden="true"></span> {$PALANG.pMenu_dkim_menu} <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{#url_dkim#}"><span class="bi bi-patch-check"

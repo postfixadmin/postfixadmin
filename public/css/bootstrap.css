@@ -51,6 +51,26 @@ body {
 .navbar-fixed-top .container-fluid .navbar-collapse li a { padding-left: 15px; padding-right: 15px; }
 }
 
+/* Bootstrap 5 top menu compact spacing. */
+.navbar .navbar-brand { padding-left: .5rem; padding-right: .75rem; }
+.navbar .navbar-brand img { max-width: 260px; height: auto; }
+.navbar .navbar-nav { font-size: .875rem; }
+.navbar .navbar-nav .nav-link { padding-left: .35rem; padding-right: .35rem; white-space: nowrap; }
+.navbar .navbar-nav .dropdown-toggle::after { margin-left: .2em; }
+@media (min-width: 992px) and (max-width: 1199.98px) {
+.navbar .navbar-brand img { max-width: 220px; }
+.navbar .navbar-nav { font-size: .8125rem; }
+}
+@media (min-width: 1200px) {
+.navbar .navbar-brand img { max-width: 250px; }
+.navbar .navbar-nav .nav-link { padding-left: .45rem; padding-right: .45rem; }
+}
+@media (min-width: 1400px) {
+.navbar .navbar-nav { font-size: 1rem; }
+.navbar .navbar-brand img { max-width: 300px; }
+.navbar .navbar-nav .nav-link { padding-left: .55rem; padding-right: .55rem; }
+}
+
 
 span.active { font-weight: bold; }
 div#login{ max-width: 35em; }

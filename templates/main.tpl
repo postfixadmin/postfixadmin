@@ -4,13 +4,13 @@
     <section class="p-3">
         <div class="row">
             <div class="col-12">
-                <h2>Global Search</h2>
+                <h2>{$PALANG.pMain_global_search}</h2>
                 <form method=GET class=form action="">
                     <div class="input-group">
                         <input type="text" id=q name=q class="form-control" value="{$q}" autofocus="autofocus"
-                               placeholder="Global search (mailbox, alias ...)" required="required"
-                               aria-label="Global Search"/>
-                        <button class="btn btn-secondary" type="submit">Search</button>
+                               placeholder="{$PALANG.pMain_global_search_placeholder}" required="required"
+                               aria-label="{$PALANG.pMain_global_search}"/>
+                        <button class="btn btn-secondary" type="submit">{$PALANG.pMain_search_button}</button>
                     </div>
                 </form>
 
@@ -48,7 +48,7 @@
     </section>
 
     <section class="p-3">
-        <h2>Dashboard</h2>
+        <h2>{$PALANG.pMain_dashboard}</h2>
         <table class="table">
             <tr>
                 <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary w-100"
