@@ -78,6 +78,10 @@ $PALANG['pMain_sendmail'] = 'Send an email to one of your newly created mailboxe
 $PALANG['pMain_password'] = 'Change the password for your admin account.';
 $PALANG['pMain_viewlog'] = 'View the log files.';
 $PALANG['pMain_logout'] = 'Logout from the system';
+$PALANG['pMain_global_search'] = 'Global Search';
+$PALANG['pMain_global_search_placeholder'] = 'Global search (mailbox, alias ...)';
+$PALANG['pMain_search_button'] = 'Search';
+$PALANG['pMain_dashboard'] = 'Dashboard';
 
 $PALANG['pOverview_disabled'] = 'Disabled';
 $PALANG['pOverview_unlimited'] = 'Unlimited';

@@ -70,6 +70,10 @@ $PALANG['pMain_sendmail'] = 'Enviar un e­mail a uno de los buzones recientement
 $PALANG['pMain_password'] = 'Cambiar la contraseña para su cuenta de administración.';
 $PALANG['pMain_viewlog'] = 'Ver Logs.';
 $PALANG['pMain_logout'] = 'Salir.';
+$PALANG['pMain_global_search'] = 'Búsqueda global';
+$PALANG['pMain_global_search_placeholder'] = 'Buscar globalmente (buzón, alias ...)';
+$PALANG['pMain_search_button'] = 'Buscar';
+$PALANG['pMain_dashboard'] = 'Panel';
 
 $PALANG['pOverview_disabled'] = 'Deshabilitado'; 
 $PALANG['pOverview_unlimited'] = 'Ilimitado'; 
