@@ -21,7 +21,7 @@
 </head>
 <body class="{if isset($smarty.session.lang)}lang-{$smarty.session.lang}{/if} page-{$smarty_template} {if isset($table)}page-{$smarty_template}-{$table}{/if}">
 
-<nav class="navbar navbar-expand-lg bg-body-secondary">
+<nav class="navbar navbar-expand-xl bg-body-secondary">
     <div class="container-fluid">
 
         <a class="navbar-brand" href='main.php'><img id="login_header_logo"
