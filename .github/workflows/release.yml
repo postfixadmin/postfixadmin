@@ -41,7 +41,6 @@ jobs:
           --exclude='phpunit.xml' \
           --exclude='psalm.xml' \
           --exclude='composer.phar' \
-          --exclude='composer.lock' \
           --exclude='debian' \
           --transform 's,^\./,${{ steps.archive.outputs.name }}/,' \
           .
