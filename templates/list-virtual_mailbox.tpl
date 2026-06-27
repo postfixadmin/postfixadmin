@@ -9,6 +9,7 @@
 </div>
 
 <div class="card-body">
+    <div class="mailbox-list-scroll">
     <table class="table table-hover table-sm table-striped align-middle" id="mailbox_table">
         <thead>
         {#tr_header#}
@@ -141,4 +142,5 @@
         {/foreach}
         </tbody>
     </table>
+    </div>
 </div>
