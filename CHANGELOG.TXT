@@ -6,9 +6,15 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version 4.0.4 (xxxx/xx/xx)
+Version 4.0.4 (2026/06/27)
 --------------------------
-   - Add the github actions workflow to hopefully build a .tar.gz on release, assume PHP 7.4 (see #999 and #1026 see 225a55d5d9ca43d2abce07917e3e201f0d2f5d2b). 
+   - Add the github actions workflow to build a .tar.gz on release, assume PHP 7.4 (see #999 and #1026 see 225a55d5d9ca43d2abce07917e3e201f0d2f5d2b). 
+   - Update composer.json to ignore two security alerts from spomky-labs/otphp - PKSA-qv5y-crcz-9nxw and PKSA-kbc7-dq62-pt7d 
+     - TOTP is disabled by default in PostfixAdmin (see config.inc.php)
+     - spomky-labs/otphp have not released a PHP 7.4 compatible version with a fix 
+     - Installations running PHP8.1 or higher can run "composer update" to install a fixed version of this package.
+     - see https://github.com/Spomky-Labs/otphp/security/advisories/GHSA-2jx3-65f3-xr8r (moderate)
+     - see https://github.com/Spomky-Labs/otphp/security/advisories/GHSA-g7m4-839x-ch6v (moderate) 
 
 Version 4.0.3 (2026/06/13)
 --------------------------
