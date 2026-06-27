@@ -4,7 +4,15 @@
     "type": "project",
     "license": "GPL-2.0-only",
     "config": {
-        "preferred-install":"dist"
+        "preferred-install":"dist",
+        "policy": {
+            "advisories": {
+                "ignore-id": {
+                    "PKSA-qv5y-crcz-9nxw" : "spomky-labs/otphp - no php7.4 fix",
+                    "PKSA-kbc7-dq62-pt7d" : "spomky-labs/otphp - no php7.4 fix"
+                }
+            }
+        }
     },
     "scripts": {
         "build" : [
@@ -26,7 +34,7 @@
         "smarty/smarty": "^3|^4",
         "postfixadmin/password-hashing": "^0.0.2",
         "endroid/qr-code": "^4.6 | ^5.0", 
-        "spomky-labs/otphp": "^10.0",
+        "spomky-labs/otphp": "^10.0 | ^11.0",
         "shardj/zf1-future": "^1.12"
     },
     "require-dev": {
