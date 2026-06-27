@@ -9,6 +9,8 @@
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
 
+   - UI improvements (quota, icons for domain/mailbox lists etc) (see #1046, thanks @trapoSAMA)
+   - UI improvements (top menu, dashboard labels, translations) (see #1047, thanks @trapoSAMA)
    - Improve debian packaging (see #1041, thanks @jpwarren)
    - Add description field to alias and alias_domain (see #1036, thanks @jpwarren)
    - Improve password recovery if TOTP is not enabled (thanks @drunken-sod, see #1032)
