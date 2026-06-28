@@ -110,6 +110,7 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual']
 
 $PALANG['domain'] = 'Domain';
+$PALANG['search_domains'] = 'Search for domains...';
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases';
 $PALANG['mailboxes'] = 'Mailboxes';
 $PALANG['pOverview_get_quota'] = 'Mailbox Quota (MB)';

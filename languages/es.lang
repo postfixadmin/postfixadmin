@@ -102,6 +102,7 @@ $PALANG['no_domains_for_this_admin'] = 'No tienes permisos sobre ningún dominio
 $PALANG['no_domains_exist'] = 'Debes crear al menos un dominio antes de usar la lista virtual.';
 
 $PALANG['domain'] = 'Dominio';
+$PALANG['search_domains'] = 'Buscar dominios...';
 $PALANG['pOverview_get_alias_domains'] = 'Alias de Dominios'; 
 $PALANG['mailboxes'] = 'Buzones';
 $PALANG['pOverview_get_quota'] = 'Cuota de buzón (MB)';
