@@ -34,7 +34,11 @@
     {/if}
 
     <div class="card-body">
-        {if $table == 'domain'}<div class="domain-list-scroll">{/if}
+        {if $table == 'domain'}
+            <div class="domain-list-scroll">
+        {elseif $table == 'alias' || $table == 'aliasdomain'}
+            <div class="virtual-list-scroll">
+        {/if}
         <table class="table table-hover table-sm table-striped align-middle" id='admin_table'>
             <!-- TODO: 'admin_table' needed because of CSS for table header -->
             <thead>
@@ -121,7 +125,11 @@
                                         {else}
                                             {assign var="quota_level" value="low"}
                                         {/if}
-                                        <div class="quota_bar{if $item[$tmpkey] <= -1} quota_no_border{/if}">
+                                        {assign "quota_tooltip" ""}
+                                        {if $table == 'domain' && $key == 'total_quot' && isset($item.total_quota_used)}
+                                            {assign "quota_tooltip" "{$PALANG.quota_assigned}: {$linktext}&#10;{$PALANG.quota_used}: {$item.total_quota_used} MB"}
+                                        {/if}
+                                        <div class="quota_bar{if $item[$tmpkey] <= -1} quota_no_border{/if}"{if $quota_tooltip != ''} title="{$quota_tooltip}"{/if}>
                                             {if $item[$tmpkey] > -1}
                                                 <span class="quota_fill quota_{$quota_level}" style="width:{$item[$tmpkey]}%;"></span>
                                                 <span class="quota_label quota_text_{$quota_level}">{$linktext}</span>
@@ -166,7 +174,7 @@
             {/foreach}
             </tbody>
         </table>
-        {if $table == 'domain'}</div>{/if}
+        {if $table == 'domain' || $table == 'alias' || $table == 'aliasdomain'}</div>{/if}
     </div>
 
     <div class="card-footer">

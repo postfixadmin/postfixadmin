@@ -151,3 +151,8 @@ div#login{ max-width: 35em; }
 #admin_table td.list-col-action { width: 46px; }
 #admin_table .list-action-icon,
 #mailbox_table .list-action-icon { width: 34px; padding-left: 0; padding-right: 0; }
+
+.mailbox-list-scroll { display: block; width: 100%; overflow-x: auto; }
+.mailbox-list-scroll > #mailbox_table { min-width: 820px; margin-bottom: 0; }
+.virtual-list-scroll { display: block; width: 100%; overflow-x: auto; }
+.virtual-list-scroll > #admin_table { min-width: 720px; margin-bottom: 0; }
