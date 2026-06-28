@@ -27,6 +27,7 @@
  */
 
 require_once('common.php');
+require_once(dirname(__DIR__) . '/model/BroadcastQueue.php');
 
 if (Config::bool('sendmail_all_admins')) {
     authentication_require_role('admin');
@@ -46,72 +47,72 @@ $error = 0;
 
 $smtp_from_email = smtp_get_admin_email();
 $allowed_domains = list_domains_for_admin(authentication_get_username());
+$busy_domains = BroadcastQueue::getBusyDomains($allowed_domains);
+$available_domains = array_values(array_diff($allowed_domains, $busy_domains));
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     CsrfToken::assertValid(safepost('CSRF_Token'));
 
+    if (safepost('action') === 'cancel') {
+        BroadcastQueue::requestCancel((int)safepost('job_id'));
+        header("Location: broadcast-status.php?id=" . (int)safepost('job_id'));
+        exit;
+    }
+
+    if (safepost('action') === 'reset') {
+        BroadcastQueue::resetInactive();
+        header("Location: broadcast-message.php");
+        exit;
+    }
+
     if (empty($_POST['subject']) || empty($_POST['message']) || empty($_POST['name']) || empty($_POST['domains']) || !is_array($_POST['domains'])) {
         $error = 1;
         flash_error($PALANG['pBroadcast_error_empty']);
     } else {
-        $wanted_domains = array_intersect($allowed_domains, $_POST['domains']);
+        $wanted_domains = array_values(array_intersect($available_domains, $_POST['domains']));
 
-        $table_mailbox = table_by_key('mailbox');
-        $table_alias = table_by_key('alias');
+        if (empty($wanted_domains)) {
+            $error = 1;
+            flash_error($PALANG['broadcast_no_available_domains']);
+        } else {
+            $all_domains_selected = count($wanted_domains) === count($available_domains);
+            $mailboxes_only = $all_domains_selected || intval(safepost('mailboxes_only')) == 1;
+            $recipients = BroadcastQueue::buildRecipients($wanted_domains, $mailboxes_only);
 
-        $params = ['active' => true];
-        $q = "SELECT username from $table_mailbox WHERE active = :active AND " . db_in_clause("domain", $wanted_domains, $params);
-        $result = db_query_all($q, $params);
-        $recipients = array_column($result, 'username');
+            if (count($recipients) == 0) {
+                $error = 1;
+                flash_error($PALANG['broadcast_no_recipients']);
+            } else {
+                $jobId = BroadcastQueue::createJob(
+                    authentication_get_username(),
+                    $smtp_from_email,
+                    safepost('name'),
+                    safepost('subject'),
+                    safepost('message'),
+                    $wanted_domains,
+                    $mailboxes_only,
+                    $recipients
+                );
 
-        if (intval(safepost('mailboxes_only')) == 0) {
-            $params2 = ['active' => true];
-            $q2 = "SELECT goto FROM $table_alias WHERE active= :active AND " . db_in_clause("domain", $wanted_domains, $params2);
-            $result2 = db_query_all($q2, $params2);
-            $recipients = array_merge($recipients, array_column($result2, 'goto'));
-        }
-
-        $recipients = array_unique($recipients);
-
-        if (count($recipients) > 0) {
-            mb_internal_encoding("UTF-8");
-            $b_name = mb_encode_mimeheader($_POST['name'], 'UTF-8', 'Q');
-            $b_subject = mb_encode_mimeheader($_POST['subject'], 'UTF-8', 'Q');
-            $b_message = chunk_split(base64_encode($_POST['message']));
-
-            $serverName = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : php_uname('n'); // ??
-
-            foreach ($recipients as $rcpt) {
-                $fTo = $rcpt;
-                $fHeaders = 'To: ' . $fTo . "\n";
-                $fHeaders .= 'From: ' . $b_name . ' <' . $smtp_from_email . ">\n";
-                $fHeaders .= 'Subject: ' . $b_subject . "\n";
-                $fHeaders .= 'MIME-Version: 1.0' . "\n";
-                $fHeaders .= 'Content-Type: text/plain; charset=UTF-8' . "\n";
-                $fHeaders .= 'Content-Transfer-Encoding: base64' . "\n";
-                $fHeaders .= 'Date: ' . date('r', time()) . "\n";
-                $fHeaders .= 'Message-ID: <' . ((string)microtime(true)) . '-' . md5($smtp_from_email . $fTo) . "@{$serverName}>\n\n";
-
-                $fHeaders .= $b_message;
-
-                if (!smtp_mail($fTo, $smtp_from_email, $fHeaders, smtp_get_admin_password())) {
-                    flash_error(Config::lang_f('pSendmail_result_error', $fTo));
-                } else {
-                    flash_info(Config::lang_f('pSendmail_result_success', $fTo));
+                if (!BroadcastQueue::startWorker()) {
+                    flash_error($PALANG['broadcast_worker_start_failed']);
                 }
+
+                flash_info(Config::lang_f('broadcast_queued', $jobId));
+                header("Location: broadcast-status.php?id=" . $jobId);
+                exit;
             }
         }
-
-        flash_info($PALANG['pBroadcast_success']);
-        $smarty->assign('smarty_template', 'broadcast-message');
-        $smarty->display('index.tpl');
-        //		echo '<p>'.$PALANG['pBroadcast_success'].'</p>';
     }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "GET" || $error == 1) {
     $smarty->assign('allowed_domains', $allowed_domains);
+    $smarty->assign('available_domains', $available_domains);
+    $smarty->assign('busy_domains', $busy_domains);
+    $smarty->assign('busy_domains_text', implode(', ', $busy_domains));
+    $smarty->assign('broadcast_jobs', BroadcastQueue::getJobs());
     $smarty->assign('smtp_from_email', $smtp_from_email);
     $smarty->assign('error', $error);
     $smarty->assign('smarty_template', 'broadcast-message');
