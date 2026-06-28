@@ -47,10 +47,10 @@ class DomainHandler extends PFAHandler
         $pwexp_label = 'password_expiration';
 
         if (Config::bool('domain_list_hide_maxquota')) {
-            $maxquota_label = '';
+            $show_maxquota = 0;
         }
         if (Config::bool('domain_list_hide_password_expiry')) {
-            $pwexp_label = '';
+            $show_pwexp = 0;
         }
 
         $query_used_domainquota = 'round(coalesce(__total_quota/' . intval(Config::read('quota_multiplier')) . ',0))';
@@ -116,12 +116,12 @@ class DomainHandler extends PFAHandler
             'mailboxes_quot'   => self::pacol(0,          0,      1,       'quot', 'mailboxes'                    , ''                                 , 0, array(), 0, 0,  db_quota_text('__mailbox_count', 'mailboxes', 'mailboxes_quot')),
             '_mailboxes_quot_percent' => self::pacol(0,  0,      1,       'vnum', ''                             , ''                                 , 0, array(), 0, 0,   db_quota_percent('__mailbox_count', 'mailboxes', '_mailboxes_quot_percent')),
 
-           'maxquota'          => self::pacol($editquota,$editquota,$show_maxquota, 'num', $maxquota_label       , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')),
+           'maxquota'          => self::pacol($editquota,$editquota,$show_maxquota, 'num', 'pAdminEdit_domain_maxquota', 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')),
 
             # Domain quota
             'quota'            => self::pacol($edit_dom_q,$edit_dom_q, 0, 'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , $domain_quota_default),
             'total_quota'      => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(), 0, 0,  "$query_used_domainquota AS total_quota" /*extrafrom*//* already in mailbox_count */),
-            'total_quot'     => self::pacol(0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, array(), 0, 0,  db_quota_text($query_used_domainquota, 'quota', 'total_quot')),
+            'total_quot'     => self::pacol(0,          0,      $dom_q,  'quot', 'pAdminList_domain_quota'      , ''                                 , 0, array(), 0, 0,  db_quota_text($query_used_domainquota, 'quota', 'total_quot')),
             '_total_quot_percent' => self::pacol(0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, array(), 0, 0, db_quota_percent($query_display_domainquota, 'quota', '_total_quot_percent')),
 
            'transport'         => self::pacol($transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,

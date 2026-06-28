@@ -354,6 +354,8 @@ $PALANG['pAdminMenu_virtual'] = 'Virtual';
 $PALANG['pAdminMenu_backup'] = 'Backup';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Domain Admins';
 $PALANG['pAdminMenu_create_admin'] = 'New Admin';
+$PALANG['pAdminList_domain_maxquota'] = 'Max Mailbox Quota';
+$PALANG['quota_not_managed'] = 'not managed';
 $PALANG['pAdminMenu_create_domain'] = 'New Domain';
 
 $PALANG['pAdminList_admin_count'] = 'Domains';
