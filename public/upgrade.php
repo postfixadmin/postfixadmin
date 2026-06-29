@@ -2260,10 +2260,11 @@ function upgrade_1855()
     $jobTable = table_by_key('broadcast_job');
     $jobDomainTable = table_by_key('broadcast_job_domain');
     $recipientTable = table_by_key('broadcast_recipient');
+    $idColumn = db_sqlite() ? 'id {AUTOINCREMENT}' : 'id {AUTOINCREMENT} {PRIMARY}';
 
     db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} $jobTable (
-            id {AUTOINCREMENT} {PRIMARY},
+            $idColumn,
             created_by varchar(255) {UTF-8} NOT NULL DEFAULT '',
             sender varchar(255) {UTF-8} NOT NULL DEFAULT '',
             sender_name varchar(255) {UTF-8} NOT NULL DEFAULT '',
@@ -2286,7 +2287,7 @@ function upgrade_1855()
 
     db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} $jobDomainTable (
-            id {AUTOINCREMENT} {PRIMARY},
+            $idColumn,
             job_id int NOT NULL,
             domain varchar(255) {UTF-8} NOT NULL DEFAULT '',
             created {DATECURRENT}
@@ -2295,7 +2296,7 @@ function upgrade_1855()
 
     db_query_parsed("
         CREATE TABLE {IF_NOT_EXISTS} $recipientTable (
-            id {AUTOINCREMENT} {PRIMARY},
+            $idColumn,
             job_id int NOT NULL,
             recipient varchar(255) {UTF-8} NOT NULL DEFAULT '',
             status varchar(20) {UTF-8} NOT NULL DEFAULT 'pending',
