@@ -12,10 +12,16 @@ if ($lock === false || !flock($lock, LOCK_EX | LOCK_NB)) {
     exit(0);
 }
 
-$dryRun = in_array('--dry-run', $argv, true);
+$dryRun = in_array('--dry-run', $argv, true) ? true : null;
 $limit = 50;
 
 foreach ($argv as $arg) {
+    if (strpos($arg, '--mode=') === 0) {
+        $mode = substr($arg, 7);
+        BroadcastQueue::setWorkerMode($mode);
+        echo "broadcast mode=" . BroadcastQueue::workerMode() . "\n";
+        exit(0);
+    }
     if (strpos($arg, '--limit=') === 0) {
         $limit = (int)substr($arg, 8);
     }

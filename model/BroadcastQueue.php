@@ -2,9 +2,45 @@
 
 class BroadcastQueue
 {
+    public const MODE_LIVE = 'live';
+    public const MODE_DRY_RUN = 'dry-run';
+
     public static function activeStatuses(): array
     {
         return ['pending', 'running', 'cancelling'];
+    }
+
+    public static function workerMode(): string
+    {
+        $table = table_by_key('config');
+        $row = db_query_one("SELECT value FROM $table WHERE name = :name", ['name' => 'broadcast_mode']);
+
+        if (!empty($row) && $row['value'] === self::MODE_DRY_RUN) {
+            return self::MODE_DRY_RUN;
+        }
+
+        return self::MODE_LIVE;
+    }
+
+    public static function setWorkerMode(string $mode): void
+    {
+        if (!in_array($mode, [self::MODE_LIVE, self::MODE_DRY_RUN], true)) {
+            throw new InvalidArgumentException('Invalid broadcast mode');
+        }
+
+        $table = table_by_key('config');
+        $row = db_query_one("SELECT value FROM $table WHERE name = :name", ['name' => 'broadcast_mode']);
+
+        if (empty($row)) {
+            db_execute("INSERT INTO $table (name, value) VALUES (:name, :value)", ['name' => 'broadcast_mode', 'value' => $mode]);
+        } else {
+            db_execute("UPDATE $table SET value = :value WHERE name = :name", ['name' => 'broadcast_mode', 'value' => $mode]);
+        }
+    }
+
+    public static function isDryRunMode(): bool
+    {
+        return self::workerMode() === self::MODE_DRY_RUN;
     }
 
     public static function statusLabel(string $status): string
@@ -202,8 +238,9 @@ class BroadcastQueue
         return pclose($handle) === 0;
     }
 
-    public static function processNext(int $limit = 50, bool $dryRun = false): array
+    public static function processNext(int $limit = 50, ?bool $dryRun = null): array
     {
+        $dryRun = $dryRun ?? self::isDryRunMode();
         $jobTable = table_by_key('broadcast_job');
         $recipientTable = table_by_key('broadcast_recipient');
         $processed = 0;

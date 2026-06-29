@@ -18,10 +18,12 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         db_query('DELETE FROM alias');
         db_query('DELETE FROM mailbox');
         db_query('DELETE FROM domain');
+        BroadcastQueue::setWorkerMode(BroadcastQueue::MODE_LIVE);
     }
 
     protected function tearDown(): void
     {
+        BroadcastQueue::setWorkerMode(BroadcastQueue::MODE_LIVE);
         $this->cleanBroadcastTables();
         db_query('DELETE FROM alias');
         db_query('DELETE FROM mailbox');
@@ -108,6 +110,35 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([], BroadcastQueue::getJobs());
         $this->assertSame([], BroadcastQueue::getRecipients($jobId));
         $this->assertSame([], BroadcastQueue::getJobDomains($jobId));
+    }
+
+    public function testWorkerModeControlsDefaultProcessing(): void
+    {
+        $this->createDomain($this->domains[0]);
+        $jobId = BroadcastQueue::createJob(
+            'admin@example.test',
+            'noreply@example.test',
+            'PostfixAdmin',
+            'Mode subject',
+            'Mode body',
+            [$this->domains[0]],
+            true,
+            ["one@{$this->domains[0]}"]
+        );
+
+        BroadcastQueue::setWorkerMode(BroadcastQueue::MODE_DRY_RUN);
+        $this->assertSame(BroadcastQueue::MODE_DRY_RUN, BroadcastQueue::workerMode());
+
+        $result = BroadcastQueue::processNext(10);
+        $this->assertSame($jobId, $result['job_id']);
+        $this->assertSame('finished', $result['status']);
+
+        $recipients = BroadcastQueue::getRecipients($jobId);
+        $this->assertSame('sent', $recipients[0]['status']);
+        $this->assertSame('dry-run', $recipients[0]['smtp_response']);
+
+        BroadcastQueue::setWorkerMode(BroadcastQueue::MODE_LIVE);
+        $this->assertSame(BroadcastQueue::MODE_LIVE, BroadcastQueue::workerMode());
     }
 
     private function createDomain(string $domain): void
