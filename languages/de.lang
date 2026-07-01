@@ -59,7 +59,18 @@ $PALANG['pMenu_dkim'] = 'Domain Keys'; # XXX
 $PALANG['pMenu_dkim_signing'] = 'Signing Table'; # XXX
 $PALANG['pMenu_password'] = 'Passwort ändern';
 $PALANG['pMenu_viewlog'] = 'Log ansehen';
+$PALANG['pMenu_settings'] = 'Einstellungen';
 $PALANG['pMenu_logout'] = 'Logout';
+
+$PALANG['settings_saved'] = 'Einstellungen gespeichert.';
+$PALANG['settings_alias_prefill_title'] = 'Vorbelegung des „An“-Feldes beim Anlegen eines Alias';
+$PALANG['settings_alias_prefill_help'] = 'Lege fest, womit das „An“-Feld beim Anlegen eines neuen Alias vorbelegt wird.';
+$PALANG['settings_alias_prefill_mode_none'] = 'Leer lassen (Standard)';
+$PALANG['settings_alias_prefill_mode_login'] = 'Mit meinem Login-Namen vorbelegen';
+$PALANG['settings_alias_prefill_mode_custom'] = 'Mit einem individuellen Wert vorbelegen';
+$PALANG['settings_alias_prefill_custom_value'] = 'Individueller Wert';
+$PALANG['settings_alias_prefill_custom_empty'] = 'Bitte einen individuellen Wert eingeben oder eine andere Option wählen. Es wurde nichts gespeichert.';
+$PALANG['settings_alias_prefill_warning_no_mailbox'] = 'Warnung: Für „%s“ existiert kein Mail-Benutzer. Die Einstellung wurde trotzdem gespeichert.';
 
 $PALANG['pMain_welcome'] = 'Willkommen zu Postfix Admin!';
 $PALANG['pMain_overview'] = 'Listet Ihre Domains auf. Sie können sie hier bearbeiten und löschen.';

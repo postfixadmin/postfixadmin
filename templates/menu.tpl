@@ -219,6 +219,10 @@
                     <span class="bi bi-list" aria-hidden="true"></span>
                     {$PALANG.pAdminMenu_backup}</a></li>
         {/if}
+        {* settings *}
+        <li><a class="nav-link" type="button" href="{#url_settings#}">
+                <span class="bi bi-gear" aria-hidden="true"></span>
+                {$PALANG.pMenu_settings}</a></li>
         {* viewlog *}
         {if $CONF.logging==='YES'}
             <li><a class="nav-link" type="button"

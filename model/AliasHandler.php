@@ -117,6 +117,23 @@ class AliasHandler extends PFAHandler
             $this->struct['address']['display_in_form'] = 0;
             $this->struct['localpart']['display_in_form'] = 1;
             $this->struct['domain']['display_in_form'] = 1;
+
+            # prefill the 'goto' ("To") field based on the logged-in admin's preference
+            # (configurable via settings.php: none / login / custom).
+            # For admins the login is stored in $this->admin_username; $this->username
+            # is only set for (non-admin) mailbox users - fall back to whichever is set.
+            $current_user = $this->admin_username != '' ? $this->admin_username : $this->username;
+            if ($current_user != '') {
+                $prefill_mode = get_admin_pref($current_user, 'alias_goto_prefill_mode', 'none');
+                if ($prefill_mode === 'login') {
+                    $this->struct['goto']['default'] = array($current_user);
+                } elseif ($prefill_mode === 'custom') {
+                    $prefill_value = get_admin_pref($current_user, 'alias_goto_prefill_value', '');
+                    if ($prefill_value !== '') {
+                        $this->struct['goto']['default'] = array($prefill_value);
+                    }
+                }
+            }
         }
 
         if (Config::bool('show_status')) {

@@ -1687,6 +1687,51 @@ function db_query_all(string $sql, array $values = []): array
 }
 
 /**
+ * Read a per-admin preference from the admin_preferences table.
+ *
+ * @param string $username - the admin the preference belongs to
+ * @param string $key      - the preference key
+ * @param string $default  - value to return if no preference is stored
+ * @return string
+ */
+function get_admin_pref(string $username, string $key, string $default = ''): string
+{
+    $row = db_query_one(
+        "SELECT pref_value FROM " . table_by_key('admin_preferences') . " WHERE username = :username AND pref_key = :pref_key",
+        array('username' => $username, 'pref_key' => $key)
+    );
+
+    if (is_array($row) && isset($row['pref_value'])) {
+        return $row['pref_value'];
+    }
+
+    return $default;
+}
+
+/**
+ * Store a per-admin preference (upsert) in the admin_preferences table.
+ *
+ * @param string $username - the admin the preference belongs to
+ * @param string $key      - the preference key
+ * @param string $value    - the preference value
+ * @return void
+ */
+function set_admin_pref(string $username, string $key, string $value): void
+{
+    $params = array('username' => $username, 'pref_key' => $key);
+
+    db_execute(
+        "DELETE FROM " . table_by_key('admin_preferences') . " WHERE username = :username AND pref_key = :pref_key",
+        $params
+    );
+
+    db_execute(
+        "INSERT INTO " . table_by_key('admin_preferences') . " (username, pref_key, pref_value) VALUES (:username, :pref_key, :pref_value)",
+        array_merge($params, array('pref_value' => $value))
+    );
+}
+
+/**
  * @param string $sql
  * @param array $values
  * @return array

@@ -68,7 +68,18 @@ $PALANG['pMenu_totp'] = 'TOTP';
 $PALANG['pMenu_totp_exceptions'] = 'TOTP exemptions';
 $PALANG['pMenu_app_passwords'] = 'Application passwords';
 $PALANG['pMenu_viewlog'] = 'View Log';
+$PALANG['pMenu_settings'] = 'Settings';
 $PALANG['pMenu_logout'] = 'Logout';
+
+$PALANG['settings_saved'] = 'Settings saved.';
+$PALANG['settings_alias_prefill_title'] = 'Prefill of the "To" field when adding an alias';
+$PALANG['settings_alias_prefill_help'] = 'Choose what the "To" field is prefilled with when creating a new alias.';
+$PALANG['settings_alias_prefill_mode_none'] = 'Leave empty (default)';
+$PALANG['settings_alias_prefill_mode_login'] = 'Prefill with my login name';
+$PALANG['settings_alias_prefill_mode_custom'] = 'Prefill with a custom value';
+$PALANG['settings_alias_prefill_custom_value'] = 'Custom value';
+$PALANG['settings_alias_prefill_custom_empty'] = 'Please enter a custom value or choose another option. Nothing was saved.';
+$PALANG['settings_alias_prefill_warning_no_mailbox'] = 'Warning: no mail user exists for "%s". The setting was saved anyway.';
 
 $PALANG['pMain_welcome'] = 'Welcome to Postfix Admin!';
 $PALANG['pMain_overview'] = 'List your domains. You can edit / delete them from here.';
