@@ -176,9 +176,11 @@ class BroadcastQueue
         $jobTable = table_by_key('broadcast_job');
         $job = db_query_one("SELECT * FROM $jobTable WHERE id = :id", ['id' => $jobId]);
 
-        if (!empty($job)) {
-            $job['status_label'] = self::statusLabel($job['status']);
+        if (empty($job)) {
+            return [];
         }
+
+        $job['status_label'] = self::statusLabel($job['status']);
 
         return $job;
     }
