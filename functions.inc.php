@@ -1984,6 +1984,48 @@ function viewlog_domain_condition(bool $show_all, bool $is_global_admin, string 
 }
 
 /**
+ * Compute the page numbers to display in a windowed pager.
+ *
+ * Always includes page 1 and the last page, plus a window of $radius pages on
+ * either side of the current page. Gaps between those ranges are represented by
+ * a null entry (rendered as an ellipsis). For example current=20, total=50,
+ * radius=5 yields: [1, null, 15..25, null, 50].
+ *
+ * @param int $current - the current page number (1-based)
+ * @param int $total_pages - total number of pages
+ * @param int $radius - how many pages to show either side of $current
+ * @return array<int|null> - ordered page numbers, null marks an ellipsis gap
+ */
+function pagination_window(int $current, int $total_pages, int $radius = 5): array
+{
+    if ($total_pages <= 1) {
+        return $total_pages == 1 ? [1] : [];
+    }
+
+    $current = max(1, min($current, $total_pages));
+
+    $pages = [];
+    for ($i = 1; $i <= $total_pages; $i++) {
+        if ($i == 1 || $i == $total_pages || ($i >= $current - $radius && $i <= $current + $radius)) {
+            $pages[] = $i;
+        }
+    }
+
+    # insert null markers where there is a gap between consecutive page numbers
+    $result = [];
+    $previous = 0;
+    foreach ($pages as $page) {
+        if ($previous && $page > $previous + 1) {
+            $result[] = null;
+        }
+        $result[] = $page;
+        $previous = $page;
+    }
+
+    return $result;
+}
+
+/**
  * db_where_clause
  * Action: builds and returns a WHERE clause for database queries. All given conditions will be AND'ed.
  * Call: db_where_clause (array $conditions, array $struct)
