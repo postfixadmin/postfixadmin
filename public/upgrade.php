@@ -2251,3 +2251,45 @@ function upgrade_1854()
     # add description after 'target_domain' field in alias_domain table
     _db_add_field('alias_domain', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'target_domain');
 }
+
+function upgrade_1855_mysql()
+{
+    # per-admin preferences (key/value), e.g. the "goto" prefill setting for the add-alias form
+    $admin_preferences = table_by_key('admin_preferences');
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $admin_preferences (
+            `username` varchar(255) NOT NULL default '',
+            `pref_key` varchar(64) NOT NULL default '',
+            `pref_value` varchar(255) NOT NULL default '',
+            PRIMARY KEY (`username`, `pref_key`)
+        ) {COLLATE} COMMENT='Postfix Admin - Admin Preferences';
+    ");
+}
+
+function upgrade_1855_pgsql()
+{
+    $admin_preferences = table_by_key('admin_preferences');
+    if (!_pgsql_object_exists($admin_preferences)) {
+        db_query_parsed("
+            CREATE TABLE {IF_NOT_EXISTS} $admin_preferences (
+                username varchar(255) NOT NULL default '',
+                pref_key varchar(64) NOT NULL default '',
+                pref_value varchar(255) NOT NULL default '',
+                PRIMARY KEY (username, pref_key)
+            )
+        ");
+    }
+}
+
+function upgrade_1855_sqlite()
+{
+    $admin_preferences = table_by_key('admin_preferences');
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $admin_preferences (
+            username varchar(255) NOT NULL default '',
+            pref_key varchar(64) NOT NULL default '',
+            pref_value varchar(255) NOT NULL default '',
+            PRIMARY KEY (username, pref_key)
+        )
+    ");
+}
