@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
+        pfa_handle_invalid_token();
     }
 
     // user clicked on cancel button

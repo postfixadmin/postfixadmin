@@ -55,11 +55,11 @@ if (isset($_GET["abort"]) && $_GET["abort"] == "1" && authentication_mfa_incompl
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (!isset($_SESSION['PFA_token'])) {
-        die("Invalid token (session timeout; refresh the page and try again?)");
+        pfa_handle_invalid_token();
     }
 
     if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token! (CSRF check failed)');
+        pfa_handle_invalid_token();
     }
 
     $totppf = new TotpPf('admin', new Login('admin'));

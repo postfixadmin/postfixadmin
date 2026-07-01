@@ -518,6 +518,10 @@ $PALANG['pLegal_char_warning']              = 'Illegal character';
 $PALANG['TOTP_already_configured']          = 'TOTP is already configured for this account, do you want to change your secret?';
 $PALANG['pApp_passwords_add']               = 'Add application-specific password';
 
+$PALANG['session_expired_title'] = 'Session expired';
+$PALANG['session_expired_message'] = 'Your session has expired. Please log in again.';
+$PALANG['session_expired_redirect'] = 'You will be redirected to the login page in 5 seconds.';
+$PALANG['session_expired_button'] = 'Go to login';
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

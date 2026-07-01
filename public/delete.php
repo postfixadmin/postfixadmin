@@ -22,7 +22,7 @@ require_once('common.php');
 
 
 if (safepost('token') != $_SESSION['PFA_token']) {
-    die('Invalid token!');
+    pfa_handle_invalid_token();
 }
 
 $username = authentication_get_username(); # enforce login
