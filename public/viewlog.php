@@ -122,7 +122,9 @@ if ($error != 1) {
     }
     $number_of_pages = ceil($number_of_logs / $page_size);
 
-    if ($page_number > $number_of_pages) {
+    # An empty result set (no matching log entries) has 0 pages; page 1 should
+    # then render an empty table rather than throwing.
+    if ($number_of_pages > 0 && $page_number > $number_of_pages) {
         throw new InvalidArgumentException('Unknown page number');
     }
 
