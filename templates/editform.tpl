@@ -31,17 +31,17 @@
                                                        name="value[{$key}]"{if {$value_{$key}} == 1} checked="checked"{/if}/>
                                             </label></div>
                                     {elseif $field.type == 'enum'}
-                                        <select class="form-control" name="value[{$key}]" id="{$key}">
+                                        <select class="form-select" name="value[{$key}]" id="{$key}">
                                             {html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
                                         </select>
                                     {elseif $field.type == 'enma'}
-                                        <select class="form-control" name="value[{$key}]" id="{$key}">
+                                        <select class="form-select" name="value[{$key}]" id="{$key}">
                                             {html_options options=$struct.{$key}.options selected=$value_{$key}}
                                         </select>
                                     {elseif $field.type == 'list'}
                                         <input type="text" class="form-control" style="margin-bottom : 25px;"
                                                id="id_searchDomains" onkeyup="searchDomains()"
-                                               placeholder="Search for domains..." title="search domains">
+                                              placeholder="{$PALANG.search_domains}" title="{$PALANG.search_domains}">
                                         <ul id="domainsList" name="value[{$key}][]"
                                             style="max-height : 250px; overflow: auto;">
                                             {foreach from=$struct.{$key}.options item=domain}

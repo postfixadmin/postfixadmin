@@ -9,7 +9,7 @@
                     <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}"/></noscript>
                 </form>
             </div>
-            <div class="col-md-5 offset-md-2 text-right">{#form_search#}</div>
+            <div class="col-md-5 offset-md-2 text-right virtual-search">{#form_search#}</div>
         </div>
     </div>
     <div class="card-body">
