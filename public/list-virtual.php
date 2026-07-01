@@ -54,6 +54,17 @@ if (isset($_POST['search']) && is_array($_POST['search'])) {
     $search = $_GET['search'];
 }
 
+// Active-status filter for the alias list (all|active|inactive). Persisted in
+// $_SESSION like the 'tab' selector below, so it survives pagination (whose
+// links only carry &limit=...).
+if (isset($_GET['alias_active'])) {
+    $_SESSION['list-virtual:alias_active'] = $_GET['alias_active'];
+}
+$fAliasActive = safesession('list-virtual:alias_active', 'all');
+if (!in_array($fAliasActive, array('all', 'active', 'inactive'), true)) {
+    $fAliasActive = 'all';
+}
+
 if (count($list_domains) == 0) {
     if (authentication_has_role('global-admin')) {
         flash_error($PALANG['no_domains_exist']);
@@ -157,6 +168,14 @@ if (count($search) == 0 || !isset($search['_'])) {
     $search_alias = array('domain' => $fDomain);
 } else {
     $search_alias = array('_' => $search['_']);
+}
+
+// Restrict the alias list to (in)active entries when the filter is set. 'active'
+// is a bool field in the struct, so db_where_clause() parameterises it for us.
+if ($fAliasActive === 'active') {
+    $search_alias['active'] = 1;
+} elseif ($fAliasActive === 'inactive') {
+    $search_alias['active'] = 0;
 }
 
 $handler = new AliasHandler(0, $admin_username);
@@ -514,6 +533,7 @@ if (Config::bool('alias_domain')) {
 
 $smarty->assign('tAlias', $tAlias);
 $smarty->assign('alias_data', $alias_data);
+$smarty->assign('alias_active', $fAliasActive);
 
 $smarty->assign('tMailbox', $tMailbox);
 $smarty->assign('gen_show_status_mailbox', $gen_show_status_mailbox, false);
