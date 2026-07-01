@@ -6,11 +6,10 @@ function pfa_handle_invalid_token(): void
 {
     http_response_code(419); // HTTP 419 Page Expired.
 
-    $loginUrl = 'login.php';
+    $returnUrl = 'main.php';
     $title = Config::lang('session_expired_title') ?: 'Session expired';
-    $message = Config::lang('session_expired_message') ?: 'Your session has expired. Please log in again.';
-    $redirect = Config::lang('session_expired_redirect') ?: 'You will be redirected to the login page in 5 seconds.';
-    $button = Config::lang('session_expired_button') ?: 'Go to login';
+    $message = Config::lang('session_expired_message') ?: 'The page token is no longer valid. Please return and try again.';
+    $button = Config::lang('session_expired_button') ?: 'Continue';
 
     echo <<<HTML
 <!doctype html>
@@ -18,7 +17,6 @@ function pfa_handle_invalid_token(): void
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="refresh" content="5;url={$loginUrl}">
     <title>{$title}</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 0; background: #f6f7f9; color: #222; }
@@ -32,8 +30,7 @@ function pfa_handle_invalid_token(): void
 <main>
     <h1>{$title}</h1>
     <p>{$message}</p>
-    <p>{$redirect}</p>
-    <a href="{$loginUrl}">{$button}</a>
+    <a href="{$returnUrl}">{$button}</a>
 </main>
 </body>
 </html>
