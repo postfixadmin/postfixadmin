@@ -66,11 +66,11 @@
 {if $tab=='alias' || $tab=='all'}
     <div class="text-center mb-2">{$PALANG.alias_active_filter}
         {if $alias_active=='all'}<span class='active'>{$PALANG.all}</span>
-        {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=all&amp;limit=0{$searchsuffix}">{$PALANG.all}</a>{/if}
+        {else}<a href="?domain={$fDomain|escape:"url"}&amp;tab={$tab|escape:"url"}&amp;alias_active=all&amp;limit=0{$searchsuffix}">{$PALANG.all}</a>{/if}
         {if $alias_active=='active'}<span class='active'>{$PALANG.active}</span>
-        {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=active&amp;limit=0{$searchsuffix}">{$PALANG.active}</a>{/if}
+        {else}<a href="?domain={$fDomain|escape:"url"}&amp;tab={$tab|escape:"url"}&amp;alias_active=active&amp;limit=0{$searchsuffix}">{$PALANG.active}</a>{/if}
         {if $alias_active=='inactive'}<span class='active'>{$PALANG.inactive}</span>
-        {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=inactive&amp;limit=0{$searchsuffix}">{$PALANG.inactive}</a>{/if}
+        {else}<a href="?domain={$fDomain|escape:"url"}&amp;tab={$tab|escape:"url"}&amp;alias_active=inactive&amp;limit=0{$searchsuffix}">{$PALANG.inactive}</a>{/if}
     </div>
     {$nav_bar_alias.top}
     {include file="list-virtual_alias.tpl"}
