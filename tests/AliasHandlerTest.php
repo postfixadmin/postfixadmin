@@ -432,4 +432,51 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(['inact@example.com'], array_keys($inactiveList));
         $this->assertEquals(0, $inactiveList['inact@example.com']['active']);
     }
+
+    /**
+     * delete-inactive.php enumerates the inactive aliases and deletes each one
+     * through its handler. Verify that removes only the inactive aliases and
+     * leaves active ones untouched.
+     * @see https://github.com/postfixadmin/postfixadmin/issues/1038
+     */
+    public function testDeletingInactiveAliasesLeavesActiveOnes()
+    {
+        $this->addDomain('example.com', 'admin');
+
+        foreach (['keep@example.com' => 1, 'drop1@example.com' => 0, 'drop2@example.com' => 0] as $addr => $active) {
+            $x = new AliasHandler(1, 'admin', true);
+            $this->assertTrue($x->init($addr));
+            $x->set([
+                'localpart' => explode('@', $addr)[0],
+                'domain'    => 'example.com',
+                'active'    => $active,
+                'address'   => $addr,
+                'goto'      => ['dest@example.com'],
+            ]);
+            $this->assertTrue($x->save(), json_encode($x->errormsg));
+        }
+
+        // Enumerate + delete the inactive ones, exactly as delete-inactive.php does.
+        $handler = new AliasHandler(0, 'admin', true);
+        $this->assertTrue($handler->getList(['domain' => 'example.com', 'active' => 0]));
+        $inactive = array_keys($handler->result());
+        sort($inactive);
+        $this->assertEquals(['drop1@example.com', 'drop2@example.com'], $inactive);
+
+        foreach ($inactive as $addr) {
+            $one = new AliasHandler(0, 'admin', true);
+            $this->assertTrue($one->init($addr));
+            $this->assertTrue($one->delete(), json_encode($one->errormsg));
+        }
+
+        // No inactive aliases remain.
+        $handler = new AliasHandler(0, 'admin', true);
+        $this->assertTrue($handler->getList(['domain' => 'example.com', 'active' => 0]));
+        $this->assertEmpty($handler->result());
+
+        // The active alias (and the active default aliases) are still there.
+        $handler = new AliasHandler(0, 'admin', true);
+        $this->assertTrue($handler->getList(['domain' => 'example.com', 'active' => 1]));
+        $this->assertArrayHasKey('keep@example.com', $handler->result());
+    }
 }

@@ -75,6 +75,17 @@
     {$nav_bar_alias.top}
     {include file="list-virtual_alias.tpl"}
     {$nav_bar_alias.bottom}
+    {if $alias_active=='inactive' && $tAlias}
+        <div class="text-center mb-2">
+            <form method="post" action="delete-inactive.php" style="display:inline">
+                <input type="hidden" name="fDomain" value="{$fDomain}">
+                {CSRF_Token}
+                <button class="btn btn-sm btn-danger"
+                        onclick="return confirm('{$PALANG.delete_inactive_confirm}')"><span
+                            class="bi bi-trash" aria-hidden="true"></span> {$PALANG.delete_inactive_button}</button>
+            </form>
+        </div>
+    {/if}
 {/if}
 {if $tab=='all'}
     <div class="clearfix"></div>
