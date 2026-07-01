@@ -17,13 +17,21 @@ if ($CONF['sendmail'] != 'YES') {
     exit;
 }
 
+$username = authentication_get_username();
+$is_global_admin = authentication_has_role('global-admin');
+$allowed_domains = list_domains_for_admin($username);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     CsrfToken::assertValid(safepost('CSRF_Token'));
 
     if (safepost('action') === 'cancel') {
-        BroadcastQueue::requestCancel((int)safepost('job_id'));
+        if (!BroadcastQueue::requestCancel((int)safepost('job_id'), $allowed_domains, $is_global_admin, $username)) {
+            flash_error($PALANG['pViewlog_result_error'] ?? 'Permission denied');
+            header("Location: broadcast-message.php");
+            exit;
+        }
     } elseif (safepost('action') === 'reset') {
-        BroadcastQueue::resetInactive();
+        BroadcastQueue::resetInactive($allowed_domains, $is_global_admin, $username);
         header("Location: broadcast-message.php");
         exit;
     }
@@ -35,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $jobId = (int)safeget('id');
 $job = BroadcastQueue::getJob($jobId);
 
-if (empty($job)) {
+if (empty($job) || !BroadcastQueue::canAccessJob($jobId, $allowed_domains, $is_global_admin, $username)) {
     flash_error($PALANG['broadcast_job_not_found']);
     header("Location: broadcast-message.php");
     exit;

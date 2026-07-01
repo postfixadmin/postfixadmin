@@ -146,17 +146,29 @@ class BroadcastQueue
         }
     }
 
-    public static function getJobs(int $limit = 20): array
+    public static function getJobs(int $limit = 20, array $allowedDomains = [], bool $globalAdmin = true, string $username = ''): array
     {
         $jobTable = table_by_key('broadcast_job');
         $limit = max(1, min($limit, 100));
-        $jobs = db_query_all("SELECT * FROM $jobTable ORDER BY id DESC LIMIT $limit");
+        $queryLimit = $globalAdmin ? $limit : max($limit * 10, 100);
+        $queryLimit = min($queryLimit, 500);
+        $jobs = db_query_all("SELECT * FROM $jobTable ORDER BY id DESC LIMIT $queryLimit");
+        $visibleJobs = [];
 
-        foreach ($jobs as $key => $job) {
-            $jobs[$key]['status_label'] = self::statusLabel($job['status']);
+        foreach ($jobs as $job) {
+            if (!self::canManageJob($job, $allowedDomains, $globalAdmin, $username)) {
+                continue;
+            }
+
+            $job['status_label'] = self::statusLabel($job['status']);
+            $visibleJobs[] = $job;
+
+            if (count($visibleJobs) >= $limit) {
+                break;
+            }
         }
 
-        return $jobs;
+        return $visibleJobs;
     }
 
     public static function getJob(int $jobId): array
@@ -178,6 +190,29 @@ class BroadcastQueue
         return array_column($rows, 'domain');
     }
 
+    public static function canAccessJob(int $jobId, array $allowedDomains = [], bool $globalAdmin = true, string $username = ''): bool
+    {
+        return self::canManageJob(self::getJob($jobId), $allowedDomains, $globalAdmin, $username);
+    }
+
+    private static function canManageJob(array $job, array $allowedDomains, bool $globalAdmin, string $username): bool
+    {
+        if ($globalAdmin) {
+            return !empty($job);
+        }
+
+        if (empty($job) || $username === '' || $job['created_by'] !== $username) {
+            return false;
+        }
+
+        $jobDomains = self::getJobDomains((int)$job['id']);
+        if (empty($jobDomains)) {
+            return false;
+        }
+
+        return count(array_diff($jobDomains, $allowedDomains)) === 0;
+    }
+
     public static function getRecipients(int $jobId, int $limit = 200): array
     {
         $recipientTable = table_by_key('broadcast_recipient');
@@ -191,26 +226,55 @@ class BroadcastQueue
         return $recipients;
     }
 
-    public static function requestCancel(int $jobId): void
+    public static function requestCancel(int $jobId, array $allowedDomains = [], bool $globalAdmin = true, string $username = ''): bool
     {
+        $job = self::getJob($jobId);
+        if (!self::canManageJob($job, $allowedDomains, $globalAdmin, $username)) {
+            return false;
+        }
+
         $jobTable = table_by_key('broadcast_job');
         $params = ['id' => $jobId];
         $statusWhere = db_in_clause('status', self::activeStatuses(), $params);
         db_execute("UPDATE $jobTable SET status = 'cancelling', cancel_requested = 1, modified = " . self::nowSql() . " WHERE id = :id AND $statusWhere", $params);
+        return true;
     }
 
-    public static function resetInactive(): void
+    public static function resetInactive(array $allowedDomains = [], bool $globalAdmin = true, string $username = ''): void
     {
         $jobTable = table_by_key('broadcast_job');
         $domainTable = table_by_key('broadcast_job_domain');
         $recipientTable = table_by_key('broadcast_recipient');
         $params = [];
         $activeWhere = db_in_clause('status', self::activeStatuses(), $params);
-        $inactiveSql = "SELECT id FROM $jobTable WHERE NOT ($activeWhere)";
 
-        db_execute("DELETE FROM $recipientTable WHERE job_id IN ($inactiveSql)", $params);
-        db_execute("DELETE FROM $domainTable WHERE job_id IN ($inactiveSql)", $params);
-        db_execute("DELETE FROM $jobTable WHERE NOT ($activeWhere)", $params);
+        if ($globalAdmin) {
+            $inactiveSql = "SELECT id FROM $jobTable WHERE NOT ($activeWhere)";
+            db_execute("DELETE FROM $recipientTable WHERE job_id IN ($inactiveSql)", $params);
+            db_execute("DELETE FROM $domainTable WHERE job_id IN ($inactiveSql)", $params);
+            db_execute("DELETE FROM $jobTable WHERE NOT ($activeWhere)", $params);
+            return;
+        }
+
+        $jobIds = [];
+        foreach (self::getJobs(100, $allowedDomains, false, $username) as $job) {
+            if (!in_array($job['status'], self::activeStatuses(), true)) {
+                $jobIds[] = (int)$job['id'];
+            }
+        }
+
+        if (empty($jobIds)) {
+            return;
+        }
+
+        $params = [];
+        $jobWhere = db_in_clause('job_id', $jobIds, $params);
+        db_execute("DELETE FROM $recipientTable WHERE $jobWhere", $params);
+        db_execute("DELETE FROM $domainTable WHERE $jobWhere", $params);
+
+        $params = [];
+        $idWhere = db_in_clause('id', $jobIds, $params);
+        db_execute("DELETE FROM $jobTable WHERE $idWhere", $params);
     }
 
     public static function startWorker(int $limit = 50): bool
