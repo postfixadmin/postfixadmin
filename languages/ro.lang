@@ -219,6 +219,7 @@ $PALANG['reply_once_per_week'] = 'Raspunde odata pe saptamana';
 
 $PALANG['pViewlog_welcome'] = 'Vizualizati ultimele %s operatii pentru ';
 $PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
+$PALANG['pViewlog_all_domains'] = 'All domains';
 $PALANG['pViewlog_timestamp'] = 'Data si ora';
 $PALANG['pViewlog_action'] = 'Operatie';
 $PALANG['pViewlog_data'] = 'Detalii';
