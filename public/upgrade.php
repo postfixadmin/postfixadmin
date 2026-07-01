@@ -2251,3 +2251,28 @@ function upgrade_1854()
     # add description after 'target_domain' field in alias_domain table
     _db_add_field('alias_domain', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'target_domain');
 }
+
+function upgrade_1855()
+{
+    # per-admin preferences (key/value), e.g. the stored default for the add-alias "To" field.
+    # pref_value is wide enough to hold a full 'goto' list (several targets, comma separated);
+    # it is not part of an index, so the length costs nothing.
+    #
+    # Written in the portable DDL subset so a single migration works on all three backends:
+    # db_query_parsed() substitutes the {IF_NOT_EXISTS} / {COLLATE} tokens per backend, but it
+    # does not rewrite identifier quoting or strip MySQL-only clauses. Backticks are MySQL syntax
+    # (PostgreSQL rejects them; SQLite merely tolerates them) and an inline COMMENT='...' is
+    # MySQL-only, so both are omitted here. The identifiers below are not reserved words in any
+    # of the three engines, so they need no quoting. {COLLATE} expands to a latin1 charset on
+    # MySQL (keeping the composite primary key well under InnoDB's index-length limit) and to an
+    # empty string on PostgreSQL/SQLite.
+    $admin_preferences = table_by_key('admin_preferences');
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $admin_preferences (
+            username varchar(255) NOT NULL default '',
+            pref_key varchar(64) NOT NULL default '',
+            pref_value varchar(2048) NOT NULL default '',
+            PRIMARY KEY (username, pref_key)
+        ) {COLLATE};
+    ");
+}
