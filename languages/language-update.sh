@@ -20,64 +20,182 @@
 
 
 function update_string_list() {
-	for file in en.lang $filelist ; do
-		echo "<?php \$CONF['admin_name'] = ''; include('$file'); print join(\"\\n\", array_keys(\$PALANG)) . \"\\n\"; ?>" | php > $file.strings
-	done
+	# Find keys that exist in en.lang but are missing from each translation and
+	# (with --patch) splice the English text in, marked "# XXX", in en.lang key
+	# order. Implemented in PHP because the language files are PHP: this parses
+	# them with the real tokenizer (handling quotes, concatenation, heredocs and
+	# aliased values) and does NOT rely on both files listing keys in the same
+	# order, which the old diff-based approach did.
+	PA_NOTEXT="$notext" PA_PATCH="$patch" php /dev/stdin en.lang $filelist <<'ENDOFPHP'
+<?php
+# Parse $PALANG['key'] = ...; statements from a language file's SOURCE (never
+# include()d, to avoid executing it) and return them in file order as
+# [key, startLine, endLine, sourceText].
+function parse_palang(string $src): array {
+    $tokens = token_get_all($src);
+    $n = count($tokens);
+    $stmts = [];
+    $i = 0;
+    while ($i < $n) {
+        $t = $tokens[$i];
+        if (is_array($t) && $t[0] === T_VARIABLE && $t[1] === '$PALANG') {
+            $startLine = $t[2];
+            $text = '';
+            $key = null;
+            $j = $i;
+            while ($j < $n) {
+                $tj = $tokens[$j];
+                $txt = is_array($tj) ? $tj[1] : $tj;
+                $text .= $txt;
+                if ($key === null && is_array($tj) && $tj[0] === T_CONSTANT_ENCAPSED_STRING) {
+                    $key = trim($tj[1], "'\"");
+                }
+                if (!is_array($tj) && $tj === ';') {
+                    break;
+                }
+                $j++;
+            }
+            if ($key !== null) {
+                $endLine = $startLine + substr_count($text, "\n");
+                $stmts[] = [$key, $startLine, $endLine, rtrim($text)];
+            }
+            $i = $j + 1;
+            continue;
+        }
+        $i++;
+    }
+    return $stmts;
+}
 
-	for file in $filelist ; do
-		test "$file" = "en.lang" && continue
-		LANG=C diff -U2 $file.strings en.lang.strings > $file.diff && echo "*** $file: no difference ***"
+$notext = getenv('PA_NOTEXT') === '1';
+$patch  = getenv('PA_PATCH')  === '1';
 
-		test $notext = 1 && cat $file.diff && continue
+$reference = 'en.lang';
+if (!is_file($reference)) {
+    fwrite(STDERR, "*** $reference not found in current directory ***\n");
+    exit(1);
+}
+$enStmts = parse_palang(file_get_contents($reference));
+$enOrder = [];      // ordered list of keys
+$enSource = [];     // key => source text
+foreach ($enStmts as [$key, , , $text]) {
+    if (!isset($enSource[$key])) {
+        $enOrder[] = $key;
+    }
+    $enSource[$key] = $text;
+}
 
-		grep -v 'No newline at end of file' "$file.diff" | while read line ; do
-			greptext="$(echo $line | sed 's/^[+ 	-]//')"
-			grepresult=$(grep "'$greptext'" en.lang) || grepresult="***DEFAULT - $greptext dropped from en.lang? *** $line"
-			grepresult2=$(grep "'$greptext'" $file)  || grepresult2="$grepresult"
-			case "$line" in
-				---*)
-					echo "$line"
-					;;
-				+++*)
-					echo "$line"
-					;;
-				@*)
-					echo "$line"
-					;;
-				-*)
-					echo "-$grepresult"
-					;;
-				+*)
-					# needs translation
-					# already added as comment?
-					test "$grepresult" = "$grepresult2" && {
-						echo "+$grepresult # XXX" # english
-					} || {
-						echo " $grepresult2" # translated
-						echo "keeping line $grepresult2" >&2
-						echo "This will result in a malformed patch." >&2
-					}
-					;;
-				*)
-					echo " $grepresult2"
-					;;
-			esac
-		done > $file.patch
+$files = array_slice($argv, 1);
+foreach ($files as $file) {
+    if ($file === $reference) {
+        continue;
+    }
+    if (!is_file($file)) {
+        fwrite(STDERR, "*** $file not found, skipping ***\n");
+        continue;
+    }
 
-		test $patch = 0 && cat $file.patch
-		test $patch = 1 && patch --fuzz=1 $file < $file.patch
-	done
+    $src = file_get_contents($file);
+    $transStmts = parse_palang($src);
+    $transKeys = [];    // key => endLine (last definition wins)
+    foreach ($transStmts as [$key, , $endLine, ]) {
+        $transKeys[$key] = $endLine;
+    }
+
+    // missing = in en.lang, not in translation (kept in en.lang order, each
+    // anchored to the nearest preceding key that DOES exist in the translation)
+    $missing = [];      // list of [key, anchorKey|null]
+    $lastShared = null;
+    foreach ($enOrder as $key) {
+        if (isset($transKeys[$key])) {
+            $lastShared = $key;
+        } else {
+            $missing[] = [$key, $lastShared];
+        }
+    }
+    // obsolete = in translation, not in en.lang
+    $obsolete = array_values(array_diff(array_keys($transKeys), $enOrder));
+
+    if (!$missing && !$obsolete) {
+        echo "*** $file: no missing translations ***\n";
+        continue;
+    }
+
+    if ($notext) {
+        echo "### $file ###\n";
+        foreach ($missing as [$key, ]) {
+            echo "+$key\n";
+        }
+        foreach ($obsolete as $key) {
+            echo "-$key (obsolete)\n";
+        }
+        continue;
+    }
+
+    if (!$patch) {
+        // preview only
+        echo "### $file: " . count($missing) . " missing, " . count($obsolete) . " obsolete ###\n";
+        foreach ($missing as [$key, $anchor]) {
+            $where = $anchor === null ? '(top of file)' : "after '$anchor'";
+            echo $enSource[$key] . " # XXX   $where\n";
+        }
+        foreach ($obsolete as $key) {
+            echo "# obsolete in $file (not in en.lang): $key\n";
+        }
+        continue;
+    }
+
+    // --patch: insert missing English strings (marked # XXX) in en.lang order,
+    // leaving every existing line untouched. Obsolete keys are reported, not
+    // removed (use --remove / --obsolete for those).
+    $lines = explode("\n", $src);
+    $insertAfter = [];      // endLine => [block, ...]
+    $topBlocks = [];
+    foreach ($missing as [$key, $anchor]) {
+        $block = $enSource[$key] . ' # XXX';
+        if ($anchor === null) {
+            $topBlocks[] = $block;
+        } else {
+            $insertAfter[$transKeys[$anchor]][] = $block;
+        }
+    }
+    $firstStart = $transStmts ? $transStmts[0][1] : null;
+
+    $out = [];
+    foreach ($lines as $idx => $line) {
+        $lineNo = $idx + 1;
+        if ($topBlocks && $lineNo === $firstStart) {
+            foreach ($topBlocks as $b) {
+                $out[] = $b;
+            }
+            $topBlocks = [];
+        }
+        $out[] = $line;
+        if (isset($insertAfter[$lineNo])) {
+            foreach ($insertAfter[$lineNo] as $b) {
+                $out[] = $b;
+            }
+        }
+    }
+    if ($topBlocks) {   // file had no PALANG statements at all
+        foreach ($topBlocks as $b) {
+            $out[] = $b;
+        }
+    }
+
+    file_put_contents($file, implode("\n", $out));
+    echo "*** $file: added " . count($missing) . " missing string(s)";
+    if ($obsolete) {
+        echo ", " . count($obsolete) . " obsolete string(s) left in place (see --remove/--obsolete)";
+    }
+    echo " ***\n";
+    foreach ($obsolete as $key) {
+        fwrite(STDERR, "# obsolete in $file (not in en.lang): $key\n");
+    }
+}
+ENDOFPHP
 } # end update_string_list()
 
-
-function forcepatch() {
-	for i in `seq 1 5` ; do 
-		for file in $filelist ; do
-			test "$file" = "en.lang" && { echo "*** skipping en.lang ***"; continue ; } >&2
-			/bin/bash "$0" "$file" | sed -n '1,3 p ; 5 s/^./-/p ; 5s/^./+/p ;  6p'  | recountdiff | patch "$file"
-		done
-	done
-} # end forcepatch
 
 
 function rename_string() {
@@ -285,16 +403,6 @@ echo '
     Mark $PALANG['"'"'string'"'"'] as obsolete / no longer used
 
 
-'"$0"' --forcepatch [foo.lang [bar.lang [...] ] ]
-
-    Similar to --patch, but applies the patch line by line. Useful if --patch
-    fails because of empty lines etc., but much slower.
-
-    --forcepatch patches 10 lines per run. When you only see messages like
-    "patch: **** Only garbage was found in the patch input.", take it as 
-    success message :-)  (no difference remaining)
-
-
 '"$0"' --comparetext string1 string2 [foo.lang [bar.lang [...] ] ]
 
     Compare two texts in $PALANG.
@@ -311,8 +419,7 @@ Common parameters:
 
     --patch
         patch the language file directly (instead of displaying the patch)
-        (use --forcepatch if --patch fails with rejections)
-    --nocleanup 
+    --nocleanup
         keep all temp files (for debugging)
 
     You can give any number of langugage files as parameter.
@@ -326,7 +433,6 @@ Common parameters:
 
 notext=0 # output full lines by default
 patch=0  # do not patch by default
-forcepatch=0  # no forcepatch by default
 nocleanup=0 # don't delete tempfiles
 rename=0 # rename a string
 remove=0 # remove a string
@@ -389,7 +495,9 @@ while [ -n "$1" ] ; do
 			test -z "$text" && { echo '--addcomment needs a parameter' >&2 ; exit 1 ; }
 			;;
 		--forcepatch)
-			forcepatch=1
+			# kept for backwards compatibility; --patch is now robust
+			patch=1
+			echo '--forcepatch is deprecated, using --patch instead' >&2
 			;;
 		--stats)
 			stats=1
@@ -414,7 +522,6 @@ test "$addcomment" = 1 && { addcomment ; cleanup ; exit 0 ; }
 test "$rename" = 1 && { rename_string ; cleanup ; exit 0 ; }
 test "$remove" = 1 && { remove_string ; cleanup ; exit 0 ; }
 test "$obsolete" = 1 && { obsolete ; cleanup ; exit 0 ; }
-test "$forcepatch" = 1 && { forcepatch ; cleanup ; exit 0 ; }
 test "$comparetext" = 1 && { comparetext ; cleanup ; exit 0 ; }
 
 test "$stats" = 1 && { statistics ; exit 0 ; }
