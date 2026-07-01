@@ -78,10 +78,10 @@
     {if $alias_active=='inactive' && $tAlias}
         <div class="text-center mb-2">
             <form method="post" action="delete-inactive.php" style="display:inline">
-                <input type="hidden" name="fDomain" value="{$fDomain}">
+                <input type="hidden" name="fDomain" value="{$fDomain|escape:"quotes"}">
                 {CSRF_Token}
                 <button class="btn btn-sm btn-danger"
-                        onclick="return confirm('{$PALANG.delete_inactive_confirm}')"><span
+                        onclick="return confirm('{$PALANG.delete_inactive_confirm|escape:"javascript"}')"><span
                             class="bi bi-trash" aria-hidden="true"></span> {$PALANG.delete_inactive_button}</button>
             </form>
         </div>

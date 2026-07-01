@@ -437,7 +437,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
      * delete-inactive.php enumerates the inactive aliases and deletes each one
      * through its handler. Verify that removes only the inactive aliases and
      * leaves active ones untouched.
-     * @see https://github.com/postfixadmin/postfixadmin/issues/1038
+     * @see https://github.com/postfixadmin/postfixadmin/issues/1057
      */
     public function testDeletingInactiveAliasesLeavesActiveOnes()
     {
