@@ -1,6 +1,13 @@
 name: GitHubBuild
 
-on: [push]
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint_etc:
