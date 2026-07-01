@@ -25,6 +25,16 @@
                                 {else}
                                     {if $table == 'foo' && $key == 'bar'}
                                         Special handling (td content) for {$table} / {$key}
+                                    {elseif $table == 'alias' && $key == 'goto_default'}
+                                        {* the label next to the box states what ticking it will do,
+                                           which differs depending on whether a value is already stored *}
+                                        <div class="checkbox"><label>
+                                                <input type="checkbox" value='1' id="goto_default"
+                                                       name="value[{$key}]"{if {$value_{$key}} == 1} checked="checked"{/if}/>
+                                                <span id="goto_default_label"
+                                                      data-label-off="{$PALANG.alias_goto_default_off}"
+                                                      data-label-on="{if $struct.goto_default.options.stored != ''}{$PALANG.alias_goto_default_on_replace}{else}{$PALANG.alias_goto_default_on}{/if}">{$PALANG.alias_goto_default_off}</span>
+                                            </label></div>
                                     {elseif $field.type == 'bool'}
                                         <div class="checkbox"><label>
                                                 <input type="checkbox" value='1'
@@ -81,6 +91,21 @@
 
                                 {if $table == 'foo' && $key == 'bar'}
                                     <span class="form-text">Special handling (td content) for {$table} / {$key}</span>
+                                {elseif $table == 'alias' && $key == 'goto_default'}
+                                    {if $struct.goto_default.options.stored != ''}
+                                        <span class="form-text">
+                                            {$PALANG.alias_goto_default_current}: {$struct.goto_default.options.stored}
+                                            {* submits the separate form at the end of this template -
+                                               it cannot be nested inside the form we are in *}
+                                            <button type="submit" form="clear_goto_default"
+                                                    class="btn btn-sm btn-link text-danger p-0 align-baseline"
+                                                    title="{$PALANG.alias_goto_default_delete}"
+                                                    aria-label="{$PALANG.alias_goto_default_delete}"
+                                                    onclick="return confirm ('{$PALANG.alias_goto_default_delete_confirm}');">
+                                                <span class="bi bi-x-lg" aria-hidden="true"></span>
+                                            </button>
+                                        </span>
+                                    {/if}
                                 {else}
                                     {if $fielderror.{$key}}
                                         <span class="form-text text-danger">{$fielderror.{$key}}</span>
@@ -109,7 +134,32 @@
     </div>
 </form>
 
+{if isset($struct.goto_default) && $struct.goto_default.options.stored != ''}
+    {* deleting the stored default must work without creating an alias, so it is its own
+       form - placed outside the one above and referenced via the button's form attribute *}
+    <form id="clear_goto_default" method="post" action="alias-goto-default.php">
+        <input type="hidden" name="domain" value="{$value_domain|escape:"quotes"}"/>
+        {CSRF_Token}
+    </form>
+{/if}
+
 <script type="text/javascript">
+    {if isset($struct.goto_default)}
+    // "save this as my default" checkbox: state what ticking it does, and what unticking it means
+    (function () {
+        var box = document.getElementById("goto_default");
+        var label = document.getElementById("goto_default_label");
+        if (!box || !label) {
+            return;
+        }
+        var update = function () {
+            label.textContent = box.checked ? label.dataset.labelOn : label.dataset.labelOff;
+        };
+        box.addEventListener("change", update);
+        update();
+    })();
+    {/if}
+
     function searchDomains() {
         input = document.getElementById("id_searchDomains").value.toLowerCase();
         ul = document.getElementById("domainsList");
