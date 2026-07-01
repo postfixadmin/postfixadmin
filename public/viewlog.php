@@ -49,7 +49,7 @@ $all_domains_value = '*'; # dropdown sentinel for the "All domains" option
 
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    if (isset($_GET['page']) && $_GET['fDomain']) {
+    if (isset($_GET['page']) && isset($_GET['fDomain']) && $_GET['fDomain']) {
         $fDomain_aux = $_GET['fDomain'];
         if ($fDomain_aux === $all_domains_value) {
             $show_all = true;
@@ -131,7 +131,6 @@ if ($error != 1) {
 
 
     $number_of_logs = 0;
-    $number_of_pages = 0;
     //get number of total logs
     $query = "SELECT count(*) as number_of_logs FROM $table_log $where_sql";
 
@@ -143,7 +142,7 @@ if ($error != 1) {
     $number_of_pages = ceil($number_of_logs / $page_size);
 
     # An empty result set (no matching log entries) has 0 pages; page 1 should
-    # then render an empty table rather than throwing.
+    # then be accepted (the template simply shows no log rows) rather than throwing.
     if ($number_of_pages > 0 && $page_number > $number_of_pages) {
         throw new InvalidArgumentException('Unknown page number');
     }

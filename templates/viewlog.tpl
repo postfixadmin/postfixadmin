@@ -7,8 +7,8 @@
                     <option value="{$d|escape}"{if !$show_all && $d==$domain_selected} selected{/if}>{$d|escape}</option>
                 {/foreach}
             </select>
-            <label class="col-form-label">{$PALANG.pViewlog_per_page}</label>
-            <select name="page_size" class="form-select w-auto" onchange="this.form.submit();">
+            <label for="page_size_select" class="col-form-label">{$PALANG.pViewlog_per_page}</label>
+            <select id="page_size_select" name="page_size" class="form-select w-auto" onchange="this.form.submit();">
                 {foreach from=$page_size_options item=ps}
                     <option value="{$ps}"{if $ps==$page_size} selected{/if}>{$ps}</option>
                 {/foreach}
@@ -51,12 +51,13 @@
             <div class="card-footer">
                 <nav aria-label="{$PALANG.pViewlog_action}">
                     <ul class="pagination justify-content-end mb-0">
-                        <li class="page-item{if $page_number <= 1} disabled{/if}">
-                            <a class="page-link" href="#" onclick="go2page(1); return false;" aria-label="First">&laquo;</a>
-                        </li>
-                        <li class="page-item{if $page_number <= 1} disabled{/if}">
-                            <a class="page-link" href="#" onclick="go2page({$page_number-1}); return false;" aria-label="Previous">&lsaquo;</a>
-                        </li>
+                        {if $page_number <= 1}
+                            <li class="page-item disabled"><span class="page-link" aria-hidden="true">&laquo;</span></li>
+                            <li class="page-item disabled"><span class="page-link" aria-hidden="true">&lsaquo;</span></li>
+                        {else}
+                            <li class="page-item"><a class="page-link" href="#" onclick="go2page(1); return false;" aria-label="First">&laquo;</a></li>
+                            <li class="page-item"><a class="page-link" href="#" onclick="go2page({$page_number-1}); return false;" aria-label="Previous">&lsaquo;</a></li>
+                        {/if}
                         {foreach from=$page_window item=p}
                             {if $p}
                                 <li class="page-item{if $p == $page_number} active{/if}">
@@ -66,12 +67,13 @@
                                 <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
                             {/if}
                         {/foreach}
-                        <li class="page-item{if $page_number >= $number_of_pages} disabled{/if}">
-                            <a class="page-link" href="#" onclick="go2page({$page_number+1}); return false;" aria-label="Next">&rsaquo;</a>
-                        </li>
-                        <li class="page-item{if $page_number >= $number_of_pages} disabled{/if}">
-                            <a class="page-link" href="#" onclick="go2page({$number_of_pages}); return false;" aria-label="Last">&raquo;</a>
-                        </li>
+                        {if $page_number >= $number_of_pages}
+                            <li class="page-item disabled"><span class="page-link" aria-hidden="true">&rsaquo;</span></li>
+                            <li class="page-item disabled"><span class="page-link" aria-hidden="true">&raquo;</span></li>
+                        {else}
+                            <li class="page-item"><a class="page-link" href="#" onclick="go2page({$page_number+1}); return false;" aria-label="Next">&rsaquo;</a></li>
+                            <li class="page-item"><a class="page-link" href="#" onclick="go2page({$number_of_pages}); return false;" aria-label="Last">&raquo;</a></li>
+                        {/if}
                     </ul>
                 </nav>
             </div>
@@ -81,6 +83,7 @@
 
 <script>
         function go2page(page){
+                page = Math.max(1, Math.min(page, {$number_of_pages}));
                 window.location.href = '{$url}?page='+page+'&fDomain={$domain_param|escape:"url"}&page_size={$page_size}';
         }
 </script>

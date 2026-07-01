@@ -2003,23 +2003,29 @@ function pagination_window(int $current, int $total_pages, int $radius = 5): arr
     }
 
     $current = max(1, min($current, $total_pages));
+    $start = max(1, $current - $radius);
+    $end = min($total_pages, $current + $radius);
 
-    $pages = [];
-    for ($i = 1; $i <= $total_pages; $i++) {
-        if ($i == 1 || $i == $total_pages || ($i >= $current - $radius && $i <= $current + $radius)) {
-            $pages[] = $i;
+    # Only the window itself is built (O(radius)), with page 1 / the last page
+    # and ellipsis markers (null) prepended/appended as needed.
+    $result = [];
+
+    if ($start > 1) {
+        $result[] = 1;
+        if ($start > 2) {
+            $result[] = null; # gap between page 1 and the window
         }
     }
 
-    # insert null markers where there is a gap between consecutive page numbers
-    $result = [];
-    $previous = 0;
-    foreach ($pages as $page) {
-        if ($previous && $page > $previous + 1) {
-            $result[] = null;
+    for ($i = $start; $i <= $end; $i++) {
+        $result[] = $i;
+    }
+
+    if ($end < $total_pages) {
+        if ($end < $total_pages - 1) {
+            $result[] = null; # gap between the window and the last page
         }
-        $result[] = $page;
-        $previous = $page;
+        $result[] = $total_pages;
     }
 
     return $result;
