@@ -1953,6 +1953,37 @@ function db_in_clause(string $field, array $values, array &$params = []): string
 }
 
 /**
+ * Build the log-table domain restriction for viewlog.php.
+ *
+ * Global admins may view every domain; any other admin is restricted to the
+ * domains they manage, so the "All domains" option can never leak log entries
+ * belonging to other admins' domains.
+ *
+ * @param bool $show_all - whether the "All domains" option is selected
+ * @param bool $is_global_admin - whether the current admin is a global admin
+ * @param string $fDomain - the single selected domain (ignored when $show_all)
+ * @param array $allowed_domains - domains the current admin may view
+ * @param array &$params - bound query parameters (appended to)
+ * @return string - SQL condition for a WHERE clause, or '' for no restriction
+ */
+function viewlog_domain_condition(bool $show_all, bool $is_global_admin, string $fDomain, array $allowed_domains, array &$params): string
+{
+    if ($show_all) {
+        if ($is_global_admin) {
+            return ''; # no restriction - every domain
+        }
+        return db_in_clause('domain', $allowed_domains, $params);
+    }
+
+    if ($fDomain !== '') {
+        $params['domain'] = $fDomain;
+        return 'domain = :domain';
+    }
+
+    return '';
+}
+
+/**
  * db_where_clause
  * Action: builds and returns a WHERE clause for database queries. All given conditions will be AND'ed.
  * Call: db_where_clause (array $conditions, array $struct)

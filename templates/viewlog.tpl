@@ -1,7 +1,12 @@
 <div class="card">
     <div class="card-header">
         <form name="frmOverview" method="post" action="">
-	    {html_options name='fDomain' output=$domain_list values=$domain_list selected=$domain_selected onchange="this.form.submit();"}
+	    <select name="fDomain" class="form-control" onchange="this.form.submit();">
+		<option value="{$all_domains_value}"{if $show_all} selected{/if}>{$PALANG.pViewlog_all_domains}</option>
+		{foreach from=$domain_list item=d}
+		    <option value="{$d|escape}"{if !$show_all && $d==$domain_selected} selected{/if}>{$d|escape}</option>
+		{/foreach}
+	    </select>
             <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}"/></noscript>
         </form>
     </div>
@@ -109,6 +114,6 @@
 
 <script>
         function go2page(page){
-                window.location.href = '{$url}?page='+page+'&fDomain={$fDomain}';
+                window.location.href = '{$url}?page='+page+'&fDomain={$domain_param|escape:"url"}';
         }
 </script>

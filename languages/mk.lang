@@ -206,6 +206,7 @@ $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Преглед на последните %s операции за: ';
 $PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
+$PALANG['pViewlog_all_domains'] = 'All domains';
 $PALANG['pViewlog_timestamp'] = 'Маркер (Timestamp)';
 $PALANG['pViewlog_action'] = 'Операција';
 $PALANG['pViewlog_data'] = 'Датум';

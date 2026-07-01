@@ -44,24 +44,30 @@ if (authentication_has_role('global-admin')) {
 
 $fDomain = '';
 $error = 0;
+$show_all = false;
+$all_domains_value = '*'; # dropdown sentinel for the "All domains" option
 
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     if (isset($_GET['page']) && $_GET['fDomain']) {
         $fDomain_aux = $_GET['fDomain'];
-        $flag_fDomain = 0;
-        if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
-            foreach ($list_domains as $domain) {
-                if ($domain == $fDomain_aux) {
-                    $fDomain = $domain;
-                    $flag_fDomain = 1;
-                    break;
+        if ($fDomain_aux === $all_domains_value) {
+            $show_all = true;
+        } else {
+            $flag_fDomain = 0;
+            if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
+                foreach ($list_domains as $domain) {
+                    if ($domain == $fDomain_aux) {
+                        $fDomain = $domain;
+                        $flag_fDomain = 1;
+                        break;
+                    }
                 }
             }
-        }
 
-        if ($flag_fDomain == 0) {
-            throw new InvalidArgumentException('Unknown domain');
+            if ($flag_fDomain == 0) {
+                throw new InvalidArgumentException('Unknown domain');
+            }
         }
 
         $page_number = (int)($_GET['page'] ?? 0);
@@ -76,14 +82,18 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
     $page_number = 1;
-    if (isset($_POST['fDomain']) && in_array($_POST['fDomain'], $list_domains)) {
+    if (isset($_POST['fDomain']) && $_POST['fDomain'] === $all_domains_value) {
+        $show_all = true;
+    } elseif (isset($_POST['fDomain']) && in_array($_POST['fDomain'], $list_domains)) {
         $fDomain = $_POST['fDomain'];
     }
 } else {
     throw new InvalidArgumentException('Unsupported request method');
 }
 
-if (!(check_owner($username, $fDomain) || authentication_has_role('global-admin'))) {
+# When "All domains" is selected, the query is scoped to the admin's domains
+# (see viewlog_domain_condition()), so the per-domain ownership check is skipped.
+if (!$show_all && !(check_owner($username, $fDomain) || authentication_has_role('global-admin'))) {
     $error = 1;
     flash_error($PALANG['pViewlog_result_error']);
 }
@@ -95,17 +105,9 @@ if ($error != 1) {
     $page_size = isset($CONF['page_size']) ? intval($CONF['page_size']) : 35;
 
 
-    $where = [];
     $params = [];
-    if ($fDomain) {
-        $where[] = 'domain = :domain';
-        $params['domain'] = $fDomain;
-    }
-
-    $where_sql = '';
-    if (!empty($where)) {
-        $where_sql = 'WHERE ' . implode(' AND ', $where);
-    }
+    $condition = viewlog_domain_condition($show_all, authentication_has_role('global-admin'), $fDomain, $list_domains, $params);
+    $where_sql = ($condition !== '') ? "WHERE $condition" : '';
 
 
     $number_of_logs = 0;
@@ -159,6 +161,9 @@ $smarty->assign('domain_list', $list_domains);
 $smarty->assign('domain_selected', $fDomain);
 $smarty->assign('tLog', $tLog, false);
 $smarty->assign('fDomain', $fDomain);
+$smarty->assign('show_all', $show_all);
+$smarty->assign('all_domains_value', $all_domains_value);
+$smarty->assign('domain_param', $show_all ? $all_domains_value : $fDomain);
 
 $smarty->assign('number_of_pages', $number_of_pages);
 $smarty->assign('page_number', $page_number);
