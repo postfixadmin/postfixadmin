@@ -213,14 +213,14 @@ Postfixadmin - translation statistics
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Translating is easy:
-- download your language file from SVN
-  http://postfixadmin.svn.sourceforge.net/viewvc/postfixadmin/trunk/languages/
+- download your language file from git
+  https://github.com/postfixadmin/postfixadmin/tree/master/languages
 - search for lines with '# XXX' comments and
   - translate the line
   - remove the '# XXX'
   Note: The file is utf-8 encoded.
-- post your translation to the tracker
-  http://sourceforge.net/p/postfixadmin/patches/
+- post your translation as a pull request
+  https://github.com/postfixadmin/postfixadmin/pulls
 
 
 Number of missing translations:
@@ -236,7 +236,7 @@ EOF
 Statistics based on:
 EOF
 
-	LANG=C svn info |grep 'Revision:\|Last Changed Date:'
+	LANG=C git log -1 --format='Revision: %H%nLast Changed Date: %ci'
 	) > postfixadmin-languages.txt
 
 	echo "Translation statistics have been saved as postfixadmin-languages.txt"
@@ -372,7 +372,7 @@ while [ -n "$1" ] ; do
 		--remove)
 			remove=1
 			shift ; remove_string="$1"
-			test -z "$remove-string" && { echo '--remove needs a parameter' >&2 ; exit 1 ; }
+			test -z "$remove_string" && { echo '--remove needs a parameter' >&2 ; exit 1 ; }
 			;;
 		--addcomment)
 			addcomment=1
