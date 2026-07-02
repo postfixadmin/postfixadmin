@@ -43,7 +43,6 @@ class DomainHandler extends PFAHandler
         $pwexp = min($super, Config::intbool('password_expiration'));
         $show_maxquota = $quota;
         $show_pwexp = $pwexp;
-        $maxquota_label = 'pOverview_get_quota';
         $pwexp_label = 'password_expiration';
 
         if (Config::bool('domain_list_hide_maxquota')) {
