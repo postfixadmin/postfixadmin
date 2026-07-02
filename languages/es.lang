@@ -301,7 +301,7 @@ $PALANG['pAdminList_domain_quota'] = 'Cuota Total';
 $PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
 $PALANG['last_modified'] = 'Última Modificación';
 $PALANG['pAdminList_domain_maxquota'] = 'Cuota Buzón máxima';
-$PALANG['quota_not_managed'] = 'sin cuota gestionada';
+$PALANG['quota_not_managed'] = 'Sin Cuota Gestionada';
 
 
 $PALANG['pAdminCreate_domain_welcome'] = 'Añadir nuevo dominio';
