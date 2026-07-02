@@ -527,6 +527,9 @@ $PALANG['pUpdate_fetch_error'] = 'Neither cURL nor allow_url_fopen is available.
 $PALANG['pUpdate_network_error'] = 'No se pudo recuperar la versión desde GitHub. Revisa si el servidor tiene acceso a la api.github.com.'; # XXX
 $PALANG['pDkim_field_domain_and_selector'] = 'Domain:Selector'; # XXX
 $PALANG['pDkim_field_description'] = 'Descripción'; # XXX
+$PALANG['session_expired_title'] = 'Sesión expirada';
+$PALANG['session_expired_message'] = 'El token de la página ya no es válido. Vuelve e intenta nuevamente.';
+$PALANG['session_expired_button'] = 'Continuar';
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

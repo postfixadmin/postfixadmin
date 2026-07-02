@@ -26,7 +26,7 @@ class CsrfToken
      */
     public static function assertValid(string $token): bool
     {
-        if (!is_array($_SESSION['CSRF_Tokens'])) {
+        if (!isset($_SESSION['CSRF_Tokens']) || !is_array($_SESSION['CSRF_Tokens'])) {
             $_SESSION['CSRF_Tokens'] = [];
         }
 
