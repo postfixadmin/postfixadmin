@@ -21,7 +21,7 @@
 require_once('common.php');
 
 
-if (safepost('token') != $_SESSION['PFA_token']) {
+if (safepost('token') != ($_SESSION['PFA_token'] ?? '')) {
     pfa_handle_invalid_token();
 }
 

@@ -39,7 +39,7 @@ $pPassword_password_current_text = "";
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
+    if (safepost('token') != ($_SESSION['PFA_token'] ?? '')) {
         pfa_handle_invalid_token();
     }
 
