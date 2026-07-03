@@ -548,6 +548,10 @@ $PALANG['pUpdate_changelog'] = 'Changelog';
 $PALANG['pUpdate_fetch_error'] = 'Neither cURL nor allow_url_fopen is available. Cannot check for updates.';
 $PALANG['pUpdate_network_error'] = 'Could not fetch release information from GitHub. Check that your server can reach api.github.com.';
 
+$PALANG['session_expired_title'] = 'Session expired';
+$PALANG['session_expired_message'] = 'The page token is no longer valid. Please return and try again.';
+$PALANG['session_expired_button'] = 'Continue';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
