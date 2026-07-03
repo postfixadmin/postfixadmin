@@ -117,8 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
+    if (safepost('token') != ($_SESSION['PFA_token'] ?? '')) {
+        pfa_handle_invalid_token();
     }
 
 
