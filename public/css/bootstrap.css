@@ -156,3 +156,5 @@ div#login{ max-width: 35em; }
 .mailbox-list-scroll > #mailbox_table { min-width: 820px; margin-bottom: 0; }
 .virtual-list-scroll { display: block; width: 100%; overflow-x: auto; }
 .virtual-list-scroll > #admin_table { min-width: 720px; margin-bottom: 0; }
+.virtual-search form { margin-bottom: .25rem; }
+.virtual-search .form-control { margin-left: auto; max-width: 18rem; }
