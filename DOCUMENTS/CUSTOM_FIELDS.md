@@ -7,9 +7,11 @@ which let you add, change, or remove fields on a Handler's `$struct` at runtime.
 
 The handy part is that the Handler builds both its SQL and its edit form
 straight from `$struct`, so a field you bolt on through the hook gets full add,
-edit, and list support in the web UI without any extra work.
+edit, and list support in the web UI without any extra work. It also gets picked
+up automatically by `postfixadmin-cli`, so the same field is manageable from the
+command line, not just the browser.
 
-The worked example below adds a per-domain `backend_host` field and then wires
+The worked example below adds a per-domain `x_backend_host` field and then wires
 it into Postfix (`transport_maps`) and Dovecot (proxy). The end result is a
 front-end PostfixAdmin box that routes each domain to whichever downstream
 server actually holds its mailboxes. The same recipe works for any custom
@@ -51,16 +53,16 @@ Don't forget to return it.
 1. The hook doesn't touch the database. Adding a field to `$struct` tells
    PostfixAdmin how to *handle* the column, but it won't *create* it for you.
    You add the column yourself with `ALTER TABLE`.
-2. Prefix your custom columns so they don't collide with anything a future
-   PostfixAdmin release might add. There's a naming policy for exactly this:
-   <https://sourceforge.net/p/postfixadmin/wiki/Custom_fields/>. This guide
-   sticks with plain `backend_host` because it reads better, but for real
-   deployments something like `x_backend_host` is the safer bet.
+2. Prefix your custom columns with `x_` so they don't collide with anything a
+   future PostfixAdmin release might add. There's a naming policy for exactly
+   this: <https://sourceforge.net/p/postfixadmin/wiki/Custom_fields/>. That's
+   why the example below uses `x_backend_host` rather than a bare
+   `backend_host`.
 
 ## Step 1: add the database column
 
 ```sql
-ALTER TABLE domain ADD COLUMN backend_host VARCHAR(255) NULL DEFAULT 'backend1.example.com';
+ALTER TABLE domain ADD COLUMN x_backend_host VARCHAR(255) NULL DEFAULT 'backend1.example.com';
 ```
 
 ## Step 2: surface the field with a hook
@@ -70,26 +72,29 @@ won't wipe it out. Point the config key at a function and define that function.
 The tidiest way to build the column definition is `PFAHandler::pacol()`, since
 that's how the core defines its own fields:
 
+Using PHP 8's named arguments keeps it readable, so you're not left counting
+positional parameters:
+
 ```php
 $CONF['domain_struct_hook'] = 'domain_struct_hook';
 
 function domain_struct_hook($struct) {
-    $struct['backend_host'] = PFAHandler::pacol(
-        1,                 // editable
-        1,                 // display_in_form
-        1,                 // display_in_list
-        'text',            // type
-        'Backend Host',    // label (or a PALANG key)
-        'Downstream mail server that hosts this domain', // description
-        'backend1.example.com'                           // default
+    $struct['x_backend_host'] = PFAHandler::pacol(
+        allow_editing:   1,
+        display_in_form: 1,
+        display_in_list: 1,
+        type:            'text',
+        PALANG_label:    'Backend Host',
+        PALANG_desc:     'Downstream mail server that hosts this domain',
+        default:         'backend1.example.com',
     );
     return $struct;
 }
 ```
 
-The full `pacol()` parameter list (editable, display_in_form, display_in_list,
-type, label, description, default, options, and the rest) is over in
-[HANDLER_CLASSES.md](HANDLER_CLASSES.md#pacol-parameters).
+The full `pacol()` parameter list (allow_editing, display_in_form,
+display_in_list, type, PALANG_label, PALANG_desc, default, options, and the
+rest) is over in [HANDLER_CLASSES.md](HANDLER_CLASSES.md#pacol-parameters).
 
 The same trick works for tweaking or hiding existing fields, for example
 `$struct['transport']['display_in_form'] = 0;`.
@@ -115,7 +120,7 @@ transport on the fly:
 
 ```
 # /etc/postfix/mysql/transport_domains.cf
-query = SELECT CONCAT('smtp:[', backend_host, ']:25') FROM domain WHERE domain='%s' AND active=1
+query = SELECT CONCAT('smtp:[', x_backend_host, ']:25') FROM domain WHERE domain='%s' AND active=1
 ```
 
 The square brackets tell Postfix to skip the MX lookup and hand the mail
@@ -130,7 +135,7 @@ to the backend that actually owns the mailbox:
 ```
 # dovecot-sql.conf.ext
 password_query = \
-  SELECT m.username AS user, m.password, 'y' AS proxy, d.backend_host AS host \
+  SELECT m.username AS user, m.password, 'y' AS proxy, d.x_backend_host AS host \
   FROM mailbox m JOIN domain d ON m.domain = d.domain \
   WHERE m.username = '%{user}' AND m.active = 1 AND d.active = 1
 ```
@@ -139,7 +144,7 @@ password_query = \
 
 Fair question, since PostfixAdmin already ships a `transport` column and you can
 absolutely drive Postfix routing from it. The reason this example uses a
-separate `backend_host` is that the same value gets reused as Dovecot's proxy
+separate `x_backend_host` is that the same value gets reused as Dovecot's proxy
 host, and `transport` stores a full `smtp:[host]:port` string that Dovecot
 can't swallow as-is. Keeping a plain hostname in its own column means both
 Postfix and Dovecot read it directly, with no string-slicing on the Dovecot
