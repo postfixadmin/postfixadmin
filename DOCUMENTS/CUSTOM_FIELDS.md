@@ -1,25 +1,26 @@
 # Custom Fields with `*_struct_hook`
 
-This guide walks through adding your own field to one of PostfixAdmin's
-built-in entities (domains, mailboxes, aliases, admins, ...) **without patching
-any PostfixAdmin code**. It uses the `*_struct_hook` configuration callbacks,
-which let you add, change or remove fields on a Handler's `$struct` at runtime.
+This is a walkthrough for adding your own field to one of PostfixAdmin's
+built-in entities (domains, mailboxes, aliases, admins, and so on) without
+patching any PostfixAdmin code. It uses the `*_struct_hook` config callbacks,
+which let you add, change, or remove fields on a Handler's `$struct` at runtime.
 
-Because the Handler builds its SQL and its edit form directly from `$struct`,
-a field you add through the hook gets full add / edit / list support in the web
-UI for free.
+The handy part is that the Handler builds both its SQL and its edit form
+straight from `$struct`, so a field you bolt on through the hook gets full add,
+edit, and list support in the web UI without any extra work.
 
-The worked example below adds a per-domain **`backend_host`** field and then
-wires it into Postfix (`transport_maps`) and Dovecot (proxy) so a front-end
-PostfixAdmin box can route each domain to the downstream server that actually
-holds its mailboxes. The same recipe works for any custom field — skip to
-[Just the field](#just-the-field-minimal-recipe) if you only need the UI part.
+The worked example below adds a per-domain `backend_host` field and then wires
+it into Postfix (`transport_maps`) and Dovecot (proxy). The end result is a
+front-end PostfixAdmin box that routes each domain to whichever downstream
+server actually holds its mailboxes. The same recipe works for any custom
+field, so if you only care about the UI part, jump to
+[Just the field](#just-the-field-minimal-recipe) and stop there.
 
 ## How the hook works
 
-During construction, every Handler reads a config key named after its primary
-database table plus `_struct_hook`, and — if it names a real function — passes
-its `$struct` through it (`model/PFAHandler.php`):
+When a Handler is constructed it reads a config key named after its primary
+database table plus `_struct_hook`. If that key names a real function, the
+Handler runs `$struct` through it (see `model/PFAHandler.php`):
 
 ```php
 $struct_hook = Config::read($this->db_table . '_struct_hook');
@@ -28,8 +29,8 @@ if (!empty($struct_hook) && is_string($struct_hook) && $struct_hook != 'NO' && f
 }
 ```
 
-One hook is available per Handler. The config keys are defined (empty by
-default) in `config.inc.php`:
+There's one hook per Handler. The config keys all live (empty by default) in
+`config.inc.php`:
 
 | Config key | Entity / table |
 |------------|----------------|
@@ -42,32 +43,32 @@ default) in `config.inc.php`:
 | `dkim_struct_hook` | DKIM keys |
 | `dkim_signing_struct_hook` | DKIM signing |
 
-Your hook is a plain function that receives `$struct` and must **return** the
-modified `$struct`.
+Your hook is just a function that takes `$struct` and returns it back, modified.
+Don't forget to return it.
 
-## Before you start: two rules
+## Two things to know before you start
 
-1. **The hook does not touch the database.** Adding a field to `$struct` teaches
-   PostfixAdmin how to *handle* the column; it does not *create* it. You must
-   add the column to the table yourself with `ALTER TABLE`.
-2. **Prefix your custom columns** to avoid clashing with fields that future
-   PostfixAdmin versions might introduce. See the custom-fields naming policy:
-   <https://sourceforge.net/p/postfixadmin/wiki/Custom_fields/>. This guide uses
-   `backend_host` for readability; in production prefer something like
-   `x_backend_host`.
+1. The hook doesn't touch the database. Adding a field to `$struct` tells
+   PostfixAdmin how to *handle* the column, but it won't *create* it for you.
+   You add the column yourself with `ALTER TABLE`.
+2. Prefix your custom columns so they don't collide with anything a future
+   PostfixAdmin release might add. There's a naming policy for exactly this:
+   <https://sourceforge.net/p/postfixadmin/wiki/Custom_fields/>. This guide
+   sticks with plain `backend_host` because it reads better, but for real
+   deployments something like `x_backend_host` is the safer bet.
 
-## Step 1 — Add the database column
+## Step 1: add the database column
 
 ```sql
 ALTER TABLE domain ADD COLUMN backend_host VARCHAR(255) NULL DEFAULT 'backend1.example.com';
 ```
 
-## Step 2 — Surface the field with a hook
+## Step 2: surface the field with a hook
 
-In `config.local.php` (preferred over editing `config.inc.php` so upgrades
-don't clobber it), point the config key at a function and define it. The
-recommended way to build the column definition is `PFAHandler::pacol()`, which
-keeps you in step with how the core defines its own fields:
+Put this in `config.local.php` rather than `config.inc.php`, so an upgrade
+won't wipe it out. Point the config key at a function and define that function.
+The tidiest way to build the column definition is `PFAHandler::pacol()`, since
+that's how the core defines its own fields:
 
 ```php
 $CONF['domain_struct_hook'] = 'domain_struct_hook';
@@ -86,44 +87,45 @@ function domain_struct_hook($struct) {
 }
 ```
 
-`pacol()`'s full parameter list (editable, display_in_form, display_in_list,
-type, label, description, default, options, ...) is documented in
+The full `pacol()` parameter list (editable, display_in_form, display_in_list,
+type, label, description, default, options, and the rest) is over in
 [HANDLER_CLASSES.md](HANDLER_CLASSES.md#pacol-parameters).
 
-You can also modify or hide existing fields the same way, e.g.
+The same trick works for tweaking or hiding existing fields, for example
 `$struct['transport']['display_in_form'] = 0;`.
 
-That's all the UI needs — the edit/create form now shows **Backend Host** and
-writes it back to the column.
+And that's the whole UI part. The create/edit form now shows a Backend Host box
+and writes whatever you type back to the column.
 
-> **List view note:** the edit form is updated from `$struct` automatically.
-> If you use the *virtual* list templates and want the new column to appear in
-> the list, you may also need to add it to the corresponding list template. See
-> the comment above the `*_struct_hook` block in `config.inc.php`.
+> Heads up on the list view: the edit form updates itself from `$struct`
+> automatically, but if you're using the *virtual* list templates and want the
+> new column to show up in the list too, you may also have to add it to the
+> matching list template. There's a note about this above the `*_struct_hook`
+> block in `config.inc.php`.
 
 ### Just the field (minimal recipe)
 
-If all you want is a custom column in the UI, Steps 1 and 2 are the whole story.
-Everything below is specific to the front-end mail-routing use case.
+If all you wanted was a custom column in the UI, Steps 1 and 2 are the whole
+job. Everything past here is specific to the front-end mail-routing case.
 
-## Step 3 — Route Postfix mail to the backend
+## Step 3: route Postfix mail to the backend
 
-Point `transport_maps` at a SQL query that turns the stored hostname into a
-Postfix transport on the fly:
+Point `transport_maps` at a query that turns the stored hostname into a Postfix
+transport on the fly:
 
 ```
 # /etc/postfix/mysql/transport_domains.cf
 query = SELECT CONCAT('smtp:[', backend_host, ']:25') FROM domain WHERE domain='%s' AND active=1
 ```
 
-The `[...]` brackets tell Postfix to skip the MX lookup and deliver straight to
-that host.
+The square brackets tell Postfix to skip the MX lookup and hand the mail
+straight to that host.
 
-## Step 4 — Proxy Dovecot logins to the same backend
+## Step 4: proxy Dovecot logins to the same backend
 
-Reuse the very same hostname as Dovecot's `proxy` target in your passdb/userdb
-SQL, so an IMAP/POP login on the front end is proxied to the backend that owns
-the mailbox:
+Reuse the exact same hostname as Dovecot's `proxy` target in your passdb and
+userdb SQL. Now an IMAP or POP login that lands on the front end gets proxied
+to the backend that actually owns the mailbox:
 
 ```
 # dovecot-sql.conf.ext
@@ -133,22 +135,23 @@ password_query = \
   WHERE m.username = '%{user}' AND m.active = 1 AND d.active = 1
 ```
 
-## Why a dedicated column instead of `transport`?
+## Why a separate column instead of `transport`?
 
-PostfixAdmin already ships a `transport` column, and you *can* drive Postfix
-routing from it. The reason this example adds a separate `backend_host` is that
-the same value is reused as Dovecot's `proxy` host, and `transport` stores a
-full `smtp:[host]:port` string that Dovecot cannot consume as-is. Keeping a
-plain hostname in its own column lets both Postfix and Dovecot read it directly
-without string-slicing on the Dovecot side. If you only need Postfix routing,
-reusing `transport` (optionally massaged with SQL `CONCAT`/`SUBSTRING`) is a
-perfectly good alternative.
+Fair question, since PostfixAdmin already ships a `transport` column and you can
+absolutely drive Postfix routing from it. The reason this example uses a
+separate `backend_host` is that the same value gets reused as Dovecot's proxy
+host, and `transport` stores a full `smtp:[host]:port` string that Dovecot
+can't swallow as-is. Keeping a plain hostname in its own column means both
+Postfix and Dovecot read it directly, with no string-slicing on the Dovecot
+side. If you only need the Postfix routing and don't care about Dovecot, then
+reusing `transport` (maybe with a bit of SQL `CONCAT`/`SUBSTRING` to reshape it)
+works just as well.
 
-## Summary
+## The short version
 
-- `*_struct_hook` lets you add/modify/remove Handler fields from config alone —
-  no core changes, no fork.
-- Add the DB column yourself; the hook only handles it.
-- Prefix custom columns per the naming policy.
-- A single plain-hostname column can feed both Postfix `transport_maps` and
-  Dovecot proxying, which is handy for front-end/back-end mail topologies.
+- `*_struct_hook` lets you add, change, or drop Handler fields from config
+  alone. No core edits, no fork.
+- Add the DB column yourself. The hook only handles it, it doesn't create it.
+- Prefix your custom columns per the naming policy.
+- One plain-hostname column can feed both Postfix `transport_maps` and Dovecot
+  proxying, which is exactly what you want for a front-end/back-end mail setup.
