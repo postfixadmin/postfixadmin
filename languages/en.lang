@@ -276,6 +276,7 @@ $PALANG['reply_once_per_week'] = 'Reply once a week';
 $PALANG['pViewlog_welcome'] = 'View the last %s actions for ';
 $PALANG['pViewlog_welcome_all'] = 'View the last %s actions ';
 $PALANG['pViewlog_all_domains'] = 'All domains';
+$PALANG['pViewlog_per_page'] = 'Per page:';
 $PALANG['pViewlog_timestamp'] = 'Timestamp';
 $PALANG['pViewlog_action'] = 'Action';
 $PALANG['pViewlog_data'] = 'Data';

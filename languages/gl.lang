@@ -215,6 +215,7 @@ $PALANG['reply_once_per_week'] = 'Respostar unha vez á semana'; # XXX
 $PALANG['pViewlog_welcome'] = 'Ver as últimas %s accións para ';
 $PALANG['pViewlog_welcome_all'] = 'Ver as últimas %s accións ';
 $PALANG['pViewlog_all_domains'] = 'All domains';
+$PALANG['pViewlog_per_page'] = 'Per page:';
 $PALANG['pViewlog_timestamp'] = 'Data/Hora';
 $PALANG['pViewlog_action'] = 'Acción';
 $PALANG['pViewlog_data'] = 'Datos';

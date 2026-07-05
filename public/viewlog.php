@@ -49,7 +49,7 @@ $all_domains_value = '*'; # dropdown sentinel for the "All domains" option
 
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    if (isset($_GET['page']) && $_GET['fDomain']) {
+    if (isset($_GET['page']) && isset($_GET['fDomain']) && $_GET['fDomain']) {
         $fDomain_aux = $_GET['fDomain'];
         if ($fDomain_aux === $all_domains_value) {
             $show_all = true;
@@ -98,12 +98,32 @@ if (!$show_all && !(check_owner($username, $fDomain) || authentication_has_role(
     flash_error($PALANG['pViewlog_result_error']);
 }
 
+# Number of log entries per page - user-selectable but whitelisted so a crafted
+# value can't request an unbounded LIMIT. The configured $CONF['page_size'] is
+# always offered so existing setups keep their default.
+$page_size_options = array(10, 25, 50, 100, 1000);
+$default_page_size = (int)($CONF['page_size'] ?? 10);
+if (!in_array($default_page_size, $page_size_options, true)) {
+    $page_size_options[] = $default_page_size;
+}
+sort($page_size_options);
+
+if (isset($_POST['page_size'])) {
+    $requested_page_size = (int)$_POST['page_size'];
+} elseif (isset($_GET['page_size'])) {
+    $requested_page_size = (int)$_GET['page_size'];
+} else {
+    $requested_page_size = (int)($_SESSION['viewlog:page_size'] ?? $default_page_size);
+}
+$page_size = in_array($requested_page_size, $page_size_options, true) ? $requested_page_size : $default_page_size;
+$_SESSION['viewlog:page_size'] = $page_size;
+
 $tLog = array();
+$number_of_pages = 0;
+$page_window = array();
 
 if ($error != 1) {
     $table_log = table_by_key('log');
-    $page_size = isset($CONF['page_size']) ? intval($CONF['page_size']) : 35;
-
 
     $params = [];
     $condition = viewlog_domain_condition($show_all, authentication_has_role('global-admin'), $fDomain, $list_domains, $params);
@@ -111,7 +131,6 @@ if ($error != 1) {
 
 
     $number_of_logs = 0;
-    $number_of_pages = 0;
     //get number of total logs
     $query = "SELECT count(*) as number_of_logs FROM $table_log $where_sql";
 
@@ -123,10 +142,12 @@ if ($error != 1) {
     $number_of_pages = ceil($number_of_logs / $page_size);
 
     # An empty result set (no matching log entries) has 0 pages; page 1 should
-    # then render an empty table rather than throwing.
+    # then be accepted (the template simply shows no log rows) rather than throwing.
     if ($number_of_pages > 0 && $page_number > $number_of_pages) {
         throw new InvalidArgumentException('Unknown page number');
     }
+
+    $page_window = pagination_window($page_number, (int)$number_of_pages, 5);
 
     if ($page_number == 1) {
         $offset = 0;
@@ -166,6 +187,9 @@ $smarty->assign('fDomain', $fDomain);
 $smarty->assign('show_all', $show_all);
 $smarty->assign('all_domains_value', $all_domains_value);
 $smarty->assign('domain_param', $show_all ? $all_domains_value : $fDomain);
+$smarty->assign('page_size', $page_size);
+$smarty->assign('page_size_options', $page_size_options);
+$smarty->assign('page_window', $page_window);
 
 $smarty->assign('number_of_pages', $number_of_pages);
 $smarty->assign('page_number', $page_number);

@@ -223,6 +223,7 @@ $PALANG['reply_once_per_week'] = 'Отвечать один раз в недел
 $PALANG['pViewlog_welcome'] = 'Просмотр %s последних действий для ';
 $PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
 $PALANG['pViewlog_all_domains'] = 'All domains';
+$PALANG['pViewlog_per_page'] = 'Per page:';
 $PALANG['pViewlog_timestamp'] = 'Время создания/модификации';
 $PALANG['pViewlog_action'] = 'Действие';
 $PALANG['pViewlog_data'] = 'Данные';
