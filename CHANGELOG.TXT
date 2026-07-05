@@ -6,6 +6,11 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 4.0.5 (2026/07/05)
+--------------------------
+   - Improve error message for expired CSRF tokens (show a html error page rather than a plain "die" message); thanks @TrapoSAMA
+   - When building a 4.0.x release, include a build against PHP 8.4 as well as 7.4 (helps address OTPHP issue below). See #1049
+
 Version 4.0.4 (2026/06/27)
 --------------------------
    - Add the github actions workflow to build a .tar.gz on release, assume PHP 7.4 (see #999 and #1026 see 225a55d5d9ca43d2abce07917e3e201f0d2f5d2b). 
