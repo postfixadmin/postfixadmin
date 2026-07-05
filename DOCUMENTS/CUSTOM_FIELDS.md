@@ -57,7 +57,8 @@ Don't forget to return it.
    future PostfixAdmin release might add. There's a naming policy for exactly
    this: <https://sourceforge.net/p/postfixadmin/wiki/Custom_fields/>. That's
    why the example below uses `x_backend_host` rather than a bare
-   `backend_host`.
+   `backend_host`. The same `x_` rule applies to any custom `$PALANG` strings
+   you add (see Step 2).
 
 ## Step 1: add the database column
 
@@ -70,10 +71,8 @@ ALTER TABLE domain ADD COLUMN x_backend_host VARCHAR(255) NULL DEFAULT 'backend1
 Put this in `config.local.php` rather than `config.inc.php`, so an upgrade
 won't wipe it out. Point the config key at a function and define that function.
 The tidiest way to build the column definition is `PFAHandler::pacol()`, since
-that's how the core defines its own fields:
-
-Using PHP 8's named arguments keeps it readable, so you're not left counting
-positional parameters:
+that's how the core defines its own fields. Using PHP 8's named arguments keeps
+it readable, so you're not left counting positional parameters:
 
 ```php
 $CONF['domain_struct_hook'] = 'domain_struct_hook';
@@ -84,13 +83,34 @@ function domain_struct_hook($struct) {
         display_in_form: 1,
         display_in_list: 1,
         type:            'text',
-        PALANG_label:    'Backend Host',
-        PALANG_desc:     'Downstream mail server that hosts this domain',
+        PALANG_label:    'x_backend_host',       // a $PALANG key, not literal text
+        PALANG_desc:     'x_backend_host_desc',   // ditto
         default:         'backend1.example.com',
     );
     return $struct;
 }
 ```
+
+`PALANG_label` and `PALANG_desc` are **language keys**, not the visible text.
+PostfixAdmin looks them up in `$PALANG` (the interface-strings array), so define
+your own strings with a language hook — again prefixing the keys with `x_`:
+
+```php
+$CONF['language_hook'] = 'my_language_hook';
+
+function my_language_hook($PALANG, $language) {
+    // Set the strings for every language. Add `case "de":` etc. before the
+    // default if you want translations — just make sure the keys exist in
+    // every branch (including default) so they're never missing.
+    $PALANG['x_backend_host']      = 'Backend Host';
+    $PALANG['x_backend_host_desc'] = 'Downstream mail server that hosts this domain';
+    return $PALANG;
+}
+```
+
+(If you'd rather not bother with `$PALANG`, passing literal text as the label
+still renders — PostfixAdmin shows the key as-is when it isn't found — but the
+language hook is the clean, translatable way and keeps you consistent with core.)
 
 The full `pacol()` parameter list (allow_editing, display_in_form,
 display_in_list, type, PALANG_label, PALANG_desc, default, options, and the
@@ -157,6 +177,9 @@ works just as well.
 - `*_struct_hook` lets you add, change, or drop Handler fields from config
   alone. No core edits, no fork.
 - Add the DB column yourself. The hook only handles it, it doesn't create it.
-- Prefix your custom columns per the naming policy.
+- Prefix your custom columns — and any custom `$PALANG` keys — with `x_`, per
+  the naming policy.
+- Define field labels/descriptions as `$PALANG` strings via
+  `$CONF['language_hook']`, rather than hardcoding text.
 - One plain-hostname column can feed both Postfix `transport_maps` and Dovecot
   proxying, which is exactly what you want for a front-end/back-end mail setup.
