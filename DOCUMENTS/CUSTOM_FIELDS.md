@@ -54,11 +54,11 @@ Don't forget to return it.
    PostfixAdmin how to *handle* the column, but it won't *create* it for you.
    You add the column yourself with `ALTER TABLE`.
 2. Prefix your custom columns with `x_` so they don't collide with anything a
-   future PostfixAdmin release might add. There's a naming policy for exactly
-   this: <https://sourceforge.net/p/postfixadmin/wiki/Custom_fields/>. That's
-   why the example below uses `x_backend_host` rather than a bare
-   `backend_host`. The same `x_` rule applies to any custom `$PALANG` strings
-   you add (see Step 2).
+   future PostfixAdmin release might add. That's why the example below uses
+   `x_backend_host` rather than a bare `backend_host`, and the same `x_` rule
+   applies to any custom `$PALANG` strings you add (see Step 2). The full
+   naming policy is in [Naming policy for custom fields and
+   tables](#naming-policy-for-custom-fields-and-tables) at the end of this page.
 
 ## Step 1: add the database column
 
@@ -171,6 +171,40 @@ Postfix and Dovecot read it directly, with no string-slicing on the Dovecot
 side. If you only need the Postfix routing and don't care about Dovecot, then
 reusing `transport` (maybe with a bit of SQL `CONCAT`/`SUBSTRING` to reshape it)
 works just as well.
+
+## Naming policy for custom fields and tables
+
+Custom fields and tables must be named so they never collide with fields,
+tables, or indexes a future PostfixAdmin version might add.
+
+**Extra fields in existing tables:**
+
+- Use a field name starting with `x_`.
+- If you add indexes, prefix them `x_` too (or `tablename_x_` on PostgreSQL).
+- Avoid unique indexes and foreign keys where you can, since they make schema
+  changes harder.
+
+**Extra tables:**
+
+- Use a table name starting with `x_`.
+- Inside that table, name fields and indexes however you like.
+- Consider including `created`, `modified`, and `active` columns (most
+  PostfixAdmin tables have them).
+- Unique keys inside your own tables are fine.
+- On PostgreSQL, index and unique-key names must start with `x_` (better:
+  `x_tablename_`).
+- Avoid foreign keys to PostfixAdmin's default tables where possible.
+
+**A note for MySQL/MariaDB users:** the `x_` prefix on *index and key names* is
+mainly a PostgreSQL requirement. PostgreSQL keeps those names unique per schema
+(database-wide), so a custom index there could clash with a core one.
+MySQL/MariaDB scope index names per table, so inside your own `x_` table any
+index name is fine. (Indexes you add to an *existing* PostfixAdmin table are
+still best `x_`-prefixed on any database, since you're sharing that table's
+namespace.) The column- and table-name `x_` rules apply everywhere regardless.
+
+This is the policy from PostfixAdmin's custom-fields wiki page, reproduced here
+so it lives in the repo.
 
 ## The short version
 
