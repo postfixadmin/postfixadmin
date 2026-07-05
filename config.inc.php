@@ -372,6 +372,11 @@ function maildir_name_hook($domain, $user) {
         return $struct; # important!
     }
     $CONF['admin_struct_hook'] = 'x_struct_admin_modify';
+
+    You can also use e.g.
+    $CONF['admin_struct_hook'] = function($struct) {  // logic
+       return $struct; }
+    );
 */
 $CONF['admin_struct_hook']          = '';
 $CONF['domain_struct_hook']         = '';

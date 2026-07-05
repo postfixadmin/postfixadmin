@@ -239,8 +239,9 @@ abstract class PFAHandler
             );
         }
 
+        // default *_struct_hooks are empty strings
         $struct_hook = Config::read($this->db_table . '_struct_hook');
-        if (!empty($struct_hook) && is_string($struct_hook) && $struct_hook != 'NO' && function_exists($struct_hook)) {
+        if (!empty($struct_hook) && $struct_hook != 'NO' && is_callable($struct_hook)) {
             $this->struct = $struct_hook($this->struct);
         }
 
