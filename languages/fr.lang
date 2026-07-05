@@ -106,6 +106,7 @@ $PALANG['no_domains_for_this_admin'] = 'Vous n\'avez les permissions pour aucun 
 $PALANG['no_domains_exist'] = 'Vous devez créer au moins un domaine avant d\'utiliser la Liste des Virtuels.';
 
 $PALANG['domain'] = 'Domaine';
+$PALANG['search_domains'] = 'Search for domains...'; # XXX
 $PALANG['pOverview_get_alias_domains'] = 'Alias de domaine';
 $PALANG['mailboxes'] = 'Comptes courriels';
 $PALANG['pOverview_get_quota'] = 'Limite compte courriels (Mo)';
@@ -296,6 +297,8 @@ $PALANG['pAdminMenu_virtual'] = 'Virtual'; # XXX
 $PALANG['pAdminMenu_backup'] = 'Sauvegarde';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Administrateurs de domaines';
 $PALANG['pAdminMenu_create_admin'] = 'Nouvel administrateur';
+$PALANG['pAdminList_domain_maxquota'] = 'Max Mailbox Quota'; # XXX
+$PALANG['quota_not_managed'] = 'Not Managed'; # XXX
 $PALANG['pAdminMenu_create_domain'] = 'Nouveau domaine';
 
 $PALANG['pAdminList_admin_count'] = 'Domaines';
@@ -529,6 +532,9 @@ $PALANG['pUpdate_check_releases'] = 'View releases on GitHub'; # XXX
 $PALANG['pUpdate_changelog'] = 'Changelog'; # XXX
 $PALANG['pUpdate_fetch_error'] = 'Neither cURL nor allow_url_fopen is available. Cannot check for updates.'; # XXX
 $PALANG['pUpdate_network_error'] = 'Could not fetch release information from GitHub. Check that your server can reach api.github.com.'; # XXX
+$PALANG['session_expired_title'] = 'Session expired'; # XXX
+$PALANG['session_expired_message'] = 'The page token is no longer valid. Please return and try again.'; # XXX
+$PALANG['session_expired_button'] = 'Continue'; # XXX
 $PALANG['pDkim_field_domain_and_selector'] = 'Domain:Selector'; # XXX
 $PALANG['pDkim_field_description'] = 'Description'; # XXX
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh

@@ -230,7 +230,6 @@ $PALANG['pUsersMain_app_passwords'] = 'Setup revokable app passwords with reduce
 $PALANG['pApp_passwords_list'] = 'Existing application passwords';
 $PALANG['pApp_password_revoked'] = 'Exception revoked';
 $PALANG['pApp_passwords_welcome'] = 'Add application password';
-$PALANG['pMenu_app_passwords'] = 'Application passwords';
 $PALANG['pAppPassAdd_result_success'] = 'Added an application password';
 $PALANG['pAppPassAdd_pass_empty_error'] = 'Password cannot be empty';
 $PALANG['pAppPassAdd_result_error'] = 'Could not add application password';

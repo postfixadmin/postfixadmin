@@ -101,6 +101,7 @@ $PALANG['no_domains_for_this_admin'] = 'You don\'t have permissions for any doma
 $PALANG['no_domains_exist'] = 'You have to create at least one domain before you can use virtual list.'; # "virtual list" should match $PALANG['pAdminMenu_list_virtual'] # XXX
 
 $PALANG['domain'] = 'Domena';
+$PALANG['search_domains'] = 'Search for domains...'; # XXX
 $PALANG['pOverview_get_alias_domains'] = 'Domain Aliases'; # XXX
 $PALANG['mailboxes'] = 'Potanski ormarići';
 $PALANG['pOverview_get_quota'] = 'Kvota za potanske ormariće (MB)';
@@ -291,6 +292,8 @@ $PALANG['pAdminMenu_virtual'] = 'Virtual'; # XXX
 $PALANG['pAdminMenu_backup'] = 'Arhiviraj';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Domenski administratori';
 $PALANG['pAdminMenu_create_admin'] = 'Novi administrator';
+$PALANG['pAdminList_domain_maxquota'] = 'Max Mailbox Quota'; # XXX
+$PALANG['quota_not_managed'] = 'Not Managed'; # XXX
 $PALANG['pAdminMenu_create_domain'] = 'Nova domena';
 
 $PALANG['pAdminList_admin_count'] = 'Domene';
@@ -524,6 +527,9 @@ $PALANG['pUpdate_check_releases'] = 'View releases on GitHub'; # XXX
 $PALANG['pUpdate_changelog'] = 'Changelog'; # XXX
 $PALANG['pUpdate_fetch_error'] = 'Neither cURL nor allow_url_fopen is available. Cannot check for updates.'; # XXX
 $PALANG['pUpdate_network_error'] = 'Could not fetch release information from GitHub. Check that your server can reach api.github.com.'; # XXX
+$PALANG['session_expired_title'] = 'Session expired'; # XXX
+$PALANG['session_expired_message'] = 'The page token is no longer valid. Please return and try again.'; # XXX
+$PALANG['session_expired_button'] = 'Continue'; # XXX
 $PALANG['pDkim_field_domain_and_selector'] = 'Domain:Selector'; # XXX
 $PALANG['pDkim_field_description'] = 'Description'; # XXX
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
