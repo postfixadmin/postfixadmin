@@ -93,14 +93,14 @@ function domain_struct_hook($struct) {
 
 `PALANG_label` and `PALANG_desc` are **language keys**, not the visible text.
 PostfixAdmin looks them up in `$PALANG` (the interface-strings array), so define
-your own strings with a language hook — again prefixing the keys with `x_`:
+your own strings with a language hook, again prefixing the keys with `x_`:
 
 ```php
 $CONF['language_hook'] = 'my_language_hook';
 
 function my_language_hook($PALANG, $language) {
     // Set the strings for every language. Add `case "de":` etc. before the
-    // default if you want translations — just make sure the keys exist in
+    // default if you want translations. Just make sure the keys exist in
     // every branch (including default) so they're never missing.
     $PALANG['x_backend_host']      = 'Backend Host';
     $PALANG['x_backend_host_desc'] = 'Downstream mail server that hosts this domain';
@@ -109,7 +109,7 @@ function my_language_hook($PALANG, $language) {
 ```
 
 (If you'd rather not bother with `$PALANG`, passing literal text as the label
-still renders — PostfixAdmin shows the key as-is when it isn't found — but the
+still renders (PostfixAdmin shows the key as-is when it isn't found), but the
 language hook is the clean, translatable way and keeps you consistent with core.)
 
 The full `pacol()` parameter list (allow_editing, display_in_form,
@@ -177,7 +177,7 @@ works just as well.
 - `*_struct_hook` lets you add, change, or drop Handler fields from config
   alone. No core edits, no fork.
 - Add the DB column yourself. The hook only handles it, it doesn't create it.
-- Prefix your custom columns — and any custom `$PALANG` keys — with `x_`, per
+- Prefix your custom columns (and any custom `$PALANG` keys) with `x_`, per
   the naming policy.
 - Define field labels/descriptions as `$PALANG` strings via
   `$CONF['language_hook']`, rather than hardcoding text.
