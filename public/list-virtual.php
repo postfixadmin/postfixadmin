@@ -57,6 +57,8 @@ if (isset($_POST['search']) && is_array($_POST['search'])) {
 // Active-status filter for the alias list (all|active|inactive). Persisted in
 // $_SESSION like the 'tab' selector below, so it survives pagination (whose
 // links only carry &limit=...).
+
+
 $fAliasActive = safeget('alias_active', safesession('list-virtual:alias_active', 'all'));
 if (!in_array($fAliasActive, ['all', 'active', 'inactive'], true)) {
     $fAliasActive = 'all';

@@ -66,15 +66,26 @@
 {if $tab=='alias' || $tab=='all'}
     <div class="text-center mb-2">{$PALANG.alias_active_filter}
         {if $alias_active=='all'}<span class='active'>{$PALANG.all}</span>
-        {else}<a href="?domain={$fDomain|escape:"url"}&amp;tab={$tab|escape:"url"}&amp;alias_active=all&amp;limit=0{$searchsuffix}">{$PALANG.all}</a>{/if}
+        {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=all&amp;limit=0{$searchsuffix}">{$PALANG.all}</a>{/if}
         {if $alias_active=='active'}<span class='active'>{$PALANG.active}</span>
-        {else}<a href="?domain={$fDomain|escape:"url"}&amp;tab={$tab|escape:"url"}&amp;alias_active=active&amp;limit=0{$searchsuffix}">{$PALANG.active}</a>{/if}
+        {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=active&amp;limit=0{$searchsuffix}">{$PALANG.active}</a>{/if}
         {if $alias_active=='inactive'}<span class='active'>{$PALANG.inactive}</span>
-        {else}<a href="?domain={$fDomain|escape:"url"}&amp;tab={$tab|escape:"url"}&amp;alias_active=inactive&amp;limit=0{$searchsuffix}">{$PALANG.inactive}</a>{/if}
+        {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=inactive&amp;limit=0{$searchsuffix}">{$PALANG.inactive}</a>{/if}
     </div>
     {$nav_bar_alias.top}
     {include file="list-virtual_alias.tpl"}
     {$nav_bar_alias.bottom}
+    {if $alias_active=='inactive' && $tAlias}
+        <div class="text-center mb-2">
+            <form method="post" action="delete-inactive.php" style="display:inline">
+                <input type="hidden" name="fDomain" value="{$fDomain|escape:"quotes"}">
+                {CSRF_Token}
+                <button class="btn btn-sm btn-danger"
+                        onclick="return confirm('{$PALANG.delete_inactive_confirm|escape:"javascript"}')"><span
+                            class="bi bi-trash" aria-hidden="true"></span> {$PALANG.delete_inactive_button}</button>
+            </form>
+        </div>
+    {/if}
 {/if}
 {if $tab=='all'}
     <div class="clearfix"></div>
