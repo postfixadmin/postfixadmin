@@ -1,17 +1,44 @@
 #
-# Postfix Admin
-# by Mischa Peters <mischa at high5 dot net>
-# Copyright (c) 2002 - 2005 High5!
-# Licensed under GPL for more info check GPL-LICENSE.TXT
+# Postfix Admin - translating and maintaining the interface strings
 #
 
-If you want to contribute a translation, please follow these easy steps:
-- download your language file from SVN
-  http://postfixadmin.svn.sourceforge.net/viewvc/postfixadmin/trunk/languages/
-- search for lines with '# XXX' comments and
-  - translate the line
-  - remove the '# XXX'
-  Note: The file is utf-8 encoded. You can also use htmlentities.
-- post your translation to the Sourceforge tracker
-  http://sourceforge.net/tracker/?group_id=191583&atid=937966
+The interface strings live in languages/*.lang, one file per language.
+languages/en.lang is the canonical (English) source. Each file is a list of
 
+    $PALANG['key'] = 'text';
+
+statements and is UTF-8 encoded (htmlentities may also be used).
+
+
+Translating
+-----------
+
+To contribute or update a translation:
+
+- Edit the file for your language, e.g. languages/de.lang.
+- Untranslated strings are marked with a trailing "# XXX" comment - they still
+  contain the English text. For each such line:
+    - translate the text, then
+    - remove the "# XXX" marker.
+- Open a pull request: https://github.com/postfixadmin/postfixadmin
+
+
+Adding or changing strings (for developers)
+-------------------------------------------
+
+Only edit languages/en.lang when you add a new $PALANG[...] string or change an
+existing one. Then propagate it to every other language file:
+
+    cd languages
+    ./language-update.sh --patch
+
+This copies the new (or changed) keys into each language file, marked with a
+trailing "# XXX" comment so translators can find the strings that still need
+translating. Commit the updated languages/*.lang files together with your
+en.lang change.
+
+Please do not hand-translate strings in a feature pull request - just leave the
+English "# XXX" placeholders and let the translation teams handle them.
+
+Run "./language-update.sh --help" for its other modes (listing missing keys,
+renaming or removing a key across all language files, etc.).
