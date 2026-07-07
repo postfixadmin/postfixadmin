@@ -390,4 +390,46 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(5, count($results));
         $this->assertTrue(isset($results['31-test@example.com']));
     }
+
+    /**
+     * The list-virtual.php active-status filter works by passing an 'active'
+     * condition to AliasHandler::getList(). Verify that filters the list.
+     * @see https://github.com/postfixadmin/postfixadmin/issues/1038
+     */
+    public function testActiveConditionFiltersAliasList()
+    {
+        $this->addDomain('example.com', 'admin');
+
+        // Add one active and one inactive alias (on top of the 4 default
+        // aliases, which are active).
+        foreach (['act@example.com' => 1, 'inact@example.com' => 0] as $addr => $active) {
+            $x = new AliasHandler(1, 'admin', true);
+            $this->assertTrue($x->init($addr));
+            $x->set([
+                'localpart' => explode('@', $addr)[0],
+                'domain'    => 'example.com',
+                'active'    => $active,
+                'address'   => $addr,
+                'goto'      => ['dest@example.com'],
+            ]);
+            $this->assertTrue($x->save(), json_encode($x->errormsg));
+        }
+
+        // active-only: contains our active alias and the defaults, never the inactive one.
+        $x = new AliasHandler(0, 'admin', true);
+        $this->assertTrue($x->getList(['domain' => 'example.com', 'active' => 1]));
+        $activeList = $x->result();
+        $this->assertArrayHasKey('act@example.com', $activeList);
+        $this->assertArrayNotHasKey('inact@example.com', $activeList);
+        foreach ($activeList as $addr => $row) {
+            $this->assertEquals(1, $row['active'], "$addr should be active");
+        }
+
+        // inactive-only: exactly our inactive alias.
+        $x = new AliasHandler(0, 'admin', true);
+        $this->assertTrue($x->getList(['domain' => 'example.com', 'active' => 0]));
+        $inactiveList = $x->result();
+        $this->assertEquals(['inact@example.com'], array_keys($inactiveList));
+        $this->assertEquals(0, $inactiveList['inact@example.com']['active']);
+    }
 }
