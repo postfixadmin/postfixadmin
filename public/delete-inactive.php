@@ -43,17 +43,19 @@ if (!is_string($domain) || $domain === '' || !in_array($domain, list_domains_for
 
 # enumerate the inactive aliases; getList() is already restricted to the
 # admin's allowed domains, so this cannot reach other domains' aliases.
-$handler = new AliasHandler(0, $username, $is_admin);
+$handler = new AliasHandler(0, $username, (int) $is_admin);
 $handler->getList(array('domain' => $domain, 'active' => 0));
 $inactive = $handler->result();
 
 $deleted = 0;
 $skipped = 0;
 
-foreach (array_keys($inactive) as $address) {
+
+foreach ($inactive as $address => $_) {
+
     # delete each alias through its handler so per-alias checks (ownership,
     # protected/default aliases, mailbox aliases) are all honoured.
-    $one = new AliasHandler(0, $username, $is_admin);
+    $one = new AliasHandler(0, $username, (int) $is_admin);
     if ($one->init($address) && $one->delete()) {
         $deleted++;
     } else {
@@ -61,9 +63,9 @@ foreach (array_keys($inactive) as $address) {
     }
 }
 
-flash_info(Config::Lang_f('pDelete_inactive_success', $deleted));
+flash_info(Config::lang_f('pDelete_inactive_success', (string) $deleted));
 if ($skipped > 0) {
-    flash_error(Config::Lang_f('pDelete_inactive_skipped', $skipped));
+    flash_error(Config::lang_f('pDelete_inactive_skipped', (string) $skipped));
 }
 
 header('Location: list-virtual.php?domain=' . urlencode($domain));
