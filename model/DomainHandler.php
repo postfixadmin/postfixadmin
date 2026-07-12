@@ -94,7 +94,7 @@ class DomainHandler extends PFAHandler
             'quota'            => self::pacol($edit_dom_q,$edit_dom_q, 0, 'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , $domain_quota_default),
             'total_quota'      => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(),
                 array('select' => "$query_used_domainquota AS total_quota") /*extrafrom*//* already in mailbox_count */),
-            'total_quot'     => self::pacol(0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, array(),
+            'total_quot'     => self::pacol(0,          0,      $dom_q,  'quot', 'pAdminList_domain_quota'      , ''                                 , 0, array(),
                 array('select' => db_quota_text($query_used_domainquota, 'quota', 'total_quot'))),
             '_total_quot_percent' => self::pacol(0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, array(),
                 array('select' => db_quota_percent($query_used_domainquota, 'quota', '_total_quot_percent'))),

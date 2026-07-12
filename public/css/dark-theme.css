@@ -163,41 +163,90 @@ code {
 .navbar-header a.navbar-brand { padding: 0 15px; }
 .navbar-fixed-top .container-fluid .navbar-collapse { font-size: 14px; }
 .navbar-fixed-top .container-fluid .navbar-right { font-size: 12px; }
-.navbar-fixed-top .container-fluid .navbar-collapse li a { padding-left: 10px; padding-right: 10px; }
+.navbar-fixed-top .container-fluid .navbar-collapse li a { padding-left: 8px; padding-right: 8px; }
 .navbar-fixed-top .container-fluid .navbar-right { padding-right: 5px; }
 .navbar-fixed-top .container-fluid .navbar-right .navbar-btn { margin-right: 5px; padding: 5px 10px; }
 }
 @media (min-width: 1200px) {
 .navbar-fixed-top .container-fluid .navbar-right a { font-size: 14px; }
-.navbar-fixed-top .container-fluid .navbar-right .navbar-btn { margin-right: 15px; }
-.navbar-fixed-top .container-fluid .navbar-collapse li a { padding-left: 15px; padding-right: 15px; }
+.navbar-fixed-top .container-fluid .navbar-right .navbar-btn { margin-right: 8px; }
+.navbar-fixed-top .container-fluid .navbar-collapse li a { padding-left: 10px; padding-right: 10px; }
 }
 
 
 span.active { font-weight: bold; }
 
-.quota {
-z-index:99;
-height:14px;
-position: absolute;
+/* Unified quota bars used by the domain overview and mailbox list. */
+.quota_bar {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 122px;
+  height: 16px;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #999;
+  line-height: 14px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
 }
-.quota_text {
-	z-index:100;
-	text-align: center;
-	font-size: 12px;
-	color: #666;
-	cursor: default;
-	position: absolute;
-	width:120px;
-	height:16px;
-	margin-top:-17px;
-padding-top: -1px;
-}
-.quota_bg { background-color: white; z-index:98; width:122px; height:16px;margin-top:-1px;margin-left:-1px;   border: 1px solid #999;}
-.quota_no_border { border:none; margin:0; }
+.quota_fill { position: absolute; z-index: 1; top: 0; right: auto; bottom: 0; left: 0; max-width: 100%; }
+.quota_label { position: relative; z-index: 2; display: block; height: 14px; padding: 0 4px; font-size: 12px; color: #666; cursor: default; }
+.quota_no_border { min-width: 0; background: transparent; border: none; }
 .quota_high { background: url(../images/quota-colors.png) repeat-x 0 -28px #f90509; }
 .quota_mid  { background: url(../images/quota-colors.png) repeat-x 0 -14px #e3e909; }
 .quota_low  { background: url(../images/quota-colors.png) repeat-x 0 0px #05f905; }
 .quota_text_high { color: white; }
 .quota_text_mid { color: #666; }
 .quota_text_low { color: #666; }
+
+/* Domain list column sizing. */
+#admin_table th.list-col-domain,
+#admin_table td.list-col-domain { min-width: 180px; }
+#admin_table th.list-col-description,
+#admin_table td.list-col-description { min-width: 120px; }
+#admin_table th.list-col-aliases_quot,
+#admin_table td.list-col-aliases_quot,
+#admin_table th.list-col-mailboxes_quot,
+#admin_table td.list-col-mailboxes_quot { width: 138px; text-align: center; white-space: nowrap; }
+#admin_table th.list-col-maxquota,
+#admin_table td.list-col-maxquota { width: 80px; text-align: center; white-space: nowrap; }
+#admin_table th.list-col-total_quot,
+#admin_table td.list-col-total_quot { width: 142px; text-align: center; white-space: nowrap; }
+#admin_table th.list-col-transport,
+#admin_table td.list-col-transport { width: 80px; text-align: center; white-space: nowrap; }
+#admin_table th.list-col-backupmx,
+#admin_table td.list-col-backupmx { width: 62px; text-align: center; white-space: nowrap; }
+#admin_table th.list-col-active,
+#admin_table td.list-col-active { width: 70px; text-align: center; white-space: nowrap; }
+#admin_table th.list-col-modified,
+#admin_table td.list-col-modified { width: 110px; text-align: center; white-space: nowrap; }
+#admin_table th.list-col-password_expiry,
+#admin_table td.list-col-password_expiry { width: 64px; text-align: center; white-space: nowrap; }
+#admin_table th.list-col-action,
+#admin_table td.list-col-action { width: 46px; text-align: center; white-space: nowrap; }
+#admin_table .list-action-icon,
+#mailbox_table .list-action-icon { width: 34px; padding-left: 0; padding-right: 0; }
+
+.domain-list-scroll { display: block; width: 100%; overflow-x: auto; }
+.domain-list-scroll > #admin_table { min-width: 1240px; margin-bottom: 0; }
+
+/* Keep the essential domain columns and actions visible before scrolling. */
+.domain-list-scroll > #admin_table th.list-col-total_quot,
+.domain-list-scroll > #admin_table th.list-col-password_expiry { white-space: normal; line-height: 1.2; }
+
+@media (max-width: 1300px) {
+  .domain-list-scroll > #admin_table .list-col-modified { display: none; }
+  .domain-list-scroll > #admin_table { min-width: 1120px; }
+}
+
+@media (max-width: 1200px) {
+  .domain-list-scroll > #admin_table .list-col-backupmx { display: none; }
+  .domain-list-scroll > #admin_table { min-width: 1060px; }
+}
+
+@media (max-width: 1120px) {
+  .domain-list-scroll > #admin_table .list-col-transport { display: none; }
+  .domain-list-scroll > #admin_table { min-width: 980px; }
+}

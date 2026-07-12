@@ -33,7 +33,7 @@
                                    aria-haspopup="true"
                                    aria-expanded="false" href="{#url_list_admin#}"><span
                                             class="glyphicon glyphicon-list"
-                                            aria-hidden="true"></span> {$PALANG.pAdminMenu_list_admin} <span
+                                            aria-hidden="true"></span> {$PALANG.pAdminMenu_admin} <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -63,7 +63,7 @@
                                aria-haspopup="true"
                                aria-expanded="false" href="{#url_list_domain#}"><span
                                         class="glyphicon glyphicon-th-list"
-                                        aria-hidden="true"></span> {$PALANG.pAdminMenu_list_domain} <span
+                                        aria-hidden="true"></span> {$PALANG.pAdminMenu_domain} <span
                                         class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{#url_list_domain#}"><span class="glyphicon glyphicon-th-list"
@@ -84,7 +84,7 @@
                                aria-haspopup="true"
                                aria-expanded="false" href="{#url_list_virtual#}"><span
                                         class="glyphicon glyphicon-list-alt"
-                                        aria-hidden="true"></span> {$PALANG.pAdminMenu_list_virtual} <span
+                                        aria-hidden="true"></span> {$PALANG.pAdminMenu_virtual} <span
                                         class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{#url_list_virtual#}"><span class="glyphicon glyphicon-list-alt"
@@ -112,7 +112,7 @@
                             <li class="dropdown">
                                 <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-haspopup="true"
-                                   aria-expanded="false" href="{#url_fetchmail#}">{$PALANG.pMenu_fetchmail} <span
+                                   aria-expanded="false" href="{#url_fetchmail#}">{$PALANG.pMenu_fetchmail_menu} <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{#url_fetchmail#}">
@@ -132,7 +132,7 @@
                                 <a class="btn navbar-btn dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-haspopup="true"
                                    aria-expanded="false" href="{#url_sendmail#}"><span class="glyphicon glyphicon-send"
-                                                                                       aria-hidden="true"></span> {$PALANG.pMenu_sendmail}
+                                                                                       aria-hidden="true"></span> {$PALANG.pMenu_sendmail_menu}
                                     <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
@@ -161,7 +161,7 @@
                                    aria-haspopup="true"
                                    aria-expanded="false" href="{#url_dkim#}"><span
                                             class="glyphicon glyphicon-certificate"
-                                            aria-hidden="true"></span> {$PALANG.pMenu_dkim} <span
+                                            aria-hidden="true"></span> {$PALANG.pMenu_dkim_menu} <span
                                             class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{#url_dkim#}"><span class="glyphicon glyphicon-certificate"

@@ -27,6 +27,7 @@
         {/if}
     {/if}
 
+    {if $table == 'domain'}<div class="domain-list-scroll">{/if}
     <table class="table table-hover" id='admin_table'>
         <!-- TODO: 'admin_table' needed because of CSS for table header -->
 
@@ -48,11 +49,11 @@
         <tr class="header">
             {foreach key=key item=field from=$struct}
                 {if $field.display_in_list == 1 && $field.label}{* don't show fields without a label *}
-                    <th>{$field.label}</th>
+                    <th class="list-col-{$key}">{$field.label}</th>
                 {/if}
             {/foreach}
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
+            <th class="list-col-action">&nbsp;</th>
+            <th class="list-col-action">&nbsp;</th>
         </tr>
         </thead>
         <tbody>
@@ -67,7 +68,21 @@
 
             {if $field.linkto != '' && ($item.$id_field != '' || $item.$id_field > 0) }
                 {assign "linkto" "{$field.linkto|replace:'%s':{$item.$id_field|escape:url}}"} {* TODO: use label field instead *}
-                {assign "linktext" "<a href='{$linkto}'>{$item.{$key}}</a>"}
+                {assign "linktitle" ""}
+                {if $table == 'domain' && $key == 'domain'}
+                    {if isset($struct.maxquota) && $struct.maxquota.label == '' && isset($item.maxquota)}
+                        {assign "linktitle" "{$PALANG.pOverview_get_quota}: {$item.maxquota} MB"}
+                    {/if}
+                    {if isset($struct.password_expiry) && $struct.password_expiry.label == '' && isset($item.password_expiry)}
+                        {if $linktitle != ''}{assign "linktitle" "{$linktitle}&#10;"}{/if}
+                        {assign "linktitle" "{$linktitle}{$PALANG.password_expiration}: {$item.password_expiry}"}
+                    {/if}
+                {/if}
+                {if $linktitle != ''}
+                    {assign "linktext" "<a href='{$linkto}' title='{$linktitle}'>{$item.{$key}}</a>"}
+                {else}
+                    {assign "linktext" "<a href='{$linkto}'>{$item.{$key}}</a>"}
+                {/if}
             {else}
                 {assign "linktext" $item.$key}
             {/if}
@@ -75,7 +90,7 @@
             {if $table == 'foo' && $key == 'bar'}
             <td>Special handling (complete table row) for {$table} / {$key}</td>
             {else}
-            <td>
+            <td class="list-col-{$key}">
                 {if $table == 'foo' && $key == 'bar'}
                 Special handling (td content) for {$table} / {$key}
                 {elseif $table == 'aliasdomain' && $key == 'target_domain' && $struct.target_domain.linkto == 'target'}
@@ -85,14 +100,13 @@
                 *}
                 {elseif $key == 'active'}
                 {if $item._can_edit}
-                    <a class="btn btn-{if ($item.active==0)}info{else}warning{/if}"
+                    <a class="btn btn-{if ($item.active==0)}info{else}warning{/if} list-action-icon" title="{$field.label}: {$item._active}" aria-label="{$field.label}: {$item._active}"
                        href="{#url_editactive#}{$table}&amp;id={$RAW_item.$id_field|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}">
                         {if $item._active == $PALANG['YES']}
                             <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
                         {else}
                             <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
                         {/if}
-                        {$item._active}
                     </a>
                 {else}
                     {$item._active}
@@ -113,15 +127,14 @@
                 {else}
                     {assign var="quota_level" value="low"}
                 {/if}
+                <div class="quota_bar{if $item[$tmpkey] <= -1} quota_no_border{/if}">
                 {if $item[$tmpkey] > -1}
-                <div class="quota quota_{$quota_level}" style="width:{$item[$tmpkey] *1.2}px;"></div>
-                <div class="quota_bg"></div>
-</div>
-<div class="quota_text quota_text_{$quota_level}">{$linktext}</div>
-{else}
-<div class="quota_bg quota_no_border"></div></div>
-<div class="quota_text">{$linktext}</div>
-{/if}
+                    <span class="quota_fill quota_{$quota_level}" style="width:{$item[$tmpkey]}%;"></span>
+                    <span class="quota_label quota_text_{$quota_level}">{$linktext}</span>
+                {else}
+                    <span class="quota_label">{$linktext}</span>
+                {/if}
+                </div>
 
 {elseif $field.type == 'txtl'}
 {foreach key=key2 item=field2 from=$item.$key}{$field2}<br>{/foreach}
@@ -135,22 +148,22 @@
 {/if}
 {/foreach}
 
-<td>{if $item._can_edit}
-        <a class="btn btn-primary"
+<td class="list-col-action">{if $item._can_edit}
+        <a class="btn btn-primary list-action-icon" title="{$PALANG.edit}" aria-label="{$PALANG.edit}"
            href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}"><span
-                    class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$PALANG.edit}</a>
+                    class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
     {else}&nbsp;
     {/if}
 </td>
-<td>{if $item._can_delete}
+<td class="list-col-action">{if $item._can_delete}
         <form method="post" action="{#url_delete#}">
             <input type="hidden" name="table" value="{$table}">
             <input type="hidden" name="delete" value="{$RAW_item.$id_field|escape:"quotes"}">
             <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"quotes"}">
 
-            <button class="btn btn-danger"
+            <button class="btn btn-danger list-action-icon" title="{$PALANG.del}" aria-label="{$PALANG.del}"
                     onclick="return confirm('{$PALANG.{$msg.confirm_delete}|replace:'%s':$item.$id_field}')">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {$PALANG.del}
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
             </button>
         </form>
     {else}&nbsp;{/if}
@@ -159,6 +172,7 @@
 {/foreach}
 </tbody>
 </table>
+    {if $table == 'domain'}</div>{/if}
 
 <div class="panel-footer">
     <div class="btn-toolbar" role="toolbar">
