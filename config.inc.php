@@ -714,7 +714,7 @@ $CONF['mailbox_postapppassword_script'] = '';
 $CONF['domain_postcreation_script'] = '';
 
 // Optional: See NOTE above.
-// Script to run after alteation of domains.
+// Script to run after alteration of domains.
 // Parameters: (1) domain
 //$CONF['domain_postedit_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postedit.sh';
 $CONF['domain_postedit_script'] = '';
