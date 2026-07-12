@@ -222,3 +222,10 @@ and then formatted to become :
 
 This format should support older passwords with a {MD5-CRYPT} prefix, to allow you to migrate.
 
+## Dovecot 2.4 migration notes
+
+For Dovecot 2.4 deployments, especially those moving away from old
+MD5/MD5-CRYPT hashes, see `DOCUMENTS/DOVECOT-2.4.md`. It includes notes about
+temporary weak-scheme compatibility, post-login migration to `{ARGON2ID}`, and
+the related security considerations.
+
