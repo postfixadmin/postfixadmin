@@ -1,15 +1,15 @@
 <!-- {$smarty.template} -->
 <div class="panel panel-default" id="main_menu">
 
-    <section>
-        <h2>Global Search</h2>
+    <section class="pfa-main-section">
+        <h2>{$PALANG.pMain_global_search}</h2>
         <form method=GET class=form action="">
             <div class="input-group">
                 <input type="text" id=q name=q class="form-control" value="{$q}" autofocus="autofocus"
-                       placeholder="Global search (mailbox, alias ...)"
-                       aria-label="Global Search">
+                       placeholder="{$PALANG.pMain_global_search_placeholder}"
+                       aria-label="{$PALANG.pMain_global_search}">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit">Search</button>
+                    <button class="btn btn-default" type="submit">{$PALANG.pMain_search_button}</button>
                 </span>
             </div>
         </form>
@@ -50,8 +50,8 @@
         {/if}
     </section>
 
-    <section>
-        <h2>Dashboard</h2>
+    <section class="pfa-main-section">
+        <h2>{$PALANG.pMain_dashboard}</h2>
         <table class="table">
             <tr>
                 <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary btn-block"
