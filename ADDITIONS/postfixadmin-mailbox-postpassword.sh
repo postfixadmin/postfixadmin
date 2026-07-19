@@ -1,19 +1,46 @@
 #!/bin/bash
 
-# Example script for dovecot mail-crypt-plugin
-# https://doc.dovecot.org/configuration_manual/mail_crypt_plugin/
+# Example script for Dovecot's mail-crypt plugin.
+# Requires Dovecot 2.3.19 or newer for the -O/-N prompt behaviour.
+# https://doc.dovecot.org/2.3/configuration_manual/mail_crypt_plugin/
 
-IFS= read -r -d $'\0' OLD_PASSWORD
-IFS= read -r -d $'\0' NEW_PASSWORD
+# Dovecot 2.3 setting name. For Dovecot 2.4, use:
+# private_password_setting=crypt_user_key_password
+private_password_setting=plugin/mail_crypt_private_password
 
-# New user
-if [ -z "$OLD_PASSWORD" ]; then
-    OLD_PASSWORD="$(openssl rand -hex 16)"
-    doveadm -o plugin/mail_crypt_private_password="$OLD_PASSWORD" mailbox cryptokey generate -u "$1" -U
+fail()
+{
+    printf '%s\n' "$0: $*" >&2
+    exit 1
+}
+
+[[ $# -eq 2 ]] || fail "expected username and domain arguments"
+username=$1
+domain=$2
+[[ -n $username && -n $domain && $username == *@"$domain" ]] || fail "invalid username or domain"
+
+IFS= read -r -d '' old_password || fail "could not read the NUL-terminated old password"
+IFS= read -r -d '' new_password || fail "could not read the NUL-terminated new password"
+[[ -n $new_password ]] || fail "new password must not be empty"
+
+openssl_path=$(command -v openssl 2>/dev/null) || fail "could not find openssl in PATH"
+doveadm_path=$(command -v doveadm 2>/dev/null) || fail "could not find doveadm in PATH"
+
+if [[ -z $old_password ]]; then
+    old_password=$("$openssl_path" rand -hex 16) || fail "could not generate a temporary password"
+    [[ -n $old_password ]] || fail "openssl returned an empty temporary password"
+
+    if ! "$doveadm_path" -o "$private_password_setting=$old_password" \
+        mailbox cryptokey generate -u "$username" -U; then
+        fail "could not generate the mailbox cryptokey"
+    fi
 fi
 
-# If you're using dovecot >= 2.3.19, try this instead (See: https://github.com/postfixadmin/postfixadmin/issues/646)
-# printf "%s\n%s\n" "$OLD_PASSWORD" "$NEW_PASSWORD" "$NEW_PASSWORD" | doveadm mailbox cryptokey password -u "$1" -N -O 
+# Since Dovecot 2.3.19, -O asks for the old password and -N asks for the new
+# password twice. Keep passwords on stdin instead of command-line arguments.
+if ! printf '%s\n%s\n%s\n' "$old_password" "$new_password" "$new_password" | \
+    "$doveadm_path" mailbox cryptokey password -u "$username" -O -N; then
+    fail "could not update the mailbox cryptokey password"
+fi
 
-# Password change
-printf "%s\n%s\n" "$OLD_PASSWORD" "$NEW_PASSWORD" | doveadm mailbox cryptokey password -u "$1" -N -O ""
+exit 0

@@ -48,22 +48,44 @@ See also :  https://github.com/postfixadmin/postfixadmin/tree/master/ADDITIONS/s
 by George Vieira <george at citadelcomputer dot com dot au>
 Deletes all unused mailboxes
 
-## Example mailbox / domain scripts for Postfixadmin
+## Example mailbox / domain scripts for PostfixAdmin
 
 - postfixadmin-mailbox-postcreation.sh
 - postfixadmin-mailbox-postdeletion.sh
 - postfixadmin-domain-postdeletion.sh
+
 by Troels Arvin <troels@arvin.dk>
 
-Examples of scripts relevant to the optional 
+Examples relevant to the optional `mailbox_postcreation_script`,
+`mailbox_postdeletion_script` and `domain_postdeletion_script` configuration
+options.
 
+Review and adjust `basedir` and `trashbase` before installing the scripts. Run
+them as the account that owns the Maildirs, not as root. If sudo is required,
+grant the web server permission to run only the exact script as that account;
+never grant access to a generic `mv` command. Install privileged hooks in a
+root-owned directory that is not writable by the web server or mail users.
 
-$CONF['mailbox_postcreation_script'],
-$CONF['mailbox_postdeletion_script'] and
-$CONF['domain_postdeletion_script']  configuration options.
+The scripts validate the argument contracts documented in `config.inc.php`.
+Deletion is idempotent: an already absent Maildir is reported as a successful
+no-op so an interrupted hook can be retried safely.
+
+`postfixadmin-mailbox-postpassword.sh` is an example for Dovecot mail-crypt. It
+requires Dovecot 2.3.19 or newer. Its default private-password setting name is
+for Dovecot 2.3; follow the comment in the script when using Dovecot 2.4.
+
+## Optional Rspamd DKIM hooks
+
+- postfixadmin-rspamd-dkim-postcreation.sh
+- postfixadmin-rspamd-dkim-postdeletion.sh
+- postfixadmin-domain-postdeletion-with-rspamd.sh
+
+These examples keep Rspamd DKIM key management separate from the generic
+Maildir hooks and run each operation as its owning service account. See
+`DOCUMENTS/RSPAMD-DKIM-HOOKS.md` for installation, `config.local.php`, sudoers
+and recovery guidance.
 
 
 ## Cyrus Quota Usage
 
 See https://github.com/o-m-d/cyrus-quotausage-to-pfa
-

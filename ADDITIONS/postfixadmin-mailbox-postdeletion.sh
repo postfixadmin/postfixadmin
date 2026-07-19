@@ -1,77 +1,95 @@
 #!/bin/sh
 
-# Example script for removing a Maildir from a Courier-IMAP virtual mail
-# hierarchy.
+# Example script for moving a deleted Maildir to a recovery directory.
+# PostfixAdmin passes username and domain as arguments 1 and 2.
 
-# The script looks at arguments 1 and 2, assuming that they 
-# indicate username and domain, respectively.
+# Run this script as the user that owns the Maildirs. If the web server needs
+# sudo, restrict the sudoers rule to that user and this exact script. Do not
+# grant a generic mv command.
 
-# The script will not actually delete the maildir. It moves it
-# to a special directory which may once in a while be cleaned up
-# by the system administrator.
-
-# This script should be run as the user which owns the maildirs. If 
-# the script is actually run by the apache user (e.g. through PHP),
-# then you could use "sudo" to grant apache the rights to run
-# this script as the relevant user.
-# Assume this script has been saved as
-# /usr/local/bin/postfixadmin-mailbox-postdeletion.sh and has been
-# made executable. Now, an example /etc/sudoers line:
-# apache ALL=(courier) NOPASSWD: /usr/local/bin/postfixadmin-mailbox-postdeletion.sh
-# The line states that the apache user may run the script as the
-# user "courier" without providing a password.
-
-
-# Change this to where you keep your virtual mail users' maildirs.
+# Change these paths to match the virtual mail layout.
 basedir=/var/spool/maildirs
-
-# Change this to where you would like deleted maildirs to reside.
 trashbase=/var/spool/deleted-maildirs
 
-
-if [ ! -e "$trashbase" ]; then
-    echo "trashbase '$trashbase' does not exist; bailing out."
+fail()
+{
+    printf '%s\n' "$0: $*" >&2
     exit 1
+}
+
+valid_domain()
+{
+    candidate=$1
+
+    [ -n "$candidate" ] && [ "${#candidate}" -le 253 ] || return 1
+    case "$candidate" in
+        -*|.*|*.|*..*|*/*|*\\*|*[!A-Za-z0-9.-]*) return 1 ;;
+    esac
+
+    remainder=$candidate
+    while :; do
+        case "$remainder" in
+            *.*)
+                label=${remainder%%.*}
+                remainder=${remainder#*.}
+                ;;
+            *)
+                label=$remainder
+                remainder=
+                ;;
+        esac
+
+        [ -n "$label" ] && [ "${#label}" -le 63 ] || return 1
+        case "$label" in
+            -*|*-) return 1 ;;
+        esac
+        [ -n "$remainder" ] || break
+    done
+}
+
+valid_mailbox_component()
+{
+    case "$1" in
+        ''|.|..|*/*|*\\*|*[![:print:]]*) return 1 ;;
+    esac
+}
+
+[ "$#" -eq 2 ] || fail "expected username and domain arguments"
+username=$1
+domain=$2
+valid_domain "$domain" || fail "invalid domain '$domain'"
+
+case "$username" in
+    *@"$domain") subdir=${username%"@$domain"} ;;
+    *) fail "username '$username' does not belong to domain '$domain'" ;;
+esac
+valid_mailbox_component "$subdir" || fail "unsafe mailbox directory component"
+
+[ -d "$basedir" ] || fail "basedir '$basedir' is not a directory"
+[ -d "$trashbase" ] || fail "trashbase '$trashbase' is not a directory"
+
+maildir="${basedir%/}/$domain/$subdir"
+if [ ! -e "$maildir" ]; then
+    printf '%s\n' "$0: Maildir '$maildir' does not exist; nothing to do."
+    exit 0
 fi
+[ -d "$maildir" ] || fail "'$maildir' is not a directory"
 
-if [ `echo $1 | fgrep '..'` ]; then
-    echo "First argument contained a double-dot sequence; bailing out."
-    exit 1
-fi
-if [ `echo $2 | fgrep '..'` ]; then
-    echo "First argument contained a double-dot sequence; bailing out."
-    exit 1
-fi
-
-subdir=`echo "$1" | sed 's/@.*//'`
-
-maildir="${basedir}/$2/${subdir}"
-trashdir="${trashbase}/$2/`date +%F_%T`_${subdir}"
-
-parent=`dirname "$trashdir"`
-if [ ! -d "$parent" ]; then
-    if [ -e "$parent" ]; then
-        echo "Strainge - directory '$parent' exists, but is not a directory."
-        echo "Bailing out."
-        exit 1
-    else
-        mkdir -p "$parent"
-        if [ $? -ne 0 ]; then
-            echo "mkdir -p '$parent' returned non-zero; bailing out."
-            exit 1
-        fi
+trashparent="${trashbase%/}/$domain"
+if [ ! -d "$trashparent" ]; then
+    [ ! -e "$trashparent" ] || fail "'$trashparent' exists but is not a directory"
+    if ! mkdir -p "$trashparent"; then
+        fail "could not create trash directory '$trashparent'"
     fi
 fi
 
-if [ ! -e "$maildir" ]; then
-    echo "maildir '$maildir' does not exist; nothing to do."
-    exit 1
-fi
-if [ -e "$trashdir" ]; then
-    echo "trashdir '$trashdir' already exists; bailing out."
-    exit 1
+timestamp=$(date '+%Y%m%dT%H%M%S') || fail "could not generate a timestamp"
+trashdir="${trashparent}/${timestamp}_$$_${subdir}"
+[ ! -e "$trashdir" ] || fail "trash destination '$trashdir' already exists"
+
+if ! mv "$maildir" "$trashdir"; then
+    fail "could not move '$maildir' to '$trashdir'"
 fi
 
-mv $maildir $trashdir
-
-exit $?
+printf '%s\n' "$0: moved '$maildir' to '$trashdir'."
+exit 0
