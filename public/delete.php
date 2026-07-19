@@ -53,6 +53,11 @@ if ($is_admin) {
     if (empty($formconf['user_hardcoded_field'])) {
         throw new \InvalidArgumentException($handlerclass . ' is not available for users');
     }
+    if (isset($formconf['user_can_delete']) && !$formconf['user_can_delete']) {
+        flash_error(Config::lang_f('edit_not_allowed', $table));
+        header("Location: " . $formconf['listview']);
+        exit;
+    }
 }
 
 if ($handler->init($id)) { # errors will be displayed as last step anyway, no need for duplicated code ;-)

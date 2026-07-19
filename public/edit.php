@@ -60,6 +60,11 @@ if ($is_admin) {
     if (empty($formconf['user_hardcoded_field'])) {
         throw new \InvalidArgumentException($handlerclass . ' is not available for users');
     }
+    if ($new && isset($formconf['user_can_create']) && !$formconf['user_can_create']) {
+        flash_error(Config::lang_f('edit_not_allowed', $table));
+        header("Location: " . $formconf['listview']);
+        exit;
+    }
 }
 
 if ($new == 0 || $formconf['early_init']) {
@@ -265,6 +270,7 @@ if ($new) {
 $smarty->assign('struct', $form_fields);
 $smarty->assign('fielderror', $fielderror);
 $smarty->assign('table', $table);
+$smarty->assign('cancelview', $formconf['cancelview'] ?? '');
 $smarty->assign('smarty_template', 'editform');
 $smarty->display('index.tpl');
 
