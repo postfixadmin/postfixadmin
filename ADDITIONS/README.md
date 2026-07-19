@@ -66,6 +66,26 @@ grant the web server permission to run only the exact script as that account;
 never grant access to a generic `mv` command. Install privileged hooks in a
 root-owned directory that is not writable by the web server or mail users.
 
+### Sudoers applies to every enabled hook
+
+Sudoers is not specific to the optional Rspamd integration. Every hook enabled
+in `config.local.php` that is invoked through sudo needs its own rule with the
+exact target account and installed script path. For example, after replacing
+the account names and paths to match the local system:
+
+```sudoers
+apache ALL=(courier) NOPASSWD: /usr/local/libexec/postfixadmin/postfixadmin-mailbox-postcreation.sh
+apache ALL=(courier) NOPASSWD: /usr/local/libexec/postfixadmin/postfixadmin-mailbox-postdeletion.sh
+apache ALL=(courier) NOPASSWD: /usr/local/libexec/postfixadmin/postfixadmin-domain-postdeletion.sh
+apache ALL=(dovecot) NOPASSWD: /usr/local/libexec/postfixadmin/postfixadmin-mailbox-postpassword.sh
+```
+
+Only add rules for hooks that are actually configured. If the optional Rspamd
+hooks are installed, their rules extend this base policy. The composite Rspamd
+domain-deletion hook replaces the direct domain-deletion rule; unrelated
+mailbox and Dovecot rules remain in effect. See
+`DOCUMENTS/RSPAMD-DKIM-HOOKS.md` for the complete mapping.
+
 The scripts validate the argument contracts documented in `config.inc.php`.
 Deletion is idempotent: an already absent Maildir is reported as a successful
 no-op so an interrupted hook can be retried safely.

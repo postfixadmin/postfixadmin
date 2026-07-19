@@ -95,6 +95,22 @@ apache ALL=(vmail) NOPASSWD: /usr/local/libexec/postfixadmin/postfixadmin-mailbo
 vmail ALL=(_rspamd) NOPASSWD: /usr/local/libexec/postfixadmin/postfixadmin-rspamd-dkim-postdeletion.sh
 ```
 
+These Rspamd rules are part of the same sudoers policy as the generic hook
+rules; they are not an independent replacement for every base permission. For
+an installation that enables the Rspamd composite hook:
+
+* retain the generic mailbox-creation or mailbox-deletion rules for each hook
+  still enabled in `config.local.php`;
+* replace the web-server rule for the generic domain-deletion script with the
+  rule for `postfixadmin-domain-postdeletion-with-rspamd.sh`;
+* add the web-server rule for DKIM creation and the narrowly scoped
+  `vmail`-to-Rspamd rule for DKIM deletion;
+* retain a separate Dovecot-targeted rule if the mailbox-password hook is
+  enabled.
+
+Do not keep both direct and composite domain-deletion rules unless both are
+deliberately used by separate administrative workflows.
+
 Do not use `(ALL)` as the run-as account and never grant a service account
 permission to run a general-purpose command such as `/usr/bin/mv`. A rule that
 names a command without arguments permits arbitrary arguments, so every helper
