@@ -434,6 +434,13 @@ class AliasHandler extends PFAHandler
         $errors = array();
 
         foreach ($val as $singlegoto) {
+            # setmore() removes this internal target and restores it only from
+            # the stored vacation state, so it must not be validated as a
+            # user-managed external destination first.
+            if (!$this->new && $singlegoto === $this->getVacationAlias()) {
+                continue;
+            }
+
             if (substr($this->id, 0, 1) == '@' && substr($singlegoto, 0, 1) == '@') { # domain-wide forward - check only the domain part
                 # only allowed if $this->id is a catchall
                 # Note: alias domains are better, but we should keep this way supported for backward compatibility

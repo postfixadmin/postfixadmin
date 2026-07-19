@@ -210,7 +210,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
                 'forward@example.net',
             ],
             'goto_mailbox' => 1,
-        ]));
+        ]), json_encode($handler->errormsg));
         $this->assertTrue($handler->save(), json_encode($handler->errormsg));
 
         $stored = new AliasHandler();
