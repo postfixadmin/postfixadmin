@@ -1,71 +1,79 @@
 #!/bin/sh
 
 # Example script for adding a Maildir to a Courier-IMAP virtual mail
-# hierarchy.
+# hierarchy. PostfixAdmin passes username, domain, Maildir and quota as
+# arguments 1 through 4. This example uses only the relative Maildir path.
 
-# The script only looks at argument 3, assuming that it 
-# indicates the relative name of a maildir, such as
-# "somedomain.com/peter/".
+# Run this script as the user that owns the Maildirs. If the web server needs
+# sudo, restrict the sudoers rule to that user and this exact script.
 
-# This script should be run as the user which owns the maildirs. If 
-# the script is actually run by the apache user (e.g. through PHP),
-# then you could use "sudo" to grant apache the rights to run
-# this script as the relevant user.
-# Assume this script has been saved as
-# /usr/local/bin/postfixadmin-mailbox-postcreation.sh and has been
-# made executable. Now, an example /etc/sudoers line:
-# apache ALL=(courier) NOPASSWD: /usr/local/bin/postfixadmin-mailbox-postcreation.sh
-# The line states that the apache user may run the script as the
-# user "courier" without providing a password.
-
-
-# Change this to where you keep your virtual mail users' maildirs.
+# Change this to where you keep your virtual mail users' Maildirs.
 basedir=/var/spool/maildirs
 
-if [ ! -e "$basedir" ]; then
-    echo "$0: basedir '$basedir' does not exist; bailing out."
+fail()
+{
+    printf '%s\n' "$0: $*" >&2
     exit 1
-fi
+}
 
-if [ `echo $3 | fgrep '..'` ]; then
-    echo "$0: An argument contained a double-dot sequence; bailing out."
-    exit 1
-fi
+valid_relative_maildir()
+{
+    candidate=${1%/}
 
-maildir="${basedir}/$3"
-parent=`dirname "$maildir"`
+    [ -n "$candidate" ] || return 1
+    case "$candidate" in
+        /*|*\\*|*//*|*[![:print:]]*) return 1 ;;
+    esac
+
+    remainder=$candidate
+    while :; do
+        case "$remainder" in
+            */*)
+                component=${remainder%%/*}
+                remainder=${remainder#*/}
+                ;;
+            *)
+                component=$remainder
+                remainder=
+                ;;
+        esac
+
+        case "$component" in
+            ''|.|..) return 1 ;;
+        esac
+        [ -n "$remainder" ] || break
+    done
+}
+
+[ "$#" -eq 4 ] || fail "expected username, domain, Maildir and quota arguments"
+relative_maildir=${3%/}
+valid_relative_maildir "$relative_maildir" || fail "invalid relative Maildir '$3'"
+
+[ -d "$basedir" ] || fail "basedir '$basedir' is not a directory"
+
+maildir="${basedir%/}/$relative_maildir"
+parent=$(dirname "$maildir") || fail "could not determine the parent directory"
+
 if [ ! -d "$parent" ]; then
-    if [ -e "$parent" ]; then
-        echo "$0: strange - directory '$parent' exists, but is not a directory; bailing out."
-        exit 1
-    else
-        mkdir -p "${parent}"
-        if [ $? -ne 0 ]; then
-            echo "$0: mkdir -p '$parent' returned non-zero; bailing out."
-            exit 1
-        fi
+    [ ! -e "$parent" ] || fail "'$parent' exists but is not a directory"
+    if ! mkdir -p "$parent"; then
+        fail "could not create parent directory '$parent'"
     fi
 fi
 
-if [ -e "$maildir" ]; then
-    echo "$0: Directory '$maildir' already exists! bailing out"
-    exit 1
+[ ! -e "$maildir" ] || fail "Maildir '$maildir' already exists"
+
+if maildirmake_path=$(command -v maildirmake 2>/dev/null); then
+    :
+elif maildirmake_path=$(command -v courier-maildirmake 2>/dev/null); then
+    :
+else
+    fail "could not find maildirmake or courier-maildirmake in PATH"
 fi
 
-
-# try looking for maildirmake ...
-MDM=`which maildirmake || which courier-maildirmake`
-
-if [ "x${MDM}" = "x" ]; then
-    echo "Couldn't find maildirmake or courier-maildirmake in your PATH etc (via which)" >/dev/stderr
-    exit 1
+if ! "$maildirmake_path" "$maildir"; then
+    fail "maildirmake failed for '$maildir'"
 fi
-
-"${MDM}" "${maildir}"
-
-if [ ! -d "$maildir" ]; then
-    echo "$0: maildirmake didn't produce a directory; bailing out."
-    exit 1
-fi
+[ -d "$maildir" ] || fail "maildirmake did not create '$maildir'"
 
 exit 0
