@@ -10,6 +10,7 @@ class AliasHandler extends PFAHandler
     protected string $db_table = 'alias';
     protected string $id_field = 'address';
     protected ?string $domain_field = 'domain';
+    protected ?string $user_field = 'address';
     protected array $searchfields = array('address', 'goto');
 
     /**
@@ -58,6 +59,19 @@ class AliasHandler extends PFAHandler
             '_can_delete'      => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0, array(), 0, 0, '1 as _can_delete'), # read_from_db_postprocess() updates the value
                 # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
         );
+
+        # Users may only change their forwarding targets and whether mail is
+        # also delivered locally. Administrative alias fields stay read-only.
+        if (!$this->is_admin) {
+            $this->struct['address']['editable'] = 0;
+            $this->struct['address']['display_in_form'] = 1;
+            $this->struct['address']['label'] = Config::lang('pOverview_mailbox_username');
+            $this->struct['address']['desc'] = '';
+            $this->struct['description']['editable'] = 0;
+            $this->struct['description']['display_in_form'] = 0;
+            $this->struct['active']['editable'] = 0;
+            $this->struct['active']['display_in_form'] = 0;
+        }
 
         $this->set_is_mailbox_extrafrom();
     }
@@ -124,17 +138,25 @@ class AliasHandler extends PFAHandler
             $this->struct['status']['label'] = ' ';
         }
 
+        $listview = $this->is_admin ? 'list-virtual.php' : 'users/main.php';
+        $formtitle_edit = $this->is_admin ? 'pEdit_alias_welcome' : 'pUsersMenu_edit_alias';
+
         return array(
             # $PALANG labels
             'formtitle_create'  => 'pMain_create_alias',
-            'formtitle_edit'    => 'pEdit_alias_welcome',
+            'formtitle_edit'    => $formtitle_edit,
             'create_button'     => 'add_alias',
 
             # various settings
             'required_role' => 'admin',
-            'listview'      => 'list-virtual.php',
+            'listview'      => $listview,
             'early_init'    => 0,
             'prefill'       => array('domain'),
+            'user_hardcoded_field' => 'address',
+            'user_can_create' => false,
+            'user_can_list' => false,
+            'user_can_delete' => false,
+            'cancelview' => $this->is_admin ? '' : 'users/main.php',
         );
     }
 
@@ -144,6 +166,13 @@ class AliasHandler extends PFAHandler
      */
     public function init(string $id): bool
     {
+        if (!$this->is_admin) {
+            if (!Config::bool('edit_alias') || strtolower($id) !== strtolower($this->username)) {
+                $this->errormsg[] = Config::lang_f('pEdit_alias_result_error', $id);
+                return false;
+            }
+        }
+
         $bits = explode('@', $id);
         if (sizeof($bits) == 2) {
             $local_part = $bits[0];
@@ -283,6 +312,12 @@ class AliasHandler extends PFAHandler
                 if (!isset($values['goto'])) { # no new value given?
                     $values['goto'] = $oldvalues['goto'];
                 }
+
+                # Internal vacation targets are managed exclusively by the
+                # vacation flow. Ignore submitted copies and add the target
+                # back only when the stored vacation state says it is active.
+                $values['goto'] = array_values(array_unique($values['goto']));
+                $values['goto'] = array_values(array_diff($values['goto'], [$this->getVacationAlias()]));
 
                 if (!isset($values['on_vacation'])) { # no new value given?
                     $values['on_vacation'] = $oldvalues['on_vacation'];

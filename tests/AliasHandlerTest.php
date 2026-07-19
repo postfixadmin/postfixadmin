@@ -17,6 +17,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $_SESSION = [];
         db_query('DELETE FROM alias');
+        db_query('DELETE FROM mailbox');
         db_query('DELETE FROM domain_admins');
         db_query('DELETE FROM domain');
 
@@ -30,6 +31,216 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($list);
         $results = $x->result();
         $this->assertEmpty($results);
+    }
+
+    public function testUserCanOnlyEditOwnMailboxForwarding()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+        $this->addMailboxAlias('bob@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $formconf = $handler->webformConfig();
+
+        $this->assertEquals('address', $formconf['user_hardcoded_field']);
+        $this->assertEquals('users/main.php', $formconf['listview']);
+        $this->assertFalse($formconf['user_can_list']);
+        $this->assertFalse($formconf['user_can_delete']);
+        $this->assertTrue($handler->init('alice@example.com'));
+
+        $struct = $handler->getStruct();
+        $this->assertSame(1, $struct['goto']['display_in_form']);
+        $this->assertSame(1, $struct['goto_mailbox']['display_in_form']);
+        $this->assertSame(0, $struct['description']['display_in_form']);
+        $this->assertSame(0, $struct['active']['display_in_form']);
+
+        $this->assertTrue($handler->set([
+            'address' => 'bob@example.com',
+            'description' => 'changed by user',
+            'goto' => ['forward@example.net'],
+            'goto_mailbox' => 1,
+            'active' => 0,
+        ]));
+        $this->assertTrue($handler->save(), json_encode($handler->errormsg));
+
+        $alice = new AliasHandler();
+        $this->assertTrue($alice->init('alice@example.com'));
+        $result = $alice->result();
+        $this->assertSame(['forward@example.net'], $result['goto']);
+        $this->assertSame(1, $result['goto_mailbox']);
+        $this->assertSame('Mailbox alias', $result['description']);
+        $this->assertEquals(1, $result['active']);
+
+        $other = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertFalse($other->init('bob@example.com'));
+    }
+
+    public function testUserAliasCreationIsDisabled()
+    {
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $handler = new AliasHandler(1, 'alice@example.com', false);
+        $formconf = $handler->webformConfig();
+
+        $this->assertFalse($formconf['user_can_create']);
+    }
+
+    public function testUserForwardingPreservesVacationAndLocalDelivery()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+
+        $vacation = 'alice#example.com@' . Config::read_string('vacation_domain');
+        db_update(
+            'alias',
+            'address',
+            'alice@example.com',
+            ['goto' => implode(',', [
+                'alice@example.com',
+                $vacation,
+                'old-forward@example.net',
+            ])]
+        );
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertTrue($handler->init('alice@example.com'));
+        $this->assertTrue($handler->set([
+            'goto' => ['new-forward@example.net'],
+            'goto_mailbox' => 1,
+        ]));
+        $this->assertTrue($handler->save(), json_encode($handler->errormsg));
+
+        $stored = new AliasHandler();
+        $this->assertTrue($stored->init('alice@example.com'));
+        $result = $stored->result();
+        $this->assertSame(['new-forward@example.net'], $result['goto']);
+        $this->assertSame(1, $result['goto_mailbox']);
+        $this->assertSame(1, $result['on_vacation']);
+
+        # Switching to forward-only removes local delivery but keeps vacation.
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertTrue($handler->init('alice@example.com'));
+        $this->assertTrue($handler->set([
+            'goto' => ['forward-only@example.net'],
+            'goto_mailbox' => 0,
+        ]));
+        $this->assertTrue($handler->save(), json_encode($handler->errormsg));
+
+        $stored = new AliasHandler();
+        $this->assertTrue($stored->init('alice@example.com'));
+        $result = $stored->result();
+        $this->assertSame(['forward-only@example.net'], $result['goto']);
+        $this->assertSame(0, $result['goto_mailbox']);
+        $this->assertSame(1, $result['on_vacation']);
+
+        # Removing all external targets must still work when local delivery is enabled.
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertTrue($handler->init('alice@example.com'));
+        $this->assertTrue($handler->set([
+            'goto' => [],
+            'goto_mailbox' => 1,
+        ]), json_encode($handler->errormsg));
+        $this->assertTrue($handler->save(), json_encode($handler->errormsg));
+
+        $stored = new AliasHandler();
+        $this->assertTrue($stored->init('alice@example.com'));
+        $result = $stored->result();
+        $this->assertSame([], $result['goto']);
+        $this->assertSame(1, $result['goto_mailbox']);
+        $this->assertSame(1, $result['on_vacation']);
+    }
+
+    public function testUserForwardingRespectsEditAliasSetting()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $previous = Config::read('edit_alias');
+        Config::write('edit_alias', 'NO');
+
+        try {
+            $handler = new AliasHandler(0, 'alice@example.com', false);
+            $this->assertFalse($handler->init('alice@example.com'));
+        } finally {
+            Config::write('edit_alias', $previous);
+        }
+    }
+
+    public function testUserCannotForgeVacationTargetAndDuplicatesAreRemoved()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $vacation = 'alice#example.com@' . Config::read_string('vacation_domain');
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertTrue($handler->init('alice@example.com'));
+        $this->assertTrue($handler->set([
+            'goto' => [
+                $vacation,
+                $vacation,
+                'forward@example.net',
+                'forward@example.net',
+            ],
+            'goto_mailbox' => 1,
+        ]));
+        $this->assertTrue($handler->save(), json_encode($handler->errormsg));
+
+        $stored = new AliasHandler();
+        $this->assertTrue($stored->init('alice@example.com'));
+        $result = $stored->result();
+        $this->assertSame(['forward@example.net'], $result['goto']);
+        $this->assertSame(1, $result['goto_mailbox']);
+        $this->assertSame(0, $result['on_vacation']);
+    }
+
+    public function testDomainAdminForwardingRespectsAliasControlAdminSetting()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['admin']
+            ]
+        ];
+
+        $previous = Config::read('alias_control_admin');
+        Config::write('alias_control_admin', 'NO');
+
+        try {
+            $handler = new AliasHandler(0, 'admin', true);
+            $this->assertFalse($handler->init('alice@example.com'));
+        } finally {
+            Config::write('alias_control_admin', $previous);
+        }
     }
 
 
@@ -259,6 +470,29 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         foreach ($expected as $k => $v) {
             $this->assertEquals($v, $result[$domain][$k]);
         }
+    }
+
+    private function addMailboxAlias(string $username, string $domain): void
+    {
+        list($localPart) = explode('@', $username);
+
+        db_insert('mailbox', [
+            'username' => $username,
+            'password' => 'test',
+            'name' => 'Forward Test',
+            'maildir' => $domain . '/' . $localPart . '/',
+            'local_part' => $localPart,
+            'domain' => $domain,
+            'active' => 1,
+        ]);
+
+        db_insert('alias', [
+            'address' => $username,
+            'goto' => $username,
+            'domain' => $domain,
+            'description' => 'Mailbox alias',
+            'active' => 1,
+        ]);
     }
 
     public function testYouCannotAddMoreAliasesThanTheDomainLimit()
