@@ -74,6 +74,17 @@ no-op so an interrupted hook can be retried safely.
 requires Dovecot 2.3.19 or newer. Its default private-password setting name is
 for Dovecot 2.3; follow the comment in the script when using Dovecot 2.4.
 
+## Optional Rspamd DKIM hooks
+
+- postfixadmin-rspamd-dkim-postcreation.sh
+- postfixadmin-rspamd-dkim-postdeletion.sh
+- postfixadmin-domain-postdeletion-with-rspamd.sh
+
+These examples keep Rspamd DKIM key management separate from the generic
+Maildir hooks and run each operation as its owning service account. See
+`DOCUMENTS/RSPAMD-DKIM-HOOKS.md` for installation, `config.local.php`, sudoers
+and recovery guidance.
+
 
 ## Cyrus Quota Usage
 
