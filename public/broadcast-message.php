@@ -27,7 +27,6 @@
  */
 
 require_once('common.php');
-require_once(dirname(__DIR__) . '/model/BroadcastQueue.php');
 
 if (Config::bool('sendmail_all_admins')) {
     authentication_require_role('admin');

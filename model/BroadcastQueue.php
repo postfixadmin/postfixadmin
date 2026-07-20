@@ -293,7 +293,7 @@ class BroadcastQueue
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $cmd = 'start /B "" ' . escapeshellarg($php) . ' ' . escapeshellarg($script) . ' --limit=' . $limit;
         } else {
-            $cmd = escapeshellarg($php) . ' ' . escapeshellarg($script) . ' --limit=' . $limit . ' > /dev/null 2>&1 &';
+            $cmd = escapeshellarg($php) . ' ' . escapeshellarg($script) . ' --limit=' . $limit . ' > /dev/null 2>&1 < /dev/null &';
         }
 
         $handle = popen($cmd, 'r');
