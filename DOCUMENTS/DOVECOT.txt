@@ -11,6 +11,10 @@ http://wiki.dovecot.org/Quota
 http://wiki.dovecot.org/Quota/Dict
 http://www.opensourcehowto.org/how-to/mysql/mysql-users-postfixadmin-postfix-dovecot--squirrelmail-with-userprefs-stored-in-mysql.html
 
+NOTE: This document contains older Dovecot configuration examples. For
+Dovecot 2.4 SQL configuration, password migration and optional Maildir to
+mdbox migration notes, see DOCUMENTS/DOVECOT-2.4.md.
+
 
 Here are the relevant parts of Dovecot v2.1.x configuration for Postfixadmin setup.
 
