@@ -171,7 +171,7 @@ class AliasHandler extends PFAHandler
      */
     public function init(string $id): bool
     {
-        if (!$this->is_admin && !$this->new) {
+        if (!$this->is_admin) {
             if (!Config::bool('edit_alias') || strtolower($id) !== strtolower($this->username)) {
                 $this->errormsg[] = Config::lang_f('pEdit_alias_result_error', $id);
                 return false;
