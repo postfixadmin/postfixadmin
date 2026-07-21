@@ -56,7 +56,7 @@ class AliasHandler extends PFAHandler
             'modified'         => self::pacol(0,          0,      1,      'ts',   'last_modified'                 , ''),
             'active'           => self::pacol(1,          1,      1,      'bool', 'active'                        , ''                                , 1),
             '_can_edit'        => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0, array(), 0, 0, '1 as _can_edit'),
-            '_can_delete'      => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0, array(), 0, 0, '1 as _can_delete'), # read_from_db_postprocess() updates the value
+            '_can_delete'      => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0, array(), 0, 0, ($this->is_admin ? '1' : '0') . ' as _can_delete'), # read_from_db_postprocess() updates the value
                 # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
         );
 
@@ -67,6 +67,11 @@ class AliasHandler extends PFAHandler
             $this->struct['address']['display_in_form'] = 1;
             $this->struct['address']['label'] = Config::lang('pOverview_mailbox_username');
             $this->struct['address']['desc'] = '';
+
+            # Keep the user list focused on the only editable forwarding data.
+            foreach (['domain', 'description', 'on_vacation', 'modified', 'active'] as $field) {
+                $this->struct[$field]['display_in_list'] = 0;
+            }
             $this->struct['description']['editable'] = 0;
             $this->struct['description']['display_in_form'] = 0;
             $this->struct['active']['editable'] = 0;
@@ -122,6 +127,10 @@ class AliasHandler extends PFAHandler
             $this->msg['store_error'] = 'pEdit_alias_result_error';
             $this->msg['successmessage'] = 'alias_updated';
         }
+
+        if (!$this->is_admin) {
+            $this->msg['can_create'] = false;
+        }
     }
 
 
@@ -133,7 +142,7 @@ class AliasHandler extends PFAHandler
             $this->struct['domain']['display_in_form'] = 1;
         }
 
-        if (Config::bool('show_status')) {
+        if ($this->is_admin && Config::bool('show_status')) {
             $this->struct['status']['display_in_list'] = 1;
             $this->struct['status']['label'] = ' ';
         }
@@ -153,10 +162,6 @@ class AliasHandler extends PFAHandler
             'early_init'    => 0,
             'prefill'       => array('domain'),
             'user_hardcoded_field' => 'address',
-            'user_can_create' => false,
-            'user_can_list' => false,
-            'user_can_delete' => false,
-            'cancelview' => $this->is_admin ? '' : 'users/main.php',
         );
     }
 
@@ -166,7 +171,7 @@ class AliasHandler extends PFAHandler
      */
     public function init(string $id): bool
     {
-        if (!$this->is_admin) {
+        if (!$this->is_admin && !$this->new) {
             if (!Config::bool('edit_alias') || strtolower($id) !== strtolower($this->username)) {
                 $this->errormsg[] = Config::lang_f('pEdit_alias_result_error', $id);
                 return false;
@@ -218,6 +223,11 @@ class AliasHandler extends PFAHandler
 
     protected function validate_new_id()
     {
+        if (!$this->is_admin) {
+            $this->errormsg[$this->id_field] = Config::lang_f('edit_not_allowed', $this->id);
+            return false;
+        }
+
         if ($this->id == '') {
             $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error1');
             return false;
@@ -405,7 +415,12 @@ class AliasHandler extends PFAHandler
 
     public function getList($condition, $searchmode = array(), $limit = -1, $offset = -1): bool
     {
-        list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
+        # Admin alias lists intentionally exclude mailbox aliases. A user must
+        # see their own mailbox alias, with PFAHandler::$user_field providing
+        # the ownership restriction.
+        if ($this->is_admin) {
+            list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
+        }
         $this->set_is_mailbox_extrafrom($condition, $searchmode);
         $result = parent::getList($condition, $searchmode, $limit, $offset);
         $this->set_is_mailbox_extrafrom(); # reset to default
@@ -414,7 +429,9 @@ class AliasHandler extends PFAHandler
 
     public function getPagebrowser($condition, $searchmode = array())
     {
-        list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
+        if ($this->is_admin) {
+            list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
+        }
         $this->set_is_mailbox_extrafrom($condition, $searchmode);
         $result = parent::getPagebrowser($condition, $searchmode);
         $this->set_is_mailbox_extrafrom(); # reset to default

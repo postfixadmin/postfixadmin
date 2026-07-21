@@ -65,11 +65,6 @@ if ($is_admin) {
     if (empty($formconf['user_hardcoded_field'])) {
         throw new InvalidArgumentException($handlerclass . ' is not available for users');
     }
-    if (isset($formconf['user_can_list']) && !$formconf['user_can_list']) {
-        flash_error(Config::lang_f('edit_not_allowed', $table));
-        header("Location: " . $formconf['listview']);
-        exit;
-    }
 }
 
 $search = [];
