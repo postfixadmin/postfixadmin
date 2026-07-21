@@ -90,7 +90,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         ];
 
         $handler = new AliasHandler(1, 'alice@example.com', false);
-        $this->assertFalse($handler->init('new@example.com'));
+        $this->assertFalse($handler->init('alice@example.com'));
         $this->assertNotEmpty($handler->errormsg);
     }
 
