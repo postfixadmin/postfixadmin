@@ -98,7 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         error_log("PostfixAdmin admin login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
         flash_error($PALANG['pLogin_failed']);
     }
-} else {
+} elseif (isset($_SESSION['sessid'])) {
+    // Preserve anonymous sessions so multiple login forms keep their CSRF tokens.
+    // An existing authenticated session should still be cleared before login.
     session_unset();
     session_destroy();
     session_start();
