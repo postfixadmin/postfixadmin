@@ -167,10 +167,6 @@ public function webformConfig()
         'listview' => 'list.php?table=foo',   // redirect target after edit
         'early_init' => 0,                    // 1 = call init() before set()
         'user_hardcoded_field' => 'username', // required if users can access
-        'user_can_create' => true,            // optional per-entry-point restriction
-        'user_can_list' => true,
-        'user_can_delete' => true,
-        'cancelview' => '',                   // optional Cancel link in editform.tpl
     );
 }
 ```
@@ -181,15 +177,6 @@ owning user, but note that the web entry points only check that this key is
 non-empty — they do not automatically set the field value. User scoping for
 SELECT queries is handled by `PFAHandler::$user_field`, and write enforcement
 must be done in the Handler itself (e.g. via `_validate_*` or `preSave()`).
-
-Handlers can restrict individual user-mode entry points by explicitly setting
-`user_can_create`, `user_can_list`, or `user_can_delete` to `false`. Missing
-keys preserve the historical behaviour and therefore allow the operation once
-`user_hardcoded_field` is configured. These flags are entry-point guards only;
-the Handler must still enforce ownership and field-level write permissions.
-
-If `cancelview` is non-empty, `editform.tpl` displays a Cancel link to that
-server-defined URL. Do not populate it from an untrusted request parameter.
 
 ### 7. Auto-increment IDs
 

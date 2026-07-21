@@ -99,9 +99,6 @@
         <div class="card-footer">
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group float-end">
-                    {if $cancelview}
-                        <a class="btn btn-secondary" href="{$cancelview}">{$PALANG.cancel}</a>
-                    {/if}
                     <button class="btn btn-primary" type="submit" name="submit">
                         <span class="bi bi-pencil" aria-hidden="true"></span> {$submitbutton}
                     </button>

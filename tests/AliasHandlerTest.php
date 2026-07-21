@@ -50,8 +50,6 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('address', $formconf['user_hardcoded_field']);
         $this->assertEquals('users/main.php', $formconf['listview']);
-        $this->assertFalse($formconf['user_can_list']);
-        $this->assertFalse($formconf['user_can_delete']);
         $this->assertTrue($handler->init('alice@example.com'));
 
         $struct = $handler->getStruct();
@@ -60,6 +58,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(0, $struct['description']['display_in_form']);
         $this->assertSame(0, $struct['active']['display_in_form']);
 
+        # Except for goto and goto_mailbox, submitted fields are read-only for
+        # users and therefore silently preserve their stored values.
         $this->assertTrue($handler->set([
             'address' => 'bob@example.com',
             'description' => 'changed by user',
@@ -90,9 +90,50 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         ];
 
         $handler = new AliasHandler(1, 'alice@example.com', false);
-        $formconf = $handler->webformConfig();
+        $this->assertFalse($handler->init('new@example.com'));
+        $this->assertNotEmpty($handler->errormsg);
+    }
 
-        $this->assertFalse($formconf['user_can_create']);
+    public function testUserListContainsOnlyOwnMailboxAlias()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+        $this->addMailboxAlias('bob@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $handler->webformConfig();
+        $this->assertTrue($handler->getList(''));
+        $this->assertSame(['alice@example.com'], array_keys($handler->result()));
+        $this->assertSame(0, $handler->result()['alice@example.com']['_can_delete']);
+
+        $struct = $handler->getStruct();
+        $this->assertSame(1, $struct['address']['display_in_list']);
+        $this->assertSame(1, $struct['goto']['display_in_list']);
+        $this->assertSame(1, $struct['goto_mailbox']['display_in_list']);
+        $this->assertSame(0, $struct['description']['display_in_list']);
+        $this->assertSame(0, $struct['active']['display_in_list']);
+    }
+
+    public function testUserCannotDeleteOwnMailboxAlias()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertTrue($handler->init('alice@example.com'));
+        $this->assertFalse($handler->delete());
     }
 
     public function testUserForwardingPreservesVacationAndLocalDelivery()
