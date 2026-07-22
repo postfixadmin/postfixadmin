@@ -2251,3 +2251,64 @@ function upgrade_1854()
     # add description after 'target_domain' field in alias_domain table
     _db_add_field('alias_domain', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'target_domain');
 }
+
+/**
+ * Add broadcast queue tables for asynchronous broadcast message sending.
+ */
+function upgrade_1855()
+{
+    $jobTable = table_by_key('broadcast_job');
+    $jobDomainTable = table_by_key('broadcast_job_domain');
+    $recipientTable = table_by_key('broadcast_recipient');
+    $idColumn = db_sqlite() ? 'id {AUTOINCREMENT}' : 'id {AUTOINCREMENT} {PRIMARY}';
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $jobTable (
+            $idColumn,
+            created_by varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            sender varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            sender_name varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            subject varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            body text {UTF-8} NOT NULL,
+            mailboxes_only int NOT NULL DEFAULT 0,
+            status varchar(20) {UTF-8} NOT NULL DEFAULT 'pending',
+            total_count int NOT NULL DEFAULT 0,
+            sent_count int NOT NULL DEFAULT 0,
+            failed_count int NOT NULL DEFAULT 0,
+            cancelled_count int NOT NULL DEFAULT 0,
+            cancel_requested int NOT NULL DEFAULT 0,
+            last_error text {UTF-8} NULL,
+            created {DATECURRENT},
+            started {DATETIME} NULL,
+            finished {DATETIME} NULL,
+            modified {DATETIME} NULL
+        )
+    ");
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $jobDomainTable (
+            $idColumn,
+            job_id int NOT NULL,
+            domain varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            created {DATECURRENT}
+        )
+    ");
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $recipientTable (
+            $idColumn,
+            job_id int NOT NULL,
+            recipient varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            status varchar(20) {UTF-8} NOT NULL DEFAULT 'pending',
+            smtp_response text {UTF-8} NULL,
+            error text {UTF-8} NULL,
+            created {DATECURRENT},
+            modified {DATETIME} NULL,
+            sent_at {DATETIME} NULL
+        )
+    ");
+
+    db_query_parsed("CREATE INDEX idx_broadcast_job_status ON $jobTable (status)", 1);
+    db_query_parsed("CREATE INDEX idx_broadcast_job_domain ON $jobDomainTable (domain, job_id)", 1);
+    db_query_parsed("CREATE INDEX idx_broadcast_recipient_job_status ON $recipientTable (job_id, status)", 1);
+}
