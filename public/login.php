@@ -109,7 +109,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     session_start();
 }
 
-$_SESSION['PFA_token'] = md5(uniqid("pfa" . rand(), true));
+if (empty($_SESSION['PFA_token'])) {
+    // Keep the login token stable across repeated GETs in this session.
+    $_SESSION['PFA_token'] = md5(uniqid("pfa" . rand(), true));
+}
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');
