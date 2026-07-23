@@ -75,6 +75,29 @@ Which will
 * download dependent PHP libraries (`composer install`)
 * create a templates_c directory if one does not exist.
 
+## 1a. Upgrade an existing source installation
+
+If you installed PostfixAdmin from the source archive (not from a distribution
+package), you can update an existing installation from an unpacked newer release
+with:
+
+```bash
+scripts/installto.sh /srv/postfixadmin
+```
+
+Run the command as root or as the deployment user that owns the installation
+tree. Use `scripts/installto.sh --dry-run /srv/postfixadmin` to preview the
+steps first. The helper is a PHP CLI script and the real update requires
+`rsync`.
+
+The web server user does not need write access to PostfixAdmin files; only
+`templates_c/` should be writable by the web server.
+
+The script copies the new release into the target directory, preserves
+`config.local.php`, preserves locally referenced theme assets such as
+`theme_logo`, runs `install.sh` in the target, and then applies the database
+upgrade through `upgrade.php`.
+
 ## 2.Setup Web Server
 
 Assuming /var/www/html is where your webserver reads from, either create a symlink:
