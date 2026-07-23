@@ -345,6 +345,40 @@ if ($db) {
         echo "<li class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</li>';
         error_log("Couldn't perform PostfixAdmin database update via upgrade.php - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
     }
+
+    if ($authenticated) {
+        ?>
+                <li class="list-unstyled mt-4">
+                    <h3 class="h3">Database integrity</h3>
+                    <p>
+                        Check for records that reference missing mailboxes, domains, or administrators.
+                        This read-only check does not modify the database.
+                    </p>
+                    <form name="check_database_integrity" class="form-inline" method="post">
+                        <div class="form-group mb-2">
+                            <label for="integrity_setup_password">Setup password</label>
+                            <input class="form-control" type="password" required="required"
+                                   name="setup_password" minlength="5"
+                                   id="integrity_setup_password" value=""/>
+                        </div>
+                        <button class="btn btn-secondary" type="submit" name="submit" value="check_integrity">
+                            Check database integrity
+                        </button>
+                    </form>
+                    <?php
+                    if (safepost('submit') === 'check_integrity') {
+                        try {
+                            $integrity_results = (new DatabaseIntegrityChecker())->check();
+                            echo render_database_integrity_results($integrity_results);
+                        } catch (\Exception $e) {
+                            echo "<p class='mt-3 text-danger'>The database integrity check failed; check PHP's error log.</p>";
+                            error_log("Couldn't perform PostfixAdmin database integrity check - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
+                        }
+                    }
+        ?>
+                </li>
+                <?php
+    }
 } else {
     echo "<li class='text-danger'>Could not connect to database to perform updates; check PHP error log.</li>";
 }
@@ -546,6 +580,46 @@ function create_admin($values)
             $handler->infomsg['success'],
             array(),
     );
+}
+
+/**
+ * @param array<int, array<string, mixed>> $results
+ */
+function render_database_integrity_results(array $results): string
+{
+    $problems = array_filter($results, function (array $result): bool {
+        return $result['orphan_count'] > 0;
+    });
+
+    if (empty($problems)) {
+        return '<p class="mt-3 text-success">No orphaned records found.</p>';
+    }
+
+    $output = '<div class="mt-3">';
+    $output .= '<p class="text-warning"><strong>Orphaned records found.</strong> Review the records and make a database backup before correcting them manually.</p>';
+    $output .= '<div class="table-responsive"><table class="table table-sm table-bordered">';
+    $output .= '<thead><tr><th>Relation</th><th>Rows</th><th>Sample identifiers</th><th>Recommendation</th></tr></thead><tbody>';
+
+    foreach ($problems as $problem) {
+        $relation = $problem['child_table'] . '.' . $problem['child_column'] .
+            ' &rarr; ' . $problem['parent_table'] . '.' . $problem['parent_column'];
+        $sample_values = array_map(function ($value): string {
+            return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        }, $problem['sample_values']);
+
+        $output .= '<tr>';
+        $output .= '<td><code>' . $relation . '</code></td>';
+        $output .= '<td>' . intval($problem['orphan_count']) . '</td>';
+        $output .= '<td><code>' . implode('</code><br><code>', $sample_values) . '</code></td>';
+        $output .= '<td>' . htmlspecialchars($problem['recommendation'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</td>';
+        $output .= '</tr>';
+    }
+
+    $output .= '</tbody></table></div>';
+    $output .= '<p class="text-muted">Up to 20 distinct identifiers are shown for each relation. No data was changed.</p>';
+    $output .= '</div>';
+
+    return $output;
 }
 
 /**
