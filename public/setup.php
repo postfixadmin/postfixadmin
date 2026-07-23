@@ -405,7 +405,7 @@ if ($db) {
 
         if (safepost("submit") === "createadmin") {
             ?>
-    < class='row'>
+    <div class='row'>
     <div class='col-12'>
         <?php
                 # "create admin" form submitted, make sure the correct setup password was specified.
