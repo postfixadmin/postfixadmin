@@ -6,6 +6,7 @@ class DatabaseIntegrityCheckerTest extends \PHPUnit\Framework\TestCase
     private string $valid_mailbox;
     private string $domain;
     private string $admin;
+    private bool $created_all_domain = false;
 
     public function setUp(): void
     {
@@ -35,6 +36,9 @@ class DatabaseIntegrityCheckerTest extends \PHPUnit\Framework\TestCase
         db_delete('quota2', 'username', $this->valid_mailbox);
         db_delete('quota2', 'username', $this->orphan_mailbox);
         db_delete('domain_admins', 'username', $this->admin);
+        if ($this->created_all_domain) {
+            db_delete('domain', 'domain', 'ALL');
+        }
         db_delete('mailbox', 'username', $this->valid_mailbox);
         db_delete('domain', 'domain', $this->domain);
     }
@@ -69,6 +73,19 @@ class DatabaseIntegrityCheckerTest extends \PHPUnit\Framework\TestCase
 
     public function testIgnoresAllAsSpecialDomainAssignment(): void
     {
+        $all_domain = db_query_one(
+            'SELECT domain FROM ' . table_by_key('domain') . ' WHERE domain = ?',
+            ['ALL']
+        );
+        if (db_pgsql() && $all_domain === null) {
+            db_insert('domain', [
+                'domain' => 'ALL',
+                'description' => 'special domain assignment',
+                'transport' => '',
+            ]);
+            $this->created_all_domain = true;
+        }
+
         db_insert('domain_admins', [
             'username' => $this->admin,
             'domain' => 'ALL',
