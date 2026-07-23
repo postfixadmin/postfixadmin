@@ -2251,3 +2251,34 @@ function upgrade_1854()
     # add description after 'target_domain' field in alias_domain table
     _db_add_field('alias_domain', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'target_domain');
 }
+
+/**
+ * Reconcile MySQL schemas upgraded through the PostfixAdmin 3.3 branch.
+ *
+ * PostfixAdmin 3.3 used upgrade_1847_mysql() to widen quota2.username to
+ * varchar(255). A later upgrade to master therefore skips the more complete
+ * upgrade_1846_mysql() in this branch because the recorded database version
+ * is already 1847. The widened quota2 column is used as the marker for that
+ * upgrade path; a direct master upgrade leaves it at varchar(100).
+ *
+ * See https://github.com/postfixadmin/postfixadmin/issues/971
+ */
+function upgrade_1855_mysql()
+{
+    $quota2 = table_by_key('quota2');
+    $column = db_query_one(
+        "SELECT CHARACTER_MAXIMUM_LENGTH AS character_maximum_length
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+          AND TABLE_NAME = :table
+          AND COLUMN_NAME = 'username'",
+        ['table' => trim($quota2, '`')]
+    );
+
+    $column_length = (int) (array_values($column ?? [])[0] ?? 0);
+    if ($column_length !== 255) {
+        return;
+    }
+
+    upgrade_1846_mysql();
+}
