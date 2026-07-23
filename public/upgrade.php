@@ -2412,3 +2412,34 @@ function upgrade_1851_mysql()
         )
     ");
 }
+
+/**
+ * Reconcile MySQL schemas upgraded through the PostfixAdmin 3.3 branch.
+ *
+ * PostfixAdmin 3.3 used upgrade_1847_mysql() to widen quota2.username to
+ * varchar(255). A later upgrade to 4.x therefore skips the more complete
+ * upgrade_1846_mysql() in this branch because the recorded database version
+ * is already 1847. The widened quota2 column is used as the marker for that
+ * upgrade path; a direct 4.x upgrade leaves it at varchar(100).
+ *
+ * See https://github.com/postfixadmin/postfixadmin/issues/971
+ */
+function upgrade_1852_mysql()
+{
+    $quota2 = table_by_key('quota2');
+    $column = db_query_one(
+        "SELECT CHARACTER_MAXIMUM_LENGTH AS character_maximum_length
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+          AND TABLE_NAME = :table
+          AND COLUMN_NAME = 'username'",
+        ['table' => trim($quota2, '`')]
+    );
+
+    $column_length = (int) (array_values($column ?? [])[0] ?? 0);
+    if ($column_length !== 255) {
+        return;
+    }
+
+    upgrade_1846_mysql();
+}
