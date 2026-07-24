@@ -47,43 +47,10 @@
             {/foreach}
         </table>
 
-        {if $number_of_pages > 1}
+        {if $pagination}
             <div class="card-footer">
-                <nav aria-label="{$PALANG.pViewlog_action}">
-                    <ul class="pagination justify-content-end mb-0">
-                        {if $page_number <= 1}
-                            <li class="page-item disabled"><span class="page-link" aria-hidden="true">&laquo;</span></li>
-                            <li class="page-item disabled"><span class="page-link" aria-hidden="true">&lsaquo;</span></li>
-                        {else}
-                            <li class="page-item"><a class="page-link" href="#" onclick="go2page(1); return false;" aria-label="First">&laquo;</a></li>
-                            <li class="page-item"><a class="page-link" href="#" onclick="go2page({$page_number-1}); return false;" aria-label="Previous">&lsaquo;</a></li>
-                        {/if}
-                        {foreach from=$page_window item=p}
-                            {if $p}
-                                <li class="page-item{if $p == $page_number} active{/if}">
-                                    <a class="page-link" href="#" onclick="go2page({$p}); return false;">{$p}</a>
-                                </li>
-                            {else}
-                                <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
-                            {/if}
-                        {/foreach}
-                        {if $page_number >= $number_of_pages}
-                            <li class="page-item disabled"><span class="page-link" aria-hidden="true">&rsaquo;</span></li>
-                            <li class="page-item disabled"><span class="page-link" aria-hidden="true">&raquo;</span></li>
-                        {else}
-                            <li class="page-item"><a class="page-link" href="#" onclick="go2page({$page_number+1}); return false;" aria-label="Next">&rsaquo;</a></li>
-                            <li class="page-item"><a class="page-link" href="#" onclick="go2page({$number_of_pages}); return false;" aria-label="Last">&raquo;</a></li>
-                        {/if}
-                    </ul>
-                </nav>
+                {include file="_pagination.tpl"}
             </div>
         {/if}
     {/if}
 </div>
-
-<script>
-        function go2page(page){
-                page = Math.max(1, Math.min(page, {$number_of_pages}));
-                window.location.href = '{$url}?page='+page+'&fDomain={$domain_param|escape:"url"}&page_size={$page_size}';
-        }
-</script>
