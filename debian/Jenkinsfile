@@ -8,7 +8,9 @@ String[] distributions = [
     // 'debian:forky', // Disabled: Forky is still unstable/research-only.
     //                 // The full Debian package ecosystem is not yet available for Forky.
     //                 // Re-enable once the stack builds cleanly for Forky.
-    'ubuntu:jammy',
+    // 'ubuntu:jammy', // Disabled: jammy's build image only has apt's default PHP 8.1,
+    //                 // but composer.json now requires PHP >=8.2 (synced from upstream).
+    //                 // Re-enable if the jammy build image gains a PHP >=8.2 PPA/package.
     'ubuntu:noble'
 ]
 
