@@ -28,7 +28,6 @@
  *  lang
  */
 
-$rel_path = '../';
 require_once("../common.php");
 
 $smarty = PFASmarty::getInstance();
@@ -44,9 +43,8 @@ if (authentication_mfa_incomplete()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
-    }
+
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     $login = new Login('mailbox');
     $totppf = new TotpPf('mailbox', $login);
@@ -56,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $fPassword = safepost('fPassword');
 
 
-    if ($lang != check_language(false)) { # only set cookie if language selection was changed
+    if ($lang != Languages::check_language(false)) { # only set cookie if language selection was changed
         setcookie('lang', $lang, time() + 60 * 60 * 24 * 30); # language cookie, lifetime 30 days
         # (language preference cookie is processed even if username and/or password are invalid)
     }
@@ -71,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         header("Location: main.php");
         exit;
     } else {
+        // this log message is intended to be used by tools like fail2ban to block brute force attempts.
         error_log("PostfixAdmin user login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
         $error = $PALANG['pLogin_failed'];
     }
@@ -83,7 +82,6 @@ session_start();
 if ($error) {
     flash_error($error);
 }
-$_SESSION['PFA_token'] = md5(random_bytes(8) . uniqid('pfa', true));
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');

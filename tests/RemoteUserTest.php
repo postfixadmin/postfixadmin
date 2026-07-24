@@ -6,9 +6,9 @@
  * @package tests
  */
 
-require_once('RemoteTest.php');
+require_once('RemoteTestCase.php');
 
-class RemoteUserTest extends RemoteTest
+class RemoteUserTest extends RemoteTestCase
 {
     public function testChangePassword()
     {

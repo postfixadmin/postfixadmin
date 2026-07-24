@@ -36,14 +36,14 @@ Integrates with :
 
 ## Hosting Requirements
 
- - Requires PHP 7.4+
+ - Requires PHP 8.2+ (master), if you need support for older PHP versions, try [the 3.3 branch](https://github.com/postfixadmin/postfixadmin/tree/postfixadmin_3.3) which supports PHP 7.0 and up.
  - Database (MySQL, PostgreSQL or Sqlite)
  - Requires Apache / Nginx webserver (that's capable of integration with PHP)
 
 ## Releases
 
  - While you can install PostfixAdmin from 'git' using the 'master' branch, 'master' is our main development version. It may work. It may contain funky new exciting stuff. It may "eat your data".
- - If you want an easy life, use a published release - see: https://github.com/postfixadmin/postfixadmin/releases or its branch (e.g. postfixadmin_3.3)
+ - If you want an easy life, use a published /stable release - see: https://github.com/postfixadmin/postfixadmin/releases or its branch (e.g. postfixadmin_4.0)
  - Latest significant changes should be listed in the appropriate CHANGELOG.TXT file.
  - From 2025/06 we should be using SemVer releases (e.g. 4.0.1-beta1, and not postfixadmin-4.0.1-beta1 for tags etc)
  - Before a new release, try to remember to edit `config.inc.php` and change the version variable. Also update db_min_version in functions.inc.php if there were changes in upgrade.php.
@@ -62,13 +62,12 @@ You should be able to use ACT (https://github.com/nektos/act) to run the tests l
  - [Probably all you need to read (pdf)](http://blog.cboltz.de/uploads/postfixadmin-30-english.pdf)
  - [Docker Images](https://github.com/postfixadmin/docker)
  - [What is it? (txt)](/DOCUMENTS/POSTFIXADMIN.txt)
- - [Installation instructions](/INSTALL.TXT)
+ - [Installation instructions](/INSTALL.md)
  - [Wiki](https://sourceforge.net/p/postfixadmin/wiki/)
  - [IRC channel](irc://irc.libera.chat/#postfixadmin) (#postfixadmin on Libera.chat).
 
 ## Related Projects
 
  - https://github.com/aqeltech/Dockerised-GUI-Mailserver
- - https://github.com/mailserver2/mailserver
-   mailserver2/mailserver is a simple and full-featured mail server build as a set of multiple docker images. Features:
+ - https://github.com/mailserver2/mailserver - mailserver2/mailserver is a simple and full-featured mail server build as a set of multiple docker images. Features:
    Postfix, PostfixAdmin, Dovecot, Rspamd, Clamav, Zeyple, Sieve, Fetchmail, Rainloop, Unbound/NSD, Træfik, {Let's Encrypt,custom,Self-signed Certificate} SSL, Supports PostgeSQL, MySQL, (beta) LDAP backends. Automated builds on DockerHub and Integration tests with Travis CI

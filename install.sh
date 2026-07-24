@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -eu
 
@@ -47,29 +47,46 @@ if ! command -v composer >/dev/null 2>&1 ; then
     fi
 
 else
-    COMPOSER="$(which composer)"
+    COMPOSER="$(command -v composer)"
+fi
+
+echo " * checking for PHP database support ... "
+found=0
+for ext in pdo_mysql pdo_sqlite PDO pdo_pgsql
+do
+    if php -m | grep -q $ext 
+    then
+        found=$(( found + 1 ))
+    fi
+done
+
+if [ $found -lt 2 ]; then
+    # we need at least PDO and one of the specific drivers.
+    echo " * Failed to check you have the necessary PHP database libraries installed. "
+    echo " * You are probably missing some of these PHP extensions: PDO, pdo-mysql, pdo-sqlite or pdo-pgsql"
+    exit 1
 fi
 
 echo " * Using composer ( $COMPOSER )"
 echo " * Installing libraries ( composer install --no-dev ... )"
 
-php "${COMPOSER}" install --prefer-dist -n --no-dev
+php "${COMPOSER}" install --prefer-dist -n --no-dev --ignore-platform-req=ext-mysqli --ignore-platform-req=ext-sqlite3
 
 if [ ! -d templates_c ]; then
 
     mkdir -p templates_c && chmod 777 templates_c
 
-    echo
+    echo ""
     echo " Warning: "
     echo "   templates_c directory didn't exist, now created."
-    echo
+    echo ""
     echo "   You should change the ownership and reduce permissions on templates_c to 750. "
     echo "   The ownership needs to match the user used to execute PHP scripts, perhaps 'www-data' or 'httpd'"
-    echo
+    echo ""
     echo "   e.g. chown www-data templates_c && chmod 750 templates_c"
-    echo
+    echo ""
 fi
-echo
+echo ""
 echo "Please continue configuration / setup within your web browser. "
-echo "See also : https://github.com/postfixadmin/postfixadmin/blob/master/INSTALL.TXT#L58 "
-echo
+echo "See also : https://github.com/postfixadmin/postfixadmin/blob/master/INSTALL.md#L78 "
+echo ""

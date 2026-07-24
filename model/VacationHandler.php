@@ -4,20 +4,9 @@
 
 class VacationHandler extends PFAHandler
 {
-    /**
-     * @var string
-     */
-    protected $db_table = 'vacation';
-
-    /**
-     * @var string
-     */
-    protected $id_field = 'email';
-
-    /**
-     * @var string
-     */
-    protected $domain_field = 'domain';
+    protected string $db_table = 'vacation';
+    protected string $id_field = 'email';
+    protected ?string $domain_field = 'domain';
 
     public function init(string $id): bool
     {
@@ -145,10 +134,10 @@ class VacationHandler extends PFAHandler
 
         // tidy up vacation table.
         $vacation_data = array(
-            'active' => db_get_boolean(false),
+            'active' => false,
         );
 
-        $result = db_update('vacation', 'email', $this->username, $vacation_data);
+        db_update('vacation', 'email', $this->username, $vacation_data);
         // check for error?
 
         $this->removeVacationNotifications();
@@ -160,7 +149,7 @@ class VacationHandler extends PFAHandler
 
     private function removeVacationNotifications()
     {
-        $result = db_delete('vacation_notification', 'on_vacation', $this->username);
+        db_delete('vacation_notification', 'on_vacation', $this->username);
     }
 
     /**
@@ -217,12 +206,12 @@ class VacationHandler extends PFAHandler
         if (!is_array($row)) {
             return false;
         }
-        $boolean = ($row['active'] == db_get_boolean(true));
+
         # TODO: only return true and store the db result array in $this->whatever for consistency with the other classes
         return array(
             'subject' => isset($row['subject']) ? $row['subject'] : null,
             'body' => isset($row['body']) ? $row['body'] : null,
-            'active' => $boolean,
+            'active' => (bool) $row['active'],
             'interval_time' => isset($row['interval_time']) ? $row['interval_time'] : null,
             'activeFrom' => isset($row['activefrom']) ? $row['activefrom'] : null,
             'activeUntil' => isset($row['activeuntil']) ? $row['activeuntil'] : null
@@ -233,35 +222,24 @@ class VacationHandler extends PFAHandler
      * @param string $subject
      * @param string $body
      * @param int $interval_time
-     * @param string $activeFrom - something strtotime understands
-     * @param string $activeUntil - something strtotime understands
-     * @return boolean
      */
-    public function set_away($subject, $body, $interval_time, $activeFrom, $activeUntil)
+    public function set_away(string $subject, string $body, int $interval_time, \DateTimeInterface $activeFrom, \DateTimeInterface $activeUntil): bool
     {
         $this->removeVacationNotifications(); // clean out any notifications that might already have been sent.
 
-        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $activeFrom)) {
-            $activeFrom .= ' 00:00:00';
-        }
-        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $activeUntil)) {
-            $activeUntil .= ' 23:59:59';
-        }
-
-        $activeFrom = date("Y-m-d H:i:s", strtotime($activeFrom)); # TODO check if result looks like a valid date
-        $activeUntil = date("Y-m-d H:i:s", strtotime($activeUntil)); # TODO check if result looks like a valid date
         list(/*NULL*/, $domain) = explode('@', $this->username);
 
-        $vacation_data = array(
+        $vacation_data = [
             'email' => $this->username,
             'domain' => $domain,
             'subject' => $subject,
             'body' => $body,
             'interval_time' => $interval_time,
-            'active' => db_get_boolean(true),
-            'activefrom' => $activeFrom,
-            'activeuntil' => $activeUntil,
-        );
+            'active' => true,
+            // MySQL 8.x supports a timezone (Y-m-d H:i:sP), but MariaDB doesn't seem to? I'm sure PostgreSQL will.
+            'activefrom' => $activeFrom->format('Y-m-d H:i:s'),
+            'activeuntil' => $activeUntil->format('Y-m-d H:i:s'),
+        ];
 
         if (!db_pgsql()) {
             $vacation_data['cache'] = '';  # leftover from 2.2
@@ -271,20 +249,24 @@ class VacationHandler extends PFAHandler
         $table_vacation = table_by_key('vacation');
         $result = db_query_one("SELECT * FROM $table_vacation WHERE email = ?", array($this->username));
         if (!empty($result)) {
-            $result = db_update('vacation', 'email', $this->username, $vacation_data);
+            $ret = db_update('vacation', 'email', $this->username, $vacation_data);
         } else {
-            $result = db_insert('vacation', $vacation_data);
+            $ret = db_insert('vacation', $vacation_data);
         }
-        # TODO error check
+
+
+        # Can't easily wrap in a transaction, as there could be a hook script being run?
         # TODO wrap whole function in db_begin / db_commit (or rollback)?
 
-        return $this->updateAlias(1);
+        $this->updateAlias(1);
+
+        return $ret == 1;
     }
 
     /**
      * add/remove the vacation alias
      * @param int $vacationActive
-     * @return boolean
+     * @return bool
      */
     protected function updateAlias($vacationActive)
     {

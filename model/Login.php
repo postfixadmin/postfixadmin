@@ -2,8 +2,8 @@
 
 class Login
 {
-    private $key_table;
-    private $table;
+    private string $key_table;
+    private string $table;
 
     public function __construct(string $tableName)
     {
@@ -22,10 +22,9 @@ class Login
      */
     public function login(string $username, string $password): bool
     {
-        $active = db_get_boolean(true);
         $query = "SELECT password FROM {$this->key_table} WHERE username = :username AND active = :active";
 
-        $values = ['username' => $username, 'active' => $active];
+        $values = ['username' => $username, 'active' => true];
 
         $result = db_query_all($query, $values);
 
@@ -35,9 +34,8 @@ class Login
             try {
                 $crypt_password = pacrypt($password, $row['password'], $username);
             } catch (\Exception $e) {
-                error_log("Error while trying to call pacrypt()");
-                error_log("" . $e);
-                hash_equals("not", "comparable");
+                error_log(__FILE__ . " - error while trying to call pacrypt() (1): " . $e->getMessage());
+                $_ = hash_equals("not", "comparable");
                 return false; // just refuse to login?
             }
             return hash_equals($row['password'], $crypt_password);
@@ -46,10 +44,9 @@ class Login
         // try and be near constant time regardless of whether the db user exists or not
         try {
             // this causes errors with e.g. dovecot as there is no prefix.
-            $x = pacrypt('abc', 'def');
+            $_ = pacrypt('abc', 'def');
         } catch (\Exception $e) {
-            error_log("Error trying to call pacrypt()");
-            error_log("" . $e);
+            error_log(__FILE__ . " - error trying to call pacrypt() (2): " . $e->getMessage());
         }
 
         return hash_equals('not', 'comparable');
@@ -65,7 +62,7 @@ class Login
     {
         $sql = "SELECT count(1) FROM {$this->key_table} WHERE username = :username AND active = :active";
 
-        $active = db_get_boolean(true);
+        $active = true;
 
         $values = [
             'username' => $username,
@@ -100,7 +97,7 @@ class Login
 
         $values = [
             'username' => $username,
-            'active' => db_get_boolean(true),
+            'active' => true,
         ];
 
         // Fetch the domain
@@ -161,35 +158,14 @@ class Login
 
         $warnmsg_pw = Config::lang('mailbox_postpassword_failed');
 
-        // If we have a mailbox_postpassword_script (dovecot only?)
-
-        // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-        $spec = array(
-            0 => array("pipe", "r"), // stdin
-            1 => array("pipe", "w"), // stdout
-        );
-
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($domain);
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
+        $stdin = $old_password . "\0" . $new_password . "\0";
 
-        $proc = proc_open($command, $spec, $pipes);
+        $exec = Exec::run($command, $stdin);
 
-        if (!$proc) {
-            throw new \Exception("can't proc_open $cmd_pw");
-        }
-
-        // Write passwords through pipe to command stdin -- provide old password, then new password.
-        fwrite($pipes[0], $old_password . "\0", 1 + strlen($old_password));
-        fwrite($pipes[0], $new_password . "\0", 1 + strlen($new_password));
-        $output = stream_get_contents($pipes[1]);
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-
-        $retval = proc_close($proc);
-
-        if (0 != $retval) {
-            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+        if ($exec->retval !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 
@@ -245,34 +221,13 @@ class Login
 
         $warnmsg_pw = Config::lang('mailbox_postapppassword_failed');
 
-        // If we have a mailbox_postpppassword_script
-
-        // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-        $spec = array(
-            0 => array("pipe", "r"), // stdin
-            1 => array("pipe", "w"), // stdout
-        );
-
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($app_desc);
-
         $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
+        $stdin = $app_pass . "\0";
 
-        $proc = proc_open($command, $spec, $pipes);
-
-        if (!$proc) {
-            throw new \Exception("can't proc_open $cmd_pw");
-        }
-
-        // Write passwords through pipe to command stdin -- provide old password, then new password.
-        fwrite($pipes[0], $app_pass . "\0", 1 + strlen($app_pass));
-        $output = stream_get_contents($pipes[0]);
-        fclose($pipes[0]);
-
-        $retval = proc_close($proc);
-
-        if (0 != $retval) {
-            error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
+        $exec = Exec::run($command, $stdin);
+        if ($exec->retval !== 0) {
             throw new \Exception($warnmsg_pw);
         }
 

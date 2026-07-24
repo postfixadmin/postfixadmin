@@ -149,4 +149,98 @@ class LoginTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals('test@example.com', $r['username']);
         }
     }
+
+    /**
+     * Test admin login works via the admin table.
+     */
+    public function testAdminLogin()
+    {
+        db_execute(
+            "INSERT INTO admin(username, password, superadmin, active) VALUES(:username, :password, :superadmin, :active)",
+            [
+                'username' => 'admin@example.com',
+                'password' => pacrypt('adminpass'),
+                'superadmin' => db_get_boolean(true),
+                'active' => db_get_boolean(true),
+            ]
+        );
+
+        $login = new Login('admin');
+        $this->assertTrue($login->login('admin@example.com', 'adminpass'));
+        $this->assertFalse($login->login('admin@example.com', 'wrongpass'));
+        $this->assertFalse($login->login('nonexistent@example.com', 'adminpass'));
+
+        db_query("DELETE FROM admin WHERE username = 'admin@example.com'");
+    }
+
+    /**
+     * Test inactive mailbox cannot login.
+     */
+    public function testInactiveMailboxCannotLogin()
+    {
+        db_execute(
+            "UPDATE mailbox SET active = :active WHERE username = :username",
+            ['active' => db_get_boolean(false), 'username' => 'test@example.com']
+        );
+
+        $login = new Login('mailbox');
+        $this->assertFalse($login->login('test@example.com', 'foobar'));
+
+        // Reactivate
+        db_execute(
+            "UPDATE mailbox SET active = :active WHERE username = :username",
+            ['active' => db_get_boolean(true), 'username' => 'test@example.com']
+        );
+    }
+
+    /**
+     * Test inactive admin cannot login.
+     */
+    public function testInactiveAdminCannotLogin()
+    {
+        db_execute(
+            "INSERT INTO admin(username, password, superadmin, active) VALUES(:username, :password, :superadmin, :active)",
+            [
+                'username' => 'inactive@example.com',
+                'password' => pacrypt('adminpass'),
+                'superadmin' => db_get_boolean(false),
+                'active' => db_get_boolean(false),
+            ]
+        );
+
+        $login = new Login('admin');
+        $this->assertFalse($login->login('inactive@example.com', 'adminpass'));
+
+        db_query("DELETE FROM admin WHERE username = 'inactive@example.com'");
+    }
+
+    /**
+     * Test Login constructor rejects invalid table names.
+     */
+    public function testInvalidTableThrows()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new Login('invalid_table');
+    }
+
+    /**
+     * Test password recovery code can be verified.
+     */
+    public function testPasswordRecoveryCodeVerification()
+    {
+        $login = new Login('mailbox');
+        $token = $login->generatePasswordRecoveryCode('test@example.com');
+
+        $this->assertNotEmpty($token);
+        $this->assertIsString($token);
+
+        // Verify token is stored (hashed) in the database
+        $row = db_query_one(
+            "SELECT token, token_validity FROM " . table_by_key('mailbox') . " WHERE username = :username",
+            ['username' => 'test@example.com']
+        );
+        $this->assertNotNull($row);
+        $this->assertNotEmpty($row['token']);
+        $this->assertNotEmpty($row['token_validity']);
+    }
 }

@@ -138,11 +138,11 @@ class PostfixAdmin
      */
     private function __initEnvironment()
     {
-        $this->stdin  = fopen('php://stdin', 'r');
+        $this->stdin = fopen('php://stdin', 'r');
         $this->stdout = fopen('php://stdout', 'w');
         $this->stderr = fopen('php://stderr', 'w');
 
-        if (basename(__FILE__) !=  basename($this->args[0])) {
+        if (basename(__FILE__) != basename($this->args[0])) {
             $this->stderr('Warning: the dispatcher may have been loaded incorrectly, which could lead to unexpected results...');
             if ($this->getInput('Continue anyway?', array('y', 'n'), 'y') == 'n') {
                 exit(1);
@@ -173,10 +173,11 @@ class PostfixAdmin
         $this->shellClass = $this->shellName . 'Handler';
 
 
-        if ($this->shell == 'help') {
+        if ($this->shell == 'help' || empty($this->args)) {
             $this->help();
             return 1;
         }
+
 
         $command = $this->args[0];
 
@@ -242,8 +243,8 @@ class PostfixAdmin
         }
 
         $protectedCommands = array(
-            'in', 'out', 'err', 'hr', 'log',
-            '__construct', 'dispatch', 'stdout', 'stderr'
+                'in', 'out', 'err', 'hr', 'log',
+                '__construct', 'dispatch', 'stdout', 'stderr'
         );
 
         if (in_array(strtolower($command), $protectedCommands)) {
@@ -319,7 +320,7 @@ class PostfixAdmin
      */
     public function stderr($string)
     {
-        fwrite($this->stderr, 'Error: '. $string . "\n");
+        fwrite($this->stderr, 'Error: ' . $string . "\n");
     }
 
     /**
@@ -351,16 +352,14 @@ class PostfixAdmin
     /**
      * Removes first argument and shifts other arguments up
      *
-     * @return boolean False if there are no arguments
      */
     public function shiftArgs()
     {
         if (empty($this->args)) {
-            return false;
+            return;
         }
         unset($this->args[0]);
         $this->args = array_values($this->args);
-        return true;
     }
 
     /**

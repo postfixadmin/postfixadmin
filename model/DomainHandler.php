@@ -7,9 +7,9 @@
  */
 class DomainHandler extends PFAHandler
 {
-    protected $db_table = 'domain';
-    protected $id_field = 'domain';
-    protected $domain_field = 'domain';
+    protected string $db_table = 'domain';
+    protected string $id_field = 'domain';
+    protected ?string $domain_field = 'domain';
 
     protected function validate_new_id()
     {
@@ -41,8 +41,41 @@ class DomainHandler extends PFAHandler
         $edit_dom_q  = min($super, Config::intbool('domain_quota'), $quota);
         $dom_q  = min(Config::intbool('domain_quota'), $quota);
         $pwexp = min($super, Config::intbool('password_expiration'));
+        $show_maxquota = $quota;
+        $show_pwexp = $pwexp;
+        $pwexp_label = 'password_expiration';
+
+        if (Config::bool('domain_list_hide_maxquota')) {
+            $show_maxquota = 0;
+        }
+        if (Config::bool('domain_list_hide_password_expiry')) {
+            $show_pwexp = 0;
+        }
 
         $query_used_domainquota = 'round(coalesce(__total_quota/' . intval(Config::read('quota_multiplier')) . ',0))';
+        $query_display_domainquota = $query_used_domainquota;
+        $mailbox_quota_select = '';
+        $mailbox_quota_join = '';
+        $mailbox_full_select = ', 0 as __full_mailbox_count';
+
+        if (Config::bool('used_quotas')) {
+            $mailbox_table = table_by_key('mailbox');
+
+            if (Config::bool('new_quota_table')) {
+                $quota2_table = table_by_key('quota2');
+                $mailbox_quota_select = ', sum(coalesce(' . $quota2_table . '.bytes,0)) as __used_quota';
+                $mailbox_full_select = ', sum(case when ' . $mailbox_table . '.quota > 0 and (100 * coalesce(' . $quota2_table . '.bytes,0) / ' . $mailbox_table . '.quota) > ' . intval(Config::read('quota_level_high_pct')) . ' then 1 else 0 end) as __full_mailbox_count';
+                $mailbox_quota_join = ' left join ' . $quota2_table . ' on ' . $mailbox_table . '.username=' . $quota2_table . '.username';
+            } else {
+                $quota_table = table_by_key('quota');
+                $mailbox_quota_select = ', sum(coalesce(' . $quota_table . '.current,0)) as __used_quota';
+                $mailbox_full_select = ', sum(case when ' . $mailbox_table . '.quota > 0 and (100 * coalesce(' . $quota_table . '.current,0) / ' . $mailbox_table . '.quota) > ' . intval(Config::read('quota_level_high_pct')) . ' then 1 else 0 end) as __full_mailbox_count';
+                $mailbox_quota_join = ' left join ' . $quota_table . ' on ' . $mailbox_table . '.username=' . $quota_table . '.username'
+                    . " and (" . $quota_table . ".path='quota/storage' or " . $quota_table . ".path is null)";
+            }
+
+            $query_display_domainquota = 'round(coalesce(__used_quota/' . intval(Config::read('quota_multiplier')) . ',0))';
+        }
 
         # NOTE: There are dependencies between alias_count, mailbox_count and total_quota.
         # NOTE: If you disable "display in list" for one of them, the SQL query for the others might break.
@@ -58,8 +91,8 @@ class DomainHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                    $PALANG description                 default / options / ...
             #                           editing?    form    list
-           'domain'            => self::pacol($this->new, 1,      1,      'text', 'domain'                       , ''                                 , '', array(),
-               array('linkto' => 'list-virtual.php?domain=%s')),
+           'domain'            => self::pacol($this->new, 1,      1,      'text', 'domain'                       , ''                                 ,'', array(), 0, 0, "", "", 'list-virtual.php?domain=%s'),
+           'full_mailbox_count' => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(), 0, 0, 'coalesce(__full_mailbox_count,0) as full_mailbox_count'),
            'description'       => self::pacol($super,     $super, $super, 'text', 'description'                  , ''),
 
            # Aliases
@@ -70,34 +103,26 @@ class DomainHandler extends PFAHandler
                /*select*/ 'coalesce(__alias_count,0) - coalesce(__mailbox_count,0)  as alias_count',
                /*extrafrom*/ 'left join ( select count(*) as __alias_count, domain as __alias_domain from ' . table_by_key('alias') .
                              ' group by domain) as __alias on domain = __alias_domain'),
-            'aliases_quot'     => self::pacol(0,          0,      1,      'quot', 'aliases'                      , ''                                  , 0, array(),
-                array('select' => db_quota_text('__alias_count - coalesce(__mailbox_count,0)', 'aliases', 'aliases_quot'))),
-            '_aliases_quot_percent' => self::pacol(0, 0,      1,      'vnum', ''                   ,''                   , 0, array(),
-                array('select' => db_quota_percent('__alias_count - coalesce(__mailbox_count,0)', 'aliases', '_aliases_quot_percent'))),
+            'aliases_quot'     => self::pacol(0,          0,      1,      'quot', 'aliases'                      , ''                                  , 0, array(), 0, 0,  db_quota_text('__alias_count - coalesce(__mailbox_count,0)', 'aliases', 'aliases_quot')),
+            '_aliases_quot_percent' => self::pacol(0, 0,      1,      'vnum', ''                   ,''                   , 0, array(), 0, 0, db_quota_percent('__alias_count - coalesce(__mailbox_count,0)', 'aliases', '_aliases_quot_percent')),
 
             # Mailboxes
            'mailboxes'         => self::pacol($super,     $super, 0,      'num' , 'mailboxes'                    , 'pAdminEdit_domain_aliases_text'   , Config::read('mailboxes')),
-           'mailbox_count'     => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(),
-               /*not_in_db*/ 0,
-               /*dont_write_to_db*/ 1,
+           'mailbox_count'     => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(), 0, 1,
                /*select*/ 'coalesce(__mailbox_count,0) as mailbox_count',
-               /*extrafrom*/ 'left join ( select count(*) as __mailbox_count, sum(quota) as __total_quota, domain as __mailbox_domain from ' . table_by_key('mailbox') .
+               /*extrafrom*/ 'left join ( select count(*) as __mailbox_count, sum(quota) as __total_quota' . $mailbox_quota_select . $mailbox_full_select . ', domain as __mailbox_domain from ' . table_by_key('mailbox') . $mailbox_quota_join .
                              ' group by domain) as __mailbox on domain = __mailbox_domain'),
-            'mailboxes_quot'   => self::pacol(0,          0,      1,       'quot', 'mailboxes'                    , ''                                 , 0, array(),
-                array('select' => db_quota_text('__mailbox_count', 'mailboxes', 'mailboxes_quot'))),
-            '_mailboxes_quot_percent' => self::pacol(0,  0,      1,       'vnum', ''                             , ''                                 , 0, array(),
-                array('select' => db_quota_percent('__mailbox_count', 'mailboxes', '_mailboxes_quot_percent'))),
+            'mailboxes_quot'   => self::pacol(0,          0,      1,       'quot', 'mailboxes'                    , ''                                 , 0, array(), 0, 0,  db_quota_text('__mailbox_count', 'mailboxes', 'mailboxes_quot')),
+            '_mailboxes_quot_percent' => self::pacol(0,  0,      1,       'vnum', ''                             , ''                                 , 0, array(), 0, 0,   db_quota_percent('__mailbox_count', 'mailboxes', '_mailboxes_quot_percent')),
 
-           'maxquota'          => self::pacol($editquota,$editquota,$quota, 'num', 'pOverview_get_quota'          , 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')),
+           'maxquota'          => self::pacol($editquota,$editquota,$show_maxquota, 'num', 'pAdminEdit_domain_maxquota', 'pAdminEdit_domain_maxquota_text'  , Config::read('maxquota')),
 
             # Domain quota
             'quota'            => self::pacol($edit_dom_q,$edit_dom_q, 0, 'num',  'pAdminEdit_domain_quota'      , 'pAdminEdit_domain_maxquota_text'  , $domain_quota_default),
-            'total_quota'      => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(),
-                array('select' => "$query_used_domainquota AS total_quota") /*extrafrom*//* already in mailbox_count */),
-            'total_quot'     => self::pacol(0,          0,      $dom_q,  'quot', 'pAdminEdit_domain_quota'      , ''                                 , 0, array(),
-                array('select' => db_quota_text($query_used_domainquota, 'quota', 'total_quot'))),
-            '_total_quot_percent' => self::pacol(0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, array(),
-                array('select' => db_quota_percent($query_used_domainquota, 'quota', '_total_quot_percent'))),
+            'total_quota'      => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(), 0, 0,  "$query_used_domainquota AS total_quota" /*extrafrom*//* already in mailbox_count */),
+            'total_quota_used' => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(), 0, 0,  "$query_display_domainquota AS total_quota_used" /*extrafrom*//* already in mailbox_count */),
+            'total_quot'     => self::pacol(0,          0,      $dom_q,  'quot', 'pAdminList_domain_quota'      , ''                                 , 0, array(), 0, 0,  db_quota_text($query_used_domainquota, 'quota', 'total_quot')),
+            '_total_quot_percent' => self::pacol(0,      0,      $dom_q,  'vnum', ''                             , ''                                 , 0, array(), 0, 0, db_quota_percent($query_display_domainquota, 'quota', '_total_quot_percent')),
 
            'transport'         => self::pacol($transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
                /*options*/ Config::read_array('transport_options')),
@@ -106,7 +131,7 @@ class DomainHandler extends PFAHandler
            'default_aliases'   => self::pacol($this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,array(), /*not in db*/ 1),
            'created'           => self::pacol(0,          0,      0,      'ts',   'created'                      , ''),
            'modified'          => self::pacol(0,          0,      $super, 'ts',   'last_modified'                , ''),
-           'password_expiry'   => self::pacol($super,     $pwexp, $pwexp, 'num',  'password_expiration'          , 'password_expiration_desc'         , 365),
+           'password_expiry'   => self::pacol($super,     $pwexp, $show_pwexp, 'num',  $pwexp_label              , 'password_expiration_desc'         , 365),
             '_can_edit'        => self::pacol(0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 /*options*/ array(),
                 /*not_in_db*/ 0,
@@ -183,7 +208,7 @@ class DomainHandler extends PFAHandler
                     'goto' => $goto,
                     'domain' => $this->id,
                 );
-                $result = db_insert('alias', $arr);
+                db_insert('alias', $arr);
                 # TODO: error checking
             }
         }
@@ -219,7 +244,7 @@ class DomainHandler extends PFAHandler
         if (Config::bool('alias_domain')) {
             # check if this domain is an alias domain target - if yes, do not allow to delete it
             $handler = new AliasdomainHandler(0, $this->admin_username);
-            $handler->getList("target_domain = '" . escape_string($this->id) . "'");
+            $handler->getList(array('target_domain' => $this->id));
             $aliasdomains = $handler->result();
 
             if (count($aliasdomains) > 0) {
@@ -234,17 +259,17 @@ class DomainHandler extends PFAHandler
         # cleaning up all tables doesn't hurt, even if vacation or displaying the quota is disabled
 
         # some tables don't have a domain field, so we need a workaround
-        $like_domain = "LIKE '" . escape_string('%@' . $this->id) . "'";
+        $like_domain_value = '%@' . $this->id;
 
         db_delete('domain_admins',         'domain',        $this->id);
         db_delete('alias',                 'domain',        $this->id);
         db_delete('mailbox',               'domain',        $this->id);
         db_delete('alias_domain',          'alias_domain',  $this->id);
         db_delete('vacation',              'domain',        $this->id);
-        db_delete('vacation_notification', 'on_vacation',   $this->id, "OR on_vacation $like_domain");
-        db_delete('quota',                 'username',      $this->id, "OR username    $like_domain");
-        db_delete('quota2',                'username',      $this->id, "OR username    $like_domain");
-        db_delete('fetchmail',             'mailbox',       $this->id, "OR mailbox     $like_domain");
+        db_delete('vacation_notification', 'on_vacation',   $this->id, "OR on_vacation LIKE ?", [$like_domain_value]);
+        db_delete('quota',                 'username',      $this->id, "OR username    LIKE ?", [$like_domain_value]);
+        db_delete('quota2',                'username',      $this->id, "OR username    LIKE ?", [$like_domain_value]);
+        db_delete('fetchmail',             'mailbox',       $this->id, "OR mailbox     LIKE ?", [$like_domain_value]);
         db_delete('log',                   'domain',        $this->id); # TODO: should we really delete the log?
 
         # finally delete the domain
@@ -301,7 +326,6 @@ class DomainHandler extends PFAHandler
         $command = "$script $cmdarg1";
         $retval = 0;
         $output = array();
-        $firstline = '';
         $firstline = exec($command, $output, $retval);
         if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
@@ -334,7 +358,6 @@ class DomainHandler extends PFAHandler
         $command = "$script $cmdarg1";
         $retval = 0;
         $output = array();
-        $firstline = '';
         $firstline = exec($command, $output, $retval);
         if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");
@@ -367,7 +390,6 @@ class DomainHandler extends PFAHandler
         $command = "$script $cmdarg1";
         $retval = 0;
         $output = array();
-        $firstline = '';
         $firstline = exec($command, $output, $retval);
         if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");

@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <psalm
-    phpVersion="7.4"
     errorLevel="4"
     resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -20,12 +19,12 @@
 
     <issueHandlers>
 
-        <PossiblyUndefinedGlobalVariable>
-            <errorLevel type="suppress">
-                <file name="config.inc.php" />
-                <file name="config.local.php" />
-            </errorLevel>
-        </PossiblyUndefinedGlobalVariable>
+
+        <MissingOverrideAttribute errorLevel="suppress"/>
+        <PossiblyUnusedMethod errorLevel="suppress"/>
+        <PossiblyUnusedProperty errorLevel="suppress"/>
+        <PossiblyUnusedReturnValue errorLevel="suppress"/>
+        <UnusedClass errorLevel="suppress"/>
 
         <InvalidGlobal>
             <errorLevel type="suppress">
@@ -35,6 +34,7 @@
         </InvalidGlobal>
         <LessSpecificReturnType errorLevel="info"/>
 
+        <ParadoxicalCondition errorLevel="suppress" />
     </issueHandlers>
 
 </psalm>

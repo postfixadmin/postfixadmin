@@ -1,3 +1,14 @@
+postfixadmin (4.0.5.2) UNRELEASED; urgency=medium
+
+  * Merge upstream postfixadmin/master through commit 9a930b61
+    ("Add a read-only database integrity check to setup.php (#1091)"):
+    PHP 8.2+ requirement, CSRF token rework, Bootstrap 5 UI overhaul,
+    new Languages class, alias/alias_domain description field + DB
+    migration, bulk-delete forwards, viewlog pager improvements,
+    unified forwarding editor, translation-key updates.
+
+ -- vitex <info@vitexsoftware.cz>  Fri, 24 Jul 2026 00:00:00 +0200
+
 postfixadmin (4.0.5.1) UNRELEASED; urgency=medium
 
   * Add admin email configuration to debconf templates and postinst
@@ -37,6 +48,14 @@ postfixadmin (4.0.2) UNRELEASED; urgency=medium
   * Prevents TypeError when $supported_languages is null
 
  -- vitex <info@vitexsoftware.cz>  Mon, 05 Jan 2026 18:07:00 +0100
+
+postfixadmin (4.0.1-1) unstable; urgency=medium
+
+  * Remove debian/compat that is no longer needed
+  * Swap unused lib/ for composer's vendor/ path in debian install rules
+  * Update debian/rules to make prep more readable
+
+ -- Justin Warren <justin@eigenmagic.com>  Mon, 13 Apr 2026 06:47:48 +1000
 
 postfixadmin (4.0.1) UNRELEASED; urgency=medium
 

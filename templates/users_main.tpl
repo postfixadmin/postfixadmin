@@ -1,4 +1,4 @@
-<div class="panel panel-default" id="main_menu" style="padding-top: 30px">
+<div class="card" id="main_menu" style="padding-top: 30px">
     <table class="table">
         {if $CONF.vacation===YES}
             <tr>
@@ -9,7 +9,7 @@
         {/if}
         {if $CONF.edit_alias===YES}
             <tr>
-                <td nowrap="nowrap"><a class="btn btn-primary" href="edit-alias.php">{$PALANG.pUsersMenu_edit_alias}</a>
+                <td nowrap="nowrap"><a class="btn btn-primary" href="../edit.php?table=alias&amp;edit={$smarty.session.sessid.username|escape:url}">{$PALANG.pUsersMenu_edit_alias}</a>
                 </td>
                 <td>{$PALANG.pUsersMain_edit_alias}</td>
             </tr>
@@ -26,7 +26,7 @@
             <td>{$PALANG.pUsersMain_totp}</td>
         </tr>
         <tr>
-            <td nowrap="nowrap"><a class="btn btn-primary" href="{#url_totp_exceptions#}">{$PALANG.pMenu_totp_exceptions}</a></td>
+            <td nowrap="nowrap"><a class="btn btn-primary" href="{#url_user_totp_exceptions#}">{$PALANG.pMenu_totp_exceptions}</a></td>
             <td>{$PALANG.pUsersMain_totp_exceptions}</td>
         </tr>
         {/strip}

@@ -41,7 +41,7 @@ $smarty->configureTheme($rel_path);
 
 if ($context === 'admin' && !Config::read('forgotten_admin_password_reset') ||
     $context === 'users' && (!Config::read('forgotten_user_password_reset') || Config::read('mailbox_postpassword_script'))) {
-    die('Password reset is disabled by configuration option: forgotten_admin_password_reset or mailbox_postpassword_script');
+    throw new \InvalidArgumentException('Password reset is disabled by configuration option: forgotten_admin_password_reset or mailbox_postpassword_script');
 }
 
 function sendCodebyEmail($to, $username, $code)
@@ -72,15 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     $username = safepost('fUsername');
     if (empty($username)) {
-        die("fUsername field required");
+        throw new \InvalidArgumentException("fUsername field required");
     }
-
-    $tUsername = escape_string($username);
 
     $table = $context === 'admin' ? 'admin' : 'mailbox';
     $login = new Login($table);
 
-    $token = $login->generatePasswordRecoveryCode($tUsername);
+    $token = $login->generatePasswordRecoveryCode($username);
 
     if ($token !== false) {
         $table = table_by_key($context === 'users' ? 'mailbox' : 'admin');
@@ -92,23 +90,29 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $phone = isset($row['phone']) ? trim($row['phone']) : null;
 
         if ($email_other) {
-            sendCodeByEmail($email_other, $tUsername, $token);
+            sendCodeByEmail($email_other, $username, $token);
         } elseif ($phone) {
-            sendCodeBySMS($phone, $tUsername, $token);
+            sendCodeBySMS($phone, $username, $token);
         } else {
             error_log(__FILE__ . " - No mechanism configured for password-recovery.");
         }
 
         if ($email_other || $phone) {
-            header("Location: password-change.php?username=" . $tUsername);
+            header("Location: password-change.php?username=" . urlencode($username));
             exit(0);
         }
     }
 
     // throttle password reset requests to prevent brute force attack
-    $elapsed_time = microtime(true) - $start_time;
-    if ($elapsed_time < 2 * pow(10, 6)) {
-        usleep((int)(2 * pow(10, 6) - $elapsed_time));
+    $elapsed_time = (int)(microtime(true) - $start_time);
+
+    // we try to make sure the entire operation takes 2s
+    if ($elapsed_time < 2.0) {
+        // php 7.4+ should support underscores in numeric literals
+        $sleep = 2_000_000 - ($elapsed_time * 1_000_000);
+        if ($sleep > 0) {
+            usleep($sleep);
+        }
     }
 
     flash_info(Config::lang('pPassword_recovery_processed'));

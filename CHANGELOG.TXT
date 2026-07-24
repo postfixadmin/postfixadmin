@@ -6,6 +6,32 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Changes in 'master' (not in a release yet) (20XX/XX/XX)
+--------------------------
+
+   - UI improvements (quota, icons for domain/mailbox lists etc) (see #1046, thanks @trapoSAMA)
+   - UI improvements (top menu, dashboard labels, translations) (see #1047, thanks @trapoSAMA)
+   - Improve debian packaging (see #1041, thanks @jpwarren)
+   - Add description field to alias and alias_domain (see #1036, thanks @jpwarren)
+   - Improve password recovery if TOTP is not enabled (thanks @drunken-sod, see #1032)
+   - UI improvements (thanks @lombda, see #1030)
+   - Improve DKIM - auto-generate keypairs, ui improvements (thanks @knofte and @fredkilbourn, see #1029)
+   - Improve boolean handling (thanks @knofte, see #1019, #1018)
+   - Refactor process spawning code (run_hook_script()/proc_open() calls) (thanks @knofte, see #1009)
+   - Fix privilege escapation in TOTP exceptions (thanks @knofte, see #1014)
+   - Update TOTP exceptions to use handler class (see #1007, thanks @knofte, @cboltz)
+   - Add documentation on Handler class use, see DOCUMENTS/HANDLER_CLASSES.md (see #1008, thanks @knofte, @cboltz)
+   - Add Exec class to reduce duplication of proc_open calss, updates phpunit (see #1009, thanks @knofte, @cboltz)
+   - Update build environment / github actions (run tests against PostgreSQL and MySQL databases, add phpstan as well as psalm); (thanks @knofte)
+   - Add version check page (integrates with github's API), (see #1006, thanks @knofte)
+   - Add GitHub Actions workflow to build self-contained release archives (see #999/#973, thanks @knofte)
+   - Move from Bootstrap 3 to Bootstrap 5, add dark mode CSS toggle (see #987)
+   - Update CSRF protection to support multiple tokens (see #985 / #967)
+   - Add TOTP reset for lost secrets (see #988, thanks @drunken-sod)
+   - Drop support for PHP 7.4, 8.0 and 8.1 (see #957)
+   - Improve error message if vendor/autoload.php is missing ('composer' needs to run)
+   - Fix global search (unassigned domains) (#947)
+
 Version 4.0.1 (2025/09/12)
 --------------------------
    - Translation fixes (thanks @cboltz)

@@ -54,13 +54,8 @@ if (isset($_GET["abort"]) && $_GET["abort"] == "1" && authentication_mfa_incompl
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (!isset($_SESSION['PFA_token'])) {
-        die("Invalid token (session timeout; refresh the page and try again?)");
-    }
 
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token! (CSRF check failed)');
-    }
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     $totppf = new TotpPf('admin', new Login('admin'));
     $fTotp = safepost('fTOTP_code');
@@ -83,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
-$_SESSION['PFA_token'] = md5(uniqid("pfa" . rand(), true));
 
 $smarty->assign('pTOPT_code_text', $error);
 $smarty->assign('smarty_template', 'login-mfa');

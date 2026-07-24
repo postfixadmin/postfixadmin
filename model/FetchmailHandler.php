@@ -7,10 +7,10 @@
  */
 class FetchmailHandler extends PFAHandler
 {
-    protected $db_table = 'fetchmail';
-    protected $id_field = 'id';
-    protected $domain_field = 'domain';
-    protected $order_by = 'domain, mailbox';
+    protected string $db_table = 'fetchmail';
+    protected string $id_field = 'id';
+    protected ?string $domain_field = 'domain';
+    protected string $order_by = 'domain, mailbox';
 
 
     protected function initStruct()
@@ -23,8 +23,7 @@ class FetchmailHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
-            'id'               => self::pacol(0,          0,      1,      'num' , ''                              , ''                                , '', array(),
-                array('dont_write_to_db' => 1)),
+            'id'               => self::pacol(0,          0,      1,      'num' , ''                              , ''                                , '', array(), 0,  1),
             'domain'           => self::pacol(0,          0,      1,      'text', ''                              , ''),
             'mailbox'          => self::pacol(1,          1,      1,      'enum', 'pFetchmail_field_mailbox'      , 'pFetchmail_desc_mailbox'), # mailbox list
             'src_server'       => self::pacol(1,          1,      1,      'text', 'pFetchmail_field_src_server'   , 'pFetchmail_desc_src_server'),

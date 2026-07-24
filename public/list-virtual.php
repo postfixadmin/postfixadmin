@@ -54,6 +54,17 @@ if (isset($_POST['search']) && is_array($_POST['search'])) {
     $search = $_GET['search'];
 }
 
+// Active-status filter for the alias list (all|active|inactive). Persisted in
+// $_SESSION like the 'tab' selector below, so it survives pagination (whose
+// links only carry &limit=...).
+
+
+$fAliasActive = safeget('alias_active', safesession('list-virtual:alias_active', 'all'));
+if (!in_array($fAliasActive, ['all', 'active', 'inactive'], true)) {
+    $fAliasActive = 'all';
+}
+$_SESSION['list-virtual:alias_active'] = $fAliasActive;
+
 if (count($list_domains) == 0) {
     if (authentication_has_role('global-admin')) {
         flash_error($PALANG['no_domains_exist']);
@@ -64,21 +75,20 @@ if (count($list_domains) == 0) {
     exit;
 }
 
-if (sizeof($list_domains) > 0) {
-    if (empty($fDomain)) {
-        $fDomain = escape_string($list_domains[0]);
-    }
+if (empty($fDomain)) {
+    $fDomain = $list_domains[0];
 }
 
+
 if (!is_string($fDomain)) {
-    die(Config::lang('invalid_parameter'));
+    throw new InvalidArgumentException(Config::Lang('invalid_parameter'));
 }
 
 if (!in_array($fDomain, $list_domains)) {
     flash_error($PALANG['invalid_parameter']);
     unset($_SESSION['list-virtual:domain']);
     header("Location: list.php?table=domain"); # invalid domain, or not owned by this admin
-    exit;
+    exit(0);
 }
 
 if (!check_owner(authentication_get_username(), $fDomain)) {
@@ -160,6 +170,14 @@ if (count($search) == 0 || !isset($search['_'])) {
     $search_alias = array('_' => $search['_']);
 }
 
+// Restrict the alias list to (in)active entries when the filter is set. 'active'
+// is a bool field in the struct, so db_where_clause() parameterises it for us.
+if ($fAliasActive === 'active') {
+    $search_alias['active'] = 1;
+} elseif ($fAliasActive === 'inactive') {
+    $search_alias['active'] = 0;
+}
+
 $handler = new AliasHandler(0, $admin_username);
 $formconf = $handler->webformConfig(); # might change struct
 $alias_data = array(
@@ -196,8 +214,8 @@ if (count($search) == 0 || !isset($search['_'])) {
     $sql_where .= " $table_mailbox.domain= :domain ";
     $sql_params['domain'] = $fDomain;
 } else {
-    $searchterm = escape_string($search['_']);
-    $sql_where .= db_in_clause("$table_mailbox.domain", $list_domains) . " ";
+    $searchterm = $search['_'];
+    $sql_where .= db_in_clause("$table_mailbox.domain", $list_domains, $sql_params) . " ";
     $sql_where .= " AND ( $table_mailbox.username LIKE :searchterm OR $table_mailbox.name LIKE :searchterm ";
     $sql_params['searchterm'] = "%$searchterm%";
 
@@ -334,10 +352,10 @@ $divide_quota = array('current' => [], 'quota' => [], 'percent' => [], 'quota_wi
 for ($i = 0; $i < sizeof($tMailbox); $i++) {
     $gen_show_status_mailbox[$i] = gen_show_status($tMailbox[$i]['username']);
 
-    $divide_quota['current'][$i] = Config::lang('unknown');
+    $divide_quota['current'][$i] = Config::Lang('unknown');
     $divide_quota['quota_width'][$i] = 0;
     $divide_quota['percent'][$i] = null;
-    $divide_quota['quota'][$i] = Config::lang('unknown');
+    $divide_quota['quota'][$i] = Config::Lang('unknown');
 
     if (isset($tMailbox[$i]['current'])) {
         $divide_quota['current'][$i] = divide_quota($tMailbox[$i]['current']);
@@ -346,7 +364,13 @@ for ($i = 0; $i < sizeof($tMailbox); $i++) {
         $divide_quota['quota'][$i] = divide_quota($tMailbox[$i]['quota']);
     }
     if (isset($tMailbox[$i]['quota']) && isset($tMailbox[$i]['current'])) {
-        $divide_quota['percent'][$i] = min(100, round(($divide_quota ['current'][$i] / max(1, $divide_quota ['quota'][$i])) * 100));
+        /**
+         * @psalm-suppress InvalidOperand
+         */
+        $divide_quota['percent'][$i] = min(100, round(($divide_quota['current'][$i] / max(1, $divide_quota ['quota'][$i])) * 100));
+        /**
+         * @psalm-suppress InvalidOperand
+         */
         $divide_quota['quota_width'][$i] = ($divide_quota['percent'][$i] / 100) * 120; // because 100px wasn't wide enough?
     }
 }
@@ -509,6 +533,7 @@ if (Config::bool('alias_domain')) {
 
 $smarty->assign('tAlias', $tAlias);
 $smarty->assign('alias_data', $alias_data);
+$smarty->assign('alias_active', $fAliasActive);
 
 $smarty->assign('tMailbox', $tMailbox);
 $smarty->assign('gen_show_status_mailbox', $gen_show_status_mailbox, false);
@@ -531,9 +556,9 @@ $smarty->display('index.tpl');
 function eval_size($aSize)
 {
     if ($aSize == 0) {
-        $ret_val = Config::lang('pOverview_unlimited');
+        $ret_val = Config::Lang('pOverview_unlimited');
     } elseif ($aSize < 0) {
-        $ret_val = Config::lang('pOverview_disabled');
+        $ret_val = Config::Lang('pOverview_disabled');
     } else {
         $ret_val = $aSize;
     }

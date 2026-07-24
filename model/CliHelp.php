@@ -4,7 +4,7 @@
 
 class CliHelp extends Shell
 {
-    public $handler_to_use = "__not_set__";
+    public string $handler_to_use = "__not_set__";
 
     /**
      * Show help for this shell.
@@ -18,7 +18,9 @@ class CliHelp extends Shell
 
     public function help()
     {
-        $handler = new $this->handler_to_use();
+        $class = $this->handler_to_use;
+
+        $_ = new $class();
         # TODO: adjust help text according to $handler->taskNames
 
         $module = preg_replace('/Handler$/', '', $this->handler_to_use);
@@ -45,6 +47,8 @@ class CliHelp extends Shell
         $head  = "Usage: postfixadmin-cli $module <task> [<address>] [--option value] [--option value]\n";
         $head .= "-----------------------------------------------\n";
         $head .= "Parameters:\n\n";
+
+        $this->out($head);
 
         $commands = array(
             'task' => "\t<task>\n" .

@@ -17,6 +17,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $_SESSION = [];
         db_query('DELETE FROM alias');
+        db_query('DELETE FROM mailbox');
         db_query('DELETE FROM domain_admins');
         db_query('DELETE FROM domain');
 
@@ -30,6 +31,257 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($list);
         $results = $x->result();
         $this->assertEmpty($results);
+    }
+
+    public function testUserCanOnlyEditOwnMailboxForwarding()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+        $this->addMailboxAlias('bob@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $formconf = $handler->webformConfig();
+
+        $this->assertEquals('address', $formconf['user_hardcoded_field']);
+        $this->assertEquals('users/main.php', $formconf['listview']);
+        $this->assertTrue($handler->init('alice@example.com'));
+
+        $struct = $handler->getStruct();
+        $this->assertSame(1, $struct['goto']['display_in_form']);
+        $this->assertSame(1, $struct['goto_mailbox']['display_in_form']);
+        $this->assertSame(0, $struct['description']['display_in_form']);
+        $this->assertSame(0, $struct['active']['display_in_form']);
+
+        # Except for goto and goto_mailbox, submitted fields are read-only for
+        # users and therefore silently preserve their stored values.
+        $this->assertTrue($handler->set([
+            'address' => 'bob@example.com',
+            'description' => 'changed by user',
+            'goto' => ['forward@example.net'],
+            'goto_mailbox' => 1,
+            'active' => 0,
+        ]));
+        $this->assertTrue($handler->save(), json_encode($handler->errormsg));
+
+        $alice = new AliasHandler();
+        $this->assertTrue($alice->init('alice@example.com'));
+        $result = $alice->result();
+        $this->assertSame(['forward@example.net'], $result['goto']);
+        $this->assertSame(1, $result['goto_mailbox']);
+        $this->assertSame('Mailbox alias', $result['description']);
+        $this->assertEquals(1, $result['active']);
+
+        $other = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertFalse($other->init('bob@example.com'));
+    }
+
+    public function testUserAliasCreationIsDisabled()
+    {
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $handler = new AliasHandler(1, 'alice@example.com', false);
+        $this->assertFalse($handler->init('alice@example.com'));
+        $this->assertNotEmpty($handler->errormsg);
+    }
+
+    public function testUserListContainsOnlyOwnMailboxAlias()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+        $this->addMailboxAlias('bob@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $handler->webformConfig();
+        $this->assertTrue($handler->getList(''));
+        $this->assertSame(['alice@example.com'], array_keys($handler->result()));
+        $this->assertSame(0, $handler->result()['alice@example.com']['_can_delete']);
+
+        $struct = $handler->getStruct();
+        $this->assertSame(1, $struct['address']['display_in_list']);
+        $this->assertSame(1, $struct['goto']['display_in_list']);
+        $this->assertSame(1, $struct['goto_mailbox']['display_in_list']);
+        $this->assertSame(0, $struct['description']['display_in_list']);
+        $this->assertSame(0, $struct['active']['display_in_list']);
+    }
+
+    public function testUserCannotDeleteOwnMailboxAlias()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertTrue($handler->init('alice@example.com'));
+        $this->assertFalse($handler->delete());
+    }
+
+    public function testUserForwardingPreservesVacationAndLocalDelivery()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+
+        $vacation = 'alice#example.com@' . Config::read_string('vacation_domain');
+        db_update(
+            'alias',
+            'address',
+            'alice@example.com',
+            ['goto' => implode(',', [
+                'alice@example.com',
+                $vacation,
+                'old-forward@example.net',
+            ])]
+        );
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertTrue($handler->init('alice@example.com'));
+        $this->assertTrue($handler->set([
+            'goto' => ['new-forward@example.net'],
+            'goto_mailbox' => 1,
+        ]));
+        $this->assertTrue($handler->save(), json_encode($handler->errormsg));
+
+        $stored = new AliasHandler();
+        $this->assertTrue($stored->init('alice@example.com'));
+        $result = $stored->result();
+        $this->assertSame(['new-forward@example.net'], $result['goto']);
+        $this->assertSame(1, $result['goto_mailbox']);
+        $this->assertSame(1, $result['on_vacation']);
+
+        # Switching to forward-only removes local delivery but keeps vacation.
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertTrue($handler->init('alice@example.com'));
+        $this->assertTrue($handler->set([
+            'goto' => ['forward-only@example.net'],
+            'goto_mailbox' => 0,
+        ]));
+        $this->assertTrue($handler->save(), json_encode($handler->errormsg));
+
+        $stored = new AliasHandler();
+        $this->assertTrue($stored->init('alice@example.com'));
+        $result = $stored->result();
+        $this->assertSame(['forward-only@example.net'], $result['goto']);
+        $this->assertSame(0, $result['goto_mailbox']);
+        $this->assertSame(1, $result['on_vacation']);
+
+        # Removing all external targets must still work when local delivery is enabled.
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertTrue($handler->init('alice@example.com'));
+        $this->assertTrue($handler->set([
+            'goto' => [],
+            'goto_mailbox' => 1,
+        ]), json_encode($handler->errormsg));
+        $this->assertTrue($handler->save(), json_encode($handler->errormsg));
+
+        $stored = new AliasHandler();
+        $this->assertTrue($stored->init('alice@example.com'));
+        $result = $stored->result();
+        $this->assertSame([], $result['goto']);
+        $this->assertSame(1, $result['goto_mailbox']);
+        $this->assertSame(1, $result['on_vacation']);
+    }
+
+    public function testUserForwardingRespectsEditAliasSetting()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $previous = Config::read('edit_alias');
+        Config::write('edit_alias', 'NO');
+
+        try {
+            $handler = new AliasHandler(0, 'alice@example.com', false);
+            $this->assertFalse($handler->init('alice@example.com'));
+        } finally {
+            Config::write('edit_alias', $previous);
+        }
+    }
+
+    public function testUserCannotForgeVacationTargetAndDuplicatesAreRemoved()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['user']
+            ]
+        ];
+
+        $vacation = 'alice#example.com@' . Config::read_string('vacation_domain');
+        $handler = new AliasHandler(0, 'alice@example.com', false);
+        $this->assertTrue($handler->init('alice@example.com'));
+        $this->assertTrue($handler->set([
+            'goto' => [
+                $vacation,
+                $vacation,
+                'forward@example.net',
+                'forward@example.net',
+            ],
+            'goto_mailbox' => 1,
+        ]), json_encode($handler->errormsg));
+        $this->assertTrue($handler->save(), json_encode($handler->errormsg));
+
+        $stored = new AliasHandler();
+        $this->assertTrue($stored->init('alice@example.com'));
+        $result = $stored->result();
+        $this->assertSame(['forward@example.net'], $result['goto']);
+        $this->assertSame(1, $result['goto_mailbox']);
+        $this->assertSame(0, $result['on_vacation']);
+    }
+
+    public function testDomainAdminForwardingRespectsAliasControlAdminSetting()
+    {
+        $this->addDomain('example.com', 'admin');
+        $this->addMailboxAlias('alice@example.com', 'example.com');
+
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['admin']
+            ]
+        ];
+
+        $previous = Config::read('alias_control_admin');
+        Config::write('alias_control_admin', 'NO');
+
+        try {
+            $handler = new AliasHandler(0, 'admin', true);
+            $this->assertFalse($handler->init('alice@example.com'));
+        } finally {
+            Config::write('alias_control_admin', $previous);
+        }
     }
 
 
@@ -47,14 +299,6 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         // Trying to add an alias when the domain doesn't exist fails.
 
         $x = new AliasHandler(1, 'admin', true);
-
-        $values = [
-            'localpart' => 'david.test',
-            'domain' => 'example.com',
-            'active' => 1,
-            'address' => 'david.test@example.com',
-            'goto' => ['dest@example.com']
-        ];
 
         try {
             $r = $x->init('david.test@example.com');
@@ -100,6 +344,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($ret);
 
         $ret = $dh->save();
+
 
         $this->assertTrue($ret);
 
@@ -172,7 +417,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
             'domain' => 'example.com',
             'active' => 1,
             'address' => 'david.test@example.com',
-            'goto' => ['dest@example.com']
+            'goto' => ['dest@example.com'],
+            'description' => 'A reason this exists.'
         ];
 
         $r = $x->init('david.test@example.com');
@@ -197,6 +443,7 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
                 $this->assertEquals('example.com', $details['domain']);
                 $this->assertEquals('david.test@example.com', $details['address']);
                 $this->assertEquals(['dest@example.com'], $details['goto']);
+                $this->assertEquals('A reason this exists.', $details['description']);
                 $found = true;
                 break;
             }
@@ -264,6 +511,29 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
         foreach ($expected as $k => $v) {
             $this->assertEquals($v, $result[$domain][$k]);
         }
+    }
+
+    private function addMailboxAlias(string $username, string $domain): void
+    {
+        list($localPart) = explode('@', $username);
+
+        db_insert('mailbox', [
+            'username' => $username,
+            'password' => 'test',
+            'name' => 'Forward Test',
+            'maildir' => $domain . '/' . $localPart . '/',
+            'local_part' => $localPart,
+            'domain' => $domain,
+            'active' => 1,
+        ]);
+
+        db_insert('alias', [
+            'address' => $username,
+            'goto' => $username,
+            'domain' => $domain,
+            'description' => 'Mailbox alias',
+            'active' => 1,
+        ]);
     }
 
     public function testYouCannotAddMoreAliasesThanTheDomainLimit()
@@ -394,5 +664,95 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(5, count($results));
         $this->assertTrue(isset($results['31-test@example.com']));
+    }
+
+    /**
+     * The list-virtual.php active-status filter works by passing an 'active'
+     * condition to AliasHandler::getList(). Verify that filters the list.
+     * @see https://github.com/postfixadmin/postfixadmin/issues/1038
+     */
+    public function testActiveConditionFiltersAliasList()
+    {
+        $this->addDomain('example.com', 'admin');
+
+        // Add one active and one inactive alias (on top of the 4 default
+        // aliases, which are active).
+        foreach (['act@example.com' => 1, 'inact@example.com' => 0] as $addr => $active) {
+            $x = new AliasHandler(1, 'admin', true);
+            $this->assertTrue($x->init($addr));
+            $x->set([
+                'localpart' => explode('@', $addr)[0],
+                'domain'    => 'example.com',
+                'active'    => $active,
+                'address'   => $addr,
+                'goto'      => ['dest@example.com'],
+            ]);
+            $this->assertTrue($x->save(), json_encode($x->errormsg));
+        }
+
+        // active-only: contains our active alias and the defaults, never the inactive one.
+        $x = new AliasHandler(0, 'admin', true);
+        $this->assertTrue($x->getList(['domain' => 'example.com', 'active' => 1]));
+        $activeList = $x->result();
+        $this->assertArrayHasKey('act@example.com', $activeList);
+        $this->assertArrayNotHasKey('inact@example.com', $activeList);
+        foreach ($activeList as $addr => $row) {
+            $this->assertEquals(1, $row['active'], "$addr should be active");
+        }
+
+        // inactive-only: exactly our inactive alias.
+        $x = new AliasHandler(0, 'admin', true);
+        $this->assertTrue($x->getList(['domain' => 'example.com', 'active' => 0]));
+        $inactiveList = $x->result();
+        $this->assertEquals(['inact@example.com'], array_keys($inactiveList));
+        $this->assertEquals(0, $inactiveList['inact@example.com']['active']);
+    }
+
+
+    /**
+     * delete-inactive.php enumerates the inactive aliases and deletes each one
+     * through its handler. Verify that removes only the inactive aliases and
+     * leaves active ones untouched.
+     * @see https://github.com/postfixadmin/postfixadmin/issues/1057
+     */
+    public function testDeletingInactiveAliasesLeavesActiveOnes()
+    {
+        $this->addDomain('example.com', 'admin');
+
+        foreach (['keep@example.com' => 1, 'drop1@example.com' => 0, 'drop2@example.com' => 0] as $addr => $active) {
+            $x = new AliasHandler(1, 'admin', true);
+            $this->assertTrue($x->init($addr));
+            $x->set([
+                'localpart' => explode('@', $addr)[0],
+                'domain'    => 'example.com',
+                'active'    => $active,
+                'address'   => $addr,
+                'goto'      => ['dest@example.com'],
+            ]);
+            $this->assertTrue($x->save(), json_encode($x->errormsg));
+        }
+
+        // Enumerate + delete the inactive ones, exactly as delete-inactive.php does.
+        $handler = new AliasHandler(0, 'admin', true);
+        $this->assertTrue($handler->getList(['domain' => 'example.com', 'active' => 0]));
+        $inactive = array_keys($handler->result());
+        sort($inactive);
+        $this->assertEquals(['drop1@example.com', 'drop2@example.com'], $inactive);
+
+        foreach ($inactive as $addr) {
+            $one = new AliasHandler(0, 'admin', true);
+            $this->assertTrue($one->init($addr));
+            $this->assertTrue($one->delete(), json_encode($one->errormsg));
+        }
+
+        // No inactive aliases remain.
+        $handler = new AliasHandler(0, 'admin', true);
+        $this->assertTrue($handler->getList(['domain' => 'example.com', 'active' => 0]));
+        $this->assertEmpty($handler->result());
+
+        // The active alias (and the active default aliases) are still there.
+        $handler = new AliasHandler(0, 'admin', true);
+        $this->assertTrue($handler->getList(['domain' => 'example.com', 'active' => 1]));
+        $this->assertArrayHasKey('keep@example.com', $handler->result());
     }
 }

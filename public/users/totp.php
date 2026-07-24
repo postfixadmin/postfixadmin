@@ -33,11 +33,17 @@ $username = authentication_get_username();
 $pPassword_password_current_text = "";
 $pTOTP_now = "";
 $pPassword_password_text = "";
-$pQR_raw = "";
+
 
 // these get shown if there's an error.
 $pTOTP_secret_text = '';
 $pTOTP_code_text = '';
+
+// check if totp is enabled
+if (Config::bool('totp') === false) {
+    header("Location: main.php");
+    exit(0);
+}
 
 if (authentication_has_role('admin')) {
     $login = new Login('admin');
@@ -50,9 +56,8 @@ if (authentication_has_role('admin')) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
-    }
+
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     if (isset($_POST['fCancel'])) {
         header("Location: main.php");

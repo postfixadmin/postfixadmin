@@ -7,10 +7,11 @@
  */
 class AliasHandler extends PFAHandler
 {
-    protected $db_table = 'alias';
-    protected $id_field = 'address';
-    protected $domain_field = 'domain';
-    protected $searchfields = array('address', 'goto');
+    protected string $db_table = 'alias';
+    protected string $id_field = 'address';
+    protected ?string $domain_field = 'domain';
+    protected ?string $user_field = 'address';
+    protected array $searchfields = array('address', 'goto');
 
     /**
      *
@@ -27,14 +28,14 @@ class AliasHandler extends PFAHandler
         $this->struct = array(
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / ...
             #                           editing?    form    list
-            'status'           => self::pacol(0,          0,      0,      'html', ''                              , ''                                , '', array(),
-                array('not_in_db' => 1)),
+            'status'           => self::pacol(0,          0,      0,      'html', ''                              , ''                                , '', array(), 1),
             'address'          => self::pacol($this->new, 1,      1,      'mail', 'alias'                         , 'pCreate_alias_catchall_text'),
             'localpart'        => self::pacol($this->new, 0,      0,      'text', 'alias'                         , 'pCreate_alias_catchall_text'     , '',
                 /*options*/ array(),
                 /*not_in_db*/ 1),
-            'domain'           => self::pacol($this->new, 0,      1,      'enum', ''                              , ''                                , '',
+            'domain'           => self::pacol($this->new, 0,      1,      'enum', 'domain'                        , ''                                , '',
                 /*options*/ $this->allowed_domains),
+           'description'       => self::pacol(1,          1,      1,      'text', 'description'                   , ''),
             'goto'             => self::pacol(1,          1,      1,      'txtl', 'to'                            , 'pEdit_alias_help'                , array()),
             'is_mailbox'       => self::pacol(0,          0,      1,      'int', ''                             , ''                                , 0 ,
                 # technically 'is_mailbox' is bool, but the automatic bool conversion breaks the query. Flagging it as int avoids this problem.
@@ -54,12 +55,28 @@ class AliasHandler extends PFAHandler
             'created'          => self::pacol(0,          0,      0,      'ts',   'created'                       , ''),
             'modified'         => self::pacol(0,          0,      1,      'ts',   'last_modified'                 , ''),
             'active'           => self::pacol(1,          1,      1,      'bool', 'active'                        , ''                                , 1),
-            '_can_edit'        => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , array(),
-                array('select' => '1 as _can_edit')),
-            '_can_delete'      => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0 , array(),
-                array('select' => '1 as _can_delete')), # read_from_db_postprocess() updates the value
+            '_can_edit'        => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0, array(), 0, 0, '1 as _can_edit'),
+            '_can_delete'      => self::pacol(0,          0,      1,      'vnum', ''                              , ''                                , 0, array(), 0, 0, ($this->is_admin ? '1' : '0') . ' as _can_delete'), # read_from_db_postprocess() updates the value
                 # aliases listed in $CONF[default_aliases] are read-only for domain admins if $CONF[special_alias_control] is NO.
         );
+
+        # Users may only change their forwarding targets and whether mail is
+        # also delivered locally. Administrative alias fields stay read-only.
+        if (!$this->is_admin) {
+            $this->struct['address']['editable'] = 0;
+            $this->struct['address']['display_in_form'] = 1;
+            $this->struct['address']['label'] = Config::lang('pOverview_mailbox_username');
+            $this->struct['address']['desc'] = '';
+
+            # Keep the user list focused on the only editable forwarding data.
+            foreach (['domain', 'description', 'on_vacation', 'modified', 'active'] as $field) {
+                $this->struct[$field]['display_in_list'] = 0;
+            }
+            $this->struct['description']['editable'] = 0;
+            $this->struct['description']['display_in_form'] = 0;
+            $this->struct['active']['editable'] = 0;
+            $this->struct['active']['display_in_form'] = 0;
+        }
 
         $this->set_is_mailbox_extrafrom();
     }
@@ -78,12 +95,14 @@ class AliasHandler extends PFAHandler
             ' FROM ' . table_by_key('mailbox') .
             ' WHERE username IS NOT NULL ';
 
+        // Note: extrafrom is a raw SQL string stored in struct with no mechanism to attach params.
+        // Values here are internal (allowed_domains from session), not user input, so escape_string is acceptable.
         if (isset($condition['domain']) && !isset($searchmode['domain']) && in_array($condition['domain'], $this->allowed_domains)) {
-            # listing for a specific domain, so restrict subquery to that domain
-            $extrafrom .= ' AND ' . db_in_clause($this->domain_field, array($condition['domain']));
+            $v = array_map('escape_string', array($condition['domain']));
+            $extrafrom .= " AND $this->domain_field IN ('" . implode("','", $v) . "') ";
         } else {
-            # restrict subquery to all domains accessible to this admin
-            $extrafrom .= ' AND ' . db_in_clause($this->domain_field, $this->allowed_domains);
+            $v = array_map('escape_string', $this->allowed_domains);
+            $extrafrom .= " AND $this->domain_field IN ('" . implode("','", $v) . "') ";
         }
 
         $extrafrom .= ' ) AS __mailbox ON __mailbox_username = address';
@@ -108,6 +127,10 @@ class AliasHandler extends PFAHandler
             $this->msg['store_error'] = 'pEdit_alias_result_error';
             $this->msg['successmessage'] = 'alias_updated';
         }
+
+        if (!$this->is_admin) {
+            $this->msg['can_create'] = false;
+        }
     }
 
 
@@ -119,22 +142,26 @@ class AliasHandler extends PFAHandler
             $this->struct['domain']['display_in_form'] = 1;
         }
 
-        if (Config::bool('show_status')) {
+        if ($this->is_admin && Config::bool('show_status')) {
             $this->struct['status']['display_in_list'] = 1;
             $this->struct['status']['label'] = ' ';
         }
 
+        $listview = $this->is_admin ? 'list-virtual.php' : 'users/main.php';
+        $formtitle_edit = $this->is_admin ? 'pEdit_alias_welcome' : 'pUsersMenu_edit_alias';
+
         return array(
             # $PALANG labels
             'formtitle_create'  => 'pMain_create_alias',
-            'formtitle_edit'    => 'pEdit_alias_welcome',
+            'formtitle_edit'    => $formtitle_edit,
             'create_button'     => 'add_alias',
 
             # various settings
             'required_role' => 'admin',
-            'listview'      => 'list-virtual.php',
+            'listview'      => $listview,
             'early_init'    => 0,
             'prefill'       => array('domain'),
+            'user_hardcoded_field' => 'address',
         );
     }
 
@@ -144,6 +171,13 @@ class AliasHandler extends PFAHandler
      */
     public function init(string $id): bool
     {
+        if (!$this->is_admin) {
+            if (!Config::bool('edit_alias') || strtolower($id) !== strtolower($this->username)) {
+                $this->errormsg[] = Config::lang_f('pEdit_alias_result_error', $id);
+                return false;
+            }
+        }
+
         $bits = explode('@', $id);
         if (sizeof($bits) == 2) {
             $local_part = $bits[0];
@@ -189,6 +223,11 @@ class AliasHandler extends PFAHandler
 
     protected function validate_new_id()
     {
+        if (!$this->is_admin) {
+            $this->errormsg[$this->id_field] = Config::lang_f('edit_not_allowed', $this->id);
+            return false;
+        }
+
         if ($this->id == '') {
             $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error1');
             return false;
@@ -196,30 +235,26 @@ class AliasHandler extends PFAHandler
 
         list($local_part, $domain) = explode('@', $this->id);
 
-        if (!$this->create_allowed($domain)) {
-            $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error3');
-            return false;
-        }
-
         # TODO: already checked in set() - does it make sense to check it here also? Only advantage: it's an early check
         #        if (!in_array($domain, $this->allowed_domains)) {
         #            $this->errormsg[] = Config::lang('pCreate_alias_address_text_error1');
         #            return false;
         #        }
 
-        if ($local_part == '') { # catchall
-            $valid = true;
-        } else {
+        if ($local_part != '') { # catchall
             $email_check = check_email($this->id);
-            if ($email_check == '') {
-                $valid = true;
-            } else {
+            if ($email_check != '') {
                 $this->errormsg[$this->id_field] = $email_check;
-                $valid = false;
+                return false;
             }
         }
 
-        return $valid;
+        if (!$this->create_allowed($domain)) {
+            $this->errormsg[$this->id_field] = Config::lang('pCreate_alias_address_text_error3');
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -288,6 +323,12 @@ class AliasHandler extends PFAHandler
                     $values['goto'] = $oldvalues['goto'];
                 }
 
+                # Internal vacation targets are managed exclusively by the
+                # vacation flow. Ignore submitted copies and add the target
+                # back only when the stored vacation state says it is active.
+                $values['goto'] = array_values(array_unique($values['goto']));
+                $values['goto'] = array_values(array_diff($values['goto'], [$this->getVacationAlias()]));
+
                 if (!isset($values['on_vacation'])) { # no new value given?
                     $values['on_vacation'] = $oldvalues['on_vacation'];
                 }
@@ -323,7 +364,7 @@ class AliasHandler extends PFAHandler
 
     protected function read_from_db_postprocess($db_result)
     {
-        foreach ($db_result as $key => $value) {
+        foreach ($db_result as $key => $_) {
             # split comma-separated 'goto' into an array
             $goto = $db_result[$key]['goto'] ?? null;
             if (is_string($goto)) {
@@ -374,7 +415,12 @@ class AliasHandler extends PFAHandler
 
     public function getList($condition, $searchmode = array(), $limit = -1, $offset = -1): bool
     {
-        list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
+        # Admin alias lists intentionally exclude mailbox aliases. A user must
+        # see their own mailbox alias, with PFAHandler::$user_field providing
+        # the ownership restriction.
+        if ($this->is_admin) {
+            list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
+        }
         $this->set_is_mailbox_extrafrom($condition, $searchmode);
         $result = parent::getList($condition, $searchmode, $limit, $offset);
         $this->set_is_mailbox_extrafrom(); # reset to default
@@ -383,7 +429,9 @@ class AliasHandler extends PFAHandler
 
     public function getPagebrowser($condition, $searchmode = array())
     {
-        list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
+        if ($this->is_admin) {
+            list($condition, $searchmode) = $this->condition_ignore_mailboxes($condition, $searchmode);
+        }
         $this->set_is_mailbox_extrafrom($condition, $searchmode);
         $result = parent::getPagebrowser($condition, $searchmode);
         $this->set_is_mailbox_extrafrom(); # reset to default
@@ -403,6 +451,13 @@ class AliasHandler extends PFAHandler
         $errors = array();
 
         foreach ($val as $singlegoto) {
+            # setmore() removes this internal target and restores it only from
+            # the stored vacation state, so it must not be validated as a
+            # user-managed external destination first.
+            if (!$this->new && $singlegoto === $this->getVacationAlias()) {
+                continue;
+            }
+
             if (substr($this->id, 0, 1) == '@' && substr($singlegoto, 0, 1) == '@') { # domain-wide forward - check only the domain part
                 # only allowed if $this->id is a catchall
                 # Note: alias domains are better, but we should keep this way supported for backward compatibility
@@ -445,7 +500,7 @@ class AliasHandler extends PFAHandler
     /**
      * on $this->new, set localpart based on address
      */
-    protected function _missing_localpart($field)
+    protected function _missing_localpart()
     {
         if (isset($this->RAWvalues['address'])) {
             $parts = explode('@', $this->RAWvalues['address']);
@@ -458,7 +513,7 @@ class AliasHandler extends PFAHandler
     /**
      * on $this->new, set domain based on address
      */
-    protected function _missing_domain($field)
+    protected function _missing_domain()
     {
         if (isset($this->RAWvalues['address'])) {
             $parts = explode('@', $this->RAWvalues['address']);

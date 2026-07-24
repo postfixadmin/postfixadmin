@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 ################################################################################
 #
 # Bake is a shell script for running CakePHP bake script
@@ -29,7 +29,7 @@
 self="$0"
 test -L "$self" && self="`readlink -f \"$self\"`"
 
-LIB="${self/%postfixadmin-cli/}"
+LIB="${self%postfixadmin-cli}"
 
 exec php -q "${LIB}postfixadmin-cli.php" "$@"
 

@@ -7,10 +7,10 @@
  */
 class MailboxHandler extends PFAHandler
 {
-    protected $db_table = 'mailbox';
-    protected $id_field = 'username';
-    protected $domain_field = 'domain';
-    protected $searchfields = array('username');
+    protected string $db_table = 'mailbox';
+    protected string $id_field = 'username';
+    protected ?string $domain_field = 'domain';
+    protected array $searchfields = ['username'];
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct()
@@ -34,7 +34,7 @@ class MailboxHandler extends PFAHandler
             'local_part' => self::pacol($this->new, 0, 0, 'text', 'pEdit_mailbox_username', '', '',
                 /*options*/ array('legal_chars' => Config::read('username_legal_chars'), 'legal_char_warning' => Config::lang('pLegal_char_warning'))
             ),
-            'domain' => self::pacol($this->new, 0, 1, 'enum', '', '', '',
+            'domain' => self::pacol($this->new, 0, 1, 'enum', 'domain', '', '',
                 /*options*/ $this->allowed_domains),
             # TODO: maildir: display in list is needed to include maildir in SQL result (for post_edit hook)
             # TODO:          (not a perfect solution, but works for now - maybe we need a separate "include in SELECT query" field?)
@@ -65,7 +65,16 @@ class MailboxHandler extends PFAHandler
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 
-        # update allowed quota
+        # Admin-side TOTP management
+        if (Config::bool('totp') && !$this->new) {
+            $this->struct['totp_action'] = self::pacol(
+                0, 1, 0, 'html', 'pUsersMenu_totp', '', '',
+                array(),
+                /*not_in_db*/ 1,
+                /*dont_write_to_db*/ 1
+            );
+        }
+
         if (count($this->struct['domain']['options']) > 0) {
             $this->prefill('domain', $this->struct['domain']['options'][0]);
         }
@@ -233,7 +242,26 @@ class MailboxHandler extends PFAHandler
                 $db_result[$key]['quota'] = -1;
             }
         }
+
+        # Render TOTP action
+        if (isset($this->struct['totp_action']) && is_string($row['username'])) {
+
+            $totp = new TotpPf('mailbox', new Login('mailbox'));
+            $has_totp = $totp->usesTOTP($row['username']);
+
+            if ($has_totp) {
+                $db_result[$key]['totp_action'] =
+                    '<button type="submit" name="reset_totp" value="1" class="btn btn-warning btn-sm">' .
+                    htmlspecialchars(Config::lang('pUsersMenu_reset_totp'), ENT_QUOTES, 'UTF-8') .
+                    '</button>';
+            } else {
+                $db_result[$key]['totp_action'] =
+                    htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
+            }
+        }
+
         return $db_result;
+
     }
 
 
@@ -244,7 +272,7 @@ class MailboxHandler extends PFAHandler
             if ($multiplier == 0 || !is_numeric($multiplier)) { // or empty string, or null, or false...
                 $multiplier = 1;
             }
-            $this->values['quota'] = $this->values['quota'] * $multiplier; # convert quota from MB to bytes
+            $this->values['quota'] = round(floatval($this->values['quota']) * floatval($multiplier), 2); # convert quota from MB to bytes
 
 
         }
@@ -355,12 +383,6 @@ class MailboxHandler extends PFAHandler
 
                 $this->values['maildir'] = $oldvalues['maildir'];
 
-                if (isset($this->values['quota'])) {
-                    $quota = $this->values['quota'];
-                } else {
-                    $quota = $oldvalues['quota'];
-                }
-
                 if (!$this->mailbox_post_script()) {
                     # TODO: should this be fatal?
                 }
@@ -426,7 +448,7 @@ class MailboxHandler extends PFAHandler
      */
     protected function _validate_password($field, $val)
     {
-        if (!$this->_validate_password2($field, $val)) {
+        if (!$this->_validate_password2()) {
             return false;
         }
 
@@ -448,7 +470,7 @@ class MailboxHandler extends PFAHandler
      * compare password / password2 field
      * error message will be displayed at the password2 field
      */
-    protected function _validate_password2($field, $val)
+    protected function _validate_password2()
     {
         return $this->compare_password_fields('password', 'password2');
     }
@@ -456,18 +478,18 @@ class MailboxHandler extends PFAHandler
     /**
      * on $this->new, set localpart based on address
      */
-    protected function _missing_local_part($field)
+    protected function _missing_local_part()
     {
-        list($local_part, $domain) = explode('@', $this->id);
+        list($local_part, $_) = explode('@', $this->id);
         $this->RAWvalues['local_part'] = $local_part;
     }
 
     /**
      * on $this->new, set domain based on address
      */
-    protected function _missing_domain($field)
+    protected function _missing_domain()
     {
-        list($local_part, $domain) = explode('@', $this->id);
+        list($_, $domain) = explode('@', $this->id);
         $this->RAWvalues['domain'] = $domain;
     }
 
@@ -478,7 +500,7 @@ class MailboxHandler extends PFAHandler
     /**
      * calculate maildir path for the mailbox
      */
-    protected function _missing_maildir($field)
+    protected function _missing_maildir()
     {
         list($local_part, $domain) = explode('@', $this->id);
 
@@ -562,7 +584,7 @@ class MailboxHandler extends PFAHandler
 
             $rows = db_query_all($query, array($domain, $this->id));
 
-            $cur_quota_total = divide_quota($rows[0]['sum']); # convert to MB
+            $cur_quota_total = (int)divide_quota($rows[0]['sum']); # convert to MB
             if (($quota + $cur_quota_total) > $limit['quota']) {
                 $rval = false;
             } else {
@@ -608,7 +630,7 @@ class MailboxHandler extends PFAHandler
     /**
      * Called after a mailbox has been created or edited in the DBMS.
      *
-     * @return boolean success/failure status
+     * @return bool success/failure status
      */
     protected function mailbox_post_script()
     {
@@ -633,8 +655,7 @@ class MailboxHandler extends PFAHandler
         $quota = $this->values['quota'];
 
         if (empty($this->id) || empty($domain) || empty($this->values['maildir'])) {
-            trigger_error('In ' . __FUNCTION__ . ': empty username, domain and/or maildir parameter', E_USER_ERROR);
-            return false;
+            throw new \InvalidArgumentException('Username, domain and/or maildir parameter must all be set');
         }
 
         $cmdarg1 = escapeshellarg($this->id);
@@ -650,45 +671,21 @@ class MailboxHandler extends PFAHandler
             $command = "$cmd $cmdarg1 $cmdarg2 $cmdarg3 $cmdarg4";
             $retval = 0;
             $output = array();
-            $firstline = '';
             $firstline = exec($command, $output, $retval);
             if (0 != $retval) {
                 error_log("Running $command yielded return value=$retval, first line of output=$firstline");
-                $this->errormsg[] .= $warnmsg;
+                $this->errormsg[] = $warnmsg;
                 $status = false;
             }
         }
 
         if (!empty($cmd_pw)) {
-            // Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-            $spec = array(
-                0 => array("pipe", "r"), // stdin
-                1 => array("pipe", "w"), // stdout
-            );
-
             $command = "$cmd_pw $cmdarg1 $cmdarg2 2>&1";
-
-            $proc = proc_open($command, $spec, $pipes);
-
-            if (!$proc) {
-                error_log("can't proc_open $cmd_pw");
-                $this->errormsg[] .= $warnmsg_pw;
+            $stdin = "\0" . $this->values['password'] . "\0";
+            $result = Exec::run($command, $stdin);
+            if ($result->retval !== 0) {
+                $this->errormsg[] = $warnmsg_pw;
                 $status = false;
-            } else {
-                // Write passwords through pipe to command stdin -- provide old password, then new password.
-                fwrite($pipes[0], "\0", 1);
-                fwrite($pipes[0], $this->values['password'] . "\0", 1 + strlen($this->values['password']));
-                $output = stream_get_contents($pipes[1]);
-                fclose($pipes[0]);
-                fclose($pipes[1]);
-
-                $retval = proc_close($proc);
-
-                if (0 != $retval) {
-                    error_log("Running $command yielded return value=$retval, output was: " . json_encode($output));
-                    $this->errormsg[] .= $warnmsg_pw;
-                    $status = false;
-                }
             }
         }
 
@@ -721,7 +718,6 @@ class MailboxHandler extends PFAHandler
         $command = "$cmd $cmdarg1 $cmdarg2";
         $retval = 0;
         $output = array();
-        $firstline = '';
         $firstline = exec($command, $output, $retval);
         if (0 != $retval) {
             error_log("Running $command yielded return value=$retval, first line of output=$firstline");

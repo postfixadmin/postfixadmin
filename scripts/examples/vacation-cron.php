@@ -22,7 +22,7 @@ define('POSTFIXADMIN_CLI', 1);
 
 $table_vacation = table_by_key('vacation');
 
-$active = db_get_boolean(1);
+$active = true;
 
 $vacations_that_need_deactivating = db_query_all("SELECT * FROM $table_vacation WHERE activeuntil <= NOW() AND active = :active ", ['active' => $active]);
 

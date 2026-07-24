@@ -6,9 +6,9 @@
  * @package tests
  */
 
-require_once('RemoteTest.php');
+require_once('RemoteTestCase.php');
 
-class RemoteVacationTest extends RemoteTest
+class RemoteVacationTest extends RemoteTestCase
 {
     /**
      * Adds the test recipient data to the database.

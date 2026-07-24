@@ -32,13 +32,13 @@ $username = authentication_get_username(); # enforce login
 $table = safepost('table', safeget('table'));
 
 if (empty($table)) {
-    die("Invalid table name given!");
+    throw new \InvalidArgumentException("Invalid table name given!");
 }
 
 $handlerclass = ucfirst($table) . 'Handler';
 
 if (!preg_match('/^[a-z]+$/', $table) || !file_exists(dirname(__FILE__) . "/../model/$handlerclass.php")) { # validate $table
-    die("Invalid table name given!");
+    throw new \InvalidArgumentException("Invalid table name given!");
 }
 
 $error = 0;
@@ -58,7 +58,7 @@ if ($is_admin) {
     authentication_require_role($formconf['required_role']);
 } else {
     if (empty($formconf['user_hardcoded_field'])) {
-        die($handlerclass . ' is not available for users');
+        throw new \InvalidArgumentException($handlerclass . ' is not available for users');
     }
 }
 
@@ -103,8 +103,30 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
+    CsrfToken::assertValid(safepost('CSRF_Token'));
+
+    # Reset TOTP secret (mailbox/admin edit by Admin)
+    if (safepost('reset_totp') === '1') {
+        if (Config::bool('totp') && !$new && ($table === 'mailbox' || $table === 'admin')) {
+
+            if (!$handler->init($edit)) {
+                flash_error($handler->errormsg);
+                header("Location: " . $formconf['listview']);
+                exit;
+            }
+
+            try {
+                $totp = new TotpPf($table, new Login($table));
+                $totp->removeTotpFromUser($edit);
+                flash_info(Config::lang_f('pTOTP_reset_success', $edit));
+            } catch (Exception $e) {
+                error_log("TOTP reset failed for $table/$edit: " . $e->getMessage());
+                flash_error(Config::lang_f('pTOTP_reset_failed', $edit) . $e->getMessage());
+            }
+
+            header("Location: edit.php?table=" . urlencode($table) . "&edit=" . urlencode($edit));
+            exit;
+        }
     }
 
     $inp_values = [];
@@ -156,20 +178,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (!$handler->init($values[$id_field])) {
         $error = 1;
-        $errormsg = $handler->errormsg;
     }
 
     if (!$handler->set($values)) {
         $error = 1;
-        $errormsg = $handler->errormsg;
     }
 
     $form_fields = $handler->getStruct(); # refresh $form_fields - set() might have changed something
 
     if ($error != 1) {
-        if (!$handler->save()) {
-            $errormsg = $handler->errormsg;
-        } else {
+        if ($handler->save()) {
             flash_info($handler->infomsg);
 
             if (count($handler->errormsg)) { # might happen if domain_postcreation fails
@@ -201,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 if ($error != 1 && $new) { # no error and not in edit mode - reset fields to default for new item
     $values = array();
-    foreach (array_keys($form_fields) as $key) {
+    foreach ($form_fields as $key => $_) {
         $values[$key] = $form_fields[$key]['default'];
     }
 }
@@ -209,7 +227,7 @@ if ($error != 1 && $new) { # no error and not in edit mode - reset fields to def
 $errormsg = $handler->errormsg;
 $fielderror = array();
 
-foreach ($form_fields as $key => $field) {
+foreach ($form_fields as $key => $_) {
     if ($form_fields[$key]['display_in_form']) {
         if (isset($errormsg[$key])) {
             $fielderror[$key] = $errormsg[$key];
@@ -217,11 +235,15 @@ foreach ($form_fields as $key => $field) {
         } else {
             $fielderror[$key] = '';
         }
+        $sanitise = true;
+        if (isset($form_fields[$key]['type']) && $form_fields[$key]['type'] == 'html') {
+            $sanitise = false;
+        }
 
         if (isset($values[$key])) {
-            $smarty->assign("value_$key", $values[$key]);
+            $smarty->assign("value_$key", $values[$key], $sanitise);
         } else {
-            $smarty->assign("value_$key", $form_fields[$key]['default']);
+            $smarty->assign("value_$key", $form_fields[$key]['default'], $sanitise);
         }
     }
 }

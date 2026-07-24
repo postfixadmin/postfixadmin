@@ -7,24 +7,42 @@
  */
 class DkimHandler extends PFAHandler
 {
-    protected $db_table = 'dkim';
-    protected $id_field = 'id';
-    protected $label_field = 'description';
-    protected $domain_field = 'domain_name';
-    protected $order_by = 'domain_name, selector';
+    protected string $db_table = 'dkim';
+    protected string $id_field = 'id';
+    protected string $label_field = 'description';
+    protected ?string $domain_field = 'domain_name';
+    protected string $order_by = 'domain_name, selector';
 
 
     protected function initStruct()
     {
+        // Auto-generate RSA keypair as defaults for the create form
+        $default_private_key = '';
+        $default_public_key = '';
+        if ($this->new && function_exists('openssl_pkey_new')) {
+            $key = openssl_pkey_new([
+                'digest_alg' => 'sha512',
+                'private_key_bits' => 2048,
+                'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            ]);
+            if ($key) {
+                openssl_pkey_export($key, $default_private_key);
+                $details = openssl_pkey_get_details($key);
+                if ($details) {
+                    $default_public_key = $details['key'];
+                }
+            }
+        }
+
         $this->struct = array(
             # field name                allow       display in...   type     $PALANG label           $PALANG description          default / options / ...
             #                           editing?    form    list
-            'id'               => self::pacol(0,          0,      1,      'num' , 'pFetchmail_field_id' , ''                         , '', array(), array('dont_write_to_db' => 1)),
+            'id'               => self::pacol(0,          0,      1,      'num' , 'pFetchmail_field_id' , ''                         , '', array(), 0, 1),
             'description'      => self::pacol(1,          1,      1,      'text', 'description'         , ''),
             'selector'         => self::pacol(1,          1,      1,      'text', 'pDkim_field_selector', 'pDkim_field_selector_desc'),
             'domain_name'      => self::pacol(1,          1,      1,      'enum', 'domain'              , 'pDkim_field_domain_desc'  , '', $this->allowed_domains),
-            'private_key'      => self::pacol(1,          1,      0,      'txta', 'pDkim_field_pkey'    , 'pDkim_field_pkey_desc'),
-            'public_key'       => self::pacol(1,          1,      0,      'txta', 'pDkim_field_pub'     , 'pDkim_field_pub_desc'),
+            'private_key'      => self::pacol(1,          1,      0,      'txta', 'pDkim_field_pkey'    , 'pDkim_field_pkey_desc'    , trim($default_private_key)),
+            'public_key'       => self::pacol(1,          1,      0,      'txta', 'pDkim_field_pub'     , 'pDkim_field_pub_desc'     , trim($default_public_key)),
         );
     }
 

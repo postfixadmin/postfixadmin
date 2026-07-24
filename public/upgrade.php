@@ -356,9 +356,9 @@ function db_query_parsed($sql, $ignore_errors = 0, $attach_mysql = "")
     }
 
     try {
-        $result = db_execute($query, array(), true);
+        db_execute($query, array(), true);
     } catch (PDOException $e) {
-        error_log("Exception running PostfixAdmin query: $query " . $e);
+        error_log("Exception running PostfixAdmin query: $query " . $e->getMessage());
         if ($debug) {
             echo_out("<div style='color:#f00'>" . $e->getMessage() . "</div>");
         }
@@ -407,141 +407,6 @@ function _add_index($table, $indexname, $fieldlist)
     } else {
         echo_out("Sorry, unsupported database type " . $CONF['database_type']);
         exit;
-    }
-}
-
-/**
- * @return void
- */
-function upgrade_1_mysql()
-{
-    #
-    # creating the tables in this very old layout (pre 2.1) causes trouble if the MySQL charset is not latin1 (multibyte vs. index length)
-    # therefore:
-
-    return; # <-- skip running this function at all.
-
-    # (remove the above "return" if you really want to start with a pre-2.1 database layout)
-
-    // CREATE MYSQL DATABASE TABLES.
-    $admin = table_by_key('admin');
-    $alias = table_by_key('alias');
-    $domain = table_by_key('domain');
-    $domain_admins = table_by_key('domain_admins');
-    $log = table_by_key('log');
-    $mailbox = table_by_key('mailbox');
-    $vacation = table_by_key('vacation');
-
-    $sql = array();
-    $sql[] = "
-    CREATE TABLE {IF_NOT_EXISTS} $admin (
-      `username` varchar(255) NOT NULL default '',
-      `password` varchar(255) NOT NULL default '',
-      `created` {DATETIME},
-      `modified` {DATETIME},
-      `active` tinyint(1) NOT NULL default '1',
-      PRIMARY KEY  (`username`)
-  ) {COLLATE} COMMENT='Postfix Admin - Virtual Admins';";
-
-    $sql[] = "
-    CREATE TABLE {IF_NOT_EXISTS} $alias (
-      `address` varchar(255) NOT NULL default '',
-      `goto` text NOT NULL,
-      `domain` varchar(255) NOT NULL default '',
-      `created` {DATETIME},
-      `modified` {DATETIME},
-      `active` tinyint(1) NOT NULL default '1',
-      PRIMARY KEY  (`address`)
-    ) {COLLATE} COMMENT='Postfix Admin - Virtual Aliases'; ";
-
-    $sql[] = "
-    CREATE TABLE {IF_NOT_EXISTS} $domain (
-      `domain` varchar(255) NOT NULL default '',
-      `description` varchar(255) NOT NULL default '',
-      `aliases` int(10) NOT NULL default '0',
-      `mailboxes` int(10) NOT NULL default '0',
-      `maxquota` bigint(20) NOT NULL default '0',
-      `quota` bigint(20) NOT NULL default '0',
-      `transport` varchar(255) default NULL,
-      `backupmx` tinyint(1) NOT NULL default '0',
-      `created` {DATETIME},
-      `modified` {DATETIME},
-      `active` tinyint(1) NOT NULL default '1',
-      PRIMARY KEY  (`domain`)
-    ) {COLLATE} COMMENT='Postfix Admin - Virtual Domains'; ";
-
-    $sql[] = "
-    CREATE TABLE {IF_NOT_EXISTS} $domain_admins (
-      `username` varchar(255) NOT NULL default '',
-      `domain` varchar(255) NOT NULL default '',
-      `created` {DATETIME},
-      `active` tinyint(1) NOT NULL default '1',
-      KEY username (`username`)
-    ) {COLLATE} COMMENT='Postfix Admin - Domain Admins';";
-
-    $sql[] = "
-    CREATE TABLE {IF_NOT_EXISTS} $log (
-      `timestamp` {DATETIME},
-      `username` varchar(255) NOT NULL default '',
-      `domain` varchar(255) NOT NULL default '',
-      `action` varchar(255) NOT NULL default '',
-      `data` varchar(255) NOT NULL default '',
-      KEY timestamp (`timestamp`)
-    ) {COLLATE} COMMENT='Postfix Admin - Log';";
-
-    $sql[] = "
-    CREATE TABLE {IF_NOT_EXISTS} $mailbox (
-      `username` varchar(255) NOT NULL default '',
-      `password` varchar(255) NOT NULL default '',
-      `name` varchar(255) NOT NULL default '',
-      `maildir` varchar(255) NOT NULL default '',
-      `quota` bigint(20) NOT NULL default '0',
-      `domain` varchar(255) NOT NULL default '',
-      `created` {DATETIME},
-      `modified` {DATETIME},
-      `active` tinyint(1) NOT NULL default '1',
-      PRIMARY KEY  (`username`)
-    ) {COLLATE} COMMENT='Postfix Admin - Virtual Mailboxes';";
-
-    $sql[] = "
-    CREATE TABLE {IF_NOT_EXISTS} $vacation ( 
-        email varchar(255) NOT NULL , 
-        subject varchar(255) NOT NULL, 
-        body text NOT NULL, 
-        cache text NOT NULL, 
-        domain varchar(255) NOT NULL , 
-        created {DATETIME},
-        active tinyint(4) NOT NULL default '1', 
-        PRIMARY KEY (email), 
-        KEY email (email) 
-    ) {INNODB} {COLLATE} COMMENT='Postfix Admin - Virtual Vacation' ;";
-
-    foreach ($sql as $query) {
-        db_query_parsed($query);
-    }
-}
-
-/**
- * @return void
- */
-function upgrade_2_mysql()
-{
-    #
-    # updating the tables in this very old layout (pre 2.1) causes trouble if the MySQL charset is not latin1 (multibyte vs. index length)
-    # therefore:
-
-    return; # <-- skip running this function at all.
-
-    # (remove the above "return" if you really want to update a pre-2.1 database)
-
-    # upgrade pre-2.1 database
-    # from TABLE_BACKUP_MX.TXT
-    $table_domain = table_by_key('domain');
-    if (!_mysql_field_exists($table_domain, 'transport')) {
-        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;", true);
-    }
-    if (!_mysql_field_exists($table_domain, 'backupmx')) {
-        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx {BOOLEAN} AFTER transport;", true);
     }
 }
 
@@ -664,105 +529,12 @@ function upgrade_2_pgsql()
 }
 
 /**
- * @return void
- */
-function upgrade_3_mysql()
-{
-    #
-    # updating the tables in this very old layout (pre 2.1) causes trouble if the MySQL charset is not latin1 (multibyte vs. index length)
-    # therefore:
-
-    return; # <-- skip running this function at all.
-
-    # (remove the above "return" if you really want to update a pre-2.1 database)
-
-    # upgrade pre-2.1 database
-    # from TABLE_CHANGES.TXT
-    $table_admin = table_by_key('admin');
-    $table_alias = table_by_key('alias');
-    $table_domain = table_by_key('domain');
-    $table_mailbox = table_by_key('mailbox');
-    $table_vacation = table_by_key('vacation');
-
-    if (!_mysql_field_exists($table_admin, 'created')) {
-        db_query_parsed("ALTER TABLE $table_admin {RENAME_COLUMN} create_date created {DATETIME};");
-    }
-    if (!_mysql_field_exists($table_admin, 'modified')) {
-        db_query_parsed("ALTER TABLE $table_admin {RENAME_COLUMN} change_date modified {DATETIME};");
-    }
-    if (!_mysql_field_exists($table_alias, 'created')) {
-        db_query_parsed("ALTER TABLE $table_alias {RENAME_COLUMN} create_date created {DATETIME};");
-    }
-    if (!_mysql_field_exists($table_alias, 'modified')) {
-        db_query_parsed("ALTER TABLE $table_alias {RENAME_COLUMN} change_date modified {DATETIME};");
-    }
-    if (!_mysql_field_exists($table_domain, 'created')) {
-        db_query_parsed("ALTER TABLE $table_domain {RENAME_COLUMN} create_date created {DATETIME};");
-    }
-    if (!_mysql_field_exists($table_domain, 'modified')) {
-        db_query_parsed("ALTER TABLE $table_domain {RENAME_COLUMN} change_date modified {DATETIME};");
-    }
-    if (!_mysql_field_exists($table_domain, 'aliases')) {
-        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN aliases INT(10) DEFAULT '-1' NOT NULL AFTER description;");
-    }
-    if (!_mysql_field_exists($table_domain, 'mailboxes')) {
-        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN mailboxes INT(10) DEFAULT '-1' NOT NULL AFTER aliases;");
-    }
-    if (!_mysql_field_exists($table_domain, 'maxquota')) {
-        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN maxquota INT(10) DEFAULT '-1' NOT NULL AFTER mailboxes;");
-    }
-    if (!_mysql_field_exists($table_domain, 'transport')) {
-        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN transport VARCHAR(255) AFTER maxquota;");
-    }
-    if (!_mysql_field_exists($table_domain, 'backupmx')) {
-        db_query_parsed("ALTER TABLE $table_domain ADD COLUMN backupmx TINYINT(1) DEFAULT '0' NOT NULL AFTER transport;");
-    }
-    if (!_mysql_field_exists($table_mailbox, 'created')) {
-        db_query_parsed("ALTER TABLE $table_mailbox {RENAME_COLUMN} create_date created {DATETIME};");
-    }
-    if (!_mysql_field_exists($table_mailbox, 'modified')) {
-        db_query_parsed("ALTER TABLE $table_mailbox {RENAME_COLUMN} change_date modified {DATETIME};");
-    }
-    if (!_mysql_field_exists($table_mailbox, 'quota')) {
-        db_query_parsed("ALTER TABLE $table_mailbox ADD COLUMN quota INT(10) DEFAULT '-1' NOT NULL AFTER maildir;");
-    }
-    if (!_mysql_field_exists($table_vacation, 'domain')) {
-        db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN domain VARCHAR(255) DEFAULT '' NOT NULL AFTER cache;");
-    }
-    if (!_mysql_field_exists($table_vacation, 'created')) {
-        db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN created {DATETIME} AFTER domain;");
-    }
-    if (!_mysql_field_exists($table_vacation, 'active')) {
-        db_query_parsed("ALTER TABLE $table_vacation ADD COLUMN active TINYINT(1) DEFAULT '1' NOT NULL AFTER created;");
-    }
-    db_query_parsed("ALTER TABLE $table_vacation DROP PRIMARY KEY");
-    db_query_parsed("ALTER TABLE $table_vacation ADD PRIMARY KEY(email)");
-    db_query_parsed("UPDATE $table_vacation SET domain=SUBSTRING_INDEX(email, '@', -1) WHERE email=email;");
-}
-
-/**
- * @return void
- */
-function upgrade_4_mysql()
-{ # MySQL only
-    # changes between 2.1 and moving to sourceforge
-
-    return; // as the above _mysql functions are disabled; this one will just error for a new db.
-    $table_domain = table_by_key('domain');
-
-    db_query_parsed("ALTER TABLE $table_domain ADD COLUMN quota int(10) NOT NULL default '0' AFTER maxquota", true);
-    # Possible errors that can be ignored:
-    # - Invalid query: Table 'postfix.domain' doesn't exist
-}
-
-/**
  * Changes between 2.1 and moving to sf.net
  * @return void
  */
 function upgrade_4_pgsql()
 {
     $table_domain = table_by_key('domain');
-    $table_admin = table_by_key('admin');
     $table_alias = table_by_key('alias');
     $table_domain_admins = table_by_key('domain_admins');
     $table_log = table_by_key('log');
@@ -965,7 +737,6 @@ function upgrade_79_mysql()
 function upgrade_81_mysql()
 { # MySQL only
     $table_vacation = table_by_key('vacation');
-    $table_vacation_notification = table_by_key('vacation_notification');
 
     $all_sql = explode("\n", trim("
         ALTER TABLE $table_vacation CHANGE `email`    `email`   VARCHAR( 255 ) {LATIN1} NOT NULL
@@ -1454,7 +1225,7 @@ function upgrade_730_pgsql()
     try {
         db_query_parsed('CREATE LANGUAGE plpgsql', 1); /* will error if plpgsql is already installed */
     } catch (\Exception $e) {
-        error_log("ignoring exception that's probably : plpgsql is probably already installed; " . $e);
+        error_log("ignoring exception that's probably : plpgsql is probably already installed; " . $e->getMessage());
     }
 
     # trigger for dovecot v1.0 & 1.1 quota table
@@ -1579,7 +1350,7 @@ function upgrade_1284_mysql_pgsql()
 
     foreach ($result as $row) {
         printdebug("Setting superadmin flag for " . $row['username']);
-        db_update('admin', 'username', $row['username'], array('superadmin' => db_get_boolean(true)));
+        db_update('admin', 'username', $row['username'], array('superadmin' => true));
     }
 }
 
@@ -2411,4 +2182,103 @@ function upgrade_1851_mysql()
             `password_hash` varchar(255) DEFAULT NULL
         )
     ");
+}
+
+/**
+ * Add missing indexes for better performance on larger installations.
+ * See https://github.com/postfixadmin/postfixadmin/issues/972
+ *
+ * domain_admins: composite index for permission checks
+ *   queried with WHERE username=? AND (domain=? OR domain='ALL') AND active=?
+ * fetchmail: index on domain for domain-based filtering and deletion cascades
+ */
+function upgrade_1852_mysql()
+{
+    $domain_admins = table_by_key('domain_admins');
+    $fetchmail = table_by_key('fetchmail');
+
+    $result = db_query_one("SHOW INDEX FROM $domain_admins WHERE Key_name = 'idx_domadm_user_domain_active'");
+    if (empty($result)) {
+        db_query("ALTER TABLE $domain_admins ADD INDEX idx_domadm_user_domain_active (username, domain, active)");
+    }
+
+    $result = db_query_one("SHOW INDEX FROM $fetchmail WHERE Key_name = 'idx_fetchmail_domain'");
+    if (empty($result)) {
+        db_query("ALTER TABLE $fetchmail ADD INDEX idx_fetchmail_domain (domain)");
+    }
+}
+
+function upgrade_1852_pgsql()
+{
+    $domain_admins = table_by_key('domain_admins');
+    $fetchmail = table_by_key('fetchmail');
+
+    if (!_pgsql_object_exists('idx_domadm_user_domain_active')) {
+        db_query("CREATE INDEX idx_domadm_user_domain_active ON $domain_admins (username, domain, active)");
+    }
+    if (!_pgsql_object_exists('idx_fetchmail_domain')) {
+        db_query("CREATE INDEX idx_fetchmail_domain ON $fetchmail (domain)");
+    }
+}
+
+function upgrade_1852_sqlite()
+{
+    $domain_admins = table_by_key('domain_admins');
+    $fetchmail = table_by_key('fetchmail');
+
+    db_query("CREATE INDEX IF NOT EXISTS idx_domadm_user_domain_active ON $domain_admins (username, domain, active)");
+    db_query("CREATE INDEX IF NOT EXISTS idx_fetchmail_domain ON $fetchmail (domain)");
+}
+
+/**
+ * Add created/modified columns to totp_exception_address table.
+ * Required for TotpexceptionHandler to work with PFAHandler's save() method.
+ */
+function upgrade_1853()
+{
+    _db_add_field('totp_exception_address', 'created', '{DATECURRENT}');
+    _db_add_field('totp_exception_address', 'modified', '{DATECURRENT}');
+}
+
+/**
+ * Add 'description' field to alias and domainalist tables
+ */
+function upgrade_1854()
+{
+    # add description after 'domain' field in alias table
+    _db_add_field('alias', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'domain');
+
+    # add description after 'target_domain' field in alias_domain table
+    _db_add_field('alias_domain', 'description', "varchar(255) {UTF-8} NOT NULL DEFAULT ''", 'target_domain');
+}
+
+/**
+ * Reconcile MySQL schemas upgraded through the PostfixAdmin 3.3 branch.
+ *
+ * PostfixAdmin 3.3 used upgrade_1847_mysql() to widen quota2.username to
+ * varchar(255). A later upgrade to master therefore skips the more complete
+ * upgrade_1846_mysql() in this branch because the recorded database version
+ * is already 1847. The widened quota2 column is used as the marker for that
+ * upgrade path; a direct master upgrade leaves it at varchar(100).
+ *
+ * See https://github.com/postfixadmin/postfixadmin/issues/971
+ */
+function upgrade_1855_mysql()
+{
+    $quota2 = table_by_key('quota2');
+    $column = db_query_one(
+        "SELECT CHARACTER_MAXIMUM_LENGTH AS character_maximum_length
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+          AND TABLE_NAME = :table
+          AND COLUMN_NAME = 'username'",
+        ['table' => trim($quota2, '`')]
+    );
+
+    $column_length = (int) (array_values($column ?? [])[0] ?? 0);
+    if ($column_length !== 255) {
+        return;
+    }
+
+    upgrade_1846_mysql();
 }

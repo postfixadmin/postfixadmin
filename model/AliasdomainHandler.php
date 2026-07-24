@@ -7,10 +7,10 @@
  */
 class AliasdomainHandler extends PFAHandler
 {
-    protected $db_table = 'alias_domain';
-    protected $id_field = 'alias_domain';
-    protected $domain_field = 'alias_domain';
-    protected $searchfields = array('alias_domain', 'target_domain');
+    protected string $db_table = 'alias_domain';
+    protected string $id_field = 'alias_domain';
+    protected ?string $domain_field = 'alias_domain';
+    protected array $searchfields = array('alias_domain', 'target_domain');
 
     protected function initStruct()
     {
@@ -18,10 +18,10 @@ class AliasdomainHandler extends PFAHandler
             # field name                allow       display in...   type    $PALANG label                     $PALANG description                 default / options / ...
             #                           editing?    form    list
             'alias_domain'     => self::pacol($this->new, 1,      1,      'enum', 'pCreate_alias_domain_alias'    , 'pCreate_alias_domain_alias_text' , '',
-                /*options, filled below*/ array(),
-                /* multiopt */ array('linkto' => 'list-virtual.php?domain=%s')),
+                /*options, filled below*/ array(), 0, 0, "", "", 'list-virtual.php?domain=%s'),
             'target_domain'    => self::pacol(1,          1,      1,      'enum', 'pCreate_alias_domain_target'   , 'pCreate_alias_domain_target_text', '',
                 /*options*/ array() /* filled below */),
+           'description'       => self::pacol(1,          1,      1,      'text', 'description'                   , ''),
             'created'          => self::pacol(0,          0,      0,      'ts',   'created'                       , ''),
             'modified'         => self::pacol(0,          0,      1,      'ts',   'last_modified'                 , ''),
             'active'           => self::pacol(1,          1,      1,      'bool', 'active'                        , ''                                 , 1),
@@ -82,6 +82,10 @@ class AliasdomainHandler extends PFAHandler
             $this->msg['store_error'] = 'alias_domain_change_failed';
             $this->msg['successmessage'] = 'alias_domain_changed';
         }
+
+        $this->msg['list_header'] = 'pOverview_alias_domain_title';
+
+
     }
 
     public function webformConfig()

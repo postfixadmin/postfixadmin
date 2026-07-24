@@ -37,15 +37,17 @@ $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
 $PALANG = $CONF['__LANG'];
 
-(($CONF['sendmail'] == 'NO') ? header("Location: main.php") && exit : '1');
+if ($CONF['sendmail'] == 'NO') {
+    header("Location: main.php");
+    exit;
+}
 
 $smtp_from_email = smtp_get_admin_email();
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
-    }
+
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     $fTo = safepost('fTo');
     $fFrom = $smtp_from_email;
@@ -57,8 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $email_check = check_email($fTo);
     if (empty($fTo) or ($email_check != '')) {
         $error = 1;
-        $tTo = escape_string($_POST['fTo']);
-        $tSubject = escape_string($_POST['fSubject']);
         flash_error($PALANG['pSendmail_to_text_error']); # TODO: superfluous?
         flash_error($email_check);
     }

@@ -37,7 +37,6 @@ if (preg_match('/\/users\//', $_SERVER['REQUEST_URI'])) {
 require_once($rel_path . 'common.php');
 
 $smarty = PFASmarty::getInstance();
-$CONF = Config::getInstance()->getAll();
 
 $smarty->configureTheme($rel_path);
 
@@ -45,11 +44,11 @@ $tCode = null;
 $tUsername = null;
 
 if ($context === 'admin' && !Config::read('forgotten_admin_password_reset')) {
-    die('Password change is disabled by configuration option: forgotten_admin_password_reset or mailbox_postpassword_script');
+    throw new \InvalidArgumentException('Password change is disabled by configuration option: forgotten_admin_password_reset or mailbox_postpassword_script');
 }
 
 if ($context === 'users' && (!Config::read('forgotten_user_password_reset') || Config::read('mailbox_postpassword_script'))) {
-    die('Password change is disabled by configuration option: forgotten_user_password_reset or mailbox_postpassword_script');
+    throw new \InvalidArgumentException('Password change is disabled by configuration option: forgotten_user_password_reset or mailbox_postpassword_script');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -70,28 +69,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tCode = trim(safepost('fCode'));
 
     if (empty($fPassword) or ($fPassword != $fPassword2)) {
-        $error = true;
         flash_error(Config::lang('pPassword_password_text_error'));
     } else {
         $handler = $context === 'admin' ? new AdminHandler() : new MailboxHandler();
         if (!$handler->checkPasswordRecoveryCode($tUsername, $tCode)) {
             flash_error(Config::lang('pPassword_code_text_error'));
         } else {
-            init_session($tUsername, $context === 'admin');
-            if (!$handler->init($tUsername)) {
-                flash_error($handler->errormsg);
-            } else {
-                $values = $handler->result;
-                $values['password'] = $fPassword;
-                $values['password2'] = $fPassword2;
-                if ($handler->set($values) && $handler->save()) {
-                    flash_info(Config::lang_f('pPassword_result_success', $tUsername));
-                    $handler->wipePasswordRecoveryCode($tUsername); // so we only wipe the recovery token if they've managed to change their password.
-                    header('Location: main.php');
-                    exit(0);
+            $totppf = new TotpPf($context === 'admin' ? 'admin' : 'mailbox', new Login($context === 'admin' ? 'admin' : 'mailbox'));
+
+            if ($totppf->usesTOTP($tUsername)) {
+                $fTotp = safepost('fTOTP_code');
+
+                if (!$totppf->checkUserTOTP($tUsername, $fTotp)) {
+                    flash_error(Config::lang('pTotp_failed'));
+                    $error = true;
+                }
+            }
+
+            if (!$error) {
+                init_session($tUsername, $context === 'admin', true);
+
+                if (!$handler->init($tUsername)) {
+                    flash_error($handler->errormsg);
                 } else {
-                    foreach ($handler->errormsg as $msg) {
-                        flash_error($msg);
+                    $values = $handler->result;
+                    $values['password'] = $fPassword;
+                    $values['password2'] = $fPassword2;
+
+                    if ($handler->set($values) && $handler->save()) {
+                        flash_info(Config::lang_f('pPassword_result_success', $tUsername));
+                        $handler->wipePasswordRecoveryCode($tUsername);
+                        header('Location: main.php');
+                        exit(0);
+                    } else {
+                        foreach ($handler->errormsg as $msg) {
+                            flash_error($msg);
+                        }
                     }
                 }
             }
@@ -99,6 +112,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+$totppf = new TotpPf($context === 'admin' ? 'admin' : 'mailbox', new Login($context === 'admin' ? 'admin' : 'mailbox'));
+$tTotpRequired = $totppf->usesTOTP($tUsername);
+$smarty->assign('tTotpRequired', $tTotpRequired);
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('tUsername', $tUsername);
 $smarty->assign('tCode', $tCode);

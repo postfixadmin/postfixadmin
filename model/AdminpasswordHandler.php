@@ -4,11 +4,11 @@
 
 class AdminpasswordHandler extends PFAHandler
 {
-    protected $db_table = 'admin';
-    protected $id_field = 'username';
+    protected string $db_table = 'admin';
+    protected string $id_field = 'username';
 
     # do not skip empty password fields
-    protected $skip_empty_pass = false;
+    protected bool $skip_empty_pass = false;
 
     protected function no_domain_field()
     {
@@ -44,7 +44,7 @@ class AdminpasswordHandler extends PFAHandler
     {
         # hardcode to logged in admin
         if ($this->admin_username == '') {
-            die("No admin logged in");
+            throw new \InvalidArgumentException("No admin logged in");
         }
         $this->id = $this->admin_username;
         $this->values['username'] = $this->id;
@@ -114,7 +114,7 @@ class AdminpasswordHandler extends PFAHandler
      * compare password / password2 field
      * error message will be displayed at the password2 field
      */
-    protected function _validate_password2($field, $val)
+    protected function _validate_password2()
     {
         return $this->compare_password_fields('password', 'password2');
     }

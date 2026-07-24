@@ -234,10 +234,19 @@ $CONF['encrypt'] = 'php_crypt';
 $CONF['authlib_default_flavor'] = 'md5raw';
 
 // If you use the dovecot encryption method: where is the dovecotpw binary located?
-// for dovecot 1.x
+// For dovecot 1.x
 // $CONF['dovecotpw'] = "/usr/sbin/dovecotpw";
-// for dovecot 2.x (dovecot 2.0.0 - 2.0.7 is not supported!)
+//
+// For dovecot 2.x (dovecot 2.0.0 - 2.0.7 is not supported!)
+// $CONF['dovecotpw'] = "/usr/bin/doveadm pw";
+//
+// From dovecot 2.4, add -O to stop it reading any config files (which solves a common permissions problem)
+// $CONF['dovecotpw'] = "/usr/bin/doveadm -O pw";
+// see https://github.com/postfixadmin/postfixadmin/issues/398 
+// see https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/HASHING.md
+
 $CONF['dovecotpw'] = "/usr/sbin/doveadm pw";
+
 if(@file_exists('/usr/bin/doveadm')) { // @ to silence openbase_dir stuff; see https://github.com/postfixadmin/postfixadmin/issues/171
     $CONF['dovecotpw'] = "/usr/bin/doveadm pw"; # debian
 }
@@ -373,6 +382,11 @@ function maildir_name_hook($domain, $user) {
         return $struct; # important!
     }
     $CONF['admin_struct_hook'] = 'x_struct_admin_modify';
+
+    You can also use e.g.
+    $CONF['admin_struct_hook'] = function($struct) {  // logic
+       return $struct; }
+    );
 */
 $CONF['admin_struct_hook']          = '';
 $CONF['domain_struct_hook']         = '';
@@ -382,6 +396,7 @@ $CONF['alias_domain_struct_hook']   = '';
 $CONF['fetchmail_struct_hook']      = '';
 $CONF['dkim_struct_hook']           = '';
 $CONF['dkim_signing_struct_hook']   = '';
+$CONF['totp_exception_address_struct_hook'] = '';
 
 /*
     mailbox_postcreation_hook example function
@@ -709,7 +724,7 @@ $CONF['mailbox_postapppassword_script'] = '';
 $CONF['domain_postcreation_script'] = '';
 
 // Optional: See NOTE above.
-// Script to run after alteation of domains.
+// Script to run after alteration of domains.
 // Parameters: (1) domain
 //$CONF['domain_postedit_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postedit.sh';
 $CONF['domain_postedit_script'] = '';
@@ -791,7 +806,7 @@ $CONF['password_expiration'] = 'YES';
 // used in (at least) password-recover.php.
 $CONF['site_url'] = null;
 
-$CONF['version'] = '4.0';
+$CONF['version'] = '4.0.1';
 
 // The smtp_active_flag when set to YES enables editing of the smtp_active 
 // field of the mailbox table. The smtp_active field can be used to enable
@@ -803,6 +818,12 @@ $CONF['version'] = '4.0';
 // have also set up the SQL queries that make use of the smtp_active field
 // in your Dovecot SQL configuration.
 $CONF['smtp_active_flag'] = 'NO';
+
+// Domain list display.
+// Set these options to YES to hide optional columns in the domain list.
+// Hidden values remain available in the domain tooltip.
+$CONF['domain_list_hide_maxquota'] = 'NO';
+$CONF['domain_list_hide_password_expiry'] = 'NO';
 
 // If you want to keep most settings at default values and/or want to ensure
 // that future updates work without problems, you can use a separate config 

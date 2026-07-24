@@ -33,12 +33,18 @@ $smarty = PFASmarty::getInstance();
 $smarty->configureTheme($smarty->getRelPath());
 
 $username = authentication_get_username();
-list($local_part, $domain) = explode('@', $username);
+list($_, $domain) = explode('@', $username);
 $pPassword_text = "";
 $pUser_text = '';
 $pUser = '';
 
 $username = authentication_get_username();
+
+// check if totp is enabled
+if (Config::bool('totp') === false) {
+    header("Location: main.php");
+    exit(0);
+}
 
 if (authentication_has_role('global-admin')) {
     $login = new Login('admin');
@@ -56,9 +62,8 @@ if (authentication_has_role('global-admin')) {
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
-    }
+
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     if (isset($_POST['fCancel'])) {
         header("Location: main.php");

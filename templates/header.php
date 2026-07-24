@@ -68,4 +68,3 @@ if(isset($_SESSION['flash'])) {
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
-?>

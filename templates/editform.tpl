@@ -1,18 +1,20 @@
-<form name="edit_{$table}" method="post" action="" class="form-horizontal">
-    <div id="edit_form" class="panel panel-default">
-        <div class="panel-heading"><h4>{$formtitle}</h4></div>
-        <div class="panel-body enable-asterisk">
+<form name="edit_{$table}" method="post" action="" class="form">
+    <!-- could really do with using https://getbootstrap.com/docs/5.3/forms/validation/#server-side here ? -->
+    <div id="edit_form" class="card">
+        <div class="card-header"><h4>{$formtitle}</h4></div>
+        <div class="card-body enable-asterisk">
             <input class="flat" type="hidden" name="table" value="{$table}"/>
-            <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
+
+            {CSRF_Token}
 
             {foreach key=key item=field from=$struct}
                 {if $field.display_in_form == 1}
 
                     {if $table == 'foo' && $key == 'bar'}
-                        <div class="form-group">Special handling (complete table row) for {$table} / {$key}</div>
+                        <div class="mb-3">Special handling (complete table row) for {$table} / {$key}</div>
                     {else}
-                        <div class="form-group {if $fielderror.{$key}}has-error{/if}">
-                            <label class="col-md-4 col-sm-4 control-label" for="{$key}">{$field.label}</label>
+                        <div class="mb-3 {if $fielderror.{$key}}is-invalid{/if}">
+                            <label class="col-md-4" for="{$key}">{$field.label}</label>
                             <div class="col-md-6 col-sm-8">
                                 {if $field.editable == 0}
                                     {if $field.type == 'enma'}
@@ -29,17 +31,17 @@
                                                        name="value[{$key}]"{if {$value_{$key}} == 1} checked="checked"{/if}/>
                                             </label></div>
                                     {elseif $field.type == 'enum'}
-                                        <select class="form-control" name="value[{$key}]" id="{$key}">
+                                        <select class="form-select" name="value[{$key}]" id="{$key}">
                                             {html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
                                         </select>
                                     {elseif $field.type == 'enma'}
-                                        <select class="form-control" name="value[{$key}]" id="{$key}">
+                                        <select class="form-select" name="value[{$key}]" id="{$key}">
                                             {html_options options=$struct.{$key}.options selected=$value_{$key}}
                                         </select>
                                     {elseif $field.type == 'list'}
                                         <input type="text" class="form-control" style="margin-bottom : 25px;"
                                                id="id_searchDomains" onkeyup="searchDomains()"
-                                               placeholder="Search for domains..." title="search domains">
+                                              placeholder="{$PALANG.search_domains}" title="{$PALANG.search_domains}">
                                         <ul id="domainsList" name="value[{$key}][]"
                                             style="max-height : 250px; overflow: auto;">
                                             {foreach from=$struct.{$key}.options item=domain}
@@ -78,12 +80,12 @@
                                 {/if}
 
                                 {if $table == 'foo' && $key == 'bar'}
-                                    <span class="help-block">Special handling (td content) for {$table} / {$key}</span>
+                                    <span class="form-text">Special handling (td content) for {$table} / {$key}</span>
                                 {else}
                                     {if $fielderror.{$key}}
-                                        <span class="help-block">{$fielderror.{$key}}</span>
+                                        <span class="form-text text-danger">{$fielderror.{$key}}</span>
                                     {else}
-                                        <span class="help-block">{$field.desc}</span>
+                                        <span class="form-text">{$field.desc}</span>
                                     {/if}
                                 {/if}
                             </div>
@@ -94,11 +96,11 @@
             {/foreach}
 
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
             <div class="btn-toolbar" role="toolbar">
-                <div class="btn-group pull-right">
+                <div class="btn-group float-end">
                     <button class="btn btn-primary" type="submit" name="submit">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> {$submitbutton}
+                        <span class="bi bi-pencil" aria-hidden="true"></span> {$submitbutton}
                     </button>
                 </div>
             </div>

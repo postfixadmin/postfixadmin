@@ -46,44 +46,39 @@ if (authentication_mfa_incomplete()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (!isset($_SESSION['PFA_token'])) {
-        die("Invalid token (session timeout; refresh the page and try again?)");
-    }
 
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token! (CSRF check failed)');
-    }
-
-    $totppf = new TotpPf('admin', new Login('admin'));
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
     $fPassword = safepost('fPassword');
 
-    if ($lang != check_language(false)) { # only set cookie if language selection was changed
+    if ($lang != Languages::check_language(false)) { # only set cookie if language selection was changed
         setcookie('lang', $lang, time() + 60 * 60 * 24 * 30); # language cookie, lifetime 30 days
         # (language preference cookie is processed even if username and/or password are invalid)
     }
 
-    $h = new AdminHandler();
+    $adminHandler = new AdminHandler();
 
     $login = new Login('admin');
+
     if ($login->login($fUsername, $fPassword)) {
+
         init_session($fUsername, true);
 
         # they've logged in, so see if they are a domain admin, as well.
 
-        if (!$h->init($fUsername)) {
+        if (!$adminHandler->init($fUsername)) {
             flash_error($PALANG['pLogin_failed']);
         }
 
-        if (!$h->view()) {
+        if (!$adminHandler->view()) {
             flash_error($PALANG['pLogin_failed']);
         }
 
-        $adminproperties = $h->result();
+        $adminproperties = $adminHandler->result();
 
-
+        $totppf = new TotpPf('admin', $login);
         if ($totppf->usesTOTP($fUsername)) {
             init_session($fUsername, true, false);
             header("Location: login-mfa.php");
@@ -98,17 +93,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         header("Location: main.php");
         exit(0);
-    } else { # $h->login failed
+    } else {
+        // this log message is intended to be used by tools like fail2ban to block brute force attempts.
         error_log("PostfixAdmin admin login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
         flash_error($PALANG['pLogin_failed']);
     }
-} else {
+} elseif (isset($_SESSION['sessid'])) {
+    // Preserve anonymous sessions so multiple login forms keep their CSRF tokens.
+    // An existing authenticated session should still be cleared before login.
     session_unset();
     session_destroy();
     session_start();
 }
-
-$_SESSION['PFA_token'] = md5(uniqid("pfa" . rand(), true));
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');

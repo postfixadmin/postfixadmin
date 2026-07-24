@@ -1,0 +1,52 @@
+name: Build Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.2
+        tools: composer
+
+    - name: Install production dependencies
+      run: composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+
+    - name: Create templates_c directory
+      run: mkdir -p templates_c
+
+    - name: Determine archive name
+      id: archive
+      run: |
+        TAG="${GITHUB_REF_NAME}"
+        echo "name=postfixadmin-${TAG}-php82" >> $GITHUB_OUTPUT
+
+    - name: Build release archive
+      run: |
+        tar czf /tmp/${{ steps.archive.outputs.name }}.tar.gz \
+          --exclude='.git' \
+          --exclude='.github' \
+          --exclude='tests' \
+          --exclude='.php-cs-fixer*' \
+          --exclude='phpunit.xml' \
+          --exclude='psalm.xml' \
+          --exclude='composer.phar' \
+          --exclude='composer.lock' \
+          --exclude='debian' \
+          --transform 's,^\./,${{ steps.archive.outputs.name }}/,' \
+          .
+
+    - name: Upload release asset
+      run: gh release upload "${{ github.event.release.tag_name }}" /tmp/${{ steps.archive.outputs.name }}.tar.gz --clobber
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

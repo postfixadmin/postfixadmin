@@ -11,28 +11,23 @@ require_once('common.php');
 
     <title>Postfix Admin - Setup</title>
     <link rel="shortcut icon" href="images/favicon.ico"/>
-    <link rel="stylesheet" href="css/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-5.3.0-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
 
 </head>
 
 <body>
 
-<nav class="navbar navbar-default fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="images/postbox.png"
-                                                         alt="Logo"/></a>
-
-        </div>
+        <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="images/postbox.png" alt="Logo"/>
+            PostfixAdmin - setup
+        </a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                aria-expanded="false" aria-controls="navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </div>
 </nav>
 
@@ -87,7 +82,7 @@ $tick = ' ✅ ';
 ?>
 
 
-<div class="container">
+<main class="container" style="padding-top: 100px">
     <div class="row">
         <h1 class="h1">Configure and Setup Postfixadmin</h1>
 
@@ -98,7 +93,7 @@ $tick = ' ✅ ';
         <?php
 
         if (!isset($_SERVER['HTTPS'])) {
-            echo "<h2 class='h2 text-danger'>Warning: connection not secure, switch to https if possible</h2>";
+            echo "<p class='text-danger'>Warning: browser connection not secure, switch to https if possible</p>";
         } ?>
 
         <div class="col-12">
@@ -138,95 +133,92 @@ if ($authenticated) {
         </div>
     </div>
 
-    <?php if ($configSetupDone && !$authenticated) { ?>
-        <div class="row">
-            <div class="col-12">
+    <div class="row">
+
+        <?php if ($configSetupDone && !$authenticated) { ?>
+
+            <div class="col-12 col-md-6">
                 <h2 class="h2">Login with setup_password</h2>
 
-                <form name="authenticate" class="col-2 form-horizontal" method="post">
+                <form name="authenticate" class="col-12" method="post">
                     <div class="form-group">
                         <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
                         <div class="col-sm-4">
                             <input class="form-control" type="password" name="setup_password" minlength=5
-                                   id="setup_password"
-                                   value=""/>
+                                   required="required"
+                                   id="setup_password" value=""/>
                             <?= _error_field($errors, 'setup_login_password'); ?>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-4">
-                            <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Login with
-                                setup_password.
-                            </button>
-                        </div>
+                        <button class="btn btn-primary" type="submit" name="submit" value="setuppw">Login with
+                            setup_password
+                        </button>
                     </div>
                 </form>
 
-                <p>If you've forgotten your super-admin password, you can generate a new one using the
-                    <em>Generate</em>
-                    form and update your <code>config.local.php</code></p>
 
             </div>
-        </div>
-        <?php
-    } ?>
 
-    <div class="row">
-        <div class="col-12">
             <?php
+        } ?>
 
-            if (!$configSetupDone) {
-                echo <<<EOF
-                    <p><strong>For a new installation, you must generate a 'setup_password' to go into your config.local.php file.</strong></p>
-                    <p>You can use the form below, or run something like the following in a shell - <code>php -r 'echo password_hash("password", PASSWORD_DEFAULT);'</code><p>
-EOF;
-            }
+        <?php
+        if (!$authenticated) {
+            ?>
+            <div class="col-12 col-md-6 bg-light p-3 rounded">
+                <h3 class="h3">Generate setup_password</h3>
 
-if ($old_setup_password) {
-    echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
-}
+                <p><strong>For a new installation, you must generate a 'setup_password' to go into your config.local.php
+                        file.</strong></p>
+                <p>You can use the form below, or run something like the following in a shell - <code>php -r 'echo
+                        password_hash("password", PASSWORD_DEFAULT);'</code>
+                <p>
 
-if (!$authenticated || !$configSetupDone) { ?>
+                    <?php
+                    if ($old_setup_password) {
+                        echo '<p class="text-danger"><strong>Your setup_password is in an obsolete format. As of PostfixAdmin 3.3 it needs regenerating.</strong>';
+                    }
 
-                <h2>Generate setup_password</h2>
+            if (!$configSetupDone) { ?>
 
-                <?php
+                    <?php
 
-    $form_error = '';
-    $result = '';
+            $form_error = '';
+                $result = '';
 
-    if (safepost('form') === "setuppw") {
-        $errors = [];
+                if (safepost('form') === "setuppw") {
+                    $errors = [];
 
-        # "setup password" form submitted
-        if (safepost('setup_password', 'abc') != safepost('setup_password2')) {
-            $errors['setup_password'] = "The two passwords differ!";
-            $form_error = 'has-error';
-        } else {
-            $msgs = validate_password(safepost('setup_password'));
+                    # "setup password" form submitted
 
-            if (empty($msgs)) {
-                // form has been submitted; both fields filled in, so generate a new setup password.
-                $hash = password_hash(safepost('setup_password'), PASSWORD_DEFAULT);
+                    if (safepost('setup_password', 'abc') != safepost('setup_password2')) {
+                        $errors['setup_password'] = "The two passwords differ!";
+                        $form_error = 'has-error';
+                    } else {
+                        $msgs = validate_password(safepost('setup_password'));
 
-                $result = '<p>If you want to use the password you entered as setup password, edit config.inc.php or config.local.php and set</p>';
-                $result .= "<pre>\$CONF['setup_password'] = '$hash';</pre><p>After adding, refresh this page and log in using it.</p>";
-            } else {
-                $form_error = 'has-error';
-                $errors['setup_password'] = implode(', ', $msgs);
-            }
-        }
-    }
+                        if (empty($msgs)) {
+                            // form has been submitted; both fields filled in, so generate a new setup password.
+                            $hash = password_hash(safepost('setup_password'), PASSWORD_DEFAULT);
 
-    ?>
+                            $result = '<p>If you want to use the password you entered as setup password, edit your config file (config.local.php) and set</p>';
+                            $result .= "<code>\$CONF['setup_password'] = '$hash';</code><p>After updating your configuration you should be able to login with the &quot;Login with setup_password&quot; form.</p>";
+                        } else {
+                            $form_error = 'has-error';
+                            $errors['setup_password'] = implode(', ', $msgs);
+                        }
+                    }
+                }
+
+
+                ?>
 
                 <form name="setuppw" method="post" class="form-horizontal" action="setup.php">
                     <input type="hidden" name="form" value="setuppw"/>
 
                     <div class="form-group <?= $form_error ?>">
 
-                        <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
+                        <label for="setup_password" class="col-sm-4">Setup password</label>
                         <div class="col-sm-4">
                             <input class="form-control" type="password" name="setup_password" minlength=5
                                    id="setup_password"
@@ -240,7 +232,7 @@ if (!$authenticated || !$configSetupDone) { ?>
                     </div>
 
                     <div class="form-group <?= $form_error ?>">
-                        <label for="setup_password2" class="col-sm-4 control-label">Setup password (again)</label>
+                        <label for="setup_password2" class="col-sm-4">Setup password (again)</label>
                         <div class="col-sm-4">
                             <input class="form-control" type="password" name="setup_password2"
                                    minlength=5 id="setup_password2"
@@ -253,7 +245,7 @@ if (!$authenticated || !$configSetupDone) { ?>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-4">
+                        <div class="offset-sm-4 col-sm-4">
                             <button class="btn btn-primary" type="submit" name="submit" value="setuppw">
                                 Generate setup_password hash
                             </button>
@@ -262,18 +254,22 @@ if (!$authenticated || !$configSetupDone) { ?>
                 </form>
                 <?= $result ?>
                 <?php
-}  // end if(!$authenticated)?>
-        </div>
+            }  // end if(!$authenticated)?>
+            </div>
+        <?php } ?>
     </div>
+
 
     <div class="row">
         <div class="col-12">
             <h2 class="h2">Hosting Environment Check</h2>
 
             <?php
-$check = do_software_environment_check();
+            $check = do_software_environment_check();
 
 if ($authenticated) {
+
+
     if (!empty($check['info'])) {
         echo "<h3>Information</h3><ul>";
         foreach ($check['info'] as $msg) {
@@ -297,7 +293,7 @@ if ($authenticated) {
         echo "</ul>";
     }
 
-    $php_error_log = ini_get('error_log');
+
 } else {
     if (!empty($check['error'])) {
         echo '<p class="text-danger">Hosting Environment errors found. Login to see details.</p>';
@@ -327,7 +323,11 @@ if ($authenticated) {
 try {
     $db = db_connect();
 } catch (\Exception $e) {
-    echo "<li class='h3 text-danger'>Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</li>';
+    $error_log = ini_get('error_log');
+    if (empty($error_log)) {
+        $error_log = 'maybe /var/log/apache2/error.log';
+    }
+    echo "<li class='text-danger'>Something went wrong while trying to connect to the database. A message should be logged - check PHP's error_log ($error_log)</li>";
     error_log("Couldn't perform PostfixAdmin database update - failed to connect to db? " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
 }
 
@@ -347,62 +347,105 @@ if ($db) {
         echo "<li class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</li>';
         error_log("Couldn't perform PostfixAdmin database update via upgrade.php - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
     }
+
+
 } else {
     echo "<li class='text-danger'>Could not connect to database to perform updates; check PHP error log.</li>";
 }
 ?>
             </ul>
-        </div
+
+            <?php
+            if ($authenticated) {
+                ?>
+                <h3 class="h3">Database integrity</h3>
+
+                <p>
+                    Check for records that reference missing mailboxes, domains, or administrators.
+                    This read-only check does not modify the database.
+                </p>
+                <?php
+                if (safepost('submit') !== 'check_integrity') {
+                    ?>
+                    <form name="check_database_integrity" class="form-inline" method="post">
+                        <div class="form-group mb-2">
+                            <label for="integrity_setup_password">Setup password</label>
+                            <input class="form-control" type="password" required="required"
+                                   name="setup_password" minlength="5"
+                                   id="integrity_setup_password" value=""/>
+                        </div>
+                        <button class="btn btn-secondary" type="submit" name="submit"
+                                value="check_integrity">
+                            Check database integrity
+                        </button>
+                    </form>
+                    <?php
+                }
+
+                if (safepost('submit') === 'check_integrity') {
+                    try {
+                        $integrity_results = (new DatabaseIntegrityChecker())->check();
+                        echo render_database_integrity_results($integrity_results);
+                    } catch (\Exception $e) {
+                        echo "<p class='mt-3 text-danger'>The database integrity check failed; check PHP's error log.</p>";
+                        error_log("Couldn't perform PostfixAdmin database integrity check - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
+                    }
+                }
+            }
+?>
+
+
+        </div>
     </div>
-</div>
 
-<?php
-if ($authenticated) {
-    $setupMessage = '';
 
-    if (safepost("submit") === "createadmin") {
-        ?>
-<div class='row'>
+    <?php
+    if ($authenticated) {
+        $setupMessage = '';
+
+        if (safepost("submit") === "createadmin") {
+            ?>
+    <div class='row'>
     <div class='col-12'>
         <?php
                 # "create admin" form submitted, make sure the correct setup password was specified.
 
                 // XXX need to ensure domains table includes an 'ALL' entry.
                 $table_domain = table_by_key('domain');
-        $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
-        if (empty($rows)) {
-            // all other fields should default through the schema.
-            db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => ''));
+            $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
+            if (empty($rows)) {
+                // all other fields should default through the schema.
+                db_insert('domain', array('domain' => 'ALL', 'description' => '', 'transport' => ''));
+            }
+
+            $values = array(
+                    'username' => safepost('username'),
+                    'password' => safepost('password'),
+                    'password2' => safepost('password2'),
+                    'superadmin' => 1,
+                    'domains' => array(),
+                    'active' => 1,
+            );
+
+            list($error, $setupMessage, $errors) = create_admin($values);
+
+            if ($error == 1) {
+                error_log("failed to add admin - " . json_encode([$error, $setupMessage, $errors]));
+                echo "<p class='text-danger'>Admin addition failed; check field error messages or server logs.</p>";
+            } else {
+                // all good!.
+                $setupMessage .= "<p>You are done with your basic setup. <b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b></p>";
+            }
+
+            echo "</div>
+</div>";
         }
 
-        $values = array(
-            'username' => safepost('username'),
-            'password' => safepost('password'),
-            'password2' => safepost('password2'),
-            'superadmin' => 1,
-            'domains' => array(),
-            'active' => 1,
-        );
+        $table_admin = table_by_key('admin');
 
-        list($error, $setupMessage, $errors) = create_admin($values);
+        $admins = db_query_all("SELECT * FROM $table_admin WHERE superadmin = :admin AND active = :active", ['admin' => true, 'active' => true]);
 
-        if ($error == 1) {
-            $tUsername = htmlentities($values['username']);
-            error_log("failed to add admin - " . json_encode([$error, $setupMessage, $errors]));
-            echo "<p class='text-danger'>Admin addition failed; check field error messages or server logs.</p>";
-        } else {
-            // all good!.
-            $setupMessage .= "<p>You are done with your basic setup. <b>You can now <a href='login.php'>login to PostfixAdmin</a> using the account you just created.</b></p>";
-        }
-
-        echo "</div></div>";
-    }
-
-    $table_admin = table_by_key('admin');
-    $bool = db_get_boolean(true);
-    $admins = db_query_all("SELECT * FROM $table_admin WHERE superadmin = '$bool' AND active = '$bool'");
-
-    if (!empty($admins)) { ?>
+        if (!empty($admins)) { ?>
 
             <div class="row">
                 <div class="col-12">
@@ -411,10 +454,10 @@ if ($authenticated) {
                     <p>The following 'super-admin' accounts have already been added to the database.</p>
                     <ul>
                         <?php
-                    foreach ($admins as $row) {
-                        echo "<li>{$row['username']}</li>";
-                    }
-        ?>
+                        foreach ($admins as $row) {
+                            echo "<li>{$row['username']}</li>";
+                        }
+            ?>
                     </ul>
                 </div>
             </div>
@@ -485,7 +528,7 @@ if ($authenticated) {
 
 
                     <div class="form-group">
-                        <div class="col-sm-offset-4 col-sm-4">
+                        <div class="offset-sm-4 col-sm-4">
                             <button class="btn btn-primary" type="submit" name="submit"
                                     value="createadmin"><?= $PALANG['pAdminCreate_admin_button'] ?>
                             </button>
@@ -502,19 +545,21 @@ if ($authenticated) {
             </div>
         </div>
         <?php
-}
+    }
 
 ?>
     </div>
-    <footer class="footer mt-5 bg-dark">
-        <div class="container text-center">
-            <a target="_blank" rel="noopener"
-               href="https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/">Documentation</a>
-            //
-            <a target="_blank" rel="noopener"
-               href="https://github.com/postfixadmin/postfixadmin/">Postfix Admin</a>
-        </div>
-    </footer>
+</main>
+<footer class="footer mt-5">
+    <div class="container text-center">
+        <a target="_blank" rel="noopener"
+           href="https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/">Documentation</a>
+        //
+        <a target="_blank" rel="noopener"
+           href="https://github.com/postfixadmin/postfixadmin/">Postfix Admin</a>
+    </div>
+</footer>
+
 </body>
 </html>
 
@@ -534,7 +579,7 @@ function create_admin($values)
     define('POSTFIXADMIN_SETUP', 1); # avoids instant redirect to login.php after creating the admin
 
     $handler = new AdminHandler(1, 'setup.php');
-    $formconf = $handler->webformConfig();
+
 
     if (!$handler->init($values['username'])) {
         return array(1, "", $handler->errormsg);
@@ -549,10 +594,50 @@ function create_admin($values)
     }
 
     return array(
-        0,
-        $handler->infomsg['success'],
-        array(),
+            0,
+            $handler->infomsg['success'],
+            array(),
     );
+}
+
+/**
+ * @param array<int, array<string, mixed>> $results
+ */
+function render_database_integrity_results(array $results): string
+{
+    $problems = array_filter($results, function (array $result): bool {
+        return $result['orphan_count'] > 0;
+    });
+
+    if (empty($problems)) {
+        return '<p class="mt-3 text-success">No orphaned records found.</p>';
+    }
+
+    $output = '<div class="mt-3">';
+    $output .= '<p class="text-warning"><strong>Orphaned records found.</strong> Review the records and make a database backup before correcting them manually.</p>';
+    $output .= '<div class="table-responsive"><table class="table table-sm table-bordered">';
+    $output .= '<thead><tr><th>Relation</th><th>Rows</th><th>Sample identifiers</th><th>Recommendation</th></tr></thead><tbody>';
+
+    foreach ($problems as $problem) {
+        $relation = $problem['child_table'] . '.' . $problem['child_column'] .
+                ' &rarr; ' . $problem['parent_table'] . '.' . $problem['parent_column'];
+        $sample_values = array_map(function ($value): string {
+            return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        }, $problem['sample_values']);
+
+        $output .= '<tr>';
+        $output .= '<td><code>' . $relation . '</code></td>';
+        $output .= '<td>' . intval($problem['orphan_count']) . '</td>';
+        $output .= '<td><code>' . implode('</code><br><code>', $sample_values) . '</code></td>';
+        $output .= '<td>' . htmlspecialchars($problem['recommendation'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</td>';
+        $output .= '</tr>';
+    }
+
+    $output .= '</tbody></table></div>';
+    $output .= '<p class="text-muted">Up to 20 distinct identifiers are shown for each relation. No data was changed.</p>';
+    $output .= '</div>';
+
+    return $output;
 }
 
 /**
@@ -626,8 +711,16 @@ function do_software_environment_check()
     }
 
 
+    $templates_c_dir = __DIR__ . '/../templates_c';
+
+    if (is_dir($templates_c_dir) && is_writeable($templates_c_dir)) {
+        $info[] = "Smarty templates_c (" . realpath($templates_c_dir) . ") directory exists and is writeable.";
+    } else {
+        $warn[] = "Warning: Smarty templates directory $templates_c_dir does not exist, or is not writeable. Please create and set permissions to allow PHP to write to it.";
+    }
+
     if (file_exists($file_local_config)) {
-        $info[] = "config.local.php file found : " . realpath($file_local_config);
+        $info[] = "config.local.php file found (" . realpath($file_local_config) . ")";
     } else {
         $warn[] = "Warning: config.local.php - NOT FOUND - It's Recommended to store your own settings in config.local.php instead of editing config.inc.php";
     }
@@ -689,17 +782,14 @@ function do_software_environment_check()
         $warn[] = 'Admin Email - From address missing. Please add specify an admin_email in your config.inc.php or config.local.php e.g. <code>$CONF["admin_email"] = "Support Person &lt;support@yourdomain.com&gt;";</code>';
     }
 
-    $link = null;
-    $error_text = null;
-
     $dsn = 'Could not generate';
 
     try {
         $dsn = db_connection_string();
 
         $info[] = "Database connection configured OK (using PDO <code>$dsn</code>)";
-        $link = db_connect();
-        $info[] = "Database connection - Connected OK";
+        db_connect();
+        $info[] = "Database connection - connected OK";
     } catch (Exception $e) {
         $error[] = "Database connection string : " . $dsn;
         $error[] = "Problem connecting to database, check database configuration (\$CONF['database_*'] entries in config.local.php)";

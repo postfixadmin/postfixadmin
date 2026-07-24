@@ -16,7 +16,7 @@
  */
 
 
-$min_db_version = 1851;  # update (at least) before a release with the latest function number in upgrade.php
+$min_db_version = 1855;  # update (at least) before a release with the latest function number in upgrade.php
 
 
 /**
@@ -54,8 +54,7 @@ function authentication_get_username()
         header("Location: login.php");
         exit(0);
     }
-    $SESSID_USERNAME = $_SESSION['sessid']['username'];
-    return $SESSID_USERNAME;
+    return $_SESSION['sessid']['username'];
 }
 
 
@@ -98,6 +97,7 @@ function authentication_require_role(string $role)
     exit(0);
 }
 
+
 /**
  * Initialize a user or admin session
  *
@@ -110,15 +110,14 @@ function init_session(string $username, bool $is_admin = false, bool $mfa_comple
     $status = session_regenerate_id(true);
     $_SESSION['sessid'] = array();
     $_SESSION['sessid']['roles'] = array();
+    $_SESSION['sessid']['mfa_complete'] = false;
+
     if ($mfa_complete) {
         $_SESSION['sessid']['roles'][] = $is_admin ? 'admin' : 'user';
         $_SESSION['sessid']['mfa_complete'] = true;
-    } else {
-        $_SESSION['sessid']['mfa_complete'] = false;
     }
+
     $_SESSION['sessid']['username'] = $username;
-    // Generate a more secure token using random_bytes and bin2hex instead of md5
-    $_SESSION['PFA_token'] = bin2hex(random_bytes(16));
 
     return $status;
 }
@@ -172,51 +171,6 @@ function _flash_string($type, $string)
     $_SESSION['flash'][$type][] = $string;
 }
 
-/**
- * @param bool $use_post - set to 0 if $_POST should NOT be read
- * @return string e.g en
- * Try to figure out what language the user wants based on browser / cookie
- */
-function check_language($use_post = true)
-{
-    global $supported_languages; # from languages/language.php
-
-    // Check if $supported_languages is loaded
-    if (!is_array($supported_languages)) {
-        return Config::read_string('default_language');
-    }
-
-    // prefer a $_POST['lang'] if present
-    if ($use_post && safepost('lang')) {
-        $lang = safepost('lang');
-        if (is_string($lang) && array_key_exists($lang, $supported_languages)) {
-            return $lang;
-        }
-    }
-
-    // Failing that, is there a $_COOKIE['lang'] ?
-    if (safecookie('lang')) {
-        $lang = safecookie('lang');
-        if (!empty($lang) && array_key_exists($lang, $supported_languages)) {
-            return $lang;
-        }
-    }
-
-    $lang = Config::read_string('default_language');
-
-    // If not, did the browser give us any hint(s)?
-    if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-        $lang_array = preg_split('/(\s*,\s*)/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-        foreach ($lang_array as $value) {
-            $lang_next = strtolower(trim($value));
-            $lang_next = preg_replace('/;.*$/', '', $lang_next); # remove things like ";q=0.8"
-            if (array_key_exists($lang_next, $supported_languages)) {
-                return $lang_next;
-            }
-        }
-    }
-    return $lang;
-}
 
 /**
  * Action: returns a language selector dropdown with the browser (or cookie) language preselected
@@ -226,14 +180,9 @@ function check_language($use_post = true)
  */
 function language_selector()
 {
-    global $supported_languages; # from languages/language.php
+    $supported_languages = Languages::$SUPPORTED_LANGUAGES;
 
-    // Check if $supported_languages is loaded
-    if (!is_array($supported_languages)) {
-        return ''; // Return empty selector if languages not loaded
-    }
-
-    $current_lang = check_language();
+    $current_lang = Languages::check_language();
 
     $selector = '<select id="lang" name="lang" xml:lang="en" dir="ltr">';
 
@@ -261,7 +210,11 @@ function language_selector()
 function check_domain($domain)
 {
     if (!preg_match('/^([-0-9A-Z]+\.)+' . '([-0-9A-Z]){1,13}$/i', ($domain))) {
-        return sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
+        $str = sprintf(Config::lang('pInvalidDomainRegex'), htmlentities($domain));
+        if (is_string($str)) {
+            return $str;
+        }
+        throw new \InvalidArgumentException("Could not sprintf().");
     }
 
     if (Config::bool('emailcheck_resolve_domain') && 'WINDOWS' != (strtoupper(substr(php_uname('s'), 0, 7)))) {
@@ -283,10 +236,14 @@ function check_domain($domain)
 
             $end = microtime(true); # check for slow nameservers, part 2
             $time_needed = $end - $start;
+
             if ($time_needed > 2) {
                 error_log("Warning: slow nameserver - lookup for $domain took $time_needed seconds");
             }
 
+            if (!is_string($retval)) {
+                throw new \InvalidArgumentException("could not sprintf()");
+            }
             return $retval;
         } else {
             return 'emailcheck_resolve_domain is enabled, but function (checkdnsrr) missing!';
@@ -598,7 +555,7 @@ function create_page_browser($idxfield, $querypart, $sql_params = [])
 
 
 /**
- * Recalculates the quota from MBs to bytes (divide, /)
+ * Recalculates the quota e.g. from MBs to bytes (divide, /), using config quota_multiplier
  * @param int $quota
  * @return float
  */
@@ -614,17 +571,14 @@ function divide_quota($quota)
 
 /**
  * Checks if the admin is the owner of the domain (or global-admin)
- * @param string $username
- * @param string $domain
- * @return bool
  */
-function check_owner($username, $domain)
+function check_owner(string $username, string $domain): bool
 {
     $table_domain_admins = table_by_key('domain_admins');
 
     $result = db_query_all(
         "SELECT 1 FROM $table_domain_admins WHERE username= ? AND (domain = ? OR domain = 'ALL') AND active = ?",
-        array($username, $domain, db_get_boolean(true))
+        array($username, $domain, true)
     );
 
     if (sizeof($result) == 1 || sizeof($result) == 2) { # "ALL" + specific domain permissions is possible
@@ -656,23 +610,22 @@ function list_domains_for_admin(string $username): array
     $query = "SELECT $table_domain.domain FROM $table_domain ";
     $condition[] = "$table_domain.domain != 'ALL'";
 
-    $result = db_query_one("SELECT username FROM $table_domain_admins WHERE username= :username AND domain='ALL'", ['username' => $username]);
+    $result = db_query_one("SELECT username FROM $table_domain_admins WHERE username = :username AND domain = 'ALL'", ['username' => $username]);
     if (empty($result)) { # not a superadmin
         $pvalues['username'] = $username;
-        $pvalues['active'] = db_get_boolean(true);
-        $pvalues['backupmx'] = db_get_boolean(false);
+        $pvalues['active'] = true;
+        $pvalues['backupmx'] = false;
 
         $query .= " LEFT JOIN $table_domain_admins ON $table_domain.domain=$table_domain_admins.domain ";
         $condition[] = "$table_domain_admins.username = :username  ";
         $condition[] = "$table_domain.active = :active "; # TODO: does it really make sense to exclude inactive...
-        $condition[] = "$table_domain.backupmx = :backupmx"; # TODO: ... and backupmx domains for non-superadmins?
+        $condition[] = "$table_domain.backupmx = :backupmx "; # TODO: ... and backupmx domains for non-superadmins?
     }
 
     $query .= " WHERE " . join(' AND ', $condition);
     $query .= " ORDER BY $table_domain.domain";
 
     $result = db_query_all($query, $pvalues);
-
     return array_column($result, 'domain');
 }
 
@@ -1138,7 +1091,11 @@ function _php_crypt_generate_crypt_salt($hash_type = 'SHA512', $hash_difficulty 
 
             $algorithm = '2y'; // bcrypt (2a is a legacy variant with a unicode problem).
             $salt = _php_crypt_random_string($alphabet, $length);
-            return sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
+            $hash = sprintf('$%s$%02d$%s', $algorithm, $cost, $salt);
+            if (!is_string($hash)) {
+                throw new \InvalidArgumentException('Failed to generate crypt salt for ' . $hash_type);
+            }
+            return $hash;
 
         case 'SHA256':
             $length = 16;
@@ -1248,7 +1205,7 @@ function pacrypt($pw, $pw_db = "", $username = '')
         switch ($method_in_hash) {
             case '$1$':
             case '$6$':
-                $algorithm = 'SYSTEM';
+                $mechanism = 'SYSTEM';
         }
     }
 
@@ -1281,9 +1238,7 @@ function pacrypt($pw, $pw_db = "", $username = '')
  */
 function create_salt()
 {
-    srand((int)microtime() * 1000000);
-    $salt = substr(md5("" . rand(0, 9999999)), 0, 8);
-    return $salt;
+    return bin2hex(random_bytes(4));
 }
 
 /*
@@ -1317,7 +1272,7 @@ function enable_socket_crypto($fh)
  * Call: smtp_mail (string to, string from, string data) - DEPRECATED
  * @param string $to
  * @param string $from
- * @param string $subject_or_data(if called with 4 parameters) or full mail body (if called with 3 parameters)
+ * @param string $subject_or_data (if called with 4 parameters) or full mail body (if called with 3 parameters)
  * @param ?string $body (optional, but recommended) - mail body (if null, assume $subject_or_data is the entire mail body with headers etc)
  * @return bool - true on success, otherwise false
  */
@@ -1479,15 +1434,6 @@ function smtp_get_response($fh)
 }
 
 
-$DEBUG_TEXT = <<<EOF
-    <p>Please check the documentation and website for more information.</p>
-    <ul>
-        <li><a href="https://github.com/postfixadmin/postfixadmin">PostfixAdmin - Project website</a></li>
-        <li><a href='https://sourceforge.net/p/postfixadmin/discussion/676076'>Forums</a></li>
-    </ul>
-EOF;
-
-
 /**
  * @return string - PDO DSN for PHP.
  * @throws Exception
@@ -1495,7 +1441,6 @@ EOF;
 function db_connection_string()
 {
     global $CONF;
-    $dsn = null;
     if (db_mysql()) {
         $socket = false;
         if (Config::has('database_socket')) {
@@ -1515,7 +1460,7 @@ function db_connection_string()
             $dsn .= ";port={$CONF['database_port']}";
         }
 
-        $dsn .= ";dbname={$database_name};charset=UTF8";
+        $dsn .= ";dbname={$database_name}";
     } elseif (db_sqlite()) {
         $db = $CONF['database_name'];
 
@@ -1772,6 +1717,15 @@ function db_execute(string $sql, array $values = [], bool $throw_exceptions = fa
 
     try {
         $stmt = $link->prepare($sql);
+
+        // PDO and PostgreSQL either require us to explicitly bind values as bools, or it seems to work
+        // if we pass in 0/1 ....  0/1 is easier?
+        foreach ($values as $key => $value) {
+            if (is_bool($value)) {
+                $values[$key] = (int)$value;
+            }
+        }
+
         $stmt->execute($values);
     } catch (PDOException $e) {
         $error_text = "Invalid query: " . $e->getMessage() . " caused by " . $sql . ' ' . json_encode($values);
@@ -1800,8 +1754,17 @@ function db_query(string $sql, array $values = array(), bool $ignore_errors = fa
     $stmt = null;
     try {
         $stmt = $link->prepare($sql);
+
+        // PDO and PostgreSQL either require us to explicitly bind values as bools, or it seems to work
+        // if we pass in 0/1 ....  0/1 is easier?
+        foreach ($values as $key => $value) {
+            if (is_bool($value)) {
+                $values[$key] = (int)$value;
+            }
+        }
         $stmt->execute($values);
     } catch (PDOException $e) {
+
         $error_text = "Invalid query: " . $e->getMessage() . " caused by " . $sql;
         error_log($error_text);
         if (defined('PHPUNIT_TEST')) {
@@ -1830,13 +1793,13 @@ function db_query(string $sql, array $values = array(), bool $ignore_errors = fa
  * @param string $additionalwhere (default '').
  * @return int|mixed rows deleted.
  */
-function db_delete(string $table, string $where, string $delete, string $additionalwhere = '')
+function db_delete(string $table, string $where, string $delete, string $additionalwhere = '', array $additional_params = [])
 {
     $table = table_by_key($table);
 
     $query = "DELETE FROM $table WHERE $where = ? $additionalwhere";
 
-    return db_execute($query, array($delete));
+    return db_execute($query, array_merge(array($delete), $additional_params));
 }
 
 
@@ -1948,7 +1911,7 @@ function db_log(string $domain, string $action, string $data): bool
 
     $username = authentication_get_username();
 
-    if (Config::lang("pViewlog_action_$action") == '') {
+    if (Config::Lang("pViewlog_action_$action") == '') {
         throw new Exception("Invalid log action : $action");   // could do with something better?
     }
 
@@ -1975,10 +1938,97 @@ function db_log(string $domain, string $action, string $data): bool
  * @param array $values
  * @return string
  */
-function db_in_clause($field, array $values)
+function db_in_clause(string $field, array $values, array &$params = []): string
 {
-    $v = array_map('escape_string', array_values($values));
-    return " $field IN ('" . implode("','", $v) . "') ";
+    if (empty($values)) {
+        return " 1=0 "; // empty IN clause is invalid SQL, return false predicate
+    }
+    $placeholders = [];
+    foreach (array_values($values) as $i => $value) {
+        $key = '_in_' . count($params) . '_' . $i;
+        $placeholders[] = ':' . $key;
+        $params[$key] = $value;
+    }
+    return " $field IN (" . implode(",", $placeholders) . ") ";
+}
+
+/**
+ * Build the log-table domain restriction for viewlog.php.
+ *
+ * Global admins may view every domain; any other admin is restricted to the
+ * domains they manage, so the "All domains" option can never leak log entries
+ * belonging to other admins' domains.
+ *
+ * @param bool $show_all - whether the "All domains" option is selected
+ * @param bool $is_global_admin - whether the current admin is a global admin
+ * @param string $fDomain - the single selected domain (ignored when $show_all)
+ * @param array $allowed_domains - domains the current admin may view
+ * @param array &$params - bound query parameters (appended to)
+ * @return string - SQL condition for a WHERE clause, or '' for no restriction
+ */
+function viewlog_domain_condition(bool $show_all, bool $is_global_admin, string $fDomain, array $allowed_domains, array &$params): string
+{
+    if ($show_all) {
+        if ($is_global_admin) {
+            return ''; # no restriction - every domain
+        }
+        return db_in_clause('domain', $allowed_domains, $params);
+    }
+
+    if ($fDomain !== '') {
+        $params['domain'] = $fDomain;
+        return 'domain = :domain';
+    }
+
+    return '';
+}
+
+/**
+ * Compute the page numbers to display in a windowed pager.
+ *
+ * Always includes page 1 and the last page, plus a window of $radius pages on
+ * either side of the current page. Gaps between those ranges are represented by
+ * a null entry (rendered as an ellipsis). For example current=20, total=50,
+ * radius=5 yields: [1, null, 15..25, null, 50].
+ *
+ * @param int $current - the current page number (1-based)
+ * @param int $total_pages - total number of pages
+ * @param int $radius - how many pages to show either side of $current
+ * @return array<int|null> - ordered page numbers, null marks an ellipsis gap
+ */
+function pagination_window(int $current, int $total_pages, int $radius = 5): array
+{
+    if ($total_pages <= 1) {
+        return $total_pages == 1 ? [1] : [];
+    }
+
+    $current = max(1, min($current, $total_pages));
+    $start = max(1, $current - $radius);
+    $end = min($total_pages, $current + $radius);
+
+    # Only the window itself is built (O(radius)), with page 1 / the last page
+    # and ellipsis markers (null) prepended/appended as needed.
+    $result = [];
+
+    if ($start > 1) {
+        $result[] = 1;
+        if ($start > 2) {
+            $result[] = null; # gap between page 1 and the window
+        }
+    }
+
+    for ($i = $start; $i <= $end; $i++) {
+        $result[] = $i;
+    }
+
+    if ($end < $total_pages) {
+        if ($end < $total_pages - 1) {
+            $result[] = null; # gap between the window and the last page
+        }
+        $result[] = $total_pages;
+    }
+
+    return $result;
 }
 
 /**
@@ -1987,13 +2037,13 @@ function db_in_clause($field, array $values)
  * Call: db_where_clause (array $conditions, array $struct)
  * @param array $condition - array('field' => 'value', 'field2' => 'value2, ...)
  * @param array $struct - field structure, used for automatic bool conversion
- * @param string $additional_raw_where - raw sniplet to include in the WHERE part - typically needs to start with AND
+ * @param string $additional_raw_where - raw snippet to include in the WHERE part - typically needs to start with AND
  * @param array $searchmode - operators to use (=, <, > etc.) - defaults to = if not specified for a field (see
  *                           $allowed_operators for available operators)
  *                           Note: the $searchmode operator will only be used if a $condition for that field is set.
  *                                 This also means you'll need to set a (dummy) condition for NULL and NOTNULL.
  */
-function db_where_clause(array $condition, array $struct, $additional_raw_where = '', array $searchmode = array())
+function db_where_clause(array $condition, array $struct, $additional_raw_where = '', array $searchmode = array(), array &$params = [])
 {
     if (count($condition) == 0 && trim($additional_raw_where) == '') {
         throw new Exception("db_where_cond: parameter is an empty array!");
@@ -2005,7 +2055,7 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
 
     foreach ($condition as $field => $value) {
         if (isset($struct[$field]) && $struct[$field]['type'] == 'bool') {
-            $value = db_get_boolean($value);
+            $value = (bool) $value; # ensure booleans are booleans.
         }
         $operator = '=';
         if (isset($searchmode[$field])) {
@@ -2013,10 +2063,10 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
                 $operator = $searchmode[$field];
 
                 if ($operator == 'CONT') { # CONT - as in "contains"
-                    $operator = ' LIKE '; # add spaces
+                    $operator = ' LIKE ';
                     $value = '%' . $value . '%';
                 } elseif ($operator == 'LIKE') { # LIKE -without adding % wildcards (the search value can contain %)
-                    $operator = ' LIKE '; # add spaces
+                    $operator = ' LIKE ';
                 }
             } else {
                 throw new Exception('db_where_clause: Invalid searchmode for ' . $field);
@@ -2028,11 +2078,13 @@ function db_where_clause(array $condition, array $struct, $additional_raw_where 
         } elseif ($operator == "NOTNULL") {
             $querypart = $field . ' IS NOT NULL';
         } else {
-            $querypart = $field . $operator . "'" . escape_string($value) . "'";
-
             // might need other types adding here.
             if (db_pgsql() && isset($struct[$field]) && in_array($struct[$field]['type'], array('ts', 'num')) && $value === '') {
                 $querypart = $field . $operator . " NULL";
+            } else {
+                $param_key = '_wh_' . preg_replace('/[^a-zA-Z0-9_]/', '_', $field);
+                $querypart = $field . $operator . " :" . $param_key;
+                $params[$param_key] = $value;
             }
         }
 
@@ -2146,9 +2198,7 @@ function gen_show_status($show_alias)
 
     // UNDELIVERABLE CHECK
     if ($CONF['show_undeliverable'] == 'YES') {
-        $gotos = array();
         $gotos = explode(',', $stat_goto);
-        $undel_string = "";
 
         //make sure this alias goes somewhere known
         $stat_ok = 1;
@@ -2160,15 +2210,11 @@ function gen_show_status($show_alias)
                 continue;
             }
 
-            list($local_part, $stat_domain) = explode('@', $g);
+            list($_, $stat_domain) = explode('@', $g);
 
-            $v = array();
-
-            $stat_delimiter = "";
 
             $sql = "SELECT address FROM $table_alias WHERE address = ? OR address = ?";
-            $v[] = $g;
-            $v[] = '@' . $stat_domain;
+            $v = [$g, '@' . $stat_domain];
 
             if (!empty($CONF['recipient_delimiter']) && isset($delimiter_regex)) {
                 $v[] = preg_replace($delimiter_regex, "@", $g);
@@ -2196,7 +2242,7 @@ function gen_show_status($show_alias)
 
     // Vacation CHECK
     if (array_key_exists('show_vacation', $CONF) && $CONF['show_vacation'] == 'YES') {
-        $stat_result = db_query_one("SELECT * FROM " . table_by_key('vacation') . " WHERE email = ? AND active = ? ", array($show_alias, db_get_boolean(true)));
+        $stat_result = db_query_one("SELECT * FROM " . table_by_key('vacation') . " WHERE email = ? AND active = ? ", array($show_alias, true));
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_vacation_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
@@ -2208,7 +2254,7 @@ function gen_show_status($show_alias)
     if (array_key_exists('show_disabled', $CONF) && $CONF['show_disabled'] == 'YES') {
         $stat_result = db_query_one(
             "SELECT * FROM " . table_by_key('mailbox') . " WHERE username = ? AND active = ?",
-            array($show_alias, db_get_boolean(false))
+            array($show_alias, false)
         );
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_disabled_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
@@ -2224,7 +2270,7 @@ function gen_show_status($show_alias)
             $now = "datetime('now')";
         }
 
-        $stat_result = db_query_one("SELECT * FROM " . table_by_key('mailbox') . " WHERE username = ? AND password_expiry <= $now AND active = ?", array($show_alias, db_get_boolean(true)));
+        $stat_result = db_query_one("SELECT * FROM " . table_by_key('mailbox') . " WHERE username = ? AND password_expiry <= $now AND active = ?", array($show_alias, true));
 
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";

@@ -14,17 +14,17 @@ abstract class PFAHandler
     /**
      * @var array of error messages - if a method returns false, you'll find the error message(s) here
      */
-    public $errormsg = array();
+    public array $errormsg = [];
 
     /**
      * @var array of info messages (for example success messages)
      */
-    public $infomsg = array();
+    public array $infomsg = [];
 
     /**
      * @var array tasks available in CLI
      */
-    public $taskNames = array('Help', 'Add', 'Update', 'Delete', 'View', 'Scheme');
+    public array $taskNames = ['Help', 'Add', 'Update', 'Delete', 'View', 'Scheme'];
 
     /**
      * variables that must be defined in all *Handler classes
@@ -34,18 +34,18 @@ abstract class PFAHandler
      * @var string (default) name of the database table
      * (can be overridden by $CONF[database_prefix] and $CONF[database_tables][*] via table_by_key())
      */
-    protected $db_table = '';
+    protected string $db_table;
 
     /**
      * @var string field containing the ID
      */
-    protected $id_field = '';
+    protected string $id_field;
 
     /**
      * @var string  field containing the label
      * defaults to $id_field if not set
      */
-    protected $label_field;
+    protected string $label_field;
 
     /**
      * field(s) to use in the ORDER BY clause
@@ -53,20 +53,20 @@ abstract class PFAHandler
      * defaults to $id_field if not set
      * @var string
      */
-    protected $order_by = '';
+    protected string $order_by;
 
     /**
      * @var string
      * column containing the domain
      * if a table does not contain a domain column, leave empty and override no_domain_field())
      */
-    protected $domain_field = "";
+    protected ?string $domain_field = null;
 
     /**
      * column containing the username (if logged in as non-admin)
      * @var string
      */
-    protected $user_field = '';
+    protected ?string $user_field = null;
 
     /**
      * skip empty password fields in edit mode
@@ -74,14 +74,14 @@ abstract class PFAHandler
      * disable for "edit password" forms
      * @var boolean
      */
-    protected $skip_empty_pass = true;
+    protected bool $skip_empty_pass = true;
 
     /**
      * @var array fields to search when using simple search ("?search[_]=...")
      * array with one or more fields to search (all fields will be OR'ed in the query)
      * searchmode is always 'contains' (using LIKE "%searchterm%")
      */
-    protected $searchfields = array();
+    protected array $searchfields = [];
 
     /**
      * internal variables - filled by methods of *Handler
@@ -239,8 +239,9 @@ abstract class PFAHandler
             );
         }
 
+        // default *_struct_hooks are empty strings
         $struct_hook = Config::read($this->db_table . '_struct_hook');
-        if (!empty($struct_hook) && is_string($struct_hook) && $struct_hook != 'NO' && function_exists($struct_hook)) {
+        if (!empty($struct_hook) && $struct_hook != 'NO' && is_callable($struct_hook)) {
             $this->struct = $struct_hook($this->struct);
         }
 
@@ -565,8 +566,7 @@ abstract class PFAHandler
         foreach ($db_values as $key => $val) {
             switch ($this->struct[$key]['type']) { # modify field content for some types
                 case 'bool':
-                    $val = (string)$val;
-                    $db_values[$key] = db_get_boolean($val);
+                    $db_values[$key] = (bool) $val;
                     break;
                 case 'pass':
                     $val = (string)$val;
@@ -591,9 +591,9 @@ abstract class PFAHandler
 
         try {
             if ($this->new) {
-                $result = db_insert($this->db_table, $db_values, array('created', 'modified'), true);
+                db_insert($this->db_table, $db_values, array('created', 'modified'), true);
             } else {
-                $result = db_update($this->db_table, $this->id_field, $this->id, $db_values, array('modified'), true);
+                db_update($this->db_table, $this->id_field, $this->id, $db_values, array('modified'), true);
             }
         } catch (PDOException $e) {
             error_log(__FILE__ . " - failed to save mailbox; message : " . $e->getMessage()); // see #780
@@ -711,25 +711,29 @@ abstract class PFAHandler
         $table = table_by_key($this->db_table);
 
         $additional_where = '';
+        $params = [];
         if ($this->domain_field != "") {
-            $additional_where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains);
+            $additional_where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains, $params);
         }
 
         # if logged in as user, restrict to the items the user is allowed to see
         if ((!$this->is_admin) && $this->user_field != '') {
-            $additional_where .= " AND " . $this->user_field . " = '" . escape_string($this->username) . "' ";
+            $additional_where .= " AND " . $this->user_field . " = :_user_field ";
+            $params['_user_field'] = $this->username;
         }
 
         if (is_array($condition)) {
             if (isset($condition['_']) && count($this->searchfields) > 0) {
                 $simple_search = array();
                 foreach ($this->searchfields as $field) {
-                    $simple_search[] = "$field LIKE '%" . escape_string($condition['_']) . "%'";
+                    $param_key = '_search_' . preg_replace('/[^a-zA-Z0-9_]/', '_', $field);
+                    $simple_search[] = "$field LIKE :$param_key";
+                    $params[$param_key] = '%' . $condition['_'] . '%';
                 }
                 $additional_where .= " AND ( " . join(" OR ", $simple_search) . " ) ";
                 unset($condition['_']);
             }
-            $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode);
+            $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode, $params);
         } else {
             if ($condition == "") {
                 $condition = '1=1';
@@ -740,6 +744,7 @@ abstract class PFAHandler
         return array(
             'select_cols'       => " SELECT $cols ",
             'from_where_order'  => " FROM $table $extrafrom $where ORDER BY " . $this->order_by,
+            'params'            => $params,
         );
     }
 
@@ -753,7 +758,7 @@ abstract class PFAHandler
     public function getPagebrowser($condition, $searchmode)
     {
         $queryparts = $this->build_select_query($condition, $searchmode);
-        return create_page_browser($this->label_field, $queryparts['from_where_order']);
+        return create_page_browser($this->label_field, $queryparts['from_where_order'], $queryparts['params'] ?? []);
     }
 
     /**
@@ -784,8 +789,9 @@ abstract class PFAHandler
 
         $db_result = array();
 
+        $params = $queryparts['params'] ?? [];
 
-        $result = db_query_all($query);
+        $result = db_query_all($query, $params);
 
         foreach ($result as $row) {
             $db_result[$row[$this->id_field]] = $row;
@@ -870,7 +876,7 @@ abstract class PFAHandler
     public function checkPasswordRecoveryCode($username, $token)
     {
         $table = table_by_key($this->db_table);
-        $active = db_get_boolean(true);
+        $active = true;
 
         $now = date('Y-m-d H:i:s');
 
@@ -925,22 +931,27 @@ abstract class PFAHandler
     }
 
     /**
+     * @see DOCUMENTS/HANDLER_CLASSES.md
      * Define a db column, also used to control rendering/editing behaviour.
      *
-     * @param int $allow_editing
-     * @param int $display_in_form
-     * @param int display_in_list
+     * @param int $allow_editing (0 - read-only, 1 - editable)
+     * @param int $display_in_form (0 - hide, 1 - show in form)
+     * @param int display_in_list (0 hide, 1 - show in list)
      * @param string $type e.g. text|pass|bool|list|vnum|mail|ts - see PFAHandler::initStruct()
-     * @param string PALANG_label
-     * @param string PALANG_desc
-     * @param any optional $default
-     * @param array $options optional options
-     * @param array|int or $multiopt - if array, can contain the remaining parameters as associated array. Otherwise counts as $not_in_db
+     * @param string PALANG_label (language key for the field label)
+     * @param string PALANG_desc (language key for the help/description text)
+     * @param mixed $default
+     * @param array $options optional options - for enum/list types
+     * @param int $not_in_db (DEPRECATED form: array, can contain the remaining parameters as associated array. Otherwise counts as $not_in_db)
+     * @param int $dont_write_to_db (Skip writing to db)
+     * @param string $select - custom SQL expression replacing the column name in SELECT, see e.g. AdminHandler's domain_count definition for example
+     * @param string $extrafrom
+     * @param string $linkto e.g. list-virtual.php?domain=%s
      * @return array for $struct
      *
      * @see PFAHandler::initStruct() for a list of possible types.
      */
-    public static function pacol(int $allow_editing, int $display_in_form, int $display_in_list, string $type, string $PALANG_label, string $PALANG_desc, $default = "", array $options = array(), $multiopt = 0, int $dont_write_to_db = 0, string $select = "", string $extrafrom = "", string $linkto = ""): array
+    public static function pacol(int $allow_editing, int $display_in_form, int $display_in_list, string $type, string $PALANG_label, string $PALANG_desc, $default = "", array $options = [], $not_in_db = 0, int $dont_write_to_db = 0, string $select = "", string $extrafrom = "", string $linkto = ""): array
     {
         if ($PALANG_label != '') {
             $PALANG_label = Config::lang($PALANG_label);
@@ -949,16 +960,21 @@ abstract class PFAHandler
             $PALANG_desc = Config::lang($PALANG_desc);
         }
 
-        if (is_array($multiopt)) { # remaining parameters provided in named array
-            $not_in_db = 0; # keep default value
-            foreach ($multiopt as $key => $value) {
+        if (is_array($not_in_db)) { # remaining parameters provided in named array
+            trigger_error("PFAHandler::pacol() - passing mutiopt as an array is deprecated, please use the remaining parameters", E_USER_DEPRECATED);
+            $found = false;
+            foreach ($not_in_db as $key => $value) {
+                if ($key === 'not_in_db') {
+                    $found = true;
+                }
                 $$key = $value; # extract everything to the matching variable
             }
-        } else {
-            $not_in_db = $multiopt;
+            if (!$found) {
+                $not_in_db = 0; //
+            }
         }
 
-        return array(
+        return [
             'editable' => $allow_editing,
             'display_in_form' => $display_in_form,
             'display_in_list' => $display_in_list,
@@ -972,7 +988,7 @@ abstract class PFAHandler
             'select' => $select,         # replaces the field name after SELECT
             'extrafrom' => $extrafrom,      # added after FROM xy - useful for JOINs etc.
             'linkto' => $linkto,         # make the value a link - %s will be replaced with the ID
-        );
+        ];
     }
 
 
@@ -1095,5 +1111,6 @@ abstract class PFAHandler
         $this->errormsg[$field] = $validpass[0]; # TODO: honor all error messages, not only the first one?
         return false;
     }
+
 }
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

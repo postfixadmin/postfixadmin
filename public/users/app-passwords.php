@@ -36,6 +36,12 @@ $pPassword_text = "";
 $pUser_text = '';
 $pUser = '';
 
+// check if app-passwords are enabled
+if (Config::bool('app_passwords') === false) {
+    header("Location: main.php");
+    exit(0);
+}
+
 if (authentication_has_role('global-admin')) {
     $login = new Login('admin');
     $admin = 2;
@@ -52,9 +58,8 @@ if (authentication_has_role('global-admin')) {
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if (safepost('token') != $_SESSION['PFA_token']) {
-        die('Invalid token!');
-    }
+
+    CsrfToken::assertValid(safepost('CSRF_Token'));
 
     if (isset($_POST['fCancel'])) {
         header("Location: main.php");

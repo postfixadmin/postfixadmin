@@ -6,16 +6,10 @@
  * @package tests
  */
 
-require_once('RemoteTest.php');
+require_once('RemoteTestCase.php');
 
-class RemoteAliasTest extends RemoteTest
+class RemoteAliasTest extends RemoteTestCase
 {
-    public function __construct()
-    {
-        parent::__construct();
-        global $CONF;
-    }
-
     public function testGet()
     {
         /* although we created an alias record, for users, this isn't returned... */
