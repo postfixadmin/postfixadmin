@@ -16,10 +16,12 @@
 
 // Debian: This loads the automatic generated DB credentials from /etc/postfixadmin/dbconfig.inc.php
 $db_config = dirname(__FILE__) . '/dbconfig.inc.php';
-if (file_exists($db_config) && !is_readable($db_config)) {
-    die("Could not read: $db_config\n");
+if (file_exists($db_config)) {
+    if (!is_readable($db_config)) {
+        die("Could not read: $db_config\n");
+    }
+    require_once($db_config);
 }
-require_once($db_config);
 
 if (!isset($dbserver) || empty($dbserver)) {
     $dbserver = 'localhost';
@@ -831,33 +833,6 @@ $CONF['domain_list_hide_password_expiry'] = 'NO';
 // settings there.
 if (file_exists(dirname(__FILE__) . '/config.local.php')) {
     require_once(dirname(__FILE__) . '/config.local.php');
-}
-
-// Debian: This loads the automatic generated DB credentials from /etc/postfixadmin/dbconfig.inc.php
-$db_config = __DIR__ . '/dbconfig.inc.php';
-if (file_exists($db_config)) {
-    if (!is_readable($db_config)) {
-        die("Could not read: $db_config\n");
-    }
-    require_once($db_config);
-    if (!isset($dbserver) || empty($dbserver)) {
-        $dbserver = 'localhost';
-    }
-    if (isset($dbtype)) {
-        $CONF['database_type'] = $dbtype;
-    }
-    if (isset($dbserver)) {
-        $CONF['database_host'] = $dbserver;
-    }
-    if (isset($dbuser)) {
-        $CONF['database_user'] = $dbuser;
-    }
-    if (isset($dbpass)) {
-        $CONF['database_password'] = $dbpass;
-    }
-    if (isset($dbname)) {
-        $CONF['database_name'] = $dbname;
-    }
 }
 
 //
