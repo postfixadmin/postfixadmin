@@ -142,21 +142,21 @@ $PALANG['pCreate_alias_goto_text'] = 'A donde debe de ser enviado el e-mail.';
 $PALANG['pCreate_alias_goto_text_error'] = '¡El PARA no es válido!';
 $PALANG['pCreate_alias_result_error'] = '¡No es posible añadir el alias a la tabla de alias! (%s)';
 $PALANG['pCreate_alias_result_success'] = '¡El alias ha sido añadido a la tabla de alias!';
-$PALANG['alias_updated'] = 'The alias %s has been updated!';
+$PALANG['alias_updated'] = 'El alias %s se ha actualizado.';
 $PALANG['pCreate_alias_catchall_text'] = 'Para crear un alias general use "*" como alias.\n Para una redirección de dominio a dominio, use "*@domain.tld" como Destino.';
 $PALANG['mailbox_alias_cant_be_deleted'] = 'Este alias pertenece a un buzón y no se puede eliminar.!';
 $PALANG['protected_alias_cant_be_deleted'] = 'Este alias %s esta protegido y solo puede ser eliminado por un superadmin';
 $PALANG['alias_points_to_itself'] = 'Un alias no puede apuntar a si mismo';
 
-$PALANG['pEdit_alias_welcome'] = 'Edite un alias para su dominio.';
-$PALANG['pEdit_alias_help'] = 'Multiples destinos, pero una entrada por línea.';
+$PALANG['pEdit_alias_welcome'] = 'Editar configuración de reenvío';
+$PALANG['pEdit_alias_help'] = 'Acepta múltiples destinos, una entrada por línea.';
 $PALANG['alias'] = 'Alias';
 $PALANG['to'] = 'Destino';
 $PALANG['pEdit_alias_goto_text_error1'] = 'No ha introducido nada en el destino';
 $PALANG['pEdit_alias_goto_text_error2'] = 'La dirección de e-mail introducida no es válida: ';
 $PALANG['pEdit_alias_domain_result_error'] = '¡No se pudo modificar el alias de dominio!'; 
-$PALANG['pEdit_alias_forward_and_store'] = 'Entregar al  buzón local.'; 
-$PALANG['pEdit_alias_forward_only'] = 'Reenviar sólo al email especificado.'; 
+$PALANG['pEdit_alias_forward_and_store'] = 'Entregar también al buzón local.';
+$PALANG['pEdit_alias_forward_only'] = 'Reenviar solo a las direcciones especificadas.';
 $PALANG['pEdit_alias_result_error'] = '¡Imposible modificar el alias! (%s)';
 
 $PALANG['pCreate_mailbox_welcome'] = 'Crear un nuevo buzón para su dominio.';

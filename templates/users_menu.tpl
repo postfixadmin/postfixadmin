@@ -15,7 +15,7 @@
                     <li><a class="nav-item nav-link" target="_top" href="{#url_user_vacation#}">{$PALANG.pUsersMenu_vacation}</a></li>
                 {/if}
                 {if $CONF.edit_alias===YES}
-                    <li><a class="nav-item nav-link" target="_top" href="{#url_user_edit_alias#}">{$PALANG.pUsersMenu_edit_alias}</a></li>
+                    <li><a class="nav-item nav-link" target="_top" href="{#url_user_edit_alias#}&amp;edit={$smarty.session.sessid.username|escape:url}">{$PALANG.pUsersMenu_edit_alias}</a></li>
                 {/if}
                 {* TOTP *}
                 {if $CONF.totp==='YES'}
