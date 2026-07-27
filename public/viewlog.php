@@ -44,24 +44,30 @@ if (authentication_has_role('global-admin')) {
 
 $fDomain = '';
 $error = 0;
+$show_all = false;
+$all_domains_value = '*'; # dropdown sentinel for the "All domains" option
 
 
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
-    if (isset($_GET['page']) && $_GET['fDomain']) {
+    if (isset($_GET['page']) && isset($_GET['fDomain']) && $_GET['fDomain']) {
         $fDomain_aux = $_GET['fDomain'];
-        $flag_fDomain = 0;
-        if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
-            foreach ($list_domains as $domain) {
-                if ($domain == $fDomain_aux) {
-                    $fDomain = $domain;
-                    $flag_fDomain = 1;
-                    break;
+        if ($fDomain_aux === $all_domains_value) {
+            $show_all = true;
+        } else {
+            $flag_fDomain = 0;
+            if ((is_array($list_domains) and sizeof($list_domains) > 0)) {
+                foreach ($list_domains as $domain) {
+                    if ($domain == $fDomain_aux) {
+                        $fDomain = $domain;
+                        $flag_fDomain = 1;
+                        break;
+                    }
                 }
             }
-        }
 
-        if ($flag_fDomain == 0) {
-            throw new InvalidArgumentException('Unknown domain');
+            if ($flag_fDomain == 0) {
+                throw new InvalidArgumentException('Unknown domain');
+            }
         }
 
         $page_number = (int)($_GET['page'] ?? 0);
@@ -76,40 +82,55 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
 } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
     $page_number = 1;
-    if (isset($_POST['fDomain']) && in_array($_POST['fDomain'], $list_domains)) {
+    if (isset($_POST['fDomain']) && $_POST['fDomain'] === $all_domains_value) {
+        $show_all = true;
+    } elseif (isset($_POST['fDomain']) && in_array($_POST['fDomain'], $list_domains)) {
         $fDomain = $_POST['fDomain'];
     }
 } else {
     throw new InvalidArgumentException('Unsupported request method');
 }
 
-if (!(check_owner($username, $fDomain) || authentication_has_role('global-admin'))) {
+# When "All domains" is selected, the query is scoped to the admin's domains
+# (see viewlog_domain_condition()), so the per-domain ownership check is skipped.
+if (!$show_all && !(check_owner($username, $fDomain) || authentication_has_role('global-admin'))) {
     $error = 1;
     flash_error($PALANG['pViewlog_result_error']);
 }
 
+# Number of log entries per page - user-selectable but whitelisted so a crafted
+# value can't request an unbounded LIMIT. The configured $CONF['page_size'] is
+# always offered so existing setups keep their default.
+$page_size_options = array(10, 25, 50, 100, 1000);
+$default_page_size = (int)($CONF['page_size'] ?? 10);
+if (!in_array($default_page_size, $page_size_options, true)) {
+    $page_size_options[] = $default_page_size;
+}
+sort($page_size_options);
+
+if (isset($_POST['page_size'])) {
+    $requested_page_size = (int)$_POST['page_size'];
+} elseif (isset($_GET['page_size'])) {
+    $requested_page_size = (int)$_GET['page_size'];
+} else {
+    $requested_page_size = (int)($_SESSION['viewlog:page_size'] ?? $default_page_size);
+}
+$page_size = in_array($requested_page_size, $page_size_options, true) ? $requested_page_size : $default_page_size;
+$_SESSION['viewlog:page_size'] = $page_size;
+
 $tLog = array();
+$number_of_pages = 0;
+$page_window = array();
 
 if ($error != 1) {
     $table_log = table_by_key('log');
-    $page_size = isset($CONF['page_size']) ? intval($CONF['page_size']) : 35;
 
-
-    $where = [];
     $params = [];
-    if ($fDomain) {
-        $where[] = 'domain = :domain';
-        $params['domain'] = $fDomain;
-    }
-
-    $where_sql = '';
-    if (!empty($where)) {
-        $where_sql = 'WHERE ' . implode(' AND ', $where);
-    }
+    $condition = viewlog_domain_condition($show_all, authentication_has_role('global-admin'), $fDomain, $list_domains, $params);
+    $where_sql = ($condition !== '') ? "WHERE $condition" : '';
 
 
     $number_of_logs = 0;
-    $number_of_pages = 0;
     //get number of total logs
     $query = "SELECT count(*) as number_of_logs FROM $table_log $where_sql";
 
@@ -120,9 +141,13 @@ if ($error != 1) {
     }
     $number_of_pages = ceil($number_of_logs / $page_size);
 
-    if ($page_number > $number_of_pages) {
+    # An empty result set (no matching log entries) has 0 pages; page 1 should
+    # then be accepted (the template simply shows no log rows) rather than throwing.
+    if ($number_of_pages > 0 && $page_number > $number_of_pages) {
         throw new InvalidArgumentException('Unknown page number');
     }
+
+    $page_window = pagination_window($page_number, (int)$number_of_pages, 5);
 
     if ($page_number == 1) {
         $offset = 0;
@@ -159,6 +184,12 @@ $smarty->assign('domain_list', $list_domains);
 $smarty->assign('domain_selected', $fDomain);
 $smarty->assign('tLog', $tLog, false);
 $smarty->assign('fDomain', $fDomain);
+$smarty->assign('show_all', $show_all);
+$smarty->assign('all_domains_value', $all_domains_value);
+$smarty->assign('domain_param', $show_all ? $all_domains_value : $fDomain);
+$smarty->assign('page_size', $page_size);
+$smarty->assign('page_size_options', $page_size_options);
+$smarty->assign('page_window', $page_window);
 
 $smarty->assign('number_of_pages', $number_of_pages);
 $smarty->assign('page_number', $page_number);

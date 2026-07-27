@@ -16,7 +16,7 @@
  */
 
 
-$min_db_version = 1851;  # update (at least) before a release with the latest function number in upgrade.php
+$min_db_version = 1855;  # update (at least) before a release with the latest function number in upgrade.php
 
 
 /**
@@ -1687,6 +1687,64 @@ function db_query_all(string $sql, array $values = []): array
 }
 
 /**
+ * Read a per-admin preference from the admin_preferences table.
+ *
+ * @param string $username - the admin the preference belongs to
+ * @param string $key      - the preference key
+ * @param string $default  - value to return if no preference is stored
+ * @return string
+ */
+function get_admin_pref(string $username, string $key, string $default = ''): string
+{
+    $row = db_query_one(
+        "SELECT pref_value FROM " . table_by_key('admin_preferences') . " WHERE username = :username AND pref_key = :pref_key",
+        array('username' => $username, 'pref_key' => $key)
+    );
+
+    if (is_array($row) && isset($row['pref_value'])) {
+        return $row['pref_value'];
+    }
+
+    return $default;
+}
+
+/**
+ * Store a per-admin preference (upsert) in the admin_preferences table.
+ *
+ * @param string $username - the admin the preference belongs to
+ * @param string $key      - the preference key
+ * @param string $value    - the preference value
+ * @return void
+ */
+function set_admin_pref(string $username, string $key, string $value): void
+{
+    # delete + insert rather than an upsert: the syntax for the latter differs between
+    # MySQL, PostgreSQL and SQLite, and preferences are written rarely enough that the
+    # extra statement does not matter.
+    delete_admin_pref($username, $key);
+
+    db_execute(
+        "INSERT INTO " . table_by_key('admin_preferences') . " (username, pref_key, pref_value) VALUES (:username, :pref_key, :pref_value)",
+        array('username' => $username, 'pref_key' => $key, 'pref_value' => $value)
+    );
+}
+
+/**
+ * Remove a per-admin preference from the admin_preferences table.
+ *
+ * @param string $username - the admin the preference belongs to
+ * @param string $key      - the preference key
+ * @return void
+ */
+function delete_admin_pref(string $username, string $key): void
+{
+    db_execute(
+        "DELETE FROM " . table_by_key('admin_preferences') . " WHERE username = :username AND pref_key = :pref_key",
+        array('username' => $username, 'pref_key' => $key)
+    );
+}
+
+/**
  * @param string $sql
  * @param array $values
  * @return array
@@ -1950,6 +2008,85 @@ function db_in_clause(string $field, array $values, array &$params = []): string
         $params[$key] = $value;
     }
     return " $field IN (" . implode(",", $placeholders) . ") ";
+}
+
+/**
+ * Build the log-table domain restriction for viewlog.php.
+ *
+ * Global admins may view every domain; any other admin is restricted to the
+ * domains they manage, so the "All domains" option can never leak log entries
+ * belonging to other admins' domains.
+ *
+ * @param bool $show_all - whether the "All domains" option is selected
+ * @param bool $is_global_admin - whether the current admin is a global admin
+ * @param string $fDomain - the single selected domain (ignored when $show_all)
+ * @param array $allowed_domains - domains the current admin may view
+ * @param array &$params - bound query parameters (appended to)
+ * @return string - SQL condition for a WHERE clause, or '' for no restriction
+ */
+function viewlog_domain_condition(bool $show_all, bool $is_global_admin, string $fDomain, array $allowed_domains, array &$params): string
+{
+    if ($show_all) {
+        if ($is_global_admin) {
+            return ''; # no restriction - every domain
+        }
+        return db_in_clause('domain', $allowed_domains, $params);
+    }
+
+    if ($fDomain !== '') {
+        $params['domain'] = $fDomain;
+        return 'domain = :domain';
+    }
+
+    return '';
+}
+
+/**
+ * Compute the page numbers to display in a windowed pager.
+ *
+ * Always includes page 1 and the last page, plus a window of $radius pages on
+ * either side of the current page. Gaps between those ranges are represented by
+ * a null entry (rendered as an ellipsis). For example current=20, total=50,
+ * radius=5 yields: [1, null, 15..25, null, 50].
+ *
+ * @param int $current - the current page number (1-based)
+ * @param int $total_pages - total number of pages
+ * @param int $radius - how many pages to show either side of $current
+ * @return array<int|null> - ordered page numbers, null marks an ellipsis gap
+ */
+function pagination_window(int $current, int $total_pages, int $radius = 5): array
+{
+    if ($total_pages <= 1) {
+        return $total_pages == 1 ? [1] : [];
+    }
+
+    $current = max(1, min($current, $total_pages));
+    $start = max(1, $current - $radius);
+    $end = min($total_pages, $current + $radius);
+
+    # Only the window itself is built (O(radius)), with page 1 / the last page
+    # and ellipsis markers (null) prepended/appended as needed.
+    $result = [];
+
+    if ($start > 1) {
+        $result[] = 1;
+        if ($start > 2) {
+            $result[] = null; # gap between page 1 and the window
+        }
+    }
+
+    for ($i = $start; $i <= $end; $i++) {
+        $result[] = $i;
+    }
+
+    if ($end < $total_pages) {
+        if ($end < $total_pages - 1) {
+            $result[] = null; # gap between the window and the last page
+        }
+        $result[] = $total_pages;
+    }
+
+    return $result;
 }
 
 /**

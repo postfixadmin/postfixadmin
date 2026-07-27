@@ -25,23 +25,31 @@
                                 {else}
                                     {if $table == 'foo' && $key == 'bar'}
                                         Special handling (td content) for {$table} / {$key}
+                                    {elseif $table == 'alias' && $key == 'goto_default'}
+                                        {* the label next to the box states what ticking it does;
+                                           saving replaces any previously stored value *}
+                                        <div class="checkbox"><label>
+                                                <input type="checkbox" value='1'
+                                                       name="value[{$key}]"{if {$value_{$key}} == 1} checked="checked"{/if}/>
+                                                {$PALANG.alias_goto_default_save}
+                                            </label></div>
                                     {elseif $field.type == 'bool'}
                                         <div class="checkbox"><label>
                                                 <input type="checkbox" value='1'
                                                        name="value[{$key}]"{if {$value_{$key}} == 1} checked="checked"{/if}/>
                                             </label></div>
                                     {elseif $field.type == 'enum'}
-                                        <select class="form-control" name="value[{$key}]" id="{$key}">
+                                        <select class="form-select" name="value[{$key}]" id="{$key}">
                                             {html_options output=$struct.{$key}.options values=$struct.{$key}.options selected=$value_{$key}}
                                         </select>
                                     {elseif $field.type == 'enma'}
-                                        <select class="form-control" name="value[{$key}]" id="{$key}">
+                                        <select class="form-select" name="value[{$key}]" id="{$key}">
                                             {html_options options=$struct.{$key}.options selected=$value_{$key}}
                                         </select>
                                     {elseif $field.type == 'list'}
                                         <input type="text" class="form-control" style="margin-bottom : 25px;"
                                                id="id_searchDomains" onkeyup="searchDomains()"
-                                               placeholder="Search for domains..." title="search domains">
+                                              placeholder="{$PALANG.search_domains}" title="{$PALANG.search_domains}">
                                         <ul id="domainsList" name="value[{$key}][]"
                                             style="max-height : 250px; overflow: auto;">
                                             {foreach from=$struct.{$key}.options item=domain}
@@ -81,6 +89,21 @@
 
                                 {if $table == 'foo' && $key == 'bar'}
                                     <span class="form-text">Special handling (td content) for {$table} / {$key}</span>
+                                {elseif $table == 'alias' && $key == 'goto_default'}
+                                    {if $struct.goto_default.options.stored != ''}
+                                        <span class="form-text">
+                                            {$PALANG.alias_goto_default_current}: {$struct.goto_default.options.stored}
+                                            {* submits the separate form at the end of this template -
+                                               it cannot be nested inside the form we are in *}
+                                            <button type="submit" form="delete_goto_default"
+                                                    class="btn btn-sm btn-link text-danger p-0 align-baseline"
+                                                    title="{$PALANG.alias_goto_default_delete}"
+                                                    aria-label="{$PALANG.alias_goto_default_delete}"
+                                                    onclick="return confirm('{$PALANG.alias_goto_default_delete_confirm|escape:"javascript"}');">
+                                                <span class="bi bi-x-lg" aria-hidden="true"></span>
+                                            </button>
+                                        </span>
+                                    {/if}
                                 {else}
                                     {if $fielderror.{$key}}
                                         <span class="form-text text-danger">{$fielderror.{$key}}</span>
@@ -108,6 +131,15 @@
 
     </div>
 </form>
+
+{if isset($struct.goto_default) && $struct.goto_default.options.stored != ''}
+    {* deleting the stored default must work without creating an alias, so it is its own
+       form - placed outside the one above and referenced via the button's form attribute *}
+    <form id="delete_goto_default" method="post" action="delete-preference.php">
+        <input type="hidden" name="domain" value="{$value_domain|escape:"quotes"}"/>
+        {CSRF_Token}
+    </form>
+{/if}
 
 <script type="text/javascript">
     function searchDomains() {

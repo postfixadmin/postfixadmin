@@ -65,10 +65,17 @@
                                 {assign "linkto" "{$field.linkto|replace:'%s':{$item.$id_field|escape:url}}"} {* TODO: use label field instead *}
                                 {assign "linktitle" ""}
                                 {if $table == 'domain' && $key == 'domain'}
-                                    {if isset($struct.maxquota) && $struct.maxquota.label == '' && isset($item.maxquota)}
-                                        {assign "linktitle" "{$PALANG.pOverview_get_quota}: {$item.maxquota} MB"}
+                                    {if isset($struct.maxquota) && $struct.maxquota.display_in_list == 0 && isset($item.maxquota)}
+                                        {if $item.maxquota < 0}
+                                            {assign "maxquota_text" "{$PALANG.quota_not_managed}"}
+                                        {elseif $item.maxquota == 0}
+                                            {assign "maxquota_text" "{$PALANG.pOverview_unlimited}"}
+                                        {else}
+                                            {assign "maxquota_text" "{$item.maxquota} MB"}
+                                        {/if}
+                                        {assign "linktitle" "{$PALANG.pAdminList_domain_maxquota}: {$maxquota_text}"}
                                     {/if}
-                                    {if isset($struct.password_expiry) && $struct.password_expiry.label == '' && isset($item.password_expiry)}
+                                    {if isset($struct.password_expiry) && $struct.password_expiry.display_in_list == 0 && isset($item.password_expiry)}
                                         {if $linktitle != ''}{assign "linktitle" "{$linktitle}&#10;"}{/if}
                                         {assign "linktitle" "{$linktitle}{$PALANG.password_expiration}: {$item.password_expiry}"}
                                     {/if}

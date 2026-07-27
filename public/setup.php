@@ -21,7 +21,9 @@ require_once('common.php');
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="images/postbox.png" alt="Logo"/></a>
+        <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="images/postbox.png" alt="Logo"/>
+            PostfixAdmin - setup
+        </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
                 aria-expanded="false" aria-controls="navbar">
             <span class="navbar-toggler-icon"></span>
@@ -80,7 +82,7 @@ $tick = ' ✅ ';
 ?>
 
 
-<div class="container">
+<main class="container" style="padding-top: 100px">
     <div class="row">
         <h1 class="h1">Configure and Setup Postfixadmin</h1>
 
@@ -345,11 +347,54 @@ if ($db) {
         echo "<li class='h3 text-danger'>Something went wrong while trying to apply database updates, a message should be logged - check PHP's error_log (" . ini_get('error_log') . ')</li>';
         error_log("Couldn't perform PostfixAdmin database update via upgrade.php - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
     }
+
+
 } else {
     echo "<li class='text-danger'>Could not connect to database to perform updates; check PHP error log.</li>";
 }
 ?>
             </ul>
+
+            <?php
+            if ($authenticated) {
+                ?>
+                <h3 class="h3">Database integrity</h3>
+
+                <p>
+                    Check for records that reference missing mailboxes, domains, or administrators.
+                    This read-only check does not modify the database.
+                </p>
+                <?php
+                if (safepost('submit') !== 'check_integrity') {
+                    ?>
+                    <form name="check_database_integrity" class="form-inline" method="post">
+                        <div class="form-group mb-2">
+                            <label for="integrity_setup_password">Setup password</label>
+                            <input class="form-control" type="password" required="required"
+                                   name="setup_password" minlength="5"
+                                   id="integrity_setup_password" value=""/>
+                        </div>
+                        <button class="btn btn-secondary" type="submit" name="submit"
+                                value="check_integrity">
+                            Check database integrity
+                        </button>
+                    </form>
+                    <?php
+                }
+
+                if (safepost('submit') === 'check_integrity') {
+                    try {
+                        $integrity_results = (new DatabaseIntegrityChecker())->check();
+                        echo render_database_integrity_results($integrity_results);
+                    } catch (\Exception $e) {
+                        echo "<p class='mt-3 text-danger'>The database integrity check failed; check PHP's error log.</p>";
+                        error_log("Couldn't perform PostfixAdmin database integrity check - " . $e->getMessage() . " Trace: " . $e->getTraceAsString());
+                    }
+                }
+            }
+?>
+
+
         </div>
     </div>
 
@@ -361,12 +406,12 @@ if ($db) {
         if (safepost("submit") === "createadmin") {
             ?>
     <div class='row'>
-        <div class='col-12'>
-            <?php
-                    # "create admin" form submitted, make sure the correct setup password was specified.
+    <div class='col-12'>
+        <?php
+                # "create admin" form submitted, make sure the correct setup password was specified.
 
-                    // XXX need to ensure domains table includes an 'ALL' entry.
-                    $table_domain = table_by_key('domain');
+                // XXX need to ensure domains table includes an 'ALL' entry.
+                $table_domain = table_by_key('domain');
             $rows = db_query_all("SELECT * FROM $table_domain WHERE domain = 'ALL'");
             if (empty($rows)) {
                 // all other fields should default through the schema.
@@ -402,111 +447,111 @@ if ($db) {
 
         if (!empty($admins)) { ?>
 
-                <div class="row">
-                    <div class="col-12">
+            <div class="row">
+                <div class="col-12">
 
-                        <h2 class="h2">Super admins</h2>
-                        <p>The following 'super-admin' accounts have already been added to the database.</p>
-                        <ul>
-                            <?php
+                    <h2 class="h2">Super admins</h2>
+                    <p>The following 'super-admin' accounts have already been added to the database.</p>
+                    <ul>
+                        <?php
                         foreach ($admins as $row) {
                             echo "<li>{$row['username']}</li>";
                         }
             ?>
-                        </ul>
+                    </ul>
+                </div>
+            </div>
+        <?php } ?>
+
+        <div class="row">
+            <div class="col-12">
+                <h2>Add Superadmin Account</h2>
+
+                <form name="create_admin" class="form-horizontal" method="post">
+                    <div class="form-group">
+                        <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="password" required="required"
+                                   name="setup_password"
+                                   minlength=5
+                                   value=""/>
+
+                        </div>
                     </div>
-                </div>
-            <?php } ?>
 
-            <div class="row">
-                <div class="col-12">
-                    <h2>Add Superadmin Account</h2>
 
-                    <form name="create_admin" class="form-horizontal" method="post">
-                        <div class="form-group">
-                            <label for="setup_password" class="col-sm-4 control-label">Setup password</label>
-                            <div class="col-sm-4">
-                                <input class="form-control" type="password" required="required"
-                                       name="setup_password"
-                                       minlength=5
-                                       value=""/>
+                    <div class="form-group">
+                        <label for="username" class="col-sm-4 control-label"><?= $PALANG['admin'] ?></label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="text" required="required" name="username"
+                                   minlength=5
+                                   id="username"
+                                   value=""/>
 
-                            </div>
+                            <?= _error_field($errors, 'username'); ?>
+
                         </div>
+                    </div>
 
 
-                        <div class="form-group">
-                            <label for="username" class="col-sm-4 control-label"><?= $PALANG['admin'] ?></label>
-                            <div class="col-sm-4">
-                                <input class="form-control" type="text" required="required" name="username"
-                                       minlength=5
-                                       id="username"
-                                       value=""/>
-
-                                <?= _error_field($errors, 'username'); ?>
-
-                            </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-4 control-label"><?= $PALANG['password'] ?></label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="password" required=required
+                                   name="password" minlength=5
+                                   id="password" autocomplete="new-password"
+                                   value=""/>
+                            <?= _error_field($errors, 'password'); ?>
                         </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="password2"
+                               class="col-sm-4 control-label"><?= $PALANG['password_again'] ?></label>
+                        <div class="col-sm-4">
+                            <input class="form-control" type="password" required=required
+                                   name="password2" minlength=5
+                                   id="password2" autocomplete="new-password"
+                                   value=""/>
 
-                        <div class="form-group">
-                            <label for="password" class="col-sm-4 control-label"><?= $PALANG['password'] ?></label>
-                            <div class="col-sm-4">
-                                <input class="form-control" type="password" required=required
-                                       name="password" minlength=5
-                                       id="password" autocomplete="new-password"
-                                       value=""/>
-                                <?= _error_field($errors, 'password'); ?>
-                            </div>
+                            <?= _error_field($errors, 'password2'); ?>
+
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="password2"
-                                   class="col-sm-4 control-label"><?= $PALANG['password_again'] ?></label>
-                            <div class="col-sm-4">
-                                <input class="form-control" type="password" required=required
-                                       name="password2" minlength=5
-                                       id="password2" autocomplete="new-password"
-                                       value=""/>
 
-                                <?= _error_field($errors, 'password2'); ?>
-
-                            </div>
+                    <div class="form-group">
+                        <div class="offset-sm-4 col-sm-4">
+                            <button class="btn btn-primary" type="submit" name="submit"
+                                    value="createadmin"><?= $PALANG['pAdminCreate_admin_button'] ?>
+                            </button>
                         </div>
+                    </div>
 
-
-                        <div class="form-group">
-                            <div class="offset-sm-4 col-sm-4">
-                                <button class="btn btn-primary" type="submit" name="submit"
-                                        value="createadmin"><?= $PALANG['pAdminCreate_admin_button'] ?>
-                                </button>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
+                </form>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <p class="text-success"><?= $setupMessage ?></p>
-                </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="text-success"><?= $setupMessage ?></p>
             </div>
-            <?php
+        </div>
+        <?php
     }
 
 ?>
-        </div>
     </div>
-    <footer class="footer mt-5">
-        <div class="container text-center">
-            <a target="_blank" rel="noopener"
-               href="https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/">Documentation</a>
-            //
-            <a target="_blank" rel="noopener"
-               href="https://github.com/postfixadmin/postfixadmin/">Postfix Admin</a>
-        </div>
-    </footer>
+</main>
+<footer class="footer mt-5">
+    <div class="container text-center">
+        <a target="_blank" rel="noopener"
+           href="https://github.com/postfixadmin/postfixadmin/blob/master/DOCUMENTS/">Documentation</a>
+        //
+        <a target="_blank" rel="noopener"
+           href="https://github.com/postfixadmin/postfixadmin/">Postfix Admin</a>
+    </div>
+</footer>
 
 </body>
 </html>
@@ -546,6 +591,46 @@ function create_admin($values)
             $handler->infomsg['success'],
             array(),
     );
+}
+
+/**
+ * @param array<int, array<string, mixed>> $results
+ */
+function render_database_integrity_results(array $results): string
+{
+    $problems = array_filter($results, function (array $result): bool {
+        return $result['orphan_count'] > 0;
+    });
+
+    if (empty($problems)) {
+        return '<p class="mt-3 text-success">No orphaned records found.</p>';
+    }
+
+    $output = '<div class="mt-3">';
+    $output .= '<p class="text-warning"><strong>Orphaned records found.</strong> Review the records and make a database backup before correcting them manually.</p>';
+    $output .= '<div class="table-responsive"><table class="table table-sm table-bordered">';
+    $output .= '<thead><tr><th>Relation</th><th>Rows</th><th>Sample identifiers</th><th>Recommendation</th></tr></thead><tbody>';
+
+    foreach ($problems as $problem) {
+        $relation = $problem['child_table'] . '.' . $problem['child_column'] .
+                ' &rarr; ' . $problem['parent_table'] . '.' . $problem['parent_column'];
+        $sample_values = array_map(function ($value): string {
+            return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        }, $problem['sample_values']);
+
+        $output .= '<tr>';
+        $output .= '<td><code>' . $relation . '</code></td>';
+        $output .= '<td>' . intval($problem['orphan_count']) . '</td>';
+        $output .= '<td><code>' . implode('</code><br><code>', $sample_values) . '</code></td>';
+        $output .= '<td>' . htmlspecialchars($problem['recommendation'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</td>';
+        $output .= '</tr>';
+    }
+
+    $output .= '</tbody></table></div>';
+    $output .= '<p class="text-muted">Up to 20 distinct identifiers are shown for each relation. No data was changed.</p>';
+    $output .= '</div>';
+
+    return $output;
 }
 
 /**

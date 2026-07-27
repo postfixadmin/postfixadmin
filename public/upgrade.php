@@ -2253,9 +2253,66 @@ function upgrade_1854()
 }
 
 /**
+ * Reconcile MySQL schemas upgraded through the PostfixAdmin 3.3 branch.
+ *
+ * PostfixAdmin 3.3 used upgrade_1847_mysql() to widen quota2.username to
+ * varchar(255). A later upgrade to master therefore skips the more complete
+ * upgrade_1846_mysql() in this branch because the recorded database version
+ * is already 1847. The widened quota2 column is used as the marker for that
+ * upgrade path; a direct master upgrade leaves it at varchar(100).
+ *
+ * See https://github.com/postfixadmin/postfixadmin/issues/971
+ */
+function upgrade_1855_mysql()
+{
+    $quota2 = table_by_key('quota2');
+    $column = db_query_one(
+        "SELECT CHARACTER_MAXIMUM_LENGTH AS character_maximum_length
+        FROM information_schema.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+          AND TABLE_NAME = :table
+          AND COLUMN_NAME = 'username'",
+        ['table' => trim($quota2, '`')]
+    );
+
+    $column_length = (int) (array_values($column ?? [])[0] ?? 0);
+    if ($column_length !== 255) {
+        return;
+    }
+
+    upgrade_1846_mysql();
+}
+
+
+function upgrade_1856()
+{
+    # per-admin preferences (key/value), e.g. the stored default for the add-alias "To" field.
+    # pref_value is wide enough to hold a full 'goto' list (several targets, comma separated);
+    # it is not part of an index, so the length costs nothing.
+    #
+    # Written in the portable DDL subset so a single migration works on all three backends:
+    # db_query_parsed() substitutes the {IF_NOT_EXISTS} / {COLLATE} tokens per backend, but it
+    # does not rewrite identifier quoting or strip MySQL-only clauses. Backticks are MySQL syntax
+    # (PostgreSQL rejects them; SQLite merely tolerates them) and an inline COMMENT='...' is
+    # MySQL-only, so both are omitted here. The identifiers below are not reserved words in any
+    # of the three engines, so they need no quoting. {COLLATE} expands to a latin1 charset on
+    # MySQL (keeping the composite primary key well under InnoDB's index-length limit) and to an
+    # empty string on PostgreSQL/SQLite.
+    $admin_preferences = table_by_key('admin_preferences');
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $admin_preferences (
+            username varchar(255) NOT NULL default '',
+            pref_key varchar(64) NOT NULL default '',
+            pref_value varchar(2048) NOT NULL default '',
+            PRIMARY KEY (username, pref_key)
+        ) {COLLATE};
+    ");
+}
+
+/**
  * Add broadcast queue tables for asynchronous broadcast message sending.
  */
-function upgrade_1855()
+function upgrade_1857()
 {
     $jobTable = table_by_key('broadcast_job');
     $jobDomainTable = table_by_key('broadcast_job_domain');

@@ -375,6 +375,11 @@ function maildir_name_hook($domain, $user) {
         return $struct; # important!
     }
     $CONF['admin_struct_hook'] = 'x_struct_admin_modify';
+
+    You can also use e.g.
+    $CONF['admin_struct_hook'] = function($struct) {  // logic
+       return $struct; }
+    );
 */
 $CONF['admin_struct_hook']          = '';
 $CONF['domain_struct_hook']         = '';
@@ -712,7 +717,7 @@ $CONF['mailbox_postapppassword_script'] = '';
 $CONF['domain_postcreation_script'] = '';
 
 // Optional: See NOTE above.
-// Script to run after alteation of domains.
+// Script to run after alteration of domains.
 // Parameters: (1) domain
 //$CONF['domain_postedit_script']='sudo -u courier /usr/local/bin/postfixadmin-domain-postedit.sh';
 $CONF['domain_postedit_script'] = '';
