@@ -15,11 +15,11 @@
         <ul class="pagination justify-content-end mb-0">
             {foreach from=$pagination item=pi}
                 {if $pi.ellipsis|default:false}
-                    <li class="page-item disabled"><span class="page-link">&hellip;</span></li>
+                    <li class="page-item disabled"><span class="page-link" aria-hidden="true">&hellip;</span></li>
                 {elseif $pi.disabled|default:false}
                     <li class="page-item disabled"><span class="page-link" aria-hidden="true">{$pi.label}</span></li>
                 {elseif $pi.active|default:false}
-                    <li class="page-item active"><span class="page-link">{$pi.label}</span></li>
+                    <li class="page-item active"><span class="page-link" aria-current="page">{$pi.label}</span></li>
                 {else}
                     <li class="page-item"><a class="page-link" href="{$pi.url}"{if $pi.aria|default:''} aria-label="{$pi.aria}"{/if}>{$pi.label}</a></li>
                 {/if}

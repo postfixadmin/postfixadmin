@@ -49,7 +49,7 @@
 
         {if $pagination}
             <div class="card-footer">
-                {include file="_pagination.tpl"}
+                {include file="_pagination.tpl" pagination_label=$PALANG.pViewlog_pagination}
             </div>
         {/if}
     {/if}
