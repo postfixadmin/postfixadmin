@@ -227,6 +227,7 @@ $PALANG['pViewlog_all_domains'] = 'All domains';
 $PALANG['pViewlog_per_page'] = 'Per page:';
 $PALANG['pViewlog_timestamp'] = 'Laikas';
 $PALANG['pViewlog_action'] = 'Veiksmas';
+$PALANG['pViewlog_pagination'] = 'Log pages'; # XXX
 $PALANG['pViewlog_data'] = 'Duomenys';
 $PALANG['pViewlog_action_create_domain'] = 'sukurta sritis';
 $PALANG['pViewlog_action_delete_domain'] = 'panaikinta sritis';

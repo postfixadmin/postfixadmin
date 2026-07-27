@@ -139,7 +139,7 @@ if ($error != 1) {
     foreach ($result as $r) {
         $number_of_logs = $r['number_of_logs'];
     }
-    $number_of_pages = ceil($number_of_logs / $page_size);
+    $number_of_pages = (int) ceil($number_of_logs / $page_size);
 
     # An empty result set (no matching log entries) has 0 pages; page 1 should
     # then be accepted (the template simply shows no log rows) rather than throwing.
@@ -147,7 +147,7 @@ if ($error != 1) {
         throw new InvalidArgumentException('Unknown page number');
     }
 
-    $page_window = pagination_window($page_number, (int)$number_of_pages, 5);
+    $page_window = pagination_window($page_number, $number_of_pages, 5);
 
     if ($page_number == 1) {
         $offset = 0;
@@ -180,20 +180,38 @@ foreach ($tLog as $k => $v) {
 //get url
 $url = explode("?", (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]")[0];
 
+# Build the pagination items for the shared _pagination.tpl partial. Each entry
+# is a plain page link (real href, so it works without JavaScript); disabled
+# arrows and the current page render as non-clickable spans.
+$domain_param = $show_all ? $all_domains_value : $fDomain;
+$pagination = array();
+if ($number_of_pages > 1) {
+    $base = $url . '?fDomain=' . urlencode($domain_param) . '&amp;page_size=' . $page_size . '&amp;page=';
+    $on_first = ($page_number <= 1);
+    $on_last  = ($page_number >= $number_of_pages);
+
+    $pagination[] = array('label' => '&laquo;',  'url' => $base . 1,                 'disabled' => $on_first, 'aria' => 'First');
+    $pagination[] = array('label' => '&lsaquo;', 'url' => $base . ($page_number - 1), 'disabled' => $on_first, 'aria' => 'Previous');
+    foreach ($page_window as $p) {
+        if ($p === null) {
+            $pagination[] = array('ellipsis' => true);
+        } else {
+            $pagination[] = array('label' => $p, 'url' => $base . $p, 'active' => ($p == $page_number));
+        }
+    }
+    $pagination[] = array('label' => '&rsaquo;', 'url' => $base . ($page_number + 1), 'disabled' => $on_last, 'aria' => 'Next');
+    $pagination[] = array('label' => '&raquo;',  'url' => $base . $number_of_pages,   'disabled' => $on_last, 'aria' => 'Last');
+}
+
 $smarty->assign('domain_list', $list_domains);
 $smarty->assign('domain_selected', $fDomain);
 $smarty->assign('tLog', $tLog, false);
 $smarty->assign('fDomain', $fDomain);
 $smarty->assign('show_all', $show_all);
 $smarty->assign('all_domains_value', $all_domains_value);
-$smarty->assign('domain_param', $show_all ? $all_domains_value : $fDomain);
 $smarty->assign('page_size', $page_size);
 $smarty->assign('page_size_options', $page_size_options);
-$smarty->assign('page_window', $page_window);
-
-$smarty->assign('number_of_pages', $number_of_pages);
-$smarty->assign('page_number', $page_number);
-$smarty->assign('url', $url);
+$smarty->assign('pagination', $pagination);
 
 $smarty->assign('smarty_template', 'viewlog');
 $smarty->display('index.tpl');

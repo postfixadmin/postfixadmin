@@ -233,6 +233,7 @@ $PALANG['pViewlog_all_domains'] = 'All domains';
 $PALANG['pViewlog_per_page'] = 'Per page:';
 $PALANG['pViewlog_timestamp'] = 'Время создания/модификации';
 $PALANG['pViewlog_action'] = 'Действие';
+$PALANG['pViewlog_pagination'] = 'Log pages'; # XXX
 $PALANG['pViewlog_data'] = 'Данные';
 
 $PALANG['pViewlog_action_create_domain'] = 'создание домена';

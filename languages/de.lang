@@ -236,6 +236,7 @@ $PALANG['pViewlog_all_domains'] = 'All domains';
 $PALANG['pViewlog_per_page'] = 'Per page:';
 $PALANG['pViewlog_timestamp'] = 'Zeitpunkt';
 $PALANG['pViewlog_action'] = 'Aktion';
+$PALANG['pViewlog_pagination'] = 'Log pages'; # XXX
 $PALANG['pViewlog_data'] = 'Daten';
 
 $PALANG['pViewlog_action_create_domain'] = 'Domain erstellen';

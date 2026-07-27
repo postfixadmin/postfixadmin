@@ -230,6 +230,7 @@ $PALANG['pViewlog_all_domains'] = 'All domains';
 $PALANG['pViewlog_per_page'] = 'Per page:';
 $PALANG['pViewlog_timestamp'] = 'Idõbélyeg';
 $PALANG['pViewlog_action'] = 'Akció';
+$PALANG['pViewlog_pagination'] = 'Log pages'; # XXX
 $PALANG['pViewlog_data'] = 'Adat';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
 $PALANG['pViewlog_action_delete_domain'] = 'delete domain'; # XXX
