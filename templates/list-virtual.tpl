@@ -72,17 +72,7 @@
         {if $alias_active=='inactive'}<span class='active'>{$PALANG.inactive}</span>
         {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=inactive&amp;limit=0{$searchsuffix}">{$PALANG.inactive}</a>{/if}
     </div>
-    {if $pagination_alias}
-        <div class="mb-2">
-            {include file="_pagination.tpl" pagination=$pagination_alias pagination_label=$PALANG.pOverview_alias_title}
-        </div>
-    {/if}
     {include file="list-virtual_alias.tpl"}
-    {if $pagination_alias}
-        <div class="mt-2">
-            {include file="_pagination.tpl" pagination=$pagination_alias pagination_label=$PALANG.pOverview_alias_title}
-        </div>
-    {/if}
     {if $alias_active=='inactive' && $tAlias}
         <div class="text-center mb-2">
             <form method="post" action="delete-inactive.php" style="display:inline">
@@ -100,11 +90,6 @@
     <br/>
 {/if}
 {if $tab=='mailbox' || $tab=='all'}
-    {if $pagination_mailbox}
-        <div class="mb-2">
-            {include file="_pagination.tpl" pagination=$pagination_mailbox pagination_label=$PALANG.pOverview_mailbox_title}
-        </div>
-    {/if}
     <div id="mailboxes" class="card">
         {assign var="colspan" value=9}
         {if $CONF.vacation_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
@@ -116,7 +101,6 @@
 
 
         <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-2">
-            {include file="_pagination.tpl" pagination=$pagination_mailbox pagination_label=$PALANG.pOverview_mailbox_title}
             <div class="btn-group">
                 {if $tCanAddMailbox}
                     <a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" role="button"
