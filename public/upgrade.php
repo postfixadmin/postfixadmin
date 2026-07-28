@@ -61,6 +61,23 @@ function _mysql_field_exists($table, $field)
     return !empty($r);
 }
 
+function _mysql_foreign_key_exists($table, $constraint)
+{
+    $sql = "
+        SELECT CONSTRAINT_NAME
+        FROM information_schema.TABLE_CONSTRAINTS
+        WHERE CONSTRAINT_SCHEMA = DATABASE()
+          AND TABLE_NAME = :table
+          AND CONSTRAINT_NAME = :constraint
+          AND CONSTRAINT_TYPE = 'FOREIGN KEY'
+    ";
+    $r = db_query_one($sql, [
+        'table' => trim($table, '`'),
+        'constraint' => $constraint,
+    ]);
+    return !empty($r);
+}
+
 function _sqlite_field_exists($table, $field)
 {
     $sql = "PRAGMA table_info($table)";
@@ -1898,9 +1915,10 @@ function upgrade_1846_mysql()
 
     db_query("ALTER TABLE $quota MODIFY username varchar(255) COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $quota MODIFY path varchar(100) COLLATE latin1_general_ci NOT NULL");
-    db_query("ALTER TABLE $quota2 MODIFY username varchar(100) COLLATE latin1_general_ci NOT NULL");
 
-    db_query("ALTER TABLE $vacation_notification DROP FOREIGN KEY vacation_notification_pkey");
+    if (_mysql_foreign_key_exists($vacation_notification, 'vacation_notification_pkey')) {
+        db_query("ALTER TABLE $vacation_notification DROP FOREIGN KEY vacation_notification_pkey");
+    }
 
     db_query("ALTER TABLE $vacation MODIFY domain varchar(255)  COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $vacation MODIFY email varchar(255)  COLLATE latin1_general_ci NOT NULL");
@@ -1918,10 +1936,16 @@ function upgrade_1846_mysql()
     db_query("ALTER TABLE $vacation_notification MODIFY notified VARCHAR(255) COLLATE latin1_general_ci NOT NULL DEFAULT ''");
 
 
-    db_query("ALTER TABLE $vacation_notification ADD CONSTRAINT vacation_notification_pkey FOREIGN KEY (`on_vacation`) REFERENCES $vacation(email) ON DELETE CASCADE");
+    if (!_mysql_foreign_key_exists($vacation_notification, 'vacation_notification_pkey')) {
+        db_query("ALTER TABLE $vacation_notification ADD CONSTRAINT vacation_notification_pkey FOREIGN KEY (`on_vacation`) REFERENCES $vacation(email) ON DELETE CASCADE");
+    }
 
     db_query("ALTER TABLE $domain_admins MODIFY `domain` varchar(255) COLLATE latin1_general_ci NOT NULL");
     db_query("ALTER TABLE $domain_admins MODIFY username varchar(255) COLLATE latin1_general_ci NOT NULL");
+
+    // Keep the 3.3-path marker until every other reconciliation statement has
+    // succeeded, so an interrupted upgrade_1855_mysql() remains retryable.
+    db_query("ALTER TABLE $quota2 MODIFY username varchar(100) COLLATE latin1_general_ci NOT NULL");
 }
 
 function upgrade_1847()
