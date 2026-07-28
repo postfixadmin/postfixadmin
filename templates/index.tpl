@@ -17,7 +17,7 @@
     {if $CONF.theme_custom_css}
         <link rel="stylesheet" type="text/css" href="{$CONF.theme_custom_css}"/>
     {/if}
-    <script src="{$rel_path}css/bootstrap-5.3.0-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{$rel_path}css/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="{if isset($smarty.session.lang)}lang-{$smarty.session.lang}{/if} page-{$smarty_template} {if isset($table)}page-{$smarty_template}-{$table}{/if}">
 
