@@ -11,7 +11,7 @@ require_once('common.php');
 
     <title>Postfix Admin - Setup</title>
     <link rel="shortcut icon" href="images/favicon.ico"/>
-    <link rel="stylesheet" href="css/bootstrap-5.3.0-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/bootstrap-5.3.8-dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
 
