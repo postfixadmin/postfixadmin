@@ -187,6 +187,7 @@ $PALANG['mb_max'] = 'MB (最大: %s)';
 $PALANG['mb_max_unlimited'] = 'MB (最大: unlimited)'; # XXX
 $PALANG['mb_max_disabled'] = 'MB (最大: disabled)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = '指定された容量制限が大きすぎます。';
+$PALANG['pEdit_mailbox_domain_quota_text_error'] = 'The domain does not have enough quota available for this mailbox.'; # XXX
 $PALANG['pEdit_mailbox_domain_error'] = 'このドメインは管理外です: ';
 $PALANG['pEdit_mailbox_result_error'] = '更新できませんでした！';
 
