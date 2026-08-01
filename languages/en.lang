@@ -185,6 +185,7 @@ $PALANG['mb_max'] = 'MB (max: %s)';
 $PALANG['mb_max_unlimited'] = 'MB (max: unlimited)';
 $PALANG['mb_max_disabled'] = 'MB (max: disabled)';
 $PALANG['pEdit_mailbox_quota_text_error'] = 'The quota that you specified is too high!';
+$PALANG['pEdit_mailbox_domain_quota_text_error'] = 'The domain does not have enough quota available for this mailbox.';
 $PALANG['pEdit_mailbox_domain_error'] = 'This domain is not yours: ';
 $PALANG['pEdit_mailbox_result_error'] = 'Unable to modify the mailbox!';
 

@@ -169,6 +169,7 @@ $PALANG['mb_max'] = 'MB (maks: %s)';
 $PALANG['mb_max_unlimited'] = 'MB (maks: unlimited)'; # XXX
 $PALANG['mb_max_disabled'] = 'MB (maks: disabled)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Verdiğiniz kota çok yüksek!';
+$PALANG['pEdit_mailbox_domain_quota_text_error'] = 'The domain does not have enough quota available for this mailbox.'; # XXX
 $PALANG['pEdit_mailbox_domain_error'] = 'Bu domain dizin değil: ';
 $PALANG['pEdit_mailbox_result_error'] = 'Şifre değiştirilemedi!';
 
