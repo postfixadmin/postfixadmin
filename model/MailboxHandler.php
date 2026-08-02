@@ -11,6 +11,7 @@ class MailboxHandler extends PFAHandler
     protected string $id_field = 'username';
     protected ?string $domain_field = 'domain';
     protected array $searchfields = ['username'];
+    protected string $quota_error = 'pEdit_mailbox_quota_text_error';
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct()
@@ -435,7 +436,7 @@ class MailboxHandler extends PFAHandler
     protected function _validate_quota($field, $val)
     {
         if (!$this->check_quota($val)) {
-            $this->errormsg[$field] = Config::lang('pEdit_mailbox_quota_text_error');
+            $this->errormsg[$field] = Config::lang($this->quota_error);
             return false;
         }
         return true;
@@ -550,6 +551,8 @@ class MailboxHandler extends PFAHandler
      */
     protected function check_quota($quota)
     {
+        $this->quota_error = 'pEdit_mailbox_quota_text_error';
+
         if (!Config::bool('quota')) {
             return true; # enforcing quotas is disabled - just allow it
         }
@@ -571,12 +574,12 @@ class MailboxHandler extends PFAHandler
             return false; # mailbox bigger than maxquota restriction (and maxquota != unlimited) -> not allowed, no more checks needed
         }
 
-        # TODO: detailed error message ("domain quota exceeded", "mailbox quota too big" etc.) via flash_error? Or "available quota: xxx MB"?
         if (!Config::bool('domain_quota')) {
             return true; # enforcing domain_quota is disabled - just allow it
         } elseif ($limit['quota'] <= 0) { # TODO: CHECK - 0 (unlimited) is fine, not sure about <= -1 (disabled)...
             $rval = true;
         } elseif ($quota == 0) { # trying to create an unlimited mailbox, but domain quota is set
+            $this->quota_error = 'pEdit_mailbox_domain_quota_text_error';
             return false;
         } else {
             $table_mailbox = table_by_key('mailbox');
@@ -586,6 +589,7 @@ class MailboxHandler extends PFAHandler
 
             $cur_quota_total = (int)divide_quota($rows[0]['sum']); # convert to MB
             if (($quota + $cur_quota_total) > $limit['quota']) {
+                $this->quota_error = 'pEdit_mailbox_domain_quota_text_error';
                 $rval = false;
             } else {
                 $rval = true;
