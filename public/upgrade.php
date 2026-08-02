@@ -2365,7 +2365,55 @@ function upgrade_1857()
         )
     ");
 
-    db_query_parsed("CREATE INDEX idx_broadcast_job_status ON $jobTable (status)", 1);
-    db_query_parsed("CREATE INDEX idx_broadcast_job_domain ON $jobDomainTable (domain, job_id)", 1);
-    db_query_parsed("CREATE INDEX idx_broadcast_recipient_job_status ON $recipientTable (job_id, status)", 1);
+}
+
+function upgrade_1857_mysql()
+{
+    $indexes = [
+        'broadcast_job' => [
+            'idx_broadcast_job_status' => 'status',
+        ],
+        'broadcast_job_domain' => [
+            'idx_broadcast_job_domain' => 'domain, job_id',
+        ],
+        'broadcast_recipient' => [
+            'idx_broadcast_recipient_job_status' => 'job_id, status',
+        ],
+    ];
+
+    foreach ($indexes as $tableKey => $tableIndexes) {
+        $table = table_by_key($tableKey);
+        foreach ($tableIndexes as $index => $columns) {
+            $result = db_query_one("SHOW INDEX FROM $table WHERE Key_name = '$index'");
+            if (empty($result)) {
+                db_query("CREATE INDEX $index ON $table ($columns)");
+            }
+        }
+    }
+}
+
+function upgrade_1857_pgsql()
+{
+    $indexes = [
+        'idx_broadcast_job_status' => [table_by_key('broadcast_job'), 'status'],
+        'idx_broadcast_job_domain' => [table_by_key('broadcast_job_domain'), 'domain, job_id'],
+        'idx_broadcast_recipient_job_status' => [table_by_key('broadcast_recipient'), 'job_id, status'],
+    ];
+
+    foreach ($indexes as $index => [$table, $columns]) {
+        if (!_pgsql_object_exists($index)) {
+            db_query("CREATE INDEX $index ON $table ($columns)");
+        }
+    }
+}
+
+function upgrade_1857_sqlite()
+{
+    $jobTable = table_by_key('broadcast_job');
+    $jobDomainTable = table_by_key('broadcast_job_domain');
+    $recipientTable = table_by_key('broadcast_recipient');
+
+    db_query("CREATE INDEX IF NOT EXISTS idx_broadcast_job_status ON $jobTable (status)");
+    db_query("CREATE INDEX IF NOT EXISTS idx_broadcast_job_domain ON $jobDomainTable (domain, job_id)");
+    db_query("CREATE INDEX IF NOT EXISTS idx_broadcast_recipient_job_status ON $recipientTable (job_id, status)");
 }
