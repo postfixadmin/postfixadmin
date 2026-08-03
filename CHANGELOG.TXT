@@ -6,6 +6,17 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Version 4.0.6 (2026/XX/XX)
+--------------------------
+   - Improve error display for mailbox/domain quota validation errors (see #1097, thanks @TrapoSAMA)
+   - Drop obsolete password_expiration.sql (see #1099, thanks @TrapoSAMA)
+   - Update Spanish translations (see #1101 and #1073, thanks @TrapoSAMA)
+   - Fix MySQL upgrade issues from 3.3 (see #1088, thanks @knofte + @TrapoSAMA)
+   - Fix session / CSRF token issues on first anonymous login (duplicate Cookie headers) (see #1087 and #1086, thanks @TrapoSAMA)
+   - Add documentation for Dovecot 2.4 (see #1076 + #1075, thanks @TrapoSAMA)
+   - Harden mailbox hook scripts (see #1080, thanks @TrapoSAMA)
+   - Various UI layout fixes (see #1077, thanks @TrapoSAMA)
+
 Version 4.0.5 (2026/07/05)
 --------------------------
    - Improve error message for expired CSRF tokens (show a html error page rather than a plain "die" message); thanks @TrapoSAMA
