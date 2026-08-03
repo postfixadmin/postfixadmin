@@ -8,9 +8,23 @@
 
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
-
-   - UI improvements (quota, icons for domain/mailbox lists etc) (see #1046, thanks @trapoSAMA)
-   - UI improvements (top menu, dashboard labels, translations) (see #1047, thanks @trapoSAMA)
+ 
+   - Quota display improvements (see #1096, thanks @TrapoSAMA)
+   - Update Spanish translations (see #1100, thanks @TrapoSAMA)
+   - Update bootstrap icons + bootstrap (see #1095, #1094, thanks @TrapoSAMA)
+   - Fix v3.3 schema update path (see #1092, thanks @TrapoSAMA + @Knofte)
+   - Start to move to Bootstrap based pagination (see #1064 + #1090, thanks @Knofte + @TrapoSAMA)
+   - Allow admins to store a default forward for the 'To' field (see #1061, thanks @mkocustos)
+   - Add read-only database integrity check to setup.php (see #1091, thanks @TrapoSAMA)
+   - Fix duplicate session cookies on login (see #1085, thanks @TrapoSAMA)
+   - Harden optional mailbox hooks + add rspamd dkim examples etc (see #1079, thanks @TrapoSAMA)
+   - Add Dovecot 2.4 oriented documentation (see #1095, thanks @TrapoSAMA)
+   - Add status filter for forwards (#1056) and bulk delete for forwards (see #1058, thanks @knofte)
+   - Improve CSRF token failure page (see #1067, thanks @TrapoSAMA)
+   - CI updates - run more often, build release artifacts (see #1065, #1066, thanks @knofte)
+   - viewlog - add "All domains" option (see #1059, #1060, thanks @knofte)
+   - UI improvements (quota, icons for domain/mailbox lists etc) (see #1046, thanks @TrapoSAMA)
+   - UI improvements (top menu, dashboard labels, translations) (see #1047, thanks @TrapoSAMA)
    - Improve debian packaging (see #1041, thanks @jpwarren)
    - Add description field to alias and alias_domain (see #1036, thanks @jpwarren)
    - Improve password recovery if TOTP is not enabled (thanks @drunken-sod, see #1032)
