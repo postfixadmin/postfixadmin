@@ -1,0 +1,571 @@
+<?php
+# $Id$
+//
+// Language file Korean
+// by Goodsoldier <sul.nam at wise-leader dot com>
+//
+
+
+$PALANG['YES'] = '예';
+$PALANG['NO'] = '아니오';
+$PALANG['edit'] = '수정';
+$PALANG['del'] = '삭제';
+$PALANG['exit'] = '종료';
+$PALANG['cancel'] = '취소';
+$PALANG['save'] = '변경사항 저장';
+$PALANG['confirm'] = '정말 삭제하시겠습니까?\n';
+$PALANG['confirm_delete_admin'] = '정말 관리자 %s 항목을 삭제하시겠습니까?';
+$PALANG['confirm_delete_alias'] = '정말 별칭(포워딩) %s 항목을 삭제하시겠습니까?';
+$PALANG['confirm_delete_aliasdomain'] = '정말 별칭 도메인 %s 항목을 삭제하시겠습니까?';
+$PALANG['confirm_delete_domain'] = '정말 도메인 %s 의 모든 레코드를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다!';
+$PALANG['confirm_delete_dkim'] = '정말 도메인 키 엔트리 %s 항목을 삭제하시겠습니까?';
+$PALANG['confirm_delete_fetchmail'] = '정말 외부 메일 가져오기(fetchmail) 작업 %s 항목을 삭제하시겠습니까?';
+$PALANG['confirm_delete_mailbox'] = '정말 메일박스 %s 항목을 삭제하시겠습니까?';
+$PALANG['confirm_delete_vacation'] = '정말 %s 의 부재중 응답 메시지를 삭제하시겠습니까?';
+$PALANG['no_delete_permissions'] = '%s 항목을 삭제할 권한이 없습니다!';
+$PALANG['check_update'] = '업데이트 확인';
+$PALANG['invalid_parameter'] = '잘못된 파라미터입니다!';
+$PALANG['show'] = '보기:';
+$PALANG['all'] = '전체';
+$PALANG['created'] = '생성일';
+$PALANG['unknown'] = '알 수 없음';
+$PALANG['download_csv'] = '이 목록을 CSV 파일로 다운로드';
+$PALANG['missing_field'] = '%s 필드가 누락되었습니다';
+$PALANG['must_be_numeric'] = '%s 값은 숫자여야 합니다';
+$PALANG['must_be_numeric_bigger_than_null'] = '%s 값은 0보다 큰 숫자여야 합니다';
+$PALANG['must_be_boolean'] = '%s 값은 불리언(Boolean) 형태여야 합니다';
+$PALANG['invalid_value_given'] = '%s 에 잘못된 값이 입력되었습니다';
+$PALANG['edit_not_allowed'] = '%s 항목을 수정할 권한이 없습니다';
+$PALANG['searchparams'] = '검색 조건:';
+$PALANG['copy'] = '복사';
+$PALANG['generate'] = '생성';
+
+$PALANG['pFooter_logged_as'] = '접속 계정: %s';
+
+$PALANG['pLogin_welcome'] = '도메인 관리자는 여기에서 로그인하세요.';
+$PALANG['pLogin_username'] = '로그인 (이메일)';
+$PALANG['password'] = '비밀번호';
+$PALANG['pLogin_language'] = '언어';
+$PALANG['pLogin_button'] = '로그인';
+$PALANG['pLogin_failed'] = '이메일 주소 또는 비밀번호가 올바르지 않습니다.';
+$PALANG['pLogin_login_users'] = '일반 사용자는 여기를 클릭하여 로그인하세요.';
+
+$PALANG['pMenu_main'] = '메인';
+$PALANG['pMenu_overview'] = '개요';
+$PALANG['add_alias'] = '별칭(포워딩) 추가';
+$PALANG['add_alias_domain'] = '별칭 도메인 추가';
+$PALANG['add_mailbox'] = '메일박스 추가';
+$PALANG['pMenu_fetchmail'] = '외부 메일 가져오기';
+$PALANG['pMenu_fetchmail_menu'] = '메일 가져오기';
+$PALANG['pMenu_sendmail'] = '이메일 발송';
+$PALANG['pMenu_sendmail_menu'] = '발송';
+$PALANG['pMenu_dkim'] = '도메인 키';
+$PALANG['pMenu_dkim_menu'] = 'DKIM';
+$PALANG['pMenu_dkim_signing'] = '서명 서식 테이블';
+$PALANG['pMenu_security'] = '보안';
+$PALANG['pMenu_password'] = '비밀번호';
+$PALANG['pMenu_totp'] = 'TOTP';
+$PALANG['pMenu_totp_exceptions'] = 'TOTP 예외 설정';
+$PALANG['pMenu_app_passwords'] = '앱 비밀번호';
+$PALANG['pMenu_viewlog'] = '로그 보기';
+$PALANG['pMenu_logout'] = '로그아웃';
+
+$PALANG['pMain_welcome'] = 'Postfix Admin에 오신 것을 환영합니다!';
+$PALANG['pMain_overview'] = '등록된 도메인 목록입니다. 여기에서 수정 및 삭제할 수 있습니다.';
+$PALANG['pMain_create_alias'] = '새 이메일 별칭(포워딩)을 생성합니다.';
+$PALANG['pMain_create_mailbox'] = '새 메일박스를 생성합니다.';
+$PALANG['pMain_sendmail'] = '새로 생성된 메일박스 중 하나로 이메일을 보내봅니다.';
+$PALANG['pMain_password'] = '관리자 계정의 비밀번호를 변경합니다.';
+$PALANG['pMain_viewlog'] = '로그 파일을 확인합니다.';
+$PALANG['pMain_logout'] = '시스템에서 로그아웃합니다.';
+$PALANG['pMain_global_search'] = '통합 검색';
+$PALANG['pMain_global_search_placeholder'] = '통합 검색 (메일박스, 별칭(포워딩) 등)';
+$PALANG['pMain_search_button'] = '검색';
+$PALANG['pMain_dashboard'] = '대시보드';
+
+$PALANG['pOverview_disabled'] = '비활성화됨';
+$PALANG['pOverview_unlimited'] = '무제한';
+$PALANG['pOverview_title'] = ':: 등록된 도메인';
+$PALANG['pOverview_up_arrow'] = '맨 위로';
+$PALANG['pOverview_right_arrow'] = '다음 페이지';
+$PALANG['pOverview_left_arrow'] = '이전 페이지';
+$PALANG['pOverview_alias_domain_title'] = ':: 별칭 도메인';
+$PALANG['pOverview_alias_title'] = ':: 별칭(포워딩)';
+$PALANG['pOverview_mailbox_title'] = ':: 메일박스';
+$PALANG['go'] = '이동';
+$PALANG['pOverview_welcome'] = '개요: ';
+$PALANG['pOverview_alias_domain_aliases'] = '별칭 도메인';
+$PALANG['pOverview_alias_address'] = '보낸이 (From)';
+$PALANG['active'] = '활성';
+$PALANG['inactive'] = '비활성';
+$PALANG['alias_active_filter'] = '별칭(포워딩) 상태:';
+$PALANG['delete_inactive_button'] = '모든 비활성 별칭(포워딩) 삭제';
+$PALANG['delete_inactive_confirm'] = '이 도메인의 모든 비활성 별칭(포워딩)을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.';
+$PALANG['pDelete_inactive_success'] = '%s개의 비활성 별칭(포워딩)을 삭제했습니다.';
+$PALANG['pDelete_inactive_skipped'] = '삭제할 수 없는 %s개의 별칭(포워딩)(보호됨 또는 메일박스 별칭(포워딩))을 제외했습니다.';
+$PALANG['smtp_active'] = 'SMTP';
+$PALANG['and_x_more'] = '[외 %s개 더보기...]';
+$PALANG['pOverview_mailbox_username'] = '이메일';
+$PALANG['name'] = '이름';
+$PALANG['pOverview_mailbox_quota'] = '용량 제한 (MB)';
+$PALANG['quota_assigned'] = '할당됨';
+$PALANG['quota_used'] = '사용 중';
+$PALANG['pOverview_vacation_edit'] = '부재중 응답 설정됨';
+$PALANG['pOverview_vacation_option'] = '부재중 응답 설정';
+$PALANG['no_domains_for_this_admin'] = '관리할 수 있는 도메인 권한이 없습니다.';
+$PALANG['no_domains_exist'] = '가상 목록을 사용하려면 최소 하나 이상의 도메인을 먼저 생성해야 합니다.';
+
+$PALANG['domain'] = '도메인';
+$PALANG['search_domains'] = '도메인 검색...';
+$PALANG['pOverview_get_alias_domains'] = '별칭 도메인';
+$PALANG['mailboxes'] = '메일박스 수';
+$PALANG['pOverview_get_quota'] = '메일박스 용량 (MB)';
+
+$PALANG['pDelete_delete_error'] = '항목을 삭제할 수 없습니다: ';
+$PALANG['pDelete_delete_success'] = '%s 항목이 삭제되었습니다.';
+$PALANG['pDelete_domain_error'] = '본인 소유의 도메인이 아닙니다: ';
+$PALANG['pDelete_alias_error'] = '별칭(포워딩)을 삭제할 수 없습니다: ';
+
+$PALANG['pCreate_alias_domain_welcome'] = '한 도메인의 이메일 주소를 다른 도메인으로 그대로 미러링합니다.';
+$PALANG['pCreate_alias_domain_alias'] = '별칭 도메인';
+$PALANG['pCreate_alias_domain_alias_text'] = '메일을 수신할 도메인입니다.';
+$PALANG['pCreate_alias_domain_target'] = '대상 도메인';
+$PALANG['pCreate_alias_domain_target_text'] = '메일이 최종 전달(포워딩)될 도메인입니다.';
+$PALANG['pCreate_alias_domain_error1'] = '선택한 구성을 생성할 권한이 없습니다.';
+$PALANG['pCreate_alias_domain_error2'] = '선택한 구성이 올바르지 않습니다. 다른 구성을 선택해 주세요!';
+$PALANG['alias_domain_already_exists'] = '이 도메인은 이미 별칭 도메인으로 등록되어 있습니다!';
+$PALANG['alias_domain_does_not_exist'] = '이 도메인은 별칭 도메인이 아닙니다!';
+$PALANG['alias_domain_create_failed'] = '별칭 도메인 %s 생성에 실패했습니다!';
+$PALANG['alias_domain_change_failed'] = '별칭 도메인 %s 변경에 실패했습니다!';
+$PALANG['pCreate_alias_domain_error4'] = '모든 도메인이 이미 별칭으로 지정되어 있습니다.';
+$PALANG['pCreate_alias_domain_success'] = '별칭 도메인 %s 이(가) 생성되었습니다.';
+$PALANG['alias_domain_changed'] = '별칭 도메인 %s 이(가) 변경되었습니다.';
+$PALANG['alias_domain_to_itsself'] = '자기 자신을 별칭 도메인으로 지정할 수 없습니다!';
+$PALANG['delete_domain_aliasdomain_target'] = '도메인 %s 은(는) 하나 이상의 별칭 도메인의 대상이므로 삭제할 수 없습니다! (별칭 도메인을 먼저 삭제하세요.)';
+
+$PALANG['pCreate_alias_address_text_error1'] = '별칭(포워딩) 주소가 올바르지 않습니다!';
+$PALANG['alias_does_not_exist'] = '존재하지 않는 별칭(포워딩)입니다!';
+$PALANG['email_address_already_exists'] = '이미 존재하는 이메일 주소입니다. 다른 주소를 선택해 주세요!';
+$PALANG['pCreate_alias_address_text_error3'] = '생성 가능한 별칭(포워딩) 한도에 도달했습니다!';
+$PALANG['pCreate_alias_goto_text'] = '메일을 전달받을 수신 주소입니다.';
+$PALANG['pCreate_alias_goto_text_error'] = '수신 주소(To:)가 올바르지 않습니다!';
+$PALANG['pCreate_alias_result_error'] = '별칭(포워딩) %s 생성에 실패했습니다!';
+$PALANG['pCreate_alias_result_success'] = '별칭(포워딩) %s 이(가) 생성되었습니다!';
+$PALANG['alias_updated'] = '별칭(포워딩) %s 이(가) 업데이트되었습니다!';
+$PALANG['pCreate_alias_catchall_text'] = '캐치올(Catch-all)을 생성하려면 별칭(포워딩) 명에 "*"를 사용하세요.';
+$PALANG['mailbox_alias_cant_be_deleted'] = '이 별칭(포워딩)은 기존 메일박스에 귀속되어 있으므로 삭제할 수 없습니다!';
+$PALANG['protected_alias_cant_be_deleted'] = '별칭(포워딩) %s 은(는) 보호 상태이므로 최고 관리자만 삭제할 수 있습니다.';
+$PALANG['alias_points_to_itself'] = '별칭(포워딩) 주소가 자기 자신을 가리킬 수 없습니다.';
+
+$PALANG['pEdit_alias_welcome'] = '별칭(포워딩) 설정 수정';
+$PALANG['pEdit_alias_help'] = '여러 수신 주소를 지정할 수 있습니다. 한 줄에 하나씩 입력하세요.';
+$PALANG['alias'] = '별칭(포워딩)';
+$PALANG['to'] = '수신인 (To)';
+$PALANG['alias_goto_default'] = '기본 수신 주소';
+$PALANG['alias_goto_default_save'] = '이 대상을 향후 생성될 별칭(포워딩)의 기본 수신 주소로 저장';
+$PALANG['alias_goto_default_current'] = '현재 저장된 주소';
+$PALANG['alias_goto_default_delete'] = '저장된 기본 수신 주소 삭제';
+$PALANG['alias_goto_default_delete_confirm'] = '저장된 기본 수신 주소를 정말 삭제하시겠습니까?';
+$PALANG['alias_goto_default_deleted'] = '저장된 기본 수신 주소가 삭제되었습니다.';
+$PALANG['pEdit_alias_goto_text_error1'] = '수신인(To) 칸이 비어 있습니다.';
+$PALANG['pEdit_alias_goto_text_error2'] = '입력한 이메일 주소가 올바르지 않습니다: ';
+$PALANG['pEdit_alias_domain_result_error'] = '별칭 도메인을 수정할 수 없습니다!';
+$PALANG['pEdit_alias_forward_and_store'] = '로컬 메일박스에 보관하면서 전달.';
+$PALANG['pEdit_alias_forward_only'] = '지정한 이메일 주소로 전달만 수행.';
+$PALANG['pEdit_alias_result_error'] = '별칭(포워딩) %s 수정에 실패했습니다!';
+
+$PALANG['pCreate_mailbox_welcome'] = '도메인에 사용할 새 메일박스를 만듭니다.';
+$PALANG['pCreate_mailbox_local_part_error'] = '@ 기호 앞부분이어야 합니다.';
+$PALANG['pCreate_mailbox_username_text_error1'] = '이메일 주소가 올바르지 않습니다!';
+$PALANG['pCreate_mailbox_username_text_error3'] = '생성 가능한 메일박스 한도에 도달했습니다!';
+$PALANG['pCreate_mailbox_password_text'] = 'POP3/IMAP 접속 비밀번호';
+$PALANG['pCreate_mailbox_name_text'] = '성명';
+$PALANG['pCreate_mailbox_phone'] = '휴대전화 번호';
+$PALANG['pCreate_mailbox_phone_desc'] = "비밀번호 분실 시 SMS를 받기 위해 사용됩니다";
+$PALANG['pCreate_mailbox_email'] = '보조 이메일 주소';
+$PALANG['pCreate_mailbox_email_desc'] = "비밀번호 분실 시 재설정을 위해 사용됩니다";
+$PALANG['pCreate_mailbox_mail'] = '환영 메일 발송';
+$PALANG['pCreate_mailbox_result_error'] = '메일박스 %s 생성에 실패했습니다!';
+$PALANG['pCreate_mailbox_result_success'] = '메일박스 %s 이(가) 메일박스 테이블에 추가되었습니다.';
+$PALANG['pCreate_mailbox_result_succes_nosubfolders'] = '메일박스 %s 이(가) 추가되었으나, 일부(또는 전체) 하위 폴더 생성에 실패했습니다.';
+$PALANG['mailbox_updated'] = "메일박스 %s 이(가) 업데이트되었습니다.";
+$PALANG['mailbox_update_failed'] = "메일박스 %s 업데이트에 실패했습니다!";
+
+$PALANG['pEdit_mailbox_welcome'] = '메일박스 정보를 수정합니다.';
+$PALANG['pEdit_mailbox_username'] = '사용자명 (이메일)';
+$PALANG['pEdit_mailbox_password_text_error'] = '입력한 비밀번호가 서로 일치하지 않습니다!';
+$PALANG['pEdit_mailbox_quota'] = '용량 제한';
+$PALANG['pEdit_mailbox_quota_text'] = 'MB';
+$PALANG['mb_max'] = 'MB (최대: %s)';
+$PALANG['mb_max_unlimited'] = 'MB (최대: 무제한)';
+$PALANG['mb_max_disabled'] = 'MB (최대: 비활성)';
+$PALANG['pEdit_mailbox_quota_text_error'] = '지정한 용량이 너무 큽니다!';
+$PALANG['pEdit_mailbox_domain_quota_text_error'] = '도메인에 이 메일박스에 할당할 수 있는 남은 용량이 부족합니다.';
+$PALANG['pEdit_mailbox_domain_error'] = '본인 소유의 도메인이 아닙니다: ';
+$PALANG['pEdit_mailbox_result_error'] = '메일박스를 수정할 수 없습니다!';
+
+$PALANG['pUsersMain_totp_exceptions'] = '신뢰할 수 있는 IP 주소에서는 TOTP 없이 메일박스에 접속하도록 허용';
+$PALANG['pUsersMenu_totp'] = 'TOTP 관리';
+$PALANG['pUsersMenu_reset_totp'] = 'TOTP 초기화';
+$PALANG['pUsersMenu_no_totp_set'] = '설정된 TOTP 없음';
+$PALANG['pTOTP_reset_success'] = '%s 계정의 TOTP 시크릿이 삭제되었습니다.';
+$PALANG['pTOTP_reset_failed'] = '%s 계정의 TOTP 시크릿 삭제에 실패했습니다.';
+
+$PALANG['pTOTP_welcome'] = '시간 기반 일회용 비밀번호(TOTP) 설정';
+$PALANG['pUsersMain_totp'] = '시간 기반 일회용 비밀번호(TOTP) 설정';
+$PALANG['pTOTP_secret'] = 'TOTP 시크릿';
+$PALANG['pTOTP_code'] = 'TOTP 코드 (비활성화하려면 비워두세요)';
+$PALANG['pTOTP_secret_result_error'] = 'TOTP 시크릿을 변경할 수 없습니다';
+$PALANG['change_TOTP'] = 'TOTP 설정 변경';
+$PALANG['pTOTP_code_text'] = '위 이미지를 스캔하고 표시되는 현재 코드를 입력하여 계정에 TOTP 인증을 활성화하세요.';
+$PALANG['pTOTP_code_mismatch'] = '잘못된 일회용 비밀번호(TOTP)가 입력되었습니다.';
+$PALANG['pTOTP_qr'] = 'TOTP QR 코드';
+$PALANG['pTOTP_confirm'] = '현재 TOTP 코드를 입력하여 로그인을 확인하세요.';
+$PALANG['pTotp_failed'] = '입력한 코드가 유효하지 않습니다. 최신 코드를 사용해 주세요.';
+$PALANG['pTotp_stored'] = '새 TOTP 시크릿 인증을 완료했습니다.';
+$PALANG['pTotp_exceptions_welcome'] = 'TOTP 예외 IP 주소 추가';
+$PALANG['pTotp_exceptions_user'] = '사용자명 (관리자의 경우 도메인)';
+$PALANG['pTotp_exceptions_add'] = '예외 추가';
+$PALANG['pTotp_exceptions_address'] = 'IP 주소';
+$PALANG['pTotp_exceptions_description'] = '설명';
+$PALANG['pTotp_exceptions_list'] = '등록된 예외 목록';
+$PALANG['pTotp_exceptions_revoke'] = '해제';
+$PALANG['pTotp_exceptions_revoked'] = '예외가 해제되었습니다';
+$PALANG['pTotp_exception_result_success'] = '예외가 추가되었습니다';
+$PALANG['pTotp_exception_result_error'] = '예외를 추가할 수 없습니다';
+$PALANG['pEdit_totp_exception_result_error'] = 'TOTP 예외를 수정할 수 없습니다';
+$PALANG['pException_ip_empty_error'] = 'IP 주소는 비워둘 수 없습니다';
+$PALANG['pException_ip_error'] = '유효하지 않은 IP 주소 형태입니다';
+$PALANG['pException_desc_empty_error'] = '설명은 비워둘 수 없습니다';
+$PALANG['pException_user_entire_domain_error'] = '도메인 전체에 대한 예외는 관리자만 추가할 수 있습니다.';
+$PALANG['pException_user_global_error'] = '글로벌 예외는 최고 관리자만 추가할 수 있습니다.';
+$PALANG['pUsersMain_app_passwords'] = '제한된 권한의 해제 가능한 앱 비밀번호 설정';
+$PALANG['pApp_passwords_list'] = '등록된 애플리케이션 비밀번호';
+$PALANG['pApp_password_revoked'] = '비밀번호 권한이 해제되었습니다';
+$PALANG['pApp_passwords_welcome'] = '애플리케이션 비밀번호 추가';
+$PALANG['pAppPassAdd_result_success'] = '애플리케이션 비밀번호를 추가했습니다';
+$PALANG['pAppPassAdd_pass_empty_error'] = '비밀번호는 비워둘 수 없습니다';
+$PALANG['pAppPassAdd_result_error'] = '애플리케이션 비밀번호를 추가할 수 없습니다';
+
+$PALANG['MFA_submit'] = '로그인 확인';
+
+$PALANG['pPassword_welcome'] = '로그인 비밀번호를 변경합니다.';
+$PALANG['pPassword_admin'] = '로그인 ID';
+$PALANG['pPassword_password_current'] = '현재 비밀번호';
+$PALANG['pPassword_password_current_text_error'] = '현재 비밀번호를 입력하지 않았습니다!';
+$PALANG['pPassword_password'] = '새 비밀번호';
+$PALANG['pPassword_password2'] = '새 비밀번호 확인';
+$PALANG['pPassword_password_text_error'] = '새 비밀번호가 일치하지 않거나 비어 있습니다!';
+$PALANG['change_password'] = '비밀번호 변경';
+$PALANG['pPassword_result_error'] = '%s 의 비밀번호 변경에 실패했습니다!';
+$PALANG['pPassword_result_success'] = '%s 의 비밀번호가 변경되었습니다.';
+
+$PALANG['pPassword_recovery_title'] = '안내에 따라 비밀번호를 재설정하세요.';
+$PALANG['pPassword_recovery_button'] = '인증 코드 발송';
+$PALANG['pPassword_recovery_email_body'] = "안녕하세요,\n\n아래 링크를 통해 이메일 비밀번호를 변경하실 수 있습니다:\n%s\n\n감사합니다,\n\n" . $CONF['admin_name'];
+$PALANG['pPassword_recovery_sms_body'] = "안녕하세요,\n비밀번호 변경 인증 코드는 [%s] 입니다.\n" . $CONF['admin_name'];
+$PALANG['pPassword_recovery_processed'] = "요청이 처리되었습니다. 유효한 사용자명이라면 이메일/SMS로 인증 코드가 발송됩니다.";
+$PALANG['pPassword_password_code'] = '이메일/SMS로 받은 인증 코드';
+$PALANG['pPassword_code_text_error'] = '유효하지 않은 코드입니다';
+
+$PALANG['pEdit_vacation_set'] = '부재중 응답 메시지 설정 / 변경';
+$PALANG['pEdit_vacation_remove'] = '부재중 응답 메시지 해제';
+
+$PALANG['pVacation_result_error'] = '%s 의 자동 응답 설정 업데이트에 실패했습니다.';
+$PALANG['pVacation_result_removed'] = '%s 의 자동 응답이 비활성화되었습니다!';
+$PALANG['pVacation_result_added'] = '%s 의 자동 응답이 활성화되었습니다!';
+$PALANG['pVacation_reply_type'] = '답장 방식 선택';
+$PALANG['pVacation_reply_delay_time'] = '답장 간격';
+$PALANG['pVacation_reply_delay_time_text'] = '시간(초 단위)';
+$PALANG['pVacation_until_before_today'] = '[종료일] 설정 날짜가 오늘보다 이전입니다';
+$PALANG['pVacation_until_before_from'] = '[종료일] 설정 날짜가 [시작일]보다 이전입니다';
+$PALANG['reply_once'] = '한 번만 답장';
+$PALANG['reply_every_mail'] = '메일 수신 시마다 답장';
+$PALANG['reply_once_per_day'] = '하루에 한 번 답장';
+$PALANG['reply_once_per_week'] = '일주일에 한 번 답장';
+
+$PALANG['pViewlog_welcome'] = '최근 %s개의 작업 내역 보기: ';
+$PALANG['pViewlog_welcome_all'] = '최근 %s개의 작업 내역 보기 ';
+$PALANG['pViewlog_all_domains'] = '모든 도메인';
+$PALANG['pViewlog_per_page'] = '페이지당 항목:';
+$PALANG['pViewlog_timestamp'] = '타임스탬프';
+$PALANG['pViewlog_action'] = '작업';
+$PALANG['pViewlog_pagination'] = '로그 페이지';
+$PALANG['pViewlog_data'] = '데이터';
+
+$PALANG['pViewlog_action_add_totp_exception'] = 'TOTP 예외 추가';
+$PALANG['pViewlog_action_delete_totp_exception'] = 'TOTP 예외 삭제';
+$PALANG['pViewlog_action_create_domain'] = '도메인 생성';
+$PALANG['pViewlog_action_delete_domain'] = '도메인 삭제';
+$PALANG['pViewlog_action_edit_domain'] = '도메인 수정';
+$PALANG['pViewlog_action_create_mailbox'] = '메일박스 생성';
+$PALANG['pViewlog_action_delete_mailbox'] = '메일박스 삭제';
+$PALANG['pViewlog_action_edit_mailbox'] = '메일박스 수정';
+$PALANG['pViewlog_action_edit_mailbox_state'] = '메일박스 활성 상태 수정';
+$PALANG['pViewlog_action_create_alias'] = '별칭(포워딩) 생성';
+$PALANG['pViewlog_action_create_alias_domain'] = '별칭 도메인 생성';
+$PALANG['pViewlog_action_edit_alias_domain'] = '별칭 도메인 수정';
+$PALANG['pViewlog_action_delete_alias'] = '별칭(포워딩) 삭제';
+$PALANG['pViewlog_action_delete_alias_domain'] = '별칭 도메인 삭제';
+$PALANG['pViewlog_action_edit_alias'] = '별칭(포워딩) 수정';
+$PALANG['pViewlog_action_edit_alias_state'] = '별칭(포워딩) 활성 상태 수정';
+$PALANG['pViewlog_action_edit_alias_domain_state'] = '별칭 도메인 활성 상태 수정';
+$PALANG['pViewlog_action_edit_password'] = '비밀번호 변경';
+$PALANG['pViewlog_action_add_app_password'] = '앱 비밀번호 추가';
+$PALANG['pViewlog_action_create_admin'] = '관리자 생성';
+$PALANG['pViewlog_action_edit_admin'] = '관리자 수정';
+$PALANG['pViewlog_action_delete_admin'] = '관리자 삭제';
+$PALANG['pViewlog_action_edit_vacation'] = '부재중 응답 수정';
+$PALANG['pViewlog_action_create_fetchmail'] = '외부 메일 가져오기 생성';
+$PALANG['pViewlog_action_edit_fetchmail'] = '외부 메일 가져오기 수정';
+$PALANG['pViewlog_action_delete_fetchmail'] = '외부 메일 가져오기 삭제';
+
+$PALANG['pViewlog_result_error'] = '로그 기록을 찾을 수 없습니다!';
+
+$PALANG['pSendmail_welcome'] = '이메일을 발송합니다.';
+$PALANG['from'] = '보낸사람 (From)';
+$PALANG['pSendmail_to'] = '받는사람 (To)';
+$PALANG['pSendmail_to_text_error'] = '수신자 칸이 비어 있거나 올바른 이메일 주소가 아닙니다!';
+$PALANG['subject'] = '제목';
+$PALANG['pSendmail_subject_text'] = '환영합니다';
+$PALANG['pSendmail_body'] = '본문';
+$PALANG['pSendmail_button'] = '메시지 발송';
+$PALANG['pSendmail_result_error'] = '%s (으)로 이메일을 보내지 못했습니다!';
+$PALANG['pSendmail_result_success'] = '%s (으)로 이메일이 발송되었습니다.';
+
+$PALANG['pDkim_new_key'] = '도메인 키 추가';
+$PALANG['pDkim_new_sign'] = '서명 테이블 항목 추가';
+$PALANG['pDkim_edit_key'] = '도메인 키 수정';
+$PALANG['pDkim_edit_sign'] = '서명 테이블 항목 수정';
+$PALANG['pDkim_field_selector'] = '셀렉터(Selector)';
+$PALANG['pDkim_field_pkey'] = '개인 키(Private Key)';
+$PALANG['pDkim_field_pub'] = '공개 키(Public Key)';
+$PALANG['pDkim_field_author'] = '작성자(Author)';
+$PALANG['pDkim_field_dkim_id'] = '도메인 키';
+$PALANG['pDkim_field_domain_and_selector'] = '도메인:셀렉터';
+$PALANG['pDkim_field_description'] = '설명';
+$PALANG['pDkim_field_selector_desc'] = '메시지 서명 시 사용할 셀렉터 이름을 정의합니다';
+$PALANG['pDkim_field_domain_desc'] = '서명에 이 키를 사용할 도메인을 정의합니다';
+$PALANG['pDkim_field_pkey_desc'] = '모든 메시지 서명에 사용될 PEM 형식의 개인 키';
+$PALANG['pDkim_field_pub_desc'] = 'PEM 형식의 공개 키';
+$PALANG['pDkim_field_author_desc'] = '이 키로 서명할 작성자입니다. 메일박스 또는 도메인 단위로 지정 가능하며, 메일박스가 우선 적용됩니다.';
+$PALANG['pDkim_field_dkim_id_desc'] = '이 작성자가 사용할 도메인 키';
+$PALANG['dkim_already_exists'] = '이 도메인 키는 이미 추가되어 있습니다!';
+$PALANG['dkim_does_not_exist'] = '이 도메인 키는 존재하지 않습니다!';
+$PALANG['dkim_signing_already_exists'] = '이 도메인 서명 항목은 이미 존재합니다!';
+$PALANG['dkim_signing_does_not_exist'] = '이 도메인 서명 항목은 존재하지 않습니다!';
+$PALANG['pViewlog_action_create_dkim_entry'] = '도메인 키 엔트리 생성';
+$PALANG['pViewlog_action_edit_dkim_entry'] = '도메인 키 엔트리 수정';
+$PALANG['pViewlog_action_delete_dkim_entry'] = '도메인 키 엔트리 삭제';
+$PALANG['pViewlog_action_create_dkim_signing_entry'] = '도메인 서명 엔트리 생성';
+$PALANG['pViewlog_action_edit_dkim_signing_entry'] = '도메인 서명 엔트리 수정';
+$PALANG['pViewlog_action_delete_dkim_signing_entry'] = '도메인 서명 엔트리 삭제';
+$PALANG['pMain_dkim'] = 'OpenDKIM 연동에 사용할 도메인 키를 추가합니다.';
+
+$PALANG['pAdminMenu_list_admin'] = '관리자 목록';
+$PALANG['pAdminMenu_admin'] = '관리자';
+$PALANG['pAdminMenu_list_domain'] = '도메인 목록';
+$PALANG['pAdminMenu_domain'] = '도메인';
+$PALANG['pAdminMenu_list_virtual'] = '가상 목록';
+$PALANG['pAdminMenu_virtual'] = '가상 계정';
+$PALANG['pAdminMenu_backup'] = '백업';
+$PALANG['pAdminMenu_create_domain_admins'] = '도메인 관리자';
+$PALANG['pAdminMenu_create_admin'] = '새 관리자';
+$PALANG['pAdminList_domain_maxquota'] = '최대 메일박스 용량';
+$PALANG['quota_not_managed'] = '관리되지 않음';
+$PALANG['pAdminMenu_create_domain'] = '새 도메인';
+
+$PALANG['pAdminList_admin_count'] = '도메인 수';
+
+$PALANG['description'] = '설명';
+$PALANG['aliases'] = '별칭(포워딩) 수';
+$PALANG['pAdminList_domain_quota'] = '도메인 전체 용량 (MB)';
+$PALANG['pAdminList_domain_backupmx'] = '백업 MX';
+$PALANG['last_modified'] = '최종 수정일';
+
+$PALANG['pAdminCreate_domain_welcome'] = '새 도메인을 추가합니다.';
+$PALANG['pAdminCreate_domain_domain_text_error'] = '이미 존재하는 도메인입니다!';
+$PALANG['domain_does_not_exist'] = '존재하지 않는 도메인입니다!';
+$PALANG['pAdminCreate_domain_domain_text_error2'] = '유효하지 않은 도메인입니다!';
+$PALANG['pAdminCreate_domain_defaultaliases'] = '기본 메일 별칭(포워딩) 추가';
+$PALANG['pAdminCreate_domain_button'] = '도메인 추가';
+$PALANG['pAdminCreate_domain_result_error'] = '도메인 %s 추가에 실패했습니다!';
+$PALANG['pAdminCreate_domain_result_success'] = '도메인 %s 이(가) 추가되었습니다.';
+$PALANG['domain_updated'] = '도메인 %s 이(가) 업데이트되었습니다.';
+
+$PALANG['pAdminDelete_admin_error'] = '관리자를 삭제할 수 없습니다!';
+$PALANG['domain_postdel_failed'] = '도메인 삭제 후처리 스크립트 실행에 실패했습니다. 자세한 내용은 에러 로그를 확인하세요!';
+$PALANG['domain_postedit_failed'] = '도메인 수정 후처리 스크립트 실행에 실패했습니다. 자세한 내용은 에러 로그를 확인하세요!';
+$PALANG['domain_postcreate_failed'] = '도메인 생성 후처리 스크립트 실행에 실패했습니다. 자세한 내용은 에러 로그를 확인하세요!';
+$PALANG['mailbox_postdel_failed'] = '메일박스 삭제 후처리 스크립트 실행에 실패했습니다. 자세한 내용은 에러 로그를 확인하세요!';
+$PALANG['mailbox_postedit_failed'] = '메일박스 수정 후처리 스크립트 실행에 실패했습니다. 자세한 내용은 에러 로그를 확인하세요!';
+$PALANG['mailbox_postcreate_failed'] = '메일박스 생성 후처리 스크립트 실행에 실패했습니다. 자세한 내용은 에러 로그를 확인하세요!';
+$PALANG['mailbox_postpassword_failed'] = '메일박스 비밀번호 변경 후처리 스크립트 실행에 실패했습니다. 자세한 내용은 에러 로그를 확인하세요!';
+$PALANG['mailbox_postapppassword_failed'] = '메일박스 앱 비밀번호 후처리 스크립트 실행에 실패했습니다. 자세한 내용은 에러 로그를 확인하세요!';
+$PALANG['mailbox_post_totp_exception_delete_failed'] = '메일박스 TOTP 예외 삭제 후처리 스크립트에 실패했습니다. 에러 로그를 확인하세요!';
+$PALANG['mailbox_post_totp_exception_add_failed'] = '메일박스 TOTP 예외 추가 후처리 스크립트에 실패했습니다. 에러 로그를 확인하세요!';
+$PALANG['mailbox_post_TOTP_change_failed'] = '메일박스 TOTP 시크릿 변경 후처리 스크립트에 실패했습니다. 에러 로그를 확인하세요!';
+
+$PALANG['pAdminDelete_alias_domain_error'] = '도메인 별칭을 삭제할 수 없습니다!';
+$PALANG['domain_conflict_vacation_domain'] = '부재중 응답 전용 도메인을 메일 도메인으로 사용할 수 없습니다!';
+
+$PALANG['pAdminEdit_domain_welcome'] = '도메인 정보 수정';
+$PALANG['pAdminEdit_domain_aliases_text'] = '-1 = 비활성화 | 0 = 무제한';
+$PALANG['pAdminEdit_domain_maxquota'] = '최대 메일박스 용량';
+$PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = 비활성화 | 0 = 무제한';
+$PALANG['pAdminEdit_domain_quota'] = '도메인 할당 용량';
+$PALANG['transport'] = '트랜스포트(Transport)';
+$PALANG['pAdminEdit_domain_transport_text'] = '트랜스포트 정의';
+$PALANG['pAdminEdit_domain_backupmx'] = '메일 서버를 백업 MX로 사용';
+$PALANG['pAdminEdit_domain_result_error'] = '도메인 %s 수정에 실패했습니다!';
+
+$PALANG['pAdminCreate_admin_welcome'] = '새 도메인 관리자 추가';
+$PALANG['email_address'] = '이메일 주소';
+$PALANG['pAdminCreate_admin_username_text_error1'] = '관리자 계정이 유효한 이메일 주소 형식이 아닙니다!';
+$PALANG['admin_already_exists'] = '이미 존재하는 관리자입니다!';
+$PALANG['admin_does_not_exist'] = '존재하지 않는 관리자입니다!';
+$PALANG['pAdminCreate_admin_button'] = '관리자 추가';
+$PALANG['pAdminCreate_admin_result_error'] = '관리자 %s 추가에 실패했습니다!';
+$PALANG['pAdminCreate_admin_result_success'] = '관리자 %s 이(가) 추가되었습니다!';
+
+$PALANG['pAdminEdit_admin_welcome'] = '도메인 관리자 수정';
+$PALANG['admin'] = '관리자';
+$PALANG['password_again'] = '비밀번호 재입력';
+$PALANG['super_admin'] = '최고 관리자';
+$PALANG['super_admin_desc'] = '최고 관리자는 모든 도메인에 접근할 수 있으며, 도메인 및 관리자 계정을 관리할 수 있습니다.';
+$PALANG['pAdminEdit_admin_result_error'] = '관리자 %s 수정에 실패했습니다!';
+$PALANG['pAdminEdit_admin_result_success'] = '관리자 %s 정보가 수정되었습니다.';
+
+$PALANG['pUsersLogin_welcome'] = '메일박스 사용자는 여기에서 로그인하여 비밀번호와 별칭(포워딩)을 변경할 수 있습니다.';
+$PALANG['pUsersLogin_username_incorrect'] = '로그인 정보가 올바르지 않습니다. 반드시 이메일 주소로 로그인하세요!';
+$PALANG['pUsersLogin_password_incorrect'] = '비밀번호가 올바르지 않습니다!';
+$PALANG['pUsersLogin_password_recover'] = '비밀번호를 잊어버렸습니다';
+
+$PALANG['pUsersMenu_vacation'] = '자동 응답';
+$PALANG['pUsersMenu_edit_alias'] = '별칭(포워딩) 변경';
+
+$PALANG['pUsersMain_vacation'] = '부재중 메시지 또는 자동 응답을 설정합니다.';
+$PALANG['pUsersMain_vacationSet'] = '자동 응답이 켜져 있습니다. 수정/삭제하려면 \'자동 응답\'을 클릭하세요.';
+$PALANG['pUsersMain_edit_alias'] = '이메일 별칭(포워딩) 설정을 변경합니다.';
+$PALANG['pUsersMain_password'] = '현재 비밀번호를 변경합니다.';
+
+$PALANG['pUsersVacation_welcome'] = '자동 응답.';
+$PALANG['pUsersVacation_welcome_text'] = '%s 계정의 자동 응답이 활성화되어 있습니다!';
+$PALANG['pUsersVacation_subject_text'] = '부재중 안내';
+$PALANG['message'] = '메시지';
+$PALANG['pUsersVacation_body_text'] = <<<EOM
+<%From_Date>부터 <%Until_Date>까지 부재 예정입니다.
+급한 건은 <담당자 연락처>로 연락 주시기 바랍니다.
+EOM;
+
+$PALANG['pUsersVacation_activefrom'] = '시작일';
+$PALANG['pUsersVacation_activeuntil'] = '종료일';
+
+$PALANG['pEdit_dbLog_editactive'] = '활성 상태 변경';
+
+$PALANG['pSearch'] = '검색';
+$PALANG['pSearch_welcome'] = '검색어: ';
+
+$PALANG['pReturn_to'] = '돌아가기: ';
+
+$PALANG['pBroadcast_title'] = '전체 공지 메시지 발송';
+$PALANG['pBroadcast_name'] = '발송자 이름';
+$PALANG['pBroadcast_success'] = '전체 공지 메시지가 발송되었습니다.';
+$PALANG['pAdminMenu_broadcast_message'] = '전체 공지 메시지';
+$PALANG['pBroadcast_error_empty'] = '이름, 제목, 메시지 항목은 비워둘 수 없습니다!';
+$PALANG['broadcast_mailboxes_only'] = '메일박스 계정에만 발송';
+$PALANG['broadcast_to_domains'] = '발송 대상 도메인:';
+
+$PALANG['pStatus_undeliverable'] = '전달 불가 가능성 높음 ';
+$PALANG['pStatus_disabled'] = '계정 비활성화됨 ';
+$PALANG['pStatus_expired'] = '비밀번호 만료됨 ';
+$PALANG['pStatus_vacation'] = '부재중 응답 켜짐 ';
+
+$PALANG['pStatus_custom'] = '수신 배달 위치: ';
+$PALANG['pStatus_popimap'] = 'POP/IMAP ';
+
+$PALANG['password_too_short'] = "비밀번호가 너무 짧습니다. 최소 %s 자 이상이어야 합니다.";
+$PALANG['password_no_characters'] = "비밀번호에는 최소 %s 개의 영문자(A-Z, a-z)가 포함되어야 합니다.";
+$PALANG['password_no_digits'] = "비밀번호에는 최소 %s 개의 숫자가 포함되어야 합니다.";
+$PALANG['password_no_special'] = "비밀번호에는 최소 %s 개의 특수문자가 포함되어야 합니다.";
+$PALANG['pInvalidDomainRegex'] = "도메인 이름 %s 이(가) 올바르지 않습니다 (정규식 정밀 검사 실패).";
+$PALANG['pInvalidDomainDNS'] = "도메인 %s 이(가) 올바르지 않거나 DNS에서 조회되지 않습니다.";
+$PALANG['pInvalidMailRegex'] = "이메일 주소 %s 이(가) 올바르지 않습니다 (정규식 정밀 검사 실패).";
+
+$PALANG['pFetchmail_welcome'] = '외부 메일 가져오기 대상:';
+$PALANG['pFetchmail_new_entry'] = '새 항목 추가';
+$PALANG['fetchmail_already_exists'] = '이 가져오기(fetchmail) 작업은 이미 존재합니다!';
+$PALANG['fetchmail_does_not_exist'] = '이 가져오기(fetchmail) 작업은 존재하지 않습니다!';
+$PALANG['pFetchmail_database_save_error'] = '데이터베이스에 이 항목을 저장할 수 없습니다!';
+$PALANG['pFetchmail_database_save_success'] = '데이터베이스에 저장되었습니다.';
+$PALANG['pFetchmail_error_invalid_id'] = 'ID가 %s인 항목을 찾을 수 없습니다!';
+$PALANG['pFetchmail_invalid_mailbox'] = '유효하지 않은 메일박스입니다!';
+$PALANG['pFetchmail_server_missing'] = '원격 서버 이름을 입력해 주세요!';
+$PALANG['pFetchmail_user_missing'] = '원격 사용자명을 입력해 주세요!';
+$PALANG['pFetchmail_password_missing'] = '원격 비밀번호를 입력해 주세요!';
+$PALANG['pFetchmail_field_id'] = 'ID';
+$PALANG['pFetchmail_field_mailbox'] = '메일박스';
+$PALANG['pFetchmail_field_src_server'] = '서버';
+$PALANG['pFetchmail_field_src_port'] = '포트';
+$PALANG['pFetchmail_field_src_auth'] = '인증 방식';
+$PALANG['pFetchmail_field_src_user'] = '사용자';
+$PALANG['pFetchmail_field_src_password'] = $PALANG['password'];
+$PALANG['pFetchmail_field_src_folder'] = '폴더';
+$PALANG['pFetchmail_field_poll_time'] = '주기';
+$PALANG['pFetchmail_field_fetchall'] = '전체 가져오기';
+$PALANG['pFetchmail_field_keep'] = '원본 유지';
+$PALANG['pFetchmail_field_protocol'] = '프로토콜';
+$PALANG['pFetchmail_field_usessl'] = 'SSL 사용';
+$PALANG['pFetchmail_field_sslcertck'] = 'SSL 인증서 검증';
+$PALANG['pFetchmail_field_sslcertpath'] = 'SSL 인증서 경로';
+$PALANG['pFetchmail_field_sslfingerprint'] = 'SSL 핑거프린트 (MD5)';
+$PALANG['pFetchmail_field_extra_options'] = '추가 옵션';
+$PALANG['pFetchmail_field_mda'] = 'MDA';
+$PALANG['pFetchmail_field_date'] = '날짜';
+$PALANG['pFetchmail_field_returned_text'] = '반환된 텍스트';
+$PALANG['pFetchmail_desc_id'] = '레코드 ID';
+$PALANG['pFetchmail_desc_mailbox'] = '로컬 메일박스';
+$PALANG['pFetchmail_desc_src_server'] = '원격 서버';
+$PALANG['pFetchmail_desc_src_port'] = '표준 포트가 아닌 경우 원격 포트 번호를 입력하세요 (0: 기본 포트 사용)';
+$PALANG['pFetchmail_desc_src_auth'] = '대부분 \'password\'';
+$PALANG['pFetchmail_desc_src_user'] = '원격 사용자명';
+$PALANG['pFetchmail_desc_src_password'] = '원격 비밀번호';
+$PALANG['pFetchmail_desc_src_folder'] = '원격 폴더';
+$PALANG['pFetchmail_desc_poll_time'] = '가져오기 주기 (...분마다)';
+$PALANG['pFetchmail_desc_fetchall'] = '기존 메일(읽은 메일)과 새 메일을 모두 가져옵니다';
+$PALANG['pFetchmail_desc_keep'] = '가져온 후에도 원격 메일 서버에 메일을 남겨둡니다';
+$PALANG['pFetchmail_desc_protocol'] = '사용할 프로토콜';
+$PALANG['pFetchmail_desc_usessl'] = 'SSL 암호화 사용';
+$PALANG['pFetchmail_desc_extra_options'] = '추가 fetchmail 옵션';
+$PALANG['pFetchmail_desc_mda'] = '메일 배달 에이전트 (Mail Delivery Agent)';
+$PALANG['pFetchmail_desc_date'] = '마지막 동기화 / 설정 변경 날짜';
+$PALANG['pFetchmail_desc_returned_text'] = '마지막 동기화 시 반환된 메시지';
+
+$PALANG['dateformat_pgsql'] = 'YYYY-mm-dd';
+$PALANG['dateformat_mysql'] = '%Y-%m-%d';
+$PALANG['password_expiration'] = '비밀번호 만료일';
+$PALANG['password_expiration_desc'] = '비밀번호가 만료되는 날짜';
+
+$PALANG['To_Mailbox'] = '메일박스';
+$PALANG['To_Forward_Only'] = '별칭(포워딩) 전용';
+$PALANG['pLegal_char_warning'] = '허용되지 않는 문자';
+$PALANG['TOTP_already_configured'] = '이 계정은 이미 TOTP가 설정되어 있습니다. 시크릿을 변경하시겠습니까?';
+$PALANG['pApp_passwords_add'] = '앱 전용 비밀번호 추가';
+
+$PALANG['pUpdate_title'] = '업데이트 확인';
+$PALANG['pUpdate_current_version'] = '현재 버전';
+$PALANG['pUpdate_up_to_date'] = '최신 버전을 사용 중입니다.';
+$PALANG['pUpdate_available'] = '새 버전이 존재합니다';
+$PALANG['pUpdate_view_release'] = 'GitHub에서 릴리스 보기';
+$PALANG['pUpdate_check_releases'] = 'GitHub에서 릴리스 목록 보기';
+$PALANG['pUpdate_changelog'] = '변경 내역';
+$PALANG['pUpdate_fetch_error'] = 'cURL 및 allow_url_fopen을 사용할 수 없어 업데이트를 확인할 수 없습니다.';
+$PALANG['pUpdate_network_error'] = 'GitHub에서 릴리스 정보를 가져오지 못했습니다. 서버가 api.github.com에 접속할 수 있는지 확인하세요.';
+
+$PALANG['session_expired_title'] = '세션 만료됨';
+$PALANG['session_expired_message'] = '페이지 토큰이 더 이상 유효하지 않습니다. 이전 페이지로 돌아가 다시 시도해 주세요.';
+$PALANG['session_expired_button'] = '계속하기';
+
+$PALANG['please_keep_this_as_last_entry'] = '';
+/* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
+?>
