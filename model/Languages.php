@@ -26,6 +26,7 @@ class Languages
         'is' => 'Icelandic',
         'it' => 'Italiano - Italian',
         'ja' => '&#26085;&#26412;&#35486; - Japanese',
+        'ko' => '&#54620;&#44397;&#50612; - Korean',
         'lt' => 'Lietuvi&#371; - Lithuanian',
         'mk' => 'Macedonian - Macedonian',
         'nl' => 'Nederlands - Dutch',
