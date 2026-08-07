@@ -51,7 +51,7 @@ function sendCodebyEmail($to, $username, $code)
     return smtp_mail(
         $to,
         smtp_get_admin_email(false),
-        Config::Lang('pPassword_welcome'),
+        Config::lang('pPassword_welcome'),
         Config::lang_f('pPassword_recovery_email_body', $url));
 }
 
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         }
     }
 
-    flash_info(Config::Lang('pPassword_recovery_processed'));
+    flash_info(Config::lang('pPassword_recovery_processed'));
 }
 
 $smarty->assign('language_selector', language_selector(), false);

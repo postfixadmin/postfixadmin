@@ -1,0 +1,148 @@
+# French translation for postfixadmin debconf templates
+# Copyright (C) 2026 PostfixAdmin Project
+# This file is distributed under the same license as the postfixadmin package.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: postfixadmin\n"
+"Report-Msgid-Bugs-To: postfixadmin@packages.debian.org\n"
+"POT-Creation-Date: 2026-01-05 23:25+0100\n"
+"PO-Revision-Date: 2026-01-05 23:30+0100\n"
+"Last-Translator: PostfixAdmin Project\n"
+"Language-Team: French\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:1001
+msgid "Domain name for PostfixAdmin configuration:"
+msgstr "Nom de domaine pour la configuration de PostfixAdmin :"
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:1001
+msgid ""
+"PostfixAdmin needs to be configured with your domain name for various "
+"settings including vacation domain, footer links, and system email addresses."
+msgstr ""
+"PostfixAdmin doit être configuré avec votre nom de domaine pour divers "
+"paramètres incluant le domaine de vacances, les liens de pied de page et les "
+"adresses e-mail système."
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:1001
+msgid ""
+"Please enter your domain name (e.g., example.com). This will be used to "
+"configure email addresses like abuse@your-domain.tld and vacation domain "
+"settings like autoreply.your-domain.tld."
+msgstr ""
+"Veuillez saisir votre nom de domaine (par exemple, example.com). Celui-ci "
+"sera utilisé pour configurer les adresses e-mail comme abuse@votre-domaine.tld "
+"et les paramètres de domaine de vacances comme autoreply.votre-domaine.tld."
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:2001
+msgid "Subdomain for vacation/autoreply functionality:"
+msgstr "Sous-domaine pour la fonctionnalité de vacances/réponse automatique :"
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:2001
+msgid ""
+"PostfixAdmin uses a subdomain for handling vacation/autoreply messages."
+msgstr ""
+"PostfixAdmin utilise un sous-domaine pour gérer les messages de vacances/"
+"réponse automatique."
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:2001
+msgid ""
+"Please enter the subdomain to use (the default 'autoreply' is recommended). "
+"This will create vacation addresses like user@autoreply.your-domain.tld."
+msgstr ""
+"Veuillez saisir le sous-domaine à utiliser (la valeur par défaut 'autoreply' "
+"est recommandée). Ceci créera des adresses de vacances comme "
+"user@autoreply.votre-domaine.tld."
+
+#. Type: password
+#. Description
+#: ../postfixadmin.templates:3001
+msgid "Setup password for PostfixAdmin administration:"
+msgstr "Mot de passe de configuration pour l'administration de PostfixAdmin :"
+
+#. Type: password
+#. Description
+#: ../postfixadmin.templates:3001
+msgid ""
+"PostfixAdmin requires a setup password for accessing the administrative "
+"setup interface (setup.php) where you can perform database initialization, "
+"create super admin accounts, and run environment checks."
+msgstr ""
+"PostfixAdmin nécessite un mot de passe de configuration pour accéder à "
+"l'interface d'administration de configuration (setup.php) où vous pouvez "
+"effectuer l'initialisation de la base de données, créer des comptes super "
+"administrateur et exécuter des vérifications d'environnement."
+
+#. Type: password
+#. Description
+#: ../postfixadmin.templates:3001
+msgid ""
+"Please enter a secure password (minimum 5 characters) that will be used "
+"to protect access to the PostfixAdmin setup interface."
+msgstr ""
+"Veuillez saisir un mot de passe sécurisé (minimum 5 caractères) qui sera "
+"utilisé pour protéger l'accès à l'interface de configuration de PostfixAdmin."
+
+#. Type: password
+#. Description
+#: ../postfixadmin.templates:4001
+msgid "Repeat setup password:"
+msgstr "Répétez le mot de passe de configuration :"
+
+#. Type: password
+#. Description
+#: ../postfixadmin.templates:4001
+msgid "Please enter the same setup password again to verify it was entered correctly."
+msgstr "Veuillez saisir de nouveau le même mot de passe de configuration pour vérifier qu'il a été saisi correctement."
+
+#. Type: note
+#. Description
+#: ../postfixadmin.templates:5001
+msgid "Password mismatch"
+msgstr "Mots de passe différents"
+
+#. Type: note
+#. Description
+#: ../postfixadmin.templates:5001
+msgid "The two passwords you entered were different. Please try again."
+msgstr "Les deux mots de passe que vous avez saisis sont différents. Veuillez réessayer."
+
+#. Type: note
+#. Description
+#: ../postfixadmin.templates:6001
+msgid "Password too short"
+msgstr "Mot de passe trop court"
+
+#. Type: note
+#. Description
+#: ../postfixadmin.templates:6001
+msgid "The setup password must be at least 5 characters long."
+msgstr "Le mot de passe de configuration doit contenir au moins 5 caractères."
+
+#. Type: note
+#. Description
+#: ../postfixadmin.templates:7001
+msgid "Password cannot be empty"
+msgstr "Le mot de passe ne peut pas être vide"
+
+#. Type: note
+#. Description
+#: ../postfixadmin.templates:7001
+msgid "You must provide a setup password to secure PostfixAdmin configuration."
+msgstr "Vous devez fournir un mot de passe de configuration pour sécuriser la configuration de PostfixAdmin."

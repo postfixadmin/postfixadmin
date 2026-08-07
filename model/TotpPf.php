@@ -187,7 +187,7 @@ class TotpPf
     public function getTOTP_secret(string $username, string $password): ?string
     {
         if (!$this->login->login($username, $password)) {
-            throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
+            throw new \Exception(Config::lang('pPassword_password_current_text_error'));
         }
 
         $table_name = table_by_key($this->table);
@@ -223,7 +223,7 @@ class TotpPf
 
         /* should we need to do a login check here, if it's an admin removing the TOTP requirement */
         if (!$this->login->login($username, $password)) {
-            throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
+            throw new \Exception(Config::lang('pPassword_password_current_text_error'));
         }
 
         $set = [
@@ -244,7 +244,7 @@ class TotpPf
             return true;
         }
 
-        $warnmsg_pw = Config::Lang('mailbox_post_TOTP_change_failed');
+        $warnmsg_pw = Config::lang('mailbox_post_TOTP_change_failed');
 
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($domain);

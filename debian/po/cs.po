@@ -1,0 +1,70 @@
+# Czech translation for postfixadmin debconf templates
+# Copyright (C) 2026 PostfixAdmin Project
+# This file is distributed under the same license as the postfixadmin package.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: postfixadmin\n"
+"Report-Msgid-Bugs-To: postfixadmin@packages.debian.org\n"
+"POT-Creation-Date: 2026-01-05 23:25+0100\n"
+"PO-Revision-Date: 2026-01-05 23:30+0100\n"
+"Last-Translator: PostfixAdmin Project\n"
+"Language-Team: Czech\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:1001
+msgid "Domain name for PostfixAdmin configuration:"
+msgstr "Název domény pro konfiguraci PostfixAdmin:"
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:1001
+msgid ""
+"PostfixAdmin needs to be configured with your domain name for various "
+"settings including vacation domain, footer links, and system email addresses."
+msgstr ""
+"PostfixAdmin musí být nakonfigurován s názvem vaší domény pro různá nastavení "
+"včetně domény pro dovolenou, odkazů v zápatí a systémových e-mailových adres."
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:1001
+msgid ""
+"Please enter your domain name (e.g., example.com). This will be used to "
+"configure email addresses like abuse@your-domain.tld and vacation domain "
+"settings like autoreply.your-domain.tld."
+msgstr ""
+"Zadejte prosím název vaší domény (např. example.com). Bude použit pro "
+"konfiguraci e-mailových adres jako abuse@vase-domena.tld a nastavení domény "
+"pro dovolenou jako autoreply.vase-domena.tld."
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:2001
+msgid "Subdomain for vacation/autoreply functionality:"
+msgstr "Subdoména pro funkci dovolené/automatické odpovědi:"
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:2001
+msgid ""
+"PostfixAdmin uses a subdomain for handling vacation/autoreply messages."
+msgstr ""
+"PostfixAdmin používá subdoménu pro zpracování zpráv dovolené/automatické "
+"odpovědi."
+
+#. Type: string
+#. Description
+#: ../postfixadmin.templates:2001
+msgid ""
+"Please enter the subdomain to use (the default 'autoreply' is recommended). "
+"This will create vacation addresses like user@autoreply.your-domain.tld."
+msgstr ""
+"Zadejte prosím subdoménu, kterou chcete používat (výchozí 'autoreply' je "
+"doporučena). Tím se vytvoří adresy pro dovolenou jako "
+"uzivatel@autoreply.vase-domena.tld."
