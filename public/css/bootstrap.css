@@ -160,3 +160,10 @@ div#login{ max-width: 35em; }
 .virtual-list-scroll > #admin_table { min-width: 720px; margin-bottom: 0; }
 .virtual-search form { margin-bottom: .25rem; }
 .virtual-search .form-control { margin-left: auto; max-width: 18rem; }
+
+/* Use a consistent, soft focus treatment for data-entry controls. */
+.form-control:focus,
+.form-select:focus {
+  border-color: #0d6efd;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 .5rem rgba(13, 110, 253, .6);
+}
