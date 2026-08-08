@@ -33,7 +33,8 @@
         <label for="fTOTP_code">
             {$PALANG.pTOTP_confirm}:
         </label>
-        <input class="flat" type="text" name="fTOTP_code" autocomplete="one-time-code" />
+        <input id="fTOTP_code" class="flat" type="password" name="fTOTP_code"
+               inputmode="numeric" autocomplete="one-time-code" />
     </div>
     {/if}
 
