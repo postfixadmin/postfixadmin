@@ -439,8 +439,8 @@ $PALANG['pFetchmail_desc_date']             = 'Fecha del último sondeo/cambio e
 $PALANG['pFetchmail_desc_returned_text']    = 'Mensaje del último sondeo';
 $PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format # XXX
 $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format # XXX
-$PALANG['password_expiration'] = 'Expiración de contraseña';
-$PALANG['password_expiration_desc'] = 'Fecha en que expirará la contraseña';
+$PALANG['password_expiration'] = 'Expiración de contraseña (días)';
+$PALANG['password_expiration_desc'] = 'Número de días antes de que expire la contraseña';
 $PALANG['To_Mailbox']                       = 'Buzón'; # XXX # XXX
 $PALANG['To_Forward_Only']                  = 'Solo Reenvío'; # XXX # XXX
 
