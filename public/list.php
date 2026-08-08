@@ -131,6 +131,12 @@ if (safeget('output') == 'csv') {
     fputcsv($out, $header);
 
     # print items as csv
+    $password_expiration_policies = array();
+    $password_expiration_never_label = Config::lang('password_expiration_never');
+    if ($password_expiration_never_label === '') {
+        $password_expiration_never_label = Config::lang('pOverview_unlimited');
+    }
+
     foreach ($items as $item) {
         $fields = array();
 
@@ -140,6 +146,20 @@ if (safeget('output') == 'csv') {
         }
         foreach ($columns as $column) {
             $values = $item[$column];
+            if ($column === 'password_expiry' && Config::bool('password_expiration')) {
+                $domain = (string)$item['domain'];
+                if (!array_key_exists($domain, $password_expiration_policies)) {
+                    $password_expiration_policies[$domain] = get_password_expiration_value($domain);
+                }
+
+                $raw_expiry = $item['_password_expiry'] ?? $values;
+                if (mailbox_password_expiration_is_never(
+                    $raw_expiry,
+                    $password_expiration_policies[$domain]
+                )) {
+                    $values = $password_expiration_never_label;
+                }
+            }
             if (is_array($values)) {
                 $values = implode(',', $values);
             }

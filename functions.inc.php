@@ -301,6 +301,25 @@ const PASSWORD_EXPIRATION_MAX_DAYS = 36500;
 const PASSWORD_EXPIRATION_NEVER = '9999-12-31 23:59:59';
 
 /**
+ * Check whether a stored mailbox expiry represents a non-expiring password.
+ *
+ * A zero or invalid domain policy disables expiration. The sentinel also
+ * remains authoritative when a later domain policy change is non-retroactive.
+ */
+function mailbox_password_expiration_is_never($mailbox_expiry, $domain_policy): bool
+{
+    $policy = (string)$domain_policy;
+    if (!preg_match('/^[1-9][0-9]*$/D', $policy) || (int)$policy > PASSWORD_EXPIRATION_MAX_DAYS) {
+        return true;
+    }
+
+    $expiry = strtotime((string)$mailbox_expiry);
+    $never = strtotime(PASSWORD_EXPIRATION_NEVER);
+
+    return $expiry !== false && $never !== false && $expiry >= $never;
+}
+
+/**
  * Return the mailbox expiry timestamp for a password changed now.
  *
  * A domain value of 0 means that passwords do not expire. The database still

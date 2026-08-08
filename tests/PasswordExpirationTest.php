@@ -61,4 +61,12 @@ class PasswordExpirationTest extends \PHPUnit\Framework\TestCase
             get_mailbox_password_expiry($this->domain, $base)
         );
     }
+
+    public function testNoExpirationDisplayUsesPolicyAndStoredSentinel(): void
+    {
+        $this->assertTrue(mailbox_password_expiration_is_never('2026-12-31 00:00:00', 0));
+        $this->assertTrue(mailbox_password_expiration_is_never(PASSWORD_EXPIRATION_NEVER, 30));
+        $this->assertTrue(mailbox_password_expiration_is_never('2026-12-31 00:00:00', -1));
+        $this->assertFalse(mailbox_password_expiration_is_never('2026-12-31 00:00:00', 30));
+    }
 }
