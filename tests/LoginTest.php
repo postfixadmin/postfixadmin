@@ -71,7 +71,7 @@ class LoginTest extends \PHPUnit\Framework\TestCase
             'SELECT password_expiry FROM mailbox WHERE username = :username',
             ['username' => 'test@example.com']
         );
-        $this->assertEquals(PASSWORD_EXPIRATION_NEVER, $mailbox['password_expiry']);
+        $this->assertSame(strtotime(PASSWORD_EXPIRATION_NEVER), strtotime($mailbox['password_expiry']));
 
         db_execute(
             'UPDATE domain SET password_expiry = :days WHERE domain = :domain',
