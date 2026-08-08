@@ -251,7 +251,10 @@ $goto_single_rec_del = "";
 foreach ($result as $row) {
     if ($password_expiration) {
         $password_expiration_timestamp = strtotime((string)$row['password_expiration']);
-        $row['password_expiration_never'] = (int)$row['domain_password_expiration'] === 0;
+        $row['password_expiration_never'] = mailbox_password_expiration_is_never(
+            $row['password_expiration'],
+            $row['domain_password_expiration']
+        );
         $row['password_expiration_expired'] = !$row['password_expiration_never']
             && $password_expiration_timestamp !== false
             && $password_expiration_timestamp <= time();
