@@ -133,9 +133,10 @@ class Login
             'password' => pacrypt($new_password, '', $username),
         );
 
-        $domain = $this->getUserDomain($username);
-        if (!is_null($domain)) {
-            $set['password_expiry'] = get_mailbox_password_expiry($domain);
+        $user_domain = $this->getUserDomain($username);
+        if (!is_null($user_domain)) {
+            $domain = $user_domain;
+            $set['password_expiry'] = get_mailbox_password_expiry($user_domain);
         }
 
         $result = db_update($this->table, 'username', $username, $set);
