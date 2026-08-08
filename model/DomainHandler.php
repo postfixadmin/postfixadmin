@@ -11,6 +11,26 @@ class DomainHandler extends PFAHandler
     protected $id_field = 'domain';
     protected $domain_field = 'domain';
 
+    protected function _validate_password_expiry($field, $val)
+    {
+        $value = (string)$val;
+        $valid = preg_match('/^(0|[1-9][0-9]*)$/D', $value) === 1
+            && (int)$value <= PASSWORD_EXPIRATION_MAX_DAYS;
+
+        if (!$valid) {
+            $this->errormsg[$field] = Config::lang_f('invalid_value_given', $field);
+        }
+
+        return $valid;
+    }
+
+    protected function setmore(array $values)
+    {
+        if (array_key_exists('password_expiry', $this->values)) {
+            $this->values['password_expiry'] = (int)$this->values['password_expiry'];
+        }
+    }
+
     protected function validate_new_id()
     {
         $domain_check = check_domain($this->id);

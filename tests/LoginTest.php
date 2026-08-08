@@ -66,6 +66,26 @@ class LoginTest extends \PHPUnit\Framework\TestCase
 
         // Can login with the new one...
         $this->assertTrue($login->login('test@example.com', 'foobar2'));
+
+        $mailbox = db_query_one(
+            'SELECT password_expiry FROM mailbox WHERE username = :username',
+            ['username' => 'test@example.com']
+        );
+        $this->assertSame(strtotime(PASSWORD_EXPIRATION_NEVER), strtotime($mailbox['password_expiry']));
+
+        db_execute(
+            'UPDATE domain SET password_expiry = :days WHERE domain = :domain',
+            ['days' => 30, 'domain' => 'example.com']
+        );
+        $this->assertTrue($login->changePassword('test@example.com', 'foobar3', 'foobar2'));
+
+        $mailbox = db_query_one(
+            'SELECT password_expiry FROM mailbox WHERE username = :username',
+            ['username' => 'test@example.com']
+        );
+        $expiry = strtotime($mailbox['password_expiry']);
+        $this->assertGreaterThanOrEqual(strtotime('+29 days'), $expiry);
+        $this->assertLessThanOrEqual(strtotime('+31 days'), $expiry);
     }
 
 
