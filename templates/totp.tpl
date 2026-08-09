@@ -23,7 +23,7 @@
             </div>
             <div class="form-group {if $pTOTP_code_text}has-error{/if}">
                 <label class="col-md-2 col-sm-2 control-label" for="fTOTP_code">{$PALANG.pTOTP_code}:</label>
-                <div class="col-md-6 col-sm-8"><input id="fTOTP_code" class="form-control" type="password"
+                <div class="col-md-6 col-sm-8"><input id="fTOTP_code" class="form-control" type="text"
                                                       name="fTOTP_code" size="6" inputmode="numeric"
                                                       autocomplete="one-time-code"/>
                     <span class="text-warning">{$pTOTP_code_text}</span> <!-- error text -->
