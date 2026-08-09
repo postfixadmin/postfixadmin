@@ -229,15 +229,23 @@ The related migration script is provided in
 test with dry-run first, back up mail storage and the database, and review
 paths, ownership and Dovecot permissions before running with `--real`.
 
-## Operational mail deletion logging
+## Optional operational mail deletion logging
 
-The example configuration enables the `mail_log` and `notify` plugins for IMAP
-and records the events and message fields needed to investigate reported mail
-deletions:
+The example configuration includes optional `mail_log` and `notify` settings
+for investigating reported mail deletions. They are commented out by default
+because the recorded message metadata can be sensitive. To enable them,
+uncomment both plugin entries and the event and field settings:
 
 ```conf
-mail_log_events = delete undelete expunge mailbox_delete
-mail_log_fields = uid box msgid size from subject
+#mail_log_events = delete undelete expunge mailbox_delete
+#mail_log_fields = uid box msgid size from subject
+
+protocol imap {
+  mail_plugins {
+    #mail_log = yes
+    #notify = yes
+  }
+}
 ```
 
 This provides an operational audit trail for messages marked as deleted,
@@ -251,9 +259,9 @@ fields, and the requirement to enable `notify` alongside `mail_log` are describe
 in the official [mail-log plugin documentation](https://doc.dovecot.org/2.4.1/core/plugins/mail_log.html).
 
 These settings only record operations performed after they are enabled; they
-cannot reconstruct earlier deletions. Because `from` and `subject` may contain
-sensitive information, protect and retain the resulting logs according to the
-site's privacy and log-retention policy.
+cannot reconstruct earlier deletions. Before enabling them, decide whether
+logging `from` and `subject` is necessary, and protect and retain the resulting
+logs according to the site's privacy and log-retention policy.
 
 ## Optional quota warning delivery
 
