@@ -783,7 +783,7 @@ $CONF['xmlrpc_enabled'] = false;
 //Account expiration info
 //If enabled, mailbox passwords have a password_expiry field set, which is updated each time the password is changed, based on the parent domain's password_expiry (days) value.
 //More details in Password_Expiration.md
-$CONF['password_expiration'] = 'YES';
+$CONF['password_expiration'] = 'NO';
 
 // If defined, use this rather than trying to construct it from  $_SERVER parameters.
 // used in (at least) password-recover.php.

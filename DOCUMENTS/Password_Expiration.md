@@ -24,7 +24,8 @@ Changes in MySQL/MariaDB mailbox table (as defined in `$CONF['database_tables']`
 
 ## Changes in Postfix Admin :
 
-To enable password expiration, add the following to your config.inc.php file:
+Password expiration is disabled by default. To enable it, add the following to
+your `config.local.php` file:
 
 `$CONF['password_expiration'] = 'YES';`
 

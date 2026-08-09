@@ -62,7 +62,7 @@ class MailboxHandler extends PFAHandler
             'token_validity' => self::pacol(1, 0, 0, 'ts', '', '', date("Y-m-d H:i:s", time())),
             'created' => self::pacol(0, 0, 1, 'ts', 'created', ''),
             'modified' => self::pacol(0, 0, 1, 'ts', 'last_modified', ''),
-            'password_expiry' => self::pacol(0, 0, 1, 'ts', 'password_expiration', ''),
+            'password_expiry' => self::pacol(0, 0, (int)Config::bool('password_expiration'), 'ts', 'password_expiration', ''),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 
@@ -225,6 +225,9 @@ class MailboxHandler extends PFAHandler
 
     protected function read_from_db_postprocess($db_result)
     {
+        $password_expiration_policies = array();
+        $password_expiration_never_label = Config::lang('password_expiration_never');
+
         foreach ($db_result as $key => $row) {
             if (isset($row['quota']) && is_numeric($row['quota']) && $row['quota'] > -1) { # quota could be disabled in $struct
                 $db_result[$key]['quotabytes'] = $row['quota'];
@@ -232,6 +235,21 @@ class MailboxHandler extends PFAHandler
             } else {
                 $db_result[$key]['quotabytes'] = -1;
                 $db_result[$key]['quota'] = -1;
+            }
+
+            if (Config::bool('password_expiration') && isset($row['password_expiry'], $row['domain'])) {
+                $domain = (string)$row['domain'];
+                if (!array_key_exists($domain, $password_expiration_policies)) {
+                    $password_expiration_policies[$domain] = get_password_expiration_value($domain);
+                }
+
+                $raw_expiry = $row['_password_expiry'] ?? $row['password_expiry'];
+                if (mailbox_password_expiration_is_never(
+                    $raw_expiry,
+                    $password_expiration_policies[$domain]
+                )) {
+                    $db_result[$key]['password_expiry'] = $password_expiration_never_label;
+                }
             }
         }
         return $db_result;
@@ -284,8 +302,7 @@ class MailboxHandler extends PFAHandler
         }
 
         if (!empty($this->values['password'])) {
-            $domain_dirty = $this->domain_from_id();
-            $domain = trim($domain_dirty, "`'"); // naive assumption it is ' escaping.
+            $domain = $this->domain_from_id();
             $this->values['password_expiry'] = get_mailbox_password_expiry($domain);
         }
 
