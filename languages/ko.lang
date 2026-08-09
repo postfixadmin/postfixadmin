@@ -543,8 +543,8 @@ $PALANG['pFetchmail_desc_returned_text'] = '마지막 동기화 시 반환된 �
 
 $PALANG['dateformat_pgsql'] = 'YYYY-mm-dd';
 $PALANG['dateformat_mysql'] = '%Y-%m-%d';
-$PALANG['password_expiration'] = '비밀번호 만료일';
-$PALANG['password_expiration_desc'] = '비밀번호가 만료되는 날짜';
+$PALANG['password_expiration'] = '비밀번호 만료일'; # XXX Text changed to: 'Password expiration (days)'
+$PALANG['password_expiration_desc'] = '비밀번호가 만료되는 날짜'; # XXX Text changed to: 'Number of days before the password expires'
 
 $PALANG['To_Mailbox'] = '메일박스';
 $PALANG['To_Forward_Only'] = '별칭(포워딩) 전용';
