@@ -324,37 +324,36 @@ function mailbox_password_expiration_is_never($mailbox_expiry, $domain_policy): 
  *
  * A domain value of 0 means that passwords do not expire. The database still
  * requires a timestamp, so use the latest portable DATETIME value as a
- * sentinel. If the feature is disabled, preserve the historical 365-day
- * fallback used for the non-null mailbox column.
+ * sentinel. The same applies when password expiration is disabled globally.
  */
 function get_mailbox_password_expiry(string $domain, ?int $now = null): string
 {
-    $days = 365;
+    if (!Config::bool('password_expiration')) {
+        return PASSWORD_EXPIRATION_NEVER;
+    }
 
-    if (Config::bool('password_expiration')) {
-        $value = get_password_expiration_value($domain);
-        $value_string = (string)$value;
+    $value = get_password_expiration_value($domain);
+    $value_string = (string)$value;
 
-        if (!preg_match('/^(0|[1-9][0-9]*)$/D', $value_string)) {
-            error_log("Invalid password_expiry value for domain $domain; treating it as no expiration");
-            return PASSWORD_EXPIRATION_NEVER;
-        }
+    if (!preg_match('/^(0|[1-9][0-9]*)$/D', $value_string)) {
+        error_log("Invalid password_expiry value for domain $domain; treating it as no expiration");
+        return PASSWORD_EXPIRATION_NEVER;
+    }
 
-        $days = (int)$value_string;
-        if ($days === 0) {
-            return PASSWORD_EXPIRATION_NEVER;
-        }
+    $days = (int)$value_string;
+    if ($days === 0) {
+        return PASSWORD_EXPIRATION_NEVER;
+    }
 
-        if ($days > PASSWORD_EXPIRATION_MAX_DAYS) {
-            error_log("password_expiry value for domain $domain exceeds the supported maximum; treating it as no expiration");
-            return PASSWORD_EXPIRATION_NEVER;
-        }
+    if ($days > PASSWORD_EXPIRATION_MAX_DAYS) {
+        error_log("password_expiry value for domain $domain exceeds the supported maximum; treating it as no expiration");
+        return PASSWORD_EXPIRATION_NEVER;
     }
 
     $base = $now ?? time();
     $expiry = strtotime("+$days days", $base);
     if ($expiry === false) {
-        return PASSWORD_EXPIRATION_NEVER;
+        throw new RuntimeException("Unable to calculate password expiry for domain $domain");
     }
 
     return date('Y-m-d H:i', $expiry);
