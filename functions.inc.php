@@ -297,6 +297,68 @@ function get_password_expiration_value(string $domain)
     return 0;
 }
 
+const PASSWORD_EXPIRATION_MAX_DAYS = 36500;
+const PASSWORD_EXPIRATION_NEVER = '9999-12-31 23:59:59';
+
+/**
+ * Check whether a stored mailbox expiry represents a non-expiring password.
+ *
+ * A zero or invalid domain policy disables expiration. The sentinel also
+ * remains authoritative when a later domain policy change is non-retroactive.
+ */
+function mailbox_password_expiration_is_never($mailbox_expiry, $domain_policy): bool
+{
+    $policy = (string)$domain_policy;
+    if (!preg_match('/^[1-9][0-9]*$/D', $policy) || (int)$policy > PASSWORD_EXPIRATION_MAX_DAYS) {
+        return true;
+    }
+
+    $expiry = strtotime((string)$mailbox_expiry);
+    $never = strtotime(PASSWORD_EXPIRATION_NEVER);
+
+    return $expiry !== false && $never !== false && $expiry >= $never;
+}
+
+/**
+ * Return the mailbox expiry timestamp for a password changed now.
+ *
+ * A domain value of 0 means that passwords do not expire. The database still
+ * requires a timestamp, so use the latest portable DATETIME value as a
+ * sentinel. The same applies when password expiration is disabled globally.
+ */
+function get_mailbox_password_expiry(string $domain, ?int $now = null): string
+{
+    if (!Config::bool('password_expiration')) {
+        return PASSWORD_EXPIRATION_NEVER;
+    }
+
+    $value = get_password_expiration_value($domain);
+    $value_string = (string)$value;
+
+    if (!preg_match('/^(0|[1-9][0-9]*)$/D', $value_string)) {
+        error_log("Invalid password_expiry value for domain $domain; treating it as no expiration");
+        return PASSWORD_EXPIRATION_NEVER;
+    }
+
+    $days = (int)$value_string;
+    if ($days === 0) {
+        return PASSWORD_EXPIRATION_NEVER;
+    }
+
+    if ($days > PASSWORD_EXPIRATION_MAX_DAYS) {
+        error_log("password_expiry value for domain $domain exceeds the supported maximum; treating it as no expiration");
+        return PASSWORD_EXPIRATION_NEVER;
+    }
+
+    $base = $now ?? time();
+    $expiry = strtotime("+$days days", $base);
+    if ($expiry === false) {
+        throw new RuntimeException("Unable to calculate password expiry for domain $domain");
+    }
+
+    return date('Y-m-d H:i', $expiry);
+}
+
 /**
  * check_email
  * Checks if an email is valid - if it is, return true, else false.
@@ -2328,7 +2390,15 @@ function gen_show_status($show_alias)
             $now = "datetime('now')";
         }
 
-        $stat_result = db_query_one("SELECT * FROM " . table_by_key('mailbox') . " WHERE username = ? AND password_expiry <= $now AND active = ?", array($show_alias, true));
+        $mailbox_table = table_by_key('mailbox');
+        $domain_table = table_by_key('domain');
+        $stat_result = db_query_one(
+            "SELECT $mailbox_table.username FROM $mailbox_table " .
+            "INNER JOIN $domain_table ON $domain_table.domain = $mailbox_table.domain " .
+            "WHERE $mailbox_table.username = ? AND $mailbox_table.password_expiry <= $now " .
+            "AND $domain_table.password_expiry > 0 AND $mailbox_table.active = ?",
+            array($show_alias, true)
+        );
 
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";

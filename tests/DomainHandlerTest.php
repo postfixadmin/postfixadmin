@@ -2,6 +2,61 @@
 
 class DomainHandlerTest extends \PHPUnit\Framework\TestCase
 {
+    #[\PHPUnit\Framework\Attributes\DataProvider('passwordExpiryValuesProvider')]
+    public function testPasswordExpiryValidation($value, $expected): void
+    {
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['global-admin']
+            ]
+        ];
+
+        $domain = 'password-expiry-' . uniqid() . '.example';
+        db_insert(
+            'domain',
+            ['domain' => $domain, 'description' => 'test', 'transport' => '', 'password_expiry' => 365]
+        );
+        db_insert(
+            'domain_admins',
+            ['username' => 'admin', 'domain' => $domain, 'active' => 1],
+            ['created'],
+            true
+        );
+
+        try {
+            $handler = new DomainHandler(0, 'admin', true);
+            $this->assertTrue($handler->init($domain));
+            $this->assertSame($expected, $handler->set(['password_expiry' => $value]));
+
+            if ($expected) {
+                $this->assertTrue($handler->save());
+                $stored = db_query_one(
+                    'SELECT password_expiry FROM domain WHERE domain = :domain',
+                    ['domain' => $domain]
+                );
+                $this->assertSame((int)$value, (int)$stored['password_expiry']);
+            }
+        } finally {
+            db_delete('domain_admins', 'domain', $domain);
+            db_delete('domain', 'domain', $domain);
+        }
+    }
+
+    public static function passwordExpiryValuesProvider(): array
+    {
+        return [
+            'no expiration' => [0, true],
+            'positive integer' => [365, true],
+            'maximum' => [PASSWORD_EXPIRATION_MAX_DAYS, true],
+            'negative sentinel' => [-1, false],
+            'negative value' => [-2, false],
+            'decimal' => ['1.5', false],
+            'scientific notation' => ['1e2', false],
+            'above maximum' => [PASSWORD_EXPIRATION_MAX_DAYS + 1, false],
+            'text' => ['invalid', false],
+        ];
+    }
+
     public function testBasic()
     {
         $x = new DomainHandler();
