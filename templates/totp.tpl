@@ -25,8 +25,9 @@
             </div>
             <div class="mb-3 {if $pTOTP_code_text}is-invalid{/if}">
                 <label class="col-md-2" for="fTOTP_code">{$PALANG.pTOTP_code}:</label>
-                <div class="col-md-6 col-sm-8"><input id="TOTP_code" class="form-control" type="text" name="fTOTP_code"
-                                                      size="6"/>
+                <div class="col-md-6 col-sm-8"><input id="fTOTP_code" class="form-control" type="text"
+                                                      name="fTOTP_code" size="6" inputmode="numeric"
+                                                      autocomplete="one-time-code"/>
                     <span class="text-warning">{$pTOTP_code_text}</span> <!-- error text -->
                     <span class="form-text">{$PALANG.pTOTP_code_text}</span>
                 </div>
