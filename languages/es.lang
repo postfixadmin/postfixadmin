@@ -476,6 +476,7 @@ $PALANG['pTotp_exception_result_success'] = 'Excepción añadida';
 $PALANG['pTotp_exception_result_error'] = 'No se puede añadir excepción';
 $PALANG['pEdit_totp_exception_result_error'] = 'Incapaz de modificar excepciones TOTP';
 $PALANG['pException_ip_empty_error'] = 'IP no puede estar vacía';
+$PALANG['pException_ip_error'] = 'La dirección IP no es válida';
 $PALANG['pException_desc_empty_error'] = 'Descripción no puede estar vacía';
 $PALANG['pException_user_entire_domain_error'] = 'Sólo los administradores pueden añadir excepciones para todo un dominio.';
 $PALANG['pException_user_global_error'] = 'Sólo superadmins pueden añadir excepciones globales';
@@ -512,7 +513,6 @@ $PALANG['pMain_global_search'] = 'Búsqueda global';
 $PALANG['pMain_global_search_placeholder'] = 'Buscar globalmente (buzón, alias ...)';
 $PALANG['pMain_search_button'] = 'Buscar';
 $PALANG['pMain_dashboard'] = 'Panel';
-$PALANG['pDkim_field_domain_and_selector'] = 'Dominio:Selector';
 $PALANG['pTOTP_code_text'] = 'Escanea la imagen anterior e ingresa el código actual para habilitar la autenticación TOTP en tu cuenta.';
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
