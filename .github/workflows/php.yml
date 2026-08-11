@@ -23,6 +23,12 @@ jobs:
       working-directory: languages
       run: /bin/bash language-update.sh
 
+    - name: Check language file syntax
+      run: |
+        for file in languages/*.lang; do
+          php -l "$file"
+        done
+
     - name: Get composer cache directory
       if: ${{ !env.ACT }}
       id: composer-cache
