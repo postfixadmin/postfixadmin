@@ -62,6 +62,38 @@ PHP);
         self::assertStringNotContainsString(' missing,', $stdout);
     }
 
+    public function testMissingTranslationsReturnFailure(): void
+    {
+        file_put_contents($this->directory . '/test.lang', <<<'PHP'
+<?php
+$PALANG['one'] = 'One';
+$PALANG['three'] = 'Three';
+PHP);
+
+        [$status, $stdout, $stderr] = $this->runScript(['test.lang']);
+
+        self::assertSame(1, $status, $stderr);
+        self::assertStringContainsString('1 missing, 0 obsolete', $stdout);
+    }
+
+    public function testObsoleteTranslationsReturnFailure(): void
+    {
+        file_put_contents($this->directory . '/test.lang', <<<'PHP'
+<?php
+$PALANG['one'] = 'One';
+$PALANG['body'] = <<<EOM
+Body
+EOM;
+$PALANG['three'] = 'Three';
+$PALANG['obsolete'] = 'Obsolete';
+PHP);
+
+        [$status, $stdout, $stderr] = $this->runScript(['test.lang']);
+
+        self::assertSame(1, $status, $stderr);
+        self::assertStringContainsString('0 missing, 1 obsolete', $stdout);
+    }
+
     public function testFixRepairsSafeErrorsAndIsIdempotent(): void
     {
         $file = $this->directory . '/test.lang';

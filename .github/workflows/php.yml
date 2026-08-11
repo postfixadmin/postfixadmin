@@ -19,6 +19,10 @@ jobs:
         tools: composer
         extensions: sqlite3, gd
 
+    - name: Check language catalogs
+      working-directory: languages
+      run: /bin/bash language-update.sh
+
     - name: Get composer cache directory
       if: ${{ !env.ACT }}
       id: composer-cache

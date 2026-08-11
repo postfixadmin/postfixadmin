@@ -293,6 +293,13 @@ foreach ($files as $file) {
         continue;
     }
 
+    // Read-only checks must report incomplete catalogs through the exit code.
+    // --patch can still succeed when it adds every missing key, but obsolete
+    // keys remain an error because that mode deliberately leaves them in place.
+    if (!$patch) {
+        $failed = true;
+    }
+
     if ($notext) {
         echo "### $file ###\n";
         foreach ($missing as [$key, ]) {
@@ -358,6 +365,7 @@ foreach ($files as $file) {
     file_put_contents($file, implode("\n", $out));
     echo "*** $file: added " . count($missing) . " missing string(s)";
     if ($obsolete) {
+        $failed = true;
         echo ", " . count($obsolete) . " obsolete string(s) left in place (see --remove/--obsolete)";
     }
     echo " ***\n";
