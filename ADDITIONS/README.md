@@ -9,6 +9,21 @@
 
 In this directory you will find additional scripts that are build by others.
 
+## fix-language-syntax.php
+
+Standalone maintenance helper for repairing a limited set of unambiguous
+syntax errors in language files. It currently handles missing semicolons on
+simple quoted PALANG assignments and heredoc or nowdoc terminators.
+
+Run it explicitly with PHP:
+
+    php ADDITIONS/fix-language-syntax.php languages/example.lang
+
+Before changing a file, it validates the complete repaired source and saves
+the original as .bak, .bak2, and so on without overwriting older backups.
+Ambiguous or incomplete repairs are rejected and left unchanged. This helper
+is not invoked by languages/language-update.sh or CI.
+
 ## change_password.tgz
 
 by George Vieira <george at citadelcomputer dot com dot au>

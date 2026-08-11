@@ -53,13 +53,19 @@ Body
 EOM;
 $PALANG['three'] = 'Three';
 PHP);
+        file_put_contents($this->directory . '/after.lang', <<<'PHP'
+<?php
+$PALANG['one'] = 'One';
+$PALANG['three'] = 'Three';
+PHP);
 
-        [$status, $stdout, $stderr] = $this->runScript(['test.lang']);
+        [$status, $stdout, $stderr] = $this->runScript(['test.lang', 'after.lang']);
 
         self::assertSame(1, $status);
         self::assertStringContainsString('PHP syntax error', $stderr);
-        self::assertStringContainsString('--fix test.lang', $stderr);
+        self::assertStringNotContainsString('--fix', $stderr);
         self::assertStringNotContainsString(' missing,', $stdout);
+        self::assertStringNotContainsString('after.lang', $stdout);
     }
 
     public function testMissingTranslationsReturnFailure(): void
@@ -92,75 +98,6 @@ PHP);
 
         self::assertSame(1, $status, $stderr);
         self::assertStringContainsString('0 missing, 1 obsolete', $stdout);
-    }
-
-    public function testFixRepairsSafeErrorsAndIsIdempotent(): void
-    {
-        $file = $this->directory . '/test.lang';
-        file_put_contents($file, <<<'PHP'
-<?php
-$PALANG['one'] = 'One'
-$PALANG['body'] = <<<EOM
-Body
-EOM
-$PALANG['three'] = 'Three';
-PHP);
-
-        [$status, $stdout, $stderr] = $this->runScript(['--fix', 'test.lang']);
-
-        self::assertSame(0, $status, $stderr);
-        self::assertStringContainsString('fixed 1 missing semicolon(s)', $stdout);
-        self::assertStringContainsString('fixed 1 missing heredoc semicolon(s)', $stdout);
-        $fixed = file_get_contents($file);
-        self::assertFileExists($file . '.bak');
-        self::assertStringNotContainsString('$PALANG[\'one\'] = \'One\';', file_get_contents($file . '.bak'));
-        self::assertStringContainsString('$PALANG[\'one\'] = \'One\';', $fixed);
-        self::assertStringContainsString("\nEOM;\n", $fixed);
-
-        [$secondStatus, , $secondStderr] = $this->runScript(['--fix', 'test.lang']);
-
-        self::assertSame(0, $secondStatus, $secondStderr);
-        self::assertSame($fixed, file_get_contents($file));
-        self::assertFileDoesNotExist($file . '.bak2');
-    }
-
-    public function testFixNumbersExistingBackups(): void
-    {
-        $file = $this->directory . '/test.lang';
-        $invalid = <<<'PHP'
-<?php
-$PALANG['one'] = 'One'
-$PALANG['body'] = <<<EOM
-Body
-EOM;
-$PALANG['three'] = 'Three';
-PHP;
-        file_put_contents($file, $invalid);
-        file_put_contents($file . '.bak', 'existing backup');
-
-        [$status, $stdout, $stderr] = $this->runScript(['--fix', 'test.lang']);
-
-        self::assertSame(0, $status, $stderr);
-        self::assertStringContainsString('backup saved as test.lang.bak2', $stdout);
-        self::assertSame('existing backup', file_get_contents($file . '.bak'));
-        self::assertSame($invalid, file_get_contents($file . '.bak2'));
-    }
-
-    public function testFixLeavesAmbiguousSyntaxUnchanged(): void
-    {
-        $file = $this->directory . '/test.lang';
-        $invalid = <<<'PHP'
-<?php
-$PALANG['one'] = 'Unclosed string;
-$PALANG['three'] = 'Three';
-PHP;
-        file_put_contents($file, $invalid);
-
-        [$status, , $stderr] = $this->runScript(['--fix', 'test.lang']);
-
-        self::assertSame(1, $status);
-        self::assertStringContainsString('no safe automatic repair', $stderr);
-        self::assertSame($invalid, file_get_contents($file));
     }
 
     private function runScript(array $arguments): array

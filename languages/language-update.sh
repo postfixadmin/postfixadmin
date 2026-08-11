@@ -26,7 +26,7 @@ function update_string_list() {
 	# them with the real tokenizer (handling quotes, concatenation, heredocs and
 	# aliased values) and does NOT rely on both files listing keys in the same
 	# order, which the old diff-based approach did.
-	PA_NOTEXT="$notext" PA_PATCH="$patch" PA_FIX="$fix" PA_SCRIPT="$0" php /dev/stdin en.lang $filelist <<'ENDOFPHP'
+	PA_NOTEXT="$notext" PA_PATCH="$patch" php /dev/stdin en.lang $filelist <<'ENDOFPHP'
 <?php
 # Validate the PHP syntax without executing the language file.
 function validate_php_syntax(string $src, string $file): bool {
@@ -37,122 +37,6 @@ function validate_php_syntax(string $src, string $file): bool {
         fwrite(STDERR, "*** $file: PHP syntax error: {$e->getMessage()} ***\n");
         return false;
     }
-}
-
-# Repair only unambiguous, single-line $PALANG assignments whose value is one
-# quoted string and whose terminating semicolon is missing. More complicated
-# syntax errors are intentionally left for manual repair.
-function fix_missing_simple_assignment_semicolons(string $src): array {
-    $quotedString = '(?:\'(?:\\\\.|[^\'\\\\])*\'|"(?:\\\\.|[^"\\\\])*")';
-    $pattern = '~^(\h*\$PALANG\[' . $quotedString . '\]\h*=\h*' . $quotedString . ')(\h*)((?:#|//).*)?$~';
-    $parts = preg_split('/(\r\n|\n|\r)/', $src, -1, PREG_SPLIT_DELIM_CAPTURE);
-    $fixed = 0;
-
-    foreach ($parts as $index => $line) {
-        if ($index % 2 !== 0) {
-            continue;
-        }
-        if (preg_match($pattern, $line, $matches) !== 1) {
-            continue;
-        }
-
-        $parts[$index] = $matches[1] . ';' . $matches[2] . ($matches[3] ?? '');
-        $fixed++;
-    }
-
-    return [implode('', $parts), $fixed];
-}
-
-# Repair a missing semicolon on the closing identifier of a $PALANG heredoc or
-# nowdoc assignment. The opening assignment provides the exact identifier, so
-# unrelated multiline strings are never changed.
-function fix_missing_heredoc_assignment_semicolons(string $src): array {
-    $quotedString = '(?:\'(?:\\\\.|[^\'\\\\])*\'|"(?:\\\\.|[^"\\\\])*")';
-    $startPattern = '~^\h*\$PALANG\[' . $quotedString . '\]\h*=\h*<<<\h*' .
-        '(?:\'([A-Za-z_][A-Za-z0-9_]*)\'|"([A-Za-z_][A-Za-z0-9_]*)"|([A-Za-z_][A-Za-z0-9_]*))\h*$~';
-    $parts = preg_split('/(\r\n|\n|\r)/', $src, -1, PREG_SPLIT_DELIM_CAPTURE);
-    $fixed = 0;
-
-    for ($index = 0, $count = count($parts); $index < $count; $index += 2) {
-        if (preg_match($startPattern, $parts[$index], $matches) !== 1) {
-            continue;
-        }
-        $identifier = $matches[1] ?: ($matches[2] ?: $matches[3]);
-        $quotedIdentifier = preg_quote($identifier, '~');
-        $validEndPattern = "~^\\h*$quotedIdentifier;\\h*(?:(?:#|//).*)?$~";
-        $missingEndPattern = "~^(\\h*$quotedIdentifier)(\\h*)((?:(?:#|//).*)?)$~";
-
-        for ($end = $index + 2; $end < $count; $end += 2) {
-            if (preg_match($validEndPattern, $parts[$end]) === 1) {
-                break;
-            }
-            if (preg_match($missingEndPattern, $parts[$end], $endMatches) === 1) {
-                $parts[$end] = $endMatches[1] . ';' . $endMatches[2] . $endMatches[3];
-                $fixed++;
-                break;
-            }
-        }
-    }
-
-    return [implode('', $parts), $fixed];
-}
-
-# Apply each supported safe repair and return the updated source plus a summary.
-# Add future unambiguous repair rules here instead of coupling --fix to one bug.
-function apply_safe_fixes(string $src): array {
-    [$src, $missingSemicolons] = fix_missing_simple_assignment_semicolons($src);
-    [$src, $missingHeredocSemicolons] = fix_missing_heredoc_assignment_semicolons($src);
-
-    return [$src, [
-        'missing semicolon' => $missingSemicolons,
-        'missing heredoc semicolon' => $missingHeredocSemicolons,
-    ]];
-}
-
-function next_backup_filename(string $file): string {
-    $backup = "$file.bak";
-    $suffix = 2;
-    while (file_exists($backup)) {
-        $backup = "$file.bak$suffix";
-        $suffix++;
-    }
-
-    return $backup;
-}
-
-function repair_file_safely(string $file, string $src): array {
-    [$fixedSrc, $fixCounts] = apply_safe_fixes($src);
-    if (array_sum($fixCounts) === 0) {
-        return [$src, true];
-    }
-    if (!validate_php_syntax($fixedSrc, $file)) {
-        fwrite(STDERR, "*** $file: --fix could not safely repair the syntax; file left unchanged ***\n");
-        return [$src, false];
-    }
-    $backup = next_backup_filename($file);
-    if (!copy($file, $backup)) {
-        fwrite(STDERR, "*** unable to create backup $backup; file left unchanged ***\n");
-        return [$src, false];
-    }
-    $written = file_put_contents($file, $fixedSrc);
-    if ($written !== strlen($fixedSrc)) {
-        if (!copy($backup, $file)) {
-            fwrite(STDERR, "*** unable to write $file or restore it from $backup ***\n");
-        } else {
-            fwrite(STDERR, "*** unable to write $file; restored it from $backup ***\n");
-        }
-        return [$src, false];
-    }
-
-    echo "*** $file: backup saved as $backup ***\n";
-
-    foreach ($fixCounts as $description => $count) {
-        if ($count > 0) {
-            echo "*** $file: fixed $count $description(s) ***\n";
-        }
-    }
-
-    return [$fixedSrc, true];
 }
 
 # Parse $PALANG['key'] = ...; statements from a language file's SOURCE (never
@@ -196,8 +80,6 @@ function parse_palang(string $src): array {
 
 $notext = getenv('PA_NOTEXT') === '1';
 $patch  = getenv('PA_PATCH')  === '1';
-$fix    = getenv('PA_FIX')    === '1';
-$script = getenv('PA_SCRIPT') ?: './language-update.sh';
 $failed = false;
 
 $reference = 'en.lang';
@@ -210,16 +92,7 @@ if ($referenceSrc === false) {
     fwrite(STDERR, "*** unable to read $reference ***\n");
     exit(1);
 }
-if ($fix) {
-    [$referenceSrc, $repaired] = repair_file_safely($reference, $referenceSrc);
-    if (!$repaired) {
-        exit(1);
-    }
-}
 if (!validate_php_syntax($referenceSrc, $reference)) {
-    if (!$fix) {
-        fwrite(STDERR, "*** Try: $script --fix $reference ***\n");
-    }
     exit(1);
 }
 $enStmts = parse_palang($referenceSrc);
@@ -250,22 +123,9 @@ foreach ($files as $file) {
         continue;
     }
 
-    if ($fix) {
-        [$src, $repaired] = repair_file_safely($file, $src);
-        if (!$repaired) {
-            $failed = true;
-            continue;
-        }
-    }
-
     if (!validate_php_syntax($src, $file)) {
-        if ($fix) {
-            fwrite(STDERR, "*** $file: --fix found no safe automatic repair; file left unchanged ***\n");
-        } else {
-            fwrite(STDERR, "*** Try: $script --fix $file ***\n");
-        }
         $failed = true;
-        continue;
+        break;
     }
 
     $transStmts = parse_palang($src);
@@ -549,17 +409,13 @@ echo '
     ~~~~~~
 
 
-'"$0"' [--notext | --patch | --fix] [--nocleanup] [foo.lang [bar.lang [...] ] ]
+'"$0"' [--notext | --patch] [--nocleanup] [foo.lang [bar.lang [...] ] ]
 
     List missing translations in language files and optionally patch the
     english texts into the language file
 
     --notext 
         only list the translation keys (useful for a quick overview)
-
-    --fix
-        repair unambiguous $PALANG syntax errors such as missing semicolons on
-        simple assignments and heredoc terminators, then validate the file again
 
     Note for translators: untranslated entries have a comment
         # XXX
@@ -618,7 +474,6 @@ Common parameters:
 
 notext=0 # output full lines by default
 patch=0  # do not patch by default
-fix=0 # do not repair syntax errors by default
 nocleanup=0 # don't delete tempfiles
 rename=0 # rename a string
 remove=0 # remove a string
@@ -649,9 +504,6 @@ while [ -n "$1" ] ; do
 			;;
 		--patch)
 			patch=1
-			;;
-		--fix)
-			fix=1
 			;;
 		--nocleanup)
 			nocleanup=1
@@ -704,7 +556,6 @@ done # end $@ loop
 
 test $notext = 1 && test $patch = 1 && echo "ERROR: You can't use --notext AND --patch at the same time." >&2 && exit 2
 test $notext = 1 && test $rename = 1 && echo "ERROR: You can't use --notext AND --rename at the same time." >&2 && exit 2
-test $fix = 1 && test $patch = 1 && echo "ERROR: You can't use --fix AND --patch at the same time." >&2 && exit 2
 
 test "$filelist" = "" && filelist="`ls -1 *.lang`"
 
