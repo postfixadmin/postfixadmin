@@ -136,12 +136,10 @@ class Login
             'password' => pacrypt($new_password, '', $username),
         );
 
-        if (Config::bool('password_expiration')) {
-            $domain = $this->getUserDomain($username);
-            if (!is_null($domain)) {
-                $password_expiration_value = (int)get_password_expiration_value($domain);
-                $set['password_expiry'] = date('Y-m-d H:i', strtotime("+$password_expiration_value day"));
-            }
+        $user_domain = $this->getUserDomain($username);
+        if (!is_null($user_domain)) {
+            $domain = $user_domain;
+            $set['password_expiry'] = get_mailbox_password_expiry($user_domain);
         }
 
         $result = db_update($this->table, 'username', $username, $set);

@@ -14,6 +14,7 @@
 		<th>{$PALANG.name}</th>
 		{if $CONF.quota===YES}<th>{$PALANG.pOverview_mailbox_quota}</th>{/if}
 		<th>{$PALANG.last_modified}</th>
+		{if $password_expiration}<th class="text-center">{$PALANG.password}</th>{/if}
 		<th>{$PALANG.active}</th>
 		{if $CONF.smtp_active_flag===YES}<th>{$PALANG.smtp_active}</th>{/if}
 		{assign var="colspan" value="`$colspan-6`"}
@@ -76,6 +77,17 @@
 				</td>
 			{/if}
 			<td>{$item.modified}</td>
+			{if $password_expiration}
+				<td class="text-center">
+					{if $item.password_expiration_never}
+						<span class="glyphicon glyphicon-lock text-muted" role="img" title="{$password_expiration_never_label}" aria-label="{$password_expiration_never_label}"></span>
+					{elseif $item.password_expiration_expired}
+						<span class="glyphicon glyphicon-lock text-danger" role="img" title="{$PALANG.pStatus_expired}{$item.password_expiration}" aria-label="{$PALANG.pStatus_expired}{$item.password_expiration}"></span>
+					{else}
+						<span class="glyphicon glyphicon-lock text-success" role="img" title="{$password_expiration_on_label} {$item.password_expiration}" aria-label="{$password_expiration_on_label} {$item.password_expiration}"></span>
+					{/if}
+				</td>
+			{/if}
 			<td><a class="btn btn-{if ($item.active==0)}info{else}warning{/if} list-action-icon" title="{$PALANG.active}: {if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}" aria-label="{$PALANG.active}: {if $item.active==1}{$PALANG.YES}{else}{$PALANG.NO}{/if}" href="{#url_editactive#}mailbox&amp;id={$item.username|escape:"url"}&amp;active={if ($item.active==0)}1{else}0{/if}&amp;token={$smarty.session.PFA_token|escape:"url"}"
 				>{if $item.active==1}<span class="glyphicon glyphicon-check" aria-hidden="true"></span>{else}<span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>{/if}</a></td>
                         {if $CONF.smtp_active_flag===YES}

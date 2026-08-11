@@ -152,6 +152,7 @@ if (Config::bool('alias_domain')) {
 #
 
 $table_alias = table_by_key('alias');
+$table_domain = table_by_key('domain');
 $table_mailbox = table_by_key('mailbox');
 
 if (count($search) == 0 || !isset($search['_'])) {
@@ -212,7 +213,8 @@ if ($display_mailbox_aliases) {
 }
 
 if ($password_expiration) {
-    $sql_select .= ", $table_mailbox.password_expiry as password_expiration ";
+    $sql_select .= ", $table_mailbox.password_expiry as password_expiration, $table_domain.password_expiry as domain_password_expiration ";
+    $sql_join .= " LEFT JOIN $table_domain ON $table_mailbox.domain=$table_domain.domain ";
 }
 
 if (Config::bool('vacation_control_admin')) {
@@ -247,6 +249,21 @@ $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
 $goto_single_rec_del = "";
 
 foreach ($result as $row) {
+    if ($password_expiration) {
+        $password_expiration_timestamp = strtotime((string)$row['password_expiration']);
+        $row['password_expiration_never'] = mailbox_password_expiration_is_never(
+            $row['password_expiration'],
+            $row['domain_password_expiration']
+        );
+        $row['password_expiration_expired'] = !$row['password_expiration_never']
+            && $password_expiration_timestamp !== false
+            && $password_expiration_timestamp <= time();
+
+        if ($password_expiration_timestamp !== false) {
+            $row['password_expiration'] = date('Y-m-d H:i', $password_expiration_timestamp);
+        }
+    }
+
     if ($display_mailbox_aliases) {
         $goto_split = explode(",", $row['goto']);
         $row['goto_mailbox'] = 0;
@@ -511,6 +528,17 @@ $smarty->assign('tAlias', $tAlias);
 $smarty->assign('alias_data', $alias_data);
 
 $smarty->assign('tMailbox', $tMailbox);
+$smarty->assign('password_expiration', $password_expiration);
+$password_expiration_on_label = Config::lang('password_expiration_on');
+if ($password_expiration_on_label === '') {
+    $password_expiration_on_label = Config::lang('password_expiration');
+}
+$password_expiration_never_label = Config::lang('password_expiration_never');
+if ($password_expiration_never_label === '') {
+    $password_expiration_never_label = Config::lang('pOverview_unlimited');
+}
+$smarty->assign('password_expiration_on_label', $password_expiration_on_label);
+$smarty->assign('password_expiration_never_label', $password_expiration_never_label);
 $smarty->assign('gen_show_status_mailbox', $gen_show_status_mailbox, false);
 $smarty->assign('boolconf_used_quotas', Config::bool('used_quotas'));
 $smarty->assign('divide_quota', $divide_quota);

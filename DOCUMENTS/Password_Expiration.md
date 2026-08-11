@@ -16,15 +16,28 @@ Password Expiration is merged with PostfixAdmin - so no additional database chan
 ## Database Fields 
 
  * mailbox.password_expiry - timestamp, when the mailbox password expires.
- * domain.password_expiry - default duration for when a password will expire
+ * domain.password_expiry - default duration in days for when a password will
+   expire. 0 means that passwords in the domain do not expire. Valid policy
+   values are whole numbers from 0 through 36500.
 
 Changes in MySQL/MariaDB mailbox table (as defined in `$CONF['database_tables']` from config.inc.php):
 
 ## Changes in Postfix Admin :
 
-To enable password expiration, add the following to your config.inc.php file:
+Password expiration is disabled by default. To enable it, add the following to
+your `config.local.php` file:
 
 `$CONF['password_expiration'] = 'YES';`
+
+The domain policy is a fixed duration, not a countdown. It is applied when a
+password is changed; changing the domain policy does not rewrite expiration
+dates already stored for existing mailboxes. The mailbox list shows the stored
+date for each account, or "Does not expire" when the domain policy is 0.
+
+PostfixAdmin records and displays password expiration, but does not reject an
+expired password when a mailbox user signs in to PostfixAdmin to change it.
+Enforcement for IMAP, POP3, SMTP, or webmail login belongs in the corresponding
+authentication query, as illustrated below.
 
 ## RoundCube Password Plugin
 
