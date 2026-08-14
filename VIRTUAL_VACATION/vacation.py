@@ -25,7 +25,6 @@ from email.utils import formatdate, make_msgid, parseaddr
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
-
 VERSION = "0.2.0"
 MINIMUM_PYTHON = (3, 6)
 DEFAULT_CONFIG_PATHS = (

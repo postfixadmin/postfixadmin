@@ -6,7 +6,6 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-
 MODULE_PATH = Path(__file__).resolve().parents[1] / "vacation.py"
 SPEC = importlib.util.spec_from_file_location("vacation", str(MODULE_PATH))
 vacation = importlib.util.module_from_spec(SPEC)
