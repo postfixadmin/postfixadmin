@@ -5,6 +5,8 @@ This initial version provides configuration discovery, generation,
 diagnostics, and a simple interactive SMTP test. It deliberately does not
 process vacation mail yet and must not replace vacation.pl in Postfix
 master.cf.
+
+See VIRTUAL_VACATION/Contributions.txt for contributor credits.
 """
 
 import argparse

@@ -109,3 +109,9 @@ Additional authors:
             PBP stern fixes
             Minor parameter bugfix in get_accountname
             Move noreply addresses to our for optional conf override
+
+2026-08-13  Rodrigo Cortés Cano (@TrapoSAMA)
+            Added the initial Python Virtual Vacation modernization with
+            PostfixAdmin configuration discovery, dependency and service
+            diagnostics, native configuration generation, an interactive SMTP
+            test, documentation, and unit tests.

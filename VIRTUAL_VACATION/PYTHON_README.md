@@ -3,6 +3,8 @@
 This project is an initial Python modernization of
 `VIRTUAL_VACATION/vacation.pl`.
 
+Contributor credits are recorded in `VIRTUAL_VACATION/Contributions.txt`.
+
 > **Current status:** setup and diagnostics only. It does not process mail or
 > send vacation replies yet. Do not configure it as the Postfix `vacation`
 > transport.
