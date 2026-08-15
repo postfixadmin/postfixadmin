@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use PostfixAdmin\VirtualVacation\VacationCli;
 use PostfixAdmin\VirtualVacation\VacationMessageInspector;
+use PostfixAdmin\VirtualVacation\VacationReplyComposer;
+use PostfixAdmin\VirtualVacation\VacationRepository;
 
 require_once dirname(__DIR__) . '/vacation.php';
 
@@ -24,6 +26,8 @@ final class VacationPhpTest
         $this->testMessageInspectionRules();
         $this->testMessageAddressSafety();
         $this->testHistoricalMessageFixtures();
+        $this->testReplyComposition();
+        $this->testVacationRepository();
 
         fwrite(STDOUT, "OK ({$this->assertions} assertions)" . PHP_EOL);
     }
@@ -64,6 +68,17 @@ final class VacationPhpTest
         $this->same('message.eml', $inspection['inspect_message']);
         $this->same('sender@example.org', $inspection['envelope_sender']);
         $this->same('user#example.org@autoreply.example.org', $inspection['recipient']);
+        $transport = $cli->parseArguments([
+            'vacation.php',
+            '-t',
+            'yes',
+            '-f',
+            'sender@example.org',
+            '--',
+            'user#example.org@autoreply.example.org',
+        ]);
+        $this->same('yes', $transport['transport_test']);
+        $this->same('sender@example.org', $transport['envelope_sender']);
     }
 
     private function testGeneratedConfiguration(): void
@@ -110,9 +125,19 @@ final class VacationPhpTest
                 "\$smtp_client = '192.0.2.10';",
                 "\$smtp_authid = 'vacation';",
                 "\$smtp_authpwd = 'secret';",
+                "\$sendmail_bin = '/usr/sbin/sendmail';",
                 "\$recipient_delimiter = '+';",
                 "\$custom_noreply_pattern = 1;",
                 "\$noreply_pattern = 'social|notification';",
+                "\$friendly_from = 'Away';",
+                '$accountname_check = 1;',
+                "\$replace_from = '<%From_Date>';",
+                "\$replace_until = '<%Until_Date>';",
+                "\$date_format = '%d-%m-%Y';",
+                '$syslog = 0;',
+                '$log_level = 2;',
+                '$log_to_file = 1;',
+                "\$logfile = '/var/log/custom-vacation.log';",
                 "\$unsupported = \$ENV{'SECRET'};",
                 '',
             ]));
@@ -126,10 +151,22 @@ final class VacationPhpTest
                 'local_address' => $loaded['values']['smtp_client'],
                 'username' => $loaded['values']['smtp_authid'],
                 'password' => $loaded['values']['smtp_authpwd'],
+                'sendmail' => $loaded['values']['sendmail_bin'],
             ], [
                 'recipient_delimiter' => $loaded['values']['recipient_delimiter'],
                 'custom_noreply_pattern' => $loaded['values']['custom_noreply_pattern'],
                 'noreply_pattern' => $loaded['values']['noreply_pattern'],
+            ], [
+                'friendly_from' => $loaded['values']['friendly_from'],
+                'account_name' => $loaded['values']['accountname_check'],
+                'replace_from' => $loaded['values']['replace_from'],
+                'replace_until' => $loaded['values']['replace_until'],
+                'date_format' => 'd-m-Y',
+            ], [
+                'syslog' => $loaded['values']['syslog'],
+                'level' => 'debug',
+                'file_enabled' => $loaded['values']['log_to_file'],
+                'file' => $loaded['values']['logfile'],
             ]);
             file_put_contents($directory . '/vacation-php.conf', $rendered);
             $phpConfiguration = $cli->loadVacationConfig($directory . '/vacation-php.conf');
@@ -138,9 +175,17 @@ final class VacationPhpTest
             $this->same('192.0.2.10', $phpConfiguration['values']['smtp_local_address']);
             $this->same('vacation', $phpConfiguration['values']['smtp_username']);
             $this->same('secret', $phpConfiguration['values']['smtp_password']);
+            $this->same('/usr/sbin/sendmail', $phpConfiguration['values']['sendmail_path']);
             $this->same('+', $phpConfiguration['values']['recipient_delimiter']);
             $this->true($phpConfiguration['values']['message_custom_noreply_pattern']);
             $this->same('social|notification', $phpConfiguration['values']['message_noreply_pattern']);
+            $this->same('Away', $phpConfiguration['values']['reply_friendly_from']);
+            $this->true($phpConfiguration['values']['reply_account_name']);
+            $this->same('d-m-Y', $phpConfiguration['values']['reply_date_format']);
+            $this->false($phpConfiguration['values']['log_syslog']);
+            $this->same('debug', $phpConfiguration['values']['log_level']);
+            $this->true($phpConfiguration['values']['log_file_enabled']);
+            $this->same('/var/log/custom-vacation.log', $phpConfiguration['values']['log_file']);
             $this->same(1, count($loaded['warnings']));
             $this->true($cli->isLegacyConfig($path));
         } finally {
@@ -340,6 +385,109 @@ PHP);
             );
             $this->same($expected, $result->eligible);
         }
+    }
+
+    private function testReplyComposition(): void
+    {
+        $inspection = (new VacationMessageInspector())->inspectHeaders([
+            'From' => 'Sender <sender@example.org>',
+            'To' => 'user@example.org',
+            'Subject' => 'Original subject',
+            'Message-ID' => '<message@example.org>',
+        ], 'sender@example.org', 'user@example.org');
+        $message = (new VacationReplyComposer())->compose([
+            'email' => 'user@example.org',
+            'subject' => 'Away: $SUBJECT',
+            'body' => 'Away from <%From_Date> until <%Until_Date>.',
+            'activefrom' => '2026-08-01 00:00:00',
+            'activeuntil' => '2026-08-31 23:59:59',
+        ], $inspection, [
+            'reply_account_name' => true,
+            'reply_date_format' => 'd-m-Y',
+        ], 'Example User');
+        $this->true(str_contains($message, 'To: sender@example.org'));
+        $this->true(str_contains($message, 'From: Example User <user@example.org>'));
+        $this->true(str_contains($message, 'Subject: Away: Original subject'));
+        $this->true(str_contains($message, 'X-Loop: Postfix Admin Virtual Vacation'));
+        $this->true(str_contains($message, 'Auto-Submitted: auto-replied'));
+        $this->true(str_contains($message, 'Away from 01-08-2026 until 31-08-2026.'));
+    }
+
+    private function testVacationRepository(): void
+    {
+        if (!in_array('sqlite', PDO::getAvailableDrivers(), true)) {
+            return;
+        }
+        $database = new PDO('sqlite::memory:');
+        $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $database->exec('CREATE TABLE vacation ('
+            . 'email TEXT PRIMARY KEY, subject TEXT, body TEXT, activefrom TEXT, activeuntil TEXT, '
+            . 'interval_time INTEGER, active INTEGER)');
+        $database->exec('CREATE TABLE vacation_notification ('
+            . 'on_vacation TEXT, notified TEXT, notified_at TEXT DEFAULT CURRENT_TIMESTAMP, '
+            . 'PRIMARY KEY (on_vacation, notified))');
+        $database->exec('CREATE TABLE alias (address TEXT, goto TEXT)');
+        $database->exec('CREATE TABLE alias_domain (alias_domain TEXT, target_domain TEXT)');
+        $database->exec('CREATE TABLE mailbox (username TEXT, name TEXT)');
+        $insert = $database->prepare(
+            'INSERT INTO vacation VALUES (?, ?, ?, ?, ?, ?, ?)'
+        );
+        foreach (['user@example.org', 'bob@example.org', 'alice@example.org'] as $email) {
+            $insert->execute([
+                $email,
+                'Away',
+                'Body',
+                '2026-01-01 00:00:00',
+                '2026-12-31 23:59:59',
+                0,
+                1,
+            ]);
+        }
+        $insert->execute([
+            'expired@example.org',
+            'Away',
+            'Body',
+            '2025-01-01 00:00:00',
+            '2025-12-31 23:59:59',
+            0,
+            1,
+        ]);
+        $database->exec("INSERT INTO alias VALUES "
+            . "('team@example.org', 'user@example.org,team#example.org@autoreply.example.org'), "
+            . "('@catch.example', '@example.org')");
+        $database->exec("INSERT INTO alias_domain VALUES ('alias.example', 'example.org')");
+        $database->exec("INSERT INTO mailbox VALUES ('user@example.org', 'Example User')");
+        $repository = new VacationRepository($database, [], 'sqlite');
+        $this->same('user@example.org', $repository->findActiveVacation(
+            'user@example.org',
+            'autoreply.example.org',
+        )['email']);
+        $this->same('user@example.org', $repository->findActiveVacation(
+            'team@example.org',
+            'autoreply.example.org',
+        )['email']);
+        $this->same('bob@example.org', $repository->findActiveVacation(
+            'bob@alias.example',
+            'autoreply.example.org',
+        )['email']);
+        $this->same('alice@example.org', $repository->findActiveVacation(
+            'alice@catch.example',
+            'autoreply.example.org',
+        )['email']);
+        $this->same(null, $repository->findActiveVacation(
+            'expired@example.org',
+            'autoreply.example.org',
+        ));
+        $vacation = $repository->findActiveVacation('user@example.org', 'autoreply.example.org');
+        $this->true($repository->claimNotification($vacation, 'sender@example.net'));
+        $this->false($repository->claimNotification($vacation, 'sender@example.net'));
+        $database->exec("UPDATE vacation SET interval_time = 60 WHERE email = 'user@example.org'");
+        $database->exec("UPDATE vacation_notification SET notified_at = '2026-01-01 00:00:00'");
+        $vacation = $repository->findActiveVacation('user@example.org', 'autoreply.example.org');
+        $this->true($repository->claimNotification($vacation, 'sender@example.net'));
+        $this->same('Example User', $repository->accountName('user@example.org'));
+        $repository->forgetNotification('user@example.org', 'sender@example.net');
+        $this->same(0, (int)$database->query('SELECT COUNT(*) FROM vacation_notification')->fetchColumn());
     }
 
     /** @return array<string, list<string>> */

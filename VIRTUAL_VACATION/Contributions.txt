@@ -114,4 +114,5 @@ Additional authors:
             Added the initial PHP CLI Virtual Vacation modernization with
             PostfixAdmin configuration discovery, dependency and service
             diagnostics, native configuration generation, an interactive SMTP
-            test, read-only message inspection, documentation, and unit tests.
+            test, safe message inspection, complete Vacation processing and
+            delivery, documentation, and unit tests.

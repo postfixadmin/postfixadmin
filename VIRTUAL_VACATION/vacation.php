@@ -4,12 +4,10 @@
 declare(strict_types=1);
 
 /**
- * PostfixAdmin Virtual Vacation modernization prototype for PHP CLI.
+ * PostfixAdmin Virtual Vacation transport and administration utility for PHP CLI.
  *
- * This initial version provides configuration discovery, generation,
- * diagnostics, a simple interactive SMTP test, and read-only inspection of
- * incoming message headers. It deliberately does not send vacation replies
- * yet and must not replace vacation.pl in Postfix master.cf.
+ * It preserves the vacation.pl pipe contract and adds configuration discovery,
+ * diagnostics, an interactive SMTP test, and read-only message inspection.
  *
  * See VIRTUAL_VACATION/Contributions.txt for contributor credits.
  */
@@ -19,6 +17,7 @@ namespace PostfixAdmin\VirtualVacation;
 use DateTimeImmutable;
 use DateTimeZone;
 use PDO;
+use PDOException;
 use RuntimeException;
 use Throwable;
 
@@ -342,9 +341,265 @@ final class VacationMessageInspector
     }
 }
 
+final class VacationRepository
+{
+    /** @var array<string, string> */
+    private array $tables;
+
+    /** @param array<string, string> $tables */
+    public function __construct(private readonly PDO $database, array $tables, private readonly string $databaseType)
+    {
+        foreach (['vacation', 'vacation_notification', 'alias', 'alias_domain', 'mailbox'] as $key) {
+            $identifier = (string)($tables[$key] ?? $key);
+            if (!preg_match('/^[A-Za-z_][A-Za-z0-9_$]*$/', $identifier)) {
+                throw new RuntimeException("Unsafe table identifier: {$identifier}");
+            }
+            $this->tables[$key] = $this->quoteIdentifier($identifier);
+        }
+    }
+
+    /** @return array<string, mixed>|null */
+    public function findActiveVacation(string $email, string $vacationDomain): ?array
+    {
+        return $this->resolveActiveVacation(strtolower($email), strtolower($vacationDomain), 0, []);
+    }
+
+    /** @return array<string, mixed>|null @param array<string, true> $visited */
+    private function resolveActiveVacation(string $email, string $vacationDomain, int $depth, array $visited): ?array
+    {
+        if ($depth >= 20 || isset($visited[$email])) {
+            throw new RuntimeException("Vacation alias resolution loop detected at {$email}");
+        }
+        $visited[$email] = true;
+        $vacation = $this->activeVacation($email);
+        if ($vacation !== null) {
+            return $vacation;
+        }
+
+        $encodedVacation = strtolower(str_replace('@', '#', $email) . '@' . $vacationDomain);
+        $statement = $this->database->prepare("SELECT goto FROM {$this->tables['alias']} WHERE address = ?");
+        $statement->execute([$email]);
+        foreach ($statement->fetchAll(PDO::FETCH_COLUMN) as $targets) {
+            $aliases = array_values(array_filter(array_map('trim', explode(',', strtolower((string)$targets)))));
+            $hasVacationAlias = false;
+            foreach ($aliases as $alias) {
+                if ($alias === $encodedVacation) {
+                    $hasVacationAlias = true;
+                    break;
+                }
+            }
+            if (!$hasVacationAlias) {
+                continue;
+            }
+            foreach ($aliases as $alias) {
+                $vacation = $this->activeVacation($alias);
+                if ($vacation !== null) {
+                    return $vacation;
+                }
+            }
+        }
+
+        if (!str_contains($email, '@')) {
+            return null;
+        }
+        [$user, $domain] = explode('@', $email, 2);
+        $statement = $this->database->prepare(
+            "SELECT target_domain FROM {$this->tables['alias_domain']} WHERE alias_domain = ?"
+        );
+        $statement->execute([$domain]);
+        $targetDomain = $statement->fetchColumn();
+        if (is_string($targetDomain) && $targetDomain !== '') {
+            return $this->resolveActiveVacation(
+                "{$user}@" . strtolower($targetDomain),
+                $vacationDomain,
+                $depth + 1,
+                $visited,
+            );
+        }
+
+        $statement = $this->database->prepare("SELECT goto FROM {$this->tables['alias']} WHERE address = ?");
+        $statement->execute(["@{$domain}"]);
+        $wildcard = $statement->fetchColumn();
+        if (!is_string($wildcard) || $wildcard === '') {
+            return null;
+        }
+        $wildcard = strtolower(trim(explode(',', $wildcard, 2)[0]));
+        if (!str_contains($wildcard, '@')) {
+            return null;
+        }
+        [$wildcardUser, $wildcardDomain] = explode('@', $wildcard, 2);
+        $target = $wildcardUser !== '' ? $wildcard : "{$user}@{$wildcardDomain}";
+        return $this->resolveActiveVacation($target, $vacationDomain, $depth + 1, $visited);
+    }
+
+    /** @return array<string, mixed>|null */
+    private function activeVacation(string $email): ?array
+    {
+        $statement = $this->database->prepare(
+            "SELECT email, subject, body, activefrom, activeuntil, interval_time, active "
+            . "FROM {$this->tables['vacation']} WHERE email = ?"
+        );
+        $statement->execute([$email]);
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        if (!is_array($row) || !$this->databaseBoolean($row['active'] ?? false)) {
+            return null;
+        }
+        $now = time();
+        $from = strtotime((string)($row['activefrom'] ?? ''));
+        $until = strtotime((string)($row['activeuntil'] ?? ''));
+        if (($from !== false && $from > $now) || ($until !== false && $until < $now)) {
+            return null;
+        }
+        return $row;
+    }
+
+    public function claimNotification(array $vacation, string $sender): bool
+    {
+        $email = strtolower((string)$vacation['email']);
+        $sender = strtolower($sender);
+        $statement = $this->database->prepare(
+            "SELECT notified_at FROM {$this->tables['vacation_notification']} "
+            . 'WHERE on_vacation = ? AND notified = ?'
+        );
+        $statement->execute([$email, $sender]);
+        $notifiedAt = $statement->fetchColumn();
+        $activeFrom = strtotime((string)($vacation['activefrom'] ?? ''));
+        if (is_string($notifiedAt) && $activeFrom !== false && strtotime($notifiedAt) < $activeFrom) {
+            $delete = $this->database->prepare(
+                "DELETE FROM {$this->tables['vacation_notification']} WHERE on_vacation = ? AND notified = ?"
+            );
+            $delete->execute([$email, $sender]);
+            $notifiedAt = false;
+        }
+
+        if ($notifiedAt === false) {
+            try {
+                $insert = $this->database->prepare(
+                    "INSERT INTO {$this->tables['vacation_notification']} "
+                    . '(on_vacation, notified) VALUES (?, ?)'
+                );
+                $insert->execute([$email, $sender]);
+                return true;
+            } catch (PDOException $exception) {
+                if (!in_array((string)$exception->getCode(), ['23000', '23505'], true)) {
+                    throw $exception;
+                }
+                $statement->execute([$email, $sender]);
+                $notifiedAt = $statement->fetchColumn();
+            }
+        }
+
+        $interval = max(0, (int)($vacation['interval_time'] ?? 0));
+        $previous = is_string($notifiedAt) ? strtotime($notifiedAt) : false;
+        $databaseNow = strtotime((string)$this->database->query('SELECT CURRENT_TIMESTAMP')->fetchColumn());
+        if ($interval === 0 || $previous === false || $databaseNow === false
+            || $databaseNow - $previous <= $interval
+        ) {
+            return false;
+        }
+        $update = $this->database->prepare(
+            "UPDATE {$this->tables['vacation_notification']} SET notified_at = CURRENT_TIMESTAMP "
+            . 'WHERE on_vacation = ? AND notified = ?'
+        );
+        $update->execute([$email, $sender]);
+        return true;
+    }
+
+    public function accountName(string $email): string
+    {
+        $statement = $this->database->prepare("SELECT name FROM {$this->tables['mailbox']} WHERE username = ?");
+        $statement->execute([$email]);
+        $name = $statement->fetchColumn();
+        return is_string($name) ? trim($name) : '';
+    }
+
+    public function forgetNotification(string $vacationAddress, string $sender): void
+    {
+        $statement = $this->database->prepare(
+            "DELETE FROM {$this->tables['vacation_notification']} WHERE on_vacation = ? AND notified = ?"
+        );
+        $statement->execute([strtolower($vacationAddress), strtolower($sender)]);
+    }
+
+    private function databaseBoolean(mixed $value): bool
+    {
+        return in_array(strtolower((string)$value), ['1', 't', 'true', 'y', 'yes'], true);
+    }
+
+    private function quoteIdentifier(string $identifier): string
+    {
+        return $this->databaseType === 'mysql' ? "`{$identifier}`" : '"' . $identifier . '"';
+    }
+}
+
+final class VacationReplyComposer
+{
+    /** @param array<string, mixed> $vacation @param array<string, mixed> $configuration */
+    public function compose(
+        array $vacation,
+        MessageInspectionResult $incoming,
+        array $configuration,
+        string $accountName = '',
+    ): string {
+        $email = strtolower((string)$vacation['email']);
+        $subject = str_replace('$SUBJECT', $this->decodeHeader($incoming->subject), (string)$vacation['subject']);
+        $body = $this->replaceDates((string)$vacation['body'], $vacation, $configuration);
+        $friendly = trim((string)($configuration['reply_friendly_from'] ?? ''));
+        if (!empty($configuration['reply_account_name']) && $accountName !== '') {
+            $friendly = $accountName;
+        }
+        $from = $friendly === '' ? $email : $this->encodeHeader($friendly) . " <{$email}>";
+        $headers = [
+            'To: ' . $incoming->envelopeSender,
+            'From: ' . $from,
+            'Subject: ' . $this->encodeHeader($subject),
+            'Precedence: junk',
+            'Content-Type: text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding: 8bit',
+            'MIME-Version: 1.0',
+            'X-Loop: Postfix Admin Virtual Vacation',
+            'Auto-Submitted: auto-replied',
+        ];
+        return implode("\r\n", $headers) . "\r\n\r\n" . $this->normalizeBody($body) . "\r\n";
+    }
+
+    /** @param array<string, mixed> $vacation @param array<string, mixed> $configuration */
+    private function replaceDates(string $body, array $vacation, array $configuration): string
+    {
+        $format = (string)($configuration['reply_date_format'] ?? 'Y-m-d');
+        $from = new DateTimeImmutable((string)$vacation['activefrom']);
+        $until = new DateTimeImmutable((string)$vacation['activeuntil']);
+        return str_ireplace(
+            [
+                (string)($configuration['reply_replace_from'] ?? '<%From_Date>'),
+                (string)($configuration['reply_replace_until'] ?? '<%Until_Date>'),
+            ],
+            [$from->format($format), $until->format($format)],
+            $body,
+        );
+    }
+
+    private function decodeHeader(string $value): string
+    {
+        $decoded = mb_decode_mimeheader($value);
+        return $decoded !== '' ? $decoded : $value;
+    }
+
+    private function encodeHeader(string $value): string
+    {
+        $value = str_replace(["\r", "\n"], '', $value);
+        return mb_encode_mimeheader($value, 'UTF-8', 'Q', "\r\n");
+    }
+
+    private function normalizeBody(string $body): string
+    {
+        return str_replace("\n", "\r\n", str_replace(["\r\n", "\r"], "\n", $body));
+    }
+}
+
 final class VacationCli
 {
-    public const VERSION = '0.1.0';
+    public const VERSION = '1.0.0';
 
     /** @var list<string> */
     private const TABLE_KEYS = ['vacation', 'vacation_notification', 'alias', 'alias_domain', 'mailbox'];
@@ -399,15 +654,18 @@ final class VacationCli
                 return $this->runCheck($arguments, false);
             }
 
+            if ($arguments['envelope_sender'] !== null || $arguments['recipient'] !== null) {
+                return $this->runTransport($arguments);
+            }
+
             $this->writeError(
-                'This initial version provides setup and diagnostics only; it does not send vacation replies. '
-                . 'Use --init-config, --check, --test, or --inspect-message; '
-                . 'do not install it in Postfix master.cf yet.' . PHP_EOL
+                'Use -f sender -- recipient for Vacation transport, or select --init-config, --check, --test, '
+                . '--inspect-message, or --show-config-path.' . PHP_EOL
             );
             return 69;
         } catch (Throwable $exception) {
             $this->writeError('ERROR: ' . $exception->getMessage() . PHP_EOL);
-            return 1;
+            return 75;
         }
     }
 
@@ -432,6 +690,7 @@ final class VacationCli
             'force' => false,
             'envelope_sender' => null,
             'recipient' => null,
+            'transport_test' => false,
         ];
         $actions = [
             '--check' => 'check',
@@ -445,6 +704,7 @@ final class VacationCli
             '--import-legacy' => 'import_legacy',
             '--postfixadmin-root' => 'postfixadmin_root',
             '-f' => 'envelope_sender',
+            '-t' => 'transport_test',
         ];
         $selectedActions = 0;
         $positional = false;
@@ -724,6 +984,7 @@ final class VacationCli
             $values['smtp_local_address'] = trim((string)($parsed['smtp']['local_address'] ?? ''));
             $values['smtp_username'] = (string)($parsed['smtp']['username'] ?? '');
             $values['smtp_password'] = (string)($parsed['smtp']['password'] ?? '');
+            $values['sendmail_path'] = trim((string)($parsed['smtp']['sendmail'] ?? ''));
             $environmentPassword = getenv('VACATION_SMTP_PASSWORD');
             if (is_string($environmentPassword) && $environmentPassword !== '') {
                 $values['smtp_password'] = $environmentPassword;
@@ -738,6 +999,18 @@ final class VacationCli
             $values['smtp_local_address'] = '';
             $values['smtp_username'] = '';
             $values['smtp_password'] = '';
+            $values['sendmail_path'] = '';
+        }
+        if (isset($parsed['reply']) && is_array($parsed['reply'])) {
+            $values['reply_friendly_from'] = (string)($parsed['reply']['friendly_from'] ?? '');
+            $values['reply_account_name'] = filter_var(
+                $parsed['reply']['account_name'] ?? false,
+                FILTER_VALIDATE_BOOL,
+                FILTER_NULL_ON_FAILURE,
+            ) ?? false;
+            $values['reply_replace_from'] = (string)($parsed['reply']['replace_from'] ?? '<%From_Date>');
+            $values['reply_replace_until'] = (string)($parsed['reply']['replace_until'] ?? '<%Until_Date>');
+            $values['reply_date_format'] = (string)($parsed['reply']['date_format'] ?? 'Y-m-d');
         }
         if (isset($parsed['logging']) && is_array($parsed['logging'])) {
             $values['log_syslog'] = filter_var(
@@ -745,7 +1018,18 @@ final class VacationCli
                 FILTER_VALIDATE_BOOL,
                 FILTER_NULL_ON_FAILURE,
             ) ?? true;
-            $values['log_level'] = strtolower(trim((string)($parsed['logging']['level'] ?? 'info')));
+            $values['log_level'] = $this->normalizeLogLevel($parsed['logging']['level'] ?? 'info');
+            $values['log_file'] = trim((string)($parsed['logging']['file'] ?? ''));
+            $values['log_file_enabled'] = filter_var(
+                $parsed['logging']['file_enabled'] ?? false,
+                FILTER_VALIDATE_BOOL,
+                FILTER_NULL_ON_FAILURE,
+            ) ?? false;
+        } else {
+            $values['log_syslog'] = true;
+            $values['log_level'] = 'info';
+            $values['log_file'] = '';
+            $values['log_file_enabled'] = false;
         }
         return ['values' => $values, 'warnings' => $warnings];
     }
@@ -793,7 +1077,12 @@ final class VacationCli
         return false;
     }
 
-    /** @param array<string, mixed> $smtpOptions @param array<string, mixed> $messageOptions */
+    /**
+     * @param array<string, mixed> $smtpOptions
+     * @param array<string, mixed> $messageOptions
+     * @param array<string, mixed> $replyOptions
+     * @param array<string, mixed> $loggingOptions
+     */
     public function renderConfig(
         string $root,
         string $server,
@@ -801,6 +1090,8 @@ final class VacationCli
         string $helo,
         array $smtpOptions = [],
         array $messageOptions = [],
+        array $replyOptions = [],
+        array $loggingOptions = [],
     ): string {
         $lines = [
             '# PostfixAdmin Virtual Vacation PHP configuration',
@@ -820,6 +1111,7 @@ final class VacationCli
             'local_address' => trim((string)($smtpOptions['local_address'] ?? '')),
             'username' => (string)($smtpOptions['username'] ?? ''),
             'password' => (string)($smtpOptions['password'] ?? ''),
+            'sendmail' => trim((string)($smtpOptions['sendmail'] ?? '')),
         ];
         if ($optional['security'] !== 'none') {
             $lines[] = 'security = ' . $this->iniValue($optional['security']);
@@ -827,7 +1119,7 @@ final class VacationCli
         if ($optional['timeout'] !== 120) {
             $lines[] = 'timeout = ' . $optional['timeout'];
         }
-        foreach (['local_address', 'username', 'password'] as $key) {
+        foreach (['local_address', 'username', 'password', 'sendmail'] as $key) {
             if ($optional[$key] !== '') {
                 $lines[] = $key . ' = ' . $this->iniValue((string)$optional[$key]);
             }
@@ -853,14 +1145,34 @@ final class VacationCli
                 $lines[] = 'custom_noreply_pattern = true';
             }
         }
-        array_push(
-            $lines,
-            '',
-            '[logging]',
-            'syslog = true',
-            'level = info',
-            '',
-        );
+        $replyValues = [
+            'friendly_from' => (string)($replyOptions['friendly_from'] ?? ''),
+            'replace_from' => (string)($replyOptions['replace_from'] ?? ''),
+            'replace_until' => (string)($replyOptions['replace_until'] ?? ''),
+            'date_format' => (string)($replyOptions['date_format'] ?? ''),
+        ];
+        $accountName = filter_var($replyOptions['account_name'] ?? false, FILTER_VALIDATE_BOOL);
+        if (array_filter($replyValues, static fn ($value) => $value !== '') !== [] || $accountName) {
+            array_push($lines, '', '[reply]');
+            foreach ($replyValues as $key => $value) {
+                if ($value !== '') {
+                    $lines[] = $key . ' = ' . $this->iniValue($value);
+                }
+            }
+            if ($accountName) {
+                $lines[] = 'account_name = true';
+            }
+        }
+        $logSyslog = filter_var($loggingOptions['syslog'] ?? true, FILTER_VALIDATE_BOOL);
+        $logFileEnabled = filter_var($loggingOptions['file_enabled'] ?? false, FILTER_VALIDATE_BOOL);
+        array_push($lines, '', '[logging]');
+        $lines[] = 'syslog = ' . ($logSyslog ? 'true' : 'false');
+        $lines[] = 'level = ' . $this->iniValue($this->normalizeLogLevel($loggingOptions['level'] ?? 'info'));
+        if ($logFileEnabled) {
+            $lines[] = 'file_enabled = true';
+            $lines[] = 'file = ' . $this->iniValue((string)($loggingOptions['file'] ?? '/var/log/vacation.log'));
+        }
+        $lines[] = '';
         return implode(PHP_EOL, $lines);
     }
 
@@ -908,6 +1220,7 @@ final class VacationCli
             'local_address' => $legacy['smtp_client'] ?? '',
             'username' => $legacy['smtp_authid'] ?? '',
             'password' => $legacy['smtp_authpwd'] ?? '',
+            'sendmail' => $legacy['sendmail_bin'] ?? '',
         ];
         $messageOptions = [
             'recipient_delimiter' => $legacy['recipient_delimiter'] ?? '',
@@ -915,6 +1228,22 @@ final class VacationCli
             'custom_noreply_pattern' => $legacy['custom_noreply_pattern'] ?? false,
             'noreply_pattern' => $legacy['noreply_pattern'] ?? '',
             'default_noreply_pattern' => $legacy['default_noreply_pattern'] ?? '',
+        ];
+        $replyOptions = [
+            'friendly_from' => $legacy['friendly_from'] ?? '',
+            'account_name' => $legacy['accountname_check'] ?? false,
+            'replace_from' => $legacy['replace_from'] ?? '',
+            'replace_until' => $legacy['replace_until'] ?? '',
+            'date_format' => isset($legacy['date_format'])
+                ? $this->perlDateFormatToPhp((string)$legacy['date_format'])
+                : '',
+        ];
+        $legacyLogLevel = (int)($legacy['log_level'] ?? 1);
+        $loggingOptions = [
+            'syslog' => $legacy['syslog'] ?? true,
+            'level' => $legacyLogLevel >= 2 ? 'debug' : ($legacyLogLevel === 1 ? 'info' : 'error'),
+            'file_enabled' => $legacy['log_to_file'] ?? false,
+            'file' => $legacy['logfile'] ?? '/var/log/vacation.log',
         ];
         $destination = $this->expandHome(
             $this->nullableString($arguments['config']) ?? '/etc/postfixadmin/vacation-php.conf'
@@ -936,7 +1265,16 @@ final class VacationCli
         }
         if (file_put_contents(
             $destination,
-            $this->renderConfig($root, $server, $port, $helo, $smtpOptions, $messageOptions),
+            $this->renderConfig(
+                $root,
+                $server,
+                $port,
+                $helo,
+                $smtpOptions,
+                $messageOptions,
+                $replyOptions,
+                $loggingOptions,
+            ),
             LOCK_EX,
         ) === false) {
             throw new RuntimeException("Could not write configuration: {$destination}");
@@ -973,7 +1311,24 @@ final class VacationCli
                 $ok = false;
             }
         }
-        if (($configuration['smtp_security'] ?? 'none') !== 'none') {
+        if (trim((string)($configuration['sendmail_path'] ?? '')) !== '') {
+            if (function_exists('proc_open')) {
+                $results[] = new CheckResult('Dependencies', 'proc_open', 'OK', 'sendmail transport');
+            } else {
+                $results[] = new CheckResult('Dependencies', 'proc_open', 'MISSING', 'sendmail transport');
+                $ok = false;
+            }
+        } elseif (trim((string)($configuration['smtp_server'] ?? 'localhost')) === '') {
+            if (function_exists('dns_get_record')) {
+                $results[] = new CheckResult('Dependencies', 'dns_get_record', 'OK', 'dynamic MX delivery');
+            } else {
+                $results[] = new CheckResult('Dependencies', 'dns_get_record', 'MISSING', 'dynamic MX delivery');
+                $ok = false;
+            }
+        }
+        if (trim((string)($configuration['sendmail_path'] ?? '')) === ''
+            && ($configuration['smtp_security'] ?? 'none') !== 'none'
+        ) {
             if (extension_loaded('openssl')) {
                 $results[] = new CheckResult('Dependencies', 'openssl', 'OK', 'SMTP TLS support');
             } else {
@@ -1120,7 +1475,18 @@ final class VacationCli
     /** @param list<CheckResult> $results */
     private function checkSmtp(array $configuration, array &$results): void
     {
+        $sendmail = trim((string)($configuration['sendmail_path'] ?? ''));
+        if ($sendmail !== '') {
+            $results[] = str_starts_with($sendmail, '/') && is_executable($sendmail)
+                ? new CheckResult('Delivery', 'sendmail', 'OK', $sendmail)
+                : new CheckResult('Delivery', 'sendmail', 'FAILED', 'an absolute executable path is required');
+            return;
+        }
         $server = (string)($configuration['smtp_server'] ?? 'localhost');
+        if ($server === '') {
+            $results[] = new CheckResult('Delivery', 'SMTP', 'OK', 'MX lookup selected at delivery time');
+            return;
+        }
         $port = $this->validPort($configuration['smtp_server_port'] ?? 25);
         $security = $this->normalizeSmtpSecurity($configuration['smtp_security'] ?? 'none');
         $helo = trim((string)($configuration['smtp_helo'] ?? '')) ?: $this->detectedFqdn();
@@ -1143,6 +1509,22 @@ final class VacationCli
         } catch (Throwable $exception) {
             $results[] = new CheckResult('Delivery', 'SMTP', 'FAILED', "{$server}:{$port}: {$exception->getMessage()}");
         }
+    }
+
+    /**
+     * @param array<string, mixed> $configuration
+     * @param list<CheckResult> $results
+     */
+    private function checkLogging(array $configuration, array &$results): void
+    {
+        if (empty($configuration['log_file_enabled'])) {
+            return;
+        }
+        $path = trim((string)($configuration['log_file'] ?? ''));
+        $writable = $path !== '' && (is_file($path) ? is_writable($path) : is_writable(dirname($path)));
+        $results[] = $writable
+            ? new CheckResult('Logging', 'File', 'OK', $path)
+            : new CheckResult('Logging', 'File', 'FAILED', $path !== '' ? $path : 'logging.file is empty');
     }
 
     /** @param array<string, bool|string|null> $arguments */
@@ -1201,6 +1583,7 @@ final class VacationCli
         if (!$dependenciesOnly && $vacationPath !== null) {
             $this->checkDatabase($configuration, $this->databaseDependenciesAvailable($configuration), $results);
             $this->checkSmtp($configuration, $results);
+            $this->checkLogging($configuration, $results);
         }
 
         $this->write('PostfixAdmin Virtual Vacation - system check' . PHP_EOL . PHP_EOL);
@@ -1229,6 +1612,9 @@ final class VacationCli
         }
         $configuration = $loaded['values'];
         $server = (string)($configuration['smtp_server'] ?? 'localhost');
+        if ($server === '') {
+            throw new RuntimeException('--test requires a configured SMTP server; dynamic MX delivery is message-specific');
+        }
         $port = $this->validPort($configuration['smtp_server_port'] ?? 25);
         $helo = $this->resolveSmtpHelo($configuration);
         $sender = $this->prompt('MAIL FROM', $this->defaultTestSender($helo));
@@ -1255,6 +1641,243 @@ final class VacationCli
         }
         $this->write('Test message sent successfully.' . PHP_EOL);
         return 0;
+    }
+
+    /** @param array<string, bool|string|null> $arguments */
+    private function runTransport(array $arguments): int
+    {
+        $envelopeSender = $this->nullableString($arguments['envelope_sender']);
+        $envelopeRecipient = $this->nullableString($arguments['recipient']);
+        if ($envelopeSender === null || $envelopeRecipient === null) {
+            throw new RuntimeException('Vacation transport requires -f sender -- recipient');
+        }
+        $configuration = $this->runtimeConfiguration($arguments);
+        $claimedRepository = null;
+        $claimedVacation = '';
+        $claimedSender = '';
+        $processingCompleted = false;
+        try {
+            $inspection = (new VacationMessageInspector())->inspectStream(
+                $this->input,
+                $envelopeSender,
+                $envelopeRecipient,
+                $configuration,
+            );
+            if (!$inspection->eligible) {
+                $this->log($configuration, 'debug', 'Message ignored: ' . $inspection->reason);
+                return 0;
+            }
+
+            $database = $this->connectDatabase($configuration);
+            $tables = is_array($configuration['resolved_tables'] ?? null)
+                ? $configuration['resolved_tables']
+                : array_combine(self::TABLE_KEYS, self::TABLE_KEYS);
+            $repository = new VacationRepository(
+                $database,
+                $tables,
+                $this->normalizeDatabaseType($configuration['database_type'] ?? ''),
+            );
+            $vacation = $repository->findActiveVacation(
+                $inspection->envelopeRecipient,
+                (string)($configuration['vacation_domain'] ?? ''),
+            );
+            if ($vacation === null) {
+                $this->log(
+                    $configuration,
+                    'debug',
+                    "No active Vacation record for {$inspection->envelopeRecipient}",
+                );
+                return 0;
+            }
+            $vacationAddress = strtolower((string)$vacation['email']);
+            if (!$repository->claimNotification($vacation, $inspection->envelopeSender)) {
+                $this->log(
+                    $configuration,
+                    'debug',
+                    "Notification interval has not elapsed for {$vacationAddress} and {$inspection->envelopeSender}",
+                );
+                return 0;
+            }
+            $claimedRepository = $repository;
+            $claimedVacation = $vacationAddress;
+            $claimedSender = $inspection->envelopeSender;
+
+            $message = (new VacationReplyComposer())->compose(
+                $vacation,
+                $inspection,
+                $configuration,
+                $repository->accountName($vacationAddress),
+            );
+            $testMode = in_array(
+                strtolower((string)($arguments['transport_test'] ?? '')),
+                ['1', 'true', 'yes'],
+                true,
+            );
+            if ($testMode) {
+                $this->write($message);
+                $this->log($configuration, 'info', 'Transport test generated a Vacation reply without delivery');
+                return 0;
+            }
+
+            $sendmail = trim((string)($configuration['sendmail_path'] ?? ''));
+            if ($sendmail !== '') {
+                $this->deliverWithSendmail(
+                    $sendmail,
+                    $vacationAddress,
+                    $inspection->envelopeSender,
+                    $message,
+                );
+            } else {
+                $deliveryConfiguration = $this->resolveDeliveryConfiguration($configuration, $vacationAddress);
+                $this->deliverWithSmtp(
+                    $deliveryConfiguration,
+                    $vacationAddress,
+                    $inspection->envelopeSender,
+                    $message,
+                );
+            }
+            $processingCompleted = true;
+            $this->log(
+                $configuration,
+                'info',
+                "Vacation response sent from {$vacationAddress} to {$inspection->envelopeSender}",
+            );
+            return 0;
+        } catch (Throwable $exception) {
+            try {
+                if (!$processingCompleted && $claimedRepository instanceof VacationRepository) {
+                    $claimedRepository->forgetNotification($claimedVacation, $claimedSender);
+                }
+                $this->log($configuration, 'error', $exception->getMessage());
+            } catch (Throwable) {
+                // Preserve the original transport failure for Postfix.
+            }
+            throw $exception;
+        }
+    }
+
+    /** @param array<string, bool|string|null> $arguments @return array<string, mixed> */
+    private function runtimeConfiguration(array $arguments): array
+    {
+        $path = $this->findVacationConfig($this->nullableString($arguments['config']));
+        if ($path === null) {
+            throw new RuntimeException('No vacation-php.conf found; run --init-config first or use --config');
+        }
+        $loaded = $this->loadVacationConfig($path);
+        $configuration = $loaded['values'];
+        foreach ($loaded['warnings'] as $warning) {
+            $this->writeError("WARNING: {$warning}" . PHP_EOL);
+        }
+        $rootArgument = $this->nullableString($arguments['postfixadmin_root'])
+            ?? ($configuration['postfixadmin_root'] ?? null);
+        $roots = $this->discoverPostfixAdminRoots(is_string($rootArgument) ? $rootArgument : null);
+        if ($roots === []) {
+            throw new RuntimeException('No PostfixAdmin installation found; use --postfixadmin-root');
+        }
+        $postfixAdmin = $this->loadPostfixAdminConfig($this->choosePostfixAdminRoot($roots, true));
+        $configuration = array_replace($postfixAdmin, $configuration);
+        if (trim((string)($configuration['vacation_domain'] ?? '')) === '') {
+            throw new RuntimeException('vacation_domain is required for Vacation transport');
+        }
+        return $configuration;
+    }
+
+    /** @param array<string, mixed> $configuration @return array<string, mixed> */
+    private function resolveDeliveryConfiguration(array $configuration, string $vacationAddress): array
+    {
+        if (trim((string)($configuration['smtp_server'] ?? 'localhost')) !== '') {
+            return $configuration;
+        }
+        [, $domain] = explode('@', $vacationAddress, 2);
+        $records = dns_get_record($domain, DNS_MX);
+        if (!is_array($records) || $records === []) {
+            throw new RuntimeException("No MX record found for {$domain}");
+        }
+        usort($records, static fn ($left, $right) => ($left['pri'] ?? 0) <=> ($right['pri'] ?? 0));
+        $target = rtrim((string)($records[0]['target'] ?? ''), '.');
+        if ($target === '') {
+            throw new RuntimeException("No usable MX target found for {$domain}");
+        }
+        $configuration['smtp_server'] = $target;
+        if (($configuration['smtp_local_address'] ?? '') === 'localhost') {
+            $configuration['smtp_local_address'] = '';
+        }
+        return $configuration;
+    }
+
+    /** @param array<string, mixed> $configuration */
+    private function deliverWithSmtp(
+        array $configuration,
+        string $sender,
+        string $recipient,
+        string $message,
+    ): void {
+        $helo = $this->resolveSmtpHelo($configuration);
+        $socket = $this->smtpConnect($configuration, $helo);
+        try {
+            $this->smtpExpect($this->smtpCommand($socket, "MAIL FROM:<{$sender}>"), [250], 'MAIL FROM');
+            $this->smtpExpect($this->smtpCommand($socket, "RCPT TO:<{$recipient}>"), [250, 251], 'RCPT TO');
+            $this->smtpExpect($this->smtpCommand($socket, 'DATA'), [354], 'DATA');
+            $message = preg_replace('/(?m)^\./', '..', $message) ?? $message;
+            if (fwrite($socket, rtrim($message, "\r\n") . "\r\n.\r\n") === false) {
+                throw new RuntimeException('Could not write the Vacation message to SMTP');
+            }
+            $this->smtpExpect($this->smtpReadResponse($socket), [250], 'message body');
+        } finally {
+            $this->smtpQuit($socket);
+        }
+    }
+
+    private function deliverWithSendmail(string $path, string $sender, string $recipient, string $message): void
+    {
+        if (!str_starts_with($path, '/') || !is_executable($path)) {
+            throw new RuntimeException('sendmail must be an absolute executable path');
+        }
+        $process = proc_open(
+            [$path, '-f', $sender, $recipient],
+            [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']],
+            $pipes,
+        );
+        if (!is_resource($process)) {
+            throw new RuntimeException("Could not execute sendmail: {$path}");
+        }
+        fwrite($pipes[0], $message);
+        fclose($pipes[0]);
+        $standardOutput = stream_get_contents($pipes[1]);
+        $standardError = stream_get_contents($pipes[2]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        $status = proc_close($process);
+        if ($status !== 0) {
+            $detail = trim((string)$standardError) ?: trim((string)$standardOutput);
+            throw new RuntimeException("sendmail exited with status {$status}" . ($detail !== '' ? ": {$detail}" : ''));
+        }
+    }
+
+    /** @param array<string, mixed> $configuration */
+    private function log(array $configuration, string $level, string $message): void
+    {
+        $priorities = ['error' => LOG_ERR, 'info' => LOG_INFO, 'debug' => LOG_DEBUG];
+        $configured = strtolower((string)($configuration['log_level'] ?? 'info'));
+        $rank = ['error' => 0, 'info' => 1, 'debug' => 2];
+        if (($rank[$level] ?? 0) > ($rank[$configured] ?? 1)) {
+            return;
+        }
+        if (!empty($configuration['log_syslog'])) {
+            openlog('postfixadmin-vacation', LOG_PID, LOG_MAIL);
+            syslog($priorities[$level] ?? LOG_INFO, $message);
+            closelog();
+        }
+        if (!empty($configuration['log_file_enabled'])) {
+            $path = trim((string)($configuration['log_file'] ?? ''));
+            if ($path === '') {
+                throw new RuntimeException('File logging is enabled but logging.file is empty');
+            }
+            $line = sprintf("%s %-5s %s%s", date(DATE_ATOM), strtoupper($level), $message, PHP_EOL);
+            if (file_put_contents($path, $line, FILE_APPEND | LOCK_EX) === false) {
+                throw new RuntimeException("Could not write Vacation log: {$path}");
+            }
+        }
     }
 
     /** @param array<string, bool|string|null> $arguments */
@@ -1628,6 +2251,15 @@ final class VacationCli
         };
     }
 
+    private function normalizeLogLevel(mixed $value): string
+    {
+        $level = strtolower(trim((string)$value));
+        if (!in_array($level, ['error', 'info', 'debug'], true)) {
+            throw new RuntimeException('Logging level must be error, info, or debug');
+        }
+        return $level;
+    }
+
     private function normalizeDatabaseType(mixed $value): string
     {
         return match (strtolower((string)$value)) {
@@ -1660,6 +2292,22 @@ final class VacationCli
             'false', 'no' => false,
             default => throw new RuntimeException("unsupported Perl value: {$value}"),
         };
+    }
+
+    private function perlDateFormatToPhp(string $format): string
+    {
+        return strtr($format, [
+            '%Y' => 'Y',
+            '%y' => 'y',
+            '%m' => 'm',
+            '%d' => 'd',
+            '%b' => 'M',
+            '%B' => 'F',
+            '%H' => 'H',
+            '%M' => 'i',
+            '%S' => 's',
+            '%%' => '%',
+        ]);
     }
 
     private function iniValue(string $value): string
