@@ -7,9 +7,9 @@ declare(strict_types=1);
  * PostfixAdmin Virtual Vacation modernization prototype for PHP CLI.
  *
  * This initial version provides configuration discovery, generation,
- * diagnostics, and a simple interactive SMTP test. It deliberately does not
- * process vacation mail yet and must not replace vacation.pl in Postfix
- * master.cf.
+ * diagnostics, a simple interactive SMTP test, and read-only inspection of
+ * incoming message headers. It deliberately does not send vacation replies
+ * yet and must not replace vacation.pl in Postfix master.cf.
  *
  * See VIRTUAL_VACATION/Contributions.txt for contributor credits.
  */
@@ -30,6 +30,315 @@ final class CheckResult
         public readonly string $status,
         public readonly string $detail = '',
     ) {
+    }
+}
+
+final class MessageInspectionResult
+{
+    public function __construct(
+        public readonly bool $eligible,
+        public readonly string $reason,
+        public readonly string $from = '',
+        public readonly string $to = '',
+        public readonly string $cc = '',
+        public readonly string $replyTo = '',
+        public readonly string $subject = '',
+        public readonly string $messageId = '',
+        public readonly string $envelopeSender = '',
+        public readonly string $envelopeRecipient = '',
+    ) {
+    }
+}
+
+final class VacationMessageInspector
+{
+    private const DEFAULT_NOREPLY_PATTERN =
+        '^(?:noreply|no-reply|do_not_reply|no_reply|postmaster|mailer-daemon|listserv|majordomo|owner-|request-|bounces-)'
+        . '|(?:-(?:owner|request|bounces)@)';
+
+    /**
+     * @param resource $stream
+     * @param array<string, mixed> $configuration
+     */
+    public function inspectStream(
+        $stream,
+        string $envelopeSender,
+        string $envelopeRecipient,
+        array $configuration,
+    ): MessageInspectionResult {
+        if (!extension_loaded('mailparse')) {
+            throw new RuntimeException('The mailparse extension is required to inspect a message stream');
+        }
+        return $this->inspectHeaders(
+            $this->parseHeaders($stream),
+            $envelopeSender,
+            $envelopeRecipient,
+            $configuration,
+        );
+    }
+
+    /**
+     * @param array<string, string|list<string>> $headers
+     * @param array<string, mixed> $configuration
+     */
+    public function inspectHeaders(
+        array $headers,
+        string $envelopeSender,
+        string $envelopeRecipient,
+        array $configuration = [],
+    ): MessageInspectionResult {
+        $headers = $this->normalizeHeaders($headers);
+        $rejection = $this->headerRejectionReason($headers);
+        if ($rejection !== null) {
+            return new MessageInspectionResult(false, $rejection);
+        }
+
+        $fromRaw = $this->firstHeader($headers, 'from');
+        $toRaw = $this->firstHeader($headers, 'to');
+        $ccRaw = $this->firstHeader($headers, 'cc');
+        $replyToRaw = $this->firstHeader($headers, 'reply-to');
+        $subject = $this->firstHeader($headers, 'subject');
+        $messageId = $this->firstHeader($headers, 'message-id');
+        $vacationDomain = trim((string)($configuration['vacation_domain'] ?? ''));
+        $delimiter = (string)($configuration['recipient_delimiter'] ?? '');
+        $envelopeSender = $this->normalizeEnvelopeAddress($envelopeSender);
+        $envelopeRecipient = $this->normalizeEnvelopeAddress(
+            $this->restoreVacationRecipient($envelopeRecipient, $vacationDomain, $delimiter)
+        );
+
+        if ($fromRaw === '' || $toRaw === '' || $messageId === ''
+            || $envelopeSender === '' || $envelopeRecipient === ''
+        ) {
+            return new MessageInspectionResult(false, 'a required message or envelope field is missing');
+        }
+
+        $noVacationPattern = trim((string)($configuration['message_no_vacation_pattern'] ?? ''));
+        if ($noVacationPattern !== '' && $this->matchesPattern($toRaw, $noVacationPattern)) {
+            return new MessageInspectionResult(false, 'the To header matches no_vacation_pattern');
+        }
+
+        $from = $this->extractAddresses($fromRaw);
+        $to = $this->extractAddresses($toRaw);
+        $cc = $this->extractAddresses($ccRaw);
+        $replyTo = $this->extractAddresses($replyToRaw);
+        if ($from === [] || $to === []) {
+            return new MessageInspectionResult(false, 'a required header contains no valid address');
+        }
+        if ($replyToRaw !== '' && $replyTo === []) {
+            return new MessageInspectionResult(false, 'the Reply-To header contains no valid address');
+        }
+
+        $addressesToCheck = array_merge($from, $replyTo, [$envelopeSender, $envelopeRecipient]);
+        foreach ($addressesToCheck as $address) {
+            if ($this->isNoReplyAddress($address, $configuration)) {
+                return new MessageInspectionResult(false, "no-reply address detected: {$address}");
+            }
+        }
+        if ($envelopeSender === $envelopeRecipient) {
+            return new MessageInspectionResult(false, 'envelope sender and recipient are the same');
+        }
+        if (in_array($envelopeSender, array_merge($to, $cc), true)) {
+            return new MessageInspectionResult(false, 'the envelope sender is also a To or Cc recipient');
+        }
+
+        return new MessageInspectionResult(
+            true,
+            'message is eligible for Vacation processing',
+            implode(', ', $from),
+            implode(', ', $to),
+            implode(', ', $cc),
+            implode(', ', $replyTo),
+            $subject,
+            $messageId,
+            $envelopeSender,
+            $envelopeRecipient,
+        );
+    }
+
+    public function restoreVacationRecipient(string $recipient, string $vacationDomain, string $delimiter = ''): string
+    {
+        $recipient = trim($recipient, "<> \t\n\r\0\x0B");
+        $suffix = '@' . strtolower(trim($vacationDomain, '. '));
+        if ($vacationDomain === '' || !str_ends_with(strtolower($recipient), $suffix)) {
+            return $recipient;
+        }
+        $encoded = substr($recipient, 0, -strlen($suffix));
+        $restored = str_replace('#', '@', $encoded);
+        $at = strrpos($restored, '@');
+        if ($at === false) {
+            return $restored;
+        }
+        $local = substr($restored, 0, $at);
+        $domain = substr($restored, $at + 1);
+        if ($delimiter !== '' && ($position = strpos($local, $delimiter)) !== false) {
+            $local = substr($local, 0, $position);
+        }
+        return "{$local}@{$domain}";
+    }
+
+    /** @param resource $stream @return array<string, string|list<string>> */
+    private function parseHeaders($stream): array
+    {
+        $message = call_user_func('mailparse_msg_create');
+        try {
+            while (!feof($stream)) {
+                $chunk = fread($stream, 8192);
+                if ($chunk === false) {
+                    throw new RuntimeException('Could not read the message stream');
+                }
+                if ($chunk !== '' && call_user_func('mailparse_msg_parse', $message, $chunk) === false) {
+                    throw new RuntimeException('mailparse could not parse the message stream');
+                }
+            }
+            $partData = call_user_func('mailparse_msg_get_part_data', $message);
+            if (!isset($partData['headers']) || !is_array($partData['headers'])) {
+                throw new RuntimeException('mailparse did not return message headers');
+            }
+            $headers = [];
+            foreach ($partData['headers'] as $name => $values) {
+                if (!is_string($name)) {
+                    continue;
+                }
+                $values = is_array($values) ? $values : [$values];
+                foreach ($values as $value) {
+                    if (is_scalar($value)) {
+                        $headers[$name][] = (string)$value;
+                    }
+                }
+            }
+            return $headers;
+        } finally {
+            call_user_func('mailparse_msg_free', $message);
+        }
+    }
+
+    /**
+     * @param array<string, string|list<string>> $headers
+     * @return array<string, list<string>>
+     */
+    private function normalizeHeaders(array $headers): array
+    {
+        $normalized = [];
+        foreach ($headers as $name => $values) {
+            $name = strtolower(trim($name));
+            foreach (is_array($values) ? $values : [$values] as $value) {
+                $value = preg_replace('/\r?\n[ \t]+/', ' ', (string)$value) ?? (string)$value;
+                $value = preg_replace('/[\r\n]+/', ' ', $value) ?? $value;
+                $normalized[$name][] = trim($value);
+            }
+        }
+        return $normalized;
+    }
+
+    /** @param array<string, list<string>> $headers */
+    private function headerRejectionReason(array $headers): ?string
+    {
+        $rules = [
+            ['x-spam-flag', '/^\s*yes\b/i', 'X-Spam-Flag indicates spam'],
+            ['x-spam-status', '/^\s*yes\b/i', 'X-Spam-Status indicates spam'],
+            ['x-facebook-notify', '/.*/s', 'Facebook notification header found'],
+            ['x-amazon-mail-relay-type', '/^\s*notification\b/i', 'Amazon notification header found'],
+            ['precedence', '/^\s*(?:bulk|list|junk)\b/i', 'bulk or list Precedence header found'],
+            ['x-loop', '/^\s*postfix admin virtual vacation\b/i', 'Vacation loop header found'],
+            ['list-id', '/.*/s', 'List-Id header found'],
+            ['list-post', '/.*/s', 'List-Post header found'],
+            ['list-unsubscribe', '/.*/s', 'List-Unsubscribe header found'],
+            ['x-barracuda-spam-status', '/^\s*yes\b/i', 'Barracuda spam status header found'],
+            ['x-dspam-result', '/^\s*(?:spam|bl[ao]cklisted)\b/i', 'DSPAM rejection header found'],
+            ['x-virus-status', '/^\s*infected\b/i', 'virus status header found'],
+            ['x-antivirus-status', '/^\s*infected\b/i', 'antivirus status header found'],
+            ['x-avas-virus-status', '/^\s*infected\b/i', 'AVAS virus status header found'],
+            ['x-avas-spam-status', '/^\s*spam\b/i', 'AVAS spam status header found'],
+            ['x-spamtest-status', '/^\s*spam\b/i', 'SpamTest status header found'],
+            ['x-crm114-status', '/^\s*spam\b/i', 'CRM114 status header found'],
+            ['x-razor-status', '/^\s*spam\b/i', 'Razor status header found'],
+            ['x-pyzor-status', '/^\s*spam\b/i', 'Pyzor status header found'],
+            ['x-osbf-lua-score', '/^[0-9\.\/\-+]+\s+\[[\-S]\]/i', 'OSBF-Lua spam score header found'],
+            ['x-autogenerated', '/^\s*reply\b/i', 'automatic reply header found'],
+            ['x-auto-response-suppress', '/^\s*(?:oof|all)\b/i', 'automatic response suppression header found'],
+        ];
+        foreach ($rules as [$name, $pattern, $reason]) {
+            foreach ($headers[$name] ?? [] as $value) {
+                if (preg_match($pattern, $value)) {
+                    return $reason;
+                }
+            }
+        }
+        foreach ($headers['auto-submitted'] ?? [] as $value) {
+            if (!preg_match('/^\s*no\b/i', $value)) {
+                return 'Auto-Submitted indicates an automatically generated message';
+            }
+        }
+        return null;
+    }
+
+    /** @param array<string, list<string>> $headers */
+    private function firstHeader(array $headers, string $name): string
+    {
+        return $headers[$name][0] ?? '';
+    }
+
+    /** @return list<string> */
+    private function extractAddresses(string $value): array
+    {
+        if ($value === '') {
+            return [];
+        }
+        $addresses = [];
+        if (extension_loaded('mailparse')) {
+            $parsed = call_user_func('mailparse_rfc822_parse_addresses', $value);
+            foreach ($parsed as $entry) {
+                if (is_array($entry) && isset($entry['address'])) {
+                    $addresses[] = (string)$entry['address'];
+                }
+            }
+        } else {
+            preg_match_all(
+                "/[A-Z0-9.!#$%&'*+\\/=\?^_`{|}~-]+@[A-Z0-9.-]+/i",
+                $value,
+                $matches,
+            );
+            $addresses = $matches[0];
+        }
+        $valid = [];
+        foreach ($addresses as $address) {
+            $address = strtolower(trim($address, "<> \t\n\r\0\x0B"));
+            if (filter_var($address, FILTER_VALIDATE_EMAIL) === $address) {
+                $valid[$address] = $address;
+            }
+        }
+        return array_values($valid);
+    }
+
+    private function normalizeEnvelopeAddress(string $address): string
+    {
+        $address = strtolower(trim($address, "<> \t\n\r\0\x0B"));
+        return filter_var($address, FILTER_VALIDATE_EMAIL) === $address ? $address : '';
+    }
+
+    /** @param array<string, mixed> $configuration */
+    private function isNoReplyAddress(string $address, array $configuration): bool
+    {
+        $defaultPattern = (string)($configuration['message_default_noreply_pattern']
+            ?? self::DEFAULT_NOREPLY_PATTERN);
+        if ($defaultPattern !== '' && $this->matchesPattern($address, $defaultPattern)) {
+            return true;
+        }
+        $customEnabled = filter_var(
+            $configuration['message_custom_noreply_pattern'] ?? false,
+            FILTER_VALIDATE_BOOL,
+        );
+        $customPattern = trim((string)($configuration['message_noreply_pattern'] ?? ''));
+        return $customEnabled && $customPattern !== '' && $this->matchesPattern($address, $customPattern);
+    }
+
+    private function matchesPattern(string $value, string $pattern): bool
+    {
+        $result = @preg_match('~' . str_replace('~', '\\~', $pattern) . '~i', $value);
+        if ($result === false) {
+            throw new RuntimeException("Invalid configured message pattern: {$pattern}");
+        }
+        return $result === 1;
     }
 }
 
@@ -80,6 +389,9 @@ final class VacationCli
             if ($arguments['test']) {
                 return $this->runTest($arguments);
             }
+            if ($arguments['inspect_message'] !== null) {
+                return $this->runInspectMessage($arguments);
+            }
             if ($arguments['show_config_path']) {
                 return $this->showConfigPath($arguments);
             }
@@ -89,7 +401,8 @@ final class VacationCli
 
             $this->writeError(
                 'This initial version provides setup and diagnostics only; it does not send vacation replies. '
-                . 'Use --init-config, --check, or --test; do not install it in Postfix master.cf yet.' . PHP_EOL
+                . 'Use --init-config, --check, --test, or --inspect-message; '
+                . 'do not install it in Postfix master.cf yet.' . PHP_EOL
             );
             return 69;
         } catch (Throwable $exception) {
@@ -110,6 +423,7 @@ final class VacationCli
             'init_config' => false,
             'test' => false,
             'show_config_path' => false,
+            'inspect_message' => null,
             'version' => false,
             'config' => null,
             'import_legacy' => null,
@@ -143,6 +457,19 @@ final class VacationCli
             }
             if (!$positional && isset($actions[$argument])) {
                 $arguments[$actions[$argument]] = true;
+                ++$selectedActions;
+                continue;
+            }
+            if (!$positional && $argument === '--inspect-message') {
+                if (!isset($argv[$index + 1])) {
+                    throw new RuntimeException('Missing value for --inspect-message');
+                }
+                $arguments['inspect_message'] = $argv[++$index];
+                ++$selectedActions;
+                continue;
+            }
+            if (!$positional && str_starts_with($argument, '--inspect-message=')) {
+                $arguments['inspect_message'] = substr($argument, strlen('--inspect-message='));
                 ++$selectedActions;
                 continue;
             }
@@ -368,6 +695,26 @@ final class VacationCli
         ) {
             $values['vacation_domain'] = (string)$parsed['vacation']['domain'];
         }
+        if (isset($parsed['message']) && is_array($parsed['message'])) {
+            $mapping = [
+                'recipient_delimiter' => 'recipient_delimiter',
+                'no_vacation_pattern' => 'message_no_vacation_pattern',
+                'noreply_pattern' => 'message_noreply_pattern',
+                'default_noreply_pattern' => 'message_default_noreply_pattern',
+            ];
+            foreach ($mapping as $iniKey => $internalKey) {
+                if (array_key_exists($iniKey, $parsed['message'])) {
+                    $values[$internalKey] = (string)$parsed['message'][$iniKey];
+                }
+            }
+            if (array_key_exists('custom_noreply_pattern', $parsed['message'])) {
+                $values['message_custom_noreply_pattern'] = filter_var(
+                    $parsed['message']['custom_noreply_pattern'],
+                    FILTER_VALIDATE_BOOL,
+                    FILTER_NULL_ON_FAILURE,
+                ) ?? false;
+            }
+        }
         if (isset($parsed['smtp']) && is_array($parsed['smtp'])) {
             $values['smtp_server'] = trim((string)($parsed['smtp']['server'] ?? 'localhost'));
             $values['smtp_server_port'] = $this->validPort($parsed['smtp']['port'] ?? 25);
@@ -446,9 +793,15 @@ final class VacationCli
         return false;
     }
 
-    /** @param array<string, mixed> $smtpOptions */
-    public function renderConfig(string $root, string $server, int $port, string $helo, array $smtpOptions = []): string
-    {
+    /** @param array<string, mixed> $smtpOptions @param array<string, mixed> $messageOptions */
+    public function renderConfig(
+        string $root,
+        string $server,
+        int $port,
+        string $helo,
+        array $smtpOptions = [],
+        array $messageOptions = [],
+    ): string {
         $lines = [
             '# PostfixAdmin Virtual Vacation PHP configuration',
             '# Database settings and vacation_domain are inherited from PostfixAdmin.',
@@ -477,6 +830,27 @@ final class VacationCli
         foreach (['local_address', 'username', 'password'] as $key) {
             if ($optional[$key] !== '') {
                 $lines[] = $key . ' = ' . $this->iniValue((string)$optional[$key]);
+            }
+        }
+        $messageValues = [
+            'recipient_delimiter' => (string)($messageOptions['recipient_delimiter'] ?? ''),
+            'no_vacation_pattern' => (string)($messageOptions['no_vacation_pattern'] ?? ''),
+            'noreply_pattern' => (string)($messageOptions['noreply_pattern'] ?? ''),
+            'default_noreply_pattern' => (string)($messageOptions['default_noreply_pattern'] ?? ''),
+        ];
+        $customNoReply = filter_var(
+            $messageOptions['custom_noreply_pattern'] ?? false,
+            FILTER_VALIDATE_BOOL,
+        );
+        if (array_filter($messageValues, static fn ($value) => $value !== '') !== [] || $customNoReply) {
+            array_push($lines, '', '[message]');
+            foreach ($messageValues as $key => $value) {
+                if ($value !== '') {
+                    $lines[] = $key . ' = ' . $this->iniValue($value);
+                }
+            }
+            if ($customNoReply) {
+                $lines[] = 'custom_noreply_pattern = true';
             }
         }
         array_push(
@@ -535,6 +909,13 @@ final class VacationCli
             'username' => $legacy['smtp_authid'] ?? '',
             'password' => $legacy['smtp_authpwd'] ?? '',
         ];
+        $messageOptions = [
+            'recipient_delimiter' => $legacy['recipient_delimiter'] ?? '',
+            'no_vacation_pattern' => $legacy['no_vacation_pattern'] ?? '',
+            'custom_noreply_pattern' => $legacy['custom_noreply_pattern'] ?? false,
+            'noreply_pattern' => $legacy['noreply_pattern'] ?? '',
+            'default_noreply_pattern' => $legacy['default_noreply_pattern'] ?? '',
+        ];
         $destination = $this->expandHome(
             $this->nullableString($arguments['config']) ?? '/etc/postfixadmin/vacation-php.conf'
         );
@@ -555,7 +936,7 @@ final class VacationCli
         }
         if (file_put_contents(
             $destination,
-            $this->renderConfig($root, $server, $port, $helo, $smtpOptions),
+            $this->renderConfig($root, $server, $port, $helo, $smtpOptions, $messageOptions),
             LOCK_EX,
         ) === false) {
             throw new RuntimeException("Could not write configuration: {$destination}");
@@ -873,6 +1254,71 @@ final class VacationCli
             $this->smtpQuit($socket);
         }
         $this->write('Test message sent successfully.' . PHP_EOL);
+        return 0;
+    }
+
+    /** @param array<string, bool|string|null> $arguments */
+    private function runInspectMessage(array $arguments): int
+    {
+        $envelopeSender = $this->nullableString($arguments['envelope_sender']);
+        $envelopeRecipient = $this->nullableString($arguments['recipient']);
+        if ($envelopeSender === null || $envelopeRecipient === null) {
+            throw new RuntimeException('--inspect-message requires -f sender -- recipient');
+        }
+
+        $configuration = [];
+        $configPath = $this->findVacationConfig($this->nullableString($arguments['config']));
+        if ($configPath !== null) {
+            $loaded = $this->loadVacationConfig($configPath);
+            $configuration = $loaded['values'];
+            foreach ($loaded['warnings'] as $warning) {
+                $this->writeError("WARNING: {$warning}" . PHP_EOL);
+            }
+        }
+        $rootArgument = $this->nullableString($arguments['postfixadmin_root'])
+            ?? ($configuration['postfixadmin_root'] ?? null);
+        $roots = $this->discoverPostfixAdminRoots(is_string($rootArgument) ? $rootArgument : null);
+        if ($roots === []) {
+            throw new RuntimeException('No PostfixAdmin installation found; use --postfixadmin-root');
+        }
+        $postfixAdmin = $this->loadPostfixAdminConfig($this->choosePostfixAdminRoot($roots, true));
+        $configuration = array_replace($postfixAdmin, $configuration);
+
+        $messagePath = $this->nullableString($arguments['inspect_message']);
+        if ($messagePath === null) {
+            throw new RuntimeException('--inspect-message requires a file path or - for standard input');
+        }
+        $closeStream = false;
+        if ($messagePath === '-') {
+            $stream = $this->input;
+        } else {
+            $messagePath = $this->expandHome($messagePath);
+            $stream = fopen($messagePath, 'rb');
+            if ($stream === false) {
+                throw new RuntimeException("Could not open message: {$messagePath}");
+            }
+            $closeStream = true;
+        }
+        try {
+            $result = (new VacationMessageInspector())->inspectStream(
+                $stream,
+                $envelopeSender,
+                $envelopeRecipient,
+                $configuration,
+            );
+        } finally {
+            if ($closeStream) {
+                fclose($stream);
+            }
+        }
+
+        $status = $result->eligible ? 'ELIGIBLE' : 'IGNORED';
+        $this->write("Message inspection: {$status} - {$result->reason}" . PHP_EOL);
+        if ($result->eligible) {
+            $this->write("Envelope sender: {$result->envelopeSender}" . PHP_EOL);
+            $this->write("Vacation recipient: {$result->envelopeRecipient}" . PHP_EOL);
+            $this->write("Message-ID: {$result->messageId}" . PHP_EOL);
+        }
         return 0;
     }
 

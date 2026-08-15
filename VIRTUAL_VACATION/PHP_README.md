@@ -5,9 +5,10 @@ This is an initial PHP CLI modernization of
 model and credits its historical contributors in
 `VIRTUAL_VACATION/Contributions.txt`.
 
-> **Current status:** setup, diagnostics, and SMTP testing only. This version
-> does not read piped messages or send vacation replies. Do not replace
-> `vacation.pl` in Postfix `master.cf` yet.
+> **Current status:** setup, diagnostics, SMTP testing, and read-only message
+> inspection. This version does not query Vacation records, track
+> notifications, or send vacation replies. Do not replace `vacation.pl` in
+> Postfix `master.cf` yet.
 
 ## 1. Install the single runtime file
 
@@ -60,8 +61,8 @@ php -m | grep -E 'PDO|pdo_mysql|pdo_pgsql|pdo_sqlite|mbstring|mailparse'
 php --ri mailparse
 ```
 
-The current prototype checks `mailparse` in preparation for production message
-processing. It does not parse a message yet.
+The message inspection action uses `mailparse` to process the incoming stream
+and applies the safety decisions used by `vacation.pl`.
 
 ## 3. Locate PostfixAdmin
 
@@ -204,6 +205,15 @@ password = "change-me"
 [vacation]
 domain = "autoreply.example.org"
 
+# Optional message-policy overrides. Normally inherit recipient_delimiter
+# from PostfixAdmin and use the built-in no-reply protection.
+[message]
+recipient_delimiter = "+"
+no_vacation_pattern = ""
+custom_noreply_pattern = false
+noreply_pattern = "bounce|do-not-reply|facebook|linkedin|list-|myspace|twitter"
+default_noreply_pattern = "^(noreply|no-reply|do_not_reply|no_reply|postmaster|mailer-daemon|listserv|majordomo|owner-|request-|bounces-)|(-(owner|request|bounces)@)"
+
 [logging]
 syslog = true
 level = info
@@ -223,6 +233,16 @@ Defaults and behavior:
   client supports the server-advertised `PLAIN` and `LOGIN` mechanisms.
   `VACATION_SMTP_PASSWORD` can supply the password to the process without
   storing it in the file and takes precedence over `smtp.password`.
+- `message.recipient_delimiter`: optional override for the value inherited
+  from PostfixAdmin.
+- `message.no_vacation_pattern`: optional regular-expression fragment for To
+  addresses that must never trigger a Vacation reply.
+- `message.custom_noreply_pattern` and `message.noreply_pattern`: enable and
+  define an additional sender exclusion pattern.
+- `message.default_noreply_pattern`: optional override for the built-in
+  protection against bounce, daemon, list, owner, and request addresses. Omit
+  it to retain the built-in expression; an explicitly empty value disables
+  that protection and is not recommended.
 - `logging.syslog`: `true`; reserved for production processing
 - `logging.level`: `info`; reserved for production processing
 
@@ -278,9 +298,11 @@ php /opt/postfixadmin/vacation.php --init-config \
 The importer reads only simple assignments. In addition to `smtp_server`,
 `smtp_server_port`, and `smtp_helo`, it preserves `smtp_ssl`, `smtp_timeout`,
 `smtp_client`, `smtp_authid`, and `smtp_authpwd` when present. It does not
-execute the Perl file and does not modify it. Perl `smtp_ssl` values map as
-follows: `0` to `none`, `1` to `ssl`, while `starttls` and `maybestarttls`
-retain their names.
+execute the Perl file and does not modify it. It also preserves simple
+`recipient_delimiter`, `no_vacation_pattern`, `custom_noreply_pattern`,
+`noreply_pattern`, and `default_noreply_pattern` assignments. Perl `smtp_ssl`
+values map as follows: `0` to `none`, `1` to `ssl`, while `starttls` and
+`maybestarttls` retain their names.
 
 If `vacation-php.conf` already exists, setup stops without changing it. Use
 `--force` only when replacing the PHP configuration is intentional. A file
@@ -330,16 +352,56 @@ binding, timeouts, and SMTP authentication preserve the corresponding
 `vacation.pl` delivery choices. TLS certificate and hostname verification are
 enabled.
 
-## 11. Running without an action
+## 11. Inspect an incoming message without sending a reply
+
+The inspection action reads a message, evaluates the same header protections
+that start at [line 746 of `vacation.pl`](https://github.com/postfixadmin/postfixadmin/blob/master/VIRTUAL_VACATION/vacation.pl#L746),
+and reports whether it is eligible for later Vacation processing:
+
+```bash
+php /opt/postfixadmin/vacation.php \
+  --inspect-message /path/to/message.eml \
+  --config /etc/postfixadmin/vacation-php.conf \
+  -f sender@example.org -- user#example.org@autoreply.example.org
+```
+
+Use `--inspect-message -` to read the message from standard input. The action:
+
+- reads MIME headers with `mailparse` and does not inspect message-body content
+- requires From, To, Message-ID, envelope sender, and envelope recipient
+- restores the real recipient from the configured `vacation_domain`
+- honors the configured recipient delimiter
+- rejects spam, virus, bulk, list, automatic-response, and Vacation-loop headers
+- rejects invalid, no-reply, self-addressed, and configured excluded addresses
+- performs no database writes and sends no message
+
+An intentionally ignored message exits successfully, matching the safe pipe
+behavior of `vacation.pl`, and prints the reason:
+
+```text
+Message inspection: IGNORED - bulk or list Precedence header found
+```
+
+An eligible message reports the normalized envelope information but is not
+sent or recorded:
+
+```text
+Message inspection: ELIGIBLE - message is eligible for Vacation processing
+```
+
+This action exists to validate parsing and safety parity. It is not the final
+Postfix transport.
+
+## 12. Running without an action
 
 Running the script without an action prints one line, performs no external
 operation, and exits:
 
 ```text
-This initial version provides setup and diagnostics only; it does not send vacation replies. Use --init-config, --check, or --test; do not install it in Postfix master.cf yet.
+This initial version provides setup and diagnostics only; it does not send vacation replies. Use --init-config, --check, --test, or --inspect-message; do not install it in Postfix master.cf yet.
 ```
 
-## 12. Keep the Perl transport for now
+## 13. Keep the Perl transport for now
 
 Continue using the existing production transport:
 
@@ -348,9 +410,10 @@ vacation    unix  -       n       n       -       -       pipe
   flags=Rq user=vmail argv=/opt/postfixadmin/vacation.pl -f ${sender} -- ${recipient}
 ```
 
-Do not point Postfix to `vacation.php` until message parsing, vacation lookup,
-notification tracking, reply generation, exit-status handling, and production
-tests are implemented.
+Do not point Postfix to `vacation.php` until Vacation lookup, notification
+tracking, reply generation, full exit-status behavior, and production transport
+tests are implemented. Header parsing and rejection decisions are present, but
+they are not yet connected to delivery.
 
 The eventual PHP CLI transport can preserve the same contract, for example:
 
