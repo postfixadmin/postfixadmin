@@ -299,10 +299,8 @@ final class VacationCli
 
         $previous = $GLOBALS['CONF'] ?? null;
         $hadPrevious = array_key_exists('CONF', $GLOBALS);
-        $GLOBALS['CONF'] = [];
         try {
-            require $configFile;
-            $configuration = $GLOBALS['CONF'];
+            $configuration = $this->includePostfixAdminConfig($configFile);
         } finally {
             if ($hadPrevious) {
                 $GLOBALS['CONF'] = $previous;
@@ -323,6 +321,15 @@ final class VacationCli
             $configuration['resolved_tables'][$key] = $prefix . (string)($mapping[$key] ?? $key);
         }
         return $configuration;
+    }
+
+    private function includePostfixAdminConfig(string $configFile): mixed
+    {
+        global $CONF;
+
+        $CONF = [];
+        require $configFile;
+        return $CONF;
     }
 
     /** @return array{values: array<string, mixed>, warnings: list<string>} */
@@ -689,7 +696,7 @@ final class VacationCli
      * @param array<string, mixed> $configuration
      * @param list<CheckResult> $results
      */
-    private function checkDatabase(array $configuration, bool $dependenciesOk, array &$results): bool
+    private function checkDatabase(array $configuration, bool $dependenciesOk, array &$results): void
     {
         if ($this->normalizeDatabaseType($configuration['database_type'] ?? '') === '') {
             $results[] = new CheckResult(
@@ -698,16 +705,15 @@ final class VacationCli
                 'NOT TESTED',
                 'PostfixAdmin database configuration was not loaded',
             );
-            return false;
+            return;
         }
         if (!$dependenciesOk) {
             $results[] = new CheckResult('Database', 'Connection', 'NOT TESTED', 'the required PDO driver is missing');
-            return false;
+            return;
         }
         try {
             $database = $this->connectDatabase($configuration);
             $results[] = new CheckResult('Database', 'Connection', 'OK');
-            $allTablesOk = true;
             $tables = is_array($configuration['resolved_tables'] ?? null)
                 ? $configuration['resolved_tables']
                 : array_combine(self::TABLE_KEYS, self::TABLE_KEYS);
@@ -715,7 +721,6 @@ final class VacationCli
                 $table = (string)($tables[$key] ?? $key);
                 if (!preg_match('/^[A-Za-z_][A-Za-z0-9_$]*$/', $table)) {
                     $results[] = new CheckResult('Database', "Table {$key}", 'FAILED', "unsafe identifier: {$table}");
-                    $allTablesOk = false;
                     continue;
                 }
                 $quoted = $this->quoteIdentifier($table, $this->normalizeDatabaseType($configuration['database_type'] ?? ''));
@@ -724,18 +729,15 @@ final class VacationCli
                     $results[] = new CheckResult('Database', "Table {$key}", 'OK', $table);
                 } catch (Throwable $exception) {
                     $results[] = new CheckResult('Database', "Table {$key}", 'FAILED', $exception->getMessage());
-                    $allTablesOk = false;
                 }
             }
-            return $allTablesOk;
         } catch (Throwable $exception) {
             $results[] = new CheckResult('Database', 'Connection', 'FAILED', $exception->getMessage());
-            return false;
         }
     }
 
     /** @param list<CheckResult> $results */
-    private function checkSmtp(array $configuration, array &$results): bool
+    private function checkSmtp(array $configuration, array &$results): void
     {
         $server = (string)($configuration['smtp_server'] ?? 'localhost');
         $port = $this->validPort($configuration['smtp_server_port'] ?? 25);
@@ -743,7 +745,7 @@ final class VacationCli
         $helo = trim((string)($configuration['smtp_helo'] ?? '')) ?: $this->detectedFqdn();
         if ($helo === null || !$this->validHelo($helo)) {
             $results[] = new CheckResult('Delivery', 'SMTP', 'FAILED', 'a valid configured or detected HELO is required');
-            return false;
+            return;
         }
         try {
             $socket = $this->smtpConnect($configuration, $helo);
@@ -754,13 +756,11 @@ final class VacationCli
             }
             if ($code >= 200 && $code < 400) {
                 $results[] = new CheckResult('Delivery', 'SMTP', 'OK', "{$server}:{$port} ({$security})");
-                return true;
+                return;
             }
             $results[] = new CheckResult('Delivery', 'SMTP', 'FAILED', "NOOP returned {$code}: {$response}");
-            return false;
         } catch (Throwable $exception) {
             $results[] = new CheckResult('Delivery', 'SMTP', 'FAILED', "{$server}:{$port}: {$exception->getMessage()}");
-            return false;
         }
     }
 
@@ -802,6 +802,18 @@ final class VacationCli
                 'MISSING',
                 'no installation found; use --postfixadmin-root /path/to/postfixadmin',
             );
+        }
+
+        if (!$dependenciesOnly) {
+            $vacationDomain = trim((string)($configuration['vacation_domain'] ?? ''));
+            $results[] = $vacationDomain !== ''
+                ? new CheckResult('Configuration', 'Vacation domain', 'OK', $vacationDomain)
+                : new CheckResult(
+                    'Configuration',
+                    'Vacation domain',
+                    'MISSING',
+                    'set vacation_domain in PostfixAdmin or [vacation] domain in vacation-php.conf',
+                );
         }
 
         $this->checkDependencies($configuration, $results);

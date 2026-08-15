@@ -295,7 +295,9 @@ php /opt/postfixadmin/vacation.php --check \
 
 The complete check validates PHP, extensions, effective PostfixAdmin
 configuration, database connectivity, the five required tables, and SMTP
-connectivity. It does not send a message.
+connectivity. It also displays the effective Vacation domain inherited from
+PostfixAdmin or selected by the optional `[vacation]` override. It does not
+send a message.
 
 ## 10. Send a simple SMTP test
 

@@ -150,6 +150,7 @@ $CONF['database_password'] = 'local-secret';
 PHP);
             $configuration = $cli->loadPostfixAdminConfig($directory);
             $this->same('local-secret', $configuration['database_password']);
+            $this->same('autoreply.example.org', $configuration['vacation_domain']);
             $this->same('pfa_away', $configuration['resolved_tables']['vacation']);
             $this->same('pfa_alias', $configuration['resolved_tables']['alias']);
             $this->same([realpath($directory)], $cli->discoverPostfixAdminRoots($directory));
