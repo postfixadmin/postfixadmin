@@ -7,7 +7,7 @@ class PFASmarty
 {
     public static ?self $instance = null;
 
-    protected Smarty $template;
+    protected \Smarty\Smarty $template;
 
     public static function getInstance()
     {
@@ -29,7 +29,9 @@ class PFASmarty
             $theme = $CONF['theme'];
         }
 
-        $this->template = new Smarty();
+        $this->template = new \Smarty\Smarty();
+        // Smarty 5 no longer lets templates call native PHP functions unless they're registered first.
+        $this->template->registerPlugin('modifier', 'htmlentities', 'htmlentities');
         $this->template->registerPlugin('function', 'htmlentities', 'htmlentities');
         $this->template->registerPlugin('modifier', 'htmlentities_no_double_encode', function (string $string) {
             return htmlentities($string, ENT_QUOTES, 'UTF-8', false);
