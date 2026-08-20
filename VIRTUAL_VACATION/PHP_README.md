@@ -142,7 +142,7 @@ The command:
 1. Loads effective PostfixAdmin configuration.
 2. Shows the selected database while hiding its password.
 3. Prompts for SMTP server, port, and HELO; Enter accepts each proposed value.
-4. Creates `/etc/postfixadmin/vacation-php.conf` with mode `0640`.
+4. Creates `/etc/postfixadmin/vacation.ini` with mode `0640`.
 5. Leaves owner and group selection to the administrator.
 
 Example generated file:
@@ -168,10 +168,10 @@ The PHP configuration is deliberately separate from the Perl file:
 
 ```text
 /etc/postfixadmin/vacation.conf       existing Perl configuration
-/etc/postfixadmin/vacation-php.conf   PHP configuration
+/etc/postfixadmin/vacation.ini        PHP configuration
 ```
 
-Creating `vacation-php.conf` never modifies `vacation.conf`.
+Creating `vacation.ini` never modifies `vacation.conf`.
 
 ## 6. General configuration reference
 
@@ -269,9 +269,9 @@ Defaults and behavior:
 
 Without `--config`, the script searches in this order:
 
-1. `/etc/mail/postfixadmin/vacation-php.conf`
-2. `/etc/postfixadmin/vacation-php.conf`
-3. `vacation-php.conf` in the current working directory
+1. `/etc/mail/postfixadmin/vacation.ini`
+2. `/etc/postfixadmin/vacation.ini`
+3. `vacation.ini` in the current working directory
 
 Show the selected path with:
 
@@ -327,7 +327,7 @@ values map as follows: `0` to `none`, `1` to `ssl`, while `starttls` and
 `logfile`. Perl `strftime` date tokens are converted to their PHP equivalents
 when the native configuration is generated.
 
-If `vacation-php.conf` already exists, setup stops without changing it. Use
+If `vacation.ini` already exists, setup stops without changing it. Use
 `--force` only when replacing the PHP configuration is intentional. A file
 recognized as Perl configuration is never overwritten, even with `--force`.
 
@@ -335,7 +335,7 @@ recognized as Perl configuration is never overwritten, even with `--force`.
 
 ```bash
 php /opt/postfixadmin/vacation.php --check \
-  --config /etc/postfixadmin/vacation-php.conf
+  --config /etc/postfixadmin/vacation.ini
 ```
 
 The complete check validates PHP, extensions, effective PostfixAdmin
@@ -348,10 +348,10 @@ Vacation domain inherited from PostfixAdmin or selected by the optional
 
 ```bash
 php /opt/postfixadmin/vacation.php --test \
-  --config /etc/postfixadmin/vacation-php.conf
+  --config /etc/postfixadmin/vacation.ini
 ```
 
-SMTP server, port, and configured HELO come from `vacation-php.conf` and are
+SMTP server, port, and configured HELO come from `vacation.ini` and are
 not prompted again. HELO is prompted only when it is neither configured nor
 detectable. The test asks only for the envelope addresses:
 
@@ -384,7 +384,7 @@ and reports whether it is eligible for later Vacation processing:
 ```bash
 php /opt/postfixadmin/vacation.php \
   --inspect-message /path/to/message.eml \
-  --config /etc/postfixadmin/vacation-php.conf \
+  --config /etc/postfixadmin/vacation.ini \
   -f sender@example.org -- user#example.org@autoreply.example.org
 ```
 
@@ -421,7 +421,7 @@ The normal pipe contract is compatible with `vacation.pl`:
 
 ```bash
 php /opt/postfixadmin/vacation.php \
-  --config /etc/postfixadmin/vacation-php.conf \
+  --config /etc/postfixadmin/vacation.ini \
   -f sender@example.org -- user#example.org@autoreply.example.org < message.eml
 ```
 

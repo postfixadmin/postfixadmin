@@ -50,12 +50,12 @@ final class VacationPhpTest
         $arguments = $cli->parseArguments([
             'vacation.php',
             '--check',
-            '--config=/etc/postfixadmin/vacation-php.conf',
+            '--config=/etc/postfixadmin/vacation.ini',
             '--postfixadmin-root',
             '/var/www/postfixadmin',
         ]);
         $this->true($arguments['check']);
-        $this->same('/etc/postfixadmin/vacation-php.conf', $arguments['config']);
+        $this->same('/etc/postfixadmin/vacation.ini', $arguments['config']);
         $this->same('/var/www/postfixadmin', $arguments['postfixadmin_root']);
         $inspection = $cli->parseArguments([
             'vacation.php',
@@ -86,7 +86,7 @@ final class VacationPhpTest
         $cli = new VacationCli();
         $directory = $this->temporaryDirectory();
         try {
-            $path = $directory . '/vacation-php.conf';
+            $path = $directory . '/vacation.ini';
             file_put_contents($path, $cli->renderConfig('/var/www/html/postfixadmin', 'localhost', 25, 'mail.example.org'));
             $loaded = $cli->loadVacationConfig($path);
             $this->same([], $loaded['warnings']);
@@ -168,8 +168,8 @@ final class VacationPhpTest
                 'file_enabled' => $loaded['values']['log_to_file'],
                 'file' => $loaded['values']['logfile'],
             ]);
-            file_put_contents($directory . '/vacation-php.conf', $rendered);
-            $phpConfiguration = $cli->loadVacationConfig($directory . '/vacation-php.conf');
+            file_put_contents($directory . '/vacation.ini', $rendered);
+            $phpConfiguration = $cli->loadVacationConfig($directory . '/vacation.ini');
             $this->same('starttls', $phpConfiguration['values']['smtp_security']);
             $this->same(30, $phpConfiguration['values']['smtp_timeout']);
             $this->same('192.0.2.10', $phpConfiguration['values']['smtp_local_address']);

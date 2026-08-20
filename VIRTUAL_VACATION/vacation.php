@@ -778,9 +778,9 @@ final class VacationCli
     public function defaultConfigPaths(): array
     {
         return [
-            '/etc/mail/postfixadmin/vacation-php.conf',
-            '/etc/postfixadmin/vacation-php.conf',
-            getcwd() . DIRECTORY_SEPARATOR . 'vacation-php.conf',
+            '/etc/mail/postfixadmin/vacation.ini',
+            '/etc/postfixadmin/vacation.ini',
+            getcwd() . DIRECTORY_SEPARATOR . 'vacation.ini',
         ];
     }
 
@@ -1246,14 +1246,14 @@ final class VacationCli
             'file' => $legacy['logfile'] ?? '/var/log/vacation.log',
         ];
         $destination = $this->expandHome(
-            $this->nullableString($arguments['config']) ?? '/etc/postfixadmin/vacation-php.conf'
+            $this->nullableString($arguments['config']) ?? '/etc/postfixadmin/vacation.ini'
         );
         if ($legacyPath !== null && $this->samePath($destination, $legacyPath)) {
             throw new RuntimeException('The PHP configuration destination cannot be the legacy Perl configuration');
         }
         if (is_file($destination) && $this->isLegacyConfig($destination)) {
             throw new RuntimeException(
-                'Refusing to overwrite a Perl vacation.conf; use a separate vacation-php.conf path'
+                'Refusing to overwrite a Perl vacation.conf; use a separate vacation.ini path'
             );
         }
         if (file_exists($destination) && !(bool)$arguments['force']) {
@@ -1575,7 +1575,7 @@ final class VacationCli
                     'Configuration',
                     'Vacation domain',
                     'MISSING',
-                    'set vacation_domain in PostfixAdmin or [vacation] domain in vacation-php.conf',
+                    'set vacation_domain in PostfixAdmin or [vacation] domain in vacation.ini',
                 );
         }
 
@@ -1604,7 +1604,7 @@ final class VacationCli
     {
         $path = $this->findVacationConfig($this->nullableString($arguments['config']));
         if ($path === null) {
-            throw new RuntimeException('No vacation-php.conf found; run --init-config first or use --config');
+            throw new RuntimeException('No vacation.ini found; run --init-config first or use --config');
         }
         $loaded = $this->loadVacationConfig($path);
         foreach ($loaded['warnings'] as $warning) {
@@ -1761,7 +1761,7 @@ final class VacationCli
     {
         $path = $this->findVacationConfig($this->nullableString($arguments['config']));
         if ($path === null) {
-            throw new RuntimeException('No vacation-php.conf found; run --init-config first or use --config');
+            throw new RuntimeException('No vacation.ini found; run --init-config first or use --config');
         }
         $loaded = $this->loadVacationConfig($path);
         $configuration = $loaded['values'];
@@ -1950,7 +1950,7 @@ final class VacationCli
     {
         $path = $this->findVacationConfig($this->nullableString($arguments['config']));
         if ($path === null) {
-            $this->writeError('No vacation-php.conf found' . PHP_EOL);
+            $this->writeError('No vacation.ini found' . PHP_EOL);
             return 1;
         }
         $this->write($path . PHP_EOL);
