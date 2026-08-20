@@ -431,7 +431,8 @@ The production path:
 - restores the original recipient from `vacation_domain`
 - resolves direct Vacation records, aliases, alias domains, and catch-all aliases
 - requires an active record within `activefrom` and `activeuntil`
-- inserts or updates `vacation_notification` and honors `interval_time`
+- atomically claims or renews `vacation_notification` and honors
+  `interval_time`, preventing concurrent messages from both sending a reply
 - releases a newly claimed notification when generation or delivery fails so a
   Postfix retry is not suppressed
 - substitutes `$SUBJECT` and configured date placeholders
@@ -440,8 +441,12 @@ The production path:
 - delivers through SMTP, TLS/SSL/STARTTLS and authentication, or `sendmail`
 
 Ignored messages and recipients without active Vacation exit successfully.
-Operational failures exit with status `75` so Postfix can treat them as
-temporary failures instead of silently losing the reply.
+Exit statuses distinguish failures so Postfix does not retry permanent errors:
+
+- `64`: invalid command-line usage
+- `65`: invalid message data that cannot be parsed
+- `75`: temporary database, SMTP, sendmail, or I/O failure
+- `78`: invalid configuration or a missing required runtime dependency
 
 The legacy `-t yes` transport option generates and prints the reply without
 delivery. As in `vacation.pl`, it still performs the database and notification

@@ -28,6 +28,8 @@ final class VacationPhpTest
         $this->testHistoricalMessageFixtures();
         $this->testReplyComposition();
         $this->testVacationRepository();
+        $this->testTransportExitStatuses();
+        $this->testCompleteTransport();
 
         fwrite(STDOUT, "OK ({$this->assertions} assertions)" . PHP_EOL);
     }
@@ -432,13 +434,15 @@ PHP);
         $insert = $database->prepare(
             'INSERT INTO vacation VALUES (?, ?, ?, ?, ?, ?, ?)'
         );
+        $activeFrom = date('Y-m-d H:i:s', time() - 86400);
+        $activeUntil = date('Y-m-d H:i:s', time() + 86400);
         foreach (['user@example.org', 'bob@example.org', 'alice@example.org'] as $email) {
             $insert->execute([
                 $email,
                 'Away',
                 'Body',
-                '2026-01-01 00:00:00',
-                '2026-12-31 23:59:59',
+                $activeFrom,
+                $activeUntil,
                 0,
                 1,
             ]);
@@ -485,9 +489,177 @@ PHP);
         $database->exec("UPDATE vacation_notification SET notified_at = '2026-01-01 00:00:00'");
         $vacation = $repository->findActiveVacation('user@example.org', 'autoreply.example.org');
         $this->true($repository->claimNotification($vacation, 'sender@example.net'));
+        $this->false($repository->claimNotification($vacation, 'sender@example.net'));
+        $newActiveFrom = date('Y-m-d H:i:s', time() - 3600);
+        $oldNotification = date('Y-m-d H:i:s', time() - 7200);
+        $statement = $database->prepare(
+            "UPDATE vacation SET activefrom = ?, interval_time = 0 WHERE email = 'user@example.org'"
+        );
+        $statement->execute([$newActiveFrom]);
+        $statement = $database->prepare('UPDATE vacation_notification SET notified_at = ?');
+        $statement->execute([$oldNotification]);
+        $vacation = $repository->findActiveVacation('user@example.org', 'autoreply.example.org');
+        $this->true($repository->claimNotification($vacation, 'sender@example.net'));
         $this->same('Example User', $repository->accountName('user@example.org'));
         $repository->forgetNotification('user@example.org', 'sender@example.net');
         $this->same(0, (int)$database->query('SELECT COUNT(*) FROM vacation_notification')->fetchColumn());
+    }
+
+    private function testTransportExitStatuses(): void
+    {
+        $output = fopen('php://memory', 'r+');
+        $error = fopen('php://memory', 'r+');
+        $cli = new VacationCli(null, $output, $error);
+        $this->same(64, $cli->run(['vacation.php', '--unknown-option']));
+        $this->same(78, $cli->run([
+            'vacation.php',
+            '--config',
+            '/path/that/does/not/exist/vacation.ini',
+            '-f',
+            'sender@example.net',
+            '--',
+            'user@example.org',
+        ]));
+    }
+
+    private function testCompleteTransport(): void
+    {
+        if (PHP_OS_FAMILY === 'Windows'
+            || !extension_loaded('mailparse')
+            || !in_array('sqlite', PDO::getAvailableDrivers(), true)
+        ) {
+            return;
+        }
+
+        $directory = $this->temporaryDirectory();
+        try {
+            $databasePath = $directory . '/vacation.sqlite';
+            $deliveredPath = $directory . '/delivered.eml';
+
+            file_put_contents($directory . '/config.inc.php', '<?php' . PHP_EOL . '$CONF = [' . PHP_EOL
+                . "    'database_type' => 'sqlite'," . PHP_EOL
+                . "    'database_name' => " . var_export($databasePath, true) . ',' . PHP_EOL
+                . "    'vacation_domain' => 'autoreply.example.org'," . PHP_EOL
+                . '];' . PHP_EOL
+                . "require __DIR__ . '/config.local.php';" . PHP_EOL);
+            file_put_contents($directory . '/config.local.php', "<?php\n");
+
+            $database = new PDO('sqlite:' . $databasePath);
+            $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $database->exec('CREATE TABLE vacation ('
+                . 'email TEXT PRIMARY KEY, subject TEXT, body TEXT, activefrom TEXT, activeuntil TEXT, '
+                . 'interval_time INTEGER, active INTEGER)');
+            $database->exec('CREATE TABLE vacation_notification ('
+                . 'on_vacation TEXT, notified TEXT, notified_at TEXT DEFAULT CURRENT_TIMESTAMP, '
+                . 'PRIMARY KEY (on_vacation, notified))');
+            $database->exec('CREATE TABLE alias (address TEXT, goto TEXT)');
+            $database->exec('CREATE TABLE alias_domain (alias_domain TEXT, target_domain TEXT)');
+            $database->exec('CREATE TABLE mailbox (username TEXT, name TEXT)');
+            $insert = $database->prepare('INSERT INTO vacation VALUES (?, ?, ?, ?, ?, ?, ?)');
+            $insert->execute([
+                'user@example.org',
+                'Away: $SUBJECT',
+                'I am away.',
+                date('Y-m-d H:i:s', time() - 3600),
+                date('Y-m-d H:i:s', time() + 3600),
+                3600,
+                1,
+            ]);
+            $database->exec("INSERT INTO mailbox VALUES ('user@example.org', 'Example User')");
+
+            $configurationPath = $directory . '/vacation.ini';
+            [$smtpProcess, $smtpPort] = $this->startSmtpServer($directory, $deliveredPath);
+            $this->writeTransportConfiguration($configurationPath, $directory, $smtpPort);
+            $message = implode("\r\n", [
+                'From: Sender <sender@example.net>',
+                'To: User <user@example.org>',
+                'Subject: Integration test',
+                'Message-ID: <integration@example.net>',
+                '',
+                'Message body.',
+                '',
+            ]);
+
+            $this->same(0, $this->runTransport($configurationPath, $message, 'sender@example.net'));
+            $this->same(0, proc_close($smtpProcess));
+            $delivered = file_get_contents($deliveredPath);
+            $this->true(is_string($delivered));
+            $this->true(str_contains((string)$delivered, 'To: sender@example.net'));
+            $this->true(str_contains((string)$delivered, 'Subject: Away: Integration test'));
+            $this->same(1, (int)$database->query('SELECT COUNT(*) FROM vacation_notification')->fetchColumn());
+
+            $deliveredSize = filesize($deliveredPath);
+            $this->same(0, $this->runTransport($configurationPath, $message, 'sender@example.net'));
+            clearstatcache(true, $deliveredPath);
+            $this->same($deliveredSize, filesize($deliveredPath));
+
+            $this->writeTransportConfiguration($configurationPath, $directory, $smtpPort);
+            $this->same(75, $this->runTransport($configurationPath, $message, 'failure@example.net'));
+            $statement = $database->query(
+                "SELECT COUNT(*) FROM vacation_notification WHERE notified = 'failure@example.net'"
+            );
+            $this->same(0, (int)$statement->fetchColumn());
+        } finally {
+            $this->removeDirectory($directory);
+        }
+    }
+
+    /** @return array{0: resource, 1: int} */
+    private function startSmtpServer(string $directory, string $deliveredPath): array
+    {
+        $readyPath = $directory . '/smtp-port';
+        $process = proc_open(
+            [PHP_BINARY, __DIR__ . '/mock_smtp.php', $readyPath, $deliveredPath],
+            [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']],
+            $pipes,
+        );
+        if (!is_resource($process)) {
+            throw new RuntimeException('Could not start the mock SMTP server');
+        }
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+        for ($attempt = 0; $attempt < 200 && !is_file($readyPath); ++$attempt) {
+            usleep(10000);
+        }
+        $port = is_file($readyPath) ? filter_var(trim((string)file_get_contents($readyPath)), FILTER_VALIDATE_INT) : false;
+        if ($port === false) {
+            proc_terminate($process);
+            proc_close($process);
+            throw new RuntimeException('The mock SMTP server did not become ready');
+        }
+        return [$process, $port];
+    }
+
+    private function writeTransportConfiguration(string $path, string $root, int $smtpPort): void
+    {
+        file_put_contents($path, implode(PHP_EOL, [
+            '[postfixadmin]',
+            'root = "' . addcslashes($root, '\\"') . '"',
+            '[smtp]',
+            'server = "127.0.0.1"',
+            'port = ' . $smtpPort,
+            'helo = "vacation.test"',
+            '[logging]',
+            'syslog = false',
+            '',
+        ]));
+    }
+
+    private function runTransport(string $configurationPath, string $message, string $sender): int
+    {
+        $input = fopen('php://memory', 'r+');
+        fwrite($input, $message);
+        rewind($input);
+        return (new VacationCli($input, fopen('php://memory', 'r+'), fopen('php://memory', 'r+')))->run([
+            'vacation.php',
+            '--config',
+            $configurationPath,
+            '-f',
+            $sender,
+            '--',
+            'user#example.org@autoreply.example.org',
+        ]);
     }
 
     /** @return array<string, list<string>> */

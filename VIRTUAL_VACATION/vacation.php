@@ -21,6 +21,38 @@ use PDOException;
 use RuntimeException;
 use Throwable;
 
+abstract class VacationCliException extends RuntimeException
+{
+    public function __construct(string $message, public readonly int $exitStatus)
+    {
+        parent::__construct($message);
+    }
+}
+
+final class UsageException extends VacationCliException
+{
+    public function __construct(string $message)
+    {
+        parent::__construct($message, 64);
+    }
+}
+
+final class ConfigurationException extends VacationCliException
+{
+    public function __construct(string $message)
+    {
+        parent::__construct($message, 78);
+    }
+}
+
+final class MessageDataException extends VacationCliException
+{
+    public function __construct(string $message)
+    {
+        parent::__construct($message, 65);
+    }
+}
+
 final class CheckResult
 {
     public function __construct(
@@ -66,7 +98,7 @@ final class VacationMessageInspector
         array $configuration,
     ): MessageInspectionResult {
         if (!extension_loaded('mailparse')) {
-            throw new RuntimeException('The mailparse extension is required to inspect a message stream');
+            throw new ConfigurationException('The mailparse extension is required to inspect a message stream');
         }
         return $this->inspectHeaders(
             $this->parseHeaders($stream),
@@ -186,12 +218,12 @@ final class VacationMessageInspector
                     throw new RuntimeException('Could not read the message stream');
                 }
                 if ($chunk !== '' && call_user_func('mailparse_msg_parse', $message, $chunk) === false) {
-                    throw new RuntimeException('mailparse could not parse the message stream');
+                    throw new MessageDataException('mailparse could not parse the message stream');
                 }
             }
             $partData = call_user_func('mailparse_msg_get_part_data', $message);
             if (!isset($partData['headers']) || !is_array($partData['headers'])) {
-                throw new RuntimeException('mailparse did not return message headers');
+                throw new MessageDataException('mailparse did not return message headers');
             }
             $headers = [];
             foreach ($partData['headers'] as $name => $values) {
@@ -335,7 +367,7 @@ final class VacationMessageInspector
     {
         $result = @preg_match('~' . str_replace('~', '\\~', $pattern) . '~i', $value);
         if ($result === false) {
-            throw new RuntimeException("Invalid configured message pattern: {$pattern}");
+            throw new ConfigurationException("Invalid configured message pattern: {$pattern}");
         }
         return $result === 1;
     }
@@ -352,7 +384,7 @@ final class VacationRepository
         foreach (['vacation', 'vacation_notification', 'alias', 'alias_domain', 'mailbox'] as $key) {
             $identifier = (string)($tables[$key] ?? $key);
             if (!preg_match('/^[A-Za-z_][A-Za-z0-9_$]*$/', $identifier)) {
-                throw new RuntimeException("Unsafe table identifier: {$identifier}");
+                throw new ConfigurationException("Unsafe table identifier: {$identifier}");
             }
             $this->tables[$key] = $this->quoteIdentifier($identifier);
         }
@@ -457,52 +489,47 @@ final class VacationRepository
     {
         $email = strtolower((string)$vacation['email']);
         $sender = strtolower($sender);
-        $statement = $this->database->prepare(
-            "SELECT notified_at FROM {$this->tables['vacation_notification']} "
-            . 'WHERE on_vacation = ? AND notified = ?'
-        );
-        $statement->execute([$email, $sender]);
-        $notifiedAt = $statement->fetchColumn();
-        $activeFrom = strtotime((string)($vacation['activefrom'] ?? ''));
-        if (is_string($notifiedAt) && $activeFrom !== false && strtotime($notifiedAt) < $activeFrom) {
-            $delete = $this->database->prepare(
-                "DELETE FROM {$this->tables['vacation_notification']} WHERE on_vacation = ? AND notified = ?"
+        try {
+            $insert = $this->database->prepare(
+                "INSERT INTO {$this->tables['vacation_notification']} "
+                . '(on_vacation, notified) VALUES (?, ?)'
             );
-            $delete->execute([$email, $sender]);
-            $notifiedAt = false;
-        }
-
-        if ($notifiedAt === false) {
-            try {
-                $insert = $this->database->prepare(
-                    "INSERT INTO {$this->tables['vacation_notification']} "
-                    . '(on_vacation, notified) VALUES (?, ?)'
-                );
-                $insert->execute([$email, $sender]);
-                return true;
-            } catch (PDOException $exception) {
-                if (!in_array((string)$exception->getCode(), ['23000', '23505'], true)) {
-                    throw $exception;
-                }
-                $statement->execute([$email, $sender]);
-                $notifiedAt = $statement->fetchColumn();
+            $insert->execute([$email, $sender]);
+            return true;
+        } catch (PDOException $exception) {
+            if (!in_array((string)$exception->getCode(), ['23000', '23505'], true)) {
+                throw $exception;
             }
         }
 
         $interval = max(0, (int)($vacation['interval_time'] ?? 0));
-        $previous = is_string($notifiedAt) ? strtotime($notifiedAt) : false;
-        $databaseNow = strtotime((string)$this->database->query('SELECT CURRENT_TIMESTAMP')->fetchColumn());
-        if ($interval === 0 || $previous === false || $databaseNow === false
-            || $databaseNow - $previous <= $interval
-        ) {
+        $timestampStatement = $this->database->query('SELECT CURRENT_TIMESTAMP');
+        $databaseTimestamp = $timestampStatement === false ? false : $timestampStatement->fetchColumn();
+        if (!is_string($databaseTimestamp) || $databaseTimestamp === '') {
+            throw new RuntimeException('The database did not return its current timestamp');
+        }
+        $databaseNow = new DateTimeImmutable($databaseTimestamp, new DateTimeZone('UTC'));
+        $conditions = [];
+        $parameters = [];
+        $activeFrom = trim((string)($vacation['activefrom'] ?? ''));
+        if ($activeFrom !== '') {
+            $conditions[] = 'notified_at < ?';
+            $parameters[] = $activeFrom;
+        }
+        if ($interval > 0) {
+            $conditions[] = 'notified_at < ?';
+            $parameters[] = $databaseNow->modify("-{$interval} seconds")->format('Y-m-d H:i:s');
+        }
+        if ($conditions === []) {
             return false;
         }
+        array_push($parameters, $email, $sender);
         $update = $this->database->prepare(
             "UPDATE {$this->tables['vacation_notification']} SET notified_at = CURRENT_TIMESTAMP "
-            . 'WHERE on_vacation = ? AND notified = ?'
+            . 'WHERE (' . implode(' OR ', $conditions) . ') AND on_vacation = ? AND notified = ?'
         );
-        $update->execute([$email, $sender]);
-        return true;
+        $update->execute($parameters);
+        return $update->rowCount() === 1;
     }
 
     public function accountName(string $email): string
@@ -663,6 +690,9 @@ final class VacationCli
                 . '--inspect-message, or --show-config-path.' . PHP_EOL
             );
             return 69;
+        } catch (VacationCliException $exception) {
+            $this->writeError('ERROR: ' . $exception->getMessage() . PHP_EOL);
+            return $exception->exitStatus;
         } catch (Throwable $exception) {
             $this->writeError('ERROR: ' . $exception->getMessage() . PHP_EOL);
             return 75;
@@ -722,7 +752,7 @@ final class VacationCli
             }
             if (!$positional && $argument === '--inspect-message') {
                 if (!isset($argv[$index + 1])) {
-                    throw new RuntimeException('Missing value for --inspect-message');
+                    throw new UsageException('Missing value for --inspect-message');
                 }
                 $arguments['inspect_message'] = $argv[++$index];
                 ++$selectedActions;
@@ -747,7 +777,7 @@ final class VacationCli
             }
             if (!$positional && isset($values[$argument])) {
                 if (!isset($argv[$index + 1])) {
-                    throw new RuntimeException("Missing value for {$argument}");
+                    throw new UsageException("Missing value for {$argument}");
                 }
                 $arguments[$values[$argument]] = $argv[++$index];
                 continue;
@@ -760,16 +790,16 @@ final class VacationCli
                 }
             }
             if (!$positional && str_starts_with($argument, '-')) {
-                throw new RuntimeException("Unknown option: {$argument}");
+                throw new UsageException("Unknown option: {$argument}");
             }
             if ($arguments['recipient'] !== null) {
-                throw new RuntimeException("Unexpected argument: {$argument}");
+                throw new UsageException("Unexpected argument: {$argument}");
             }
             $arguments['recipient'] = $argument;
         }
 
         if ($selectedActions > 1) {
-            throw new RuntimeException('Select only one action');
+            throw new UsageException('Select only one action');
         }
         return $arguments;
     }
@@ -850,13 +880,13 @@ final class VacationCli
     public function choosePostfixAdminRoot(array $roots, bool $nonInteractive): string
     {
         if ($roots === []) {
-            throw new RuntimeException('No PostfixAdmin installation with config.local.php was found');
+            throw new ConfigurationException('No PostfixAdmin installation with config.local.php was found');
         }
         if (count($roots) === 1) {
             return $roots[0];
         }
         if ($nonInteractive) {
-            throw new RuntimeException(
+            throw new ConfigurationException(
                 'Multiple PostfixAdmin installations found: ' . implode(', ', $roots)
                 . '; use --postfixadmin-root'
             );
@@ -881,7 +911,7 @@ final class VacationCli
         $configFile = $root . DIRECTORY_SEPARATOR . 'config.inc.php';
         $localFile = $root . DIRECTORY_SEPARATOR . 'config.local.php';
         if (!is_file($configFile) || !is_file($localFile)) {
-            throw new RuntimeException("Invalid PostfixAdmin root: {$root}");
+            throw new ConfigurationException("Invalid PostfixAdmin root: {$root}");
         }
 
         $previous = $GLOBALS['CONF'] ?? null;
@@ -896,7 +926,7 @@ final class VacationCli
             }
         }
         if (!is_array($configuration)) {
-            throw new RuntimeException('PostfixAdmin configuration did not produce $CONF');
+            throw new ConfigurationException('PostfixAdmin configuration did not produce $CONF');
         }
 
         $prefix = (string)($configuration['database_prefix'] ?? '');
@@ -924,7 +954,7 @@ final class VacationCli
     {
         $parsed = parse_ini_file($path, true, INI_SCANNER_RAW);
         if ($parsed === false) {
-            throw new RuntimeException("Invalid INI configuration: {$path}");
+            throw new ConfigurationException("Invalid INI configuration: {$path}");
         }
         $warnings = [];
         $values = [];
@@ -1411,7 +1441,7 @@ final class VacationCli
             $user = '';
             $password = '';
         } else {
-            throw new RuntimeException('Unsupported database type: ' . ($type ?: '(empty)'));
+            throw new ConfigurationException('Unsupported database type: ' . ($type ?: '(empty)'));
         }
 
         return new PDO($dsn, $user, $password, $options);
@@ -1604,7 +1634,7 @@ final class VacationCli
     {
         $path = $this->findVacationConfig($this->nullableString($arguments['config']));
         if ($path === null) {
-            throw new RuntimeException('No vacation.ini found; run --init-config first or use --config');
+            throw new ConfigurationException('No vacation.ini found; run --init-config first or use --config');
         }
         $loaded = $this->loadVacationConfig($path);
         foreach ($loaded['warnings'] as $warning) {
@@ -1613,17 +1643,19 @@ final class VacationCli
         $configuration = $loaded['values'];
         $server = (string)($configuration['smtp_server'] ?? 'localhost');
         if ($server === '') {
-            throw new RuntimeException('--test requires a configured SMTP server; dynamic MX delivery is message-specific');
+            throw new ConfigurationException(
+                '--test requires a configured SMTP server; dynamic MX delivery is message-specific'
+            );
         }
         $port = $this->validPort($configuration['smtp_server_port'] ?? 25);
         $helo = $this->resolveSmtpHelo($configuration);
         $sender = $this->prompt('MAIL FROM', $this->defaultTestSender($helo));
         if (!$this->validEmailAddress($sender)) {
-            throw new RuntimeException('Invalid test sender address');
+            throw new UsageException('Invalid test sender address');
         }
         $recipient = $this->prompt('RCPT TO');
         if (!$this->validEmailAddress($recipient)) {
-            throw new RuntimeException('Invalid test recipient address');
+            throw new UsageException('Invalid test recipient address');
         }
 
         $this->write("Sending test message from {$sender} to {$recipient} using {$server}:{$port}..." . PHP_EOL);
@@ -1649,7 +1681,7 @@ final class VacationCli
         $envelopeSender = $this->nullableString($arguments['envelope_sender']);
         $envelopeRecipient = $this->nullableString($arguments['recipient']);
         if ($envelopeSender === null || $envelopeRecipient === null) {
-            throw new RuntimeException('Vacation transport requires -f sender -- recipient');
+            throw new UsageException('Vacation transport requires -f sender -- recipient');
         }
         $configuration = $this->runtimeConfiguration($arguments);
         $claimedRepository = null;
@@ -1761,7 +1793,7 @@ final class VacationCli
     {
         $path = $this->findVacationConfig($this->nullableString($arguments['config']));
         if ($path === null) {
-            throw new RuntimeException('No vacation.ini found; run --init-config first or use --config');
+            throw new ConfigurationException('No vacation.ini found; run --init-config first or use --config');
         }
         $loaded = $this->loadVacationConfig($path);
         $configuration = $loaded['values'];
@@ -1772,12 +1804,12 @@ final class VacationCli
             ?? ($configuration['postfixadmin_root'] ?? null);
         $roots = $this->discoverPostfixAdminRoots(is_string($rootArgument) ? $rootArgument : null);
         if ($roots === []) {
-            throw new RuntimeException('No PostfixAdmin installation found; use --postfixadmin-root');
+            throw new ConfigurationException('No PostfixAdmin installation found; use --postfixadmin-root');
         }
         $postfixAdmin = $this->loadPostfixAdminConfig($this->choosePostfixAdminRoot($roots, true));
         $configuration = array_replace($postfixAdmin, $configuration);
         if (trim((string)($configuration['vacation_domain'] ?? '')) === '') {
-            throw new RuntimeException('vacation_domain is required for Vacation transport');
+            throw new ConfigurationException('vacation_domain is required for Vacation transport');
         }
         return $configuration;
     }
@@ -1831,7 +1863,10 @@ final class VacationCli
     private function deliverWithSendmail(string $path, string $sender, string $recipient, string $message): void
     {
         if (!str_starts_with($path, '/') || !is_executable($path)) {
-            throw new RuntimeException('sendmail must be an absolute executable path');
+            throw new ConfigurationException('sendmail must be an absolute executable path');
+        }
+        if (!function_exists('proc_open')) {
+            throw new ConfigurationException('The proc_open function is required for sendmail delivery');
         }
         $process = proc_open(
             [$path, '-f', $sender, $recipient],
@@ -1871,7 +1906,7 @@ final class VacationCli
         if (!empty($configuration['log_file_enabled'])) {
             $path = trim((string)($configuration['log_file'] ?? ''));
             if ($path === '') {
-                throw new RuntimeException('File logging is enabled but logging.file is empty');
+                throw new ConfigurationException('File logging is enabled but logging.file is empty');
             }
             $line = sprintf("%s %-5s %s%s", date(DATE_ATOM), strtoupper($level), $message, PHP_EOL);
             if (file_put_contents($path, $line, FILE_APPEND | LOCK_EX) === false) {
@@ -1886,7 +1921,7 @@ final class VacationCli
         $envelopeSender = $this->nullableString($arguments['envelope_sender']);
         $envelopeRecipient = $this->nullableString($arguments['recipient']);
         if ($envelopeSender === null || $envelopeRecipient === null) {
-            throw new RuntimeException('--inspect-message requires -f sender -- recipient');
+            throw new UsageException('--inspect-message requires -f sender -- recipient');
         }
 
         $configuration = [];
@@ -1902,14 +1937,14 @@ final class VacationCli
             ?? ($configuration['postfixadmin_root'] ?? null);
         $roots = $this->discoverPostfixAdminRoots(is_string($rootArgument) ? $rootArgument : null);
         if ($roots === []) {
-            throw new RuntimeException('No PostfixAdmin installation found; use --postfixadmin-root');
+            throw new ConfigurationException('No PostfixAdmin installation found; use --postfixadmin-root');
         }
         $postfixAdmin = $this->loadPostfixAdminConfig($this->choosePostfixAdminRoot($roots, true));
         $configuration = array_replace($postfixAdmin, $configuration);
 
         $messagePath = $this->nullableString($arguments['inspect_message']);
         if ($messagePath === null) {
-            throw new RuntimeException('--inspect-message requires a file path or - for standard input');
+            throw new UsageException('--inspect-message requires a file path or - for standard input');
         }
         $closeStream = false;
         if ($messagePath === '-') {
@@ -1982,7 +2017,7 @@ final class VacationCli
         $timeout = $this->validTimeout($configuration['smtp_timeout'] ?? 120);
         $security = $this->normalizeSmtpSecurity($configuration['smtp_security'] ?? 'none');
         if ($security !== 'none' && !extension_loaded('openssl')) {
-            throw new RuntimeException('The openssl extension is required for SMTP TLS');
+            throw new ConfigurationException('The openssl extension is required for SMTP TLS');
         }
         $socketOptions = [];
         $localAddress = trim((string)($configuration['smtp_local_address'] ?? ''));
@@ -2022,7 +2057,7 @@ final class VacationCli
             if (in_array($security, ['starttls', 'maybestarttls'], true)) {
                 $supportsStartTls = preg_match('/^250[ -]STARTTLS\b/im', $hello[1]) === 1;
                 if (!$supportsStartTls && $security === 'starttls') {
-                    throw new RuntimeException('SMTP server does not advertise STARTTLS');
+                    throw new ConfigurationException('SMTP server does not advertise STARTTLS');
                 }
                 if ($supportsStartTls) {
                     $this->smtpExpect($this->smtpCommand($socket, 'STARTTLS'), [220], 'STARTTLS');
@@ -2036,7 +2071,7 @@ final class VacationCli
             if ($username !== '') {
                 $password = (string)($configuration['smtp_password'] ?? '');
                 if ($password === '') {
-                    throw new RuntimeException('SMTP password is required when username is configured');
+                    throw new ConfigurationException('SMTP password is required when username is configured');
                 }
                 $this->smtpAuthenticate($socket, $hello[1], $username, $password);
             }
@@ -2073,7 +2108,9 @@ final class VacationCli
             );
             return;
         }
-        throw new RuntimeException('SMTP authentication is configured but the server offers neither PLAIN nor LOGIN');
+        throw new ConfigurationException(
+            'SMTP authentication is configured but the server offers neither PLAIN nor LOGIN'
+        );
     }
 
     /** @param resource $socket @return array{0: int, 1: string} */
@@ -2165,7 +2202,7 @@ final class VacationCli
         $configured = trim((string)($configuration['smtp_helo'] ?? ''));
         $helo = $configured !== '' ? $configured : ($this->detectedFqdn() ?? $this->prompt('SMTP HELO'));
         if (!$this->validHelo($helo)) {
-            throw new RuntimeException('A valid SMTP HELO name is required for the test');
+            throw new ConfigurationException('A valid SMTP HELO name is required');
         }
         return $helo;
     }
@@ -2223,7 +2260,7 @@ final class VacationCli
     {
         $port = filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 65535]]);
         if ($port === false) {
-            throw new RuntimeException('SMTP port must be between 1 and 65535');
+            throw new ConfigurationException('SMTP port must be between 1 and 65535');
         }
         return $port;
     }
@@ -2232,7 +2269,7 @@ final class VacationCli
     {
         $timeout = filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 3600]]);
         if ($timeout === false) {
-            throw new RuntimeException('SMTP timeout must be between 1 and 3600 seconds');
+            throw new ConfigurationException('SMTP timeout must be between 1 and 3600 seconds');
         }
         return $timeout;
     }
@@ -2245,7 +2282,7 @@ final class VacationCli
             '1', 'true', 'ssl', 'tls' => 'ssl',
             'starttls' => 'starttls',
             'maybestarttls' => 'maybestarttls',
-            default => throw new RuntimeException(
+            default => throw new ConfigurationException(
                 'SMTP security must be none, ssl, starttls, or maybestarttls'
             ),
         };
@@ -2255,7 +2292,7 @@ final class VacationCli
     {
         $level = strtolower(trim((string)$value));
         if (!in_array($level, ['error', 'info', 'debug'], true)) {
-            throw new RuntimeException('Logging level must be error, info, or debug');
+            throw new ConfigurationException('Logging level must be error, info, or debug');
         }
         return $level;
     }
