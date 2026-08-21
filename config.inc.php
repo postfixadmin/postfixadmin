@@ -191,13 +191,19 @@ $CONF['smtp_client'] = '';
 //
 // - PLAIN, CLEAR or CLEARTEXT - plain text variants, may be useful for testing.
 // - ARGON2ID, ARGON2I, SHA512-CRYPT, SHA256-CRYPT or BLF-CRYPT might be good options.
+//   These are hashed by PostfixAdmin itself (in PHP) and need no external tools.
 //
 // - other, older variants are : 
 //   - md5crypt, 
 //   - md5, 
 //   - system,
-//   - dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. 
-//     - Note: dovecot relies on doveadm binary, and suitable permissions on config files - see https://github.com/postfixadmin/postfixadmin/issues/398
+//   - dovecot:CRYPT-METHOD = hash via Dovecot's 'doveadm pw -s CRYPT-METHOD' instead of hashing in PHP.
+//     - Note: this delegates hashing to the external doveadm binary, so the web-server user must be
+//       able to run doveadm AND reach Dovecot's runtime (e.g. the stats socket) - otherwise creating a
+//       mailbox or changing a password can fail with a 500.
+//       See https://github.com/postfixadmin/postfixadmin/issues/398 and https://github.com/postfixadmin/postfixadmin/issues/1119
+//     - You usually do NOT need the 'dovecot:' prefix: the same schemes listed above (e.g. ARGON2ID,
+//       BLF-CRYPT) are hashed natively in PHP and produce the same {SCHEME} hashes with no doveadm.
 //
 // - authlib = support for courier-authlib style passwords - also set $CONF['authlib_default_flavor']
 //
