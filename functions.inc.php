@@ -1058,12 +1058,14 @@ function _pacrypt_dovecot($pw, $pw_db = '', $username = '')
     fclose($pipes[0]);
 
     $stderr_output = stream_get_contents($pipes[2]);
+    $password = stream_get_contents($pipes[1]);
 
-    // Read hash from pipe stdout
-    $password = fread($pipes[1], 200);
+    fclose($pipes[1]);
+    fclose($pipes[2]);
+    $exit_status = proc_close($pipe);
 
-    if (!empty($stderr_output) || empty($password)) {
-        error_log("Failed to read password from $dovecotpw ... stderr: $stderr_output, password: $password ");
+    if ($exit_status !== 0 || empty($password)) {
+        error_log("Failed to read password from $dovecotpw ... exit status: $exit_status, stderr: $stderr_output, password: $password ");
         throw new Exception("$dovecotpw failed, see error log for details");
     }
 
@@ -1080,9 +1082,9 @@ function _pacrypt_dovecot($pw, $pw_db = '', $username = '')
         }
     }
 
-    fclose($pipes[1]);
-    fclose($pipes[2]);
-    proc_close($pipe);
+    if (!empty($stderr_output)) {
+        error_log("$dovecotpw wrote to stderr but returned a valid result: $stderr_output");
+    }
 
     if ((!empty($pw_db)) && (substr($pw_db, 0, 1) != '{')) {
         # for backward compability with "old" dovecot passwords that don't have the {method} prefix
