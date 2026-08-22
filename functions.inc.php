@@ -986,13 +986,6 @@ function _pacrypt_dovecot($pw, $pw_db = '', $username = '')
         $dovecotpw = $CONF['dovecotpw'];
     }
 
-    # Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-    $spec = array(
-        0 => array("pipe", "r"), // stdin
-        1 => array("pipe", "w"), // stdout
-        2 => array("pipe", "w"), // stderr
-    );
-
     $nonsaltedtypes = "SHA|SHA1|SHA256|SHA512|CLEAR|CLEARTEXT|PLAIN|PLAIN-TRUNC|CRAM-MD5|HMAC-MD5|PLAIN-MD4|PLAIN-MD5|LDAP-MD5|LANMAN|NTLM|RPA";
     $salted = !preg_match("/^($nonsaltedtypes)(\.B64|\.BASE64|\.HEX)?$/", strtoupper($method));
 
@@ -1002,33 +995,20 @@ function _pacrypt_dovecot($pw, $pw_db = '', $username = '')
         $dovepasstest = " -t " . escapeshellarg($pw_db);
     }
 
-    $pipes = [];
-
-    $pipe = proc_open("$dovecotpw -s {$method}{$dovepasstest}{$doveadm_options}", $spec, $pipes);
-
-    if (!$pipe) {
-        throw new Exception("can't proc_open $dovecotpw");
-    }
-
-    // use dovecot's stdin, it uses getpass() twice (except when using -t)
-    // Write pass in pipe stdin
+    // pass the password via stdin, so it's not visible in the process table.
+    // dovecot uses getpass() twice (except when using -t), so send it twice.
+    $stdin = $pw . "\n";
     if (empty($dovepasstest)) {
-        fwrite($pipes[0], $pw . "\n", 1 + strlen($pw));
-        usleep(1000);
+        $stdin .= $pw . "\n";
     }
 
-    fwrite($pipes[0], $pw . "\n", 1 + strlen($pw));
-    fclose($pipes[0]);
+    $exec = Exec::run("$dovecotpw -s {$method}{$dovepasstest}{$doveadm_options}", $stdin);
 
-    $stderr_output = stream_get_contents($pipes[2]);
-    $password = stream_get_contents($pipes[1]);
+    $password = $exec->stdout;
+    $stderr_output = $exec->stderr;
 
-    fclose($pipes[1]);
-    fclose($pipes[2]);
-    $exit_status = proc_close($pipe);
-
-    if ($exit_status !== 0 || empty($password)) {
-        error_log("Failed to read password from $dovecotpw ... exit status: $exit_status, stderr: $stderr_output, password: $password ");
+    if ($exec->retval !== 0 || empty($password)) {
+        error_log("Failed to read password from $dovecotpw ... exit status: {$exec->retval}, stderr: $stderr_output, password: $password ");
         throw new Exception("$dovecotpw failed, see error log for details");
     }
 
