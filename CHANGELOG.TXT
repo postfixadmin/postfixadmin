@@ -8,6 +8,7 @@
 
 Version 4.0.6 (2026/XX/XX)
 --------------------------
+   - Restore the legacy md5crypt password scheme compatibility (see #1123, thanks @8ctopus)
    - Improve error display for mailbox/domain quota validation errors (see #1097, thanks @TrapoSAMA)
    - Drop obsolete password_expiration.sql (see #1099, thanks @TrapoSAMA)
    - Update Spanish translations (see #1101 and #1073, thanks @TrapoSAMA)

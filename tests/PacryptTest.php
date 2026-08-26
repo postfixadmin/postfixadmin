@@ -194,6 +194,36 @@ class PacryptTest extends \PHPUnit\Framework\TestCase
         $fail = _pacrypt_php_crypt('bar', $expected);
     }
 
+    public function testMd5CryptCompatibility()
+    {
+        global $CONF;
+
+        $CONF['encrypt'] = 'md5crypt';
+        $legacyHash = pacrypt('test123');
+        $this->assertMatchesRegularExpression('/^\$1\$/', $legacyHash);
+        $this->assertSame($legacyHash, pacrypt('test123', $legacyHash));
+
+        $CONF['encrypt'] = 'MD5-CRYPT';
+        $canonicalHash = pacrypt('test123');
+        $this->assertMatchesRegularExpression('/^\{MD5-CRYPT\}\$1\$/', $canonicalHash);
+        $this->assertSame($canonicalHash, pacrypt('test123', $canonicalHash));
+
+        $storedHashes = [
+            '$1$c9809462$fC8eUPU2lq7arWRvxChMu1',
+            '{MD5-CRYPT}$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.',
+            '$2y$05$ORqzr0AagWr25v3ixHD5QuMXympIoNTbipEFZz6aAmovGNoij2vDO',
+            '$6$IeqpXtDIXF09ADdc$IsE.SSK3zuwtS9fdWZ0oVxXQjPDj834xqxTiv3Qfidq3AbAjPb0DNyI28JyzmDVlbfC9uSfNxD9RUyeO1.7FV/',
+        ];
+
+        foreach (['md5crypt', 'MD5-CRYPT'] as $configuredMechanism) {
+            $CONF['encrypt'] = $configuredMechanism;
+            foreach ($storedHashes as $storedHash) {
+                $this->assertSame($storedHash, pacrypt('test123', $storedHash));
+                $this->assertNotSame($storedHash, pacrypt('wrong-password', $storedHash));
+            }
+        }
+    }
+
     public function testPhpCryptHandlesPrefixAndOrRounds()
     {
         // try with 1000 rounds
