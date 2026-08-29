@@ -102,7 +102,7 @@ foreach ($tLog as $k => $v) {
 
 $smarty->assign('domain_list', $list_domains);
 $smarty->assign('domain_selected', $fDomain);
-$smarty->assign('tLog', $tLog, false);
+$smarty->assign('tLog', $tLog);
 $smarty->assign('fDomain', $fDomain);
 $smarty->assign('smarty_template', 'viewlog');
 $smarty->display('index.tpl');
