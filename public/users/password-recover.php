@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // we try to make sure the entire operation takes 2s
     if ($elapsed_time < 2.0) {
         // php 7.4+ should support underscores in numeric literals
-        $sleep = (int)(2_000_000 - ($elapsed_time * 1_000_000));
+        $sleep = (int)((2.0 - $elapsed_time) * 1_000_000.0);
         if ($sleep > 0) {
             usleep($sleep);
         }
