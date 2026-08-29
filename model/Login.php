@@ -63,27 +63,27 @@ class Login
      */
     public function generatePasswordRecoveryCode(string $username)
     {
-        $sql = "SELECT count(1) FROM {$this->key_table} WHERE username = :username AND active = :active";
+        $token = generate_password();
+        $token_hash = pacrypt($token);
+        $token_validity = date('Y-m-d H:i:s', strtotime('+1 hour'));
+        $cooldown = date('Y-m-d H:i:s', strtotime('+55 minutes'));
+        $now = db_sqlite() ? "datetime('now')" : 'now()';
 
-        $active = db_get_boolean(true);
+        $sql = "UPDATE {$this->key_table}
+            SET token = :token, token_validity = :token_validity, modified = $now
+            WHERE username = :username AND active = :active
+              AND (token IS NULL OR token = '' OR token_validity <= :cooldown)";
 
-        $values = [
+        $updatedRows = db_execute($sql, [
+            'token' => $token_hash,
+            'token_validity' => $token_validity,
             'username' => $username,
-            'active' => $active,
-        ];
+            'active' => db_get_boolean(true),
+            'cooldown' => $cooldown,
+        ]);
 
-        $result = db_query_one($sql, $values);
-
-        if ($result) {
-            $token = generate_password();
-            $updatedRows = db_update($this->table, 'username', $username, array(
-                'token' => pacrypt($token),
-                'token_validity' => date("Y-m-d H:i:s", strtotime('+ 1 hour')),
-            ));
-
-            if ($updatedRows == 1) {
-                return $token;
-            }
+        if ($updatedRows == 1) {
+            return $token;
         }
         return false;
     }
