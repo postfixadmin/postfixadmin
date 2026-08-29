@@ -29,6 +29,9 @@ require_once('../common.php');
 $smarty = PFASmarty::getInstance();
 $smarty->configureTheme($smarty->getRelPath());
 
+$required_role = authentication_has_role('admin') ? 'admin' : 'user';
+authentication_require_role($required_role);
+
 $username = authentication_get_username();
 $pPassword_password_current_text = "";
 $pTOTP_now = "";
@@ -74,10 +77,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $pPassword_password_current_text = $PALANG['pPassword_password_current_text_error'];
     }
 
-    // Does entered code from 2FA-app match the secret
+    // An empty code means that the user wants to remove TOTP.
     if ($fTOTP_code === '') {
-        // user wishes to remove TOTP code?
-        $totppf->removeTotpFromUser($username);
+        if ($error == 0) {
+            try {
+                $totppf->changeTOTP_secret($username, null, $fPassword_current);
+                flash_info($PALANG['pTotp_stored']);
+            } catch (\Exception $e) {
+                flash_error($e->getMessage());
+            }
+        }
         $error++;
     } else {
         if (false == $totppf->checkTOTP($fTOTP_secret, $fTOTP_code)) {
