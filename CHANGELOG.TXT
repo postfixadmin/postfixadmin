@@ -9,6 +9,7 @@
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
  
+   - Restore the legacy md5crypt password scheme compatibility (see #1123, thanks @8ctopus)
    - Quota display improvements (see #1096, thanks @TrapoSAMA)
    - Update Spanish translations (see #1100, thanks @TrapoSAMA)
    - Update bootstrap icons + bootstrap (see #1095, #1094, thanks @TrapoSAMA)

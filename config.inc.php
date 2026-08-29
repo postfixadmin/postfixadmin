@@ -194,7 +194,7 @@ $CONF['smtp_client'] = '';
 //   These are hashed by PostfixAdmin itself (in PHP) and need no external tools.
 //
 // - other, older variants are : 
-//   - md5crypt, 
+//   - MD5-CRYPT (`md5crypt` remains available as a legacy alias),
 //   - md5, 
 //   - system,
 //   - dovecot:CRYPT-METHOD = hash via Dovecot's 'doveadm pw -s CRYPT-METHOD' instead of hashing in PHP.

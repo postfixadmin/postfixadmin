@@ -1214,14 +1214,20 @@ function pacrypt($pw, $pw_db = "", $username = '')
 
     $mechanism = strtoupper($CONF['encrypt'] ?? 'CRYPT');
 
+    // Keep the 3.x md5crypt setting as an alias for MD5-CRYPT. New hashes
+    // generated through the alias retain the historical unprefixed format.
+    $legacy_md5crypt = $mechanism == 'MD5CRYPT';
+    if ($legacy_md5crypt) {
+        $mechanism = 'MD5-CRYPT';
+    }
+
 
     if (preg_match('/^PHP_CRYPT:(DES|MD5|BLOWFISH|SHA256|SHA512):?/', $mechanism, $matches)) {
         return _pacrypt_php_crypt($pw, $pw_db);
     }
 
 
-    $crypts = ['PHP_CRYPT', 'MD5CRYPT'];
-    if (in_array($mechanism, $crypts)) {
+    if ($mechanism == 'PHP_CRYPT') {
         $mechanism = 'CRYPT';
     }
 
@@ -1244,13 +1250,10 @@ function pacrypt($pw, $pw_db = "", $username = '')
         $mechanism = 'COURIER:MD5RAW';
     }
 
-    if (!empty($pw_db) && preg_match('/^\$[0-9]\$/i', $pw_db, $matches)) {
-        $method_in_hash = $matches[0];
-        switch ($method_in_hash) {
-            case '$1$':
-            case '$6$':
-                $mechanism = 'SYSTEM';
-        }
+    // Raw modular crypt hashes do not identify their scheme with a {SCHEME}
+    // prefix. Verify them using their own salt regardless of current config.
+    if (!empty($pw_db) && preg_match('/^\$(?:1|2[abxy]?|5|6)\$/i', $pw_db)) {
+        $mechanism = 'CRYPT';
     }
 
     if ($mechanism == 'SHA512.B64') {
@@ -1273,7 +1276,13 @@ function pacrypt($pw, $pw_db = "", $username = '')
     }
 
     $hasher = new \PostfixAdmin\PasswordHashing\Crypt($mechanism);
-    return $hasher->crypt($pw, $pw_db);
+    $hashed = $hasher->crypt($pw, $pw_db);
+
+    if ($legacy_md5crypt && empty($pw_db) && strncmp($hashed, '{MD5-CRYPT}', 11) == 0) {
+        return substr($hashed, 11);
+    }
+
+    return $hashed;
 }
 
 
