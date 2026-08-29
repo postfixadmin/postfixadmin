@@ -34,6 +34,11 @@
     {/if}
 
     <div class="card-body">
+        {if isset($pagination) && $pagination}
+            <div class="mb-3">
+                {include file="_pagination.tpl" pagination=$pagination pagination_label=$pagination_label}
+            </div>
+        {/if}
         {if $table == 'domain'}
             <div class="domain-list-scroll">
         {elseif $table == 'alias' || $table == 'aliasdomain'}
@@ -182,6 +187,11 @@
             </tbody>
         </table>
         {if $table == 'domain' || $table == 'alias' || $table == 'aliasdomain'}</div>{/if}
+        {if isset($pagination) && $pagination}
+            <div class="mt-3">
+                {include file="_pagination.tpl" pagination=$pagination pagination_label=$pagination_label}
+            </div>
+        {/if}
     </div>
 
     <div class="card-footer">

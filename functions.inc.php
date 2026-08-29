@@ -2086,6 +2086,71 @@ function viewlog_domain_condition(bool $show_all, bool $is_global_admin, string 
 }
 
 /**
+ * Build normalized pagination items for an alphabetical page browser.
+ *
+ * @param array<int, string> $pages
+ * @param array<string, mixed> $query_params
+ * @param array{first?: string, previous?: string, next?: string} $aria_labels
+ * @return array<int, array<string, bool|int|string>>
+ */
+function page_browser_pagination(
+    array $pages,
+    int $offset,
+    int $page_size,
+    array $query_params,
+    string $anchor,
+    array $aria_labels = []
+): array {
+    if (count($pages) === 0) {
+        return [];
+    }
+    if ($page_size < 1) {
+        throw new InvalidArgumentException('Page size must be greater than zero');
+    }
+
+    $current_page = intdiv(max(0, $offset), $page_size);
+    $last_page = count($pages) - 1;
+
+    $url_for_page = static function (int $page) use ($query_params, $page_size, $anchor): string {
+        $query_params['limit'] = $page * $page_size;
+        $query = http_build_query($query_params, '', '&', PHP_QUERY_RFC3986);
+        return '?' . htmlspecialchars($query, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '#' . rawurlencode($anchor);
+    };
+
+    $pagination = [
+        [
+            'label' => '&laquo;',
+            'url' => $url_for_page(0),
+            'disabled' => $current_page === 0,
+            'aria' => $aria_labels['first'] ?? '',
+        ],
+        [
+            'label' => '&lsaquo;',
+            'url' => $url_for_page(max(0, $current_page - 1)),
+            'disabled' => $current_page === 0,
+            'aria' => $aria_labels['previous'] ?? '',
+        ],
+    ];
+
+    foreach ($pages as $page => $label) {
+        $pagination[] = [
+            'label' => $label,
+            'url' => $url_for_page($page),
+            'active' => $page === $current_page,
+        ];
+    }
+
+    $pagination[] = [
+        'label' => '&rsaquo;',
+        'url' => $url_for_page(min($last_page, $current_page + 1)),
+        'disabled' => $current_page >= $last_page,
+        'aria' => $aria_labels['next'] ?? '',
+    ];
+
+    return $pagination;
+}
+
+/**
  * Compute the page numbers to display in a windowed pager.
  *
  * Always includes page 1 and the last page, plus a window of $radius pages on
