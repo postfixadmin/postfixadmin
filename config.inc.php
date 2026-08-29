@@ -798,8 +798,9 @@ $CONF['xmlrpc_enabled'] = false;
 //More details in Password_Expiration.md
 $CONF['password_expiration'] = 'NO';
 
-// If defined, use this rather than trying to construct it from  $_SERVER parameters.
-// used in (at least) password-recover.php.
+// Canonical public URL for PostfixAdmin, including its path and a trailing slash.
+// This must be configured when email-based password recovery is enabled because
+// recovery links must not be constructed from untrusted HTTP request headers.
 $CONF['site_url'] = null;
 
 $CONF['version'] = '4.0.1';

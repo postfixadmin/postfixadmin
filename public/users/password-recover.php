@@ -46,7 +46,12 @@ if ($context === 'admin' && !Config::read('forgotten_admin_password_reset') ||
 
 function sendCodebyEmail($to, $username, $code)
 {
-    $url = getSiteUrl($_SERVER) . 'password-change.php?username=' . urlencode($username) . '&code=' . $code;
+    try {
+        $url = getPasswordRecoverySiteUrl() . 'password-change.php?username=' . urlencode($username) . '&code=' . $code;
+    } catch (RuntimeException $e) {
+        error_log(__FILE__ . ' - ' . $e->getMessage());
+        return false;
+    }
 
     return smtp_mail(
         $to,
