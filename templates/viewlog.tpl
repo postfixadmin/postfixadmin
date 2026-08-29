@@ -32,17 +32,19 @@
             <th>{$PALANG.pViewlog_action}</th>
             <th>{$PALANG.pViewlog_data}</th>
             </tr>
-            {assign var="PALANG_pViewlog_data" value=$PALANG.pViewlog_data}
-
             {foreach from=$tLog item=item}
                 {assign var=log_data value=$item.data|truncate:35:"...":true}
-                {assign var=item_data value=$item.data}
-                {$smarty.config.tr_hilightoff|replace:'>':" style=\"cursor:pointer;\" onclick=\"alert('$PALANG_pViewlog_data = $item_data')\">"}
+                {$smarty.config.tr_hilightoff}
                 <td nowrap="nowrap">{$item.timestamp}</td>
                 <td nowrap="nowrap">{$item.username}</td>
                 <td nowrap="nowrap">{$item.domain}</td>
                 <td nowrap="nowrap">{$item.action}</td>
-                <td nowrap="nowrap">{$log_data}</td>
+                <td>
+                    <details>
+                        <summary>{$log_data}</summary>
+                        <div class="text-break">{$item.data}</div>
+                    </details>
+                </td>
                 </tr>
             {/foreach}
         </table>
