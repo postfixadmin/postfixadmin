@@ -102,19 +102,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             error_log(__FILE__ . " - No mechanism configured for password-recovery.");
         }
 
-        if ($email_other || $phone) {
-            header("Location: password-change.php?username=" . urlencode($username));
-            exit(0);
-        }
     }
 
     // throttle password reset requests to prevent brute force attack
-    $elapsed_time = (int)(microtime(true) - $start_time);
+    $elapsed_time = microtime(true) - $start_time;
 
     // we try to make sure the entire operation takes 2s
     if ($elapsed_time < 2.0) {
         // php 7.4+ should support underscores in numeric literals
-        $sleep = 2_000_000 - ($elapsed_time * 1_000_000);
+        $sleep = (int)(2_000_000 - ($elapsed_time * 1_000_000));
         if ($sleep > 0) {
             usleep($sleep);
         }
