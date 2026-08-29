@@ -205,7 +205,7 @@ if ($number_of_pages > 1) {
 
 $smarty->assign('domain_list', $list_domains);
 $smarty->assign('domain_selected', $fDomain);
-$smarty->assign('tLog', $tLog, false);
+$smarty->assign('tLog', $tLog);
 $smarty->assign('fDomain', $fDomain);
 $smarty->assign('show_all', $show_all);
 $smarty->assign('all_domains_value', $all_domains_value);
