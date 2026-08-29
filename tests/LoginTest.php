@@ -267,5 +267,19 @@ class LoginTest extends \PHPUnit\Framework\TestCase
         $this->assertNotNull($row);
         $this->assertNotEmpty($row['token']);
         $this->assertNotEmpty($row['token_validity']);
+
+        $this->assertFalse($login->generatePasswordRecoveryCode('test@example.com'));
+
+        db_execute(
+            "UPDATE " . table_by_key('mailbox') . " SET token_validity = :validity WHERE username = :username",
+            [
+                'validity' => date('Y-m-d H:i:s', strtotime('+54 minutes')),
+                'username' => 'test@example.com',
+            ]
+        );
+
+        $replacement = $login->generatePasswordRecoveryCode('test@example.com');
+        $this->assertIsString($replacement);
+        $this->assertNotSame($token, $replacement);
     }
 }
