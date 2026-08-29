@@ -192,7 +192,7 @@ $CONF['smtp_client'] = '';
 // - ARGON2ID, ARGON2I, SHA512-CRYPT, SHA256-CRYPT or BLF-CRYPT might be good options.
 //
 // - other, older variants are : 
-//   - md5crypt, 
+//   - MD5-CRYPT (`md5crypt` remains available as a legacy alias),
 //   - md5, 
 //   - system,
 //   - dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. 
