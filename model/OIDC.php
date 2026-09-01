@@ -152,8 +152,12 @@ class OIDC
             return false;
         }
 
-        $header = json_decode(base64_decode(strtr($parts[0], '-_', '+/')), true);
-        $payload = json_decode(base64_decode(strtr($parts[1], '-_', '+/')), true);
+        // Decode header and payload with proper padding
+        $headerJson = base64_decode(strtr($parts[0], '-_', '+/'));
+        $payloadJson = base64_decode(strtr($parts[1], '-_', '+/'));
+
+        $header = json_decode($headerJson, true);
+        $payload = json_decode($payloadJson, true);
 
         if (!is_array($payload)) {
             return false;
@@ -230,7 +234,12 @@ class OIDC
     private function verifyX5cSignature(string $idToken, string $x5cCert): bool
     {
         $parts = explode('.', $idToken);
-        $signature = base64_decode(strtr($parts[2], '-_', '+/'));
+        
+        // Decode signature with padding
+        $sigB64 = strtr($parts[2], '-_', '+/');
+        $sigB64 = str_pad($sigB64, strlen($sigB64) + (4 - strlen($sigB64) % 4) % 4, '=');
+        $signature = base64_decode($sigB64);
+        
         $data = $parts[0] . '.' . $parts[1];
 
         // Build PEM from X.509 cert
@@ -238,10 +247,14 @@ class OIDC
 
         $pubKey = openssl_pkey_get_public($pem);
         if ($pubKey === false) {
+            error_log('OIDC: Failed to parse x5c certificate: ' . openssl_error_string());
             return false;
         }
 
         $result = openssl_verify($data, $signature, $pubKey, 'sha256');
+        if ($result === -1) {
+            error_log('OIDC: OpenSSL error during verification: ' . openssl_error_string());
+        }
         return $result === 1;
     }
 
@@ -251,7 +264,12 @@ class OIDC
     private function verifyRsaSignature(string $idToken, array $key): bool
     {
         $parts = explode('.', $idToken);
-        $signature = base64_decode(strtr($parts[2], '-_', '+/'));
+        
+        // Decode signature with padding
+        $sigB64 = strtr($parts[2], '-_', '+/');
+        $sigB64 = str_pad($sigB64, strlen($sigB64) + (4 - strlen($sigB64) % 4) % 4, '=');
+        $signature = base64_decode($sigB64);
+        
         $data = $parts[0] . '.' . $parts[1];
 
         // Build PEM public key from n and e
