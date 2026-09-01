@@ -44,10 +44,11 @@ if ($claims === false) {
 // Extract email from claims
 $email = $claims['email'] ?? '';
 
-error_log('OIDC: claims email=' . $email);
+error_log("OIDC: claims email=" . $email);
+error_log("OIDC: full claims: " . json_encode($claims));
 
 if (empty($email)) {
-    error_log('OIDC: no email in claims: ' . json_encode($claims));
+    error_log("OIDC: no email in claims");
     flash_error('OIDC authentication failed: no email in token');
     header('Location: login.php');
     exit;
@@ -55,8 +56,16 @@ if (empty($email)) {
 
 // Look up admin user by email
 error_log("OIDC: Looking up admin user for $email");
-$adminHandler = new AdminHandler();
-$adminHandler->init($email);
+try {
+    $adminHandler = new AdminHandler();
+    $adminHandler->init($email);
+    error_log("OIDC: AdminHandler initialized");
+} catch (\Exception $e) {
+    error_log("OIDC: AdminHandler init failed: " . $e->getMessage());
+    flash_error('Failed to look up admin account.');
+    header('Location: login.php');
+    exit;
+}
 
 $username = '';
 $isSuperadmin = false;
