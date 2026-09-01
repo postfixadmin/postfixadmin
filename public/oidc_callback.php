@@ -62,7 +62,10 @@ $isSuperadmin = false;
 
 if (!$adminHandler->view()) {
     // Admin user not found - auto-provision if enabled
+    error_log("OIDC: Admin user not found for $email, auto-provisioning");
+    
     if (!($CONF['oidc_auto_provision'] ?? true)) {
+        error_log("OIDC: Auto-provision disabled, rejecting");
         flash_error('You are not authorized to access this system. Contact an administrator.');
         header('Location: login.php');
         exit;
@@ -79,18 +82,21 @@ if (!$adminHandler->view()) {
     ];
     
     if (!$handler->init($email)) {
+        error_log("OIDC: Failed to initialize admin account for $email");
         flash_error('Failed to initialize admin account.');
         header('Location: login.php');
         exit;
     }
     
     if (!$handler->set($values)) {
+        error_log("OIDC: Failed to set admin account values for $email");
         flash_error('Failed to set admin account values.');
         header('Location: login.php');
         exit;
     }
     
     if (!$handler->save()) {
+        error_log("OIDC: Failed to create admin account for $email: " . implode(', ', $handler->errormsg));
         flash_error('Failed to create admin account: ' . implode(', ', $handler->errormsg));
         header('Location: login.php');
         exit;
@@ -98,22 +104,26 @@ if (!$adminHandler->view()) {
     
     $username = $email;
     $isSuperadmin = false;
+    error_log("OIDC: Auto-provisioned admin account for $email");
 } else {
     $adminProperties = $adminHandler->result();
     $username = $adminProperties['username'];
     $isSuperadmin = ($adminProperties['superadmin'] ?? 0) == 1;
+    error_log("OIDC: Found existing admin account for $email");
 }
 
 // Check if user is active
 $checkAdmin = new AdminHandler();
 $checkAdmin->init($username);
 if (!$checkAdmin->view()) {
+    error_log("OIDC: Admin account disabled for $username");
     flash_error('Your account is disabled. Contact an administrator.');
     header('Location: login.php');
     exit;
 }
 
 // Initialize session
+error_log("OIDC: Initializing session for $username");
 init_session($username, true, true);
 
 if ($isSuperadmin) {
@@ -121,5 +131,6 @@ if ($isSuperadmin) {
 }
 
 // Redirect to main page
+error_log("OIDC: Redirecting to main.php");
 header('Location: main.php');
 exit;
