@@ -55,7 +55,9 @@ class OIDC
     public function authorize(): void
     {
         if (empty($this->discovery)) {
-            $this->discover();
+            if (!$this->discover()) {
+                die('OIDC discovery failed - could not reach provider');
+            }
         }
 
         $state = bin2hex(random_bytes(32));
