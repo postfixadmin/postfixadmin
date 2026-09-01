@@ -24,14 +24,18 @@ if (empty($code) || empty($state)) {
 
 $oidc = new OIDC();
 if (!$oidc->isConfigured()) {
+    error_log('OIDC: Not configured');
     flash_error('OIDC not configured');
     header('Location: login.php');
     exit;
 }
 
+error_log('OIDC: callback started - code=' . substr($code, 0, 20) . '... state=' . substr($state, 0, 20) . '...');
+
 $claims = $oidc->handleCallback($code, $state);
 
 if ($claims === false) {
+    error_log('OIDC: handleCallback returned false');
     flash_error('OIDC authentication failed');
     header('Location: login.php');
     exit;
@@ -40,7 +44,10 @@ if ($claims === false) {
 // Extract email from claims
 $email = $claims['email'] ?? '';
 
+error_log('OIDC: claims email=' . $email);
+
 if (empty($email)) {
+    error_log('OIDC: no email in claims: ' . json_encode($claims));
     flash_error('OIDC authentication failed: no email in token');
     header('Location: login.php');
     exit;

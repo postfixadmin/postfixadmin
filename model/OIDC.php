@@ -71,20 +71,31 @@ class OIDC
         $url = $this->discovery['authorization_endpoint'] . '?' . http_build_query($params);
         header('Location: ' . $url);
         exit;
-    }
-
     public function handleCallback(string $code, string $state): array|false
     {
-        if (!isset($_SESSION['oidc_state']) || !hash_equals($_SESSION['oidc_state'], $state)) {
-            error_log('OIDC: State mismatch');
+        // Validate state
+        if (!isset($_SESSION['oidc_state'])) {
+            error_log('OIDC: No state in session');
+            return false;
+        }
+        if (!hash_equals($_SESSION['oidc_state'], $state)) {
+            error_log('OIDC: State mismatch - session=' . $_SESSION['oidc_state'] . ' url=' . $state);
             return false;
         }
         $nonce = $_SESSION['oidc_nonce'] ?? '';
         unset($_SESSION['oidc_state'], $_SESSION['oidc_nonce']);
 
+        // Exchange code for tokens
         if (empty($this->discovery)) {
             $this->discover();
         }
+
+        if (empty($this->discovery['token_endpoint'])) {
+            error_log('OIDC: No token_endpoint in discovery');
+            return false;
+        }
+
+        error_log('OIDC: Exchanging code for tokens at ' . $this->discovery['token_endpoint']);
 
         $tokenResponse = $this->httpPost($this->discovery['token_endpoint'], [
             'grant_type' => 'authorization_code',
@@ -95,9 +106,11 @@ class OIDC
         ]);
 
         if ($tokenResponse === false) {
-            error_log('OIDC: Token exchange failed');
+            error_log('OIDC: Token exchange failed - HTTP POST error');
             return false;
         }
+
+        error_log('OIDC: Token response: ' . substr($tokenResponse, 0, 200));
 
         $tokens = json_decode($tokenResponse, true);
         if (!is_array($tokens) || !isset($tokens['id_token'])) {
@@ -105,11 +118,19 @@ class OIDC
             return false;
         }
 
+        error_log('OIDC: Got id_token, validating with firebase/php-jwt');
+
         // Validate ID token using firebase/php-jwt
         $jwks = $this->getJwks();
+        if (empty($jwks)) {
+            error_log('OIDC: Failed to get JWKS');
+            return false;
+        }
+
         try {
             $claims = JWT::decode($tokens['id_token'], JWK::parseKeySet($jwks));
             $claims = json_decode(json_encode($claims), true);
+            error_log('OIDC: JWT validated successfully');
         } catch (\Exception $e) {
             error_log('OIDC: ID token validation failed: ' . $e->getMessage());
             return false;
