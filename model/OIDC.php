@@ -4,8 +4,11 @@
  * Class OIDC
  *
  * Handles OpenID Connect authentication flow for PostfixAdmin.
- * Supports authorization code flow with PKCE.
+ * Uses firebase/php-jwt for JWT validation.
  */
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\JWK;
 
 class OIDC
 {
@@ -15,7 +18,6 @@ class OIDC
     private string $redirectUri;
     private string $scopes;
     private array $discovery = [];
-    private array $jwks = [];
 
     public function __construct()
     {
@@ -27,17 +29,11 @@ class OIDC
         $this->scopes = $CONF['oidc']['scopes'] ?? 'openid email profile';
     }
 
-    /**
-     * Check if OIDC is properly configured
-     */
     public function isConfigured(): bool
     {
         return !empty($this->clientId) && !empty($this->clientSecret) && !empty($this->issuerUrl);
     }
 
-    /**
-     * Fetch OIDC discovery document
-     */
     public function discover(): bool
     {
         $url = $this->issuerUrl . '/.well-known/openid-configuration';
@@ -49,9 +45,6 @@ class OIDC
         return is_array($this->discovery) && isset($this->discovery['authorization_endpoint']);
     }
 
-    /**
-     * Build authorization URL and redirect to IdP
-     */
     public function authorize(): void
     {
         if (empty($this->discovery)) {
@@ -80,13 +73,8 @@ class OIDC
         exit;
     }
 
-    /**
-     * Handle callback from IdP
-     * @return array|false User info on success, false on failure
-     */
     public function handleCallback(string $code, string $state): array|false
     {
-        // Validate state
         if (!isset($_SESSION['oidc_state']) || !hash_equals($_SESSION['oidc_state'], $state)) {
             error_log('OIDC: State mismatch');
             return false;
@@ -94,7 +82,6 @@ class OIDC
         $nonce = $_SESSION['oidc_nonce'] ?? '';
         unset($_SESSION['oidc_state'], $_SESSION['oidc_nonce']);
 
-        // Exchange code for tokens
         if (empty($this->discovery)) {
             $this->discover();
         }
@@ -118,10 +105,13 @@ class OIDC
             return false;
         }
 
-        // Validate ID token
-        $claims = $this->validateIdToken($tokens['id_token']);
-        if ($claims === false) {
-            error_log('OIDC: ID token validation failed');
+        // Validate ID token using firebase/php-jwt
+        $jwks = $this->getJwks();
+        try {
+            $claims = JWT::decode($tokens['id_token'], JWK::parseKeySet($jwks));
+            $claims = json_decode(json_encode($claims), true);
+        } catch (\Exception $e) {
+            error_log('OIDC: ID token validation failed: ' . $e->getMessage());
             return false;
         }
 
@@ -142,207 +132,16 @@ class OIDC
         return $claims;
     }
 
-    /**
-     * Validate ID token (signature, issuer, audience, expiration)
-     */
-    private function validateIdToken(string $idToken): array|false
+    private function getJwks(): array
     {
-        $parts = explode('.', $idToken);
-        if (count($parts) !== 3) {
-            return false;
-        }
-
-        // Decode header and payload with proper padding
-        $headerJson = base64_decode(strtr($parts[0], '-_', '+/'));
-        $payloadJson = base64_decode(strtr($parts[1], '-_', '+/'));
-
-        $header = json_decode($headerJson, true);
-        $payload = json_decode($payloadJson, true);
-
-        if (!is_array($payload)) {
-            return false;
-        }
-
-        // Validate issuer
-        if (isset($payload['iss']) && $payload['iss'] !== $this->issuerUrl) {
-            error_log('OIDC: Issuer mismatch');
-            return false;
-        }
-
-        // Validate audience
-        if (isset($payload['aud'])) {
-            $aud = is_array($payload['aud']) ? $payload['aud'] : [$payload['aud']];
-            if (!in_array($this->clientId, $aud)) {
-                error_log('OIDC: Audience mismatch');
-                return false;
-            }
-        }
-
-        // Validate expiration
-        if (isset($payload['exp']) && $payload['exp'] < time()) {
-            error_log('OIDC: Token expired');
-            return false;
-        }
-
-        // Validate signature
-        if (!$this->validateSignature($idToken, $header)) {
-            error_log('OIDC: Signature validation failed');
-            return false;
-        }
-
-        return $payload;
-    }
-
-    /**
-     * Validate JWT signature using JWKS
-     */
-    private function validateSignature(string $idToken, array $header): bool
-    {
-        if (empty($header['kid'])) {
-            return false;
-        }
-
-        $jwks = $this->getJwks();
-        $key = null;
-        foreach ($jwks['keys'] ?? [] as $k) {
-            if ($k['kid'] === $header['kid']) {
-                $key = $k;
-                break;
-            }
-        }
-
-        if ($key === null) {
-            return false;
-        }
-
-        // For RS256, verify using public key
-        if (($key['kty'] ?? '') === 'RSA') {
-            if (isset($key['x5c']) && is_array($key['x5c']) && !empty($key['x5c'])) {
-                return $this->verifyX5cSignature($idToken, $key['x5c'][0]);
-            }
-            if (isset($key['n']) && isset($key['e'])) {
-                return $this->verifyRsaSignature($idToken, $key);
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Verify RSA signature using X.509 certificate
-     */
-    private function verifyX5cSignature(string $idToken, string $x5cCert): bool
-    {
-        $parts = explode('.', $idToken);
-        
-        // Decode signature with padding
-        $sigB64 = strtr($parts[2], '-_', '+/');
-        $sigB64 = str_pad($sigB64, strlen($sigB64) + (4 - strlen($sigB64) % 4) % 4, '=');
-        $signature = base64_decode($sigB64);
-        
-        $data = $parts[0] . '.' . $parts[1];
-
-        // Build PEM from X.509 cert
-        $pem = "-----BEGIN CERTIFICATE-----\n" . chunk_split($x5cCert, 64, "\n") . "-----END CERTIFICATE-----";
-
-        $pubKey = openssl_pkey_get_public($pem);
-        if ($pubKey === false) {
-            error_log('OIDC: Failed to parse x5c certificate: ' . openssl_error_string());
-            return false;
-        }
-
-        $result = openssl_verify($data, $signature, $pubKey, 'sha256');
-        if ($result === -1) {
-            error_log('OIDC: OpenSSL error during verification: ' . openssl_error_string());
-        }
-        return $result === 1;
-    }
-
-    /**
-     * Verify RSA signature
-     */
-    private function verifyRsaSignature(string $idToken, array $key): bool
-    {
-        $parts = explode('.', $idToken);
-        
-        // Decode signature with padding
-        $sigB64 = strtr($parts[2], '-_', '+/');
-        $sigB64 = str_pad($sigB64, strlen($sigB64) + (4 - strlen($sigB64) % 4) % 4, '=');
-        $signature = base64_decode($sigB64);
-        
-        $data = $parts[0] . '.' . $parts[1];
-
-        // Build PEM public key from n and e
-        $modulus = base64_decode(strtr($key['n'], '-_', '+/'));
-        $exponent = base64_decode(strtr($key['e'], '-_', '+/'));
-
-        $pem = $this->rsaPublicKeyToPem($modulus, $exponent);
-        if ($pem === false) {
-            return false;
-        }
-
-        $pubKey = openssl_pkey_get_public($pem);
-        if ($pubKey === false) {
-            return false;
-        }
-
-        $result = openssl_verify($data, $signature, $pubKey, 'sha256');
-        return $result === 1;
-    }
-
-    /**
-     * Convert RSA public key components to PEM format
-     */
-    private function rsaPublicKeyToPem(string $modulus, string $exponent): string|false
-    {
-        // Build DER-encoded RSA public key
-        $modulus = "\x00" . $modulus; // Add leading zero for positive integer
-        $exponent = "\x00" . $exponent;
-
-        $modulusLen = strlen($modulus);
-        $exponentLen = strlen($exponent);
-
-        // DER encode
-        $der = "\x30" . chr($modulusLen + $exponentLen + 4)
-             . "\x02" . chr($modulusLen) . $modulus
-             . "\x02" . chr($exponentLen) . $exponent;
-
-        // Wrap in BIT STRING
-        $der = "\x30" . chr(strlen($der) + 3) . "\x03" . chr(strlen($der) + 1) . "\x00" . $der;
-
-        // Wrap in SEQUENCE with algorithm identifier
-        $rsaOid = "\x30\x0d\x06\x09\x2a\x86\x48\x86\xf7\x0d\x01\x01\x01\x05\x00";
-        $der = "\x30" . chr(strlen($rsaOid) + strlen($der) + 2) . $rsaOid . "\x03" . chr(strlen($der) + 1) . "\x00" . $der;
-
-        return "-----BEGIN PUBLIC KEY-----\n" . chunk_split(base64_encode($der), 64, "\n") . "-----END PUBLIC KEY-----";
-    }
-
-    /**
-     * Fetch JWKS from IdP
-     */
-    public function getJwks(): array
-    {
-        if (!empty($this->jwks)) {
-            return $this->jwks;
-        }
-
-        if (empty($this->discovery)) {
-            $this->discover();
-        }
-
         $url = $this->discovery['jwks_uri'] ?? ($this->issuerUrl . '/protocol/openid-connect/certs');
         $response = $this->httpGet($url);
         if ($response === false) {
             return [];
         }
-
-        $this->jwks = json_decode($response, true);
-        return is_array($this->jwks) ? $this->jwks : [];
+        return json_decode($response, true);
     }
 
-    /**
-     * Get userinfo from IdP
-     */
     private function getUserinfo(string $accessToken): array|false
     {
         $url = $this->discovery['userinfo_endpoint'];
@@ -353,9 +152,6 @@ class OIDC
         return json_decode($response, true);
     }
 
-    /**
-     * HTTP GET request
-     */
     private function httpGet(string $url, string $headers = ''): string|false
     {
         $ch = curl_init();
@@ -371,9 +167,6 @@ class OIDC
         return $httpCode === 200 ? $response : false;
     }
 
-    /**
-     * HTTP POST request
-     */
     private function httpPost(string $url, array $params): string|false
     {
         $ch = curl_init();
