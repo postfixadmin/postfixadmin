@@ -54,12 +54,14 @@ if (empty($email)) {
 }
 
 // Look up admin user by email
+error_log("OIDC: Looking up admin user for $email");
 $adminHandler = new AdminHandler();
 $adminHandler->init($email);
 
 $username = '';
 $isSuperadmin = false;
 
+error_log("OIDC: Checking if admin user exists");
 if (!$adminHandler->view()) {
     // Admin user not found - auto-provision if enabled
     error_log("OIDC: Admin user not found for $email, auto-provisioning");
