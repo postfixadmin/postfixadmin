@@ -822,8 +822,9 @@ $CONF['oidc'] = array(
     'client_id'     => '',
     'client_secret' => '',
     'issuer_url'    => '',  // e.g. https://keycloak.frogpond.cloud/realms/FrogPond.Cloud
-    'redirect_uri'  => '',  // e.g. https://mailadmin.frogpond.cloud/oidc/callback
+    'redirect_uri'  => '',  // e.g. https://mailadmin.frogpond.cloud/oidc_callback.php
     'scopes'        => 'openid email profile',
+    'login_button_text' => 'Login with SSO',  // e.g. FrogPond.Cloud Keycloak
 );
 
 // The smtp_active_flag when set to YES enables editing of the smtp_active 

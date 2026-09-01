@@ -47,13 +47,20 @@ if (authentication_mfa_incomplete()) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
-    CsrfToken::assertValid(safepost('CSRF_Token'));
+    if (!isset($_SESSION['PFA_token'])) {
+        pfa_handle_invalid_token();
+    }
+
+    if (safepost('token') != ($_SESSION['PFA_token'] ?? '')) {
+        pfa_handle_invalid_token();
+    }
+
 
     $lang = safepost('lang');
     $fUsername = trim(safepost('fUsername'));
     $fPassword = safepost('fPassword');
 
-    if ($lang != Languages::check_language(false)) { # only set cookie if language selection was changed
+    if ($lang != check_language(false)) { # only set cookie if language selection was changed
         setcookie('lang', $lang, time() + 60 * 60 * 24 * 30); # language cookie, lifetime 30 days
         # (language preference cookie is processed even if username and/or password are invalid)
     }
@@ -61,9 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $adminHandler = new AdminHandler();
 
     $login = new Login('admin');
-
     if ($login->login($fUsername, $fPassword)) {
-
         init_session($fUsername, true);
 
         # they've logged in, so see if they are a domain admin, as well.
@@ -93,18 +98,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         header("Location: main.php");
         exit(0);
-    } else {
-        // this log message is intended to be used by tools like fail2ban to block brute force attempts.
+    } else { # $h->login failed
         error_log("PostfixAdmin admin login failed (username: $fUsername, ip_address: {$_SERVER['REMOTE_ADDR']})");
         flash_error($PALANG['pLogin_failed']);
     }
-} elseif (isset($_SESSION['sessid'])) {
-    // Preserve anonymous sessions so multiple login forms keep their CSRF tokens.
-    // An existing authenticated session should still be cleared before login.
+} else {
     session_unset();
     session_destroy();
     session_start();
 }
+
+$_SESSION['PFA_token'] = md5(uniqid("pfa" . rand(), true));
 
 $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');
@@ -115,11 +119,13 @@ $smarty->assign('forgotten_password_reset', Config::bool('forgotten_admin_passwo
 if (($CONF['auth_provider'] ?? 'local') === 'oidc') {
     $oidc = new OIDC();
     if ($oidc->isConfigured()) {
+        $oidcLoginText = !empty($CONF['oidc']['login_button_text']) ? $CONF['oidc']['login_button_text'] : 'Login with SSO';
         $smarty->assign('oidc_enabled', true);
         $smarty->assign('oidc_login_url', 'oidc_login.php');
+        $smarty->assign('oidc_login_text', $oidcLoginText);
     }
 }
 
 $smarty->display('index.tpl');
 
-/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
+/* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth: 4; */

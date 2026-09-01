@@ -1,49 +1,61 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}"
+                                                         alt="Logo"/></a>
+            {if $CONF.show_header_text==='YES' && $CONF.header_text}
+                <h2>{$CONF.header_text}</h2>
+            {/if}
+        </div>
+    </div>
+</nav>
+
 <div id="login" class="container">
-    <div class="card card-body">
-        <h2 class="h2">{if $logintype=='admin'}{$PALANG.pLogin_welcome}{else}{$PALANG.pUsersLogin_welcome}{/if}</h2>
+
+    <h2 class="h2">{if $logintype=='admin'}{$PALANG.pLogin_welcome}{else}{$PALANG.pUsersLogin_welcome}{/if}</h2>
+
+    <div class="well">
 
         <form name="frmLogin" method="post" action="" role="form" class="form-signin">
-
-            {CSRF_Token}
-
+            <input type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
             <div class="form-group">
                 <label for="fUsername">{$PALANG.pLogin_username}:</label>
                 <input class="form-control" type="text" name="fUsername" id="fUsername"/>
             </div>
-            <div class="mb-3">
+            <div class="form-group">
                 <label for="fPassword">{$PALANG.password}:</label>
                 <input class="form-control" type="password" name="fPassword" id="fPassword"/>
             </div>
             {if $forgotten_password_reset}
-                <div class="mb-3 row">
-                    <div class="col-sm-6 offset-sm-3 reset-button">
-                        <a class="btn btn-secondary w-100" role="button" href="password-recover.php">
-                            <span class="bi bi-arrow-clockwise" aria-hidden="true"></span>
+                <div class="form-group row">
+                    <div class="col-sm-6 col-sm-offset-3 reset-button">
+                        <a class="btn btn-default btn-block" role="button" href="password-recover.php">
+                            <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
                             {$PALANG.pUsersLogin_password_recover}</a>
                     </div>
                 </div>
             {/if}
-            <div class="mb-3">
+            <div class="form-group">
                 <label for=lang>{$PALANG.pLogin_language}:</label>
                 {$language_selector}
             </div>
             <div class="text-center">
-                <button class="btn btn-primary btn-lg" type="submit" name="submit" value="{$PALANG.pLogin_button}"><span class="bi bi-box-arrow-in-right"
-                                                    		aria-hidden="true"></span> {$PALANG.pLogin_button}</button>
+                <button class="btn btn-primary btn-lg" type="submit" name="submit" value="{$PALANG.pLogin_button}"><span class="glyphicon glyphicon-log-in"
+                                                    \t\taria-hidden="true"></span> {$PALANG.pLogin_button}</button>
             </div>
         </form>
         {if $logintype == 'admin'}
             <br/>
-            <div class="text-center p-3">
+            <div class="text-center">
                 <a href="users/">{$PALANG.pLogin_login_users}</a>
             </div>
         {/if}
         {if $oidc_enabled}
             <br/>
-            <div class="text-center p-3">
-                <a class="btn btn-outline-primary" href="{$oidc_login_url}">
-                    <span class="bi bi-box-arrow-in-right" aria-hidden="true"></span>
-                    Login with SSO
+            <div class="text-center">
+                <a class="btn btn-default" href="{$oidc_login_url}">
+                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                    {$oidc_login_text}
                 </a>
             </div>
         {/if}
