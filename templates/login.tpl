@@ -38,6 +38,15 @@
                 <a href="users/">{$PALANG.pLogin_login_users}</a>
             </div>
         {/if}
+        {if $oidc_enabled}
+            <br/>
+            <div class="text-center p-3">
+                <a class="btn btn-outline-primary" href="{$oidc_login_url}">
+                    <span class="bi bi-box-arrow-in-right" aria-hidden="true"></span>
+                    Login with SSO
+                </a>
+            </div>
+        {/if}
     </div>
     <script type="text/javascript">
         document.frmLogin.fUsername.focus();

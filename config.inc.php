@@ -807,6 +807,25 @@ $CONF['site_url'] = null;
 
 $CONF['version'] = '4.0.1';
 
+// Authentication provider
+// 'local' = PostfrontAdmin's internal username/password auth (default)
+// 'oidc' = OpenID Connect authentication via external provider
+$CONF['auth_provider'] = 'local';
+
+// OIDC auto-provision: when enabled, any authenticated OIDC user gets an admin
+// account created automatically on first login. When disabled, only pre-provisioned
+// admin users can log in.
+$CONF['oidc_auto_provision'] = true;
+
+// OIDC configuration
+$CONF['oidc'] = array(
+    'client_id'     => '',
+    'client_secret' => '',
+    'issuer_url'    => '',  // e.g. https://keycloak.frogpond.cloud/realms/FrogPond.Cloud
+    'redirect_uri'  => '',  // e.g. https://mailadmin.frogpond.cloud/oidc/callback
+    'scopes'        => 'openid email profile',
+);
+
 // The smtp_active_flag when set to YES enables editing of the smtp_active 
 // field of the mailbox table. The smtp_active field can be used to enable
 // or disable smtp sending for a mailbox separately to other mailbox functions.  
