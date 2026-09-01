@@ -71,6 +71,8 @@ class OIDC
         $url = $this->discovery['authorization_endpoint'] . '?' . http_build_query($params);
         header('Location: ' . $url);
         exit;
+    }
+
     public function handleCallback(string $code, string $state): array|false
     {
         // Validate state
