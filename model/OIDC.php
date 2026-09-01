@@ -212,11 +212,37 @@ class OIDC
         }
 
         // For RS256, verify using public key
-        if (($key['kty'] ?? '') === 'RSA' && isset($key['n']) && isset($key['e'])) {
-            return $this->verifyRsaSignature($idToken, $key);
+        if (($key['kty'] ?? '') === 'RSA') {
+            if (isset($key['x5c']) && is_array($key['x5c']) && !empty($key['x5c'])) {
+                return $this->verifyX5cSignature($idToken, $key['x5c'][0]);
+            }
+            if (isset($key['n']) && isset($key['e'])) {
+                return $this->verifyRsaSignature($idToken, $key);
+            }
         }
 
         return false;
+    }
+
+    /**
+     * Verify RSA signature using X.509 certificate
+     */
+    private function verifyX5cSignature(string $idToken, string $x5cCert): bool
+    {
+        $parts = explode('.', $idToken);
+        $signature = base64_decode(strtr($parts[2], '-_', '+/'));
+        $data = $parts[0] . '.' . $parts[1];
+
+        // Build PEM from X.509 cert
+        $pem = "-----BEGIN CERTIFICATE-----\n" . chunk_split($x5cCert, 64, "\n") . "-----END CERTIFICATE-----";
+
+        $pubKey = openssl_pkey_get_public($pem);
+        if ($pubKey === false) {
+            return false;
+        }
+
+        $result = openssl_verify($data, $signature, $pubKey, 'sha256');
+        return $result === 1;
     }
 
     /**
@@ -276,7 +302,7 @@ class OIDC
     /**
      * Fetch JWKS from IdP
      */
-    private function getJwks(): array
+    public function getJwks(): array
     {
         if (!empty($this->jwks)) {
             return $this->jwks;
