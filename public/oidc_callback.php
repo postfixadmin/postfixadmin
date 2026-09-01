@@ -71,40 +71,38 @@ if (!$adminHandler->view()) {
         exit;
     }
 
-    // Auto-provision new admin user using AdminHandler
+    // Auto-provision new admin user
     $randomPassword = generate_password();
     
-    $handler = new AdminHandler(1, 'oidc_callback.php');
-    $values = [
-        'username' => $email,
-        'password' => $randomPassword,
-        'active' => true,
-    ];
+    $table_admin = table_by_key('admin');
     
-    if (!$handler->init($email)) {
-        error_log("OIDC: Failed to initialize admin account for $email");
-        flash_error('Failed to initialize admin account.');
-        header('Location: login.php');
-        exit;
+    // Check if admin already exists (shouldn't happen, but be safe)
+    $existing = db_query_one("SELECT username FROM $table_admin WHERE username = ?", [$email]);
+    if ($existing) {
+        error_log("OIDC: Admin already exists: $email");
+        $username = $email;
+        $isSuperadmin = false;
+    } else {
+        // Insert new admin user directly
+        $hashedPassword = pacrypt($randomPassword);
+        
+        $result = db_insert($table_admin, [
+            'username' => $email,
+            'password' => $hashedPassword,
+            'active' => db_get_boolean(true),
+        ], ['created', 'modified']);
+        
+        if (!$result) {
+            error_log("OIDC: Failed to auto-provision admin account for $email");
+            flash_error('Failed to create admin account.');
+            header('Location: login.php');
+            exit;
+        }
+        
+        $username = $email;
+        $isSuperadmin = false;
+        error_log("OIDC: Auto-provisioned admin account for $email");
     }
-    
-    if (!$handler->set($values)) {
-        error_log("OIDC: Failed to set admin account values for $email");
-        flash_error('Failed to set admin account values.');
-        header('Location: login.php');
-        exit;
-    }
-    
-    if (!$handler->save()) {
-        error_log("OIDC: Failed to create admin account for $email: " . implode(', ', $handler->errormsg));
-        flash_error('Failed to create admin account: ' . implode(', ', $handler->errormsg));
-        header('Location: login.php');
-        exit;
-    }
-    
-    $username = $email;
-    $isSuperadmin = false;
-    error_log("OIDC: Auto-provisioned admin account for $email");
 } else {
     $adminProperties = $adminHandler->result();
     $username = $adminProperties['username'];
