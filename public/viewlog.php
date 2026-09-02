@@ -158,7 +158,7 @@ $url = explode("?",(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "ht
 
 $smarty->assign('domain_list', $list_domains);
 $smarty->assign('domain_selected', $fDomain);
-$smarty->assign('tLog', $tLog, false);
+$smarty->assign('tLog', $tLog);
 $smarty->assign('fDomain', $fDomain);
 
 $smarty->assign('number_of_pages', $number_of_pages);
