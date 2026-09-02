@@ -77,11 +77,11 @@ class OIDC
     {
         // Validate state
         if (!isset($_SESSION['oidc_state'])) {
-            error_log('OIDC: No state in session');
+            error_log('OIDC: No state in session - possible CSRF attack');
             return false;
         }
         if (!hash_equals($_SESSION['oidc_state'], $state)) {
-            error_log('OIDC: State mismatch - session=' . $_SESSION['oidc_state'] . ' url=' . $state);
+            error_log('OIDC: State mismatch - possible session fixation attack');
             return false;
         }
         $nonce = $_SESSION['oidc_nonce'] ?? '';
@@ -93,11 +93,9 @@ class OIDC
         }
 
         if (empty($this->discovery['token_endpoint'])) {
-            error_log('OIDC: No token_endpoint in discovery');
+            error_log('OIDC: No token_endpoint in discovery response');
             return false;
         }
-
-        error_log('OIDC: Exchanging code for tokens at ' . $this->discovery['token_endpoint']);
 
         $tokenResponse = $this->httpPost($this->discovery['token_endpoint'], [
             'grant_type' => 'authorization_code',
@@ -112,27 +110,22 @@ class OIDC
             return false;
         }
 
-        error_log('OIDC: Token response: ' . substr($tokenResponse, 0, 200));
-
         $tokens = json_decode($tokenResponse, true);
         if (!is_array($tokens) || !isset($tokens['id_token'])) {
-            error_log('OIDC: No id_token in response');
+            error_log('OIDC: No id_token in token response');
             return false;
         }
-
-        error_log('OIDC: Got id_token, validating with firebase/php-jwt');
 
         // Validate ID token using firebase/php-jwt
         $jwks = $this->getJwks();
         if (empty($jwks)) {
-            error_log('OIDC: Failed to get JWKS');
+            error_log('OIDC: Failed to get JWKS from provider');
             return false;
         }
 
         try {
             $claims = JWT::decode($tokens['id_token'], JWK::parseKeySet($jwks));
             $claims = json_decode(json_encode($claims), true);
-            error_log('OIDC: JWT validated successfully');
         } catch (\Exception $e) {
             error_log('OIDC: ID token validation failed: ' . $e->getMessage());
             return false;
@@ -140,7 +133,7 @@ class OIDC
 
         // Verify nonce
         if (!empty($nonce) && isset($claims['nonce']) && !hash_equals($nonce, $claims['nonce'])) {
-            error_log('OIDC: Nonce mismatch');
+            error_log('OIDC: Nonce mismatch - possible replay attack');
             return false;
         }
 
