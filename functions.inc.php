@@ -2411,4 +2411,28 @@ function getSiteUrl(array $server = []): string
     return $https . '://' . $server['HTTP_HOST'] . $uri;
 }
 
+/**
+ * Return the configured canonical URL used in password-recovery messages.
+ *
+ * Request headers are deliberately not used here because recovery links carry
+ * a credential and must not depend on an untrusted Host value.
+ */
+function getPasswordRecoverySiteUrl(): string
+{
+    $url = Config::read_string('site_url');
+    $parts = parse_url($url);
+
+    if ($url === '' || !is_array($parts) || empty($parts['host']) ||
+        !isset($parts['scheme']) || !in_array(strtolower($parts['scheme']), ['http', 'https'], true) ||
+        isset($parts['user']) || isset($parts['pass']) || isset($parts['query']) || isset($parts['fragment'])) {
+        throw new RuntimeException("A valid canonical site_url is required for password recovery");
+    }
+
+    if (substr($url, -1) !== '/') {
+        $url .= '/';
+    }
+
+    return $url;
+}
+
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

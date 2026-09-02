@@ -145,7 +145,21 @@ class LoginTest extends \PHPUnit\Framework\TestCase
         $login = new Login('mailbox');
         $this->assertFalse($login->generatePasswordRecoveryCode(''));
         $this->assertFalse($login->generatePasswordRecoveryCode('doesnotexist'));
-        $this->assertNotEmpty($login->generatePasswordRecoveryCode('test@example.com'));
+        $token = $login->generatePasswordRecoveryCode('test@example.com');
+        $this->assertNotEmpty($token);
+        $this->assertFalse($login->generatePasswordRecoveryCode('test@example.com'));
+
+        db_execute(
+            "UPDATE " . table_by_key('mailbox') . " SET token_validity = :validity WHERE username = :username",
+            [
+                'validity' => date('Y-m-d H:i:s', strtotime('+54 minutes')),
+                'username' => 'test@example.com',
+            ]
+        );
+
+        $replacement = $login->generatePasswordRecoveryCode('test@example.com');
+        $this->assertIsString($replacement);
+        $this->assertNotSame($token, $replacement);
     }
 
     public function testAddAppPasswordIncorrectPassword()
