@@ -73,6 +73,24 @@ class TotpPfTest extends TestCase
         $this->assertNotEmpty($currentCode);
     }
 
+    public function testPasswordOnlyLoginRejectsAccountsUsingTotp(): void
+    {
+        global $CONF;
+        Config::write('totp', 'YES');
+        $CONF['totp'] = 'YES';
+
+        $totp = new TotpPf('mailbox', new Login('mailbox'));
+        $this->assertTrue($totp->passwordOnlyLogin('test@example.com', 'foobar'));
+
+        db_execute(
+            'UPDATE mailbox SET totp_secret = :secret WHERE username = :username',
+            ['username' => 'test@example.com', 'secret' => 'existing-secret']
+        );
+
+        $this->assertFalse($totp->passwordOnlyLogin('test@example.com', 'foobar'));
+        $this->assertFalse($totp->passwordOnlyLogin('test@example.com', 'incorrect-password'));
+    }
+
     public function testDbOperations()
     {
         $x = new TotpPf('mailbox', new Login('mailbox'));

@@ -777,6 +777,8 @@ $CONF['theme_custom_css'] = '';
 // XMLRPC Interface.
 // This should be only of use if you wish to use e.g the
 // Postfixadmin-Squirrelmail package
+// XML-RPC has no TOTP challenge flow. Mailbox accounts with a TOTP
+// secret cannot authenticate through this interface.
 //  change to boolean true to enable xmlrpc
 $CONF['xmlrpc_enabled'] = false;
 

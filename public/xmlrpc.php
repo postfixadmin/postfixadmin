@@ -48,7 +48,8 @@ $server = new Zend_XmlRpc_Server();
 function login($username, $password)
 {
     $login = new Login('mailbox');
-    if ($login->login($username, $password)) {
+    $totp = new TotpPf('mailbox', $login);
+    if ($totp->passwordOnlyLogin($username, $password)) {
         session_regenerate_id();
         $_SESSION['authenticated'] = true;
         $_SESSION['sessid'] = array();
