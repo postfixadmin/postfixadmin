@@ -1369,8 +1369,9 @@ function remove_from_array($array, $item)
 function enable_socket_crypto($fh)
 {
     stream_set_blocking($fh, true);
-    stream_socket_enable_crypto($fh, true, STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT);
+    $enabled = stream_socket_enable_crypto($fh, true, STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT) === true;
     stream_set_blocking($fh, true);
+    return $enabled;
 }
 
 /**
@@ -1422,44 +1423,57 @@ function smtp_mail($to, $from, $data, $password = "", $body = "")
     if (!$fh) {
         error_log("fsockopen failed - errno: $errno - errstr: $errstr");
         return false;
-    } else {
+    }
+
+    try {
         if ($smtpd_type === "tls") {
-            enable_socket_crypto($fh);
+            if (!enable_socket_crypto($fh)) {
+                throw new RuntimeException('TLS negotiation failed');
+            }
         }
 
-        smtp_get_response($fh);
+        smtp_require_response($fh, 220);
+
+        smtp_write($fh, "EHLO $smtp_server\r\n");
+        smtp_require_response($fh, 250);
 
         if ($smtpd_type === "starttls") {
-            fputs($fh, "STARTTLS\r\n");
-            smtp_get_response($fh);
-            enable_socket_crypto($fh);
+            smtp_write($fh, "STARTTLS\r\n");
+            smtp_require_response($fh, 220);
+            if (!enable_socket_crypto($fh)) {
+                throw new RuntimeException('STARTTLS negotiation failed');
+            }
+            smtp_write($fh, "EHLO $smtp_server\r\n");
+            smtp_require_response($fh, 250);
         }
-
-        fputs($fh, "EHLO $smtp_server\r\n");
-        smtp_get_response($fh);
 
         if (!empty($password)) {
-            fputs($fh, "AUTH LOGIN\r\n");
-            smtp_get_response($fh);
-            fputs($fh, base64_encode($from) . "\r\n");
-            smtp_get_response($fh);
-            fputs($fh, base64_encode($password) . "\r\n");
-            smtp_get_response($fh);
+            smtp_write($fh, "AUTH LOGIN\r\n");
+            smtp_require_response($fh, 334);
+            smtp_write($fh, base64_encode($from) . "\r\n");
+            smtp_require_response($fh, 334);
+            smtp_write($fh, base64_encode($password) . "\r\n");
+            smtp_require_response($fh, 235);
         }
 
-        fputs($fh, "MAIL FROM:<$from>\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "RCPT TO:<$to>\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "DATA\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "$maildata\r\n.\r\n");
-        smtp_get_response($fh);
-        fputs($fh, "QUIT\r\n");
-        smtp_get_response($fh);
+        smtp_write($fh, "MAIL FROM:<$from>\r\n");
+        smtp_require_response($fh, 250);
+        smtp_write($fh, "RCPT TO:<$to>\r\n");
+        smtp_require_response($fh, 250);
+        smtp_write($fh, "DATA\r\n");
+        smtp_require_response($fh, 354);
+        smtp_write($fh, "$maildata\r\n.\r\n");
+        smtp_require_response($fh, 250);
+        smtp_write($fh, "QUIT\r\n");
         fclose($fh);
+        return true;
+    } catch (RuntimeException $e) {
+        error_log('smtp_mail(): ' . $e->getMessage());
+        if (is_resource($fh)) {
+            fclose($fh);
+        }
+        return false;
     }
-    return true;
 }
 
 /**
@@ -1505,9 +1519,39 @@ function smtp_get_response($fh)
     $res = '';
     do {
         $line = fgets($fh, 256);
+        if ($line === false) {
+            throw new RuntimeException('Failed to read from SMTP connection');
+        }
         $res .= $line;
-    } while (preg_match("/^\d\d\d\-/", $line));
+    } while (isset($line[3]) && $line[3] === '-');
     return $res;
+}
+
+function smtp_require_response($fh, int $code): void
+{
+    $response = smtp_get_response($fh);
+    $actual = (int)substr($response, 0, 3);
+    if ($actual !== $code) {
+        throw new RuntimeException("Unexpected SMTP response; expected $code, got $actual");
+    }
+}
+
+function smtp_write($fh, string $data): void
+{
+    $remaining = $data;
+    while ($remaining !== '') {
+        try {
+            $written = fwrite($fh, $remaining);
+        } catch (Throwable $e) {
+            throw new RuntimeException('Failed to write to SMTP connection', 0, $e);
+        }
+
+        if ($written === false || $written === 0) {
+            throw new RuntimeException('Failed to write to SMTP connection');
+        }
+
+        $remaining = substr($remaining, $written);
+    }
 }
 
 
