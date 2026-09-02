@@ -83,7 +83,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         tools: composer
-        extensions: sqlite3, gd
+        extensions: sqlite3, gd, mailparse
 
     - name: Get composer cache directory
       if: ${{ !env.ACT }}
@@ -109,6 +109,9 @@ jobs:
 
     - name: Build/test
       run: sudo -u runner composer test
+
+    - name: Test PHP Virtual Vacation transport
+      run: sudo -u runner php VIRTUAL_VACATION/tests/test_vacation.php
 
   testsuite-mysql:
     needs: [lint_etc]
