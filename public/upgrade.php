@@ -2332,3 +2332,112 @@ function upgrade_1856()
         ) {COLLATE};
     ");
 }
+
+/**
+ * Add broadcast queue tables for asynchronous broadcast message sending.
+ */
+function upgrade_1857()
+{
+    $jobTable = table_by_key('broadcast_job');
+    $jobDomainTable = table_by_key('broadcast_job_domain');
+    $recipientTable = table_by_key('broadcast_recipient');
+    $idColumn = db_sqlite() ? 'id {AUTOINCREMENT}' : 'id {AUTOINCREMENT} {PRIMARY}';
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $jobTable (
+            $idColumn,
+            created_by varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            sender varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            sender_name varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            subject varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            body text {UTF-8} NOT NULL,
+            mailboxes_only int NOT NULL DEFAULT 0,
+            status varchar(20) {UTF-8} NOT NULL DEFAULT 'pending',
+            total_count int NOT NULL DEFAULT 0,
+            sent_count int NOT NULL DEFAULT 0,
+            failed_count int NOT NULL DEFAULT 0,
+            cancelled_count int NOT NULL DEFAULT 0,
+            cancel_requested int NOT NULL DEFAULT 0,
+            last_error text {UTF-8} NULL,
+            created {DATECURRENT},
+            started {DATETIME} NULL,
+            finished {DATETIME} NULL,
+            modified {DATETIME} NULL
+        )
+    ");
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $jobDomainTable (
+            $idColumn,
+            job_id int NOT NULL,
+            domain varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            created {DATECURRENT}
+        )
+    ");
+
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $recipientTable (
+            $idColumn,
+            job_id int NOT NULL,
+            recipient varchar(255) {UTF-8} NOT NULL DEFAULT '',
+            status varchar(20) {UTF-8} NOT NULL DEFAULT 'pending',
+            smtp_response text {UTF-8} NULL,
+            error text {UTF-8} NULL,
+            created {DATECURRENT},
+            modified {DATETIME} NULL,
+            sent_at {DATETIME} NULL
+        )
+    ");
+
+}
+
+function upgrade_1857_mysql()
+{
+    $indexes = [
+        'broadcast_job' => [
+            'idx_broadcast_job_status' => 'status',
+        ],
+        'broadcast_job_domain' => [
+            'idx_broadcast_job_domain' => 'domain, job_id',
+        ],
+        'broadcast_recipient' => [
+            'idx_broadcast_recipient_job_status' => 'job_id, status',
+        ],
+    ];
+
+    foreach ($indexes as $tableKey => $tableIndexes) {
+        $table = table_by_key($tableKey);
+        foreach ($tableIndexes as $index => $columns) {
+            $result = db_query_one("SHOW INDEX FROM $table WHERE Key_name = '$index'");
+            if (empty($result)) {
+                db_query("CREATE INDEX $index ON $table ($columns)");
+            }
+        }
+    }
+}
+
+function upgrade_1857_pgsql()
+{
+    $indexes = [
+        'idx_broadcast_job_status' => [table_by_key('broadcast_job'), 'status'],
+        'idx_broadcast_job_domain' => [table_by_key('broadcast_job_domain'), 'domain, job_id'],
+        'idx_broadcast_recipient_job_status' => [table_by_key('broadcast_recipient'), 'job_id, status'],
+    ];
+
+    foreach ($indexes as $index => [$table, $columns]) {
+        if (!_pgsql_object_exists($index)) {
+            db_query("CREATE INDEX $index ON $table ($columns)");
+        }
+    }
+}
+
+function upgrade_1857_sqlite()
+{
+    $jobTable = table_by_key('broadcast_job');
+    $jobDomainTable = table_by_key('broadcast_job_domain');
+    $recipientTable = table_by_key('broadcast_recipient');
+
+    db_query("CREATE INDEX IF NOT EXISTS idx_broadcast_job_status ON $jobTable (status)");
+    db_query("CREATE INDEX IF NOT EXISTS idx_broadcast_job_domain ON $jobDomainTable (domain, job_id)");
+    db_query("CREATE INDEX IF NOT EXISTS idx_broadcast_recipient_job_status ON $recipientTable (job_id, status)");
+}
