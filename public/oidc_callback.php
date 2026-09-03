@@ -67,19 +67,24 @@ if (!$adminHandler->view()) {
         exit;
     }
 
-    // Auto-provision new admin user
-    // Use upstream pattern: check then insert (database-agnostic)
+    // Auto-provision new admin user atomically
     $randomPassword = generate_password();
     $hashedPassword = pacrypt($randomPassword);
 
     $table_admin = table_by_key('admin');
-    $existing = db_query_one("SELECT username FROM $table_admin WHERE username = ?", [$email]);
-    if (empty($existing)) {
-        db_insert($table_admin, [
-            'username' => $email,
-            'password' => $hashedPassword,
-            'active' => db_get_boolean(true),
-        ], ['created', 'modified']);
+
+    if (db_pgsql() || db_sqlite()) {
+        // PostgreSQL 9.5+ and SQLite 3.24+: atomic upsert
+        db_execute(
+            "INSERT INTO $table_admin (username, password, active, created, modified) VALUES (?, ?, true, now(), now()) ON CONFLICT (username) DO NOTHING",
+            [$email, $hashedPassword]
+        );
+    } else {
+        // MySQL: INSERT IGNORE (ON DUPLICATE KEY syntax)
+        db_execute(
+            "INSERT IGNORE INTO $table_admin (username, password, active, created, modified) VALUES (?, ?, true, now(), now())",
+            [$email, $hashedPassword]
+        );
     }
 
     $username = $email;
