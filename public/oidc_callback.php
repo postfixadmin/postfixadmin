@@ -67,34 +67,19 @@ if (!$adminHandler->view()) {
         exit;
     }
 
-    // Auto-provision new admin user
+    // Auto-provision new admin user atomically
+    // Use INSERT ... ON CONFLICT to safely handle concurrent OIDC logins
     $randomPassword = generate_password();
+    $hashedPassword = pacrypt($randomPassword);
+
     $table_admin = table_by_key('admin');
+    db_execute(
+        "INSERT INTO $table_admin (username, password, active, created, modified) VALUES (?, ?, true, now(), now()) ON CONFLICT (username) DO NOTHING",
+        [$email, $hashedPassword]
+    );
 
-    // Check if admin already exists (shouldn't happen, but be safe)
-    $existing = db_query_one("SELECT username FROM $table_admin WHERE username = ?", [$email]);
-    if ($existing) {
-        $username = $email;
-        $isSuperadmin = false;
-    } else {
-        // Insert new admin user directly
-        $hashedPassword = pacrypt($randomPassword);
-
-        $result = db_insert($table_admin, [
-            'username' => $email,
-            'password' => $hashedPassword,
-            'active' => db_get_boolean(true),
-        ], ['created', 'modified']);
-
-        if (!$result) {
-            flash_error('Failed to create admin account.');
-            header('Location: login.php');
-            exit;
-        }
-
-        $username = $email;
-        $isSuperadmin = false;
-    }
+    $username = $email;
+    $isSuperadmin = false;
 } else {
     $adminProperties = $adminHandler->result();
     $username = $adminProperties['username'];
