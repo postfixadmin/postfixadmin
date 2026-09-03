@@ -41,54 +41,19 @@ class OIDCTest extends TestCase
         return JWT::encode($claims, $this->testSecret, 'HS256');
     }
 
-    private function getJWKS(): array
+    private function getKey(): Key
     {
-        return [
-            'keys' => [
-                [
-                    'kty' => 'oct',
-                    'kid' => 'test-key-1',
-                    'k' => rtrim(strtr(base64_encode($this->testSecret), '+/', '-_'), '='),
-                    'alg' => 'HS256',
-                ]
-            ]
-        ];
-    }
-
-    private function createOIDCWithMockTokens(array $tokenResponse): OIDC
-    {
-        $oidc = new OIDC();
-
-        // Use reflection to set discovery and bypass HTTP calls
-        $ref = new ReflectionClass($oidc);
-
-        $discovery = [
-            'issuer' => $this->testIss,
-            'authorization_endpoint' => 'https://keycloak.example.com/realms/test/protocol/openid-connect/auth',
-            'token_endpoint' => 'https://keycloak.example.com/realms/test/protocol/openid-connect/token',
-            'userinfo_endpoint' => 'https://keycloak.example.com/realms/test/protocol/openid-connect/userinfo',
-            'jwks_uri' => 'https://keycloak.example.com/realms/test/protocol/openid-connect/certs',
-        ];
-
-        $discoveryProp = $ref->getProperty('discovery');
-        $discoveryProp->setAccessible(true);
-        $discoveryProp->setValue($oidc, $discovery);
-
-        return $oidc;
+        return new Key($this->testSecret, 'HS256');
     }
 
     // Test: valid token passes all checks
     public function testValidTokenPassesValidation(): void
     {
-        $oidc = $this->createOIDCWithMockTokens([]);
         $_SESSION['oidc_state'] = 'valid-state';
         $_SESSION['oidc_nonce'] = 'valid-nonce';
 
         $token = $this->generateJWT([]);
-
-        // Verify the token decodes correctly with our secret
-        $jwks = $this->getJWKS();
-        $decoded = JWT::decode($token, Key::createFromData($jwks['keys'][0]));
+        $decoded = JWT::decode($token, $this->getKey());
         $claims = json_decode(json_encode($decoded), true);
 
         $this->assertEquals($this->testIss, $claims['iss']);
@@ -101,9 +66,7 @@ class OIDCTest extends TestCase
     public function testIssuerMismatchDetected(): void
     {
         $token = $this->generateJWT(['iss' => 'https://evil.example.com/realms/test']);
-
-        $jwks = $this->getJWKS();
-        $decoded = JWT::decode($token, Key::createFromData($jwks['keys'][0]));
+        $decoded = JWT::decode($token, $this->getKey());
         $claims = json_decode(json_encode($decoded), true);
 
         $this->assertNotEquals($this->testIss, $claims['iss'], 'Issuer should not match');
@@ -113,9 +76,7 @@ class OIDCTest extends TestCase
     public function testAudienceMismatchStringDetected(): void
     {
         $token = $this->generateJWT(['aud' => 'wrong-client']);
-
-        $jwks = $this->getJWKS();
-        $decoded = JWT::decode($token, Key::createFromData($jwks['keys'][0]));
+        $decoded = JWT::decode($token, $this->getKey());
         $claims = json_decode(json_encode($decoded), true);
 
         $this->assertNotEquals($this->testClientId, $claims['aud'], 'Audience should not match');
@@ -125,9 +86,7 @@ class OIDCTest extends TestCase
     public function testAudienceArrayValidation(): void
     {
         $token = $this->generateJWT(['aud' => ['wrong-client', 'another-client']]);
-
-        $jwks = $this->getJWKS();
-        $decoded = JWT::decode($token, Key::createFromData($jwks['keys'][0]));
+        $decoded = JWT::decode($token, $this->getKey());
         $claims = json_decode(json_encode($decoded), true);
 
         $this->assertNotEquals($this->testClientId, $claims['aud'][0]);
@@ -138,9 +97,7 @@ class OIDCTest extends TestCase
     public function testAudienceArrayContainingCorrectClient(): void
     {
         $token = $this->generateJWT(['aud' => [$this->testClientId, 'other-client']]);
-
-        $jwks = $this->getJWKS();
-        $decoded = JWT::decode($token, Key::createFromData($jwks['keys'][0]));
+        $decoded = JWT::decode($token, $this->getKey());
         $claims = json_decode(json_encode($decoded), true);
 
         $aud = $claims['aud'];
@@ -154,9 +111,7 @@ class OIDCTest extends TestCase
     public function testNonceMismatchDetected(): void
     {
         $token = $this->generateJWT(['nonce' => 'wrong-nonce']);
-
-        $jwks = $this->getJWKS();
-        $decoded = JWT::decode($token, Key::createFromData($jwks['keys'][0]));
+        $decoded = JWT::decode($token, $this->getKey());
         $claims = json_decode(json_encode($decoded), true);
 
         $this->assertNotEquals('valid-nonce', $claims['nonce']);
@@ -165,8 +120,6 @@ class OIDCTest extends TestCase
     // Test: missing nonce is detected
     public function testMissingNonceDetected(): void
     {
-        $token = $this->generateJWT([]);
-        // Remove nonce by regenerating without it
         $token = JWT::encode(
             [
                 'iss' => $this->testIss,
@@ -175,14 +128,11 @@ class OIDCTest extends TestCase
                 'email' => $this->testEmail,
                 'exp' => time() + 3600,
                 'iat' => time(),
-                // no nonce
             ],
             $this->testSecret,
             'HS256'
         );
-
-        $jwks = $this->getJWKS();
-        $decoded = JWT::decode($token, Key::createFromData($jwks['keys'][0]));
+        $decoded = JWT::decode($token, $this->getKey());
         $claims = json_decode(json_encode($decoded), true);
 
         $this->assertArrayNotHasKey('nonce', $claims, 'Token should have no nonce');
@@ -191,12 +141,10 @@ class OIDCTest extends TestCase
     // Test: expired token is rejected by JWT::decode
     public function testExpiredTokenRejected(): void
     {
-        $token = $this->generateJWT(['exp' => time() - 3600]); // expired 1 hour ago
-
-        $jwks = $this->getJWKS();
+        $token = $this->generateJWT(['exp' => time() - 3600]);
 
         $this->expectException(\Exception::class);
-        JWT::decode($token, Key::createFromData($jwks['keys'][0]));
+        JWT::decode($token, $this->getKey());
     }
 
     // Test: JWT signature validation works (tampered token rejected)
@@ -204,52 +152,36 @@ class OIDCTest extends TestCase
     {
         $token = $this->generateJWT([]);
 
-        // Tamper with the token
         $parts = explode('.', $token);
         $payload = json_decode(base64_decode(strtr($parts[1], '-_', '+/')), true);
         $payload['email'] = 'attacker@evil.com';
         $parts[1] = rtrim(strtr(base64_encode(json_encode($payload)), '+/', '-_'), '=');
         $tamperedToken = implode('.', $parts);
 
-        $jwks = $this->getJWKS();
-
         $this->expectException(\Exception::class);
-        JWT::decode($tamperedToken, Key::createFromData($jwks['keys'][0]));
+        JWT::decode($tamperedToken, $this->getKey());
     }
 
     // Test: wrong secret key is rejected
     public function testWrongSecretKeyRejected(): void
     {
         $token = $this->generateJWT([]);
-
-        // Generate JWKS with wrong secret
-        $wrongSecret = 'this-is-the-wrong-secret';
-        $wrongJwks = [
-            'keys' => [[
-                'kty' => 'oct',
-                'kid' => 'test-key-1',
-                'k' => rtrim(strtr(base64_encode($wrongSecret), '+/', '-_'), '='),
-                'alg' => 'HS256',
-            ]]
-        ];
+        $wrongKey = new Key('this-is-the-wrong-secret', 'HS256');
 
         $this->expectException(\Exception::class);
-        JWT::decode($token, Key::createFromData($wrongJwks['keys'][0]));
+        JWT::decode($token, $wrongKey);
     }
 
     // Test: amr claim detection for MFA
     public function testAmrClaimMfaDetection(): void
     {
-        // Token with MFA
         $tokenWithMfa = $this->generateJWT(['amr' => ['pwd', 'mfa']]);
-        $jwks = $this->getJWKS();
-        $decoded = JWT::decode($tokenWithMfa, Key::createFromData($jwks['keys'][0]));
+        $decoded = JWT::decode($tokenWithMfa, $this->getKey());
         $claims = json_decode(json_encode($decoded), true);
         $this->assertTrue(in_array('mfa', $claims['amr']));
 
-        // Token without MFA
         $tokenNoMfa = $this->generateJWT(['amr' => ['pwd']]);
-        $decoded = JWT::decode($tokenNoMfa, Key::createFromData($jwks['keys'][0]));
+        $decoded = JWT::decode($tokenNoMfa, $this->getKey());
         $claims = json_decode(json_encode($decoded), true);
         $this->assertFalse(in_array('mfa', $claims['amr']));
     }
@@ -258,8 +190,7 @@ class OIDCTest extends TestCase
     public function testAmrOtpMethodDetection(): void
     {
         $token = $this->generateJWT(['amr' => ['pwd', 'otp']]);
-        $jwks = $this->getJWKS();
-        $decoded = JWT::decode($token, Key::createFromData($jwks['keys'][0]));
+        $decoded = JWT::decode($token, $this->getKey());
         $claims = json_decode(json_encode($decoded), true);
         $this->assertTrue(in_array('otp', $claims['amr']));
     }
