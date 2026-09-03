@@ -62,6 +62,23 @@ $CONF['oidc'] = array(
 - [ ] Verify local password auth still works when `auth_provider = 'local'`
 - [ ] Verify `config.local.php` is preserved during any future upgrades
 
+## Security
+
+- **State validation** — prevents CSRF attacks
+- **Nonce verification** — prevents token replay attacks (nonce must be present and match)
+- **Issuer validation** — ID token `iss` claim must match configured issuer URL
+- **Audience validation** — ID token `aud` claim must match configured client ID
+- **JWT signature validation** — via firebase/php-jwt with JWKS key fetching
+- **Active account check** — disabled admin accounts cannot log in via OIDC
+
+## Known Issues
+
+- **SameSite=Strict session cookie** — PostfixAdmin uses `SameSite=Strict` for its session cookie. Cross-site callbacks from external providers (Microsoft Entra, Google, Okta, Auth0) may lose the session containing `oidc_state`. This is only a problem if the OIDC provider is on a different domain than PostfixAdmin. Same-site deployments (Keycloak on the same domain) are unaffected.
+- **Auto-provisioning uses direct db_insert** — New admin accounts are created via `db_insert()` rather than `AdminHandler::add()`. This is a known limitation; future work should use the handler.
+- **No per-domain/multitenant OIDC** — One global OIDC provider for all domains. Different issuers per domain are not supported.
+- **No discovery document issuer validation** — The `.well-known/openid-configuration` document's `issuer` field is not validated against the configured issuer. This is only a risk if the discovery endpoint can be manipulated.
+- **UserInfo endpoint** — When used, the `sub` claim from UserInfo is not verified against the ID token's `sub`. This is only a risk if the UserInfo endpoint is compromised.
+
 ## Local QA Results
 
 | Check | Result |
@@ -72,6 +89,10 @@ $CONF['oidc'] = array(
 | Auto-provisioning | Verified (new user created on first login) |
 | SMTP AUTH (Dovecot SQL) | Verified (password change → IMAP/SMTP works) |
 | Local password auth fallback | Verified (mailadmin@ still logs in with password) |
+| Issuer validation | Verified |
+| Audience validation | Verified |
+| Nonce required | Verified |
+| Inactive account blocked | Verified |
 
 ## Use Case
 

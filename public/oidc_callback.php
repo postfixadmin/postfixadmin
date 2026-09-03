@@ -102,9 +102,9 @@ if (!$adminHandler->view()) {
 }
 
 // Check if user is active
-$checkAdmin = new AdminHandler();
-$checkAdmin->init($username);
-if (!$checkAdmin->view()) {
+$table_admin = table_by_key('admin');
+$adminRecord = db_query_one("SELECT active FROM $table_admin WHERE username = ?", [$username]);
+if (!$adminRecord || !db_get_boolean($adminRecord['active'])) {
     flash_error('Your account is disabled. Contact an administrator.');
     header('Location: login.php');
     exit;

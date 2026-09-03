@@ -127,9 +127,21 @@ class OIDC
             return false;
         }
 
-        // Verify nonce
-        if (!empty($nonce) && isset($claims['nonce']) && !hash_equals($nonce, $claims['nonce'])) {
+        // Verify nonce (must be present and match)
+        if (empty($nonce) || !isset($claims['nonce']) || !hash_equals($nonce, $claims['nonce'])) {
             error_log('OIDC: Nonce mismatch - possible replay attack');
+            return false;
+        }
+
+        // Verify issuer matches configured issuer
+        if (empty($claims['iss']) || $claims['iss'] !== $this->issuerUrl) {
+            error_log('OIDC: Issuer mismatch - possible token injection attack');
+            return false;
+        }
+
+        // Verify audience matches client ID
+        if (empty($claims['aud']) || $claims['aud'] !== $this->clientId) {
+            error_log('OIDC: Audience mismatch - token not intended for this client');
             return false;
         }
 
