@@ -79,6 +79,16 @@ $CONF['oidc'] = array(
 - **No discovery document issuer validation** — The `.well-known/openid-configuration` document's `issuer` field is not validated against the configured issuer. This is only a risk if the discovery endpoint can be manipulated.
 - **UserInfo endpoint** — When used, the `sub` claim from UserInfo is not verified against the ID token's `sub`. This is only a risk if the UserInfo endpoint is compromised.
 
+## Deviations from Upstream Patterns
+
+- **Atomic upsert for auto-provisioning** — PostfixAdmin's standard pattern for creating records is check-then-insert (`db_query_one` → `db_insert`). This code uses database-specific atomic upsert syntax instead:
+  - PostgreSQL/SQLITE: `INSERT ... ON CONFLICT DO NOTHING`
+  - MySQL: `INSERT IGNORE`
+  
+  **Rationale:** The check-then-insert pattern has a race condition when two concurrent OIDC logins attempt to create the same admin account simultaneously. The second insert would fail with a duplicate key error. Atomic upsert eliminates this race condition at the database level.
+  
+  **Trade-off:** This introduces database-specific SQL branching (`db_pgsql()` / `db_sqlite()` check) instead of using the database-agnostic `db_insert()` wrapper. The upstream pattern is preferred for maintainability, but the race condition is a real concern for OIDC auto-provisioning where concurrent first-logins are plausible.
+
 ## Local QA Results
 
 | Check | Result |
