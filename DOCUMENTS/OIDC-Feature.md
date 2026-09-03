@@ -38,7 +38,7 @@ Closes: (no existing issue — new feature)
 - `public/oidc_callback.php` — handles callback, validates tokens, auto-provisions users
 - `public/login.php` — added OIDC login button assignment
 - `templates/login.tpl` — added OIDC button to login form
-- `config.inc.php` — added `auth_provider`, `oidc_auto_provision`, `oidc_mfa`, and `oidc` config options
+- `config.inc.php` — added `additional_auth`, `oidc_auto_provision`, `oidc_mfa`, and `oidc` config options
 - `languages/en.lang` — added `pLogin_oidc_button` for the SSO button text
 - `composer.json` — added `ext-curl` dependency
 
@@ -47,7 +47,7 @@ Closes: (no existing issue — new feature)
 In `config.local.php`:
 
 ```php
-$CONF['auth_provider'] = 'oidc';  // 'local' or 'oidc'
+$CONF['additional_auth'] = ['oidc'];  // Enable OIDC (local password auth always available)
 $CONF['oidc_auto_provision'] = true;  // auto-create admin users on first login
 
 // OIDC MFA policy: 'required' (IdP MFA or TOTP fallback, reject if neither),
@@ -101,7 +101,7 @@ $CONF['totp'] = 'YES';
 - [ ] Verify auto-provisioning creates admin account on first login
 - [ ] Verify existing admin accounts can still log in via OIDC
 - [ ] Verify session initialization and redirect to main page
-- [ ] Verify local password auth still works when `auth_provider = 'local'`
+- [ ] Verify local password auth still works when `additional_auth` is empty
 - [ ] Verify `config.local.php` is preserved during any future upgrades
 - [ ] Verify MFA enforcement with `oidc_mfa = 'required'`
 - [ ] Verify TOTP fallback when IdP lacks MFA and `oidc_mfa = 'totp_fallback'`

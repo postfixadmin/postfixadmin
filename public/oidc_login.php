@@ -8,7 +8,7 @@ require_once('common.php');
 
 $CONF = Config::getInstance()->getAll();
 
-if (($CONF['auth_provider'] ?? 'local') !== 'oidc') {
+if (!in_array('oidc', $CONF['additional_auth'] ?? [])) {
     header('Location: login.php');
     exit;
 }

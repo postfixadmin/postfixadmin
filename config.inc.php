@@ -807,10 +807,10 @@ $CONF['site_url'] = null;
 
 $CONF['version'] = '4.0.1';
 
-// Authentication provider
-// 'local' = PostfrontAdmin's internal username/password auth (default)
-// 'oidc' = OpenID Connect authentication via external provider
-$CONF['auth_provider'] = 'local';
+// Local password auth is always available.
+// Additional authentication methods can be enabled here.
+// Example: ['oidc'] or ['oidc', 'ldap'].
+$CONF['additional_auth'] = [];
 
 // OIDC auto-provision: when enabled, any authenticated OIDC user gets an admin
 // account created automatically on first login. When disabled, only pre-provisioned

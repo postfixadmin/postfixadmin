@@ -112,7 +112,7 @@ $smarty->assign('logintype', 'admin');
 $smarty->assign('forgotten_password_reset', Config::bool('forgotten_admin_password_reset'));
 
 // Add OIDC login option if configured
-if (($CONF['auth_provider'] ?? 'local') === 'oidc') {
+if (in_array('oidc', $CONF['additional_auth'] ?? [])) {
     $oidc = new OIDC();
     if ($oidc->isConfigured()) {
         $oidcLoginText = !empty($CONF['oidc']['login_button_text']) ? $CONF['oidc']['login_button_text'] : Config::lang('pLogin_oidc_button');
