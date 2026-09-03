@@ -29,6 +29,12 @@ class OIDC
         $this->scopes = $CONF['oidc']['scopes'] ?? 'openid email profile';
     }
 
+    private function logSecurityEvent(string $message): void
+    {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        error_log("OIDC SECURITY [{$ip}]: {$message}");
+    }
+
     public function isConfigured(): bool
     {
         return !empty($this->clientId) && !empty($this->clientSecret) && !empty($this->issuerUrl) && !empty($this->redirectUri);
@@ -47,7 +53,7 @@ class OIDC
         }
         // Validate discovery document issuer matches configured issuer
         if (!isset($this->discovery['issuer']) || $this->discovery['issuer'] !== $this->issuerUrl) {
-            error_log('OIDC: Discovery document issuer mismatch - possible MITM attack');
+            $this->logSecurityEvent('Discovery document issuer mismatch - possible MITM attack');
             return false;
         }
         return true;
@@ -85,11 +91,11 @@ class OIDC
     {
         // Validate state
         if (!isset($_SESSION['oidc_state'])) {
-            error_log('OIDC: No state in session - possible CSRF attack');
+            $this->logSecurityEvent('No state in session - possible CSRF attack');
             return false;
         }
         if (!hash_equals($_SESSION['oidc_state'], $state)) {
-            error_log('OIDC: State mismatch - possible session fixation attack');
+            $this->logSecurityEvent('State mismatch - possible session fixation attack');
             return false;
         }
         $nonce = $_SESSION['oidc_nonce'] ?? '';
@@ -131,19 +137,19 @@ class OIDC
             $claims = JWT::decode($tokens['id_token'], JWK::parseKeySet($jwks));
             $claims = json_decode(json_encode($claims), true);
         } catch (\Exception $e) {
-            error_log('OIDC: ID token validation failed: ' . $e->getMessage());
+            $this->logSecurityEvent('ID token validation failed: ' . $e->getMessage());
             return false;
         }
 
         // Verify nonce (must be present and match)
         if (empty($nonce) || !isset($claims['nonce']) || !hash_equals($nonce, $claims['nonce'])) {
-            error_log('OIDC: Nonce mismatch - possible replay attack');
+            $this->logSecurityEvent('Nonce mismatch - possible replay attack');
             return false;
         }
 
         // Verify issuer matches configured issuer
         if (empty($claims['iss']) || $claims['iss'] !== $this->issuerUrl) {
-            error_log('OIDC: Issuer mismatch - possible token injection attack');
+            $this->logSecurityEvent('Issuer mismatch - possible token injection attack');
             return false;
         }
 
@@ -155,7 +161,7 @@ class OIDC
             $audMatch = ($aud === $this->clientId);
         }
         if (!$audMatch) {
-            error_log('OIDC: Audience mismatch - token not intended for this client');
+            $this->logSecurityEvent('Audience mismatch - token not intended for this client');
             return false;
         }
 
@@ -165,7 +171,7 @@ class OIDC
             if ($userinfo !== false) {
                 // Verify UserInfo sub matches ID token sub before merging claims
                 if (!isset($userinfo['sub']) || $userinfo['sub'] !== $claims['sub']) {
-                    error_log('OIDC: UserInfo sub mismatch - possible token substitution attack');
+                    $this->logSecurityEvent('UserInfo sub mismatch - possible token substitution attack');
                     return false;
                 }
                 $claims = array_merge($claims, $userinfo);
