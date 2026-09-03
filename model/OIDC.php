@@ -139,8 +139,14 @@ class OIDC
             return false;
         }
 
-        // Verify audience matches client ID
-        if (empty($claims['aud']) || $claims['aud'] !== $this->clientId) {
+        // Verify audience matches client ID (aud can be string or array per OIDC spec)
+        $aud = $claims['aud'] ?? '';
+        if (is_array($aud)) {
+            $audMatch = in_array($this->clientId, $aud);
+        } else {
+            $audMatch = ($aud === $this->clientId);
+        }
+        if (!$audMatch) {
             error_log('OIDC: Audience mismatch - token not intended for this client');
             return false;
         }
