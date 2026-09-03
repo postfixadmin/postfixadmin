@@ -104,8 +104,33 @@ if (!$adminRecord || !db_get_boolean($adminRecord['active'])) {
     exit;
 }
 
-// Initialize session
-init_session($username, true, true);
+// Check if MFA was used at the IdP (via amr claim)
+$amr = $claims['amr'] ?? [];
+$mfa_used = in_array('mfa', $amr) || in_array('otp', $amr) || in_array('hwk', $amr);
+
+if ($mfa_used) {
+    // MFA completed at IdP — full session
+    init_session($username, true, true);
+} else {
+    // No MFA at IdP — check for local TOTP fallback
+    $totppf = new TotpPf('admin', new Login('admin'));
+    if ($totppf->usesTOTP($username)) {
+        // User has local TOTP — redirect to MFA page
+        init_session($username, true, false);
+        header('Location: login-mfa.php');
+        exit;
+    }
+
+    // No MFA at IdP, no local TOTP
+    if ($CONF['oidc_require_mfa'] ?? false) {
+        flash_error('MFA required. Please authenticate with multi-factor authentication at your IdP or configure local TOTP.');
+        header('Location: login.php');
+        exit;
+    }
+
+    // MFA not required — allow login
+    init_session($username, true, true);
+}
 
 if ($isSuperadmin) {
     $_SESSION['sessid']['roles'][] = 'global-admin';
