@@ -67,16 +67,20 @@ if (!$adminHandler->view()) {
         exit;
     }
 
-    // Auto-provision new admin user atomically
-    // Use INSERT ... ON CONFLICT to safely handle concurrent OIDC logins
+    // Auto-provision new admin user
+    // Use upstream pattern: check then insert (database-agnostic)
     $randomPassword = generate_password();
     $hashedPassword = pacrypt($randomPassword);
 
     $table_admin = table_by_key('admin');
-    db_execute(
-        "INSERT INTO $table_admin (username, password, active, created, modified) VALUES (?, ?, true, now(), now()) ON CONFLICT (username) DO NOTHING",
-        [$email, $hashedPassword]
-    );
+    $existing = db_query_one("SELECT username FROM $table_admin WHERE username = ?", [$email]);
+    if (empty($existing)) {
+        db_insert($table_admin, [
+            'username' => $email,
+            'password' => $hashedPassword,
+            'active' => db_get_boolean(true),
+        ], ['created', 'modified']);
+    }
 
     $username = $email;
     $isSuperadmin = false;
