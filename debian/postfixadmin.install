@@ -6,6 +6,7 @@ model		usr/share/postfixadmin
 scripts		usr/share/postfixadmin
 templates	usr/share/postfixadmin
 configs     usr/share/postfixadmin
-vendor      usr/share/postfixadmin
 debian/lighttpd/90-postfixadmin.conf	etc/lighttpd/conf-available
 debian/apache/postfixadmin.conf		etc/apache2/conf-available
+composer.json   usr/lib/postfixadmin
+

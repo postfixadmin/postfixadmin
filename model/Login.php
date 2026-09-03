@@ -126,7 +126,7 @@ class Login
         list(/*NULL*/, $domain) = explode('@', $username);
 
         if (!$this->login($username, $old_password)) {
-            throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
+            throw new \Exception(Config::lang('pPassword_password_current_text_error'));
         }
 
         $set = array(
@@ -154,7 +154,7 @@ class Login
             return true;
         }
 
-        $warnmsg_pw = Config::Lang('mailbox_postpassword_failed');
+        $warnmsg_pw = Config::lang('mailbox_postpassword_failed');
 
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($domain);
@@ -187,14 +187,14 @@ class Login
         list(/*NULL*/, $domain) = explode('@', $username);
 
         if (!$app_pass) {
-            throw new \Exception(Config::Lang('pAppPassAdd_pass_empty_error'));
+            throw new \Exception(Config::lang('pAppPassAdd_pass_empty_error'));
         }
         if (!$app_desc) {
-            throw new \Exception(Config::Lang('pException_desc_empty_error'));
+            throw new \Exception(Config::lang('pException_desc_empty_error'));
         }
 
         if (!$this->login($username, $password)) {
-            throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
+            throw new \Exception(Config::lang('pPassword_password_current_text_error'));
         }
 
         $app_pass = pacrypt($app_pass, '', $username);
@@ -217,7 +217,7 @@ class Login
             return true;
         }
 
-        $warnmsg_pw = Config::Lang('mailbox_postapppassword_failed');
+        $warnmsg_pw = Config::lang('mailbox_postapppassword_failed');
 
         $cmdarg1 = escapeshellarg($username);
         $cmdarg2 = escapeshellarg($app_desc);
