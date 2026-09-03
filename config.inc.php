@@ -815,7 +815,7 @@ $CONF['additional_auth'] = [];
 // OIDC auto-provision: when enabled, any authenticated OIDC user gets an admin
 // account created automatically on first login. When disabled, only pre-provisioned
 // admin users can log in.
-$CONF['oidc_auto_provision'] = true;
+$CONF['oidc_auto_provision'] = false;
 
 // OIDC MFA policy: 'required' (IdP MFA or TOTP fallback, reject if neither),
 // 'totp_fallback' (use TOTP if IdP lacks MFA, allow if neither), or 'none' (no MFA check)
