@@ -175,7 +175,7 @@ class OIDC
         return $claims;
     }
 
-    private function getJwks(): array
+    protected function getJwks(): array
     {
         $url = $this->discovery['jwks_uri'] ?? ($this->issuerUrl . '/protocol/openid-connect/certs');
         $response = $this->httpGet($url);
@@ -185,7 +185,7 @@ class OIDC
         return json_decode($response, true);
     }
 
-    private function getUserinfo(string $accessToken): array|false
+    protected function getUserinfo(string $accessToken): array|false
     {
         $url = $this->discovery['userinfo_endpoint'];
         $response = $this->httpGet($url, 'Authorization: Bearer ' . $accessToken);
@@ -195,7 +195,7 @@ class OIDC
         return json_decode($response, true);
     }
 
-    private function httpGet(string $url, string $headers = ''): string|false
+    protected function httpGet(string $url, string $headers = ''): string|false
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -210,7 +210,7 @@ class OIDC
         return $httpCode === 200 ? $response : false;
     }
 
-    private function httpPost(string $url, array $params): string|false
+    protected function httpPost(string $url, array $params): string|false
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
