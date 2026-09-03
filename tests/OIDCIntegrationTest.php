@@ -115,7 +115,7 @@ class OIDCIntegrationTest extends TestCase
             'iat' => time(),
             'nonce' => 'valid-nonce',
         ];
-        return JWT::encode(array_merge($defaultClaims, $claims), $this->privateKey, 'RS256');
+        return JWT::encode(array_merge($defaultClaims, $claims), $this->privateKey, 'RS256', 'test-key-1');
     }
 
     private function setupAllResponses(): void
@@ -284,7 +284,7 @@ class OIDCIntegrationTest extends TestCase
                 'email' => $this->testEmail,
                 'exp' => time() + 3600,
                 'iat' => time(),
-            ], $this->privateKey, 'RS256'),
+            ], $this->privateKey, 'RS256', 'test-key-1'),
         ]);
         $this->mockClient->responses[] = json_encode($this->jwks);
         $_SESSION['oidc_state'] = 'valid-state';
