@@ -46,6 +46,13 @@ if (empty($email)) {
     exit;
 }
 
+// Require verified email if configured
+if (($CONF['oidc_require_verified_email'] ?? false) && !($claims['email_verified'] ?? false)) {
+    flash_error('OIDC authentication failed: email not verified by provider');
+    header('Location: login.php');
+    exit;
+}
+
 // Look up admin user by email
 try {
     $adminHandler = new AdminHandler();
@@ -76,13 +83,13 @@ if (!$adminHandler->view()) {
     if (db_pgsql() || db_sqlite()) {
         // PostgreSQL 9.5+ and SQLite 3.24+: atomic upsert
         db_execute(
-            "INSERT INTO $table_admin (username, password, active, created, modified) VALUES (?, ?, true, now(), now()) ON CONFLICT (username) DO NOTHING",
+            "INSERT INTO $table_admin (username, password, active, created, modified) VALUES (?, ?, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) ON CONFLICT (username) DO NOTHING",
             [$email, $hashedPassword]
         );
     } else {
         // MySQL: INSERT IGNORE (ON DUPLICATE KEY syntax)
         db_execute(
-            "INSERT IGNORE INTO $table_admin (username, password, active, created, modified) VALUES (?, ?, true, now(), now())",
+            "INSERT IGNORE INTO $table_admin (username, password, active, created, modified) VALUES (?, ?, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)",
             [$email, $hashedPassword]
         );
     }
@@ -112,25 +119,31 @@ if ($mfa_used) {
     // MFA completed at IdP — full session
     init_session($username, true, true);
 } else {
-    // No MFA at IdP — check for local TOTP fallback
-    $totppf = new TotpPf('admin', new Login('admin'));
-    if ($totppf->usesTOTP($username)) {
-        // User has local TOTP — redirect to MFA page
-        init_session($username, true, false);
-        header('Location: login-mfa.php');
-        exit;
-    }
-
-    // No MFA at IdP, no local TOTP
     $oidc_mfa = $CONF['oidc_mfa'] ?? 'none';
-    if ($oidc_mfa === 'required') {
-        flash_error('MFA required. Please authenticate with multi-factor authentication at your IdP or configure local TOTP.');
-        header('Location: login.php');
-        exit;
-    }
 
-    // 'totp_fallback' or 'none' — allow login without MFA
-    init_session($username, true, true);
+    if ($oidc_mfa === 'none') {
+        // No MFA check — allow login
+        init_session($username, true, true);
+    } else {
+        // 'totp_fallback' or 'required' — check for local TOTP
+        $totppf = new TotpPf('admin', new Login('admin'));
+        if ($totppf->usesTOTP($username)) {
+            // User has local TOTP — redirect to MFA page
+            init_session($username, true, false);
+            header('Location: login-mfa.php');
+            exit;
+        }
+
+        // No local TOTP
+        if ($oidc_mfa === 'required') {
+            flash_error('MFA required. Please authenticate with multi-factor authentication at your IdP or configure local TOTP.');
+            header('Location: login.php');
+            exit;
+        }
+
+        // 'totp_fallback' — allow login without MFA
+        init_session($username, true, true);
+    }
 }
 
 if ($isSuperadmin) {

@@ -821,6 +821,13 @@ $CONF['oidc_auto_provision'] = true;
 // 'totp_fallback' (use TOTP if IdP lacks MFA, allow if neither), or 'none' (no MFA check)
 $CONF['oidc_mfa'] = 'none';
 
+// Require verified email claim from IdP (recommended when auto-provision enabled)
+$CONF['oidc_require_verified_email'] = false;
+
+// OIDC session cookie SameSite attribute. 'Strict' is most secure but breaks cross-site callbacks
+// from external IdPs (Auth0, Okta, Google). Use 'Lax' if using an external IdP.
+$CONF['oidc_cookie_samesite'] = 'Strict';
+
 // OIDC configuration
 $CONF['oidc'] = array(
     'client_id'     => '',
