@@ -163,6 +163,11 @@ class OIDC
         if (isset($tokens['access_token']) && isset($this->discovery['userinfo_endpoint'])) {
             $userinfo = $this->getUserinfo($tokens['access_token']);
             if ($userinfo !== false) {
+                // Verify UserInfo sub matches ID token sub before merging claims
+                if (!isset($userinfo['sub']) || $userinfo['sub'] !== $claims['sub']) {
+                    error_log('OIDC: UserInfo sub mismatch - possible token substitution attack');
+                    return false;
+                }
                 $claims = array_merge($claims, $userinfo);
             }
         }

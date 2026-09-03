@@ -113,7 +113,7 @@ $CONF['totp'] = 'YES';
 - **Auto-provisioning uses direct db_insert** — New admin accounts are created via `db_insert()` rather than `AdminHandler::add()`. This is a known limitation; future work should use the handler.
 - **No per-domain/multitenant OIDC** — One global OIDC provider for all domains. Different issuers per domain are not supported.
 - **Discovery document issuer** — The `.well-known/openid-configuration` document's `issuer` field is validated against the configured issuer during discovery.
-- **UserInfo endpoint** — When used, the `sub` claim from UserInfo is not verified against the ID token's `sub`. This is only a risk if the UserInfo endpoint is compromised.
+- **UserInfo endpoint** — When used, the `sub` claim from UserInfo is verified against the ID token's `sub` before merging claims.
 - **Identity binding by email** — OIDC accounts are linked using the `email` claim. This is problematic because: (1) email can change in the IdP, breaking access; (2) email can be reused (old employee → new employee), inheriting access; (3) email is not globally unique across IdPs. The reviewer recommends binding by `issuer + sub` instead, which is stable and unique. This requires schema changes (new columns in the `admin` table) and a migration strategy for existing users.
 
 ## Deviations from Upstream Patterns
