@@ -48,9 +48,10 @@ $PALANG['password'] = 'Password';
 $PALANG['password_expiration_on'] = 'Expires on';
 $PALANG['password_expiration_never'] = 'Does not expire';
 $PALANG['pLogin_language'] = 'Language';
-$PALANG['pLogin_button'] = 'Login';
-$PALANG['pLogin_failed'] = 'Your email address or password is not correct.';
-$PALANG['pLogin_login_users'] = 'Users click here to login to the user section.';
+$pLogin_button = 'Login';
+$pLogin_failed = 'Your email address or password is not correct.';
+$pLogin_login_users = 'Users click here to login to the user section.';
+$pLogin_oidc_button = 'Login with SSO';
 
 $PALANG['pMenu_main'] = 'Main';
 $PALANG['pMenu_overview'] = 'Overview';

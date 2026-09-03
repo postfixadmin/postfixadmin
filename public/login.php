@@ -115,7 +115,7 @@ $smarty->assign('forgotten_password_reset', Config::bool('forgotten_admin_passwo
 if (($CONF['auth_provider'] ?? 'local') === 'oidc') {
     $oidc = new OIDC();
     if ($oidc->isConfigured()) {
-        $oidcLoginText = !empty($CONF['oidc']['login_button_text']) ? $CONF['oidc']['login_button_text'] : 'Login with SSO';
+        $oidcLoginText = !empty($CONF['oidc']['login_button_text']) ? $CONF['oidc']['login_button_text'] : Config::lang('pLogin_oidc_button');
         $smarty->assign('oidc_enabled', true);
         $smarty->assign('oidc_login_url', 'oidc_login.php');
         $smarty->assign('oidc_login_text', $oidcLoginText);

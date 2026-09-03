@@ -31,7 +31,7 @@ class OIDC
 
     public function isConfigured(): bool
     {
-        return !empty($this->clientId) && !empty($this->clientSecret) && !empty($this->issuerUrl);
+        return !empty($this->clientId) && !empty($this->clientSecret) && !empty($this->issuerUrl) && !empty($this->redirectUri);
     }
 
     public function discover(): bool
