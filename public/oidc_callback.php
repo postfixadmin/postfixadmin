@@ -122,15 +122,15 @@ if ($mfa_used) {
     $oidc_mfa = $CONF['oidc_mfa'] ?? 'none';
 
     if ($oidc_mfa === 'none') {
-        // No MFA check — allow login
+        // No MFA check — allow login (TOTP handled separately if user has it configured)
         init_session($username, true, true);
-    } elseif ($oidc_mfa === 'required') {
+    } elseif ($oidc_mfa === 'idp_mfa') {
         // Must have MFA at IdP — TOTP is not a fallback
         flash_error('MFA required at identity provider. Please authenticate with multi-factor authentication at your IdP.');
         header('Location: login.php');
         exit;
     } else {
-        // 'totp_fallback' — try local TOTP
+        // 'mfa_or_totp' — try local TOTP
         $totppf = new TotpPf('admin', new Login('admin'));
         if ($totppf->usesTOTP($username)) {
             // User has local TOTP — redirect to MFA page

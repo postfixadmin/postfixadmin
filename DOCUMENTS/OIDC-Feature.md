@@ -70,9 +70,9 @@ The `$CONF['oidc_mfa']` setting controls MFA enforcement for OIDC users:
 
 | Value | Behavior |
 |-------|----------|
-| `'none'` | No MFA check. OIDC users log in with just IdP credentials (default). |
-| `'totp_fallback'` | If IdP doesn't provide MFA, fall back to local TOTP. Rejects login if neither available. |
-| `'required'` | MFA required at IdP. TOTP is NOT a fallback. Rejects login if IdP lacks MFA. |
+| `'none'` | No MFA check. OIDC users log in with just IdP credentials. If user has TOTP configured, they are prompted for it. |
+| `'mfa_or_totp'` | MFA required. IdP MFA first, local TOTP as fallback. Rejects login if neither available. |
+| `'idp_mfa'` | IdP MFA only. TOTP is NOT a fallback. Rejects login if IdP lacks MFA. |
 
 When `$CONF['totp'] = 'YES'`, password login users get TOTP prompt as normal. The `oidc_mfa` setting is independent — it only affects OIDC users.
 

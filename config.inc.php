@@ -817,8 +817,8 @@ $CONF['additional_auth'] = [];
 // admin users can log in.
 $CONF['oidc_auto_provision'] = false;
 
-// OIDC MFA policy: 'required' (IdP MFA or TOTP fallback, reject if neither),
-// 'totp_fallback' (use TOTP if IdP lacks MFA, allow if neither), or 'none' (no MFA check)
+// OIDC MFA policy: 'none' (no MFA), 'mfa_or_totp' (IdP MFA or local TOTP),
+// or 'idp_mfa' (IdP MFA only, TOTP is not a fallback)
 $CONF['oidc_mfa'] = 'none';
 
 // Require verified email claim from IdP (recommended when auto-provision enabled)
