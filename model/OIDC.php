@@ -42,7 +42,15 @@ class OIDC
             return false;
         }
         $this->discovery = json_decode($response, true);
-        return is_array($this->discovery) && isset($this->discovery['authorization_endpoint']);
+        if (!is_array($this->discovery) || !isset($this->discovery['authorization_endpoint'])) {
+            return false;
+        }
+        // Validate discovery document issuer matches configured issuer
+        if (!isset($this->discovery['issuer']) || $this->discovery['issuer'] !== $this->issuerUrl) {
+            error_log('OIDC: Discovery document issuer mismatch - possible MITM attack');
+            return false;
+        }
+        return true;
     }
 
     public function authorize(): void
