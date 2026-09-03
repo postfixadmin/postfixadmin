@@ -24,7 +24,6 @@ if (empty($code) || empty($state)) {
 
 $oidc = new OIDC();
 if (!$oidc->isConfigured()) {
-    error_log('OIDC: Not configured');
     flash_error('OIDC not configured');
     header('Location: login.php');
     exit;
@@ -42,7 +41,6 @@ if ($claims === false) {
 $email = $claims['email'] ?? '';
 
 if (empty($email)) {
-    error_log('OIDC: no email in claims');
     flash_error('OIDC authentication failed: no email in token');
     header('Location: login.php');
     exit;
@@ -53,7 +51,6 @@ try {
     $adminHandler = new AdminHandler();
     $adminHandler->init($email);
 } catch (\Exception $e) {
-    error_log("OIDC: AdminHandler init failed: " . $e->getMessage());
     flash_error('Failed to look up admin account.');
     header('Location: login.php');
     exit;
@@ -65,7 +62,6 @@ $isSuperadmin = false;
 if (!$adminHandler->view()) {
     // Admin user not found - auto-provision if enabled
     if (!($CONF['oidc_auto_provision'] ?? true)) {
-        error_log("OIDC: Auto-provision disabled, rejecting $email");
         flash_error('You are not authorized to access this system. Contact an administrator.');
         header('Location: login.php');
         exit;
@@ -91,7 +87,6 @@ if (!$adminHandler->view()) {
         ], ['created', 'modified']);
 
         if (!$result) {
-            error_log("OIDC: Failed to auto-provision admin account for $email");
             flash_error('Failed to create admin account.');
             header('Location: login.php');
             exit;
@@ -99,7 +94,6 @@ if (!$adminHandler->view()) {
 
         $username = $email;
         $isSuperadmin = false;
-        error_log("OIDC: Auto-provisioned admin account for $email");
     }
 } else {
     $adminProperties = $adminHandler->result();
@@ -111,7 +105,6 @@ if (!$adminHandler->view()) {
 $checkAdmin = new AdminHandler();
 $checkAdmin->init($username);
 if (!$checkAdmin->view()) {
-    error_log("OIDC: Admin account disabled for $username");
     flash_error('Your account is disabled. Contact an administrator.');
     header('Location: login.php');
     exit;

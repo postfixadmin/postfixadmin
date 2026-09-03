@@ -93,7 +93,6 @@ class OIDC
         }
 
         if (empty($this->discovery['token_endpoint'])) {
-            error_log('OIDC: No token_endpoint in discovery response');
             return false;
         }
 
@@ -106,20 +105,17 @@ class OIDC
         ]);
 
         if ($tokenResponse === false) {
-            error_log('OIDC: Token exchange failed - HTTP POST error');
             return false;
         }
 
         $tokens = json_decode($tokenResponse, true);
         if (!is_array($tokens) || !isset($tokens['id_token'])) {
-            error_log('OIDC: No id_token in token response');
             return false;
         }
 
         // Validate ID token using firebase/php-jwt
         $jwks = $this->getJwks();
         if (empty($jwks)) {
-            error_log('OIDC: Failed to get JWKS from provider');
             return false;
         }
 
