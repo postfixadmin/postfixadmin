@@ -817,8 +817,9 @@ $CONF['auth_provider'] = 'local';
 // admin users can log in.
 $CONF['oidc_auto_provision'] = true;
 
-// Require MFA for OIDC logins (via IdP amr claim or local TOTP fallback)
-$CONF['oidc_require_mfa'] = false;
+// OIDC MFA policy: 'required' (IdP MFA or TOTP fallback, reject if neither),
+// 'totp_fallback' (use TOTP if IdP lacks MFA, allow if neither), or 'none' (no MFA check)
+$CONF['oidc_mfa'] = 'none';
 
 // OIDC configuration
 $CONF['oidc'] = array(

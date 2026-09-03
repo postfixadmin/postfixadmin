@@ -122,13 +122,14 @@ if ($mfa_used) {
     }
 
     // No MFA at IdP, no local TOTP
-    if ($CONF['oidc_require_mfa'] ?? false) {
+    $oidc_mfa = $CONF['oidc_mfa'] ?? 'none';
+    if ($oidc_mfa === 'required') {
         flash_error('MFA required. Please authenticate with multi-factor authentication at your IdP or configure local TOTP.');
         header('Location: login.php');
         exit;
     }
 
-    // MFA not required — allow login
+    // 'totp_fallback' or 'none' — allow login without MFA
     init_session($username, true, true);
 }
 
