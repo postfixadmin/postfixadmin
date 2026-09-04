@@ -113,7 +113,13 @@ if (!$adminRecord || !db_get_boolean($adminRecord['active'])) {
 
 // Check if MFA was used at the IdP (via amr claim)
 $amr = $claims['amr'] ?? [];
-$mfa_used = in_array('mfa', $amr) || in_array('otp', $amr) || in_array('hwk', $amr);
+$mfa_used = false;
+foreach ($amr as $method) {
+    if (in_array(strtolower($method), OIDC::MFA_METHODS)) {
+        $mfa_used = true;
+        break;
+    }
+}
 
 if ($mfa_used) {
     // MFA completed at IdP — full session

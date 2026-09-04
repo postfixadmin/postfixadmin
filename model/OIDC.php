@@ -35,6 +35,17 @@ class OIDC
         error_log("OIDC SECURITY [{$ip}]: {$message}");
     }
 
+    /**
+     * Accepted MFA methods from amr claim (RFC 8176 + common extensions).
+     * Any one of these in the amr array indicates MFA was performed.
+     */
+    private const MFA_METHODS = [
+        'mfa', 'otp', 'totp', 'hotp', 'hwk',
+        'fpt', 'face', 'retina', 'vbm', 'wia',
+        'sc', 'pin', 'sms', 'email', 'user',
+        'fido', 'nok', 'kba', 'mcf',
+    ];
+
     public function isConfigured(): bool
     {
         return !empty($this->clientId) && !empty($this->clientSecret) && !empty($this->issuerUrl) && !empty($this->redirectUri);
