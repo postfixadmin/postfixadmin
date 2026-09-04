@@ -113,6 +113,7 @@ class DomainHandler extends PFAHandler
             #                           editing?    form    list
            'domain'            => self::pacol($this->new, 1,      1,      'text', 'domain'                       , ''                                 ,'', array(), 0, 0, "", "", 'list-virtual.php?domain=%s'),
            'full_mailbox_count' => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(), 0, 0, 'coalesce(__full_mailbox_count,0) as full_mailbox_count'),
+           'dns_active'        => self::pacol(0,          0,      1,      'bool', ''                             , ''),
            'description'       => self::pacol($super,     $super, $super, 'text', 'description'                  , ''),
 
            # Aliases
