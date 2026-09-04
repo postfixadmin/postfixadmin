@@ -821,6 +821,16 @@ $CONF['oidc_auto_provision'] = false;
 // or 'idp_mfa' (IdP MFA only, TOTP is not a fallback)
 $CONF['oidc_mfa'] = 'none';
 
+// Whitelist of amr methods accepted as MFA. Methods not in this list are ignored.
+// Blacklist overrides whitelist (if in both, it's excluded).
+$CONF['oidc_mfa_methods'] = [
+    'mfa', 'otp', 'totp', 'hotp', 'hwk', 'fido',
+    'face', 'retina', 'wia', 'sc',
+];
+
+// Blacklist overrides whitelist. Remove methods you don't accept.
+$CONF['oidc_mfa_blacklist'] = [];
+
 // Require verified email claim from IdP (recommended when auto-provision enabled)
 $CONF['oidc_require_verified_email'] = false;
 

@@ -114,8 +114,11 @@ if (!$adminRecord || !db_get_boolean($adminRecord['active'])) {
 // Check if MFA was used at the IdP (via amr claim)
 $amr = $claims['amr'] ?? [];
 $mfa_used = false;
+$whitelist = $CONF['oidc_mfa_methods'] ?? [];
+$blacklist = $CONF['oidc_mfa_blacklist'] ?? [];
 foreach ($amr as $method) {
-    if (in_array(strtolower($method), OIDC::MFA_METHODS)) {
+    $method = strtolower($method);
+    if (in_array($method, $whitelist) && !in_array($method, $blacklist)) {
         $mfa_used = true;
         break;
     }

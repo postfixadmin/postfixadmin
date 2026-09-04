@@ -71,8 +71,25 @@ The `$CONF['oidc_mfa']` setting controls MFA enforcement for OIDC users:
 | Value | Behavior |
 |-------|----------|
 | `'none'` | No MFA check. OIDC users log in with just IdP credentials. If user has TOTP configured, they are prompted for it. |
-| `'mfa_or_totp'` | MFA required. IdP MFA first, local TOTP as fallback. Rejects login if neither available. |
+| `'mfa_or_totp'` | MFA required. IdP MFA first, local TOTP as fallback. Rejects login if neither available. Only amr methods in `oidc_mfa_methods` whitelist count (minus blacklist). |
 | `'idp_mfa'` | IdP MFA only. TOTP is NOT a fallback. Rejects login if IdP lacks MFA. |
+
+### MFA Method Whitelist/Blacklist
+
+Control which `amr` methods count as MFA:
+
+```php
+// Whitelist: only these count as MFA
+$CONF['oidc_mfa_methods'] = [
+    'mfa', 'otp', 'totp', 'hotp', 'hwk', 'fido',
+    'face', 'retina', 'wia', 'sc',
+];
+
+// Blacklist overrides whitelist (if in both, it's excluded)
+$CONF['oidc_mfa_blacklist'] = [];
+```
+
+Example: If IdP sends `["pwd", "email"]` and `email` is not in the whitelist, the user is treated as having NO MFA.
 
 When `$CONF['totp'] = 'YES'`, password login users get TOTP prompt as normal. The `oidc_mfa` setting is independent — it only affects OIDC users.
 
