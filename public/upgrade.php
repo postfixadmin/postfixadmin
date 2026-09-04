@@ -2332,3 +2332,12 @@ function upgrade_1856()
         ) {COLLATE};
     ");
 }
+
+/**
+ * Store the last explicitly refreshed binary DNS status for each domain.
+ */
+function upgrade_1857()
+{
+    _db_add_field('domain', 'dns_active', 'BOOLEAN DEFAULT NULL', 'active');
+    _db_add_field('domain', 'dns_checked', 'timestamp DEFAULT NULL', 'dns_active');
+}
