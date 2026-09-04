@@ -348,4 +348,91 @@ class OIDCIntegrationTest extends TestCase
         $this->assertEquals($this->testEmail, $result['email']);
         $this->assertEquals('Test User', $result['name']);
     }
+
+    // Test: amr claim with otp detected
+    public function testHandleCallbackAmrOtp(): void
+    {
+        $this->mockClient->responses[] = json_encode([
+            'issuer' => $this->testIss,
+            'authorization_endpoint' => $this->testIss . '/auth',
+            'token_endpoint' => $this->testIss . '/token',
+            'userinfo_endpoint' => $this->testIss . '/userinfo',
+            'jwks_uri' => $this->testIss . '/certs',
+        ]);
+        $this->mockClient->responses[] = json_encode([
+            'access_token' => 'test-access-token',
+            'token_type' => 'Bearer',
+            'id_token' => $this->generateJWT(['amr' => ['pwd', 'otp']]),
+        ]);
+        $this->mockClient->responses[] = json_encode($this->jwks);
+        $this->mockClient->responses[] = json_encode([
+            'sub' => $this->testSub,
+            'email' => $this->testEmail,
+        ]);
+
+        $_SESSION['oidc_state'] = 'valid-state';
+        $_SESSION['oidc_nonce'] = 'valid-nonce';
+
+        $result = $this->oidc->testableHandleCallback('test-code', 'valid-state');
+        $this->assertIsArray($result);
+        $this->assertTrue(in_array('otp', $result['amr']));
+    }
+
+    // Test: amr claim with mfa detected
+    public function testHandleCallbackAmrMfa(): void
+    {
+        $this->mockClient->responses[] = json_encode([
+            'issuer' => $this->testIss,
+            'authorization_endpoint' => $this->testIss . '/auth',
+            'token_endpoint' => $this->testIss . '/token',
+            'userinfo_endpoint' => $this->testIss . '/userinfo',
+            'jwks_uri' => $this->testIss . '/certs',
+        ]);
+        $this->mockClient->responses[] = json_encode([
+            'access_token' => 'test-access-token',
+            'token_type' => 'Bearer',
+            'id_token' => $this->generateJWT(['amr' => ['pwd', 'mfa']]),
+        ]);
+        $this->mockClient->responses[] = json_encode($this->jwks);
+        $this->mockClient->responses[] = json_encode([
+            'sub' => $this->testSub,
+            'email' => $this->testEmail,
+        ]);
+
+        $_SESSION['oidc_state'] = 'valid-state';
+        $_SESSION['oidc_nonce'] = 'valid-nonce';
+
+        $result = $this->oidc->testableHandleCallback('test-code', 'valid-state');
+        $this->assertIsArray($result);
+        $this->assertTrue(in_array('mfa', $result['amr']));
+    }
+
+    // Test: amr claim with hwk detected
+    public function testHandleCallbackAmrHwk(): void
+    {
+        $this->mockClient->responses[] = json_encode([
+            'issuer' => $this->testIss,
+            'authorization_endpoint' => $this->testIss . '/auth',
+            'token_endpoint' => $this->testIss . '/token',
+            'userinfo_endpoint' => $this->testIss . '/userinfo',
+            'jwks_uri' => $this->testIss . '/certs',
+        ]);
+        $this->mockClient->responses[] = json_encode([
+            'access_token' => 'test-access-token',
+            'token_type' => 'Bearer',
+            'id_token' => $this->generateJWT(['amr' => ['pwd', 'hwk']]),
+        ]);
+        $this->mockClient->responses[] = json_encode($this->jwks);
+        $this->mockClient->responses[] = json_encode([
+            'sub' => $this->testSub,
+            'email' => $this->testEmail,
+        ]);
+
+        $_SESSION['oidc_state'] = 'valid-state';
+        $_SESSION['oidc_nonce'] = 'valid-nonce';
+
+        $result = $this->oidc->testableHandleCallback('test-code', 'valid-state');
+        $this->assertIsArray($result);
+        $this->assertTrue(in_array('hwk', $result['amr']));
+    }
 }
