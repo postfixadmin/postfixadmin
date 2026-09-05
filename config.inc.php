@@ -807,6 +807,47 @@ $CONF['site_url'] = null;
 
 $CONF['version'] = '4.0.1';
 
+// Local password auth is always available.
+// Additional authentication methods can be enabled here.
+// Example: ['oidc'].
+$CONF['additional_auth'] = [];
+
+// OIDC auto-provision: when enabled, any authenticated OIDC user gets an admin
+// account created automatically on first login. When disabled, only pre-provisioned
+// admin users can log in.
+$CONF['oidc_auto_provision'] = false;
+
+// OIDC MFA policy: 'none' (no MFA), 'mfa_or_totp' (IdP MFA or local TOTP),
+// or 'idp_mfa' (IdP MFA only, TOTP is not a fallback)
+$CONF['oidc_mfa'] = 'none';
+
+// Whitelist of amr methods accepted as MFA. Methods not in this list are ignored.
+// Blacklist overrides whitelist (if in both, it's excluded).
+$CONF['oidc_mfa_methods'] = [
+    'mfa', 'otp', 'totp', 'hotp', 'hwk', 'fido',
+    'face', 'retina', 'wia', 'sc',
+];
+
+// Blacklist overrides whitelist. Remove methods you don't accept.
+$CONF['oidc_mfa_blacklist'] = [];
+
+// Require verified email claim from IdP (recommended when auto-provision enabled)
+$CONF['oidc_require_verified_email'] = false;
+
+// OIDC session cookie SameSite attribute. 'Strict' is most secure but breaks cross-site callbacks
+// from external IdPs (Auth0, Okta, Google). Use 'Lax' if using an external IdP.
+$CONF['oidc_cookie_samesite'] = 'Strict';
+
+// OIDC configuration
+$CONF['oidc'] = array(
+    'client_id'     => '',
+    'client_secret' => '',
+    'issuer_url'    => '',  // e.g. https://keycloak.frogpond.cloud/realms/FrogPond.Cloud
+    'redirect_uri'  => '',  // e.g. https://mailadmin.frogpond.cloud/oidc_callback.php
+    'scopes'        => 'openid email profile',
+    'login_button_text' => 'Login with SSO',  // e.g. FrogPond.Cloud Keycloak
+);
+
 // The smtp_active_flag when set to YES enables editing of the smtp_active 
 // field of the mailbox table. The smtp_active field can be used to enable
 // or disable smtp sending for a mailbox separately to other mailbox functions.  
