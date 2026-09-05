@@ -809,7 +809,7 @@ $CONF['version'] = '4.0.1';
 
 // Local password auth is always available.
 // Additional authentication methods can be enabled here.
-// Example: ['oidc'] or ['oidc', 'ldap'].
+// Example: ['oidc'].
 $CONF['additional_auth'] = [];
 
 // OIDC auto-provision: when enabled, any authenticated OIDC user gets an admin
