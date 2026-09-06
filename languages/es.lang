@@ -1,4 +1,6 @@
 <?php
+
+$PALANG['search_mailboxes_aliases'] = 'Buscar buzones y alias...';
 # $Id$
 //
 // Language file Spanish 

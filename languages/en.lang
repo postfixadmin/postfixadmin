@@ -1,4 +1,6 @@
 <?php
+
+$PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...';
 # $Id$
 //
 // Language file English
