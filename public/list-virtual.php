@@ -40,6 +40,7 @@ $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
 
 $page_size = $CONF['page_size'];
+$smarty->assign('dns_check_mode', DomainDnsStatus::configuredMode());
 
 $fDomain = safepost('fDomain', safeget('domain', safesession('list-virtual:domain')));
 if (safesession('list-virtual:domain') != $fDomain) {
@@ -97,6 +98,9 @@ if (!check_owner(authentication_get_username(), $fDomain)) {
     header("Location: list.php?table=domain"); # domain not owned by this admin
     exit(0);
 }
+
+$smarty->assign('domain_dns_status', DomainDnsStatus::configuredMode() > 0
+    ? DomainDnsStatus::domainStatus($fDomain, $list_domains) : []);
 
 // store domain and page browser offset in $_SESSION so after adding/editing aliases/mailboxes we can
 // take the user back to the appropriate domain listing.

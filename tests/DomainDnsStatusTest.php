@@ -58,6 +58,8 @@ class DomainDnsStatusTest extends \PHPUnit\Framework\TestCase
     {
         $checker = new FakeDomainDnsStatus([], [], [], 0);
         self::assertSame(['active' => 0, 'inactive' => 0], $checker->refresh(['example.com']));
+        self::assertSame(['active' => 0, 'inactive' => 0], $checker->refreshGroup(['disabled.example']));
+        self::assertSame('', DomainDnsStatus::lastGroupCheck(['disabled.example']));
         self::assertFalse($checker->isActive('example.com'));
     }
 
@@ -93,6 +95,57 @@ class DomainDnsStatusTest extends \PHPUnit\Framework\TestCase
             db_delete('domain', 'domain', $active);
             db_delete('domain', 'domain', $inactive);
         }
+    }
+
+    public function testIndividualRefreshDoesNotChangeCompletedBatchTime(): void
+    {
+        $domain = 'dns-group-' . uniqid() . '.example';
+        db_insert('domain', ['domain' => $domain, 'description' => 'test', 'transport' => '']);
+        try {
+            $checker = new FakeDomainDnsStatus([], [], []);
+            self::assertSame('', DomainDnsStatus::lastGroupCheck([$domain]));
+            $checker->refreshGroup([$domain]);
+            $finished = DomainDnsStatus::lastGroupCheck([$domain]);
+            self::assertNotSame('', $finished);
+            $finished = '2000-01-01 00:00:00';
+            $key = 'dns_' . substr(hash('sha256', $domain), 0, 16);
+            db_update('config', 'name', $key, ['value' => $finished], [], true);
+            $checker->refresh([$domain]);
+            self::assertSame($finished, DomainDnsStatus::lastGroupCheck([$domain]));
+            self::assertNotEmpty(DomainDnsStatus::domainStatus($domain, [$domain])['dns_checked']);
+            self::assertSame('', DomainDnsStatus::lastGroupCheck([$domain, 'another.example']));
+            // Exercise the update path of the portable upsert too.
+            $checker->refreshGroup([$domain]);
+            self::assertNotSame('', DomainDnsStatus::lastGroupCheck([$domain]));
+            self::assertNotSame($finished, DomainDnsStatus::lastGroupCheck([$domain]));
+        } finally {
+            db_delete('domain', 'domain', $domain);
+            db_delete('config', 'name', 'dns_' . substr(hash('sha256', $domain), 0, 16));
+        }
+    }
+
+    public function testFailedBatchDoesNotRecordCompletion(): void
+    {
+        $checker = new class (0.01, 1) extends DomainDnsStatus {
+            public function isActive(string $domain): bool
+            {
+                throw new RuntimeException('Simulated interrupted check');
+            }
+        };
+        $domain = 'interrupted-' . uniqid() . '.example';
+        try {
+            $checker->refreshGroup([$domain]);
+            self::fail('The check must fail');
+        } catch (RuntimeException $exception) {
+            self::assertSame('Simulated interrupted check', $exception->getMessage());
+            self::assertSame('', DomainDnsStatus::lastGroupCheck([$domain]));
+        }
+    }
+
+    public function testStatusReadRejectsUnauthorizedDomain(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        DomainDnsStatus::domainStatus('outside.example', ['allowed.example']);
     }
 }
 

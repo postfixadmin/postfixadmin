@@ -19,7 +19,16 @@ if (authentication_has_role('global-admin')) {
 }
 
 $status = new DomainDnsStatus();
-$status->refresh(list_domains_for_admin($username));
+$domains = list_domains_for_admin($username);
+$domain = safepost('domain');
+if ($domain !== '') {
+    // Validate ownership before performing any network or database operation.
+    DomainDnsStatus::domainStatus($domain, $domains);
+    $status->refresh([$domain]);
+    header('Location: list-virtual.php?' . http_build_query(['domain' => $domain]));
+    exit;
+}
+$status->refreshGroup($domains);
 
 $params = ['table' => 'domain'];
 if (authentication_has_role('global-admin')) {

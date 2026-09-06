@@ -41,10 +41,52 @@ class DomainDnsStatus
             db_update('domain', 'domain', $domain, [
                 'dns_active' => $active,
                 'dns_checked' => date('Y-m-d H:i:s'),
-            ], []);
+            ], [], true);
             $result[$active ? 'active' : 'inactive']++;
         }
         return $result;
+    }
+
+    /** Complete a batch before recording its execution time. @param string[] $domains */
+    public function refreshGroup(array $domains): array
+    {
+        $result = $this->refresh($domains);
+        if ($this->mode !== 0) {
+            $table = table_by_key('config');
+            $sql = "INSERT INTO $table (name, value) VALUES (:name, :value)";
+            $sql .= db_mysql()
+                ? ' ON DUPLICATE KEY UPDATE value = VALUES(value)'
+                : ' ON CONFLICT (name) DO UPDATE SET value = excluded.value';
+            db_query($sql, ['name' => self::groupKey($domains), 'value' => date('Y-m-d H:i:s')]);
+        }
+        return $result;
+    }
+
+    /** @param string[] $domains */
+    public static function lastGroupCheck(array $domains): string
+    {
+        $table = table_by_key('config');
+        $row = db_query_one("SELECT value FROM $table WHERE name = :name", ['name' => self::groupKey($domains)]);
+        return (string)($row['value'] ?? '');
+    }
+
+    /** @param string[] $domains */
+    private static function groupKey(array $domains): string
+    {
+        $domains = array_values(array_unique($domains));
+        sort($domains, SORT_STRING);
+        // The historical config.name column is limited to 20 characters.
+        return 'dns_' . substr(hash('sha256', implode("\n", $domains)), 0, 16);
+    }
+
+    /** Only expose status for a domain in the caller's authorized scope. */
+    public static function domainStatus(string $domain, array $allowedDomains): array
+    {
+        if (!in_array($domain, $allowedDomains, true)) {
+            throw new InvalidArgumentException('Domain outside administrator scope');
+        }
+        $table = table_by_key('domain');
+        return db_query_one("SELECT dns_active, dns_checked FROM $table WHERE domain = :domain", ['domain' => $domain]) ?? [];
     }
 
     public function isActive(string $domain): bool

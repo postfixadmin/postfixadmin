@@ -91,10 +91,12 @@ $_SESSION["searchmode_$table"] = $searchmode;
 
 $dns_filter = '';
 $dns_inactive_count = 0;
+$dns_group_checked = '';
 $dns_check_mode = DomainDnsStatus::configuredMode();
 if ($table === 'domain' && $dns_check_mode > 0) {
     $dns_filter = safeget('dns_filter') === 'inactive' ? 'inactive' : '';
     $dns_inactive_count = DomainDnsStatus::countInactive(list_domains_for_admin($username));
+    $dns_group_checked = DomainDnsStatus::lastGroupCheck(list_domains_for_admin($username));
 }
 
 $condition = $search;
@@ -219,6 +221,7 @@ $smarty->assign('pagination_label', $PALANG[$handler->getMsg()['list_header'] ??
 $smarty->assign('dns_filter', $dns_filter);
 $smarty->assign('dns_inactive_count', $dns_inactive_count);
 $smarty->assign('dns_check_mode', $dns_check_mode);
+$smarty->assign('dns_group_checked', $dns_group_checked);
 $smarty->assign('domain_selected', ''); /* stop list-virtual.tpl triggering a PHP notice */
 
 $smarty->display('index.tpl');

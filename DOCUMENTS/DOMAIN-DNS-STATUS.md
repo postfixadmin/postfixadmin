@@ -40,6 +40,43 @@ schedule the following command if periodic updates are preferred:
 php scripts/domain-dns-check.php
 ```
 
+For example, add the following entry to the application service account's
+crontab to check all domains every hour (adjust the executable and application
+paths for the installation):
+
+```cron
+0 * * * * /usr/bin/flock -n /var/lib/postfixadmin/dns-check.lock /usr/bin/php /var/www/postfixadmin/scripts/domain-dns-check.php
+```
+
+Create `/var/lib/postfixadmin` with write access for that service account first.
+The account also needs access to the application's configuration and database.
+`flock` is supplied by util-linux on Linux and prevents overlapping cron runs.
+Cron is optional: the web refresh button works without it. Both perform
+sequential checks; a large group or unresponsive servers can take time. The
+web server/PHP request timeout must accommodate a full manual check; otherwise
+use the CLI or individual-domain refresh.
+
+## Last-check times and individual refresh
+
+The domain overview shows when the last complete batch for the selected
+administrator's domain set finished. The CLI checks all domains and updates
+the same timestamp when that complete set is selected. Batch timestamps are
+stored separately from individual results, using the existing config table;
+no additional schema upgrade is needed for this metadata. A changed domain set
+has no complete-check timestamp until it is checked as a group.
+
+The selected domain's virtual-address page shows its saved DNS status and
+last-check timestamp beside the domain selector, with a button that refreshes
+only that domain. Individual checks do not change the batch timestamp.
+Timestamps use the PHP server's configured timezone. Domains without a saved
+check show "Not checked".
+
+Only a completed batch advances its timestamp. If a batch fails or is
+interrupted, already completed domains retain their individual results but
+the batch timestamp stays unchanged. Results describe the last check, not
+continuous availability. Opening either page does not trigger DNS queries;
+there is no TTL-based expiry or automatic background refresh.
+
 The command exits with status 0 when every checked domain is active and 2 when
 one or more domains are inactive. In zone mode, a domain is active when it has
 NS delegation and at least one listed authoritative server answers a direct

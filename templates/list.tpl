@@ -14,7 +14,7 @@
                         <input type="hidden" name="username" value="{$admin_selected}">
                         <input type="hidden" name="dns_filter" value="{$dns_filter}">
                         {CSRF_Token}
-                        <button type="submit" class="btn btn-sm btn-secondary" title="Refresh DNS status" aria-label="Refresh DNS status">
+                        <button type="submit" class="btn btn-sm btn-secondary" title="{$PALANG.dns_refresh}" aria-label="{$PALANG.dns_refresh}">
                             <span class="bi bi-arrow-clockwise" aria-hidden="true"></span> DNS
                         </button>
                     </form>
@@ -28,6 +28,7 @@
                             <span class="bi bi-x-lg" aria-hidden="true"></span>
                         </a>
                     {/if}
+                    <small class="text-muted">{$PALANG.dns_last_batch}: {$dns_group_checked|default:$PALANG.dns_not_checked}</small>
                 {/if}
             </div>
         </div>

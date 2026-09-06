@@ -1,4 +1,10 @@
 <?php
+$PALANG['dns_last_batch'] = 'Last complete check'; # XXX
+$PALANG['dns_last_check'] = 'Last checked'; # XXX
+$PALANG['dns_not_checked'] = 'Not checked'; # XXX
+$PALANG['dns_refresh'] = 'Refresh DNS status'; # XXX
+$PALANG['dns_active'] = 'Active DNS'; # XXX
+$PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
 # $Id$
 //
 // Language file Türkçe
