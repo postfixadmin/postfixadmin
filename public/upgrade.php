@@ -2339,5 +2339,5 @@ function upgrade_1856()
 function upgrade_1857()
 {
     _db_add_field('domain', 'dns_active', 'BOOLEAN DEFAULT NULL', 'active');
-    _db_add_field('domain', 'dns_checked', 'timestamp DEFAULT NULL', 'dns_active');
+    _db_add_field('domain', 'dns_checked', 'timestamp NULL DEFAULT NULL', 'dns_active');
 }

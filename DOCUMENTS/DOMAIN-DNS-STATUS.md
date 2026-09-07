@@ -5,12 +5,8 @@ lookups during page rendering.
 
 ## Installation requirements
 
-After checking out or updating the source, run the normal installation command
-documented in `INSTALL.md`:
-
-```sh
-/bin/bash install.sh
-```
+After checking out or updating the source, run `/bin/bash install.sh` as
+documented in `INSTALL.md`.
 
 An installation that manages Composer itself may instead run
 `composer install`; it must regenerate Composer's autoloader because model
@@ -23,38 +19,96 @@ Zone mode additionally requires outbound UDP port 53 access directly to
 authoritative nameservers. MX mode requires the configured resolver to answer
 MX, A, and AAAA queries.
 
-Select the check performed by adding this setting to `config.local.php`:
+## Configuration
 
-```php
-$CONF['domain_dns_status_check'] = 1;
-```
+Add `$CONF['domain_dns_status_check'] = 1;` to `config.local.php`.
 
 The supported values are `0` (disabled), `1` (authoritative zone check), and
 `2` (MX check). MX mode requires at least one MX target with a resolvable A or
 AAAA address. A null MX declaration is considered inactive.
 
-Use the DNS refresh button in the domain overview for an on-demand check, or
-schedule the following command if periodic updates are preferred:
+In zone mode, a domain is active when it has NS delegation and at least one
+listed authoritative server answers a direct SOA query with an authoritative,
+successful response. This does not check whether email delivery succeeds.
 
-```sh
-php scripts/domain-dns-check.php
-```
+## Manual refresh: no cron required
 
-For example, add the following entry to the application service account's
-crontab to check all domains every hour (adjust the executable and application
-paths for the installation):
+The application works without cron or a background worker:
+
+- In the domain overview, the DNS refresh button checks the selected
+  administrator's domain set.
+- Beside the domain selector on the virtual-address page, the DNS refresh
+  button checks only that domain.
+- The red `DNS (N)` alert appears only when saved results include inactive
+  domains. Clicking it filters the affected domains.
+
+To check all domains from a terminal instead, run
+`php scripts/domain-dns-check.php` from the PostfixAdmin installation directory.
+Exit code 0 means no checked domain is inactive; exit code 2 means at least
+one is inactive. This is a global check, not a check limited to a web user's
+selected group. Keep configuration value `0` if checking should be disabled.
+
+## Optional automatic refresh with cron
+
+Use cron only if results should be updated periodically without clicking the
+button. No cron entry is created automatically.
+
+1. Choose the account that will run the command. It must be able to read
+   PostfixAdmin and its `config.local.php`, and connect to its database.
+   Root is not required.
+2. Identify the absolute paths to PHP CLI and the PostfixAdmin directory.
+   PHP CLI must satisfy the DNS requirements above, just as web PHP does.
+3. As that account, open `crontab -e` and add the following line, replacing
+   `/usr/bin/php` if necessary and `/path/to/postfixadmin` with the real path:
 
 ```cron
-0 * * * * /usr/bin/flock -n /var/lib/postfixadmin/dns-check.lock /usr/bin/php /var/www/postfixadmin/scripts/domain-dns-check.php
+0 * * * * /usr/bin/php /path/to/postfixadmin/scripts/domain-dns-check.php
 ```
 
-Create `/var/lib/postfixadmin` with write access for that service account first.
-The account also needs access to the application's configuration and database.
-`flock` is supplied by util-linux on Linux and prevents overlapping cron runs.
-Cron is optional: the web refresh button works without it. Both perform
-sequential checks; a large group or unresponsive servers can take time. The
-web server/PHP request timeout must accommodate a full manual check; otherwise
-use the CLI or individual-domain refresh.
+The five schedule fields mean: minute `0`, every hour, every day of the month,
+every month, every day of the week. The command runs once an hour at minute 0,
+using cron's configured timezone. This example is for a user's crontab, so
+there is no additional username field.
+
+Copy only the command line into crontab. If reading this Markdown file as
+plain text, the triple-backtick lines around the example are formatting
+markers, not part of the command.
+
+### Optional protection against overlapping scheduled runs
+
+No lock directory or `flock` installation is required for the basic setup
+above. Consider this extra protection only if one check might still be running
+when cron starts the next one.
+
+`flock` is a Linux command-line utility, commonly provided by the util-linux
+package, that holds a lock while another command runs. Processes using the
+same lock-file path cannot hold that exclusive lock at the same time. For
+example, if the 10:00 check is still running at 11:00, a second scheduled
+invocation protected by the same lock can be skipped instead of starting
+another DNS check.
+
+The `-n` option means "do not wait": if the lock is already held, exit without
+running the PHP command. Otherwise, run it and release the lock when it
+finishes. The lock file may remain on disk afterward; its existence alone
+does not mean a check is still running.
+
+To use this optional wrapper, first check that `flock` is available with
+`command -v flock`. Choose a lock-file path in an existing directory writable
+by the cron account, and place `flock -n /path/to/dns-check.lock` before the
+PHP command in the cron entry. Replace both executable and file paths with
+the actual installation paths. If `flock` is unavailable, keep the basic cron
+entry; it is not a PostfixAdmin dependency.
+
+This protection only coordinates commands using the same lock. The web
+refresh button does not use it, so it does not prevent a user from starting
+a simultaneous manual refresh.
+
+## Execution time
+
+Checks are sequential. A large group or unresponsive nameservers can take
+time; scheduling them does not make the check itself faster. For large sets,
+prefer CLI/cron or refresh a single domain. A global web refresh must finish
+within the PHP/web server request timeout.
 
 ## Last-check times and individual refresh
 
@@ -76,13 +130,6 @@ interrupted, already completed domains retain their individual results but
 the batch timestamp stays unchanged. Results describe the last check, not
 continuous availability. Opening either page does not trigger DNS queries;
 there is no TTL-based expiry or automatic background refresh.
-
-The command exits with status 0 when every checked domain is active and 2 when
-one or more domains are inactive. In zone mode, a domain is active when it has
-NS delegation and at least one listed authoritative server answers a direct
-SOA query with an authoritative, successful response. The host running a zone
-check therefore needs outbound DNS access to authoritative servers on UDP port
-53.
 
 This is intentionally a binary health signal. It does not classify warnings or
 provide advanced DNS diagnostics. A domain has no displayed status until its
