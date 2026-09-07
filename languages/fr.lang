@@ -5,6 +5,8 @@ $PALANG['dns_not_checked'] = 'Not checked'; # XXX
 $PALANG['dns_refresh'] = 'Refresh DNS status'; # XXX
 $PALANG['dns_active'] = 'Active DNS'; # XXX
 $PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
+
+$PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...'; # XXX
 # $Id$
 //
 // Language file French

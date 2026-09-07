@@ -8,6 +8,7 @@ class DomainDnsListTemplateTest extends \PHPUnit\Framework\TestCase
         $header = substr($source, 0, strpos($source, '<div class="card-body">')) . '</div>';
         $smarty = new \Smarty\Smarty();
         $smarty->setCompileDir(sys_get_temp_dir());
+        $smarty->setTemplateDir(__DIR__ . '/../templates');
         $smarty->setConfigDir(__DIR__ . '/../configs');
         $smarty->configLoad('menu.conf');
         $smarty->registerPlugin('function', 'CSRF_Token', static fn () => '<input name="CSRF_Token" value="test-token">');
@@ -16,7 +17,8 @@ class DomainDnsListTemplateTest extends \PHPUnit\Framework\TestCase
             'domain_list' => ['example.com'],
             'domain_selected' => 'example.com',
             'PALANG' => ['go' => 'Go', 'dns_refresh' => 'Refresh DNS status', 'dns_active' => 'Active DNS',
-                'dns_inactive' => 'Inactive DNS', 'dns_last_check' => 'Last checked', 'dns_not_checked' => 'Not checked'],
+                'dns_inactive' => 'Inactive DNS', 'dns_last_check' => 'Last checked', 'dns_not_checked' => 'Not checked',
+                'search_mailboxes_aliases' => 'Search mailboxes and aliases...'],
             'domain_dns_status' => ['dns_active' => 0, 'dns_checked' => '2000-01-01 00:00:00'],
         ]);
         $html = $smarty->fetch('string:' . $header);

@@ -22,7 +22,7 @@
                     </form>
                 </div>
             {/if}
-            <div class="{if $dns_check_mode > 0}col-md-3{else}col-md-5 offset-md-2{/if} text-right virtual-search">{#form_search#}</div>
+            <div class="{if $dns_check_mode > 0}col-md-3{else}col-md-5 offset-md-2{/if} text-right virtual-search">{include file='virtual-search.tpl'}</div>
         </div>
     </div>
     <div class="card-body">
