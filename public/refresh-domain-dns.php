@@ -18,23 +18,24 @@ if (authentication_has_role('global-admin')) {
     }
 }
 
-$status = new DomainDnsStatus();
+$domain_handler = new DomainHandler(0, $username);
+$status = new DomainDnsStatus(1.0, null, $domain_handler);
 $domains = list_domains_for_admin($username);
 $domain = safepost('domain');
 if ($domain !== '') {
     // Validate ownership before performing any network or database operation.
-    DomainDnsStatus::domainStatus($domain, $domains);
+    $domain_handler->dnsStatus($domain);
     $status->refresh([$domain]);
     header('Location: list-virtual.php?' . http_build_query(['domain' => $domain]));
     exit;
 }
-$status->refreshGroup($domains);
+$status->refresh($domains);
 
 $params = ['table' => 'domain'];
 if (authentication_has_role('global-admin')) {
     $params['username'] = $username;
 }
-if (safepost('dns_filter') === 'inactive') {
-    $params['dns_filter'] = 'inactive';
+if (safepost('search_dns_active') === '0') {
+    $params['search'] = ['dns_active' => 0];
 }
 header('Location: list.php?' . http_build_query($params));

@@ -58,8 +58,6 @@ class DomainDnsStatusTest extends \PHPUnit\Framework\TestCase
     {
         $checker = new FakeDomainDnsStatus([], [], [], 0);
         self::assertSame(['active' => 0, 'inactive' => 0], $checker->refresh(['example.com']));
-        self::assertSame(['active' => 0, 'inactive' => 0], $checker->refreshGroup(['disabled.example']));
-        self::assertSame('', DomainDnsStatus::lastGroupCheck(['disabled.example']));
         self::assertFalse($checker->isActive('example.com'));
     }
 
@@ -77,7 +75,6 @@ class DomainDnsStatusTest extends \PHPUnit\Framework\TestCase
                 ['192.0.2.1']
             );
             self::assertSame(['active' => 1, 'inactive' => 1], $checker->refresh([$active, $inactive]));
-            self::assertSame(1, DomainDnsStatus::countInactive([$active, $inactive]));
             $rows = db_query_all(
                 'SELECT dns_checked FROM domain WHERE domain IN (:active, :inactive)',
                 ['active' => $active, 'inactive' => $inactive]
@@ -88,6 +85,7 @@ class DomainDnsStatusTest extends \PHPUnit\Framework\TestCase
 
             $_SESSION = ['sessid' => ['roles' => ['global-admin']]];
             $handler = new DomainHandler();
+            self::assertSame(1, $handler->countInactiveDns());
             self::assertTrue($handler->getList(['dns_active' => 0]));
             self::assertArrayHasKey($inactive, $handler->result());
             self::assertArrayNotHasKey($active, $handler->result());
@@ -97,34 +95,25 @@ class DomainDnsStatusTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function testIndividualRefreshDoesNotChangeCompletedBatchTime(): void
+    public function testHandlerReturnsStatusAndOldestCompleteCheck(): void
     {
         $domain = 'dns-group-' . uniqid() . '.example';
         db_insert('domain', ['domain' => $domain, 'description' => 'test', 'transport' => '']);
         try {
+            $handler = new DomainHandler();
+            self::assertSame('', $handler->oldestDnsCheck());
             $checker = new FakeDomainDnsStatus([], [], []);
-            self::assertSame('', DomainDnsStatus::lastGroupCheck([$domain]));
-            $checker->refreshGroup([$domain]);
-            $finished = DomainDnsStatus::lastGroupCheck([$domain]);
-            self::assertNotSame('', $finished);
-            $finished = '2000-01-01 00:00:00';
-            $key = 'dns_' . substr(hash('sha256', $domain), 0, 16);
-            db_update('config', 'name', $key, ['value' => $finished], [], true);
             $checker->refresh([$domain]);
-            self::assertSame($finished, DomainDnsStatus::lastGroupCheck([$domain]));
-            self::assertNotEmpty(DomainDnsStatus::domainStatus($domain, [$domain])['dns_checked']);
-            self::assertSame('', DomainDnsStatus::lastGroupCheck([$domain, 'another.example']));
-            // Exercise the update path of the portable upsert too.
-            $checker->refreshGroup([$domain]);
-            self::assertNotSame('', DomainDnsStatus::lastGroupCheck([$domain]));
-            self::assertNotSame($finished, DomainDnsStatus::lastGroupCheck([$domain]));
+            self::assertNotEmpty($handler->oldestDnsCheck());
+            $saved = $handler->dnsStatus($domain);
+            self::assertSame(0, $saved['dns_active']);
+            self::assertNotEmpty($saved['dns_checked']);
         } finally {
             db_delete('domain', 'domain', $domain);
-            db_delete('config', 'name', 'dns_' . substr(hash('sha256', $domain), 0, 16));
         }
     }
 
-    public function testFailedBatchDoesNotRecordCompletion(): void
+    public function testFailedRefreshDoesNotPersistStatus(): void
     {
         $checker = new class (0.01, 1) extends DomainDnsStatus {
             public function isActive(string $domain): bool
@@ -134,18 +123,20 @@ class DomainDnsStatusTest extends \PHPUnit\Framework\TestCase
         };
         $domain = 'interrupted-' . uniqid() . '.example';
         try {
-            $checker->refreshGroup([$domain]);
+            $checker->refresh([$domain]);
             self::fail('The check must fail');
         } catch (RuntimeException $exception) {
             self::assertSame('Simulated interrupted check', $exception->getMessage());
-            self::assertSame('', DomainDnsStatus::lastGroupCheck([$domain]));
+            $handler = new DomainHandler();
+            self::assertSame('', $handler->oldestDnsCheck());
         }
     }
 
     public function testStatusReadRejectsUnauthorizedDomain(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        DomainDnsStatus::domainStatus('outside.example', ['allowed.example']);
+        $handler = new DomainHandler(0, 'nobody@example.test');
+        $handler->dnsStatus('outside.example');
     }
 }
 

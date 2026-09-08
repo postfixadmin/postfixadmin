@@ -12,23 +12,23 @@
                 {if $table == 'domain' && $dns_check_mode > 0}
                     <form method="post" action="refresh-domain-dns.php" class="d-inline">
                         <input type="hidden" name="username" value="{$admin_selected}">
-                        <input type="hidden" name="dns_filter" value="{$dns_filter}">
+                        {if isset($search.dns_active) && $search.dns_active == 0}<input type="hidden" name="search_dns_active" value="0">{/if}
                         {CSRF_Token}
                         <button type="submit" class="btn btn-sm btn-secondary" title="{$PALANG.dns_refresh}" aria-label="{$PALANG.dns_refresh}">
                             <span class="bi bi-arrow-clockwise" aria-hidden="true"></span> DNS
                         </button>
                     </form>
                     {if $dns_inactive_count > 0}
-                        <a class="btn btn-sm btn-danger" href="list.php?table=domain{if $admin_list|count > 1}&amp;username={$admin_selected|escape:'url'}{/if}{if $dns_filter == 'inactive'}{else}&amp;dns_filter=inactive{/if}">
+                        <a class="btn btn-sm btn-danger" href="list.php?table=domain{if $admin_list|count > 1}&amp;username={$admin_selected|escape:'url'}{/if}&amp;search%5Bdns_active%5D=0">
                             <span class="bi bi-exclamation-triangle" aria-hidden="true"></span> DNS ({$dns_inactive_count})
                         </a>
                     {/if}
-                    {if $dns_filter == 'inactive'}
-                        <a class="btn btn-sm btn-outline-secondary" href="list.php?table=domain{if $admin_list|count > 1}&amp;username={$admin_selected|escape:'url'}{/if}">
+                    {if isset($search.dns_active) && $search.dns_active == 0}
+                        <a class="btn btn-sm btn-outline-secondary" href="list.php?table=domain&amp;reset_search=1{if $admin_list|count > 1}&amp;username={$admin_selected|escape:'url'}{/if}">
                             <span class="bi bi-x-lg" aria-hidden="true"></span>
                         </a>
                     {/if}
-                    <small class="text-muted">{$PALANG.dns_last_batch}: {$dns_group_checked|default:$PALANG.dns_not_checked}</small>
+                    <small class="text-muted">{$PALANG.dns_oldest_check}: {$dns_oldest_checked|default:$PALANG.dns_not_checked}</small>
                 {/if}
             </div>
         </div>

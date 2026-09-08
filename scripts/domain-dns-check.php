@@ -10,6 +10,6 @@ if (DomainDnsStatus::configuredMode() === 0) {
     exit(0);
 }
 $status = new DomainDnsStatus();
-$result = $status->refreshGroup(list_domains());
+$result = $status->refresh(list_domains());
 printf("DNS status updated: %d active, %d inactive.\n", $result['active'], $result['inactive']);
 exit($result['inactive'] > 0 ? 2 : 0);

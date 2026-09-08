@@ -112,23 +112,22 @@ within the PHP/web server request timeout.
 
 ## Last-check times and individual refresh
 
-The domain overview shows when the last complete batch for the selected
-administrator's domain set finished. The CLI checks all domains and updates
-the same timestamp when that complete set is selected. Batch timestamps are
-stored separately from individual results, using the existing config table;
-no additional schema upgrade is needed for this metadata. A changed domain set
-has no complete-check timestamp until it is checked as a group.
+The domain overview shows the oldest saved check time in the selected
+administrator's domain set. This makes the least recent result visible without
+storing duplicate batch metadata. If any domain has not been checked, the group
+shows "Not checked".
 
 The selected domain's virtual-address page shows its saved DNS status and
 last-check timestamp beside the domain selector, with a button that refreshes
-only that domain. Individual checks do not change the batch timestamp.
+only that domain. Its refresh can advance the oldest group time when it was the
+least recently checked domain.
 Timestamps use the PHP server's configured timezone. Domains without a saved
 check show "Not checked".
 
-Only a completed batch advances its timestamp. If a batch fails or is
-interrupted, already completed domains retain their individual results but
-the batch timestamp stays unchanged. Results describe the last check, not
-continuous availability. Opening either page does not trigger DNS queries;
+If a group check fails or is interrupted, already completed domains retain
+their individual results and the oldest saved time exposes any older or
+unchecked result. Results describe the last check, not continuous availability.
+Opening either page does not trigger DNS queries;
 there is no TTL-based expiry or automatic background refresh.
 
 This is intentionally a binary health signal. It does not classify warnings or

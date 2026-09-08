@@ -8,10 +8,12 @@
 class DomainDnsStatus
 {
     private int $mode;
+    private DomainHandler $domains;
 
-    public function __construct(private float $timeout = 1.0, ?int $mode = null)
+    public function __construct(private float $timeout = 1.0, ?int $mode = null, ?DomainHandler $domains = null)
     {
         $this->mode = $mode ?? self::configuredMode();
+        $this->domains = $domains ?? new DomainHandler();
     }
 
     public static function configuredMode(): int
@@ -38,55 +40,10 @@ class DomainDnsStatus
                 continue;
             }
             $active = $this->isActive($domain);
-            db_update('domain', 'domain', $domain, [
-                'dns_active' => $active,
-                'dns_checked' => date('Y-m-d H:i:s'),
-            ], [], true);
+            $this->domains->updateDnsStatus($domain, $active);
             $result[$active ? 'active' : 'inactive']++;
         }
         return $result;
-    }
-
-    /** Complete a batch before recording its execution time. @param string[] $domains */
-    public function refreshGroup(array $domains): array
-    {
-        $result = $this->refresh($domains);
-        if ($this->mode !== 0) {
-            $table = table_by_key('config');
-            $sql = "INSERT INTO $table (name, value) VALUES (:name, :value)";
-            $sql .= db_mysql()
-                ? ' ON DUPLICATE KEY UPDATE value = VALUES(value)'
-                : ' ON CONFLICT (name) DO UPDATE SET value = excluded.value';
-            db_query($sql, ['name' => self::groupKey($domains), 'value' => date('Y-m-d H:i:s')]);
-        }
-        return $result;
-    }
-
-    /** @param string[] $domains */
-    public static function lastGroupCheck(array $domains): string
-    {
-        $table = table_by_key('config');
-        $row = db_query_one("SELECT value FROM $table WHERE name = :name", ['name' => self::groupKey($domains)]);
-        return (string)($row['value'] ?? '');
-    }
-
-    /** @param string[] $domains */
-    private static function groupKey(array $domains): string
-    {
-        $domains = array_values(array_unique($domains));
-        sort($domains, SORT_STRING);
-        // The historical config.name column is limited to 20 characters.
-        return 'dns_' . substr(hash('sha256', implode("\n", $domains)), 0, 16);
-    }
-
-    /** Only expose status for a domain in the caller's authorized scope. */
-    public static function domainStatus(string $domain, array $allowedDomains): array
-    {
-        if (!in_array($domain, $allowedDomains, true)) {
-            throw new InvalidArgumentException('Domain outside administrator scope');
-        }
-        $table = table_by_key('domain');
-        return db_query_one("SELECT dns_active, dns_checked FROM $table WHERE domain = :domain", ['domain' => $domain]) ?? [];
     }
 
     public function isActive(string $domain): bool
@@ -137,19 +94,6 @@ class DomainDnsStatus
             }
         }
         return array_values(array_unique($targets));
-    }
-
-    /** @param string[] $domains */
-    public static function countInactive(array $domains): int
-    {
-        if ($domains === []) {
-            return 0;
-        }
-        $params = ['dns_active' => false];
-        $where = db_in_clause('domain', $domains, $params);
-        $table = table_by_key('domain');
-        $row = db_query_one("SELECT count(*) AS inactive_count FROM $table WHERE dns_active = :dns_active AND $where", $params);
-        return (int)($row['inactive_count'] ?? 0);
     }
 
     /** @return string[] */

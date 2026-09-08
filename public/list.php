@@ -89,23 +89,15 @@ if (array_key_exists('reset_search', $_GET)) {
 $_SESSION["search_$table"] = $search;
 $_SESSION["searchmode_$table"] = $searchmode;
 
-$dns_filter = '';
 $dns_inactive_count = 0;
-$dns_group_checked = '';
+$dns_oldest_checked = '';
 $dns_check_mode = DomainDnsStatus::configuredMode();
 if ($table === 'domain' && $dns_check_mode > 0) {
-    $dns_filter = safeget('dns_filter') === 'inactive' ? 'inactive' : '';
-    $dns_inactive_count = DomainDnsStatus::countInactive(list_domains_for_admin($username));
-    $dns_group_checked = DomainDnsStatus::lastGroupCheck(list_domains_for_admin($username));
+    $dns_inactive_count = $handler->countInactiveDns();
+    $dns_oldest_checked = $handler->oldestDnsCheck();
 }
 
-$condition = $search;
-if ($dns_filter === 'inactive') {
-    $condition['dns_active'] = 0;
-}
-if ($condition === []) {
-    $condition = '';
-}
+$condition = count($search) ? $search : '';
 $pagination = [];
 
 if (safeget('output') == 'csv') {
@@ -129,9 +121,6 @@ if (safeget('output') == 'csv') {
     }
     if (count($searchmode)) {
         $pagination_params['searchmode'] = $searchmode;
-    }
-    if ($dns_filter === 'inactive') {
-        $pagination_params['dns_filter'] = 'inactive';
     }
 
     $pagination = page_browser_pagination(
@@ -218,10 +207,9 @@ $smarty->assign('search', $search);
 $smarty->assign('searchmode', $searchmode);
 $smarty->assign('pagination', $pagination);
 $smarty->assign('pagination_label', $PALANG[$handler->getMsg()['list_header'] ?? ''] ?? 'Pagination');
-$smarty->assign('dns_filter', $dns_filter);
 $smarty->assign('dns_inactive_count', $dns_inactive_count);
 $smarty->assign('dns_check_mode', $dns_check_mode);
-$smarty->assign('dns_group_checked', $dns_group_checked);
+$smarty->assign('dns_oldest_checked', $dns_oldest_checked);
 $smarty->assign('domain_selected', ''); /* stop list-virtual.tpl triggering a PHP notice */
 
 $smarty->display('index.tpl');

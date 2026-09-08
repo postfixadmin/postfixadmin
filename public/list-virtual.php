@@ -99,8 +99,9 @@ if (!check_owner(authentication_get_username(), $fDomain)) {
     exit(0);
 }
 
+$domain_handler = new DomainHandler(0, $admin_username);
 $smarty->assign('domain_dns_status', DomainDnsStatus::configuredMode() > 0
-    ? DomainDnsStatus::domainStatus($fDomain, $list_domains) : []);
+    ? $domain_handler->dnsStatus($fDomain) : []);
 
 // store domain and page browser offset in $_SESSION so after adding/editing aliases/mailboxes we can
 // take the user back to the appropriate domain listing.

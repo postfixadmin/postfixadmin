@@ -43,7 +43,7 @@ class DomainDnsListTemplateTest extends \PHPUnit\Framework\TestCase
         self::assertStringContainsString('$dns_check_mode > 0', $template);
         self::assertStringContainsString('aria-label="Inactive DNS"', $template);
         self::assertStringContainsString('DNS ({$dns_inactive_count})', $template);
-        self::assertStringContainsString('dns_filter=inactive', $template);
+        self::assertStringContainsString('search%5Bdns_active%5D=0', $template);
         self::assertStringContainsString('action="refresh-domain-dns.php"', $template);
         self::assertStringContainsString('{CSRF_Token}', $template);
         self::assertLessThan(
@@ -59,5 +59,6 @@ class DomainDnsListTemplateTest extends \PHPUnit\Framework\TestCase
         self::assertIsString($endpoint);
         self::assertStringContainsString("authentication_require_role('admin')", $endpoint);
         self::assertStringContainsString('CsrfToken::assertValid', $endpoint);
+        self::assertStringNotContainsString('dns_filter', $endpoint);
     }
 }
