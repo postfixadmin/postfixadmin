@@ -414,6 +414,7 @@ $PALANG['pBroadcast_error_empty'] = 'The fields Name, Subject and Message should
 $PALANG['broadcast_mailboxes_only'] = 'Only send to mailboxes'; # XXX
 $PALANG['broadcast_to_domains'] = 'Send to domains:'; # XXX
 $PALANG['pStatus_undeliverable'] = 'maybe UNDELIVERABLE '; # XXX
+$PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
 $PALANG['pStatus_disabled'] = 'Account disabled '; # XXX
 $PALANG['pStatus_expired'] = 'Password expired '; # XXX
 $PALANG['pStatus_vacation'] = 'Vacation enabled '; # XXX

@@ -421,6 +421,7 @@ $PALANG['broadcast_mailboxes_only'] = 'Отправить только на по
 $PALANG['broadcast_to_domains'] = 'Отправить на домены:';
 
 $PALANG['pStatus_undeliverable'] = 'возможно НЕ ДОСТАВЛЕНО ';
+$PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
 $PALANG['pStatus_disabled'] = 'Учетная запись отключена ';
 $PALANG['pStatus_expired'] = 'Срок действия пароля истек ';
 $PALANG['pStatus_vacation'] = 'Автоответчик включен ';

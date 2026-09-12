@@ -409,6 +409,7 @@ $PALANG['pBroadcast_error_empty'] = 'İsim, Konu ve Mesaj gibi alanlar boş bır
 $PALANG['broadcast_mailboxes_only'] = 'Sadece belirtilen e-posta hesaplarına gönder';
 $PALANG['broadcast_to_domains'] = 'Domainlere gönder:';
 $PALANG['pStatus_undeliverable'] = 'GÖNDERİLEMEMİŞ veya gönderilemeyen olabilir ';
+$PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
 $PALANG['pStatus_disabled'] = 'Hesap pasif ';
 $PALANG['pStatus_expired'] = 'Şifrenin süresi doldu ';
 $PALANG['pStatus_vacation'] = 'Tatil modu aktif ';

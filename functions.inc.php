@@ -2407,6 +2407,11 @@ function gen_show_status($show_alias)
     // UNDELIVERABLE CHECK
     if ($CONF['show_undeliverable'] == 'YES') {
         $gotos = explode(',', $stat_goto);
+        $external_destination_tooltip = htmlspecialchars(
+            Config::lang('pStatus_undeliverable_tooltip'),
+            ENT_QUOTES,
+            'UTF-8'
+        );
 
         //make sure this alias goes somewhere known
         $stat_ok = 1;
@@ -2442,7 +2447,9 @@ function gen_show_status($show_alias)
             }
         } // while
         if ($stat_ok == 0) {
-            $stat_string .= "<span style='background-color:" . $CONF['show_undeliverable_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
+            $stat_string .= "<span role='img' aria-label='$external_destination_tooltip'" .
+                " title='$external_destination_tooltip' style='background-color:" .
+                $CONF['show_undeliverable_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
         } else {
             $stat_string .= $CONF['show_status_text'] . "&nbsp;";
         }
