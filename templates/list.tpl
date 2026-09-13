@@ -141,12 +141,12 @@
                                         {if $table == 'domain' && $key == 'total_quot' && isset($item.total_quota_used)}
                                             {assign "quota_tooltip" "{$PALANG.quota_assigned}: {$linktext}&#10;{$PALANG.quota_used}: {$item.total_quota_used} MB"}
                                         {/if}
-                                        <div class="quota_bar{if $item[$tmpkey] <= -1} quota_no_border{/if}"{if $quota_tooltip != ''} title="{$quota_tooltip}"{/if}>
+                                        <div class="quota_bar{if $item[$tmpkey] <= -1 && !($table == 'domain' && (($key == 'aliases_quot' && $item.aliases == 0) || ($key == 'mailboxes_quot' && $item.mailboxes == 0) || ($key == 'total_quot' && $item.quota == 0)))} quota_no_border{/if}"{if $quota_tooltip != ''} title="{$quota_tooltip}"{/if}>
                                             {if $item[$tmpkey] > -1}
                                                 <span class="quota_fill quota_{$quota_level}" style="width:{$item[$tmpkey]}%;"></span>
                                                 <span class="quota_label quota_text_{$quota_level}">{$linktext}</span>
                                             {else}
-                                                <span class="quota_label">{$linktext}</span>
+                                                <span class="quota_label">{if $table == 'domain' && $key == 'total_quot' && $item.quota == 0 && $CONF.used_quotas === YES && isset($item.total_quota_used)}{$item.total_quota_used} / &infin;{else}{$linktext}{/if}</span>
                                             {/if}
                                         </div>
 
