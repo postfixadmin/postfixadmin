@@ -610,11 +610,12 @@ $CONF['show_status_key']='YES';
 // 'show_status_text' will be displayed with the background colors
 // associated with each status, you can customize it here
 $CONF['show_status_text']='&nbsp;&nbsp;';
-// show_undeliverable is useful if most accounts are delivered to this
-// postfix system.  If many aliases and mailboxes are forwarded
-// elsewhere, you will probably want to disable this.
+// Distinguish unrecognized destinations in managed domains from external targets.
+// This checks PostfixAdmin records, not actual mail delivery.
 $CONF['show_undeliverable']='YES';
 $CONF['show_undeliverable_color']='tomato';
+// Destinations outside the administrator's managed domains (no existence check).
+$CONF['show_external_color']='lightblue';
 // mails to these domains will never be flagged as undeliverable
 $CONF['show_undeliverable_exceptions']=array("unixmail.domain.ext","exchangeserver.domain.ext");
 // show mailboxes with expired password; requires password_expiration to be enabled

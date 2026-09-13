@@ -418,8 +418,10 @@ $PALANG['pBroadcast_error_empty'] = 'Die Felder Name, Betreff und Nachricht dür
 $PALANG['broadcast_mailboxes_only'] = "Nur an Postfächer senden";
 $PALANG['broadcast_to_domains'] = "Senden an Domains:";
 
-$PALANG['pStatus_undeliverable'] = 'möglicherweise UNZUSTELLBAR ';
+$PALANG['pStatus_undeliverable'] = 'möglicherweise UNZUSTELLBAR '; # XXX English text changed: Check local destination. Please retranslate.
 $PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Konto deaktiviert ';
 $PALANG['pStatus_expired'] = 'Passwort abgelaufen ';
 $PALANG['pStatus_vacation'] = 'Automatische Antwort aktiviert ';

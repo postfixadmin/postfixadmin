@@ -127,6 +127,11 @@
             <span style='background-color:{$CONF.show_undeliverable_color};'>{$CONF.show_status_text}</span>
             ={$PALANG.pStatus_undeliverable}
         </span>
+        &nbsp;
+        <span title="{$PALANG.pStatus_external_tooltip|escape:"html"}">
+            <span style='background-color:{$CONF.show_external_color};'>{$CONF.show_status_text}</span>
+            ={$PALANG.pStatus_external}
+        </span>
     {/if}
     {if $CONF.show_popimap===YES}
         &nbsp;

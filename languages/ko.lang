@@ -480,8 +480,10 @@ $PALANG['pBroadcast_error_empty'] = '이름, 제목, 메시지 항목은 비워�
 $PALANG['broadcast_mailboxes_only'] = '메일박스 계정에만 발송';
 $PALANG['broadcast_to_domains'] = '발송 대상 도메인:';
 
-$PALANG['pStatus_undeliverable'] = '전달 불가 가능성 높음 ';
+$PALANG['pStatus_undeliverable'] = '전달 불가 가능성 높음 '; # XXX English text changed: Check local destination. Please retranslate.
 $PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = '계정 비활성화됨 ';
 $PALANG['pStatus_expired'] = '비밀번호 만료됨 ';
 $PALANG['pStatus_vacation'] = '부재중 응답 켜짐 ';

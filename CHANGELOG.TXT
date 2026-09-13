@@ -9,7 +9,7 @@
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
  
-   - Clarify the alias destination status legend (see discussion #886, thanks @TrapoSAMA)
+   - Distinguish unknown local alias destinations from external destinations without inspecting other administrators' domains (see discussion #886, thanks @TrapoSAMA)
    - Restore the legacy md5crypt password scheme compatibility (see #1123, thanks @8ctopus)
    - Quota display improvements (see #1096, thanks @TrapoSAMA)
    - Update Spanish translations (see #1100, thanks @TrapoSAMA)

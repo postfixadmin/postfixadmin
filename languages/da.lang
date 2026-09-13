@@ -420,8 +420,10 @@ $PALANG['pBroadcast_error_empty']       = 'Felterne "Dit navn", "Emne" og "Medde
 $PALANG['broadcast_mailboxes_only'] = 'Only send to mailboxes'; # XXX
 $PALANG['broadcast_to_domains'] = 'Send to domains:'; # XXX
 
-$PALANG['pStatus_undeliverable'] = 'kan måske ikke leveres ';
+$PALANG['pStatus_undeliverable'] = 'kan måske ikke leveres '; # XXX English text changed: Check local destination. Please retranslate.
 $PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Account disabled '; # XXX
 $PALANG['pStatus_expired'] = 'Password expired '; # XXX
 $PALANG['pStatus_vacation'] = 'Vacation enabled '; # XXX
