@@ -391,6 +391,7 @@ $PALANG['pBroadcast_error_empty'] = 'Pole Od, Předmět a Zpráva by neměly bý
 $PALANG['broadcast_mailboxes_only'] = 'Pouze poslat do schránek';
 $PALANG['broadcast_to_domains'] = 'Poslat na domény:';
 $PALANG['pStatus_undeliverable'] = 'možná NEDORUČITELNÉ ';
+$PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
 $PALANG['pStatus_disabled'] = 'Účet pozastaven ';
 $PALANG['pStatus_expired'] = 'Heslo expirováno ';
 $PALANG['pStatus_vacation'] = 'Aktivní mód dovolené  ';
