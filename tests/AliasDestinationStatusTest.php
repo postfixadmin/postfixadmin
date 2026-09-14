@@ -19,6 +19,10 @@ class AliasDestinationStatusTest extends \PHPUnit\Framework\TestCase
         $CONF['show_disabled'] = 'NO';
         $CONF['password_expiration'] = 'NO';
         $CONF['show_custom_domains'] = [];
+
+        foreach (['local.test', 'alias.test', 'private.test'] as $domain) {
+            db_insert('domain', ['domain' => $domain, 'description' => 'status test', 'transport' => '']);
+        }
     }
 
     protected function tearDown(): void
@@ -27,6 +31,7 @@ class AliasDestinationStatusTest extends \PHPUnit\Framework\TestCase
         $CONF = $this->savedConfig;
         db_execute('DELETE FROM ' . table_by_key('alias'));
         db_execute('DELETE FROM ' . table_by_key('alias_domain'));
+        db_execute('DELETE FROM ' . table_by_key('domain'));
     }
 
     private function alias(string $address, string $goto): void
