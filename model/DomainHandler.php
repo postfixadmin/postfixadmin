@@ -188,6 +188,8 @@ class DomainHandler extends PFAHandler
         $active = $this->result['dns_active'] ?? null;
         return [
             'dns_active' => $active === null ? null : (int)$active,
+            // PFAHandler exposes the unformatted value of timestamp fields with
+            // an underscore; the formatted value intentionally contains only a date.
             'dns_checked' => $this->result['_dns_checked'] ?? null,
         ];
     }

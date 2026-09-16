@@ -7,6 +7,10 @@
  */
 class DomainDnsStatus
 {
+    public const CHECK_DISABLED = 0;
+    public const CHECK_ZONE = 1;
+    public const CHECK_MX = 2;
+
     private int $mode;
     private DomainHandler $domains;
 
@@ -20,10 +24,11 @@ class DomainDnsStatus
     {
         $configured = Config::read('domain_dns_status_check');
         if (!is_int($configured) && !is_string($configured)) {
-            return 0;
+            return self::CHECK_DISABLED;
         }
         $mode = (int)$configured;
-        return in_array($mode, [0, 1, 2], true) ? $mode : 0;
+        return in_array($mode, [self::CHECK_DISABLED, self::CHECK_ZONE, self::CHECK_MX], true)
+            ? $mode : self::CHECK_DISABLED;
     }
 
     /** @param string[] $domains
@@ -32,7 +37,7 @@ class DomainDnsStatus
     public function refresh(array $domains): array
     {
         $result = ['active' => 0, 'inactive' => 0];
-        if ($this->mode === 0) {
+        if ($this->mode === self::CHECK_DISABLED) {
             return $result;
         }
         foreach (array_unique($domains) as $domain) {
@@ -48,10 +53,10 @@ class DomainDnsStatus
 
     public function isActive(string $domain): bool
     {
-        if ($this->mode === 2) {
+        if ($this->mode === self::CHECK_MX) {
             return $this->hasUsableMx($domain);
         }
-        if ($this->mode !== 1) {
+        if ($this->mode !== self::CHECK_ZONE) {
             return false;
         }
         foreach ($this->nameservers($domain) as $nameserver) {
@@ -133,6 +138,12 @@ class DomainDnsStatus
         return array_values(array_unique($addresses));
     }
 
+    /**
+     * Query the nameserver directly for the domain's SOA record and require an
+     * authoritative, successful response. A recursive NS lookup alone only
+     * proves that delegation records exist, not that an authoritative server
+     * is reachable and serving the zone.
+     */
     protected function authoritativeServerResponds(string $domain, string $address): bool
     {
         $id = random_int(0, 65535);

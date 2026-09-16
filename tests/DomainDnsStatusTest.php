@@ -10,6 +10,9 @@ class DomainDnsStatusTest extends \PHPUnit\Framework\TestCase
         self::assertTrue(_db_field_exists(table_by_key('domain'), 'dns_active'));
         self::assertTrue(_db_field_exists(table_by_key('domain'), 'dns_checked'));
         self::assertNull((new DomainHandler())->getStruct()['dns_checked']['default']);
+        self::assertSame(0, DomainDnsStatus::CHECK_DISABLED);
+        self::assertSame(1, DomainDnsStatus::CHECK_ZONE);
+        self::assertSame(2, DomainDnsStatus::CHECK_MX);
     }
 
     public function testDomainIsActiveWhenAnAuthoritativeNameserverResponds(): void
