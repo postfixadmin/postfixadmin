@@ -22,33 +22,6 @@ class DomainOidcHandlerTest extends TestCase
         $CONF['oidc_mfa_methods'] = ['mfa', 'otp', 'hwk'];
         $CONF['oidc_mfa_blacklist'] = [];
 
-        // Create tables
-        db_execute("CREATE TABLE IF NOT EXISTS domain (
-            domain VARCHAR(255) NOT NULL PRIMARY KEY,
-            description VARCHAR(255) NOT NULL DEFAULT '',
-            aliases INTEGER NOT NULL DEFAULT 0,
-            mailboxes INTEGER NOT NULL DEFAULT 0,
-            maxquota INTEGER NOT NULL DEFAULT 0,
-            quota INTEGER NOT NULL DEFAULT 0,
-            transport VARCHAR(255) NOT NULL DEFAULT '',
-            backupmx BOOLEAN NOT NULL DEFAULT false,
-            created DATETIME DEFAULT CURRENT_TIMESTAMP,
-            modified DATETIME DEFAULT CURRENT_TIMESTAMP,
-            active BOOLEAN NOT NULL DEFAULT true
-        )");
-        db_execute("CREATE TABLE IF NOT EXISTS domain_oidc (
-            domain VARCHAR(255) NOT NULL PRIMARY KEY,
-            issuer_url TEXT NOT NULL,
-            client_id VARCHAR(255) NOT NULL,
-            client_secret VARCHAR(255) NOT NULL,
-            scopes VARCHAR(255) DEFAULT 'openid email profile',
-            login_button_text VARCHAR(255) DEFAULT 'Login with SSO',
-            auto_provision SMALLINT DEFAULT 0,
-            mfa_policy VARCHAR(50) DEFAULT 'none',
-            mfa_methods TEXT DEFAULT NULL,
-            mfa_blacklist TEXT DEFAULT NULL
-        )");
-
         // Clean up
         db_execute("DELETE FROM domain_oidc WHERE domain = ?", [$this->testDomain]);
         db_execute("DELETE FROM domain WHERE domain = ?", [$this->testDomain]);
