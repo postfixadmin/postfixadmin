@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 if ($argc !== 3) {
-    fwrite(STDERR, "Usage: mock_smtp.php PORT_FILE MESSAGE_FILE\n");
+    fwrite(STDERR, "Usage: VacationMockSmtp.php PORT_FILE MESSAGE_FILE\n");
     exit(64);
 }
 

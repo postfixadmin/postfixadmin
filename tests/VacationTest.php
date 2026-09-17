@@ -2,51 +2,29 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\TestCase;
 use PostfixAdmin\VirtualVacation\VacationCli;
 use PostfixAdmin\VirtualVacation\VacationMessageInspector;
 use PostfixAdmin\VirtualVacation\VacationReplyComposer;
 use PostfixAdmin\VirtualVacation\VacationRepository;
 
-require_once dirname(__DIR__) . '/vacation.php';
+require_once dirname(__DIR__) . '/VIRTUAL_VACATION/vacation.php';
 
-final class VacationPhpTest
+final class VacationTest extends TestCase
 {
-    private int $assertions = 0;
-
-    public function run(): void
-    {
-        $this->testNoActionPrintsOneLine();
-        $this->testArguments();
-        $this->testGeneratedConfiguration();
-        $this->testLegacyImport();
-        $this->testPostfixAdminConfigurationLoading();
-        $this->testAddressAndDomainHelpers();
-        $this->testConfiguredHeloNeedsNoPrompt();
-        $this->testDependencyResultsAreExplicit();
-        $this->testMessageInspectionRules();
-        $this->testMessageAddressSafety();
-        $this->testHistoricalMessageFixtures();
-        $this->testReplyComposition();
-        $this->testVacationRepository();
-        $this->testTransportExitStatuses();
-        $this->testCompleteTransport();
-
-        fwrite(STDOUT, "OK ({$this->assertions} assertions)" . PHP_EOL);
-    }
-
-    private function testNoActionPrintsOneLine(): void
+    public function testNoActionPrintsOneLine(): void
     {
         $input = fopen('php://memory', 'r+');
         $output = fopen('php://memory', 'r+');
         $error = fopen('php://memory', 'r+');
         $cli = new VacationCli($input, $output, $error);
-        $this->same(69, $cli->run(['vacation.php']));
+        $this->assertSame(69, $cli->run(['vacation.php']));
         rewind($error);
         $lines = preg_split('/\R/', trim((string)stream_get_contents($error)));
-        $this->same(1, count($lines));
+        $this->assertSame(1, count($lines));
     }
 
-    private function testArguments(): void
+    public function testArguments(): void
     {
         $cli = new VacationCli();
         $arguments = $cli->parseArguments([
@@ -56,9 +34,9 @@ final class VacationPhpTest
             '--postfixadmin-root',
             '/var/www/postfixadmin',
         ]);
-        $this->true($arguments['check']);
-        $this->same('/etc/postfixadmin/vacation.ini', $arguments['config']);
-        $this->same('/var/www/postfixadmin', $arguments['postfixadmin_root']);
+        $this->assertTrue($arguments['check']);
+        $this->assertSame('/etc/postfixadmin/vacation.ini', $arguments['config']);
+        $this->assertSame('/var/www/postfixadmin', $arguments['postfixadmin_root']);
         $inspection = $cli->parseArguments([
             'vacation.php',
             '--inspect-message=message.eml',
@@ -67,9 +45,9 @@ final class VacationPhpTest
             '--',
             'user#example.org@autoreply.example.org',
         ]);
-        $this->same('message.eml', $inspection['inspect_message']);
-        $this->same('sender@example.org', $inspection['envelope_sender']);
-        $this->same('user#example.org@autoreply.example.org', $inspection['recipient']);
+        $this->assertSame('message.eml', $inspection['inspect_message']);
+        $this->assertSame('sender@example.org', $inspection['envelope_sender']);
+        $this->assertSame('user#example.org@autoreply.example.org', $inspection['recipient']);
         $transport = $cli->parseArguments([
             'vacation.php',
             '-t',
@@ -79,11 +57,11 @@ final class VacationPhpTest
             '--',
             'user#example.org@autoreply.example.org',
         ]);
-        $this->same('yes', $transport['transport_test']);
-        $this->same('sender@example.org', $transport['envelope_sender']);
+        $this->assertSame('yes', $transport['transport_test']);
+        $this->assertSame('sender@example.org', $transport['envelope_sender']);
     }
 
-    private function testGeneratedConfiguration(): void
+    public function testGeneratedConfiguration(): void
     {
         $cli = new VacationCli();
         $directory = $this->temporaryDirectory();
@@ -91,19 +69,19 @@ final class VacationPhpTest
             $path = $directory . '/vacation.ini';
             file_put_contents($path, $cli->renderConfig('/var/www/html/postfixadmin', 'localhost', 25, 'mail.example.org'));
             $loaded = $cli->loadVacationConfig($path);
-            $this->same([], $loaded['warnings']);
-            $this->same('/var/www/html/postfixadmin', $loaded['values']['postfixadmin_root']);
-            $this->same('localhost', $loaded['values']['smtp_server']);
-            $this->same(25, $loaded['values']['smtp_server_port']);
-            $this->same('mail.example.org', $loaded['values']['smtp_helo']);
-            $this->same('none', $loaded['values']['smtp_security']);
-            $this->same(120, $loaded['values']['smtp_timeout']);
-            $this->false($cli->isLegacyConfig($path));
-            $this->same(realpath($path), $cli->findVacationConfig($path));
+            $this->assertSame([], $loaded['warnings']);
+            $this->assertSame('/var/www/html/postfixadmin', $loaded['values']['postfixadmin_root']);
+            $this->assertSame('localhost', $loaded['values']['smtp_server']);
+            $this->assertSame(25, $loaded['values']['smtp_server_port']);
+            $this->assertSame('mail.example.org', $loaded['values']['smtp_helo']);
+            $this->assertSame('none', $loaded['values']['smtp_security']);
+            $this->assertSame(120, $loaded['values']['smtp_timeout']);
+            $this->assertFalse($cli->isLegacyConfig($path));
+            $this->assertSame(realpath($path), $cli->findVacationConfig($path));
             putenv('VACATION_SMTP_PASSWORD=environment-secret');
             try {
                 $loaded = $cli->loadVacationConfig($path);
-                $this->same('environment-secret', $loaded['values']['smtp_password']);
+                $this->assertSame('environment-secret', $loaded['values']['smtp_password']);
             } finally {
                 putenv('VACATION_SMTP_PASSWORD');
             }
@@ -112,7 +90,7 @@ final class VacationPhpTest
         }
     }
 
-    private function testLegacyImport(): void
+    public function testLegacyImport(): void
     {
         $cli = new VacationCli();
         $directory = $this->temporaryDirectory();
@@ -144,9 +122,9 @@ final class VacationPhpTest
                 '',
             ]));
             $loaded = $cli->loadLegacyConfig($path);
-            $this->same('localhost', $loaded['values']['smtp_server']);
-            $this->same(25, $loaded['values']['smtp_server_port']);
-            $this->same('mail.example.org', $loaded['values']['smtp_helo']);
+            $this->assertSame('localhost', $loaded['values']['smtp_server']);
+            $this->assertSame(25, $loaded['values']['smtp_server_port']);
+            $this->assertSame('mail.example.org', $loaded['values']['smtp_helo']);
             $rendered = $cli->renderConfig('/var/www/html/postfixadmin', 'smtp.example.org', 587, 'mail.example.org', [
                 'security' => $loaded['values']['smtp_ssl'],
                 'timeout' => $loaded['values']['smtp_timeout'],
@@ -172,30 +150,30 @@ final class VacationPhpTest
             ]);
             file_put_contents($directory . '/vacation.ini', $rendered);
             $phpConfiguration = $cli->loadVacationConfig($directory . '/vacation.ini');
-            $this->same('starttls', $phpConfiguration['values']['smtp_security']);
-            $this->same(30, $phpConfiguration['values']['smtp_timeout']);
-            $this->same('192.0.2.10', $phpConfiguration['values']['smtp_local_address']);
-            $this->same('vacation', $phpConfiguration['values']['smtp_username']);
-            $this->same('secret', $phpConfiguration['values']['smtp_password']);
-            $this->same('/usr/sbin/sendmail', $phpConfiguration['values']['sendmail_path']);
-            $this->same('+', $phpConfiguration['values']['recipient_delimiter']);
-            $this->true($phpConfiguration['values']['message_custom_noreply_pattern']);
-            $this->same('social|notification', $phpConfiguration['values']['message_noreply_pattern']);
-            $this->same('Away', $phpConfiguration['values']['reply_friendly_from']);
-            $this->true($phpConfiguration['values']['reply_account_name']);
-            $this->same('d-m-Y', $phpConfiguration['values']['reply_date_format']);
-            $this->false($phpConfiguration['values']['log_syslog']);
-            $this->same('debug', $phpConfiguration['values']['log_level']);
-            $this->true($phpConfiguration['values']['log_file_enabled']);
-            $this->same('/var/log/custom-vacation.log', $phpConfiguration['values']['log_file']);
-            $this->same(1, count($loaded['warnings']));
-            $this->true($cli->isLegacyConfig($path));
+            $this->assertSame('starttls', $phpConfiguration['values']['smtp_security']);
+            $this->assertSame(30, $phpConfiguration['values']['smtp_timeout']);
+            $this->assertSame('192.0.2.10', $phpConfiguration['values']['smtp_local_address']);
+            $this->assertSame('vacation', $phpConfiguration['values']['smtp_username']);
+            $this->assertSame('secret', $phpConfiguration['values']['smtp_password']);
+            $this->assertSame('/usr/sbin/sendmail', $phpConfiguration['values']['sendmail_path']);
+            $this->assertSame('+', $phpConfiguration['values']['recipient_delimiter']);
+            $this->assertTrue($phpConfiguration['values']['message_custom_noreply_pattern']);
+            $this->assertSame('social|notification', $phpConfiguration['values']['message_noreply_pattern']);
+            $this->assertSame('Away', $phpConfiguration['values']['reply_friendly_from']);
+            $this->assertTrue($phpConfiguration['values']['reply_account_name']);
+            $this->assertSame('d-m-Y', $phpConfiguration['values']['reply_date_format']);
+            $this->assertFalse($phpConfiguration['values']['log_syslog']);
+            $this->assertSame('debug', $phpConfiguration['values']['log_level']);
+            $this->assertTrue($phpConfiguration['values']['log_file_enabled']);
+            $this->assertSame('/var/log/custom-vacation.log', $phpConfiguration['values']['log_file']);
+            $this->assertSame(1, count($loaded['warnings']));
+            $this->assertTrue($cli->isLegacyConfig($path));
         } finally {
             $this->removeDirectory($directory);
         }
     }
 
-    private function testPostfixAdminConfigurationLoading(): void
+    public function testPostfixAdminConfigurationLoading(): void
     {
         $cli = new VacationCli();
         $directory = $this->temporaryDirectory();
@@ -221,50 +199,50 @@ PHP);
 $CONF['database_password'] = 'local-secret';
 PHP);
             $configuration = $cli->loadPostfixAdminConfig($directory);
-            $this->same('local-secret', $configuration['database_password']);
-            $this->same('autoreply.example.org', $configuration['vacation_domain']);
-            $this->same('pfa_away', $configuration['resolved_tables']['vacation']);
-            $this->same('pfa_alias', $configuration['resolved_tables']['alias']);
-            $this->same([realpath($directory)], $cli->discoverPostfixAdminRoots($directory));
+            $this->assertSame('local-secret', $configuration['database_password']);
+            $this->assertSame('autoreply.example.org', $configuration['vacation_domain']);
+            $this->assertSame('pfa_away', $configuration['resolved_tables']['vacation']);
+            $this->assertSame('pfa_alias', $configuration['resolved_tables']['alias']);
+            $this->assertSame([realpath($directory)], $cli->discoverPostfixAdminRoots($directory));
         } finally {
             $this->removeDirectory($directory);
         }
     }
 
-    private function testAddressAndDomainHelpers(): void
+    public function testAddressAndDomainHelpers(): void
     {
         $cli = new VacationCli();
-        $this->same('example.org', $cli->baseDomain('mail.example.org'));
-        $this->same('noreply@example.org', $cli->defaultTestSender('mail.example.org'));
-        $this->true($cli->validEmailAddress('admin@example.org'));
-        $this->false($cli->validEmailAddress("admin@example.org\nBcc: victim@example.org"));
-        $this->false($cli->validEmailAddress('not-an-address'));
+        $this->assertSame('example.org', $cli->baseDomain('mail.example.org'));
+        $this->assertSame('noreply@example.org', $cli->defaultTestSender('mail.example.org'));
+        $this->assertTrue($cli->validEmailAddress('admin@example.org'));
+        $this->assertFalse($cli->validEmailAddress("admin@example.org\nBcc: victim@example.org"));
+        $this->assertFalse($cli->validEmailAddress('not-an-address'));
     }
 
-    private function testConfiguredHeloNeedsNoPrompt(): void
+    public function testConfiguredHeloNeedsNoPrompt(): void
     {
         $input = fopen('php://memory', 'r+');
         $output = fopen('php://memory', 'r+');
         $error = fopen('php://memory', 'r+');
         $cli = new VacationCli($input, $output, $error);
-        $this->same('configured.example.org', $cli->resolveSmtpHelo(['smtp_helo' => 'configured.example.org']));
+        $this->assertSame('configured.example.org', $cli->resolveSmtpHelo(['smtp_helo' => 'configured.example.org']));
         rewind($output);
-        $this->same('', stream_get_contents($output));
+        $this->assertSame('', stream_get_contents($output));
     }
 
-    private function testDependencyResultsAreExplicit(): void
+    public function testDependencyResultsAreExplicit(): void
     {
         $cli = new VacationCli();
         $results = [];
         $cli->checkDependencies(['database_type' => 'sqlite'], $results);
         $names = array_map(static fn ($result) => $result->name, $results);
-        $this->true(in_array('mbstring', $names, true));
-        $this->true(in_array('mailparse', $names, true));
-        $this->true(in_array('PDO', $names, true));
-        $this->true(in_array('pdo_sqlite', $names, true));
+        $this->assertTrue(in_array('mbstring', $names, true));
+        $this->assertTrue(in_array('mailparse', $names, true));
+        $this->assertTrue(in_array('PDO', $names, true));
+        $this->assertTrue(in_array('pdo_sqlite', $names, true));
     }
 
-    private function testMessageInspectionRules(): void
+    public function testMessageInspectionRules(): void
     {
         $inspector = new VacationMessageInspector();
         $base = [
@@ -283,10 +261,10 @@ PHP);
             'user+tag#example.org@autoreply.example.org',
             $configuration,
         );
-        $this->true($eligible->eligible);
-        $this->same('user@example.org', $eligible->envelopeRecipient);
-        $this->same('sender@example.org', $eligible->from);
-        $this->same('user@example.org, another@example.org', $eligible->to);
+        $this->assertTrue($eligible->eligible);
+        $this->assertSame('user@example.org', $eligible->envelopeRecipient);
+        $this->assertSame('sender@example.org', $eligible->from);
+        $this->assertSame('user@example.org, another@example.org', $eligible->to);
 
         $rejections = [
             ['X-Spam-Flag', 'YES'],
@@ -320,11 +298,11 @@ PHP);
                 'user#example.org@autoreply.example.org',
                 $configuration,
             );
-            $this->false($result->eligible);
+            $this->assertFalse($result->eligible);
         }
     }
 
-    private function testMessageAddressSafety(): void
+    public function testMessageAddressSafety(): void
     {
         $inspector = new VacationMessageInspector();
         $base = [
@@ -332,22 +310,22 @@ PHP);
             'To' => 'user@example.org',
             'Message-ID' => '<message@example.org>',
         ];
-        $this->false($inspector->inspectHeaders(
+        $this->assertFalse($inspector->inspectHeaders(
             $base,
             'user@example.org',
             'user@example.org',
         )->eligible);
-        $this->false($inspector->inspectHeaders(
+        $this->assertFalse($inspector->inspectHeaders(
             array_replace($base, ['To' => 'sender@example.org']),
             'sender@example.org',
             'user@example.org',
         )->eligible);
-        $this->false($inspector->inspectHeaders(
+        $this->assertFalse($inspector->inspectHeaders(
             $base + ['Reply-To' => 'mailer-daemon@example.org'],
             'other@example.org',
             'user@example.org',
         )->eligible);
-        $this->false($inspector->inspectHeaders(
+        $this->assertFalse($inspector->inspectHeaders(
             $base,
             'other@example.org',
             'user@example.org',
@@ -355,18 +333,16 @@ PHP);
         )->eligible);
         $missingId = $base;
         unset($missingId['Message-ID']);
-        $this->false($inspector->inspectHeaders(
+        $this->assertFalse($inspector->inspectHeaders(
             $missingId,
             'other@example.org',
             'user@example.org',
         )->eligible);
     }
 
-    private function testHistoricalMessageFixtures(): void
+    public function testHistoricalMessageFixtures(): void
     {
-        if (!is_file(__DIR__ . '/test-email.txt')) {
-            return;
-        }
+        $fixtureDirectory = dirname(__DIR__) . '/VIRTUAL_VACATION/tests';
         $inspector = new VacationMessageInspector();
         $configuration = ['vacation_domain' => 'autoreply.example.org'];
         $cases = [
@@ -380,16 +356,16 @@ PHP);
         ];
         foreach ($cases as [$fixture, $sender, $expected]) {
             $result = $inspector->inspectHeaders(
-                $this->headersFromMessage(__DIR__ . '/' . $fixture),
+                $this->headersFromMessage($fixtureDirectory . '/' . $fixture),
                 $sender,
                 'david#example.org@autoreply.example.org',
                 $configuration,
             );
-            $this->same($expected, $result->eligible);
+            $this->assertSame($expected, $result->eligible);
         }
     }
 
-    private function testReplyComposition(): void
+    public function testReplyComposition(): void
     {
         $inspection = (new VacationMessageInspector())->inspectHeaders([
             'From' => 'Sender <sender@example.org>',
@@ -407,18 +383,18 @@ PHP);
             'reply_account_name' => true,
             'reply_date_format' => 'd-m-Y',
         ], 'Example User');
-        $this->true(str_contains($message, 'To: sender@example.org'));
-        $this->true(str_contains($message, 'From: Example User <user@example.org>'));
-        $this->true(str_contains($message, 'Subject: Away: Original subject'));
-        $this->true(str_contains($message, 'X-Loop: Postfix Admin Virtual Vacation'));
-        $this->true(str_contains($message, 'Auto-Submitted: auto-replied'));
-        $this->true(str_contains($message, 'Away from 01-08-2026 until 31-08-2026.'));
+        $this->assertTrue(str_contains($message, 'To: sender@example.org'));
+        $this->assertTrue(str_contains($message, 'From: Example User <user@example.org>'));
+        $this->assertTrue(str_contains($message, 'Subject: Away: Original subject'));
+        $this->assertTrue(str_contains($message, 'X-Loop: Postfix Admin Virtual Vacation'));
+        $this->assertTrue(str_contains($message, 'Auto-Submitted: auto-replied'));
+        $this->assertTrue(str_contains($message, 'Away from 01-08-2026 until 31-08-2026.'));
     }
 
-    private function testVacationRepository(): void
+    public function testVacationRepository(): void
     {
         if (!in_array('sqlite', PDO::getAvailableDrivers(), true)) {
-            return;
+            $this->markTestSkipped('The pdo_sqlite extension is required');
         }
         $database = new PDO('sqlite::memory:');
         $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -462,34 +438,34 @@ PHP);
         $database->exec("INSERT INTO alias_domain VALUES ('alias.example', 'example.org')");
         $database->exec("INSERT INTO mailbox VALUES ('user@example.org', 'Example User')");
         $repository = new VacationRepository($database, [], 'sqlite');
-        $this->same('user@example.org', $repository->findActiveVacation(
+        $this->assertSame('user@example.org', $repository->findActiveVacation(
             'user@example.org',
             'autoreply.example.org',
         )['email']);
-        $this->same('user@example.org', $repository->findActiveVacation(
+        $this->assertSame('user@example.org', $repository->findActiveVacation(
             'team@example.org',
             'autoreply.example.org',
         )['email']);
-        $this->same('bob@example.org', $repository->findActiveVacation(
+        $this->assertSame('bob@example.org', $repository->findActiveVacation(
             'bob@alias.example',
             'autoreply.example.org',
         )['email']);
-        $this->same('alice@example.org', $repository->findActiveVacation(
+        $this->assertSame('alice@example.org', $repository->findActiveVacation(
             'alice@catch.example',
             'autoreply.example.org',
         )['email']);
-        $this->same(null, $repository->findActiveVacation(
+        $this->assertSame(null, $repository->findActiveVacation(
             'expired@example.org',
             'autoreply.example.org',
         ));
         $vacation = $repository->findActiveVacation('user@example.org', 'autoreply.example.org');
-        $this->true($repository->claimNotification($vacation, 'sender@example.net'));
-        $this->false($repository->claimNotification($vacation, 'sender@example.net'));
+        $this->assertTrue($repository->claimNotification($vacation, 'sender@example.net'));
+        $this->assertFalse($repository->claimNotification($vacation, 'sender@example.net'));
         $database->exec("UPDATE vacation SET interval_time = 60 WHERE email = 'user@example.org'");
         $database->exec("UPDATE vacation_notification SET notified_at = '2026-01-01 00:00:00'");
         $vacation = $repository->findActiveVacation('user@example.org', 'autoreply.example.org');
-        $this->true($repository->claimNotification($vacation, 'sender@example.net'));
-        $this->false($repository->claimNotification($vacation, 'sender@example.net'));
+        $this->assertTrue($repository->claimNotification($vacation, 'sender@example.net'));
+        $this->assertFalse($repository->claimNotification($vacation, 'sender@example.net'));
         $newActiveFrom = date('Y-m-d H:i:s', time() - 3600);
         $oldNotification = date('Y-m-d H:i:s', time() - 7200);
         $statement = $database->prepare(
@@ -499,19 +475,19 @@ PHP);
         $statement = $database->prepare('UPDATE vacation_notification SET notified_at = ?');
         $statement->execute([$oldNotification]);
         $vacation = $repository->findActiveVacation('user@example.org', 'autoreply.example.org');
-        $this->true($repository->claimNotification($vacation, 'sender@example.net'));
-        $this->same('Example User', $repository->accountName('user@example.org'));
+        $this->assertTrue($repository->claimNotification($vacation, 'sender@example.net'));
+        $this->assertSame('Example User', $repository->accountName('user@example.org'));
         $repository->forgetNotification('user@example.org', 'sender@example.net');
-        $this->same(0, (int)$database->query('SELECT COUNT(*) FROM vacation_notification')->fetchColumn());
+        $this->assertSame(0, (int)$database->query('SELECT COUNT(*) FROM vacation_notification')->fetchColumn());
     }
 
-    private function testTransportExitStatuses(): void
+    public function testTransportExitStatuses(): void
     {
         $output = fopen('php://memory', 'r+');
         $error = fopen('php://memory', 'r+');
         $cli = new VacationCli(null, $output, $error);
-        $this->same(64, $cli->run(['vacation.php', '--unknown-option']));
-        $this->same(78, $cli->run([
+        $this->assertSame(64, $cli->run(['vacation.php', '--unknown-option']));
+        $this->assertSame(78, $cli->run([
             'vacation.php',
             '--config',
             '/path/that/does/not/exist/vacation.ini',
@@ -522,13 +498,16 @@ PHP);
         ]));
     }
 
-    private function testCompleteTransport(): void
+    public function testCompleteTransport(): void
     {
-        if (PHP_OS_FAMILY === 'Windows'
-            || !extension_loaded('mailparse')
-            || !in_array('sqlite', PDO::getAvailableDrivers(), true)
-        ) {
-            return;
+        if (PHP_OS_FAMILY === 'Windows') {
+            $this->markTestSkipped('The process-based SMTP transport test requires a Unix-like platform');
+        }
+        if (!extension_loaded('mailparse')) {
+            $this->markTestSkipped('The mailparse extension is required');
+        }
+        if (!in_array('sqlite', PDO::getAvailableDrivers(), true)) {
+            $this->markTestSkipped('The pdo_sqlite extension is required');
         }
 
         $directory = $this->temporaryDirectory();
@@ -580,25 +559,25 @@ PHP);
                 '',
             ]);
 
-            $this->same(0, $this->runTransport($configurationPath, $message, 'sender@example.net'));
-            $this->same(0, proc_close($smtpProcess));
+            $this->assertSame(0, $this->runTransport($configurationPath, $message, 'sender@example.net'));
+            $this->assertSame(0, proc_close($smtpProcess));
             $delivered = file_get_contents($deliveredPath);
-            $this->true(is_string($delivered));
-            $this->true(str_contains((string)$delivered, 'To: sender@example.net'));
-            $this->true(str_contains((string)$delivered, 'Subject: Away: Integration test'));
-            $this->same(1, (int)$database->query('SELECT COUNT(*) FROM vacation_notification')->fetchColumn());
+            $this->assertTrue(is_string($delivered));
+            $this->assertTrue(str_contains((string)$delivered, 'To: sender@example.net'));
+            $this->assertTrue(str_contains((string)$delivered, 'Subject: Away: Integration test'));
+            $this->assertSame(1, (int)$database->query('SELECT COUNT(*) FROM vacation_notification')->fetchColumn());
 
             $deliveredSize = filesize($deliveredPath);
-            $this->same(0, $this->runTransport($configurationPath, $message, 'sender@example.net'));
+            $this->assertSame(0, $this->runTransport($configurationPath, $message, 'sender@example.net'));
             clearstatcache(true, $deliveredPath);
-            $this->same($deliveredSize, filesize($deliveredPath));
+            $this->assertSame($deliveredSize, filesize($deliveredPath));
 
             $this->writeTransportConfiguration($configurationPath, $directory, $smtpPort);
-            $this->same(75, $this->runTransport($configurationPath, $message, 'failure@example.net'));
+            $this->assertSame(75, $this->runTransport($configurationPath, $message, 'failure@example.net'));
             $statement = $database->query(
                 "SELECT COUNT(*) FROM vacation_notification WHERE notified = 'failure@example.net'"
             );
-            $this->same(0, (int)$statement->fetchColumn());
+            $this->assertSame(0, (int)$statement->fetchColumn());
         } finally {
             $this->removeDirectory($directory);
         }
@@ -609,7 +588,7 @@ PHP);
     {
         $readyPath = $directory . '/smtp-port';
         $process = proc_open(
-            [PHP_BINARY, __DIR__ . '/mock_smtp.php', $readyPath, $deliveredPath],
+            [PHP_BINARY, __DIR__ . '/fixtures/VacationMockSmtp.php', $readyPath, $deliveredPath],
             [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']],
             $pipes,
         );
@@ -715,26 +694,4 @@ PHP);
         }
         rmdir($directory);
     }
-
-    private function same(mixed $expected, mixed $actual): void
-    {
-        ++$this->assertions;
-        if ($expected !== $actual) {
-            throw new RuntimeException(
-                'Assertion failed: expected ' . var_export($expected, true) . ', got ' . var_export($actual, true)
-            );
-        }
-    }
-
-    private function true(mixed $value): void
-    {
-        $this->same(true, $value);
-    }
-
-    private function false(mixed $value): void
-    {
-        $this->same(false, $value);
-    }
 }
-
-(new VacationPhpTest())->run();

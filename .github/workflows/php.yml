@@ -110,9 +110,6 @@ jobs:
     - name: Build/test
       run: sudo -u runner composer test
 
-    - name: Test PHP Virtual Vacation transport
-      run: sudo -u runner php VIRTUAL_VACATION/tests/test_vacation.php
-
   testsuite-mysql:
     needs: [lint_etc]
     runs-on: ubuntu-24.04
