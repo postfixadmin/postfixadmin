@@ -15,8 +15,8 @@
                         {CSRF_Token}
                         <input type="hidden" name="domain" value="{$domain_selected}">
                         <button type="submit" class="btn btn-sm btn-secondary" title="{$PALANG.dns_refresh}"><span class="bi bi-arrow-clockwise" aria-hidden="true"></span> DNS</button>
-                        {if isset($domain_dns_status.dns_active)}
-                            <span class="bi {if $domain_dns_status.dns_active == 0}bi-exclamation-triangle text-danger{else}bi-check-circle text-success{/if}" role="img" aria-label="{if $domain_dns_status.dns_active == 0}{$PALANG.dns_inactive}{else}{$PALANG.dns_active}{/if}"></span>
+                        {if isset($domain_dns_status.dns_active) && $domain_dns_status.dns_active == 0}
+                            <span class="text-danger"><span class="bi bi-exclamation-triangle" aria-hidden="true"></span> {$PALANG.dns_inactive}</span>
                         {/if}
                         <small class="text-muted">{$PALANG.dns_last_check}: {$domain_dns_status.dns_checked|default:$PALANG.dns_not_checked}</small>
                     </form>

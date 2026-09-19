@@ -24,13 +24,18 @@ class DomainDnsListTemplateTest extends \PHPUnit\Framework\TestCase
         $html = $smarty->fetch('string:' . $header);
         self::assertStringContainsString('name="domain" value="example.com"', $html);
         self::assertStringContainsString('name="CSRF_Token"', $html);
-        self::assertStringContainsString('aria-label="Inactive DNS"', $html);
+        self::assertStringContainsString('bi-exclamation-triangle', $html);
+        self::assertStringContainsString('Inactive DNS', $html);
         self::assertStringContainsString('Last checked: 2000-01-01 00:00:00', $html);
+        $smarty->assign('domain_dns_status', ['dns_active' => 1, 'dns_checked' => '2000-01-01 00:00:00']);
+        $html = $smarty->fetch('string:' . $header);
+        self::assertStringNotContainsString('Active DNS', $html);
+        self::assertStringNotContainsString('bi-check-circle', $html);
         $smarty->assign('domain_dns_status', ['dns_active' => null, 'dns_checked' => null]);
         $html = $smarty->fetch('string:' . $header);
         self::assertStringContainsString('Last checked: Not checked', $html);
-        self::assertStringNotContainsString('aria-label="Inactive DNS"', $html);
-        self::assertStringNotContainsString('aria-label="Active DNS"', $html);
+        self::assertStringNotContainsString('Inactive DNS', $html);
+        self::assertStringNotContainsString('Active DNS', $html);
         $smarty->assign('dns_check_mode', 0);
         self::assertStringNotContainsString('refresh-domain-dns.php', $smarty->fetch('string:' . $header));
     }
