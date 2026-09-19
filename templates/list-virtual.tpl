@@ -72,9 +72,7 @@
         {if $alias_active=='inactive'}<span class='active'>{$PALANG.inactive}</span>
         {else}<a href="?domain={$smarty.get.domain}&amp;tab={$tab}&amp;alias_active=inactive&amp;limit=0{$searchsuffix}">{$PALANG.inactive}</a>{/if}
     </div>
-    {$nav_bar_alias.top}
     {include file="list-virtual_alias.tpl"}
-    {$nav_bar_alias.bottom}
     {if $alias_active=='inactive' && $tAlias}
         <div class="text-center mb-2">
             <form method="post" action="delete-inactive.php" style="display:inline">
@@ -93,7 +91,6 @@
 {/if}
 {if $tab=='mailbox' || $tab=='all'}
     <div id="mailboxes" class="card">
-        {$nav_bar_mailbox.top}
         {assign var="colspan" value=9}
         {if $CONF.vacation_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
         {if $CONF.alias_control_admin===YES}{assign var="colspan" value="`$colspan+1`"}{/if}
@@ -103,9 +100,8 @@
       
 
 
-        <div class="card-footer">
+        <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-2">
             <div class="btn-group">
-                {$nav_bar_mailbox.bottom}
                 {if $tCanAddMailbox}
                     <a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" role="button"
                         class="btn btn-secondary"><span class="bi bi-plus-circle"

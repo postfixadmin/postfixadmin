@@ -11,6 +11,5 @@ ADDITIONS/mkeveryone.pl
 ADDITIONS/postfixadmin-mailbox-postdeletion.sh
 ADDITIONS/delete-mailq-by-domain.pl
 ADDITIONS/pfa_maildir_cleanup.pl
-ADDITIONS/quota_usage.pl
 ADDITIONS/fetchmail.pl
 ADDITIONS/README.md

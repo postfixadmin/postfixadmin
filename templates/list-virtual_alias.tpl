@@ -7,5 +7,4 @@
 {assign var="items" value=$tAlias}
 {assign var="RAW_items" value=$RAW_tAlias}
 
-{include 'list.tpl'}
-
+{include 'list.tpl' pagination=$pagination_alias pagination_label=$PALANG.pOverview_alias_title}

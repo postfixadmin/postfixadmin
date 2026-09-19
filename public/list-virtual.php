@@ -320,30 +320,9 @@ foreach ($result as $row) {
 $alias_data['msg']['can_create'] = false;
 $tCanAddMailbox = false;
 
-$tDisplay_back = "";
-$tDisplay_back_show = "";
-$tDisplay_up_show = "";
-$tDisplay_next = "";
-$tDisplay_next_show = "";
-
 $limit = get_domain_properties($fDomain);
 
 if (isset($limit)) {
-    if ($fDisplay >= $page_size) {
-        $tDisplay_back_show = 1;
-        $tDisplay_back = $fDisplay - $page_size;
-    }
-    if (($limit['alias_count'] > $page_size) or ($limit['mailbox_count'] > $page_size)) {
-        $tDisplay_up_show = 1;
-    }
-    if (
-        (($fDisplay + $page_size) < $limit['alias_count']) or
-        (($fDisplay + $page_size) < $limit['mailbox_count'])
-    ) {
-        $tDisplay_next_show = 1;
-        $tDisplay_next = $fDisplay + $page_size;
-    }
-
     if ($limit['aliases'] == 0) {
         $alias_data['msg']['can_create'] = true;
     } elseif ($limit['alias_count'] < $limit['aliases']) {
@@ -393,130 +372,33 @@ for ($i = 0; $i < sizeof($tMailbox); $i++) {
 }
 
 
-class cNav_bar
-{
-    protected $count;
-    protected $title;
-    protected $limit;
-    protected $page_size;
-    protected $pages;
-    protected $search; // arguments
-
-    /* @var string - appended to page link href */
-    public $append_to_url = '';
-
-    protected $have_run_init = false;
-    protected $arr_prev;
-    protected $arr_next;
-    protected $arr_top; // internal
-    protected $anchor;
-
-    public function __construct($aTitle, $aLimit, $aPage_size, $aPages, $aSearch)
-    {
-        $this->count = count($aPages);
-        $this->title = $aTitle;
-        $this->limit = $aLimit;
-        $this->page_size = $aPage_size;
-        $this->pages = $aPages;
-        if (is_array($aSearch) && isset($aSearch['_']) && $aSearch['_'] != "") {
-            $this->search = "&search[_]=" . htmlentities($aSearch['_']);
-        } else {
-            $this->search = "";
-        }
-    }
-
-    private function init()
-    {
-        $this->anchor = 'a' . substr($this->title, 3);
-        $this->append_to_url .= '#' . $this->anchor;
-        ($this->limit >= $this->page_size) ? $this->arr_prev = '&nbsp;<a href="?limit=' . ($this->limit - $this->page_size) . $this->search . $this->append_to_url . '"><img border="0" src="images/arrow-l.png" title="' . $GLOBALS ['PALANG']['pOverview_left_arrow'] . '" alt="' . $GLOBALS ['PALANG']['pOverview_left_arrow'] . '"/></a>&nbsp;' : $this->arr_prev = '';
-        ($this->limit > 0) ? $this->arr_top = '&nbsp;<a href="?limit=0' . $this->search . $this->append_to_url . '"><img border="0" src="images/arrow-u.png" title="' . $GLOBALS ['PALANG']['pOverview_up_arrow'] . '" alt="' . $GLOBALS ['PALANG']['pOverview_up_arrow'] . '"/></a>&nbsp;' : $this->arr_top = '';
-        (($this->limit + $this->page_size) < ($this->count * $this->page_size)) ? $this->arr_next = '&nbsp;<a href="?limit=' . ($this->limit + $this->page_size) . $this->search . $this->append_to_url . '"><img border="0" src="images/arrow-r.png" title="' . $GLOBALS ['PALANG']['pOverview_right_arrow'] . '" alt="' . $GLOBALS ['PALANG']['pOverview_right_arrow'] . '"/></a>&nbsp;' : $this->arr_next = '';
-        $this->have_run_init = true;
-    }
-
-    private function display_pre()
-    {
-        $ret_val = '<div class="nav_bar"';
-        //$ret_val .= ' style="background-color:#ffa;"';
-        $ret_val .= '>';
-        $ret_val .= '<table width="730"><colgroup span="1"><col width="550"></col></colgroup> ';
-        $ret_val .= '<tr><td align="left">';
-        return $ret_val;
-    }
-
-    private function display_post()
-    {
-        $ret_val = '</td></tr></table></div>';
-        return $ret_val;
-    }
-
-    public function display_top()
-    {
-        $ret_val = '';
-        if ($this->count < 1) {
-            return $ret_val;
-        }
-        if (!$this->have_run_init) {
-            $this->init();
-        }
-
-        $ret_val .= '<a name="' . $this->anchor . '"></a>';
-        $ret_val .= $this->display_pre();
-        $ret_val .= '<b>' . $this->title . '</b>&nbsp;&nbsp;';
-
-        $highlight_at = 0;
-
-        if ($this->limit >= $this->page_size) {
-            $highlight_at = $this->limit / $this->page_size;
-        }
-
-        for ($i = 0; $i < count($this->pages); $i++) {
-            $lPage = $this->pages [$i];
-            if ($i == $highlight_at) {
-                $ret_val .= '<b>' . $lPage . '</b>' . "\n";
-            } else {
-                $ret_val .= '<a href="?limit=' . ($i * $this->page_size) . $this->search . $this->append_to_url . '">' . $lPage . '</a>' . "\n";
-            }
-        }
-        $ret_val .= '</td><td valign="middle" align="right">';
-
-        $ret_val .= $this->arr_prev;
-        $ret_val .= $this->arr_top;
-        $ret_val .= $this->arr_next;
-
-        $ret_val .= $this->display_post();
-        return $ret_val;
-    }
-
-    public function display_bottom()
-    {
-        $ret_val = '';
-        if ($this->count < 1) {
-            return $ret_val;
-        }
-        if (!$this->have_run_init) {
-            $this->init();
-        }
-        $ret_val .= $this->display_pre();
-        $ret_val .= '</td><td valign="middle" align="right">';
-
-        $ret_val .= $this->arr_prev;
-        $ret_val .= $this->arr_top;
-        $ret_val .= $this->arr_next;
-
-        $ret_val .= $this->display_post();
-        return $ret_val;
-    }
-}
-
-
-$nav_bar_alias = new cNav_bar($PALANG['pOverview_alias_title'], $fDisplay, $CONF['page_size'], $pagebrowser_alias, $search);
-$nav_bar_alias->append_to_url = '&amp;domain=' . $fDomain;
-
 $pagebrowser_mailbox = create_page_browser("$table_mailbox.username", $mailbox_pagebrowser_query, $sql_params);
-$nav_bar_mailbox = new cNav_bar($PALANG['pOverview_mailbox_title'], $fDisplay, $CONF['page_size'], $pagebrowser_mailbox, $search);
-$nav_bar_mailbox->append_to_url = '&amp;domain=' . $fDomain;
+
+$pagination_params = ['domain' => $fDomain];
+if (isset($search['_']) && $search['_'] !== '') {
+    $pagination_params['search'] = ['_' => $search['_']];
+}
+$pagination_labels = [
+    'first' => $PALANG['pOverview_up_arrow'],
+    'previous' => $PALANG['pOverview_left_arrow'],
+    'next' => $PALANG['pOverview_right_arrow'],
+];
+$pagination_alias = page_browser_pagination(
+    $pagebrowser_alias,
+    $fDisplay,
+    $page_size,
+    $pagination_params,
+    'aliases',
+    $pagination_labels
+);
+$pagination_mailbox = page_browser_pagination(
+    $pagebrowser_mailbox,
+    $fDisplay,
+    $page_size,
+    $pagination_params,
+    'mailboxes',
+    $pagination_labels
+);
 
 
 // this is why we need a proper template layer.
@@ -528,8 +410,8 @@ if (empty($_GET['domain'])) {
 $smarty->assign('admin_list', array());
 $smarty->assign('domain_list', $list_domains);
 $smarty->assign('domain_selected', $fDomain);
-$smarty->assign('nav_bar_alias', array('top' => $nav_bar_alias->display_top(), 'bottom' => $nav_bar_alias->display_bottom()), false);
-$smarty->assign('nav_bar_mailbox', array('top' => $nav_bar_mailbox->display_top(), 'bottom' => $nav_bar_mailbox->display_bottom()), false);
+$smarty->assign('pagination_alias', $pagination_alias);
+$smarty->assign('pagination_mailbox', $pagination_mailbox);
 
 $smarty->assign('fDomain', $fDomain, false);
 
@@ -537,11 +419,6 @@ $smarty->assign('search', $search);
 
 $smarty->assign('list_domains', $list_domains);
 $smarty->assign('limit', $limit);
-$smarty->assign('tDisplay_back_show', $tDisplay_back_show);
-$smarty->assign('tDisplay_back', $tDisplay_back);
-$smarty->assign('tDisplay_up_show', $tDisplay_up_show);
-$smarty->assign('tDisplay_next_show', $tDisplay_next_show);
-$smarty->assign('tDisplay_next', $tDisplay_next);
 
 if (Config::bool('alias_domain')) {
     $smarty->assign('tAliasDomains', $tAliasDomains);
