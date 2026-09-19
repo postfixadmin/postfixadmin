@@ -83,6 +83,8 @@ final class MessageInspectionResult
 
 final class VacationMessageInspector
 {
+    public const DEFAULT_NO_VACATION_PATTERN = 'info\@example\.org';
+
     private const DEFAULT_NOREPLY_PATTERN =
         '^(?:noreply|no-reply|do_not_reply|no_reply|postmaster|mailer-daemon|listserv|majordomo|owner-|request-|bounces-)'
         . '|(?:-(?:owner|request|bounces)@)';
@@ -143,7 +145,9 @@ final class VacationMessageInspector
             return new MessageInspectionResult(false, 'a required message or envelope field is missing');
         }
 
-        $noVacationPattern = trim((string)($configuration['message_no_vacation_pattern'] ?? ''));
+        $noVacationPattern = trim((string)(
+            $configuration['message_no_vacation_pattern'] ?? self::DEFAULT_NO_VACATION_PATTERN
+        ));
         if ($noVacationPattern !== '' && $this->matchesPattern($toRaw, $noVacationPattern)) {
             return new MessageInspectionResult(false, 'the To header matches no_vacation_pattern');
         }
@@ -212,14 +216,21 @@ final class VacationMessageInspector
     {
         $message = call_user_func('mailparse_msg_create');
         try {
+            $headerData = '';
             while (!feof($stream)) {
                 $chunk = fread($stream, 8192);
                 if ($chunk === false) {
                     throw new RuntimeException('Could not read the message stream');
                 }
-                if ($chunk !== '' && call_user_func('mailparse_msg_parse', $message, $chunk) === false) {
-                    throw new MessageDataException('mailparse could not parse the message stream');
+                $headerData .= $chunk;
+                $separator = $this->headerSeparator($headerData);
+                if ($separator !== null) {
+                    $headerData = substr($headerData, 0, $separator);
+                    break;
                 }
+            }
+            if ($headerData !== '' && call_user_func('mailparse_msg_parse', $message, $headerData) === false) {
+                throw new MessageDataException('mailparse could not parse the message headers');
             }
             $partData = call_user_func('mailparse_msg_get_part_data', $message);
             if (!isset($partData['headers']) || !is_array($partData['headers'])) {
@@ -241,6 +252,18 @@ final class VacationMessageInspector
         } finally {
             call_user_func('mailparse_msg_free', $message);
         }
+    }
+
+    private function headerSeparator(string $message): ?int
+    {
+        $positions = [];
+        foreach (["\r\n\r\n", "\n\n", "\r\r"] as $separator) {
+            $position = strpos($message, $separator);
+            if ($position !== false) {
+                $positions[] = $position + strlen($separator);
+            }
+        }
+        return $positions === [] ? null : min($positions);
     }
 
     /**
@@ -479,7 +502,7 @@ final class VacationRepository
         $now = time();
         $from = strtotime((string)($row['activefrom'] ?? ''));
         $until = strtotime((string)($row['activeuntil'] ?? ''));
-        if (($from !== false && $from > $now) || ($until !== false && $until < $now)) {
+        if ($from === false || $until === false || $from > $now || $until < $now) {
             return null;
         }
         return $row;
@@ -957,7 +980,9 @@ final class VacationCli
             throw new ConfigurationException("Invalid INI configuration: {$path}");
         }
         $warnings = [];
-        $values = [];
+        $values = [
+            'message_no_vacation_pattern' => VacationMessageInspector::DEFAULT_NO_VACATION_PATTERN,
+        ];
         if (isset($parsed['postfixadmin']) && is_array($parsed['postfixadmin'])) {
             $values['postfixadmin_root'] = trim((string)($parsed['postfixadmin']['root'] ?? ''));
         } else {
@@ -1293,7 +1318,7 @@ final class VacationCli
         if (!is_dir($directory) && !mkdir($directory, 0750, true) && !is_dir($directory)) {
             throw new RuntimeException("Could not create configuration directory: {$directory}");
         }
-        if (file_put_contents(
+        $this->writeConfigurationFile(
             $destination,
             $this->renderConfig(
                 $root,
@@ -1305,17 +1330,45 @@ final class VacationCli
                 $replyOptions,
                 $loggingOptions,
             ),
-            LOCK_EX,
-        ) === false) {
-            throw new RuntimeException("Could not write configuration: {$destination}");
-        }
-        if (!chmod($destination, 0640)) {
-            $this->writeError("WARNING: could not set mode 0640 on {$destination}" . PHP_EOL);
-        }
+        );
         $this->write("Created: {$destination}" . PHP_EOL);
         $this->write('Review the file owner and group for the service user configured in Postfix master.cf.' . PHP_EOL);
         $this->write("Next: run vacation.php --check --config {$destination}" . PHP_EOL);
         return 0;
+    }
+
+    private function writeConfigurationFile(string $destination, string $contents): void
+    {
+        $temporary = tempnam(dirname($destination), '.vacation.ini.');
+        if ($temporary === false) {
+            throw new RuntimeException("Could not create a temporary configuration file for {$destination}");
+        }
+        try {
+            if (!chmod($temporary, 0600)) {
+                throw new RuntimeException("Could not protect temporary configuration file: {$temporary}");
+            }
+            if (file_put_contents($temporary, $contents, LOCK_EX) === false) {
+                throw new RuntimeException("Could not write configuration: {$destination}");
+            }
+            if (!chmod($temporary, 0640)) {
+                throw new RuntimeException("Could not set mode 0640 on configuration: {$destination}");
+            }
+            clearstatcache(true, $temporary);
+            if (PHP_OS_FAMILY !== 'Windows') {
+                $mode = fileperms($temporary);
+                if ($mode === false || ($mode & 0777) !== 0640) {
+                    throw new RuntimeException("Configuration mode is not 0640: {$destination}");
+                }
+            }
+            if (!rename($temporary, $destination)) {
+                throw new RuntimeException("Could not install configuration atomically: {$destination}");
+            }
+            $temporary = '';
+        } finally {
+            if ($temporary !== '' && is_file($temporary)) {
+                unlink($temporary);
+            }
+        }
     }
 
     /**
@@ -1666,7 +1719,11 @@ final class VacationCli
             $this->smtpExpect($this->smtpCommand($socket, 'DATA'), [354], 'DATA');
             $message = $this->testMessage($sender, $recipient, $helo, $server, $port);
             $message = preg_replace('/(?m)^\./', '..', $message) ?? $message;
-            fwrite($socket, str_replace("\n", "\r\n", str_replace("\r\n", "\n", $message)) . "\r\n.\r\n");
+            $this->writeAll(
+                $socket,
+                str_replace("\n", "\r\n", str_replace("\r\n", "\n", $message)) . "\r\n.\r\n",
+                'Could not write the test message to SMTP',
+            );
             $this->smtpExpect($this->smtpReadResponse($socket), [250], 'message body');
         } finally {
             $this->smtpQuit($socket);
@@ -1817,7 +1874,14 @@ final class VacationCli
     /** @param array<string, mixed> $configuration @return array<string, mixed> */
     private function resolveDeliveryConfiguration(array $configuration, string $vacationAddress): array
     {
-        if (trim((string)($configuration['smtp_server'] ?? 'localhost')) !== '') {
+        $server = trim((string)($configuration['smtp_server'] ?? 'localhost'));
+        if ($server !== '') {
+            $configuration['smtp_server'] = $server;
+            if (strcasecmp($server, 'localhost') !== 0
+                && strcasecmp(trim((string)($configuration['smtp_local_address'] ?? '')), 'localhost') === 0
+            ) {
+                $configuration['smtp_local_address'] = '';
+            }
             return $configuration;
         }
         [, $domain] = explode('@', $vacationAddress, 2);
@@ -1831,7 +1895,7 @@ final class VacationCli
             throw new RuntimeException("No usable MX target found for {$domain}");
         }
         $configuration['smtp_server'] = $target;
-        if (($configuration['smtp_local_address'] ?? '') === 'localhost') {
+        if (strcasecmp(trim((string)($configuration['smtp_local_address'] ?? '')), 'localhost') === 0) {
             $configuration['smtp_local_address'] = '';
         }
         return $configuration;
@@ -1844,16 +1908,18 @@ final class VacationCli
         string $recipient,
         string $message,
     ): void {
-        $helo = $this->resolveSmtpHelo($configuration);
+        $helo = $this->resolveSmtpHelo($configuration, false);
         $socket = $this->smtpConnect($configuration, $helo);
         try {
             $this->smtpExpect($this->smtpCommand($socket, "MAIL FROM:<{$sender}>"), [250], 'MAIL FROM');
             $this->smtpExpect($this->smtpCommand($socket, "RCPT TO:<{$recipient}>"), [250, 251], 'RCPT TO');
             $this->smtpExpect($this->smtpCommand($socket, 'DATA'), [354], 'DATA');
             $message = preg_replace('/(?m)^\./', '..', $message) ?? $message;
-            if (fwrite($socket, rtrim($message, "\r\n") . "\r\n.\r\n") === false) {
-                throw new RuntimeException('Could not write the Vacation message to SMTP');
-            }
+            $this->writeAll(
+                $socket,
+                rtrim($message, "\r\n") . "\r\n.\r\n",
+                'Could not write the Vacation message to SMTP',
+            );
             $this->smtpExpect($this->smtpReadResponse($socket), [250], 'message body');
         } finally {
             $this->smtpQuit($socket);
@@ -1876,7 +1942,7 @@ final class VacationCli
         if (!is_resource($process)) {
             throw new RuntimeException("Could not execute sendmail: {$path}");
         }
-        fwrite($pipes[0], $message);
+        $this->writeAll($pipes[0], $message, 'Could not write the Vacation message to sendmail');
         fclose($pipes[0]);
         $standardOutput = stream_get_contents($pipes[1]);
         $standardError = stream_get_contents($pipes[2]);
@@ -2127,10 +2193,26 @@ final class VacationCli
     /** @param resource $socket @return array{0: int, 1: string} */
     private function smtpCommand($socket, string $command, ?string $displayCommand = null): array
     {
-        if (fwrite($socket, $command . "\r\n") === false) {
-            throw new RuntimeException('Could not write SMTP command: ' . ($displayCommand ?? $command));
-        }
+        $this->writeAll(
+            $socket,
+            $command . "\r\n",
+            'Could not write SMTP command: ' . ($displayCommand ?? $command),
+        );
         return $this->smtpReadResponse($socket);
+    }
+
+    /** @param resource $stream */
+    private function writeAll($stream, string $data, string $error): void
+    {
+        $offset = 0;
+        $length = strlen($data);
+        while ($offset < $length) {
+            $written = fwrite($stream, substr($data, $offset));
+            if ($written === false || $written === 0) {
+                throw new RuntimeException($error);
+            }
+            $offset += $written;
+        }
     }
 
     /** @param resource $socket @return array{0: int, 1: string} */
@@ -2197,10 +2279,18 @@ final class VacationCli
     }
 
     /** @param array<string, mixed> $configuration */
-    public function resolveSmtpHelo(array $configuration): string
+    public function resolveSmtpHelo(array $configuration, bool $allowPrompt = true): string
     {
         $configured = trim((string)($configuration['smtp_helo'] ?? ''));
-        $helo = $configured !== '' ? $configured : ($this->detectedFqdn() ?? $this->prompt('SMTP HELO'));
+        $helo = $configured !== '' ? $configured : $this->detectedFqdn();
+        if ($helo === null && $allowPrompt) {
+            $helo = $this->prompt('SMTP HELO');
+        }
+        if ($helo === null) {
+            throw new ConfigurationException(
+                'A valid smtp.helo setting is required when no system FQDN can be detected'
+            );
+        }
         if (!$this->validHelo($helo)) {
             throw new ConfigurationException('A valid SMTP HELO name is required');
         }

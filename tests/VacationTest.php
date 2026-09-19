@@ -10,6 +10,31 @@ use PostfixAdmin\VirtualVacation\VacationRepository;
 
 require_once dirname(__DIR__) . '/VIRTUAL_VACATION/vacation.php';
 
+final class VacationShortWriteStream
+{
+    public mixed $context;
+
+    public static string $contents = '';
+
+    public function stream_open(string $path, string $mode, int $options, ?string &$openedPath): bool
+    {
+        self::$contents = '';
+        return true;
+    }
+
+    public function stream_write(string $data): int
+    {
+        $chunk = substr($data, 0, 3);
+        self::$contents .= $chunk;
+        return strlen($chunk);
+    }
+
+    public function stream_eof(): bool
+    {
+        return false;
+    }
+}
+
 final class VacationTest extends TestCase
 {
     public function testNoActionPrintsOneLine(): void
@@ -76,6 +101,14 @@ final class VacationTest extends TestCase
             $this->assertSame('mail.example.org', $loaded['values']['smtp_helo']);
             $this->assertSame('none', $loaded['values']['smtp_security']);
             $this->assertSame(120, $loaded['values']['smtp_timeout']);
+            $this->assertSame(
+                VacationMessageInspector::DEFAULT_NO_VACATION_PATTERN,
+                $loaded['values']['message_no_vacation_pattern'],
+            );
+            $explicitlyEmpty = (string)file_get_contents($path)
+                . PHP_EOL . '[message]' . PHP_EOL . 'no_vacation_pattern = ""' . PHP_EOL;
+            file_put_contents($path, $explicitlyEmpty);
+            $this->assertSame('', $cli->loadVacationConfig($path)['values']['message_no_vacation_pattern']);
             $this->assertFalse($cli->isLegacyConfig($path));
             $this->assertSame(realpath($path), $cli->findVacationConfig($path));
             putenv('VACATION_SMTP_PASSWORD=environment-secret');
@@ -230,6 +263,53 @@ PHP);
         $this->assertSame('', stream_get_contents($output));
     }
 
+    public function testConfigurationIsWrittenAtomicallyWithRestrictedMode(): void
+    {
+        $directory = $this->temporaryDirectory();
+        try {
+            $path = $directory . '/vacation.ini';
+            $method = new ReflectionMethod(VacationCli::class, 'writeConfigurationFile');
+            $method->invoke(new VacationCli(), $path, "[smtp]\npassword = secret\n");
+            $this->assertSame("[smtp]\npassword = secret\n", file_get_contents($path));
+            if (PHP_OS_FAMILY !== 'Windows') {
+                clearstatcache(true, $path);
+                $this->assertSame(0640, fileperms($path) & 0777);
+            }
+            $this->assertSame([], glob($directory . '/.vacation.ini.*') ?: []);
+        } finally {
+            $this->removeDirectory($directory);
+        }
+    }
+
+    public function testCompleteWritesHandleShortStreamWrites(): void
+    {
+        $scheme = 'vacationshortwrite';
+        if (in_array($scheme, stream_get_wrappers(), true)) {
+            stream_wrapper_unregister($scheme);
+        }
+        stream_wrapper_register($scheme, VacationShortWriteStream::class);
+        try {
+            $stream = fopen($scheme . '://output', 'w');
+            $this->assertTrue(is_resource($stream));
+            $method = new ReflectionMethod(VacationCli::class, 'writeAll');
+            $method->invoke(new VacationCli(), $stream, 'complete payload', 'write failed');
+            fclose($stream);
+            $this->assertSame('complete payload', VacationShortWriteStream::$contents);
+        } finally {
+            stream_wrapper_unregister($scheme);
+        }
+    }
+
+    public function testRemoteSmtpClearsLegacyLoopbackBinding(): void
+    {
+        $method = new ReflectionMethod(VacationCli::class, 'resolveDeliveryConfiguration');
+        $configuration = $method->invoke(new VacationCli(), [
+            'smtp_server' => 'smtp.example.org',
+            'smtp_local_address' => 'localhost',
+        ], 'user@example.org');
+        $this->assertSame('', $configuration['smtp_local_address']);
+    }
+
     public function testDependencyResultsAreExplicit(): void
     {
         $cli = new VacationCli();
@@ -331,6 +411,17 @@ PHP);
             'user@example.org',
             ['message_no_vacation_pattern' => 'user@example\.org'],
         )->eligible);
+        $this->assertFalse($inspector->inspectHeaders(
+            array_replace($base, ['To' => 'info@example.org']),
+            'other@example.org',
+            'user@example.org',
+        )->eligible);
+        $this->assertTrue($inspector->inspectHeaders(
+            array_replace($base, ['To' => 'info@example.org']),
+            'other@example.org',
+            'user@example.org',
+            ['message_no_vacation_pattern' => ''],
+        )->eligible);
         $missingId = $base;
         unset($missingId['Message-ID']);
         $this->assertFalse($inspector->inspectHeaders(
@@ -338,6 +429,31 @@ PHP);
             'other@example.org',
             'user@example.org',
         )->eligible);
+    }
+
+    public function testMessageInspectionStopsAfterHeaders(): void
+    {
+        if (!extension_loaded('mailparse')) {
+            $this->markTestSkipped('The mailparse extension is required');
+        }
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, implode("\r\n", [
+            'From: sender@example.org',
+            'To: user@example.org',
+            'Message-ID: <message@example.org>',
+            '',
+            str_repeat('body attachment data', 2000),
+        ]));
+        rewind($stream);
+        $result = (new VacationMessageInspector())->inspectStream(
+            $stream,
+            'sender@example.org',
+            'user@example.org',
+            ['message_no_vacation_pattern' => ''],
+        );
+        $this->assertTrue($result->eligible);
+        $this->assertFalse(feof($stream));
+        fclose($stream);
     }
 
     public function testHistoricalMessageFixtures(): void
@@ -432,6 +548,7 @@ PHP);
             0,
             1,
         ]);
+        $insert->execute(['invalid-date@example.org', 'Away', 'Body', null, null, 0, 1]);
         $database->exec("INSERT INTO alias VALUES "
             . "('team@example.org', 'user@example.org,team#example.org@autoreply.example.org'), "
             . "('@catch.example', '@example.org')");
@@ -456,6 +573,10 @@ PHP);
         )['email']);
         $this->assertSame(null, $repository->findActiveVacation(
             'expired@example.org',
+            'autoreply.example.org',
+        ));
+        $this->assertNull($repository->findActiveVacation(
+            'invalid-date@example.org',
             'autoreply.example.org',
         ));
         $vacation = $repository->findActiveVacation('user@example.org', 'autoreply.example.org');
