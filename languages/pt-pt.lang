@@ -419,7 +419,7 @@ $PALANG['pBroadcast_error_empty'] = 'Os campos Nome, Assunto e Mensagem devem se
 $PALANG['broadcast_mailboxes_only'] = 'Apenas envia para mailboxes'; # XXX
 $PALANG['broadcast_to_domains'] = 'Enviar para os domínios:'; # XXX
 
-$PALANG['pStatus_undeliverable'] = 'talvez NÃO-ENTREGÁVEL '; # XXX English text changed: Check local destination. Please retranslate.
+$PALANG['pStatus_undeliverable'] = 'talvez NÃO-ENTREGÁVEL '; # XXX English text changed: Undeliverable local destination. Please retranslate.
 $PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
 $PALANG['pStatus_external'] = 'External destination'; # XXX
 $PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX

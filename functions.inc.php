@@ -2382,10 +2382,10 @@ function check_db_version($error_out = true)
  *        addresses list in show_custom_domains
  *
  * @param string $show_alias
- * @param array $allowed_domains Domains authorized for the caller; empty means no destination lookups.
+ * @param array $allowed_domains Domains authorized for the caller. Domains not listed here are marked as external.
  * @return string
  */
-function gen_show_status($show_alias, array $allowed_domains = [])
+function gen_show_status($show_alias, array $allowed_domains)
 {
     global $CONF;
     $table_alias = table_by_key('alias');

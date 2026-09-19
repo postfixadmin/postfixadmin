@@ -610,7 +610,7 @@ $CONF['show_status_key']='YES';
 // 'show_status_text' will be displayed with the background colors
 // associated with each status, you can customize it here
 $CONF['show_status_text']='&nbsp;&nbsp;';
-// Distinguish unrecognized destinations in managed domains from external targets.
+// Highlight undeliverable destinations in locally managed domains.
 // This checks PostfixAdmin records, not actual mail delivery.
 $CONF['show_undeliverable']='YES';
 $CONF['show_undeliverable_color']='tomato';
