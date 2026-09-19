@@ -1,11 +1,36 @@
 <div id="{$id_div}" class="card">
 
-    {if ($admin_list|count > 1)}
+    {if ($admin_list|count > 1) || ($table == 'domain' && $dns_check_mode > 0)}
         <div class="card-header">
-            <form name="frmOverview" method="post" action="">
-                {html_options name='username' output=$admin_list values=$admin_list selected=$admin_selected onchange="this.form.submit();"}
-                <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}"/></noscript>
-            </form>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                {if ($admin_list|count > 1)}
+                    <form name="frmOverview" method="post" action="" class="d-inline">
+                        {html_options name='username' output=$admin_list values=$admin_list selected=$admin_selected onchange="this.form.submit();"}
+                        <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}"/></noscript>
+                    </form>
+                {/if}
+                {if $table == 'domain' && $dns_check_mode > 0}
+                    <form method="post" action="refresh-domain-dns.php" class="d-inline">
+                        <input type="hidden" name="username" value="{$admin_selected}">
+                        {if isset($search.dns_active) && $search.dns_active == 0}<input type="hidden" name="search_dns_active" value="0">{/if}
+                        {CSRF_Token}
+                        <button type="submit" class="btn btn-sm btn-secondary" title="{$PALANG.dns_refresh}" aria-label="{$PALANG.dns_refresh}">
+                            <span class="bi bi-arrow-clockwise" aria-hidden="true"></span> DNS
+                        </button>
+                    </form>
+                    {if $dns_inactive_count > 0}
+                        <a class="btn btn-sm btn-danger" href="list.php?table=domain{if $admin_list|count > 1}&amp;username={$admin_selected|escape:'url'}{/if}&amp;search%5Bdns_active%5D=0">
+                            <span class="bi bi-exclamation-triangle" aria-hidden="true"></span> DNS ({$dns_inactive_count})
+                        </a>
+                    {/if}
+                    {if isset($search.dns_active) && $search.dns_active == 0}
+                        <a class="btn btn-sm btn-outline-secondary" href="list.php?table=domain&amp;reset_search=1{if $admin_list|count > 1}&amp;username={$admin_selected|escape:'url'}{/if}">
+                            <span class="bi bi-x-lg" aria-hidden="true"></span>
+                        </a>
+                    {/if}
+                    <small class="text-muted">{$PALANG.dns_oldest_check}: {$dns_oldest_checked|default:$PALANG.dns_not_checked}</small>
+                {/if}
+            </div>
         </div>
     {/if}
 
@@ -105,6 +130,7 @@
                                         {* do we need escape:url or escpae:quotes here? see #705 *}
                                     {elseif $table == 'domain' && $key == 'domain'}
                                         {$linktext} {if $item.full_mailbox_count > 0}<span class="text-danger">({$item.full_mailbox_count})</span>{/if}
+                                        {if $dns_check_mode > 0 && isset($item.dns_active) && $item.dns_active == 0}<span class="bi bi-exclamation-triangle text-danger" role="img" aria-label="Inactive DNS" title="Inactive DNS"></span>{/if}
                                         {*                    {elseif $table == 'domain' && $key == 'domain'}
                                                                 <a href="list.php?table=domain&domain={$item.domain|escape:"url"}">{$item.domain}</a>
                                         *}
