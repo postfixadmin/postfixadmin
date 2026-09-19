@@ -297,6 +297,68 @@ function get_password_expiration_value(string $domain)
     return 0;
 }
 
+const PASSWORD_EXPIRATION_MAX_DAYS = 36500;
+const PASSWORD_EXPIRATION_NEVER = '9999-12-31 23:59:59';
+
+/**
+ * Check whether a stored mailbox expiry represents a non-expiring password.
+ *
+ * A zero or invalid domain policy disables expiration. The sentinel also
+ * remains authoritative when a later domain policy change is non-retroactive.
+ */
+function mailbox_password_expiration_is_never($mailbox_expiry, $domain_policy): bool
+{
+    $policy = (string)$domain_policy;
+    if (!preg_match('/^[1-9][0-9]*$/D', $policy) || (int)$policy > PASSWORD_EXPIRATION_MAX_DAYS) {
+        return true;
+    }
+
+    $expiry = strtotime((string)$mailbox_expiry);
+    $never = strtotime(PASSWORD_EXPIRATION_NEVER);
+
+    return $expiry !== false && $never !== false && $expiry >= $never;
+}
+
+/**
+ * Return the mailbox expiry timestamp for a password changed now.
+ *
+ * A domain value of 0 means that passwords do not expire. The database still
+ * requires a timestamp, so use the latest portable DATETIME value as a
+ * sentinel. The same applies when password expiration is disabled globally.
+ */
+function get_mailbox_password_expiry(string $domain, ?int $now = null): string
+{
+    if (!Config::bool('password_expiration')) {
+        return PASSWORD_EXPIRATION_NEVER;
+    }
+
+    $value = get_password_expiration_value($domain);
+    $value_string = (string)$value;
+
+    if (!preg_match('/^(0|[1-9][0-9]*)$/D', $value_string)) {
+        error_log("Invalid password_expiry value for domain $domain; treating it as no expiration");
+        return PASSWORD_EXPIRATION_NEVER;
+    }
+
+    $days = (int)$value_string;
+    if ($days === 0) {
+        return PASSWORD_EXPIRATION_NEVER;
+    }
+
+    if ($days > PASSWORD_EXPIRATION_MAX_DAYS) {
+        error_log("password_expiry value for domain $domain exceeds the supported maximum; treating it as no expiration");
+        return PASSWORD_EXPIRATION_NEVER;
+    }
+
+    $base = $now ?? time();
+    $expiry = strtotime("+$days days", $base);
+    if ($expiry === false) {
+        throw new RuntimeException("Unable to calculate password expiry for domain $domain");
+    }
+
+    return date('Y-m-d H:i', $expiry);
+}
+
 /**
  * check_email
  * Checks if an email is valid - if it is, return true, else false.
@@ -924,13 +986,6 @@ function _pacrypt_dovecot($pw, $pw_db = '', $username = '')
         $dovecotpw = $CONF['dovecotpw'];
     }
 
-    # Use proc_open call to avoid safe_mode problems and to prevent showing plain password in process table
-    $spec = array(
-        0 => array("pipe", "r"), // stdin
-        1 => array("pipe", "w"), // stdout
-        2 => array("pipe", "w"), // stderr
-    );
-
     $nonsaltedtypes = "SHA|SHA1|SHA256|SHA512|CLEAR|CLEARTEXT|PLAIN|PLAIN-TRUNC|CRAM-MD5|HMAC-MD5|PLAIN-MD4|PLAIN-MD5|LDAP-MD5|LANMAN|NTLM|RPA";
     $salted = !preg_match("/^($nonsaltedtypes)(\.B64|\.BASE64|\.HEX)?$/", strtoupper($method));
 
@@ -940,31 +995,20 @@ function _pacrypt_dovecot($pw, $pw_db = '', $username = '')
         $dovepasstest = " -t " . escapeshellarg($pw_db);
     }
 
-    $pipes = [];
-
-    $pipe = proc_open("$dovecotpw -s {$method}{$dovepasstest}{$doveadm_options}", $spec, $pipes);
-
-    if (!$pipe) {
-        throw new Exception("can't proc_open $dovecotpw");
-    }
-
-    // use dovecot's stdin, it uses getpass() twice (except when using -t)
-    // Write pass in pipe stdin
+    // pass the password via stdin, so it's not visible in the process table.
+    // dovecot uses getpass() twice (except when using -t), so send it twice.
+    $stdin = $pw . "\n";
     if (empty($dovepasstest)) {
-        fwrite($pipes[0], $pw . "\n", 1 + strlen($pw));
-        usleep(1000);
+        $stdin .= $pw . "\n";
     }
 
-    fwrite($pipes[0], $pw . "\n", 1 + strlen($pw));
-    fclose($pipes[0]);
+    $exec = Exec::run("$dovecotpw -s {$method}{$dovepasstest}{$doveadm_options}", $stdin);
 
-    $stderr_output = stream_get_contents($pipes[2]);
+    $password = $exec->stdout;
+    $stderr_output = $exec->stderr;
 
-    // Read hash from pipe stdout
-    $password = fread($pipes[1], 200);
-
-    if (!empty($stderr_output) || empty($password)) {
-        error_log("Failed to read password from $dovecotpw ... stderr: $stderr_output, password: $password ");
+    if ($exec->retval !== 0 || empty($password)) {
+        error_log("Failed to read password from $dovecotpw ... exit status: {$exec->retval}, stderr: $stderr_output, password: $password ");
         throw new Exception("$dovecotpw failed, see error log for details");
     }
 
@@ -981,9 +1025,9 @@ function _pacrypt_dovecot($pw, $pw_db = '', $username = '')
         }
     }
 
-    fclose($pipes[1]);
-    fclose($pipes[2]);
-    proc_close($pipe);
+    if (!empty($stderr_output)) {
+        error_log("$dovecotpw wrote to stderr but returned a valid result: $stderr_output");
+    }
 
     if ((!empty($pw_db)) && (substr($pw_db, 0, 1) != '{')) {
         # for backward compability with "old" dovecot passwords that don't have the {method} prefix
@@ -1170,14 +1214,20 @@ function pacrypt($pw, $pw_db = "", $username = '')
 
     $mechanism = strtoupper($CONF['encrypt'] ?? 'CRYPT');
 
+    // Keep the 3.x md5crypt setting as an alias for MD5-CRYPT. New hashes
+    // generated through the alias retain the historical unprefixed format.
+    $legacy_md5crypt = $mechanism == 'MD5CRYPT';
+    if ($legacy_md5crypt) {
+        $mechanism = 'MD5-CRYPT';
+    }
+
 
     if (preg_match('/^PHP_CRYPT:(DES|MD5|BLOWFISH|SHA256|SHA512):?/', $mechanism, $matches)) {
         return _pacrypt_php_crypt($pw, $pw_db);
     }
 
 
-    $crypts = ['PHP_CRYPT', 'MD5CRYPT'];
-    if (in_array($mechanism, $crypts)) {
+    if ($mechanism == 'PHP_CRYPT') {
         $mechanism = 'CRYPT';
     }
 
@@ -1200,13 +1250,10 @@ function pacrypt($pw, $pw_db = "", $username = '')
         $mechanism = 'COURIER:MD5RAW';
     }
 
-    if (!empty($pw_db) && preg_match('/^\$[0-9]\$/i', $pw_db, $matches)) {
-        $method_in_hash = $matches[0];
-        switch ($method_in_hash) {
-            case '$1$':
-            case '$6$':
-                $mechanism = 'SYSTEM';
-        }
+    // Raw modular crypt hashes do not identify their scheme with a {SCHEME}
+    // prefix. Verify them using their own salt regardless of current config.
+    if (!empty($pw_db) && preg_match('/^\$(?:1|2[abxy]?|5|6)\$/i', $pw_db)) {
+        $mechanism = 'CRYPT';
     }
 
     if ($mechanism == 'SHA512.B64') {
@@ -1229,7 +1276,13 @@ function pacrypt($pw, $pw_db = "", $username = '')
     }
 
     $hasher = new \PostfixAdmin\PasswordHashing\Crypt($mechanism);
-    return $hasher->crypt($pw, $pw_db);
+    $hashed = $hasher->crypt($pw, $pw_db);
+
+    if ($legacy_md5crypt && empty($pw_db) && strncmp($hashed, '{MD5-CRYPT}', 11) == 0) {
+        return substr($hashed, 11);
+    }
+
+    return $hashed;
 }
 
 
@@ -1327,42 +1380,49 @@ function smtp_mail(string $to, string $from, string $subject_or_data, ?string $b
         return false;
     }
 
-    smtp_expect($socket, 220);
+    try {
+        smtp_require_response($socket, 220);
 
-    fputs($socket, "EHLO $helo\r\n");
-    smtp_expect($socket, 250);
+        smtp_write($socket, "EHLO $helo\r\n");
+        smtp_require_response($socket, 250);
 
-    if ($type === 'starttls') {
-        fputs($socket, "STARTTLS\r\n");
-        smtp_expect($socket, 220);
-        stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-        fputs($socket, "EHLO $helo\r\n");
-        smtp_expect($socket, 250);
+        if ($type === 'starttls') {
+            smtp_write($socket, "STARTTLS\r\n");
+            smtp_require_response($socket, 220);
+            if (stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT) !== true) {
+                throw new RuntimeException('STARTTLS negotiation failed');
+            }
+            smtp_write($socket, "EHLO $helo\r\n");
+            smtp_require_response($socket, 250);
+        }
+
+        // AUTH
+        smtp_write($socket, "AUTH LOGIN\r\n");
+        smtp_require_response($socket, 334);
+        smtp_write($socket, base64_encode($username) . "\r\n");
+        smtp_require_response($socket, 334);
+        smtp_write($socket, base64_encode($password) . "\r\n");
+        smtp_require_response($socket, 235);
+
+        // SMTP FLOW
+        smtp_write($socket, "MAIL FROM:<$from>\r\n");
+        smtp_require_response($socket, 250);
+        smtp_write($socket, "RCPT TO:<$to>\r\n");
+        smtp_require_response($socket, 250);
+        smtp_write($socket, "DATA\r\n");
+        smtp_require_response($socket, 354);
+
+        smtp_write($socket, $maildata . "\r\n.\r\n");
+        smtp_require_response($socket, 250);
+
+        smtp_write($socket, "QUIT\r\n");
+        fclose($socket);
+        return true;
+    } catch (RuntimeException $e) {
+        error_log('smtp_mail(): ' . $e->getMessage());
+        fclose($socket);
+        return false;
     }
-
-    // AUTH
-    fputs($socket, "AUTH LOGIN\r\n");
-    smtp_expect($socket, 334);
-    fputs($socket, base64_encode($username) . "\r\n");
-    smtp_expect($socket, 334);
-    fputs($socket, base64_encode($password) . "\r\n");
-    smtp_expect($socket, 235);
-
-    // SMTP FLOW
-    fputs($socket, "MAIL FROM:<$from>\r\n");
-    smtp_expect($socket, 250);
-    fputs($socket, "RCPT TO:<$to>\r\n");
-    smtp_expect($socket, 250);
-    fputs($socket, "DATA\r\n");
-    smtp_expect($socket, 354);
-
-    fputs($socket, $maildata . "\r\n.\r\n");
-    smtp_expect($socket, 250);
-
-    fputs($socket, "QUIT\r\n");
-    fclose($socket);
-
-    return true;
 }
 
 //end
@@ -1382,6 +1442,31 @@ function smtp_expect($socket, $code)
         return false;
     }
     return true;
+}
+
+function smtp_require_response($socket, int $code): void
+{
+    if (!smtp_expect($socket, $code)) {
+        throw new RuntimeException("Unexpected SMTP response; expected $code");
+    }
+}
+
+function smtp_write($socket, string $data): void
+{
+    $remaining = $data;
+    while ($remaining !== '') {
+        try {
+            $written = fwrite($socket, $remaining);
+        } catch (Throwable $e) {
+            throw new RuntimeException('Failed to write to SMTP connection', 0, $e);
+        }
+
+        if ($written === false || $written === 0) {
+            throw new RuntimeException('Failed to write to SMTP connection');
+        }
+
+        $remaining = substr($remaining, $written);
+    }
 }
 
 //end commit
@@ -2042,6 +2127,71 @@ function viewlog_domain_condition(bool $show_all, bool $is_global_admin, string 
 }
 
 /**
+ * Build normalized pagination items for an alphabetical page browser.
+ *
+ * @param array<int, string> $pages
+ * @param array<string, mixed> $query_params
+ * @param array{first?: string, previous?: string, next?: string} $aria_labels
+ * @return array<int, array<string, bool|int|string>>
+ */
+function page_browser_pagination(
+    array $pages,
+    int $offset,
+    int $page_size,
+    array $query_params,
+    string $anchor,
+    array $aria_labels = []
+): array {
+    if (count($pages) === 0) {
+        return [];
+    }
+    if ($page_size < 1) {
+        throw new InvalidArgumentException('Page size must be greater than zero');
+    }
+
+    $current_page = intdiv(max(0, $offset), $page_size);
+    $last_page = count($pages) - 1;
+
+    $url_for_page = static function (int $page) use ($query_params, $page_size, $anchor): string {
+        $query_params['limit'] = $page * $page_size;
+        $query = http_build_query($query_params, '', '&', PHP_QUERY_RFC3986);
+        return '?' . htmlspecialchars($query, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '#' . rawurlencode($anchor);
+    };
+
+    $pagination = [
+        [
+            'label' => '&laquo;',
+            'url' => $url_for_page(0),
+            'disabled' => $current_page === 0,
+            'aria' => $aria_labels['first'] ?? '',
+        ],
+        [
+            'label' => '&lsaquo;',
+            'url' => $url_for_page(max(0, $current_page - 1)),
+            'disabled' => $current_page === 0,
+            'aria' => $aria_labels['previous'] ?? '',
+        ],
+    ];
+
+    foreach ($pages as $page => $label) {
+        $pagination[] = [
+            'label' => $label,
+            'url' => $url_for_page($page),
+            'active' => $page === $current_page,
+        ];
+    }
+
+    $pagination[] = [
+        'label' => '&rsaquo;',
+        'url' => $url_for_page(min($last_page, $current_page + 1)),
+        'disabled' => $current_page >= $last_page,
+        'aria' => $aria_labels['next'] ?? '',
+    ];
+
+    return $pagination;
+}
+
+/**
  * Compute the page numbers to display in a windowed pager.
  *
  * Always includes page 1 and the last page, plus a window of $radius pages on
@@ -2328,7 +2478,15 @@ function gen_show_status($show_alias)
             $now = "datetime('now')";
         }
 
-        $stat_result = db_query_one("SELECT * FROM " . table_by_key('mailbox') . " WHERE username = ? AND password_expiry <= $now AND active = ?", array($show_alias, true));
+        $mailbox_table = table_by_key('mailbox');
+        $domain_table = table_by_key('domain');
+        $stat_result = db_query_one(
+            "SELECT $mailbox_table.username FROM $mailbox_table " .
+            "INNER JOIN $domain_table ON $domain_table.domain = $mailbox_table.domain " .
+            "WHERE $mailbox_table.username = ? AND $mailbox_table.password_expiry <= $now " .
+            "AND $domain_table.password_expiry > 0 AND $mailbox_table.active = ?",
+            array($show_alias, true)
+        );
 
         if (!empty($stat_result)) {
             $stat_string .= "<span style='background-color:" . $CONF['show_expired_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
@@ -2429,6 +2587,30 @@ function getSiteUrl(array $server = []): string
     }
 
     return $https . '://' . $server['HTTP_HOST'] . $uri;
+}
+
+/**
+ * Return the configured canonical URL used in password-recovery messages.
+ *
+ * Request headers are deliberately not used here because recovery links carry
+ * a credential and must not depend on an untrusted Host value.
+ */
+function getPasswordRecoverySiteUrl(): string
+{
+    $url = Config::read_string('site_url');
+    $parts = parse_url($url);
+
+    if ($url === '' || !is_array($parts) || empty($parts['host']) ||
+        !isset($parts['scheme']) || !in_array(strtolower($parts['scheme']), ['http', 'https'], true) ||
+        isset($parts['user']) || isset($parts['pass']) || isset($parts['query']) || isset($parts['fragment'])) {
+        throw new RuntimeException("A valid canonical site_url is required for password recovery");
+    }
+
+    if (!str_ends_with($url, '/')) {
+        $url .= '/';
+    }
+
+    return $url;
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

@@ -56,4 +56,33 @@ class GetSiteUrlTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('http://example.org/', getSiteUrl($server));
     }
+
+    public function testPasswordRecoveryRequiresCanonicalUrl(): void
+    {
+        $config = Config::getInstance()->getAll();
+        $config['site_url'] = null;
+        Config::getInstance()->setAll($config);
+
+        $this->expectException(RuntimeException::class);
+        getPasswordRecoverySiteUrl();
+    }
+
+    public function testPasswordRecoveryUsesConfiguredUrlOnly(): void
+    {
+        $config = Config::getInstance()->getAll();
+        $config['site_url'] = 'https://example.com/postfixadmin';
+        Config::getInstance()->setAll($config);
+
+        $this->assertSame('https://example.com/postfixadmin/', getPasswordRecoverySiteUrl());
+    }
+
+    public function testPasswordRecoveryRejectsUrlCredentials(): void
+    {
+        $config = Config::getInstance()->getAll();
+        $config['site_url'] = 'https://user:password@example.com/postfixadmin/';
+        Config::getInstance()->setAll($config);
+
+        $this->expectException(RuntimeException::class);
+        getPasswordRecoverySiteUrl();
+    }
 }

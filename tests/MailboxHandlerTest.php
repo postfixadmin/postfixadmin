@@ -1,5 +1,14 @@
 <?php
 
+class MailboxQuotaTestHandler extends MailboxHandler
+{
+    public function validateQuota(string $username, int $quota): bool
+    {
+        $this->id = $username;
+        return $this->_validate_quota('quota', $quota);
+    }
+}
+
 class MailboxHandlerTest extends \PHPUnit\Framework\TestCase
 {
     public function tearDown(): void
@@ -31,6 +40,48 @@ class MailboxHandlerTest extends \PHPUnit\Framework\TestCase
         $results = $x->result();
 
         $this->assertEmpty($results);
+    }
+
+    public function testQuotaValidationDistinguishesMailboxAndDomainLimits()
+    {
+        Config::write('quota', 'YES');
+        Config::write('domain_quota', 'YES');
+
+        db_insert('domain', [
+            'domain' => 'quota.example',
+            'description' => 'Quota test',
+            'aliases' => 10,
+            'mailboxes' => 10,
+            'maxquota' => 100,
+            'quota' => 100,
+            'transport' => 'virtual',
+            'backupmx' => 0,
+            'active' => 1,
+        ]);
+        db_insert('mailbox', [
+            'username' => 'existing@quota.example',
+            'password' => 'test',
+            'name' => 'Existing mailbox',
+            'maildir' => 'quota.example/existing/',
+            'quota' => 100 * (int)Config::read_string('quota_multiplier'),
+            'local_part' => 'existing',
+            'domain' => 'quota.example',
+            'active' => 1,
+        ]);
+
+        $domainQuota = new MailboxQuotaTestHandler();
+        $this->assertFalse($domainQuota->validateQuota('new@quota.example', 1));
+        $this->assertSame(
+            'The domain does not have enough quota available for this mailbox.',
+            $domainQuota->errormsg['quota']
+        );
+
+        $mailboxQuota = new MailboxQuotaTestHandler();
+        $this->assertFalse($mailboxQuota->validateQuota('large@quota.example', 101));
+        $this->assertSame(
+            'The quota that you specified is too high!',
+            $mailboxQuota->errormsg['quota']
+        );
     }
 
 

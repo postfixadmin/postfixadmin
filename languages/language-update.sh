@@ -28,6 +28,17 @@ function update_string_list() {
 	# order, which the old diff-based approach did.
 	PA_NOTEXT="$notext" PA_PATCH="$patch" php /dev/stdin en.lang $filelist <<'ENDOFPHP'
 <?php
+# Validate the PHP syntax without executing the language file.
+function validate_php_syntax(string $src, string $file): bool {
+    try {
+        token_get_all($src, TOKEN_PARSE);
+        return true;
+    } catch (ParseError $e) {
+        fwrite(STDERR, "*** $file: PHP syntax error: {$e->getMessage()} ***\n");
+        return false;
+    }
+}
+
 # Parse $PALANG['key'] = ...; statements from a language file's SOURCE (never
 # include()d, to avoid executing it) and return them in file order as
 # [key, startLine, endLine, sourceText].
@@ -69,13 +80,22 @@ function parse_palang(string $src): array {
 
 $notext = getenv('PA_NOTEXT') === '1';
 $patch  = getenv('PA_PATCH')  === '1';
+$failed = false;
 
 $reference = 'en.lang';
 if (!is_file($reference)) {
     fwrite(STDERR, "*** $reference not found in current directory ***\n");
     exit(1);
 }
-$enStmts = parse_palang(file_get_contents($reference));
+$referenceSrc = file_get_contents($reference);
+if ($referenceSrc === false) {
+    fwrite(STDERR, "*** unable to read $reference ***\n");
+    exit(1);
+}
+if (!validate_php_syntax($referenceSrc, $reference)) {
+    exit(1);
+}
+$enStmts = parse_palang($referenceSrc);
 $enOrder = [];      // ordered list of keys
 $enSource = [];     // key => source text
 foreach ($enStmts as [$key, , , $text]) {
@@ -92,10 +112,22 @@ foreach ($files as $file) {
     }
     if (!is_file($file)) {
         fwrite(STDERR, "*** $file not found, skipping ***\n");
+        $failed = true;
         continue;
     }
 
     $src = file_get_contents($file);
+    if ($src === false) {
+        fwrite(STDERR, "*** unable to read $file ***\n");
+        $failed = true;
+        continue;
+    }
+
+    if (!validate_php_syntax($src, $file)) {
+        $failed = true;
+        break;
+    }
+
     $transStmts = parse_palang($src);
     $transKeys = [];    // key => endLine (last definition wins)
     foreach ($transStmts as [$key, , $endLine, ]) {
@@ -119,6 +151,13 @@ foreach ($files as $file) {
     if (!$missing && !$obsolete) {
         echo "*** $file: no missing translations ***\n";
         continue;
+    }
+
+    // Read-only checks must report incomplete catalogs through the exit code.
+    // --patch can still succeed when it adds every missing key, but obsolete
+    // keys remain an error because that mode deliberately leaves them in place.
+    if (!$patch) {
+        $failed = true;
     }
 
     if ($notext) {
@@ -186,6 +225,7 @@ foreach ($files as $file) {
     file_put_contents($file, implode("\n", $out));
     echo "*** $file: added " . count($missing) . " missing string(s)";
     if ($obsolete) {
+        $failed = true;
         echo ", " . count($obsolete) . " obsolete string(s) left in place (see --remove/--obsolete)";
     }
     echo " ***\n";
@@ -193,6 +233,7 @@ foreach ($files as $file) {
         fwrite(STDERR, "# obsolete in $file (not in en.lang): $key\n");
     }
 }
+exit($failed ? 1 : 0);
 ENDOFPHP
 } # end update_string_list()
 
@@ -526,4 +567,7 @@ test "$comparetext" = 1 && { comparetext ; cleanup ; exit 0 ; }
 
 test "$stats" = 1 && { statistics ; exit 0 ; }
 
-update_string_list ; cleanup # default operation
+update_string_list
+status=$?
+cleanup # default operation
+exit $status

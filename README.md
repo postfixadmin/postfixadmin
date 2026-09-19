@@ -46,7 +46,7 @@ Integrates with :
  - If you want an easy life, use a published /stable release - see: https://github.com/postfixadmin/postfixadmin/releases or its branch (e.g. postfixadmin_4.0)
  - Latest significant changes should be listed in the appropriate CHANGELOG.TXT file.
  - From 2025/06 we should be using SemVer releases (e.g. 4.0.1-beta1, and not postfixadmin-4.0.1-beta1 for tags etc)
- - Before a new release, try to remember to edit `config.inc.php` and change the version variable. Also update db_min_version in functions.inc.php if there were changes in upgrade.php.
+ - Before a new release, try to remember to edit `config.inc.php` and change the version variable. Also update min_db_version in functions.inc.php if there were changes in upgrade.php.
 
 ## Development Notes
 

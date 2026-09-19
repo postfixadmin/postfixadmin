@@ -194,13 +194,19 @@ $CONF['smtp_client'] = '';
 //
 // - PLAIN, CLEAR or CLEARTEXT - plain text variants, may be useful for testing.
 // - ARGON2ID, ARGON2I, SHA512-CRYPT, SHA256-CRYPT or BLF-CRYPT might be good options.
+//   These are hashed by PostfixAdmin itself (in PHP) and need no external tools.
 //
 // - other, older variants are : 
-//   - md5crypt, 
+//   - MD5-CRYPT (`md5crypt` remains available as a legacy alias),
 //   - md5, 
 //   - system,
-//   - dovecot:CRYPT-METHOD = use dovecotpw -s 'CRYPT-METHOD'. 
-//     - Note: dovecot relies on doveadm binary, and suitable permissions on config files - see https://github.com/postfixadmin/postfixadmin/issues/398
+//   - dovecot:CRYPT-METHOD = hash via Dovecot's 'doveadm pw -s CRYPT-METHOD' instead of hashing in PHP.
+//     - Note: this delegates hashing to the external doveadm binary, so the web-server user must be
+//       able to run doveadm AND reach Dovecot's runtime (e.g. the stats socket) - otherwise creating a
+//       mailbox or changing a password can fail with a 500.
+//       See https://github.com/postfixadmin/postfixadmin/issues/398 and https://github.com/postfixadmin/postfixadmin/issues/1119
+//     - You usually do NOT need the 'dovecot:' prefix: the same schemes listed above (e.g. ARGON2ID,
+//       BLF-CRYPT) are hashed natively in PHP and produce the same {SCHEME} hashes with no doveadm.
 //
 // - authlib = support for courier-authlib style passwords - also set $CONF['authlib_default_flavor']
 //
@@ -566,6 +572,10 @@ EOM;
 // address is legal by performing a name server look-up.
 $CONF['emailcheck_resolve_domain']='YES';
 
+// Domain overview DNS status check: 0 = disabled, 1 = authoritative zone,
+// 2 = usable MX record. Override this value in config.local.php.
+$CONF['domain_dns_status_check'] = 1;
+
 // When creating mailboxes or aliases, check that the domain-part of the
 // address is local and managed by postfixadmin, preventing remote domains
 // from being the destination for an alias
@@ -787,16 +797,19 @@ $CONF['theme_custom_css'] = '';
 // XMLRPC Interface.
 // This should be only of use if you wish to use e.g the
 // Postfixadmin-Squirrelmail package
+// XML-RPC has no TOTP challenge flow. Mailbox accounts with a TOTP
+// secret cannot authenticate through this interface.
 //  change to boolean true to enable xmlrpc
 $CONF['xmlrpc_enabled'] = false;
 
 //Account expiration info
 //If enabled, mailbox passwords have a password_expiry field set, which is updated each time the password is changed, based on the parent domain's password_expiry (days) value.
 //More details in Password_Expiration.md
-$CONF['password_expiration'] = 'YES';
+$CONF['password_expiration'] = 'NO';
 
-// If defined, use this rather than trying to construct it from  $_SERVER parameters.
-// used in (at least) password-recover.php.
+// Canonical public URL for PostfixAdmin, including its path and a trailing slash.
+// This must be configured when email-based password recovery is enabled because
+// recovery links must not be constructed from untrusted HTTP request headers.
 $CONF['site_url'] = null;
 
 $CONF['version'] = '4.0.1';

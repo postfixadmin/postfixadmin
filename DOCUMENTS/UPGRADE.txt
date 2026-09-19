@@ -73,6 +73,13 @@ time.
 You can use a config.local.php file to contain your local settings. 
 These will override any defined in config.inc.php - and save some time when upgrading to a new version of PostfixAdmin ;-)
 
+When upgrading from PostfixAdmin 3.x, review `$CONF['encrypt']` before changing
+or creating passwords. The default changed from the legacy `md5crypt` scheme
+to the stronger `php_crypt` scheme. Ensure that Dovecot or Courier supports the
+configured scheme. To retain the exact 3.x MD5-CRYPT output temporarily, set
+`$CONF['encrypt'] = 'md5crypt';` in config.local.php. MD5-CRYPT is weak by
+current standards; see DOCUMENTS/HASHING.md before planning a migration.
+
 5. Run setup.php
 ----------------------------------------
 

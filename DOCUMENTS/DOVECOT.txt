@@ -129,7 +129,7 @@ driver = mysql
 
 # Default password scheme - change to match your Postfixadmin setting.
 # depends on your $CONF['encrypt'] setting:
-# md5crypt  -> MD5-CRYPT
+# MD5-CRYPT (or legacy md5crypt) -> MD5-CRYPT
 # md5       -> PLAIN-MD5
 # cleartext -> PLAIN
 default_pass_scheme = MD5-CRYPT

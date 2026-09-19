@@ -55,6 +55,100 @@ class PacryptTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected_hash, _pacrypt_dovecot('test', '', $username));
     }
 
+    public function testPacryptDovecotAcceptsValidHashWithStderr()
+    {
+        global $CONF;
+
+        $previous_encrypt = $CONF['encrypt'];
+        $previous_dovecotpw = $CONF['dovecotpw'];
+        $CONF['encrypt'] = 'dovecot:FIXTUREWARN';
+        $CONF['dovecotpw'] = $this->fakeDoveadmCommand();
+
+        try {
+            $this->assertEquals('{FIXTUREWARN}fixture-hash', _pacrypt_dovecot('test'));
+        } finally {
+            $CONF['encrypt'] = $previous_encrypt;
+            $CONF['dovecotpw'] = $previous_dovecotpw;
+        }
+    }
+
+    public function testPacryptDovecotAcceptsVerifiedPasswordWithStderr()
+    {
+        global $CONF;
+
+        $previous_encrypt = $CONF['encrypt'];
+        $previous_dovecotpw = $CONF['dovecotpw'];
+        $CONF['encrypt'] = 'dovecot:FIXTUREWARN';
+        $CONF['dovecotpw'] = $this->fakeDoveadmCommand();
+        $stored_password = '{FIXTUREWARN}fixture-hash';
+
+        try {
+            $this->assertEquals($stored_password, _pacrypt_dovecot('test', $stored_password));
+        } finally {
+            $CONF['encrypt'] = $previous_encrypt;
+            $CONF['dovecotpw'] = $previous_dovecotpw;
+        }
+    }
+
+    public function testPacryptDovecotRejectsNonZeroExitStatusWithValidHash()
+    {
+        global $CONF;
+
+        $previous_encrypt = $CONF['encrypt'];
+        $previous_dovecotpw = $CONF['dovecotpw'];
+        $CONF['encrypt'] = 'dovecot:FIXTUREFAIL';
+        $CONF['dovecotpw'] = $this->fakeDoveadmCommand();
+
+        try {
+            $this->expectException(Exception::class);
+            _pacrypt_dovecot('test');
+        } finally {
+            $CONF['encrypt'] = $previous_encrypt;
+            $CONF['dovecotpw'] = $previous_dovecotpw;
+        }
+    }
+
+    public function testPacryptDovecotRejectsEmptyOutput()
+    {
+        global $CONF;
+
+        $previous_encrypt = $CONF['encrypt'];
+        $previous_dovecotpw = $CONF['dovecotpw'];
+        $CONF['encrypt'] = 'dovecot:FIXTUREEMPTY';
+        $CONF['dovecotpw'] = $this->fakeDoveadmCommand();
+
+        try {
+            $this->expectException(Exception::class);
+            _pacrypt_dovecot('test');
+        } finally {
+            $CONF['encrypt'] = $previous_encrypt;
+            $CONF['dovecotpw'] = $previous_dovecotpw;
+        }
+    }
+
+    public function testPacryptDovecotRejectsInvalidHash()
+    {
+        global $CONF;
+
+        $previous_encrypt = $CONF['encrypt'];
+        $previous_dovecotpw = $CONF['dovecotpw'];
+        $CONF['encrypt'] = 'dovecot:FIXTUREINVALID';
+        $CONF['dovecotpw'] = $this->fakeDoveadmCommand();
+
+        try {
+            $this->expectException(Exception::class);
+            _pacrypt_dovecot('test');
+        } finally {
+            $CONF['encrypt'] = $previous_encrypt;
+            $CONF['dovecotpw'] = $previous_dovecotpw;
+        }
+    }
+
+    private function fakeDoveadmCommand(): string
+    {
+        return escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg(__DIR__ . '/fixtures/fake-doveadm.php');
+    }
+
 
     public function testPhpCrypt()
     {
@@ -98,6 +192,36 @@ class PacryptTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($enc, $expected);
 
         $fail = _pacrypt_php_crypt('bar', $expected);
+    }
+
+    public function testMd5CryptCompatibility()
+    {
+        global $CONF;
+
+        $CONF['encrypt'] = 'md5crypt';
+        $legacyHash = pacrypt('test123');
+        $this->assertMatchesRegularExpression('/^\$1\$/', $legacyHash);
+        $this->assertSame($legacyHash, pacrypt('test123', $legacyHash));
+
+        $CONF['encrypt'] = 'MD5-CRYPT';
+        $canonicalHash = pacrypt('test123');
+        $this->assertMatchesRegularExpression('/^\{MD5-CRYPT\}\$1\$/', $canonicalHash);
+        $this->assertSame($canonicalHash, pacrypt('test123', $canonicalHash));
+
+        $storedHashes = [
+            '$1$c9809462$fC8eUPU2lq7arWRvxChMu1',
+            '{MD5-CRYPT}$1$rGTbP.KE$wimpECWs/wQa7rnSwCmHU.',
+            '$2y$05$ORqzr0AagWr25v3ixHD5QuMXympIoNTbipEFZz6aAmovGNoij2vDO',
+            '$6$IeqpXtDIXF09ADdc$IsE.SSK3zuwtS9fdWZ0oVxXQjPDj834xqxTiv3Qfidq3AbAjPb0DNyI28JyzmDVlbfC9uSfNxD9RUyeO1.7FV/',
+        ];
+
+        foreach (['md5crypt', 'MD5-CRYPT'] as $configuredMechanism) {
+            $CONF['encrypt'] = $configuredMechanism;
+            foreach ($storedHashes as $storedHash) {
+                $this->assertSame($storedHash, pacrypt('test123', $storedHash));
+                $this->assertNotSame($storedHash, pacrypt('wrong-password', $storedHash));
+            }
+        }
     }
 
     public function testPhpCryptHandlesPrefixAndOrRounds()

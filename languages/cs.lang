@@ -1,4 +1,12 @@
 <?php
+$PALANG['dns_oldest_check'] = 'Oldest domain check'; # XXX
+$PALANG['dns_last_check'] = 'Last checked'; # XXX
+$PALANG['dns_not_checked'] = 'Not checked'; # XXX
+$PALANG['dns_refresh'] = 'Refresh DNS status'; # XXX
+$PALANG['dns_active'] = 'Active DNS'; # XXX
+$PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
+
+$PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...'; # XXX
 # $Id$
 //
 // Czech Language Translation of PostfixAdmin
@@ -49,6 +57,8 @@ $PALANG['pFooter_logged_as'] = 'Přihlášen jako %s';
 $PALANG['pLogin_welcome'] = 'Zde se přihlašují emailoví administrátoři pro administraci svých domén.';
 $PALANG['pLogin_username'] = 'Uživatelské jméno (email)';
 $PALANG['password'] = 'Heslo';
+$PALANG['password_expiration_on'] = 'Expires on'; # XXX
+$PALANG['password_expiration_never'] = 'Does not expire'; # XXX
 $PALANG['pLogin_language'] = 'Jazyk';
 $PALANG['pLogin_button'] = 'Přihlásit';
 $PALANG['pLogin_failed'] = 'Neplatné uživatelské jméno (email) nebo heslo.';
@@ -160,6 +170,12 @@ $PALANG['pEdit_alias_welcome'] = 'Upravit nastavení přesměrování.';
 $PALANG['pEdit_alias_help'] = 'Je možné zadat více cílových adres, jeden záznam na řádek.';
 $PALANG['alias'] = 'Přesměrování';
 $PALANG['to'] = 'Cíl';
+$PALANG['alias_goto_default'] = 'Default "To" address'; # XXX
+$PALANG['alias_goto_default_save'] = 'Save this destination as the default "To" address for future aliases'; # XXX
+$PALANG['alias_goto_default_current'] = 'Currently saved'; # XXX
+$PALANG['alias_goto_default_delete'] = 'Delete the saved default "To" address'; # XXX
+$PALANG['alias_goto_default_delete_confirm'] = 'Really delete the saved default "To" address?'; # XXX
+$PALANG['alias_goto_default_deleted'] = 'The saved default "To" address has been deleted.'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = 'Nezadali jste cíl';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Emailová adresa, kterou jste zadali není platná: ';
 $PALANG['pEdit_alias_domain_result_error'] = 'Nepodařilo se upravit přesměrování domény!';
@@ -193,6 +209,7 @@ $PALANG['mb_max'] = 'MB (maximálně: %s)';
 $PALANG['mb_max_unlimited'] = 'MB (maximálně: unlimited)'; # XXX
 $PALANG['mb_max_disabled'] = 'MB (maximálně: disabled)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Zadané místo je příliš velké!';
+$PALANG['pEdit_mailbox_domain_quota_text_error'] = 'The domain does not have enough quota available for this mailbox.'; # XXX
 $PALANG['pEdit_mailbox_domain_error'] = 'Tato doména není vaše: ';
 $PALANG['pEdit_mailbox_result_error'] = 'Nepodařilo se upravit schránku!';
 
@@ -232,10 +249,11 @@ $PALANG['reply_once_per_week'] = 'Odpovědět jednou za týden';
 
 $PALANG['pViewlog_welcome'] = 'Prohlížet %s posledních akcí pro ';
 $PALANG['pViewlog_welcome_all'] = 'Prohlížet %s posledních akcí ';
-$PALANG['pViewlog_all_domains'] = 'All domains';
-$PALANG['pViewlog_per_page'] = 'Per page:';
+$PALANG['pViewlog_all_domains'] = 'All domains'; # XXX
+$PALANG['pViewlog_per_page'] = 'Per page:'; # XXX
 $PALANG['pViewlog_timestamp'] = 'Časová značka';
 $PALANG['pViewlog_action'] = 'Akce';
+$PALANG['pViewlog_pagination'] = 'Log pages'; # XXX
 $PALANG['pViewlog_data'] = 'Poznámka';
 $PALANG['pViewlog_action_create_domain'] = 'vytvoření domény';
 $PALANG['pViewlog_action_delete_domain'] = 'smazání domény';
@@ -473,8 +491,8 @@ $PALANG['pFetchmail_desc_date']             = 'Datum posledního stažení pošt
 $PALANG['pFetchmail_desc_returned_text']    = 'Výstupní textový záznam posledního stahování pošty';
 $PALANG['dateformat_pgsql'] = 'dd-mm-YYYY'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format
 $PALANG['dateformat_mysql'] = '%d.%m.%Y';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
-$PALANG['password_expiration'] = 'Heslo expiruje';
-$PALANG['password_expiration_desc'] = 'Datum expirace hesla';
+$PALANG['password_expiration'] = 'Heslo expiruje'; # XXX Text changed to: 'Password expiration (days)'
+$PALANG['password_expiration_desc'] = 'Datum expirace hesla'; # XXX Text changed to: 'Number of days before the password expires'
 $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
 

@@ -107,7 +107,6 @@ if (!defined('POSTFIXADMIN_CLI')) {
     if (!isset($PALANG)) {
         die("environment not setup correctly");
     }
-    Smarty_Autoloader::register();
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */

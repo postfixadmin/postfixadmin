@@ -11,6 +11,26 @@ class DomainHandler extends PFAHandler
     protected string $id_field = 'domain';
     protected ?string $domain_field = 'domain';
 
+    protected function _validate_password_expiry($field, $val)
+    {
+        $value = (string)$val;
+        $valid = preg_match('/^(0|[1-9][0-9]*)$/D', $value) === 1
+            && (int)$value <= PASSWORD_EXPIRATION_MAX_DAYS;
+
+        if (!$valid) {
+            $this->errormsg[$field] = Config::lang_f('invalid_value_given', $field);
+        }
+
+        return $valid;
+    }
+
+    protected function setmore(array $values)
+    {
+        if (array_key_exists('password_expiry', $this->values)) {
+            $this->values['password_expiry'] = (int)$this->values['password_expiry'];
+        }
+    }
+
     protected function validate_new_id()
     {
         $domain_check = check_domain($this->id);
@@ -93,6 +113,8 @@ class DomainHandler extends PFAHandler
             #                           editing?    form    list
            'domain'            => self::pacol($this->new, 1,      1,      'text', 'domain'                       , ''                                 ,'', array(), 0, 0, "", "", 'list-virtual.php?domain=%s'),
            'full_mailbox_count' => self::pacol(0,          0,      1,      'vnum', ''                             , ''                                 , '', array(), 0, 0, 'coalesce(__full_mailbox_count,0) as full_mailbox_count'),
+           'dns_active'        => self::pacol(0,          0,      1,      'bool', ''                             , ''),
+           'dns_checked'       => self::pacol(0,          0,      1,      'ts',   ''                             , '', null),
            'description'       => self::pacol($super,     $super, $super, 'text', 'description'                  , ''),
 
            # Aliases
@@ -143,6 +165,61 @@ class DomainHandler extends PFAHandler
                 /*dont_write_to_db*/ 1,
                 /*select*/ $this->is_superadmin . ' as _can_delete'),
         );
+    }
+
+    /** Persist a DNS result only for a domain in this handler's scope. */
+    public function updateDnsStatus(string $domain, bool $active): void
+    {
+        if (!$this->init($domain)) {
+            throw new InvalidArgumentException('Domain outside administrator scope');
+        }
+        db_update('domain', 'domain', $domain, [
+            'dns_active' => $active,
+            'dns_checked' => date('Y-m-d H:i:s'),
+        ], [], true);
+    }
+
+    /** Return the saved DNS result for a domain in this handler's scope. */
+    public function dnsStatus(string $domain): array
+    {
+        if (!$this->init($domain)) {
+            throw new InvalidArgumentException('Domain outside administrator scope');
+        }
+        $active = $this->result['dns_active'] ?? null;
+        return [
+            'dns_active' => $active === null ? null : (int)$active,
+            // PFAHandler exposes the unformatted value of timestamp fields with
+            // an underscore; the formatted value intentionally contains only a date.
+            'dns_checked' => $this->result['_dns_checked'] ?? null,
+        ];
+    }
+
+    public function countInactiveDns(): int
+    {
+        if ($this->allowed_domains === []) {
+            return 0;
+        }
+        $params = ['dns_active' => false];
+        $scope = db_in_clause('domain', $this->allowed_domains, $params);
+        $table = table_by_key('domain');
+        $row = db_query_one("SELECT count(*) AS inactive_count FROM $table WHERE dns_active = :dns_active AND $scope", $params);
+        return (int)($row['inactive_count'] ?? 0);
+    }
+
+    /** Return the oldest saved check only when every domain in scope was checked. */
+    public function oldestDnsCheck(): string
+    {
+        if ($this->allowed_domains === []) {
+            return '';
+        }
+        $params = [];
+        $scope = db_in_clause('domain', $this->allowed_domains, $params);
+        $table = table_by_key('domain');
+        $row = db_query_one(
+            "SELECT CASE WHEN count(dns_checked) = count(*) THEN min(dns_checked) ELSE NULL END AS oldest_check FROM $table WHERE $scope",
+            $params
+        );
+        return (string)($row['oldest_check'] ?? '');
     }
 
     protected function initMsg()

@@ -1,4 +1,12 @@
 <?php
+$PALANG['dns_oldest_check'] = 'Oldest domain check'; # XXX
+$PALANG['dns_last_check'] = 'Last checked'; # XXX
+$PALANG['dns_not_checked'] = 'Not checked'; # XXX
+$PALANG['dns_refresh'] = 'Refresh DNS status'; # XXX
+$PALANG['dns_active'] = 'Active DNS'; # XXX
+$PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
+
+$PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...'; # XXX
 # $Id$
 //
 // Language file Russian
@@ -45,6 +53,8 @@ $PALANG['pFooter_logged_as'] = 'Логин: %s';
 $PALANG['pLogin_welcome'] = 'Вход для администраторов почтовых доменов.';
 $PALANG['pLogin_username'] = 'Имя (email)';
 $PALANG['password'] = 'Пароль';
+$PALANG['password_expiration_on'] = 'Expires on'; # XXX
+$PALANG['password_expiration_never'] = 'Does not expire'; # XXX
 $PALANG['pLogin_language'] = 'Язык';
 $PALANG['pLogin_button'] = 'Войти';
 $PALANG['pLogin_failed'] = 'Ваш адрес email или пароль неверен.';
@@ -157,6 +167,12 @@ $PALANG['pEdit_alias_welcome'] = 'Редактирование настроек 
 $PALANG['pEdit_alias_help'] = 'Можно указать несколько целей, по одной записи на строку.';
 $PALANG['alias'] = 'Алиас';
 $PALANG['to'] = 'Кому';
+$PALANG['alias_goto_default'] = 'Default "To" address'; # XXX
+$PALANG['alias_goto_default_save'] = 'Save this destination as the default "To" address for future aliases'; # XXX
+$PALANG['alias_goto_default_current'] = 'Currently saved'; # XXX
+$PALANG['alias_goto_default_delete'] = 'Delete the saved default "To" address'; # XXX
+$PALANG['alias_goto_default_delete_confirm'] = 'Really delete the saved default "To" address?'; # XXX
+$PALANG['alias_goto_default_deleted'] = 'The saved default "To" address has been deleted.'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = 'Вы ничего не ввели в поле Кому';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Вы ввели некорректный почтовый адрес: ';
 $PALANG['pEdit_alias_domain_result_error'] = 'Невозможно изменить алиас домена!';
@@ -190,6 +206,7 @@ $PALANG['mb_max'] = 'МБ (максимум: %s)';
 $PALANG['mb_max_unlimited'] = 'МБ (максимум: unlimited)'; # XXX
 $PALANG['mb_max_disabled'] = 'МБ (максимум: disabled)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Квота, выставленная вами, слишком велика!';
+$PALANG['pEdit_mailbox_domain_quota_text_error'] = 'The domain does not have enough quota available for this mailbox.'; # XXX
 $PALANG['pEdit_mailbox_domain_error'] = 'Указанный домен не принадлежит вам: ';
 $PALANG['pEdit_mailbox_result_error'] = 'Невозможно изменить пароль!';
 
@@ -229,10 +246,11 @@ $PALANG['reply_once_per_week'] = 'Отвечать один раз в недел
 
 $PALANG['pViewlog_welcome'] = 'Просмотр %s последних действий для ';
 $PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
-$PALANG['pViewlog_all_domains'] = 'All domains';
-$PALANG['pViewlog_per_page'] = 'Per page:';
+$PALANG['pViewlog_all_domains'] = 'All domains'; # XXX
+$PALANG['pViewlog_per_page'] = 'Per page:'; # XXX
 $PALANG['pViewlog_timestamp'] = 'Время создания/модификации';
 $PALANG['pViewlog_action'] = 'Действие';
+$PALANG['pViewlog_pagination'] = 'Log pages'; # XXX
 $PALANG['pViewlog_data'] = 'Данные';
 
 $PALANG['pViewlog_action_create_domain'] = 'создание домена';
@@ -473,8 +491,8 @@ $PALANG['pFetchmail_desc_date']             = 'Дата последнего о�
 $PALANG['pFetchmail_desc_returned_text']    = 'Текст отчета о последнем опросе';
 $PALANG['dateformat_pgsql'] = 'dd.mm.YYYY'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format
 $PALANG['dateformat_mysql'] = '%d.%m.%Y';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format
-$PALANG['password_expiration'] = 'Пароль истекает';
-$PALANG['password_expiration_desc'] = 'Дата истечения срока действия пароля';
+$PALANG['password_expiration'] = 'Пароль истекает'; # XXX Text changed to: 'Password expiration (days)'
+$PALANG['password_expiration_desc'] = 'Дата истечения срока действия пароля'; # XXX Text changed to: 'Number of days before the password expires'
 $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
 

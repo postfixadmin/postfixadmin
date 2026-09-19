@@ -89,10 +89,52 @@ if (array_key_exists('reset_search', $_GET)) {
 $_SESSION["search_$table"] = $search;
 $_SESSION["searchmode_$table"] = $searchmode;
 
-if (count($search)) {
-    $handler->getList($search, $searchmode);
+$dns_inactive_count = 0;
+$dns_oldest_checked = '';
+$dns_check_mode = DomainDnsStatus::configuredMode();
+if ($table === 'domain' && $dns_check_mode > 0) {
+    $dns_inactive_count = $handler->countInactiveDns();
+    $dns_oldest_checked = $handler->oldestDnsCheck();
+}
+
+$condition = count($search) ? $search : '';
+$pagination = [];
+
+if (safeget('output') == 'csv') {
+    // CSV exports keep the historical behavior and contain the complete list.
+    $handler->getList($condition, $searchmode);
 } else {
-    $handler->getList('');
+    $page_size = (int)$CONF['page_size'];
+    $pagebrowser = $handler->getPagebrowser($condition, $searchmode);
+    $last_offset = max(0, (count($pagebrowser) - 1) * $page_size);
+    $offset = max(0, (int)safeget('limit', '0'));
+    $offset = min($last_offset, intdiv($offset, $page_size) * $page_size);
+
+    $handler->getList($condition, $searchmode, $page_size, $offset);
+
+    $pagination_params = ['table' => $table];
+    if ($is_superadmin && $formconf['required_role'] != 'global-admin') {
+        $pagination_params['username'] = $username;
+    }
+    if (count($search)) {
+        $pagination_params['search'] = $search;
+    }
+    if (count($searchmode)) {
+        $pagination_params['searchmode'] = $searchmode;
+    }
+
+    $pagination = page_browser_pagination(
+        $pagebrowser,
+        $offset,
+        $page_size,
+        $pagination_params,
+        'main_div',
+        [
+            'first' => $PALANG['pOverview_up_arrow'],
+            'previous' => $PALANG['pOverview_left_arrow'],
+            'next' => $PALANG['pOverview_right_arrow'],
+        ]
+    );
 }
 
 $items = $handler->result();
@@ -163,6 +205,11 @@ $smarty->assign('id_field', $handler->getId_field());
 $smarty->assign('formconf', $formconf);
 $smarty->assign('search', $search);
 $smarty->assign('searchmode', $searchmode);
+$smarty->assign('pagination', $pagination);
+$smarty->assign('pagination_label', $PALANG[$handler->getMsg()['list_header'] ?? ''] ?? 'Pagination');
+$smarty->assign('dns_inactive_count', $dns_inactive_count);
+$smarty->assign('dns_check_mode', $dns_check_mode);
+$smarty->assign('dns_oldest_checked', $dns_oldest_checked);
 $smarty->assign('domain_selected', ''); /* stop list-virtual.tpl triggering a PHP notice */
 
 $smarty->display('index.tpl');

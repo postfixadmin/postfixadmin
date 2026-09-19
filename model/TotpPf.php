@@ -134,6 +134,18 @@ class TotpPf
     }
 
     /**
+     * Authenticate an interface that cannot complete a TOTP challenge.
+     */
+    public function passwordOnlyLogin(string $username, string $password): bool
+    {
+        if (!$this->login->login($username, $password)) {
+            return false;
+        }
+
+        return !$this->usesTOTP($username);
+    }
+
+    /**
      * Check if a TOTP code is valid for a user
      */
     public function checkUserTOTP(string $username, string $code): bool

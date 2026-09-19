@@ -1,4 +1,12 @@
 <?php
+$PALANG['dns_oldest_check'] = 'Oldest domain check'; # XXX
+$PALANG['dns_last_check'] = 'Last checked'; # XXX
+$PALANG['dns_not_checked'] = 'Not checked'; # XXX
+$PALANG['dns_refresh'] = 'Refresh DNS status'; # XXX
+$PALANG['dns_active'] = 'Active DNS'; # XXX
+$PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
+
+$PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...'; # XXX
 # $Id$
 //
 // Language file Traditional Chinese
@@ -42,6 +50,8 @@ $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged 
 $PALANG['pLogin_welcome'] = '郵件管理員請從這裡登錄以管理你的網域.';
 $PALANG['pLogin_username'] = '帳號(電郵)';
 $PALANG['password'] = '密碼';
+$PALANG['password_expiration_on'] = 'Expires on'; # XXX
+$PALANG['password_expiration_never'] = 'Does not expire'; # XXX
 $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = '登錄';
 $PALANG['pLogin_failed'] = '你的帳號或密碼不正確。';
@@ -153,6 +163,12 @@ $PALANG['pEdit_alias_welcome'] = '編輯你網域中的別名.'; # XXX Text chan
 $PALANG['pEdit_alias_help'] = '每行一條記錄.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['alias'] = '別名';
 $PALANG['to'] = '轉到';
+$PALANG['alias_goto_default'] = 'Default "To" address'; # XXX
+$PALANG['alias_goto_default_save'] = 'Save this destination as the default "To" address for future aliases'; # XXX
+$PALANG['alias_goto_default_current'] = 'Currently saved'; # XXX
+$PALANG['alias_goto_default_delete'] = 'Delete the saved default "To" address'; # XXX
+$PALANG['alias_goto_default_delete_confirm'] = 'Really delete the saved default "To" address?'; # XXX
+$PALANG['alias_goto_default_deleted'] = 'The saved default "To" address has been deleted.'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = '你沒有填寫收信人';
 $PALANG['pEdit_alias_goto_text_error2'] = '郵件地址非法: ';
 $PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
@@ -186,6 +202,7 @@ $PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['mb_max_unlimited'] = 'MB (max: unlimited)'; # XXX
 $PALANG['mb_max_disabled'] = 'MB (max: disabled)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = '你輸入的容量限制超出範圍!';
+$PALANG['pEdit_mailbox_domain_quota_text_error'] = 'The domain does not have enough quota available for this mailbox.'; # XXX
 $PALANG['pEdit_mailbox_domain_error'] = '你沒有該網域的管理權限: ';
 $PALANG['pEdit_mailbox_result_error'] = '不能編輯該郵箱!';
 
@@ -224,10 +241,11 @@ $PALANG['reply_once_per_week'] = '每星期回覆一次';
 
 $PALANG['pViewlog_welcome'] = '查看最新的%s項操作日誌 網域: ';
 $PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
-$PALANG['pViewlog_all_domains'] = 'All domains';
-$PALANG['pViewlog_per_page'] = 'Per page:';
+$PALANG['pViewlog_all_domains'] = 'All domains'; # XXX
+$PALANG['pViewlog_per_page'] = 'Per page:'; # XXX
 $PALANG['pViewlog_timestamp'] = '時間';
 $PALANG['pViewlog_action'] = '操作';
+$PALANG['pViewlog_pagination'] = 'Log pages'; # XXX
 $PALANG['pViewlog_data'] = '內容';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
 $PALANG['pViewlog_action_delete_domain'] = 'delete domain'; # XXX
@@ -461,8 +479,8 @@ $PALANG['pFetchmail_desc_date']             = 'Date of last polling/configuratio
 $PALANG['pFetchmail_desc_returned_text']    = 'Text message from last polling'; # XXX
 $PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format # XXX
 $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format # XXX
-$PALANG['password_expiration'] = 'Pass expires'; # XXX
-$PALANG['password_expiration_desc'] = 'Date when password will expire'; # XXX
+$PALANG['password_expiration'] = 'Password expiration (days)'; # XXX
+$PALANG['password_expiration_desc'] = 'Number of days before the password expires'; # XXX
 $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
 

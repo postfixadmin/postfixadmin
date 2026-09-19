@@ -11,6 +11,7 @@ class MailboxHandler extends PFAHandler
     protected string $id_field = 'username';
     protected ?string $domain_field = 'domain';
     protected array $searchfields = ['username'];
+    protected string $quota_error = 'pEdit_mailbox_quota_text_error';
 
     # init $this->struct, $this->db_table and $this->id_field
     protected function initStruct()
@@ -61,7 +62,7 @@ class MailboxHandler extends PFAHandler
             'token_validity' => self::pacol(1, 0, 0, 'ts', '', '', date("Y-m-d H:i:s", time())),
             'created' => self::pacol(0, 0, 1, 'ts', 'created', ''),
             'modified' => self::pacol(0, 0, 1, 'ts', 'last_modified', ''),
-            'password_expiry' => self::pacol(0, 0, 1, 'ts', 'password_expiration', ''),
+            'password_expiry' => self::pacol(0, 0, (int)Config::bool('password_expiration'), 'ts', 'password_expiration', ''),
             # TODO: add virtual 'notified' column and allow to display who received a vacation response?
         );
 
@@ -233,6 +234,9 @@ class MailboxHandler extends PFAHandler
 
     protected function read_from_db_postprocess($db_result)
     {
+        $password_expiration_policies = array();
+        $password_expiration_never_label = Config::lang('password_expiration_never');
+
         foreach ($db_result as $key => $row) {
             if (isset($row['quota']) && is_numeric($row['quota']) && $row['quota'] > -1) { # quota could be disabled in $struct
                 $db_result[$key]['quotabytes'] = $row['quota'];
@@ -240,6 +244,21 @@ class MailboxHandler extends PFAHandler
             } else {
                 $db_result[$key]['quotabytes'] = -1;
                 $db_result[$key]['quota'] = -1;
+            }
+
+            if (Config::bool('password_expiration') && isset($row['password_expiry'], $row['domain'])) {
+                $domain = (string)$row['domain'];
+                if (!array_key_exists($domain, $password_expiration_policies)) {
+                    $password_expiration_policies[$domain] = get_password_expiration_value($domain);
+                }
+
+                $raw_expiry = $row['_password_expiry'] ?? $row['password_expiry'];
+                if (mailbox_password_expiration_is_never(
+                    $raw_expiry,
+                    $password_expiration_policies[$domain]
+                )) {
+                    $db_result[$key]['password_expiry'] = $password_expiration_never_label;
+                }
             }
         }
 
@@ -311,14 +330,8 @@ class MailboxHandler extends PFAHandler
         }
 
         if (!empty($this->values['password'])) {
-            // provide some default value to keep MySQL etc happy.
-            $this->values['password_expiry'] = date('Y-m-d H:i', strtotime("+365 days"));
-            if (Config::bool('password_expiration')) {
-                $domain_dirty = $this->domain_from_id();
-                $domain = trim($domain_dirty, "`'"); // naive assumption it is ' escaping.
-                $password_expiration_value = (int)get_password_expiration_value($domain);
-                $this->values['password_expiry'] = date('Y-m-d H:i', strtotime("+$password_expiration_value day"));
-            }
+            $domain = $this->domain_from_id();
+            $this->values['password_expiry'] = get_mailbox_password_expiry($domain);
         }
 
         return true;
@@ -435,7 +448,7 @@ class MailboxHandler extends PFAHandler
     protected function _validate_quota($field, $val)
     {
         if (!$this->check_quota($val)) {
-            $this->errormsg[$field] = Config::lang('pEdit_mailbox_quota_text_error');
+            $this->errormsg[$field] = Config::lang($this->quota_error);
             return false;
         }
         return true;
@@ -550,6 +563,8 @@ class MailboxHandler extends PFAHandler
      */
     protected function check_quota($quota)
     {
+        $this->quota_error = 'pEdit_mailbox_quota_text_error';
+
         if (!Config::bool('quota')) {
             return true; # enforcing quotas is disabled - just allow it
         }
@@ -571,12 +586,12 @@ class MailboxHandler extends PFAHandler
             return false; # mailbox bigger than maxquota restriction (and maxquota != unlimited) -> not allowed, no more checks needed
         }
 
-        # TODO: detailed error message ("domain quota exceeded", "mailbox quota too big" etc.) via flash_error? Or "available quota: xxx MB"?
         if (!Config::bool('domain_quota')) {
             return true; # enforcing domain_quota is disabled - just allow it
         } elseif ($limit['quota'] <= 0) { # TODO: CHECK - 0 (unlimited) is fine, not sure about <= -1 (disabled)...
             $rval = true;
         } elseif ($quota == 0) { # trying to create an unlimited mailbox, but domain quota is set
+            $this->quota_error = 'pEdit_mailbox_domain_quota_text_error';
             return false;
         } else {
             $table_mailbox = table_by_key('mailbox');
@@ -586,6 +601,7 @@ class MailboxHandler extends PFAHandler
 
             $cur_quota_total = (int)divide_quota($rows[0]['sum']); # convert to MB
             if (($quota + $cur_quota_total) > $limit['quota']) {
+                $this->quota_error = 'pEdit_mailbox_domain_quota_text_error';
                 $rval = false;
             } else {
                 $rval = true;

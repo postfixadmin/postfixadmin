@@ -46,7 +46,12 @@ if ($context === 'admin' && !Config::read('forgotten_admin_password_reset') ||
 
 function sendCodebyEmail($to, $username, $code)
 {
-    $url = getSiteUrl($_SERVER) . 'password-change.php?username=' . urlencode($username) . '&code=' . $code;
+    try {
+        $url = getPasswordRecoverySiteUrl() . 'password-change.php?username=' . urlencode($username) . '&code=' . $code;
+    } catch (RuntimeException $e) {
+        error_log(__FILE__ . ' - ' . $e->getMessage());
+        return false;
+    }
 
     return smtp_mail(
         $to,
@@ -97,19 +102,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             error_log(__FILE__ . " - No mechanism configured for password-recovery.");
         }
 
-        if ($email_other || $phone) {
-            header("Location: password-change.php?username=" . urlencode($username));
-            exit(0);
-        }
     }
 
     // throttle password reset requests to prevent brute force attack
-    $elapsed_time = (int)(microtime(true) - $start_time);
+    $elapsed_time = microtime(true) - $start_time;
 
     // we try to make sure the entire operation takes 2s
     if ($elapsed_time < 2.0) {
         // php 7.4+ should support underscores in numeric literals
-        $sleep = 2_000_000 - ($elapsed_time * 1_000_000);
+        $sleep = (int)((2.0 - $elapsed_time) * 1_000_000.0);
         if ($sleep > 0) {
             usleep($sleep);
         }

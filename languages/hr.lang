@@ -1,4 +1,12 @@
 <?php
+$PALANG['dns_oldest_check'] = 'Oldest domain check'; # XXX
+$PALANG['dns_last_check'] = 'Last checked'; # XXX
+$PALANG['dns_not_checked'] = 'Not checked'; # XXX
+$PALANG['dns_refresh'] = 'Refresh DNS status'; # XXX
+$PALANG['dns_active'] = 'Active DNS'; # XXX
+$PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
+
+$PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...'; # XXX
 # $Id$
 //
 // Language file Croatian
@@ -40,6 +48,8 @@ $PALANG['pFooter_logged_as'] = 'Logged as %s'; # XXX # XXX Text change: 'logged 
 $PALANG['pLogin_welcome'] = 'Administratori prijavite se ovdje.';
 $PALANG['pLogin_username'] = 'Korisničko ime (adresa e-pote)'; # XXX check translation - should be "Login (email)"
 $PALANG['password'] = 'Lozinka';
+$PALANG['password_expiration_on'] = 'Expires on'; # XXX
+$PALANG['password_expiration_never'] = 'Does not expire'; # XXX
 $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Prijavi'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
@@ -151,6 +161,12 @@ $PALANG['pEdit_alias_welcome'] = 'Uredi alias za domenu.'; # XXX Text change to:
 $PALANG['pEdit_alias_help'] = 'Jedan unos po liniji.'; # XXX # XXX Text change to: 'Accepts multiple targets, one entry per line.'
 $PALANG['alias'] = 'Alias';
 $PALANG['to'] = 'Za';
+$PALANG['alias_goto_default'] = 'Default "To" address'; # XXX
+$PALANG['alias_goto_default_save'] = 'Save this destination as the default "To" address for future aliases'; # XXX
+$PALANG['alias_goto_default_current'] = 'Currently saved'; # XXX
+$PALANG['alias_goto_default_delete'] = 'Delete the saved default "To" address'; # XXX
+$PALANG['alias_goto_default_delete_confirm'] = 'Really delete the saved default "To" address?'; # XXX
+$PALANG['alias_goto_default_deleted'] = 'The saved default "To" address has been deleted.'; # XXX
 $PALANG['pEdit_alias_goto_text_error1'] = 'U polje "Za" niste unijeli nita!';
 $PALANG['pEdit_alias_goto_text_error2'] = 'Adresa e-pote, koju ste unijeli nije pravilna: ';
 $PALANG['pEdit_alias_domain_result_error'] = 'Unable to modify the alias domain!'; # XXX
@@ -184,6 +200,7 @@ $PALANG['mb_max'] = 'MB (max: %s)'; # XXX
 $PALANG['mb_max_unlimited'] = 'MB (max: unlimited)'; # XXX
 $PALANG['mb_max_disabled'] = 'MB (max: disabled)'; # XXX
 $PALANG['pEdit_mailbox_quota_text_error'] = 'Uneena kvota je prevelika!';
+$PALANG['pEdit_mailbox_domain_quota_text_error'] = 'The domain does not have enough quota available for this mailbox.'; # XXX
 $PALANG['pEdit_mailbox_domain_error'] = 'Izbrana domena nije pod vaim nadzorom: ';
 $PALANG['pEdit_mailbox_result_error'] = 'Potanski ormarić nije bilo moguče promjeniti!';
 
@@ -221,10 +238,11 @@ $PALANG['reply_once_per_week'] = 'Reply once per week'; # XXX
 
 $PALANG['pViewlog_welcome'] = 'Pogledaj zadnjih %s akcija za ';
 $PALANG['pViewlog_welcome_all'] = 'View the last %s actions '; # XXX
-$PALANG['pViewlog_all_domains'] = 'All domains';
-$PALANG['pViewlog_per_page'] = 'Per page:';
+$PALANG['pViewlog_all_domains'] = 'All domains'; # XXX
+$PALANG['pViewlog_per_page'] = 'Per page:'; # XXX
 $PALANG['pViewlog_timestamp'] = 'Vrijeme';
 $PALANG['pViewlog_action'] = 'Akcija';
+$PALANG['pViewlog_pagination'] = 'Log pages'; # XXX
 $PALANG['pViewlog_data'] = 'Podaci';
 $PALANG['pViewlog_action_create_domain'] = 'create domain'; # XXX
 $PALANG['pViewlog_action_delete_domain'] = 'delete domain'; # XXX
@@ -458,8 +476,8 @@ $PALANG['pFetchmail_desc_date']             = 'Date of last polling/configuratio
 $PALANG['pFetchmail_desc_returned_text']    = 'Text message from last polling'; # XXX
 $PALANG['dateformat_pgsql'] = 'YYYY-mm-dd'; # translators: rearrange to your local date format, but make sure it's a valid PostgreSQL date format # XXX
 $PALANG['dateformat_mysql'] = '%Y-%m-%d';   # translators: rearrange to your local date format, but make sure it's a valid MySQL date format # XXX
-$PALANG['password_expiration'] = 'Pass expires'; # XXX
-$PALANG['password_expiration_desc'] = 'Date when password will expire'; # XXX
+$PALANG['password_expiration'] = 'Password expiration (days)'; # XXX
+$PALANG['password_expiration_desc'] = 'Number of days before the password expires'; # XXX
 $PALANG['To_Mailbox']                       = 'Mailbox'; # XXX # XXX
 $PALANG['To_Forward_Only']                  = 'Forward Only'; # XXX # XXX
 
