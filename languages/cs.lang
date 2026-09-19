@@ -55,6 +55,7 @@ $PALANG['pLogin_language'] = 'Jazyk';
 $PALANG['pLogin_button'] = 'Přihlásit';
 $PALANG['pLogin_failed'] = 'Neplatné uživatelské jméno (email) nebo heslo.';
 $PALANG['pLogin_login_users'] = 'Vstup do uživatelské sekce.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Hlavní';
 $PALANG['pMenu_overview'] = 'Přehled';

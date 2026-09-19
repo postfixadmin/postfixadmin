@@ -47,6 +47,7 @@ $PALANG['pLogin_language'] = 'Dil';
 $PALANG['pLogin_button'] = 'Giriş'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'E-posta adresiniz veya şifreniz yanlış.';
 $PALANG['pLogin_login_users'] = 'Kullanıcı işlemlerine girmek için burayı kullanınız.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Ana';
 $PALANG['pMenu_overview'] = 'Genel Bilgiler';

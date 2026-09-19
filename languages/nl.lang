@@ -49,6 +49,7 @@ $PALANG['pLogin_language'] = 'Taal';
 $PALANG['pLogin_button'] = 'Login';
 $PALANG['pLogin_failed'] = 'Uw login gegevens zijn onjuist.';
 $PALANG['pLogin_login_users'] = 'Gebruikers klik hier om in te loggen.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Start';
 $PALANG['pMenu_overview'] = 'Overzicht';

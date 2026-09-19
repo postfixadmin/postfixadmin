@@ -47,6 +47,7 @@ $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Usuari'; # XXX compare with pUsersLogin_button - should be "Login"
 $PALANG['pLogin_failed'] = 'Your email address or password are not correct.'; # XXX
 $PALANG['pLogin_login_users'] = 'Login per anar a la secció d\'usuaris.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 $PALANG['pMenu_main'] = 'Main'; # XXX
 $PALANG['pMenu_overview'] = 'Resum';
 $PALANG['add_alias'] = 'Afegir àlies';

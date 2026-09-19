@@ -51,6 +51,7 @@ $PALANG['pLogin_language'] = 'Язык';
 $PALANG['pLogin_button'] = 'Войти';
 $PALANG['pLogin_failed'] = 'Ваш адрес email или пароль неверен.';
 $PALANG['pLogin_login_users'] = 'Вход для обычных пользователей.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Главная';
 $PALANG['pMenu_overview'] = 'Обзор';

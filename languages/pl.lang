@@ -50,6 +50,7 @@ $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Zaloguj';
 $PALANG['pLogin_failed'] = 'Twój adres Email lub hasło jest niepoprawne.';
 $PALANG['pLogin_login_users'] = 'Sekcja przeznaczona dla użytkowników.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Strona główna';
 $PALANG['pMenu_overview'] = 'Dane zbiorcze';

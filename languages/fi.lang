@@ -48,6 +48,7 @@ $PALANG['pLogin_language'] = 'Language'; # XXX
 $PALANG['pLogin_button'] = 'Kirjaudu';
 $PALANG['pLogin_failed'] = 'Sähköpostiosoite tai salasana väärin!';
 $PALANG['pLogin_login_users'] = 'Käyttäjien kirjautuminen.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Etusivu';
 $PALANG['pMenu_overview'] = 'Yleisnäkymä';

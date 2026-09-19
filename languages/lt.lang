@@ -47,6 +47,7 @@ $PALANG['pLogin_language'] = 'Kalba';
 $PALANG['pLogin_button'] = 'Prisijungti';
 $PALANG['pLogin_failed'] = 'Neteisingas el. pašto adresas arba slaptažodis.';
 $PALANG['pLogin_login_users'] = 'Pašto vartotojams jungtis prie vartotojų sekcijos.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Pagrindinis';
 $PALANG['pMenu_overview'] = 'Peržiūra';
