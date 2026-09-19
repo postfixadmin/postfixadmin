@@ -2299,7 +2299,7 @@ function upgrade_1855_mysql()
         ['table' => trim($quota2, '`')]
     );
 
-    $column_length = (int) (array_values($column ?? [])[0] ?? 0);
+    $column_length = (int) (array_values($column === null ? [] : $column)[0] ?? 0);
     if ($column_length !== 255) {
         return;
     }
@@ -2331,4 +2331,77 @@ function upgrade_1856()
             PRIMARY KEY (username, pref_key)
         ) {COLLATE};
     ");
+}
+
+/**
+ * Per-domain OIDC support
+ * - domain_oidc table for per-domain IdP configuration
+ * Create domain_oidc table and add oidc_issuer/oidc_sub to admin
+ */
+function upgrade_1859()
+{
+    $table_domain_oidc = table_by_key('domain_oidc');
+
+    // Create domain_oidc table
+    db_query_parsed("
+        CREATE TABLE {IF_NOT_EXISTS} $table_domain_oidc (
+            domain varchar(255) NOT NULL PRIMARY KEY,
+            issuer_url text NOT NULL,
+            client_id varchar(255) NOT NULL,
+            client_secret varchar(255) NOT NULL,
+            scopes varchar(255) NOT NULL DEFAULT 'openid email profile',
+            login_button_text varchar(255) DEFAULT 'Login with SSO',
+            auto_provision smallint NOT NULL DEFAULT 0,
+            mfa_policy varchar(50) DEFAULT 'none',
+            mfa_methods text DEFAULT NULL,
+            mfa_blacklist text DEFAULT NULL
+        ) {COLLATE};
+    ");
+
+    // Add oidc_issuer and oidc_sub columns to admin table
+    _db_add_field('admin', 'oidc_issuer', 'text DEFAULT NULL');
+    _db_add_field('admin', 'oidc_sub', 'varchar(255) DEFAULT NULL');
+}
+
+/**
+ * Add UNIQUE constraint to domain_admins to prevent duplicate entries.
+ */
+function upgrade_1860()
+{
+    $table = table_by_key('domain_admins');
+
+    // Clean up existing duplicates first (database-agnostic)
+    db_execute(
+        "DELETE FROM $table WHERE id NOT IN (SELECT MIN(id) FROM $table GROUP BY username, domain)"
+    );
+
+    // Add unique constraint (database-specific)
+    if (db_pgsql()) {
+        // Check if constraint already exists
+        $constraint = db_query_one(
+            "SELECT conname FROM pg_constraint WHERE conrelid = ?::regclass AND conname = ?",
+            [$table, 'domain_admins_username_domain_key']
+        );
+        if (!$constraint) {
+            db_execute("ALTER TABLE $table ADD CONSTRAINT domain_admins_username_domain_key UNIQUE (username, domain)");
+        }
+    } elseif (db_sqlite()) {
+        // SQLite: create unique index (can't ALTER TABLE to add constraint)
+        $index = db_query_one(
+            "SELECT name FROM sqlite_master WHERE type = 'index' AND name = ?",
+            ['domain_admins_username_domain_key']
+        );
+        if (!$index) {
+            db_execute("CREATE UNIQUE INDEX domain_admins_username_domain_key ON $table (username, domain)");
+        }
+    } else {
+        // MySQL
+        $index = db_query_one(
+            "SHOW INDEX FROM $table WHERE Key_name = ?",
+            ['domain_admins_username_domain_key']
+        );
+        if (!$index) {
+            db_execute("ALTER TABLE $table ADD UNIQUE KEY domain_admins_username_domain_key (username, domain)");
+        }
+    }
 }

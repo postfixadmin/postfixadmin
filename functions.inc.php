@@ -1832,7 +1832,7 @@ function delete_admin_pref(string $username, string $key): void
 /**
  * @param string $sql
  * @param array $values
- * @return array
+ * @return array|null
  */
 function db_query_one(string $sql, array $values = []): ?array
 {

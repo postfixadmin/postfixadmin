@@ -72,3 +72,17 @@ try {
 }
 
 require_once(dirname(__FILE__) . '/../public/upgrade.php');
+
+// Create domain_oidc table for per-domain OIDC tests
+db_execute("CREATE TABLE IF NOT EXISTS domain_oidc (
+    domain VARCHAR(255) NOT NULL PRIMARY KEY,
+    issuer_url TEXT NOT NULL,
+    client_id VARCHAR(255) NOT NULL,
+    client_secret VARCHAR(255) NOT NULL,
+    scopes VARCHAR(255) DEFAULT 'openid email profile',
+    login_button_text VARCHAR(255) DEFAULT 'Login with SSO',
+    auto_provision SMALLINT DEFAULT 0,
+    mfa_policy VARCHAR(50) DEFAULT 'none',
+    mfa_methods TEXT DEFAULT NULL,
+    mfa_blacklist TEXT DEFAULT NULL
+)");

@@ -38,6 +38,28 @@
                 <a href="users/">{$PALANG.pLogin_login_users}</a>
             </div>
         {/if}
+        {if $oidc_enabled}
+            <br/>
+            <div class="text-center">
+                <a class="btn btn-secondary" href="{$oidc_login_url}">
+                    <span class="bi bi-box-arrow-in-right" aria-hidden="true"></span>
+                    {$oidc_login_text}
+                </a>
+            </div>
+        {/if}
+
+        {if $domain_oidc_configs}
+            <br/>
+            <div class="text-center">
+                <p class="text-muted">Or login with a domain-specific provider:</p>
+                {foreach from=$domain_oidc_configs item=config}
+                    <a class="btn btn-outline-secondary mb-1" href="oidc_login.php?domain={$config.domain|urlencode}">
+                        <span class="bi bi-box-arrow-in-right" aria-hidden="true"></span>
+                        {$config.login_button_text|default:'Login with SSO'} ({$config.domain})
+                    </a>
+                {/foreach}
+            </div>
+        {/if}
     </div>
     <script type="text/javascript">
         document.frmLogin.fUsername.focus();
