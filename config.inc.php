@@ -619,8 +619,11 @@ $CONF['show_popimap_color']='darkgrey';
 // you can assign special colors to some domains. To do this,
 // - add the domain to show_custom_domains
 // - add the corresponding color to show_custom_colors
-$CONF['show_custom_domains']=array("subdomain.domain.ext","domain2.ext");
-$CONF['show_custom_colors']=array("lightgreen","lightblue");
+// Example:
+// $CONF['show_custom_domains']=array("subdomain.domain.ext","domain2.ext");
+// $CONF['show_custom_colors']=array("lightgreen","lightblue");
+$CONF['show_custom_domains']=array();
+$CONF['show_custom_colors']=array();
 // If you use a recipient_delimiter in your postfix config, you can also honor it when aliases are checked.
 // Example: $CONF['recipient_delimiter'] = "+";
 // Set to "" to disable this check.

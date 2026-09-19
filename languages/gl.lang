@@ -377,6 +377,7 @@ $PALANG['pBroadcast_error_empty'] = 'Os campos Nome, Asunto e Mensaxe non poden 
 $PALANG['broadcast_mailboxes_only'] = 'Só enviar a buzóns'; # XXX
 $PALANG['broadcast_to_domains'] = 'Enviar a dominios:'; # XXX
 $PALANG['pStatus_undeliverable'] = 'posiblemente NON SE ENTREGOU'; 
+$PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
 $PALANG['pStatus_disabled'] = 'Conta desabilitada '; # XXX
 $PALANG['pStatus_expired'] = 'Contrasinal vencido '; # XXX
 $PALANG['pStatus_vacation'] = 'Ausencia activada '; # XXX
