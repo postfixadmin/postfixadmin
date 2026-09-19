@@ -9,6 +9,11 @@
 </div>
 
 <div class="card-body">
+    {if $pagination_mailbox}
+        <div class="mb-3">
+            {include file="_pagination.tpl" pagination=$pagination_mailbox pagination_label=$PALANG.pOverview_mailbox_title}
+        </div>
+    {/if}
     <div class="mailbox-list-scroll">
     <table class="table table-hover table-sm table-striped align-middle" id="mailbox_table">
         <thead>
@@ -71,7 +76,7 @@
                     <td>
                         {if $item.quota==0}
                             <div class="quota_bar">
-                                <span class="quota_label">{if $boolconf_used_quotas}{$divide_quota.current[$i]} / {/if}&infin;</span>
+                                <span class="quota_label">{if $boolconf_used_quotas}{$divide_quota.current[$i]} / &infin;{else}&infin;{/if}</span>
                             </div>
                         {elseif $item.quota<0}
                             {$PALANG.pOverview_disabled}
@@ -165,4 +170,9 @@
         </tbody>
     </table>
     </div>
+    {if $pagination_mailbox}
+        <div class="mt-3">
+            {include file="_pagination.tpl" pagination=$pagination_mailbox pagination_label=$PALANG.pOverview_mailbox_title}
+        </div>
+    {/if}
 </div>

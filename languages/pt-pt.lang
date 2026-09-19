@@ -1,4 +1,10 @@
 <?php
+$PALANG['dns_oldest_check'] = 'Oldest domain check'; # XXX
+$PALANG['dns_last_check'] = 'Last checked'; # XXX
+$PALANG['dns_not_checked'] = 'Not checked'; # XXX
+$PALANG['dns_refresh'] = 'Refresh DNS status'; # XXX
+$PALANG['dns_active'] = 'Active DNS'; # XXX
+$PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
 
 $PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...'; # XXX
 

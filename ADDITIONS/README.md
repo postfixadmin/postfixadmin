@@ -106,6 +106,28 @@ Maildir hooks and run each operation as its owning service account. See
 and recovery guidance.
 
 
+## Removed quota_usage.pl example
+
+The legacy `quota_usage.pl` example has been removed. It scanned a fixed
+`/home/vmail/domain/user` layout with `du`; its database mode still required
+an obsolete `mailbox.quota_usage` column and wrote a value displayed as MB
+into `quota2.bytes`. Its SQL upsert was MySQL-specific despite advertising
+PostgreSQL support.
+
+If a local cron job or script invokes this example, review that integration
+before upgrading. Removal does not delete locally added database columns or
+change the application's quota display. For Dovecot-backed quota reporting,
+see [the Dovecot configuration guide](../DOCUMENTS/DOVECOT.txt) and the
+[Dovecot 2.4 example](../DOCUMENTS/examples/dovecot-2.4-local.conf).
+
+A future replacement should use the mail server's configured quota backend
+as its source of usage, preserve byte and message units, and support the
+installation's mailbox paths and configured table names. Any optional SQL
+writer should use parameterized, engine-appropriate queries and define safe
+failure and concurrency behavior alongside the mail server's quota updates.
+It should be tested against the supported backends before being distributed;
+no replacement utility is included with this removal.
+
 ## Cyrus Quota Usage
 
 See https://github.com/o-m-d/cyrus-quotausage-to-pfa

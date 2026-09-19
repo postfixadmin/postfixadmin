@@ -89,6 +89,14 @@ if (array_key_exists('reset_search', $_GET)) {
 $_SESSION["search_$table"] = $search;
 $_SESSION["searchmode_$table"] = $searchmode;
 
+$dns_inactive_count = 0;
+$dns_oldest_checked = '';
+$dns_check_mode = DomainDnsStatus::configuredMode();
+if ($table === 'domain' && $dns_check_mode > 0) {
+    $dns_inactive_count = $handler->countInactiveDns();
+    $dns_oldest_checked = $handler->oldestDnsCheck();
+}
+
 $condition = count($search) ? $search : '';
 $pagination = [];
 
@@ -199,6 +207,9 @@ $smarty->assign('search', $search);
 $smarty->assign('searchmode', $searchmode);
 $smarty->assign('pagination', $pagination);
 $smarty->assign('pagination_label', $PALANG[$handler->getMsg()['list_header'] ?? ''] ?? 'Pagination');
+$smarty->assign('dns_inactive_count', $dns_inactive_count);
+$smarty->assign('dns_check_mode', $dns_check_mode);
+$smarty->assign('dns_oldest_checked', $dns_oldest_checked);
 $smarty->assign('domain_selected', ''); /* stop list-virtual.tpl triggering a PHP notice */
 
 $smarty->display('index.tpl');
