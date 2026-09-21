@@ -46,14 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         init_session(authentication_get_username(false), true, true);
 
         // get superadmin status and store in session
-        $h->init(authentication_get_username(false));
+        $h->init(authentication_get_username());
         if ($h->result()['superadmin'] == 1) {
             $_SESSION['sessid']['roles'][] = 'global-admin';
         }
         header("Location: main.php");
         exit(0);
     } else {
-        error_log("PostfixAdmin admin second factor login failed (username: " . authentication_get_username(false) . ", ip_address: {$_SERVER['REMOTE_ADDR']})");
+        error_log("PostfixAdmin admin second factor login failed (username: " . authentication_get_username(). ", ip_address: {$_SERVER['REMOTE_ADDR']})");
         $error = $PALANG['pTotp_failed'];
         flash_error($PALANG['pTotp_failed']);
     }
