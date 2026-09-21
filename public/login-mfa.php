@@ -1,31 +1,11 @@
 <?php
-
 /**
- * Postfix Admin
- *
- * LICENSE
- * This source file is subject to the GPL license that is bundled with
- * this package in the file LICENSE.TXT.
+ * @license GPLv2 or later. This source file is subject to the GPL license that is bundled with this package in the file LICENSE.TXT.
  *
  * Further details on the project are available at https://github.com/postfixadmin/postfixadmin
  *
- * @version $Id$
- * @license GNU GPL v2 or later.
- *
- * File: login-totp.php
- * Authenticates a user, and populates their $_SESSION as appropriate.
- * Template File: login.tpl
- *
- * Template Variables:
- *
- *  none
- *
- * Form POST \ GET Variables:
- *
- *  fUsername
- *  fPassword
- *  token
- *  lang
+ * If a user has MFA enabled, after they've authenticated their username/passwrd at /users/login.php they should be redirected here.
+ * We therefore need to get the MFA/TOTP code and validate it.
  */
 
 require_once('common.php');

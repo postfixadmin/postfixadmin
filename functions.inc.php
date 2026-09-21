@@ -1,20 +1,9 @@
 <?php
 
 /**
- * Postfix Admin
- *
- * LICENSE
- * This source file is subject to the GPL license that is bundled with
- * this package in the file LICENSE.TXT.
- *
- * Further details on the project are available at https://github.com/postfixadmin/postfixadmin
- *
- * @license GNU GPL v2 or later.
- *
- * File: functions.inc.php
- * Contains re-usable code.
+ * Common re-useable functions for PostfixAdmin.
+ * @license GPLv2 or later - see LICENSE.TXT and GPL-LICENSE.TXT
  */
-
 
 $min_db_version = 1855;  # update (at least) before a release with the latest function number in upgrade.php
 
