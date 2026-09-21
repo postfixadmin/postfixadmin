@@ -93,7 +93,7 @@ class Login
      */
     protected function getUserDomain(string $username)
     {
-        $sql = "SELECT domain FROM {$this->table} WHERE username = :username AND active = :active";
+        $sql = "SELECT domain FROM {$this->key_table} WHERE username = :username AND active = :active";
 
         $values = [
             'username' => $username,

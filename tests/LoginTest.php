@@ -94,6 +94,43 @@ class LoginTest extends \PHPUnit\Framework\TestCase
     }
 
 
+    public function testChangePasswordWithDatabasePrefix()
+    {
+        global $CONF;
+
+        $oldPrefix = $CONF['database_prefix'] ?? '';
+        $mailboxTable = null;
+        $domainTable = null;
+
+        try {
+            $CONF['database_prefix'] = 'pfx_';
+            Config::write('database_prefix', 'pfx_');
+
+            $mailboxTable = table_by_key('mailbox');
+            $domainTable = table_by_key('domain');
+
+            db_execute("DROP TABLE IF EXISTS $mailboxTable");
+            db_execute("DROP TABLE IF EXISTS $domainTable");
+            db_execute("CREATE TABLE $mailboxTable AS SELECT * FROM mailbox");
+            db_execute("CREATE TABLE $domainTable AS SELECT * FROM domain");
+
+            $login = new Login('mailbox');
+            $this->assertTrue($login->login('test@example.com', 'foobar'));
+            $this->assertTrue($login->changePassword('test@example.com', 'foobar2', 'foobar'));
+            $this->assertTrue($login->login('test@example.com', 'foobar2'));
+        } finally {
+            $CONF['database_prefix'] = $oldPrefix;
+            Config::write('database_prefix', $oldPrefix);
+
+            if ($mailboxTable !== null) {
+                db_execute("DROP TABLE IF EXISTS $mailboxTable");
+            }
+            if ($domainTable !== null) {
+                db_execute("DROP TABLE IF EXISTS $domainTable");
+            }
+        }
+    }
+
     public function testInvalidUsers()
     {
         $login = new Login('mailbox');
