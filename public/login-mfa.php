@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license GPLv2 or later. This source file is subject to the GPL license that is bundled with this package in the file LICENSE.TXT.
  *
