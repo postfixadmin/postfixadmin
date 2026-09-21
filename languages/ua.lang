@@ -508,6 +508,7 @@ $PALANG['pTOTP_welcome'] = 'Налаштування пароля на осно�
 $PALANG['pUsersMain_totp'] = 'Налаштування пароля на основі часу';
 $PALANG['pTOTP_secret'] = 'Секрет';
 $PALANG['pTOTP_code'] = 'Поштовий індекс';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Не можна змінити секрет TOTP';
 $PALANG['change_TOTP'] = 'Зміна налаштувань TOTP';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

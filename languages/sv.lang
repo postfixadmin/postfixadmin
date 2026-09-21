@@ -506,6 +506,7 @@ $PALANG['pTOTP_welcome'] = 'Ställ in ditt tidsbaserade engångslösenord';
 $PALANG['pUsersMain_totp'] = 'Ställ in ditt tidsbaserade engångslösenord';
 $PALANG['pTOTP_secret'] = 'TOTP hemlighet';
 $PALANG['pTOTP_code'] = 'TOTP-kod';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Kunde inte ändra TOTP hemlighet';
 $PALANG['change_TOTP'] = 'Ändra TOTP-inställningar';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

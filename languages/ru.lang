@@ -507,6 +507,7 @@ $PALANG['pTOTP_welcome'] = 'Настройка одноразового паро
 $PALANG['pUsersMain_totp'] = 'Настройка одноразового пароля на основе времени';
 $PALANG['pTOTP_secret'] = 'Секрет TOTP';
 $PALANG['pTOTP_code'] = 'Код TOTP';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Невозможно изменить секрет TOTP';
 $PALANG['change_TOTP'] = 'Изменение параметров TOTP';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

@@ -495,6 +495,7 @@ $PALANG['pTOTP_welcome'] = '设置基于时间的一次性密码';
 $PALANG['pUsersMain_totp'] = '设置基于时间的一次性密码';
 $PALANG['pTOTP_secret'] = '附 件';
 $PALANG['pTOTP_code'] = 'TP代码';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = '不能改变秘密做法';
 $PALANG['change_TOTP'] = 'A. 变化情况';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

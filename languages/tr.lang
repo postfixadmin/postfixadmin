@@ -493,6 +493,7 @@ $PALANG['pTOTP_welcome'] = 'Zaman tabanlı One-time Şifrenizi Değiştirin';
 $PALANG['pUsersMain_totp'] = 'Zaman tabanlı One-time Şifrenizi Değiştirin';
 $PALANG['pTOTP_secret'] = 'TOTP sırrı';
 $PALANG['pTOTP_code'] = 'TOTP kodu';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'TOTP sırrını değiştiremez';
 $PALANG['change_TOTP'] = 'TOTP ayarlarını değiştirin';
 $PALANG['pTOTP_code_text'] = 'Hesabınız için TOTP kimlik doğrulamasını etkinleştirmek üzere yukarıdaki resmi tarayın ve görüntülenen güncel kodu girin.';

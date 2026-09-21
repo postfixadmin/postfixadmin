@@ -506,6 +506,7 @@ $PALANG['pTOTP_welcome'] = 'Állítsa be az időalapú egyszeri jelszót';
 $PALANG['pUsersMain_totp'] = 'Állítsa be az időalapú egyszeri jelszót';
 $PALANG['pTOTP_secret'] = 'TOTP titkos';
 $PALANG['pTOTP_code'] = 'TOTP kód';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Nem lehet megváltoztatni a TOTP titkát';
 $PALANG['change_TOTP'] = 'A TOTP beállítások módosítása';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

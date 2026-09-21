@@ -504,6 +504,7 @@ $PALANG['pTOTP_welcome'] = 'タイムベースワンタイムパスワードの�
 $PALANG['pUsersMain_totp'] = 'タイムベースワンタイムパスワードの設定';
 $PALANG['pTOTP_secret'] = 'TOTPシークレット';
 $PALANG['pTOTP_code'] = 'TOTPコード';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'TOTPの秘密を変更できません';
 $PALANG['change_TOTP'] = 'TOTP設定の変更';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX
