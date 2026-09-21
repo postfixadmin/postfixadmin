@@ -61,18 +61,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $fTotp = safepost('fTOTP_code');
     $h = new AdminHandler();
 
-    if (authentication_mfa_incomplete() && $totppf->checkUserTOTP(authentication_get_username(), $fTotp)) {
-        init_session(authentication_get_username(), true, true);
+    if (authentication_mfa_incomplete() && $totppf->checkUserTOTP(authentication_get_username(false), $fTotp)) {
+        init_session(authentication_get_username(false), true, true);
 
         // get superadmin status and store in session
-        $h->init(authentication_get_username());
+        $h->init(authentication_get_username(false));
         if ($h->result()['superadmin'] == 1) {
             $_SESSION['sessid']['roles'][] = 'global-admin';
         }
         header("Location: main.php");
         exit(0);
     } else {
-        error_log("PostfixAdmin admin second factor login failed (username: " . authentication_get_username() . ", ip_address: {$_SERVER['REMOTE_ADDR']})");
+        error_log("PostfixAdmin admin second factor login failed (username: " . authentication_get_username(false) . ", ip_address: {$_SERVER['REMOTE_ADDR']})");
         $error = $PALANG['pTotp_failed'];
         flash_error($PALANG['pTotp_failed']);
     }
