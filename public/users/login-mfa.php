@@ -5,7 +5,7 @@
  *
  * Further details on the project are available at https://github.com/postfixadmin/postfixadmin
  *
- * If a user has MFA enabled, after they've authenticated their username/passwrd at /users/login.php they should be redirected here.
+ * If a user has MFA enabled, after they've authenticated their username/password at /users/login.php they should be redirected here.
  * We therefore need to get the MFA/TOTP code and validate it.
  */
 require_once('../common.php');
