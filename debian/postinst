@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+#DEBHELPER#
+
+# Ensure correct permissions for templates_c directory after install
+if [ "$1" = "configure" ]; then
+    if [ -d "/var/cache/postfixadmin/templates_c" ]; then
+        chown -R www-data:www-data /var/cache/postfixadmin/templates_c
+        chmod 700 /var/cache/postfixadmin/templates_c
+    fi
+fi
