@@ -11,7 +11,7 @@ $CONF = array_replace($CONF, json_decode(file_get_contents(getenv('PFA_MFA_TEST_
 require dirname(__DIR__, 2) . '/public/common.php';
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 if ($path === '/__session') {
-    init_session('mfa-http@example.com', ($_GET['role'] ?? '') === 'admin', false);
+    init_session('test@mfa-http.example.com', ($_GET['role'] ?? '') === 'admin', false);
     header('Content-Type: application/json');
     echo json_encode(['token' => CsrfToken::generate()]);
 } elseif ($path === '/__state') {

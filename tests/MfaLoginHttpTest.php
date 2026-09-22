@@ -5,7 +5,8 @@ use PHPUnit\Framework\TestCase;
 
 class MfaLoginHttpTest extends TestCase
 {
-    private const USERNAME = 'mfa-http@example.com';
+    private const DOMAIN = 'mfa-http.example.com';
+    private const USERNAME = 'test@mfa-http.example.com';
     private const SECRET = 'JBSWY3DPEHPK3PXP';
     private string $directory;
     private string $url;
@@ -21,12 +22,15 @@ class MfaLoginHttpTest extends TestCase
         $config['default_language'] = 'en';
         $config['language_hook'] = '';
         file_put_contents($this->directory . '/config.json', json_encode($config, JSON_THROW_ON_ERROR));
+        self::assertSame(1, db_insert('domain', [
+            'domain' => self::DOMAIN, 'description' => 'MFA HTTP test', 'transport' => 'virtual',
+        ]));
         self::assertSame(1, db_insert('admin', [
             'username' => self::USERNAME, 'password' => 'unused', 'active' => true, 'totp_secret' => self::SECRET,
         ]));
         self::assertSame(1, db_insert('mailbox', [
             'username' => self::USERNAME, 'password' => 'unused', 'name' => 'MFA test', 'maildir' => 'mfa-http/',
-            'local_part' => 'mfa-http', 'domain' => 'example.com', 'active' => true, 'totp_secret' => self::SECRET,
+            'local_part' => 'test', 'domain' => self::DOMAIN, 'active' => true, 'totp_secret' => self::SECRET,
         ]));
         $socket = stream_socket_server('tcp://127.0.0.1:0');
         self::assertIsResource($socket);
@@ -64,6 +68,7 @@ class MfaLoginHttpTest extends TestCase
         foreach (['admin', 'mailbox'] as $table) {
             db_execute('DELETE FROM ' . table_by_key($table) . ' WHERE username = :username', ['username' => self::USERNAME]);
         }
+        db_execute('DELETE FROM ' . table_by_key('domain') . ' WHERE domain = :domain', ['domain' => self::DOMAIN]);
         if (isset($this->directory) && is_dir($this->directory)) {
             foreach (new DirectoryIterator($this->directory) as $file) {
                 if (!$file->isDot()) {
@@ -119,7 +124,7 @@ class MfaLoginHttpTest extends TestCase
 
     public function testPendingSessionCannotEditForwarding(): void
     {
-        self::assertSame(1, db_insert('alias', ['address' => self::USERNAME, 'goto' => self::USERNAME, 'domain' => 'example.com', 'active' => true]));
+        self::assertSame(1, db_insert('alias', ['address' => self::USERNAME, 'goto' => self::USERNAME, 'domain' => self::DOMAIN, 'active' => true]));
         $token = $this->startPendingSession('user');
         $path = '/edit.php?table=alias&edit=' . rawurlencode(self::USERNAME);
         foreach ([null, ['CSRF_Token' => $token, 'value' => ['goto' => 'other@example.com']]] as $post) {
