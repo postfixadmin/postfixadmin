@@ -109,3 +109,10 @@ and recovery guidance.
 ## Cyrus Quota Usage
 
 See https://github.com/o-m-d/cyrus-quotausage-to-pfa
+
+## Optional strict MX policy service
+
+[postfix-strict-mx-policy](https://github.com/TrapoSAMA/postfix-strict-mx-policy)
+is a standalone Postfix policy service that rejects recipient domains without
+an explicit MX record. This is intentionally stricter than standard SMTP
+implicit-MX delivery; see the project documentation before enabling it.

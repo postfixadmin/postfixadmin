@@ -1380,42 +1380,49 @@ function smtp_mail(string $to, string $from, string $subject_or_data, ?string $b
         return false;
     }
 
-    smtp_expect($socket, 220);
+    try {
+        smtp_require_response($socket, 220);
 
-    fputs($socket, "EHLO $helo\r\n");
-    smtp_expect($socket, 250);
+        smtp_write($socket, "EHLO $helo\r\n");
+        smtp_require_response($socket, 250);
 
-    if ($type === 'starttls') {
-        fputs($socket, "STARTTLS\r\n");
-        smtp_expect($socket, 220);
-        stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-        fputs($socket, "EHLO $helo\r\n");
-        smtp_expect($socket, 250);
+        if ($type === 'starttls') {
+            smtp_write($socket, "STARTTLS\r\n");
+            smtp_require_response($socket, 220);
+            if (stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT) !== true) {
+                throw new RuntimeException('STARTTLS negotiation failed');
+            }
+            smtp_write($socket, "EHLO $helo\r\n");
+            smtp_require_response($socket, 250);
+        }
+
+        // AUTH
+        smtp_write($socket, "AUTH LOGIN\r\n");
+        smtp_require_response($socket, 334);
+        smtp_write($socket, base64_encode($username) . "\r\n");
+        smtp_require_response($socket, 334);
+        smtp_write($socket, base64_encode($password) . "\r\n");
+        smtp_require_response($socket, 235);
+
+        // SMTP FLOW
+        smtp_write($socket, "MAIL FROM:<$from>\r\n");
+        smtp_require_response($socket, 250);
+        smtp_write($socket, "RCPT TO:<$to>\r\n");
+        smtp_require_response($socket, 250);
+        smtp_write($socket, "DATA\r\n");
+        smtp_require_response($socket, 354);
+
+        smtp_write($socket, $maildata . "\r\n.\r\n");
+        smtp_require_response($socket, 250);
+
+        smtp_write($socket, "QUIT\r\n");
+        fclose($socket);
+        return true;
+    } catch (RuntimeException $e) {
+        error_log('smtp_mail(): ' . $e->getMessage());
+        fclose($socket);
+        return false;
     }
-
-    // AUTH
-    fputs($socket, "AUTH LOGIN\r\n");
-    smtp_expect($socket, 334);
-    fputs($socket, base64_encode($username) . "\r\n");
-    smtp_expect($socket, 334);
-    fputs($socket, base64_encode($password) . "\r\n");
-    smtp_expect($socket, 235);
-
-    // SMTP FLOW
-    fputs($socket, "MAIL FROM:<$from>\r\n");
-    smtp_expect($socket, 250);
-    fputs($socket, "RCPT TO:<$to>\r\n");
-    smtp_expect($socket, 250);
-    fputs($socket, "DATA\r\n");
-    smtp_expect($socket, 354);
-
-    fputs($socket, $maildata . "\r\n.\r\n");
-    smtp_expect($socket, 250);
-
-    fputs($socket, "QUIT\r\n");
-    fclose($socket);
-
-    return true;
 }
 
 //end
@@ -1435,6 +1442,31 @@ function smtp_expect($socket, $code)
         return false;
     }
     return true;
+}
+
+function smtp_require_response($socket, int $code): void
+{
+    if (!smtp_expect($socket, $code)) {
+        throw new RuntimeException("Unexpected SMTP response; expected $code");
+    }
+}
+
+function smtp_write($socket, string $data): void
+{
+    $remaining = $data;
+    while ($remaining !== '') {
+        try {
+            $written = fwrite($socket, $remaining);
+        } catch (Throwable $e) {
+            throw new RuntimeException('Failed to write to SMTP connection', 0, $e);
+        }
+
+        if ($written === false || $written === 0) {
+            throw new RuntimeException('Failed to write to SMTP connection');
+        }
+
+        $remaining = substr($remaining, $written);
+    }
 }
 
 //end commit
@@ -1800,7 +1832,7 @@ function delete_admin_pref(string $username, string $key): void
 /**
  * @param string $sql
  * @param array $values
- * @return array
+ * @return array|null
  */
 function db_query_one(string $sql, array $values = []): ?array
 {

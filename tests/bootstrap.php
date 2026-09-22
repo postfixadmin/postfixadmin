@@ -72,3 +72,15 @@ try {
 }
 
 require_once(dirname(__FILE__) . '/../public/upgrade.php');
+
+// Add OIDC columns to domain table for tests (matches upgrade_1859)
+// Use _db_add_field which handles existence checks per-backend
+_db_add_field('domain', 'oidc_issuer_url', 'text DEFAULT NULL');
+_db_add_field('domain', 'oidc_client_id', 'varchar(255) DEFAULT NULL');
+_db_add_field('domain', 'oidc_client_secret', 'varchar(255) DEFAULT NULL');
+_db_add_field('domain', 'oidc_scopes', "varchar(255) DEFAULT 'openid email profile'");
+_db_add_field('domain', 'oidc_login_button_text', "varchar(255) DEFAULT 'Login with SSO'");
+_db_add_field('domain', 'oidc_auto_provision', '{BOOLEAN}');
+_db_add_field('domain', 'oidc_mfa_policy', "varchar(50) DEFAULT 'none'");
+_db_add_field('domain', 'oidc_mfa_methods', 'text DEFAULT NULL');
+_db_add_field('domain', 'oidc_mfa_blacklist', 'text DEFAULT NULL');

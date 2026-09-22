@@ -805,7 +805,56 @@ $CONF['password_expiration'] = 'NO';
 // recovery links must not be constructed from untrusted HTTP request headers.
 $CONF['site_url'] = null;
 
-$CONF['version'] = '4.0.1';
+$CONF['version'] = '4.0.2';
+
+// Local password auth is always available.
+// Additional authentication methods can be enabled here.
+// Example: ['oidc'] or ['oidc', 'ldap'].
+$CONF['additional_auth'] = [];
+
+// OIDC auto-provision: when enabled, any authenticated OIDC user gets an admin
+// account created automatically on first login. When disabled, only pre-provisioned
+// admin users can log in.
+$CONF['oidc_auto_provision'] = false;
+
+// OIDC identity method: 'email' (legacy, backward compat) or 'issuer_sub' (recommended).
+// 'email' — same email = same account across all IdPs (legacy behavior)
+// 'issuer_sub' — each IdP is a separate identity space (secure, recommended)
+$CONF['oidc_identity'] = 'issuer_sub';
+
+// OIDC upgrade existing: when enabled, an existing admin account with NULL oidc_issuer
+// will be upgraded (issuer+sub written) on first OIDC login. When disabled, existing
+// accounts with NULL issuer+sub will never be upgraded — login falls through to email fallback.
+// Default: false (secure by default — no automatic upgrades)
+$CONF['oidc_upgrade_existing'] = false;
+
+// OIDC MFA policy: 'none' (no MFA), 'mfa_or_totp' (IdP MFA or local TOTP),
+// or 'idp_mfa' (IdP MFA only, TOTP is not a fallback)
+$CONF['oidc_mfa'] = 'none';
+// Blacklist overrides whitelist (if in both, it's excluded).
+$CONF['oidc_mfa_methods'] = [
+    'mfa', 'otp', 'totp', 'hotp', 'hwk', 'fido',
+    'face', 'retina', 'wia', 'sc',
+];
+
+// Blacklist overrides whitelist. Remove methods you don't accept.
+$CONF['oidc_mfa_blacklist'] = [];
+
+// Require verified email claim from IdP (recommended when auto-provision enabled)
+$CONF['oidc_require_verified_email'] = false;
+
+// OIDC session cookie SameSite attribute. 'Strict' is most secure but breaks cross-site callbacks
+// from external IdPs (Auth0, Okta, Google). Use 'Lax' if using an external IdP.
+$CONF['oidc_cookie_samesite'] = 'Strict';
+
+// OIDC configuration
+$CONF['oidc'] = array(
+    'client_id'     => '',
+    'client_secret' => '',
+    'issuer_url'    => '',  // e.g. https://keycloak.example.com/realms/master
+    'redirect_uri'  => '',  // e.g. https://mailadmin.example.com/oidc_callback.php
+    'login_button_text' => 'Login with SSO',  // e.g. Login with Keycloak
+);
 
 // The smtp_active_flag when set to YES enables editing of the smtp_active 
 // field of the mailbox table. The smtp_active field can be used to enable

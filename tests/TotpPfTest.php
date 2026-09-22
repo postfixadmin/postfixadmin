@@ -94,6 +94,35 @@ class TotpPfTest extends TestCase
         $this->assertFalse($totp->passwordOnlyLogin('test@example.com', 'incorrect-password'));
     }
 
+    public function testTotpRemovalRequiresCurrentPassword(): void
+    {
+        $totp = new TotpPf('mailbox', new Login('mailbox'));
+        db_execute(
+            'UPDATE mailbox SET totp_secret = :secret WHERE username = :username',
+            ['username' => 'test@example.com', 'secret' => 'existing-secret']
+        );
+
+        try {
+            $totp->changeTOTP_secret('test@example.com', null, 'incorrect-password');
+            $this->fail('Removing TOTP with an invalid password must fail');
+        } catch (\Exception $e) {
+            $this->assertSame(Config::Lang('pPassword_password_current_text_error'), $e->getMessage());
+        }
+
+        $row = db_query_one(
+            'SELECT totp_secret FROM mailbox WHERE username = :username',
+            ['username' => 'test@example.com']
+        );
+        $this->assertSame('existing-secret', $row['totp_secret']);
+
+        $this->assertTrue($totp->changeTOTP_secret('test@example.com', null, 'foobar'));
+        $row = db_query_one(
+            'SELECT totp_secret FROM mailbox WHERE username = :username',
+            ['username' => 'test@example.com']
+        );
+        $this->assertNull($row['totp_secret']);
+    }
+
     public function testDbOperations()
     {
         $x = new TotpPf('mailbox', new Login('mailbox'));

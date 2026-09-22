@@ -52,6 +52,21 @@ $PALANG['pLogin_button'] = 'Login';
 $PALANG['pLogin_failed'] = 'Your email address or password is not correct.';
 $PALANG['pLogin_login_users'] = 'Users click here to login to the user section.';
 
+$PALANG['oidc_enable'] = 'Enable OIDC';
+$PALANG['oidc_issuer_url'] = 'OIDC Issuer URL';
+$PALANG['oidc_issuer_url_desc'] = 'e.g. https://keycloak.example.com/realms/your-realm';
+$PALANG['oidc_client_id'] = 'OIDC Client ID';
+$PALANG['oidc_client_secret'] = 'OIDC Client Secret';
+$PALANG['oidc_client_secret_desc'] = 'The client secret for your OIDC application. Leave blank to keep the existing secret.';
+$PALANG['oidc_scopes'] = 'OIDC Scopes';
+$PALANG['oidc_login_button_text'] = 'Login Button Text';
+$PALANG['oidc_auto_provision'] = 'Auto-Provision';
+$PALANG['oidc_auto_provision_desc'] = 'Automatically create domain-admin account on first OIDC login';
+$PALANG['oidc_mfa_policy'] = 'MFA Policy';
+$PALANG['oidc_mfa_policy_none'] = 'None';
+$PALANG['oidc_mfa_policy_mfa_or_totp'] = 'MFA or TOTP';
+$PALANG['oidc_mfa_policy_idp_mfa'] = 'IdP MFA Only';
+
 $PALANG['pMenu_main'] = 'Main';
 $PALANG['pMenu_overview'] = 'Overview';
 $PALANG['add_alias'] = 'Add Forward';

@@ -162,6 +162,19 @@ class DomainHandler extends PFAHandler
                 /*not_in_db*/ 0,
                 /*dont_write_to_db*/ 1,
                 /*select*/ $this->is_superadmin . ' as _can_delete'),
+
+            # Per-domain OIDC configuration (stored directly in domain table)
+            'oidc_enabled'     => self::pacol($super,     $super, 0,      'bool', 'oidc_enable'                  , ''                                 , 0, array(), 1, 1),
+            'oidc_issuer_url'  => self::pacol($super,     $super, 0,      'text', 'oidc_issuer_url'              , 'oidc_issuer_url_desc'             , '', array(), 0, 0),
+            'oidc_client_id'   => self::pacol($super,     $super, 0,      'text', 'oidc_client_id'               , ''                                 , '', array(), 0, 0),
+            'oidc_client_secret' => self::pacol($super, $super, 0, 'b64p', 'oidc_client_secret', 'oidc_client_secret_desc', '', array(), 0, 0),
+            'oidc_scopes'      => self::pacol($super,     $super, 0,      'text', 'oidc_scopes'                  , ''                                 , 'openid email profile', array(), 0, 0),
+            'oidc_login_button_text' => self::pacol($super, $super, 0, 'text', 'oidc_login_button_text'      , ''                                 , 'Login with SSO', array(), 0, 0),
+            'oidc_auto_provision'  => self::pacol($super,     $super, 0,      'bool', 'oidc_auto_provision'          , 'oidc_auto_provision_desc'         , 0),
+            'oidc_mfa_policy'  => self::pacol($super,     $super, 0,      'enum', 'oidc_mfa_policy'              , ''                                 , 'none',
+                /*options*/ array('none' => 'none', 'mfa_or_totp' => 'mfa_or_totp', 'idp_mfa' => 'idp_mfa')),
+            'oidc_mfa_methods' => self::pacol($super,     $super, 0,      'text', 'oidc_mfa_methods'             , ''                                 , '', array(), 0, 0),
+            'oidc_mfa_blacklist' => self::pacol($super,   $super, 0,      'text', 'oidc_mfa_blacklist'           , ''                                 , '', array(), 0, 0),
         );
     }
 
@@ -213,6 +226,26 @@ class DomainHandler extends PFAHandler
      * called by $this->store() after storing $this->values in the database
      * can be used to update additional tables, call scripts etc.
      */
+    protected function read_from_db_postprocess($db_result)
+    {
+        if (empty($this->id)) {
+            return $db_result;
+        }
+        // OIDC fields are now stored directly in the domain table by PFAHandler;
+        // only derive the virtual oidc_enabled flag (not a DB column).
+        foreach ($db_result as $key => $_) {
+            // oidc_enabled is derived from oidc_issuer_url presence
+            $issuerUrl = $db_result[$key]['oidc_issuer_url'] ?? '';
+            $db_result[$key]['oidc_enabled'] = ($issuerUrl !== '' && $issuerUrl !== null) ? 1 : 0;
+
+            // Decode client_secret from base64 for form display (b64p fields aren't auto-decoded)
+            if (isset($db_result[$key]['oidc_client_secret'])) {
+                $db_result[$key]['oidc_client_secret'] = base64_decode($db_result[$key]['oidc_client_secret']);
+            }
+        }
+        return $db_result;
+    }
+
     protected function postSave(): bool
     {
         if ($this->new && $this->values['default_aliases']) {
@@ -233,6 +266,9 @@ class DomainHandler extends PFAHandler
             }
         }
 
+        // OIDC config is now saved directly by PFAHandler's store() via the
+        // pacol 'not_in_db=0' fields — nothing extra to do here.
+
         if ($this->new) {
             if (!$this->domain_postcreation()) {
                 $this->errormsg[] = Config::lang('domain_postcreate_failed');
@@ -243,6 +279,45 @@ class DomainHandler extends PFAHandler
             }
         }
         return true; # TODO: don't hardcode
+    }
+
+    /**
+     * Get effective MFA methods for this domain (falls back to global config)
+     */
+    public function getMfaMethods(): array
+    {
+        $methods = $this->result['oidc_mfa_methods'] ?? null;
+        if (!empty($methods)) {
+            return array_map('trim', explode(',', $methods));
+        }
+        global $CONF;
+        return $CONF['oidc_mfa_methods'] ?? [];
+    }
+
+    /**
+     * Get effective MFA blacklist for this domain (falls back to global config)
+     */
+    public function getMfaBlacklist(): array
+    {
+        $blacklist = $this->result['oidc_mfa_blacklist'] ?? null;
+        if (!empty($blacklist)) {
+            return array_map('trim', explode(',', $blacklist));
+        }
+        global $CONF;
+        return $CONF['oidc_mfa_blacklist'] ?? [];
+    }
+
+    /**
+     * Get effective MFA policy for this domain (falls back to global config)
+     */
+    public function getMfaPolicy(): string
+    {
+        $policy = $this->result['oidc_mfa_policy'] ?? null;
+        if ($policy && $policy !== 'none') {
+            return $policy;
+        }
+        global $CONF;
+        return $CONF['oidc_mfa'] ?? 'none';
     }
 
     /**
