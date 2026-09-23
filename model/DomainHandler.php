@@ -173,8 +173,8 @@ class DomainHandler extends PFAHandler
             'oidc_auto_provision'  => self::pacol($super,     $super, 0,      'bool', 'oidc_auto_provision'          , 'oidc_auto_provision_desc'         , 0),
             'oidc_mfa_policy'  => self::pacol($super,     $super, 0,      'enum', 'oidc_mfa_policy'              , ''                                 , 'none',
                 /*options*/ array('none' => 'none', 'mfa_or_totp' => 'mfa_or_totp', 'idp_mfa' => 'idp_mfa')),
-            'oidc_mfa_methods' => self::pacol($super,     $super, 0,      'text', 'oidc_mfa_methods'             , ''                                 , '', array(), 0, 0),
-            'oidc_mfa_blacklist' => self::pacol($super,   $super, 0,      'text', 'oidc_mfa_blacklist'           , ''                                 , '', array(), 0, 0),
+            'oidc_mfa_methods' => self::pacol($super,     $super, 0,      'text', 'oidc_mfa_methods'             , 'oidc_mfa_methods_desc'           , '', array(), 0, 0),
+            'oidc_mfa_blacklist' => self::pacol($super,   $super, 0,      'text', 'oidc_mfa_blacklist'           , 'oidc_mfa_blacklist_desc'       , '', array(), 0, 0),
         );
     }
 
