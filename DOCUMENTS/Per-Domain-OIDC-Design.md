@@ -79,6 +79,7 @@ $CONF['oidc_identity'] = 'issuer_sub';
 Per maintainer feedback (cboltz): when a relation is truly 1:1, add fields to the existing table rather than creating a separate one. OIDC config fields are added directly to the `domain` table:
 
 ```sql
+ALTER TABLE domain ADD COLUMN oidc_enabled SMALLINT DEFAULT 0;
 ALTER TABLE domain ADD COLUMN oidc_issuer_url TEXT DEFAULT NULL;
 ALTER TABLE domain ADD COLUMN oidc_client_id VARCHAR(255) DEFAULT NULL;
 ALTER TABLE domain ADD COLUMN oidc_client_secret VARCHAR(255) DEFAULT NULL;
@@ -92,7 +93,7 @@ ALTER TABLE domain ADD COLUMN oidc_mfa_blacklist TEXT DEFAULT NULL;
 
 - Managed through Domain Edit UI (super-admin only)
 - Per-domain MFA policy override
-- `oidc_enabled` is a derived/virtual field — computed from whether `oidc_issuer_url` is non-empty
+- `oidc_enabled` is a real database column (boolean), not derived — the super-admin can explicitly enable/disable per-domain OIDC independently of whether `oidc_issuer_url` is set
 
 ### Admin Table
 
@@ -192,7 +193,7 @@ CREATE TABLE admin_oidc (
 
 ## Login Page — Domain-Specific Buttons
 
-The login page iterates all domains with OIDC configured (i.e. `oidc_issuer_url` IS NOT NULL) and renders one button per domain:
+The login page queries domains where `oidc_enabled` is true and renders one button per domain:
 
 ```
 Login with Keycloak (orgb.com)
@@ -203,15 +204,13 @@ Login with Google (customer-example.com)
 
 With few domains (1-5), this is clean. With many domains, it gets cluttered — an acceptable trade-off since per-domain OIDC is a multi-tenant feature used by hosting providers who want their customers to see their own branded button.
 
-## Implementation (revised per maintainer feedback)
+## Implementation
 
-Following the maintainer's review, the architecture was simplified:
-
-- **No separate `domain_oidc` table** — columns added to `domain` directly (migration 1859)
-- **No `DomainOidcHandler` class** — OIDC config is handled by `DomainHandler` itself via the standard `pacol()`/`postSave()`/`read_from_db_postprocess()` framework. Super-admins get OIDC fields on the Domain Edit form; PFAHandler's `store()` writes them to the `domain` table automatically.
-- **`oidc_enabled` is a virtual field** — derived from whether `oidc_issuer_url` is non-empty (computed via SQL `CASE` in the SELECT). It has `not_in_db=1` and `dont_write_to_db=1`.
-- **`oidc_client_secret` uses `b64p` type** — framework handles base64 encoding on write and the `read_from_db_postprocess()` decodes it for form display. Empty password field on edit preserves existing value (b64p skips empty like `pass` type).
-- **MFA accessors on DomainHandler** — `getMfaMethods()`, `getMfaBlacklist()`, `getMfaPolicy()` read from `oidc_mfa_methods`/`oidc_mfa_blacklist`/`oidc_mfa_policy` columns with fallback to `$CONF['oidc_mfa*']` globals.
+- No separate `domain_oidc` table — columns added to `domain` directly (migration 1859)
+- No `DomainOidcHandler` class — `DomainHandler` handles OIDC via `pacol()` fields and PFAHandler's `save()`
+- `oidc_enabled` column controls per-domain OIDC on/off in the login page
+- `oidc_client_secret` uses `b64p` type (base64-encoded at rest)
+- MFA accessors: `getMfaMethods()`, `getMfaBlacklist()`, `getMfaPolicy()` — per-domain values with fallback to `$CONF`
 
 ### Files changed
 - `public/upgrade.php` — `upgrade_1859()` uses `_db_add_field()` for domain columns
