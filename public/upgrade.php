@@ -2340,6 +2340,7 @@ function upgrade_1856()
 function upgrade_1859()
 {
     // Add OIDC config columns to domain table
+    _db_add_field('domain', 'oidc_enabled',  '{BOOLEAN}');
     _db_add_field('domain', 'oidc_issuer_url',  'text DEFAULT NULL');
     _db_add_field('domain', 'oidc_client_id',   'varchar(255) DEFAULT NULL');
     _db_add_field('domain', 'oidc_client_secret', 'varchar(255) DEFAULT NULL');

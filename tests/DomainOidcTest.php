@@ -90,7 +90,7 @@ class DomainOidcTest extends TestCase
         $this->assertEquals('new-secret', base64_decode($row['oidc_client_secret']));
     }
 
-    public function testOidcEnabledDerivedFromIssuerUrl(): void
+    public function testOidcEnabledStoredAsColumn(): void
     {
         $this->createDomain();
 
@@ -104,7 +104,7 @@ class DomainOidcTest extends TestCase
         ]);
         $handler->save();
 
-        // Reload and check oidc_enabled is derived
+        // Reload and check oidc_enabled is stored
         $handler2 = new DomainHandler();
         $handler2->init($this->testDomain);
         $handler2->view();

@@ -22,7 +22,7 @@ if ($domain) {
     // Domain-specific login — query domain table directly
     $table_domain = table_by_key('domain');
     $domainConfig = db_query_one("SELECT * FROM $table_domain WHERE domain = ?", [$domain]);
-    if (!$domainConfig || empty($domainConfig['oidc_issuer_url'])) {
+    if (!$domainConfig || !db_get_boolean($domainConfig['oidc_enabled'])) {
         header('Location: login.php');
         exit;
     }

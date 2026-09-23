@@ -164,7 +164,7 @@ class DomainHandler extends PFAHandler
                 /*select*/ $this->is_superadmin . ' as _can_delete'),
 
             # Per-domain OIDC configuration (stored directly in domain table)
-            'oidc_enabled'     => self::pacol($super,     $super, 0,      'bool', 'oidc_enable'                  , ''                                 , 0, array(), 1, 1),
+            'oidc_enabled'     => self::pacol($super,     $super, 0,      'bool', 'oidc_enable'                  , ''                                 , 0, array(), 0, 0),
             'oidc_issuer_url'  => self::pacol($super,     $super, 0,      'text', 'oidc_issuer_url'              , 'oidc_issuer_url_desc'             , '', array(), 0, 0),
             'oidc_client_id'   => self::pacol($super,     $super, 0,      'text', 'oidc_client_id'               , ''                                 , '', array(), 0, 0),
             'oidc_client_secret' => self::pacol($super, $super, 0, 'b64p', 'oidc_client_secret', 'oidc_client_secret_desc', '', array(), 0, 0),
@@ -231,13 +231,7 @@ class DomainHandler extends PFAHandler
         if (empty($this->id)) {
             return $db_result;
         }
-        // OIDC fields are now stored directly in the domain table by PFAHandler;
-        // only derive the virtual oidc_enabled flag (not a DB column).
         foreach ($db_result as $key => $_) {
-            // oidc_enabled is derived from oidc_issuer_url presence
-            $issuerUrl = $db_result[$key]['oidc_issuer_url'] ?? '';
-            $db_result[$key]['oidc_enabled'] = ($issuerUrl !== '' && $issuerUrl !== null) ? 1 : 0;
-
             // Decode client_secret from base64 for form display (b64p fields aren't auto-decoded)
             if (isset($db_result[$key]['oidc_client_secret'])) {
                 $db_result[$key]['oidc_client_secret'] = base64_decode($db_result[$key]['oidc_client_secret']);

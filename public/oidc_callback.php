@@ -151,7 +151,7 @@ if (empty($username)) {
         }
     }
 
-    $autoProvision = $domainOidcConfig ? (($domainOidcConfig['oidc_auto_provision'] ?? 0) ? 1 : 0) : ($CONF['oidc_auto_provision'] ?? false);
+    $autoProvision = $domainOidcConfig ? ((db_get_boolean($domainOidcConfig['oidc_auto_provision'] ?? 0)) ? 1 : 0) : ($CONF['oidc_auto_provision'] ?? false);
 
     if (!$autoProvision) {
         flash_error('You are not authorized to access this system. Contact an administrator.');

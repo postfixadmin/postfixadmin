@@ -75,6 +75,7 @@ require_once(dirname(__FILE__) . '/../public/upgrade.php');
 
 // Add OIDC columns to domain table for tests (matches upgrade_1859)
 // Use _db_add_field which handles existence checks per-backend
+_db_add_field('domain', 'oidc_enabled', '{BOOLEAN}');
 _db_add_field('domain', 'oidc_issuer_url', 'text DEFAULT NULL');
 _db_add_field('domain', 'oidc_client_id', 'varchar(255) DEFAULT NULL');
 _db_add_field('domain', 'oidc_client_secret', 'varchar(255) DEFAULT NULL');

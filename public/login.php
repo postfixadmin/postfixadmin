@@ -121,9 +121,10 @@ if (in_array('oidc', $CONF['additional_auth'] ?? [])) {
         $smarty->assign('oidc_login_text', $oidcLoginText);
     }
 
-    // Check for per-domain OIDC configurations (issuer_url IS NOT NULL means configured)
+    // Check for per-domain OIDC configurations (oidc_enabled = true means configured)
     $table_domain = table_by_key('domain');
-    $domainOidcConfigs = db_query_all("SELECT domain, oidc_issuer_url, oidc_client_id, oidc_login_button_text FROM $table_domain WHERE oidc_issuer_url IS NOT NULL AND oidc_issuer_url != ''");
+    $oidcEnabled = db_get_boolean(true);
+    $domainOidcConfigs = db_query_all("SELECT domain, oidc_issuer_url, oidc_client_id, oidc_login_button_text FROM $table_domain WHERE oidc_enabled = ?", [$oidcEnabled]);
     if (!empty($domainOidcConfigs)) {
         foreach ($domainOidcConfigs as &$cfg) {
             $cfg['domain_encoded'] = rawurlencode($cfg['domain']);
