@@ -288,7 +288,7 @@ foreach ($result as $row) {
     }
 
     if ($display_mailbox_aliases) {
-        $goto_split = explode(",", $row['goto']);
+        $goto_split = explode(",", $row['goto'] ?? '');
         $row['goto_mailbox'] = 0;
         $row['goto_other'] = array();
 
