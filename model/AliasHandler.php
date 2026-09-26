@@ -436,7 +436,7 @@ class AliasHandler extends PFAHandler
             }
 
             if ($this->struct['status']['display_in_list'] && Config::bool('show_status')) {
-                $db_result[$key]['status'] = gen_show_status($db_result[$key]['address']);
+                $db_result[$key]['status'] = gen_show_status($db_result[$key]['address'], $this->allowed_domains);
             }
         }
 
