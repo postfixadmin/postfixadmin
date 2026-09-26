@@ -225,6 +225,7 @@ $PALANG['pTOTP_welcome'] = '시간 기반 일회용 비밀번호(TOTP) 설정';
 $PALANG['pUsersMain_totp'] = '시간 기반 일회용 비밀번호(TOTP) 설정';
 $PALANG['pTOTP_secret'] = 'TOTP 시크릿';
 $PALANG['pTOTP_code'] = 'TOTP 코드 (비활성화하려면 비워두세요)';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'TOTP 시크릿을 변경할 수 없습니다';
 $PALANG['change_TOTP'] = 'TOTP 설정 변경';
 $PALANG['pTOTP_code_text'] = '위 이미지를 스캔하고 표시되는 현재 코드를 입력하여 계정에 TOTP 인증을 활성화하세요.';

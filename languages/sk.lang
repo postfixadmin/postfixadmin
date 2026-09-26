@@ -500,6 +500,7 @@ $PALANG['pTOTP_welcome'] = 'Nastaviť svoje časové heslo';
 $PALANG['pUsersMain_totp'] = 'Nastaviť svoje časové heslo';
 $PALANG['pTOTP_secret'] = 'TOTP tajomstvo';
 $PALANG['pTOTP_code'] = 'Kód TOTP';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Nemožno zmeniť TOTP tajomstvo';
 $PALANG['change_TOTP'] = 'Zmena nastavení TOTP';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

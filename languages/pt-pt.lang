@@ -512,6 +512,7 @@ $PALANG['pTOTP_welcome'] = 'Configure sua senha de uma só vez baseada em tempo'
 $PALANG['pUsersMain_totp'] = 'Configure sua senha de uma só vez baseada em tempo';
 $PALANG['pTOTP_secret'] = 'TOTP segredo';
 $PALANG['pTOTP_code'] = 'Código TOTP';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Não poderia mudar segredo TOTP';
 $PALANG['change_TOTP'] = 'Alterar configurações do TOTP';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

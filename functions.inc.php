@@ -1,20 +1,9 @@
 <?php
 
 /**
- * Postfix Admin
- *
- * LICENSE
- * This source file is subject to the GPL license that is bundled with
- * this package in the file LICENSE.TXT.
- *
- * Further details on the project are available at https://github.com/postfixadmin/postfixadmin
- *
- * @license GNU GPL v2 or later.
- *
- * File: functions.inc.php
- * Contains re-usable code.
+ * Common re-useable functions for PostfixAdmin.
+ * @license GPLv2 or later - see LICENSE.TXT and GPL-LICENSE.TXT
  */
-
 
 $min_db_version = 1855;  # update (at least) before a release with the latest function number in upgrade.php
 
@@ -35,12 +24,12 @@ function authentication_mfa_incomplete(): bool
 }
 
 /**
- * check_session
- *  Action: Check if a session already exists, if not redirect to login.php
- * Call: check_session ()
+ * Action: Check if a session already exists, if not redirect to login.php. Returns current user's login.
+ *
+ * @param bool $requireMfaComplete - false only for login-mfa.php
  * @return string username (e.g. foo@example.com) or CLI or SETUP.PHP
  */
-function authentication_get_username()
+function authentication_get_username(bool $requireMfaComplete = true)
 {
     if (defined('POSTFIXADMIN_CLI')) {
         return 'CLI';
@@ -54,6 +43,16 @@ function authentication_get_username()
         header("Location: login.php");
         exit(0);
     }
+
+    /**
+     * when an mfa user logs in (username+password) but haven't yet done the MFA code, $_SESSION['sessid']['username'] will be populated
+     * but the user hasn't finished authentication, so we should not treat them as having logged in.
+     */
+    if ($requireMfaComplete && authentication_mfa_incomplete()) {
+        header("Location: login-mfa.php");
+        exit(0);
+    }
+
     return $_SESSION['sessid']['username'];
 }
 

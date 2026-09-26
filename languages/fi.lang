@@ -499,6 +499,7 @@ $PALANG['pTOTP_welcome'] = 'Aseta aikapohjainen One-time Password';
 $PALANG['pUsersMain_totp'] = 'Aseta aikapohjainen One-time Password';
 $PALANG['pTOTP_secret'] = 'Totp salaisuus';
 $PALANG['pTOTP_code'] = 'TOTP-koodi';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Ei voi muuttaa salaisuutta';
 $PALANG['change_TOTP'] = 'Muuta TOTP-asetuksia';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

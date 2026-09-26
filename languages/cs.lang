@@ -514,6 +514,7 @@ $PALANG['pTOTP_welcome'] = 'Nastavení hesla na bázi času';
 $PALANG['pUsersMain_totp'] = 'Nastavení hesla na bázi času';
 $PALANG['pTOTP_secret'] = 'TOTP tajemství';
 $PALANG['pTOTP_code'] = 'TOTP kód';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Nelze změnit tajemství TOTP';
 $PALANG['change_TOTP'] = 'Změna nastavení TOTP';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

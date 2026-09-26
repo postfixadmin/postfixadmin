@@ -515,6 +515,7 @@ $PALANG['pTOTP_welcome'] = 'Opsætning af din Time-baseret engangsadgangskode';
 $PALANG['pUsersMain_totp'] = 'Opsætning af din Time-baseret engangsadgangskode';
 $PALANG['pTOTP_secret'] = 'TOTP hemmelighed';
 $PALANG['pTOTP_code'] = 'TOTP kode';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Kan ikke ændre TOTP hemmelighed';
 $PALANG['change_TOTP'] = 'Ændre indstillingerne for TOTP';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

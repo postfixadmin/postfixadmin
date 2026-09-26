@@ -500,6 +500,7 @@ $PALANG['pTOTP_welcome'] = 'Setup your Time-based One-time Password'; # XXX
 $PALANG['pUsersMain_totp'] = 'Setup your Time-based One-time Password'; # XXX
 $PALANG['pTOTP_secret'] = 'TOTP secret'; # XXX
 $PALANG['pTOTP_code'] = 'TOTP code'; # XXX
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Could not change TOTP secret'; # XXX
 $PALANG['change_TOTP'] = 'Change TOTP settings'; # XXX
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX
