@@ -9,6 +9,7 @@
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
  
+   - Show available usage for unlimited quotas and retain neutral quota boxes.
    - Remove the obsolete quota_usage.pl example and Horde 3 SQL password guide.
      See ADDITIONS/README.md for quota integration and modernization notes.
    - Restore the legacy md5crypt password scheme compatibility (see #1123, thanks @8ctopus)
