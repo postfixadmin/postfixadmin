@@ -57,6 +57,7 @@ $PALANG['pLogin_language'] = '言語';
 $PALANG['pLogin_button'] = 'ログイン';
 $PALANG['pLogin_failed'] = 'ユーザ名かパスワードが違います。';
 $PALANG['pLogin_login_users'] = '一般ユーザのログインはここをクリックしてください。';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'メイン';
 $PALANG['pMenu_overview'] = '概要';

@@ -29,7 +29,9 @@
         "endroid/qr-code": "^4.6 | ^5.0", 
         "spomky-labs/otphp": "^11.0",
         "shardj/zf1-future": "^1.12",
-        "symfony/var-dumper": "^7.4"
+        "symfony/var-dumper": "^7.4",
+        "firebase/php-jwt": "^7.0",
+        "ext-curl": "*"
     },
     "require-dev": {
         "ext-mbstring": "*",
