@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+set -x
+
+echo "=== MINIMAL POSTINST START ==="
+echo "Args: $@"
+
+case "$1" in
+    configure)
+        echo "=== CONFIGURE SECTION ==="
+        
+        # Source debconf library
+        . /usr/share/debconf/confmodule
+        echo "=== DEBCONF SOURCED ==="
+        
+        # Try dbconfig-common
+        echo "=== STARTING DBC_GO ==="
+        if [ -f /usr/share/dbconfig-common/dpkg/postinst.mysql ]; then
+            echo "=== CALLING DBC_GO ==="
+            . /usr/share/dbconfig-common/dpkg/postinst.mysql
+            echo "=== DBC_GO COMPLETE ==="
+            dbc_go postfixadmin "$@"
+            echo "=== DBC_GO FINISHED ==="
+        fi
+        
+        echo "=== MINIMAL POSTINST COMPLETE ==="
+        ;;
+    *)
+        echo "=== UNHANDLED CASE: $1 ==="
+        ;;
+esac
+
+echo "=== MINIMAL POSTINST END ==="
+
+exit 0

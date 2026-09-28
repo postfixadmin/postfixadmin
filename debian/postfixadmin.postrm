@@ -13,13 +13,32 @@ if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
 	fi
         
 	if [ "$1" = "purge" ]; then
-                rm -f /etc/postfixadmin/dbconfig.inc.php
-                if which ucf >/dev/null 2>&1; then
-                        ucf --purge /etc/postfixadmin/dbconfig.inc.php
-                fi
-
-                db_purge || true
-
+		# Remove configuration files
+		rm -f /etc/postfixadmin/dbconfig.inc.php
+		rm -f /etc/postfixadmin/config.local.php
+		
+		# Clean up with ucf if available
+		if which ucf >/dev/null 2>&1; then
+			ucf --purge /etc/postfixadmin/dbconfig.inc.php
+			ucf --purge /etc/postfixadmin/config.local.php
+		fi
+		
+		# Remove cache directory
+		rm -rf /var/cache/postfixadmin
+		
+		# Purge all debconf data including setup passwords
+		if [ -f /usr/share/debconf/confmodule ]; then
+			. /usr/share/debconf/confmodule
+			# Clear setup password data for security
+			db_unregister postfixadmin/setup-password || true
+			db_unregister postfixadmin/setup-password-again || true
+			# Purge other debconf data
+			db_purge || true
+		fi
+		
+		# Mark that package was purged (for reinstall detection)
+		mkdir -p /var/lib/postfixadmin 2>/dev/null || true
+		touch /var/lib/postfixadmin/.purged 2>/dev/null || true
         fi
 fi
 
