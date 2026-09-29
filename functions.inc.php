@@ -1490,17 +1490,6 @@ function smtp_get_admin_email(bool $fallback_to_loggedin_user = true)
     return "PasswordReset <noreply@example.com>"; // this isn't good.
 }
 
-/**
- * smtp_get_admin_password
- * Action: Get smtp password for admin email
- * Call: smtp_get_admin_password
- * @return string - admin smtp password
- */
-function smtp_get_admin_password()
-{
-    return Config::read_string('admin_smtp_password');
-}
-
 
 //
 // smtp_get_response
