@@ -710,6 +710,47 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
 
 
     /**
+     * getPagebrowser() must apply the same search-field allow-list as getList().
+     * Previously it passed $condition straight to build_select_query(), so an
+     * unknown search key ended up as a raw, unescaped SQL column name in the
+     * WHERE clause via db_where_clause() - i.e. SQL injection through the
+     * array key of $_GET['search'] in public/list.php.
+     */
+    public function testGetPagebrowserRejectsUnknownSearchField()
+    {
+        $this->addDomain('example.com', 'admin');
+
+        // need more than page_size (10) rows so the pagebrowser is actually populated
+        foreach (range(1, 15) as $i) {
+            $addr = "$i-test@example.com";
+            $x = new AliasHandler(1, 'admin', true);
+            $this->assertTrue($x->init($addr));
+            $x->set([
+                'localpart' => explode('@', $addr)[0],
+                'domain'    => 'example.com',
+                'active'    => 1,
+                'address'   => $addr,
+                'goto'      => ['dest@example.com'],
+            ]);
+            $this->assertTrue($x->save(), json_encode($x->errormsg));
+        }
+
+        $malicious_key = '1); DROP TABLE alias; --';
+
+        $x = new AliasHandler(0, 'admin', true);
+        $withMaliciousKey = $x->getPagebrowser([$malicious_key => 'irrelevant'], []);
+        $this->assertEquals(["Ignoring unknown search field $malicious_key"], $x->errormsg);
+
+        $y = new AliasHandler(0, 'admin', true);
+        $withoutCondition = $y->getPagebrowser([], []);
+
+        // the unknown key must be dropped entirely (never reach SQL), so the
+        // result is identical to not having supplied it at all.
+        $this->assertNotEmpty($withMaliciousKey);
+        $this->assertEquals($withoutCondition, $withMaliciousKey);
+    }
+
+    /**
      * delete-inactive.php enumerates the inactive aliases and deletes each one
      * through its handler. Verify that removes only the inactive aliases and
      * leaves active ones untouched.

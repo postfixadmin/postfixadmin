@@ -654,13 +654,13 @@ abstract class PFAHandler
      * helper function to build the inner part of the select query
      * can be used by read_from_db() and for generating the pagebrowser
      *
-     * @param array or string - condition (an array will be AND'ed using db_where_clause, a string will be directly used)
+     * @param array|string $condition - condition (an array will be AND'ed using db_where_clause, a string will be directly used)
      *                          (if you use a string, make sure it is correctly escaped!)
      *                        - WARNING: will be changed to array only in the future, with an option to include a raw string inside the array
-     * @param array searchmode - operators to use (=, <, >) if $condition is an array. Defaults to = if not specified for a field.
+     * @param array $searchmode - operators to use (=, <, >) if $condition is an array. Defaults to = if not specified for a field.
      * @return array - contains query parts
      */
-    protected function build_select_query($condition, $searchmode)
+    protected function build_select_query($condition, array $searchmode): array
     {
         $select_cols = array();
 
@@ -757,8 +757,38 @@ abstract class PFAHandler
      */
     public function getPagebrowser($condition, $searchmode)
     {
+        if (is_array($condition)) {
+            $condition = $this->filterSearchCondition($condition);
+        }
         $queryparts = $this->build_select_query($condition, $searchmode);
         return create_page_browser($this->label_field, $queryparts['from_where_order'], $queryparts['params'] ?? []);
+    }
+
+    /**
+     * restrict a search condition array to fields the caller is allowed to search on.
+     *
+     * Used by getList() and getPagebrowser() to avoid information leaks / SQL injection via
+     * search parameter keys - $condition keys end up as raw SQL column names in
+     * db_where_clause(), so unknown keys must never reach build_select_query().
+     *
+     * @param array $condition
+     * @return array - filtered condition
+     */
+    protected function filterSearchCondition(array $condition): array
+    {
+        $real_condition = array();
+        foreach ($condition as $key => $value) {
+            # allow only access to fields the user can access to avoid information leaks via search parameters
+            if (isset($this->struct[$key]) && ($this->struct[$key]['display_in_list'] || $this->struct[$key]['display_in_form'])) {
+                $real_condition[$key] = $value;
+            } elseif (($key == '_') && count($this->searchfields)) {
+                # '_' is the simple-search box; build_select_query() expands it into a LIKE across $this->searchfields
+                $real_condition[$key] = $value;
+            } else {
+                $this->errormsg[] = "Ignoring unknown search field $key";
+            }
+        }
+        return $real_condition;
     }
 
     /**
@@ -847,17 +877,7 @@ abstract class PFAHandler
     public function getList($condition, $searchmode = array(), $limit = -1, $offset = -1): bool
     {
         if (is_array($condition)) {
-            $real_condition = array();
-            foreach ($condition as $key => $value) {
-                # allow only access to fields the user can access to avoid information leaks via search parameters
-                if (isset($this->struct[$key]) && ($this->struct[$key]['display_in_list'] || $this->struct[$key]['display_in_form'])) {
-                    $real_condition[$key] = $value;
-                } elseif (($key == '_') && count($this->searchfields)) {
-                    $real_condition[$key] = $value;
-                } else {
-                    $this->errormsg[] = "Ignoring unknown search field $key";
-                }
-            }
+            $real_condition = $this->filterSearchCondition($condition);
         } else {
             # warning: no sanity checks are applied if $condition is not an array!
             $real_condition = $condition;
