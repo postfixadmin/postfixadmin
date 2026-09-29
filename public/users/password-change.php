@@ -77,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $totppf = new TotpPf($context === 'admin' ? 'admin' : 'mailbox', new Login($context === 'admin' ? 'admin' : 'mailbox'));
 
+            $error = false;
             if ($totppf->usesTOTP($tUsername)) {
                 $fTotp = safepost('fTOTP_code');
 
@@ -87,8 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (!$error) {
-                init_session($tUsername, $context === 'admin', true);
-
                 if (!$handler->init($tUsername)) {
                     flash_error($handler->errormsg);
                 } else {
@@ -97,8 +96,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $values['password2'] = $fPassword2;
 
                     if ($handler->set($values) && $handler->save()) {
-                        flash_info(Config::lang_f('pPassword_result_success', $tUsername));
+                        // only invalidate the recovery code and log the user in once the
+                        // new password has actually been validated and persisted - see
+                        // security report on init_session() being called too early.
                         $handler->wipePasswordRecoveryCode($tUsername);
+                        init_session($tUsername, $context === 'admin', true);
+                        flash_info(Config::lang_f('pPassword_result_success', $tUsername));
                         header('Location: main.php');
                         exit(0);
                     } else {
