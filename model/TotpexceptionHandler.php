@@ -118,7 +118,7 @@ class TotpexceptionHandler extends PFAHandler
         if ($value === '') {
             if ($this->is_superadmin) {
                 $this->values['username'] = null;
-                return true;
+                return false; # to avoid that set() overwrites $this->values[$field] with the raw (empty string) input
             }
             $this->errormsg[$field] = Config::Lang('pException_user_global_error');
             return false;
@@ -127,7 +127,7 @@ class TotpexceptionHandler extends PFAHandler
         // Users can only set exceptions for themselves
         if (!$this->is_admin) {
             $this->values['username'] = $this->username;
-            return true;
+            return false; # to avoid that set() overwrites $this->values[$field] with the raw (attacker-controlled) input
         }
 
         // Superadmins can set for anyone
