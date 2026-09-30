@@ -719,6 +719,8 @@ class AliasHandlerTest extends \PHPUnit\Framework\TestCase
     public function testGetPagebrowserRejectsUnknownSearchField()
     {
         $this->addDomain('example.com', 'admin');
+        // addDomain() caps the domain at 11 aliases (4 of them defaults); lift the limit so we can add 15 more
+        db_query("UPDATE domain SET aliases = 0 WHERE domain = 'example.com'");
 
         // need more than page_size (10) rows so the pagebrowser is actually populated
         foreach (range(1, 15) as $i) {
