@@ -24,6 +24,27 @@ function authentication_mfa_incomplete(): bool
 }
 
 /**
+ * Returns the current user's login, if there is one - but unlike authentication_get_username()
+ * never redirects/exits. Use this where not being logged in is legitimate (e.g. db_log() during
+ * a password reset via recovery code).
+ *
+ * @return string|null username (e.g. foo@example.com), CLI, SETUP.PHP or null if nobody is logged in
+ */
+function authentication_get_username_if_known(): ?string
+{
+    if (defined('POSTFIXADMIN_CLI')) {
+        return 'CLI';
+    }
+
+    if (defined('POSTFIXADMIN_SETUP')) {
+        return 'SETUP.PHP';
+    }
+
+    $username = $_SESSION['sessid']['username'] ?? null;
+    return is_string($username) && $username !== '' ? $username : null;
+}
+
+/**
  * Action: Check if a session already exists, if not redirect to login.php. Returns current user's login.
  *
  * @param bool $requireMfaComplete - false only for login-mfa.php
@@ -2063,7 +2084,9 @@ function db_log(string $domain, string $action, string $data): bool
 
     $REMOTE_ADDR = getRemoteAddr();
 
-    $username = authentication_get_username();
+    // must not redirect to login.php - db_log() is also reached without a session, e.g. when
+    // resetting a forgotten password via password-change.php
+    $username = authentication_get_username_if_known() ?? 'unauthenticated';
 
     if (Config::Lang("pViewlog_action_$action") == '') {
         throw new Exception("Invalid log action : $action");   // could do with something better?
