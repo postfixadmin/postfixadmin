@@ -1491,7 +1491,11 @@ function smtp_require_response($socket, int $code): void
 function smtp_dot_stuff(string $data): string
 {
     $data = preg_replace('/\r\n|\r|\n/', "\r\n", $data);
-    return preg_replace('/^\./m', '..', $data);
+    $data = preg_replace('/^\./m', '..', $data);
+    if (!is_string($data)) {
+        throw new \InvalidArgumentException("data passed into smtp_dot_stuff was invalid");
+    }
+    return $data;
 }
 
 function smtp_write($socket, string $data): void
