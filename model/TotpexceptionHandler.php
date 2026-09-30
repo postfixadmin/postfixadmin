@@ -68,9 +68,13 @@ class TotpexceptionHandler extends PFAHandler
             'create_button' => 'pTotp_exceptions_add',
 
             'required_role' => 'admin',
-            'listview' => 'list.php?table=totpexception',
+            'listview' => 'totp-exceptions.php',
             'early_init' => 0,
-            'user_hardcoded_field' => 'username',
+            # deliberately no 'user_hardcoded_field' - users must not be able to use edit.php/list.php/delete.php
+            # for this handler, as that would bypass the current password check in users/totp-exceptions.php
+            # creating/editing via edit.php is disabled for everyone (incl. admins) for the same reason -
+            # totp-exceptions.php requires the current password before adding an exception.
+            'disable_edit_form' => 1,
         );
     }
 

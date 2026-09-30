@@ -142,4 +142,30 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
 
         $this->assertSame(['someone@example.com'], $this->storedUsernames());
     }
+
+    /**
+     * Users must add TOTP exceptions via users/totp-exceptions.php, which requires them to re-enter
+     * their password. If user_hardcoded_field were set, edit.php would let them bypass that.
+     */
+    public function testNotAvailableToUsersViaGenericEditForm(): void
+    {
+        $this->asUser();
+
+        $handler = new TotpexceptionHandler(1, 'user@example.com', false);
+        $formconf = $handler->webformConfig();
+
+        $this->assertEmpty($formconf['user_hardcoded_field'] ?? null);
+        $this->assertEquals('admin', $formconf['required_role']);
+    }
+
+    /**
+     * Admins (incl. superadmins) must also add TOTP exceptions via totp-exceptions.php, which requires the current password.
+     */
+    public function testGenericEditFormIsDisabledForAdmins(): void
+    {
+        $this->asAdmin();
+
+        $handler = new TotpexceptionHandler(1, 'admin@example.com', true);
+        $this->assertNotEmpty($handler->webformConfig()['disable_edit_form']);
+    }
 }
