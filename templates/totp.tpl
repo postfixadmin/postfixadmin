@@ -48,18 +48,11 @@
         </div>
     </div>
     {if $show_form == 'hidden'}
-        <div id="showform" class="panel panel-default"
-        ">
-        <div class="panel-footer">
-            <div class="btn-toolbar" role="toolbar">
-                <div class="pull-left">
-                    <h3>{$PALANG.pTOTP_enabled}</h3>
-                </div>
-                <div class="pull-right">
-                    <a href="#" class="btn ml btn-lg btn-primary" id="showbutton">{$PALANG.pTOTP_restart}</a>
-                </div>
+        <div id="showform" class="panel panel-default">
+            <div class="panel-body" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px;">
+                <p style="margin:0;">{$PALANG.pTOTP_enabled}</p>
+                <a href="#" class="btn btn-primary" id="showbutton">{$PALANG.pTOTP_restart}</a>
             </div>
-        </div>
         </div>
         <script>
             document.getElementById("showbutton").addEventListener("click", function(e) {
