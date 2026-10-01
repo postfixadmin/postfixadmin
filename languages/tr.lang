@@ -558,6 +558,9 @@ $PALANG['session_expired_message'] = 'Sayfa jetonu artık geçerli değil. Lütf
 $PALANG['session_expired_button'] = 'Devam Et';
 $PALANG['pDkim_field_domain_and_selector'] = 'Domain:Seçici';
 $PALANG['pDkim_field_description'] = 'Açıklama';
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

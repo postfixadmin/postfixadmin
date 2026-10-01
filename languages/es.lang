@@ -559,6 +559,9 @@ $PALANG['pDkim_field_description'] = 'Descripción';
 $PALANG['session_expired_title'] = 'Sesión expirada';
 $PALANG['session_expired_message'] = 'El token de la página ya no es válido. Vuelve e intenta nuevamente.';
 $PALANG['session_expired_button'] = 'Continuar';
+$PALANG['pTOTP_enabled'] = 'TOTP está activado.';
+$PALANG['pTOTP_restart'] = 'Reiniciar TOTP';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

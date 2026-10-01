@@ -559,6 +559,9 @@ $PALANG['session_expired_message'] = 'The page token is no longer valid. Please 
 $PALANG['session_expired_button'] = 'Continue'; # XXX
 $PALANG['pDkim_field_domain_and_selector'] = 'Domain:Selector'; # XXX
 $PALANG['pDkim_field_description'] = 'Description'; # XXX
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
