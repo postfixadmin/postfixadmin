@@ -49,9 +49,11 @@
     </div>
     {if $show_form == 'hidden'}
         <div id="showform" class="panel panel-default">
-            <div class="panel-body" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px;">
-                <p style="margin:0;">{$PALANG.pTOTP_enabled}</p>
-                <a href="#" class="btn btn-primary" id="showbutton">{$PALANG.pTOTP_restart}</a>
+            <div class="panel-body">
+                <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px;">
+                    <p style="margin:0;">{$PALANG.pTOTP_enabled}</p>
+                    <a href="#" class="btn btn-primary" id="showbutton">{$PALANG.pTOTP_restart}</a>
+                </div>
             </div>
         </div>
         <script>
