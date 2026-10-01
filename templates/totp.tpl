@@ -1,5 +1,5 @@
 <form name="password" method="post" action="" class="form-horizontal">
-    <div id="edit_form" class="panel panel-default" style="visibility:{$show_form}">
+    <div id="edit_form" class="panel panel-default" style="display:{if $show_form == 'hidden'}none{else}block{/if}">
         <div class="panel-heading"><h4>{$PALANG.pTOTP_welcome}</h4></div>
         <div class="panel-body enable-asterisk">
             <input class="flat" type="hidden" name="token" value="{$smarty.session.PFA_token|escape:"url"}"/>
@@ -53,22 +53,23 @@
         <div class="panel-footer">
             <div class="btn-toolbar" role="toolbar">
                 <div class="pull-left">
-                    <h3>{$PALANG.TOTP_already_configured}</h3>
+                    <h3>{$PALANG.pTOTP_enabled}</h3>
                 </div>
                 <div class="pull-right">
-                    <a href="#" class="btn ml btn-lg btn-primary" id="showbutton">{$PALANG.show}</a>
+                    <a href="#" class="btn ml btn-lg btn-primary" id="showbutton">{$PALANG.pTOTP_restart}</a>
                 </div>
             </div>
         </div>
         </div>
         <script>
             document.getElementById("showbutton").addEventListener("click", function(e) {
-              showform()
+              e.preventDefault();
+              showform();
             });
 
             function showform() {
-              document.getElementById("showform").style.visibility= "hidden";
-              document.getElementById("edit_form").style.visibility= "visible";
+              document.getElementById("showform").style.display = "none";
+              document.getElementById("edit_form").style.display = "block";
             }
         </script>
     {/if}

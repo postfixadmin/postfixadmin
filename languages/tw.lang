@@ -502,6 +502,9 @@ $PALANG['TOTP_already_configured'] = '你是否想改变你的秘密?';
 
 $PALANG['pApp_passwords_add'] = '添加针对具体申请的密码';
 
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
