@@ -1,15 +1,9 @@
 <form name="password" method="post" action="" class="form-horizontal">
     {if $show_form == 'hidden'}
         <div id="showform" class="card">
-            <div class="card-footer">
-                <div class="btn-toolbar" role="toolbar">
-                    <div class="float-start">
-                        <h3>{$PALANG.pTOTP_enabled}</h3>
-                    </div>
-                    <div class="float-end">
-                        <a href="#" class="btn ml btn-lg btn-primary" id="showbutton">{$PALANG.pTOTP_restart}</a>
-                    </div>
-                </div>
+            <div class="card-body d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <p class="mb-0">{$PALANG.pTOTP_enabled}</p>
+                <a href="#" class="btn btn-primary" id="showbutton">{$PALANG.pTOTP_restart}</a>
             </div>
         </div>
         <script>
