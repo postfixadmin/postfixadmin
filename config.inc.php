@@ -614,11 +614,12 @@ $CONF['show_status_key']='YES';
 // 'show_status_text' will be displayed with the background colors
 // associated with each status, you can customize it here
 $CONF['show_status_text']='&nbsp;&nbsp;';
-// show_undeliverable is useful if most accounts are delivered to this
-// postfix system.  If many aliases and mailboxes are forwarded
-// elsewhere, you will probably want to disable this.
+// Highlight undeliverable destinations in locally managed domains.
+// This checks PostfixAdmin records, not actual mail delivery.
 $CONF['show_undeliverable']='YES';
 $CONF['show_undeliverable_color']='tomato';
+// Destinations outside the administrator's managed domains (no existence check).
+$CONF['show_external_color']='lightblue';
 // mails to these domains will never be flagged as undeliverable
 $CONF['show_undeliverable_exceptions']=array("unixmail.domain.ext","exchangeserver.domain.ext");
 // show mailboxes with expired password; requires password_expiration to be enabled
@@ -636,8 +637,11 @@ $CONF['show_popimap_color']='darkgrey';
 // you can assign special colors to some domains. To do this,
 // - add the domain to show_custom_domains
 // - add the corresponding color to show_custom_colors
-$CONF['show_custom_domains']=array("subdomain.domain.ext","domain2.ext");
-$CONF['show_custom_colors']=array("lightgreen","lightblue");
+// Example:
+// $CONF['show_custom_domains']=array("subdomain.domain.ext","domain2.ext");
+// $CONF['show_custom_colors']=array("lightgreen","lightblue");
+$CONF['show_custom_domains']=array();
+$CONF['show_custom_colors']=array();
 // If you use a recipient_delimiter in your postfix config, you can also honor it when aliases are checked.
 // Example: $CONF['recipient_delimiter'] = "+";
 // Set to "" to disable this check.
