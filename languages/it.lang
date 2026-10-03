@@ -501,6 +501,9 @@ $PALANG['TOTP_already_configured'] = 'TOTP è già configurato per questo accoun
 
 $PALANG['pApp_passwords_add'] = 'Aggiungere la password specifica dell\'applicazione';
 
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
