@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 $fHeaders .= $b_message;
 
-                if (!smtp_mail($fTo, $smtp_from_email, $fHeaders, smtp_get_admin_password())) {
+                if (!smtp_mail(to: $fTo, from: $smtp_from_email, subject_or_data: $fHeaders)) {
                     flash_error(Config::lang_f('pSendmail_result_error', $fTo));
                 } else {
                     flash_info(Config::lang_f('pSendmail_result_success', $fTo));

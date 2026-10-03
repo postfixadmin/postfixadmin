@@ -62,6 +62,10 @@ if ($is_admin) {
     }
 }
 
+if (!empty($formconf['disable_edit_form'])) {
+    throw new \InvalidArgumentException($handlerclass . ' can not be edited via edit.php');
+}
+
 if ($new == 0 || $formconf['early_init']) {
     if (!$handler->init($edit)) {
         if (count($handler->errormsg) == 0) {

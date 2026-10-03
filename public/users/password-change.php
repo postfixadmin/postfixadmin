@@ -72,41 +72,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         flash_error(Config::lang('pPassword_password_text_error'));
     } else {
         $handler = $context === 'admin' ? new AdminHandler() : new MailboxHandler();
-        if (!$handler->checkPasswordRecoveryCode($tUsername, $tCode)) {
-            flash_error(Config::lang('pPassword_code_text_error'));
+        $totppf = new TotpPf($context === 'admin' ? 'admin' : 'mailbox', new Login($context === 'admin' ? 'admin' : 'mailbox'));
+
+        $result = PasswordChangeAttempt::run($handler, $totppf, $tUsername, $tCode, safepost('fTOTP_code'), $fPassword, $fPassword2);
+
+        if ($result['success']) {
+            // only reachable once the new password has actually been validated and
+            // persisted, and the recovery code invalidated - see security report on
+            // init_session() being called too early.
+            init_session($tUsername, $context === 'admin', true);
+            flash_info(Config::lang_f('pPassword_result_success', $tUsername));
+            header('Location: main.php');
+            exit(0);
         } else {
-            $totppf = new TotpPf($context === 'admin' ? 'admin' : 'mailbox', new Login($context === 'admin' ? 'admin' : 'mailbox'));
-
-            if ($totppf->usesTOTP($tUsername)) {
-                $fTotp = safepost('fTOTP_code');
-
-                if (!$totppf->checkUserTOTP($tUsername, $fTotp)) {
-                    flash_error(Config::lang('pTotp_failed'));
-                    $error = true;
-                }
-            }
-
-            if (!$error) {
-                init_session($tUsername, $context === 'admin', true);
-
-                if (!$handler->init($tUsername)) {
-                    flash_error($handler->errormsg);
-                } else {
-                    $values = $handler->result;
-                    $values['password'] = $fPassword;
-                    $values['password2'] = $fPassword2;
-
-                    if ($handler->set($values) && $handler->save()) {
-                        flash_info(Config::lang_f('pPassword_result_success', $tUsername));
-                        $handler->wipePasswordRecoveryCode($tUsername);
-                        header('Location: main.php');
-                        exit(0);
-                    } else {
-                        foreach ($handler->errormsg as $msg) {
-                            flash_error($msg);
-                        }
-                    }
-                }
+            foreach ($result['errors'] as $msg) {
+                flash_error($msg);
             }
         }
     }
