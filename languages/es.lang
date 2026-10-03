@@ -279,7 +279,7 @@ $PALANG['pMain_dkim'] = 'Agregar clave DKIM para OpenDKIM.';
 $PALANG['pAdminMenu_list_admin'] = 'Lista de administradores';
 $PALANG['pAdminMenu_list_domain'] = 'Lista de dominios';
 $PALANG['pAdminMenu_list_virtual'] = 'Lista de direcciones virtuales';
-$PALANG['pAdminMenu_backup'] = 'Backup';
+$PALANG['pAdminMenu_backup'] = 'Copia de seguridad';
 $PALANG['pAdminMenu_create_domain_admins'] = 'Administradores de dominio';
 $PALANG['pAdminMenu_create_admin'] = 'Nuevo administrador';
 $PALANG['pAdminMenu_create_domain'] = 'Nuevo dominio';
@@ -289,7 +289,7 @@ $PALANG['pAdminList_admin_count'] = 'Dominios';
 $PALANG['description'] = 'Descripción';
 $PALANG['aliases'] = 'Alias';
 $PALANG['pAdminList_domain_quota'] = 'Cuota Total';
-$PALANG['pAdminList_domain_backupmx'] = 'Backup MX';
+$PALANG['pAdminList_domain_backupmx'] = 'MX de respaldo';
 $PALANG['last_modified'] = 'Última Modificación';
 
 
