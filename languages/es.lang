@@ -1,5 +1,5 @@
 <?php
-$PALANG['dns_oldest_check'] = 'Comprobación de dominio más antigua';
+$PALANG['dns_oldest_check'] = 'Última revisión DNS';
 $PALANG['dns_last_check'] = 'Última comprobación';
 $PALANG['dns_not_checked'] = 'Sin comprobar';
 $PALANG['dns_refresh'] = 'Actualizar estado DNS';
