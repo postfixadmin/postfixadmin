@@ -382,7 +382,7 @@ class BroadcastQueue
         $headers .= 'Message-ID: <' . ((string)microtime(true)) . '-' . md5($sender . $recipient) . "@{$serverName}>\n\n";
         $headers .= $message;
 
-        return smtp_mail($recipient, $sender, $headers, smtp_get_admin_password());
+        return smtp_mail($recipient, $sender, $headers);
     }
 
     private static function cancelPending(int $jobId): void
