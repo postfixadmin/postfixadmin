@@ -378,8 +378,10 @@ $PALANG['pAdminMenu_broadcast_message'] = 'Mensajería GLOBAL';
 $PALANG['pBroadcast_error_empty'] = '¡Los campos Nombre, Asunto y Mensaje no pueden estar vacíos!';
 $PALANG['broadcast_mailboxes_only'] = 'Envíar solo a los buzones';
 $PALANG['broadcast_to_domains'] = 'Envíar a los dominios:';
-$PALANG['pStatus_undeliverable'] = 'Posible destino externo';
+$PALANG['pStatus_undeliverable'] = 'Destino local no entregable';
 $PALANG['pStatus_undeliverable_tooltip'] = 'No figura como destino local.';
+$PALANG['pStatus_external'] = 'Destino externo';
+$PALANG['pStatus_external_tooltip'] = 'Fuera de tus dominios administrados.';
 $PALANG['pStatus_disabled'] = 'Cuenta desactivada ';
 $PALANG['pStatus_expired'] = 'Contraseña vencida ';
 $PALANG['pStatus_vacation'] = 'Mensaje de vacaciones activado ';
@@ -517,6 +519,9 @@ $PALANG['pMain_global_search_placeholder'] = 'Buscar globalmente (buzón, alias 
 $PALANG['pMain_search_button'] = 'Buscar';
 $PALANG['pMain_dashboard'] = 'Panel';
 $PALANG['pTOTP_code_text'] = 'Escanea la imagen anterior e ingresa el código actual para habilitar la autenticación TOTP en tu cuenta.';
+$PALANG['pTOTP_enabled'] = 'TOTP está activado.';
+$PALANG['pTOTP_restart'] = 'Reiniciar TOTP';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

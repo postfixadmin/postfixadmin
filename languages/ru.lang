@@ -388,8 +388,10 @@ $PALANG['pBroadcast_error_empty'] = 'Поля Имя, Тема и Сообщен
 $PALANG['broadcast_mailboxes_only'] = 'Отправить только на почтовые ящики';
 $PALANG['broadcast_to_domains'] = 'Отправить на домены:';
 
-$PALANG['pStatus_undeliverable'] = 'возможно НЕ ДОСТАВЛЕНО ';
+$PALANG['pStatus_undeliverable'] = 'возможно НЕ ДОСТАВЛЕНО '; # XXX English text changed: Undeliverable local destination. Please retranslate.
 $PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Учетная запись отключена ';
 $PALANG['pStatus_expired'] = 'Срок действия пароля истек ';
 $PALANG['pStatus_vacation'] = 'Автоответчик включен ';
@@ -513,6 +515,9 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'Почтовый почтовый 
 $PALANG['TOTP_already_configured'] = 'TOTP уже настроен для этой учетной записи, хотите ли вы изменить свой секрет?';
 
 $PALANG['pApp_passwords_add'] = 'Добавить пароль для приложения';
+
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

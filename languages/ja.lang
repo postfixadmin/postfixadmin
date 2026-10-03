@@ -385,8 +385,10 @@ $PALANG['pBroadcast_error_empty'] = '名前、件名、メッセージは入力�
 $PALANG['broadcast_mailboxes_only'] = 'メールアドレスだけに送信';
 $PALANG['broadcast_to_domains'] = '送信先のドメイン:';
 
-$PALANG['pStatus_undeliverable'] = 'おそらく配送不可能 ';
+$PALANG['pStatus_undeliverable'] = 'おそらく配送不可能 '; # XXX English text changed: Undeliverable local destination. Please retranslate.
 $PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Account disabled '; # XXX
 $PALANG['pStatus_expired'] = 'Password expired '; # XXX
 $PALANG['pStatus_vacation'] = 'Vacation enabled '; # XXX
@@ -510,6 +512,9 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'mailbox 投稿 totp シークレ�
 $PALANG['TOTP_already_configured'] = 'TOTPは既にこのアカウントで設定されていますが、秘密を変更したいですか?';
 
 $PALANG['pApp_passwords_add'] = 'アプリケーション固有のパスワードを追加する';
+
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

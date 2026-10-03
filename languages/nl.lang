@@ -379,8 +379,10 @@ $PALANG['pAdminMenu_broadcast_message'] = 'Algemeen bericht';
 $PALANG['pBroadcast_error_empty'] = 'De velden Naam, Onderwerp en Bericht mogen niet leeg zijn !';
 $PALANG['broadcast_mailboxes_only'] = 'Verstuur alleen aan mailboxen';
 $PALANG['broadcast_to_domains'] = 'Verstuur aan de domeinen:';
-$PALANG['pStatus_undeliverable'] = 'Misschien niet af te leveren ';
+$PALANG['pStatus_undeliverable'] = 'Misschien niet af te leveren '; # XXX English text changed: Undeliverable local destination. Please retranslate.
 $PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Account uitgeschakeld ';
 $PALANG['pStatus_expired'] = 'Wachwoord is verlopen ';
 $PALANG['pStatus_vacation'] = 'Vakatie toegestaan ';
@@ -503,6 +505,9 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'De postbus van de postbus is gezak
 $PALANG['TOTP_already_configured'] = 'ToTP is al in beslag genomen voor deze rekening, wil je je geheim veranderen?';
 
 $PALANG['pApp_passwords_add'] = 'Voeg een toepassing toe.';
+
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

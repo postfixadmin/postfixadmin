@@ -376,8 +376,10 @@ $PALANG['pAdminMenu_broadcast_message'] = 'Sistem mesajı';
 $PALANG['pBroadcast_error_empty'] = 'İsim, Konu ve Mesaj gibi alanlar boş bırakılmamalı!';
 $PALANG['broadcast_mailboxes_only'] = 'Sadece belirtilen e-posta hesaplarına gönder';
 $PALANG['broadcast_to_domains'] = 'Domainlere gönder:';
-$PALANG['pStatus_undeliverable'] = 'GÖNDERİLEMEMİŞ veya gönderilemeyen olabilir ';
+$PALANG['pStatus_undeliverable'] = 'GÖNDERİLEMEMİŞ veya gönderilemeyen olabilir '; # XXX English text changed: Undeliverable local destination. Please retranslate.
 $PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Hesap pasif ';
 $PALANG['pStatus_expired'] = 'Şifrenin süresi doldu ';
 $PALANG['pStatus_vacation'] = 'Tatil modu aktif ';
@@ -499,6 +501,9 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'Posta kutusu mesajı gizli değiş
 $PALANG['TOTP_already_configured'] = 'TOTP zaten bu hesap için yapılandırılmıştır, sırrını değiştirmek ister misiniz?';
 
 $PALANG['pApp_passwords_add'] = 'Uygulamaya özel şifre ekleyin';
+
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

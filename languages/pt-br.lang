@@ -387,8 +387,10 @@ $PALANG['pBroadcast_error_empty'] = 'Os campos Nome, Assunto e Mensagem devem se
 $PALANG['broadcast_mailboxes_only'] = 'Only send to mailboxes'; # XXX
 $PALANG['broadcast_to_domains'] = 'Send to domains:'; # XXX
 
-$PALANG['pStatus_undeliverable'] = 'talvez NÃO-ENTREGÁVEL ';
+$PALANG['pStatus_undeliverable'] = 'talvez NÃO-ENTREGÁVEL '; # XXX English text changed: Undeliverable local destination. Please retranslate.
 $PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Account disabled '; # XXX
 $PALANG['pStatus_expired'] = 'Password expired '; # XXX
 $PALANG['pStatus_vacation'] = 'Vacation enabled '; # XXX
@@ -512,6 +514,9 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'A caixa de correio post totp secre
 $PALANG['TOTP_already_configured'] = 'TOTP já está configurado para esta conta, você quer mudar seu segredo?';
 
 $PALANG['pApp_passwords_add'] = 'Adicionar senha específica do aplicativo';
+
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */

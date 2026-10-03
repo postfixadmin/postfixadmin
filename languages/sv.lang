@@ -386,8 +386,10 @@ $PALANG['pBroadcast_error_empty'] = 'Fälten namn, ämne och meddelande ska inte
 $PALANG['broadcast_mailboxes_only'] = 'Only send to mailboxes'; # XXX
 $PALANG['broadcast_to_domains'] = 'Send to domains:'; # XXX
 
-$PALANG['pStatus_undeliverable'] = 'kan eventuellt ej levereras ';
+$PALANG['pStatus_undeliverable'] = 'kan eventuellt ej levereras '; # XXX English text changed: Undeliverable local destination. Please retranslate.
 $PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Account disabled '; # XXX
 $PALANG['pStatus_expired'] = 'Password expired '; # XXX
 $PALANG['pStatus_vacation'] = 'Vacation enabled '; # XXX
@@ -512,6 +514,9 @@ $PALANG['mailbox_post_TOTP_change_failed'] = 'Post totp Secret Change script mis
 $PALANG['TOTP_already_configured'] = 'TOTP är redan konfigurerat för detta konto, vill du ändra din hemlighet?';
 
 $PALANG['pApp_passwords_add'] = 'Lägg till programspecifikt lösenord';
+
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
