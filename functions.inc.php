@@ -1,20 +1,9 @@
 <?php
 
 /**
- * Postfix Admin
- *
- * LICENSE
- * This source file is subject to the GPL license that is bundled with
- * this package in the file LICENSE.TXT.
- *
- * Further details on the project are available at https://github.com/postfixadmin/postfixadmin
- *
- * @license GNU GPL v2 or later.
- *
- * File: functions.inc.php
- * Contains re-usable code.
+ * Common re-useable functions for PostfixAdmin.
+ * @license GPLv2 or later - see LICENSE.TXT and GPL-LICENSE.TXT
  */
-
 
 $min_db_version = 1855;  # update (at least) before a release with the latest function number in upgrade.php
 
@@ -35,12 +24,12 @@ function authentication_mfa_incomplete(): bool
 }
 
 /**
- * check_session
- *  Action: Check if a session already exists, if not redirect to login.php
- * Call: check_session ()
+ * Action: Check if a session already exists, if not redirect to login.php. Returns current user's login.
+ *
+ * @param bool $requireMfaComplete - false only for login-mfa.php
  * @return string username (e.g. foo@example.com) or CLI or SETUP.PHP
  */
-function authentication_get_username()
+function authentication_get_username(bool $requireMfaComplete = true)
 {
     if (defined('POSTFIXADMIN_CLI')) {
         return 'CLI';
@@ -54,6 +43,16 @@ function authentication_get_username()
         header("Location: login.php");
         exit(0);
     }
+
+    /**
+     * when an mfa user logs in (username+password) but haven't yet done the MFA code, $_SESSION['sessid']['username'] will be populated
+     * but the user hasn't finished authentication, so we should not treat them as having logged in.
+     */
+    if ($requireMfaComplete && authentication_mfa_incomplete()) {
+        header("Location: login-mfa.php");
+        exit(0);
+    }
+
     return $_SESSION['sessid']['username'];
 }
 
@@ -2382,9 +2381,10 @@ function check_db_version($error_out = true)
  *        addresses list in show_custom_domains
  *
  * @param string $show_alias
+ * @param array $allowed_domains Domains authorized for the caller. Domains not listed here are marked as external.
  * @return string
  */
-function gen_show_status($show_alias)
+function gen_show_status($show_alias, array $allowed_domains)
 {
     global $CONF;
     $table_alias = table_by_key('alias');
@@ -2404,47 +2404,55 @@ function gen_show_status($show_alias)
         $delimiter_regex = '/' . $delimiter . '[^' . $delimiter . '@]*@/';
     }
 
-    // UNDELIVERABLE CHECK
+    // Only inspect destination records within the caller's authorized domains.
     if ($CONF['show_undeliverable'] == 'YES') {
-        $gotos = explode(',', $stat_goto);
-
-        //make sure this alias goes somewhere known
-        $stat_ok = 1;
-        foreach ($gotos as $g) {
-            if (!$stat_ok) {
-                break;
+        $destination_status = ['undeliverable' => false, 'external' => false];
+        foreach (explode(',', $stat_goto) as $destination) {
+            $destination = trim($destination);
+            if (strpos($destination, '@') === false) {
+                continue;
             }
-            if (strpos($g, '@') === false) {
+            [$local_part, $domain] = explode('@', $destination, 2);
+            if ($domain == $CONF['vacation_domain'] || in_array($domain, $CONF['show_undeliverable_exceptions'])) {
+                continue;
+            }
+            if (!in_array($domain, $allowed_domains, true)) {
+                $destination_status['external'] = true;
                 continue;
             }
 
-            list($_, $stat_domain) = explode('@', $g);
-
+            $alias_domain = db_query_one(
+                'SELECT target_domain FROM ' . table_by_key('alias_domain') . ' WHERE alias_domain = ? AND active = ?',
+                [$domain, true]
+            );
+            if ($alias_domain) {
+                $domain = $alias_domain['target_domain'];
+                if (!in_array($domain, $allowed_domains, true)) {
+                    $destination_status['external'] = true;
+                    continue;
+                }
+                $destination = $local_part . '@' . $domain;
+            }
 
             $sql = "SELECT address FROM $table_alias WHERE address = ? OR address = ?";
-            $v = [$g, '@' . $stat_domain];
-
-            if (!empty($CONF['recipient_delimiter']) && isset($delimiter_regex)) {
-                $v[] = preg_replace($delimiter_regex, "@", $g);
-                $sql .= " OR address = ? ";
+            $values = [$destination, '@' . $domain];
+            if ($delimiter_regex !== null) {
+                $sql .= ' OR address = ?';
+                $values[] = preg_replace($delimiter_regex, '@', $destination);
             }
-
-            $stat_result = db_query_one($sql, $v);
-
-            if (empty($stat_result)) {
-                $stat_ok = 0;
+            if (!db_query_one($sql, $values)) {
+                $destination_status['undeliverable'] = true;
             }
-
-            if ($stat_ok == 0) {
-                if ($stat_domain == $CONF['vacation_domain'] || in_array($stat_domain, $CONF['show_undeliverable_exceptions'])) {
-                    $stat_ok = 1;
-                }
+        }
+        foreach ($destination_status as $status => $present) {
+            if ($present) {
+                $tooltip = htmlspecialchars(Config::lang('pStatus_' . $status . '_tooltip'), ENT_QUOTES, 'UTF-8');
+                $color = htmlspecialchars($CONF['show_' . $status . '_color'], ENT_QUOTES, 'UTF-8');
+                $stat_string .= "<span role='img' aria-label='$tooltip' title='$tooltip' style='background-color:$color'>" .
+                    $CONF['show_status_text'] . '</span>&nbsp;';
+            } else {
+                $stat_string .= $CONF['show_status_text'] . '&nbsp;';
             }
-        } // while
-        if ($stat_ok == 0) {
-            $stat_string .= "<span style='background-color:" . $CONF['show_undeliverable_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
-        } else {
-            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
         }
     }
 

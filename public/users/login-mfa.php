@@ -1,33 +1,13 @@
 <?php
 
 /**
- * Postfix Admin
- *
- * LICENSE
- * This source file is subject to the GPL license that is bundled with
- * this package in the file LICENSE.TXT.
+ * @license GPLv2 This source file is subject to the GPL license that is bundled with this package in the file LICENSE.TXT.
  *
  * Further details on the project are available at https://github.com/postfixadmin/postfixadmin
  *
- * @version $Id$
- * @license GNU GPL v2 or later.
- *
- * File: login-totp.php
- * Authenticates a user, and populates their $_SESSION as appropriate.
- * Template File: login.tpl
- *
- * Template Variables:
- *
- *  none
- *
- * Form POST \ GET Variables:
- *
- *  fUsername
- *  fPassword
- *  token
- *  lang
+ * If a user has MFA enabled, after they've authenticated their username/password at /users/login.php they should be redirected here.
+ * We therefore need to get the MFA/TOTP code and validate it.
  */
-
 require_once('../common.php');
 
 if (authentication_has_role("user")) {
@@ -54,12 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $totppf = new TotpPf('mailbox', new Login('mailbox'));
     $fTotp = safepost('fTOTP_code');
 
-    if (authentication_mfa_incomplete() && $totppf->checkUserTOTP(authentication_get_username(), $fTotp)) {
-        init_session(authentication_get_username(), false, true);
+    if (authentication_mfa_incomplete() && $totppf->checkUserTOTP(authentication_get_username(false), $fTotp)) {
+        init_session(authentication_get_username(false), false, true);
         header("Location: main.php");
         exit(0);
     } else { # $h->login failed
-        error_log("PostfixAdmin admin second factor login failed (username: " . authentication_get_username() . ", ip_address: {$_SERVER['REMOTE_ADDR']})");
+        error_log("PostfixAdmin admin second factor login failed (username: " . authentication_get_username(false) . ", ip_address: {$_SERVER['REMOTE_ADDR']})");
         flash_error($PALANG['pTotp_failed']);
     }
 }

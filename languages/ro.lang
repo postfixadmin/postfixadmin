@@ -457,7 +457,10 @@ $PALANG['broadcast_status_failed'] = 'Failed'; # XXX
 $PALANG['broadcast_status_sending'] = 'Sending'; # XXX
 $PALANG['broadcast_status_sent'] = 'Sent'; # XXX
 
-$PALANG['pStatus_undeliverable'] = 'probabil UNDELIVERABLE ';
+$PALANG['pStatus_undeliverable'] = 'probabil UNDELIVERABLE '; # XXX English text changed: Undeliverable local destination. Please retranslate.
+$PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Account disabled '; # XXX
 $PALANG['pStatus_expired'] = 'Password expired '; # XXX
 $PALANG['pStatus_vacation'] = 'Vacation enabled '; # XXX
@@ -545,6 +548,7 @@ $PALANG['pTOTP_welcome'] = 'Setup your Time-based One-time Password'; # XXX
 $PALANG['pUsersMain_totp'] = 'Setup your Time-based One-time Password'; # XXX
 $PALANG['pTOTP_secret'] = 'TOTP secret'; # XXX
 $PALANG['pTOTP_code'] = 'TOTP code'; # XXX
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'Could not change TOTP secret'; # XXX
 $PALANG['change_TOTP'] = 'Change TOTP settings'; # XXX
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX
@@ -603,6 +607,9 @@ $PALANG['session_expired_message'] = 'The page token is no longer valid. Please 
 $PALANG['session_expired_button'] = 'Continue'; # XXX
 $PALANG['pDkim_field_domain_and_selector'] = 'Domain:Selector'; # XXX
 $PALANG['pDkim_field_description'] = 'Description'; # XXX
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

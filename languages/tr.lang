@@ -448,7 +448,10 @@ $PALANG['broadcast_status_finished'] = 'Finished'; # XXX
 $PALANG['broadcast_status_failed'] = 'Failed'; # XXX
 $PALANG['broadcast_status_sending'] = 'Sending'; # XXX
 $PALANG['broadcast_status_sent'] = 'Sent'; # XXX
-$PALANG['pStatus_undeliverable'] = 'GÖNDERİLEMEMİŞ veya gönderilemeyen olabilir ';
+$PALANG['pStatus_undeliverable'] = 'GÖNDERİLEMEMİŞ veya gönderilemeyen olabilir '; # XXX English text changed: Undeliverable local destination. Please retranslate.
+$PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Hesap pasif ';
 $PALANG['pStatus_expired'] = 'Şifrenin süresi doldu ';
 $PALANG['pStatus_vacation'] = 'Tatil modu aktif ';
@@ -533,6 +536,7 @@ $PALANG['pTOTP_welcome'] = 'Zaman tabanlı One-time Şifrenizi Değiştirin';
 $PALANG['pUsersMain_totp'] = 'Zaman tabanlı One-time Şifrenizi Değiştirin';
 $PALANG['pTOTP_secret'] = 'TOTP sırrı';
 $PALANG['pTOTP_code'] = 'TOTP kodu';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'TOTP sırrını değiştiremez';
 $PALANG['change_TOTP'] = 'TOTP ayarlarını değiştirin';
 $PALANG['pTOTP_code_text'] = 'Hesabınız için TOTP kimlik doğrulamasını etkinleştirmek üzere yukarıdaki resmi tarayın ve görüntülenen güncel kodu girin.';
@@ -591,6 +595,9 @@ $PALANG['session_expired_message'] = 'Sayfa jetonu artık geçerli değil. Lütf
 $PALANG['session_expired_button'] = 'Devam Et';
 $PALANG['pDkim_field_domain_and_selector'] = 'Domain:Seçici';
 $PALANG['pDkim_field_description'] = 'Açıklama';
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

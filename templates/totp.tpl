@@ -1,6 +1,24 @@
 <form name="password" method="post" action="" class="form-horizontal">
+    {if $show_form == 'hidden'}
+        <div id="showform" class="card">
+            <div class="card-body d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <p class="mb-0">{$PALANG.pTOTP_enabled}</p>
+                <a href="#" class="btn btn-primary" id="showbutton">{$PALANG.pTOTP_restart}</a>
+            </div>
+        </div>
+        <script>
+            document.getElementById("showbutton").addEventListener("click", function (e) {
+                e.preventDefault();
+                showform();
+            });
 
-    <div id="edit_form" class="card" style="visibility:{$show_form}">
+            function showform() {
+                document.getElementById("showform").style.display = "none";
+                document.getElementById("edit_form").style.display = "block";
+            }
+        </script>
+    {/if}
+    <div id="edit_form" class="card" style="display:{if $show_form == 'hidden'}none{else}block{/if}">
         <div class="card-header"><h4>{$PALANG.pTOTP_welcome}</h4></div>
         <div class="card-body enable-asterisk">
             {CSRF_Token}
@@ -49,28 +67,5 @@
             </div>
         </div>
     </div>
-    {if $show_form == 'hidden'}
-        <div id="showform" class="card">
-            <div class="card-footer">
-                <div class="btn-toolbar" role="toolbar">
-                    <div class="float-start">
-                        <h3>{$PALANG.TOTP_already_configured}</h3>
-                    </div>
-                    <div class="float-end">
-                        <a href="#" class="btn ml btn-lg btn-primary" id="showbutton">{$PALANG.show}</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script>
-            document.getElementById("showbutton").addEventListener("click", function (e) {
-                showform()
-            });
 
-            function showform() {
-                document.getElementById("showform").style.visibility = "hidden";
-                document.getElementById("edit_form").style.visibility = "visible";
-            }
-        </script>
-    {/if}
 </form>

@@ -288,7 +288,7 @@ foreach ($result as $row) {
     }
 
     if ($display_mailbox_aliases) {
-        $goto_split = explode(",", $row['goto']);
+        $goto_split = explode(",", $row['goto'] ?? '');
         $row['goto_mailbox'] = 0;
         $row['goto_other'] = array();
 
@@ -351,7 +351,7 @@ $gen_show_status_mailbox = array();
 $divide_quota = array('current' => [], 'quota' => [], 'percent' => [], 'quota_width' => []);
 
 for ($i = 0; $i < sizeof($tMailbox); $i++) {
-    $gen_show_status_mailbox[$i] = gen_show_status($tMailbox[$i]['username']);
+    $gen_show_status_mailbox[$i] = gen_show_status($tMailbox[$i]['username'], $list_domains);
 
     $divide_quota['current'][$i] = Config::Lang('unknown');
     $divide_quota['quota_width'][$i] = 0;

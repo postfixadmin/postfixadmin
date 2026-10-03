@@ -14,8 +14,19 @@
                 <label for="fPassword">{$PALANG.password}:</label>
                 <input class="form-control" type="password" name="fPassword" id="fPassword"/>
             </div>
+
+            <div class="mb-3">
+                <label for=lang>{$PALANG.pLogin_language}:</label>
+                {$language_selector}
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary btn-lg" type="submit" name="submit" value="{$PALANG.pLogin_button}"><span
+                            class="bi bi-box-arrow-in-right"
+                            aria-hidden="true"></span> {$PALANG.pLogin_button}</button>
+            </div>
+            
             {if $forgotten_password_reset}
-                <div class="mb-3 row">
+                <div class="mt-3 row">
                     <div class="col-sm-6 offset-sm-3 reset-button">
                         <a class="btn btn-secondary w-100" role="button" href="password-recover.php">
                             <span class="bi bi-arrow-clockwise" aria-hidden="true"></span>
@@ -23,14 +34,6 @@
                     </div>
                 </div>
             {/if}
-            <div class="mb-3">
-                <label for=lang>{$PALANG.pLogin_language}:</label>
-                {$language_selector}
-            </div>
-            <div class="text-center">
-                <button class="btn btn-primary btn-lg" type="submit" name="submit" value="{$PALANG.pLogin_button}"><span class="bi bi-box-arrow-in-right"
-                                                    		aria-hidden="true"></span> {$PALANG.pLogin_button}</button>
-            </div>
         </form>
         {if $logintype == 'admin'}
             <br/>
