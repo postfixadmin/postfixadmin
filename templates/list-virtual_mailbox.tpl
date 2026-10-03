@@ -75,7 +75,9 @@
                 {if $CONF.quota===YES}
                     <td>
                         {if $item.quota==0}
-                            {$PALANG.pOverview_unlimited}
+                            <div class="quota_bar">
+                                <span class="quota_label">{if $boolconf_used_quotas}{$divide_quota.current[$i]} / &infin;{else}&infin;{/if}</span>
+                            </div>
                         {elseif $item.quota<0}
                             {$PALANG.pOverview_disabled}
                         {else}

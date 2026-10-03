@@ -1,4 +1,10 @@
 <?php
+$PALANG['dns_oldest_check'] = 'Oldest domain check'; # XXX
+$PALANG['dns_last_check'] = 'Last checked'; # XXX
+$PALANG['dns_not_checked'] = 'Not checked'; # XXX
+$PALANG['dns_refresh'] = 'Refresh DNS status'; # XXX
+$PALANG['dns_active'] = 'Active DNS'; # XXX
+$PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
 
 $PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...'; # XXX
 # $Id$
@@ -496,6 +502,7 @@ $PALANG['pTOTP_welcome'] = 'Zaman tabanlı One-time Şifrenizi Değiştirin';
 $PALANG['pUsersMain_totp'] = 'Zaman tabanlı One-time Şifrenizi Değiştirin';
 $PALANG['pTOTP_secret'] = 'TOTP sırrı';
 $PALANG['pTOTP_code'] = 'TOTP kodu';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'TOTP sırrını değiştiremez';
 $PALANG['change_TOTP'] = 'TOTP ayarlarını değiştirin';
 $PALANG['pTOTP_code_text'] = 'Hesabınız için TOTP kimlik doğrulamasını etkinleştirmek üzere yukarıdaki resmi tarayın ve görüntülenen güncel kodu girin.';

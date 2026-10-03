@@ -569,6 +569,10 @@ EOM;
 // address is legal by performing a name server look-up.
 $CONF['emailcheck_resolve_domain']='YES';
 
+// Domain overview DNS status check: 0 = disabled, 1 = authoritative zone,
+// 2 = usable MX record. Override this value in config.local.php.
+$CONF['domain_dns_status_check'] = 1;
+
 // When creating mailboxes or aliases, check that the domain-part of the
 // address is local and managed by postfixadmin, preventing remote domains
 // from being the destination for an alias

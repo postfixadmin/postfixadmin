@@ -1,15 +1,28 @@
 {assign var="file" value=$smarty.config.url_list_virtual}
 <div id="overview" class="card">
     <div class="card-header">
-        <div class="row">
-            <div class="col-md-5">
+        <div class="row align-items-center gy-2">
+            <div class="{if $dns_check_mode > 0}col-md-4{else}col-md-5{/if}">
                 <form name="frmOverview" method="get" action="{$smarty.config.url_list_virtual}">
                     {html_options name='domain' class='form-control' output=$domain_list values=$domain_list selected=$domain_selected onchange="this.form.submit();"}
                     <input type="hidden" name="limit" value="0"/>
                     <noscript><input class="button" type="submit" name="go" value="{$PALANG.go}"/></noscript>
                 </form>
             </div>
-            <div class="col-md-5 offset-md-2 text-right virtual-search">{include file='virtual-search.tpl'}</div>
+            {if $dns_check_mode > 0}
+                <div class="col-md-5">
+                    <form method="post" action="refresh-domain-dns.php" class="d-flex align-items-center gap-2 flex-wrap">
+                        {CSRF_Token}
+                        <input type="hidden" name="domain" value="{$domain_selected}">
+                        <button type="submit" class="btn btn-sm btn-secondary" title="{$PALANG.dns_refresh}"><span class="bi bi-arrow-clockwise" aria-hidden="true"></span> DNS</button>
+                        {if isset($domain_dns_status.dns_active) && $domain_dns_status.dns_active == 0}
+                            <span class="text-danger"><span class="bi bi-exclamation-triangle" aria-hidden="true"></span> {$PALANG.dns_inactive}</span>
+                        {/if}
+                        <small class="text-muted">{$PALANG.dns_last_check}: {$domain_dns_status.dns_checked|default:$PALANG.dns_not_checked}</small>
+                    </form>
+                </div>
+            {/if}
+            <div class="{if $dns_check_mode > 0}col-md-3{else}col-md-5 offset-md-2{/if} text-right virtual-search">{include file='virtual-search.tpl'}</div>
         </div>
     </div>
     <div class="card-body">

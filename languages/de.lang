@@ -1,4 +1,10 @@
 <?php
+$PALANG['dns_oldest_check'] = 'Oldest domain check'; # XXX
+$PALANG['dns_last_check'] = 'Last checked'; # XXX
+$PALANG['dns_not_checked'] = 'Not checked'; # XXX
+$PALANG['dns_refresh'] = 'Refresh DNS status'; # XXX
+$PALANG['dns_active'] = 'Active DNS'; # XXX
+$PALANG['dns_inactive'] = 'Inactive DNS'; # XXX
 
 $PALANG['search_mailboxes_aliases'] = 'Search mailboxes and aliases...'; # XXX
 # $Id$
@@ -508,6 +514,7 @@ $PALANG['pTOTP_welcome'] = 'Richten Sie Ihr zeitbasiertes Einmal-Passwort ein';
 $PALANG['pUsersMain_totp'] = 'Richten Sie Ihr zeitbasiertes Einmal-Passwort ein';
 $PALANG['pTOTP_secret'] = 'TOTP Geheimnis';
 $PALANG['pTOTP_code'] = 'TOTP-Code';
+$PALANG['pTOTP_code_only'] = 'Enter the 6 digit code from your authenticator app'; # XXX
 $PALANG['pTOTP_secret_result_error'] = 'konnte nicht ändern TOTP Geheimnis';
 $PALANG['change_TOTP'] = 'TOTP-Einstellungen ändern';
 $PALANG['pTOTP_code_text'] = 'Scan the above image and enter the current code shown, in order to enable TOTP auth for your account.'; # XXX

@@ -157,6 +157,7 @@ class PFASmarty
         header("Cache-Control: post-check=0, pre-check=0", false);
         header("Pragma: no-cache");
         header("Content-Type: text/html; charset=UTF-8");
+        header("X-Robots-Tag: noindex");
 
         $this->template->setConfigDir(__DIR__ . '/../configs');
         $this->template->display($template);
