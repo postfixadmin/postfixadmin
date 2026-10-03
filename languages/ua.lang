@@ -57,6 +57,7 @@ $PALANG['pLogin_language'] = 'Мова - Language';
 $PALANG['pLogin_button'] = 'УВІЙТИ';
 $PALANG['pLogin_failed'] = 'Ваша електронна адреса або пароль неправильні.';
 $PALANG['pLogin_login_users'] = 'Вхід для звичайних користувачів';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Головна';
 $PALANG['pMenu_overview'] = 'Список доменів';
