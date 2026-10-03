@@ -580,6 +580,9 @@ $PALANG['session_expired_title'] = '세션 만료됨';
 $PALANG['session_expired_message'] = '페이지 토큰이 더 이상 유효하지 않습니다. 이전 페이지로 돌아가 다시 시도해 주세요.';
 $PALANG['session_expired_button'] = '계속하기';
 
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
+
 $PALANG['please_keep_this_as_last_entry'] = '';
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
