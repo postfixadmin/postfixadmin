@@ -115,7 +115,7 @@ $smarty->assign('SESSID_USERNAME', $username);
 $smarty->assign('pPassword_text', $pPassword_text, false);
 $smarty->assign('pUser_text', $pUser_text, false);
 $smarty->assign('pUser', $pUser, false);
-$smarty->assign('pPasswords', $passwords, false);
+$smarty->assign('pPasswords', $passwords);
 $smarty->assign('smarty_template', 'app-passwords');
 $smarty->display('index.tpl');
 

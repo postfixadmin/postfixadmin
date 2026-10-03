@@ -130,7 +130,7 @@ $smarty->assign('pPassword_text', $pPassword_text, false);
 $smarty->assign('pUser_text', $pUser_text, false);
 $smarty->assign('pUser', $pUser, false);
 #$smarty->assign('', $, false);
-$smarty->assign('pExceptions', $exceptions, false);
+$smarty->assign('pExceptions', $exceptions);
 $smarty->assign('smarty_template', 'totp-exceptions');
 $smarty->display('index.tpl');
 
