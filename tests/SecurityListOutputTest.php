@@ -18,14 +18,14 @@ class SecurityListOutputTest extends TestCase
         foreach ($descriptions as $index => $description) {
             self::assertSame(1, db_insert('mailbox_app_password', [
                 'username' => self::USERNAME, 'description' => $description, 'password_hash' => 'fixture-unused',
-            ]));
+            ], []));
             self::assertSame(1, db_insert('totp_exception_address', [
                 'username' => self::USERNAME, 'description' => $description, 'ip' => '192.0.2.' . ($index + 1),
-            ]));
+            ], []));
         }
         self::assertSame(1, db_insert('totp_exception_address', [
             'username' => self::DOMAIN, 'description' => 'Domain exception', 'ip' => '192.0.2.10',
-        ]));
+        ], []));
         $this->directory = sys_get_temp_dir() . '/pfa-security-list-' . bin2hex(random_bytes(6));
         self::assertTrue(mkdir($this->directory));
         $config = Config::getInstance()->getAll();
