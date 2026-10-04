@@ -2253,7 +2253,7 @@ function pagination_window(int $current, int $total_pages, int $radius = 5): arr
 function db_where_clause(array $condition, array $struct, $additional_raw_where = '', array $searchmode = array(), array &$params = [])
 {
     if (count($condition) == 0 && trim($additional_raw_where) == '') {
-        throw new Exception("db_where_cond: parameter is an empty array!");
+        throw new Exception("db_where_clause: parameter is an empty array!");
     }
 
     $allowed_operators = array('<', '>', '>=', '<=', '=', '!=', '<>', 'CONT', 'LIKE', 'NULL', 'NOTNULL');
