@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     if ($error != 1) {
-        if (!smtp_mail($fTo, $fFrom, $fSubject, $tBody)) {
+        if (!smtp_mail(to: $fTo, from: $fFrom, subject_or_data: $fSubject, body: $tBody)) {
             flash_error(Config::lang_f('pSendmail_result_error', $fTo));
         } else {
             flash_info(Config::lang_f('pSendmail_result_success', $fTo));

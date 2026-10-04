@@ -545,7 +545,7 @@ class MailboxHandler extends PFAHandler
         $fSubject = Config::lang('pSendmail_subject_text');
         $fBody = Config::read('welcome_text');
 
-        if (!smtp_mail($fTo, $fFrom, $fSubject, $fBody)) {
+        if (!smtp_mail(to: $fTo, from: $fFrom, subject_or_data: $fSubject, body: $fBody)) {
             $this->errormsg[] = Config::lang_f('pSendmail_result_error', $this->id);
             return false;
         }

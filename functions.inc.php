@@ -24,6 +24,27 @@ function authentication_mfa_incomplete(): bool
 }
 
 /**
+ * Returns the current user's login, if there is one - but unlike authentication_get_username()
+ * never redirects/exits. Use this where not being logged in is legitimate (e.g. db_log() during
+ * a password reset via recovery code).
+ *
+ * @return string|null username (e.g. foo@example.com), CLI, SETUP.PHP or null if nobody is logged in
+ */
+function authentication_get_username_if_known(): ?string
+{
+    if (defined('POSTFIXADMIN_CLI')) {
+        return 'CLI';
+    }
+
+    if (defined('POSTFIXADMIN_SETUP')) {
+        return 'SETUP.PHP';
+    }
+
+    $username = $_SESSION['sessid']['username'] ?? null;
+    return is_string($username) && $username !== '' ? $username : null;
+}
+
+/**
  * Action: Check if a session already exists, if not redirect to login.php. Returns current user's login.
  *
  * @param bool $requireMfaComplete - false only for login-mfa.php
@@ -1344,6 +1365,12 @@ function smtp_mail(string $to, string $from, string $subject_or_data, ?string $b
     $password = $CONF['admin_smtp_password'] ?? '';
     $type = $CONF['smtp_type'] ?? 'starttls';
 
+    // $to / $from end up in SMTP commands and headers - a CR or LF would allow injecting further commands/headers.
+    if (preg_match('/[\r\n]/', $to . $from)) {
+        error_log('smtp_mail(): refusing to send, to/from address contains a line break');
+        return false;
+    }
+
     // Building of SMTP payload
     if ($body === null) {
         // RAW MOD for Broadcast (broadcast-message.php)
@@ -1353,7 +1380,7 @@ function smtp_mail(string $to, string $from, string $subject_or_data, ?string $b
         $maildata =
             "To: $to\r\n" .
             "From: $from\r\n" .
-            "Subject: " . encode_header($subject_or_data) . "\r\n" .
+            "Subject: " . encode_header(str_replace(["\r", "\n"], ' ', $subject_or_data)) . "\r\n" .
             "MIME-Version: 1.0\r\n" .
             "Date: " . date('r') . "\r\n" .
             "Content-Type: text/plain; charset=utf-8\r\n" .
@@ -1411,7 +1438,7 @@ function smtp_mail(string $to, string $from, string $subject_or_data, ?string $b
         smtp_write($socket, "DATA\r\n");
         smtp_require_response($socket, 354);
 
-        smtp_write($socket, $maildata . "\r\n.\r\n");
+        smtp_write($socket, smtp_dot_stuff($maildata) . "\r\n.\r\n");
         smtp_require_response($socket, 250);
 
         smtp_write($socket, "QUIT\r\n");
@@ -1448,6 +1475,27 @@ function smtp_require_response($socket, int $code): void
     if (!smtp_expect($socket, $code)) {
         throw new RuntimeException("Unexpected SMTP response; expected $code");
     }
+}
+
+/**
+ * Prepare message data for the SMTP DATA phase (RFC 5321 section 4.5.2).
+ *
+ * Normalises all line endings to CRLF (so a bare CR or LF can't be used to smuggle an
+ * end-of-data sequence past us, but be interpreted as one by the server) and doubles a
+ * leading '.' on every line, so a line consisting of a single '.' in the body can't end
+ * DATA early and allow the caller to send their own SMTP commands.
+ *
+ * @param string $data message headers + body
+ * @return string
+ */
+function smtp_dot_stuff(string $data): string
+{
+    $data = preg_replace('/\r\n|\r|\n/', "\r\n", $data);
+    $data = preg_replace('/^\./m', '..', $data);
+    if (!is_string($data)) {
+        throw new \InvalidArgumentException("data passed into smtp_dot_stuff was invalid");
+    }
+    return $data;
 }
 
 function smtp_write($socket, string $data): void
@@ -1488,17 +1536,6 @@ function smtp_get_admin_email(bool $fallback_to_loggedin_user = true)
     }
     error_log(__FILE__ . " WARNING : Please set a PostfixAdmin admin_email setting in your config.local.php file");
     return "PasswordReset <noreply@example.com>"; // this isn't good.
-}
-
-/**
- * smtp_get_admin_password
- * Action: Get smtp password for admin email
- * Call: smtp_get_admin_password
- * @return string - admin smtp password
- */
-function smtp_get_admin_password()
-{
-    return Config::read_string('admin_smtp_password');
 }
 
 
@@ -2051,7 +2088,9 @@ function db_log(string $domain, string $action, string $data): bool
 
     $REMOTE_ADDR = getRemoteAddr();
 
-    $username = authentication_get_username();
+    // must not redirect to login.php - db_log() is also reached without a session, e.g. when
+    // resetting a forgotten password via password-change.php
+    $username = authentication_get_username_if_known() ?? 'unauthenticated';
 
     if (Config::Lang("pViewlog_action_$action") == '') {
         throw new Exception("Invalid log action : $action");   // could do with something better?
