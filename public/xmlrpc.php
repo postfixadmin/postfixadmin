@@ -59,7 +59,8 @@ function login($username, $password)
     return false;
 }
 
-if (!isset($_SESSION['authenticated'])) {
+if (($_SESSION['authenticated'] ?? false) !== true || authentication_mfa_incomplete()) {
+    unset($_SESSION['authenticated']);
     $server->addFunction('login', 'login');
 } else {
     $server->setClass('UserProxy', 'user');
