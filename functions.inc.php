@@ -106,6 +106,8 @@ function authentication_require_role(string $role)
  */
 function init_session(string $username, bool $is_admin = false, bool $mfa_complete = false): bool
 {
+    // RPC authorization belongs to the previous mailbox session.
+    unset($_SESSION['authenticated']);
     $status = session_regenerate_id(true);
     $_SESSION['sessid'] = array();
     $_SESSION['sessid']['roles'] = array();
