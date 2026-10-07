@@ -56,6 +56,7 @@ $PALANG['pLogin_language'] = 'Lenguaje';
 $PALANG['pLogin_button'] = 'Ingresar';
 $PALANG['pLogin_failed'] = 'La cuenta de email o la contraseña no son correctas.'; 
 $PALANG['pLogin_login_users'] = 'Sección para usuarios.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 $PALANG['pMenu_main'] = 'Principal'; 
 $PALANG['pMenu_overview'] = 'Resumen';
 $PALANG['add_alias'] = 'Añadir alias';

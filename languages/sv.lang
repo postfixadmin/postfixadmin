@@ -58,6 +58,7 @@ $PALANG['pLogin_language'] = 'Språk';
 $PALANG['pLogin_button'] = 'Login';
 $PALANG['pLogin_failed'] = 'E-postadressen eller lösenordet är felaktigt.';
 $PALANG['pLogin_login_users'] = 'Användare klickar här för att logga in i användardelen.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Huvudmeny';
 $PALANG['pMenu_overview'] = 'Sammanfattning';
