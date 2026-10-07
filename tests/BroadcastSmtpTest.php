@@ -53,7 +53,7 @@ class BroadcastSmtpTest extends TestCase
             $this->assertTrue($method->invoke(null, $job, 'recipient@example.invalid'));
 
             $capture = json_decode(stream_get_contents($pipes[1]), true, 512, JSON_THROW_ON_ERROR);
-            $this->assertSame(base64_encode('fixture-user'), $capture['auth_user']);
+            $this->assertSame($password === '' ? '' : base64_encode('fixture-user'), $capture['auth_user']);
             $this->assertSame(base64_encode($password), $capture['auth_password']);
             $this->assertStringContainsString('To: recipient@example.invalid', $capture['data']);
             $this->assertStringContainsString('<sender@example.invalid>', $capture['data']);
