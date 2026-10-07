@@ -1395,13 +1395,15 @@ function smtp_mail(string $to, string $from, string $subject_or_data, ?string $b
             smtp_require_response($socket, 250);
         }
 
-        // AUTH
-        smtp_write($socket, "AUTH LOGIN\r\n");
-        smtp_require_response($socket, 334);
-        smtp_write($socket, base64_encode($username) . "\r\n");
-        smtp_require_response($socket, 334);
-        smtp_write($socket, base64_encode($password) . "\r\n");
-        smtp_require_response($socket, 235);
+        // An empty password explicitly disables SMTP authentication.
+        if ($password !== '') {
+            smtp_write($socket, "AUTH LOGIN\r\n");
+            smtp_require_response($socket, 334);
+            smtp_write($socket, base64_encode($username) . "\r\n");
+            smtp_require_response($socket, 334);
+            smtp_write($socket, base64_encode($password) . "\r\n");
+            smtp_require_response($socket, 235);
+        }
 
         // SMTP FLOW
         smtp_write($socket, "MAIL FROM:<$from>\r\n");
