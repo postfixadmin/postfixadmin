@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result['success']) {
             // only reachable once the new password has actually been validated and
             // persisted, and the recovery code invalidated - see security report on
-            // init_session() being called too early.
+            // init_session() being called too early - https://github.com/postfixadmin/postfixadmin/pull/1165
             init_session($tUsername, $context === 'admin', true);
             flash_info(Config::lang_f('pPassword_result_success', $tUsername));
             header('Location: main.php');
