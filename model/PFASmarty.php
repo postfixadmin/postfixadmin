@@ -146,6 +146,8 @@ class PFASmarty
         $this->assign('PALANG', $CONF['__LANG'] ?? []);
         $this->assign('url_domain', '');
         $this->assign('version', $CONF['version'] ?? 'unknown');
+        $this->assign('user_can_edit_mailbox_name', authentication_has_role('user')
+            && MailboxnameHandler::userCanEditName($_SESSION['sessid']['username'] ?? ''));
         $this->assign('boolconf_alias_domain', Config::bool('alias_domain'));
         $this->assign('boolconf_dkim', Config::bool('dkim'));
         $this->assign('boolconf_dkim_all_admins', Config::bool('dkim_all_admins'));

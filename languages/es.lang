@@ -565,6 +565,9 @@ $PALANG['session_expired_button'] = 'Continuar';
 $PALANG['pTOTP_enabled'] = 'TOTP está activado.';
 $PALANG['pTOTP_restart'] = 'Reiniciar TOTP';
 
+$PALANG['pUsersMenu_edit_name'] = 'Cambiar nombre visible';
+$PALANG['pUsers_name_invalid'] = 'Utilice un nombre válido de hasta 255 caracteres y sin caracteres de control.';
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
