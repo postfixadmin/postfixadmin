@@ -778,6 +778,12 @@ abstract class PFAHandler
     {
         $real_condition = array();
         foreach ($condition as $key => $value) {
+            // skip password fields.
+            $type = $this->struct[$key]['type'] ?? null;
+            if ($type === 'pass') {
+                continue;
+            }
+
             # allow only access to fields the user can access to avoid information leaks via search parameters
             if (isset($this->struct[$key]) && ($this->struct[$key]['display_in_list'] || $this->struct[$key]['display_in_form'])) {
                 $real_condition[$key] = $value;
