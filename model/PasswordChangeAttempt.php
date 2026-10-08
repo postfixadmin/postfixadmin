@@ -46,6 +46,7 @@ class PasswordChangeAttempt
 
         $handler->wipePasswordRecoveryCode($username);
 
-        return ['success' => true, 'errors' => []];
+        // $handler->errormsg will most likely be an empty array
+        return ['success' => true, 'errors' => $handler->errormsg];
     }
 }
