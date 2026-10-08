@@ -93,9 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $fHeaders .= 'Date: ' . date('r', time()) . "\n";
                 $fHeaders .= 'Message-ID: <' . ((string)microtime(true)) . '-' . md5($smtp_from_email . $fTo) . "@{$serverName}>\n\n";
 
-                $fHeaders .= $b_message;
+                $data = $fHeaders . $b_message;
 
-                if (!smtp_mail(to: $fTo, from: $smtp_from_email, subject_or_data: $fHeaders)) {
+                if (!smtp_mail(to: $fTo, from: $smtp_from_email, subject_or_data: $data)) {
                     flash_error(Config::lang_f('pSendmail_result_error', $fTo));
                 } else {
                     flash_info(Config::lang_f('pSendmail_result_success', $fTo));
