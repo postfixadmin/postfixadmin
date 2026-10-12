@@ -268,9 +268,6 @@ $result = db_query_all($query, $sql_params);
 $tMailbox = array();
 
 
-$delimiter = preg_quote($CONF['recipient_delimiter'], "/");
-$goto_single_rec_del = "";
-
 foreach ($result as $row) {
     if ($password_expiration) {
         $password_expiration_timestamp = strtotime((string)$row['password_expiration']);
@@ -293,9 +290,10 @@ foreach ($result as $row) {
         $row['goto_other'] = array();
 
         foreach ($goto_split as $goto_single) {
-            if (!empty($CONF['recipient_delimiter'])) {
-                $goto_single_rec_del = preg_replace('/' . $delimiter . '[^' . $delimiter . '@]*@/', "@", $goto_single);
-            }
+            $goto_single_rec_del = recipient_delimiter_base_address(
+                $goto_single,
+                $CONF['recipient_delimiter']
+            );
 
             if ($goto_single == $row['username'] || $goto_single_rec_del == $row['username']) { # delivers to mailbox
                 $row['goto_mailbox'] = 1;
