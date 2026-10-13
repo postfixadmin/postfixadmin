@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     flash_info(Config::Lang('pPassword_recovery_processed'));
 }
 
-$smarty->assign('language_selector', language_selector(), false);
+$smarty->assign('language_selector', language_selector(), PFASmarty::NO_ESCAPING);
 $smarty->assign('smarty_template', 'password-recover');
 $smarty->display('index.tpl');
 

@@ -5,6 +5,9 @@
  */
 class PFASmarty
 {
+    /** Explicit opt-out for values that are already safe in their HTML output context. */
+    public const NO_ESCAPING = 'no_escaping';
+
     public static ?self $instance = null;
 
     protected \Smarty\Smarty $template;
@@ -122,12 +125,12 @@ class PFASmarty
     /**
      * @param string $key
      * @param mixed $value
-     * @param bool $sanitise
+     * @param bool|string $sanitise Use self::NO_ESCAPING to disable escaping; false is retained for compatibility.
      */
     public function assign($key, $value, $sanitise = true)
     {
         $this->template->assign("RAW_$key", $value);
-        if ($sanitise == false) {
+        if ($sanitise === self::NO_ESCAPING || $sanitise == false) {
             return $this->template->assign($key, $value);
         }
         $clean = $this->sanitise($value);

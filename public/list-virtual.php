@@ -418,7 +418,7 @@ $smarty->assign('domain_selected', $fDomain);
 $smarty->assign('pagination_alias', $pagination_alias);
 $smarty->assign('pagination_mailbox', $pagination_mailbox);
 
-$smarty->assign('fDomain', $fDomain, false);
+$smarty->assign('fDomain', $fDomain, PFASmarty::NO_ESCAPING);
 
 $smarty->assign('search', $search);
 
@@ -446,7 +446,7 @@ if ($password_expiration_never_label === '') {
 }
 $smarty->assign('password_expiration_on_label', $password_expiration_on_label);
 $smarty->assign('password_expiration_never_label', $password_expiration_never_label);
-$smarty->assign('gen_show_status_mailbox', $gen_show_status_mailbox, false);
+$smarty->assign('gen_show_status_mailbox', $gen_show_status_mailbox, PFASmarty::NO_ESCAPING);
 $smarty->assign('boolconf_used_quotas', Config::bool('used_quotas'));
 $smarty->assign('divide_quota', $divide_quota);
 $smarty->assign('tCanAddMailbox', $tCanAddMailbox);
