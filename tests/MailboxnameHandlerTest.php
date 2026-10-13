@@ -10,6 +10,7 @@ class MailboxnameHandlerTest extends \PHPUnit\Framework\TestCase
         $this->configuration = Config::read('all');
         $this->session = $_SESSION ?? [];
         Config::write('edit_mailbox_name', 'YES');
+        Config::write('emailcheck_resolve_domain', 'NO');
         Config::write('mailbox_postedit_script', '');
         Config::write('logging', 'NO');
         self::assertSame(1, db_insert('domain', ['domain' => 'name.example', 'description' => '', 'transport' => 'virtual', 'active' => 1]));
@@ -29,6 +30,7 @@ class MailboxnameHandlerTest extends \PHPUnit\Framework\TestCase
     {
         db_delete('alias', 'domain', 'name.example');
         db_delete('mailbox', 'domain', 'name.example');
+        db_delete('domain_admins', 'domain', 'name.example');
         db_delete('domain', 'domain', 'name.example');
         foreach ($this->configuration as $key => $value) {
             Config::write($key, $value);
@@ -117,6 +119,52 @@ class MailboxnameHandlerTest extends \PHPUnit\Framework\TestCase
             $this->assertFalse($invalid->set(['name' => $name]));
         }
         $this->assertTrue($handler->set(['name' => '']));
+    }
+
+    public function testAdministrativeNameValidationOnCreateAndEdit(): void
+    {
+        $_SESSION = ['sessid' => ['username' => 'admin', 'roles' => ['global-admin']]];
+        self::assertSame(1, db_insert('domain_admins', ['username' => 'admin', 'domain' => 'name.example', 'active' => 1], ['created'], true));
+        foreach ([false, true] as $new) {
+            foreach ([str_repeat('é', 256), "Bad\nName", ["array"], "\xff"] as $name) {
+                $handler = new MailboxHandler($new, 'admin', true);
+                self::assertTrue($handler->init($new ? 'new@name.example' : 'alice@name.example'), json_encode($handler->errormsg));
+                self::assertFalse($handler->set(['name' => $name]));
+                self::assertArrayHasKey('name', $handler->errormsg);
+            }
+            foreach (['', str_repeat('é', 255)] as $name) {
+                $handler = new MailboxHandler($new, 'admin', true);
+                self::assertTrue($handler->init($new ? 'new@name.example' : 'alice@name.example'), json_encode($handler->errormsg));
+                // Creation may require other fields; the supplied name must still pass validation.
+                $handler->set(['name' => $name]);
+                self::assertArrayNotHasKey('name', $handler->errormsg);
+            }
+        }
+    }
+
+    public function testAdministrativePartialEditPreservesStoredQuotaForScript(): void
+    {
+        $_SESSION = ['sessid' => ['username' => 'admin', 'roles' => ['global-admin']]];
+        self::assertSame(1, db_insert('domain_admins', ['username' => 'admin', 'domain' => 'name.example', 'active' => 1], ['created'], true));
+        $output = tempnam(sys_get_temp_dir(), 'admin-name-hook-');
+        $script = tempnam(sys_get_temp_dir(), 'admin-name-script-');
+        file_put_contents($script, "#!/bin/sh\nprintf '%s\n' \"$@\" > " . escapeshellarg($output) . "\nexit 0\n");
+        chmod($script, 0700);
+        Config::write('mailbox_postedit_script', $script);
+        try {
+            foreach ([['name' => 'Partial update'], ['name' => 'Quota update', 'quota' => 0]] as $values) {
+                $handler = new MailboxHandler(false, 'admin', true);
+                self::assertTrue($handler->init('alice@name.example'), json_encode($handler->errormsg));
+                self::assertTrue($handler->set($values), json_encode($handler->errormsg));
+                self::assertTrue($handler->save(), json_encode($handler->errormsg));
+                $quota = isset($values['quota']) ? '0' : '10485760';
+                self::assertSame(['alice@name.example', 'name.example', 'name.example/alice/', $quota], file($output, FILE_IGNORE_NEW_LINES));
+                self::assertEquals($quota, db_query_one('SELECT quota FROM ' . table_by_key('mailbox') . ' WHERE username = ?', ['alice@name.example'])['quota']);
+            }
+        } finally {
+            unlink($script);
+            unlink($output);
+        }
     }
 
     public function testPostEditScriptReceivesStoredQuotaAndFailureIsWarning(): void

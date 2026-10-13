@@ -395,6 +395,8 @@ class MailboxHandler extends PFAHandler
                 $oldvalues = $old_mh->result();
 
                 $this->values['maildir'] = $oldvalues['maildir'];
+                // Submitted quota is already in bytes; stored quota is exposed separately in bytes.
+                $this->values['quota'] = $this->values['quota'] ?? $oldvalues['quotabytes'];
 
                 if (!$this->mailbox_post_script()) {
                     # TODO: should this be fatal?
@@ -440,6 +442,16 @@ class MailboxHandler extends PFAHandler
             $this->struct[$field]['default'] = $val;
             $this->updateMaxquota($val, 0);
         }
+    }
+
+    protected function _validate_name($field, $value)
+    {
+        // Accept up to 255 Unicode characters, excluding control characters; reject invalid UTF-8.
+        if (!is_string($value) || preg_match('/\A[^\p{Cc}]{0,255}\z/u', $value) !== 1) {
+            $this->errormsg[$field] = Config::lang('pUsers_name_invalid');
+            return false;
+        }
+        return true;
     }
 
     /**

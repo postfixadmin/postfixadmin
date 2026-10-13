@@ -83,32 +83,11 @@ class MailboxnameHandler extends MailboxHandler
         return parent::set(['name' => $values['name']]);
     }
 
-    protected function _validate_name($field, $value)
-    {
-        if (!is_string($value) || preg_match('/\A[^\p{Cc}]{0,255}\z/u', $value) !== 1) {
-            $this->errormsg[$field] = Config::lang('pUsers_name_invalid');
-            return false;
-        }
-        return true;
-    }
-
     protected function preSave(): bool
     {
         // No alias or quota update is needed for a display-name change.
         $this->values = array_intersect_key($this->values, ['name' => true]);
         return $this->canEditName($this->id);
-    }
-
-    protected function postSave(): bool
-    {
-        // The existing post-edit script expects the stored quota in bytes.
-        $mailbox = db_query_one('SELECT quota FROM ' . table_by_key('mailbox') . ' WHERE username = ?', [$this->id]);
-        if ($mailbox === null) {
-            $this->errormsg[] = Config::lang('mailbox_update_failed');
-            return true; // The name is already saved, as with other post-edit warnings.
-        }
-        $this->values['quota'] = $mailbox['quota'];
-        return parent::postSave();
     }
 
     public function delete()

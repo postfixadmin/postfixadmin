@@ -13,7 +13,8 @@ $CONF['edit_mailbox_name'] = ['example.org', 'example.net'];
 
 The default is `'NO'`. An empty domain list also disables the feature. This is
 one central policy; there are no separate per-domain settings or approvals.
-Administrator mailbox editing is unaffected by this user policy.
+Administrator mailbox editing is unaffected by this user policy. The same display-name
+validation applies when administrators create or update mailboxes.
 
 Only `mailbox.name` and the normal modification timestamp are updated. Users
 cannot change their address, password, quota, forwarding, activation or TOTP

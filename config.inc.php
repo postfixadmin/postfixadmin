@@ -494,7 +494,7 @@ $CONF['vacation_choice_of_reply'] = array (
 // If you don't want edit alias tab (user mode) set this to 'NO';
 $CONF['edit_alias'] = 'YES';
 
-// Allow mailbox users to edit only their own display name.
+// Allow mailbox users to edit their own display name.
 // 'NO': disabled (default); 'YES': all domains; array: only listed domains.
 // Set the policy in config.local.php, using lowercase domain names:
 // $CONF['edit_mailbox_name'] = ['example.org', 'example.net'];
