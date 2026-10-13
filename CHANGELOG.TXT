@@ -9,6 +9,7 @@
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
  
+   - Invalidate XML-RPC authorization when web authentication replaces the session, and reject pending MFA sessions.
    - Restore SMTP delivery without authentication when admin_smtp_password is empty.
    - Show the configured TOTP status and Reset TOTP action without reserving space for the hidden form (see #1166, thanks @TrapoSAMA)
    - Distinguish unknown local alias destinations from external destinations without inspecting other administrators' domains (see discussion #886, thanks @TrapoSAMA)
