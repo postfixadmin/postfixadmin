@@ -37,6 +37,8 @@ class SecurityListOutputTest extends TestCase
         $config['default_language'] = 'en';
         $config['language_hook'] = '';
         $config['domain_dns_status_check'] = 0;
+        // Other tests may leave callable rules that cannot be transferred through JSON.
+        $config['password_validation'] = ['/.{5}/' => 'password_too_short 5'];
         file_put_contents($this->directory . '/config.json', json_encode($config, JSON_THROW_ON_ERROR));
         $socket = stream_socket_server('tcp://127.0.0.1:0');
         self::assertIsResource($socket);
