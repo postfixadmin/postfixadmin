@@ -14,6 +14,9 @@ class SecurityListOutputTest extends TestCase
 
     protected function setUp(): void
     {
+        self::assertSame(1, db_insert('domain', [
+            'domain' => self::DOMAIN, 'description' => 'Security output HTTP test', 'transport' => 'virtual',
+        ]));
         $descriptions = self::descriptions();
         foreach ($descriptions as $index => $description) {
             self::assertSame(1, db_insert('mailbox_app_password', [
@@ -33,6 +36,7 @@ class SecurityListOutputTest extends TestCase
         $config['app_passwords'] = 'YES';
         $config['default_language'] = 'en';
         $config['language_hook'] = '';
+        $config['domain_dns_status_check'] = 0;
         file_put_contents($this->directory . '/config.json', json_encode($config, JSON_THROW_ON_ERROR));
         $socket = stream_socket_server('tcp://127.0.0.1:0');
         self::assertIsResource($socket);
@@ -71,6 +75,8 @@ class SecurityListOutputTest extends TestCase
                 'username' => self::USERNAME, 'domain' => self::DOMAIN,
             ]);
         }
+        db_delete('domain_admins', 'username', 'admin@' . self::DOMAIN);
+        db_delete('domain', 'domain', self::DOMAIN);
         if (isset($this->directory) && is_dir($this->directory)) {
             foreach (new DirectoryIterator($this->directory) as $file) {
                 if (!$file->isDot()) {
@@ -121,6 +127,62 @@ class SecurityListOutputTest extends TestCase
         self::assertStringNotContainsString('&amp;lt;tag&amp;gt;', $html);
     }
 
+    public static function forms(): array
+    {
+        return [
+            'password' => ['/users/password.php', 2],
+            'TOTP' => ['/users/totp.php', 1],
+        ];
+    }
+
+    #[DataProvider('forms')]
+    public function testFormErrorsRenderTranslatedText(string $path, int $errorCount): void
+    {
+        [$status] = $this->request('/__session?role=user');
+        self::assertSame(200, $status);
+        [$status, $html] = $this->request($path);
+        self::assertSame(200, $status, $html);
+        self::assertSame(1, preg_match('/name=["\']CSRF_Token["\'][^>]*value=["\']([^"\']+)/', $html, $match));
+        [$status, $html] = $this->request($path, [
+            'CSRF_Token' => $match[1], 'fPassword_current' => 'incorrect-fixture-password',
+            'fPassword' => '', 'fPassword2' => '', 'fTOTP_code' => '', 'fTOTP_secret' => '',
+        ]);
+        self::assertSame(200, $status, $html);
+        self::assertStringContainsString('Invalid &lt;password&gt; &amp; current', $html);
+        self::assertStringNotContainsString('<password>', $html);
+        self::assertSame($errorCount, substr_count($html, 'mb-3 is-invalid'));
+        if ($errorCount === 2) {
+            self::assertStringContainsString('Invalid &lt;password&gt; &amp; new', $html);
+        }
+    }
+
+    public function testTotpQrAndSecretRemainUsable(): void
+    {
+        $this->request('/__session?role=user');
+        [$status, $html] = $this->request('/users/totp.php');
+        self::assertSame(200, $status, $html);
+        self::assertSame(1, preg_match('/data:image\/png;base64, ([A-Za-z0-9+\/=]+)"/', $html, $qr));
+        $png = base64_decode($qr[1], true);
+        self::assertNotFalse($png);
+        self::assertStringStartsWith("\x89PNG\r\n\x1a\n", $png);
+        self::assertSame(1, preg_match('/name="fTOTP_secret" value="([A-Z2-7]+)"/', $html, $secret));
+        self::assertStringContainsString('/>' . $secret[1], $html);
+        self::assertStringNotContainsString('is-invalid', $html);
+    }
+
+    public function testDomainSelectionPreservesAuthorisation(): void
+    {
+        self::assertSame(1, db_insert('domain_admins', [
+            'username' => 'admin@' . self::DOMAIN, 'domain' => self::DOMAIN, 'active' => true,
+        ], ['created']));
+        $this->request('/__session?role=global-admin');
+        [$status, $html] = $this->request('/list-virtual.php', ['fDomain' => self::DOMAIN]);
+        self::assertSame(200, $status, $html);
+        self::assertStringContainsString(self::DOMAIN . ' :</h4>', $html);
+        [$status] = $this->request('/list-virtual.php', ['fDomain' => '<img src=x onerror="alert(1)">']);
+        self::assertSame(302, $status);
+    }
+
     private static function descriptions(): array
     {
         return [
@@ -130,10 +192,15 @@ class SecurityListOutputTest extends TestCase
         ];
     }
 
-    private function request(string $path): array
+    private function request(string $path, ?array $data = null): array
     {
         $options = ['ignore_errors' => true, 'follow_location' => 0, 'timeout' => 10,
             'header' => "Cookie: {$this->cookie}\r\n"];
+        if ($data !== null) {
+            $options['method'] = 'POST';
+            $options['header'] .= "Content-Type: application/x-www-form-urlencoded\r\n";
+            $options['content'] = http_build_query($data);
+        }
         $body = file_get_contents($this->url . $path, false, stream_context_create(['http' => $options]));
         self::assertNotFalse($body);
         foreach ($http_response_header as $header) {

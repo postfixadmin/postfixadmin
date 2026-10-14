@@ -406,9 +406,6 @@ $pagination_mailbox = page_browser_pagination(
 );
 
 
-// this is why we need a proper template layer.
-$fDomain = htmlentities($fDomain, ENT_QUOTES);
-
 if (empty($_GET['domain'])) {
     $_GET['domain'] = '';
 }
@@ -418,7 +415,7 @@ $smarty->assign('domain_selected', $fDomain);
 $smarty->assign('pagination_alias', $pagination_alias);
 $smarty->assign('pagination_mailbox', $pagination_mailbox);
 
-$smarty->assign('fDomain', $fDomain, PFASmarty::NO_ESCAPING);
+$smarty->assign('fDomain', $fDomain);
 
 $smarty->assign('search', $search);
 

@@ -9,6 +9,10 @@ define('PHPUNIT_TEST', true);
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
 $CONF = array_replace($CONF, json_decode(file_get_contents(getenv('PFA_SECURITY_LIST_TEST_CONFIG')), true, 512, JSON_THROW_ON_ERROR));
 require dirname(__DIR__, 2) . '/public/common.php';
+// Exercise plain-text translations containing characters that need HTML escaping.
+$PALANG['pPassword_password_current_text_error'] = 'Invalid <password> & current';
+$PALANG['pPassword_password_text_error'] = 'Invalid <password> & new';
+Config::write('__LANG', $PALANG);
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 if ($path === '/__session') {
     $globalAdmin = ($_GET['role'] ?? '') === 'global-admin';
@@ -19,6 +23,9 @@ if ($path === '/__session') {
     echo 'Session ready';
 } else {
     $pages = [
+        '/users/password.php' => 'password.php',
+        '/users/totp.php' => 'totp.php',
+        '/list-virtual.php' => 'list-virtual.php',
         '/app-passwords.php' => 'app-passwords.php',
         '/users/app-passwords.php' => 'app-passwords.php',
         '/totp-exceptions.php' => 'totp-exceptions.php',
@@ -29,6 +36,6 @@ if ($path === '/__session') {
         exit;
     }
     // Both public aliases and user routes execute these complete controllers.
-    chdir(dirname(__DIR__, 2) . '/public/users');
+    chdir(dirname(__DIR__, 2) . ($path === '/list-virtual.php' ? '/public' : '/public/users'));
     require $pages[$path];
 }
