@@ -1,0 +1,99 @@
+Template: postfixadmin/configure-domain
+Type: string
+Default: change-this-to-your.domain.tld
+_Description: Domain name for PostfixAdmin configuration:
+ PostfixAdmin needs to be configured with your domain name for various
+ settings including vacation domain, footer links, and system email addresses.
+ .
+ Please enter your domain name (e.g., example.com). This will be used to
+ configure email addresses like abuse@your-domain.tld and vacation domain
+ settings like autoreply.your-domain.tld.
+
+Template: postfixadmin/configure-vacation-subdomain
+Type: string
+Default: autoreply
+_Description: Subdomain for vacation/autoreply functionality:
+ PostfixAdmin uses a subdomain for handling vacation/autoreply messages.
+ .
+ Please enter the subdomain to use (the default 'autoreply' is recommended).
+ This will create vacation addresses like user@autoreply.your-domain.tld.
+
+Template: postfixadmin/admin-email
+Type: string
+_Description: Administrator email address:
+ PostfixAdmin needs an administrator email address for system notifications
+ and as the sender address for various automated messages.
+ .
+ Please enter the administrator email address in the format:
+ "Full Name <email@domain.tld>" or just "email@domain.tld"
+ .
+ This will be used for the $CONF['admin_email'] configuration setting.
+
+Template: postfixadmin/setup-password
+Type: password
+_Description: Setup password for PostfixAdmin administration:
+ PostfixAdmin requires a setup password for accessing the administrative
+ setup interface (setup.php) where you can perform database initialization,
+ create super admin accounts, and run environment checks.
+ .
+ Please enter a secure password (minimum 5 characters) that will be used
+ to protect access to the PostfixAdmin setup interface.
+
+Template: postfixadmin/setup-password-again
+Type: password
+_Description: Repeat setup password:
+ Please enter the same setup password again to verify it was entered correctly.
+
+Template: postfixadmin/password-mismatch
+Type: note
+_Description: Password mismatch
+ The two passwords you entered were different. Please try again.
+
+Template: postfixadmin/password-too-short
+Type: note
+_Description: Password too short
+ The setup password must be at least 5 characters long.
+
+Template: postfixadmin/password-empty
+Type: note
+_Description: Password cannot be empty
+ You must provide a setup password to secure PostfixAdmin configuration.
+
+Template: postfixadmin/post-purge-reinstall
+Type: note
+_Description: New password required after purge
+ The PostfixAdmin package was previously purged, which removed all configuration
+ including setup passwords. You must now enter a new setup password to secure
+ the PostfixAdmin administrative interface.
+
+Template: postfixadmin/enable-dkim
+Type: boolean
+Default: false
+_Description: Enable OpenDKIM integration?
+ PostfixAdmin can provide a web interface for managing OpenDKIM domain keys
+ and signing tables. This feature requires a working OpenDKIM installation
+ and database support.
+ .
+ If you enable this feature, PostfixAdmin will:
+ .
+  * Create the necessary database tables for DKIM keys and signing entries
+  * Provide a web interface for managing domain keys
+  * Allow configuration of per-domain DKIM signing policies
+ .
+ You can change this setting later by reconfiguring the package or manually
+ editing the configuration files.
+
+Template: postfixadmin/dkim-all-admins
+Type: boolean
+Default: true
+_Description: Allow all administrators to manage DKIM entries?
+ By default, only super administrators can manage DKIM entries. You can
+ allow all domain administrators to manage DKIM entries for their domains.
+ .
+ If enabled, regular domain administrators will be able to:
+ .
+  * Create and edit DKIM keys for their domains
+  * Manage DKIM signing table entries
+  * View DKIM configuration for their domains
+ .
+ If disabled, only super administrators will have access to DKIM management.
