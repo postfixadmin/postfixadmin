@@ -75,6 +75,17 @@ class AliasDestinationStatusTest extends \PHPUnit\Framework\TestCase
         self::assertStringNotContainsString('background-color:', $this->renderStatus('person@exception.test,person@vacation.test'));
     }
 
+    public function testMultipleRecipientDelimitersResolveToKnownRecipient(): void
+    {
+        global $CONF;
+        $CONF['recipient_delimiter'] = '+.';
+        $this->alias('person@local.test', 'person@local.test');
+
+        foreach (['person+tag@local.test', 'person.tag@local.test', 'person+tag.more@local.test'] as $destination) {
+            self::assertStringNotContainsString('background-color:', $this->renderStatus($destination));
+        }
+    }
+
     public function testAliasDomainsRespectTargetPermissions(): void
     {
         db_execute('INSERT INTO ' . table_by_key('alias_domain') . ' (alias_domain, target_domain, active) VALUES (?, ?, ?)', ['alias.test', 'local.test', true]);

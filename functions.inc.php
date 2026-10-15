@@ -407,6 +407,33 @@ function check_email(string $email): string
 
 
 /**
+ * Remove a recipient extension using Postfix recipient_delimiter semantics.
+ *
+ * Each character in $delimiters is an alternative delimiter. The first
+ * delimiter in the local part separates the base address from its extension.
+ */
+function recipient_delimiter_base_address(string $address, string $delimiters): string
+{
+    if ($delimiters === '') {
+        return $address;
+    }
+
+    $at_position = strrpos($address, '@');
+    if ($at_position === false) {
+        return $address;
+    }
+
+    for ($position = 0; $position < $at_position; $position++) {
+        if (strpos($delimiters, $address[$position]) !== false) {
+            return substr($address, 0, $position) . substr($address, $at_position);
+        }
+    }
+
+    return $address;
+}
+
+
+/**
  * Clean a string, escaping any meta characters that could be
  * used to disrupt an SQL string. The method of the escaping is dependent on the underlying DB
  * and MAY NOT be just \' ing. (e.g. sqlite and PgSQL change "it's" to "it''s".
@@ -2401,13 +2428,6 @@ function gen_show_status($show_alias, array $allowed_domains)
         $stat_goto = $stat_result['goto'];
     }
 
-    $delimiter_regex = null;
-
-    if (!empty($CONF['recipient_delimiter'])) {
-        $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
-        $delimiter_regex = '/' . $delimiter . '[^' . $delimiter . '@]*@/';
-    }
-
     // Only inspect destination records within the caller's authorized domains.
     if ($CONF['show_undeliverable'] == 'YES') {
         $destination_status = ['undeliverable' => false, 'external' => false];
@@ -2440,9 +2460,9 @@ function gen_show_status($show_alias, array $allowed_domains)
 
             $sql = "SELECT address FROM $table_alias WHERE address = ? OR address = ?";
             $values = [$destination, '@' . $domain];
-            if ($delimiter_regex !== null) {
+            if (!empty($CONF['recipient_delimiter'])) {
                 $sql .= ' OR address = ?';
-                $values[] = preg_replace($delimiter_regex, '@', $destination);
+                $values[] = recipient_delimiter_base_address($destination, $CONF['recipient_delimiter']);
             }
             if (!db_query_one($sql, $values)) {
                 $destination_status['undeliverable'] = true;
@@ -2510,8 +2530,15 @@ function gen_show_status($show_alias, array $allowed_domains)
     // POP/IMAP CHECK
     if ($CONF['show_popimap'] == 'YES') {
         $stat_delimiter = "";
-        if (!empty($CONF['recipient_delimiter']) && isset($delimiter_regex)) {
-            $stat_delimiter = ',' . preg_replace($delimiter_regex, "@", $stat_goto);
+        if (!empty($CONF['recipient_delimiter'])) {
+            $delimiter_gotos = array_map(
+                static fn (string $goto): string => recipient_delimiter_base_address(
+                    $goto,
+                    $CONF['recipient_delimiter']
+                ),
+                explode(',', $stat_goto)
+            );
+            $stat_delimiter = ',' . implode(',', $delimiter_gotos);
         }
 
         //if the address passed in appears in its own goto field, its POP/IMAP

@@ -494,6 +494,12 @@ $CONF['vacation_choice_of_reply'] = array (
 // If you don't want edit alias tab (user mode) set this to 'NO';
 $CONF['edit_alias'] = 'YES';
 
+// Allow mailbox users to edit their own display name.
+// 'NO': disabled (default); 'YES': all domains; array: only listed domains.
+// Set the policy in config.local.php, using lowercase domain names:
+// $CONF['edit_mailbox_name'] = ['example.org', 'example.net'];
+$CONF['edit_mailbox_name'] = 'NO';
+
 // Alias control for superadmins
 $CONF['alias_control'] = 'YES';
 
@@ -642,8 +648,8 @@ $CONF['show_popimap_color']='darkgrey';
 // $CONF['show_custom_colors']=array("lightgreen","lightblue");
 $CONF['show_custom_domains']=array();
 $CONF['show_custom_colors']=array();
-// If you use a recipient_delimiter in your postfix config, you can also honor it when aliases are checked.
-// Example: $CONF['recipient_delimiter'] = "+";
+// If you use recipient_delimiter in your Postfix config, you can also honor its character set when aliases are checked.
+// Examples: $CONF['recipient_delimiter'] = "+"; or $CONF['recipient_delimiter'] = "+.";
 // Set to "" to disable this check.
 $CONF['recipient_delimiter'] = "";
 
