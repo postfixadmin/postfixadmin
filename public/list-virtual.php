@@ -268,9 +268,6 @@ $result = db_query_all($query, $sql_params);
 $tMailbox = array();
 
 
-$delimiter = preg_quote($CONF['recipient_delimiter'], "/");
-$goto_single_rec_del = "";
-
 foreach ($result as $row) {
     if ($password_expiration) {
         $password_expiration_timestamp = strtotime((string)$row['password_expiration']);
@@ -293,9 +290,10 @@ foreach ($result as $row) {
         $row['goto_other'] = array();
 
         foreach ($goto_split as $goto_single) {
-            if (!empty($CONF['recipient_delimiter'])) {
-                $goto_single_rec_del = preg_replace('/' . $delimiter . '[^' . $delimiter . '@]*@/', "@", $goto_single);
-            }
+            $goto_single_rec_del = recipient_delimiter_base_address(
+                $goto_single,
+                $CONF['recipient_delimiter']
+            );
 
             if ($goto_single == $row['username'] || $goto_single_rec_del == $row['username']) { # delivers to mailbox
                 $row['goto_mailbox'] = 1;
@@ -351,7 +349,7 @@ $gen_show_status_mailbox = array();
 $divide_quota = array('current' => [], 'quota' => [], 'percent' => [], 'quota_width' => []);
 
 for ($i = 0; $i < sizeof($tMailbox); $i++) {
-    $gen_show_status_mailbox[$i] = gen_show_status($tMailbox[$i]['username']);
+    $gen_show_status_mailbox[$i] = gen_show_status($tMailbox[$i]['username'], $list_domains);
 
     $divide_quota['current'][$i] = Config::Lang('unknown');
     $divide_quota['quota_width'][$i] = 0;

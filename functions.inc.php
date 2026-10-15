@@ -127,6 +127,8 @@ function authentication_require_role(string $role)
  */
 function init_session(string $username, bool $is_admin = false, bool $mfa_complete = false): bool
 {
+    // RPC authorization belongs to the previous mailbox session.
+    unset($_SESSION['authenticated']);
     $status = session_regenerate_id(true);
     $_SESSION['sessid'] = array();
     $_SESSION['sessid']['roles'] = array();
@@ -422,6 +424,33 @@ function check_email(string $email): string
     }
 
     return "" . Config::lang_f('pInvalidMailRegex', $email);
+}
+
+
+/**
+ * Remove a recipient extension using Postfix recipient_delimiter semantics.
+ *
+ * Each character in $delimiters is an alternative delimiter. The first
+ * delimiter in the local part separates the base address from its extension.
+ */
+function recipient_delimiter_base_address(string $address, string $delimiters): string
+{
+    if ($delimiters === '') {
+        return $address;
+    }
+
+    $at_position = strrpos($address, '@');
+    if ($at_position === false) {
+        return $address;
+    }
+
+    for ($position = 0; $position < $at_position; $position++) {
+        if (strpos($delimiters, $address[$position]) !== false) {
+            return substr($address, 0, $position) . substr($address, $at_position);
+        }
+    }
+
+    return $address;
 }
 
 
@@ -1422,13 +1451,15 @@ function smtp_mail(string $to, string $from, string $subject_or_data, ?string $b
             smtp_require_response($socket, 250);
         }
 
-        // AUTH
-        smtp_write($socket, "AUTH LOGIN\r\n");
-        smtp_require_response($socket, 334);
-        smtp_write($socket, base64_encode($username) . "\r\n");
-        smtp_require_response($socket, 334);
-        smtp_write($socket, base64_encode($password) . "\r\n");
-        smtp_require_response($socket, 235);
+        // An empty password explicitly disables SMTP authentication.
+        if ($password !== '') {
+            smtp_write($socket, "AUTH LOGIN\r\n");
+            smtp_require_response($socket, 334);
+            smtp_write($socket, base64_encode($username) . "\r\n");
+            smtp_require_response($socket, 334);
+            smtp_write($socket, base64_encode($password) . "\r\n");
+            smtp_require_response($socket, 235);
+        }
 
         // SMTP FLOW
         smtp_write($socket, "MAIL FROM:<$from>\r\n");
@@ -2292,7 +2323,7 @@ function pagination_window(int $current, int $total_pages, int $radius = 5): arr
 function db_where_clause(array $condition, array $struct, $additional_raw_where = '', array $searchmode = array(), array &$params = [])
 {
     if (count($condition) == 0 && trim($additional_raw_where) == '') {
-        throw new Exception("db_where_cond: parameter is an empty array!");
+        throw new Exception("db_where_clause: parameter is an empty array!");
     }
 
     $allowed_operators = array('<', '>', '>=', '<=', '=', '!=', '<>', 'CONT', 'LIKE', 'NULL', 'NOTNULL');
@@ -2420,9 +2451,10 @@ function check_db_version($error_out = true)
  *        addresses list in show_custom_domains
  *
  * @param string $show_alias
+ * @param array $allowed_domains Domains authorized for the caller. Domains not listed here are marked as external.
  * @return string
  */
-function gen_show_status($show_alias)
+function gen_show_status($show_alias, array $allowed_domains)
 {
     global $CONF;
     $table_alias = table_by_key('alias');
@@ -2435,54 +2467,55 @@ function gen_show_status($show_alias)
         $stat_goto = $stat_result['goto'];
     }
 
-    $delimiter_regex = null;
-
-    if (!empty($CONF['recipient_delimiter'])) {
-        $delimiter = preg_quote($CONF['recipient_delimiter'], "/");
-        $delimiter_regex = '/' . $delimiter . '[^' . $delimiter . '@]*@/';
-    }
-
-    // UNDELIVERABLE CHECK
+    // Only inspect destination records within the caller's authorized domains.
     if ($CONF['show_undeliverable'] == 'YES') {
-        $gotos = explode(',', $stat_goto);
-
-        //make sure this alias goes somewhere known
-        $stat_ok = 1;
-        foreach ($gotos as $g) {
-            if (!$stat_ok) {
-                break;
+        $destination_status = ['undeliverable' => false, 'external' => false];
+        foreach (explode(',', $stat_goto) as $destination) {
+            $destination = trim($destination);
+            if (strpos($destination, '@') === false) {
+                continue;
             }
-            if (strpos($g, '@') === false) {
+            [$local_part, $domain] = explode('@', $destination, 2);
+            if ($domain == $CONF['vacation_domain'] || in_array($domain, $CONF['show_undeliverable_exceptions'])) {
+                continue;
+            }
+            if (!in_array($domain, $allowed_domains, true)) {
+                $destination_status['external'] = true;
                 continue;
             }
 
-            list($_, $stat_domain) = explode('@', $g);
-
+            $alias_domain = db_query_one(
+                'SELECT target_domain FROM ' . table_by_key('alias_domain') . ' WHERE alias_domain = ? AND active = ?',
+                [$domain, true]
+            );
+            if ($alias_domain) {
+                $domain = $alias_domain['target_domain'];
+                if (!in_array($domain, $allowed_domains, true)) {
+                    $destination_status['external'] = true;
+                    continue;
+                }
+                $destination = $local_part . '@' . $domain;
+            }
 
             $sql = "SELECT address FROM $table_alias WHERE address = ? OR address = ?";
-            $v = [$g, '@' . $stat_domain];
-
-            if (!empty($CONF['recipient_delimiter']) && isset($delimiter_regex)) {
-                $v[] = preg_replace($delimiter_regex, "@", $g);
-                $sql .= " OR address = ? ";
+            $values = [$destination, '@' . $domain];
+            if (!empty($CONF['recipient_delimiter'])) {
+                $sql .= ' OR address = ?';
+                $values[] = recipient_delimiter_base_address($destination, $CONF['recipient_delimiter']);
             }
-
-            $stat_result = db_query_one($sql, $v);
-
-            if (empty($stat_result)) {
-                $stat_ok = 0;
+            if (!db_query_one($sql, $values)) {
+                $destination_status['undeliverable'] = true;
             }
-
-            if ($stat_ok == 0) {
-                if ($stat_domain == $CONF['vacation_domain'] || in_array($stat_domain, $CONF['show_undeliverable_exceptions'])) {
-                    $stat_ok = 1;
-                }
+        }
+        foreach ($destination_status as $status => $present) {
+            if ($present) {
+                $tooltip = htmlspecialchars(Config::lang('pStatus_' . $status . '_tooltip'), ENT_QUOTES, 'UTF-8');
+                $color = htmlspecialchars($CONF['show_' . $status . '_color'], ENT_QUOTES, 'UTF-8');
+                $stat_string .= "<span role='img' aria-label='$tooltip' title='$tooltip' style='background-color:$color'>" .
+                    $CONF['show_status_text'] . '</span>&nbsp;';
+            } else {
+                $stat_string .= $CONF['show_status_text'] . '&nbsp;';
             }
-        } // while
-        if ($stat_ok == 0) {
-            $stat_string .= "<span style='background-color:" . $CONF['show_undeliverable_color'] . "'>" . $CONF['show_status_text'] . "</span>&nbsp;";
-        } else {
-            $stat_string .= $CONF['show_status_text'] . "&nbsp;";
         }
     }
 
@@ -2536,8 +2569,15 @@ function gen_show_status($show_alias)
     // POP/IMAP CHECK
     if ($CONF['show_popimap'] == 'YES') {
         $stat_delimiter = "";
-        if (!empty($CONF['recipient_delimiter']) && isset($delimiter_regex)) {
-            $stat_delimiter = ',' . preg_replace($delimiter_regex, "@", $stat_goto);
+        if (!empty($CONF['recipient_delimiter'])) {
+            $delimiter_gotos = array_map(
+                static fn (string $goto): string => recipient_delimiter_base_address(
+                    $goto,
+                    $CONF['recipient_delimiter']
+                ),
+                explode(',', $stat_goto)
+            );
+            $stat_delimiter = ',' . implode(',', $delimiter_gotos);
         }
 
         //if the address passed in appears in its own goto field, its POP/IMAP

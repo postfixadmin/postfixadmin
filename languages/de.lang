@@ -424,7 +424,10 @@ $PALANG['pBroadcast_error_empty'] = 'Die Felder Name, Betreff und Nachricht dür
 $PALANG['broadcast_mailboxes_only'] = "Nur an Postfächer senden";
 $PALANG['broadcast_to_domains'] = "Senden an Domains:";
 
-$PALANG['pStatus_undeliverable'] = 'möglicherweise UNZUSTELLBAR ';
+$PALANG['pStatus_undeliverable'] = 'möglicherweise UNZUSTELLBAR '; # XXX English text changed: Undeliverable local destination. Please retranslate.
+$PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Konto deaktiviert ';
 $PALANG['pStatus_expired'] = 'Passwort abgelaufen ';
 $PALANG['pStatus_vacation'] = 'Automatische Antwort aktiviert ';
@@ -570,6 +573,11 @@ $PALANG['session_expired_message'] = 'The page token is no longer valid. Please 
 $PALANG['session_expired_button'] = 'Continue'; # XXX
 $PALANG['pDkim_field_domain_and_selector'] = 'Domain:Selector'; # XXX
 $PALANG['pDkim_field_description'] = 'Description'; # XXX
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
+$PALANG['pUsersMenu_edit_name'] = 'Change display name'; # XXX
+$PALANG['pUsers_name_invalid'] = 'Use a valid display name of at most 255 characters without control characters.'; # XXX
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>

@@ -18,6 +18,12 @@
             <td nowrap="nowrap"><a class="btn btn-primary" href="password.php">{$PALANG.change_password}</a></td>
             <td>{$PALANG.pUsersMain_password}</td>
         </tr>
+        {if $user_can_edit_mailbox_name}
+            <tr>
+                <td><a class="btn btn-primary" href="{#url_user_edit_name#}&amp;edit={$smarty.session.sessid.username|escape:url}">{$PALANG.pUsersMenu_edit_name}</a></td>
+                <td>{$PALANG.pCreate_mailbox_name_text}</td>
+            </tr>
+        {/if}
         {* TOTP *}
         {if $CONF.totp==='YES'}
         {strip}

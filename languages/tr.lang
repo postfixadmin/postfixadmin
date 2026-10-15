@@ -414,7 +414,10 @@ $PALANG['pAdminMenu_broadcast_message'] = 'Sistem mesajı';
 $PALANG['pBroadcast_error_empty'] = 'İsim, Konu ve Mesaj gibi alanlar boş bırakılmamalı!';
 $PALANG['broadcast_mailboxes_only'] = 'Sadece belirtilen e-posta hesaplarına gönder';
 $PALANG['broadcast_to_domains'] = 'Domainlere gönder:';
-$PALANG['pStatus_undeliverable'] = 'GÖNDERİLEMEMİŞ veya gönderilemeyen olabilir ';
+$PALANG['pStatus_undeliverable'] = 'GÖNDERİLEMEMİŞ veya gönderilemeyen olabilir '; # XXX English text changed: Undeliverable local destination. Please retranslate.
+$PALANG['pStatus_undeliverable_tooltip'] = 'Not listed as a local destination.'; # XXX
+$PALANG['pStatus_external'] = 'External destination'; # XXX
+$PALANG['pStatus_external_tooltip'] = 'Outside your managed domains.'; # XXX
 $PALANG['pStatus_disabled'] = 'Hesap pasif ';
 $PALANG['pStatus_expired'] = 'Şifrenin süresi doldu ';
 $PALANG['pStatus_vacation'] = 'Tatil modu aktif ';
@@ -558,6 +561,11 @@ $PALANG['session_expired_message'] = 'Sayfa jetonu artık geçerli değil. Lütf
 $PALANG['session_expired_button'] = 'Devam Et';
 $PALANG['pDkim_field_domain_and_selector'] = 'Domain:Seçici';
 $PALANG['pDkim_field_description'] = 'Açıklama';
+$PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
+$PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
+$PALANG['pUsersMenu_edit_name'] = 'Change display name'; # XXX
+$PALANG['pUsers_name_invalid'] = 'Use a valid display name of at most 255 characters without control characters.'; # XXX
+
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
 ?>
