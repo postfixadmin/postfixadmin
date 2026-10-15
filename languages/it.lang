@@ -564,6 +564,8 @@ $PALANG['pDkim_field_domain_and_selector'] = 'Domain:Selector'; # XXX
 $PALANG['pDkim_field_description'] = 'Description'; # XXX
 $PALANG['pTOTP_enabled'] = 'TOTP is enabled.'; # XXX
 $PALANG['pTOTP_restart'] = 'Reset TOTP'; # XXX
+$PALANG['pUsersMenu_edit_name'] = 'Change display name'; # XXX
+$PALANG['pUsers_name_invalid'] = 'Use a valid display name of at most 255 characters without control characters.'; # XXX
 
 $PALANG['please_keep_this_as_last_entry'] = ''; # needed for language-check.sh
 /* vim: set expandtab ft=php softtabstop=3 tabstop=3 shiftwidth=3: */
