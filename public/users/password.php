@@ -87,8 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 
 $smarty->assign('SESSID_USERNAME', $username);
-$smarty->assign('pPassword_password_current_text', $pPassword_password_current_text, false);
-$smarty->assign('pPassword_password_text', $pPassword_password_text, false);
+$smarty->assign('pPassword_password_current_text', $pPassword_password_current_text);
+$smarty->assign('pPassword_password_text', $pPassword_password_text);
 
 $smarty->assign('smarty_template', 'password');
 $smarty->display('index.tpl');

@@ -83,7 +83,7 @@ if ($error) {
     flash_error($error);
 }
 
-$smarty->assign('language_selector', language_selector(), false);
+$smarty->assign('language_selector', language_selector(), TemplateEscape::RAW);
 $smarty->assign('smarty_template', 'login');
 $smarty->assign('logintype', 'user');
 $smarty->assign('forgotten_password_reset', Config::read('forgotten_user_password_reset') && !Config::read('mailbox_postpassword_script'));

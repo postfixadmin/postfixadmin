@@ -34,19 +34,18 @@
                                                       id="fPassword_current"/></div>
                 <span class="form-text">{$pPassword_password_current_text}</span>
             </div>
-            <div class="mb-3 {if $pTOTP_secret_text}is-invalid{/if}">
+            <div class="mb-3">
                 <label class="col-md-2" for="fTOTP_secret">{$PALANG.pTOTP_secret}:</label>
                 <div class="col-md-6 col-sm-8">
                     <img src="data:image/png;base64, {$pQR_raw}"/>{$pTOTP_secret}
                     <input type="hidden" name="fTOTP_secret" value="{$pTOTP_secret}"/>
                 </div>
             </div>
-            <div class="mb-3 {if $pTOTP_code_text}is-invalid{/if}">
+            <div class="mb-3">
                 <label class="col-md-2" for="fTOTP_code">{$PALANG.pTOTP_code}:</label>
                 <div class="col-md-6 col-sm-8"><input id="fTOTP_code" class="form-control" type="text"
                                                       name="fTOTP_code" size="6" inputmode="numeric"
                                                       autocomplete="one-time-code"/>
-                    <span class="text-warning">{$pTOTP_code_text}</span> <!-- error text -->
                     <span class="form-text">{$PALANG.pTOTP_code_text}</span>
                 </div>
 
