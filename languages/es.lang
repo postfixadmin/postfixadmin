@@ -320,7 +320,7 @@ $PALANG['pAdminEdit_domain_maxquota_text'] = 'MB | -1 = deshabilitar | 0 = ilimi
 $PALANG['pAdminEdit_domain_quota'] = 'Cuota de Dominio Total (MB)';
 $PALANG['transport'] = 'Transporte';
 $PALANG['pAdminEdit_domain_transport_text'] = 'Definir transporte';
-$PALANG['pAdminEdit_domain_backupmx'] = 'El servidor de correo es un MX de respaldo';
+$PALANG['pAdminEdit_domain_backupmx'] = 'MX de respaldo';
 $PALANG['pAdminEdit_domain_result_error'] = '¡No se pudo modificar el dominio %s!';
 
 $PALANG['pAdminCreate_admin_welcome'] = 'Añadir un nuevo administrador de dominio';
