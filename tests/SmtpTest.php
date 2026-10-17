@@ -64,7 +64,7 @@ class SmtpTest extends TestCase
         $this->assertFalse(@smtp_mail("victim@example.com\r\nRCPT TO:<other@example.com>", 'admin@example.com', 'subject', 'body'));
         $this->assertFalse(@smtp_mail('victim@example.com', "admin@example.com\nBcc: x@example.com", 'subject', 'body'));
     }
-      
+
     public static function smtpAuthenticationCases(): array
     {
         $cases = [];
