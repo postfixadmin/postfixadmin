@@ -110,6 +110,18 @@ $smarty->assign('language_selector', language_selector(), false);
 $smarty->assign('smarty_template', 'login');
 $smarty->assign('logintype', 'admin');
 $smarty->assign('forgotten_password_reset', Config::bool('forgotten_admin_password_reset'));
+
+// Add OIDC login option if configured
+if (in_array('oidc', $CONF['additional_auth'] ?? [])) {
+    $oidc = new OIDC();
+    if ($oidc->isConfigured()) {
+        $oidcLoginText = !empty($CONF['oidc']['login_button_text']) ? $CONF['oidc']['login_button_text'] : Config::lang('pLogin_oidc_button');
+        $smarty->assign('oidc_enabled', true);
+        $smarty->assign('oidc_login_url', 'oidc_login.php');
+        $smarty->assign('oidc_login_text', $oidcLoginText);
+    }
+}
+
 $smarty->display('index.tpl');
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
