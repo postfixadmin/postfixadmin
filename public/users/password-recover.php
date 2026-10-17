@@ -54,10 +54,10 @@ function sendCodebyEmail($to, $username, $code)
     }
 
     return smtp_mail(
-        $to,
-        smtp_get_admin_email(false),
-        Config::Lang('pPassword_welcome'),
-        Config::lang_f('pPassword_recovery_email_body', $url));
+        to: $to,
+        from: smtp_get_admin_email(false),
+        subject_or_data: Config::Lang('pPassword_welcome'),
+        body: Config::lang_f('pPassword_recovery_email_body', $url));
 }
 
 function sendCodebySMS($to, $username, $code)
