@@ -16,7 +16,8 @@ Config::write('__LANG', $PALANG);
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 if ($path === '/__session') {
     $globalAdmin = ($_GET['role'] ?? '') === 'global-admin';
-    init_session($globalAdmin ? 'admin@security-list-http.example.com' : 'test@security-list-http.example.com', $globalAdmin, true);
+    $admin = $globalAdmin || ($_GET['role'] ?? '') === 'admin';
+    init_session($admin ? 'admin@security-list-http.example.com' : 'test@security-list-http.example.com', $admin, true);
     if ($globalAdmin) {
         $_SESSION['sessid']['roles'][] = 'global-admin';
     }
@@ -26,6 +27,7 @@ if ($path === '/__session') {
         '/users/password.php' => 'password.php',
         '/users/totp.php' => 'totp.php',
         '/list-virtual.php' => 'list-virtual.php',
+        '/edit.php' => 'edit.php',
         '/app-passwords.php' => 'app-passwords.php',
         '/users/app-passwords.php' => 'app-passwords.php',
         '/totp-exceptions.php' => 'totp-exceptions.php',
@@ -36,6 +38,6 @@ if ($path === '/__session') {
         exit;
     }
     // Both public aliases and user routes execute these complete controllers.
-    chdir(dirname(__DIR__, 2) . ($path === '/list-virtual.php' ? '/public' : '/public/users'));
+    chdir(dirname(__DIR__, 2) . (in_array($path, ['/list-virtual.php', '/edit.php'], true) ? '/public' : '/public/users'));
     require $pages[$path];
 }

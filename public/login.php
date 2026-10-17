@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     session_start();
 }
 
-$smarty->assign('language_selector', language_selector(), PFASmarty::NO_ESCAPING);
+$smarty->assign('language_selector', language_selector(), TemplateEscape::RAW);
 $smarty->assign('smarty_template', 'login');
 $smarty->assign('logintype', 'admin');
 $smarty->assign('forgotten_password_reset', Config::bool('forgotten_admin_password_reset'));

@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $totppf = new TotpPf($context === 'admin' ? 'admin' : 'mailbox', new Login($context === 'admin' ? 'admin' : 'mailbox'));
 $tTotpRequired = $totppf->usesTOTP($tUsername);
 $smarty->assign('tTotpRequired', $tTotpRequired);
-$smarty->assign('language_selector', language_selector(), PFASmarty::NO_ESCAPING);
+$smarty->assign('language_selector', language_selector(), TemplateEscape::RAW);
 $smarty->assign('tUsername', $tUsername);
 $smarty->assign('tCode', $tCode);
 $smarty->assign('smarty_template', 'password-change');

@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 $smarty->assign('pTOPT_code_text', $error);
 $smarty->assign('smarty_template', 'login-mfa');
-$smarty->assign('language_selector', language_selector(), PFASmarty::NO_ESCAPING);
+$smarty->assign('language_selector', language_selector(), TemplateEscape::RAW);
 $smarty->assign('forgotten_password_reset', Config::bool('forgotten_admin_password_reset'));
 $smarty->display('index.tpl');
 

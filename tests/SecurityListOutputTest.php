@@ -77,6 +77,7 @@ class SecurityListOutputTest extends TestCase
                 'username' => self::USERNAME, 'domain' => self::DOMAIN,
             ]);
         }
+        db_delete('mailbox', 'username', self::USERNAME);
         db_delete('domain_admins', 'username', 'admin@' . self::DOMAIN);
         db_delete('domain', 'domain', self::DOMAIN);
         if (isset($this->directory) && is_dir($this->directory)) {
@@ -183,6 +184,47 @@ class SecurityListOutputTest extends TestCase
         self::assertStringContainsString(self::DOMAIN . ' :</h4>', $html);
         [$status] = $this->request('/list-virtual.php', ['fDomain' => '<img src=x onerror="alert(1)">']);
         self::assertSame(302, $status);
+    }
+
+    public static function editorRoles(): array
+    {
+        return ['domain admin' => ['admin'], 'global admin' => ['global-admin']];
+    }
+
+    #[DataProvider('editorRoles')]
+    public function testGenericEditorEscapesTextAndPreservesHtml(string $role): void
+    {
+        $name = 'R&D <b>name</b> "quoted"';
+        self::assertSame(1, db_insert('domain_admins', [
+            'username' => 'admin@' . self::DOMAIN, 'domain' => self::DOMAIN, 'active' => true,
+        ], ['created']));
+        self::assertSame(1, db_insert('mailbox', [
+            'username' => self::USERNAME, 'password' => 'fixture-unused', 'name' => $name,
+            'maildir' => self::DOMAIN . '/test/', 'local_part' => 'test', 'domain' => self::DOMAIN,
+            'active' => true, 'totp_secret' => 'JBSWY3DPEHPK3PXP',
+        ]));
+        $this->request('/__session?role=' . $role);
+        $path = '/edit.php?table=mailbox&edit=' . urlencode(self::USERNAME);
+        [$status, $html] = $this->request($path);
+        self::assertSame(200, $status, $html);
+        self::assertStringContainsString('R&amp;D &lt;b&gt;name&lt;/b&gt; &quot;quoted&quot;', $html);
+        self::assertStringContainsString('<button type="submit" name="reset_totp"', $html);
+        self::assertStringNotContainsString('&lt;button', $html);
+        self::assertSame(1, preg_match('/name=["\']CSRF_Token["\'][^>]*value=["\']([^"\']+)/', $html, $token));
+        $editedName = 'Changed <b>text</b> & "quoted"';
+        // Invalid quota prevents writes; the read-only HTML field takes its default assignment path.
+        [$status, $html] = $this->request($path, [
+            'table' => 'mailbox', 'edit' => self::USERNAME, 'CSRF_Token' => $token[1],
+            'value' => ['name' => $editedName, 'quota' => '-999'],
+        ]);
+        self::assertSame(200, $status, $html);
+        self::assertStringContainsString('Changed &lt;b&gt;text&lt;/b&gt; &amp; &quot;quoted&quot;', $html);
+        self::assertStringNotContainsString('name="reset_totp"', $html);
+        self::assertSame($name, db_query_one('SELECT name FROM ' . table_by_key('mailbox') . ' WHERE username = ?', [self::USERNAME])['name']);
+        [$status, $html] = $this->request('/edit.php?table=mailbox&domain=' . self::DOMAIN);
+        self::assertSame(200, $status, $html);
+        self::assertStringContainsString('name="value[name]"', $html);
+        self::assertStringNotContainsString('name="reset_totp"', $html);
     }
 
     private static function descriptions(): array
