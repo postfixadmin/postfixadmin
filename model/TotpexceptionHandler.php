@@ -68,9 +68,13 @@ class TotpexceptionHandler extends PFAHandler
             'create_button' => 'pTotp_exceptions_add',
 
             'required_role' => 'admin',
-            'listview' => 'list.php?table=totpexception',
+            'listview' => 'totp-exceptions.php',
             'early_init' => 0,
-            'user_hardcoded_field' => 'username',
+            # deliberately no 'user_hardcoded_field' - users must not be able to use edit.php/list.php/delete.php
+            # for this handler, as that would bypass the current password check in users/totp-exceptions.php
+            # creating/editing via edit.php is disabled for everyone (incl. admins) for the same reason -
+            # totp-exceptions.php requires the current password before adding an exception.
+            'disable_edit_form' => 1,
         );
     }
 
@@ -118,7 +122,7 @@ class TotpexceptionHandler extends PFAHandler
         if ($value === '') {
             if ($this->is_superadmin) {
                 $this->values['username'] = null;
-                return true;
+                return false; # to avoid that set() overwrites $this->values[$field] with the raw (empty string) input
             }
             $this->errormsg[$field] = Config::Lang('pException_user_global_error');
             return false;
@@ -127,7 +131,7 @@ class TotpexceptionHandler extends PFAHandler
         // Users can only set exceptions for themselves
         if (!$this->is_admin) {
             $this->values['username'] = $this->username;
-            return true;
+            return false; # to avoid that set() overwrites $this->values[$field] with the raw (attacker-controlled) input
         }
 
         // Superadmins can set for anyone

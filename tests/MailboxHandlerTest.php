@@ -363,6 +363,74 @@ EOF;
         $this->assertJsonStringEqualsJsonString($args_1, json_encode($args[1]));
 
     }
+
+    /**
+     * Search conditions on password ('pass' type) fields must be ignored by getList() / getPagebrowser().
+     * Otherwise an admin could use search parameters (e.g. ?search[password]=...&searchmode[password]=LIKE)
+     * as an oracle to recover password hashes one character at a time.
+     */
+    public function testSearchOnPasswordFieldIsIgnored()
+    {
+        // Fake being an admin.
+        $_SESSION = [
+            'sessid' => [
+                'roles' => ['global-admin']
+            ]
+        ];
+
+        // insert directly rather than via DomainHandler/MailboxHandler to avoid DNS checks on the domain
+        db_insert('domain', [
+            'domain' => 'example.com',
+            'description' => 'test domain',
+            'aliases' => 10,
+            'mailboxes' => 10,
+            'maxquota' => 100,
+            'quota' => 100,
+            'transport' => 'virtual',
+            'backupmx' => 0,
+            'active' => 1,
+        ]);
+        db_insert('domain_admins', ['username' => 'admin', 'domain' => 'example.com', 'created' => '2020-01-01', 'active' => 1], ['created'], true);
+
+        $hash = '{SHA512-CRYPT}$6$somesalt$notarealhash';
+        db_insert('mailbox', [
+            'username' => 'pwsearch@example.com',
+            'password' => $hash,
+            'name' => 'test person',
+            'maildir' => 'example.com/pwsearch/',
+            'quota' => 0,
+            'local_part' => 'pwsearch',
+            'domain' => 'example.com',
+            'active' => 1,
+        ]);
+
+        // exact match on a value that is definitely not the hash - if the condition were applied, nothing would be returned.
+        $x = new MailboxHandler(0, 'admin', true);
+        $this->assertTrue($x->getList(['password' => 'not-the-hash']));
+        $this->assertEquals(['pwsearch@example.com'], array_keys($x->result()));
+
+        // LIKE prefix search (the oracle case) - a wrong prefix must not filter anything out either.
+        $wrongPrefix = 'x%';
+        $x = new MailboxHandler(0, 'admin', true);
+        $this->assertTrue($x->getList(['password' => $wrongPrefix], ['password' => 'LIKE']));
+        $this->assertEquals(['pwsearch@example.com'], array_keys($x->result()));
+
+        // password2 is also a 'pass' field.
+        $x = new MailboxHandler(0, 'admin', true);
+        $this->assertTrue($x->getList(['password2' => 'whatever']));
+        $this->assertEquals(['pwsearch@example.com'], array_keys($x->result()));
+
+        // getPagebrowser() shares the same filtering - the result must be identical to an unfiltered call.
+        $x = new MailboxHandler(0, 'admin', true);
+        $withPassword = $x->getPagebrowser(['password' => $wrongPrefix], ['password' => 'LIKE']);
+        $y = new MailboxHandler(0, 'admin', true);
+        $this->assertEquals($y->getPagebrowser([], []), $withPassword);
+
+        // non-password fields must still be filterable.
+        $x = new MailboxHandler(0, 'admin', true);
+        $this->assertTrue($x->getList(['name' => 'nobody by this name']));
+        $this->assertEmpty($x->result());
+    }
 }
 
 /* vim: set expandtab softtabstop=4 tabstop=4 shiftwidth=4: */
