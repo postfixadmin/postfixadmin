@@ -32,9 +32,6 @@ $smarty = PFASmarty::getInstance();
 $smarty->configureTheme($smarty->getRelPath());
 
 $username = authentication_get_username();
-$pPassword_text = "";
-$pUser_text = '';
-$pUser = '';
 
 // check if app-passwords are enabled
 if (Config::bool('app_passwords') === false) {
@@ -112,10 +109,7 @@ foreach ($passwords as $n => $pass) {
 
 
 $smarty->assign('SESSID_USERNAME', $username);
-$smarty->assign('pPassword_text', $pPassword_text, false);
-$smarty->assign('pUser_text', $pUser_text, false);
-$smarty->assign('pUser', $pUser, false);
-$smarty->assign('pPasswords', $passwords, false);
+$smarty->assign('pPasswords', $passwords);
 $smarty->assign('smarty_template', 'app-passwords');
 $smarty->display('index.tpl');
 

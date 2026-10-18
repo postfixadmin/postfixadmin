@@ -3,13 +3,12 @@
         <div class="card-header"><h4>{$PALANG.pApp_passwords_welcome}</h4></div>
         <div class="card-body enable-asterisk">
             {CSRF_Token}
-            <div class="mb-3 {if $pPassword_text}is-invalid{/if}">
+            <div class="mb-3">
                 <label class="col-md-2"
                        for="fPassword_current">{$PALANG.pPassword_password_current}:</label>
                 <div class="col-md-6 col-sm-8">
                     <input class="form-control" type="password" name="fPassword_current" id="fPassword_current"/>
                 </div>
-                <span class="form-text">{$pPassword_text}</span>
             </div>
             <div class="mb-3">
                 <label class="col-md-2" for="fAppDesc">{$PALANG.pTotp_exceptions_description}
