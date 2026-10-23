@@ -28,7 +28,7 @@
                     <ul>
                         {foreach from=$mailboxes item=row}
                             <li>
-                                <a href="edit.php?table=mailbox&edit={$row['username']|escape:url}">{$row['username']}</a>
+                                <a href="edit.php?table=mailbox&edit={$row['username']|escape:url}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}">{$row['username']}</a>
                             </li>
                         {/foreach}
                     </ul>
@@ -38,7 +38,7 @@
                     <h3>{$PALANG.aliases}</h3>
                     <ul>
                         {foreach from=$aliases item=row}
-                            <li><a href="edit.php?table=alias&edit={$row['address']|escape:url}">{$row['address']}</a>
+                            <li><a href="edit.php?table=alias&edit={$row['address']|escape:url}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}">{$row['address']}</a>
                             </li>
                         {/foreach}
                     </ul>
@@ -59,7 +59,7 @@
             </tr>
             <tr>
                 <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary w-100"
-                                       href="{#url_create_alias#}"><span class="bi bi-plus-circle"
+                                       href="{#url_create_alias#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-plus-circle"
                                                                          aria-hidden="true"></span> {$PALANG.add_alias}
                     </a>
                 </td>
@@ -67,7 +67,7 @@
             </tr>
             <tr>
                 <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary w-100"
-                                       href="{#url_create_mailbox#}"><span class="bi bi-inbox"
+                                       href="{#url_create_mailbox#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-inbox"
                                                                            aria-hidden="true"></span> {$PALANG.add_mailbox}
                     </a></td>
                 <td style="padding-top: 15px;">{$PALANG.pMain_create_mailbox}</td>
@@ -75,7 +75,7 @@
             {if $CONF.sendmail==='YES'}
                 <tr>
                     <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary w-100"
-                                           href="{#url_sendmail#}"><span class="bi bi-send"
+                                           href="{#url_sendmail#}?return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-send"
                                                                          aria-hidden="true"></span> {$PALANG.pMenu_sendmail}
                         </a></td>
                     <td style="padding-top: 15px;">{$PALANG.pMain_sendmail}</td>
@@ -95,7 +95,7 @@
             {/if}
             <tr>
                 <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary w-100"
-                                       href="{#url_password#}"><span class="bi bi-lock"
+                                       href="{#url_password#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-lock"
                                                                      aria-hidden="true"></span> {$PALANG.pMenu_password}
                     </a>
                 </td>

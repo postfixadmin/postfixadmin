@@ -190,7 +190,7 @@
 
                     <td class="list-col-action">{if $item._can_edit}
                             <a class="btn btn-sm btn-primary list-action-icon" title="{$PALANG.edit}" aria-label="{$PALANG.edit}"
-                            href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}"><span
+                            href="edit.php?table={$table|escape:"url"}&amp;edit={$RAW_item.$id_field|escape:"url"}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span
                                         class="bi bi-pencil" aria-hidden="true"></span></a>
                         {else}&nbsp;
                         {/if}
@@ -227,7 +227,7 @@
                 {if isset($fDomain)}
                     {assign var=tmpdomain value="&amp;domain={$fDomain|escape:url}"}
                 {/if}
-                <a href="edit.php?table={$table|escape:"url"}{$tmpdomain}" role="button"
+                <a href="edit.php?table={$table|escape:"url"}{$tmpdomain}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}" role="button"
                     class="btn btn-secondary"><span
                             class="bi bi-plus-circle"
                             aria-hidden="true"></span> {$PALANG.{$formconf.create_button}}</a>

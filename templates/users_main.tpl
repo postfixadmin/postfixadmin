@@ -9,7 +9,7 @@
         {/if}
         {if $CONF.edit_alias===YES}
             <tr>
-                <td nowrap="nowrap"><a class="btn btn-primary" href="../edit.php?table=alias&amp;edit={$smarty.session.sessid.username|escape:url}">{$PALANG.pUsersMenu_edit_alias}</a>
+                <td nowrap="nowrap"><a class="btn btn-primary" href="../edit.php?table=alias&amp;edit={$smarty.session.sessid.username|escape:url}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}">{$PALANG.pUsersMenu_edit_alias}</a>
                 </td>
                 <td>{$PALANG.pUsersMain_edit_alias}</td>
             </tr>
@@ -20,7 +20,7 @@
         </tr>
         {if $user_can_edit_mailbox_name}
             <tr>
-                <td><a class="btn btn-primary" href="{#url_user_edit_name#}&amp;edit={$smarty.session.sessid.username|escape:url}">{$PALANG.pUsersMenu_edit_name}</a></td>
+                <td><a class="btn btn-primary" href="{#url_user_edit_name#}&amp;edit={$smarty.session.sessid.username|escape:url}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}">{$PALANG.pUsersMenu_edit_name}</a></td>
                 <td>{$PALANG.pCreate_mailbox_name_text}</td>
             </tr>
         {/if}
