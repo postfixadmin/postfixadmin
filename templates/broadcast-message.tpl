@@ -3,6 +3,7 @@
     <div id="edit_form" class="card">
         <div class="card-header"><h4>{$PALANG.pBroadcast_title}</h4></div>
         <div class="card-body">
+            <input type="hidden" name="return_to" value="{$cancel_url}"/>
             {CSRF_Token}
 
             <div class="mb-3">
@@ -44,6 +45,7 @@
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group float-end">
                     <input class="btn btn-primary" type="submit" name="submit" value="{$PALANG.pSendmail_button}"/>
+                    <a class="btn btn-secondary" href="{$cancel_url}">{$PALANG.cancel}</a>
                 </div>
             </div>
         </div>

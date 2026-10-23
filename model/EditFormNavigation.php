@@ -13,12 +13,12 @@ class EditFormNavigation
 
         $path = $parts['path'] ?? '';
         $directory = rtrim(dirname($scriptName), '/');
-        $page = basename($path);
-        if (!in_array($page, ['main.php', 'list.php', 'list-virtual.php'], true)
-            || ($path !== $page && $path !== $directory . '/' . $page)) {
-            return $fallback;
+        foreach (['main.php', 'list.php', 'list-virtual.php', 'users/main.php'] as $page) {
+            if ($path === $page || $path === $directory . '/' . $page) {
+                return $page . (isset($parts['query']) ? '?' . $parts['query'] : '');
+            }
         }
 
-        return $page . (isset($parts['query']) ? '?' . $parts['query'] : '');
+        return $fallback;
     }
 }

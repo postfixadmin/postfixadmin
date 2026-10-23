@@ -15,10 +15,10 @@
                     <li><a class="nav-item nav-link" target="_top" href="{#url_user_vacation#}">{$PALANG.pUsersMenu_vacation}</a></li>
                 {/if}
                 {if $CONF.edit_alias===YES}
-                    <li><a class="nav-item nav-link" target="_top" href="{#url_user_edit_alias#}&amp;edit={$smarty.session.sessid.username|escape:url}">{$PALANG.pUsersMenu_edit_alias}</a></li>
+                    <li><a class="nav-item nav-link" target="_top" href="{#url_user_edit_alias#}&amp;edit={$smarty.session.sessid.username|escape:url}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}">{$PALANG.pUsersMenu_edit_alias}</a></li>
                 {/if}
                 {if $user_can_edit_mailbox_name}
-                    <li><a class="nav-item nav-link" href="{#url_user_edit_name#}&amp;edit={$smarty.session.sessid.username|escape:url}">{$PALANG.pUsersMenu_edit_name}</a></li>
+                    <li><a class="nav-item nav-link" href="{#url_user_edit_name#}&amp;edit={$smarty.session.sessid.username|escape:url}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}">{$PALANG.pUsersMenu_edit_name}</a></li>
                 {/if}
                 {* TOTP *}
                 {if $CONF.totp==='YES'}

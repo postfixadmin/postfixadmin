@@ -35,6 +35,11 @@ authentication_require_role('admin');
 
 $CONF = Config::getInstance()->getAll();
 $smarty = PFASmarty::getInstance();
+$smarty->assign('cancel_url', EditFormNavigation::cancelUrl(
+    safepost('return_to', safeget('return_to')),
+    $_SERVER['SCRIPT_NAME'],
+    'main.php'
+));
 $PALANG = $CONF['__LANG'];
 
 if ($CONF['sendmail'] == 'NO') {

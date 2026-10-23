@@ -8,7 +8,9 @@ class EditFormNavigationTest extends TestCase
 {
     public function testPreservesOriginAndListingState(): void
     {
-        foreach (['main.php', 'list.php?table=domain&limit=20',
+        foreach (['main.php', 'users/main.php', 'list.php?table=admin&limit=20',
+            'list.php?table=fetchmail', 'list.php?table=dkim', 'list.php?table=dkimsigning',
+            'list.php?table=domain&limit=20',
             'list-virtual.php?domain=example.org&limit=10&tab=alias&search[alias]=test'] as $origin) {
             self::assertSame($origin, EditFormNavigation::cancelUrl('/pfa/' . $origin, '/pfa/edit.php', 'fallback'));
             self::assertSame($origin, EditFormNavigation::cancelUrl($origin, '/edit.php', 'fallback'));
@@ -48,4 +50,26 @@ class EditFormNavigationTest extends TestCase
         $smarty->clearAssign('cancel_url');
         self::assertStringNotContainsString('>Cancel</a>', $smarty->fetch('editform.tpl'));
     }
+    public function testMailComposersCanBeAbandonedWithoutSubmitting(): void
+    {
+        foreach (['sendmail.tpl', 'broadcast-message.tpl'] as $template) {
+            $smarty = new \Smarty\Smarty();
+            $smarty->setTemplateDir(__DIR__ . '/../templates');
+            $smarty->setCompileDir(sys_get_temp_dir());
+            $smarty->registerPlugin('function', 'CSRF_Token', static fn (): string => '');
+            $source = file_get_contents(__DIR__ . '/../templates/' . $template);
+            preg_match_all('/\\$PALANG\\.([a-zA-Z_]+)/', $source, $keys);
+            $language = array_fill_keys($keys[1], 'Label');
+            $language['cancel'] = 'Cancel';
+            $smarty->assign([
+                'PALANG' => $language, 'cancel_url' => 'main.php',
+                'smtp_from_email' => 'admin@example.org', 'allowed_domains' => ['example.org'],
+                'CONF' => ['welcome_text' => 'Welcome'],
+            ]);
+            $html = $smarty->fetch($template);
+            self::assertStringContainsString('href="main.php">Cancel</a>', $html);
+            self::assertStringContainsString('name="return_to" value="main.php"', $html);
+        }
+    }
+
 }

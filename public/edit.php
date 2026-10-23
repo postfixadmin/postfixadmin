@@ -267,22 +267,20 @@ if ($new) {
 }
 
 // Keep the original destination through failed validation without changing Save behavior.
-if ($new && $is_admin && in_array($table, ['mailbox', 'alias', 'domain'], true)) {
-    $fallback = $formconf['listview'];
-    if ($fallback === 'list-virtual.php') {
-        $bits = [
-            'domain' => safeget('domain', safesession('list-virtual:domain')),
-            'limit' => $_SESSION['list-virtual:limit'] ?? null,
-        ];
-        $fallback .= '?' . http_build_query(array_filter($bits));
-    }
-    $cancelUrl = EditFormNavigation::cancelUrl(
-        safepost('return_to', safeget('return_to')),
-        $_SERVER['SCRIPT_NAME'],
-        $fallback
-    );
-    $smarty->assign('cancel_url', $cancelUrl);
+$fallback = $formconf['listview'];
+if ($fallback === 'list-virtual.php') {
+    $bits = [
+        'domain' => safeget('domain', safesession('list-virtual:domain')),
+        'limit' => $_SESSION['list-virtual:limit'] ?? null,
+    ];
+    $fallback .= '?' . http_build_query(array_filter($bits));
 }
+$cancelUrl = EditFormNavigation::cancelUrl(
+    safepost('return_to', safeget('return_to')),
+    $_SERVER['SCRIPT_NAME'],
+    $fallback
+);
+$smarty->assign('cancel_url', $cancelUrl);
 
 $smarty->assign('struct', $form_fields);
 $smarty->assign('fielderror', $fielderror);

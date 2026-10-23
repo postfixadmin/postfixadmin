@@ -149,10 +149,10 @@
                 {if $authentication_has_role.global_admin!==true && $CONF.alias_control_admin===YES}{assign var="edit_aliases" value=1}{/if}
                 {if $authentication_has_role.global_admin==true && $CONF.alias_control===YES}{assign var="edit_aliases" value=1}{/if}
                 {if $edit_aliases==1}
-                    <td><a class="btn btn-sm btn-primary list-action-icon" title="{$PALANG.alias}" aria-label="{$PALANG.alias}" href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}"><span
+                    <td><a class="btn btn-sm btn-primary list-action-icon" title="{$PALANG.alias}" aria-label="{$PALANG.alias}" href="edit.php?table=alias&amp;edit={$item.username|escape:"url"}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span
                                     class="bi bi-envelope" aria-hidden="true"></span></a></td>
                 {/if}
-                <td><a class="btn btn-sm btn-primary list-action-icon" title="{$PALANG.edit}" aria-label="{$PALANG.edit}" href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}"><span
+                <td><a class="btn btn-sm btn-primary list-action-icon" title="{$PALANG.edit}" aria-label="{$PALANG.edit}" href="edit.php?table=mailbox&amp;edit={$item.username|escape:"url"}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span
                                 class="bi bi-pencil" aria-hidden="true"></span></a></td>
                 <td>
                     <form method="post" action="delete.php">

@@ -30,7 +30,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="dropdown-item" href="{#url_create_admin#}"><span class="bi bi-plus"
+                            <a class="dropdown-item" href="{#url_create_admin#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-plus"
                                                                                         aria-hidden="true"></span> {$PALANG.pAdminMenu_create_admin}
                             </a>
                         </li>
@@ -86,7 +86,7 @@
                                     aria-hidden="true"></span> {$PALANG.add_alias}</a></li>
                     {if $boolconf_alias_domain}
                         <li>
-                            <a class="dropdown-item" href="{#url_create_alias_domain#}{$url_domain}">
+                            <a class="dropdown-item" href="{#url_create_alias_domain#}{$url_domain}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}">
                                     <span class="bi bi-plus-circle"
                                             aria-hidden="true"></span> {$PALANG.add_alias_domain}</a>
                         </li>
@@ -106,7 +106,7 @@
                         <li><a class="dropdown-item" href="{#url_fetchmail#}">
                                     <span class="bi bi-list-ul"
                                             aria-hidden="true"></span> {$PALANG.pMenu_fetchmail}</a></li>
-                        <li><a class="dropdown-item" href="{#url_fetchmail_new_entry#}">
+                        <li><a class="dropdown-item" href="{#url_fetchmail_new_entry#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}">
                                         <span class="bi bi-plus-circle"
                                             aria-hidden="true"></span> {$PALANG.pFetchmail_new_entry}</a></li>
                     </ul>
@@ -124,12 +124,12 @@
                         <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{#url_sendmail#}"><span class="bi bi-send"
+                        <li><a class="dropdown-item" href="{#url_sendmail#}?return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-send"
                                                                                     aria-hidden="true"></span> {$PALANG.pMenu_sendmail}
                             </a></li>
                         {if $authentication_has_role.global_admin || (isset($CONF.sendmail_all_admins) && $CONF.sendmail_all_admins === 'YES') }
                             <li>
-                                <a class="dropdown-item" href="{#url_broadcast_message#}"><span
+                                <a class="dropdown-item" href="{#url_broadcast_message#}?return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span
                                             class="bi bi-share"
                                             aria-hidden="true"></span> {$PALANG.pAdminMenu_broadcast_message}
                                 </a>
@@ -160,10 +160,10 @@
                         <li><a class="dropdown-item" href="{#url_dkim_signing#}"><span class="bi bi-list"
                                                                                         aria-hidden="true"></span> {$PALANG.pMenu_dkim_signing}
                             </a></li>
-                        <li><a class="dropdown-item" href="{#url_dkim_newkey#}"><span class="bi bi-plus"
+                        <li><a class="dropdown-item" href="{#url_dkim_newkey#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-plus"
                                                                                         aria-hidden="true"></span> {$PALANG.pDkim_new_key}
                             </a></li>
-                        <li><a class="dropdown-item" href="{#url_dkim_newsign#}"><span class="bi bi-plus"
+                        <li><a class="dropdown-item" href="{#url_dkim_newsign#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-plus"
                                                                                         aria-hidden="true"></span> {$PALANG.pDkim_new_sign}
                             </a></li>
                     </ul>
@@ -181,7 +181,7 @@
                         <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{#url_password#}"><span class="bi bi-lock"
+                        <li><a class="dropdown-item" href="{#url_password#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-lock"
                                                                                     aria-hidden="true"></span> {$PALANG.pMenu_password}
                             </a></li>
                         <li><a class="dropdown-item" href="{#url_totp#}"><span class="bi bi-lock"
@@ -201,7 +201,7 @@
             {/strip}
         {else}
             {* password *}
-            <li><a class="nav-link" type="button" href="{#url_password#}">
+            <li><a class="nav-link" type="button" href="{#url_password#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}">
                     <span class="bi bi-lock" aria-hidden="true"></span>
                     {$PALANG.pMenu_password}</a></li>
         {/if}
