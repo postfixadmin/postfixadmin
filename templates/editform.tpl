@@ -5,6 +5,10 @@
         <div class="card-body enable-asterisk">
             <input class="flat" type="hidden" name="table" value="{$table}"/>
 
+            {if isset($cancel_url)}
+                <input type="hidden" name="return_to" value="{$cancel_url}"/>
+            {/if}
+
             {CSRF_Token}
 
             {foreach key=key item=field from=$struct}
@@ -125,6 +129,9 @@
                     <button class="btn btn-primary" type="submit" name="submit">
                         <span class="bi bi-pencil" aria-hidden="true"></span> {$submitbutton}
                     </button>
+                    {if isset($cancel_url)}
+                        <a class="btn btn-secondary" href="{$cancel_url}">{$PALANG.cancel}</a>
+                    {/if}
                 </div>
             </div>
         </div>

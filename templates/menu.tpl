@@ -58,7 +58,7 @@
                                                                                     aria-hidden="true"></span> {$PALANG.pAdminMenu_list_domain}
                         </a></li>
                     {if $authentication_has_role.global_admin}
-                        <li><a class="dropdown-item" href="{#url_edit_domain#}"><span class="bi bi-plus"
+                        <li><a class="dropdown-item" href="{#url_edit_domain#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-plus"
                                                                                         aria-hidden="true"></span> {$PALANG.pAdminMenu_create_domain}
                             </a></li>
                     {/if}
@@ -78,10 +78,10 @@
                     <li><a class="dropdown-item" href="{#url_list_virtual#}"><span class="bi bi-list-ul"
                                                                                     aria-hidden="true"></span> {$PALANG.pAdminMenu_list_virtual}
                         </a></li>
-                    <li><a class="dropdown-item" href="{#url_create_mailbox#}{$url_domain}"><span
+                    <li><a class="dropdown-item" href="{#url_create_mailbox#}{$url_domain}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span
                                     class="bi bi-inbox"
                                     aria-hidden="true"></span> {$PALANG.add_mailbox}</a></li>
-                    <li><a class="dropdown-item" href="{#url_create_alias#}{$url_domain}"><span
+                    <li><a class="dropdown-item" href="{#url_create_alias#}{$url_domain}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span
                                     class="bi bi-plus-circle"
                                     aria-hidden="true"></span> {$PALANG.add_alias}</a></li>
                     {if $boolconf_alias_domain}

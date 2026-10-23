@@ -8,6 +8,7 @@
 
 Changes in 'master' (not in a release yet) (20XX/XX/XX)
 --------------------------
+   - Add Cancel to mailbox, alias and domain creation forms, returning to the originating overview or the configured list.
    - Use the concise Spanish "MX de respaldo" label for Backup MX in domain lists and forms.
  
    - Treat recipient_delimiter as a set of alternative characters, matching Postfix behavior (see #1143, thanks @MatzeKitt).

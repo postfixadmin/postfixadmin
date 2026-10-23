@@ -227,7 +227,7 @@
                 {if isset($fDomain)}
                     {assign var=tmpdomain value="&amp;domain={$fDomain|escape:url}"}
                 {/if}
-                <a href="edit.php?table={$table|escape:"url"}{$tmpdomain}" role="button"
+                <a href="edit.php?table={$table|escape:"url"}{$tmpdomain}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}" role="button"
                     class="btn btn-secondary"><span
                             class="bi bi-plus-circle"
                             aria-hidden="true"></span> {$PALANG.{$formconf.create_button}}</a>

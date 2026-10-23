@@ -59,7 +59,7 @@
             </tr>
             <tr>
                 <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary w-100"
-                                       href="{#url_create_alias#}"><span class="bi bi-plus-circle"
+                                       href="{#url_create_alias#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-plus-circle"
                                                                          aria-hidden="true"></span> {$PALANG.add_alias}
                     </a>
                 </td>
@@ -67,7 +67,7 @@
             </tr>
             <tr>
                 <td nowrap="nowrap"><a style="text-align:left; padding-left:15px" class="btn btn-primary w-100"
-                                       href="{#url_create_mailbox#}"><span class="bi bi-inbox"
+                                       href="{#url_create_mailbox#}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}"><span class="bi bi-inbox"
                                                                            aria-hidden="true"></span> {$PALANG.add_mailbox}
                     </a></td>
                 <td style="padding-top: 15px;">{$PALANG.pMain_create_mailbox}</td>
