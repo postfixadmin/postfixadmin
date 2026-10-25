@@ -57,6 +57,7 @@ $PALANG['pLogin_language'] = 'Linguagem'; # XXX
 $PALANG['pLogin_button'] = 'Entrar';
 $PALANG['pLogin_failed'] = 'O endereço de email ou password não estão correctos.'; # XXX
 $PALANG['pLogin_login_users'] = 'Os utilizadores devem de clicar aqui para aceder à secção de utilizadores.';
+$PALANG['pLogin_oidc_button'] = 'Login with SSO'; # XXX
 
 $PALANG['pMenu_main'] = 'Menu Principal';
 $PALANG['pMenu_overview'] = 'Visão Geral';
