@@ -266,21 +266,7 @@ if ($new) {
     $smarty->assign('submitbutton', Config::lang('save'));
 }
 
-// Keep the original destination through failed validation without changing Save behavior.
-$fallback = $formconf['listview'];
-if ($fallback === 'list-virtual.php') {
-    $bits = [
-        'domain' => safeget('domain', safesession('list-virtual:domain')),
-        'limit' => $_SESSION['list-virtual:limit'] ?? null,
-    ];
-    $fallback .= '?' . http_build_query(array_filter($bits));
-}
-$cancelUrl = EditFormNavigation::cancelUrl(
-    safepost('return_to', safeget('return_to')),
-    $_SERVER['SCRIPT_NAME'],
-    $fallback
-);
-$smarty->assign('cancel_url', $cancelUrl);
+$smarty->assign('cancel_url', $formconf['listview']);
 
 $smarty->assign('struct', $form_fields);
 $smarty->assign('fielderror', $fielderror);

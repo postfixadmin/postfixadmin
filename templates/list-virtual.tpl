@@ -116,7 +116,7 @@
         <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-2">
             <div class="btn-group">
                 {if $tCanAddMailbox}
-                    <a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}&amp;return_to={$smarty.server.REQUEST_URI|escape:"url"}" role="button"
+                    <a href="{#url_create_mailbox#}&amp;domain={$fDomain|escape:"url"}" role="button"
                         class="btn btn-secondary"><span class="bi bi-plus-circle"
                                                         aria-hidden="true"></span> {$PALANG.add_mailbox}</a>
                 {/if}

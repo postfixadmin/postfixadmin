@@ -3,7 +3,6 @@
     <div id="edit_form" class="card">
         <div class="card-header"><h4>{$PALANG.pSendmail_welcome}</h4></div>
         <div class="card-body enable-asterisk">
-            <input type="hidden" name="return_to" value="{$cancel_url}"/>
             {CSRF_Token}
 
             <div class="mb-3">
@@ -31,7 +30,7 @@
 		    <button class="btn btn-primary" type="submit" name="submit">
                         <span class="bi bi-send" aria-hidden="true"></span> {$PALANG.pSendmail_button}
 		    </button>
-                    <a class="btn btn-secondary" href="{$cancel_url}">{$PALANG.cancel}</a>
+                    <a class="btn btn-secondary" href="main.php">{$PALANG.cancel}</a>
                 </div>
             </div>
         </div>
