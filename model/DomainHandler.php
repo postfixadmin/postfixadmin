@@ -24,10 +24,43 @@ class DomainHandler extends PFAHandler
         return $valid;
     }
 
+    /**
+     * smtp_client_ips: list of IPv4/IPv6 addresses or CIDR networks,
+     * separated by whitespace, comma or semicolon. An empty value is allowed.
+     * See SmtpClientIpList for the accepted forms.
+     */
+    protected function _validate_smtp_client_ips($field, $val)
+    {
+        $invalid = SmtpClientIpList::invalidEntries((string)$val);
+        $host_bits = array_keys(array_filter($invalid, function ($error) {
+            return $error === SmtpClientIpList::ERROR_HOST_BITS;
+        }));
+        $other = array_keys(array_diff_key($invalid, array_flip($host_bits)));
+
+        if ($other !== []) {
+            $this->errormsg[$field] = Config::lang_f('smtp_client_ips_invalid', implode(', ', $other));
+            return false;
+        }
+        if ($host_bits !== []) {
+            $this->errormsg[$field] = Config::lang_f('smtp_client_ips_host_bits', implode(', ', $host_bits));
+            return false;
+        }
+
+        if (strlen(SmtpClientIpList::format((string)$val)) > 1024) {
+            $this->errormsg[$field] = Config::lang_f('invalid_value_given', $field);
+            return false;
+        }
+
+        return true;
+    }
+
     protected function setmore(array $values)
     {
         if (array_key_exists('password_expiry', $this->values)) {
             $this->values['password_expiry'] = (int)$this->values['password_expiry'];
+        }
+        if (array_key_exists('smtp_client_ips', $this->values)) {
+            $this->values['smtp_client_ips'] = SmtpClientIpList::format((string)$this->values['smtp_client_ips']);
         }
     }
 
@@ -64,6 +97,7 @@ class DomainHandler extends PFAHandler
         $show_maxquota = $quota;
         $show_pwexp = $pwexp;
         $pwexp_label = 'password_expiration';
+        $smtp_clients = min($super, Config::intbool('domain_smtp_client_ips'));
 
         if (Config::bool('domain_list_hide_maxquota')) {
             $show_maxquota = 0;
@@ -148,6 +182,7 @@ class DomainHandler extends PFAHandler
 
            'transport'         => self::pacol($transp,    $transp,$transp,'enum', 'transport'                    , 'pAdminEdit_domain_transport_text' , Config::read('transport_default')     ,
                /*options*/ Config::read_array('transport_options')),
+           'smtp_client_ips'   => self::pacol($smtp_clients, $smtp_clients, $smtp_clients, 'text', 'smtp_client_ips', 'smtp_client_ips_desc', ''),
            'backupmx'          => self::pacol($super,     $super, 1,      'bool', 'pAdminEdit_domain_backupmx'   , ''                                 , 0),
            'active'            => self::pacol($super,     $super, 1,      'bool', 'active'                       , ''                                 , 1),
            'default_aliases'   => self::pacol($this->new, $this->new, 0,  'bool', 'pAdminCreate_domain_defaultaliases', ''                            , 1,array(), /*not in db*/ 1),

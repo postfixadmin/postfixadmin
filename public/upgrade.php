@@ -2341,3 +2341,13 @@ function upgrade_1857()
     _db_add_field('domain', 'dns_active', 'BOOLEAN DEFAULT NULL', 'active');
     _db_add_field('domain', 'dns_checked', 'timestamp NULL DEFAULT NULL', 'dns_active');
 }
+
+/**
+ * Store the IP addresses / networks of hosts that forward mail without SMTP
+ * authentication (e.g. web server containers using nullmailer) and may send
+ * with sender addresses of this domain. See $CONF['domain_smtp_client_ips'].
+ */
+function upgrade_1858()
+{
+    _db_add_field('domain', 'smtp_client_ips', "varchar(1024) {UTF-8} NOT NULL DEFAULT ''", 'transport');
+}
