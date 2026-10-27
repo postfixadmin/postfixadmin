@@ -266,6 +266,8 @@ if ($new) {
     $smarty->assign('submitbutton', Config::lang('save'));
 }
 
+$smarty->assign('cancel_url', $formconf['listview']);
+
 $smarty->assign('struct', $form_fields);
 $smarty->assign('fielderror', $fielderror);
 $smarty->assign('table', $table);

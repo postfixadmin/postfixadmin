@@ -44,6 +44,7 @@
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group float-end">
                     <input class="btn btn-primary" type="submit" name="submit" value="{$PALANG.pSendmail_button}"/>
+                    <a class="btn btn-secondary" href="main.php">{$PALANG.cancel}</a>
                 </div>
             </div>
         </div>
