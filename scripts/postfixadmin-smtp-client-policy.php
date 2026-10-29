@@ -13,8 +13,16 @@
  * database settings of PostfixAdmin (config.local.php); optional read-only
  * credentials can be set in $CONF['smtp_client_policy'].
  *
- *   --check   validate the configuration, test the database query and exit
- *             (exit code 0 = ok, 1 = error)
+ *   --check [--cidr-map=FILE] [--cidr-class=NAME]
+ *             validate the configuration, test the database query and exit
+ *             (exit code 0 = ok, 1 = error). Also checks that the Postfix cidr
+ *             map (FILE, default: client_networks_map if set) sends all policy
+ *             networks and all assigned addresses to the policy (class NAME,
+ *             default client_networks_map_class / pfa_smtp_client_policy),
+ *             and warns about map entries outside client_networks.
+ *   --print-cidr-map [--cidr-class=NAME]
+ *             print that cidr map, generated from client_networks (not
+ *             needed with client_networks_map)
  */
 
 define('POSTFIXADMIN_CLI', 1);
@@ -76,22 +84,73 @@ try {
     syslog(LOG_ERR, 'configuration error: ' . $startupError);
 }
 
-if (in_array('--check', $argv ?? [], true)) {
-    if ($startupError !== null) {
+$args = $argv ?? [];
+$cliOption = function (string $name) use ($args): ?string {
+    foreach ($args as $arg) {
+        if (strpos($arg, "--$name=") === 0) {
+            return substr($arg, strlen($name) + 3);
+        }
+    }
+    return null;
+};
+$cidrClass = $cliOption('cidr-class') ?? ($policy !== null ? $policy->options()['client_networks_map_class'] : SmtpClientPolicy::CIDR_MAP_CLASS);
+
+if (in_array('--print-cidr-map', $args, true)) {
+    if ($policy === null || $startupError !== null) {
+        fwrite(STDERR, "ERROR: $startupError\n");
+        exit(1);
+    }
+    if ($policy->options()['client_networks_map'] !== null) {
+        fwrite(STDERR, "ERROR: the networks are read from {$policy->options()['client_networks_map']} (client_networks_map) - nothing to generate\n");
+        exit(1);
+    }
+    echo $policy->cidrMap($cidrClass);
+    exit(0);
+}
+
+if (in_array('--check', $args, true)) {
+    if ($policy === null || $startupError !== null) {
         fwrite(STDERR, "ERROR: $startupError\n");
         exit(1);
     }
     try {
         $data = SmtpClientPolicy::loadFromDatabase();
-        foreach ($warnings as $warning) {
-            fwrite(STDERR, "WARNING: $warning\n");
-        }
-        printf("OK: %d assignment(s), %d alias domain(s)\n", count($data['assignments']), count($data['aliases']));
-        exit(0);
     } catch (Throwable $e) {
         fwrite(STDERR, 'ERROR: database: ' . $e->getMessage() . "\n");
         exit(1);
     }
+    foreach ($warnings as $warning) {
+        fwrite(STDERR, "WARNING: $warning\n");
+    }
+    printf("OK: %d assignment(s), %d alias domain(s)\n", count($data['assignments']), count($data['aliases']));
+    $o = $policy->options();
+    if ($o['client_networks_map'] !== null) {
+        printf("OK: %d policy network(s) read from %s\n", count($o['client_networks']), $o['client_networks_map']);
+    }
+
+    $mapFile = $cliOption('cidr-map') ?? $o['client_networks_map'];
+    if ($mapFile === null) {
+        fwrite(STDERR, "NOTE: Postfix cidr map not checked - add --cidr-map=/etc/postfix/smtp_client_networks.cidr\n");
+        exit(0);
+    }
+    try {
+        $map = SmtpClientPolicy::readCidrMapFile($mapFile);
+    } catch (RuntimeException $e) {
+        fwrite(STDERR, 'ERROR: ' . $e->getMessage() . "\n");
+        exit(1);
+    }
+    $result = $policy->checkCidrMap($map, $data['assignments'], $cidrClass);
+    foreach ($result['warnings'] as $warning) {
+        fwrite(STDERR, "WARNING: $mapFile: $warning\n");
+    }
+    foreach ($result['errors'] as $error) {
+        fwrite(STDERR, "ERROR: $mapFile: $error\n");
+    }
+    if ($result['errors'] !== []) {
+        exit(1);
+    }
+    echo "OK: $mapFile sends all policy networks and assigned addresses to $cidrClass\n";
+    exit(0);
 }
 
 // On a configuration error keep answering (with a temporary failure) instead

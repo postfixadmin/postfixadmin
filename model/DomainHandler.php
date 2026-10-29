@@ -334,7 +334,34 @@ class DomainHandler extends PFAHandler
                 $this->errormsg[] = Config::lang('domain_postedit_failed');
             }
         }
+
+        $this->smtpClientIpWarnings();
+
         return true; # TODO: don't hardcode
+    }
+
+    /**
+     * After saving: warn (without blocking) about SMTP client IPs the policy
+     * will not check, e.g. outside the Postfix map or covered by an exception
+     * in it - see SmtpClientPolicy::addressWarnings().
+     */
+    protected function smtpClientIpWarnings(): void
+    {
+        if (!Config::bool('domain_smtp_client_ips') || !array_key_exists('smtp_client_ips', $this->values)
+            || (string)$this->values['smtp_client_ips'] === '') {
+            return;
+        }
+        $options = Config::read('smtp_client_policy');
+        $warnings = SmtpClientPolicy::addressWarnings((string)$this->values['smtp_client_ips'], is_array($options) ? $options : []);
+        if ($warnings['failed'] !== null) {
+            $this->errormsg[] = Config::lang_f('smtp_client_ips_check_failed', $warnings['failed']);
+        }
+        if ($warnings['not_checked'] !== []) {
+            $this->errormsg[] = Config::lang_f('smtp_client_ips_not_checked', implode(', ', $warnings['not_checked']));
+        }
+        if ($warnings['partly'] !== []) {
+            $this->errormsg[] = Config::lang_f('smtp_client_ips_partly_checked', implode(', ', $warnings['partly']));
+        }
     }
 
     /**

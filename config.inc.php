@@ -851,8 +851,17 @@ $CONF['domain_smtp_client_ips'] = 'NO';
 //   that is not listed for any domain - e.g. after its last entry was removed:
 //   'reject' (default, recommended) or 'dunno' (normal processing, which
 //   usually means permit_mynetworks lets it send with any sender).
-// client_networks: networks of the forwarding hosts (CIDR), required for
-//   'reject', e.g. array('10.0.2.0/24').
+// client_networks_map: absolute path of the Postfix cidr map that sends the
+//   forwarding hosts to the policy, e.g. '/etc/postfix/smtp_client_networks.cidr'
+//   (example: DOCUMENTS/smtp_client_networks.cidr.example). The policy reads
+//   its networks from the lines with client_networks_map_class (default
+//   'pfa_smtp_client_policy'), so they are maintained in one place.
+//   Recommended if PostfixAdmin runs on the Postfix host.
+// client_networks: alternatively, the networks of the forwarding hosts (CIDR),
+//   e.g. array('10.0.2.0/24') - for installations where PostfixAdmin cannot
+//   read the Postfix map. Must match that map - generate it with
+//   --print-cidr-map and verify it with --check --cidr-map=FILE.
+//   One of the two is required for 'reject'; setting both is an error.
 // require_existing_sender: sender must be an active mailbox or alias.
 // reject_null_sender: reject MAIL FROM:<> from listed clients.
 // allow_subdomains: also permit sub.example.com for example.com.
@@ -861,6 +870,8 @@ $CONF['domain_smtp_client_ips'] = 'NO';
 //   replace database_user / database_password for the policy service.
 $CONF['smtp_client_policy'] = array(
     'unassigned_client_action' => 'reject',
+    'client_networks_map' => null,
+    'client_networks_map_class' => 'pfa_smtp_client_policy',
     'client_networks' => array(),
     'require_existing_sender' => true,
     'reject_null_sender' => true,

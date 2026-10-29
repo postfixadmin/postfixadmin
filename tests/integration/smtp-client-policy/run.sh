@@ -257,6 +257,57 @@ expect "policy service timeout -> 4xx, not permitted"           192.0.2.10   nor
 write_master "$POLICY_ARGV"; reload
 expect "policy service restored"                                192.0.2.10   noreply@example.com "250 2.1.5"
 
+echo "== --check against the Postfix cidr map"
+# check_cmd <description> <expected exit code> <policy script arguments...>
+check_cmd() {
+    local desc="$1" want="$2" rc
+    shift 2
+    php "$PFA/scripts/postfixadmin-smtp-client-policy.php" "$@" >"$TMP/check.out" 2>&1
+    rc=$?
+    if [ "$rc" = "$want" ]; then
+        echo "ok    $desc"
+    else
+        echo "FAIL  $desc (exit code $rc, expected $want)"
+        sed 's/^/      /' "$TMP/check.out"
+        FAILED=1
+    fi
+}
+check_map() { check_cmd "$1" "$3" --check --cidr-map="$2"; }
+check_map "map of this instance matches"                        "$PF/smtp_client_networks.cidr" 0
+php "$PFA/scripts/postfixadmin-smtp-client-policy.php" --print-cidr-map > "$TMP/generated.cidr" 2>/dev/null
+check_map "generated map (--print-cidr-map) matches"            "$TMP/generated.cidr" 0
+printf '198.51.100.0/24\tpfa_smtp_client_policy\n' > "$TMP/missing.cidr"
+check_map "forwarding network missing in the map -> error"     "$TMP/missing.cidr" 1
+printf '192.0.0.0/16\tOK\n192.0.2.0/24\tpfa_smtp_client_policy\n' > "$TMP/shadowed.cidr"
+check_map "network shadowed by an earlier line -> error"       "$TMP/shadowed.cidr" 1
+
+echo "== networks read from the Postfix map (client_networks_map)"
+sed -i "s|'client_networks' => array('192.0.2.0/24'),|'client_networks_map' => '$PF/smtp_client_networks.cidr',|" "$PFA/config.local.php"
+grep -q client_networks_map "$PFA/config.local.php" || { echo "FAIL  switching the test config to client_networks_map"; FAILED=1; }
+reload
+expect "map mode: assigned host, own domain"                    192.0.2.10   noreply@example.com "250 2.1.5"
+expect "map mode: assigned host, foreign domain"                192.0.2.10   noreply@example.org "554 5.7.1"
+expect "map mode: unassigned host inside the map"               192.0.2.99   noreply@example.com "554 5.7.1"
+expect "map mode: trusted host outside the map"                 198.51.100.5 noreply@example.org "250 2.1.5"
+check_cmd "map mode: --check uses the map without --cidr-map"   0 --check
+check_cmd "map mode: --print-cidr-map is refused"               1 --print-cidr-map
+chmod 000 "$PF/smtp_client_networks.cidr"     # smtpd reads it as root, the policy (nobody) cannot
+reload
+expect "map unreadable for the policy -> temporary failure"     192.0.2.10   noreply@example.com "4.3.0"
+expect "map unreadable: trusted host outside unaffected"        198.51.100.5 noreply@example.org "250 2.1.5"
+chmod 644 "$PF/smtp_client_networks.cidr"
+reload
+expect "map readable again"                                     192.0.2.10   noreply@example.com "250 2.1.5"
+cp "$PF/smtp_client_networks.cidr" "$TMP/map.orig"
+printf '192.0.2.250\tDUNNO\n192.0.2.0/24\tpfa_smtp_client_policy\n' > "$PF/smtp_client_networks.cidr"
+reload
+expect "exception before the network -> not checked"           192.0.2.250  noreply@example.org "250 2.1.5"
+expect "exception: rest of the network still checked"          192.0.2.99   noreply@example.com "554 5.7.1"
+check_cmd "exception: --check warns, no error"                  0 --check
+grep -q "exception: these clients are not checked" "$TMP/check.out" || { echo "FAIL  exception warning missing"; FAILED=1; }
+cp "$TMP/map.orig" "$PF/smtp_client_networks.cidr"
+reload
+
 echo
 if [ $FAILED = 0 ]; then echo "all cases passed"; else echo "FAILED - log: KEEP=1 $0, then see maillog"; fi
 exit $FAILED
