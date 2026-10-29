@@ -832,6 +832,53 @@ $CONF['version'] = '4.0.1';
 // in your Dovecot SQL configuration.
 $CONF['smtp_active_flag'] = 'NO';
 
+// The domain_smtp_client_ips flag when set to YES enables editing of the
+// smtp_client_ips field of the domain table (superadmins only).
+// It holds the IP addresses / networks (CIDR) of hosts that forward their mail
+// to this mail server without SMTP authentication and are therefore listed in
+// Postfix' mynetworks - typically web server containers or VMs that only run
+// an HTTP server and hand outgoing mail to the central mail server with a
+// relay-only MTA such as nullmailer, msmtp or a Postfix null client.
+// It binds them to the domain: such a host may only use sender addresses of
+// the domain(s) it is listed for.
+// PostfixAdmin stores the list; Postfix enforces it with the policy service
+// scripts/postfixadmin-smtp-client-policy.php, see DOCUMENTS/SMTP_CLIENT_IPS.md.
+$CONF['domain_smtp_client_ips'] = 'NO';
+
+// Options for scripts/postfixadmin-smtp-client-policy.php (only used by the
+// policy service; validated at its start, see DOCUMENTS/SMTP_CLIENT_IPS.md).
+// unassigned_client_action: what to do with a client inside client_networks
+//   that is not listed for any domain - e.g. after its last entry was removed:
+//   'reject' (default, recommended) or 'dunno' (normal processing, which
+//   usually means permit_mynetworks lets it send with any sender).
+// client_networks_map: absolute path of the Postfix cidr map that sends the
+//   forwarding hosts to the policy, e.g. '/etc/postfix/smtp_client_networks.cidr'
+//   (example: DOCUMENTS/smtp_client_networks.cidr.example). The policy reads
+//   its networks from the lines with client_networks_map_class (default
+//   'pfa_smtp_client_policy'), so they are maintained in one place.
+//   Recommended if PostfixAdmin runs on the Postfix host.
+// client_networks: alternatively, the networks of the forwarding hosts (CIDR),
+//   e.g. array('10.0.2.0/24') - for installations where PostfixAdmin cannot
+//   read the Postfix map. Must match that map - generate it with
+//   --print-cidr-map and verify it with --check --cidr-map=FILE.
+//   One of the two is required for 'reject'; setting both is an error.
+// require_existing_sender: sender must be an active mailbox or alias.
+// reject_null_sender: reject MAIL FROM:<> from listed clients.
+// allow_subdomains: also permit sub.example.com for example.com.
+// cache_ttl: seconds the assignments are cached per policy process.
+// database_user / database_password: optional (read-only) credentials that
+//   replace database_user / database_password for the policy service.
+$CONF['smtp_client_policy'] = array(
+    'unassigned_client_action' => 'reject',
+    'client_networks_map' => null,
+    'client_networks_map_class' => 'pfa_smtp_client_policy',
+    'client_networks' => array(),
+    'require_existing_sender' => true,
+    'reject_null_sender' => true,
+    'allow_subdomains' => false,
+    'cache_ttl' => 30,
+);
+
 // Domain list display.
 // Set these options to YES to hide optional columns in the domain list.
 // Hidden values remain available in the domain tooltip.

@@ -1,0 +1,44 @@
+# /etc/postfix/smtp_client_networks.cidr - example
+#
+# Networks of the hosts that submit mail to this server (the SMTP relay)
+# without authentication, e.g. web server containers using nullmailer.
+# Postfix sends these clients to the PostfixAdmin SMTP client policy, which
+# checks that the sender domain belongs to the client address (field
+# "SMTP client IPs" of the domain). See DOCUMENTS/SMTP_CLIENT_IPS.md.
+#
+# Used by
+#   main.cf:  smtpd_sender_restrictions =
+#                 check_client_access cidr:/etc/postfix/smtp_client_networks.cidr
+#                 permit_mynetworks ...
+#   PostfixAdmin (config.local.php), so the networks are maintained here only:
+#             $CONF['smtp_client_policy']['client_networks_map'] =
+#                 '/etc/postfix/smtp_client_networks.cidr';
+#
+# Format: one network per line, "network/prefix  pfa_smtp_client_policy".
+# Postfix uses the first matching line (see the exceptions at the end). Use network addresses (10.0.2.0/24,
+# not 10.0.2.10/24). Keep the file readable for Postfix, the policy user and
+# the web server (default: root:root, mode 0644). No postmap needed; after a
+# change run "postfix reload" and
+#   php /srv/postfixadmin/scripts/postfixadmin-smtp-client-policy.php --check
+
+# web server containers (IPv4 and IPv6)
+10.0.2.0/24          pfa_smtp_client_policy
+fd00:0:0:2::/64      pfa_smtp_client_policy
+
+# a single forwarding host outside the container networks
+192.0.2.25           pfa_smtp_client_policy
+
+# Exceptions inside a policy network (first match wins):
+#
+#   10.0.2.250       DUNNO                    # 1: exception, e.g. a monitoring host
+#   10.0.2.0/24      pfa_smtp_client_policy   # 2: all other 10.0.2.x -> policy
+#   10.0.2.251       REJECT                   # 3: never used, line 2 matches first
+#
+# - An exception must come BEFORE the network line. Postfix then does not ask
+#   the policy for that client: an entry "10.0.2.250" in the SMTP client IPs
+#   of a domain has no effect, and with DUNNO the remaining restrictions
+#   (usually permit_mynetworks) let it send with any sender domain. Prefer
+#   DUNNO to OK, which would also skip the later smtpd_sender_restrictions.
+# - A line AFTER the network line is never used for addresses in it.
+# - PostfixAdmin warns when a domain is saved with such entries, and
+#   "postfixadmin-smtp-client-policy.php --check" reports them.

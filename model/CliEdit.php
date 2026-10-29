@@ -199,6 +199,10 @@ class CliEdit extends Shell
 
         $this->out("");
         $this->out($handler->infomsg);
+        if (count($handler->errormsg)) {
+            # saved, but with warnings (e.g. a failed post-edit script) - like edit.php
+            $this->err($handler->errormsg);
+        }
         $this->hr();
         return 0;
     }
