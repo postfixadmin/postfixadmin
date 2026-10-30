@@ -4,18 +4,15 @@
         <div class="card-header"><h4>{$PALANG.pTotp_exceptions_welcome}</h4></div>
         <div class="card-body enable-asterisk">
             {CSRF_Token}
-            <div class="mb-3 {if $pPassword_text}is-invalid{/if}">
+            <div class="mb-3">
                 <label class="col-md-2 col-sm-2"
                        for="fPassword_current">{$PALANG.pPassword_password_current}:</label>
                 <div class="col-md-6 col-sm-8"><input class="form-control" type="password" name="fPassword_current"
                                                       id="fPassword_current"/></div>
-                <span class="form-text">{$pPassword_text}</span>
             </div>
-            <div class="mb-3 {if $pUser_text}is-invalid{/if}">
+            <div class="mb-3">
                 <label class="col-md-2 col-sm-2" for="fUser">{$PALANG.pTotp_exceptions_user}:</label>
-                <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fUser" id="fUser"
-                                                      value="{$pUser}"/></div>
-                <span class="form-text">{$pUser_text}</span>
+                <div class="col-md-6 col-sm-8"><input class="form-control" type="input" name="fUser" id="fUser"/></div>
             </div>
             <div class="mb-3">
                 <label class="col-md-2 col-sm-2" for="fIp">{$PALANG.pTotp_exceptions_address}:</label>
