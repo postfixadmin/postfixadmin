@@ -733,7 +733,11 @@ abstract class PFAHandler
                 $additional_where .= " AND ( " . join(" OR ", $simple_search) . " ) ";
                 unset($condition['_']);
             }
-            $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode, $params);
+            if ($condition === [] && trim($additional_where) === '') {
+                $where = ' WHERE 1=1 ';
+            } else {
+                $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode, $params);
+            }
         } else {
             if ($condition == "") {
                 $condition = '1=1';
