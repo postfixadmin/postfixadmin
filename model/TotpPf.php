@@ -296,7 +296,8 @@ class TotpPf
 
         list($_, $domain) = explode('@', $username);
 
-        if (!$this->login->login($username, $password)) {
+        $handler = new TotpexceptionHandler(1, $username, $this->table === 'admin');
+        if (!$handler->checkCurrentPassword($password, $this->login)) {
             throw new \Exception(Config::Lang('pPassword_password_current_text_error'));
         }
 

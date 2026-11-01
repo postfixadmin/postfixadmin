@@ -548,6 +548,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'Passwort kann nicht leer sein';
 $PALANG['pAppPassAdd_result_error'] = 'Das Anwendungskennwort nicht hinzufügen';
 $PALANG['MFA_submit'] = 'Anmeldung bestätigen';
 $PALANG['pViewlog_action_add_totp_exception'] = 'TOTP Ausnahme';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'TOTP Ausnahme löschen';
 $PALANG['pViewlog_action_add_app_password'] = 'Anwendungskennwort hinzufügen';
 $PALANG['mailbox_postapppassword_failed'] = 'Das Postbox Postapppassword-Skript fehlgeschlagen, überprüfen Sie das Fehlerprotokoll für Details!';

@@ -549,6 +549,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'A senha não pode estar vazia';
 $PALANG['pAppPassAdd_result_error'] = 'Não poderia adicionar senha de aplicação';
 $PALANG['MFA_submit'] = 'Confirme login';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Adicionar exceção TOTP';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Excluir exceção TOTP';
 $PALANG['pViewlog_action_add_app_password'] = 'Adicionar senha do aplicativo';
 $PALANG['mailbox_postapppassword_failed'] = 'O script postapppassword da caixa de correio falhou, verifique o registro de erro para detalhes!';

@@ -540,6 +540,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'Le mot de passe ne peut pas être vid
 $PALANG['pAppPassAdd_result_error'] = 'Impossible d\'ajouter un mot de passe';
 $PALANG['MFA_submit'] = 'Confirmer login';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Ajouter une exception TOTP';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Supprimer l &apos; exception TOTP';
 $PALANG['pViewlog_action_add_app_password'] = 'Ajouter un mot de passe';
 $PALANG['mailbox_postapppassword_failed'] = 'Le script mailbox postapppassword a échoué, vérifiez le journal d\'erreur pour les détails!';

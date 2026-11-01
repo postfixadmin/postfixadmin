@@ -549,6 +549,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'A jelszó nem lehet üres';
 $PALANG['pAppPassAdd_result_error'] = 'Nem lehet hozzáadni az alkalmazási jelszót';
 $PALANG['MFA_submit'] = 'Confirm login';
 $PALANG['pViewlog_action_add_totp_exception'] = 'TOTP kivétel hozzáadása';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'TOTP kivétel törlesztése';
 $PALANG['pViewlog_action_add_app_password'] = 'Adjon alkalmazási jelszót';
 $PALANG['mailbox_postapppassword_failed'] = 'A postaláda posztapppassword script nem sikerült, ellenőrizze a hibanaplót a részletekért!';

@@ -26,7 +26,8 @@ class TotpexceptionHandler extends PFAHandler
      */
     protected function no_domain_field()
     {
-        $this->allowed_domains = [];
+        $this->allowed_domains = $this->is_admin && $this->admin_username !== ''
+            ? list_domains_for_admin($this->admin_username) : [];
     }
 
     /** @return void */
@@ -35,7 +36,8 @@ class TotpexceptionHandler extends PFAHandler
         $this->struct = array(
             # field name              allow       display in...   type    $PALANG label                     $PALANG description  default / options / ...
             #                         editing?    form    list
-            'id'          => self::pacol(0,       0,      1,      'num',  'pFetchmail_field_id',            '', '', array(), 1),
+            'password_current' => self::pacol(1, 1, 0, 'pass', 'pPassword_password_current', '', '', array(), 1, 1),
+            'id'          => self::pacol(0,       0,      1,      'num',  'pFetchmail_field_id',            '', '', array(), 0, 1),
             'username'    => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_user',          ''),
             'ip'          => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_address',       ''),
             'description' => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_description',   ''),
@@ -70,12 +72,48 @@ class TotpexceptionHandler extends PFAHandler
             'required_role' => 'admin',
             'listview' => 'totp-exceptions.php',
             'early_init' => 0,
-            # deliberately no 'user_hardcoded_field' - users must not be able to use edit.php/list.php/delete.php
-            # for this handler, as that would bypass the current password check in users/totp-exceptions.php
-            # creating/editing via edit.php is disabled for everyone (incl. admins) for the same reason -
-            # totp-exceptions.php requires the current password before adding an exception.
-            'disable_edit_form' => 1,
+            'user_hardcoded_field' => 'username',
         );
+    }
+
+    /**
+     * Verify the acting account, never the exception's target account.
+     * TotpPf supplies its existing Login instance to preserve its authentication context.
+     */
+    public function checkCurrentPassword(string $password, ?Login $login = null): bool
+    {
+        $username = $this->is_admin ? $this->admin_username : $this->username;
+        if ($username !== '' && $password !== '') {
+            $login = $login ?? new Login($this->is_admin ? 'admin' : 'mailbox');
+            if ($login->login($username, $password)) {
+                return true;
+            }
+        }
+        $this->errormsg['password_current'] = Config::lang('pPassword_password_current_text_error');
+        return false;
+    }
+
+    public function set(array $values)
+    {
+        // Requiring the field here also covers omitted/empty passwords on edits,
+        // where PFAHandler normally skips unchanged password fields.
+        $this->values_valid = false;
+        $password = $values['password_current'] ?? '';
+        if (!$this->checkCurrentPassword(is_string($password) ? $password : '')) {
+            return false;
+        }
+        $valid = parent::set($values);
+        unset($this->values['password_current'], $this->RAWvalues['password_current']);
+        return $valid;
+    }
+
+    protected function _inp_pass($field, $val)
+    {
+        // An existing password must not be checked against new-password rules.
+        if ($field === 'password_current') {
+            return true;
+        }
+        return parent::_inp_pass($field, $val);
     }
 
     /** @return bool */
@@ -136,6 +174,10 @@ class TotpexceptionHandler extends PFAHandler
 
         // Superadmins can set for anyone
         if ($this->is_superadmin) {
+            return true;
+        }
+
+        if ($value === $this->admin_username) {
             return true;
         }
 
