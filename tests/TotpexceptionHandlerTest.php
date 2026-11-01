@@ -5,6 +5,8 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        db_insert('domain', ['domain' => 'example.com', 'description' => 'test',
+            'transport' => 'virtual', 'active' => true, 'backupmx' => false]);
         db_insert('admin', ['username' => 'global@example.com', 'password' => pacrypt('current-password'),
             'active' => true, 'superadmin' => true]);
         db_insert('admin', ['username' => 'admin@example.com', 'password' => pacrypt('admin-password'),
@@ -16,9 +18,9 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
     protected function tearDown(): void
     {
         db_query('DELETE FROM totp_exception_address');
-        db_query('DELETE FROM admin');
         db_query('DELETE FROM mailbox');
         db_query('DELETE FROM domain_admins');
+        db_query('DELETE FROM admin');
         db_query('DELETE FROM domain');
         $_SESSION = [];
 
@@ -38,27 +40,6 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
     private function asUser(): void
     {
         $_SESSION = ['sessid' => ['roles' => ['user']]];
-    }
-
-    private function addDomain(string $domain, string $adminUsername): void
-    {
-        $this->asSuperadmin();
-
-        $dh = new DomainHandler(1, $adminUsername, true);
-        $dh->init($domain);
-        $ret = $dh->set([
-            'domain' => $domain,
-            'description' => 'test domain',
-            'aliases' => 10,
-            'mailboxes' => 10,
-            'active' => 1,
-            'backupmx' => 0,
-            'default_aliases' => 0,
-        ]);
-        $this->assertTrue($ret, json_encode($dh->errormsg));
-        $this->assertTrue($dh->save());
-
-        db_insert('domain_admins', ['username' => $adminUsername, 'domain' => $domain, 'active' => 1], ['created'], true);
     }
 
     /**
@@ -201,7 +182,8 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
 
     public function testDomainAdminCannotTargetUnmanagedDomainWithValidPassword(): void
     {
-        $this->addDomain('example.com', 'admin@example.com');
+        db_insert('domain_admins', ['username' => 'admin@example.com',
+            'domain' => 'example.com', 'active' => true], ['created'], true);
         $this->asAdmin();
         $handler = new TotpexceptionHandler(1, 'admin@example.com', true);
         $this->assertTrue($handler->init(''));
