@@ -547,6 +547,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'パスワードが空にすること�
 $PALANG['pAppPassAdd_result_error'] = 'アプリケーションパスワードを追加できません';
 $PALANG['MFA_submit'] = 'ログイン確認';
 $PALANG['pViewlog_action_add_totp_exception'] = 'TOTP例外の追加';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'TOTP例外の削除';
 $PALANG['pViewlog_action_add_app_password'] = 'アプリケーションパスワードの追加';
 $PALANG['mailbox_postapppassword_failed'] = 'mailbox postapppasswordスクリプトが失敗しました。詳細はエラーログを確認してください!';

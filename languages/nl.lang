@@ -539,6 +539,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'Het wachtwoord kan niet leeg zijn';
 $PALANG['pAppPassAdd_result_error'] = 'Kon geen toepassing toevoegen';
 $PALANG['MFA_submit'] = 'Bevestig de login';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Vertaling:';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Verwijder ToTP uitzondering';
 $PALANG['pViewlog_action_add_app_password'] = 'Voeg een wachtwoord toe.';
 $PALANG['mailbox_postapppassword_failed'] = 'De postpassword script faalde, controleerde de foutenlog voor details.';

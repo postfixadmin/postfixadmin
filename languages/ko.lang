@@ -305,6 +305,7 @@ $PALANG['pViewlog_pagination'] = '로그 페이지';
 $PALANG['pViewlog_data'] = '데이터';
 
 $PALANG['pViewlog_action_add_totp_exception'] = 'TOTP 예외 추가';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'TOTP 예외 삭제';
 $PALANG['pViewlog_action_create_domain'] = '도메인 생성';
 $PALANG['pViewlog_action_delete_domain'] = '도메인 삭제';

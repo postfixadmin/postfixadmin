@@ -551,6 +551,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'Heslo nelze vyprázdnit';
 $PALANG['pAppPassAdd_result_error'] = 'Nelze přidat heslo aplikace';
 $PALANG['MFA_submit'] = 'Potvrzení přihlášení';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Přidat výjimku TOTP';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Odstranění výjimky TOTP';
 $PALANG['pViewlog_action_add_app_password'] = 'Přidat heslo aplikace';
 $PALANG['mailbox_postapppassword_failed'] = 'Poapppassword skript selhal, zkontrolujte protokol chyby pro podrobnosti!';
