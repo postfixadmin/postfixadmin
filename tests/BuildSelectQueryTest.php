@@ -235,4 +235,24 @@ class BuildSelectQueryTest extends \PHPUnit\Framework\TestCase
         $count = db_query_all('SELECT COUNT(*) as c FROM mailbox');
         $this->assertEquals(3, $count[0]['c'], 'mailbox table must survive the attempted injection intact');
     }
+    public function testDiscardedSearchPreservesDomainAndUserRestrictions(): void
+    {
+        db_insert('domain', ['domain' => 'outside.example', 'description' => 'outside', 'transport' => 'foo', 'active' => 1, 'backupmx' => 0]);
+        db_insert('mailbox', ['username' => 'outside@outside.example', 'password' => 'x',
+            'name' => 'Outside', 'maildir' => 'outside/', 'local_part' => 'outside',
+            'domain' => 'outside.example', 'active' => 1]);
+        $_SESSION = ['sessid' => ['roles' => ['admin']]];
+        $admin = new MailboxHandler(0, 'admin', true);
+        $this->assertTrue($admin->getList(['unknown' => 'x']));
+        $this->assertCount(3, $admin->result());
+        $this->assertArrayNotHasKey('outside@outside.example', $admin->result());
+        $this->assertSame($admin->getPagebrowser('', []), $admin->getPagebrowser(['unknown' => 'x'], []));
+
+        $_SESSION = ['sessid' => ['roles' => ['user']]];
+        $user = new MailboxnameHandler(0, 'alice@example.com', false);
+        $this->assertTrue($user->getList(['password' => 'x%'], ['password' => 'LIKE']));
+        $this->assertSame(['alice@example.com'], array_keys($user->result()));
+        $this->assertSame($user->getPagebrowser('', []), $user->getPagebrowser(['unknown' => 'x'], []));
+    }
+
 }
