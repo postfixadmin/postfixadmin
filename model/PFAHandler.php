@@ -733,11 +733,7 @@ abstract class PFAHandler
                 $additional_where .= " AND ( " . join(" OR ", $simple_search) . " ) ";
                 unset($condition['_']);
             }
-            if ($condition === [] && trim($additional_where) === '') {
-                $where = ' WHERE 1=1 ';
-            } else {
-                $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode, $params);
-            }
+            $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode, $params);
         } else {
             if ($condition == "") {
                 $condition = '1=1';
@@ -763,6 +759,9 @@ abstract class PFAHandler
     {
         if (is_array($condition)) {
             $condition = $this->filterSearchCondition($condition);
+            if ($condition === []) {
+                $condition = '';
+            }
         }
         $queryparts = $this->build_select_query($condition, $searchmode);
         return create_page_browser($this->label_field, $queryparts['from_where_order'], $queryparts['params'] ?? []);
@@ -888,6 +887,9 @@ abstract class PFAHandler
     {
         if (is_array($condition)) {
             $real_condition = $this->filterSearchCondition($condition);
+            if ($real_condition === []) {
+                $real_condition = '';
+            }
         } else {
             # warning: no sanity checks are applied if $condition is not an array!
             $real_condition = $condition;
