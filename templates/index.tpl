@@ -104,6 +104,69 @@
 <!-- bootstrap light/dark mode switch, taken from https://github.com/404GamerNotFound/bootstrap-5.3-dark-mode-light-mode-switch (MIT license) -->
 
 {literal}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.navbar .dropdown').forEach((dropdown) => {
+                const toggle = dropdown.querySelector('[data-bs-toggle="dropdown"]');
+                const menu = dropdown.querySelector('.dropdown-menu');
+                const toggler = dropdown.closest('.navbar').querySelector('.navbar-toggler');
+                if (!toggle || !menu || !toggler) {
+                    return;
+                }
+
+                const instance = bootstrap.Dropdown.getOrCreateInstance(toggle);
+                let closeTimer;
+                let keyboardActive = false;
+                const cancelClose = () => window.clearTimeout(closeTimer);
+                const scheduleClose = () => {
+                    cancelClose();
+                    closeTimer = window.setTimeout(() => {
+                        if (!keyboardActive && !menu.contains(document.activeElement)) {
+                            instance.hide();
+                        }
+                    }, 200);
+                };
+
+                dropdown.addEventListener('pointerenter', (event) => {
+                    if (event.pointerType !== 'mouse' || getComputedStyle(toggler).display !== 'none') {
+                        return;
+                    }
+                    cancelClose();
+                    keyboardActive = false;
+                    dropdown.closest('.navbar').querySelectorAll('[data-bs-toggle="dropdown"]').forEach((other) => {
+                        if (other !== toggle) {
+                            bootstrap.Dropdown.getInstance(other)?.hide();
+                        }
+                    });
+                    // Bootstrap focuses the toggle on show; hovering must preserve the current focus.
+                    const focused = document.activeElement;
+                    instance.show();
+                    if (document.activeElement === toggle && focused !== toggle) {
+                        toggle.blur();
+                        focused?.focus({preventScroll: true});
+                    }
+                });
+                dropdown.addEventListener('pointerleave', (event) => {
+                    if (event.pointerType === 'mouse') {
+                        scheduleClose();
+                    }
+                });
+                dropdown.addEventListener('keydown', () => {
+                    keyboardActive = true;
+                    cancelClose();
+                });
+                dropdown.addEventListener('focusout', (event) => {
+                    if (!dropdown.contains(event.relatedTarget)) {
+                        keyboardActive = false;
+                        if (!dropdown.matches(':hover')) {
+                            scheduleClose();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             const htmlElement = document.documentElement;
