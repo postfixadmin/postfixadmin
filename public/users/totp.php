@@ -34,13 +34,6 @@ authentication_require_role($required_role);
 
 $username = authentication_get_username();
 $pPassword_password_current_text = "";
-$pTOTP_now = "";
-$pPassword_password_text = "";
-
-
-// these get shown if there's an error.
-$pTOTP_secret_text = '';
-$pTOTP_code_text = '';
 
 // check if totp is enabled
 if (Config::bool('totp') === false) {
@@ -122,13 +115,9 @@ list($pTOTP_secret, $pQR_raw) = $totppf->generate($username);
 
 $smarty->assign('SESSID_USERNAME', $username);
 $smarty->assign('admin', $admin);
-$smarty->assign('pPassword_password_current_text', $pPassword_password_current_text, false);
-$smarty->assign('pTOTP_code_text', $pTOTP_code_text, false);
-$smarty->assign('pTOTP_secret_text', $pTOTP_secret_text, false);
-$smarty->assign('pPassword_password_text', $pPassword_password_text, false);
-$smarty->assign('pQR_raw', $pQR_raw, false);
-$smarty->assign('pTOTP_secret', $pTOTP_secret, false);
-$smarty->assign('pTOTP_now', $pTOTP_now, false);
+$smarty->assign('pPassword_password_current_text', $pPassword_password_current_text);
+$smarty->assign('pQR_raw', $pQR_raw);
+$smarty->assign('pTOTP_secret', $pTOTP_secret);
 $smarty->assign('smarty_template', 'totp');
 $smarty->display('index.tpl');
 
