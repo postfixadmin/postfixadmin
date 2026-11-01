@@ -239,9 +239,9 @@ foreach ($form_fields as $key => $_) {
         } else {
             $fielderror[$key] = '';
         }
-        $sanitise = true;
+        $sanitise = TemplateEscape::HTML;
         if (isset($form_fields[$key]['type']) && $form_fields[$key]['type'] == 'html') {
-            $sanitise = false;
+            $sanitise = TemplateEscape::RAW;
         }
 
         if (isset($values[$key])) {
@@ -265,6 +265,8 @@ if ($new) {
     $smarty->assign('formtitle', Config::lang($formconf['formtitle_edit']));
     $smarty->assign('submitbutton', Config::lang('save'));
 }
+
+$smarty->assign('cancel_url', $formconf['listview']);
 
 $smarty->assign('struct', $form_fields);
 $smarty->assign('fielderror', $fielderror);

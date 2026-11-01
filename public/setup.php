@@ -1,7 +1,7 @@
-<!DOCTYPE html>
 <?php
 require_once('common.php');
 ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">

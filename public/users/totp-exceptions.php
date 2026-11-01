@@ -34,9 +34,6 @@ $smarty->configureTheme($smarty->getRelPath());
 
 $username = authentication_get_username();
 list($_, $domain) = explode('@', $username);
-$pPassword_text = "";
-$pUser_text = '';
-$pUser = '';
 
 $username = authentication_get_username();
 
@@ -126,11 +123,7 @@ foreach ($exceptions as $n => $ex) {
 
 
 $smarty->assign('SESSID_USERNAME', $username);
-$smarty->assign('pPassword_text', $pPassword_text, false);
-$smarty->assign('pUser_text', $pUser_text, false);
-$smarty->assign('pUser', $pUser, false);
-#$smarty->assign('', $, false);
-$smarty->assign('pExceptions', $exceptions, false);
+$smarty->assign('pExceptions', $exceptions);
 $smarty->assign('smarty_template', 'totp-exceptions');
 $smarty->display('index.tpl');
 

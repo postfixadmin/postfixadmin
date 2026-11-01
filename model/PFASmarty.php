@@ -122,12 +122,12 @@ class PFASmarty
     /**
      * @param string $key
      * @param mixed $value
-     * @param bool $sanitise
+     * @param TemplateEscape $sanitise Output escaping mode; RAW requires data safe for its output context.
      */
-    public function assign($key, $value, $sanitise = true)
+    public function assign(string $key, mixed $value, TemplateEscape $sanitise = TemplateEscape::HTML)
     {
         $this->template->assign("RAW_$key", $value);
-        if ($sanitise == false) {
+        if ($sanitise === TemplateEscape::RAW) {
             return $this->template->assign($key, $value);
         }
         $clean = $this->sanitise($value);

@@ -56,6 +56,7 @@
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group float-end">
                     <input class="btn btn-primary" type="submit" name="submit" value="{$PALANG.broadcast_queue_button}"{if $available_domains|@count == 0} disabled="disabled"{/if}/>
+                    <a class="btn btn-secondary" href="main.php">{$PALANG.cancel}</a>
                 </div>
             </div>
         </div>
