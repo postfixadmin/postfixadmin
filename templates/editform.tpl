@@ -125,6 +125,7 @@
                     <button class="btn btn-primary" type="submit" name="submit">
                         <span class="bi bi-pencil" aria-hidden="true"></span> {$submitbutton}
                     </button>
+                    <a class="btn btn-secondary" href="{$cancel_url}">{$PALANG.cancel}</a>
                 </div>
             </div>
         </div>

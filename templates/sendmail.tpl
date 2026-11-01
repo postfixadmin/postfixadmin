@@ -30,6 +30,7 @@
 		    <button class="btn btn-primary" type="submit" name="submit">
                         <span class="bi bi-send" aria-hidden="true"></span> {$PALANG.pSendmail_button}
 		    </button>
+                    <a class="btn btn-secondary" href="main.php">{$PALANG.cancel}</a>
                 </div>
             </div>
         </div>
