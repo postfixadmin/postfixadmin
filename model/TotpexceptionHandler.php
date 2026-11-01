@@ -38,7 +38,7 @@ class TotpexceptionHandler extends PFAHandler
             #                         editing?    form    list
             'password_current' => self::pacol(1, 1, 0, 'pass', 'pPassword_password_current', '', '', array(), 1, 1),
             'id'          => self::pacol(0,       0,      1,      'num',  'pFetchmail_field_id',            '', '', array(), 0, 1),
-            'username'    => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_user',          ''),
+            'username'    => self::pacol(1, $this->is_admin, 1,      'text', 'pTotp_exceptions_user',          ''),
             'ip'          => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_address',       ''),
             'description' => self::pacol(1,       1,      1,      'text', 'pTotp_exceptions_description',   ''),
         );
@@ -101,6 +101,9 @@ class TotpexceptionHandler extends PFAHandler
         $password = $values['password_current'] ?? '';
         if (!$this->checkCurrentPassword(is_string($password) ? $password : '')) {
             return false;
+        }
+        if (!$this->is_admin) {
+            $values['username'] = $this->username;
         }
         $valid = parent::set($values);
         unset($this->values['password_current'], $this->RAWvalues['password_current']);

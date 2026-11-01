@@ -96,9 +96,9 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $handler = new TotpexceptionHandler(1, 'alice@example.com', 0);
         $this->assertTrue($handler->init(''));
 
+        $this->assertSame(0, $handler->getStruct()['username']['display_in_form']);
         $this->assertTrue($handler->set([
             'password_current' => 'current-password',
-            'username' => 'alice@example.com',
             'ip' => '10.0.0.3',
             'description' => 'own exception',
         ]), json_encode($handler->errormsg));
@@ -114,14 +114,14 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $handler = new TotpexceptionHandler(1, 'alice@example.com', 0);
         $this->assertTrue($handler->init(''));
 
-        $this->assertFalse($handler->set([
+        $this->assertTrue($handler->set([
             'password_current' => 'current-password',
             'username' => '',
             'ip' => '10.0.0.4',
             'description' => 'global attempt',
         ]));
-        $this->assertArrayHasKey('username', $handler->errormsg);
-        $this->assertEmpty($this->storedUsernames());
+        $this->assertTrue($handler->save());
+        $this->assertSame(['alice@example.com'], $this->storedUsernames());
     }
 
     public function testSuperadminCanCreateExceptionForAnyUsername(): void
@@ -150,6 +150,7 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($formconf['disable_edit_form'] ?? null);
         $this->assertSame('username', $formconf['user_hardcoded_field']);
         $this->assertSame('pass', $handler->getStruct()['password_current']['type']);
+        $this->assertSame(1, $handler->getStruct()['username']['display_in_form']);
         $this->assertTrue($handler->init(''));
         foreach ([[], ['password_current' => ''], ['password_current' => 'wrong'], ['password_current' => ['invalid']]] as $password) {
             $this->assertFalse($handler->set($password + ['username' => 'admin@example.com', 'ip' => '10.0.0.6', 'description' => 'test']));
