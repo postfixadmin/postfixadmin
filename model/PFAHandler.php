@@ -710,17 +710,19 @@ abstract class PFAHandler
         $cols = join(',', $select_cols);
         $table = table_by_key($this->db_table);
 
-        $additional_where = '';
+        $restrictions = [];
         $params = [];
         if ($this->domain_field != "") {
-            $additional_where .= " AND " . db_in_clause($this->domain_field, $this->allowed_domains, $params);
+            $restrictions[] = db_in_clause($this->domain_field, $this->allowed_domains, $params);
         }
 
         # if logged in as user, restrict to the items the user is allowed to see
         if ((!$this->is_admin) && $this->user_field != '') {
-            $additional_where .= " AND " . $this->user_field . " = :_user_field ";
+            $restrictions[] = $this->user_field . " = :_user_field";
             $params['_user_field'] = $this->username;
         }
+
+        $additional_where = $restrictions ? ' AND ' . join(' AND ', $restrictions) : '';
 
         if (is_array($condition)) {
             if (isset($condition['_']) && count($this->searchfields) > 0) {
@@ -735,10 +737,11 @@ abstract class PFAHandler
             }
             $where = db_where_clause($condition, $this->struct, $additional_where, $searchmode, $params);
         } else {
-            if ($condition == "") {
-                $condition = '1=1';
+            $where_parts = $restrictions;
+            if ($condition !== '') {
+                array_unshift($where_parts, "( $condition )");
             }
-            $where = " WHERE ( $condition ) $additional_where";
+            $where = $where_parts ? ' WHERE ' . join(' AND ', $where_parts) : '';
         }
 
         return array(

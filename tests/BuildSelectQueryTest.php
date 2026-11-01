@@ -165,9 +165,9 @@ class BuildSelectQueryTest extends \PHPUnit\Framework\TestCase
 
     public function testStringConditionIsUsedVerbatim()
     {
-        $queryparts = $this->newHandler()->callBuildSelectQuery('1=1', []);
+        $queryparts = $this->newHandler()->callBuildSelectQuery('quota > 100', []);
 
-        $this->assertStringContainsString('WHERE ( 1=1 )', $queryparts['from_where_order']);
+        $this->assertStringContainsString('WHERE ( quota > 100 )', $queryparts['from_where_order']);
         // domain_field scoping still applies on top of the raw string condition
         $this->assertEquals(['_in_0_0' => 'example.com'], $queryparts['params']);
     }
@@ -253,6 +253,33 @@ class BuildSelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($user->getList(['password' => 'x%'], ['password' => 'LIKE']));
         $this->assertSame(['alice@example.com'], array_keys($user->result()));
         $this->assertSame($user->getPagebrowser('', []), $user->getPagebrowser(['unknown' => 'x'], []));
+    }
+
+    public function testEmptyStringConditionUsesOnlyDomainRestriction(): void
+    {
+        $parts = $this->newHandler()->callBuildSelectQuery('', []);
+        $this->assertMatchesRegularExpression('/ WHERE\s+domain IN /', $parts['from_where_order']);
+        $this->assertSame(['_in_0_0' => 'example.com'], $parts['params']);
+        $this->assertCount(3, db_query_all($parts['select_cols'] . $parts['from_where_order'], $parts['params']));
+    }
+
+    public function testEmptyStringConditionOmitsWhereForUnscopedHandler(): void
+    {
+        $handler = new class () extends AdminHandler {
+            protected function initStruct()
+            {
+                $this->struct = ['username' => self::pacol(0, 1, 1, 'text', 'admin', '')];
+            }
+
+            public function queryParts(): array
+            {
+                return $this->build_select_query('', []);
+            }
+        };
+        $parts = $handler->queryParts();
+        $this->assertStringNotContainsString(' WHERE ', $parts['from_where_order']);
+        $this->assertSame([], $parts['params']);
+        $this->assertSame([], db_query_all($parts['select_cols'] . $parts['from_where_order'], $parts['params']));
     }
 
 }
