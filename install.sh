@@ -7,7 +7,7 @@ set -eu
 # 2. Runs 'php composer install' which should install required runtime libraries for Postfixadmin
 # 3. Runs 'mkdir templates_c && chmod 777 templates_c'
 
-PATH=/bin:/usr/bin:/usr/local/bin
+PATH=${PATH:+$PATH:}/bin:/usr/bin:/usr/local/bin
 export PATH
 
 COMPOSER_URL=https://getcomposer.org/download/latest-stable/composer.phar
