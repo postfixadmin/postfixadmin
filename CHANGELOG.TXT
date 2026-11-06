@@ -6,22 +6,38 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
-Version 4.0.6 (2026/XX/XX)
+Version 4.0.6 (2026/11/06)
 --------------------------
-   - CVE-2026-121551: Escape stored TOTP-exception and application-password descriptions when displaying security lists (backport of #1172; see #1185, thanks @carfeii).
+   - CVE-2026-121551: Escape stored TOTP-exception and application-password descriptions when displaying security lists (backport of #1172; see #1185 - thanks @carfeii, @TrapoSAMA).
+   - Harden getPageBrowser (see #1127)
+   - Silently ignore search requests on password fields
+   - Fix incomplete MFA logins having the ability to change state (see also #1156 - thanks Wenhao Wu (Southeast University))
+   - Avoid passing null into explode() in list-virtual.php (see #1162 - thanks @danielsdadm-commits)
+   - db_where_clause(): fix function name in Exception message (thanks @cboltz)
    - Use the concise Spanish "MX de respaldo" label for Backup MX in domain lists and forms.
-   - Distinguish undeliverable local alias destinations from external destinations within authorized domains (follow-up to #1152, port of #1150).
-   - Show the configured TOTP status and Reset TOTP action without reserving space for the hidden form.
-   - Clarify the alias destination status legend (see discussion #886, thanks @TrapoSAMA)
-   - Restore the legacy md5crypt password scheme compatibility (see #1123, thanks @8ctopus)
-   - Improve error display for mailbox/domain quota validation errors (see #1097, thanks @TrapoSAMA)
-   - Drop obsolete password_expiration.sql (see #1099, thanks @TrapoSAMA)
-   - Update Spanish translations (see #1101 and #1073, thanks @TrapoSAMA)
-   - Fix MySQL upgrade issues from 3.3 (see #1088, thanks @knofte + @TrapoSAMA)
-   - Fix session / CSRF token issues on first anonymous login (duplicate Cookie headers) (see #1087 and #1086, thanks @TrapoSAMA)
-   - Add documentation for Dovecot 2.4 (see #1076 + #1075, thanks @TrapoSAMA)
-   - Harden mailbox hook scripts (see #1080, thanks @TrapoSAMA)
-   - Various UI layout fixes (see #1077, thanks @TrapoSAMA)
+   - Distinguish undeliverable local alias destinations from external destinations within authorized domains (follow-up to #1152, port of #1150 - thanks @TrapoSAMA).
+   - Require reauthentication (current password) before removing TOTP (#1135, see #1129, #1128 - thanks @TrapoSAMA)
+   - Scope Roundcube TOTP preference updates to the selected user in scripts/examples/sync-roundcubemail-totp.php (#1139, port of #1133, see #1128 - thanks @TrapoSAMA)
+   - Harden password recovery requests (#1136, port of #1130, see #1128 - thanks @TrapoSAMA)
+   - Reject password-only XML-RPC authentication requests if TOTP is required (#1137, port of #1131, see #1128 - thanks @TrapoSAMA)
+   - Escape viewlog output by default (#1140, port of #1134, see #1128 - thanks @TrapoSAMA)
+   - Improve smtp_mail() (#1138, #1128 - thanks @TrapoSAMA)
+   - Make pacrypt() more tolerant of doveadm output (#1122, #1119 - thanks @TrapoSAMA)
+   - Show the configured TOTP status and Reset TOTP action without reserving space for the hidden form (#1167, see #1166 - thanks @TrapoSAMA)
+   - Clarify the alias destination status legend (#1152, see discussion #886 - thanks @TrapoSAMA)
+   - Restore the legacy md5crypt password scheme compatibility (#1126, see #1123 - thanks @8ctopus, @TrapoSAMA)
+   - Fix password expiration handling: make it optional and disabled by default, 0 means passwords do not expire, show expiration state in mailbox lists / CSV (see #1110 - thanks @TrapoSAMA)
+   - Clarify password expiration units are days (see #1108 - thanks @TrapoSAMA)
+   - Improve TOTP code input semantics (one-time-code / numeric keyboard hints, fix label IDs) (see #1106 - thanks @TrapoSAMA)
+   - Improve error display for mailbox/domain quota validation errors (see #1097 - thanks @TrapoSAMA)
+   - Drop obsolete password_expiration.sql (see #1099 - thanks @TrapoSAMA)
+   - Update Spanish translations (see #1073, #1101, #1115, #1117 and #1171 - thanks @TrapoSAMA)
+   - Fix MySQL upgrade issues from 3.3 (see #1088 - thanks @knofte, @TrapoSAMA)
+   - Fix session / CSRF token issues on first anonymous login (duplicate Cookie headers) (see #1087 and #1086 - thanks @TrapoSAMA)
+   - Add documentation for Dovecot 2.4 (see #1076 + #1075 - thanks @TrapoSAMA)
+   - Harden mailbox hook scripts (see #1080 - thanks @TrapoSAMA)
+   - Add optional Rspamd DKIM hook examples (see #1081 - thanks @TrapoSAMA)
+   - Various UI layout fixes (see #1077 - thanks @TrapoSAMA)
 
 Version 4.0.5 (2026/07/05)
 --------------------------
