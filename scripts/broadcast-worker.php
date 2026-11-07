@@ -6,8 +6,8 @@ define('POSTFIXADMIN_CLI', 1);
 require_once(__DIR__ . '/../common.php');
 require_once(__DIR__ . '/../model/BroadcastQueue.php');
 
-$lock = fopen(sys_get_temp_dir() . '/postfixadmin-broadcast-worker.lock', 'c');
-if ($lock === false || !flock($lock, LOCK_EX | LOCK_NB)) {
+$lock = BroadcastQueue::acquireWorkerLock();
+if ($lock === null) {
     echo "broadcast worker already running\n";
     exit(0);
 }

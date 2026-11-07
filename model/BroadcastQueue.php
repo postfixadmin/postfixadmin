@@ -228,7 +228,7 @@ class BroadcastQueue
         return $recipients;
     }
 
-    public static function requestCancel(int $jobId, array $allowedDomains = [], bool $globalAdmin = true, string $username = ''): bool
+    public static function requestCancel(int $jobId, array $allowedDomains = [], bool $globalAdmin = true, string $username = '', bool $finaliseIfIdle = true): bool
     {
         $job = self::getJob($jobId);
         if (!self::canManageJob($job, $allowedDomains, $globalAdmin, $username)) {
@@ -239,7 +239,58 @@ class BroadcastQueue
         $params = ['id' => $jobId];
         $statusWhere = db_in_clause('status', self::activeStatuses(), $params);
         db_execute("UPDATE $jobTable SET status = 'cancelling', cancel_requested = 1, modified = " . self::nowSql() . " WHERE id = :id AND $statusWhere", $params);
+
+        // A running worker notices the flag and finalises the job itself. If no
+        // worker is running (e.g. it could not be started), nothing would ever pick
+        // the request up, so finalise the cancellation straight away.
+        if ($finaliseIfIdle) {
+            $lock = self::acquireWorkerLock();
+            if ($lock !== null) {
+                try {
+                    $fresh = self::getJob($jobId);
+                    if (!empty($fresh) && $fresh['status'] === 'cancelling') {
+                        self::cancelPending($jobId);
+                    }
+                } finally {
+                    self::releaseWorkerLock($lock);
+                }
+            }
+        }
+
         return true;
+    }
+
+    /**
+     * Try to take the (non-blocking) worker lock.
+     *
+     * @return resource|null the lock handle, or null if another worker holds it
+     */
+    public static function acquireWorkerLock()
+    {
+        $path = sys_get_temp_dir() . '/postfixadmin-broadcast-worker.lock';
+        if (file_exists($path) ? !is_writable($path) : !is_writable(dirname($path))) {
+            error_log("PostfixAdmin broadcast: cannot write worker lock file $path");
+            return null;
+        }
+
+        $lock = fopen($path, 'c');
+        if ($lock === false) {
+            return null;
+        }
+        if (!flock($lock, LOCK_EX | LOCK_NB)) {
+            fclose($lock);
+            return null;
+        }
+        return $lock;
+    }
+
+    /**
+     * @param resource $lock
+     */
+    public static function releaseWorkerLock($lock): void
+    {
+        flock($lock, LOCK_UN);
+        fclose($lock);
     }
 
     public static function resetInactive(array $allowedDomains = [], bool $globalAdmin = true, string $username = ''): void
@@ -282,9 +333,15 @@ class BroadcastQueue
     public static function startWorker(int $limit = 50): bool
     {
         $script = dirname(__DIR__) . '/scripts/broadcast-worker.php';
-        $php = PHP_BINARY;
+        $php = self::phpCliBinary();
 
-        if ($php === '' || !is_file($php) || !is_file($script)) {
+        if ($php === null) {
+            error_log("PostfixAdmin broadcast: no PHP CLI found to start $script ");
+            return false;
+        }
+
+        if (!is_file($script)) {
+            error_log("PostfixAdmin broadcast: worker script $script not found");
             return false;
         }
 
@@ -302,6 +359,45 @@ class BroadcastQueue
         }
 
         return pclose($handle) === 0;
+    }
+
+    /**
+     * Locate a PHP CLI binary to run the worker with.
+     *
+     * PHP_BINARY can't be relied on from a web request: under mod_php it is an
+     * empty string, and under PHP-FPM it points at the php-fpm daemon rather than
+     * the CLI. Allow an explicit $CONF['broadcast_php_cli'], otherwise look next to
+     * the running PHP's bindir.
+     */
+    public static function phpCliBinary(): ?string
+    {
+        $configured = Config::has('broadcast_php_cli') ? trim((string)Config::read('broadcast_php_cli')) : '';
+        if ($configured !== '') {
+            if (is_file($configured) && is_executable($configured)) {
+                return $configured;
+            }
+            error_log("PostfixAdmin broadcast: \$CONF['broadcast_php_cli'] ($configured) is not an executable file; cannot start the broadcast worker");
+            return null;
+        }
+
+        $candidates = [];
+        if (PHP_SAPI === 'cli' && PHP_BINARY !== '') {
+            $candidates[] = PHP_BINARY;
+        }
+        $versioned = 'php' . PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+        foreach ([PHP_BINDIR, '/usr/bin', '/usr/local/bin'] as $dir) {
+            $candidates[] = $dir . '/' . $versioned;
+            $candidates[] = $dir . '/php';
+        }
+
+        foreach ($candidates as $candidate) {
+            if (is_file($candidate) && is_executable($candidate)) {
+                return $candidate;
+            }
+        }
+
+        error_log("PostfixAdmin broadcast: no PHP CLI binary found (tried " . implode(', ', array_unique($candidates)) . "); set \$CONF['broadcast_php_cli'] to start the broadcast worker");
+        return null;
     }
 
     public static function processNext(int $limit = 50, ?bool $dryRun = null): array

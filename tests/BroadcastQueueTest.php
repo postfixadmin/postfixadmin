@@ -98,7 +98,7 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
             ["one@{$this->domains[0]}"]
         );
 
-        BroadcastQueue::requestCancel($jobId);
+        BroadcastQueue::requestCancel($jobId, [], true, '', false);
         $this->assertSame('cancelling', BroadcastQueue::getJob($jobId)['status']);
 
         $result = BroadcastQueue::processNext(10, true);
@@ -110,6 +110,58 @@ class BroadcastQueueTest extends \PHPUnit\Framework\TestCase
         $this->assertSame([], BroadcastQueue::getJobs());
         $this->assertSame([], BroadcastQueue::getRecipients($jobId));
         $this->assertSame([], BroadcastQueue::getJobDomains($jobId));
+    }
+
+    public function testCancelWithNoWorkerRunningFinalisesImmediately(): void
+    {
+        $this->createDomain($this->domains[0]);
+        $jobId = BroadcastQueue::createJob(
+            'admin@example.test',
+            'noreply@example.test',
+            'PostfixAdmin',
+            'Cancel subject',
+            'Cancel body',
+            [$this->domains[0]],
+            true,
+            ["one@{$this->domains[0]}"]
+        );
+
+        $this->assertTrue(BroadcastQueue::requestCancel($jobId));
+        $this->assertSame('cancelled', BroadcastQueue::getJob($jobId)['status']);
+        $this->assertSame('cancelled', BroadcastQueue::getRecipients($jobId)[0]['status']);
+    }
+
+    public function testCancelWhileWorkerRunningLeavesJobCancelling(): void
+    {
+        $this->createDomain($this->domains[0]);
+        $jobId = BroadcastQueue::createJob(
+            'admin@example.test',
+            'noreply@example.test',
+            'PostfixAdmin',
+            'Cancel subject',
+            'Cancel body',
+            [$this->domains[0]],
+            true,
+            ["one@{$this->domains[0]}"]
+        );
+
+        $lock = BroadcastQueue::acquireWorkerLock();
+        $this->assertNotNull($lock);
+        try {
+            $this->assertTrue(BroadcastQueue::requestCancel($jobId));
+            $this->assertSame('cancelling', BroadcastQueue::getJob($jobId)['status']);
+        } finally {
+            BroadcastQueue::releaseWorkerLock($lock);
+        }
+    }
+
+    public function testPhpCliBinaryHonoursConfig(): void
+    {
+        Config::write('broadcast_php_cli', '/nonexistent/php');
+        $this->assertNull(BroadcastQueue::phpCliBinary());
+
+        Config::write('broadcast_php_cli', '');
+        $this->assertNotNull(BroadcastQueue::phpCliBinary());
     }
 
     public function testWorkerModeControlsDefaultProcessing(): void

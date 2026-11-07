@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </td>
                             <td class="text-end">
                                 <a class="btn btn-secondary btn-sm" href="broadcast-status.php?id={$job.id}">{$PALANG.broadcast_view}</a>
-                                {if $job.status == 'pending' || $job.status == 'running' || $job.status == 'cancelling'}
+                                {if $job.status == 'pending' || $job.status == 'running'}
                                     <form method="post" action="broadcast-message.php" class="d-inline">
                                         {CSRF_Token}
                                         <input type="hidden" name="action" value="cancel"/>

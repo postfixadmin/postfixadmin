@@ -27,7 +27,9 @@
     </div>
     <div class="card-footer d-flex gap-2 justify-content-end">
         <a class="btn btn-secondary" href="broadcast-message.php">{$PALANG.broadcast_back}</a>
-        {if in_array($broadcast_job.status, $broadcast_active_statuses)}
+        {if $broadcast_job.status == 'cancelling'}
+            {* waiting for the running worker to stop *}
+        {elseif in_array($broadcast_job.status, $broadcast_active_statuses)}
             <form method="post" action="broadcast-status.php">
                 {CSRF_Token}
                 <input type="hidden" name="action" value="cancel"/>
