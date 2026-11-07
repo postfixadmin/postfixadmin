@@ -538,6 +538,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = '口号不能空洞';
 $PALANG['pAppPassAdd_result_error'] = '不要增加申请密码';
 $PALANG['MFA_submit'] = 'Confirmlogin';
 $PALANG['pViewlog_action_add_totp_exception'] = '附 件';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = '删除备选案文';
 $PALANG['pViewlog_action_add_app_password'] = '附录';
 $PALANG['mailbox_postapppassword_failed'] = '邮箱的邮递申请词稿失败,核对错误记录,以供参考!';

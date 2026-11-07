@@ -552,6 +552,7 @@ $PALANG['pAppPassAdd_pass_empty_error'] = 'Adgangskode kan ikke være tomt';
 $PALANG['pAppPassAdd_result_error'] = 'Kan ikke tilføje ansøgningsadgangskode';
 $PALANG['MFA_submit'] = 'Bekræft login';
 $PALANG['pViewlog_action_add_totp_exception'] = 'Tilføj TOTP undtagelse';
+$PALANG['pViewlog_action_edit_totp_exception'] = 'Edit TOTP exception'; # XXX
 $PALANG['pViewlog_action_delete_totp_exception'] = 'Slette TOTP undtagelse';
 $PALANG['pViewlog_action_add_app_password'] = 'Tilføj adgangskode';
 $PALANG['mailbox_postapppassword_failed'] = 'postkassen postapppassword script mislykkedes, kontrollere fejlen log for detaljer!';

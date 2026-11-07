@@ -2,10 +2,25 @@
 
 class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        db_insert('domain', ['domain' => 'example.com', 'description' => 'test',
+            'transport' => 'virtual', 'active' => true, 'backupmx' => false]);
+        db_insert('admin', ['username' => 'global@example.com', 'password' => pacrypt('current-password'),
+            'active' => true, 'superadmin' => true]);
+        db_insert('admin', ['username' => 'admin@example.com', 'password' => pacrypt('admin-password'),
+            'active' => true, 'superadmin' => false]);
+        db_insert('mailbox', ['username' => 'alice@example.com', 'password' => pacrypt('current-password'),
+            'name' => 'Alice', 'maildir' => 'example.com/alice/', 'local_part' => 'alice', 'domain' => 'example.com', 'active' => true]);
+    }
+
     protected function tearDown(): void
     {
         db_query('DELETE FROM totp_exception_address');
+        db_query('DELETE FROM mailbox');
         db_query('DELETE FROM domain_admins');
+        db_query('DELETE FROM admin');
         db_query('DELETE FROM domain');
         $_SESSION = [];
 
@@ -27,27 +42,6 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $_SESSION = ['sessid' => ['roles' => ['user']]];
     }
 
-    private function addDomain(string $domain, string $adminUsername): void
-    {
-        $this->asSuperadmin();
-
-        $dh = new DomainHandler(1, $adminUsername, true);
-        $dh->init($domain);
-        $ret = $dh->set([
-            'domain' => $domain,
-            'description' => 'test domain',
-            'aliases' => 10,
-            'mailboxes' => 10,
-            'active' => 1,
-            'backupmx' => 0,
-            'default_aliases' => 0,
-        ]);
-        $this->assertTrue($ret, json_encode($dh->errormsg));
-        $this->assertTrue($dh->save());
-
-        db_insert('domain_admins', ['username' => $adminUsername, 'domain' => $domain, 'active' => 1], ['created'], true);
-    }
-
     /**
      * @return array<int, ?string> the 'username' column of every stored totp_exception_address row
      */
@@ -61,10 +55,11 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
     {
         $this->asSuperadmin();
 
-        $handler = new TotpexceptionHandler(1, '', 1);
+        $handler = new TotpexceptionHandler(1, 'global@example.com', 1);
         $this->assertTrue($handler->init(''));
 
         $this->assertTrue($handler->set([
+            'password_current' => 'current-password',
             'username' => '',
             'ip' => '10.0.0.1',
             'description' => 'global exception',
@@ -83,6 +78,7 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($handler->init(''));
 
         $this->assertTrue($handler->set([
+            'password_current' => 'current-password',
             'username' => 'bob@example.com',
             'ip' => '10.0.0.2',
             'description' => 'attempted takeover',
@@ -100,8 +96,9 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $handler = new TotpexceptionHandler(1, 'alice@example.com', 0);
         $this->assertTrue($handler->init(''));
 
+        $this->assertSame(0, $handler->getStruct()['username']['display_in_form']);
         $this->assertTrue($handler->set([
-            'username' => 'alice@example.com',
+            'password_current' => 'current-password',
             'ip' => '10.0.0.3',
             'description' => 'own exception',
         ]), json_encode($handler->errormsg));
@@ -117,23 +114,25 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $handler = new TotpexceptionHandler(1, 'alice@example.com', 0);
         $this->assertTrue($handler->init(''));
 
-        $this->assertFalse($handler->set([
+        $this->assertTrue($handler->set([
+            'password_current' => 'current-password',
             'username' => '',
             'ip' => '10.0.0.4',
             'description' => 'global attempt',
         ]));
-        $this->assertArrayHasKey('username', $handler->errormsg);
-        $this->assertEmpty($this->storedUsernames());
+        $this->assertTrue($handler->save());
+        $this->assertSame(['alice@example.com'], $this->storedUsernames());
     }
 
     public function testSuperadminCanCreateExceptionForAnyUsername(): void
     {
         $this->asSuperadmin();
 
-        $handler = new TotpexceptionHandler(1, '', 1);
+        $handler = new TotpexceptionHandler(1, 'global@example.com', 1);
         $this->assertTrue($handler->init(''));
 
         $this->assertTrue($handler->set([
+            'password_current' => 'current-password',
             'username' => 'someone@example.com',
             'ip' => '10.0.0.5',
             'description' => 'superadmin set',
@@ -143,29 +142,71 @@ class TotpexceptionHandlerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(['someone@example.com'], $this->storedUsernames());
     }
 
-    /**
-     * Users must add TOTP exceptions via users/totp-exceptions.php, which requires them to re-enter
-     * their password. If user_hardcoded_field were set, edit.php would let them bypass that.
-     */
-    public function testNotAvailableToUsersViaGenericEditForm(): void
-    {
-        $this->asUser();
-
-        $handler = new TotpexceptionHandler(1, 'user@example.com', false);
-        $formconf = $handler->webformConfig();
-
-        $this->assertEmpty($formconf['user_hardcoded_field'] ?? null);
-        $this->assertEquals('admin', $formconf['required_role']);
-    }
-
-    /**
-     * Admins (incl. superadmins) must also add TOTP exceptions via totp-exceptions.php, which requires the current password.
-     */
-    public function testGenericEditFormIsDisabledForAdmins(): void
+    public function testGenericFormRequiresPasswordConfirmation(): void
     {
         $this->asAdmin();
-
         $handler = new TotpexceptionHandler(1, 'admin@example.com', true);
-        $this->assertNotEmpty($handler->webformConfig()['disable_edit_form']);
+        $formconf = $handler->webformConfig();
+        $this->assertEmpty($formconf['disable_edit_form'] ?? null);
+        $this->assertSame('username', $formconf['user_hardcoded_field']);
+        $this->assertSame('pass', $handler->getStruct()['password_current']['type']);
+        $this->assertSame(1, $handler->getStruct()['username']['display_in_form']);
+        $this->assertTrue($handler->init(''));
+        foreach ([[], ['password_current' => ''], ['password_current' => 'wrong'], ['password_current' => ['invalid']]] as $password) {
+            $this->assertFalse($handler->set($password + ['username' => 'admin@example.com', 'ip' => '10.0.0.6', 'description' => 'test']));
+            $this->assertFalse($handler->save());
+        }
+        $this->assertSame([], $this->storedUsernames());
     }
+
+    public function testPasswordConfirmationCoversEditsAndAuthenticatesTheActor(): void
+    {
+        $this->asSuperadmin();
+        $handler = new TotpexceptionHandler(1, 'global@example.com', true);
+        $this->assertTrue($handler->init(''));
+        $this->assertTrue($handler->set(['password_current' => 'current-password',
+            'username' => 'alice@example.com', 'ip' => '10.0.0.7', 'description' => 'before']));
+        $this->assertTrue($handler->save());
+        $row = db_query_one('SELECT id FROM totp_exception_address');
+        $edit = new TotpexceptionHandler(0, 'global@example.com', true);
+        $this->assertTrue($edit->init((string)$row['id']));
+        $this->assertFalse($edit->set(['description' => 'bypassed']));
+        $this->assertFalse($edit->save());
+        $edit = new TotpexceptionHandler(0, 'global@example.com', true);
+        $this->assertTrue($edit->init((string)$row['id']));
+        $this->assertTrue($edit->set(['password_current' => 'current-password', 'description' => 'after']));
+        $this->assertTrue($edit->save());
+        $this->assertFalse($edit->set(['description' => 'reused confirmation']));
+        $this->assertFalse($edit->save());
+        $this->assertSame('after', db_query_one('SELECT description FROM totp_exception_address')['description']);
+    }
+
+    public function testDomainAdminCannotTargetUnmanagedDomainWithValidPassword(): void
+    {
+        db_insert('domain_admins', ['username' => 'admin@example.com',
+            'domain' => 'example.com', 'active' => true], ['created'], true);
+        $this->asAdmin();
+        $handler = new TotpexceptionHandler(1, 'admin@example.com', true);
+        $this->assertTrue($handler->init(''));
+        $this->assertFalse($handler->set(['password_current' => 'admin-password',
+            'username' => 'victim@other.example', 'ip' => '10.0.0.8', 'description' => 'outside']));
+        $this->assertSame([], $this->storedUsernames());
+        $handler = new TotpexceptionHandler(1, 'admin@example.com', true);
+        $this->assertTrue($handler->init(''));
+        $this->assertTrue($handler->set(['password_current' => 'admin-password',
+            'username' => 'user@example.com', 'ip' => '10.0.0.8', 'description' => 'inside']));
+        $this->assertTrue($handler->save());
+        $this->assertSame(['user@example.com'], $this->storedUsernames());
+    }
+    public function testTargetPasswordDoesNotAuthorizeTheActor(): void
+    {
+        $this->asSuperadmin();
+        $handler = new TotpexceptionHandler(1, 'global@example.com', true);
+        $this->assertTrue($handler->init(''));
+        $this->assertFalse($handler->set(['password_current' => 'admin-password',
+            'username' => 'admin@example.com', 'ip' => '10.0.0.9', 'description' => 'target password']));
+        $this->assertFalse($handler->save());
+        $this->assertSame([], $this->storedUsernames());
+    }
+
 }
