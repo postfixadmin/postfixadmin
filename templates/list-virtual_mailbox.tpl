@@ -101,7 +101,7 @@
 					{else}
 						{assign var="v_active" value=$PALANG.pOverview_vacation_option}
 					{/if}
-					<td><a class="btn btn-warning list-action-icon" title="{$v_active}" aria-label="{$v_active}" href="vacation.php?username={$item.username|escape:"url"}"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></a></td>
+					<td><a class="btn btn-{if ($item.v_active==0)}info{else}warning{/if} list-action-icon" title="{$v_active}" aria-label="{$v_active}" href="vacation.php?username={$item.username|escape:"url"}"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></a></td>
 				{/if}
 			{else}
 					<td>&nbsp;</td>
