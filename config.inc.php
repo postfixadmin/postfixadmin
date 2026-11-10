@@ -468,17 +468,22 @@ $CONF['vacation_control'] ='YES';
 // Set to 'YES' if your domain admins should be able to edit user vacation.
 $CONF['vacation_control_admin'] = 'YES';
 
+// Optional PHP Vacation INI file used by the web reply selector.
+// A declared [reply_intervals] section overrides the choices below.
+$CONF['vacation_config'] = '/etc/postfixadmin/vacation.ini';
+
 // ReplyType options
-// Reply choices: readable names or numeric seconds between replies => language key.
-// once = 0 (first mail per sender), every = 1 (every mail),
-// day = 86400, week = 604800. Numeric custom intervals remain supported.
-// Override this array in config.local.php to choose which options are offered.
+// If you want to define additional reply options put them in array below.
+// The array has the format   seconds between replies => $PALANG text
+// Special values for seconds are: 
+// 0 => only reply to the first mail while on vacation 
+// 1 => reply on every mail
 $CONF['vacation_choice_of_reply'] = array (
-    'once' => 'reply_once',
-    // Replying to every mail can be annoying; enable only if needed.
-    // 'every' => 'reply_every_mail',
-    'day' => 'reply_once_per_day',
-    'week' => 'reply_once_per_week'
+   0 => 'reply_once',        // Sends only Once the message during Out of Office
+   # considered annoying - only send a reply on every mail if you really need it
+   # 1 => 'reply_every_mail',       // Reply on every email
+   60*60 *24*1 => 'reply_once_per_day',        // Reply if last autoreply was at least a day ago
+   60*60 *24*7 => 'reply_once_per_week'        // Reply if last autoreply was at least a week ago
 );
 
 //
@@ -845,17 +850,6 @@ $CONF['domain_list_hide_password_expiry'] = 'NO';
 if (file_exists(dirname(__FILE__) . '/config.local.php')) {
     require_once(dirname(__FILE__) . '/config.local.php');
 }
-
-// Normalize after local overrides so all consumers keep receiving numeric intervals.
-// If readable and numeric keys describe the same interval, the last entry wins.
-$CONF['vacation_choice_of_reply'] = (static function (array $choices): array {
-    $intervals = ['once' => 0, 'every' => 1, 'day' => 86400, 'week' => 604800];
-    $normalized = [];
-    foreach ($choices as $interval => $label) {
-        $normalized[$intervals[$interval] ?? $interval] = $label;
-    }
-    return $normalized;
-})($CONF['vacation_choice_of_reply']);
 
 //
 // END OF CONFIG FILE
