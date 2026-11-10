@@ -4,6 +4,8 @@
 
 class AdminHandler extends PFAHandler
 {
+    public array $taskNames = ['Help', 'Add', 'Update', 'Delete', 'View', 'Scheme', 'Resetmfa'];
+
     protected string $db_table = 'admin';
     protected string $id_field = 'username';
 
@@ -84,6 +86,8 @@ class AdminHandler extends PFAHandler
                               ' ) AS __domain on username = __domain_username'),
 
             'active'           => self::pacol(1,          1,      1,      'bool', 'active'             , ''                  , 1),
+            'mfa'              => self::pacol(0, 0, 1, 'vnum', 'mfa', '', 0, [], 0, 1,
+                "CASE WHEN totp_secret IS NOT NULL AND totp_secret <> '' THEN 1 ELSE 0 END AS mfa"),
             'phone'            => self::pacol(1,  $reset_by_sms,  0,      'text', 'pCreate_mailbox_phone', 'pCreate_mailbox_phone_desc', ''),
             'email_other'      => self::pacol(1,  $passwordReset, 0,      'mail', 'pCreate_mailbox_email', 'pCreate_mailbox_email_desc', ''),
             'token'            => self::pacol(1,          0,      0,      'text', ''                   , ''),
@@ -92,7 +96,7 @@ class AdminHandler extends PFAHandler
             'modified'         => self::pacol(0,          0,      1,      'ts',   'last_modified'      , ''),
         );
         # Admin-side TOTP management
-        if (Config::bool('totp') && !$this->new) {
+        if (Config::bool('totp') && Config::bool('totp_allow_admin_reset') && !$this->new) {
             $this->struct['totp_action'] = self::pacol(
                 0, 1, 0, 'html', 'pUsersMenu_totp', '', '',
                 array(),
@@ -196,22 +200,22 @@ class AdminHandler extends PFAHandler
             if ($row['superadmin']) {
                 $db_result[$key]['domain_count'] = Config::lang('super_admin');
             }
-        }
 
-        # Render TOTP action
-        if (isset($this->struct['totp_action']) && is_string($row['username'])) {
+            # Render TOTP action
+            if (isset($this->struct['totp_action']) && is_string($row['username'])) {
 
-            $totp = new TotpPf('admin', new Login('admin'));
-            $has_totp = $totp->usesTOTP($row['username']);
+                $totp = new TotpPf('admin', new Login('admin'));
+                $has_totp = $totp->usesTOTP($row['username']);
 
-            if ($has_totp) {
-                $db_result[$key]['totp_action'] =
-                    '<button type="submit" name="reset_totp" value="1" class="btn btn-warning btn-sm">' .
-                    htmlspecialchars(Config::lang('pUsersMenu_reset_totp'), ENT_QUOTES, 'UTF-8') .
-                    '</button>';
-            } else {
-                $db_result[$key]['totp_action'] =
-                    htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
+                if ($has_totp) {
+                    $db_result[$key]['totp_action'] =
+                        '<button type="submit" name="reset_totp" value="1" class="btn btn-warning btn-sm">' .
+                        htmlspecialchars(Config::lang('pUsersMenu_reset_totp'), ENT_QUOTES, 'UTF-8') .
+                        '</button>';
+                } else {
+                    $db_result[$key]['totp_action'] =
+                        htmlspecialchars(Config::lang('pUsersMenu_no_totp_set'), ENT_QUOTES, 'UTF-8');
+                }
             }
         }
 

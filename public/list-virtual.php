@@ -259,6 +259,13 @@ if (Config::bool('used_quotas') && (!Config::bool('new_quota_table'))) {
     $sql_where .= " AND ( $table_quota.path='quota/storage' OR  $table_quota.path IS NULL ) ";
 }
 
+// Check the complete authorized result set, before pagination.
+$show_mailbox_mfa = false;
+if (db_query_one("SELECT 1 $sql_from $sql_join $sql_where AND $table_mailbox.totp_secret IS NOT NULL AND $table_mailbox.totp_secret <> '' LIMIT 1", $sql_params)) {
+    $show_mailbox_mfa = true;
+}
+$smarty->assign('show_mailbox_mfa', $show_mailbox_mfa);
+
 $mailbox_pagebrowser_query = "$sql_from\n$sql_join\n$sql_where\n$sql_order";
 
 $query = "$sql_select\n$mailbox_pagebrowser_query\n$sql_limit";
@@ -269,6 +276,8 @@ $tMailbox = array();
 
 
 foreach ($result as $row) {
+    $row['mfa'] = isset($row['totp_secret']) && $row['totp_secret'] !== '';
+    unset($row['totp_secret']);
     if ($password_expiration) {
         $password_expiration_timestamp = strtotime((string)$row['password_expiration']);
         $row['password_expiration_never'] = mailbox_password_expiration_is_never(

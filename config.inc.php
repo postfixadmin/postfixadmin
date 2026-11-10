@@ -590,6 +590,11 @@ $CONF['emailcheck_localaliasonly']='NO';
 // This also bundles several menu items in a "security" dropdown.
 $CONF['totp'] = 'NO';
 
+// Allow administrators to reset another account's MFA in the web interface.
+// Disabled by default; use postfixadmin-cli admin/mailbox resetmfa <address>.
+// This does not affect users managing their own MFA.
+$CONF['totp_allow_admin_reset'] = 'NO';
+
 // Use revokable application passwords to limit the risk of storing a
 // password in another system. These passwords can not access Postfixadmin.
 $CONF['app_passwords'] = 'NO';
