@@ -83,7 +83,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         tools: composer
-        extensions: sqlite3, gd
+        extensions: sqlite3, gd, mailparse
 
     - name: Get composer cache directory
       if: ${{ !env.ACT }}
