@@ -90,6 +90,9 @@ class MailboxnameHttpTest extends TestCase
         ]);
         self::assertSame(403, $status);
         self::assertSame('<b>Original</b>', db_query_one('SELECT name FROM ' . table_by_key('mailbox') . ' WHERE username = ?', [self::USERNAME])['name']);
+        [$status, $html] = $this->request('/edit.php?table=mailboxname&edit=' . urlencode(self::USERNAME));
+        self::assertSame(200, $status, $html);
+        self::assertSame(1, preg_match('/name=[\'"]CSRF_Token[\'"] value=[\'"]([^\'"]+)/', $html, $token));
         [$status] = $this->request('/edit.php', [
             'table' => 'mailboxname', 'edit' => self::USERNAME, 'CSRF_Token' => $token[1],
             'value' => ['name' => 'Changed <script data-name-fixture>', 'active' => 0],
