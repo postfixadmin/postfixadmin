@@ -534,10 +534,10 @@ $CONF['sendmail'] = 'YES';
 // send mails to their users
 $CONF['sendmail_all_admins'] = 'NO';
 
-// Path to the PHP command line binary used to start the background broadcast
-// worker (scripts/broadcast-worker.php). Leave empty to auto-detect
-// (e.g. /usr/bin/php8.2 or /usr/bin/php). PHP_BINARY can't be used from a web
-// request, as it is empty under mod_php and points at php-fpm under PHP-FPM.
+// Full path to the PHP CLI executable for the background broadcast worker.
+// If set, this path is used; if empty, common PHP CLI paths are searched.
+// Example: $CONF['broadcast_php_cli'] = '/usr/bin/php8.4';
+// Do not point this setting at PHP-FPM or the Apache module.
 $CONF['broadcast_php_cli'] = '';
 
 // Logging
