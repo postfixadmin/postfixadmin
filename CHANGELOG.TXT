@@ -6,6 +6,10 @@
 #
 # Further details on the project are available at https://github.com/postfixadmin/postfixadmin
 
+Changes after 4.0.6 (not in a release yet)
+--------------------------
+   - Honor the configured theme logo in the mailbox-user navigation menu.
+
 Version 4.0.6 (2026/11/06)
 --------------------------
    - CVE-2026-121551: Escape stored TOTP-exception and application-password descriptions when displaying security lists (backport of #1172; see #1185 - thanks @carfeii, @TrapoSAMA).

@@ -10,7 +10,7 @@
             </button>
             {*** <a class="navbar-brand" href='main.php'><img id="login_header_logo" src="{$CONF.theme_logo}" alt="Logo" /></a> ***}
             <a class="navbar-brand" href="{#url_user_main#}"><img id="login_header_logo"
-                                                                                   src="../images/postbox.png"
+                                                                                   src="{$CONF.theme_logo|default:'../images/postbox.png'}"
                                                                                    alt="Logo"/></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
