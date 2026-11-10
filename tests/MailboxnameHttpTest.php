@@ -88,6 +88,12 @@ class MailboxnameHttpTest extends TestCase
             'table' => 'mailboxname', 'edit' => self::USERNAME, 'CSRF_Token' => $token[1],
             'reset_totp' => '1', 'value' => ['name' => 'Changed <script data-name-fixture>', 'active' => 0],
         ]);
+        self::assertSame(403, $status);
+        self::assertSame('<b>Original</b>', db_query_one('SELECT name FROM ' . table_by_key('mailbox') . ' WHERE username = ?', [self::USERNAME])['name']);
+        [$status] = $this->request('/edit.php', [
+            'table' => 'mailboxname', 'edit' => self::USERNAME, 'CSRF_Token' => $token[1],
+            'value' => ['name' => 'Changed <script data-name-fixture>', 'active' => 0],
+        ]);
         self::assertSame(302, $status);
         $mailbox = db_query_one('SELECT name, active FROM ' . table_by_key('mailbox') . ' WHERE username = ?', [self::USERNAME]);
         self::assertSame('Changed <script data-name-fixture>', $mailbox['name']);
